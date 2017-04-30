@@ -6,6 +6,7 @@ import { LoggerService } from './logger.service';
 import { PreviewData, ImageContent, ParsedUserConfiguration, Images, PreviewStateVariables, LoadStatus, PreferedImages, ImagesStatusAndContent } from '../models';
 import { VDFList, Reference, ImageProvider } from "../lib";
 import { union } from "lodash";
+import * as os from 'os';
 import * as fs from 'fs-extra';
 import * as paths from '../../shared/paths';
 
@@ -25,6 +26,7 @@ export class PreviewService {
             imageUrlsAreDownloading: false,
             listIsBeingSaved: false,
             listIsUpdating: false,
+            skipDownloading: false,
             numberOfListItems: 0
         };
         this.previewDataChanged = new Subject<boolean>();
@@ -67,7 +69,8 @@ export class PreviewService {
         this.stateVariables.listIsBeingSaved = true;
 
         let vdfList = new VDFList(this.http);
-        this.loggerService.info('Checking if Steam is running.', { invokeAlert: true, alertTimeout: 3000 });
+        if (os.platform() === 'win32')
+            this.loggerService.info('Checking if Steam is running.', { invokeAlert: true, alertTimeout: 3000 });
         this.isSteamRunning().then((isRunning) => {
             if (isRunning && process.env.NODE_ENV === 'production') {
                 throw new Error("Steam is running. Shut it down before saving list!");
@@ -152,22 +155,26 @@ export class PreviewService {
 
     private isSteamRunning() {
         return new Promise<boolean>((resolve, reject) => {
-            let ps = require('ps-node');
+            if (os.platform() === 'win32') {
+                let ps = require('ps-node');
 
-            ps.lookup({ command: 'steam' }, (error: string, resultList: any[]) => {
-                if (error) {
-                    reject(error);
-                }
-                else {
-                    for (let i = 0; i < resultList.length; i++) {
-                        if (resultList[i].command !== undefined) {
-                            if ((<string>resultList[i].command).search(/steam\./i) !== -1)
-                                return resolve(true);
-                        }
+                ps.lookup({ command: 'steam' }, (error: string, resultList: any[]) => {
+                    if (error) {
+                        reject(error);
                     }
-                    resolve(false);
-                }
-            });
+                    else {
+                        for (let i = 0; i < resultList.length; i++) {
+                            if (resultList[i].command !== undefined) {
+                                if ((<string>resultList[i].command).search(/steam\./i) !== -1)
+                                    return resolve(true);
+                            }
+                        }
+                        resolve(false);
+                    }
+                });
+            }
+            else
+                resolve(false);
         });
     }
 
@@ -216,13 +223,14 @@ export class PreviewService {
                     this.images = {};
 
                     for (let i = 0; i < titles.length; i++)
-                        this.images[titles[i]] = { status: 'none', content: [] };
+                        this.images[titles[i]] = { status: this.stateVariables.skipDownloading ? 'retrieved' : 'none', content: [] };
 
                     let previewData: { numberOfItems: number, data: PreviewData } = this.createPreviewData(data.parsedData);
 
                     if (previewData.numberOfItems > 0) {
                         this.previewData.next(previewData.data);
-                        this.downloadImageUrls();
+                        if (!this.stateVariables.skipDownloading)
+                            this.downloadImageUrls();
                     }
                     else {
                         this.previewData.next(undefined);

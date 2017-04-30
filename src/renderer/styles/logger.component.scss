@@ -8,7 +8,7 @@
 
     background-color: var(--color-logger-background);
 
-    #menu {
+    .menu {
         display: flex;
         overflow: auto;
 
@@ -63,7 +63,7 @@
         }
     }
 
-    >#messages {
+    .messages {
         overflow: auto;
         flex: 1;
 

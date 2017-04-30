@@ -295,6 +295,18 @@
     --color-preview-items-background: #191919;
     --color-preview-menu-background: #0c0c0c;
     --color-preview-menu-border: #040404;
+    --color-preview-offline-button-background: rgba(0,0,0,0);
+    --color-preview-offline-button-background-active: #137c38;
+    --color-preview-offline-button-background-active-hover: #16ac4b;
+    --color-preview-offline-button-background-hover: #2f2f2f;
+    --color-preview-offline-button-border: #1db954;
+    --color-preview-offline-button-border-active: #137c38;
+    --color-preview-offline-button-border-active-hover: #16ac4b;
+    --color-preview-offline-button-border-hover: #1bd85e;
+    --color-preview-offline-button-text: #a0a0a0;
+    --color-preview-offline-button-text-active: #f0fff0;
+    --color-preview-offline-button-text-active-hover: #f0fff0;
+    --color-preview-offline-button-text-hover: #f0fff0;
     --color-preview-save-button-background: rgba(0,0,0,0);
     --color-preview-save-button-background-active: #179443;
     --color-preview-save-button-background-hover: #1bd85e;
@@ -422,4 +434,17 @@
     --color-titlebar-minimize-text-active: #a0a0a0;
     --color-titlebar-minimize-text-hover: #a0a0a0;
     --color-titlebar-title: #a0a0a0;
+
+    /*--color-hacks-background: #121212;
+    --color-hacks-border: #040404;
+    --color-hacks-menu-background: #0c0c0c;
+    --color-hacks-add-button-background: rgba(0,0,0,0);
+    --color-hacks-add-button-background-active: #179443;
+    --color-hacks-add-button-background-hover: #1bd85e;
+    --color-hacks-add-button-border: #1db954;
+    --color-hacks-add-button-border-active: #179443;
+    --color-hacks-add-button-border-hover: #1bd85e;
+    --color-hacks-add-button-text: #a0a0a0;
+    --color-hacks-add-button-text-active: #f0fff0;
+    --color-hacks-add-button-text-hover: #f0fff0;*/
 }

@@ -1,7 +1,7 @@
 import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PreviewComponent, LoggerComponent, ParsersComponent } from './components';
+import { PreviewComponent, LoggerComponent, ParsersComponent, HacksComponent } from './components';
 
 const AppRouter: Routes = [
     {
@@ -15,6 +15,10 @@ const AppRouter: Routes = [
     {
         path: 'logger',
         component: LoggerComponent
+    },
+    {
+        path: 'hacks',
+        component: HacksComponent
     },
     {
         path: 'parsers/:index',

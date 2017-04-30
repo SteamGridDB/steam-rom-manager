@@ -42,5 +42,6 @@ export interface PreviewStateVariables {
     imageUrlsAreDownloading: boolean,
     listIsUpdating: boolean,
     listIsBeingSaved: boolean,
+    skipDownloading: boolean,
     numberOfListItems: number
 }

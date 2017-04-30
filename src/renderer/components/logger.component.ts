@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
     template: `
         <ng-container *ngIf="messages | async as currentMessages; else emptyWindow">
             <ng-container *ngIf="currentMessages.length > 0; else emptyWindow">
-                <div #messageWindow id="messages">
+                <div #messageWindow class="messages">
                     <ng-container *ngFor="let message of currentMessages">
                         <div *ngIf="canShow(message.type)" [ngClass]="message.type" [class.wrap]="settings.textWrap">{{settings.timestamp ? '[' + message.timestamp + ']: ' : ''}}{{message.text || '&nbsp;'}}</div>
                     </ng-container>
@@ -16,11 +16,11 @@ import { Observable } from 'rxjs';
             </ng-container>
         </ng-container>
         <ng-template #emptyWindow>
-            <div id="messages" class="empty">
+            <div class="messages" class="empty">
                 <span>No messages are available</span>
             </div>
         </ng-template>
-        <div id="menu">
+        <div class="menu">
             <div class="error" [class.active]="settings.showErrors" (click)="settings.showErrors = !settings.showErrors">ERROR</div>
             <div class="info" [class.active]="settings.showInfo" (click)="settings.showInfo = !settings.showInfo">INFO</div>
             <div class="success" [class.active]="settings.showSuccesses" (click)="settings.showSuccesses = !settings.showSuccesses">SUCCESS</div>

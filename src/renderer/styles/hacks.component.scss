@@ -1,0 +1,40 @@
+@import 'mixins';
+
+:host {
+    display: flex;
+    overflow: auto;
+    flex-direction: column;
+    flex: 1;
+
+    background-color: var(--color-hacks-background);
+
+    .menu {
+        display: flex;
+        overflow: auto;
+
+        border-top: 1px solid var(--color-hacks-border);
+        background-color: var(--color-hacks-menu-background);
+
+        flex-shrink: 0;
+
+        >div {
+            font-weight: 300;
+
+            display: inline-block;
+
+            margin: 0.5em;
+            padding: 0.25em 0.5em;
+
+            cursor: default;
+            user-select: none;
+            white-space: nowrap;
+
+            border-width: 1px;
+            border-style: solid;
+
+            &.add {
+                @include click-button-color(hacks-add-button);
+            }
+        }
+    }
+}

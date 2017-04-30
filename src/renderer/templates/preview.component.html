@@ -1,4 +1,4 @@
-<div id="items">
+<div class="items">
     <ng-container *ngIf="previewData | async as titleList">
         <div class="item" *ngFor="let title of titleList | keys">
             <ng-container *ngIf="titleList[title].images.value.status === 'retrieved'; else loadingImages">
@@ -58,9 +58,10 @@
         </div>
     </ng-container>
 </div>
-<div id="menu">
+<div class="menu">
     <div>
-        <div id="generate" class="clickButton" (click)="generatePreviewData()">Generate list</div>
-        <div *ngIf="stateVariables.numberOfListItems > 0" id="save" class="clickButton" (click)="saveData()">Save list</div>
+        <div class="generate clickButton" (click)="generatePreviewData()">Generate list</div>
+        <div class="offline clickButton" [class.active]="!stateVariables.skipDownloading" (click)="stateVariables.skipDownloading = !stateVariables.skipDownloading">{{stateVariables.skipDownloading ? 'Offline' : 'Online'}} mode</div>
+        <div *ngIf="stateVariables.numberOfListItems > 0" class="save clickButton" (click)="saveData()">Save list</div>
     </div>
 </div>

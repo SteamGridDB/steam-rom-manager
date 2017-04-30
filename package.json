@@ -21,6 +21,18 @@
       ],
       "icon": "./images/icon.ico"
     },
+    "linux": {
+      "target": [
+        "zip"
+      ],
+      "icon": "./images/48x48.png"
+    },
+    "mac": {
+      "target": [
+        "zip"
+      ],
+      "icon": "./images/48x48.png"
+    },
     "files": [
       "dist/**/*",
       "package.json"
@@ -33,7 +45,7 @@
   "scripts": {
     "build:main": "cross-env NODE_ENV=production webpack --config ./webpack/main.js",
     "build:renderer": "cross-env NODE_ENV=production webpack --config ./webpack/renderer.js",
-    "build:final": "rimraf release && npm run build && build --win --ia32 --x64",
+    "build:final": "rimraf release && npm run build && build --win --linux --mac --ia32 --x64",
     "build": "rimraf dist && npm run build:main && npm run build:renderer",
     "watch:main": "webpack --watch --config ./webpack/main.js",
     "watch:renderer": "webpack --watch --config ./webpack/renderer.js",
