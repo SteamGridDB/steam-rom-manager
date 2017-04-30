@@ -1,0 +1,14 @@
+<nav-link routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Preview</nav-link>
+<nav-link routerLink="/logger" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Event log</nav-link>
+<nav-expand routerLinkActive="active">
+    <nav-link class="title" [routerLink]="['/parsers', -1]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span>Parsers</span>
+        <span>&nbsp;&nbsp;</span>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
+            <polyline points="30,110 150,210 270,110" style="stroke-width:30;fill:none;" />
+        </svg>
+    </nav-link>
+    <nav-link class="item" *ngFor="let config of userConfigurations | asyncAZ; index as i" [routerLink]="['/parsers', i]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        {{config.configTitle}}
+    </nav-link>
+</nav-expand>

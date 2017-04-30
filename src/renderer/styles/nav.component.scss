@@ -1,0 +1,82 @@
+@import 'mixins';
+
+:host {
+    display: flex;
+    overflow-y: auto;
+    flex-direction: column;
+    flex: 1 0 auto;
+
+    max-width: 7em;
+
+    white-space: nowrap;
+
+    background-color: var(--color-nav-background);
+
+    --link-height: 1.2em;
+    --link-vPadding: 0.5em;
+
+    nav-link {
+        height: var(--link-height);
+        padding: var(--link-vPadding) 1em;
+
+        color: var(--color-nav-link-text);
+        border-left: solid 2px var(--color-nav-link-border);
+
+        svg {
+            height: var(--link-height);
+
+            polyline {
+                stroke: var(--color-nav-link-text);
+            }
+        }
+
+        &:hover {
+            color: var(--color-nav-link-text-hover);
+            border-color: var(--color-nav-link-border-hover);
+
+            svg {
+                polyline {
+                    stroke: var(--color-nav-link-text-hover);
+                }
+            }
+
+            &.active {
+                color: var(--color-nav-link-text-active);
+                border-color: var(--color-nav-link-border-active);
+
+                & svg {
+                    & polyline {
+                        stroke: var(--color-nav-link-text-active);
+                    }
+                }
+            }
+        }
+
+        &.active {
+            color: var(--color-nav-link-text-active);
+            border-color: var(--color-nav-link-border-active);
+
+            svg {
+                & polyline {
+                    stroke: var(--color-nav-link-text-active);
+                }
+            }
+        }
+    }
+
+    >nav-expand {
+        nav-link:not(.title) {
+            padding: var(--link-vPadding) 1em var(--link-vPadding) 2em;
+        }
+
+        &.empty {
+            nav-link.title {
+                svg {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    @include webkit-scrollbar(nav-scrollbar, 0.375em);
+}

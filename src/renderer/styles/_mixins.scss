@@ -1,0 +1,106 @@
+@mixin click-button-color($colorProp, $canBeDisabled: false) {
+    color: var(--color-#{$colorProp}-text);
+    border-color: var(--color-#{$colorProp}-border);
+    background-color: var(--color-#{$colorProp}-background);
+
+    &:hover {
+        color: var(--color-#{$colorProp}-text-hover);
+        border-color: var(--color-#{$colorProp}-border-hover);
+        background-color: var(--color-#{$colorProp}-background-hover);
+    }
+
+    &:active {
+        color: var(--color-#{$colorProp}-text-active);
+        border-color: var(--color-#{$colorProp}-border-active);
+        background-color: var(--color-#{$colorProp}-background-active);
+    }
+
+    @if $canBeDisabled {
+        &.disabled, &:disabled {
+            color: var(--color-#{$colorProp}-text-disabled);
+            border-color: var(--color-#{$colorProp}-border-disabled);
+            background-color: var(--color-#{$colorProp}-background-disabled);
+        }
+    }
+}
+
+@mixin toggle-button-color($colorProp) {
+    color: var(--color-#{$colorProp}-text);
+    border-color: var(--color-#{$colorProp}-border);
+    background-color: var(--color-#{$colorProp}-background);
+
+    &:hover {
+        color: var(--color-#{$colorProp}-text-hover);
+        border-color: var(--color-#{$colorProp}-border-hover);
+        background-color: var(--color-#{$colorProp}-background-hover);
+
+        &.active, &:active {
+            color: var(--color-#{$colorProp}-text-active);
+            border-color: var(--color-#{$colorProp}-border-active);
+            background-color: var(--color-#{$colorProp}-background-active);
+        }
+    }
+
+    &.active, &:active {
+        color: var(--color-#{$colorProp}-text-active);
+        border-color: var(--color-#{$colorProp}-border-active);
+        background-color: var(--color-#{$colorProp}-background-active);
+
+        &:hover {
+            color: var(--color-#{$colorProp}-text-active-hover);
+            border-color: var(--color-#{$colorProp}-border-active-hover);
+            background-color: var(--color-#{$colorProp}-background-active-hover);
+        }
+    }
+}
+
+@mixin input-color($colorProp, $canBeDisabled: false) {
+    color: var(--color-#{$colorProp}-text);
+    border: 1px solid var(--color-#{$colorProp}-border);
+    background-color: var(--color-#{$colorProp}-background);
+    box-shadow: 0 0 2px 1px var(--color-#{$colorProp}-shadow) inset;
+
+    &:hover {
+        color: var(--color-#{$colorProp}-text-hover);
+        border: 1px solid var(--color-#{$colorProp}-border-hover);
+        background-color: var(--color-#{$colorProp}-background-hover);
+        box-shadow: 0 0 2px 1px var(--color-#{$colorProp}-shadow-hover) inset;
+    }
+
+    &:focus {
+        color: var(--color-#{$colorProp}-text-focus);
+        border: 1px solid var(--color-#{$colorProp}-border-focus);
+        background-color: var(--color-#{$colorProp}-background-focus);
+        box-shadow: 0 0 2px 1px var(--color-#{$colorProp}-shadow-focus) inset;
+    }
+
+    @if $canBeDisabled {
+        &.disabled, &:disabled {
+            color: var(--color-#{$colorProp}-text-disabled);
+            border-color: var(--color-#{$colorProp}-border-disabled);
+            background-color: var(--color-#{$colorProp}-background-disabled);
+            box-shadow: 0 0 2px 1px var(--color-#{$colorProp}-shadow-disabled) inset;
+        }
+    }
+}
+
+@mixin webkit-scrollbar($colorProp, $scrollbarSize: 0.75em, $trackBorderRadius: 0, $thumbBorderRadius: 0) {
+    &::-webkit-scrollbar {
+        width: $scrollbarSize;
+        height: $scrollbarSize;
+    }
+
+    &::-webkit-scrollbar-track {
+        border-radius: $trackBorderRadius;
+        background-color: var(--color-#{$colorProp}-track);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: $thumbBorderRadius;
+        background-color: var(--color-#{$colorProp}-thumb);
+    }
+
+    &::-webkit-scrollbar-corner {
+        background-color: var(--color-#{$colorProp}-track);
+    }
+}

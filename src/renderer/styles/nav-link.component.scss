@@ -1,0 +1,22 @@
+:host {
+    display: flex;
+    overflow: hidden;
+
+    cursor: default;
+    user-select: none;
+
+    flex-shrink: 0;
+
+    >.content {
+        overflow: hidden;
+
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    &.title {
+        >.content {
+            display: flex;
+        }
+    }
+}

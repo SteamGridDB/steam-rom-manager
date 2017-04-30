@@ -1,0 +1,63 @@
+:host {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    color: black;
+    border-color: deepskyblue;
+    background-color: white;
+
+    fill: black;
+
+    #display {
+        display: flex;
+
+        padding: var(--ng-select-padding, 0);
+
+        cursor: pointer;
+
+        color: inherit;
+        border-width: var(--ng-select-border-width, 1px);
+        border-style: solid;
+        border-color: inherit;
+        background-color: inherit;
+
+        align-content: center;
+        fill: inherit;
+
+        >span {
+            display: inline-flex;
+
+            margin: auto 0;
+
+            cursor: pointer;
+        }
+        >svg {
+            display: inline-flex;
+
+            height: 1.2em;
+            margin: 0 0 0 auto;
+
+            fill: inherit;
+        }
+    }
+    .options {
+        position: absolute;
+        top: 100%;
+        left: 0;
+
+        display: none;
+
+        &.open {
+            display: flex;
+            flex-direction: column;
+
+            min-width: calc(100% - (var(--ng-select-border-width, 1px) * 2));
+
+            border-width: var(--ng-select-border-width, 1px);
+            border-style: solid;
+            border-color: inherit;
+        }
+    }
+}

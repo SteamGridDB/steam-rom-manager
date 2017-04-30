@@ -1,0 +1,356 @@
+<div class="userInput">
+    <div class="userInstructions">
+        <ng-container *ngIf="currentParserType && parserInfo; else emptyParserInfo">
+            <div class="instructionItem" [innerHTML]="'<div class=\'title\'>' + currentParserType + '</div>' + parserInfo | safeHtml"></div>
+        </ng-container>
+        <ng-template #emptyParserInfo>
+            <div class="instructionItem">
+                <div class="title">
+                    Parser type
+                </div>
+                <div class="paragraph">
+                    Extracts title and filename/path from file or path. May require user's input.
+                </div>
+            </div>
+        </ng-template>
+        <div class="instructionItem">
+            <div class="title">
+                Configuration title
+            </div>
+            <div class="paragraph">
+                Title to save user configuration as. Does not have to be unique.
+            </div>
+        </div>
+        <div class="instructionItem">
+            <div class="title">
+                Steam category
+            </div>
+            <div class="paragraph">
+                Steam categories/tags to be set. Uses <span class="code">{{'${"category"}'}}</span> syntax, where "category"
+                is user's category. Below are few examples of how categories are extracted.
+            </div>
+            <div class="paragraph" style="padding-left: 1em">
+                <span class="code">{{'${A} ${B} ${C} ${A}'}}</span>:
+                <ul>
+                    <li>A</li>
+                    <li>B</li>
+                    <li>C</li>
+                </ul>
+                <span class="code">{{'${A ${B} C} ${D ${E} F}'}}</span>:
+                <ul>
+                    <li>B</li>
+                    <li>E</li>
+                </ul>
+            </div>
+        </div>
+        <div class="instructionItem">
+            <div class="title">
+                Executable
+            </div>
+            <div class="paragraph">
+                Path to executable.
+            </div>
+        </div>
+        <div class="instructionItem">
+            <div class="title">
+                ROMs directory
+            </div>
+            <div class="paragraph">
+                Starting directory for parser.
+            </div>
+        </div>
+        <div class="instructionItem">
+            <div class="title">
+                Steam directory
+            </div>
+            <div class="paragraph">
+                Directory containing steam's "userdata" which has to contain at least one user directory.
+            </div>
+        </div>
+        <ng-container class="instructionItem" *ngIf="myForm.controls['parserInputs'].controls as controls">
+            <ng-container *ngFor="let control of controls | keys">
+                <ng-container *ngIf="parserInputInfo[control].info">
+                    <div class="instructionItem" [innerHTML]="'<div class=\'title\'>' + parserInputInfo[control].label + '</div>' + parserInputInfo[control].info | safeHtml"></div>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+        <div class="instructionItem">
+            <div class="title">
+                Title prefix
+            </div>
+            <div class="paragraph">
+                String which is prepended to title.
+            </div>
+        </div>
+        <div class="instructionItem">
+            <div class="title">
+                Title suffix
+            </div>
+            <div class="paragraph">
+                String which is appended to title.
+            </div>
+        </div>
+        <div class="instructionItem">
+            <div class="title">
+                Executable arguments
+            </div>
+            <div class="paragraph">
+                String which is appended to executable to produce final shortcut. It can be empty, however most of the time user might want
+                to set it using provided variables (case-insensitive):
+                <ul>
+                    <li><span class="code">{{'${dir}'}}</span>: ROMs directory</li>
+                    <li><span class="code">{{'${title}'}}</span>: extracted title</li>
+                    <li><span class="code">{{'${fuzzyTitle}'}}</span>: fuzzy matched title</li>
+                    <li><span class="code">{{'${finalTitle}'}}</span>: extracted title with prefix and suffix</li>
+                    <li><span class="code">{{'${fuzzyFinalTitle}'}}</span>: fuzzy matched title with prefix and suffix</li>
+                    <li><span class="code">{{'${file}'}}</span>: filename of a file returned by a selected parser</li>
+                    <li><span class="code">{{'${filePath}'}}</span>: full path to a file returned by a selected parser</li>
+                    <li><span class="code">{{'${sep}'}}</span>: system specific directory seperator (<span class="code">\</span> or <span class="code">/</span>)</li>
+                </ul>
+            </div>
+            <div class="paragraph">
+                Depending on parser type, titles may contain characters that are not allowed to be used in system paths. <b>Keep that in mind!</b>
+            </div>
+            <div class="paragraph">
+                Given that executable is <span class="code">C:\my.exe</span> and:
+                <ul>
+                    <li><span class="code">{{'${dir}'}}</span>: C:\ROMS</li>
+                    <li><span class="code">{{'${title}'}}</span>: Roses are red</li>
+                    <li><span class="code">{{'${fuzzyTitle}'}}</span>: Roses. are red</li>
+                    <li><span class="code">{{'${finalTitle}'}}</span>: Roses are red and green</li>
+                    <li><span class="code">{{'${finalFinalTitle}'}}</span>: Roses. are red and green</li>
+                    <li><span class="code">{{'${file}'}}</span>: myfile.fml</li>
+                    <li><span class="code">{{'${filePath}'}}</span>: C:\ROMS\Roses are red [AEF123]\myfile.fml</li>
+                    <li><span class="code">{{'${sep}'}}</span>: \</li>
+                </ul>
+                The following strings will be produced from:
+            </div>
+            <div class="paragraph">
+                <span class="code">{{'-g "${dir}${sep}${finalTitle}${sep}${file}"'}}</span>:
+                <ul>
+                    <li>-g "C:\ROMS\Roses are red and green\myfile.fml" </li>
+                </ul>
+            </div>
+            <div class="paragraph">
+                <span class="code">{{'-g "${filePath}" -t "${title}"'}}</span>:
+                <ul>
+                    <li>-g "C:\ROMS\Roses are red [AEF123]\myfile.fml" -t "Roses are red"</li>
+                </ul>
+            </div>
+        </div>
+        <div class="instructionItem">
+            <div class="title">
+                Local images
+            </div>
+            <div class="paragraph">
+                It is possible to use images stored locally. A <span class="code">glob</span> string is used to retrieve images. Provided variables (see "Executable arguments" above) 
+                can also be used to produce final <span class="code">glob</span> string. Images are resolved in 3 step process:
+                <ol>
+                    <li>All provided variables are replaced with their corresponding values.</li>
+                    <li>New string is resolved against root directory (root directory is always a configuration's ROMs directory).</li>
+                    <li>Final string is passed to <span class="code">node-glob</span> parser which then returns a list of files, if they are available.</li>
+                </ol>
+                Only <span class="code">JPEG</span>, <span class="code">JPG</span>, <span class="code">PNG</span> and <span class="code">TGA</span> file extensions are supported. Even if
+                <span class="code">node-glob</span> finds files with other extensions, they are not included into the final list.
+            </div>
+            <div class="paragraph">
+                For example, let's say that: 
+                <ul>
+                    <li><span class="code">{{'${dir}'}}</span>: C:\ROMS</li>
+                    <li><span class="code">{{'${title}'}}</span>: Roses are red [AEF123]</li>
+                    <li><span class="code">{{'${filePath}'}}</span>: C:\ROMS\Roses are red [AEF123]\myfile.fml</li>
+                </ul>
+                Our desired images are in <span class="code">C:\ROMS\Roses are red [AEF123]</span> directory. There are at least 5 ways of setting input value to get to them:
+                <ol>
+                    <li><span class="code">C:\ROMS\Roses are red [AEF123]\*</span></li>
+                    <li><span class="code">{{'${dir}/${title}/*'}}</span></li>
+                    <li><span class="code">{{'${dir}/*/*'}}</span></li>
+                    <li><span class="code">./*/*</span></li>
+                    <li><span class="code">{{'${filePath}/../*'}}</span></li>
+                </ol>
+            </div>
+            <div class="paragraph">
+                First one is the obvious one - set static directory. This works well when you have all the pictures for <b>all</b> the titles in one directory. By using <span class="code">{{'${title}'}}</span>
+                to produce <span class="code">C:\ROMS\Roses are red [AEF123]\{{'${title}'}}.*</span> you might actually get a desired result, given that image filename and <span class="code">{{'${title}'}}</span>
+                are identical.
+            </div>
+             <div class="paragraph">
+                Second one works well only when <span class="code">{{'${title}'}}</span> and image containing directories are identical. Otherwise it will not work.
+            </div>
+            <div class="paragraph">
+                Third one will allow all images, from every title, to be used by all titles. At least you don't have to set static directory like in the first one.
+            </div>
+            <div class="paragraph">
+                Fourth one is identical to third one.
+            </div>
+            <div class="paragraph">
+                Fifth one will probably give the desired result. It will crawl one directory down (from <span class="code">C:\ROMS\Roses are red [AEF123]\myfile.fml</span> 
+                to <span class="code">C:\ROMS\Roses are red [AEF123]</span>) and will get all images for the specific title.
+            </div>
+        </div>
+        <div class="instructionItem">
+            <div class="title">
+                Fuzzy matching
+            </div>
+            <div class="paragraph">
+                If enabled, fuzzy matching will be done against the tittle list provided by <span class="code">SteamGridDB</span>. It should fill
+                in missing characters for titles which will increase probability for finding images. It is possible, however very unlikely, that false
+                matching might occur for titles that are not in the list.
+            </div>
+        </div>
+        <div class="instructionItem">
+            <div class="title">
+                Enabled/disabled
+            </div>
+            <div class="paragraph">
+                If disabled, user configuration will be skipped when generating preview list.
+            </div>
+        </div>
+        <div class="instructionItem">
+            <div class="title">
+                Title merging
+            </div>
+            <div class="paragraph">
+                Recurring titles are merged. Here is how their information is merged per different steam directory:
+                <ul>
+                    <li><span class="code">Executable</span>: first occurrence is kept and others ignored</li>
+                    <li><span class="code">Arguments</span>: first occurrence is kept and others ignored</li>
+                    <li><span class="code">Categories</span>: unique categories are merged</li>
+                </ul>
+                Consider using title suffixes and prefixes if you want different executables and arguments. For example you could set suffix
+                to <span class="code"> (1.7.5)</span> which would signify different executable version.
+            </div>
+        </div>
+    </div>
+    <form class="userForm" [formGroup]="myForm" novalidate>
+        <div>
+            <label>Parser type</label>
+            <div class="inputContainer">
+                <ng-select [placeholder]="'Select parser...'" formControlName="parserType">
+                    <ng-option *ngFor="let parser of availableParsers">{{parser}}</ng-option>
+                </ng-select>
+            </div>
+            <div class="errorMessage" [hidden]="myForm.controls.parserType.valid || (myForm.controls.parserType.pristine && !submitted)">
+                {{myForm.controls.parserType.errors?.error}}
+            </div>
+        </div>
+        <div>
+            <label>Configuration title</label>
+            <div class="inputContainer">
+                <input formControlName="configTitle" />
+            </div>
+            <div class="errorMessage" [hidden]="myForm.controls.configTitle.valid || (myForm.controls.configTitle.pristine && !submitted)">
+                {{myForm.controls.configTitle.errors?.error}}
+            </div>
+        </div>
+        <div>
+            <label>Steam category</label>
+            <div class="inputContainer">
+                <input formControlName="steamCategory" />
+            </div>
+            <div class="errorMessage" [hidden]="myForm.controls.steamCategory.valid || (myForm.controls.steamCategory.pristine && !submitted)">
+                {{myForm.controls.steamCategory.errors?.error}}
+            </div>
+        </div>
+        <div>
+            <label>Executable</label>
+            <div class="errorMessage" class="inputContainer">
+                <input formControlName="executableLocation" />
+                <input id="executableFileInput" type="file" (change)="changeExecutable('executableFileInput', $event.target.files)" />
+                <div class="clickButton" (click)="simulateClick('executableFileInput')">Browse</div>
+            </div>
+            <div class="errorMessage" [hidden]="myForm.controls.executableLocation.valid || (myForm.controls.executableLocation.pristine && !submitted)">
+                {{myForm.controls.executableLocation.errors?.error}}
+            </div>
+        </div>
+        <div>
+            <label>ROMs directory</label>
+            <div class="inputContainer">
+                <input formControlName="romDirectory" />
+                <input id="romFirectoryFileInput" type="file" webkitdirectory (change)="changeRomDirectory('romFirectoryFileInput', $event.target.files)"
+                />
+                <div class="clickButton" (click)="simulateClick('romFirectoryFileInput')">Browse</div>
+            </div>
+            <div class="errorMessage" [hidden]="myForm.controls.romDirectory.valid || (myForm.controls.romDirectory.pristine && !submitted)">
+                {{myForm.controls.romDirectory.errors?.error}}
+            </div>
+        </div>
+        <div>
+            <label>Steam directory</label>
+            <div class="inputContainer">
+                <input formControlName="steamDirectory" />
+                <input id="steamDirectoryFileInput" type="file" webkitdirectory (change)="changeSteamDirectory('steamDirectoryFileInput', $event.target.files)"
+                />
+                <div class="clickButton" (click)="simulateClick('steamDirectoryFileInput')">Browse</div>
+            </div>
+            <div class="errorMessage" [hidden]="myForm.controls.steamDirectory.valid || (myForm.controls.steamDirectory.pristine && !submitted)">
+                {{myForm.controls.steamDirectory.errors?.error}}
+            </div>
+        </div>
+        <div formGroupName="parserInputs" *ngIf="myForm.controls['parserInputs'].controls as controls">
+            <ng-container *ngFor="let control of controls | keys">
+                <label>{{parserInputInfo[control].label}}</label>
+                <div class="inputContainer">
+                    <input [formControlName]="control" />
+                </div>
+                <div class="errorMessage" [hidden]="controls[control].valid || (controls[control].pristine && !submitted)">
+                    {{controls[control].errors?.error}}
+                </div>
+            </ng-container>
+        </div>
+        <div>
+            <label>Title prefix</label>
+            <div class="inputContainer">
+                <input formControlName="titlePrefix" />
+            </div>
+            <div class="errorMessage" [hidden]="myForm.controls.titlePrefix.valid || (myForm.controls.titlePrefix.pristine && !submitted)">
+                {{myForm.controls.titlePrefix.errors?.error}}
+            </div>
+        </div>
+        <div>
+            <label>Title suffix</label>
+            <div class="inputContainer">
+                <input formControlName="titleSuffix" />
+            </div>
+            <div class="errorMessage" [hidden]="myForm.controls.titleSuffix.valid || (myForm.controls.titleSuffix.pristine && !submitted)">
+                {{myForm.controls.titleSuffix.errors?.error}}
+            </div>
+        </div>
+        <div>
+            <label>Executable arguments</label>
+            <div class="inputContainer">
+                <input formControlName="executableArgs" />
+            </div>
+            <div class="errorMessage" [hidden]="myForm.controls.executableArgs.valid || (myForm.controls.executableArgs.pristine && !submitted)">
+                {{myForm.controls.executableArgs.errors?.error}}
+            </div>
+        </div>
+        <div>
+            <label>Local images</label>
+            <div class="inputContainer">
+                <input formControlName="localImages" />
+                <input id="localImagesFileInput" type="file" webkitdirectory (change)="changeLocalImagesDirectory('localImagesFileInput', $event.target.files)"/>
+                <div class="clickButton" (click)="simulateClick('localImagesFileInput')">Browse</div>
+            </div>
+            <div class="errorMessage" [hidden]="myForm.controls.localImages.valid || (myForm.controls.localImages.pristine && !submitted)">
+                {{myForm.controls.localImages.errors?.error}}
+            </div>
+        </div>
+    </form>
+</div>
+<div class="menu" [formGroup]="myForm" novalidate>
+    <ng-container *ngIf="currentIndex === undefined; else moreOptions">
+        <div class="save clickButton" (click)="save(myForm.value, myForm.valid)">Save</div>
+    </ng-container>
+    <ng-template #moreOptions>
+        <div class="save clickButton" (click)="update(myForm.value, myForm.valid)">Save</div>
+        <div class="copy clickButton" (click)="save(myForm.value, myForm.valid)">Copy</div>
+        <div class="test clickButton" (click)="testParser(myForm.value, myForm.valid)">Test parser</div>
+        <div class="delete clickButton" (click)="delete()">Delete</div>
+        <ng-button #fuzzyMatch class="fuzzyMatch toggleButton" [class.active]="fuzzyMatch.value" (click)="fuzzyMatch.value = !fuzzyMatch.value"
+            formControlName="fuzzyMatch">{{fuzzyMatch.value ? 'Fuzzy: ON': 'Fuzzy: OFF'}}</ng-button>
+        <ng-button #enable class="enable toggleButton" [class.active]="enable.value" (click)="enable.value = !enable.value" formControlName="enable">{{enable.value ? 'Enabled': 'Disabled'}}</ng-button>
+        <div class="up clickButton" [class.disabled]="currentIndex === 0" (click)="moveUp()">Move Up</div>
+        <div class="down clickButton" [class.disabled]="currentIndex + 1 === userConfigurations.length" (click)="moveDown()">Move Down</div>
+    </ng-template>
+</div>

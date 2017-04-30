@@ -1,0 +1,66 @@
+<div id="items">
+    <ng-container *ngIf="previewData | async as titleList">
+        <div class="item" *ngFor="let title of titleList | keys">
+            <ng-container *ngIf="titleList[title].images.value.status === 'retrieved'; else loadingImages">
+                <ng-container *ngIf="titleList[title].images.value.content as images">
+                    <ng-container *ngIf="images[titleList[title].currentImageIndex] as currentImage; else emptyImage">
+                        <ng-container [ngSwitch]="currentImage.loadStatus">
+                            <div class="background donwloadingImage loading" *ngSwitchCase="'none'">{{loadImage(title, titleList[title].currentImageIndex)}}</div>
+                            <div class="background donwloadingImage loading" *ngSwitchCase="'downloading'">
+                                <ng-container *ngTemplateOutlet="imageInfo"></ng-container>
+                            </div>
+                            <div class="background failed" *ngSwitchCase="'failed'" (click)="loadImage(title, titleList[title].currentImageIndex)">
+                                <ng-container *ngTemplateOutlet="imageInfo"></ng-container>
+                            </div>
+                            <div class="background" *ngSwitchDefault [style.backgroundImage]="'url(' + currentImage.imageUrl + ')' | safeStyle">
+                                <ng-container *ngTemplateOutlet="imageInfo"></ng-container>
+                            </div>
+                        </ng-container>
+                        <ng-template #imageInfo>
+                            <div class="title" text-scroll>{{title}}</div>
+                            <ng-container *ngIf="images.length > 1">
+                                <div class="previousImage" (click)="previousImage(title, titleList[title].currentImageIndex)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
+                                        <polyline points="220,50 100,150 220,250" style="stroke-width:15; fill: none;" />
+                                    </svg>
+                                </div>
+                                <div class="nextImage" (click)="nextImage(title, titleList[title].currentImageIndex)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
+                                        <polyline points="80,50 200,150 80,250" style="stroke-width:15; fill: none;" />
+                                    </svg>
+                                </div>
+                            </ng-container>
+                            <div class="info">
+                                <div class="imageInfo">
+                                    <div class="provider">
+                                        {{'From ' + images[titleList[title].currentImageIndex].imageProvider}}
+                                    </div>
+                                    <div *ngIf="images[titleList[title].currentImageIndex].imageUploader" class="uploader">
+                                        {{'by ' + images[titleList[title].currentImageIndex].imageUploader}}
+                                    </div>
+                                </div>
+                                <div class="imageIndex">
+                                    {{(titleList[title].currentImageIndex + 1) + '/' + images.length}}
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-template #loadingImages>
+                <div class="background retrievingUrl loading"></div>
+            </ng-template>
+            <ng-template #emptyImage>
+                <div class="background empty">
+                    <div class="title" text-scroll>{{title}}</div>
+                </div>
+            </ng-template>
+        </div>
+    </ng-container>
+</div>
+<div id="menu">
+    <div>
+        <div id="generate" class="clickButton" (click)="generatePreviewData()">Generate list</div>
+        <div *ngIf="stateVariables.numberOfListItems > 0" id="save" class="clickButton" (click)="saveData()">Save list</div>
+    </div>
+</div>

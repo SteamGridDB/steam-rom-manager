@@ -1,0 +1,39 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Main Process",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}/dist",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+            },
+            "runtimeArgs": [
+                "--remote-debugging-port=9222"
+            ],
+            "program": "${workspaceRoot}/dist/main.bundle.js",
+            "protocol": "legacy",
+            "outFiles": [
+                "${workspaceRoot}/dist/**/*.js"
+            ]
+        },
+        {
+            "name": "Debug Renderer Process",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            "webRoot": "${workspaceRoot}/dist/renderer"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Debug Electron",
+            "configurations": [
+                "Debug Main Process",
+                "Debug Renderer Process"
+            ]
+        }
+    ]
+}

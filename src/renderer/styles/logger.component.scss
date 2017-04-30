@@ -1,0 +1,115 @@
+@import 'mixins';
+
+:host {
+    display: flex;
+    overflow: auto;
+    flex-direction: column;
+    flex: 1;
+
+    background-color: var(--color-logger-background);
+
+    #menu {
+        display: flex;
+        overflow: auto;
+
+        border-top: 1px solid var(--color-logger-border);
+        background-color: var(--color-logger-settings-background);
+
+        flex-shrink: 0;
+        @include webkit-scrollbar(logger-menu-scrollbar, 0.5em);
+
+        >div {
+            font-weight: 300;
+
+            display: inline-block;
+
+            margin: 0.5em;
+            padding: 0.25em 0.5em;
+
+            cursor: default;
+            user-select: none;
+            white-space: nowrap;
+
+            border-width: 1px;
+            border-style: solid;
+
+            &.error {
+                @include toggle-button-color(logger-error-button);
+            }
+
+            &.info {
+                @include toggle-button-color(logger-info-button);
+            }
+
+            &.success {
+                @include toggle-button-color(logger-success-button);
+            }
+
+            &.timestamp {
+                @include toggle-button-color(logger-timestamp-button);
+            }
+
+            &.textWrap {
+                @include toggle-button-color(logger-text-wrap-button);
+            }
+
+            &.autoscroll {
+                @include toggle-button-color(logger-autoscroll-button);
+            }
+
+            &.clear {
+                @include click-button-color(logger-clear-button);
+            }
+        }
+    }
+
+    >#messages {
+        overflow: auto;
+        flex: 1;
+
+        color: var(--color-logger-messages-text);
+        background-color: var(--color-logger-messages-background);
+
+        @include webkit-scrollbar(logger-messages-scrollbar);
+
+        >div {
+            font-family: 'Monaco';
+            font-size: 0.7em;
+
+            display: flex;
+            flex: 1 0;
+
+            padding-left: 2px;
+
+            cursor: text;
+            user-select: text;
+            white-space: pre;
+
+            border-left-width: 2px;
+            border-left-style: solid;
+
+            &.wrap {
+                white-space: pre-wrap;
+            }
+
+            &.error {
+                border-left-color: var(--color-logger-error-border);
+            }
+
+            &.info {
+                border-left-color: var(--color-logger-info-border);
+            }
+
+            &.success {
+                border-left-color: var(--color-logger-success-border);
+            }
+        }
+
+        &.empty {
+            display: flex;
+            >span {
+                margin: auto;
+            }
+        }
+    }
+}

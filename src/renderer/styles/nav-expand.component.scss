@@ -1,0 +1,36 @@
+:host {
+    display: flex;
+    flex-direction: column;
+
+    & >.items {
+        display: flex;
+        overflow-y: auto;
+        flex-direction: column;
+
+        margin: 0;
+        padding: 0;
+    }
+
+    & >.title {
+        display: flex;
+        overflow-y: auto;
+        flex-direction: column;
+
+        margin: 0;
+        padding: 0;
+    }
+
+    & ::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    & ::-webkit-scrollbar-track {
+        border-radius: 5px;
+        background-color: var(--color-nav-scrollbar-track);
+    }
+
+    & ::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background-color: var(--color-nav-scrollbar-thumb);
+    }
+}

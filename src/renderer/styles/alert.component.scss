@@ -1,0 +1,37 @@
+:host {
+    & >div {
+        font-size: 1em;
+
+        position: absolute;
+        right: 0;
+        bottom: 0;
+
+        display: inline-block;
+
+        margin: 0.5em 0.5em;
+        padding: 1em 2em;
+
+        cursor: pointer;
+        user-select: none;
+        text-align: right;
+        word-wrap: break-word;
+
+        &.success {
+            color: var(--color-alert-success-text);
+            border: 1px solid var(--color-alert-success-border);
+            background-color: var(--color-alert-success-background);
+        }
+
+        &.info {
+            color: var(--color-alert-info-text);
+            border: 1px solid var(--color-alert-info-border);
+            background-color: var(--color-alert-info-background);
+        }
+
+        &.error {
+            color: var(--color-alert-error-text);
+            border: 1px solid var(--color-alert-error-border);
+            background-color: var(--color-alert-error-background);
+        }
+    }
+}
