@@ -38,6 +38,18 @@ No images found or you just want to use your own images? Fear not! Steam ROM Man
 - Multiple user configuration support.
 - Fully support downloading images from **SteamGridDB** and partially from **ConsoleGrid**.
 
+# Executable arguments for emulators
+
+While you can freely choose what your executable arguments should be, here are some argument examples for emulators that you might want.
+
+## Dolphin
+
+`--exec="${filePath}" --batch --confirm=false`
+
+## Cemu
+
+`-f -g "${filePath}"`
+
 # Special thanks
 
 - Thank you **doZennn** for providing title list for fuzzy matching and an icon. Also testing this app.
