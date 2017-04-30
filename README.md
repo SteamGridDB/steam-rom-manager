@@ -22,7 +22,7 @@ Finally got that parser working? Go to preview and generate new list!
 
 ## Fuzzy title matching
 
-Can't seem to find and images for your title, but they are certainly online? Could it be due to some missing or mistypes characters in your title? Fuzzy matching to the rescue! It will match closest title to the list of titles downloaded from **SteamGridDB**.
+Can't seem to find images for your title, but they are certainly on supported websites? Could it be due to some missing or mistypes characters in your title? Fuzzy matching to the rescue! It will match closest title to the list of titles downloaded from **SteamGridDB**.
 
 ![Local images](./images/ft_fuzzyMatching.gif)
 
