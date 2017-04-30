@@ -47,6 +47,16 @@ export class VDFList {
         });
     }
 
+    createBackups() {
+        let promises: Promise<void[]>[] = [];
+        for (let steamDirectory in this.listData) {
+            promises.push(this.createBackup(steamDirectory));
+        }
+        return Promise.all(promises).catch((error) => {
+            throw new Error(`Error encountered while making backups. ${error}`);
+        });
+    }
+
     removeEntriesAndImages(previewData: PreviewData) {
         let promises: Promise<string[]>[] = [];
         for (let steamDirectory in this.listData) {
@@ -75,6 +85,29 @@ export class VDFList {
         return Promise.all(promises).then((errors) => {
             return this.flattenErrors(errors);
         });
+    }
+
+    private createBackup(steamDirectory: string) {
+        let promises: Promise<void>[] = [];
+        for (let userId in this.listData[steamDirectory]) {
+            promises.push(new Promise<void>((resolve, reject) => {
+                fs.copy(this.listData[steamDirectory][userId].screenshots.filename, path.join(path.dirname(this.listData[steamDirectory][userId].screenshots.filename), 'screenshots.backup'), { overwrite: true }, (error: any) => {
+                    if (error && error.code !== 'ENOENT')
+                        reject(error);
+                    else
+                        resolve();
+                });
+            }));
+            promises.push(new Promise<void>((resolve, reject) => {
+                fs.copy(this.listData[steamDirectory][userId].shortcuts.filename, path.join(path.dirname(this.listData[steamDirectory][userId].shortcuts.filename), 'shortcuts.backup'), { overwrite: true }, (error: any) => {
+                    if (error && error.code !== 'ENOENT')
+                        reject(error);
+                    else
+                        resolve();
+                });
+            }));
+        }
+        return Promise.all(promises);
     }
 
     private saveEntriesAndImagesInDir(steamDirectory: string, newTitles: string[], previewData: PreviewData) {

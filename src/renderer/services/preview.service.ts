@@ -69,7 +69,7 @@ export class PreviewService {
         let vdfList = new VDFList(this.http);
         this.loggerService.info('Checking if Steam is running.', { invokeAlert: true, alertTimeout: 3000 });
         this.isSteamRunning().then((isRunning) => {
-            if (isRunning) {
+            if (isRunning && process.env.NODE_ENV === 'production') {
                 throw new Error("Steam is running. Shut it down before saving list!");
             }
             else {
@@ -82,7 +82,10 @@ export class PreviewService {
                 for (let i = 0; i < errors.length; i++)
                     this.loggerService.error(errors[i]);
             }
-            this.loggerService.info('Removing matching entries', { invokeAlert: (errors && errors.length === 0), alertTimeout: 3000 });
+            this.loggerService.info('Creating backups.', { invokeAlert: true, alertTimeout: 3000 });
+            return vdfList.createBackups();
+        }).then(() => {
+            this.loggerService.info('Removing matching entries', { invokeAlert: true, alertTimeout: 3000 });
             return vdfList.removeEntriesAndImages(this.previewData.getValue());
         }).then((errors) => {
             if (errors && errors.length) {
@@ -338,7 +341,7 @@ export class PreviewService {
             for (let fuzzyTitle in this.images) {
                 this.images[fuzzyTitle].status = 'retrieving';
                 promises.push(this.imageProvider.retrieveUrls(fuzzyTitle, ...imageProviders).then((data) => {
-                    
+
                     if (data.failed.length) {
                         this.loggerService.error(`Failed to retrieve some image urls for "${fuzzyTitle}"`, { invokeAlert: true, alertTimeout: 3000 });
                         for (let i = 0; i < data.failed.length; i++) {
