@@ -6,7 +6,6 @@ import { LoggerService } from './logger.service';
 import { PreviewData, ImageContent, ParsedUserConfiguration, Images, PreviewStateVariables, LoadStatus, PreferedImages, ImagesStatusAndContent } from '../models';
 import { VDFList, Reference, ImageProvider } from "../lib";
 import { union } from "lodash";
-import * as os from 'os';
 import * as fs from 'fs-extra';
 import * as paths from '../../shared/paths';
 
@@ -52,6 +51,8 @@ export class PreviewService {
         else if (this.stateVariables.listIsBeingSaved)
             return this.loggerService.info('Files are being saved. Please wait.', { invokeAlert: true, alertTimeout: 3000 });
 
+        this.loggerService.info('Please shutdown Steam if it is running when saving, otherwise it might not save correctly.', { invokeAlert: true, alertTimeout: 3000 });
+
         this.stateVariables.listIsUpdating = true;
         this.imageProvider.stopUrlDownload();
         this.generatePreviewDataCallback();
@@ -69,17 +70,8 @@ export class PreviewService {
         this.stateVariables.listIsBeingSaved = true;
 
         let vdfList = new VDFList(this.http);
-        if (os.platform() === 'win32')
-            this.loggerService.info('Checking if Steam is running.', { invokeAlert: true, alertTimeout: 3000 });
-        this.isSteamRunning().then((isRunning) => {
-            if (isRunning && process.env.NODE_ENV === 'production') {
-                throw new Error("Steam is running. Shut it down before saving list!");
-            }
-            else {
-                this.loggerService.info('Retrieving information from steam files.', { invokeAlert: true, alertTimeout: 3000 });
-                return vdfList.populateList(this.steamDirectories);
-            }
-        }).then((errors) => {
+        this.loggerService.info('Retrieving information from steam files.', { invokeAlert: true, alertTimeout: 3000 });
+        vdfList.populateList(this.steamDirectories).then((errors) => {
             if (errors && errors.length) {
                 this.loggerService.error('Error(s) occurred while reading VDF files.', { invokeAlert: true, alertTimeout: 3000 });
                 for (let i = 0; i < errors.length; i++)
@@ -151,31 +143,6 @@ export class PreviewService {
                 this.previewDataChanged.next();
             }
         }
-    }
-
-    private isSteamRunning() {
-        return new Promise<boolean>((resolve, reject) => {
-            if (os.platform() === 'win32') {
-                let ps = require('ps-node');
-
-                ps.lookup({ command: 'steam' }, (error: string, resultList: any[]) => {
-                    if (error) {
-                        reject(error);
-                    }
-                    else {
-                        for (let i = 0; i < resultList.length; i++) {
-                            if (resultList[i].command !== undefined) {
-                                if ((<string>resultList[i].command).search(/steam\./i) !== -1)
-                                    return resolve(true);
-                            }
-                        }
-                        resolve(false);
-                    }
-                });
-            }
-            else
-                resolve(false);
-        });
     }
 
     private readPreferedImages() {
