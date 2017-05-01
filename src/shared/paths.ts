@@ -1,15 +1,7 @@
 import { app, remote } from 'electron';
 import * as path from 'path';
 
-let dataDir: string = 'userData';
-if (process.env.NODE_ENV === 'production'){
-    dataDir = path.join((app || remote.app).getPath('userData'), dataDir);
-}
-else{
-    dataDir = path.join(process.cwd(), dataDir);
-}
-
-export const userDataDir: string = dataDir;
+export const userDataDir: string = path.join((app || remote.app).getPath('userData'), 'userData');;
 export const userSettings: string = path.join(userDataDir, 'userSettings.json');
 export const userThemesDir: string = path.join(userDataDir, 'User themes');
 export const userConfigurations: string = path.join(userDataDir, 'userConfigurations.json');

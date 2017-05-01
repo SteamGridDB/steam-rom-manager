@@ -1,6 +1,6 @@
 {
   "name": "steam-rom-manager",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "license": "GPL-3.0",
   "description": "An app for managing ROMs in Steam",
   "author": {
@@ -66,7 +66,6 @@
     "long": "^3.2.0",
     "mime-types": "^2.1.15",
     "ngx-color-picker": "^4.0.0",
-    "ps-node": "^0.1.6",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.3.0",
     "steam-shortcut-editor": "^2.1.0",

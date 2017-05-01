@@ -12,7 +12,7 @@
                             <div class="background failed" *ngSwitchCase="'failed'" (click)="loadImage(title, titleList[title].currentImageIndex)">
                                 <ng-container *ngTemplateOutlet="imageInfo"></ng-container>
                             </div>
-                            <div class="background" *ngSwitchDefault [style.backgroundImage]="'url(' + currentImage.imageUrl + ')' | safeStyle">
+                            <div class="background" *ngSwitchDefault [style.backgroundImage]="'url(\'' + currentImage.imageUrl + '\')' | safeStyle">
                                 <ng-container *ngTemplateOutlet="imageInfo"></ng-container>
                             </div>
                         </ng-container>

@@ -31,6 +31,15 @@ export class GlobRegexParser implements GenericParser {
                     both file paths. Furthermore, extracted title has whitespaces trimmed off.
                 </div>
                 <div class="paragraph">
+                    Regex capture pairs (different pairs are seperated with <span class="code">|</span>) will have their contents joined. For example:
+                    <span class="code">(.+)\\s\\[.+?\\](\\s.*)</span> in <span class="code">Roses are red [skip this] or green</span> will match:
+                    <ul>
+                        <li><span class="code">Roses are red</span></li>
+                        <li><span class="code">&nbsp;or green</span></li>
+                    </ul>
+                    The final result will be <span class="code">Roses are red or green</span>.
+                </div>
+                <div class="paragraph">
                     This parser should be used when title containing path segment has more than one pattern (see "User\'s glob-regex" below for examples).
                     I recommend using <span class="code">https://regex101.com/</span> to test your regular expression (select "javascript" option). 
                 </div>
@@ -160,11 +169,15 @@ export class GlobRegexParser implements GenericParser {
         }
         let titleMatch = file.match(titleData.regex);
         if (titleMatch !== null) {
+            let title: string = '';
             for (let i = 1; i < titleMatch.length; i++) {
                 if (titleMatch[i])
-                    return titleMatch[i].replace(/\//g, path.sep).trim();
+                    title += titleMatch[i];
             }
-            return titleMatch[0].replace(/\//g, path.sep).trim();
+            if (title.length === 0)
+                return titleMatch[0].replace(/\//g, path.sep).trim();
+            else
+                return title.replace(/\//g, path.sep).trim();
         }
         return undefined;
     }

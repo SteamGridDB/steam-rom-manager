@@ -51,7 +51,7 @@ export class PreviewService {
         else if (this.stateVariables.listIsBeingSaved)
             return this.loggerService.info('Files are being saved. Please wait.', { invokeAlert: true, alertTimeout: 3000 });
 
-        this.loggerService.info('Please shutdown Steam if it is running when saving, otherwise it might not save correctly.', { invokeAlert: true, alertTimeout: 3000 });
+        this.loggerService.info('Please shutdown Steam if it is running when saving, otherwise it might not save correctly.', { invokeAlert: true, alertTimeout: 10000 });
 
         this.stateVariables.listIsUpdating = true;
         this.imageProvider.stopUrlDownload();

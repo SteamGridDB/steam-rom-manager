@@ -91,6 +91,12 @@ export class VDFList {
         let promises: Promise<void>[] = [];
         for (let userId in this.listData[steamDirectory]) {
             promises.push(new Promise<void>((resolve, reject) => {
+                fs.copy(this.listData[steamDirectory][userId].screenshots.filename, path.join(path.dirname(this.listData[steamDirectory][userId].screenshots.filename), 'screenshots.firstbackup'), { overwrite: false }, (error: any) => {
+                    if (error && error.code !== 'ENOENT')
+                        reject(error);
+                    else
+                        resolve();
+                });
                 fs.copy(this.listData[steamDirectory][userId].screenshots.filename, path.join(path.dirname(this.listData[steamDirectory][userId].screenshots.filename), 'screenshots.backup'), { overwrite: true }, (error: any) => {
                     if (error && error.code !== 'ENOENT')
                         reject(error);
@@ -99,6 +105,12 @@ export class VDFList {
                 });
             }));
             promises.push(new Promise<void>((resolve, reject) => {
+                fs.copy(this.listData[steamDirectory][userId].shortcuts.filename, path.join(path.dirname(this.listData[steamDirectory][userId].shortcuts.filename), 'shortcuts.firstbackup'), { overwrite: false }, (error: any) => {
+                    if (error && error.code !== 'ENOENT')
+                        reject(error);
+                    else
+                        resolve();
+                });
                 fs.copy(this.listData[steamDirectory][userId].shortcuts.filename, path.join(path.dirname(this.listData[steamDirectory][userId].shortcuts.filename), 'shortcuts.backup'), { overwrite: true }, (error: any) => {
                     if (error && error.code !== 'ENOENT')
                         reject(error);

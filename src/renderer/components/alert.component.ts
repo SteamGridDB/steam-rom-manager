@@ -43,12 +43,15 @@ export class AlertComponent implements OnInit, OnDestroy {
                 if (message.timeout > 0){
                     this.timeoutId = window.setTimeout(()=>{
                         this.currentMessage = undefined;
+                        this.changeRef.detectChanges();
                     }, message.timeout > 1000 ? message.timeout - 1000 : message.timeout)
                 }
                 this.changeRef.detectChanges();
             }
-            else
+            else{
                 this.currentMessage = undefined;
+                this.changeRef.detectChanges();
+            }
         }));
     }
 

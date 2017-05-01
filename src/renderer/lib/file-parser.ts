@@ -141,7 +141,7 @@ export class FileParser {
 
     private resolveLocalImage(localImage: string, ROMDirectory: string) {
         return new Promise<string[]>((resolve, reject) => {
-            glob(localImage/*.replace(/\\/g, '/')*/, { silent: true, dot: true, realpath: true, cwd: ROMDirectory }, (err, files) => {
+            glob(localImage, { silent: true, dot: true, realpath: true, cwd: ROMDirectory }, (err, files) => {
                 if (err)
                     reject(err);
                 else {
