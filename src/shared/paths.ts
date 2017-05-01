@@ -3,7 +3,7 @@ import * as path from 'path';
 
 let dataDir: string = 'userData';
 if (process.env.NODE_ENV === 'production'){
-    dataDir = path.join(path.dirname((app || remote.app).getPath('userData')), dataDir);
+    dataDir = path.join((app || remote.app).getPath('userData'), dataDir);
 }
 else{
     dataDir = path.join(process.cwd(), dataDir);

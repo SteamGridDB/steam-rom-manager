@@ -188,8 +188,8 @@ export class FuzzyMatcher {
                                 reject(error);
                         }
                         else {
-                            let fuzzyListTimestamps = <FuzzyListTimestamps>JSON.parse(data)['fuzzyListTimestamps'];
-                            resolve(<FuzzyListTimestamps>{ check: fuzzyListTimestamps.check || 0, download: fuzzyListTimestamps.download || 0 });
+                            let fuzzyListTimestamps = <FuzzyListTimestamps>JSON.parse(data)['fuzzyListTimestamps'] || <FuzzyListTimestamps>{ check: 0, download: 0 };
+                            resolve(fuzzyListTimestamps);
                         }
                     } catch (error) {
                         reject(error);

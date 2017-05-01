@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
             </ng-container>
         </ng-container>
         <ng-template #emptyWindow>
-            <div class="messages" class="empty">
+            <div class="messages empty">
                 <span>No messages are available</span>
             </div>
         </ng-template>
