@@ -52,6 +52,10 @@ $item-radio: 430/920;
         .offline {
             @include toggle-button-color(preview-offline-button);
         }
+
+        .greedy {
+            @include toggle-button-color(preview-greedy-button);
+        }
     }
     >.items {
         display: flex;

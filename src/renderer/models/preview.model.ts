@@ -13,6 +13,7 @@ export interface ImageContent {
 
 export interface ImagesStatusAndContent {
     status: Urltatus,
+    searchTitles: string[],
     content: ImageContent[]
 }
 
@@ -43,5 +44,6 @@ export interface PreviewStateVariables {
     listIsUpdating: boolean,
     listIsBeingSaved: boolean,
     skipDownloading: boolean,
+    greedySearch: boolean,
     numberOfListItems: number
 }

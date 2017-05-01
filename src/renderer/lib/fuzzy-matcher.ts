@@ -22,7 +22,7 @@ export class FuzzyMatcher {
             this.list = list;
             let currentTime = new Date().getTime();
             if (currentTime - this.fuzzyListTimestamps.download > this.forcedUpdate || this.list.length === 0) {
-                this.loggerService.info('Title list download for fuzzy matching started.');
+                this.loggerService.info('Title list for fuzzy matching will be downloaded.');
                 return this.downloadList().then((list) => {
                     this.list = list;
                     this.fuzzyListTimestamps.download = currentTime;
@@ -35,7 +35,7 @@ export class FuzzyMatcher {
                 this.loggerService.info('Checking if title list is up to date.');
                 return this.getTotalCount().then((countInDatabase) => {
                     if (this.list.length !== countInDatabase) {
-                        this.loggerService.info('List is outdated. Title list download for fuzzy matching started.');
+                        this.loggerService.info('List is outdated. Title list for fuzzy matching will be downloaded.');
                         return this.downloadList().then((list) => {
                             this.list = list;
                             this.fuzzyListTimestamps.download = currentTime;

@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ParsersService } from './parsers.service';
 import { LoggerService } from './logger.service';
-import { PreviewData, ImageContent, ParsedUserConfiguration, Images, PreviewStateVariables, LoadStatus, PreferedImages, ImagesStatusAndContent } from '../models';
+import { PreviewData, ImageContent, ParsedUserConfiguration, Images, PreviewStateVariables, LoadStatus, PreferedImages, ImagesStatusAndContent, ImageProviderData } from '../models';
 import { VDFList, Reference, ImageProvider } from "../lib";
 import { union } from "lodash";
 import * as fs from 'fs-extra';
@@ -26,6 +26,7 @@ export class PreviewService {
             listIsBeingSaved: false,
             listIsUpdating: false,
             skipDownloading: false,
+            greedySearch: false,
             numberOfListItems: 0
         };
         this.previewDataChanged = new Subject<boolean>();
@@ -50,8 +51,6 @@ export class PreviewService {
             return this.loggerService.info('List is already updating. Please wait.', { invokeAlert: true, alertTimeout: 3000 });
         else if (this.stateVariables.listIsBeingSaved)
             return this.loggerService.info('Files are being saved. Please wait.', { invokeAlert: true, alertTimeout: 3000 });
-
-        this.loggerService.info('Please shutdown Steam if it is running when saving, otherwise it might not save correctly.', { invokeAlert: true, alertTimeout: 10000 });
 
         this.stateVariables.listIsUpdating = true;
         this.imageProvider.stopUrlDownload();
@@ -183,14 +182,13 @@ export class PreviewService {
         }
         else {
             this.previewData.next(undefined);
+            this.loggerService.info('Executing parsers.', { invokeAlert: true });
             this.parsersService.executeFileParser().then((data) => {
                 if (data.parsedData.length > 0) {
-                    let titles = this.getAllTitles(data.parsedData);
+                    this.loggerService.info('Please shutdown Steam if it is running when saving, otherwise it might not save correctly.', { invokeAlert: true, alertTimeout: 5000 });
+
                     this.steamDirectories = this.getAllSteamDirectories(data.parsedData);
                     this.images = {};
-
-                    for (let i = 0; i < titles.length; i++)
-                        this.images[titles[i]] = { status: this.stateVariables.skipDownloading ? 'retrieved' : 'none', content: [] };
 
                     let previewData: { numberOfItems: number, data: PreviewData } = this.createPreviewData(data.parsedData);
 
@@ -239,17 +237,6 @@ export class PreviewService {
         }
     }
 
-    private getAllTitles(data: ParsedUserConfiguration[]) {
-        let title: string[] = [];
-        for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < data[i].files.length; j++) {
-                if (title.indexOf(data[i].files[j].fuzzyTitle) === -1)
-                    title.push(data[i].files[j].fuzzyTitle);
-            }
-        }
-        return title;
-    }
-
     private getAllSteamDirectories(data: ParsedUserConfiguration[]) {
         let title: string[] = [];
         for (let i = 0; i < data.length; i++) {
@@ -291,6 +278,14 @@ export class PreviewService {
                     }
                 }
 
+                if (this.images[data[i].files[j].fuzzyTitle] === undefined)
+                    this.images[data[i].files[j].fuzzyTitle] = { status: this.stateVariables.skipDownloading ? 'retrieved' : 'none', searchTitles: [data[i].files[j].fuzzyTitle], content: [] };
+
+                if (this.stateVariables.greedySearch) {
+                    if (this.images[data[i].files[j].fuzzyTitle].searchTitles.indexOf(data[i].files[j].extractedTitle) === -1)
+                        this.images[data[i].files[j].fuzzyTitle].searchTitles.push(data[i].files[j].extractedTitle);
+                }
+
                 if (data[i].files[j].localImages.length) {
                     for (let k = 0; k < data[i].files[j].localImages.length; k++) {
                         this.addUniqueImage(data[i].files[j].fuzzyTitle, { imageProvider: 'LocalStorage', imageUrl: data[i].files[j].localImages[k], loadStatus: 'downloaded' })
@@ -315,27 +310,45 @@ export class PreviewService {
             let promises: Promise<any>[] = [];
             for (let fuzzyTitle in this.images) {
                 this.images[fuzzyTitle].status = 'retrieving';
-                promises.push(this.imageProvider.retrieveUrls(fuzzyTitle, ...imageProviders).then((data) => {
-
-                    if (data.failed.length) {
-                        this.loggerService.error(`Failed to retrieve some image urls for "${fuzzyTitle}"`, { invokeAlert: true, alertTimeout: 3000 });
-                        for (let i = 0; i < data.failed.length; i++) {
-                            this.loggerService.error(data.failed[i]);
-                        }
+                promises.push(new Promise((resolve, reject) => {
+                    let searchPromises: Promise<ImageProviderData>[] = [];
+                    for (let i = 0; i < this.images[fuzzyTitle].searchTitles.length; i++) {
+                        searchPromises.push(this.imageProvider.retrieveUrls(this.images[fuzzyTitle].searchTitles[i], ...imageProviders)/*.then((data) => {
+                            return Promise.resolve(data);
+                        })*/);
                     }
+                    Promise.all(searchPromises).then((dataArray) => {
+                        let data: ImageProviderData = { failed: [], images: [] };
 
-                    this.addUniqueImage(fuzzyTitle, ...data.images);
-
-                    if (this.preferedImages !== undefined) {
-                        for (let title in this.preferedImages) {
-                            let index = this.images[fuzzyTitle].content.findIndex((image) => this.preferedImages[title] === image.imageUrl);
-                            if (index !== -1 && previewData[title] !== undefined)
-                                previewData[title].currentImageIndex = index;
+                        for (let j = 0; j < dataArray.length; j++) {
+                            data.failed = data.failed.concat(dataArray[j].failed);
+                            data.images = data.images.concat(dataArray[j].images);
                         }
-                    }
 
-                    this.images[fuzzyTitle].status = 'retrieved';
-                    this.previewDataChanged.next();
+                        if (data.failed.length) {
+                            this.loggerService.error(`Failed to retrieve some image urls for "${fuzzyTitle}"`, { invokeAlert: true, alertTimeout: 3000 });
+                            for (let i = 0; i < data.failed.length; i++) {
+                                this.loggerService.error(data.failed[i]);
+                            }
+                        }
+
+                        this.addUniqueImage(fuzzyTitle, ...data.images);
+
+                        if (this.preferedImages !== undefined) {
+                            for (let title in this.preferedImages) {
+                                let index = this.images[fuzzyTitle].content.findIndex((image) => this.preferedImages[title] === image.imageUrl);
+                                if (index !== -1 && previewData[title] !== undefined)
+                                    previewData[title].currentImageIndex = index;
+                            }
+                        }
+
+                        this.images[fuzzyTitle].status = 'retrieved';
+                        this.previewDataChanged.next();
+
+                        resolve();
+                    }).catch((error) => {
+                        reject(error);
+                    });
                 }));
             }
             Promise.all(promises).then(() => {

@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 1.1.3 - 2017-05-01
+### Added
+* Greedy search option which will search for images using both `${title}` and `${fuzzyTitle}`
+
+### Changed
+* Added a temporary fix, which should prevent `shortcuts.vdf` corruption
+
 ## 1.1.2 - 2017-05-01
 ### Added
 * Additional one time backups will be made with extension `.firstbackup`

@@ -341,38 +341,46 @@ export class VDFList {
 
         promises.push(new Promise((resolve, reject) => {
             fs.readFile(this.listData[steamDirectory][userId].shortcuts.filename, 'utf8', (err, data) => {
-                if (err && err.code !== 'ENOENT')
-                    reject(err);
-                else {
-                    if (data)
-                        this.listData[steamDirectory][userId].shortcuts.data = shortcutsParser.parse(data);
-                    else
-                        this.listData[steamDirectory][userId].shortcuts.data = {};
+                try {
+                    if (err && err.code !== 'ENOENT')
+                        reject(err);
+                    else {
+                        if (data)
+                            this.listData[steamDirectory][userId].shortcuts.data = shortcutsParser.parse(data);
+                        else
+                            this.listData[steamDirectory][userId].shortcuts.data = {};
 
-                    if (this.listData[steamDirectory][userId].shortcuts.data['shortcuts'] === undefined)
-                        this.listData[steamDirectory][userId].shortcuts.data['shortcuts'] = [];
+                        if (this.listData[steamDirectory][userId].shortcuts.data['shortcuts'] === undefined)
+                            this.listData[steamDirectory][userId].shortcuts.data['shortcuts'] = [];
 
-                    resolve();
+                        resolve();
+                    }
+                } catch (error) {
+                    reject(error);
                 }
             });
         }));
         promises.push(new Promise((resolve, reject) => {
             fs.readFile(this.listData[steamDirectory][userId].screenshots.filename, 'utf8', (err, data) => {
-                if (err && err.code !== 'ENOENT')
-                    reject(err);
-                else {
-                    if (data)
-                        this.listData[steamDirectory][userId].screenshots.data = screenshotsParser.parse(data);
-                    else
-                        this.listData[steamDirectory][userId].screenshots.data = {};
+                try {
+                    if (err && err.code !== 'ENOENT')
+                        reject(err);
+                    else {
+                        if (data)
+                            this.listData[steamDirectory][userId].screenshots.data = screenshotsParser.parse(data);
+                        else
+                            this.listData[steamDirectory][userId].screenshots.data = {};
 
-                    if (this.listData[steamDirectory][userId].screenshots.data['Screenshots'] === undefined) {
-                        this.listData[steamDirectory][userId].screenshots.data['Screenshots'] = { 'shortcutnames': {} };
+                        if (this.listData[steamDirectory][userId].screenshots.data['Screenshots'] === undefined) {
+                            this.listData[steamDirectory][userId].screenshots.data['Screenshots'] = { 'shortcutnames': {} };
+                        }
+                        else if (this.listData[steamDirectory][userId].screenshots.data['Screenshots']['shortcutnames'] === undefined) {
+                            this.listData[steamDirectory][userId].screenshots.data['Screenshots']['shortcutnames'] = {};
+                        }
+                        resolve();
                     }
-                    else if (this.listData[steamDirectory][userId].screenshots.data['Screenshots']['shortcutnames'] === undefined) {
-                        this.listData[steamDirectory][userId].screenshots.data['Screenshots']['shortcutnames'] = {};
-                    }
-                    resolve();
+                } catch (error) {
+                    reject(error);
                 }
             });
         }));

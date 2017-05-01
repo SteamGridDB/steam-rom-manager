@@ -62,6 +62,7 @@
     <div>
         <div class="generate clickButton" (click)="generatePreviewData()">Generate list</div>
         <div class="offline clickButton" [class.active]="!stateVariables.skipDownloading" (click)="stateVariables.skipDownloading = !stateVariables.skipDownloading">{{stateVariables.skipDownloading ? 'Offline' : 'Online'}} mode</div>
+        <div class="greedy clickButton" [class.active]="stateVariables.greedySearch" (click)="stateVariables.greedySearch = !stateVariables.greedySearch">{{stateVariables.greedySearch ? 'Greedy search' : 'Normal search'}}</div>
         <div *ngIf="stateVariables.numberOfListItems > 0" class="save clickButton" (click)="saveData()">Save list</div>
     </div>
 </div>
