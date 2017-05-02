@@ -135,7 +135,7 @@ export class VDFList {
                         appId = this.generateAppId(exe, newTitles[i]);
 
                     shortcutEntries.push({
-                        AppName: newTitles[i],
+                        appname: newTitles[i],
                         exe: exe,
                         StartDir: '"' + path.dirname(previewData[newTitles[i]].steamDirectories[steamDirectory].executableLocation) + path.sep + '"',
                         LaunchOptions: previewData[newTitles[i]].steamDirectories[steamDirectory].argumentString,
@@ -241,7 +241,7 @@ export class VDFList {
                     }
 
                     for (let i = 0; i < shortcutEntries.length; i++) {
-                        if (titlesToRemove.findIndex(item => item.entry === shortcutEntries[i]['AppName']) !== -1)
+                        if (titlesToRemove.findIndex(item => item.entry === (shortcutEntries[i]['appname'] || shortcutEntries[i]['AppName'])) !== -1)
                             shortcutEntries[i] = undefined;
                     }
 
