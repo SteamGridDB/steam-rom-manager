@@ -100,6 +100,11 @@ export class ParsersComponent implements OnInit, OnDestroy {
                         this.loggerService.success(`[${i + 1}/${totalLength}]:                       ${decodeURI(data.files[i].localImages[j])}`);
                     }
                 }
+                if (data.failed.length > 0){
+                    this.loggerService.info('');
+                    this.loggerService.error('Failed to match:');
+                }
+
                 for (let i = 0; i < data.failed.length; i++) {
                     this.loggerService.error(`[${i + 1 + data.files.length}/${totalLength}]: ${data.failed[i]}`);
                 }

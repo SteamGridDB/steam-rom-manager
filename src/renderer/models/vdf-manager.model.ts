@@ -2,18 +2,18 @@ export interface VDFListData {
     [steamDirectory: string]: {
         [userId: string]: {
             shortcuts: {
-                filename: string,
+                path: string,
                 data: any
             },
             screenshots: {
-                filename: string,
+                path: string,
                 data: any
             }
         }
     }
 }
 
-export interface VDFListHubFileData { 
-    entry: string, 
-    image: string 
+export interface VDFListFileData { 
+    title: string, 
+    imageBasename: string 
 }

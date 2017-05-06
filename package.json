@@ -1,6 +1,6 @@
 {
   "name": "steam-rom-manager",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "license": "GPL-3.0",
   "description": "An app for managing ROMs in Steam",
   "author": {
@@ -68,7 +68,7 @@
     "ngx-color-picker": "^4.0.0",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.3.0",
-    "steam-shortcut-editor": "git+https://github.com/FrogTheFrog/steam-shortcut-editor.git",
+    "steam-shortcut-editor": "^3.0.0",
     "to-css": "^1.2.1",
     "vdf": "0.0.2",
     "zone.js": "^0.8.5"

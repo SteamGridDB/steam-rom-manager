@@ -31,6 +31,14 @@ export class PreviewComponent implements OnDestroy {
         this.previewService.saveData();
     }
 
+    remove() {
+        this.previewService.remove(false);
+    }
+
+    removeAll() {
+        this.previewService.remove(true);
+    }
+
     ngOnDestroy() {
         this.subscriptions.unsubscribe();
     }

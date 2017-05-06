@@ -3,7 +3,7 @@ import { Http, Headers, URLSearchParams } from '@angular/http';
 import { Observable } from "rxjs";
 
 export class ConsoleGridProvider implements GenericImageProvider {
-    constructor(private http: Http, private downloadInterrupt: Observable<any>, private timeout: number = 120000) { }
+    constructor(private http: Http, private downloadInterrupt: Observable<any>, private timeout: number = 40000, private retryCount = 3) { }
 
     getProvider() {
         return 'ConsoleGrid';
@@ -58,9 +58,10 @@ export class ConsoleGridProvider implements GenericImageProvider {
         return new Promise<{ url: string, failed: string }>((resolve, reject) => {
             let data: { url: string, failed: string } = { url: undefined, failed: undefined };
             let downloadStop = this.downloadInterrupt.subscribe(() => downloadStop.unsubscribe());
-            let subscription = this.http.get('http://consolegrid.com/api/top_picture', { params: params }).timeout(this.timeout).subscribe(
+            let subscription = this.http.get('http://consolegrid.com/api/top_picture', { params: params }).timeout(this.timeout).retry(this.retryCount).subscribe(
                 (response) => {
                     data.url = response.text();
+                    data.failed = undefined;
 
                     if (!downloadStop.closed)
                         downloadStop.unsubscribe();

@@ -64,5 +64,7 @@
         <div class="offline clickButton" [class.active]="!stateVariables.skipDownloading" (click)="stateVariables.skipDownloading = !stateVariables.skipDownloading">{{stateVariables.skipDownloading ? 'Offline' : 'Online'}} mode</div>
         <div class="greedy clickButton" [class.active]="stateVariables.greedySearch" (click)="stateVariables.greedySearch = !stateVariables.greedySearch">{{stateVariables.greedySearch ? 'Greedy search' : 'Normal search'}}</div>
         <div *ngIf="stateVariables.numberOfListItems > 0" class="save clickButton" (click)="saveData()">Save list</div>
+        <div *ngIf="stateVariables.numberOfListItems > 0" class="remove clickButton" (click)="remove()">Remove list</div>
+        <div *ngIf="stateVariables.numberOfEditedSteamDirectories > 0" class="removeAll clickButton" (click)="removeAll()">Remove all lists</div>
     </div>
 </div>

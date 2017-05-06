@@ -87,17 +87,18 @@ export class FuzzyMatcher {
         if (lastSameScoreIndex === 0)
             return matches[0].string;
         else {
-            let minLoop = function (arr: number[]) {
-                let len = arr.length, min = Infinity;
+            let minLoopIndex = function (arr: number[]) {
+                let len = arr.length, min = Infinity, index = 0;
                 while (len--) {
                     if (arr[len] < min) {
                         min = arr[len];
+                        index = len;
                     }
                 }
-                return min;
+                return index;
             };
 
-            return matches[minLoop(lengthDiff)].string;
+            return matches[minLoopIndex(lengthDiff)].string;
         }
     }
 

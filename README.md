@@ -36,7 +36,7 @@ No images found or you just want to use your own images? Fear not! Steam ROM Man
 
 - Change almost every color by accessing color picker with **Alt + C**. If you lost it or can't reach it anymore, use **Alt + R** to reset it's position.
 - Multiple user configuration support.
-- Fully support downloading images from **SteamGridDB** and partially from **ConsoleGrid**.
+- Fully support image downloads from **SteamGridDB**, **retrogaming.cloud** and partially from **ConsoleGrid**.
 
 # Executable arguments for emulators
 

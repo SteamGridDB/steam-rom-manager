@@ -44,6 +44,8 @@ export interface PreviewStateVariables {
     listIsUpdating: boolean,
     listIsBeingSaved: boolean,
     skipDownloading: boolean,
+    listIsBeingRemoved: boolean,
     greedySearch: boolean,
-    numberOfListItems: number
+    numberOfListItems: number,
+    numberOfEditedSteamDirectories: number
 }

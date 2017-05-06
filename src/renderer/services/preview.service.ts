@@ -4,8 +4,8 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { ParsersService } from './parsers.service';
 import { LoggerService } from './logger.service';
 import { PreviewData, ImageContent, ParsedUserConfiguration, Images, PreviewStateVariables, LoadStatus, PreferedImages, ImagesStatusAndContent, ImageProviderData } from '../models';
-import { VDFList, Reference, ImageProvider } from "../lib";
-import { union } from "lodash";
+import { Reference, ImageProvider, VdfManager } from "../lib";
+import { union, without } from "lodash";
 import * as fs from 'fs-extra';
 import * as paths from '../../shared/paths';
 
@@ -17,6 +17,7 @@ export class PreviewService {
     private stateVariables: PreviewStateVariables;
     private previewDataChanged: Subject<boolean>;
     private images: Images;
+    private allEditedSteamDirectories: string[];
     private steamDirectories: string[];
 
     constructor(private parsersService: ParsersService, private loggerService: LoggerService, private http: Http) {
@@ -26,12 +27,25 @@ export class PreviewService {
             listIsBeingSaved: false,
             listIsUpdating: false,
             skipDownloading: false,
+            listIsBeingRemoved: false,
             greedySearch: false,
-            numberOfListItems: 0
+            numberOfListItems: 0,
+            numberOfEditedSteamDirectories: 0
         };
         this.previewDataChanged = new Subject<boolean>();
         this.imageProvider = new ImageProvider(this.http);
-        this.readPreferedImages();
+        this.readPreferedImages().then((data) => this.preferedImages = data).catch((error) => {
+            this.loggerService.error('Error occurred while reading prefered image list.', { invokeAlert: true, alertTimeout: 3000, doNotAppendToLog: true });
+            this.loggerService.error(error);
+        });
+        this.readAllEditedSteamDirectories().then((data) => { 
+            this.allEditedSteamDirectories = data;
+            this.stateVariables.numberOfEditedSteamDirectories = data.length;
+            this.previewDataChanged.next();
+        }).catch((error) => {
+            this.loggerService.error('Error occurred while reading a list of all edited Steam directories.', { invokeAlert: true, alertTimeout: 3000, doNotAppendToLog: true });
+            this.loggerService.error(error);
+        });
     }
 
     getPreviewData() {
@@ -51,6 +65,8 @@ export class PreviewService {
             return this.loggerService.info('List is already updating. Please wait.', { invokeAlert: true, alertTimeout: 3000 });
         else if (this.stateVariables.listIsBeingSaved)
             return this.loggerService.info('Files are being saved. Please wait.', { invokeAlert: true, alertTimeout: 3000 });
+        else if (this.stateVariables.listIsBeingRemoved)
+            return this.loggerService.info('Removing files. Please wait.', { invokeAlert: true, alertTimeout: 3000 });
 
         this.stateVariables.listIsUpdating = true;
         this.imageProvider.stopUrlDownload();
@@ -61,47 +77,100 @@ export class PreviewService {
         if (this.stateVariables.imageUrlsAreDownloading)
             return this.loggerService.info('Please wait until image urls are downloaded.', { invokeAlert: true, alertTimeout: 3000 });
         else if (this.stateVariables.listIsBeingSaved)
-            return this.loggerService.info('Please wait until list is saved to save again.', { invokeAlert: true, alertTimeout: 3000 });
+            return this.loggerService.info('List is already being saved.', { invokeAlert: true, alertTimeout: 3000 });
         else if (this.stateVariables.numberOfListItems === 0)
             return this.loggerService.info('List is empty.', { invokeAlert: true, alertTimeout: 3000 });
+        else if (this.stateVariables.listIsBeingRemoved)
+            return this.loggerService.info('Removing files. Please wait.', { invokeAlert: true, alertTimeout: 3000 });
 
 
         this.stateVariables.listIsBeingSaved = true;
 
-        let vdfList = new VDFList(this.http);
-        this.loggerService.info('Retrieving information from steam files.', { invokeAlert: true, alertTimeout: 3000 });
-        vdfList.populateList(this.steamDirectories).then((errors) => {
+        let vdfManager = new VdfManager(this.http);
+        this.loggerService.info('Populating VDF list.', { invokeAlert: true, alertTimeout: 3000 });
+        vdfManager.populateList(this.steamDirectories).then((errors) => {
             if (errors && errors.length) {
-                this.loggerService.error('Error(s) occurred while reading VDF files.', { invokeAlert: true, alertTimeout: 3000 });
+                this.loggerService.error('Error(s) occurred while reading VDF files.');
                 for (let i = 0; i < errors.length; i++)
                     this.loggerService.error(errors[i]);
             }
             this.loggerService.info('Creating backups.', { invokeAlert: true, alertTimeout: 3000 });
-            return vdfList.createBackups();
+            return vdfManager.createBackups();
         }).then(() => {
-            this.loggerService.info('Removing matching entries', { invokeAlert: true, alertTimeout: 3000 });
-            return vdfList.removeEntriesAndImages(this.previewData.getValue());
+            this.loggerService.info('Reading VDF files.', { invokeAlert: true, alertTimeout: 3000 });
+            return vdfManager.readAllVDFs();
+        }).then(() => {
+            this.loggerService.info('Merging VDF entries and replacing image files.', { invokeAlert: true, alertTimeout: 3000 });
+            return vdfManager.mergeVDFEntriesAndReplaceImages(this.previewData.getValue());
         }).then((errors) => {
             if (errors && errors.length) {
-                this.loggerService.error('Error(s) occurred while removing entries in VDF files.', { invokeAlert: true, alertTimeout: 3000 });
+                this.loggerService.error('Error(s) occurred while merging VDF files or downloading images.');
                 for (let i = 0; i < errors.length; i++)
                     this.loggerService.error(errors[i]);
             }
-            this.loggerService.info('Adding new entries and downloading images.', { invokeAlert: (errors && errors.length === 0), alertTimeout: 3000 });
-            return vdfList.saveEntriesAndImages(this.previewData.getValue());
-        }).then((errors) => {
-            if (errors && errors.length) {
-                this.loggerService.error('Error(s) occurred while saving new list.', { invokeAlert: true, alertTimeout: 3000 });
-                for (let i = 0; i < errors.length; i++)
-                    this.loggerService.error(errors[i]);
-            }
-            this.loggerService.success('New entries saved.', { invokeAlert: (errors && errors.length === 0), alertTimeout: 3000 });
+            this.loggerService.info('Writing VDF files.', { invokeAlert: true, alertTimeout: 3000 });
+            return vdfManager.writeAllVDFs();
+        }).then(() => {
+            this.loggerService.success('Saving a list of preffered images.', { invokeAlert: true, alertTimeout: 3000 });
             this.updatePreferedImages();
+        }).then(() => {
+            this.loggerService.success('Updating a list of edited Steam directories.', { invokeAlert: true, alertTimeout: 3000 });
+            this.updateEditedSteamDirectories(this.steamDirectories, false);
+        }).then(() => {
+            this.loggerService.success('New entries saved/added.', { invokeAlert: true, alertTimeout: 3000 });
             this.stateVariables.listIsBeingSaved = false;
         }).catch((fatalError) => {
             this.loggerService.error('Fatal error occurred while saving parsed list. See event log for details.', { invokeAlert: true, alertTimeout: 3000 });
             this.loggerService.error(fatalError);
             this.stateVariables.listIsBeingSaved = false;
+        });
+    }
+
+    remove(all: boolean) {
+        if (this.stateVariables.imageUrlsAreDownloading) {
+            this.imageProvider.stopUrlDownload();
+            return this.loggerService.info('Aborting image url donwload. Please try again once it\'s stopped.', { invokeAlert: true, alertTimeout: 3000 });
+        }
+        else if (this.stateVariables.listIsBeingSaved)
+            return this.loggerService.info('Can\'t remove while list is being saved.', { invokeAlert: true, alertTimeout: 3000 });
+        else if (this.stateVariables.numberOfListItems === 0 && !all)
+            return this.loggerService.info('List is empty.', { invokeAlert: true, alertTimeout: 3000 });
+        else if (this.stateVariables.listIsBeingRemoved)
+            return this.loggerService.info('Already removing files.', { invokeAlert: true, alertTimeout: 3000 });
+        else if (all && this.allEditedSteamDirectories.length === 0)
+            return this.loggerService.info('A list of edited Steam directories is empty.', { invokeAlert: true, alertTimeout: 3000 });
+
+        this.stateVariables.listIsBeingRemoved = true;
+
+        let vdfManager = new VdfManager(this.http);
+        this.loggerService.info('Populating VDF list.', { invokeAlert: true, alertTimeout: 3000 });
+        vdfManager.populateList(all ? this.allEditedSteamDirectories : this.steamDirectories).then((errors) => {
+            if (errors && errors.length) {
+                this.loggerService.error('Error(s) occurred while reading VDF files.');
+                for (let i = 0; i < errors.length; i++)
+                    this.loggerService.error(errors[i]);
+            }
+            this.loggerService.info('Creating backups.', { invokeAlert: true, alertTimeout: 3000 });
+            return vdfManager.createBackups();
+        }).then(() => {
+            this.loggerService.info('Reading VDF files.', { invokeAlert: true, alertTimeout: 3000 });
+            return vdfManager.readAllVDFs();
+        }).then(() => {
+            this.loggerService.info('Removing VDF entries and image files.', { invokeAlert: true, alertTimeout: 3000 });
+            return vdfManager.removeVDFEntriesAndImages(all ? undefined : this.previewData.getValue());
+        }).then(() => {
+            this.loggerService.info('Writing VDF files.', { invokeAlert: true, alertTimeout: 3000 });
+            return vdfManager.writeAllVDFs();
+        }).then(() => {
+            this.loggerService.success('Updating a list of edited Steam directories.', { invokeAlert: true, alertTimeout: 3000 });
+            this.updateEditedSteamDirectories(this.allEditedSteamDirectories, true);
+        }).then(() => {
+            this.loggerService.success('Entries have been removed.', { invokeAlert: true, alertTimeout: 3000 });
+            this.stateVariables.listIsBeingRemoved = false;
+        }).catch((fatalError) => {
+            this.loggerService.error('Fatal error occurred while removing list. See event log for details.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.error(fatalError);
+            this.stateVariables.listIsBeingRemoved = false;
         });
     }
 
@@ -145,34 +214,86 @@ export class PreviewService {
     }
 
     private readPreferedImages() {
-        fs.readFile(paths.preferedImages, 'utf8', (error, data) => {
-            try {
-                if (error) {
-                    if (error.code !== 'ENOENT')
-                        throw error.message;
+        return new Promise<PreferedImages>((resolve, reject) => {
+            fs.readFile(paths.preferedImages, 'utf8', (error, data) => {
+                try {
+                    if (error) {
+                        if (error.code !== 'ENOENT')
+                            reject(error);
+                        else
+                            resolve({});
+                    }
+                    resolve(JSON.parse(data));
+                } catch (error) {
+                    reject(error);
                 }
-                else if (this.preferedImages === undefined)
-                    this.preferedImages = JSON.parse(data);
-            } catch (error) {
-                this.loggerService.error('Error occurred while reading prefered image list.', { invokeAlert: true, alertTimeout: 3000, doNotAppendToLog: true });
-                this.loggerService.error(error);
-            }
+            });
         });
     }
 
     private updatePreferedImages() {
-        let list: PreferedImages = {};
-        let previewData = this.previewData.getValue();
-        for (let title in previewData) {
-            if (previewData[title].images.value.content.length)
-                list[title] = previewData[title].images.value.content[previewData[title].currentImageIndex].imageUrl;
-        }
-        this.preferedImages = list;
-        fs.outputFile(paths.preferedImages, JSON.stringify(list, null, 4), (error) => {
-            if (error) {
-                this.loggerService.error('Error occurred while saving prefered image list.', { invokeAlert: true, alertTimeout: 3000, doNotAppendToLog: true });
-                this.loggerService.error(error.message);
+        return new Promise<PreferedImages>((resolve, reject) => {
+            let list: PreferedImages = {};
+            let previewData = this.previewData.getValue();
+            for (let title in previewData) {
+                if (previewData[title].images.value.content.length)
+                    list[title] = previewData[title].images.value.content[previewData[title].currentImageIndex].imageUrl;
             }
+            this.preferedImages = list;
+            fs.outputFile(paths.preferedImages, JSON.stringify(list, null, 4), (error) => {
+                if (error)
+                    reject(error);
+                else
+                    resolve();
+            });
+        });
+    }
+
+    private readAllEditedSteamDirectories() {
+        return new Promise<string[]>((resolve, reject) => {
+            fs.readFile(paths.allEditedSteamDirectories, 'utf8', (error, data) => {
+                try {
+                    if (error) {
+                        if (error.code !== 'ENOENT')
+                            reject(error);
+                        else
+                            resolve([]);
+                    }
+                    resolve(JSON.parse(data));
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        });
+    }
+
+    private updateEditedSteamDirectories(directories: string[], remove: boolean) {
+        return new Promise<PreferedImages>((resolve, reject) => {
+            let newDirectories: string[] = this.allEditedSteamDirectories || [];
+
+            for (let i = 0; i < directories.length; i++) {
+                let index = this.allEditedSteamDirectories.indexOf(directories[i]);
+                if (remove) {
+                    if (index !== -1) {
+                        newDirectories[index] = undefined;
+                    }
+                }
+                else {
+                    if (index === -1) {
+                        this.allEditedSteamDirectories.push(directories[i]);
+                    }
+                }
+            }
+
+            this.allEditedSteamDirectories = without(newDirectories, undefined);
+            this.stateVariables.numberOfEditedSteamDirectories = this.allEditedSteamDirectories.length;
+            this.previewDataChanged.next();
+            fs.outputFile(paths.allEditedSteamDirectories, JSON.stringify(this.allEditedSteamDirectories, null, 4), (error) => {
+                if (error)
+                    reject(error);
+                else
+                    resolve();
+            });
         });
     }
 

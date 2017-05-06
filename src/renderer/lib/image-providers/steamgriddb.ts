@@ -3,7 +3,7 @@ import { Http, Headers, URLSearchParams } from '@angular/http';
 import { Observable } from "rxjs";
 
 export class SteamGridDbProvider implements GenericImageProvider {
-    constructor(private http: Http, private downloadInterrupt: Observable<any>, private timeout: number = 120000) { }
+    constructor(private http: Http, private downloadInterrupt: Observable<any>, private timeout: number = 40000, private retryCount: number = 3) { }
 
     getProvider() {
         return 'SteamGridDB';
@@ -32,7 +32,7 @@ export class SteamGridDbProvider implements GenericImageProvider {
         return new Promise<number>((resolve, reject) => {
             let next: number = undefined;
             let downloadStop = this.downloadInterrupt.subscribe(() => { next = undefined; downloadStop.unsubscribe(); });
-            let subscription = this.http.get('http://www.steamgriddb.com/search.php', { params: params }).timeout(this.timeout).subscribe(
+            let subscription = this.http.get('http://www.steamgriddb.com/search.php', { params: params }).timeout(this.timeout).retry(this.retryCount).subscribe(
                 (response) => {
                     try {
                         let parsedBody = response.json();

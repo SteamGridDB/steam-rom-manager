@@ -56,6 +56,14 @@ $item-radio: 430/920;
         .greedy {
             @include toggle-button-color(preview-greedy-button);
         }
+
+        .remove {
+            @include click-button-color(preview-remove-button);
+        }
+
+        .removeAll {
+            @include click-button-color(preview-remove-all-button);
+        }
     }
     >.items {
         display: flex;

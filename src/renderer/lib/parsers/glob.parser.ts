@@ -132,6 +132,7 @@ export class GlobParser implements GenericParser {
                     let leftoverSegments = titleSegments[i].split(/\${title}/i);
                     leftovers.left = leftoverSegments[0] !== undefined ? leftoverSegments[0] : '';
                     leftovers.right = leftoverSegments[1] !== undefined ? leftoverSegments[1] : '';
+                    break;
                 }
             }
         }
@@ -140,9 +141,7 @@ export class GlobParser implements GenericParser {
 
     private getFinalGlob(fileGlob: string, depth: { direction: 'left' | 'right', level: number }) {
         if (depth.level !== null) {
-            let fileSections = fileGlob.replace(/(\${.+})/i, '').split('/');
-            fileSections[depth.direction === 'right' ? fileSections.length - (depth.level + 1) : depth.level] = '*';
-            return fileSections.join('/');
+            return fileGlob.replace(/(\${.+})/i, '*')
         }
         else
             return '**';

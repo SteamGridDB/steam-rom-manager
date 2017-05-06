@@ -1,4 +1,5 @@
 import { Parser, GenericParser, UserConfiguration, ParsedData } from '../../models';
+import { escapeRegExp } from "lodash";
 import * as glob from 'glob';
 import * as path from 'path';
 
@@ -6,6 +7,7 @@ interface TitleTagData {
     direction: 'left' | 'right',
     level: number,
     finalGlob: string,
+    leftovers: { left: string, right: string },
     regex: RegExp
 }
 
@@ -92,10 +94,10 @@ export class GlobRegexParser implements GenericParser {
         else if (match.length > 3)
             return 'File glob must contain only one ${regex}!';
 
-        testRegExpr = /.*[^/]\${.+}.*|.*\${.+}[^/].*/i;
+        testRegExpr = /.*\*\${.+}.*|.*\${.+}\*.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return '${regex} can be alone or only near directory seperator "/"!';
+            return 'Star (*) can not be next to ${regex}!';
 
         testRegExpr = /\\/i;
         match = testRegExpr.exec(fileGlob.replace(/(\${.+})/i, ''));
@@ -133,11 +135,26 @@ export class GlobRegexParser implements GenericParser {
         return depth;
     }
 
+    private getTitleLeftovers(fileGlob: string) {
+        let leftovers: { left: string, right: string } = { left: '', right: '' };
+        let titleSegmentMatch = fileGlob.match(/.*\/(.*\${.+}.*?)\/|.*\/(.*\${.+}.*)|(.*\${.+}.*?)\/|(.*\${.+}.*)/i);
+        if (titleSegmentMatch !== null) {
+            let titleSegments = (titleSegmentMatch[1] || titleSegmentMatch[2] || titleSegmentMatch[3] || titleSegmentMatch[4]).replace(/\${.*}/, '${}').split('*');
+            for (var i = 0; i < titleSegments.length; i++) {
+                if (titleSegments[i].search(/\${}/i) !== -1) {
+                    let leftoverSegments = titleSegments[i].split(/\${}/i);
+                    leftovers.left = leftoverSegments[0] !== undefined ? leftoverSegments[0] : '';
+                    leftovers.right = leftoverSegments[1] !== undefined ? leftoverSegments[1] : '';
+                    break;
+                }
+            }
+        }
+        return leftovers;
+    }
+
     private getFinalGlob(fileGlob: string, depth: { direction: 'left' | 'right', level: number }) {
         if (depth.level !== null) {
-            let fileSections = fileGlob.replace(/(\${.+})/i, '').split('/');
-            fileSections[depth.direction === 'right' ? fileSections.length - (depth.level + 1) : depth.level] = '*';
-            return fileSections.join('/');
+            return fileGlob.replace(/(\${.+})/i, '*')
         }
         else
             return '**';
@@ -153,10 +170,13 @@ export class GlobRegexParser implements GenericParser {
     }
 
     private extractTitleTag(fileGlob: string) {
-        let extractedData: TitleTagData = { direction: undefined, level: undefined, finalGlob: undefined, regex: undefined };
+        let extractedData: TitleTagData = { direction: undefined, level: undefined, finalGlob: undefined, regex: undefined, leftovers: { left: undefined, right: undefined } };
         let depth = this.getTitleDepth(fileGlob);
+        let leftovers = this.getTitleLeftovers(fileGlob);
         extractedData.direction = depth.direction;
         extractedData.level = depth.level;
+        extractedData.leftovers.left = leftovers.left ? '.*' + escapeRegExp(leftovers.left) : '';
+        extractedData.leftovers.right = leftovers.right ? escapeRegExp(leftovers.right) + '.*' : '';
         extractedData.finalGlob = this.getFinalGlob(fileGlob, depth);
         extractedData.regex = this.makeRegex(fileGlob);
         return extractedData;
@@ -167,17 +187,21 @@ export class GlobRegexParser implements GenericParser {
             let fileSections = file.split('/');
             file = fileSections[titleData.direction === 'right' ? fileSections.length - (titleData.level + 1) : titleData.level];
         }
-        let titleMatch = file.match(titleData.regex);
+        let titleRegExp = new RegExp(titleData.leftovers.left + '(.+)' + titleData.leftovers.right);
+        let titleMatch = file.match(titleRegExp);
         if (titleMatch !== null) {
-            let title: string = '';
-            for (let i = 1; i < titleMatch.length; i++) {
-                if (titleMatch[i])
-                    title += titleMatch[i];
+            titleMatch = titleMatch[1].match(titleData.regex);
+            if (titleMatch !== null) {
+                let title: string = '';
+                for (let i = 1; i < titleMatch.length; i++) {
+                    if (titleMatch[i])
+                        title += titleMatch[i];
+                }
+                if (title.length === 0)
+                    return titleMatch[0].replace(/\//g, path.sep).trim();
+                else
+                    return title.replace(/\//g, path.sep).trim();
             }
-            if (title.length === 0)
-                return titleMatch[0].replace(/\//g, path.sep).trim();
-            else
-                return title.replace(/\//g, path.sep).trim();
         }
         return undefined;
     }
