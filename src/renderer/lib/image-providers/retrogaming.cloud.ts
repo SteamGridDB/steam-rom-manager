@@ -39,6 +39,7 @@ export class RetroGamingCloudProvider implements GenericImageProvider {
 
     private retrieveMediaData(gameId: number) {
         return new Promise<{ images: ImageContent[], failed: string[] }>((resolve, reject) => {
+            let retryCounter = 0;
             let data: { images: ImageContent[], failed: string[] } = { images: [], failed: [] };
             let downloadStop = this.downloadInterrupt.subscribe(() => downloadStop.unsubscribe());
             let subscription = this.http.get(`http://retrogaming.cloud/api/v1/game/${gameId}/media`).timeout(this.timeout).retry(this.retryCount).subscribe(
@@ -55,7 +56,8 @@ export class RetroGamingCloudProvider implements GenericImageProvider {
                         downloadStop.unsubscribe();
                 },
                 (error) => {
-                    data.failed.push(`${error} (http://retrogaming.cloud/api/v1/game/${gameId}/media)`);
+                    if (retryCounter++ === this.retryCount)
+                        data.failed.push(`${error} (http://retrogaming.cloud/api/v1/game/${gameId}/media)`);
 
                     if (!downloadStop.closed)
                         downloadStop.unsubscribe();
@@ -74,6 +76,7 @@ export class RetroGamingCloudProvider implements GenericImageProvider {
         params.append('name', title);
 
         return new Promise<{ list: any[], failed: string }>((resolve, reject) => {
+            let retryCounter = 0;
             let data: { list: any[], failed: string } = { list: undefined, failed: undefined };
             let downloadStop = this.downloadInterrupt.subscribe(() => downloadStop.unsubscribe());
             let subscription = this.http.get('http://retrogaming.cloud/api/v1/game', { params: params }).timeout(this.timeout).retry(this.retryCount).subscribe(
@@ -85,7 +88,8 @@ export class RetroGamingCloudProvider implements GenericImageProvider {
                         downloadStop.unsubscribe();
                 },
                 (error) => {
-                    data.failed = `${error} (http://retrogaming.cloud/api/v1/game?${params.toString()})`;
+                    if (retryCounter++ === this.retryCount)
+                        data.failed = `${error} (http://retrogaming.cloud/api/v1/game?${params.toString()})`;
 
                     if (!downloadStop.closed)
                         downloadStop.unsubscribe();

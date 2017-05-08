@@ -433,10 +433,10 @@ export class VdfManager {
                     let appId = this.generateAppId(`"${executableLocation}"`, title);
 
                     if (index !== -1) {
-                        if (shortcutsData[index].AppName !== undefined) {
-                            shortcutsData[index].AppName = undefined;
+                        if (shortcutsData[index].AppName !== undefined)
+                            shortcutsData[index].AppName = title;
+                        else
                             shortcutsData[index].appname = title;
-                        }
 
                         shortcutsData[index].exe = `"${executableLocation}"`;
                         shortcutsData[index].StartDir = `"${path.dirname(executableLocation) + path.sep}"`;

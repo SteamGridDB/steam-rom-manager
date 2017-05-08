@@ -1,6 +1,6 @@
 {
   "name": "steam-rom-manager",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "license": "GPL-3.0",
   "description": "An app for managing ROMs in Steam",
   "author": {
@@ -23,9 +23,10 @@
     },
     "linux": {
       "target": [
-        "zip"
+        "zip",
+        "deb"
       ],
-      "icon": "./images/48x48.png"
+      "icon": "./images/32x32.png"
     },
     "files": [
       "dist/**/*",
@@ -43,6 +44,7 @@
     "build": "rimraf dist && npm run build:main && npm run build:renderer",
     "watch:main": "webpack --watch --config ./webpack/main.js",
     "watch:renderer": "webpack --watch --config ./webpack/renderer.js",
+    "start": "./node_modules/.bin/electron ./dist/main.bundle.js",
     "clean": "rimraf dist release"
   },
   "dependencies": {
