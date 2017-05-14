@@ -5,7 +5,8 @@
   "description": "An app for managing ROMs in Steam",
   "author": {
     "name": "FrogTheFrog",
-    "url": "https://github.com/FrogTheFrog/steam-rom-manager"
+    "url": "https://github.com/FrogTheFrog",
+    "email": "warliukz@gmail.com"
   },
   "build": {
     "appId": "FrogTheFrog.SteamROMManager",
@@ -19,14 +20,14 @@
         "zip",
         "nsis"
       ],
-      "icon": "./images/icon.ico"
+      "icon": "./images/icons/icon.ico"
     },
     "linux": {
       "target": [
         "zip",
         "deb"
       ],
-      "icon": "./images/32x32.png"
+      "icon": "./images/icons"
     },
     "files": [
       "dist/**/*",
@@ -40,7 +41,8 @@
   "scripts": {
     "build:main": "cross-env NODE_ENV=production webpack --config ./webpack/main.js",
     "build:renderer": "cross-env NODE_ENV=production webpack --config ./webpack/renderer.js",
-    "build:final": "rimraf release && npm run build && build --win --linux --ia32 --x64",
+    "build:win": "rimraf release && npm run build && build --win --ia32 --x64",
+    "build:linux": "rimraf release && npm run build && build --linux --ia32 --x64",
     "build": "rimraf dist && npm run build:main && npm run build:renderer",
     "watch:main": "webpack --watch --config ./webpack/main.js",
     "watch:renderer": "webpack --watch --config ./webpack/renderer.js",
