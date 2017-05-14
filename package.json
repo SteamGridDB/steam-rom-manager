@@ -17,14 +17,14 @@
     },
     "win": {
       "target": [
-        "zip",
         "nsis"
       ],
       "icon": "./images/icons/icon.ico"
     },
     "linux": {
+      "category": "Utility",
       "target": [
-        "zip",
+        "AppImage",
         "deb"
       ],
       "icon": "./images/icons"
