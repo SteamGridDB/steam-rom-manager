@@ -11,7 +11,7 @@
   "build": {
     "appId": "FrogTheFrog.SteamROMManager",
     "productName": "Steam ROM Manager",
-    "compression": "maximum",
+    "compression": "normal",
     "directories": {
       "output": "release"
     },
