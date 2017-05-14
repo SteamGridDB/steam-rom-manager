@@ -2,6 +2,10 @@ Want to play some old or new emulator games on your couch? Going to add them to 
 
 # Features
 
+## Multiplatform
+
+Runs on Windows and Linux! Should run on Mac OS too, but you'll need to build it from source yourself.
+
 ## Instructions and examples
 
 Use instructions and examples to create your own parser. When creating a parser configuration, you can read side-by-side about each input field and how does it work.
@@ -37,18 +41,6 @@ No images found or you just want to use your own images? Fear not! Steam ROM Man
 - Change almost every color by accessing color picker with **Alt + C**. If you lost it or can't reach it anymore, use **Alt + R** to reset it's position.
 - Multiple user configuration support.
 - Fully support image downloads from **SteamGridDB**, **retrogaming.cloud** and partially from **ConsoleGrid**.
-
-# Executable arguments for emulators
-
-While you can freely choose what your executable arguments should be, here are some argument examples for emulators that you might want.
-
-## Dolphin
-
-`--exec="${filePath}" --batch --confirm=false`
-
-## Cemu
-
-`-f -g "${filePath}"`
 
 # Special thanks
 
