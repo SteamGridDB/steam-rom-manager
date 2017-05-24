@@ -317,13 +317,30 @@ $item-radio: 430/920;
                     position: absolute;
                     bottom: 100%;
 
-                    overflow: hidden;
-
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
+                    display: flex;
 
                     color: var(--color-preview-item-downloaded-title-text);
                     background-color: var(--color-preview-item-downloaded-title-background);
+
+                    align-items: center;
+
+                    >.text {
+                        overflow: hidden;
+                        flex: 1;
+
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+                    >.refresh {
+                        margin-left: 0.5em;
+
+                        &:hover {
+                            animation: fa-spin 1s infinite linear;
+                        }
+                        >i {
+                            cursor: pointer;
+                        }
+                    }
                 }
             }
 

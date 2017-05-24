@@ -40,11 +40,11 @@ export class ParsersComponent implements OnInit, OnDestroy {
             romDirectory: ['', (control: FormControl) => this.genericValidation('validateROMsDir', control)],
             steamDirectory: ['', (control: FormControl) => this.genericValidation('validateSteamDir', control)],
             executableArgs: ['', (control: FormControl) => this.genericValidation('validateExecutableArgs', control)],
-            titlePrefix: ['', (control: FormControl) => this.genericValidation('validateTitlePrefix', control)],
-            titleSuffix: ['', (control: FormControl) => this.genericValidation('validateTitleSuffix', control)],
+            titleModifier: ['', (control: FormControl) => this.genericValidation('validateTitleModifier', control)],
             localImages: ['', (control: FormControl) => this.genericValidation('validateLocalImages', control)],
-            fuzzyMatch: [true],
-            enable: [true],
+            fuzzyMatch: this.formBuilder.group({ use: true, removeCharacters: true, removeBrackets: true }),
+            enabled: [true],
+            advanced: [false],
             parserInputs: this.formBuilder.group({})
         });
         this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe((data) => {
@@ -90,7 +90,7 @@ export class ParsersComponent implements OnInit, OnDestroy {
                     this.loggerService.success(`[${i + 1}/${totalLength}]:               Title - ${data.files[i].extractedTitle}`);
                     this.loggerService.success(`[${i + 1}/${totalLength}]:         Fuzzy title - ${data.files[i].fuzzyTitle}`);
                     this.loggerService.success(`[${i + 1}/${totalLength}]:           File path - ${data.files[i].filePath}`);
-                    this.loggerService.success(`[${i + 1}/${totalLength}]:   Complete shortcut - ${data.executableLocation} ${data.files[i].argumentString}`);
+                    this.loggerService.success(`[${i + 1}/${totalLength}]:   Complete shortcut - ${data.files[i].executableLocation} ${data.files[i].argumentString}`);
                     if (data.files[i].resolvedLocalImages.length)
                         this.loggerService.success(`[${i + 1}/${totalLength}]: Resolved image glob - ${data.files[i].resolvedLocalImages}`);
                     if (data.files[i].localImages.length)
@@ -100,7 +100,7 @@ export class ParsersComponent implements OnInit, OnDestroy {
                         this.loggerService.success(`[${i + 1}/${totalLength}]:                       ${decodeURI(data.files[i].localImages[j])}`);
                     }
                 }
-                if (data.failed.length > 0){
+                if (data.failed.length > 0) {
                     this.loggerService.info('');
                     this.loggerService.error('Failed to match:');
                 }
@@ -265,10 +265,10 @@ export class ParsersComponent implements OnInit, OnDestroy {
             parserInputs: {},
             executableArgs: '',
             localImages: '',
-            titlePrefix: '',
-            titleSuffix: '',
-            fuzzyMatch: true,
-            enable: true
+            titleModifier: '${title}',
+            fuzzyMatch: { use: true, removeCharacters: true, removeBrackets: true },
+            advanced: false,
+            enabled: true
         };
 
         if (this.currentIndex !== undefined && this.currentIndex < this.userConfigurations.length) {
@@ -282,10 +282,10 @@ export class ParsersComponent implements OnInit, OnDestroy {
                 'executableArgs',
                 'localImages',
                 'replacementGlob',
-                'titlePrefix',
-                'titleSuffix',
+                'titleModifier',
                 'fuzzyMatch',
-                'enable'
+                'advanced',
+                'enabled'
             ]), defaultValues);
 
             let parser = this.parsersService.getParser(userValues['parserType']);

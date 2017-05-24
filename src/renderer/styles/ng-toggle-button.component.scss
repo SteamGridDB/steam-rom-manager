@@ -1,0 +1,72 @@
+:host {
+    display: inline-flex;
+
+    --ng-toggle-button-color-border: black;
+    --ng-toggle-button-color-border-active: white;
+    --ng-toggle-button-color-border-active-hover: white;
+    --ng-toggle-button-color-border-hover: black;
+    --ng-toggle-button-color-button-border: black;
+    --ng-toggle-button-color-button-border-active: black;
+    --ng-toggle-button-color-button-border-active-hover: black;
+    --ng-toggle-button-color-button-border-hover: black;
+    --ng-toggle-button-color-button-fill: white;
+    --ng-toggle-button-color-button-fill-active: white;
+    --ng-toggle-button-color-button-fill-active-hover: white;
+    --ng-toggle-button-color-button-fill-hover: white;
+    --ng-toggle-button-color-fill: white;
+    --ng-toggle-button-color-fill-hover: white;
+    --ng-toggle-button-color-fill-active: lightblue;
+    --ng-toggle-button-color-fill-active-hover: lightblue;
+    --ng-toggle-button-height: 1.2em;
+
+    .button {
+        display: inline-flex;
+
+        align-items: center;
+        >svg {
+            height: var(--ng-toggle-button-height);
+            >path {
+                cursor: pointer;
+
+                fill: var(--ng-toggle-button-color-fill);
+                stroke: var(--ng-toggle-button-color-border);
+            }
+            >circle {
+                cursor: pointer;
+
+                fill: var(--ng-toggle-button-color-button-fill);
+                stroke: var(--ng-toggle-button-color-button-border);
+            }
+            &:hover {
+                >path {
+                    fill: var(--ng-toggle-button-color-fill-hover);
+                    stroke: var(--ng-toggle-button-color-border-hover);
+                }
+                >circle {
+                    fill: var(--ng-toggle-button-color-button-fill-hover);
+                    stroke: var(--ng-toggle-button-color-button-border-hover);
+                }
+            }
+            &.active {
+                >path {
+                    fill: var(--ng-toggle-button-color-fill-active);
+                    stroke: var(--ng-toggle-button-color-border-active);
+                }
+                >circle {
+                    fill: var(--ng-toggle-button-color-button-fill-active);
+                    stroke: var(--ng-toggle-button-color-button-border-active);
+                }
+                &:hover {
+                    >path {
+                        fill: var(--ng-toggle-button-color-fill-active-hover);
+                        stroke: var(--ng-toggle-button-color-border-active-hover);
+                    }
+                    >circle {
+                        fill: var(--ng-toggle-button-color-button-fill-active-hover);
+                        stroke: var(--ng-toggle-button-color-button-border-active-hover);
+                    }
+                }
+            }
+        }
+    }
+}

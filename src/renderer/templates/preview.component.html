@@ -1,7 +1,7 @@
 <div class="items">
     <ng-container *ngIf="previewData | async as titleList">
         <div class="item" *ngFor="let title of titleList | keys">
-            <ng-container *ngIf="titleList[title].images.value.status === 'retrieved'; else loadingImages">
+            <ng-container *ngIf="titleList[title].images.value.status === 'retrievedAll' || titleList[title].images.value.status === 'retrievedSome'; else loadingImages">
                 <ng-container *ngIf="titleList[title].images.value.content as images">
                     <ng-container *ngIf="images[titleList[title].currentImageIndex] as currentImage; else emptyImage">
                         <ng-container [ngSwitch]="currentImage.loadStatus">
@@ -17,7 +17,7 @@
                             </div>
                         </ng-container>
                         <ng-template #imageInfo>
-                            <div class="title" text-scroll>{{title}}</div>
+                            <div class="title"><div class="text" text-scroll>{{title}}</div><div class="refresh"><i class="fa fa-refresh" aria-hidden="true" (click)="refreshImages(titleList[title].imageKey)"></i></div></div>
                             <ng-container *ngIf="images.length > 1">
                                 <div class="previousImage" (click)="previousImage(title, titleList[title].currentImageIndex)">
                                     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
@@ -52,7 +52,7 @@
             </ng-template>
             <ng-template #emptyImage>
                 <div class="background empty">
-                    <div class="title" text-scroll>{{title}}</div>
+                    <div class="title"><div class="text" text-scroll>{{title}}</div><div class="refresh"><i class="fa fa-refresh" aria-hidden="true" (click)="refreshImages(titleList[title].imageKey)"></i></div></div>
                 </div>
             </ng-template>
         </div>

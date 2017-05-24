@@ -2,7 +2,7 @@ import { Observable, BehaviorSubject } from "rxjs";
 import { Reference } from "../lib";
 
 export type LoadStatus = 'none' | 'downloading' | 'downloaded' | 'failed';
-export type Urltatus = 'none' | 'retrieving' | 'retrieved';
+export type Urltatus = 'none' | 'retrieving' | 'retrievedAll' | 'retrievedSome';
 
 export interface ImageContent {
     imageProvider: string,
@@ -35,12 +35,13 @@ export interface PreviewData {
             }
         },
         currentImageIndex: number,
+        imageKey: string,
         images: Reference<ImagesStatusAndContent>
     }
 }
 
 export interface PreviewStateVariables {
-    imageUrlsAreDownloading: boolean,
+    numberOfUrlsBeingDownloaded: number,
     listIsUpdating: boolean,
     listIsBeingSaved: boolean,
     skipDownloading: boolean,

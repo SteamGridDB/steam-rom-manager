@@ -23,7 +23,7 @@ export class PreviewService {
     constructor(private parsersService: ParsersService, private loggerService: LoggerService, private http: Http) {
         this.previewData = new BehaviorSubject<PreviewData>(undefined);
         this.stateVariables = {
-            imageUrlsAreDownloading: false,
+            numberOfUrlsBeingDownloaded: 0,
             listIsBeingSaved: false,
             listIsUpdating: false,
             skipDownloading: false,
@@ -38,7 +38,7 @@ export class PreviewService {
             this.loggerService.error('Error occurred while reading prefered image list.', { invokeAlert: true, alertTimeout: 3000, doNotAppendToLog: true });
             this.loggerService.error(error);
         });
-        this.readAllEditedSteamDirectories().then((data) => { 
+        this.readAllEditedSteamDirectories().then((data) => {
             this.allEditedSteamDirectories = data;
             this.stateVariables.numberOfEditedSteamDirectories = data.length;
             this.previewDataChanged.next();
@@ -74,7 +74,7 @@ export class PreviewService {
     }
 
     saveData() {
-        if (this.stateVariables.imageUrlsAreDownloading)
+        if (this.stateVariables.numberOfUrlsBeingDownloaded !== 0)
             return this.loggerService.info('Please wait until image urls are downloaded.', { invokeAlert: true, alertTimeout: 3000 });
         else if (this.stateVariables.listIsBeingSaved)
             return this.loggerService.info('List is already being saved.', { invokeAlert: true, alertTimeout: 3000 });
@@ -127,7 +127,7 @@ export class PreviewService {
     }
 
     remove(all: boolean) {
-        if (this.stateVariables.imageUrlsAreDownloading) {
+        if (this.stateVariables.numberOfUrlsBeingDownloaded !== 0) {
             this.imageProvider.stopUrlDownload();
             return this.loggerService.info('Aborting image url donwload. Please try again once it\'s stopped.', { invokeAlert: true, alertTimeout: 3000 });
         }
@@ -298,7 +298,7 @@ export class PreviewService {
     }
 
     private generatePreviewDataCallback() {
-        if (this.stateVariables.imageUrlsAreDownloading) {
+        if (this.stateVariables.numberOfUrlsBeingDownloaded !== 0) {
             setTimeout(this.generatePreviewDataCallback.bind(this), 100);
         }
         else {
@@ -315,8 +315,7 @@ export class PreviewService {
 
                     if (previewData.numberOfItems > 0) {
                         this.previewData.next(previewData.data);
-                        if (!this.stateVariables.skipDownloading)
-                            this.downloadImageUrls();
+                        this.downloadImageUrls();
                     }
                     else {
                         this.previewData.next(undefined);
@@ -377,11 +376,12 @@ export class PreviewService {
                         steamDirectories: {
                             [data[i].steamDirectory]: {
                                 steamCategories: data[i].steamCategories,
-                                executableLocation: data[i].executableLocation,
+                                executableLocation: data[i].files[j].executableLocation,
                                 argumentString: data[i].files[j].argumentString,
                             }
                         },
                         currentImageIndex: 0,
+                        imageKey: data[i].files[j].fuzzyTitle,
                         images: new Reference<ImagesStatusAndContent>(this.images, data[i].files[j].fuzzyTitle)
                     };
                     numberOfItems++;
@@ -390,7 +390,7 @@ export class PreviewService {
                     if (previewData[data[i].files[j].fuzzyFinalTitle].steamDirectories[data[i].steamDirectory] === undefined)
                         previewData[data[i].files[j].fuzzyFinalTitle].steamDirectories[data[i].steamDirectory] = {
                             steamCategories: data[i].steamCategories,
-                            executableLocation: data[i].executableLocation,
+                            executableLocation: data[i].files[j].executableLocation,
                             argumentString: data[i].files[j].argumentString,
                         };
                     else {
@@ -400,7 +400,7 @@ export class PreviewService {
                 }
 
                 if (this.images[data[i].files[j].fuzzyTitle] === undefined)
-                    this.images[data[i].files[j].fuzzyTitle] = { status: this.stateVariables.skipDownloading ? 'retrieved' : 'none', searchTitles: [data[i].files[j].fuzzyTitle], content: [] };
+                    this.images[data[i].files[j].fuzzyTitle] = { status: this.stateVariables.skipDownloading ? 'retrievedAll' : 'none', searchTitles: [data[i].files[j].fuzzyTitle], content: [] };
 
                 if (this.stateVariables.greedySearch) {
                     if (this.images[data[i].files[j].fuzzyTitle].searchTitles.indexOf(data[i].files[j].extractedTitle) === -1)
@@ -424,59 +424,64 @@ export class PreviewService {
         }
     }
 
-    private downloadImageUrls(...imageProviders: string[]) {
-        if (!this.stateVariables.imageUrlsAreDownloading) {
-            this.stateVariables.imageUrlsAreDownloading = true;
-            let previewData = this.previewData.getValue();
-            let promises: Promise<any>[] = [];
-            for (let fuzzyTitle in this.images) {
-                this.images[fuzzyTitle].status = 'retrieving';
+    downloadImageUrls(imageKeys?: string[], imageProviders?: string[]) {
+        if (this.stateVariables.skipDownloading)
+            return;
+
+        if (imageKeys === undefined || imageKeys.length === 0) {
+            imageKeys = Object.keys(this.images);
+        }
+
+        let previewData = this.previewData.getValue();
+        let promises: Promise<any>[] = [];
+        for (let i = 0; i < imageKeys.length; i++) {
+            if (this.images[imageKeys[i]] !== undefined && this.images[imageKeys[i]].status !== 'retrieving') {
+                this.stateVariables.numberOfUrlsBeingDownloaded++;
+                this.images[imageKeys[i]].status = 'retrieving';
+                this.previewDataChanged.next();
                 promises.push(new Promise((resolve, reject) => {
                     let searchPromises: Promise<ImageProviderData>[] = [];
-                    for (let i = 0; i < this.images[fuzzyTitle].searchTitles.length; i++) {
-                        searchPromises.push(this.imageProvider.retrieveUrls(this.images[fuzzyTitle].searchTitles[i], ...imageProviders)/*.then((data) => {
-                            return Promise.resolve(data);
-                        })*/);
+                    for (let j = 0; j < this.images[imageKeys[i]].searchTitles.length; j++) {
+                        searchPromises.push(this.imageProvider.retrieveUrls(this.images[imageKeys[i]].searchTitles[j], imageProviders));
                     }
                     Promise.all(searchPromises).then((dataArray) => {
                         let data: ImageProviderData = { failed: [], images: [] };
 
-                        for (let j = 0; j < dataArray.length; j++) {
-                            data.failed = data.failed.concat(dataArray[j].failed);
-                            data.images = data.images.concat(dataArray[j].images);
+                        for (let k = 0; k < dataArray.length; k++) {
+                            data.failed = data.failed.concat(dataArray[k].failed);
+                            data.images = data.images.concat(dataArray[k].images);
                         }
 
                         if (data.failed.length) {
-                            this.loggerService.error(`Failed to retrieve some image urls for "${fuzzyTitle}"`, { invokeAlert: true, alertTimeout: 3000 });
-                            for (let i = 0; i < data.failed.length; i++) {
-                                this.loggerService.error(data.failed[i]);
+                            this.loggerService.error(`Failed to retrieve some image urls for "${imageKeys[i]}"`, { invokeAlert: true, alertTimeout: 3000 });
+                            for (let j = 0; j < data.failed.length; j++) {
+                                this.loggerService.error(data.failed[j]);
                             }
                         }
 
-                        this.addUniqueImage(fuzzyTitle, ...data.images);
+                        this.addUniqueImage(imageKeys[i], ...data.images);
 
                         if (this.preferedImages !== undefined) {
                             for (let title in this.preferedImages) {
-                                let index = this.images[fuzzyTitle].content.findIndex((image) => this.preferedImages[title] === image.imageUrl);
+                                let index = this.images[imageKeys[i]].content.findIndex((image) => this.preferedImages[title] === image.imageUrl);
                                 if (index !== -1 && previewData[title] !== undefined)
                                     previewData[title].currentImageIndex = index;
                             }
                         }
 
-                        this.images[fuzzyTitle].status = 'retrieved';
+                        this.images[imageKeys[i]].status = data.failed.length === 0 ? 'retrievedAll' : 'retrievedSome';
+                        this.stateVariables.numberOfUrlsBeingDownloaded--;
                         this.previewDataChanged.next();
 
                         resolve();
                     }).catch((error) => {
+                        this.stateVariables.numberOfUrlsBeingDownloaded--;
                         reject(error);
                     });
                 }));
             }
-            Promise.all(promises).then(() => {
-                this.stateVariables.imageUrlsAreDownloading = false;
-            }).catch(() => {
-                this.stateVariables.imageUrlsAreDownloading = false;
-            });
         }
+        if (imageKeys.length > 0)
+            Promise.all(promises);
     }
 }

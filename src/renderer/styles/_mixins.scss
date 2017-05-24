@@ -1,16 +1,19 @@
 @mixin click-button-color($colorProp, $canBeDisabled: false) {
     color: var(--color-#{$colorProp}-text);
+    fill: var(--color-#{$colorProp}-text);
     border-color: var(--color-#{$colorProp}-border);
     background-color: var(--color-#{$colorProp}-background);
 
     &:hover {
         color: var(--color-#{$colorProp}-text-hover);
+        fill: var(--color-#{$colorProp}-text-hover);
         border-color: var(--color-#{$colorProp}-border-hover);
         background-color: var(--color-#{$colorProp}-background-hover);
     }
 
     &:active {
         color: var(--color-#{$colorProp}-text-active);
+        fill: var(--color-#{$colorProp}-text-active);
         border-color: var(--color-#{$colorProp}-border-active);
         background-color: var(--color-#{$colorProp}-background-active);
     }
@@ -18,6 +21,7 @@
     @if $canBeDisabled {
         &.disabled, &:disabled {
             color: var(--color-#{$colorProp}-text-disabled);
+            fill: var(--color-#{$colorProp}-text-disabled);
             border-color: var(--color-#{$colorProp}-border-disabled);
             background-color: var(--color-#{$colorProp}-background-disabled);
         }
@@ -52,6 +56,27 @@
             background-color: var(--color-#{$colorProp}-background-active-hover);
         }
     }
+}
+
+@mixin ng-toggle-button-color($colorProp) {
+    color: var(--color-#{$colorProp}-text);
+
+    --ng-toggle-button-color-border: var(--color-#{$colorProp}-border);
+    --ng-toggle-button-color-border-active: var(--color-#{$colorProp}-border-active);
+    --ng-toggle-button-color-border-active-hover: var(--color-#{$colorProp}-border-active-hover);
+    --ng-toggle-button-color-border-hover: var(--color-#{$colorProp}-border-hover);
+    --ng-toggle-button-color-button-border: var(--color-#{$colorProp}-button-border);
+    --ng-toggle-button-color-button-border-active: var(--color-#{$colorProp}-button-border-active);
+    --ng-toggle-button-color-button-border-active-hover: var(--color-#{$colorProp}-button-border-active-hover);
+    --ng-toggle-button-color-button-border-hover: var(--color-#{$colorProp}-button-border-hover);
+    --ng-toggle-button-color-button-fill: var(--color-#{$colorProp}-button-fill);
+    --ng-toggle-button-color-button-fill-active: var(--color-#{$colorProp}-button-fill-active);
+    --ng-toggle-button-color-button-fill-active-hover: var(--color-#{$colorProp}-button-fill-active-hover);
+    --ng-toggle-button-color-button-fill-hover: var(--color-#{$colorProp}-button-fill-hover);
+    --ng-toggle-button-color-fill: var(--color-#{$colorProp}-fill);
+    --ng-toggle-button-color-fill-active: var(--color-#{$colorProp}-fill-active);
+    --ng-toggle-button-color-fill-active-hover: var(--color-#{$colorProp}-fill-active-hover);
+    --ng-toggle-button-color-fill-hover: var(--color-#{$colorProp}-fill-hover);
 }
 
 @mixin input-color($colorProp, $canBeDisabled: false) {

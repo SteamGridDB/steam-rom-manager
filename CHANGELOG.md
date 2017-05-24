@@ -1,20 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 1.2.0 - 2017-05-06
-### Fixed
-* Completely rewritten `vdf` file parser (both mine and [shortcuts.vdf](https://github.com/tirish/steam-shortcut-editor)) solves #2 and should solve #6 (not confirmed yet)
-* Fixed #7 
-
+## 1.3.0 - 2017-XX-XX
 ### Added
-* Generated entries can now be removed
-* All added entries can be removed (which are added since this release)
-* New image provider - `retrogaming.cloud`
+* 2 new options for fuzzy matcher
+* Image urls can now be redownloaded per game only (without regenerating a list)
 
 ### Changed
-* `Glob-regex` now supports `leftovers`, thus allowing `${regex}.ext`. It will now remove `.ext` and pass remaining string to regex parser.
-* `Glob` and `Glob-regex` now properly replace `${title}` and `${regex}` with star (`*`). Earlier `dir\*\${title}.ext` would become `dir\*\*`. Not it will be replaced like this - `dir\*\*.ext`. This will eliminate a lot of "failed matches" messages and should increase `node-glob` performance.
-* All image providers now have 40 seconds timeout and 3 retries. This should address #3 
+* Parser no longer needs executable location. If left empty, a file, returned by parser, will be used as executable. This allows to use custom batch files that do not require executable. Technically, any non-steam game can be added now.
 
 ## 1.1.4 - 2017-05-02
 ### Fixed

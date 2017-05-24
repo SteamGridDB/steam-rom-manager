@@ -21,14 +21,14 @@
                 Title to save user configuration as. Does not have to be unique.
             </div>
         </div>
-        <div class="instructionItem">
+        <div class="instructionItem" *ngIf="myForm.controls.advanced.value === true || !myForm.controls.steamCategory.valid">
             <div class="title">
                 Steam category
             </div>
             <div class="paragraph">
                 Steam categories/tags to be set. Uses <span class="code">{{'${"category"}'}}</span> syntax, where "category"
-                is user's category. Parser takes everything from inside <span class="code">{{'${}'}}</span>. Multiple <span class="code">{{'${}'}}</span> are supported. 
-                Below are few examples of how categories are extracted.
+                is user's category. Parser takes everything from inside <span class="code">{{'${}'}}</span>. Multiple
+                <span class="code">{{'${}'}}</span> are supported. Below are few examples of how categories are extracted.
             </div>
             <div class="paragraph" style="padding-left: 1em">
                 <span class="code">{{'${A} ${B} ${C} ${A}'}}</span>:
@@ -49,7 +49,7 @@
                 Executable
             </div>
             <div class="paragraph">
-                Path to executable.
+                Path to executable. If left empty, a file, returned by parser will be used as executable.
             </div>
         </div>
         <div class="instructionItem">
@@ -75,20 +75,29 @@
                 </ng-container>
             </ng-container>
         </ng-container>
-        <div class="instructionItem">
+        <div class="instructionItem" *ngIf="myForm.controls.advanced.value === true || !myForm.controls.titleModifier.valid">
             <div class="title">
-                Title prefix
+                Title modifier
             </div>
             <div class="paragraph">
-                String which is prepended to title.
+                Can be used to prepend or append string to final title.
             </div>
         </div>
-        <div class="instructionItem">
+        <div class="instructionItem" *ngIf="myForm.controls.advanced.value === true">
             <div class="title">
-                Title suffix
+                Fuzzy matching
             </div>
             <div class="paragraph">
-                String which is appended to title.
+                If enabled, fuzzy matching will be done against the tittle list provided by <span class="code">SteamGridDB</span>.
+                It should fill in missing characters for titles which will increase probability for finding images. It is
+                possible, that false matching might occur for titles that are not in the list.
+            </div>
+            <div class="paragraph">
+                If aggressive matching is enabled, fuzzy matcher will remove all characters except for <span class="code">a-zA-Z0-9 ()[]</span>                and will replace
+                <span class="code">_</span> with space. This should improve fuzzy matcher's mathing ability.
+            </div>
+            <div class="paragraph">
+                If (...) and [...] removal is enabled, fuzzy matcher will remove all (...) and [...] with their content.
             </div>
         </div>
         <div class="instructionItem">
@@ -106,7 +115,7 @@
                     <li><span class="code">{{'${fuzzyFinalTitle}'}}</span>: fuzzy matched title with prefix and suffix</li>
                     <li><span class="code">{{'${file}'}}</span>: filename of a file returned by a selected parser</li>
                     <li><span class="code">{{'${filePath}'}}</span>: full path to a file returned by a selected parser</li>
-                    <li><span class="code">{{'${sep}'}}</span>: system specific directory seperator (<span class="code">\</span> or <span class="code">/</span>)</li>
+                    <li><span class="code">{{'${sep}'}}</span>: system specific directory seperator (<span class="code">\</span>                        or <span class="code">/</span>)</li>
                 </ul>
             </div>
             <div class="paragraph">
@@ -139,29 +148,33 @@
                 </ul>
             </div>
         </div>
-        <div class="instructionItem">
+        <div class="instructionItem" *ngIf="myForm.controls.advanced.value === true || !myForm.controls.localImages.valid">
             <div class="title">
                 Local images
             </div>
             <div class="paragraph">
-                It is possible to use images stored locally. A <span class="code">glob</span> string is used to retrieve images. Provided variables (see "Executable arguments" above) 
-                can also be used to produce final <span class="code">glob</span> string. Images are resolved in 3 step process:
+                It is possible to use images stored locally. A <span class="code">glob</span> string is used to retrieve
+                images. Provided variables (see "Executable arguments" above) can also be used to produce final <span class="code">glob</span>                string. Images are resolved in 3 step process:
                 <ol>
                     <li>All provided variables are replaced with their corresponding values.</li>
                     <li>New string is resolved against root directory (root directory is always a configuration's ROMs directory).</li>
-                    <li>Final string is passed to <span class="code">node-glob</span> parser which then returns a list of files, if they are available.</li>
+                    <li>Final string is passed to <span class="code">node-glob</span> parser which then returns a list of files,
+                        if they are available.</li>
                 </ol>
-                Only <span class="code">JPEG</span>, <span class="code">JPG</span>, <span class="code">PNG</span> and <span class="code">TGA</span> file extensions are supported. Even if
-                <span class="code">node-glob</span> finds files with other extensions, they are not included into the final list.
+                Only <span class="code">JPEG</span>, <span class="code">JPG</span>, <span class="code">PNG</span> and
+                <span class="code">TGA</span> file extensions are supported. Even if
+                <span class="code">node-glob</span> finds files with other extensions, they are not included into the final
+                list.
             </div>
             <div class="paragraph">
-                For example, let's say that: 
+                For example, let's say that:
                 <ul>
                     <li><span class="code">{{'${dir}'}}</span>: C:\ROMS</li>
                     <li><span class="code">{{'${title}'}}</span>: Roses are red [AEF123]</li>
                     <li><span class="code">{{'${filePath}'}}</span>: C:\ROMS\Roses are red [AEF123]\myfile.fml</li>
                 </ul>
-                Our desired images are in <span class="code">C:\ROMS\Roses are red [AEF123]</span> directory. There are at least 5 ways of setting input value to get to them:
+                Our desired images are in <span class="code">C:\ROMS\Roses are red [AEF123]</span> directory. There are at
+                least 5 ways of setting input value to get to them:
                 <ol>
                     <li><span class="code">C:\ROMS\Roses are red [AEF123]\*</span></li>
                     <li><span class="code">{{'${dir}/${title}/*'}}</span></li>
@@ -171,40 +184,21 @@
                 </ol>
             </div>
             <div class="paragraph">
-                First one is the obvious one - set static directory. This works well when you have all the pictures for <b>all</b> the titles in one directory. By using <span class="code">{{'${title}'}}</span>
-                to produce <span class="code">C:\ROMS\Roses are red [AEF123]\{{'${title}'}}.*</span> you might actually get a desired result, given that image filename and <span class="code">{{'${title}'}}</span>
-                are identical.
-            </div>
-             <div class="paragraph">
-                Second one works well only when <span class="code">{{'${title}'}}</span> and image containing directories are identical. Otherwise it will not work.
+                First one is the obvious one - set static directory. This works well when you have all the pictures for <b>all</b>                the titles in one directory. By using <span class="code">{{'${title}'}}</span> to produce <span class="code">C:\ROMS\Roses are red [AEF123]\{{'${title}'}}.*</span>                you might actually get a desired result, given that image filename and <span class="code">{{'${title}'}}</span>                are identical.
             </div>
             <div class="paragraph">
-                Third one will allow all images, from every title, to be used by all titles. At least you don't have to set static directory like in the first one.
+                Second one works well only when <span class="code">{{'${title}'}}</span> and image containing directories
+                are identical. Otherwise it will not work.
+            </div>
+            <div class="paragraph">
+                Third one will allow all images, from every title, to be used by all titles. At least you don't have to set static directory
+                like in the first one.
             </div>
             <div class="paragraph">
                 Fourth one is identical to third one.
             </div>
             <div class="paragraph">
-                Fifth one will probably give the desired result. It will crawl one directory down (from <span class="code">C:\ROMS\Roses are red [AEF123]\myfile.fml</span> 
-                to <span class="code">C:\ROMS\Roses are red [AEF123]</span>) and will get all images for the specific title.
-            </div>
-        </div>
-        <div class="instructionItem">
-            <div class="title">
-                Fuzzy matching
-            </div>
-            <div class="paragraph">
-                If enabled, fuzzy matching will be done against the tittle list provided by <span class="code">SteamGridDB</span>. It should fill
-                in missing characters for titles which will increase probability for finding images. It is possible, however very unlikely, that false
-                matching might occur for titles that are not in the list.
-            </div>
-        </div>
-        <div class="instructionItem">
-            <div class="title">
-                Enabled/disabled
-            </div>
-            <div class="paragraph">
-                If disabled, user configuration will be skipped when generating preview list.
+                Fifth one will probably give the desired result. It will crawl one directory down (from <span class="code">C:\ROMS\Roses are red [AEF123]\myfile.fml</span>                to <span class="code">C:\ROMS\Roses are red [AEF123]</span>) and will get all images for the specific title.
             </div>
         </div>
         <div class="instructionItem">
@@ -244,7 +238,7 @@
                 {{myForm.controls.configTitle.errors?.error}}
             </div>
         </div>
-        <div>
+        <div *ngIf="myForm.controls.advanced.value === true || !myForm.controls.steamCategory.valid">
             <label>Steam category</label>
             <div class="inputContainer">
                 <input formControlName="steamCategory" />
@@ -299,22 +293,21 @@
                 </div>
             </ng-container>
         </div>
-        <div>
-            <label>Title prefix</label>
+        <div *ngIf="myForm.controls.advanced.value === true || !myForm.controls.titleModifier.valid">
+            <label>Title modifier</label>
             <div class="inputContainer">
-                <input formControlName="titlePrefix" />
+                <input formControlName="titleModifier" />
             </div>
-            <div class="errorMessage" [hidden]="myForm.controls.titlePrefix.valid || (myForm.controls.titlePrefix.pristine && !submitted)">
-                {{myForm.controls.titlePrefix.errors?.error}}
+            <div class="errorMessage" [hidden]="myForm.controls.titleModifier.valid || (myForm.controls.titleModifier.pristine && !submitted)">
+                {{myForm.controls.titleModifier.errors?.error}}
             </div>
         </div>
-        <div>
-            <label>Title suffix</label>
-            <div class="inputContainer">
-                <input formControlName="titleSuffix" />
-            </div>
-            <div class="errorMessage" [hidden]="myForm.controls.titleSuffix.valid || (myForm.controls.titleSuffix.pristine && !submitted)">
-                {{myForm.controls.titleSuffix.errors?.error}}
+        <div *ngIf="myForm.controls.advanced.value === true">
+            <label>Fuzzy matching</label>
+            <div class="inputContainer ngToggleButton" formGroupName="fuzzyMatch">
+                <ng-toggle-button formControlName="use">Use fuzzy matching</ng-toggle-button>
+                <ng-toggle-button formControlName="removeCharacters">Aggressive matching</ng-toggle-button>
+                <ng-toggle-button formControlName="removeBrackets">Remove (...) and [...] brackets</ng-toggle-button>
             </div>
         </div>
         <div>
@@ -326,15 +319,22 @@
                 {{myForm.controls.executableArgs.errors?.error}}
             </div>
         </div>
-        <div>
+        <div *ngIf="myForm.controls.advanced.value === true || !myForm.controls.localImages.valid">
             <label>Local images</label>
             <div class="inputContainer">
                 <input formControlName="localImages" />
-                <input id="localImagesFileInput" type="file" webkitdirectory (change)="changeLocalImagesDirectory('localImagesFileInput', $event.target.files)"/>
+                <input id="localImagesFileInput" type="file" webkitdirectory (change)="changeLocalImagesDirectory('localImagesFileInput', $event.target.files)"
+                />
                 <div class="clickButton" (click)="simulateClick('localImagesFileInput')">Browse</div>
             </div>
             <div class="errorMessage" [hidden]="myForm.controls.localImages.valid || (myForm.controls.localImages.pristine && !submitted)">
                 {{myForm.controls.localImages.errors?.error}}
+            </div>
+        </div>
+        <div>
+            <div class="inputContainer ngToggleButton" style="margin: 0.75em 0 0.25em 0;">
+                <ng-toggle-button formControlName="enabled">Enable configuration</ng-toggle-button>
+                <ng-toggle-button formControlName="advanced">Show advanced options</ng-toggle-button>
             </div>
         </div>
     </form>
@@ -348,10 +348,17 @@
         <div class="copy clickButton" (click)="save(myForm.value, myForm.valid)">Copy</div>
         <div class="test clickButton" (click)="testParser(myForm.value, myForm.valid)">Test parser</div>
         <div class="delete clickButton" (click)="delete()">Delete</div>
-        <ng-button #fuzzyMatch class="fuzzyMatch toggleButton" [class.active]="fuzzyMatch.value" (click)="fuzzyMatch.value = !fuzzyMatch.value"
-            formControlName="fuzzyMatch">{{fuzzyMatch.value ? 'Fuzzy: ON': 'Fuzzy: OFF'}}</ng-button>
-        <ng-button #enable class="enable toggleButton" [class.active]="enable.value" (click)="enable.value = !enable.value" formControlName="enable">{{enable.value ? 'Enabled': 'Disabled'}}</ng-button>
-        <div class="up clickButton" [class.disabled]="currentIndex === 0" (click)="moveUp()">Move Up</div>
-        <div class="down clickButton" [class.disabled]="currentIndex + 1 === userConfigurations.length" (click)="moveDown()">Move Down</div>
+        <div class="up clickButton" [class.disabled]="currentIndex === 0" (click)="moveUp()">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300" height="1em">
+                <path d="M150 10 l 140 150 h -80 v 120 h -120 v -120 h -80 z" stroke="black" stroke-width="3" />
+            </svg>
+            Move up
+        </div>
+        <div class="down clickButton" [class.disabled]="currentIndex + 1 === userConfigurations.length" (click)="moveDown()">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300" height="1em">
+                <path d="M150 290 l 140 -150 h -80 v -120 h -120 v 120 h -80 z" stroke="black" stroke-width="3" />
+            </svg>
+            Move down
+        </div>
     </ng-template>
 </div>

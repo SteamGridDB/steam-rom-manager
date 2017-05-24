@@ -6,15 +6,20 @@ export interface UserConfiguration {
     romDirectory: string,
     steamDirectory: string,
     parserInputs: { [inputKey: string]: string },
+    fuzzyMatch: {
+        use: boolean,
+        removeCharacters: boolean,
+        removeBrackets: boolean
+    },
     executableArgs: string,
     localImages: string,
-    titlePrefix: string,
-    titleSuffix: string,
-    fuzzyMatch: boolean,
-    enable: boolean
+    titleModifier: string,
+    enabled: boolean,
+    advanced: boolean
 }
 
 export interface ParsedUserConfigurationFile {
+    executableLocation: string,
     filePath: string,
     extractedTitle: string,
     fuzzyTitle: string,
@@ -27,7 +32,6 @@ export interface ParsedUserConfigurationFile {
 
 export interface ParsedUserConfiguration {
     steamCategories: string[],
-    executableLocation: string,
     steamDirectory: string,
     files: ParsedUserConfigurationFile[],
     failed: string[]

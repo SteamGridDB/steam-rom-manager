@@ -30,7 +30,6 @@ export class SteamGridDbProvider implements GenericImageProvider {
         params.append('page', nextPage.toString());
 
         return new Promise<number>((resolve, reject) => {
-            let retryCounter = 0;
             let next: number = undefined;
             let downloadStop = this.downloadInterrupt.subscribe(() => { next = undefined; downloadStop.unsubscribe(); });
             let subscription = this.http.get('http://www.steamgriddb.com/search.php', { params: params }).timeout(this.timeout).retry(this.retryCount).subscribe(
@@ -60,8 +59,7 @@ export class SteamGridDbProvider implements GenericImageProvider {
                     }
                 },
                 (error) => {
-                    if (retryCounter++ === this.retryCount)
-                        data.failed.push(`${error} (http://www.steamgriddb.com/search.php?${params.toString()})`);
+                    data.failed.push(`${error} (http://www.steamgriddb.com/search.php?${params.toString()})`);
 
                     if (!downloadStop.closed)
                         downloadStop.unsubscribe();

@@ -41,7 +41,7 @@ export class FileParser {
             let promises: Promise<ParsedData>[] = [];
             for (let i = 0; i < configs.length; i++) {
                 let parser = this.getParser(configs[i].parserType);
-                if (configs[i].fuzzyMatch)
+                if (configs[i].fuzzyMatch.use)
                     fuzzyMatchIsNeeded = true;
 
                 if (parser) {
@@ -65,11 +65,10 @@ export class FileParser {
                 Promise.all(promises).then((data: ParsedDataWithFuzzy[]) => {
                     let localImagePromises: Promise<any>[] = [];
                     for (let i = 0; i < configs.length; i++) {
-                        if (configs[i].fuzzyMatch)
-                            this.fuzzyMatcher.fuzzyMatch(data[i]);
+                        if (configs[i].fuzzyMatch.use)
+                            this.fuzzyMatcher.fuzzyMatch(data[i], configs[i].fuzzyMatch.removeCharacters, configs[i].fuzzyMatch.removeBrackets);
 
                         parsedConfigs.push({
-                            executableLocation: configs[i].executableLocation,
                             steamCategories: this.getSteamCategories(configs[i].steamCategory),
                             steamDirectory: configs[i].steamDirectory,
                             files: [],
@@ -79,13 +78,14 @@ export class FileParser {
                         for (let j = 0; j < data[i].success.length; j++) {
                             let fuzzyTitle = data[i].success[j].fuzzyTitle || data[i].success[j].extractedTitle;
                             parsedConfigs[i].files.push({
+                                executableLocation: configs[i].executableLocation ? configs[i].executableLocation : data[i].success[j].filePath,
                                 argumentString: '',
                                 resolvedLocalImages: '',
                                 localImages: [],
                                 fuzzyTitle: fuzzyTitle,
                                 extractedTitle: data[i].success[j].extractedTitle,
-                                finalTitle: configs[i].titlePrefix + data[i].success[j].extractedTitle + configs[i].titleSuffix,
-                                fuzzyFinalTitle: configs[i].titlePrefix + fuzzyTitle + configs[i].titleSuffix,
+                                finalTitle: configs[i].titleModifier.replace(/\${title}/gi, data[i].success[j].extractedTitle),
+                                fuzzyFinalTitle: configs[i].titleModifier.replace(/\${title}/gi, fuzzyTitle),
                                 filePath: data[i].success[j].filePath
                             });
                         }

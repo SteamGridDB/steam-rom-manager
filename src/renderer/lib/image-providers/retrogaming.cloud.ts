@@ -39,7 +39,6 @@ export class RetroGamingCloudProvider implements GenericImageProvider {
 
     private retrieveMediaData(gameId: number) {
         return new Promise<{ images: ImageContent[], failed: string[] }>((resolve, reject) => {
-            let retryCounter = 0;
             let data: { images: ImageContent[], failed: string[] } = { images: [], failed: [] };
             let downloadStop = this.downloadInterrupt.subscribe(() => downloadStop.unsubscribe());
             let subscription = this.http.get(`http://retrogaming.cloud/api/v1/game/${gameId}/media`).timeout(this.timeout).retry(this.retryCount).subscribe(
@@ -49,14 +48,17 @@ export class RetroGamingCloudProvider implements GenericImageProvider {
 
                     for (let i = 0; i < results.length; i++) {
                         if (results[i].url)
-                            data.images.push({imageProvider: this.getProvider(), imageUploader: results[i].created_by ? results[i].created_by.name : undefined, imageUrl: results[i].url, loadStatus: 'none'});
+                            data.images.push({ imageProvider: this.getProvider(), imageUploader: results[i].created_by ? results[i].created_by.name : undefined, imageUrl: results[i].url, loadStatus: 'none' });
                     }
 
                     if (!downloadStop.closed)
                         downloadStop.unsubscribe();
                 },
                 (error) => {
-                    if (retryCounter++ === this.retryCount)
+                    if (error.status !== undefined) {
+                        if (error.status !== 404)
+                            data.failed.push(`${error} (http://retrogaming.cloud/api/v1/game/${gameId}/media)`);
+                    } else
                         data.failed.push(`${error} (http://retrogaming.cloud/api/v1/game/${gameId}/media)`);
 
                     if (!downloadStop.closed)
@@ -76,7 +78,6 @@ export class RetroGamingCloudProvider implements GenericImageProvider {
         params.append('name', title);
 
         return new Promise<{ list: any[], failed: string }>((resolve, reject) => {
-            let retryCounter = 0;
             let data: { list: any[], failed: string } = { list: undefined, failed: undefined };
             let downloadStop = this.downloadInterrupt.subscribe(() => downloadStop.unsubscribe());
             let subscription = this.http.get('http://retrogaming.cloud/api/v1/game', { params: params }).timeout(this.timeout).retry(this.retryCount).subscribe(
@@ -88,8 +89,7 @@ export class RetroGamingCloudProvider implements GenericImageProvider {
                         downloadStop.unsubscribe();
                 },
                 (error) => {
-                    if (retryCounter++ === this.retryCount)
-                        data.failed = `${error} (http://retrogaming.cloud/api/v1/game?${params.toString()})`;
+                    data.failed = `${error} (http://retrogaming.cloud/api/v1/game?${params.toString()})`;
 
                     if (!downloadStop.closed)
                         downloadStop.unsubscribe();

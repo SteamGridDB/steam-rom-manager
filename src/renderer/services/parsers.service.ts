@@ -73,7 +73,7 @@ export class ParsersService {
         if (configs.length === 0) {
             let configArray = this.getUserConfigurationsArray();
             for (let i = 0; i < configArray.length; i++) {
-                if (configArray[i].enable)
+                if (configArray[i].enabled)
                     configs.push(configArray[i]);
                 else
                     skipped.push(configArray[i].configTitle);
@@ -144,7 +144,7 @@ export class ParsersService {
     }
 
     validateExecutableLocation(executableLocation: string) {
-        if (this.validatePath(executableLocation, false))
+        if (executableLocation.length === 0 || this.validatePath(executableLocation, false))
             return null;
         else
             return 'Executable file is invalid!';
@@ -158,12 +158,11 @@ export class ParsersService {
         return null;
     }
 
-    validateTitlePrefix(titlePrefix: string): null {
-        return null;
-    }
-
-    validateTitleSuffix(titleSuffix: string): null {
-        return null;
+    validateTitleModifier(titleModifier: string) {
+        if (!titleModifier || titleModifier.search(/\${title}/i) === -1)
+            return 'Title modifier must containt "${title}"';
+        else
+            return null;
     }
 
     private validatePath(fsPath: string, checkForDirectory: boolean) {
@@ -190,9 +189,7 @@ export class ParsersService {
             return false;
         else if (this.validateExecutableArgs(config.executableArgs || '') !== null)
             return false;
-        else if (this.validateTitlePrefix(config.titlePrefix || '') !== null)
-            return false;
-        else if (this.validateTitleSuffix(config.titleSuffix || '') !== null)
+        else if (this.validateTitleModifier(config.titleModifier || '') !== null)
             return false;
         else {
             let availableParser = this.getParser(config.parserType);

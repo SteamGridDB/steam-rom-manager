@@ -9,7 +9,6 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
     styleUrls: [
         '../styles/ng-button.component.scss'
     ],
-    host: { '[class.open]': 'open' },
     providers: [{
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => ButtonComponent),

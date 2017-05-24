@@ -57,12 +57,30 @@ export class FuzzyMatcher {
         });
     }
 
-    fuzzyMatch(data: ParsedDataWithFuzzy) {
+    fuzzyMatch(data: ParsedDataWithFuzzy, removeCharacters: boolean, removeBrackets: boolean) {
         let matches: Fuzzy.FilterResult<string>[] = [];
         for (let i = 0; i < data.success.length; i++) {
-            matches = Fuzzy.filter(data.success[i].extractedTitle, this.list);
+            let extractedTitle = data.success[i].extractedTitle;
+
+            if (removeCharacters){
+                extractedTitle = extractedTitle.replace(/_/g, ' ');
+                extractedTitle = extractedTitle.replace(/[^a-zA-Z0-9 \(\)\[\]]/g, '');
+            }
+
+            if (removeBrackets)
+                extractedTitle = extractedTitle.replace(/\(.*?\)|\[.*?\]/g, '');
+
+            if (removeCharacters || removeBrackets){
+                extractedTitle = extractedTitle.replace(/\s+/g, ' ').trim();
+            }
+
+            extractedTitle = extractedTitle.trim();
+
+            console.log(extractedTitle);
+
+            matches = Fuzzy.filter(extractedTitle, this.list);
             if (matches.length) {
-                data.success[i].fuzzyTitle = this.getBestMatch(data.success[i].extractedTitle, matches);
+                data.success[i].fuzzyTitle = this.getBestMatch(extractedTitle, matches);
                 this.loggerService.info(`Fuzzy title "${data.success[i].fuzzyTitle}" from "${data.success[i].extractedTitle}"`);
             }
         }

@@ -54,4 +54,8 @@ export class PreviewComponent implements OnDestroy {
     private loadImage(title: string, index: number) {
         this.previewService.loadImage(title, index);
     }
+
+    private refreshImages(title: string) {
+        this.previewService.downloadImageUrls([title]);
+    }
 }

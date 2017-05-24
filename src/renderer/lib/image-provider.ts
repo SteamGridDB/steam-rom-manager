@@ -34,10 +34,10 @@ export class ImageProvider {
         });
     }
 
-    retrieveUrls(title: string, ...providers: string[]) {
+    retrieveUrls(title: string, providers: string[]) {
         let promises: Promise<ImageProviderData>[] = [];
 
-        if (providers.length === 0)
+        if (providers === undefined || providers.length === 0)
             providers = this.getAvailableProviders();
 
         for (let i = 0; i < providers.length; i++) {
