@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 * Parser no longer needs executable location. If left empty, a file, returned by parser, will be used as executable. This allows to use custom batch files that do not require executable. Technically, any non-steam game can be added now.
+* Title prefix and suffix fields replaced by one `Title modifier` field.
+
+### Fixed
+* Properly show image url retrieve errors.
 
 ## 1.1.4 - 2017-05-02
 ### Fixed

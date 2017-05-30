@@ -41,13 +41,17 @@
   "scripts": {
     "build:main": "cross-env NODE_ENV=production webpack --config ./webpack/main.js",
     "build:renderer": "cross-env NODE_ENV=production webpack --config ./webpack/renderer.js",
-    "build:win": "rimraf release && npm run build && build --win --ia32 --x64",
-    "build:linux": "rimraf release && npm run build && build --linux --ia32 --x64",
-    "build": "rimraf dist && npm run build:main && npm run build:renderer",
+    "build:dist": "rimraf dist && npm run build:main && npm run build:renderer",
+    "build:win": "npm run build:dist && build --win --ia32 --x64",
+    "build:linux": "npm run build:dist && build --linux --ia32 --x64",
+    "build:all:forWin": "npm run build:win && npm run docker:build:linux",
     "watch:main": "webpack --watch --config ./webpack/main.js",
     "watch:renderer": "webpack --watch --config ./webpack/renderer.js",
     "start": "./node_modules/.bin/electron ./dist/main.bundle.js",
-    "clean": "rimraf dist release"
+    "clean": "rimraf dist release",
+    "docker:create": "docker build -t srm-linux .",
+    "docker:install-dependencies": "docker run -v %cd%:/app -v node_modules:/app/node_modules srm-linux npm install",
+    "docker:build:linux": "docker run -v %cd%:/app -v node_modules:/app/node_modules srm-linux npm run build:linux"
   },
   "dependencies": {
     "@angular/animations": "^4.0.3",

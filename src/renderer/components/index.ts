@@ -12,4 +12,4 @@ export * from './ng-select.component';
 export * from './ng-option.component';
 export * from './ng-button.component';
 export * from './ng-toggle-button.component';
-export * from './hacks.component';
+export * from './settings.component';

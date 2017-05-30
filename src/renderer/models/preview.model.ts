@@ -26,7 +26,7 @@ export interface PreferedImages {
 };
 
 export interface PreviewData {
-    [title: string]: {
+    [appID: string]: {
         steamDirectories: {
             [key: string]: {
                 steamCategories: string[],
@@ -34,11 +34,30 @@ export interface PreviewData {
                 argumentString: string,
             }
         },
+        title: string,
         currentImageIndex: number,
         imageKey: string,
         images: Reference<ImagesStatusAndContent>
     }
 }
+
+/*export interface PreviewData2 {
+    [steamDirectory: string]: {
+        [userID: string]: {
+            username: string,
+            apps: {
+                [id: string]: {
+                    steamCategories: string[],
+                    executableLocation: string,
+                    title: string,
+                    argumentString: string,
+                    currentImageIndex: number,
+                    images: Reference<ImagesStatusAndContent>
+                }
+            }
+        }
+    }
+}*/
 
 export interface PreviewStateVariables {
     numberOfUrlsBeingDownloaded: number,

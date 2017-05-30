@@ -282,6 +282,17 @@
                 {{myForm.controls.steamDirectory.errors?.error}}
             </div>
         </div>
+        <!--<div>
+            <label>User accounts</label>
+            <div class="inputContainer">
+                <ng-select [placeholder]="'All accounts'" formControlName="userAccounts">
+                    <ng-option *ngFor="let parser of availableParsers">{{parser}}</ng-option>
+                </ng-select>
+            </div>
+            <div class="errorMessage" [hidden]="myForm.controls.userAccounts.valid || (myForm.controls.userAccounts.pristine && !submitted)">
+                {{myForm.controls.userAccounts.errors?.error}}
+            </div>
+        </div>-->
         <div formGroupName="parserInputs" *ngIf="myForm.controls['parserInputs'].controls as controls">
             <ng-container *ngFor="let control of controls | keys">
                 <label>{{parserInputInfo[control].label}}</label>

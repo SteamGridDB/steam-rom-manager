@@ -4,7 +4,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { ParsersService } from './parsers.service';
 import { LoggerService } from './logger.service';
 import { PreviewData, ImageContent, ParsedUserConfiguration, Images, PreviewStateVariables, LoadStatus, PreferedImages, ImagesStatusAndContent, ImageProviderData } from '../models';
-import { Reference, ImageProvider, VdfManager } from "../lib";
+import { Reference, ImageProvider, VdfManager, generateAppId } from "../lib";
 import { union, without } from "lodash";
 import * as fs from 'fs-extra';
 import * as paths from '../../shared/paths';
@@ -174,14 +174,14 @@ export class PreviewService {
         });
     }
 
-    loadImage(title: string, index: number) {
+    loadImage(appID: string, index: number) {
         let previewData = this.previewData.getValue();
-        if (previewData[title]) {
-            let images = previewData[title].images.value.content;
+        if (previewData[appID]) {
+            let images = previewData[appID].images.value.content;
             if (images.length) {
                 if (images[index].loadStatus === 'none' || images[index].loadStatus === 'failed') {
                     if (images[index].loadStatus === 'failed') {
-                        this.loggerService.error(`Retrying to download "${images[index].imageUrl}" for (${title})`);
+                        this.loggerService.error(`Retrying to download "${images[index].imageUrl}" for (${previewData[appID].title})`);
                     }
 
                     images[index].loadStatus = 'downloading';
@@ -192,7 +192,7 @@ export class PreviewService {
                         this.previewDataChanged.next();
                     };
                     imageLoader.onerror = () => {
-                        this.loggerService.error(`"${images[index].imageUrl}" failed to download for (${title})`);
+                        this.loggerService.error(`"${images[index].imageUrl}" failed to download for (${previewData[appID].title})`);
                         images[index].loadStatus = 'failed';
                         this.previewDataChanged.next();
                     };
@@ -202,12 +202,12 @@ export class PreviewService {
         }
     }
 
-    setImageIndex(title: string, index: number) {
+    setImageIndex(appID: string, index: number) {
         let previewData = this.previewData.getValue();
-        if (previewData[title]) {
-            let images = previewData[title].images.value.content;
+        if (previewData[appID]) {
+            let images = previewData[appID].images.value.content;
             if (images.length) {
-                previewData[title].currentImageIndex = index < 0 ? images.length - 1 : (index < images.length ? index : 0);
+                previewData[appID].currentImageIndex = index < 0 ? images.length - 1 : (index < images.length ? index : 0);
                 this.previewDataChanged.next();
             }
         }
@@ -235,9 +235,9 @@ export class PreviewService {
         return new Promise<PreferedImages>((resolve, reject) => {
             let list: PreferedImages = {};
             let previewData = this.previewData.getValue();
-            for (let title in previewData) {
-                if (previewData[title].images.value.content.length)
-                    list[title] = previewData[title].images.value.content[previewData[title].currentImageIndex].imageUrl;
+            for (let appID in previewData) {
+                if (previewData[appID].images.value.content.length)
+                    list[appID] = previewData[appID].images.value.content[previewData[appID].currentImageIndex].imageUrl;
             }
             this.preferedImages = list;
             fs.outputFile(paths.preferedImages, JSON.stringify(list, null, 4), (error) => {
@@ -371,8 +371,10 @@ export class PreviewService {
         let previewData: PreviewData = {};
         for (let i = 0; i < data.length; i++) {
             for (let j = 0; j < data[i].files.length; j++) {
-                if (previewData[data[i].files[j].fuzzyFinalTitle] === undefined) {
-                    previewData[data[i].files[j].fuzzyFinalTitle] = {
+                let appID = generateAppId(`"${data[i].files[j].executableLocation}"`, data[i].files[j].fuzzyFinalTitle);
+
+                if (previewData[appID] === undefined) {
+                    previewData[appID] = {
                         steamDirectories: {
                             [data[i].steamDirectory]: {
                                 steamCategories: data[i].steamCategories,
@@ -380,6 +382,7 @@ export class PreviewService {
                                 argumentString: data[i].files[j].argumentString,
                             }
                         },
+                        title: data[i].files[j].fuzzyFinalTitle,
                         currentImageIndex: 0,
                         imageKey: data[i].files[j].fuzzyTitle,
                         images: new Reference<ImagesStatusAndContent>(this.images, data[i].files[j].fuzzyTitle)
@@ -387,15 +390,15 @@ export class PreviewService {
                     numberOfItems++;
                 }
                 else {
-                    if (previewData[data[i].files[j].fuzzyFinalTitle].steamDirectories[data[i].steamDirectory] === undefined)
-                        previewData[data[i].files[j].fuzzyFinalTitle].steamDirectories[data[i].steamDirectory] = {
+                    if (previewData[appID].steamDirectories[data[i].steamDirectory] === undefined)
+                        previewData[appID].steamDirectories[data[i].steamDirectory] = {
                             steamCategories: data[i].steamCategories,
                             executableLocation: data[i].files[j].executableLocation,
                             argumentString: data[i].files[j].argumentString,
                         };
                     else {
-                        let currentCategories = previewData[data[i].files[j].fuzzyFinalTitle].steamDirectories[data[i].steamDirectory].steamCategories;
-                        previewData[data[i].files[j].fuzzyFinalTitle].steamDirectories[data[i].steamDirectory].steamCategories = union(currentCategories, data[i].steamCategories);
+                        let currentCategories = previewData[appID].steamDirectories[data[i].steamDirectory].steamCategories;
+                        previewData[appID].steamDirectories[data[i].steamDirectory].steamCategories = union(currentCategories, data[i].steamCategories);
                     }
                 }
 
@@ -462,10 +465,10 @@ export class PreviewService {
                         this.addUniqueImage(imageKeys[i], ...data.images);
 
                         if (this.preferedImages !== undefined) {
-                            for (let title in this.preferedImages) {
-                                let index = this.images[imageKeys[i]].content.findIndex((image) => this.preferedImages[title] === image.imageUrl);
-                                if (index !== -1 && previewData[title] !== undefined)
-                                    previewData[title].currentImageIndex = index;
+                            for (let appID in this.preferedImages) {
+                                let index = this.images[imageKeys[i]].content.findIndex((image) => this.preferedImages[appID] === image.imageUrl);
+                                if (index !== -1 && previewData[appID] !== undefined)
+                                    previewData[appID].currentImageIndex = index;
                             }
                         }
 

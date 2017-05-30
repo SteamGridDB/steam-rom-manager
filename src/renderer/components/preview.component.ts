@@ -43,19 +43,19 @@ export class PreviewComponent implements OnDestroy {
         this.subscriptions.unsubscribe();
     }
 
-    private previousImage(title: string, currentIndex: number) {
-        this.previewService.setImageIndex(title, currentIndex - 1);
+    private previousImage(appID: string, currentIndex: number) {
+        this.previewService.setImageIndex(appID, currentIndex - 1);
     }
 
-    private nextImage(title: string, currentIndex: number) {
-        this.previewService.setImageIndex(title, currentIndex + 1);
+    private nextImage(appID: string, currentIndex: number) {
+        this.previewService.setImageIndex(appID, currentIndex + 1);
     }
 
-    private loadImage(title: string, index: number) {
-        this.previewService.loadImage(title, index);
+    private loadImage(appID: string, index: number) {
+        this.previewService.loadImage(appID, index);
     }
 
-    private refreshImages(title: string) {
-        this.previewService.downloadImageUrls([title]);
+    private refreshImages(imageKey: string) {
+        this.previewService.downloadImageUrls([imageKey]);
     }
 }

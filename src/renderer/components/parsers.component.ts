@@ -36,6 +36,7 @@ export class ParsersComponent implements OnInit, OnDestroy {
             parserType: ['', (control: FormControl) => this.parserTypeValidation(control)],
             configTitle: ['', (control: FormControl) => this.genericValidation('validateConfigTitle', control)],
             steamCategory: ['', (control: FormControl) => this.genericValidation('validateSteamCategory', control)],
+            //userAccounts: ['', (control: FormControl) => this.genericValidation('validateSteamCategory', control)],
             executableLocation: ['', (control: FormControl) => this.genericValidation('validateExecutableLocation', control)],
             romDirectory: ['', (control: FormControl) => this.genericValidation('validateROMsDir', control)],
             steamDirectory: ['', (control: FormControl) => this.genericValidation('validateSteamDir', control)],
@@ -162,6 +163,9 @@ export class ParsersComponent implements OnInit, OnDestroy {
             this.updateParserInputsFields(control.value);
         return invalid;
     }
+
+    /*private userAccountsValidation(control: FormControl) {
+    }*/
 
     private updateParserInputsFields(parserType: string) {
         let parser = this.parsersService.getParser(parserType);
