@@ -40,7 +40,7 @@ let clientConfig = {
                 use: 'file-loader?name=images/[name].[ext]&publicPath=../'
             },
             {
-                test: /\.(ttf)$/i,
+                test: /\.(ttf|eot|svg|woff|woff2)$/i,
                 use: 'file-loader?name=fonts/[name].[ext]&publicPath=../'
             },
             {
@@ -66,7 +66,7 @@ let clientConfig = {
 };
 
 let developmentConfig = {
-    devtool: 'source-map',
+    devtool: 'cheap-module-eval-source-map',
     performance: {
         hints: false
     },

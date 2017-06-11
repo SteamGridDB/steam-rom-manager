@@ -10,5 +10,6 @@ export * from './nav-expand.component';
 export * from './theme.component';
 export * from './ng-select.component';
 export * from './ng-option.component';
-export * from './ng-button.component';
-export * from './hacks.component';
+export * from './ng-var.component';
+export * from './ng-toggle-button.component';
+export * from './settings.component';

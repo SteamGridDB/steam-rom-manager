@@ -1,10 +1,10 @@
-import { VDFListData, VDFListFileData, PreviewData } from "../models";
-import { omitBy, unionBy, cloneDeep, pullAllBy, without, isNil } from "lodash";
+import { VDFListData, VDFListFileData, PreviewData, PreviewDataApps } from "../models";
 import { Http, ResponseContentType, Headers } from '@angular/http';
+import { generateAppId } from "./steam-id-helpers";
+import { readJson, writeJson } from "./json-helpers";
 import * as glob from 'glob';
+import * as _ from "lodash";
 import * as path from 'path';
-import * as crc from 'crc';
-import * as long from 'long';
 import * as fs from 'fs-extra';
 import * as paths from "../../shared/paths";
 
@@ -13,7 +13,35 @@ export class VdfManager {
 
     constructor(private http: Http) { }
 
-    populateList(steamDirectories: string[]) {
+    populateListFromPreviewData(previewData: PreviewData) {
+        return Promise.resolve().then(() => {
+            let userFound: boolean = false;
+            for (let directory in previewData) {
+                for (let user in previewData[directory]) {
+                    userFound = true;
+                    if (this.listData[directory] === undefined)
+                        this.listData[directory] = {};
+
+                    if (this.listData[directory][user] === undefined) {
+                        this.listData[directory][user] = {
+                            screenshots: {
+                                path: path.join(directory, 'userdata', user, '760', 'screenshots.vdf'),
+                                data: null
+                            },
+                            shortcuts: {
+                                path: path.join(directory, 'userdata', user, 'config', 'shortcuts.vdf'),
+                                data: null
+                            }
+                        };
+                    }
+                }
+            }
+            if (!userFound)
+                throw new Error("none of provided steam directories contained user directories.");
+        });
+    }
+
+    populateListFromDirectoryList(steamDirectories: string[]) {
         return new Promise<string[]>((resolve, reject) => {
             if (steamDirectories.length > 0) {
                 this.retrieveMultipleVDFPaths(steamDirectories).then((data) => {
@@ -49,11 +77,11 @@ export class VdfManager {
                     else
                         resolve(errors);
                 }).catch((error) => {
-                    reject(new Error(`could not populate VDF list. ${error}`))
+                    reject(new Error(`could not populate VDF list. ${error}`));
                 });
             }
             else {
-                reject(new Error('cannot populate list from empty directory list.'))
+                reject(new Error('cannot populate list from empty directory list.'));
             }
         });
     }
@@ -69,8 +97,10 @@ export class VdfManager {
                 else {
                     let files: string[] = [];
                     for (let j = 0; j < folders.length; j++) {
-                        files.push(path.join(steamDirectory, folders[j], 'config', 'shortcuts.vdf'),
-                            path.join(steamDirectory, folders[j], '760', 'screenshots.vdf'));
+                        files.push(
+                            path.join(steamDirectory, folders[j], 'config', 'shortcuts.vdf'),
+                            path.join(steamDirectory, folders[j], '760', 'screenshots.vdf')
+                        );
                     }
                     resolve({ data: { directory: steamDirectory, files: files }, error: null });
                 }
@@ -205,47 +235,29 @@ export class VdfManager {
         return Promise.all(promises);
     }
 
-    private createBackup(steamDirectory: string) {
-        let promises: Promise<void>[] = [];
-        for (let userId in this.listData[steamDirectory]) {
-            promises.push(new Promise<void>((resolve, reject) => {
-                fs.copy(this.listData[steamDirectory][userId].screenshots.path, path.join(path.dirname(this.listData[steamDirectory][userId].screenshots.path), 'screenshots.firstbackup'), { overwrite: false }, (error: any) => {
-                    if (error && error.code !== 'ENOENT')
-                        reject(error);
-                    else
-                        resolve();
-                });
-                fs.copy(this.listData[steamDirectory][userId].screenshots.path, path.join(path.dirname(this.listData[steamDirectory][userId].screenshots.path), 'screenshots.backup'), { overwrite: true }, (error: any) => {
-                    if (error && error.code !== 'ENOENT')
-                        reject(error);
-                    else
-                        resolve();
-                });
-            }));
-            promises.push(new Promise<void>((resolve, reject) => {
-                fs.copy(this.listData[steamDirectory][userId].shortcuts.path, path.join(path.dirname(this.listData[steamDirectory][userId].shortcuts.path), 'shortcuts.firstbackup'), { overwrite: false }, (error: any) => {
-                    if (error && error.code !== 'ENOENT')
-                        reject(error);
-                    else
-                        resolve();
-                });
-                fs.copy(this.listData[steamDirectory][userId].shortcuts.path, path.join(path.dirname(this.listData[steamDirectory][userId].shortcuts.path), 'shortcuts.backup'), { overwrite: true }, (error: any) => {
-                    if (error && error.code !== 'ENOENT')
-                        reject(error);
-                    else
-                        resolve();
-                });
-            }));
-        }
-        return Promise.all(promises);
+    private createBackup(filename: string, newFilename: string, overwrite: boolean = false) {
+        return new Promise<void>((resolve, reject) => {
+            fs.copy(filename, newFilename, { overwrite: overwrite }, (error: any) => {
+                if (error && error.code !== 'ENOENT')
+                    reject(error);
+                else
+                    resolve();
+            });
+        });
     }
 
     createBackups() {
         let promisePushed = false;
-        let promises: Promise<void[]>[] = [];
+        let promises: Promise<void>[] = [];
         for (let steamDirectory in this.listData) {
-            promisePushed = true;
-            promises.push(this.createBackup(steamDirectory));
+            for (let userId in this.listData[steamDirectory]) {
+                let user = this.listData[steamDirectory][userId];
+                promisePushed = true;
+                promises.push(this.createBackup(user.screenshots.path, path.join(path.dirname(user.screenshots.path), 'screenshots.firstbackup')));
+                promises.push(this.createBackup(user.screenshots.path, path.join(path.dirname(user.screenshots.path), 'screenshots.backup'), true));
+                promises.push(this.createBackup(user.shortcuts.path, path.join(path.dirname(user.shortcuts.path), 'shortcuts.firstbackup')));
+                promises.push(this.createBackup(user.shortcuts.path, path.join(path.dirname(user.shortcuts.path), 'shortcuts.backup'), true));
+            }
         }
         if (!promisePushed)
             throw new Error(`could not create backups. The populated list is empty.`);
@@ -255,34 +267,11 @@ export class VdfManager {
     }
 
     private readVDFListData(steamDirectory: string, userId: string) {
-        return new Promise<VDFListFileData[]>((resolve, reject) => {
-            fs.readFile(path.join(path.dirname(this.listData[steamDirectory][userId].shortcuts.path), paths.savedListFilename), 'utf8', (error, data) => {
-                if (error) {
-                    if (error.code !== 'ENOENT')
-                        return reject(error);
-                    else
-                        resolve([]);
-                }
-                else {
-                    try {
-                        resolve(JSON.parse(data));
-                    } catch (error) {
-                        reject(error);
-                    }
-                }
-            });
-        });
+        return readJson<VDFListFileData[]>(path.join(path.dirname(this.listData[steamDirectory][userId].shortcuts.path), paths.savedListFilename), []);
     }
 
     private writeVDFListData(steamDirectory: string, userId: string, data: VDFListFileData[]) {
-        return new Promise((resolve, reject) => {
-            fs.outputFile(path.join(path.dirname(this.listData[steamDirectory][userId].shortcuts.path), paths.savedListFilename), JSON.stringify(data, null, 4), (error) => {
-                if (error)
-                    reject(error);
-                else
-                    resolve();
-            });
-        });
+        return writeJson(path.join(path.dirname(this.listData[steamDirectory][userId].shortcuts.path), paths.savedListFilename), data);
     }
 
     private setScreenshotsData(steamDirectory: string, userId: string, data: any) {
@@ -299,17 +288,6 @@ export class VdfManager {
 
     private getShortcutsData(steamDirectory: string, userId: string): any[] {
         return this.listData[steamDirectory][userId].shortcuts.data['shortcuts'];
-    }
-
-    private generateAppId(quotedExecutableLocation: string, title: string) {
-        //From https://github.com/Hafas/node-steam-shortcuts
-
-        let crcValue = crc.crc32(quotedExecutableLocation + title);
-        let longValue = new long(crcValue, crcValue, true);
-        longValue = longValue.or(0x80000000);
-        longValue = longValue.shl(32);
-        longValue = longValue.or(0x02000000);
-        return longValue.toString();
     }
 
     private downloadImage(steamDirectory: string, userId: string, data: { appId: string, title: string, url: string }) {
@@ -378,7 +356,7 @@ export class VdfManager {
                     });
                 }));
             }
-            this.setScreenshotsData(steamDirectory, userId, omitBy(screenshotsData, isNil));
+            this.setScreenshotsData(steamDirectory, userId, _.omitBy(screenshotsData, _.isNil));
             Promise.all(promises).then(() => resolve()).catch((errors) => reject(errors));
         });
     }
@@ -399,7 +377,7 @@ export class VdfManager {
         });
     }
 
-    private mergeEntriesAndImages(steamDirectory: string, userId: string, previewData: PreviewData) {
+    private mergeEntriesAndImages(steamDirectory: string, userId: string, apps: PreviewDataApps) {
         return new Promise<string[]>((resolve, reject) => {
             let errors: string[] = [];
             let currentEntries: VDFListFileData[] = [];
@@ -408,11 +386,14 @@ export class VdfManager {
             let imagesToAdd: { appId: string, title: string, url: string }[] = [];
             let shortcutsData = this.getShortcutsData(steamDirectory, userId);
 
-            let getEntry = function (shortcutsData: any[], title: string) {
+            let getEntry = function (shortcutsData: any[], appID: string) {
                 for (let i = 0; i < shortcutsData.length; i++) {
-                    let appName = shortcutsData[i].appname || shortcutsData[i].AppName;
-                    if (appName === title)
-                        return i;
+                    if (shortcutsData[i]) {
+                        let appName = shortcutsData[i].appname || shortcutsData[i].AppName;
+                        let exe = shortcutsData[i].exe;
+                        if (appID === generateAppId(exe, appName))
+                            return i;
+                    }
                 }
                 return -1;
             }
@@ -420,23 +401,19 @@ export class VdfManager {
             this.readVDFListData(steamDirectory, userId).then((readData) => {
                 currentEntries = readData;
 
-                for (let title in previewData) {
-                    if (previewData[title].steamDirectories[steamDirectory] === undefined)
-                        continue;
+                for (let appID in apps) {
+                    let app = apps[appID];
+                    let index = getEntry(shortcutsData, appID);
 
-                    let index = getEntry(shortcutsData, title);
-
-                    let executableLocation = previewData[title].steamDirectories[steamDirectory].executableLocation;
-                    let argumentString = previewData[title].steamDirectories[steamDirectory].argumentString;
-                    let steamCategories = previewData[title].steamDirectories[steamDirectory].steamCategories;
-
-                    let appId = this.generateAppId(`"${executableLocation}"`, title);
+                    let executableLocation = app.executableLocation;
+                    let argumentString = app.argumentString;
+                    let steamCategories = app.steamCategories;
 
                     if (index !== -1) {
                         if (shortcutsData[index].AppName !== undefined)
-                            shortcutsData[index].AppName = title;
+                            shortcutsData[index].AppName = app.title;
                         else
-                            shortcutsData[index].appname = title;
+                            shortcutsData[index].appname = app.title;
 
                         shortcutsData[index].exe = `"${executableLocation}"`;
                         shortcutsData[index].StartDir = `"${path.dirname(executableLocation) + path.sep}"`;
@@ -445,7 +422,7 @@ export class VdfManager {
                     }
                     else {
                         shortcutsData.push({
-                            appname: title,
+                            appname: app.title,
                             exe: `"${executableLocation}"`,
                             StartDir: `"${path.dirname(executableLocation) + path.sep}"`,
                             LaunchOptions: argumentString,
@@ -453,23 +430,25 @@ export class VdfManager {
                         });
                     }
 
-                    imagesToRemove.push(appId);
+                    newEntries.push(appID);
 
-                    newEntries.push({ imageBasename: appId, title: title });
+                    let imageIndex = app.currentImageIndex;
+                    let images = app.images.value.content;
 
-                    let imageIndex = previewData[title].currentImageIndex;
-                    let images = previewData[title].images.value.content;
-
-                    if (images && images[imageIndex] && images[imageIndex].imageUrl)
-                        imagesToAdd.push({ appId: appId, title: title, url: images[imageIndex].imageUrl });
+                    if (images && images.length > 0) {
+                        if (imageIndex !== -1 && images[imageIndex] && images[imageIndex].imageUrl){
+                            imagesToRemove.push(appID);
+                            imagesToAdd.push({ appId: appID, title: app.title, url: images[imageIndex].imageUrl });
+                        }
+                    }
                 }
 
                 return this.removeImages(steamDirectory, userId, imagesToRemove);
             }).then(() => {
                 return this.addImages(steamDirectory, userId, imagesToAdd);
             }).then((downloadErrors) => {
-                errors = without(downloadErrors, undefined);
-                let mergedEntries: VDFListFileData[] = unionBy(currentEntries, newEntries, 'title');
+                errors = _.without(downloadErrors, undefined);
+                let mergedEntries: VDFListFileData[] = _.union(currentEntries, newEntries);
                 return this.writeVDFListData(steamDirectory, userId, mergedEntries);
             }).then(() => resolve(errors)).catch((error) => reject(error));
         });
@@ -481,7 +460,7 @@ export class VdfManager {
         for (let steamDirectory in this.listData) {
             for (let userId in this.listData[steamDirectory]) {
                 promisePushed = true;
-                promises.push(this.mergeEntriesAndImages(steamDirectory, userId, previewData));
+                promises.push(this.mergeEntriesAndImages(steamDirectory, userId, previewData[steamDirectory][userId].apps));
             }
         }
         if (!promisePushed)
@@ -493,18 +472,19 @@ export class VdfManager {
         });;
     }
 
-    private removeEntriesAndImages(steamDirectory: string, userId: string, previewData?: PreviewData) {
+    private removeEntriesAndImages(steamDirectory: string, userId: string, apps?: PreviewDataApps) {
         return new Promise((resolve, reject) => {
             let currentEntries: VDFListFileData[] = [];
             let entriesToRemove: VDFListFileData[] = [];
             let imagesToRemove: string[] = [];
             let shortcutsData = this.getShortcutsData(steamDirectory, userId);
 
-            let getEntry = function (shortcutsData: any[], title: string) {
+            let getEntry = function (shortcutsData: any[], appID: string) {
                 for (let i = 0; i < shortcutsData.length; i++) {
                     if (shortcutsData[i]) {
                         let appName = shortcutsData[i].appname || shortcutsData[i].AppName;
-                        if (appName === title)
+                        let exe = shortcutsData[i].exe;
+                        if (appID === generateAppId(exe, appName))
                             return i;
                     }
                 }
@@ -514,41 +494,37 @@ export class VdfManager {
             this.readVDFListData(steamDirectory, userId).then((readData) => {
                 currentEntries = readData;
 
-                if (previewData !== undefined) {
-                    for (let title in previewData) {
-                        if (previewData[title].steamDirectories[steamDirectory] === undefined)
-                            continue;
-
-                        let index = getEntry(shortcutsData, title);
+                if (apps !== undefined) {
+                    for (let appID in apps) {
+                        let index = getEntry(shortcutsData, appID);
 
                         if (index !== -1) {
-                            let executableLocation = previewData[title].steamDirectories[steamDirectory].executableLocation;
-                            let appId = this.generateAppId(`"${executableLocation}"`, title);
+                            let executableLocation = apps[appID].executableLocation;
 
-                            imagesToRemove.push(appId);
-                            entriesToRemove.push({ imageBasename: appId, title: title });
+                            imagesToRemove.push(appID);
+                            entriesToRemove.push(appID);
                             shortcutsData[index] = undefined;
                         }
                     }
 
-                    this.setShortcutsData(steamDirectory, userId, without(shortcutsData, isNil));
+                    this.setShortcutsData(steamDirectory, userId, _.without(shortcutsData, _.isNil));
                 }
                 else {
-                    entriesToRemove = cloneDeep(currentEntries);
+                    entriesToRemove = _.cloneDeep(currentEntries);
                     for (let i = 0; i < entriesToRemove.length; i++) {
-                        let index = getEntry(shortcutsData, entriesToRemove[i].title);
+                        let index = getEntry(shortcutsData, entriesToRemove[i]);
 
                         if (index !== -1)
                             shortcutsData[index] = undefined;
 
-                        imagesToRemove.push(entriesToRemove[i].imageBasename);
+                        imagesToRemove.push(entriesToRemove[i]);
                     }
-                    this.setShortcutsData(steamDirectory, userId, without(shortcutsData, isNil));
+                    this.setShortcutsData(steamDirectory, userId, _.without(shortcutsData, _.isNil));
                 }
 
                 return this.removeImages(steamDirectory, userId, imagesToRemove);
             }).then(() => {
-                let mergedEntries: VDFListFileData[] = pullAllBy(currentEntries, entriesToRemove, 'title');
+                let mergedEntries: VDFListFileData[] = _.pullAll(currentEntries, entriesToRemove);
                 return this.writeVDFListData(steamDirectory, userId, mergedEntries);
             }).then(() => resolve()).catch((error) => reject(error));
         });
@@ -560,7 +536,7 @@ export class VdfManager {
         for (let steamDirectory in this.listData) {
             for (let userId in this.listData[steamDirectory]) {
                 promisePushed = true;
-                promises.push(this.removeEntriesAndImages(steamDirectory, userId, previewData));
+                promises.push(this.removeEntriesAndImages(steamDirectory, userId, previewData ? previewData[steamDirectory][userId].apps : undefined));
             }
         }
         if (!promisePushed)

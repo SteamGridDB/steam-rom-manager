@@ -45,6 +45,10 @@
                 @include toggle-button-color(logger-success-button);
             }
 
+            &.fuzzy {
+                @include toggle-button-color(logger-fuzzy-button);
+            }
+
             &.timestamp {
                 @include toggle-button-color(logger-timestamp-button);
             }
@@ -102,6 +106,10 @@
 
             &.success {
                 border-left-color: var(--color-logger-success-border);
+            }
+
+            &.fuzzy {
+                border-left-color: var(--color-logger-fuzzy-border);
             }
         }
 

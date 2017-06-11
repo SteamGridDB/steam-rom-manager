@@ -13,7 +13,4 @@ export interface VDFListData {
     }
 }
 
-export interface VDFListFileData { 
-    title: string, 
-    imageBasename: string 
-}
+export type VDFListFileData = string;

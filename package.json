@@ -1,6 +1,6 @@
 {
   "name": "steam-rom-manager",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "license": "GPL-3.0",
   "description": "An app for managing ROMs in Steam",
   "author": {
@@ -41,13 +41,17 @@
   "scripts": {
     "build:main": "cross-env NODE_ENV=production webpack --config ./webpack/main.js",
     "build:renderer": "cross-env NODE_ENV=production webpack --config ./webpack/renderer.js",
-    "build:win": "rimraf release && npm run build && build --win --ia32 --x64",
-    "build:linux": "rimraf release && npm run build && build --linux --ia32 --x64",
-    "build": "rimraf dist && npm run build:main && npm run build:renderer",
+    "build:dist": "rimraf dist && npm run build:main && npm run build:renderer",
+    "build:win": "npm run build:dist && build --win --ia32 --x64",
+    "build:linux": "npm run build:dist && build --linux --ia32 --x64",
+    "build:all:forWin": "npm run build:win && npm run docker:build:linux",
     "watch:main": "webpack --watch --config ./webpack/main.js",
     "watch:renderer": "webpack --watch --config ./webpack/renderer.js",
     "start": "./node_modules/.bin/electron ./dist/main.bundle.js",
-    "clean": "rimraf dist release"
+    "clean": "rimraf dist release",
+    "docker:create": "docker build -t srm-linux .",
+    "docker:install-dependencies": "docker run -v %cd%:/app -v node_modules:/app/node_modules srm-linux npm install",
+    "docker:build:linux": "docker run -v %cd%:/app -v node_modules:/app/node_modules srm-linux npm run build:linux"
   },
   "dependencies": {
     "@angular/animations": "^4.0.3",
@@ -59,6 +63,7 @@
     "@angular/platform-browser": "^4.0.3",
     "@angular/platform-browser-dynamic": "^4.0.3",
     "@angular/router": "^4.0.3",
+    "async": "^2.4.1",
     "blob-to-buffer": "^1.2.6",
     "colornames": "^1.1.1",
     "crc": "^3.4.4",
@@ -78,6 +83,7 @@
     "zone.js": "^0.8.5"
   },
   "devDependencies": {
+    "@types/async": "^2.0.40",
     "@types/crc": "^3.4.0",
     "@types/electron": "^1.4.37",
     "@types/fs-extra": "^2.1.0",
@@ -89,10 +95,10 @@
     "awesome-typescript-loader": "^3.1.2",
     "cross-env": "^4.0.0",
     "css-loader": "^0.28.0",
-    "extract-zip": "=1.6.0",
     "electron": "^1.6.7",
     "electron-builder": "^17.0.1",
     "extract-text-webpack-plugin": "^2.1.0",
+    "extract-zip": "=1.6.0",
     "file-loader": "^0.11.1",
     "html-loader": "^0.4.5",
     "html-webpack-plugin": "^2.28.0",

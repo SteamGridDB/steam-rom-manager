@@ -60,7 +60,7 @@
 
                     color: var(--color-parsers-user-instructions-item-paragraph-text);
 
-                    b{
+                    b {
                         color: var(--color-parsers-user-instructions-item-paragraph-bold-text);
                     }
 
@@ -172,18 +172,18 @@
 
                         color: var(--color-parsers-select-option-text);
                         background-color: var(--color-parsers-select-option-background);
-                        box-shadow: 0 0 2px 1px var(--color-parsers-select-option-shadow) inset;
+                        box-shadow: 0 0 1px 1px var(--color-parsers-select-option-shadow) inset;
 
                         &:hover {
                             color: var(--color-parsers-select-option-text-hover);
                             background-color: var(--color-parsers-select-option-background-hover);
-                            box-shadow: 0 0 2px 1px var(--color-parsers-select-option-shadow-hover) inset;
+                            box-shadow: 0 0 1px 1px var(--color-parsers-select-option-shadow-hover) inset;
                         }
 
                         &:active {
                             color: var(--color-parsers-select-option-text-active);
                             background-color: var(--color-parsers-select-option-background-active);
-                            box-shadow: 0 0 2px 1px var(--color-parsers-select-option-shadow-active) inset;
+                            box-shadow: 0 0 1px 1px var(--color-parsers-select-option-shadow-active) inset;
                         }
                     }
                 }
@@ -195,6 +195,42 @@
                         margin: 0 0 0 0.25em;
 
                         @include click-button-color(parsers-browse-button);
+                    }
+
+                    &.ngToggleButton {
+                        flex-direction: column;
+
+                        margin: 0.75em 0 0.25em 0;
+                        ng-toggle-button {
+                            font-size: 1em;
+
+                            margin: 0.25em 0;
+
+                            @include ng-toggle-button-color(parsers-toggle-button);
+                        }
+                    }
+                }
+            }
+
+            .toggleButton {
+                font-size: 0.8em;
+
+                display: inline-flex;
+
+                padding: 0;
+
+                border: none;
+                background: red;
+
+                svg {
+                    width: 100%;
+                    >path {
+                        fill: #1db954;
+                        stroke: #2f2f2f;
+                    }
+                    >circle {
+                        fill: white;
+                        stroke: #2f2f2f;
                     }
                 }
             }
@@ -230,12 +266,8 @@
                 @include click-button-color(parsers-delete-button);
             }
 
-            &.enable {
-                @include toggle-button-color(parsers-enable-button);
-            }
-
-            &.fuzzyMatch {
-                @include toggle-button-color(parsers-fuzzy-button);
+            &.advanced {
+                @include toggle-button-color(parsers-advanced-button);
             }
 
             &.up {
@@ -258,7 +290,7 @@
     .clickButton, .toggleButton {
         font-family: 'Roboto';
 
-        display: inline-block;
+        display: inline-flex;
 
         padding: 0.2em 0.5em;
 
@@ -266,6 +298,17 @@
         user-select: none;
 
         border: 1px solid;
+
+        align-items: center;
+
+        svg {
+            margin-right: 0.25em;
+
+            cursor: pointer;
+            * {
+                cursor: pointer;
+            }
+        }
     }
 }
 

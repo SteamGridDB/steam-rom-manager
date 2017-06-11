@@ -1,18 +1,19 @@
-import { GenericImageProvider, ImageProviderData } from '../models';
-import * as GenericProviders from './image-providers';
+import { GenericImageProvider, ProviderEvent } from '../models';
+import { LoggerService, SettingsService } from "../services";
 import { Http } from '@angular/http';
 import { Subject } from "rxjs";
+import * as GenericProviders from './image-providers';
 
 export class ImageProvider {
     private availableProviders: { [key: string]: GenericImageProvider };
     private stopImageUrlsDownload: Subject<any>;
 
-    constructor(private http: Http) {
+    constructor(private http: Http, private loggerService: LoggerService, private settingsService: SettingsService) {
         this.availableProviders = {};
         this.stopImageUrlsDownload = new Subject();
 
         for (let key in GenericProviders) {
-            let parser = new (GenericProviders[key].prototype.constructor)(this.http, this.stopImageUrlsDownload.asObservable());
+            let parser = new (GenericProviders[key].prototype.constructor)(this.http, this.loggerService, this.settingsService, this.stopImageUrlsDownload.asObservable());
             this.availableProviders[parser.getProvider()] = parser;
         }
     }
@@ -25,37 +26,15 @@ export class ImageProvider {
         return parsers;
     }
 
-    retrieveUrlsFromProvider(title: string, provider: string) {
-        return new Promise<ImageProviderData>((resolve, reject) => {
-            if (this.availableProviders[provider])
-                return resolve(this.availableProviders[provider].retrieveUrls(title));
-            else
-                return reject(`"${provider}" not available`);
-        });
-    }
-
-    retrieveUrls(title: string, ...providers: string[]) {
-        let promises: Promise<ImageProviderData>[] = [];
-
-        if (providers.length === 0)
-            providers = this.getAvailableProviders();
-
-        for (let i = 0; i < providers.length; i++) {
-            promises.push(this.retrieveUrlsFromProvider(title, providers[i]));
-        }
-        return Promise.all(promises).then((data) => {
-            let mergedData: ImageProviderData = { images: [], failed: [] };
-            for (let i = 0; i < data.length; i++) {
-                if (data[i].failed || data[i].images){
-                    mergedData.images = mergedData.images.concat(data[i].images);
-                    mergedData.failed = mergedData.failed.concat(data[i].failed);
-                }
+    retrieveUrls(title: string, providers: string[], eventCallback: (event: ProviderEvent, data: any) => void, doneCallback: (title: string) => void) {
+        if (providers !== undefined) {
+            for (let i = 0; i < providers.length; i++) {
+                this.availableProviders[providers[i]].retrieveUrls(title, eventCallback, doneCallback);
             }
-            return mergedData;
-        });
+        }
     }
 
-    stopUrlDownload(){
+    stopUrlDownload() {
         this.stopImageUrlsDownload.next();
     }
 }

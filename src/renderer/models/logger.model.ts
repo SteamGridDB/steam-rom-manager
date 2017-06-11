@@ -8,6 +8,7 @@ export interface LogSettings {
     showErrors: boolean,
     showSuccesses: boolean,
     showInfo: boolean,
+    showFuzzy: boolean,
     timestamp: boolean,
     textWrap: boolean,
     autoscroll: boolean,

@@ -23,7 +23,8 @@ export class LoggerService {
         this.logSettings = { 
             showErrors: true, 
             showInfo: true, 
-            showSuccesses: true, 
+            showSuccesses: true,
+            showFuzzy: false,
             autoscroll: false, 
             textWrap: false, 
             timestamp: false, 
@@ -43,7 +44,11 @@ export class LoggerService {
         this.postMessage('error', message, settings);
     }
 
-    private postMessage(type: 'success' | 'info' | 'error', message: string, settings?: MessageSettings) {
+    fuzzy(message: string, settings?: MessageSettings) {
+        this.postMessage('fuzzy', message, settings);
+    }
+
+    private postMessage(type: 'success' | 'info' | 'error' | 'fuzzy', message: string, settings?: MessageSettings) {
         let keepAfterNavigationChange: boolean = false;
         let invokeAlert: boolean = false;
         let doNotAppendToLog: boolean = false;

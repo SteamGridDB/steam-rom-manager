@@ -1,0 +1,22 @@
+<label>
+    General
+</label>
+<div class="inputContainer ngToggleButton">
+    <ng-toggle-button [value]="settings.offlineMode" (change)="settings.offlineMode = $event; onSettingsChange();">Offline mode</ng-toggle-button>
+</div>
+<div class="inputContainer clickButton">
+    <div class="removeButton" [class.disabled]="this.settings.knownSteamDirectories.length === 0" (click)="removeApps()">Remove all added app entries</div>
+</div>
+<label>
+    Preview settings
+</label>
+<div class="inputContainer ngToggleButton">
+    <ng-toggle-button [value]="settings.previewSettings.preload" (change)="preload($event); onSettingsChange();">Preload retrieved images immediately</ng-toggle-button>
+</div>
+<label>
+    Fuzzy matcher
+</label>
+<div class="inputContainer ngToggleButton">
+    <ng-toggle-button [value]="settings.fuzzyMatcher.verbose" (change)="settings.fuzzyMatcher.verbose = $event; onSettingsChange();">Log matching results (logged results are hidden by default in Event log)</ng-toggle-button>
+    <ng-toggle-button [value]="settings.fuzzyMatcher.filterProviders" (change)="settings.fuzzyMatcher.filterProviders = $event; onSettingsChange();">Filter images (filters out unrelated images returned by some image providers)</ng-toggle-button>
+</div>

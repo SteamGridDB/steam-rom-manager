@@ -1,3 +1,5 @@
+import { userAccountData } from './steam-id-helpers.model';
+
 export interface UserConfiguration {
     parserType: string,
     configTitle: string,
@@ -5,16 +7,26 @@ export interface UserConfiguration {
     executableLocation: string,
     romDirectory: string,
     steamDirectory: string,
+    userAccounts: {
+        specifiedAccounts: string,
+        skipWithMissingDataDir: boolean
+    },
     parserInputs: { [inputKey: string]: string },
+    fuzzyMatch: {
+        use: boolean,
+        removeCharacters: boolean,
+        removeBrackets: boolean
+    },
+    onlineImageQueries: string,
     executableArgs: string,
     localImages: string,
-    titlePrefix: string,
-    titleSuffix: string,
-    fuzzyMatch: boolean,
-    enable: boolean
+    titleModifier: string,
+    enabled: boolean,
+    advanced: boolean
 }
 
 export interface ParsedUserConfigurationFile {
+    executableLocation: string,
     filePath: string,
     extractedTitle: string,
     fuzzyTitle: string,
@@ -22,13 +34,15 @@ export interface ParsedUserConfigurationFile {
     fuzzyFinalTitle: string,
     argumentString: string,
     resolvedLocalImages: string,
+    onlineImageQueries: string[],
     localImages: string[]
 }
 
 export interface ParsedUserConfiguration {
     steamCategories: string[],
-    executableLocation: string,
     steamDirectory: string,
+    foundUserAccounts: userAccountData[],
+    missingUserAccounts: string[],
     files: ParsedUserConfigurationFile[],
     failed: string[]
 }
