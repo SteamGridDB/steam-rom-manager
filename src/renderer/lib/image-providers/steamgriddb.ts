@@ -18,7 +18,7 @@ export class SteamGridDbProvider implements GenericImageProvider {
         return new Promise<number>((resolve, reject) => {
             let next: number = undefined;
             let downloadStop = this.downloadInterrupt.subscribe(() => { next = undefined; downloadStop.unsubscribe(); });
-            let subscription = this.http.get('http://www.steamgriddb.com/apitestdonotuse/grids', { params: params }).timeout(this.timeout).retry(this.retryCount).subscribe(
+            let subscription = this.http.get('http://www.steamgriddb.com/api/grids', { params: params }).timeout(this.timeout).retry(this.retryCount).subscribe(
                 (response) => {
                     try {
                         let parsedBody = response.json();

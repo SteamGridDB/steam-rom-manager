@@ -179,7 +179,7 @@ export class FuzzyMatcher {
 
     private getTotalCount() {
         return new Promise<number>((resolve, reject) => {
-            this.http.get('http://www.steamgriddb.com/apitestdonotuse/games/?total').timeout(this.timeout).subscribe(
+            this.http.get('http://www.steamgriddb.com/api/games/?total').timeout(this.timeout).subscribe(
                 (response) => {
                     try {
                         let parsedBody = response.json();
@@ -200,7 +200,7 @@ export class FuzzyMatcher {
 
     private downloadList() {
         return new Promise<{ totalGames: number, games: string[] }>((resolve, reject) => {
-            this.http.get('http://www.steamgriddb.com/apitestdonotuse/games/').timeout(this.timeout).subscribe(
+            this.http.get('http://www.steamgriddb.com/api/games/').timeout(this.timeout).subscribe(
                 (response) => {
                     try {
                         let parsedBody = response.json();
