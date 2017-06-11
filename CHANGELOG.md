@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 * Specific account support added. This allows to make different configuration for different accounts.
 * New settings windows has been added.
 * Images can now be preloaded as soon as they are retrieved.
-* Images can now be filtered from non-related images (select this option in settings window).
+* Images can now be filtered for non-related images (select this option in settings window).
 * Fuzzy matcher has it's own Event log option now. This will reduce the clutter.
 * Timeout support added for `retrogaming.cloud`. After requested timeout, images will continue to download.
 * New nagging message will now announce when all downloads are complete.
