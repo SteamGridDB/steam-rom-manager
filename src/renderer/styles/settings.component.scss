@@ -6,5 +6,63 @@
     flex-direction: column;
     flex: 1;
 
+    padding: 1em;
+
     background-color: var(--color-settings-background);
+
+    label {
+        display: flex;
+
+        margin: 0.75em 0 0.25em 0;
+
+        color: var(--color-parsers-label);
+        &:first-child {
+            margin: 0 0 0.25em 0;
+        }
+    }
+
+    .inputContainer {
+        display: flex;
+
+        &.clickButton {
+            flex-direction: column;
+
+            margin: 0.75em 0 0.25em 1em;
+
+            align-items: flex-start;
+
+            >div {
+                font-family: 'Roboto';
+
+                display: inline-flex;
+
+                margin: 0.25em 0;
+                padding: 0.2em 0.5em;
+
+                cursor: pointer;
+                user-select: none;
+
+                border: 1px solid;
+
+                align-items: center;
+
+                &.removeButton {
+                    @include click-button-color(settings-dangerous-button, true);
+                }
+            }
+        }
+
+        &.ngToggleButton {
+            flex-direction: column;
+
+            margin: 0.75em 0 0.25em 1em;
+            ng-toggle-button {
+                font-size: 1em;
+
+                margin: 0.25em 0;
+
+                @include ng-toggle-button-color(settings-toggle-button);
+            }
+        }
+    }
 }

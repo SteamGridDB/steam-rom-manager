@@ -1,17 +1,43 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { SettingsService } from "../services";
+import { Router } from "@angular/router";
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app',
     template: `
-        <titlebar></titlebar>
-        <section>
-            <nav></nav>
-            <router-outlet></router-outlet>
-        </section>
-        <theme></theme>
-        <alert></alert>
+        <ng-container *ngIf="setttingsLoaded; else stillLoading">
+            <titlebar></titlebar>
+            <section>
+                <nav></nav>
+                <router-outlet></router-outlet>
+            </section>
+            <theme></theme>
+            <alert></alert>
+        </ng-container>
+        <ng-template #stillLoading>
+            <div class="appLoading loadingSettings"></div>
+        </ng-template>
     `,
     styleUrls: ['../styles/app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent { }
+export class AppComponent implements OnDestroy {
+    private setttingsLoaded: boolean = false;
+    private subscriptions: Subscription = new Subscription();
+
+    constructor(private settingsService: SettingsService, private router: Router, private changeDetectionRef: ChangeDetectorRef) {
+        this.subscriptions.add(this.settingsService.getLoadStatusObservable().subscribe((loaded) => {
+            if (loaded) {
+                this.setttingsLoaded = loaded;
+                this.router.initialNavigation();
+                this.changeDetectionRef.detectChanges();
+                this.subscriptions.unsubscribe();
+            }
+        }));
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.unsubscribe();
+    }
+}

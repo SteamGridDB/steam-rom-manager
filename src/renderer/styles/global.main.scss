@@ -27,11 +27,11 @@ body {
 }
 
 .appLoading {
-    &:after {
+    &:before {
         position: absolute;
         top: 0;
         right: 0;
-        bottom: 0;
+        bottom: 10%;
         left: 0;
 
         display: block;
@@ -47,6 +47,44 @@ body {
         border-top-color: var(--color-main-body-spinner);
         border-right: 0.325em solid transparent;
         border-radius: 50%;
+    }
+}
+
+.loadingSelf {
+    &:after {
+        font-size: 1.3em;
+        position: absolute;
+        top: 58%;
+        right: 0;
+        left: 0;
+
+        display: block;
+        text-align: center;
+
+        margin: auto;
+
+        content: 'Loading app...';
+
+        color: var(--color-main-body-spinner-text);
+    }
+}
+
+.loadingSettings {
+    &:after {
+        font-size: 1.3em;
+        position: absolute;
+        top: 58%;
+        right: 0;
+        left: 0;
+
+        display: block;
+        text-align: center;
+
+        margin: auto;
+
+        content: 'Loading settings...';
+
+        color: var(--color-main-body-spinner-text);
     }
 }
 

@@ -172,18 +172,18 @@
 
                         color: var(--color-parsers-select-option-text);
                         background-color: var(--color-parsers-select-option-background);
-                        box-shadow: 0 0 2px 1px var(--color-parsers-select-option-shadow) inset;
+                        box-shadow: 0 0 1px 1px var(--color-parsers-select-option-shadow) inset;
 
                         &:hover {
                             color: var(--color-parsers-select-option-text-hover);
                             background-color: var(--color-parsers-select-option-background-hover);
-                            box-shadow: 0 0 2px 1px var(--color-parsers-select-option-shadow-hover) inset;
+                            box-shadow: 0 0 1px 1px var(--color-parsers-select-option-shadow-hover) inset;
                         }
 
                         &:active {
                             color: var(--color-parsers-select-option-text-active);
                             background-color: var(--color-parsers-select-option-background-active);
-                            box-shadow: 0 0 2px 1px var(--color-parsers-select-option-shadow-active) inset;
+                            box-shadow: 0 0 1px 1px var(--color-parsers-select-option-shadow-active) inset;
                         }
                     }
                 }
@@ -199,6 +199,8 @@
 
                     &.ngToggleButton {
                         flex-direction: column;
+
+                        margin: 0.75em 0 0.25em 0;
                         ng-toggle-button {
                             font-size: 1em;
 
@@ -301,6 +303,7 @@
 
         svg {
             margin-right: 0.25em;
+
             cursor: pointer;
             * {
                 cursor: pointer;

@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Main Process",
+            "name": "Debug Main",
             "type": "node",
             "request": "launch",
             "cwd": "${workspaceRoot}/dist",
@@ -20,7 +20,7 @@
             ]
         },
         {
-            "name": "Debug Renderer Process",
+            "name": "Debug Renderer",
             "type": "chrome",
             "request": "attach",
             "port": 9222,
@@ -31,8 +31,8 @@
         {
             "name": "Debug Electron",
             "configurations": [
-                "Debug Main Process",
-                "Debug Renderer Process"
+                "Debug Main",
+                "Debug Renderer"
             ]
         }
     ]

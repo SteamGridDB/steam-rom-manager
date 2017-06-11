@@ -5,4 +5,6 @@ export * from './parser.model';
 export * from './preview.model';
 export * from './vdf-manager.model';
 export * from './image-providers.model';
-export * from './fuzzy-matcher.model';
+export * from './settings.model';
+export * from './steam-id-helpers.model';
+export * from './variable-parser.model';

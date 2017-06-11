@@ -1,4 +1,4 @@
-import { Component, forwardRef, ElementRef, ViewChildren, QueryList, Input } from '@angular/core';
+import { Component, forwardRef, ElementRef, ViewChildren, QueryList, Input, EventEmitter, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
@@ -36,25 +36,29 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 export class ToggleButtonComponent implements ControlValueAccessor {
     @Input('contentOnLeft') private contentOnLeft: boolean;
     @ViewChildren('animation', { read: ElementRef }) private animation: QueryList<ElementRef>;
-    private currentValue: any;
+    @Output() private change = new EventEmitter();
+    @Output() private touched = new EventEmitter();
+    private onTouchedNgModel: () => void = () => {};
+    private onChangeNgModel: (_: any) => void = () => {};
+    private currentValue: any = false;
 
     constructor(private element: ElementRef) { }
-
-    onChange = (_: any) => { };
-    onTouched = () => { };
-
+    
+    @Input()
     set value(value: any) {
         let oldValue = this.currentValue;
         this.currentValue = !!value;
 
         if (value !== oldValue){
-            this.onChange(value);
+            this.change.emit(value);
+            this.onChangeNgModel(value);
             if (this.animation && this.animation.first){
                 this.animation.first.nativeElement.beginElement();
             }
         }
 
-        this.onTouched();
+        this.touched.emit();
+        this.onTouchedNgModel();
     }
 
     get value() {
@@ -66,10 +70,10 @@ export class ToggleButtonComponent implements ControlValueAccessor {
     }
 
     registerOnChange(fn: (value: any) => any): void {
-        this.onChange = fn;
+        this.onChangeNgModel = fn;
     }
 
     registerOnTouched(fn: () => any): void {
-        this.onTouched = fn;
+        this.onTouchedNgModel = fn;
     }
 }

@@ -1,8 +1,7 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Observable, Subscription } from 'rxjs';
-import { PreviewService } from "../services";
-import { PreviewData, ImageContent, PreviewStateVariables } from "../models";
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Renderer2, ElementRef, RendererStyleFlags2 } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { PreviewService, SettingsService } from "../services";
+import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings } from "../models";
 
 @Component({
     selector: 'preview',
@@ -11,51 +10,82 @@ import { PreviewData, ImageContent, PreviewStateVariables } from "../models";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreviewComponent implements OnDestroy {
-    private previewData: Observable<PreviewData>;
+    private previewData: PreviewData;
+    private appSettings: AppSettings;
     private subscriptions: Subscription = new Subscription();
-    private stateVariables: PreviewStateVariables;
+    private previewVariables: PreviewVariables;
 
-    constructor(private previewService: PreviewService, private sanitizer: DomSanitizer, private changeDetectionRef: ChangeDetectorRef) {
+    constructor(private previewService: PreviewService, private settingsService: SettingsService, private changeDetectionRef: ChangeDetectorRef, private renderer: Renderer2, private elementRef: ElementRef) {
         this.previewData = this.previewService.getPreviewData();
-        this.stateVariables = this.previewService.getStateVariables();
+        this.previewVariables = this.previewService.getPreviewVariables();
         this.subscriptions.add(this.previewService.getPreviewDataChange().subscribe(() => {
+            this.previewData = this.previewService.getPreviewData();
             this.changeDetectionRef.detectChanges();
         }));
+        this.appSettings = this.settingsService.getSettings();
     }
 
     generatePreviewData() {
         this.previewService.generatePreviewData();
     }
 
-    saveData() {
-        this.previewService.saveData();
+    preloadImages() {
+        this.previewService.preloadImages();
     }
 
-    remove() {
-        this.previewService.remove(false);
-    }
-
-    removeAll() {
-        this.previewService.remove(true);
+    ngAfterContentInit() {
+        if (this.previewVariables.numberOfListItems > 0 && !this.previewVariables.listIsUpdating)
+            this.setImageSize(this.appSettings.previewSettings.imageZoomPercentage);
     }
 
     ngOnDestroy() {
         this.subscriptions.unsubscribe();
     }
 
-    private previousImage(appID: string, currentIndex: number) {
-        this.previewService.setImageIndex(appID, currentIndex - 1);
+    private save() {
+        this.previewService.saveData();
     }
 
-    private nextImage(appID: string, currentIndex: number) {
-        this.previewService.setImageIndex(appID, currentIndex + 1);
+    private remove() {
+        this.previewService.remove(false);
     }
 
-    private loadImage(appID: string, index: number) {
-        this.previewService.loadImage(appID, index);
+    private loadImage(app: PreviewDataApp) {
+        this.previewService.loadImage(app);
     }
 
-    private refreshImages(imageKey: string) {
-        this.previewService.downloadImageUrls([imageKey]);
+    private refreshImages(app: PreviewDataApp) {
+        let propertyTree = app.images.tree;
+        this.previewService.downloadImageUrls([propertyTree[propertyTree.length - 1]]);
+    }
+
+    private previousImage(appID: PreviewDataApp) {
+        this.previewService.setImageIndex(appID, appID.currentImageIndex - 1);
+    }
+
+    private nextImage(appID: PreviewDataApp) {
+        this.previewService.setImageIndex(appID, appID.currentImageIndex + 1);
+    }
+
+    private setImageSize(value: number, save: boolean = false) {
+        if (this.elementRef && this.elementRef.nativeElement) {
+            if (typeof value === 'string')
+                value = parseFloat(value);
+
+            if (value <= 100) {
+                if (value < 30)
+                    value = 30;
+            }
+            else
+                value = 100;
+
+            this.appSettings.previewSettings.imageZoomPercentage = value;
+
+            if (save){
+                this.settingsService.saveAppSettings();
+            }
+
+            this.renderer.setStyle(this.elementRef.nativeElement, '--preview-image-size', value / 100, RendererStyleFlags2.DashCase);
+        }
     }
 }

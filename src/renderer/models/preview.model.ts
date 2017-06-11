@@ -1,19 +1,18 @@
 import { Observable, BehaviorSubject } from "rxjs";
 import { Reference } from "../lib";
 
-export type LoadStatus = 'none' | 'downloading' | 'downloaded' | 'failed';
-export type Urltatus = 'none' | 'retrieving' | 'retrievedAll' | 'retrievedSome';
+export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
 
 export interface ImageContent {
     imageProvider: string,
     imageUploader?: string,
     imageUrl: string,
-    loadStatus: LoadStatus
+    loadStatus: ImageDownloadStatus
 };
 
 export interface ImagesStatusAndContent {
-    status: Urltatus,
-    searchTitles: string[],
+    retrieving: boolean,
+    searchQueries: string[],
     content: ImageContent[]
 }
 
@@ -25,47 +24,43 @@ export interface PreferedImages {
     [title: string]: string
 };
 
+export interface PreviewDataApp {
+    steamCategories: string[],
+    executableLocation: string,
+    title: string,
+    argumentString: string,
+    steamImage: ImageContent,
+    currentImageIndex: number,
+    images: Reference<ImagesStatusAndContent>
+}
+
+export interface PreviewDataApps {
+    [appID: string]: PreviewDataApp
+}
+
+export interface PreviewDataUser {
+    username: string,
+    apps: PreviewDataApps
+}
+
 export interface PreviewData {
-    [appID: string]: {
-        steamDirectories: {
-            [key: string]: {
-                steamCategories: string[],
-                executableLocation: string,
-                argumentString: string,
-            }
-        },
-        title: string,
-        currentImageIndex: number,
-        imageKey: string,
-        images: Reference<ImagesStatusAndContent>
+    [steamDirectory: string]: {
+        [userID: string]: PreviewDataUser
     }
 }
 
-/*export interface PreviewData2 {
+export interface SteamGridImageData {
     [steamDirectory: string]: {
         [userID: string]: {
-            username: string,
-            apps: {
-                [id: string]: {
-                    steamCategories: string[],
-                    executableLocation: string,
-                    title: string,
-                    argumentString: string,
-                    currentImageIndex: number,
-                    images: Reference<ImagesStatusAndContent>
-                }
-            }
+            [appId: string]: string
         }
     }
-}*/
+}
 
-export interface PreviewStateVariables {
-    numberOfUrlsBeingDownloaded: number,
+export interface PreviewVariables {
     listIsUpdating: boolean,
     listIsBeingSaved: boolean,
-    skipDownloading: boolean,
     listIsBeingRemoved: boolean,
-    greedySearch: boolean,
     numberOfListItems: number,
-    numberOfEditedSteamDirectories: number
+    numberOfQueriedImages: number
 }

@@ -24,6 +24,7 @@ import { Observable } from 'rxjs';
             <div class="error" [class.active]="settings.showErrors" (click)="settings.showErrors = !settings.showErrors">ERROR</div>
             <div class="info" [class.active]="settings.showInfo" (click)="settings.showInfo = !settings.showInfo">INFO</div>
             <div class="success" [class.active]="settings.showSuccesses" (click)="settings.showSuccesses = !settings.showSuccesses">SUCCESS</div>
+            <div class="fuzzy" [class.active]="settings.showFuzzy" (click)="settings.showFuzzy = !settings.showFuzzy">FUZZY</div>
             <div class="timestamp" [class.active]="settings.timestamp" (click)="settings.timestamp = !settings.timestamp">TIMESTAMP</div>
             <div class="textWrap" [class.active]="settings.textWrap" (click)="settings.textWrap = !settings.textWrap">TEXT-WRAP</div>
             <div class="autoscroll" [class.active]="settings.autoscroll" (click)="settings.autoscroll = !settings.autoscroll">AUTOSCROLL</div>
@@ -67,6 +68,8 @@ export class LoggerComponent {
                 return this.settings.showInfo;
             case 'success':
                 return this.settings.showSuccesses;
+            case 'fuzzy':
+                return this.settings.showFuzzy;
             default:
                 return false;
         }

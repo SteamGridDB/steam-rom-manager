@@ -28,19 +28,17 @@
             <div class="paragraph">
                 Steam categories/tags to be set. Uses <span class="code">{{'${"category"}'}}</span> syntax, where "category"
                 is user's category. Parser takes everything from inside <span class="code">{{'${}'}}</span>. Multiple
-                <span class="code">{{'${}'}}</span> are supported. Below are few examples of how categories are extracted.
+                <span class="code">{{'${}'}}</span> are supported (can be escaped using <span class="code">{{'\\'}}</span>:
+                <span class="code">{{'\\${'}}</span> and <span class="code">{{'\\}'}}</span>). Below are few examples of
+                how categories are extracted.
             </div>
             <div class="paragraph" style="padding-left: 1em">
-                <span class="code">{{'${A} ${B} ${C} ${A}'}}</span>:
+                <span class="code">{{'${A} ${${B}'}}{{'} ${C\\}\\${C} ${A} ${"category"}'}}</span>:
                 <ul>
                     <li>A</li>
-                    <li>B</li>
-                    <li>C</li>
-                </ul>
-                <span class="code">{{'${A ${B} C} ${D ${E} F}'}}</span>:
-                <ul>
-                    <li>B</li>
-                    <li>E</li>
+                    <li>{{'${B}'}}</li>
+                    <li>{{'C}${C'}}</li>
+                    <li>"category"</li>
                 </ul>
             </div>
         </div>
@@ -68,6 +66,32 @@
                 Directory containing steam's "userdata" which has to contain at least one user directory.
             </div>
         </div>
+        <div class="instructionItem" *ngIf="myForm.controls.advanced.value === true || !myForm.controls.steamCategory.valid">
+            <div class="title">
+                User accounts
+            </div>
+            <div class="paragraph">
+                Configuration may be limited to one or more user accounts. Uses <span class="code">{{'${"user account"}'}}</span>                syntax, where "user account" is user's login name (the one you use to log in to Steam). Parser takes everything
+                from inside
+                <span class="code">{{'${}'}}</span>. Multiple <span class="code">{{'${}'}}</span> are supported (can be escaped
+                using
+                <span class="code">{{'\\'}}</span>: <span class="code">{{'\\${'}}</span> and <span class="code">{{'\\}'}}</span>).
+                Below are few examples of how user accounts are extracted.
+            </div>
+            <div class="paragraph" style="padding-left: 1em">
+                <span class="code">{{'${FrogTheFrog} ${${Mr. Frog}'}}{{'} ${Froggy\\}\\${Froggy} ${FrogTheFrog} ${"user account"}'}}</span>:
+                <ul>
+                    <li>FrogTheFrog</li>
+                    <li>{{'${Mr. Frog}'}}</li>
+                    <li>{{'Froggy}${Froggy'}}</li>
+                    <li>"user account"</li>
+                </ul>
+            </div>
+            <div class="paragraph">
+                Sometimes Steam's file that contains logins, may contain users that do not have data directory created (might have been manually
+                deleted, etc.). User may specify to skip those accounts using skip button.
+            </div>
+        </div>
         <ng-container class="instructionItem" *ngIf="myForm.controls['parserInputs'].controls as controls">
             <ng-container *ngFor="let control of controls | keys">
                 <ng-container *ngIf="parserInputInfo[control].info">
@@ -80,7 +104,9 @@
                 Title modifier
             </div>
             <div class="paragraph">
-                Can be used to prepend or append string to final title.
+                Can be used to prepend or append string to final title. <span class="code">{{'${title}'}}</span> will be
+                replace by final title. Thus, if <span class="code">{{'${title}'}}</span> is <span class="code">{{'Legend of Link'}}</span>,
+                <span class="code">{{'${title} 1.7.5'}}</span> will produce <span class="code">{{'Legend of Link 1.7.5'}}</span>.
             </div>
         </div>
         <div class="instructionItem" *ngIf="myForm.controls.advanced.value === true">
@@ -111,8 +137,8 @@
                     <li><span class="code">{{'${dir}'}}</span>: ROMs directory</li>
                     <li><span class="code">{{'${title}'}}</span>: extracted title</li>
                     <li><span class="code">{{'${fuzzyTitle}'}}</span>: fuzzy matched title</li>
-                    <li><span class="code">{{'${finalTitle}'}}</span>: extracted title with prefix and suffix</li>
-                    <li><span class="code">{{'${fuzzyFinalTitle}'}}</span>: fuzzy matched title with prefix and suffix</li>
+                    <li><span class="code">{{'${finalTitle}'}}</span>: extracted title which was modified by title modifier</li>
+                    <li><span class="code">{{'${fuzzyFinalTitle}'}}</span>: fuzzy matched title which was modified by title modifier</li>
                     <li><span class="code">{{'${file}'}}</span>: filename of a file returned by a selected parser</li>
                     <li><span class="code">{{'${filePath}'}}</span>: full path to a file returned by a selected parser</li>
                     <li><span class="code">{{'${sep}'}}</span>: system specific directory seperator (<span class="code">\</span>                        or <span class="code">/</span>)</li>
@@ -128,7 +154,7 @@
                     <li><span class="code">{{'${title}'}}</span>: Roses are red</li>
                     <li><span class="code">{{'${fuzzyTitle}'}}</span>: Roses. are red</li>
                     <li><span class="code">{{'${finalTitle}'}}</span>: Roses are red and green</li>
-                    <li><span class="code">{{'${finalFinalTitle}'}}</span>: Roses. are red and green</li>
+                    <li><span class="code">{{'${fuzzyFinalTitle}'}}</span>: Roses. are red and green</li>
                     <li><span class="code">{{'${file}'}}</span>: myfile.fml</li>
                     <li><span class="code">{{'${filePath}'}}</span>: C:\ROMS\Roses are red [AEF123]\myfile.fml</li>
                     <li><span class="code">{{'${sep}'}}</span>: \</li>
@@ -146,6 +172,34 @@
                 <ul>
                     <li>-g "C:\ROMS\Roses are red [AEF123]\myfile.fml" -t "Roses are red"</li>
                 </ul>
+            </div>
+        </div>
+        <div class="instructionItem">
+            <div class="title">
+                Online image query
+            </div>
+            <div class="paragraph">
+                Search queries that are used to search for images. Uses <span class="code">{{'${"query"}'}}</span> syntax,
+                where "query" is... well a query. It is usually an app title. Parser takes everything from inside <span class="code">{{'${}'}}</span>.
+                Multiple <span class="code">{{'${}'}}</span> are supported (can be escaped using
+                <span class="code">{{'\\'}}</span>: <span class="code">{{'\\${'}}</span> and <span class="code">{{'\\}'}}</span>).
+                Moreover, variables used in "Executable arguments" are also supported. Below are few examples of how user
+                accounts are extracted (let's say that <span class="code">{{'${"fuzzyTitle"}'}}</span> is equal to <span class="code">Legend of Link</span>).
+            </div>
+            <div class="paragraph" style="padding-left: 1em">
+                <span class="code">{{'${fuzzyTitle} ${${fuzzyTitle}'}}{{'} ${title\\}\\${title} ${fuzzyTitle} ${"query"}'}}</span>:
+                <ul>
+                    <li>fuzzyTitle</li>
+                    <li>{{'${fuzzyTitle}'}}. Final query:</li>
+                    <ul>
+                        <li>Legend of Link</li>
+                    </ul>
+                    <li>{{'title}${title'}}</li>
+                    <li>"query"</li>
+                </ul>
+            </div>
+            <div class="paragraph">
+                For legacy "greedy" mode use <span class="code">{{'${${fuzzyTitle}'}}{{'}${${title}'}}{{'}'}}</span>.
             </div>
         </div>
         <div class="instructionItem" *ngIf="myForm.controls.advanced.value === true || !myForm.controls.localImages.valid">
@@ -203,16 +257,17 @@
         </div>
         <div class="instructionItem">
             <div class="title">
-                Title merging
+                App merging
             </div>
             <div class="paragraph">
-                Recurring titles are merged. Here is how their information is merged per different steam directory:
+                Recurring apps are merged. Recurring app is an app that has the same app id. App ids are generated
+                from executable and app title, both are case-sensitive. For save app ids, the following willbe merged:
                 <ul>
                     <li><span class="code">Executable</span>: first occurrence is kept and others ignored</li>
                     <li><span class="code">Arguments</span>: first occurrence is kept and others ignored</li>
                     <li><span class="code">Categories</span>: unique categories are merged</li>
                 </ul>
-                Consider using title suffixes and prefixes if you want different executables and arguments. For example you could set suffix
+                Consider using title modifier to generate different app id. For example you could set suffix
                 to <span class="code"> (1.7.5)</span> which would signify different executable version.
             </div>
         </div>
@@ -282,17 +337,20 @@
                 {{myForm.controls.steamDirectory.errors?.error}}
             </div>
         </div>
-        <!--<div>
+        <div *ngIf="myForm.controls.advanced.value === true || !myForm.controls.userAccounts.controls.specifiedAccounts.valid">
             <label>User accounts</label>
-            <div class="inputContainer">
-                <ng-select [placeholder]="'All accounts'" formControlName="userAccounts">
-                    <ng-option *ngFor="let parser of availableParsers">{{parser}}</ng-option>
-                </ng-select>
+            <div class="inputContainer" formGroupName="userAccounts">
+                <input formControlName="specifiedAccounts" />
             </div>
             <div class="errorMessage" [hidden]="myForm.controls.userAccounts.valid || (myForm.controls.userAccounts.pristine && !submitted)">
-                {{myForm.controls.userAccounts.errors?.error}}
+                {{myForm.controls.userAccounts.controls.specifiedAccounts.errors?.error}}
             </div>
-        </div>-->
+        </div>
+        <div *ngIf="myForm.controls.advanced.value === true">
+            <div class="inputContainer ngToggleButton" formGroupName="userAccounts">
+                <ng-toggle-button formControlName="skipWithMissingDataDir">Skip found accounts with missing data directories</ng-toggle-button>
+            </div>
+        </div>
         <div formGroupName="parserInputs" *ngIf="myForm.controls['parserInputs'].controls as controls">
             <ng-container *ngFor="let control of controls | keys">
                 <label>{{parserInputInfo[control].label}}</label>
@@ -328,6 +386,15 @@
             </div>
             <div class="errorMessage" [hidden]="myForm.controls.executableArgs.valid || (myForm.controls.executableArgs.pristine && !submitted)">
                 {{myForm.controls.executableArgs.errors?.error}}
+            </div>
+        </div>
+        <div *ngIf="myForm.controls.advanced.value === true || !myForm.controls.onlineImageQueries.valid">
+            <label>Online image query</label>
+            <div class="inputContainer">
+                <input formControlName="onlineImageQueries" />
+            </div>
+            <div class="errorMessage" [hidden]="myForm.controls.onlineImageQueries.valid || (myForm.controls.onlineImageQueries.pristine && !submitted)">
+                {{myForm.controls.onlineImageQueries.errors?.error}}
             </div>
         </div>
         <div *ngIf="myForm.controls.advanced.value === true || !myForm.controls.localImages.valid">

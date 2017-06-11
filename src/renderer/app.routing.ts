@@ -16,18 +16,14 @@ const AppRouter: Routes = [
         path: 'logger',
         component: LoggerComponent
     },
-/*    {
+    {
         path: 'settings',
         component: SettingsComponent
-    },*/
+    },
     {
         path: 'parsers/:index',
         component: ParsersComponent
-    },
-    {
-        path: '**',
-        component: PreviewComponent
-    },
+    }
 ];
 
-export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(AppRouter, { useHash: true });
+export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(AppRouter, { useHash: true, initialNavigation: false });

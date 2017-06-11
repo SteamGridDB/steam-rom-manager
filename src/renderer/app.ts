@@ -7,7 +7,6 @@ import { AppModule } from './app.module';
 
 import './styles/global.themes.scss';
 import './styles/global.fonts.scss';
-import './styles/global.font-awesome.scss';
 import './styles/global.main.scss';
 
 if (process.env.NODE_ENV === 'production')

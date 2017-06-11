@@ -12,12 +12,15 @@ export class Reference<Value>{
             return this.object;
     }
     set value(value: Value) {
-        if (this.property){
+        if (this.property) {
             let val = this.retrieveValue();
             val = value;
         }
         else
             this.object = value;
+    }
+    get tree() {
+        return this.property || [];
     }
     private retrieveValue() {
         let retrievedVal = this.object;

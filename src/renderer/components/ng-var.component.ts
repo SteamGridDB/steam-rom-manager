@@ -1,21 +1,18 @@
-import { Component, forwardRef, ElementRef, Optional, Host, HostListener, Input } from '@angular/core';
+import { Component, forwardRef, ElementRef, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
-    selector: 'ng-button',
+    selector: 'ng-div, ng-span, ng-button',
     template: `
         <ng-content></ng-content>
     `,
-    styleUrls: [
-        '../styles/ng-button.component.scss'
-    ],
     providers: [{
         provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => ButtonComponent),
+        useExisting: forwardRef(() => VarComponent),
         multi: true
     }]
 })
-export class ButtonComponent implements ControlValueAccessor {
+export class VarComponent implements ControlValueAccessor {
     private currentValue: any;
 
     constructor(private element: ElementRef) { }

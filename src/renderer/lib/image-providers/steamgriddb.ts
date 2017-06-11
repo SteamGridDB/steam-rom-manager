@@ -1,65 +1,46 @@
-import { GenericImageProvider, ImageContent, ImageProviderData, SteamGridDBData } from "../../models";
+import { GenericImageProvider, ImageContent, ProviderEvent } from "../../models";
+import { LoggerService, SettingsService } from "../../services";
 import { Http, Headers, URLSearchParams } from '@angular/http';
 import { Observable } from "rxjs";
 
 export class SteamGridDbProvider implements GenericImageProvider {
-    constructor(private http: Http, private downloadInterrupt: Observable<any>, private timeout: number = 40000, private retryCount: number = 3) { }
+    constructor(private http: Http, private loggerService: LoggerService, private settingsService: SettingsService, private downloadInterrupt: Observable<any>, private timeout: number = 40000, private retryCount: number = 3) { }
 
     getProvider() {
         return 'SteamGridDB';
     }
 
-    retrieveUrls(title: string) {
-        let data: ImageProviderData = { images: [], failed: [] };
-
-        let promiseLoop = (nextPage: number): Promise<ImageProviderData> => {
-            return this.retrieveUrlsPerPage(data, title, nextPage).then((nextPage) => {
-                if (nextPage !== undefined)
-                    return promiseLoop(nextPage);
-            });
-        };
-
-        return promiseLoop(0).then(() => {
-            return data;
-        });
-    }
-
-    private retrieveUrlsPerPage(data: ImageProviderData, title: string, nextPage: number) {
+    retrieveUrls(title: string, eventCallback: (event: ProviderEvent, data: any) => void, doneCallback: (title: string) => void) {
         let params = new URLSearchParams();
-        params.append('name', title);
-        params.append('page', nextPage.toString());
+        params.append('game', title);
+        params.append('fields', ['author', 'grid_url'].toString());
 
         return new Promise<number>((resolve, reject) => {
             let next: number = undefined;
             let downloadStop = this.downloadInterrupt.subscribe(() => { next = undefined; downloadStop.unsubscribe(); });
-            let subscription = this.http.get('http://www.steamgriddb.com/search.php', { params: params }).timeout(this.timeout).retry(this.retryCount).subscribe(
+            let subscription = this.http.get('http://www.steamgriddb.com/apitestdonotuse/grids', { params: params }).timeout(this.timeout).retry(this.retryCount).subscribe(
                 (response) => {
                     try {
                         let parsedBody = response.json();
-                        if (parsedBody[0] !== undefined && parsedBody[0] !== 'None') {
-                            for (let i = 3; i < parsedBody.length; i++) {
-                                data.images.push({
+                        if (parsedBody['data'] !== undefined) {
+                            for (let i = 0; i < parsedBody['data'].length; i++) {
+                                eventCallback(ProviderEvent.success, {
                                     imageProvider: this.getProvider(),
-                                    imageUrl: (<SteamGridDBData>parsedBody[i]).grid_link,
-                                    imageUploader: (<SteamGridDBData>parsedBody[i]).username,
-                                    loadStatus: 'none'
+                                    imageUrl: parsedBody['data'][i].grid_url,
+                                    imageUploader: parsedBody['data'][i].author,
+                                    loadStatus: 'notStarted'
                                 });
-                            }
-
-                            //20 per page, here page is parsedBody[0] and total image count is parsedBody[1]
-                            if ((parsedBody[0] + 1) * 20 < parsedBody[1]) {
-                                next = parsedBody[0] + 1;
                             }
                         }
                     } catch (error) {
-                        data.failed.push(`${error} (http://www.steamgriddb.com/search.php?${params.toString()})`);
+                        eventCallback(ProviderEvent.error, `${error} (${title})`);
                     } finally {
                         if (!downloadStop.closed)
                             downloadStop.unsubscribe();
                     }
                 },
                 (error) => {
-                    data.failed.push(`${error} (http://www.steamgriddb.com/search.php?${params.toString()})`);
+                    eventCallback(ProviderEvent.error, `${error} (${title})`);
 
                     if (!downloadStop.closed)
                         downloadStop.unsubscribe();
@@ -70,6 +51,8 @@ export class SteamGridDbProvider implements GenericImageProvider {
                     subscription.unsubscribe();
                 resolve(next);
             });
+        }).then(() => {
+            doneCallback(title);
         });
     }
 }

@@ -1,17 +1,35 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 1.3.0 - 2017-XX-XX
+## 2.0.0 - 2017-06-11
 ### Added
-* 2 new options for fuzzy matcher
-* Image urls can now be redownloaded per game only (without regenerating a list)
+* 2 new options for fuzzy matcher.
+* Online image query option allows to specify search string for images.
+* Image urls can now be redownloaded per game only (without regenerating a list).
+* Specific account support added. This allows to make different configuration for different accounts.
+* New settings windows has been added.
+* Images can now be preloaded as soon as they are retrieved.
+* Images can now be filtered from non-related images (select this option in settings window).
+* Fuzzy matcher has it's own Event log option now. This will reduce the clutter.
+* Timeout support added for `retrogaming.cloud`. After requested timeout, images will continue to download.
+* New nagging message will now announce when all downloads are complete.
+* User configurations and user settings (new in this release) will now be validated. Incorrect structure types will be replaced with default values (it will add missing options for new APP versions).
 
 ### Changed
 * Parser no longer needs executable location. If left empty, a file, returned by parser, will be used as executable. This allows to use custom batch files that do not require executable. Technically, any non-steam game can be added now.
 * Title prefix and suffix fields replaced by one `Title modifier` field.
+* Changed list data merging from `title` to `appID`. This means that games may now have the same titles, BUT they must have different executable path (case sensitive).
+* Image retrieve logic. Images are now retrieved in background, allowing user to view currently available images.
+* Internal data structure has changed to allow unique configurations for multiple apps per multiple user accounts per multiple directories.
+* Using the new API for `SteamGridDB`.
 
 ### Fixed
 * Properly show image url retrieve errors.
+
+### Removed
+* Prefered image list is removed as it is impossible to implement with background image downloader.
+* ConsoleGrid support, because it's dead.
+* Greedy mode option.
 
 ## 1.1.4 - 2017-05-02
 ### Fixed

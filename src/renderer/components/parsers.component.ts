@@ -3,7 +3,6 @@ import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@ang
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { ParsersService, LoggerService } from '../services';
 import { UserConfiguration } from '../models';
-import { defaultsDeep, pick } from 'lodash';
 import { Subscription } from "rxjs";
 
 @Component({
@@ -36,7 +35,6 @@ export class ParsersComponent implements OnInit, OnDestroy {
             parserType: ['', (control: FormControl) => this.parserTypeValidation(control)],
             configTitle: ['', (control: FormControl) => this.genericValidation('validateConfigTitle', control)],
             steamCategory: ['', (control: FormControl) => this.genericValidation('validateSteamCategory', control)],
-            //userAccounts: ['', (control: FormControl) => this.genericValidation('validateSteamCategory', control)],
             executableLocation: ['', (control: FormControl) => this.genericValidation('validateExecutableLocation', control)],
             romDirectory: ['', (control: FormControl) => this.genericValidation('validateROMsDir', control)],
             steamDirectory: ['', (control: FormControl) => this.genericValidation('validateSteamDir', control)],
@@ -44,6 +42,8 @@ export class ParsersComponent implements OnInit, OnDestroy {
             titleModifier: ['', (control: FormControl) => this.genericValidation('validateTitleModifier', control)],
             localImages: ['', (control: FormControl) => this.genericValidation('validateLocalImages', control)],
             fuzzyMatch: this.formBuilder.group({ use: true, removeCharacters: true, removeBrackets: true }),
+            userAccounts: this.formBuilder.group({ skipWithMissingDataDir: false, specifiedAccounts: ['', (control: FormControl) => this.genericValidation('validateUserAccounts', control)] }),
+            onlineImageQueries: ['', (control: FormControl) => this.genericValidation('validateOnlineImageQueries', control)],
             enabled: [true],
             advanced: [false],
             parserInputs: this.formBuilder.group({})
@@ -86,29 +86,59 @@ export class ParsersComponent implements OnInit, OnDestroy {
             this.parsersService.executeFileParser(config).then((dataArray) => {
                 let data = dataArray.parsedData[0];
                 let totalLength = data.files.length + data.failed.length;
+
+                if (data.foundUserAccounts.length > 0) {
+                    this.loggerService.info('');
+                    this.loggerService.success(`Found ${data.foundUserAccounts.length} available user account(-s):`);
+                    for (let i = 0; i < data.foundUserAccounts.length; i++) {
+                        this.loggerService.success(`  ${data.foundUserAccounts[i].name} (steamID64: ${data.foundUserAccounts[i].steamID64}, accountID: ${data.foundUserAccounts[i].accountID})`);
+                    }
+                }
+                if (data.missingUserAccounts.length > 0) {
+                    this.loggerService.info('');
+                    this.loggerService.error(`Following ${data.missingUserAccounts.length} user account(-s) were not found (user must to login to Steam at least once):`);
+                    for (let i = 0; i < data.missingUserAccounts.length; i++) {
+                        this.loggerService.error(`  ${data.missingUserAccounts}`);
+                    }
+                }
+
+                if (data.steamCategories.length > 0) {
+                    this.loggerService.info('');
+                    this.loggerService.success(`Resolved Steam categories:`);
+                    for (let i = 0; i < data.steamCategories.length; i++) {
+                        this.loggerService.success(`  ${data.steamCategories[i]}`);
+                    }
+                }
+
                 for (let i = 0; i < data.files.length; i++) {
                     this.loggerService.info('');
                     this.loggerService.success(`[${i + 1}/${totalLength}]:               Title - ${data.files[i].extractedTitle}`);
                     this.loggerService.success(`[${i + 1}/${totalLength}]:         Fuzzy title - ${data.files[i].fuzzyTitle}`);
                     this.loggerService.success(`[${i + 1}/${totalLength}]:           File path - ${data.files[i].filePath}`);
                     this.loggerService.success(`[${i + 1}/${totalLength}]:   Complete shortcut - ${data.files[i].executableLocation} ${data.files[i].argumentString}`);
+                    if (data.files[i].onlineImageQueries.length) {
+                        this.loggerService.success(`[${i + 1}/${totalLength}]:       Image queries - ${data.files[i].onlineImageQueries[0]}`);
+                        for (let j = 1; j < data.files[i].onlineImageQueries.length; j++) {
+                            this.loggerService.success(`[${i + 1}/${totalLength}]:                       ${data.files[i].onlineImageQueries[j]}`);
+                        }
+                    }
                     if (data.files[i].resolvedLocalImages.length)
                         this.loggerService.success(`[${i + 1}/${totalLength}]: Resolved image glob - ${data.files[i].resolvedLocalImages}`);
-                    if (data.files[i].localImages.length)
+                    if (data.files[i].localImages.length) {
                         this.loggerService.success(`[${i + 1}/${totalLength}]:    Resolved images:`);
-
-                    for (let j = 0; j < data.files[i].localImages.length; j++) {
-                        this.loggerService.success(`[${i + 1}/${totalLength}]:                       ${decodeURI(data.files[i].localImages[j])}`);
+                        for (let j = 0; j < data.files[i].localImages.length; j++) {
+                            this.loggerService.success(`[${i + 1}/${totalLength}]:                       ${decodeURI(data.files[i].localImages[j])}`);
+                        }
                     }
                 }
                 if (data.failed.length > 0) {
                     this.loggerService.info('');
                     this.loggerService.error('Failed to match:');
+                    for (let i = 0; i < data.failed.length; i++) {
+                        this.loggerService.error(`[${i + 1 + data.files.length}/${totalLength}]: ${data.failed[i]}`);
+                    }
                 }
 
-                for (let i = 0; i < data.failed.length; i++) {
-                    this.loggerService.error(`[${i + 1 + data.files.length}/${totalLength}]: ${data.failed[i]}`);
-                }
                 this.loggerService.info('');
                 this.loggerService.info(`"${config.configTitle}" parser test is completed.`);
             }).catch((error) => {
@@ -163,9 +193,6 @@ export class ParsersComponent implements OnInit, OnDestroy {
             this.updateParserInputsFields(control.value);
         return invalid;
     }
-
-    /*private userAccountsValidation(control: FormControl) {
-    }*/
 
     private updateParserInputsFields(parserType: string) {
         let parser = this.parsersService.getParser(parserType);
@@ -259,38 +286,8 @@ export class ParsersComponent implements OnInit, OnDestroy {
     }
 
     private loadUserConfiguration() {
-        let defaultValues = {
-            parserType: '',
-            configTitle: '',
-            steamCategory: '',
-            executableLocation: '',
-            romDirectory: '',
-            steamDirectory: '',
-            parserInputs: {},
-            executableArgs: '',
-            localImages: '',
-            titleModifier: '${title}',
-            fuzzyMatch: { use: true, removeCharacters: true, removeBrackets: true },
-            advanced: false,
-            enabled: true
-        };
-
         if (this.currentIndex !== undefined && this.currentIndex < this.userConfigurations.length) {
-            let userValues = defaultsDeep(pick(this.userConfigurations[this.currentIndex], [
-                'parserType',
-                'configTitle',
-                'steamCategory',
-                'executableLocation',
-                'romDirectory',
-                'steamDirectory',
-                'executableArgs',
-                'localImages',
-                'replacementGlob',
-                'titleModifier',
-                'fuzzyMatch',
-                'advanced',
-                'enabled'
-            ]), defaultValues);
+            let userValues = this.userConfigurations[this.currentIndex];
 
             let parser = this.parsersService.getParser(userValues['parserType']);
             if (parser && parser.inputs) {
@@ -320,7 +317,7 @@ export class ParsersComponent implements OnInit, OnDestroy {
         }
         else {
             this.myForm.setControl('parserInputs', this.formBuilder.group({}));
-            this.myForm.reset(defaultValues);
+            this.myForm.reset(this.parsersService.getDefaultValues());
             this.myForm.controls['parserType'].markAsPristine();
             this.submitted = false;
             this.currentParserType = undefined;
