@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.0.1 - 2017-06-12
+### Fixed
+* Url retrieving would silently stop after 3 timeouts. Now they stop after 3 failures, not timeouts, as intended.
+
 ## 2.0.0 - 2017-06-11
 ### Added
 * 2 new options for fuzzy matcher.
