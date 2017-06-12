@@ -67,8 +67,8 @@ export class RetroGamingCloudProvider implements GenericImageProvider {
                 this.timeoutQueue.push({ timeout: timeoutInSeconds, eventCallback: () => eventCallback(ProviderEvent.timeout, `"${this.getProvider()}" requested a timeout of ${timeoutInSeconds} seconds.`) });
                 return Observable.of(response).delay(timeoutInSeconds * 1000);
             }
-            return Observable.throw(response);
-        }).take(this.retryCount);
+            return Observable.throw(response).take(this.retryCount);
+        });
     }
 
     private retrieveMediaData(title: string, gameId: number, eventCallback: (event: ProviderEvent, data: any) => void) {

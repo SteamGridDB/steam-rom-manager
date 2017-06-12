@@ -122,6 +122,7 @@ export class PreviewService {
             return this.loggerService.info('A list of known Steam directories is empty.', { invokeAlert: true, alertTimeout: 3000 });
 
         this.imageProvider.stopUrlDownload();
+        this.previewDataChanged.next();
         this.previewVariables.listIsBeingRemoved = true;
 
         let vdfManager = new VdfManager(this.http);
