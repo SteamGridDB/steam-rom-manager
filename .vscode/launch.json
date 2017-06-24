@@ -14,7 +14,7 @@
                 "--remote-debugging-port=9222"
             ],
             "program": "${workspaceRoot}/dist/main.bundle.js",
-            "protocol": "legacy",
+            "protocol": "inspector",
             "outFiles": [
                 "${workspaceRoot}/dist/**/*.js"
             ]

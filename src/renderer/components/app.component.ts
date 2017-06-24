@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 @Component({
     selector: 'app',
     template: `
-        <ng-container *ngIf="setttingsLoaded; else stillLoading">
+        <ng-container *ngIf="settingsLoaded; else stillLoading">
             <titlebar></titlebar>
             <section>
                 <nav></nav>
@@ -23,13 +23,13 @@ import { Subscription } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnDestroy {
-    private setttingsLoaded: boolean = false;
+    private settingsLoaded: boolean = false;
     private subscriptions: Subscription = new Subscription();
 
     constructor(private settingsService: SettingsService, private router: Router, private changeDetectionRef: ChangeDetectorRef) {
         this.subscriptions.add(this.settingsService.getLoadStatusObservable().subscribe((loaded) => {
             if (loaded) {
-                this.setttingsLoaded = loaded;
+                this.settingsLoaded = loaded;
                 this.router.initialNavigation();
                 this.changeDetectionRef.detectChanges();
                 this.subscriptions.unsubscribe();

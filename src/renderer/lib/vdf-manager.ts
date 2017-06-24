@@ -473,7 +473,7 @@ export class VdfManager {
     }
 
     private removeEntriesAndImages(steamDirectory: string, userId: string, apps?: PreviewDataApps) {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             let currentEntries: VDFListFileData[] = [];
             let entriesToRemove: VDFListFileData[] = [];
             let imagesToRemove: string[] = [];
@@ -532,7 +532,7 @@ export class VdfManager {
 
     removeVDFEntriesAndImages(previewData?: PreviewData) {
         let promisePushed = false;
-        let promises: Promise<string[]>[] = [];
+        let promises: Promise<void>[] = [];
         for (let steamDirectory in this.listData) {
             for (let userId in this.listData[steamDirectory]) {
                 promisePushed = true;

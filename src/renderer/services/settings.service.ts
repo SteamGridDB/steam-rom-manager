@@ -30,9 +30,7 @@ export class SettingsService {
     constructor(private loggerService: LoggerService) {
         readJson<AppSettings>(paths.userSettings, this.appSettings).then((settings) => {
             this.appSettings = this.validateObject(settings, this.appSettings);
-            setTimeout(() => {
-                this.settingsLoadedSubject.next(true);
-            }, 1000);
+            this.settingsLoadedSubject.next(true);
         }).catch((error) => {
             this.settingsLoadedSubject.next(true);
             this.loggerService.error('Error occurred while reading user settings.', { invokeAlert: true, alertTimeout: 3000 });
@@ -59,10 +57,10 @@ export class SettingsService {
     validateObject<template>(source: any, templateToMatch: template, keepNotFoundData?: string[]) {
         let validatedObject: any = {};
 
-        if (keepNotFoundData !== undefined){
+        if (keepNotFoundData !== undefined) {
             if (keepNotFoundData.length === 0)
                 validatedObject = source;
-            else{
+            else {
                 for (var i = 0; i < keepNotFoundData.length; i++) {
                     if (source[keepNotFoundData[i]] !== undefined)
                         validatedObject[keepNotFoundData[i]] = source[keepNotFoundData[i]];
