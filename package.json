@@ -76,7 +76,7 @@
     "mime-types": "^2.1.15",
     "ngx-color-picker": "^4.0.0",
     "reflect-metadata": "^0.1.10",
-    "rxjs": "5.4.0",
+    "rxjs": "^5.4.1",
     "steam-shortcut-editor": "^3.0.0",
     "to-css": "^1.2.1",
     "vdf": "^0.0.2",

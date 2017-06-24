@@ -1,7 +1,6 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { SettingsService } from "../services";
 import { Router } from "@angular/router";
-import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app',
@@ -22,22 +21,14 @@ import { Subscription } from 'rxjs';
     styleUrls: ['../styles/app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent {
     private settingsLoaded: boolean = false;
-    private subscriptions: Subscription = new Subscription();
 
     constructor(private settingsService: SettingsService, private router: Router, private changeDetectionRef: ChangeDetectorRef) {
-        this.subscriptions.add(this.settingsService.getLoadStatusObservable().subscribe((loaded) => {
-            if (loaded) {
-                this.settingsLoaded = loaded;
-                this.router.initialNavigation();
-                this.changeDetectionRef.detectChanges();
-                this.subscriptions.unsubscribe();
-            }
-        }));
-    }
-
-    ngOnDestroy() {
-        this.subscriptions.unsubscribe();
+        this.settingsService.onLoad(() => {
+            this.settingsLoaded = true;
+            this.router.initialNavigation();
+            this.changeDetectionRef.detectChanges();
+        });
     }
 }

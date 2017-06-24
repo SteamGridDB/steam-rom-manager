@@ -33,11 +33,8 @@ export class PreviewService {
         };
         this.previewDataChanged = new Subject<boolean>();
         this.imageProvider = new ImageProvider(this.http, this.loggerService, this.settingsService);
-        let settingsLoaded = this.settingsService.getLoadStatusObservable().subscribe((loaded) => {
-            if (loaded) {
-                this.appSettings = this.settingsService.getSettings();
-                settingsLoaded.unsubscribe();
-            }
+        this.settingsService.onLoad((appSettings: AppSettings) => {
+            this.appSettings = appSettings;
         });
     }
 

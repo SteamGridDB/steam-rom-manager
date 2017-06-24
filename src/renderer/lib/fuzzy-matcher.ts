@@ -14,11 +14,8 @@ export class FuzzyMatcher {
     private timeout: number = 120000; //timeout
 
     constructor(private http: Http, private loggerService: LoggerService, private settingsService: SettingsService) {
-        let settingsLoaded = this.settingsService.getLoadStatusObservable().subscribe((loaded) => {
-            if (loaded) {
-                this.appSettings = this.settingsService.getSettings();
-                settingsLoaded.unsubscribe();
-            }
+        this.settingsService.onLoad((appSettings: AppSettings)=> {
+            this.appSettings = appSettings;
         });
     }
 

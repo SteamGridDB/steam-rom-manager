@@ -21,12 +21,9 @@ export class RetroGamingCloudProvider implements GenericImageProvider {
             }
             onComplete();
         });
-        this.fuzzyMatcher =  new FuzzyMatcher(http, loggerService, settingsService);
-        let settingsLoaded = this.settingsService.getLoadStatusObservable().subscribe((loaded) => {
-            if (loaded) {
-                this.appSettings = this.settingsService.getSettings();
-                settingsLoaded.unsubscribe();
-            }
+        this.fuzzyMatcher = new FuzzyMatcher(http, loggerService, settingsService);
+        this.settingsService.onLoad((appSettings: AppSettings) => {
+            this.appSettings = appSettings;
         });
     }
 
@@ -52,7 +49,7 @@ export class RetroGamingCloudProvider implements GenericImageProvider {
         }).catch((error) => {
             eventCallback(ProviderEvent.error, `${error} (${title})`);
         }).then(() => {
-            if (this.timeoutTimer !== undefined){
+            if (this.timeoutTimer !== undefined) {
                 clearTimeout(this.timeoutTimer);
                 this.timeoutTimer = undefined;
             }

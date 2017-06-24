@@ -87,8 +87,13 @@ export class SettingsService {
         return validatedObject;
     }
 
-    getLoadStatusObservable() {
-        return this.settingsLoadedSubject.asObservable();
+    onLoad(callback: (appSettings: AppSettings) => void) {
+        this.settingsLoadedSubject.asObservable().takeWhile((loaded) => {
+            if (loaded)
+                callback(this.appSettings);
+
+            return !loaded;
+        }).subscribe();
     }
 
     private isSameType(a: any, b: any) {
