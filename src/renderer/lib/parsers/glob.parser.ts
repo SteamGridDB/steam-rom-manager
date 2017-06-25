@@ -6,7 +6,10 @@ import * as minimatch from 'minimatch';
 
 interface TitleTagData {
     finalGlob: string,
-    titleRegex: RegExp
+    titleRegex: {
+        regex: RegExp,
+        pos: number
+    }
 }
 
 export class GlobParser implements GenericParser {
@@ -141,16 +144,18 @@ export class GlobParser implements GenericParser {
 
     private getTitleRegex(fileGlob: string) {
         let titleRegex = '';
+        let pos = 1;
         let titleSegments = fileGlob.split(/\${title}/i);
 
         if (titleSegments[0].length > 0) {
             let regexString = new minimatch.Minimatch(titleSegments[0], { dot: true }).makeRe().source;
             titleRegex += regexString.substr(0, regexString.length - 1);
+            pos++;
         }
         else
             titleRegex += '^';
 
-        titleRegex += '(.*)';
+        titleRegex += '(.*?)';
 
         if (titleSegments[1].length > 0) {
             let regexString = new minimatch.Minimatch(titleSegments[1], { dot: true }).makeRe().source;
@@ -159,7 +164,7 @@ export class GlobParser implements GenericParser {
         else
             titleRegex += '$';
 
-        return new RegExp(titleRegex);
+        return { regex: new RegExp(titleRegex), pos: pos };
     }
 
     private escapeCharRanges(charRanges: string[]) {
@@ -193,9 +198,10 @@ export class GlobParser implements GenericParser {
     }
 
     private extractTitle(titleData: TitleTagData, file: string) {
-        let titleMatch = file.match(titleData.titleRegex);
-        if (titleMatch !== null)
-            return titleMatch[1].replace(/\//g, path.sep).trim();
+        let titleMatch = file.match(titleData.titleRegex.regex);
+        console.log(titleMatch);
+        if (titleMatch !== null && titleMatch[titleData.titleRegex.pos])
+            return titleMatch[titleData.titleRegex.pos].replace(/\//g, path.sep).trim();
         else
             return undefined;
     }
