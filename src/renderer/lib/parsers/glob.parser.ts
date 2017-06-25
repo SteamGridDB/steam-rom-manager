@@ -1,13 +1,12 @@
 import { Parser, GenericParser, UserConfiguration, ParsedData } from '../../models';
 import * as glob from 'glob';
 import * as path from 'path';
-import { escapeRegExp } from "lodash";
+import * as _ from "lodash";
+import * as minimatch from 'minimatch';
 
 interface TitleTagData {
-    direction: 'left' | 'right',
-    level: number,
     finalGlob: string,
-    leftovers: { left: string, right: string }
+    titleRegex: RegExp
 }
 
 export class GlobParser implements GenericParser {
@@ -86,7 +85,12 @@ export class GlobParser implements GenericParser {
         if (match !== null)
             return 'Star (*) can not be next to ${title}!';
 
-        testRegExpr = /\\/i;
+        testRegExpr = /.*\?\${title}.*|.*\${title}\?.*/i;
+        match = testRegExpr.exec(fileGlob);
+        if (match !== null)
+            return 'Any char (?) can not be next to ${title}!';
+
+        testRegExpr = /\\/;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
             return 'Windows directory character (\\) is not alowed! Use "/" instead.';
@@ -96,76 +100,100 @@ export class GlobParser implements GenericParser {
         if (match !== null)
             return 'Globstar (**) can only be on one side of ${title}!';
 
-        return null;
-    }
-
-    private getTitleDepth(fileGlob: string) {
-        let depth: { direction: 'left' | 'right', level: number } = { direction: undefined, level: undefined };
-        let tempGlob = undefined;
-        if (fileGlob.replace(/\${title}/i, '').length === 0) {
-            depth.level = null;
-        }
-        else if (/.*\*\*.+\${title}.*/i.test(fileGlob)) {
-            depth.direction = 'right';
-            tempGlob = fileGlob.replace(/.*\${title}/i, '');
-        }
-        else {
-            depth.direction = 'left';
-            tempGlob = fileGlob.replace(/\${title}.*/i, '');
+        testRegExpr = /(\?|!|\+|\*|@)\((.*?)\)/gi;
+        while ((match = testRegExpr.exec(fileGlob)) !== null) {
+            if (match[2].length === 0)
+                return 'Pattern can not be empty!';
         }
 
-        if (depth.level === undefined) {
-            let dirMatch = tempGlob.match(/\//g);
-            depth.level = dirMatch === null ? 0 : dirMatch.length;
+        testRegExpr = /\[(.*?)\]/g;
+        while ((match = testRegExpr.exec(fileGlob)) !== null) {
+            if (match[1].length === 0)
+                return 'Character range can not be empty!';
         }
 
-        return depth;
-    }
-
-    private getTitleLeftovers(fileGlob: string) {
-        let leftovers: { left: string, right: string } = { left: '', right: '' };
-        let titleSegmentMatch = fileGlob.match(/.*\/(.*\${title}.*?)\/|.*\/(.*\${title}.*)|(.*\${title}.*?)\/|(.*\${title}.*)/i);
-        if (titleSegmentMatch !== null) {
-            let titleSegments = (titleSegmentMatch[1] || titleSegmentMatch[2] || titleSegmentMatch[3] || titleSegmentMatch[4]).split('*');
-            for (var i = 0; i < titleSegments.length; i++) {
-                if (titleSegments[i].search(/\${title}/i) !== -1) {
-                    let leftoverSegments = titleSegments[i].split(/\${title}/i);
-                    leftovers.left = leftoverSegments[0] !== undefined ? leftoverSegments[0] : '';
-                    leftovers.right = leftoverSegments[1] !== undefined ? leftoverSegments[1] : '';
-                    break;
+        testRegExpr = /.*(\?|!|\+|\*|@)\((.+?)\)\${title}(\?|!|\+|\*|@)\((.+?)\).*|.*(\?|!|\+|\*|@)\((.+?)\)\${title}.*|.*\${title}(\?|!|\+|\*|@)\((.+?)\).*/i;
+        match = testRegExpr.exec(fileGlob);
+        if (match !== null) {
+            let patterns: string[];
+            if (match[2] || match[6]) {
+                patterns = (match[2] || match[6]).split('|');
+                for (let i = 0; i < patterns.length; i++) {
+                    if (patterns[i][patterns[i].length - 1] === '*')
+                        return 'Star (*), inside a pattern, can not be next to ${title}!';
+                    else if (patterns[i][patterns[i].length - 1] === '?')
+                        return 'Any char (?), inside a pattern, can not be next to ${title}!';
+                }
+            }
+            else if (match[4] || match[8]) {
+                patterns = (match[4] || match[8]).split('|');
+                for (let i = 0; i < patterns.length; i++) {
+                    if (patterns[i][0] === '*')
+                        return 'Star (*), inside a pattern, can not be next to ${title}!';
+                    else if (patterns[i][0] === '?')
+                        return 'Any char (?), inside a pattern, can not be next to ${title}!';
                 }
             }
         }
-        return leftovers;
+
+        return null;
     }
 
-    private getFinalGlob(fileGlob: string, depth: { direction: 'left' | 'right', level: number }) {
-        if (depth.level !== null) {
-            return fileGlob.replace(/(\${.+})/i, '*')
+    private getTitleRegex(fileGlob: string) {
+        let titleRegex = '';
+        let titleSegments = fileGlob.split(/\${title}/i);
+
+        if (titleSegments[0].length > 0) {
+            let regexString = new minimatch.Minimatch(titleSegments[0], { dot: true }).makeRe().source;
+            titleRegex += regexString.substr(0, regexString.length - 1);
+        }
+        else
+            titleRegex += '^';
+
+        titleRegex += '(.*)';
+
+        if (titleSegments[1].length > 0) {
+            let regexString = new minimatch.Minimatch(titleSegments[1], { dot: true }).makeRe().source;
+            titleRegex += regexString.substr(1, regexString.length - 1);
+        }
+        else
+            titleRegex += '$';
+
+        return new RegExp(titleRegex);
+    }
+
+    private escapeCharRanges(charRanges: string[]) {
+        for (let i = 0; i < charRanges.length; i++) {
+            let specialChar = charRanges[i][1] === '^';
+            charRanges[i] = `[${specialChar ? charRanges[i][1] : ''}${_.escapeRegExp(charRanges[i].substr(specialChar ? 2 : 1, charRanges[i].length - 2))}]`;
+        }
+        return charRanges;
+    }
+
+    private escapeLeftoverSegments(leftoverSegments: string[]) {
+        for (let i = 0; i < leftoverSegments.length; i++) {
+            leftoverSegments[i] = leftoverSegments[i].replace(/(\?|!|\+|\*|@)\((.+?)\)/g, '($2)');
+        }
+        return leftoverSegments;
+    }
+
+    private getFinalGlob(fileGlob: string) {
+        if (fileGlob.replace(/(\${.+})/i, '').length > 0) {
+            return fileGlob.replace(/(\${.+})/i, '*');
         }
         else
             return '**';
     }
 
     private extractTitleTag(fileGlob: string) {
-        let extractedData: TitleTagData = { direction: undefined, level: undefined, finalGlob: undefined, leftovers: { left: undefined, right: undefined } };
-        let depth = this.getTitleDepth(fileGlob);
-        let leftovers = this.getTitleLeftovers(fileGlob);
-        extractedData.direction = depth.direction;
-        extractedData.level = depth.level;
-        extractedData.leftovers.left = leftovers.left ? '.*' + escapeRegExp(leftovers.left) : '';
-        extractedData.leftovers.right = leftovers.right ? escapeRegExp(leftovers.right) + '.*' : '';
-        extractedData.finalGlob = this.getFinalGlob(fileGlob, depth);
+        let extractedData: TitleTagData = { finalGlob: undefined, titleRegex: undefined };
+        extractedData.titleRegex = this.getTitleRegex(fileGlob);
+        extractedData.finalGlob = this.getFinalGlob(fileGlob);
         return extractedData;
     }
 
     private extractTitle(titleData: TitleTagData, file: string) {
-        if (titleData.level !== null) {
-            let fileSections = file.split('/');
-            file = fileSections[titleData.direction === 'right' ? fileSections.length - (titleData.level + 1) : titleData.level];
-        }
-        let titleRegExp = new RegExp(titleData.leftovers.left + '(.+)' + titleData.leftovers.right);
-        let titleMatch = file.match(titleRegExp);
+        let titleMatch = file.match(titleData.titleRegex);
         if (titleMatch !== null)
             return titleMatch[1].replace(/\//g, path.sep).trim();
         else
