@@ -505,7 +505,7 @@ export class VdfManager {
                         }
                     }
 
-                    this.setShortcutsData(steamDirectory, userId, _.without(shortcutsData, _.isNil));
+                    this.setShortcutsData(steamDirectory, userId, _.without(shortcutsData, null, undefined, ""));
                 }
                 else {
                     entriesToRemove = _.cloneDeep(currentEntries);
@@ -517,7 +517,7 @@ export class VdfManager {
 
                         imagesToRemove.push(entriesToRemove[i]);
                     }
-                    this.setShortcutsData(steamDirectory, userId, _.without(shortcutsData, _.isNil));
+                    this.setShortcutsData(steamDirectory, userId, _.without(shortcutsData, null, undefined, ""));
                 }
 
                 return this.removeImages(steamDirectory, userId, imagesToRemove);
