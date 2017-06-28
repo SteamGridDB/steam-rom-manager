@@ -104,7 +104,7 @@ export class FileParser {
                         for (let j = 0; j < data[i].success.length; j++) {
                             let fuzzyTitle = data[i].success[j].fuzzyTitle || data[i].success[j].extractedTitle;
                             parsedConfigs[i].files.push({
-                                executableLocation: configs[i].executableLocation ? configs[i].executableLocation : data[i].success[j].filePath,
+                                executableLocation: `"${configs[i].executableLocation ? configs[i].executableLocation : data[i].success[j].filePath}"`,
                                 argumentString: '',
                                 resolvedLocalImages: '',
                                 localImages: [],
@@ -173,7 +173,10 @@ export class FileParser {
 
     private parseExecutableArgs(config: UserConfiguration, parsedConfig: ParsedUserConfiguration) {
         for (let i = 0; i < parsedConfig.files.length; i++) {
-            parsedConfig.files[i].argumentString = this.replaceConstants(config.executableArgs, config, parsedConfig.files[i]);
+            if (config.appendArgsToExecutable)
+                parsedConfig.files[i].executableLocation += ` ${this.replaceConstants(config.executableArgs, config, parsedConfig.files[i])}`;
+            else
+                parsedConfig.files[i].argumentString = this.replaceConstants(config.executableArgs, config, parsedConfig.files[i]);
         }
     }
 

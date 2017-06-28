@@ -415,16 +415,16 @@ export class VdfManager {
                         else
                             shortcutsData[index].appname = app.title;
 
-                        shortcutsData[index].exe = `"${executableLocation}"`;
-                        shortcutsData[index].StartDir = `"${path.dirname(executableLocation) + path.sep}"`;
+                        shortcutsData[index].exe = executableLocation;
+                        shortcutsData[index].StartDir = `"${path.dirname(executableLocation.match(/"(.*?)"/)[1]) + path.sep}"`;
                         shortcutsData[index].LaunchOptions = argumentString;
                         shortcutsData[index].tags = steamCategories;
                     }
                     else {
                         shortcutsData.push({
                             appname: app.title,
-                            exe: `"${executableLocation}"`,
-                            StartDir: `"${path.dirname(executableLocation) + path.sep}"`,
+                            exe: executableLocation,
+                            StartDir: `"${path.dirname(executableLocation.match(/"(.*?)"/)[1]) + path.sep}"`,
                             LaunchOptions: argumentString,
                             tags: steamCategories
                         });
@@ -499,8 +499,6 @@ export class VdfManager {
                         let index = getEntry(shortcutsData, appID);
 
                         if (index !== -1) {
-                            let executableLocation = apps[appID].executableLocation;
-
                             imagesToRemove.push(appID);
                             entriesToRemove.push(appID);
                             shortcutsData[index] = undefined;

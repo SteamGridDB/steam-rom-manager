@@ -184,7 +184,8 @@
                 Multiple <span class="code">{{'${}'}}</span> are supported (can be escaped using
                 <span class="code">{{'\\'}}</span>: <span class="code">{{'\\${'}}</span> and <span class="code">{{'\\}'}}</span>).
                 Moreover, variables used in "Executable arguments" are also supported. Below are few examples of how user
-                accounts are extracted (let's say that <span class="code">{{'${"fuzzyTitle"}'}}</span> is equal to <span class="code">Legend of Link</span>).
+                accounts are extracted (let's say that <span class="code">{{'${"fuzzyTitle"}'}}</span> is equal to
+                <span class="code">Legend of Link</span>).
             </div>
             <div class="paragraph" style="padding-left: 1em">
                 <span class="code">{{'${fuzzyTitle} ${${fuzzyTitle}'}}{{'} ${title\\}\\${title} ${fuzzyTitle} ${"query"}'}}</span>:
@@ -260,15 +261,14 @@
                 App merging
             </div>
             <div class="paragraph">
-                Recurring apps are merged. Recurring app is an app that has the same app id. App ids are generated
-                from executable and app title, both are case-sensitive. For save app ids, the following willbe merged:
+                Recurring apps are merged. Recurring app is an app that has the same app id. App ids are generated from executable and app
+                title, both are case-sensitive. For save app ids, the following willbe merged:
                 <ul>
                     <li><span class="code">Executable</span>: first occurrence is kept and others ignored</li>
                     <li><span class="code">Arguments</span>: first occurrence is kept and others ignored</li>
                     <li><span class="code">Categories</span>: unique categories are merged</li>
                 </ul>
-                Consider using title modifier to generate different app id. For example you could set suffix
-                to <span class="code"> (1.7.5)</span> which would signify different executable version.
+                Consider using title modifier to generate different app id. For example you could set suffix to <span class="code"> (1.7.5)</span>                which would signify different executable version.
             </div>
         </div>
     </div>
@@ -386,6 +386,9 @@
             </div>
             <div class="errorMessage" [hidden]="myForm.controls.executableArgs.valid || (myForm.controls.executableArgs.pristine && !submitted)">
                 {{myForm.controls.executableArgs.errors?.error}}
+            </div>
+            <div class="inputContainer ngToggleButton" *ngIf="myForm.controls.advanced.value === true">
+                <ng-toggle-button formControlName="appendArgsToExecutable">Append arguments to execuble</ng-toggle-button>
             </div>
         </div>
         <div *ngIf="myForm.controls.advanced.value === true || !myForm.controls.onlineImageQueries.valid">

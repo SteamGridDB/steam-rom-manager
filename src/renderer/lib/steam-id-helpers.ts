@@ -38,10 +38,10 @@ export function steamID_64_ToAccountID(steamID64: string) {
     return longValue.toString();
 }
 
-export function generateAppId(quotedExecutableLocation: string, title: string) {
+export function generateAppId(executableLocation: string, title: string) {
     //From https://github.com/Hafas/node-steam-shortcuts
 
-    let crcValue = crc.crc32(quotedExecutableLocation + title);
+    let crcValue = crc.crc32(executableLocation + title);
     let longValue = new long(crcValue, crcValue, true);
     longValue = longValue.or(0x80000000);
     longValue = longValue.shl(32);

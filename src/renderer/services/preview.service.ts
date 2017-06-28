@@ -357,7 +357,7 @@ export class PreviewService {
 
                     for (let k = 0; k < data[i].files.length; k++) {
                         let file = config.files[k];
-                        let appID = generateAppId(`"${file.executableLocation}"`, file.fuzzyFinalTitle);
+                        let appID = generateAppId(file.executableLocation, file.fuzzyFinalTitle);
 
                         if (this.images[file.fuzzyTitle] === undefined) {
                             this.images[file.fuzzyTitle] = {

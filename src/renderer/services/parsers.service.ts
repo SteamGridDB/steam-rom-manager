@@ -23,6 +23,7 @@ export class ParsersService {
         userAccounts: { skipWithMissingDataDir: true, specifiedAccounts: '' },
         parserInputs: {},
         executableArgs: '',
+        appendArgsToExecutable: false,
         localImages: '',
         onlineImageQueries: '${${fuzzyTitle}}',
         titleModifier: '${title}',

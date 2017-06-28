@@ -19,6 +19,7 @@ export interface UserConfiguration {
     },
     onlineImageQueries: string,
     executableArgs: string,
+    appendArgsToExecutable: boolean,
     localImages: string,
     titleModifier: string,
     enabled: boolean,

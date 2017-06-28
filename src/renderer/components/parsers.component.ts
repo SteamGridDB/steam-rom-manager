@@ -39,6 +39,7 @@ export class ParsersComponent implements OnInit, OnDestroy {
             romDirectory: ['', (control: FormControl) => this.genericValidation('validateROMsDir', control)],
             steamDirectory: ['', (control: FormControl) => this.genericValidation('validateSteamDir', control)],
             executableArgs: ['', (control: FormControl) => this.genericValidation('validateExecutableArgs', control)],
+            appendArgsToExecutable: [false],
             titleModifier: ['', (control: FormControl) => this.genericValidation('validateTitleModifier', control)],
             localImages: ['', (control: FormControl) => this.genericValidation('validateLocalImages', control)],
             fuzzyMatch: this.formBuilder.group({ use: true, removeCharacters: true, removeBrackets: true }),
