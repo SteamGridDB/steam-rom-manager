@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 * `Observable` settings load logic bug.
+* Url encoding bug (issue #27).
 
 ## 2.0.1 - 2017-06-12
 ### Fixed
