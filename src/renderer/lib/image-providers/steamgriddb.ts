@@ -1,7 +1,17 @@
 import { GenericImageProvider, ImageContent, ProviderEvent } from "../../models";
 import { LoggerService, SettingsService } from "../../services";
-import { Http, Headers, URLSearchParams } from '@angular/http';
+import { Http, Headers, URLSearchParams, QueryEncoder } from '@angular/http';
 import { Observable } from "rxjs";
+
+class CustomUrlEncoder extends QueryEncoder {
+    encodeKey(key: string): string {
+        return encodeURIComponent(key);
+    }
+
+    encodeValue(value: string): string {
+        return encodeURIComponent(value);
+    }
+}
 
 export class SteamGridDbProvider implements GenericImageProvider {
     constructor(private http: Http, private loggerService: LoggerService, private settingsService: SettingsService, private downloadInterrupt: Observable<any>, private timeout: number = 40000, private retryCount: number = 3) { }
@@ -11,7 +21,7 @@ export class SteamGridDbProvider implements GenericImageProvider {
     }
 
     retrieveUrls(title: string, eventCallback: (event: ProviderEvent, data: any) => void, doneCallback: (title: string) => void) {
-        let params = new URLSearchParams();
+        let params = new URLSearchParams('', new CustomUrlEncoder());
         params.append('game', title);
         params.append('fields', ['author', 'grid_url'].toString());
 

@@ -1,9 +1,19 @@
 import { GenericImageProvider, ImageContent, ProviderEvent, AppSettings } from "../../models";
 import { LoggerService, SettingsService } from "../../services";
-import { Http, Headers, URLSearchParams, Response } from '@angular/http';
+import { Http, Headers, URLSearchParams, Response, QueryEncoder } from '@angular/http';
 import { Observable } from "rxjs";
 import { queue } from 'async';
 import { FuzzyMatcher } from "../fuzzy-matcher";
+
+class CustomUrlEncoder extends QueryEncoder {
+    encodeKey(key: string): string {
+        return encodeURIComponent(key);
+    }
+
+    encodeValue(value: string): string {
+        return encodeURIComponent(value);
+    }
+}
 
 export class RetroGamingCloudProvider implements GenericImageProvider {
     private timeoutQueue: AsyncQueue<{ timeout: number, eventCallback: () => void }>;
@@ -110,7 +120,7 @@ export class RetroGamingCloudProvider implements GenericImageProvider {
     }
 
     private retrieveImageList(title: string, eventCallback: (event: ProviderEvent, data: any) => void) {
-        let params = new URLSearchParams();
+        let params = new URLSearchParams('', new CustomUrlEncoder());
         params.append('name', title);
 
         return new Promise<any[]>((resolve, reject) => {
