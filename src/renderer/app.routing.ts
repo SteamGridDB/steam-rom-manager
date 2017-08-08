@@ -1,7 +1,8 @@
-import { ModuleWithProviders }  from '@angular/core';
+import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PreviewComponent, LoggerComponent, ParsersComponent, SettingsComponent } from './components';
+import { HrefGuard } from './guards';
 
 const AppRouter: Routes = [
     {
@@ -23,7 +24,14 @@ const AppRouter: Routes = [
     {
         path: 'parsers/:index',
         component: ParsersComponent
+    },
+    {
+        path: '**',
+        component: ParsersComponent,
+        canActivate: [HrefGuard]
     }
 ];
 
-export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(AppRouter, { useHash: true, initialNavigation: false });
+export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(AppRouter, {
+    useHash: true, initialNavigation: false
+});

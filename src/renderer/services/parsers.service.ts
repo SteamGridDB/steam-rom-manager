@@ -3,8 +3,12 @@ import { Http } from '@angular/http';
 import { UserConfiguration, ParsedUserConfiguration } from '../models';
 import { LoggerService } from './logger.service';
 import { SettingsService } from './settings.service';
+import { FuzzyService } from './fuzzy.service';
+import { ImageProviderService } from './image-provider.service';
 import { FileParser, VariableParser } from '../lib';
+import { availableProviders } from '../lib/image-providers';
 import { BehaviorSubject } from "rxjs";
+import { gApp } from "../app.global";
 import * as fs from 'fs-extra';
 import * as _ from 'lodash';
 import * as paths from '../../shared/paths'
@@ -13,28 +17,35 @@ import * as paths from '../../shared/paths'
 export class ParsersService {
     private fileParser: FileParser;
     private userConfigurations: BehaviorSubject<UserConfiguration[]>;
-    private defaultValues: UserConfiguration = {
-        parserType: '',
-        configTitle: '',
-        steamCategory: '',
-        executableLocation: '',
-        romDirectory: '',
-        steamDirectory: '',
-        userAccounts: { skipWithMissingDataDir: true, specifiedAccounts: '' },
-        parserInputs: {},
-        executableArgs: '',
-        localImages: '',
-        onlineImageQueries: '${${fuzzyTitle}}',
-        titleModifier: '${title}',
-        fuzzyMatch: { use: true, removeCharacters: true, removeBrackets: true },
-        advanced: false,
-        enabled: true
-    };
+    private defaultValues: UserConfiguration;
 
-    constructor(private loggerService: LoggerService, private settingService: SettingsService, private http: Http) {
-        this.fileParser = new FileParser(this.http, this.loggerService, this.settingService);
+    constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private settingService: SettingsService, private http: Http) {
+        this.fileParser = new FileParser(this.fuzzyService);
         this.userConfigurations = new BehaviorSubject<UserConfiguration[]>([]);
+        this.defaultValues = {
+            parserType: '',
+            configTitle: '',
+            steamCategory: '',
+            executableLocation: '',
+            romDirectory: '',
+            steamDirectory: '',
+            userAccounts: { skipWithMissingDataDir: true, specifiedAccounts: '' },
+            parserInputs: {},
+            executableArgs: '',
+            appendArgsToExecutable: false,
+            localImages: '',
+            onlineImageQueries: '${${fuzzyTitle}}',
+            imageProviders: availableProviders(),
+            titleModifier: '${title}',
+            fuzzyMatch: { use: true, removeCharacters: true, removeBrackets: true },
+            advanced: false,
+            enabled: true
+        };
         this.readUserConfigurations();
+    }
+
+    get lang() {
+        return gApp.lang.parsers.service;
     }
 
     getUserConfigurations() {
@@ -45,7 +56,7 @@ export class ParsersService {
         return this.userConfigurations.getValue();
     }
 
-    getDefaultValues(){
+    getDefaultValues() {
         return this.defaultValues;
     }
 
@@ -108,7 +119,7 @@ export class ParsersService {
             if (this.isConfigurationValid(configs[i]))
                 validConfigs.push(configs[i]);
             else
-                invalidConfigTitles.push(configs[i].configTitle);
+                invalidConfigTitles.push(configs[i].configTitle || this.lang.text.noTitle);
         }
 
         return this.fileParser.executeFileParser(validConfigs).then((parsedData) => {
@@ -116,90 +127,57 @@ export class ParsersService {
         });
     }
 
-    validateParser(parser: string) {
-        let availableParsers = this.getAvailableParsers();
-        if (availableParsers.indexOf(parser) !== -1)
-            return null;
-        else
-            return 'Incorrect parser type!';
-    }
-
-    validateConfigTitle(configTitle: string) {
-        if (configTitle)
-            return null;
-        else
-            return 'Configuration title is required!';
-    }
-
-    validateSteamCategory(steamCategory: string) {
-        return this.validateVariableParserString(steamCategory);
-    }
-
-    validateParserInput(parser: string, input: string, inputData: string) {
-        let availableParser = this.getParser(parser);
-        if (availableParser) {
-            if (availableParser.inputs === undefined)
-                return 'No inputs are available!';
-            else if (availableParser.inputs[input] === undefined)
-                return `"${input}" input is not available!`;
-            else if (availableParser.inputs[input].forcedInput || availableParser.inputs[input].validationFn === undefined)
-                return null;
-            else
-                return availableParser.inputs[input].validationFn(inputData);
+    validate(key: string, data: any) {
+        switch (key) {
+            case 'parserType':
+                {
+                    let availableParsers = this.getAvailableParsers();
+                    return (availableParsers.indexOf(data) !== -1) ? null : this.lang.validationErrors.parserType;
+                }
+            case 'configTitle':
+                return data ? null : this.lang.validationErrors.configTitle;
+            case 'steamCategory':
+                return this.validateVariableParserString(data || '');
+            case 'executableLocation':
+                return this.validatePath(data || '', false) ? null : this.lang.validationErrors.executable;
+            case 'romDirectory':
+                return this.validatePath(data || '', true) ? null : this.lang.validationErrors.romDir;
+            case 'steamDirectory':
+                return this.validatePath(data || '', true) ? null : this.lang.validationErrors.steamDir;
+            case 'specifiedAccounts':
+                return this.validateVariableParserString(data || '');
+            case 'parserInputs':
+                {
+                    let availableParser = this.getParser(data['parser']);
+                    if (availableParser) {
+                        if (availableParser.inputs === undefined)
+                            return this.lang.validationErrors.parserInput.noInput;
+                        else if (availableParser.inputs[data['input']] === undefined)
+                            return this.lang.validationErrors.parserInput.inputNotAvailable__i.interpolate({ name: data['input'] });
+                        else if (availableParser.inputs[data['input']].forcedInput || availableParser.inputs[data['input']].validationFn === undefined)
+                            return null;
+                        else
+                            return availableParser.inputs[data['input']].validationFn(data['inputData']);
+                    }
+                    else
+                        return this.lang.validationErrors.parserInput.incorrectParser;
+                }
+            case 'onlineImageQueries':
+                return this.validateVariableParserString(data || '');
+            case 'imageProviders':
+                return _.isArray(data) ? null : this.lang.validationErrors.imageProviders;
+            case 'titleModifier':
+                return (!data || data.search(/\${title}/i) === -1) ? this.lang.validationErrors.titleModifier : null;
+            default:
+                return this.lang.validationErrors.unhandledValidationKey;
         }
-        else
-            return 'Incorrect parser!';
-    }
-
-    validateROMsDir(romDirectory: string) {
-        if (this.validatePath(romDirectory, true))
-            return null;
-        else
-            return 'ROMs directory is invalid!';
-    }
-
-    validateSteamDir(steamDirectory: string) {
-        if (this.validatePath(steamDirectory, true))
-            return null;
-        else
-            return 'Steam directory is invalid!';
-    }
-
-    validateExecutableLocation(executableLocation: string) {
-        if (executableLocation.length === 0 || this.validatePath(executableLocation, false))
-            return null;
-        else
-            return 'Executable file is invalid!';
-    }
-
-    validateExecutableArgs(executableArgs: string): null {
-        return null;
-    }
-
-    validateLocalImages(localImages: string): null {
-        return null;
-    }
-
-    validateTitleModifier(titleModifier: string) {
-        if (!titleModifier || titleModifier.search(/\${title}/i) === -1)
-            return 'Title modifier must containt "${title}"';
-        else
-            return null;
-    }
-
-    validateUserAccounts(userAccounts: string) {
-        return this.validateVariableParserString(userAccounts);
-    }
-
-    validateOnlineImageQueries(onlineImageQueries: string) {
-        return this.validateVariableParserString(onlineImageQueries);
     }
 
     private validateVariableParserString(input: string) {
         if (input.length === 0 || new VariableParser('${', '}', input).isValid())
             return null;
         else
-            return 'Uneven number of "${" and "}" pairs. Use "\\" to escape "${" or "}" if you want to use them as characters.';
+            return this.lang.validationErrors.variableString;
     }
 
     private validatePath(fsPath: string, checkForDirectory: boolean) {
@@ -211,35 +189,28 @@ export class ParsersService {
         }
     }
 
-    private isConfigurationValid(config: UserConfiguration) {
-        if (this.validateParser(config.parserType || '') !== null)
-            return false;
-        else if (this.validateConfigTitle(config.configTitle || '') !== null)
-            return false;
-        else if (this.validateSteamCategory(config.steamCategory || '') !== null)
-            return false;
-        else if (this.validateROMsDir(config.romDirectory || '') !== null)
-            return false;
-        else if (this.validateSteamDir(config.steamDirectory || '') !== null)
-            return false;
-        else if (this.validateExecutableLocation(config.executableLocation || '') !== null)
-            return false;
-        else if (this.validateExecutableArgs(config.executableArgs || '') !== null)
-            return false;
-        else if (this.validateTitleModifier(config.titleModifier || '') !== null)
-            return false;
-        else if (this.validateUserAccounts(config.userAccounts.specifiedAccounts || '') !== null)
-            return false;
-        else {
-            let availableParser = this.getParser(config.parserType);
-            if (availableParser.inputs !== undefined) {
-                let parserInputs = config.parserInputs || {};
-                for (let inputName in availableParser.inputs) {
-                    if (this.validateParserInput(config.parserType, inputName, parserInputs[inputName]) !== null)
-                        return false;
-                }
+    isConfigurationValid(config: UserConfiguration) {
+        let simpleValidations: string[] = [
+            'parserType', 'configTitle', 'steamCategory',
+            'executableLocation', 'romDirectory', 'steamDirectory',
+            'specifiedAccounts', 'onlineImageQueries', 'titleModifier',
+            'imageProviders'
+        ];
+
+        for (let i = 0; i < simpleValidations.length; i++) {
+            if (this.validate(simpleValidations[i], config[simpleValidations[i]]) !== null)
+                return false;
+        }
+
+        let availableParser = this.getParser(config.parserType);
+        if (availableParser.inputs !== undefined) {
+            let parserInputs = config.parserInputs;
+            for (let inputName in availableParser.inputs) {
+                if (this.validate('parserInputs', { parser: config.parserType, input: inputName, inputData: parserInputs[inputName] }) !== null)
+                    return false;
             }
         }
+
         return true;
     }
 
@@ -252,8 +223,8 @@ export class ParsersService {
                     resolve();
             });
         }).then().catch((error) => {
-            this.loggerService.error('Error encountered while saving user configurations!', { invokeAlert: true, alertTimeout: 5000 });
-            this.loggerService.error(error.message);
+            this.loggerService.error(this.lang.error.savingConfiguration, { invokeAlert: true, alertTimeout: 5000 });
+            this.loggerService.error(error);
         });
     }
 
@@ -280,7 +251,7 @@ export class ParsersService {
             }
             this.userConfigurations.next(validateConfigs);
         }).catch((error) => {
-            this.loggerService.error('Error encountered while reading user configurations!', { invokeAlert: true, alertTimeout: 5000 });
+            this.loggerService.error(this.lang.error.readingConfiguration, { invokeAlert: true, alertTimeout: 5000 });
             this.loggerService.error(error);
         });
     }

@@ -1,4 +1,4 @@
-import { Component, forwardRef, ElementRef, ViewChildren, QueryList, Input, EventEmitter, Output } from '@angular/core';
+import { Component, forwardRef, ElementRef, ViewChildren, QueryList, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
@@ -33,32 +33,28 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
         multi: true
     }]
 })
-export class ToggleButtonComponent implements ControlValueAccessor {
+export class ToggleButtonComponent implements ControlValueAccessor{
     @Input('contentOnLeft') private contentOnLeft: boolean;
     @ViewChildren('animation', { read: ElementRef }) private animation: QueryList<ElementRef>;
-    @Output() private change = new EventEmitter();
-    @Output() private touched = new EventEmitter();
-    private onTouchedNgModel: () => void = () => {};
-    private onChangeNgModel: (_: any) => void = () => {};
-    private currentValue: any = false;
+    private currentValue: boolean = null;
+    private onChange = (_: any) => { };
+    private onTouched = () => { };
 
-    constructor(private element: ElementRef) { }
+    constructor() { }
     
     @Input()
-    set value(value: any) {
+    set value(value: boolean) {
         let oldValue = this.currentValue;
-        this.currentValue = !!value;
+        this.currentValue = value;        
 
         if (value !== oldValue){
-            this.change.emit(value);
-            this.onChangeNgModel(value);
-            if (this.animation && this.animation.first){
+            this.onChange(value);
+            if (this.animation && this.animation.first && oldValue !== null){
                 this.animation.first.nativeElement.beginElement();
             }
         }
 
-        this.touched.emit();
-        this.onTouchedNgModel();
+        this.onTouched();
     }
 
     get value() {
@@ -70,10 +66,10 @@ export class ToggleButtonComponent implements ControlValueAccessor {
     }
 
     registerOnChange(fn: (value: any) => any): void {
-        this.onChangeNgModel = fn;
+        this.onChange = fn;
     }
 
     registerOnTouched(fn: () => any): void {
-        this.onTouchedNgModel = fn;
+        this.onTouched = fn;
     }
 }

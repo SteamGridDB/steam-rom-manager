@@ -1,41 +1,51 @@
 import { Injectable } from '@angular/core';
-import { readJson, writeJson } from "../lib";
+import { readJson, writeJson } from "../../shared/lib";
+import { availableProviders } from '../lib/image-providers';
 import { AppSettings } from "../models";
 import { LoggerService } from './logger.service';
 import { Subject, BehaviorSubject } from "rxjs";
+import { gApp } from "../app.global";
 import * as _ from "lodash";
 import * as paths from '../../shared/paths';
 
 @Injectable()
 export class SettingsService {
-    private changeSubject: Subject<any> = new Subject();
+    private changeSubject: Subject<AppSettings> = new Subject();
     private settingsLoadedSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    private appSettings: AppSettings = {
-        fuzzyMatcher: {
-            timestamps: {
-                check: 0,
-                download: 0
-            },
-            verbose: false,
-            filterProviders: true
-        },
-        previewSettings: {
-            imageZoomPercentage: 40,
-            preload: false
-        },
-        offlineMode: false,
-        knownSteamDirectories: []
-    };
+    private appSettings: AppSettings;
 
     constructor(private loggerService: LoggerService) {
+        this.appSettings = {
+            fuzzyMatcher: {
+                timestamps: {
+                    check: 0,
+                    download: 0
+                },
+                verbose: false,
+                filterProviders: true
+            },
+            previewSettings: {
+                imageZoomPercentage: 40,
+                preload: false
+            },
+            enabledProviders: availableProviders(),
+            language: 'English',
+            offlineMode: false,
+            knownSteamDirectories: []
+        };
+
         readJson<AppSettings>(paths.userSettings, this.appSettings).then((settings) => {
             this.appSettings = this.validateObject(settings, this.appSettings);
-            this.settingsLoadedSubject.next(true);
         }).catch((error) => {
-            this.settingsLoadedSubject.next(true);
-            this.loggerService.error('Error occurred while reading user settings.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.error(this.lang.error.readingError, { invokeAlert: true, alertTimeout: 3000 });
             this.loggerService.error(error);
+        }).then(() => {
+            this.settingsLoadedSubject.next(true);
         });
+    }
+
+    private get lang() {
+        return gApp.lang.settings.service;
     }
 
     getSettings() {
@@ -43,7 +53,7 @@ export class SettingsService {
     }
 
     settingsChanged() {
-        this.changeSubject.next();
+        this.changeSubject.next(this.appSettings);
     }
 
     getChangeObservable() {
@@ -51,7 +61,10 @@ export class SettingsService {
     }
 
     saveAppSettings() {
-        writeJson(paths.userSettings, this.appSettings);
+        writeJson(paths.userSettings, this.appSettings).then().catch((error) => {
+            this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.error(error);
+        });
     }
 
     validateObject<template>(source: any, templateToMatch: template, keepNotFoundData?: string[]) {

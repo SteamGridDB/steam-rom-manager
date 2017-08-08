@@ -1,47 +1,86 @@
-Want to play some old or new emulator games on your couch? Going to add them to the Steam and use big picture mode? Well, fear not! It is no longer a chore that ruins everyone's mood. Introducing **Steam ROM Manager**! 
+# For casual users
 
-# Features
+Visit [Steam ROM Manager](https://frogthefrog.github.io/steam-rom-manager)'s github page for more information.
 
-## Multiplatform
+# For developers
 
-Runs on Windows and Linux! Should run on Mac OS too, but you'll need to build it from source yourself.
+To compile this app, you'll need the latest `Node.js` and `npm`. Every script will need to be run from project directory.
 
-## Instructions and examples
+Before running any scripts, dependencies must be installed using:
 
-Use instructions and examples to create your own parser. When creating a parser configuration, you can read side-by-side about each input field and how does it work.
+```
+npm install
+```
 
-![Instructions and examples](./images/ft_instructionsAndExamples.gif)
+## Scripts
 
-## Verbose information about what your parser is doing
+All script must be run using `npm run` command. For example, `npm run watch:renderer`.
 
-Parser not working or is working not as you intended it to? Test it to see what's what!
+|Script|Function|
+|---|---|
+|`watch:main`|Compiles Electron app and watches for changes|
+|`watch:renderer`|Compiles a renderer for an Electron app and watches for changes|
+|`build:main`|Compiles Electron app in production mode|
+|`build:renderer`|Compiles a renderer for an Electron app in production mode|
+|`build:dist`|Runs `build:main` and `build:renderer`|
+|`build:win`|Compiles an executable installer for Windows|
+|`build:linux`|Compiles a `deb` package and `AppImage` for linux|
+|`start`|Launches compiled app|
+|`docker:create`|Create docker image|
+|`docker:bash`|Allows to access bash in created image|
+|`docker:remove`|Removes docker image and everything related to it|
+|`docker:npm-install`|Runs `npm install` in docker|
+|`docker:build`|Runs `build:win` and `build:linux` in docker|
 
-![Parser test](./images/ft_parserTest.gif)
+## Debugging an app
 
-## Easy to use
+Run `watch:main` (usually once since you rarely change anything in Electron app) and `watch:renderer`.
+Each command creates separate `webpack` instance which will watch referenced files for changes and will recompile app.
 
-Finally got that parser working? Go to preview and generate new list!
+App can be run using `start` script. After every recompile by `watch:renderer`, app can be refreshed using `Ctrl + R`, however `watch:main` requires need a restart.
 
-![Easy to use](./images/ft_easyToUse.gif)
+`Ctrl + Shift + I` can be used to launch Chrome inspector once the app is running.
 
-## Fuzzy title matching
+## Building and app
 
-Can't seem to find images for your title, but they are certainly on supported websites? Could it be due to some missing or mistypes characters in your title? Fuzzy matching to the rescue! It will match closest title to the list of titles downloaded from **SteamGridDB**.
+### For Windows
 
-![Local images](./images/ft_fuzzyMatching.gif)
+Scripts must be run in this order:
 
-## Use local images
+```
+npm run build:dist
+npm run build:win
+```
 
-No images found or you just want to use your own images? Fear not! Steam ROM Manager supports local images! (Thanks to **doZennn** from **SteamGridDB** who said, and was right, that this is a must have feature.)
+### For linux
 
-![Local images](./images/ft_localImages.gif)
+Scripts must be run in this order:
 
-## Other features
+```
+npm run build:dist
+npm run build:linux
+```
 
-- Change almost every color by accessing color picker with **Alt + C**. If you lost it or can't reach it anymore, use **Alt + R** to reset it's position.
-- Multiple user configuration support.
-- Fully support image downloads from **SteamGridDB**, **retrogaming.cloud** and partially from **ConsoleGrid**.
+### For docker
 
-# Special thanks
+To create docker image and install dependencies:
 
-- Thank you **doZennn** for providing title list for fuzzy matching and an icon. Also testing this app.
+```
+npm run docker:create
+npm run docker:npm-install
+```
+
+Then, scripts must be run in this order:
+
+```
+npm run build:dist
+npm run docker:build
+```
+
+## Windows terminal
+
+Some commands will require unix-like terminal, therefore if some commands don't work you'll need to set `npm` to use `powershell` or similar terminals for running scripts. This requires `npm > 5.1.x`. Terminal can be set using this command:
+
+```
+npm config set script-shell C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe
+```

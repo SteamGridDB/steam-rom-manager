@@ -1,22 +1,53 @@
-<label>
-    General
-</label>
-<div class="inputContainer ngToggleButton">
-    <ng-toggle-button [value]="settings.offlineMode" (change)="settings.offlineMode = $event; onSettingsChange();">Offline mode</ng-toggle-button>
+<div>
+    <label>
+        {{lang.label.general}}
+    </label>
+    <div class="inputContainer">
+        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.offlineMode" (ngModelChange)="settings.offlineMode = $event; onSettingsChange();">{{lang.text.offlineMode}}</ng-toggle-button>
+    </div>
+    <div class="inputContainer">
+        <div class="inlineGroup">
+            <div class=text style="margin-right: 0.25em;">{{lang.text.removeApps_desc}}</div>
+            <div class="clickButton dangerousButton" style="font-size: 0.85em;" [class.disabled]="this.settings.knownSteamDirectories.length === 0"
+                (click)="removeApps()">{{lang.text.removeApps_btn}}</div>
+        </div>
+    </div>
+    <div class="inputContainer">
+        <div class="inlineGroup">
+            <div class=text style="margin-right: 0.25em;">{{lang.text.selectLanguage}}</div>
+            <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.language" (ngModelChange)="settings.language = $event; loadLanguage(); onSettingsChange();">
+                <ng-option *ngFor="let value of availableLanguages" [ngValue]="value">
+                    {{value}}
+                </ng-option>
+            </ng-select>
+        </div>
+    </div>
 </div>
-<div class="inputContainer clickButton">
-    <div class="removeButton" [class.disabled]="this.settings.knownSteamDirectories.length === 0" (click)="removeApps()">Remove all added app entries</div>
+<div>
+    <label>
+        {{lang.label.fuzzy}}
+    </label>
+    <div class="inputContainer">
+        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.fuzzyMatcher.verbose" (ngModelChange)="settings.fuzzyMatcher.verbose = $event; onSettingsChange();">{{lang.text.fuzzy_verbose}}</ng-toggle-button>
+        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.fuzzyMatcher.filterProviders" (ngModelChange)="settings.fuzzyMatcher.filterProviders = $event; onSettingsChange();">{{lang.text.fuzzy_filter}}</ng-toggle-button>
+    </div>
 </div>
-<label>
-    Preview settings
-</label>
-<div class="inputContainer ngToggleButton">
-    <ng-toggle-button [value]="settings.previewSettings.preload" (change)="preload($event); onSettingsChange();">Preload retrieved images immediately</ng-toggle-button>
-</div>
-<label>
-    Fuzzy matcher
-</label>
-<div class="inputContainer ngToggleButton">
-    <ng-toggle-button [value]="settings.fuzzyMatcher.verbose" (change)="settings.fuzzyMatcher.verbose = $event; onSettingsChange();">Log matching results (logged results are hidden by default in Event log)</ng-toggle-button>
-    <ng-toggle-button [value]="settings.fuzzyMatcher.filterProviders" (change)="settings.fuzzyMatcher.filterProviders = $event; onSettingsChange();">Filter images (filters out unrelated images returned by some image providers)</ng-toggle-button>
+<div>
+    <label>
+        {{lang.label.imageProviders}}
+    </label>
+    <div class="inputContainer">
+        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.preload" (ngModelChange)="preload($event); onSettingsChange();">{{lang.text.preloadImages}}</ng-toggle-button>
+    </div>
+    <div class="inputContainer">
+        <div class="inlineGroup">
+            <div class=text style="margin-right: 0.25em;">{{lang.text.enabledProviders}}</div>
+            <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.enabledProviders" (ngModelChange)="settings.enabledProviders = $event; onSettingsChange();"
+                multiple="true" allowEmpty="true" [placeholder]="lang.placeholder.noProviders">
+                <ng-option *ngFor="let value of availableProviders" [ngValue]="value">
+                    {{value}}
+                </ng-option>
+            </ng-select>
+        </div>
+    </div>
 </div>

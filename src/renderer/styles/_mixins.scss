@@ -1,195 +1,318 @@
-@mixin click-button-color($colorProp, $canBeDisabled: false) {
-    color: var(--color-#{$colorProp}-text);
-    border-color: var(--color-#{$colorProp}-border);
-    background-color: var(--color-#{$colorProp}-background);
+@mixin titlebarButton($colorProp) {
+	background-color: var(--color-#{$colorProp}-background);
 
-    fill: var(--color-#{$colorProp}-text);
+	polyline {
+		stroke: var(--color-#{$colorProp}-text);
+	}
 
-    &:hover {
-        color: var(--color-#{$colorProp}-text-hover);
-        border-color: var(--color-#{$colorProp}-border-hover);
-        background-color: var(--color-#{$colorProp}-background-hover);
+	&:hover {
+		background-color: var(--color-#{$colorProp}-background-hover);
 
-        fill: var(--color-#{$colorProp}-text-hover);
-    }
+		polyline {
+			stroke: var(--color-#{$colorProp}-text-hover);
+		}
+	}
 
-    &:active {
-        color: var(--color-#{$colorProp}-text-active);
-        border-color: var(--color-#{$colorProp}-border-active);
-        background-color: var(--color-#{$colorProp}-background-active);
+	&:active {
+		background-color: var(--color-#{$colorProp}-background-active);
 
-        fill: var(--color-#{$colorProp}-text-active);
-    }
-
-    @if $canBeDisabled {
-        &.disabled, &:disabled {
-            cursor: default;
-
-            color: var(--color-#{$colorProp}-text-disabled);
-            border-color: var(--color-#{$colorProp}-border-disabled);
-            background-color: var(--color-#{$colorProp}-background-disabled);
-
-            fill: var(--color-#{$colorProp}-text-disabled);
-        }
-    }
+		polyline {
+			stroke: var(--color-#{$colorProp}-text-active);
+		}
+	}
 }
 
-@mixin toggle-button-color($colorProp) {
-    color: var(--color-#{$colorProp}-text);
-    border-color: var(--color-#{$colorProp}-border);
-    background-color: var(--color-#{$colorProp}-background);
+@mixin webkitScrollbar($colorProp, $scrollbarSize: 0.75em, $trackBorderRadius: 0, $thumbBorderRadius: 0) {
+	&::-webkit-scrollbar {
+		width: $scrollbarSize;
+		height: $scrollbarSize;
+	}
 
-    &:hover {
-        color: var(--color-#{$colorProp}-text-hover);
-        border-color: var(--color-#{$colorProp}-border-hover);
-        background-color: var(--color-#{$colorProp}-background-hover);
+	&::-webkit-scrollbar-track {
+		border-radius: $trackBorderRadius;
+		background-color: var(--color-#{$colorProp}-track);
+	}
 
-        &.active, &:active {
-            color: var(--color-#{$colorProp}-text-active);
-            border-color: var(--color-#{$colorProp}-border-active);
-            background-color: var(--color-#{$colorProp}-background-active);
-        }
-    }
+	&::-webkit-scrollbar-thumb {
+		border-radius: $thumbBorderRadius;
+		background-color: var(--color-#{$colorProp}-thumb);
+	}
 
-    &.active, &:active {
-        color: var(--color-#{$colorProp}-text-active);
-        border-color: var(--color-#{$colorProp}-border-active);
-        background-color: var(--color-#{$colorProp}-background-active);
-
-        &:hover {
-            color: var(--color-#{$colorProp}-text-active-hover);
-            border-color: var(--color-#{$colorProp}-border-active-hover);
-            background-color: var(--color-#{$colorProp}-background-active-hover);
-        }
-    }
+	&::-webkit-scrollbar-corner {
+		background-color: var(--color-#{$colorProp}-track);
+	}
 }
 
-@mixin ng-toggle-button-color($colorProp) {
-    color: var(--color-#{$colorProp}-text);
+@mixin toggleButtonColor($colorProp) {
+	color: var(--color-#{$colorProp}-text);
+	border-color: var(--color-#{$colorProp}-border);
+	background-color: var(--color-#{$colorProp}-background);
 
-    --ng-toggle-button-color-border: var(--color-#{$colorProp}-border);
-    --ng-toggle-button-color-border-active: var(--color-#{$colorProp}-border-active);
-    --ng-toggle-button-color-border-active-hover: var(--color-#{$colorProp}-border-active-hover);
-    --ng-toggle-button-color-border-hover: var(--color-#{$colorProp}-border-hover);
-    --ng-toggle-button-color-button-border: var(--color-#{$colorProp}-button-border);
-    --ng-toggle-button-color-button-border-active: var(--color-#{$colorProp}-button-border-active);
-    --ng-toggle-button-color-button-border-active-hover: var(--color-#{$colorProp}-button-border-active-hover);
-    --ng-toggle-button-color-button-border-hover: var(--color-#{$colorProp}-button-border-hover);
-    --ng-toggle-button-color-button-fill: var(--color-#{$colorProp}-button-fill);
-    --ng-toggle-button-color-button-fill-active: var(--color-#{$colorProp}-button-fill-active);
-    --ng-toggle-button-color-button-fill-active-hover: var(--color-#{$colorProp}-button-fill-active-hover);
-    --ng-toggle-button-color-button-fill-hover: var(--color-#{$colorProp}-button-fill-hover);
-    --ng-toggle-button-color-fill: var(--color-#{$colorProp}-fill);
-    --ng-toggle-button-color-fill-active: var(--color-#{$colorProp}-fill-active);
-    --ng-toggle-button-color-fill-active-hover: var(--color-#{$colorProp}-fill-active-hover);
-    --ng-toggle-button-color-fill-hover: var(--color-#{$colorProp}-fill-hover);
+	&:hover {
+		color: var(--color-#{$colorProp}-text-hover);
+		border-color: var(--color-#{$colorProp}-border-hover);
+		background-color: var(--color-#{$colorProp}-background-hover);
+
+		&.active, &:active {
+			color: var(--color-#{$colorProp}-text-active);
+			border-color: var(--color-#{$colorProp}-border-active);
+			background-color: var(--color-#{$colorProp}-background-active);
+		}
+	}
+
+	&.active, &:active {
+		color: var(--color-#{$colorProp}-text-active);
+		border-color: var(--color-#{$colorProp}-border-active);
+		background-color: var(--color-#{$colorProp}-background-active);
+
+		&:hover {
+			color: var(--color-#{$colorProp}-text-active-hover);
+			border-color: var(--color-#{$colorProp}-border-active-hover);
+			background-color: var(--color-#{$colorProp}-background-active-hover);
+		}
+	}
 }
 
-@mixin input-color($colorProp, $canBeDisabled: false) {
-    color: var(--color-#{$colorProp}-text);
-    border: 1px solid var(--color-#{$colorProp}-border);
-    background-color: var(--color-#{$colorProp}-background);
-    box-shadow: 0 0 2px 1px var(--color-#{$colorProp}-shadow) inset;
+@mixin clickButtonColor($colorProp, $canBeDisabled: false) {
+	color: var(--color-#{$colorProp}-text);
+	border-color: var(--color-#{$colorProp}-border);
+	background-color: var(--color-#{$colorProp}-background);
 
-    &:hover {
-        color: var(--color-#{$colorProp}-text-hover);
-        border: 1px solid var(--color-#{$colorProp}-border-hover);
-        background-color: var(--color-#{$colorProp}-background-hover);
-        box-shadow: 0 0 2px 1px var(--color-#{$colorProp}-shadow-hover) inset;
-    }
+	fill: var(--color-#{$colorProp}-text);
 
-    &:focus {
-        color: var(--color-#{$colorProp}-text-focus);
-        border: 1px solid var(--color-#{$colorProp}-border-focus);
-        background-color: var(--color-#{$colorProp}-background-focus);
-        box-shadow: 0 0 2px 1px var(--color-#{$colorProp}-shadow-focus) inset;
-    }
+	&:hover {
+		color: var(--color-#{$colorProp}-text-hover);
+		border-color: var(--color-#{$colorProp}-border-hover);
+		background-color: var(--color-#{$colorProp}-background-hover);
 
-    @if $canBeDisabled {
-        &.disabled, &:disabled {
-            color: var(--color-#{$colorProp}-text-disabled);
-            border-color: var(--color-#{$colorProp}-border-disabled);
-            background-color: var(--color-#{$colorProp}-background-disabled);
-            box-shadow: 0 0 2px 1px var(--color-#{$colorProp}-shadow-disabled) inset;
-        }
-    }
+		fill: var(--color-#{$colorProp}-text-hover);
+	}
+
+	&:active {
+		color: var(--color-#{$colorProp}-text-active);
+		border-color: var(--color-#{$colorProp}-border-active);
+		background-color: var(--color-#{$colorProp}-background-active);
+
+		fill: var(--color-#{$colorProp}-text-active);
+	}
+
+	@if $canBeDisabled {
+		&.disabled, &:disabled {
+			cursor: default;
+
+			color: var(--color-#{$colorProp}-text-disabled);
+			border-color: var(--color-#{$colorProp}-border-disabled);
+			background-color: var(--color-#{$colorProp}-background-disabled);
+
+			fill: var(--color-#{$colorProp}-text-disabled);
+		}
+	}
 }
 
-@mixin webkit-scrollbar($colorProp, $scrollbarSize: 0.75em, $trackBorderRadius: 0, $thumbBorderRadius: 0) {
-    &::-webkit-scrollbar {
-        width: $scrollbarSize;
-        height: $scrollbarSize;
-    }
+@mixin button() {
+	display: inline-flex;
 
-    &::-webkit-scrollbar-track {
-        border-radius: $trackBorderRadius;
-        background-color: var(--color-#{$colorProp}-track);
-    }
+	padding: 0.2em 0.5em;
 
-    &::-webkit-scrollbar-thumb {
-        border-radius: $thumbBorderRadius;
-        background-color: var(--color-#{$colorProp}-thumb);
-    }
+	white-space: nowrap;
 
-    &::-webkit-scrollbar-corner {
-        background-color: var(--color-#{$colorProp}-track);
-    }
+	border-width: 1px;
+	border-style: solid;
+
+	align-items: center;
+
+	svg{
+		margin-right: 0.25em;
+	}
 }
 
-@mixin webkit-slider($colorProp, $trackHeight: 0.25em, $trackBorder: 0, $thumbHeight: 1.5em, $thumbWidth: 0.75em, $thumbBorder: 0) {
-    -webkit-appearance: none;
-    &::-webkit-slider-runnable-track {
-        box-sizing: border-box;
-        height: $trackHeight;
+@mixin ngToggleButtonColor($colorProp) {
+	color: var(--color-#{$colorProp}-text);
 
-        background-color: var(--color-#{$colorProp}-track-background);
+	--ng-toggle-button-color-border: var(--color-#{$colorProp}-border);
+	--ng-toggle-button-color-border-active: var(--color-#{$colorProp}-border-active);
+	--ng-toggle-button-color-border-active-hover: var(--color-#{$colorProp}-border-active-hover);
+	--ng-toggle-button-color-border-hover: var(--color-#{$colorProp}-border-hover);
+	--ng-toggle-button-color-button-border: var(--color-#{$colorProp}-button-border);
+	--ng-toggle-button-color-button-border-active: var(--color-#{$colorProp}-button-border-active);
+	--ng-toggle-button-color-button-border-active-hover: var(--color-#{$colorProp}-button-border-active-hover);
+	--ng-toggle-button-color-button-border-hover: var(--color-#{$colorProp}-button-border-hover);
+	--ng-toggle-button-color-button-fill: var(--color-#{$colorProp}-button-fill);
+	--ng-toggle-button-color-button-fill-active: var(--color-#{$colorProp}-button-fill-active);
+	--ng-toggle-button-color-button-fill-active-hover: var(--color-#{$colorProp}-button-fill-active-hover);
+	--ng-toggle-button-color-button-fill-hover: var(--color-#{$colorProp}-button-fill-hover);
+	--ng-toggle-button-color-fill: var(--color-#{$colorProp}-fill);
+	--ng-toggle-button-color-fill-active: var(--color-#{$colorProp}-fill-active);
+	--ng-toggle-button-color-fill-active-hover: var(--color-#{$colorProp}-fill-active-hover);
+	--ng-toggle-button-color-fill-hover: var(--color-#{$colorProp}-fill-hover);
+}
 
-        @if $trackBorder {
-            border: solid $trackBorder var(--color-#{$colorProp}-track-border);
-        }
-    }
-    &::-webkit-slider-thumb {
-        box-sizing: border-box;
-        width: $thumbWidth;
-        height: $thumbHeight;
-        margin-top: ($trackHeight - $trackBorder - $thumbHeight) / 2;
+@mixin ngSelect() {
+	font-size: 1em;
 
-        background-color: var(--color-#{$colorProp}-thumb-background);
+	flex: 1 0 auto;
 
-        -webkit-appearance: none;
+	--ng-select-padding: 0.2em 0.1em;
 
-        @if $thumbBorder {
-            border: solid $thumbBorder var(--color-#{$colorProp}-thumb-border);
-        }
-    }
+	ng-option {
+		font-size: 1em;
 
-    &:hover {
-        &::-webkit-slider-runnable-track {
-            background-color: var(--color-#{$colorProp}-track-background-hover);
-            @if $trackBorder {
-                border: solid $trackBorder var(--color-#{$colorProp}-track-border-hover);
-            }
-        }
-        &::-webkit-slider-thumb {
-            background-color: var(--color-#{$colorProp}-thumb-background-hover);
-            @if $thumbBorder {
-                border: solid $thumbBorder var(--color-#{$colorProp}-thumb-border-hover);
-            }
-        }
-    }
+		position: relative;
 
-    &:focus {
-        &::-webkit-slider-runnable-track {
-            background-color: var(--color-#{$colorProp}-track-background-focus);
-            @if $trackBorder {
-                border: solid $trackBorder var(--color-#{$colorProp}-track-border-focus);
-            }
-        }
-        &::-webkit-slider-thumb {
-            background-color: var(--color-#{$colorProp}-thumb-background-focus);
-            @if $thumbBorder {
-                border: solid $thumbBorder var(--color-#{$colorProp}-thumb-border-focus);
-            }
-        }
-    }
+		box-sizing: border-box;
+		padding: 0.2em 0.1em;
+	}
+}
+
+@mixin ngSelectColor($colorProp) {
+	color: var(--color-#{$colorProp}-text);
+	border-color: var(--color-#{$colorProp}-border);
+	background-color: var(--color-#{$colorProp}-background);
+
+	fill: var(--color-#{$colorProp}-arrow);
+
+	&:hover {
+		color: var(--color-#{$colorProp}-text-hover);
+		border-color: var(--color-#{$colorProp}-border-hover);
+		background-color: var(--color-#{$colorProp}-background-hover);
+
+		fill: var(--color-#{$colorProp}-arrow-hover);
+	}
+
+	&.open {
+		color: var(--color-#{$colorProp}-text-active);
+		border-color: var(--color-#{$colorProp}-border-active);
+		background-color: var(--color-#{$colorProp}-background-active);
+
+		fill: var(--color-#{$colorProp}-arrow-active);
+	}
+
+	ng-option {
+		cursor: pointer;
+
+		color: var(--color-#{$colorProp}-option-text);
+		border: solid 1px var(--color-#{$colorProp}-option-border);
+		background-color: var(--color-#{$colorProp}-option-background);
+
+		&:active, &.selected {
+			color: var(--color-#{$colorProp}-option-text-active);
+			background-color: var(--color-#{$colorProp}-option-background-active);
+
+			&::before {
+				position: relative;
+
+				content: '';
+
+				border: solid 1px var(--color-#{$colorProp}-option-border-active);
+			}
+		}
+
+		&:hover {
+			color: var(--color-#{$colorProp}-option-text-hover);
+			border: solid 1px var(--color-#{$colorProp}-option-border-hover);
+			background-color: var(--color-#{$colorProp}-option-background-hover);
+		}
+	}
+}
+
+@mixin input() {
+	font-family: 'Roboto';
+	font-size: 1em;
+
+	box-sizing: border-box;
+
+	margin: 0;
+	padding: 0.2em 0.1em;
+
+	cursor: text;
+}
+
+@mixin inputColor($colorProp, $canBeDisabled: false) {
+	color: var(--color-#{$colorProp}-text);
+	border: 1px solid var(--color-#{$colorProp}-border);
+	background-color: var(--color-#{$colorProp}-background);
+	box-shadow: 0 0 2px 1px var(--color-#{$colorProp}-shadow) inset;
+
+	&:hover {
+		color: var(--color-#{$colorProp}-text-hover);
+		border: 1px solid var(--color-#{$colorProp}-border-hover);
+		background-color: var(--color-#{$colorProp}-background-hover);
+		box-shadow: 0 0 2px 1px var(--color-#{$colorProp}-shadow-hover) inset;
+	}
+
+	&:focus {
+		color: var(--color-#{$colorProp}-text-focus);
+		border: 1px solid var(--color-#{$colorProp}-border-focus);
+		background-color: var(--color-#{$colorProp}-background-focus);
+		box-shadow: 0 0 2px 1px var(--color-#{$colorProp}-shadow-focus) inset;
+	}
+
+	@if $canBeDisabled {
+		&.disabled, &:disabled {
+			cursor: default;
+
+			color: var(--color-#{$colorProp}-text-disabled);
+			border-color: var(--color-#{$colorProp}-border-disabled);
+			background-color: var(--color-#{$colorProp}-background-disabled);
+			box-shadow: 0 0 2px 1px var(--color-#{$colorProp}-shadow-disabled) inset;
+		}
+	}
+}
+
+@mixin webkitSlider($colorProp, $trackHeight: 0.25em, $trackBorder: 0, $thumbHeight: 1.5em, $thumbWidth: 0.75em, $thumbBorder: 0) {
+	-webkit-appearance: none;
+	&::-webkit-slider-runnable-track {
+		box-sizing: border-box;
+		height: $trackHeight;
+
+		background-color: var(--color-#{$colorProp}-track-background);
+
+		@if $trackBorder {
+			border: solid $trackBorder var(--color-#{$colorProp}-track-border);
+		}
+	}
+	&::-webkit-slider-thumb {
+		box-sizing: border-box;
+		width: $thumbWidth;
+		height: $thumbHeight;
+		margin-top: ($trackHeight - $trackBorder - $thumbHeight) / 2;
+
+		background-color: var(--color-#{$colorProp}-thumb-background);
+
+		-webkit-appearance: none;
+
+		@if $thumbBorder {
+			border: solid $thumbBorder var(--color-#{$colorProp}-thumb-border);
+		}
+	}
+
+	&:hover {
+		&::-webkit-slider-runnable-track {
+			background-color: var(--color-#{$colorProp}-track-background-hover);
+			@if $trackBorder {
+				border: solid $trackBorder var(--color-#{$colorProp}-track-border-hover);
+			}
+		}
+		&::-webkit-slider-thumb {
+			background-color: var(--color-#{$colorProp}-thumb-background-hover);
+			@if $thumbBorder {
+				border: solid $thumbBorder var(--color-#{$colorProp}-thumb-border-hover);
+			}
+		}
+	}
+
+	&:focus {
+		&::-webkit-slider-runnable-track {
+			background-color: var(--color-#{$colorProp}-track-background-focus);
+			@if $trackBorder {
+				border: solid $trackBorder var(--color-#{$colorProp}-track-border-focus);
+			}
+		}
+		&::-webkit-slider-thumb {
+			background-color: var(--color-#{$colorProp}-thumb-background-focus);
+			@if $thumbBorder {
+				border: solid $thumbBorder var(--color-#{$colorProp}-thumb-border-focus);
+			}
+		}
+	}
 }

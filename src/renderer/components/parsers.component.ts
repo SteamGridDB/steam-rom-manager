@@ -1,328 +1,445 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Input, ViewChild, forwardRef } from '@angular/core';
+import { RecursiveFormComponent } from "../components";
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
-import { ParsersService, LoggerService } from '../services';
-import { UserConfiguration } from '../models';
+import { ParsersService, LoggerService, ImageProviderService } from '../services';
+import { UserConfiguration, RecursiveForm, RecursiveFormElement } from '../models';
 import { Subscription } from "rxjs";
+import { gApp } from "../app.global";
 
 @Component({
     selector: 'parsers',
-    templateUrl: '../templates/parsers.component.html',
+    template: `
+        <markdown class="docs" [content]="this.currentDoc.content"></markdown>
+        <ng-recursive-form class="recursiveForm" [userFormTemplate]="userFormTemplate" [hideErrors]="hideErrors"></ng-recursive-form>
+        <div class="menu" drag-scroll>
+            <ng-container *ngIf="configurationIndex === -1; else moreOptions">
+                <div (click)="saveForm()">{{lang.buttons.save}}</div>
+                <div style="margin: 0 0 0 auto;" (click)="openFAQ()">{{lang.buttons.faq}}</div>
+            </ng-container>
+            <ng-template #moreOptions>
+                <div (click)="updateForm()">{{lang.buttons.save}}</div>
+                <div (click)="saveForm()">{{lang.buttons.copy}}</div>
+                <div (click)="testForm()">{{lang.buttons.testParser}}</div>
+                <div class="dangerousButton" (click)="deleteForm()">{{lang.buttons.delete}}</div>
+                <div [class.disabled]="configurationIndex === 0" (click)="moveUp()">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300" height="1em">
+                        <path d="M150 10 l 140 150 h -80 v 120 h -120 v -120 h -80 z" stroke="black" stroke-width="3" />
+                    </svg>
+                    {{lang.buttons.moveUp}}
+                </div>
+                <div [class.disabled]="configurationIndex + 1 === userConfigurations.length" (click)="moveDown()">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300" height="1em">
+                        <path d="M150 290 l 140 -150 h -80 v -120 h -120 v 120 h -80 z" stroke="black" stroke-width="3" />
+                    </svg>
+                    {{lang.buttons.moveDown}}
+                </div>
+                <div style="margin: 0 0 0 auto;" (click)="openFAQ()">{{lang.buttons.faq}}</div>
+            </ng-template>
+        </div>
+    `,
     styleUrls: [
         '../styles/parsers.component.scss'
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ParsersComponent implements OnInit, OnDestroy {
-    private currentParserType: string;
-    private myForm: FormGroup;
-    private submitted: boolean;
-    private currentIndex: number;
-    private userConfigurations: UserConfiguration[];
-    private availableParsers: string[];
-    private parserInfo: string;
-    private redirectIndex: number;
-    private parserInputInfo: { [fieldName: string]: { label: string, info: string } };
+    private currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
+    private userFormTemplate: RecursiveForm = undefined;
+    private hideErrors: boolean;
     private subscriptions: Subscription = new Subscription();
+    private userConfigurations: UserConfiguration[] = [];
+    private configurationIndex: number = -1;
+    @ViewChild(forwardRef(() => RecursiveFormComponent)) private recursiveForm: RecursiveFormComponent;
 
-    constructor(private parsersService: ParsersService, private loggerService: LoggerService, private formBuilder: FormBuilder,
-        private router: Router, private activatedRoute: ActivatedRoute, private changeRef: ChangeDetectorRef) {
-        this.availableParsers = this.parsersService.getAvailableParsers();
+    constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private router: Router, private activatedRoute: ActivatedRoute, private changeRef: ChangeDetectorRef) {
+        this.userFormTemplate = {
+            parserType: new RecursiveFormElement.Select({
+                value: null,
+                label: this.lang.label.parserType,
+                placeholder: this.lang.placeholder.parserType,
+                values: this.parsersService.getAvailableParsers().map((parser) => { return { display: parser }; }),
+                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                onInfoClick: (self, path) => {
+                    let parser = this.parsersService.getParser(self.value);
+                    this.currentDoc.activePath = path.join();
+                    this.currentDoc.content = parser ? parser.info : this.lang.docs__md.parserType.join('');
+                },
+                onChange: (self, path) => {
+                    let completePath = path.join();
+                    if (this.currentDoc.activePath === completePath) {
+                        let parser = this.parsersService.getParser(self.value);
+                        this.currentDoc.content = parser ? parser.info : this.lang.docs__md.parserType.join('');
+                    }
+                    return false;
+                }
+            }),
+            configTitle: new RecursiveFormElement.Input({
+                value: '',
+                label: this.lang.label.configTitle,
+                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                onInfoClick: (self, path) => {
+                    this.currentDoc.activePath = path.join();
+                    this.currentDoc.content = this.lang.docs__md.configTitle.join('');
+                }
+            }),
+            steamCategory: new RecursiveFormElement.Input({
+                value: '',
+                hidden: () => !this.userFormTemplate.advanced['value'],
+                label: this.lang.label.steamCategory,
+                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                onInfoClick: (self, path) => {
+                    this.currentDoc.activePath = path.join();
+                    this.currentDoc.content = this.lang.docs__md.steamCategory.join('');
+                }
+            }),
+            executableLocation: new RecursiveFormElement.Path({
+                value: '',
+                label: this.lang.label.executableLocation,
+                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                onInfoClick: (self, path) => {
+                    this.currentDoc.activePath = path.join();
+                    this.currentDoc.content = this.lang.docs__md.executableLocation.join('');
+                }
+            }),
+            romDirectory: new RecursiveFormElement.Path({
+                value: '',
+                directory: true,
+                label: this.lang.label.romDirectory,
+                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                onInfoClick: (self, path) => {
+                    this.currentDoc.activePath = path.join();
+                    this.currentDoc.content = this.lang.docs__md.romDirectory.join('');
+                }
+            }),
+            steamDirectory: new RecursiveFormElement.Path({
+                value: '',
+                directory: true,
+                label: this.lang.label.steamDirectory,
+                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                onInfoClick: (self, path) => {
+                    this.currentDoc.activePath = path.join();
+                    this.currentDoc.content = this.lang.docs__md.steamDirectory.join('');
+                }
+            }),
+            userAccounts: {
+                specifiedAccounts: new RecursiveFormElement.Input({
+                    value: '',
+                    hidden: () => !this.userFormTemplate.advanced['value'],
+                    label: this.lang.label.userAccounts,
+                    onValidate: (self, path) => this.parsersService.validate(path[path.length - 1] as keyof UserConfiguration, self.value),
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.userAccounts.join('');
+                    }
+                }),
+                skipWithMissingDataDir: new RecursiveFormElement.Toggle({
+                    value: false,
+                    hidden: () => !this.userFormTemplate.advanced['value'],
+                    text: this.lang.text.skipWithMissingDataDir
+                })
+            },
+            parserInputs: (() => {
+                let parserInputs = {};
+                let parsers = this.parsersService.getAvailableParsers();
+
+                for (let i = 0; i < parsers.length; i++) {
+                    let parser = this.parsersService.getParser(parsers[i]);
+                    if (parser && parser.inputs !== undefined) {
+                        for (let inputFieldName in parser.inputs) {
+                            let input = parser.inputs[inputFieldName];
+                            parserInputs[inputFieldName] = new RecursiveFormElement.Input({
+                                value: input.forcedInput !== undefined ? input.forcedInput : '',
+                                label: input.label,
+                                disabled: () => input.forcedInput !== undefined || this.userFormTemplate.parserType['value'] !== parsers[i],
+                                hidden: () => this.userFormTemplate.parserType['value'] !== parsers[i],
+                                onValidate: (self, path: string[]) =>
+                                    this.parsersService.validate(path[0] as keyof UserConfiguration, { parser: parsers[i], input: inputFieldName, inputData: self.value }),
+                                onInfoClick: (self, path) => {
+                                    this.currentDoc.activePath = path.join();
+                                    this.currentDoc.content = input.info;
+                                }
+                            });
+                        }
+                    }
+                }
+
+                return parserInputs;
+            })(),
+            titleModifier: new RecursiveFormElement.Input({
+                value: '',
+                hidden: () => !this.userFormTemplate.advanced['value'],
+                label: this.lang.label.titleModifier,
+                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                onInfoClick: (self, path) => {
+                    this.currentDoc.activePath = path.join();
+                    this.currentDoc.content = this.lang.docs__md.titleModifier.join('');
+                }
+            }),
+            fuzzyMatch: {
+                use: new RecursiveFormElement.Toggle({
+                    label: this.lang.label.fuzzyMatch,
+                    value: true,
+                    hidden: () => !this.userFormTemplate.advanced['value'],
+                    text: this.lang.text.fuzzy_use,
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.fuzzyMatch.join('');
+                    }
+                }),
+                removeCharacters: new RecursiveFormElement.Toggle({
+                    value: true,
+                    hidden: () => !this.userFormTemplate.advanced['value'],
+                    text: this.lang.text.fuzzy_removeCharacters
+                }),
+                removeBrackets: new RecursiveFormElement.Toggle({
+                    value: true,
+                    hidden: () => !this.userFormTemplate.advanced['value'],
+                    text: this.lang.text.fuzzy_removeBrackets
+                })
+            },
+            executableArgs: new RecursiveFormElement.Input({
+                value: '',
+                label: this.lang.label.executableArgs,
+                onInfoClick: (self, path) => {
+                    this.currentDoc.activePath = path.join();
+                    this.currentDoc.content = this.lang.docs__md.executableArgs.join('');
+                }
+            }),
+            appendArgsToExecutable: new RecursiveFormElement.Toggle({
+                value: false,
+                hidden: () => !this.userFormTemplate.advanced['value'],
+                text: this.lang.text.appendArgsToExecutable
+            }),
+            onlineImageQueries: new RecursiveFormElement.Input({
+                value: '${${fuzzyTitle}}',
+                label: this.lang.label.onlineImageQueries,
+                hidden: () => !this.userFormTemplate.advanced['value'],
+                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                onInfoClick: (self, path) => {
+                    this.currentDoc.activePath = path.join();
+                    this.currentDoc.content = this.lang.docs__md.onlineImageQueries.join('');
+                }
+            }),
+            imageProviders: new RecursiveFormElement.Select({
+                value: null,
+                label: this.lang.label.imageProviders,
+                placeholder: this.lang.placeholder.imageProviders,
+                multiple: true,
+                values: this.imageProviderService.instance.getAvailableProviders().map((provider) => { return { display: provider }; }),
+                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                onInfoClick: (self, path) => {
+                    this.currentDoc.activePath = path.join();
+                    this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
+                }
+            }),
+            localImages: new RecursiveFormElement.Input({
+                value: '',
+                hidden: () => !this.userFormTemplate.advanced['value'],
+                label: this.lang.label.localImages,
+                onInfoClick: (self, path) => {
+                    this.currentDoc.activePath = path.join();
+                    this.currentDoc.content = this.lang.docs__md.localImages.join('');
+                }
+            }),
+            enabled: new RecursiveFormElement.Toggle({
+                value: true,
+                text: this.lang.text.enabled
+            }),
+            advanced: new RecursiveFormElement.Toggle({
+                value: false,
+                text: this.lang.text.advanced
+            })
+        }
+    }
+
+    private get lang() {
+        return gApp.lang.parsers.component;
     }
 
     ngOnInit() {
-        this.myForm = this.formBuilder.group({
-            parserType: ['', (control: FormControl) => this.parserTypeValidation(control)],
-            configTitle: ['', (control: FormControl) => this.genericValidation('validateConfigTitle', control)],
-            steamCategory: ['', (control: FormControl) => this.genericValidation('validateSteamCategory', control)],
-            executableLocation: ['', (control: FormControl) => this.genericValidation('validateExecutableLocation', control)],
-            romDirectory: ['', (control: FormControl) => this.genericValidation('validateROMsDir', control)],
-            steamDirectory: ['', (control: FormControl) => this.genericValidation('validateSteamDir', control)],
-            executableArgs: ['', (control: FormControl) => this.genericValidation('validateExecutableArgs', control)],
-            titleModifier: ['', (control: FormControl) => this.genericValidation('validateTitleModifier', control)],
-            localImages: ['', (control: FormControl) => this.genericValidation('validateLocalImages', control)],
-            fuzzyMatch: this.formBuilder.group({ use: true, removeCharacters: true, removeBrackets: true }),
-            userAccounts: this.formBuilder.group({ skipWithMissingDataDir: false, specifiedAccounts: ['', (control: FormControl) => this.genericValidation('validateUserAccounts', control)] }),
-            onlineImageQueries: ['', (control: FormControl) => this.genericValidation('validateOnlineImageQueries', control)],
-            enabled: [true],
-            advanced: [false],
-            parserInputs: this.formBuilder.group({})
-        });
         this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe((data) => {
             this.userConfigurations = data;
-            this.loadUserConfiguration();
+            this.loadConfiguration();
+        })).add(this.activatedRoute.params.subscribe((params) => {
+            this.configurationIndex = parseInt(params['index']);
+            this.loadConfiguration();
         }));
-        this.subscriptions.add(this.activatedRoute.params.subscribe((params) => {
-            let indexParam = params['index'] ? parseInt(params['index']) : undefined;
-            let length = this.parsersService.getUserConfigurationsArray().length;
-            if (indexParam < 0 && this.redirectIndex !== undefined) {
-                let index = this.redirectIndex < length ? this.redirectIndex : length - 1;
-                this.redirectIndex = undefined;
-                if (index > -1)
-                    return this.router.navigate(['/parsers', index]);
-            }
+        this.currentDoc.content = this.lang.docs__md.intro.join('');
+    }
 
-            this.currentIndex = indexParam < 0 ? undefined : indexParam;
-            this.loadUserConfiguration();
-        }));
+    private openFAQ() {
+        this.currentDoc.activePath = '';
+        this.currentDoc.content = this.lang.docs__md.faq.join('');
+    }
+
+    private saveForm() {
+        this.parsersService.saveConfiguration(this.recursiveForm.getValues() as UserConfiguration);
+        this.router.navigate(['/parsers', this.userConfigurations.length - 1]);
+    }
+
+    private updateForm() {
+        this.parsersService.updateConfiguration(this.recursiveForm.getValues() as UserConfiguration, this.configurationIndex);
+    }
+
+    private deleteForm() {
+        this.parsersService.deleteConfiguration(this.configurationIndex);
+        if (this.configurationIndex >= this.userConfigurations.length)
+            this.router.navigate(['/parsers', this.userConfigurations.length - 1]);
+    }
+
+    private testForm() {
+        let config = this.recursiveForm.getValues() as UserConfiguration;
+        if (this.parsersService.isConfigurationValid(config)) {
+            this.parsersService.updateConfiguration(config, this.configurationIndex);
+            this.parsersService.executeFileParser(config).then((dataArray) => {
+                if (dataArray.parsedData.length > 0) {
+                    let data = dataArray.parsedData[0];
+                    let totalLength = data.files.length + data.failed.length;
+
+                    if (data.foundUserAccounts.length > 0) {
+                        this.loggerService.info('');
+                        this.loggerService.success(this.lang.success.foundAccounts__i.interpolate({ count: data.foundUserAccounts.length }));
+                        for (let i = 0; i < data.foundUserAccounts.length; i++) {
+                            this.loggerService.success(this.lang.success.foundAccountInfo__i.interpolate({
+                                name: data.foundUserAccounts[i].name,
+                                steamID64: data.foundUserAccounts[i].steamID64,
+                                accountID: data.foundUserAccounts[i].accountID
+                            }));
+                        }
+                    }
+                    if (data.missingUserAccounts.length > 0) {
+                        this.loggerService.info('');
+                        this.loggerService.error(this.lang.error.missingAccounts__i.interpolate({ count: data.missingUserAccounts.length }));
+                        for (let i = 0; i < data.missingUserAccounts.length; i++) {
+                            this.loggerService.error(this.lang.error.missingAccountInfo__i.interpolate({ name: data.missingUserAccounts[i] }));
+                        }
+                    }
+
+                    if (data.steamCategories.length > 0) {
+                        this.loggerService.info('');
+                        this.loggerService.success(this.lang.success.steamCategoriesResolved);
+                        for (let i = 0; i < data.steamCategories.length; i++) {
+                            this.loggerService.success(this.lang.success.steamCategoryInfo__i.interpolate({ steamCategory: data.steamCategories[i] }));
+                        }
+                    }
+
+                    for (let i = 0; i < data.files.length; i++) {
+                        this.loggerService.info('');
+                        this.loggerService.success(this.lang.success.extractedTitle__i.interpolate({
+                            index: i + 1,
+                            total: totalLength,
+                            title: data.files[i].extractedTitle
+                        }));
+                        this.loggerService.success(this.lang.success.fuzzyTitle__i.interpolate({
+                            index: i + 1,
+                            total: totalLength,
+                            title: data.files[i].fuzzyTitle
+                        }));
+                        this.loggerService.success(this.lang.success.filePath__i.interpolate({
+                            index: i + 1,
+                            total: totalLength,
+                            filePath: data.files[i].filePath
+                        }));
+                        this.loggerService.success(this.lang.success.completeShortcut__i.interpolate({
+                            index: i + 1,
+                            total: totalLength,
+                            shortcut: `${data.files[i].executableLocation} ${data.files[i].argumentString}`
+                        }));
+                        if (data.files[i].onlineImageQueries.length) {
+                            this.loggerService.success(this.lang.success.firstImageQuery__i.interpolate({
+                                index: i + 1,
+                                total: totalLength,
+                                query: data.files[i].onlineImageQueries[0]
+                            }));
+                            for (let j = 1; j < data.files[i].onlineImageQueries.length; j++) {
+                                this.loggerService.success(this.lang.success.imageQueries__i.interpolate({
+                                    index: i + 1,
+                                    total: totalLength,
+                                    query: data.files[i].onlineImageQueries[j]
+                                }));
+                            }
+                        }
+                        if (data.files[i].resolvedLocalImages.length) {
+                            this.loggerService.success(this.lang.success.resolvedImageGlob__i.interpolate({
+                                index: i + 1,
+                                total: totalLength,
+                                glob: data.files[i].resolvedLocalImages
+                            }));
+                        }
+                        if (data.files[i].localImages.length) {
+                            this.loggerService.success(this.lang.success.localImagesResolved__i.interpolate({
+                                index: i + 1,
+                                total: totalLength
+                            }));
+                            for (let j = 0; j < data.files[i].localImages.length; j++) {
+                                this.loggerService.success(this.lang.success.localImageInfo__i.interpolate({
+                                    index: i + 1,
+                                    total: totalLength,
+                                    image: data.files[i].localImages[j]
+                                }));
+                            }
+                        }
+                    }
+                    if (data.failed.length > 0) {
+                        this.loggerService.info('');
+                        this.loggerService.error(this.lang.error.failedToMatch);
+                        for (let i = 0; i < data.failed.length; i++) {
+                            this.loggerService.error(this.lang.error.failedFileInfo__i.interpolate({
+                                index: data.files.length + i + 1,
+                                total: totalLength,
+                                filename: data.failed[i]
+                            }));
+                        }
+                    }
+
+                }
+                else{
+                    this.loggerService.info('');
+                    this.loggerService.info(this.lang.info.nothingWasFound);
+                }
+                this.loggerService.info('');
+                this.loggerService.info(this.lang.info.testCompleted);
+            }).catch((error) => {
+                this.loggerService.error(this.lang.error.testFailed);
+                this.loggerService.error(error);
+            });
+            this.loggerService.info(this.lang.info.testStarting__i.interpolate({
+                title: config.configTitle || this.lang.text.noTitle
+            }));
+            this.router.navigateByUrl('/logger');
+        }
+        else
+            this.loggerService.error(this.lang.error.cannotTestInvalid, { invokeAlert: true, alertTimeout: 3000 });
+    }
+
+    private moveUp() {
+        if (this.configurationIndex > 0) {
+            this.parsersService.swapIndex(this.configurationIndex, this.configurationIndex - 1);
+            this.router.navigate(['/parsers', this.configurationIndex - 1]);
+        }
+    }
+
+    private moveDown() {
+        if (this.configurationIndex + 1 < this.userConfigurations.length) {
+            this.parsersService.swapIndex(this.configurationIndex, this.configurationIndex + 1);
+            this.router.navigate(['/parsers', this.configurationIndex + 1]);
+        }
+    }
+
+    private loadConfiguration() {
+        if (this.configurationIndex !== -1 && this.userConfigurations.length > this.configurationIndex) {
+            this.hideErrors = false;
+            this.recursiveForm.setValues(this.userConfigurations[this.configurationIndex], false);
+        }
+        else if (this.configurationIndex === -1 && this.userConfigurations !== undefined) {
+            this.hideErrors = null;
+            this.recursiveForm.setValues(this.parsersService.getDefaultValues(), true);
+        }
+
+        this.changeRef.detectChanges();
     }
 
     ngOnDestroy() {
         this.subscriptions.unsubscribe();
-    }
-
-    save(config: UserConfiguration, isValid: boolean) {
-        this.submitted = true;
-        if (isValid) {
-            this.parsersService.saveConfiguration(config);
-            this.redirectToConfiguration(this.userConfigurations.length);
-        }
-    }
-
-    testParser(config: UserConfiguration, isValid: boolean) {
-        this.submitted = true;
-        if (isValid) {
-            this.parsersService.updateConfiguration(config, this.currentIndex);
-            this.parsersService.executeFileParser(config).then((dataArray) => {
-                let data = dataArray.parsedData[0];
-                let totalLength = data.files.length + data.failed.length;
-
-                if (data.foundUserAccounts.length > 0) {
-                    this.loggerService.info('');
-                    this.loggerService.success(`Found ${data.foundUserAccounts.length} available user account(-s):`);
-                    for (let i = 0; i < data.foundUserAccounts.length; i++) {
-                        this.loggerService.success(`  ${data.foundUserAccounts[i].name} (steamID64: ${data.foundUserAccounts[i].steamID64}, accountID: ${data.foundUserAccounts[i].accountID})`);
-                    }
-                }
-                if (data.missingUserAccounts.length > 0) {
-                    this.loggerService.info('');
-                    this.loggerService.error(`Following ${data.missingUserAccounts.length} user account(-s) were not found (user must to login to Steam at least once):`);
-                    for (let i = 0; i < data.missingUserAccounts.length; i++) {
-                        this.loggerService.error(`  ${data.missingUserAccounts}`);
-                    }
-                }
-
-                if (data.steamCategories.length > 0) {
-                    this.loggerService.info('');
-                    this.loggerService.success(`Resolved Steam categories:`);
-                    for (let i = 0; i < data.steamCategories.length; i++) {
-                        this.loggerService.success(`  ${data.steamCategories[i]}`);
-                    }
-                }
-
-                for (let i = 0; i < data.files.length; i++) {
-                    this.loggerService.info('');
-                    this.loggerService.success(`[${i + 1}/${totalLength}]:               Title - ${data.files[i].extractedTitle}`);
-                    this.loggerService.success(`[${i + 1}/${totalLength}]:         Fuzzy title - ${data.files[i].fuzzyTitle}`);
-                    this.loggerService.success(`[${i + 1}/${totalLength}]:           File path - ${data.files[i].filePath}`);
-                    this.loggerService.success(`[${i + 1}/${totalLength}]:   Complete shortcut - ${data.files[i].executableLocation} ${data.files[i].argumentString}`);
-                    if (data.files[i].onlineImageQueries.length) {
-                        this.loggerService.success(`[${i + 1}/${totalLength}]:       Image queries - ${data.files[i].onlineImageQueries[0]}`);
-                        for (let j = 1; j < data.files[i].onlineImageQueries.length; j++) {
-                            this.loggerService.success(`[${i + 1}/${totalLength}]:                       ${data.files[i].onlineImageQueries[j]}`);
-                        }
-                    }
-                    if (data.files[i].resolvedLocalImages.length)
-                        this.loggerService.success(`[${i + 1}/${totalLength}]: Resolved image glob - ${data.files[i].resolvedLocalImages}`);
-                    if (data.files[i].localImages.length) {
-                        this.loggerService.success(`[${i + 1}/${totalLength}]:    Resolved images:`);
-                        for (let j = 0; j < data.files[i].localImages.length; j++) {
-                            this.loggerService.success(`[${i + 1}/${totalLength}]:                       ${decodeURI(data.files[i].localImages[j])}`);
-                        }
-                    }
-                }
-                if (data.failed.length > 0) {
-                    this.loggerService.info('');
-                    this.loggerService.error('Failed to match:');
-                    for (let i = 0; i < data.failed.length; i++) {
-                        this.loggerService.error(`[${i + 1 + data.files.length}/${totalLength}]: ${data.failed[i]}`);
-                    }
-                }
-
-                this.loggerService.info('');
-                this.loggerService.info(`"${config.configTitle}" parser test is completed.`);
-            }).catch((error) => {
-                this.loggerService.error('Testing failed');
-                this.loggerService.error(error);
-            });
-            this.loggerService.info(`Testing "${config.configTitle}" parser.`);
-            this.router.navigateByUrl('/logger');
-        }
-    }
-
-    update(config: UserConfiguration, isValid: boolean) {
-        this.submitted = true;
-        if (isValid) {
-            this.parsersService.updateConfiguration(config, this.currentIndex);
-        }
-    }
-
-    delete() {
-        this.parsersService.deleteConfiguration(this.currentIndex);
-        this.redirectToConfiguration(this.currentIndex);
-    }
-
-    moveUp() {
-        if (this.currentIndex > 0) {
-            this.parsersService.swapIndex(this.currentIndex, this.currentIndex - 1);
-            this.redirectToConfiguration(this.currentIndex - 1);
-        }
-    }
-
-    moveDown() {
-        if (this.currentIndex + 1 < this.userConfigurations.length) {
-            this.parsersService.swapIndex(this.currentIndex, this.currentIndex + 1);
-            this.redirectToConfiguration(this.currentIndex + 1);
-        }
-    }
-
-    private redirectToConfiguration(index?: number) {
-        if (index !== undefined) {
-            this.redirectIndex = index;
-            this.router.navigate(['/parsers', -1]);
-        }
-        else {
-            this.redirectIndex = undefined;
-            this.router.navigate(['/parsers', -1]);
-        }
-    }
-
-    private parserTypeValidation(control: FormControl) {
-        let invalid = this.genericValidation('validateParser', control);
-        if (invalid === null)
-            this.updateParserInputsFields(control.value);
-        return invalid;
-    }
-
-    private updateParserInputsFields(parserType: string) {
-        let parser = this.parsersService.getParser(parserType);
-
-        if (this.currentParserType !== parserType) {
-            this.currentParserType = parserType;
-
-            this.myForm.setControl('parserInputs', this.formBuilder.group({}));
-            this.parserInfo = parser.info;
-            this.parserInputInfo = {};
-            let parserInputs = <FormGroup>this.myForm.controls['parserInputs'];
-
-            if (parser.inputs !== undefined) {
-                for (let inputFieldName in parser.inputs) {
-                    let input = parser.inputs[inputFieldName];
-                    this.parserInputInfo[inputFieldName] = { label: input.label, info: input.info };
-                    parserInputs.setControl(inputFieldName, this.formBuilder.control(
-                        {
-                            value: input.forcedInput !== undefined ? input.forcedInput : '',
-                            disabled: input.forcedInput !== undefined
-                        },
-                        (control: FormControl) => this.genericInputValidation(control, inputFieldName)
-                    ));
-                }
-            }
-        }
-    }
-
-    private genericInputValidation(control: FormControl, fieldName: string) {
-        let invalid = this.parsersService.validateParserInput(this.myForm.controls['parserType'].value, fieldName, control.value);
-        if (invalid === null)
-            return null;
-        else {
-            return {
-                valid: false,
-                error: invalid
-            }
-        }
-    }
-
-    private genericValidation(methodName: string, control: FormControl) {
-        let valid = this.parsersService[methodName](control.value);
-        if (valid === null)
-            return null;
-        else {
-            return {
-                valid: false,
-                error: valid
-            }
-        }
-    }
-
-    private changeExecutable(id: string, files: File[]) {
-        if (files && files.length) {
-            this.myForm.controls['executableLocation'].setValue(files[0].path);
-        }
-        this.clearInput(id);
-    }
-
-    private changeRomDirectory(id: string, files: File[]) {
-        if (files && files.length) {
-            this.myForm.controls['romDirectory'].setValue(files[0].path);
-        }
-        this.clearInput(id);
-    }
-
-    private changeSteamDirectory(id: string, files: File[]) {
-        if (files && files.length) {
-            this.myForm.controls['steamDirectory'].setValue(files[0].path);
-        }
-        this.clearInput(id);
-    }
-
-    private changeLocalImagesDirectory(id: string, files: File[]) {
-        if (files && files.length) {
-            this.myForm.controls['localImages'].setValue(files[0].path);
-        }
-        this.clearInput(id);
-    }
-
-    private simulateClick(id: string) {
-        let el = document.getElementById(id);
-        if (el)
-            el.click();
-    }
-
-    private clearInput(id: string) {
-        let el = document.getElementById(id);
-        if (el)
-            (<HTMLInputElement>el).value = null;
-    }
-
-    private loadUserConfiguration() {
-        if (this.currentIndex !== undefined && this.currentIndex < this.userConfigurations.length) {
-            let userValues = this.userConfigurations[this.currentIndex];
-
-            let parser = this.parsersService.getParser(userValues['parserType']);
-            if (parser && parser.inputs) {
-                for (let inputName in parser.inputs) {
-                    if (this.userConfigurations[this.currentIndex]['parserInputs'][inputName] === undefined) {
-                        if (parser.inputs[inputName].forcedInput === undefined)
-                            userValues['parserInputs'][inputName] = '';
-                        else
-                            userValues['parserInputs'][inputName] = parser.inputs[inputName].forcedInput;
-                    }
-                    else
-                        userValues['parserInputs'][inputName] = this.userConfigurations[this.currentIndex]['parserInputs'][inputName];
-                }
-                this.updateParserInputsFields(userValues['parserType']);
-            }
-            else {
-                userValues['parserType'] = '';
-                this.myForm.setControl('parserInputs', this.formBuilder.group({}));
-                this.currentParserType = undefined;
-                this.parserInfo = undefined;
-                this.parserInputInfo = {};
-            }
-
-            this.myForm.setValue(userValues);
-            this.submitted = true;
-            this.changeRef.detectChanges();
-        }
-        else {
-            this.myForm.setControl('parserInputs', this.formBuilder.group({}));
-            this.myForm.reset(this.parsersService.getDefaultValues());
-            this.myForm.controls['parserType'].markAsPristine();
-            this.submitted = false;
-            this.currentParserType = undefined;
-            this.parserInfo = undefined;
-            this.parserInputInfo = {};
-        }
     }
 }

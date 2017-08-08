@@ -6,30 +6,34 @@
         {
             "taskName": "watch - main",
             "command": "npm",
-            "isShellCommand": true,
-            "showOutput": "always",
+            "type": "shell",
             "isBackground": true,
             "suppressTaskName": true,
             "args": [
                 "run",
                 "watch:main"
-            ]
+            ],
+            "problemMatcher": []
         },
         {
             "taskName": "watch - renderer",
             "command": "npm",
-            "isShellCommand": true,
-            "showOutput": "always",
+            "type": "shell",
             "isBackground": true,
             "suppressTaskName": true,
             "args": [
                 "run",
                 "watch:renderer"
-            ]
+            ],
+            "problemMatcher": []
         },
         {
             "taskName": "watch",
-            "dependsOn": ["watch - main", "watch - renderer"]
+            "dependsOn": [
+                "watch - main",
+                "watch - renderer"
+            ],
+            "problemMatcher": []
         }
     ]
 }

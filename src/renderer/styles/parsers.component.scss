@@ -1,314 +1,51 @@
 @import 'mixins';
 
 :host {
-    display: flex;
-    overflow: auto;
-    flex-direction: column;
-    flex: 1;
-
-    background-color: var(--color-parsers-background);
-
-    .userInput {
-        display: flex;
-        overflow: auto;
-        flex: 1;
-
-        >.userInstructions, >.userForm {
-            display: flex;
-            overflow: auto;
-            flex-direction: column;
-            flex: 1;
-
-            padding: 1em;
-
-            @include webkit-scrollbar(parsers-scrollbar);
-        }
-
-        >.userInstructions {
-            background-color: var(--color-parsers-user-instructions-background);
-
-            @include webkit-scrollbar(parsers-user-instructions-scrollbar);
-
-            /deep/ .instructionItem {
-                margin-top: 0.5em;
-                padding: 0.25em;
-
-                cursor: text;
-                user-select: text;
-
-                background-color: var(--color-parsers-user-instructions-item-background);
-
-                &:first-child {
-                    margin-top: 0;
-                }
-
-                * {
-                    cursor: text;
-                    user-select: text;
-                }
-
-                .title {
-                    font-size: 1.2em;
-
-                    color: var(--color-parsers-user-instructions-item-title-text);
-                }
-
-                .paragraph {
-                    font-size: 0.85em;
-
-                    margin-top: 0.5em;
-
-                    color: var(--color-parsers-user-instructions-item-paragraph-text);
-
-                    b {
-                        color: var(--color-parsers-user-instructions-item-paragraph-bold-text);
-                    }
-
-                    ul, ol {
-                        margin: 0.25em 0;
-                        padding: 0 0 0 2em;
-                        li {
-                            margin: 0.25em 0;
-                        }
-                    }
-                }
-
-                .code {
-                    font-family: 'Monaco';
-                    font-size: 0.85em;
-
-                    color: var(--color-parsers-user-instructions-item-code-text);
-                    background-color: var(--color-parsers-user-instructions-item-code-background);
-                }
-            }
-        }
-
-        >.userForm {
-            background-color: var(--color-parsers-user-form-background);
-
-            @include webkit-scrollbar(parsers-user-form-scrollbar);
-
-            >div {
-                &:first-child {
-                    label {
-                        margin: 0 0 0.25em 0;
-                    }
-                }
-
-                label {
-                    display: flex;
-
-                    margin: 0.75em 0 0.25em 0;
-
-                    color: var(--color-parsers-label);
-                }
-
-                .errorMessage {
-                    display: flex;
-
-                    color: var(--color-parsers-error);
-
-                    &[hidden] {
-                        display: none !important;
-                    }
-                }
-
-                input {
-                    font-family: 'Roboto';
-                    font-size: 1em;
-
-                    flex: 1 0 auto;
-
-                    margin: 0;
-                    padding: 0.2em 0.1em;
-
-                    cursor: text;
-
-                    @include input-color(parsers-input, true);
-
-                    &[type="file"] {
-                        display: none;
-                    }
-
-                    &:disabled {
-                        cursor: default;
-                    }
-                }
-
-                ng-select {
-                    font-size: 1em;
-
-                    flex: 1 0 auto;
-
-                    color: var(--color-parsers-select-text);
-                    border-color: var(--color-parsers-select-border);
-                    background-color: var(--color-parsers-select-background);
-
-                    --ng-select-padding: 0.2em 0.1em;
-                    fill: var(--color-parsers-select-arrow);
-
-                    &:hover {
-                        color: var(--color-parsers-select-text-hover);
-                        border-color: var(--color-parsers-select-border-hover);
-                        background-color: var(--color-parsers-select-background-hover);
-
-                        fill: var(--color-parsers-select-arrow-hover);
-                    }
-
-                    &.open {
-                        color: var(--color-parsers-select-text-active);
-                        border-color: var(--color-parsers-select-border-active);
-                        background-color: var(--color-parsers-select-background-active);
-
-                        fill: var(--color-parsers-select-arrow-active);
-                    }
-
-                    ng-option {
-                        font-size: 1em;
-
-                        padding: 0.2em 0.1em;
-
-                        cursor: pointer;
-
-                        color: var(--color-parsers-select-option-text);
-                        background-color: var(--color-parsers-select-option-background);
-                        box-shadow: 0 0 1px 1px var(--color-parsers-select-option-shadow) inset;
-
-                        &:hover {
-                            color: var(--color-parsers-select-option-text-hover);
-                            background-color: var(--color-parsers-select-option-background-hover);
-                            box-shadow: 0 0 1px 1px var(--color-parsers-select-option-shadow-hover) inset;
-                        }
-
-                        &:active {
-                            color: var(--color-parsers-select-option-text-active);
-                            background-color: var(--color-parsers-select-option-background-active);
-                            box-shadow: 0 0 1px 1px var(--color-parsers-select-option-shadow-active) inset;
-                        }
-                    }
-                }
-
-                .inputContainer {
-                    display: flex;
-
-                    .clickButton {
-                        margin: 0 0 0 0.25em;
-
-                        @include click-button-color(parsers-browse-button);
-                    }
-
-                    &.ngToggleButton {
-                        flex-direction: column;
-
-                        margin: 0.75em 0 0.25em 0;
-                        ng-toggle-button {
-                            font-size: 1em;
-
-                            margin: 0.25em 0;
-
-                            @include ng-toggle-button-color(parsers-toggle-button);
-                        }
-                    }
-                }
-            }
-
-            .toggleButton {
-                font-size: 0.8em;
-
-                display: inline-flex;
-
-                padding: 0;
-
-                border: none;
-                background: red;
-
-                svg {
-                    width: 100%;
-                    >path {
-                        fill: #1db954;
-                        stroke: #2f2f2f;
-                    }
-                    >circle {
-                        fill: white;
-                        stroke: #2f2f2f;
-                    }
-                }
-            }
-        }
-    }
-    >.menu {
-        display: flex;
-        overflow: auto;
-
-        border-top: 1px solid var(--color-parsers-menu-border);
-        background-color: var(--color-parsers-menu-background);
-
-        flex-shrink: 0;
-        @include webkit-scrollbar(parser-menu-scrollbar, 0.5em);
-        >div, >ng-button {
-            margin: 0.5em 0 0.5em 0.75em;
-
-            white-space: nowrap;
-
-            &.test {
-                @include click-button-color(parsers-test-button);
-            }
-
-            &.save {
-                @include click-button-color(parsers-save-button);
-            }
-
-            &.copy {
-                @include click-button-color(parsers-copy-button);
-            }
-
-            &.delete {
-                @include click-button-color(parsers-delete-button);
-            }
-
-            &.advanced {
-                @include toggle-button-color(parsers-advanced-button);
-            }
-
-            &.up {
-                @include click-button-color(parsers-up-button, true);
-
-                &.disabled {
-                    cursor: default;
-                }
-            }
-
-            &.down {
-                @include click-button-color(parsers-down-button, true);
-
-                &.disabled {
-                    cursor: default;
-                }
-            }
-        }
-    }
-    .clickButton, .toggleButton {
-        font-family: 'Roboto';
-
-        display: inline-flex;
-
-        padding: 0.2em 0.5em;
-
-        cursor: pointer;
-        user-select: none;
-
-        border: 1px solid;
-
-        align-items: center;
-
-        svg {
-            margin-right: 0.25em;
-
-            cursor: pointer;
-            * {
-                cursor: pointer;
-            }
-        }
-    }
+	display: grid;
+	overflow: auto;
+
+	grid-area: route;
+	grid-template-areas: 'docs recursiveForm'
+	'menu menu';
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr auto;
+
+	.docs {
+		padding: 1em;
+
+		grid-area: docs;
+	}
+
+	.recursiveForm {
+		padding: 1em;
+
+		grid-area: recursiveForm;
+	}
+
+	.menu {
+		display: flex;
+		overflow: auto;
+
+		border: 0.5em solid transparent;
+		background-color: var(--color-parsers-menu-background);
+
+		grid-area: menu;
+
+		> div {
+			@include clickButtonColor(click-button);
+			@include button();
+
+			margin: 0 0.25em;
+			&:last-child {
+				margin-right: 0;
+			}
+			&:first-child {
+				margin-left: 0;
+			}
+			&.dangerousButton {
+				@include clickButtonColor(dangerous-click-button, true);
+			}
+		}
+	}
 }
 

@@ -1,0 +1,1 @@
+export { EnglishLang } from './english/langData';

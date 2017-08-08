@@ -1,123 +1,92 @@
 @import 'mixins';
 
 :host {
-    display: flex;
-    overflow: auto;
-    flex-direction: column;
-    flex: 1;
+	display: grid;
+	overflow: auto;
 
-    background-color: var(--color-logger-background);
+	grid-area: route;
+	grid-template-columns: auto;
+	grid-template-rows: 1fr auto;
 
-    .menu {
-        display: flex;
-        overflow: auto;
+	.menu {
+		@include webkitScrollbar(logger-menu-scrollbar, 0.5em);
 
-        border-top: 1px solid var(--color-logger-border);
-        background-color: var(--color-logger-settings-background);
+		display: flex;
+		overflow: auto;
 
-        flex-shrink: 0;
-        @include webkit-scrollbar(logger-menu-scrollbar, 0.5em);
+		border: solid 0.5em transparent;
+		background-color: var(--color-logger-menu-background);
 
-        >div {
-            font-weight: 300;
+		align-self: end;
 
-            display: inline-block;
+		> div {
+			@include toggleButtonColor(toggle-button);
+			@include button();
 
-            margin: 0.5em;
-            padding: 0.25em 0.5em;
+			margin: 0 0.25em;
+			&:last-child {
+				margin-right: 0;
+			}
+			&:first-child {
+				margin-left: 0;
+			}
 
-            cursor: default;
-            user-select: none;
-            white-space: nowrap;
+			&.clear {
+				@include clickButtonColor(click-button);
+			}
+		}
+	}
 
-            border-width: 1px;
-            border-style: solid;
+	.messages {
+		@include webkitScrollbar(logger-messages-scrollbar);
 
-            &.error {
-                @include toggle-button-color(logger-error-button);
-            }
+		overflow: auto;
 
-            &.info {
-                @include toggle-button-color(logger-info-button);
-            }
+		color: var(--color-logger-messages-text);
+		background-color: var(--color-logger-messages-background);
 
-            &.success {
-                @include toggle-button-color(logger-success-button);
-            }
+		> div {
+			font-family: 'Hack';
+			font-size: 0.7em;
 
-            &.fuzzy {
-                @include toggle-button-color(logger-fuzzy-button);
-            }
+			display: flex;
+			flex: 1 0;
 
-            &.timestamp {
-                @include toggle-button-color(logger-timestamp-button);
-            }
+			padding-left: 2px;
 
-            &.textWrap {
-                @include toggle-button-color(logger-text-wrap-button);
-            }
+			cursor: text;
+			user-select: text;
+			white-space: pre;
 
-            &.autoscroll {
-                @include toggle-button-color(logger-autoscroll-button);
-            }
+			border-left-width: 2px;
+			border-left-style: solid;
 
-            &.clear {
-                @include click-button-color(logger-clear-button);
-            }
-        }
-    }
+			&.wrap {
+				white-space: pre-wrap;
+			}
 
-    .messages {
-        overflow: auto;
-        flex: 1;
+			&.error {
+				border-left-color: var(--color-error);
+			}
 
-        color: var(--color-logger-messages-text);
-        background-color: var(--color-logger-messages-background);
+			&.info {
+				border-left-color: var(--color-info);
+			}
 
-        @include webkit-scrollbar(logger-messages-scrollbar);
+			&.success {
+				border-left-color: var(--color-success);
+			}
 
-        >div {
-            font-family: 'Monaco';
-            font-size: 0.7em;
+			&.fuzzy {
+				border-left-color: var(--color-fuzzy);
+			}
+		}
 
-            display: flex;
-            flex: 1 0;
-
-            padding-left: 2px;
-
-            cursor: text;
-            user-select: text;
-            white-space: pre;
-
-            border-left-width: 2px;
-            border-left-style: solid;
-
-            &.wrap {
-                white-space: pre-wrap;
-            }
-
-            &.error {
-                border-left-color: var(--color-logger-error-border);
-            }
-
-            &.info {
-                border-left-color: var(--color-logger-info-border);
-            }
-
-            &.success {
-                border-left-color: var(--color-logger-success-border);
-            }
-
-            &.fuzzy {
-                border-left-color: var(--color-logger-fuzzy-border);
-            }
-        }
-
-        &.empty {
-            display: flex;
-            >span {
-                margin: auto;
-            }
-        }
-    }
+		&.empty {
+			display: flex;
+			> span {
+				margin: auto;
+			}
+		}
+	}
 }

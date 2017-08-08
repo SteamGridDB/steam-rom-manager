@@ -1,11 +1,13 @@
-import { Component, forwardRef, ElementRef, Optional, Host, HostListener, Input } from '@angular/core';
+import { Component, forwardRef, ElementRef, Optional, Host, HostListener, Input, ContentChildren, QueryList, ChangeDetectorRef } from '@angular/core';
+import { OptionComponent } from "../components";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'ng-select',
     template: `
-        <div id="display" (click)="open = !open" [class.open]="open">
-            <span>{{displayValue}}</span>
+        <div class="display" (click)="open = !open" [class.open]="open">
+            <span text-scroll>{{displayValue || placeholder || 'null'}}</span>
             <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
                 <polyline points="70, 110 150, 200 230, 110" />
             </svg>
@@ -26,57 +28,135 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 })
 export class SelectComponent implements ControlValueAccessor {
     private open: boolean = false;
-    private idCounter: number = 0;
-    private displayValue: string;
-    private currentValue: any;
-    @Input('placeholder') private placeholder: string;
-    optionsMap = new Map<number, { value: any, displayValue: string }>();
 
-    constructor(private element: ElementRef) { }
+    private idCounter: number = -1;
+    private selectedIds: number[] = [];
+    private optionsMap = new Map<number, { value: any, displayValue: string }>();
 
-    onChange = (_: any) => { };
-    onTouched = () => { };
+    private displayValue: string = '';
+    private currentValue: any[] = [];
+
+    private onChange = (_: any) => { };
+    private onTouched = () => { };
+
+    @ContentChildren(forwardRef(() => OptionComponent)) private optionComponents: QueryList<OptionComponent>;
+
+    @Input() private placeholder: string = '';
+    @Input() private multiple: boolean = false;
+    @Input() private allowEmpty: boolean = false;
+    @Input() private separator: string = ', ';
+    @Input() private sort: boolean = true;
+
+    constructor(private element: ElementRef, private changeRef: ChangeDetectorRef) { }
 
     registerOption() {
-        return this.idCounter++;
+        return ++this.idCounter;
     }
 
-    selectOption(id: number) {
-        this.writeValue(this.optionsMap.get(id).value);
-        this.open = false;
-    }
-
-    @HostListener('document:click', ['$event'])
-    onClick(event: MouseEvent) {
-        if (!(<HTMLElement>this.element.nativeElement).contains(<Node>event.target))
-            this.open = false;
-    }
-
-    set value(value: any) {
-        let oldValue = this.currentValue;
-        let displayValue = this.getDisplayValue(value);
-        if (displayValue === undefined) {
-            if (this.placeholder)
-                this.displayValue = this.placeholder;
-            else
-                this.displayValue = 'null';
+    unregisterOption(id: number) {
+        if (this.selectedIds.indexOf(id) !== -1) {
+            let emptyState = this.allowEmpty;
+            this.allowEmpty = true;
+            this.selectOption(id, true, true);
+            this.allowEmpty = emptyState;
         }
-        else
-            this.displayValue = displayValue;
-        this.currentValue = value;
+        this.optionsMap.delete(id);
+    }
 
-        if (value !== oldValue)
-            this.onChange(value);
+    setOption(id: number, data: { value: any, displayValue: string }) {
+        this.optionsMap.set(id, data);
+    }
 
-        this.onTouched();
+    selectOption(id: number, toggle: boolean, suppressChanges: boolean = false) {
+        if (this.optionsMap.has(id)) {
+            let valueChanged = true;
+
+            if (this.multiple) {
+                let selectedIdIndex = this.selectedIds.indexOf(id);
+
+                if (selectedIdIndex === -1) {
+                    this.selectedIds = this.selectedIds.concat(id);
+                }
+                else {
+                    if ((this.allowEmpty || this.selectedIds.length > 1) && toggle)
+                        this.selectedIds.splice(selectedIdIndex, 1);
+                    else
+                        valueChanged = false;
+                }
+            }
+            else {
+                if (this.selectedIds.length === 0)
+                    this.selectedIds = [id];
+                else if (this.selectedIds[0] !== id)
+                    this.selectedIds[0] = id;
+                else {
+                    if (this.allowEmpty && toggle)
+                        this.selectedIds = [];
+                    else
+                        valueChanged = false;
+                }
+            }
+
+            if (valueChanged) {
+                let displayValues: string[] = [];
+                this.currentValue = [];
+                for (let i = 0; i < this.selectedIds.length; i++) {
+                    this.currentValue.push(this.optionsMap.get(this.selectedIds[i]).value);
+                    displayValues.push(this.optionsMap.get(this.selectedIds[i]).displayValue);
+                }
+
+                if (displayValues.length > 0 && this.sort) {
+                    displayValues = displayValues.sort();
+                }
+
+                this.displayValue = displayValues.length > 0 ? displayValues.join(this.separator) : displayValues[0];
+
+                this.optionComponents.forEach((option) => {
+                    option.toggleSelected(this.selectedIds.indexOf(option.getId()) !== -1);
+                });
+
+                if (!suppressChanges) {
+                    this.onChange(this.multiple ? this.currentValue : (this.currentValue[0] || null));
+                }
+                this.changeRef.markForCheck();
+            }
+            if (!suppressChanges) {
+                this.open = this.open && this.multiple;
+                this.onTouched();
+            }
+        }
+    }
+
+    clearOptions() {
+        this.selectedIds = [];
+        this.currentValue = [];
+        this.displayValue = '';
+        if (this.optionComponents) {
+            this.optionComponents.forEach((option) => {
+                option.toggleSelected(false);
+            });
+        }
+    }
+
+    @Input()
+    set value(value: any) {
+        this.writeValue(value, false);
     }
 
     get value() {
         return this.currentValue;
     }
 
-    writeValue(value: any): void {
-        this.value = value;
+    writeValue(value: any, suppressChanges: boolean = true): void {
+        let optionIndex = this.getOptionId(value);
+        if (optionIndex !== -1)
+            this.selectOption(optionIndex, false, suppressChanges);
+        else if (value instanceof Array) {
+            for (let i = 0; i < value.length; i++)
+                this.writeValue(value[i], suppressChanges);
+        }
+        else
+            this.clearOptions();
     }
 
     registerOnChange(fn: (value: any) => any): void {
@@ -87,12 +167,18 @@ export class SelectComponent implements ControlValueAccessor {
         this.onTouched = fn;
     }
 
-    private getDisplayValue(value: any) {
+    @HostListener('document:click', ['$event'])
+    onClick(event: MouseEvent) {
+        if (!(<HTMLElement>this.element.nativeElement).contains(<Node>event.target))
+            this.open = false;
+    }
+
+    private getOptionId(value: any) {
         for (let [id, val] of this.optionsMap) {
-            if (val.value == value) {
-                return val.displayValue;
+            if (_.isEqual(val.value, value)) {
+                return id;
             }
         }
-        return undefined;
+        return -1;
     }
 }

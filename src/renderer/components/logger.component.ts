@@ -2,6 +2,7 @@ import { Component, AfterViewChecked, ElementRef, ViewChild, ChangeDetectionStra
 import { LoggerService } from '../services';
 import { LogMessage, LogSettings } from '../models';
 import { Observable } from 'rxjs';
+import { gApp } from "../app.global";
 
 @Component({
     selector: 'log',
@@ -21,14 +22,14 @@ import { Observable } from 'rxjs';
             </div>
         </ng-template>
         <div class="menu">
-            <div class="error" [class.active]="settings.showErrors" (click)="settings.showErrors = !settings.showErrors">ERROR</div>
-            <div class="info" [class.active]="settings.showInfo" (click)="settings.showInfo = !settings.showInfo">INFO</div>
-            <div class="success" [class.active]="settings.showSuccesses" (click)="settings.showSuccesses = !settings.showSuccesses">SUCCESS</div>
-            <div class="fuzzy" [class.active]="settings.showFuzzy" (click)="settings.showFuzzy = !settings.showFuzzy">FUZZY</div>
-            <div class="timestamp" [class.active]="settings.timestamp" (click)="settings.timestamp = !settings.timestamp">TIMESTAMP</div>
-            <div class="textWrap" [class.active]="settings.textWrap" (click)="settings.textWrap = !settings.textWrap">TEXT-WRAP</div>
-            <div class="autoscroll" [class.active]="settings.autoscroll" (click)="settings.autoscroll = !settings.autoscroll">AUTOSCROLL</div>
-            <div class="clear" (click)="clearLog()">Clear log</div>
+            <div class="error" [class.active]="settings.showErrors" (click)="settings.showErrors = !settings.showErrors">{{lang.error}}</div>
+            <div class="info" [class.active]="settings.showInfo" (click)="settings.showInfo = !settings.showInfo">{{lang.info}}</div>
+            <div class="success" [class.active]="settings.showSuccesses" (click)="settings.showSuccesses = !settings.showSuccesses">{{lang.success}}</div>
+            <div class="fuzzy" [class.active]="settings.showFuzzy" (click)="settings.showFuzzy = !settings.showFuzzy">{{lang.fuzzy}}</div>
+            <div class="timestamp" [class.active]="settings.timestamp" (click)="settings.timestamp = !settings.timestamp">{{lang.timestamp}}</div>
+            <div class="textWrap" [class.active]="settings.textWrap" (click)="settings.textWrap = !settings.textWrap">{{lang.textWrap}}</div>
+            <div class="autoscroll" [class.active]="settings.autoscroll" (click)="settings.autoscroll = !settings.autoscroll">{{lang.autoscroll}}</div>
+            <div class="clear" (click)="clearLog()">{{lang.clearLog}}</div>
         </div>
     `,
     styleUrls: [
@@ -44,7 +45,11 @@ export class LoggerComponent {
 
     constructor(private loggerService: LoggerService) {
         this.settings = this.loggerService.getLogSettings();
-        this.messages = this.loggerService.getLogMessages();
+        this.messages = this.loggerService.getLogMessages().asObservable();
+    }
+
+    get lang(){
+        return gApp.lang.logger.component;
     }
 
     ngAfterViewInit() {

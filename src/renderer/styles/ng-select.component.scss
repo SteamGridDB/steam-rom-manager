@@ -10,7 +10,7 @@
 
     fill: black;
 
-    #display {
+    .display {
         display: flex;
 
         padding: var(--ng-select-padding, 0);
@@ -28,26 +28,38 @@
 
         >span {
             display: inline-flex;
+            overflow: hidden;
 
             margin: auto 0;
 
             cursor: pointer;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
         >svg {
             display: inline-flex;
+            flex-shrink: 0;
 
             height: 1.2em;
             margin: 0 0 0 auto;
 
+            cursor: pointer;
+
             fill: inherit;
+            polyline {
+                cursor: pointer;
+            }
         }
     }
     .options {
         position: absolute;
+        z-index: 1;
         top: 100%;
         left: 0;
 
         display: none;
+
+        min-width: 100%;
 
         &.open {
             display: flex;

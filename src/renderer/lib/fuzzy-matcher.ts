@@ -1,128 +1,72 @@
-import { Http } from '@angular/http';
-import { LoggerService, SettingsService } from "./../services";
-import { FuzzyListTimestamps, ParsedData, ParsedDataWithFuzzy, AppSettings } from "../models";
-import { readJson, writeJson } from "../lib";
-import * as paths from "../../shared/paths";
+import { ParsedDataWithFuzzy, FuzzyEventCallback } from "../models";
 import * as Fuzzy from "fuzzy";
-import * as fs from 'fs-extra';
 
 export class FuzzyMatcher {
-    private list: { totalGames: number, games: string[] };
-    private appSettings: AppSettings;
-    private checkInterval: number = 43200000; //every 12 h
-    private forcedUpdate: number = 604800000; //every week
-    private timeout: number = 120000; //timeout
+    private list: string[];
 
-    constructor(private http: Http, private loggerService: LoggerService, private settingsService: SettingsService) {
-        this.settingsService.onLoad((appSettings: AppSettings)=> {
-            this.appSettings = appSettings;
-        });
+    constructor(private eventCallback?: FuzzyEventCallback, list?: string[]) {
+        this.setEventCallback(eventCallback || ((event: any, data: any) => { }));
+        this.setFuzzyList(list || []);
     }
 
-    prepare() {
-        let fuzzyListTimestamps = this.appSettings.fuzzyMatcher.timestamps;
-
-        return this.readList().then((list) => {
-            this.list = list;
-            let currentTime = new Date().getTime();
-            if ((currentTime - fuzzyListTimestamps.download > this.forcedUpdate || this.list.totalGames === 0) && this.listCanBeDownloaded()) {
-                this.loggerService.fuzzy('Title list for fuzzy matching will be downloaded.');
-                return this.downloadList().then((list) => {
-                    this.list = list;
-                    fuzzyListTimestamps.download = currentTime;
-                    fuzzyListTimestamps.check = currentTime;
-                    this.loggerService.fuzzy('Download was successful. Saving list.');
-                    return this.saveList().then(() => this.settingsService.saveAppSettings());
-                });
-            }
-            else if (currentTime - fuzzyListTimestamps.check > this.checkInterval && this.listCanBeDownloaded()) {
-                this.loggerService.fuzzy('Checking if title list is up to date.');
-                return this.getTotalCount().then((countInDatabase) => {
-                    if (this.list.totalGames !== countInDatabase) {
-                        this.loggerService.fuzzy('List is outdated. Title list for fuzzy matching will be downloaded.');
-                        return this.downloadList().then((list) => {
-                            this.list = list;
-                            fuzzyListTimestamps.download = currentTime;
-                            fuzzyListTimestamps.check = currentTime;
-                            this.loggerService.fuzzy('Download was successful. Saving list.');
-                            return this.saveList().then(() => this.settingsService.saveAppSettings());
-                        });
-                    }
-                    else {
-                        this.loggerService.fuzzy('Title list is up to date.');
-                        fuzzyListTimestamps.check = currentTime;
-                        return this.settingsService.saveAppSettings();
-                    }
-                });
-            }
-        }).catch((error) => {
-            this.list = null;
-            this.loggerService.error('Error occured while preparing "Fuzzy matcher". Fuzzy matching will be skipped.', { invokeAlert: true, alertTimeout: 3000 });
-            this.loggerService.error(error);
-        });
+    setEventCallback(eventCallback: FuzzyEventCallback) {
+        this.eventCallback = eventCallback;
     }
 
-    fuzzyMatchParsedData(data: ParsedDataWithFuzzy, removeCharacters: boolean, removeBrackets: boolean, allowVerbose: boolean = true) {
-        if (this.isReady()) {
+    setFuzzyList(list: string[]) {
+        this.list = list;
+    }
+
+    fuzzyMatchParsedData(data: ParsedDataWithFuzzy, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
+        if (this.isLoaded()) {
             let matches: Fuzzy.FilterResult<string>[] = [];
             for (let i = 0; i < data.success.length; i++) {
                 let extractedTitle = this.modifyString(data.success[i].extractedTitle, removeCharacters, removeBrackets);
 
-                matches = Fuzzy.filter(extractedTitle, this.list.games);
+                matches = Fuzzy.filter(extractedTitle, this.list);
                 if (matches.length) {
                     data.success[i].fuzzyTitle = this.getBestMatch(extractedTitle, matches);
-                    if (this.appSettings.fuzzyMatcher.verbose && allowVerbose)
-                        this.loggerService.fuzzy(`Fuzzy title "${data.success[i].fuzzyTitle}" from "${data.success[i].extractedTitle}"`);
+                    if (verbose)
+                        this.eventCallback('info', { info: 'match', stringA: data.success[i].fuzzyTitle, stringB: data.success[i].extractedTitle });
                 }
             }
         }
         return data;
     }
 
-    fuzzyMatchString(input: string, removeCharacters: boolean, removeBrackets: boolean, allowVerbose: boolean = true) {
-        if (this.isReady()) {
+    fuzzyMatchString(input: string, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
+        if (this.isLoaded()) {
             let extractedTitle = this.modifyString(input, removeCharacters, removeBrackets);
 
-            let matches = Fuzzy.filter(extractedTitle, this.list.games);
+            let matches = Fuzzy.filter(extractedTitle, this.list);
             if (matches.length) {
                 let bestMatch = this.getBestMatch(extractedTitle, matches);
-                if (this.appSettings.fuzzyMatcher.verbose && allowVerbose)
-                    this.loggerService.fuzzy(`Fuzzy title "${bestMatch}" from "${extractedTitle}"`);
+                if (verbose)
+                    this.eventCallback('info', { info: 'match', stringA: bestMatch, stringB: extractedTitle });
                 return bestMatch;
             }
         }
         return input;
     }
 
-    fuzzyEqual(a: string, b: string, removeCharacters: boolean, removeBrackets: boolean, allowVerbose: boolean = true) {
-        if (this.isReady()) {
+    fuzzyEqual(a: string, b: string, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
+        if (this.isLoaded()) {
             if (this.fuzzyMatchString(a, removeCharacters, removeBrackets, false) === this.fuzzyMatchString(b, removeCharacters, removeBrackets, false)) {
-                if (this.appSettings.fuzzyMatcher.verbose && allowVerbose)
-                    this.loggerService.fuzzy(`Fuzzy compare: "${a}" == "${b}"`);
+                if (verbose)
+                    this.eventCallback('info', { info: 'equal', stringA: a, stringB: b });
                 return true;
             }
             else {
-                if (this.appSettings.fuzzyMatcher.verbose && allowVerbose)
-                    this.loggerService.fuzzy(`Fuzzy compare: "${a}" != "${b}"`);
+                if (verbose)
+                    this.eventCallback('info', { info: 'notEqual', stringA: a, stringB: b });
                 return false;
             }
         }
         return false;
     }
 
-    isReady() {
-        return this.list !== null && this.list !== undefined && this.list.totalGames > 0;
-    }
-
-    isPrepared() {
-        let currentTime = new Date().getTime();
-        let fuzzyListTimestamps = this.appSettings.fuzzyMatcher.timestamps;
-
-        return !(currentTime - fuzzyListTimestamps.download > this.forcedUpdate || currentTime - fuzzyListTimestamps.check > this.checkInterval);
-    }
-
-    listCanBeDownloaded() {
-        return !this.appSettings.offlineMode;
+    isLoaded() {
+        return this.list !== null && this.list !== undefined && this.list.length > 0;
     }
 
     private modifyString(input: string, removeCharacters: boolean, removeBrackets: boolean) {
@@ -172,57 +116,5 @@ export class FuzzyMatcher {
 
             return matches[minLoopIndex(lengthDiff)].string;
         }
-    }
-
-    private getTotalCount() {
-        return new Promise<number>((resolve, reject) => {
-            this.http.get('http://www.steamgriddb.com/api/games/?total').timeout(this.timeout).subscribe(
-                (response) => {
-                    try {
-                        let parsedBody = response.json();
-                        if (parsedBody['totalGames'] !== undefined)
-                            resolve(parseInt(parsedBody['totalGames']));
-                        else
-                            reject(new Error('Failed to get fuzzy list count. "totalGames" key is undefined.'));
-                    } catch (error) {
-                        reject(error);
-                    }
-                },
-                (error) => {
-                    reject(error);
-                }
-            );
-        });
-    }
-
-    private downloadList() {
-        return new Promise<{ totalGames: number, games: string[] }>((resolve, reject) => {
-            this.http.get('http://www.steamgriddb.com/api/games/').timeout(this.timeout).subscribe(
-                (response) => {
-                    try {
-                        let parsedBody = response.json();
-                        resolve(parsedBody);
-                    } catch (error) {
-                        reject(error);
-                    }
-                },
-                (error) => {
-                    reject(error);
-                }
-            );
-        });
-    }
-
-    private readList() {
-        return Promise.resolve().then(() => {
-            if (this.list === undefined)
-                return readJson(paths.fuzzyList, { totalGames: 0, games: [] });
-            else
-                return this.list;
-        });
-    }
-
-    private saveList() {
-        return writeJson(paths.fuzzyList, this.list);
     }
 }

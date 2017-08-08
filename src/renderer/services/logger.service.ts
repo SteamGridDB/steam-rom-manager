@@ -40,7 +40,7 @@ export class LoggerService {
         this.postMessage('info', message, settings);
     }
 
-    error(message: string, settings?: MessageSettings) {
+    error(message: string | Error, settings?: MessageSettings) {
         this.postMessage('error', message, settings);
     }
 
@@ -48,7 +48,7 @@ export class LoggerService {
         this.postMessage('fuzzy', message, settings);
     }
 
-    private postMessage(type: 'success' | 'info' | 'error' | 'fuzzy', message: string, settings?: MessageSettings) {
+    private postMessage(type: 'success' | 'info' | 'error' | 'fuzzy', message: any, settings?: MessageSettings) {
         let keepAfterNavigationChange: boolean = false;
         let invokeAlert: boolean = false;
         let doNotAppendToLog: boolean = false;

@@ -1,113 +1,123 @@
 import { Parser, GenericParser, UserConfiguration, ParsedData } from '../../models';
-import { escapeRegExp } from "lodash";
+import { gApp } from "../../app.global";
+import * as _ from "lodash";
+import * as minimatch from 'minimatch';
 import * as glob from 'glob';
 import * as path from 'path';
 
 interface TitleTagData {
-    direction: 'left' | 'right',
-    level: number,
+    depth: {
+        direction: 'left' | 'right',
+        level: number
+    },
     finalGlob: string,
-    leftovers: { left: string, right: string },
-    regex: RegExp
+    globRegex: {
+        regex: RegExp,
+        replaceText: string
+    }
+    titleRegex: {
+        regex: RegExp,
+        pos: number
+    }
 }
 
 export class GlobRegexParser implements GenericParser {
     getParser(): Parser {
         return {
-            title: 'Glob-Regex',
-            info: `
-                <div class="paragraph">
-                    Extracts title from a path. Directories/files are matched using <span class="code">glob</span> pattern (uses node-glob). 
-                    Parser tries to extract title from a path segment (which are separated by path separators) containing 
-                    <span class="code">\${"regex"}</span>. A custom, user defined regular expression is then used to extract titles more 
-                    precisely given multiple directory/file patterns. For example, consider that we have:
-                    <ul>
-                        <li><span class="code">glob</span>: <span class="code">**/\${/(.+?)\\s*\\[|(.+)/}/*/*.fml</span></li>
-                        <li><span class="code">filePath1</span>: <span class="code">Dir1\\Dir2\\Roses are red\\Dir3\\myfile.fml</span></li>
-                        <li><span class="code">filePath2</span>: <span class="code">Dir1\\Dir2\\Roses are red [or green]\\Dir3\\myfile.fml</span></li>
-                    </ul>
-                    It will match <span class="code">\${"regex"}</span> with <span class="code">Roses are red</span> and <span class="code">Roses are red [or green]</span>. 
-                    Then it will use "regex" to determinate title. <span class="code">(.+?)\\s*\\[</span> will "hit" nothing in <span class="code">filePath1</span> and
-                    <span class="code">(.+)</span> will be used next to capture everything. <span class="code">(.+?)\\s*\\[</span> will match <span class="code">filePath2</span>
-                    and will be considered as title (other regex parts will be ignored - "First-come, first-served"). Thus extracting <span class="code">Roses are red</span> from
-                    both file paths. Furthermore, extracted title has whitespaces trimmed off.
-                </div>
-                <div class="paragraph">
-                    Regex capture pairs (different pairs are seperated with <span class="code">|</span>) will have their contents joined. For example:
-                    <span class="code">(.+)\\s\\[.+?\\](\\s.*)</span> in <span class="code">Roses are red [skip this] or green</span> will match:
-                    <ul>
-                        <li><span class="code">Roses are red</span></li>
-                        <li><span class="code">&nbsp;or green</span></li>
-                    </ul>
-                    The final result will be <span class="code">Roses are red or green</span>.
-                </div>
-                <div class="paragraph">
-                    This parser should be used when title containing path segment has more than one pattern (see "User\'s glob-regex" below for examples).
-                    I recommend using <span class="code">https://regex101.com/</span> to test your regular expression (select "javascript" option). 
-                </div>
-            `,
+            title: this.lang.title,
+            info: this.lang.docs__md.self.join(''),
             inputs: {
                 'glob-regex': {
-                    label: 'User\'s glob-regex',
+                    label: this.lang.inputTitle,
                     validationFn: this.validate.bind(this),
-                    info: `
-                        <div class="paragraph">
-                            Glob containing <span class="code">\${"regex"}</span> which is later replaced with a star <span class="code">*</span> or globstar <span class="code">**</span> 
-                            if there are no path separators. It can have multiple capture brackets and first one to capture something is interpreted as a title. Below are few examples of 
-                            how parser extracts title from <span class="code">C:\\ROMS\\Roses are red [AEF123] 7\\myfile.fml</span> and <span class="code">C:\\ROMS\\Roses are green\\myfile.fml</span>:
-                        </div>
-                        <div class="paragraph">
-                            <span class="code">\${/.*/}</span> (4 entries: 4 successful, 0 failed)
-                            <ul style="margin: 0.25em 0">
-                                <li>Roses are green</li>
-                                <li>Roses are green\\myfile.fml</li>
-                                <li>Roses are red [AEF123] 7</li>
-                                <li>Roses are red [AEF123] 7\\myfile.fml</li>
-                            </ul>
-                            <span class="code">\${/.+\\//}</span> (4 entries: 2 successful, 2 failed)
-                            <ul style="margin: 0.25em 0">
-                                <li>Roses are green</li>
-                                <li>Roses are red [AEF123] 7</li>
-                            </ul>
-                            <span class="code">\${/.+/}/*</span> (2 entries: 2 successful, 0 failed)
-                            <ul style="margin: 0.25em 0">
-                                <li>Roses are green</li>
-                                <li>Roses are red [AEF123] 7</li>
-                            </ul>
-                            <span class="code">\${/(.+?)\\s*\\[|(.+)/}/*</span> (2 entries: 2 successful, 0 failed)
-                            <ul style="margin: 0.25em 0">
-                                <li>Roses are green</li>
-                                <li>Roses are red</li>
-                            </ul>
-                        </div>
-                    `
+                    info: this.lang.docs__md.input.join('')
                 }
             }
         };
     }
 
+    private get lang() {
+        return gApp.lang.globRegexParser;
+    }
+
     private validate(fileGlob: string) {
-        let testRegExpr = /\${\/(.+)\/([ui]*?)}/gi;
+        let testRegExpr = /\${\/(.+)\/([ui]{0,2})(?:\|(.+?))?}/i;
         let match = testRegExpr.exec(fileGlob);
         if (match === null)
-            return 'File glob must contain ${regex} where "regex" is your regular expresion!';
-        else if (match.length > 3)
-            return 'File glob must contain only one ${regex}!';
+            return this.lang.errors.noRegex;
 
-        testRegExpr = /.*\*\${.+}.*|.*\${.+}\*.*/i;
+        testRegExpr = /\${.*?}/i;
+        match = testRegExpr.exec(fileGlob);
+        if (match.length > 1)
+            return this.lang.errors.moreThanOneRegex;
+
+        testRegExpr = /.*\*\${.*?}.*|.*\${.*?}\*.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return 'Star (*) can not be next to ${regex}!';
+            return this.lang.errors.noStarNextToRegex;
+
+        testRegExpr = /.*\?\${.*?}.*|.*\${.*?}\?.*/i;
+        match = testRegExpr.exec(fileGlob);
+        if (match !== null)
+            return this.lang.errors.noAnyCharNextToRegex;
+
+        let fileGlobWithoutRegex = fileGlob.replace(/\${.*?}/i, '');
 
         testRegExpr = /\\/i;
-        match = testRegExpr.exec(fileGlob.replace(/(\${.+})/i, ''));
+        match = testRegExpr.exec(fileGlobWithoutRegex);
         if (match !== null)
-            return 'Windows directory character (\\) is not alowed! Use "/" instead.';
+            return this.lang.errors.noWindowsSlash;
 
-        testRegExpr = /.*\*\*.+\${.+}.+\*\*.*/i;
+        testRegExpr = /.*\*\*.+\${.*?}.+\*\*.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return 'Globstar (**) can only be on one side of ${regex}!';
+            return this.lang.errors.noGlobstarOnBothSides;
+
+        testRegExpr = /.*\{.*?\/+.*?\}.*\${.*?}.*\{.*?\/+.*?\}.*/i;
+        match = testRegExpr.exec(fileGlob);
+        if (match !== null)
+            return this.lang.errors.noBracedDirSetOnBothSides;
+
+        testRegExpr = /.*\{.*?\/+.*?\}.*\${.*?}.+\*\*.*|.*\*\*.+\${.*?}.*\{.*?\/+.*?\}.*/i;
+        match = testRegExpr.exec(fileGlob);
+        if (match !== null)
+            return this.lang.errors.noBracedDirSetOrGlobstarOnBothSides;
+
+        testRegExpr = /(\?|!|\+|\*|@)\((.*?)\)/gi;
+        while ((match = testRegExpr.exec(fileGlobWithoutRegex)) !== null) {
+            if (match[2].length === 0)
+                return this.lang.errors.noEmptyPattern;
+        }
+
+        testRegExpr = /\[(.*?)\]/g;
+        while ((match = testRegExpr.exec(fileGlobWithoutRegex)) !== null) {
+            if (match[1].length === 0)
+                return this.lang.errors.noEmptyCharRange;
+        }
+
+        testRegExpr = /.*(\?|!|\+|\*|@)\((.+?)\)\${.*?}(\?|!|\+|\*|@)\((.+?)\).*|.*(\?|!|\+|\*|@)\((.+?)\)\${.*?}.*|.*\${.*?}(\?|!|\+|\*|@)\((.+?)\).*/i;
+        match = testRegExpr.exec(fileGlob);
+        if (match !== null) {
+            let patterns: string[];
+            if (match[2] || match[6]) {
+                patterns = (match[2] || match[6]).split('|');
+                for (let i = 0; i < patterns.length; i++) {
+                    if (patterns[i][patterns[i].length - 1] === '*')
+                        return this.lang.errors.noStarInPatternNextToRegex;
+                    else if (patterns[i][patterns[i].length - 1] === '?')
+                        return this.lang.errors.noAnyCharInPatternNextToRegex;
+                }
+            }
+            else if (match[4] || match[8]) {
+                patterns = (match[4] || match[8]).split('|');
+                for (let i = 0; i < patterns.length; i++) {
+                    if (patterns[i][0] === '*')
+                        return this.lang.errors.noStarInPatternNextToRegex;
+                    else if (patterns[i][0] === '?')
+                        return this.lang.errors.noAnyCharInPatternNextToRegex;
+                }
+            }
+        }
 
         return null;
     }
@@ -115,16 +125,16 @@ export class GlobRegexParser implements GenericParser {
     private getTitleDepth(fileGlob: string) {
         let depth: { direction: 'left' | 'right', level: number } = { direction: undefined, level: undefined };
         let tempGlob = undefined;
-        if (fileGlob.replace(/\${.+}/i, '').length === 0) {
+        if (fileGlob.replace(/\${.*?}/i, '').length === 0) {
             depth.level = null;
         }
-        else if (/.*\*\*.+\${.+}.*/i.test(fileGlob)) {
+        else if (/.*\*\*.+\${.*?}.*/i.test(fileGlob)) {
             depth.direction = 'right';
-            tempGlob = fileGlob.replace(/.*\${.+}/i, '');
+            tempGlob = fileGlob.replace(/.*\${.*?}/i, '');
         }
         else {
             depth.direction = 'left';
-            tempGlob = fileGlob.replace(/\${.+}.*/i, '');
+            tempGlob = fileGlob.replace(/\${.*?}.*/i, '');
         }
 
         if (depth.level === undefined) {
@@ -135,72 +145,86 @@ export class GlobRegexParser implements GenericParser {
         return depth;
     }
 
-    private getTitleLeftovers(fileGlob: string) {
-        let leftovers: { left: string, right: string } = { left: '', right: '' };
-        let titleSegmentMatch = fileGlob.match(/.*\/(.*\${.+}.*?)\/|.*\/(.*\${.+}.*)|(.*\${.+}.*?)\/|(.*\${.+}.*)/i);
+    private getTitleRegex(fileGlob: string) {
+        let titleRegex = '';
+        let pos = 1;
+
+        let titleSegmentMatch = fileGlob.match(/.*\/(.*\${.*?}.*?)\/|.*\/(.*\${.*?}.*)|(.*\${.*?}.*?)\/|(.*\${.*?}.*)/i);
         if (titleSegmentMatch !== null) {
-            let titleSegments = (titleSegmentMatch[1] || titleSegmentMatch[2] || titleSegmentMatch[3] || titleSegmentMatch[4]).replace(/\${.*}/, '${}').split('*');
-            for (var i = 0; i < titleSegments.length; i++) {
-                if (titleSegments[i].search(/\${}/i) !== -1) {
-                    let leftoverSegments = titleSegments[i].split(/\${}/i);
-                    leftovers.left = leftoverSegments[0] !== undefined ? leftoverSegments[0] : '';
-                    leftovers.right = leftoverSegments[1] !== undefined ? leftoverSegments[1] : '';
-                    break;
-                }
+            let titleSegments = (titleSegmentMatch[1] || titleSegmentMatch[2] || titleSegmentMatch[3] || titleSegmentMatch[4]).split(/\${.*?}/i);
+            if (titleSegments[0].length > 0) {
+                let regexString = new minimatch.Minimatch(titleSegments[0], { dot: true }).makeRe().source;
+                titleRegex += regexString.substr(0, regexString.length - 1);
+                pos++;
             }
+            else
+                titleRegex += '^';
+
+            titleRegex += '(.*?)';
+
+            if (titleSegments[1].length > 0) {
+                let regexString = new minimatch.Minimatch(titleSegments[1], { dot: true }).makeRe().source;
+                titleRegex += regexString.substr(1, regexString.length - 1);
+            }
+            else
+                titleRegex += '$';
         }
-        return leftovers;
+
+        return { regex: new RegExp(titleRegex), pos: pos };
     }
 
-    private getFinalGlob(fileGlob: string, depth: { direction: 'left' | 'right', level: number }) {
-        if (depth.level !== null) {
-            return fileGlob.replace(/(\${.+})/i, '*')
+    private getFinalGlob(fileGlob: string, depthLevel: number) {
+        if (depthLevel !== null) {
+            return fileGlob.replace(/(\${.*?})/i, '*')
         }
         else
             return '**';
     }
 
-    private makeRegex(fileGlob: string) {
-        let match = /\${\/(.+)\/(.*?)}/.exec(fileGlob);
+    private makeRegexRegex(fileGlob: string) {
+        let match = /\${\/(.+)\/([ui]{0,2})(?:\|(.+?))?}/.exec(fileGlob);
         if (match) {
-            return new RegExp(match[1], match[2] ? match[2] : '');
+            return { regex: new RegExp(match[1], match[2] || ''), replaceText: match[3] || '' };
         }
         else
-            return new RegExp('');
+            return { regex: new RegExp(''), replaceText: '' };
     }
 
     private extractTitleTag(fileGlob: string) {
-        let extractedData: TitleTagData = { direction: undefined, level: undefined, finalGlob: undefined, regex: undefined, leftovers: { left: undefined, right: undefined } };
-        let depth = this.getTitleDepth(fileGlob);
-        let leftovers = this.getTitleLeftovers(fileGlob);
-        extractedData.direction = depth.direction;
-        extractedData.level = depth.level;
-        extractedData.leftovers.left = leftovers.left ? '.*' + escapeRegExp(leftovers.left) : '';
-        extractedData.leftovers.right = leftovers.right ? escapeRegExp(leftovers.right) + '.*' : '';
-        extractedData.finalGlob = this.getFinalGlob(fileGlob, depth);
-        extractedData.regex = this.makeRegex(fileGlob);
+        let extractedData: TitleTagData = { finalGlob: undefined, globRegex: undefined, titleRegex: undefined, depth: undefined };
+        extractedData.depth = this.getTitleDepth(fileGlob);
+        extractedData.titleRegex = this.getTitleRegex(fileGlob);
+        extractedData.finalGlob = this.getFinalGlob(fileGlob, extractedData.depth.level);
+        extractedData.globRegex = this.makeRegexRegex(fileGlob);
         return extractedData;
     }
 
     private extractTitle(titleData: TitleTagData, file: string) {
-        if (titleData.level !== null) {
+        if (titleData.depth.level !== null) {
             let fileSections = file.split('/');
-            file = fileSections[titleData.direction === 'right' ? fileSections.length - (titleData.level + 1) : titleData.level];
+            file = fileSections[titleData.depth.direction === 'right' ? fileSections.length - (titleData.depth.level + 1) : titleData.depth.level];
         }
-        let titleRegExp = new RegExp(titleData.leftovers.left + '(.+)' + titleData.leftovers.right);
-        let titleMatch = file.match(titleRegExp);
-        if (titleMatch !== null) {
-            titleMatch = titleMatch[1].match(titleData.regex);
-            if (titleMatch !== null) {
-                let title: string = '';
-                for (let i = 1; i < titleMatch.length; i++) {
-                    if (titleMatch[i])
-                        title += titleMatch[i];
+
+        if (file !== undefined) {
+            let titleMatch = file.match(titleData.titleRegex.regex);
+            if (titleMatch !== null && titleMatch[titleData.titleRegex.pos]) {
+                if (titleData.globRegex.replaceText.length > 0) {
+                    return titleMatch[titleData.titleRegex.pos].replace(titleData.globRegex.regex, titleData.globRegex.replaceText).replace(/\//g, path.sep).trim();
                 }
-                if (title.length === 0)
-                    return titleMatch[0].replace(/\//g, path.sep).trim();
-                else
-                    return title.replace(/\//g, path.sep).trim();
+                else {
+                    titleMatch = titleMatch[titleData.titleRegex.pos].match(titleData.globRegex.regex);
+                    if (titleMatch !== null) {
+                        let title: string = '';
+                        for (let i = 1; i < titleMatch.length; i++) {
+                            if (titleMatch[i])
+                                title += titleMatch[i];
+                        }
+                        if (title.length === 0)
+                            return titleMatch[0].replace(/\//g, path.sep).trim();
+                        else
+                            return title.replace(/\//g, path.sep).trim();
+                    }
+                }
             }
         }
         return undefined;
@@ -231,7 +255,7 @@ export class GlobRegexParser implements GenericParser {
                 });
             }
             else
-                reject('Invalid "glob-regex" input!');
+                throw new Error('invalid "glob-regex" input!');
         });
     }
 }

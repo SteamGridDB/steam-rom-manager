@@ -12,6 +12,7 @@ export interface ImageContent {
 
 export interface ImagesStatusAndContent {
     retrieving: boolean,
+    defaultImageProviders: string[],
     searchQueries: string[],
     content: ImageContent[]
 }
@@ -20,12 +21,9 @@ export interface Images {
     [extractedTitle: string]: ImagesStatusAndContent
 };
 
-export interface PreferedImages {
-    [title: string]: string
-};
-
 export interface PreviewDataApp {
     steamCategories: string[],
+    imageProviders: string[],
     executableLocation: string,
     title: string,
     argumentString: string,
@@ -58,7 +56,7 @@ export interface SteamGridImageData {
 }
 
 export interface PreviewVariables {
-    listIsUpdating: boolean,
+    listIsBeingGenerated: boolean,
     listIsBeingSaved: boolean,
     listIsBeingRemoved: boolean,
     numberOfListItems: number,

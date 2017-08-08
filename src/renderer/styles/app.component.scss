@@ -1,12 +1,11 @@
 :host {
-    display: flex;
-    flex-direction: column;
+	display: grid;
 
-    height: 100%;
+	height: 100%;
 
-    >section {
-        display: inline-flex;
-        overflow: auto;
-        flex: 1;
-    }
+    grid-template-areas: 
+    'titlebar titlebar'
+	'nav route';
+	grid-template-rows: auto 1fr;
+	grid-template-columns: auto 1fr;
 }
