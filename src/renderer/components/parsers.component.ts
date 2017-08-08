@@ -14,7 +14,7 @@ import { gApp } from "../app.global";
         <div class="menu" drag-scroll>
             <ng-container *ngIf="configurationIndex === -1; else moreOptions">
                 <div (click)="saveForm()">{{lang.buttons.save}}</div>
-                <div (click)="openFAQ()">{{lang.buttons.faq}}</div>
+                <div style="margin: 0 0 0 auto;" (click)="openFAQ()">{{lang.buttons.faq}}</div>
             </ng-container>
             <ng-template #moreOptions>
                 <div (click)="updateForm()">{{lang.buttons.save}}</div>

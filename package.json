@@ -19,7 +19,7 @@
       "target": [
         "nsis"
       ],
-      "icon": "./images/icons/icon.ico"
+      "icon": "./src/shared/icons/icon.ico"
     },
     "linux": {
       "category": "Utility",
@@ -27,7 +27,7 @@
         "AppImage",
         "deb"
       ],
-      "icon": "./images/icons"
+      "icon": "./src/shared/icons"
     },
     "files": [
       "dist/**/*",

@@ -1,5 +1,8 @@
+# For casual users
 
-# Developing
+Visit [Steam ROM Manager](https://frogthefrog.github.io/steam-rom-manager)'s github page for more information.
+
+# For developers
 
 To compile this app, you'll need the latest `Node.js` and `npm`. Every script will need to be run from project directory.
 
