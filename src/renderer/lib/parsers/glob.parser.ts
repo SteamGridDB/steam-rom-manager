@@ -1,4 +1,5 @@
 import { Parser, GenericParser, UserConfiguration, ParsedData } from '../../models';
+import { gApp } from "../../app.global";
 import * as glob from 'glob';
 import * as path from 'path';
 import * as _ from "lodash";
@@ -19,104 +20,70 @@ interface TitleTagData {
 export class GlobParser implements GenericParser {
     getParser(): Parser {
         return {
-            title: 'Glob',
-            info: `
-                <div class="paragraph">
-                    Extracts title from a path. Directories/files are matched using <span class="code">glob</span> pattern (uses node-glob). 
-                    Parser tries to extract title from a path segment (which are separated by path separators) containing 
-                    <span class="code">\${title}</span> and using other "leftover" characters as a reference. For example, consider that we have:
-                    <ul>
-                        <li><span class="code">glob</span>: <span class="code">**/\${title}&nbsp;[/*/*.fml</span></li>
-                        <li><span class="code">filePath</span>: <span class="code">Dir1\\Dir2\\Roses are red [or green]\\Dir3\\myfile.fml</span></li>
-                    </ul>
-                    It will match <span class="code">\${title}</span> with <span class="code">Roses are red [or green]</span>. Then it will use "leftovers"
-                    <span class="code">&nbsp;[</span> to determinate that title should be before <span class="code">&nbsp;[</span>. Thus, it will extract 
-                    <span class="code">Roses are red</span> to use as a title. Furthermore, extracted title has whitespaces trimmed off.
-                </div>
-                <div class="paragraph">
-                    This parser should be used only when title containing path segment has one pattern (see "User\'s glob" below for examples).
-                </div>
-            `,
+            title: this.lang.title,
+            info: this.lang.docs__md.self.join(''),
             inputs: {
                 'glob': {
-                    label: 'User\'s glob',
+                    label: this.lang.inputTitle,
                     validationFn: this.validate.bind(this),
-                    info: `
-                        <div class="paragraph">
-                            Glob containing <span class="code">\${title}</span> which is later replaced with a star <span class="code">*</span> or globstar <span class="code">**</span> 
-                            if there are no path separators. Below are few examples of how parser extracts title from <span class="code">C:\\ROMS\\Roses are red [AEF123] 7\\myfile.fml</span>:
-                        </div>
-                        <div class="paragraph">
-                            <span class="code">\${title}</span>
-                            <ul>
-                                <li>Roses are red [AEF123] 7</li>
-                                <li>Roses are red [AEF123] 7\\myfile.fml</li>
-                            </ul>
-                            <span class="code">\${title}&nbsp;</span>
-                            <ul>
-                                <li>Roses are red [AEF123]</li>
-                            </ul>
-                            <span class="code">\${title} [</span>
-                            <ul>
-                                <li>Roses are red</li>
-                            </ul>
-                            <span class="code">\${title}red</span>
-                            <ul>
-                                <li>Roses are</li>
-                            </ul>
-                            <span class="code">\${title} /*.fml</span>
-                            <ul>
-                                <li>Roses are red [AEF123]</li>
-                            </ul>
-                            <span class="code">\${title} [/*.fml</span>
-                            <ul>
-                                <li>Roses are red</li>
-                            </ul>                            
-                        </div>
-                    `
+                    info: this.lang.docs__md.input.join('')
                 }
             }
         };
+    }
+
+    private get lang(){
+        return gApp.lang.globParser;
     }
 
     private validate(fileGlob: string) {
         let testRegExpr = /(\${title})/gi;
         let match = testRegExpr.exec(fileGlob);
         if (match === null)
-            return 'File glob must contain ${title}!';
+            return this.lang.errors.noTitle;
         else if (match.length > 3)
-            return 'File glob must contain only one ${title}!';
+            return this.lang.errors.moreThanOneTitle;
 
         testRegExpr = /.*\*\${title}.*|.*\${title}\*.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return 'Star (*) can not be next to ${title}!';
+            return this.lang.errors.noStarNextToTitle;
 
         testRegExpr = /.*\?\${title}.*|.*\${title}\?.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return 'Any char (?) can not be next to ${title}!';
+            return this.lang.errors.noAnyCharNextToTitle;
 
         testRegExpr = /\\/;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return 'Windows directory character (\\) is not alowed! Use "/" instead.';
+            return this.lang.errors.noWindowsSlash;
 
         testRegExpr = /.*\*\*.+\${title}.+\*\*.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return 'Globstar (**) can only be on one side of ${title}!';
+            return this.lang.errors.noGlobstarOnBothSides;
+
+        testRegExpr = /.*\{.*?\/+.*?\}.*\${title}.*\{.*?\/+.*?\}.*/i;
+        match = testRegExpr.exec(fileGlob);
+        if (match !== null)
+            return this.lang.errors.noBracedDirSetOnBothSides;
+
+        testRegExpr = /.*\{.*?\/+.*?\}.*\${title}.+\*\*.*|.*\*\*.+\${title}.*\{.*?\/+.*?\}.*/i;
+        match = testRegExpr.exec(fileGlob);
+        if (match !== null)
+            return this.lang.errors.noBracedDirSetOrGlobstarOnBothSides;
 
         testRegExpr = /(\?|!|\+|\*|@)\((.*?)\)/gi;
         while ((match = testRegExpr.exec(fileGlob)) !== null) {
             if (match[2].length === 0)
-                return 'Pattern can not be empty!';
+                return this.lang.errors.noEmptyPattern;
         }
 
         testRegExpr = /\[(.*?)\]/g;
         while ((match = testRegExpr.exec(fileGlob)) !== null) {
             if (match[1].length === 0)
-                return 'Character range can not be empty!';
+                return this.lang.errors.noEmptyCharRange;
         }
 
         testRegExpr = /.*(\?|!|\+|\*|@)\((.+?)\)\${title}(\?|!|\+|\*|@)\((.+?)\).*|.*(\?|!|\+|\*|@)\((.+?)\)\${title}.*|.*\${title}(\?|!|\+|\*|@)\((.+?)\).*/i;
@@ -127,18 +94,18 @@ export class GlobParser implements GenericParser {
                 patterns = (match[2] || match[6]).split('|');
                 for (let i = 0; i < patterns.length; i++) {
                     if (patterns[i][patterns[i].length - 1] === '*')
-                        return 'Star (*), inside a pattern, can not be next to ${title}!';
+                        return this.lang.errors.noStarInPatternNextToTitle;
                     else if (patterns[i][patterns[i].length - 1] === '?')
-                        return 'Any char (?), inside a pattern, can not be next to ${title}!';
+                        return this.lang.errors.noAnyCharInPatternNextToTitle;
                 }
             }
             else if (match[4] || match[8]) {
                 patterns = (match[4] || match[8]).split('|');
                 for (let i = 0; i < patterns.length; i++) {
                     if (patterns[i][0] === '*')
-                        return 'Star (*), inside a pattern, can not be next to ${title}!';
+                       return this.lang.errors.noStarInPatternNextToTitle;
                     else if (patterns[i][0] === '?')
-                        return 'Any char (?), inside a pattern, can not be next to ${title}!';
+                        return this.lang.errors.noAnyCharInPatternNextToTitle;
                 }
             }
         }
@@ -196,21 +163,6 @@ export class GlobParser implements GenericParser {
 
         return { regex: new RegExp(titleRegex), pos: pos };
     }
-
-    /*private escapeCharRanges(charRanges: string[]) {
-        for (let i = 0; i < charRanges.length; i++) {
-            let specialChar = charRanges[i][1] === '^';
-            charRanges[i] = `[${specialChar ? charRanges[i][1] : ''}${_.escapeRegExp(charRanges[i].substr(specialChar ? 2 : 1, charRanges[i].length - 2))}]`;
-        }
-        return charRanges;
-    }
-
-    private escapeLeftoverSegments(leftoverSegments: string[]) {
-        for (let i = 0; i < leftoverSegments.length; i++) {
-            leftoverSegments[i] = leftoverSegments[i].replace(/(\?|!|\+|\*|@)\((.+?)\)/g, '($2)');
-        }
-        return leftoverSegments;
-    }*/
 
     private getFinalGlob(fileGlob: string, depthLevel: number) {
         if (depthLevel !== null) {

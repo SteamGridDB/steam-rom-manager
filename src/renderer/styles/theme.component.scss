@@ -42,7 +42,7 @@
 
                 background: var(--color-theme-themes-background);
 
-                @include webkit-scrollbar(theme-themes-scrollbar, 0.4em);
+                @include webkitScrollbar(theme-themes-scrollbar, 0.4em);
                 &.empty {
                     position: relative;
                     &::before {
@@ -57,7 +57,7 @@
                         transform: translateY(-50%);
                         text-align: center;
 
-                        color: var(--color-theme-themes-item-text);
+                        color: var(--color-theme-text);
                     }
                 }
                 * {
@@ -70,18 +70,7 @@
                     white-space: nowrap;
                     text-overflow: ellipsis;
 
-                    color: var(--color-theme-themes-item-text);
-                    background-color: var(--color-theme-themes-item-background);
-
-                    &:hover {
-                        color: var(--color-theme-themes-item-text-hover);
-                        background-color: var(--color-theme-themes-item-background-hover);
-                    }
-
-                    &:active {
-                        color: var(--color-theme-themes-item-text-active);
-                        background-color: var(--color-theme-themes-item-background-active);
-                    }
+                    color: var(--color-theme-text);
                 }
             }
 
@@ -101,7 +90,7 @@
 
                     cursor: text;
 
-                    @include input-color(theme-input);
+                    @include inputColor(input);
                 }
             }
 
@@ -126,30 +115,13 @@
 
                     flex-grow: 1;
 
-                    &.refresh {
-                        @include click-button-color(theme-refresh-button);
-                    }
-                    &.reset {
-                        @include click-button-color(theme-reset-button);
-                    }
-                    &.save {
-                        @include click-button-color(theme-save-button);
-                    }
-                    &.load {
-                        @include click-button-color(theme-load-button);
-                    }
-                    &.delete {
-                        @include click-button-color(theme-delete-button);
-                    }
-                    &.resetAll {
-                        @include click-button-color(theme-reset-all-button);
-                    }
+                    @include clickButtonColor(click-button);
                 }
             }
         }
 
         .ruleContainer {
-            font-family: 'Monaco';
+            font-family: 'Hack';
             font-size: 0.75em;
 
             overflow: auto;
@@ -157,7 +129,7 @@
             color: var(--color-theme-text);
             background: var(--color-theme-rules-background);
 
-            @include webkit-scrollbar(theme-items-scrollbar, 0.5em);
+            @include webkitScrollbar(theme-items-scrollbar, 0.5em);
 
             * {
                 cursor: pointer;
@@ -166,8 +138,7 @@
             >div {
                 white-space: nowrap;
 
-                color: var(--color-theme-rules-item-text);
-                background-color: var(--color-theme-rules-item-background);
+                color: var(--color-theme-text);
 
                 span {
                     display: inline-block;

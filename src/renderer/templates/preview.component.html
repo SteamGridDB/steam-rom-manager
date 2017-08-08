@@ -1,3 +1,12 @@
+<div class="upperMenu" *ngIf="previewVariables.numberOfListItems > 0 && !previewVariables.listIsBeingGenerated">
+    <div class="imageCounter" *ngIf="previewVariables.numberOfQueriedImages">{{lang.remainingImages}} {{previewVariables.numberOfQueriedImages}}</div>
+    <div class="slider">
+        <input type="range" min="30" max="100" step="0.25" [ngModel]="appSettings.previewSettings.imageZoomPercentage" (input)="setImageSize($event.target.value)"
+            (ngModelChange)="setImageSize($event.target.value, true)" />
+        <div>{{appSettings.previewSettings.imageZoomPercentage | number : '1.0-2'}}%</div>
+    </div>
+    <input class="appFilter" [placeholder]="lang.filter" [(ngModel)]='filterValue' />
+</div>
 <div class="entries">
     <ng-container *ngFor="let steamDir of previewData | keys">
         <div class="directory" *ngVar="{ isHidden: false } as directory" [class.hidden]="directory.isHidden">
@@ -16,74 +25,67 @@
                         <span>{{previewData[steamDir][steamUser].username}}</span>
                     </div>
                     <div class="apps">
-                        <div class="app" *ngFor="let appID of previewData[steamDir][steamUser].apps | keys">
+                        <ng-container *ngFor="let appID of previewData[steamDir][steamUser].apps | keys">
                             <ng-container *ngVar="previewData[steamDir][steamUser].apps[appID] as app">
-                                <div class="topBar">
-                                    <div class="title" text-scroll>{{app.title}}</div>
-                                    <div class="exe" text-scroll>{{app.executableLocation}}</div>
-                                </div>
-                                <ng-container *ngIf="(app.currentImageIndex === -1 ? app.steamImage : app.images.value.content[app.currentImageIndex]) as image; else retrievingImages">
-                                    <ng-container *ngIf="image.loadStatus === 'notStarted'; else imagesFound">
-                                        <div class="image">{{loadImage(app)}}</div>
-                                    </ng-container>
-                                    <ng-template #imagesFound>
-                                        <div class="image" [ngClass]="{'spinnerMessage downloading': image.loadStatus === 'downloading', 'staticMessage failed': image.loadStatus === 'failed', 'littleSpinner': app.images.value.retrieving}" 
-                                        (click)="image.loadStatus === 'failed' ? loadImage(app) : null" [style.backgroundImage]="image.loadStatus === 'done' ? ('url(\'' + image.imageUrl + '\')' | safeStyle) : undefined">
-                                            <ng-container *ngIf="app.images.value.content.length > (app.steamImage ? 0 : 1)">
-                                                <div class="previousImage" (click)="previousImage(app)">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
-                                                        <polyline points="220,50 100,150 220,250" style="stroke-width:15; fill: none;" />
-                                                    </svg>
-                                                </div>
-                                                <div class="nextImage" (click)="nextImage(app)">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
-                                                        <polyline points="80,50 200,150 80,250" style="stroke-width:15; fill: none;" />
-                                                    </svg>
-                                                </div>
-                                            </ng-container>
-                                        </div>
-                                    </ng-template>
-                                    <div class="bottomBar">
-                                        <div>
+                                <div class="app" *ngIf="(app.title | fuzzyTest: filterValue)">
+                                    <div class="topBar">
+                                        <div class="title" text-scroll>{{app.title}}</div>
+                                        <div class="exe" text-scroll>{{app.executableLocation + ' ' + app.argumentString}}</div>
+                                    </div>
+                                    <ng-container *ngIf="(app.currentImageIndex === -1 ? app.steamImage : app.images.value.content[app.currentImageIndex]) as image; else retrievingImages">
+                                        <ng-container *ngIf="image.loadStatus === 'notStarted'; else imagesFound">
+                                            <div class="image">{{loadImage(app)}}</div>
+                                        </ng-container>
+                                        <ng-template #imagesFound>
+                                            <div class="image" [ngClass]="{'spinnerMessage downloading': image.loadStatus === 'downloading', 'staticMessage failed': image.loadStatus === 'failed', 'littleSpinner': app.images.value.retrieving}"
+                                                (click)="image.loadStatus === 'failed' ? loadImage(app) : null" [style.backgroundImage]="image.loadStatus === 'done' ? ('url(\'' + image.imageUrl + '\')' | safeStyle) : undefined"
+                                                [attr.data-msg]="image.loadStatus !== 'downloading' ? (image.loadStatus === 'failed' ? lang.downloadFailed : null) : lang.downloadingImage">
+                                                <ng-container *ngIf="app.images.value.content.length > (app.steamImage ? 0 : 1)">
+                                                    <div class="previousImage" (click)="previousImage(app)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
+                                                            <polyline points="220,50 100,150 220,250" style="stroke-width:15; fill: none;" />
+                                                        </svg>
+                                                    </div>
+                                                    <div class="nextImage" (click)="nextImage(app)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
+                                                            <polyline points="80,50 200,150 80,250" style="stroke-width:15; fill: none;" />
+                                                        </svg>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </ng-template>
+                                        <div class="bottomBar">
                                             <div class="provider" text-scroll>
-                                                {{'From ' + image.imageProvider}}
+                                                {{lang.from + ' ' + image.imageProvider}}
                                             </div>
                                             <div class="imageIndex">
                                                 {{(app.currentImageIndex + (app.steamImage ? 2 : 1)) + '/' + (app.images.value.content.length + (app.steamImage ? 1 : 0))}}
                                             </div>
-                                        </div>
-                                        <div>
-                                            <div class="uploader" text-scroll *ngIf="image.imageUploader">
-                                                {{'by ' + image.imageUploader}}
+                                            <div class="uploader" text-scroll>
+                                                {{image.imageUploader ? lang.by + ' ' + image.imageUploader : ''}}
                                             </div>
-                                            <div class="refresh" *ngIf="app.images.value.retrieving === false && appSettings.offlineMode === false">
-                                                <div (click)="refreshImages(app)">Refresh</div>
+                                            <div class="refresh" *ngIf="app.images.value.retrieving === false && appSettings.offlineMode === false" (click)="refreshImages(app)">
+                                                {{lang.refresh}}
                                             </div>
                                         </div>
-                                    </div>
-                                </ng-container>
-                                <ng-template #retrievingImages>
-                                    <div class="image" [ngClass]="{'spinnerMessage retrieving': app.images.value.retrieving, 'staticMessage notFound': !app.images.value.retrieving}"></div>
-                                </ng-template>
+                                    </ng-container>
+                                    <ng-template #retrievingImages>
+                                        <div class="image" [attr.data-msg]="app.images.value.retrieving ? lang.retrievingUrls : lang.noImages" [ngClass]="{'spinnerMessage retrieving': app.images.value.retrieving, 'staticMessage notFound': !app.images.value.retrieving}"></div>
+                                    </ng-template>
+                                </div>
                             </ng-container>
-                        </div>
+                        </ng-container>
                     </div>
                 </div>
             </ng-container>
         </div>
     </ng-container>
 </div>
-<div class="menu">
-    <div class="buttons">
-        <div class="generate clickButton" (click)="generatePreviewData()">Generate app list</div>
-        <ng-container *ngIf="previewVariables.numberOfListItems > 0 && !previewVariables.listIsUpdating">
-            <div class="save clickButton" (click)="save()">Save app list</div>
-            <div class="remove clickButton" (click)="remove()">Remove app list</div>
-        </ng-container>
-    </div>
-    <div class="slider" *ngIf="previewVariables.numberOfListItems > 0 && !previewVariables.listIsUpdating">
-        <input type="range" min="30" max="100" step="0.25" [value]="appSettings.previewSettings.imageZoomPercentage" (input)="setImageSize($event.target.value)"
-            (change)="setImageSize($event.target.value, true)" />
-        <div>{{appSettings.previewSettings.imageZoomPercentage | number : '1.0-2'}}%</div>
-    </div>
+<div class="lowerMenu">
+    <div (click)="generatePreviewData()">{{lang.generateAppList}}</div>
+    <ng-container *ngIf="previewVariables.numberOfListItems > 0 && !previewVariables.listIsBeingGenerated">
+        <div (click)="save()">{{lang.saveAppList}}</div>
+        <div class="dangerousButton" (click)="remove()">{{lang.removeAppList}}</div>
+        <div *ngIf="previewVariables.numberOfQueriedImages" (click)="stopImageRetrieving()">{{lang.stopUrlRetrieving}}</div>
+    </ng-container>
 </div>

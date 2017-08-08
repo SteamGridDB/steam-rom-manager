@@ -1,15 +1,16 @@
 import 'zone.js/dist/zone';
 import 'reflect-metadata';
+import '../shared/global/string-interpolation';
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app.module';
 
-import './styles/global.themes.scss';
-import './styles/global.fonts.scss';
-import './styles/global.main.scss';
+import './styles/themes.global.scss';
+import './styles/fonts.global.scss';
+import './styles/main.global.scss';
 
 if (process.env.NODE_ENV === 'production')
     enableProdMode();
 
-platformBrowserDynamic().bootstrapModule(AppModule);
+platformBrowserDynamic().bootstrapModule(AppModule);     

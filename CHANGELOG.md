@@ -1,8 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 2.1.0 - 2017-0X-XX
+## 2.1.0 - 2017-08-08
 ### Added
+* Ability to select image providers both globally and per user configuration.
+* Markdown support.
+* Info button for each field.
+* ConsoleGrid support (not dead, huh?).
+* App list instant filter field.
+* Multi-language support.
 * Proper `node-glob` patterns support for `glob` and `glob-regex` parsers:
     * `*` Matches 0 or more characters in a single path portion.
     * `?` Matches 1 character.
@@ -14,9 +20,23 @@ All notable changes to this project will be documented in this file.
     * `@(pattern|pat*|pat?erN)` Matches exactly one of the patterns provided
     * `**` If a "globstar" is alone in a path portion, then it matches zero or more directories and subdirectories searching for matches. It does not crawl symlinked directories.
 
+### Changed
+* `ng-select` now supports multi-select.
+* Invalid configurations can now be saved.
+* Each image provider now runs in their own instance of web worker.
+* Fuzzy matcher was split into 3 parts: loader, matcher and service.
+* Code font from "Monaco" to "Hack".
+* Instruction were rewritten in markdown.
+* Parser form no longer uses Angular's form module. A new "recursive" module is now used to create parser form.
+* Drastically reduced the amount of css variables.
+* Layout changed to support `CSS grid`.
+
 ### Fixed
 * `Observable` settings load logic bug.
 * Url encoding bug (issue #27).
+
+### Removed
+* Color picker module can no longer be accessed and is used for development only.
 
 ## 2.0.1 - 2017-06-12
 ### Fixed
@@ -48,7 +68,7 @@ All notable changes to this project will be documented in this file.
 * Properly show image url retrieve errors.
 
 ### Removed
-* Prefered image list is removed as it is impossible to implement with background image downloader.
+* Preferred image list is removed as it is impossible to implement with background image downloader.
 * ConsoleGrid support, because it's dead.
 * Greedy mode option.
 

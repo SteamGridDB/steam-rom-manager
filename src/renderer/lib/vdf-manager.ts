@@ -1,7 +1,8 @@
 import { VDFListData, VDFListFileData, PreviewData, PreviewDataApps } from "../models";
 import { Http, ResponseContentType, Headers } from '@angular/http';
 import { generateAppId } from "./steam-id-helpers";
-import { readJson, writeJson } from "./json-helpers";
+import { readJson, writeJson } from "../../shared/lib";
+import { gApp } from "../app.global";
 import * as glob from 'glob';
 import * as _ from "lodash";
 import * as path from 'path';
@@ -12,6 +13,10 @@ export class VdfManager {
     private listData: VDFListData = {};
 
     constructor(private http: Http) { }
+
+    private get lang() {
+        return gApp.lang.vdfManager;
+    }
 
     populateListFromPreviewData(previewData: PreviewData) {
         return Promise.resolve().then(() => {
@@ -37,7 +42,7 @@ export class VdfManager {
                 }
             }
             if (!userFound)
-                throw new Error("none of provided steam directories contained user directories.");
+                throw new Error(this.lang.error.noUsersFound);
         });
     }
 
@@ -73,15 +78,17 @@ export class VdfManager {
                     }
 
                     if (!userFound)
-                        throw new Error("none of provided steam directories contained user directories.");
+                        throw new Error(this.lang.error.noUsersFound);
                     else
                         resolve(errors);
                 }).catch((error) => {
-                    reject(new Error(`could not populate VDF list. ${error}`));
+                    reject(new Error(this.lang.error.couldNotPopulateList__i.interpolate({
+                        error: error
+                    })));
                 });
             }
             else {
-                reject(new Error('cannot populate list from empty directory list.'));
+                reject(new Error(this.lang.error.emptyDirectoryList));
             }
         });
     }
@@ -92,7 +99,7 @@ export class VdfManager {
                 if (error)
                     reject(error);
                 else if (folders.length === 0) {
-                    resolve({ data: null, error: `"${steamDirectory}" contains no user ids.` });
+                    resolve({ data: null, error: this.lang.error.noUserIdsInDir__i.interpolate({ steamDirectory: steamDirectory }) });
                 }
                 else {
                     let files: string[] = [];
@@ -135,7 +142,10 @@ export class VdfManager {
                         resolve();
                     }
                 } catch (error) {
-                    reject(new Error(`Error reading "${this.listData[steamDirectory][userId].shortcuts.path}". ${error}`));
+                    reject(new Error(this.lang.error.readingVdf__i.interpolate({
+                        filePath: this.listData[steamDirectory][userId].shortcuts.path,
+                        error: error
+                    })));
                 }
             });
         });
@@ -152,7 +162,10 @@ export class VdfManager {
                     resolve();
             });
         }).catch((error) => {
-            throw new Error(`Error writing "${this.listData[steamDirectory][userId].shortcuts.path}". ${error}`);
+            throw new Error(this.lang.error.writingVdf__i.interpolate({
+                filePath: this.listData[steamDirectory][userId].shortcuts.path,
+                error: error
+            }));
         });
     }
 
@@ -178,7 +191,10 @@ export class VdfManager {
                         resolve();
                     }
                 } catch (error) {
-                    reject(new Error(`Error reading "${this.listData[steamDirectory][userId].screenshots.path}". ${error}`));
+                    reject(new Error(this.lang.error.readingVdf__i.interpolate({
+                        filePath: this.listData[steamDirectory][userId].screenshots.path,
+                        error: error
+                    })));
                 }
             });
         });
@@ -195,42 +211,35 @@ export class VdfManager {
                     resolve();
             });
         }).catch((error) => {
-            throw new Error(`Error writing "${this.listData[steamDirectory][userId].screenshots.path}". ${error}`);
+            throw new Error(this.lang.error.writingVdf__i.interpolate({
+                filePath: this.listData[steamDirectory][userId].screenshots.path,
+                error: error
+            }));
         });
     }
 
     readAllVDFs() {
-        let promisePushed = false;
         let promises: Promise<any>[] = []
 
         for (let steamDirectory in this.listData) {
             for (let userId in this.listData[steamDirectory]) {
-                promisePushed = true;
                 promises.push(this.readShortcutsVDF(steamDirectory, userId));
                 promises.push(this.readScreenshotsVDF(steamDirectory, userId));
             }
         }
 
-        if (!promisePushed)
-            throw new Error(`could not read VDFs. The populated list is empty.`);
-
         return Promise.all(promises);
     }
 
     writeAllVDFs() {
-        let promisePushed = false;
         let promises: Promise<any>[] = []
 
         for (let steamDirectory in this.listData) {
             for (let userId in this.listData[steamDirectory]) {
-                promisePushed = true;
                 promises.push(this.writeShortcutsVDF(steamDirectory, userId));
                 promises.push(this.writeScreenshotsVDF(steamDirectory, userId));
             }
         }
-
-        if (!promisePushed)
-            throw new Error(`could not write VDFs. The populated list is empty.`);
 
         return Promise.all(promises);
     }
@@ -247,22 +256,19 @@ export class VdfManager {
     }
 
     createBackups() {
-        let promisePushed = false;
         let promises: Promise<void>[] = [];
         for (let steamDirectory in this.listData) {
             for (let userId in this.listData[steamDirectory]) {
                 let user = this.listData[steamDirectory][userId];
-                promisePushed = true;
                 promises.push(this.createBackup(user.screenshots.path, path.join(path.dirname(user.screenshots.path), 'screenshots.firstbackup')));
                 promises.push(this.createBackup(user.screenshots.path, path.join(path.dirname(user.screenshots.path), 'screenshots.backup'), true));
                 promises.push(this.createBackup(user.shortcuts.path, path.join(path.dirname(user.shortcuts.path), 'shortcuts.firstbackup')));
                 promises.push(this.createBackup(user.shortcuts.path, path.join(path.dirname(user.shortcuts.path), 'shortcuts.backup'), true));
             }
         }
-        if (!promisePushed)
-            throw new Error(`could not create backups. The populated list is empty.`);
+
         return Promise.all(promises).catch((error) => {
-            throw new Error(`could not create backups. ${error}`);
+            throw new Error(this.lang.error.creatingBackups__i.interpolate({ error: error }));
         });
     }
 
@@ -304,16 +310,16 @@ export class VdfManager {
                 (blob) => {
                     let ext: string | boolean = mimeTypes.extension(blob.type);
                     if (ext === false)
-                        resolve(`Entry title - ${data.title}. Error - mime type (${blob.type}) is unsupported.`);
+                        resolve(this.lang.error.unsupportedMimeType__i.interpolate({ type: blob.type, title: data.title }));
                     else {
                         toBuffer(blob, (error: Error, buffer: Buffer) => {
                             if (error)
-                                resolve(`Entry title - ${data.title}. ${error}`);
+                                resolve(this.lang.error.imageError__i.interpolate({ error: error, title: data.title }));
                             else {
                                 let gridDirectory: string = path.join(path.dirname(this.listData[steamDirectory][userId].shortcuts.path), 'grid');
                                 fs.outputFile(path.join(gridDirectory, data.appId + '.' + ext), buffer, (error) => {
                                     if (error)
-                                        resolve(`Entry title - ${data.title}. ${error}`);
+                                        resolve(this.lang.error.imageError__i.interpolate({ error: error, title: data.title }));
                                     else
                                         resolve();
                                 })
@@ -322,9 +328,9 @@ export class VdfManager {
                     }
                 },
                 (error) => {
-                    resolve(`Entry title - ${data.title}. ${error}`);
+                    resolve(this.lang.error.imageError__i.interpolate({ error: error, title: data.title }));
                 });
-        }).catch((error) => { throw new Error(`downloading image (${data.title}: ${data.url}). ${error}`) });
+        }).catch((error) => { throw new Error(this.lang.error.fatalImageError__i.interpolate({ error: error, title: data.title, url: data.url })) });
     }
 
     private removeImages(steamDirectory: string, userId: string, appIds: string[]) {
@@ -436,7 +442,7 @@ export class VdfManager {
                     let images = app.images.value.content;
 
                     if (images && images.length > 0) {
-                        if (imageIndex !== -1 && images[imageIndex] && images[imageIndex].imageUrl){
+                        if (imageIndex !== -1 && images[imageIndex] && images[imageIndex].imageUrl) {
                             imagesToRemove.push(appID);
                             imagesToAdd.push({ appId: appID, title: app.title, url: images[imageIndex].imageUrl });
                         }
@@ -455,20 +461,17 @@ export class VdfManager {
     }
 
     mergeVDFEntriesAndReplaceImages(previewData: PreviewData) {
-        let promisePushed = false;
         let promises: Promise<string[]>[] = [];
         for (let steamDirectory in this.listData) {
             for (let userId in this.listData[steamDirectory]) {
-                promisePushed = true;
                 promises.push(this.mergeEntriesAndImages(steamDirectory, userId, previewData[steamDirectory][userId].apps));
             }
         }
-        if (!promisePushed)
-            throw new Error(`could not merge entries and/or replace images. The populated list is empty.`);
+
         return Promise.all(promises).then((errors) => {
             return [].concat.apply([], errors);
         }).catch((error) => {
-            throw new Error(`could not merge entries and/or replace images. ${error}`);
+            throw new Error(this.lang.error.couldNotMergeEntries__i.interpolate({ error: error }));
         });;
     }
 
@@ -529,18 +532,15 @@ export class VdfManager {
     }
 
     removeVDFEntriesAndImages(previewData?: PreviewData) {
-        let promisePushed = false;
         let promises: Promise<void>[] = [];
         for (let steamDirectory in this.listData) {
             for (let userId in this.listData[steamDirectory]) {
-                promisePushed = true;
                 promises.push(this.removeEntriesAndImages(steamDirectory, userId, previewData ? previewData[steamDirectory][userId].apps : undefined));
             }
         }
-        if (!promisePushed)
-            throw new Error(`could not remove entries and/or images. The populated list is empty.`);
+
         return Promise.all(promises).catch((error) => {
-            throw new Error(`could not remove entries and/or images. ${error}`);
+            throw new Error(this.lang.error.couldNotRemoveEntries__i.interpolate({ error: error }));
         });;
     }
 }

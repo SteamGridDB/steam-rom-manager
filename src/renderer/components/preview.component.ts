@@ -1,7 +1,8 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Renderer2, ElementRef, RendererStyleFlags2 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { PreviewService, SettingsService } from "../services";
+import { PreviewService, SettingsService, ImageProviderService } from "../services";
 import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings } from "../models";
+import { gApp } from "../app.global";
 
 @Component({
     selector: 'preview',
@@ -14,8 +15,9 @@ export class PreviewComponent implements OnDestroy {
     private appSettings: AppSettings;
     private subscriptions: Subscription = new Subscription();
     private previewVariables: PreviewVariables;
+    private filterValue: string = '';
 
-    constructor(private previewService: PreviewService, private settingsService: SettingsService, private changeDetectionRef: ChangeDetectorRef, private renderer: Renderer2, private elementRef: ElementRef) {
+    constructor(private previewService: PreviewService, private settingsService: SettingsService, private imageProviderService: ImageProviderService, private changeDetectionRef: ChangeDetectorRef, private renderer: Renderer2, private elementRef: ElementRef) {
         this.previewData = this.previewService.getPreviewData();
         this.previewVariables = this.previewService.getPreviewVariables();
         this.subscriptions.add(this.previewService.getPreviewDataChange().subscribe(() => {
@@ -34,12 +36,18 @@ export class PreviewComponent implements OnDestroy {
     }
 
     ngAfterContentInit() {
-        if (this.previewVariables.numberOfListItems > 0 && !this.previewVariables.listIsUpdating)
+        if (this.previewVariables.numberOfListItems > 0 && !this.previewVariables.listIsBeingGenerated)
             this.setImageSize(this.appSettings.previewSettings.imageZoomPercentage);
     }
 
     ngOnDestroy() {
         this.subscriptions.unsubscribe();
+    }
+
+    get lang() { return gApp.lang.preview.component; }
+
+    private stopImageRetrieving(){
+        this.imageProviderService.instance.stopUrlDownload();
     }
 
     private save() {
@@ -56,7 +64,7 @@ export class PreviewComponent implements OnDestroy {
 
     private refreshImages(app: PreviewDataApp) {
         let propertyTree = app.images.tree;
-        this.previewService.downloadImageUrls([propertyTree[propertyTree.length - 1]]);
+        this.previewService.downloadImageUrls([propertyTree[propertyTree.length - 1]], app.imageProviders);
     }
 
     private previousImage(appID: PreviewDataApp) {
@@ -81,7 +89,7 @@ export class PreviewComponent implements OnDestroy {
 
             this.appSettings.previewSettings.imageZoomPercentage = value;
 
-            if (save){
+            if (save) {
                 this.settingsService.saveAppSettings();
             }
 

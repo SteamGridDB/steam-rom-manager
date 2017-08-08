@@ -1,4 +1,7 @@
 {
+    // Use IntelliSense to learn about possible Node.js debug attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
@@ -11,10 +14,9 @@
                 "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
             },
             "runtimeArgs": [
-                "--remote-debugging-port=9222"
+                "--remote-debugging-port=9222",
+                "${workspaceRoot}/dist/main.bundle.js"
             ],
-            "program": "${workspaceRoot}/dist/main.bundle.js",
-            "protocol": "inspector",
             "outFiles": [
                 "${workspaceRoot}/dist/**/*.js"
             ]
@@ -35,5 +37,5 @@
                 "Debug Renderer"
             ]
         }
-    ]
+]
 }

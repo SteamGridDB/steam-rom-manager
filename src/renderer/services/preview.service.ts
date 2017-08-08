@@ -4,8 +4,10 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { ParsersService } from './parsers.service';
 import { LoggerService } from './logger.service';
 import { SettingsService } from './settings.service';
-import { PreviewData, ImageContent, ParsedUserConfiguration, Images, PreviewVariables, PreferedImages, ImagesStatusAndContent, ProviderEvent, PreviewDataApp, AppSettings, SteamGridImageData } from '../models';
-import { Reference, ImageProvider, VdfManager, generateAppId } from "../lib";
+import { ImageProviderService } from './image-provider.service';
+import { PreviewData, ImageContent, ParsedUserConfiguration, Images, PreviewVariables, ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings, SteamGridImageData } from '../models';
+import { Reference, VdfManager, generateAppId } from "../lib";
+import { gApp } from "../app.global";
 import { queue } from 'async';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
@@ -13,29 +15,30 @@ import * as path from "path";
 
 @Injectable()
 export class PreviewService {
-    private imageProvider: ImageProvider;
     private appSettings: AppSettings;
-    private preferedImages: PreferedImages;
     private previewData: PreviewData;
     private previewVariables: PreviewVariables;
     private previewDataChanged: Subject<boolean>;
     private images: Images;
     private allEditedSteamDirectories: string[];
 
-    constructor(private parsersService: ParsersService, private loggerService: LoggerService, private settingsService: SettingsService, private http: Http) {
+    constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private settingsService: SettingsService, private http: Http) {
         this.previewData = undefined;
         this.previewVariables = {
             listIsBeingSaved: false,
-            listIsUpdating: false,
+            listIsBeingGenerated: false,
             listIsBeingRemoved: false,
             numberOfQueriedImages: 0,
             numberOfListItems: 0
         };
         this.previewDataChanged = new Subject<boolean>();
-        this.imageProvider = new ImageProvider(this.http, this.loggerService, this.settingsService);
         this.settingsService.onLoad((appSettings: AppSettings) => {
             this.appSettings = appSettings;
         });
+    }
+
+    get lang() {
+        return gApp.lang.preview.service;
     }
 
     getPreviewData() {
@@ -51,58 +54,58 @@ export class PreviewService {
     }
 
     generatePreviewData() {
-        if (this.previewVariables.listIsUpdating)
-            return this.loggerService.info('List is already updating. Please wait.', { invokeAlert: true, alertTimeout: 3000 });
+        if (this.previewVariables.listIsBeingGenerated)
+            return this.loggerService.info(this.lang.info.listIsBeingGenerated, { invokeAlert: true, alertTimeout: 3000 });
         else if (this.previewVariables.listIsBeingSaved)
-            return this.loggerService.info('Files are being saved. Please wait.', { invokeAlert: true, alertTimeout: 3000 });
+            return this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 });
         else if (this.previewVariables.listIsBeingRemoved)
-            return this.loggerService.info('Removing files. Please wait.', { invokeAlert: true, alertTimeout: 3000 });
+            return this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 });
 
-        this.previewVariables.listIsUpdating = true;
-        this.imageProvider.stopUrlDownload();
+        this.previewVariables.listIsBeingGenerated = true;
+        this.imageProviderService.instance.stopUrlDownload();
         this.generatePreviewDataCallback();
     }
 
     saveData() {
         if (this.previewVariables.listIsBeingSaved)
-            return this.loggerService.info('List is already being saved.', { invokeAlert: true, alertTimeout: 3000 });
+            return this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 });
         else if (this.previewVariables.numberOfListItems === 0)
-            return this.loggerService.info('List is empty.', { invokeAlert: true, alertTimeout: 3000 });
+            return this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 });
         else if (this.previewVariables.listIsBeingRemoved)
-            return this.loggerService.info('Removing files. Please wait.', { invokeAlert: true, alertTimeout: 3000 });
+            return this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 });
 
 
         this.previewVariables.listIsBeingSaved = true;
 
         let vdfManager = new VdfManager(this.http);
-        this.loggerService.info('Populating VDF list.', { invokeAlert: true, alertTimeout: 3000 });
+        this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
         vdfManager.populateListFromPreviewData(this.previewData).then(() => {
-            this.loggerService.info('Creating backups.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
             return vdfManager.createBackups();
         }).then(() => {
-            this.loggerService.info('Reading VDF files.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.info(this.lang.info.readingVDF_Files, { invokeAlert: true, alertTimeout: 3000 });
             return vdfManager.readAllVDFs();
         }).then(() => {
-            this.loggerService.info('Merging VDF entries and replacing image files.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
             return vdfManager.mergeVDFEntriesAndReplaceImages(this.previewData);
         }).then((errors) => {
             if (errors && errors.length) {
-                this.loggerService.error('Error(s) occurred while merging VDF files or downloading images.');
+                this.loggerService.error(this.lang.errors.mergingVDF_entries);
                 for (let i = 0; i < errors.length; i++)
                     this.loggerService.error(errors[i]);
             }
-            this.loggerService.info('Writing VDF files.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.info(this.lang.info.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
             return vdfManager.writeAllVDFs();
         }).then(() => {
-            this.loggerService.success('Updating a list of known Steam directories.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.success(this.lang.info.updatingKnownSteamDirList, { invokeAlert: true, alertTimeout: 3000 });
             let settings = this.settingsService.getSettings();
             settings.knownSteamDirectories = _.union(settings.knownSteamDirectories, Object.keys(this.previewData));
             this.settingsService.settingsChanged();
         }).then(() => {
-            this.loggerService.success('New entries saved/added.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
             this.previewVariables.listIsBeingSaved = false;
         }).catch((fatalError) => {
-            this.loggerService.error('Fatal error occurred while saving parsed list. See event log for details.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
             this.loggerService.error(fatalError);
             this.previewVariables.listIsBeingSaved = false;
         });
@@ -110,20 +113,20 @@ export class PreviewService {
 
     remove(all: boolean) {
         if (this.previewVariables.listIsBeingSaved)
-            return this.loggerService.info('Can\'t remove while list is being saved.', { invokeAlert: true, alertTimeout: 3000 });
+            return this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 });
         else if (this.previewVariables.numberOfListItems === 0 && !all)
-            return this.loggerService.info('List is empty.', { invokeAlert: true, alertTimeout: 3000 });
+            return this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 });
         else if (this.previewVariables.listIsBeingRemoved)
-            return this.loggerService.info('Already removing files.', { invokeAlert: true, alertTimeout: 3000 });
+            return this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 });
         else if (all && this.appSettings.knownSteamDirectories.length === 0)
-            return this.loggerService.info('A list of known Steam directories is empty.', { invokeAlert: true, alertTimeout: 3000 });
+            return this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 });
 
-        this.imageProvider.stopUrlDownload();
+        this.imageProviderService.instance.stopUrlDownload();
         this.previewDataChanged.next();
         this.previewVariables.listIsBeingRemoved = true;
 
         let vdfManager = new VdfManager(this.http);
-        this.loggerService.info('Populating VDF list.', { invokeAlert: true, alertTimeout: 3000 });
+        this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
         Promise.resolve().then(() => {
             if (all)
                 return vdfManager.populateListFromDirectoryList(this.appSettings.knownSteamDirectories);
@@ -131,26 +134,26 @@ export class PreviewService {
                 return vdfManager.populateListFromPreviewData(this.previewData).then(() => { return []; });
         }).then((errors) => {
             if (errors && errors.length) {
-                this.loggerService.error('Error(s) occurred while reading VDF files.');
+                this.loggerService.error(this.lang.errors.readingVDF_entries);
                 for (let i = 0; i < errors.length; i++)
                     this.loggerService.error(errors[i]);
             }
-            this.loggerService.info('Creating backups.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
             return vdfManager.createBackups();
         }).then(() => {
-            this.loggerService.info('Reading VDF files.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.info(this.lang.info.readingVDF_Files, { invokeAlert: true, alertTimeout: 3000 });
             return vdfManager.readAllVDFs();
         }).then(() => {
-            this.loggerService.info('Removing VDF entries and image files.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
             return vdfManager.removeVDFEntriesAndImages(all ? undefined : this.previewData);
         }).then((errors) => {
-            this.loggerService.info('Writing VDF files.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.info(this.lang.info.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
             return vdfManager.writeAllVDFs();
         }).then(() => {
-            this.loggerService.success('Entries have been removed.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
             this.previewVariables.listIsBeingRemoved = false;
         }).catch((fatalError) => {
-            this.loggerService.error('Fatal error occurred while removing list. See event log for details.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
             this.loggerService.error(fatalError);
             this.previewVariables.listIsBeingRemoved = false;
         });
@@ -161,7 +164,10 @@ export class PreviewService {
             let image = app.images.value.content[app.currentImageIndex];
             if (image && (image.loadStatus === 'notStarted' || image.loadStatus === 'failed')) {
                 if (image.loadStatus === 'failed') {
-                    this.loggerService.error(`Retrying to download "${image.imageUrl}" for "${app.title}".`);
+                    this.loggerService.info(this.lang.info.retryingDownload__i.interpolate({
+                        imageUrl: image.imageUrl,
+                        appTitle: app.title
+                    }));
                 }
 
                 image.loadStatus = 'downloading';
@@ -173,7 +179,10 @@ export class PreviewService {
                     this.previewDataChanged.next();
                 };
                 imageLoader.onerror = () => {
-                    this.loggerService.error(`"${image.imageUrl}" failed to download for "${app.title}".`);
+                    this.loggerService.error(this.lang.errors.retryingDownload__i.interpolate({
+                        imageUrl: image.imageUrl,
+                        appTitle: app.title
+                    }));
                     image.loadStatus = 'failed';
                     this.previewDataChanged.next();
                 };
@@ -225,34 +234,36 @@ export class PreviewService {
         }
         else {
             this.previewData = undefined;
-            this.loggerService.info('Executing parsers.', { invokeAlert: true });
+            this.loggerService.info(this.lang.info.executingParsers, { invokeAlert: true });
             this.parsersService.executeFileParser().then((data) => {
                 if (data.skipped.length > 0) {
-                    this.loggerService.info(`${data.skipped.length} user configuration(-s) was/were skipped (disabled by user).`, { invokeAlert: true, doNotAppendToLog: true, alertTimeout: 3000 });
-                    this.loggerService.info(`${data.skipped.length} user configuration(-s) was/were skipped (disabled by user):`);
+                    this.loggerService.info(this.lang.info.disabledConfigurations__i.interpolate({
+                        count: data.skipped.length
+                    }), { invokeAlert: true, alertTimeout: 3000 });
                     for (let i = 0; i < data.skipped.length; i++) {
                         this.loggerService.info(data.skipped[i]);
                     }
                 }
 
                 if (data.invalid.length > 0) {
-                    this.loggerService.info(`${data.invalid.length} user configuration(-s) was/were skipped (invalid).`, { invokeAlert: true, doNotAppendToLog: true, alertTimeout: 3000 });
-                    this.loggerService.info(`${data.invalid.length} user configuration(-s) was/were skipped (invalid):`);
+                    this.loggerService.info(this.lang.info.invalidConfigurations__i.interpolate({
+                        count: data.invalid.length
+                    }), { invokeAlert: true, alertTimeout: 3000 });
                     for (let i = 0; i < data.invalid.length; i++) {
                         this.loggerService.info(data.invalid[i]);
                     }
                 }
 
                 if (data.parsedData.length > 0) {
-                    this.loggerService.info('Please shutdown Steam if it is running when saving, otherwise it might not save correctly.', { invokeAlert: true, alertTimeout: 5000 });
+                    this.loggerService.info(this.lang.info.shutdownSteam, { invokeAlert: true, alertTimeout: 3000 });
                     this.images = {};
                     return this.createPreviewData(data.parsedData);
                 }
                 else if (data.invalid.length === 0 && data.skipped.length === 0) {
                     if (this.parsersService.getUserConfigurationsArray().length === 0)
-                        this.loggerService.info('Please create parser configuration in "Parsers" menu first.', { invokeAlert: true });
+                        this.loggerService.info(this.lang.info.noParserConfigurations, { invokeAlert: true, alertTimeout: 3000 });
                     else
-                        this.loggerService.info('Parser(-s) found no files matching user configuration.', { invokeAlert: true });
+                        this.loggerService.info(this.lang.info.parserFoundNoFiles, { invokeAlert: true, alertTimeout: 3000 });
                 }
             }).then((previewData) => {
                 if (previewData && previewData.numberOfItems > 0) {
@@ -264,13 +275,12 @@ export class PreviewService {
                     this.previewVariables.numberOfListItems = 0;
                 }
 
-                this.previewVariables.listIsUpdating = false;
+                this.previewVariables.listIsBeingGenerated = false;
                 this.previewDataChanged.next();
             }).catch((error) => {
-                this.loggerService.error('Error occurred while parsing configurations. See event log for details.', { invokeAlert: true, doNotAppendToLog: true });
-                this.loggerService.error('Error occurred while parsing configurations:');
+                this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
                 this.loggerService.error(error);
-                this.previewVariables.listIsUpdating = false;
+                this.previewVariables.listIsBeingGenerated = false;
                 this.previewDataChanged.next();
             });
         }
@@ -363,12 +373,16 @@ export class PreviewService {
                             this.images[file.fuzzyTitle] = {
                                 retrieving: false,
                                 searchQueries: file.onlineImageQueries,
+                                defaultImageProviders: config.imageProviders,
                                 content: []
                             };
                         }
                         else {
                             let currentQueries = this.images[file.fuzzyTitle].searchQueries;
+                            let currentProviders = this.images[file.fuzzyTitle].defaultImageProviders;
+
                             this.images[file.fuzzyTitle].searchQueries = _.union(currentQueries, file.onlineImageQueries);
+                            this.images[file.fuzzyTitle].defaultImageProviders = _.union(currentProviders, config.imageProviders);
                         }
 
                         if (previewData[config.steamDirectory][userAccount.accountID].apps[appID] === undefined) {
@@ -378,6 +392,7 @@ export class PreviewService {
                             numberOfItems++;
                             previewData[config.steamDirectory][userAccount.accountID].apps[appID] = {
                                 steamCategories: config.steamCategories,
+                                imageProviders: config.imageProviders,
                                 argumentString: file.argumentString,
                                 title: file.fuzzyFinalTitle,
                                 steamImage: steamImage ? {
@@ -411,65 +426,92 @@ export class PreviewService {
 
     downloadImageUrls(imageKeys?: string[], imageProviders?: string[]) {
         if (!this.appSettings.offlineMode) {
+            let allImagesRetrieved = true;
             let imageQueue = queue((task, callback) => callback());
 
             if (imageKeys === undefined || imageKeys.length === 0) {
                 imageKeys = Object.keys(this.images);
             }
 
-            if (imageProviders === undefined || imageProviders.length === 0) {
-                imageProviders = this.imageProvider.getAvailableProviders();
-            }
-
             for (let i = 0; i < imageKeys.length; i++) {
                 let image = this.images[imageKeys[i]];
+                let imageProvidersForKey: string[] = imageProviders === undefined || imageProviders.length === 0 ? image.defaultImageProviders : imageProviders;
+
+                imageProvidersForKey = _.intersection(this.appSettings.enabledProviders, imageProvidersForKey);
 
                 if (image !== undefined && !image.retrieving) {
-                    let numberOfQueriesForImageKey = 0;
+                    let numberOfQueriesForImageKey = image.searchQueries.length * imageProvidersForKey.length;
 
-                    image.retrieving = true;
-
-                    for (let j = 0; j < image.searchQueries.length; j++) {
-                        numberOfQueriesForImageKey = 1 * imageProviders.length;
+                    if (numberOfQueriesForImageKey > 0) {
+                        image.retrieving = true;
+                        allImagesRetrieved = false;
                         this.previewVariables.numberOfQueriedImages += numberOfQueriesForImageKey;
-                        this.imageProvider.retrieveUrls(image.searchQueries[j], imageProviders, (event: ProviderEvent, data: any) => {
-                            switch (event) {
-                                case ProviderEvent.error:
-                                    this.loggerService.error(data);
-                                    break;
-                                case ProviderEvent.timeout:
-                                    this.loggerService.info(data, { invokeAlert: true, alertTimeout: 3000 });
-                                    break;
-                                case ProviderEvent.success:
-                                    imageQueue.push(null, (error) => {
-                                        if (error) {
-                                            this.loggerService.error(`Error encountered while queing image array. ${error}`);
+
+                        for (let j = 0; j < image.searchQueries.length; j++) {
+                            this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], imageProvidersForKey, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
+                                switch (event) {
+                                    case 'error':
+                                        {
+                                            let errorData = (data as ProviderCallbackEventMap['error']);
+                                            if (typeof errorData.error === 'number') {
+                                                this.loggerService.error(this.lang.errors.providerError__i.interpolate({
+                                                    provider: errorData.provider,
+                                                    code: errorData.error,
+                                                    title: errorData.title,
+                                                    url: errorData.url
+                                                }));
+                                            }
+                                            else {
+                                                this.loggerService.error(this.lang.errors.unknownProviderError__i.interpolate({
+                                                    provider: errorData.provider,
+                                                    title: errorData.title,
+                                                    error: errorData.error
+                                                }));
+                                            }
                                         }
-                                        else {
-                                            let newImage = this.addUniqueImage(imageKeys[i], data);
+
+                                        break;
+                                    case 'timeout':
+                                        {
+                                            let timeoutData = (data as ProviderCallbackEventMap['timeout']);
+                                            this.loggerService.info(this.lang.info.providerTimeout__i.interpolate({
+                                                time: timeoutData.time,
+                                                provider: timeoutData.provider
+                                            }), { invokeAlert: true, alertTimeout: 3000 });
+                                        }
+                                        break;
+                                    case 'image':
+                                        imageQueue.push(null, () => {
+                                            let newImage = this.addUniqueImage(imageKeys[i], (data as ProviderCallbackEventMap['image']).content);
                                             if (newImage !== null && this.appSettings.previewSettings.preload)
                                                 this.preloadImage(newImage);
 
                                             this.previewDataChanged.next();
+                                        });
+                                        break;
+                                    case 'completed':
+                                        {
+                                            if (--numberOfQueriesForImageKey === 0) {
+                                                image.retrieving = false;
+                                            }
+                                            if (--this.previewVariables.numberOfQueriedImages === 0) {
+                                                this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
+                                            }
+                                            this.previewDataChanged.next();
                                         }
-                                    });
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }, (title: string) => {
-                            if (--numberOfQueriesForImageKey === 0) {
-                                image.retrieving = false;
-                                this.previewDataChanged.next();
-                            }
-                            if (--this.previewVariables.numberOfQueriedImages === 0) {
-                                this.loggerService.info(`All available image urls retrieved.`, { invokeAlert: true, alertTimeout: 3000 });
-                            }
-                        });
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            });
+                        }
                     }
                 }
             }
             this.previewDataChanged.next();
+            if (allImagesRetrieved) {
+                this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
+            }
         }
         else
             this.previewDataChanged.next();

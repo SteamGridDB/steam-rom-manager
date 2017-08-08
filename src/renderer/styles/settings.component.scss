@@ -1,68 +1,65 @@
 @import 'mixins';
 
 :host {
-    display: flex;
-    overflow: auto;
-    flex-direction: column;
-    flex: 1;
+	overflow: auto;
 
-    padding: 1em;
+	padding: 1em;
 
-    background-color: var(--color-settings-background);
+	background-color: var(--color-settings-background);
 
-    label {
-        display: flex;
+	grid-area: route;
 
-        margin: 0.75em 0 0.25em 0;
+	label {
+		display: flex;
 
-        color: var(--color-parsers-label);
-        &:first-child {
-            margin: 0 0 0.25em 0;
-        }
-    }
+		margin: 0.75em 0 0.25em 0;
 
-    .inputContainer {
-        display: flex;
+		color: var(--color-settings-text);
+		&:first-child {
+			margin: 0 0 0.25em 0;
+		}
+	}
 
-        &.clickButton {
-            flex-direction: column;
+	.inputContainer {
+		display: flex;
+		flex-direction: column;
 
-            margin: 0.75em 0 0.25em 1em;
+		margin: 0.25em 0 0.25em 0;
+		padding-left: 1em;
 
-            align-items: flex-start;
+		.inlineGroup {
+			display: flex;
 
-            >div {
-                font-family: 'Roboto';
+			align-items: center;
+		}
 
-                display: inline-flex;
+		.text {
+			color: var(--color-settings-text);
+		}
 
-                margin: 0.25em 0;
-                padding: 0.2em 0.5em;
+		.ngToggleButton {
+			font-size: 1em;
 
-                cursor: pointer;
-                user-select: none;
+			margin: 0.25em 0 0.25em 0;
 
-                border: 1px solid;
+			@include ngToggleButtonColor(ng-toggle-button);
+		}
 
-                align-items: center;
+		.clickButton {
+			@include button();
+		}
 
-                &.removeButton {
-                    @include click-button-color(settings-dangerous-button, true);
-                }
-            }
-        }
+		.dangerousButton {
+			@include clickButtonColor(dangerous-click-button, true);
+		}
 
-        &.ngToggleButton {
-            flex-direction: column;
+		.ngSelect {
+			display: inline-flex;
 
-            margin: 0.75em 0 0.25em 1em;
-            ng-toggle-button {
-                font-size: 1em;
+			max-width: 15em;
 
-                margin: 0.25em 0;
-
-                @include ng-toggle-button-color(settings-toggle-button);
-            }
-        }
-    }
+			@include ngSelectColor(ng-select);
+			@include ngSelect();
+		}
+	}
 }

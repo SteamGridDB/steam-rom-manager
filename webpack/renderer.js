@@ -23,21 +23,26 @@ let clientConfig = {
     module: {
         rules: [
             {
+                test: /worker\.ts$/i,
+                use: ['worker-loader?inline&fallback=false', 'awesome-typescript-loader']
+            },
+            {
                 test: /\.ts$/i,
+                exclude: /worker\.ts$/i,
                 use: ['awesome-typescript-loader', 'angular2-template-loader']
             },
             {
-                test: /global\..+\.scss$/i,
+                test: /global\.scss$/i,
                 loader: GlobalStyle.extract(['css-loader?importLoaders=2', 'postcss-loader', 'sass-loader'])
             },
             {
                 test: /\.scss$/,
-                exclude: /global\..+\.scss$/i,
+                exclude: /global\.scss$/i,
                 use: ['to-string-loader', 'css-loader?importLoaders=2', 'postcss-loader', 'sass-loader']
             },
             {
                 test: /\.(gif|png|jpe?g|svg)$/i,
-                use: 'file-loader?name=images/[name].[ext]&publicPath=../'
+                use: 'file-loader?name=images/[name].[ext]'
             },
             {
                 test: /\.(ttf|eot|svg|woff|woff2)$/i,
@@ -46,6 +51,14 @@ let clientConfig = {
             {
                 test: /\.html$/i,
                 use: 'html-loader'
+            },
+            {
+                test: /\.md$/i,
+                use: [
+                    'raw-loader',
+                    'nested-require-loader?rawString=true',
+                    helpers.root('webpack', 'markdown.js')
+                ]
             }
         ]
     },

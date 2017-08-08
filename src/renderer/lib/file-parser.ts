@@ -1,9 +1,10 @@
 import { Parser, UserConfiguration, GenericParser, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData } from '../models';
 import { Http } from '@angular/http';
-import { FuzzyMatcher } from "./fuzzy-matcher";
+import { FuzzyListLoader } from "./fuzzy-list-loader";
 import { getAvailableLogins } from "./steam-id-helpers";
-import { LoggerService, SettingsService } from "./../services";
+import { FuzzyService } from "./../services";
 import { VariableParser } from "./variable-parser";
+import { gApp } from "../app.global";
 import * as GenericParsers from './parsers';
 import * as _ from 'lodash';
 import * as glob from 'glob';
@@ -12,17 +13,18 @@ import * as fs from 'fs-extra';
 
 export class FileParser {
     private availableParsers: { [key: string]: GenericParser };
-    private fuzzyMatcher: FuzzyMatcher;
 
-    constructor(private http: Http, private loggerService: LoggerService, private settingsService: SettingsService) {
+    constructor(private fuzzyService: FuzzyService) {
         this.availableParsers = {};
 
         for (let key in GenericParsers) {
             let parser = (GenericParsers[key].prototype as GenericParser);
             this.availableParsers[parser.getParser().title] = parser;
         }
+    }
 
-        this.fuzzyMatcher = new FuzzyMatcher(this.http, this.loggerService, this.settingsService);
+    private get lang() {
+        return gApp.lang.fileParser;
     }
 
     getAvailableParsers() {
@@ -39,15 +41,12 @@ export class FileParser {
 
     executeFileParser(configs: UserConfiguration[]) {
         return new Promise<ParsedUserConfiguration[]>((resolve, reject) => {
-            let fuzzyMatchIsNeeded: boolean = false;
             let steamDirectories: string[] = [];
             let steamDirectoryAccounts: { [directory: string]: userAccountData[] } = {};
             let parsedConfigs: ParsedUserConfiguration[] = [];
             let promises: Promise<ParsedData>[] = [];
             for (let i = 0; i < configs.length; i++) {
                 let parser = this.getParser(configs[i].parserType);
-                if (configs[i].fuzzyMatch.use)
-                    fuzzyMatchIsNeeded = true;
 
                 if (steamDirectories.indexOf(configs[i].steamDirectory) === -1)
                     steamDirectories.push(configs[i].steamDirectory);
@@ -64,12 +63,9 @@ export class FileParser {
                     promises.push(this.availableParsers[configs[i].parserType].execute(configs[i]));
                 }
                 else
-                    return reject(`Parser "${configs[i].parserType}" not found!`);
+                    return reject(new Error(this.lang.error.parserNotFound__i.interpolate({ name: configs[i].parserType })));
             }
             Promise.resolve().then(() => {
-                if (fuzzyMatchIsNeeded && (!this.fuzzyMatcher.isPrepared() || !this.fuzzyMatcher.isReady()))
-                    return this.fuzzyMatcher.prepare();
-            }).then(() => {
                 if (steamDirectories.length) {
                     let availableLogins: Promise<userAccountData[]>[] = [];
                     for (let i = 0; i < steamDirectories.length; i++) {
@@ -86,14 +82,18 @@ export class FileParser {
                 Promise.all(promises).then((data: ParsedDataWithFuzzy[]) => {
                     let localImagePromises: Promise<any>[] = [];
                     for (let i = 0; i < configs.length; i++) {
+                        if (data[i].success.length === 0)
+                            continue;
+
                         if (configs[i].fuzzyMatch.use)
-                            this.fuzzyMatcher.fuzzyMatchParsedData(data[i], configs[i].fuzzyMatch.removeCharacters, configs[i].fuzzyMatch.removeBrackets);
+                            this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data[i], configs[i].fuzzyMatch.removeCharacters, configs[i].fuzzyMatch.removeBrackets);
 
                         let userFilter = this.parseVariableString(configs[i].userAccounts.specifiedAccounts);
                         let filteredAccounts = this.filterUserAccounts(steamDirectoryAccounts[configs[i].steamDirectory], userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir);
 
                         parsedConfigs.push({
                             steamCategories: this.parseVariableString(configs[i].steamCategory),
+                            imageProviders: configs[i].imageProviders,
                             foundUserAccounts: filteredAccounts.found,
                             missingUserAccounts: filteredAccounts.missing,
                             steamDirectory: configs[i].steamDirectory,
@@ -119,6 +119,7 @@ export class FileParser {
                             let lastFile = parsedConfigs[i].files[parsedConfigs[i].files.length - 1];
                             lastFile.onlineImageQueries = this.parseVariableString(this.replaceConstants(configs[i].onlineImageQueries, configs[i], lastFile), true);
                         }
+
                         parsedConfigs[i].failed = _.cloneDeep(data[i].failed);
 
                         this.parseExecutableArgs(configs[i], parsedConfigs[i]);
@@ -139,7 +140,7 @@ export class FileParser {
     private parseVariableString(input: string, uniqueOnly: boolean = false) {
         let vParser = new VariableParser('${', '}', input);
         let parsedData = vParser.isValid() ? _.pull(vParser.getContents(true), '') : [];
-        if (uniqueOnly){
+        if (uniqueOnly) {
             return _.uniq(parsedData);
         }
         else

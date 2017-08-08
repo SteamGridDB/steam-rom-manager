@@ -1,7 +1,4 @@
-export interface FuzzyListTimestamps {
-    check: number,
-    download: number
-}
+import { FuzzyListTimestamps } from "./fuzzy.model";
 
 export interface PreviewSettings {
     imageZoomPercentage: number,
@@ -14,7 +11,9 @@ export interface AppSettings {
         verbose: boolean,
         filterProviders: boolean
     },
+    language: string,
     offlineMode: boolean,
+    enabledProviders: string[],
     previewSettings: PreviewSettings,
     knownSteamDirectories: string[]
 }

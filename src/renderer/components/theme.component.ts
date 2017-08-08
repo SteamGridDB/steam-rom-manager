@@ -1,6 +1,6 @@
-import { Component, OnInit, ElementRef, QueryList, ViewChildren, ViewChild, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, ElementRef, QueryList, ViewChildren, ViewChild, ChangeDetectionStrategy, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { DraggableDirective } from '../directives';
-import { ThemeManager } from "../../shared/theme-manager";
+import { ThemeManager } from "../../shared/lib";
 import { LoggerService } from '../services';
 import * as fs from 'fs-extra';
 import * as paths from "../../shared/paths";
@@ -12,7 +12,7 @@ import { Subscription } from "rxjs";
     template: `
         <div [ng-draggable]="{ dragLimit: 'none' }" [class.loading]="stateVariables.loadingTheme">
             <div class="colorPickerContainer">
-                <span class="colorPicker" [colorPicker]="currentColor" (colorPickerChange)="onColorChange($event)" [cpDialogDisplay]="'inline'" [cpToggle]="showThemePicker"></span>
+                <span class="colorPicker" [colorPicker]="currentColor" (colorPickerChange)="onColorChange($event)" [cpDialogDisplay]="'inline'" [cpOutputFormat]="'rgba'" [cpAlphaChannel]="'always'" [cpToggle]="showThemePicker"></span>
             </div>
             <div class="menu">
                 <div class="themeContainer" [class.empty]="availableThemes.length === 0">
@@ -63,7 +63,7 @@ export class ThemeComponent implements OnInit {
     @ViewChild(DraggableDirective) themePicker: DraggableDirective;
     @Input() themeInput: string;
 
-    constructor(private loggerService: LoggerService) { }
+    constructor(private loggerService: LoggerService, private changeRef: ChangeDetectorRef) { }
 
     private selectKey(key: string) {
         let colorValue = document.documentElement.style.getPropertyValue('--color-' + key);
@@ -216,7 +216,7 @@ export class ThemeComponent implements OnInit {
     }
 
     private hotkeys(event: KeyboardEvent) {
-        if (this.themePicker) {
+        if (this.themePicker && process.env.NODE_ENV !== 'production') {
             if (event.key === 'c' && event.altKey) {
                 this.showThemePicker = !this.showThemePicker;
             }

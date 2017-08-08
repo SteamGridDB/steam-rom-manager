@@ -1,8 +1,12 @@
 :host {
-    display: flex;
+    display: table-row;
+    
+    .cell {
+        display: table-cell;
 
-    cursor: pointer;
-    user-select: none;
+        cursor: pointer;
+        user-select: none;
 
-    background-color: white;
+        background-color: white;
+    }
 }

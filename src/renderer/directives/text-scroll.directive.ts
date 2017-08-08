@@ -1,7 +1,7 @@
 import { Directive, HostListener, ElementRef, OnDestroy } from '@angular/core';
 
 @Directive({
-    selector: '[text-scroll]',
+    selector: '[text-scroll]'
 })
 export class TextScrollDirective implements OnDestroy {
     private element: HTMLElement;

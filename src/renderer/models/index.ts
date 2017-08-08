@@ -8,3 +8,7 @@ export * from './image-providers.model';
 export * from './settings.model';
 export * from './steam-id-helpers.model';
 export * from './variable-parser.model';
+export * from './recursive-form.model';
+export * from './app.model';
+export * from './fuzzy.model';
+export * from './x-request.model';

@@ -18,6 +18,7 @@ export interface UserConfiguration {
         removeBrackets: boolean
     },
     onlineImageQueries: string,
+    imageProviders: string[],
     executableArgs: string,
     appendArgsToExecutable: boolean,
     localImages: string,
@@ -41,6 +42,7 @@ export interface ParsedUserConfigurationFile {
 
 export interface ParsedUserConfiguration {
     steamCategories: string[],
+    imageProviders: string[],
     steamDirectory: string,
     foundUserAccounts: userAccountData[],
     missingUserAccounts: string[],
@@ -67,15 +69,6 @@ export interface ParsedData {
     success: {
         filePath: string,
         extractedTitle: string
-    }[],
-    failed: string[]
-}
-
-export interface ParsedDataWithFuzzy {
-    success: {
-        filePath: string,
-        extractedTitle: string,
-        fuzzyTitle: string
     }[],
     failed: string[]
 }

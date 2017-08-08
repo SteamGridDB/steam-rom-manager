@@ -23,7 +23,7 @@ let clientConfig = {
             }
         ]
     },
-    node:{
+    node: {
         __dirname: false
     }
 };
@@ -33,8 +33,8 @@ let developmentConfig = {
     performance: {
         hints: false
     },
-    output:{
-        devtoolModuleFilenameTemplate: function(info){
+    output: {
+        devtoolModuleFilenameTemplate: function (info) {
             return "file:///" + encodeURI(info.absoluteResourcePath);
         }
     }
