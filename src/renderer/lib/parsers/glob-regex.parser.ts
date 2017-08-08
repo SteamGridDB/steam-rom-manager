@@ -24,13 +24,13 @@ interface TitleTagData {
 export class GlobRegexParser implements GenericParser {
     getParser(): Parser {
         return {
-            title:  this.lang.title,
+            title: this.lang.title,
             info: this.lang.docs__md.self.join(''),
             inputs: {
                 'glob-regex': {
-                    label:  this.lang.inputTitle,
+                    label: this.lang.inputTitle,
                     validationFn: this.validate.bind(this),
-                    info:  this.lang.docs__md.input.join('')
+                    info: this.lang.docs__md.input.join('')
                 }
             }
         };
@@ -205,28 +205,29 @@ export class GlobRegexParser implements GenericParser {
             file = fileSections[titleData.depth.direction === 'right' ? fileSections.length - (titleData.depth.level + 1) : titleData.depth.level];
         }
 
-        let titleMatch = file.match(titleData.titleRegex.regex);
-        if (titleMatch !== null && titleMatch[titleData.titleRegex.pos]) {
-            if (titleData.globRegex.replaceText.length > 0) {
-                return titleMatch[titleData.titleRegex.pos].replace(titleData.globRegex.regex, titleData.globRegex.replaceText).replace(/\//g, path.sep).trim();
-            }
-            else {
-                titleMatch = titleMatch[titleData.titleRegex.pos].match(titleData.globRegex.regex);
-                if (titleMatch !== null) {
-                    let title: string = '';
-                    for (let i = 1; i < titleMatch.length; i++) {
-                        if (titleMatch[i])
-                            title += titleMatch[i];
+        if (file !== undefined) {
+            let titleMatch = file.match(titleData.titleRegex.regex);
+            if (titleMatch !== null && titleMatch[titleData.titleRegex.pos]) {
+                if (titleData.globRegex.replaceText.length > 0) {
+                    return titleMatch[titleData.titleRegex.pos].replace(titleData.globRegex.regex, titleData.globRegex.replaceText).replace(/\//g, path.sep).trim();
+                }
+                else {
+                    titleMatch = titleMatch[titleData.titleRegex.pos].match(titleData.globRegex.regex);
+                    if (titleMatch !== null) {
+                        let title: string = '';
+                        for (let i = 1; i < titleMatch.length; i++) {
+                            if (titleMatch[i])
+                                title += titleMatch[i];
+                        }
+                        if (title.length === 0)
+                            return titleMatch[0].replace(/\//g, path.sep).trim();
+                        else
+                            return title.replace(/\//g, path.sep).trim();
                     }
-                    if (title.length === 0)
-                        return titleMatch[0].replace(/\//g, path.sep).trim();
-                    else
-                        return title.replace(/\//g, path.sep).trim();
                 }
             }
         }
-        else
-            return undefined;
+        return undefined;
     }
 
     private extractTitles(titleData: TitleTagData, directory: string, files: string[]) {
@@ -254,7 +255,7 @@ export class GlobRegexParser implements GenericParser {
                 });
             }
             else
-                reject('Invalid "glob-regex" input!');
+                throw new Error('invalid "glob-regex" input!');
         });
     }
 }
