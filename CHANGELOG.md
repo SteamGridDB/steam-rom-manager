@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 * Initial image size would remain at 40% if preview menu was opened without an already generated list.
+* Image size would not save if user exists app in preview menu.
 
 ## 2.1.0 - 2017-08-08
 ### Added

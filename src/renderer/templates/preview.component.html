@@ -1,8 +1,8 @@
 <div class="upperMenu" *ngIf="previewVariables.numberOfListItems > 0 && !previewVariables.listIsBeingGenerated">
     <div class="imageCounter" *ngIf="previewVariables.numberOfQueriedImages">{{lang.remainingImages}} {{previewVariables.numberOfQueriedImages}}</div>
     <div class="slider">
-        <input type="range" min="30" max="100" step="0.25" [ngModel]="appSettings.previewSettings.imageZoomPercentage" (input)="setImageSize($event.target.value)"
-            (ngModelChange)="setImageSize($event.target.value, true)" />
+        <input type="range" min="30" max="100" step="0.25" [value]="appSettings.previewSettings.imageZoomPercentage" (input)="setImageSize($event.target.value)"
+            (change)="setImageSize($event.target.value, true)" />
         <div>{{appSettings.previewSettings.imageZoomPercentage | number : '1.0-2'}}%</div>
     </div>
     <input class="appFilter" [placeholder]="lang.filter" [(ngModel)]='filterValue' />
