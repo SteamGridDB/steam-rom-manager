@@ -4,7 +4,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 
 ## Examples
 
-Here you can find examples provided by `HEspoke`{.noWrap} and `NicholasNRG`{.noWrap}.
+Here you can find examples provided by `HEspoke`{.noWrap}, `NicholasNRG`{.noWrap} and `FrogTheFrog`{.noWrap}.
 
 ### RetroArch
 
@@ -61,6 +61,18 @@ Here you can find examples provided by `HEspoke`{.noWrap} and `NicholasNRG`{.noW
 
 ```
 "${filePath}" -gen -auto -fullscreen
+```
+
+### Project64 (N64)
+
+```
+"${filePath}"
+```
+
+### Nestopia (NES/Famicom)
+
+```
+"${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen on start : yes -view size fullscreen : stretched 
 ```
 
 ## What does "Append arguments to executable" do?
