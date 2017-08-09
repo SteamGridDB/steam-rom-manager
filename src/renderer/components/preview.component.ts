@@ -36,8 +36,7 @@ export class PreviewComponent implements OnDestroy {
     }
 
     ngAfterContentInit() {
-        if (this.previewVariables.numberOfListItems > 0 && !this.previewVariables.listIsBeingGenerated)
-            this.setImageSize(this.appSettings.previewSettings.imageZoomPercentage);
+        this.setImageSize(this.appSettings.previewSettings.imageZoomPercentage);
     }
 
     ngOnDestroy() {
@@ -46,7 +45,7 @@ export class PreviewComponent implements OnDestroy {
 
     get lang() { return gApp.lang.preview.component; }
 
-    private stopImageRetrieving(){
+    private stopImageRetrieving() {
         this.imageProviderService.instance.stopUrlDownload();
     }
 
