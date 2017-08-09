@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.1.1 - 2017-08-09
+### Fixed
+* Initial image size would remain at 40% if preview menu was opened without an already generated list.
+
 ## 2.1.0 - 2017-08-08
 ### Added
 * Ability to select image providers both globally and per user configuration.
