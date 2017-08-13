@@ -36,7 +36,8 @@ export interface languageStruct {
                 noParserConfigurations: string,
                 parserFoundNoFiles: string,
                 allImagesRetrieved: string,
-                providerTimeout__i: string//${provider}, ${time}
+                providerTimeout__i: string,//${provider}, ${time}
+                noAccountsWarning: string
             },
             errors: {
                 mergingVDF_entries: string,
@@ -54,7 +55,6 @@ export interface languageStruct {
         }
     },
     globParser: {
-        title: string,
         inputTitle: string,
         docs__md: {
             self: string[],
@@ -76,7 +76,6 @@ export interface languageStruct {
         }
     },
     globRegexParser: {
-        title: string,
         inputTitle: string,
         docs__md: {
             self: string[],
@@ -125,7 +124,9 @@ export interface languageStruct {
                 fuzzy_verbose: string,
                 fuzzy_filter: string,
                 enabledProviders: string,
-                selectLanguage: string
+                selectLanguage: string,
+                resetFuzzy_desc: string,
+                resetFuzzy_btn: string
             },
             placeholder: {
                 noProviders: string
@@ -173,7 +174,8 @@ export interface languageStruct {
                 executableArgs: string[],
                 onlineImageQueries: string[],
                 imageProviders: string[],
-                localImages: string[]
+                localImages: string[],
+                localIcons: string[]
             },
             info: {
                 testStarting__i: string, //${title}
@@ -183,6 +185,7 @@ export interface languageStruct {
             error: {
                 missingAccounts__i: string, //${count}
                 missingAccountInfo__i: string, //${name}
+                noAccountsWarning: string,
                 failedToMatch: string,
                 failedFileInfo__i: string, //${index}, ${total}, ${filename}
                 testFailed: string,
@@ -199,9 +202,14 @@ export interface languageStruct {
                 completeShortcut__i: string, //${index}, ${total}, ${shortcut}
                 firstImageQuery__i: string, //${index}, ${total}, ${query}
                 imageQueries__i: string, //${index}, ${total}, ${query}
-                resolvedImageGlob__i: string, //${index}, ${total}, ${glob}
+                resolvedImageGlob__i: string, //${index}, ${total}
+                resolvedImageGlobInfo__i: string, //${index}, ${total}, ${glob}
                 localImagesResolved__i: string, //${index}, ${total}
-                localImageInfo__i: string//${index}, ${total}, ${image}
+                localImageInfo__i: string//${index}, ${total}, ${image},
+                resolvedIconGlob__i: string, //${index}, ${total}
+                resolvedIconGlobInfo__i: string, //${index}, ${total}, ${glob}
+                localIconsResolved__i: string, //${index}, ${total}
+                localIconInfo__i: string, //${index}, ${total}, ${icon}
             },
             label: {
                 parserType: string,
@@ -216,7 +224,8 @@ export interface languageStruct {
                 executableArgs: string,
                 onlineImageQueries: string,
                 imageProviders: string,
-                localImages: string
+                localImages: string,
+                localIcons: string
             },
             placeholder: {
                 parserType: string,
