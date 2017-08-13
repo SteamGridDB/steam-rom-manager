@@ -22,6 +22,7 @@ export interface UserConfiguration {
     executableArgs: string,
     appendArgsToExecutable: boolean,
     localImages: string,
+    localIcons: string,
     titleModifier: string,
     enabled: boolean,
     advanced: boolean
@@ -35,9 +36,11 @@ export interface ParsedUserConfigurationFile {
     finalTitle: string,
     fuzzyFinalTitle: string,
     argumentString: string,
-    resolvedLocalImages: string,
+    resolvedLocalImages: string[],
+    resolvedLocalIcons: string[],
     onlineImageQueries: string[],
-    localImages: string[]
+    localImages: string[],
+    localIcons: string[]
 }
 
 export interface ParsedUserConfiguration {
@@ -75,5 +78,5 @@ export interface ParsedData {
 
 export interface GenericParser {
     getParser(): Parser,
-    execute: (config: UserConfiguration) => Promise<ParsedData>
+    execute: (directory: string, inputs: { [key: string]: any }, cache?: { [key: string]: any }, keepRelative?: boolean) => Promise<ParsedData>
 }

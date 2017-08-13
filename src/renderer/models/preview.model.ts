@@ -29,6 +29,8 @@ export interface PreviewDataApp {
     argumentString: string,
     steamImage: ImageContent,
     currentImageIndex: number,
+    currentIconIndex: number,
+    icons: string[],
     images: Reference<ImagesStatusAndContent>
 }
 

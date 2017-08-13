@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { SettingsService, PreviewService, LanguageService, ImageProviderService } from "../services";
+import { SettingsService, PreviewService, LanguageService, ImageProviderService, FuzzyService } from "../services";
 import { gApp } from "../app.global";
 import { AppSettings } from "../models";
 import { Subscription } from 'rxjs';
@@ -16,7 +16,7 @@ export class SettingsComponent implements OnDestroy {
     private availableProviders: string[];
     private availableLanguages: string[];
 
-    constructor(private settingsService: SettingsService, private languageService: LanguageService, private imageProviderService: ImageProviderService, private previewService: PreviewService, private changeDetectionRef: ChangeDetectorRef) { }
+    constructor(private settingsService: SettingsService, private fuzzyService: FuzzyService, private languageService: LanguageService, private imageProviderService: ImageProviderService, private previewService: PreviewService, private changeDetectionRef: ChangeDetectorRef) { }
 
     ngOnInit() {
         this.subscriptions.add(this.settingsService.getChangeObservable().subscribe(() => {
@@ -45,6 +45,10 @@ export class SettingsComponent implements OnDestroy {
     private removeApps() {
         if (this.settings.knownSteamDirectories.length > 0)
             this.previewService.remove(true);
+    }
+
+    private resetFuzzy(){
+        this.fuzzyService.fuzzyLoader.resetList();
     }
 
     private preload(value: boolean) {

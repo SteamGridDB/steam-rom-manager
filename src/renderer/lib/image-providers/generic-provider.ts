@@ -65,7 +65,7 @@ export class GenericProviderManager<T extends GenericProvider> {
         if (event.data && event.data.event) {
             switch ((event.data.event as keyof ProviderReceiveEventMap)) {
                 case 'fuzzyList':
-                    this._fuzzyMatcher.setFuzzyList((event.data.data as ProviderReceiveEventMap['fuzzyList']).list || []);
+                    this._fuzzyMatcher.setFuzzyListAndCache((event.data.data as ProviderReceiveEventMap['fuzzyList']).listAndCache || null);
                     break;
                 case 'retrieveUrls':
                     {

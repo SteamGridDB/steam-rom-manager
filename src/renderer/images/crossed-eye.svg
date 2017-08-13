@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300" style="background-color: rgba(0, 0, 0, 0.8);">
+    <path d="M20 150 Q 150 20, 280 150 Q 150 280, 20 150 M 110 150 A 1 1 0 0 1 190 150 A 1 1 0 0 1 110 150" style="fill: #555; fill-rule: evenodd;"/>
+    <circle width="25" height="25" cx="150" cy="150" r="20" style="fill: #55A;"/>
+    <path d="M20 220 L 280 80" style="stroke-width: 15; stroke: red; stroke-linecap: round;"/>
+</svg>

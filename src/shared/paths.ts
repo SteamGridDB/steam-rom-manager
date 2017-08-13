@@ -8,3 +8,4 @@ export const userConfigurations: string = path.join(userDataDir, 'userConfigurat
 export const devThemePath: string = '../src/renderer/styles/themes.global.scss';
 export const savedListFilename: string = 'addedItemsV2.json';
 export const fuzzyList: string = path.join(userDataDir, 'fuzzyList.json');
+export const fuzzyCache: string = path.join(userDataDir, 'fuzzyCache.json');

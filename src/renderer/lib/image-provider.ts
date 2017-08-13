@@ -30,9 +30,9 @@ export class ImageProvider { //Bind filtering and list
         }
     }
 
-    setFuzzyList(list: string[]) {
+    setFuzzyList(listAndCache: { totalGames: number, games: string[], cache: { [key: string]: any } }) {
         for (let key in this.availableProviders) {
-            this.postMessage(this.availableProviders[key], 'fuzzyList', { list: list });
+            this.postMessage(this.availableProviders[key], 'fuzzyList', { listAndCache });
         }
     }
 

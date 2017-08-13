@@ -13,13 +13,15 @@ export class FuzzyService {
     private appSettings: AppSettings;
     private fuzzyListLoader: FuzzyListLoader;
     private fuzzyListMatcher: FuzzyMatcher;
+    private currentCacheEntries: number;
 
     constructor(private http: Http, private loggerService: LoggerService, private settingsService: SettingsService) {
         this.fuzzyListLoader = new FuzzyListLoader(this.http, this.eventCallback.bind(this), () => this.appSettings.offlineMode);
         this.fuzzyListMatcher = new FuzzyMatcher(this.eventCallback.bind(this));
 
-        this.fuzzyListLoader.observeList().subscribe((list) => {
-            this.fuzzyListMatcher.setFuzzyList(list.games);
+        this.fuzzyListLoader.observeListAndCache().subscribe((listAndCache) => {
+            this.fuzzyListMatcher.setFuzzyListAndCache(listAndCache);
+            this.currentCacheEntries = Object.keys(listAndCache.cache).length;
         });
 
         this.settingsService.onLoad((appSettings) => {
@@ -27,6 +29,10 @@ export class FuzzyService {
             this.fuzzyListLoader.setTimestamps(appSettings.fuzzyMatcher.timestamps);
             this.fuzzyListLoader.loadList();
         });
+
+        setInterval(() => {
+            this.saveCacheIfNeeded();
+        }, 300000 /*5 mins*/);
     }
 
     get fuzzyLoader() {
@@ -41,7 +47,17 @@ export class FuzzyService {
         return gApp.lang.fuzzyMatcher;
     }
 
-    eventCallback<K extends keyof FuzzyEventMap>(event: K, data: FuzzyEventMap[K])  {
+    saveCacheIfNeeded() {
+        return Promise.resolve().then(() => {
+            let cacheEntries = Object.keys(this.fuzzyLoader.getListAndCache().cache).length;
+            if (this.currentCacheEntries != undefined && this.currentCacheEntries !== cacheEntries) {
+                this.currentCacheEntries = cacheEntries;
+                return this.fuzzyLoader.saveCache();
+            }
+        });
+    }
+
+    eventCallback<K extends keyof FuzzyEventMap>(event: K, data: FuzzyEventMap[K]) {
         switch (event) {
             case 'info':
                 if (!this.appSettings.fuzzyMatcher.verbose)

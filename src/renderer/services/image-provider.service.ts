@@ -18,8 +18,8 @@ export class ImageProviderService {
         this.settingsService.getChangeObservable().subscribe((appSettings: AppSettings) => {
             this.imageProvider.toggleFilter(appSettings.fuzzyMatcher.filterProviders);
         });
-        this.fuzzyService.fuzzyLoader.observeList().subscribe((list) => {
-            this.imageProvider.setFuzzyList(list.games);
+        this.fuzzyService.fuzzyLoader.observeListAndCache().subscribe((listAndCache) => {
+            this.imageProvider.setFuzzyList(listAndCache);
         });
     }
 

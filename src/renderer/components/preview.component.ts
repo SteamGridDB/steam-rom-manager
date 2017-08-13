@@ -27,8 +27,8 @@ export class PreviewComponent implements OnDestroy {
         this.appSettings = this.settingsService.getSettings();
     }
 
-    generatePreviewData() {
-        this.previewService.generatePreviewData();
+    generatePreviewData(fromSteam: boolean) {
+        this.previewService.generatePreviewData(fromSteam);
     }
 
     preloadImages() {
@@ -72,6 +72,14 @@ export class PreviewComponent implements OnDestroy {
 
     private nextImage(appID: PreviewDataApp) {
         this.previewService.setImageIndex(appID, appID.currentImageIndex + 1);
+    }
+
+    private previousIcon(appID: PreviewDataApp) {
+        this.previewService.setIconIndex(appID, appID.currentIconIndex - 1);
+    }
+
+    private nextIcon(appID: PreviewDataApp) {
+        this.previewService.setIconIndex(appID, appID.currentIconIndex + 1);
     }
 
     private setImageSize(value: number, save: boolean = false) {

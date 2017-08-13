@@ -2,30 +2,41 @@ import { ParsedDataWithFuzzy, FuzzyEventCallback } from "../models";
 import * as Fuzzy from "fuzzy";
 
 export class FuzzyMatcher {
-    private list: string[];
+    private listAndCache: { totalGames: number, games: string[], cache: { [key: string]: any } };
+    private matchFromListMem: (input: string, removeCharacters: boolean, removeBrackets: boolean) => { output: string, matched: boolean };
 
-    constructor(private eventCallback?: FuzzyEventCallback, list?: string[]) {
+    constructor(private eventCallback?: FuzzyEventCallback, listAndCache?: { totalGames: number, games: string[], cache: { [key: string]: any } }) {
         this.setEventCallback(eventCallback || ((event: any, data: any) => { }));
-        this.setFuzzyList(list || []);
+        this.setFuzzyListAndCache(listAndCache);
+        this.matchFromListMem = require('fast-memoize')(this.matchFromList.bind(this), {
+            cache: {
+                create: () => {
+                    return {
+                        has: (key: any) => { return (key in this.listAndCache.cache); },
+                        get: (key: any) => { return this.listAndCache.cache[key]; },
+                        set: (key: any, value: any) => { this.listAndCache.cache[key] = value; }
+                    };
+                }
+            }
+        });
     }
 
     setEventCallback(eventCallback: FuzzyEventCallback) {
         this.eventCallback = eventCallback;
     }
 
-    setFuzzyList(list: string[]) {
-        this.list = list;
+    setFuzzyListAndCache(listAndCache: { totalGames: number, games: string[], cache: { [key: string]: any } }) {
+        this.listAndCache = listAndCache;
     }
 
     fuzzyMatchParsedData(data: ParsedDataWithFuzzy, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
         if (this.isLoaded()) {
             let matches: Fuzzy.FilterResult<string>[] = [];
             for (let i = 0; i < data.success.length; i++) {
-                let extractedTitle = this.modifyString(data.success[i].extractedTitle, removeCharacters, removeBrackets);
+                let matchedData = this.matchFromListMem(data.success[i].extractedTitle, removeCharacters, removeBrackets);
 
-                matches = Fuzzy.filter(extractedTitle, this.list);
-                if (matches.length) {
-                    data.success[i].fuzzyTitle = this.getBestMatch(extractedTitle, matches);
+                if (matchedData.matched) {
+                    data.success[i].fuzzyTitle = matchedData.output;
                     if (verbose)
                         this.eventCallback('info', { info: 'match', stringA: data.success[i].fuzzyTitle, stringB: data.success[i].extractedTitle });
                 }
@@ -36,22 +47,20 @@ export class FuzzyMatcher {
 
     fuzzyMatchString(input: string, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
         if (this.isLoaded()) {
-            let extractedTitle = this.modifyString(input, removeCharacters, removeBrackets);
-
-            let matches = Fuzzy.filter(extractedTitle, this.list);
-            if (matches.length) {
-                let bestMatch = this.getBestMatch(extractedTitle, matches);
-                if (verbose)
-                    this.eventCallback('info', { info: 'match', stringA: bestMatch, stringB: extractedTitle });
-                return bestMatch;
-            }
+            let data = this.matchFromListMem(input, removeCharacters, removeBrackets);
+            if (data.matched && verbose)
+                this.eventCallback('info', { info: 'match', stringA: data.output, stringB: input });
+            return data.output;
         }
         return input;
     }
 
     fuzzyEqual(a: string, b: string, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
         if (this.isLoaded()) {
-            if (this.fuzzyMatchString(a, removeCharacters, removeBrackets, false) === this.fuzzyMatchString(b, removeCharacters, removeBrackets, false)) {
+            let dataA = this.matchFromListMem(a, removeCharacters, removeBrackets);
+            let dataB = this.matchFromListMem(b, removeCharacters, removeBrackets);
+
+            if (dataA.output === dataA.output) {
                 if (verbose)
                     this.eventCallback('info', { info: 'equal', stringA: a, stringB: b });
                 return true;
@@ -66,7 +75,29 @@ export class FuzzyMatcher {
     }
 
     isLoaded() {
-        return this.list !== null && this.list !== undefined && this.list.length > 0;
+        return this.listAndCache != null && this.listAndCache.games.length > 0;
+    }
+
+    private matchFromList(input: string, removeCharacters: boolean, removeBrackets: boolean) {
+        let modifiedInput = this.modifyString(input, removeCharacters, removeBrackets);
+
+        let matches = Fuzzy.filter(modifiedInput, this.listAndCache.games);
+        if (matches.length) {
+            return { output: this.getBestMatch(modifiedInput, matches), matched: true };
+        }
+        else {
+            let index = input.lastIndexOf(',');
+            if (index !== -1) {
+                let segments = [input.slice(index + 1), input.slice(0, index)];
+                modifiedInput = segments[0][0] === ' ' ? segments.join('') : segments.join(' ');
+                modifiedInput = this.modifyString(modifiedInput, removeCharacters, removeBrackets);
+                matches = Fuzzy.filter(modifiedInput, this.listAndCache.games);
+                if (matches.length) {
+                    return { output: this.getBestMatch(modifiedInput, matches), matched: true };
+                }
+            }
+        }
+        return { output: input, matched: false };
     }
 
     private modifyString(input: string, removeCharacters: boolean, removeBrackets: boolean) {

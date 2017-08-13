@@ -1,4 +1,4 @@
-import { VDFListData, VDFListFileData, PreviewData, PreviewDataApps } from "../models";
+import { VDFListData, VDFListFileData, PreviewData, PreviewDataApps, SteamShortcutsData } from "../models";
 import { Http, ResponseContentType, Headers } from '@angular/http';
 import { generateAppId } from "./steam-id-helpers";
 import { readJson, writeJson } from "../../shared/lib";
@@ -425,15 +425,21 @@ export class VdfManager {
                         shortcutsData[index].StartDir = `"${path.dirname(executableLocation.match(/"(.*?)"/)[1]) + path.sep}"`;
                         shortcutsData[index].LaunchOptions = argumentString;
                         shortcutsData[index].tags = steamCategories;
+                        if (app.icons.length > 0) {
+                            shortcutsData[index].icon = app.icons[app.currentIconIndex];
+                        }
                     }
                     else {
-                        shortcutsData.push({
-                            appname: app.title,
-                            exe: executableLocation,
-                            StartDir: `"${path.dirname(executableLocation.match(/"(.*?)"/)[1]) + path.sep}"`,
-                            LaunchOptions: argumentString,
-                            tags: steamCategories
-                        });
+                        shortcutsData.push(Object.assign(
+                            {
+                                appname: app.title,
+                                exe: executableLocation,
+                                StartDir: `"${path.dirname(executableLocation.match(/"(.*?)"/)[1]) + path.sep}"`,
+                                LaunchOptions: argumentString,
+                                tags: steamCategories
+                            },
+                            app.icons.length > 0 && { icon: app.icons[app.currentIconIndex] }
+                        ));
                     }
 
                     newEntries.push(appID);
@@ -541,6 +547,27 @@ export class VdfManager {
 
         return Promise.all(promises).catch((error) => {
             throw new Error(this.lang.error.couldNotRemoveEntries__i.interpolate({ error: error }));
-        });;
+        });
+    }
+
+    getAllShortcutsData() {
+        let dataObject: SteamShortcutsData = {};
+
+        for (let steamDirectory in this.listData) {
+            dataObject[steamDirectory] = {};
+            for (let userId in this.listData[steamDirectory]) {
+                dataObject[steamDirectory][userId] = {};
+
+                let data = this.listData[steamDirectory][userId].shortcuts.data['shortcuts'];
+                for (let i = 0; i < data.length; i++) {
+                    let appName = data[i].appname || data[i].AppName;
+                    let exe = data[i].exe;
+
+                    dataObject[steamDirectory][userId][generateAppId(exe, appName)] = data[i];
+                }
+            }
+        }
+
+        return dataObject;
     }
 }

@@ -20,7 +20,7 @@ interface TitleTagData {
 export class GlobParser implements GenericParser {
     getParser(): Parser {
         return {
-            title: this.lang.title,
+            title: 'Glob',
             info: this.lang.docs__md.self.join(''),
             inputs: {
                 'glob': {
@@ -194,36 +194,37 @@ export class GlobParser implements GenericParser {
         return undefined;
     }
 
-    private extractTitles(titleData: TitleTagData, directory: string, files: string[]) {
+    private extractTitles(titleData: TitleTagData, directory: string, files: string[], keepRelative: boolean) {
         let parsedData: ParsedData = { success: [], failed: [] };
         for (let i = 0; i < files.length; i++) {
             let title = this.extractTitle(titleData, files[i]);
             let filepath = files[i].replace(/\\|\//g, path.sep);
             if (title !== undefined)
-                parsedData.success.push({ filePath: path.join(directory, filepath), extractedTitle: title });
+                parsedData.success.push({ filePath: path.normalize(keepRelative ? filepath : path.join(directory, filepath)), extractedTitle: title });
             else
                 parsedData.failed.push(path.join(directory, filepath));
         }
         return parsedData;
     }
 
-    execute(config: UserConfiguration) {
+    execute(directory: string, inputs: { [key: string]: any }, cache?: { [key: string]: any }, keepRelative?: boolean) {
         return Promise.resolve().then(() => {
-            if (this.validate(config.parserInputs['glob']) === null) {
-                let titleData = this.extractTitleTag(config.parserInputs['glob']);
+            let validationText = this.validate(inputs['glob']);
+            if (validationText === null) {
+                let titleData = this.extractTitleTag(inputs['glob']);
                 return new Promise((resolve, reject) => {
-                    glob(titleData.finalGlob, { silent: true, dot: true, cwd: config.romDirectory }, (err, files) => {
+                    glob(titleData.finalGlob, { silent: true, dot: true, cwd: directory, cache: cache || {} }, (err, files) => {
                         if (err)
                             reject(err);
                         else
                             resolve(files);
                     });
                 }).then((files: string[]) => {
-                    return this.extractTitles(titleData, config.romDirectory, files);
+                    return this.extractTitles(titleData, directory, files, keepRelative || false);
                 })
             }
             else
-                throw new Error('invalid "glob" input!');
+                throw new Error(validationText);
         });
     }
 }

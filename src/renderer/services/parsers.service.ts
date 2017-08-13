@@ -34,6 +34,7 @@ export class ParsersService {
             executableArgs: '',
             appendArgsToExecutable: false,
             localImages: '',
+            localIcons: '',
             onlineImageQueries: '${${fuzzyTitle}}',
             imageProviders: availableProviders(),
             titleModifier: '${title}',
@@ -139,7 +140,7 @@ export class ParsersService {
             case 'steamCategory':
                 return this.validateVariableParserString(data || '');
             case 'executableLocation':
-                return this.validatePath(data || '', false) ? null : this.lang.validationErrors.executable;
+                return (data == null || data.length === 0 || this.validatePath(data || '', false)) ? null : this.lang.validationErrors.executable;
             case 'romDirectory':
                 return this.validatePath(data || '', true) ? null : this.lang.validationErrors.romDir;
             case 'steamDirectory':

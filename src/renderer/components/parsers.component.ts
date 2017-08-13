@@ -241,6 +241,15 @@ export class ParsersComponent implements OnInit, OnDestroy {
                     this.currentDoc.content = this.lang.docs__md.localImages.join('');
                 }
             }),
+            localIcons: new RecursiveFormElement.Input({
+                value: '',
+                hidden: () => !this.userFormTemplate.advanced['value'],
+                label: this.lang.label.localIcons,
+                onInfoClick: (self, path) => {
+                    this.currentDoc.activePath = path.join();
+                    this.currentDoc.content = this.lang.docs__md.localIcons.join('');
+                }
+            }),
             enabled: new RecursiveFormElement.Toggle({
                 value: true,
                 text: this.lang.text.enabled
@@ -290,10 +299,9 @@ export class ParsersComponent implements OnInit, OnDestroy {
     private testForm() {
         let config = this.recursiveForm.getValues() as UserConfiguration;
         if (this.parsersService.isConfigurationValid(config)) {
-            this.parsersService.updateConfiguration(config, this.configurationIndex);
             this.parsersService.executeFileParser(config).then((dataArray) => {
-                if (dataArray.parsedData.length > 0) {
-                    let data = dataArray.parsedData[0];
+                if (dataArray.parsedData.parsedConfigs.length > 0) {
+                    let data = dataArray.parsedData.parsedConfigs[0];
                     let totalLength = data.files.length + data.failed.length;
 
                     if (data.foundUserAccounts.length > 0) {
@@ -313,6 +321,11 @@ export class ParsersComponent implements OnInit, OnDestroy {
                         for (let i = 0; i < data.missingUserAccounts.length; i++) {
                             this.loggerService.error(this.lang.error.missingAccountInfo__i.interpolate({ name: data.missingUserAccounts[i] }));
                         }
+                    }
+
+                    if (dataArray.parsedData.noUserAccounts) {
+                        this.loggerService.info('');
+                        this.loggerService.error(this.lang.error.noAccountsWarning);
                     }
 
                     if (data.steamCategories.length > 0) {
@@ -362,9 +375,15 @@ export class ParsersComponent implements OnInit, OnDestroy {
                         if (data.files[i].resolvedLocalImages.length) {
                             this.loggerService.success(this.lang.success.resolvedImageGlob__i.interpolate({
                                 index: i + 1,
-                                total: totalLength,
-                                glob: data.files[i].resolvedLocalImages
+                                total: totalLength
                             }));
+                            for (let j = 0; j < data.files[i].resolvedLocalImages.length; j++) {
+                                this.loggerService.success(this.lang.success.resolvedImageGlobInfo__i.interpolate({
+                                    index: i + 1,
+                                    total: totalLength,
+                                    glob: data.files[i].resolvedLocalImages[j]
+                                }));
+                            }
                         }
                         if (data.files[i].localImages.length) {
                             this.loggerService.success(this.lang.success.localImagesResolved__i.interpolate({
@@ -376,6 +395,32 @@ export class ParsersComponent implements OnInit, OnDestroy {
                                     index: i + 1,
                                     total: totalLength,
                                     image: data.files[i].localImages[j]
+                                }));
+                            }
+                        }
+                        if (data.files[i].resolvedLocalIcons.length) {
+                            this.loggerService.success(this.lang.success.resolvedIconGlob__i.interpolate({
+                                index: i + 1,
+                                total: totalLength
+                            }));
+                            for (let j = 0; j < data.files[i].resolvedLocalIcons.length; j++) {
+                                this.loggerService.success(this.lang.success.resolvedIconGlobInfo__i.interpolate({
+                                    index: i + 1,
+                                    total: totalLength,
+                                    glob: data.files[i].resolvedLocalIcons[j]
+                                }));
+                            }
+                        }
+                        if (data.files[i].localIcons.length) {
+                            this.loggerService.success(this.lang.success.localIconsResolved__i.interpolate({
+                                index: i + 1,
+                                total: totalLength
+                            }));
+                            for (let j = 0; j < data.files[i].localIcons.length; j++) {
+                                this.loggerService.success(this.lang.success.localIconInfo__i.interpolate({
+                                    index: i + 1,
+                                    total: totalLength,
+                                    icon: data.files[i].localIcons[j]
                                 }));
                             }
                         }
@@ -393,7 +438,7 @@ export class ParsersComponent implements OnInit, OnDestroy {
                     }
 
                 }
-                else{
+                else {
                     this.loggerService.info('');
                     this.loggerService.info(this.lang.info.nothingWasFound);
                 }

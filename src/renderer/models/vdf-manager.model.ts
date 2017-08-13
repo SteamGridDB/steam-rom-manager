@@ -14,3 +14,11 @@ export interface VDFListData {
 }
 
 export type VDFListFileData = string;
+
+export interface SteamShortcutsData {
+    [steamDirectory: string]: {
+        [userID: string]: {
+            [appId: string]: any
+        }
+    }
+}
