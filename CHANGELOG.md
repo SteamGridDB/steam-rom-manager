@@ -1,6 +1,20 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.0 - 2017-0X-0X
+### Added
+* Local icon support.
+* Parser support to local images and local icons.
+* Fuzzy matcher cache.
+* Temporary glob cache.
+* Settings button to reset fuzzy list and cache.
+
+### Change
+* Testing parser will no longer save configuration.
+
+### Fixed
+* Empty executable is now allowed.
+
 ## 2.1.1 - 2017-08-09
 ### Added
 * CMD examples for Nestopia and Project64.
