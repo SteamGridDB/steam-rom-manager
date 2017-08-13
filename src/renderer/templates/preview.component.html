@@ -59,13 +59,12 @@
 
 <ng-template #iconSelect let-app="app">
     <ng-container *ngVar="app.icons[app.currentIconIndex] as icon">
-        <div class="iconFallback" *ngIf="icon">
-            <div class="icon" [style.backgroundImage]="('url(\'' + (icon | fileUrl) + '\')' | safeStyle)">
-                <ng-container *ngIf="app.icons.length > 1">
-                    <svg class="previousIcon" (click)="previousIcon(app)" select-arrow-left hover="true" active="true"></svg>
-                    <svg class="nextIcon" (click)="nextIcon(app)" select-arrow-right hover="true" active="true"></svg>
-                </ng-container>
-            </div>
+        <div class="icon" *ngIf="icon">
+            <img #iconEl [src]="(icon | fileImage | safeResourceUrl)" (error)="setFallbackIcon(iconEl)"/>
+            <ng-container *ngIf="app.icons.length > 1">
+                <svg class="previousIcon" (click)="previousIcon(app)" select-arrow-left hover="true" active="true"></svg>
+                <svg class="nextIcon" (click)="nextIcon(app)" select-arrow-right hover="true" active="true"></svg>
+            </ng-container>
         </div>
     </ng-container>
 </ng-template>

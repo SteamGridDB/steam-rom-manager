@@ -359,21 +359,17 @@ $image-ratio: 430/920;
 								}
 							}
 						}
-						> .iconFallback{
+						> .icon{
 							left: 0;
 							top: 0;
 							position: absolute;
 							width: calc(var(--preview-image-size) * 128px);
 							height: calc(var(--preview-image-size) * 128px);
-							background: url('../images/crossed-eye.svg');
 							border: 2px solid var(--color-preview-icon-border);
 
-							.icon{
-								height: 100%;
+							img{
 								width: 100%;
-								background-size: 100% 100%;
-								background-repeat: no-repeat;
-								background-position: center;
+								height: 100%;
 							}
 
 							.previousIcon, .nextIcon {

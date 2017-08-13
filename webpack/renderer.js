@@ -50,7 +50,12 @@ let clientConfig = {
             },
             {
                 test: /\.html$/i,
-                use: 'html-loader'
+                use: {
+                    loader: 'html-loader',
+                    options: {
+                        attrs: ['object:data', 'img:src']
+                    }
+                }
             },
             {
                 test: /\.md$/i,

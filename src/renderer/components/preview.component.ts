@@ -49,6 +49,10 @@ export class PreviewComponent implements OnDestroy {
         this.imageProviderService.instance.stopUrlDownload();
     }
 
+    private setFallbackIcon(imageElement: HTMLImageElement){
+        imageElement.src = require('../images/crossed-eye.svg');
+    }
+
     private save() {
         this.previewService.saveData();
     }
