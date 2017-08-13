@@ -45,7 +45,7 @@ let clientConfig = {
                 use: 'file-loader?name=images/[name].[ext]'
             },
             {
-                test: /\.(ttf|eot|svg|woff|woff2)$/i,
+                test: /\.(ttf|eot|woff|woff2)$/i,
                 use: 'file-loader?name=fonts/[name].[ext]&publicPath=../'
             },
             {
