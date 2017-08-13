@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 * Fuzzy matcher cache.
 * Temporary glob cache.
 * Settings button to reset fuzzy list and cache.
+* Warning is now shown if no user account found.
 
 ### Change
 * Testing parser will no longer save configuration.
