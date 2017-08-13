@@ -39,7 +39,8 @@ export const EnglishLang: languageContainer = {
                     noParserConfigurations: 'Please create parser configuration in "Parsers" menu first.',
                     parserFoundNoFiles: 'Parser(s) found no files matching user configuration.',
                     allImagesRetrieved: 'All available image urls retrieved.',
-                    providerTimeout__i: 'Timeout was requested by "${provider}" for ${time} second(s).'
+                    providerTimeout__i: 'Timeout was requested by "${provider}" for ${time} second(s).',
+                    noAccountsWarning: 'User accounts not found. Incorrect Steam directory?'
                 },
                 errors: {
                     mergingVDF_entries: 'Error(s) occurred while merging VDF files or downloading images.',
@@ -57,7 +58,6 @@ export const EnglishLang: languageContainer = {
             }
         },
         globParser: {
-            title: 'Glob',
             inputTitle: 'User\'s glob',
             docs__md: {
                 self: [
@@ -86,7 +86,6 @@ export const EnglishLang: languageContainer = {
             }
         },
         globRegexParser: {
-            title: 'Glob-regex',
             inputTitle: 'User\'s glob-regex',
             docs__md: {
                 self: [
@@ -142,7 +141,9 @@ export const EnglishLang: languageContainer = {
                     fuzzy_verbose: 'Log matching results (logged results are hidden by default in Event log)',
                     fuzzy_filter: 'Filter images (tries to filter out unrelated images returned by some image providers)',
                     enabledProviders: 'Enabled providers:',
-                    selectLanguage: 'Select language:'
+                    selectLanguage: 'Select language:',
+                    resetFuzzy_desc: 'Reset fuzzy list and cache:',
+                    resetFuzzy_btn: 'Reset'
                 },
                 placeholder: {
                     noProviders: 'None'
@@ -204,6 +205,13 @@ export const EnglishLang: languageContainer = {
                     ],
                     localImages: [
                         require('./markdown/local-images.md'),
+                        require('./markdown/special-glob-input.md'),
+                        require('./markdown/parser-variables.md'),
+                        require('./markdown/spec-glob-chars.md')
+                    ],
+                    localIcons: [
+                        require('./markdown/local-icons.md'),
+                        require('./markdown/special-glob-input.md'),
                         require('./markdown/parser-variables.md'),
                         require('./markdown/spec-glob-chars.md')
                     ]
@@ -216,6 +224,7 @@ export const EnglishLang: languageContainer = {
                 error: {
                     missingAccounts__i: 'Following ${count} user account(s) were not found (user must to login to Steam at least once):',
                     missingAccountInfo__i: '  ${name}',
+                    noAccountsWarning: 'Warning! No user accounts found (incorrect Steam directory or no user has ever logged in).\r\nIf you\'re seeing this, preview won\'t be generated for this configuration.',
                     failedToMatch: 'Failed to match:',
                     failedFileInfo__i: '[${index}/${total}]: ${filename}',
                     testFailed: 'Testing failed',
@@ -232,9 +241,14 @@ export const EnglishLang: languageContainer = {
                     completeShortcut__i: '[${index}/${total}]:   Complete shortcut - ${shortcut}',
                     firstImageQuery__i: '[${index}/${total}]:       Image queries - ${query}',
                     imageQueries__i: '[${index}/${total}]:                       ${query}',
-                    resolvedImageGlob__i: '[${index}/${total}]: Resolved image glob - ${glob}',
-                    localImagesResolved__i: '[${index}/${total}]:    Resolved images:',
-                    localImageInfo__i: '[${index}/${total}]:                       ${image}'
+                    resolvedImageGlob__i:       '[${index}/${total}]: Resolved image glob:',
+                    resolvedImageGlobInfo__i:   '[${index}/${total}]:                       ${glob}',
+                    localImagesResolved__i:     '[${index}/${total}]:     Resolved images:',
+                    localImageInfo__i:          '[${index}/${total}]:                       ${image}',
+                    resolvedIconGlob__i:        '[${index}/${total}]:  Resolved icon glob:',
+                    resolvedIconGlobInfo__i:    '[${index}/${total}]:                       ${glob}',
+                    localIconsResolved__i:      '[${index}/${total}]:      Resolved icons:',
+                    localIconInfo__i:           '[${index}/${total}]:                       ${icon}'
                 },
                 label: {
                     parserType: 'Parser type',
@@ -249,7 +263,8 @@ export const EnglishLang: languageContainer = {
                     executableArgs: 'Command line arguments',
                     onlineImageQueries: 'Online image query',
                     imageProviders: 'Image providers',
-                    localImages: 'Local images'
+                    localImages: 'Local images',
+                    localIcons: 'Local icons'
                 },
                 placeholder: {
                     parserType: 'Select parser...',
