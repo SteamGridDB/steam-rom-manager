@@ -92,9 +92,6 @@ export class FileParser {
             let localImagePromises: Promise<any>[] = [];
             let localIconPromises: Promise<any>[] = [];
             for (let i = 0; i < configs.length; i++) {
-                if (data[i].success.length === 0)
-                    continue;
-
                 if (configs[i].fuzzyMatch.use)
                     this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data[i], configs[i].fuzzyMatch.removeCharacters, configs[i].fuzzyMatch.removeBrackets);
 
