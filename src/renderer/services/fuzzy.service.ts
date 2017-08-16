@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LoggerService } from "./logger.service";
 import { SettingsService } from "./settings.service";
-import {
-    FuzzyEventMap, AppSettings, FuzzyEventCallback
-} from '../models';
+import { FuzzyEventMap, AppSettings, FuzzyEventCallback } from '../models';
 import { gApp } from "../app.global";
 import { FuzzyListLoader, FuzzyMatcher } from "../lib";
 import { Http } from '@angular/http';
