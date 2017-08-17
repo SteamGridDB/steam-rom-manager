@@ -22,6 +22,9 @@
       ],
       "icon": "./src/shared/icons/icon.ico"
     },
+    "portable": {
+      "artifactName": "${productName} ${version} (portable).${ext}"
+    },
     "linux": {
       "category": "Utility",
       "target": [
@@ -70,6 +73,7 @@
     "bluebird": "^3.5.0",
     "colornames": "^1.1.1",
     "crc": "^3.4.4",
+    "electron-window-state": "^4.1.1",
     "fast-memoize": "^2.2.8",
     "fs-extra": "^4.0.1",
     "fuzzy": "^0.1.3",
