@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file.
 * Temporary glob cache.
 * Settings button to reset fuzzy list and cache.
 * Warning is now shown if no user account found.
+* Option to disable the usage of Steam account credentials.
+* App's position and state will now persist. Except for maximized state, it's currently a little buggy.
 
 ### Change
 * Testing parser will no longer save configuration.
