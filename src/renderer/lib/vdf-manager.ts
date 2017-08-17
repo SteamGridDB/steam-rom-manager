@@ -551,19 +551,22 @@ export class VdfManager {
     }
 
     getAllShortcutsData() {
-        let dataObject: SteamShortcutsData = {};
+        let dataObject: SteamShortcutsData = { tree: {}, numberOfUsers: 0 };
 
         for (let steamDirectory in this.listData) {
-            dataObject[steamDirectory] = {};
+            dataObject.tree[steamDirectory] = {};
             for (let userId in this.listData[steamDirectory]) {
-                dataObject[steamDirectory][userId] = {};
+                dataObject.tree[steamDirectory][userId] = {};
 
                 let data = this.listData[steamDirectory][userId].shortcuts.data['shortcuts'];
                 for (let i = 0; i < data.length; i++) {
                     let appName = data[i].appname || data[i].AppName;
                     let exe = data[i].exe;
 
-                    dataObject[steamDirectory][userId][generateAppId(exe, appName)] = data[i];
+                    if (dataObject.tree[steamDirectory][userId][generateAppId(exe, appName)] === undefined) {
+                        dataObject.numberOfUsers++;
+                        dataObject.tree[steamDirectory][userId][generateAppId(exe, appName)] = data[i];
+                    }
                 }
             }
         }

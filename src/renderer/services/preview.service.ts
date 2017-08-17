@@ -5,8 +5,13 @@ import { ParsersService } from './parsers.service';
 import { LoggerService } from './logger.service';
 import { SettingsService } from './settings.service';
 import { ImageProviderService } from './image-provider.service';
-import { PreviewData, ImageContent, ParsedUserConfiguration, Images, PreviewVariables, ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings, SteamGridImageData, SteamShortcutsData } from '../models';
-import { Reference, VdfManager, generateAppId } from "../lib";
+import {
+    PreviewData, ImageContent, ParsedUserConfiguration, Images, PreviewVariables,
+    ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings,
+    SteamGridImageData, SteamShortcutsData, SteamTree, SteamTreeData, SteamShortcuts,
+    userAccountData
+} from '../models';
+import { Reference, VdfManager, generateAppId, getMultipleAvailableLogins } from "../lib";
 import { gApp } from "../app.global";
 import { queue } from 'async';
 import * as _ from "lodash";
@@ -63,8 +68,8 @@ export class PreviewService {
 
         this.previewVariables.listIsBeingGenerated = true;
         this.imageProviderService.instance.stopUrlDownload();
-        if (fromSteam){
-            if (this.appSettings.knownSteamDirectories.length === 0){
+        if (fromSteam) {
+            if (this.appSettings.knownSteamDirectories.length === 0) {
                 this.previewVariables.listIsBeingGenerated = false;
                 this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 });
             }
@@ -330,7 +335,8 @@ export class PreviewService {
                 this.loggerService.info(this.lang.info.readingVDF_Files, { invokeAlert: true, alertTimeout: 3000 });
                 return vdfManager.readAllVDFs();
             }).then(() => {
-                console.log(vdfManager.getAllShortcutsData());
+                return this.shortcutsToPreviewData(vdfManager.getAllShortcutsData());
+            }).then(() => {
                 this.previewVariables.listIsBeingGenerated = false;
                 this.previewDataChanged.next();
             }).catch((error) => {
@@ -342,28 +348,34 @@ export class PreviewService {
         }
     }
 
-    private getNonSteamGridData(data: ParsedUserConfiguration[]) {
-        return Promise.resolve().then(() => {
-            let numberOfItems: number = 0;
-            let fileData: SteamGridImageData = {};
+    private getSteamTreeFromParsedConfig(data: ParsedUserConfiguration[]) : SteamTreeData {
+        let numberOfUsers: number = 0;
+        let tree: SteamTree = {};
 
-            for (let i = 0; i < data.length; i++) {
-                let config = data[i];
+        for (let i = 0; i < data.length; i++) {
+            let config = data[i];
 
-                if (fileData[config.steamDirectory] === undefined)
-                    fileData[config.steamDirectory] = {};
+            if (tree[config.steamDirectory] === undefined)
+                tree[config.steamDirectory] = {};
 
-                for (let j = 0; j < config.foundUserAccounts.length; j++) {
-                    let userAccount = config.foundUserAccounts[j];
+            for (let j = 0; j < config.foundUserAccounts.length; j++) {
+                let userAccount = config.foundUserAccounts[j];
 
-                    if (fileData[config.steamDirectory][userAccount.accountID] === undefined) {
-                        numberOfItems++;
-                        fileData[config.steamDirectory][userAccount.accountID] = {};
-                    }
+                if (tree[config.steamDirectory][userAccount.accountID] === undefined) {
+                    numberOfUsers++;
+                    tree[config.steamDirectory][userAccount.accountID] = {};
                 }
             }
+        }
 
-            if (numberOfItems === 0)
+        return { tree, numberOfUsers };
+    }
+
+    private getNonSteamGridData(data: SteamTreeData) {
+        return Promise.resolve().then(() => {
+            let fileData: SteamGridImageData = _.cloneDeep(data.tree);
+
+            if (data.numberOfUsers === 0)
                 return fileData;
             else {
                 let promises: Promise<void>[] = [];
@@ -398,37 +410,18 @@ export class PreviewService {
         });
     }
 
-    private getNonSteamShortcutsData(data: ParsedUserConfiguration[]) {
+    private getNonSteamShortcutsData(data: SteamTreeData) {
         return Promise.resolve().then(() => {
-            let numberOfItems: number = 0;
-            let fileData: SteamShortcutsData = {};
-
-            for (let i = 0; i < data.length; i++) {
-                let config = data[i];
-
-                if (fileData[config.steamDirectory] === undefined)
-                    fileData[config.steamDirectory] = {};
-
-                for (let j = 0; j < config.foundUserAccounts.length; j++) {
-                    let userAccount = config.foundUserAccounts[j];
-
-                    if (fileData[config.steamDirectory][userAccount.accountID] === undefined) {
-                        numberOfItems++;
-                        fileData[config.steamDirectory][userAccount.accountID] = {};
-                    }
-                }
-            }
-
-            if (numberOfItems === 0)
-                return fileData;
+            if (data.numberOfUsers === 0)
+                return data;
             else {
                 let vdfManager = new VdfManager(this.http);
                 return Promise.resolve().then(() => {
-                    return vdfManager.populateListFromPreviewData(fileData as any);
+                    return vdfManager.populateListFromPreviewData(data.tree);
                 }).then(() => {
                     return vdfManager.readAllVDFs();
                 }).then(() => {
-                    return vdfManager.getAllShortcutsData() as SteamShortcutsData;
+                    return vdfManager.getAllShortcutsData();
                 })
             }
         });
@@ -436,15 +429,16 @@ export class PreviewService {
 
     private createPreviewData(data: ParsedUserConfiguration[]) {
         let gridData: SteamGridImageData;
-        let shortcutsData: SteamShortcutsData;
+        let shortcutsData: SteamShortcuts;
+        let steamTreeData = this.getSteamTreeFromParsedConfig(data);
 
         return Promise.resolve().then(() => {
-            return this.getNonSteamGridData(data);
+            return this.getNonSteamGridData(steamTreeData);
         }).then((resolvedData) => {
             gridData = resolvedData;
-            return this.getNonSteamShortcutsData(data);
+            return this.getNonSteamShortcutsData(steamTreeData);
         }).then((resolvedData) => {
-            shortcutsData = resolvedData;
+            shortcutsData = resolvedData.tree;
 
             let numberOfItems: number = 0;
             let previewData: PreviewData = {};
@@ -463,6 +457,9 @@ export class PreviewService {
                             username: userAccount.name,
                             apps: {}
                         };
+                    }
+                    else if (previewData[config.steamDirectory][userAccount.accountID].username !== userAccount.name){
+                        previewData[config.steamDirectory][userAccount.accountID].username = `${previewData[config.steamDirectory][userAccount.accountID].username} | ${userAccount.name}`;
                     }
 
                     for (let k = 0; k < data[i].files.length; k++) {
@@ -531,6 +528,24 @@ export class PreviewService {
                 }
             }
             return { numberOfItems: numberOfItems, data: previewData };
+        });
+    }
+
+    private shortcutsToPreviewData(data: SteamShortcutsData) {
+        let gridData: SteamGridImageData;
+        let availableLogins: { [directory: string]: userAccountData[] };
+
+        return Promise.resolve().then(() => {
+            return this.getNonSteamGridData(data);
+        }).then((resolvedData) => {
+            gridData = resolvedData;
+            return getMultipleAvailableLogins(Object.keys(data.tree), true);
+        }).then((resolvedData) => {
+            //availableLogins = resolvedData;
+
+            availableLogins
+
+            console.log(availableLogins);
         });
     }
 

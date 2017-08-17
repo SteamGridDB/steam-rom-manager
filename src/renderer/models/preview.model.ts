@@ -49,6 +49,17 @@ export interface PreviewData {
     }
 }
 
+export interface SteamTree {
+    [steamDirectory: string]: {
+        [userID: string]: any
+    }
+}
+
+export interface SteamTreeData {
+    tree: SteamTree,
+    numberOfUsers: number
+}
+
 export interface SteamGridImageData {
     [steamDirectory: string]: {
         [userID: string]: {
