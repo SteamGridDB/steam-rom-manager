@@ -9,7 +9,8 @@ export interface UserConfiguration {
     steamDirectory: string,
     userAccounts: {
         specifiedAccounts: string,
-        skipWithMissingDataDir: boolean
+        skipWithMissingDataDir: boolean,
+        useCredentials: boolean
     },
     parserInputs: { [inputKey: string]: string },
     fuzzyMatch: {
