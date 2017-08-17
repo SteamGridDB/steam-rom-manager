@@ -3,10 +3,12 @@ import * as path from 'path';
 
 let _userDataDir: string;
 
-if (process.env.PORTABLE_EXECUTABLE_DIR)
-    _userDataDir = path.join(path.dirname((app || remote.app).getPath('exe')), 'userData');
-else
+if (process.env.PORTABLE_EXECUTABLE_DIR) {
+    _userDataDir = path.join(process.env.PORTABLE_EXECUTABLE_DIR, 'userData');
+}
+else {
     _userDataDir = path.join((app || remote.app).getPath('userData'), 'userData');
+}
 
 export const userDataDir: string = _userDataDir;
 export const userSettings: string = path.join(userDataDir, 'userSettings.json');
