@@ -224,7 +224,7 @@ export const EnglishLang: languageContainer = {
                 error: {
                     missingAccounts__i: 'Following ${count} user account(s) were not found (user must to login to Steam at least once):',
                     missingAccountInfo__i: '  ${name}',
-                    noAccountsWarning: 'Warning! No user accounts found (incorrect Steam directory or no user has ever logged in).\r\nIf you\'re seeing this, preview won\'t be generated for this configuration.',
+                    noAccountsWarning: 'Warning! No user accounts found, it could be due to one of the reasons below:\r\n - incorrect Steam directory;\r\n - no user has ever logged in;\r\n - Steam does not save user credentials ("Show advanced options -> User accounts -> Use account credentials").\r\nIf you\'re seeing this, preview won\'t be generated for this configuration.',
                     failedToMatch: 'Failed to match:',
                     failedFileInfo__i: '[${index}/${total}]: ${filename}',
                     testFailed: 'Testing failed',
@@ -241,14 +241,14 @@ export const EnglishLang: languageContainer = {
                     completeShortcut__i: '[${index}/${total}]:   Complete shortcut - ${shortcut}',
                     firstImageQuery__i: '[${index}/${total}]:       Image queries - ${query}',
                     imageQueries__i: '[${index}/${total}]:                       ${query}',
-                    resolvedImageGlob__i:       '[${index}/${total}]: Resolved image glob:',
-                    resolvedImageGlobInfo__i:   '[${index}/${total}]:                       ${glob}',
-                    localImagesResolved__i:     '[${index}/${total}]:     Resolved images:',
-                    localImageInfo__i:          '[${index}/${total}]:                       ${image}',
-                    resolvedIconGlob__i:        '[${index}/${total}]:  Resolved icon glob:',
-                    resolvedIconGlobInfo__i:    '[${index}/${total}]:                       ${glob}',
-                    localIconsResolved__i:      '[${index}/${total}]:      Resolved icons:',
-                    localIconInfo__i:           '[${index}/${total}]:                       ${icon}'
+                    resolvedImageGlob__i: '[${index}/${total}]: Resolved image glob:',
+                    resolvedImageGlobInfo__i: '[${index}/${total}]:                       ${glob}',
+                    localImagesResolved__i: '[${index}/${total}]:     Resolved images:',
+                    localImageInfo__i: '[${index}/${total}]:                       ${image}',
+                    resolvedIconGlob__i: '[${index}/${total}]:  Resolved icon glob:',
+                    resolvedIconGlobInfo__i: '[${index}/${total}]:                       ${glob}',
+                    localIconsResolved__i: '[${index}/${total}]:      Resolved icons:',
+                    localIconInfo__i: '[${index}/${total}]:                       ${icon}'
                 },
                 label: {
                     parserType: 'Parser type',
@@ -272,6 +272,7 @@ export const EnglishLang: languageContainer = {
                 },
                 text: {
                     skipWithMissingDataDir: 'Skip found accounts with missing data directories',
+                    useCredentials: 'Use account credentials',
                     fuzzy_use: 'Use fuzzy matching',
                     fuzzy_removeCharacters: 'Aggressive matching',
                     fuzzy_removeBrackets: 'Remove (...) and [...] brackets',

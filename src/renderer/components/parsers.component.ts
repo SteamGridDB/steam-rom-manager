@@ -136,6 +136,11 @@ export class ParsersComponent implements OnInit, OnDestroy {
                     value: false,
                     hidden: () => !this.userFormTemplate.advanced['value'],
                     text: this.lang.text.skipWithMissingDataDir
+                }),
+                useCredentials: new RecursiveFormElement.Toggle({
+                    value: true,
+                    hidden: () => !this.userFormTemplate.advanced['value'],
+                    text: this.lang.text.useCredentials
                 })
             },
             parserInputs: (() => {

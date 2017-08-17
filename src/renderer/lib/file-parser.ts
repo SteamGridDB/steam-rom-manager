@@ -39,10 +39,9 @@ export class FileParser {
     }
 
     executeFileParser(configs: UserConfiguration[]) {
-        let steamDirectories: string[] = [];
-        let steamDirectoryAccounts: { [directory: string]: userAccountData[] } = {};
+        let steamDirectories: { directory: string, useCredentials: boolean, data: userAccountData[] }[] = [];
+        let totalUserAccountsFound: number = 0;
         let parsedConfigs: ParsedUserConfiguration[] = [];
-        let userAccountFound: boolean = false;
 
         this.globCache = {};
 
@@ -51,8 +50,7 @@ export class FileParser {
             for (let i = 0; i < configs.length; i++) {
                 let parser = this.getParser(configs[i].parserType);
 
-                if (steamDirectories.indexOf(configs[i].steamDirectory) === -1)
-                    steamDirectories.push(configs[i].steamDirectory);
+                steamDirectories.push({ directory: configs[i].steamDirectory, useCredentials: configs[i].userAccounts.useCredentials, data: [] });
 
                 if (parser) {
                     if (parser.inputs !== undefined) {
@@ -70,22 +68,21 @@ export class FileParser {
             }
             return promises;
         }).then((parserPromises) => {
-            if (steamDirectories.length) {
-                let availableLogins: Promise<userAccountData[]>[] = [];
-                for (let i = 0; i < steamDirectories.length; i++) {
-                    steamDirectoryAccounts[steamDirectories[i]] = [];
-                    availableLogins.push(getAvailableLogins(steamDirectories[i]));
-                }
-                return Promise.all(availableLogins).then((data) => {
+            return Promise.resolve().then(() => {
+                if (steamDirectories.length) {
+                    let availableLogins: Promise<userAccountData[]>[] = [];
                     for (let i = 0; i < steamDirectories.length; i++) {
-                        if (data[i].length > 0)
-                            userAccountFound = true;
-                        steamDirectoryAccounts[steamDirectories[i]] = data[i];
+                        availableLogins.push(getAvailableLogins(steamDirectories[i].directory, steamDirectories[i].useCredentials));
                     }
-                    return parserPromises;
-                });
-            }
-            return parserPromises;
+                    return Promise.all(availableLogins).then((data) => {
+                        for (let i = 0; i < steamDirectories.length; i++) {
+                            steamDirectories[i].data = data[i];
+                        }
+                    });
+                }
+            }).then(() => {
+                return parserPromises;
+            });
         }).then((parserPromises) => {
             return Promise.all(parserPromises);
         }).then((data: ParsedDataWithFuzzy[]) => {
@@ -96,7 +93,9 @@ export class FileParser {
                     this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data[i], configs[i].fuzzyMatch.removeCharacters, configs[i].fuzzyMatch.removeBrackets);
 
                 let userFilter = this.parseVariableString(configs[i].userAccounts.specifiedAccounts);
-                let filteredAccounts = this.filterUserAccounts(steamDirectoryAccounts[configs[i].steamDirectory], userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir);
+                let filteredAccounts = this.filterUserAccounts(steamDirectories[i].data, userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir);
+
+                totalUserAccountsFound += filteredAccounts.found.length;
 
                 parsedConfigs.push({
                     steamCategories: this.parseVariableString(configs[i].steamCategory),
@@ -153,7 +152,7 @@ export class FileParser {
             }
             return Promise.all(localImagePromises).then(() => Promise.all(localIconPromises));
         }).then(() => {
-            return { parsedConfigs, noUserAccounts: !userAccountFound };
+            return { parsedConfigs, noUserAccounts: totalUserAccountsFound === 0 };
         });
     }
 

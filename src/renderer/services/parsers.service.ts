@@ -29,7 +29,7 @@ export class ParsersService {
             executableLocation: '',
             romDirectory: '',
             steamDirectory: '',
-            userAccounts: { skipWithMissingDataDir: true, specifiedAccounts: '' },
+            userAccounts: { skipWithMissingDataDir: true, specifiedAccounts: '', useCredentials: true },
             parserInputs: {},
             executableArgs: '',
             appendArgsToExecutable: false,

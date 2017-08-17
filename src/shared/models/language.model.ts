@@ -233,6 +233,7 @@ export interface languageStruct {
             },
             text: {
                 skipWithMissingDataDir: string,
+                useCredentials: string,
                 fuzzy_use: string,
                 fuzzy_removeCharacters: string,
                 fuzzy_removeBrackets: string,
