@@ -47,7 +47,7 @@ export class FuzzyMatcher {
             let dataA = this.matchFromList(a, removeCharacters, removeBrackets);
             let dataB = this.matchFromList(b, removeCharacters, removeBrackets);
 
-            if (dataA.output === dataA.output) {
+            if (dataA.output === dataB.output) {
                 if (verbose)
                     this.eventCallback('info', { info: 'equal', stringA: a, stringB: b });
                 return true;
