@@ -189,6 +189,11 @@ $image-ratio: 430/920;
 							background-position: center center;
 							background-size: cover;
 
+							--select-arrow-left-background-hover:var(--color-preview-image-arrow-background);
+							--select-arrow-right-background-hover: var(--color-preview-image-arrow-background);
+							--select-arrow-left-background-active: var(--color-preview-image-arrow-background);
+							--select-arrow-right-background-active: var(--color-preview-image-arrow-background);
+
 							.previousImage, .nextImage {
 								position: absolute;
 								top: 0;
