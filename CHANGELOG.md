@@ -12,9 +12,10 @@ All notable changes to this project will be documented in this file.
 * App's position and state will now persist. Except for maximized state, it's currently a little buggy.
 * User can now disable current Steam images that are shown in preview.
 
-### Change
+### Changed
 * Testing parser will no longer save configuration.
 * Changed fuzzy library from [fuzzy](https://github.com/mattyork/fuzzy) to [fuzzaldrin-plus](https://github.com/jeancroy/fuzz-aldrin-plus).
+* Parser configuration will now have `disable` option instead of `enable`. Should be less confusing.
 
 ### Fixed
 * Empty executable is now allowed.
