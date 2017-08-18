@@ -255,9 +255,9 @@ export class ParsersComponent implements OnInit, OnDestroy {
                     this.currentDoc.content = this.lang.docs__md.localIcons.join('');
                 }
             }),
-            enabled: new RecursiveFormElement.Toggle({
-                value: true,
-                text: this.lang.text.enabled
+            disabled: new RecursiveFormElement.Toggle({
+                value: false,
+                text: this.lang.text.disabled
             }),
             advanced: new RecursiveFormElement.Toggle({
                 value: false,

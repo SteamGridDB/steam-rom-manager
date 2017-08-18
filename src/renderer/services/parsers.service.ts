@@ -40,7 +40,7 @@ export class ParsersService {
             titleModifier: '${title}',
             fuzzyMatch: { use: true, removeCharacters: true, removeBrackets: true },
             advanced: false,
-            enabled: true
+            disabled: false
         };
         this.readUserConfigurations();
     }
@@ -107,10 +107,10 @@ export class ParsersService {
         if (configs.length === 0) {
             let configArray = this.getUserConfigurationsArray();
             for (let i = 0; i < configArray.length; i++) {
-                if (configArray[i].enabled)
-                    configs.push(configArray[i]);
-                else
+                if (configArray[i].disabled)
                     skipped.push(configArray[i].configTitle);
+                else
+                    configs.push(configArray[i]);
             }
         }
 

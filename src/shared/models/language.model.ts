@@ -239,7 +239,7 @@ export interface languageStruct {
                 fuzzy_removeCharacters: string,
                 fuzzy_removeBrackets: string,
                 appendArgsToExecutable: string,
-                enabled: string,
+                disabled: string,
                 advanced: string,
                 noTitle: string
             }

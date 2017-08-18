@@ -25,7 +25,7 @@ export interface UserConfiguration {
     localImages: string,
     localIcons: string,
     titleModifier: string,
-    enabled: boolean,
+    disabled: boolean,
     advanced: boolean
 }
 

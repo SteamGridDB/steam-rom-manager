@@ -278,7 +278,7 @@ export const EnglishLang: languageContainer = {
                     fuzzy_removeCharacters: 'Aggressive matching',
                     fuzzy_removeBrackets: 'Remove (...) and [...] brackets',
                     appendArgsToExecutable: 'Append arguments to executable',
-                    enabled: 'Enable configuration',
+                    disabled: 'Disable current parser',
                     advanced: 'Show advanced options',
                     noTitle: 'No title!'
                 }
