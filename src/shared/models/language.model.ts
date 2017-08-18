@@ -126,7 +126,8 @@ export interface languageStruct {
                 enabledProviders: string,
                 selectLanguage: string,
                 resetFuzzy_desc: string,
-                resetFuzzy_btn: string
+                resetFuzzy_btn: string,
+                showSteamImages: string
             },
             placeholder: {
                 noProviders: string

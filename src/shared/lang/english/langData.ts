@@ -142,8 +142,9 @@ export const EnglishLang: languageContainer = {
                     fuzzy_filter: 'Filter images (tries to filter out unrelated images returned by some image providers)',
                     enabledProviders: 'Enabled providers:',
                     selectLanguage: 'Select language:',
-                    resetFuzzy_desc: 'Reset fuzzy list and cache:',
-                    resetFuzzy_btn: 'Reset'
+                    resetFuzzy_desc: 'Reset fuzzy list:',
+                    resetFuzzy_btn: 'Reset',
+                    showSteamImages: 'Show current Steam images'
                 },
                 placeholder: {
                     noProviders: 'None'

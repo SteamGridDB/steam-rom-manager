@@ -433,7 +433,10 @@ export class PreviewService {
         let steamTreeData = this.getSteamTreeFromParsedConfig(data);
 
         return Promise.resolve().then(() => {
-            return this.getNonSteamGridData(steamTreeData);
+            if (this.appSettings.previewSettings.retrieveCurrentSteamImages)
+                return this.getNonSteamGridData(steamTreeData);
+            else
+                return steamTreeData.tree;
         }).then((resolvedData) => {
             gridData = resolvedData;
             return this.getNonSteamShortcutsData(steamTreeData);

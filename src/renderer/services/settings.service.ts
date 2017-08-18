@@ -25,6 +25,7 @@ export class SettingsService {
                 filterProviders: true
             },
             previewSettings: {
+                retrieveCurrentSteamImages: true,
                 imageZoomPercentage: 40,
                 preload: false
             },
