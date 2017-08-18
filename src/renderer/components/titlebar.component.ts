@@ -40,7 +40,6 @@ export class TitleComponent {
         this.mainWindow = remote.getCurrentWindow();
         this.minimizable = this.mainWindow.isMinimizable();
         this.maximizable = this.mainWindow.isMaximizable();
-        this.mainWindow.once('close', this.onClose.bind(this));
     }
 
     minimizeEvent() {
@@ -62,19 +61,10 @@ export class TitleComponent {
     }
 
     closeEvent() {
-        this.onClose(null);
+        this.mainWindow.close();
     }
 
     getTitle() {
         return this.title.getTitle();
-    }
-
-    private onClose(event: Electron.Event) {
-        if (event)
-            event.preventDefault();
-
-        this.fuzzyService.saveCacheIfNeeded().then(() => {
-            this.mainWindow.close();
-        });
     }
 }

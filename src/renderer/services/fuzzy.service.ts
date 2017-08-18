@@ -11,15 +11,13 @@ export class FuzzyService {
     private appSettings: AppSettings;
     private fuzzyListLoader: FuzzyListLoader;
     private fuzzyListMatcher: FuzzyMatcher;
-    private currentCacheEntries: number;
 
     constructor(private http: Http, private loggerService: LoggerService, private settingsService: SettingsService) {
         this.fuzzyListLoader = new FuzzyListLoader(this.http, this.eventCallback.bind(this), () => this.appSettings.offlineMode);
         this.fuzzyListMatcher = new FuzzyMatcher(this.eventCallback.bind(this));
 
-        this.fuzzyListLoader.observeListAndCache().subscribe((listAndCache) => {
-            this.fuzzyListMatcher.setFuzzyListAndCache(listAndCache);
-            this.currentCacheEntries = Object.keys(listAndCache.cache).length;
+        this.fuzzyListLoader.observeList().subscribe((list) => {
+            this.fuzzyListMatcher.setFuzzyList(list);
         });
 
         this.settingsService.onLoad((appSettings) => {
@@ -27,10 +25,6 @@ export class FuzzyService {
             this.fuzzyListLoader.setTimestamps(appSettings.fuzzyMatcher.timestamps);
             this.fuzzyListLoader.loadList();
         });
-
-        setInterval(() => {
-            this.saveCacheIfNeeded();
-        }, 300000 /*5 mins*/);
     }
 
     get fuzzyLoader() {
@@ -43,16 +37,6 @@ export class FuzzyService {
 
     private get lang() {
         return gApp.lang.fuzzyMatcher;
-    }
-
-    saveCacheIfNeeded() {
-        return Promise.resolve().then(() => {
-            let cacheEntries = Object.keys(this.fuzzyLoader.getListAndCache().cache).length;
-            if (this.currentCacheEntries != undefined && this.currentCacheEntries !== cacheEntries) {
-                this.currentCacheEntries = cacheEntries;
-                return this.fuzzyLoader.saveCache();
-            }
-        });
     }
 
     eventCallback<K extends keyof FuzzyEventMap>(event: K, data: FuzzyEventMap[K]) {

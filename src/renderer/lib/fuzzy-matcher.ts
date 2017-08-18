@@ -1,37 +1,25 @@
 import { ParsedDataWithFuzzy, FuzzyEventCallback } from "../models";
-import * as Fuzzy from "fuzzy";
+import * as Fuzzy from 'fuzzaldrin-plus';
 
 export class FuzzyMatcher {
-    private listAndCache: { totalGames: number, games: string[], cache: { [key: string]: any } };
+    private list: { totalGames: number, games: string[] };
     private matchFromListMem: (input: string, removeCharacters: boolean, removeBrackets: boolean) => { output: string, matched: boolean };
 
-    constructor(private eventCallback?: FuzzyEventCallback, listAndCache?: { totalGames: number, games: string[], cache: { [key: string]: any } }) {
+    constructor(private eventCallback?: FuzzyEventCallback, list?: { totalGames: number, games: string[] }) {
         this.setEventCallback(eventCallback || ((event: any, data: any) => { }));
-        this.setFuzzyListAndCache(listAndCache);
-        this.matchFromListMem = require('fast-memoize')(this.matchFromList.bind(this), {
-            cache: {
-                create: () => {
-                    return {
-                        has: (key: any) => { return (key in this.listAndCache.cache); },
-                        get: (key: any) => { return this.listAndCache.cache[key]; },
-                        set: (key: any, value: any) => { this.listAndCache.cache[key] = value; }
-                    };
-                }
-            }
-        });
+        this.setFuzzyList(list);
     }
 
     setEventCallback(eventCallback: FuzzyEventCallback) {
         this.eventCallback = eventCallback;
     }
 
-    setFuzzyListAndCache(listAndCache: { totalGames: number, games: string[], cache: { [key: string]: any } }) {
-        this.listAndCache = listAndCache;
+    setFuzzyList(list: { totalGames: number, games: string[] }) {
+        this.list = list;
     }
 
     fuzzyMatchParsedData(data: ParsedDataWithFuzzy, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
         if (this.isLoaded()) {
-            let matches: Fuzzy.FilterResult<string>[] = [];
             for (let i = 0; i < data.success.length; i++) {
                 let matchedData = this.matchFromListMem(data.success[i].extractedTitle, removeCharacters, removeBrackets);
 
@@ -75,15 +63,15 @@ export class FuzzyMatcher {
     }
 
     isLoaded() {
-        return this.listAndCache != null && this.listAndCache.games.length > 0;
+        return this.list != null && this.list.games.length > 0;
     }
 
     private matchFromList(input: string, removeCharacters: boolean, removeBrackets: boolean) {
         let modifiedInput = this.modifyString(input, removeCharacters, removeBrackets);
 
-        let matches = Fuzzy.filter(modifiedInput, this.listAndCache.games);
+        let matches = Fuzzy.filter(this.list.games, modifiedInput);
         if (matches.length) {
-            return { output: this.getBestMatch(modifiedInput, matches), matched: true };
+            return { output: matches[0], matched: true };
         }
         else {
             let index = input.lastIndexOf(',');
@@ -91,9 +79,9 @@ export class FuzzyMatcher {
                 let segments = [input.slice(index + 1), input.slice(0, index)];
                 modifiedInput = segments[0][0] === ' ' ? segments.join('') : segments.join(' ');
                 modifiedInput = this.modifyString(modifiedInput, removeCharacters, removeBrackets);
-                matches = Fuzzy.filter(modifiedInput, this.listAndCache.games);
+                matches = Fuzzy.filter(this.list.games, modifiedInput);
                 if (matches.length) {
-                    return { output: this.getBestMatch(modifiedInput, matches), matched: true };
+                    return { output: matches[0], matched: true };
                 }
             }
         }
@@ -114,38 +102,5 @@ export class FuzzyMatcher {
         }
 
         return input.trim();
-    }
-
-    //If scores are the same, use length diff. to determinate closest match. Also try luck with matching exact titles
-    private getBestMatch(pattern: string, matches: Fuzzy.FilterResult<string>[]) {
-        let lastSameScoreIndex: number = 0;
-        let lengthDiff: number[] = [];
-        for (let i = 0; i < matches.length; i++) {
-            if (pattern === matches[i].string)
-                return matches[i].string;
-            else if (matches[lastSameScoreIndex].score === matches[i].score) {
-                lastSameScoreIndex = i;
-                lengthDiff[i] = Math.abs(matches[i].string.length - pattern.length);
-            }
-            else
-                break;
-        }
-
-        if (lastSameScoreIndex === 0)
-            return matches[0].string;
-        else {
-            let minLoopIndex = function (arr: number[]) {
-                let len = arr.length, min = Infinity, index = 0;
-                while (len--) {
-                    if (arr[len] < min) {
-                        min = arr[len];
-                        index = len;
-                    }
-                }
-                return index;
-            };
-
-            return matches[minLoopIndex(lengthDiff)].string;
-        }
     }
 }
