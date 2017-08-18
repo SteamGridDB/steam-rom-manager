@@ -179,7 +179,7 @@ export interface languageStruct {
                 localIcons: string[]
             },
             info: {
-                testStarting__i: string, //${title}
+                testStarting__i: string, //${title}, ${version}
                 testCompleted: string,
                 nothingWasFound: string,
             }

@@ -218,7 +218,7 @@ export const EnglishLang: languageContainer = {
                     ]
                 },
                 info: {
-                    testStarting__i: 'Testing "${title}" parser.',
+                    testStarting__i: 'Testing "${title}" parser (SRM version - ${version}).',
                     testCompleted: 'Parser test is completed.',
                     nothingWasFound: 'Parser found nothing.'
                 },

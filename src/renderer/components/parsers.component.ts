@@ -454,7 +454,8 @@ export class ParsersComponent implements OnInit, OnDestroy {
                 this.loggerService.error(error);
             });
             this.loggerService.info(this.lang.info.testStarting__i.interpolate({
-                title: config.configTitle || this.lang.text.noTitle
+                title: config.configTitle || this.lang.text.noTitle,
+                version: gApp.version
             }));
             this.router.navigateByUrl('/logger');
         }

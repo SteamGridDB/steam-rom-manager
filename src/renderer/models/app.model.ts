@@ -1,5 +1,6 @@
 import { languageStruct } from "../../shared/models";
 
 export interface GlobalContainer {
-    lang: languageStruct;
+    lang: languageStruct,
+    version: number
 };
