@@ -178,7 +178,7 @@ export class GlobRegexParser implements GenericParser {
             return fileGlob.replace(/(\${.*?})/i, '*')
         }
         else
-            return '**';
+            return '*';
     }
 
     private makeRegexRegex(fileGlob: string) {

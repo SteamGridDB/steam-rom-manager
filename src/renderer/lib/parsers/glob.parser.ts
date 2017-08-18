@@ -169,7 +169,7 @@ export class GlobParser implements GenericParser {
             return fileGlob.replace(/(\${.*?})/i, '*')
         }
         else
-            return '**';
+            return '*';
     }
 
     private extractTitleTag(fileGlob: string) {
