@@ -70,7 +70,7 @@ export class FuzzyMatcher {
 
         let matches = Fuzzy.filter(this.list.games, modifiedInput);
         if (matches.length) {
-            return { output: matches[0], matched: true };
+            return { output: this.getBestMatch(modifiedInput, matches), matched: true };
         }
         else {
             let index = input.lastIndexOf(',');
@@ -80,7 +80,7 @@ export class FuzzyMatcher {
                 modifiedInput = this.modifyString(modifiedInput, removeCharacters, removeBrackets);
                 matches = Fuzzy.filter(this.list.games, modifiedInput);
                 if (matches.length) {
-                    return { output: matches[0], matched: true };
+                    return { output: this.getBestMatch(modifiedInput, matches), matched: true };
                 }
             }
         }
@@ -101,5 +101,34 @@ export class FuzzyMatcher {
         }
 
         return input.trim();
+    }
+
+    private getBestMatch(pattern: string, matches: string[]) {
+        let bestIndex: number = 0;
+        let lengthDiff: number = Infinity;
+        let bestScore: number = 0;
+
+        for (let i = 0; i < matches.length; i++) {
+            let diff = matches[i].length - pattern.length;
+            let absDiff = Math.abs(diff);
+
+            if (absDiff < lengthDiff){
+                bestIndex = i;
+                bestScore = Fuzzy.score(matches[i], pattern);
+                if (absDiff === 0)
+                    break;
+                else
+                    lengthDiff = absDiff;
+            }
+            else if (absDiff === lengthDiff && diff < 0){
+                let currentScore = Fuzzy.score(matches[i], pattern);
+                if (bestScore <= currentScore){
+                    bestIndex = i;
+                    bestScore = currentScore;
+                }
+            }
+        }
+
+        return matches[bestIndex];
     }
 }
