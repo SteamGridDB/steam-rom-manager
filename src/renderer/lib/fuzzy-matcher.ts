@@ -3,7 +3,6 @@ import * as Fuzzy from 'fuzzaldrin-plus';
 
 export class FuzzyMatcher {
     private list: { totalGames: number, games: string[] };
-    private matchFromListMem: (input: string, removeCharacters: boolean, removeBrackets: boolean) => { output: string, matched: boolean };
 
     constructor(private eventCallback?: FuzzyEventCallback, list?: { totalGames: number, games: string[] }) {
         this.setEventCallback(eventCallback || ((event: any, data: any) => { }));
@@ -21,7 +20,7 @@ export class FuzzyMatcher {
     fuzzyMatchParsedData(data: ParsedDataWithFuzzy, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
         if (this.isLoaded()) {
             for (let i = 0; i < data.success.length; i++) {
-                let matchedData = this.matchFromListMem(data.success[i].extractedTitle, removeCharacters, removeBrackets);
+                let matchedData = this.matchFromList(data.success[i].extractedTitle, removeCharacters, removeBrackets);
 
                 if (matchedData.matched) {
                     data.success[i].fuzzyTitle = matchedData.output;
@@ -35,7 +34,7 @@ export class FuzzyMatcher {
 
     fuzzyMatchString(input: string, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
         if (this.isLoaded()) {
-            let data = this.matchFromListMem(input, removeCharacters, removeBrackets);
+            let data = this.matchFromList(input, removeCharacters, removeBrackets);
             if (data.matched && verbose)
                 this.eventCallback('info', { info: 'match', stringA: data.output, stringB: input });
             return data.output;
@@ -45,8 +44,8 @@ export class FuzzyMatcher {
 
     fuzzyEqual(a: string, b: string, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
         if (this.isLoaded()) {
-            let dataA = this.matchFromListMem(a, removeCharacters, removeBrackets);
-            let dataB = this.matchFromListMem(b, removeCharacters, removeBrackets);
+            let dataA = this.matchFromList(a, removeCharacters, removeBrackets);
+            let dataB = this.matchFromList(b, removeCharacters, removeBrackets);
 
             if (dataA.output === dataA.output) {
                 if (verbose)
