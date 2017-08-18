@@ -5,15 +5,15 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Local icon support.
 * Parser support to local images and local icons.
-* Fuzzy matcher cache.
 * Temporary glob cache.
-* Settings button to reset fuzzy list and cache.
+* Settings button to reset fuzzy list.
 * Warning is now shown if no user account found.
 * Option to disable the usage of Steam account credentials.
 * App's position and state will now persist. Except for maximized state, it's currently a little buggy.
 
 ### Change
 * Testing parser will no longer save configuration.
+* Changed fuzzy library from [fuzzy](https://github.com/mattyork/fuzzy) to [fuzzaldrin-plus](https://github.com/jeancroy/fuzz-aldrin-plus).
 
 ### Fixed
 * Empty executable is now allowed.
