@@ -11,14 +11,18 @@ All notable changes to this project will be documented in this file.
 * Option to disable the usage of Steam account credentials.
 * App's position and state will now persist. Except for maximized state, it's currently a little buggy.
 * User can now disable current Steam images that are shown in preview.
+* SRM now detects changes in parser configuration. These changes will persist until user presses "Save" or decides to undo all changes. Changes will be lost if user exits app.
+* Deleted configurations are can now be restored until app is closed.
 
 ### Changed
-* Testing parser will no longer save configuration.
 * Changed fuzzy library from [fuzzy](https://github.com/mattyork/fuzzy) to [fuzzaldrin-plus](https://github.com/jeancroy/fuzz-aldrin-plus).
 * Parser configuration will now have `disable` option instead of `enable`. Should be less confusing.
+* Recursive form is not adapted to work with angular's reactive forms. Makes validation and change tracking easier.
+* Toggle button now uses css animations instead of svg.
 
 ### Fixed
 * Empty executable is now allowed.
+* A logic "bug" for `retrogaming.cloud`. If filter is enabled, titles will be filtered out before making queries `retrogaming.cloud`. This will dramatically decrease number of timeouts. Big thanks to **AlexDobeck** for finding and providing a fix for this.
 
 ## 2.1.1 - 2017-08-09
 ### Added
