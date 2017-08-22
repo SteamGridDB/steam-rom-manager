@@ -1,39 +1,40 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Input, ViewChild, forwardRef } from '@angular/core';
-import { RecursiveFormComponent } from "../components";
+import { Component, AfterViewInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { ParsersService, LoggerService, ImageProviderService } from '../services';
-import { UserConfiguration, RecursiveForm, RecursiveFormElement } from '../models';
-import { Subscription } from "rxjs";
+import { UserConfiguration, NestedFormElement } from '../models';
+import { Subscription, Observable } from "rxjs";
 import { gApp } from "../app.global";
 
 @Component({
     selector: 'parsers',
     template: `
         <markdown class="docs" [content]="this.currentDoc.content"></markdown>
-        <ng-recursive-form class="recursiveForm" [userFormTemplate]="userFormTemplate" [hideErrors]="hideErrors"></ng-recursive-form>
+        <ng-nested-form class="nestedForm" (parentFormChange)="userForm = $event" [nestedGroup]="nestedGroup"></ng-nested-form>
         <div class="menu" drag-scroll>
             <ng-container *ngIf="configurationIndex === -1; else moreOptions">
-                <div (click)="saveForm()">{{lang.buttons.save}}</div>
-                <div style="margin: 0 0 0 auto;" (click)="openFAQ()">{{lang.buttons.faq}}</div>
+                <div (click)="saveForm()" style="margin-right: auto;">{{lang.buttons.save}}</div>
+                <div *ngIf="(parsersService.getDeletedConfigurations() | async).length !== 0" (click)="restoreForm()">{{lang.buttons.undoDelete}}</div>
+                <div (click)="openFAQ()">{{lang.buttons.faq}}</div>
             </ng-container>
             <ng-template #moreOptions>
                 <div (click)="updateForm()">{{lang.buttons.save}}</div>
                 <div (click)="saveForm()">{{lang.buttons.copy}}</div>
                 <div (click)="testForm()">{{lang.buttons.testParser}}</div>
-                <div class="dangerousButton" (click)="deleteForm()">{{lang.buttons.delete}}</div>
-                <div [class.disabled]="configurationIndex === 0" (click)="moveUp()">
+                <div class="dangerousButton" (click)="deleteForm()" style="margin-right: auto;">{{lang.buttons.delete}}</div>
+                <div *ngIf="(parsersService.getDeletedConfigurations() | async).length !== 0" (click)="restoreForm()">{{lang.buttons.undoDelete}}</div>
+                <div *ngIf="isUnsaved" (click)="undoChanges()">{{lang.buttons.undoChanges}}</div>
+                <div [class.disabled]="configurationIndex === 0" (click)="moveUp()" [title]="lang.buttons.moveUp">
                     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300" height="1em">
                         <path d="M150 10 l 140 150 h -80 v 120 h -120 v -120 h -80 z" stroke="black" stroke-width="3" />
                     </svg>
-                    {{lang.buttons.moveUp}}
                 </div>
-                <div [class.disabled]="configurationIndex + 1 === userConfigurations.length" (click)="moveDown()">
+                <div [class.disabled]="configurationIndex + 1 === userConfigurations.length" (click)="moveDown()" [title]="lang.buttons.moveDown">
                     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300" height="1em">
                         <path d="M150 290 l 140 -150 h -80 v -120 h -120 v 120 h -80 z" stroke="black" stroke-width="3" />
                     </svg>
-                    {{lang.buttons.moveDown}}
                 </div>
-                <div style="margin: 0 0 0 auto;" (click)="openFAQ()">{{lang.buttons.faq}}</div>
+                <div (click)="openFAQ()">{{lang.buttons.faq}}</div>
             </ng-template>
         </div>
     `,
@@ -42,235 +43,223 @@ import { gApp } from "../app.global";
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ParsersComponent implements OnInit, OnDestroy {
+export class ParsersComponent implements AfterViewInit, OnDestroy {
     private currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
-    private userFormTemplate: RecursiveForm = undefined;
-    private hideErrors: boolean;
     private subscriptions: Subscription = new Subscription();
-    private userConfigurations: UserConfiguration[] = [];
+    private userConfigurations: { saved: UserConfiguration, current: UserConfiguration }[] = [];
     private configurationIndex: number = -1;
-    @ViewChild(forwardRef(() => RecursiveFormComponent)) private recursiveForm: RecursiveFormComponent;
+    private isUnsaved: boolean = false;
+
+    private nestedGroup: NestedFormElement.Group;
+    private userForm: FormGroup;
+    private formChanges: Subscription = new Subscription();
 
     constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private router: Router, private activatedRoute: ActivatedRoute, private changeRef: ChangeDetectorRef) {
-        this.userFormTemplate = {
-            parserType: new RecursiveFormElement.Select({
-                value: null,
-                label: this.lang.label.parserType,
-                placeholder: this.lang.placeholder.parserType,
-                values: this.parsersService.getAvailableParsers().map((parser) => { return { display: parser }; }),
-                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-                onInfoClick: (self, path) => {
-                    let parser = this.parsersService.getParser(self.value);
-                    this.currentDoc.activePath = path.join();
-                    this.currentDoc.content = parser ? parser.info : this.lang.docs__md.parserType.join('');
-                },
-                onChange: (self, path) => {
-                    let completePath = path.join();
-                    if (this.currentDoc.activePath === completePath) {
+        this.nestedGroup = new NestedFormElement.Group({
+            children: {
+                parserType: new NestedFormElement.Select({
+                    label: this.lang.label.parserType,
+                    placeholder: this.lang.placeholder.parserType,
+                    values: this.parsersService.getAvailableParsers().map((parser) => { return { display: parser }; }),
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                    onInfoClick: (self, path) => {
                         let parser = this.parsersService.getParser(self.value);
+                        this.currentDoc.activePath = path.join();
                         this.currentDoc.content = parser ? parser.info : this.lang.docs__md.parserType.join('');
+                    },
+                    onChange: (self, path) => {
+                        let completePath = path.join();
+                        if (this.currentDoc.activePath === completePath) {
+                            let parser = this.parsersService.getParser(self.value);
+                            this.currentDoc.content = parser ? parser.info : this.lang.docs__md.parserType.join('');
+                        }
                     }
-                    return false;
-                }
-            }),
-            configTitle: new RecursiveFormElement.Input({
-                value: '',
-                label: this.lang.label.configTitle,
-                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-                onInfoClick: (self, path) => {
-                    this.currentDoc.activePath = path.join();
-                    this.currentDoc.content = this.lang.docs__md.configTitle.join('');
-                }
-            }),
-            steamCategory: new RecursiveFormElement.Input({
-                value: '',
-                hidden: () => !this.userFormTemplate.advanced['value'],
-                label: this.lang.label.steamCategory,
-                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-                onInfoClick: (self, path) => {
-                    this.currentDoc.activePath = path.join();
-                    this.currentDoc.content = this.lang.docs__md.steamCategory.join('');
-                }
-            }),
-            executableLocation: new RecursiveFormElement.Path({
-                value: '',
-                label: this.lang.label.executableLocation,
-                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-                onInfoClick: (self, path) => {
-                    this.currentDoc.activePath = path.join();
-                    this.currentDoc.content = this.lang.docs__md.executableLocation.join('');
-                }
-            }),
-            romDirectory: new RecursiveFormElement.Path({
-                value: '',
-                directory: true,
-                label: this.lang.label.romDirectory,
-                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-                onInfoClick: (self, path) => {
-                    this.currentDoc.activePath = path.join();
-                    this.currentDoc.content = this.lang.docs__md.romDirectory.join('');
-                }
-            }),
-            steamDirectory: new RecursiveFormElement.Path({
-                value: '',
-                directory: true,
-                label: this.lang.label.steamDirectory,
-                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-                onInfoClick: (self, path) => {
-                    this.currentDoc.activePath = path.join();
-                    this.currentDoc.content = this.lang.docs__md.steamDirectory.join('');
-                }
-            }),
-            userAccounts: {
-                specifiedAccounts: new RecursiveFormElement.Input({
-                    value: '',
-                    hidden: () => !this.userFormTemplate.advanced['value'],
+                }),
+                configTitle: new NestedFormElement.Input({
+                    label: this.lang.label.configTitle,
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.configTitle.join('');
+                    }
+                }),
+                steamCategory: new NestedFormElement.Input({
+                    isHidden: () => this.isHiddenMode(),
+                    label: this.lang.label.steamCategory,
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.steamCategory.join('');
+                    }
+                }),
+                executableLocation: new NestedFormElement.Path({
+                    label: this.lang.label.executableLocation,
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.executableLocation.join('');
+                    }
+                }),
+                romDirectory: new NestedFormElement.Path({
+                    directory: true,
+                    label: this.lang.label.romDirectory,
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.romDirectory.join('');
+                    }
+                }),
+                steamDirectory: new NestedFormElement.Path({
+                    directory: true,
+                    label: this.lang.label.steamDirectory,
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.steamDirectory.join('');
+                    }
+                }),
+                userAccounts: new NestedFormElement.Group({
                     label: this.lang.label.userAccounts,
-                    onValidate: (self, path) => this.parsersService.validate(path[path.length - 1] as keyof UserConfiguration, self.value),
+                    isHidden: () => this.isHiddenMode(),
+                    children: {
+                        specifiedAccounts: new NestedFormElement.Input({
+                            onValidate: (self, path) => this.parsersService.validate(path[path.length - 1] as keyof UserConfiguration, self.value)
+                        }),
+                        skipWithMissingDataDir: new NestedFormElement.Toggle({
+                            text: this.lang.text.skipWithMissingDataDir
+                        }),
+                        useCredentials: new NestedFormElement.Toggle({
+                            text: this.lang.text.useCredentials
+                        })
+                    },
                     onInfoClick: (self, path) => {
                         this.currentDoc.activePath = path.join();
                         this.currentDoc.content = this.lang.docs__md.userAccounts.join('');
                     }
                 }),
-                skipWithMissingDataDir: new RecursiveFormElement.Toggle({
-                    value: false,
-                    hidden: () => !this.userFormTemplate.advanced['value'],
-                    text: this.lang.text.skipWithMissingDataDir
-                }),
-                useCredentials: new RecursiveFormElement.Toggle({
-                    value: true,
-                    hidden: () => !this.userFormTemplate.advanced['value'],
-                    text: this.lang.text.useCredentials
-                })
-            },
-            parserInputs: (() => {
-                let parserInputs = {};
-                let parsers = this.parsersService.getAvailableParsers();
+                parserInputs: (() => {
+                    let parserInputs = {};
+                    let parsers = this.parsersService.getAvailableParsers();
 
-                for (let i = 0; i < parsers.length; i++) {
-                    let parser = this.parsersService.getParser(parsers[i]);
-                    if (parser && parser.inputs !== undefined) {
-                        for (let inputFieldName in parser.inputs) {
-                            let input = parser.inputs[inputFieldName];
-                            parserInputs[inputFieldName] = new RecursiveFormElement.Input({
-                                value: input.forcedInput !== undefined ? input.forcedInput : '',
-                                label: input.label,
-                                disabled: () => input.forcedInput !== undefined || this.userFormTemplate.parserType['value'] !== parsers[i],
-                                hidden: () => this.userFormTemplate.parserType['value'] !== parsers[i],
-                                onValidate: (self, path: string[]) =>
-                                    this.parsersService.validate(path[0] as keyof UserConfiguration, { parser: parsers[i], input: inputFieldName, inputData: self.value }),
-                                onInfoClick: (self, path) => {
-                                    this.currentDoc.activePath = path.join();
-                                    this.currentDoc.content = input.info;
-                                }
-                            });
+                    for (let i = 0; i < parsers.length; i++) {
+                        let parser = this.parsersService.getParser(parsers[i]);
+                        if (parser && parser.inputs !== undefined) {
+                            for (let inputFieldName in parser.inputs) {
+                                let input = parser.inputs[inputFieldName];
+                                parserInputs[inputFieldName] = new NestedFormElement.Input({
+                                    initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
+                                    label: input.label,
+                                    isHidden: () => {
+                                        return Observable.concat(Observable.of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).map((type: string) => {
+                                            return type !== parsers[i];
+                                        });
+                                    },
+                                    onValidate: (self, path) => {
+                                        if (this.userForm.get('parserType').value === parsers[i])
+                                            return this.parsersService.validate(path[0] as keyof UserConfiguration, { parser: parsers[i], input: inputFieldName, inputData: self.value });
+                                        else
+                                            return null;
+                                    },
+                                    onInfoClick: (self, path) => {
+                                        this.currentDoc.activePath = path.join();
+                                        this.currentDoc.content = input.info;
+                                    }
+                                });
+                            }
                         }
                     }
-                }
 
-                return parserInputs;
-            })(),
-            titleModifier: new RecursiveFormElement.Input({
-                value: '',
-                hidden: () => !this.userFormTemplate.advanced['value'],
-                label: this.lang.label.titleModifier,
-                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-                onInfoClick: (self, path) => {
-                    this.currentDoc.activePath = path.join();
-                    this.currentDoc.content = this.lang.docs__md.titleModifier.join('');
-                }
-            }),
-            fuzzyMatch: {
-                use: new RecursiveFormElement.Toggle({
-                    label: this.lang.label.fuzzyMatch,
-                    value: true,
-                    hidden: () => !this.userFormTemplate.advanced['value'],
-                    text: this.lang.text.fuzzy_use,
+                    return new NestedFormElement.Group({
+                        children: parserInputs
+                    });
+                })(),
+                titleModifier: new NestedFormElement.Input({
+                    isHidden: () => this.isHiddenMode(),
+                    label: this.lang.label.titleModifier,
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
                     onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.titleModifier.join('');
+                    }
+                }),
+                fuzzyMatch: new NestedFormElement.Group({
+                    isHidden: () => this.isHiddenMode(),
+                    label: this.lang.label.fuzzyMatch,
+                    children: {
+                        use: new NestedFormElement.Toggle({
+                            text: this.lang.text.fuzzy_use
+                        }),
+                        removeCharacters: new NestedFormElement.Toggle({
+                            text: this.lang.text.fuzzy_removeCharacters
+                        }),
+                        removeBrackets: new NestedFormElement.Toggle({
+                            text: this.lang.text.fuzzy_removeBrackets
+                        })
+                    },
+                    onInfoClick: (control, path) => {
                         this.currentDoc.activePath = path.join();
                         this.currentDoc.content = this.lang.docs__md.fuzzyMatch.join('');
                     }
                 }),
-                removeCharacters: new RecursiveFormElement.Toggle({
-                    value: true,
-                    hidden: () => !this.userFormTemplate.advanced['value'],
-                    text: this.lang.text.fuzzy_removeCharacters
+                executableArgs: new NestedFormElement.Input({
+                    label: this.lang.label.executableArgs,
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.executableArgs.join('');
+                    }
                 }),
-                removeBrackets: new RecursiveFormElement.Toggle({
-                    value: true,
-                    hidden: () => !this.userFormTemplate.advanced['value'],
-                    text: this.lang.text.fuzzy_removeBrackets
+                appendArgsToExecutable: new NestedFormElement.Toggle({
+                    isHidden: () => this.isHiddenMode(),
+                    text: this.lang.text.appendArgsToExecutable
+                }),
+                onlineImageQueries: new NestedFormElement.Input({
+                    label: this.lang.label.onlineImageQueries,
+                    isHidden: () => this.userForm.get('advanced').valueChanges.map(val => !val),
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.onlineImageQueries.join('');
+                    }
+                }),
+                imageProviders: new NestedFormElement.Select({
+                    label: this.lang.label.imageProviders,
+                    placeholder: this.lang.placeholder.imageProviders,
+                    multiple: true,
+                    values: this.imageProviderService.instance.getAvailableProviders().map((provider) => { return { display: provider }; }),
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
+                    }
+                }),
+                localImages: new NestedFormElement.Input({
+                    isHidden: () => this.isHiddenMode(),
+                    label: this.lang.label.localImages,
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.localImages.join('');
+                    }
+                }),
+                localIcons: new NestedFormElement.Input({
+                    isHidden: () => this.isHiddenMode(),
+                    label: this.lang.label.localIcons,
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.localIcons.join('');
+                    }
+                }),
+                disabled: new NestedFormElement.Toggle({
+                    text: this.lang.text.disabled
+                }),
+                advanced: new NestedFormElement.Toggle({
+                    text: this.lang.text.advanced
                 })
-            },
-            executableArgs: new RecursiveFormElement.Input({
-                value: '',
-                label: this.lang.label.executableArgs,
-                onInfoClick: (self, path) => {
-                    this.currentDoc.activePath = path.join();
-                    this.currentDoc.content = this.lang.docs__md.executableArgs.join('');
-                }
-            }),
-            appendArgsToExecutable: new RecursiveFormElement.Toggle({
-                value: false,
-                hidden: () => !this.userFormTemplate.advanced['value'],
-                text: this.lang.text.appendArgsToExecutable
-            }),
-            onlineImageQueries: new RecursiveFormElement.Input({
-                value: '${${fuzzyTitle}}',
-                label: this.lang.label.onlineImageQueries,
-                hidden: () => !this.userFormTemplate.advanced['value'],
-                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-                onInfoClick: (self, path) => {
-                    this.currentDoc.activePath = path.join();
-                    this.currentDoc.content = this.lang.docs__md.onlineImageQueries.join('');
-                }
-            }),
-            imageProviders: new RecursiveFormElement.Select({
-                value: null,
-                label: this.lang.label.imageProviders,
-                placeholder: this.lang.placeholder.imageProviders,
-                multiple: true,
-                values: this.imageProviderService.instance.getAvailableProviders().map((provider) => { return { display: provider }; }),
-                onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-                onInfoClick: (self, path) => {
-                    this.currentDoc.activePath = path.join();
-                    this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
-                }
-            }),
-            localImages: new RecursiveFormElement.Input({
-                value: '',
-                hidden: () => !this.userFormTemplate.advanced['value'],
-                label: this.lang.label.localImages,
-                onInfoClick: (self, path) => {
-                    this.currentDoc.activePath = path.join();
-                    this.currentDoc.content = this.lang.docs__md.localImages.join('');
-                }
-            }),
-            localIcons: new RecursiveFormElement.Input({
-                value: '',
-                hidden: () => !this.userFormTemplate.advanced['value'],
-                label: this.lang.label.localIcons,
-                onInfoClick: (self, path) => {
-                    this.currentDoc.activePath = path.join();
-                    this.currentDoc.content = this.lang.docs__md.localIcons.join('');
-                }
-            }),
-            disabled: new RecursiveFormElement.Toggle({
-                value: false,
-                text: this.lang.text.disabled
-            }),
-            advanced: new RecursiveFormElement.Toggle({
-                value: false,
-                text: this.lang.text.advanced
-            })
-        }
+            }
+        });
+        this.currentDoc.content = this.lang.docs__md.intro.join('');
     }
 
-    private get lang() {
-        return gApp.lang.parsers.component;
-    }
-
-    ngOnInit() {
+    ngAfterViewInit() {
         this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe((data) => {
             this.userConfigurations = data;
             this.loadConfiguration();
@@ -278,7 +267,14 @@ export class ParsersComponent implements OnInit, OnDestroy {
             this.configurationIndex = parseInt(params['index']);
             this.loadConfiguration();
         }));
-        this.currentDoc.content = this.lang.docs__md.intro.join('');
+    }
+
+    private isHiddenMode() {
+        return Observable.concat(Observable.of(this.userForm.get('advanced').value), this.userForm.get('advanced').valueChanges).map(val => !val);
+    }
+
+    private get lang() {
+        return gApp.lang.parsers.component;
     }
 
     private openFAQ() {
@@ -287,12 +283,16 @@ export class ParsersComponent implements OnInit, OnDestroy {
     }
 
     private saveForm() {
-        this.parsersService.saveConfiguration(this.recursiveForm.getValues() as UserConfiguration);
+        if (this.userConfigurations.length === 0 || this.configurationIndex === -1)
+            this.parsersService.saveConfiguration({ saved: this.userForm.value as UserConfiguration, current: null });
+        else
+            this.parsersService.saveConfiguration(this.userConfigurations[this.configurationIndex]);
+
         this.router.navigate(['/parsers', this.userConfigurations.length - 1]);
     }
 
     private updateForm() {
-        this.parsersService.updateConfiguration(this.recursiveForm.getValues() as UserConfiguration, this.configurationIndex);
+        this.parsersService.updateConfiguration(this.configurationIndex);
     }
 
     private deleteForm() {
@@ -301,8 +301,12 @@ export class ParsersComponent implements OnInit, OnDestroy {
             this.router.navigate(['/parsers', this.userConfigurations.length - 1]);
     }
 
+    private restoreForm() {
+        this.parsersService.restoreConfiguration();
+    }
+
     private testForm() {
-        let config = this.recursiveForm.getValues() as UserConfiguration;
+        let config = this.userForm.value as UserConfiguration;
         if (this.parsersService.isConfigurationValid(config)) {
             this.parsersService.executeFileParser(config).then((dataArray) => {
                 if (dataArray.parsedData.parsedConfigs.length > 0) {
@@ -477,14 +481,31 @@ export class ParsersComponent implements OnInit, OnDestroy {
         }
     }
 
+    private undoChanges() {
+        this.parsersService.setCurrentConfiguration(this.configurationIndex, null);
+    }
+
     private loadConfiguration() {
         if (this.configurationIndex !== -1 && this.userConfigurations.length > this.configurationIndex) {
-            this.hideErrors = false;
-            this.recursiveForm.setValues(this.userConfigurations[this.configurationIndex], false);
+            let config = this.userConfigurations[this.configurationIndex];
+            this.formChanges.unsubscribe();
+
+            this.userForm.patchValue(config.current ? config.current : config.saved);
+            this.userForm.markAsDirty();
+
+            this.isUnsaved = config.current != null;
+
+            this.formChanges = this.userForm.valueChanges.subscribe((data: UserConfiguration) => {
+                if (config.current == null)
+                    this.parsersService.setCurrentConfiguration(this.configurationIndex, data);
+                else
+                    config.current = data;
+            });
         }
         else if (this.configurationIndex === -1 && this.userConfigurations !== undefined) {
-            this.hideErrors = null;
-            this.recursiveForm.setValues(this.parsersService.getDefaultValues(), true);
+            this.formChanges.unsubscribe();
+            this.userForm.patchValue(this.parsersService.getDefaultValues());
+            this.userForm.markAsPristine();
         }
 
         this.changeRef.detectChanges();
@@ -492,5 +513,6 @@ export class ParsersComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscriptions.unsubscribe();
+        this.formChanges.unsubscribe();
     }
 }

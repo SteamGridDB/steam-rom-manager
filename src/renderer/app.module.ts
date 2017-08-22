@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe, APP_BASE_HREF } from '@angular/common';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { DynamicHTMLModule } from 'ng-dynamic';
@@ -48,6 +48,7 @@ function ngObjectsToArray(importObject: any, selector: boolean = false) {
         HttpModule,
         AppRoutes,
         FormsModule,
+        ReactiveFormsModule,
         ColorPickerModule,
         DynamicHTMLModule.forRoot({
             components: [].concat(

@@ -1,4 +1,4 @@
-import { Component, ContentChildren, QueryList, ElementRef, OnDestroy } from '@angular/core';
+import { Component, ContentChildren, QueryList, ElementRef, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { NavLinkComponent } from './nav-link.component';
 
 @Component({
@@ -8,7 +8,8 @@ import { NavLinkComponent } from './nav-link.component';
         <div class="items"><ng-content select=".item"></ng-content></div>
     `,
     styleUrls: ['../styles/nav-expand.component.scss'],
-    host: { '[class.empty]': 'itemCount === 0' }
+    host: { '[class.empty]': 'itemCount === 0' },
+    encapsulation: ViewEncapsulation.None
 })
 export class NavExpandComponent implements OnDestroy {
     private itemCount: number = 0;

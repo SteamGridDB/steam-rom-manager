@@ -158,7 +158,9 @@ export interface languageStruct {
                 delete: string,
                 moveUp: string,
                 moveDown: string,
-                faq: string
+                faq: string,
+                undoChanges: string,
+                undoDelete: string
             },
             docs__md: {
                 intro: string[],

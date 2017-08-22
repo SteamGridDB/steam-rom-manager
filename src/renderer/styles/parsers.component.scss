@@ -5,7 +5,7 @@
 	overflow: auto;
 
 	grid-area: route;
-	grid-template-areas: 'docs recursiveForm'
+	grid-template-areas: 'docs nestedForm'
 	'menu menu';
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 1fr auto;
@@ -16,10 +16,10 @@
 		grid-area: docs;
 	}
 
-	.recursiveForm {
+	.nestedForm {
 		padding: 1em;
 
-		grid-area: recursiveForm;
+		grid-area: nestedForm;
 	}
 
 	.menu {

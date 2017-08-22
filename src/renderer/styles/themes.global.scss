@@ -84,14 +84,14 @@
     --color-ng-select-text-active: #c8c8c8;
     --color-ng-select-text-hover: #c8c8c8;
     --color-ng-toggle-button-border: #159b44;
-    --color-ng-toggle-button-border-active: #63d08a;
+    --color-ng-toggle-button-border-active: rgba(24,171,76,1);
     --color-ng-toggle-button-border-active-hover: #6feb9b;
     --color-ng-toggle-button-border-hover: #36c86a;
     --color-ng-toggle-button-button-border: #767676;
-    --color-ng-toggle-button-button-border-active: #f0fff0;
-    --color-ng-toggle-button-button-border-active-hover: #f0fff0;
+    --color-ng-toggle-button-button-border-active: rgba(181,184,182,1);
+    --color-ng-toggle-button-button-border-active-hover: rgba(231,231,231,1);
     --color-ng-toggle-button-button-border-hover: #f0fff0;
-    --color-ng-toggle-button-button-fill: rgba(73,73,73,0.43);
+    --color-ng-toggle-button-button-fill: #494949;
     --color-ng-toggle-button-button-fill-active: #b5b8b6;
     --color-ng-toggle-button-button-fill-active-hover: #e7e7e7;
     --color-ng-toggle-button-button-fill-hover: #686868;
@@ -114,24 +114,18 @@
     --color-parsers-user-instructions-scrollbar-thumb: rgba(80,80,80,0.5);
     --color-parsers-user-instructions-scrollbar-track: rgba(31,31,31,0.45);
     --color-preview-background: #191919;
-
-    --color-select-arrow-left: transparent;
+    --color-select-arrow-left: rgba(0,0,0,0);
     --color-select-arrow-left-active: #ffffff;
     --color-select-arrow-left-hover: #9b9b9b;
-
-    --color-select-arrow-right: transparent;
+    --color-select-arrow-right: rgba(0,0,0,0);
     --color-select-arrow-right-active: #ffffff;
     --color-select-arrow-right-hover: #9b9b9b;
-
-    --color-select-arrow-down: transparent;
+    --color-select-arrow-down: rgba(0,0,0,0);
     --color-select-arrow-down-active: #ffffff;
     --color-select-arrow-down-hover: #9b9b9b;
-
-    --color-preview-icon-arrow-background: rgba(0, 0, 0, 0.75);
+    --color-preview-icon-arrow-background: rgba(0,0,0,0.75);
     --color-preview-icon-border: #000000;
-
-    --color-preview-image-arrow-background: rgba(0, 0, 0, 0.75);
-
+    --color-preview-image-arrow-background: rgba(0,0,0,0.75);
     --color-preview-app-image-border: #000000;
     --color-preview-app-info-bar-background: rgba(0,0,0,0.5);
     --color-preview-app-zoom-slider-text: #a0a0a0;
@@ -160,11 +154,11 @@
     --color-preview-separator: #0b491a;
     --color-preview-text: #a0a0a0;
     --color-preview-user-background: #0c0c0c;
-    --color-recursive-form-background: rgba(29,29,29,0.7);
-    --color-recursive-form-error: #ad2f2f;
-    --color-recursive-form-label: #a0a0a0;
-    --color-recursive-form-scrollbar-thumb: rgba(80,80,80,0.5);
-    --color-recursive-form-scrollbar-track: rgba(80,80,80,0.3);
+    --color-nested-form-background: rgba(29,29,29,0.7);
+    --color-nested-form-error: #ad2f2f;
+    --color-nested-form-label: #a0a0a0;
+    --color-nested-form-scrollbar-thumb: rgba(80,80,80,0.5);
+    --color-nested-form-scrollbar-track: rgba(80,80,80,0.3);
     --color-settings-background: #050505;
     --color-settings-text: #a0a0a0;
     --color-success: #1bd85e;
@@ -254,6 +248,6 @@
     --color-markdown-text: #959595;
     --color-markdown-underline: #d2d2d2;
     --color-markdown-table-header: #c8c8c8;
-    --color-markdown-table-scrollbar-thumb: rgba(53,53,53,1);
-    --color-markdown-table-scrollbar-track: rgba(20,20,20,1);
+    --color-markdown-table-scrollbar-thumb: #353535;
+    --color-markdown-table-scrollbar-track: #141414;
 }

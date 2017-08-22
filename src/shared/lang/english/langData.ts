@@ -175,7 +175,9 @@ export const EnglishLang: languageContainer = {
                     delete: 'Delete',
                     moveUp: 'Move up',
                     moveDown: 'Move down',
-                    faq: 'FAQ'
+                    faq: 'FAQ',
+                    undoChanges: 'Undo changes',
+                    undoDelete: 'Undo delete'
                 },
                 docs__md: {
                     intro: [require('./markdown/intro.md')],

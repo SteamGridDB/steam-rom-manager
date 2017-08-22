@@ -16,12 +16,14 @@ import * as paths from '../../shared/paths'
 @Injectable()
 export class ParsersService {
     private fileParser: FileParser;
-    private userConfigurations: BehaviorSubject<UserConfiguration[]>;
+    private userConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
+    private deletedConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
     private defaultValues: UserConfiguration;
 
     constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private settingService: SettingsService, private http: Http) {
         this.fileParser = new FileParser(this.fuzzyService);
-        this.userConfigurations = new BehaviorSubject<UserConfiguration[]>([]);
+        this.userConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
+        this.deletedConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
         this.defaultValues = {
             parserType: '',
             configTitle: '',
@@ -57,38 +59,82 @@ export class ParsersService {
         return this.userConfigurations.getValue();
     }
 
+    getDeletedConfigurations() {
+        return this.deletedConfigurations.asObservable();
+    }
+
     getDefaultValues() {
         return this.defaultValues;
     }
 
-    saveConfiguration(config: UserConfiguration) {
+    saveConfiguration(config: { saved: UserConfiguration, current: UserConfiguration }) {
         let userConfigurations = this.userConfigurations.getValue();
-        userConfigurations = userConfigurations.concat(config);
+        userConfigurations = userConfigurations.concat(_.cloneDeep(config));
         this.userConfigurations.next(userConfigurations);
         this.saveUserConfigurations();
     }
 
     swapIndex(currentIndex: number, newIndex: number) {
         let userConfigurations = this.userConfigurations.getValue();
-        var temp = userConfigurations[currentIndex];
+
+        let temp = userConfigurations[currentIndex];
         userConfigurations[currentIndex] = userConfigurations[newIndex];
         userConfigurations[newIndex] = temp;
+
         this.userConfigurations.next(userConfigurations);
         this.saveUserConfigurations();
     }
 
-    updateConfiguration(config: UserConfiguration, index: number) {
+    updateConfiguration(index: number, config?: UserConfiguration) {
         let userConfigurations = this.userConfigurations.getValue();
-        userConfigurations[index] = config;
+
+        if (config === undefined) {
+            if (userConfigurations[index].current == null)
+                return;
+            else
+                userConfigurations[index] = { saved: userConfigurations[index].current, current: null };
+        }
+        else
+            userConfigurations[index] = { saved: config, current: null };
+
         this.userConfigurations.next(userConfigurations);
         this.saveUserConfigurations();
+    }
+
+    setCurrentConfiguration(index: number, config: UserConfiguration) {
+        let userConfigurations = this.userConfigurations.getValue();
+        userConfigurations[index].current = config;
+        this.userConfigurations.next(userConfigurations);
     }
 
     deleteConfiguration(index: number) {
         let userConfigurations = this.userConfigurations.getValue();
-        userConfigurations.splice(index, 1);
-        this.userConfigurations.next(userConfigurations);
-        this.saveUserConfigurations();
+
+        if (userConfigurations.length > index && index >= 0) {
+            let deletedConfigurations = this.deletedConfigurations.getValue();
+
+            deletedConfigurations = deletedConfigurations.concat(userConfigurations.splice(index, 1));
+
+            this.deletedConfigurations.next(deletedConfigurations);
+            this.userConfigurations.next(userConfigurations);
+            this.saveUserConfigurations();
+        }
+    }
+
+    restoreConfiguration(index?: number) {
+        let deletedConfigurations = this.deletedConfigurations.getValue();
+        if (index == undefined)
+            index = 0;
+
+        if (deletedConfigurations.length > index && index >= 0) {
+            let userConfigurations = this.userConfigurations.getValue();
+
+            userConfigurations = userConfigurations.concat(deletedConfigurations.splice(index, 1));
+
+            this.deletedConfigurations.next(deletedConfigurations);
+            this.userConfigurations.next(userConfigurations);
+            this.saveUserConfigurations();
+        }
     }
 
     getAvailableParsers() {
@@ -107,10 +153,10 @@ export class ParsersService {
         if (configs.length === 0) {
             let configArray = this.getUserConfigurationsArray();
             for (let i = 0; i < configArray.length; i++) {
-                if (configArray[i].disabled)
-                    skipped.push(configArray[i].configTitle);
+                if (configArray[i].saved.disabled)
+                    skipped.push(configArray[i].saved.configTitle);
                 else
-                    configs.push(configArray[i]);
+                    configs.push(configArray[i].saved);
             }
         }
 
@@ -217,7 +263,7 @@ export class ParsersService {
 
     private saveUserConfigurations() {
         return new Promise<UserConfiguration[]>((resolve, reject) => {
-            fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue(), null, 4), (error) => {
+            fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => item.saved), null, 4), (error) => {
                 if (error)
                     reject(error);
                 else
@@ -246,10 +292,10 @@ export class ParsersService {
                 }
             });
         }).then((data) => {
-            let validateConfigs: UserConfiguration[] = [];
+            let validateConfigs: { saved: UserConfiguration, current: UserConfiguration }[] = [];
             for (let i = 0; i < data.length; i++) {
-                validateConfigs.push(this.settingService.validateObject(data[i], this.defaultValues, ['parserInputs']));
-            }
+                validateConfigs.push({ saved: this.settingService.validateObject(data[i], this.defaultValues, ['parserInputs']), current: null });
+            };
             this.userConfigurations.next(validateConfigs);
         }).catch((error) => {
             this.loggerService.error(this.lang.error.readingConfiguration, { invokeAlert: true, alertTimeout: 5000 });

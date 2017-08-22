@@ -76,5 +76,39 @@
 				}
 			}
 		}
+
+		.unsaved{
+			position: relative;
+	
+			&::before {
+				top: 50%;
+				position: absolute;
+				content: "";
+				width: 0.5em;
+				height: 0.5em;
+				background-color: var(--color-nav-link-text);
+				border-radius: 50%;
+				margin: 0 0 0 -0.75em;
+				transform: translateY(-50%);		
+			}
+
+			&:hover {
+				&::before {
+					background-color: var(--color-nav-link-text-hover);
+				}
+	
+				&.active {
+					&::before {
+						background-color: var(--color-nav-link-text-active);
+					}
+				}
+			}
+
+			&.active {
+				&::before {
+					background-color: var(--color-nav-link-text-active);
+				}
+			}
+		}
 	}
 }
