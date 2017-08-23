@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 * User can now disable current Steam images that are shown in preview.
 * SRM now detects changes in parser configuration. These changes will persist until user presses "Save" or decides to undo all changes. Changes will be lost if user exits app.
 * Deleted configurations are can now be restored until app is closed.
+* User can now specify a custom "Start In" directory.
 
 ### Changed
 * Changed fuzzy library from [fuzzy](https://github.com/mattyork/fuzzy) to [fuzzaldrin-plus](https://github.com/jeancroy/fuzz-aldrin-plus).
