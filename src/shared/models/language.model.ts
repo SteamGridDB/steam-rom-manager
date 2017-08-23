@@ -171,6 +171,7 @@ export interface languageStruct {
                 executableLocation: string[],
                 romDirectory: string[],
                 steamDirectory: string[],
+                startInDirectory: string[],
                 userAccounts: string[],
                 titleModifier: string[],
                 fuzzyMatch: string[],
@@ -221,6 +222,7 @@ export interface languageStruct {
                 executableLocation: string,
                 romDirectory: string,
                 steamDirectory: string,
+                startInDirectory: string,
                 userAccounts: string,
                 titleModifier: string,
                 fuzzyMatch: string,
@@ -261,6 +263,7 @@ export interface languageStruct {
                 },
                 romDir: string,
                 steamDir: string,
+                startInDir: string,
                 executable: string
                 titleModifier: string,
                 variableString: string,

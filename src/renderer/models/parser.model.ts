@@ -7,6 +7,7 @@ export interface UserConfiguration {
     executableLocation: string,
     romDirectory: string,
     steamDirectory: string,
+    startInDirectory: string,
     userAccounts: {
         specifiedAccounts: string,
         skipWithMissingDataDir: boolean,
@@ -31,6 +32,7 @@ export interface UserConfiguration {
 
 export interface ParsedUserConfigurationFile {
     executableLocation: string,
+    startInDirectory: string,
     filePath: string,
     extractedTitle: string,
     fuzzyTitle: string,

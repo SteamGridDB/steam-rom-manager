@@ -188,6 +188,7 @@ export const EnglishLang: languageContainer = {
                     executableLocation: [require('./markdown/executable-location.md')],
                     romDirectory: [require('./markdown/rom-directory.md')],
                     steamDirectory: [require('./markdown/steam-directory.md')],
+                    startInDirectory: [require('./markdown/start-in-directory.md')],
                     userAccounts: [require('./markdown/user-accounts.md')],
                     titleModifier: [
                         require('./markdown/title-modifier.md'),
@@ -260,6 +261,7 @@ export const EnglishLang: languageContainer = {
                     executableLocation: 'Executable',
                     romDirectory: 'ROMs directory',
                     steamDirectory: 'Steam directory',
+                    startInDirectory: '"Start In" directory',
                     userAccounts: 'User accounts',
                     titleModifier: 'Title modifier',
                     fuzzyMatch: 'Fuzzy matching',
@@ -300,6 +302,7 @@ export const EnglishLang: languageContainer = {
                     },
                     romDir: 'ROMs directory is invalid!',
                     steamDir: 'Steam directory is invalid!',
+                    startInDir: '"Start In" directory is invalid!',
                     executable: 'Executable file is invalid!',
                     titleModifier: 'Title modifier must contain "${title}"',
                     variableString: 'Uneven number of "${" and "}" pairs. Use "\\" to escape "${" or "}" if you want to use them as characters.',

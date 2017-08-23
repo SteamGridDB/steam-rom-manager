@@ -109,8 +109,11 @@ export class FileParser {
 
                 for (let j = 0; j < data[i].success.length; j++) {
                     let fuzzyTitle = data[i].success[j].fuzzyTitle || data[i].success[j].extractedTitle;
+                    let executableLocation = configs[i].executableLocation ? configs[i].executableLocation : data[i].success[j].filePath;
+
                     parsedConfigs[i].files.push({
-                        executableLocation: `"${configs[i].executableLocation ? configs[i].executableLocation : data[i].success[j].filePath}"`,
+                        executableLocation: `"${executableLocation}"`,
+                        startInDirectory: configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation),
                         argumentString: '',
                         resolvedLocalImages: [],
                         localImages: [],

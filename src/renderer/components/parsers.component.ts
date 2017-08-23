@@ -118,6 +118,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                         this.currentDoc.content = this.lang.docs__md.steamDirectory.join('');
                     }
                 }),
+                startInDirectory: new NestedFormElement.Path({
+                    directory: true,
+                    label: this.lang.label.startInDirectory,
+                    isHidden: () => this.isHiddenMode(),
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.startInDirectory.join('');
+                    }
+                }),
                 userAccounts: new NestedFormElement.Group({
                     label: this.lang.label.userAccounts,
                     isHidden: () => this.isHiddenMode(),

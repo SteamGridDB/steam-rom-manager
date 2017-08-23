@@ -24,6 +24,7 @@ export interface Images {
 export interface PreviewDataApp {
     steamCategories: string[],
     imageProviders: string[],
+    startInDirectory: string,
     executableLocation: string,
     title: string,
     argumentString: string,

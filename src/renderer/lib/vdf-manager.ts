@@ -414,6 +414,7 @@ export class VdfManager {
                     let executableLocation = app.executableLocation;
                     let argumentString = app.argumentString;
                     let steamCategories = app.steamCategories;
+                    let startDir = app.startInDirectory;
 
                     if (index !== -1) {
                         if (shortcutsData[index].AppName !== undefined)
@@ -422,7 +423,7 @@ export class VdfManager {
                             shortcutsData[index].appname = app.title;
 
                         shortcutsData[index].exe = executableLocation;
-                        shortcutsData[index].StartDir = `"${path.dirname(executableLocation.match(/"(.*?)"/)[1]) + path.sep}"`;
+                        shortcutsData[index].StartDir = startDir;
                         shortcutsData[index].LaunchOptions = argumentString;
                         shortcutsData[index].tags = steamCategories;
                         if (app.icons.length > 0) {
@@ -434,7 +435,7 @@ export class VdfManager {
                             {
                                 appname: app.title,
                                 exe: executableLocation,
-                                StartDir: `"${path.dirname(executableLocation.match(/"(.*?)"/)[1]) + path.sep}"`,
+                                StartDir: startDir,
                                 LaunchOptions: argumentString,
                                 tags: steamCategories
                             },

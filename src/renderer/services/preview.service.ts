@@ -500,6 +500,7 @@ export class PreviewService {
                             numberOfItems++;
                             previewData[config.steamDirectory][userAccount.accountID].apps[appID] = {
                                 steamCategories: config.steamCategories,
+                                startInDirectory: file.startInDirectory,
                                 imageProviders: config.imageProviders,
                                 argumentString: file.argumentString,
                                 title: file.fuzzyFinalTitle,

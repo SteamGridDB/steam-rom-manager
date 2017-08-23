@@ -31,6 +31,7 @@ export class ParsersService {
             executableLocation: '',
             romDirectory: '',
             steamDirectory: '',
+            startInDirectory: '',
             userAccounts: { skipWithMissingDataDir: true, specifiedAccounts: '', useCredentials: true },
             parserInputs: {},
             executableArgs: '',
@@ -191,6 +192,8 @@ export class ParsersService {
                 return this.validatePath(data || '', true) ? null : this.lang.validationErrors.romDir;
             case 'steamDirectory':
                 return this.validatePath(data || '', true) ? null : this.lang.validationErrors.steamDir;
+            case 'startInDirectory':
+                return (data == null || data.length === 0 || this.validatePath(data || '', true)) ? null : this.lang.validationErrors.startInDir;
             case 'specifiedAccounts':
                 return this.validateVariableParserString(data || '');
             case 'parserInputs':
@@ -241,7 +244,7 @@ export class ParsersService {
             'parserType', 'configTitle', 'steamCategory',
             'executableLocation', 'romDirectory', 'steamDirectory',
             'specifiedAccounts', 'onlineImageQueries', 'titleModifier',
-            'imageProviders'
+            'imageProviders', 'startInDirectory'
         ];
 
         for (let i = 0; i < simpleValidations.length; i++) {
