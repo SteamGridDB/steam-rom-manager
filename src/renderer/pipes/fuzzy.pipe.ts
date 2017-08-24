@@ -3,7 +3,7 @@ import * as Fuzzy from "fuzzy";
 
 @Pipe({ name: 'fuzzyTest' })
 export class FuzzyTestPipe implements PipeTransform {
-    transform(inputString: string, patter: string) {
-        return Fuzzy.test(patter, inputString);
+    transform(inputString: string, pattern: string) {
+        return pattern.length > 0 ? Fuzzy.test(pattern, inputString) : true;
     }
 }
