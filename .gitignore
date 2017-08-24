@@ -4,4 +4,3 @@ src/renderer/styles/oldThemes/
 release/
 npm-debug.log*
 .debug/
-package-lock.json
