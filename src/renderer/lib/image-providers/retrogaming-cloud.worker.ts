@@ -31,10 +31,10 @@ class RetrogamingCloudProvider extends GenericProvider {
                         }
                     }
                 }
-                this.xrw.Bluebird.all(promises).finally(() => this.proxy.completed());
+                return this.xrw.Bluebird.all(promises);
             }
-            else
-                this.proxy.completed();
+        }).finally(() => {
+            this.proxy.completed();
         });
     }
 
