@@ -119,7 +119,7 @@ export class GlobParser implements GenericParser {
         if (fileGlob.replace(/\${title}/i, '').length === 0) {
             depth.level = null;
         }
-        else if (/.*\*\*.+\${title}.*/i.test(fileGlob)) {
+        else if (/.*(?:\*\*|\{.*?\/+.*?\}).+\${title}.*/i.test(fileGlob)) {
             depth.direction = 'right';
             tempGlob = fileGlob.replace(/.*\${title}/i, '');
         }

@@ -128,7 +128,7 @@ export class GlobRegexParser implements GenericParser {
         if (fileGlob.replace(/\${.*?}/i, '').length === 0) {
             depth.level = null;
         }
-        else if (/.*\*\*.+\${.*?}.*/i.test(fileGlob)) {
+        else if (/.*(?:\*\*|\{.*?\/+.*?\}).+\${.*?}.*/i.test(fileGlob)) {
             depth.direction = 'right';
             tempGlob = fileGlob.replace(/.*\${.*?}/i, '');
         }
