@@ -1,50 +1,31 @@
+import { JsonValidator } from '../../shared/lib/json-helpers';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { UserConfiguration, ParsedUserConfiguration } from '../models';
 import { LoggerService } from './logger.service';
-import { SettingsService } from './settings.service';
 import { FuzzyService } from './fuzzy.service';
 import { ImageProviderService } from './image-provider.service';
 import { FileParser, VariableParser } from '../lib';
 import { availableProviders } from '../lib/image-providers';
+import { schemas, modifiers } from '../schemas';
 import { BehaviorSubject } from "rxjs";
 import { gApp } from "../app.global";
 import * as fs from 'fs-extra';
 import * as _ from 'lodash';
-import * as paths from '../../shared/paths'
+import * as paths from '../../shared/paths';
 
 @Injectable()
 export class ParsersService {
     private fileParser: FileParser;
     private userConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
     private deletedConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
-    private defaultValues: UserConfiguration;
+    private validator: JsonValidator = new JsonValidator(schemas.userConfiguration, { controlProperty: 'version', modifierFields: modifiers.userConfiguration });
+    private savingIsDisabled: boolean = false;
 
-    constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private settingService: SettingsService, private http: Http) {
+    constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private http: Http) {
         this.fileParser = new FileParser(this.fuzzyService);
         this.userConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
         this.deletedConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
-        this.defaultValues = {
-            parserType: '',
-            configTitle: '',
-            steamCategory: '',
-            executableLocation: '',
-            romDirectory: '',
-            steamDirectory: '',
-            startInDirectory: '',
-            userAccounts: { skipWithMissingDataDir: true, specifiedAccounts: '', useCredentials: true },
-            parserInputs: {},
-            executableArgs: '',
-            appendArgsToExecutable: false,
-            localImages: '',
-            localIcons: '',
-            onlineImageQueries: '${${fuzzyTitle}}',
-            imageProviders: availableProviders(),
-            titleModifier: '${title}',
-            fuzzyMatch: { use: true, removeCharacters: true, removeBrackets: true },
-            advanced: false,
-            disabled: false
-        };
         this.readUserConfigurations();
     }
 
@@ -65,7 +46,7 @@ export class ParsersService {
     }
 
     getDefaultValues() {
-        return this.defaultValues;
+        return this.validator.getDefaultValues() as UserConfiguration;
     }
 
     saveConfiguration(config: { saved: UserConfiguration, current: UserConfiguration }) {
@@ -142,8 +123,8 @@ export class ParsersService {
         return this.fileParser.getAvailableParsers();
     }
 
-    getParser(parser: string) {
-        return this.fileParser.getParser(parser);
+    getParserInfo(parser: string) {
+        return this.fileParser.getParserInfo(parser);
     }
 
     executeFileParser(...configs: UserConfiguration[]) {
@@ -198,7 +179,7 @@ export class ParsersService {
                 return this.validateVariableParserString(data || '');
             case 'parserInputs':
                 {
-                    let availableParser = this.getParser(data['parser']);
+                    let availableParser = this.getParserInfo(data['parser']);
                     if (availableParser) {
                         if (availableParser.inputs === undefined)
                             return this.lang.validationErrors.parserInput.noInput;
@@ -252,7 +233,7 @@ export class ParsersService {
                 return false;
         }
 
-        let availableParser = this.getParser(config.parserType);
+        let availableParser = this.getParserInfo(config.parserType);
         if (availableParser.inputs !== undefined) {
             let parserInputs = config.parserInputs;
             for (let inputName in availableParser.inputs) {
@@ -266,12 +247,16 @@ export class ParsersService {
 
     private saveUserConfigurations() {
         return new Promise<UserConfiguration[]>((resolve, reject) => {
-            fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => item.saved), null, 4), (error) => {
-                if (error)
-                    reject(error);
-                else
-                    resolve();
-            });
+            if (!this.savingIsDisabled) {
+                fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => item.saved), null, 4), (error) => {
+                    if (error)
+                        reject(error);
+                    else
+                        resolve();
+                });
+            }
+            else
+                resolve();
         }).then().catch((error) => {
             this.loggerService.error(this.lang.error.savingConfiguration, { invokeAlert: true, alertTimeout: 5000 });
             this.loggerService.error(error);
@@ -295,11 +280,25 @@ export class ParsersService {
                 }
             });
         }).then((data) => {
-            let validateConfigs: { saved: UserConfiguration, current: UserConfiguration }[] = [];
+            let validatedConfigs: { saved: UserConfiguration, current: UserConfiguration }[] = [];
+            let errorString: string = '';
             for (let i = 0; i < data.length; i++) {
-                validateConfigs.push({ saved: this.settingService.validateObject(data[i], this.defaultValues, ['parserInputs']), current: null });
+                let errors = this.validator.validate(data[i]);
+                if (!errors)
+                    validatedConfigs.push({ saved: data[i], current: null });
+                else {
+                    errorString += `\r\n[${i}]:\r\n    ${JSON.stringify(errors, null, 4).replace(/\n/g, '\n    ')}`;
+                }
             };
-            this.userConfigurations.next(validateConfigs);
+            if (errorString.length > 0) {
+                this.savingIsDisabled = true;
+                this.loggerService.error(this.lang.error.readingConfiguration, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
+                this.loggerService.error(this.lang.error.corruptedConfiguration__i.interpolate({
+                    file: paths.userConfigurations,
+                    error: errorString
+                }));
+            }
+            this.userConfigurations.next(validatedConfigs);
         }).catch((error) => {
             this.loggerService.error(this.lang.error.readingConfiguration, { invokeAlert: true, alertTimeout: 5000 });
             this.loggerService.error(error);

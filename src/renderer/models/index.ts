@@ -1,5 +1,6 @@
 export * from './alert.model';
 export * from './logger.model';
+export * from './user-configuration.model';
 export * from './parser.model';
 export * from './parser.model';
 export * from './preview.model';

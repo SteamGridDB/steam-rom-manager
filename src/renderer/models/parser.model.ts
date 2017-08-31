@@ -1,35 +1,5 @@
 import { userAccountData } from './steam-id-helpers.model';
 
-export interface UserConfiguration {
-    parserType: string,
-    configTitle: string,
-    steamCategory: string,
-    executableLocation: string,
-    romDirectory: string,
-    steamDirectory: string,
-    startInDirectory: string,
-    userAccounts: {
-        specifiedAccounts: string,
-        skipWithMissingDataDir: boolean,
-        useCredentials: boolean
-    },
-    parserInputs: { [inputKey: string]: string },
-    fuzzyMatch: {
-        use: boolean,
-        removeCharacters: boolean,
-        removeBrackets: boolean
-    },
-    onlineImageQueries: string,
-    imageProviders: string[],
-    executableArgs: string,
-    appendArgsToExecutable: boolean,
-    localImages: string,
-    localIcons: string,
-    titleModifier: string,
-    disabled: boolean,
-    advanced: boolean
-}
-
 export interface ParsedUserConfigurationFile {
     executableLocation: string,
     startInDirectory: string,
@@ -65,7 +35,7 @@ export interface ParserInputField {
     }
 }
 
-export interface Parser {
+export interface ParserInfo {
     title: string,
     info?: string,
     inputs?: ParserInputField
@@ -80,6 +50,6 @@ export interface ParsedData {
 }
 
 export interface GenericParser {
-    getParser(): Parser,
+    getParserInfo(): ParserInfo,
     execute: (directory: string, inputs: { [key: string]: any }, cache?: { [key: string]: any }, keepRelative?: boolean) => Promise<ParsedData>
 }

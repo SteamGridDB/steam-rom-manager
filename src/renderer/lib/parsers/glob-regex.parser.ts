@@ -1,4 +1,4 @@
-import { Parser, GenericParser, UserConfiguration, ParsedData } from '../../models';
+import { ParserInfo, GenericParser, UserConfiguration, ParsedData } from '../../models';
 import { gApp } from "../../app.global";
 import * as _ from "lodash";
 import * as minimatch from 'minimatch';
@@ -22,7 +22,7 @@ interface TitleTagData {
 }
 
 export class GlobRegexParser implements GenericParser {
-    getParser(): Parser {
+    getParserInfo(): ParserInfo {
         return {
             title: 'Glob-regex',
             info: this.lang.docs__md.self.join(''),

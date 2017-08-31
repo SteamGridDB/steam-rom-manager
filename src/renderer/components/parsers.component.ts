@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { ParsersService, LoggerService, ImageProviderService } from '../services';
 import { UserConfiguration, NestedFormElement } from '../models';
@@ -64,14 +64,14 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     values: this.parsersService.getAvailableParsers().map((parser) => { return { display: parser }; }),
                     onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
                     onInfoClick: (self, path) => {
-                        let parser = this.parsersService.getParser(self.value);
+                        let parser = this.parsersService.getParserInfo(self.value);
                         this.currentDoc.activePath = path.join();
                         this.currentDoc.content = parser ? parser.info : this.lang.docs__md.parserType.join('');
                     },
                     onChange: (self, path) => {
                         let completePath = path.join();
                         if (this.currentDoc.activePath === completePath) {
-                            let parser = this.parsersService.getParser(self.value);
+                            let parser = this.parsersService.getParserInfo(self.value);
                             this.currentDoc.content = parser ? parser.info : this.lang.docs__md.parserType.join('');
                         }
                     }
@@ -153,7 +153,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     let parsers = this.parsersService.getAvailableParsers();
 
                     for (let i = 0; i < parsers.length; i++) {
-                        let parser = this.parsersService.getParser(parsers[i]);
+                        let parser = this.parsersService.getParserInfo(parsers[i]);
                         if (parser && parser.inputs !== undefined) {
                             for (let inputFieldName in parser.inputs) {
                                 let input = parser.inputs[inputFieldName];
@@ -501,9 +501,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             let config = this.userConfigurations[this.configurationIndex];
             this.formChanges.unsubscribe();
 
-            if (this.loadedIndex !== this.configurationIndex){
+            if (this.loadedIndex !== this.configurationIndex) {
                 this.userForm.patchValue(config.current ? config.current : config.saved);
-                this.userForm.markAsDirty();
+                this.markAsDirtyDeep(this.userForm);
             }
 
             this.isUnsaved = config.current != null;
@@ -523,11 +523,21 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.userForm.markAsPristine();
             this.loadedIndex = -1;
         }
-        else{
+        else {
             this.loadedIndex = null;
         }
 
         this.changeRef.detectChanges();
+    }
+
+    private markAsDirtyDeep(control: AbstractControl): void {
+        control.markAsDirty();
+
+        if (control['controls'] !== undefined) {
+            for (let childKey in control['controls']) {
+                this.markAsDirtyDeep(control['controls'][childKey]);
+            }
+        }
     }
 
     ngOnDestroy() {

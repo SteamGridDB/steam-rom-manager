@@ -252,6 +252,7 @@ export interface languageStruct {
             error: {
                 savingConfiguration: string,
                 readingConfiguration: string,
+                corruptedConfiguration__i: string//${file}, ${error}
             },
             validationErrors: {
                 parserType: string,

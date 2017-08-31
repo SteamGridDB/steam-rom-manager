@@ -1,4 +1,4 @@
-import { Parser, GenericParser, UserConfiguration, ParsedData } from '../../models';
+import { ParserInfo, GenericParser, UserConfiguration, ParsedData } from '../../models';
 import { gApp } from "../../app.global";
 import * as glob from 'glob';
 import * as path from 'path';
@@ -18,7 +18,7 @@ interface TitleTagData {
 }
 
 export class GlobParser implements GenericParser {
-    getParser(): Parser {
+    getParserInfo(): ParserInfo {
         return {
             title: 'Glob',
             info: this.lang.docs__md.self.join(''),

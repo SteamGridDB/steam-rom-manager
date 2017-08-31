@@ -291,6 +291,7 @@ export const EnglishLang: languageContainer = {
                 error: {
                     savingConfiguration: 'Error encountered while saving user configurations!',
                     readingConfiguration: 'Error encountered while reading user configurations!',
+                    corruptedConfiguration__i: 'One or more saved parser configurations are invalid!\r\nPermanent configuration saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}',
                 },
                 validationErrors: {
                     parserType: 'Incorrect parser type!',

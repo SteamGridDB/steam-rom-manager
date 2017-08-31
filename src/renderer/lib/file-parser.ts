@@ -1,41 +1,30 @@
-import { Parser, UserConfiguration, GenericParser, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData } from '../models';
+import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData } from '../models';
 import { getAvailableLogins } from "./steam-id-helpers";
 import { FuzzyService } from "./../services";
 import { VariableParser } from "./variable-parser";
 import { gApp } from "../app.global";
-import * as GenericParsers from './parsers';
+import { parsers, availableParsers } from './parsers';
 import * as _ from 'lodash';
 import * as glob from 'glob';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 
 export class FileParser {
-    private availableParsers: { [key: string]: GenericParser };
+    private availableParsers = parsers;
     private globCache: any = {};
 
-    constructor(private fuzzyService: FuzzyService) {
-        this.availableParsers = {};
-
-        for (let key in GenericParsers) {
-            let parser = (GenericParsers[key].prototype as GenericParser);
-            this.availableParsers[parser.getParser().title] = parser;
-        }
-    }
+    constructor(private fuzzyService: FuzzyService) { }
 
     private get lang() {
         return gApp.lang.fileParser;
     }
 
     getAvailableParsers() {
-        let parsers: string[] = [];
-        for (let key in this.availableParsers) {
-            parsers.push(key);
-        }
-        return parsers;
+        return availableParsers();
     }
 
-    getParser(key: string) {
-        return this.availableParsers[key] ? this.availableParsers[key].getParser() : undefined;
+    getParserInfo(key: string) {
+        return this.availableParsers[key] ? this.availableParsers[key].getParserInfo() : undefined;
     }
 
     executeFileParser(configs: UserConfiguration[]) {
@@ -48,7 +37,7 @@ export class FileParser {
         return Promise.resolve().then(() => {
             let promises: Promise<ParsedData>[] = [];
             for (let i = 0; i < configs.length; i++) {
-                let parser = this.getParser(configs[i].parserType);
+                let parser = this.getParserInfo(configs[i].parserType);
 
                 steamDirectories.push({ directory: configs[i].steamDirectory, useCredentials: configs[i].userAccounts.useCredentials, data: [] });
 
