@@ -48,6 +48,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private subscriptions: Subscription = new Subscription();
     private userConfigurations: { saved: UserConfiguration, current: UserConfiguration }[] = [];
     private configurationIndex: number = -1;
+    private loadedIndex: number = null;
     private isUnsaved: boolean = false;
 
     private nestedGroup: NestedFormElement.Group;
@@ -500,8 +501,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             let config = this.userConfigurations[this.configurationIndex];
             this.formChanges.unsubscribe();
 
-            this.userForm.patchValue(config.current ? config.current : config.saved);
-            this.userForm.markAsDirty();
+            if (this.loadedIndex !== this.configurationIndex){
+                this.userForm.patchValue(config.current ? config.current : config.saved);
+                this.userForm.markAsDirty();
+            }
 
             this.isUnsaved = config.current != null;
 
@@ -511,11 +514,17 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 else
                     config.current = data;
             });
+
+            this.loadedIndex = this.configurationIndex;
         }
         else if (this.configurationIndex === -1 && this.userConfigurations !== undefined) {
             this.formChanges.unsubscribe();
             this.userForm.patchValue(this.parsersService.getDefaultValues());
             this.userForm.markAsPristine();
+            this.loadedIndex = -1;
+        }
+        else{
+            this.loadedIndex = null;
         }
 
         this.changeRef.detectChanges();
