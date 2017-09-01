@@ -18,6 +18,5 @@ export interface LogSettings {
 export interface MessageSettings {
     invokeAlert?: boolean,
     alertTimeout?: number,
-    keepAfterNavigationChange?: boolean,
     doNotAppendToLog?: boolean
 }

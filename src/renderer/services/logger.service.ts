@@ -46,14 +46,12 @@ export class LoggerService {
         let alertTimeout: number = 0;
 
         if (settings) {
-            keepAfterNavigationChange = settings.keepAfterNavigationChange !== undefined ? settings.keepAfterNavigationChange : false;
             invokeAlert = settings.invokeAlert !== undefined ? settings.invokeAlert : false;
             doNotAppendToLog = settings.doNotAppendToLog !== undefined ? settings.doNotAppendToLog : false;
             alertTimeout = settings.alertTimeout !== undefined ? settings.alertTimeout : 0;
         }
 
         if (invokeAlert) {
-            console.log('here', message);
             this.alertMessage.next({
                 type: type,
                 text: message,
