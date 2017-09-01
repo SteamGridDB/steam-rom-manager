@@ -467,7 +467,8 @@ export class PreviewService {
 
                     for (let k = 0; k < data[i].files.length; k++) {
                         let file = config.files[k];
-                        let appID = generateAppId(file.executableLocation, file.fuzzyFinalTitle);
+                        let executableLocation = config.appendArgsToExecutable ? `"${file.executableLocation}" ${file.argumentString}`: `"${file.executableLocation}"`;
+                        let appID = generateAppId(executableLocation, file.fuzzyFinalTitle);
 
                         if (shortcutsData[config.steamDirectory][userAccount.accountID][appID] !== undefined) {
                             if (shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon'] !== undefined) {
@@ -510,7 +511,7 @@ export class PreviewService {
                                     loadStatus: 'done'
                                 } : undefined,
                                 currentImageIndex: steamImageUrl ? -1 : 0,
-                                executableLocation: config.appendArgsToExecutable ? `"${file.executableLocation}" ${file.argumentString}`: `"${file.executableLocation}"`,
+                                executableLocation: executableLocation,
                                 currentIconIndex: 0,
                                 icons: file.localIcons,
                                 images: new Reference<ImagesStatusAndContent>(this.images, file.fuzzyTitle)
