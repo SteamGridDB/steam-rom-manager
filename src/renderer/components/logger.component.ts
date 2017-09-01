@@ -45,7 +45,7 @@ export class LoggerComponent {
 
     constructor(private loggerService: LoggerService) {
         this.settings = this.loggerService.getLogSettings();
-        this.messages = this.loggerService.getLogMessages().asObservable();
+        this.messages = this.loggerService.getLogMessages();
     }
 
     get lang(){
