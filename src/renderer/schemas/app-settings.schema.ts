@@ -29,7 +29,7 @@ export const appSettings = {
                 preload: { type: 'boolean', default: false },
             }
         },
-        imageProviders: {
+        enabledProviders: {
             type: 'array',
             default: <any>[],
             items: {
