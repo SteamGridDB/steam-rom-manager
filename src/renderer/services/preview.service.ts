@@ -166,6 +166,7 @@ export class PreviewService {
         }).then(() => {
             this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
             this.previewVariables.listIsBeingRemoved = false;
+            this.clearPreviewData();
         }).catch((fatalError) => {
             this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
             this.loggerService.error(fatalError);
@@ -247,6 +248,13 @@ export class PreviewService {
             app.currentIconIndex = index < 0 ? app.icons.length - 1 : (index < app.icons.length ? index : 0);
             this.previewDataChanged.next();
         }
+    }
+
+    private clearPreviewData(){
+        this.previewData = undefined;
+        this.images = {};
+        this.previewVariables.numberOfListItems = 0;
+        this.previewDataChanged.next();
     }
 
     private generatePreviewDataCallback() {
