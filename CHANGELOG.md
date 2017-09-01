@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 2.2.0 - 2017-0X-0X
+## 2.2.0-x (pre-release)
 ### Added
 * Local icon support.
 * Parser support to local images and local icons.
@@ -14,6 +14,9 @@ All notable changes to this project will be documented in this file.
 * SRM now detects changes in parser configuration. These changes will persist until user presses "Save" or decides to undo all changes. Changes will be lost if user exits app.
 * Deleted configurations are can now be restored until app is closed.
 * User can now specify a custom "Start In" directory.
+* Parser configurations and app settings will now be strictly validated. If they are corrupted beyond recovery, error will be shown to fix errors manually.
+* Parser configurations and app settings from now will have versions. This will allow to automatically upgrade, update or remove deprecated entries.
+* A lot of new variables are now available for users to further customize "stuff".
 
 ### Changed
 * Changed fuzzy library from [fuzzy](https://github.com/mattyork/fuzzy) to [fuzzaldrin-plus](https://github.com/jeancroy/fuzz-aldrin-plus).
@@ -24,6 +27,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 * Empty executable is now allowed.
 * A logic "bug" for `retrogaming.cloud`. If filter is enabled, titles will be filtered out before making queries `retrogaming.cloud`. This will dramatically decrease number of timeouts. Big thanks to **AlexDobeck** for finding and providing a fix for this.
+* Fixed a bug where `retrogaming.cloud` could not be stopped.
+* Fixed various bugs related to parser form.
 
 ## 2.1.1 - 2017-08-09
 ### Added
