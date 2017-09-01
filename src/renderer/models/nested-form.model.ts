@@ -32,6 +32,8 @@ export namespace NestedFormElement {
         /** Optional */
         multiple?: boolean
         /** Optional */
+        allowEmpty?: boolean
+        /** Optional */
         onValidate?: NestedInputValidator;
         /** Optional */
         onChange?: NestedInputChange;

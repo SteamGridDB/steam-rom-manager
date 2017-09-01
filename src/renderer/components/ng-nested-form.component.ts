@@ -19,7 +19,7 @@ import { Observable } from "rxjs";
                         </label>
                         <ng-container [ngSwitch]="child.constructor.name">
                             <ng-container *ngSwitchCase="'Select'">
-                                <ng-select [formControlName]="childrenKey" [placeholder]="child.placeholder" [multiple]="child.multiple">
+                                <ng-select [formControlName]="childrenKey" [placeholder]="child.placeholder" [multiple]="child.multiple" [allowEmpty]="child.allowEmpty">
                                     <ng-option *ngFor="let value of child.values" [ngValue]="value.real || value.display">
                                         {{value.display}}
                                     </ng-option>

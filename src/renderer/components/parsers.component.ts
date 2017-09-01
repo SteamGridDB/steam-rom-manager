@@ -236,6 +236,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     label: this.lang.label.imageProviders,
                     placeholder: this.lang.placeholder.imageProviders,
                     multiple: true,
+                    allowEmpty: true,
                     values: this.imageProviderService.instance.getAvailableProviders().map((provider) => { return { display: provider }; }),
                     onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
                     onInfoClick: (self, path) => {
