@@ -17,6 +17,8 @@ All notable changes to this project will be documented in this file.
 * Parser configurations and app settings will now be strictly validated. If they are corrupted beyond recovery, error will be shown to fix errors manually.
 * Parser configurations and app settings from now will have versions. This will allow to automatically upgrade, update or remove deprecated entries.
 * A lot of new variables are now available for users to further customize "stuff".
+* App can now automatically clear log before testing parser.
+* Navigation panel can now be resized. Maximum allowed width is 25% of viewport width. 
 
 ### Changed
 * Changed fuzzy library from [fuzzy](https://github.com/mattyork/fuzzy) to [fuzzaldrin-plus](https://github.com/jeancroy/fuzz-aldrin-plus).
