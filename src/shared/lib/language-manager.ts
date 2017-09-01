@@ -1,7 +1,7 @@
 import * as languages from "../lang";
 import { languageContainer } from "../models";
 
-export class LanguageManager {
+class LanguageManager {
     private availableLanguages: languageContainer = {};
 
     constructor() {
@@ -22,4 +22,13 @@ export class LanguageManager {
         else
             return this.availableLanguages[language];
     }
-}
+
+    getDefaultLanguage(){
+        if (this.availableLanguages['English'] === undefined)
+            return this.getAvailableLanguages()[0];
+        else
+            return 'English';
+    }
+};
+
+export const languageManager = new LanguageManager();

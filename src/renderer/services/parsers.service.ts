@@ -7,9 +7,10 @@ import { FuzzyService } from './fuzzy.service';
 import { ImageProviderService } from './image-provider.service';
 import { FileParser, VariableParser } from '../lib';
 import { availableProviders } from '../lib/image-providers';
-import { schemas, modifiers } from '../schemas';
 import { BehaviorSubject } from "rxjs";
 import { gApp } from "../app.global";
+import * as schemas from '../schemas';
+import * as modifiers from '../modifiers';
 import * as fs from 'fs-extra';
 import * as _ from 'lodash';
 import * as paths from '../../shared/paths';
@@ -286,9 +287,8 @@ export class ParsersService {
                 let errors = this.validator.validate(data[i]);
                 if (!errors)
                     validatedConfigs.push({ saved: data[i], current: null });
-                else {
+                else
                     errorString += `\r\n[${i}]:\r\n    ${JSON.stringify(errors, null, 4).replace(/\n/g, '\n    ')}`;
-                }
             };
             if (errorString.length > 0) {
                 this.savingIsDisabled = true;

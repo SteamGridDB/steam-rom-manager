@@ -153,7 +153,8 @@ export const EnglishLang: languageContainer = {
             service: {
                 error: {
                     writingError: 'Error occurred while saving user settings.',
-                    readingError: 'Error occurred while reading user settings.'
+                    readingError: 'Error occurred while reading user settings.',
+                    corruptedSettings__i: 'Saved app settings are invalid!\r\nPermanent settings saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}',                    
                 }
             }
         },

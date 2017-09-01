@@ -135,8 +135,9 @@ export interface languageStruct {
         },
         service: {
             error: {
-                writingError: string
-                readingError: string
+                writingError: string,
+                readingError: string,
+                corruptedSettings__i: string//${file}, ${error}
             }
         }
     },
