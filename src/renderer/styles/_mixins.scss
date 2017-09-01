@@ -146,8 +146,6 @@
 @mixin ngSelect() {
 	font-size: 1em;
 
-	flex: 1 0 auto;
-
 	--ng-select-padding: 0.2em 0.1em;
 
 	ng-option {
@@ -219,6 +217,7 @@
 
 	margin: 0;
 	padding: 0.2em 0.1em;
+	min-width: 0;
 
 	cursor: text;
 }

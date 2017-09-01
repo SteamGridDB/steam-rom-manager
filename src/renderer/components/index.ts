@@ -4,6 +4,7 @@ export * from './alert.component';
 export * from './logger.component';
 export * from './titlebar.component';
 export * from './nav.component';
+export * from './nav-border.component';
 export * from './parsers.component';
 export * from './nav-link.component';
 export * from './nav-expand.component';

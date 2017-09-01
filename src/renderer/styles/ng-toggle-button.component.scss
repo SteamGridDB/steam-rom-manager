@@ -27,6 +27,7 @@
     .button {
         position: relative;
         display: inline-flex;
+        flex-shrink: 0;
 
         width: calc(var(--ng-toggle-button-height) * var(--ng-toggle-button-width-ratio));
         height: var(--ng-toggle-button-height);

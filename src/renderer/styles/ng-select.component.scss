@@ -1,8 +1,8 @@
 :host {
     position: relative;
 
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
 
     color: black;
     border-color: deepskyblue;
@@ -11,7 +11,7 @@
     fill: black;
 
     .display {
-        display: flex;
+        display: grid;
 
         padding: var(--ng-select-padding, 0);
 
@@ -26,20 +26,16 @@
         align-content: center;
         fill: inherit;
 
-        >span {
-            display: inline-flex;
-            overflow: hidden;
+        grid-auto-flow: column;
 
-            margin: auto 0;
+        >div {
+            overflow: hidden;
 
             cursor: pointer;
             white-space: nowrap;
             text-overflow: ellipsis;
         }
         >svg {
-            display: inline-flex;
-            flex-shrink: 0;
-
             height: 1.2em;
             margin: 0 0 0 auto;
 

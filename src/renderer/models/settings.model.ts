@@ -16,5 +16,7 @@ export interface AppSettings {
     offlineMode: boolean,
     enabledProviders: string[],
     previewSettings: PreviewSettings,
+    navigationWidth: number,
+    clearLogOnTest: boolean,
     knownSteamDirectories: string[]
 }

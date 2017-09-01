@@ -15,7 +15,7 @@ export const EnglishLang: languageContainer = {
                 generateAppList: 'Generate app list',
                 saveAppList: 'Save app list',
                 removeAppList: 'Remove app list',
-                remainingImages: 'Remaining provider instances:',
+                remainingImages: 'Remaining providers:',
                 stopUrlRetrieving: 'Stop image providers'
             },
             service: {

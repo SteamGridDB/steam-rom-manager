@@ -4,9 +4,10 @@
 	display: flex;
 	overflow-y: auto;
 	flex-direction: column;
-	flex: 1 0 auto;
 
-	max-width: 7em;
+	min-width: 7em;
+	width: var(--nav-width);
+	max-width: 25vw;
 
 	white-space: nowrap;
 
@@ -24,6 +25,7 @@
 
 		svg {
 			height: var(--link-height);
+			width: 1em;
 
 			polyline {
 				stroke: var(--color-nav-link-text);

@@ -1,0 +1,10 @@
+:host{
+    position: relative;
+    width: 2px;
+    background: var(--color-nav-border);
+    cursor: ew-resize;
+
+    &.dragging{
+        background: var(--color-nav-border-drag);
+    }
+}

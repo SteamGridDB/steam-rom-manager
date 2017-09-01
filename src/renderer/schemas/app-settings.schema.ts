@@ -43,6 +43,8 @@ export const appSettings = {
         },
         language: { type: 'string', default: languageManager.getDefaultLanguage(), enum: languageManager.getAvailableLanguages() },
         offlineMode: { type: 'boolean', default: false },
+        navigationWidth: { type: 'number', default: 0 },
+        clearLogOnTest: { type: 'boolean', default: false },
         knownSteamDirectories: {
             type: 'array',
             default: <any>[],
