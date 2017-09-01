@@ -10,9 +10,9 @@ Here are tables of variables that can be used with options that have `[supports 
 |`${romDir}`|ROMs directory|
 |`${steamDir}`|Steam directory|
 |`${startInDir}`|"StartIn" directory|
-|`${fileDir}`|file's, returned by a parser, directory|
+|`${fileDir}`|File's, returned by a parser, directory|
 
-In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}.
+In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
 
 ## Name variables
 
