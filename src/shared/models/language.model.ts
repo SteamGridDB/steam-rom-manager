@@ -127,7 +127,8 @@ export interface languageStruct {
                 selectLanguage: string,
                 resetFuzzy_desc: string,
                 resetFuzzy_btn: string,
-                showSteamImages: string
+                showSteamImages: string,
+                clearLogOnTest: string
             },
             placeholder: {
                 noProviders: string

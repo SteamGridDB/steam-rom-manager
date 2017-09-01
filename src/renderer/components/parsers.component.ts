@@ -1,8 +1,8 @@
 import { Component, AfterViewInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
-import { ParsersService, LoggerService, ImageProviderService } from '../services';
-import { UserConfiguration, NestedFormElement } from '../models';
+import { ParsersService, LoggerService, ImageProviderService, SettingsService } from '../services';
+import { UserConfiguration, NestedFormElement, AppSettings } from '../models';
 import { Subscription, Observable } from "rxjs";
 import { gApp } from "../app.global";
 
@@ -50,12 +50,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private configurationIndex: number = -1;
     private loadedIndex: number = null;
     private isUnsaved: boolean = false;
+    private appSettings: AppSettings;
 
     private nestedGroup: NestedFormElement.Group;
     private userForm: FormGroup;
     private formChanges: Subscription = new Subscription();
 
-    constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private router: Router, private activatedRoute: ActivatedRoute, private changeRef: ChangeDetectorRef) {
+    constructor(private parsersService: ParsersService, private loggerService: LoggerService, private settingsService: SettingsService, private imageProviderService: ImageProviderService, private router: Router, private activatedRoute: ActivatedRoute, private changeRef: ChangeDetectorRef) {
         this.nestedGroup = new NestedFormElement.Group({
             children: {
                 parserType: new NestedFormElement.Select({
@@ -269,6 +270,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             }
         });
         this.currentDoc.content = this.lang.docs__md.intro.join('');
+        this.appSettings = this.settingsService.getSettings();
     }
 
     ngAfterViewInit() {
@@ -320,6 +322,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private testForm() {
         let config = this.userForm.value as UserConfiguration;
         if (this.parsersService.isConfigurationValid(config)) {
+            if (this.appSettings.clearLogOnTest)
+                this.loggerService.clearLog();
+
             this.parsersService.executeFileParser(config).then((dataArray) => {
                 if (dataArray.parsedData.parsedConfigs.length > 0) {
                     let data = dataArray.parsedData.parsedConfigs[0];
