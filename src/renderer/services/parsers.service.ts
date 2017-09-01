@@ -206,7 +206,7 @@ export class ParsersService {
     }
 
     private validateVariableParserString(input: string) {
-        if (input.length === 0 || new VariableParser('${', '}', input).isValid())
+        if (input.length === 0 || VariableParser.containsVariables('${', '}', input) !== false)
             return null;
         else
             return this.lang.validationErrors.variableString;

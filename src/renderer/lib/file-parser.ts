@@ -1,4 +1,4 @@
-import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData } from '../models';
+import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables } from '../models';
 import { getAvailableLogins } from "./steam-id-helpers";
 import { FuzzyService } from "./../services";
 import { VariableParser } from "./variable-parser";
@@ -81,13 +81,14 @@ export class FileParser {
                 if (configs[i].fuzzyMatch.use)
                     this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data[i], configs[i].fuzzyMatch.removeCharacters, configs[i].fuzzyMatch.removeBrackets);
 
-                let userFilter = this.parseVariableString(configs[i].userAccounts.specifiedAccounts);
+                let userFilter = this.variableStringToArray(configs[i].userAccounts.specifiedAccounts);
                 let filteredAccounts = this.filterUserAccounts(steamDirectories[i].data, userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir);
 
                 totalUserAccountsFound += filteredAccounts.found.length;
 
                 parsedConfigs.push({
-                    steamCategories: this.parseVariableString(configs[i].steamCategory),
+                    steamCategories: this.variableStringToArray(configs[i].steamCategory),
+                    appendArgsToExecutable: configs[i].appendArgsToExecutable,
                     imageProviders: configs[i].imageProviders,
                     foundUserAccounts: filteredAccounts.found,
                     missingUserAccounts: filteredAccounts.missing,
@@ -101,7 +102,7 @@ export class FileParser {
                     let executableLocation = configs[i].executableLocation ? configs[i].executableLocation : data[i].success[j].filePath;
 
                     parsedConfigs[i].files.push({
-                        executableLocation: `"${executableLocation}"`,
+                        executableLocation: executableLocation,
                         startInDirectory: configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation),
                         argumentString: '',
                         resolvedLocalImages: [],
@@ -117,7 +118,7 @@ export class FileParser {
                     });
 
                     let lastFile = parsedConfigs[i].files[parsedConfigs[i].files.length - 1];
-                    lastFile.onlineImageQueries = this.parseVariableString(this.replaceConstants(configs[i].onlineImageQueries, configs[i], lastFile), true);
+                    lastFile.onlineImageQueries = this.variableStringToArray(this.replaceVariables(configs[i].onlineImageQueries, this.makeVariableData(configs[i], lastFile), 1), true);
                 }
 
                 parsedConfigs[i].failed = _.cloneDeep(data[i].failed);
@@ -148,9 +149,9 @@ export class FileParser {
         });
     }
 
-    private parseVariableString(input: string, uniqueOnly: boolean = false) {
-        let vParser = new VariableParser('${', '}', input);
-        let parsedData = vParser.isValid() ? _.pull(vParser.getContents(true), '') : [];
+    private variableStringToArray(input: string, uniqueOnly: boolean = false) {
+        let vParser = new VariableParser('${', '}');
+        let parsedData = vParser.setInput(input).parse() ? _.pull(vParser.getContents(true), '') : [];
         if (uniqueOnly) {
             return _.uniq(parsedData);
         }
@@ -185,10 +186,7 @@ export class FileParser {
 
     private parseExecutableArgs(config: UserConfiguration, parsedConfig: ParsedUserConfiguration) {
         for (let i = 0; i < parsedConfig.files.length; i++) {
-            if (config.appendArgsToExecutable)
-                parsedConfig.files[i].executableLocation += ` ${this.replaceConstants(config.executableArgs, config, parsedConfig.files[i])}`;
-            else
-                parsedConfig.files[i].argumentString = this.replaceConstants(config.executableArgs, config, parsedConfig.files[i]);
+            parsedConfig.files[i].argumentString = this.replaceVariables(config.executableArgs, this.makeVariableData(config, parsedConfig.files[i]));
         }
     }
 
@@ -206,7 +204,7 @@ export class FileParser {
                 let expandableSet = /\$\((\${.+?})(?:\|(.+))?\)\$/.exec(fieldValue);
 
                 if (expandableSet === null) {
-                    let replacedGlob = path.resolve(config.romDirectory, this.replaceConstants(fieldValue, config, parsedConfig.files[i])).replace(/\\/g, '/');
+                    let replacedGlob = path.resolve(config.romDirectory, this.replaceVariables(fieldValue, this.makeVariableData(config, parsedConfig.files[i]))).replace(/\\/g, '/');
                     resolvedGlobs[i].push(replacedGlob);
 
                     promises.push(this.globPromise(replacedGlob, { silent: true, dot: true, realpath: true, cwd: config.romDirectory, cache: this.globCache }).then((files) => {
@@ -216,13 +214,13 @@ export class FileParser {
                 else {
                     let secondaryMatch: string = undefined;
                     let parserMatch = fieldValue.replace(expandableSet[0], '$()$');
-                    parserMatch = this.replaceConstants(parserMatch, config, parsedConfig.files[i]);
+                    parserMatch = this.replaceVariables(parserMatch, this.makeVariableData(config, parsedConfig.files[i]));
                     parserMatch = path.resolve(config.romDirectory, parserMatch.replace('$()$', expandableSet[1])).replace(/\\/g, '/');
                     resolvedGlobs[i].push(parserMatch);
 
                     if (expandableSet[2]) {
                         secondaryMatch = fieldValue.replace(expandableSet[0], expandableSet[2]);
-                        secondaryMatch = path.resolve(config.romDirectory, this.replaceConstants(secondaryMatch, config, parsedConfig.files[i])).replace(/\\/g, '/');
+                        secondaryMatch = path.resolve(config.romDirectory, this.replaceVariables(secondaryMatch, this.makeVariableData(config, parsedConfig.files[i]))).replace(/\\/g, '/');
                     }
 
                     promises.push(Promise.resolve().then(() => {
@@ -259,21 +257,89 @@ export class FileParser {
         });
     }
 
-    private replaceConstants(userString: string, config?: UserConfiguration, parsedConfigFile?: ParsedUserConfigurationFile) {
-        if (config != undefined)
-            userString = userString.replace(/\${dir}/gi, config.romDirectory);
+    private replaceVariables(input: string, data: ParserVariableData, depthLevel: number = 0) {
+        let vParser = new VariableParser('${', '}');
 
-        if (parsedConfigFile != undefined) {
-            userString = userString.replace(/\${title}/gi, parsedConfigFile.extractedTitle);
-            userString = userString.replace(/\${fuzzyTitle}/gi, parsedConfigFile.fuzzyTitle);
-            userString = userString.replace(/\${finalTitle}/gi, parsedConfigFile.finalTitle);
-            userString = userString.replace(/\${fuzzyFinalTitle}/gi, parsedConfigFile.fuzzyFinalTitle);
-            userString = userString.replace(/\${file}/gi, path.basename(parsedConfigFile.filePath));
-            userString = userString.replace(/\${filePath}/gi, parsedConfigFile.filePath);
+        if (vParser.setInput(input).parse(depthLevel)) {
+            let variables = vParser.getContents(false);
+            for (let i = 0; i < variables.length; i++) {
+                variables[i] = this.getVariable(variables[i] as AllVariables, data);
+            }
+            return vParser.replaceVariables(variables);
         }
+        else
+            return input;
+    }
 
-        userString = userString.replace(/\${sep}/gi, path.sep);
-        return userString;
+    private getVariable(variable: AllVariables, data: ParserVariableData) {
+        let output = variable as string;
+        switch (<AllVariables>variable.toUpperCase()) {
+            case '/':
+                output = path.sep;
+                break;
+            case 'EXEDIR':
+                output = path.dirname(data.executableLocation);
+                break;
+            case 'EXEEXT':
+                output = path.extname(data.executableLocation);
+                break;
+            case 'EXENAME':
+                output = path.basename(data.executableLocation, path.extname(data.executableLocation));
+                break;
+            case 'EXEPATH':
+                output = data.executableLocation;
+                break;
+            case 'FILEDIR':
+                output = path.dirname(data.filePath);
+                break;
+            case 'FILEEXT':
+                output = path.extname(data.filePath);
+                break;
+            case 'FILENAME':
+                output = path.basename(data.filePath, path.extname(data.filePath));
+                break;
+            case 'FILEPATH':
+                output = data.filePath;
+                break;
+            case 'FINALTITLE':
+                output = data.finalTitle;
+                break;
+            case 'FUZZYFINALTITLE':
+                output = data.fuzzyFinalTitle;
+                break;
+            case 'FUZZYTITLE':
+                output = data.fuzzyTitle;
+                break;
+            case 'ROMDIR':
+                output = data.romDirectory;
+                break;
+            case 'STARTINDIR':
+                output = data.startInDirectory;
+                break;
+            case 'STEAMDIR':
+                output = data.steamDirectory;
+                break;
+            case 'TITLE':
+                output = data.extractedTitle;
+                break;
+            default:
+                break;
+        }
+        return output;
+    }
+
+    private makeVariableData(config: UserConfiguration, parsedConfigFile: ParsedUserConfigurationFile) {
+        return <ParserVariableData>{
+            executableLocation: parsedConfigFile.executableLocation,
+            startInDirectory: parsedConfigFile.startInDirectory,
+            extractedTitle: parsedConfigFile.extractedTitle,
+            steamDirectory: config.steamDirectory,
+            filePath: parsedConfigFile.filePath,
+            finalTitle: parsedConfigFile.finalTitle,
+            fuzzyFinalTitle: parsedConfigFile.fuzzyFinalTitle,
+            fuzzyTitle: parsedConfigFile.fuzzyTitle,
+            romDirectory: config.romDirectory
+        }
     }
 
     private validatePath(fsPath: string, checkForDirectory: boolean) {

@@ -377,7 +377,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                         this.loggerService.success(this.lang.success.completeShortcut__i.interpolate({
                             index: i + 1,
                             total: totalLength,
-                            shortcut: `${data.files[i].executableLocation} ${data.files[i].argumentString}`
+                            shortcut: `"${data.files[i].executableLocation}" ${data.files[i].argumentString}`
                         }));
                         if (data.files[i].onlineImageQueries.length) {
                             this.loggerService.success(this.lang.success.firstImageQuery__i.interpolate({

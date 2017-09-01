@@ -502,7 +502,7 @@ export class PreviewService {
                                 steamCategories: config.steamCategories,
                                 startInDirectory: file.startInDirectory,
                                 imageProviders: config.imageProviders,
-                                argumentString: file.argumentString,
+                                argumentString: config.appendArgsToExecutable ? '' : file.argumentString,
                                 title: file.fuzzyFinalTitle,
                                 steamImage: steamImage ? {
                                     imageProvider: 'Steam',
@@ -510,7 +510,7 @@ export class PreviewService {
                                     loadStatus: 'done'
                                 } : undefined,
                                 currentImageIndex: steamImageUrl ? -1 : 0,
-                                executableLocation: file.executableLocation,
+                                executableLocation: config.appendArgsToExecutable ? `"${file.executableLocation}" ${file.argumentString}`: `"${file.executableLocation}"`,
                                 currentIconIndex: 0,
                                 icons: file.localIcons,
                                 images: new Reference<ImagesStatusAndContent>(this.images, file.fuzzyTitle)

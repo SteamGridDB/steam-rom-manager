@@ -1,4 +1,4 @@
-export interface delimeterPairs {
+export interface delimiterPairs {
     left: {
         start: number,
         end: number
