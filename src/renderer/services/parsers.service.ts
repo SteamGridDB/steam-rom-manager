@@ -249,7 +249,10 @@ export class ParsersService {
     private saveUserConfigurations() {
         return new Promise<UserConfiguration[]>((resolve, reject) => {
             if (!this.savingIsDisabled) {
-                fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => item.saved), null, 4), (error) => {
+                fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => {
+                    item.saved['version'] = modifiers.userConfigurationVersion;
+                    return item.saved;
+                }), null, 4), (error) => {
                     if (error)
                         reject(error);
                     else
