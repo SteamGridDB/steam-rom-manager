@@ -23,11 +23,11 @@ export class NavBorderComponent {
     }
 
     setWidth(width: number) {
-        document.documentElement.style.setProperty('--nav-width', `${width}px`);
+        document.documentElement.style.setProperty('--nav-width', `${width < 0 ? 0 : width}px`);
     }
 
     saveWidth(width: number) {
-        this.appSettings.navigationWidth = width;
+        this.appSettings.navigationWidth = width < 0 ? 0 : width;
         this.settingsService.saveAppSettings();
     }
 
@@ -45,10 +45,12 @@ export class NavBorderComponent {
 
     @HostListener('document:mouseup', ['$event'])
     private onMouseup(event: MouseEvent) {
-        document.documentElement.style.setProperty('pointer-events', 'auto');
-        document.documentElement.style.setProperty('cursor', 'initial');
-        this.saveWidth(event.clientX);
-        this.isDragging = false;
+        if (this.isDragging) {
+            document.documentElement.style.setProperty('pointer-events', 'auto');
+            document.documentElement.style.setProperty('cursor', 'initial');
+            this.saveWidth(event.clientX);
+            this.isDragging = false;
+        }
     }
 
     @HostListener('document:mousemove', ['$event'])
