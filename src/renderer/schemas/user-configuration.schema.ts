@@ -28,7 +28,7 @@ export const userConfiguration = {
                 enum: availableParserInputs()
             },
             patternProperties: {
-                "^.+$": { "type": "string" }
+                "^.+$": { "type": ["string", "null"] }
             }
         },
         executableArgs: { type: 'string', default: '' },
