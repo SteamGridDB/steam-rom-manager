@@ -194,33 +194,35 @@ export class GlobParser implements GenericParser {
         return undefined;
     }
 
-    private extractTitles(titleData: TitleTagData, directory: string, files: string[], keepRelative: boolean) {
+    private extractTitles(titleData: TitleTagData, directory: string, files: string[]) {
         let parsedData: ParsedData = { success: [], failed: [] };
         for (let i = 0; i < files.length; i++) {
             let title = this.extractTitle(titleData, files[i]);
-            let filepath = files[i].replace(/\\|\//g, path.sep);
+            let filePath = files[i].replace(/\\|\//g, path.sep);
+            filePath = path.isAbsolute(filePath) ? filePath : path.join(directory, filePath);
             if (title !== undefined)
-                parsedData.success.push({ filePath: path.normalize(keepRelative ? filepath : path.join(directory, filepath)), extractedTitle: title });
+                parsedData.success.push({ filePath, extractedTitle: title });
             else
-                parsedData.failed.push(path.join(directory, filepath));
+                parsedData.failed.push(filePath);
         }
         return parsedData;
     }
 
-    execute(directory: string, inputs: { [key: string]: any }, cache?: { [key: string]: any }, keepRelative?: boolean) {
+    execute(directory: string, inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
         return Promise.resolve().then(() => {
             let validationText = this.validate(inputs['glob']);
             if (validationText === null) {
                 let titleData = this.extractTitleTag(inputs['glob']);
                 return new Promise((resolve, reject) => {
                     glob(titleData.finalGlob, { silent: true, dot: true, cwd: directory, cache: cache || {} }, (err, files) => {
+                        console.log(cache);
                         if (err)
                             reject(err);
                         else
                             resolve(files);
                     });
                 }).then((files: string[]) => {
-                    return this.extractTitles(titleData, directory, files, keepRelative || false);
+                    return this.extractTitles(titleData, directory, files);
                 })
             }
             else

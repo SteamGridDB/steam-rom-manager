@@ -225,9 +225,9 @@ export class FileParser {
 
                     promises.push(Promise.resolve().then(() => {
                         if (/\${title}/i.test(expandableSet[1]))
-                            return this.availableParsers['Glob'].execute(config.romDirectory, { 'glob': parserMatch }, this.globCache, parserMatch.search(config.romDirectory.replace(/\\/g, '/')) === 0);
+                            return this.availableParsers['Glob'].execute(config.romDirectory, { 'glob': parserMatch }, this.globCache);
                         else
-                            return this.availableParsers['Glob-regex'].execute(config.romDirectory, { 'glob-regex': parserMatch }, this.globCache, parserMatch.search(config.romDirectory.replace(/\\/g, '/')) === 0);
+                            return this.availableParsers['Glob-regex'].execute(config.romDirectory, { 'glob-regex': parserMatch }, this.globCache);
                     }).then((parsedData) => {
                         for (let j = 0; j < parsedData.success.length; j++) {
                             if (config.fuzzyMatch.use) {

@@ -230,20 +230,21 @@ export class GlobRegexParser implements GenericParser {
         return undefined;
     }
 
-    private extractTitles(titleData: TitleTagData, directory: string, files: string[], keepRelative: boolean) {
+    private extractTitles(titleData: TitleTagData, directory: string, files: string[]) {
         let parsedData: ParsedData = { success: [], failed: [] };
         for (let i = 0; i < files.length; i++) {
             let title = this.extractTitle(titleData, files[i]);
-            let filepath = files[i].replace(/\\|\//g, path.sep);
+            let filePath = files[i].replace(/\\|\//g, path.sep);
+            filePath = path.isAbsolute(filePath) ? filePath : path.join(directory, filePath);
             if (title !== undefined)
-                parsedData.success.push({ filePath: path.normalize(keepRelative ? filepath : path.join(directory, filepath)), extractedTitle: title });
+                parsedData.success.push({ filePath, extractedTitle: title });
             else
-                parsedData.failed.push(path.join(directory, filepath));
+                parsedData.failed.push(filePath);
         }
         return parsedData;
     }
 
-    execute(directory: string, inputs: { [key: string]: any }, cache?: { [key: string]: any }, keepRelative?: boolean) {
+    execute(directory: string, inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
         return new Promise<ParsedData>((resolve, reject) => {
             let validationText = this.validate(inputs['glob-regex']);
             if (validationText === null) {
@@ -252,7 +253,7 @@ export class GlobRegexParser implements GenericParser {
                     if (err)
                         reject(err);
                     else
-                        resolve(this.extractTitles(titleData, directory, files, keepRelative || false));
+                        resolve(this.extractTitles(titleData, directory, files));
                 });
             }
             else

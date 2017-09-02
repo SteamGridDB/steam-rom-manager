@@ -73,5 +73,5 @@ export type AllVariables = DirectoryVariables | NameVariables | ExtensionVariabl
 
 export interface GenericParser {
     getParserInfo(): ParserInfo,
-    execute: (directory: string, inputs: { [key: string]: any }, cache?: { [key: string]: any }, keepRelative?: boolean) => Promise<ParsedData>
+    execute: (directory: string, inputs: { [key: string]: any }, cache?: { [key: string]: any }) => Promise<ParsedData>
 }
