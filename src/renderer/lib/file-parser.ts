@@ -221,6 +221,7 @@ export class FileParser {
                     if (expandableSet[2]) {
                         secondaryMatch = fieldValue.replace(expandableSet[0], expandableSet[2]);
                         secondaryMatch = path.resolve(config.romDirectory, this.replaceVariables(secondaryMatch, this.makeVariableData(config, parsedConfig.files[i]))).replace(/\\/g, '/');
+                        resolvedGlobs[i].push(secondaryMatch);
                     }
 
                     promises.push(Promise.resolve().then(() => {
