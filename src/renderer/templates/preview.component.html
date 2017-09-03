@@ -75,7 +75,7 @@
     </ng-container>
     <ng-template #imageLoaded>
         <div class="image" [ngClass]="{'spinnerMessage downloading': image.loadStatus === 'downloading', 'staticMessage failed': image.loadStatus === 'failed', 'littleSpinner': app.images.value.retrieving}"
-            (click)="image.loadStatus === 'failed' ? loadImage(app) : null" [style.backgroundImage]="image.loadStatus === 'done' ? ('url(\'' + image.imageUrl + '\')' | safeStyle) : undefined"
+            (click)="image.loadStatus === 'failed' ? loadImage(app) : null" [style.backgroundImage]="image.loadStatus === 'done' ? (image.imageUrl | cssUrl | safeStyle) : undefined"
             [attr.data-msg]="image.loadStatus !== 'downloading' ? (image.loadStatus === 'failed' ? lang.downloadFailed : null) : lang.downloadingImage">
             <ng-container *ngIf="app.images.value.content.length > (app.steamImage ? 0 : 1)">
                 <svg class="previousImage" (click)="previousImage(app)" select-arrow-left hover="true" active="true"></svg>
