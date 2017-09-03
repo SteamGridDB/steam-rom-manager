@@ -215,7 +215,6 @@ export class GlobParser implements GenericParser {
                 let titleData = this.extractTitleTag(inputs['glob']);
                 return new Promise((resolve, reject) => {
                     glob(titleData.finalGlob, { silent: true, dot: true, cwd: directory, cache: cache || {} }, (err, files) => {
-                        console.log(cache);
                         if (err)
                             reject(err);
                         else
