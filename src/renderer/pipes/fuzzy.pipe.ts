@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import * as Fuzzy from "fuzzy";
+import * as Fuzzy from 'fuzzaldrin-plus';
 
 @Pipe({ name: 'fuzzyTest' })
 export class FuzzyTestPipe implements PipeTransform {
-    transform(inputString: string, pattern: string) {
-        return pattern.length > 0 ? Fuzzy.test(pattern, inputString) : true;
+    transform(inputString: string, query: string) {
+        return query.length > 0 ? Fuzzy.score(inputString, query) !== 0 : true;
     }
 }
