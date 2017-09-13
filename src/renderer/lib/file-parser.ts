@@ -27,6 +27,32 @@ export class FileParser {
         return this.availableParsers[key] ? this.availableParsers[key].getParserInfo() : undefined;
     }
 
+    validateFieldGlob(input: string) {
+        let regex = /\$\(\${(.*?)}(?:\|(.*?))?\)\$/;
+        let match = regex.exec(input);
+
+        if (match !== null) {
+            let fieldSets = input.match(/\$\(.*?\)\$/g);
+            if (fieldSets != null && fieldSets.length > 1)
+                return this.lang.error.tooManyFieldGlobs;
+
+            let error = null;
+            if (!match[1])
+                error = this.lang.error.parserIsRequired;
+            else if ('title' === match[1].toLowerCase())
+                error = this.availableParsers['Glob'].getParserInfo().inputs['glob'].validationFn(input.replace(match[0], `\${${match[1]}}`));
+            else
+                error = this.availableParsers['Glob-regex'].getParserInfo().inputs['glob-regex'].validationFn(input.replace(match[0], `\${${match[1]}}`));
+
+            if (error)
+                return error;
+        }
+
+        if (/\\/g.test(input)) {
+            return this.lang.error.noWinSlashes;
+        }
+    }
+
     executeFileParser(configs: UserConfiguration[]) {
         let steamDirectories: { directory: string, useCredentials: boolean, data: userAccountData[] }[] = [];
         let totalUserAccountsFound: number = 0;
@@ -201,7 +227,7 @@ export class FileParser {
 
             let fieldValue = config[field];
             if (fieldValue) {
-                let expandableSet = /\$\((\${.+?})(?:\|(.+))?\)\$/.exec(fieldValue);
+                let expandableSet = /\$\((\${.+?})(?:\|(.*?))?\)\$/.exec(fieldValue);
 
                 if (expandableSet === null) {
                     let replacedGlob = path.resolve(config.romDirectory, this.replaceVariables(fieldValue, this.makeVariableData(config, parsedConfig.files[i]))).replace(/\\/g, '/');
@@ -218,8 +244,8 @@ export class FileParser {
                     parserMatch = path.resolve(config.romDirectory, parserMatch.replace('$()$', expandableSet[1])).replace(/\\/g, '/');
                     resolvedGlobs[i].push(parserMatch);
 
-                    if (expandableSet[2]) {
-                        secondaryMatch = fieldValue.replace(expandableSet[0], expandableSet[2]);
+                    if (expandableSet[2] != undefined) {
+                        secondaryMatch = fieldValue.replace(expandableSet[0], expandableSet[2] || '');
                         secondaryMatch = path.resolve(config.romDirectory, this.replaceVariables(secondaryMatch, this.makeVariableData(config, parsedConfig.files[i]))).replace(/\\/g, '/');
                         resolvedGlobs[i].push(secondaryMatch);
                     }

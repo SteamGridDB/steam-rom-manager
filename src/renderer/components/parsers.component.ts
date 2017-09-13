@@ -248,6 +248,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 localImages: new NestedFormElement.Input({
                     isHidden: () => this.isHiddenMode(),
                     label: this.lang.label.localImages,
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
                     onInfoClick: (self, path) => {
                         this.currentDoc.activePath = path.join();
                         this.currentDoc.content = this.lang.docs__md.localImages.join('');
@@ -256,6 +257,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 localIcons: new NestedFormElement.Input({
                     isHidden: () => this.isHiddenMode(),
                     label: this.lang.label.localIcons,
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
                     onInfoClick: (self, path) => {
                         this.currentDoc.activePath = path.join();
                         this.currentDoc.content = this.lang.docs__md.localIcons.join('');

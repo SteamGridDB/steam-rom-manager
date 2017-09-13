@@ -200,6 +200,9 @@ export class ParsersService {
                 return _.isArray(data) ? null : this.lang.validationErrors.imageProviders;
             case 'titleModifier':
                 return (!data || data.search(/\${title}/i) === -1) ? this.lang.validationErrors.titleModifier : null;
+            case 'localImages':
+            case 'localIcons':
+                return this.fileParser.validateFieldGlob(data || '');
             default:
                 return this.lang.validationErrors.unhandledValidationKey;
         }

@@ -296,7 +296,10 @@ export interface languageStruct {
     },
     fileParser: {
         error: {
-            parserNotFound__i: string //${name}
+            parserNotFound__i: string, //${name}
+            tooManyFieldGlobs: string,
+            parserIsRequired: string,
+            noWinSlashes: string
         }
     },
     imageProvider: {
