@@ -41,7 +41,7 @@ export class GlobRegexParser implements GenericParser {
     }
 
     private validate(fileGlob: string) {
-        let testRegExpr = /\${\/(.+)\/([ui]{0,2})(?:\|(.+?))?}/i;
+        let testRegExpr = /\${\/(.+)\/([ui]{0,2})(?:\|(.*?))?}/i;
         let match = testRegExpr.exec(fileGlob);
         if (match === null)
             return this.lang.errors.noRegex;
@@ -182,9 +182,9 @@ export class GlobRegexParser implements GenericParser {
     }
 
     private makeRegexRegex(fileGlob: string) {
-        let match = /\${\/(.+)\/([ui]{0,2})(?:\|(.+?))?}/.exec(fileGlob);
+        let match = /\${\/(.+)\/([ui]{0,2})(?:\|(.*?))?}/.exec(fileGlob);
         if (match) {
-            return { regex: new RegExp(match[1], match[2] || ''), replaceText: match[3] || '' };
+            return { regex: new RegExp(match[1], match[2] || ''), replaceText: match[3] === undefined ? '' : match[3] };
         }
         else
             return { regex: new RegExp(''), replaceText: '' };
@@ -208,7 +208,7 @@ export class GlobRegexParser implements GenericParser {
         if (file !== undefined) {
             let titleMatch = file.match(titleData.titleRegex.regex);
             if (titleMatch !== null && titleMatch[titleData.titleRegex.pos]) {
-                if (titleData.globRegex.replaceText.length > 0) {
+                if (titleData.globRegex.replaceText !== undefined) {
                     return titleMatch[titleData.titleRegex.pos].replace(titleData.globRegex.regex, titleData.globRegex.replaceText).replace(/\//g, path.sep).trim();
                 }
                 else {
