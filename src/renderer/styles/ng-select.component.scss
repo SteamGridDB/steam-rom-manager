@@ -1,8 +1,7 @@
 :host {
     position: relative;
 
-    /* display: flex;
-    flex-direction: column; */
+    display: grid;
 
     color: black;
     border-color: deepskyblue;
@@ -56,11 +55,8 @@
 
         display: none;
 
-        min-width: 100%;
-
         &.open {
-            display: flex;
-            flex-direction: column;
+            display: grid;
 
             min-width: calc(100% - (var(--ng-select-border-width, 1px) * 2));
 

@@ -184,6 +184,8 @@
 	ng-option {
 		cursor: pointer;
 
+		grid-auto-columns: auto 1fr;
+
 		color: var(--color-#{$colorProp}-option-text);
 		border: solid 1px var(--color-#{$colorProp}-option-border);
 		background-color: var(--color-#{$colorProp}-option-background);
@@ -196,6 +198,8 @@
 				position: relative;
 
 				content: '';
+
+				margin-right: 1px;
 
 				border: solid 1px var(--color-#{$colorProp}-option-border-active);
 			}
