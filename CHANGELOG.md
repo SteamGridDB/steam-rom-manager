@@ -18,13 +18,18 @@ All notable changes to this project will be documented in this file.
 * Parser configurations and app settings from now will have versions. This will allow to automatically upgrade, update or remove deprecated entries.
 * A lot of new variables are now available for users to further customize "stuff".
 * App can now automatically clear log before testing parser.
-* Navigation panel can now be resized. Maximum allowed width is 25% of viewport width. 
+* Navigation panel can now be resized. Maximum allowed width is 25% of viewport width.
+* Configuration unsaved status is now reflected near its title in navigation. It also shows if configuration is disabled or not.
+* Image urls are now cached for a session.
 
 ### Changed
 * Changed fuzzy library from [fuzzy](https://github.com/mattyork/fuzzy) to [fuzzaldrin-plus](https://github.com/jeancroy/fuzz-aldrin-plus).
 * Parser configuration will now have `disable` option instead of `enable`. Should be less confusing.
-* Recursive form is not adapted to work with angular's reactive forms. Makes validation and change tracking easier.
+* Recursive form is now adapted to work with angular's reactive forms. Makes validation and change tracking easier.
 * Toggle button now uses css animations instead of svg.
+* Rewritten **Preview** page to improve performance when handling A LOT of apps.
+* Title modifier now supports and uses variables.
+* Image url retrieving is now aborted instantly.
 
 ### Fixed
 * Empty executable is now allowed.
