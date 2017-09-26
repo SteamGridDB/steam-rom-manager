@@ -15,7 +15,7 @@ let clientConfig = {
     output: {
         filename: '[name].bundle.js',
         path: helpers.root('dist', 'renderer'),
-        publicPath: "./",
+        publicPath: "./"
     },
     resolve: {
         extensions: ['.ts', '.js']
