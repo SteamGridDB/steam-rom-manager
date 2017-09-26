@@ -16,3 +16,4 @@ export * from './ng-path-input.component';
 export * from './ng-nested-form.component';
 export * from './settings.component';
 export * from './markdown.component';
+export * from './about.component';
