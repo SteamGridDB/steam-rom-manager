@@ -3,9 +3,10 @@ import { FuzzyService, LoggerService, SettingsService } from "../services";
 import { imageProviders, availableProviders } from './image-providers';
 import { gApp } from "../app.global";
 import { queue } from "async";
+import { Subject } from "rxjs";
 import * as _ from 'lodash';
 
-type QueueTask = { title: string, running: boolean, eventCallback: ProviderCallback };
+type QueueTask = { title: string, eventCallback: ProviderCallback };
 const _queue = true ? undefined as never : queue<QueueTask, void>((task, callback) => { });
 type AsyncQueue = typeof _queue;
 
@@ -13,17 +14,13 @@ export class ImageProvider {
     private availableProviders: { [key: string]: { worker: Worker, queue: AsyncQueue } } = {};
     private callbackMap = new Map<string, { queueCallback: () => void, eventCallback: ProviderCallback }>();
     private filterIsEnabled: boolean = false;
+    private stopped: Subject<any> = new Subject();
 
     constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService) {
         for (let key in imageProviders) {
             this.availableProviders[key] = {
                 worker: (new (imageProviders[key])() as Worker),
-                queue: queue((task, callback) => {
-                    task.running = true;
-                    let id = _.uniqueId();
-                    this.callbackMap.set(id, { eventCallback: task.eventCallback, queueCallback: callback });
-                    this.postMessage(this.availableProviders[key].worker, 'retrieveUrls', { id: id, title: task.title });
-                }, 10)
+                queue: this.createQueue(key)
             };
             this.availableProviders[key].worker.addEventListener('message', this.messageEvent.bind(this));
             this.availableProviders[key].worker.addEventListener('error', this.errorEvent.bind(this));
@@ -32,6 +29,17 @@ export class ImageProvider {
 
     private get lang() {
         return gApp.lang.imageProvider;
+    }
+
+    private createQueue(key: string) {
+        if (this.availableProviders[key] && this.availableProviders[key].queue)
+            this.availableProviders[key].queue.kill();
+            
+        return queue<QueueTask, void>((task, callback) => {
+            let id = _.uniqueId();
+            this.callbackMap.set(id, { eventCallback: task.eventCallback, queueCallback: callback });
+            this.postMessage(this.availableProviders[key].worker, 'retrieveUrls', { id: id, title: task.title });
+        }, 10);
     }
 
     toggleFilter(enable: boolean) {
@@ -55,7 +63,7 @@ export class ImageProvider {
     retrieveUrls(title: string, providers: string[], eventCallback: ProviderCallback) {
         for (let i = 0; i < providers.length; i++) {
             if (this.availableProviders[providers[i]])
-                this.availableProviders[providers[i]].queue.push({ title, eventCallback, running: false });
+                this.availableProviders[providers[i]].queue.push({ title, eventCallback });
             else
                 eventCallback('completed', { title: title });
         }
@@ -63,21 +71,18 @@ export class ImageProvider {
 
     stopUrlDownload() {
         for (let key in this.availableProviders) {
-            let providerQueue = this.availableProviders[key].queue;
+            let provider = this.availableProviders[key];
 
-            providerQueue.pause();
-            (providerQueue as any).remove((item: { data: QueueTask }) => {
-                if (!item.data.running){
-                    item.data.eventCallback('completed', { title: item.data.title });
-                    return true;
-                }
-                else
-                    return false;
-            });
-            providerQueue.resume();
-
-            this.postMessage(this.availableProviders[key].worker, 'stopDownloads', null);
+            provider.queue = this.createQueue(key);
+            this.postMessage(provider.worker, 'stopDownloads', null);
         }
+
+        this.callbackMap.clear();
+        this.stopped.next();
+    }
+
+    get stopEvent() {
+        return this.stopped.asObservable();
     }
 
     private postMessage<K extends keyof ProviderReceiveEventMap>(worker: Worker, event: K, data: ProviderReceiveEventMap[K]) {
