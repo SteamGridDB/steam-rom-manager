@@ -1,14 +1,15 @@
 export interface languageStruct {
+    about: {
+        component: {
+            info__md: string[]
+        }
+    },
     preview: {
         component: {
             filter: string,
-            from: string,
             by: string,
-            refresh: string,
-            retrievingUrls: string,
-            noImages: string,
-            downloadFailed: string,
-            downloadingImage: string,
+            refreshImages: string,
+            retryDownload: string,
             generateAppList: string,
             saveAppList: string,
             removeAppList: string,
@@ -144,6 +145,7 @@ export interface languageStruct {
     },
     nav: {
         component: {
+            about: string,
             preview: string,
             logger: string,
             settings: string,

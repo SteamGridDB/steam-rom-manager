@@ -7,7 +7,6 @@ export interface ParsedUserConfigurationFile {
     extractedTitle: string,
     fuzzyTitle: string,
     finalTitle: string,
-    fuzzyFinalTitle: string,
     argumentString: string,
     resolvedLocalImages: string[],
     resolvedLocalIcons: string[],
@@ -58,7 +57,6 @@ export interface ParserVariableData {
     extractedTitle: string,
     fuzzyTitle: string,
     finalTitle: string,
-    fuzzyFinalTitle: string,
     filePath: string,
 }
 

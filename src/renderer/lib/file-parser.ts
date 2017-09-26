@@ -137,13 +137,13 @@ export class FileParser {
                         localIcons: [],
                         fuzzyTitle: fuzzyTitle,
                         extractedTitle: data[i].success[j].extractedTitle,
-                        finalTitle: configs[i].titleModifier.replace(/\${title}/gi, data[i].success[j].extractedTitle),
-                        fuzzyFinalTitle: configs[i].titleModifier.replace(/\${title}/gi, fuzzyTitle),
+                        finalTitle: undefined,
                         filePath: data[i].success[j].filePath,
                         onlineImageQueries: undefined
                     });
 
                     let lastFile = parsedConfigs[i].files[parsedConfigs[i].files.length - 1];
+                    lastFile.finalTitle = this.replaceVariables(configs[i].titleModifier, this.makeVariableData(configs[i], lastFile));
                     lastFile.onlineImageQueries = this.variableStringToArray(this.replaceVariables(configs[i].onlineImageQueries, this.makeVariableData(configs[i], lastFile), 1), true);
                 }
 
@@ -299,55 +299,53 @@ export class FileParser {
     }
 
     private getVariable(variable: AllVariables, data: ParserVariableData) {
+        const unavailable = 'undefined';
         let output = variable as string;
         switch (<AllVariables>variable.toUpperCase()) {
             case '/':
                 output = path.sep;
                 break;
             case 'EXEDIR':
-                output = path.dirname(data.executableLocation);
+                output = data.executableLocation != undefined ? path.dirname(data.executableLocation) : unavailable;
                 break;
             case 'EXEEXT':
-                output = path.extname(data.executableLocation);
+                output = data.executableLocation != undefined ? path.extname(data.executableLocation) : unavailable;
                 break;
             case 'EXENAME':
-                output = path.basename(data.executableLocation, path.extname(data.executableLocation));
+                output = data.executableLocation != undefined ? path.basename(data.executableLocation, path.extname(data.executableLocation)) : unavailable;
                 break;
             case 'EXEPATH':
-                output = data.executableLocation;
+                output = data.executableLocation != undefined ? data.executableLocation : unavailable;
                 break;
             case 'FILEDIR':
-                output = path.dirname(data.filePath);
+                output = data.filePath != undefined ? path.dirname(data.filePath) : unavailable;
                 break;
             case 'FILEEXT':
-                output = path.extname(data.filePath);
+                output = data.filePath != undefined ? path.extname(data.filePath) : unavailable;
                 break;
             case 'FILENAME':
-                output = path.basename(data.filePath, path.extname(data.filePath));
+                output = data.filePath != undefined ? path.basename(data.filePath, path.extname(data.filePath)) : unavailable;
                 break;
             case 'FILEPATH':
-                output = data.filePath;
+                output = data.filePath != undefined ? data.filePath : unavailable;
                 break;
             case 'FINALTITLE':
-                output = data.finalTitle;
-                break;
-            case 'FUZZYFINALTITLE':
-                output = data.fuzzyFinalTitle;
+                output = data.finalTitle != undefined ? data.finalTitle : unavailable;
                 break;
             case 'FUZZYTITLE':
-                output = data.fuzzyTitle;
+                output = data.fuzzyTitle != undefined ? data.fuzzyTitle : unavailable;
                 break;
             case 'ROMDIR':
-                output = data.romDirectory;
+                output = data.romDirectory != undefined ? data.romDirectory : unavailable;
                 break;
             case 'STARTINDIR':
-                output = data.startInDirectory;
+                output = data.startInDirectory != undefined ? data.startInDirectory : unavailable;
                 break;
             case 'STEAMDIR':
-                output = data.steamDirectory;
+                output = data.steamDirectory != undefined ? data.steamDirectory : unavailable;
                 break;
             case 'TITLE':
-                output = data.extractedTitle;
+                output = data.extractedTitle != undefined ? data.extractedTitle : unavailable;
                 break;
             default:
                 break;
@@ -363,7 +361,6 @@ export class FileParser {
             steamDirectory: config.steamDirectory,
             filePath: parsedConfigFile.filePath,
             finalTitle: parsedConfigFile.finalTitle,
-            fuzzyFinalTitle: parsedConfigFile.fuzzyFinalTitle,
             fuzzyTitle: parsedConfigFile.fuzzyTitle,
             romDirectory: config.romDirectory
         }

@@ -184,7 +184,7 @@ export class GlobRegexParser implements GenericParser {
     private makeRegexRegex(fileGlob: string) {
         let match = /\${\/(.+)\/([ui]{0,2})(?:\|(.*?))?}/.exec(fileGlob);
         if (match) {
-            return { regex: new RegExp(match[1], match[2] || ''), replaceText: match[3] === undefined ? '' : match[3] };
+            return { regex: new RegExp(match[1], match[2] || ''), replaceText: match[3] };
         }
         else
             return { regex: new RegExp(''), replaceText: '' };
@@ -208,8 +208,9 @@ export class GlobRegexParser implements GenericParser {
         if (file !== undefined) {
             let titleMatch = file.match(titleData.titleRegex.regex);
             if (titleMatch !== null && titleMatch[titleData.titleRegex.pos]) {
-                if (titleData.globRegex.replaceText !== undefined) {
-                    return titleMatch[titleData.titleRegex.pos].replace(titleData.globRegex.regex, titleData.globRegex.replaceText).replace(/\//g, path.sep).trim();
+                if (typeof titleData.globRegex.replaceText === 'string') {
+                    let title = titleMatch[titleData.titleRegex.pos].replace(titleData.globRegex.regex, titleData.globRegex.replaceText).replace(/\//g, path.sep).trim();
+                    return title.length > 0 ? title : undefined;
                 }
                 else {
                     titleMatch = titleMatch[titleData.titleRegex.pos].match(titleData.globRegex.regex);

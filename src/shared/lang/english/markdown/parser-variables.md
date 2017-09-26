@@ -47,10 +47,9 @@ In case executable directory input is left **empty**, `${exePath}`{.noWrap} is e
 |---:|:---|
 |`${title}`|Extracted title|
 |`${fuzzyTitle}`|Fuzzy matched title|
-|`${finalTitle}`|Extracted title which was modified by title modifier|
-|`${fuzzyFinalTitle}`|Fuzzy matched title which was modified by title modifier|
+|`${finalTitle}`|Title which was the end result of title modifier|
 
-In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap} and `${finalTitle}`{.noWrap} is equal to `${fuzzyFinalTitle}`{.noWrap}.
+In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
 
 ## Other variables
 
