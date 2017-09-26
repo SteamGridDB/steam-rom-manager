@@ -2,16 +2,17 @@ import { languageContainer } from "../../models";
 
 export const EnglishLang: languageContainer = {
     'English': {
+        about: {
+            component: {
+                info__md: [require('./markdown/about.md')]
+            }
+        },
         preview: {
             component: {
                 filter: 'Filter app titles',
-                from: 'From',
                 by: 'by',
-                refresh: 'Refresh',
-                retrievingUrls: 'Retrieving URLs',
-                noImages: 'No images are available',
-                downloadFailed: 'Download failed. Click to retry',
-                downloadingImage: 'Downloading image',
+                refreshImages: 'Refresh images',
+                retryDownload: 'Retry download',
                 generateAppList: 'Generate app list',
                 saveAppList: 'Save app list',
                 removeAppList: 'Remove app list',
@@ -35,7 +36,7 @@ export const EnglishLang: languageContainer = {
                     disabledConfigurations__i: '${count} user configuration(s) was/were skipped (disabled by user).',
                     invalidConfigurations__i: '${count} user configuration(s) was/were skipped (invalid).',
                     executingParsers: 'Executing parsers.',
-                    shutdownSteam: 'Please shutdown Steam before saving, otherwise it might not save correctly.',
+                    shutdownSteam: 'Please shutdown Steam if it is running.',
                     noParserConfigurations: 'Please create parser configuration in "Parsers" menu first.',
                     parserFoundNoFiles: 'Parser(s) found no files matching user configuration.',
                     allImagesRetrieved: 'All available image urls retrieved.',
@@ -161,6 +162,7 @@ export const EnglishLang: languageContainer = {
         },
         nav: {
             component: {
+                about: 'About',
                 preview: 'Preview',
                 logger: 'Event log',
                 settings: 'Settings',
