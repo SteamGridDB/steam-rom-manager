@@ -17,11 +17,12 @@ export interface ImagesStatusAndContent {
     content: ImageContent[]
 }
 
-export interface Images {
+export interface AppImages {
     [extractedTitle: string]: ImagesStatusAndContent
 };
 
 export interface PreviewDataApp {
+    entryId: number,
     steamCategories: string[],
     imageProviders: string[],
     startInDirectory: string,
@@ -32,7 +33,7 @@ export interface PreviewDataApp {
     currentImageIndex: number,
     currentIconIndex: number,
     icons: string[],
-    images: Reference<ImagesStatusAndContent>
+    imagePool: string
 }
 
 export interface PreviewDataApps {
