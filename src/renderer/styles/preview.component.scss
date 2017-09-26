@@ -83,34 +83,24 @@ $image-ratio: 430/920;
 
 	.entries {
 		@include webkitScrollbar(preview-scrollbar);
-
-		display: flex;
+		
+		display: grid;
 		overflow-y: auto;
-		flex-direction: column;
-		flex: 1;
-
+		
 		grid-area: entries;
 
 		> .directory {
-			display: flex;
-			flex-direction: column;
-			flex: 1 0 auto;
 
 			> .title {
-				display: flex;
-
 				padding: 0.5em 0.25em;
 
 				border-top: 1px solid var(--color-preview-separator);
 				border-bottom: 1px solid var(--color-preview-separator);
 				background-color: var(--color-preview-directory-background);
 
-				align-items: center;
-				flex-shrink: 0;
 				svg {
-					polyline {
-						stroke: var(--color-preview-text);
-					}
+					--color-select-arrow-down: var(--color-preview-text);
+					--select-arrow-down-width: 30;
 				}
 				span {
 					margin-left: 0.25em;
@@ -119,19 +109,15 @@ $image-ratio: 430/920;
 				}
 			}
 			> .user {
-				display: flex;
-				flex-direction: column;
-				flex: 1 0 auto;
-				> .title {
-					display: flex;
 
+				> .title {
 					padding: 0.25em 0.25em 0.25em 1.375em;
 
 					border-bottom: 1px solid var(--color-preview-separator);
 					background-color: var(--color-preview-user-background);
 
 					align-items: center;
-					flex-shrink: 0;
+					
 					svg {
 						--color-select-arrow-down: var(--color-preview-text);
 						--select-arrow-down-width: 30;
@@ -142,322 +128,174 @@ $image-ratio: 430/920;
 						color: var(--color-preview-text);
 					}
 				}
-				> .apps {
+
+				> .apps{
+					margin: 0.75em;
+
 					display: flex;
-					flex: 1 0 auto;
-
-					margin: 1.9em 0.5em;
-
-					align-items: center;
 					flex-wrap: wrap;
+					align-items: center;
+					align-content: space-around;
 					justify-content: space-around;
+					
 					> .app {
-						flex-shrink: 0;
+						border: solid 2px var(--color-preview-image-border);
 
-						position: relative;
+						margin: 0.75em;
 
 						width: calc(var(--preview-image-size) * #{$image-width-max});
-						margin: 1.9em 0.5em;
+						height: calc(var(--preview-image-size) * #{$image-height-max});
 
-						> .topBar {
-							position: absolute;
-							bottom: 100%;
+						background-repeat: no-repeat;
+						background-position: center center;
+						background-size: auto 75%;
 
-							width: 100%;
-							> .title, > .exe {
-								overflow: hidden;
-
-								padding: 0.1em 0;
-
-								white-space: nowrap;
-								text-overflow: ellipsis;
-							}
-
-							> .title {
-								font-size: 1.3em;
-							}
-
-							> .exe {
-								font-size: 0.9em;
-							}
+						&.retrieving {
+							background-color: var(--color-preview-image-retrieving-url-background);
+							border-color: var(--color-preview-image-retrieving-url-border);
 						}
-						> .image {
-							height: calc(var(--preview-image-size) * #{$image-height-max});
 
-							border: solid 2px var(--color-preview-app-image-border);
-							background-repeat: no-repeat;
-							background-position: center center;
+						&.noImages {
+							background-color: var(--color-preview-image-not-found-background);
+							border-color: var(--color-preview-image-not-found-border);
+						}
+
+						&.downloading {
+							background-color: var(--color-preview-image-downloading-background);
+							border-color: var(--color-preview-image-downloading-border);
+						}
+
+						&.failed {
+							background-color: var(--color-preview-image-failed-background);
+							border-color: var(--color-preview-image-failed-border);
+						}
+
+						&.imageLoaded {
 							background-size: cover;
-
-							--select-arrow-left-background-hover:var(--color-preview-image-arrow-background);
-							--select-arrow-right-background-hover: var(--color-preview-image-arrow-background);
-							--select-arrow-left-background-active: var(--color-preview-image-arrow-background);
-							--select-arrow-right-background-active: var(--color-preview-image-arrow-background);
-
-							.previousImage, .nextImage {
-								position: absolute;
-								top: 0;
-
-								width: 20%;
-								height: 100%;
-
-								cursor: default;
-							}
-
-							.previousImage {
-								left: 0;
-							}
-
-							.nextImage {
-								right: 0;
-							}
-
-							&.staticMessage {
-								font-size: calc(var(--preview-image-size) * 4em);
-								&:before {
-									font-size: 1.75em;
-									font-weight: 400;
-
-									position: absolute;
-									top: 0;
-									right: 0;
-									bottom: 20%;
-									left: 0;
-
-									display: block;
-
-									height: 30%;
-									margin: auto;
-
-									text-align: center;
-								}
-								&:after {
-									font-size: 1em;
-
-									position: absolute;
-									bottom: 2px;
-
-									overflow: hidden;
-
-									width: calc(100% - 4px);
-									height: 35%;
-
-									text-align: center;
-								}
-							}
-
-							&.spinnerMessage {
-								font-size: calc(var(--preview-image-size) * 4em);
-								&:before {
-									position: absolute;
-									top: 0;
-									right: 0;
-									bottom: 20%;
-									left: 0;
-
-									display: block;
-
-									width: calc(30% * #{$image-ratio});
-									height: 30%;
-									margin: auto;
-
-									content: '';
-									animation: spinner 0.6s linear infinite;
-
-									border-top: 0.125em solid transparent;
-									border-right: 0.125em solid transparent;
-									border-radius: 50%;
-								}
-								&:after {
-									position: absolute;
-									bottom: 2px;
-
-									overflow: hidden;
-
-									width: calc(100% - 4px);
-									height: 35%;
-
-									text-align: center;
-								}
-							}
-
-							&.littleSpinner {
-								font-size: calc(var(--preview-image-size) * 4em);
-
-								&:before {
-									position: absolute;
-									right: calc(5% * #{$image-ratio});
-									bottom: 5%;
-
-									display: block;
-
-									width: calc(25% * #{$image-ratio});
-									height: 25%;
-									margin: auto;
-
-									content: '';
-									animation: spinner 0.6s linear infinite;
-
-									border-top: 0.125em solid var(--color-preview-image-retrieving-url-spinner);
-									border-right: 0.125em solid transparent;
-									border-radius: 50%;
-								}
-							}
-
-							&.notFound {
-								background-color: var(--color-preview-image-not-found-background);
-								&:before {
-									content: ':(';
-
-									color: var(--color-preview-image-not-found-sad-face);
-								}
-								&:after {
-									content: attr(data-msg);
-
-									color: var(--color-preview-image-not-found-text);
-								}
-							}
-
-							&.failed {
-								cursor: pointer;
-
-								background-color: var(--color-preview-image-failed-background);
-								&:before {
-									content: ':(';
-
-									color: var(--color-preview-image-failed-sad-face);
-								}
-								&:after {
-									content: attr(data-msg);
-
-									color: var(--color-preview-image-failed-text);
-								}
-							}
-
-							&.retrieving {
-								background-color: var(--color-preview-image-retrieving-url-background);
-								&:before {
-									border-top-color: var(--color-preview-image-retrieving-url-spinner);
-								}
-								&:after {
-									content: attr(data-msg);
-
-									color: var(--color-preview-image-retrieving-url-text);
-								}
-							}
-
-							&.downloading {
-								background-color: var(--color-preview-image-downloading-background);
-								&:before {
-									border-top-color: var(--color-preview-image-downloading-spinner);
-								}
-								&:after {
-									content: attr(data-msg);
-
-									color: var(--color-preview-image-downloading-text);
-								}
-							}
-
-							@keyframes spinner {
-								to {
-									transform: rotate(360deg);
-								}
-							}
 						}
-						> .icon{
-							left: 0;
-							top: 0;
-							position: absolute;
-							width: calc(var(--preview-image-size) * 128px);
-							height: calc(var(--preview-image-size) * 128px);
-							border: 2px solid var(--color-preview-icon-border);
 
-							img{
-								width: 100%;
-								height: 100%;
-							}
+						> div {
+							--row-height: calc(var(--preview-image-size) * 105px);
 
-							.previousIcon, .nextIcon {
-								position: absolute;
-								top: 0;
-
-								width: 33%;
-								height: 100%;
-
-								cursor: default;
-								--select-arrow-left-background-hover:var(--color-preview-icon-arrow-background);
-								--select-arrow-right-background-hover: var(--color-preview-icon-arrow-background);
-								--select-arrow-left-background-active: var(--color-preview-icon-arrow-background);
-								--select-arrow-right-background-active: var(--color-preview-icon-arrow-background);
-							}
-
-							.previousIcon {
-								left: 0;
-							}
-
-							.nextIcon {
-								right: 0;
-							}
-						}
-						> .bottomBar {
-							position: absolute;
-							top: 100%;
-
+							height: 100%;
 							display: grid;
 
-							width: 100%;
+							grid-template-areas: 
+								"icon appInfo"
+								"imageSelector imageSelector"
+								"appButtons appButtons";
 
-							align-items: center;
-							grid-template-columns: 1fr auto;
-							grid-template-rows: auto auto;
+							grid-template-rows: var(--row-height) 1fr var(--row-height);
 
-							> .provider, > .imageIndex, > .uploader, > .refresh {
-								font-size: 0.9em;
+							grid-template-columns: auto 1fr;
 
-								padding: 0.1em 0;
-							}
-							> .uploader, > .provider {
-								overflow: hidden;
+							background-color: var(--color-preview-app-hover-background);
 
-								white-space: nowrap;
-								text-overflow: ellipsis;
-							}
-							> .refresh {
-								@include button();
-								@include clickButtonColor(click-button);
+							> .icon {
+								grid-area: icon;
 
-								font-size: 0.8em;
+								width: var(--row-height);
+								height: var(--row-height);
 							}
 
-							> .imageIndex {
-								justify-self: right;
+							> .appInfo {
+								display: grid;
+								grid-area: appInfo;
+
+								grid-template-areas: 
+									"title title"
+									"provider imageIndex";
+
+								grid-template-rows: 1fr auto;
+								grid-template-columns: 1fr auto;
+
+								> .title {
+									display: grid;
+									align-items: center;
+									grid-area: title;
+									overflow: hidden;
+	
+									padding: 0.1em;
+	
+									white-space: nowrap;
+									text-overflow: ellipsis;
+	
+									font-size: calc(var(--preview-image-size) * 3em);
+
+									color: var(--color-preview-text);
+								}
+
+								> .provider {
+									grid-area: provider;
+	
+									padding: 0.1em;
+	
+									white-space: nowrap;
+									text-overflow: ellipsis;
+	
+									font-size: calc(var(--preview-image-size) * 2em);
+
+									color: var(--color-preview-text);
+								}
+
+								> .imageIndex {
+									grid-area: imageIndex;
+
+									padding: 0.1em;
+
+									font-size: calc(var(--preview-image-size) * 2em);
+
+									color: var(--color-preview-text);
+								}
 							}
-						}
 
-						> .topBar, > .bottomBar {
-							visibility: hidden;
+							> .imageSelector {
+								display: grid;
+								grid-area: imageSelector;
 
-							box-sizing: border-box;
-							padding: 0.25em;
+								grid-template-areas: "previous . next";
 
-							transition: visibility 0s linear 0.25s, opacity 0.25s ease;
+								grid-template-columns: auto 1fr auto;
 
-							opacity: 0;
-							color: var(--color-preview-text);
-							background-color: var(--color-preview-app-info-bar-background);
-						}
+								> .previous, > .next {
+									width: var(--row-height);
+									height: 100%;
+								}
 
-						&:hover {
-							> .topBar, > .bottomBar {
-								visibility: visible;
+								> .previous {
+									grid-area: previous;
+								}
 
-								transition-delay: 0s;
+								> .next {
+									grid-area: next;
+								}
+							}
 
-								opacity: 1;
+							> .appButtons {
+								display: flex;
+								grid-area: appButtons;
+								
+								justify-content: flex-end;
+								align-items: flex-end;
+
+								--color-refresh-images: var(--color-preview-app-button);
+								--color-image-alert: var(--color-preview-app-button);
+
+								--color-refresh-images-hover: var(--color-preview-app-button-hover);
+								--color-image-alert-hover: var(--color-preview-app-button-hover);
+
+								--color-refresh-images-active: var(--color-preview-app-button-active);
+								--color-image-alert-active: var(--color-preview-app-button-active);
+
+								> .button {
+									height: calc(var(--row-height) * 0.5);
+									padding: 0.2em;
+								}
 							}
 						}
 					}
 				}
+
 				&.hidden {
 					> .title {
 						svg {
@@ -469,6 +307,7 @@ $image-ratio: 430/920;
 					}
 				}
 			}
+
 			&.hidden {
 				> .title {
 					svg {
