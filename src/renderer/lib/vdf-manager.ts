@@ -1,4 +1,4 @@
-import { VDFListData, VDFListFileData, PreviewData, PreviewDataApps, SteamShortcutsData } from "../models";
+import { VDFListData, VDFListFileData, PreviewData, PreviewDataApps, SteamShortcutsData, AppImages } from "../models";
 import { Http, ResponseContentType, Headers } from '@angular/http';
 import { generateAppId } from "./steam-id-helpers";
 import { readJson, writeJson } from "../../shared/lib";
@@ -383,7 +383,7 @@ export class VdfManager {
         });
     }
 
-    private mergeEntriesAndImages(steamDirectory: string, userId: string, apps: PreviewDataApps) {
+    private mergeEntriesAndImages(steamDirectory: string, userId: string, images: AppImages, apps: PreviewDataApps) {
         return new Promise<string[]>((resolve, reject) => {
             let errors: string[] = [];
             let currentEntries: VDFListFileData[] = [];
@@ -446,12 +446,12 @@ export class VdfManager {
                     newEntries.push(appID);
 
                     let imageIndex = app.currentImageIndex;
-                    let images = app.images.value.content;
+                    let appImages = images[app.imagePool].content;
 
-                    if (images && images.length > 0) {
-                        if (imageIndex !== -1 && images[imageIndex] && images[imageIndex].imageUrl) {
+                    if (appImages && appImages.length > 0) {
+                        if (imageIndex !== -1 && appImages[imageIndex] && appImages[imageIndex].imageUrl) {
                             imagesToRemove.push(appID);
-                            imagesToAdd.push({ appId: appID, title: app.title, url: images[imageIndex].imageUrl });
+                            imagesToAdd.push({ appId: appID, title: app.title, url: appImages[imageIndex].imageUrl });
                         }
                     }
                 }
@@ -467,11 +467,11 @@ export class VdfManager {
         });
     }
 
-    mergeVDFEntriesAndReplaceImages(previewData: PreviewData) {
+    mergeVDFEntriesAndReplaceImages(previewData: PreviewData, images: AppImages) {
         let promises: Promise<string[]>[] = [];
         for (let steamDirectory in this.listData) {
             for (let userId in this.listData[steamDirectory]) {
-                promises.push(this.mergeEntriesAndImages(steamDirectory, userId, previewData[steamDirectory][userId].apps));
+                promises.push(this.mergeEntriesAndImages(steamDirectory, userId, images, previewData[steamDirectory][userId].apps));
             }
         }
 
