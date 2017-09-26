@@ -194,6 +194,7 @@ export class ParsersService {
                     else
                         return this.lang.validationErrors.parserInput.incorrectParser;
                 }
+            case 'titleModifier':
             case 'onlineImageQueries':
                 return this.validateVariableParserString(data || '');
             case 'imageProviders':
