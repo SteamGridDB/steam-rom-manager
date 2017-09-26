@@ -3,8 +3,6 @@
 In case you're having trouble with SRM, feel free to visit [Discord](https://discord.gg/nxxzBPJ) and ask for our help. In order for us to help you, we would like you to provide this info:
 
 * SRM version: **#{gVar[version]}**
-* OS: **#{gVar[os]}**
-* Arch: **#{gVar[arch]}**
 
 ## Useful links
 
