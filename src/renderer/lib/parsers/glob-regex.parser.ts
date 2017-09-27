@@ -44,55 +44,55 @@ export class GlobRegexParser implements GenericParser {
         let testRegExpr = /\${\/(.+)\/([ui]{0,2})(?:\|(.*?))?}/i;
         let match = testRegExpr.exec(fileGlob);
         if (match === null)
-            return this.lang.errors.noRegex;
+            return this.lang.errors.noRegex__md;
 
         testRegExpr = /\${.*?}/i;
         match = testRegExpr.exec(fileGlob);
         if (match.length > 1)
-            return this.lang.errors.moreThanOneRegex;
+            return this.lang.errors.moreThanOneRegex__md;
 
         testRegExpr = /.*\*\${.*?}.*|.*\${.*?}\*.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noStarNextToRegex;
+            return this.lang.errors.noStarNextToRegex__md;
 
         testRegExpr = /.*\?\${.*?}.*|.*\${.*?}\?.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noAnyCharNextToRegex;
+            return this.lang.errors.noAnyCharNextToRegex__md;
 
         let fileGlobWithoutRegex = fileGlob.replace(/\${.*?}/i, '');
 
         testRegExpr = /\\/i;
         match = testRegExpr.exec(fileGlobWithoutRegex);
         if (match !== null)
-            return this.lang.errors.noWindowsSlash;
+            return this.lang.errors.noWindowsSlash__md;
 
         testRegExpr = /.*\*\*.+\${.*?}.+\*\*.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noGlobstarOnBothSides;
+            return this.lang.errors.noGlobstarOnBothSides__md;
 
         testRegExpr = /.*\{.*?\/+.*?\}.*\${.*?}.*\{.*?\/+.*?\}.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noBracedDirSetOnBothSides;
+            return this.lang.errors.noBracedDirSetOnBothSides__md;
 
         testRegExpr = /.*\{.*?\/+.*?\}.*\${.*?}.+\*\*.*|.*\*\*.+\${.*?}.*\{.*?\/+.*?\}.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noBracedDirSetOrGlobstarOnBothSides;
+            return this.lang.errors.noBracedDirSetOrGlobstarOnBothSides__md;
 
         testRegExpr = /(\?|!|\+|\*|@)\((.*?)\)/gi;
         while ((match = testRegExpr.exec(fileGlobWithoutRegex)) !== null) {
             if (match[2].length === 0)
-                return this.lang.errors.noEmptyPattern;
+                return this.lang.errors.noEmptyPattern__md;
         }
 
         testRegExpr = /\[(.*?)\]/g;
         while ((match = testRegExpr.exec(fileGlobWithoutRegex)) !== null) {
             if (match[1].length === 0)
-                return this.lang.errors.noEmptyCharRange;
+                return this.lang.errors.noEmptyCharRange__md;
         }
 
         testRegExpr = /.*(\?|!|\+|\*|@)\((.+?)\)\${.*?}(\?|!|\+|\*|@)\((.+?)\).*|.*(\?|!|\+|\*|@)\((.+?)\)\${.*?}.*|.*\${.*?}(\?|!|\+|\*|@)\((.+?)\).*/i;
@@ -103,18 +103,18 @@ export class GlobRegexParser implements GenericParser {
                 patterns = (match[2] || match[6]).split('|');
                 for (let i = 0; i < patterns.length; i++) {
                     if (patterns[i][patterns[i].length - 1] === '*')
-                        return this.lang.errors.noStarInPatternNextToRegex;
+                        return this.lang.errors.noStarInPatternNextToRegex__md;
                     else if (patterns[i][patterns[i].length - 1] === '?')
-                        return this.lang.errors.noAnyCharInPatternNextToRegex;
+                        return this.lang.errors.noAnyCharInPatternNextToRegex__md;
                 }
             }
             else if (match[4] || match[8]) {
                 patterns = (match[4] || match[8]).split('|');
                 for (let i = 0; i < patterns.length; i++) {
                     if (patterns[i][0] === '*')
-                        return this.lang.errors.noStarInPatternNextToRegex;
+                        return this.lang.errors.noStarInPatternNextToRegex__md;
                     else if (patterns[i][0] === '?')
-                        return this.lang.errors.noAnyCharInPatternNextToRegex;
+                        return this.lang.errors.noAnyCharInPatternNextToRegex__md;
                 }
             }
         }

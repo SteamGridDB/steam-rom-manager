@@ -40,9 +40,9 @@ import { Observable } from "rxjs";
                                 <ng-nested-form class="nested" [parentForm]="currentForm" [groupName]="childrenKey" [nestedGroup]="child"></ng-nested-form>
                             </ng-container>
                         </ng-container>
-                        <div class="errorMessage" [hidden]="currentForm.controls[childrenKey].valid || currentForm.controls[childrenKey].pristine">
-                            {{currentForm.controls[childrenKey].errors?.error}}
-                        </div>
+                        <ng-container *ngIf="(currentForm.controls[childrenKey]?.invalid && currentForm.controls[childrenKey]?.dirty) && currentForm.controls[childrenKey]?.errors?.error">
+                            <markdown class="errorMessage lastMarginZero" [content]="currentForm.controls[childrenKey].errors.error"></markdown>
+                        </ng-container>
                     </div>
                 </ng-container>
             </ng-container>

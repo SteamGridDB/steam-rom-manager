@@ -72,18 +72,18 @@ export const EnglishLang: languageContainer = {
                 ]
             },
             errors: {
-                noTitle: 'File glob must contain ${title}!',
-                moreThanOneTitle: 'File glob must contain only one ${title}!',
-                noStarNextToTitle: 'Star (*) can not be next to ${title}!',
-                noAnyCharNextToTitle: 'Any char (?) can not be next to ${title}!',
-                noWindowsSlash: 'Windows directory character (\\) is not allowed! Use "/" instead.',
-                noGlobstarOnBothSides: 'Globstar (**) can only be on one side of ${title}!',
-                noBracedDirSetOnBothSides: 'A braced set, containing at least one slash (/) can only be on one side of ${title}!',
-                noBracedDirSetOrGlobstarOnBothSides: 'A braced set, containing at least one slash (/) and a globstar (**) can only be on one side of ${title}!',
-                noEmptyPattern: 'Pattern can not be empty!',
-                noEmptyCharRange: 'Character range can not be empty!',
-                noStarInPatternNextToTitle: 'Star (*), inside a pattern, can not be next to ${title}!',
-                noAnyCharInPatternNextToTitle: 'Any char (?), inside a pattern, can not be next to ${title}!'
+                noTitle__md: '> File glob must contain `${title}`!',
+                moreThanOneTitle__md: '> File glob must contain only one `${title}`!',
+                noStarNextToTitle__md: '> Star `*` can not be next to `${title}`!',
+                noAnyCharNextToTitle__md: '> Any char `?` can not be next to `${title}`!',
+                noWindowsSlash__md: '> Windows directory character `\\` is not allowed! Use `/` instead.',
+                noGlobstarOnBothSides__md: '> Globstar `**` can only be on one side of `${title}`!',
+                noBracedDirSetOnBothSides__md: '> A braced set, containing at least one slash `/` can only be on one side of `${title}`!',
+                noBracedDirSetOrGlobstarOnBothSides__md: '> A braced set, containing at least one slash `/` and a globstar `**` can only be on one side of `${title}`!',
+                noEmptyPattern__md: '> Pattern can not be empty!',
+                noEmptyCharRange__md: '> Character range can not be empty!',
+                noStarInPatternNextToTitle__md: '> Star `*`, inside a pattern, can not be next to `${title}`!',
+                noAnyCharInPatternNextToTitle__md: '> Any char `?`, inside a pattern, can not be next to `${title}`!'
             }
         },
         globRegexParser: {
@@ -100,18 +100,18 @@ export const EnglishLang: languageContainer = {
                 ]
             },
             errors: {
-                noRegex: 'File glob must contain ${regex} where "regex" is your regular expression!',
-                moreThanOneRegex: 'File glob must contain only one ${regex}!',
-                noStarNextToRegex: 'Star (*) can not be next to ${regex}!',
-                noAnyCharNextToRegex: 'Any char (?) can not be next to ${regex}!',
-                noWindowsSlash: 'Windows directory character (\\) is not allowed! Use "/" instead.',
-                noGlobstarOnBothSides: 'Globstar (**) can only be on one side of ${regex}!',
-                noBracedDirSetOnBothSides: 'A braced set, containing at least one slash (/) can only be on one side of ${regex}!',
-                noBracedDirSetOrGlobstarOnBothSides: 'A braced set, containing at least one slash (/) and a globstar (**) can only be on one side of ${regex}!',
-                noEmptyPattern: 'Pattern can not be empty!',
-                noEmptyCharRange: 'Character range can not be empty!',
-                noStarInPatternNextToRegex: 'Star (*), inside a pattern, can not be next to ${regex}!',
-                noAnyCharInPatternNextToRegex: 'Any char (?), inside a pattern, can not be next to ${regex}!'
+                noRegex__md: '> File glob must contain `${regex}` where **regex** is your regular expression!',
+                moreThanOneRegex__md: '> File glob must contain only one `${regex}`!',
+                noStarNextToRegex__md: '> Star `*` can not be next to `${regex}`!',
+                noAnyCharNextToRegex__md: '> Any char `?` can not be next to `${regex}`!',
+                noWindowsSlash__md: '> Windows directory character `\\` is not allowed! Use `/` instead.',
+                noGlobstarOnBothSides__md: '> Globstar `**` can only be on one side of `${regex}`!',
+                noBracedDirSetOnBothSides__md: '> A braced set, containing at least one slash `/` can only be on one side of `${regex}`!',
+                noBracedDirSetOrGlobstarOnBothSides__md: '> A braced set, containing at least one slash `/` and a globstar `**` can only be on one side of `${regex}`!',
+                noEmptyPattern__md: '> Pattern can not be empty!',
+                noEmptyCharRange__md: '> Character range can not be empty!',
+                noStarInPatternNextToRegex__md: '> Star `*`, inside a pattern, can not be next to `${regex}`!',
+                noAnyCharInPatternNextToRegex__md: '> Any char `?`, inside a pattern, can not be next to `${regex}`!'
             }
         },
         logger: {
@@ -298,21 +298,21 @@ export const EnglishLang: languageContainer = {
                     corruptedConfiguration__i: 'One or more saved parser configurations are invalid!\r\nPermanent configuration saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}',
                 },
                 validationErrors: {
-                    parserType: 'Incorrect parser type!',
-                    configTitle: 'Configuration title is required!',
+                    parserType__md: '> Incorrect parser type!',
+                    configTitle__md: '> Configuration title is required!',
                     parserInput: {
                         noInput: 'No inputs are available!',
                         inputNotAvailable__i: '"${name}" input is not available!',
                         incorrectParser: 'Incorrect parser!',
                     },
-                    romDir: 'ROMs directory is invalid!',
-                    steamDir: 'Steam directory is invalid!',
-                    startInDir: '"Start In" directory is invalid!',
-                    executable: 'Executable file is invalid!',
-                    titleModifier: 'Title modifier must contain "${title}"',
-                    variableString: 'Uneven number of "${" and "}" pairs. Use "\\" to escape "${" or "}" if you want to use them as characters.',
-                    imageProviders: 'Incorrect image providers type!',
-                    unhandledValidationKey: 'Input\'s validation is unhandled'
+                    romDir__md: '> ROMs directory is invalid!',
+                    steamDir__md: '> Steam directory is invalid!',
+                    startInDir__md: '> "Start In" directory is invalid!',
+                    executable__md: '> Executable file is invalid!',
+                    titleModifier__md: '> Title modifier must not be empty!',
+                    variableString__md: '> Uneven number of `${` and `}` pairs. Use `\\` to escape `${` or `}` if you want to use them as characters.',
+                    imageProviders__md: '> Incorrect image providers type!',
+                    unhandledValidationKey__md: '> Input\'s validation is unhandled'
                 },
                 text: {
                     noTitle: 'No title!'

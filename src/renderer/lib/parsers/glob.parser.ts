@@ -40,50 +40,50 @@ export class GlobParser implements GenericParser {
         let testRegExpr = /(\${title})/gi;
         let match = testRegExpr.exec(fileGlob);
         if (match === null)
-            return this.lang.errors.noTitle;
+            return this.lang.errors.noTitle__md;
         else if (match.length > 3)
-            return this.lang.errors.moreThanOneTitle;
+            return this.lang.errors.moreThanOneTitle__md;
 
         testRegExpr = /.*\*\${title}.*|.*\${title}\*.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noStarNextToTitle;
+            return this.lang.errors.noStarNextToTitle__md;
 
         testRegExpr = /.*\?\${title}.*|.*\${title}\?.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noAnyCharNextToTitle;
+            return this.lang.errors.noAnyCharNextToTitle__md;
 
         testRegExpr = /\\/;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noWindowsSlash;
+            return this.lang.errors.noWindowsSlash__md;
 
         testRegExpr = /.*\*\*.+\${title}.+\*\*.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noGlobstarOnBothSides;
+            return this.lang.errors.noGlobstarOnBothSides__md;
 
         testRegExpr = /.*\{.*?\/+.*?\}.*\${title}.*\{.*?\/+.*?\}.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noBracedDirSetOnBothSides;
+            return this.lang.errors.noBracedDirSetOnBothSides__md;
 
         testRegExpr = /.*\{.*?\/+.*?\}.*\${title}.+\*\*.*|.*\*\*.+\${title}.*\{.*?\/+.*?\}.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noBracedDirSetOrGlobstarOnBothSides;
+            return this.lang.errors.noBracedDirSetOrGlobstarOnBothSides__md;
 
         testRegExpr = /(\?|!|\+|\*|@)\((.*?)\)/gi;
         while ((match = testRegExpr.exec(fileGlob)) !== null) {
             if (match[2].length === 0)
-                return this.lang.errors.noEmptyPattern;
+                return this.lang.errors.noEmptyPattern__md;
         }
 
         testRegExpr = /\[(.*?)\]/g;
         while ((match = testRegExpr.exec(fileGlob)) !== null) {
             if (match[1].length === 0)
-                return this.lang.errors.noEmptyCharRange;
+                return this.lang.errors.noEmptyCharRange__md;
         }
 
         testRegExpr = /.*(\?|!|\+|\*|@)\((.+?)\)\${title}(\?|!|\+|\*|@)\((.+?)\).*|.*(\?|!|\+|\*|@)\((.+?)\)\${title}.*|.*\${title}(\?|!|\+|\*|@)\((.+?)\).*/i;
@@ -94,18 +94,18 @@ export class GlobParser implements GenericParser {
                 patterns = (match[2] || match[6]).split('|');
                 for (let i = 0; i < patterns.length; i++) {
                     if (patterns[i][patterns[i].length - 1] === '*')
-                        return this.lang.errors.noStarInPatternNextToTitle;
+                        return this.lang.errors.noStarInPatternNextToTitle__md;
                     else if (patterns[i][patterns[i].length - 1] === '?')
-                        return this.lang.errors.noAnyCharInPatternNextToTitle;
+                        return this.lang.errors.noAnyCharInPatternNextToTitle__md;
                 }
             }
             else if (match[4] || match[8]) {
                 patterns = (match[4] || match[8]).split('|');
                 for (let i = 0; i < patterns.length; i++) {
                     if (patterns[i][0] === '*')
-                        return this.lang.errors.noStarInPatternNextToTitle;
+                        return this.lang.errors.noStarInPatternNextToTitle__md;
                     else if (patterns[i][0] === '?')
-                        return this.lang.errors.noAnyCharInPatternNextToTitle;
+                        return this.lang.errors.noAnyCharInPatternNextToTitle__md;
                 }
             }
         }

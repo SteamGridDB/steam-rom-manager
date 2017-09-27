@@ -62,18 +62,18 @@ export interface languageStruct {
             input: string[]
         },
         errors: {
-            noTitle: string,
-            moreThanOneTitle: string,
-            noStarNextToTitle: string,
-            noAnyCharNextToTitle: string,
-            noWindowsSlash: string,
-            noGlobstarOnBothSides: string,
-            noBracedDirSetOnBothSides: string,
-            noBracedDirSetOrGlobstarOnBothSides: string,
-            noEmptyPattern: string,
-            noEmptyCharRange: string,
-            noStarInPatternNextToTitle: string,
-            noAnyCharInPatternNextToTitle: string
+            noTitle__md: string,
+            moreThanOneTitle__md: string,
+            noStarNextToTitle__md: string,
+            noAnyCharNextToTitle__md: string,
+            noWindowsSlash__md: string,
+            noGlobstarOnBothSides__md: string,
+            noBracedDirSetOnBothSides__md: string,
+            noBracedDirSetOrGlobstarOnBothSides__md: string,
+            noEmptyPattern__md: string,
+            noEmptyCharRange__md: string,
+            noStarInPatternNextToTitle__md: string,
+            noAnyCharInPatternNextToTitle__md: string
         }
     },
     globRegexParser: {
@@ -83,18 +83,18 @@ export interface languageStruct {
             input: string[]
         },
         errors: {
-            noRegex: string,
-            moreThanOneRegex: string,
-            noStarNextToRegex: string,
-            noAnyCharNextToRegex: string,
-            noWindowsSlash: string,
-            noGlobstarOnBothSides: string,
-            noBracedDirSetOnBothSides: string,
-            noBracedDirSetOrGlobstarOnBothSides: string,
-            noEmptyPattern: string,
-            noEmptyCharRange: string,
-            noStarInPatternNextToRegex: string,
-            noAnyCharInPatternNextToRegex: string
+            noRegex__md: string,
+            moreThanOneRegex__md: string,
+            noStarNextToRegex__md: string,
+            noAnyCharNextToRegex__md: string,
+            noWindowsSlash__md: string,
+            noGlobstarOnBothSides__md: string,
+            noBracedDirSetOnBothSides__md: string,
+            noBracedDirSetOrGlobstarOnBothSides__md: string,
+            noEmptyPattern__md: string,
+            noEmptyCharRange__md: string,
+            noStarInPatternNextToRegex__md: string,
+            noAnyCharInPatternNextToRegex__md: string
         }
     },
     logger: {
@@ -259,21 +259,21 @@ export interface languageStruct {
                 corruptedConfiguration__i: string//${file}, ${error}
             },
             validationErrors: {
-                parserType: string,
-                configTitle: string,
+                parserType__md: string,
+                configTitle__md: string,
                 parserInput: {
                     noInput: string,
                     inputNotAvailable__i: string,//${name}
                     incorrectParser: string,
                 },
-                romDir: string,
-                steamDir: string,
-                startInDir: string,
-                executable: string
-                titleModifier: string,
-                variableString: string,
-                imageProviders: string,
-                unhandledValidationKey: string
+                romDir__md: string,
+                steamDir__md: string,
+                startInDir__md: string,
+                executable__md: string
+                titleModifier__md: string,
+                variableString__md: string,
+                imageProviders__md: string,
+                unhandledValidationKey__md: string
             },
             text: {
                 noTitle: string

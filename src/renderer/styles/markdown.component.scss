@@ -29,6 +29,12 @@ markdown {
 		margin-top: 0;
 	}
 
+	&.lastMarginZero {
+		> *:last-child {
+			margin-bottom: 0;
+		}
+	}
+
 	h1 {
 		font-size: 2em;
 

@@ -43,7 +43,11 @@ ng-nested-form {
 		.errorMessage {
 			margin-top: 0.25em;
 
-			color: var(--color-nested-form-error);
+			background-color: var(--color-nested-form-error-background);
+
+			blockquote {
+				border-left-color: var(--color-nested-form-error);
+			}
 
 			grid-area: error;
 		}

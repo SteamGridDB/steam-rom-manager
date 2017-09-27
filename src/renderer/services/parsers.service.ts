@@ -162,20 +162,20 @@ export class ParsersService {
             case 'parserType':
                 {
                     let availableParsers = this.getAvailableParsers();
-                    return (availableParsers.indexOf(data) !== -1) ? null : this.lang.validationErrors.parserType;
+                    return (availableParsers.indexOf(data) !== -1) ? null : this.lang.validationErrors.parserType__md;
                 }
             case 'configTitle':
-                return data ? null : this.lang.validationErrors.configTitle;
+                return data ? null : this.lang.validationErrors.configTitle__md;
             case 'steamCategory':
                 return this.validateVariableParserString(data || '');
             case 'executableLocation':
-                return (data == null || data.length === 0 || this.validatePath(data || '', false)) ? null : this.lang.validationErrors.executable;
+                return (data == null || data.length === 0 || this.validatePath(data || '', false)) ? null : this.lang.validationErrors.executable__md;
             case 'romDirectory':
-                return this.validatePath(data || '', true) ? null : this.lang.validationErrors.romDir;
+                return this.validatePath(data || '', true) ? null : this.lang.validationErrors.romDir__md;
             case 'steamDirectory':
-                return this.validatePath(data || '', true) ? null : this.lang.validationErrors.steamDir;
+                return this.validatePath(data || '', true) ? null : this.lang.validationErrors.steamDir__md;
             case 'startInDirectory':
-                return (data == null || data.length === 0 || this.validatePath(data || '', true)) ? null : this.lang.validationErrors.startInDir;
+                return (data == null || data.length === 0 || this.validatePath(data || '', true)) ? null : this.lang.validationErrors.startInDir__md;
             case 'specifiedAccounts':
                 return this.validateVariableParserString(data || '');
             case 'parserInputs':
@@ -195,17 +195,16 @@ export class ParsersService {
                         return this.lang.validationErrors.parserInput.incorrectParser;
                 }
             case 'titleModifier':
+                return data ? this.validateVariableParserString(data || '') : this.lang.validationErrors.titleModifier__md;
             case 'onlineImageQueries':
                 return this.validateVariableParserString(data || '');
             case 'imageProviders':
-                return _.isArray(data) ? null : this.lang.validationErrors.imageProviders;
-            case 'titleModifier':
-                return (!data || data.search(/\${title}/i) === -1) ? this.lang.validationErrors.titleModifier : null;
+                return _.isArray(data) ? null : this.lang.validationErrors.imageProviders__md;
             case 'localImages':
             case 'localIcons':
                 return this.fileParser.validateFieldGlob(data || '');
             default:
-                return this.lang.validationErrors.unhandledValidationKey;
+                return this.lang.validationErrors.unhandledValidationKey__md;
         }
     }
 
@@ -213,7 +212,7 @@ export class ParsersService {
         if (input.length === 0 || VariableParser.containsVariables('${', '}', input) !== false)
             return null;
         else
-            return this.lang.validationErrors.variableString;
+            return this.lang.validationErrors.variableString__md;
     }
 
     private validatePath(fsPath: string, checkForDirectory: boolean) {
