@@ -1,197 +1,402 @@
-import { delimiterPairs } from "../models";
+import { VariableParserItem, VariableParserAST, VariableParserBreadthFirstData, VariableParserPostOrderData } from "../models";
 
 export class VariableParser {
-    private pairs: delimiterPairs[] = null;
-    private input: string;
-
-    constructor(private leftDelimiter: string, private rightDelimiter: string) { }
-
-    private static isExactMatch(input1: string, it1: number, input2: string) {
-        for (let i = 0; i < input2.length; i++) {
-            if (input2[i] !== input1[i + it1]) {
+    private static isDelimiter(input: string, inputOffset: number, delimiter: string) {
+        for (let i = 0; i < delimiter.length; i++) {
+            if (delimiter[i] !== input[i + inputOffset]) {
                 return false;
             }
         }
         return true;
     };
 
-    /**
-     * @return Returns `false` if string is invalid, `null` if string has no variables or `true` if variables were found.
-     */
-    static containsVariables(leftDelimiter: string, rightDelimiter: string, input: string, unescapedOnly: boolean = true) {
+    static isValidString(leftDelimiter: string, rightDelimiter: string, input: string) {
         let isEscaped = false;
-        let output = null;
+        let valid = true;
         let level = 0;
+        let i = 0
+        let leftLengthDiff = input.length - leftDelimiter.length;
+        let rightLengthDiff = input.length - rightDelimiter.length;
 
-        for (let i = 0; i < input.length; i++) {
+        while (i < input.length) {
             if (input[i] === '\\') {
                 isEscaped = !isEscaped;
+                i++;
             } else {
                 if (!isEscaped) {
-                    if (input.length >= leftDelimiter.length + i && VariableParser.isExactMatch(input, i, leftDelimiter)) {
+                    if (leftLengthDiff >= i && VariableParser.isDelimiter(input, i, leftDelimiter)) {
                         level++;
-                        i += leftDelimiter.length - 1;
+                        i += leftDelimiter.length;
                     }
-                    else if (input.length >= rightDelimiter.length + i && VariableParser.isExactMatch(input, i, rightDelimiter)) {
-                        if (level > 0) {
-                            if (--level === 0) {
-                                output = true;
-                            }
-                        }
+                    else if (rightLengthDiff >= i && VariableParser.isDelimiter(input, i, rightDelimiter)) {
+                        if (level > 0)
+                            level--;
                         else {
-                            output = false;
+                            valid = false;
                             break;
                         }
-                        i += rightDelimiter.length - 1;
+                        i += rightDelimiter.length;
                     }
+                    else
+                        i++;
                 }
-                isEscaped = false;
+                else {
+                    isEscaped = false;
+                    i++;
+                }
             }
+        }
+
+        return valid && level === 0;
+    }
+
+    static buildAST(leftDelimiter: string, rightDelimiter: string, input: string) {
+        let isEscaped = false;
+        let level = 0;
+        let lastStringIndex = 0;
+        let i = 0
+        let leftLengthDiff = input.length - leftDelimiter.length;
+        let rightLengthDiff = input.length - rightDelimiter.length;
+        let ast: VariableParserAST = {
+            leftDelimiter,
+            rightDelimiter,
+            input,
+            maxLevel: 0,
+            parsedTree: []
+        };
+        let currentParent: VariableParserItem = undefined;
+        let getCurrentTree = () => {
+            return currentParent !== undefined ? currentParent.children : ast.parsedTree;
+        };
+        let pushString = (parentTree: VariableParserItem[]) => {
+            if (lastStringIndex < i) {
+                parentTree.push({
+                    type: 'string',
+                    range: { start: lastStringIndex, end: i },
+                    children: [],
+                    parent: currentParent
+                });
+            }
+        }
+
+        while (i < input.length) {
+            if (input[i] === '\\') {
+                isEscaped = !isEscaped;
+                i++;
+            } else {
+                if (!isEscaped) {
+                    if (leftLengthDiff >= i && VariableParser.isDelimiter(input, i, leftDelimiter)) {
+                        let parentTree = getCurrentTree();
+
+                        pushString(parentTree);
+
+                        parentTree.push({
+                            type: 'variable',
+                            range: { start: i, end: null },
+                            children: [],
+                            parent: currentParent
+                        });
+
+                        currentParent = parentTree[parentTree.length - 1];
+
+                        i += leftDelimiter.length;
+                        lastStringIndex = i;
+                        if (ast.maxLevel < level)
+                            ast.maxLevel++;
+                        level++;
+                    }
+                    else if (rightLengthDiff >= i && VariableParser.isDelimiter(input, i, rightDelimiter)) {
+                        if (level > 0) {
+                            pushString(currentParent.children);
+
+                            level--;
+                            i += rightDelimiter.length;
+                            lastStringIndex = i;
+
+                            currentParent.range.end = i;
+                            currentParent = currentParent.parent;
+                        }
+                        else
+                            break;
+                    }
+                    else
+                        i++;
+                }
+                else {
+                    isEscaped = false;
+                    i++;
+                }
+            }
+        }
+
+        pushString(getCurrentTree());
+
+        return ast;
+    }
+
+    static stringifyAST(ast: VariableParserAST, space?: string | number, includeSegments: boolean = false) {
+        return JSON.stringify(ast, (key, value) => {
+            if (key === 'parent') {
+                return undefined;
+            }
+            else if (value && value['type'] !== undefined && includeSegments) {
+                return Object.assign({ segment: ast.input.substring(value['range']['start'], value['range']['end']) }, value);
+            }
+            return value;
+        }, space);
+    }
+
+    static traverseAST(ast: VariableParserAST, callback: (ast: VariableParserAST, item: VariableParserItem, level: number, passedData: any, abort: () => void) => any | void, fromRoot: boolean) {
+        let abortTraversal: boolean = false;
+        let abortCallback = () => abortTraversal = true;
+
+        if (fromRoot) {
+            let current: VariableParserBreadthFirstData = {
+                level: 0,
+                next: null,
+                children: ast.parsedTree,
+                passedData: undefined
+            };
+            let previous: VariableParserBreadthFirstData = null;
+            let children: VariableParserItem[] = undefined;
+            let level: number = undefined;
+
+            while (current && !abortTraversal) {
+                level = current.level;
+                children = current.children;
+                previous = current;
+                current = current.next;
+
+                for (let i = 0; i < children.length; i++) {
+                    let child: VariableParserBreadthFirstData = {
+                        level: level + 1,
+                        next: current,
+                        children: children[i].children,
+                        passedData: callback(ast, children[i], level, previous.passedData, abortCallback) || null
+                    };
+
+                    if (abortTraversal)
+                        break;
+
+                    current = child;
+                }
+            }
+        }
+        else {
+            let current: VariableParserPostOrderData = {
+                level: 0,
+                index: 0,
+                indexInParent: 0,
+                previous: null,
+                children: ast.parsedTree,
+                passedData: new Array(ast.parsedTree.length).fill(undefined)
+            };
+
+            do {
+                if (current.index < current.children.length) {
+                    let child: VariableParserPostOrderData = {
+                        level: current.level + 1,
+                        index: 0,
+                        indexInParent: current.index,
+                        previous: current,
+                        children: current.children[current.index].children,
+                        passedData: new Array(current.children[current.index].children.length).fill(undefined)
+                    };
+
+                    current.index++;
+                    if (child.index < child.children.length)
+                        current = child;
+                }
+                else {
+                    if (current.previous !== null) {
+                        if (current.previous.passedData[current.indexInParent] === undefined)
+                            current.previous.passedData[current.indexInParent] = []
+
+                        for (let i = 0; i < current.children.length && !abortTraversal; i++) {
+                            current.previous.passedData[current.indexInParent].push(callback(ast, current.children[i], current.level, current.passedData[i], abortCallback) || null);
+                        }
+                    }
+                    else {
+                        for (let i = 0; i < current.children.length && !abortTraversal; i++) {
+                            callback(ast, current.children[i], current.level, current.passedData[i], abortCallback);
+                        }
+                    }
+
+                    current = current.previous;
+                }
+            } while (current !== null && !abortTraversal);
+        }
+    }
+
+    static unescape(leftDelimiter: string, rightDelimiter: string, input: string) {
+        let output: string = '';
+
+        let i = 0
+        let leftLengthDiff = input.length - leftDelimiter.length;
+        let rightLengthDiff = input.length - rightDelimiter.length;
+
+        while (i < input.length) {
+            if (input[i] === '\\') {
+                if (leftLengthDiff >= i + 1 && VariableParser.isDelimiter(input, i + 1, leftDelimiter)) {
+                    output += leftDelimiter;
+                    i += leftDelimiter.length + 1;
+                    continue;
+                }
+                else if (rightLengthDiff >= i + 1 && VariableParser.isDelimiter(input, i + 1, rightDelimiter)) {
+                    output += rightDelimiter;
+                    i += rightDelimiter.length + 1;
+                    continue;
+                }
+            }
+            output += input[i++];
         }
 
         return output;
     }
 
-    /**
-     * @return Returns `false` if string is invalid, `null` if string has no variables or `true` if variables were found.
-     */
-    containsVariables(input: string, unescapedOnly: boolean = true) {
-        return VariableParser.containsVariables(this.leftDelimiter, this.rightDelimiter, input, unescapedOnly);
+    static replaceVariables(ast: VariableParserAST, replacer: (variable: string, level: number) => string) {
+        let output: string = '';
+
+        VariableParser.traverseAST(ast, (ast, item, level, passedData: string[]) => {
+            if (level === 0) {
+                if (item.type === 'string') {
+                    let dataString = ast.input.substring(item.range.start, item.range.end);
+                    if (item.range.end !== ast.input.length && dataString[dataString.length - 1] === '\\')
+                        dataString = dataString.slice(0, -1);
+                    output += VariableParser.unescape(ast.leftDelimiter, ast.rightDelimiter, dataString);
+                }
+                else {
+                    output += passedData ? passedData.join('') : '';
+                }
+            }
+            else {
+                if (item.type === 'string') {
+                    let dataString = ast.input.substring(item.range.start, item.range.end);
+                    if (dataString[dataString.length - 1] === '\\')
+                        dataString = dataString.slice(0, -1);
+                    return replacer(VariableParser.unescape(ast.leftDelimiter, ast.rightDelimiter, dataString), level);
+                }
+                else {
+                    return passedData ? passedData.join('') : '';
+                }
+            }
+        }, false);
+
+        return output;
+    }
+
+    static removeVariables(ast: VariableParserAST) {
+        let output: string = '';
+
+        VariableParser.traverseAST(ast, (ast, item, level, data, abort) => {
+            if (level === 0) {
+                if (item.type === 'string') {
+                    let dataString = ast.input.substring(item.range.start, item.range.end);
+                    if (item.range.end !== ast.input.length && dataString[dataString.length - 1] === '\\')
+                        dataString = dataString.slice(0, -1);
+                    output += VariableParser.unescape(ast.leftDelimiter, ast.rightDelimiter, dataString);
+                }
+            }
+            else {
+                abort();
+            }
+        }, true);
+
+        return output;
+    }
+
+    static extractVariables(ast: VariableParserAST, replacer: (variable: string, level: number) => string, baseLevel: number = 0) {
+        let variables: string[] = [];
+
+        VariableParser.traverseAST(ast, (ast, item, level, passedData: string[], abort) => {
+            if (level === baseLevel) {
+                if (item.type === 'variable') {
+                    variables.push(passedData ? passedData.join('') : '');
+                }
+            }
+            else if (level > baseLevel) {
+                if (item.type === 'string') {
+                    let dataString = ast.input.substring(item.range.start, item.range.end);
+                    if (dataString[dataString.length - 1] === '\\')
+                        dataString = dataString.slice(0, -1);
+                    return replacer(VariableParser.unescape(ast.leftDelimiter, ast.rightDelimiter, dataString), level);
+                }
+                else {
+                    return passedData ? passedData.join('') : '';
+                }
+            }
+            else
+                abort();
+        }, false);
+
+        return variables;
+    }
+
+    private ast: VariableParserAST = undefined;
+    private valid: boolean = false;
+
+    constructor(private delimiters?: { left: string, right: string }, private input?: string) {
+        this.setDelimiters(delimiters).setInput(input);
+    }
+
+    setDelimiters(delimiters: { left: string, right: string }) {
+        this.delimiters = delimiters;
+        this.ast = undefined;
+        this.valid = false;
+        return this;
     }
 
     setInput(input: string) {
         this.input = input;
-        this.pairs = null;
+        this.ast = undefined;
+        this.valid = false;
         return this;
     }
 
+    isSet() {
+        return this.delimiters != undefined && this.input != undefined;
+    }
+
+    isParsed() {
+        return this.ast !== undefined;
+    }
+
     isValid() {
-        return this.pairs !== null;
+        if (!this.valid && this.isSet())
+            this.valid = VariableParser.isValidString(this.delimiters.left, this.delimiters.right, this.input);
+
+        return this.valid;
     }
 
-    parse(depthLevel: number = 0) {
-        let isEscaped = false;
-        let level = 0;
+    parse() {
+        if (this.isValid())
+            this.ast = VariableParser.buildAST(this.delimiters.left, this.delimiters.right, this.input);
 
-        if (this.input !== undefined && this.input.length > 0)
-            this.pairs = [];
-        else {
-            this.pairs = null;
-            return false;
-        }
-
-        for (let i = 0; i < this.input.length; i++) {
-            if (this.input[i] === '\\') {
-                isEscaped = !isEscaped;
-            } else {
-                if (!isEscaped) {
-                    if (this.input.length >= this.leftDelimiter.length + i && VariableParser.isExactMatch(this.input, i, this.leftDelimiter)) {
-                        if (level++ === depthLevel) {
-                            this.pairs.push({ left: { start: i, end: i + this.leftDelimiter.length }, right: undefined });
-                        }
-                        i += this.leftDelimiter.length - 1;
-                    }
-                    else if (this.input.length >= this.rightDelimiter.length + i && VariableParser.isExactMatch(this.input, i, this.rightDelimiter)) {
-                        if (level > 0) {
-                            if (--level === depthLevel) {
-                                this.pairs[this.pairs.length - 1].right = { start: i, end: i + this.rightDelimiter.length };
-                            }
-                        }
-                        else {
-                            this.pairs = null;
-                            return false;
-                        }
-                        i += this.rightDelimiter.length - 1;
-                    }
-                }
-                isEscaped = false;
-            }
-        }
-
-        if (level !== 0) {
-            this.pairs = null;
-            return false;
-        }
-        else
-            return true;
+        return this.isParsed();
     }
 
-    unescapeDelimiters(input: string[]) {
-        let isEscaped = false;
-        let output: string[] = [];
-
-        for (let i = 0; i < input.length; i++) {
-            output.push('');
-            for (let j = 0; j < input[i].length; j++) {
-                if (input[i][j] === '\\') {
-                    if (isEscaped) {
-                        output[i] += '\\\\';
-                    }
-                    isEscaped = !isEscaped;
-                } else {
-                    if (isEscaped) {
-                        if (input[i].length >= this.leftDelimiter.length + j && VariableParser.isExactMatch(input[i], j, this.leftDelimiter)) {
-                            output[i] += this.leftDelimiter;
-                            j += this.leftDelimiter.length - 1;
-                        }
-                        else if (input[i].length >= this.rightDelimiter.length + j && VariableParser.isExactMatch(input[i], j, this.rightDelimiter)) {
-                            output[i] += this.rightDelimiter;
-                            j += this.rightDelimiter.length - 1;
-                        }
-                        else {
-                            output[i] += '\\';
-                            output[i] += input[i][j];
-                        }
-                    }
-                    else
-                        output[i] += input[i][j];
-                    isEscaped = false;
-                }
-            }
-        }
-
-        return output;
+    stringifyAST(space?: string | number, includeSegments: boolean = false) {
+        return this.isParsed() ? VariableParser.stringifyAST(this.ast, space, includeSegments) : '';
     }
 
-    getVariables(unescaped: boolean) {
-        if (this.pairs !== null) {
-            let variables: string[] = [];
-            for (let i = 0; i < this.pairs.length; i++) {
-                variables.push(this.input.substring(this.pairs[i].left.start, this.pairs[i].right.end));
-            }
-            return unescaped ? this.unescapeDelimiters(variables) : variables;
-        }
-        else
-            return [];
+    traverseAST(callback: (ast: VariableParserAST, item: VariableParserItem, level: number, passedData: any, abort: () => void) => any | void, fromRoot: boolean) {
+        if (this.isParsed())
+            VariableParser.traverseAST(this.ast, callback, fromRoot);
     }
 
-    getContents(unescaped: boolean) {
-        if (this.pairs !== null) {
-            let variables: string[] = [];
-            for (let i = 0; i < this.pairs.length; i++) {
-                variables.push(this.input.substring(this.pairs[i].left.end, this.pairs[i].right.start));
-            }
-            return unescaped ? this.unescapeDelimiters(variables) : variables;
-        }
-        else
-            return null;
+    unescape() {
+        return this.isSet() ? VariableParser.unescape(this.delimiters.left, this.delimiters.right, this.input) : '';
     }
 
-    replaceVariables(replacement: string[]) {
-        if (this.pairs !== null || this.pairs.length !== replacement.length) {
-            if (this.pairs.length > 0) {
-                let stringSegments: string[] = [];
-                stringSegments.push(this.input.substring(0, this.pairs[0].left.start), replacement[0]);
-                for (let i = 1; i < this.pairs.length; i++) {
-                    stringSegments.push(this.input.substring(this.pairs[i - 1].right.end, this.pairs[i].left.start), replacement[i]);
-                }
-                stringSegments.push(this.input.substring(this.pairs[this.pairs.length - 1].right.end));
-                return stringSegments.join('');
-            }
-            else
-                return this.input;
-        }
-        else
-            return null;
+    replaceVariables(replacer: (variable: string, level: number) => string) {
+        return this.isParsed() ? VariableParser.replaceVariables(this.ast, replacer) : '';
+    }
+
+    removeVariables() {
+        return this.isParsed() ? VariableParser.removeVariables(this.ast) : '';
+    }
+
+    extractVariables(replacer: (variable: string, level: number) => string, baseLevel: number = 0) {
+        return this.isParsed() ? VariableParser.extractVariables(this.ast, replacer, baseLevel) : [];
     }
 }

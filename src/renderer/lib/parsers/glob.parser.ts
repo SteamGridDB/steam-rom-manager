@@ -36,7 +36,7 @@ export class GlobParser implements GenericParser {
         return gApp.lang.globParser;
     }
 
-    private validate(fileGlob: string) {
+    private validate(fileGlob: string, suppressSlashError: boolean = false) {
         let testRegExpr = /(\${title})/gi;
         let match = testRegExpr.exec(fileGlob);
         if (match === null)
@@ -54,10 +54,12 @@ export class GlobParser implements GenericParser {
         if (match !== null)
             return this.lang.errors.noAnyCharNextToTitle__md;
 
-        testRegExpr = /\\/;
-        match = testRegExpr.exec(fileGlob);
-        if (match !== null)
-            return this.lang.errors.noWindowsSlash__md;
+        if (!suppressSlashError) {
+            testRegExpr = /\\/;
+            match = testRegExpr.exec(fileGlob);
+            if (match !== null)
+                return this.lang.errors.noWindowsSlash__md;
+        }
 
         testRegExpr = /.*\*\*.+\${title}.+\*\*.*/i;
         match = testRegExpr.exec(fileGlob);

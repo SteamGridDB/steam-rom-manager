@@ -209,7 +209,7 @@ export class ParsersService {
     }
 
     private validateVariableParserString(input: string) {
-        if (input.length === 0 || VariableParser.containsVariables('${', '}', input) !== false)
+        if (input.length === 0 || VariableParser.isValidString('${', '}', input))
             return null;
         else
             return this.lang.validationErrors.variableString__md;

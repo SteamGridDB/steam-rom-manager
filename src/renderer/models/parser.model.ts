@@ -31,7 +31,7 @@ export interface ParserInputField {
         label: string,
         info?: string,
         forcedInput?: string,
-        validationFn?: (inputData: string) => null | string
+        validationFn?: (inputData: string, suppressSlashError?: boolean) => null | string
     }
 }
 

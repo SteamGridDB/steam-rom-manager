@@ -40,7 +40,7 @@ export class GlobRegexParser implements GenericParser {
         return gApp.lang.globRegexParser;
     }
 
-    private validate(fileGlob: string) {
+    private validate(fileGlob: string, suppressSlashError: boolean = false) {
         let testRegExpr = /\${\/(.+)\/([ui]{0,2})(?:\|(.*?))?}/i;
         let match = testRegExpr.exec(fileGlob);
         if (match === null)
@@ -63,10 +63,12 @@ export class GlobRegexParser implements GenericParser {
 
         let fileGlobWithoutRegex = fileGlob.replace(/\${.*?}/i, '');
 
-        testRegExpr = /\\/i;
-        match = testRegExpr.exec(fileGlobWithoutRegex);
-        if (match !== null)
-            return this.lang.errors.noWindowsSlash__md;
+        if (!suppressSlashError) {
+            testRegExpr = /\\/i;
+            match = testRegExpr.exec(fileGlobWithoutRegex);
+            if (match !== null)
+                return this.lang.errors.noWindowsSlash__md;
+        }
 
         testRegExpr = /.*\*\*.+\${.*?}.+\*\*.*/i;
         match = testRegExpr.exec(fileGlob);
