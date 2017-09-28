@@ -299,9 +299,9 @@ export interface languageStruct {
     fileParser: {
         error: {
             parserNotFound__i: string, //${name}
-            tooManyFieldGlobs: string,
-            parserIsRequired: string,
-            noWinSlashes: string
+            tooManyFieldGlobs__md: string,
+            parserIsRequired__md: string,
+            noWinSlashes__md: string
         }
     },
     imageProvider: {

@@ -338,9 +338,9 @@ export const EnglishLang: languageContainer = {
         fileParser: {
             error: {
                 parserNotFound__i: 'Parser "${name}" not found!',
-                tooManyFieldGlobs: 'Only one $(...)$ set is allowed per input',
-                parserIsRequired: 'First part of $(...)$ must contain a valid Glob ir Glob-regex field',
-                noWinSlashes: 'Windows directory character (\\) is not allowed! Use "/" instead.'
+                tooManyFieldGlobs__md: '> Only one `$(...)$` set is allowed per input.',
+                parserIsRequired__md: '> First part of `$(...)$` must contain a valid **Glob** ir **Glob-regex** field.',
+                noWinSlashes__md: '> Windows directory character `\\` is not allowed! Use `/` instead.'
             }
         },
         imageProvider: {
