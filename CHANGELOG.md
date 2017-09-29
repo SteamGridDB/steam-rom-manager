@@ -21,6 +21,8 @@ All notable changes to this project will be documented in this file.
 * Navigation panel can now be resized. Maximum allowed width is 25% of viewport width.
 * Configuration unsaved status is now reflected near its title in navigation. It also shows if configuration is disabled or not.
 * Image urls are now cached for a session.
+* Steam categories now support variables.
+* Image pool field has been exposed.
 
 ### Changed
 * Changed fuzzy library from [fuzzy](https://github.com/mattyork/fuzzy) to [fuzzaldrin-plus](https://github.com/jeancroy/fuzz-aldrin-plus).
@@ -30,6 +32,7 @@ All notable changes to this project will be documented in this file.
 * Rewritten **Preview** page to improve performance when handling A LOT of apps.
 * Title modifier now supports and uses variables.
 * Image url retrieving is now aborted instantly.
+* Rewritten variable parser to support nested variables.
 
 ### Fixed
 * Empty executable is now allowed.
