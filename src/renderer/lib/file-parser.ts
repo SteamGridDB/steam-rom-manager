@@ -117,7 +117,7 @@ export class FileParser {
                 if (configs[i].fuzzyMatch.use)
                     this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data[i], configs[i].fuzzyMatch.removeCharacters, configs[i].fuzzyMatch.removeBrackets);
 
-                let userFilter = vParser.setInput(configs[i].userAccounts.specifiedAccounts).parse() ? _.uniq(vParser.extractVariables(data => data)) : [];
+                let userFilter = vParser.setInput(configs[i].userAccounts.specifiedAccounts).parse() ? _.uniq(vParser.extractVariables(data => null)) : [];
                 let filteredAccounts = this.filterUserAccounts(steamDirectories[i].data, userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir);
 
                 totalUserAccountsFound += filteredAccounts.found.length;
