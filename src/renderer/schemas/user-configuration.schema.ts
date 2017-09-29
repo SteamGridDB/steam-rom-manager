@@ -33,6 +33,7 @@ export const userConfiguration = {
         },
         executableArgs: { type: 'string', default: '' },
         appendArgsToExecutable: { type: 'boolean', default: false },
+        imagePool: { type: 'string', default: '${fuzzyTitle}' },
         localImages: { type: 'string', default: '' },
         localIcons: { type: 'string', default: '' },
         onlineImageQueries: { type: 'string', default: '${${fuzzyTitle}}' },

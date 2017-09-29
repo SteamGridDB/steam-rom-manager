@@ -182,6 +182,7 @@ export interface languageStruct {
                 executableArgs: string[],
                 onlineImageQueries: string[],
                 imageProviders: string[],
+                imagePool: string[],
                 localImages: string[],
                 localIcons: string[]
             },
@@ -233,6 +234,7 @@ export interface languageStruct {
                 executableArgs: string,
                 onlineImageQueries: string,
                 imageProviders: string,
+                imagePool: string,
                 localImages: string,
                 localIcons: string
             },
@@ -270,6 +272,7 @@ export interface languageStruct {
                 steamDir__md: string,
                 startInDir__md: string,
                 executable__md: string
+                imagePool__md: string,
                 titleModifier__md: string,
                 variableString__md: string,
                 imageProviders__md: string,

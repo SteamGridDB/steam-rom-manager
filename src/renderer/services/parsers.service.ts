@@ -200,6 +200,8 @@ export class ParsersService {
                 return this.validateVariableParserString(data || '');
             case 'imageProviders':
                 return _.isArray(data) ? null : this.lang.validationErrors.imageProviders__md;
+                case 'imagePool':
+                return data ? this.validateVariableParserString(data || '') : this.lang.validationErrors.imagePool__md;
             case 'localImages':
             case 'localIcons':
                 return this.fileParser.validateFieldGlob(data || '');

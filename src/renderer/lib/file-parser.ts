@@ -149,6 +149,7 @@ export class FileParser {
                         extractedTitle: data[i].success[j].extractedTitle,
                         finalTitle: undefined,
                         filePath: data[i].success[j].filePath,
+                        imagePool: undefined,
                         onlineImageQueries: undefined
                     });
 
@@ -161,6 +162,9 @@ export class FileParser {
 
                     variableData.finalTitle = lastFile.finalTitle;
 
+                    lastFile.imagePool = vParser.setInput(configs[i].imagePool).parse() ? vParser.replaceVariables((variable) => {
+                        return this.getVariable(variable as AllVariables, variableData);
+                    }) : '';
                     lastFile.onlineImageQueries = vParser.setInput(configs[i].onlineImageQueries).parse() ? _.uniq(vParser.extractVariables((variable) => {
                         return this.getVariable(variable as AllVariables, variableData);
                     })) : [];

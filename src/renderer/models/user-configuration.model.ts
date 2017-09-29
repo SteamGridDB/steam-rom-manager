@@ -20,6 +20,7 @@ export interface UserConfiguration {
     onlineImageQueries: string,
     imageProviders: string[],
     executableArgs: string,
+    imagePool: string,
     appendArgsToExecutable: boolean,
     localImages: string,
     localIcons: string,

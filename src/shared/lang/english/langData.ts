@@ -211,6 +211,9 @@ export const EnglishLang: languageContainer = {
                     imageProviders: [
                         require('./markdown/image-providers.md')
                     ],
+                    imagePool: [
+                        require('./markdown/image-pool.md'),
+                    ],
                     localImages: [
                         require('./markdown/local-images.md'),
                         require('./markdown/special-glob-input.md'),
@@ -271,6 +274,7 @@ export const EnglishLang: languageContainer = {
                     fuzzyMatch: 'Fuzzy matching',
                     executableArgs: 'Command line arguments',
                     onlineImageQueries: 'Online image query',
+                    imagePool: 'Image pool',
                     imageProviders: 'Image providers',
                     localImages: 'Local images',
                     localIcons: 'Local icons'
@@ -309,6 +313,7 @@ export const EnglishLang: languageContainer = {
                     steamDir__md: '> Steam directory is invalid!',
                     startInDir__md: '> "Start In" directory is invalid!',
                     executable__md: '> Executable file is invalid!',
+                    imagePool__md: '> Image pool must not be empty!',
                     titleModifier__md: '> Title modifier must not be empty!',
                     variableString__md: '> Uneven number of `${` and `}` pairs. Use `\\` to escape `${` or `}` if you want to use them as characters.',
                     imageProviders__md: '> Incorrect image providers type!',

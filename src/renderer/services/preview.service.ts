@@ -509,8 +509,8 @@ export class PreviewService {
                             }
                         }
 
-                        if (this.appImages[file.fuzzyTitle] === undefined) {
-                            this.appImages[file.fuzzyTitle] = {
+                        if (this.appImages[file.imagePool] === undefined) {
+                            this.appImages[file.imagePool] = {
                                 retrieving: false,
                                 searchQueries: file.onlineImageQueries,
                                 defaultImageProviders: config.imageProviders,
@@ -518,11 +518,11 @@ export class PreviewService {
                             };
                         }
                         else {
-                            let currentQueries = this.appImages[file.fuzzyTitle].searchQueries;
-                            let currentProviders = this.appImages[file.fuzzyTitle].defaultImageProviders;
+                            let currentQueries = this.appImages[file.imagePool].searchQueries;
+                            let currentProviders = this.appImages[file.imagePool].defaultImageProviders;
 
-                            this.appImages[file.fuzzyTitle].searchQueries = _.union(currentQueries, file.onlineImageQueries);
-                            this.appImages[file.fuzzyTitle].defaultImageProviders = _.union(currentProviders, config.imageProviders);
+                            this.appImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
+                            this.appImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
                         }
 
                         if (previewData[config.steamDirectory][userAccount.accountID].apps[appID] === undefined) {
@@ -545,7 +545,7 @@ export class PreviewService {
                                 executableLocation: executableLocation,
                                 currentIconIndex: 0,
                                 icons: file.localIcons,
-                                imagePool: file.fuzzyTitle
+                                imagePool: file.imagePool
                             };
                         }
                         else {
@@ -554,7 +554,7 @@ export class PreviewService {
                         }
 
                         for (let l = 0; l < file.localImages.length; l++) {
-                            this.addUniqueImage(file.fuzzyTitle, {
+                            this.addUniqueImage(file.imagePool, {
                                 imageProvider: 'LocalStorage',
                                 imageUrl: file.localImages[l],
                                 loadStatus: 'done'

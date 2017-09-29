@@ -11,6 +11,7 @@ export interface ParsedUserConfigurationFile {
     resolvedLocalImages: string[],
     resolvedLocalIcons: string[],
     onlineImageQueries: string[],
+    imagePool: string,
     localImages: string[],
     localIcons: string[]
 }
