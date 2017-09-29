@@ -357,6 +357,28 @@ export class FileParser {
                 output = data.extractedTitle != undefined ? data.extractedTitle : unavailable;
                 break;
             default:
+                {
+                    let match = /^\/(.*?)\/([giu]{0,3})\|(.*?)(?:\|(.*?))?$/.exec(output);
+                    if (match) {
+                        let regex = new RegExp(match[1], match[2] || '');
+                        let replaceText = match[3];
+                        if (replaceText === 'string') {
+                            output = output.replace(regex, replaceText);
+                        }
+                        else {
+                            let innerMatch = output.match(regex);
+                            if (innerMatch !== null) {
+                                output = '';
+                                for (let i = 1; i < innerMatch.length; i++) {
+                                    if (innerMatch[i])
+                                    output += innerMatch[i];
+                                }
+                                if (output.length === 0)
+                                output = innerMatch[0];
+                            }
+                        }
+                    }
+                }
                 break;
         }
         return output;
