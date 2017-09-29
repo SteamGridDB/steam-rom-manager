@@ -123,7 +123,6 @@ export class FileParser {
                 totalUserAccountsFound += filteredAccounts.found.length;
 
                 parsedConfigs.push({
-                    steamCategories: vParser.setInput(configs[i].steamCategory).parse() ? _.uniq(vParser.extractVariables(data => data)) : [],
                     appendArgsToExecutable: configs[i].appendArgsToExecutable,
                     imageProviders: configs[i].imageProviders,
                     foundUserAccounts: filteredAccounts.found,
@@ -138,6 +137,7 @@ export class FileParser {
                     let executableLocation = configs[i].executableLocation ? configs[i].executableLocation : data[i].success[j].filePath;
 
                     parsedConfigs[i].files.push({
+                        steamCategories: undefined,
                         executableLocation: executableLocation,
                         startInDirectory: configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation),
                         argumentString: '',
@@ -166,6 +166,9 @@ export class FileParser {
                         return this.getVariable(variable as AllVariables, variableData);
                     }) : '';
                     lastFile.onlineImageQueries = vParser.setInput(configs[i].onlineImageQueries).parse() ? _.uniq(vParser.extractVariables((variable) => {
+                        return this.getVariable(variable as AllVariables, variableData);
+                    })) : [];
+                    lastFile.steamCategories = vParser.setInput(configs[i].steamCategory).parse() ? _.uniq(vParser.extractVariables((variable) => {
                         return this.getVariable(variable as AllVariables, variableData);
                     })) : [];
                 }

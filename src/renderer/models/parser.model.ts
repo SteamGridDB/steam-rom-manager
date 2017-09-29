@@ -11,13 +11,13 @@ export interface ParsedUserConfigurationFile {
     resolvedLocalImages: string[],
     resolvedLocalIcons: string[],
     onlineImageQueries: string[],
+    steamCategories: string[],
     imagePool: string,
     localImages: string[],
     localIcons: string[]
 }
 
 export interface ParsedUserConfiguration {
-    steamCategories: string[],
     imageProviders: string[],
     steamDirectory: string,
     appendArgsToExecutable: boolean,

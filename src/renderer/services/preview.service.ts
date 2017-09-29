@@ -531,7 +531,7 @@ export class PreviewService {
 
                             previewData[config.steamDirectory][userAccount.accountID].apps[appID] = {
                                 entryId: numberOfItems++,
-                                steamCategories: config.steamCategories,
+                                steamCategories: file.steamCategories,
                                 startInDirectory: file.startInDirectory,
                                 imageProviders: config.imageProviders,
                                 argumentString: config.appendArgsToExecutable ? '' : file.argumentString,
@@ -550,7 +550,7 @@ export class PreviewService {
                         }
                         else {
                             let currentCategories = previewData[config.steamDirectory][userAccount.accountID].apps[appID].steamCategories;
-                            previewData[config.steamDirectory][userAccount.accountID].apps[appID].steamCategories = _.union(currentCategories, config.steamCategories);
+                            previewData[config.steamDirectory][userAccount.accountID].apps[appID].steamCategories = _.union(currentCategories, file.steamCategories);
                         }
 
                         for (let l = 0; l < file.localImages.length; l++) {
