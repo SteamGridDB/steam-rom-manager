@@ -1,0 +1,13 @@
+@import 'mixins';
+
+:host {
+	overflow: auto;
+
+    grid-area: route;
+    
+    padding: 1em;
+
+    background: var(--color-about-background);
+
+    @include webkitScrollbar(about-scrollbar);
+}

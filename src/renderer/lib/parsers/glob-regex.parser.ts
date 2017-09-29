@@ -1,4 +1,4 @@
-import { Parser, GenericParser, UserConfiguration, ParsedData } from '../../models';
+import { ParserInfo, GenericParser, UserConfiguration, ParsedData } from '../../models';
 import { gApp } from "../../app.global";
 import * as _ from "lodash";
 import * as minimatch from 'minimatch';
@@ -22,9 +22,9 @@ interface TitleTagData {
 }
 
 export class GlobRegexParser implements GenericParser {
-    getParser(): Parser {
+    getParserInfo(): ParserInfo {
         return {
-            title: this.lang.title,
+            title: 'Glob-regex',
             info: this.lang.docs__md.self.join(''),
             inputs: {
                 'glob-regex': {
@@ -40,59 +40,61 @@ export class GlobRegexParser implements GenericParser {
         return gApp.lang.globRegexParser;
     }
 
-    private validate(fileGlob: string) {
-        let testRegExpr = /\${\/(.+)\/([ui]{0,2})(?:\|(.+?))?}/i;
+    private validate(fileGlob: string, suppressSlashError: boolean = false) {
+        let testRegExpr = /\${\/(.+)\/([ui]{0,2})(?:\|(.*?))?}/i;
         let match = testRegExpr.exec(fileGlob);
         if (match === null)
-            return this.lang.errors.noRegex;
+            return this.lang.errors.noRegex__md;
 
         testRegExpr = /\${.*?}/i;
         match = testRegExpr.exec(fileGlob);
         if (match.length > 1)
-            return this.lang.errors.moreThanOneRegex;
+            return this.lang.errors.moreThanOneRegex__md;
 
         testRegExpr = /.*\*\${.*?}.*|.*\${.*?}\*.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noStarNextToRegex;
+            return this.lang.errors.noStarNextToRegex__md;
 
         testRegExpr = /.*\?\${.*?}.*|.*\${.*?}\?.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noAnyCharNextToRegex;
+            return this.lang.errors.noAnyCharNextToRegex__md;
 
         let fileGlobWithoutRegex = fileGlob.replace(/\${.*?}/i, '');
 
-        testRegExpr = /\\/i;
-        match = testRegExpr.exec(fileGlobWithoutRegex);
-        if (match !== null)
-            return this.lang.errors.noWindowsSlash;
+        if (!suppressSlashError) {
+            testRegExpr = /\\/i;
+            match = testRegExpr.exec(fileGlobWithoutRegex);
+            if (match !== null)
+                return this.lang.errors.noWindowsSlash__md;
+        }
 
         testRegExpr = /.*\*\*.+\${.*?}.+\*\*.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noGlobstarOnBothSides;
+            return this.lang.errors.noGlobstarOnBothSides__md;
 
         testRegExpr = /.*\{.*?\/+.*?\}.*\${.*?}.*\{.*?\/+.*?\}.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noBracedDirSetOnBothSides;
+            return this.lang.errors.noBracedDirSetOnBothSides__md;
 
         testRegExpr = /.*\{.*?\/+.*?\}.*\${.*?}.+\*\*.*|.*\*\*.+\${.*?}.*\{.*?\/+.*?\}.*/i;
         match = testRegExpr.exec(fileGlob);
         if (match !== null)
-            return this.lang.errors.noBracedDirSetOrGlobstarOnBothSides;
+            return this.lang.errors.noBracedDirSetOrGlobstarOnBothSides__md;
 
         testRegExpr = /(\?|!|\+|\*|@)\((.*?)\)/gi;
         while ((match = testRegExpr.exec(fileGlobWithoutRegex)) !== null) {
             if (match[2].length === 0)
-                return this.lang.errors.noEmptyPattern;
+                return this.lang.errors.noEmptyPattern__md;
         }
 
         testRegExpr = /\[(.*?)\]/g;
         while ((match = testRegExpr.exec(fileGlobWithoutRegex)) !== null) {
             if (match[1].length === 0)
-                return this.lang.errors.noEmptyCharRange;
+                return this.lang.errors.noEmptyCharRange__md;
         }
 
         testRegExpr = /.*(\?|!|\+|\*|@)\((.+?)\)\${.*?}(\?|!|\+|\*|@)\((.+?)\).*|.*(\?|!|\+|\*|@)\((.+?)\)\${.*?}.*|.*\${.*?}(\?|!|\+|\*|@)\((.+?)\).*/i;
@@ -103,18 +105,18 @@ export class GlobRegexParser implements GenericParser {
                 patterns = (match[2] || match[6]).split('|');
                 for (let i = 0; i < patterns.length; i++) {
                     if (patterns[i][patterns[i].length - 1] === '*')
-                        return this.lang.errors.noStarInPatternNextToRegex;
+                        return this.lang.errors.noStarInPatternNextToRegex__md;
                     else if (patterns[i][patterns[i].length - 1] === '?')
-                        return this.lang.errors.noAnyCharInPatternNextToRegex;
+                        return this.lang.errors.noAnyCharInPatternNextToRegex__md;
                 }
             }
             else if (match[4] || match[8]) {
                 patterns = (match[4] || match[8]).split('|');
                 for (let i = 0; i < patterns.length; i++) {
                     if (patterns[i][0] === '*')
-                        return this.lang.errors.noStarInPatternNextToRegex;
+                        return this.lang.errors.noStarInPatternNextToRegex__md;
                     else if (patterns[i][0] === '?')
-                        return this.lang.errors.noAnyCharInPatternNextToRegex;
+                        return this.lang.errors.noAnyCharInPatternNextToRegex__md;
                 }
             }
         }
@@ -128,7 +130,7 @@ export class GlobRegexParser implements GenericParser {
         if (fileGlob.replace(/\${.*?}/i, '').length === 0) {
             depth.level = null;
         }
-        else if (/.*\*\*.+\${.*?}.*/i.test(fileGlob)) {
+        else if (/.*(?:\*\*|\{.*?\/+.*?\}).+\${.*?}.*/i.test(fileGlob)) {
             depth.direction = 'right';
             tempGlob = fileGlob.replace(/.*\${.*?}/i, '');
         }
@@ -178,13 +180,13 @@ export class GlobRegexParser implements GenericParser {
             return fileGlob.replace(/(\${.*?})/i, '*')
         }
         else
-            return '**';
+            return '*';
     }
 
     private makeRegexRegex(fileGlob: string) {
-        let match = /\${\/(.+)\/([ui]{0,2})(?:\|(.+?))?}/.exec(fileGlob);
+        let match = /\${\/(.+)\/([ui]{0,2})(?:\|(.*?))?}/.exec(fileGlob);
         if (match) {
-            return { regex: new RegExp(match[1], match[2] || ''), replaceText: match[3] || '' };
+            return { regex: new RegExp(match[1], match[2] || ''), replaceText: match[3] };
         }
         else
             return { regex: new RegExp(''), replaceText: '' };
@@ -208,8 +210,9 @@ export class GlobRegexParser implements GenericParser {
         if (file !== undefined) {
             let titleMatch = file.match(titleData.titleRegex.regex);
             if (titleMatch !== null && titleMatch[titleData.titleRegex.pos]) {
-                if (titleData.globRegex.replaceText.length > 0) {
-                    return titleMatch[titleData.titleRegex.pos].replace(titleData.globRegex.regex, titleData.globRegex.replaceText).replace(/\//g, path.sep).trim();
+                if (typeof titleData.globRegex.replaceText === 'string') {
+                    let title = titleMatch[titleData.titleRegex.pos].replace(titleData.globRegex.regex, titleData.globRegex.replaceText).replace(/\//g, path.sep).trim();
+                    return title.length > 0 ? title : undefined;
                 }
                 else {
                     titleMatch = titleMatch[titleData.titleRegex.pos].match(titleData.globRegex.regex);
@@ -234,28 +237,30 @@ export class GlobRegexParser implements GenericParser {
         let parsedData: ParsedData = { success: [], failed: [] };
         for (let i = 0; i < files.length; i++) {
             let title = this.extractTitle(titleData, files[i]);
-            let filepath = files[i].replace(/\\|\//g, path.sep);
+            let filePath = files[i].replace(/\\|\//g, path.sep);
+            filePath = path.isAbsolute(filePath) ? filePath : path.join(directory, filePath);
             if (title !== undefined)
-                parsedData.success.push({ filePath: path.join(directory, filepath), extractedTitle: title });
+                parsedData.success.push({ filePath, extractedTitle: title });
             else
-                parsedData.failed.push(path.join(directory, filepath));
+                parsedData.failed.push(filePath);
         }
         return parsedData;
     }
 
-    execute(config: UserConfiguration) {
+    execute(directory: string, inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
         return new Promise<ParsedData>((resolve, reject) => {
-            if (this.validate(config.parserInputs['glob-regex']) === null) {
-                let titleData = this.extractTitleTag(config.parserInputs['glob-regex']);
-                glob(titleData.finalGlob, { silent: true, dot: true, cwd: config.romDirectory }, (err, files) => {
+            let validationText = this.validate(inputs['glob-regex']);
+            if (validationText === null) {
+                let titleData = this.extractTitleTag(inputs['glob-regex']);
+                glob(titleData.finalGlob, { silent: true, dot: true, cwd: directory, cache: cache || {} }, (err, files) => {
                     if (err)
                         reject(err);
                     else
-                        resolve(this.extractTitles(titleData, config.romDirectory, files));
+                        resolve(this.extractTitles(titleData, directory, files));
                 });
             }
             else
-                throw new Error('invalid "glob-regex" input!');
+                throw new Error(validationText);
         });
     }
 }

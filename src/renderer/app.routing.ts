@@ -1,7 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PreviewComponent, LoggerComponent, ParsersComponent, SettingsComponent } from './components';
+import { AppComponent, PreviewComponent, LoggerComponent, ParsersComponent, SettingsComponent, AboutComponent } from './components';
 import { HrefGuard } from './guards';
 
 const AppRouter: Routes = [
@@ -26,8 +26,12 @@ const AppRouter: Routes = [
         component: ParsersComponent
     },
     {
+        path: 'about',
+        component: AboutComponent
+    },
+    {
         path: '**',
-        component: ParsersComponent,
+        component: AppComponent,
         canActivate: [HrefGuard]
     }
 ];

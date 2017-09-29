@@ -1,6 +1,47 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.0 - 2017-09-30
+
+#### A lot of additions/changes/fixes are not listed here due to unfortunate misclicks which commit changes before I am able to record it.
+
+### Added
+* Parser support to local images and local icons.
+* Temporary glob cache.
+* Settings button to reset fuzzy list.
+* Warning is now shown if no user account found.
+* Option to disable the usage of Steam account credentials.
+* App's position and state will now persist. Except for maximized state, it's currently a little buggy.
+* User can now disable current Steam images that are shown in preview.
+* SRM now detects changes in parser configuration. These changes will persist until user presses "Save" or decides to undo all changes. Changes will be lost if user exits app.
+* Deleted configurations are can now be restored until app is closed.
+* User can now specify a custom "Start In" directory.
+* Parser configurations and app settings will now be strictly validated. If they are corrupted beyond recovery, error will be shown to fix errors manually.
+* Parser configurations and app settings from now will have versions. This will allow to automatically upgrade, update or remove deprecated entries.
+* A lot of new variables are now available for users to further customize "stuff".
+* App can now automatically clear log before testing parser.
+* Navigation panel can now be resized. Maximum allowed width is 25% of viewport width.
+* Configuration unsaved status is now reflected near its title in navigation. It also shows if configuration is disabled or not.
+* Image urls are now cached for a session.
+* Steam categories now support variables.
+* Image pool field has been exposed.
+
+### Changed
+* Changed fuzzy library from [fuzzy](https://github.com/mattyork/fuzzy) to [fuzzaldrin-plus](https://github.com/jeancroy/fuzz-aldrin-plus).
+* Parser configuration will now have `disable` option instead of `enable`. Should be less confusing.
+* Recursive form is now adapted to work with angular's reactive forms. Makes validation and change tracking easier.
+* Toggle button now uses css animations instead of svg.
+* Rewritten **Preview** page to improve performance when handling A LOT of apps.
+* Title modifier now supports and uses variables.
+* Image url retrieving is now aborted instantly.
+* Rewritten variable parser to support nested variables.
+
+### Fixed
+* Empty executable is now allowed.
+* A logic "bug" for `retrogaming.cloud`. If filter is enabled, titles will be filtered out before making queries `retrogaming.cloud`. This will dramatically decrease number of timeouts. Big thanks to **AlexDobeck** for finding and providing a fix for this.
+* Fixed a bug where `retrogaming.cloud` could not be stopped.
+* Fixed various bugs related to parser form.
+
 ## 2.1.1 - 2017-08-09
 ### Added
 * CMD examples for Nestopia and Project64.

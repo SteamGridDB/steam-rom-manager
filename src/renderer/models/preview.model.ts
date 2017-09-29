@@ -17,19 +17,23 @@ export interface ImagesStatusAndContent {
     content: ImageContent[]
 }
 
-export interface Images {
+export interface AppImages {
     [extractedTitle: string]: ImagesStatusAndContent
 };
 
 export interface PreviewDataApp {
+    entryId: number,
     steamCategories: string[],
     imageProviders: string[],
+    startInDirectory: string,
     executableLocation: string,
     title: string,
     argumentString: string,
     steamImage: ImageContent,
     currentImageIndex: number,
-    images: Reference<ImagesStatusAndContent>
+    currentIconIndex: number,
+    icons: string[],
+    imagePool: string
 }
 
 export interface PreviewDataApps {
@@ -45,6 +49,17 @@ export interface PreviewData {
     [steamDirectory: string]: {
         [userID: string]: PreviewDataUser
     }
+}
+
+export interface SteamTree {
+    [steamDirectory: string]: {
+        [userID: string]: any
+    }
+}
+
+export interface SteamTreeData {
+    tree: SteamTree,
+    numberOfUsers: number
 }
 
 export interface SteamGridImageData {

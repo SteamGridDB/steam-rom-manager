@@ -14,7 +14,7 @@ Read this if you're still having trouble with configuration. For most examples t
 
 ## So, how do I setup user's glob?
 
-First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. Since our **ROMs directory** is `C:/ROMs`, we can just remove it **File1**'s path. 
+First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. Since our **ROMs directory** is `C:/ROMs`, we can just remove it from **File1**'s path. 
 
 We end up with `Kingdom Hearts/game.iso`. It obvious for us that `Kingdom Hearts` is the title, however parser is dumber than you -- you must specify path portion which contains the title by replacing `Kingdom Hearts` with `${title}`.
 
@@ -97,7 +97,7 @@ and only files with `nes` and `NES` will be matched. If you're feeling fancy or 
 {*,*/*}/*/${title}.@([nN][eE][sS])
 ```
 
-Now parser is can match any combination and is effectively case-insensitive. Technically, the following glob will work too, but the one above looks better.
+Now parser can match any combination and is effectively case-insensitive. Technically, the following glob will work too, but the one above looks better.
 
 ```
 {*,*/*}/*/${title}.[nN][eE][sS]

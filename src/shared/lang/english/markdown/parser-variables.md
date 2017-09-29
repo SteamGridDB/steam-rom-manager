@@ -1,16 +1,85 @@
 # Parser variables
 
-Here is a table of variables that can be used with options that have `[supports variables]`{.noWrap} specified in their descriptions.
+Here are tables of variables that can be used with options that have `[supports variables]`{.noWrap} specified in their descriptions. Variable can be nested.
 
-|Variable (case-insensitive)|Corresponding values|
+## Directory variables
+
+|Variable (case-insensitive)|Corresponding value|
 |---:|:---|
-|`${dir}`|ROMs directory|
-|`${title}`|extracted title|
-|`${fuzzyTitle}`|fuzzy matched title|
-|`${finalTitle}`|extracted title which was modified by title modifier|
-|`${fuzzyFinalTitle}`|fuzzy matched title which was modified by title modifier|
-|`${file}`|filename of a file returned by a parser|
-|`${filePath}`|full path to a file returned by a parser|
-|`${sep}`|system specific directory separator: `\` or `/`|
+|`${exeDir}`|Executable directory|
+|`${romDir}`|ROMs directory|
+|`${steamDir}`|Steam directory|
+|`${startInDir}`|"StartIn" directory|
+|`${fileDir}`|File's, returned by a parser, directory|
 
-In case fuzzy matching fails or is disabled, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
+In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
+
+## Name variables
+
+|Variable (case-insensitive)|Corresponding value|
+|---:|:---|
+|`${exeName}`|Name of executable (without extension)|
+|`${fileName}`|Name of file which was returned by a parser (without extension)|
+
+In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
+
+## Extension variables
+
+|Variable (case-insensitive)|Corresponding value|
+|---:|:---|
+|`${exeExt}`|Extension of executable (with a dot)|
+|`${fileExt}`|Extension of file which was returned by a parser (with a dot)|
+
+In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
+
+## Path variables
+
+|Variable (case-insensitive)|Corresponding value|
+|---:|:---|
+|`${exePath}`|Full path to an executable|
+|`${filePath}`|Full path to a file which was returned by a parser|
+
+In case executable directory input is left **empty**, `${exePath}`{.noWrap} is equal to `${filePath}`{.noWrap}.
+
+## Parser variables
+
+|Variable (case-insensitive)|Corresponding value|
+|---:|:---|
+|`${title}`|Extracted title|
+|`${fuzzyTitle}`|Fuzzy matched title|
+|`${finalTitle}`|Title which was the end result of title modifier|
+
+In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
+
+## Function variables
+
+|Variable (case-insensitive)|Corresponding function|
+|---:|:---|
+|`${regex|input|substitution(optional)}`|Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided)|
+|`${uc|input}`|Uppercase variable. Transforms input to uppercase|
+|`${lc|input}`|Lowercase variable. Transforms input to lowercase|
+
+### Function variable example
+
+Let's say that `${title}` variable equals to `Zelda (USA) (Disc 1).iso`. Then these variables:
+```
+${/.*/|${title}}                         //Matches everything
+${/(.*)/|${title}}                       //Captures everything
+${/(\(.*?\))/|${title}|}                 //Captures all brackets and substitutes with nothing
+${/(\(Disc\s?[0-9]\))/|${title}}         //Captures "Disc..." part
+${uc|${/(\(Disc\s?[0-9]\))/|${title}}}   //Captures "Disc..." part and transforms it to uppercase
+```
+will be replaced with these:
+```
+Zelda (USA) (Disc 1).iso
+Zelda (USA) (Disc 1).iso
+Zelda.iso
+(Disc 1)
+(DISC 1)
+```
+
+## Other variables
+
+|Variable (case-insensitive)|Corresponding value|
+|---:|:---|
+|`${/}`|System specific directory separator: `\` or `/`|

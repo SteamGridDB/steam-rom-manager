@@ -120,10 +120,6 @@
 	border-style: solid;
 
 	align-items: center;
-
-	svg{
-		margin-right: 0.25em;
-	}
 }
 
 @mixin ngToggleButtonColor($colorProp) {
@@ -149,8 +145,6 @@
 
 @mixin ngSelect() {
 	font-size: 1em;
-
-	flex: 1 0 auto;
 
 	--ng-select-padding: 0.2em 0.1em;
 
@@ -190,6 +184,8 @@
 	ng-option {
 		cursor: pointer;
 
+		grid-auto-columns: auto 1fr;
+
 		color: var(--color-#{$colorProp}-option-text);
 		border: solid 1px var(--color-#{$colorProp}-option-border);
 		background-color: var(--color-#{$colorProp}-option-background);
@@ -202,6 +198,8 @@
 				position: relative;
 
 				content: '';
+
+				margin-right: 1px;
 
 				border: solid 1px var(--color-#{$colorProp}-option-border-active);
 			}
@@ -223,6 +221,7 @@
 
 	margin: 0;
 	padding: 0.2em 0.1em;
+	min-width: 0;
 
 	cursor: text;
 }

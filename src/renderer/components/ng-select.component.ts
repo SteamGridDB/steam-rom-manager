@@ -7,7 +7,7 @@ import * as _ from 'lodash';
     selector: 'ng-select',
     template: `
         <div class="display" (click)="open = !open" [class.open]="open">
-            <span text-scroll>{{displayValue || placeholder || 'null'}}</span>
+            <div text-scroll>{{displayValue || placeholder || 'null'}}</div>
             <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
                 <polyline points="70, 110 150, 200 230, 110" />
             </svg>

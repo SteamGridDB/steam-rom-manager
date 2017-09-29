@@ -1,6 +1,7 @@
 import { FuzzyListTimestamps } from "./fuzzy.model";
 
 export interface PreviewSettings {
+    retrieveCurrentSteamImages: boolean,
     imageZoomPercentage: number,
     preload: boolean
 }
@@ -15,5 +16,7 @@ export interface AppSettings {
     offlineMode: boolean,
     enabledProviders: string[],
     previewSettings: PreviewSettings,
+    navigationWidth: number,
+    clearLogOnTest: boolean,
     knownSteamDirectories: string[]
 }

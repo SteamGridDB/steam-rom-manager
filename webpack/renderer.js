@@ -15,7 +15,7 @@ let clientConfig = {
     output: {
         filename: '[name].bundle.js',
         path: helpers.root('dist', 'renderer'),
-        publicPath: "./",
+        publicPath: "./"
     },
     resolve: {
         extensions: ['.ts', '.js']
@@ -45,12 +45,17 @@ let clientConfig = {
                 use: 'file-loader?name=images/[name].[ext]'
             },
             {
-                test: /\.(ttf|eot|svg|woff|woff2)$/i,
+                test: /\.(ttf|eot|woff|woff2)$/i,
                 use: 'file-loader?name=fonts/[name].[ext]&publicPath=../'
             },
             {
                 test: /\.html$/i,
-                use: 'html-loader'
+                use: {
+                    loader: 'html-loader',
+                    options: {
+                        attrs: ['object:data', 'img:src']
+                    }
+                }
             },
             {
                 test: /\.md$/i,
@@ -93,9 +98,7 @@ let developmentConfig = {
 let productionConfig = {
     plugins: [
         new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-            }
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
         }),
     ]
 };

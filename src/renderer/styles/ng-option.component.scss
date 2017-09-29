@@ -1,12 +1,4 @@
 :host {
-    display: table-row;
-    
-    .cell {
-        display: table-cell;
-
-        cursor: pointer;
-        user-select: none;
-
-        background-color: white;
-    }
+    display: grid;
+    grid-auto-flow: column;
 }

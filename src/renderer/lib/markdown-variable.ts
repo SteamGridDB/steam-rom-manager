@@ -1,4 +1,6 @@
 import { MarkdownIt } from 'markdown-it';
+import { gApp } from "../app.global";
+import * as _ from 'lodash';
 
 export function MarkdownVariable(md: MarkdownIt, options?: any) {
     md.inline.ruler.push("markdown-variable", (state: any, silent?: boolean): boolean => {
@@ -13,8 +15,8 @@ export function MarkdownVariable(md: MarkdownIt, options?: any) {
         if (endPos !== -1) {
             let content = state.src.slice(state.pos, ++endPos);
             if (!content.match(/\r\n|\r|\n/g)) {
-                let match = /(svg)\s*\[(.+)\]/.exec(content);
-                if (!silent && match[1] !== null && match[2] !== null) {
+                let match = /(svg|gVar)\s*\[(.+)\]/.exec(content);
+                if (!silent && match !== null && match[1] != null && match[2] != null) {
                     let token = state.push("markdown-variable", match[1], 0);
                     token.content = match[2];
                     token.markup = markup;
@@ -36,6 +38,8 @@ export function MarkdownVariable(md: MarkdownIt, options?: any) {
         switch (token.tag) {
             case 'svg':
                 return `<svg ${md.utils.escapeHtml(tokens[idx].content)}></svg>`;
+            case 'gVar':
+                return `${_.get(gApp, md.utils.escapeHtml(tokens[idx].content), 'undefined')}`;
             default:
                 return '';
         }

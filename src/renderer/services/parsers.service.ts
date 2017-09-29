@@ -1,46 +1,32 @@
+import { JsonValidator } from '../../shared/lib/json-helpers';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { UserConfiguration, ParsedUserConfiguration } from '../models';
 import { LoggerService } from './logger.service';
-import { SettingsService } from './settings.service';
 import { FuzzyService } from './fuzzy.service';
 import { ImageProviderService } from './image-provider.service';
 import { FileParser, VariableParser } from '../lib';
 import { availableProviders } from '../lib/image-providers';
 import { BehaviorSubject } from "rxjs";
 import { gApp } from "../app.global";
+import * as schemas from '../schemas';
+import * as modifiers from '../modifiers';
 import * as fs from 'fs-extra';
 import * as _ from 'lodash';
-import * as paths from '../../shared/paths'
+import * as paths from '../../shared/paths';
 
 @Injectable()
 export class ParsersService {
     private fileParser: FileParser;
-    private userConfigurations: BehaviorSubject<UserConfiguration[]>;
-    private defaultValues: UserConfiguration;
+    private userConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
+    private deletedConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
+    private validator: JsonValidator = new JsonValidator(schemas.userConfiguration, { controlProperty: 'version', modifierFields: modifiers.userConfiguration });
+    private savingIsDisabled: boolean = false;
 
-    constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private settingService: SettingsService, private http: Http) {
+    constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private http: Http) {
         this.fileParser = new FileParser(this.fuzzyService);
-        this.userConfigurations = new BehaviorSubject<UserConfiguration[]>([]);
-        this.defaultValues = {
-            parserType: '',
-            configTitle: '',
-            steamCategory: '',
-            executableLocation: '',
-            romDirectory: '',
-            steamDirectory: '',
-            userAccounts: { skipWithMissingDataDir: true, specifiedAccounts: '' },
-            parserInputs: {},
-            executableArgs: '',
-            appendArgsToExecutable: false,
-            localImages: '',
-            onlineImageQueries: '${${fuzzyTitle}}',
-            imageProviders: availableProviders(),
-            titleModifier: '${title}',
-            fuzzyMatch: { use: true, removeCharacters: true, removeBrackets: true },
-            advanced: false,
-            enabled: true
-        };
+        this.userConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
+        this.deletedConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
         this.readUserConfigurations();
     }
 
@@ -56,46 +42,90 @@ export class ParsersService {
         return this.userConfigurations.getValue();
     }
 
-    getDefaultValues() {
-        return this.defaultValues;
+    getDeletedConfigurations() {
+        return this.deletedConfigurations.asObservable();
     }
 
-    saveConfiguration(config: UserConfiguration) {
+    getDefaultValues() {
+        return this.validator.getDefaultValues() as UserConfiguration;
+    }
+
+    saveConfiguration(config: { saved: UserConfiguration, current: UserConfiguration }) {
         let userConfigurations = this.userConfigurations.getValue();
-        userConfigurations = userConfigurations.concat(config);
+        userConfigurations = userConfigurations.concat(_.cloneDeep(config));
         this.userConfigurations.next(userConfigurations);
         this.saveUserConfigurations();
     }
 
     swapIndex(currentIndex: number, newIndex: number) {
         let userConfigurations = this.userConfigurations.getValue();
-        var temp = userConfigurations[currentIndex];
+
+        let temp = userConfigurations[currentIndex];
         userConfigurations[currentIndex] = userConfigurations[newIndex];
         userConfigurations[newIndex] = temp;
+
         this.userConfigurations.next(userConfigurations);
         this.saveUserConfigurations();
     }
 
-    updateConfiguration(config: UserConfiguration, index: number) {
+    updateConfiguration(index: number, config?: UserConfiguration) {
         let userConfigurations = this.userConfigurations.getValue();
-        userConfigurations[index] = config;
+
+        if (config === undefined) {
+            if (userConfigurations[index].current == null)
+                return;
+            else
+                userConfigurations[index] = { saved: userConfigurations[index].current, current: null };
+        }
+        else
+            userConfigurations[index] = { saved: config, current: null };
+
         this.userConfigurations.next(userConfigurations);
         this.saveUserConfigurations();
+    }
+
+    setCurrentConfiguration(index: number, config: UserConfiguration) {
+        let userConfigurations = this.userConfigurations.getValue();
+        userConfigurations[index].current = config;
+        this.userConfigurations.next(userConfigurations);
     }
 
     deleteConfiguration(index: number) {
         let userConfigurations = this.userConfigurations.getValue();
-        userConfigurations.splice(index, 1);
-        this.userConfigurations.next(userConfigurations);
-        this.saveUserConfigurations();
+
+        if (userConfigurations.length > index && index >= 0) {
+            let deletedConfigurations = this.deletedConfigurations.getValue();
+
+            deletedConfigurations = deletedConfigurations.concat(userConfigurations.splice(index, 1));
+
+            this.deletedConfigurations.next(deletedConfigurations);
+            this.userConfigurations.next(userConfigurations);
+            this.saveUserConfigurations();
+        }
+    }
+
+    restoreConfiguration(index?: number) {
+        let deletedConfigurations = this.deletedConfigurations.getValue();
+        if (index == undefined)
+            index = 0;
+
+        if (deletedConfigurations.length > index && index >= 0) {
+            let userConfigurations = this.userConfigurations.getValue();
+
+            userConfigurations = userConfigurations.concat(deletedConfigurations.splice(index, 1));
+
+            this.deletedConfigurations.next(deletedConfigurations);
+            this.userConfigurations.next(userConfigurations);
+            this.saveUserConfigurations();
+        }
     }
 
     getAvailableParsers() {
         return this.fileParser.getAvailableParsers();
     }
 
-    getParser(parser: string) {
-        return this.fileParser.getParser(parser);
+    getParserInfo(parser: string) {
+        return this.fileParser.getParserInfo(parser);
     }
 
     executeFileParser(...configs: UserConfiguration[]) {
@@ -106,10 +136,10 @@ export class ParsersService {
         if (configs.length === 0) {
             let configArray = this.getUserConfigurationsArray();
             for (let i = 0; i < configArray.length; i++) {
-                if (configArray[i].enabled)
-                    configs.push(configArray[i]);
+                if (configArray[i].saved.disabled)
+                    skipped.push(configArray[i].saved.configTitle);
                 else
-                    skipped.push(configArray[i].configTitle);
+                    configs.push(configArray[i].saved);
             }
         }
 
@@ -132,23 +162,25 @@ export class ParsersService {
             case 'parserType':
                 {
                     let availableParsers = this.getAvailableParsers();
-                    return (availableParsers.indexOf(data) !== -1) ? null : this.lang.validationErrors.parserType;
+                    return (availableParsers.indexOf(data) !== -1) ? null : this.lang.validationErrors.parserType__md;
                 }
             case 'configTitle':
-                return data ? null : this.lang.validationErrors.configTitle;
+                return data ? null : this.lang.validationErrors.configTitle__md;
             case 'steamCategory':
                 return this.validateVariableParserString(data || '');
             case 'executableLocation':
-                return this.validatePath(data || '', false) ? null : this.lang.validationErrors.executable;
+                return (data == null || data.length === 0 || this.validatePath(data || '', false)) ? null : this.lang.validationErrors.executable__md;
             case 'romDirectory':
-                return this.validatePath(data || '', true) ? null : this.lang.validationErrors.romDir;
+                return this.validatePath(data || '', true) ? null : this.lang.validationErrors.romDir__md;
             case 'steamDirectory':
-                return this.validatePath(data || '', true) ? null : this.lang.validationErrors.steamDir;
+                return this.validatePath(data || '', true) ? null : this.lang.validationErrors.steamDir__md;
+            case 'startInDirectory':
+                return (data == null || data.length === 0 || this.validatePath(data || '', true)) ? null : this.lang.validationErrors.startInDir__md;
             case 'specifiedAccounts':
                 return this.validateVariableParserString(data || '');
             case 'parserInputs':
                 {
-                    let availableParser = this.getParser(data['parser']);
+                    let availableParser = this.getParserInfo(data['parser']);
                     if (availableParser) {
                         if (availableParser.inputs === undefined)
                             return this.lang.validationErrors.parserInput.noInput;
@@ -162,22 +194,27 @@ export class ParsersService {
                     else
                         return this.lang.validationErrors.parserInput.incorrectParser;
                 }
+            case 'titleModifier':
+                return data ? this.validateVariableParserString(data || '') : this.lang.validationErrors.titleModifier__md;
             case 'onlineImageQueries':
                 return this.validateVariableParserString(data || '');
             case 'imageProviders':
-                return _.isArray(data) ? null : this.lang.validationErrors.imageProviders;
-            case 'titleModifier':
-                return (!data || data.search(/\${title}/i) === -1) ? this.lang.validationErrors.titleModifier : null;
+                return _.isArray(data) ? null : this.lang.validationErrors.imageProviders__md;
+                case 'imagePool':
+                return data ? this.validateVariableParserString(data || '') : this.lang.validationErrors.imagePool__md;
+            case 'localImages':
+            case 'localIcons':
+                return this.fileParser.validateFieldGlob(data || '');
             default:
-                return this.lang.validationErrors.unhandledValidationKey;
+                return this.lang.validationErrors.unhandledValidationKey__md;
         }
     }
 
     private validateVariableParserString(input: string) {
-        if (input.length === 0 || new VariableParser('${', '}', input).isValid())
+        if (input.length === 0 || VariableParser.isValidString('${', '}', input))
             return null;
         else
-            return this.lang.validationErrors.variableString;
+            return this.lang.validationErrors.variableString__md;
     }
 
     private validatePath(fsPath: string, checkForDirectory: boolean) {
@@ -194,7 +231,7 @@ export class ParsersService {
             'parserType', 'configTitle', 'steamCategory',
             'executableLocation', 'romDirectory', 'steamDirectory',
             'specifiedAccounts', 'onlineImageQueries', 'titleModifier',
-            'imageProviders'
+            'imageProviders', 'startInDirectory'
         ];
 
         for (let i = 0; i < simpleValidations.length; i++) {
@@ -202,7 +239,7 @@ export class ParsersService {
                 return false;
         }
 
-        let availableParser = this.getParser(config.parserType);
+        let availableParser = this.getParserInfo(config.parserType);
         if (availableParser.inputs !== undefined) {
             let parserInputs = config.parserInputs;
             for (let inputName in availableParser.inputs) {
@@ -216,12 +253,19 @@ export class ParsersService {
 
     private saveUserConfigurations() {
         return new Promise<UserConfiguration[]>((resolve, reject) => {
-            fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue(), null, 4), (error) => {
-                if (error)
-                    reject(error);
-                else
-                    resolve();
-            });
+            if (!this.savingIsDisabled) {
+                fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => {
+                    item.saved['version'] = modifiers.userConfigurationVersion;
+                    return item.saved;
+                }), null, 4), (error) => {
+                    if (error)
+                        reject(error);
+                    else
+                        resolve();
+                });
+            }
+            else
+                resolve();
         }).then().catch((error) => {
             this.loggerService.error(this.lang.error.savingConfiguration, { invokeAlert: true, alertTimeout: 5000 });
             this.loggerService.error(error);
@@ -245,11 +289,24 @@ export class ParsersService {
                 }
             });
         }).then((data) => {
-            let validateConfigs: UserConfiguration[] = [];
+            let validatedConfigs: { saved: UserConfiguration, current: UserConfiguration }[] = [];
+            let errorString: string = '';
             for (let i = 0; i < data.length; i++) {
-                validateConfigs.push(this.settingService.validateObject(data[i], this.defaultValues, ['parserInputs']));
+                let errors = this.validator.validate(data[i]);
+                if (!errors)
+                    validatedConfigs.push({ saved: data[i], current: null });
+                else
+                    errorString += `\r\n[${i}]:\r\n    ${JSON.stringify(errors, null, 4).replace(/\n/g, '\n    ')}`;
+            };
+            if (errorString.length > 0) {
+                this.savingIsDisabled = true;
+                this.loggerService.error(this.lang.error.readingConfiguration, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
+                this.loggerService.error(this.lang.error.corruptedConfiguration__i.interpolate({
+                    file: paths.userConfigurations,
+                    error: errorString
+                }));
             }
-            this.userConfigurations.next(validateConfigs);
+            this.userConfigurations.next(validatedConfigs);
         }).catch((error) => {
             this.loggerService.error(this.lang.error.readingConfiguration, { invokeAlert: true, alertTimeout: 5000 });
             this.loggerService.error(error);

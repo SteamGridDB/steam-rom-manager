@@ -1,33 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { AlertMessage, LogMessage, MessageSettings, LogSettings } from '../models';
 
 @Injectable()
 export class LoggerService {
-    private alertMessage: Subject<AlertMessage> = new Subject<AlertMessage>();
+    private alertMessage: BehaviorSubject<AlertMessage> = new BehaviorSubject<AlertMessage>(undefined);
     private logMessages: BehaviorSubject<LogMessage[]> = new BehaviorSubject<LogMessage[]>([]);
-    private keepAfterNavigationChange: boolean = false;
+    private hideAfterNavigationChange: boolean = false;
     private logSettings: LogSettings;
 
-    constructor(private router: Router, public datePipe: DatePipe) {
-        router.events.subscribe(event => {
-            if (event instanceof NavigationStart) {
-                if (this.keepAfterNavigationChange)
-                    this.keepAfterNavigationChange = false;
-                else
-                    this.alertMessage.next();
-            }
-        });
+    constructor(public datePipe: DatePipe) {
         this.logSettings = { 
             showErrors: true, 
             showInfo: true, 
             showSuccesses: true,
             showFuzzy: false,
             autoscroll: false, 
-            textWrap: false, 
-            timestamp: false, 
+            textWrap: false,
             currentScrollValue: 0
         };
     }
@@ -55,13 +45,10 @@ export class LoggerService {
         let alertTimeout: number = 0;
 
         if (settings) {
-            keepAfterNavigationChange = settings.keepAfterNavigationChange !== undefined ? settings.keepAfterNavigationChange : false;
             invokeAlert = settings.invokeAlert !== undefined ? settings.invokeAlert : false;
             doNotAppendToLog = settings.doNotAppendToLog !== undefined ? settings.doNotAppendToLog : false;
             alertTimeout = settings.alertTimeout !== undefined ? settings.alertTimeout : 0;
         }
-
-        this.keepAfterNavigationChange = keepAfterNavigationChange;
 
         if (invokeAlert) {
             this.alertMessage.next({
@@ -74,7 +61,6 @@ export class LoggerService {
         if (!doNotAppendToLog) {
             let logMessages = this.logMessages.getValue();
             logMessages = logMessages.concat({
-                timestamp: this.datePipe.transform(new Date().getTime(), 'HH:mm:ss'),
                 type: type,
                 text: message
             });
@@ -87,11 +73,11 @@ export class LoggerService {
     }
 
     getAlertMessage() {
-        return this.alertMessage;
+        return this.alertMessage.asObservable();
     }
 
     getLogMessages() {
-        return this.logMessages;
+        return this.logMessages.asObservable();
     }
 
     getLogSettings() {

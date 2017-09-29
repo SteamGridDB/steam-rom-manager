@@ -1,16 +1,24 @@
 @import 'mixins';
 
-:host {
-	@include webkitScrollbar(recursive-form-scrollbar);
+ng-nested-form {
+	@include webkitScrollbar(nested-form-scrollbar);
 
 	overflow: auto;
 
-	background-color: var(--color-recursive-form-background);
+	background-color: var(--color-nested-form-background);
+
+	&.nested{
+		background-color: transparent;
+	}
 
 	.container {
 		display: grid;
 
 		margin: 0 0 0.5em 0;
+
+		&.nested{
+			margin: 0;
+		}
 
 		grid-template-areas: 'label label'
 		'input button'
@@ -22,7 +30,7 @@
 
 			margin: 0 0 0.35em 0;
 
-			color: var(--color-recursive-form-label);
+			color: var(--color-nested-form-label);
 
 			align-items: center;
 			grid-area: label;
@@ -35,7 +43,11 @@
 		.errorMessage {
 			margin-top: 0.25em;
 
-			color: var(--color-recursive-form-error);
+			background-color: var(--color-nested-form-error-background);
+
+			blockquote {
+				border-left-color: var(--color-nested-form-error);
+			}
 
 			grid-area: error;
 		}
@@ -54,13 +66,22 @@
 			@include input();
 
 			grid-area: input;
+
+			/* font-family: "Hack";
+			font-size: 0.9em;
+			height: 1.75rem; */
 		}
 
 		ng-select {
 			@include ngSelect();
 			@include ngSelectColor(ng-select);
 
+			/* --ng-select-height: 1.75rem; */
+
 			grid-area: input;
+
+			/* font-family: "Hack";
+			font-size: 0.9em; */
 		}
 
 		ng-toggle-button {

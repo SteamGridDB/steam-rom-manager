@@ -1,4 +1,4 @@
-import { VDFListData, VDFListFileData, PreviewData, PreviewDataApps } from "../models";
+import { VDFListData, VDFListFileData, PreviewData, PreviewDataApps, SteamShortcutsData, AppImages } from "../models";
 import { Http, ResponseContentType, Headers } from '@angular/http';
 import { generateAppId } from "./steam-id-helpers";
 import { readJson, writeJson } from "../../shared/lib";
@@ -383,7 +383,7 @@ export class VdfManager {
         });
     }
 
-    private mergeEntriesAndImages(steamDirectory: string, userId: string, apps: PreviewDataApps) {
+    private mergeEntriesAndImages(steamDirectory: string, userId: string, images: AppImages, apps: PreviewDataApps) {
         return new Promise<string[]>((resolve, reject) => {
             let errors: string[] = [];
             let currentEntries: VDFListFileData[] = [];
@@ -414,6 +414,7 @@ export class VdfManager {
                     let executableLocation = app.executableLocation;
                     let argumentString = app.argumentString;
                     let steamCategories = app.steamCategories;
+                    let startDir = app.startInDirectory;
 
                     if (index !== -1) {
                         if (shortcutsData[index].AppName !== undefined)
@@ -422,29 +423,35 @@ export class VdfManager {
                             shortcutsData[index].appname = app.title;
 
                         shortcutsData[index].exe = executableLocation;
-                        shortcutsData[index].StartDir = `"${path.dirname(executableLocation.match(/"(.*?)"/)[1]) + path.sep}"`;
+                        shortcutsData[index].StartDir = startDir;
                         shortcutsData[index].LaunchOptions = argumentString;
                         shortcutsData[index].tags = steamCategories;
+                        if (app.icons.length > 0) {
+                            shortcutsData[index].icon = app.icons[app.currentIconIndex];
+                        }
                     }
                     else {
-                        shortcutsData.push({
-                            appname: app.title,
-                            exe: executableLocation,
-                            StartDir: `"${path.dirname(executableLocation.match(/"(.*?)"/)[1]) + path.sep}"`,
-                            LaunchOptions: argumentString,
-                            tags: steamCategories
-                        });
+                        shortcutsData.push(Object.assign(
+                            {
+                                appname: app.title,
+                                exe: executableLocation,
+                                StartDir: startDir,
+                                LaunchOptions: argumentString,
+                                tags: steamCategories
+                            },
+                            app.icons.length > 0 && { icon: app.icons[app.currentIconIndex] }
+                        ));
                     }
 
                     newEntries.push(appID);
 
                     let imageIndex = app.currentImageIndex;
-                    let images = app.images.value.content;
+                    let appImages = images[app.imagePool].content;
 
-                    if (images && images.length > 0) {
-                        if (imageIndex !== -1 && images[imageIndex] && images[imageIndex].imageUrl) {
+                    if (appImages && appImages.length > 0) {
+                        if (imageIndex !== -1 && appImages[imageIndex] && appImages[imageIndex].imageUrl) {
                             imagesToRemove.push(appID);
-                            imagesToAdd.push({ appId: appID, title: app.title, url: images[imageIndex].imageUrl });
+                            imagesToAdd.push({ appId: appID, title: app.title, url: appImages[imageIndex].imageUrl });
                         }
                     }
                 }
@@ -460,11 +467,11 @@ export class VdfManager {
         });
     }
 
-    mergeVDFEntriesAndReplaceImages(previewData: PreviewData) {
+    mergeVDFEntriesAndReplaceImages(previewData: PreviewData, images: AppImages) {
         let promises: Promise<string[]>[] = [];
         for (let steamDirectory in this.listData) {
             for (let userId in this.listData[steamDirectory]) {
-                promises.push(this.mergeEntriesAndImages(steamDirectory, userId, previewData[steamDirectory][userId].apps));
+                promises.push(this.mergeEntriesAndImages(steamDirectory, userId, images, previewData[steamDirectory][userId].apps));
             }
         }
 
@@ -541,6 +548,30 @@ export class VdfManager {
 
         return Promise.all(promises).catch((error) => {
             throw new Error(this.lang.error.couldNotRemoveEntries__i.interpolate({ error: error }));
-        });;
+        });
+    }
+
+    getAllShortcutsData() {
+        let dataObject: SteamShortcutsData = { tree: {}, numberOfUsers: 0 };
+
+        for (let steamDirectory in this.listData) {
+            dataObject.tree[steamDirectory] = {};
+            for (let userId in this.listData[steamDirectory]) {
+                dataObject.tree[steamDirectory][userId] = {};
+
+                let data = this.listData[steamDirectory][userId].shortcuts.data['shortcuts'];
+                for (let i = 0; i < data.length; i++) {
+                    let appName = data[i].appname || data[i].AppName;
+                    let exe = data[i].exe;
+
+                    if (dataObject.tree[steamDirectory][userId][generateAppId(exe, appName)] === undefined) {
+                        dataObject.numberOfUsers++;
+                        dataObject.tree[steamDirectory][userId][generateAppId(exe, appName)] = data[i];
+                    }
+                }
+            }
+        }
+
+        return dataObject;
     }
 }

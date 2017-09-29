@@ -67,7 +67,7 @@ export interface ProviderPostObject<K extends keyof ProviderPostEventMap> {
 //Receive
 
 export interface ProviderFuzzyListData {
-    list: string[]
+    list: { totalGames: number, games: string[] }
 }
 
 export interface ProviderRetrieveData extends ProviderId {

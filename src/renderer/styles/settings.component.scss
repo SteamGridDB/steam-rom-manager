@@ -54,9 +54,7 @@
 		}
 
 		.ngSelect {
-			display: inline-flex;
-
-			max-width: 15em;
+			width: 15em;
 
 			@include ngSelectColor(ng-select);
 			@include ngSelect();

@@ -1,4 +1,6 @@
-:host {
+@import 'mixins';
+
+nav-expand {
     display: flex;
     flex-direction: column;
 
@@ -9,6 +11,8 @@
 
         margin: 0;
         padding: 0;
+
+        @include webkitScrollbar(nav-scrollbar, 0.375em);
     }
 
     & >.title {
@@ -18,19 +22,5 @@
 
         margin: 0;
         padding: 0;
-    }
-
-    & ::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    & ::-webkit-scrollbar-track {
-        border-radius: 5px;
-        background-color: var(--color-nav-scrollbar-track);
-    }
-
-    & ::-webkit-scrollbar-thumb {
-        border-radius: 5px;
-        background-color: var(--color-nav-scrollbar-thumb);
     }
 }

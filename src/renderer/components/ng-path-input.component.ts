@@ -1,4 +1,4 @@
-import { Component, forwardRef, ElementRef, Input, ViewChild, HostListener } from '@angular/core';
+import { Component, forwardRef, ElementRef, Input, Output, ViewChild, HostListener, EventEmitter } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
@@ -21,6 +21,7 @@ export class PathInputComponent implements ControlValueAccessor {
     private onTouched = () => { };
 
     @Input() private directory: boolean = false;
+    @Output() private pathChange: EventEmitter<string> = new EventEmitter();
 
     constructor() { }
 
@@ -42,14 +43,7 @@ export class PathInputComponent implements ControlValueAccessor {
 
     @Input()
     set value(value: string) {
-        let oldValue = this.currentValue;
-
-        if (value !== oldValue) {
-            this.currentValue = value;
-            this.onChange(value);
-        }
-
-        this.onTouched();
+        this.writeValue(value);
     }
 
     get value() {
@@ -57,7 +51,15 @@ export class PathInputComponent implements ControlValueAccessor {
     }
 
     writeValue(value: any): void {
-        this.value = value;
+        let oldValue = this.currentValue;
+
+        if (value !== oldValue) {
+            this.currentValue = value;
+            this.onChange(value);
+            this.pathChange.next(value);
+        }
+
+        this.onTouched();
     }
 
     registerOnChange(fn: (value: any) => any): void {

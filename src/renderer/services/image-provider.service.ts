@@ -19,7 +19,7 @@ export class ImageProviderService {
             this.imageProvider.toggleFilter(appSettings.fuzzyMatcher.filterProviders);
         });
         this.fuzzyService.fuzzyLoader.observeList().subscribe((list) => {
-            this.imageProvider.setFuzzyList(list.games);
+            this.imageProvider.setFuzzyList(list);
         });
     }
 

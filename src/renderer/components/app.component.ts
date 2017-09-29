@@ -12,6 +12,7 @@ import * as markdownIt from 'markdown-it';
         <ng-container *ngIf="settingsLoaded && languageLoaded; else stillLoading">
             <titlebar></titlebar>
             <nav></nav>
+            <nav-border></nav-border>
             <router-outlet style="display: none;"></router-outlet>
             <theme></theme>
             <alert></alert>

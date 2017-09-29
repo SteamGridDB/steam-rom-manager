@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LoggerService } from "./logger.service";
 import { SettingsService } from "./settings.service";
-import {
-    FuzzyEventMap, AppSettings, FuzzyEventCallback
-} from '../models';
+import { FuzzyEventMap, AppSettings, FuzzyEventCallback } from '../models';
 import { gApp } from "../app.global";
 import { FuzzyListLoader, FuzzyMatcher } from "../lib";
 import { Http } from '@angular/http';
@@ -19,7 +17,7 @@ export class FuzzyService {
         this.fuzzyListMatcher = new FuzzyMatcher(this.eventCallback.bind(this));
 
         this.fuzzyListLoader.observeList().subscribe((list) => {
-            this.fuzzyListMatcher.setFuzzyList(list.games);
+            this.fuzzyListMatcher.setFuzzyList(list);
         });
 
         this.settingsService.onLoad((appSettings) => {
@@ -41,7 +39,7 @@ export class FuzzyService {
         return gApp.lang.fuzzyMatcher;
     }
 
-    eventCallback<K extends keyof FuzzyEventMap>(event: K, data: FuzzyEventMap[K])  {
+    eventCallback<K extends keyof FuzzyEventMap>(event: K, data: FuzzyEventMap[K]) {
         switch (event) {
             case 'info':
                 if (!this.appSettings.fuzzyMatcher.verbose)

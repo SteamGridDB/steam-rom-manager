@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'nav-link',
@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
             <ng-content></ng-content>
         </span>
     `,
-    styleUrls: ['../styles/nav-link.component.scss']
+    styleUrls: ['../styles/nav-link.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class NavLinkComponent {}

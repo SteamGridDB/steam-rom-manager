@@ -4,17 +4,34 @@ import * as path from 'path';
 import * as url from 'url';
 import * as fs from 'fs';
 
+const windowStateKeeper = require('electron-window-state');
 let mainWindow: Electron.BrowserWindow = null;
 
 function createWindow() {
+    let mainWindowState = windowStateKeeper({
+        defaultWidth: 1000,
+        defaultHeight: 600,
+        maximize: false,
+        path: paths.userDataDir
+    });
+
     mainWindow = new BrowserWindow({
-        width: 1000, height: 600, minWidth: 800, minHeight: 600,
-        frame: false, backgroundColor: '#121212',
+        x: mainWindowState.x,
+        y: mainWindowState.y,
+        width: mainWindowState.width,
+        height: mainWindowState.height,
+        minWidth: 800,
+        minHeight: 600,
+        frame: false,
+        backgroundColor: '#121212',
         webPreferences: {
             devTools: process.env.NODE_ENV !== 'production',
             nodeIntegrationInWorker: false
         }
     });
+
+    mainWindowState.manage(mainWindow);
+
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'renderer', 'index.html'),
         protocol: 'file:',

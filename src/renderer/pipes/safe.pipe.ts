@@ -18,3 +18,12 @@ export class SafeStyle {
         return this.sanitizer.bypassSecurityTrustStyle(style);
     }
 }
+
+@Pipe({ name: 'safeResourceUrl' })
+export class SafeResourceUrl {
+    constructor(private sanitizer: DomSanitizer) { }
+
+    transform(resourceUrl: string) {
+        return this.sanitizer.bypassSecurityTrustResourceUrl(resourceUrl);
+    }
+}

@@ -2,20 +2,21 @@ import { languageContainer } from "../../models";
 
 export const EnglishLang: languageContainer = {
     'English': {
+        about: {
+            component: {
+                info__md: [require('./markdown/about.md')]
+            }
+        },
         preview: {
             component: {
                 filter: 'Filter app titles',
-                from: 'From',
                 by: 'by',
-                refresh: 'Refresh',
-                retrievingUrls: 'Retrieving URLs',
-                noImages: 'No images are available',
-                downloadFailed: 'Download failed. Click to retry',
-                downloadingImage: 'Downloading image',
+                refreshImages: 'Refresh images',
+                retryDownload: 'Retry download',
                 generateAppList: 'Generate app list',
                 saveAppList: 'Save app list',
                 removeAppList: 'Remove app list',
-                remainingImages: 'Remaining provider instances:',
+                remainingImages: 'Remaining providers:',
                 stopUrlRetrieving: 'Stop image providers'
             },
             service: {
@@ -35,11 +36,12 @@ export const EnglishLang: languageContainer = {
                     disabledConfigurations__i: '${count} user configuration(s) was/were skipped (disabled by user).',
                     invalidConfigurations__i: '${count} user configuration(s) was/were skipped (invalid).',
                     executingParsers: 'Executing parsers.',
-                    shutdownSteam: 'Please shutdown Steam before saving, otherwise it might not save correctly.',
+                    shutdownSteam: 'Please shutdown Steam if it is running.',
                     noParserConfigurations: 'Please create parser configuration in "Parsers" menu first.',
                     parserFoundNoFiles: 'Parser(s) found no files matching user configuration.',
                     allImagesRetrieved: 'All available image urls retrieved.',
-                    providerTimeout__i: 'Timeout was requested by "${provider}" for ${time} second(s).'
+                    providerTimeout__i: 'Timeout was requested by "${provider}" for ${time} second(s).',
+                    noAccountsWarning: 'User accounts not found. Incorrect Steam directory?'
                 },
                 errors: {
                     mergingVDF_entries: 'Error(s) occurred while merging VDF files or downloading images.',
@@ -57,7 +59,6 @@ export const EnglishLang: languageContainer = {
             }
         },
         globParser: {
-            title: 'Glob',
             inputTitle: 'User\'s glob',
             docs__md: {
                 self: [
@@ -71,22 +72,21 @@ export const EnglishLang: languageContainer = {
                 ]
             },
             errors: {
-                noTitle: 'File glob must contain ${title}!',
-                moreThanOneTitle: 'File glob must contain only one ${title}!',
-                noStarNextToTitle: 'Star (*) can not be next to ${title}!',
-                noAnyCharNextToTitle: 'Any char (?) can not be next to ${title}!',
-                noWindowsSlash: 'Windows directory character (\\) is not allowed! Use "/" instead.',
-                noGlobstarOnBothSides: 'Globstar (**) can only be on one side of ${title}!',
-                noBracedDirSetOnBothSides: 'A braced set, containing at least one slash (/) can only be on one side of ${title}!',
-                noBracedDirSetOrGlobstarOnBothSides: 'A braced set, containing at least one slash (/) and a globstar (**) can only be on one side of ${title}!',
-                noEmptyPattern: 'Pattern can not be empty!',
-                noEmptyCharRange: 'Character range can not be empty!',
-                noStarInPatternNextToTitle: 'Star (*), inside a pattern, can not be next to ${title}!',
-                noAnyCharInPatternNextToTitle: 'Any char (?), inside a pattern, can not be next to ${title}!'
+                noTitle__md: '> File glob must contain `${title}`!',
+                moreThanOneTitle__md: '> File glob must contain only one `${title}`!',
+                noStarNextToTitle__md: '> Star `*` can not be next to `${title}`!',
+                noAnyCharNextToTitle__md: '> Any char `?` can not be next to `${title}`!',
+                noWindowsSlash__md: '> Windows directory character `\\` is not allowed! Use `/` instead.',
+                noGlobstarOnBothSides__md: '> Globstar `**` can only be on one side of `${title}`!',
+                noBracedDirSetOnBothSides__md: '> A braced set, containing at least one slash `/` can only be on one side of `${title}`!',
+                noBracedDirSetOrGlobstarOnBothSides__md: '> A braced set, containing at least one slash `/` and a globstar `**` can only be on one side of `${title}`!',
+                noEmptyPattern__md: '> Pattern can not be empty!',
+                noEmptyCharRange__md: '> Character range can not be empty!',
+                noStarInPatternNextToTitle__md: '> Star `*`, inside a pattern, can not be next to `${title}`!',
+                noAnyCharInPatternNextToTitle__md: '> Any char `?`, inside a pattern, can not be next to `${title}`!'
             }
         },
         globRegexParser: {
-            title: 'Glob-regex',
             inputTitle: 'User\'s glob-regex',
             docs__md: {
                 self: [
@@ -100,18 +100,18 @@ export const EnglishLang: languageContainer = {
                 ]
             },
             errors: {
-                noRegex: 'File glob must contain ${regex} where "regex" is your regular expression!',
-                moreThanOneRegex: 'File glob must contain only one ${regex}!',
-                noStarNextToRegex: 'Star (*) can not be next to ${regex}!',
-                noAnyCharNextToRegex: 'Any char (?) can not be next to ${regex}!',
-                noWindowsSlash: 'Windows directory character (\\) is not allowed! Use "/" instead.',
-                noGlobstarOnBothSides: 'Globstar (**) can only be on one side of ${regex}!',
-                noBracedDirSetOnBothSides: 'A braced set, containing at least one slash (/) can only be on one side of ${regex}!',
-                noBracedDirSetOrGlobstarOnBothSides: 'A braced set, containing at least one slash (/) and a globstar (**) can only be on one side of ${regex}!',
-                noEmptyPattern: 'Pattern can not be empty!',
-                noEmptyCharRange: 'Character range can not be empty!',
-                noStarInPatternNextToRegex: 'Star (*), inside a pattern, can not be next to ${regex}!',
-                noAnyCharInPatternNextToRegex: 'Any char (?), inside a pattern, can not be next to ${regex}!'
+                noRegex__md: '> File glob must contain `${regex}` where **regex** is your regular expression!',
+                moreThanOneRegex__md: '> File glob must contain only one `${regex}`!',
+                noStarNextToRegex__md: '> Star `*` can not be next to `${regex}`!',
+                noAnyCharNextToRegex__md: '> Any char `?` can not be next to `${regex}`!',
+                noWindowsSlash__md: '> Windows directory character `\\` is not allowed! Use `/` instead.',
+                noGlobstarOnBothSides__md: '> Globstar `**` can only be on one side of `${regex}`!',
+                noBracedDirSetOnBothSides__md: '> A braced set, containing at least one slash `/` can only be on one side of `${regex}`!',
+                noBracedDirSetOrGlobstarOnBothSides__md: '> A braced set, containing at least one slash `/` and a globstar `**` can only be on one side of `${regex}`!',
+                noEmptyPattern__md: '> Pattern can not be empty!',
+                noEmptyCharRange__md: '> Character range can not be empty!',
+                noStarInPatternNextToRegex__md: '> Star `*`, inside a pattern, can not be next to `${regex}`!',
+                noAnyCharInPatternNextToRegex__md: '> Any char `?`, inside a pattern, can not be next to `${regex}`!'
             }
         },
         logger: {
@@ -121,7 +121,6 @@ export const EnglishLang: languageContainer = {
                 info: 'INFO',
                 success: 'SUCCESS',
                 fuzzy: 'FUZZY',
-                timestamp: 'TIMESTAMP',
                 textWrap: 'TEXT-WRAP',
                 autoscroll: 'AUTOSCROLL',
                 clearLog: 'Clear log'
@@ -142,7 +141,11 @@ export const EnglishLang: languageContainer = {
                     fuzzy_verbose: 'Log matching results (logged results are hidden by default in Event log)',
                     fuzzy_filter: 'Filter images (tries to filter out unrelated images returned by some image providers)',
                     enabledProviders: 'Enabled providers:',
-                    selectLanguage: 'Select language:'
+                    selectLanguage: 'Select language:',
+                    resetFuzzy_desc: 'Reset fuzzy list:',
+                    resetFuzzy_btn: 'Reset',
+                    showSteamImages: 'Show current Steam images',
+                    clearLogOnTest: 'Automatically clear log when before testing parser'
                 },
                 placeholder: {
                     noProviders: 'None'
@@ -151,12 +154,14 @@ export const EnglishLang: languageContainer = {
             service: {
                 error: {
                     writingError: 'Error occurred while saving user settings.',
-                    readingError: 'Error occurred while reading user settings.'
+                    readingError: 'Error occurred while reading user settings.',
+                    corruptedSettings__i: 'Saved app settings are invalid!\r\nPermanent settings saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}',
                 }
             }
         },
         nav: {
             component: {
+                about: 'About',
                 preview: 'Preview',
                 logger: 'Event log',
                 settings: 'Settings',
@@ -173,17 +178,23 @@ export const EnglishLang: languageContainer = {
                     delete: 'Delete',
                     moveUp: 'Move up',
                     moveDown: 'Move down',
-                    faq: 'FAQ'
+                    faq: 'FAQ',
+                    undoChanges: 'Undo changes',
+                    undoDelete: 'Undo delete'
                 },
                 docs__md: {
                     intro: [require('./markdown/intro.md')],
                     faq: [require('./markdown/faq.md')],
                     parserType: [require('./markdown/empty-parser-type.md')],
                     configTitle: [require('./markdown/config-title.md')],
-                    steamCategory: [require('./markdown/steam-category.md')],
+                    steamCategory: [
+                        require('./markdown/steam-category.md'),
+                        require('./markdown/parser-variables.md')
+                    ],
                     executableLocation: [require('./markdown/executable-location.md')],
                     romDirectory: [require('./markdown/rom-directory.md')],
                     steamDirectory: [require('./markdown/steam-directory.md')],
+                    startInDirectory: [require('./markdown/start-in-directory.md')],
                     userAccounts: [require('./markdown/user-accounts.md')],
                     titleModifier: [
                         require('./markdown/title-modifier.md'),
@@ -202,20 +213,31 @@ export const EnglishLang: languageContainer = {
                     imageProviders: [
                         require('./markdown/image-providers.md')
                     ],
+                    imagePool: [
+                        require('./markdown/image-pool.md'),
+                    ],
                     localImages: [
                         require('./markdown/local-images.md'),
+                        require('./markdown/special-glob-input.md'),
+                        require('./markdown/parser-variables.md'),
+                        require('./markdown/spec-glob-chars.md')
+                    ],
+                    localIcons: [
+                        require('./markdown/local-icons.md'),
+                        require('./markdown/special-glob-input.md'),
                         require('./markdown/parser-variables.md'),
                         require('./markdown/spec-glob-chars.md')
                     ]
                 },
                 info: {
-                    testStarting__i: 'Testing "${title}" parser.',
+                    testStarting__i: 'Testing "${title}" parser (SRM version - ${version}).',
                     testCompleted: 'Parser test is completed.',
                     nothingWasFound: 'Parser found nothing.'
                 },
                 error: {
                     missingAccounts__i: 'Following ${count} user account(s) were not found (user must to login to Steam at least once):',
                     missingAccountInfo__i: '  ${name}',
+                    noAccountsWarning: 'Warning! No user accounts found, it could be due to one of the reasons below:\r\n - incorrect Steam directory;\r\n - no user has ever logged in;\r\n - Steam does not save user credentials ("Show advanced options -> User accounts -> Use account credentials").\r\nIf you\'re seeing this, preview won\'t be generated for this configuration.',
                     failedToMatch: 'Failed to match:',
                     failedFileInfo__i: '[${index}/${total}]: ${filename}',
                     testFailed: 'Testing failed',
@@ -224,17 +246,23 @@ export const EnglishLang: languageContainer = {
                 success: {
                     foundAccounts__i: 'Found ${count} available user account(s):',
                     foundAccountInfo__i: '  ${name} (steamID64: ${steamID64}, accountID: ${accountID})',
-                    steamCategoriesResolved: 'Resolved Steam categories:',
-                    steamCategoryInfo__i: '  ${steamCategory}',
+                    steamCategory__i: '[${index}/${total}]:    Steam categories - ${steamCategory}',
+                    steamCategoryInfo__i: '[${index}/${total}]:                       ${steamCategory}',
                     extractedTitle__i: '[${index}/${total}]:               Title - ${title}',
                     fuzzyTitle__i: '[${index}/${total}]:         Fuzzy title - ${title}',
+                    finalTitle__i: '[${index}/${total}]:         Final title - ${title}',
                     filePath__i: '[${index}/${total}]:           File path - ${filePath}',
                     completeShortcut__i: '[${index}/${total}]:   Complete shortcut - ${shortcut}',
                     firstImageQuery__i: '[${index}/${total}]:       Image queries - ${query}',
                     imageQueries__i: '[${index}/${total}]:                       ${query}',
-                    resolvedImageGlob__i: '[${index}/${total}]: Resolved image glob - ${glob}',
-                    localImagesResolved__i: '[${index}/${total}]:    Resolved images:',
-                    localImageInfo__i: '[${index}/${total}]:                       ${image}'
+                    resolvedImageGlob__i: '[${index}/${total}]: Resolved image glob:',
+                    resolvedImageGlobInfo__i: '[${index}/${total}]:                       ${glob}',
+                    localImagesResolved__i: '[${index}/${total}]:     Resolved images:',
+                    localImageInfo__i: '[${index}/${total}]:                       ${image}',
+                    resolvedIconGlob__i: '[${index}/${total}]:  Resolved icon glob:',
+                    resolvedIconGlobInfo__i: '[${index}/${total}]:                       ${glob}',
+                    localIconsResolved__i: '[${index}/${total}]:      Resolved icons:',
+                    localIconInfo__i: '[${index}/${total}]:                       ${icon}'
                 },
                 label: {
                     parserType: 'Parser type',
@@ -243,13 +271,16 @@ export const EnglishLang: languageContainer = {
                     executableLocation: 'Executable',
                     romDirectory: 'ROMs directory',
                     steamDirectory: 'Steam directory',
+                    startInDirectory: '"Start In" directory',
                     userAccounts: 'User accounts',
                     titleModifier: 'Title modifier',
                     fuzzyMatch: 'Fuzzy matching',
                     executableArgs: 'Command line arguments',
                     onlineImageQueries: 'Online image query',
+                    imagePool: 'Image pool',
                     imageProviders: 'Image providers',
-                    localImages: 'Local images'
+                    localImages: 'Local images',
+                    localIcons: 'Local icons'
                 },
                 placeholder: {
                     parserType: 'Select parser...',
@@ -257,11 +288,12 @@ export const EnglishLang: languageContainer = {
                 },
                 text: {
                     skipWithMissingDataDir: 'Skip found accounts with missing data directories',
+                    useCredentials: 'Use account credentials',
                     fuzzy_use: 'Use fuzzy matching',
                     fuzzy_removeCharacters: 'Aggressive matching',
                     fuzzy_removeBrackets: 'Remove (...) and [...] brackets',
                     appendArgsToExecutable: 'Append arguments to executable',
-                    enabled: 'Enable configuration',
+                    disabled: 'Disable current parser',
                     advanced: 'Show advanced options',
                     noTitle: 'No title!'
                 }
@@ -270,22 +302,25 @@ export const EnglishLang: languageContainer = {
                 error: {
                     savingConfiguration: 'Error encountered while saving user configurations!',
                     readingConfiguration: 'Error encountered while reading user configurations!',
+                    corruptedConfiguration__i: 'One or more saved parser configurations are invalid!\r\nPermanent configuration saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}',
                 },
                 validationErrors: {
-                    parserType: 'Incorrect parser type!',
-                    configTitle: 'Configuration title is required!',
+                    parserType__md: '> Incorrect parser type!',
+                    configTitle__md: '> Configuration title is required!',
                     parserInput: {
                         noInput: 'No inputs are available!',
                         inputNotAvailable__i: '"${name}" input is not available!',
                         incorrectParser: 'Incorrect parser!',
                     },
-                    romDir: 'ROMs directory is invalid!',
-                    steamDir: 'Steam directory is invalid!',
-                    executable: 'Executable file is invalid!',
-                    titleModifier: 'Title modifier must contain "${title}"',
-                    variableString: 'Uneven number of "${" and "}" pairs. Use "\\" to escape "${" or "}" if you want to use them as characters.',
-                    imageProviders: 'Incorrect image providers type!',
-                    unhandledValidationKey: 'Input\'s validation is unhandled'
+                    romDir__md: '> ROMs directory is invalid!',
+                    steamDir__md: '> Steam directory is invalid!',
+                    startInDir__md: '> "Start In" directory is invalid!',
+                    executable__md: '> Executable file is invalid!',
+                    imagePool__md: '> Image pool must not be empty!',
+                    titleModifier__md: '> Title modifier must not be empty!',
+                    variableString__md: '> Uneven number of `${` and `}` pairs. Use `\\` to escape `${` or `}` if you want to use them as characters.',
+                    imageProviders__md: '> Incorrect image providers type!',
+                    unhandledValidationKey__md: '> Input\'s validation is unhandled'
                 },
                 text: {
                     noTitle: 'No title!'
@@ -310,7 +345,10 @@ export const EnglishLang: languageContainer = {
         },
         fileParser: {
             error: {
-                parserNotFound__i: 'Parser "${name}" not found!'
+                parserNotFound__i: 'Parser "${name}" not found!',
+                tooManyFieldGlobs__md: '> Only one `$(...)$` set is allowed per input.',
+                parserIsRequired__md: '> First part of `$(...)$` must contain a valid **Glob** ir **Glob-regex** field.',
+                noWinSlashes__md: '> Windows directory character `\\` is not allowed! Use `/` instead.'
             }
         },
         imageProvider: {

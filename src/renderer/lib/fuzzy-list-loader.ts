@@ -27,7 +27,7 @@ export class FuzzyListLoader {
         this.timestamps = timestamps;
     }
 
-    getList() {
+    getListAndCache() {
         return this.list.getValue();
     }
 
@@ -41,8 +41,8 @@ export class FuzzyListLoader {
             let currentTime = new Date().getTime();
             if ((currentTime - this.timestamps.download > this.forcedUpdate || this.list.getValue().totalGames === 0) && !isOffline) {
                 this.eventCallback('info', { info: 'downloading' });
-                return this.downloadList().then((list) => {
-                    this.list.next(list);
+                return this.downloadList().then((listAndCache) => {
+                    this.list.next(listAndCache);
                     this.timestamps.download = currentTime;
                     this.timestamps.check = currentTime;
                     this.eventCallback('info', { info: 'successfulDownload' });
@@ -88,7 +88,22 @@ export class FuzzyListLoader {
     }
 
     createFuzzyMatcher() {
-        return new FuzzyMatcher(this.eventCallback, this.list.getValue() ? this.list.getValue().games : []);
+        return new FuzzyMatcher(this.eventCallback, this.list.getValue() || null);
+    }
+
+    saveList() {
+        let fuzzyList = {
+            totalGames: this.list.getValue().totalGames,
+            games: this.list.getValue().games
+        };
+        return writeJson(paths.fuzzyList, fuzzyList);
+    }
+
+    resetList() {
+        this.timestamps.download = 0;
+        this.timestamps.check = 0;
+        this.list.next({ totalGames: 0, games: [] });
+        return this.saveList().then(() => this.eventCallback('newTimestamps', this.timestamps)).then(() => this.loadList());
     }
 
     private getTotalCount() {
@@ -113,12 +128,12 @@ export class FuzzyListLoader {
     }
 
     private downloadList() {
-        return new Promise<{ totalGames: number, games: string[] }>((resolve, reject) => {
+        return new Promise<{ totalGames: number, games: string[], cache: { [key: string]: any } }>((resolve, reject) => {
             this.http.get('http://www.steamgriddb.com/api/games/').timeout(this.timeout).subscribe(
                 (response) => {
                     try {
                         let parsedBody = response.json();
-                        resolve(parsedBody);
+                        resolve(Object.assign(parsedBody, { cache: {} }));
                     } catch (error) {
                         reject(error);
                     }
@@ -132,14 +147,13 @@ export class FuzzyListLoader {
 
     private readList() {
         return Promise.resolve().then(() => {
-            if (this.list.getValue().totalGames === 0 || this.list.getValue().games.length === 0)
-                return readJson(paths.fuzzyList, { totalGames: 0, games: [] });
+            if (this.list.getValue().totalGames === 0 || this.list.getValue().games.length === 0) {
+                return readJson(paths.fuzzyList, { totalGames: 0, games: [] }).then((data) => {
+                    return data;
+                });
+            }
             else
                 return this.list.getValue();
         });
-    }
-
-    private saveList() {
-        return writeJson(paths.fuzzyList, this.list.getValue());
     }
 }

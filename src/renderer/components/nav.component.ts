@@ -13,7 +13,7 @@ import { gApp } from "../app.global";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavComponent {
-    private userConfigurations: UserConfiguration[];
+    private userConfigurations: { saved: UserConfiguration, current: UserConfiguration }[];
     private dummy = true;
     private subscriptions: Subscription = new Subscription();
 

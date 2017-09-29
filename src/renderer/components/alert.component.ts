@@ -37,18 +37,18 @@ export class AlertComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscriptions.add(this.loggerService.getAlertMessage().subscribe((message) => {
-            if (message !== undefined && this.router.url !== '/logger'){
+            if (message != undefined && this.router.url !== '/logger') {
                 this.clearTimeout();
                 this.currentMessage = message;
-                if (message.timeout > 0){
-                    this.timeoutId = window.setTimeout(()=>{
+                if (message.timeout > 0) {
+                    this.timeoutId = window.setTimeout(() => {
                         this.currentMessage = undefined;
                         this.changeRef.detectChanges();
                     }, message.timeout > 1000 ? message.timeout - 1000 : message.timeout)
                 }
                 this.changeRef.detectChanges();
             }
-            else{
+            else {
                 this.currentMessage = undefined;
                 this.changeRef.detectChanges();
             }

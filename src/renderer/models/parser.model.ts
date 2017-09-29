@@ -1,49 +1,26 @@
 import { userAccountData } from './steam-id-helpers.model';
 
-export interface UserConfiguration {
-    parserType: string,
-    configTitle: string,
-    steamCategory: string,
-    executableLocation: string,
-    romDirectory: string,
-    steamDirectory: string,
-    userAccounts: {
-        specifiedAccounts: string,
-        skipWithMissingDataDir: boolean
-    },
-    parserInputs: { [inputKey: string]: string },
-    fuzzyMatch: {
-        use: boolean,
-        removeCharacters: boolean,
-        removeBrackets: boolean
-    },
-    onlineImageQueries: string,
-    imageProviders: string[],
-    executableArgs: string,
-    appendArgsToExecutable: boolean,
-    localImages: string,
-    titleModifier: string,
-    enabled: boolean,
-    advanced: boolean
-}
-
 export interface ParsedUserConfigurationFile {
     executableLocation: string,
+    startInDirectory: string,
     filePath: string,
     extractedTitle: string,
     fuzzyTitle: string,
     finalTitle: string,
-    fuzzyFinalTitle: string,
     argumentString: string,
-    resolvedLocalImages: string,
+    resolvedLocalImages: string[],
+    resolvedLocalIcons: string[],
     onlineImageQueries: string[],
-    localImages: string[]
+    steamCategories: string[],
+    imagePool: string,
+    localImages: string[],
+    localIcons: string[]
 }
 
 export interface ParsedUserConfiguration {
-    steamCategories: string[],
     imageProviders: string[],
     steamDirectory: string,
+    appendArgsToExecutable: boolean,
     foundUserAccounts: userAccountData[],
     missingUserAccounts: string[],
     files: ParsedUserConfigurationFile[],
@@ -55,11 +32,11 @@ export interface ParserInputField {
         label: string,
         info?: string,
         forcedInput?: string,
-        validationFn?: (inputData: string) => null | string
+        validationFn?: (inputData: string, suppressSlashError?: boolean) => null | string
     }
 }
 
-export interface Parser {
+export interface ParserInfo {
     title: string,
     info?: string,
     inputs?: ParserInputField
@@ -73,7 +50,27 @@ export interface ParsedData {
     failed: string[]
 }
 
+export interface ParserVariableData {
+    executableLocation: string,
+    startInDirectory: string,
+    steamDirectory: string,
+    romDirectory: string,
+    extractedTitle: string,
+    fuzzyTitle: string,
+    finalTitle: string,
+    filePath: string
+}
+
+export type DirectoryVariables = 'EXEDIR' | 'ROMDIR' | 'STEAMDIR' | 'STARTINDIR' | 'FILEDIR';
+export type NameVariables = 'EXENAME' | 'FILENAME';
+export type ExtensionVariables = 'EXEEXT' | 'FILEEXT';
+export type PathVariables = 'EXEPATH' | 'FILEPATH';
+export type ParserVariables = 'TITLE' | 'FUZZYTITLE' | 'FINALTITLE';
+export type OtherVariables = '/';
+
+export type AllVariables = DirectoryVariables | NameVariables | ExtensionVariables | PathVariables | ParserVariables | OtherVariables;
+
 export interface GenericParser {
-    getParser(): Parser,
-    execute: (config: UserConfiguration) => Promise<ParsedData>
+    getParserInfo(): ParserInfo,
+    execute: (directory: string, inputs: { [key: string]: any }, cache?: { [key: string]: any }) => Promise<ParsedData>
 }

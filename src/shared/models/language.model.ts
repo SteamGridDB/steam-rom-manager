@@ -1,14 +1,15 @@
 export interface languageStruct {
+    about: {
+        component: {
+            info__md: string[]
+        }
+    },
     preview: {
         component: {
             filter: string,
-            from: string,
             by: string,
-            refresh: string,
-            retrievingUrls: string,
-            noImages: string,
-            downloadFailed: string,
-            downloadingImage: string,
+            refreshImages: string,
+            retryDownload: string,
             generateAppList: string,
             saveAppList: string,
             removeAppList: string,
@@ -36,7 +37,8 @@ export interface languageStruct {
                 noParserConfigurations: string,
                 parserFoundNoFiles: string,
                 allImagesRetrieved: string,
-                providerTimeout__i: string//${provider}, ${time}
+                providerTimeout__i: string,//${provider}, ${time}
+                noAccountsWarning: string
             },
             errors: {
                 mergingVDF_entries: string,
@@ -54,47 +56,45 @@ export interface languageStruct {
         }
     },
     globParser: {
-        title: string,
         inputTitle: string,
         docs__md: {
             self: string[],
             input: string[]
         },
         errors: {
-            noTitle: string,
-            moreThanOneTitle: string,
-            noStarNextToTitle: string,
-            noAnyCharNextToTitle: string,
-            noWindowsSlash: string,
-            noGlobstarOnBothSides: string,
-            noBracedDirSetOnBothSides: string,
-            noBracedDirSetOrGlobstarOnBothSides: string,
-            noEmptyPattern: string,
-            noEmptyCharRange: string,
-            noStarInPatternNextToTitle: string,
-            noAnyCharInPatternNextToTitle: string
+            noTitle__md: string,
+            moreThanOneTitle__md: string,
+            noStarNextToTitle__md: string,
+            noAnyCharNextToTitle__md: string,
+            noWindowsSlash__md: string,
+            noGlobstarOnBothSides__md: string,
+            noBracedDirSetOnBothSides__md: string,
+            noBracedDirSetOrGlobstarOnBothSides__md: string,
+            noEmptyPattern__md: string,
+            noEmptyCharRange__md: string,
+            noStarInPatternNextToTitle__md: string,
+            noAnyCharInPatternNextToTitle__md: string
         }
     },
     globRegexParser: {
-        title: string,
         inputTitle: string,
         docs__md: {
             self: string[],
             input: string[]
         },
         errors: {
-            noRegex: string,
-            moreThanOneRegex: string,
-            noStarNextToRegex: string,
-            noAnyCharNextToRegex: string,
-            noWindowsSlash: string,
-            noGlobstarOnBothSides: string,
-            noBracedDirSetOnBothSides: string,
-            noBracedDirSetOrGlobstarOnBothSides: string,
-            noEmptyPattern: string,
-            noEmptyCharRange: string,
-            noStarInPatternNextToRegex: string,
-            noAnyCharInPatternNextToRegex: string
+            noRegex__md: string,
+            moreThanOneRegex__md: string,
+            noStarNextToRegex__md: string,
+            noAnyCharNextToRegex__md: string,
+            noWindowsSlash__md: string,
+            noGlobstarOnBothSides__md: string,
+            noBracedDirSetOnBothSides__md: string,
+            noBracedDirSetOrGlobstarOnBothSides__md: string,
+            noEmptyPattern__md: string,
+            noEmptyCharRange__md: string,
+            noStarInPatternNextToRegex__md: string,
+            noAnyCharInPatternNextToRegex__md: string
         }
     },
     logger: {
@@ -104,7 +104,6 @@ export interface languageStruct {
             info: string,
             success: string,
             fuzzy: string,
-            timestamp: string,
             textWrap: string,
             autoscroll: string,
             clearLog: string
@@ -125,7 +124,11 @@ export interface languageStruct {
                 fuzzy_verbose: string,
                 fuzzy_filter: string,
                 enabledProviders: string,
-                selectLanguage: string
+                selectLanguage: string,
+                resetFuzzy_desc: string,
+                resetFuzzy_btn: string,
+                showSteamImages: string,
+                clearLogOnTest: string
             },
             placeholder: {
                 noProviders: string
@@ -133,13 +136,15 @@ export interface languageStruct {
         },
         service: {
             error: {
-                writingError: string
-                readingError: string
+                writingError: string,
+                readingError: string,
+                corruptedSettings__i: string//${file}, ${error}
             }
         }
     },
     nav: {
         component: {
+            about: string,
             preview: string,
             logger: string,
             settings: string,
@@ -156,7 +161,9 @@ export interface languageStruct {
                 delete: string,
                 moveUp: string,
                 moveDown: string,
-                faq: string
+                faq: string,
+                undoChanges: string,
+                undoDelete: string
             },
             docs__md: {
                 intro: string[],
@@ -167,22 +174,26 @@ export interface languageStruct {
                 executableLocation: string[],
                 romDirectory: string[],
                 steamDirectory: string[],
+                startInDirectory: string[],
                 userAccounts: string[],
                 titleModifier: string[],
                 fuzzyMatch: string[],
                 executableArgs: string[],
                 onlineImageQueries: string[],
                 imageProviders: string[],
-                localImages: string[]
+                imagePool: string[],
+                localImages: string[],
+                localIcons: string[]
             },
             info: {
-                testStarting__i: string, //${title}
+                testStarting__i: string, //${title}, ${version}
                 testCompleted: string,
                 nothingWasFound: string,
             }
             error: {
                 missingAccounts__i: string, //${count}
                 missingAccountInfo__i: string, //${name}
+                noAccountsWarning: string,
                 failedToMatch: string,
                 failedFileInfo__i: string, //${index}, ${total}, ${filename}
                 testFailed: string,
@@ -191,17 +202,23 @@ export interface languageStruct {
             success: {
                 foundAccounts__i: string, //${count}
                 foundAccountInfo__i: string, //${name}, ${steamID64}, ${accountID}
-                steamCategoriesResolved: string,
+                steamCategory__i: string, //${index}, ${total}, ${steamCategory}
                 steamCategoryInfo__i: string, //${steamCategory}
                 extractedTitle__i: string, //${index}, ${total}, ${title}
                 fuzzyTitle__i: string, //${index}, ${total}, ${title}
+                finalTitle__i: string, //${index}, ${total}, ${title}
                 filePath__i: string, //${index}, ${total}, ${filePath}
                 completeShortcut__i: string, //${index}, ${total}, ${shortcut}
                 firstImageQuery__i: string, //${index}, ${total}, ${query}
                 imageQueries__i: string, //${index}, ${total}, ${query}
-                resolvedImageGlob__i: string, //${index}, ${total}, ${glob}
+                resolvedImageGlob__i: string, //${index}, ${total}
+                resolvedImageGlobInfo__i: string, //${index}, ${total}, ${glob}
                 localImagesResolved__i: string, //${index}, ${total}
-                localImageInfo__i: string//${index}, ${total}, ${image}
+                localImageInfo__i: string//${index}, ${total}, ${image},
+                resolvedIconGlob__i: string, //${index}, ${total}
+                resolvedIconGlobInfo__i: string, //${index}, ${total}, ${glob}
+                localIconsResolved__i: string, //${index}, ${total}
+                localIconInfo__i: string, //${index}, ${total}, ${icon}
             },
             label: {
                 parserType: string,
@@ -210,13 +227,16 @@ export interface languageStruct {
                 executableLocation: string,
                 romDirectory: string,
                 steamDirectory: string,
+                startInDirectory: string,
                 userAccounts: string,
                 titleModifier: string,
                 fuzzyMatch: string,
                 executableArgs: string,
                 onlineImageQueries: string,
                 imageProviders: string,
-                localImages: string
+                imagePool: string,
+                localImages: string,
+                localIcons: string
             },
             placeholder: {
                 parserType: string,
@@ -224,11 +244,12 @@ export interface languageStruct {
             },
             text: {
                 skipWithMissingDataDir: string,
+                useCredentials: string,
                 fuzzy_use: string,
                 fuzzy_removeCharacters: string,
                 fuzzy_removeBrackets: string,
                 appendArgsToExecutable: string,
-                enabled: string,
+                disabled: string,
                 advanced: string,
                 noTitle: string
             }
@@ -237,22 +258,25 @@ export interface languageStruct {
             error: {
                 savingConfiguration: string,
                 readingConfiguration: string,
+                corruptedConfiguration__i: string//${file}, ${error}
             },
             validationErrors: {
-                parserType: string,
-                configTitle: string,
+                parserType__md: string,
+                configTitle__md: string,
                 parserInput: {
                     noInput: string,
                     inputNotAvailable__i: string,//${name}
                     incorrectParser: string,
                 },
-                romDir: string,
-                steamDir: string,
-                executable: string
-                titleModifier: string,
-                variableString: string,
-                imageProviders: string,
-                unhandledValidationKey: string
+                romDir__md: string,
+                steamDir__md: string,
+                startInDir__md: string,
+                executable__md: string
+                imagePool__md: string,
+                titleModifier__md: string,
+                variableString__md: string,
+                imageProviders__md: string,
+                unhandledValidationKey__md: string
             },
             text: {
                 noTitle: string
@@ -277,7 +301,10 @@ export interface languageStruct {
     },
     fileParser: {
         error: {
-            parserNotFound__i: string //${name}
+            parserNotFound__i: string, //${name}
+            tooManyFieldGlobs__md: string,
+            parserIsRequired__md: string,
+            noWinSlashes__md: string
         }
     },
     imageProvider: {

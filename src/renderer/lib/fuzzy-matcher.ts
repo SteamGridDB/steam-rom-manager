@@ -1,31 +1,29 @@
 import { ParsedDataWithFuzzy, FuzzyEventCallback } from "../models";
-import * as Fuzzy from "fuzzy";
+import * as Fuzzy from 'fuzzaldrin-plus';
 
 export class FuzzyMatcher {
-    private list: string[];
+    private list: { totalGames: number, games: string[] };
 
-    constructor(private eventCallback?: FuzzyEventCallback, list?: string[]) {
+    constructor(private eventCallback?: FuzzyEventCallback, list?: { totalGames: number, games: string[] }) {
         this.setEventCallback(eventCallback || ((event: any, data: any) => { }));
-        this.setFuzzyList(list || []);
+        this.setFuzzyList(list);
     }
 
     setEventCallback(eventCallback: FuzzyEventCallback) {
         this.eventCallback = eventCallback;
     }
 
-    setFuzzyList(list: string[]) {
+    setFuzzyList(list: { totalGames: number, games: string[] }) {
         this.list = list;
     }
 
     fuzzyMatchParsedData(data: ParsedDataWithFuzzy, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
         if (this.isLoaded()) {
-            let matches: Fuzzy.FilterResult<string>[] = [];
             for (let i = 0; i < data.success.length; i++) {
-                let extractedTitle = this.modifyString(data.success[i].extractedTitle, removeCharacters, removeBrackets);
+                let matchedData = this.matchFromList(data.success[i].extractedTitle, removeCharacters, removeBrackets);
 
-                matches = Fuzzy.filter(extractedTitle, this.list);
-                if (matches.length) {
-                    data.success[i].fuzzyTitle = this.getBestMatch(extractedTitle, matches);
+                if (matchedData.matched) {
+                    data.success[i].fuzzyTitle = matchedData.output;
                     if (verbose)
                         this.eventCallback('info', { info: 'match', stringA: data.success[i].fuzzyTitle, stringB: data.success[i].extractedTitle });
                 }
@@ -36,22 +34,20 @@ export class FuzzyMatcher {
 
     fuzzyMatchString(input: string, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
         if (this.isLoaded()) {
-            let extractedTitle = this.modifyString(input, removeCharacters, removeBrackets);
-
-            let matches = Fuzzy.filter(extractedTitle, this.list);
-            if (matches.length) {
-                let bestMatch = this.getBestMatch(extractedTitle, matches);
-                if (verbose)
-                    this.eventCallback('info', { info: 'match', stringA: bestMatch, stringB: extractedTitle });
-                return bestMatch;
-            }
+            let data = this.matchFromList(input, removeCharacters, removeBrackets);
+            if (data.matched && verbose)
+                this.eventCallback('info', { info: 'match', stringA: data.output, stringB: input });
+            return data.output;
         }
         return input;
     }
 
     fuzzyEqual(a: string, b: string, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
         if (this.isLoaded()) {
-            if (this.fuzzyMatchString(a, removeCharacters, removeBrackets, false) === this.fuzzyMatchString(b, removeCharacters, removeBrackets, false)) {
+            let dataA = this.matchFromList(a, removeCharacters, removeBrackets);
+            let dataB = this.matchFromList(b, removeCharacters, removeBrackets);
+
+            if (dataA.output === dataB.output) {
                 if (verbose)
                     this.eventCallback('info', { info: 'equal', stringA: a, stringB: b });
                 return true;
@@ -66,7 +62,29 @@ export class FuzzyMatcher {
     }
 
     isLoaded() {
-        return this.list !== null && this.list !== undefined && this.list.length > 0;
+        return this.list != null && this.list.games.length > 0;
+    }
+
+    private matchFromList(input: string, removeCharacters: boolean, removeBrackets: boolean) {
+        let modifiedInput = this.modifyString(input, removeCharacters, removeBrackets);
+
+        let matches = Fuzzy.filter(this.list.games, modifiedInput);
+        if (matches.length) {
+            return { output: this.getBestMatch(modifiedInput, matches), matched: true };
+        }
+        else {
+            let index = input.lastIndexOf(',');
+            if (index !== -1) {
+                let segments = [input.slice(index + 1), input.slice(0, index)];
+                modifiedInput = segments[0][0] === ' ' ? segments.join('') : segments.join(' ');
+                modifiedInput = this.modifyString(modifiedInput, removeCharacters, removeBrackets);
+                matches = Fuzzy.filter(this.list.games, modifiedInput);
+                if (matches.length) {
+                    return { output: this.getBestMatch(modifiedInput, matches), matched: true };
+                }
+            }
+        }
+        return { output: input, matched: false };
     }
 
     private modifyString(input: string, removeCharacters: boolean, removeBrackets: boolean) {
@@ -85,36 +103,32 @@ export class FuzzyMatcher {
         return input.trim();
     }
 
-    //If scores are the same, use length diff. to determinate closest match. Also try luck with matching exact titles
-    private getBestMatch(pattern: string, matches: Fuzzy.FilterResult<string>[]) {
-        let lastSameScoreIndex: number = 0;
-        let lengthDiff: number[] = [];
+    private getBestMatch(pattern: string, matches: string[]) {
+        let bestIndex: number = 0;
+        let lengthDiff: number = Infinity;
+        let bestScore: number = 0;
+
         for (let i = 0; i < matches.length; i++) {
-            if (pattern === matches[i].string)
-                return matches[i].string;
-            else if (matches[lastSameScoreIndex].score === matches[i].score) {
-                lastSameScoreIndex = i;
-                lengthDiff[i] = Math.abs(matches[i].string.length - pattern.length);
+            let diff = matches[i].length - pattern.length;
+            let absDiff = Math.abs(diff);
+
+            if (absDiff < lengthDiff){
+                bestIndex = i;
+                bestScore = Fuzzy.score(matches[i], pattern);
+                if (absDiff === 0)
+                    break;
+                else
+                    lengthDiff = absDiff;
             }
-            else
-                break;
-        }
-
-        if (lastSameScoreIndex === 0)
-            return matches[0].string;
-        else {
-            let minLoopIndex = function (arr: number[]) {
-                let len = arr.length, min = Infinity, index = 0;
-                while (len--) {
-                    if (arr[len] < min) {
-                        min = arr[len];
-                        index = len;
-                    }
+            else if (absDiff === lengthDiff && diff < 0){
+                let currentScore = Fuzzy.score(matches[i], pattern);
+                if (bestScore <= currentScore){
+                    bestIndex = i;
+                    bestScore = currentScore;
                 }
-                return index;
-            };
-
-            return matches[minLoopIndex(lengthDiff)].string;
+            }
         }
+
+        return matches[bestIndex];
     }
 }

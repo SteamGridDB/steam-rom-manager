@@ -1,8 +1,7 @@
 :host {
     position: relative;
 
-    display: flex;
-    flex-direction: column;
+    display: grid;
 
     color: black;
     border-color: deepskyblue;
@@ -10,8 +9,10 @@
 
     fill: black;
 
+    /* height: var(--ng-select-height, initial); */
+
     .display {
-        display: flex;
+        display: grid;
 
         padding: var(--ng-select-padding, 0);
 
@@ -26,20 +27,17 @@
         align-content: center;
         fill: inherit;
 
-        >span {
-            display: inline-flex;
-            overflow: hidden;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr auto;
 
-            margin: auto 0;
+        >div {
+            overflow: hidden;
 
             cursor: pointer;
             white-space: nowrap;
             text-overflow: ellipsis;
         }
         >svg {
-            display: inline-flex;
-            flex-shrink: 0;
-
             height: 1.2em;
             margin: 0 0 0 auto;
 
@@ -59,17 +57,18 @@
 
         display: none;
 
-        min-width: 100%;
-
         &.open {
-            display: flex;
-            flex-direction: column;
+            display: grid;
 
             min-width: calc(100% - (var(--ng-select-border-width, 1px) * 2));
 
             border-width: var(--ng-select-border-width, 1px);
             border-style: solid;
             border-color: inherit;
+
+            /* ng-option{
+                height: var(--ng-select-height, initial);
+            } */
         }
     }
 }

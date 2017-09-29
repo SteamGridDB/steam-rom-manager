@@ -5,7 +5,7 @@
 	overflow: auto;
 
 	grid-area: route;
-	grid-template-areas: 'docs recursiveForm'
+	grid-template-areas: 'docs nestedForm'
 	'menu menu';
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 1fr auto;
@@ -16,13 +16,15 @@
 		grid-area: docs;
 	}
 
-	.recursiveForm {
+	.nestedForm {
 		padding: 1em;
 
-		grid-area: recursiveForm;
+		grid-area: nestedForm;
 	}
 
 	.menu {
+		@include webkitScrollbar(parser-menu-scrollbar, 0.5em);
+
 		display: flex;
 		overflow: auto;
 
@@ -32,7 +34,7 @@
 		grid-area: menu;
 
 		> div {
-			@include clickButtonColor(click-button);
+			@include clickButtonColor(click-button, true);
 			@include button();
 
 			margin: 0 0.25em;
@@ -43,7 +45,7 @@
 				margin-left: 0;
 			}
 			&.dangerousButton {
-				@include clickButtonColor(dangerous-click-button, true);
+				@include clickButtonColor(dangerous-click-button);
 			}
 		}
 	}

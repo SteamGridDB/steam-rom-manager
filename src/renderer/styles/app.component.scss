@@ -4,8 +4,8 @@
 	height: 100%;
 
     grid-template-areas: 
-    'titlebar titlebar'
-	'nav route';
+    'titlebar titlebar titlebar'
+	'nav nav-border route';
 	grid-template-rows: auto 1fr;
-	grid-template-columns: auto 1fr;
+	grid-template-columns: auto auto 1fr;
 }

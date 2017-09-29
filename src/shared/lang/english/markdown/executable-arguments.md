@@ -4,7 +4,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 
 ## Examples
 
-Here you can find examples provided by `HEspoke`{.noWrap}, `NicholasNRG`{.noWrap} and `FrogTheFrog`{.noWrap}.
+Here you can find examples provided by `HE Spoke`{.noWrap}, `NicholasNRG`{.noWrap} and `FrogTheFrog`{.noWrap}.
 
 ### RetroArch
 

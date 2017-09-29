@@ -5,8 +5,13 @@ import { ParsersService } from './parsers.service';
 import { LoggerService } from './logger.service';
 import { SettingsService } from './settings.service';
 import { ImageProviderService } from './image-provider.service';
-import { PreviewData, ImageContent, ParsedUserConfiguration, Images, PreviewVariables, ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings, SteamGridImageData } from '../models';
-import { Reference, VdfManager, generateAppId } from "../lib";
+import {
+    PreviewData, ImageContent, ParsedUserConfiguration, AppImages, PreviewVariables,
+    ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings,
+    SteamGridImageData, SteamShortcutsData, SteamTree, SteamTreeData, SteamShortcuts,
+    userAccountData
+} from '../models';
+import { VdfManager, generateAppId, getMultipleAvailableLogins } from "../lib";
 import { gApp } from "../app.global";
 import { queue } from 'async';
 import * as _ from "lodash";
@@ -19,7 +24,7 @@ export class PreviewService {
     private previewData: PreviewData;
     private previewVariables: PreviewVariables;
     private previewDataChanged: Subject<boolean>;
-    private images: Images;
+    private appImages: AppImages;
     private allEditedSteamDirectories: string[];
 
     constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private settingsService: SettingsService, private http: Http) {
@@ -34,6 +39,16 @@ export class PreviewService {
         this.previewDataChanged = new Subject<boolean>();
         this.settingsService.onLoad((appSettings: AppSettings) => {
             this.appSettings = appSettings;
+        });
+        this.appImages = {};
+        this.imageProviderService.instance.stopEvent.subscribe(() => {
+            for (let imageKey in this.appImages) {
+                this.appImages[imageKey].retrieving = false;
+            }
+
+            this.previewVariables.numberOfQueriedImages = 0;
+            this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
+            this.previewDataChanged.next();
         });
     }
 
@@ -53,7 +68,7 @@ export class PreviewService {
         return this.previewVariables;
     }
 
-    generatePreviewData() {
+    generatePreviewData(fromSteam: boolean) {
         if (this.previewVariables.listIsBeingGenerated)
             return this.loggerService.info(this.lang.info.listIsBeingGenerated, { invokeAlert: true, alertTimeout: 3000 });
         else if (this.previewVariables.listIsBeingSaved)
@@ -63,7 +78,16 @@ export class PreviewService {
 
         this.previewVariables.listIsBeingGenerated = true;
         this.imageProviderService.instance.stopUrlDownload();
-        this.generatePreviewDataCallback();
+        if (fromSteam) {
+            if (this.appSettings.knownSteamDirectories.length === 0) {
+                this.previewVariables.listIsBeingGenerated = false;
+                this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 });
+            }
+            else
+                this.generatePreviewDataFromSteamCallback();
+        }
+        else
+            this.generatePreviewDataCallback();
     }
 
     saveData() {
@@ -87,7 +111,7 @@ export class PreviewService {
             return vdfManager.readAllVDFs();
         }).then(() => {
             this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-            return vdfManager.mergeVDFEntriesAndReplaceImages(this.previewData);
+            return vdfManager.mergeVDFEntriesAndReplaceImages(this.previewData, this.appImages);
         }).then((errors) => {
             if (errors && errors.length) {
                 this.loggerService.error(this.lang.errors.mergingVDF_entries);
@@ -152,6 +176,7 @@ export class PreviewService {
         }).then(() => {
             this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
             this.previewVariables.listIsBeingRemoved = false;
+            this.clearPreviewData();
         }).catch((fatalError) => {
             this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
             this.loggerService.error(fatalError);
@@ -161,7 +186,7 @@ export class PreviewService {
 
     loadImage(app: PreviewDataApp) {
         if (app) {
-            let image = app.images.value.content[app.currentImageIndex];
+            let image = this.appImages[app.imagePool].content[app.currentImageIndex];
             if (image && (image.loadStatus === 'notStarted' || image.loadStatus === 'failed')) {
                 if (image.loadStatus === 'failed') {
                     this.loggerService.info(this.lang.info.retryingDownload__i.interpolate({
@@ -192,9 +217,9 @@ export class PreviewService {
     }
 
     preloadImages() {
-        for (let imageKey in this.images) {
-            for (let i = 0; i < this.images[imageKey].content.length; i++) {
-                this.preloadImage(this.images[imageKey].content[i]);
+        for (let imageKey in this.appImages) {
+            for (let i = 0; i < this.appImages[imageKey].content.length; i++) {
+                this.preloadImage(this.appImages[imageKey].content[i]);
             }
         }
     }
@@ -219,12 +244,38 @@ export class PreviewService {
 
     setImageIndex(app: PreviewDataApp, index: number) {
         if (app) {
-            let images = app.images.value.content;
+            let images = this.appImages[app.imagePool].content;
             if (images.length) {
                 let minIndex = app.steamImage ? -1 : 0;
                 app.currentImageIndex = index < minIndex ? images.length - 1 : (index < images.length ? index : minIndex);
                 this.previewDataChanged.next();
             }
+        }
+    }
+
+    setIconIndex(app: PreviewDataApp, index: number) {
+        if (app && app.icons.length) {
+            app.currentIconIndex = index < 0 ? app.icons.length - 1 : (index < app.icons.length ? index : 0);
+            this.previewDataChanged.next();
+        }
+    }
+
+    get images(){
+        return this.appImages;
+    }
+
+    private clearPreviewData(){
+        this.previewData = undefined;
+        this.clearImageCacheSettings();
+        this.previewVariables.numberOfListItems = 0;
+        this.previewDataChanged.next();
+    }
+
+    private clearImageCacheSettings(){
+        for (let imageKey in this.appImages) {
+            this.appImages[imageKey].defaultImageProviders = [];
+            this.appImages[imageKey].searchQueries = [];
+            this.appImages[imageKey].retrieving = false;
         }
     }
 
@@ -254,10 +305,14 @@ export class PreviewService {
                     }
                 }
 
-                if (data.parsedData.length > 0) {
-                    this.loggerService.info(this.lang.info.shutdownSteam, { invokeAlert: true, alertTimeout: 3000 });
-                    this.images = {};
-                    return this.createPreviewData(data.parsedData);
+                if (data.parsedData.parsedConfigs.length > 0) {
+                    if (data.parsedData.noUserAccounts) {
+                        this.loggerService.info(this.lang.info.noAccountsWarning, { invokeAlert: true, alertTimeout: 3000 });
+                    }
+                    else {
+                        this.loggerService.info(this.lang.info.shutdownSteam, { invokeAlert: true, alertTimeout: 3000 });
+                        return this.createPreviewData(data.parsedData.parsedConfigs);
+                    }
                 }
                 else if (data.invalid.length === 0 && data.skipped.length === 0) {
                     if (this.parsersService.getUserConfigurationsArray().length === 0)
@@ -286,29 +341,71 @@ export class PreviewService {
         }
     }
 
-    private getNonSteamGridData(data: ParsedUserConfiguration[]) {
-        return new Promise<SteamGridImageData>((resolve, reject) => {
-            let numberOfItems: number = 0;
-            let fileData: SteamGridImageData = {};
+    private generatePreviewDataFromSteamCallback() {
+        if (this.previewVariables.numberOfQueriedImages !== 0) {
+            setTimeout(this.generatePreviewDataFromSteamCallback.bind(this), 100);
+        }
+        else {
+            this.previewData = undefined;
 
-            for (let i = 0; i < data.length; i++) {
-                let config = data[i];
+            let vdfManager = new VdfManager(this.http);
+            this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
+            Promise.resolve().then(() => {
+                return vdfManager.populateListFromDirectoryList(this.appSettings.knownSteamDirectories);
+            }).then((errors) => {
+                if (errors && errors.length) {
+                    this.loggerService.error(this.lang.errors.readingVDF_entries);
+                    for (let i = 0; i < errors.length; i++)
+                        this.loggerService.error(errors[i]);
+                }
+                this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
+                return vdfManager.createBackups();
+            }).then(() => {
+                this.loggerService.info(this.lang.info.readingVDF_Files, { invokeAlert: true, alertTimeout: 3000 });
+                return vdfManager.readAllVDFs();
+            }).then(() => {
+                return this.shortcutsToPreviewData(vdfManager.getAllShortcutsData());
+            }).then(() => {
+                this.previewVariables.listIsBeingGenerated = false;
+                this.previewDataChanged.next();
+            }).catch((error) => {
+                this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
+                this.loggerService.error(error);
+                this.previewVariables.listIsBeingGenerated = false;
+                this.previewDataChanged.next();
+            });
+        }
+    }
 
-                if (fileData[config.steamDirectory] === undefined)
-                    fileData[config.steamDirectory] = {};
+    private getSteamTreeFromParsedConfig(data: ParsedUserConfiguration[]) : SteamTreeData {
+        let numberOfUsers: number = 0;
+        let tree: SteamTree = {};
 
-                for (let j = 0; j < config.foundUserAccounts.length; j++) {
-                    let userAccount = config.foundUserAccounts[j];
+        for (let i = 0; i < data.length; i++) {
+            let config = data[i];
 
-                    if (fileData[config.steamDirectory][userAccount.accountID] === undefined) {
-                        numberOfItems++;
-                        fileData[config.steamDirectory][userAccount.accountID] = {};
-                    }
+            if (tree[config.steamDirectory] === undefined)
+                tree[config.steamDirectory] = {};
+
+            for (let j = 0; j < config.foundUserAccounts.length; j++) {
+                let userAccount = config.foundUserAccounts[j];
+
+                if (tree[config.steamDirectory][userAccount.accountID] === undefined) {
+                    numberOfUsers++;
+                    tree[config.steamDirectory][userAccount.accountID] = {};
                 }
             }
+        }
 
-            if (numberOfItems === 0)
-                resolve(fileData);
+        return { tree, numberOfUsers };
+    }
+
+    private getNonSteamGridData(data: SteamTreeData) {
+        return Promise.resolve().then(() => {
+            let fileData: SteamGridImageData = _.cloneDeep(data.tree);
+
+            if (data.numberOfUsers === 0)
+                return fileData;
             else {
                 let promises: Promise<void>[] = [];
                 for (let steamDirectory in fileData) {
@@ -337,17 +434,48 @@ export class PreviewService {
                         }));
                     }
                 }
-                Promise.all(promises).then(() => resolve(fileData)).catch((errors) => reject(errors));
+                return Promise.all(promises).then(() => fileData);
+            }
+        });
+    }
+
+    private getNonSteamShortcutsData(data: SteamTreeData) {
+        return Promise.resolve().then(() => {
+            if (data.numberOfUsers === 0)
+                return data;
+            else {
+                let vdfManager = new VdfManager(this.http);
+                return Promise.resolve().then(() => {
+                    return vdfManager.populateListFromPreviewData(data.tree);
+                }).then(() => {
+                    return vdfManager.readAllVDFs();
+                }).then(() => {
+                    return vdfManager.getAllShortcutsData();
+                })
             }
         });
     }
 
     private createPreviewData(data: ParsedUserConfiguration[]) {
+        let gridData: SteamGridImageData;
+        let shortcutsData: SteamShortcuts;
+        let steamTreeData = this.getSteamTreeFromParsedConfig(data);
+
         return Promise.resolve().then(() => {
-            return this.getNonSteamGridData(data);
-        }).then((gridData) => {
+            if (this.appSettings.previewSettings.retrieveCurrentSteamImages)
+                return this.getNonSteamGridData(steamTreeData);
+            else
+                return steamTreeData.tree;
+        }).then((resolvedData) => {
+            gridData = resolvedData;
+            return this.getNonSteamShortcutsData(steamTreeData);
+        }).then((resolvedData) => {
+            shortcutsData = resolvedData.tree;
+
             let numberOfItems: number = 0;
             let previewData: PreviewData = {};
+
+            this.clearImageCacheSettings();
 
             for (let i = 0; i < data.length; i++) {
                 let config = data[i];
@@ -364,13 +492,25 @@ export class PreviewService {
                             apps: {}
                         };
                     }
+                    else if (previewData[config.steamDirectory][userAccount.accountID].username !== userAccount.name){
+                        previewData[config.steamDirectory][userAccount.accountID].username = `${previewData[config.steamDirectory][userAccount.accountID].username} | ${userAccount.name}`;
+                    }
 
                     for (let k = 0; k < data[i].files.length; k++) {
                         let file = config.files[k];
-                        let appID = generateAppId(file.executableLocation, file.fuzzyFinalTitle);
+                        let executableLocation = config.appendArgsToExecutable ? `"${file.executableLocation}" ${file.argumentString}`: `"${file.executableLocation}"`;
+                        let appID = generateAppId(executableLocation, file.finalTitle);
 
-                        if (this.images[file.fuzzyTitle] === undefined) {
-                            this.images[file.fuzzyTitle] = {
+                        if (shortcutsData[config.steamDirectory][userAccount.accountID][appID] !== undefined) {
+                            if (shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon'] !== undefined) {
+                                if (file.localIcons.indexOf(shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon']) === -1) {
+                                    file.localIcons.unshift(shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon']);
+                                }
+                            }
+                        }
+
+                        if (this.appImages[file.imagePool] === undefined) {
+                            this.appImages[file.imagePool] = {
                                 retrieving: false,
                                 searchQueries: file.onlineImageQueries,
                                 defaultImageProviders: config.imageProviders,
@@ -378,40 +518,43 @@ export class PreviewService {
                             };
                         }
                         else {
-                            let currentQueries = this.images[file.fuzzyTitle].searchQueries;
-                            let currentProviders = this.images[file.fuzzyTitle].defaultImageProviders;
+                            let currentQueries = this.appImages[file.imagePool].searchQueries;
+                            let currentProviders = this.appImages[file.imagePool].defaultImageProviders;
 
-                            this.images[file.fuzzyTitle].searchQueries = _.union(currentQueries, file.onlineImageQueries);
-                            this.images[file.fuzzyTitle].defaultImageProviders = _.union(currentProviders, config.imageProviders);
+                            this.appImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
+                            this.appImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
                         }
 
                         if (previewData[config.steamDirectory][userAccount.accountID].apps[appID] === undefined) {
                             let steamImage = gridData[config.steamDirectory][userAccount.accountID][appID];
-                            let steamImageUrl = steamImage ? encodeURI('file:///' + steamImage.replace(/\\/g, '/')) : undefined;
+                            let steamImageUrl = steamImage ? encodeURI(`file:///${steamImage.replace(/\\/g, '/')}`) : undefined;
 
-                            numberOfItems++;
                             previewData[config.steamDirectory][userAccount.accountID].apps[appID] = {
-                                steamCategories: config.steamCategories,
+                                entryId: numberOfItems++,
+                                steamCategories: file.steamCategories,
+                                startInDirectory: file.startInDirectory,
                                 imageProviders: config.imageProviders,
-                                argumentString: file.argumentString,
-                                title: file.fuzzyFinalTitle,
+                                argumentString: config.appendArgsToExecutable ? '' : file.argumentString,
+                                title: file.finalTitle,
                                 steamImage: steamImage ? {
                                     imageProvider: 'Steam',
                                     imageUrl: steamImageUrl,
                                     loadStatus: 'done'
                                 } : undefined,
                                 currentImageIndex: steamImageUrl ? -1 : 0,
-                                executableLocation: file.executableLocation,
-                                images: new Reference<ImagesStatusAndContent>(this.images, file.fuzzyTitle)
+                                executableLocation: executableLocation,
+                                currentIconIndex: 0,
+                                icons: file.localIcons,
+                                imagePool: file.imagePool
                             };
                         }
                         else {
                             let currentCategories = previewData[config.steamDirectory][userAccount.accountID].apps[appID].steamCategories;
-                            previewData[config.steamDirectory][userAccount.accountID].apps[appID].steamCategories = _.union(currentCategories, config.steamCategories);
+                            previewData[config.steamDirectory][userAccount.accountID].apps[appID].steamCategories = _.union(currentCategories, file.steamCategories);
                         }
 
                         for (let l = 0; l < file.localImages.length; l++) {
-                            this.addUniqueImage(file.fuzzyTitle, {
+                            this.addUniqueImage(file.imagePool, {
                                 imageProvider: 'LocalStorage',
                                 imageUrl: file.localImages[l],
                                 loadStatus: 'done'
@@ -424,17 +567,37 @@ export class PreviewService {
         });
     }
 
+    private shortcutsToPreviewData(data: SteamShortcutsData) {
+        let gridData: SteamGridImageData;
+        let availableLogins: { [directory: string]: userAccountData[] };
+
+        return Promise.resolve().then(() => {
+            return this.getNonSteamGridData(data);
+        }).then((resolvedData) => {
+            gridData = resolvedData;
+            return getMultipleAvailableLogins(Object.keys(data.tree), true);
+        }).then((resolvedData) => {
+            //availableLogins = resolvedData;
+
+            this.clearImageCacheSettings();
+
+            availableLogins
+
+            console.log(availableLogins);
+        });
+    }
+
     downloadImageUrls(imageKeys?: string[], imageProviders?: string[]) {
         if (!this.appSettings.offlineMode) {
             let allImagesRetrieved = true;
             let imageQueue = queue((task, callback) => callback());
 
             if (imageKeys === undefined || imageKeys.length === 0) {
-                imageKeys = Object.keys(this.images);
+                imageKeys = Object.keys(this.appImages);
             }
 
             for (let i = 0; i < imageKeys.length; i++) {
-                let image = this.images[imageKeys[i]];
+                let image = this.appImages[imageKeys[i]];
                 let imageProvidersForKey: string[] = imageProviders === undefined || imageProviders.length === 0 ? image.defaultImageProviders : imageProviders;
 
                 imageProvidersForKey = _.intersection(this.appSettings.enabledProviders, imageProvidersForKey);
@@ -518,9 +681,9 @@ export class PreviewService {
     }
 
     private addUniqueImage(imageKey: string, content: ImageContent) {
-        if (this.images[imageKey].content.findIndex((item) => item.imageUrl === content.imageUrl) === -1) {
-            this.images[imageKey].content.push(content);
-            return this.images[imageKey].content[this.images[imageKey].content.length - 1];
+        if (this.appImages[imageKey].content.findIndex((item) => item.imageUrl === content.imageUrl) === -1) {
+            this.appImages[imageKey].content.push(content);
+            return this.appImages[imageKey].content[this.appImages[imageKey].content.length - 1];
         }
         return null;
     }

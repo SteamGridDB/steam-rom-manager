@@ -16,13 +16,25 @@ class RetrogamingCloudProvider extends GenericProvider {
                 this.xrw.setSpecialErrors({ 404: { retryCount: 1, silent: true } });
                 let promises: Bluebird<void>[] = [];
                 for (let i = 0; i < listData.length; i++) {
-                    if (listData[i].id !== undefined)
-                        promises.push(this.retrieveMediaData(listData[i].id));
+                    if (this.proxy.filter && listData[i].name && !this.proxy.fuzzyMatcher.fuzzyEqual(this.proxy.title, listData[i].name, true, true))
+                        continue;
+                    else {
+                        if (listData[i].id !== undefined)
+                            promises.push(this.retrieveMediaData(listData[i].id));
+                        if (listData[i].most_popular_media_url && (listData[i].most_popular_media_url as string).length > 0) {
+                            this.proxy.image({
+                                imageProvider: this.proxy.providerName,
+                                imageUrl: listData[i].most_popular_media_url,
+                                imageUploader: listData[i].most_popular_media_created_by_name || undefined,
+                                loadStatus: 'notStarted'
+                            });
+                        }
+                    }
                 }
-                this.xrw.Bluebird.all(promises).finally(() => this.proxy.completed());
+                return this.xrw.Bluebird.all(promises);
             }
-            else
-                this.proxy.completed();
+        }).finally(() => {
+            this.proxy.completed();
         });
     }
 
@@ -43,16 +55,12 @@ class RetrogamingCloudProvider extends GenericProvider {
 
                 for (let i = 0; i < results.length; i++) {
                     if (results[i].url) {
-                        if (this.proxy.filter && results[i].game && results[i].game.name && !this.proxy.fuzzyMatcher.fuzzyEqual(this.proxy.title, results[i].game.name, true, true))
-                            continue;
-                        else {
-                            this.proxy.image({
-                                imageProvider: this.proxy.providerName,
-                                imageUrl: results[i].url,
-                                imageUploader: results[i].created_by ? results[i].created_by.name : undefined,
-                                loadStatus: 'notStarted'
-                            });
-                        }
+                        this.proxy.image({
+                            imageProvider: this.proxy.providerName,
+                            imageUrl: results[i].url,
+                            imageUploader: results[i].created_by ? results[i].created_by.name : undefined,
+                            loadStatus: 'notStarted'
+                        });
                     }
                 }
             }

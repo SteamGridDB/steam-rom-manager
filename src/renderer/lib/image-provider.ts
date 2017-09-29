@@ -2,19 +2,28 @@ import { ProviderPostEventMap, ProviderCallback, ProviderReceiveEventMap, Provid
 import { FuzzyService, LoggerService, SettingsService } from "../services";
 import { imageProviders, availableProviders } from './image-providers';
 import { gApp } from "../app.global";
+import { queue } from "async";
+import { Subject } from "rxjs";
 import * as _ from 'lodash';
 
+type QueueTask = { title: string, eventCallback: ProviderCallback };
+const _queue = true ? undefined as never : queue<QueueTask, void>((task, callback) => { });
+type AsyncQueue = typeof _queue;
 
-export class ImageProvider { //Bind filtering and list
-    private availableProviders: { [key: string]: Worker } = {};
-    private callbackMap = new Map<string, ProviderCallback>();
+export class ImageProvider {
+    private availableProviders: { [key: string]: { worker: Worker, queue: AsyncQueue } } = {};
+    private callbackMap = new Map<string, { queueCallback: () => void, eventCallback: ProviderCallback }>();
     private filterIsEnabled: boolean = false;
+    private stopped: Subject<any> = new Subject();
 
     constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService) {
         for (let key in imageProviders) {
-            this.availableProviders[key] = (new (imageProviders[key])() as Worker);
-            this.availableProviders[key].addEventListener('message', this.messageEvent.bind(this));
-            this.availableProviders[key].addEventListener('error', this.errorEvent.bind(this));
+            this.availableProviders[key] = {
+                worker: (new (imageProviders[key])() as Worker),
+                queue: this.createQueue(key)
+            };
+            this.availableProviders[key].worker.addEventListener('message', this.messageEvent.bind(this));
+            this.availableProviders[key].worker.addEventListener('error', this.errorEvent.bind(this));
         }
     }
 
@@ -22,17 +31,28 @@ export class ImageProvider { //Bind filtering and list
         return gApp.lang.imageProvider;
     }
 
+    private createQueue(key: string) {
+        if (this.availableProviders[key] && this.availableProviders[key].queue)
+            this.availableProviders[key].queue.kill();
+            
+        return queue<QueueTask, void>((task, callback) => {
+            let id = _.uniqueId();
+            this.callbackMap.set(id, { eventCallback: task.eventCallback, queueCallback: callback });
+            this.postMessage(this.availableProviders[key].worker, 'retrieveUrls', { id: id, title: task.title });
+        }, 10);
+    }
+
     toggleFilter(enable: boolean) {
         if (this.filterIsEnabled !== enable) {
             for (let key in this.availableProviders) {
-                this.postMessage(this.availableProviders[key], 'toggleFiltering', { enable: enable });
+                this.postMessage(this.availableProviders[key].worker, 'toggleFiltering', { enable: enable });
             }
         }
     }
 
-    setFuzzyList(list: string[]) {
+    setFuzzyList(list: { totalGames: number, games: string[] }) {
         for (let key in this.availableProviders) {
-            this.postMessage(this.availableProviders[key], 'fuzzyList', { list: list });
+            this.postMessage(this.availableProviders[key].worker, 'fuzzyList', { list });
         }
     }
 
@@ -42,11 +62,8 @@ export class ImageProvider { //Bind filtering and list
 
     retrieveUrls(title: string, providers: string[], eventCallback: ProviderCallback) {
         for (let i = 0; i < providers.length; i++) {
-            if (this.availableProviders[providers[i]]) {
-                let id = _.uniqueId();
-                this.callbackMap.set(id, eventCallback);
-                this.postMessage(this.availableProviders[providers[i]], 'retrieveUrls', { id: id, title: title });
-            }
+            if (this.availableProviders[providers[i]])
+                this.availableProviders[providers[i]].queue.push({ title, eventCallback });
             else
                 eventCallback('completed', { title: title });
         }
@@ -54,8 +71,18 @@ export class ImageProvider { //Bind filtering and list
 
     stopUrlDownload() {
         for (let key in this.availableProviders) {
-            this.postMessage(this.availableProviders[key], 'stopDownloads', null);
+            let provider = this.availableProviders[key];
+
+            provider.queue = this.createQueue(key);
+            this.postMessage(provider.worker, 'stopDownloads', null);
         }
+
+        this.callbackMap.clear();
+        this.stopped.next();
+    }
+
+    get stopEvent() {
+        return this.stopped.asObservable();
     }
 
     private postMessage<K extends keyof ProviderReceiveEventMap>(worker: Worker, event: K, data: ProviderReceiveEventMap[K]) {
@@ -69,7 +96,7 @@ export class ImageProvider { //Bind filtering and list
                     {
                         let data = (event.data.data as ProviderPostEventMap['error']);
                         if (this.callbackMap.has(data.id)) {
-                            this.callbackMap.get(data.id)('error', { provider: data.provider, title: data.title, error: data.error, url: data.url });
+                            this.callbackMap.get(data.id).eventCallback('error', { provider: data.provider, title: data.title, error: data.error, url: data.url });
                         }
                     }
                     break;
@@ -77,7 +104,7 @@ export class ImageProvider { //Bind filtering and list
                     {
                         let data = (event.data.data as ProviderPostEventMap['timeout']);
                         if (this.callbackMap.has(data.id)) {
-                            this.callbackMap.get(data.id)('timeout', { provider: data.provider, time: data.time });
+                            this.callbackMap.get(data.id).eventCallback('timeout', { provider: data.provider, time: data.time });
                         }
                     }
                     break;
@@ -85,7 +112,7 @@ export class ImageProvider { //Bind filtering and list
                     {
                         let data = (event.data.data as ProviderPostEventMap['image']);
                         if (this.callbackMap.has(data.id)) {
-                            this.callbackMap.get(data.id)('image', { content: data.content });
+                            this.callbackMap.get(data.id).eventCallback('image', { content: data.content });
                         }
                     }
                     break;
@@ -93,8 +120,11 @@ export class ImageProvider { //Bind filtering and list
                     {
                         let data = (event.data.data as ProviderPostEventMap['completed']);
                         if (this.callbackMap.has(data.id)) {
-                            this.callbackMap.get(data.id)('completed', { title: data.title });
+                            let callbackData = this.callbackMap.get(data.id);
                             this.callbackMap.delete(data.id);
+
+                            callbackData.eventCallback('completed', { title: data.title });
+                            callbackData.queueCallback();
                         }
                     }
                     break;

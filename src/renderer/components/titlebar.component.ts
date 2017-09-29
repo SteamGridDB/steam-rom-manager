@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { remote } from 'electron';
+import { FuzzyService } from "../services";
 
 @Component({
     selector: 'titlebar',
@@ -35,7 +36,7 @@ export class TitleComponent {
     private minimizable: boolean;
     private maximizable: boolean;
 
-    constructor(private title: Title) {
+    constructor(private title: Title, private fuzzyService: FuzzyService) {
         this.mainWindow = remote.getCurrentWindow();
         this.minimizable = this.mainWindow.isMinimizable();
         this.maximizable = this.mainWindow.isMaximizable();
@@ -63,7 +64,7 @@ export class TitleComponent {
         this.mainWindow.close();
     }
 
-    getTitle(){
+    getTitle() {
         return this.title.getTitle();
     }
 }

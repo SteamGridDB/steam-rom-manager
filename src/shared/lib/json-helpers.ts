@@ -1,4 +1,7 @@
+import { JsonValidatorModifier } from "../models/index";
 import * as fs from "fs-extra";
+import * as Ajv from "Ajv";
+import * as _ from "lodash";
 
 export function readJson<valueType>(filename: string, fallbackValue: valueType, segments?: string[]) {
     return new Promise<valueType>((resolve, reject) => {
@@ -70,4 +73,70 @@ export function writeJson(filename: string, value: any, segments?: string[]) {
             });
         });
     });
+}
+
+export class JsonValidator {
+    private static ajv = new Ajv({ removeAdditional: 'all', useDefaults: true });
+    private validationFn: Ajv.ValidateFunction;
+    private modifier: { controlProperty: string, modifierFields: JsonValidatorModifier };
+
+    constructor(schema?: any, modifier?: { controlProperty: string, modifierFields: JsonValidatorModifier }) {
+        this.setSchema(schema);
+
+        if (modifier !== undefined)
+            this.setModifier(modifier.controlProperty, modifier.modifierFields);
+    }
+
+    setSchema(schema: any) {
+        if (schema != undefined)
+            this.validationFn = JsonValidator.ajv.compile(schema);
+        else
+            this.validationFn = undefined;
+    }
+
+    setModifier(controlProperty: string, modifierFields: JsonValidatorModifier) {
+        this.modifier = { controlProperty, modifierFields };
+    }
+
+    validate(data: any) {
+        if (this.modifier)
+            while (this.modify(data));
+
+        if (this.validationFn) {
+            this.validationFn(data);
+            return this.validationFn.errors;
+        }
+        else {
+            return true;
+        }
+    }
+
+    getDefaultValues(){
+        let data = {};
+        if (this.validationFn) {
+            this.validationFn(data);
+        }
+        return data;
+    }
+
+    private modify(data: any) {
+        let controlValue = _.get(data, this.modifier.controlProperty, undefined);
+        let modifierFieldSet = this.modifier.modifierFields[controlValue];
+
+        if (modifierFieldSet !== undefined) {
+            for (let key in modifierFieldSet) {
+                let fieldData = modifierFieldSet[key];
+
+                console.log(key, fieldData);
+
+                if (fieldData.method)
+                    _.set(data, key, fieldData.method(_.get(data, typeof fieldData.oldValuePath === 'string' ? fieldData.oldValuePath : key, undefined)));
+                else if (typeof fieldData.oldValuePath === 'string')
+                    _.set(data, key, _.get(data, fieldData.oldValuePath, undefined));
+            }
+            return !_.isEqual(controlValue, _.get(data, this.modifier.controlProperty, undefined));
+        }
+        else
+            return false;
+    }
 }
