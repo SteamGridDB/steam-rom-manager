@@ -121,7 +121,6 @@ export const EnglishLang: languageContainer = {
                 info: 'INFO',
                 success: 'SUCCESS',
                 fuzzy: 'FUZZY',
-                timestamp: 'TIMESTAMP',
                 textWrap: 'TEXT-WRAP',
                 autoscroll: 'AUTOSCROLL',
                 clearLog: 'Clear log'

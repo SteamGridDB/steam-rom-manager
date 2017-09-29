@@ -17,8 +17,7 @@ export class LoggerService {
             showSuccesses: true,
             showFuzzy: false,
             autoscroll: false, 
-            textWrap: false, 
-            timestamp: false, 
+            textWrap: false,
             currentScrollValue: 0
         };
     }
@@ -62,7 +61,6 @@ export class LoggerService {
         if (!doNotAppendToLog) {
             let logMessages = this.logMessages.getValue();
             logMessages = logMessages.concat({
-                timestamp: this.datePipe.transform(new Date().getTime(), 'HH:mm:ss'),
                 type: type,
                 text: message
             });

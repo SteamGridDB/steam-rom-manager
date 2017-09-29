@@ -104,7 +104,6 @@ export interface languageStruct {
             info: string,
             success: string,
             fuzzy: string,
-            timestamp: string,
             textWrap: string,
             autoscroll: string,
             clearLog: string

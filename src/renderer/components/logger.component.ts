@@ -11,7 +11,7 @@ import { gApp } from "../app.global";
             <ng-container *ngIf="currentMessages.length > 0; else emptyWindow">
                 <div #messageWindow class="messages">
                     <ng-container *ngFor="let message of currentMessages">
-                        <div *ngIf="canShow(message.type)" [ngClass]="message.type" [class.wrap]="settings.textWrap">{{settings.timestamp ? '[' + message.timestamp + ']: ' : ''}}{{message.text || '&nbsp;'}}</div>
+                        <div *ngIf="canShow(message.type)" [ngClass]="message.type" [class.wrap]="settings.textWrap">{{message.text || '&nbsp;'}}</div>
                     </ng-container>
                 </div>
             </ng-container>
@@ -26,7 +26,6 @@ import { gApp } from "../app.global";
             <div class="info" [class.active]="settings.showInfo" (click)="settings.showInfo = !settings.showInfo">{{lang.info}}</div>
             <div class="success" [class.active]="settings.showSuccesses" (click)="settings.showSuccesses = !settings.showSuccesses">{{lang.success}}</div>
             <div class="fuzzy" [class.active]="settings.showFuzzy" (click)="settings.showFuzzy = !settings.showFuzzy">{{lang.fuzzy}}</div>
-            <div class="timestamp" [class.active]="settings.timestamp" (click)="settings.timestamp = !settings.timestamp">{{lang.timestamp}}</div>
             <div class="textWrap" [class.active]="settings.textWrap" (click)="settings.textWrap = !settings.textWrap">{{lang.textWrap}}</div>
             <div class="autoscroll" [class.active]="settings.autoscroll" (click)="settings.autoscroll = !settings.autoscroll">{{lang.autoscroll}}</div>
             <div class="clear" (click)="clearLog()">{{lang.clearLog}}</div>
