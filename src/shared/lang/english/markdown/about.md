@@ -16,6 +16,7 @@ In case you're having trouble with SRM, feel free to visit [Discord](https://dis
 * `doZennn`{.noWrap} - helped before the initial release of SRM and many times after the release with various stuff.
 * `HE Spoke`{.noWrap} - responsible for creating community around SRM. Creator of [Steam](http://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/nxxzBPJ) groups. Also manages issues in [Github](https://github.com/FrogTheFrog/steam-rom-manager).
 * `Choko`{.noWrap} - helps most users setup SRM in [Discord](https://discord.gg/nxxzBPJ).
+* `AlexDobeck`{.noWrap} - improved [retrogaming.cloud](http://retrogaming.cloud/) performance.
 
 ## Credits
 

@@ -9,6 +9,8 @@
 
     fill: black;
 
+    /* height: var(--ng-select-height, initial); */
+
     .display {
         display: grid;
 
@@ -63,6 +65,10 @@
             border-width: var(--ng-select-border-width, 1px);
             border-style: solid;
             border-color: inherit;
+
+            /* ng-option{
+                height: var(--ng-select-height, initial);
+            } */
         }
     }
 }

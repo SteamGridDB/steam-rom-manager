@@ -66,13 +66,22 @@ ng-nested-form {
 			@include input();
 
 			grid-area: input;
+
+			/* font-family: "Hack";
+			font-size: 0.9em;
+			height: 1.75rem; */
 		}
 
 		ng-select {
 			@include ngSelect();
 			@include ngSelectColor(ng-select);
 
+			/* --ng-select-height: 1.75rem; */
+
 			grid-area: input;
+
+			/* font-family: "Hack";
+			font-size: 0.9em; */
 		}
 
 		ng-toggle-button {

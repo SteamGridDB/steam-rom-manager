@@ -140,7 +140,7 @@ export class FileParser {
                         steamCategories: undefined,
                         executableLocation: executableLocation,
                         startInDirectory: configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation),
-                        argumentString: '',
+                        argumentString: undefined,
                         resolvedLocalImages: [],
                         localImages: [],
                         resolvedLocalIcons: [],
@@ -162,6 +162,9 @@ export class FileParser {
 
                     variableData.finalTitle = lastFile.finalTitle;
 
+                    lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
+                        return this.getVariable(variable as AllVariables, variableData);
+                    }) : '';
                     lastFile.imagePool = vParser.setInput(configs[i].imagePool).parse() ? vParser.replaceVariables((variable) => {
                         return this.getVariable(variable as AllVariables, variableData);
                     }) : '';
@@ -175,7 +178,6 @@ export class FileParser {
 
                 parsedConfigs[i].failed = _.cloneDeep(data[i].failed);
 
-                this.parseExecutableArgs(configs[i], parsedConfigs[i], vParser);
                 localImagePromises.push(this.resolveFieldGlobs('localImages', configs[i], parsedConfigs[i], vParser).then((data) => {
                     for (let j = 0; j < data.parsedConfig.files.length; j++) {
                         data.parsedConfig.files[j].resolvedLocalImages = data.resolvedGlobs[j];
@@ -224,15 +226,6 @@ export class FileParser {
             }
         }
         return data;
-    }
-
-    private parseExecutableArgs(config: UserConfiguration, parsedConfig: ParsedUserConfiguration, vParser: VariableParser) {
-        for (let i = 0; i < parsedConfig.files.length; i++) {
-            let variableData = this.makeVariableData(config, parsedConfig.files[i]);
-            parsedConfig.files[i].argumentString = vParser.setInput(config.executableArgs).parse() ? vParser.replaceVariables((variable) => {
-                return this.getVariable(variable as AllVariables, variableData);
-            }) : '';
-        }
     }
 
     private resolveFieldGlobs(field: string, config: UserConfiguration, parsedConfig: ParsedUserConfiguration, vParser: VariableParser) {
@@ -359,9 +352,6 @@ export class FileParser {
             case 'TITLE':
                 output = data.extractedTitle != undefined ? data.extractedTitle : unavailable;
                 break;
-            case 'APPID':
-                output = data.appId != undefined ? data.appId : unavailable;
-                break;
             default:
                 {
                     let match = /^\/(.*?)\/([giu]{0,3})\|(.*?)(?:\|(.*?))?$/.exec(output);
@@ -412,8 +402,7 @@ export class FileParser {
             filePath: file.filePath,
             finalTitle: file.finalTitle,
             fuzzyTitle: file.fuzzyTitle,
-            romDirectory: config.romDirectory,
-            appId: generateAppId(config.appendArgsToExecutable ? `"${file.executableLocation}" ${file.argumentString}`: `"${file.executableLocation}"`, file.finalTitle)
+            romDirectory: config.romDirectory
         }
     }
 

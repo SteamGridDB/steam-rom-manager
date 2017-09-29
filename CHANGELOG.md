@@ -1,9 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 2.2.0-x (pre-release)
+## 2.2.0 - 2017-09-30
+
+#### A lot of additions/changes/fixes are not listed here due to unfortunate misclicks which commit changes before I am able to record it.
+
 ### Added
-* Local icon support.
 * Parser support to local images and local icons.
 * Temporary glob cache.
 * Settings button to reset fuzzy list.
