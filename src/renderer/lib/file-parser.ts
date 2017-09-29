@@ -364,20 +364,20 @@ export class FileParser {
                     let match = /^\/(.*?)\/([giu]{0,3})\|(.*?)(?:\|(.*?))?$/.exec(output);
                     if (match) {
                         let regex = new RegExp(match[1], match[2] || '');
-                        let replaceText = match[3];
+                        let replaceText = match[4];
                         if (replaceText === 'string') {
-                            output = output.replace(regex, replaceText);
+                            output = match[3].replace(regex, replaceText);
                         }
                         else {
-                            let innerMatch = output.match(regex);
+                            let innerMatch = match[3].match(regex);
+                            output = '';
                             if (innerMatch !== null) {
-                                output = '';
                                 for (let i = 1; i < innerMatch.length; i++) {
                                     if (innerMatch[i])
-                                    output += innerMatch[i];
+                                        output += innerMatch[i];
                                 }
                                 if (output.length === 0)
-                                output = innerMatch[0];
+                                    output = innerMatch[0];
                             }
                         }
                         break;
