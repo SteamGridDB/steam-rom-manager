@@ -156,13 +156,13 @@ export class FileParser {
                     let variableData = this.makeVariableData(configs[i], lastFile);
 
                     lastFile.finalTitle = vParser.setInput(configs[i].titleModifier).parse() ? vParser.replaceVariables((variable) => {
-                        return this.getVariable(variable as AllVariables, variableData, false);
+                        return this.getVariable(variable as AllVariables, variableData);
                     }) : '';
 
                     variableData.finalTitle = lastFile.finalTitle;
 
                     lastFile.onlineImageQueries = vParser.setInput(configs[i].onlineImageQueries).parse() ? _.uniq(vParser.extractVariables((variable) => {
-                        return this.getVariable(variable as AllVariables, variableData, true);
+                        return this.getVariable(variable as AllVariables, variableData);
                     })) : [];
                 }
 
@@ -223,7 +223,7 @@ export class FileParser {
         for (let i = 0; i < parsedConfig.files.length; i++) {
             let variableData = this.makeVariableData(config, parsedConfig.files[i]);
             parsedConfig.files[i].argumentString = vParser.setInput(config.executableArgs).parse() ? vParser.replaceVariables((variable) => {
-                return this.getVariable(variable as AllVariables, variableData, false);
+                return this.getVariable(variable as AllVariables, variableData);
             }) : '';
         }
     }
@@ -244,7 +244,7 @@ export class FileParser {
 
                 if (expandableSet === null) {
                     let replacedGlob = path.resolve(config.romDirectory, vParser.setInput(fieldValue).parse() ? vParser.replaceVariables((variable) => {
-                        return this.getVariable(variable as AllVariables, variableData, false);
+                        return this.getVariable(variable as AllVariables, variableData);
                     }) : '').replace(/\\/g, '/');
 
                     resolvedGlobs[i].push(replacedGlob);
@@ -256,7 +256,7 @@ export class FileParser {
                     let secondaryMatch: string = undefined;
                     let parserMatch = fieldValue.replace(expandableSet[0], '$()$');
                     parserMatch = vParser.setInput(parserMatch).parse() ? vParser.replaceVariables((variable) => {
-                        return this.getVariable(variable as AllVariables, variableData, false);
+                        return this.getVariable(variable as AllVariables, variableData);
                     }) : '';
                     parserMatch = path.resolve(config.romDirectory, parserMatch.replace('$()$', expandableSet[1])).replace(/\\/g, '/');
                     resolvedGlobs[i].push(parserMatch);
@@ -264,7 +264,7 @@ export class FileParser {
                     if (expandableSet[2] != undefined) {
                         secondaryMatch = fieldValue.replace(expandableSet[0], expandableSet[2] || '');
                         secondaryMatch = path.resolve(config.romDirectory, vParser.setInput(secondaryMatch).parse() ? vParser.replaceVariables((variable) => {
-                            return this.getVariable(variable as AllVariables, variableData, false);
+                            return this.getVariable(variable as AllVariables, variableData);
                         }) : '').replace(/\\/g, '/');
                         resolvedGlobs[i].push(secondaryMatch);
                     }
@@ -303,7 +303,7 @@ export class FileParser {
         });
     }
 
-    private getVariable(variable: AllVariables, data: ParserVariableData, keepUnknown: boolean) {
+    private getVariable(variable: AllVariables, data: ParserVariableData) {
         const unavailable = 'undefined';
         let output = variable as string;
         switch (<AllVariables>variable.toUpperCase()) {
@@ -353,8 +353,6 @@ export class FileParser {
                 output = data.extractedTitle != undefined ? data.extractedTitle : unavailable;
                 break;
             default:
-                if (!keepUnknown)
-                    output = unavailable;
                 break;
         }
         return output;
