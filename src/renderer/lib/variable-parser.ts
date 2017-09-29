@@ -266,7 +266,7 @@ export class VariableParser {
                     output += VariableParser.unescape(ast.leftDelimiter, ast.rightDelimiter, dataString);
                 }
                 else {
-                    output += passedData ? passedData.join('') : '';
+                    output += replacer(passedData ? passedData.join('') : '', level);
                 }
             }
             else {
@@ -274,10 +274,10 @@ export class VariableParser {
                     let dataString = ast.input.substring(item.range.start, item.range.end);
                     if (dataString[dataString.length - 1] === '\\')
                         dataString = dataString.slice(0, -1);
-                    return replacer(VariableParser.unescape(ast.leftDelimiter, ast.rightDelimiter, dataString), level);
+                    return VariableParser.unescape(ast.leftDelimiter, ast.rightDelimiter, dataString);
                 }
                 else {
-                    return passedData ? passedData.join('') : '';
+                    return replacer(passedData ? passedData.join('') : '', level);
                 }
             }
         }, false);
@@ -319,10 +319,10 @@ export class VariableParser {
                     let dataString = ast.input.substring(item.range.start, item.range.end);
                     if (dataString[dataString.length - 1] === '\\')
                         dataString = dataString.slice(0, -1);
-                    return replacer(VariableParser.unescape(ast.leftDelimiter, ast.rightDelimiter, dataString), level);
+                    return VariableParser.unescape(ast.leftDelimiter, ast.rightDelimiter, dataString);
                 }
                 else {
-                    return passedData ? passedData.join('') : '';
+                    return replacer(passedData ? passedData.join('') : '', level);
                 }
             }
             else
