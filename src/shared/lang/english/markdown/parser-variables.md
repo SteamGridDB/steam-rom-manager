@@ -1,6 +1,6 @@
 # Parser variables
 
-Here are tables of variables that can be used with options that have `[supports variables]`{.noWrap} specified in their descriptions.
+Here are tables of variables that can be used with options that have `[supports variables]`{.noWrap} specified in their descriptions. Variable can be nested.
 
 ## Directory variables
 
@@ -50,6 +50,33 @@ In case executable directory input is left **empty**, `${exePath}`{.noWrap} is e
 |`${finalTitle}`|Title which was the end result of title modifier|
 
 In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
+
+## Function variables
+
+|Variable (case-insensitive)|Corresponding function|
+|---:|:---|
+|`${regex|input|substitution(optional)}`|Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided)|
+|`${uc|input}`|Uppercase variable. Transforms input to uppercase|
+|`${lc|input}`|Lowercase variable. Transforms input to lowercase|
+
+### Function variable example
+
+Let's say that `${title}` variable equals to `Zelda (USA) (Disc 1).iso`. Then these variables:
+```
+${/.*/|${title}}                         //Matches everything
+${/(.*)/|${title}}                       //Captures everything
+${/(\(.*?\))/|${title}|}                 //Captures all brackets and substitutes with nothing
+${/(\(Disc\s?[0-9]\))/|${title}}         //Captures "Disc..." part
+${uc|${/(\(Disc\s?[0-9]\))/|${title}}}   //Captures "Disc..." part and transforms it to uppercase
+```
+will be replaced with these:
+```
+Zelda (USA) (Disc 1).iso
+Zelda (USA) (Disc 1).iso
+Zelda.iso
+(Disc 1)
+(DISC 1)
+```
 
 ## Other variables
 

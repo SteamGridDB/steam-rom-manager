@@ -187,7 +187,10 @@ export const EnglishLang: languageContainer = {
                     faq: [require('./markdown/faq.md')],
                     parserType: [require('./markdown/empty-parser-type.md')],
                     configTitle: [require('./markdown/config-title.md')],
-                    steamCategory: [require('./markdown/steam-category.md')],
+                    steamCategory: [
+                        require('./markdown/steam-category.md'),
+                        require('./markdown/parser-variables.md')
+                    ],
                     executableLocation: [require('./markdown/executable-location.md')],
                     romDirectory: [require('./markdown/rom-directory.md')],
                     steamDirectory: [require('./markdown/steam-directory.md')],
