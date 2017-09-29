@@ -233,6 +233,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                         this.currentDoc.content = this.lang.docs__md.onlineImageQueries.join('');
                     }
                 }),
+                imagePool: new NestedFormElement.Input({
+                    label: this.lang.label.imagePool,
+                    isHidden: () => this.userForm.get('advanced').valueChanges.map(val => !val),
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.imagePool.join('');
+                    }
+                }),
                 imageProviders: new NestedFormElement.Select({
                     label: this.lang.label.imageProviders,
                     placeholder: this.lang.placeholder.imageProviders,
@@ -323,6 +332,33 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
     private testForm() {
         let config = this.userForm.value as UserConfiguration;
+        let successData: string = '';
+        let errorData: string = '';
+
+        let logError = () => {
+            if (errorData)
+                this.loggerService.error(errorData);
+            errorData = '';
+        };
+        let logSuccess = () => {
+            if (successData)
+                this.loggerService.success(successData);
+            successData = '';
+        };
+
+        let success = (data: string) => {
+            logError();
+            if (successData)
+                successData += '\r\n';
+            successData += data;
+        };
+        let error = (data: string) => {
+            logSuccess();
+            if (errorData)
+                errorData += '\r\n';
+            errorData += data;
+        };
+
         if (this.parsersService.isConfigurationValid(config)) {
             if (this.appSettings.clearLogOnTest)
                 this.loggerService.clearLog();
@@ -334,9 +370,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
                     if (data.foundUserAccounts.length > 0) {
                         this.loggerService.info('');
-                        this.loggerService.success(this.lang.success.foundAccounts__i.interpolate({ count: data.foundUserAccounts.length }));
+                        success(this.lang.success.foundAccounts__i.interpolate({ count: data.foundUserAccounts.length }));
                         for (let i = 0; i < data.foundUserAccounts.length; i++) {
-                            this.loggerService.success(this.lang.success.foundAccountInfo__i.interpolate({
+                            success(this.lang.success.foundAccountInfo__i.interpolate({
                                 name: data.foundUserAccounts[i].name,
                                 steamID64: data.foundUserAccounts[i].steamID64,
                                 accountID: data.foundUserAccounts[i].accountID
@@ -344,56 +380,81 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                         }
                     }
                     if (data.missingUserAccounts.length > 0) {
+                        logSuccess();
                         this.loggerService.info('');
-                        this.loggerService.error(this.lang.error.missingAccounts__i.interpolate({ count: data.missingUserAccounts.length }));
+                        error(this.lang.error.missingAccounts__i.interpolate({ count: data.missingUserAccounts.length }));
                         for (let i = 0; i < data.missingUserAccounts.length; i++) {
-                            this.loggerService.error(this.lang.error.missingAccountInfo__i.interpolate({ name: data.missingUserAccounts[i] }));
+                            error(this.lang.error.missingAccountInfo__i.interpolate({ name: data.missingUserAccounts[i] }));
                         }
                     }
 
                     if (dataArray.parsedData.noUserAccounts) {
+                        logError();
                         this.loggerService.info('');
-                        this.loggerService.error(this.lang.error.noAccountsWarning);
+                        error(this.lang.error.noAccountsWarning);
                     }
 
-                    if (data.steamCategories.length > 0) {
+                    logSuccess();
+                    logError();
+                    this.loggerService.info('');
+
+                    /* if (data.steamCategories.length > 0) {
                         this.loggerService.info('');
                         this.loggerService.success(this.lang.success.steamCategoriesResolved);
                         for (let i = 0; i < data.steamCategories.length; i++) {
                             this.loggerService.success(this.lang.success.steamCategoryInfo__i.interpolate({ steamCategory: data.steamCategories[i] }));
                         }
-                    }
+                    } */
 
                     for (let i = 0; i < data.files.length; i++) {
-                        this.loggerService.info('');
-                        this.loggerService.success(this.lang.success.extractedTitle__i.interpolate({
+                        success('');
+                        success(this.lang.success.extractedTitle__i.interpolate({
                             index: i + 1,
                             total: totalLength,
                             title: data.files[i].extractedTitle
                         }));
-                        this.loggerService.success(this.lang.success.fuzzyTitle__i.interpolate({
+                        success(this.lang.success.fuzzyTitle__i.interpolate({
                             index: i + 1,
                             total: totalLength,
                             title: data.files[i].fuzzyTitle
                         }));
-                        this.loggerService.success(this.lang.success.filePath__i.interpolate({
+                        success(this.lang.success.finalTitle__i.interpolate({
+                            index: i + 1,
+                            total: totalLength,
+                            title: data.files[i].finalTitle
+                        }));
+                        success(this.lang.success.filePath__i.interpolate({
                             index: i + 1,
                             total: totalLength,
                             filePath: data.files[i].filePath
                         }));
-                        this.loggerService.success(this.lang.success.completeShortcut__i.interpolate({
+                        success(this.lang.success.completeShortcut__i.interpolate({
                             index: i + 1,
                             total: totalLength,
                             shortcut: `"${data.files[i].executableLocation}" ${data.files[i].argumentString}`
                         }));
+                        if (data.files[i].steamCategories.length > 0) {
+                            success(this.lang.success.steamCategory__i.interpolate({
+                                index: i + 1,
+                                total: totalLength,
+                                steamCategory: data.files[i].steamCategories[0]
+                            }));
+                            for (let j = 1; j < data.files[i].steamCategories.length; j++) {
+                                success(this.lang.success.steamCategoryInfo__i.interpolate({
+                                    index: i + 1,
+                                    total: totalLength,
+                                    steamCategory: data.files[i].steamCategories[j]
+                                }));
+                            }
+                        }
                         if (data.files[i].onlineImageQueries.length) {
-                            this.loggerService.success(this.lang.success.firstImageQuery__i.interpolate({
+                            success(this.lang.success.firstImageQuery__i.interpolate({
                                 index: i + 1,
                                 total: totalLength,
                                 query: data.files[i].onlineImageQueries[0]
                             }));
                             for (let j = 1; j < data.files[i].onlineImageQueries.length; j++) {
-                                this.loggerService.success(this.lang.success.imageQueries__i.interpolate({
+                                success(this.lang.success.imageQueries__i.interpolate({
                                     index: i + 1,
                                     total: totalLength,
                                     query: data.files[i].onlineImageQueries[j]
@@ -401,12 +462,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                             }
                         }
                         if (data.files[i].resolvedLocalImages.length) {
-                            this.loggerService.success(this.lang.success.resolvedImageGlob__i.interpolate({
+                            success(this.lang.success.resolvedImageGlob__i.interpolate({
                                 index: i + 1,
                                 total: totalLength
                             }));
                             for (let j = 0; j < data.files[i].resolvedLocalImages.length; j++) {
-                                this.loggerService.success(this.lang.success.resolvedImageGlobInfo__i.interpolate({
+                                success(this.lang.success.resolvedImageGlobInfo__i.interpolate({
                                     index: i + 1,
                                     total: totalLength,
                                     glob: data.files[i].resolvedLocalImages[j]
@@ -414,12 +475,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                             }
                         }
                         if (data.files[i].localImages.length) {
-                            this.loggerService.success(this.lang.success.localImagesResolved__i.interpolate({
+                            success(this.lang.success.localImagesResolved__i.interpolate({
                                 index: i + 1,
                                 total: totalLength
                             }));
                             for (let j = 0; j < data.files[i].localImages.length; j++) {
-                                this.loggerService.success(this.lang.success.localImageInfo__i.interpolate({
+                                success(this.lang.success.localImageInfo__i.interpolate({
                                     index: i + 1,
                                     total: totalLength,
                                     image: data.files[i].localImages[j]
@@ -427,12 +488,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                             }
                         }
                         if (data.files[i].resolvedLocalIcons.length) {
-                            this.loggerService.success(this.lang.success.resolvedIconGlob__i.interpolate({
+                            success(this.lang.success.resolvedIconGlob__i.interpolate({
                                 index: i + 1,
                                 total: totalLength
                             }));
                             for (let j = 0; j < data.files[i].resolvedLocalIcons.length; j++) {
-                                this.loggerService.success(this.lang.success.resolvedIconGlobInfo__i.interpolate({
+                                success(this.lang.success.resolvedIconGlobInfo__i.interpolate({
                                     index: i + 1,
                                     total: totalLength,
                                     glob: data.files[i].resolvedLocalIcons[j]
@@ -440,12 +501,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                             }
                         }
                         if (data.files[i].localIcons.length) {
-                            this.loggerService.success(this.lang.success.localIconsResolved__i.interpolate({
+                            success(this.lang.success.localIconsResolved__i.interpolate({
                                 index: i + 1,
                                 total: totalLength
                             }));
                             for (let j = 0; j < data.files[i].localIcons.length; j++) {
-                                this.loggerService.success(this.lang.success.localIconInfo__i.interpolate({
+                                success(this.lang.success.localIconInfo__i.interpolate({
                                     index: i + 1,
                                     total: totalLength,
                                     icon: data.files[i].localIcons[j]
@@ -453,18 +514,19 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                             }
                         }
                     }
+                    logSuccess();
                     if (data.failed.length > 0) {
                         this.loggerService.info('');
-                        this.loggerService.error(this.lang.error.failedToMatch);
+                        error(this.lang.error.failedToMatch);
                         for (let i = 0; i < data.failed.length; i++) {
-                            this.loggerService.error(this.lang.error.failedFileInfo__i.interpolate({
+                            error(this.lang.error.failedFileInfo__i.interpolate({
                                 index: data.files.length + i + 1,
                                 total: totalLength,
                                 filename: data.failed[i]
                             }));
                         }
                     }
-
+                    logError();
                 }
                 else {
                     this.loggerService.info('');

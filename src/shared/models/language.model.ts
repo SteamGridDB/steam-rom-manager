@@ -203,10 +203,11 @@ export interface languageStruct {
             success: {
                 foundAccounts__i: string, //${count}
                 foundAccountInfo__i: string, //${name}, ${steamID64}, ${accountID}
-                steamCategoriesResolved: string,
+                steamCategory__i: string, //${index}, ${total}, ${steamCategory}
                 steamCategoryInfo__i: string, //${steamCategory}
                 extractedTitle__i: string, //${index}, ${total}, ${title}
                 fuzzyTitle__i: string, //${index}, ${total}, ${title}
+                finalTitle__i: string, //${index}, ${total}, ${title}
                 filePath__i: string, //${index}, ${total}, ${filePath}
                 completeShortcut__i: string, //${index}, ${total}, ${shortcut}
                 firstImageQuery__i: string, //${index}, ${total}, ${query}

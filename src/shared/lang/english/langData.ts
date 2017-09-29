@@ -156,7 +156,7 @@ export const EnglishLang: languageContainer = {
                 error: {
                     writingError: 'Error occurred while saving user settings.',
                     readingError: 'Error occurred while reading user settings.',
-                    corruptedSettings__i: 'Saved app settings are invalid!\r\nPermanent settings saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}',                    
+                    corruptedSettings__i: 'Saved app settings are invalid!\r\nPermanent settings saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}',
                 }
             }
         },
@@ -244,10 +244,11 @@ export const EnglishLang: languageContainer = {
                 success: {
                     foundAccounts__i: 'Found ${count} available user account(s):',
                     foundAccountInfo__i: '  ${name} (steamID64: ${steamID64}, accountID: ${accountID})',
-                    steamCategoriesResolved: 'Resolved Steam categories:',
-                    steamCategoryInfo__i: '  ${steamCategory}',
+                    steamCategory__i: '[${index}/${total}]:    Steam categories - ${steamCategory}',
+                    steamCategoryInfo__i: '[${index}/${total}]:                       ${steamCategory}',
                     extractedTitle__i: '[${index}/${total}]:               Title - ${title}',
                     fuzzyTitle__i: '[${index}/${total}]:         Fuzzy title - ${title}',
+                    finalTitle__i: '[${index}/${total}]:         Final title - ${title}',
                     filePath__i: '[${index}/${total}]:           File path - ${filePath}',
                     completeShortcut__i: '[${index}/${total}]:   Complete shortcut - ${shortcut}',
                     firstImageQuery__i: '[${index}/${total}]:       Image queries - ${query}',
