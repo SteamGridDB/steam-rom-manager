@@ -1,5 +1,5 @@
 import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables } from '../models';
-import { getAvailableLogins } from "./steam-id-helpers";
+import { getAvailableLogins, generateAppId } from "./steam-id-helpers";
 import { FuzzyService } from "./../services";
 import { VariableParser } from "./variable-parser";
 import { gApp } from "../app.global";
@@ -359,6 +359,9 @@ export class FileParser {
             case 'TITLE':
                 output = data.extractedTitle != undefined ? data.extractedTitle : unavailable;
                 break;
+            case 'APPID':
+                output = data.appId != undefined ? data.appId : unavailable;
+                break;
             default:
                 {
                     let match = /^\/(.*?)\/([giu]{0,3})\|(.*?)(?:\|(.*?))?$/.exec(output);
@@ -400,16 +403,17 @@ export class FileParser {
         return output;
     }
 
-    private makeVariableData(config: UserConfiguration, parsedConfigFile: ParsedUserConfigurationFile) {
+    private makeVariableData(config: UserConfiguration, file: ParsedUserConfigurationFile) {
         return <ParserVariableData>{
-            executableLocation: parsedConfigFile.executableLocation,
-            startInDirectory: parsedConfigFile.startInDirectory,
-            extractedTitle: parsedConfigFile.extractedTitle,
+            executableLocation: file.executableLocation,
+            startInDirectory: file.startInDirectory,
+            extractedTitle: file.extractedTitle,
             steamDirectory: config.steamDirectory,
-            filePath: parsedConfigFile.filePath,
-            finalTitle: parsedConfigFile.finalTitle,
-            fuzzyTitle: parsedConfigFile.fuzzyTitle,
-            romDirectory: config.romDirectory
+            filePath: file.filePath,
+            finalTitle: file.finalTitle,
+            fuzzyTitle: file.fuzzyTitle,
+            romDirectory: config.romDirectory,
+            appId: generateAppId(config.appendArgsToExecutable ? `"${file.executableLocation}" ${file.argumentString}`: `"${file.executableLocation}"`, file.finalTitle)
         }
     }
 

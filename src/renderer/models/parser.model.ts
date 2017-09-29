@@ -59,14 +59,15 @@ export interface ParserVariableData {
     fuzzyTitle: string,
     finalTitle: string,
     filePath: string,
+    appId: string
 }
 
 export type DirectoryVariables = 'EXEDIR' | 'ROMDIR' | 'STEAMDIR' | 'STARTINDIR' | 'FILEDIR';
 export type NameVariables = 'EXENAME' | 'FILENAME';
 export type ExtensionVariables = 'EXEEXT' | 'FILEEXT';
 export type PathVariables = 'EXEPATH' | 'FILEPATH';
-export type ParserVariables = 'TITLE' | 'FUZZYTITLE' | 'FINALTITLE' | 'FUZZYFINALTITLE';
-export type OtherVariables = '/';
+export type ParserVariables = 'TITLE' | 'FUZZYTITLE' | 'FINALTITLE';
+export type OtherVariables = '/' | 'APPID';
 
 export type AllVariables = DirectoryVariables | NameVariables | ExtensionVariables | PathVariables | ParserVariables | OtherVariables;
 
