@@ -31,7 +31,7 @@ export const appSettings = {
         },
         enabledProviders: {
             type: 'array',
-            default: <any>[],
+            default: availableProviders(),
             items: {
                 oneOf: [
                     {

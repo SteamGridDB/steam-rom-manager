@@ -49,7 +49,7 @@ export const userConfiguration = {
                 ]
             }
         },
-        titleModifier: { type: 'string', default: '${title}' },
+        titleModifier: { type: 'string', default: '${fuzzyTitle}' },
         fuzzyMatch: {
             type: 'object',
             default: {},
