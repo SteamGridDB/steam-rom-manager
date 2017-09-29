@@ -380,6 +380,19 @@ export class FileParser {
                                 output = innerMatch[0];
                             }
                         }
+                        break;
+                    }
+
+                    match = /^uc\|(.*)$/i.exec(output);
+                    if (match) {
+                        output = match[1].toUpperCase();
+                        break;
+                    }
+
+                    match = /^lc\|(.*)$/i.exec(output);
+                    if (match) {
+                        output = match[1].toLowerCase();
+                        break;
                     }
                 }
                 break;
