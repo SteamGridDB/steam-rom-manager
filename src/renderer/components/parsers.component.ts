@@ -86,7 +86,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     }
                 }),
                 steamCategory: new NestedFormElement.Input({
-                    isHidden: () => this.isHiddenMode(),
                     label: this.lang.label.steamCategory,
                     onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
                     onInfoClick: (self, path) => {
