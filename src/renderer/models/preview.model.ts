@@ -23,6 +23,7 @@ export interface AppImages {
 
 export interface PreviewDataApp {
     entryId: number,
+    configurationTitle: string,
     steamCategories: string[],
     imageProviders: string[],
     startInDirectory: string,

@@ -123,6 +123,7 @@ export class FileParser {
                 totalUserAccountsFound += filteredAccounts.found.length;
 
                 parsedConfigs.push({
+                    configurationTitle: configs[i].configTitle,
                     appendArgsToExecutable: configs[i].appendArgsToExecutable,
                     imageProviders: configs[i].imageProviders,
                     foundUserAccounts: filteredAccounts.found,
