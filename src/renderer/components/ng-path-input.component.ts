@@ -5,7 +5,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
     selector: 'ng-path-input',
     template: `
         <ng-content></ng-content>
-        <input style="display: none;" #fileInput type="file" [attr.webkitdirectory]="directory" (change)="readInput()"/>
+        <input style="display: none;" #fileInput type="file" [attr.webkitdirectory]="(directory === true ? true : null)" (change)="readInput()"/>
     `,
     providers: [{
         provide: NG_VALUE_ACCESSOR,
