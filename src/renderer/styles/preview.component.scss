@@ -90,6 +90,9 @@ $image-ratio: 430/920;
 		grid-area: entries;
 
 		> .directory {
+			display: grid;
+
+			grid-auto-rows: auto 1fr;
 
 			> .title {
 				padding: 0.5em 0.25em;
@@ -109,6 +112,9 @@ $image-ratio: 430/920;
 				}
 			}
 			> .user {
+				display: grid;
+
+				grid-auto-rows: auto 1fr;
 
 				> .title {
 					padding: 0.25em 0.25em 0.25em 1.375em;
@@ -183,7 +189,7 @@ $image-ratio: 430/920;
 							grid-template-areas: 
 								"icon appInfo"
 								"imageSelector imageSelector"
-								"appButtons appButtons";
+								"bottomPanel bottomPanel";
 
 							grid-template-rows: var(--row-height) 1fr var(--row-height);
 
@@ -271,25 +277,42 @@ $image-ratio: 430/920;
 								}
 							}
 
-							> .appButtons {
-								display: flex;
-								grid-area: appButtons;
-								
-								justify-content: flex-end;
-								align-items: flex-end;
+							> .bottomPanel {
+								display: grid;
+								grid-area: bottomPanel;
 
-								--color-refresh-images: var(--color-preview-app-button);
-								--color-image-alert: var(--color-preview-app-button);
+								grid-auto-flow: row;
+								grid-auto-columns: 1fr;
+								grid-auto-rows: 50% 50%;
 
-								--color-refresh-images-hover: var(--color-preview-app-button-hover);
-								--color-image-alert-hover: var(--color-preview-app-button-hover);
+								> .configTitle{
+									text-align: right;
+									padding: 0.1em;
 
-								--color-refresh-images-active: var(--color-preview-app-button-active);
-								--color-image-alert-active: var(--color-preview-app-button-active);
+									font-size: calc(var(--preview-image-size) * 2em);
 
-								> .button {
-									height: calc(var(--row-height) * 0.5);
-									padding: 0.2em;
+									color: var(--color-preview-text);
+								}
+
+								> .appButtons {
+									display: flex;
+									
+									justify-content: flex-end;
+									align-items: flex-end;
+	
+									--color-refresh-images: var(--color-preview-app-button);
+									--color-image-alert: var(--color-preview-app-button);
+	
+									--color-refresh-images-hover: var(--color-preview-app-button-hover);
+									--color-image-alert-hover: var(--color-preview-app-button-hover);
+	
+									--color-refresh-images-active: var(--color-preview-app-button-active);
+									--color-image-alert-active: var(--color-preview-app-button-active);
+	
+									> .button {
+										height: calc(var(--row-height) * 0.5);
+										padding: 0.2em;
+									}
 								}
 							}
 						}
