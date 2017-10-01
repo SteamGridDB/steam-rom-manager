@@ -1,5 +1,5 @@
 import { Component, forwardRef, ElementRef, Optional, Host, HostListener, Input, ContentChildren, QueryList, ChangeDetectorRef } from '@angular/core';
-import { OptionComponent } from "../components";
+import { NgOptionComponent } from "../components";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import * as _ from 'lodash';
 
@@ -22,11 +22,11 @@ import * as _ from 'lodash';
     host: { '[class.open]': 'open' },
     providers: [{
         provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => SelectComponent),
+        useExisting: forwardRef(() => NgSelectComponent),
         multi: true
     }]
 })
-export class SelectComponent implements ControlValueAccessor {
+export class NgSelectComponent implements ControlValueAccessor {
     private open: boolean = false;
 
     private idCounter: number = -1;
@@ -39,7 +39,7 @@ export class SelectComponent implements ControlValueAccessor {
     private onChange = (_: any) => { };
     private onTouched = () => { };
 
-    @ContentChildren(forwardRef(() => OptionComponent)) private optionComponents: QueryList<OptionComponent>;
+    @ContentChildren(forwardRef(() => NgOptionComponent)) private optionComponents: QueryList<NgOptionComponent>;
 
     @Input() private placeholder: string = '';
     @Input() private multiple: boolean = false;

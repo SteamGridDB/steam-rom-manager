@@ -19,11 +19,11 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
     ],
     providers: [{
         provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => ToggleButtonComponent),
+        useExisting: forwardRef(() => NgToggleButtonComponent),
         multi: true
     }]
 })
-export class ToggleButtonComponent implements ControlValueAccessor {
+export class NgToggleButtonComponent implements ControlValueAccessor {
     @Input('contentOnLeft') private contentOnLeft: boolean;
 
     private currentValue: boolean = false;

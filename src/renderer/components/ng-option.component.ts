@@ -1,5 +1,5 @@
 import { Component, ElementRef, Optional, Host, HostListener, Input } from '@angular/core';
-import { SelectComponent } from "./ng-select.component";
+import { NgSelectComponent } from "./ng-select.component";
 
 @Component({
     selector: 'ng-option',
@@ -13,13 +13,13 @@ import { SelectComponent } from "./ng-select.component";
         '[class.selected]': 'isSelected',
     }
 })
-export class OptionComponent {
+export class NgOptionComponent {
     private id: number;
     private value: any;
     private valueString: string;
     private isSelected: boolean = false;
 
-    constructor(private element: ElementRef, @Optional() @Host() private select: SelectComponent) {
+    constructor(private element: ElementRef, @Optional() @Host() private select: NgSelectComponent) {
         if (this.select)
             this.id = this.select.registerOption();
     }

@@ -52,7 +52,7 @@ import { Observable } from "rxjs";
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
-export class NestedFormComponent implements OnInit {
+export class NgNestedFormComponent implements OnInit {
     private currentForm: FormGroup = new FormGroup({});
 
     @Input() public parentForm: FormGroup;

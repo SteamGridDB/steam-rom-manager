@@ -9,11 +9,11 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
     `,
     providers: [{
         provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => PathInputComponent),
+        useExisting: forwardRef(() => NgPathInputComponent),
         multi: true
     }]
 })
-export class PathInputComponent implements ControlValueAccessor {
+export class NgPathInputComponent implements ControlValueAccessor {
     @ViewChild('fileInput', { read: ElementRef })
     private fileInput: ElementRef;
     private currentValue: string = null;
