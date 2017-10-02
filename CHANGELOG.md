@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 * Parser configuration title together with Steam categories is now shown on generated app entry.
 * Custom text input fields.
 * Variable bracket highlighting in input fields. 
+* Information about color codes near configuration title.
 
 ### Changed
 
