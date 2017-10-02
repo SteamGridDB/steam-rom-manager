@@ -12,4 +12,4 @@ After saving parser configuration, **1** of **3** colors will be shown next to i
 
 #{DOM[<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span>]} -- Unsaved changes. This configuration will not be used when generating a list in **preview** page, however earlier **saved** version will be used instead.
 
-#{DOM[<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span>]} -- Unsaved changes. This configuration will not be used when generating a list in **preview** page.
+#{DOM[<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span>]} -- Disabled configuration. This configuration will not be used when generating a list in **preview** page.
