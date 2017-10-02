@@ -1,3 +1,4 @@
+import { VariableParser } from '../lib/index';
 import { Component, AfterViewInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
@@ -51,6 +52,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private loadedIndex: number = null;
     private isUnsaved: boolean = false;
     private appSettings: AppSettings;
+    private vParser = new VariableParser({ left: '${', right: '}' });
 
     private nestedGroup: NestedFormElement.Group;
     private userForm: FormGroup;
@@ -87,6 +89,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }),
                 steamCategory: new NestedFormElement.Input({
                     label: this.lang.label.steamCategory,
+                    highlight: this.highlight.bind(this),
                     onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
                     onInfoClick: (self, path) => {
                         this.currentDoc.activePath = path.join();
@@ -134,6 +137,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     isHidden: () => this.isHiddenMode(),
                     children: {
                         specifiedAccounts: new NestedFormElement.Input({
+                            highlight: this.highlight.bind(this),
                             onValidate: (self, path) => this.parsersService.validate(path[path.length - 1] as keyof UserConfiguration, self.value)
                         }),
                         skipWithMissingDataDir: new NestedFormElement.Toggle({
@@ -159,6 +163,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                                 let input = parser.inputs[inputFieldName];
                                 parserInputs[inputFieldName] = new NestedFormElement.Input({
                                     initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
+                                    highlight: this.highlight.bind(this),
                                     label: input.label,
                                     isHidden: () => {
                                         return Observable.concat(Observable.of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).map((type: string) => {
@@ -186,6 +191,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 })(),
                 titleModifier: new NestedFormElement.Input({
                     isHidden: () => this.isHiddenMode(),
+                    highlight: this.highlight.bind(this),
                     label: this.lang.label.titleModifier,
                     onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
                     onInfoClick: (self, path) => {
@@ -214,6 +220,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }),
                 executableArgs: new NestedFormElement.Input({
                     label: this.lang.label.executableArgs,
+                    highlight: this.highlight.bind(this),
                     onInfoClick: (self, path) => {
                         this.currentDoc.activePath = path.join();
                         this.currentDoc.content = this.lang.docs__md.executableArgs.join('');
@@ -225,6 +232,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }),
                 onlineImageQueries: new NestedFormElement.Input({
                     label: this.lang.label.onlineImageQueries,
+                    highlight: this.highlight.bind(this),
                     isHidden: () => this.userForm.get('advanced').valueChanges.map(val => !val),
                     onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
                     onInfoClick: (self, path) => {
@@ -255,6 +263,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }),
                 localImages: new NestedFormElement.Input({
                     isHidden: () => this.isHiddenMode(),
+                    highlight: this.highlight.bind(this),
                     label: this.lang.label.localImages,
                     onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
                     onInfoClick: (self, path) => {
@@ -264,6 +273,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }),
                 localIcons: new NestedFormElement.Input({
                     isHidden: () => this.isHiddenMode(),
+                    highlight: this.highlight.bind(this),
                     label: this.lang.label.localIcons,
                     onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
                     onInfoClick: (self, path) => {
@@ -291,6 +301,37 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.configurationIndex = parseInt(params['index']);
             this.loadConfiguration();
         }));
+    }
+
+    private highlight(input: string, tag: string) {
+        let output = '';
+
+        if (this.vParser.setInput(input).parse()) {
+            this.vParser.traverseAST((ast, item, level, passedData: string[]) => {
+                if (level === 0) {
+                    if (item.type === 'string') {
+                        output += ast.input.substring(item.range.start, item.range.end);
+                    }
+                    else {
+                        let modLevel = level % 3;
+                        output += `<${tag} class="level-${modLevel}">${ast.leftDelimiter}</${tag}>${(passedData ? passedData.join('') : '')}<${tag} class="level-${modLevel}">${ast.rightDelimiter}</${tag}>`;
+                    }
+                }
+                else {
+                    if (item.type === 'string') {
+                        return ast.input.substring(item.range.start, item.range.end);
+                    }
+                    else {
+                        let modLevel = level % 3;
+                        return `<${tag} class="level-${modLevel}">${ast.leftDelimiter}</${tag}>${(passedData ? passedData.join('') : '')}<${tag} class="level-${modLevel}">${ast.rightDelimiter}</${tag}>`;
+                    }
+                }
+            }, false);
+        }
+        else
+            output = input;
+
+        return output;
     }
 
     private isHiddenMode() {
@@ -396,14 +437,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     logSuccess();
                     logError();
                     this.loggerService.info('');
-
-                    /* if (data.steamCategories.length > 0) {
-                        this.loggerService.info('');
-                        this.loggerService.success(this.lang.success.steamCategoriesResolved);
-                        for (let i = 0; i < data.steamCategories.length; i++) {
-                            this.loggerService.success(this.lang.success.steamCategoryInfo__i.interpolate({ steamCategory: data.steamCategories[i] }));
-                        }
-                    } */
 
                     for (let i = 0; i < data.files.length; i++) {
                         success('');

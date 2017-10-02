@@ -76,10 +76,9 @@
 				top: 50%;
 				position: absolute;
 				content: "";
-				width: 0.437em;
-				height: 0.437em;
+				width: 0.5em;
+				height: 0.5em;
 				background-color: var(--color-nav-link-enabled);
-				border: 0.063em solid var(--color-nav-link-enabled);
 				border-radius: 50%;
 				margin: 0 0 0 -0.813em;
 				transform: translateY(-50%);
@@ -88,13 +87,11 @@
 			&:hover {
 				&::before {
 					background-color: var(--color-nav-link-enabled-hover);
-					border-color: var(--color-nav-link-enabled-hover);
 				}
 	
 				&.active {
 					&::before {
 						background-color: var(--color-nav-link-enabled-active);
-						border-color: var(--color-nav-link-enabled-active);
 					}
 				}
 			}
@@ -102,26 +99,22 @@
 			&.active {
 				&::before {
 					background-color: var(--color-nav-link-enabled-active);
-					border-color: var(--color-nav-link-enabled-active);
 				}
 			}
 
 			&.disabled {
 				&::before {
 					background-color: var(--color-nav-link-disabled);
-					border-color: var(--color-nav-link-disabled);
 				}
 
 				&:hover {
 					&::before {
 						background-color: var(--color-nav-link-disabled-hover);
-						border-color: var(--color-nav-link-disabled-hover);
 					}
 		
 					&.active {
 						&::before {
 							background-color: var(--color-nav-link-disabled-active);
-							border-color: var(--color-nav-link-disabled-active);
 						}
 					}
 				}
@@ -129,35 +122,30 @@
 				&.active {
 					&::before {
 						background-color: var(--color-nav-link-disabled-active);
-						border-color: var(--color-nav-link-disabled-active);
 					}
 				}
 			}
 	
 			&.unsaved {
 				&::before {
-					border-color: var(--color-nav-link-unsaved);
-					border-radius: 0;
+					background-color: var(--color-nav-link-unsaved);
 				}
 
 				&:hover {
 					&::before {
-						border-color: var(--color-nav-link-unsaved-hover);
-						border-radius: 0;
+						background-color: var(--color-nav-link-unsaved-hover);
 					}
 		
 					&.active {
 						&::before {
-							border-color: var(--color-nav-link-unsaved-active);
-							border-radius: 0;
+							background-color: var(--color-nav-link-unsaved-active);
 						}
 					}
 				}
 		
 				&.active {
 					&::before {
-						border-color: var(--color-nav-link-unsaved-active);
-						border-radius: 0;
+						background-color: var(--color-nav-link-unsaved-active);
 					}
 				}
 			}

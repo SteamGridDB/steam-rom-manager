@@ -5,7 +5,7 @@
             (change)="setImageSize($event.target.value, true)" />
         <div>{{appSettings.previewSettings.imageZoomPercentage | number : '1.0-2'}}%</div>
     </div>
-    <input class="appFilter" [placeholder]="lang.filter" [(ngModel)]='filterValue' />
+    <ng-text-input class="appFilter" [placeholder]="lang.filter" [(ngModel)]='filterValue' ></ng-text-input>
 </div>
 <div class="entries" *ngVar="{ hoverIndex: undefined } as entries" (scroll)="onScroll()">
     <ng-container *ngFor="let steamDir of previewData | keys">
@@ -51,9 +51,14 @@
                                                     <svg class="next" (click)="nextImage(app)" select-arrow-right hover="true" active="true"></svg>
                                                 </ng-container>
                                             </div>
-                                            <div class="appButtons">
-                                                <svg class="button" *ngIf="!getImagePool(app.imagePool).retrieving" (click)="refreshImages(app)" [title]="lang.refreshImages" refresh-images hover="true" active="true"></svg>
-                                                <svg class="button" *ngIf="image != undefined && image.loadStatus === 'failed'" (click)="loadImage(app)" [title]="lang.retryDownload" image-alert hover="true" active="true"></svg>
+                                            <div class="bottomPanel">
+                                                <div class="configTitle">
+                                                    {{app.configurationTitle + (app.steamCategories.length > 0 ? ' (' + app.steamCategories.join(', ') + ')' : '')}}
+                                                </div>
+                                                <div class="appButtons">
+                                                    <svg class="button" *ngIf="!getImagePool(app.imagePool).retrieving" (click)="refreshImages(app)" [title]="lang.refreshImages" refresh-images hover="true" active="true"></svg>
+                                                    <svg class="button" *ngIf="image != undefined && image.loadStatus === 'failed'" (click)="loadImage(app)" [title]="lang.retryDownload" image-alert hover="true" active="true"></svg>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

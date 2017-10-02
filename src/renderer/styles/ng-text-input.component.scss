@@ -1,0 +1,19 @@
+@import 'mixins';
+
+:host {
+	&:not(.multiline) {
+		overflow: hidden;
+		
+		white-space: nowrap;
+		text-overflow: clip;
+	}
+
+	/deep/ * {
+		cursor: inherit;
+	}
+
+	&:empty:before{
+		content: attr(data-placeholder);
+		color: var(--ng-text-placeholder-color, initial);
+	}
+}

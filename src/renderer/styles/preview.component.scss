@@ -48,8 +48,10 @@ $image-ratio: 430/920;
 			}
 		}
 		.appFilter {
-			@include inputColor(input);
-			@include input();
+			@include ngTextInputColor(input);
+			@include ngTextInput();
+
+			width: 13em;
 
 			grid-column: 4;
 		}
@@ -84,16 +86,11 @@ $image-ratio: 430/920;
 	.entries {
 		@include webkitScrollbar(preview-scrollbar);
 		
-		display: grid;
 		overflow-y: auto;
 		
 		grid-area: entries;
 
 		> .directory {
-			display: grid;
-
-			grid-auto-rows: auto 1fr;
-
 			> .title {
 				padding: 0.5em 0.25em;
 
@@ -112,10 +109,6 @@ $image-ratio: 430/920;
 				}
 			}
 			> .user {
-				display: grid;
-
-				grid-auto-rows: auto 1fr;
-
 				> .title {
 					padding: 0.25em 0.25em 0.25em 1.375em;
 
@@ -145,6 +138,7 @@ $image-ratio: 430/920;
 					justify-content: space-around;
 					
 					> .app {
+						flex-shrink: 0;
 						border: solid 2px var(--color-preview-image-border);
 
 						margin: 0.75em;
@@ -233,6 +227,7 @@ $image-ratio: 430/920;
 
 								> .provider {
 									grid-area: provider;
+									overflow: hidden;
 	
 									padding: 0.1em;
 	
@@ -320,6 +315,9 @@ $image-ratio: 430/920;
 				}
 
 				&.hidden {
+					//align-self: start;
+					//grid-auto-rows: auto auto;
+
 					> .title {
 						svg {
 							transform: rotate(-90deg);
@@ -332,6 +330,8 @@ $image-ratio: 430/920;
 			}
 
 			&.hidden {
+				//grid-auto-rows: auto auto;
+
 				> .title {
 					svg {
 						transform: rotate(-90deg);

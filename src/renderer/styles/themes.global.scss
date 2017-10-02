@@ -66,9 +66,9 @@
     --color-nav-link-disabled: #991d47;
     --color-nav-link-disabled-active: #c22359;
     --color-nav-link-disabled-hover: #c22359;
-    --color-nav-link-unsaved: #252525;
-    --color-nav-link-unsaved-active: #646464;
-    --color-nav-link-unsaved-hover: #454545;
+    --color-nav-link-unsaved: #b8ba00;
+    --color-nav-link-unsaved-active: #b8ba00;
+    --color-nav-link-unsaved-hover: #d9dc00;
     --color-nav-scrollbar-thumb: rgba(80,80,80,0.5);
     --color-nav-scrollbar-track: rgba(80,80,80,0.3);
     --color-ng-select-arrow: #c8c8c8;
@@ -161,7 +161,7 @@
     --color-preview-app-button-hover: #cccccc;
     --color-nested-form-background: rgba(29,29,29,0.7);
     --color-nested-form-error: #560909;
-    --color-nested-form-error-background: rgba(18,18,18,1);
+    --color-nested-form-error-background: #121212;
     --color-nested-form-label: #a0a0a0;
     --color-nested-form-scrollbar-thumb: rgba(80,80,80,0.5);
     --color-nested-form-scrollbar-track: rgba(80,80,80,0.3);
@@ -263,4 +263,13 @@
     --color-about-background: #050505;
     --color-about-scrollbar-thumb: rgba(80,80,80,0.5);
     --color-about-scrollbar-track: rgba(80,80,80,0.3);
+    --color-highlight-level-0: #256e81;
+    --color-highlight-level-0-hover: #2f9eba;
+    --color-highlight-level-0-active: #2f9eba;
+    --color-highlight-level-1: rgba(151,24,72,1);
+    --color-highlight-level-1-hover: rgba(216,35,103,1);
+    --color-highlight-level-1-active: rgba(216,35,103,1);
+    --color-highlight-level-2: rgba(163,114,29,1);
+    --color-highlight-level-2-hover: rgba(214,150,39,1);
+    --color-highlight-level-2-active: rgba(214,150,39,1);
 }

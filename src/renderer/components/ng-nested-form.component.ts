@@ -26,10 +26,10 @@ import { Observable } from "rxjs";
                                 </ng-select>
                             </ng-container>
                             <ng-container *ngSwitchCase="'Input'">
-                                <input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''"/>
+                                <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight"></ng-text-input>
                             </ng-container>
                             <ng-container *ngSwitchCase="'Path'">
-                                <input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''"/>
+                                <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight"></ng-text-input>
                                 <ng-path-input class="clickButton" [directory]="child.directory" (pathChange)="currentForm.controls[childrenKey].setValue($event)" 
                                 >Browse</ng-path-input>
                             </ng-container>

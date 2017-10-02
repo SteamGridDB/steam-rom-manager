@@ -20,6 +20,30 @@
 		padding: 1em;
 
 		grid-area: nestedForm;
+
+		/deep/ ng-text-input{
+			@for $i from 0 through 2 {
+				highlight {
+					&.level-#{$i} {
+						color: var(--color-highlight-level-#{$i});
+					}
+				}
+				&:hover{
+					highlight {
+						&.level-#{$i} {
+							color: var(--color-highlight-level-#{$i}-hover);
+						}
+					}
+				}
+				&:focus{
+					highlight {
+						&.level-#{$i} {
+							color: var(--color-highlight-level-#{$i}-active);
+						}
+					}
+				}
+			}			
+		} 
 	}
 
 	.menu {
@@ -50,4 +74,3 @@
 		}
 	}
 }
-

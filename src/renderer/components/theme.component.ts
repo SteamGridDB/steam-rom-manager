@@ -21,7 +21,7 @@ import { Subscription } from "rxjs";
                     </div>
                 </div>
                 <div class="inputContainer">
-                    <input [(ngModel)]="themeInput" placeholder="Theme title" />
+                    <input [(ngModel)]="themeInput" placeholder="Theme title"/>
                 </div>
                 <div class="buttonContainer">
                     <div class="clickButton refresh" (click)="refreshThemes()">Refresh</div>

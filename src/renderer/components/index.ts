@@ -14,6 +14,7 @@ export * from './ng-option.component';
 export * from './ng-toggle-button.component';
 export * from './ng-path-input.component';
 export * from './ng-nested-form.component';
+export * from './ng-text-input.component';
 export * from './settings.component';
 export * from './markdown.component';
 export * from './about.component';

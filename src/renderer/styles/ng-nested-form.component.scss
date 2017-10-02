@@ -61,9 +61,9 @@ ng-nested-form {
 			grid-area: button;
 		}
 
-		input {
-			@include inputColor(input, true);
-			@include input();
+		ng-text-input {
+			@include ngTextInputColor(input, true);
+			@include ngTextInput();
 
 			grid-area: input;
 

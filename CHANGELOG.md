@@ -1,9 +1,25 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.1 - xxxx-xx-xx
+
+### Added
+
+* Parser configuration title together with Steam categories is now shown on generated app entry.
+* Custom text input fields.
+* Variable bracket highlighting in input fields. 
+
+### Changed
+
+* Steam categories are no longer in advanced options.
+
+### Fixed
+
+* Some typos in FAQ.
+
 ## 2.2.0 - 2017-09-30
 
-#### A lot of additions/changes/fixes are not listed here due to unfortunate misclicks which commit changes before I am able to record it.
+#### A lot of additions/changes/fixes are not listed here due to unfortunate misclicks which commit changes before I am able to record them.
 
 ### Added
 * Parser support to local images and local icons.
