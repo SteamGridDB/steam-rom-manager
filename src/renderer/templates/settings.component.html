@@ -1,91 +1,59 @@
-<div class="upperMenu" *ngIf="previewVariables.numberOfListItems > 0 && !previewVariables.listIsBeingGenerated">
-    <div class="imageCounter" *ngIf="previewVariables.numberOfQueriedImages">{{lang.remainingImages}} {{previewVariables.numberOfQueriedImages}}</div>
-    <div class="slider">
-        <input type="range" min="30" max="100" step="0.25" [value]="appSettings.previewSettings.imageZoomPercentage" (input)="setImageSize($event.target.value)"
-            (change)="setImageSize($event.target.value, true)" />
-        <div>{{appSettings.previewSettings.imageZoomPercentage | number : '1.0-2'}}%</div>
+<div>
+    <label>
+        {{lang.label.general}}
+    </label>
+    <div class="inputContainer">
+        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.offlineMode" (ngModelChange)="settings.offlineMode = $event; onSettingsChange();">{{lang.text.offlineMode}}</ng-toggle-button>
+        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.clearLogOnTest" (ngModelChange)="settings.clearLogOnTest = $event; onSettingsChange();">{{lang.text.clearLogOnTest}}</ng-toggle-button>
+        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.retrieveCurrentSteamImages" (ngModelChange)="settings.previewSettings.retrieveCurrentSteamImages = $event; onSettingsChange();">{{lang.text.showSteamImages}}</ng-toggle-button>
     </div>
-    <input class="appFilter" [placeholder]="lang.filter" [(ngModel)]='filterValue' />
-</div>
-<div class="entries" *ngVar="{ hoverIndex: undefined } as entries" (scroll)="onScroll()">
-    <ng-container *ngFor="let steamDir of previewData | keys">
-        <div class="directory" *ngVar="{ isHidden: false } as directory" [class.hidden]="directory.isHidden">
-            <div class="title" (click)="directory.isHidden = !directory.isHidden">
-                <svg select-arrow-down></svg>
-                <span>{{steamDir}}</span>
-            </div>
-            <ng-container *ngFor="let steamUser of previewData[steamDir] | keys">
-                <div class="user" *ngVar="{ isHidden: false } as user" [class.hidden]="user.isHidden">
-                    <div class="title" (click)="user.isHidden = !user.isHidden">
-                        <svg select-arrow-down></svg>
-                        <span>{{previewData[steamDir][steamUser].username}}</span>
-                    </div>
-                    <div class="apps">
-                        <ng-container *ngFor="let appID of previewData[steamDir][steamUser].apps | keys">
-                            <ng-container *ngVar="previewData[steamDir][steamUser].apps[appID] as app">
-                                <ng-container *ngVar="(app.currentImageIndex === -1 ? app.steamImage : getImagePool(app.imagePool).content[app.currentImageIndex]) as image">
-                                    <div class="app" *ngIf="(app.title | fuzzyTest: filterValue)" [style.backgroundImage]="getBackgroundImage(app, image) | cssUrl | safeStyle"
-                                        [class.retrieving]="getImagePool(app.imagePool).retrieving" [class.noImages]="!this.previewService.images[app.imagePool].retrieving && image == undefined"
-                                        [class.downloading]="image != undefined && image.loadStatus === 'downloading'" [class.failed]="image != undefined && image.loadStatus === 'failed'"
-                                        [class.imageLoaded]="image != undefined && image.loadStatus === 'done'" (mouseenter)="entries.hoverIndex = app.entryId"
-                                        (mouseleave)="entries.hoverIndex = undefined">
-                                        <div *ngIf="!this.scrollingEntries && entries.hoverIndex === app.entryId">
-                                            <ng-container *ngVar="app.icons[app.currentIconIndex] as icon">
-                                                <img class="icon" *ngIf="icon" #iconEl (click)="previousIcon(app)" (contextmenu)="nextIcon(app)" [src]="(icon | fileImage | safeResourceUrl)"
-                                                    (error)="setFallbackIcon(iconEl)" />
-                                            </ng-container>
-                                            <div class="appInfo">
-                                                <div class="title" text-scroll><span>{{app.title}}</span></div>
-                                                <ng-container *ngIf="image != null">
-                                                    <div class="provider" text-scroll>
-                                                        {{image.imageProvider + (image.imageUploader ? ' (' + lang.by + ' ' + image.imageUploader + ')' : '')}}
-                                                    </div>
-                                                    <div class="imageIndex">
-                                                        {{currentImageIndex(app) + '/' + maxImageIndex(app)}}
-                                                    </div>
-                                                </ng-container>
-                                            </div>
-                                            <div class="imageSelector">
-                                                <ng-container *ngIf="areImagesAvailable(app)">
-                                                    <svg class="previous" (click)="previousImage(app)" select-arrow-left hover="true" active="true"></svg>
-                                                    <svg class="next" (click)="nextImage(app)" select-arrow-right hover="true" active="true"></svg>
-                                                </ng-container>
-                                            </div>
-                                            <div class="bottomPanel">
-                                                <div class="configTitle" text-scroll>
-                                                    {{app.configurationTitle + (app.steamCategories.length > 0 ? ' (' + app.steamCategories.join(', ') + ')' : '')}}
-                                                </div>
-                                                <div class="appButtons">
-                                                    <svg class="button" *ngIf="!getImagePool(app.imagePool).retrieving" (click)="refreshImages(app)" [title]="lang.refreshImages"
-                                                        refresh-images hover="true" active="true"></svg>
-                                                    <svg class="button" *ngIf="image != undefined && image.loadStatus === 'failed'" (click)="loadImage(app)" [title]="lang.retryDownload"
-                                                        image-alert hover="true" active="true"></svg>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ng-container>
-                            </ng-container>
-                        </ng-container>
-                    </div>
-                </div>
-            </ng-container>
+    <div class="inputContainer">
+        <div class="inlineGroup">
+            <div class=text style="margin-right: 0.25em;">{{lang.text.removeApps_desc}}</div>
+            <div class="clickButton dangerousButton" style="font-size: 0.85em;" [class.disabled]="this.settings.knownSteamDirectories.length === 0"
+                (click)="removeApps()">{{lang.text.removeApps_btn}}</div>
         </div>
-    </ng-container>
+    </div>
+    <div class="inputContainer">
+        <div class="inlineGroup">
+            <div class=text style="margin-right: 0.25em;">{{lang.text.selectLanguage}}</div>
+            <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.language" (ngModelChange)="settings.language = $event; loadLanguage(); onSettingsChange();">
+                <ng-option *ngFor="let value of availableLanguages" [ngValue]="value">
+                    {{value}}
+                </ng-option>
+            </ng-select>
+        </div>
+    </div>
 </div>
-<div class="lowerMenu">
-    <div (click)="generatePreviewData(false)">{{lang.generateAppList}}</div>
-    <ng-container *ngIf="previewVariables.numberOfListItems > 0 && !previewVariables.listIsBeingGenerated">
-        <div (click)="save()">{{lang.saveAppList}}</div>
-        <div class="dangerousButton" (click)="remove()">{{lang.removeAppList}}</div>
-        <div *ngIf="previewVariables.numberOfQueriedImages" (click)="stopImageRetrieving()">{{lang.stopUrlRetrieving}}</div>
-    </ng-container>
+<div>
+    <label>
+        {{lang.label.fuzzy}}
+    </label>
+    <div class="inputContainer">
+        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.fuzzyMatcher.verbose" (ngModelChange)="settings.fuzzyMatcher.verbose = $event; onSettingsChange();">{{lang.text.fuzzy_verbose}}</ng-toggle-button>
+        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.fuzzyMatcher.filterProviders" (ngModelChange)="settings.fuzzyMatcher.filterProviders = $event; onSettingsChange();">{{lang.text.fuzzy_filter}}</ng-toggle-button>
+        <div class="inlineGroup">
+            <div class=text style="margin-right: 0.25em;">{{lang.text.resetFuzzy_desc}}</div>
+            <div class="clickButton dangerousButton" style="font-size: 0.85em;" (click)="resetFuzzy()">{{lang.text.resetFuzzy_btn}}</div>
+        </div>
+    </div>
 </div>
-
-<!-- TEMPLATES -->
-
-<ng-template #iconSelect let-app="app">
-    <ng-container *ngVar="app.icons[app.currentIconIndex] as icon">
-        <img class="icon" *ngIf="icon" #iconEl [src]="(icon | fileImage | safeResourceUrl)" (error)="setFallbackIcon(iconEl)" />
-    </ng-container>
-</ng-template>
+<div>
+    <label>
+        {{lang.label.imageProviders}}
+    </label>
+    <div class="inputContainer">
+        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.preload" (ngModelChange)="preload($event); onSettingsChange();">{{lang.text.preloadImages}}</ng-toggle-button>
+    </div>
+    <div class="inputContainer">
+        <div class="inlineGroup">
+            <div class=text style="margin-right: 0.25em;">{{lang.text.enabledProviders}}</div>
+            <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.enabledProviders" (ngModelChange)="settings.enabledProviders = $event; onSettingsChange();"
+                multiple="true" allowEmpty="true" [placeholder]="lang.placeholder.noProviders">
+                <ng-option *ngFor="let value of availableProviders" [ngValue]="value">
+                    {{value}}
+                </ng-option>
+            </ng-select>
+        </div>
+    </div>
+</div>
