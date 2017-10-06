@@ -207,7 +207,8 @@ export const EnglishLang: languageContainer = {
                     userAccounts: [require('./markdown/user-accounts.md')],
                     titleModifier: [
                         require('./markdown/title-modifier.md'),
-                        require('./markdown/what-is-app-id.md')
+                        require('./markdown/what-is-app-id.md'),
+                        require('./markdown/parser-variables.md')
                     ],
                     titleFromVariable: [
                         require('./markdown/title-from-variable.md')
