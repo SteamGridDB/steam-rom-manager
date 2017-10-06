@@ -109,6 +109,15 @@ export interface languageStruct {
             clearLog: string
         }
     },
+    customVariables: {
+        service: {
+            error: {
+                writingError: string,
+                readingError: string,
+                corruptedVariables__i: string//${file}, ${error}
+            }
+        }
+    },
     settings: {
         component: {
             label: {
@@ -177,6 +186,7 @@ export interface languageStruct {
                 startInDirectory: string[],
                 userAccounts: string[],
                 titleModifier: string[],
+                titleFromVariable: string[],
                 fuzzyMatch: string[],
                 executableArgs: string[],
                 onlineImageQueries: string[],
@@ -229,6 +239,7 @@ export interface languageStruct {
                 steamDirectory: string,
                 startInDirectory: string,
                 userAccounts: string,
+                titleFromVariable: string,
                 titleModifier: string,
                 fuzzyMatch: string,
                 executableArgs: string,
@@ -245,6 +256,8 @@ export interface languageStruct {
             text: {
                 skipWithMissingDataDir: string,
                 useCredentials: string,
+                tryToMatchTitle: string,
+                caseInsensitiveVariables: string,
                 fuzzy_use: string,
                 fuzzy_removeCharacters: string,
                 fuzzy_removeBrackets: string,

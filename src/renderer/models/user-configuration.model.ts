@@ -12,6 +12,11 @@ export interface UserConfiguration {
         useCredentials: boolean
     },
     parserInputs: { [inputKey: string]: string },
+    titleFromVariable: {
+        limitToGroups: string,
+        caseInsensitiveVariables: boolean,
+        tryToMatchTitle: boolean
+    },
     fuzzyMatch: {
         use: boolean,
         removeCharacters: boolean,

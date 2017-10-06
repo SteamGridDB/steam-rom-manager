@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file.
 * Custom text input fields.
 * Variable bracket highlighting in input fields. 
 * Information about color codes near configuration title.
+* Missing backend validation.
+* Experimental custom variable support.
 
 ### Changed
 

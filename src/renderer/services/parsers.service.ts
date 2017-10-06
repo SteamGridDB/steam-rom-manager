@@ -1,3 +1,4 @@
+import { CustomVariablesService } from './custom-variables.service';
 import { JsonValidator } from '../../shared/lib/json-helpers';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
@@ -23,11 +24,14 @@ export class ParsersService {
     private validator: JsonValidator = new JsonValidator(schemas.userConfiguration, { controlProperty: 'version', modifierFields: modifiers.userConfiguration });
     private savingIsDisabled: boolean = false;
 
-    constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private http: Http) {
+    constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private cVariableService: CustomVariablesService, private http: Http) {
         this.fileParser = new FileParser(this.fuzzyService);
         this.userConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
         this.deletedConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
         this.readUserConfigurations();
+        this.cVariableService.dataObservable.subscribe((data) => {
+            this.fileParser.setCustomVariables(data);
+        });
     }
 
     get lang() {
@@ -196,11 +200,13 @@ export class ParsersService {
                 }
             case 'titleModifier':
                 return data ? this.validateVariableParserString(data || '') : this.lang.validationErrors.titleModifier__md;
+            case 'titleFromVariable':
+                return this.validateVariableParserString(data ? data.limitToGroups || '' : '');
             case 'onlineImageQueries':
                 return this.validateVariableParserString(data || '');
             case 'imageProviders':
                 return _.isArray(data) ? null : this.lang.validationErrors.imageProviders__md;
-                case 'imagePool':
+            case 'imagePool':
                 return data ? this.validateVariableParserString(data || '') : this.lang.validationErrors.imagePool__md;
             case 'localImages':
             case 'localIcons':
@@ -231,7 +237,8 @@ export class ParsersService {
             'parserType', 'configTitle', 'steamCategory',
             'executableLocation', 'romDirectory', 'steamDirectory',
             'specifiedAccounts', 'onlineImageQueries', 'titleModifier',
-            'imageProviders', 'startInDirectory'
+            'imageProviders', 'startInDirectory', 'titleFromVariable',
+            'localImages', 'localIcons'
         ];
 
         for (let i = 0; i < simpleValidations.length; i++) {

@@ -1,7 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AppComponent, PreviewComponent, LoggerComponent, ParsersComponent, SettingsComponent, AboutComponent } from './components';
+import { AppComponent, PreviewComponent, LoggerComponent, ParsersComponent, SettingsComponent, AboutComponent, CustomVariablesComponent } from './components';
 import { HrefGuard } from './guards';
 
 const AppRouter: Routes = [
@@ -16,6 +16,10 @@ const AppRouter: Routes = [
     {
         path: 'logger',
         component: LoggerComponent
+    },
+    {
+        path: 'custom-variables',
+        component: CustomVariablesComponent
     },
     {
         path: 'settings',

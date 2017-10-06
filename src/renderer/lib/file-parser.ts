@@ -1,4 +1,4 @@
-import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables } from '../models';
+import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables, CustomVariables } from '../models';
 import { getAvailableLogins, generateAppId } from "./steam-id-helpers";
 import { FuzzyService } from "./../services";
 import { VariableParser } from "./variable-parser";
@@ -11,12 +11,17 @@ import * as fs from 'fs-extra';
 
 export class FileParser {
     private availableParsers = parsers;
+    private variableData: CustomVariables = {};
     private globCache: any = {};
 
     constructor(private fuzzyService: FuzzyService) { }
 
     private get lang() {
         return gApp.lang.fileParser;
+    }
+
+    setCustomVariables(data: CustomVariables) {
+        this.variableData = data;
     }
 
     getAvailableParsers() {
@@ -59,6 +64,8 @@ export class FileParser {
         if (/\\/g.test(vParser.setInput(input).parse() ? vParser.removeVariables() : input)) {
             return this.lang.error.noWinSlashes__md;
         }
+
+        return null;
     }
 
     executeFileParser(configs: UserConfiguration[]) {
@@ -114,6 +121,9 @@ export class FileParser {
             let vParser = new VariableParser({ left: '${', right: '}' });
 
             for (let i = 0; i < configs.length; i++) {
+                if (configs[i].titleFromVariable.tryToMatchTitle)
+                    this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);
+
                 if (configs[i].fuzzyMatch.use)
                     this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data[i], configs[i].fuzzyMatch.removeCharacters, configs[i].fuzzyMatch.removeBrackets);
 
@@ -202,6 +212,40 @@ export class FileParser {
         }).then(() => {
             return { parsedConfigs, noUserAccounts: totalUserAccountsFound === 0 };
         });
+    }
+
+    private tryToReplaceTitlesWithVariables(data: ParsedDataWithFuzzy, config: UserConfiguration, vParser: VariableParser) {
+        let groups = undefined;
+        if (config.titleFromVariable.limitToGroups.length > 0) {
+            groups = vParser.setInput(config.titleFromVariable.limitToGroups).parse() ? _.uniq(vParser.extractVariables(data => null)) : [];
+            groups = _.intersection(Object.keys(this.variableData), groups);
+        }
+        else {
+            groups = Object.keys(this.variableData);
+        }
+
+        if (groups.length > 0) {
+            for (let i = 0; i < data.success.length; i++) {
+                let found = false;
+                for (let j = 0; j < groups.length; j++) {
+                    if (config.titleFromVariable.caseInsensitiveVariables) {
+                        for (let key in this.variableData[groups[j]]) {
+                            if (data.success[i].extractedTitle.toLowerCase() === key.toLowerCase()) {
+                                data.success[i].extractedTitle = this.variableData[groups[j]][key];
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                    else if (this.variableData[groups[j]][data.success[i].extractedTitle] !== undefined) {
+                        data.success[i].extractedTitle = this.variableData[groups[j]][data.success[i].extractedTitle];
+                        found = true;
+                    }
+                    if (found)
+                        break;
+                }
+            }
+        }
     }
 
     private filterUserAccounts(accountData: userAccountData[], nameFilter: string[], steamDirectory: string, skipWithMissingDirectories: boolean) {
@@ -386,6 +430,22 @@ export class FileParser {
                     match = /^lc\|(.*)$/i.exec(output);
                     if (match) {
                         output = match[1].toLowerCase();
+                        break;
+                    }
+
+                    match = /^cv:?(.*)\|(.+)$/i.exec(output);
+                    if (match) {
+                        let groups = match[1] ? _.intersection(Object.keys(this.variableData), match[1]) : Object.keys(this.variableData);
+                        let found = false;
+                        for (let i = 0; i < groups.length; i++) {
+                            if (this.variableData[groups[i]][match[2]] !== undefined) {
+                                output = match[2];
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found)
+                            output = unavailable;
                         break;
                     }
                 }

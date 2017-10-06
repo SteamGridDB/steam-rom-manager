@@ -18,3 +18,4 @@ export * from './ng-text-input.component';
 export * from './settings.component';
 export * from './markdown.component';
 export * from './about.component';
+export * from './custom-variables.component';

@@ -127,8 +127,6 @@ export class JsonValidator {
             for (let key in modifierFieldSet) {
                 let fieldData = modifierFieldSet[key];
 
-                console.log(key, fieldData);
-
                 if (fieldData.method)
                     _.set(data, key, fieldData.method(_.get(data, typeof fieldData.oldValuePath === 'string' ? fieldData.oldValuePath : key, undefined)));
                 else if (typeof fieldData.oldValuePath === 'string')

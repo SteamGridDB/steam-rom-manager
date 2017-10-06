@@ -31,6 +31,15 @@ export const userConfiguration = {
                 "^.+$": { "type": ["string", "null"] }
             }
         },
+        titleFromVariable: {
+            type: 'object',
+            default: {},
+            properties: {
+                limitToGroups: { type: 'string', default: '' },
+                caseInsensitiveVariables: { type: 'boolean', default: false },
+                tryToMatchTitle: { type: 'boolean', default: false }
+            }
+        },
         executableArgs: { type: 'string', default: '' },
         appendArgsToExecutable: { type: 'boolean', default: false },
         imagePool: { type: 'string', default: '${fuzzyTitle}' },

@@ -126,6 +126,15 @@ export const EnglishLang: languageContainer = {
                 clearLog: 'Clear log'
             }
         },
+        customVariables: {
+            service: {
+                error: {
+                    writingError: 'Error occurred while saving custom variables.',
+                    readingError: 'Error occurred while reading custom variables.',
+                    corruptedVariables__i: 'Saved custom variables are invalid!\r\nPermanent variable saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}',
+                }
+            }
+        },
         settings: {
             component: {
                 label: {
@@ -200,6 +209,9 @@ export const EnglishLang: languageContainer = {
                         require('./markdown/title-modifier.md'),
                         require('./markdown/what-is-app-id.md')
                     ],
+                    titleFromVariable: [
+                        require('./markdown/title-from-variable.md')
+                    ],
                     fuzzyMatch: [require('./markdown/fuzzy-matching.md')],
                     executableArgs: [
                         require('./markdown/executable-arguments.md'),
@@ -273,6 +285,7 @@ export const EnglishLang: languageContainer = {
                     steamDirectory: 'Steam directory',
                     startInDirectory: '"Start In" directory',
                     userAccounts: 'User accounts',
+                    titleFromVariable: 'Title from custom variable',
                     titleModifier: 'Title modifier',
                     fuzzyMatch: 'Fuzzy matching',
                     executableArgs: 'Command line arguments',
@@ -289,6 +302,8 @@ export const EnglishLang: languageContainer = {
                 text: {
                     skipWithMissingDataDir: 'Skip found accounts with missing data directories',
                     useCredentials: 'Use account credentials',
+                    tryToMatchTitle: 'Enabled',
+                    caseInsensitiveVariables: 'Case-insensitive variables',
                     fuzzy_use: 'Use fuzzy matching',
                     fuzzy_removeCharacters: 'Aggressive matching',
                     fuzzy_removeBrackets: 'Remove (...) and [...] brackets',

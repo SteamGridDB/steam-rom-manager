@@ -13,3 +13,4 @@ export * from './nested-form.model';
 export * from './app.model';
 export * from './fuzzy.model';
 export * from './x-request.model';
+export * from './custom-variables.model';

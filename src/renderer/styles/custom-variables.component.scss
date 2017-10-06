@@ -1,0 +1,11 @@
+@import 'mixins';
+
+:host {
+	overflow: auto;
+
+	padding: 1em;
+
+	background-color: var(--color-settings-background);
+
+	grid-area: route;
+}

@@ -79,11 +79,3 @@
         <div *ngIf="previewVariables.numberOfQueriedImages" (click)="stopImageRetrieving()">{{lang.stopUrlRetrieving}}</div>
     </ng-container>
 </div>
-
-<!-- TEMPLATES -->
-
-<ng-template #iconSelect let-app="app">
-    <ng-container *ngVar="app.icons[app.currentIconIndex] as icon">
-        <img class="icon" *ngIf="icon" #iconEl [src]="(icon | fileImage | safeResourceUrl)" (error)="setFallbackIcon(iconEl)" />
-    </ng-container>
-</ng-template>

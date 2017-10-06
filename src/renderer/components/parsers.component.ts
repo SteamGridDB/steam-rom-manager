@@ -189,6 +189,26 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                         children: parserInputs
                     });
                 })(),
+                titleFromVariable: new NestedFormElement.Group({
+                    isHidden: () => this.isHiddenMode(),
+                    label: this.lang.label.titleFromVariable,
+                    children: {
+                        limitToGroups: new NestedFormElement.Input({
+                            highlight: this.highlight.bind(this),
+                            onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value)
+                        }),
+                        caseInsensitiveVariables: new NestedFormElement.Toggle({
+                            text: this.lang.text.caseInsensitiveVariables
+                        }),
+                        tryToMatchTitle: new NestedFormElement.Toggle({
+                            text: this.lang.text.tryToMatchTitle
+                        })
+                    },
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.titleFromVariable.join('');
+                    }
+                }),
                 titleModifier: new NestedFormElement.Input({
                     isHidden: () => this.isHiddenMode(),
                     highlight: this.highlight.bind(this),
