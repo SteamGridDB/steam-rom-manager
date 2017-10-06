@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 2.2.1 - xxxx-xx-xx
+## 2.2.1 - 20177-10-07
 
 ### Added
 
