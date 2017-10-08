@@ -1,7 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 2.2.1 - 20177-10-07
+## 2.2.2 - 2017-10-09
+
+### Fixed
+
+* `Glob-regex` would not accept `g` flag.
+
+## 2.2.1 - 2017-10-07
 
 ### Added
 
