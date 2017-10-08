@@ -41,7 +41,7 @@ export class GlobRegexParser implements GenericParser {
     }
 
     private validate(fileGlob: string, suppressSlashError: boolean = false) {
-        let testRegExpr = /\${\/(.+)\/([ui]{0,2})(?:\|(.*?))?}/i;
+        let testRegExpr = /\${\/(.+)\/([uig]{0,3})(?:\|(.*?))?}/i;
         let match = testRegExpr.exec(fileGlob);
         if (match === null)
             return this.lang.errors.noRegex__md;
@@ -184,7 +184,7 @@ export class GlobRegexParser implements GenericParser {
     }
 
     private makeRegexRegex(fileGlob: string) {
-        let match = /\${\/(.+)\/([ui]{0,2})(?:\|(.*?))?}/.exec(fileGlob);
+        let match = /\${\/(.+)\/([uig]{0,3})(?:\|(.*?))?}/.exec(fileGlob);
         if (match) {
             return { regex: new RegExp(match[1], match[2] || ''), replaceText: match[3] };
         }

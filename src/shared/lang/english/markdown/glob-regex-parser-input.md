@@ -44,7 +44,7 @@ Untouched text will remain by default, so if you see some trailing characters be
 
 ### Supported flags
 
-Allowed flags are `i` and `u`.
+Allowed flags are `i`, `g` and `u`.
 
 ## Limitations
 
