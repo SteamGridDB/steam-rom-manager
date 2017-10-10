@@ -403,7 +403,7 @@ export class FileParser {
                     if (match) {
                         let regex = new RegExp(match[1], match[2] || '');
                         let replaceText = match[4];
-                        if (replaceText === 'string') {
+                        if (typeof replaceText === 'string') {
                             output = match[3].replace(regex, replaceText);
                         }
                         else {
