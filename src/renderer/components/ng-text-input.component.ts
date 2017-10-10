@@ -41,6 +41,9 @@ export class NgTextInputComponent implements ControlValueAccessor {
 
         let data = event.clipboardData.getData('text');
 
+        if (!this.multiline)
+            data = data.replace(/\r?\n|\r/g, '');
+
         if (data) {
             if (this.currentValue && this.currentValue.length > 0) {
                 let selection = this.saveSelection(this.elementRef.nativeElement);
