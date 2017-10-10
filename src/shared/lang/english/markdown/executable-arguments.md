@@ -10,27 +10,27 @@ Here you can find examples provided by `HE Spoke`{.noWrap}, `NicholasNRG`{.noWra
 
 #### Nintendo Entertainment System (NES)
 ```
--D -f -L "E:\emulation\systems\retroarch\cores\bnes_libretro.dll" "${filePath}"
+-D -f -L "${exeDir}\cores\bnes_libretro.dll" "${filePath}"
 ```
 #### Super Nintendo Entertainment System (SNES)
 ```
--D -f -L "E:\emulation\systems\retroarch\cores\snes9x_libretro.dll" "${filePath}"
+-D -f -L "${exeDir}\cores\snes9x_libretro.dll" "${filePath}"
 ```
 #### Nintendo 64 (N64)
 ```
--D -f -L "E:\emulation\systems\RetroArch\cores\mupen64plus_libretro.dll" "${filePath}"
+-D -f -L "${exeDir}\cores\mupen64plus_libretro.dll" "${filePath}"
 ```
 #### Sega Genesis
 ```
--D -f -L "E:\emulation\systems\RetroArch\cores\genesis_plus_gx_libretro.dll" "${filePath}"
+-D -f -L "${exeDir}\cores\genesis_plus_gx_libretro.dll" "${filePath}"
 ```
 #### Sega CD
 ```
--D -f -L "E:\emulation\systems\RetroArch\cores\genesis_plus_gx_libretro.dll" "${filePath}"
+-D -f -L "${exeDir}\cores\genesis_plus_gx_libretro.dll" "${filePath}"
 ```
 #### Sony Playstation
 ```
--D -f -L "E:\emulation\systems\RetroArch\cores\mednafen_psx_libretro.dll" "${filePath}"
+-D -f -L "${exeDir}\cores\mednafen_psx_libretro.dll" "${filePath}"
 ```
 
 ### Dolphin Emu (Gamecube and Wii)
@@ -63,7 +63,7 @@ Here you can find examples provided by `HE Spoke`{.noWrap}, `NicholasNRG`{.noWra
 "${filePath}" -gen -auto -fullscreen
 ```
 
-### Project64 (N64)
+### Project64 2.3+ (N64)
 
 ```
 "${filePath}"
