@@ -1,6 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.3 - 2017-10-10
+
+### Fixed
+
+* `regex` function variable would use substitution.
+* Single line text input fields will now have newlines removed on paste.
+
+### Changed
+
+* Updated command line examples to use `${exeDir}`.
+
 ## 2.2.2 - 2017-10-09
 
 ### Fixed
