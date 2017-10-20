@@ -1,6 +1,6 @@
 import { JsonValidatorModifier } from "../models/index";
 import * as fs from "fs-extra";
-import * as Ajv from "Ajv";
+import * as Ajv from "ajv";
 import * as _ from "lodash";
 
 export function readJson<valueType>(filename: string, fallbackValue: valueType, segments?: string[]) {
