@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.4 - 2017-10-27
+
+### Fixed
+
+* Users with configuration made in v2.0.0 could not migrate to older versions due to `Glob-regex` and `Glob-Regex` type mismatch.
+
 ## 2.2.3 - 2017-10-10
 
 ### Fixed
