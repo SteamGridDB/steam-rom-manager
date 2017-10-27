@@ -10,6 +10,7 @@ export const userConfiguration: JsonValidatorModifier = {
             method: (oldValue) => oldValue === undefined ? false : !!!oldValue,
             oldValuePath: 'enabled'
         },
+        'parserType': { method: (oldValue) => (typeof oldValue === 'string' && /glob-regex/i.test(oldValue)) ? 'Glob-regex' : oldValue },
         'executableArgs': { method: replaceVariables_undefined },
         'onlineImageQueries': { method: replaceVariables_undefined },
         'localImages': { method: replaceVariables_undefined },
