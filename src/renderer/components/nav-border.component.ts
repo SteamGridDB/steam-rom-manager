@@ -1,4 +1,4 @@
-import { AppSettings } from '../models/settings.model';
+import { AppSettings } from '../../models';
 import { SettingsService } from '../services';
 import { Component, HostListener, Renderer } from '@angular/core';
 

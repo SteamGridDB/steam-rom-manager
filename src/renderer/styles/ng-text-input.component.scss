@@ -1,19 +1,30 @@
 @import 'mixins';
 
 :host {
-	&:not(.multiline) {
-		overflow: hidden;
-		
-		white-space: nowrap;
-		text-overflow: clip;
+	> .contents {
+		&:not(.multiline) {			
+			white-space: nowrap;
+			text-overflow: clip;
+		}
+	
+		cursor: text;
+	
+		&:empty:before{
+			content: attr(data-placeholder);
+			color: var(--ng-text-placeholder-color, initial);
+		}
 	}
 
-	/deep/ * {
-		cursor: inherit;
-	}
+	overflow: auto;
 
-	&:empty:before{
-		content: attr(data-placeholder);
-		color: var(--ng-text-placeholder-color, initial);
+	&:not(.multiline) {	
+		> .contents {
+			white-space: nowrap;
+			text-overflow: clip;
+		}
+
+		&::-webkit-scrollbar { 
+			display: none; 
+		}
 	}
 }

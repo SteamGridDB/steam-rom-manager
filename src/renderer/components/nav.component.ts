@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ParsersService, LanguageService } from '../services';
-import { UserConfiguration } from '../models';
+import { UserConfiguration } from '../../models';
 import { Subscription } from 'rxjs';
-import { gApp } from "../app.global";
+import { APP } from '../../variables';
 
 @Component({
     selector: 'nav',
@@ -35,7 +35,7 @@ export class NavComponent {
     }
 
     private get lang(){
-        return gApp.lang.nav.component;
+        return APP.lang.nav.component;
     }
 
     ngOnDestroy() {

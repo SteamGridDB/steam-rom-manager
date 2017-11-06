@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
-import { readJson, writeJson, JsonValidator } from "../../shared/lib";
-import { availableProviders } from '../lib/image-providers';
-import { AppSettings } from "../models";
+import { json } from "../../lib";
+import { availableProviders } from '../../lib/image-providers';
+import { AppSettings } from "../../models";
 import { LoggerService } from './logger.service';
 import { Subject, BehaviorSubject } from "rxjs";
-import { gApp } from "../app.global";
+import { APP } from '../../variables';
+import * as paths from "../../paths";
 import * as schemas from '../schemas';
 import * as modifiers from '../modifiers';
 import * as _ from "lodash";
-import * as paths from '../../shared/paths';
 
 @Injectable()
 export class SettingsService {
     private changeSubject: Subject<AppSettings> = new Subject();
     private settingsLoadedSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    private validator: JsonValidator = new JsonValidator(schemas.appSettings, { controlProperty: 'version', modifierFields: modifiers.appSettings });
+    private validator: json.Validator = new json.Validator(schemas.appSettings, modifiers.appSettings);
     private savingIsDisabled: boolean = false;
     private appSettings: AppSettings;
 
     constructor(private loggerService: LoggerService) {
         this.appSettings = <AppSettings>this.validator.getDefaultValues();
 
-        readJson<AppSettings>(paths.userSettings, this.appSettings).then((settings) => {
+        json.read<AppSettings>(paths.userSettings, this.appSettings).then((settings) => {
             let errors = this.validator.validate(settings);
             let errorString = errors ? `\r\n${JSON.stringify(errors, null, 4)}` : '';
 
@@ -44,7 +44,7 @@ export class SettingsService {
     }
 
     private get lang() {
-        return gApp.lang.settings.service;
+        return APP.lang.settings.service;
     }
 
     getSettings() {
@@ -61,7 +61,7 @@ export class SettingsService {
 
     saveAppSettings() {
         if (!this.savingIsDisabled){
-            writeJson(paths.userSettings, this.appSettings).then().catch((error) => {
+            json.write(paths.userSettings, this.appSettings).then().catch((error) => {
                 this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
                 this.loggerService.error(error);
             });

@@ -1,5 +1,5 @@
 import { app, BrowserWindow, shell } from 'electron';
-import * as paths from '../shared/paths'
+import * as paths from "../paths";
 import * as path from 'path';
 import * as url from 'url';
 import * as fs from 'fs';

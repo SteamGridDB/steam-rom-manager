@@ -1,8 +1,8 @@
 import { Component, AfterViewChecked, ElementRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { LoggerService } from '../services';
-import { LogMessage, LogSettings } from '../models';
+import { LogMessage, LogSettings } from '../../models';
 import { Observable } from 'rxjs';
-import { gApp } from "../app.global";
+import { APP } from '../../variables';
 
 @Component({
     selector: 'log',
@@ -48,7 +48,7 @@ export class LoggerComponent {
     }
 
     get lang(){
-        return gApp.lang.logger.component;
+        return APP.lang.logger.component;
     }
 
     ngAfterViewInit() {

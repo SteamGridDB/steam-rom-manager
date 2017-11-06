@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SettingsService } from "../services";
-import { languageManager } from "../../shared/lib";
-import { gApp } from "../app.global";
+import { languageManager } from "../../variables";
+import { APP } from '../../variables';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class LanguageService {
 
     constructor(private settingsService: SettingsService) {
         this.settingsService.onLoad((appSettings) => {
-            gApp.lang = languageManager.getLanguage(appSettings.language);
+            APP.lang = languageManager.getLanguage(appSettings.language);
             this.languageChange.next(appSettings.language);
         });
     }
@@ -25,7 +25,7 @@ export class LanguageService {
 
     loadLanguage(languageKey: string) {
         if (languageKey !== this.languageChange.getValue()) {
-            gApp.lang = languageManager.getLanguage(languageKey);
+            APP.lang = languageManager.getLanguage(languageKey);
             this.languageChange.next(languageKey);
         }
     }

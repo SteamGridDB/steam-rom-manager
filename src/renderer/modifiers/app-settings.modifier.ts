@@ -1,5 +1,3 @@
-import { JsonValidatorModifier } from '../../shared/models/json-helpers.model';
+import { ValidatorModifier, AppSettings } from '../../models';
 
-export const appSettings: JsonValidatorModifier = {};
-
-export const appSettingsVersion: number = undefined;
+export const appSettings: ValidatorModifier<AppSettings> = undefined;

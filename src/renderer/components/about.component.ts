@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { gApp } from "../app.global";
+import { APP } from '../../variables';
 
 @Component({
     selector: 'about',
@@ -10,6 +10,6 @@ import { gApp } from "../app.global";
 })
 export class AboutComponent {
     private get lang(){
-        return gApp.lang.about.component;
+        return APP.lang.about.component;
     }
 }

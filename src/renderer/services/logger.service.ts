@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
-import { AlertMessage, LogMessage, MessageSettings, LogSettings } from '../models';
+import { AlertMessage, LogMessage, MessageSettings, LogSettings } from '../../models';
 
 @Injectable()
 export class LoggerService {

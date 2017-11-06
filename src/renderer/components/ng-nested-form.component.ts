@@ -1,8 +1,8 @@
 import { Component, Input, Output, ChangeDetectionStrategy, OnInit, EventEmitter, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
-import { NestedFormElement, NestedFormInputs, NestedFormElements } from "../models";
-import * as _ from 'lodash';
+import { NestedFormElement, NestedFormInputs, NestedFormElements } from "../../models";
 import { Observable } from "rxjs";
+import * as _ from 'lodash';
 
 @Component({
     selector: 'ng-nested-form',

@@ -1,11 +1,11 @@
-import { VariableParser } from '../lib/index';
+import { VariableParser } from '../../lib';
 import { Component, AfterViewInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { ParsersService, LoggerService, ImageProviderService, SettingsService } from '../services';
-import { UserConfiguration, NestedFormElement, AppSettings } from '../models';
+import { UserConfiguration, NestedFormElement, AppSettings } from '../../models';
 import { Subscription, Observable } from "rxjs";
-import { gApp } from "../app.global";
+import { APP } from '../../variables';
 
 @Component({
     selector: 'parsers',
@@ -262,6 +262,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }),
                 imagePool: new NestedFormElement.Input({
                     label: this.lang.label.imagePool,
+                    highlight: this.highlight.bind(this),
                     isHidden: () => this.userForm.get('advanced').valueChanges.map(val => !val),
                     onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
                     onInfoClick: (self, path) => {
@@ -359,7 +360,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     }
 
     private get lang() {
-        return gApp.lang.parsers.component;
+        return APP.lang.parsers.component;
     }
 
     private openFAQ() {
@@ -592,7 +593,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             });
             this.loggerService.info(this.lang.info.testStarting__i.interpolate({
                 title: config.configTitle || this.lang.text.noTitle,
-                version: gApp.version
+                version: APP.version
             }));
             this.router.navigateByUrl('/logger');
         }

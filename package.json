@@ -43,8 +43,8 @@
     "url": "https://github.com/FrogTheFrog/steam-rom-manager"
   },
   "scripts": {
-    "shell:win": "npm config set script-shell C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
-    "shell:default": "npm config set script-shell null",
+    "postinstall": "install-app-deps",
+    "watch:main": "webpack --watch --config ./webpack/main.js",
     "watch:renderer": "webpack --watch --config ./webpack/renderer.js",
     "build:main": "cross-env NODE_ENV=production webpack --config ./webpack/main.js",
     "build:renderer": "cross-env NODE_ENV=production webpack --config ./webpack/renderer.js",

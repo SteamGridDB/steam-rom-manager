@@ -1,11 +1,11 @@
 import { Component, OnInit, ElementRef, QueryList, ViewChildren, ViewChild, ChangeDetectionStrategy, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { DraggableDirective } from '../directives';
-import { ThemeManager } from "../../shared/lib";
+import { ThemeManager } from "../../lib";
 import { LoggerService } from '../services';
-import * as fs from 'fs-extra';
-import * as paths from "../../shared/paths";
-import * as path from 'path';
 import { Subscription } from "rxjs";
+import * as paths from "../../paths";
+import * as fs from 'fs-extra';
+import * as path from 'path';
 
 @Component({
     selector: 'theme',

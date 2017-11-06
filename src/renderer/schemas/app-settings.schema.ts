@@ -1,5 +1,5 @@
-import { languageManager } from '../../shared/lib/language-manager';
-import { availableProviders } from "../lib/image-providers";
+import { languageManager } from '../../variables';
+import { availableProviders } from "../../lib/image-providers";
 
 export const appSettings = {
     type: 'object',

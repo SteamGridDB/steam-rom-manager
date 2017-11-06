@@ -1,11 +1,20 @@
-import { Component, forwardRef, Input, ChangeDetectorRef, Renderer2, ElementRef, SimpleChanges } from '@angular/core';
+import { Component, forwardRef, Input, ChangeDetectorRef, Renderer2, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import * as rangy from 'rangy';
 import * as he from 'he';
 
 @Component({
     selector: 'ng-text-input',
-    template: ``,
+    template: `<div class="contents" 
+                    #input
+                    [attr.data-placeholder]="placeholder" 
+                    contenteditable="true"
+                    (input)="this.writeValue($event.target.textContent, true)"
+                    (keypress)="handleKeypress($event)"
+                    (drag)="handleDragAndDrop($event)"
+                    (dragover)="handleDragAndDrop($event)"
+                    (paste)="handlePaste($event)">{{currentValue}}
+                </div>`,
     styleUrls: [
         '../styles/ng-text-input.component.scss'
     ],
@@ -15,18 +24,12 @@ import * as he from 'he';
         multi: true
     }],
     host: {
-        '[class.multiline]': 'multiline',
-        '[attr.data-placeholder]': 'placeholder',
-        '[attr.contenteditable]': 'true',
-        '(input)': 'this.writeValue($event.target.textContent, true)',
-        '(keypress)': 'handleKeypress($event)',
-        '(drag)': 'handleDragAndDrop($event)',
-        '(dragover)': 'handleDragAndDrop($event)',
-        '(paste)': 'handlePaste($event)',
+        '[class.multiline]': 'multiline'
     }
 })
 export class NgTextInputComponent implements ControlValueAccessor {
     private currentValue: string = null;
+    @ViewChild("input") private elementRef: ElementRef;
     @Input() private placeholder: string = null;
     @Input() private highlight: (input: string, tag: string) => string = null;
     @Input() private highlightTag: string = null;
@@ -168,7 +171,7 @@ export class NgTextInputComponent implements ControlValueAccessor {
         }
     }
 
-    constructor(private changeRef: ChangeDetectorRef, private renderer: Renderer2, private elementRef: ElementRef) { }
+    constructor(private changeRef: ChangeDetectorRef, private renderer: Renderer2) { }
 
     @Input()
     set value(value: string) {

@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { SettingsService, PreviewService, LanguageService, ImageProviderService, FuzzyService } from "../services";
-import { gApp } from "../app.global";
-import { AppSettings } from "../models";
+import { APP } from '../../variables';
+import { AppSettings } from "../../models";
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -32,7 +32,7 @@ export class SettingsComponent implements OnDestroy {
     }
 
     private get lang() {
-        return gApp.lang.settings.component;
+        return APP.lang.settings.component;
     }
 
     private onSettingsChange(detectChanges: boolean = true) {

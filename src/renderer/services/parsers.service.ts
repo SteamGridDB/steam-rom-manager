@@ -1,27 +1,26 @@
 import { CustomVariablesService } from './custom-variables.service';
-import { JsonValidator } from '../../shared/lib/json-helpers';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { UserConfiguration, ParsedUserConfiguration } from '../models';
+import { UserConfiguration, ParsedUserConfiguration } from '../../models';
 import { LoggerService } from './logger.service';
 import { FuzzyService } from './fuzzy.service';
 import { ImageProviderService } from './image-provider.service';
-import { FileParser, VariableParser } from '../lib';
-import { availableProviders } from '../lib/image-providers';
+import { FileParser, VariableParser, json } from '../../lib';
+import { availableProviders } from '../../lib/image-providers';
 import { BehaviorSubject } from "rxjs";
-import { gApp } from "../app.global";
+import { APP } from '../../variables';
+import * as paths from "../../paths";
 import * as schemas from '../schemas';
 import * as modifiers from '../modifiers';
 import * as fs from 'fs-extra';
 import * as _ from 'lodash';
-import * as paths from '../../shared/paths';
 
 @Injectable()
 export class ParsersService {
     private fileParser: FileParser;
     private userConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
     private deletedConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
-    private validator: JsonValidator = new JsonValidator(schemas.userConfiguration, { controlProperty: 'version', modifierFields: modifiers.userConfiguration });
+    private validator: json.Validator = new json.Validator(schemas.userConfiguration, modifiers.userConfiguration);
     private savingIsDisabled: boolean = false;
 
     constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private cVariableService: CustomVariablesService, private http: Http) {
@@ -35,7 +34,7 @@ export class ParsersService {
     }
 
     get lang() {
-        return gApp.lang.parsers.service;
+        return APP.lang.parsers.service;
     }
 
     getUserConfigurations() {
@@ -262,7 +261,7 @@ export class ParsersService {
         return new Promise<UserConfiguration[]>((resolve, reject) => {
             if (!this.savingIsDisabled) {
                 fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => {
-                    item.saved['version'] = modifiers.userConfigurationVersion;
+                    item.saved[modifiers.userConfiguration.controlProperty] = modifiers.userConfiguration.latestVersion;
                     return item.saved;
                 }), null, 4), (error) => {
                     if (error)

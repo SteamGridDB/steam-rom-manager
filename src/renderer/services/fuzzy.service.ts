@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { LoggerService } from "./logger.service";
 import { SettingsService } from "./settings.service";
-import { FuzzyEventMap, AppSettings, FuzzyEventCallback } from '../models';
-import { gApp } from "../app.global";
-import { FuzzyListLoader, FuzzyMatcher } from "../lib";
+import { FuzzyEventMap, AppSettings, FuzzyEventCallback } from '../../models';
+import { APP } from '../../variables';
+import { FuzzyListLoader, FuzzyMatcher } from "../../lib";
 import { Http } from '@angular/http';
 
 @Injectable()
@@ -36,7 +36,7 @@ export class FuzzyService {
     }
 
     private get lang() {
-        return gApp.lang.fuzzyMatcher;
+        return APP.lang.fuzzyMatcher;
     }
 
     eventCallback<K extends keyof FuzzyEventMap>(event: K, data: FuzzyEventMap[K]) {

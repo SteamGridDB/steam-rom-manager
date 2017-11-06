@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Renderer2, ElementRef, RendererStyleFlags2, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PreviewService, SettingsService, ImageProviderService } from "../services";
-import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageContent } from "../models";
-import { gApp } from "../app.global";
+import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageContent } from "../../models";
+import { APP } from '../../variables';
 import * as _ from 'lodash';
 
 @Component({
@@ -52,21 +52,21 @@ export class PreviewComponent implements OnDestroy {
     private getBackgroundImage(app: PreviewDataApp, image: ImageContent) {
         if (image == undefined) {
             if (this.previewService.images[app.imagePool].retrieving)
-                return require('../images/retrieving-images.svg');
+                return require('../../assets/images/retrieving-images.svg');
             else
-                return require('../images/no-images.svg');
+                return require('../../assets/images/no-images.svg');
         }
         else {
             if (image.loadStatus === 'notStarted') {
                 this.loadImage(app);
-                return require('../images/downloading-image.svg');
+                return require('../../assets/images/downloading-image.svg');
             }
             else if (image.loadStatus === 'downloading')
-                return require('../images/downloading-image.svg');
+                return require('../../assets/images/downloading-image.svg');
             else if (image.loadStatus === 'done')
                 return image.imageUrl;
             else
-                return require('../images/failed-image-download.svg');
+                return require('../../assets/images/failed-image-download.svg');
         }
     }
 
@@ -97,7 +97,7 @@ export class PreviewComponent implements OnDestroy {
     }
 
     private get lang() {
-        return gApp.lang.preview.component;
+        return APP.lang.preview.component;
     }
 
     private stopImageRetrieving() {
@@ -105,7 +105,7 @@ export class PreviewComponent implements OnDestroy {
     }
 
     private setFallbackIcon(imageElement: HTMLImageElement) {
-        imageElement.src = require('../images/crossed-eye.svg');
+        imageElement.src = require('../../assets/images/crossed-eye.svg');
     }
 
     private save() {

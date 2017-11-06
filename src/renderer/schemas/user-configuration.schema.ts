@@ -1,5 +1,5 @@
-import { availableProviders } from '../lib/image-providers';
-import { availableParsers, availableParserInputs } from '../lib/parsers';
+import { availableProviders } from '../../lib/image-providers';
+import { availableParsers, availableParserInputs } from '../../lib/parsers';
 
 export const userConfiguration = {
     type: 'object',

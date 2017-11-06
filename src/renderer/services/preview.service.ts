@@ -10,9 +10,9 @@ import {
     ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings,
     SteamGridImageData, SteamShortcutsData, SteamTree, SteamTreeData, SteamShortcuts,
     userAccountData
-} from '../models';
-import { VdfManager, generateAppId, getMultipleAvailableLogins } from "../lib";
-import { gApp } from "../app.global";
+} from '../../models';
+import { VdfManager, steam, url } from "../../lib";
+import { APP } from '../../variables';
 import { queue } from 'async';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
@@ -53,7 +53,7 @@ export class PreviewService {
     }
 
     get lang() {
-        return gApp.lang.preview.service;
+        return APP.lang.preview.service;
     }
 
     getPreviewData() {
@@ -499,7 +499,7 @@ export class PreviewService {
                     for (let k = 0; k < data[i].files.length; k++) {
                         let file = config.files[k];
                         let executableLocation = config.appendArgsToExecutable ? `"${file.executableLocation}" ${file.argumentString}`: `"${file.executableLocation}"`;
-                        let appID = generateAppId(executableLocation, file.finalTitle);
+                        let appID = steam.generateAppId(executableLocation, file.finalTitle);
 
                         if (shortcutsData[config.steamDirectory][userAccount.accountID][appID] !== undefined) {
                             if (shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon'] !== undefined) {
@@ -527,7 +527,7 @@ export class PreviewService {
 
                         if (previewData[config.steamDirectory][userAccount.accountID].apps[appID] === undefined) {
                             let steamImage = gridData[config.steamDirectory][userAccount.accountID][appID];
-                            let steamImageUrl = steamImage ? encodeURI(`file:///${steamImage.replace(/\\/g, '/')}`) : undefined;
+                            let steamImageUrl = steamImage ? url.encodeFile(steamImage) : undefined;
 
                             previewData[config.steamDirectory][userAccount.accountID].apps[appID] = {
                                 entryId: numberOfItems++,
@@ -576,7 +576,7 @@ export class PreviewService {
             return this.getNonSteamGridData(data);
         }).then((resolvedData) => {
             gridData = resolvedData;
-            return getMultipleAvailableLogins(Object.keys(data.tree), true);
+            return steam.getMultipleAvailableLogins(Object.keys(data.tree), true);
         }).then((resolvedData) => {
             //availableLogins = resolvedData;
 

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRe
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Router } from '@angular/router';
 import { LoggerService } from '../services';
-import { AlertMessage } from '../models';
+import { AlertMessage } from '../../models';
 import { Subscription } from "rxjs";
 
 @Component({

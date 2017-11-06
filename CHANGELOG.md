@@ -1,6 +1,19 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.5 - 2017-11-xx
+
+### Fixed
+
+* Field `Image pool` will have highlighting enabled.
+* `#` is now encoded for local files.
+* UTF-8 BOM is now properly removed from read files.
+* Custom-input field will not scroll when trying to select text while scrolling. The downside is that it will loose focus when mouse is not hovering input element itself. Can be fixed with Chromium v60 which is yet to be implemented in Electron.
+
+### Changed
+
+* Fuzzy parser will now look for `..., The...` segment first. Before it looked for it after no matches were found. That, however, sometimes returned false positives which resulted in `..., The...` segment replacement being skipped. Click [here](https://regex101.com/r/o2DCJ7/2) to see how it does it.
+
 ## 2.2.4 - 2017-10-27
 
 ### Fixed

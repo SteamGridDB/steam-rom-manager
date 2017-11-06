@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { FuzzyService } from './fuzzy.service';
 import { LoggerService } from './logger.service';
 import { SettingsService } from './settings.service';
-import { AppSettings } from '../models';
-import { ImageProvider } from "../lib";
+import { AppSettings } from '../../models';
+import { ImageProvider } from "../../lib";
 
 @Injectable()
 export class ImageProviderService {

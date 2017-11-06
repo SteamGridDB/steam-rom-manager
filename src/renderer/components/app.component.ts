@@ -1,8 +1,7 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { SettingsService, LanguageService, MarkdownService } from "../services";
-import { MarkdownVariable } from '../lib';
+import { MarkdownVariable } from '../../lib';
 import { Router } from "@angular/router";
-import { gApp } from "../app.global";
 import * as highlight from 'highlight.js';
 import * as markdownIt from 'markdown-it';
 

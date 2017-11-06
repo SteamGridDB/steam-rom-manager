@@ -1,8 +1,9 @@
 import { PipeTransform, Pipe } from '@angular/core';
+import { url } from '../../lib';
 
 @Pipe({ name: 'fileImage' })
 export class FileImage {
     transform(filePath: string) {
-        return encodeURI(`file:///${filePath.replace(/\\/g, '/')}`);
+        return url.encodeFile(filePath);
     }
 }
