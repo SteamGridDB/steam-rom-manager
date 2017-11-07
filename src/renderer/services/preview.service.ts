@@ -260,18 +260,18 @@ export class PreviewService {
         }
     }
 
-    get images(){
+    get images() {
         return this.appImages;
     }
 
-    private clearPreviewData(){
+    private clearPreviewData() {
         this.previewData = undefined;
         this.clearImageCacheSettings();
         this.previewVariables.numberOfListItems = 0;
         this.previewDataChanged.next();
     }
 
-    private clearImageCacheSettings(){
+    private clearImageCacheSettings() {
         for (let imageKey in this.appImages) {
             this.appImages[imageKey].defaultImageProviders = [];
             this.appImages[imageKey].searchQueries = [];
@@ -284,6 +284,7 @@ export class PreviewService {
             setTimeout(this.generatePreviewDataCallback.bind(this), 100);
         }
         else {
+            let oldPreviewData = this.previewData;
             this.previewData = undefined;
             this.loggerService.info(this.lang.info.executingParsers, { invokeAlert: true });
             this.parsersService.executeFileParser().then((data) => {
@@ -311,7 +312,7 @@ export class PreviewService {
                     }
                     else {
                         this.loggerService.info(this.lang.info.shutdownSteam, { invokeAlert: true, alertTimeout: 3000 });
-                        return this.createPreviewData(data.parsedData.parsedConfigs);
+                        return this.createPreviewData(data.parsedData.parsedConfigs, oldPreviewData);
                     }
                 }
                 else if (data.invalid.length === 0 && data.skipped.length === 0) {
@@ -377,7 +378,7 @@ export class PreviewService {
         }
     }
 
-    private getSteamTreeFromParsedConfig(data: ParsedUserConfiguration[]) : SteamTreeData {
+    private getSteamTreeFromParsedConfig(data: ParsedUserConfiguration[]): SteamTreeData {
         let numberOfUsers: number = 0;
         let tree: SteamTree = {};
 
@@ -456,7 +457,7 @@ export class PreviewService {
         });
     }
 
-    private createPreviewData(data: ParsedUserConfiguration[]) {
+    private createPreviewData(data: ParsedUserConfiguration[], oldData?: PreviewData) {
         let gridData: SteamGridImageData;
         let shortcutsData: SteamShortcuts;
         let steamTreeData = this.getSteamTreeFromParsedConfig(data);
@@ -479,12 +480,14 @@ export class PreviewService {
 
             for (let i = 0; i < data.length; i++) {
                 let config = data[i];
+                let oldDataDir = oldData !== undefined ? oldData[config.steamDirectory] : undefined;
 
                 if (previewData[config.steamDirectory] === undefined)
                     previewData[config.steamDirectory] = {};
 
                 for (let j = 0; j < config.foundUserAccounts.length; j++) {
                     let userAccount = config.foundUserAccounts[j];
+                    let oldDataAccount = oldDataDir !== undefined ? oldDataDir[userAccount.accountID] : undefined;
 
                     if (previewData[config.steamDirectory][userAccount.accountID] === undefined) {
                         previewData[config.steamDirectory][userAccount.accountID] = {
@@ -492,14 +495,15 @@ export class PreviewService {
                             apps: {}
                         };
                     }
-                    else if (previewData[config.steamDirectory][userAccount.accountID].username !== userAccount.name){
+                    else if (previewData[config.steamDirectory][userAccount.accountID].username !== userAccount.name) {
                         previewData[config.steamDirectory][userAccount.accountID].username = `${previewData[config.steamDirectory][userAccount.accountID].username} | ${userAccount.name}`;
                     }
 
                     for (let k = 0; k < data[i].files.length; k++) {
                         let file = config.files[k];
-                        let executableLocation = config.appendArgsToExecutable ? `"${file.executableLocation}" ${file.argumentString}`: `"${file.executableLocation}"`;
+                        let executableLocation = config.appendArgsToExecutable ? `"${file.executableLocation}" ${file.argumentString}` : `"${file.executableLocation}"`;
                         let appID = steam.generateAppId(executableLocation, file.finalTitle);
+                        let oldDataApp = oldDataAccount !== undefined ? oldDataAccount.apps[appID] : undefined;
 
                         if (shortcutsData[config.steamDirectory][userAccount.accountID][appID] !== undefined) {
                             if (shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon'] !== undefined) {
@@ -528,6 +532,14 @@ export class PreviewService {
                         if (previewData[config.steamDirectory][userAccount.accountID].apps[appID] === undefined) {
                             let steamImage = gridData[config.steamDirectory][userAccount.accountID][appID];
                             let steamImageUrl = steamImage ? url.encodeFile(steamImage) : undefined;
+                            let currentImageIndex = oldDataApp !== undefined ? oldDataApp.currentImageIndex : steamImageUrl ? -1 : 0;
+                            let currentIconIndex = oldDataApp !== undefined ? oldDataApp.currentIconIndex : 0;
+
+                            if (steamImageUrl ? -1 : 0 > currentImageIndex || currentImageIndex > this.appImages[file.imagePool].content.length)
+                                currentImageIndex = steamImageUrl ? -1 : 0;
+
+                            if (0 > currentIconIndex || currentIconIndex > file.localIcons.length)
+                                currentIconIndex = 0;
 
                             previewData[config.steamDirectory][userAccount.accountID].apps[appID] = {
                                 entryId: numberOfItems++,
@@ -542,9 +554,9 @@ export class PreviewService {
                                     imageUrl: steamImageUrl,
                                     loadStatus: 'done'
                                 } : undefined,
-                                currentImageIndex: steamImageUrl ? -1 : 0,
-                                executableLocation: executableLocation,
-                                currentIconIndex: 0,
+                                currentImageIndex,
+                                executableLocation,
+                                currentIconIndex,
                                 icons: file.localIcons,
                                 imagePool: file.imagePool
                             };

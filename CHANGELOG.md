@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## 2.2.5 - 2017-11-xx
 
+### Added
+
+* Image and icon indexes will now persist from **previously** generated list. This means that if your newly generated list overwrites apps with the **same** `APPID`, you should see previously selected images/icons.
+
 ### Fixed
 
 * Field `Image pool` will have highlighting enabled.
