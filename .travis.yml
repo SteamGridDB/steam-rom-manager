@@ -1,12 +1,12 @@
 language: node_js
 matrix:
   include:
-    - os: osx
-      env: BUILD_SCRIPT=build:mac
     - os: linux
       sudo: required
       dist: trusty
       env: BUILD_SCRIPT=build:linux
+    - os: osx
+      env: BUILD_SCRIPT=build:mac
 node_js:
   - 8
 cache:
