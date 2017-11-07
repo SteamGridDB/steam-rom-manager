@@ -20,7 +20,7 @@
         "nsis",
         "portable"
       ],
-      "icon": "./src/shared/icons/icon.ico"
+      "icon": "./src/assets/icons/icon.ico"
     },
     "portable": {
       "artifactName": "${productName} ${version} (portable).${ext}"
@@ -31,7 +31,7 @@
         "AppImage",
         "deb"
       ],
-      "icon": "./src/shared/icons"
+      "icon": "./src/assets/icons"
     },
     "files": [
       "dist/**/*",
