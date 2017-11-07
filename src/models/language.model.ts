@@ -9,6 +9,7 @@ export interface languageStruct {
             filter: string,
             by: string,
             refreshImages: string,
+            addLocalImages: string,
             retryDownload: string,
             generateAppList: string,
             saveAppList: string,

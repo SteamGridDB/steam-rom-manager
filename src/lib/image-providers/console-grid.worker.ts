@@ -38,7 +38,7 @@ class ConsoleGridProvider extends GenericProvider {
             }, '').then((response) => {
                  if (response && response.length > 0 && response.length < 64) {
                     this.proxy.image({
-                        imageProvider: this.proxy.providerName,
+                        imageProvider: 'ConsoleGrid',
                         imageUrl: response,
                         loadStatus: 'notStarted'
                     });

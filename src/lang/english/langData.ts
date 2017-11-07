@@ -12,6 +12,7 @@ export const EnglishLang: languageContainer = {
                 filter: 'Filter app titles',
                 by: 'by',
                 refreshImages: 'Refresh images',
+                addLocalImages: 'Add local images',
                 retryDownload: 'Retry download',
                 generateAppList: 'Generate app list',
                 saveAppList: 'Save app list',

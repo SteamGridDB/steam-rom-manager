@@ -3,7 +3,9 @@ import { Subscription } from 'rxjs';
 import { PreviewService, SettingsService, ImageProviderService } from "../services";
 import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageContent } from "../../models";
 import { APP } from '../../variables';
+import { url } from '../../lib';
 import * as _ from 'lodash';
+import * as path from 'path';
 
 @Component({
     selector: 'preview',
@@ -19,7 +21,7 @@ export class PreviewComponent implements OnDestroy {
     private filterValue: string = '';
     private scrollingEntries: boolean = false;
 
-    constructor(private previewService: PreviewService, private settingsService: SettingsService, private imageProviderService: ImageProviderService, private changeDetectionRef: ChangeDetectorRef, private renderer: Renderer2, private elementRef: ElementRef) {       
+    constructor(private previewService: PreviewService, private settingsService: SettingsService, private imageProviderService: ImageProviderService, private changeDetectionRef: ChangeDetectorRef, private renderer: Renderer2, private elementRef: ElementRef) {
         this.previewData = this.previewService.getPreviewData();
         this.previewVariables = this.previewService.getPreviewVariables();
         this.subscriptions.add(this.previewService.getPreviewDataChange().subscribe(_.debounce(() => {
@@ -70,7 +72,7 @@ export class PreviewComponent implements OnDestroy {
         }
     }
 
-    private loadImage(app: PreviewDataApp){
+    private loadImage(app: PreviewDataApp) {
         this.previewService.loadImage(app);
     }
 
@@ -94,6 +96,24 @@ export class PreviewComponent implements OnDestroy {
 
     private maxImageIndex(app: PreviewDataApp) {
         return this.getImagePool(app.imagePool).content.length + (app.steamImage ? 1 : 0);
+    }
+
+    private addLocalImages(app: PreviewDataApp, event: Event) {
+        let target = event.target as HTMLInputElement;
+        if (target.files) {
+            let extRegex = /png|tga|jpg|jpeg/i;
+            for (let i = 0; i < target.files.length; i++) {
+                if (extRegex.test(path.extname(target.files[i].path))) {
+                    let imageUrl = url.encodeFile(target.files[i].path);
+                    this.previewService.addUniqueImage(app.imagePool, {
+                        imageProvider: 'LocalStorage',
+                        imageUrl,
+                        loadStatus: 'done'
+                    });
+                }
+            }
+            target.value = null;
+        }
     }
 
     private get lang() {

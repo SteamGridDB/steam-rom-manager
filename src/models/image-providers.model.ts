@@ -9,13 +9,13 @@ export interface ProviderImageData {
 
 export interface ProviderErrorData {
     title: string,
-    provider: string,
+    provider: ImageContent["imageProvider"],
     error: number | string,
     url?: string
 }
 
 export interface ProviderTimeoutData {
-    provider: string,
+    provider: ImageContent["imageProvider"],
     time: number
 }
 

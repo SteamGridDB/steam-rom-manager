@@ -56,6 +56,9 @@
                                                     {{app.configurationTitle + (app.steamCategories.length > 0 ? ' (' + app.steamCategories.join(', ') + ')' : '')}}
                                                 </div>
                                                 <div class="appButtons">
+                                                    <svg class="button" [title]="lang.addLocalImages" add-images hover="true" active="true" (click)="fileInput.click()"></svg>
+                                                    <input style="display: none;" #fileInput multiple type="file" accept=".png, .jpeg, .jpg, .tga" (change)="addLocalImages(app, $event)"/>
+                                                    <span class="separator"></span>
                                                     <svg class="button" *ngIf="!getImagePool(app.imagePool).retrieving" (click)="refreshImages(app)" [title]="lang.refreshImages" refresh-images hover="true" active="true"></svg>
                                                     <svg class="button" *ngIf="image != undefined && image.loadStatus === 'failed'" (click)="loadImage(app)" [title]="lang.retryDownload" image-alert hover="true" active="true"></svg>
                                                 </div>

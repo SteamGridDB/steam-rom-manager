@@ -117,12 +117,12 @@ export class ProviderProxy {
     timeout(timeInSeconds: number) {
         if (!this._manager.timedOut) {
             this._manager.timeout(timeInSeconds * 1000);
-            this._manager.postMessage('timeout', { provider: this.providerName, time: timeInSeconds, id: this._id });
+            this._manager.postMessage('timeout', { provider: this.providerName as ImageContent["imageProvider"], time: timeInSeconds, id: this._id });
         }
     }
 
     error(error: number | string, url?: string) {
-        this._manager.postMessage('error', { error: error, title: this._title, provider: this.providerName, id: this._id, url: url });
+        this._manager.postMessage('error', { error: error, title: this._title, provider: this.providerName as ImageContent["imageProvider"], id: this._id, url: url });
     }
 
     image(content: ImageContent) {

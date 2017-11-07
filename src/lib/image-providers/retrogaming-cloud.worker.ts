@@ -23,7 +23,7 @@ class RetrogamingCloudProvider extends GenericProvider {
                             promises.push(this.retrieveMediaData(listData[i].id));
                         if (listData[i].most_popular_media_url && (listData[i].most_popular_media_url as string).length > 0) {
                             this.proxy.image({
-                                imageProvider: this.proxy.providerName,
+                                imageProvider: 'retrogaming.cloud',
                                 imageUrl: listData[i].most_popular_media_url,
                                 imageUploader: listData[i].most_popular_media_created_by_name || undefined,
                                 loadStatus: 'notStarted'
@@ -56,7 +56,7 @@ class RetrogamingCloudProvider extends GenericProvider {
                 for (let i = 0; i < results.length; i++) {
                     if (results[i].url) {
                         this.proxy.image({
-                            imageProvider: this.proxy.providerName,
+                            imageProvider: 'retrogaming.cloud',
                             imageUrl: results[i].url,
                             imageUploader: results[i].created_by ? results[i].created_by.name : undefined,
                             loadStatus: 'notStarted'

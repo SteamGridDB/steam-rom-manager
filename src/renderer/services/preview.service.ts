@@ -693,8 +693,12 @@ export class PreviewService {
             this.previewDataChanged.next();
     }
 
-    private addUniqueImage(imageKey: string, content: ImageContent) {
-        if (this.appImages[imageKey].content.findIndex((item) => item.imageUrl === content.imageUrl) === -1) {
+    isImageUnique(imageKey: string, imageUrl: string) {
+        return this.appImages[imageKey].content.findIndex((item) => item.imageUrl === imageUrl) === -1;
+    }
+
+    addUniqueImage(imageKey: string, content: ImageContent) {
+        if (this.isImageUnique(imageKey, content.imageUrl)) {
             this.appImages[imageKey].content.push(content);
             return this.appImages[imageKey].content[this.appImages[imageKey].content.length - 1];
         }

@@ -171,7 +171,7 @@ $image-ratio: 430/920;
 						}
 
 						&.imageLoaded {
-							background-size: cover;
+							background-size: contain;
 						}
 
 						> div {
@@ -307,6 +307,10 @@ $image-ratio: 430/920;
 									> .button {
 										height: calc(var(--row-height) * 0.5);
 										padding: 0.2em;
+									}
+
+									> .separator {
+										flex: 1 1 auto;
 									}
 								}
 							}

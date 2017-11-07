@@ -1,11 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 2.2.5 - 2017-11-xx
+## 2.2.5 - 2017-11-07
 
 ### Added
 
 * Image and icon indexes will now persist from **previously** generated list. This means that if your newly generated list overwrites apps with the **same** `APPID`, you should see previously selected images/icons.
+* Local images with `png`, `tga`, `jpg` and `jpeg` extensions can now be added to image pool manually in preview page.
 
 ### Fixed
 
@@ -17,6 +18,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 * Fuzzy parser will now look for `..., The...` segment first. Before it looked for it after no matches were found. That, however, sometimes returned false positives which resulted in `..., The...` segment replacement being skipped. Click [here](https://regex101.com/r/o2DCJ7/2) to see how it does it.
+* Changed image size from `cover` to `contain` in preview menu, because Steam seems to be doing it for non-standard images.
 
 ## 2.2.4 - 2017-10-27
 

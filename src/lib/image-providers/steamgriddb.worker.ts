@@ -17,7 +17,7 @@ class SteamGridDbProvider extends GenericProvider {
             if (response !== null && response['data'] !== undefined) {
                 for (let i = 0; i < response['data'].length; i++) {
                     this.proxy.image({
-                        imageProvider: this.proxy.providerName,
+                        imageProvider: 'SteamGridDB',
                         imageUrl: response['data'][i].grid_url,
                         imageUploader: response['data'][i].author,
                         loadStatus: 'notStarted'

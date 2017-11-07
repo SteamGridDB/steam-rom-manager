@@ -18,6 +18,8 @@ All script must be run using `npm run` command. For example, `npm run watch:rend
 
 |Script|Function|
 |---|---|
+|`postinstall`|Recompiles native apps to match Electron's NodeJS version if needed|
+|`start`|Launches compiled app|
 |`watch:main`|Compiles Electron app and watches for changes|
 |`watch:renderer`|Compiles a renderer for an Electron app and watches for changes|
 |`build:main`|Compiles Electron app in production mode|
@@ -25,12 +27,7 @@ All script must be run using `npm run` command. For example, `npm run watch:rend
 |`build:dist`|Runs `build:main` and `build:renderer`|
 |`build:win`|Compiles an executable installer for Windows|
 |`build:linux`|Compiles a `deb` package and `AppImage` for linux|
-|`start`|Launches compiled app|
-|`docker:create`|Create docker image|
-|`docker:bash`|Allows to access bash in created image|
-|`docker:remove`|Removes docker image and everything related to it|
-|`docker:npm-install`|Runs `npm install` in docker|
-|`docker:build`|Runs `build:win` and `build:linux` in docker|
+|`build:mac`|Compiles a `dmg` package for MacOS|
 
 ## Debugging an app
 
@@ -61,26 +58,11 @@ npm run build:dist
 npm run build:linux
 ```
 
-### For docker
+### For MacOS
 
-To create docker image and install dependencies:
-
-```
-npm run docker:create
-npm run docker:npm-install
-```
-
-Then, scripts must be run in this order:
+Scripts must be run in this order:
 
 ```
 npm run build:dist
-npm run docker:build
-```
-
-## Windows terminal
-
-Some commands will require unix-like terminal, therefore if some commands don't work you'll need to set `npm` to use `powershell` or similar terminals for running scripts. This requires `npm > 5.1.x`. Terminal can be set using this command:
-
-```
-npm config set script-shell C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe
+npm run build:mac
 ```
