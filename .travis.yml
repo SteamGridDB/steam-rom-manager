@@ -16,3 +16,6 @@ script:
   - npm run build:dist
   - os: linux
     - npm run build:linux
+notifications:
+  slack:
+    on_success: never
