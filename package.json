@@ -20,7 +20,7 @@
         "nsis",
         "portable"
       ],
-      "icon": "./src/assets/icons/icon.ico"
+      "icon": "./src/assets/icons/win.ico"
     },
     "portable": {
       "artifactName": "${productName} ${version} (portable).${ext}"
@@ -37,7 +37,8 @@
       "category": "public.app-category.utilities",
       "target": [
         "dmg"
-      ]
+      ],
+      "icon": "./src/assets/icons/mac.icns"
     },
     "files": [
       "dist/**/*",
