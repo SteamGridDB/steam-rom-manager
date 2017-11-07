@@ -33,6 +33,12 @@
       ],
       "icon": "./src/assets/icons"
     },
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": [
+        "dmg"
+      ]
+    },
     "files": [
       "dist/**/*",
       "package.json"
@@ -44,6 +50,7 @@
   },
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
+    "start": "./node_modules/.bin/electron ./dist/main.bundle.js",
     "watch:main": "webpack --watch --config ./webpack/main.js",
     "watch:renderer": "webpack --watch --config ./webpack/renderer.js",
     "build:main": "cross-env NODE_ENV=production webpack --config ./webpack/main.js",
@@ -51,12 +58,7 @@
     "build:dist": "rimraf dist && npm run build:main && npm run build:renderer",
     "build:win": "build --win --ia32 --x64",
     "build:linux": "build --linux --ia32 --x64",
-    "start": "./node_modules/.bin/electron ./dist/main.bundle.js",
-    "docker:create": "docker build -t=steam-rom-manager --rm=true .",
-    "docker:bash": "docker run -v ${pwd}:/SRM -v node_modules:/SRM/node_modules -it steam-rom-manager",
-    "docker:remove": "docker stop $(docker ps -a --filter 'ancestor=steam-rom-manager' -q); docker rm $(docker ps -a --filter 'ancestor=steam-rom-manager' -q); docker rmi $(docker images steam-rom-manager -q); docker rmi $(docker images electronuserland/electron-builder -q); docker volume rm $(docker volume ls -qf dangling=true)",
-    "docker:npm-install": "docker run -v ${pwd}:/SRM -v node_modules:/SRM/node_modules steam-rom-manager npm install",
-    "docker:build": "docker run -v ${pwd}:/SRM -v node_modules:/SRM/node_modules steam-rom-manager /bin/bash -c 'npm run build:win; npm run build:linux'"
+    "build:mac": "build --linux --ia32 --x64"
   },
   "dependencies": {
     "@angular/animations": "^4.4.6",
