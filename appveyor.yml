@@ -12,7 +12,7 @@ install:
   - npm install
 matrix:
   fast_finish: true
-build:
+build_script:
   - npm run build:dist
   - npm run build:win
 version: '{build}'
