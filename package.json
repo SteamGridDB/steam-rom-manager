@@ -43,7 +43,7 @@
     "url": "https://github.com/FrogTheFrog/steam-rom-manager"
   },
   "scripts": {
-    "postinstall": "install-app-deps",
+    "postinstall": "electron-builder install-app-deps",
     "watch:main": "webpack --watch --config ./webpack/main.js",
     "watch:renderer": "webpack --watch --config ./webpack/renderer.js",
     "build:main": "cross-env NODE_ENV=production webpack --config ./webpack/main.js",
