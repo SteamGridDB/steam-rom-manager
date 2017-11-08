@@ -18,5 +18,5 @@ script:
   - npm run build:dist
   - npm run ${BUILD_SCRIPT}
 notifications:
-  slack:
+  email:
     on_success: never
