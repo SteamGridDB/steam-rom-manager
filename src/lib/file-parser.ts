@@ -142,11 +142,18 @@ export class FileParser {
                     missingUserAccounts: filteredAccounts.missing,
                     steamDirectory: configs[i].steamDirectory,
                     files: [],
-                    failed: []
+                    failed: _.cloneDeep(data[i].failed)
                 });
 
                 for (let j = 0; j < data[i].success.length; j++) {
                     let fuzzyTitle = data[i].success[j].fuzzyTitle || data[i].success[j].extractedTitle;
+
+                    // Fail empty titles
+                    if (fuzzyTitle.length === 0) {
+                        parsedConfigs[i].failed.push(data[i].success[j].filePath);
+                        continue;
+                    }
+
                     let executableLocation = configs[i].executableLocation ? configs[i].executableLocation : data[i].success[j].filePath;
 
                     parsedConfigs[i].files.push({
@@ -188,8 +195,6 @@ export class FileParser {
                         return this.getVariable(variable as AllVariables, variableData);
                     })) : [];
                 }
-
-                parsedConfigs[i].failed = _.cloneDeep(data[i].failed);
 
                 localImagePromises.push(this.resolveFieldGlobs('localImages', configs[i], parsedConfigs[i], vParser).then((data) => {
                     for (let j = 0; j < data.parsedConfig.files.length; j++) {
@@ -246,6 +251,13 @@ export class FileParser {
                     if (found)
                         break;
                 }
+                if (config.titleFromVariable.skipFileIfVariableWasNotFound && !found)
+                    data.success[i].extractedTitle = '';
+            }
+        }
+        else if (config.titleFromVariable.skipFileIfVariableWasNotFound) {
+            for (let i = 0; i < data.success.length; i++) {
+                data.success[i].extractedTitle = '';
             }
         }
     }

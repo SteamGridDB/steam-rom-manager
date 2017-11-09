@@ -66,8 +66,11 @@ export class FuzzyMatcher {
     }
 
     private matchFromList(input: string, removeCharacters: boolean, removeBrackets: boolean) {
+        if (input.length === 0){
+            return { output: input, matched: false };
+        }
         // Check if title contains ", The..."
-        if (/,\s*the/i.test(input)) {
+        else if (/,\s*the/i.test(input)) {
             let modifiedInput = input.replace(/(.*?),\s*(.*)/i, '$2 $1');
             modifiedInput = this.modifyString(modifiedInput, removeCharacters, removeBrackets);
             let matches = this.performMatching(modifiedInput);

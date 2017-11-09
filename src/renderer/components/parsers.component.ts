@@ -200,6 +200,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                         caseInsensitiveVariables: new NestedFormElement.Toggle({
                             text: this.lang.text.caseInsensitiveVariables
                         }),
+                        skipFileIfVariableWasNotFound: new NestedFormElement.Toggle({
+                            text: this.lang.text.skipFileIfVariableWasNotFound
+                        }),
                         tryToMatchTitle: new NestedFormElement.Toggle({
                             text: this.lang.text.tryToMatchTitle
                         })

@@ -36,6 +36,7 @@ export const userConfiguration = {
             default: {},
             properties: {
                 limitToGroups: { type: 'string', default: '' },
+                skipFileIfVariableWasNotFound: { type: 'boolean', default: false },
                 caseInsensitiveVariables: { type: 'boolean', default: false },
                 tryToMatchTitle: { type: 'boolean', default: false }
             }

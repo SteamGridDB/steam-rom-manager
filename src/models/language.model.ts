@@ -258,6 +258,7 @@ export interface languageStruct {
                 skipWithMissingDataDir: string,
                 useCredentials: string,
                 tryToMatchTitle: string,
+                skipFileIfVariableWasNotFound: string,
                 caseInsensitiveVariables: string,
                 fuzzy_use: string,
                 fuzzy_removeCharacters: string,

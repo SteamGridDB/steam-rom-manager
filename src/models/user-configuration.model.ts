@@ -14,6 +14,7 @@ export interface UserConfiguration {
     parserInputs: { [inputKey: string]: string },
     titleFromVariable: {
         limitToGroups: string,
+        skipFileIfVariableWasNotFound: boolean,
         caseInsensitiveVariables: boolean,
         tryToMatchTitle: boolean
     },

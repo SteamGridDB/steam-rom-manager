@@ -305,6 +305,7 @@ export const EnglishLang: languageContainer = {
                     skipWithMissingDataDir: 'Skip found accounts with missing data directories',
                     useCredentials: 'Use account credentials',
                     tryToMatchTitle: 'Enabled',
+                    skipFileIfVariableWasNotFound: 'Skip file if variable was not found',
                     caseInsensitiveVariables: 'Case-insensitive variables',
                     fuzzy_use: 'Use fuzzy matching',
                     fuzzy_removeCharacters: 'Aggressive matching',

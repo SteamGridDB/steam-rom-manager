@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.6 - 2017-11-09
+
+### Added
+
+* Titles, not found in `customVariables.json` can now be failed (skipped). Useful for MAME and similar emulators.
+
+### Fixed 
+
+* Empty titles (with a length of a 0) will now be failed (skipped) by a parser.
+
 ## 2.2.5 - 2017-11-07
 
 ### Added
