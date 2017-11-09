@@ -30,7 +30,7 @@ export class AppComponent {
     constructor(private settingsService: SettingsService, private languageService: LanguageService, private markdownService: MarkdownService, private router: Router, private changeDetectionRef: ChangeDetectorRef) {
         this.settingsService.onLoad((appSettings) => {
             this.settingsLoaded = true;
-            this.router.initialNavigation();
+            this.router.navigate(['/parsers', -1]);
             this.changeDetectionRef.detectChanges();
         });
         this.languageService.observeChanges().subscribe((lang) => {
