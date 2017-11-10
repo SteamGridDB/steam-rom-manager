@@ -9,7 +9,6 @@ All notable changes to this project will be documented in this file.
 
 ### Changed 
 
-* Default initial page changed to `Parsers`.
 * Arguments are now appended to executable by default.
 * A lot of fields are now trimmed for whitespace.
 
