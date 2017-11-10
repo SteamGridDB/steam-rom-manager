@@ -7,12 +7,14 @@
 			text-overflow: clip;
 		}
 	
-		cursor: text;
-	
 		&:empty:before{
 			content: attr(data-placeholder);
 			color: var(--ng-text-placeholder-color, initial);
 		}
+	}
+
+	/deep/ * {
+		cursor: text;
 	}
 
 	overflow: auto;

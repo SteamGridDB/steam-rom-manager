@@ -104,6 +104,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                         this.currentDoc.content = this.lang.docs__md.executableLocation.join('');
                     }
                 }),
+                executableModifier: new NestedFormElement.Input({
+                    isHidden: () => this.isHiddenMode(),
+                    highlight: this.highlight.bind(this),
+                    label: this.lang.label.executableModifier,
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.executableModifier.join('');
+                    }
+                }),
                 romDirectory: new NestedFormElement.Path({
                     directory: true,
                     label: this.lang.label.romDirectory,
@@ -244,6 +254,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 executableArgs: new NestedFormElement.Input({
                     label: this.lang.label.executableArgs,
                     highlight: this.highlight.bind(this),
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
                     onInfoClick: (self, path) => {
                         this.currentDoc.activePath = path.join();
                         this.currentDoc.content = this.lang.docs__md.executableArgs.join('');
@@ -487,7 +498,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                         success(this.lang.success.completeShortcut__i.interpolate({
                             index: i + 1,
                             total: totalLength,
-                            shortcut: `"${data.files[i].executableLocation}" ${data.files[i].argumentString}`
+                            shortcut: `${data.files[i].modifiedExecutableLocation} ${data.files[i].argumentString}`.trim()
                         }));
                         if (data.files[i].steamCategories.length > 0) {
                             success(this.lang.success.steamCategory__i.interpolate({

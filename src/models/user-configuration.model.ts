@@ -3,6 +3,7 @@ export interface UserConfiguration {
     configTitle: string,
     steamCategory: string,
     executableLocation: string,
+    executableModifier: string,
     romDirectory: string,
     steamDirectory: string,
     startInDirectory: string,

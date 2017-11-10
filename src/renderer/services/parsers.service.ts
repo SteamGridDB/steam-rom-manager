@@ -198,15 +198,18 @@ export class ParsersService {
                         return this.lang.validationErrors.parserInput.incorrectParser;
                 }
             case 'titleModifier':
-                return data ? this.validateVariableParserString(data || '') : this.lang.validationErrors.titleModifier__md;
+                return this.validateVariableParserString(data || '', this.lang.validationErrors.titleModifier__md);
+            case 'executableModifier':
+                return this.validateVariableParserString(data || '', this.lang.validationErrors.executableModifier__md);
             case 'titleFromVariable':
                 return this.validateVariableParserString(data ? data.limitToGroups || '' : '');
             case 'onlineImageQueries':
+            case 'executableArgs':
                 return this.validateVariableParserString(data || '');
             case 'imageProviders':
                 return _.isArray(data) ? null : this.lang.validationErrors.imageProviders__md;
             case 'imagePool':
-                return data ? this.validateVariableParserString(data || '') : this.lang.validationErrors.imagePool__md;
+                return this.validateVariableParserString(data || '', this.lang.validationErrors.imagePool__md);
             case 'localImages':
             case 'localIcons':
                 return this.fileParser.validateFieldGlob(data || '');
@@ -215,11 +218,16 @@ export class ParsersService {
         }
     }
 
-    private validateVariableParserString(input: string) {
-        if (input.length === 0 || VariableParser.isValidString('${', '}', input))
-            return null;
+    private validateVariableParserString(input: string, emptyError?: string) {
+        let canBeEmpty = emptyError == undefined;
+
+        if (!canBeEmpty)
+            input = input.trim();
+
+        if (canBeEmpty || (!canBeEmpty && input.length > 0))
+            return VariableParser.isValidString('${', '}', input) ? null : this.lang.validationErrors.variableString__md;
         else
-            return this.lang.validationErrors.variableString__md;
+            return emptyError;
     }
 
     private validatePath(fsPath: string, checkForDirectory: boolean) {
@@ -234,9 +242,10 @@ export class ParsersService {
     isConfigurationValid(config: UserConfiguration) {
         let simpleValidations: string[] = [
             'parserType', 'configTitle', 'steamCategory',
-            'executableLocation', 'romDirectory', 'steamDirectory',
-            'specifiedAccounts', 'onlineImageQueries', 'titleModifier',
-            'imageProviders', 'startInDirectory', 'titleFromVariable',
+            'executableLocation', 'executableModifier', 'romDirectory',
+            'steamDirectory', 'startInDirectory', 'specifiedAccounts',
+            'titleFromVariable', 'titleModifier', 'executableArgs',
+            'onlineImageQueries', 'imagePool', 'imageProviders',
             'localImages', 'localIcons'
         ];
 

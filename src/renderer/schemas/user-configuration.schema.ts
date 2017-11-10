@@ -9,6 +9,7 @@ export const userConfiguration = {
         configTitle: { type: 'string', default: '' },
         steamCategory: { type: 'string', default: '' },
         executableLocation: { type: 'string', default: '' },
+        executableModifier: { type: 'string', default: '"${exePath}"' },
         romDirectory: { type: 'string', default: '' },
         steamDirectory: { type: 'string', default: '' },
         startInDirectory: { type: 'string', default: '' },
@@ -42,7 +43,7 @@ export const userConfiguration = {
             }
         },
         executableArgs: { type: 'string', default: '' },
-        appendArgsToExecutable: { type: 'boolean', default: false },
+        appendArgsToExecutable: { type: 'boolean', default: true },
         imagePool: { type: 'string', default: '${fuzzyTitle}' },
         localImages: { type: 'string', default: '' },
         localIcons: { type: 'string', default: '' },
