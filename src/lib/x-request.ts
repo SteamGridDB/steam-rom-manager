@@ -1,13 +1,11 @@
 import { xRequestError, xRequestOptions, xRequestOptionsWithUrl, xRequestResolve } from "../models";
-//import 'zone.js/dist/zone-bluebird';
-//Zone[Zone.__symbol__('bluebird')]
 import * as Bluebird from 'bluebird';
 
 export class xRequest {
     private cancellingPromises: boolean = false;
     private promiseRef: Bluebird<any>[] = [];
 
-    constructor(private applyBluebirdZone: boolean = true, private bluebird?: typeof Bluebird, protected timeout: number = 3000) {
+    constructor(private bluebird?: typeof Bluebird, protected timeout: number = 3000) {
         if (bluebird === undefined) {
             this.bluebird = Bluebird.getNewLibraryCopy();
 

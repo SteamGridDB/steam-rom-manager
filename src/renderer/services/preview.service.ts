@@ -8,10 +8,9 @@ import { ImageProviderService } from './image-provider.service';
 import {
     PreviewData, ImageContent, ParsedUserConfiguration, AppImages, PreviewVariables,
     ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings,
-    SteamGridImageData, SteamShortcutsData, SteamTree, SteamTreeData, SteamShortcuts,
-    userAccountData
+    SteamTree, userAccountData
 } from '../../models';
-import { VdfManager, steam, url } from "../../lib";
+import { VDF_Manager, VDF_Error, steam, url } from "../../lib";
 import { APP } from '../../variables';
 import { queue } from 'async';
 import * as _ from "lodash";
@@ -68,7 +67,7 @@ export class PreviewService {
         return this.previewVariables;
     }
 
-    generatePreviewData(fromSteam: boolean) {
+    generatePreviewData() {
         if (this.previewVariables.listIsBeingGenerated)
             return this.loggerService.info(this.lang.info.listIsBeingGenerated, { invokeAlert: true, alertTimeout: 3000 });
         else if (this.previewVariables.listIsBeingSaved)
@@ -78,7 +77,7 @@ export class PreviewService {
 
         this.previewVariables.listIsBeingGenerated = true;
         this.imageProviderService.instance.stopUrlDownload();
-        if (fromSteam) {
+        /* if (fromSteam) {
             if (this.appSettings.knownSteamDirectories.length === 0) {
                 this.previewVariables.listIsBeingGenerated = false;
                 this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 });
@@ -86,101 +85,81 @@ export class PreviewService {
             else
                 this.generatePreviewDataFromSteamCallback();
         }
-        else
-            this.generatePreviewDataCallback();
+        else */
+        this.generatePreviewDataCallback();
     }
 
-    saveData() {
+    saveData(remove: boolean) {
         if (this.previewVariables.listIsBeingSaved)
-            return this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 });
-        else if (this.previewVariables.numberOfListItems === 0)
-            return this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 });
+            return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+        else if (!remove && this.previewVariables.numberOfListItems === 0)
+            return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
         else if (this.previewVariables.listIsBeingRemoved)
-            return this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 });
+            return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+        else if (remove && this.appSettings.knownSteamDirectories.length === 0)
+            return Promise.resolve().then(() => { this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
 
+        let vdfManager = new VDF_Manager();
 
         this.previewVariables.listIsBeingSaved = true;
-
-        let vdfManager = new VdfManager(this.http);
         this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
-        vdfManager.populateListFromPreviewData(this.previewData).then(() => {
+
+        return vdfManager.prepare(remove ? this.appSettings.knownSteamDirectories : this.previewData).then((error) => {
+            if (error) {
+                this.loggerService.error(this.lang.errors.populatingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+                this.loggerService.error(error.message);
+            }
             this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
-            return vdfManager.createBackups();
+
+            return vdfManager.backup();
         }).then(() => {
             this.loggerService.info(this.lang.info.readingVDF_Files, { invokeAlert: true, alertTimeout: 3000 });
-            return vdfManager.readAllVDFs();
+
+            return vdfManager.read();
         }).then(() => {
-            this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-            return vdfManager.mergeVDFEntriesAndReplaceImages(this.previewData, this.appImages);
-        }).then((errors) => {
-            if (errors && errors.length) {
-                this.loggerService.error(this.lang.errors.mergingVDF_entries);
-                for (let i = 0; i < errors.length; i++)
-                    this.loggerService.error(errors[i]);
+            if (!remove) {
+                this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+
+                return vdfManager.mergeData(this.previewData, this.appImages);
             }
-            this.loggerService.info(this.lang.info.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-            return vdfManager.writeAllVDFs();
+            else {
+                this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+
+                return vdfManager.removeAllAddedEntries();
+            }
         }).then(() => {
+            this.loggerService.info(this.lang.info.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+
+            return vdfManager.write();
+        }).then((error) => {
+            if (error) {
+                this.loggerService.error(this.lang.errors.savingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+                this.loggerService.error(error.message);
+            }
             this.loggerService.success(this.lang.info.updatingKnownSteamDirList, { invokeAlert: true, alertTimeout: 3000 });
+
             let settings = this.settingsService.getSettings();
             settings.knownSteamDirectories = _.union(settings.knownSteamDirectories, Object.keys(this.previewData));
             this.settingsService.settingsChanged();
         }).then(() => {
             this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
             this.previewVariables.listIsBeingSaved = false;
-        }).catch((fatalError) => {
-            this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
-            this.loggerService.error(fatalError);
-            this.previewVariables.listIsBeingSaved = false;
-        });
-    }
 
-    remove(all: boolean) {
-        if (this.previewVariables.listIsBeingSaved)
-            return this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 });
-        else if (this.previewVariables.numberOfListItems === 0 && !all)
-            return this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 });
-        else if (this.previewVariables.listIsBeingRemoved)
-            return this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 });
-        else if (all && this.appSettings.knownSteamDirectories.length === 0)
-            return this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 });
-
-        this.imageProviderService.instance.stopUrlDownload();
-        this.previewDataChanged.next();
-        this.previewVariables.listIsBeingRemoved = true;
-
-        let vdfManager = new VdfManager(this.http);
-        this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
-        Promise.resolve().then(() => {
-            if (all)
-                return vdfManager.populateListFromDirectoryList(this.appSettings.knownSteamDirectories);
-            else
-                return vdfManager.populateListFromPreviewData(this.previewData).then(() => { return []; });
-        }).then((errors) => {
-            if (errors && errors.length) {
-                this.loggerService.error(this.lang.errors.readingVDF_entries);
-                for (let i = 0; i < errors.length; i++)
-                    this.loggerService.error(errors[i]);
+            if (remove) {
+                this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+                this.clearPreviewData();
             }
-            this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
-            return vdfManager.createBackups();
-        }).then(() => {
-            this.loggerService.info(this.lang.info.readingVDF_Files, { invokeAlert: true, alertTimeout: 3000 });
-            return vdfManager.readAllVDFs();
-        }).then(() => {
-            this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-            return vdfManager.removeVDFEntriesAndImages(all ? undefined : this.previewData);
-        }).then((errors) => {
-            this.loggerService.info(this.lang.info.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-            return vdfManager.writeAllVDFs();
-        }).then(() => {
-            this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-            this.previewVariables.listIsBeingRemoved = false;
-            this.clearPreviewData();
+
+            return true;
         }).catch((fatalError) => {
             this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
-            this.loggerService.error(fatalError);
-            this.previewVariables.listIsBeingRemoved = false;
+            if (fatalError instanceof VDF_Error)
+                this.loggerService.error(fatalError.message);
+            this.previewVariables.listIsBeingSaved = false;
+
+            return false;
+        }).then((noError) => {
+            return noError;
         });
     }
 
@@ -264,18 +243,20 @@ export class PreviewService {
         return this.appImages;
     }
 
-    private clearPreviewData() {
+    clearPreviewData() {
         this.previewData = undefined;
-        this.clearImageCacheSettings();
+        this.clearImageCache(true);
         this.previewVariables.numberOfListItems = 0;
         this.previewDataChanged.next();
     }
 
-    private clearImageCacheSettings() {
+    private clearImageCache(settingsOnly: boolean) {
         for (let imageKey in this.appImages) {
             this.appImages[imageKey].defaultImageProviders = [];
             this.appImages[imageKey].searchQueries = [];
             this.appImages[imageKey].retrieving = false;
+            if (!settingsOnly)
+                this.appImages[imageKey].content = [];
         }
     }
 
@@ -342,7 +323,7 @@ export class PreviewService {
         }
     }
 
-    private generatePreviewDataFromSteamCallback() {
+    /* private generatePreviewDataFromSteamCallback() {
         if (this.previewVariables.numberOfQueriedImages !== 0) {
             setTimeout(this.generatePreviewDataFromSteamCallback.bind(this), 100);
         }
@@ -376,107 +357,25 @@ export class PreviewService {
                 this.previewDataChanged.next();
             });
         }
-    }
-
-    private getSteamTreeFromParsedConfig(data: ParsedUserConfiguration[]): SteamTreeData {
-        let numberOfUsers: number = 0;
-        let tree: SteamTree = {};
-
-        for (let i = 0; i < data.length; i++) {
-            let config = data[i];
-
-            if (tree[config.steamDirectory] === undefined)
-                tree[config.steamDirectory] = {};
-
-            for (let j = 0; j < config.foundUserAccounts.length; j++) {
-                let userAccount = config.foundUserAccounts[j];
-
-                if (tree[config.steamDirectory][userAccount.accountID] === undefined) {
-                    numberOfUsers++;
-                    tree[config.steamDirectory][userAccount.accountID] = {};
-                }
-            }
-        }
-
-        return { tree, numberOfUsers };
-    }
-
-    private getNonSteamGridData(data: SteamTreeData) {
-        return Promise.resolve().then(() => {
-            let fileData: SteamGridImageData = _.cloneDeep(data.tree);
-
-            if (data.numberOfUsers === 0)
-                return fileData;
-            else {
-                let promises: Promise<void>[] = [];
-                for (let steamDirectory in fileData) {
-                    for (let userId in fileData[steamDirectory]) {
-                        promises.push(new Promise<void>((innerResolve, innerReject) => {
-                            fs.readdir(path.join(steamDirectory, 'userdata', userId, 'config', 'grid'), (error, files) => {
-                                if (error) {
-                                    if (error.code === 'ENOENT')
-                                        innerResolve();
-                                    else
-                                        innerReject(error);
-                                }
-                                else {
-                                    let extRegex = /png|tga|jpg|jpeg/i;
-                                    for (let i = 0; i < files.length; i++) {
-                                        let ext = path.extname(files[i]);
-                                        let basename = path.basename(files[i], ext);
-                                        if (fileData[steamDirectory][userId][basename] === undefined) {
-                                            if (extRegex.test(ext))
-                                                fileData[steamDirectory][userId][basename] = path.join(steamDirectory, 'userdata', userId, 'config', 'grid', files[i]);
-                                        }
-                                    }
-                                    innerResolve();
-                                }
-                            });
-                        }));
-                    }
-                }
-                return Promise.all(promises).then(() => fileData);
-            }
-        });
-    }
-
-    private getNonSteamShortcutsData(data: SteamTreeData) {
-        return Promise.resolve().then(() => {
-            if (data.numberOfUsers === 0)
-                return data;
-            else {
-                let vdfManager = new VdfManager(this.http);
-                return Promise.resolve().then(() => {
-                    return vdfManager.populateListFromPreviewData(data.tree);
-                }).then(() => {
-                    return vdfManager.readAllVDFs();
-                }).then(() => {
-                    return vdfManager.getAllShortcutsData();
-                })
-            }
-        });
-    }
+    } */
 
     private createPreviewData(data: ParsedUserConfiguration[], oldData?: PreviewData) {
-        let gridData: SteamGridImageData;
-        let shortcutsData: SteamShortcuts;
-        let steamTreeData = this.getSteamTreeFromParsedConfig(data);
-
         return Promise.resolve().then(() => {
-            if (this.appSettings.previewSettings.retrieveCurrentSteamImages)
-                return this.getNonSteamGridData(steamTreeData);
-            else
-                return steamTreeData.tree;
-        }).then((resolvedData) => {
-            gridData = resolvedData;
-            return this.getNonSteamShortcutsData(steamTreeData);
-        }).then((resolvedData) => {
-            shortcutsData = resolvedData.tree;
+            let steamTreeData = steam.generateTreeFromParsedConfig(data);
 
+            if (this.appSettings.previewSettings.retrieveCurrentSteamImages)
+                return steam.getGridImagesForTree(steamTreeData).then((gridData) => { return { gridData, steamTreeData } });
+            else
+                return { gridData: steamTreeData, steamTreeData };
+        }).then((treeData) => {
+            return steam.getNonSteamShortcutsData(treeData.steamTreeData).then((shortcutData) => { return Object.assign(treeData, { shortcutData }); });
+        }).then((treeData) => {
+            let shortcutsData = treeData.shortcutData.tree;
+            let gridData = treeData.gridData.tree;
             let numberOfItems: number = 0;
             let previewData: PreviewData = {};
 
-            this.clearImageCacheSettings();
+            this.clearImageCache(true);
 
             for (let i = 0; i < data.length; i++) {
                 let config = data[i];
@@ -543,6 +442,7 @@ export class PreviewService {
 
                             previewData[config.steamDirectory][userAccount.accountID].apps[appID] = {
                                 entryId: numberOfItems++,
+                                status: 'add', //TODO: change to this when "mark" feature is implemented: oldDataApp !== undefined ? oldDataApp.status : 'add',
                                 configurationTitle: config.configurationTitle,
                                 steamCategories: file.steamCategories,
                                 startInDirectory: file.startInDirectory,
@@ -580,7 +480,7 @@ export class PreviewService {
         });
     }
 
-    private shortcutsToPreviewData(data: SteamShortcutsData) {
+    /* private shortcutsToPreviewData(data: SteamShortcutsData) {
         let gridData: SteamGridImageData;
         let availableLogins: { [directory: string]: userAccountData[] };
 
@@ -598,7 +498,7 @@ export class PreviewService {
 
             console.log(availableLogins);
         });
-    }
+    } */
 
     downloadImageUrls(imageKeys?: string[], imageProviders?: string[]) {
         if (!this.appSettings.offlineMode) {

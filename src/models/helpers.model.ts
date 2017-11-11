@@ -10,3 +10,18 @@ export interface ValidatorModifier<T> {
         }
     }
 }
+
+export interface userAccountData{
+    name: string,
+    steamID64: string,
+    accountID: string
+}
+
+export interface SteamTree<T> {
+    tree: {
+        [steamDirectory: string]: {
+            [userId: string]: T
+        }
+    },
+    numberOfUsers: number
+}

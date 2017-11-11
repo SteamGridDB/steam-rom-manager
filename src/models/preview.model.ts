@@ -22,6 +22,7 @@ export interface AppImages {
 
 export interface PreviewDataApp {
     entryId: number,
+    status: 'add' | 'skip' | 'remove',
     configurationTitle: string,
     steamCategories: string[],
     imageProviders: string[],
@@ -48,25 +49,6 @@ export interface PreviewDataUser {
 export interface PreviewData {
     [steamDirectory: string]: {
         [userID: string]: PreviewDataUser
-    }
-}
-
-export interface SteamTree {
-    [steamDirectory: string]: {
-        [userID: string]: any
-    }
-}
-
-export interface SteamTreeData {
-    tree: SteamTree,
-    numberOfUsers: number
-}
-
-export interface SteamGridImageData {
-    [steamDirectory: string]: {
-        [userID: string]: {
-            [appId: string]: string
-        }
     }
 }
 

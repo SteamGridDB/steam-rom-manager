@@ -42,8 +42,8 @@ export interface languageStruct {
                 noAccountsWarning: string
             },
             errors: {
-                mergingVDF_entries: string,
-                readingVDF_entries: string,
+                populatingVDF_entries: string,
+                savingVDF_entries: string,
                 fatalError: string,
                 knownSteamDirListIsEmpty: string,
                 retryingDownload__i: string //${imageUrl}, ${appTitle},
@@ -331,17 +331,23 @@ export interface languageStruct {
     vdfManager: {
         error: {
             noUsersFound: string,
-            couldNotPopulateList__i: string, //${error}
             emptyDirectoryList: string,
-            noUserIdsInDir__i: string,  //${steamDirectory}
-            readingVdf__i: string, //${filePath}, ${error}
-            writingVdf__i: string, //${filePath}, ${error}
-            creatingBackups__i: string, //${error}
-            unsupportedMimeType__i: string, //${type}, ${title}
-            imageError__i: string, //${title}, ${error}
-            fatalImageError__i: string, //${title}, ${url}, ${error}
             couldNotMergeEntries__i: string, //${error}
             couldNotRemoveEntries__i: string //${error}
+        }
+    },
+    vdfFile: {
+        error: {
+            readingVdf__i: string, //${filePath}, ${error}
+            writingVdf__i: string, //${filePath}, ${error}
+            creatingBackup__i: string, //${filePath}, ${error}
+            unsupportedMimeType__i: string, //${type}, ${title}
+            imageError__i: string //${title}, ${url}, ${error}
+        }
+    },
+    helpers: {
+        error: {
+            noUserIdsInDir__i: string,  //${steamDirectory}
         }
     }
 }

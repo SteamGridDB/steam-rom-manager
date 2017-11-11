@@ -7,7 +7,7 @@ export class xRequestWrapper extends xRequest {
     private specialErrors: { [statusCode: string]: { retryCount?: number, silent: boolean } } = {};
 
     constructor(private proxy: ProviderProxy, private handleErrors: boolean, private retryCount: number, timeout: number) {
-        super(false, undefined, timeout);
+        super(undefined, timeout);
     }
 
     private canRetry(status: number, config: any) {

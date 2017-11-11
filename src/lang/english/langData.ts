@@ -45,8 +45,8 @@ export const EnglishLang: languageContainer = {
                     noAccountsWarning: 'User accounts not found. Incorrect Steam directory?'
                 },
                 errors: {
-                    mergingVDF_entries: 'Error(s) occurred while merging VDF files or downloading images.',
-                    readingVDF_entries: 'Error(s) occurred while reading VDF files.',
+                    populatingVDF_entries: 'Non-fatal error(-s) occurred populating VDF entries.',
+                    savingVDF_entries: 'Non-fatal error(-s) occurred while saving VDF/image files.',
                     fatalError: 'Fatal error occurred. See event log for details.',
                     knownSteamDirListIsEmpty: 'A list of known Steam directories is empty.',
                     retryingDownload__i: 'Image download from "${imageUrl}" failed for "${appTitle}".',
@@ -378,17 +378,23 @@ export const EnglishLang: languageContainer = {
         vdfManager: {
             error: {
                 noUsersFound: 'None of the provided steam directories contained any user directory.',
-                couldNotPopulateList__i: 'Could not populate VDF list. ${error}',
                 emptyDirectoryList: 'Directory list is empty.',
-                noUserIdsInDir__i: '"${steamDirectory}" contains no user ids.',
+                couldNotMergeEntries__i: 'Could not merge entries. ${error}',
+                couldNotRemoveEntries__i: 'Could not remove entries. ${error}'
+            }
+        },
+        vdfFile: {
+            error: {
                 readingVdf__i: 'Failed to read from "${filePath}". ${error}',
                 writingVdf__i: 'Failed to write to "${filePath}". ${error}',
-                creatingBackups__i: 'Could not create backups. ${error}',
+                creatingBackup__i: 'Could not create backup for "${filePath}". ${error}',
                 unsupportedMimeType__i: 'Mime type (${type}) is unsupported (title - "${title}").',
-                imageError__i: 'Error occurred while downloading image for "${title}". ${error}',
-                fatalImageError__i: 'Fatal error occurred while downloading image ("${title}": "${url}"). ${error}',
-                couldNotMergeEntries__i: 'Could not merge entries and/or replace images. ${error}',
-                couldNotRemoveEntries__i: 'Could not remove entries and/or replace images. ${error}'
+                imageError__i: 'Error occurred while saving/downloading image for "${title}". Url: ${url}. ${error}'
+            }
+        },
+        helpers: {
+            error: {
+                noUserIdsInDir__i: '"${steamDirectory}" contains no user ids.'
             }
         }
     }

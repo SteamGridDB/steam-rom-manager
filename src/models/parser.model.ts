@@ -1,4 +1,4 @@
-import { userAccountData } from './steam-id-helpers.model';
+import { userAccountData } from './helpers.model';
 
 export interface ParsedUserConfigurationFile {
     executableLocation: string,

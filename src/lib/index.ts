@@ -9,3 +9,7 @@ export * from './helpers';
 export * from './x-request';
 export * from './theme-manager';
 export * from './language-manager';
+export * from './vdf-shortcuts-file';
+export * from './vdf-screenshots-file';
+export * from './vdf-added-items-file';
+export * from './vdf-error';

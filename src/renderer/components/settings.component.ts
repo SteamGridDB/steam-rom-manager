@@ -44,7 +44,7 @@ export class SettingsComponent implements OnDestroy {
 
     private removeApps() {
         if (this.settings.knownSteamDirectories.length > 0)
-            this.previewService.remove(true);
+            this.previewService.saveData(true);
     }
 
     private resetFuzzy(){

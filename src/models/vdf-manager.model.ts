@@ -1,29 +1,35 @@
-export interface VDFListData {
+import { VDF_ScreenshotsFile, VDF_ShortcutsFile, VDF_AddedItemsFile } from '../lib';
+
+export interface VDF_ListItem {
+    shortcuts: VDF_ShortcutsFile,
+    screenshots: VDF_ScreenshotsFile,
+    addedItems: VDF_AddedItemsFile
+}
+
+export interface VDF_ListData {
     [steamDirectory: string]: {
-        [userId: string]: {
-            shortcuts: {
-                path: string,
-                data: any
-            },
-            screenshots: {
-                path: string,
-                data: any
-            }
-        }
+        [userId: string]: VDF_ListItem
     }
 }
 
-export type VDFListFileData = string;
-
-export interface SteamShortcuts {
-    [steamDirectory: string]: {
-        [userID: string]: {
-            [appId: string]: any
-        }
-    }
+export interface VDF_ScreenshotsData {
+    [appId: string]: {
+        title: string,
+        url: string
+    } | string
 }
 
-export interface SteamShortcutsData {
-    tree: SteamShortcuts,
-    numberOfUsers: number
+export interface VDF_ShortcutsItem {
+    appname: string,
+    exe: string,
+    StartDir: string,
+    LaunchOptions: string,
+    icon: string,
+    tags: string[]
 }
+
+export interface VDF_AddedItemsData {
+    [key: string]: true | undefined
+}
+
+export type SteamDirectory = string;

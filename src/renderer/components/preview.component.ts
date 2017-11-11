@@ -31,8 +31,8 @@ export class PreviewComponent implements OnDestroy {
         this.appSettings = this.settingsService.getSettings();
     }
 
-    generatePreviewData(fromSteam: boolean) {
-        this.previewService.generatePreviewData(fromSteam);
+    generatePreviewData() {
+        this.previewService.generatePreviewData();
     }
 
     preloadImages() {
@@ -129,11 +129,22 @@ export class PreviewComponent implements OnDestroy {
     }
 
     private save() {
-        this.previewService.saveData();
+        this.previewService.saveData(false);
     }
 
     private remove() {
-        this.previewService.remove(false);
+        for (const directory in this.previewData) {
+            for (const userId in this.previewData[directory]) {
+                for (const appId in this.previewData[directory][userId].apps) {
+                    this.previewData[directory][userId].apps[appId].status = 'remove';
+                }
+            }
+        }
+        
+        this.previewService.saveData(false).then((noError) => {
+            if (noError)
+                this.previewService.clearPreviewData();
+        });
     }
 
     private refreshImages(app: PreviewDataApp) {
