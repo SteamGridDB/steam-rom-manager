@@ -21,4 +21,4 @@ In case you're having trouble with SRM, feel free to visit [Discord](https://dis
 ## Credits
 
 * SRM icon created by [doZennn](https://www.reddit.com/user/dozennn) who's also the big boss of [SteamGridDB](http://www.steamgriddb.com/).
-* Image related icons in **Preview** page were made by [Roundicons](https://www.flaticon.com/authors/roundicons) from [Flaticon](https://www.flaticon.com) (licensed by [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/)).
+* Most icons were made by [Roundicons](https://www.flaticon.com/authors/roundicons) from [Flaticon](https://www.flaticon.com) (licensed by [Creative Commons BY 3.0](http://creativecommons.org/licenses/by/3.0/)).

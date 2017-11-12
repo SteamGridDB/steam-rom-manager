@@ -26,7 +26,9 @@ import { APP } from '../../variables';
                 <div class="dangerousButton" (click)="deleteForm()" style="margin-right: auto;">{{lang.buttons.delete}}</div>
                 <div *ngIf="(parsersService.getDeletedConfigurations() | async).length !== 0" (click)="restoreForm()">{{lang.buttons.undoDelete}}</div>
                 <div *ngIf="isUnsaved" (click)="undoChanges()">{{lang.buttons.undoChanges}}</div>
-                <div (click)="toMarkdown()" [title]="lang.buttons.toMarkdown">MD</div>
+                <div (click)="toClipboard()" [title]="lang.buttons.toClipboard">
+                    <svg copy-icon [title]="lang.buttons.toClipboard"></svg>
+                </div>
                 <div [class.disabled]="configurationIndex === 0" (click)="moveUp()" [title]="lang.buttons.moveUp">
                     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300" height="1em">
                         <path d="M150 10 l 140 150 h -80 v 120 h -120 v -120 h -80 z" stroke="black" stroke-width="3" />
@@ -407,7 +409,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.parsersService.restoreConfiguration();
     }
 
-    private toMarkdown() {
+    private toClipboard() {
         let config = this.userForm.value as UserConfiguration;
         if (this.parsersService.isConfigurationValid(config)) {
             try {
@@ -432,35 +434,35 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                             if (title)
                                 text += `# ${title}\r\n`;
 
-                            text += `··${this.userForm.get(itemPath).value}\r\n`;
+                            text += `····${this.userForm.get(itemPath).value}\r\n`;
                         }
                         else if (item instanceof NestedFormElement.Toggle) {
                             let title = item.label || item.text;
 
-                            text += `··${this.userForm.get(itemPath).value ? '[x]' : '[ ]'}: ${title}\r\n`;
+                            text += `····${this.userForm.get(itemPath).value ? '[x]' : '[ ]'}: ${title}\r\n`;
                         }
                         else if (item instanceof NestedFormElement.Select) {
                             let title = item.label;
                             if (title)
                                 text += `# ${title}\r\n`;
 
-                            text += `··Selected: ${this.userForm.get(itemPath).value}\r\n`;
+                            text += `····Selected: ${this.userForm.get(itemPath).value}\r\n`;
                         }
                     }
                 }
 
                 iterateGroup(this.nestedGroup, '');
 
-                clipboard.writeText(`\`\`\`${text}\`\`\``);
-                this.loggerService.info(this.lang.info.convertedToMarkdown, { invokeAlert: true, alertTimeout: 3000 });
+                clipboard.writeText(`\`\`\`\r\n${text}\`\`\``);
+                this.loggerService.info(this.lang.info.copiedToClipboard, { invokeAlert: true, alertTimeout: 3000 });
             } catch (error) {
-                this.loggerService.error(this.lang.error.failedToCopyMD, { invokeAlert: true, alertTimeout: 3000 });
+                this.loggerService.error(this.lang.error.failedToCopy, { invokeAlert: true, alertTimeout: 3000 });
                 if (error)
                     this.loggerService.error(error, { invokeAlert: true, alertTimeout: 3000 });
             }
         }
         else
-            this.loggerService.error(this.lang.error.cannotConvertInvalid, { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.error(this.lang.error.cannotCopyInvalid, { invokeAlert: true, alertTimeout: 3000 });
     }
 
     private testForm() {

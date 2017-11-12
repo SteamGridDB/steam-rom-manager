@@ -5,3 +5,4 @@ export * from './select-arrow-down.component';
 export * from './refresh-images.component';
 export * from './image-alert.component';
 export * from './add-images.component';
+export * from './copy-icon.component';

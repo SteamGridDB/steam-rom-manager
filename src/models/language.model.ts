@@ -174,7 +174,7 @@ export interface languageStruct {
                 faq: string,
                 undoChanges: string,
                 undoDelete: string,
-                toMarkdown: string
+                toClipboard: string
             },
             docs__md: {
                 intro: string[],
@@ -202,7 +202,7 @@ export interface languageStruct {
                 testStarting__i: string, //${title}, ${version}
                 testCompleted: string,
                 nothingWasFound: string,
-                convertedToMarkdown: string,
+                copiedToClipboard: string,
             },
             error: {
                 missingAccounts__i: string, //${count}
@@ -212,8 +212,8 @@ export interface languageStruct {
                 failedFileInfo__i: string, //${index}, ${total}, ${filename}
                 testFailed: string,
                 cannotTestInvalid: string,
-                cannotConvertInvalid: string,
-                failedToCopyMD: string
+                cannotCopyInvalid: string,
+                failedToCopy: string
             }
             success: {
                 foundAccounts__i: string, //${count}
