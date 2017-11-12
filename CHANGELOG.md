@@ -1,6 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.8 - 2017-11-12
+
+### Added
+
+* Parser configuration can now be copied to clipboard in "ready-to-paste" text format.
+
+### Changed 
+
+* Completely rewritten `VDF manager` to ease implementation of new features. Should increase list saving performance. If something breaks, there's always a **backup** VDF!
+* Optimized `shortcuts.vdf` parser. Should give a **huge** performance increase for people with a lot of entries.
+
 ## 2.2.7 - 2017-11-10
 
 ### Added
