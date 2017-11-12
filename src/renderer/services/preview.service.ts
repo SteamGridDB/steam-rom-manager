@@ -138,9 +138,11 @@ export class PreviewService {
             }
             this.loggerService.success(this.lang.info.updatingKnownSteamDirList, { invokeAlert: true, alertTimeout: 3000 });
 
-            let settings = this.settingsService.getSettings();
-            settings.knownSteamDirectories = _.union(settings.knownSteamDirectories, Object.keys(this.previewData));
-            this.settingsService.settingsChanged();
+            if (!remove) {
+                let settings = this.settingsService.getSettings();
+                settings.knownSteamDirectories = _.union(settings.knownSteamDirectories, Object.keys(this.previewData));
+                this.settingsService.settingsChanged();
+            }
         }).then(() => {
             this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
             this.previewVariables.listIsBeingSaved = false;

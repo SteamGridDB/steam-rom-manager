@@ -4,11 +4,11 @@ import { VDF_Error } from './vdf-error';
 import { glob, file } from './helpers';
 import { APP } from '../variables';
 import { Bluebird } from './zone-bluebird';
+import * as genericParser from '@node-steam/vdf';
 import * as _ from "lodash";
 import * as fs from 'fs-extra';
 import * as path from 'path';
 
-const genericParser = require('vdf');
 const mimeTypes = require('mime-types');
 const toBuffer = require('blob-to-buffer');
 
@@ -139,7 +139,7 @@ export class VDF_ScreenshotsFile {
             // Limit promise concurrency to 100
             return Bluebird.map(promises, promise => promise, { concurrency: 100 }).then((errors) => {
                 this.fileData['Screenshots']['shortcutnames'] = _.pickBy(this.fileData['Screenshots']['shortcutnames'], item => item !== undefined);
-                let data = genericParser.dump(this.fileData);
+                let data = genericParser.stringify(this.fileData);
                 return fs.outputFile(this.filepath, data).then(() => errors);
             }).then((errors) => {
                 if (errors.length > 0) {

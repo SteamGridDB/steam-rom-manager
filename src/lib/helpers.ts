@@ -4,6 +4,7 @@ import { VDF_ScreenshotsFile } from "./vdf-screenshots-file";
 import { VDF_ShortcutsFile } from "./vdf-shortcuts-file";
 import { VDF_Manager } from "./vdf-manager";
 import { APP } from "../variables";
+import * as genericParser from '@node-steam/vdf';
 import * as paths from "../paths";
 import * as crc from 'crc';
 import * as long from 'long';
@@ -173,14 +174,13 @@ export namespace steam {
     export function getAvailableLogins(steamDirectory: string, useCredentials: boolean) {
         return new Promise<userAccountData[]>((resolve, reject) => {
             if (useCredentials) {
-                let vdfParser = require('vdf');
                 fs.readFile(path.join(steamDirectory, 'config', 'loginusers.vdf'), 'utf8', (err, data) => {
                     try {
                         if (err && err.code !== 'ENOENT')
                             reject(err);
                         else {
                             if (data) {
-                                let parsedData = vdfParser.parse(data);
+                                let parsedData = genericParser.parse(data) as any;
                                 let accountData: userAccountData[] = [];
                                 if (parsedData.users) {
                                     for (let steamID64 in parsedData.users) {
@@ -374,10 +374,11 @@ export namespace vdf {
 
     export function generateListFromDirectoryList(steamDirectories: string[]) {
         let retrieveMultipleVDFPaths = function (steamDirectories: string[]) {
+            let userIdRegex = /userdata(?:\/|\\)(.*?)(?:\/|\\)/;
             let promises: Promise<{ data: { directory: string, users: { id: string, paths: string[] }[] }, error: string }>[] = [];
             for (let i = 0; i < steamDirectories.length; i++) {
                 promises.push(new Promise<{ data: { directory: string, users: { id: string, paths: string[] }[] }, error: string }>((resolve, reject) => {
-                    Glob('userdata/*/', { silent: true, dot: true, cwd: steamDirectories[i] }, (error, folders) => {
+                    Glob('userdata/+([0-9])/', { silent: true, dot: true, cwd: steamDirectories[i] }, (error, folders) => {
                         if (error)
                             reject(error);
                         else if (folders.length === 0) {
@@ -387,7 +388,7 @@ export namespace vdf {
                             let users: { id: string, paths: string[] }[] = [];
                             for (let j = 0; j < folders.length; j++) {
                                 users.push({
-                                    id: folders[j],
+                                    id: folders[j].match(userIdRegex)[1],
                                     paths: [
                                         path.join(steamDirectories[i], folders[j], 'config', paths.savedListFilename),
                                         path.join(steamDirectories[i], folders[j], '760', 'screenshots.vdf'),
@@ -422,6 +423,7 @@ export namespace vdf {
                         let user = users[j];
 
                         if (vdfData[directory][user.id] === undefined) {
+                            numberOfGeneratedEntries++;
                             vdfData[directory][user.id] = {
                                 addedItems: new VDF_AddedItemsFile(user.paths[0]),
                                 screenshots: new VDF_ScreenshotsFile(

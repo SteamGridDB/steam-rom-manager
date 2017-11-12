@@ -11,6 +11,8 @@ All notable changes to this project will be documented in this file.
 
 * Completely rewritten `VDF manager` to ease implementation of new features. Should increase list saving performance. If something breaks, there's always a **backup** VDF!
 * Optimized `shortcuts.vdf` parser. Should give a **huge** performance increase for people with a lot of entries.
+* Default page changed from `Preview` to `Parsers`.
+* Changed generic `vdf` library from [node-vdf](https://github.com/RJacksonm1/node-vdf) to [@node-steam/vdf](https://github.com/node-steam/vdf). Previous one did not properly convert data to `vdf`. This change **might** require `screenshots.vdf` (only if SRM throws an error).
 
 ## 2.2.7 - 2017-11-10
 
