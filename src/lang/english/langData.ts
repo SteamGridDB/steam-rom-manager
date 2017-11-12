@@ -189,8 +189,9 @@ export const EnglishLang: languageContainer = {
                     moveUp: 'Move up',
                     moveDown: 'Move down',
                     faq: 'FAQ',
-                    undoChanges: 'Undo changes',
-                    undoDelete: 'Undo delete'
+                undoChanges: 'Undo changes',
+                    undoDelete: 'Undo delete',
+                    toMarkdown: 'Copy configuration to markdown'
                 },
                 docs__md: {
                     intro: [require('./markdown/intro.md')],
@@ -246,7 +247,8 @@ export const EnglishLang: languageContainer = {
                 info: {
                     testStarting__i: 'Testing "${title}" parser (SRM version - ${version}).',
                     testCompleted: 'Parser test is completed.',
-                    nothingWasFound: 'Parser found nothing.'
+                    nothingWasFound: 'Parser found nothing.',
+                    convertedToMarkdown: 'MD configuration copied to clipboard',
                 },
                 error: {
                     missingAccounts__i: 'Following ${count} user account(s) were not found (user must to login to Steam at least once):',
@@ -255,7 +257,9 @@ export const EnglishLang: languageContainer = {
                     failedToMatch: 'Failed to match:',
                     failedFileInfo__i: '[${index}/${total}]: ${filename}',
                     testFailed: 'Testing failed',
-                    cannotTestInvalid: 'Can not test invalid configuration!'
+                    cannotTestInvalid: 'Can not test invalid configuration!',
+                    cannotConvertInvalid: 'Can not convert invalid configuration to MD!',
+                    failedToCopyMD: 'Failed to copy MD to clipbard!'
                 },
                 success: {
                     foundAccounts__i: 'Found ${count} available user account(s):',

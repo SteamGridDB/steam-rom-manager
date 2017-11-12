@@ -63,10 +63,10 @@ export class VDF_Manager {
 
         for (let steamDirectory in this.data) {
             for (let userId in this.data[steamDirectory]) {
-                /* if (writeShortcuts)
-                    promises.push(this.data[steamDirectory][userId].shortcuts.write() as Promise<undefined>); */
-                /* if (writeAddedItems)
-                    promises.push(this.data[steamDirectory][userId].addedItems.write() as Promise<undefined>); */
+                if (writeShortcuts)
+                    promises.push(this.data[steamDirectory][userId].shortcuts.write() as Promise<undefined>);
+                if (writeAddedItems)
+                    promises.push(this.data[steamDirectory][userId].addedItems.write() as Promise<undefined>);
                 if (writeScreenshots)
                     promises.push(this.data[steamDirectory][userId].screenshots.write());
             }

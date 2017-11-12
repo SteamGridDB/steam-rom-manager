@@ -173,7 +173,8 @@ export interface languageStruct {
                 moveDown: string,
                 faq: string,
                 undoChanges: string,
-                undoDelete: string
+                undoDelete: string,
+                toMarkdown: string
             },
             docs__md: {
                 intro: string[],
@@ -200,7 +201,8 @@ export interface languageStruct {
                 testStarting__i: string, //${title}, ${version}
                 testCompleted: string,
                 nothingWasFound: string,
-            }
+                convertedToMarkdown: string,
+            },
             error: {
                 missingAccounts__i: string, //${count}
                 missingAccountInfo__i: string, //${name}
@@ -208,7 +210,9 @@ export interface languageStruct {
                 failedToMatch: string,
                 failedFileInfo__i: string, //${index}, ${total}, ${filename}
                 testFailed: string,
-                cannotTestInvalid: string
+                cannotTestInvalid: string,
+                cannotConvertInvalid: string,
+                failedToCopyMD: string
             }
             success: {
                 foundAccounts__i: string, //${count}
