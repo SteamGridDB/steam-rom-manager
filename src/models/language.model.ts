@@ -188,6 +188,7 @@ export interface languageStruct {
                 startInDirectory: string[],
                 userAccounts: string[],
                 titleModifier: string[],
+                executableModifier: string[],
                 titleFromVariable: string[],
                 fuzzyMatch: string[],
                 executableArgs: string[],
@@ -240,6 +241,7 @@ export interface languageStruct {
                 configTitle: string,
                 steamCategory: string,
                 executableLocation: string,
+                executableModifier: string,
                 romDirectory: string,
                 steamDirectory: string,
                 startInDirectory: string,
@@ -293,6 +295,7 @@ export interface languageStruct {
                 executable__md: string
                 imagePool__md: string,
                 titleModifier__md: string,
+                executableModifier__md: string,
                 variableString__md: string,
                 imageProviders__md: string,
                 unhandledValidationKey__md: string

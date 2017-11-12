@@ -2,6 +2,7 @@ import { userAccountData } from './helpers.model';
 
 export interface ParsedUserConfigurationFile {
     executableLocation: string,
+    modifiedExecutableLocation: string,
     startInDirectory: string,
     filePath: string,
     extractedTitle: string,

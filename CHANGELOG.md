@@ -1,6 +1,21 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.7 - 2017-11-10
+
+### Added
+
+* Executable modifier field is now available. Now you can modify executable, append/prepend custom data.
+
+### Changed 
+
+* Arguments are now appended to executable by default.
+* A lot of fields are now trimmed for whitespace.
+
+### Fixed 
+
+* Added missing and fixed incorrect whitespace validation.
+
 ## 2.2.6 - 2017-11-09
 
 ### Added

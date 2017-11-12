@@ -159,6 +159,7 @@ export class FileParser {
                     parsedConfigs[i].files.push({
                         steamCategories: undefined,
                         executableLocation: executableLocation,
+                        modifiedExecutableLocation: undefined,
                         startInDirectory: configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation),
                         argumentString: undefined,
                         resolvedLocalImages: [],
@@ -177,23 +178,26 @@ export class FileParser {
                     let variableData = this.makeVariableData(configs[i], lastFile);
 
                     lastFile.finalTitle = vParser.setInput(configs[i].titleModifier).parse() ? vParser.replaceVariables((variable) => {
-                        return this.getVariable(variable as AllVariables, variableData);
-                    }) : '';
+                        return this.getVariable(variable as AllVariables, variableData).trim();
+                    }) : undefined;
 
                     variableData.finalTitle = lastFile.finalTitle;
 
                     lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
-                        return this.getVariable(variable as AllVariables, variableData);
-                    }) : '';
+                        return this.getVariable(variable as AllVariables, variableData).trim();
+                    }) : undefined;
                     lastFile.imagePool = vParser.setInput(configs[i].imagePool).parse() ? vParser.replaceVariables((variable) => {
-                        return this.getVariable(variable as AllVariables, variableData);
-                    }) : '';
+                        return this.getVariable(variable as AllVariables, variableData).trim();
+                    }) : undefined;
+                    lastFile.modifiedExecutableLocation = vParser.setInput(configs[i].executableModifier).parse() ? vParser.replaceVariables((variable) => {
+                        return this.getVariable(variable as AllVariables, variableData).trim();
+                    }) : undefined;
                     lastFile.onlineImageQueries = vParser.setInput(configs[i].onlineImageQueries).parse() ? _.uniq(vParser.extractVariables((variable) => {
                         return this.getVariable(variable as AllVariables, variableData);
-                    })) : [];
+                    })) : undefined;
                     lastFile.steamCategories = vParser.setInput(configs[i].steamCategory).parse() ? _.uniq(vParser.extractVariables((variable) => {
                         return this.getVariable(variable as AllVariables, variableData);
-                    })) : [];
+                    })) : undefined;
                 }
 
                 localImagePromises.push(this.resolveFieldGlobs('localImages', configs[i], parsedConfigs[i], vParser).then((data) => {

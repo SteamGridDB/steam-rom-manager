@@ -212,6 +212,11 @@ export const EnglishLang: languageContainer = {
                         require('./markdown/what-is-app-id.md'),
                         require('./markdown/parser-variables.md')
                     ],
+                    executableModifier: [
+                        require('./markdown/executable-modifier.md'),
+                        require('./markdown/what-is-app-id.md'),
+                        require('./markdown/parser-variables.md')
+                    ],
                     titleFromVariable: [
                         require('./markdown/title-from-variable.md')
                     ],
@@ -286,6 +291,7 @@ export const EnglishLang: languageContainer = {
                     parserType: 'Parser type',
                     configTitle: 'Configuration title',
                     steamCategory: 'Steam category',
+                    executableModifier: 'Executable modifier',
                     executableLocation: 'Executable',
                     romDirectory: 'ROMs directory',
                     steamDirectory: 'Steam directory',
@@ -340,6 +346,7 @@ export const EnglishLang: languageContainer = {
                     executable__md: '> Executable file is invalid!',
                     imagePool__md: '> Image pool must not be empty!',
                     titleModifier__md: '> Title modifier must not be empty!',
+                    executableModifier__md: '> Executable modifier must not be empty!',
                     variableString__md: '> Uneven number of `${` and `}` pairs. Use `\\` to escape `${` or `}` if you want to use them as characters.',
                     imageProviders__md: '> Incorrect image providers type!',
                     unhandledValidationKey__md: '> Input\'s validation is unhandled'

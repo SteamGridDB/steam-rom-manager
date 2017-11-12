@@ -400,7 +400,7 @@ export class PreviewService {
 
                     for (let k = 0; k < data[i].files.length; k++) {
                         let file = config.files[k];
-                        let executableLocation = config.appendArgsToExecutable ? `"${file.executableLocation}" ${file.argumentString}` : `"${file.executableLocation}"`;
+                        let executableLocation = (config.appendArgsToExecutable ? `${file.modifiedExecutableLocation} ${file.argumentString}` : `${file.modifiedExecutableLocation}`).trim();
                         let appID = steam.generateAppId(executableLocation, file.finalTitle);
                         let oldDataApp = oldDataAccount !== undefined ? oldDataAccount.apps[appID] : undefined;
 
