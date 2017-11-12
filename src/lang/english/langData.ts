@@ -29,9 +29,9 @@ export const EnglishLang: languageContainer = {
                     populatingVDF_List: 'Populating VDF list.',
                     creatingBackups: 'Creating backups.',
                     readingVDF_Files: 'Reading VDF files.',
-                    mergingVDF_entries: 'Merging VDF entries and replacing image files.',
+                    mergingVDF_entries: 'Merging VDF entries.',
                     removingVDF_entries: 'Removing VDF entries and image files.',
-                    writingVDF_entries: 'Writing VDF files.',
+                    writingVDF_entries: 'Writing VDF files and saving/removing images.',
                     updatingKnownSteamDirList: 'Updating a list of known Steam directories.',
                     retryingDownload__i: 'Retrying image download from "${imageUrl}" for "${appTitle}".',
                     disabledConfigurations__i: '${count} user configuration(s) was/were skipped (disabled by user).',
@@ -54,7 +54,7 @@ export const EnglishLang: languageContainer = {
                     unknownProviderError__i: 'Unknown error received from "${provider}" for "${title}": ${error}'
                 },
                 success: {
-                    writingVDF_entries: 'New entries saved/added.',
+                    writingVDF_entries: 'Done adding/removing entries.',
                     removingVDF_entries: 'Entries have been removed.',
                 }
             }

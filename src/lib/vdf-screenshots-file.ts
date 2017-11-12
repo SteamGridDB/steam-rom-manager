@@ -136,8 +136,8 @@ export class VDF_ScreenshotsFile {
                 }
             }
 
-            // Limit promise concurrency to 10
-            return Bluebird.map(promises, promise => promise, { concurrency: 10 }).then((errors) => {
+            // Limit promise concurrency to 100
+            return Bluebird.map(promises, promise => promise, { concurrency: 100 }).then((errors) => {
                 this.fileData['Screenshots']['shortcutnames'] = _.pickBy(this.fileData['Screenshots']['shortcutnames'], item => item !== undefined);
                 let data = genericParser.dump(this.fileData);
                 return fs.outputFile(this.filepath, data).then(() => errors);
