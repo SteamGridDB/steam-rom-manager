@@ -286,7 +286,7 @@ export namespace steam {
         return Promise.resolve().then(() => {
             let data = _.cloneDeep(tree);
 
-            if (tree.numberOfUsers === 0)
+            if (data.numberOfUsers === 0)
                 return data;
             else {
                 let promises: Promise<void>[] = [];
@@ -329,12 +329,12 @@ export namespace steam {
                     return vdfManager.read({ shortcuts: true });
                 }).then(() => {
                     vdfManager.forEach((steamDirectory, userId, listItem) => {
-                        if (tree.tree[steamDirectory] !== undefined && tree.tree[steamDirectory][userId] !== undefined) {
+                        if (data.tree[steamDirectory] !== undefined && data.tree[steamDirectory][userId] !== undefined) {
                             let appIds = listItem.shortcuts.getAppIds();
 
-                            tree.tree[steamDirectory][userId] = {};
+                            data.tree[steamDirectory][userId] = {};
                             for (let i = 0; i < appIds.length; i++) {
-                                tree.tree[steamDirectory][userId][appIds[i]] = listItem.shortcuts.getItem(appIds[i]);
+                                data.tree[steamDirectory][userId][appIds[i]] = listItem.shortcuts.getItem(appIds[i]);
                             }
                         }
                     });
