@@ -1,10 +1,6 @@
 {
   "name": "steam-rom-manager",
-<<<<<<< HEAD
   "version": "2.2.8",
-=======
-  "version": "2.2.7",
->>>>>>> 5570635c61107138c04c4e387b3a4275d96e1dbe
   "license": "GPL-3.0",
   "description": "An app for managing ROMs in Steam",
   "author": {
