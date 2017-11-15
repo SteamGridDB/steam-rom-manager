@@ -12,9 +12,9 @@ import * as _ from 'lodash';
                 <ng-container *ngVar="nestedGroup.children[childrenKey] as child">
                     <div class="container" [class.nested]="child.constructor.name === 'Group'" [hidden]="getHiddenMethod(child) | async">
                         <label *ngIf="child.label">
-                            <svg class="infoButton" info-icon [hover]="true" *ngIf="child.onInfoClick" 
+                            <span class="infoButton infoIcon" *ngIf="child.onInfoClick" 
                                 (click)="child.onInfoClick(currentForm.controls[childrenKey], currentForm.controls[childrenKey]['__path'])">
-                            </svg>
+                            </span>
                             {{child.label}}
                         </label>
                         <ng-container [ngSwitch]="child.constructor.name">

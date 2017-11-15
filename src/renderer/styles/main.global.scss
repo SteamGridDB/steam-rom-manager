@@ -57,3 +57,47 @@ body {
 		transform: rotate(360deg);
 	}
 }
+
+.infoIcon {
+	position: relative;
+	display: inline-flex;
+
+	width: 1em;
+	height: 1em;
+
+	border-radius: 50%;
+	font-family: 'Roboto';
+
+	line-height: initial;
+
+	background-color: var(--color-info-button-background);
+	border: 1px solid var(--color-info-button);
+
+	&:before{
+		position: absolute;
+		right: 0;
+		left: 0;
+		bottom: 0;
+		top: 0;
+		text-align: center;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		content: 'i';
+		
+		color: var(--color-info-button);
+		border-radius: 50%;
+
+		box-sizing: border-box;
+		user-select: none;
+	}
+	
+	&:hover {
+		cursor: pointer;
+		color: var(--color-info-button-hover); 
+		background-color: var(--color-info-button-background-hover);
+		border-color: var(--color-info-button-hover);
+	}
+}
