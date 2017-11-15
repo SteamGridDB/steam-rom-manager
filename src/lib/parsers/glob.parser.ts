@@ -141,12 +141,20 @@ export class GlobParser implements GenericParser {
     private getTitleRegex(fileGlob: string) {
         let titleRegex = '';
         let pos = 1;
+        let getRegexString = (segment: string) => {
+            let mm = new minimatch.Minimatch(segment, { dot: true });
+            if (mm.empty)
+                return '^\\s*?$';
+            else{
+                return mm.makeRe().source;
+            }
+        }
 
         let titleSegmentMatch = fileGlob.match(/.*\/(.*\${title}.*?)\/|.*\/(.*\${title}.*)|(.*\${title}.*?)\/|(.*\${title}.*)/i);
         if (titleSegmentMatch !== null) {
             let titleSegments = (titleSegmentMatch[1] || titleSegmentMatch[2] || titleSegmentMatch[3] || titleSegmentMatch[4]).split(/\${title}/i);
             if (titleSegments[0].length > 0) {
-                let regexString = new minimatch.Minimatch(titleSegments[0], { dot: true }).makeRe().source;
+                let regexString = getRegexString(titleSegments[0]);
                 titleRegex += regexString.substr(0, regexString.length - 1);
                 pos++;
             }
@@ -156,7 +164,7 @@ export class GlobParser implements GenericParser {
             titleRegex += '(.*?)';
 
             if (titleSegments[1].length > 0) {
-                let regexString = new minimatch.Minimatch(titleSegments[1], { dot: true }).makeRe().source;
+                let regexString = getRegexString(titleSegments[1]);
                 titleRegex += regexString.substr(1, regexString.length - 1);
             }
             else
