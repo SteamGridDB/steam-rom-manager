@@ -1,4 +1,4 @@
-import { ParsedDataWithFuzzy, FuzzyEventCallback } from "../models";
+import { ParsedDataWithFuzzy, FuzzyEventCallback, FuzzyMatcherOptions } from "../models";
 import * as Fuzzy from 'fuzzaldrin-plus';
 
 export class FuzzyMatcher {
@@ -17,10 +17,10 @@ export class FuzzyMatcher {
         this.list = list;
     }
 
-    fuzzyMatchParsedData(data: ParsedDataWithFuzzy, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
+    fuzzyMatchParsedData(data: ParsedDataWithFuzzy, options: FuzzyMatcherOptions, verbose: boolean = true) {
         if (this.isLoaded()) {
             for (let i = 0; i < data.success.length; i++) {
-                let matchedData = this.matchFromList(data.success[i].extractedTitle, removeCharacters, removeBrackets);
+                let matchedData = this.matchFromList(data.success[i].extractedTitle, options);
 
                 if (matchedData.matched) {
                     data.success[i].fuzzyTitle = matchedData.output;
@@ -32,9 +32,9 @@ export class FuzzyMatcher {
         return data;
     }
 
-    fuzzyMatchString(input: string, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
+    fuzzyMatchString(input: string, options: FuzzyMatcherOptions, verbose: boolean = true) {
         if (this.isLoaded()) {
-            let data = this.matchFromList(input, removeCharacters, removeBrackets);
+            let data = this.matchFromList(input, options);
             if (data.matched && verbose)
                 this.eventCallback('info', { info: 'match', stringA: data.output, stringB: input });
             return data.output;
@@ -42,10 +42,10 @@ export class FuzzyMatcher {
         return input;
     }
 
-    fuzzyEqual(a: string, b: string, removeCharacters: boolean, removeBrackets: boolean, verbose: boolean = true) {
+    fuzzyEqual(a: string, b: string, options: FuzzyMatcherOptions, verbose: boolean = true) {
         if (this.isLoaded()) {
-            let dataA = this.matchFromList(a, removeCharacters, removeBrackets);
-            let dataB = this.matchFromList(b, removeCharacters, removeBrackets);
+            let dataA = this.matchFromList(a, options);
+            let dataB = this.matchFromList(b, options);
 
             if (dataA.output === dataB.output) {
                 if (verbose)
@@ -65,20 +65,20 @@ export class FuzzyMatcher {
         return this.list != null && this.list.games.length > 0;
     }
 
-    private matchFromList(input: string, removeCharacters: boolean, removeBrackets: boolean) {
+    private matchFromList(input: string, options: FuzzyMatcherOptions) {
         if (input.length === 0){
             return { output: input, matched: false };
         }
         // Check if title contains ", The..."
         else if (/,\s*the/i.test(input)) {
             let modifiedInput = input.replace(/(.*?),\s*(.*)/i, '$2 $1');
-            modifiedInput = this.modifyString(modifiedInput, removeCharacters, removeBrackets);
+            modifiedInput = this.modifyString(modifiedInput, options);
             let matches = this.performMatching(modifiedInput);
             if (matches.matched)
                 return matches;
         }
 
-        let modifiedInput = this.modifyString(input, removeCharacters, removeBrackets);
+        let modifiedInput = this.modifyString(input, options);
         return this.performMatching(modifiedInput);
     }
 
@@ -90,16 +90,20 @@ export class FuzzyMatcher {
             return { output: input, matched: false };
     }
 
-    private modifyString(input: string, removeCharacters: boolean, removeBrackets: boolean) {
-        if (removeCharacters) {
+    private modifyString(input: string, options: FuzzyMatcherOptions) {
+        if (options.replaceDiacritics){
+            input = input.replaceDiacritics();
+        }
+
+        if (options.removeCharacters) {
             input = input.replace(/_/g, ' ');
             input = input.replace(/[^a-zA-Z0-9 \(\)\[\]]/g, '');
         }
 
-        if (removeBrackets)
+        if (options.removeBrackets)
             input = input.replace(/\(.*?\)|\[.*?\]/g, '');
 
-        if (removeCharacters || removeBrackets) {
+        if (options.removeCharacters || options.removeBrackets) {
             input = input.replace(/\s+/g, ' ').trim();
         }
 

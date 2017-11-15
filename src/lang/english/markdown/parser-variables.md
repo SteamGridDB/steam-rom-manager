@@ -59,24 +59,27 @@ In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is
 |`${uc|input}`|Uppercase variable. Transforms input to uppercase|
 |`${lc|input}`|Lowercase variable. Transforms input to lowercase|
 |`${cv:group|input}`|Change input with matched custom variable (group is optional)|
+|`${rdc|input}`|Replace diacritic input characters with their latin equivalent|
 
 ### Function variable example
 
-Let's say that `${title}` variable equals to `Zelda (USA) (Disc 1).iso`. Then these variables:
+Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
 ```
 ${/.*/|${title}}                         //Matches everything
 ${/(.*)/|${title}}                       //Captures everything
 ${/(\(.*?\))/|${title}|}                 //Captures all brackets and substitutes with nothing
 ${/(\(Disc\s?[0-9]\))/|${title}}         //Captures "Disc..." part
 ${uc|${/(\(Disc\s?[0-9]\))/|${title}}}   //Captures "Disc..." part and transforms it to uppercase
+${rdc|${title}}                          //Replace diacritic characters (in this case: é -> e)
 ```
 will be replaced with these:
 ```
-Zelda (USA) (Disc 1).iso
-Zelda (USA) (Disc 1).iso
-Zelda.iso
+Pokémon (USA) (Disc 1).iso
+Pokémon (USA) (Disc 1).iso
+Pokémon.iso
 (Disc 1)
 (DISC 1)
+Pokemon (USA) (Disc 1).iso
 ```
 
 ## Other variables

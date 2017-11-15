@@ -47,3 +47,9 @@ export interface ParsedDataWithFuzzy {
     }[],
     failed: string[]
 }
+
+export interface FuzzyMatcherOptions {
+    removeCharacters?: boolean,
+    removeBrackets?: boolean,
+    replaceDiacritics?: boolean
+}

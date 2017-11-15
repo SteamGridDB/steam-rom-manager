@@ -1,5 +1,4 @@
-import { Component, ElementRef, Input, SimpleChanges, OnChanges, OnDestroy, DoCheck, ViewEncapsulation } from '@angular/core';
-import { DynamicHTMLRenderer, DynamicHTMLRef } from 'ng-dynamic';
+import { Component, ElementRef, Input, SimpleChanges, OnChanges, ViewEncapsulation, Renderer2 } from '@angular/core';
 import { MarkdownService } from '../services';
 
 @Component({
@@ -10,30 +9,12 @@ import { MarkdownService } from '../services';
 })
 export class MarkdownComponent {
     @Input() content: string;
-    private ref: DynamicHTMLRef = null;
 
-    constructor(private renderer: DynamicHTMLRenderer, private elementRef: ElementRef, private markdownService: MarkdownService) { }
+    constructor(private renderer: Renderer2, private elementRef: ElementRef, private markdownService: MarkdownService) { }
 
     ngOnChanges(_: SimpleChanges) {
-        if (this.ref) {
-            this.ref.destroy();
-            this.ref = null;
-        }
         if (this.content && this.elementRef) {
-            this.ref = this.renderer.renderInnerHTML(this.elementRef, this.markdownService.compile(this.content));
-        }
-    }
-
-    ngDoCheck() {
-        if (this.ref) {
-            this.ref.check();
-        }
-    }
-
-    ngOnDestroy() {
-        if (this.ref) {
-            this.ref.destroy();
-            this.ref = null;
+            this.renderer.setProperty(this.elementRef.nativeElement, 'innerHTML', this.markdownService.compile(this.content));
         }
     }
 }

@@ -1,3 +1,5 @@
+import '../replace-diacritics';
+
 import { FuzzyMatcher } from "../fuzzy-matcher";
 import { FuzzyEventMap, ProviderPostEventMap, ProviderPostObject, ProviderReceiveEventMap, ImageContent } from "../../models";
 

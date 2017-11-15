@@ -16,7 +16,7 @@ class RetrogamingCloudProvider extends GenericProvider {
                 this.xrw.setSpecialErrors({ 404: { retryCount: 1, silent: true } });
                 let promises: Bluebird<void>[] = [];
                 for (let i = 0; i < listData.length; i++) {
-                    if (this.proxy.filter && listData[i].name && !this.proxy.fuzzyMatcher.fuzzyEqual(this.proxy.title, listData[i].name, true, true))
+                    if (this.proxy.filter && listData[i].name && !this.proxy.fuzzyMatcher.fuzzyEqual(this.proxy.title, listData[i].name, { removeBrackets: true, removeCharacters: true, replaceDiacritics: true }))
                         continue;
                     else {
                         if (listData[i].id !== undefined)

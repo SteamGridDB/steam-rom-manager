@@ -1,4 +1,4 @@
-import { ValidatorModifier, userAccountData, PreviewData, VDF_ListData, SteamTree, ParsedUserConfiguration, VDF_ShortcutsItem } from "../models";
+import { ValidatorModifier, userAccountData, PreviewData, VDF_ListData, SteamTree, ParsedUserConfiguration, VDF_ShortcutsItem, PreviewDataAppImage, AppImages } from "../models";
 import { VDF_AddedItemsFile } from "./vdf-added-items-file";
 import { VDF_ScreenshotsFile } from "./vdf-screenshots-file";
 import { VDF_ShortcutsFile } from "./vdf-shortcuts-file";
@@ -468,5 +468,48 @@ export namespace file {
             newFilepath = `${newFilepath}.${ext}`;
 
         return fs.copy(filepath, newFilepath, { overwrite: overwrite }).then();
+    }
+}
+
+export namespace appImage {
+    export function getMaxLength(data: PreviewDataAppImage, images: AppImages) {
+        let imagesLength = images[data.imagePool] !== undefined ? images[data.imagePool].content.length : 0;
+        if (data.default !== undefined && imagesLength === 0)
+            imagesLength++;
+        if (data.steam !== undefined)
+            imagesLength++;
+        return imagesLength;
+    }
+
+    export function setImageIndex(data: PreviewDataAppImage, images: AppImages, index: number) {
+        let currentIndex = data.imageIndex;
+        let length = getMaxLength(data, images);
+        if (index < 0)
+            index = length > 0 ? length - 1 : 0;
+        else if (index >= length)
+            index = 0;
+
+        data.imageIndex = index;
+    }
+
+    export function getCurrentImage(data: PreviewDataAppImage, images: AppImages) {
+        let imagesLength = images[data.imagePool] !== undefined ? images[data.imagePool].content.length : 0;
+        let length = getMaxLength(data, images);
+
+        if (data.imageIndex !== 0 && data.imageIndex >= length)
+            setImageIndex(data, images, data.imageIndex);
+
+        if (imagesLength === 0) {
+            if (data.imageIndex === 0 && data.steam !== undefined)
+                return data.steam;
+            else
+                return data.default || undefined;
+        }
+        else {
+            if (data.imageIndex === 0 && data.steam !== undefined)
+                return data.steam;
+            else
+                return images[data.imagePool].content[data.imageIndex - (data.steam === undefined ? 0 : 1)];
+        }
     }
 }

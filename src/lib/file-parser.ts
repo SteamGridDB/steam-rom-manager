@@ -118,8 +118,9 @@ export class FileParser {
         }).then((parserPromises) => {
             return Promise.all(parserPromises);
         }).then((data: ParsedDataWithFuzzy[]) => {
-            let localImagePromises: Promise<any>[] = [];
-            let localIconPromises: Promise<any>[] = [];
+            let defaultImagePromises: Promise<void>[] = [];
+            let localImagePromises: Promise<void>[] = [];
+            let localIconPromises: Promise<void>[] = [];
             let vParser = new VariableParser({ left: '${', right: '}' });
 
             for (let i = 0; i < configs.length; i++) {
@@ -127,7 +128,7 @@ export class FileParser {
                     this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);
 
                 if (configs[i].fuzzyMatch.use)
-                    this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data[i], configs[i].fuzzyMatch.removeCharacters, configs[i].fuzzyMatch.removeBrackets);
+                    this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data[i], configs[i].fuzzyMatch);
 
                 let userFilter = vParser.setInput(configs[i].userAccounts.specifiedAccounts).parse() ? _.uniq(vParser.extractVariables(data => null)) : [];
                 let filteredAccounts = this.filterUserAccounts(steamDirectories[i].data, userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir);
@@ -163,6 +164,8 @@ export class FileParser {
                         startInDirectory: configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation),
                         argumentString: undefined,
                         resolvedLocalImages: [],
+                        resolvedDefaultImages: [],
+                        defaultImage: undefined,
                         localImages: [],
                         resolvedLocalIcons: [],
                         localIcons: [],
@@ -179,27 +182,41 @@ export class FileParser {
 
                     lastFile.finalTitle = vParser.setInput(configs[i].titleModifier).parse() ? vParser.replaceVariables((variable) => {
                         return this.getVariable(variable as AllVariables, variableData).trim();
-                    }) : undefined;
+                    }) : '';
 
                     variableData.finalTitle = lastFile.finalTitle;
 
                     lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
                         return this.getVariable(variable as AllVariables, variableData).trim();
-                    }) : undefined;
+                    }) : '';
                     lastFile.imagePool = vParser.setInput(configs[i].imagePool).parse() ? vParser.replaceVariables((variable) => {
                         return this.getVariable(variable as AllVariables, variableData).trim();
-                    }) : undefined;
+                    }) : '';
                     lastFile.modifiedExecutableLocation = vParser.setInput(configs[i].executableModifier).parse() ? vParser.replaceVariables((variable) => {
                         return this.getVariable(variable as AllVariables, variableData).trim();
-                    }) : undefined;
+                    }) : '';
                     lastFile.onlineImageQueries = vParser.setInput(configs[i].onlineImageQueries).parse() ? _.uniq(vParser.extractVariables((variable) => {
                         return this.getVariable(variable as AllVariables, variableData);
-                    })) : undefined;
+                    })) : [];
                     lastFile.steamCategories = vParser.setInput(configs[i].steamCategory).parse() ? _.uniq(vParser.extractVariables((variable) => {
                         return this.getVariable(variable as AllVariables, variableData);
-                    })) : undefined;
+                    })) : [];
                 }
 
+                defaultImagePromises.push(this.resolveFieldGlobs('defaultImage', configs[i], parsedConfigs[i], vParser).then((data) => {
+                    for (let j = 0; j < data.parsedConfig.files.length; j++) {
+                        data.parsedConfig.files[j].resolvedDefaultImages = data.resolvedGlobs[j];
+
+                        let extRegex = /png|tga|jpg|jpeg/i;
+                        for (let k = 0; k < data.resolvedFiles[j].length; k++) {
+                            const item = data.resolvedFiles[j][k];
+                            if (extRegex.test(path.extname(item))){
+                                data.parsedConfig.files[j].defaultImage = url.encodeFile(item);
+                                break;
+                            }
+                        }
+                    }
+                }));
                 localImagePromises.push(this.resolveFieldGlobs('localImages', configs[i], parsedConfigs[i], vParser).then((data) => {
                     for (let j = 0; j < data.parsedConfig.files.length; j++) {
                         data.parsedConfig.files[j].resolvedLocalImages = data.resolvedGlobs[j];
@@ -219,7 +236,7 @@ export class FileParser {
                     }
                 }));
             }
-            return Promise.all(localImagePromises).then(() => Promise.all(localIconPromises));
+            return Promise.all(localImagePromises).then(() => Promise.all(localIconPromises)).then(() => Promise.all(defaultImagePromises));
         }).then(() => {
             return { parsedConfigs, noUserAccounts: totalUserAccountsFound === 0 };
         });
@@ -340,7 +357,7 @@ export class FileParser {
                     }).then((parsedData) => {
                         for (let j = 0; j < parsedData.success.length; j++) {
                             if (config.fuzzyMatch.use) {
-                                if (this.fuzzyService.fuzzyMatcher.fuzzyMatchString(parsedData.success[j].extractedTitle, config.fuzzyMatch.removeCharacters, config.fuzzyMatch.removeBrackets) === parsedConfig.files[i].fuzzyTitle) {
+                                if (this.fuzzyService.fuzzyMatcher.fuzzyMatchString(parsedData.success[j].extractedTitle, config.fuzzyMatch) === parsedConfig.files[i].fuzzyTitle) {
                                     resolvedFiles[i].push(parsedData.success[j].filePath);
                                 }
                             }
@@ -448,6 +465,12 @@ export class FileParser {
                     match = /^lc\|(.*)$/i.exec(output);
                     if (match) {
                         output = match[1].toLowerCase();
+                        break;
+                    }
+
+                    match = /^rdc\|(.*)$/i.exec(output);
+                    if (match) {
+                        output = match[1].replaceDiacritics();
                         break;
                     }
 

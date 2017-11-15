@@ -15,7 +15,7 @@ export function MarkdownVariable(md: MarkdownIt, options?: any) {
         if (endPos !== -1) {
             let content = state.src.slice(state.pos, ++endPos);
             if (!content.match(/\r\n|\r|\n/g)) {
-                let match = /(svg|APP|DOM)\s*\[(.+)\]/.exec(content);
+                let match = /(APP)\s*\[(.+)\]/.exec(content);
                 if (!silent && match !== null && match[1] != null && match[2] != null) {
                     let token = state.push("markdown-variable", match[1], 0);
                     token.content = match[2];
@@ -36,12 +36,8 @@ export function MarkdownVariable(md: MarkdownIt, options?: any) {
     md.renderer.rules["markdown-variable"] = (tokens, idx, options, env, self) => {
         const token = tokens[idx];
         switch (token.tag) {
-            case 'svg':
-                return `<svg ${md.utils.escapeHtml(tokens[idx].content)}></svg>`;
             case 'APP':
                 return `${_.get(APP, md.utils.escapeHtml(tokens[idx].content), 'undefined')}`;
-            case 'DOM':
-                return tokens[idx].content;
             default:
                 return '';
         }

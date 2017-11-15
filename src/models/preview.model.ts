@@ -20,6 +20,13 @@ export interface AppImages {
     [extractedTitle: string]: ImagesStatusAndContent
 };
 
+export interface PreviewDataAppImage {
+    steam: ImageContent,    // 0? index
+    default: ImageContent,  // 0-1? index
+    imagePool: string,      // 0-2+ index
+    imageIndex: number
+}
+
 export interface PreviewDataApp {
     entryId: number,
     status: 'add' | 'skip' | 'remove',
@@ -30,11 +37,9 @@ export interface PreviewDataApp {
     executableLocation: string,
     title: string,
     argumentString: string,
-    steamImage: ImageContent,
-    currentImageIndex: number,
     currentIconIndex: number,
     icons: string[],
-    imagePool: string
+    images: PreviewDataAppImage
 }
 
 export interface PreviewDataApps {

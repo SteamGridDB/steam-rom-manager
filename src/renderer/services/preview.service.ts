@@ -10,7 +10,7 @@ import {
     ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings,
     SteamTree, userAccountData
 } from '../../models';
-import { VDF_Manager, VDF_Error, steam, url } from "../../lib";
+import { VDF_Manager, VDF_Error, steam, url, appImage } from "../../lib";
 import { APP } from '../../variables';
 import { queue } from 'async';
 import * as _ from "lodash";
@@ -167,8 +167,8 @@ export class PreviewService {
 
     loadImage(app: PreviewDataApp) {
         if (app) {
-            let image = this.appImages[app.imagePool].content[app.currentImageIndex];
-            if (image && (image.loadStatus === 'notStarted' || image.loadStatus === 'failed')) {
+            let image = appImage.getCurrentImage(app.images, this.appImages);
+            if (image !== undefined && (image.loadStatus === 'notStarted' || image.loadStatus === 'failed')) {
                 if (image.loadStatus === 'failed') {
                     this.loggerService.info(this.lang.info.retryingDownload__i.interpolate({
                         imageUrl: image.imageUrl,
@@ -225,13 +225,24 @@ export class PreviewService {
 
     setImageIndex(app: PreviewDataApp, index: number) {
         if (app) {
-            let images = this.appImages[app.imagePool].content;
-            if (images.length) {
-                let minIndex = app.steamImage ? -1 : 0;
-                app.currentImageIndex = index < minIndex ? images.length - 1 : (index < images.length ? index : minIndex);
-                this.previewDataChanged.next();
-            }
+            appImage.setImageIndex(app.images, this.appImages, index);
+            this.previewDataChanged.next();
         }
+    }
+
+    areImagesAvailable(app: PreviewDataApp) {
+        return this.getTotalLengthOfImages(app) > 0;
+    }
+
+    getTotalLengthOfImages(app: PreviewDataApp) {
+        if (app)
+            return appImage.getMaxLength(app.images, this.appImages);
+        else
+            return 0;
+    }
+
+    getCurrentImage(app: PreviewDataApp) {
+        return appImage.getCurrentImage(app.images, this.appImages);
     }
 
     setIconIndex(app: PreviewDataApp, index: number) {
@@ -433,11 +444,7 @@ export class PreviewService {
                         if (previewData[config.steamDirectory][userAccount.accountID].apps[appID] === undefined) {
                             let steamImage = gridData[config.steamDirectory][userAccount.accountID][appID];
                             let steamImageUrl = steamImage ? url.encodeFile(steamImage) : undefined;
-                            let currentImageIndex = oldDataApp !== undefined ? oldDataApp.currentImageIndex : steamImageUrl ? -1 : 0;
                             let currentIconIndex = oldDataApp !== undefined ? oldDataApp.currentIconIndex : 0;
-
-                            if (steamImageUrl ? -1 : 0 > currentImageIndex || currentImageIndex > this.appImages[file.imagePool].content.length)
-                                currentImageIndex = steamImageUrl ? -1 : 0;
 
                             if (0 > currentIconIndex || currentIconIndex > file.localIcons.length)
                                 currentIconIndex = 0;
@@ -451,16 +458,23 @@ export class PreviewService {
                                 imageProviders: config.imageProviders,
                                 argumentString: config.appendArgsToExecutable ? '' : file.argumentString,
                                 title: file.finalTitle,
-                                steamImage: steamImage ? {
-                                    imageProvider: 'Steam',
-                                    imageUrl: steamImageUrl,
-                                    loadStatus: 'done'
-                                } : undefined,
-                                currentImageIndex,
+                                images: {
+                                    steam: steamImage ? {
+                                        imageProvider: 'Steam',
+                                        imageUrl: steamImageUrl,
+                                        loadStatus: 'done'
+                                    } : undefined,
+                                    default: file.defaultImage ? {
+                                        imageProvider: 'LocalStorage',
+                                        imageUrl: file.defaultImage,
+                                        loadStatus: 'done'
+                                    } : undefined,
+                                    imagePool: file.imagePool,
+                                    imageIndex: 0
+                                },
                                 executableLocation,
                                 currentIconIndex,
-                                icons: file.localIcons,
-                                imagePool: file.imagePool
+                                icons: file.localIcons
                             };
                         }
                         else {

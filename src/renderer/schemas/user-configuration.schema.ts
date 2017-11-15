@@ -45,6 +45,7 @@ export const userConfiguration = {
         executableArgs: { type: 'string', default: '' },
         appendArgsToExecutable: { type: 'boolean', default: true },
         imagePool: { type: 'string', default: '${fuzzyTitle}' },
+        defaultImage: { type: 'string', default: '' },
         localImages: { type: 'string', default: '' },
         localIcons: { type: 'string', default: '' },
         onlineImageQueries: { type: 'string', default: '${${fuzzyTitle}}' },
@@ -67,7 +68,8 @@ export const userConfiguration = {
             properties: {
                 use: { type: 'boolean', default: true },
                 removeCharacters: { type: 'boolean', default: true },
-                removeBrackets: { type: 'boolean', default: true }
+                removeBrackets: { type: 'boolean', default: true },
+                replaceDiacritics: { type: 'boolean', default: true }
             }
         },
         advanced: { type: 'boolean', default: false },

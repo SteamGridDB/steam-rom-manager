@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { PreviewService, SettingsService, ImageProviderService } from "../services";
 import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageContent } from "../../models";
 import { APP } from '../../variables';
-import { url } from '../../lib';
+import { url, appImage, FileSelector } from '../../lib';
 import * as _ from 'lodash';
 import * as path from 'path';
 
@@ -20,6 +20,7 @@ export class PreviewComponent implements OnDestroy {
     private previewVariables: PreviewVariables;
     private filterValue: string = '';
     private scrollingEntries: boolean = false;
+    private fileSelector: FileSelector = new FileSelector();
 
     constructor(private previewService: PreviewService, private settingsService: SettingsService, private imageProviderService: ImageProviderService, private changeDetectionRef: ChangeDetectorRef, private renderer: Renderer2, private elementRef: ElementRef) {
         this.previewData = this.previewService.getPreviewData();
@@ -47,13 +48,17 @@ export class PreviewComponent implements OnDestroy {
         this.subscriptions.unsubscribe();
     }
 
-    getImagePool(poolKey: string) {
+    private getImagePool(poolKey: string) {
         return this.previewService.images[poolKey];
     }
 
-    private getBackgroundImage(app: PreviewDataApp, image: ImageContent) {
+    private getBackgroundImage(app: PreviewDataApp) {
+        return this.previewService.getCurrentImage(app);
+    }
+
+    private setBackgroundImage(app: PreviewDataApp, image: ImageContent) {
         if (image == undefined) {
-            if (this.previewService.images[app.imagePool].retrieving)
+            if (this.previewService.images[app.images.imagePool].retrieving)
                 return require('../../assets/images/retrieving-images.svg');
             else
                 return require('../../assets/images/no-images.svg');
@@ -76,44 +81,37 @@ export class PreviewComponent implements OnDestroy {
         this.previewService.loadImage(app);
     }
 
-    private getItemClass(app: PreviewDataApp, image: ImageContent) {
-        return {
-            retrieving: this.previewService.images[app.imagePool].retrieving,
-            noImages: !this.previewService.images[app.imagePool].retrieving && image == undefined,
-            downloading: image != undefined && image.loadStatus === 'downloading',
-            failed: image != undefined && image.loadStatus === 'failed',
-            imageLoaded: image != undefined && image.loadStatus === 'done'
-        }
-    }
-
     private areImagesAvailable(app: PreviewDataApp) {
-        return this.previewService.images[app.imagePool].content.length > (app.steamImage ? 0 : 1);
+        return this.previewService.areImagesAvailable(app);
     }
 
     private currentImageIndex(app: PreviewDataApp) {
-        return app.currentImageIndex + (app.steamImage ? 2 : 1);
+        return app.images.imageIndex + 1;
     }
 
     private maxImageIndex(app: PreviewDataApp) {
-        return this.getImagePool(app.imagePool).content.length + (app.steamImage ? 1 : 0);
+        return this.previewService.getTotalLengthOfImages(app);
     }
 
-    private addLocalImages(app: PreviewDataApp, event: Event) {
-        let target = event.target as HTMLInputElement;
-        if (target.files) {
-            let extRegex = /png|tga|jpg|jpeg/i;
-            for (let i = 0; i < target.files.length; i++) {
-                if (extRegex.test(path.extname(target.files[i].path))) {
-                    let imageUrl = url.encodeFile(target.files[i].path);
-                    this.previewService.addUniqueImage(app.imagePool, {
-                        imageProvider: 'LocalStorage',
-                        imageUrl,
-                        loadStatus: 'done'
-                    });
+    private addLocalImages(app: PreviewDataApp) {
+        this.fileSelector.multiple = true;
+        this.fileSelector.accept = '.png, .jpeg, .jpg, .tga';
+        this.fileSelector.onChange = (target) => {
+            if (target.files) {
+                let extRegex = /png|tga|jpg|jpeg/i;
+                for (let i = 0; i < target.files.length; i++) {
+                    if (extRegex.test(path.extname(target.files[i].path))) {
+                        let imageUrl = url.encodeFile(target.files[i].path);
+                        this.previewService.addUniqueImage(app.images.imagePool, {
+                            imageProvider: 'LocalStorage',
+                            imageUrl,
+                            loadStatus: 'done'
+                        });
+                    }
                 }
             }
-            target.value = null;
-        }
+        };
+        this.fileSelector.trigger();
     }
 
     private get lang() {
@@ -148,15 +146,15 @@ export class PreviewComponent implements OnDestroy {
     }
 
     private refreshImages(app: PreviewDataApp) {
-        this.previewService.downloadImageUrls([app.imagePool], app.imageProviders);
+        this.previewService.downloadImageUrls([app.images.imagePool], app.imageProviders);
     }
 
     private previousImage(app: PreviewDataApp) {
-        this.previewService.setImageIndex(app, app.currentImageIndex - 1);
+        this.previewService.setImageIndex(app, app.images.imageIndex - 1);
     }
 
     private nextImage(app: PreviewDataApp) {
-        this.previewService.setImageIndex(app, app.currentImageIndex + 1);
+        this.previewService.setImageIndex(app, app.images.imageIndex + 1);
     }
 
     private previousIcon(app: PreviewDataApp) {

@@ -195,6 +195,7 @@ export interface languageStruct {
                 onlineImageQueries: string[],
                 imageProviders: string[],
                 imagePool: string[],
+                defaultImage: string[],
                 localImages: string[],
                 localIcons: string[]
             },
@@ -227,6 +228,9 @@ export interface languageStruct {
                 completeShortcut__i: string, //${index}, ${total}, ${shortcut}
                 firstImageQuery__i: string, //${index}, ${total}, ${query}
                 imageQueries__i: string, //${index}, ${total}, ${query}
+                resolvedDefaultImageGlob__i: string, //${index}, ${total}
+                resolvedDefaultImageGlobInfo__i: string, //${index}, ${total}, ${glob}
+                defaultImageResolved__i: string, //${index}, ${total}, ${image}
                 resolvedImageGlob__i: string, //${index}, ${total}
                 resolvedImageGlobInfo__i: string, //${index}, ${total}, ${glob}
                 localImagesResolved__i: string, //${index}, ${total}
@@ -253,6 +257,7 @@ export interface languageStruct {
                 onlineImageQueries: string,
                 imageProviders: string,
                 imagePool: string,
+                defaultImage: string,
                 localImages: string,
                 localIcons: string
             },
@@ -269,6 +274,7 @@ export interface languageStruct {
                 fuzzy_use: string,
                 fuzzy_removeCharacters: string,
                 fuzzy_removeBrackets: string,
+                fuzzy_replaceDiacritic: string,
                 appendArgsToExecutable: string,
                 disabled: string,
                 advanced: string,

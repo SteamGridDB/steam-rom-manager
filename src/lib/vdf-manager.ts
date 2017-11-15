@@ -1,6 +1,6 @@
 import { VDF_ListData, SteamDirectory, PreviewData, AppImages, VDF_ListItem } from "../models";
 import { VDF_Error } from './vdf-error';
-import { vdf } from './helpers';
+import { vdf, appImage } from './helpers';
 import { APP } from '../variables';
 import * as _ from 'lodash';
 
@@ -125,8 +125,7 @@ export class VDF_Manager {
 
                     if (app.status === 'add') {
                         let item = listItem.shortcuts.getItem(appId);
-                        let imageIndex = app.currentImageIndex;
-                        let appImages = images[app.imagePool].content;
+                        let currentImage = appImage.getCurrentImage(app.images, images);
 
                         if (item !== undefined) {
                             item.appname = app.title;
@@ -149,8 +148,8 @@ export class VDF_Manager {
 
                         listItem.addedItems.addItem(appId);
 
-                        if (appImages.length > 0 && imageIndex !== -1 && appImages[imageIndex] !== undefined) {
-                            listItem.screenshots.addItem({ appId, title: app.title, url: appImages[imageIndex].imageUrl });
+                        if (currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
+                            listItem.screenshots.addItem({ appId, title: app.title, url: currentImage.imageUrl });
                         }
                     }
                     else if (app.status === 'remove') {
@@ -158,9 +157,7 @@ export class VDF_Manager {
                         listItem.addedItems.removeItem(appId);
                         listItem.screenshots.removeItem(appId);
 
-                        app.steamImage = undefined;
-                        if (app.currentImageIndex === -1)
-                            app.currentImageIndex = 0;
+                        app.images.steam = undefined
                     }
                 }
             });

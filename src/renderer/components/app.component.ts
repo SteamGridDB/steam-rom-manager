@@ -39,6 +39,7 @@ export class AppComponent {
             }
         });
         this.markdownService.createInstance('default', new markdownIt({
+            html: true,
             typographer: true,
             highlight: function (str, lang) {
                 if (lang && highlight.getLanguage(lang)) {

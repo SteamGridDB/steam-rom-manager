@@ -22,13 +22,15 @@ export interface UserConfiguration {
     fuzzyMatch: {
         use: boolean,
         removeCharacters: boolean,
-        removeBrackets: boolean
+        removeBrackets: boolean,
+        replaceDiacritics: boolean
     },
     onlineImageQueries: string,
     imageProviders: string[],
     executableArgs: string,
     imagePool: string,
     appendArgsToExecutable: boolean,
+    defaultImage: string,
     localImages: string,
     localIcons: string,
     titleModifier: string,

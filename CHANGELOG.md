@@ -1,6 +1,19 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.9 - 2017-11-16
+
+### Added
+
+* Fuzzy matcher now has an option to replace diacritic characters to their latin equivalent. Available character list is probably not full, so if you find a missing character be sure to post an issue.
+* Parser variable added which can replace diacritic characters to their latin equivalent.
+* Added default/fallback image option for when there is no image available.
+
+### Fixed
+
+* `substr` error when glob contains space characters at the start of input.
+* Could not add local image manually most of the time due tue file input being removed before callback is fired.
+
 ## 2.2.8 - 2017-11-12
 
 ### Added

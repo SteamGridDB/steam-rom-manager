@@ -243,6 +243,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                         use: new NestedFormElement.Toggle({
                             text: this.lang.text.fuzzy_use
                         }),
+                        replaceDiacritics: new NestedFormElement.Toggle({
+                            text: this.lang.text.fuzzy_replaceDiacritic
+                        }),
                         removeCharacters: new NestedFormElement.Toggle({
                             text: this.lang.text.fuzzy_removeCharacters
                         }),
@@ -298,6 +301,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     onInfoClick: (self, path) => {
                         this.currentDoc.activePath = path.join();
                         this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
+                    }
+                }),
+                defaultImage: new NestedFormElement.Input({
+                    isHidden: () => this.isHiddenMode(),
+                    highlight: this.highlight.bind(this),
+                    label: this.lang.label.defaultImage,
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                    onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = this.lang.docs__md.defaultImage.join('');
                     }
                 }),
                 localImages: new NestedFormElement.Input({
@@ -587,6 +600,26 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                                     query: data.files[i].onlineImageQueries[j]
                                 }));
                             }
+                        }
+                        if (data.files[i].resolvedDefaultImages.length) {
+                            success(this.lang.success.resolvedDefaultImageGlob__i.interpolate({
+                                index: i + 1,
+                                total: totalLength
+                            }));
+                            for (let j = 0; j < data.files[i].resolvedDefaultImages.length; j++) {
+                                success(this.lang.success.resolvedImageGlobInfo__i.interpolate({
+                                    index: i + 1,
+                                    total: totalLength,
+                                    glob: data.files[i].resolvedDefaultImages[j]
+                                }));
+                            }
+                        }
+                        if (data.files[i].defaultImage !== undefined) {
+                            success(this.lang.success.defaultImageResolved__i.interpolate({
+                                index: i + 1,
+                                total: totalLength,
+                                image: data.files[i].defaultImage
+                            }));
                         }
                         if (data.files[i].resolvedLocalImages.length) {
                             success(this.lang.success.resolvedImageGlob__i.interpolate({

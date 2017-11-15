@@ -210,6 +210,7 @@ export class ParsersService {
                 return _.isArray(data) ? null : this.lang.validationErrors.imageProviders__md;
             case 'imagePool':
                 return this.validateVariableParserString(data || '', this.lang.validationErrors.imagePool__md);
+            case 'defaultImage':
             case 'localImages':
             case 'localIcons':
                 return this.fileParser.validateFieldGlob(data || '');
@@ -246,7 +247,7 @@ export class ParsersService {
             'steamDirectory', 'startInDirectory', 'specifiedAccounts',
             'titleFromVariable', 'titleModifier', 'executableArgs',
             'onlineImageQueries', 'imagePool', 'imageProviders',
-            'localImages', 'localIcons'
+            'defaultImage', 'localImages', 'localIcons'
         ];
 
         for (let i = 0; i < simpleValidations.length; i++) {

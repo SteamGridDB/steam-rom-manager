@@ -76,7 +76,7 @@ let clientConfig = {
             template: helpers.root('src', 'renderer', 'index.html')
         }),
         new webpack.ContextReplacementPlugin(
-            /angular(\\|\/)core(\\|\/)@angular/,
+            /\@angular(\\|\/)core(\\|\/)esm5/,
             helpers.root('dist')
         ),
         GlobalStyle

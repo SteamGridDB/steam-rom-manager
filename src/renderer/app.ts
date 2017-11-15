@@ -1,6 +1,7 @@
 import 'zone.js/dist/zone';
 import 'reflect-metadata';
 import '../lib/string-interpolation';
+import '../lib/replace-diacritics';
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
