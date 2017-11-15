@@ -347,6 +347,7 @@ export interface languageStruct {
         error: {
             readingVdf__i: string, //${filePath}, ${error}
             writingVdf__i: string, //${filePath}, ${error}
+            corruptedVdf__i: string, //${filePath}, ${error}
             creatingBackup__i: string, //${filePath}, ${error}
             unsupportedMimeType__i: string, //${type}, ${title}
             imageError__i: string //${title}, ${url}, ${error}

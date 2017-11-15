@@ -2,6 +2,7 @@ import { VDF_ListData, SteamDirectory, PreviewData, AppImages, VDF_ListItem } fr
 import { VDF_Error } from './vdf-error';
 import { vdf } from './helpers';
 import { APP } from '../variables';
+import * as _ from 'lodash';
 
 export class VDF_Manager {
     private data: VDF_ListData = {};
@@ -35,16 +36,17 @@ export class VDF_Manager {
         });
     }
 
-    read(options?: { shortcuts?: boolean, addedItems?: boolean, screenshots?: boolean }) {
+    read(options?: { shortcuts?: { skipIndexing: boolean, read: boolean }, addedItems?: boolean, screenshots?: boolean }) {
         let promises: Promise<any>[] = [];
-        let readShortcuts = options !== undefined ? options.shortcuts : true;
-        let readAddedItems = options !== undefined ? options.addedItems : true;
-        let readScreenshots = options !== undefined ? options.screenshots : true;
+        let readShortcuts = _.get(options, 'shortcuts.read', true);
+        let skipIndexing = _.get(options, 'shortcuts.skipIndexing', false);
+        let readAddedItems = _.get(options, 'addedItems', true);
+        let readScreenshots = _.get(options, 'screenshots', true);
 
         for (let steamDirectory in this.data) {
             for (let userId in this.data[steamDirectory]) {
                 if (readShortcuts)
-                    promises.push(this.data[steamDirectory][userId].shortcuts.read());
+                    promises.push(this.data[steamDirectory][userId].shortcuts.read(skipIndexing));
                 if (readAddedItems)
                     promises.push(this.data[steamDirectory][userId].addedItems.read());
                 if (readScreenshots)

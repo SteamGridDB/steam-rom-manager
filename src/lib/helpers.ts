@@ -326,7 +326,7 @@ export namespace steam {
                 return Promise.resolve().then(() => {
                     return vdfManager.prepare(data.tree as any as PreviewData);
                 }).then(() => {
-                    return vdfManager.read({ shortcuts: true });
+                    return vdfManager.read({ shortcuts: { read: true, skipIndexing: true } });
                 }).then(() => {
                     vdfManager.forEach((steamDirectory, userId, listItem) => {
                         if (data.tree[steamDirectory] !== undefined && data.tree[steamDirectory][userId] !== undefined) {

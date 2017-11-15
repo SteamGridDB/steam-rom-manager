@@ -398,6 +398,7 @@ export const EnglishLang: languageContainer = {
             error: {
                 readingVdf__i: 'Failed to read from "${filePath}". ${error}',
                 writingVdf__i: 'Failed to write to "${filePath}". ${error}',
+                corruptedVdf__i: '"${filePath}" is corrupted. ${error}',
                 creatingBackup__i: 'Could not create backup for "${filePath}". ${error}',
                 unsupportedMimeType__i: 'Mime type (${type}) is unsupported (title - "${title}").',
                 imageError__i: 'Error occurred while saving/downloading image for "${title}". Url: ${url}. ${error}'

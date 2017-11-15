@@ -40,7 +40,7 @@ export class VDF_ShortcutsFile {
         return !this.valid;
     }
 
-    read() {
+    read(skipIndexing: boolean = false) {
         return fs.readFile(this.filepath).catch((error) => {
             if (error.code !== 'ENOENT') {
                 throw new VDF_Error(APP.lang.vdfFile.error.readingVdf__i.interpolate({
@@ -60,12 +60,19 @@ export class VDF_ShortcutsFile {
             let shortcutsData = this.data;
             this.indexMap = {};
 
-            for (let i = 0; i < shortcutsData.length; i++) {
-                let shortcut = shortcutsData[i];
-                this.indexMap[steam.generateAppId(shortcut.exe, shortcut.appname)] = i;
+            if (!skipIndexing) {
+                for (let i = 0; i < shortcutsData.length; i++) {
+                    let shortcut = shortcutsData[i];
+                    this.indexMap[steam.generateAppId(shortcut.exe, shortcut.appname || shortcut['AppName'] /* fallback due to old mistakes */)] = i;
+                }
             }
 
             return this.data;
+        }).catch((error) => {
+            throw new VDF_Error(this.lang.error.corruptedVdf__i.interpolate({
+                filePath: this.filepath,
+                error
+            }));
         });
     }
 
@@ -93,28 +100,28 @@ export class VDF_ShortcutsFile {
         });
     }
 
-    getItem(appId: string){
+    getItem(appId: string) {
         if (this.indexMap[appId] !== undefined)
             return this.fileData['shortcuts'][this.indexMap[appId]];
         else
             return undefined;
     }
 
-    removeItem(appId: string){
-        if (this.indexMap[appId] !== undefined){
+    removeItem(appId: string) {
+        if (this.indexMap[appId] !== undefined) {
             this.fileData['shortcuts'][this.indexMap[appId]] = undefined;
             this.indexMap[appId] = undefined;
         }
     }
 
-    addItem(appId: string, value: VDF_ShortcutsItem){
-        if (this.indexMap[appId] === undefined){
+    addItem(appId: string, value: VDF_ShortcutsItem) {
+        if (this.indexMap[appId] === undefined) {
             this.fileData['shortcuts'].push(value);
             this.indexMap[appId] = this.fileData['shortcuts'].length - 1;
         }
     }
 
-    getAppIds(){
+    getAppIds() {
         return Object.keys(this.indexMap);
     }
 }

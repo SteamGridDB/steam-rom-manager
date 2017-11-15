@@ -107,7 +107,7 @@ export class PreviewService {
         return vdfManager.prepare(remove ? this.appSettings.knownSteamDirectories : this.previewData).then((error) => {
             if (error) {
                 this.loggerService.error(this.lang.errors.populatingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-                this.loggerService.error(error.message);
+                this.loggerService.error(error);
             }
             this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
 
@@ -134,7 +134,7 @@ export class PreviewService {
         }).then((error) => {
             if (error) {
                 this.loggerService.error(this.lang.errors.savingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-                this.loggerService.error(error.message);
+                this.loggerService.error(error);
             }
             this.loggerService.success(this.lang.info.updatingKnownSteamDirList, { invokeAlert: true, alertTimeout: 3000 });
 
@@ -155,8 +155,8 @@ export class PreviewService {
             return true;
         }).catch((fatalError) => {
             this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
-            if (fatalError instanceof VDF_Error)
-                this.loggerService.error(fatalError.message);
+            if (fatalError)
+                this.loggerService.error(fatalError);
             this.previewVariables.listIsBeingSaved = false;
 
             return false;
