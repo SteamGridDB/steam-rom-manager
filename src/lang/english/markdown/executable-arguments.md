@@ -25,7 +25,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 ### Project64 2.3+ (N64)
 
 ```
-"${filePath}"
+--f -g "${filePath}"
 ```
 
 ### Mupen64+ (N64)
