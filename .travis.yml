@@ -1,6 +1,7 @@
 matrix:
   include:
     - os: osx
+      if: type IN (push)
       osx_image: xcode9.0
       language: node_js
       node_js: "8"
@@ -9,9 +10,17 @@ matrix:
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
     - os: linux
+      if: type IN (push)
       services: docker
       node_js: "8"
       sudo: required
+      language: node_js
+
+    - os: linux
+      if: type IN (pull_request)
+      node_js: "8"
+      sudo: required
+      env: PR_TEST=true
       language: node_js
 
 cache:
@@ -36,16 +45,18 @@ before_script:
 
 script:
   - |
-    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      docker run --rm \
-        --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
-        -v ${PWD}:/project \
-        -v ~/.cache/electron:/root/.cache/electron \
-        -v ~/.cache/electron-builder:/root/.cache/electron-builder \
-        electronuserland/builder:wine \
-        /bin/bash -c "npm run build:docker"
-    else
-      npm run build:mac
+    if [ "PR_TEST" != "true" ]; then
+      if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+        docker run --rm \
+          --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
+          -v ${PWD}:/project \
+          -v ~/.cache/electron:/root/.cache/electron \
+          -v ~/.cache/electron-builder:/root/.cache/electron-builder \
+          electronuserland/builder:wine \
+          /bin/bash -c "npm run build:docker"
+      else
+        npm run build:mac
+      fi
     fi
 
 before_cache:
