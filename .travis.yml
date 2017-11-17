@@ -20,7 +20,6 @@ matrix:
       if: type IN (pull_request)
       node_js: "8"
       sudo: required
-      env: PR_TEST=true
       language: node_js
 
 cache:
@@ -45,7 +44,7 @@ before_script:
 
 script:
   - |
-    if [ "PR_TEST" != "true" ]; then
+    if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       if [ "$TRAVIS_OS_NAME" == "linux" ]; then
         docker run --rm \
           --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
