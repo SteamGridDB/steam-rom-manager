@@ -25,14 +25,14 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 ### Project64 2.3+ (N64)
 
 ```
---f -g "${filePath}"
+"${filePath}"
 ```
 
 ### Mupen64+ (N64)
 
 ```
 --fullscreen "${filePath}"
-``
+```
 
 ### DeSmuME (Nintendo DS)
 
