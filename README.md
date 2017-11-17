@@ -27,6 +27,7 @@ All script must be run using `npm run` command. For example, `npm run watch:rend
 |`build:dist`|Runs `build:main` and `build:renderer`|
 |`build:win`|Compiles an executable installer for Windows|
 |`build:linux`|Compiles a `deb` package and `AppImage` for linux|
+|`build:docker`|`build:win` and `build:linux` joined together|
 |`build:mac`|Compiles a `dmg` package for MacOS|
 
 ## Debugging an app
