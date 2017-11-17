@@ -96,6 +96,7 @@ let developmentConfig = {
 };
 
 let productionConfig = {
+    bail: process.env.TRAVIS ? JSON.parse(process.env.TRAVIS) : false,
     plugins: [
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
