@@ -2,18 +2,12 @@
 
 Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
 
-## Examples
+## Examples By System
 
 ### RetroArch
 
 ```
 -L "cores${/}YOUR_CORE.dll" "${filePath}"
-```
-
-### Dolphin Emu (Gamecube and Wii)
-
-```
---batch --exec "${filePath}"
 ```
 
 ### Cemu (WiiU)
@@ -22,22 +16,10 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 -f -g "${filePath}"
 ```
 
-### nullDC (Sega Dreamcast)
+### Dolphin Emu (Gamecube and Wii)
 
 ```
--config nullDC_GUI:Fullscreen=1 -config ImageReader:DefaultImage="${filePath}"
-```
-
-### PCSX2 (Sony Playstation 2)
-
-```
---fullscreen --nogui "${filePath}"
-```
-
-### Kega Fusion (Sega Genesis and Sega 32X)
-
-```
-"${filePath}" -gen -auto -fullscreen
+--batch --exec --confirm=false "${filePath}"
 ```
 
 ### Project64 2.3+ (N64)
@@ -46,10 +28,70 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 "${filePath}"
 ```
 
+### Mupen64+ (N64)
+
+```
+--fullscreen "${filePath}"
+```
+
+### DeSmuME (Nintendo DS)
+
+```
+"${filePath}"
+``
+
+### mGBA (Gameboy, Gameboy Color, and Gameboy Advance)
+
+```
+-f "${filePath}"
+```
+
 ### Nestopia (NES/Famicom)
 
 ```
 "${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen on start : yes -view size fullscreen : stretched 
+```
+
+### nullDC (Sega Dreamcast)
+
+```
+-config nullDC_GUI:Fullscreen=1 -config ImageReader:DefaultImage="${filePath}"
+```
+
+### Kega Fusion (Sega Genesis and Sega 32X)
+
+```
+"${filePath}" -gen -auto -fullscreen
+```
+
+### RPCS3 (Sony Playstation 3)
+
+```
+"${filePath}"
+```
+
+### PCSX2 (Sony Playstation 2)
+
+```
+--fullscreen --nogui "${filePath}"
+```
+
+### PCSX-R (Sony Playstation 1)
+
+```
+-nogui -cdfile "${filePath}"
+```
+
+### ePSXe (Sony Playstation 1)
+
+```
+-f -nogui -loadbin "${filePath}"
+```
+
+### PPSSPP (Sony Playstation Portable)
+
+```
+"${filePath}"
 ```
 
 ## What does "Append arguments to executable" do?
