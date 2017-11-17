@@ -7,7 +7,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 ### RetroArch
 
 ```
--L "cores${/}bnes_libretro.dll" "${filePath}"
+-L "cores${/}YOUR_CORE.dll" "${filePath}"
 ```
 
 ### Dolphin Emu (Gamecube and Wii)
