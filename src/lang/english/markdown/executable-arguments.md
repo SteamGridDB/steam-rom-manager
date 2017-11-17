@@ -38,7 +38,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 
 ```
 "${filePath}"
-``
+```
 
 ### mGBA (Gameboy, Gameboy Color, and Gameboy Advance)
 
