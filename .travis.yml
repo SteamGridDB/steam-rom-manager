@@ -25,6 +25,9 @@ before_install:
       export PATH="/tmp/git-lfs:$PATH"
     fi
 
+install:
+  - npm install
+
 before_script:
   - git lfs pull
 
