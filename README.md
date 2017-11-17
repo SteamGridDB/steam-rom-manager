@@ -4,6 +4,8 @@ Visit [Steam ROM Manager](https://frogthefrog.github.io/steam-rom-manager)'s git
 
 # For developers
 
+[![Build Status](https://travis-ci.org/FrogTheFrog/steam-rom-manager.svg?branch=v2.2.5)](https://travis-ci.org/FrogTheFrog/steam-rom-manager)
+
 To compile this app, you'll need the latest `Node.js` and `npm`. Every script will need to be run from project directory.
 
 Before running any scripts, dependencies must be installed using:
