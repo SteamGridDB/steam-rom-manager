@@ -7,13 +7,13 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 ### RetroArch
 
 ```
--L "cores${/}YOUR_CORE.dll" "${filePath}"
+-L "cores${/}bnes_libretro.dll" "${filePath}"
 ```
 
 ### Dolphin Emu (Gamecube and Wii)
 
 ```
---batch --exec "${filePath}"
+--batch --exec --confirm=false "${filePath}"
 ```
 
 ### Cemu (WiiU)
@@ -28,10 +28,22 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 -config nullDC_GUI:Fullscreen=1 -config ImageReader:DefaultImage="${filePath}"
 ```
 
+### RPCS3 (Sony Playstation 3)
+
+```
+"${filePath}"
+```
+
 ### PCSX2 (Sony Playstation 2)
 
 ```
 --fullscreen --nogui "${filePath}"
+```
+
+### PPSSPP (Sony Playstation Portable)
+
+```
+"${filePath}"
 ```
 
 ### Kega Fusion (Sega Genesis and Sega 32X)
