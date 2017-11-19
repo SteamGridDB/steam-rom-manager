@@ -41,6 +41,7 @@ let developmentConfig = {
 };
 
 let productionConfig = {
+    bail: process.env.TRAVIS ? JSON.parse(process.env.TRAVIS) : false
 };
 
 if (process.env.NODE_ENV === 'production')
