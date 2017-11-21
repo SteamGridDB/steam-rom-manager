@@ -78,7 +78,7 @@ export class VDF_ShortcutsFile {
 
     write() {
         return Promise.resolve().then(() => {
-            this.fileData['shortcuts'] = _.pickBy(this.fileData['shortcuts'], item => item !== undefined);
+            this.fileData['shortcuts'] = (this.fileData['shortcuts'] as VDF_ShortcutsItem[]).filter(item => item !== undefined);
             let data = shortcutsParser.writeBuffer(this.fileData);
             return fs.outputFile(this.filepath, data);
         }).catch((error) => {
