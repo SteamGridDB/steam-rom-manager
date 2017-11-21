@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.10 - 2017-11-21
+
+### Fixed
+
+* `Shortcuts.vdf` file would not have elements properly removed. If you had app entry at index 0, followed by other apps, removing app at 0 would not re-index remaining entries. Thus, array element at 0 index would remain empty, forever. This, besides corrupting `vdf`, would result in "`exe` of undefined" error.
+* Since the rewrite of `shortcuts.vdf` parser, you could not add Steam categories that were numbers (for ex. 7800, 123, 777, etc.). This is fixed now.
+
 ## 2.2.9 - 2017-11-16
 
 ### Added
