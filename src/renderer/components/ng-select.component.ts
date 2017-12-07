@@ -116,7 +116,7 @@ export class NgSelectComponent implements ControlValueAccessor {
                 });
 
                 if (!suppressChanges) {
-                    this.onChange(this.multiple ? this.currentValue : (this.currentValue[0] || null));
+                    this.onChange(this.value);
                 }
                 this.changeRef.markForCheck();
             }
@@ -144,7 +144,7 @@ export class NgSelectComponent implements ControlValueAccessor {
     }
 
     get value() {
-        return this.currentValue;
+        return this.multiple ? this.currentValue : (this.currentValue[0] || null);
     }
 
     writeValue(value: any, suppressChanges: boolean = true): void {
