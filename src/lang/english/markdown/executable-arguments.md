@@ -52,6 +52,12 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 "${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen on start : yes -view size fullscreen : stretched 
 ```
 
+### higan (NES/Famicom, SNES/Famicom, Gameboy, Gameboy Color, Gameboy Advance)
+
+```
+"${filePath}"
+```
+
 ### nullDC (Sega Dreamcast)
 
 ```
@@ -86,6 +92,18 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 
 ```
 -f -nogui -loadbin "${filePath}"
+```
+
+### Xebra (Sony Playstation 1)
+
+```
+-IMAGE "${filePath}" -RUN1 -FULL
+```
+
+### Mednafen (Sony Playstation 1, NES/Famicom, SNES/Super Famicom, etc.)
+
+```
+"${filePath}"
 ```
 
 ### PPSSPP (Sony Playstation Portable)
