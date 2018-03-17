@@ -1,8 +1,9 @@
 import { ParsedDataWithFuzzy, FuzzyEventCallback, FuzzyMatcherOptions } from "../models";
-import * as Fuzzy from 'fuzzaldrin-plus';
+const Fuzzy = require('fuzzaldrin-plus');
 
 export class FuzzyMatcher {
     private list: { totalGames: number, games: string[] };
+    private latinList: string[];
 
     constructor(private eventCallback?: FuzzyEventCallback, list?: { totalGames: number, games: string[] }) {
         this.setEventCallback(eventCallback || ((event: any, data: any) => { }));
@@ -15,6 +16,13 @@ export class FuzzyMatcher {
 
     setFuzzyList(list: { totalGames: number, games: string[] }) {
         this.list = list;
+        if (this.isLoaded()){
+            this.latinList = new Array(list.games.length);
+
+            for (let i = 0; i < list.games.length; i++) {
+                this.latinList[i] = list.games[i].replaceDiacritics();
+            }
+        }
     }
 
     fuzzyMatchParsedData(data: ParsedDataWithFuzzy, options: FuzzyMatcherOptions, verbose: boolean = true) {
@@ -66,24 +74,36 @@ export class FuzzyMatcher {
     }
 
     private matchFromList(input: string, options: FuzzyMatcherOptions) {
-        if (input.length === 0){
+        if (input.length === 0) {
             return { output: input, matched: false };
         }
         // Check if title contains ", The..."
         else if (/,\s*the/i.test(input)) {
             let modifiedInput = input.replace(/(.*?),\s*(.*)/i, '$2 $1');
             modifiedInput = this.modifyString(modifiedInput, options);
-            let matches = this.performMatching(modifiedInput);
+            let matches = this.performMatching(modifiedInput, options.replaceDiacritics);
             if (matches.matched)
                 return matches;
         }
 
         let modifiedInput = this.modifyString(input, options);
-        return this.performMatching(modifiedInput);
+        return this.performMatching(modifiedInput, options.replaceDiacritics);
     }
 
-    private performMatching(input: string){
-        let matches = Fuzzy.filter(this.list.games, input);
+    private performMatching(input: string, diacriticsRemoved: boolean) {
+        const list = diacriticsRemoved ? this.latinList : this.list.games;
+        const preparedQuery = Fuzzy.prepareQuery(input, { usePathScoring: false });
+        let bestScore = 0;
+        let matches: string[] = [];
+
+        for (let i = 0; i < list.length; i++) {
+            let score = Fuzzy.score(list[i], preparedQuery.query, { preparedQuery, usePathScoring: false });
+            if (score >= bestScore && score !== 0){
+                bestScore = score;
+                matches.push(this.list.games[i]);
+            }
+        }
+
         if (matches.length)
             return { output: this.getBestMatch(input, matches), matched: true };
         else
@@ -91,7 +111,7 @@ export class FuzzyMatcher {
     }
 
     private modifyString(input: string, options: FuzzyMatcherOptions) {
-        if (options.replaceDiacritics){
+        if (options.replaceDiacritics) {
             input = input.replaceDiacritics();
         }
 

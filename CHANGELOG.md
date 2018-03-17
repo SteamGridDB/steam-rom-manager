@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.11 - 2018-03-17
+
+### Fixed
+
+* Improved diacritic character handling for fuzzy matcher. For ex. `Pokémon Snap` should now be matched to `Pokemon Snap` with diacritic option enabled.
+
+### Added
+
+* More emulator examples (by **Chocobubba** and **Wesim**).
+
 ## 2.2.10 - 2017-11-21
 
 ### Fixed

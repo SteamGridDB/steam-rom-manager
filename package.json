@@ -1,6 +1,6 @@
 {
   "name": "steam-rom-manager",
-  "version": "2.2.10",
+  "version": "2.2.11",
   "license": "GPL-3.0",
   "description": "An app for managing ROMs in Steam",
   "author": {
@@ -110,7 +110,6 @@
     "@types/bluebird": "^3.5.20",
     "@types/crc": "^3.4.0",
     "@types/fs-extra": "^5.0.0",
-    "@types/fuzzaldrin-plus": "0.0.1",
     "@types/glob": "^5.0.35",
     "@types/he": "^0.5.29",
     "@types/highlight.js": "^9.12.2",
