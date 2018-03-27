@@ -56,7 +56,7 @@ export class CustomVariablesService {
                         throw new Error(error);
                     }
                     else {
-                        this.loggerService.info(this.lang.info.downloaded);
+                        this.loggerService.info(this.lang.info.downloaded, force ? { invokeAlert: true, alertTimeout: 5000 } : undefined);
                         this.save(force);
                     }
                 }).catch((error) => {
