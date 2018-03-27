@@ -14,8 +14,7 @@
         "onlineImageQueries": "${${fuzzyTitle}}",
         "imagePool": "${fuzzyTitle}",
         "imageProviders": [
-            "SteamGridDB",
-            "ConsoleGrid"
+            "SteamGridDB"
         ],
         "defaultImage": "",
         "localImages": "",
