@@ -42,7 +42,7 @@
             "removeCharacters": true,
             "removeBrackets": true
         }
-    }
+    },
 
     "Retroarch - Nestopia UE": {
         "parserType": "Glob",
@@ -63,7 +63,7 @@
         ],
         "defaultImage": "",
         "localImages": "",
-        "localIcons": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga",
+        "localIcons": "",
         "disabled": false,
         "advanced": false,
         "userAccounts": {
