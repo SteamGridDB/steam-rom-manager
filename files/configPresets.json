@@ -54,7 +54,7 @@
         "steamDirectory": "path-to-Steam-directory",
         "startInDirectory": "",
         "titleModifier": "${fuzzyTitle}",
-        "executableArgs": "-f -g \"${filePath}\"",
+        "executableArgs": "-L cores\nestopia_libretro.dll \"${filePath}\"",
         "appendArgsToExecutable": true,
         "onlineImageQueries": "${${fuzzyTitle}}",
         "imagePool": "${fuzzyTitle}",
