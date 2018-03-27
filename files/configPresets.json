@@ -27,7 +27,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-
+            "glob": "${title}/*/*@(.rpx|.RPX)",
             "glob-regex": null
         },
         "titleFromVariable": {
