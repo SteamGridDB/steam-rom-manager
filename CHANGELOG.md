@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.12 - 2018-03-27
+
+### Removed
+* ConsoleGrid support, because it's dead (again...).
+
+### Added
+
+* Configuration preset support has been added. User-made configurations can now be loaded from `configPresets.json` file. This file, together with `customVariables.json`, will be automatically downloaded from github **only** if they don't exist on user's computer. Downloads can be forced from **settings** page.
+* Hosted files can be found [here](https://github.com/FrogTheFrog/steam-rom-manager/tree/master/files).
+
 ## 2.2.11 - 2018-03-17
 
 ### Fixed
