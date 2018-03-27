@@ -72,7 +72,52 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}.@(nes|NES|fds|FDS|unf|UNF|unif|UNIF)",
+            "glob": "${title}.@(nes|NES|fds|FDS|unf|UNF|unif|UNIF|zip|ZIP)",
+            "glob-regex": null
+        },
+        "titleFromVariable": {
+            "limitToGroups": "",
+            "caseInsensitiveVariables": false,
+            "skipFileIfVariableWasNotFound": false,
+            "tryToMatchTitle": false
+        },
+        "fuzzyMatch": {
+            "use": true,
+            "replaceDiacritics": true,
+            "removeCharacters": true,
+            "removeBrackets": true
+        }
+    },
+
+    "Retroarch - bsnes-mercury Balanced": {
+        "parserType": "Glob",
+        "configTitle": "Retroarch - bsnes-mercury Balanced",
+        "steamCategory": "${SNES}",
+        "executableLocation": "path-to-retroarch.exe",
+        "executableModifier": "\"${exePath}\"",
+        "romDirectory": "path-to-nes-roms",
+        "steamDirectory": "path-to-Steam-directory",
+        "startInDirectory": "",
+        "titleModifier": "${fuzzyTitle}",
+        "executableArgs": "-L cores\bsnes_mercury_balanced_libretro.dll \"${filePath}\"",
+        "appendArgsToExecutable": true,
+        "onlineImageQueries": "${${fuzzyTitle}}",
+        "imagePool": "${fuzzyTitle}",
+        "imageProviders": [
+            "SteamGridDB"
+        ],
+        "defaultImage": "",
+        "localImages": "",
+        "localIcons": "",
+        "disabled": false,
+        "advanced": false,
+        "userAccounts": {
+            "specifiedAccounts": "",
+            "skipWithMissingDataDir": true,
+            "useCredentials": true
+        },
+        "parserInputs": {
+            "glob": "${title}.@(sfc|SFC|smc|SMC|bml|BML|zip|ZIP)",
             "glob-regex": null
         },
         "titleFromVariable": {
