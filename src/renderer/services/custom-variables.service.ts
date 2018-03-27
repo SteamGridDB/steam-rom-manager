@@ -44,7 +44,7 @@ export class CustomVariablesService {
                 this.downloadStatus.next(true);
 
                 return CustomVariablesService.xRequest.request(
-                    'placeholder',
+                    'https://raw.githubusercontent.com/FrogTheFrog/steam-rom-manager/master/files/customVariables.json',
                     {
                         responseType: 'json',
                         method: 'GET',
