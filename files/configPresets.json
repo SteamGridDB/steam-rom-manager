@@ -14,8 +14,7 @@
         "onlineImageQueries": "${${fuzzyTitle}}",
         "imagePool": "${fuzzyTitle}",
         "imageProviders": [
-            "SteamGridDB",
-            "ConsoleGrid"
+            "SteamGridDB"
         ],
         "defaultImage": "",
         "localImages": "",
@@ -28,7 +27,52 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}/*/*.rpx",
+            "glob": "${title}/*/*.@(rpx|RPX)",
+            "glob-regex": null
+        },
+        "titleFromVariable": {
+            "limitToGroups": "",
+            "caseInsensitiveVariables": false,
+            "skipFileIfVariableWasNotFound": false,
+            "tryToMatchTitle": false
+        },
+        "fuzzyMatch": {
+            "use": true,
+            "replaceDiacritics": true,
+            "removeCharacters": true,
+            "removeBrackets": true
+        }
+    }
+
+    "Retroarch - Nestopia UE": {
+        "parserType": "Glob",
+        "configTitle": "Retroarch - Nestopia UE",
+        "steamCategory": "${NES}",
+        "executableLocation": "path-to-retroarch.exe",
+        "executableModifier": "\"${exePath}\"",
+        "romDirectory": "path-to-nes-roms",
+        "steamDirectory": "path-to-Steam-directory",
+        "startInDirectory": "",
+        "titleModifier": "${fuzzyTitle}",
+        "executableArgs": "-f -g \"${filePath}\"",
+        "appendArgsToExecutable": true,
+        "onlineImageQueries": "${${fuzzyTitle}}",
+        "imagePool": "${fuzzyTitle}",
+        "imageProviders": [
+            "SteamGridDB"
+        ],
+        "defaultImage": "",
+        "localImages": "",
+        "localIcons": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga",
+        "disabled": false,
+        "advanced": false,
+        "userAccounts": {
+            "specifiedAccounts": "",
+            "skipWithMissingDataDir": true,
+            "useCredentials": true
+        },
+        "parserInputs": {
+            "glob": "${title}.@(nes|NES|fds|FDS|unf|UNF|unif|UNIF)",
             "glob-regex": null
         },
         "titleFromVariable": {
