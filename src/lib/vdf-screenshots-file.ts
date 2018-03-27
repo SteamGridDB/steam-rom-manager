@@ -1,10 +1,11 @@
 import { VDF_ScreenshotsData } from "../models";
 import { xRequest } from './x-request';
 import { VDF_Error } from './vdf-error';
-import { glob, file } from './helpers';
 import { APP } from '../variables';
 import { Bluebird } from './zone-bluebird';
 import * as genericParser from '@node-steam/vdf';
+import * as glob from './helpers/glob';
+import * as file from './helpers/file';
 import * as _ from "lodash";
 import * as fs from 'fs-extra';
 import * as path from 'path';

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { json } from "../../lib";
 import { availableProviders } from '../../lib/image-providers';
 import { AppSettings } from "../../models";
 import { LoggerService } from './logger.service';
 import { Subject, BehaviorSubject } from "rxjs";
 import { APP } from '../../variables';
+import * as json from "../../lib/helpers/json";
 import * as paths from "../../paths";
 import * as schemas from '../schemas';
 import * as modifiers from '../modifiers';
@@ -22,15 +22,12 @@ export class SettingsService {
         this.appSettings = <AppSettings>this.validator.getDefaultValues();
 
         json.read<AppSettings>(paths.userSettings, this.appSettings).then((settings) => {
-            let errors = this.validator.validate(settings);
-            let errorString = errors ? `\r\n${JSON.stringify(errors, null, 4)}` : '';
-
-            if (errorString.length > 0) {
+            if (!this.validator.validate(settings).isValid()) {
                 this.savingIsDisabled = true;
                 this.loggerService.error(this.lang.error.readingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
                 this.loggerService.error(this.lang.error.corruptedSettings__i.interpolate({
                     file: paths.userSettings,
-                    error: errorString
+                    error: `\r\n${this.validator.errorString}`
                 }));
             }
             else

@@ -1,9 +1,9 @@
 import { Http } from '@angular/http';
 import { FuzzyListTimestamps, FuzzyEventCallback, FuzzyError } from "../models";
-import { json } from "./helpers";
 import { FuzzyMatcher } from "./fuzzy-matcher";
 import { BehaviorSubject } from "rxjs";
 import * as paths from "../paths";
+import * as json from "./helpers/json";
 
 export class FuzzyListLoader {
     private list = new BehaviorSubject<{ totalGames: number, games: string[] }>({ totalGames: 0, games: [] });

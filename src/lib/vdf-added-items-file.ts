@@ -1,7 +1,7 @@
 import { VDF_AddedItemsData } from "../models";
 import { VDF_Error } from './vdf-error';
-import { json } from './helpers';
 import { APP } from '../variables';
+import * as json from './helpers/json';
 import * as _ from "lodash";
 import * as fs from 'fs-extra';
 import * as path from 'path';

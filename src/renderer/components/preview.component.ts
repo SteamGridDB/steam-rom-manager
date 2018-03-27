@@ -3,7 +3,9 @@ import { Subscription } from 'rxjs';
 import { PreviewService, SettingsService, ImageProviderService } from "../services";
 import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageContent } from "../../models";
 import { APP } from '../../variables';
-import { url, appImage, FileSelector } from '../../lib';
+import { FileSelector } from '../../lib';
+import * as url from '../../lib/helpers/url';
+import * as appImage from '../../lib/helpers/app-image';
 import * as _ from 'lodash';
 import * as path from 'path';
 

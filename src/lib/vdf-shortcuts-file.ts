@@ -1,7 +1,8 @@
 import { VDF_ShortcutsItem } from "../models";
 import { VDF_Error } from './vdf-error';
-import { steam, file } from './helpers';
 import { APP } from '../variables';
+import * as steam from './helpers/steam';
+import * as file from './helpers/file';
 import * as _ from "lodash";
 import * as fs from 'fs-extra';
 import * as path from 'path';

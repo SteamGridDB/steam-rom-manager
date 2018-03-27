@@ -1,10 +1,10 @@
 import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables, CustomVariables } from '../models';
-import { steam } from "./helpers";
 import { FuzzyService } from "../renderer/services";
 import { VariableParser } from "./variable-parser";
 import { APP } from '../variables';
 import { parsers, availableParsers } from './parsers';
-import { url } from './helpers';
+import * as url from './helpers/url';
+import * as steam from './helpers/steam';
 import * as _ from 'lodash';
 import * as glob from 'glob';
 import * as path from 'path';

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Bluebird } from '../../lib/zone-bluebird';
-import { json } from "../../lib";
 import { ConfigPresets } from "../../models";
 import { LoggerService } from './logger.service';
 import { BehaviorSubject } from "rxjs";
 import { APP } from '../../variables';
 import { xRequest } from '../../lib/x-request';
+import * as json from "../../lib/helpers/json";
 import * as paths from "../../paths";
 import * as schemas from '../schemas';
 import * as _ from "lodash";
@@ -92,15 +92,12 @@ export class ConfigurationPresetsService {
     }
 
     set(data: ConfigPresets) {
-        let errors = this.validator.validate(data);
-        let errorString = errors ? `\r\n${JSON.stringify(errors, null, 4)}` : '';
-
-        if (errorString.length === 0) {
+        if (this.validator.validate(data).isValid()) {
             this.variableData.next(data);
             return null;
         }
         else
-            return errorString;
+            return `\r\n${this.validator.errorString}`;
     }
 
     save(force: boolean = false) {

@@ -1,5 +1,5 @@
 import { PipeTransform, Pipe } from '@angular/core';
-import { url } from '../../lib';
+import * as url from '../../lib/helpers/url';
 
 @Pipe({ name: 'fileImage' })
 export class FileImage {

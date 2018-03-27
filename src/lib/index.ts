@@ -5,7 +5,6 @@ export * from './vdf-manager';
 export * from './variable-parser';
 export * from './fuzzy-list-loader';
 export * from './markdown-variable';
-export * from './helpers';
 export * from './x-request';
 export * from './theme-manager';
 export * from './language-manager';

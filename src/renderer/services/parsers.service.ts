@@ -5,10 +5,11 @@ import { UserConfiguration, ParsedUserConfiguration } from '../../models';
 import { LoggerService } from './logger.service';
 import { FuzzyService } from './fuzzy.service';
 import { ImageProviderService } from './image-provider.service';
-import { FileParser, VariableParser, json } from '../../lib';
+import { FileParser, VariableParser } from '../../lib';
 import { availableProviders } from '../../lib/image-providers';
 import { BehaviorSubject } from "rxjs";
 import { APP } from '../../variables';
+import * as json from "../../lib/helpers/json";
 import * as paths from "../../paths";
 import * as schemas from '../schemas';
 import * as modifiers from '../modifiers';
@@ -308,11 +309,10 @@ export class ParsersService {
             let validatedConfigs: { saved: UserConfiguration, current: UserConfiguration }[] = [];
             let errorString: string = '';
             for (let i = 0; i < data.length; i++) {
-                let errors = this.validator.validate(data[i]);
-                if (!errors)
+                if (this.validator.validate(data[i]).isValid())
                     validatedConfigs.push({ saved: data[i], current: null });
                 else
-                    errorString += `\r\n[${i}]:\r\n    ${JSON.stringify(errors, null, 4).replace(/\n/g, '\n    ')}`;
+                    errorString += `\r\n[${i}]:\r\n    ${this.validator.errorString.replace(/\n/g, '\n    ')}`;
             };
             if (errorString.length > 0) {
                 this.savingIsDisabled = true;

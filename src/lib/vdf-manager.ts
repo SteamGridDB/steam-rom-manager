@@ -1,7 +1,8 @@
 import { VDF_ListData, SteamDirectory, PreviewData, AppImages, VDF_ListItem } from "../models";
 import { VDF_Error } from './vdf-error';
-import { vdf, appImage } from './helpers';
 import { APP } from '../variables';
+import * as vdf from './helpers/vdf';
+import * as appImage from './helpers/app-image';
 import * as _ from 'lodash';
 
 export class VDF_Manager {

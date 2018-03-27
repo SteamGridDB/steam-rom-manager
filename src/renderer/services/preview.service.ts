@@ -10,9 +10,12 @@ import {
     ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings,
     SteamTree, userAccountData
 } from '../../models';
-import { VDF_Manager, VDF_Error, steam, url, appImage } from "../../lib";
+import { VDF_Manager, VDF_Error } from "../../lib";
 import { APP } from '../../variables';
 import { queue } from 'async';
+import * as steam from "../../lib/helpers/steam";
+import * as url from "../../lib/helpers/url";
+import * as appImage from "../../lib/helpers/app-image";
 import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as path from "path";
