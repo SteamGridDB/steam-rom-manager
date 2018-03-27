@@ -1,6 +1,5 @@
 {
     "Cemu (.rpx)": {
-        "parserType": "Glob",
         "configTitle": "Cemu",
         "steamCategory": "${Wii U}",
         "executableLocation": "path-to-Cemu.exe",
