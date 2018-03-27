@@ -38,7 +38,7 @@ export class ConfigurationPresetsService {
         return this.downloadStatus;
     }
 
-    download() {
+    download(force: boolean = false) {
         return Promise.resolve().then(() => {
             if (!this.downloadStatus.getValue()) {
                 this.downloadStatus.next(true);
@@ -57,7 +57,7 @@ export class ConfigurationPresetsService {
                     }
                     else {
                         this.loggerService.info(this.lang.info.downloaded);
-                        this.save();
+                        this.save(force);
                     }
                 }).catch((error) => {
                     this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: _.get(error, 'error.status', error) }));
@@ -85,6 +85,8 @@ export class ConfigurationPresetsService {
                 }
             }
         }).catch((error) => {
+            this.savingIsDisabled = true;
+            this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
             this.loggerService.error(error);
         });
     }
@@ -101,8 +103,8 @@ export class ConfigurationPresetsService {
             return errorString;
     }
 
-    save() {
-        if (!this.savingIsDisabled) {
+    save(force: boolean = false) {
+        if (!this.savingIsDisabled || force) {
             json.write(paths.configPresets, this.variableData.getValue()).then().catch((error) => {
                 this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
                 this.loggerService.error(error);
