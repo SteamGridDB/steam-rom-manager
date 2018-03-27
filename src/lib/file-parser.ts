@@ -2,7 +2,8 @@ import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfi
 import { FuzzyService } from "../renderer/services";
 import { VariableParser } from "./variable-parser";
 import { APP } from '../variables';
-import { parsers, availableParsers } from './parsers';
+import { parsers } from './parsers';
+import { availableParsers } from './parsers/available-parsers';
 import * as url from './helpers/url';
 import * as steam from './helpers/steam';
 import * as _ from 'lodash';
@@ -27,7 +28,7 @@ export class FileParser {
     }
 
     getAvailableParsers() {
-        return availableParsers();
+        return availableParsers;
     }
 
     getParserInfo(key: string) {

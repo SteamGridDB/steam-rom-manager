@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { availableProviders } from '../../lib/image-providers';
 import { AppSettings } from "../../models";
 import { LoggerService } from './logger.service';
 import { Subject, BehaviorSubject } from "rxjs";

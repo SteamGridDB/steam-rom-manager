@@ -1,5 +1,5 @@
 import { languageManager } from '../../variables';
-import { availableProviders } from "../../lib/image-providers";
+import { availableProviders } from "../../lib/image-providers/available-providers";
 
 export const appSettings = {
     type: 'object',
@@ -31,12 +31,12 @@ export const appSettings = {
         },
         enabledProviders: {
             type: 'array',
-            default: availableProviders(),
+            default: availableProviders,
             items: {
                 oneOf: [
                     {
                         type: 'string',
-                        enum: availableProviders()
+                        enum: availableProviders
                     }
                 ]
             }

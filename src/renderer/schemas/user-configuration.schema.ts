@@ -1,11 +1,11 @@
-import { availableProviders } from '../../lib/image-providers';
-import { availableParsers, availableParserInputs } from '../../lib/parsers';
+import { availableProviders } from '../../lib/image-providers/available-providers';
+import { availableParsers, availableParserInputs } from '../../lib/parsers/available-parsers';
 
 export const userConfiguration = {
     type: 'object',
     properties: {
         version: { type: 'number' },
-        parserType: { type: 'string', default: '', enum: availableParsers().concat('') },
+        parserType: { type: 'string', default: '', enum: availableParsers.concat('') },
         configTitle: { type: 'string', default: '' },
         steamCategory: { type: 'string', default: '' },
         executableLocation: { type: 'string', default: '' },
@@ -26,7 +26,7 @@ export const userConfiguration = {
             type: 'object',
             default: {},
             propertyNames: {
-                enum: availableParserInputs()
+                enum: availableParserInputs
             },
             patternProperties: {
                 "^.+$": { "type": ["string", "null"] }
@@ -56,7 +56,7 @@ export const userConfiguration = {
                 oneOf: [
                     {
                         type: 'string',
-                        enum: availableProviders()
+                        enum: availableProviders
                     }
                 ]
             }

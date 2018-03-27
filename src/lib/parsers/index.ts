@@ -11,17 +11,3 @@ export const parsers = (() => {
 
     return parserObject;
 })();
-
-export function availableParsers() {
-    return Object.keys(parsers);
-};
-
-export function availableParserInputs() {
-    let inputs: string[] = [];
-
-    for (let title in parsers) {
-        inputs = inputs.concat(Object.keys(parsers[title].getParserInfo().inputs));
-    }
-
-    return inputs;
-};

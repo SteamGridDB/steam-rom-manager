@@ -6,7 +6,6 @@ import { LoggerService } from './logger.service';
 import { FuzzyService } from './fuzzy.service';
 import { ImageProviderService } from './image-provider.service';
 import { FileParser, VariableParser } from '../../lib';
-import { availableProviders } from '../../lib/image-providers';
 import { BehaviorSubject } from "rxjs";
 import { APP } from '../../variables';
 import * as json from "../../lib/helpers/json";
