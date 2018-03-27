@@ -46,6 +46,7 @@ export class NgSelectComponent implements ControlValueAccessor {
     @Input() private allowEmpty: boolean = false;
     @Input() private separator: string = ', ';
     @Input() private sort: boolean = true;
+    @Input() private emitOnly: boolean = false;
 
     constructor(private element: ElementRef, private changeRef: ChangeDetectorRef) { }
 
@@ -70,28 +71,29 @@ export class NgSelectComponent implements ControlValueAccessor {
     selectOption(id: number, toggle: boolean, suppressChanges: boolean = false) {
         if (this.optionsMap.has(id)) {
             let valueChanged = true;
+            let selectedIds =  this.selectedIds;
 
             if (this.multiple) {
-                let selectedIdIndex = this.selectedIds.indexOf(id);
+                let selectedIdIndex = selectedIds.indexOf(id);
 
                 if (selectedIdIndex === -1) {
-                    this.selectedIds = this.selectedIds.concat(id);
+                    selectedIds = selectedIds.concat(id);
                 }
                 else {
-                    if ((this.allowEmpty || this.selectedIds.length > 1) && toggle)
-                        this.selectedIds.splice(selectedIdIndex, 1);
+                    if ((this.allowEmpty || selectedIds.length > 1) && toggle)
+                        selectedIds.splice(selectedIdIndex, 1);
                     else
                         valueChanged = false;
                 }
             }
             else {
-                if (this.selectedIds.length === 0)
-                    this.selectedIds = [id];
-                else if (this.selectedIds[0] !== id)
-                    this.selectedIds[0] = id;
+                if (selectedIds.length === 0)
+                    selectedIds = [id];
+                else if (selectedIds[0] !== id)
+                    selectedIds[0] = id;
                 else {
                     if (this.allowEmpty && toggle)
-                        this.selectedIds = [];
+                        selectedIds = [];
                     else
                         valueChanged = false;
                 }
@@ -99,25 +101,31 @@ export class NgSelectComponent implements ControlValueAccessor {
 
             if (valueChanged) {
                 let displayValues: string[] = [];
-                this.currentValue = [];
-                for (let i = 0; i < this.selectedIds.length; i++) {
-                    this.currentValue.push(this.optionsMap.get(this.selectedIds[i]).value);
-                    displayValues.push(this.optionsMap.get(this.selectedIds[i]).displayValue);
+                let currentValue = [];
+
+                for (let i = 0; i < selectedIds.length; i++) {
+                    currentValue.push(this.optionsMap.get(selectedIds[i]).value);
+                    displayValues.push(this.optionsMap.get(selectedIds[i]).displayValue);
                 }
 
                 if (displayValues.length > 0 && this.sort) {
                     displayValues = displayValues.sort();
                 }
 
-                this.displayValue = displayValues.length > 0 ? displayValues.join(this.separator) : displayValues[0];
+                if (!this.emitOnly) {
+                    this.displayValue = displayValues.length > 0 ? displayValues.join(this.separator) : displayValues[0];
+                    this.currentValue = currentValue;
+                    this.selectedIds = selectedIds;
 
-                this.optionComponents.forEach((option) => {
-                    option.toggleSelected(this.selectedIds.indexOf(option.getId()) !== -1);
-                });
+                    this.optionComponents.forEach((option) => {
+                        option.toggleSelected(this.selectedIds.indexOf(option.getId()) !== -1);
+                    });
+                }
 
                 if (!suppressChanges) {
-                    this.onChange(this.value);
+                    this.onChange(this.multiple ? currentValue : (currentValue[0] || null));
                 }
+
                 this.changeRef.markForCheck();
             }
             if (!suppressChanges) {

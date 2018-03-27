@@ -130,9 +130,26 @@ export const EnglishLang: languageContainer = {
         customVariables: {
             service: {
                 error: {
+                    failedToDownload__i: 'Failed to download custom variables file. Status: ${error}.',
                     writingError: 'Error occurred while saving custom variables.',
-                    readingError: 'Error occurred while reading custom variables.',
+                    loadingError: 'Error occurred while loading custom variables.',
                     corruptedVariables__i: 'Saved custom variables are invalid!\r\nPermanent variable saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}',
+                },
+                info: {
+                    downloaded: 'Custom variables file has been downloaded.'
+                }
+            }
+        },
+        configPresets: {
+            service: {
+                error: {
+                    failedToDownload__i: 'Failed to download configuration presets file. Status: ${error}.',
+                    writingError: 'Error occurred while saving configuration presets.',
+                    loadingError: 'Error occurred while loading configuration presets.',
+                    corruptedVariables__i: 'Saved configuration presets are invalid!\r\nPermanent file saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}',
+                },
+                info: {
+                    downloaded: 'Configuration preset file has been downloaded.'
                 }
             }
         },

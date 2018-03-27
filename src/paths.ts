@@ -18,3 +18,4 @@ export const devThemePath: string = './renderer/styles/themes.global.scss';
 export const savedListFilename: string = 'addedItemsV2.json';
 export const fuzzyList: string = path.join(userDataDir, 'fuzzyList.json');
 export const customVariables: string = path.join(userDataDir, 'customVariables.json');
+export const configPresets: string = path.join(userDataDir, 'configPresets.json');

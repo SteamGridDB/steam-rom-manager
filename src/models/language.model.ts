@@ -113,9 +113,26 @@ export interface languageStruct {
     customVariables: {
         service: {
             error: {
+                failedToDownload__i: string,//${error}
                 writingError: string,
-                readingError: string,
+                loadingError: string,
                 corruptedVariables__i: string//${file}, ${error}
+            },
+            info: {
+                downloaded: string
+            }
+        }
+    },
+    configPresets: {
+        service: {
+            error: {
+                failedToDownload__i: string,//${error}
+                writingError: string,
+                loadingError: string,
+                corruptedVariables__i: string//${file}, ${error}
+            },
+            info: {
+                downloaded: string
             }
         }
     },

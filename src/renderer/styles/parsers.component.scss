@@ -5,7 +5,8 @@
 	overflow: auto;
 
 	grid-area: route;
-	grid-template-areas: 'docs nestedForm'
+	grid-template-areas: 
+	'docs nestedForm'
 	'menu menu';
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 1fr auto;
@@ -20,6 +21,19 @@
 		padding: 1em;
 
 		grid-area: nestedForm;
+
+		@include webkitScrollbar(nested-form-scrollbar);
+
+		overflow: auto;
+
+		background-color: var(--color-nested-form-background);
+
+		> ng-select {
+			@include ngSelect();
+			@include ngSelectColor(ng-select);
+
+			margin: 0 0 0.5em 0;
+		}
 
 		/deep/ ng-text-input{
 			@for $i from 0 through 2 {

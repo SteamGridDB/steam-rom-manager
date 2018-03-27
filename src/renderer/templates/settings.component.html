@@ -57,3 +57,24 @@
         </div>
     </div>
 </div>
+<div>
+    <label>
+        Other
+    </label>
+    <div class="inputContainer">
+        <div class="inlineGroup">
+            <div class=text style="margin-right: 0.25em;">Custom variables: </div>
+            <div class="clickButton dangerousButton" 
+                [class.disabled]="cvService.isDownloading | async" style="font-size: 0.85em;"
+                (click)="cvService.download()">Download</div>
+        </div>
+    </div>
+    <div class="inputContainer">
+        <div class="inlineGroup">
+            <div class=text style="margin-right: 0.25em;">Configuration presets: </div>
+            <div class="clickButton dangerousButton" 
+                [class.disabled]="cpService.isDownloading | async" style="font-size: 0.85em;"
+                (click)="cpService.download()">Download</div>
+        </div>
+    </div>
+</div>

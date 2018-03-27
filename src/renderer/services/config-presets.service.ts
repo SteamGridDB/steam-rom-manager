@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Bluebird } from '../../lib/zone-bluebird';
 import { json } from "../../lib";
-import { CustomVariables } from "../../models";
+import { ConfigPresets } from "../../models";
 import { LoggerService } from './logger.service';
 import { BehaviorSubject } from "rxjs";
 import { APP } from '../../variables';
@@ -11,11 +11,11 @@ import * as schemas from '../schemas';
 import * as _ from "lodash";
 
 @Injectable()
-export class CustomVariablesService {
+export class ConfigurationPresetsService {
     private static xRequest = new xRequest(Bluebird);
-    private variableData: BehaviorSubject<CustomVariables> = new BehaviorSubject({});
+    private variableData: BehaviorSubject<ConfigPresets> = new BehaviorSubject({});
     private downloadStatus: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    private validator: json.Validator = new json.Validator(schemas.customVariables);
+    private validator: json.Validator = new json.Validator(schemas.configPresets);
     private savingIsDisabled: boolean = false;
 
     constructor(private loggerService: LoggerService) {
@@ -23,7 +23,7 @@ export class CustomVariablesService {
     }
 
     private get lang() {
-        return APP.lang.customVariables.service;
+        return APP.lang.configPresets.service;
     }
 
     get data() {
@@ -43,7 +43,7 @@ export class CustomVariablesService {
             if (!this.downloadStatus.getValue()) {
                 this.downloadStatus.next(true);
 
-                return CustomVariablesService.xRequest.request(
+                return ConfigurationPresetsService.xRequest.request(
                     'placeholder',
                     {
                         responseType: 'json',
@@ -69,7 +69,7 @@ export class CustomVariablesService {
     }
 
     load() {
-        json.read<CustomVariables>(paths.customVariables).then((data) => {
+        json.read<ConfigPresets>(paths.configPresets).then((data) => {
             if (data === null) {
                 return this.download();
             }
@@ -79,7 +79,7 @@ export class CustomVariablesService {
                     this.savingIsDisabled = true;
                     this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
                     this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
-                        file: paths.customVariables,
+                        file: paths.configPresets,
                         error
                     }));
                 }
@@ -89,7 +89,7 @@ export class CustomVariablesService {
         });
     }
 
-    set(data: CustomVariables) {
+    set(data: ConfigPresets) {
         let errors = this.validator.validate(data);
         let errorString = errors ? `\r\n${JSON.stringify(errors, null, 4)}` : '';
 
@@ -103,7 +103,7 @@ export class CustomVariablesService {
 
     save() {
         if (!this.savingIsDisabled) {
-            json.write(paths.customVariables, this.variableData.getValue()).then().catch((error) => {
+            json.write(paths.configPresets, this.variableData.getValue()).then().catch((error) => {
                 this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
                 this.loggerService.error(error);
             });

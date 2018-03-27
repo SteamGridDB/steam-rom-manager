@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { SettingsService, PreviewService, LanguageService, ImageProviderService, FuzzyService } from "../services";
+import { SettingsService, PreviewService, LanguageService, ImageProviderService, FuzzyService, CustomVariablesService, ConfigurationPresetsService } from "../services";
 import { APP } from '../../variables';
 import { AppSettings } from "../../models";
 import { Subscription } from 'rxjs';
@@ -16,7 +16,14 @@ export class SettingsComponent implements OnDestroy {
     private availableProviders: string[];
     private availableLanguages: string[];
 
-    constructor(private settingsService: SettingsService, private fuzzyService: FuzzyService, private languageService: LanguageService, private imageProviderService: ImageProviderService, private previewService: PreviewService, private changeDetectionRef: ChangeDetectorRef) { }
+    constructor(private settingsService: SettingsService, 
+        private fuzzyService: FuzzyService, 
+        private languageService: LanguageService, 
+        private imageProviderService: ImageProviderService, 
+        private previewService: PreviewService,
+        private cpService: ConfigurationPresetsService,
+        private cvService: CustomVariablesService,
+        private changeDetectionRef: ChangeDetectorRef) { }
 
     ngOnInit() {
         this.subscriptions.add(this.settingsService.getChangeObservable().subscribe(() => {

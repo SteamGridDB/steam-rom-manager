@@ -1,12 +1,6 @@
 @import 'mixins';
 
 ng-nested-form {
-	@include webkitScrollbar(nested-form-scrollbar);
-
-	overflow: auto;
-
-	background-color: var(--color-nested-form-background);
-
 	&.nested{
 		background-color: transparent;
 	}

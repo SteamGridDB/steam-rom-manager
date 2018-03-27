@@ -3,8 +3,8 @@ import { clipboard } from 'electron';
 import { Component, AfterViewInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
-import { ParsersService, LoggerService, ImageProviderService, SettingsService } from '../services';
-import { UserConfiguration, NestedFormElement, AppSettings } from '../../models';
+import { ParsersService, LoggerService, ImageProviderService, SettingsService, ConfigurationPresetsService } from '../services';
+import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets } from '../../models';
 import { Subscription, Observable } from "rxjs";
 import { APP } from '../../variables';
 
@@ -12,7 +12,14 @@ import { APP } from '../../variables';
     selector: 'parsers',
     template: `
         <markdown class="docs" [content]="this.currentDoc.content"></markdown>
-        <ng-nested-form class="nestedForm" (parentFormChange)="userForm = $event" [nestedGroup]="nestedGroup"></ng-nested-form>
+        <div class="nestedForm">
+            <ng-select placeholder="Configuration presets" allowEmpty="true" emitOnly="false" ngModel (ngModelChange)="setPreset($event)">
+                <ng-option *ngFor="let value of configPresets | keys" [ngValue]="value">
+                    {{value}}
+                </ng-option>
+            </ng-select>
+            <ng-nested-form (parentFormChange)="userForm = $event" [nestedGroup]="nestedGroup"></ng-nested-form>
+        </div>
         <div class="menu" drag-scroll>
             <ng-container *ngIf="configurationIndex === -1; else moreOptions">
                 <div (click)="saveForm()" style="margin-right: auto;">{{lang.buttons.save}}</div>
@@ -57,12 +64,21 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private isUnsaved: boolean = false;
     private appSettings: AppSettings;
     private vParser = new VariableParser({ left: '${', right: '}' });
-
+    private configPresets: ConfigPresets = {};
     private nestedGroup: NestedFormElement.Group;
     private userForm: FormGroup;
     private formChanges: Subscription = new Subscription();
 
-    constructor(private parsersService: ParsersService, private loggerService: LoggerService, private settingsService: SettingsService, private imageProviderService: ImageProviderService, private router: Router, private activatedRoute: ActivatedRoute, private changeRef: ChangeDetectorRef) {
+    constructor(
+        private parsersService: ParsersService,
+        private loggerService: LoggerService,
+        private settingsService: SettingsService,
+        private imageProviderService: ImageProviderService,
+        private router: Router,
+        private activatedRoute: ActivatedRoute,
+        private changeRef: ChangeDetectorRef,
+        private cpService: ConfigurationPresetsService) {
+
         this.nestedGroup = new NestedFormElement.Group({
             children: {
                 parserType: new NestedFormElement.Select({
@@ -352,7 +368,21 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         })).add(this.activatedRoute.params.subscribe((params) => {
             this.configurationIndex = parseInt(params['index']);
             this.loadConfiguration();
+        })).add(this.cpService.dataObservable.subscribe((data) => {
+            this.configPresets = data;
         }));
+    }
+
+    private setPreset(key: string) {
+        if (key != null) {
+            const config = this.configPresets[key];
+            if (this.loadedIndex === -1) {
+                this.userForm.patchValue(config);
+                this.changeRef.detectChanges();
+            }
+            else
+                this.parsersService.setCurrentConfiguration(this.configurationIndex, config);
+        }
     }
 
     private highlight(input: string, tag: string) {
@@ -731,10 +761,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             let config = this.userConfigurations[this.configurationIndex];
             this.formChanges.unsubscribe();
 
-            if (this.loadedIndex !== this.configurationIndex) {
-                this.userForm.patchValue(config.current ? config.current : config.saved);
-                this.markAsDirtyDeep(this.userForm);
-            }
+            this.userForm.patchValue(config.current ? config.current : config.saved);
+            this.markAsDirtyDeep(this.userForm);
 
             this.isUnsaved = config.current != null;
 
