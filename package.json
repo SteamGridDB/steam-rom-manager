@@ -51,6 +51,7 @@
   },
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
+    "validate-files": "ts-node ./.validate-files.ts",
     "start": "./node_modules/.bin/electron ./dist/main.bundle.js",
     "watch:main": "webpack --watch --config ./webpack/main.js",
     "watch:renderer": "webpack --watch --config ./webpack/renderer.js",
@@ -138,6 +139,7 @@
     "rimraf": "^2.6.2",
     "sass-loader": "^6.0.7",
     "to-string-loader": "^1.1.5",
+    "ts-node": "^5.0.1",
     "typescript": "^2.7.2",
     "webpack": "^3.11.0",
     "webpack-merge": "^4.1.2",

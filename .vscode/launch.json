@@ -22,6 +22,19 @@
             ]
         },
         {
+            "name": "TS File",
+            "type": "node",
+            "request": "launch",
+            "args": [
+                "${relativeFile}"
+            ],
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
             "name": "Debug Renderer",
             "type": "chrome",
             "request": "attach",
