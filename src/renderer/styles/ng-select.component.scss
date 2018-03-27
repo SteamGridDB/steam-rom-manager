@@ -1,3 +1,5 @@
+@import 'mixins';
+
 :host {
     position: relative;
 
@@ -8,8 +10,6 @@
     background-color: white;
 
     fill: black;
-
-    /* height: var(--ng-select-height, initial); */
 
     .display {
         display: grid;
@@ -60,15 +60,17 @@
         &.open {
             display: grid;
 
+            overflow: auto;
+
             min-width: calc(100% - (var(--ng-select-border-width, 1px) * 2));
 
             border-width: var(--ng-select-border-width, 1px);
             border-style: solid;
             border-color: inherit;
 
-            /* ng-option{
-                height: var(--ng-select-height, initial);
-            } */
+            max-height: 274px;
+
+            @include webkitScrollbar(ng-select-scrollbar);
         }
     }
 }
