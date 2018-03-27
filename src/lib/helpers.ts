@@ -23,77 +23,26 @@ export namespace url {
 }
 
 export namespace json {
-    export function read<valueType>(filename: string, fallbackValue: valueType, segments?: string[]) {
-        return new Promise<valueType>((resolve, reject) => {
-            fs.readFile(filename, 'utf8', (error, data) => {
-                try {
-                    if (error) {
-                        if (error.code === 'ENOENT')
-                            resolve(fallbackValue);
-                        else
-                            reject(error);
-                    }
-                    else {
-                        data = stripBom(data);
-                        if (data) {
-                            let parsedData = JSON.parse(data);
-
-                            if (parsedData !== undefined) {
-                                if (segments) {
-                                    let segmentData = parsedData;
-                                    for (let i = 0; i < segments.length; i++) {
-                                        if (segmentData[segments[i]] !== undefined) {
-                                            segmentData = segmentData[segments[i]];
-                                        }
-                                        else
-                                            resolve(fallbackValue);
-                                    }
-                                    resolve(segmentData);
-                                }
-                                else
-                                    resolve(parsedData);
-                            }
-                        }
-                        else
-                            resolve(fallbackValue);
-                    }
-                } catch (error) {
-                    reject(error);
-                }
-            });
-        });
+    export function read<T>(file: string, fallback?: T) {
+        return Promise.resolve().then(() => fs.readJson(file, { throws: false }).catch((error: NodeJS.ErrnoException) => {
+            if (error.code === "ENOENT") {
+                return undefined;
+            }
+            else {
+                throw error;
+            }
+        }).then((data) => {
+            if (data === undefined) {
+                return fallback || null;
+            }
+            else {
+                return (data as T) || null;
+            }
+        }));
     }
 
-    export function write(filename: string, value: any, segments?: string[]) {
-        return Promise.resolve().then(() => {
-            if (segments !== undefined)
-                return read(filename, {});
-            else
-                return {};
-        }).then((readData) => {
-            if (segments !== undefined) {
-                let segmentLadder = readData;
-                for (let i = 0; i < segments.length - 1; i++) {
-                    if (segmentLadder[segments[i]] === undefined) {
-                        segmentLadder[segments[i]] = {};
-                    }
-                    segmentLadder = segmentLadder[segments[i]];
-                }
-                segmentLadder[segments[segments.length - 1]] = value;
-            }
-            else
-                readData = value;
-
-
-            return new Promise<void>((resolve, reject) => {
-                fs.outputFile(filename, JSON.stringify(readData, null, 4), (error) => {
-                    if (error)
-                        reject(error);
-                    else
-                        resolve();
-                });
-            });
-        });
+    export function write(filename: string, value: any, replacer?: any) {
+        return Promise.resolve().then(() => fs.outputJson(filename, value, { spaces: "\t", EOL: "\r\n", replacer } as any));
     }
 
     export class Validator<T = any> {
