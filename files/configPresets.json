@@ -27,7 +27,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}/*/*.@(rpx|RPX)",
+            "glob": "${title}/*/*@(.rpx|.RPX)",
             "glob-regex": null
         },
         "titleFromVariable": {
@@ -72,7 +72,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}.@(nes|NES|fds|FDS|unf|UNF|unif|UNIF|zip|ZIP)",
+            "glob": "${title}@(.nes|.NES|.fds|.FDS|.unf|.UNF|.unif|.UNIF|.zip|.ZIP)",
             "glob-regex": null
         },
         "titleFromVariable": {
@@ -117,7 +117,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}.@(sfc|SFC|smc|SMC|bml|BML|zip|ZIP)",
+            "glob": "${title}@(.sfc|.SFC|.smc|.SMC|.bml|.BML|.zip|.ZIP)",
             "glob-regex": null
         },
         "titleFromVariable": {
@@ -162,7 +162,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}.@(n64|N64|v64|V64|z64|Z64|bin|BIN|u1|U1|ndd|NDD|zip|ZIP)",
+            "glob": "${title}@(.n64|.N64|.v64|.V64|.z64|.Z64|.bin|.BIN|.u1|.U1|.ndd|.NDD|.zip|.ZIP)",
             "glob-regex": null
         },
         "titleFromVariable": {
@@ -207,7 +207,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}.@(gb|GB|dmg|DMG|zip|ZIP)",
+            "glob": "${title}@(.gb|.GB|.dmg|.DMG|.zip|.ZIP)",
             "glob-regex": null
         },
         "titleFromVariable": {
@@ -252,7 +252,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}.@(gbc|GBC|zip|ZIP)",
+            "glob": "${title}@(.gbc|.GBC|.zip|.ZIP)",
             "glob-regex": null
         },
         "titleFromVariable": {
@@ -297,7 +297,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}.@(gb|GB|zip|ZIP)",
+            "glob": "${title}@(.gb|.GB|.zip|.ZIP)",
             "glob-regex": null
         },
         "titleFromVariable": {
@@ -342,7 +342,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}.@(gbc|GBC|zip|ZIP)",
+            "glob": "${title}@(.gbc|.GBC|.zip|.ZIP)",
             "glob-regex": null
         },
         "titleFromVariable": {
@@ -387,7 +387,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}.@(gba|GBA|zip|ZIP)",
+            "glob": "${title}@(.gba|.GBA|.zip|.ZIP)",
             "glob-regex": null
         },
         "titleFromVariable": {
@@ -432,7 +432,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}.@(sms|SMS|zip|ZIP)",
+            "glob": "${title}@(.sms|.SMS|.zip|.ZIP)",
             "glob-regex": null
         },
         "titleFromVariable": {
@@ -477,7 +477,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}.@(gg|GG|zip|ZIP)",
+            "glob": "${title}@(.gg|.GG|.zip|.ZIP)",
             "glob-regex": null
         },
         "titleFromVariable": {
@@ -522,7 +522,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}.@(md|MD|smd|SMD|gen|GEN|zip|ZIP)",
+            "glob": "${title}@(.md|.MD|.smd|.SMD|.gen|.GEN|.zip|.ZIP)",
             "glob-regex": null
         },
         "titleFromVariable": {
@@ -567,7 +567,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}.@(iso|ISO|cue|CUE|chd|CHD|zip|ZIP)",
+            "glob": "${title}@(.iso|.ISO|.cue|.CUE|.chd|.CHD|.zip|.ZIP)",
             "glob-regex": null
         },
         "titleFromVariable": {
