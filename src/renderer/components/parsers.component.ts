@@ -14,7 +14,7 @@ import { APP } from '../../variables';
         <markdown class="docs" [content]="this.currentDoc.content"></markdown>
         <div class="nestedForm">
             <ng-select placeholder="Configuration presets" allowEmpty="true" emitOnly="false" ngModel (ngModelChange)="setPreset($event)">
-                <ng-option *ngFor="let value of configPresets | keys" [ngValue]="value">
+                <ng-option text-scroll *ngFor="let value of configPresets | keys">
                     {{value}}
                 </ng-option>
             </ng-select>

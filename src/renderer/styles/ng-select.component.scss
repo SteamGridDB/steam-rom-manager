@@ -60,7 +60,7 @@
         &.open {
             display: grid;
 
-            overflow: auto;
+            overflow-y: auto;
 
             min-width: calc(100% - (var(--ng-select-border-width, 1px) * 2));
 

@@ -1,4 +1,9 @@
 :host {
     display: grid;
     grid-auto-flow: column;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
