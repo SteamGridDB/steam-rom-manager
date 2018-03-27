@@ -44,7 +44,7 @@
         }
     },
 
-    "Retroarch - Nestopia UE": {
+    "Retroarch - Nestopia UE (NES)": {
         "parserType": "Glob",
         "configTitle": "Retroarch - Nestopia UE",
         "steamCategory": "${NES}",
@@ -89,7 +89,7 @@
         }
     },
 
-    "Retroarch - bsnes-mercury Balanced": {
+    "Retroarch - bsnes-mercury Balanced (SNES)": {
         "parserType": "Glob",
         "configTitle": "Retroarch - bsnes-mercury Balanced",
         "steamCategory": "${SNES}",
@@ -118,6 +118,141 @@
         },
         "parserInputs": {
             "glob": "${title}.@(sfc|SFC|smc|SMC|bml|BML|zip|ZIP)",
+            "glob-regex": null
+        },
+        "titleFromVariable": {
+            "limitToGroups": "",
+            "caseInsensitiveVariables": false,
+            "skipFileIfVariableWasNotFound": false,
+            "tryToMatchTitle": false
+        },
+        "fuzzyMatch": {
+            "use": true,
+            "replaceDiacritics": true,
+            "removeCharacters": true,
+            "removeBrackets": true
+        }
+    },
+
+    "Retroarch - Mupen64Plus (N64)": {
+        "parserType": "Glob",
+        "configTitle": "Retroarch - Mupen64Plus",
+        "steamCategory": "${SNES}",
+        "executableLocation": "path-to-retroarch.exe",
+        "executableModifier": "\"${exePath}\"",
+        "romDirectory": "path-to-nes-roms",
+        "steamDirectory": "path-to-Steam-directory",
+        "startInDirectory": "",
+        "titleModifier": "${fuzzyTitle}",
+        "executableArgs": "-L cores\mupen64plus_libretro.dll \"${filePath}\"",
+        "appendArgsToExecutable": true,
+        "onlineImageQueries": "${${fuzzyTitle}}",
+        "imagePool": "${fuzzyTitle}",
+        "imageProviders": [
+            "SteamGridDB"
+        ],
+        "defaultImage": "",
+        "localImages": "",
+        "localIcons": "",
+        "disabled": false,
+        "advanced": false,
+        "userAccounts": {
+            "specifiedAccounts": "",
+            "skipWithMissingDataDir": true,
+            "useCredentials": true
+        },
+        "parserInputs": {
+            "glob": "${title}.@(n64|N64|v64|V64|z64|Z64|bin|BIN|u1|U1|ndd|NDD|zip|ZIP)",
+            "glob-regex": null
+        },
+        "titleFromVariable": {
+            "limitToGroups": "",
+            "caseInsensitiveVariables": false,
+            "skipFileIfVariableWasNotFound": false,
+            "tryToMatchTitle": false
+        },
+        "fuzzyMatch": {
+            "use": true,
+            "replaceDiacritics": true,
+            "removeCharacters": true,
+            "removeBrackets": true
+        }
+    },
+	
+    "Retroarch - Gambatte (GB,GBC)": {
+        "parserType": "Glob",
+        "configTitle": "Retroarch - Gambatte",
+        "steamCategory": "${GameBoy +Color}",
+        "executableLocation": "path-to-retroarch.exe",
+        "executableModifier": "\"${exePath}\"",
+        "romDirectory": "path-to-nes-roms",
+        "steamDirectory": "path-to-Steam-directory",
+        "startInDirectory": "",
+        "titleModifier": "${fuzzyTitle}",
+        "executableArgs": "-L cores\gambatte_libretro.dll \"${filePath}\"",
+        "appendArgsToExecutable": true,
+        "onlineImageQueries": "${${fuzzyTitle}}",
+        "imagePool": "${fuzzyTitle}",
+        "imageProviders": [
+            "SteamGridDB"
+        ],
+        "defaultImage": "",
+        "localImages": "",
+        "localIcons": "",
+        "disabled": false,
+        "advanced": false,
+        "userAccounts": {
+            "specifiedAccounts": "",
+            "skipWithMissingDataDir": true,
+            "useCredentials": true
+        },
+        "parserInputs": {
+            "glob": "${title}.@(gb|GB|gbc|GBC|dmg|DMG|zip|ZIP)",
+            "glob-regex": null
+        },
+        "titleFromVariable": {
+            "limitToGroups": "",
+            "caseInsensitiveVariables": false,
+            "skipFileIfVariableWasNotFound": false,
+            "tryToMatchTitle": false
+        },
+        "fuzzyMatch": {
+            "use": true,
+            "replaceDiacritics": true,
+            "removeCharacters": true,
+            "removeBrackets": true
+        }
+    },
+
+    "Retroarch - mGBA (GB,GBC,GBA)": {
+        "parserType": "Glob",
+        "configTitle": "Retroarch - mGBA",
+        "steamCategory": "${GameBoy Advance}",
+        "executableLocation": "path-to-retroarch.exe",
+        "executableModifier": "\"${exePath}\"",
+        "romDirectory": "path-to-nes-roms",
+        "steamDirectory": "path-to-Steam-directory",
+        "startInDirectory": "",
+        "titleModifier": "${fuzzyTitle}",
+        "executableArgs": "-L cores\mgba_libretro.dll \"${filePath}\"",
+        "appendArgsToExecutable": true,
+        "onlineImageQueries": "${${fuzzyTitle}}",
+        "imagePool": "${fuzzyTitle}",
+        "imageProviders": [
+            "SteamGridDB"
+        ],
+        "defaultImage": "",
+        "localImages": "",
+        "localIcons": "",
+        "disabled": false,
+        "advanced": false,
+        "userAccounts": {
+            "specifiedAccounts": "",
+            "skipWithMissingDataDir": true,
+            "useCredentials": true
+        },
+        "parserInputs": {
+            "glob": "${title}.@(gb|GB|gbc|GBC|gba|GBA|zip|ZIP)",
             "glob-regex": null
         },
         "titleFromVariable": {
