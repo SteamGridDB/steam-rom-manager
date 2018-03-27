@@ -477,7 +477,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}.@(gg|gg|zip|ZIP)",
+
             "glob-regex": null
         },
         "titleFromVariable": {
