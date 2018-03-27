@@ -39,10 +39,9 @@ install:
   - npm install
 
 before_script:
-  - |
-    git lfs pull
-    npm run validate-files
-    npm run build:dist
+  - git lfs pull
+  - npm run validate-files
+  - npm run build:dist
 
 script:
   - |
