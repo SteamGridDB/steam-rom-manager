@@ -5,7 +5,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
     controlProperty: 'version',
-    latestVersion: 1,
+    latestVersion: 2,
     fields: {
         undefined: {
             'version': { method: () => 0 },
@@ -23,6 +23,12 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
             'version': { method: versionUp },
             'titleModifier': {
                 method: (oldValue) => typeof oldValue === 'string' ? oldValue.replace(/\${title}/gi, '${fuzzyTitle}') : '${fuzzyTitle}'
+            }
+        },
+        1: {
+            'version': { method: versionUp },
+            'imageProviders': {
+                method: (oldValue) => Array.isArray(oldValue) ? oldValue.filter((val) => val !== "ConsoleGrid") : oldValue
             }
         }
     }
