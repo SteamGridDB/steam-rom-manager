@@ -19,7 +19,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 ### Dolphin Emu (Gamecube and Wii)
 
 ```
---exec "${filePath}" --batch --confirm=false
+--exec="${filePath}" --batch --confirm=false
 ```
 
 ### Project64 2.3+ (N64)

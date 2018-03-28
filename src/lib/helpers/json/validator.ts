@@ -7,7 +7,7 @@ export class Validator<T = object> {
     private validationFn: Ajv.ValidateFunction | null = null;
     private modifier: ValidatorModifier<T> | null = null;
 
-    constructor(schema?: object, modifier?: ValidatorModifier<T>, options: Ajv.Options = { removeAdditional: "all", useDefaults: false }) {
+    constructor(schema?: object, modifier?: ValidatorModifier<T>, options: Ajv.Options = { removeAdditional: "all", useDefaults: true }) {
         this.ajv = new Ajv(options);
         if (schema !== undefined) {
             this.setSchema(schema);
