@@ -1,10 +1,11 @@
 import { userConfiguration } from "./user-configuration.schema";
+import { cloneDeep } from "lodash";
 
 export const configPresets = {
     type: 'object',
     patternProperties: {
         "^.+$": (() => {
-            let config = userConfiguration;
+            let config = cloneDeep(userConfiguration);
             delete config.properties.version;
 
             let addStrictValidation = (data: any) => {
