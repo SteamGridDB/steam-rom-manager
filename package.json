@@ -1,6 +1,6 @@
 {
   "name": "steam-rom-manager",
-  "version": "2.2.12",
+  "version": "2.2.13",
   "license": "GPL-3.0",
   "description": "An app for managing ROMs in Steam",
   "author": {
@@ -82,6 +82,7 @@
     "colornames": "^1.1.1",
     "crc": "^3.5.0",
     "electron-window-state": "^4.1.1",
+    "fast-memoize": "^2.3.2",
     "fs-extra": "^5.0.0",
     "fuzzaldrin-plus": "^0.6.0",
     "glob": "^7.1.2",

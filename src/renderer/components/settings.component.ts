@@ -58,6 +58,10 @@ export class SettingsComponent implements OnDestroy {
         this.fuzzyService.fuzzyLoader.resetList();
     }
 
+    private clearFuzzy(){
+        this.fuzzyService.fuzzyLoader.resetCache();
+    }
+
     private preload(value: boolean) {
         if (this.settings.previewSettings.preload !== value && value)
             this.previewService.preloadImages();

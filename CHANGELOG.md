@@ -1,6 +1,23 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.13 - 2018-04-05
+
+### Added
+
+* Added primitive/unlimited cache for fuzzy matcher. Increases performance and can be used to change undesired fuzzy matcher's result by modifying `fuzzyCache.json`.
+
+### Fixed
+
+* Added addition step for `"the"` matching. Fuzzy matcher will now modify and try to match title in the following order:
+```
+Original title: "Addams Family, The - Pugsley's Scavenger Hunt"
+
+1st try: "The Addams Family - Pugsley's Scavenger Hunt"  (logical)
+2nd try: "The - Pugsley's Scavenger Hunt Addams Family"  (just in case)
+3rd try: "Addams Family, The - Pugsley's Scavenger Hunt" (original)
+```
+
 ## 2.2.12 - 2018-03-27
 
 ### Removed

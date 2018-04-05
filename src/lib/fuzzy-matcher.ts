@@ -1,22 +1,31 @@
 import { ParsedDataWithFuzzy, FuzzyEventCallback, FuzzyMatcherOptions } from "../models";
+import { MemoizedFunction } from "./memoized-function";
+
 const Fuzzy = require('fuzzaldrin-plus');
 
 export class FuzzyMatcher {
     private list: { totalGames: number, games: string[] };
     private latinList: string[];
+    private memFn = new MemoizedFunction();
 
-    constructor(private eventCallback?: FuzzyEventCallback, list?: { totalGames: number, games: string[] }) {
+    constructor(private eventCallback?: FuzzyEventCallback, list?: { totalGames: number, games: string[] }, cache?: { [key: string]: any }) {
         this.setEventCallback(eventCallback || ((event: any, data: any) => { }));
         this.setFuzzyList(list);
+        this.setFuzzyCache(cache);
+        this.memFn.memoize(this.matchFromList.bind(this), false);
     }
 
     setEventCallback(eventCallback: FuzzyEventCallback) {
         this.eventCallback = eventCallback;
     }
 
+    setFuzzyCache(cache: { [key: string]: any }) {
+        this.memFn.setCache(cache || {});
+    }
+
     setFuzzyList(list: { totalGames: number, games: string[] }) {
         this.list = list;
-        if (this.isLoaded()){
+        if (this.isLoaded()) {
             this.latinList = new Array(list.games.length);
 
             for (let i = 0; i < list.games.length; i++) {
@@ -28,7 +37,7 @@ export class FuzzyMatcher {
     fuzzyMatchParsedData(data: ParsedDataWithFuzzy, options: FuzzyMatcherOptions, verbose: boolean = true) {
         if (this.isLoaded()) {
             for (let i = 0; i < data.success.length; i++) {
-                let matchedData = this.matchFromList(data.success[i].extractedTitle, options);
+                let matchedData = this.memFn.fn(data.success[i].extractedTitle, options);
 
                 if (matchedData.matched) {
                     data.success[i].fuzzyTitle = matchedData.output;
@@ -42,7 +51,7 @@ export class FuzzyMatcher {
 
     fuzzyMatchString(input: string, options: FuzzyMatcherOptions, verbose: boolean = true) {
         if (this.isLoaded()) {
-            let data = this.matchFromList(input, options);
+            let data = this.memFn.fn(input, options);
             if (data.matched && verbose)
                 this.eventCallback('info', { info: 'match', stringA: data.output, stringB: input });
             return data.output;
@@ -52,8 +61,8 @@ export class FuzzyMatcher {
 
     fuzzyEqual(a: string, b: string, options: FuzzyMatcherOptions, verbose: boolean = true) {
         if (this.isLoaded()) {
-            let dataA = this.matchFromList(a, options);
-            let dataB = this.matchFromList(b, options);
+            let dataA = this.memFn.fn(a, options);
+            let dataB = this.memFn.fn(b, options);
 
             if (dataA.output === dataB.output) {
                 if (verbose)
@@ -79,9 +88,17 @@ export class FuzzyMatcher {
         }
         // Check if title contains ", The..."
         else if (/,\s*the/i.test(input)) {
-            let modifiedInput = input.replace(/(.*?),\s*(.*)/i, '$2 $1');
+            // Move "The" to the front
+            let modifiedInput = input.replace(/(.*?),\s*(the)/i, '$2 $1');
             modifiedInput = this.modifyString(modifiedInput, options);
             let matches = this.performMatching(modifiedInput, options.replaceDiacritics);
+            if (matches.matched)
+                return matches;
+
+            // Move "The + everything else" to the front
+            modifiedInput = input.replace(/(.*?),\s*(the.*)/i, '$2 $1');
+            modifiedInput = this.modifyString(modifiedInput, options);
+            matches = this.performMatching(modifiedInput, options.replaceDiacritics);
             if (matches.matched)
                 return matches;
         }
@@ -98,7 +115,7 @@ export class FuzzyMatcher {
 
         for (let i = 0; i < list.length; i++) {
             let score = Fuzzy.score(list[i], preparedQuery.query, { preparedQuery, usePathScoring: false });
-            if (score >= bestScore && score !== 0){
+            if (score >= bestScore && score !== 0) {
                 bestScore = score;
                 matches.push(this.list.games[i]);
             }

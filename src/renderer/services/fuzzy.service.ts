@@ -11,6 +11,7 @@ export class FuzzyService {
     private appSettings: AppSettings;
     private fuzzyListLoader: FuzzyListLoader;
     private fuzzyListMatcher: FuzzyMatcher;
+    private currentCacheEntries: number;
 
     constructor(private http: Http, private loggerService: LoggerService, private settingsService: SettingsService) {
         this.fuzzyListLoader = new FuzzyListLoader(this.http, this.eventCallback.bind(this), () => this.appSettings.offlineMode);
@@ -20,11 +21,22 @@ export class FuzzyService {
             this.fuzzyListMatcher.setFuzzyList(list);
         });
 
+        this.fuzzyListLoader.observeCache().subscribe((data) => {
+            this.currentCacheEntries = Object.keys(data).length;
+            this.fuzzyListMatcher.setFuzzyCache(data);
+        });
+
         this.settingsService.onLoad((appSettings) => {
             this.appSettings = appSettings;
             this.fuzzyListLoader.setTimestamps(appSettings.fuzzyMatcher.timestamps);
-            this.fuzzyListLoader.loadList();
+            this.fuzzyListLoader.loadCache().then(() => {
+                return this.fuzzyListLoader.loadList();
+            });
         });
+
+        setInterval(() => {
+            this.saveCacheIfNeeded();
+        }, 300000 /*5 mins*/);
     }
 
     get fuzzyLoader() {
@@ -33,6 +45,16 @@ export class FuzzyService {
 
     get fuzzyMatcher() {
         return this.fuzzyListMatcher;
+    }
+
+    saveCacheIfNeeded() {
+        return Promise.resolve().then(() => {
+            let cacheEntries = Object.keys(this.fuzzyLoader.getCache()).length;
+            if (this.currentCacheEntries != undefined && this.currentCacheEntries !== cacheEntries) {
+                this.currentCacheEntries = cacheEntries;
+                return this.fuzzyLoader.saveCache();
+            }
+        });
     }
 
     private get lang() {

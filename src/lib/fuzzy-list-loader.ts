@@ -7,6 +7,7 @@ import * as json from "./helpers/json";
 
 export class FuzzyListLoader {
     private list = new BehaviorSubject<{ totalGames: number, games: string[] }>({ totalGames: 0, games: [] });
+    private cache = new BehaviorSubject<{ [key: string]: any }>({});
     private checkInterval: number = 43200000; //every 12 h
     private forcedUpdate: number = 604800000; //every week
     private timeout: number = 120000; //timeout
@@ -19,6 +20,10 @@ export class FuzzyListLoader {
         return this.list.asObservable();
     }
 
+    observeCache() {
+        return this.cache.asObservable();
+    }
+
     setEventCallback(eventCallback: FuzzyEventCallback) {
         this.eventCallback = eventCallback;
     }
@@ -27,8 +32,12 @@ export class FuzzyListLoader {
         this.timestamps = timestamps;
     }
 
-    getListAndCache() {
+    getList() {
         return this.list.getValue();
+    }
+
+    getCache() {
+        return this.cache.getValue();
     }
 
     loadList(offlineMode?: boolean) {
@@ -77,6 +86,12 @@ export class FuzzyListLoader {
         });
     }
 
+    loadCache() {
+        return json.read(paths.fuzzyCache, {}).then((data) => {
+            this.cache.next(data);
+        });
+    }
+
     isLoaded() {
         return this.list.getValue().totalGames > 0;
     }
@@ -99,11 +114,20 @@ export class FuzzyListLoader {
         return json.write(paths.fuzzyList, fuzzyList);
     }
 
+    saveCache() {
+        return json.write(paths.fuzzyCache, this.cache.getValue());
+    }
+
     resetList() {
         this.timestamps.download = 0;
         this.timestamps.check = 0;
         this.list.next({ totalGames: 0, games: [] });
         return this.saveList().then(() => this.eventCallback('newTimestamps', this.timestamps)).then(() => this.loadList());
+    }
+
+    resetCache(){
+        this.cache.next({});
+        return this.saveCache();
     }
 
     private getTotalCount() {
