@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.14 - 2018-04-06
+
+### Fixed
+
+* A bug introduced in `2.2.12` would modify `userSettings` schema. This allows user to save invalid configurations, but would throw an error when trying to load it.
+
 ## 2.2.13 - 2018-04-05
 
 ### Added
