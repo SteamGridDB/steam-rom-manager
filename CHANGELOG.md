@@ -3,9 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## 2.2.15 - 2018-04-08
 
-### Change
+### Changed
 
-* Removed file restriction for `Executable` field. Any valid path can be used for execubale.
+* Removed file restriction for `Executable` field. Any valid path can be used for executable.
 
 ## 2.2.14 - 2018-04-06
 
