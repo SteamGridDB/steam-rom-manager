@@ -172,7 +172,7 @@ export class ParsersService {
             case 'steamCategory':
                 return this.validateVariableParserString(data || '');
             case 'executableLocation':
-                return (data == null || data.length === 0 || this.validatePath(data || '', false)) ? null : this.lang.validationErrors.executable__md;
+                return (data == null || data.length === 0 || this.validatePath(data || '')) ? null : this.lang.validationErrors.executable__md;
             case 'romDirectory':
                 return this.validatePath(data || '', true) ? null : this.lang.validationErrors.romDir__md;
             case 'steamDirectory':
@@ -231,10 +231,13 @@ export class ParsersService {
             return emptyError;
     }
 
-    private validatePath(fsPath: string, checkForDirectory: boolean) {
+    private validatePath(fsPath: string, checkForDirectory?: boolean) {
         try {
             let path = fs.statSync(fsPath);
-            return checkForDirectory ? path.isDirectory() : path.isFile();
+            if (checkForDirectory !== undefined)
+                return checkForDirectory ? path.isDirectory() : path.isFile();
+            else
+                return true;
         } catch (e) {
             return false;
         }

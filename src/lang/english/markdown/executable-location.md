@@ -1,6 +1,6 @@
 # Executable (optional)
 
-Path to emulator's executable.
+Path to emulator's executable. Can be a file or any valid system path.
 
 ## Why optional?
 

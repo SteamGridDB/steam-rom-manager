@@ -371,7 +371,7 @@ export const EnglishLang: languageContainer = {
                     romDir__md: '> ROMs directory is invalid!',
                     steamDir__md: '> Steam directory is invalid!',
                     startInDir__md: '> "Start In" directory is invalid!',
-                    executable__md: '> Executable file is invalid!',
+                    executable__md: '> Executable is invalid!',
                     imagePool__md: '> Image pool must not be empty!',
                     titleModifier__md: '> Title modifier must not be empty!',
                     executableModifier__md: '> Executable modifier must not be empty!',
