@@ -1,7 +1,7 @@
 {
     "Cemu (RPX)": {
         "parserType": "Glob",
-        "configTitle": "Cemu RPX",
+        "configTitle": "Cemu (RPX)",
         "steamCategory": "${Wii U}",
         "executableLocation": "path-to-Cemu.exe",
         "executableModifier": "\"${exePath}\"",
@@ -45,9 +45,55 @@
         }
     },
 
+    "Cemu (RPX) - SteamLink": {
+        "parserType": "Glob",
+        "configTitle": "Cemu (RPX) - SteamLink",
+        "steamCategory": "${Wii U}",
+        "executableLocation": "path-to-Cemu.exe",
+        "executableModifier": "\"${exePath}\"",
+        "romDirectory": "path-to-roms",
+        "steamDirectory": "path-to-Steam-directory",
+        "startInDirectory": "",
+        "titleModifier": "${fuzzyTitle} - SteamLink",
+        "executableArgs": "-ud -f -g \"${filePath}\"",
+        "appendArgsToExecutable": true,
+        "onlineImageQueries": "${${fuzzyTitle}}",
+        "imagePool": "${fuzzyTitle}",
+        "imageProviders": [
+            "SteamGridDB",
+            "retrogaming.cloud"
+        ],
+        "defaultImage": "",
+        "localImages": "",
+        "localIcons": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga",
+        "disabled": false,
+        "advanced": false,
+        "userAccounts": {
+            "specifiedAccounts": "",
+            "skipWithMissingDataDir": true,
+            "useCredentials": true
+        },
+        "parserInputs": {
+            "glob": "${title}/*/*@(.rpx|.RPX)",
+            "glob-regex": null
+        },
+        "titleFromVariable": {
+            "limitToGroups": "",
+            "caseInsensitiveVariables": false,
+            "skipFileIfVariableWasNotFound": false,
+            "tryToMatchTitle": false
+        },
+        "fuzzyMatch": {
+            "use": true,
+            "replaceDiacritics": true,
+            "removeCharacters": true,
+            "removeBrackets": true
+        }
+    },
+
     "Cemu (WUD/WUX)": {
         "parserType": "Glob",
-        "configTitle": "Cemu WUD/WUX",
+        "configTitle": "Cemu (WUD/WUX)",
         "steamCategory": "${Wii U}",
         "executableLocation": "path-to-Cemu.exe",
         "executableModifier": "\"${exePath}\"",
@@ -56,6 +102,52 @@
         "startInDirectory": "",
         "titleModifier": "${fuzzyTitle}",
         "executableArgs": "-f -g \"${filePath}\"",
+        "appendArgsToExecutable": true,
+        "onlineImageQueries": "${${fuzzyTitle}}",
+        "imagePool": "${fuzzyTitle}",
+        "imageProviders": [
+            "SteamGridDB",
+            "retrogaming.cloud"
+        ],
+        "defaultImage": "",
+        "localImages": "",
+        "localIcons": "",
+        "disabled": false,
+        "advanced": false,
+        "userAccounts": {
+            "specifiedAccounts": "",
+            "skipWithMissingDataDir": true,
+            "useCredentials": true
+        },
+        "parserInputs": {
+            "glob": "${title}@(.wud|.WUD|.wux|.WUX)",
+            "glob-regex": null
+        },
+        "titleFromVariable": {
+            "limitToGroups": "",
+            "caseInsensitiveVariables": false,
+            "skipFileIfVariableWasNotFound": false,
+            "tryToMatchTitle": false
+        },
+        "fuzzyMatch": {
+            "use": true,
+            "replaceDiacritics": true,
+            "removeCharacters": true,
+            "removeBrackets": true
+        }
+    },
+
+    "Cemu (WUD/WUX) - SteamLink": {
+        "parserType": "Glob",
+        "configTitle": "Cemu (WUD/WUX) - SteamLink",
+        "steamCategory": "${Wii U}",
+        "executableLocation": "path-to-Cemu.exe",
+        "executableModifier": "\"${exePath}\"",
+        "romDirectory": "path-to-roms",
+        "steamDirectory": "path-to-Steam-directory",
+        "startInDirectory": "",
+        "titleModifier": "${fuzzyTitle} - SteamLink",
+        "executableArgs": "-ud -f -g \"${filePath}\"",
         "appendArgsToExecutable": true,
         "onlineImageQueries": "${${fuzzyTitle}}",
         "imagePool": "${fuzzyTitle}",
