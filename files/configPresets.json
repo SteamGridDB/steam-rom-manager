@@ -212,7 +212,7 @@
             "useCredentials": true
         },
         "parserInputs": {
-            "glob": "${title}@(.3ds|.3DS)",
+            "glob": "${title}@(.3ds|.3DS|.3dsx|.3DSX|.app|.APP|.axf|.AXF|.cii|.CII|.cxi|.CXI|.elf|.ELF)",
             "glob-regex": null
         },
         "titleFromVariable": {
@@ -239,7 +239,7 @@
         "steamDirectory": "path-to-Steam-directory",
         "startInDirectory": "",
         "titleModifier": "${fuzzyTitle}",
-        "executableArgs": "-f -g \"${filePath}\"",
+        "executableArgs": "-b -e \"${filePath}\"",
         "appendArgsToExecutable": true,
         "onlineImageQueries": "${${fuzzyTitle}}",
         "imagePool": "${fuzzyTitle}",
@@ -285,7 +285,7 @@
         "steamDirectory": "path-to-Steam-directory",
         "startInDirectory": "",
         "titleModifier": "${fuzzyTitle}",
-        "executableArgs": "-f -g \"${filePath}\"",
+        "executableArgs": "-b -e \"${filePath}\"",
         "appendArgsToExecutable": true,
         "onlineImageQueries": "${${fuzzyTitle}}",
         "imagePool": "${fuzzyTitle}",
@@ -331,7 +331,7 @@
         "steamDirectory": "path-to-Steam-directory",
         "startInDirectory": "",
         "titleModifier": "${fuzzyTitle}",
-        "executableArgs": "-f -g \"${filePath}\" --nogui --fullscreen",
+        "executableArgs": "\"${filePath}\" --nogui --fullscreen",
         "appendArgsToExecutable": true,
         "onlineImageQueries": "${${fuzzyTitle}}",
         "imagePool": "${fuzzyTitle}",
