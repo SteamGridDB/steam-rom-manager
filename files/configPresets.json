@@ -1105,7 +1105,7 @@
 
     "RPCS3 (Extracted ISO/PSN)": {
         "parserType": "Glob",
-        "configTitle": "RPCS3 (Extracted ISO/PS)",
+        "configTitle": "RPCS3 (Extracted ISO/PSN)",
         "steamCategory": "${NES}",
         "executableLocation": "path-to-rpcs3.exe",
         "executableModifier": "\"${exePath}\"",
