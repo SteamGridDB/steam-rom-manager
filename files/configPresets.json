@@ -45,52 +45,6 @@
         }
     },
 
-    "Cemu (RPX) - SteamLink": {
-        "parserType": "Glob",
-        "configTitle": "Cemu (RPX) - SteamLink",
-        "steamCategory": "${Wii U}",
-        "executableLocation": "path-to-Cemu.exe",
-        "executableModifier": "\"${exePath}\"",
-        "romDirectory": "path-to-roms",
-        "steamDirectory": "path-to-Steam-directory",
-        "startInDirectory": "",
-        "titleModifier": "${fuzzyTitle} - SteamLink",
-        "executableArgs": "-ud -f -g \"${filePath}\"",
-        "appendArgsToExecutable": true,
-        "onlineImageQueries": "${${fuzzyTitle}}",
-        "imagePool": "${fuzzyTitle}",
-        "imageProviders": [
-            "SteamGridDB",
-            "retrogaming.cloud"
-        ],
-        "defaultImage": "",
-        "localImages": "",
-        "localIcons": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga",
-        "disabled": false,
-        "advanced": false,
-        "userAccounts": {
-            "specifiedAccounts": "",
-            "skipWithMissingDataDir": true,
-            "useCredentials": true
-        },
-        "parserInputs": {
-            "glob": "${title}/*/*@(.rpx|.RPX)",
-            "glob-regex": null
-        },
-        "titleFromVariable": {
-            "limitToGroups": "",
-            "caseInsensitiveVariables": false,
-            "skipFileIfVariableWasNotFound": false,
-            "tryToMatchTitle": false
-        },
-        "fuzzyMatch": {
-            "use": true,
-            "replaceDiacritics": true,
-            "removeCharacters": true,
-            "removeBrackets": true
-        }
-    },
-
     "Cemu (WUD/WUX)": {
         "parserType": "Glob",
         "configTitle": "Cemu (WUD/WUX)",
@@ -137,55 +91,9 @@
         }
     },
 
-    "Cemu (WUD/WUX) - SteamLink": {
+    "Citra": {
         "parserType": "Glob",
-        "configTitle": "Cemu (WUD/WUX) - SteamLink",
-        "steamCategory": "${Wii U}",
-        "executableLocation": "path-to-Cemu.exe",
-        "executableModifier": "\"${exePath}\"",
-        "romDirectory": "path-to-roms",
-        "steamDirectory": "path-to-Steam-directory",
-        "startInDirectory": "",
-        "titleModifier": "${fuzzyTitle} - SteamLink",
-        "executableArgs": "-ud -f -g \"${filePath}\"",
-        "appendArgsToExecutable": true,
-        "onlineImageQueries": "${${fuzzyTitle}}",
-        "imagePool": "${fuzzyTitle}",
-        "imageProviders": [
-            "SteamGridDB",
-            "retrogaming.cloud"
-        ],
-        "defaultImage": "",
-        "localImages": "",
-        "localIcons": "",
-        "disabled": false,
-        "advanced": false,
-        "userAccounts": {
-            "specifiedAccounts": "",
-            "skipWithMissingDataDir": true,
-            "useCredentials": true
-        },
-        "parserInputs": {
-            "glob": "${title}@(.wud|.WUD|.wux|.WUX)",
-            "glob-regex": null
-        },
-        "titleFromVariable": {
-            "limitToGroups": "",
-            "caseInsensitiveVariables": false,
-            "skipFileIfVariableWasNotFound": false,
-            "tryToMatchTitle": false
-        },
-        "fuzzyMatch": {
-            "use": true,
-            "replaceDiacritics": true,
-            "removeCharacters": true,
-            "removeBrackets": true
-        }
-    },
-
-    "Citra (3DS)": {
-        "parserType": "Glob",
-        "configTitle": "Citra (3DS)",
+        "configTitle": "Citra",
         "steamCategory": "${3DS}",
         "executableLocation": "path-to-Citra.exe",
         "executableModifier": "\"${exePath}\"",
@@ -229,9 +137,9 @@
         }
     },
 
-    "Dolphin - Gamecube": {
+    "Dolphin (GameCube)": {
         "parserType": "Glob",
-        "configTitle": "Dolphin - Gamecube",
+        "configTitle": "Dolphin (GameCube)",
         "steamCategory": "${Gamecube}",
         "executableLocation": "path-to-Dolphin.exe",
         "executableModifier": "\"${exePath}\"",
@@ -275,9 +183,9 @@
         }
     },
 
-    "Dolphin - Wii": {
+    "Dolphin (Wii)": {
         "parserType": "Glob",
-        "configTitle": "Dolphin - Wii",
+        "configTitle": "Dolphin (Wii)",
         "steamCategory": "${Wii}",
         "executableLocation": "path-to-Dolphin.exe",
         "executableModifier": "\"${exePath}\"",
@@ -535,6 +443,52 @@
         },
         "parserInputs": {
             "glob": "${title}@(.ccd|.CCD|.chd|.CHD|.cue|.CUE|.m3u|.M3U|.pbp|.PBP|.toc|.TOC)",
+            "glob-regex": null
+        },
+        "titleFromVariable": {
+            "limitToGroups": "",
+            "caseInsensitiveVariables": false,
+            "skipFileIfVariableWasNotFound": false,
+            "tryToMatchTitle": false
+        },
+        "fuzzyMatch": {
+            "use": true,
+            "replaceDiacritics": true,
+            "removeCharacters": true,
+            "removeBrackets": true
+        }
+    },
+
+    "Retroarch - Beetle Saturn (Saturn)": {
+        "parserType": "Glob",
+        "configTitle": "Retroarch - Beetle Saturn (Saturn)",
+        "steamCategory": "${PS1}",
+        "executableLocation": "path-to-retroarch.exe",
+        "executableModifier": "\"${exePath}\"",
+        "romDirectory": "path-to-roms",
+        "steamDirectory": "path-to-Steam-directory",
+        "startInDirectory": "",
+        "titleModifier": "${fuzzyTitle}",
+        "executableArgs": "-L cores${/}mednafen_saturn_libretro.dll \"${filePath}\"",
+        "appendArgsToExecutable": true,
+        "onlineImageQueries": "${${fuzzyTitle}}",
+        "imagePool": "${fuzzyTitle}",
+        "imageProviders": [
+            "SteamGridDB",
+            "retrogaming.cloud"
+        ],
+        "defaultImage": "",
+        "localImages": "",
+        "localIcons": "",
+        "disabled": false,
+        "advanced": false,
+        "userAccounts": {
+            "specifiedAccounts": "",
+            "skipWithMissingDataDir": true,
+            "useCredentials": true
+        },
+        "parserInputs": {
+            "glob": "${title}@(.ccd|.CCD|.chd|.CHD|.cue|.CUE|.m3u|.M3U|.toc|.TOC)",
             "glob-regex": null
         },
         "titleFromVariable": {
@@ -1149,9 +1103,9 @@
         }
     },
 
-    "RPCS3 - Extracted ISO/PSN": {
+    "RPCS3 (Extracted ISO/PSN)": {
         "parserType": "Glob",
-        "configTitle": "RPCS3 - Extracted ISO/PSN",
+        "configTitle": "RPCS3 (Extracted ISO/PS)",
         "steamCategory": "${NES}",
         "executableLocation": "path-to-rpcs3.exe",
         "executableModifier": "\"${exePath}\"",
