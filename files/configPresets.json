@@ -827,10 +827,10 @@
         }
     },
 
-    "Sega CD\Mega CD - Retroarch - Genesis Plus GX": {
+    "Sega CD\\Mega CD - Retroarch - Genesis Plus GX": {
         "parserType": "Glob",
-        "configTitle": "Sega CD\Mega CD - Retroarch - Genesis Plus GX",
-        "steamCategory": "${Sega CD\Mega CD}",
+        "configTitle": "Sega CD\\Mega CD - Retroarch - Genesis Plus GX",
+        "steamCategory": "${Sega CD\\Mega CD}",
         "executableLocation": "path-to-retroarch.exe",
         "executableModifier": "\"${exePath}\"",
         "romDirectory": "path-to-roms",
@@ -965,10 +965,10 @@
         }
     },
 
-    "Sega Genesis\Mega Drive - Retroarch - Genesis Plus GX": {
+    "Sega Genesis\\Mega Drive - Retroarch - Genesis Plus GX": {
         "parserType": "Glob",
-        "configTitle": "Sega Genesis\Mega Drive - Retroarch - Genesis Plus GX",
-        "steamCategory": "${Genesis\Mega Drive}",
+        "configTitle": "Sega Genesis\\Mega Drive - Retroarch - Genesis Plus GX",
+        "steamCategory": "${Genesis\\Mega Drive}",
         "executableLocation": "path-to-retroarch.exe",
         "executableModifier": "\"${exePath}\"",
         "romDirectory": "path-to-roms",
