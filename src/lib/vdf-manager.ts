@@ -133,7 +133,7 @@ export class VDF_Manager {
                             item.exe = app.executableLocation;
                             item.StartDir = app.startInDirectory;
                             item.LaunchOptions = app.argumentString;
-                            item.tags = app.steamCategories;
+                            item.tags = _.union(app.steamCategories, item.tags);
                             item.icon = app.icons.length > 0 ? app.icons[app.currentIconIndex] : '';
                         }
                         else {

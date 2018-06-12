@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.16 - 2018-06-12
+
+### Changed
+
+* For existing entries, an union of parser categories and already existing categories will be used when saving `VDF` files. This will preserve any user added category.
+
 ## 2.2.15 - 2018-04-08
 
 ### Changed
