@@ -60,17 +60,19 @@ In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is
 |`${lc|input}`|Lowercase variable. Transforms input to lowercase|
 |`${cv:group|input}`|Change input with matched custom variable (group is optional)|
 |`${rdc|input}`|Replace diacritic input characters with their latin equivalent|
+|`${os:[win|mac|linux]|on match|no match(optional)}`|If OS matches, uses `on match` value or `no match` otherwise|
 
 ### Function variable example
 
 Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
 ```
-${/.*/|${title}}                         //Matches everything
-${/(.*)/|${title}}                       //Captures everything
-${/(\(.*?\))/|${title}|}                 //Captures all brackets and substitutes with nothing
-${/(\(Disc\s?[0-9]\))/|${title}}         //Captures "Disc..." part
-${uc|${/(\(Disc\s?[0-9]\))/|${title}}}   //Captures "Disc..." part and transforms it to uppercase
-${rdc|${title}}                          //Replace diacritic characters (in this case: é -> e)
+${/.*/|${title}}                           //Matches everything
+${/(.*)/|${title}}                         //Captures everything
+${/(\(.*?\))/|${title}|}                   //Captures all brackets and substitutes with nothing
+${/(\(Disc\s?[0-9]\))/|${title}}           //Captures "Disc..." part
+${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transforms it to uppercase
+${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
+file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
 ```
 will be replaced with these:
 ```
@@ -80,6 +82,13 @@ Pokémon.iso
 (Disc 1)
 (DISC 1)
 Pokemon (USA) (Disc 1).iso
+
+--On linux:
+file.so
+--On Windows:
+file.dll
+--On Mac OS:
+file
 ```
 
 ## Other variables

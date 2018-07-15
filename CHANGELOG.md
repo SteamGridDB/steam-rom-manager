@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.17 - 2018-07-15
+
+### Added
+
+* Added `${os:[win|mac|linux]|on match|no match(optional)}` variable. Can be used to select OS specific extensions and etc.
+
 ## 2.2.16 - 2018-06-12
 
 ### Changed

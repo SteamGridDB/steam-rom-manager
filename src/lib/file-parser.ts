@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 import * as glob from 'glob';
 import * as path from 'path';
 import * as fs from 'fs-extra';
-
+import * as os from 'os';
 
 export class FileParser {
     private availableParsers = parsers;
@@ -211,7 +211,7 @@ export class FileParser {
                         let extRegex = /png|tga|jpg|jpeg/i;
                         for (let k = 0; k < data.resolvedFiles[j].length; k++) {
                             const item = data.resolvedFiles[j][k];
-                            if (extRegex.test(path.extname(item))){
+                            if (extRegex.test(path.extname(item))) {
                                 data.parsedConfig.files[j].defaultImage = url.encodeFile(item);
                                 break;
                             }
@@ -489,6 +489,31 @@ export class FileParser {
                         if (!found)
                             output = unavailable;
                         break;
+                    }
+
+                    match = /^os:(.+?)\|(.*?)(?:\|(.*?))?$/i.exec(output);
+                    if (match) {
+                        const regexPlatform = match[1].toLowerCase();
+                        if (regexPlatform === "win" || regexPlatform === "mac" || regexPlatform === "linux") {
+                            let platform: string = null;
+                            switch (os.platform()) {
+                                case "win32":
+                                    platform = "win";
+                                    break;
+                                case "linux":
+                                    platform = "linux";
+                                    break;
+                                case "darwin":
+                                    platform = "mac";
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            if (platform !== null) {
+                                output = ((platform === regexPlatform) ? match[2] : match[3]) || '';
+                            }
+                        }
                     }
                 }
                 break;
