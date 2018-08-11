@@ -14,8 +14,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -59,8 +58,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -104,8 +102,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -149,8 +146,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -194,8 +190,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -239,8 +234,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -284,8 +278,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -329,8 +322,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -374,8 +366,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -419,8 +410,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -464,8 +454,7 @@
         "onlineImageQueries": "${${fuzzyTitle}}",
         "imagePool": "${fuzzyTitle}",
         "imageProviders": [
-            "SteamGridDB",
-            "retrogaming.cloud"
+            "SteamGridDB"
         ],
         "defaultImage": "",
         "localImages": "",
@@ -509,8 +498,7 @@
         "onlineImageQueries": "${${fuzzyTitle}}",
         "imagePool": "${fuzzyTitle}",
         "imageProviders": [
-            "SteamGridDB",
-            "retrogaming.cloud"
+            "SteamGridDB"
         ],
         "defaultImage": "",
         "localImages": "",
@@ -554,8 +542,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -599,8 +586,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -644,8 +630,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -689,8 +674,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -734,8 +718,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -779,8 +762,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -824,8 +806,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -869,8 +850,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -914,8 +894,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -959,8 +938,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1004,8 +982,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1049,8 +1026,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1094,8 +1070,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1139,8 +1114,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1184,8 +1158,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1229,8 +1202,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1274,8 +1246,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1319,8 +1290,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1364,8 +1334,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1409,8 +1378,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1454,8 +1422,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1499,8 +1466,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1544,8 +1510,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1589,8 +1554,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1634,8 +1598,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1679,8 +1642,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1724,8 +1686,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1769,8 +1730,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1814,8 +1774,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1859,8 +1818,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1904,8 +1862,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1949,8 +1906,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -1994,8 +1950,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2039,8 +1994,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2084,8 +2038,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2129,8 +2082,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2174,8 +2126,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2219,8 +2170,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2264,8 +2214,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2309,8 +2258,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2354,8 +2302,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2399,8 +2346,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2444,8 +2390,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2489,8 +2434,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2534,8 +2478,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2579,8 +2522,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2624,8 +2566,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2669,8 +2610,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2714,8 +2654,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2759,8 +2698,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2804,8 +2742,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2849,8 +2786,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2894,8 +2830,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2939,8 +2874,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -2984,8 +2918,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -3029,8 +2962,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -3074,8 +3006,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -3119,8 +3050,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -3164,8 +3094,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -3209,8 +3138,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
@@ -3254,8 +3182,7 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB",
-			"retrogaming.cloud"
+			"SteamGridDB"
 		],
 		"defaultImage": "",
 		"localImages": "",
