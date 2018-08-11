@@ -21,6 +21,7 @@ export class NgPathInputComponent implements ControlValueAccessor {
     private onTouched = () => { };
 
     @Input() private directory: boolean = false;
+    @Input() private stateless: boolean = false;
     @Output() private pathChange: EventEmitter<string> = new EventEmitter();
 
     constructor() { }
@@ -54,7 +55,7 @@ export class NgPathInputComponent implements ControlValueAccessor {
         let oldValue = this.currentValue;
 
         if (value !== oldValue) {
-            this.currentValue = value;
+            this.currentValue = this.stateless ? null : value;
             this.onChange(value);
             this.pathChange.next(value);
         }
