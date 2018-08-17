@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.18 - 2018-08-17
+
+### Changed
+
+* `retrogaming.cloud` is now turned of by default for new users.
+
+### Fixed
+
+* Fixed issue #111.
+
 ## 2.2.17 - 2018-07-15
 
 ### Added
