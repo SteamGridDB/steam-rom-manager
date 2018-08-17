@@ -31,7 +31,7 @@ export const appSettings = {
         },
         enabledProviders: {
             type: 'array',
-            default: availableProviders,
+            default: ['SteamGridDB'],
             items: {
                 oneOf: [
                     {
