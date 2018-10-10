@@ -3246,7 +3246,7 @@
 			"limitToGroups": "${PS3}",
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"tryToMatchTitle": true
 		},
 		"fuzzyMatch": {
 			"use": true,
