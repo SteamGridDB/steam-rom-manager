@@ -747,7 +747,7 @@
 			"removeBrackets": true
 		}
 	},
-		"Nintendo 64 - 1964": {
+	"Nintendo 64 - 1964": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo 64 - 1964",
 		"steamCategory": "${N64}",
@@ -791,7 +791,7 @@
 			"removeBrackets": true
 		}
 	},
-		"Nintendo 64 - Mupen64Plus": {
+	"Nintendo 64 - Mupen64Plus": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo 64 - Mupen64Plus",
 		"steamCategory": "${N64}",
@@ -1831,7 +1831,51 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcz|.GCZ|.iso|.ISO|.wad|.WAD)",
+			"glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcm|.GCM|.gcz|.GCZ|.iso|.ISO|.wad|.WAD)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"Nintendo GameCube - Retroarch - Dolphin": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo GameCube - Retroarch - Dolphin",
+		"steamCategory": "${GameBoy Advance}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}dolphin_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcm|.GCM|.gcz|.GCZ|.iso|.ISO|.wad|.WAD)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -2595,6 +2639,50 @@
 			"removeBrackets": true
 		}
 	},
+	"Nintendo Wii - Retroarch - Dolphin": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Wii - Retroarch - Dolphin",
+		"steamCategory": "${SNES}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}dolphin_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcz|.GCZ|.iso|.ISO|.wad|.WAD|.wbfs|.WBFS)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
 	"Nintendo Wii U - Cemu (RPX)": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo WiiU - Cemu (RPX)",
@@ -2782,50 +2870,6 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "-L cores${/}reicast_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
-		"appendArgsToExecutable": true,
-		"onlineImageQueries": "${${fuzzyTitle}}",
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"SteamGridDB"
-		],
-		"defaultImage": "",
-		"localImages": "",
-		"localIcons": "",
-		"disabled": false,
-		"advanced": false,
-		"userAccounts": {
-			"specifiedAccounts": "",
-			"skipWithMissingDataDir": true,
-			"useCredentials": true
-		},
-		"parserInputs": {
-			"glob": "${title}@(.cdi|.CDI|.chd|.CHD|.cue|.CUE|.gdi|.GDI)",
-			"glob-regex": null
-		},
-		"titleFromVariable": {
-			"limitToGroups": "",
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
-		},
-		"fuzzyMatch": {
-			"use": true,
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		}
-	},
-	"Sega Dreamcast - Retroarch - Reicast OIT": {
-		"parserType": "Glob",
-		"configTitle": "Sega Dreamcast - Retroarch - Reicast OIT",
-		"steamCategory": "${Dreamcast}",
-		"executableLocation": "path-to-retroarch.exe",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "path-to-Steam-directory",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}reicast_oit_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
 		"appendArgsToExecutable": true,
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
@@ -3159,6 +3203,50 @@
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false,
 			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"Sony PlayStation 3 - RPCS3 (Installed PKG)": {
+		"parserType": "Glob",
+		"configTitle": "Sony PlayStation 3 - RPCS3 (Installed PKG)",
+		"steamCategory": "${PS3}",
+		"executableLocation": "path-to-rpcs3.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "\"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}/USRDIR/eboot.bin",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "${PS3}",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": true
 		},
 		"fuzzyMatch": {
 			"use": true,
