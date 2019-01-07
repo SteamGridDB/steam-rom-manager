@@ -43,6 +43,94 @@
 			"removeBrackets": true
 		}
 	},
+	"3DO - 4DO": {
+		"parserType": "Glob",
+		"configTitle": "3DO - 4DO",
+		"steamCategory": "${3DO}",
+		"executableLocation": "path-to-4DO.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "--StartFullScreen -StartLoadFile \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.bin|.BIN|.cue|.CUE|.iso|.ISO)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"3DO - Retroarch - 4DO": {
+		"parserType": "Glob",
+		"configTitle": "3DO - Retroarch - 4DO",
+		"steamCategory": "${3DO}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}4do_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.bin|.BIN|.chd|.CHD|.cue|.CUE|.iso|.ISO)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
 	"Amstrad CPC - Retroarch - Caprice32": {
 		"parserType": "Glob",
 		"configTitle": "Amstrad CPC - Retroarch - Caprice32",
@@ -424,6 +512,50 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.dim|.DIM|.ipf|.IPF|.msa|.MSA|.st|.ST|.stx|.STX|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"Bandai WonderSwan/Color - Retroarch - Beetle Cygne": {
+		"parserType": "Glob",
+		"configTitle": "Bandai WonderSwan/Color - Retroarch - Beetle Cygne",
+		"steamCategory": "${WS}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}mednafen_wswan_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.pc2|.PC2|.ws|.WS|.wsc|.WSC|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -3064,6 +3196,50 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.ccd|.CCD|.chd|.CHD|.cue|.CUE|.m3u|.M3U|.toc|.TOC)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"SNK Neo Geo Pocket/Color - Retroarch - Beetle NeoPop": {
+		"parserType": "Glob",
+		"configTitle": "SNK Neo Geo Pocket/Color - Retroarch - Beetle NeoPop",
+		"steamCategory": "${NGPC}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}mednafen_ngp_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.ngc|.NGC|.ngp|.NGP|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
