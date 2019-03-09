@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.19 - 2019-03-09
+
+### Changed
+
+* Updated `steamgriddb` url.
+
 ## 2.2.18 - 2018-08-17
 
 ### Changed
