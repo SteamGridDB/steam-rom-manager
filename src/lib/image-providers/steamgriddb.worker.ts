@@ -10,7 +10,7 @@ class SteamGridDbProvider extends GenericProvider {
     }
 
     retrieveUrls() {
-        this.xrw.promise = this.xrw.get('http://www.steamgriddb.com/api/grids', {
+        this.xrw.promise = this.xrw.get('https://steamgriddb.com/api/grids', {
             game: this.proxy.title,
             fields: ['author', 'grid_url'].toString()
         }).then((response) => {
