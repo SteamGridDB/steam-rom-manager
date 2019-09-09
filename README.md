@@ -1,3 +1,7 @@
+# Archived as of 2019-09-09
+
+I would like to thank everyone for their time and involvement until now, however I no longer have time to maintain this project and have decided to archive it. 
+
 # For casual users
 
 Visit [Steam ROM Manager](https://frogthefrog.github.io/steam-rom-manager)'s github page for more information.
