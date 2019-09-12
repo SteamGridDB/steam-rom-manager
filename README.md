@@ -1,6 +1,7 @@
-# Archived as of 2019-09-09
+# Maintenance-only as of 2019-09-13
 
-I would like to thank everyone for their time and involvement until now, however I no longer have time to maintain this project and have decided to archive it. 
+Steam ROM Manager will only be updated to fix breaking bugs. No new features will be added.  
+Pull requests will still be reviewed and merged.
 
 # For casual users
 
