@@ -571,6 +571,50 @@
 			"removeBrackets": true
 		}
 	},
+	"Coleco ColecoVision - Retroarch - BlueMSX": {
+		"parserType": "Glob",
+		"configTitle": "Coleco ColecoVision - Retroarch - BlueMSX",
+		"steamCategory": "${ColecoVision}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}bluemsx_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.col|.COL|.ri|.RI|.rom|.ROM|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
     "DOS - DOSBox (Requires .conf matching game folder name in with executable)": {
         "parserType": "Glob",
         "configTitle": "DOSBox",
@@ -703,6 +747,50 @@
 			"removeBrackets": true
 		}
 	},
+	"GCE Vectrex - Retroarch - vecx": {
+		"parserType": "Glob",
+		"configTitle": "GCE Vectrex - Retroarch - vecx",
+		"steamCategory": "${Vectrex}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-games",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}vecx_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}${/}${title}.conf\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.bin|.BIN|.vec|.VEC|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
 	"MAME - Retroarch - MAME": {
 		"parserType": "Glob",
 		"configTitle": "MAME - Retroarch - MAME",
@@ -739,6 +827,314 @@
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false,
 			"tryToMatchTitle": true
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"Microsoft MSX - Retroarch - BlueMSX": {
+		"parserType": "Glob",
+		"configTitle": "ASCII MSX - Retroarch - BlueMSX",
+		"steamCategory": "${MSX}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}bluemsx_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.cas|.CAS|.dsk|.DSK|.m3u|.M3U|.mx1|.MX1|.mx2|.MX2|.ri|.RI|.rom|.ROM|.sc|.SC|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"Microsoft MSX - Retroarch - fMSX": {
+		"parserType": "Glob",
+		"configTitle": "ASCII+Microsoft MSX - Retroarch - fMSX",
+		"steamCategory": "${MSX}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}fmsx_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.cas|.CAS|.dsk|.DSK|.mx1|.MX1|.mx2|.MX2|.rom|.ROM|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"NEC PC-98 - Retroarch - Neko Project II Kai": {
+		"parserType": "Glob",
+		"configTitle": "NEC PC-98 - Retroarch - Neko Project II Kai",
+		"steamCategory": "${PC-98}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}nekop2_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.2hd|.2HD|.88d|.88D|.98d|.98D|.cmd|.CMD|.d88|.D88|.d98|.D98|.dup|.DUP|.fdd|.FDD|.fdi|.FDI|.hdd|.HDD|.hdi|.HDI|.hdm|.HDM|.hdn|.HDN|.nhd|.NHD|.tfd|.TFD|.thd|.THD|.xdf|.XDF|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"NEC PC Engine/TurboGrafx 16 - Retroarch - Beetle PCE FAST": {
+		"parserType": "Glob",
+		"configTitle": "NEC PC Engine/TurboGrafx 16 - Retroarch - Beetle PCE FAST",
+		"steamCategory": "${PCE}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}mednafen_pce_fast_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.bin|.BIN|.pce|.PCE|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"NEC PC Engine CD/TurboGrafx CD - Retroarch - Beetle PCE FAST": {
+		"parserType": "Glob",
+		"configTitle": "NEC PC Engine/TurboGrafx 16 - Retroarch - Beetle PCE FAST",
+		"steamCategory": "${PCECD}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}mednafen_pce_fast_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.ccd|.CCD|.chd|.CHD|.cue|.CUE|.iso|.ISO|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"NEC PC Engine SuperGrafx - Retroarch - Beetle SGX": {
+		"parserType": "Glob",
+		"configTitle": "NEC PC Engine SuperGrafx - Retroarch - Beetle SGX",
+		"steamCategory": "${PCESGX}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}mednafen_supergrafx_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.ccd|.CCD|.chd|.CHD|.cue|.CUE|.pce|.PCE|.sgx|.SGX|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"NEC PC-FX - Retroarch - Beetle PC-FX": {
+		"parserType": "Glob",
+		"configTitle": "NEC PC-FX - Retroarch - Beetle PC-FX",
+		"steamCategory": "${PC-FX}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}mednafen_pcfx_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.ccd|.CCD|.chd|.CHD|.cue|.CUE|.toc|.TOC|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -2947,6 +3343,50 @@
 			"removeBrackets": true
 		}
 	},
+	"Sega 32X - Retroarch - PicoDrive": {
+		"parserType": "Glob",
+		"configTitle": "Sega 32X - Retroarch - PicoDrive",
+		"steamCategory": "${32X}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}picodrive_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.32x|.32X|.bin|.BIN|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
 	"Sega CD/Mega CD - Retroarch - Genesis Plus GX": {
 		"parserType": "Glob",
 		"configTitle": "Sega CD/Mega CD - Retroarch - Genesis Plus GX",
@@ -2991,9 +3431,53 @@
 			"removeBrackets": true
 		}
 	},
-	"Sega Dreamcast - Retroarch - Reicast": {
+	"Sega CD/Mega CD - Retroarch - PicoDrive": {
 		"parserType": "Glob",
-		"configTitle": "Sega Dreamcast - Retroarch - Reicast",
+		"configTitle": "Sega CD/Mega CD - Retroarch - PicoDrive",
+		"steamCategory": "${Sega CD/Mega CD}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}picodrive_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.iso|.ISO|.cue|.CUE|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"Sega Dreamcast - Retroarch - Flycast": {
+		"parserType": "Glob",
+		"configTitle": "Sega Dreamcast - Retroarch - Flycast",
 		"steamCategory": "${Dreamcast}",
 		"executableLocation": "path-to-retroarch.exe",
 		"executableModifier": "\"${exePath}\"",
@@ -3001,7 +3485,7 @@
 		"steamDirectory": "path-to-Steam-directory",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}reicast_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L cores${/}flycast_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
 		"appendArgsToExecutable": true,
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
@@ -3020,6 +3504,94 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.cdi|.CDI|.chd|.CHD|.cue|.CUE|.gdi|.GDI)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"Sega Dreamcast VMU - Retroarch - VeMUlator": {
+		"parserType": "Glob",
+		"configTitle": "Sega Dreamcast VMU - Retroarch - VeMUlator",
+		"steamCategory": "${Dreamcast VMU}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}vemulator_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.bin|.BIN|.dci|.DCI|.vms|.VMS|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"Sega Game Gear - Retroarch - Gearsystem": {
+		"parserType": "Glob",
+		"configTitle": "Sega Game Gear - Retroarch - Gearsystem",
+		"steamCategory": "${Game Gear}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}gearsystem_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.bin|.BIN|.gg|.GG|.rom|.ROM|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -3107,7 +3679,139 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.md|.MD|.smd|.SMD|.gen|.GEN|.zip|.ZIP)",
+			"glob": "${title}@(.gen|.GEN|.md|.MD|.smd|.SMD|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"Sega Genesis/Mega Drive - Retroarch - PicoDrive": {
+		"parserType": "Glob",
+		"configTitle": "Sega Genesis/Mega Drive - Retroarch - PicoDrive",
+		"steamCategory": "${Genesis/Mega Drive}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}picodrive_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.68k|.68K|.bin|.BIN|.gen|.GEN|.md|.MD|.smd|.SMD|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"Sega Master System - Retroarch - Emux SMS": {
+		"parserType": "Glob",
+		"configTitle": "Sega Master System - Retroarch - Emux SMS",
+		"steamCategory": "${Master System}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}emux_sms_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.bin|.BIN|.rom|.ROM|.sms|.SMS|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"Sega Master System - Retroarch - Gearsystem": {
+		"parserType": "Glob",
+		"configTitle": "Sega Master System - Retroarch - Gearsystem",
+		"steamCategory": "${Master System}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}gearsystem_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.bin|.BIN|.rom|.ROM|.sms|.SMS|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -3167,6 +3871,50 @@
 			"removeBrackets": true
 		}
 	},
+	"Sega Master System - Retroarch - PicoDrive": {
+		"parserType": "Glob",
+		"configTitle": "Sega Master System - Retroarch - PicoDrive",
+		"steamCategory": "${Master System}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}picodrive_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.bin|.BIN|.sms|.SMS|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
 	"Sega Saturn - Retroarch - Beetle Saturn": {
 		"parserType": "Glob",
 		"configTitle": "Sega Saturn - Retroarch - Beetle Saturn",
@@ -3196,6 +3944,138 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.ccd|.CCD|.chd|.CHD|.cue|.CUE|.m3u|.M3U|.toc|.TOC)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"Sega Saturn - Retroarch - Yabause": {
+		"parserType": "Glob",
+		"configTitle": "Sega Saturn - Retroarch - Yabause",
+		"steamCategory": "${Saturn}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}yabause_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.bin|.BIN|.cue|.CUE|.iso|.ISO|.zip|ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"Sega SG-1000 - Retroarch - BlueMSX": {
+		"parserType": "Glob",
+		"configTitle": "Sega SG-1000 - Retroarch - BlueMSX",
+		"steamCategory": "${SG-1000}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}bluemsx_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.ri|.RI|.rom|.ROM|.sg|.SG|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"Sega SG-1000 - Retroarch - Gearsystem": {
+		"parserType": "Glob",
+		"configTitle": "Sega SG-1000 - Retroarch - Gearsystem",
+		"steamCategory": "${SG-1000}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}gearsystem_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.bin|.BIN|.rom|.ROM|.sg|.SG|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -3460,6 +4340,50 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.cso|.CSO|.iso|.ISO|.pbp|.PBP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		}
+	},
+	"Spectravision International (SVI) - Retroarch - BlueMSX": {
+		"parserType": "Glob",
+		"configTitle": "SpectraVision SVI - Retroarch - BlueMSX",
+		"steamCategory": "${SVI}",
+		"executableLocation": "path-to-retroarch.exe",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "path-to-Steam-directory",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L cores${/}bluemsx_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"appendArgsToExecutable": true,
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"localImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.cas|.CAS|.dsk|.DSK|.m3u|.M3U|.ri|.RI|.rom|.ROM|.sc|.SC|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
