@@ -41,7 +41,7 @@ import * as path from 'path';
             </div>
         </div>
     `,
-    host: { 
+    host: {
         '(window:keydown)': 'hotkeys($event)',
         '[style.display]': "(showThemePicker ? 'initial' : 'none')"
     },

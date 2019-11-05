@@ -121,6 +121,7 @@ export class FileParser {
         }).then((data: ParsedDataWithFuzzy[]) => {
             let defaultImagePromises: Promise<void>[] = [];
             let localImagePromises: Promise<void>[] = [];
+            let localTallImagePromises: Promise<void>[] = [];
             let localIconPromises: Promise<void>[] = [];
             let vParser = new VariableParser({ left: '${', right: '}' });
 
@@ -165,9 +166,11 @@ export class FileParser {
                         startInDirectory: configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation),
                         argumentString: undefined,
                         resolvedLocalImages: [],
+                        resolvedLocalTallImages: [],
                         resolvedDefaultImages: [],
                         defaultImage: undefined,
                         localImages: [],
+                        localTallImages: [],
                         resolvedLocalIcons: [],
                         localIcons: [],
                         fuzzyTitle: fuzzyTitle,
@@ -230,6 +233,18 @@ export class FileParser {
                         });
                     }
                 }));
+                localTallImagePromises.push(this.resolveFieldGlobs('localTallImages', configs[i], parsedConfigs[i], vParser).then((data) => {
+                    for (let j = 0; j < data.parsedConfig.files.length; j++) {
+                        data.parsedConfig.files[j].resolvedLocalImages = data.resolvedGlobs[j];
+
+                        let extRegex = /png|tga|jpg|jpeg/i;
+                        data.parsedConfig.files[j].localTallImages = data.resolvedFiles[j].filter((item) => {
+                            return extRegex.test(path.extname(item));
+                        }).map((item) => {
+                            return url.encodeFile(item);
+                        });
+                    }
+                }));
                 localIconPromises.push(this.resolveFieldGlobs('localIcons', configs[i], parsedConfigs[i], vParser).then((data) => {
                     for (let j = 0; j < data.parsedConfig.files.length; j++) {
                         data.parsedConfig.files[j].resolvedLocalIcons = data.resolvedGlobs[j];
@@ -237,7 +252,7 @@ export class FileParser {
                     }
                 }));
             }
-            return Promise.all(localImagePromises).then(() => Promise.all(localIconPromises)).then(() => Promise.all(defaultImagePromises));
+            return Promise.all(localImagePromises).then(() => Promise.all(localTallImagePromises)).then(() => Promise.all(localIconPromises)).then(() => Promise.all(defaultImagePromises));
         }).then(() => {
             return { parsedConfigs, noUserAccounts: totalUserAccountsFound === 0 };
         });

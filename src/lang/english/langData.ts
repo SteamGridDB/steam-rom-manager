@@ -265,6 +265,13 @@ export const EnglishLang: languageContainer = {
                         require('./markdown/parser-variables.md'),
                         require('./markdown/spec-glob-chars.md')
                     ],
+                    localTallImages: [
+                        require('./markdown/local-tall-images.md'),
+                        require('./markdown/special-glob-input.md'),
+                        require('./markdown/parser-variables.md'),
+                        require('./markdown/spec-glob-chars.md')
+
+                    ],
                     localIcons: [
                         require('./markdown/local-icons.md'),
                         require('./markdown/special-glob-input.md'),
@@ -308,6 +315,10 @@ export const EnglishLang: languageContainer = {
                  resolvedImageGlobInfo__i: '[${index}/${total}]:                        ${glob}',
                    localImagesResolved__i: '[${index}/${total}]:     Resolved images:',
                         localImageInfo__i: '[${index}/${total}]:                        ${image}',
+                 resolvedTallImageGlob__i: '[${index}/${total}]: Resolved tall image glob:',
+             resolvedTallImageGlobInfo__i: '[${index}/${total}]:                        ${glob}',
+               localTallImagesResolved__i: '[${index}/${total}]:     Resolved tall images:',
+                    localTallImageInfo__i: '[${index}/${total}]:                        ${image}',
                       resolvedIconGlob__i: '[${index}/${total}]:  Resolved icon glob:',
                   resolvedIconGlobInfo__i: '[${index}/${total}]:                        ${glob}',
                     localIconsResolved__i: '[${index}/${total}]:      Resolved icons:',
@@ -332,6 +343,7 @@ export const EnglishLang: languageContainer = {
                     imageProviders: 'Image providers',
                     defaultImage: 'Default image',
                     localImages: 'Local images',
+                    localTallImages: 'Local tall images',
                     localIcons: 'Local icons'
                 },
                 placeholder: {

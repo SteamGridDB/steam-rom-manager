@@ -32,6 +32,7 @@ export interface UserConfiguration {
     appendArgsToExecutable: boolean,
     defaultImage: string,
     localImages: string,
+    localTallImages: string,
     localIcons: string,
     titleModifier: string,
     disabled: boolean,

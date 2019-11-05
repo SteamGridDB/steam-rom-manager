@@ -47,6 +47,7 @@ export const userConfiguration = {
         imagePool: { type: 'string', default: '${fuzzyTitle}' },
         defaultImage: { type: 'string', default: '' },
         localImages: { type: 'string', default: '' },
+        localTallImages: { type: 'string', default: '' },
         localIcons: { type: 'string', default: '' },
         onlineImageQueries: { type: 'string', default: '${${fuzzyTitle}}' },
         imageProviders: {

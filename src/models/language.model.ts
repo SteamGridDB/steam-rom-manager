@@ -214,6 +214,7 @@ export interface languageStruct {
                 imagePool: string[],
                 defaultImage: string[],
                 localImages: string[],
+                localTallImages: string[],
                 localIcons: string[]
             },
             info: {
@@ -251,11 +252,15 @@ export interface languageStruct {
                 resolvedImageGlob__i: string, //${index}, ${total}
                 resolvedImageGlobInfo__i: string, //${index}, ${total}, ${glob}
                 localImagesResolved__i: string, //${index}, ${total}
-                localImageInfo__i: string//${index}, ${total}, ${image},
+                localImageInfo__i: string, //${index}, ${total}, ${image}
+                resolvedTallImageGlob__i: string, //${index}, ${total}
+                resolvedTallImageGlobInfo__i: string, //${index}, ${total}, ${glob}
+                localTallImagesResolved__i: string, //${index}, ${total}
+                localTallImageInfo__i: string, //${index}, ${total}, ${image}
                 resolvedIconGlob__i: string, //${index}, ${total}
                 resolvedIconGlobInfo__i: string, //${index}, ${total}, ${glob}
                 localIconsResolved__i: string, //${index}, ${total}
-                localIconInfo__i: string, //${index}, ${total}, ${icon}
+                localIconInfo__i: string //${index}, ${total}, ${icon}
             },
             label: {
                 parserType: string,
@@ -276,6 +281,7 @@ export interface languageStruct {
                 imagePool: string,
                 defaultImage: string,
                 localImages: string,
+                localTallImages: string,
                 localIcons: string
             },
             placeholder: {
@@ -310,7 +316,7 @@ export interface languageStruct {
                 parserInput: {
                     noInput: string,
                     inputNotAvailable__i: string,//${name}
-                    incorrectParser: string,
+                    incorrectParser: string
                 },
                 romDir__md: string,
                 steamDir__md: string,

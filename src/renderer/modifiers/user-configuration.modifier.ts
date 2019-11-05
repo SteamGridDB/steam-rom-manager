@@ -17,6 +17,7 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
             'executableArgs': { method: replaceVariables_undefined },
             'onlineImageQueries': { method: replaceVariables_undefined },
             'localImages': { method: replaceVariables_undefined },
+            'localTallImages': { method: replaceVariables_undefined },
             'localIcons': { method: replaceVariables_undefined }
         },
         0: {

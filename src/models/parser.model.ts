@@ -10,6 +10,7 @@ export interface ParsedUserConfigurationFile {
     finalTitle: string,
     argumentString: string,
     resolvedLocalImages: string[],
+    resolvedLocalTallImages: string[],
     resolvedLocalIcons: string[],
     onlineImageQueries: string[],
     steamCategories: string[],
@@ -17,6 +18,7 @@ export interface ParsedUserConfigurationFile {
     resolvedDefaultImages: string[],
     defaultImage: string,
     localImages: string[],
+    localTallImages: string[],
     localIcons: string[]
 }
 

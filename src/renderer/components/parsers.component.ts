@@ -339,6 +339,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                         this.currentDoc.content = this.lang.docs__md.localImages.join('');
                     }
                 }),
+                localTallImages: new NestedFormElement.Input({
+                    isHidden: () => this.isHiddenMode(),
+                    highlight: this.highlight.bind(this),
+                    label: this.lang.label.localTallImages,
+                    onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+                    onInfoClick: (self, path) => {
+                      this.currentDoc.activePath = path.join();
+                      this.currentDoc.content = this.lang.docs__md.localTallImages.join('');
+                    }
+                }),
                 localIcons: new NestedFormElement.Input({
                     isHidden: () => this.isHiddenMode(),
                     highlight: this.highlight.bind(this),
@@ -674,6 +684,32 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                                     index: i + 1,
                                     total: totalLength,
                                     image: data.files[i].localImages[j]
+                                }));
+                            }
+                        }
+                        if (data.files[i].resolvedLocalTallImages.length) {
+                            success(this.lang.success.resolvedTallImageGlob__i.interpolate({
+                                index: i + 1,
+                                total: totalLength
+                            }));
+                            for (let j = 0; j < data.files[i].resolvedLocalTallImages.length; j++) {
+                                success(this.lang.success.resolvedTallImageGlobInfo__i.interpolate({
+                                    index: i + 1,
+                                    total: totalLength,
+                                    glob: data.files[i].resolvedLocalTallImages[j]
+                                }));
+                            }
+                        }
+                        if (data.files[i].localTallImages.length) {
+                            success(this.lang.success.localTallImagesResolved__i.interpolate({
+                                index: i + 1,
+                                total: totalLength
+                            }));
+                            for (let j = 0; j < data.files[i].localTallImages.length; j++) {
+                                success(this.lang.success.localTallImageInfo__i.interpolate({
+                                    index: i + 1,
+                                    total: totalLength,
+                                    image: data.files[i].localTallImages[j]
                                 }));
                             }
                         }
