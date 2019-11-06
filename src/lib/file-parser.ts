@@ -235,7 +235,7 @@ export class FileParser {
                 }));
                 localTallImagePromises.push(this.resolveFieldGlobs('localTallImages', configs[i], parsedConfigs[i], vParser).then((data) => {
                     for (let j = 0; j < data.parsedConfig.files.length; j++) {
-                        data.parsedConfig.files[j].resolvedLocalImages = data.resolvedGlobs[j];
+                        data.parsedConfig.files[j].resolvedLocalTallImages = data.resolvedGlobs[j];
 
                         let extRegex = /png|tga|jpg|jpeg/i;
                         data.parsedConfig.files[j].localTallImages = data.resolvedFiles[j].filter((item) => {
