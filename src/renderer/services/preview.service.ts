@@ -27,8 +27,10 @@ export class PreviewService {
   private previewVariables: PreviewVariables;
   private previewDataChanged: Subject<boolean>;
   private appImages: AppImages;
+  private appTallImages: AppImages;
   private allEditedSteamDirectories: string[];
   private imageTypes: string[];
+  private currentImageType: string;
 
   constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private settingsService: SettingsService, private http: Http) {
     this.previewData = undefined;
@@ -141,7 +143,7 @@ export class PreviewService {
       if (!remove) {
         this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
 
-        return vdfManager.mergeData(this.previewData, this.appImages);
+        return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages);
       }
       else {
         this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
@@ -554,9 +556,9 @@ export class PreviewService {
                     imageUrl: steamTallImageUrl,
                     loadStatus: 'done'
                   } : undefined,
-                  default: file.defaultTallImage ? {
+                  default: null ? {
                     imageProvider: 'LocalStorage',
-                    imageUrl: file.defaultTallImage,
+                    imageUrl: null,
                     loadStatus: 'done'
                   } : undefined,
                   imagePool: file.imagePool,
@@ -671,7 +673,7 @@ export class PreviewService {
                             break;
                           case 'image':
                             imageQueue.push(null, () => {
-                              let newImage = this.addUniqueImage(imageKeys[i], (data as ProviderCallbackEventMap['image']).content);
+                              let newImage = this.addUniqueImage(imageKeys[i], (data as ProviderCallbackEventMap['image']).content, this.currentImageType);
                               if (newImage !== null && this.appSettings.previewSettings.preload)
                                 this.preloadImage(newImage);
 
