@@ -60,13 +60,22 @@ export class PreviewComponent implements OnDestroy {
     return this.previewService.images[poolKey];
   }
 
+  private getAppImages(app: PreviewDataApp) {
+    if (this.previewService.getImageType() === 'long') {
+      return app.images;
+    } else if (this.previewService.getImageType() === 'tall') {
+      return app.tallimages;
+    }
+  }
+
   private getBackgroundImage(app: PreviewDataApp) {
     return this.previewService.getCurrentImage(app);
   }
 
   private setBackgroundImage(app: PreviewDataApp, image: ImageContent) {
     if (image == undefined) {
-      if (this.previewService.images[app.images.imagePool].retrieving)
+      let imagepool = this.previewService.getImageType() === 'long' ? app.images.imagePool : app.tallimages.imagePool;
+      if (this.previewService.images[imagepool].retrieving)
         return require('../../assets/images/retrieving-images.svg');
       else
         return require('../../assets/images/no-images.svg');
@@ -94,7 +103,11 @@ export class PreviewComponent implements OnDestroy {
   }
 
   private currentImageIndex(app: PreviewDataApp) {
-    return app.images.imageIndex + 1;
+    if (this.previewService.getImageType() === 'long') {
+      return app.images.imageIndex + 1;
+    } else {
+      return app.tallimages.imageIndex + 1;
+    }
   }
 
   private maxImageIndex(app: PreviewDataApp) {
@@ -110,11 +123,19 @@ export class PreviewComponent implements OnDestroy {
         for (let i = 0; i < target.files.length; i++) {
           if (extRegex.test(path.extname(target.files[i].path))) {
             let imageUrl = url.encodeFile(target.files[i].path);
-            this.previewService.addUniqueImage(app.images.imagePool, {
-              imageProvider: 'LocalStorage',
-              imageUrl,
-              loadStatus: 'done'
-            }, 'long');
+            if (this.previewService.getImageType() === 'long') {
+              this.previewService.addUniqueImage(app.images.imagePool, {
+                imageProvider: 'LocalStorage',
+                imageUrl,
+                loadStatus: 'done'
+              }, 'long');
+            } else if (this.previewService.getImageType() === 'tall') {
+              this.previewService.addUniqueImage(app.tallimages.imagePool, {
+                imageProvider: 'LocalStorage',
+                imageUrl,
+                loadStatus: 'done'
+              }, 'tall');
+            }
           }
         }
       }
@@ -154,15 +175,29 @@ export class PreviewComponent implements OnDestroy {
   }
 
   private refreshImages(app: PreviewDataApp) {
-    this.previewService.downloadImageUrls([app.images.imagePool], app.imageProviders);
+    if (this.previewService.getImageType() === 'long') {
+      this.previewService.downloadImageUrls([app.images.imagePool], app.imageProviders);
+    } else if (this.previewService.getImageType() === 'tall') {
+      this.previewService.downloadImageUrls([app.tallimages.imagePool], app.imageProviders);
+    }
   }
 
   private previousImage(app: PreviewDataApp) {
-    this.previewService.setImageIndex(app, app.images.imageIndex - 1);
+    if (this.previewService.getImageType() === 'long') {
+      this.previewService.setImageIndex(app, app.images.imageIndex - 1);
+    } else if (this.previewService.getImageType() === 'tall') {
+      this.previewService.setImageIndex(app, app.tallimages.imageIndex - 1);
+    }
+
   }
 
   private nextImage(app: PreviewDataApp) {
-    this.previewService.setImageIndex(app, app.images.imageIndex + 1);
+    if (this.previewService.getImageType() === 'long') {
+      this.previewService.setImageIndex(app, app.images.imageIndex + 1);
+    } else if (this.previewService.getImageType() === 'tall') {
+      this.previewService.setImageIndex(app, app.tallimages.imageIndex + 1);
+    }
+
   }
 
   private previousIcon(app: PreviewDataApp) {

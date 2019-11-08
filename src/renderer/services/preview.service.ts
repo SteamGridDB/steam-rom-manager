@@ -81,6 +81,9 @@ export class PreviewService {
     return this.imageTypes;
   }
 
+  getImageType() {
+    return this.currentImageType;
+  }
   setImageType(imageType: string) {
     this.currentImageType = imageType;
   }
