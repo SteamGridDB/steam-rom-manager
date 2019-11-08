@@ -35,7 +35,7 @@ export class ImageProvider {
     private createQueue(key: string) {
         if (this.availableProviders[key] && this.availableProviders[key].queue)
             this.availableProviders[key].queue.kill();
-            
+
         return queue<QueueTask, void>((task, callback) => {
             let id = _.uniqueId();
             this.callbackMap.set(id, { eventCallback: task.eventCallback, queueCallback: callback });

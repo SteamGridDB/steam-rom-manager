@@ -39,6 +39,7 @@ export interface PreviewDataApp {
     argumentString: string,
     currentIconIndex: number,
     icons: string[],
+    tallimages: PreviewDataAppImage,
     images: PreviewDataAppImage
 }
 
