@@ -152,7 +152,7 @@ export class PreviewService {
       }
     }).then(() => {
       this.loggerService.info(this.lang.info.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-
+      console.log("biggest write")
       return vdfManager.write();
     }).then((error) => {
       if (error) {

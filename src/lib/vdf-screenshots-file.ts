@@ -6,6 +6,7 @@ import { Bluebird } from './zone-bluebird';
 import * as genericParser from '@node-steam/vdf';
 import * as glob from './helpers/glob';
 import * as file from './helpers/file';
+import * as ids from './helpers/steam';
 import * as _ from "lodash";
 import * as fs from 'fs-extra';
 import * as path from 'path';
@@ -93,7 +94,6 @@ export class VDF_ScreenshotsFile {
                 }
                 else if (typeof screenshotsData[appId] !== 'string') {
                     let data = screenshotsData[appId] as { title: string, url: string };
-
                     promises.push(Promise.resolve().then(() => {
                         return VDF_ScreenshotsFile.xRequest.request(
                             data.url,
@@ -116,7 +116,7 @@ export class VDF_ScreenshotsFile {
                                             resolve(buffer);
                                     });
                                 }).then((buffer) => {
-                                    return fs.outputFile(path.join(this.gridDirectory, `${appId}.${ext}`), buffer).then(() => {
+                                    return fs.outputFile(path.join(this.gridDirectory, `${appId}.${ids.map_ext[""+ext]||ext}`), buffer).then(() => {
                                         screenshotsData[appId] = data.title;
                                     }).catch((error) => {
                                         return this.lang.error.imageError__i.interpolate({ error, url: data.url, title: data.title });

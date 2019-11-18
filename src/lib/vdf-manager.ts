@@ -60,6 +60,7 @@ export class VDF_Manager {
   }
 
   write(options?: { shortcuts?: boolean, addedItems?: boolean, screenshots?: boolean }) {
+    console.log("big write called");
     let promises: Promise<VDF_Error>[] = []
     let writeShortcuts = options !== undefined ? options.shortcuts : true;
     let writeAddedItems = options !== undefined ? options.addedItems : true;
@@ -67,6 +68,9 @@ export class VDF_Manager {
 
     for (let steamDirectory in this.data) {
       for (let userId in this.data[steamDirectory]) {
+        console.log("big user id");
+        console.log(userId);
+        console.log(writeScreenshots);
         if (writeShortcuts)
           promises.push(this.data[steamDirectory][userId].shortcuts.write() as Promise<undefined>);
         if (writeAddedItems)
@@ -163,6 +167,7 @@ export class VDF_Manager {
             listItem.shortcuts.removeItem(appId);
             listItem.addedItems.removeItem(appId);
             listItem.screenshots.removeItem(appId);
+            listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('p'));
 
             app.images.steam = undefined
           }
