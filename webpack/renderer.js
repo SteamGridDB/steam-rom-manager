@@ -80,7 +80,10 @@ let clientConfig = {
             helpers.root('dist')
         ),
         GlobalStyle
-    ]
+    ],
+    externals: {
+        'leveldown': "require('leveldown')"
+    },
 };
 
 let developmentConfig = {

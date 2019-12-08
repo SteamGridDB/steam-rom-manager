@@ -10,7 +10,7 @@ import {
     ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings,
     SteamTree, userAccountData
 } from '../../models';
-import { VDF_Manager, VDF_Error } from "../../lib";
+import { VDF_Manager, VDF_Error, CategoryManager } from "../../lib";
 import { APP } from '../../variables';
 import { queue } from 'async';
 import * as steam from "../../lib/helpers/steam";
@@ -92,7 +92,7 @@ export class PreviewService {
         this.generatePreviewDataCallback();
     }
 
-    saveData(remove: boolean) {
+    saveData(remove: boolean): Promise<any> {
         if (this.previewVariables.listIsBeingSaved)
             return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
         else if (!remove && this.previewVariables.numberOfListItems === 0)
@@ -103,6 +103,7 @@ export class PreviewService {
             return Promise.resolve().then(() => { this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
 
         let vdfManager = new VDF_Manager();
+        let categoryManager = new CategoryManager();
 
         this.previewVariables.listIsBeingSaved = true;
         this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
@@ -165,6 +166,18 @@ export class PreviewService {
             return false;
         }).then((noError) => {
             return noError;
+        }).then(() => {
+            categoryManager.save(this.previewData).catch((error) => {
+                if (error) {
+                    if (error.type === 'OpenError') {
+                        this.loggerService.error('Cannot import while Steam is running. Close Steam and try again.', { invokeAlert: true, alertTimeout: 3000 });
+                        this.loggerService.error(error);
+                    } else {
+                        this.loggerService.error('Error saving categories', { invokeAlert: true, alertTimeout: 3000 });
+                        this.loggerService.error(error);
+                    }
+                }
+            });
         });
     }
 
