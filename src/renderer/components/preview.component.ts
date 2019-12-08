@@ -141,7 +141,7 @@ export class PreviewComponent implements OnDestroy {
             }
         }
         
-        this.previewService.saveData(false).then((noError) => {
+        this.previewService.saveData(false).then((noError: boolean | void) => {
             if (noError)
                 this.previewService.clearPreviewData();
         });

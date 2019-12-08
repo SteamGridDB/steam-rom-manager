@@ -1,5 +1,6 @@
 import { Component, forwardRef, ElementRef, Input, Output, ViewChild, HostListener, EventEmitter } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import * as path from 'path';
 
 @Component({
     selector: 'ng-path-input',
@@ -37,7 +38,11 @@ export class NgPathInputComponent implements ControlValueAccessor {
     private readInput() {
         let fileInput = <HTMLInputElement>this.fileInput.nativeElement;
         if (fileInput.files && fileInput.files.length) {
-            this.writeValue(fileInput.files[0].path);
+            if (fileInput.webkitdirectory) {
+                this.writeValue(path.dirname(fileInput.files[0].path));
+            } else {
+                this.writeValue(fileInput.files[0].path);
+            }
             fileInput.value = null;
         }
     }

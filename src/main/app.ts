@@ -3,6 +3,7 @@ import * as paths from "../paths";
 import * as path from 'path';
 import * as url from 'url';
 import * as fs from 'fs';
+import 'unknown-ts';
 
 const windowStateKeeper = require('electron-window-state');
 let mainWindow: Electron.BrowserWindow = null;
@@ -26,6 +27,7 @@ function createWindow() {
         backgroundColor: '#121212',
         webPreferences: {
             devTools: process.env.NODE_ENV !== 'production',
+            nodeIntegration: true,
             nodeIntegrationInWorker: false
         }
     });

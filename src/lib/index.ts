@@ -13,3 +13,4 @@ export * from './vdf-screenshots-file';
 export * from './vdf-added-items-file';
 export * from './vdf-error';
 export * from './file-selector';
+export * from './category-manager';

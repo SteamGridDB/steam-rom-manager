@@ -38,8 +38,8 @@ export class TitleComponent {
 
     constructor(private title: Title, private fuzzyService: FuzzyService) {
         this.mainWindow = remote.getCurrentWindow();
-        this.minimizable = this.mainWindow.isMinimizable();
-        this.maximizable = this.mainWindow.isMaximizable();
+        this.minimizable = this.mainWindow.minimizable;
+        this.maximizable = this.mainWindow.maximizable;
         this.mainWindow.once('close', this.onClose.bind(this));
     }
 
