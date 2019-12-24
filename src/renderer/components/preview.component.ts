@@ -59,7 +59,6 @@ export class PreviewComponent implements OnDestroy {
   }
 
   private setImageType(imageType: string) {
-    console.log(imageType);
     this.previewService.setImageType(imageType);
     if(imageType=='long') {
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '920px', RendererStyleFlags2.DashCase);

@@ -32,7 +32,6 @@ export class CategoryManager {
       } else {
         levelDBPath = path.join(steamDirectory,'config','htmlcache','Local Storage','leveldb');
       }
-      console.log(levelDBPath);
       const cats = new SteamCategories(levelDBPath, userId);
       cats.read().then(() => {
         const localConfigPath = path.join(steamDirectory, 'userdata', userId, 'config', 'localconfig.vdf');

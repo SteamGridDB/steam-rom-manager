@@ -60,7 +60,6 @@ export class VDF_Manager {
   }
 
   write(options?: { shortcuts?: boolean, addedItems?: boolean, screenshots?: boolean }) {
-    console.log("big write called");
     let promises: Promise<VDF_Error>[] = []
     let writeShortcuts = options !== undefined ? options.shortcuts : true;
     let writeAddedItems = options !== undefined ? options.addedItems : true;
@@ -68,9 +67,6 @@ export class VDF_Manager {
 
     for (let steamDirectory in this.data) {
       for (let userId in this.data[steamDirectory]) {
-        console.log("big user id");
-        console.log(userId);
-        console.log(writeScreenshots);
         if (writeShortcuts)
           promises.push(this.data[steamDirectory][userId].shortcuts.write() as Promise<undefined>);
         if (writeAddedItems)
@@ -133,10 +129,6 @@ export class VDF_Manager {
             let item = listItem.shortcuts.getItem(appId);
             let currentImage = appImage.getCurrentImage(app.images, images);
             let currentTallImage = appImage.getCurrentImage(app.tallimages, tallimages);
-            console.log("current image")
-            console.log(currentImage)
-            console.log("current tallimage")
-            console.log(currentTallImage)
             if (item !== undefined) {
               item.appname = app.title;
               item.exe = app.executableLocation;
@@ -159,16 +151,10 @@ export class VDF_Manager {
             listItem.addedItems.addItem(appId);
 
             if (currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
-              console.log("adding image");
-              console.log("image url");
-              console.log(currentImage.imageUrl);
               listItem.screenshots.addItem({ appId: appId, title: app.title, url: currentImage.imageUrl });
             }
 
             if (currentTallImage !== undefined && currentTallImage.imageProvider !== 'Steam') {
-              console.log("adding tall image");
-              console.log("tallimage url");
-              console.log(currentTallImage.imageUrl);
               listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('p'), title: app.title, url: currentTallImage.imageUrl })
             }
           }

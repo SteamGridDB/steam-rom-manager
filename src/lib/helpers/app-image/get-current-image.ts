@@ -6,8 +6,6 @@ import { setImageIndex } from "./set-image-index";
 export function getCurrentImage(data: PreviewDataAppImage, images: AppImages) {
   let imagesLength = images[data.imagePool] !== undefined ? images[data.imagePool].content.length : 0;
   let length = getMaxLength(data, images);
-  console.log("image index is");
-  console.log(data.imageIndex);
   if (data.imageIndex !== 0 && data.imageIndex >= length)
     setImageIndex(data, images, data.imageIndex);
 

@@ -94,8 +94,6 @@ export class VDF_ScreenshotsFile {
         }
         else if (typeof screenshotsData[appId] !== 'string') {
           let data = screenshotsData[appId] as { title: string, url: string };
-          console.log("screenshotsdata");
-          console.log(data);
           promises.push(Promise.resolve().then(() => {
             return VDF_ScreenshotsFile.xRequest.request(
               data.url,
@@ -118,9 +116,6 @@ export class VDF_ScreenshotsFile {
                       resolve(buffer);
                   });
                 }).then((buffer) => {
-                  console.log("Upsilon Prime");
-                  console.log(path.join(this.gridDirectory, `${appId}.${ids.map_ext[""+ext]||ext}`));
-                  console.log(data.url);
                   return fs.outputFile(path.join(this.gridDirectory, `${appId}.${ids.map_ext[""+ext]||ext}`), buffer).then(() => {
                     screenshotsData[appId] = data.title;
                   }).catch((error) => {

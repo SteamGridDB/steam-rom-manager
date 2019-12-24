@@ -519,7 +519,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
     private testForm() {
         let config = this.userForm.value as UserConfiguration;
-        console.log(config)
         let successData: string = '';
         let errorData: string = '';
 
@@ -554,10 +553,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.parsersService.executeFileParser(config).then((dataArray) => {
                 if (dataArray.parsedData.parsedConfigs.length > 0) {
                     let data = dataArray.parsedData.parsedConfigs[0];
-                    console.log("invalid");
-                    console.log(dataArray.invalid);
-                    console.log("skipped");
-                    console.log(dataArray.skipped);
                     let totalLength = data.files.length + data.failed.length;
 
                     if (data.foundUserAccounts.length > 0) {
