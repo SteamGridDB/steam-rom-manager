@@ -1,7 +1,6 @@
 @import 'mixins';
-$image-height-max: 430px;
-$image-width-max: 920px;
-$image-ratio: 430/920;
+//$image-height-max: 430px;
+//$image-width-max: 920px;
 
 :host {
 	display: grid;
@@ -10,6 +9,8 @@ $image-ratio: 430/920;
 	background-color: var(--color-preview-background);
 
 	--preview-image-size: 0.4;
+  --image-width-max: 920px;
+  --image-height-max: 430px;
 	grid-area: route;
 	grid-template-areas: 'upperMenu' 'entries' 'lowerMenu';
 	grid-template-rows: auto 1fr auto;
@@ -32,8 +33,10 @@ $image-ratio: 430/920;
 		}
     .selectType {
       grid-column: 2;
-      width: 13em;
-      font-size: .85em;
+      width: 9em;
+      font-size: .75em;
+      margin-right: .75em;
+      color: var(--color-preview-text);
      	@include ngSelectColor(ng-select);
 			@include ngSelect();
     }
@@ -149,9 +152,10 @@ $image-ratio: 430/920;
 
 						margin: 0.75em;
 
-						width: calc(var(--preview-image-size) * #{$image-width-max});
-						height: calc(var(--preview-image-size) * #{$image-height-max});
-
+//						width: calc(var(--preview-image-size) * #{$image-width-max});
+//						height: calc(var(--preview-image-size) * #{$image-height-max});
+            width: calc(var(--preview-image-size) * var(--image-width-max));
+            height: calc(var(--preview-image-size) * var(--image-height-max));
 						background-repeat: no-repeat;
 						background-position: center center;
 						background-size: auto 75%;

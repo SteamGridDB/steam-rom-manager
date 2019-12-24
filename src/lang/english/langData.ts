@@ -10,7 +10,7 @@ export const EnglishLang: languageContainer = {
     preview: {
       component: {
         filter: 'Filter app titles',
-        selectType: 'Select image type',
+        selectType: 'Select type',
         by: 'by',
         refreshImages: 'Refresh images',
         addLocalImages: 'Add local images',

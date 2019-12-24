@@ -46,6 +46,13 @@ export class PreviewComponent implements OnDestroy {
 
   ngAfterContentInit() {
     this.setImageSize(this.appSettings.previewSettings.imageZoomPercentage);
+    if(this.previewService.getImageType()=='long') {
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '920px', RendererStyleFlags2.DashCase);
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '430px', RendererStyleFlags2.DashCase);
+    } else if(this.previewService.getImageType()=='tall') {
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '600px', RendererStyleFlags2.DashCase);
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '900px', RendererStyleFlags2.DashCase);
+    }
   }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
@@ -54,6 +61,13 @@ export class PreviewComponent implements OnDestroy {
   private setImageType(imageType: string) {
     console.log(imageType);
     this.previewService.setImageType(imageType);
+    if(imageType=='long') {
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '920px', RendererStyleFlags2.DashCase);
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '430px', RendererStyleFlags2.DashCase);
+    } else if(imageType=='tall') {
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '600px', RendererStyleFlags2.DashCase);
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '900px', RendererStyleFlags2.DashCase);
+    }
   }
   private getImagePool(poolKey: string) {
     return this.previewService.images[poolKey];
