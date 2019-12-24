@@ -174,11 +174,14 @@ export class PreviewComponent implements OnDestroy {
   }
 
   private refreshImages(app: PreviewDataApp) {
-    if (this.previewService.getImageType() === 'long') {
+    /*if (this.previewService.getImageType() === 'long') {
       this.previewService.downloadImageUrls([app.images.imagePool], app.imageProviders);
     } else if (this.previewService.getImageType() === 'tall') {
       this.previewService.downloadImageUrls([app.tallimages.imagePool], app.imageProviders);
-    }
+    }*/
+    this.previewService.downloadImageUrls([app.images.imagePool], app.imageProviders);
+    this.previewService.downloadImageUrls([app.tallimages.imagePool], app.imageProviders);
+
   }
 
   private previousImage(app: PreviewDataApp) {
