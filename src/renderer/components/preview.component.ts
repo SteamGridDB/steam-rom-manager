@@ -150,10 +150,6 @@ export class PreviewComponent implements OnDestroy {
     this.imageProviderService.instance.stopUrlDownload();
   }
 
-  private setFallbackIcon(imageElement: HTMLImageElement) {
-    imageElement.src = require('../../assets/images/crossed-eye.svg');
-  }
-
   private save() {
     this.previewService.saveData(false);
   }
@@ -167,20 +163,15 @@ export class PreviewComponent implements OnDestroy {
       }
     }
 
-    this.previewService.saveData(false).then((noError) => {
+    this.previewService.saveData(false).then((noError: boolean | void) => {
       if (noError)
         this.previewService.clearPreviewData();
     });
   }
 
   private refreshImages(app: PreviewDataApp) {
-    /*if (this.previewService.getImageType() === 'long') {
-      this.previewService.downloadImageUrls([app.images.imagePool], app.imageProviders);
-    } else if (this.previewService.getImageType() === 'tall') {
-      this.previewService.downloadImageUrls([app.tallimages.imagePool], app.imageProviders);
-    }*/
-    this.previewService.downloadImageUrls([app.images.imagePool], app.imageProviders);
-    this.previewService.downloadImageUrls([app.tallimages.imagePool], app.imageProviders);
+    this.previewService.downloadImageUrls('long',[app.images.imagePool], app.imageProviders);
+    this.previewService.downloadImageUrls('tall',[app.tallimages.imagePool], app.imageProviders);
 
   }
 
@@ -199,10 +190,11 @@ export class PreviewComponent implements OnDestroy {
     } else if (this.previewService.getImageType() === 'tall') {
       this.previewService.setImageIndex(app, app.tallimages.imageIndex + 1);
     }
+  }
 
-    private setFallbackIcon(imageElement: HTMLImageElement) {
-        imageElement.src = require('../../assets/images/crossed-eye.svg');
-    }
+  private setFallbackIcon(imageElement: HTMLImageElement) {
+    imageElement.src = require('../../assets/images/crossed-eye.svg');
+  }
 
   private previousIcon(app: PreviewDataApp) {
     this.previewService.setIconIndex(app, app.currentIconIndex - 1);

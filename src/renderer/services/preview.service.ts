@@ -109,164 +109,133 @@ export class PreviewService {
                 this.generatePreviewDataFromSteamCallback();
         }
         else */
-        this.generatePreviewDataCallback();
-    }
+    this.generatePreviewDataCallback();
+  }
 
-    saveData(remove: boolean): Promise<any> {
-        if (this.previewVariables.listIsBeingSaved)
-            return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
-        else if (!remove && this.previewVariables.numberOfListItems === 0)
-            return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
-        else if (this.previewVariables.listIsBeingRemoved)
-            return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
-        else if (remove && this.appSettings.knownSteamDirectories.length === 0)
-            return Promise.resolve().then(() => { this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+  saveData(remove: boolean): Promise<any> {
+    if (this.previewVariables.listIsBeingSaved)
+    return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    else if (!remove && this.previewVariables.numberOfListItems === 0)
+    return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    else if (this.previewVariables.listIsBeingRemoved)
+    return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    else if (remove && this.appSettings.knownSteamDirectories.length === 0)
+    return Promise.resolve().then(() => { this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
 
-        let vdfManager = new VDF_Manager();
-        let categoryManager = new CategoryManager();
+    let vdfManager = new VDF_Manager();
+    let categoryManager = new CategoryManager();
 
-        this.previewVariables.listIsBeingSaved = true;
-        this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
+    this.previewVariables.listIsBeingSaved = true;
+    this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
 
-        return vdfManager.prepare(remove ? this.appSettings.knownSteamDirectories : this.previewData).then((error) => {
-            if (error) {
-                this.loggerService.error(this.lang.errors.populatingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-                this.loggerService.error(error);
-            }
-            this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
+    return vdfManager.prepare(remove ? this.appSettings.knownSteamDirectories : this.previewData).then((error) => {
+      if (error) {
+        this.loggerService.error(this.lang.errors.populatingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+        this.loggerService.error(error);
+      }
+      this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
 
-            return vdfManager.backup();
-        }).then(() => {
-            this.loggerService.info(this.lang.info.readingVDF_Files, { invokeAlert: true, alertTimeout: 3000 });
+      return vdfManager.backup();
+    }).then(() => {
+      this.loggerService.info(this.lang.info.readingVDF_Files, { invokeAlert: true, alertTimeout: 3000 });
 
-            return vdfManager.read();
-        }).then(() => {
-            if (!remove) {
-                this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+      return vdfManager.read();
+    }).then(() => {
+      if (!remove) {
+        this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
 
-                return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages);
-            }
-            else {
-                this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+        return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages);
+      }
+      else {
+        this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
 
-                return vdfManager.removeAllAddedEntries();
-            }
-        }).then(() => {
-            this.loggerService.info(this.lang.info.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+        return vdfManager.removeAllAddedEntries();
+      }
+    }).then(() => {
+      this.loggerService.info(this.lang.info.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
 
-            return vdfManager.write();
-        }).then((error) => {
-            if (error) {
-                this.loggerService.error(this.lang.errors.savingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-                this.loggerService.error(error);
-            }
-            this.loggerService.success(this.lang.info.updatingKnownSteamDirList, { invokeAlert: true, alertTimeout: 3000 });
+      return vdfManager.write();
+    }).then((error) => {
+      if (error) {
+        this.loggerService.error(this.lang.errors.savingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+        this.loggerService.error(error);
+      }
+      this.loggerService.success(this.lang.info.updatingKnownSteamDirList, { invokeAlert: true, alertTimeout: 3000 });
 
-            if (!remove) {
-                let settings = this.settingsService.getSettings();
-                settings.knownSteamDirectories = _.union(settings.knownSteamDirectories, Object.keys(this.previewData));
-                this.settingsService.settingsChanged();
-            }
-        }).then(() => {
-            this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-            this.previewVariables.listIsBeingSaved = false;
+      if (!remove) {
+        let settings = this.settingsService.getSettings();
+        settings.knownSteamDirectories = _.union(settings.knownSteamDirectories, Object.keys(this.previewData));
+        this.settingsService.settingsChanged();
+      }
+    }).then(() => {
+      this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+      this.previewVariables.listIsBeingSaved = false;
 
-            if (remove) {
-                this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-                this.clearPreviewData();
-            }
+      if (remove) {
+        this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+        this.clearPreviewData();
+      }
 
-            return true;
-        }).catch((fatalError) => {
-            this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
-            if (fatalError)
-                this.loggerService.error(fatalError);
-            this.previewVariables.listIsBeingSaved = false;
+      return true;
+    }).catch((fatalError) => {
+      this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
+      if (fatalError)
+        this.loggerService.error(fatalError);
+      this.previewVariables.listIsBeingSaved = false;
 
-            return false;
-        }).then((noError) => {
-            return noError;
-        }).then(() => {
-            categoryManager.save(this.previewData).catch((error) => {
-                if (error) {
-                    if (error.type === 'OpenError') {
-                        this.loggerService.error('Cannot import while Steam is running. Close Steam and try again.', { invokeAlert: true, alertTimeout: 3000 });
-                        this.loggerService.error(error);
-                    } else {
-                        this.loggerService.error('Error saving categories', { invokeAlert: true, alertTimeout: 3000 });
-                        this.loggerService.error(error);
-                    }
-                }
-            });
-        });
-    }
-
-    loadImage(app: PreviewDataApp) {
-        if (app) {
-            let image = appImage.getCurrentImage(app.images, this.appImages);
-            if (image !== undefined && (image.loadStatus === 'notStarted' || image.loadStatus === 'failed')) {
-                if (image.loadStatus === 'failed') {
-                    this.loggerService.info(this.lang.info.retryingDownload__i.interpolate({
-                        imageUrl: image.imageUrl,
-                        appTitle: app.title
-                    }));
-                }
-
-                image.loadStatus = 'downloading';
-                this.previewDataChanged.next();
-
-                let imageLoader = new Image();
-                imageLoader.onload = () => {
-                    image.loadStatus = 'done';
-                    this.previewDataChanged.next();
-                };
-                imageLoader.onerror = () => {
-                    this.loggerService.error(this.lang.errors.retryingDownload__i.interpolate({
-                        imageUrl: image.imageUrl,
-                        appTitle: app.title
-                    }));
-                    image.loadStatus = 'failed';
-                    this.previewDataChanged.next();
-                };
-                imageLoader.src = image.imageUrl;
-            }
+      return false;
+    }).then((noError) => {
+      return noError;
+    }).then(() => {
+      categoryManager.save(this.previewData).catch((error) => {
+        if (error) {
+          if (error.type === 'OpenError') {
+            this.loggerService.error('Cannot import while Steam is running. Close Steam and try again.', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.error(error);
+          } else {
+            this.loggerService.error('Error saving categories', { invokeAlert: true, alertTimeout: 3000 });
+            this.loggerService.error(error);
+          }
         }
-    }
+      });
+    });
+  }
+
+  loadImage(app: PreviewDataApp) {
+    if (app) {
+      let image: ImageContent;
+      if (this.currentImageType==='long') {
+        image = appImage.getCurrentImage(app.images, this.appImages);
+      } else if (this.currentImageType === 'tall') {
+        image = appImage.getCurrentImage(app.tallimages, this.appTallImages);
+      }
+      if (image !== undefined && (image.loadStatus === 'notStarted' || image.loadStatus === 'failed')) {
+        if (image.loadStatus === 'failed') {
+          this.loggerService.info(this.lang.info.retryingDownload__i.interpolate({
+            imageUrl: image.imageUrl,
+            appTitle: app.title
+          }));
+        }
 
         image.loadStatus = 'downloading';
         this.previewDataChanged.next();
 
-    preloadImage(image: ImageContent) {
-        if (image && image.loadStatus === 'notStarted' || image.loadStatus === 'failed') {
-            image.loadStatus = 'downloading';
-            this.previewDataChanged.next();
-
-            let imageLoader = new Image();
-            imageLoader.onload = () => {
-                image.loadStatus = 'done';
-                this.previewDataChanged.next();
-            };
-            imageLoader.onerror = () => {
-                image.loadStatus = 'failed';
-                this.previewDataChanged.next();
-            };
-            imageLoader.src = image.imageUrl;
-        }
-    }
-  }
-
-  preloadImages() {
-    for (let imageKey in this.appImages) {
-      for (let i = 0; i < this.appImages[imageKey].content.length; i++) {
-        this.preloadImage(this.appImages[imageKey].content[i]);
+        let imageLoader = new Image();
+        imageLoader.onload = () => {
+          image.loadStatus = 'done';
+          this.previewDataChanged.next();
+        };
+        imageLoader.onerror = () => {
+          this.loggerService.error(this.lang.errors.retryingDownload__i.interpolate({
+            imageUrl: image.imageUrl,
+            appTitle: app.title
+          }));
+          image.loadStatus = 'failed';
+          this.previewDataChanged.next();
+        };
+        imageLoader.src = image.imageUrl;
       }
     }
-    for (let imageKey in this.appTallImages) {
-      for (let i = 0; i < this.appTallImages[imageKey].content.length; i++) {
-        this.preloadImage(this.appTallImages[imageKey].content[i]);
-      }
-    }
-
   }
 
   preloadImage(image: ImageContent) {
@@ -285,6 +254,20 @@ export class PreviewService {
       };
       imageLoader.src = image.imageUrl;
     }
+  }
+
+  preloadImages() {
+    for (let imageKey in this.appImages) {
+      for (let i = 0; i < this.appImages[imageKey].content.length; i++) {
+        this.preloadImage(this.appImages[imageKey].content[i]);
+      }
+    }
+    for (let imageKey in this.appTallImages) {
+      for (let i = 0; i < this.appTallImages[imageKey].content.length; i++) {
+        this.preloadImage(this.appTallImages[imageKey].content[i]);
+      }
+    }
+
   }
 
   setImageIndex(app: PreviewDataApp, index: number) {
@@ -407,7 +390,8 @@ export class PreviewService {
         if (previewData && previewData.numberOfItems > 0) {
           this.previewData = previewData.data;
           this.previewVariables.numberOfListItems = previewData.numberOfItems;
-          this.downloadImageUrls();
+          this.downloadImageUrls('long');
+          this.downloadImageUrls('tall');
         }
         else {
           this.previewVariables.numberOfListItems = 0;
@@ -625,100 +609,105 @@ export class PreviewService {
     });
   }
 
-          downloadImageUrls(imageKeys?: string[], imageProviders?: string[]) {
-            if (!this.appSettings.offlineMode) {
-              let allImagesRetrieved = true;
-              let allTallImagesRetrieved = true;
-              let imageQueue = queue((task, callback) => callback());
+  downloadImageUrls(imageType: string, imageKeys?: string[], imageProviders?: string[]) {
+    if (!this.appSettings.offlineMode) {
+      let allImagesRetrieved = true;
+      let imageQueue = queue((task, callback) => callback());
 
-              if (imageKeys === undefined || imageKeys.length === 0) {
-                imageKeys = Object.keys(this.appImages);
-              }
+      if (imageKeys === undefined || imageKeys.length === 0) {
+        if(imageType=="long") {
+          imageKeys = Object.keys(this.appImages);
+        } else if (imageType=="tall"){
+          imageKeys = Object.keys(this.appTallImages);
+        }
+      }
 
-              for (let i = 0; i < imageKeys.length; i++) {
-                let image = this.appImages[imageKeys[i]];
-                let imageProvidersForKey: string[] = imageProviders === undefined || imageProviders.length === 0 ? image.defaultImageProviders : imageProviders;
+      for (let i = 0; i < imageKeys.length; i++) {
+        let image: ImagesStatusAndContent;
+        if(imageType=="long") {
+          image = this.appImages[imageKeys[i]];
+        } else if (imageType=="tall") {
+          image = this.appTallImages[imageKeys[i]];
+        }
+        let imageProvidersForKey: string[] = imageProviders === undefined || imageProviders.length === 0 ? image.defaultImageProviders : imageProviders;
 
-                imageProvidersForKey = _.intersection(this.appSettings.enabledProviders, imageProvidersForKey);
-                console.log(imageProvidersForKey);
-                console.log(image.searchQueries);
-                if (image !== undefined && !image.retrieving) {
-                  let numberOfQueriesForImageKey = image.searchQueries.length * imageProvidersForKey.length;
+        imageProvidersForKey = _.intersection(this.appSettings.enabledProviders, imageProvidersForKey);
+        if (image !== undefined && !image.retrieving) {
+          let numberOfQueriesForImageKey = image.searchQueries.length * imageProvidersForKey.length;
+          if (numberOfQueriesForImageKey > 0) {
+            image.retrieving = true;
+            allImagesRetrieved = false;
+            this.previewVariables.numberOfQueriedImages += numberOfQueriesForImageKey;
 
-                  if (numberOfQueriesForImageKey > 0) {
-                    image.retrieving = true;
-                    allImagesRetrieved = false;
-                    this.previewVariables.numberOfQueriedImages += numberOfQueriesForImageKey;
-
-                    for (let j = 0; j < image.searchQueries.length; j++) {
-                      this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], this.currentImageType,  imageProvidersForKey, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
-                        switch (event) {
-                          case 'error':
-                            {
-                              let errorData = (data as ProviderCallbackEventMap['error']);
-                              if (typeof errorData.error === 'number') {
-                                this.loggerService.error(this.lang.errors.providerError__i.interpolate({
-                                  provider: errorData.provider,
-                                  code: errorData.error,
-                                  title: errorData.title,
-                                  url: errorData.url
-                                }));
-                              }
-                              else {
-                                this.loggerService.error(this.lang.errors.unknownProviderError__i.interpolate({
-                                  provider: errorData.provider,
-                                  title: errorData.title,
-                                  error: errorData.error
-                                }));
-                              }
-                            }
-
-                            break;
-                          case 'timeout':
-                            {
-                              let timeoutData = (data as ProviderCallbackEventMap['timeout']);
-                              this.loggerService.info(this.lang.info.providerTimeout__i.interpolate({
-                                time: timeoutData.time,
-                                provider: timeoutData.provider
-                              }), { invokeAlert: true, alertTimeout: 3000 });
-                            }
-                            break;
-                          case 'image':
-                            imageQueue.push(null, () => {
-                              let newImage = this.addUniqueImage(imageKeys[i], (data as ProviderCallbackEventMap['image']).content, this.currentImageType);
-                              if (newImage !== null && this.appSettings.previewSettings.preload)
-                                this.preloadImage(newImage);
-
-                              this.previewDataChanged.next();
-                            });
-                            break;
-                          case 'completed':
-                            {
-                              if (--numberOfQueriesForImageKey === 0) {
-                                image.retrieving = false;
-                              }
-                              if (--this.previewVariables.numberOfQueriedImages === 0) {
-                                this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
-                              }
-                              this.previewDataChanged.next();
-                            }
-                            break;
-                          default:
-                            break;
-                        }
-                      });
+            for (let j = 0; j < image.searchQueries.length; j++) {
+              this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], imageType,  imageProvidersForKey, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
+                switch (event) {
+                  case 'error':
+                    {
+                      let errorData = (data as ProviderCallbackEventMap['error']);
+                      if (typeof errorData.error === 'number') {
+                        this.loggerService.error(this.lang.errors.providerError__i.interpolate({
+                          provider: errorData.provider,
+                          code: errorData.error,
+                          title: errorData.title,
+                          url: errorData.url
+                        }));
+                      }
+                      else {
+                        this.loggerService.error(this.lang.errors.unknownProviderError__i.interpolate({
+                          provider: errorData.provider,
+                          title: errorData.title,
+                          error: errorData.error
+                        }));
+                      }
                     }
-                  }
+
+                    break;
+                  case 'timeout':
+                    {
+                      let timeoutData = (data as ProviderCallbackEventMap['timeout']);
+                      this.loggerService.info(this.lang.info.providerTimeout__i.interpolate({
+                        time: timeoutData.time,
+                        provider: timeoutData.provider
+                      }), { invokeAlert: true, alertTimeout: 3000 });
+                    }
+                    break;
+                  case 'image':
+                    imageQueue.push(null, () => {
+                      let newImage = this.addUniqueImage(imageKeys[i], (data as ProviderCallbackEventMap['image']).content, imageType);
+                      if (newImage !== null && this.appSettings.previewSettings.preload)
+                        this.preloadImage(newImage);
+
+                      this.previewDataChanged.next();
+                    });
+                    break;
+                  case 'completed':
+                    {
+                      if (--numberOfQueriesForImageKey === 0) {
+                        image.retrieving = false;
+                      }
+                      if (--this.previewVariables.numberOfQueriedImages === 0) {
+                        this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
+                      }
+                      this.previewDataChanged.next();
+                    }
+                    break;
+                  default:
+                    break;
                 }
-              }
-              this.previewDataChanged.next();
-              if (allImagesRetrieved) {
-                this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
-              }
+              });
             }
-            else
-              this.previewDataChanged.next();
           }
+        }
+      }
+      this.previewDataChanged.next();
+      if (allImagesRetrieved) {
+        this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
+      }
+    }
+    else
+      this.previewDataChanged.next();
+  }
 
   isImageUnique(imageKey: string, imageUrl: string, imageType: string) {
     if (imageType === 'long') {

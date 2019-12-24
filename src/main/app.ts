@@ -28,7 +28,7 @@ function createWindow() {
         webPreferences: {
             devTools: process.env.NODE_ENV !== 'production',
             nodeIntegration: true,
-            nodeIntegrationInWorker: false
+            nodeIntegrationInWorker: true
         }
     });
 
