@@ -200,7 +200,9 @@ export class PreviewComponent implements OnDestroy {
       this.previewService.setImageIndex(app, app.tallimages.imageIndex + 1);
     }
 
-  }
+    private setFallbackIcon(imageElement: HTMLImageElement) {
+        imageElement.src = require('../../assets/images/crossed-eye.svg');
+    }
 
   private previousIcon(app: PreviewDataApp) {
     this.previewService.setIconIndex(app, app.currentIconIndex - 1);
