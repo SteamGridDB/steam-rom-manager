@@ -47,7 +47,6 @@ export class PreviewComponent implements OnDestroy {
   ngAfterContentInit() {
     this.setImageSize(this.appSettings.previewSettings.imageZoomPercentage);
   }
-
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }

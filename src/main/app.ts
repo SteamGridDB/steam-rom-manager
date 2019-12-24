@@ -26,7 +26,7 @@ function createWindow() {
         backgroundColor: '#121212',
         webPreferences: {
             devTools: process.env.NODE_ENV !== 'production',
-            nodeIntegrationInWorker: false
+            nodeIntegrationInWorker: true
         }
     });
 

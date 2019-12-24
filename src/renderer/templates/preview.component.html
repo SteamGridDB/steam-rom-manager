@@ -5,13 +5,14 @@
     <input type="range" min="30" max="100" step="0.25" [value]="appSettings.previewSettings.imageZoomPercentage" (input)="setImageSize($event.target.value)"
                                            (change)="setImageSize($event.target.value, true)" />
     <div>{{appSettings.previewSettings.imageZoomPercentage | number : '1.0-2'}}%</div>
+    <ng-select class="selectType" [(ngModel)]="appSettings.previewSettings.imageTypes" [placeholder]="lang.selectType" (ngModelChange)="appSettings.previewSettings.imageTypes = $event; setImageType($event);">
+      <ng-option *ngFor="let value of imageTypes" [ngValue]="value">
+        {{value}}
+      </ng-option>
+    </ng-select>
   </div>
   <ng-text-input class="appFilter" [placeholder]="lang.filter" [(ngModel)]='filterValue' ></ng-text-input>
-  <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="appSettings.previewSettings.imageTypes" (ngModelChange)="appSettings.previewSettings.imageTypes = $event; setImageType($event);">
-    <ng-option *ngFor="let value of imageTypes" [ngValue]="value">
-      {{value}}
-    </ng-option>
-  </ng-select>
+
 </div>
 <div class="entries" *ngVar="{ hoverIndex: undefined } as entries" (scroll)="onScroll()">
   <ng-container *ngFor="let steamDir of previewData | keys">

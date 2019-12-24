@@ -152,7 +152,6 @@ export class PreviewService {
       }
     }).then(() => {
       this.loggerService.info(this.lang.info.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-      console.log("biggest write")
       return vdfManager.write();
     }).then((error) => {
       if (error) {
@@ -595,29 +594,10 @@ export class PreviewService {
     });
   }
 
-  /* private shortcutsToPreviewData(data: SteamShortcutsData) {
-        let gridData: SteamGridImageData;
-        let availableLogins: { [directory: string]: userAccountData[] };
-
-        return Promise.resolve().then(() => {
-            return this.getNonSteamGridData(data);
-        }).then((resolvedData) => {
-            gridData = resolvedData;
-            return steam.getMultipleAvailableLogins(Object.keys(data.tree), true);
-        }).then((resolvedData) => {
-          //availableLogins = resolvedData;
-
-            this.clearImageCacheSettings();
-
-            availableLogins
-
-            console.log(availableLogins);
-        });
-    } */
-
           downloadImageUrls(imageKeys?: string[], imageProviders?: string[]) {
             if (!this.appSettings.offlineMode) {
               let allImagesRetrieved = true;
+              let allTallImagesRetrieved = true;
               let imageQueue = queue((task, callback) => callback());
 
               if (imageKeys === undefined || imageKeys.length === 0) {
@@ -629,7 +609,8 @@ export class PreviewService {
                 let imageProvidersForKey: string[] = imageProviders === undefined || imageProviders.length === 0 ? image.defaultImageProviders : imageProviders;
 
                 imageProvidersForKey = _.intersection(this.appSettings.enabledProviders, imageProvidersForKey);
-
+                console.log(imageProvidersForKey);
+                console.log(image.searchQueries);
                 if (image !== undefined && !image.retrieving) {
                   let numberOfQueriesForImageKey = image.searchQueries.length * imageProvidersForKey.length;
 
@@ -639,7 +620,7 @@ export class PreviewService {
                     this.previewVariables.numberOfQueriedImages += numberOfQueriesForImageKey;
 
                     for (let j = 0; j < image.searchQueries.length; j++) {
-                      this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], imageProvidersForKey, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
+                      this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], this.currentImageType,  imageProvidersForKey, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
                         switch (event) {
                           case 'error':
                             {
