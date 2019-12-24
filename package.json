@@ -78,6 +78,7 @@
     "ajv": "^6.4.0",
     "async": "^2.6.0",
     "big-integer": "https://github.com/cbartondock/BigInteger.js.git",
+    "steamgriddb": "https://github.com/cbartondock/node-steamgriddb.git",
     "blob-to-buffer": "^1.2.7",
     "bluebird": "^3.5.1",
     "colornames": "^1.1.1",
