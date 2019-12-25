@@ -175,7 +175,6 @@ export class PreviewComponent implements OnDestroy {
         }
       }
     }
-
     this.previewService.saveData(false).then((noError: boolean | void) => {
       if (noError)
         this.previewService.clearPreviewData();
@@ -185,7 +184,6 @@ export class PreviewComponent implements OnDestroy {
   private refreshImages(app: PreviewDataApp) {
     this.previewService.downloadImageUrls('long',[app.images.imagePool], app.imageProviders);
     this.previewService.downloadImageUrls('tall',[app.tallimages.imagePool], app.imageProviders);
-
   }
 
   private previousImage(app: PreviewDataApp) {

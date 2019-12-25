@@ -109,8 +109,8 @@ export class CategoryManager {
         });
       }, Promise.resolve());
 
-      result.then(() => {
-
+      return result.then(() => {
+        resolveSave();
       }).catch((error: any) => {
         rejectSave(error);
       });

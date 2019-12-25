@@ -663,11 +663,31 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }));
               }
             }
+            if (data.files[i].resolvedDefaultTallImages.length) {
+              success(this.lang.success.resolvedDefaultTallImageGlob__i.interpolate({
+                index: i + 1,
+                total: totalLength
+              }));
+              for (let j = 0; j < data.files[i].resolvedDefaultTallImages.length; j++) {
+                success(this.lang.success.resolvedImageGlobInfo__i.interpolate({
+                  index: i + 1,
+                  total: totalLength,
+                  glob: data.files[i].resolvedDefaultTallImages[j]
+                }));
+              }
+            }
             if (data.files[i].defaultImage !== undefined) {
               success(this.lang.success.defaultImageResolved__i.interpolate({
                 index: i + 1,
                 total: totalLength,
                 image: data.files[i].defaultImage
+              }));
+            }
+            if (data.files[i].defaultTallImage !== undefined) {
+              success(this.lang.success.defaultTallImageResolved__i.interpolate({
+                index: i+1,
+                total: totalLength,
+                image: data.files[i].defaultTallImage
               }));
             }
             if (data.files[i].resolvedLocalImages.length) {

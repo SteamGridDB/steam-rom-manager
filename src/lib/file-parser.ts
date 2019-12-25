@@ -270,7 +270,7 @@ export class FileParser {
                   }
                 }));
               }
-              return Promise.all(localImagePromises).then(() => Promise.all(localTallImagePromises)).then(() => Promise.all(localIconPromises)).then(() => Promise.all(defaultImagePromises));
+              return Promise.all(localImagePromises).then(() => Promise.all(localTallImagePromises)).then(() => Promise.all(localIconPromises)).then(() => Promise.all(defaultImagePromises)).then(() => Promise.all(defaultTallImagePromises));
             }).then(() => {
               return { parsedConfigs, noUserAccounts: totalUserAccountsFound === 0 };
             });

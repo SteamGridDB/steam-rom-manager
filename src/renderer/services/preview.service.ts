@@ -113,6 +113,7 @@ export class PreviewService {
   }
 
   saveData(remove: boolean): Promise<any> {
+
     if (this.previewVariables.listIsBeingSaved)
     return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     else if (!remove && this.previewVariables.numberOfListItems === 0)
@@ -127,9 +128,9 @@ export class PreviewService {
 
     this.previewVariables.listIsBeingSaved = true;
     this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
-
     return vdfManager.prepare(remove ? this.appSettings.knownSteamDirectories : this.previewData).then((error) => {
       if (error) {
+
         this.loggerService.error(this.lang.errors.populatingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         this.loggerService.error(error);
       }
@@ -176,18 +177,10 @@ export class PreviewService {
         this.clearPreviewData();
       }
 
-      return true;
-    }).catch((fatalError) => {
-      this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
-      if (fatalError)
-        this.loggerService.error(fatalError);
-      this.previewVariables.listIsBeingSaved = false;
-
-      return false;
-    }).then((noError) => {
-      return noError;
-    }).then(() => {
-      categoryManager.save(this.previewData).catch((error) => {
+    }).then(()=>{
+      return categoryManager.save(this.previewData).then(()=>{
+        return true;
+      }).catch((error) => {
         if (error) {
           if (error.type === 'OpenError') {
             this.loggerService.error('Cannot import while Steam is running. Close Steam and try again.', { invokeAlert: true, alertTimeout: 3000 });
@@ -197,7 +190,14 @@ export class PreviewService {
             this.loggerService.error(error);
           }
         }
+        return false;
       });
+    }).catch((fatalError) => {
+      this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
+      if (fatalError)
+        this.loggerService.error(fatalError);
+      this.previewVariables.listIsBeingSaved = false;
+      return false;
     });
   }
 
