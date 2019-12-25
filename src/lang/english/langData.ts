@@ -260,6 +260,13 @@ export const EnglishLang: languageContainer = {
             require('./markdown/parser-variables.md'),
             require('./markdown/spec-glob-chars.md')
           ],
+          defaultTallImage: [
+            require('./markdown/default-tall-image.md'),
+            require('./markdown/special-glob-input.md'),
+            require('./markdown/parser-variables.md'),
+            require('./markdown/spec-glob-chars.md')
+
+          ],
           localImages: [
             require('./markdown/local-images.md'),
             require('./markdown/special-glob-input.md'),
@@ -311,7 +318,10 @@ export const EnglishLang: languageContainer = {
           imageQueries__i: '[${index}/${total}]:                        ${query}',
           resolvedDefaultImageGlob__i: '[${index}/${total}]:  Default image glob:',
           resolvedDefaultImageGlobInfo__i: '[${index}/${total}]:                        ${glob}',
+          resolvedDefaultTallImageGlob__i: '[${index}/${total}]:  Default tall image glob:',
+          resolvedDefaultTallImageGlobInfo__i: '[${index}/${total}]:                        ${glob}',
           defaultImageResolved__i: '[${index}/${total}]:       Default image:\r\n[${index}/${total}]:                        ${image}',
+          defaultTallImageResolved__i: '[${index}/${total}]:       Default tall image:\r\n[${index}/${total}]:                        ${image}',
           resolvedImageGlob__i: '[${index}/${total}]: Resolved image glob:',
           resolvedImageGlobInfo__i: '[${index}/${total}]:                        ${glob}',
           localImagesResolved__i: '[${index}/${total}]:     Resolved images:',
@@ -343,6 +353,7 @@ export const EnglishLang: languageContainer = {
           imagePool: 'Image pool',
           imageProviders: 'Image providers',
           defaultImage: 'Default image',
+          defaultTallImage: 'Default tall image',
           localImages: 'Local images',
           localTallImages: 'Local tall images',
           localIcons: 'Local icons'

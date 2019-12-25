@@ -570,9 +570,9 @@ export class PreviewService {
                     imageUrl: steamTallImageUrl,
                     loadStatus: 'done'
                   } : undefined,
-                  default: null ? {
+                  default: file.defaultTallImage ? {
                     imageProvider: 'LocalStorage',
-                    imageUrl: null,
+                    imageUrl: file.defaultTallImage,
                     loadStatus: 'done'
                   } : undefined,
                   imagePool: file.imagePool,

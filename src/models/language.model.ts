@@ -214,6 +214,7 @@ export interface languageStruct {
               imageProviders: string[],
               imagePool: string[],
               defaultImage: string[],
+              defaultTallImage: string[],
               localImages: string[],
               localTallImages: string[],
               localIcons: string[]
@@ -249,7 +250,10 @@ export interface languageStruct {
             imageQueries__i: string, //${index}, ${total}, ${query}
             resolvedDefaultImageGlob__i: string, //${index}, ${total}
             resolvedDefaultImageGlobInfo__i: string, //${index}, ${total}, ${glob}
+            resolvedDefaultTallImageGlob__i: string, //${index}, ${total}
+            resolvedDefaultTallImageGlobInfo__i: string, //${index}, ${total}, ${glob}
             defaultImageResolved__i: string, //${index}, ${total}, ${image}
+            defaultTallImageResolved__i: string, //${index}, ${total}, ${image}
             resolvedImageGlob__i: string, //${index}, ${total}
             resolvedImageGlobInfo__i: string, //${index}, ${total}, ${glob}
             localImagesResolved__i: string, //${index}, ${total}
@@ -281,6 +285,7 @@ export interface languageStruct {
               imageProviders: string,
               imagePool: string,
               defaultImage: string,
+              defaultTallImage: string,
               localImages: string,
               localTallImages: string,
               localIcons: string

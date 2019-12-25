@@ -16,7 +16,9 @@ export interface ParsedUserConfigurationFile {
     steamCategories: string[],
     imagePool: string,
     resolvedDefaultImages: string[],
+    resolvedDefaultTallImages: string[],
     defaultImage: string,
+    defaultTallImage: string,
     localImages: string[],
     localTallImages: string[],
     localIcons: string[]

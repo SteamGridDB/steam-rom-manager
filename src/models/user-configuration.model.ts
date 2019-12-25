@@ -31,6 +31,7 @@ export interface UserConfiguration {
     imagePool: string,
     appendArgsToExecutable: boolean,
     defaultImage: string,
+    defaultTallImage: string,
     localImages: string,
     localTallImages: string,
     localIcons: string,
