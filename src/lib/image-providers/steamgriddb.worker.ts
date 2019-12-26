@@ -18,7 +18,27 @@ class SteamGridDbProvider extends GenericProvider {
     let self = this;
     this.xrw.promise = new this.xrw.Bluebird<string>(function (resolve, reject, onCancel) {
       self.client.searchGame(self.proxy.title).then((res: any)=>{
-        self.client.getGridsById(res[0].id,undefined,self.proxy.imageType=="long"?["legacy","460x215"]:["600x900"]).then((res: any)=>{
+        let query: Promise<any>;
+        if(self.proxy.imageType === 'long') {
+          query = self.client.getGridsById(res[0].id,undefined,["legacy","460x215"]);
+        } else if (self.proxy.imageType === 'tall') {
+          query = self.client.getGridsById(res[0].id,undefined,["600x900"]);
+        } else if (self.proxy.imageType === 'hero') {
+          query = self.client.getHeroes({id: res[0].id, type: 'game'});
+        }
+        // let query = new Promise((resolve,reject)=>{
+        //   if(self.proxy.imageType === 'long') {
+        //     resolve(self.client.getGridsById(res[0].id,undefined,["legacy","460x215"]));
+        //   } else if (self.proxy.imageType === 'tall') {
+        //     resolve(self.client.getGridsById(res[0].id,undefined,["600x900"]));
+        //   } else if (self.proxy.imageType === 'hero') {
+        //     resolve(self.client.getHeroes({id: res[0].id}));
+        //   } else {
+        //     reject()
+        //   }
+        // });
+
+        query.then((res: any)=>{
           if(res !== null && res.length>0) {
             for (let i=0; i < res.length; i++) {
               self.proxy.image({

@@ -121,8 +121,10 @@ export class FileParser {
             }).then((data: ParsedDataWithFuzzy[]) => {
               let defaultImagePromises: Promise<void>[] = [];
               let defaultTallImagePromises: Promise<void>[] = [];
+              let defaultHeroImagePromises: Promise<void>[] = [];
               let localImagePromises: Promise<void>[] = [];
               let localTallImagePromises: Promise<void>[] = [];
+              let localHeroImagePromises: Promise<void>[] = [];
               let localIconPromises: Promise<void>[] = [];
               let vParser = new VariableParser({ left: '${', right: '}' });
 
@@ -168,12 +170,16 @@ export class FileParser {
                     argumentString: undefined,
                     resolvedLocalImages: [],
                     resolvedLocalTallImages: [],
+                    resolvedLocalHeroImages: [],
                     resolvedDefaultImages: [],
                     resolvedDefaultTallImages: [],
+                    resolvedDefaultHeroImages: [],
                     defaultImage: undefined,
                     defaultTallImage: undefined,
+                    defaultHeroImage: undefined,
                     localImages: [],
                     localTallImages: [],
+                    localHeroImages: [],
                     resolvedLocalIcons: [],
                     localIcons: [],
                     fuzzyTitle: fuzzyTitle,
@@ -213,7 +219,6 @@ export class FileParser {
                 defaultImagePromises.push(this.resolveFieldGlobs('defaultImage', configs[i], parsedConfigs[i], vParser).then((data) => {
                   for (let j = 0; j < data.parsedConfig.files.length; j++) {
                     data.parsedConfig.files[j].resolvedDefaultImages = data.resolvedGlobs[j];
-
                     let extRegex = /png|tga|jpg|jpeg/i;
                     for (let k = 0; k < data.resolvedFiles[j].length; k++) {
                       const item = data.resolvedFiles[j][k];
@@ -227,7 +232,6 @@ export class FileParser {
                 defaultTallImagePromises.push(this.resolveFieldGlobs('defaultTallImage',configs[i],parsedConfigs[i],vParser).then((data)=>{
                   for (let j = 0; j < data.parsedConfig.files.length; j++) {
                     data.parsedConfig.files[j].resolvedDefaultTallImages = data.resolvedGlobs[j];
-
                     let extRegex = /png|tga|jpg|jpeg/i;
                     for (let k = 0; k < data.resolvedFiles[j].length; k++) {
                       const item = data.resolvedFiles[j][k];
@@ -237,8 +241,21 @@ export class FileParser {
                       }
                     }
                   }
+                }));
+                defaultHeroImagePromises.push(this.resolveFieldGlobs('defaultHeroImage',configs[i],parsedConfigs[i],vParser).then((data)=>{
+                  for (let j = 0; j < data.parsedConfig.files.length; j++) {
+                    data.parsedConfig.files[j].resolvedDefaultHeroImages = data.resolvedGlobs[j];
+                    let extRegex = /png|tga|jpg|jpeg/i;
+                    for (let k = 0; k < data.resolvedFiles[j].length; k++) {
+                      const item = data.resolvedFiles[j][k];
+                      if (extRegex.test(path.extname(item))) {
+                        data.parsedConfig.files[j].defaultHeroImage = url.encodeFile(item);
+                        break;
+                      }
+                    }
+                  }
+                }));
 
-                }))
                 localImagePromises.push(this.resolveFieldGlobs('localImages', configs[i], parsedConfigs[i], vParser).then((data) => {
                   for (let j = 0; j < data.parsedConfig.files.length; j++) {
                     data.parsedConfig.files[j].resolvedLocalImages = data.resolvedGlobs[j];
@@ -263,6 +280,18 @@ export class FileParser {
                     });
                   }
                 }));
+                localHeroImagePromises.push(this.resolveFieldGlobs('localHeroImages', configs[i], parsedConfigs[i], vParser).then((data) => {
+                  for (let j = 0; j < data.parsedConfig.files.length; j++) {
+                    data.parsedConfig.files[j].resolvedLocalHeroImages = data.resolvedGlobs[j];
+
+                    let extRegex = /png|tga|jpg|jpeg/i;
+                    data.parsedConfig.files[j].localHeroImages = data.resolvedFiles[j].filter((item) => {
+                      return extRegex.test(path.extname(item));
+                    }).map((item) => {
+                      return url.encodeFile(item);
+                    });
+                  }
+                }));
                 localIconPromises.push(this.resolveFieldGlobs('localIcons', configs[i], parsedConfigs[i], vParser).then((data) => {
                   for (let j = 0; j < data.parsedConfig.files.length; j++) {
                     data.parsedConfig.files[j].resolvedLocalIcons = data.resolvedGlobs[j];
@@ -270,7 +299,7 @@ export class FileParser {
                   }
                 }));
               }
-              return Promise.all(localImagePromises).then(() => Promise.all(localTallImagePromises)).then(() => Promise.all(localIconPromises)).then(() => Promise.all(defaultImagePromises)).then(() => Promise.all(defaultTallImagePromises));
+              return Promise.all(localImagePromises).then(() => Promise.all(localTallImagePromises)).then(()=> Promise.all(localHeroImagePromises)).then(() => Promise.all(localIconPromises)).then(() => Promise.all(defaultImagePromises)).then(() => Promise.all(defaultTallImagePromises)).then(()=>Promise.all(defaultHeroImagePromises));
             }).then(() => {
               return { parsedConfigs, noUserAccounts: totalUserAccountsFound === 0 };
             });

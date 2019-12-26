@@ -215,8 +215,10 @@ export interface languageStruct {
               imagePool: string[],
               defaultImage: string[],
               defaultTallImage: string[],
+              defaultHeroImage: string[],
               localImages: string[],
               localTallImages: string[],
+              localHeroImages: string[],
               localIcons: string[]
           },
           info: {
@@ -252,8 +254,11 @@ export interface languageStruct {
             resolvedDefaultImageGlobInfo__i: string, //${index}, ${total}, ${glob}
             resolvedDefaultTallImageGlob__i: string, //${index}, ${total}
             resolvedDefaultTallImageGlobInfo__i: string, //${index}, ${total}, ${glob}
+            resolvedDefaultHeroImageGlob__i: string, //${index}, ${total}
+            resolvedDefaultHeroImageGlobInfo__i: string, //${index}, ${total}, ${glob}
             defaultImageResolved__i: string, //${index}, ${total}, ${image}
             defaultTallImageResolved__i: string, //${index}, ${total}, ${image}
+            defaultHeroImageResolved__i: string, //${index}, ${total}, ${image}
             resolvedImageGlob__i: string, //${index}, ${total}
             resolvedImageGlobInfo__i: string, //${index}, ${total}, ${glob}
             localImagesResolved__i: string, //${index}, ${total}
@@ -262,6 +267,10 @@ export interface languageStruct {
             resolvedTallImageGlobInfo__i: string, //${index}, ${total}, ${glob}
             localTallImagesResolved__i: string, //${index}, ${total}
             localTallImageInfo__i: string, //${index}, ${total}, ${image}
+            resolvedHeroImageGlob__i: string, //${index}, ${total}
+            resolvedHeroImageGlobInfo__i: string, //${index}, ${total}, ${glob}
+            localHeroImagesResolved__i: string, //${index}, ${total}
+            localHeroImageInfo__i: string, //${index}, ${total}, ${image}
             resolvedIconGlob__i: string, //${index}, ${total}
             resolvedIconGlobInfo__i: string, //${index}, ${total}, ${glob}
             localIconsResolved__i: string, //${index}, ${total}
@@ -286,8 +295,10 @@ export interface languageStruct {
               imagePool: string,
               defaultImage: string,
               defaultTallImage: string,
+              defaultHeroImage: string,
               localImages: string,
               localTallImages: string,
+              localHeroImages: string,
               localIcons: string
           },
           placeholder: {

@@ -52,6 +52,9 @@ export class PreviewComponent implements OnDestroy {
     } else if(this.previewService.getImageType()=='tall') {
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '600px', RendererStyleFlags2.DashCase);
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '900px', RendererStyleFlags2.DashCase);
+    } else if(this.previewService.getImageType()=='hero') {
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '910px', RendererStyleFlags2.DashCase);
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '310px', RendererStyleFlags2.DashCase);
     }
   }
   ngOnDestroy() {
@@ -66,6 +69,9 @@ export class PreviewComponent implements OnDestroy {
     } else if(imageType=='tall') {
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '600px', RendererStyleFlags2.DashCase);
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '900px', RendererStyleFlags2.DashCase);
+    } else if(imageType=='hero') {
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '910px', RendererStyleFlags2.DashCase);
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '310px', RendererStyleFlags2.DashCase);
     }
   }
   private getImagePool(poolKey: string) {
@@ -77,6 +83,8 @@ export class PreviewComponent implements OnDestroy {
       return app.images;
     } else if (this.previewService.getImageType() === 'tall') {
       return app.tallimages;
+    } else if (this.previewService.getImageType() === 'hero') {
+      return app.heroimages;
     }
   }
 
@@ -86,7 +94,14 @@ export class PreviewComponent implements OnDestroy {
 
   private setBackgroundImage(app: PreviewDataApp, image: ImageContent) {
     if (image == undefined) {
-      let imagepool = this.previewService.getImageType() === 'long' ? app.images.imagePool : app.tallimages.imagePool;
+      let imagepool: string;
+      if (this.previewService.getImageType()==='long') {
+        imagepool = app.tallimages.imagePool;
+      } else if (this.previewService.getImageType()==='tall') {
+        imagepool = app.tallimages.imagePool;
+      } else if (this.previewService.getImageType()==='hero') {
+        imagepool = app.heroimages.imagePool;
+      }
       if (this.previewService.images[imagepool].retrieving)
         return require('../../assets/images/retrieving-images.svg');
       else
@@ -117,9 +132,12 @@ export class PreviewComponent implements OnDestroy {
   private currentImageIndex(app: PreviewDataApp) {
     if (this.previewService.getImageType() === 'long') {
       return app.images.imageIndex + 1;
-    } else {
+    } else if (this.previewService.getImageType() === 'tall') {
       return app.tallimages.imageIndex + 1;
+    } else if (this.previewService.getImageType() === 'hero') {
+      return app.heroimages.imageIndex + 1;
     }
+
   }
 
   private maxImageIndex(app: PreviewDataApp) {
@@ -147,6 +165,12 @@ export class PreviewComponent implements OnDestroy {
                 imageUrl,
                 loadStatus: 'done'
               }, 'tall');
+            } else if (this.previewService.getImageType() === 'hero') {
+              this.previewService.addUniqueImage(app.heroimages.imagePool, {
+                imageProvider: 'LocalStorage',
+                imageUrl,
+                loadStatus: 'done'
+              }, 'hero');
             }
           }
         }
@@ -184,6 +208,7 @@ export class PreviewComponent implements OnDestroy {
   private refreshImages(app: PreviewDataApp) {
     this.previewService.downloadImageUrls('long',[app.images.imagePool], app.imageProviders);
     this.previewService.downloadImageUrls('tall',[app.tallimages.imagePool], app.imageProviders);
+    this.previewService.downloadImageUrls('hero',[app.heroimages.imagePool], app.imageProviders);
   }
 
   private previousImage(app: PreviewDataApp) {
@@ -191,6 +216,8 @@ export class PreviewComponent implements OnDestroy {
       this.previewService.setImageIndex(app, app.images.imageIndex - 1);
     } else if (this.previewService.getImageType() === 'tall') {
       this.previewService.setImageIndex(app, app.tallimages.imageIndex - 1);
+    } else if (this.previewService.getImageType() === 'hero') {
+      this.previewService.setImageIndex(app, app.heroimages.imageIndex -1);
     }
 
   }
@@ -200,6 +227,8 @@ export class PreviewComponent implements OnDestroy {
       this.previewService.setImageIndex(app, app.images.imageIndex + 1);
     } else if (this.previewService.getImageType() === 'tall') {
       this.previewService.setImageIndex(app, app.tallimages.imageIndex + 1);
+    } else if (this.previewService.getImageType() === 'hero') {
+      this.previewService.setImageIndex(app, app.heroimages.imageIndex + 1);
     }
   }
 

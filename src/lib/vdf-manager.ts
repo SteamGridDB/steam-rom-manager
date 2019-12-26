@@ -114,7 +114,7 @@ export class VDF_Manager {
     }
   }
 
-  mergeData(previewData: PreviewData, images: AppImages, tallimages: AppImages) {
+  mergeData(previewData: PreviewData, images: AppImages, tallimages: AppImages, heroimages: AppImages) {
     return Promise.resolve().then(() => {
       this.forEach((steamDirectory, userId, listItem) => {
         let apps = previewData[steamDirectory][userId].apps;
@@ -129,6 +129,7 @@ export class VDF_Manager {
             let item = listItem.shortcuts.getItem(appId);
             let currentImage = appImage.getCurrentImage(app.images, images);
             let currentTallImage = appImage.getCurrentImage(app.tallimages, tallimages);
+            let currentHeroImage = appImage.getCurrentImage(app.heroimages, heroimages);
             if (item !== undefined) {
               item.appname = app.title;
               item.exe = app.executableLocation;
@@ -157,12 +158,21 @@ export class VDF_Manager {
             if (currentTallImage !== undefined && currentTallImage.imageProvider !== 'Steam') {
               listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('p'), title: app.title, url: currentTallImage.imageUrl })
             }
+
+            if (currentHeroImage !== undefined && currentHeroImage.imageProvider !== 'Steam') {
+              listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('_hero'), title: app.title, url: currentHeroImage.imageUrl })
+            }
+
+
           }
           else if (app.status === 'remove') {
             listItem.shortcuts.removeItem(appId);
             listItem.addedItems.removeItem(appId);
             listItem.screenshots.removeItem(appId);
             listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('p'));
+            listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_hero'));
+
+
 
             app.images.steam = undefined
           }

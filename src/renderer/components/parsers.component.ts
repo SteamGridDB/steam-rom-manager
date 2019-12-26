@@ -338,6 +338,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.defaultTallImage.join('');
           }
         }),
+        defaultHeroImage: new NestedFormElement.Input({
+          isHidden: () => this.isHiddenMode(),
+          highlight: this.highlight.bind(this),
+          label: this.lang.label.defaultHeroImage,
+          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+          onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content = this.lang.docs__md.defaultHeroImage.join('');
+          }
+        }),
         localImages: new NestedFormElement.Input({
           isHidden: () => this.isHiddenMode(),
           highlight: this.highlight.bind(this),
@@ -358,6 +368,17 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.localTallImages.join('');
           }
         }),
+        localHeroImages: new NestedFormElement.Input({
+          isHidden: () => this.isHiddenMode(),
+          highlight: this.highlight.bind(this),
+          label: this.lang.label.localHeroImages,
+          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+          onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content = this.lang.docs__md.localHeroImages.join('');
+          }
+        }),
+
         localIcons: new NestedFormElement.Input({
           isHidden: () => this.isHiddenMode(),
           highlight: this.highlight.bind(this),
@@ -676,6 +697,20 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }));
               }
             }
+            if (data.files[i].resolvedDefaultHeroImages.length) {
+              success(this.lang.success.resolvedDefaultHeroImageGlob__i.interpolate({
+                index: i + 1,
+                total: totalLength
+              }));
+              for (let j = 0; j < data.files[i].resolvedDefaultHeroImages.length; j++) {
+                success(this.lang.success.resolvedImageGlobInfo__i.interpolate({
+                  index: i + 1,
+                  total: totalLength,
+                  glob: data.files[i].resolvedDefaultHeroImages[j]
+                }));
+              }
+            }
+
             if (data.files[i].defaultImage !== undefined) {
               success(this.lang.success.defaultImageResolved__i.interpolate({
                 index: i + 1,
@@ -690,6 +725,14 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 image: data.files[i].defaultTallImage
               }));
             }
+            if (data.files[i].defaultHeroImage !== undefined) {
+              success(this.lang.success.defaultHeroImageResolved__i.interpolate({
+                index: i+1,
+                total: totalLength,
+                image: data.files[i].defaultHeroImage
+              }));
+            }
+
             if (data.files[i].resolvedLocalImages.length) {
               success(this.lang.success.resolvedImageGlob__i.interpolate({
                 index: i + 1,
@@ -742,6 +785,33 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }));
               }
             }
+            if (data.files[i].resolvedLocalHeroImages.length) {
+              success(this.lang.success.resolvedHeroImageGlob__i.interpolate({
+                index: i + 1,
+                total: totalLength
+              }));
+              for (let j = 0; j < data.files[i].resolvedLocalHeroImages.length; j++) {
+                success(this.lang.success.resolvedHeroImageGlobInfo__i.interpolate({
+                  index: i + 1,
+                  total: totalLength,
+                  glob: data.files[i].resolvedLocalHeroImages[j]
+                }));
+              }
+            }
+            if (data.files[i].localHeroImages.length) {
+              success(this.lang.success.localHeroImagesResolved__i.interpolate({
+                index: i + 1,
+                total: totalLength
+              }));
+              for (let j = 0; j < data.files[i].localHeroImages.length; j++) {
+                success(this.lang.success.localHeroImageInfo__i.interpolate({
+                  index: i + 1,
+                  total: totalLength,
+                  image: data.files[i].localHeroImages[j]
+                }));
+              }
+            }
+
             if (data.files[i].resolvedLocalIcons.length) {
               success(this.lang.success.resolvedIconGlob__i.interpolate({
                 index: i + 1,

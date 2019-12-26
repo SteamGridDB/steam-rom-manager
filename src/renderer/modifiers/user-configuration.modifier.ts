@@ -4,33 +4,34 @@ let replaceVariables_undefined = (oldValue: any) => typeof oldValue === 'string'
 let versionUp = (version: number) => { return version + 1 };
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
-    controlProperty: 'version',
-    latestVersion: 2,
-    fields: {
-        undefined: {
-            'version': { method: () => 0 },
-            'disabled': {
-                method: (oldValue) => oldValue === undefined ? false : !!!oldValue,
-                oldValuePath: 'enabled'
-            },
-            'parserType': { method: (oldValue) => (typeof oldValue === 'string' && /glob-regex/i.test(oldValue)) ? 'Glob-regex' : oldValue },
-            'executableArgs': { method: replaceVariables_undefined },
-            'onlineImageQueries': { method: replaceVariables_undefined },
-            'localImages': { method: replaceVariables_undefined },
-            'localTallImages': { method: replaceVariables_undefined },
-            'localIcons': { method: replaceVariables_undefined }
-        },
-        0: {
-            'version': { method: versionUp },
-            'titleModifier': {
-                method: (oldValue) => typeof oldValue === 'string' ? oldValue.replace(/\${title}/gi, '${fuzzyTitle}') : '${fuzzyTitle}'
-            }
-        },
-        1: {
-            'version': { method: versionUp },
-            'imageProviders': {
-                method: (oldValue) => Array.isArray(oldValue) ? oldValue.filter((val) => val !== "ConsoleGrid") : oldValue
-            }
-        }
+  controlProperty: 'version',
+  latestVersion: 2,
+  fields: {
+    undefined: {
+      'version': { method: () => 0 },
+      'disabled': {
+        method: (oldValue) => oldValue === undefined ? false : !!!oldValue,
+        oldValuePath: 'enabled'
+      },
+      'parserType': { method: (oldValue) => (typeof oldValue === 'string' && /glob-regex/i.test(oldValue)) ? 'Glob-regex' : oldValue },
+      'executableArgs': { method: replaceVariables_undefined },
+      'onlineImageQueries': { method: replaceVariables_undefined },
+      'localImages': { method: replaceVariables_undefined },
+      'localTallImages': { method: replaceVariables_undefined },
+      'localHeroImages': { method: replaceVariables_undefined },
+      'localIcons': { method: replaceVariables_undefined }
+    },
+    0: {
+      'version': { method: versionUp },
+      'titleModifier': {
+        method: (oldValue) => typeof oldValue === 'string' ? oldValue.replace(/\${title}/gi, '${fuzzyTitle}') : '${fuzzyTitle}'
+      }
+    },
+    1: {
+      'version': { method: versionUp },
+      'imageProviders': {
+        method: (oldValue) => Array.isArray(oldValue) ? oldValue.filter((val) => val !== "ConsoleGrid") : oldValue
+      }
     }
+  }
 };

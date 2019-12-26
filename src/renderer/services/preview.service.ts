@@ -28,6 +28,7 @@ export class PreviewService {
   private previewDataChanged: Subject<boolean>;
   private appImages: AppImages;
   private appTallImages: AppImages;
+  private appHeroImages: AppImages;
   private allEditedSteamDirectories: string[];
   private imageTypes: string[];
   private currentImageType: string;
@@ -47,7 +48,8 @@ export class PreviewService {
     });
     this.appImages = {};
     this.appTallImages = {};
-    this.imageTypes = ["tall","long"];
+    this.appHeroImages = {};
+    this.imageTypes = ["long","tall", "hero"];
     this.currentImageType = "long";
     this.imageProviderService.instance.stopEvent.subscribe(() => {
       for (let imageKey in this.appImages) {
@@ -55,6 +57,9 @@ export class PreviewService {
       }
       for(let imageKey in this.appTallImages) {
         this.appTallImages[imageKey].retrieving = false;
+      }
+      for(let imageKey in this.appHeroImages) {
+        this.appHeroImages[imageKey].retrieving = false;
       }
 
       this.previewVariables.numberOfQueriedImages = 0;
@@ -145,7 +150,7 @@ export class PreviewService {
       if (!remove) {
         this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
 
-        return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages);
+        return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages);
       }
       else {
         this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
@@ -208,7 +213,10 @@ export class PreviewService {
         image = appImage.getCurrentImage(app.images, this.appImages);
       } else if (this.currentImageType === 'tall') {
         image = appImage.getCurrentImage(app.tallimages, this.appTallImages);
+      } else if (this.currentImageType === 'hero') {
+        image = appImage.getCurrentImage(app.heroimages, this.appHeroImages);
       }
+
       if (image !== undefined && (image.loadStatus === 'notStarted' || image.loadStatus === 'failed')) {
         if (image.loadStatus === 'failed') {
           this.loggerService.info(this.lang.info.retryingDownload__i.interpolate({
@@ -267,7 +275,11 @@ export class PreviewService {
         this.preloadImage(this.appTallImages[imageKey].content[i]);
       }
     }
-
+    for (let imageKey in this.appHeroImages) {
+      for (let i = 0; i < this.appHeroImages[imageKey].content.length; i++) {
+        this.preloadImage(this.appHeroImages[imageKey].content[i]);
+      }
+    }
   }
 
   setImageIndex(app: PreviewDataApp, index: number) {
@@ -276,7 +288,10 @@ export class PreviewService {
         appImage.setImageIndex(app.images, this.appImages, index);
       } else if (this.currentImageType === 'tall') {
         appImage.setImageIndex(app.tallimages, this.appTallImages, index);
+      } else if (this.currentImageType === 'hero') {
+        appImage.setImageIndex(app.heroimages, this.appHeroImages, index);
       }
+
       this.previewDataChanged.next();
     }
   }
@@ -291,6 +306,8 @@ export class PreviewService {
         return appImage.getMaxLength(app.images, this.appImages);
       } else if (this.currentImageType === 'tall') {
         return appImage.getMaxLength(app.tallimages, this.appTallImages);
+      } else if (this.currentImageType === 'hero') {
+        return appImage.getMaxLength(app.heroimages, this.appHeroImages);
       }
     else
       return 0;
@@ -301,7 +318,10 @@ export class PreviewService {
       return appImage.getCurrentImage(app.images, this.appImages);
     } else if (this.currentImageType === 'tall') {
       return appImage.getCurrentImage(app.tallimages, this.appTallImages);
+    } else if (this.currentImageType === 'hero') {
+      return appImage.getCurrentImage(app.heroimages, this.appHeroImages);
     }
+
   }
 
   setIconIndex(app: PreviewDataApp, index: number) {
@@ -316,7 +336,10 @@ export class PreviewService {
       return this.appImages;
     } else if (this.currentImageType === 'tall') {
       return this.appTallImages;
+    } else if (this.currentImageType === 'hero') {
+      return this.appHeroImages;
     }
+
   }
 
   clearPreviewData() {
@@ -340,8 +363,15 @@ export class PreviewService {
       this.appTallImages[imageKey].retrieving = false;
       if (!settingsOnly)
         this.appTallImages[imageKey].content = [];
-
     }
+    for (let imageKey in this.appHeroImages) {
+      this.appHeroImages[imageKey].defaultImageProviders = [];
+      this.appHeroImages[imageKey].searchQueries = [];
+      this.appHeroImages[imageKey].retrieving = false;
+      if (!settingsOnly)
+        this.appHeroImages[imageKey].content = [];
+    }
+
   }
 
   private generatePreviewDataCallback() {
@@ -392,6 +422,7 @@ export class PreviewService {
           this.previewVariables.numberOfListItems = previewData.numberOfItems;
           this.downloadImageUrls('long');
           this.downloadImageUrls('tall');
+          this.downloadImageUrls('hero')
         }
         else {
           this.previewVariables.numberOfListItems = 0;
@@ -527,14 +558,32 @@ export class PreviewService {
               this.appTallImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appTallImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
+            if (this.appHeroImages[file.imagePool] === undefined) {
+              this.appHeroImages[file.imagePool] = {
+                retrieving: false,
+                searchQueries: file.onlineImageQueries,
+                defaultImageProviders: config.imageProviders,
+                content: []
+              };
+            }
+            else {
+              let currentQueries = this.appHeroImages[file.imagePool].searchQueries;
+              let currentProviders = this.appHeroImages[file.imagePool].defaultImageProviders;
+
+              this.appHeroImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
+              this.appHeroImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
+            }
 
 
 
             if (previewData[config.steamDirectory][userAccount.accountID].apps[appID] === undefined) {
               let steamImage = gridData[config.steamDirectory][userAccount.accountID][appID];
               let steamTallImage = undefined;
+              let steamHeroImage = undefined;
               let steamImageUrl = steamImage ? url.encodeFile(steamImage) : undefined;
               let steamTallImageUrl = steamTallImage ? url.encodeFile(steamTallImage) : undefined;
+              let steamHeroImageUrl = steamHeroImage ? url.encodeFile(steamHeroImage) : undefined;
+
               let currentIconIndex = oldDataApp !== undefined ? oldDataApp.currentIconIndex : 0;
 
               if (0 > currentIconIndex || currentIconIndex > file.localIcons.length)
@@ -563,7 +612,6 @@ export class PreviewService {
                   imagePool: file.imagePool,
                   imageIndex: 0
                 },
-                // TODO: Add a default tall image field to parser
                 tallimages: {
                   steam: steamTallImage ? {
                     imageProvider: 'Steam',
@@ -573,6 +621,20 @@ export class PreviewService {
                   default: file.defaultTallImage ? {
                     imageProvider: 'LocalStorage',
                     imageUrl: file.defaultTallImage,
+                    loadStatus: 'done'
+                  } : undefined,
+                  imagePool: file.imagePool,
+                  imageIndex: 0
+                },
+                heroimages: {
+                  steam: steamHeroImage ? {
+                    imageProvider: 'Steam',
+                    imageUrl: steamHeroImageUrl,
+                    loadStatus: 'done'
+                  } : undefined,
+                  default: file.defaultHeroImage ? {
+                    imageProvider: 'LocalStorage',
+                    imageUrl: file.defaultHeroImage,
                     loadStatus: 'done'
                   } : undefined,
                   imagePool: file.imagePool,
@@ -602,6 +664,13 @@ export class PreviewService {
                 loadStatus: 'done'
               },'tall')
             }
+            for (let l = 0; l < file.localHeroImages.length; l++) {
+              this.addUniqueImage(file.imagePool, {
+                imageProvider: 'LocalStorage',
+                imageUrl: file.localHeroImages[l],
+                loadStatus: 'done'
+              },'hero')
+            }
           }
         }
       }
@@ -619,7 +688,10 @@ export class PreviewService {
           imageKeys = Object.keys(this.appImages);
         } else if (imageType=="tall"){
           imageKeys = Object.keys(this.appTallImages);
+        } else if (imageType=="hero"){
+          imageKeys = Object.keys(this.appHeroImages);
         }
+
       }
 
       for (let i = 0; i < imageKeys.length; i++) {
@@ -628,6 +700,8 @@ export class PreviewService {
           image = this.appImages[imageKeys[i]];
         } else if (imageType=="tall") {
           image = this.appTallImages[imageKeys[i]];
+        } else if (imageType=="hero") {
+          image = this.appHeroImages[imageKeys[i]];
         }
         let imageProvidersForKey: string[] = imageProviders === undefined || imageProviders.length === 0 ? image.defaultImageProviders : imageProviders;
 
@@ -714,6 +788,8 @@ export class PreviewService {
       return this.appImages[imageKey].content.findIndex((item) => item.imageUrl === imageUrl) === -1;
     } else if (imageType === 'tall') {
       return this.appTallImages[imageKey].content.findIndex((item) => item.imageUrl ===imageUrl) === -1;
+    } else if (imageType === 'hero') {
+      return this.appHeroImages[imageKey].content.findIndex((item) => item.imageUrl ===imageUrl) === -1;
     }
   }
 
@@ -725,6 +801,9 @@ export class PreviewService {
       } else if (imageType === 'tall') {
         this.appTallImages[imageKey].content.push(content);
         return this.appTallImages[imageKey].content[this.appTallImages[imageKey].content.length - 1];
+      } else if (imageType === 'hero') {
+        this.appHeroImages[imageKey].content.push(content);
+        return this.appHeroImages[imageKey].content[this.appHeroImages[imageKey].content.length - 1];
       }
 
     }

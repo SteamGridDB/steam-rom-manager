@@ -265,8 +265,14 @@ export const EnglishLang: languageContainer = {
             require('./markdown/special-glob-input.md'),
             require('./markdown/parser-variables.md'),
             require('./markdown/spec-glob-chars.md')
-
           ],
+          defaultHeroImage: [
+            require('./markdown/default-hero-image.md'),
+            require('./markdown/special-glob-input.md'),
+            require('./markdown/parser-variables.md'),
+            require('./markdown/spec-glob-chars.md')
+          ],
+
           localImages: [
             require('./markdown/local-images.md'),
             require('./markdown/special-glob-input.md'),
@@ -278,8 +284,14 @@ export const EnglishLang: languageContainer = {
             require('./markdown/special-glob-input.md'),
             require('./markdown/parser-variables.md'),
             require('./markdown/spec-glob-chars.md')
-
           ],
+          localHeroImages: [
+            require('./markdown/local-hero-images.md'),
+            require('./markdown/special-glob-input.md'),
+            require('./markdown/parser-variables.md'),
+            require('./markdown/spec-glob-chars.md')
+          ],
+
           localIcons: [
             require('./markdown/local-icons.md'),
             require('./markdown/special-glob-input.md'),
@@ -320,8 +332,12 @@ export const EnglishLang: languageContainer = {
           resolvedDefaultImageGlobInfo__i: '[${index}/${total}]:                        ${glob}',
           resolvedDefaultTallImageGlob__i: '[${index}/${total}]:  Default tall image glob:',
           resolvedDefaultTallImageGlobInfo__i: '[${index}/${total}]:                        ${glob}',
+          resolvedDefaultHeroImageGlob__i: '[${index}/${total}]:  Default hero image glob:',
+          resolvedDefaultHeroImageGlobInfo__i: '[${index}/${total}]:                        ${glob}',
           defaultImageResolved__i: '[${index}/${total}]:       Default image:\r\n[${index}/${total}]:                        ${image}',
           defaultTallImageResolved__i: '[${index}/${total}]:       Default tall image:\r\n[${index}/${total}]:                        ${image}',
+          defaultHeroImageResolved__i: '[${index}/${total}]:       Default hero image:\r\n[${index}/${total}]:                        ${image}',
+
           resolvedImageGlob__i: '[${index}/${total}]: Resolved image glob:',
           resolvedImageGlobInfo__i: '[${index}/${total}]:                        ${glob}',
           localImagesResolved__i: '[${index}/${total}]:     Resolved images:',
@@ -330,6 +346,11 @@ export const EnglishLang: languageContainer = {
           resolvedTallImageGlobInfo__i: '[${index}/${total}]:                        ${glob}',
           localTallImagesResolved__i: '[${index}/${total}]:     Resolved tall images:',
           localTallImageInfo__i: '[${index}/${total}]:                        ${image}',
+          resolvedHeroImageGlob__i: '[${index}/${total}]: Resolved hero image glob:',
+          resolvedHeroImageGlobInfo__i: '[${index}/${total}]:                        ${glob}',
+          localHeroImagesResolved__i: '[${index}/${total}]:     Resolved hero images:',
+          localHeroImageInfo__i: '[${index}/${total}]:                        ${image}',
+
           resolvedIconGlob__i: '[${index}/${total}]:  Resolved icon glob:',
           resolvedIconGlobInfo__i: '[${index}/${total}]:                        ${glob}',
           localIconsResolved__i: '[${index}/${total}]:      Resolved icons:',
@@ -354,8 +375,10 @@ export const EnglishLang: languageContainer = {
           imageProviders: 'Image providers',
           defaultImage: 'Default image',
           defaultTallImage: 'Default tall image',
+          defaultHeroImage: 'Default hero image',
           localImages: 'Local images',
           localTallImages: 'Local tall images',
+          localHeroImages: 'Local hero images',
           localIcons: 'Local icons'
         },
         placeholder: {

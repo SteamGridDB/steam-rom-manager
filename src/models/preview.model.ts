@@ -40,6 +40,7 @@ export interface PreviewDataApp {
     currentIconIndex: number,
     icons: string[],
     tallimages: PreviewDataAppImage,
+    heroimages: PreviewDataAppImage,
     images: PreviewDataAppImage
 }
 
