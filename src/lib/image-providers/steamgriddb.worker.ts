@@ -26,17 +26,6 @@ class SteamGridDbProvider extends GenericProvider {
         } else if (self.proxy.imageType === 'hero') {
           query = self.client.getHeroes({id: res[0].id, type: 'game'});
         }
-        // let query = new Promise((resolve,reject)=>{
-        //   if(self.proxy.imageType === 'long') {
-        //     resolve(self.client.getGridsById(res[0].id,undefined,["legacy","460x215"]));
-        //   } else if (self.proxy.imageType === 'tall') {
-        //     resolve(self.client.getGridsById(res[0].id,undefined,["600x900"]));
-        //   } else if (self.proxy.imageType === 'hero') {
-        //     resolve(self.client.getHeroes({id: res[0].id}));
-        //   } else {
-        //     reject()
-        //   }
-        // });
 
         query.then((res: any)=>{
           if(res !== null && res.length>0) {
@@ -48,9 +37,9 @@ class SteamGridDbProvider extends GenericProvider {
                 loadStatus: 'notStarted'
               });
             }
-            self.proxy.completed();
-            resolve();
           }
+          self.proxy.completed();
+          resolve();
         })
       }).catch((error: string) => {
         self.xrw.logError(error);

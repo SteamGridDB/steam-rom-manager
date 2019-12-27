@@ -54,7 +54,7 @@ export class PreviewComponent implements OnDestroy {
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '900px', RendererStyleFlags2.DashCase);
     } else if(this.previewService.getImageType()=='hero') {
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '910px', RendererStyleFlags2.DashCase);
-      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '310px', RendererStyleFlags2.DashCase);
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '296px', RendererStyleFlags2.DashCase);
     }
   }
   ngOnDestroy() {
@@ -71,7 +71,7 @@ export class PreviewComponent implements OnDestroy {
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '900px', RendererStyleFlags2.DashCase);
     } else if(imageType=='hero') {
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '910px', RendererStyleFlags2.DashCase);
-      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '310px', RendererStyleFlags2.DashCase);
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '296px', RendererStyleFlags2.DashCase);
     }
   }
   private getImagePool(poolKey: string) {
