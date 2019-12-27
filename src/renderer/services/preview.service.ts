@@ -16,6 +16,7 @@ import { queue } from 'async';
 import * as steam from "../../lib/helpers/steam";
 import * as url from "../../lib/helpers/url";
 import * as appImage from "../../lib/helpers/app-image";
+import * as ids from '../../lib/helpers/steam';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as path from "path";
@@ -578,8 +579,9 @@ export class PreviewService {
 
             if (previewData[config.steamDirectory][userAccount.accountID].apps[appID] === undefined) {
               let steamImage = gridData[config.steamDirectory][userAccount.accountID][appID];
-              let steamTallImage = undefined;
-              let steamHeroImage = undefined;
+              let steamTallImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('p')];
+              let steamHeroImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('_hero')];
+ ;
               let steamImageUrl = steamImage ? url.encodeFile(steamImage) : undefined;
               let steamTallImageUrl = steamTallImage ? url.encodeFile(steamTallImage) : undefined;
               let steamHeroImageUrl = steamHeroImage ? url.encodeFile(steamHeroImage) : undefined;
