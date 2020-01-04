@@ -1,7 +1,6 @@
 @import 'mixins';
-$image-height-max: 430px;
-$image-width-max: 920px;
-$image-ratio: 430/920;
+//$image-height-max: 430px;
+//$image-width-max: 920px;
 
 :host {
 	display: grid;
@@ -10,6 +9,8 @@ $image-ratio: 430/920;
 	background-color: var(--color-preview-background);
 
 	--preview-image-size: 0.4;
+  --image-width-max: 920px;
+  --image-height-max: 430px;
 	grid-area: route;
 	grid-template-areas: 'upperMenu' 'entries' 'lowerMenu';
 	grid-template-rows: auto 1fr auto;
@@ -30,9 +31,17 @@ $image-ratio: 430/920;
 
 			grid-column: 1;
 		}
+    .selectType {
+      grid-column: 2;
+      width: 9em;
+      font-size: .75em;
+      margin-right: .75em;
+      color: var(--color-preview-text);
+     	@include ngSelectColor(ng-select);
+			@include ngSelect();
+    }
 		.slider {
 			display: flex;
-
 			align-items: center;
 			grid-column: 3;
 			> div, > input {
@@ -85,9 +94,9 @@ $image-ratio: 430/920;
 
 	.entries {
 		@include webkitScrollbar(preview-scrollbar);
-		
+
 		overflow-y: auto;
-		
+
 		grid-area: entries;
 
 		> .directory {
@@ -116,7 +125,7 @@ $image-ratio: 430/920;
 					background-color: var(--color-preview-user-background);
 
 					align-items: center;
-					
+
 					svg {
 						--color-select-arrow-down: var(--color-preview-text);
 						--select-arrow-down-width: 30;
@@ -136,16 +145,17 @@ $image-ratio: 430/920;
 					align-items: center;
 					align-content: space-around;
 					justify-content: space-around;
-					
+
 					> .app {
 						flex-shrink: 0;
 						border: solid 2px var(--color-preview-image-border);
 
 						margin: 0.75em;
 
-						width: calc(var(--preview-image-size) * #{$image-width-max});
-						height: calc(var(--preview-image-size) * #{$image-height-max});
-
+//						width: calc(var(--preview-image-size) * #{$image-width-max});
+//						height: calc(var(--preview-image-size) * #{$image-height-max});
+            width: calc(var(--preview-image-size) * var(--image-width-max));
+            height: calc(var(--preview-image-size) * var(--image-height-max));
 						background-repeat: no-repeat;
 						background-position: center center;
 						background-size: auto 75%;
@@ -180,7 +190,7 @@ $image-ratio: 430/920;
 							height: 100%;
 							display: grid;
 
-							grid-template-areas: 
+							grid-template-areas:
 								"icon appInfo"
 								"imageSelector imageSelector"
 								"bottomPanel bottomPanel";
@@ -202,7 +212,7 @@ $image-ratio: 430/920;
 								display: grid;
 								grid-area: appInfo;
 
-								grid-template-areas: 
+								grid-template-areas:
 									"title title"
 									"provider imageIndex";
 
@@ -214,12 +224,12 @@ $image-ratio: 430/920;
 									align-items: center;
 									grid-area: title;
 									overflow: hidden;
-	
+
 									padding: 0.1em;
-	
+
 									white-space: nowrap;
 									text-overflow: ellipsis;
-	
+
 									font-size: calc(var(--preview-image-size) * 3em);
 
 									color: var(--color-preview-text);
@@ -228,12 +238,12 @@ $image-ratio: 430/920;
 								> .provider {
 									grid-area: provider;
 									overflow: hidden;
-	
+
 									padding: 0.1em;
-	
+
 									white-space: nowrap;
 									text-overflow: ellipsis;
-	
+
 									font-size: calc(var(--preview-image-size) * 2em);
 
 									color: var(--color-preview-text);
@@ -291,19 +301,19 @@ $image-ratio: 430/920;
 
 								> .appButtons {
 									display: flex;
-									
+
 									justify-content: flex-end;
 									align-items: flex-end;
-	
+
 									--color-refresh-images: var(--color-preview-app-button);
 									--color-image-alert: var(--color-preview-app-button);
-	
+
 									--color-refresh-images-hover: var(--color-preview-app-button-hover);
 									--color-image-alert-hover: var(--color-preview-app-button-hover);
-	
+
 									--color-refresh-images-active: var(--color-preview-app-button-active);
 									--color-image-alert-active: var(--color-preview-app-button-active);
-	
+
 									> .button {
 										height: calc(var(--row-height) * 0.5);
 										padding: 0.2em;

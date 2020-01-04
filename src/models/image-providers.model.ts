@@ -4,27 +4,27 @@ import { FuzzyEventMap } from "./fuzzy.model";
 //Callback
 
 export interface ProviderImageData {
-    content: ImageContent
+  content: ImageContent
 }
 
 export interface ProviderErrorData {
-    title: string,
+  title: string,
     provider: ImageContent["imageProvider"],
     error: number | string,
     url?: string
 }
 
 export interface ProviderTimeoutData {
-    provider: ImageContent["imageProvider"],
+  provider: ImageContent["imageProvider"],
     time: number
 }
 
 export interface ProviderCompletedData {
-    title: string
+  title: string
 }
 
 export interface ProviderCallbackEventMap {
-    image: ProviderImageData,
+  image: ProviderImageData,
     error: ProviderErrorData,
     timeout: ProviderTimeoutData,
     completed: ProviderCompletedData
@@ -35,7 +35,7 @@ export type ProviderCallback = <K extends keyof ProviderCallbackEventMap>(event:
 //Send
 
 export interface ProviderId{
-    id: string,
+  id: string,
 }
 
 export interface ProviderPostImageData extends ProviderImageData, ProviderId {}
@@ -47,12 +47,12 @@ export interface ProviderPostTimeoutData extends ProviderTimeoutData, ProviderId
 export interface ProviderPostCompletedData extends ProviderCompletedData, ProviderId  {}
 
 export interface ProviderFuzzyEventData {
-    event: keyof FuzzyEventMap,
+  event: keyof FuzzyEventMap,
     data: FuzzyEventMap[keyof FuzzyEventMap]
 }
 
 export interface ProviderPostEventMap {
-    image: ProviderPostImageData,
+  image: ProviderPostImageData,
     error: ProviderPostErrorData,
     timeout: ProviderPostTimeoutData,
     fuzzyEvent: ProviderFuzzyEventData,
@@ -60,32 +60,33 @@ export interface ProviderPostEventMap {
 }
 
 export interface ProviderPostObject<K extends keyof ProviderPostEventMap> {
-    event: K,
-    data: ProviderPostEventMap[K]
+  event: K,
+  data: ProviderPostEventMap[K]
 };
 
 //Receive
 
 export interface ProviderFuzzyListData {
-    list: { totalGames: number, games: string[] }
+  list: { totalGames: number, games: string[] }
 }
 
 export interface ProviderRetrieveData extends ProviderId {
-    title: string
+  title: string,
+  imageType: string
 }
 
 export interface ProviderFilterData {
-    enable: boolean
+  enable: boolean
 }
 
 export interface ProviderReceiveEventMap {
-    fuzzyList: ProviderFuzzyListData,
-    retrieveUrls: ProviderRetrieveData,
-    toggleFiltering: ProviderFilterData
-    stopDownloads: null
+  fuzzyList: ProviderFuzzyListData,
+  retrieveUrls: ProviderRetrieveData,
+  toggleFiltering: ProviderFilterData
+  stopDownloads: null
 }
 
 export interface ProviderReceiveObject<K extends keyof ProviderReceiveEventMap> {
-    event: K,
-    data: ProviderReceiveEventMap[K]
+  event: K,
+  data: ProviderReceiveEventMap[K]
 };

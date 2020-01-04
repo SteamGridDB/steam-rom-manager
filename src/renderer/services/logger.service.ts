@@ -11,12 +11,12 @@ export class LoggerService {
     private logSettings: LogSettings;
 
     constructor(public datePipe: DatePipe) {
-        this.logSettings = { 
-            showErrors: true, 
-            showInfo: true, 
+        this.logSettings = {
+            showErrors: true,
+            showInfo: true,
             showSuccesses: true,
             showFuzzy: false,
-            autoscroll: false, 
+            autoscroll: false,
             textWrap: false,
             currentScrollValue: 0
         };

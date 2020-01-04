@@ -3,7 +3,8 @@ import { FuzzyListTimestamps } from "./fuzzy.model";
 export interface PreviewSettings {
     retrieveCurrentSteamImages: boolean,
     imageZoomPercentage: number,
-    preload: boolean
+    preload: boolean,
+    imageTypes: string[]
 }
 
 export interface AppSettings {

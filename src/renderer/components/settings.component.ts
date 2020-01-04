@@ -16,10 +16,10 @@ export class SettingsComponent implements OnDestroy {
     private availableProviders: string[];
     private availableLanguages: string[];
 
-    constructor(private settingsService: SettingsService, 
-        private fuzzyService: FuzzyService, 
-        private languageService: LanguageService, 
-        private imageProviderService: ImageProviderService, 
+    constructor(private settingsService: SettingsService,
+        private fuzzyService: FuzzyService,
+        private languageService: LanguageService,
+        private imageProviderService: ImageProviderService,
         private previewService: PreviewService,
         private cpService: ConfigurationPresetsService,
         private cvService: CustomVariablesService,
