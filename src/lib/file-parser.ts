@@ -11,6 +11,7 @@ import * as glob from 'glob';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as os from 'os';
+import * as ws from 'windows-shortcuts';
 
 export class FileParser {
   private availableParsers = parsers;
@@ -161,7 +162,12 @@ export class FileParser {
                   }
 
                   let executableLocation = configs[i].executableLocation ? configs[i].executableLocation : data[i].success[j].filePath;
-
+                  console.log(data[i].success[j].filePath);
+                  if(data[i].success[j].filePath.split('.').slice(-1)[0].toLowerCase()=='lnk') {
+                    ws.query(data[i].success[j].filepath, (res)=>{
+                      console.log(res);
+                    })
+                  }
                   parsedConfigs[i].files.push({
                     steamCategories: undefined,
                     executableLocation: executableLocation,
