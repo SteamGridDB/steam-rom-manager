@@ -391,6 +391,7 @@ export const EnglishLang: languageContainer = {
           tryToMatchTitle: 'Enabled',
           skipFileIfVariableWasNotFound: 'Skip file if variable was not found',
           caseInsensitiveVariables: 'Case-insensitive variables',
+          shortcut_passthrough: 'Follow .lnk to destination (Windows only)',
           fuzzy_use: 'Use fuzzy matching',
           fuzzy_removeCharacters: 'Aggressive matching',
           fuzzy_removeBrackets: 'Remove (...) and [...] brackets',

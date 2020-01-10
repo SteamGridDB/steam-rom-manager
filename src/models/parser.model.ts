@@ -33,6 +33,7 @@ export interface ParsedUserConfiguration {
     imageProviders: string[],
     steamDirectory: string,
     appendArgsToExecutable: boolean,
+    shortcutPassthrough: boolean,
     foundUserAccounts: userAccountData[],
     missingUserAccounts: string[],
     files: ParsedUserConfigurationFile[],

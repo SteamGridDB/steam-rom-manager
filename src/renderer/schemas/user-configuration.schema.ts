@@ -44,6 +44,7 @@ export const userConfiguration = {
     },
     executableArgs: { type: 'string', default: '' },
     appendArgsToExecutable: { type: 'boolean', default: true },
+    shortcutPassthrough: {type: 'boolean', default: false },
     imagePool: { type: 'string', default: '${fuzzyTitle}' },
     defaultImage: { type: 'string', default: '' },
     defaultTallImage: { type: 'string', default: '' },

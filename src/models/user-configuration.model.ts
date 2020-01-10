@@ -30,6 +30,7 @@ export interface UserConfiguration {
     executableArgs: string,
     imagePool: string,
     appendArgsToExecutable: boolean,
+    shortcutPassthrough: boolean,
     defaultImage: string,
     defaultTallImage: string,
     defaultHeroImage: string,
