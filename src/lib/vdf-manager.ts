@@ -154,6 +154,9 @@ export class VDF_Manager {
             if (currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
               listItem.screenshots.addItem({ appId: appId, title: app.title, url: currentImage.imageUrl });
             }
+            if (currentImage !== undefined) {
+              listItem.screenshots.addItem({ appId: ids.shortenAppId(appId), title: app.title, url: currentImage.imageUrl });
+            }
 
             if (currentTallImage !== undefined && currentTallImage.imageProvider !== 'Steam') {
               listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('p'), title: app.title, url: currentTallImage.imageUrl })
@@ -169,6 +172,7 @@ export class VDF_Manager {
             listItem.shortcuts.removeItem(appId);
             listItem.addedItems.removeItem(appId);
             listItem.screenshots.removeItem(appId);
+            listItem.screenshots.removeItem(ids.shortenAppId(appId));
             listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('p'));
             listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_hero'));
 
