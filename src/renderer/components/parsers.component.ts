@@ -218,6 +218,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             children: parserInputs
           });
         })(),
+
         titleFromVariable: new NestedFormElement.Group({
           isHidden: () => this.isHiddenMode(),
           label: this.lang.label.titleFromVariable,
@@ -225,6 +226,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             limitToGroups: new NestedFormElement.Input({
               highlight: this.highlight.bind(this),
               onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value)
+            }),
+            shortcutPassthrough: new NestedFormElement.Toggle({
+              text: this.lang.text.shortcut_passthrough
             }),
             caseInsensitiveVariables: new NestedFormElement.Toggle({
               text: this.lang.text.caseInsensitiveVariables

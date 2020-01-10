@@ -316,6 +316,7 @@ export interface languageStruct {
               fuzzy_removeBrackets: string,
               fuzzy_replaceDiacritic: string,
               appendArgsToExecutable: string,
+              shortcut_passthrough: string,
               disabled: string,
               advanced: string,
               noTitle: string
