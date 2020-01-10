@@ -4788,7 +4788,7 @@
       "glob-regex": null
     },
     "titleFromVariable": {
-      "shortcutPassthough": false,
+      "shortcutPassthrough": false,
       "limitToGroups": "${PS3}",
       "caseInsensitiveVariables": false,
       "skipFileIfVariableWasNotFound": false,
