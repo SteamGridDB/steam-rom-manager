@@ -310,7 +310,9 @@ export class FileParser {
                   if(parsedConfigs[i].shortcutPassthrough) {
                     for(let j=0; j < parsedConfigs[i].files.length; j++) {
                       if(parsedConfigs[i].files[j].filePath.split('.').slice(-1)[0].toLowerCase()=='lnk') {
+                        console.log('adding a lnk promise');
                         shortcutPromises.push(getPath(parsedConfigs[i].files[j].filePath).then((actualPath: string)=>{
+                          console.log(actualPath);
                           parsedConfigs[i].files[j].filePath = actualPath;
                         }))
                       }
