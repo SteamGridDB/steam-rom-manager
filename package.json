@@ -110,7 +110,7 @@
     "steamgriddb": "https://github.com/cbartondock/node-steamgriddb.git",
     "to-css": "^1.2.1",
     "unknown-ts": "^0.1.0",
-    "windows-shortcuts-ps": "https://github.com/felixrieseberg/windows-shortcuts-ps.git",
+    "windows-shortcuts-ps": "https://github.com/cbartondock/windows-shortcuts-ps.git",
     "zone.js": "^0.8.20"
   },
   "devDependencies": {
