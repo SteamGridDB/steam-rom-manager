@@ -303,17 +303,14 @@ export class FileParser {
               }
               return Promise.all(localImagePromises).then(() => Promise.all(localTallImagePromises)).then(()=> Promise.all(localHeroImagePromises)).then(() => Promise.all(localIconPromises)).then(() => Promise.all(defaultImagePromises)).then(() => Promise.all(defaultTallImagePromises)).then(()=>Promise.all(defaultHeroImagePromises));
             }).then(() => {
-              console.log(parsedConfigs);
               let shortcutPromises: Promise<void>[] = [];
               if(os.type()=='Windows_NT') {
                 for(let i=0; i < parsedConfigs.length; i++) {
                   if(parsedConfigs[i].shortcutPassthrough) {
                     for(let j=0; j < parsedConfigs[i].files.length; j++) {
                       if(parsedConfigs[i].files[j].filePath.split('.').slice(-1)[0].toLowerCase()=='lnk') {
-                        console.log('adding a lnk promise');
                         shortcutPromises.push(getPath(parsedConfigs[i].files[j].filePath).then((actualPath: string)=>{
-                          console.log(actualPath);
-                          parsedConfigs[i].files[j].filePath = actualPath;
+                          parsedConfigs[i].files[j].modifiedExecutableLocation = actualPath;
                         }))
                       }
                     }
