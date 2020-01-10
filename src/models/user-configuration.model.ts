@@ -14,6 +14,7 @@ export interface UserConfiguration {
     },
     parserInputs: { [inputKey: string]: string },
     titleFromVariable: {
+        shortcutPassthrough: boolean,
         limitToGroups: string,
         skipFileIfVariableWasNotFound: boolean,
         caseInsensitiveVariables: boolean,
@@ -30,7 +31,6 @@ export interface UserConfiguration {
     executableArgs: string,
     imagePool: string,
     appendArgsToExecutable: boolean,
-    shortcutPassthrough: boolean,
     defaultImage: string,
     defaultTallImage: string,
     defaultHeroImage: string,
