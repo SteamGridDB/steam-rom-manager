@@ -310,7 +310,8 @@ export class FileParser {
                     for(let j=0; j < parsedConfigs[i].files.length; j++) {
                       if(parsedConfigs[i].files[j].filePath.split('.').slice(-1)[0].toLowerCase()=='lnk') {
                         shortcutPromises.push(getPath(parsedConfigs[i].files[j].filePath).then((actualPath: string)=>{
-                          parsedConfigs[i].files[j].modifiedExecutableLocation = "\"".concat(actualPath,"\"");
+                        parsedConfigs[i].files[j].modifiedExecutableLocation = "\"".concat(actualPath,"\"");
+                        parsedConfigs[i].files[j].startInDirectory = path.dirname(actualPath);
                         }))
                       }
                     }
