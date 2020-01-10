@@ -917,6 +917,7 @@
       "glob-regex": null
     },
     "titleFromVariable": {
+      "shortcutPassthrough": false,
       "limitToGroups": "${MAME}",
       "caseInsensitiveVariables": false,
       "skipFileIfVariableWasNotFound": false,
