@@ -163,46 +163,34 @@ export class FileParser {
                   }
 
                   let executableLocation = configs[i].executableLocation ? configs[i].executableLocation : data[i].success[j].filePath;
-                  console.log(data[i].success[j].filePath);
-                  let pathPromise = new Promise<string>((resolve, reject)=>{
-                    if(os.type()=="Windows_NT" && configs[i].shortcutPassthrough && data[i].success[j].filePath.split('.').slice(-1)[0].toLowerCase()=='lnk') {
-                      getPath(data[i].success[j].filePath).then((actualPath: string) => {
-                        resolve(actualPath);
-                      })
-                    } else {
-                      resolve(data[i].success[j].filePath);
-                    }
+                  parsedConfigs[i].files.push({
+                    steamCategories: undefined,
+                    executableLocation: executableLocation,
+                    modifiedExecutableLocation: undefined,
+                    startInDirectory: configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation),
+                    argumentString: undefined,
+                    resolvedLocalImages: [],
+                    resolvedLocalTallImages: [],
+                    resolvedLocalHeroImages: [],
+                    resolvedDefaultImages: [],
+                    resolvedDefaultTallImages: [],
+                    resolvedDefaultHeroImages: [],
+                    defaultImage: undefined,
+                    defaultTallImage: undefined,
+                    defaultHeroImage: undefined,
+                    localImages: [],
+                    localTallImages: [],
+                    localHeroImages: [],
+                    resolvedLocalIcons: [],
+                    localIcons: [],
+                    fuzzyTitle: fuzzyTitle,
+                    extractedTitle: data[i].success[j].extractedTitle,
+                    finalTitle: undefined,
+                    filePath: data[i].success[j].filePath,
+                    imagePool: undefined,
+                    onlineImageQueries: undefined
                   });
-                  pathPromise.then((resolvedFilePath)=>{
-                    parsedConfigs[i].files.push({
-                      steamCategories: undefined,
-                      executableLocation: executableLocation,
-                      modifiedExecutableLocation: undefined,
-                      startInDirectory: configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation),
-                      argumentString: undefined,
-                      resolvedLocalImages: [],
-                      resolvedLocalTallImages: [],
-                      resolvedLocalHeroImages: [],
-                      resolvedDefaultImages: [],
-                      resolvedDefaultTallImages: [],
-                      resolvedDefaultHeroImages: [],
-                      defaultImage: undefined,
-                      defaultTallImage: undefined,
-                      defaultHeroImage: undefined,
-                      localImages: [],
-                      localTallImages: [],
-                      localHeroImages: [],
-                      resolvedLocalIcons: [],
-                      localIcons: [],
-                      fuzzyTitle: fuzzyTitle,
-                      extractedTitle: data[i].success[j].extractedTitle,
-                      finalTitle: undefined,
-                      filePath: data[i].success[j].filePath,
-                      imagePool: undefined,
-                      onlineImageQueries: undefined
-                    });
 
-                  })
 
                   let lastFile = parsedConfigs[i].files[parsedConfigs[i].files.length - 1];
                   let variableData = this.makeVariableData(configs[i], lastFile);
@@ -315,7 +303,24 @@ export class FileParser {
               }
               return Promise.all(localImagePromises).then(() => Promise.all(localTallImagePromises)).then(()=> Promise.all(localHeroImagePromises)).then(() => Promise.all(localIconPromises)).then(() => Promise.all(defaultImagePromises)).then(() => Promise.all(defaultTallImagePromises)).then(()=>Promise.all(defaultHeroImagePromises));
             }).then(() => {
-              return { parsedConfigs, noUserAccounts: totalUserAccountsFound === 0 };
+              console.log(parsedConfigs);
+              let shortcutPromises: Promise<void>[] = [];
+              if(os.type()=='Windows_NT') {
+                for(let i=0; i < parsedConfigs.length; i++) {
+                  if(parsedConfigs[i].shortcutPassthrough) {
+                    for(let j=0; j < parsedConfigs[i].files.length; j++) {
+                      if(parsedConfigs[i].files[j].filePath.split('.').slice(-1)[0].toLowerCase()=='lnk') {
+                        shortcutPromises.push(getPath(parsedConfigs[i].files[j].filePath).then((actualPath: string)=>{
+                          parsedConfigs[i].files[j].filePath = actualPath;
+                        }))
+                      }
+                    }
+                  }
+                }
+              }
+              return Promise.all(shortcutPromises).then(()=>{
+                return { parsedConfigs, noUserAccounts: totalUserAccountsFound === 0 };
+              })
             });
           }
 
