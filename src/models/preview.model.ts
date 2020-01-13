@@ -41,6 +41,7 @@ export interface PreviewDataApp {
     icons: string[],
     tallimages: PreviewDataAppImage,
     heroimages: PreviewDataAppImage,
+    logoimages: PreviewDataAppImage,
     images: PreviewDataAppImage
 }
 

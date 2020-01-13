@@ -1,6 +1,6 @@
-# Local images (optional) `[supports variables]`{.noWrap}
+# Local Logo images (optional) `[supports variables]`{.noWrap}
 
-Allows one to use images stored locally. A [special glob input](#special-glob-input) string is used to retrieve images. 
+Allows one to use Logo images stored locally. A [special glob input](#special-glob-input) string is used to retrieve images. 
 
 ## Allowed image extensions
 

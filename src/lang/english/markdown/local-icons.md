@@ -1,6 +1,6 @@
 # Local icons (optional) `[supports variables]`{.noWrap}
 
-Allows to set icons stored locally. A [special glob input](#special-glob-input) string is used to retrieve images.
+Allows one to set icons stored locally. A [special glob input](#special-glob-input) string is used to retrieve images.
 
 ## Preview shows some kind of eye icon
 

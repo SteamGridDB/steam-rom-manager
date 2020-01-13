@@ -1,6 +1,6 @@
 # Local Hero images (optional) `[supports variables]`{.noWrap}
 
-Allows to use hero images stored locally. A [special glob input](#special-glob-input) string is used to retrieve images. 
+Allows one to use hero images stored locally. A [special glob input](#special-glob-input) string is used to retrieve images. 
 
 ## Allowed image extensions
 
