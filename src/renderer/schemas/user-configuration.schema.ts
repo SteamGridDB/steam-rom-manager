@@ -49,9 +49,11 @@ export const userConfiguration = {
     defaultImage: { type: 'string', default: '' },
     defaultTallImage: { type: 'string', default: '' },
     defaultHeroImage: { type: 'string', default: '' },
+    defaultLogoImage: { type: 'string', default: '' },
     localImages: { type: 'string', default: '' },
     localTallImages: { type: 'string', default: '' },
     localHeroImages: { type: 'string', default: '' },
+    localLogoImages: { type: 'string', default: '' },
     localIcons: { type: 'string', default: '' },
     onlineImageQueries: { type: 'string', default: '${${fuzzyTitle}}' },
     imageProviders: {

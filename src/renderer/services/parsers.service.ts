@@ -213,9 +213,11 @@ export class ParsersService {
       case 'defaultImage':
       case 'defaultTallImage':
       case 'defaultHeroImage':
+      case 'defaultLogoImage':
       case 'localImages':
       case 'localTallImages':
       case 'localHeroImages':
+      case 'localLogoImages':
       case 'localIcons':
         return this.fileParser.validateFieldGlob(data || '');
       default:
@@ -254,7 +256,7 @@ export class ParsersService {
       'steamDirectory', 'startInDirectory', 'specifiedAccounts',
       'titleFromVariable', 'titleModifier', 'executableArgs',
       'onlineImageQueries', 'imagePool', 'imageProviders',
-      'defaultImage','defaultTallImage','defaultHeroImage','localImages', 'localTallImages','localHeroImages','localIcons'
+      'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
     ];
 
     for (let i = 0; i < simpleValidations.length; i++) {

@@ -352,6 +352,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.defaultHeroImage.join('');
           }
         }),
+        defaultLogoImage: new NestedFormElement.Input({
+          isHidden: () => this.isHiddenMode(),
+          highlight: this.highlight.bind(this),
+          label: this.lang.label.defaultLogoImage,
+          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+          onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content = this.lang.docs__md.defaultLogoImage.join('');
+          }
+        }),
         localImages: new NestedFormElement.Input({
           isHidden: () => this.isHiddenMode(),
           highlight: this.highlight.bind(this),
@@ -380,6 +390,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
             this.currentDoc.content = this.lang.docs__md.localHeroImages.join('');
+          }
+        }),
+        localLogoImages: new NestedFormElement.Input({
+          isHidden: () => this.isHiddenMode(),
+          highlight: this.highlight.bind(this),
+          label: this.lang.label.localLogoImages,
+          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+          onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content = this.lang.docs__md.localLogoImages.join('');
           }
         }),
 
@@ -714,6 +734,19 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }));
               }
             }
+            if (data.files[i].resolvedDefaultLogoImages.length) {
+              success(this.lang.success.resolvedDefaultLogoImageGlob__i.interpolate({
+                index: i + 1,
+                total: totalLength
+              }));
+              for (let j = 0; j < data.files[i].resolvedDefaultLogoImages.length; j++) {
+                success(this.lang.success.resolvedImageGlobInfo__i.interpolate({
+                  index: i + 1,
+                  total: totalLength,
+                  glob: data.files[i].resolvedDefaultLogoImages[j]
+                }));
+              }
+            }
 
             if (data.files[i].defaultImage !== undefined) {
               success(this.lang.success.defaultImageResolved__i.interpolate({
@@ -736,6 +769,14 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 image: data.files[i].defaultHeroImage
               }));
             }
+            if (data.files[i].defaultLogoImage !== undefined) {
+              success(this.lang.success.defaultLogoImageResolved__i.interpolate({
+                index: i+1,
+                total: totalLength,
+                image: data.files[i].defaultLogoImage
+              }));
+            }
+
 
             if (data.files[i].resolvedLocalImages.length) {
               success(this.lang.success.resolvedImageGlob__i.interpolate({
@@ -812,6 +853,32 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                   index: i + 1,
                   total: totalLength,
                   image: data.files[i].localHeroImages[j]
+                }));
+              }
+            }
+            if (data.files[i].resolvedLocalLogoImages.length) {
+              success(this.lang.success.resolvedLogoImageGlob__i.interpolate({
+                index: i + 1,
+                total: totalLength
+              }));
+              for (let j = 0; j < data.files[i].resolvedLocalLogoImages.length; j++) {
+                success(this.lang.success.resolvedLogoImageGlobInfo__i.interpolate({
+                  index: i + 1,
+                  total: totalLength,
+                  glob: data.files[i].resolvedLocalLogoImages[j]
+                }));
+              }
+            }
+            if (data.files[i].localLogoImages.length) {
+              success(this.lang.success.localLogoImagesResolved__i.interpolate({
+                index: i + 1,
+                total: totalLength
+              }));
+              for (let j = 0; j < data.files[i].localLogoImages.length; j++) {
+                success(this.lang.success.localLogoImageInfo__i.interpolate({
+                  index: i + 1,
+                  total: totalLength,
+                  image: data.files[i].localLogoImages[j]
                 }));
               }
             }

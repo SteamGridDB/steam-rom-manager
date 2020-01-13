@@ -43,9 +43,7 @@ export class PreviewComponent implements OnDestroy {
   preloadImages() {
     this.previewService.preloadImages();
   }
-
-  ngAfterContentInit() {
-    this.setImageSize(this.appSettings.previewSettings.imageZoomPercentage);
+  setImageBoxSizes() {
     if(this.previewService.getImageType()=='long') {
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '920px', RendererStyleFlags2.DashCase);
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '430px', RendererStyleFlags2.DashCase);
@@ -55,7 +53,15 @@ export class PreviewComponent implements OnDestroy {
     } else if(this.previewService.getImageType()=='hero') {
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '910px', RendererStyleFlags2.DashCase);
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '296px', RendererStyleFlags2.DashCase);
+    } else if(this.previewService.getImageType()=='logo') {
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '960px', RendererStyleFlags2.DashCase);
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '540px', RendererStyleFlags2.DashCase);
     }
+  }
+
+  ngAfterContentInit() {
+    this.setImageSize(this.appSettings.previewSettings.imageZoomPercentage);
+    this.setImageBoxSizes();
   }
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
@@ -63,16 +69,7 @@ export class PreviewComponent implements OnDestroy {
 
   private setImageType(imageType: string) {
     this.previewService.setImageType(imageType);
-    if(imageType=='long') {
-      this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '920px', RendererStyleFlags2.DashCase);
-      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '430px', RendererStyleFlags2.DashCase);
-    } else if(imageType=='tall') {
-      this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '600px', RendererStyleFlags2.DashCase);
-      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '900px', RendererStyleFlags2.DashCase);
-    } else if(imageType=='hero') {
-      this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '910px', RendererStyleFlags2.DashCase);
-      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '296px', RendererStyleFlags2.DashCase);
-    }
+    this.setImageBoxSizes();
   }
   private getImagePool(poolKey: string) {
     return this.previewService.images[poolKey];
@@ -85,6 +82,8 @@ export class PreviewComponent implements OnDestroy {
       return app.tallimages;
     } else if (this.previewService.getImageType() === 'hero') {
       return app.heroimages;
+    } else if (this.previewService.getImageType() === 'logo') {
+      return app.logoimages;
     }
   }
 
@@ -101,6 +100,8 @@ export class PreviewComponent implements OnDestroy {
         imagepool = app.tallimages.imagePool;
       } else if (this.previewService.getImageType()==='hero') {
         imagepool = app.heroimages.imagePool;
+      } else if (this.previewService.getImageType()==='logo') {
+        imagepool = app.logoimages.imagePool;
       }
       if (this.previewService.images[imagepool].retrieving)
         return require('../../assets/images/retrieving-images.svg');
@@ -136,6 +137,8 @@ export class PreviewComponent implements OnDestroy {
       return app.tallimages.imageIndex + 1;
     } else if (this.previewService.getImageType() === 'hero') {
       return app.heroimages.imageIndex + 1;
+    } else if (this.previewService.getImageType() === 'logo') {
+      return app.logoimages.imageIndex +1;
     }
 
   }
@@ -171,6 +174,12 @@ export class PreviewComponent implements OnDestroy {
                 imageUrl,
                 loadStatus: 'done'
               }, 'hero');
+            } else if (this.previewService.getImageType() === 'logo') {
+              this.previewService.addUniqueImage(app.logoimages.imagePool, {
+                imageProvider: 'LocalStorage',
+                imageUrl,
+                loadStatus: 'done'
+              }, 'logo');
             }
           }
         }
@@ -209,6 +218,7 @@ export class PreviewComponent implements OnDestroy {
     this.previewService.downloadImageUrls('long',[app.images.imagePool], app.imageProviders);
     this.previewService.downloadImageUrls('tall',[app.tallimages.imagePool], app.imageProviders);
     this.previewService.downloadImageUrls('hero',[app.heroimages.imagePool], app.imageProviders);
+    this.previewService.downloadImageUrls('logo',[app.logoimages.imagePool], app.imageProviders);
   }
 
   private previousImage(app: PreviewDataApp) {
@@ -218,6 +228,8 @@ export class PreviewComponent implements OnDestroy {
       this.previewService.setImageIndex(app, app.tallimages.imageIndex - 1);
     } else if (this.previewService.getImageType() === 'hero') {
       this.previewService.setImageIndex(app, app.heroimages.imageIndex -1);
+    } else if (this.previewService.getImageType() === 'logo') {
+      this.previewService.setImageIndex(app, app.logoimages.imageIndex -1);
     }
 
   }
@@ -229,6 +241,8 @@ export class PreviewComponent implements OnDestroy {
       this.previewService.setImageIndex(app, app.tallimages.imageIndex + 1);
     } else if (this.previewService.getImageType() === 'hero') {
       this.previewService.setImageIndex(app, app.heroimages.imageIndex + 1);
+    } else if (this.previewService.getImageType() === 'logo') {
+      this.previewService.setImageIndex(app, app.logoimages.imageIndex + 1);
     }
   }
 

@@ -12,6 +12,7 @@ export interface ParsedUserConfigurationFile {
     resolvedLocalImages: string[],
     resolvedLocalTallImages: string[],
     resolvedLocalHeroImages: string[],
+    resolvedLocalLogoImages: string[],
     resolvedLocalIcons: string[],
     onlineImageQueries: string[],
     steamCategories: string[],
@@ -19,12 +20,15 @@ export interface ParsedUserConfigurationFile {
     resolvedDefaultImages: string[],
     resolvedDefaultTallImages: string[],
     resolvedDefaultHeroImages: string[],
+    resolvedDefaultLogoImages: string[],
     defaultImage: string,
     defaultTallImage: string,
     defaultHeroImage: string,
+    defaultLogoImage: string,
     localImages: string[],
     localTallImages: string[],
     localHeroImages: string[],
+    localLogoImages: string[],
     localIcons: string[]
 }
 

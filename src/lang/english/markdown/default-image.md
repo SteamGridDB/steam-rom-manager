@@ -1,6 +1,6 @@
 # Default image (optional) `[supports variables]`{.noWrap}
 
-Allows to use image, stored locally, as a default/fallback image. A [special glob input](#special-glob-input) string is used to retrieve images. Only the first retrieved image is used.
+Allows one to use an image, stored locally, as a default/fallback image. A [special glob input](#special-glob-input) string is used to retrieve images. Only the first retrieved image is used.
 
 This image will be shown **only** if there are no other images available. If Steam image is available, you will be able to choose from Steam and this image.
 

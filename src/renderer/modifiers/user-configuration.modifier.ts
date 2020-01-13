@@ -19,6 +19,7 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
       'localImages': { method: replaceVariables_undefined },
       'localTallImages': { method: replaceVariables_undefined },
       'localHeroImages': { method: replaceVariables_undefined },
+      'localLogoImages': { method: replaceVariables_undefined },
       'localIcons': { method: replaceVariables_undefined }
     },
     0: {
