@@ -69,14 +69,3 @@ branches:
 notifications:
   email:
     on_success: never
-
-deploy:
-  provider: releases
-  api_key:
-    secure: UxzfZdPjVMAgWbB1g5Z66Sc3ApyKmPRW6HqkXEHMd7sljhOWaNUIXZ8FCoXlgJEQi38GaivaW/FDUhGFfQpzTtPVEbMzHlGMzIPsLtq2yeWqOgnp31eIlLAawfQWCA2mhTzeN5WjrmbHuwDVY2QWEaqiYq1wNc1XIFw2jBW04Yzis9lyPPlE31mbGW+zC1BGp++8ANVQl7IzsvWi48P/T2Ki7RqG4ZjcaG8ADdii2wT5wGvliN54B5/nHzF/Bh75nQEL6Iab2/tEIlpCqD3ESpN0viqMT+ytg2bII4WIJw3097WVJBfc24+CfmE42wSIxWmCuQ5iTOOb2r3MI07iEpDvoEJE+CHAt5S6bekiEX+4O2+FCxew2GtrRR53Ogt21U4i5VZnJuF/ZHlYIE8gAiR6RryS2tTR1SCAJI02hrSSi1w0aR3NtsllvJ3Cc+Jo0oKLPrbsP5CKZxQ3MawkgfRi3URBvqiYHU17dHbeEzrNzgKfqB9WZTEY/4hetUeAHckid4nuYkEuhYM37he1Q4MIEVJ6uvXKQ+Ggu/fj4U2ulYi6upl19CMTX+Y4Vkmsesu2cgSCcMaOlyIOe6uqGQPZVn7xPUAlj0lRzE486JJZrGHVwxFS/VHiAyAVVRB5iFRieqMhhQpF9wBF9uUNPGZdRHambbbKC3o4onDk/P0=
-  file_glob: true
-  file: release/[Ss]team[_- .][Rr][Oo][Mm][_- .][Mm]anager!(*.blockmap)
-  skip_cleanup: true
-  draft: true
-  on:
-    tags: true

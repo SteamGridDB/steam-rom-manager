@@ -44,11 +44,14 @@
       "dist/**/*",
       "package.json",
       "!node_modules/leveldown/{build,deps}/**"
-    ]
+    ],
+    "publish": {
+      "provider": "github"
+    }
   },
   "main": "./dist/main.bundle.js",
   "repository": {
-    "url": "https://github.com/FrogTheFrog/steam-rom-manager"
+    "url": "https://github.com/doZennn/steam-rom-manager"
   },
   "scripts": {
     "rebuild": "electron-rebuild",
