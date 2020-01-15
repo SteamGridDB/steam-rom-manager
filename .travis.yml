@@ -69,3 +69,14 @@ branches:
 notifications:
   email:
     on_success: never
+
+deploy:
+  provider: releases
+  api_key:
+    secure: efi7NIzXm0/eh8iHPXT2FhnQ5Lsro3iw/p9fzViv9HXsS8wBcP3U2cNbo5e7aZG4Yb4LerzFgz9khmKsCbJ1cYoZ5hgAaehXGcKRT/I9KJJ6a3mWmNjJ3ru2NYL8lgrYfIQmaAAB0qIV5pDq0tFDbFdXIO+tSK0jJDeFoda/I7XR0lrrn2O4PEhy9YB/4S8elE+e+ppaeMjshvXcbYi29K4b1LdfSvd/xDVa5STt8eTVwze9vTzErGSiZD6x5B5X4eg1ABv630THUP1zClI9tI4B/XIF0EsvfWBoXZbSFPbCfoWL9jZLfwoqUV9yyiryHspgekoJSz3yzdP96xAcfgSPuL8mkBy7PB4qTPvp3ASbdPPgHhw7EVjprAhHVQH4GDkZNqNxtPFSiOjCJM2FveF5CkFpqRBrOC/J2PzAn5N+usEQBLYzVsunfMvYs1Wgtk8CWGk2/DgMJi4fQEdWknNPxyUc92MWar0dHLGfcYqpv7Midj5v14opvBxw9XPtcPA46/F971BxkyZyjImk8WObN2WqiwyDlweq8VBFVy+kIohLhcvHEMmmb6ZVFZoFDbOaFmKIfokLPwWXsi1uGjH7SXbChbzggmmYFRkvAHqsJ5tk3xCPMOABPlqiBjSLrhzbXJzG3Rzd43Xr6oTxEV9x5wP0LmSWR9SXPZppzYU=
+  file_glob: true
+  file: release/Steam ROM Manager!(*.blockmap)
+  skip_cleanup: true
+  draft: true
+  on:
+    tags: true
