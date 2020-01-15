@@ -46,7 +46,8 @@
       "!node_modules/leveldown/{build,deps}/**"
     ],
     "publish": {
-      "provider": "github"
+      "provider": "github",
+      "owner": "doZennn"
     }
   },
   "main": "./dist/main.bundle.js",
@@ -65,7 +66,7 @@
     "build:dist": "rimraf dist && npm run build:main && npm run build:renderer",
     "build:win": "electron-builder --win --ia32 --x64",
     "build:linux": "electron-builder --linux --ia32 --x64",
-    "build:docker": "electron-builder --linux --win --ia32 --x64",
+    "build:docker": "electron-builder --linux --win --ia32 --x64 --publish onTagOrDraft",
     "build:mac": "electron-builder --mac --ia32 --x64"
   },
   "dependencies": {
