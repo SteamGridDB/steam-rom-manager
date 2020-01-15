@@ -20,7 +20,11 @@ import * as ids from '../../lib/helpers/steam';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as path from "path";
-
+/*import * as CalipersFactory from 'calipers';
+import * as calipers_png from 'calipers-png';
+import * as calipers_jpeg from 'calipers-jpeg';
+var Calipers = CalipersFactory(calipers_png,calipers_jpeg);*/
+import * as probe from 'probe-image-size';
 @Injectable()
 export class PreviewService {
   private appSettings: AppSettings;
@@ -713,32 +717,51 @@ export class PreviewService {
             }
 
             for (let l = 0; l < file.localImages.length; l++) {
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localImages[l],
-                loadStatus: 'done'
-              },'long');
+              probe(fs.createReadStream(file.localImages[l].split(":")[1])).then((result: any)=>{
+                this.addUniqueImage(file.imagePool, {
+                  imageProvider: 'LocalStorage',
+                  imageUrl: file.localImages[l],
+                  imageRes: `${result.width}x${result.height}`,
+                  loadStatus: 'done'
+                },'long')
+              })
+
             }
             for (let l = 0; l < file.localTallImages.length; l++) {
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localTallImages[l],
-                loadStatus: 'done'
-              },'tall')
+              probe(fs.createReadStream(file.localTallImages[l].split(":")[1])).then((result)=>{
+                this.addUniqueImage(file.imagePool, {
+                  imageProvider: 'LocalStorage',
+                  imageUrl: file.localTallImages[l],
+                  imageRes: `${result.width}x${result.height}`,
+                  loadStatus: 'done'
+                },'tall')
+
+              })
             }
             for (let l = 0; l < file.localHeroImages.length; l++) {
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localHeroImages[l],
-                loadStatus: 'done'
-              },'hero')
+
+              probe(fs.createReadStream(file.localHeroImages[l].split(":")[1])).then((result)=>{
+                this.addUniqueImage(file.imagePool, {
+                  imageProvider: 'LocalStorage',
+                  imageUrl: file.localHeroImages[l],
+                  imageRes: `${result.width}x${result.height}`,
+                  loadStatus: 'done'
+                },'hero')
+
+              })
             }
             for (let l = 0; l < file.localLogoImages.length; l++) {
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localLogoImages[l],
-                loadStatus: 'done'
-              },'logo')
+
+              probe(fs.createReadStream(file.localLogoImages[l].split(":")[1])).then((result)=>{
+                this.addUniqueImage(file.imagePool, {
+                  imageProvider: 'LocalStorage',
+                  imageUrl: file.localLogoImages[l],
+                  imageRes: `${result.width}x${result.height}`,
+                  loadStatus: 'done'
+                },'logo')
+
+              })
+
             }
 
           }
