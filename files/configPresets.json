@@ -774,7 +774,7 @@
     "steamDirectory": "path-to-Steam-directory",
     "startInDirectory": "",
     "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "-conf ${filepath}${/}dosbox_${title}.conf -conf ${filePath}${/}dosbox_${title}_single.conf -noconsole -c exit",
+    "executableArgs": "-conf ${romDir}${/}${title}${/}dosbox_${title}.conf -conf ${romDir}${/}${title}${/}dosbox_${title}_single.conf -noconsole -c exit",
     "appendArgsToExecutable": true,
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
