@@ -5,6 +5,7 @@ export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'faile
 export interface ImageContent {
     imageProvider: 'SteamGridDB' | 'retrogaming.cloud' | 'ConsoleGrid' | 'Steam' | 'LocalStorage',
     imageUploader?: string,
+    imageRes?: string,
     imageUrl: string,
     loadStatus: ImageDownloadStatus
 };

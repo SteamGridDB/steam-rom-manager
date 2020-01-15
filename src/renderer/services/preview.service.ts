@@ -239,7 +239,9 @@ export class PreviewService {
 
         let imageLoader = new Image();
         imageLoader.onload = () => {
+          console.log(this)
           image.loadStatus = 'done';
+          image.imageRes = `${imageLoader.width}x${imageLoader.height}`
           this.previewDataChanged.next();
         };
         imageLoader.onerror = () => {
@@ -263,6 +265,7 @@ export class PreviewService {
       let imageLoader = new Image();
       imageLoader.onload = () => {
         image.loadStatus = 'done';
+        image.imageRes = `${imageLoader.width}x${imageLoader.height}`;
         this.previewDataChanged.next();
       };
       imageLoader.onerror = () => {

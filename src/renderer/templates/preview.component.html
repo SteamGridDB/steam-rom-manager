@@ -46,7 +46,7 @@
                           <div class="title" text-scroll><span>{{app.title}}</span></div>
                           <ng-container *ngIf="image != null">
                             <div class="provider" text-scroll>
-                              {{image.imageProvider + (image.imageUploader ? ' (' + lang.by + ' ' + image.imageUploader + ')' : '')}}
+                              {{image.imageProvider + (image.imageUploader ? ' (' + lang.by + ' ' + image.imageUploader + ')' : '') + (image.imageRes ? '['+image.imageRes+']':'')  }}
                             </div>
                             <div class="imageIndex">
                               {{currentImageIndex(app) + '/' + maxImageIndex(app)}}
