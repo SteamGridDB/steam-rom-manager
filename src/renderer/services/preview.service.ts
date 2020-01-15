@@ -728,7 +728,7 @@ export class PreviewService {
 
             }
             for (let l = 0; l < file.localTallImages.length; l++) {
-              probe(fs.createReadStream(file.localTallImages[l].split(":")[1])).then((result)=>{
+              probe(fs.createReadStream(file.localTallImages[l].split(":")[1])).then((result: any)=>{
                 this.addUniqueImage(file.imagePool, {
                   imageProvider: 'LocalStorage',
                   imageUrl: file.localTallImages[l],
@@ -740,7 +740,7 @@ export class PreviewService {
             }
             for (let l = 0; l < file.localHeroImages.length; l++) {
 
-              probe(fs.createReadStream(file.localHeroImages[l].split(":")[1])).then((result)=>{
+              probe(fs.createReadStream(file.localHeroImages[l].split(":")[1])).then((result: any)=>{
                 this.addUniqueImage(file.imagePool, {
                   imageProvider: 'LocalStorage',
                   imageUrl: file.localHeroImages[l],
@@ -752,7 +752,7 @@ export class PreviewService {
             }
             for (let l = 0; l < file.localLogoImages.length; l++) {
 
-              probe(fs.createReadStream(file.localLogoImages[l].split(":")[1])).then((result)=>{
+              probe(fs.createReadStream(file.localLogoImages[l].split(":")[1])).then((result: any)=>{
                 this.addUniqueImage(file.imagePool, {
                   imageProvider: 'LocalStorage',
                   imageUrl: file.localLogoImages[l],
