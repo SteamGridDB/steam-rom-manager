@@ -20,7 +20,6 @@ import * as ids from '../../lib/helpers/steam';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as path from "path";
-import * as probe from 'probe-image-size';
 @Injectable()
 export class PreviewService {
   private appSettings: AppSettings;
@@ -650,13 +649,13 @@ export class PreviewService {
                   steam: steamImage ? {
                     imageProvider: 'Steam',
                     imageUrl: steamImageUrl,
-                    imageRes: ((result: any)=>`${result.width}x${result.height}`)(probe.sync(fs.readFileSync(decodeURIComponent(steamImageUrl).split(":")[1]))),
+                    imageRes: url.imageDimensions(steamImageUrl),
                     loadStatus: 'done'
                   } : undefined,
                   default: file.defaultImage ? {
                     imageProvider: 'LocalStorage',
                     imageUrl: file.defaultImage,
-                    imageRes: ((result: any)=>`${result.width}x${result.height}`)(probe.sync(fs.readFileSync(decodeURIComponent(file.defaultImage).split(":")[1]))),
+                    imageRes: url.imageDimensions(file.defaultImage),
                     loadStatus: 'done'
                   } : undefined,
                   imagePool: file.imagePool,
@@ -666,13 +665,13 @@ export class PreviewService {
                   steam: steamTallImage ? {
                     imageProvider: 'Steam',
                     imageUrl: steamTallImageUrl,
-                    imageRes: ((result: any)=>`${result.width}x${result.height}`)(probe.sync(fs.readFileSync(decodeURIComponent(steamTallImageUrl).split(":")[1]))),
+                    imageRes: url.imageDimensions(steamTallImageUrl),
                     loadStatus: 'done'
                   } : undefined,
                   default: file.defaultTallImage ? {
                     imageProvider: 'LocalStorage',
                     imageUrl: file.defaultTallImage,
-                    imageRes: ((result: any)=>`${result.width}x${result.height}`)(probe.sync(fs.readFileSync(decodeURIComponent(file.defaultTallImage).split(":")[1]))),
+                    imageRes: url.imageDimensions(file.defaultTallImage),
                     loadStatus: 'done'
                   } : undefined,
                   imagePool: file.imagePool,
@@ -682,14 +681,14 @@ export class PreviewService {
                   steam: steamHeroImage ? {
                     imageProvider: 'Steam',
                     imageUrl: steamHeroImageUrl,
-                    imageRes: ((result: any)=>`${result.width}x${result.height}`)(probe.sync(fs.readFileSync(decodeURIComponent(steamHeroImageUrl).split(":")[1]))),
+                    imageRes: url.imageDimensions(steamHeroImageUrl),
 
                     loadStatus: 'done'
                   } : undefined,
                   default: file.defaultHeroImage ? {
                     imageProvider: 'LocalStorage',
                     imageUrl: file.defaultHeroImage,
-                    imageRes: ((result: any)=>`${result.width}x${result.height}`)(probe.sync(fs.readFileSync(decodeURIComponent(file.defaultHeroImage).split(":")[1]))),
+                    imageRes: url.imageDimensions(file.defaultHeroImage),
                     loadStatus: 'done'
                   } : undefined,
                   imagePool: file.imagePool,
@@ -699,14 +698,14 @@ export class PreviewService {
                   steam: steamLogoImage ? {
                     imageProvider: 'Steam',
                     imageUrl: steamLogoImageUrl,
-                    imageRes: ((result: any)=>`${result.width}x${result.height}`)(probe.sync(fs.readFileSync(decodeURIComponent(steamLogoImageUrl).split(":")[1]))),
+                    imageRes: url.imageDimensions(steamLogoImageUrl),
 
                     loadStatus: 'done'
                   } : undefined,
                   default: file.defaultLogoImage ? {
                     imageProvider: 'LocalStorage',
                     imageUrl: file.defaultLogoImage,
-                    imageRes: ((result: any)=>`${result.width}x${result.height}`)(probe.sync(fs.readFileSync(decodeURIComponent(file.defaultLogoImage).split(":")[1]))),
+                    imageRes: url.imageDimensions(file.defaultLogoImage),
                     loadStatus: 'done'
                   } : undefined,
                   imagePool: file.imagePool,
@@ -723,51 +722,40 @@ export class PreviewService {
             }
 
             for (let l = 0; l < file.localImages.length; l++) {
-              probe(fs.createReadStream(decodeURIComponent(file.localImages[l]).split(":")[1])).then((result: any)=>{
+
                 this.addUniqueImage(file.imagePool, {
                   imageProvider: 'LocalStorage',
                   imageUrl: file.localImages[l],
-                  imageRes: `${result.width}x${result.height}`,
+                  imageRes: url.imageDimensions(file.localImages[l]),
                   loadStatus: 'done'
                 },'long')
-              })
 
             }
             for (let l = 0; l < file.localTallImages.length; l++) {
-              probe(fs.createReadStream(decodeURIComponent(file.localTallImages[l]).split(":")[1])).then((result: any)=>{
                 this.addUniqueImage(file.imagePool, {
                   imageProvider: 'LocalStorage',
                   imageUrl: file.localTallImages[l],
-                  imageRes: `${result.width}x${result.height}`,
+                  imageRes: url.imageDimensions(file.localTallImages[l]),
                   loadStatus: 'done'
                 },'tall')
-
-              })
             }
             for (let l = 0; l < file.localHeroImages.length; l++) {
 
-              probe(fs.createReadStream(decodeURIComponent(file.localHeroImages[l]).split(":")[1])).then((result: any)=>{
                 this.addUniqueImage(file.imagePool, {
                   imageProvider: 'LocalStorage',
                   imageUrl: file.localHeroImages[l],
-                  imageRes: `${result.width}x${result.height}`,
+                  imageRes: url.imageDimensions(file.localHeroImages[l]),
                   loadStatus: 'done'
                 },'hero')
-
-              })
             }
             for (let l = 0; l < file.localLogoImages.length; l++) {
 
-              probe(fs.createReadStream(decodeURIComponent(file.localLogoImages[l]).split(":")[1])).then((result: any)=>{
                 this.addUniqueImage(file.imagePool, {
                   imageProvider: 'LocalStorage',
                   imageUrl: file.localLogoImages[l],
-                  imageRes: `${result.width}x${result.height}`,
+                  imageRes: url.imageDimensions(file.localLogoImages[l]),
                   loadStatus: 'done'
                 },'logo')
-
-              })
-
             }
           }
         }
