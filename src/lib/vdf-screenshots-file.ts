@@ -41,9 +41,9 @@ export class VDF_ScreenshotsFile {
 
   set extraneous(value: string[]) {
     this.extraneousAppIds = value.reduce((r, e)=>{
-          r.push(e, ids.shortenAppId(e), ids.shortenAppId(e).concat('p'),ids.shortenAppId(e).concat('_hero'),ids.shortenAppId(e).concat('_logo'));
-          return r;
-        }, []);
+      r.push(e, ids.shortenAppId(e), ids.shortenAppId(e).concat('p'),ids.shortenAppId(e).concat('_hero'),ids.shortenAppId(e).concat('_logo'));
+      return r;
+    }, []);
   }
   get extraneous() {
     return this.extraneousAppIds;
@@ -147,6 +147,19 @@ export class VDF_ScreenshotsFile {
                 }).then((buffer) => {
                   return fs.outputFile(path.join(this.gridDirectory, `${appId}.${ids.map_ext[""+ext]||ext}`), buffer).then(() => {
                     screenshotsData[appId] = data.title;
+                    glob.promise(`${appId}.*`, { silent: true, dot: true, cwd: this.gridDirectory, absolute: true }).then((files) => {
+                      let errors: Error[] = [];
+                      for (let i = 0; i < files.length; i++) {
+                        if(files[i].split('.')[1]!==(ids.map_ext[""+ext]||ext)) {
+                          try {
+                            fs.removeSync(files[i]);
+                          }
+                          catch (error) {
+                            errors.push(error);
+                          }
+                        }
+                      }
+                    })
                   }).catch((error) => {
                     return this.lang.error.imageError__i.interpolate({ error, url: data.url, title: data.title });
                   })
