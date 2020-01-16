@@ -117,11 +117,14 @@ export class VDF_Manager {
   mergeData(previewData: PreviewData, images: AppImages, tallimages: AppImages, heroimages: AppImages, logoimages: AppImages) {
     return Promise.resolve().then(() => {
       this.forEach((steamDirectory, userId, listItem) => {
-        let apps = previewData[steamDirectory][userId].apps;
-
         if (listItem.shortcuts.invalid || listItem.addedItems.invalid || listItem.screenshots.invalid)
           return;
-
+        let apps = previewData[steamDirectory][userId].apps;
+        let appIds = Object.keys(previewData[steamDirectory][userId].apps)
+        let addedAppIds = Object.keys(listItem.addedItems.data);
+        let extraneousAppIds = addedAppIds.filter((x:string) => appIds.indexOf(x)<0);
+        listItem.screenshots.extraneous = extraneousAppIds;
+        listItem.shortcuts.extraneous = extraneousAppIds;
         for (let appId in apps) {
           let app = apps[appId];
 
@@ -150,8 +153,8 @@ export class VDF_Manager {
               });
             }
 
-            listItem.addedItems.addItem(appId);
 
+            listItem.addedItems.addItem(appId);
             if (currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
               listItem.screenshots.addItem({ appId: appId, title: app.title, url: currentImage.imageUrl });
             }
@@ -169,9 +172,6 @@ export class VDF_Manager {
             if (currentLogoImage !== undefined && currentLogoImage.imageProvider !== 'Steam') {
               listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('_logo'), title: app.title, url: currentLogoImage.imageUrl })
             }
-
-
-
           }
           else if (app.status === 'remove') {
             listItem.shortcuts.removeItem(appId);
@@ -181,9 +181,6 @@ export class VDF_Manager {
             listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('p'));
             listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_hero'));
             listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_logo'));
-
-
-
             app.images.steam = undefined
           }
         }
@@ -202,15 +199,14 @@ export class VDF_Manager {
           return;
 
         for (let appId in apps) {
-          let app = apps[appId];
           listItem.shortcuts.removeItem(appId);
+          listItem.addedItems.removeItem(appId);
           listItem.screenshots.removeItem(appId);
           listItem.screenshots.removeItem(ids.shortenAppId(appId));
           listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('p'));
           listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_hero'));
           listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_logo'));
         }
-
         listItem.addedItems.data = {};
       });
     }).catch((error) => {
