@@ -205,6 +205,10 @@ export class VDF_Manager {
           let app = apps[appId];
           listItem.shortcuts.removeItem(appId);
           listItem.screenshots.removeItem(appId);
+          listItem.screenshots.removeItem(ids.shortenAppId(appId));
+          listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('p'));
+          listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_hero'));
+          listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_logo'));
         }
 
         listItem.addedItems.data = {};
