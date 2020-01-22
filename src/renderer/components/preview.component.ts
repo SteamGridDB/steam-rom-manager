@@ -13,7 +13,7 @@ import * as path from 'path';
   selector: 'preview',
   templateUrl: '../templates/preview.component.html',
   styleUrls: ['../styles/preview.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PreviewComponent implements OnDestroy {
   private previewData: PreviewData;
@@ -91,6 +91,18 @@ export class PreviewComponent implements OnDestroy {
     return this.previewService.getCurrentImage(app);
   }
 
+  private getGameBackgroundImages(app: PreviewDataApp) {
+    return this.previewService.getAllCurrentImages(app);
+  }
+  private getGameAppImages(app: PreviewDataApp) {
+    return {
+      "long": app.images,
+      "tall": app.tallimages,
+      "hero": app.heroimages,
+      "logo": app.logoimages
+    }
+  }
+
   private setBackgroundImage(app: PreviewDataApp, image: ImageContent) {
     if (image == undefined) {
       let imagepool: string;
@@ -121,60 +133,85 @@ export class PreviewComponent implements OnDestroy {
         return require('../../assets/images/failed-image-download.svg');
     }
   }
+  private setGameBackgroundImage(app: PreviewDataApp, image: ImageContent, imagePool: string, imagetype: string) {
+    if(image == undefined) {
+      if(this.previewService.images[imagePool].retrieving)
+        return require('../../assets/images/retrieving-images.svg');
+      else
+        return require('../../assets/images/no-images.svg');
+    } else {
+      if (image.loadStatus === 'notStarted') {
+        this.loadImage(app);
+        return require('../../assets/images/downloading-image.svg');
+      }
+      else if (image.loadStatus === 'downloading')
+        return require('../../assets/images/downloading-image.svg');
+      else if (image.loadStatus === 'done')
+        return image.imageUrl;
+      else
+        return require('../../assets/images/failed-image-download.svg');
+    }
+  }
 
-  private loadImage(app: PreviewDataApp) {
-    this.previewService.loadImage(app);
+  private loadImage(app: PreviewDataApp, imagetype?: string) {
+    this.previewService.loadImage(app, imagetype);
   }
 
   private areImagesAvailable(app: PreviewDataApp) {
     return this.previewService.areImagesAvailable(app);
   }
 
-  private currentImageIndex(app: PreviewDataApp) {
-    if (this.previewService.getImageType() === 'long') {
+  private currentImageIndex(app: PreviewDataApp, imagetype?: string) {
+    if(!imagetype) {
+      imagetype=this.previewService.getImageType()
+    }
+    if (imagetype === 'long') {
       return app.images.imageIndex + 1;
-    } else if (this.previewService.getImageType() === 'tall') {
+    } else if (imagetype === 'tall') {
       return app.tallimages.imageIndex + 1;
-    } else if (this.previewService.getImageType() === 'hero') {
+    } else if (imagetype === 'hero') {
       return app.heroimages.imageIndex + 1;
-    } else if (this.previewService.getImageType() === 'logo') {
+    } else if (imagetype === 'logo') {
       return app.logoimages.imageIndex +1;
     }
 
   }
 
-  private maxImageIndex(app: PreviewDataApp) {
-    return this.previewService.getTotalLengthOfImages(app);
+  private maxImageIndex(app: PreviewDataApp, imagetype?: string) {
+    return this.previewService.getTotalLengthOfImages(app, imagetype);
   }
 
-  private addLocalImages(app: PreviewDataApp) {
+  private addLocalImages(app: PreviewDataApp, imagetype?: string) {
     this.fileSelector.multiple = true;
     this.fileSelector.accept = '.png, .jpeg, .jpg, .tga';
+    if(!imagetype) {
+      imagetype=this.previewService.getImageType()
+    }
     this.fileSelector.onChange = (target) => {
       if (target.files) {
         let extRegex = /png|tga|jpg|jpeg/i;
         for (let i = 0; i < target.files.length; i++) {
           if (extRegex.test(path.extname(target.files[i].path))) {
             let imageUrl = url.encodeFile(target.files[i].path);
-            if (this.previewService.getImageType() === 'long') {
+            if (imagetype === 'long') {
               this.previewService.addUniqueImage(app.images.imagePool, {
                 imageProvider: 'LocalStorage',
                 imageUrl,
                 loadStatus: 'done'
               }, 'long');
-            } else if (this.previewService.getImageType() === 'tall') {
+            } else if (imagetype === 'tall') {
               this.previewService.addUniqueImage(app.tallimages.imagePool, {
                 imageProvider: 'LocalStorage',
                 imageUrl,
                 loadStatus: 'done'
               }, 'tall');
-            } else if (this.previewService.getImageType() === 'hero') {
+            } else if (imagetype === 'hero') {
               this.previewService.addUniqueImage(app.heroimages.imagePool, {
                 imageProvider: 'LocalStorage',
                 imageUrl,
                 loadStatus: 'done'
               }, 'hero');
-            } else if (this.previewService.getImageType() === 'logo') {
+            } else if (imagetype === 'logo') {
               this.previewService.addUniqueImage(app.logoimages.imagePool, {
                 imageProvider: 'LocalStorage',
                 imageUrl,
@@ -214,35 +251,45 @@ export class PreviewComponent implements OnDestroy {
     });
   }
 
-  private refreshImages(app: PreviewDataApp) {
-    this.previewService.downloadImageUrls('long',[app.images.imagePool], app.imageProviders);
-    this.previewService.downloadImageUrls('tall',[app.tallimages.imagePool], app.imageProviders);
-    this.previewService.downloadImageUrls('hero',[app.heroimages.imagePool], app.imageProviders);
-    this.previewService.downloadImageUrls('logo',[app.logoimages.imagePool], app.imageProviders);
+  private refreshImages(app: PreviewDataApp, imagetype?: string) {
+    if(imagetype) {
+      this.previewService.downloadImageUrls(imagetype,[app.images.imagePool], app.imageProviders);
+    } else {
+      this.previewService.downloadImageUrls('long',[app.images.imagePool], app.imageProviders);
+      this.previewService.downloadImageUrls('tall',[app.tallimages.imagePool], app.imageProviders);
+      this.previewService.downloadImageUrls('hero',[app.heroimages.imagePool], app.imageProviders);
+      this.previewService.downloadImageUrls('logo',[app.logoimages.imagePool], app.imageProviders);
+    }
   }
 
-  private previousImage(app: PreviewDataApp) {
-    if (this.previewService.getImageType() === 'long') {
-      this.previewService.setImageIndex(app, app.images.imageIndex - 1);
-    } else if (this.previewService.getImageType() === 'tall') {
-      this.previewService.setImageIndex(app, app.tallimages.imageIndex - 1);
-    } else if (this.previewService.getImageType() === 'hero') {
-      this.previewService.setImageIndex(app, app.heroimages.imageIndex -1);
-    } else if (this.previewService.getImageType() === 'logo') {
-      this.previewService.setImageIndex(app, app.logoimages.imageIndex -1);
+  private previousImage(app: PreviewDataApp, imagetype?: string) {
+    if(!imagetype){
+      imagetype = this.previewService.getImageType();
+    }
+    if (imagetype === 'long') {
+      this.previewService.setImageIndex(app, app.images.imageIndex - 1, imagetype);
+    } else if (imagetype === 'tall') {
+      this.previewService.setImageIndex(app, app.tallimages.imageIndex - 1, imagetype);
+    } else if (imagetype === 'hero') {
+      this.previewService.setImageIndex(app, app.heroimages.imageIndex - 1, imagetype);
+    } else if (imagetype === 'logo') {
+      this.previewService.setImageIndex(app, app.logoimages.imageIndex - 1, imagetype);
     }
 
   }
 
-  private nextImage(app: PreviewDataApp) {
-    if (this.previewService.getImageType() === 'long') {
-      this.previewService.setImageIndex(app, app.images.imageIndex + 1);
-    } else if (this.previewService.getImageType() === 'tall') {
-      this.previewService.setImageIndex(app, app.tallimages.imageIndex + 1);
-    } else if (this.previewService.getImageType() === 'hero') {
-      this.previewService.setImageIndex(app, app.heroimages.imageIndex + 1);
-    } else if (this.previewService.getImageType() === 'logo') {
-      this.previewService.setImageIndex(app, app.logoimages.imageIndex + 1);
+  private nextImage(app: PreviewDataApp, imagetype?: string) {
+    if(!imagetype){
+      imagetype = this.previewService.getImageType();
+    }
+    if (imagetype === 'long') {
+      this.previewService.setImageIndex(app, app.images.imageIndex + 1, imagetype);
+    } else if (imagetype === 'tall') {
+      this.previewService.setImageIndex(app, app.tallimages.imageIndex + 1, imagetype);
+    } else if (imagetype === 'hero') {
+      this.previewService.setImageIndex(app, app.heroimages.imageIndex + 1, imagetype);
+    } else if (imagetype === 'logo') {
+      this.previewService.setImageIndex(app, app.logoimages.imageIndex + 1, imagetype);
     }
   }
 

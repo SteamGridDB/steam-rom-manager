@@ -1,6 +1,26 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.22 - 2020-01-22
+### Added
+* Added resolutions to images
+
+### Fixed
+* Fixed pngs not replacing jpgs
+* Fixed state management (no more duplicate shortcuts)
+
+## 2.2.21 - 2020-01-15
+### Added
+* Got Logos working
+* Got Recent Images working
+
+## 2.2.20 - 2020-01-12
+
+### Added
+
+* Got Posters and Heroes working
+* Added Steam Category Manager
+
 ## 2.2.19 - 2019-03-09
 
 ### Changed
