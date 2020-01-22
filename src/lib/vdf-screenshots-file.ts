@@ -17,6 +17,7 @@ const toBuffer = require('blob-to-buffer');
 export class VDF_ScreenshotsFile {
   private static xRequest = new xRequest(Bluebird);
   private fileData: any = undefined;
+  private extraneousAppIds: string[] = [];
 
   constructor(private filepath: string, private gridDirectory: string) { }
 
@@ -36,6 +37,16 @@ export class VDF_ScreenshotsFile {
       return;
     else
       this.fileData['Screenshots']['shortcutnames'] = value;
+  }
+
+  set extraneous(value: string[]) {
+    this.extraneousAppIds = value.reduce((r, e)=>{
+      r.push(e, ids.shortenAppId(e), ids.shortenAppId(e).concat('p'),ids.shortenAppId(e).concat('_hero'),ids.shortenAppId(e).concat('_logo'));
+      return r;
+    }, []);
+  }
+  get extraneous() {
+    return this.extraneousAppIds;
   }
 
   get valid() {
@@ -73,7 +84,25 @@ export class VDF_ScreenshotsFile {
     return Promise.resolve().then(() => {
       let promises: Promise<VDF_Error>[] = [];
       let screenshotsData: VDF_ScreenshotsData = this.data;
-
+      console.log(this.extraneous);
+      for (let j=0; j < this.extraneous.length; j++) {
+        let exAppId = this.extraneous[j]
+        promises.push(glob.promise(`${exAppId}.*`, { silent: true, dot: true, cwd: this.gridDirectory, absolute: true }).then((files) => {
+          let errors: Error[] = [];
+          for (let i = 0; i < files.length; i++) {
+            try {
+              fs.removeSync(files[i]);
+            }
+            catch (error) {
+              errors.push(error);
+            }
+          }
+          return errors;
+        }).then((errors) => {
+          if (errors.length > 0)
+            return new VDF_Error(errors);
+        }));
+      }
       for (const appId in screenshotsData) {
         if (screenshotsData[appId] === undefined) {
           promises.push(glob.promise(`${appId}.*`, { silent: true, dot: true, cwd: this.gridDirectory, absolute: true }).then((files) => {
@@ -118,6 +147,19 @@ export class VDF_ScreenshotsFile {
                 }).then((buffer) => {
                   return fs.outputFile(path.join(this.gridDirectory, `${appId}.${ids.map_ext[""+ext]||ext}`), buffer).then(() => {
                     screenshotsData[appId] = data.title;
+                    glob.promise(`${appId}.*`, { silent: true, dot: true, cwd: this.gridDirectory, absolute: true }).then((files) => {
+                      let errors: Error[] = [];
+                      for (let i = 0; i < files.length; i++) {
+                        if(files[i].split('.')[1]!==(ids.map_ext[""+ext]||ext)) {
+                          try {
+                            fs.removeSync(files[i]);
+                          }
+                          catch (error) {
+                            errors.push(error);
+                          }
+                        }
+                      }
+                    })
                   }).catch((error) => {
                     return this.lang.error.imageError__i.interpolate({ error, url: data.url, title: data.title });
                   })

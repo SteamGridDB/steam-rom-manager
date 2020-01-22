@@ -20,7 +20,6 @@ import * as ids from '../../lib/helpers/steam';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as path from "path";
-
 @Injectable()
 export class PreviewService {
   private appSettings: AppSettings;
@@ -239,7 +238,9 @@ export class PreviewService {
 
         let imageLoader = new Image();
         imageLoader.onload = () => {
+          console.log(this)
           image.loadStatus = 'done';
+          image.imageRes = `${imageLoader.width}x${imageLoader.height}`
           this.previewDataChanged.next();
         };
         imageLoader.onerror = () => {
@@ -263,6 +264,7 @@ export class PreviewService {
       let imageLoader = new Image();
       imageLoader.onload = () => {
         image.loadStatus = 'done';
+        image.imageRes = `${imageLoader.width}x${imageLoader.height}`;
         this.previewDataChanged.next();
       };
       imageLoader.onerror = () => {
@@ -647,11 +649,13 @@ export class PreviewService {
                   steam: steamImage ? {
                     imageProvider: 'Steam',
                     imageUrl: steamImageUrl,
+                    imageRes: url.imageDimensions(steamImageUrl),
                     loadStatus: 'done'
                   } : undefined,
                   default: file.defaultImage ? {
                     imageProvider: 'LocalStorage',
                     imageUrl: file.defaultImage,
+                    imageRes: url.imageDimensions(file.defaultImage),
                     loadStatus: 'done'
                   } : undefined,
                   imagePool: file.imagePool,
@@ -661,11 +665,13 @@ export class PreviewService {
                   steam: steamTallImage ? {
                     imageProvider: 'Steam',
                     imageUrl: steamTallImageUrl,
+                    imageRes: url.imageDimensions(steamTallImageUrl),
                     loadStatus: 'done'
                   } : undefined,
                   default: file.defaultTallImage ? {
                     imageProvider: 'LocalStorage',
                     imageUrl: file.defaultTallImage,
+                    imageRes: url.imageDimensions(file.defaultTallImage),
                     loadStatus: 'done'
                   } : undefined,
                   imagePool: file.imagePool,
@@ -675,11 +681,14 @@ export class PreviewService {
                   steam: steamHeroImage ? {
                     imageProvider: 'Steam',
                     imageUrl: steamHeroImageUrl,
+                    imageRes: url.imageDimensions(steamHeroImageUrl),
+
                     loadStatus: 'done'
                   } : undefined,
                   default: file.defaultHeroImage ? {
                     imageProvider: 'LocalStorage',
                     imageUrl: file.defaultHeroImage,
+                    imageRes: url.imageDimensions(file.defaultHeroImage),
                     loadStatus: 'done'
                   } : undefined,
                   imagePool: file.imagePool,
@@ -689,11 +698,14 @@ export class PreviewService {
                   steam: steamLogoImage ? {
                     imageProvider: 'Steam',
                     imageUrl: steamLogoImageUrl,
+                    imageRes: url.imageDimensions(steamLogoImageUrl),
+
                     loadStatus: 'done'
                   } : undefined,
                   default: file.defaultLogoImage ? {
                     imageProvider: 'LocalStorage',
                     imageUrl: file.defaultLogoImage,
+                    imageRes: url.imageDimensions(file.defaultLogoImage),
                     loadStatus: 'done'
                   } : undefined,
                   imagePool: file.imagePool,
@@ -710,34 +722,41 @@ export class PreviewService {
             }
 
             for (let l = 0; l < file.localImages.length; l++) {
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localImages[l],
-                loadStatus: 'done'
-              },'long');
+
+                this.addUniqueImage(file.imagePool, {
+                  imageProvider: 'LocalStorage',
+                  imageUrl: file.localImages[l],
+                  imageRes: url.imageDimensions(file.localImages[l]),
+                  loadStatus: 'done'
+                },'long')
+
             }
             for (let l = 0; l < file.localTallImages.length; l++) {
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localTallImages[l],
-                loadStatus: 'done'
-              },'tall')
+                this.addUniqueImage(file.imagePool, {
+                  imageProvider: 'LocalStorage',
+                  imageUrl: file.localTallImages[l],
+                  imageRes: url.imageDimensions(file.localTallImages[l]),
+                  loadStatus: 'done'
+                },'tall')
             }
             for (let l = 0; l < file.localHeroImages.length; l++) {
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localHeroImages[l],
-                loadStatus: 'done'
-              },'hero')
+
+                this.addUniqueImage(file.imagePool, {
+                  imageProvider: 'LocalStorage',
+                  imageUrl: file.localHeroImages[l],
+                  imageRes: url.imageDimensions(file.localHeroImages[l]),
+                  loadStatus: 'done'
+                },'hero')
             }
             for (let l = 0; l < file.localLogoImages.length; l++) {
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localLogoImages[l],
-                loadStatus: 'done'
-              },'logo')
-            }
 
+                this.addUniqueImage(file.imagePool, {
+                  imageProvider: 'LocalStorage',
+                  imageUrl: file.localLogoImages[l],
+                  imageRes: url.imageDimensions(file.localLogoImages[l]),
+                  loadStatus: 'done'
+                },'logo')
+            }
           }
         }
       }

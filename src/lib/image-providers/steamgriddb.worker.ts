@@ -20,7 +20,7 @@ class SteamGridDbProvider extends GenericProvider {
       self.client.searchGame(self.proxy.title).then((res: any)=>{
         let query: Promise<any>;
         if(self.proxy.imageType === 'long') {
-          query = self.client.getGridsById(res[0].id,undefined,["legacy","460x215"]);
+          query = self.client.getGridsById(res[0].id,undefined,["legacy","460x215","920x430"]);
         } else if (self.proxy.imageType === 'tall') {
           query = self.client.getGridsById(res[0].id,undefined,["600x900"]);
         } else if (self.proxy.imageType === 'hero') {
