@@ -37,6 +37,7 @@ export class PreviewService {
   constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private settingsService: SettingsService, private http: Http) {
     this.previewData = undefined;
     this.previewVariables = {
+      gamesMode: true,
       listIsBeingSaved: false,
       listIsBeingGenerated: false,
       listIsBeingRemoved: false,
@@ -68,6 +69,7 @@ export class PreviewService {
       }
 
       this.previewVariables.numberOfQueriedImages = 0;
+      this.previewVariables.gamesMode = true;
       this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
       this.previewDataChanged.next();
     });
@@ -211,16 +213,19 @@ export class PreviewService {
     });
   }
 
-  loadImage(app: PreviewDataApp) {
+  loadImage(app: PreviewDataApp, imagetype?: string) {
     if (app) {
       let image: ImageContent;
-      if (this.currentImageType==='long') {
+      if (!imagetype){
+        imagetype = this.currentImageType;
+      }
+      if (imagetype ==='long') {
         image = appImage.getCurrentImage(app.images, this.appImages);
-      } else if (this.currentImageType === 'tall') {
+      } else if (imagetype === 'tall') {
         image = appImage.getCurrentImage(app.tallimages, this.appTallImages);
-      } else if (this.currentImageType === 'hero') {
+      } else if (imagetype === 'hero') {
         image = appImage.getCurrentImage(app.heroimages, this.appHeroImages);
-      } else if (this.currentImageType === 'logo') {
+      } else if (imagetype === 'logo') {
         image = appImage.getCurrentImage(app.logoimages, this.appLogoImages);
       }
 
@@ -298,15 +303,18 @@ export class PreviewService {
     }
   }
 
-  setImageIndex(app: PreviewDataApp, index: number) {
+  setImageIndex(app: PreviewDataApp, index: number, imagetype: string) {
     if (app) {
-      if (this.currentImageType === 'long') {
+      if(!imagetype){
+        imagetype = this.currentImageType;
+      }
+      if (imagetype === 'long') {
         appImage.setImageIndex(app.images, this.appImages, index);
-      } else if (this.currentImageType === 'tall') {
+      } else if (imagetype === 'tall') {
         appImage.setImageIndex(app.tallimages, this.appTallImages, index);
-      } else if (this.currentImageType === 'hero') {
+      } else if (imagetype === 'hero') {
         appImage.setImageIndex(app.heroimages, this.appHeroImages, index);
-      } else if (this.currentImageType === 'logo') {
+      } else if (imagetype === 'logo') {
         appImage.setImageIndex(app.logoimages, this.appLogoImages, index);
       }
 
@@ -318,17 +326,21 @@ export class PreviewService {
     return this.getTotalLengthOfImages(app) > 0;
   }
 
-  getTotalLengthOfImages(app: PreviewDataApp) {
-    if (app)
-      if (this.currentImageType === 'long') {
+  getTotalLengthOfImages(app: PreviewDataApp, imagetype?: string) {
+    if (app) {
+      if(!imagetype) {
+        imagetype = this.currentImageType;
+      }
+      if (imagetype === 'long') {
         return appImage.getMaxLength(app.images, this.appImages);
-      } else if (this.currentImageType === 'tall') {
+      } else if (imagetype === 'tall') {
         return appImage.getMaxLength(app.tallimages, this.appTallImages);
-      } else if (this.currentImageType === 'hero') {
+      } else if (imagetype === 'hero') {
         return appImage.getMaxLength(app.heroimages, this.appHeroImages);
-      } else if (this.currentImageType === 'logo') {
+      } else if (imagetype === 'logo') {
         return appImage.getMaxLength(app.logoimages, this.appLogoImages);
       }
+    }
     else
       return 0;
   }
@@ -343,7 +355,15 @@ export class PreviewService {
     } else if (this.currentImageType === 'logo') {
       return appImage.getCurrentImage(app.logoimages, this.appLogoImages);
     }
+  }
 
+  getAllCurrentImages(app: PreviewDataApp) {
+    return {
+      "long": appImage.getCurrentImage(app.images, this.appImages),
+      "tall": appImage.getCurrentImage(app.tallimages, this.appTallImages),
+      "hero": appImage.getCurrentImage(app.heroimages, this.appHeroImages),
+      "logo": appImage.getCurrentImage(app.logoimages, this.appLogoImages)
+    };
   }
 
   setIconIndex(app: PreviewDataApp, index: number) {
@@ -723,39 +743,39 @@ export class PreviewService {
 
             for (let l = 0; l < file.localImages.length; l++) {
 
-                this.addUniqueImage(file.imagePool, {
-                  imageProvider: 'LocalStorage',
-                  imageUrl: file.localImages[l],
-                  imageRes: url.imageDimensions(file.localImages[l]),
-                  loadStatus: 'done'
-                },'long')
+              this.addUniqueImage(file.imagePool, {
+                imageProvider: 'LocalStorage',
+                imageUrl: file.localImages[l],
+                imageRes: url.imageDimensions(file.localImages[l]),
+                loadStatus: 'done'
+              },'long')
 
             }
             for (let l = 0; l < file.localTallImages.length; l++) {
-                this.addUniqueImage(file.imagePool, {
-                  imageProvider: 'LocalStorage',
-                  imageUrl: file.localTallImages[l],
-                  imageRes: url.imageDimensions(file.localTallImages[l]),
-                  loadStatus: 'done'
-                },'tall')
+              this.addUniqueImage(file.imagePool, {
+                imageProvider: 'LocalStorage',
+                imageUrl: file.localTallImages[l],
+                imageRes: url.imageDimensions(file.localTallImages[l]),
+                loadStatus: 'done'
+              },'tall')
             }
             for (let l = 0; l < file.localHeroImages.length; l++) {
 
-                this.addUniqueImage(file.imagePool, {
-                  imageProvider: 'LocalStorage',
-                  imageUrl: file.localHeroImages[l],
-                  imageRes: url.imageDimensions(file.localHeroImages[l]),
-                  loadStatus: 'done'
-                },'hero')
+              this.addUniqueImage(file.imagePool, {
+                imageProvider: 'LocalStorage',
+                imageUrl: file.localHeroImages[l],
+                imageRes: url.imageDimensions(file.localHeroImages[l]),
+                loadStatus: 'done'
+              },'hero')
             }
             for (let l = 0; l < file.localLogoImages.length; l++) {
 
-                this.addUniqueImage(file.imagePool, {
-                  imageProvider: 'LocalStorage',
-                  imageUrl: file.localLogoImages[l],
-                  imageRes: url.imageDimensions(file.localLogoImages[l]),
-                  loadStatus: 'done'
-                },'logo')
+              this.addUniqueImage(file.imagePool, {
+                imageProvider: 'LocalStorage',
+                imageUrl: file.localLogoImages[l],
+                imageRes: url.imageDimensions(file.localLogoImages[l]),
+                loadStatus: 'done'
+              },'logo')
             }
           }
         }

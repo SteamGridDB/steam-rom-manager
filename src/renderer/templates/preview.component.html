@@ -27,7 +27,67 @@
             <svg select-arrow-down></svg>
             <span>{{previewData[steamDir][steamUser].username}}</span>
           </div>
-          <div class="apps">
+          <div class="apps" *ngIf="previewVariables.gamesMode">
+            <ng-container *ngFor="let appId of previewData[steamDir][steamUser].apps | keys">
+              <ng-container *ngVar="previewData[steamDir][steamUser].apps[appId] as app">
+                <ng-container *ngVar="getGameBackgroundImages(app) as gameimages">
+                  <ng-container *ngVar="getGameAppImages(app) as gameappimages">
+                    <div class="title">
+                      <span>{{app.title}}</span>
+                    </div>
+                    <ng-container *ngFor="let imagetype of gameimages | keys">
+                      <div class="app" *ngIf="(app.title | fuzzyTest: filterValue)"
+                           [style.backgroundImage]="setGameBackgroundImage(app, gameimages[imagetype],gameappimages[imagetype].imagePool, imagetype) | cssUrl | safeStyle"
+                           [style.retrieving]="getImagePool(gameappimages[imagetype].imagePool).retrieving"
+                           [class.noImages]="!getImagePool(gameappimages[imagetype].imagePool).retrieiving && gameimages[imagetype] == undefined"
+                           [class.downloading]="gameimages[imagetype] != undefined && gameimages[imagetype].loadStatus === 'downloading'"
+                           [class.failed]="gameimages[imagetype] != undefined && gameimages[imagetype].loadStatus === 'failed'"
+                           [class.imageLoaded]="gameimages[imagetype] != undefined && gameimages[imagetype].loadStatus === 'done'"
+                           (mouseenter)="entries.hoverIndex = app.entryId; entries.hoverType = imagetype"
+                           (mouseleave)="entries.hoverIndex = undefined; entries.hoverType = undefined">
+
+                        <div *ngIf="!this.scrollingEntries && entries.hoverIndex === app.entryId && entries.hoverType==imagetype">
+                          <ng-container *ngVar="app.icons[app.currentIconIndex] as icon">
+                            <img class="icon" *ngIf="icon" #iconEl (click)="previousIcon(app)" (contextmenu)="nextIcon(app)" [src]="(icon | fileImage | safeResourceUrl)"
+                                 (error)="setFallbackIcon(iconEl)" />
+                          </ng-container>
+                          <div class="appInfo">
+                            <div class="title" text-scroll><span>{{app.title}}</span></div>
+                            <ng-container *ngIf="gameimages[imagetype] != null">
+                              <div class="provider" text-scroll>
+                                {{gameimages[imagetype].imageProvider + (gameimages[imagetype].imageUploader ? ' (' + lang.by + ' ' + gameimages[imagetype].imageUploader + ')' : '') + (gameimages[imagetype].imageRes ? '['+gameimages[imagetype].imageRes+']':'')  }}
+                              </div>
+                              <div class="imageIndex">
+                                {{currentImageIndex(app, imagetype) + '/' + maxImageIndex(app, imagetype)}}
+                              </div>
+                            </ng-container>
+                          </div>
+                          <div class="imageSelector">
+                            <ng-container *ngIf="areImagesAvailable(app)">
+                              <svg class="previous" (click)="previousImage(app, imagetype)" select-arrow-left hover="true" active="true"></svg>
+                              <svg class="next" (click)="nextImage(app, imagetype)" select-arrow-right hover="true" active="true"></svg>
+                            </ng-container>
+                          </div>
+                          <div class="bottomPanel">
+                            <div class="configTitle">
+                              {{app.configurationTitle + (app.steamCategories.length > 0 ? ' (' + app.steamCategories.join(', ') + ')' : '')}}
+                            </div>
+                            <div class="appButtons">
+                              <svg class="button" [title]="lang.addLocalImages" add-images hover="true" active="true" (click)="addLocalImages(app, imagetype)"></svg>
+                              <span class="separator"></span>
+                              <svg class="button" *ngIf="!getImagePool(gameappimages[imagetype].imagePool).retrieving" (click)="refreshImages(app, imagetype)" [title]="lang.refreshImages" refresh-images hover="true" active="true"></svg>
+                              <svg class="button" *ngIf="gameimages[imagetype] != undefined && gameimages[imagetype].loadStatus === 'failed'" (click)="loadImage(app ,imagetype)" [title]="lang.retryDownload" image-alert hover="true" active="true"></svg>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </div>
+          <div class="apps" *ngIf="!previewVariables.gamesMode">
             <ng-container *ngFor="let appID of previewData[steamDir][steamUser].apps | keys">
               <ng-container *ngVar="previewData[steamDir][steamUser].apps[appID] as app">
                 <ng-container *ngVar="getBackgroundImage(app) as image">
