@@ -105,7 +105,6 @@
         border-top: 1px solid var(--color-preview-separator);
         border-bottom: 1px solid var(--color-preview-separator);
         background-color: var(--color-preview-directory-background);
-
         svg {
           --color-select-arrow-down: var(--color-preview-text);
           --select-arrow-down-width: 30;
@@ -137,7 +136,6 @@
 
         > .apps{
           margin: 0.75em;
-
           display: flex;
           flex-wrap: wrap;
           align-items: center;
@@ -155,7 +153,6 @@
               margin-left: 0.25em;
               color: var(--color-preview-text);
             }
-
           }
 
           > .app {
@@ -196,7 +193,7 @@
               background-size: contain;
             }
 
-            > div {
+            > .appOverlay {
               --row-height: calc(var(--preview-image-size) * 105px);
 
               height: 100%;

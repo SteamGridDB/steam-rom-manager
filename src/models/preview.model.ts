@@ -62,7 +62,6 @@ export interface PreviewData {
 }
 
 export interface PreviewVariables {
-    gamesMode: boolean,
     listIsBeingGenerated: boolean,
     listIsBeingSaved: boolean,
     listIsBeingRemoved: boolean,
