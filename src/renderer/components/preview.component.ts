@@ -56,6 +56,9 @@ export class PreviewComponent implements OnDestroy {
     } else if(this.previewService.getImageType()=='logo') {
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '960px', RendererStyleFlags2.DashCase);
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '540px', RendererStyleFlags2.DashCase);
+    } else if(this.previewService.getImageType()=='games') {
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '920px', RendererStyleFlags2.DashCase);
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '430px', RendererStyleFlags2.DashCase);
     }
   }
 
@@ -67,81 +70,59 @@ export class PreviewComponent implements OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  private getImageType() {
+    return this.previewService.getImageType();
+  }
+
   private setImageType(imageType: string) {
     this.previewService.setImageType(imageType);
     this.setImageBoxSizes();
   }
-  private getImagePool(poolKey: string) {
-    return this.previewService.images[poolKey];
+  private getImagePool(poolKey: string, imagetype?: string) {
+    return this.previewService.getImageType() == 'games' ? this.previewService.images[imagetype][poolKey] : this.previewService.images[poolKey];
   }
 
-  private getAppImages(app: PreviewDataApp) {
-    if (this.previewService.getImageType() === 'long') {
+  private getAppImages(app: PreviewDataApp, imagetype?: string) {
+    if (this.previewService.getImageType() === 'long' || (this.previewService.getImageType() === 'games' && imagetype ==='long')) {
       return app.images;
-    } else if (this.previewService.getImageType() === 'tall') {
+    } else if (this.previewService.getImageType() === 'tall' || (this.previewService.getImageType() === 'games' && imagetype ==='tall')) {
       return app.tallimages;
-    } else if (this.previewService.getImageType() === 'hero') {
+    } else if (this.previewService.getImageType() === 'hero' || (this.previewService.getImageType() === 'games' && imagetype ==='hero')) {
       return app.heroimages;
-    } else if (this.previewService.getImageType() === 'logo') {
+    } else if (this.previewService.getImageType() === 'logo' || (this.previewService.getImageType() === 'games' && imagetype ==='logo')) {
       return app.logoimages;
     }
   }
 
-  private getBackgroundImage(app: PreviewDataApp) {
-    return this.previewService.getCurrentImage(app);
+  private getBackgroundImage(app: PreviewDataApp, imagetype?: string) {
+    return this.previewService.getCurrentImage(app, imagetype);
   }
 
-  private getGameBackgroundImages(app: PreviewDataApp) {
-    return this.previewService.getAllCurrentImages(app);
-  }
-  private getGameAppImages(app: PreviewDataApp) {
-    return {
-      "long": app.images,
-      "tall": app.tallimages,
-      "hero": app.heroimages,
-      "logo": app.logoimages
-    }
-  }
-
-  private setBackgroundImage(app: PreviewDataApp, image: ImageContent) {
+  private setBackgroundImage(app: PreviewDataApp, image: ImageContent, imagetype?: string) {
     if (image == undefined) {
       let imagepool: string;
-      if (this.previewService.getImageType()==='long') {
+      if (this.previewService.getImageType()==='long' || (this.previewService.getImageType()==='games' && imagetype==='long')) {
         imagepool = app.tallimages.imagePool;
-      } else if (this.previewService.getImageType()==='tall') {
+      } else if (this.previewService.getImageType()==='tall' || (this.previewService.getImageType()==='games' && imagetype==='tall')) {
         imagepool = app.tallimages.imagePool;
-      } else if (this.previewService.getImageType()==='hero') {
+      } else if (this.previewService.getImageType()==='hero' || (this.previewService.getImageType()==='games' && imagetype==='hero')) {
         imagepool = app.heroimages.imagePool;
-      } else if (this.previewService.getImageType()==='logo') {
+      } else if (this.previewService.getImageType()==='logo' || (this.previewService.getImageType()==='games' && imagetype==='logo')) {
         imagepool = app.logoimages.imagePool;
       }
-      if (this.previewService.images[imagepool].retrieving)
+      let retrieving = this.previewService.getImageType()==='games'? this.previewService.images[imagetype][imagepool].retrieving : this.previewService.images[imagepool].retrieving;
+      if (retrieving)
         return require('../../assets/images/retrieving-images.svg');
       else
         return require('../../assets/images/no-images.svg');
     }
     else {
       if (image.loadStatus === 'notStarted') {
-        this.loadImage(app);
-        return require('../../assets/images/downloading-image.svg');
-      }
-      else if (image.loadStatus === 'downloading')
-        return require('../../assets/images/downloading-image.svg');
-      else if (image.loadStatus === 'done')
-        return image.imageUrl;
-      else
-        return require('../../assets/images/failed-image-download.svg');
-    }
-  }
-  private setGameBackgroundImage(app: PreviewDataApp, image: ImageContent, imagePool: string, imagetype: string) {
-    if(image == undefined) {
-      if(this.previewService.images[imagePool].retrieving)
-        return require('../../assets/images/retrieving-images.svg');
-      else
-        return require('../../assets/images/no-images.svg');
-    } else {
-      if (image.loadStatus === 'notStarted') {
-        this.loadImage(app);
+        if(this.previewService.getImageType()==='games') {
+          this.loadImage(app, imagetype)
+        } else {
+          this.loadImage(app);
+        }
         return require('../../assets/images/downloading-image.svg');
       }
       else if (image.loadStatus === 'downloading')
@@ -157,12 +138,12 @@ export class PreviewComponent implements OnDestroy {
     this.previewService.loadImage(app, imagetype);
   }
 
-  private areImagesAvailable(app: PreviewDataApp) {
-    return this.previewService.areImagesAvailable(app);
+  private areImagesAvailable(app: PreviewDataApp, imagetype?: string) {
+    return this.previewService.areImagesAvailable(app, imagetype);
   }
 
   private currentImageIndex(app: PreviewDataApp, imagetype?: string) {
-    if(!imagetype) {
+    if(this.previewService.getImageType()!='games') {
       imagetype=this.previewService.getImageType()
     }
     if (imagetype === 'long') {
@@ -184,7 +165,7 @@ export class PreviewComponent implements OnDestroy {
   private addLocalImages(app: PreviewDataApp, imagetype?: string) {
     this.fileSelector.multiple = true;
     this.fileSelector.accept = '.png, .jpeg, .jpg, .tga';
-    if(!imagetype) {
+    if(this.previewService.getImageType()!='games') {
       imagetype=this.previewService.getImageType()
     }
     this.fileSelector.onChange = (target) => {
@@ -252,7 +233,7 @@ export class PreviewComponent implements OnDestroy {
   }
 
   private refreshImages(app: PreviewDataApp, imagetype?: string) {
-    if(imagetype) {
+    if(this.previewService.getImageType()=='games') {
       this.previewService.downloadImageUrls(imagetype,[app.images.imagePool], app.imageProviders);
     } else {
       this.previewService.downloadImageUrls('long',[app.images.imagePool], app.imageProviders);
@@ -263,7 +244,7 @@ export class PreviewComponent implements OnDestroy {
   }
 
   private previousImage(app: PreviewDataApp, imagetype?: string) {
-    if(!imagetype){
+    if(this.previewService.getImageType()!='games'){
       imagetype = this.previewService.getImageType();
     }
     if (imagetype === 'long') {
@@ -279,7 +260,7 @@ export class PreviewComponent implements OnDestroy {
   }
 
   private nextImage(app: PreviewDataApp, imagetype?: string) {
-    if(!imagetype){
+    if(this.previewService.getImageType()!='games'){
       imagetype = this.previewService.getImageType();
     }
     if (imagetype === 'long') {

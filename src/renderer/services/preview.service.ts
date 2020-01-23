@@ -37,7 +37,6 @@ export class PreviewService {
   constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private settingsService: SettingsService, private http: Http) {
     this.previewData = undefined;
     this.previewVariables = {
-      gamesMode: true,
       listIsBeingSaved: false,
       listIsBeingGenerated: false,
       listIsBeingRemoved: false,
@@ -52,7 +51,7 @@ export class PreviewService {
     this.appTallImages = {};
     this.appHeroImages = {};
     this.appLogoImages = {};
-    this.imageTypes = ["long","tall", "hero","logo"];
+    this.imageTypes = ["long","tall", "hero","logo", "games"];
     this.currentImageType = "long";
     this.imageProviderService.instance.stopEvent.subscribe(() => {
       for (let imageKey in this.appImages) {
@@ -69,7 +68,6 @@ export class PreviewService {
       }
 
       this.previewVariables.numberOfQueriedImages = 0;
-      this.previewVariables.gamesMode = true;
       this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
       this.previewDataChanged.next();
     });
@@ -216,7 +214,7 @@ export class PreviewService {
   loadImage(app: PreviewDataApp, imagetype?: string) {
     if (app) {
       let image: ImageContent;
-      if (!imagetype){
+      if (this.currentImageType!="games"){
         imagetype = this.currentImageType;
       }
       if (imagetype ==='long') {
@@ -243,7 +241,6 @@ export class PreviewService {
 
         let imageLoader = new Image();
         imageLoader.onload = () => {
-          console.log(this)
           image.loadStatus = 'done';
           image.imageRes = `${imageLoader.width}x${imageLoader.height}`
           this.previewDataChanged.next();
@@ -303,9 +300,9 @@ export class PreviewService {
     }
   }
 
-  setImageIndex(app: PreviewDataApp, index: number, imagetype: string) {
+  setImageIndex(app: PreviewDataApp, index: number, imagetype?: string) {
     if (app) {
-      if(!imagetype){
+      if(this.currentImageType!="games"){
         imagetype = this.currentImageType;
       }
       if (imagetype === 'long') {
@@ -322,13 +319,13 @@ export class PreviewService {
     }
   }
 
-  areImagesAvailable(app: PreviewDataApp) {
-    return this.getTotalLengthOfImages(app) > 0;
+  areImagesAvailable(app: PreviewDataApp, imagetype?: string) {
+    return this.getTotalLengthOfImages(app, imagetype) > 0;
   }
 
   getTotalLengthOfImages(app: PreviewDataApp, imagetype?: string) {
     if (app) {
-      if(!imagetype) {
+      if(this.currentImageType!="games") {
         imagetype = this.currentImageType;
       }
       if (imagetype === 'long') {
@@ -345,25 +342,16 @@ export class PreviewService {
       return 0;
   }
 
-  getCurrentImage(app: PreviewDataApp) {
-    if (this.currentImageType === 'long') {
+  getCurrentImage(app: PreviewDataApp, imagetype?: string) {
+    if (this.currentImageType === 'long' || (this.currentImageType=='games' && imagetype=='long')) {
       return appImage.getCurrentImage(app.images, this.appImages);
-    } else if (this.currentImageType === 'tall') {
+    } else if (this.currentImageType === 'tall' || (this.currentImageType=='games' && imagetype=='tall')) {
       return appImage.getCurrentImage(app.tallimages, this.appTallImages);
-    } else if (this.currentImageType === 'hero') {
+    } else if (this.currentImageType === 'hero' || (this.currentImageType=='games' && imagetype=='hero')) {
       return appImage.getCurrentImage(app.heroimages, this.appHeroImages);
-    } else if (this.currentImageType === 'logo') {
+    } else if (this.currentImageType === 'logo'|| (this.currentImageType=='games' && imagetype=='logo')) {
       return appImage.getCurrentImage(app.logoimages, this.appLogoImages);
     }
-  }
-
-  getAllCurrentImages(app: PreviewDataApp) {
-    return {
-      "long": appImage.getCurrentImage(app.images, this.appImages),
-      "tall": appImage.getCurrentImage(app.tallimages, this.appTallImages),
-      "hero": appImage.getCurrentImage(app.heroimages, this.appHeroImages),
-      "logo": appImage.getCurrentImage(app.logoimages, this.appLogoImages)
-    };
   }
 
   setIconIndex(app: PreviewDataApp, index: number) {
@@ -382,6 +370,13 @@ export class PreviewService {
       return this.appHeroImages;
     } else if (this.currentImageType === 'logo') {
       return this.appLogoImages;
+    } else if (this.currentImageType === 'games') {
+      return {
+        'long': this.appImages,
+        'tall': this.appTallImages,
+        'hero': this.appHeroImages,
+        'logo': this.appLogoImages
+      }
     }
   }
 

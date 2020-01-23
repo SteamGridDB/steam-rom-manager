@@ -82,7 +82,7 @@
                 background-color: var(--ng-toggle-button-color-button-fill);
                 border-color: var(--ng-toggle-button-color-button-border);
             }
-    
+
             &:hover{
                 background-color: var(--ng-toggle-button-color-fill-hover);
                 border-color: var(--ng-toggle-button-color-border-hover);
@@ -92,7 +92,7 @@
                     border-color: var(--ng-toggle-button-color-button-border-hover);
                 }
             }
-    
+
             &.active{
                 background-color: var(--ng-toggle-button-color-fill-active);
                 border-color: var(--ng-toggle-button-color-border-active);
@@ -101,7 +101,7 @@
                     background-color: var(--ng-toggle-button-color-button-fill-active);
                     border-color: var(--ng-toggle-button-color-button-border-active);
                 }
-    
+
                 &:hover{
                     background-color: var(--ng-toggle-button-color-fill-active-hover);
                     border-color: var(--ng-toggle-button-color-border-active-hover);

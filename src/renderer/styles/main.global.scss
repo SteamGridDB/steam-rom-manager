@@ -86,17 +86,17 @@ body {
 		justify-content: center;
 
 		content: 'i';
-		
+
 		color: var(--color-info-button);
 		border-radius: 50%;
 
 		box-sizing: border-box;
 		user-select: none;
 	}
-	
+
 	&:hover {
 		cursor: pointer;
-		color: var(--color-info-button-hover); 
+		color: var(--color-info-button-hover);
 		background-color: var(--color-info-button-background-hover);
 		border-color: var(--color-info-button-hover);
 	}
