@@ -1,9 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 2.2.22 - 2020-01-22
+## 2.2.22 - 2020-01-24
 ### Added
 * Added resolutions to images
+* Added an "All Artwork" view
 
 ### Fixed
 * Fixed pngs not replacing jpgs
