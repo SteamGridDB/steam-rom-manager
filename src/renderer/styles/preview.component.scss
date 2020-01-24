@@ -11,6 +11,14 @@
   --preview-image-size: 0.4;
   --image-width-max: 920px;
   --image-height-max: 430px;
+  --games-long-width: 920px;
+  --games-long-height: 430px;
+  --games-tall-width: 600px;
+  --games-tall-height: 900px;
+  --games-hero-width: 1920px;
+  --games-hero-height: 620px;
+  --games-logo-width: 960px;
+  --games-logo-height: 540px;
   grid-area: route;
   grid-template-areas: 'upperMenu' 'entries' 'lowerMenu';
   grid-template-rows: auto 1fr auto;
@@ -168,6 +176,29 @@
             background-repeat: no-repeat;
             background-position: center center;
             background-size: auto 75%;
+
+            &.longStyle {
+              width: calc(var(--preview-image-size) * var(--games-long-width));
+              height: calc(var(--preview-image-size) * var(--games-long-height));
+            }
+            &.tallStyle {
+              width: calc(var(--preview-image-size) * var(--games-tall-width));
+              height: calc(var(--preview-image-size) * var(--games-tall-height));
+            }
+            &.heroStyle {
+              width: calc(var(--preview-image-size) * var(--games-hero-width));
+              height: calc(var(--preview-image-size) * var(--games-hero-height));
+            }
+            &.logoStyle {
+              width: calc(var(--preview-image-size) * var(--games-logo-width));
+              height: calc(var(--preview-image-size) * var(--games-logo-height));
+            }
+
+
+
+
+
+
 
             &.retrieving {
               background-color: var(--color-preview-image-retrieving-url-background);

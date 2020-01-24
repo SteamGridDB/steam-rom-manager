@@ -79,7 +79,7 @@ export class PreviewComponent implements OnDestroy {
     this.setImageBoxSizes();
   }
   private getImagePool(poolKey: string, imagetype?: string) {
-    return this.previewService.getImageType() == 'games' ? this.previewService.images[imagetype][poolKey] : this.previewService.images[poolKey];
+    return this.previewService.getImages(imagetype)[poolKey];
   }
 
   private getAppImages(app: PreviewDataApp, imagetype?: string) {
@@ -110,8 +110,7 @@ export class PreviewComponent implements OnDestroy {
       } else if (this.previewService.getImageType()==='logo' || (this.previewService.getImageType()==='games' && imagetype==='logo')) {
         imagepool = app.logoimages.imagePool;
       }
-      let retrieving = this.previewService.getImageType()==='games'? this.previewService.images[imagetype][imagepool].retrieving : this.previewService.images[imagepool].retrieving;
-      if (retrieving)
+      if (this.previewService.getImages(imagetype)[imagepool].retrieving)
         return require('../../assets/images/retrieving-images.svg');
       else
         return require('../../assets/images/no-images.svg');
@@ -125,8 +124,9 @@ export class PreviewComponent implements OnDestroy {
         }
         return require('../../assets/images/downloading-image.svg');
       }
-      else if (image.loadStatus === 'downloading')
+      else if (image.loadStatus === 'downloading') {
         return require('../../assets/images/downloading-image.svg');
+      }
       else if (image.loadStatus === 'done')
         return image.imageUrl;
       else
