@@ -8,6 +8,13 @@ export interface languageStruct {
       component: {
         filter: string,
           selectType: string,
+          selectTypeOptions: {
+            long: string,
+            tall: string,
+            hero: string,
+            logo: string,
+            games: string
+          },
           by: string,
           refreshImages: string,
           addLocalImages: string,
