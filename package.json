@@ -88,7 +88,6 @@
     "bluebird": "^3.5.1",
     "colornames": "^1.1.1",
     "crc": "^3.5.0",
-    "electron-context-menu": "^0.15.2",
     "electron-window-state": "^4.1.1",
     "fast-memoize": "^2.3.2",
     "file-uri-to-path": "^2.0.0",
