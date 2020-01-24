@@ -215,9 +215,13 @@ export class ParsersService {
       case 'defaultHeroImage':
       case 'defaultLogoImage':
       case 'localImages':
+        return this.fileParser.validateFieldGlob(data || '');
       case 'localTallImages':
+        return this.fileParser.validateFieldGlob(data || '');
       case 'localHeroImages':
+        return this.fileParser.validateFieldGlob(data || '');
       case 'localLogoImages':
+        return this.fileParser.validateFieldGlob(data || '');
       case 'localIcons':
         return this.fileParser.validateFieldGlob(data || '');
       default:
