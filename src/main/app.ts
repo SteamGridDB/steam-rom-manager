@@ -3,25 +3,6 @@ import * as paths from "../paths";
 import * as path from 'path';
 import * as url from 'url';
 import * as fs from 'fs';
-import * as contextMenu from 'electron-context-menu';
-contextMenu({
-  prepend: (defaultActions: any, params: any, browserWindow: any) => [
-    {
-      label: 'Rainbow',
-      // Only show it when right-clicking images
-      visible: params.mediaType === 'image'
-    },
-    {
-      label: 'Search Google for “{selection}”',
-      // Only show it when right-clicking text
-      visible: params.selectionText.trim().length > 0,
-      click: () => {
-        shell.openExternal(`https://google.com/search?q=${encodeURIComponent(params.selectionText)}`);
-      }
-    }
-  ]
-});
-
 
 import 'unknown-ts';
 const windowStateKeeper = require('electron-window-state');
