@@ -84,7 +84,6 @@ export class VDF_ScreenshotsFile {
     return Promise.resolve().then(() => {
       let promises: Promise<VDF_Error>[] = [];
       let screenshotsData: VDF_ScreenshotsData = this.data;
-      console.log(this.extraneous);
       for (let j=0; j < this.extraneous.length; j++) {
         let exAppId = this.extraneous[j]
         promises.push(glob.promise(`${exAppId}.*`, { silent: true, dot: true, cwd: this.gridDirectory, absolute: true }).then((files) => {
