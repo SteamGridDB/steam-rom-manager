@@ -11,6 +11,13 @@ export const EnglishLang: languageContainer = {
       component: {
         filter: 'Filter app titles',
         selectType: 'Select type',
+        selectTypeOptions: {
+          long: 'Grids',
+          tall: 'Posters',
+          hero: 'Heroes',
+          logo: 'Logos',
+          games: 'All Artwork'
+        },
         by: 'by',
         refreshImages: 'Refresh images',
         addLocalImages: 'Add local images',

@@ -7,7 +7,7 @@
     <div>{{appSettings.previewSettings.imageZoomPercentage | number : '1.0-2'}}%</div>
     <ng-select class="selectType" [(ngModel)]="appSettings.previewSettings.imageTypes" [placeholder]="lang.selectType" (ngModelChange)="appSettings.previewSettings.imageTypes = $event; setImageType($event);">
       <ng-option *ngFor="let value of imageTypes" [ngValue]="value">
-        {{value}}
+        {{lang.selectTypeOptions[value]}}
       </ng-option>
     </ng-select>
   </div>
