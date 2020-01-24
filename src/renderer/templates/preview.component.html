@@ -31,7 +31,7 @@
             <div class="apps">
               <ng-container *ngFor="let appId of previewData[steamDir][steamUser].apps | keys">
                 <ng-container *ngVar="previewData[steamDir][steamUser].apps[appId] as app">
-                  <div class="title">
+                  <div class="title" *ngIf="(app.title | fuzzyTest: filterValue)">
                     <span>{{app.title}}</span>
                   </div>
                   <ng-container *ngFor="let imagetype of ['long','tall','hero','logo']">
