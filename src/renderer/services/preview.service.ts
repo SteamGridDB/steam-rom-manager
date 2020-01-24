@@ -214,16 +214,13 @@ export class PreviewService {
   loadImage(app: PreviewDataApp, imagetype?: string) {
     if (app) {
       let image: ImageContent;
-      if (this.currentImageType!="games"){
-        imagetype = this.currentImageType;
-      }
-      if (imagetype ==='long') {
+      if (this.currentImageType === 'long' || (this.currentImageType==='games' && imagetype==='long')) {
         image = appImage.getCurrentImage(app.images, this.appImages);
-      } else if (imagetype === 'tall') {
+      } else if (this.currentImageType === 'tall' || (this.currentImageType==='games' && imagetype==='tall') ) {
         image = appImage.getCurrentImage(app.tallimages, this.appTallImages);
-      } else if (imagetype === 'hero') {
+      } else if (this.currentImageType === 'hero' || (this.currentImageType==='games' && imagetype==='hero') ) {
         image = appImage.getCurrentImage(app.heroimages, this.appHeroImages);
-      } else if (imagetype === 'logo') {
+      } else if (this.currentImageType === 'logo' || (this.currentImageType==='games' && imagetype==='logo') ) {
         image = appImage.getCurrentImage(app.logoimages, this.appLogoImages);
       }
 
@@ -361,22 +358,15 @@ export class PreviewService {
     }
   }
 
-  get images() {
-    if (this.currentImageType === 'long') {
-      return this.appImages;
-    } else if (this.currentImageType === 'tall') {
+  getImages(imagetype?: string ) {
+    if (this.currentImageType === 'long' || (this.currentImageType=='games' && imagetype=='long')) {
+      return this.appImages
+    } else if (this.currentImageType === 'tall' || (this.currentImageType=='games' && imagetype=='tall')) {
       return this.appTallImages;
-    } else if (this.currentImageType === 'hero') {
+    } else if (this.currentImageType === 'hero' || (this.currentImageType=='games' && imagetype=='hero')) {
       return this.appHeroImages;
-    } else if (this.currentImageType === 'logo') {
+    } else if (this.currentImageType === 'logo'|| (this.currentImageType=='games' && imagetype=='logo')) {
       return this.appLogoImages;
-    } else if (this.currentImageType === 'games') {
-      return {
-        'long': this.appImages,
-        'tall': this.appTallImages,
-        'hero': this.appHeroImages,
-        'logo': this.appLogoImages
-      }
     }
   }
 
