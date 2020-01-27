@@ -22,14 +22,6 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Got Logos working
 * Got Recent Images working
-
-## 2.2.20 - 2020-01-12
-
-### Added
-
-* Got Posters and Heroes working
-* Added Steam Category Manager
-
 ## 2.2.19 - 2019-03-09
 
 ### Changed
