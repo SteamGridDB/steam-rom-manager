@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.23 - 2020-01-27
+### Added 
+* Improved documentation for custom variables based on advice of a friend.
+
+### Fixed
+* Fixed parsers deleting custom logo positions on re parsing (note they will still delete if that app's name changes - SRM will not yet relocate the old json file to the new name)
+* Fixed downloading borders not showing in all artwork view
+
 ## 2.2.22 - 2020-01-24
 ### Added
 * Added resolutions to images
