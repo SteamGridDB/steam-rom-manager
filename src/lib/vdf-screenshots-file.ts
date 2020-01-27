@@ -146,7 +146,7 @@ export class VDF_ScreenshotsFile {
                 }).then((buffer) => {
                   return fs.outputFile(path.join(this.gridDirectory, `${appId}.${ids.map_ext[""+ext]||ext}`), buffer).then(() => {
                     screenshotsData[appId] = data.title;
-                    glob.promise(`${appId}.*`, { silent: true, dot: true, cwd: this.gridDirectory, absolute: true }).then((files) => {
+                    glob.promise(`${appId}.!(json)`, { silent: true, dot: true, cwd: this.gridDirectory, absolute: true }).then((files) => {
                       let errors: Error[] = [];
                       for (let i = 0; i < files.length; i++) {
                         if(files[i].split('.')[1]!==(ids.map_ext[""+ext]||ext)) {
