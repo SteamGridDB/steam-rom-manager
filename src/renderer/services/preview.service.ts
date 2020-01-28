@@ -224,7 +224,6 @@ export class PreviewService {
         image = appImage.getCurrentImage(app.logoimages, this.appLogoImages);
       }
 
-
       if (image !== undefined && (image.loadStatus === 'notStarted' || image.loadStatus === 'failed')) {
         if (image.loadStatus === 'failed') {
           this.loggerService.info(this.lang.info.retryingDownload__i.interpolate({
@@ -232,7 +231,6 @@ export class PreviewService {
             appTitle: app.title
           }));
         }
-
         image.loadStatus = 'downloading';
         this.previewDataChanged.next();
 

@@ -194,12 +194,6 @@
               height: calc(var(--preview-image-size) * var(--games-logo-height));
             }
 
-
-
-
-
-
-
             &.retrieving {
               background-color: var(--color-preview-image-retrieving-url-background);
               border-color: var(--color-preview-image-retrieving-url-border);

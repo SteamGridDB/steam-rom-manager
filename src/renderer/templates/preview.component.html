@@ -38,7 +38,7 @@
                     <ng-container *ngVar="getBackgroundImage(app, imagetype) as image">
                       <ng-container *ngVar="getAppImages(app, imagetype) as appimages">
                         <div class="app" *ngIf="(app.title | fuzzyTest: filterValue)" [style.backgroundImage]="setBackgroundImage(app, image, imagetype) | cssUrl | safeStyle"
-                             [style.retrieving]="getImagePool(appimages.imagePool, imagetype).retrieving" [class.noImages]="!getImagePool(appimages.imagePool, imagetype).retrieving && image == undefined"
+                             [class.retrieving]="getImagePool(appimages.imagePool, imagetype).retrieving" [class.noImages]="!getImagePool(appimages.imagePool, imagetype).retrieving && image == undefined"
                              [class.downloading]="image != undefined && image.loadStatus === 'downloading'" [class.failed]="image != undefined && image.loadStatus === 'failed'"
                              [class.imageLoaded]="image != undefined && image.loadStatus === 'done'" (mouseenter)="entries.hoverIndex = app.entryId; entries.hoverType = imagetype;"
                              [class.longStyle]="imagetype === 'long'"
