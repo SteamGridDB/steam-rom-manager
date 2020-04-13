@@ -6,6 +6,7 @@ Pull requests will still be reviewed and merged.
 # For casual users
 
 Visit [Steam ROM Manager](https://frogthefrog.github.io/steam-rom-manager)'s github page for more information.
+Check out the [releases page](https://github.com/doZennn/steam-rom-manager/releases) for compiled downloads.
 
 # For developers
 
