@@ -10,6 +10,7 @@ import { BehaviorSubject } from "rxjs";
 import { APP } from '../../variables';
 import * as json from "../../lib/helpers/json";
 import * as paths from "../../paths";
+import * as path from 'path';
 import * as schemas from '../schemas';
 import * as modifiers from '../modifiers';
 import * as fs from 'fs-extra';
@@ -179,7 +180,7 @@ export class ParsersService {
       case 'steamCategory':
         return this.validateVariableParserString(data || '');
       case 'executableLocation':
-        return (data == null || data.length === 0 || this.validateVariableParserString(data || '')) ? null : this.lang.validationErrors.executable__md;
+        return (data == null || data.length === 0 || this.validateEnvironmentPath(data || '') ) ? null : this.lang.validationErrors.executable__md;
       case 'romDirectory':
         return this.validatePath(data || '', true) ? null : this.lang.validationErrors.romDir__md;
       case 'steamDirectory':
@@ -258,6 +259,10 @@ export class ParsersService {
     } catch (e) {
       return false;
     }
+  }
+
+  private validateEnvironmentPath(pathwithvar: string, checkForDirectory?:boolean) {
+    return this.validatePath(pathwithvar.replace(/\$\{srmdir\}/g, APP.srmdir).replace(/\$\{\/\}/g, path.sep),checkForDirectory)
   }
 
   isConfigurationValid(config: UserConfiguration) {

@@ -5,5 +5,5 @@ export interface GlobalContainer {
     version: number,
     os: string,
     arch: string,
-    srmpath: string
+    srmdir: string
 };

@@ -507,7 +507,7 @@ export class FileParser {
                 output = path.sep;
                 break;
               case 'SRMDIR':
-                output = APP.srmpath;
+                output = APP.srmdir;
                 break;
             }
             return output;
@@ -521,7 +521,7 @@ export class FileParser {
                 output = path.sep;
                 break;
               case 'SRMDIR':
-                output = APP.srmpath;
+                output = APP.srmdir;
                 break;
               case 'EXEDIR':
                 output = data.executableLocation != undefined ? path.dirname(data.executableLocation) : unavailable;
