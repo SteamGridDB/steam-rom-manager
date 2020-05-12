@@ -84,9 +84,9 @@ export type NameVariables = 'EXENAME' | 'FILENAME';
 export type ExtensionVariables = 'EXEEXT' | 'FILEEXT';
 export type PathVariables = 'EXEPATH' | 'FILEPATH';
 export type ParserVariables = 'TITLE' | 'FUZZYTITLE' | 'FINALTITLE';
-export type OtherVariables = '/';
+export type EnvironmentVariables = '/' | 'SRMDIR';
 
-export type AllVariables = DirectoryVariables | NameVariables | ExtensionVariables | PathVariables | ParserVariables | OtherVariables;
+export type AllVariables = DirectoryVariables | NameVariables | ExtensionVariables | PathVariables | ParserVariables | EnvironmentVariables;
 
 export interface GenericParser {
     getParserInfo(): ParserInfo,

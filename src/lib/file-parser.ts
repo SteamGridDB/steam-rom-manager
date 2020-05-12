@@ -1,4 +1,4 @@
-import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables, CustomVariables } from '../models';
+import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables, EnvironmentVariables, CustomVariables } from '../models';
 import { FuzzyService } from "../renderer/services";
 import { VariableParser } from "./variable-parser";
 import { APP } from '../variables';
@@ -198,6 +198,10 @@ export class FileParser {
                     onlineImageQueries: undefined
                   });
 
+                  // Variables on rom directory, start in path, executable path, steam directory too
+                  configs[i].executableLocation = vParser.setInput(configs[i].executableLocation).parse() ? vParser.replaceVariables((variable) => {
+                    return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
+                  }) : '';
 
                   let lastFile = parsedConfigs[i].files[parsedConfigs[i].files.length - 1];
                   let variableData = this.makeVariableData(configs[i], lastFile);
@@ -496,6 +500,18 @@ export class FileParser {
               return { config, parsedConfig, resolvedGlobs, resolvedFiles };
             });
           }
+          private getEnvironmentVariable(variable: EnvironmentVariables) {
+            let output = variable as string;
+            switch (<EnvironmentVariables>variable.toUpperCase()) {
+              case '/':
+                output = path.sep;
+                break;
+              case 'SRMDIR':
+                output = APP.srmpath;
+                break;
+            }
+            return output;
+          }
 
           private getVariable(variable: AllVariables, data: ParserVariableData) {
             const unavailable = 'undefined';
@@ -503,6 +519,9 @@ export class FileParser {
             switch (<AllVariables>variable.toUpperCase()) {
               case '/':
                 output = path.sep;
+                break;
+              case 'SRMDIR':
+                output = APP.srmpath;
                 break;
               case 'EXEDIR':
                 output = data.executableLocation != undefined ? path.dirname(data.executableLocation) : unavailable;

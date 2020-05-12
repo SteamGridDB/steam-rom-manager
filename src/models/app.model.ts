@@ -4,5 +4,6 @@ export interface GlobalContainer {
     lang: languageStruct,
     version: number,
     os: string,
-    arch: string
+    arch: string,
+    srmpath: string
 };

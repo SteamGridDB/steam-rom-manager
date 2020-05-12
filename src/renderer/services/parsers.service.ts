@@ -179,7 +179,7 @@ export class ParsersService {
       case 'steamCategory':
         return this.validateVariableParserString(data || '');
       case 'executableLocation':
-        return (data == null || data.length === 0 || this.validatePath(data || '')) ? null : this.lang.validationErrors.executable__md;
+        return (data == null || data.length === 0 || this.validateVariableParserString(data || '')) ? null : this.lang.validationErrors.executable__md;
       case 'romDirectory':
         return this.validatePath(data || '', true) ? null : this.lang.validationErrors.romDir__md;
       case 'steamDirectory':
