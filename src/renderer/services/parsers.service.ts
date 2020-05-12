@@ -55,6 +55,11 @@ export class ParsersService {
 
   saveConfiguration(config: { saved: UserConfiguration, current: UserConfiguration }) {
     let userConfigurations = this.userConfigurations.getValue();
+    if(config.saved.parserId){
+      config.current.parserId = config.saved.parserId
+    } else {
+      config.current.parserId = this.newParserId()
+    }
     userConfigurations = userConfigurations.concat(_.cloneDeep(config));
     this.userConfigurations.next(userConfigurations);
     this.saveUserConfigurations();
@@ -80,8 +85,10 @@ export class ParsersService {
       else
         userConfigurations[index] = { saved: userConfigurations[index].current, current: null };
     }
-    else
+    else{
+      config.parserId = userConfigurations[index].saved.parserId;
       userConfigurations[index] = { saved: config, current: null };
+    }
 
     this.userConfigurations.next(userConfigurations);
     this.saveUserConfigurations();
@@ -89,6 +96,7 @@ export class ParsersService {
 
   setCurrentConfiguration(index: number, config: UserConfiguration) {
     let userConfigurations = this.userConfigurations.getValue();
+    config.parserId = userConfigurations[index].saved.parserId;
     userConfigurations[index].current = config;
     this.userConfigurations.next(userConfigurations);
   }
@@ -282,6 +290,10 @@ export class ParsersService {
     return true;
   }
 
+  private newParserId() {
+    return Date.now().toString().concat(Math.floor(Math.random()*100000).toString());
+  }
+
   private saveUserConfigurations() {
     return new Promise<UserConfiguration[]>((resolve, reject) => {
       if (!this.savingIsDisabled) {
@@ -326,7 +338,7 @@ export class ParsersService {
       for (let i = 0; i < data.length; i++) {
         if(!data[i].parserId) {
           updateNeeded = true;
-          data[i].parserId = Date.now().toString().concat(Math.floor(Math.random()*100000).toString());
+          data[i].parserId = this.newParserId();
         }
         if (this.validator.validate(data[i]).isValid())
           validatedConfigs.push({ saved: data[i], current: null });
