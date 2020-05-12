@@ -1,4 +1,4 @@
-import { VDF_ListData, SteamDirectory, PreviewData, AppImages, VDF_ListItem } from "../models";
+import { VDF_ListData, SteamDirectory, PreviewData, PreviewDataApp, AppImages, VDF_ListItem } from "../models";
 import { VDF_Error } from './vdf-error';
 import { APP } from '../variables';
 import * as vdf from './helpers/vdf';
@@ -120,9 +120,12 @@ export class VDF_Manager {
         if (listItem.shortcuts.invalid || listItem.addedItems.invalid || listItem.screenshots.invalid)
           return;
         let apps = previewData[steamDirectory][userId].apps;
-        let appIds = Object.keys(previewData[steamDirectory][userId].apps)
+        // I should use all the just app id entries for building extraneous, but then remove them from the file
+        let currentAppIds = Object.keys(previewData[steamDirectory][userId].apps)
+        let enabledParsers = Array.from(new Set(currentAppIds.map((appid:string)=> apps[appid].configurationTitle)));
         let addedAppIds = Object.keys(listItem.addedItems.data);
-        let extraneousAppIds = addedAppIds.filter((x:string) => appIds.indexOf(x)<0);
+        let addedAppIdsForCurrentParsers = addedAppIds.filter((appid:string) => listItem.addedItems.data[appid]==='-legacy-' || enabledParsers.indexOf(listItem.addedItems.data[appid])>=0);
+        let extraneousAppIds = addedAppIdsForCurrentParsers.filter((appid:string) => currentAppIds.indexOf(appid)<0); // should actually do addedfromenabled \diff newids
         listItem.screenshots.extraneous = extraneousAppIds;
         listItem.shortcuts.extraneous = extraneousAppIds;
         for (let appId in apps) {
@@ -154,7 +157,7 @@ export class VDF_Manager {
             }
 
 
-            listItem.addedItems.addItem(appId);
+            listItem.addedItems.addItem(appId, app.configurationTitle); // added app.configurationTitle
             if (currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
               listItem.screenshots.addItem({ appId: appId, title: app.title, url: currentImage.imageUrl });
             }
