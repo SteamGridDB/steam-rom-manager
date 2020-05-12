@@ -55,11 +55,7 @@ export class ParsersService {
 
   saveConfiguration(config: { saved: UserConfiguration, current: UserConfiguration }) {
     let userConfigurations = this.userConfigurations.getValue();
-    if(config.saved.parserId){
-      config.current.parserId = config.saved.parserId
-    } else {
-      config.current.parserId = this.newParserId()
-    }
+    config.saved.parserId = this.newParserId();
     userConfigurations = userConfigurations.concat(_.cloneDeep(config));
     this.userConfigurations.next(userConfigurations);
     this.saveUserConfigurations();
@@ -83,6 +79,7 @@ export class ParsersService {
       if (userConfigurations[index].current == null)
         return;
       else
+        userConfigurations[index].current.parserId = userConfigurations[index].saved.parserId;
         userConfigurations[index] = { saved: userConfigurations[index].current, current: null };
     }
     else{
@@ -96,7 +93,6 @@ export class ParsersService {
 
   setCurrentConfiguration(index: number, config: UserConfiguration) {
     let userConfigurations = this.userConfigurations.getValue();
-    config.parserId = userConfigurations[index].saved.parserId;
     userConfigurations[index].current = config;
     this.userConfigurations.next(userConfigurations);
   }
