@@ -60,7 +60,7 @@ export class VDF_AddedItemsFile {
     }
   }
 
-  addItem(appId: string, configurationTitle: string) {
-    this.fileData[appId] = configurationTitle; // true -> configurationTitle
+  addItem(appId: string, parserId: string) {
+    this.fileData[appId] = parserId;
   }
 }
