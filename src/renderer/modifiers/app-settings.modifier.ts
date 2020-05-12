@@ -7,7 +7,7 @@ export const appSettings: ValidatorModifier<AppSettings> = {
         undefined: {
             'version': { method: () => 0 },
             'enabledProviders': {
-                method: (oldValue) => Array.isArray(oldValue) ? oldValue.filter((val) => val !== "ConsoleGrid") : oldValue
+                method: (oldValue) => Array.isArray(oldValue) ? oldValue.filter((val) => val !== "ConsoleGrid" && val !== "retrogaming.cloud") : oldValue
             }
         }
     }

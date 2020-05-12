@@ -350,6 +350,7 @@ export interface languageStruct {
             validationErrors: {
               parserType__md: string,
                 configTitle__md: string,
+                parserId__md: string,
                 parserInput: {
                   noInput: string,
                     inputNotAvailable__i: string,//${name}

@@ -1,6 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.24 - 2020-05-12
+### Added 
+* Setting for whether or not to delete shortcuts from disabled parsers
+* Google Images as a provider
+* Ability to specify Launch Args in a JSON file
+### Changed 
+* Removed retrogaming.cloud from list of image providers
+* Changed structure of AddedItemsV2.json to include Parser ID
+### Fixed
+* A bunch of dead links in Readme and About Markdown
+
 ## 2.2.23 - 2020-01-27
 ### Added 
 * Improved documentation for custom variables based on advice of a friend.

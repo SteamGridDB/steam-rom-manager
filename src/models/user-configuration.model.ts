@@ -1,6 +1,7 @@
 export interface UserConfiguration {
     parserType: string,
     configTitle: string,
+    parserId: string,
     steamCategory: string,
     executableLocation: string,
     executableModifier: string,

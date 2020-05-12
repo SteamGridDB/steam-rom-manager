@@ -7,6 +7,7 @@ export const userConfiguration = {
     version: { type: 'number' },
     parserType: { type: 'string', default: '', enum: availableParsers.concat('') },
     configTitle: { type: 'string', default: '' },
+    parserId: { type: 'string', default: '' },
     steamCategory: { type: 'string', default: '' },
     executableLocation: { type: 'string', default: '' },
     executableModifier: { type: 'string', default: '"${exePath}"' },

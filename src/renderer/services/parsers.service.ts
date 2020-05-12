@@ -169,6 +169,8 @@ export class ParsersService {
         }
       case 'configTitle':
         return data ? null : this.lang.validationErrors.configTitle__md;
+      case 'parserId':
+        return data ? null : this.lang.validationErrors.parserId__md;
       case 'steamCategory':
         return this.validateVariableParserString(data || '');
       case 'executableLocation':
@@ -255,7 +257,7 @@ export class ParsersService {
 
   isConfigurationValid(config: UserConfiguration) {
     let simpleValidations: string[] = [
-      'parserType', 'configTitle', 'steamCategory',
+      'parserType', 'configTitle', 'parserId', 'steamCategory',
       'executableLocation', 'executableModifier', 'romDirectory',
       'steamDirectory', 'startInDirectory', 'specifiedAccounts',
       'titleFromVariable', 'titleModifier', 'executableArgs',
@@ -321,6 +323,9 @@ export class ParsersService {
       let validatedConfigs: { saved: UserConfiguration, current: UserConfiguration }[] = [];
       let errorString: string = '';
       for (let i = 0; i < data.length; i++) {
+        if(!data[i].parserId) {
+          data[i].parserId = Date.now().toString().concat(Math.floor(Math.random()*100000).toString());
+        }
         if (this.validator.validate(data[i]).isValid())
           validatedConfigs.push({ saved: data[i], current: null });
         else
