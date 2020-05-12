@@ -180,6 +180,7 @@ export const EnglishLang: languageContainer = {
           resetFuzzy_desc: 'Reset fuzzy list:',
           resetFuzzy_btn: 'Reset',
           showSteamImages: 'Show current Steam images',
+          deleteDisabledShortcuts: 'Remove shortcuts for disabled parsers',
           clearLogOnTest: 'Automatically clear log when before testing parser'
         },
         placeholder: {

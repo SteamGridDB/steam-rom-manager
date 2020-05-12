@@ -163,6 +163,7 @@ export interface languageStruct {
               resetFuzzy_desc: string,
               resetFuzzy_btn: string,
               showSteamImages: string,
+              deleteDisabledShortcuts: string,
               clearLogOnTest: string
           },
           placeholder: {

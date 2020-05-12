@@ -114,7 +114,7 @@ export class VDF_Manager {
     }
   }
 
-  mergeData(previewData: PreviewData, images: AppImages, tallimages: AppImages, heroimages: AppImages, logoimages: AppImages) {
+  mergeData(previewData: PreviewData, images: AppImages, tallimages: AppImages, heroimages: AppImages, logoimages: AppImages, deleteDisabledShortcuts: boolean) {
     return Promise.resolve().then(() => {
       this.forEach((steamDirectory, userId, listItem) => {
         if (listItem.shortcuts.invalid || listItem.addedItems.invalid || listItem.screenshots.invalid)
@@ -124,8 +124,10 @@ export class VDF_Manager {
         let currentAppIds = Object.keys(previewData[steamDirectory][userId].apps)
         let enabledParsers = Array.from(new Set(currentAppIds.map((appid:string)=> apps[appid].configurationTitle)));
         let addedAppIds = Object.keys(listItem.addedItems.data);
-        let addedAppIdsForCurrentParsers = addedAppIds.filter((appid:string) => listItem.addedItems.data[appid]==='-legacy-' || enabledParsers.indexOf(listItem.addedItems.data[appid])>=0);
-        let extraneousAppIds = addedAppIdsForCurrentParsers.filter((appid:string) => currentAppIds.indexOf(appid)<0); // should actually do addedfromenabled \diff newids
+        if(!deleteDisabledShortcuts) {
+          addedAppIds = addedAppIds.filter((appid:string) => listItem.addedItems.data[appid]==='-legacy-' || enabledParsers.indexOf(listItem.addedItems.data[appid])>=0);
+        }
+        let extraneousAppIds = addedAppIds.filter((appid:string) => currentAppIds.indexOf(appid)<0); // should actually do addedfromenabled \diff newids
         listItem.screenshots.extraneous = extraneousAppIds;
         listItem.shortcuts.extraneous = extraneousAppIds;
         for (let appId in apps) {
