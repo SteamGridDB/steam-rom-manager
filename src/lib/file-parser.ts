@@ -145,6 +145,7 @@ export class FileParser {
 
                 parsedConfigs.push({
                   configurationTitle: configs[i].configTitle,
+                  parserId: configs[i].parserId,
                   appendArgsToExecutable: configs[i].appendArgsToExecutable,
                   shortcutPassthrough: configs[i].titleFromVariable.shortcutPassthrough,
                   imageProviders: configs[i].imageProviders,

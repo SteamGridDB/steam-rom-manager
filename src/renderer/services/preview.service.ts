@@ -643,6 +643,7 @@ export class PreviewService {
                 entryId: numberOfItems++,
                 status: 'add', //TODO: change to this when "mark" feature is implemented: oldDataApp !== undefined ? oldDataApp.status : 'add',
                 configurationTitle: config.configurationTitle,
+                parserId: config.parserId,
                 steamCategories: file.steamCategories,
                 startInDirectory: file.startInDirectory,
                 imageProviders: config.imageProviders,

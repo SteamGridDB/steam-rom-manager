@@ -120,14 +120,13 @@ export class VDF_Manager {
         if (listItem.shortcuts.invalid || listItem.addedItems.invalid || listItem.screenshots.invalid)
           return;
         let apps = previewData[steamDirectory][userId].apps;
-        // I should use all the just app id entries for building extraneous, but then remove them from the file
         let currentAppIds = Object.keys(previewData[steamDirectory][userId].apps)
-        let enabledParsers = Array.from(new Set(currentAppIds.map((appid:string)=> apps[appid].configurationTitle)));
+        let enabledParsers = Array.from(new Set(currentAppIds.map((appid:string)=> apps[appid].parserId)));
         let addedAppIds = Object.keys(listItem.addedItems.data);
         if(!deleteDisabledShortcuts) {
           addedAppIds = addedAppIds.filter((appid:string) => listItem.addedItems.data[appid]==='-legacy-' || enabledParsers.indexOf(listItem.addedItems.data[appid])>=0);
         }
-        let extraneousAppIds = addedAppIds.filter((appid:string) => currentAppIds.indexOf(appid)<0); // should actually do addedfromenabled \diff newids
+        let extraneousAppIds = addedAppIds.filter((appid:string) => currentAppIds.indexOf(appid)<0);
         listItem.screenshots.extraneous = extraneousAppIds;
         listItem.shortcuts.extraneous = extraneousAppIds;
         for (let appId in apps) {
@@ -159,7 +158,7 @@ export class VDF_Manager {
             }
 
 
-            listItem.addedItems.addItem(appId, app.configurationTitle); // added app.configurationTitle
+            listItem.addedItems.addItem(appId, app.parserId);
             if (currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
               listItem.screenshots.addItem({ appId: appId, title: app.title, url: currentImage.imageUrl });
             }
