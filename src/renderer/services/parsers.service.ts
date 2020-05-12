@@ -325,7 +325,7 @@ export class ParsersService {
       let updateNeeded: boolean = false;
       for (let i = 0; i < data.length; i++) {
         if(!data[i].parserId) {
-          updatedNeeded = true;
+          updateNeeded = true;
           data[i].parserId = Date.now().toString().concat(Math.floor(Math.random()*100000).toString());
         }
         if (this.validator.validate(data[i]).isValid())
@@ -342,7 +342,7 @@ export class ParsersService {
         }));
       }
       this.userConfigurations.next(validatedConfigs);
-      if(updateNeeded){
+      if(updateNeeded) {
         this.saveUserConfigurations();
       }
     }).catch((error) => {
