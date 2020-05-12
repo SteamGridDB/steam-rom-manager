@@ -286,6 +286,9 @@ export class ParsersService {
 
     return true;
   }
+  getParserId(configurationIndex: number) {
+    return this.userConfigurations.getValue()[configurationIndex].saved.parserId;
+  }
 
   private newParserId() {
     return Date.now().toString().concat(Math.floor(Math.random()*100000).toString());

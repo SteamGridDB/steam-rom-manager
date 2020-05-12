@@ -518,6 +518,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
   private toClipboard() {
     let config = this.userForm.value as UserConfiguration;
+    config.parserId = this.configurationIndex===-1?'UNSAVED SO NO ID':this.parsersService.getParserId(this.configurationIndex);
     if (this.parsersService.isConfigurationValid(config)) {
       try {
         let text = '';
@@ -574,6 +575,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
   private testForm() {
     let config = this.userForm.value as UserConfiguration;
+    config.parserId = this.configurationIndex===-1?'UNSAVED SO NO ID':this.parsersService.getParserId(this.configurationIndex);
     let successData: string = '';
     let errorData: string = '';
 
@@ -604,7 +606,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     if (this.parsersService.isConfigurationValid(config)) {
       if (this.appSettings.clearLogOnTest)
         this.loggerService.clearLog();
-
+      success('Parser ID: '.concat(config.parserId));
       this.parsersService.executeFileParser(config).then((dataArray) => {
         if (dataArray.parsedData.parsedConfigs.length > 0) {
           let data = dataArray.parsedData.parsedConfigs[0];
