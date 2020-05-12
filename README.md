@@ -7,6 +7,8 @@ Pull requests will still be reviewed and merged.
 
 There are some helpful (albeit slightly outdated) tutorial videos to be found [here](https://github.com/doZennn/steam-rom-manager/tree/master/docs/videos). There is plenty of documentation available in the app's built in FAQ, and if you need further help there are expert users to be found on the [discord](https://discord.gg/nxxzBPJ).
 
+Check out the [releases page](https://github.com/doZennn/steam-rom-manager/releases) for compiled downloads.
+
 # For developers
 
 [![Build Status](https://travis-ci.org/doZennn/steam-rom-manager.svg)](https://travis-ci.org/doZennn/steam-rom-manager)
