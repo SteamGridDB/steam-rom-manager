@@ -102,3 +102,7 @@ Now parser can match any combination and is effectively case-insensitive. Techni
 ```
 {*,*/*}/*/${title}.[nN][eE][sS]
 ```
+
+## The Discord
+
+For further help, please see our [discord](https://discord.gg/nxxzBPJ).

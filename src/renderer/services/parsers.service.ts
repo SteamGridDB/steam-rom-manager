@@ -55,8 +55,9 @@ export class ParsersService {
 
   saveConfiguration(config: { saved: UserConfiguration, current: UserConfiguration }) {
     let userConfigurations = this.userConfigurations.getValue();
-    config.saved.parserId = this.newParserId();
-    userConfigurations = userConfigurations.concat(_.cloneDeep(config));
+    let copy: { saved: UserConfiguration, current: UserConfiguration } = _.cloneDeep(config);
+    copy.saved.parserId = this.newParserId();
+    userConfigurations = userConfigurations.concat(copy);
     this.userConfigurations.next(userConfigurations);
     this.saveUserConfigurations();
   }
