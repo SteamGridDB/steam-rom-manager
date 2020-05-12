@@ -7,7 +7,7 @@ export const configPresets = {
         "^.+$": (() => {
             let config = cloneDeep(userConfiguration);
             delete config.properties.version;
-
+            delete config.properties.parserId;
             let addStrictValidation = (data: any) => {
                 if (data['type'] === 'object') {
                     if (data['properties'] !== undefined) {
