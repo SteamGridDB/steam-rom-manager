@@ -164,8 +164,12 @@ export class FileParser {
                     parsedConfigs[i].failed.push(data[i].success[j].filePath);
                     continue;
                   }
-
+                  // Variables on rom directory, start in path, executable path, steam directory too
+                  configs[i].executableLocation = vParser.setInput(configs[i].executableLocation).parse() ? vParser.replaceVariables((variable) => {
+                    return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
+                  }) : null;
                   let executableLocation = configs[i].executableLocation ? configs[i].executableLocation : data[i].success[j].filePath;
+
                   parsedConfigs[i].files.push({
                     steamCategories: undefined,
                     executableLocation: executableLocation,
@@ -197,11 +201,6 @@ export class FileParser {
                     imagePool: undefined,
                     onlineImageQueries: undefined
                   });
-
-                  // Variables on rom directory, start in path, executable path, steam directory too
-                  configs[i].executableLocation = vParser.setInput(configs[i].executableLocation).parse() ? vParser.replaceVariables((variable) => {
-                    return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
-                  }) : '';
 
                   let lastFile = parsedConfigs[i].files[parsedConfigs[i].files.length - 1];
                   let variableData = this.makeVariableData(configs[i], lastFile);
