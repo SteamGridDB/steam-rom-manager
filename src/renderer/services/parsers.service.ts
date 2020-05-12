@@ -322,8 +322,10 @@ export class ParsersService {
     }).then((data) => {
       let validatedConfigs: { saved: UserConfiguration, current: UserConfiguration }[] = [];
       let errorString: string = '';
+      let updateNeeded: boolean = false;
       for (let i = 0; i < data.length; i++) {
         if(!data[i].parserId) {
+          updatedNeeded = true;
           data[i].parserId = Date.now().toString().concat(Math.floor(Math.random()*100000).toString());
         }
         if (this.validator.validate(data[i]).isValid())
@@ -340,6 +342,9 @@ export class ParsersService {
         }));
       }
       this.userConfigurations.next(validatedConfigs);
+      if(updateNeeded){
+        this.saveUserConfigurations();
+      }
     }).catch((error) => {
       this.loggerService.error(this.lang.error.readingConfiguration, { invokeAlert: true, alertTimeout: 5000 });
       this.loggerService.error(error);
