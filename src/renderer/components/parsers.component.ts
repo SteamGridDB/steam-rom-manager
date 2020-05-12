@@ -607,6 +607,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       if (this.appSettings.clearLogOnTest)
         this.loggerService.clearLog();
       success('Parser ID: '.concat(config.parserId));
+      success('');
       this.parsersService.executeFileParser(config).then((dataArray) => {
         if (dataArray.parsedData.parsedConfigs.length > 0) {
           let data = dataArray.parsedData.parsedConfigs[0];
@@ -641,7 +642,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           logSuccess();
           logError();
           this.loggerService.info('');
-
+          success('');
+          success('Number of Titles: '.concat(data.files.length.toString()));
           for (let i = 0; i < data.files.length; i++) {
             success('');
             success(this.lang.success.extractedTitle__i.interpolate({

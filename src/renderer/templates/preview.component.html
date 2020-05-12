@@ -25,7 +25,7 @@
         <div class="user" *ngVar="{ isHidden: false } as user" [class.hidden]="user.isHidden">
           <div class="title" (click)="user.isHidden = !user.isHidden">
             <svg select-arrow-down></svg>
-            <span>{{previewData[steamDir][steamUser].username}}</span>
+            <span>{{previewData[steamDir][steamUser].username}} ({{previewData[steamDir][steamUser].apps.length}} titles)</span>
           </div>
           <ng-container *ngIf="getImageType()=='games'">
             <div class="apps">
