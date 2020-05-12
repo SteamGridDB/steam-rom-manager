@@ -137,6 +137,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         romDirectory: new NestedFormElement.Path({
           directory: true,
           label: this.lang.label.romDirectory,
+          highlight: this.highlight.bind(this),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
@@ -146,6 +147,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         steamDirectory: new NestedFormElement.Path({
           directory: true,
           label: this.lang.label.steamDirectory,
+          highlight: this.highlight.bind(this),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
@@ -155,6 +157,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         startInDirectory: new NestedFormElement.Path({
           directory: true,
           label: this.lang.label.startInDirectory,
+          highlight: this.highlight.bind(this),
           isHidden: () => this.isHiddenMode(),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {

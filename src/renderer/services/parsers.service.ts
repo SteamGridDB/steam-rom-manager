@@ -262,7 +262,7 @@ export class ParsersService {
   }
 
   private validateEnvironmentPath(pathwithvar: string, checkForDirectory?:boolean) {
-    return this.validatePath(pathwithvar.replace(/\$\{srmdir\}/g, APP.srmdir).replace(/\$\{\/\}/g, path.sep),checkForDirectory)
+    return this.validatePath(pathwithvar.replace(/\$\{srmdir\}/g, APP.srmdir).replace(/\$\{\/\}/g, path.sep), checkForDirectory)
   }
 
   isConfigurationValid(config: UserConfiguration) {
