@@ -164,7 +164,16 @@ export class FileParser {
                     parsedConfigs[i].failed.push(data[i].success[j].filePath);
                     continue;
                   }
-                  // Variables on rom directory, start in path, executable path, steam directory too
+                  // Parse environment variables on rom directory, start in path, executable path
+                  configs[i].steamDirectory = vParser.setInput(configs[i].steamDirectory).parse() ? vParser.replaceVariables((variable) => {
+                    return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
+                  }) : null;
+                  configs[i].romDirectory = vParser.setInput(configs[i].romDirectory).parse() ? vParser.replaceVariables((variable) => {
+                    return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
+                  }) : null;
+                  configs[i].startInDirectory = vParser.setInput(configs[i].startInDirectory).parse() ? vParser.replaceVariables((variable) => {
+                    return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
+                  }) : null;
                   configs[i].executableLocation = vParser.setInput(configs[i].executableLocation).parse() ? vParser.replaceVariables((variable) => {
                     return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
                   }) : null;

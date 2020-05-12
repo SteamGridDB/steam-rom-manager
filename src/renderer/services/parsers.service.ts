@@ -182,11 +182,11 @@ export class ParsersService {
       case 'executableLocation':
         return (data == null || data.length === 0 || this.validateEnvironmentPath(data || '') ) ? null : this.lang.validationErrors.executable__md;
       case 'romDirectory':
-        return this.validatePath(data || '', true) ? null : this.lang.validationErrors.romDir__md;
+        return this.validateEnvironmentPath(data || '', true) ? null : this.lang.validationErrors.romDir__md;
       case 'steamDirectory':
-        return this.validatePath(data || '', true) ? null : this.lang.validationErrors.steamDir__md;
+        return this.validateEnvironmentPath(data || '', true) ? null : this.lang.validationErrors.steamDir__md;
       case 'startInDirectory':
-        return (data == null || data.length === 0 || this.validatePath(data || '', true)) ? null : this.lang.validationErrors.startInDir__md;
+        return (data == null || data.length === 0 || this.validateEnvironmentPath(data || '', true)) ? null : this.lang.validationErrors.startInDir__md;
       case 'specifiedAccounts':
         return this.validateVariableParserString(data || '');
       case 'parserInputs':

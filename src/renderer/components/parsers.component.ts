@@ -117,6 +117,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         executableLocation: new NestedFormElement.Path({
           label: this.lang.label.executableLocation,
+          highlight: this.highlight.bind(this),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
