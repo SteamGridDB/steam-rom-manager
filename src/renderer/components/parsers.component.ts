@@ -944,8 +944,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       });
       this.loggerService.info(this.lang.info.testStarting__i.interpolate({
         title: config.configTitle || this.lang.text.noTitle,
-        version: APP.version
+        version: APP.version,
+        portable: APP.srmdir ? "Portable" : "Non-Portable"
       }));
+      this.loggerService.info(this.lang.info.opSys__i.interpolate({
+        os: APP.os
+      }))
       this.router.navigateByUrl('/logger');
     }
     else

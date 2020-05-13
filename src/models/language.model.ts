@@ -232,7 +232,8 @@ export interface languageStruct {
               localIcons: string[]
           },
           info: {
-            testStarting__i: string, //${title}, ${version}
+            testStarting__i: string, //${title}, ${version}, ${portable}
+              opSys__i: string, //${os}
               testCompleted: string,
               nothingWasFound: string,
               copiedToClipboard: string,

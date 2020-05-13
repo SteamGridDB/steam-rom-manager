@@ -179,9 +179,9 @@ export const EnglishLang: languageContainer = {
           selectLanguage: 'Select language:',
           resetFuzzy_desc: 'Reset fuzzy list:',
           resetFuzzy_btn: 'Reset',
-          showSteamImages: 'Show current Steam images',
+          showSteamImages: 'Show current Steam images by default',
           deleteDisabledShortcuts: 'Remove shortcuts for disabled parsers',
-          clearLogOnTest: 'Automatically clear log when before testing parser'
+          clearLogOnTest: 'Automatically clear log before testing parsers'
         },
         placeholder: {
           noProviders: 'None'
@@ -320,7 +320,8 @@ export const EnglishLang: languageContainer = {
           ]
         },
         info: {
-          testStarting__i: 'Testing "${title}" parser (SRM version - ${version}).',
+          testStarting__i: 'Testing "${title}" parser (SRM version - ${version} ${portable}).',
+          opSys__i: 'Operating system is "${os}"',
           testCompleted: 'Parser test is completed.',
           nothingWasFound: 'Parser found nothing.',
           copiedToClipboard: 'Configuration copied to clipboard',
