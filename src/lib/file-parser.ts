@@ -1,4 +1,4 @@
-import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables, CustomVariables } from '../models';
+import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables, EnvironmentVariables, CustomVariables } from '../models';
 import { FuzzyService } from "../renderer/services";
 import { VariableParser } from "./variable-parser";
 import { APP } from '../variables';
@@ -81,8 +81,26 @@ export class FileParser {
 
             return Promise.resolve().then(() => {
               let promises: Promise<ParsedData>[] = [];
+
+              let preParser = new VariableParser({ left: '${', right: '}' });
               for (let i = 0; i < configs.length; i++) {
                 let parser = this.getParserInfo(configs[i].parserType);
+
+
+                  // Parse environment variables on rom directory, start in path, executable path
+                  configs[i].steamDirectory = preParser.setInput(configs[i].steamDirectory).parse() ? preParser.replaceVariables((variable) => {
+                    return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
+                  }) : null;
+                  configs[i].romDirectory = preParser.setInput(configs[i].romDirectory).parse() ? preParser.replaceVariables((variable) => {
+                    return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
+                  }) : null;
+                  configs[i].startInDirectory = preParser.setInput(configs[i].startInDirectory).parse() ? preParser.replaceVariables((variable) => {
+                    return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
+                  }) : null;
+                  configs[i].executableLocation = preParser.setInput(configs[i].executableLocation).parse() ? preParser.replaceVariables((variable) => {
+                    return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
+                  }) : null;
+
 
                 steamDirectories.push({ directory: configs[i].steamDirectory, useCredentials: configs[i].userAccounts.useCredentials, data: [] });
 
@@ -145,6 +163,7 @@ export class FileParser {
 
                 parsedConfigs.push({
                   configurationTitle: configs[i].configTitle,
+                  parserId: configs[i].parserId,
                   appendArgsToExecutable: configs[i].appendArgsToExecutable,
                   shortcutPassthrough: configs[i].titleFromVariable.shortcutPassthrough,
                   imageProviders: configs[i].imageProviders,
@@ -165,6 +184,7 @@ export class FileParser {
                   }
 
                   let executableLocation = configs[i].executableLocation ? configs[i].executableLocation : data[i].success[j].filePath;
+
                   parsedConfigs[i].files.push({
                     steamCategories: undefined,
                     executableLocation: executableLocation,
@@ -196,7 +216,6 @@ export class FileParser {
                     imagePool: undefined,
                     onlineImageQueries: undefined
                   });
-
 
                   let lastFile = parsedConfigs[i].files[parsedConfigs[i].files.length - 1];
                   let variableData = this.makeVariableData(configs[i], lastFile);
@@ -495,6 +514,18 @@ export class FileParser {
               return { config, parsedConfig, resolvedGlobs, resolvedFiles };
             });
           }
+          private getEnvironmentVariable(variable: EnvironmentVariables) {
+            let output = variable as string;
+            switch (<EnvironmentVariables>variable.toUpperCase()) {
+              case '/':
+                output = path.sep;
+                break;
+              case 'SRMDIR':
+                output = APP.srmdir;
+                break;
+            }
+            return output;
+          }
 
           private getVariable(variable: AllVariables, data: ParserVariableData) {
             const unavailable = 'undefined';
@@ -502,6 +533,9 @@ export class FileParser {
             switch (<AllVariables>variable.toUpperCase()) {
               case '/':
                 output = path.sep;
+                break;
+              case 'SRMDIR':
+                output = APP.srmdir;
                 break;
               case 'EXEDIR':
                 output = data.executableLocation != undefined ? path.dirname(data.executableLocation) : unavailable;

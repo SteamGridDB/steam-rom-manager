@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject } from "rxjs";
 export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
 
 export interface ImageContent {
-    imageProvider: 'SteamGridDB' | 'retrogaming.cloud' | 'ConsoleGrid' | 'Steam' | 'LocalStorage',
+    imageProvider: 'SteamGridDB' | 'GoogleImages' | 'Steam' | 'LocalStorage',
     imageUploader?: string,
     imageRes?: string,
     imageUrl: string,
@@ -32,6 +32,7 @@ export interface PreviewDataApp {
     entryId: number,
     status: 'add' | 'skip' | 'remove',
     configurationTitle: string,
+    parserId: string,
     steamCategories: string[],
     imageProviders: string[],
     startInDirectory: string,

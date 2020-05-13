@@ -1,6 +1,18 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.25 - 2020-05-12
+### Added 
+* Setting for whether or not to delete shortcuts from disabled parsers
+* Ability to see number of titles in preview and in test parser logs
+* Environment variables ${/} and ${srmdir} that can be used even in steam directory, rom directory fields. 
+### Changed 
+* Removed retrogaming.cloud from list of image providers (it is defunct)
+* Changed structure of AddedItemsV2.json to include Parser ID
+* Added lontanadascienza as a contributor
+### Fixed
+* A bunch of dead links in Readme and About Markdown
+
 ## 2.2.23 - 2020-01-27
 ### Added 
 * Improved documentation for custom variables based on advice of a friend.

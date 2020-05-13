@@ -10,6 +10,7 @@ import { BehaviorSubject } from "rxjs";
 import { APP } from '../../variables';
 import * as json from "../../lib/helpers/json";
 import * as paths from "../../paths";
+import * as path from 'path';
 import * as schemas from '../schemas';
 import * as modifiers from '../modifiers';
 import * as fs from 'fs-extra';
@@ -55,7 +56,9 @@ export class ParsersService {
 
   saveConfiguration(config: { saved: UserConfiguration, current: UserConfiguration }) {
     let userConfigurations = this.userConfigurations.getValue();
-    userConfigurations = userConfigurations.concat(_.cloneDeep(config));
+    let copy: { saved: UserConfiguration, current: UserConfiguration } = _.cloneDeep(config);
+    copy.saved.parserId = this.newParserId();
+    userConfigurations = userConfigurations.concat(copy);
     this.userConfigurations.next(userConfigurations);
     this.saveUserConfigurations();
   }
@@ -78,10 +81,13 @@ export class ParsersService {
       if (userConfigurations[index].current == null)
         return;
       else
+        userConfigurations[index].current.parserId = userConfigurations[index].saved.parserId;
         userConfigurations[index] = { saved: userConfigurations[index].current, current: null };
     }
-    else
+    else{
+      config.parserId = userConfigurations[index].saved.parserId;
       userConfigurations[index] = { saved: config, current: null };
+    }
 
     this.userConfigurations.next(userConfigurations);
     this.saveUserConfigurations();
@@ -169,16 +175,18 @@ export class ParsersService {
         }
       case 'configTitle':
         return data ? null : this.lang.validationErrors.configTitle__md;
+      case 'parserId':
+        return data ? null : this.lang.validationErrors.parserId__md;
       case 'steamCategory':
         return this.validateVariableParserString(data || '');
       case 'executableLocation':
-        return (data == null || data.length === 0 || this.validatePath(data || '')) ? null : this.lang.validationErrors.executable__md;
+        return (data == null || data.length === 0 || this.validateEnvironmentPath(data || '') ) ? null : this.lang.validationErrors.executable__md;
       case 'romDirectory':
-        return this.validatePath(data || '', true) ? null : this.lang.validationErrors.romDir__md;
+        return this.validateEnvironmentPath(data || '', true) ? null : this.lang.validationErrors.romDir__md;
       case 'steamDirectory':
-        return this.validatePath(data || '', true) ? null : this.lang.validationErrors.steamDir__md;
+        return this.validateEnvironmentPath(data || '', true) ? null : this.lang.validationErrors.steamDir__md;
       case 'startInDirectory':
-        return (data == null || data.length === 0 || this.validatePath(data || '', true)) ? null : this.lang.validationErrors.startInDir__md;
+        return (data == null || data.length === 0 || this.validateEnvironmentPath(data || '', true)) ? null : this.lang.validationErrors.startInDir__md;
       case 'specifiedAccounts':
         return this.validateVariableParserString(data || '');
       case 'parserInputs':
@@ -253,9 +261,13 @@ export class ParsersService {
     }
   }
 
+  private validateEnvironmentPath(pathwithvar: string, checkForDirectory?:boolean) {
+    return this.validatePath(pathwithvar.replace(/\$\{srmdir\}/g, APP.srmdir).replace(/\$\{\/\}/g, path.sep), checkForDirectory)
+  }
+
   isConfigurationValid(config: UserConfiguration) {
     let simpleValidations: string[] = [
-      'parserType', 'configTitle', 'steamCategory',
+      'parserType', 'configTitle', 'parserId', 'steamCategory',
       'executableLocation', 'executableModifier', 'romDirectory',
       'steamDirectory', 'startInDirectory', 'specifiedAccounts',
       'titleFromVariable', 'titleModifier', 'executableArgs',
@@ -278,6 +290,13 @@ export class ParsersService {
     }
 
     return true;
+  }
+  getParserId(configurationIndex: number) {
+    return this.userConfigurations.getValue()[configurationIndex].saved.parserId;
+  }
+
+  private newParserId() {
+    return Date.now().toString().concat(Math.floor(Math.random()*100000).toString());
   }
 
   private saveUserConfigurations() {
@@ -320,7 +339,12 @@ export class ParsersService {
     }).then((data) => {
       let validatedConfigs: { saved: UserConfiguration, current: UserConfiguration }[] = [];
       let errorString: string = '';
+      let updateNeeded: boolean = false;
       for (let i = 0; i < data.length; i++) {
+        if(!data[i].parserId) {
+          updateNeeded = true;
+          data[i].parserId = this.newParserId();
+        }
         if (this.validator.validate(data[i]).isValid())
           validatedConfigs.push({ saved: data[i], current: null });
         else
@@ -335,6 +359,9 @@ export class ParsersService {
         }));
       }
       this.userConfigurations.next(validatedConfigs);
+      if(updateNeeded) {
+        this.saveUserConfigurations();
+      }
     }).catch((error) => {
       this.loggerService.error(this.lang.error.readingConfiguration, { invokeAlert: true, alertTimeout: 5000 });
       this.loggerService.error(error);

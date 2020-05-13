@@ -155,7 +155,7 @@ export class PreviewService {
       if (!remove) {
         this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
 
-        return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages);
+        return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages, this.appSettings.previewSettings.deleteDisabledShortcuts);
       }
       else {
         this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
@@ -643,6 +643,7 @@ export class PreviewService {
                 entryId: numberOfItems++,
                 status: 'add', //TODO: change to this when "mark" feature is implemented: oldDataApp !== undefined ? oldDataApp.status : 'add',
                 configurationTitle: config.configurationTitle,
+                parserId: config.parserId,
                 steamCategories: file.steamCategories,
                 startInDirectory: file.startInDirectory,
                 imageProviders: config.imageProviders,

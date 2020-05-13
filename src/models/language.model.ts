@@ -163,6 +163,7 @@ export interface languageStruct {
               resetFuzzy_desc: string,
               resetFuzzy_btn: string,
               showSteamImages: string,
+              deleteDisabledShortcuts: string,
               clearLogOnTest: string
           },
           placeholder: {
@@ -231,7 +232,8 @@ export interface languageStruct {
               localIcons: string[]
           },
           info: {
-            testStarting__i: string, //${title}, ${version}
+            testStarting__i: string, //${title}, ${version}, ${portable}
+              opSys__i: string, //${os}
               testCompleted: string,
               nothingWasFound: string,
               copiedToClipboard: string,
@@ -349,6 +351,7 @@ export interface languageStruct {
             validationErrors: {
               parserType__md: string,
                 configTitle__md: string,
+                parserId__md: string,
                 parserInput: {
                   noInput: string,
                     inputNotAvailable__i: string,//${name}

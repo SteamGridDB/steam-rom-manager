@@ -1,4 +1,4 @@
 export const imageProviders = {
-    'SteamGridDB': require('./steamgriddb.worker'),
-    'retrogaming.cloud': require('./retrogaming-cloud.worker')
+  'SteamGridDB': require('./steamgriddb.worker'),
+  //'GoogleImages': require('./googleimages.worker')
 }

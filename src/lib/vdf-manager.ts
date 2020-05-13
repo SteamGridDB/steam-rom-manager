@@ -1,4 +1,4 @@
-import { VDF_ListData, SteamDirectory, PreviewData, AppImages, VDF_ListItem } from "../models";
+import { VDF_ListData, SteamDirectory, PreviewData, PreviewDataApp, AppImages, VDF_ListItem } from "../models";
 import { VDF_Error } from './vdf-error';
 import { APP } from '../variables';
 import * as vdf from './helpers/vdf';
@@ -114,15 +114,19 @@ export class VDF_Manager {
     }
   }
 
-  mergeData(previewData: PreviewData, images: AppImages, tallimages: AppImages, heroimages: AppImages, logoimages: AppImages) {
+  mergeData(previewData: PreviewData, images: AppImages, tallimages: AppImages, heroimages: AppImages, logoimages: AppImages, deleteDisabledShortcuts: boolean) {
     return Promise.resolve().then(() => {
       this.forEach((steamDirectory, userId, listItem) => {
         if (listItem.shortcuts.invalid || listItem.addedItems.invalid || listItem.screenshots.invalid)
           return;
         let apps = previewData[steamDirectory][userId].apps;
-        let appIds = Object.keys(previewData[steamDirectory][userId].apps)
+        let currentAppIds = Object.keys(previewData[steamDirectory][userId].apps)
+        let enabledParsers = Array.from(new Set(currentAppIds.map((appid:string)=> apps[appid].parserId)));
         let addedAppIds = Object.keys(listItem.addedItems.data);
-        let extraneousAppIds = addedAppIds.filter((x:string) => appIds.indexOf(x)<0);
+        if(!deleteDisabledShortcuts) {
+          addedAppIds = addedAppIds.filter((appid:string) => listItem.addedItems.data[appid]==='-legacy-' || enabledParsers.indexOf(listItem.addedItems.data[appid])>=0);
+        }
+        let extraneousAppIds = addedAppIds.filter((appid:string) => currentAppIds.indexOf(appid)<0);
         listItem.screenshots.extraneous = extraneousAppIds;
         listItem.shortcuts.extraneous = extraneousAppIds;
         for (let appId in apps) {
@@ -154,7 +158,7 @@ export class VDF_Manager {
             }
 
 
-            listItem.addedItems.addItem(appId);
+            listItem.addedItems.addItem(appId, app.parserId);
             if (currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
               listItem.screenshots.addItem({ appId: appId, title: app.title, url: currentImage.imageUrl });
             }

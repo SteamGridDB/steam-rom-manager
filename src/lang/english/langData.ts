@@ -179,8 +179,9 @@ export const EnglishLang: languageContainer = {
           selectLanguage: 'Select language:',
           resetFuzzy_desc: 'Reset fuzzy list:',
           resetFuzzy_btn: 'Reset',
-          showSteamImages: 'Show current Steam images',
-          clearLogOnTest: 'Automatically clear log when before testing parser'
+          showSteamImages: 'Show current Steam images by default',
+          deleteDisabledShortcuts: 'Remove shortcuts for disabled parsers',
+          clearLogOnTest: 'Automatically clear log before testing parsers'
         },
         placeholder: {
           noProviders: 'None'
@@ -319,7 +320,8 @@ export const EnglishLang: languageContainer = {
           ]
         },
         info: {
-          testStarting__i: 'Testing "${title}" parser (SRM version - ${version}).',
+          testStarting__i: 'Testing "${title}" parser (SRM version - ${version} ${portable}).',
+          opSys__i: 'Operating system is "${os}"',
           testCompleted: 'Parser test is completed.',
           nothingWasFound: 'Parser found nothing.',
           copiedToClipboard: 'Configuration copied to clipboard',
@@ -437,6 +439,7 @@ export const EnglishLang: languageContainer = {
         validationErrors: {
           parserType__md: '> Incorrect parser type!',
           configTitle__md: '> Configuration title is required!',
+          parserId__md: '> Parser Id is missing, something is horribly wrong.',
           parserInput: {
             noInput: 'No inputs are available!',
             inputNotAvailable__i: '"${name}" input is not available!',

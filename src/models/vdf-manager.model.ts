@@ -29,7 +29,7 @@ export interface VDF_ShortcutsItem {
 }
 
 export interface VDF_AddedItemsData {
-    [key: string]: true | undefined
+  [key: string]: string | undefined // true -> string (configuration title)
 }
 
 export type SteamDirectory = string;

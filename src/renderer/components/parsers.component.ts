@@ -117,6 +117,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         executableLocation: new NestedFormElement.Path({
           label: this.lang.label.executableLocation,
+          highlight: this.highlight.bind(this),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
@@ -136,6 +137,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         romDirectory: new NestedFormElement.Path({
           directory: true,
           label: this.lang.label.romDirectory,
+          highlight: this.highlight.bind(this),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
@@ -145,6 +147,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         steamDirectory: new NestedFormElement.Path({
           directory: true,
           label: this.lang.label.steamDirectory,
+          highlight: this.highlight.bind(this),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
@@ -154,6 +157,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         startInDirectory: new NestedFormElement.Path({
           directory: true,
           label: this.lang.label.startInDirectory,
+          highlight: this.highlight.bind(this),
           isHidden: () => this.isHiddenMode(),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
@@ -518,6 +522,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
   private toClipboard() {
     let config = this.userForm.value as UserConfiguration;
+    config.parserId = this.configurationIndex===-1?'UNSAVED SO NO ID':this.parsersService.getParserId(this.configurationIndex);
     if (this.parsersService.isConfigurationValid(config)) {
       try {
         let text = '';
@@ -574,6 +579,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
   private testForm() {
     let config = this.userForm.value as UserConfiguration;
+    config.parserId = this.configurationIndex===-1?'UNSAVED SO NO ID':this.parsersService.getParserId(this.configurationIndex);
     let successData: string = '';
     let errorData: string = '';
 
@@ -604,7 +610,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     if (this.parsersService.isConfigurationValid(config)) {
       if (this.appSettings.clearLogOnTest)
         this.loggerService.clearLog();
-
+      success('Parser ID: '.concat(config.parserId));
+      success('');
       this.parsersService.executeFileParser(config).then((dataArray) => {
         if (dataArray.parsedData.parsedConfigs.length > 0) {
           let data = dataArray.parsedData.parsedConfigs[0];
@@ -639,7 +646,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           logSuccess();
           logError();
           this.loggerService.info('');
-
+          success('');
+          success('Number of Titles: '.concat(data.files.length.toString()));
           for (let i = 0; i < data.files.length; i++) {
             success('');
             success(this.lang.success.extractedTitle__i.interpolate({
@@ -936,8 +944,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       });
       this.loggerService.info(this.lang.info.testStarting__i.interpolate({
         title: config.configTitle || this.lang.text.noTitle,
-        version: APP.version
+        version: APP.version,
+        portable: APP.srmdir ? "Portable" : "Non-Portable"
       }));
+      this.loggerService.info(this.lang.info.opSys__i.interpolate({
+        os: APP.os
+      }))
       this.router.navigateByUrl('/logger');
     }
     else
