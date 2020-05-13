@@ -44,6 +44,7 @@ export class CategoryManager {
 
         for (const catKey of Object.keys(collections)) {
           collections[catKey].added = collections[catKey].added.filter((appId: string) =>extraneousAppIds.indexOf(appId)<0);
+          collections[catKey].removed = extraneousAppIds;
         }
 
         for (const appId of Object.keys(userData.apps)) {
