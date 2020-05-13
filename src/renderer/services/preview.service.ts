@@ -8,7 +8,7 @@ import { ImageProviderService } from './image-provider.service';
 import {
   PreviewData, ImageContent, ParsedUserConfiguration, AppImages, PreviewVariables,
   ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings,
-  SteamTree, userAccountData
+  SteamTree, userAccountData, VDF_ExtraneousItemsData
 } from '../../models';
 import { VDF_Manager, VDF_Error, CategoryManager } from "../../lib";
 import { APP } from '../../variables';
@@ -155,12 +155,45 @@ export class PreviewService {
       if (!remove) {
         this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
 
-        return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages, this.appSettings.previewSettings.deleteDisabledShortcuts);
+        return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages, this.appSettings.previewSettings.deleteDisabledShortcuts).then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
+          this.loggerService.info(this.lang.info.savingCategories, { invokeAlert: true, alertTimeout: 3000 })
+          return categoryManager.save(this.previewData, extraneousAppIds).then(()=>{
+            return true;
+          }).catch((error: any) => {
+            if (error) {
+              if (error.type === 'OpenError') {
+                this.loggerService.error('Cannot import while Steam is running. Close Steam and try again.', { invokeAlert: true, alertTimeout: 3000 });
+                this.loggerService.error(error);
+              } else {
+                this.loggerService.error('Error saving categories', { invokeAlert: true, alertTimeout: 3000 });
+                this.loggerService.error(error);
+              }
+            }
+            return false;
+          });
+        });
       }
       else {
         this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
 
-        return vdfManager.removeAllAddedEntries();
+        return vdfManager.removeAllAddedEntries().then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
+          this.loggerService.info(this.lang.info.removingFromCategories, { invokeAlert: true, alertTimeout: 3000 })
+          return categoryManager.save(this.previewData, extraneousAppIds).then(()=>{
+            return true;
+          }).catch((error: any) => {
+            if (error) {
+              if (error.type === 'OpenError') {
+                this.loggerService.error('Cannot import while Steam is running. Close Steam and try again.', { invokeAlert: true, alertTimeout: 3000 });
+                this.loggerService.error(error);
+              } else {
+                this.loggerService.error('Error removing category information', { invokeAlert: true, alertTimeout: 3000 });
+                this.loggerService.error(error);
+              }
+            }
+            return false;
+          });
+
+        });
       }
     }).then(() => {
       this.loggerService.info(this.lang.info.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
@@ -187,21 +220,6 @@ export class PreviewService {
         this.clearPreviewData();
       }
 
-    }).then(()=>{
-      return categoryManager.save(this.previewData).then(()=>{
-        return true;
-      }).catch((error) => {
-        if (error) {
-          if (error.type === 'OpenError') {
-            this.loggerService.error('Cannot import while Steam is running. Close Steam and try again.', { invokeAlert: true, alertTimeout: 3000 });
-            this.loggerService.error(error);
-          } else {
-            this.loggerService.error('Error saving categories', { invokeAlert: true, alertTimeout: 3000 });
-            this.loggerService.error(error);
-          }
-        }
-        return false;
-      });
     }).catch((fatalError) => {
       this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
       if (fatalError)

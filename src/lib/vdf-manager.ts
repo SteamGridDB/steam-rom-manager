@@ -1,4 +1,4 @@
-import { VDF_ListData, SteamDirectory, PreviewData, PreviewDataApp, AppImages, VDF_ListItem } from "../models";
+import { VDF_ListData, SteamDirectory, PreviewData, PreviewDataApp, AppImages, VDF_ListItem, VDF_ExtraneousItemsData } from "../models";
 import { VDF_Error } from './vdf-error';
 import { APP } from '../variables';
 import * as vdf from './helpers/vdf';
@@ -115,7 +115,8 @@ export class VDF_Manager {
   }
 
   mergeData(previewData: PreviewData, images: AppImages, tallimages: AppImages, heroimages: AppImages, logoimages: AppImages, deleteDisabledShortcuts: boolean) {
-    return Promise.resolve().then(() => {
+    return new Promise<VDF_ExtraneousItemsData>((resolve, reject) => {
+      let extraneousAppIds: VDF_ExtraneousItemsData = {};
       this.forEach((steamDirectory, userId, listItem) => {
         if (listItem.shortcuts.invalid || listItem.addedItems.invalid || listItem.screenshots.invalid)
           return;
@@ -126,9 +127,9 @@ export class VDF_Manager {
         if(!deleteDisabledShortcuts) {
           addedAppIds = addedAppIds.filter((appid:string) => listItem.addedItems.data[appid]==='-legacy-' || enabledParsers.indexOf(listItem.addedItems.data[appid])>=0);
         }
-        let extraneousAppIds = addedAppIds.filter((appid:string) => currentAppIds.indexOf(appid)<0);
-        listItem.screenshots.extraneous = extraneousAppIds;
-        listItem.shortcuts.extraneous = extraneousAppIds;
+        extraneousAppIds[userId] = addedAppIds.filter((appid:string) => currentAppIds.indexOf(appid)<0);
+        listItem.screenshots.extraneous = extraneousAppIds[userId];
+        listItem.shortcuts.extraneous = extraneousAppIds[userId];
         for (let appId in apps) {
           let app = apps[appId];
 
@@ -188,6 +189,7 @@ export class VDF_Manager {
             app.images.steam = undefined
           }
         }
+        resolve(extraneousAppIds);
       });
     }).catch((error) => {
       throw new VDF_Error(this.lang.error.couldNotMergeEntries__i.interpolate({ error }));
@@ -195,10 +197,11 @@ export class VDF_Manager {
   }
 
   removeAllAddedEntries() {
-    return Promise.resolve().then(() => {
+    return new Promise<VDF_ExtraneousItemsData>((resolve,reject)=>{
+      let extraneousAppIds: VDF_ExtraneousItemsData = {}
       this.forEach((steamDirectory, userId, listItem) => {
+        extraneousAppIds[userId] = Object.keys(listItem.addedItems.data);
         let apps = listItem.addedItems.data;
-
         if (listItem.shortcuts.invalid || listItem.addedItems.invalid || listItem.screenshots.invalid)
           return;
 
@@ -213,7 +216,8 @@ export class VDF_Manager {
         }
         listItem.addedItems.data = {};
       });
-    }).catch((error) => {
+      resolve(extraneousAppIds);
+    }).catch((error: any) => {
       throw new VDF_Error(this.lang.error.couldNotRemoveEntries__i.interpolate({ error }));
     });
   }

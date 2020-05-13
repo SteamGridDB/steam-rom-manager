@@ -39,6 +39,8 @@ export const EnglishLang: languageContainer = {
           readingVDF_Files: 'Reading VDF files.',
           mergingVDF_entries: 'Merging VDF entries.',
           removingVDF_entries: 'Removing VDF entries and image files.',
+          savingCategories: 'Saving added category information to localconfig.vdf',
+          removingFromCategories: 'Removing all added category information',
           writingVDF_entries: 'Writing VDF files and saving/removing images.',
           updatingKnownSteamDirList: 'Updating a list of known Steam directories.',
           retryingDownload__i: 'Retrying image download from "${imageUrl}" for "${appTitle}".',

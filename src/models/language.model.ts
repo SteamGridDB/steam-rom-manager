@@ -36,6 +36,8 @@ export interface languageStruct {
               readingVDF_Files: string,
               mergingVDF_entries: string,
               removingVDF_entries: string,
+              savingCategories: string,
+              removingFromCategories: string,
               writingVDF_entries: string,
               updatingKnownSteamDirList: string,
               retryingDownload__i: string, //${imageUrl}, ${appTitle}

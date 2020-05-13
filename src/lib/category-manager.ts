@@ -1,4 +1,4 @@
-import { PreviewData } from "../models";
+import { PreviewData, PreviewDataUser, VDF_ExtraneousItemsData } from "../models";
 import * as genericParser from '@node-steam/vdf';
 import * as steam from './helpers/steam';
 import * as SteamCategories from 'steam-categories';
@@ -23,7 +23,7 @@ export class CategoryManager {
     return list;
   }
 
-  writeCat(data: { userId: string, steamDirectory: string, userData: any }) {
+  writeCat(data: { userId: string, steamDirectory: string, userData: PreviewDataUser }, extraneousAppIds: string[]) {
     return new Promise<void>((resolve, reject) => {
       const { userId, steamDirectory, userData } = data;
       let levelDBPath: string;
@@ -40,6 +40,10 @@ export class CategoryManager {
         let collections = {};
         if (localConfig.UserLocalConfigStore.WebStorage['user-collections']) {
           collections = JSON.parse(localConfig.UserLocalConfigStore.WebStorage['user-collections'].replace(/\\/g, ''));
+        }
+
+        for (const catKey of Object.keys(collections)) {
+          collections[catKey].added = collections[catKey].added.filter((appId: string) =>extraneousAppIds.indexOf(appId)<0);
         }
 
         for (const appId of Object.keys(userData.apps)) {
@@ -99,13 +103,13 @@ export class CategoryManager {
     });
   }
 
-  save(PreviewData: PreviewData) {
+  save(PreviewData: PreviewData, extraneousItems: VDF_ExtraneousItemsData) {
     return new Promise((resolveSave, rejectSave) => {
       this.data = PreviewData;
 
       let result = this.createList().reduce((accumulatorPromise, nextUser) => {
         return accumulatorPromise.then(() => {
-          return this.writeCat(nextUser);
+          return this.writeCat(nextUser, extraneousItems[nextUser.userId]);
         });
       }, Promise.resolve());
 
