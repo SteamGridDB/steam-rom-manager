@@ -23,7 +23,7 @@ export class CategoryManager {
     return list;
   }
 
-  writeCat(data: { userId: string, steamDirectory: string, userData: PreviewDataUser }, extraneousAppIds: string[]) {
+  writeCat(data: { userId: string, steamDirectory: string, userData: PreviewDataUser }, extraneousShortIds: string[]) {
     return new Promise<void>((resolve, reject) => {
       const { userId, steamDirectory, userData } = data;
       let levelDBPath: string;
@@ -43,8 +43,7 @@ export class CategoryManager {
         }
 
         for (const catKey of Object.keys(collections)) {
-          collections[catKey].added = collections[catKey].added.filter((appId: string) =>extraneousAppIds.indexOf(appId)<0);
-          collections[catKey].removed = extraneousAppIds;
+          collections[catKey].added = collections[catKey].added.filter((appId: string) =>extraneousShortIds.indexOf(appId)<0);
         }
 
         for (const appId of Object.keys(userData.apps)) {
@@ -108,9 +107,9 @@ export class CategoryManager {
     return new Promise((resolveSave, rejectSave) => {
       this.data = PreviewData;
 
-      let result = this.createList().reduce((accumulatorPromise, nextUser) => {
+      let result = this.createList().reduce((accumulatorPromise, user) => {
         return accumulatorPromise.then(() => {
-          return this.writeCat(nextUser, extraneousItems[nextUser.userId]);
+          return this.writeCat(user, extraneousItems[user.userId].map((x)=>steam.shortenAppId(x)));
         });
       }, Promise.resolve());
 
