@@ -43,7 +43,7 @@ export class CategoryManager {
         }
 
         for (const catKey of Object.keys(collections)) {
-          collections[catKey].added = collections[catKey].added.filter((appId: string) =>extraneousShortIds.indexOf(appId)<0);
+          collections[catKey].added = collections[catKey].added.filter((appId: string) =>Object.keys(userData.apps).indexOf(appId)<0);
         }
 
         for (const appId of Object.keys(userData.apps)) {
