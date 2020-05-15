@@ -158,15 +158,7 @@ export class PreviewService {
         return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages, this.appSettings.previewSettings.deleteDisabledShortcuts).then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
           this.loggerService.info(this.lang.info.savingCategories)
           return categoryManager.save(this.previewData, extraneousAppIds, false).catch((error: any) => {
-            if (error) {
-              if (error.type === 'OpenError') {
-                this.loggerService.error('Cannot import while Steam is running. Close Steam and try again.', { invokeAlert: true, alertTimeout: 3000 });
-                this.loggerService.error(error);
-              } else {
-                this.loggerService.error('Error saving categories', { invokeAlert: true, alertTimeout: 3000 });
-                this.loggerService.error(error);
-              }
-            }
+            return error;
           });
         });
       }
@@ -175,27 +167,25 @@ export class PreviewService {
         return vdfManager.removeAllAddedEntries().then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
           this.loggerService.info(this.lang.info.removingFromCategories, { invokeAlert: true, alertTimeout: 3000 })
           return categoryManager.save(this.previewData, extraneousAppIds, true).catch((error: any) => {
-            if (error) {
-              if (error.type === 'OpenError') {
-                this.loggerService.error('Cannot import while Steam is running. Close Steam and try again.', { invokeAlert: true, alertTimeout: 3000 });
-                this.loggerService.error(error);
-              } else {
-                this.loggerService.error('Error removing category information', { invokeAlert: true, alertTimeout: 3000 });
-                this.loggerService.error(error);
-              }
-            }
+            return error;
           });
         });
       }
-    }).then(() => {
-      this.loggerService.info(this.lang.info.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-
-      return vdfManager.write();
     }).then((error) => {
-      if (error) {
-        this.loggerService.error(this.lang.errors.savingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-        this.loggerService.error(error);
+      if(!error){
+        this.loggerService.info(this.lang.info.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+        return vdfManager.write();
+      } else {
+        if (error.type === 'OpenError') {
+          this.loggerService.error(this.lang.errors.steamIsRunning, { invokeAlert: true, alertTimeout: 3000 });
+          this.loggerService.error(error);
+        } else {
+          this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
+          this.loggerService.error(error);
+        }
+        return error;
       }
+    }).then((error) => {
       this.loggerService.success(this.lang.info.updatingKnownSteamDirList, { invokeAlert: true, alertTimeout: 3000 });
 
       if (!remove) {
@@ -203,15 +193,25 @@ export class PreviewService {
         settings.knownSteamDirectories = _.union(settings.knownSteamDirectories, Object.keys(this.previewData));
         this.settingsService.settingsChanged();
       }
-    }).then(() => {
-      this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-      this.previewVariables.listIsBeingSaved = false;
-
-      if (remove) {
-        this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-        this.clearPreviewData();
+      if (error) {
+        this.loggerService.error(this.lang.errors.savingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+        this.loggerService.error(error);
+        return true;
       }
-      return true;
+    }).then((existsError) => {
+      if(!existsError) {
+        this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+        this.previewVariables.listIsBeingSaved = false;
+
+        if (remove) {
+          this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+          this.clearPreviewData();
+        }
+        return true;
+      } else{
+        return false;
+      }
+
     }).catch((fatalError) => {
       this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
       if (fatalError)

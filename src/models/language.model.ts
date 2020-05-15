@@ -56,6 +56,8 @@ export interface languageStruct {
                 savingVDF_entries: string,
                 fatalError: string,
                 knownSteamDirListIsEmpty: string,
+                steamIsRunning: string,
+                categorySaveError: string,
                 retryingDownload__i: string //${imageUrl}, ${appTitle},
               providerError__i: string//${provider}, ${code}, ${title}, ${url}
               unknownProviderError__i: string //${provider}, ${title}, ${error}
