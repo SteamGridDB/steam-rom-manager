@@ -157,7 +157,7 @@ export class PreviewService {
 
         return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages, this.appSettings.previewSettings.deleteDisabledShortcuts).then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
           this.loggerService.info(this.lang.info.savingCategories)
-          return categoryManager.save(this.previewData, extraneousAppIds).then(()=>{
+          return categoryManager.save(this.previewData, extraneousAppIds, false).then(()=>{
             return true;
           }).catch((error: any) => {
             if (error) {
@@ -177,7 +177,7 @@ export class PreviewService {
         this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         return vdfManager.removeAllAddedEntries().then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
           this.loggerService.info(this.lang.info.removingFromCategories, { invokeAlert: true, alertTimeout: 3000 })
-          return categoryManager.save(this.previewData, extraneousAppIds).then(()=>{
+          return categoryManager.save(this.previewData, extraneousAppIds, true).then(()=>{
             return true;
           }).catch((error: any) => {
             if (error) {

@@ -24,7 +24,7 @@ export class CategoryManager {
     return list;
   }
 
-  writeCat(data: { userId: string, steamDirectory: string, userData: PreviewDataUser }, extraneousShortIds: string[]) {
+  writeCat(data: { userId: string, steamDirectory: string, userData: PreviewDataUser }, extraneousShortIds: string[], removeAll: boolean) {
     return new Promise<void>((resolve, reject) => {
       const { userId, steamDirectory, userData } = data;
       let levelDBPath: string;
@@ -52,38 +52,41 @@ export class CategoryManager {
           }
         }
 
-        for (const appId of Object.keys(userData.apps)) {
-          const app = userData.apps[appId];
-          const appIdNew = parseInt(steam.generateNewAppId(app.executableLocation, app.title), 10);
+        if(!removeAll) {
+          for (const appId of Object.keys(userData.apps).filter((appId: string)=>userData.apps[appId].status ==='add')) {
+            const app = userData.apps[appId];
+            const appIdNew = parseInt(steam.generateNewAppId(app.executableLocation, app.title), 10);
 
-          // Loop "steamCategories" and make a new category from each
-          app.steamCategories.forEach((catName: string) => {
+            // Loop "steamCategories" and make a new category from each
+            app.steamCategories.forEach((catName: string) => {
 
-            // Create new category if it doesn't exist
-            const catKey = `srm-${catName}`; // just use the name as the id
-            const platformCat = cats.get(catKey);
-            if (platformCat.is_deleted || !platformCat) {
-              cats.add(catKey, {
-                name: catName,
-                added: [],
-              });
-            }
+              // Create new category if it doesn't exist
+              const catKey = `srm-${catName}`; // just use the name as the id
+              const platformCat = cats.get(catKey);
+              if (platformCat.is_deleted || !platformCat) {
+                cats.add(catKey, {
+                  name: catName,
+                  added: [],
+                });
+              }
 
-            // Create entries in localconfig.vdf
-            if (!collections[catKey]) {
-              collections[catKey] = {
-                id: catKey,
-                added: [],
-                removed: [],
-              };
-            }
+              // Create entries in localconfig.vdf
+              if (!collections[catKey]) {
+                collections[catKey] = {
+                  id: catKey,
+                  added: [],
+                  removed: [],
+                };
+              }
 
-            // Add appids to localconfig.vdf
-            if (collections[catKey].added.indexOf(appIdNew) === -1) {
-              // Only add if it doesn't exist already
-              collections[catKey].added.push(appIdNew);
-            }
-          });
+              // Add appids to localconfig.vdf
+              if (collections[catKey].added.indexOf(appIdNew) === -1) {
+                // Only add if it doesn't exist already
+                collections[catKey].added.push(appIdNew);
+              }
+            });
+          }
+
         }
 
         cats.save().then(() => {
@@ -109,13 +112,13 @@ export class CategoryManager {
     });
   }
 
-  save(PreviewData: PreviewData, extraneousItems: VDF_ExtraneousItemsData) {
+  save(PreviewData: PreviewData, extraneousItems: VDF_ExtraneousItemsData, removeAll: boolean) {
     return new Promise((resolveSave, rejectSave) => {
       this.data = PreviewData;
 
       let result = this.createList().reduce((accumulatorPromise, user) => {
         return accumulatorPromise.then(() => {
-          return this.writeCat(user, extraneousItems[user.userId].map((x)=>steam.shortenAppId(x)));
+          return this.writeCat(user, extraneousItems[user.userId].map((x)=>steam.shortenAppId(x)), removeAll);
         });
       }, Promise.resolve());
 
