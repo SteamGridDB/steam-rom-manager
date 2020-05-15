@@ -156,8 +156,7 @@ export class PreviewService {
         this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
 
         return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages, this.appSettings.previewSettings.deleteDisabledShortcuts).then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
-          this.loggerService.info(this.lang.info.savingCategories, { invokeAlert: true, alertTimeout: 3000 })
-          this.loggerService.info(JSON.stringify(extraneousAppIds), { invokeAlert: true, alertTimeout: 3000 })
+          this.loggerService.info(this.lang.info.savingCategories)
           return categoryManager.save(this.previewData, extraneousAppIds).then(()=>{
             return true;
           }).catch((error: any) => {
