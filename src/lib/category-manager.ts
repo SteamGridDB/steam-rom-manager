@@ -44,6 +44,7 @@ export class CategoryManager {
         }
 
         for (const catKey of Object.keys(collections).filter((key:string)=>key.split('-')[0]==='srm')) {
+          console.log(catKey);
           let toRemove = _.union(Object.keys(userData.apps).map((x)=>steam.shortenAppId(x)),extraneousShortIds).map((x)=>+x);
           collections[catKey].added = collections[catKey].added.filter((appId: number) => toRemove.indexOf(appId)<0);
           if(collections[catKey].length == 0) {
