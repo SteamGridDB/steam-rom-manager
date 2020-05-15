@@ -49,6 +49,8 @@ export class CategoryManager {
           collections[catKey].added = collections[catKey].added.filter((appId: number) => toRemove.indexOf(appId)<0);
           if(collections[catKey].length == 0) {
             delete collections[catKey];
+            cats.remove(catKey);
+
           }
         }
 
