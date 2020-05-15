@@ -5,6 +5,7 @@ import * as SteamCategories from 'steam-categories';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as os from 'os';
+import * as _ from 'lodash';
 
 export class CategoryManager {
   private data: object = {};
@@ -43,7 +44,10 @@ export class CategoryManager {
         }
 
         for (const catKey of Object.keys(collections)) {
-          collections[catKey].added = collections[catKey].added.filter((appId: string) =>Object.keys(userData.apps).map((x)=>steam.shortenAppId(x)).indexOf(appId)<0 && extraneousShortIds.indexOf(appId)<0);
+          let toRemove = _.union(Object.keys(userData.apps).map((x)=>steam.shortenAppId(x)),extraneousShortIds);
+          collections[catKey].added = collections[catKey].added.filter((appId: string) => toRemove.indexOf(appId)<0);
+          collections[catKey].removedDebug = toRemove;
+//         collections[catKey].added = collections[catKey].added.filter((appId: string) =>Object.keys(userData.apps).map((x)=>steam.shortenAppId(x)).indexOf(appId)<0 && extraneousShortIds.indexOf(appId)<0);
           if(collections[catKey].length == 0) {
             delete collections[catKey];
           }
