@@ -43,10 +43,9 @@ export class CategoryManager {
           collections = JSON.parse(localConfig.UserLocalConfigStore.WebStorage['user-collections'].replace(/\\/g, ''));
         }
 
-        for (const catKey of Object.keys(collections)) {
+        for (const catKey of Object.keys(collections).filter((key:string)=>key.split('-')[0]==='srm')) {
           let toRemove = _.union(Object.keys(userData.apps).map((x)=>steam.shortenAppId(x)),extraneousShortIds).map((x)=>+x);
           collections[catKey].added = collections[catKey].added.filter((appId: number) => toRemove.indexOf(appId)<0);
-          collections[catKey].removedDebug = toRemove;
           if(collections[catKey].length == 0) {
             delete collections[catKey];
           }
