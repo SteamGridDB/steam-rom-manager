@@ -218,7 +218,7 @@ export class PreviewService {
         this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         this.clearPreviewData();
       }
-
+      return true;
     }).catch((fatalError) => {
       this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
       if (fatalError)
