@@ -44,10 +44,9 @@ export class CategoryManager {
         }
 
         for (const catKey of Object.keys(collections)) {
-          let toRemove = _.union(Object.keys(userData.apps).map((x)=>steam.shortenAppId(x)),extraneousShortIds);
+          let toRemove = _.union(Object.keys(userData.apps).map((x)=>steam.shortenAppId(x)),extraneousShortIds).map((x)=>+x);
           collections[catKey].added = collections[catKey].added.filter((appId: string) => toRemove.indexOf(appId)<0);
           collections[catKey].removedDebug = toRemove;
-//         collections[catKey].added = collections[catKey].added.filter((appId: string) =>Object.keys(userData.apps).map((x)=>steam.shortenAppId(x)).indexOf(appId)<0 && extraneousShortIds.indexOf(appId)<0);
           if(collections[catKey].length == 0) {
             delete collections[catKey];
           }
