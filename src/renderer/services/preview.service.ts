@@ -157,9 +157,7 @@ export class PreviewService {
 
         return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages, this.appSettings.previewSettings.deleteDisabledShortcuts).then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
           this.loggerService.info(this.lang.info.savingCategories)
-          return categoryManager.save(this.previewData, extraneousAppIds, false).then(()=>{
-            return true;
-          }).catch((error: any) => {
+          return categoryManager.save(this.previewData, extraneousAppIds, false).catch((error: any) => {
             if (error) {
               if (error.type === 'OpenError') {
                 this.loggerService.error('Cannot import while Steam is running. Close Steam and try again.', { invokeAlert: true, alertTimeout: 3000 });
@@ -169,7 +167,6 @@ export class PreviewService {
                 this.loggerService.error(error);
               }
             }
-            return false;
           });
         });
       }
@@ -177,9 +174,7 @@ export class PreviewService {
         this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         return vdfManager.removeAllAddedEntries().then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
           this.loggerService.info(this.lang.info.removingFromCategories, { invokeAlert: true, alertTimeout: 3000 })
-          return categoryManager.save(this.previewData, extraneousAppIds, true).then(()=>{
-            return true;
-          }).catch((error: any) => {
+          return categoryManager.save(this.previewData, extraneousAppIds, true).catch((error: any) => {
             if (error) {
               if (error.type === 'OpenError') {
                 this.loggerService.error('Cannot import while Steam is running. Close Steam and try again.', { invokeAlert: true, alertTimeout: 3000 });
@@ -189,9 +184,7 @@ export class PreviewService {
                 this.loggerService.error(error);
               }
             }
-            return false;
           });
-
         });
       }
     }).then(() => {
