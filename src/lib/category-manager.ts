@@ -45,7 +45,7 @@ export class CategoryManager {
 
         for (const catKey of Object.keys(collections)) {
           let toRemove = _.union(Object.keys(userData.apps).map((x)=>steam.shortenAppId(x)),extraneousShortIds).map((x)=>+x);
-          collections[catKey].added = collections[catKey].added.filter((appId: string) => toRemove.indexOf(appId)<0);
+          collections[catKey].added = collections[catKey].added.filter((appId: number) => toRemove.indexOf(appId)<0);
           collections[catKey].removedDebug = toRemove;
           if(collections[catKey].length == 0) {
             delete collections[catKey];
