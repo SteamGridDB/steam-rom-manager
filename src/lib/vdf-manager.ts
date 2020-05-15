@@ -179,6 +179,7 @@ export class VDF_Manager {
             }
           }
           else if (app.status === 'remove') {
+            extraneousAppIds[userId].push(appId);
             listItem.shortcuts.removeItem(appId);
             listItem.addedItems.removeItem(appId);
             listItem.screenshots.removeItem(appId);

@@ -175,7 +175,6 @@ export class PreviewService {
       }
       else {
         this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-
         return vdfManager.removeAllAddedEntries().then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
           this.loggerService.info(this.lang.info.removingFromCategories, { invokeAlert: true, alertTimeout: 3000 })
           return categoryManager.save(this.previewData, extraneousAppIds).then(()=>{
