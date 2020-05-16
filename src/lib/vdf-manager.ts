@@ -108,7 +108,7 @@ export class VDF_Manager {
           if(error.valid) {
             reject(error);
           } else {
-            reject(new VDF_Error('Invalid error'))
+            resolve();
           }
         } else {
           resolve();
