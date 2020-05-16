@@ -6,6 +6,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as _ from 'lodash';
+import { Category_Error } from './category-error';
 
 export class CategoryManager {
   private data: object = {};
@@ -124,8 +125,8 @@ export class CategoryManager {
 
       return result.then(() => {
         resolveSave();
-      }).catch((error: any) => {
-        rejectSave(error);
+      }).catch((error: Error) => {
+        rejectSave(new Category_Error(error));
       });
     });
   }

@@ -16,3 +16,4 @@ export * from './fuzzy.model';
 export * from './x-request.model';
 export * from './custom-variables.model';
 export * from './config-presets.model';
+export * from './error.model'

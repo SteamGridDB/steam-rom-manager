@@ -8,9 +8,9 @@ import { ImageProviderService } from './image-provider.service';
 import {
   PreviewData, ImageContent, ParsedUserConfiguration, AppImages, PreviewVariables,
   ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings,
-  SteamTree, userAccountData, VDF_ExtraneousItemsData
+  SteamTree, userAccountData, VDF_ExtraneousItemsData, ErrorData
 } from '../../models';
-import { VDF_Manager, VDF_Error, CategoryManager } from "../../lib";
+import { VDF_Manager, VDF_Error, CategoryManager, Category_Error } from "../../lib";
 import { APP } from '../../variables';
 import { queue } from 'async';
 import * as steam from "../../lib/helpers/steam";
@@ -125,81 +125,71 @@ export class PreviewService {
   saveData(remove: boolean): Promise<any> {
 
     if (this.previewVariables.listIsBeingSaved)
-    return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+      return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     else if (!remove && this.previewVariables.numberOfListItems === 0)
-    return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+      return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     else if (this.previewVariables.listIsBeingRemoved)
-    return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+      return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     else if (remove && this.appSettings.knownSteamDirectories.length === 0)
-    return Promise.resolve().then(() => { this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+      return Promise.resolve().then(() => { this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
 
     let vdfManager = new VDF_Manager();
     let categoryManager = new CategoryManager();
 
     this.previewVariables.listIsBeingSaved = true;
-    this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
-    return vdfManager.prepare(remove ? this.appSettings.knownSteamDirectories : this.previewData).then((error) => {
-      if (error) {
-
-        this.loggerService.error(this.lang.errors.populatingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-        this.loggerService.error(error);
-      }
+    let chain: Promise<any> =  Promise.resolve()
+    .then(()=>{
+      this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
+      return vdfManager.prepare(remove ? this.appSettings.knownSteamDirectories : this.previewData)
+    }).catch((error:VDF_Error)=>{
+      this.loggerService.error(this.lang.errors.populatingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+      throw new Error(error.message);
+    })
+    .then(()=>{
       this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
-
       return vdfManager.backup();
-    }).then(() => {
+    })
+    .then(()=>{
       this.loggerService.info(this.lang.info.readingVDF_Files, { invokeAlert: true, alertTimeout: 3000 });
-
       return vdfManager.read();
-    }).then(() => {
-      if (!remove) {
+    })
+    if(!remove) {
+      chain = chain.then(()=>{
         this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-
-        return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages, this.appSettings.previewSettings.deleteDisabledShortcuts).then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
-          this.loggerService.info(this.lang.info.savingCategories)
-          return categoryManager.save(this.previewData, extraneousAppIds, false).catch((error: any) => {
-            return error;
-          });
-        });
-      }
-      else {
+        return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages, this.appSettings.previewSettings.deleteDisabledShortcuts)
+      })
+    } else {
+      chain = chain.then((errordata)=>{
         this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-        return vdfManager.removeAllAddedEntries().then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
-          this.loggerService.info(this.lang.info.removingFromCategories, { invokeAlert: true, alertTimeout: 3000 })
-          return categoryManager.save(this.previewData, extraneousAppIds, true).catch((error: any) => {
-            return error;
-          });
-        });
+        return vdfManager.removeAllAddedEntries()
+      })
+    }
+    chain = chain.catch((error: VDF_Error | Error)=>{
+      if(error instanceof VDF_Error) {
+        this.loggerService.error(this.lang.errors.steamIsRunning, {invokeAlert: true, alertTimeout: 3000});
       }
-    }).then((error) => {
-      if(!error){
-        this.loggerService.info(this.lang.info.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-        return vdfManager.write();
-      } else {
-        if (error.type === 'OpenError') {
-          this.loggerService.error(this.lang.errors.steamIsRunning, { invokeAlert: true, alertTimeout: 3000 });
-          this.loggerService.error(error);
-        } else {
-          this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
-          this.loggerService.error(error);
-        }
-        return error;
-      }
-    }).then((error) => {
-      this.loggerService.success(this.lang.info.updatingKnownSteamDirList, { invokeAlert: true, alertTimeout: 3000 });
+      throw new Error(error.message);
+    })
 
-      if (!remove) {
-        let settings = this.settingsService.getSettings();
-        settings.knownSteamDirectories = _.union(settings.knownSteamDirectories, Object.keys(this.previewData));
-        this.settingsService.settingsChanged();
+    chain = chain
+    .then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
+      this.loggerService.info(this.lang.info.savingCategories)
+      return categoryManager.save(this.previewData, extraneousAppIds, remove)
+    }).catch((error: Category_Error | Error)=>{
+      if(error instanceof Category_Error) {
+        this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
       }
-      if (error) {
+      throw new Error(error.message);
+    })
+    .then(()=>{
+      return vdfManager.write()
+    }).catch((error: VDF_Error)=>{
+      if(error instanceof VDF_Error) {
         this.loggerService.error(this.lang.errors.savingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-        this.loggerService.error(error);
-        return true;
       }
-    }).then((existsError) => {
-      if(!existsError) {
+      throw new Error(error.message);
+    })
+    .then(()=>{
         this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         this.previewVariables.listIsBeingSaved = false;
 
@@ -207,18 +197,108 @@ export class PreviewService {
           this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
           this.clearPreviewData();
         }
-        return true;
-      } else{
-        return false;
-      }
-
-    }).catch((fatalError) => {
-      this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
-      if (fatalError)
-        this.loggerService.error(fatalError);
-      this.previewVariables.listIsBeingSaved = false;
+      return true;
+    }).catch((failureError: Error)=>{
+      this.loggerService.error(failureError);
       return false;
-    });
+    })
+    return chain;
+
+
+
+    // return vdfManager.prepare(remove ? this.appSettings.knownSteamDirectories : this.previewData).then((error: any) => {
+    //   if (error) {
+    //     return {desc: this.lang.errors.populatingVDF_entries, e: error.toString()}
+    //   }
+    //   this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
+    //   return vdfManager.backup();
+    // }).then((errordata: any) => {
+    //   if(errordata) {
+    //     return errordata;
+    //   }
+    //   this.loggerService.info(this.lang.info.readingVDF_Files, { invokeAlert: true, alertTimeout: 3000 });
+    //   return vdfManager.read();
+    // }).then((errordata: ErrorData) => {
+    //   if(errordata) {
+    //     return errordata
+    //   }
+    //   if (!remove) {
+    //     this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+    //     return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages, this.appSettings.previewSettings.deleteDisabledShortcuts).then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
+    //       this.loggerService.info(this.lang.info.savingCategories)
+    //       return categoryManager.save(this.previewData, extraneousAppIds, false).catch((error: any) => {
+    //         return {desc: this.lang.errors.categorySaveError, e: error.toString()};
+    //       });
+    //     }).catch((error: any)=>{
+    //       if(error.type === 'OpenError'){
+    //         return {desc: this.lang.errors.steamIsRunning, e: error.toString()}
+    //       } else {
+    //         return {desc: 'Unknown Error', e: error.toString()}
+    //       }
+    //     });
+    //   }
+    //   else {
+    //     this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+    //     return vdfManager.removeAllAddedEntries().then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
+    //       this.loggerService.info(this.lang.info.removingFromCategories, { invokeAlert: true, alertTimeout: 3000 })
+    //       return categoryManager.save(this.previewData, extraneousAppIds, true).catch((error: any) => {
+    //         return {desc: this.lang.errors.categorySaveError, e: error.toString()};
+    //       });
+    //     }).catch((error: any)=>{
+    //       if(error.type === 'OpenError'){
+    //         return {desc: this.lang.errors.steamIsRunning, e: error.toString()}
+    //       } else {
+    //         return {desc: 'Unknown Error', e: error.toString()}
+    //       }
+    //     });
+    //   }
+    // }).then((errordata: ErrorData | void) => {
+    //   if(!errordata){
+    //     this.loggerService.info(this.lang.info.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+    //     return vdfManager.write().catch((error: any)=>{
+    //       return {desc: this.lang.errors.savingVDF_entries, e: error.toString()}
+    //     });
+    //   } else {
+    //     return errordata;
+    //   }
+    // }).then((errordata: ErrorData | void) => {
+    //   this.loggerService.success(this.lang.info.updatingKnownSteamDirList, { invokeAlert: true, alertTimeout: 3000 });
+    //   if (!remove) {
+    //     let settings = this.settingsService.getSettings();
+    //     settings.knownSteamDirectories = _.union(settings.knownSteamDirectories, Object.keys(this.previewData));
+    //     this.settingsService.settingsChanged();
+    //   }
+    //   if (errordata) {
+    //     return errordata;
+    //   }
+    // }).then((errordata: ErrorData | void) => {
+    //   let noErrors = true;
+    //   if(!errordata) {
+    //     this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+    //     this.previewVariables.listIsBeingSaved = false;
+    //
+    //     if (remove) {
+    //       this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+    //       this.clearPreviewData();
+    //     }
+    //   } else{
+    //     this.loggerService.error(errordata.desc, {invokeAlert: true, alertTimeout: 3000});
+    //     if(errordata.e) {
+    //       this.loggerService.error(errordata.e)
+    //     }
+    //     noErrors = false;
+    //   }
+    //   this.previewVariables.listIsBeingSaved = false;
+    //   return noErrors;
+    //
+    // }).catch((fatalError: any) => {
+    //   this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
+    //   if (fatalError) {
+    //     this.loggerService.error(fatalError);
+    //   }
+    //   this.previewVariables.listIsBeingSaved = false;
+    //   return false;
+    // });
   }
 
   loadImage(app: PreviewDataApp, imagetype?: string) {
