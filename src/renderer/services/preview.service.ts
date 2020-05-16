@@ -159,7 +159,7 @@ export class PreviewService {
         return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages, this.appSettings.previewSettings.deleteDisabledShortcuts)
       })
     } else {
-      chain = chain.then((errordata)=>{
+      chain = chain.then(()=>{
         this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         return vdfManager.removeAllAddedEntries()
       })
@@ -170,8 +170,6 @@ export class PreviewService {
       }
       throw new Error(error.message);
     })
-
-    chain = chain
     .then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
       this.loggerService.info(this.lang.info.savingCategories)
       return categoryManager.save(this.previewData, extraneousAppIds, remove)
