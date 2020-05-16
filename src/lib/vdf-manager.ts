@@ -101,7 +101,7 @@ export class VDF_Manager {
       }
     }
 
-    return new Promise((resolve,reject)=>{
+    return new Promise<void>((resolve,reject)=>{
       Promise.all(promises).then((errors)=>{
         if(errors.length>0) {
           let error = new VDF_Error(errors);

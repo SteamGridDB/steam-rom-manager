@@ -87,19 +87,19 @@ export class FileParser {
                 let parser = this.getParserInfo(configs[i].parserType);
 
 
-                  // Parse environment variables on rom directory, start in path, executable path
-                  configs[i].steamDirectory = preParser.setInput(configs[i].steamDirectory).parse() ? preParser.replaceVariables((variable) => {
-                    return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
-                  }) : null;
-                  configs[i].romDirectory = preParser.setInput(configs[i].romDirectory).parse() ? preParser.replaceVariables((variable) => {
-                    return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
-                  }) : null;
-                  configs[i].startInDirectory = preParser.setInput(configs[i].startInDirectory).parse() ? preParser.replaceVariables((variable) => {
-                    return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
-                  }) : null;
-                  configs[i].executableLocation = preParser.setInput(configs[i].executableLocation).parse() ? preParser.replaceVariables((variable) => {
-                    return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
-                  }) : null;
+                // Parse environment variables on rom directory, start in path, executable path
+                configs[i].steamDirectory = preParser.setInput(configs[i].steamDirectory).parse() ? preParser.replaceVariables((variable) => {
+                  return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
+                }) : null;
+                configs[i].romDirectory = preParser.setInput(configs[i].romDirectory).parse() ? preParser.replaceVariables((variable) => {
+                  return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
+                }) : null;
+                configs[i].startInDirectory = preParser.setInput(configs[i].startInDirectory).parse() ? preParser.replaceVariables((variable) => {
+                  return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
+                }) : null;
+                configs[i].executableLocation = preParser.setInput(configs[i].executableLocation).parse() ? preParser.replaceVariables((variable) => {
+                  return this.getEnvironmentVariable(variable as EnvironmentVariables).trim()
+                }) : null;
 
 
                 steamDirectories.push({ directory: configs[i].steamDirectory, useCredentials: configs[i].userAccounts.useCredentials, data: [] });
@@ -360,8 +360,8 @@ export class FileParser {
                     for(let j=0; j < parsedConfigs[i].files.length; j++) {
                       if(parsedConfigs[i].files[j].filePath.split('.').slice(-1)[0].toLowerCase()=='lnk') {
                         shortcutPromises.push(getPath(parsedConfigs[i].files[j].filePath).then((actualPath: string)=>{
-                        parsedConfigs[i].files[j].modifiedExecutableLocation = "\"".concat(actualPath,"\"");
-                        parsedConfigs[i].files[j].startInDirectory = path.dirname(actualPath);
+                          parsedConfigs[i].files[j].modifiedExecutableLocation = "\"".concat(actualPath,"\"");
+                          parsedConfigs[i].files[j].startInDirectory = path.dirname(actualPath);
                         }))
                       }
                     }
