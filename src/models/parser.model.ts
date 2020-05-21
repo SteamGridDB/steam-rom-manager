@@ -99,8 +99,8 @@ export type EnvironmentVariables = (typeof environmentVariables)[number];
 export type AllVariables = DirectoryVariables | NameVariables | ExtensionVariables | PathVariables | ParserVariables | EnvironmentVariables;
 
 
-export const isEnvironmentVariable = (x: any): x is EnvironmentVariables => x in environmentVariables;
-export const isVariable = (x: any): x is AllVariables => x in directoryVariables||x in nameVariables||x in extensionVariables||x in pathVariables||x in parserVariables||x in environmentVariables;
+export const isEnvironmentVariable = (x: any): x is EnvironmentVariables => environmentVariables.indexOf(x)>0;
+export const isVariable = (x: any): x is AllVariables => directoryVariables.indexOf(x)>0||nameVariables.indexOf(x)>0||extensionVariables.indexOf(x)>0||pathVariables.indexOf(x)>0||parserVariables.indexOf(x)>0||environmentVariables.indexOf(x)>0;
 
 export interface GenericParser {
     getParserInfo(): ParserInfo,
