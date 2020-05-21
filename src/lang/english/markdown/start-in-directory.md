@@ -1,4 +1,4 @@
-# "Start In" directory (optional)
+# "Start In" directory (optional) `[supports environment variables]`{.noWrap}
 
 By default "Start In" directory is set to executable's directory:
 

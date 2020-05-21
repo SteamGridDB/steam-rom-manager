@@ -233,23 +233,20 @@ export class FileParser {
           }) : '';
 
           variableData.finalTitle = lastFile.finalTitle;
-          console.log("at location")
           lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
-            console.log("replacing variable")
-            console.log(variable);
-            if(isVariable(variable)) {
+            if(isVariable(variable.toUpperCase())) {
               return this.getVariable(variable as AllVariables, variableData).trim();
-            } else {
-              console.log("attempting to get custom variable");
-              return this.getCustomArgsVariable(variable, data[i].success[j].extractedTitle).trim();
             }
+            return this.getCustomArgsVariable(variable, data[i].success[j].extractedTitle).trim();
           }) : '';
-          console.log('argumentString is '+lastFile.argumentString)
           lastFile.imagePool = vParser.setInput(configs[i].imagePool).parse() ? vParser.replaceVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData).trim();
           }) : '';
           lastFile.modifiedExecutableLocation = vParser.setInput(configs[i].executableModifier).parse() ? vParser.replaceVariables((variable) => {
-            return this.getVariable(variable as AllVariables, variableData).trim();
+            if(isVariable(variable.toUpperCase())) {
+              return this.getVariable(variable as AllVariables, variableData).trim();
+            }
+            return this.getCustomArgsVariable(variable, data[i].success[j].extractedTitle).trim();
           }) : '';
           lastFile.onlineImageQueries = vParser.setInput(configs[i].onlineImageQueries).parse() ? _.uniq(vParser.extractVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData);
@@ -544,11 +541,6 @@ export class FileParser {
   }
 
   private getCustomArgsVariable(variable: string, title: string) {
-    console.log(this.argumentVariableData)
-    console.log(Object.keys(this.argumentVariableData));
-    console.log(this.argumentVariableData[variable]);
-    console.log(variable)
-    console.log(title)
     if(this.argumentVariableData[variable]!==undefined) {
       return this.argumentVariableData[variable][title] || '';
     }
