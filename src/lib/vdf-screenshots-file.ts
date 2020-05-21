@@ -149,7 +149,7 @@ export class VDF_ScreenshotsFile {
                     glob.promise(`${appId}.!(json)`, { silent: true, dot: true, cwd: this.gridDirectory, absolute: true }).then((files) => {
                       let errors: Error[] = [];
                       for (let i = 0; i < files.length; i++) {
-                        if(files[i].split('.')[1]!==(ids.map_ext[""+ext]||ext)) {
+                        if(_.last(files[i].split('.'))!==(ids.map_ext[""+ext]||ext)) {
                           try {
                             fs.removeSync(files[i]);
                           }
