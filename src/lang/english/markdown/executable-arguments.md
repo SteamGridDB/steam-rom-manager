@@ -2,6 +2,26 @@
 
 Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
 
+## Custom Argument Variables
+This field supports (in addition to all the usual variables), custom per game argument variables specified in `userData/customArgumentVariables.json`. That json file has a similar layout to `userData/customVariables.json`, but it works slightly differently. Assume your parser loads in games with titles `Subnautica` and `Sundered`, and some others.
+```
+{
+  "myVariable": {
+    "Subnautica": "-EpicPortal",
+    "Sundered": "-SomeOtherArg"
+  },
+  "mySecondVariable":{
+    ...
+  },
+  ...
+}
+
+```
+Once you have made this file the way you want it, then referencing `${myVariable}` in either the Executable Modifer or the Command Line Arguments field will map to -EpicPortal if the title of the game is Subnautica, to -SomeOtherArg if the title of the game is Sundered, and to nothing otherwise.
+
+
+
+
 ## Examples By System
 
 ### RetroArch
