@@ -3,7 +3,7 @@
 Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
 
 ## Custom Argument Variables
-This field supports (in addition to all the usual variables), custom per game argument variables specified in `userData/customArgumentVariables.json`. That json file has a similar layout to `userData/customVariables.json`, but it works slightly differently. Assume your parser loads in games with titles `Subnautica` and `Sundered`, and some others.
+This field supports (in addition to all the usual variables), custom per game argument variables specified in `userData/customArgumentVariables.json`. This file does not exist by default, so if you need it you have to create it. The json has a similar layout to `userData/customVariables.json`, but it works slightly differently. Assume your parser loads in games with titles `Subnautica` and `Sundered`, and some others. Then your `userData/customVariables.json` might look like
 ```
 {
   "myVariable": {
