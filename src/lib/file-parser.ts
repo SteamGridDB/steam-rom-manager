@@ -236,6 +236,7 @@ export class FileParser {
           console.log("at location")
           lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
             console.log("replacing variable")
+            console.log(variable);
             if(isVariable(variable)) {
               return this.getVariable(variable as AllVariables, variableData).trim();
             } else {
@@ -542,6 +543,9 @@ export class FileParser {
   }
 
   private getCustomArgsVariable(variable: string, title: string) {
+    console.log(this.argumentVariableData)
+    console.log(variable)
+    console.log(title)
     if(variable in Object.keys(this.argumentVariableData)) {
       return this.argumentVariableData[variable][title] || '';
     }
