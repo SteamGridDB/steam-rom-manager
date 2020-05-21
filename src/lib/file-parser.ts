@@ -233,12 +233,13 @@ export class FileParser {
           }) : '';
 
           variableData.finalTitle = lastFile.finalTitle;
-
+          console.log("at location")
           lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
-
+            console.log("replacing variable")
             if(isVariable(variable)) {
               return this.getVariable(variable as AllVariables, variableData).trim();
             } else {
+              console.log("attempting to get custom variable");
               return this.getCustomArgsVariable(variable, data[i].success[j].extractedTitle).trim();
             }
           }) : '';
@@ -542,9 +543,9 @@ export class FileParser {
 
   private getCustomArgsVariable(variable: string, title: string) {
     if(variable in Object.keys(this.argumentVariableData)) {
-      return this.argumentVariableData[variable][title] || variable;
+      return this.argumentVariableData[variable][title] || '';
     }
-    return variable;
+    return '';
   }
 
   private getVariable(variable: AllVariables, data: ParserVariableData) {
