@@ -39,6 +39,8 @@ export const EnglishLang: languageContainer = {
           readingVDF_Files: 'Reading VDF files.',
           mergingVDF_entries: 'Merging VDF entries.',
           removingVDF_entries: 'Removing VDF entries and image files.',
+          savingCategories: 'Saving added category information to localconfig.vdf',
+          removingFromCategories: 'Removing all added category information',
           writingVDF_entries: 'Writing VDF files and saving/removing images.',
           updatingKnownSteamDirList: 'Updating a list of known Steam directories.',
           retryingDownload__i: 'Retrying image download from "${imageUrl}" for "${appTitle}".',
@@ -57,6 +59,8 @@ export const EnglishLang: languageContainer = {
           savingVDF_entries: 'Non-fatal error(-s) occurred while saving VDF/image files.',
           fatalError: 'Fatal error occurred. See event log for details.',
           knownSteamDirListIsEmpty: 'A list of known Steam directories is empty.',
+          steamIsRunning: 'Cannot make changes while steam is running!',
+          categorySaveError: 'Error updating categories',
           retryingDownload__i: 'Image download from "${imageUrl}" failed for "${appTitle}".',
           providerError__i: 'Error received from "${provider}" for "${title}" (${url ? `${code}: ${url}` : code}).',
           unknownProviderError__i: 'Unknown error received from "${provider}" for "${title}": ${error}'
@@ -416,7 +420,7 @@ export const EnglishLang: languageContainer = {
         text: {
           skipWithMissingDataDir: 'Skip found accounts with missing data directories',
           useCredentials: 'Use account credentials',
-          tryToMatchTitle: 'Enabled',
+          tryToMatchTitle: 'Enable Title from Custom Variable',
           skipFileIfVariableWasNotFound: 'Skip file if variable was not found',
           caseInsensitiveVariables: 'Case-insensitive variables',
           shortcut_passthrough: 'Follow .lnk to destination (Windows only)',

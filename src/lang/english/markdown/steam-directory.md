@@ -1,4 +1,4 @@
-# Steam directory
+# Steam directory `[supports environment variables]`{.noWrap}
 
 Must be a valid Steam directory which contains Steam executable. In order for Steam account to be detected, user must have logged in at least once.
 

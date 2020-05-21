@@ -1,4 +1,4 @@
-import { userAccountData } from './helpers.model';
+import { userAccountData, StringLiteralArray } from './helpers.model';
 
 export interface ParsedUserConfigurationFile {
     executableLocation: string,
@@ -79,14 +79,33 @@ export interface ParserVariableData {
     filePath: string
 }
 
-export type DirectoryVariables = 'EXEDIR' | 'ROMDIR' | 'STEAMDIR' | 'STARTINDIR' | 'FILEDIR';
-export type NameVariables = 'EXENAME' | 'FILENAME';
-export type ExtensionVariables = 'EXEEXT' | 'FILEEXT';
-export type PathVariables = 'EXEPATH' | 'FILEPATH';
-export type ParserVariables = 'TITLE' | 'FUZZYTITLE' | 'FINALTITLE';
-export type EnvironmentVariables = '/' | 'SRMDIR';
+
+const directoryVariables = StringLiteralArray(['EXEDIR','ROMDIR','STEAMDIR','STARTINDIR','FILEDIR']);
+const nameVariables = StringLiteralArray(['EXENAME','FILENAME']);
+const extensionVariables = StringLiteralArray(['EXEEXT','FILEEXT']);
+const pathVariables = StringLiteralArray(['EXEPATH','FILEPATH']);
+const parserVariables = StringLiteralArray(['TITLE','FUZZYTITLE','FINALTITLE']);
+const environmentVariables = StringLiteralArray(['/','SRMDIR']);
+
+export type DirectoryVariables = (typeof directoryVariables)[number];
+export type NameVariables = (typeof nameVariables)[number];
+export type ExtensionVariables = (typeof extensionVariables)[number];
+export type PathVariables = (typeof pathVariables)[number];
+export type ParserVariables = (typeof parserVariables)[number];
+export type EnvironmentVariables = (typeof environmentVariables)[number];
+
+
 
 export type AllVariables = DirectoryVariables | NameVariables | ExtensionVariables | PathVariables | ParserVariables | EnvironmentVariables;
+
+
+export const isEnvironmentVariable = (x: any): x is EnvironmentVariables => environmentVariables.indexOf(x as EnvironmentVariables)>=0;
+export const isNameVariable = (x: any): x is NameVariables => nameVariables.indexOf(x as NameVariables)>=0;
+export const isExtensionVariable = (x: any): x is ExtensionVariables => extensionVariables.indexOf(x as ExtensionVariables)>=0;
+export const isPathVariable = (x: any): x is PathVariables => pathVariables.indexOf(x as PathVariables)>=0;
+export const isParserVariable = (x: any): x is ParserVariables => parserVariables.indexOf(x as ParserVariables)>=0;
+export const isDirectoryVariable = (x: any): x is DirectoryVariables => directoryVariables.indexOf(x as DirectoryVariables)>=0;
+export const isVariable = (x: any): x is AllVariables => isEnvironmentVariable(x)||isNameVariable(x)||isExtensionVariable(x)||isPathVariable(x)||isParserVariable(x)||isDirectoryVariable(x);
 
 export interface GenericParser {
     getParserInfo(): ParserInfo,

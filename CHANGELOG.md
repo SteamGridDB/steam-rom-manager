@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.26 - 2020-05-21
+### Added
+* Better state management for category manager (no more duplicate categories, empty SRM managed categories get deleted)
+* Custom Arguments JSON file capability + documentation
+### Changed
+* Readme now points to github pages with videos
+### Fixed
+* Fixed issue of linux version not saving images
+
 ## 2.2.25 - 2020-05-12
 ### Added 
 * Setting for whether or not to delete shortcuts from disabled parsers
