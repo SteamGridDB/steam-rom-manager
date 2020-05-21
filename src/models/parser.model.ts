@@ -1,4 +1,4 @@
-import { userAccountData } from './helpers.model';
+import { userAccountData, StringLiteralArray } from './helpers.model';
 
 export interface ParsedUserConfigurationFile {
     executableLocation: string,
@@ -79,14 +79,28 @@ export interface ParserVariableData {
     filePath: string
 }
 
-export type DirectoryVariables = 'EXEDIR' | 'ROMDIR' | 'STEAMDIR' | 'STARTINDIR' | 'FILEDIR';
-export type NameVariables = 'EXENAME' | 'FILENAME';
-export type ExtensionVariables = 'EXEEXT' | 'FILEEXT';
-export type PathVariables = 'EXEPATH' | 'FILEPATH';
-export type ParserVariables = 'TITLE' | 'FUZZYTITLE' | 'FINALTITLE';
-export type EnvironmentVariables = '/' | 'SRMDIR';
+
+const directoryVariables = StringLiteralArray(['EXEDIR','ROMDIR','STEAMDIR','STARTINDIR','FILEDIR']);
+const nameVariables = StringLiteralArray(['EXENAME','FILENAME']);
+const extensionVariables = StringLiteralArray(['EXEEXT','FILEEXT']);
+const pathVariables = StringLiteralArray(['EXEPATH','FILEPATH']);
+const parserVariables = StringLiteralArray(['TITLE','FUZZYTITLE','FINALTITLE']);
+const environmentVariables = StringLiteralArray(['/','SRMDIR']);
+
+export type DirectoryVariables = (typeof directoryVariables)[number];
+export type NameVariables = (typeof nameVariables)[number];
+export type ExtensionVariables = (typeof extensionVariables)[number];
+export type PathVariables = (typeof pathVariables)[number];
+export type ParserVariables = (typeof parserVariables)[number];
+export type EnvironmentVariables = (typeof environmentVariables)[number];
+
+
 
 export type AllVariables = DirectoryVariables | NameVariables | ExtensionVariables | PathVariables | ParserVariables | EnvironmentVariables;
+
+
+export const isEnvironmentVariable = (x: any): x is EnvironmentVariables => x in environmentVariables;
+export const isVariable = (x: any): x is AllVariables => x in directoryVariables||x in nameVariables||x in extensionVariables||x in pathVariables||x in parserVariables||x in environmentVariables;
 
 export interface GenericParser {
     getParserInfo(): ParserInfo,

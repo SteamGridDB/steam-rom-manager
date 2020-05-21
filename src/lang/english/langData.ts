@@ -420,7 +420,7 @@ export const EnglishLang: languageContainer = {
         text: {
           skipWithMissingDataDir: 'Skip found accounts with missing data directories',
           useCredentials: 'Use account credentials',
-          tryToMatchTitle: 'Enabled',
+          tryToMatchTitle: 'Enable Title from Custom Variable',
           skipFileIfVariableWasNotFound: 'Skip file if variable was not found',
           caseInsensitiveVariables: 'Case-insensitive variables',
           shortcut_passthrough: 'Follow .lnk to destination (Windows only)',
