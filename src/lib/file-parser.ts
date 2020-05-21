@@ -545,10 +545,11 @@ export class FileParser {
 
   private getCustomArgsVariable(variable: string, title: string) {
     console.log(this.argumentVariableData)
-    console.log(variable in Object.keys(this.argumentVariableData))
+    console.log(Object.keys(this.argumentVariableData));
+    console.log(this.argumentVariableData[variable]);
     console.log(variable)
     console.log(title)
-    if(variable in Object.keys(this.argumentVariableData)) {
+    if(this.argumentVariableData[variable]!==undefined) {
       return this.argumentVariableData[variable][title] || '';
     }
     return '';
