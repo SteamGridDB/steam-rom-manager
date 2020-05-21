@@ -99,8 +99,13 @@ export type EnvironmentVariables = (typeof environmentVariables)[number];
 export type AllVariables = DirectoryVariables | NameVariables | ExtensionVariables | PathVariables | ParserVariables | EnvironmentVariables;
 
 
-export const isEnvironmentVariable = (x: any): x is EnvironmentVariables => environmentVariables.indexOf(x)>0;
-export const isVariable = (x: any): x is AllVariables => directoryVariables.indexOf(x)>0||nameVariables.indexOf(x)>0||extensionVariables.indexOf(x)>0||pathVariables.indexOf(x)>0||parserVariables.indexOf(x)>0||environmentVariables.indexOf(x)>0;
+export const isEnvironmentVariable = (x: any): x is EnvironmentVariables => environmentVariables.indexOf(x as EnvironmentVariables)>=0;
+export const isNameVariable = (x: any): x is NameVariables => nameVariables.indexOf(x as NameVariables)>=0;
+export const isExtensionVariable = (x: any): x is ExtensionVariables => extensionVariables.indexOf(x as ExtensionVariables)>=0;
+export const isPathVariable = (x: any): x is PathVariables => pathVariables.indexOf(x as PathVariables)>=0;
+export const isParserVariable = (x: any): x is ParserVariables => parserVariables.indexOf(x as ParserVariables)>=0;
+export const isDirectoryVariable = (x: any): x is DirectoryVariables => directoryVariables.indexOf(x as DirectoryVariables)>=0;
+export const isVariable = (x: any): x is AllVariables => isEnvironmentVariable(x)||isNameVariable(x)||isExtensionVariable(x)||isPathVariable(x)||isParserVariable(x)||isDirectoryVariable(x);
 
 export interface GenericParser {
     getParserInfo(): ParserInfo,

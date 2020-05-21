@@ -234,11 +234,15 @@ export class FileParser {
 
           variableData.finalTitle = lastFile.finalTitle;
           lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
+            console.log(variable.toUpperCase());
+            console.log(isVariable(variable.toUpperCase()));
             if(isVariable(variable.toUpperCase())) {
               return this.getVariable(variable as AllVariables, variableData).trim();
             }
             return this.getCustomArgsVariable(variable, data[i].success[j].extractedTitle).trim();
           }) : '';
+          console.log('argument string is '+lastFile.argumentString);
+          console.log("\n\n")
           lastFile.imagePool = vParser.setInput(configs[i].imagePool).parse() ? vParser.replaceVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData).trim();
           }) : '';
