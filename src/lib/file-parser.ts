@@ -244,6 +244,7 @@ export class FileParser {
               return this.getCustomArgsVariable(variable, data[i].success[j].extractedTitle).trim();
             }
           }) : '';
+          console.log('argumentString is '+lastFile.argumentString)
           lastFile.imagePool = vParser.setInput(configs[i].imagePool).parse() ? vParser.replaceVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData).trim();
           }) : '';
@@ -544,6 +545,7 @@ export class FileParser {
 
   private getCustomArgsVariable(variable: string, title: string) {
     console.log(this.argumentVariableData)
+    console.log(variable in Object.keys(this.argumentVariableData))
     console.log(variable)
     console.log(title)
     if(variable in Object.keys(this.argumentVariableData)) {
