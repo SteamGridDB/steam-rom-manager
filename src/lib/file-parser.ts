@@ -235,6 +235,8 @@ export class FileParser {
           variableData.finalTitle = lastFile.finalTitle;
           lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
             let standardresult = this.getVariable(variable as AllVariables, variableData).trim();
+            console.log('variable: ' + variable)
+            console.log('standard result: '+ standardresult);
             if(standardresult!=='undefined'){
               return standardresult
             }
