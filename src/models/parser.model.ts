@@ -62,8 +62,9 @@ export interface ParserInfo {
 
 export interface ParsedData {
     success: {
-        filePath: string,
-        extractedTitle: string
+        filePath?: string,
+        extractedTitle: string,
+        extractedAppId?: string
     }[],
     failed: string[]
 }

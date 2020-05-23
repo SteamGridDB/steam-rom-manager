@@ -10,10 +10,10 @@ export interface languageStruct {
           selectType: string,
           selectTypeOptions: {
             long: string,
-            tall: string,
-            hero: string,
-            logo: string,
-            games: string
+              tall: string,
+              hero: string,
+              logo: string,
+              games: string
           },
           by: string,
           refreshImages: string,
@@ -66,6 +66,14 @@ export interface languageStruct {
               writingVDF_entries: string,
                 removingVDF_entries: string
             }
+        }
+    },
+    steamParser: {
+      docs__md: {
+        self: string[]
+      },
+        errors: {
+          directoryInvalid: string
         }
     },
     globParser: {

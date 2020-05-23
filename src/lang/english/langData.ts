@@ -71,6 +71,17 @@ export const EnglishLang: languageContainer = {
         }
       }
     },
+    steamParser: {
+      docs__md: {
+        self: [
+          require('./markdown/steam-parser.md')
+        ]
+
+      },
+      errors: {
+        directoryInvalid: "Steam directory invalid"
+      }
+    },
     globParser: {
       inputTitle: 'User\'s glob',
       docs__md: {

@@ -99,6 +99,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         configTitle: new NestedFormElement.Input({
+          isHidden: () => this.isSteamParser(),
           label: this.lang.label.configTitle,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
@@ -107,6 +108,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         steamCategory: new NestedFormElement.Input({
+          isHidden: () => this.isSteamParser(),
           label: this.lang.label.steamCategory,
           highlight: this.highlight.bind(this),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -116,6 +118,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         executableLocation: new NestedFormElement.Path({
+          isHidden: () => this.isSteamParser(),
           label: this.lang.label.executableLocation,
           highlight: this.highlight.bind(this),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -125,7 +128,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         executableModifier: new NestedFormElement.Input({
-          isHidden: () => this.isHiddenMode(),
+          isHidden: () => this.isHiddenMode()||this.isSteamParser(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.executableModifier,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -135,6 +138,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         romDirectory: new NestedFormElement.Path({
+          isHidden: () => this.isSteamParser(),
           directory: true,
           label: this.lang.label.romDirectory,
           highlight: this.highlight.bind(this),
@@ -158,7 +162,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           directory: true,
           label: this.lang.label.startInDirectory,
           highlight: this.highlight.bind(this),
-          isHidden: () => this.isHiddenMode(),
+          isHidden: () => this.isHiddenMode()||this.isSteamParser(),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
@@ -167,7 +171,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         userAccounts: new NestedFormElement.Group({
           label: this.lang.label.userAccounts,
-          isHidden: () => this.isHiddenMode(),
+          isHidden: () => this.isHiddenMode()||this.isSteamParser(),
           children: {
             specifiedAccounts: new NestedFormElement.Input({
               highlight: this.highlight.bind(this),
@@ -199,12 +203,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                   highlight: this.highlight.bind(this),
                   label: input.label,
                   isHidden: () => {
-                    return Observable.concat(Observable.of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).map((type: string) => {
-                      return type !== parsers[i];
+                    return Observable.concat(Observable.of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).map((pType: string) => {
+                      return pType !== parsers[i];
                     });
                   },
                   onValidate: (self, path) => {
-                    if (this.userForm.get('parserType').value === parsers[i])
+                    if (parsers[i]!=='Steam' && this.userForm.get('parserType').value === parsers[i])
                       return this.parsersService.validate(path[0] as keyof UserConfiguration, { parser: parsers[i], input: inputFieldName, inputData: self.value });
                     else
                       return null;
@@ -224,7 +228,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         })(),
 
         titleFromVariable: new NestedFormElement.Group({
-          isHidden: () => this.isHiddenMode(),
+          isHidden: () => this.isHiddenMode()||this.isSteamParser(),
           label: this.lang.label.titleFromVariable,
           children: {
             limitToGroups: new NestedFormElement.Input({
@@ -250,7 +254,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         titleModifier: new NestedFormElement.Input({
-          isHidden: () => this.isHiddenMode(),
+          isHidden: () => this.isHiddenMode()||this.isSteamParser(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.titleModifier,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -260,7 +264,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         fuzzyMatch: new NestedFormElement.Group({
-          isHidden: () => this.isHiddenMode(),
+          isHidden: () => this.isHiddenMode()||this.isSteamParser(),
           label: this.lang.label.fuzzyMatch,
           children: {
             use: new NestedFormElement.Toggle({
@@ -282,6 +286,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         executableArgs: new NestedFormElement.Input({
+          isHidden: () => this.isSteamParser(),
           label: this.lang.label.executableArgs,
           highlight: this.highlight.bind(this),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -291,7 +296,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         appendArgsToExecutable: new NestedFormElement.Toggle({
-          isHidden: () => this.isHiddenMode(),
+          isHidden: () => this.isHiddenMode()||this.isSteamParser(),
           text: this.lang.text.appendArgsToExecutable
         }),
         onlineImageQueries: new NestedFormElement.Input({
@@ -486,6 +491,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
   private isHiddenMode() {
     return Observable.concat(Observable.of(this.userForm.get('advanced').value), this.userForm.get('advanced').valueChanges).map(val => !val);
+  }
+  private isSteamParser() {
+    return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => pType==='Steam');
   }
 
   private get lang() {
