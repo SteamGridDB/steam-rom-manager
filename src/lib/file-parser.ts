@@ -234,8 +234,9 @@ export class FileParser {
 
           variableData.finalTitle = lastFile.finalTitle;
           lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
-            if(isVariable(variable.toUpperCase())) {
-              return this.getVariable(variable as AllVariables, variableData).trim();
+            let standardresult = this.getVariable(variable as AllVariables, variableData).trim();
+            if(standardresult!=='undefined'){
+              return standardresult
             }
             return this.getCustomArgsVariable(variable, data[i].success[j].extractedTitle).trim();
           }) : '';
@@ -243,8 +244,9 @@ export class FileParser {
             return this.getVariable(variable as AllVariables, variableData).trim();
           }) : '';
           lastFile.modifiedExecutableLocation = vParser.setInput(configs[i].executableModifier).parse() ? vParser.replaceVariables((variable) => {
-            if(isVariable(variable.toUpperCase())) {
-              return this.getVariable(variable as AllVariables, variableData).trim();
+            let standardresult = this.getVariable(variable as AllVariables, variableData).trim();
+            if(standardresult!=='undefined'){
+              return standardresult
             }
             return this.getCustomArgsVariable(variable, data[i].success[j].extractedTitle).trim();
           }) : '';
