@@ -234,23 +234,13 @@ export class FileParser {
 
           variableData.finalTitle = lastFile.finalTitle;
           lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
-            let standardresult = this.getVariable(variable as AllVariables, variableData).trim();
-            console.log('variable: ' + variable)
-            console.log('standard result: '+ standardresult);
-            if(standardresult!=='undefined'){
-              return standardresult
-            }
-            return this.getCustomArgsVariable(variable, data[i].success[j].extractedTitle).trim();
+            return this.getVariable(variable as AllVariables, variableData).trim();
           }) : '';
           lastFile.imagePool = vParser.setInput(configs[i].imagePool).parse() ? vParser.replaceVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData).trim();
           }) : '';
           lastFile.modifiedExecutableLocation = vParser.setInput(configs[i].executableModifier).parse() ? vParser.replaceVariables((variable) => {
-            let standardresult = this.getVariable(variable as AllVariables, variableData).trim();
-            if(standardresult!=='undefined'){
-              return standardresult
-            }
-            return this.getCustomArgsVariable(variable, data[i].success[j].extractedTitle).trim();
+            return this.getVariable(variable as AllVariables, variableData).trim();
           }) : '';
           lastFile.onlineImageQueries = vParser.setInput(configs[i].onlineImageQueries).parse() ? _.uniq(vParser.extractVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData);
@@ -544,13 +534,6 @@ export class FileParser {
     return output;
   }
 
-  private getCustomArgsVariable(variable: string, title: string) {
-    if(this.argumentVariableData[variable]!==undefined) {
-      return this.argumentVariableData[variable][title] || '';
-    }
-    return '';
-  }
-
   private getVariable(variable: AllVariables, data: ParserVariableData) {
     const unavailable = 'undefined';
     let output = variable as string;
@@ -684,6 +667,10 @@ export class FileParser {
                 output = ((platform === regexPlatform) ? match[2] : match[3]) || '';
               }
             }
+          }
+
+          if(this.argumentVariableData[output]!==undefined) {
+            return this.argumentVariableData[variable][data.extractedTitle] || '';
           }
         }
         break;
