@@ -128,7 +128,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         executableModifier: new NestedFormElement.Input({
-          isHidden: () => Observable.concat(this.isHiddenIfNotAdvanced(),this.isHiddenIfSteamParser()),
+          isHidden: () => this.isHiddenIfEither(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.executableModifier,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -162,7 +162,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           directory: true,
           label: this.lang.label.startInDirectory,
           highlight: this.highlight.bind(this),
-          isHidden: () => Observable.concat(this.isHiddenIfNotAdvanced(),this.isHiddenIfSteamParser()),
+          isHidden: () => this.isHiddenIfEither(),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
@@ -171,7 +171,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         userAccounts: new NestedFormElement.Group({
           label: this.lang.label.userAccounts,
-          isHidden: () => Observable.concat(this.isHiddenIfNotAdvanced(),this.isHiddenIfSteamParser()),
+          isHidden: () => this.isHiddenIfEither(),
           children: {
             specifiedAccounts: new NestedFormElement.Input({
               highlight: this.highlight.bind(this),
@@ -228,7 +228,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         })(),
 
         titleFromVariable: new NestedFormElement.Group({
-          isHidden: () => Observable.concat(this.isHiddenIfNotAdvanced(),this.isHiddenIfSteamParser()),
+          isHidden: () => this.isHiddenIfEither(),
           label: this.lang.label.titleFromVariable,
           children: {
             limitToGroups: new NestedFormElement.Input({
@@ -254,7 +254,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         titleModifier: new NestedFormElement.Input({
-          isHidden: () => Observable.concat(this.isHiddenIfNotAdvanced(),this.isHiddenIfSteamParser()),
+          isHidden: () => this.isHiddenIfEither(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.titleModifier,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -264,7 +264,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         fuzzyMatch: new NestedFormElement.Group({
-          isHidden: () => Observable.concat(this.isHiddenIfNotAdvanced(),this.isHiddenIfSteamParser()),
+          isHidden: () => this.isHiddenIfEither(),
           label: this.lang.label.fuzzyMatch,
           children: {
             use: new NestedFormElement.Toggle({
@@ -296,13 +296,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         appendArgsToExecutable: new NestedFormElement.Toggle({
-          isHidden: () => Observable.concat(this.isHiddenIfNotAdvanced(),this.isHiddenIfSteamParser()),
+          isHidden: () => this.isHiddenIfEither(),
           text: this.lang.text.appendArgsToExecutable
         }),
         onlineImageQueries: new NestedFormElement.Input({
           label: this.lang.label.onlineImageQueries,
           highlight: this.highlight.bind(this),
-          isHidden: () => this.userForm.get('advanced').valueChanges.map(val => !val),
+          isHidden: () => this.isHiddenIfEither(),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
@@ -312,7 +312,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         imagePool: new NestedFormElement.Input({
           label: this.lang.label.imagePool,
           highlight: this.highlight.bind(this),
-          isHidden: () => Observable.concat(this.isHiddenIfNotAdvanced(),this.isHiddenIfSteamParser()).map(val=>val),
+          isHidden: () => this.isHiddenIfEither(),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
