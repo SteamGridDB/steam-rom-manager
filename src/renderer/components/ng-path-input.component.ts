@@ -38,11 +38,12 @@ export class NgPathInputComponent implements ControlValueAccessor {
   }
   private browse() {
     let title = 'Select a '.concat(this.directory?'folder':'file');
+    let buttonLabel = 'Select '.concat(this.directory?'folder':'file');
     let properties = [(this.directory?'openDirectory':'openFile'),'showHiddenFiles'];
     dialog.showOpenDialog(BrowserWindow.getFocusedWindow(), {
       title:title,
       properties: properties,
-      buttonLabel:title
+      buttonLabel:buttonLabel
     } as Electron.OpenDialogOptions).then((result: any)=>{
       if(result && !result.canceled && result.filePaths && result.filePaths.length==1){
         this.writeValue(result.filePaths[0]);
