@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.28
+### Fixed
+* Fixed longstanding issue (since 2.2.20) where UI would lock up when selecting directories that contained many files, eg. the steam directory. This problem was pronounced on systems that used HDD's, and was fixed by dropping webkitdir in favor of electron's showOpenDialog.
+
+## 2.2.27 -2020-05-23
+### Hotfix
+* 2.2.26 broke retro-arch cores. This issue has been fixed in this release.
+
 ## 2.2.26 - 2020-05-21
 ### Added
 * Better state management for category manager (no more duplicate categories, empty SRM managed categories get deleted)
