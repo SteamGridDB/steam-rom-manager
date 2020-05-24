@@ -2,11 +2,11 @@
 
 :host {
 	> .contents {
-		&:not(.multiline) {			
+		&:not(.multiline) {
 			white-space: nowrap;
 			text-overflow: clip;
 		}
-	
+
 		&:empty:before{
 			content: attr(data-placeholder);
 			color: var(--ng-text-placeholder-color, initial);
@@ -19,14 +19,14 @@
 
 	overflow: auto;
 
-	&:not(.multiline) {	
+	&:not(.multiline) {
 		> .contents {
 			white-space: nowrap;
 			text-overflow: clip;
 		}
 
-		&::-webkit-scrollbar { 
-			display: none; 
+		&::-webkit-scrollbar {
+			display: none;
 		}
 	}
 }
