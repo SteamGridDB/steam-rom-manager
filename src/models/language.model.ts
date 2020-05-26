@@ -163,7 +163,9 @@ export interface languageStruct {
         label: {
           general: string,
             imageProviders: string,
-            fuzzy: string
+            fuzzy: string,
+            environmentVariables: string,
+            communityPresets: string
         },
           text: {
             offlineMode: string,
@@ -181,10 +183,19 @@ export interface languageStruct {
               clearLogOnTest: string
           },
           placeholder: {
-            noProviders: string
+            noProviders: string,
+              steamDirectoryWin: string,
+              steamDirectoryLinux: string,
+              steamDirectoryMac: string,
+              retroarchPathWin: string,
+              retroarchPathMac: string,
+              retroarchPathLinux: string
           }
       },
         service: {
+          info: {
+            updatingSettings: string
+          }
           error: {
             writingError: string,
               readingError: string,

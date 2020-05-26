@@ -3,73 +3,88 @@ import { SettingsService, PreviewService, LanguageService, ImageProviderService,
 import { APP } from '../../variables';
 import { AppSettings } from "../../models";
 import { Subscription } from 'rxjs';
+import * as os from 'os';
 
 @Component({
-    selector: 'settings',
-    templateUrl: '../templates/settings.component.html',
-    styleUrls: ['../styles/settings.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'settings',
+  templateUrl: '../templates/settings.component.html',
+  styleUrls: ['../styles/settings.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsComponent implements OnDestroy {
-    private subscriptions: Subscription = new Subscription();
-    private settings: AppSettings;
-    private availableProviders: string[];
-    private availableLanguages: string[];
+  private subscriptions: Subscription = new Subscription();
+  private settings: AppSettings;
+  private availableProviders: string[];
+  private availableLanguages: string[];
+  private retroarchPathPlaceholder: string;
+  private steamDirectoryPlaceholder: string;
 
-    constructor(private settingsService: SettingsService,
-        private fuzzyService: FuzzyService,
-        private languageService: LanguageService,
-        private imageProviderService: ImageProviderService,
-        private previewService: PreviewService,
-        private cpService: ConfigurationPresetsService,
-        private cvService: CustomVariablesService,
-        private changeDetectionRef: ChangeDetectorRef) { }
+  constructor(private settingsService: SettingsService,
+    private fuzzyService: FuzzyService,
+    private languageService: LanguageService,
+    private imageProviderService: ImageProviderService,
+    private previewService: PreviewService,
+    private cpService: ConfigurationPresetsService,
+    private cvService: CustomVariablesService,
+    private changeDetectionRef: ChangeDetectorRef) { }
 
-    ngOnInit() {
-        this.subscriptions.add(this.settingsService.getChangeObservable().subscribe(() => {
-            this.changeDetectionRef.detectChanges();
-        }));
-        this.settings = this.settingsService.getSettings();
-        this.availableProviders = this.imageProviderService.instance.getAvailableProviders();
-        this.availableLanguages = this.languageService.getAvailableLanguages();
+  ngOnInit() {
+    this.subscriptions.add(this.settingsService.getChangeObservable().subscribe(() => {
+      this.changeDetectionRef.detectChanges();
+    }));
+    this.settings = this.settingsService.getSettings();
+    this.availableProviders = this.imageProviderService.instance.getAvailableProviders();
+    this.availableLanguages = this.languageService.getAvailableLanguages();
+    if(os.type()=='Windows_NT'){
+      this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathWin;
+      this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryWin;
     }
-
-    ngOnDestroy() {
-        this.subscriptions.unsubscribe();
+    else if(os.type()=='Darwin'){
+      this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathMac;
+      this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryMac;
     }
-
-    private get lang() {
-        return APP.lang.settings.component;
+    else if(os.type()=='Linux'){
+      this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathLinux;
+      this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryLinux;
     }
+  }
 
-    private onSettingsChange(detectChanges: boolean = true) {
-        if (detectChanges)
-            this.settingsService.settingsChanged();
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
-        this.settingsService.saveAppSettings();
-    }
+  private get lang() {
+    return APP.lang.settings.component;
+  }
 
-    private removeApps() {
-        if (this.settings.knownSteamDirectories.length > 0)
-            this.previewService.saveData(true);
-    }
+  private onSettingsChange(detectChanges: boolean = true) {
+    if (detectChanges)
+      this.settingsService.settingsChanged();
 
-    private resetFuzzy(){
-        this.fuzzyService.fuzzyLoader.resetList();
-    }
+    this.settingsService.saveAppSettings();
+  }
 
-    private clearFuzzy(){
-        this.fuzzyService.fuzzyLoader.resetCache();
-    }
+  private removeApps() {
+    if (this.settings.knownSteamDirectories.length > 0)
+      this.previewService.saveData(true);
+  }
 
-    private preload(value: boolean) {
-        if (this.settings.previewSettings.preload !== value && value)
-            this.previewService.preloadImages();
+  private resetFuzzy(){
+    this.fuzzyService.fuzzyLoader.resetList();
+  }
 
-        this.settings.previewSettings.preload = value;
-    }
+  private clearFuzzy(){
+    this.fuzzyService.fuzzyLoader.resetCache();
+  }
 
-    private loadLanguage(){
-        this.languageService.loadLanguage(this.settings.language);
-    }
+  private preload(value: boolean) {
+    if (this.settings.previewSettings.preload !== value && value)
+      this.previewService.preloadImages();
+
+    this.settings.previewSettings.preload = value;
+  }
+
+  private loadLanguage(){
+    this.languageService.loadLanguage(this.settings.language);
+  }
 }

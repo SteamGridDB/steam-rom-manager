@@ -78,7 +78,9 @@ export interface ParserVariableData {
     extractedTitle: string,
     fuzzyTitle: string,
     finalTitle: string,
-    filePath: string
+    filePath: string,
+    steamDirectoryGlobal: string,
+    retroarchPath: string
 }
 
 
@@ -87,7 +89,7 @@ const nameVariables = StringLiteralArray(['EXENAME','FILENAME']);
 const extensionVariables = StringLiteralArray(['EXEEXT','FILEEXT']);
 const pathVariables = StringLiteralArray(['EXEPATH','FILEPATH']);
 const parserVariables = StringLiteralArray(['TITLE','FUZZYTITLE','FINALTITLE']);
-const environmentVariables = StringLiteralArray(['/','SRMDIR']);
+const environmentVariables = StringLiteralArray(['/','SRMDIR','STEAMDIRGLOBAL','RETROARCHPATH']);
 
 export type DirectoryVariables = (typeof directoryVariables)[number];
 export type NameVariables = (typeof nameVariables)[number];

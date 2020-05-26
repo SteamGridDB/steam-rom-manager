@@ -1,10 +1,11 @@
 import { CustomVariablesService } from './custom-variables.service';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { UserConfiguration, ParsedUserConfiguration } from '../../models';
+import { UserConfiguration, ParsedUserConfiguration, AppSettings, EnvironmentVariables } from '../../models';
 import { LoggerService } from './logger.service';
 import { FuzzyService } from './fuzzy.service';
 import { ImageProviderService } from './image-provider.service';
+import { SettingsService } from './settings.service';
 import { FileParser, VariableParser } from '../../lib';
 import { BehaviorSubject } from "rxjs";
 import {availableProviders} from "../../lib/image-providers/available-providers"
@@ -19,19 +20,23 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class ParsersService {
+  private appSettings: AppSettings;
   private fileParser: FileParser;
   private userConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
   private deletedConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
   private validator: json.Validator = new json.Validator(schemas.userConfiguration, modifiers.userConfiguration);
   private savingIsDisabled: boolean = false;
 
-  constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private cVariableService: CustomVariablesService, private http: Http) {
+  constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private cVariableService: CustomVariablesService, private settingsService: SettingsService, private http: Http) {
     this.fileParser = new FileParser(this.fuzzyService);
     this.userConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
     this.deletedConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
     this.readUserConfigurations();
     this.cVariableService.dataObservable.subscribe((data) => {
       this.fileParser.setCustomVariables(data);
+    });
+    this.settingsService.onLoad((appSettings: AppSettings) => {
+      this.appSettings = appSettings;
     });
   }
 
@@ -167,7 +172,7 @@ export class ParsersService {
       else
         invalidConfigTitles.push(configs[i].configTitle || this.lang.text.noTitle);
     }
-    return this.fileParser.executeFileParser(validConfigs).then((parsedData) => {
+    return this.fileParser.executeFileParser(validConfigs,this.appSettings).then((parsedData) => {
       return { parsedData: parsedData, invalid: invalidConfigTitles, skipped: skipped };
     });
   }
@@ -268,7 +273,11 @@ export class ParsersService {
   }
 
   private validateEnvironmentPath(pathwithvar: string, checkForDirectory?:boolean) {
-    return this.validatePath(pathwithvar.replace(/\$\{srmdir\}/g, APP.srmdir).replace(/\$\{\/\}/g, path.sep), checkForDirectory)
+    let preParser = new VariableParser({ left: '${', right: '}' });
+    let parsedPath = preParser.setInput(pathwithvar).parse() ? preParser.replaceVariables((variable) => {
+            return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables,this.appSettings).trim()
+          }) : '';
+    return this.validatePath(parsedPath, checkForDirectory)
   }
 
   isConfigurationValid(config: UserConfiguration) {

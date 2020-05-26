@@ -59,5 +59,21 @@
 			@include ngSelectColor(ng-select);
 			@include ngSelect();
 		}
+    .ngTextInput {
+      @include ngTextInputColor(input);
+      @include ngTextInput();
+
+      width: 20em;
+
+      grid-column: 4;
+    }
+		.clickButton2 {
+			@include button();
+			@include clickButtonColor(click-button);
+
+			margin: 0 0 0 0.25em;
+
+			grid-area: button;
+		}
 	}
 }

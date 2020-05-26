@@ -11,65 +11,78 @@ import * as _ from "lodash";
 
 @Injectable()
 export class SettingsService {
-    private changeSubject: Subject<AppSettings> = new Subject();
-    private settingsLoadedSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    private validator: json.Validator = new json.Validator(schemas.appSettings, modifiers.appSettings);
-    private savingIsDisabled: boolean = false;
-    private appSettings: AppSettings;
+  private changeSubject: Subject<AppSettings> = new Subject();
+  private settingsLoadedSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private validator: json.Validator = new json.Validator(schemas.appSettings, modifiers.appSettings);
+  private savingIsDisabled: boolean = false;
+  private appSettings: AppSettings;
 
-    constructor(private loggerService: LoggerService) {
-        this.appSettings = <AppSettings>this.validator.getDefaultValues();
+  constructor(private loggerService: LoggerService) {
+    this.appSettings = <AppSettings>this.validator.getDefaultValues();
 
-        json.read<AppSettings>(paths.userSettings, this.appSettings).then((settings) => {
-            if (!this.validator.validate(settings).isValid()) {
-                this.savingIsDisabled = true;
-                this.loggerService.error(this.lang.error.readingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
-                this.loggerService.error(this.lang.error.corruptedSettings__i.interpolate({
-                    file: paths.userSettings,
-                    error: `\r\n${this.validator.errorString}`
-                }));
-            }
-            else
-                this.appSettings = settings;
-        }).catch((error) => {
-            this.loggerService.error(this.lang.error.readingError, { invokeAlert: true, alertTimeout: 3000 });
-            this.loggerService.error(error);
-        }).then(() => {
-            this.settingsLoadedSubject.next(true);
-        });
-    }
-
-    private get lang() {
-        return APP.lang.settings.service;
-    }
-
-    getSettings() {
-        return this.appSettings;
-    }
-
-    settingsChanged() {
-        this.changeSubject.next(this.appSettings);
-    }
-
-    getChangeObservable() {
-        return this.changeSubject.asObservable();
-    }
-
-    saveAppSettings() {
-        if (!this.savingIsDisabled){
-            json.write(paths.userSettings, this.appSettings).then().catch((error) => {
-                this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
-                this.loggerService.error(error);
-            });
+    json.read<AppSettings>(paths.userSettings, this.appSettings).then((settings) => {
+      let updateNeeded=false;
+      if(!settings.environmentVariables) {
+        updateNeeded=true;
+        settings.environmentVariables={
+          steamDirectory:"",
+          retroarchPath:""
         }
-    }
+      }
+      if (!this.validator.validate(settings).isValid()) {
+        this.savingIsDisabled = true;
+        this.loggerService.error(this.lang.error.readingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
+        this.loggerService.error(this.lang.error.corruptedSettings__i.interpolate({
+          file: paths.userSettings,
+          error: `\r\n${this.validator.errorString}`
+        }));
+      }
+      else {
+        this.appSettings =settings;
+        if(updateNeeded){
+          this.loggerService.info(this.lang.info.updatingSettings, {invokeAlert:true, alertTimeout: 3000})
+          this.saveAppSettings();
+        }
+      }
+    }).catch((error) => {
+      this.loggerService.error(this.lang.error.readingError, { invokeAlert: true, alertTimeout: 3000 });
+      this.loggerService.error(error);
+    }).then(() => {
+      this.settingsLoadedSubject.next(true);
+    });
+  }
 
-    onLoad(callback: (appSettings: AppSettings) => void) {
-        this.settingsLoadedSubject.asObservable().takeWhile((loaded) => {
-            if (loaded)
-                callback(this.appSettings);
+  private get lang() {
+    return APP.lang.settings.service;
+  }
 
-            return !loaded;
-        }).subscribe();
+  getSettings() {
+    return this.appSettings;
+  }
+
+  settingsChanged() {
+    this.changeSubject.next(this.appSettings);
+  }
+
+  getChangeObservable() {
+    return this.changeSubject.asObservable();
+  }
+
+  saveAppSettings() {
+    if (!this.savingIsDisabled){
+      json.write(paths.userSettings, this.appSettings).then().catch((error) => {
+        this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
+        this.loggerService.error(error);
+      });
     }
+  }
+
+  onLoad(callback: (appSettings: AppSettings) => void) {
+    this.settingsLoadedSubject.asObservable().takeWhile((loaded) => {
+      if (loaded)
+        callback(this.appSettings);
+
+      return !loaded;
+    }).subscribe();
+  }
 }
