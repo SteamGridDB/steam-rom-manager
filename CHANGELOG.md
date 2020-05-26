@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 This is a big one.
 ### Added
 * Environment variables specified in settings, `steamdirglobal` and `retroarchpath`
-* Steam Parsers, which can manage artwork for specified steam accounts
+* Steam Parsers (experimental), which can manage artwork for specified steam accounts
 
 ## 2.2.28
 ### Fixed
