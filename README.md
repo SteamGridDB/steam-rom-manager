@@ -1,8 +1,3 @@
-# Maintenance-only as of 2019-09-13
-
-Steam ROM Manager will only be updated to fix breaking bugs. No new features will be added.  
-Pull requests will still be reviewed and merged.
-
 # For casual users
 
 There are some helpful (albeit slightly outdated) tutorial videos to be found [here](https://dozennn.github.io/steam-rom-manager/). There is plenty of documentation available in the app's built in FAQ, and if you need further help there are expert users to be found on the [discord](https://discord.gg/nxxzBPJ).
