@@ -35,6 +35,7 @@ export interface ParsedUserConfigurationFile {
 export interface ParsedUserConfiguration {
     configurationTitle: string,
     parserId: string,
+    parserType: string,
     imageProviders: string[],
     steamDirectory: string,
     appendArgsToExecutable: boolean,
@@ -62,8 +63,9 @@ export interface ParserInfo {
 
 export interface ParsedData {
     success: {
-        filePath: string,
-        extractedTitle: string
+        filePath?: string,
+        extractedTitle: string,
+        extractedAppId?: string
     }[],
     failed: string[]
 }
@@ -76,7 +78,9 @@ export interface ParserVariableData {
     extractedTitle: string,
     fuzzyTitle: string,
     finalTitle: string,
-    filePath: string
+    filePath: string,
+    steamDirectoryGlobal: string,
+    retroarchPath: string
 }
 
 
@@ -85,7 +89,7 @@ const nameVariables = StringLiteralArray(['EXENAME','FILENAME']);
 const extensionVariables = StringLiteralArray(['EXEEXT','FILEEXT']);
 const pathVariables = StringLiteralArray(['EXEPATH','FILEPATH']);
 const parserVariables = StringLiteralArray(['TITLE','FUZZYTITLE','FINALTITLE']);
-const environmentVariables = StringLiteralArray(['/','SRMDIR']);
+const environmentVariables = StringLiteralArray(['/','SRMDIR','STEAMDIRGLOBAL','RETROARCHPATH']);
 
 export type DirectoryVariables = (typeof directoryVariables)[number];
 export type NameVariables = (typeof nameVariables)[number];
@@ -109,5 +113,5 @@ export const isVariable = (x: any): x is AllVariables => isEnvironmentVariable(x
 
 export interface GenericParser {
     getParserInfo(): ParserInfo,
-    execute: (directory: string, inputs: { [key: string]: any }, cache?: { [key: string]: any }) => Promise<ParsedData>
+    execute: (directories:string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) => Promise<ParsedData>
 }

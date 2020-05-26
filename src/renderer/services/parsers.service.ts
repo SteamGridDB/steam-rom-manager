@@ -1,12 +1,14 @@
 import { CustomVariablesService } from './custom-variables.service';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { UserConfiguration, ParsedUserConfiguration } from '../../models';
+import { UserConfiguration, ParsedUserConfiguration, AppSettings, EnvironmentVariables } from '../../models';
 import { LoggerService } from './logger.service';
 import { FuzzyService } from './fuzzy.service';
 import { ImageProviderService } from './image-provider.service';
+import { SettingsService } from './settings.service';
 import { FileParser, VariableParser } from '../../lib';
 import { BehaviorSubject } from "rxjs";
+import {availableProviders} from "../../lib/image-providers/available-providers"
 import { APP } from '../../variables';
 import * as json from "../../lib/helpers/json";
 import * as paths from "../../paths";
@@ -18,19 +20,23 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class ParsersService {
+  private appSettings: AppSettings;
   private fileParser: FileParser;
   private userConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
   private deletedConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
   private validator: json.Validator = new json.Validator(schemas.userConfiguration, modifiers.userConfiguration);
   private savingIsDisabled: boolean = false;
 
-  constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private cVariableService: CustomVariablesService, private http: Http) {
+  constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private cVariableService: CustomVariablesService, private settingsService: SettingsService, private http: Http) {
     this.fileParser = new FileParser(this.fuzzyService);
     this.userConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
     this.deletedConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
     this.readUserConfigurations();
     this.cVariableService.dataObservable.subscribe((data) => {
       this.fileParser.setCustomVariables(data);
+    });
+    this.settingsService.onLoad((appSettings: AppSettings) => {
+      this.appSettings = appSettings;
     });
   }
 
@@ -82,7 +88,14 @@ export class ParsersService {
         return;
       else
         userConfigurations[index].current.parserId = userConfigurations[index].saved.parserId;
-        userConfigurations[index] = { saved: userConfigurations[index].current, current: null };
+      if(userConfigurations[index].current.parserType==='Steam') {
+        userConfigurations[index].current.titleModifier='${title}';
+        userConfigurations[index].current.onlineImageQueries='${${title}}';
+        userConfigurations[index].current.imagePool='${title}';
+        userConfigurations[index].current.fuzzyMatch.use=false;
+        userConfigurations[index].current.titleFromVariable.tryToMatchTitle=false;
+      }
+      userConfigurations[index] = { saved: userConfigurations[index].current, current: null };
     }
     else{
       config.parserId = userConfigurations[index].saved.parserId;
@@ -141,7 +154,6 @@ export class ParsersService {
     let invalidConfigTitles: string[] = [];
     let skipped: string[] = [];
     let validConfigs: UserConfiguration[] = [];
-
     if (configs.length === 0) {
       let configArray = this.getUserConfigurationsArray();
       for (let i = 0; i < configArray.length; i++) {
@@ -160,8 +172,7 @@ export class ParsersService {
       else
         invalidConfigTitles.push(configs[i].configTitle || this.lang.text.noTitle);
     }
-
-    return this.fileParser.executeFileParser(validConfigs).then((parsedData) => {
+    return this.fileParser.executeFileParser(validConfigs,this.appSettings).then((parsedData) => {
       return { parsedData: parsedData, invalid: invalidConfigTitles, skipped: skipped };
     });
   }
@@ -262,22 +273,42 @@ export class ParsersService {
   }
 
   private validateEnvironmentPath(pathwithvar: string, checkForDirectory?:boolean) {
-    return this.validatePath(pathwithvar.replace(/\$\{srmdir\}/g, APP.srmdir).replace(/\$\{\/\}/g, path.sep), checkForDirectory)
+    let preParser = new VariableParser({ left: '${', right: '}' });
+    let parsedPath = preParser.setInput(pathwithvar).parse() ? preParser.replaceVariables((variable) => {
+            return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables,this.appSettings).trim()
+          }) : '';
+    return this.validatePath(parsedPath, checkForDirectory)
   }
 
   isConfigurationValid(config: UserConfiguration) {
-    let simpleValidations: string[] = [
-      'parserType', 'configTitle', 'parserId', 'steamCategory',
-      'executableLocation', 'executableModifier', 'romDirectory',
-      'steamDirectory', 'startInDirectory', 'specifiedAccounts',
-      'titleFromVariable', 'titleModifier', 'executableArgs',
-      'onlineImageQueries', 'imagePool', 'imageProviders',
-      'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
-    ];
+
+    let simpleValidations: string[];
+    if(this.validate('parserType',config['parserType'])!==null){
+      return false;
+    }
+    if(config['parserType']=='Steam') {
+
+      simpleValidations = ['configTitle','parserId','steamDirectory','specifiedAccounts',
+        'onlineImageQueries', 'imagePool', 'imageProviders',
+        'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
+      ]
+    } else {
+      simpleValidations = [
+        'configTitle', 'parserId', 'steamCategory',
+        'executableLocation', 'executableModifier', 'romDirectory',
+        'steamDirectory', 'startInDirectory', 'specifiedAccounts',
+        'titleFromVariable', 'titleModifier', 'executableArgs',
+        'onlineImageQueries', 'imagePool', 'imageProviders',
+        'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
+      ];
+    }
+
 
     for (let i = 0; i < simpleValidations.length; i++) {
-      if (this.validate(simpleValidations[i], config[simpleValidations[i]]) !== null)
+      if (this.validate(simpleValidations[i], config[simpleValidations[i]]) !== null){
         return false;
+      }
+
     }
 
     let availableParser = this.getParserInfo(config.parserType);
@@ -288,7 +319,6 @@ export class ParsersService {
           return false;
       }
     }
-
     return true;
   }
   getParserId(configurationIndex: number) {
@@ -340,10 +370,27 @@ export class ParsersService {
       let validatedConfigs: { saved: UserConfiguration, current: UserConfiguration }[] = [];
       let errorString: string = '';
       let updateNeeded: boolean = false;
+      let updateNeededSilent: boolean = false;
       for (let i = 0; i < data.length; i++) {
         if(!data[i].parserId) {
           updateNeeded = true;
           data[i].parserId = this.newParserId();
+        }
+        if(data[i].imageProviders.filter(x=>availableProviders.indexOf(x)<0).length) {
+          updateNeeded = true;
+          data[i].imageProviders = data[i].imageProviders.filter(x=>availableProviders.indexOf(x)>=0);
+        }
+        if(data[i].parserInputs.steam === undefined) {
+          updateNeeded = true;
+          data[i].parserInputs.steam = null;
+        }
+        if(data[i].parserType==='Steam') {
+          updateNeededSilent=true;
+          data[i].titleModifier='${title}';
+          data[i].onlineImageQueries='${${title}}';
+          data[i].imagePool='${title}';
+          data[i].fuzzyMatch.use = false;
+          data[i].titleFromVariable.tryToMatchTitle = false;
         }
         if (this.validator.validate(data[i]).isValid())
           validatedConfigs.push({ saved: data[i], current: null });
@@ -359,7 +406,10 @@ export class ParsersService {
         }));
       }
       this.userConfigurations.next(validatedConfigs);
-      if(updateNeeded) {
+      if(updateNeeded || updateNeededSilent) {
+        if(updateNeeded){
+          this.loggerService.info(this.lang.info.updatingConfigurations, {invokeAlert: true, alertTimeout: 5000})
+        }
         this.saveUserConfigurations();
       }
     }).catch((error) => {

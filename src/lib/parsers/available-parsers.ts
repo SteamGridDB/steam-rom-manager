@@ -1,9 +1,11 @@
 export const availableParsers = [
-    'Glob',
-    'Glob-regex'
+  'Glob',
+  'Glob-regex',
+  'Steam'
 ]
 
 export const availableParserInputs = [
-    'glob',
-    'glob-regex'
+  'glob',
+  'glob-regex',
+  'steam'
 ]

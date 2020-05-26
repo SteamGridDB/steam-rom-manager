@@ -71,6 +71,19 @@ export const EnglishLang: languageContainer = {
         }
       }
     },
+    steamParser: {
+      docs__md: {
+        self: [
+          require('./markdown/steam-parser.md')
+        ]
+
+      },
+      errors: {
+        directoryInvalid: "Steam directory invalid",
+        noSteamAccounts: "Steam directory specified has no accounts",
+        fatalError: "Steam parser failed with fatal error"
+      }
+    },
     globParser: {
       inputTitle: 'User\'s glob',
       docs__md: {
@@ -170,7 +183,9 @@ export const EnglishLang: languageContainer = {
         label: {
           general: 'General settings',
           imageProviders: 'Image provider settings',
-          fuzzy: 'Fuzzy matcher settings'
+          fuzzy: 'Fuzzy matcher settings',
+          environmentVariables: 'Environment variable settings',
+          communityPresets: 'Community variable/preset settings'
         },
         text: {
           offlineMode: 'Offline mode',
@@ -188,10 +203,19 @@ export const EnglishLang: languageContainer = {
           clearLogOnTest: 'Automatically clear log before testing parsers'
         },
         placeholder: {
-          noProviders: 'None'
+          noProviders: 'None',
+          steamDirectoryWin: 'C:\\Program Files(x86)\\Steam',
+          steamDirectoryMac: '~/Library/Application Support/Steam',
+          steamDirectoryLinux: '~/.steam/steam',
+          retroarchPathWin: 'C:\\Path\\To\\retroarch.exe',
+          retroarchPathLinux: '/path/to/retroarch',
+          retroarchPathMac: '/path/to/retroarch'
         }
       },
       service: {
+        info: {
+          updatingSettings: 'Updating user settings with new fields.'
+        },
         error: {
           writingError: 'Error occurred while saving user settings.',
           readingError: 'Error occurred while reading user settings.',
@@ -435,6 +459,9 @@ export const EnglishLang: languageContainer = {
         }
       },
       service: {
+        info: {
+          updatingConfigurations: 'Updating user configurations with new fields'
+        },
         error: {
           savingConfiguration: 'Error encountered while saving user configurations!',
           readingConfiguration: 'Error encountered while reading user configurations!',

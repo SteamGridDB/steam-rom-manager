@@ -10,10 +10,10 @@ export interface languageStruct {
           selectType: string,
           selectTypeOptions: {
             long: string,
-            tall: string,
-            hero: string,
-            logo: string,
-            games: string
+              tall: string,
+              hero: string,
+              logo: string,
+              games: string
           },
           by: string,
           refreshImages: string,
@@ -66,6 +66,16 @@ export interface languageStruct {
               writingVDF_entries: string,
                 removingVDF_entries: string
             }
+        }
+    },
+    steamParser: {
+      docs__md: {
+        self: string[]
+      },
+        errors: {
+          directoryInvalid: string,
+            noSteamAccounts: string,
+            fatalError: string
         }
     },
     globParser: {
@@ -153,7 +163,9 @@ export interface languageStruct {
         label: {
           general: string,
             imageProviders: string,
-            fuzzy: string
+            fuzzy: string,
+            environmentVariables: string,
+            communityPresets: string
         },
           text: {
             offlineMode: string,
@@ -171,10 +183,19 @@ export interface languageStruct {
               clearLogOnTest: string
           },
           placeholder: {
-            noProviders: string
+            noProviders: string,
+              steamDirectoryWin: string,
+              steamDirectoryLinux: string,
+              steamDirectoryMac: string,
+              retroarchPathWin: string,
+              retroarchPathMac: string,
+              retroarchPathLinux: string
           }
       },
         service: {
+          info: {
+            updatingSettings: string
+          }
           error: {
             writingError: string,
               readingError: string,
@@ -347,11 +368,14 @@ export interface languageStruct {
           }
       },
         service: {
-          error: {
-            savingConfiguration: string,
-              readingConfiguration: string,
-              corruptedConfiguration__i: string//${file}, ${error}
+          info: {
+            updatingConfigurations: string
           },
+            error: {
+              savingConfiguration: string,
+                readingConfiguration: string,
+                corruptedConfiguration__i: string//${file}, ${error}
+            },
             validationErrors: {
               parserType__md: string,
                 configTitle__md: string,

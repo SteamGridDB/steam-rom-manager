@@ -158,7 +158,7 @@ export class VDF_Manager {
                 item.tags = _.union(app.steamCategories, item.tags);
                 item.icon = app.icons.length > 0 ? app.icons[app.currentIconIndex] : '';
               }
-              else {
+              else if(app.parserType!=='Steam') {
                 listItem.shortcuts.addItem(appId, {
                   appname: app.title,
                   exe: app.executableLocation,

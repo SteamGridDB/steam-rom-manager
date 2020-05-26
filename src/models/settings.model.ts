@@ -14,6 +14,10 @@ export interface AppSettings {
       verbose: boolean,
       filterProviders: boolean
   },
+  environmentVariables: {
+    steamDirectory: string
+    retroarchPath: string
+  },
   language: string,
   offlineMode: boolean,
   enabledProviders: string[],

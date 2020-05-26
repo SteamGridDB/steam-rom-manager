@@ -41,8 +41,9 @@ export type FuzzyEventCallback = <K extends keyof FuzzyEventMap>(event: K, data:
 
 export interface ParsedDataWithFuzzy {
     success: {
-        filePath: string,
+        filePath?: string,
         extractedTitle: string,
+        extractedAppId?: string,
         fuzzyTitle: string
     }[],
     failed: string[]

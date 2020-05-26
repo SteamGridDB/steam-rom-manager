@@ -64,7 +64,7 @@
 </div>
 <div>
     <label>
-        Other
+      {{lang.label.communityPresets}}
     </label>
     <div class="inputContainer">
         <div class="inlineGroup">
@@ -82,4 +82,23 @@
                 (click)="cpService.download(true)">Force download</div>
         </div>
     </div>
+</div>
+<div>
+  <label>
+    {{lang.label.environmentVariables}}
+  </label>
+  <div class="inputContainer">
+    <div class="inlineGroup">
+      <div class="text" style="margin-right: 0.25em;">Steam Directory: </div>
+      <ng-text-input class="ngTextInput" [placeholder]="steamDirectoryPlaceholder" [(ngModel)]='settings.environmentVariables.steamDirectory' (ngModelChange)='settings.environmentVariables.steamDirectory=$event; onSettingsChange()'></ng-text-input>
+      <ng-path-input class="clickButton2" [stateless]="true" [directory]="true" (pathChange)="settings.environmentVariables.steamDirectory=$event">Browse</ng-path-input>
+    </div>
+  </div>
+  <div class="inputContainer">
+    <div class="inlineGroup">
+      <div class="text" style="margin-right: 0.25em;">Retroarch Path: </div>
+      <ng-text-input class="ngTextInput" [placeholder]="retroarchPathPlaceholder" [(ngModel)]='settings.environmentVariables.retroarchPath' (ngModelChange)='settings.environmentVariables.retroarchPath=$event; onSettingsChange()'></ng-text-input>
+      <ng-path-input class="clickButton2" [stateless]="true" [directory]="false" (pathChange)="settings.environmentVariables.retroarchPath=$event">Browse</ng-path-input>
+    </div>
+  </div>
 </div>

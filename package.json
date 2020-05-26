@@ -1,6 +1,6 @@
 {
   "name": "steam-rom-manager",
-  "version": "2.2.28",
+  "version": "2.2.29",
   "license": "GPL-3.0",
   "description": "An app for managing ROMs in Steam",
   "author": {
@@ -83,8 +83,10 @@
     "@types/electron": "^1.6.10",
     "@types/rangy": "0.0.32",
     "ajv": "^6.4.0",
+    "appid": "^1.0.3",
     "async": "^2.6.0",
     "big-integer": "https://github.com/cbartondock/BigInteger.js.git",
+    "binary-vdf": "^0.1.0",
     "blob-to-buffer": "^1.2.7",
     "bluebird": "^3.5.1",
     "colornames": "^1.1.1",
