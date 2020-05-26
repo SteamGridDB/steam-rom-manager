@@ -39,7 +39,6 @@ export class ConfigurationPresetsService {
   }
 
   download(force: boolean = false) {
-    return Promise.resolve()
     return Promise.resolve().then(() => {
       if (!this.downloadStatus.getValue()) {
         this.downloadStatus.next(true);

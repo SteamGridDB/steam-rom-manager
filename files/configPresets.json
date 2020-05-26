@@ -5199,7 +5199,7 @@
       "removeBrackets": true
     }
   },
-  "Steam":     {
+  "Steam": {
     "parserType": "Steam",
     "configTitle": "Steam",
     "steamCategory": "",
