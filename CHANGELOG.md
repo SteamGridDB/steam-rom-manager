@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.29
+This is a big one.
+### Added
+* Environment variables specified in settings, `steamdirglobal` and `retroarchpath`
+* Steam Parsers, which can manage artwork for specified steam accounts
+
 ## 2.2.28
 ### Fixed
 * Fixed longstanding issue (since 2.2.20) where UI would lock up when selecting directories that contained many files, eg. the steam directory. This problem was pronounced on systems that used HDD's, and was fixed by dropping webkitdir in favor of electron's showOpenDialog.
