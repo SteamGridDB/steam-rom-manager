@@ -87,6 +87,8 @@ export class ParsersService {
         userConfigurations[index].current.titleModifier='${title}';
         userConfigurations[index].current.onlineImageQueries='${${title}}';
         userConfigurations[index].current.imagePool='${title}';
+        userConfigurations[index].current.fuzzyMatch.use=false;
+        userConfigurations[index].current.titleFromVariable.tryToMatchTitle=false;
       }
       userConfigurations[index] = { saved: userConfigurations[index].current, current: null };
     }
@@ -359,6 +361,7 @@ export class ParsersService {
       let validatedConfigs: { saved: UserConfiguration, current: UserConfiguration }[] = [];
       let errorString: string = '';
       let updateNeeded: boolean = false;
+      let updateNeededSilent: boolean = false;
       for (let i = 0; i < data.length; i++) {
         if(!data[i].parserId) {
           updateNeeded = true;
@@ -371,6 +374,14 @@ export class ParsersService {
         if(data[i].parserInputs.steam === undefined) {
           updateNeeded = true;
           data[i].parserInputs.steam = null;
+        }
+        if(data[i].parserType==='Steam') {
+          updateNeededSilent=true;
+          data[i].titleModifier='${title}';
+          data[i].onlineImageQueries='${${title}}';
+          data[i].imagePool='${title}';
+          data[i].fuzzyMatch.use = false;
+          data[i].titleFromVariable.tryToMatchTitle = false;
         }
         if (this.validator.validate(data[i]).isValid())
           validatedConfigs.push({ saved: data[i], current: null });
@@ -386,8 +397,10 @@ export class ParsersService {
         }));
       }
       this.userConfigurations.next(validatedConfigs);
-      if(updateNeeded) {
-        this.loggerService.info(this.lang.info.updatingConfigurations, {invokeAlert: true, alertTimeout: 5000})
+      if(updateNeeded || updateNeededSilent) {
+        if(updateNeeded){
+          this.loggerService.info(this.lang.info.updatingConfigurations, {invokeAlert: true, alertTimeout: 5000})
+        }
         this.saveUserConfigurations();
       }
     }).catch((error) => {

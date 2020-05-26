@@ -73,7 +73,9 @@ export interface languageStruct {
         self: string[]
       },
         errors: {
-          directoryInvalid: string
+          directoryInvalid: string,
+            noSteamAccounts: string,
+            fatalError: string
         }
     },
     globParser: {
@@ -358,11 +360,11 @@ export interface languageStruct {
           info: {
             updatingConfigurations: string
           },
-          error: {
-            savingConfiguration: string,
-              readingConfiguration: string,
-              corruptedConfiguration__i: string//${file}, ${error}
-          },
+            error: {
+              savingConfiguration: string,
+                readingConfiguration: string,
+                corruptedConfiguration__i: string//${file}, ${error}
+            },
             validationErrors: {
               parserType__md: string,
                 configTitle__md: string,

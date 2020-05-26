@@ -144,8 +144,8 @@ export class FileParser {
             let userFilter = preParser.setInput(configs[i].userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
             filteredAccounts.push(this.filterUserAccounts(steamDirectories[i].data, userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir));
             totalUserAccountsFound+=filteredAccounts[filteredAccounts.length-1].found.length;
-            let directory = isGlobParser?configs[i].romDirectory : path.join(configs[i].steamDirectory,'userdata',filteredAccounts[filteredAccounts.length-1].found[0].accountID);
-            promises.push(this.availableParsers[configs[i].parserType].execute(directory, configs[i].parserInputs, this.globCache));
+            let directories = isGlobParser? [configs[i].romDirectory] : filteredAccounts[i].found.map((account: userAccountData)=>path.join(configs[i].steamDirectory,'userdata',account.accountID));
+            promises.push(this.availableParsers[configs[i].parserType].execute(directories, configs[i].parserInputs, this.globCache));
           }
           else
             throw new Error(this.lang.error.parserNotFound__i.interpolate({ name: configs[i].parserType }));
@@ -498,9 +498,9 @@ export class FileParser {
 
           promises.push(Promise.resolve().then(() => {
             if (/\${title}/i.test(expandableSet[1]))
-              return this.availableParsers['Glob'].execute(config.romDirectory, { 'glob': parserMatch }, this.globCache);
+              return this.availableParsers['Glob'].execute([config.romDirectory], { 'glob': parserMatch }, this.globCache);
             else
-              return this.availableParsers['Glob-regex'].execute(config.romDirectory, { 'glob-regex': parserMatch }, this.globCache);
+              return this.availableParsers['Glob-regex'].execute([config.romDirectory], { 'glob-regex': parserMatch }, this.globCache);
           }).then((parsedData) => {
             for (let j = 0; j < parsedData.success.length; j++) {
               if (config.fuzzyMatch.use) {

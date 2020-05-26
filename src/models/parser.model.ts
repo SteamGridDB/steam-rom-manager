@@ -111,5 +111,5 @@ export const isVariable = (x: any): x is AllVariables => isEnvironmentVariable(x
 
 export interface GenericParser {
     getParserInfo(): ParserInfo,
-    execute: (directory: string, inputs: { [key: string]: any }, cache?: { [key: string]: any }) => Promise<ParsedData>
+    execute: (directories:string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) => Promise<ParsedData>
 }

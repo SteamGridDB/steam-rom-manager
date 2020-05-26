@@ -86,6 +86,7 @@
     "appid": "^1.0.3",
     "async": "^2.6.0",
     "big-integer": "https://github.com/cbartondock/BigInteger.js.git",
+    "binary-vdf": "^0.1.0",
     "blob-to-buffer": "^1.2.7",
     "bluebird": "^3.5.1",
     "colornames": "^1.1.1",
