@@ -466,43 +466,6 @@ export class PreviewService {
       });
     }
   }
-
-  /* private generatePreviewDataFromSteamCallback() {
-        if (this.previewVariables.numberOfQueriedImages !== 0) {
-            setTimeout(this.generatePreviewDataFromSteamCallback.bind(this), 100);
-        }
-        else {
-            this.previewData = undefined;
-
-            let vdfManager = new VdfManager(this.http);
-            this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
-            Promise.resolve().then(() => {
-                return vdfManager.populateListFromDirectoryList(this.appSettings.knownSteamDirectories);
-            }).then((errors) => {
-                if (errors && errors.length) {
-                    this.loggerService.error(this.lang.errors.readingVDF_entries);
-                    for (let i = 0; i < errors.length; i++)
-                        this.loggerService.error(errors[i]);
-                }
-                this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
-                return vdfManager.createBackups();
-            }).then(() => {
-                this.loggerService.info(this.lang.info.readingVDF_Files, { invokeAlert: true, alertTimeout: 3000 });
-                return vdfManager.readAllVDFs();
-            }).then(() => {
-                return this.shortcutsToPreviewData(vdfManager.getAllShortcutsData());
-            }).then(() => {
-                this.previewVariables.listIsBeingGenerated = false;
-                this.previewDataChanged.next();
-            }).catch((error) => {
-                this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
-                this.loggerService.error(error);
-                this.previewVariables.listIsBeingGenerated = false;
-                this.previewDataChanged.next();
-            });
-        }
-    } */
-
   private createPreviewData(data: ParsedUserConfiguration[], oldData?: PreviewData) {
     return Promise.resolve().then(() => {
       let steamTreeData = steam.generateTreeFromParsedConfig(data);
@@ -545,7 +508,12 @@ export class PreviewService {
           for (let k = 0; k < data[i].files.length; k++) {
             let file = config.files[k];
             let executableLocation = (config.appendArgsToExecutable ? `${file.modifiedExecutableLocation} ${file.argumentString}` : `${file.modifiedExecutableLocation}`).trim();
-            let appID = steam.generateAppId(executableLocation, file.finalTitle);
+            let appID: string = '';
+            if(config.parserType!=='Steam') {
+              appID = steam.generateAppId(executableLocation, file.finalTitle);
+            } else {
+              appID = steam.lengthenAppId(executableLocation.replace(/\"/g,""));
+            }
             let oldDataApp = oldDataAccount !== undefined ? oldDataAccount.apps[appID] : undefined;
 
             if (shortcutsData[config.steamDirectory][userAccount.accountID][appID] !== undefined) {
@@ -638,6 +606,7 @@ export class PreviewService {
                 status: 'add', //TODO: change to this when "mark" feature is implemented: oldDataApp !== undefined ? oldDataApp.status : 'add',
                 configurationTitle: config.configurationTitle,
                 parserId: config.parserId,
+                parserType: config.parserType,
                 steamCategories: file.steamCategories,
                 startInDirectory: file.startInDirectory,
                 imageProviders: config.imageProviders,

@@ -446,6 +446,9 @@ export const EnglishLang: languageContainer = {
         }
       },
       service: {
+        info: {
+          updatingConfigurations: 'Updating user configurations with new fields'
+        },
         error: {
           savingConfiguration: 'Error encountered while saving user configurations!',
           readingConfiguration: 'Error encountered while reading user configurations!',

@@ -33,6 +33,7 @@ export interface PreviewDataApp {
     status: 'add' | 'skip' | 'remove',
     configurationTitle: string,
     parserId: string,
+    parserType: string,
     steamCategories: string[],
     imageProviders: string[],
     startInDirectory: string,

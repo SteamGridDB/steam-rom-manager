@@ -99,7 +99,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         configTitle: new NestedFormElement.Input({
-          isHidden: () => this.isHiddenIfSteamParser(),
           label: this.lang.label.configTitle,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
@@ -171,7 +170,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         userAccounts: new NestedFormElement.Group({
           label: this.lang.label.userAccounts,
-          isHidden: () => this.isHiddenIfEither(),
+          isHidden: () => this.isHiddenIfNotAdvanced(),
           children: {
             specifiedAccounts: new NestedFormElement.Input({
               highlight: this.highlight.bind(this),

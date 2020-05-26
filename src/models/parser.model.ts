@@ -35,6 +35,7 @@ export interface ParsedUserConfigurationFile {
 export interface ParsedUserConfiguration {
     configurationTitle: string,
     parserId: string,
+    parserType: string,
     imageProviders: string[],
     steamDirectory: string,
     appendArgsToExecutable: boolean,

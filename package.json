@@ -83,6 +83,7 @@
     "@types/electron": "^1.6.10",
     "@types/rangy": "0.0.32",
     "ajv": "^6.4.0",
+    "appid": "^1.0.3",
     "async": "^2.6.0",
     "big-integer": "https://github.com/cbartondock/BigInteger.js.git",
     "blob-to-buffer": "^1.2.7",

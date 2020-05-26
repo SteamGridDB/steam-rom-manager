@@ -355,6 +355,9 @@ export interface languageStruct {
           }
       },
         service: {
+          info: {
+            updatingConfigurations: string
+          },
           error: {
             savingConfiguration: string,
               readingConfiguration: string,
