@@ -533,7 +533,6 @@ export class FileParser {
   }
   getEnvironmentVariable(variable: EnvironmentVariables, settings: AppSettings) {
     let output = variable as string;
-    console.log('variable',output);
     switch (<EnvironmentVariables>variable.toUpperCase()) {
       case '/':
         output = path.sep;
@@ -550,14 +549,12 @@ export class FileParser {
       default:
         break;
     }
-    console.log('output: ',output)
     return output;
   }
 
   private getVariable(variable: AllVariables, data: ParserVariableData) {
     const unavailable = 'undefined';
     let output = variable as string;
-    console.log(output)
     switch (<AllVariables>variable.toUpperCase()) {
       case '/':
         output = path.sep;
