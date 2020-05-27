@@ -495,7 +495,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => pType==='Steam');
   }
   private isHiddenIfEither() {
-    return Observable.concat(Observable.of(this.userForm.get('parserType').value==='Steam'||!this.userForm.get('advanced').value),this.userForm.get('parserType').valueChanges,this.userForm.get('parserType').valueChanges,this.userForm.get('advanced').valueChanges)
+    return Observable.combineLatest(this.isHiddenIfNotAdvanced(),this.isHiddenIfSteamParser()).map(([val1,val2])=> val1||val2)
   }
 
   private get lang() {
