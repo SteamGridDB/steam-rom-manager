@@ -44,7 +44,7 @@ export class ConfigurationPresetsService {
         this.downloadStatus.next(true);
 
         return ConfigurationPresetsService.xRequest.request(
-          'https://raw.githubusercontent.com/cbartondock/steam-rom-manager/master/files/configPresets.json',
+          'https://raw.githubusercontent.com/doZennn/steam-rom-manager/master/files/configPresets.json',
           {
             responseType: 'json',
             method: 'GET',
