@@ -57,7 +57,7 @@ export class SteamParser implements GenericParser {
           }
           resolve(parsedData);
         }).catch((err)=>{
-          reject(this.lang.errors.fatalError)
+          reject(this.lang.errors.fatalError__i.interpolate({error: err}))
         });
 
     })

@@ -81,7 +81,7 @@ export const EnglishLang: languageContainer = {
       errors: {
         directoryInvalid: "Steam directory invalid",
         noSteamAccounts: "Steam directory specified has no accounts",
-        fatalError: "Steam parser failed with fatal error"
+        fatalError__i: 'Steam parser failed with fatal error: ${error}'
       }
     },
     globParser: {

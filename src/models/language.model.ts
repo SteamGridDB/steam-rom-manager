@@ -75,7 +75,7 @@ export interface languageStruct {
         errors: {
           directoryInvalid: string,
             noSteamAccounts: string,
-            fatalError: string
+            fatalError__i: string
         }
     },
     globParser: {
