@@ -231,6 +231,7 @@ export interface languageStruct {
           docs__md: {
             intro: string[],
               faq: string[],
+              communityPresets: string[],
               parserType: string[],
               configTitle: string[],
               steamCategory: string[],

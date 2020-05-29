@@ -12,6 +12,11 @@ import { APP } from '../../variables';
   template: `
         <markdown class="docs" [content]="this.currentDoc.content"></markdown>
         <div class="nestedForm">
+            <label>
+              <span class="infoButton infoIcon" (click)="presetsInfoClick()">
+              </span>
+              Community Presets
+            </label>
             <ng-select placeholder="Configuration presets" allowEmpty="true" emitOnly="false" ngModel (ngModelChange)="setPreset($event)">
                 <ng-option text-scroll *ngFor="let value of configPresets | keys">
                     {{value}}
@@ -486,6 +491,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       output = input;
 
     return output;
+  }
+  private presetsInfoClick() {
+    this.currentDoc.activePath = '';
+    this.currentDoc.content = this.lang.docs__md.communityPresets.join('');
   }
 
   private isHiddenIfNotAdvanced() {
