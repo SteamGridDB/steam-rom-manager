@@ -44,7 +44,7 @@ Each command creates separate `webpack` instance which will watch referenced fil
 
 App can be run using `start` script. After every recompile by `watch:renderer`, app can be refreshed using `Ctrl + R`, however `watch:main` requires need a restart.
 
-`Ctrl + Shift + I` can be used to launch Chrome inspector once the app is running.
+`Ctrl + Shift + I` can be used to launch Chrome inspector once the app is running. This works even in the release version.
 
 ## Building and app
 
