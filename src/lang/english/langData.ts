@@ -81,6 +81,7 @@ export const EnglishLang: languageContainer = {
       errors: {
         directoryInvalid: "Steam directory invalid",
         noSteamAccounts: "Steam directory specified has no accounts",
+        steamChanged: "Steam has changed their internal database structure, this parser needs to be fixed",
         fatalError__i: 'Steam parser failed with fatal error: ${error}'
       }
     },
