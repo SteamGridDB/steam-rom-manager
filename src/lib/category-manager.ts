@@ -35,81 +35,80 @@ export class CategoryManager {
         levelDBPath = path.join(steamDirectory,'config','htmlcache','Local Storage','leveldb');
       }
       const cats = new SteamCategories(levelDBPath, userId);
-      cats.read().then(() => {
-        const localConfigPath = path.join(steamDirectory, 'userdata', userId, 'config', 'localconfig.vdf');
-        const localConfig = genericParser.parse(fs.readFileSync(localConfigPath, 'utf-8'));
+      let localConfigPath='';
+      let localConfig: any = {};
+      let collections: any = {};
+      cats.read()
+        .then(() => {
+          localConfigPath = path.join(steamDirectory, 'userdata', userId, 'config', 'localconfig.vdf');
+          localConfig = genericParser.parse(fs.readFileSync(localConfigPath, 'utf-8'));
 
-        let collections = {};
-        if (localConfig.UserLocalConfigStore.WebStorage['user-collections']) {
-          collections = JSON.parse(localConfig.UserLocalConfigStore.WebStorage['user-collections'].replace(/\\/g, ''));
-        }
-
-        for (const catKey of Object.keys(collections).filter((key:string)=>key.split('-')[0]==='srm')) {
-          let toRemove = _.union(Object.keys(userData.apps).map((x)=>steam.shortenAppId(x)),extraneousShortIds).map((x)=>+x);
-          collections[catKey].added = collections[catKey].added.filter((appId: number) => toRemove.indexOf(appId)<0);
-          if(collections[catKey].added.length == 0) {
-            delete collections[catKey];
-            cats.remove(catKey);
-          }
-        }
-
-        if(!removeAll) {
-          for (const appId of Object.keys(userData.apps).filter((appId: string)=>userData.apps[appId].status ==='add')) {
-            const app = userData.apps[appId];
-            const appIdNew = parseInt(steam.generateNewAppId(app.executableLocation, app.title), 10);
-
-            // Loop "steamCategories" and make a new category from each
-            app.steamCategories.forEach((catName: string) => {
-
-              // Create new category if it doesn't exist
-              const catKey = `srm-${catName}`; // just use the name as the id
-              const platformCat = cats.get(catKey);
-              if (platformCat.is_deleted || !platformCat) {
-                cats.add(catKey, {
-                  name: catName,
-                  added: [],
-                });
-              }
-
-              // Create entries in localconfig.vdf
-              if (!collections[catKey]) {
-                collections[catKey] = {
-                  id: catKey,
-                  added: [],
-                  removed: [],
-                };
-              }
-
-              // Add appids to localconfig.vdf
-              if (collections[catKey].added.indexOf(appIdNew) === -1) {
-                // Only add if it doesn't exist already
-                collections[catKey].added.push(appIdNew);
-              }
-            });
+          if (localConfig.UserLocalConfigStore.WebStorage['user-collections']) {
+            collections = JSON.parse(localConfig.UserLocalConfigStore.WebStorage['user-collections'].replace(/\\"/g, '"'));
           }
 
-        }
+          for (const catKey of Object.keys(collections).filter((key:string)=>key.split('-')[0]==='srm')) {
+            let toRemove = _.union(Object.keys(userData.apps).map((x)=>steam.shortenAppId(x)),extraneousShortIds).map((x)=>+x);
+            collections[catKey].added = collections[catKey].added.filter((appId: number) => toRemove.indexOf(appId)<0);
+            if(collections[catKey].added.length == 0) {
+              delete collections[catKey];
+              cats.remove(catKey);
+            }
+          }
 
-        cats.save().then(() => {
-          localConfig.UserLocalConfigStore.WebStorage['user-collections'] = JSON.stringify(collections).replace(/"/g, '\\"'); // I hate Steam
+          if(!removeAll) {
+            for (const appId of Object.keys(userData.apps).filter((appId: string)=>userData.apps[appId].status ==='add')) {
+              const app = userData.apps[appId];
+              const appIdNew = parseInt(steam.generateNewAppId(app.executableLocation, app.title), 10);
+
+              // Loop "steamCategories" and make a new category from each
+              app.steamCategories.forEach((catName: string) => {
+
+                // Create new category if it doesn't exist
+                const catKey = `srm-${catName}`; // just use the name as the id
+                const platformCat = cats.get(catKey);
+                if (platformCat.is_deleted || !platformCat) {
+                  cats.add(catKey, {
+                    name: catName,
+                    added: [],
+                  });
+                }
+
+                // Create entries in localconfig.vdf
+                if (!collections[catKey]) {
+                  collections[catKey] = {
+                    id: catKey,
+                    added: [],
+                    removed: [],
+                  };
+                }
+
+                // Add appids to localconfig.vdf
+                if (collections[catKey].added.indexOf(appIdNew) === -1) {
+                  // Only add if it doesn't exist already
+                  collections[catKey].added.push(appIdNew);
+                }
+              });
+            }
+
+          }
+        }).catch((error: any)=>{
+          throw error;
+        })
+        .then(()=>{return cats.save()})
+        .then(()=>{
+          localConfig.UserLocalConfigStore.WebStorage['user-collections'] = JSON.stringify(collections).replace(/"/g, '\\"');
           const newVDF = genericParser.stringify(localConfig);
           fs.writeFileSync(localConfigPath, newVDF);
-          cats.close().then(() => {
-            return resolve();
+        })
+        .then(()=>{return cats.close()})
+        .then(()=>{resolve()})
+        .catch((error: any) => {
+          cats.close().then(()=>{
+            if(error.type === 'NotFoundError') { resolve(); }
+            else { reject(error); }
           })
         });
-
-      }).catch((error: any) => {
-        // Ignore not found
-        if (error.type === 'NotFoundError') {
-          cats.close().then(() => {
-            resolve();
-          });
-        } else {
-          cats.close();
-          reject(error);
-        }
-      });
     });
   }
 
