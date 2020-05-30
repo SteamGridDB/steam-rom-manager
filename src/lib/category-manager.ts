@@ -65,7 +65,7 @@ export class CategoryManager {
               app.steamCategories.forEach((catName: string) => {
 
                 // Create new category if it doesn't exist
-                const catKey = `srm-${catName}`; // just use the name as the id
+                const catKey = `srm-${Buffer.from(catName).toString('base64')}`;
                 const platformCat = cats.get(catKey);
                 if (platformCat.is_deleted || !platformCat) {
                   cats.add(catKey, {
@@ -82,6 +82,7 @@ export class CategoryManager {
                     removed: [],
                   };
                 }
+                console.log(collections[catKey])
 
                 // Add appids to localconfig.vdf
                 if (collections[catKey].added.indexOf(appIdNew) === -1) {
