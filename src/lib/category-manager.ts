@@ -69,7 +69,7 @@ export class CategoryManager {
                 const platformCat = cats.get(catKey);
                 if (platformCat.is_deleted || !platformCat) {
                   cats.add(catKey, {
-                    name: catName,
+                    name: Buffer.from(catName,'utf-8').toString('utf-16'),
                     added: [],
                   });
                 }
