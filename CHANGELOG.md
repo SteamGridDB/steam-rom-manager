@@ -1,6 +1,20 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.32
+## Added
+* Capability to save categories with emojis or non English characters in the name
+## Fixed
+* SRM failing to save whenever there are non standard unicode characters in the `leveldb`
+
+## 2.2.31
+### Fixed
+* Valve changed a database field
+
+## 2.2.30
+### Fixed
+* Certain parser fields not showing up in Advanced.
+
 ## 2.2.29
 This is a big one.
 ### Added
