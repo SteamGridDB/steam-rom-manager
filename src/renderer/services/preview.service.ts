@@ -176,9 +176,11 @@ export class PreviewService {
     }).catch((error: Category_Error | Error)=>{
       if(error instanceof Category_Error) {
         this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
-        this.loggerService.error(this.lang.errors.steamIsRunning, {invokeAlert: true, alertTimeout: 3000});
+        this.loggerService.error(this.lang.errors.categorySaveError__i.interpolate({error:error.message}));
+      } else {
+        // Category errors are considered non fatal
+        throw new Error(error.message);
       }
-      throw new Error(error.message);
     })
     .then(()=>{
       return vdfManager.write()
@@ -199,7 +201,8 @@ export class PreviewService {
       return true;
     }).catch((failureError: Error)=>{
       this.previewVariables.listIsBeingSaved = false;
-      this.loggerService.error(failureError);
+      this.loggerService.error(this.lang.errors.fatalError,{ invokeAlert: true, alertTimeout: 3000 });
+      this.loggerService.error(this.lang.errors.fatalError__i.interpolate({error: failureError}))
       return false;
     })
     return chain;

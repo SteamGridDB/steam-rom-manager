@@ -106,8 +106,7 @@ export class CategoryManager {
         .then(()=>{resolve()})
         .catch((error: any) => {
           cats.close().then(()=>{
-            if(error.type === 'NotFoundError') { resolve(); }
-            else { reject(error); }
+            reject(error);
           })
         });
     });

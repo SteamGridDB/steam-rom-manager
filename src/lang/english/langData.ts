@@ -58,9 +58,11 @@ export const EnglishLang: languageContainer = {
           populatingVDF_entries: 'Non-fatal error(-s) occurred populating VDF entries.',
           savingVDF_entries: 'Non-fatal error(-s) occurred while saving VDF/image files.',
           fatalError: 'Fatal error occurred. See event log for details.',
+          fatalError__i: 'Fatal Error ${error}',
           knownSteamDirListIsEmpty: 'A list of known Steam directories is empty.',
           steamIsRunning: 'Cannot make changes while steam is running!',
-          categorySaveError: 'Error updating categories',
+          categorySaveError: 'Error updating categories. See event log for details.',
+          categorySaveError__i: 'Category error (shortcuts and artwork will still be added): ${error}',
           retryingDownload__i: 'Image download from "${imageUrl}" failed for "${appTitle}".',
           providerError__i: 'Error received from "${provider}" for "${title}" (${url ? `${code}: ${url}` : code}).',
           unknownProviderError__i: 'Unknown error received from "${provider}" for "${title}": ${error}'
