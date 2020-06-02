@@ -50,7 +50,7 @@ export class CategoryManager {
           for (const catKey of Object.keys(collections).filter((key:string)=>key.split('-')[0]==='srm')) {
             let toRemove = _.union(Object.keys(userData.apps).map((x)=>steam.shortenAppId(x)),extraneousShortIds).map((x)=>+x);
             collections[catKey].added = collections[catKey].added.filter((appId: number) => toRemove.indexOf(appId)<0);
-            if(collections[catKey].added.length == 0) {
+            if(collections[catKey].added.length == 0 || removeAll) {
               delete collections[catKey];
               cats.remove(catKey);
             }
@@ -82,7 +82,6 @@ export class CategoryManager {
                     removed: [],
                   };
                 }
-                console.log(collections[catKey])
 
                 // Add appids to localconfig.vdf
                 if (collections[catKey].added.indexOf(appIdNew) === -1) {

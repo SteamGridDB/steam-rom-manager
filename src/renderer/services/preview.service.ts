@@ -606,7 +606,7 @@ export class PreviewService {
 
               previewData[config.steamDirectory][userAccount.accountID].apps[appID] = {
                 entryId: numberOfItems++,
-                status: 'add', //TODO: change to this when "mark" feature is implemented: oldDataApp !== undefined ? oldDataApp.status : 'add',
+                status: 'add',
                 configurationTitle: config.configurationTitle,
                 parserId: config.parserId,
                 parserType: config.parserType,
