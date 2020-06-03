@@ -1,7 +1,5 @@
 node_modules/
 dist/
-src/renderer/styles/oldThemes/
 release/
 npm-debug.log*
 .debug/
-.todo
