@@ -12,6 +12,8 @@ Ability to just save artwork from preview (2.3)
 
 # Backend changes
 Split up config presets into multiple jsons (and then add a bunch of presets) (2.3)
+Auto Updater (2.3)
+Crash Reporter (2.3)
 
 # New Image Sources
 Google
