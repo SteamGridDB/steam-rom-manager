@@ -1,25 +1,25 @@
 # Fixes
 Category manager stability
-Steam Parser Title Modifier (default to removing illegal symbols)
+Steam Parser Title Modifier (default to removing illegal symbols) (2.3)
 
 # Features
-Make an exclusions json
-Make both exclusions and custom args jsons editable from the preview
-Add filters to the preview (included/excluded, missing artwork, by category)
-Add Parser level to preview
-Move enable/disable parser to sidebar
-Ability to just save artwork from preview
+Make an exclusions json (2.3)
+Make both exclusions and custom args jsons editable from the preview (2.3)
+Add filters to the preview (included/excluded, missing artwork, by category) (2.3)
+Add Parser level to preview (2.3)
+Move enable/disable parser to sidebar (2.3)
+Ability to just save artwork from preview (2.3)
 
 # Backend changes
-Split up config presets into multiple jsons (and then add a bunch of presets)
+Split up config presets into multiple jsons (and then add a bunch of presets) (2.3)
 
 # New Image Sources
 Google
 
 # New Parsers
-Epic
+Epic (2.3)
 Origin
 Blizzard.net
 Uplay
-GOG
-EXE
+GOG (2.3)
+EXE (2.3)
