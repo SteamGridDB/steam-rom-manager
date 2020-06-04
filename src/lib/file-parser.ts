@@ -144,6 +144,8 @@ export class FileParser {
             }
             let preParser = new VariableParser({ left: '${', right: '}' });
             let userFilter = preParser.setInput(configs[i].userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
+
+            console.log(userFilter);
             filteredAccounts.push(this.filterUserAccounts(steamDirectories[i].data, userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir));
             totalUserAccountsFound+=filteredAccounts[filteredAccounts.length-1].found.length;
             let directories = isGlobParser? [configs[i].romDirectory] : filteredAccounts[i].found.map((account: userAccountData)=>path.join(configs[i].steamDirectory,'userdata',account.accountID));
@@ -152,6 +154,8 @@ export class FileParser {
           else
             throw new Error(this.lang.error.parserNotFound__i.interpolate({ name: configs[i].parserType }));
         }
+        console.log(steamDirectories);
+        console.log(filteredAccounts);
         return Promise.all(promises);
       })
       .then((data: ParsedDataWithFuzzy[]) => {
@@ -434,24 +438,13 @@ export class FileParser {
 
   private filterUserAccounts(accountData: userAccountData[], nameFilter: string[], steamDirectory: string, skipWithMissingDirectories: boolean) {
     let data: { found: userAccountData[], missing: string[] } = { found: [], missing: [] };
-
     if (nameFilter.length === 0) {
-      nameFilter = _.map(accountData, 'name');
-    }
-
-    if (nameFilter.length > 0) {
-      for (let i = 0; i < nameFilter.length; i++) {
-        let index = accountData.findIndex((item) => item.name === nameFilter[i]);
-        if (index !== -1) {
-          if (skipWithMissingDirectories) {
-            let accountPath = path.join(steamDirectory, 'userdata', accountData[index].accountID);
-            if (!this.validatePath(accountPath, true))
-              continue;
-          }
-          data.found.push(accountData[index]);
-        }
-        else
-          data.missing.push(nameFilter[i]);
+      data.found = _.cloneDeep(accountData);
+    } else {
+      data.found = accountData.filter((item)=>nameFilter.indexOf(item.name)>=0||nameFilter.indexOf(item.accountID)>=0)
+      data.missing = nameFilter.filter((filt)=>data.found.map(item=>item.name).indexOf(filt)<0&&data.found.map(item=>item.accountID).indexOf(filt)<0);
+      if(skipWithMissingDirectories) {
+        data.found = data.found.filter((item)=>this.validatePath(path.join(steamDirectory,'userdata',item.accountID),true));
       }
     }
     return data;
