@@ -9,6 +9,7 @@ Add filters to the preview (included/excluded, missing artwork, by category) (2.
 Add Parser level to preview (2.3)
 Move enable/disable parser to sidebar (2.3)
 Ability to just save artwork from preview (2.3)
+Config presets searchable (2.3)
 
 # Backend changes
 Split up config presets into multiple jsons (and then add a bunch of presets) (2.3)

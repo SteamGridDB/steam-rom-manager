@@ -125,13 +125,13 @@ export class PreviewService {
   saveData(remove: boolean): Promise<any> {
 
     if (this.previewVariables.listIsBeingSaved)
-      return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     else if (!remove && this.previewVariables.numberOfListItems === 0)
-      return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     else if (this.previewVariables.listIsBeingRemoved)
-      return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     else if (remove && this.appSettings.knownSteamDirectories.length === 0)
-      return Promise.resolve().then(() => { this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    return Promise.resolve().then(() => { this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
 
     let vdfManager = new VDF_Manager();
     let categoryManager = new CategoryManager();
@@ -191,13 +191,13 @@ export class PreviewService {
       throw new Error(error.message);
     })
     .then(()=>{
-        this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-        this.previewVariables.listIsBeingSaved = false;
+      this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+      this.previewVariables.listIsBeingSaved = false;
 
-        if (remove) {
-          this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-          this.clearPreviewData();
-        }
+      if (remove) {
+        this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+        this.clearPreviewData();
+      }
       return true;
     }).catch((failureError: Error)=>{
       this.previewVariables.listIsBeingSaved = false;
@@ -234,7 +234,9 @@ export class PreviewService {
         let imageLoader = new Image();
         imageLoader.onload = () => {
           image.loadStatus = 'done';
-          image.imageRes = `${imageLoader.width}x${imageLoader.height}`
+          let width = imageLoader ? imageLoader.width : 'unknown';
+          let height = imageLoader ? imageLoader.height : 'unknown';
+          image.imageRes = `${width}x${height}`
           this.previewDataChanged.next();
         };
         imageLoader.onerror = () => {
@@ -258,7 +260,9 @@ export class PreviewService {
       let imageLoader = new Image();
       imageLoader.onload = () => {
         image.loadStatus = 'done';
-        image.imageRes = `${imageLoader.width}x${imageLoader.height}`;
+        let width = imageLoader ? imageLoader.width : 'unknown';
+        let height = imageLoader ? imageLoader.height : 'unknown';
+        image.imageRes = `${width}x${height}`
         this.previewDataChanged.next();
       };
       imageLoader.onerror = () => {
