@@ -77,7 +77,7 @@ export interface languageStruct {
         errors: {
           directoryInvalid: string,
             noSteamAccounts: string,
-            steamChanged: string,
+            steamChanged__i: string,
             fatalError__i: string
         }
     },

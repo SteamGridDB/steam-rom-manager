@@ -39,7 +39,7 @@ export class SteamParser implements GenericParser {
           return bvdf.readAppInfo(fs.createReadStream(appinfo_path))
         })
         .catch((err) => {
-          throw this.lang.errors.steamChanged;
+          throw this.lang.errors.steamChanged__i.interpolate({error: err});
         })
         .then((appinfo)=>{
           test_titles = appinfo.filter((app:any)=>test_ids.indexOf(app.entries.appid.toString())>=0).map((app:any)=>(app.entries.common||{}).name);
