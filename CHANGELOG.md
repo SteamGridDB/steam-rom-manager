@@ -1,14 +1,22 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.34
 ## Fixed
+* Bug where app list would fail to generate if width/height of images could not be retrieved.
+
+## Added
+* More logging for steam parser.
+
+## 2.2.33
+### Fixed
 * Categories not deleting when user hits remove all in settings as opposed to preview
 * Major bug in 2.2.32 that prevented steam-categories from working *unless* emoji or non english character was present (don't ask)
 
 ## 2.2.32
-## Added
+### Added
 * Capability to save categories with emojis or non English characters in the name
-## Fixed
+### Fixed
 * SRM failing to save whenever there are non standard unicode characters in the `leveldb`
 
 ## 2.2.31
