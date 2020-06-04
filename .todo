@@ -1,11 +1,12 @@
 # Fixes
 Category manager stability
 Steam Parser Title Modifier (default to removing illegal symbols) (2.3)
+Move follow .lnk to destination slider to below executable modifier
 
 # Features
 Make an exclusions json (2.3)
 Make both exclusions and custom args jsons editable from the preview (2.3)
-Add filters to the preview (included/excluded, missing artwork, by category) (2.3)
+Add filters to the preview (included/excluded, custom args, missing artwork, by category) (2.3)
 Add Parser level to preview (2.3)
 Move enable/disable parser to sidebar (2.3)
 Ability to just save artwork from preview (2.3)
