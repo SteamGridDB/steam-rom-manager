@@ -83,7 +83,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           children: {
             path: new NestedFormElement.Path({
               highlight: this.highlight.bind(this),
-              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+              onValidate: (self, path) => {
+                let serialized = {};
+                serialized[path[1]] = self.value;
+                return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized)
+              }
             }),
             shortcutPassthrough: new NestedFormElement.Toggle({
               text: this.lang.text.shortcut_passthrough
@@ -156,7 +160,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           children: {
             specifiedAccounts: new NestedFormElement.Input({
               highlight: this.highlight.bind(this),
-              onValidate: (self, path) => this.parsersService.validate(path[path.length - 1] as keyof UserConfiguration, self.value)
+              onValidate: (self, path) => {
+                let serialized = {}
+                serialized[path[1]] = self.value
+                return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized)}
             }),
             skipWithMissingDataDir: new NestedFormElement.Toggle({
               text: this.lang.text.skipWithMissingDataDir
@@ -214,7 +221,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           children: {
             limitToGroups: new NestedFormElement.Input({
               highlight: this.highlight.bind(this),
-              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value)
+              onValidate: (self, path) => {
+                let serialized = {};
+                serialized[path[1]] = self.value;
+                return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized)
+              }
             }),
             caseInsensitiveVariables: new NestedFormElement.Toggle({
               text: this.lang.text.caseInsensitiveVariables
@@ -232,7 +243,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         titleModifier: new NestedFormElement.Input({
-          isHidden: () => this.isHiddenIfEither(),
+          isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.titleModifier,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),

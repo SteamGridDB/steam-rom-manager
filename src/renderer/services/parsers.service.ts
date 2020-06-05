@@ -89,9 +89,6 @@ export class ParsersService {
       else
         userConfigurations[index].current.parserId = userConfigurations[index].saved.parserId;
       if(userConfigurations[index].current.parserType==='Steam') {
-        userConfigurations[index].current.titleModifier='${title}';
-        userConfigurations[index].current.onlineImageQueries='${${title}}';
-        userConfigurations[index].current.imagePool='${title}';
         userConfigurations[index].current.fuzzyMatch.use=false;
         userConfigurations[index].current.titleFromVariable.tryToMatchTitle=false;
       }
@@ -178,6 +175,7 @@ export class ParsersService {
   }
 
   validate(key: string, data: any) {
+    console.log(key)
     switch (key) {
       case 'parserType':
         {
@@ -190,16 +188,17 @@ export class ParsersService {
         return data ? null : this.lang.validationErrors.parserId__md;
       case 'steamCategory':
         return this.validateVariableParserString(data || '');
-      case 'executableLocation':
-        return (data == null || data.length === 0 || this.validateEnvironmentPath(data || '') ) ? null : this.lang.validationErrors.executable__md;
+      case 'executable':
+        console.log(data);
+        return ((data||{}).path == null || data.path.length == 0 || this.validateEnvironmentPath(data.path || '') ) ? null : this.lang.validationErrors.executable__md;
       case 'romDirectory':
         return this.validateEnvironmentPath(data || '', true) ? null : this.lang.validationErrors.romDir__md;
       case 'steamDirectory':
         return this.validateEnvironmentPath(data || '', true) ? null : this.lang.validationErrors.steamDir__md;
       case 'startInDirectory':
         return (data == null || data.length === 0 || this.validateEnvironmentPath(data || '', true)) ? null : this.lang.validationErrors.startInDir__md;
-      case 'specifiedAccounts':
-        return this.validateVariableParserString(data || '');
+      case 'userAccounts':
+        return this.validateVariableParserString((data||{}).specifiedAccounts || '');
       case 'parserInputs':
         {
           let availableParser = this.getParserInfo(data['parser']);
@@ -221,6 +220,7 @@ export class ParsersService {
       case 'executableModifier':
         return this.validateVariableParserString(data || '', this.lang.validationErrors.executableModifier__md);
       case 'titleFromVariable':
+        console.log(data)
         return this.validateVariableParserString(data ? data.limitToGroups || '' : '');
       case 'onlineImageQueries':
       case 'executableArgs':
@@ -288,15 +288,15 @@ export class ParsersService {
     }
     if(config['parserType']=='Steam') {
 
-      simpleValidations = ['configTitle','parserId','steamDirectory','specifiedAccounts',
+      simpleValidations = ['configTitle','parserId','steamDirectory','userAccounts','titleModifier',
         'onlineImageQueries', 'imagePool', 'imageProviders',
         'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
       ]
     } else {
       simpleValidations = [
         'configTitle', 'parserId', 'steamCategory',
-        'executableLocation', 'executableModifier', 'romDirectory',
-        'steamDirectory', 'startInDirectory', 'specifiedAccounts',
+        'executable', 'executableModifier', 'romDirectory',
+        'steamDirectory', 'startInDirectory', 'userAccounts',
         'titleFromVariable', 'titleModifier', 'executableArgs',
         'onlineImageQueries', 'imagePool', 'imageProviders',
         'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
@@ -386,9 +386,6 @@ export class ParsersService {
         }
         if(data[i].parserType==='Steam') {
           updateNeededSilent=true;
-          data[i].titleModifier='${title}';
-          data[i].onlineImageQueries='${${title}}';
-          data[i].imagePool='${title}';
           data[i].fuzzyMatch.use = false;
           data[i].titleFromVariable.tryToMatchTitle = false;
         }

@@ -27,8 +27,8 @@ export const userConfiguration = {
       type: 'object',
       default: {},
       properties: {
-        skipWithMissingDataDir: { type: 'boolean', default: true },
         specifiedAccounts: { type: 'string', default: '' },
+        skipWithMissingDataDir: { type: 'boolean', default: true },
         useCredentials: { type: 'boolean', default: true }
       }
     },
