@@ -105,7 +105,7 @@ export class FileParser {
             configs[i].startInDirectory = preParser.setInput(configs[i].startInDirectory).parse() ? preParser.replaceVariables((variable) => {
               return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
             }) : null;
-            configs[i].executableLocation = preParser.setInput(configs[i].executableLocation).parse() ? preParser.replaceVariables((variable) => {
+            configs[i].executable.path = preParser.setInput(configs[i].executable.path).parse() ? preParser.replaceVariables((variable) => {
               return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
             }) : null;
           }
@@ -183,7 +183,7 @@ export class FileParser {
             parserId: configs[i].parserId,
             parserType: configs[i].parserType,
             appendArgsToExecutable: configs[i].appendArgsToExecutable,
-            shortcutPassthrough: configs[i].titleFromVariable.shortcutPassthrough,
+            shortcutPassthrough: configs[i].executable.shortcutPassthrough,
             imageProviders: configs[i].imageProviders,
             foundUserAccounts: filteredAccounts[i].found,
             missingUserAccounts: filteredAccounts[i].missing,
@@ -202,7 +202,7 @@ export class FileParser {
             let executableLocation:string = undefined;
             let startInDir:string = undefined;
             if(isGlobParser) {
-              executableLocation = configs[i].executableLocation ? configs[i].executableLocation : data[i].success[j].filePath;
+              executableLocation = configs[i].executable.path ? configs[i].executable.path : data[i].success[j].filePath;
               startInDir = configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation);
             } else {
               executableLocation = data[i].success[j].extractedAppId;

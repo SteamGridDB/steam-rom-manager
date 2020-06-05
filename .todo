@@ -1,7 +1,8 @@
 # Fixes
-Category manager stability
+Category manager stability [ongoing]
+Add documentation emphasizing User Accounts field, or maybe figure out a way to ignore old accounts (2.3)
 Steam Parser Title Modifier (default to removing illegal symbols) (2.3)
-Move follow .lnk to destination slider to below executable modifier
+Move follow .lnk to destination slider to below executable modifier (2.3) [done]
 
 # Features
 Make an exclusions json (2.3)

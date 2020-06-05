@@ -3,7 +3,10 @@ export interface UserConfiguration {
     configTitle: string,
     parserId: string,
     steamCategory: string,
-    executableLocation: string,
+    executable: {
+      path: string,
+      shortcutPassthrough: boolean
+    },
     executableModifier: string,
     romDirectory: string,
     steamDirectory: string,
@@ -15,7 +18,6 @@ export interface UserConfiguration {
     },
     parserInputs: { [inputKey: string]: string },
     titleFromVariable: {
-        shortcutPassthrough: boolean,
         limitToGroups: string,
         skipFileIfVariableWasNotFound: boolean,
         caseInsensitiveVariables: boolean,

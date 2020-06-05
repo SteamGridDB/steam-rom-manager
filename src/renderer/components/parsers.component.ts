@@ -77,14 +77,35 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.steamCategory.join('');
           }
         }),
-        executableLocation: new NestedFormElement.Path({
+        executable: new NestedFormElement.Group({
           isHidden: () => this.isHiddenIfSteamParser(),
           label: this.lang.label.executableLocation,
+          children: {
+            path: new NestedFormElement.Path({
+              highlight: this.highlight.bind(this),
+              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+            }),
+            shortcutPassthrough: new NestedFormElement.Toggle({
+              text: this.lang.text.shortcut_passthrough
+            }),
+            appendArgsToExecutable: new NestedFormElement.Toggle({
+              isHidden: () => this.isHiddenIfEither(),
+              text: this.lang.text.appendArgsToExecutable
+            })
+          },
+          onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content = this.lang.docs__md.executableLocation.join('');
+          }
+        }),
+        executableArgs: new NestedFormElement.Input({
+          isHidden: () => this.isHiddenIfSteamParser(),
+          label: this.lang.label.executableArgs,
           highlight: this.highlight.bind(this),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.executableLocation.join('');
+            this.currentDoc.content = this.lang.docs__md.executableArgs.join('');
           }
         }),
         executableModifier: new NestedFormElement.Input({
@@ -195,9 +216,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               highlight: this.highlight.bind(this),
               onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value)
             }),
-            shortcutPassthrough: new NestedFormElement.Toggle({
-              text: this.lang.text.shortcut_passthrough
-            }),
             caseInsensitiveVariables: new NestedFormElement.Toggle({
               text: this.lang.text.caseInsensitiveVariables
             }),
@@ -244,20 +262,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.activePath = path.join();
             this.currentDoc.content = this.lang.docs__md.fuzzyMatch.join('');
           }
-        }),
-        executableArgs: new NestedFormElement.Input({
-          isHidden: () => this.isHiddenIfSteamParser(),
-          label: this.lang.label.executableArgs,
-          highlight: this.highlight.bind(this),
-          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-          onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.executableArgs.join('');
-          }
-        }),
-        appendArgsToExecutable: new NestedFormElement.Toggle({
-          isHidden: () => this.isHiddenIfEither(),
-          text: this.lang.text.appendArgsToExecutable
         }),
         onlineImageQueries: new NestedFormElement.Input({
           label: this.lang.label.onlineImageQueries,
