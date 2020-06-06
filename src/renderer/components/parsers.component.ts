@@ -306,7 +306,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
           }
         }),
-        defaultImage: new NestedFormElement.Input({
+        defaultImage: new NestedFormElement.Path({
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultImage,
@@ -316,7 +316,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.defaultImage.join('');
           }
         }),
-        defaultTallImage: new NestedFormElement.Input({
+        defaultTallImage: new NestedFormElement.Path({
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultTallImage,
@@ -326,7 +326,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.defaultTallImage.join('');
           }
         }),
-        defaultHeroImage: new NestedFormElement.Input({
+        defaultHeroImage: new NestedFormElement.Path({
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultHeroImage,
@@ -336,7 +336,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.defaultHeroImage.join('');
           }
         }),
-        defaultLogoImage: new NestedFormElement.Input({
+        defaultLogoImage: new NestedFormElement.Path({
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultLogoImage,
@@ -346,7 +346,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.defaultLogoImage.join('');
           }
         }),
-        localImages: new NestedFormElement.Input({
+        localImages: new NestedFormElement.Path({
+          directory: true,
+          appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.localImages,
@@ -356,7 +358,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.localImages.join('');
           }
         }),
-        localTallImages: new NestedFormElement.Input({
+        localTallImages: new NestedFormElement.Path({
+          directory: true,
+          appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.localTallImages,
@@ -366,7 +370,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.localTallImages.join('');
           }
         }),
-        localHeroImages: new NestedFormElement.Input({
+        localHeroImages: new NestedFormElement.Path({
+          directory: true,
+          appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.localHeroImages,
@@ -376,7 +382,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.localHeroImages.join('');
           }
         }),
-        localLogoImages: new NestedFormElement.Input({
+        localLogoImages: new NestedFormElement.Path({
+          directory: true,
+          appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.localLogoImages,
@@ -387,7 +395,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
 
-        localIcons: new NestedFormElement.Input({
+        localIcons: new NestedFormElement.Path({
+          directory: true,
+          appendGlob: '${finalTitle}.@(png|PNG|ico|ICO)',
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.localIcons,

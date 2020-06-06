@@ -29,7 +29,7 @@ import * as _ from 'lodash';
                                 <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight"></ng-text-input>
                             </ng-container>
                             <ng-container *ngSwitchCase="'Path'">
-                                <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight"></ng-text-input>
+                                <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight" [appendGlob]="child.appendGlob"></ng-text-input>
                                 <ng-path-input class="clickButton" [stateless]="true" [directory]="child.directory" (pathChange)="currentForm.controls[childrenKey].setValue($event)"
                                 >Browse</ng-path-input>
                             </ng-container>
