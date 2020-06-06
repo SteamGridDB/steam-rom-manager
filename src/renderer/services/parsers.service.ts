@@ -326,7 +326,6 @@ export class ParsersService {
   private saveUserConfigurations() {
     return new Promise<UserConfiguration[]>((resolve, reject) => {
       if (!this.savingIsDisabled) {
-        console.log(this.userConfigurations.getValue());
         fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => {
           item.saved[modifiers.userConfiguration.controlProperty] = modifiers.userConfiguration.latestVersion;
           return item.saved;

@@ -10,7 +10,6 @@ export function read<T>(file: string, fallback?: T) {
     }
   }).then((data) => {
     if (data === undefined) {
-      console.log("falling back")
       return fallback || null;
     }
     else {

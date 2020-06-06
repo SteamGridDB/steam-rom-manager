@@ -71,9 +71,7 @@ export class ConfigurationPresetsService {
 
   load() {
     json.read<ConfigPresets>(paths.configPresets).then((data) => {
-      console.log(data)
       if (data === null) {
-        console.log("null data")
         return this.download();
       }
       else {
@@ -81,9 +79,7 @@ export class ConfigurationPresetsService {
         if (error !== null) {
           this.savingIsDisabled = true;
           this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
-          console.log("HERE");
-          console.log(error)
-          console.log(data)
+
           this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
             file: paths.configPresets,
             error

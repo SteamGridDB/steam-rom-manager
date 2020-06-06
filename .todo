@@ -3,9 +3,11 @@ Category manager stability [ongoing]
 Add documentation emphasizing User Accounts field, or maybe figure out a way to ignore old accounts (2.3)
 Steam Parser Title Modifier (default to removing illegal symbols) (2.3) [done]
 Move follow .lnk to destination slider to below executable modifier (2.3) [done]
-Make localimages etc behave similarly to, for example, roms directory (2.3)
+Remove close steam if open warning and replace with something better (2.3)
 
 # Features
+Add a localImagesDir environment variable (2.3) [done]
+Add browse button to localimages fields (2.3)
 Make an exclusions json (2.3)
 Make both exclusions and custom args jsons editable from the preview (2.3)
 Add filters to the preview (included/excluded, custom args, missing artwork, by category) (2.3)
@@ -15,6 +17,7 @@ Ability to just save artwork from preview (2.3)
 Config presets searchable (2.3)
 
 # Backend changes
+Moved migrations to the modifiers (2.3) [done]
 Split up config presets into multiple jsons (and then add a bunch of presets) (2.3)
 Auto Updater (2.3)
 Crash Reporter (2.3)

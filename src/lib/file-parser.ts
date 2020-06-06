@@ -459,31 +459,29 @@ export class FileParser {
         let variableData = this.makeVariableData(config,settings, parsedConfig.files[i]);
         //expandable set is to allow you to comment out stuff using $()$. Decent idea, but ehhhh
         let expandableSet = /\$\((\${.+?})(?:\|(.*?))?\)\$/.exec(fieldValue);
-
-        if(field=='localImages'){console.log(fieldValue); console.log(expandableSet)}
+        let cwd = settings.environmentVariables.localImagesDirectory? settings.environmentVariables.localImagesDirectory : config.romDirectory;
         if (expandableSet === null) {
-          let cwd = settings.environmentVariables.localImagesDirectory? settings.environmentVariables.localImagesDirectory : config.romDirectory;
           let replacedGlob = path.resolve(cwd,vParser.setInput(fieldValue).parse() ? vParser.replaceVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData);
           }) : '').replace(/\\/g, '/');
 
           resolvedGlobs[i].push(replacedGlob);
-          promises.push(this.globPromise(replacedGlob, { silent: true, dot: true, realpath: true, cache: this.globCache }).then((files) => {
+          promises.push(this.globPromise(replacedGlob, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
             resolvedFiles[i] = files;
           }));
-        }/*
+        }
         else {
           let secondaryMatch: string = undefined;
           let parserMatch = fieldValue.replace(expandableSet[0], '$()$');
           parserMatch = vParser.setInput(parserMatch).parse() ? vParser.replaceVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData);
           }) : '';
-          parserMatch = path.resolve(config.romDirectory, parserMatch.replace('$()$', expandableSet[1])).replace(/\\/g, '/');
+          parserMatch = path.resolve(cwd, parserMatch.replace('$()$', expandableSet[1])).replace(/\\/g, '/');
           resolvedGlobs[i].push(parserMatch);
 
           if (expandableSet[2] != undefined) {
             secondaryMatch = fieldValue.replace(expandableSet[0], expandableSet[2] || '');
-            secondaryMatch = path.resolve(config.romDirectory, vParser.setInput(secondaryMatch).parse() ? vParser.replaceVariables((variable) => {
+            secondaryMatch = path.resolve(cwd, vParser.setInput(secondaryMatch).parse() ? vParser.replaceVariables((variable) => {
               return this.getVariable(variable as AllVariables, variableData);
             }) : '').replace(/\\/g, '/');
             resolvedGlobs[i].push(secondaryMatch);
@@ -491,9 +489,9 @@ export class FileParser {
 
           promises.push(Promise.resolve().then(() => {
             if (/\${title}/i.test(expandableSet[1]))
-              return this.availableParsers['Glob'].execute([config.romDirectory], { 'glob': parserMatch }, this.globCache);
+              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache);
             else
-              return this.availableParsers['Glob-regex'].execute([config.romDirectory], { 'glob-regex': parserMatch }, this.globCache);
+              return this.availableParsers['Glob-regex'].execute([cwd], { 'glob-regex': parserMatch }, this.globCache);
           }).then((parsedData) => {
             for (let j = 0; j < parsedData.success.length; j++) {
               if (config.fuzzyMatch.use) {
@@ -506,7 +504,7 @@ export class FileParser {
               }
             }
             if (secondaryMatch !== undefined) {
-              return this.globPromise(secondaryMatch, { silent: true, dot: true, realpath: true, cwd: config.romDirectory, cache: this.globCache }).then((files) => {
+              return this.globPromise(secondaryMatch, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
                 return resolvedFiles[i].concat(files);
               });
             }
@@ -515,7 +513,7 @@ export class FileParser {
           }).then((files) => {
             resolvedFiles[i] = _.uniq(files);
           }));
-        }*/
+        }
       }
     }
     return Promise.all(promises).then(() => {

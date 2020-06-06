@@ -41,7 +41,6 @@ export class Validator<T = object> {
 
   public validate(data: object) {
     if (this.modifier) {
-      console.log("modifier active")
       while (this.modify(data)) { }
       _.set(data, this.modifier.controlProperty, this.modifier.latestVersion);
     }

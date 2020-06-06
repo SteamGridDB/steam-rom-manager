@@ -19,9 +19,7 @@ export class SettingsService {
 
   constructor(private loggerService: LoggerService) {
     this.appSettings = <AppSettings>this.validator.getDefaultValues();
-    console.log('constructor app settings',this.appSettings)
     json.read<AppSettings>(paths.userSettings, this.appSettings).then((settings) => {
-      console.log(settings);
       if (!this.validator.validate(settings).isValid()) {
         this.savingIsDisabled = true;
         this.loggerService.error(this.lang.error.readingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
@@ -31,7 +29,6 @@ export class SettingsService {
         }));
       }
       else {
-        console.log('pospost',settings)
         this.appSettings =settings;
       }
     }).catch((error) => {
