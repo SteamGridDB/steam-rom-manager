@@ -11,6 +11,7 @@ import { BehaviorSubject } from "rxjs";
 import {availableProviders} from "../../lib/image-providers/available-providers"
 import { APP } from '../../variables';
 import * as json from "../../lib/helpers/json";
+import * as unique_ids from "../../lib/helpers/unique-ids";
 import * as paths from "../../paths";
 import * as path from 'path';
 import * as schemas from '../schemas';
@@ -63,7 +64,7 @@ export class ParsersService {
   saveConfiguration(config: { saved: UserConfiguration, current: UserConfiguration }) {
     let userConfigurations = this.userConfigurations.getValue();
     let copy: { saved: UserConfiguration, current: UserConfiguration } = _.cloneDeep(config);
-    copy.saved.parserId = this.newParserId();
+    copy.saved.parserId = unique_ids.newParserId();
     userConfigurations = userConfigurations.concat(copy);
     this.userConfigurations.next(userConfigurations);
     this.saveUserConfigurations();
@@ -94,7 +95,7 @@ export class ParsersService {
       }
       userConfigurations[index] = { saved: userConfigurations[index].current, current: null };
     }
-    else{
+    else {
       config.parserId = userConfigurations[index].saved.parserId;
       userConfigurations[index] = { saved: config, current: null };
     }
@@ -175,7 +176,6 @@ export class ParsersService {
   }
 
   validate(key: string, data: any) {
-    console.log(key)
     switch (key) {
       case 'parserType':
         {
@@ -189,7 +189,6 @@ export class ParsersService {
       case 'steamCategory':
         return this.validateVariableParserString(data || '');
       case 'executable':
-        console.log(data);
         return ((data||{}).path == null || data.path.length == 0 || this.validateEnvironmentPath(data.path || '') ) ? null : this.lang.validationErrors.executable__md;
       case 'romDirectory':
         return this.validateEnvironmentPath(data || '', true) ? null : this.lang.validationErrors.romDir__md;
@@ -220,7 +219,6 @@ export class ParsersService {
       case 'executableModifier':
         return this.validateVariableParserString(data || '', this.lang.validationErrors.executableModifier__md);
       case 'titleFromVariable':
-        console.log(data)
         return this.validateVariableParserString(data ? data.limitToGroups || '' : '');
       case 'onlineImageQueries':
       case 'executableArgs':
@@ -325,13 +323,10 @@ export class ParsersService {
     return this.userConfigurations.getValue()[configurationIndex].saved.parserId;
   }
 
-  private newParserId() {
-    return Date.now().toString().concat(Math.floor(Math.random()*100000).toString());
-  }
-
   private saveUserConfigurations() {
     return new Promise<UserConfiguration[]>((resolve, reject) => {
       if (!this.savingIsDisabled) {
+        console.log(this.userConfigurations.getValue());
         fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => {
           item.saved[modifiers.userConfiguration.controlProperty] = modifiers.userConfiguration.latestVersion;
           return item.saved;
@@ -370,22 +365,9 @@ export class ParsersService {
       let validatedConfigs: { saved: UserConfiguration, current: UserConfiguration }[] = [];
       let errorString: string = '';
       let updateNeeded: boolean = false;
-      let updateNeededSilent: boolean = false;
       for (let i = 0; i < data.length; i++) {
-        if(!data[i].parserId) {
-          updateNeeded = true;
-          data[i].parserId = this.newParserId();
-        }
-        if(data[i].imageProviders.filter(x=>availableProviders.indexOf(x)<0).length) {
-          updateNeeded = true;
-          data[i].imageProviders = data[i].imageProviders.filter(x=>availableProviders.indexOf(x)>=0);
-        }
-        if(data[i].parserInputs.steam === undefined) {
-          updateNeeded = true;
-          data[i].parserInputs.steam = null;
-        }
         if(data[i].parserType==='Steam') {
-          updateNeededSilent=true;
+          updateNeeded=true;
           data[i].fuzzyMatch.use = false;
           data[i].titleFromVariable.tryToMatchTitle = false;
         }
@@ -403,10 +385,8 @@ export class ParsersService {
         }));
       }
       this.userConfigurations.next(validatedConfigs);
-      if(updateNeeded || updateNeededSilent) {
-        if(updateNeeded){
-          this.loggerService.info(this.lang.info.updatingConfigurations, {invokeAlert: true, alertTimeout: 5000})
-        }
+      if(updateNeeded) {
+        //this.loggerService.info(this.lang.info.updatingConfigurations, {invokeAlert: true, alertTimeout: 5000})
         this.saveUserConfigurations();
       }
     }).catch((error) => {

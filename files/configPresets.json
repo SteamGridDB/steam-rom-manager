@@ -30,8 +30,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -82,8 +81,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.cue|.CUE|.iso|.ISO)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -134,8 +132,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.chd|.CHD|.cue|.CUE|.iso|.ISO)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -186,8 +183,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.cdt|.CDT|.dsk|.DSK|.sna|.SNA|.tap|.TAP|.voc|.VOC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -238,8 +234,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.dsk|.DSK|.sna|.SNA|.kcr|.KCR|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -290,8 +285,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.a26|.A26|.bin|.BIN|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -342,8 +336,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.a52|.A52|.atr|.ATR|.atx|.ATX|.bin|.BIN|.cas|.CAS|.cdm|.CDM|.xex|.XEX|.xfd|.XFD|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -394,8 +387,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.a78|.A78|.bin|.BIN|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -446,8 +438,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.abs|.ABS|.bin|.BIN|.cof|.COF|.j64|.J64|.jag|.JAG|.prg|.PRG|.rom|.ROM|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -498,8 +489,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.lnx|.LNX|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -550,8 +540,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.lnx|.LNX|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -602,8 +591,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.dim|.DIM|.ipf|.IPF|.msa|.MSA|.st|.ST|.stx|.STX|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -654,8 +642,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.pc2|.PC2|.ws|.WS|.wsc|.WSC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -706,8 +693,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.col|.COL|.ri|.RI|.rom|.ROM|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -758,8 +744,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -810,8 +795,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}${/}dosbox${/}dosbox.exe",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -862,8 +846,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -914,8 +897,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.vec|.VEC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -966,8 +948,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "${MAME}",
@@ -1018,8 +999,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.cas|.CAS|.dsk|.DSK|.m3u|.M3U|.mx1|.MX1|.mx2|.MX2|.ri|.RI|.rom|.ROM|.sc|.SC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1070,8 +1050,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.cas|.CAS|.dsk|.DSK|.mx1|.MX1|.mx2|.MX2|.rom|.ROM|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1122,8 +1101,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.2hd|.2HD|.88d|.88D|.98d|.98D|.cmd|.CMD|.d88|.D88|.d98|.D98|.dup|.DUP|.fdd|.FDD|.fdi|.FDI|.hdd|.HDD|.hdi|.HDI|.hdm|.HDM|.hdn|.HDN|.nhd|.NHD|.tfd|.TFD|.thd|.THD|.xdf|.XDF|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1174,8 +1152,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.pce|.PCE|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1226,8 +1203,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.ccd|.CCD|.chd|.CHD|.cue|.CUE|.iso|.ISO|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1278,8 +1254,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.ccd|.CCD|.chd|.CHD|.cue|.CUE|.pce|.PCE|.sgx|.SGX|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1330,8 +1305,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.ccd|.CCD|.chd|.CHD|.cue|.CUE|.toc|.TOC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1382,8 +1356,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.3ds|.3DS|.3dsx|.3DSX|.app|.APP|.axf|.AXF|.cii|.CII|.cxi|.CXI|.elf|.ELF)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1434,8 +1407,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.3ds|.3DS|.3dsx|.3DSX|.app|.APP|.axf|.AXF|.cii|.CII|.cxi|.CXI|.elf|.ELF)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1486,8 +1458,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.3ds|.3DS|.3dsx|.3DSX|.app|.APP|.axf|.AXF|.cii|.CII|.cxi|.CXI|.elf|.ELF)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1538,8 +1509,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.n64|.N64|.v64|.V64|.z64|.Z64)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1590,8 +1560,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.n64|.N64|.v64|.V64|.z64|.Z64)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1642,8 +1611,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.n64|.N64|.ndd|.NDD|.u1|.U1|.v64|.V64|.z64|.Z64|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1694,8 +1662,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.n64|.N64|.v64|.V64|.z64|.Z64|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1746,8 +1713,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.nds|.NDS|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1798,8 +1764,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.nds|.NDS|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1850,8 +1815,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gb|.GB|.bin|.bin|.rom|.ROM|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1902,8 +1866,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gb|.GB|.dmg|.DMG|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1954,8 +1917,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gb|.GB|.dmg|.DMG|.sgb|.SGB|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2006,8 +1968,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gb|.GB|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2058,8 +2019,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gb|.GB|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2110,8 +2070,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gb|.GB|.sgb|.SGB|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2162,8 +2121,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gb|.GB|.gbc|.GBC|.bin|.bin|.rom|.ROM|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2214,8 +2172,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gb|.GB|.gbc|.GBC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2266,8 +2223,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gb|.GB|.gbc|.GBC|.dmg|.DMG|.sgb|.SGB|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2318,8 +2274,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gb|.GB|.gbc|.GBC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2370,8 +2325,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gb|.GB|.gbc|.GBC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2422,8 +2376,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gb|.GB|.gbc|.GBC|.sgb|.SGB|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2474,8 +2427,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.agb|.AGB|.bin|.BIN|.gba|.GBA|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2526,8 +2478,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.gba|.GBA|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2578,8 +2529,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gba|.GBA|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2630,8 +2580,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gba|.GBA|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2682,8 +2631,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gba|.GBA|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2734,8 +2682,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gba|.GBA|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2786,8 +2733,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcm|.GCM|.gcz|.GCZ|.iso|.ISO|.wad|.WAD)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2838,8 +2784,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcm|.GCM|.gcz|.GCZ|.iso|.ISO|.wad|.WAD)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2890,8 +2835,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.nes|.NES|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2942,8 +2886,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.nes|.NES|.rom|.ROM|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -2994,8 +2937,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.fds|.FDS|.nes|.NES|.unif|.UNIF|.unf|.UNF|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3046,8 +2988,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.fds|.FDS|.nes|.NES|.unif|.UNIF|.unf|.UNF|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3098,8 +3039,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.nes|.NES|.fds|.FDS|.unf|.UNF|.unif|.UNIF|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3150,8 +3090,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.nes|.NES|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3202,8 +3141,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.st|.ST|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3254,8 +3192,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3306,8 +3243,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3358,8 +3294,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3410,8 +3345,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3462,8 +3396,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3514,8 +3447,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3566,8 +3498,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3618,8 +3549,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3670,8 +3600,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.swc|.SWC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3722,8 +3651,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcz|.GCZ|.iso|.ISO|.wad|.WAD|.wbfs|.WBFS)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3774,8 +3702,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcz|.GCZ|.iso|.ISO|.wad|.WAD|.wbfs|.WBFS)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3826,8 +3753,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}/*/*@(.rpx|.RPX)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3878,8 +3804,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.wud|.WUD|.wux|.WUX)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3930,8 +3855,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.vb|.VB|.vboy|.VBOY|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -3982,8 +3906,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.32x|.32X|.bin|.BIN|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4034,8 +3957,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.iso|.ISO|.cue|.CUE|.chd|.CHD|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4086,8 +4008,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.iso|.ISO|.cue|.CUE|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4138,8 +4059,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.cdi|.CDI|.chd|.CHD|.cue|.CUE|.gdi|.GDI)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4190,8 +4110,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.dci|.DCI|.vms|.VMS|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4242,8 +4161,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.gg|.GG|.rom|.ROM|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4294,8 +4212,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gg|.GG|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4346,8 +4263,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.gen|.GEN|.md|.MD|.smd|.SMD|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4398,8 +4314,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.68k|.68K|.bin|.BIN|.gen|.GEN|.md|.MD|.smd|.SMD|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4450,8 +4365,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.rom|.ROM|.sms|.SMS|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4502,8 +4416,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.rom|.ROM|.sms|.SMS|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4554,8 +4467,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.sms|.SMS|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4606,8 +4518,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.sms|.SMS|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4658,8 +4569,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.ccd|.CCD|.chd|.CHD|.cue|.CUE|.m3u|.M3U|.toc|.TOC)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4710,8 +4620,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.cue|.CUE|.iso|.ISO|.zip|ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4762,8 +4671,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.ri|.RI|.rom|.ROM|.sg|.SG|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4814,8 +4722,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.rom|.ROM|.sg|.SG|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4866,8 +4773,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.ngc|.NGC|.ngp|.NGP|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4918,8 +4824,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.ccd|.CCD|.chd|.CHD|.cue|.CUE|.m3u|.M3U|.pbp|.PBP|.toc|.TOC)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -4970,8 +4875,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.bin|.BIN|.cso|.CSO|.dump|.DUMP|.gz|.GZ|.img|.IMG|.iso|.ISO|.mdf|.MDF|.nrg|.NRG)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -5022,8 +4926,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}/PS3_GAME/USRDIR/eboot.bin",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -5074,8 +4977,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}/USRDIR/eboot.bin",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "${PS3}",
@@ -5126,8 +5028,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.cso|.CSO|.iso|.ISO|.pbp|.PBP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -5178,8 +5079,7 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.cas|.CAS|.dsk|.DSK|.m3u|.M3U|.ri|.RI|.rom|.ROM|.sc|.SC|.zip|.ZIP)",
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -5207,7 +5107,7 @@
 		"romDirectory": "",
 		"steamDirectory": "",
 		"startInDirectory": "",
-		"titleModifier": "${title}",
+		"titleModifier": "${/:/|${title}|}",
 		"executableArgs": "",
 		"onlineImageQueries": "${${title}}",
 		"imagePool": "${title}",
@@ -5230,8 +5130,7 @@
 		},
 		"parserInputs": {
 			"glob": null,
-			"glob-regex": null,
-			"steam": null
+			"glob-regex": null
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",

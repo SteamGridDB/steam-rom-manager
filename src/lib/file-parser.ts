@@ -144,8 +144,6 @@ export class FileParser {
             }
             let preParser = new VariableParser({ left: '${', right: '}' });
             let userFilter = preParser.setInput(configs[i].userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
-
-            console.log(userFilter);
             filteredAccounts.push(this.filterUserAccounts(steamDirectories[i].data, userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir));
             totalUserAccountsFound+=filteredAccounts[filteredAccounts.length-1].found.length;
             let directories = isGlobParser? [configs[i].romDirectory] : filteredAccounts[i].found.map((account: userAccountData)=>path.join(configs[i].steamDirectory,'userdata',account.accountID));
@@ -154,8 +152,6 @@ export class FileParser {
           else
             throw new Error(this.lang.error.parserNotFound__i.interpolate({ name: configs[i].parserType }));
         }
-        console.log(steamDirectories);
-        console.log(filteredAccounts);
         return Promise.all(promises);
       })
       .then((data: ParsedDataWithFuzzy[]) => {
@@ -182,7 +178,7 @@ export class FileParser {
             configurationTitle: configs[i].configTitle,
             parserId: configs[i].parserId,
             parserType: configs[i].parserType,
-            appendArgsToExecutable: configs[i].appendArgsToExecutable,
+            appendArgsToExecutable: configs[i].executable.appendArgsToExecutable,
             shortcutPassthrough: configs[i].executable.shortcutPassthrough,
             imageProviders: configs[i].imageProviders,
             foundUserAccounts: filteredAccounts[i].found,
@@ -404,7 +400,6 @@ export class FileParser {
     else {
       groups = Object.keys(this.customVariableData);
     }
-
     if (groups.length > 0) {
       for (let i = 0; i < data.success.length; i++) {
         let found = false;
@@ -462,18 +457,21 @@ export class FileParser {
       let fieldValue = config[field];
       if (fieldValue) {
         let variableData = this.makeVariableData(config,settings, parsedConfig.files[i]);
+        //expandable set is to allow you to comment out stuff using $()$. Decent idea, but ehhhh
         let expandableSet = /\$\((\${.+?})(?:\|(.*?))?\)\$/.exec(fieldValue);
 
+        if(field=='localImages'){console.log(fieldValue); console.log(expandableSet)}
         if (expandableSet === null) {
-          let replacedGlob = path.resolve(config.romDirectory, vParser.setInput(fieldValue).parse() ? vParser.replaceVariables((variable) => {
+          let cwd = settings.environmentVariables.localImagesDirectory? settings.environmentVariables.localImagesDirectory : config.romDirectory;
+          let replacedGlob = path.resolve(cwd,vParser.setInput(fieldValue).parse() ? vParser.replaceVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData);
           }) : '').replace(/\\/g, '/');
 
           resolvedGlobs[i].push(replacedGlob);
-          promises.push(this.globPromise(replacedGlob, { silent: true, dot: true, realpath: true, cwd: config.romDirectory, cache: this.globCache }).then((files) => {
+          promises.push(this.globPromise(replacedGlob, { silent: true, dot: true, realpath: true, cache: this.globCache }).then((files) => {
             resolvedFiles[i] = files;
           }));
-        }
+        }/*
         else {
           let secondaryMatch: string = undefined;
           let parserMatch = fieldValue.replace(expandableSet[0], '$()$');
@@ -517,7 +515,7 @@ export class FileParser {
           }).then((files) => {
             resolvedFiles[i] = _.uniq(files);
           }));
-        }
+        }*/
       }
     }
     return Promise.all(promises).then(() => {
@@ -538,6 +536,9 @@ export class FileParser {
         break;
       case 'RETROARCHPATH':
         output=settings.environmentVariables.retroarchPath;
+        break;
+      case 'LOCALIMAGESDIR':
+        output=settings.environmentVariables.localImagesDirectory;
         break;
       default:
         break;
@@ -602,6 +603,9 @@ export class FileParser {
         break;
       case 'RETROARCHPATH':
         output=data.retroarchPath;
+        break;
+      case 'LOCALIMAGESDIR':
+        output=data.localImagesDirectory;
         break;
       default:
         {
@@ -706,7 +710,8 @@ export class FileParser {
       fuzzyTitle: file.fuzzyTitle,
       romDirectory: config.romDirectory,
       steamDirectoryGlobal: settings.environmentVariables.steamDirectory,
-      retroarchPath: settings.environmentVariables.retroarchPath
+      retroarchPath: settings.environmentVariables.retroarchPath,
+      localImagesDirectory: settings.environmentVariables.localImagesDirectory
     }
   }
 

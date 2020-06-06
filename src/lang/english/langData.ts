@@ -207,12 +207,14 @@ export const EnglishLang: languageContainer = {
         },
         placeholder: {
           noProviders: 'None',
-          steamDirectoryWin: 'C:\\Program Files(x86)\\Steam',
-          steamDirectoryMac: '~/Library/Application Support/Steam',
-          steamDirectoryLinux: '~/.steam/steam',
-          retroarchPathWin: 'C:\\Path\\To\\retroarch.exe',
-          retroarchPathLinux: '/path/to/retroarch',
-          retroarchPathMac: '/path/to/retroarch'
+          steamDirectoryWin: 'Typically C:\\Program Files (x86)\\Steam',
+          steamDirectoryMac: 'Typically ~/Library/Application Support/Steam',
+          steamDirectoryLinux: 'Typically ~/.steam/steam',
+          retroarchPathWin: 'For example C:\\Path\\To\\retroarch.exe',
+          retroarchPathLinux: 'For example /path/to/retroarch',
+          retroarchPathMac: 'For example /path/to/retroarch',
+          localImagesDirectoryWin: 'For example C\\Path\\To\\LocalArtwork',
+          localImagesDirectoryUnix: 'For example ~/path/to/localartwork'
         }
       },
       service: {

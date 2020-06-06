@@ -5,7 +5,8 @@ export interface UserConfiguration {
     steamCategory: string,
     executable: {
       path: string,
-      shortcutPassthrough: boolean
+      shortcutPassthrough: boolean,
+      appendArgsToExecutable: boolean,
     },
     executableModifier: string,
     romDirectory: string,
@@ -33,7 +34,6 @@ export interface UserConfiguration {
     imageProviders: string[],
     executableArgs: string,
     imagePool: string,
-    appendArgsToExecutable: boolean,
     defaultImage: string,
     defaultTallImage: string,
     defaultHeroImage: string,

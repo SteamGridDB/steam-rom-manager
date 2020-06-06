@@ -192,7 +192,9 @@ export interface languageStruct {
               steamDirectoryMac: string,
               retroarchPathWin: string,
               retroarchPathMac: string,
-              retroarchPathLinux: string
+              retroarchPathLinux: string,
+              localImagesDirectoryWin: string,
+              localImagesDirectoryUnix: string
           }
       },
         service: {
