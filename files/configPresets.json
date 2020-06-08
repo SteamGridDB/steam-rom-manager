@@ -33,7 +33,7 @@
       "useCredentials": true
     },
     "parserInputs": {
-      "glob": "${title}@(.zip|.ZIP)",
+      "glob": "${title}.*",
       "glob-regex": null,
       "steam": null
     },
@@ -831,9 +831,9 @@
       "removeBrackets": true
     }
   },
-  "DOS - Retroarch - DOSBox (Requires .conf matching game folder name in with executable)": {
+  "DOS - Retroarch - DOSBox-core (Requires .conf matching game folder name in with executable)": {
     "parserType": "Glob",
-    "configTitle": "DOS - Retroarch - DOSBox",
+    "configTitle": "DOS - Retroarch - DOSBox-core",
     "steamCategory": "${DOS}",
     "executableLocation": "${retroarchpath}",
     "executableModifier": "\"${exePath}\"",
@@ -841,7 +841,7 @@
     "steamDirectory": "${steamdirglobal}",
     "startInDirectory": "",
     "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "-L cores${/}dosbox_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}${/}${title}.conf\"",
+    "executableArgs": "-L cores${/}dosbox_core_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}${/}${title}.conf\"",
     "appendArgsToExecutable": true,
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
@@ -1611,9 +1611,9 @@
       "removeBrackets": true
     }
   },
-  "Nintendo 64 - Retroarch - Mupen64Plus": {
+  "Nintendo 64 - Retroarch - Mupen64Plus Next": {
     "parserType": "Glob",
-    "configTitle": "Nintendo 64 - Retroarch - Mupen64Plus",
+    "configTitle": "Nintendo 64 - Retroarch - Mupen64Plus Next",
     "steamCategory": "${N64}",
     "executableLocation": "${retroarchpath}",
     "executableModifier": "\"${exePath}\"",
@@ -1621,7 +1621,59 @@
     "steamDirectory": "${steamdirglobal}",
     "startInDirectory": "",
     "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "-L cores${/}mupen64plus_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+    "executableArgs": "-L cores${/}mupen64plus_next_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+    "appendArgsToExecutable": true,
+    "onlineImageQueries": "${${fuzzyTitle}}",
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": [
+      "SteamGridDB"
+    ],
+    "defaultImage": "",
+    "defaultTallImage": "",
+    "defaultHeroImage": "",
+    "defaultLogoImage": "",
+    "localImages": "",
+    "localTallImages": "",
+    "localHeroImages": "",
+    "localLogoImages": "",
+    "localIcons": "",
+    "disabled": false,
+    "advanced": false,
+    "userAccounts": {
+      "specifiedAccounts": "",
+      "skipWithMissingDataDir": true,
+      "useCredentials": true
+    },
+    "parserInputs": {
+      "glob": "${title}@(.bin|.BIN|.n64|.N64|.ndd|.NDD|.u1|.U1|.v64|.V64|.z64|.Z64|.zip|.ZIP)",
+      "glob-regex": null,
+      "steam": null
+    },
+    "titleFromVariable": {
+      "shortcutPassthrough": false,
+      "limitToGroups": "",
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "tryToMatchTitle": false
+    },
+    "fuzzyMatch": {
+      "use": true,
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    }
+  },
+  "Nintendo 64 - Retroarch - Mupen64Plus Next GLES3": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo 64 - Retroarch - Mupen64Plus Next GLES3",
+    "steamCategory": "${N64}",
+    "executableLocation": "${retroarchpath}",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-L cores${/}mupen64plus_next_gles3_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
     "appendArgsToExecutable": true,
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
@@ -5129,7 +5181,59 @@
       "useCredentials": true
     },
     "parserInputs": {
-      "glob": "${title}@(.cso|.CSO|.iso|.ISO|.pbp|.PBP)",
+      "glob": "${title}@(.elf|.ELF|.cso|.CSO|.iso|.ISO|.pbp|.PBP|.prx|.PRX)",
+      "glob-regex": null,
+      "steam": null
+    },
+    "titleFromVariable": {
+      "shortcutPassthrough": false,
+      "limitToGroups": "",
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "tryToMatchTitle": false
+    },
+    "fuzzyMatch": {
+      "use": true,
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    }
+  },
+  "Sony PlayStation Portable - Retroarch - PPSSPP": {
+    "parserType": "Glob",
+    "configTitle": "Sony PlayStation - Retroarch - PPSSPP",
+    "steamCategory": "${PSP}",
+    "executableLocation": "${retroarchpath}",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-L cores${/}ppsspp_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+    "appendArgsToExecutable": true,
+    "onlineImageQueries": "${${fuzzyTitle}}",
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": [
+      "SteamGridDB"
+    ],
+    "defaultImage": "",
+    "defaultTallImage": "",
+    "defaultHeroImage": "",
+    "defaultLogoImage": "",
+    "localImages": "",
+    "localTallImages": "",
+    "localHeroImages": "",
+    "localLogoImages": "",
+    "localIcons": "",
+    "disabled": false,
+    "advanced": false,
+    "userAccounts": {
+      "specifiedAccounts": "",
+      "skipWithMissingDataDir": true,
+      "useCredentials": true
+    },
+    "parserInputs": {
+      "glob": "${title}@(.elf|.ELF|.cso|.CSO|.iso|.ISO|.pbp|.PBP|.prx|.PRX)",
       "glob-regex": null,
       "steam": null
     },
