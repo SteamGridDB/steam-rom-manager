@@ -1,0 +1,53 @@
+{
+	"parserType": "Steam",
+	"configTitle": "Steam",
+	"steamCategory": "",
+	"executableModifier": "\"${exePath}\"",
+	"romDirectory": "",
+	"steamDirectory": "",
+	"startInDirectory": "",
+	"titleModifier": "${/:/|${title}|}",
+	"executableArgs": "",
+	"onlineImageQueries": "${${title}}",
+	"imagePool": "${title}",
+	"imageProviders": [
+		"SteamGridDB"
+	],
+	"defaultImage": "",
+	"defaultTallImage": "",
+	"defaultHeroImage": "",
+	"defaultLogoImage": "",
+	"localImages": "",
+	"localTallImages": "",
+	"localHeroImages": "",
+	"localLogoImages": "",
+	"localIcons": "",
+	"disabled": false,
+	"advanced": false,
+	"userAccounts": {
+		"specifiedAccounts": "",
+		"skipWithMissingDataDir": true,
+		"useCredentials": true
+	},
+	"parserInputs": {
+		"glob": null,
+		"glob-regex": null
+	},
+	"titleFromVariable": {
+		"limitToGroups": "",
+		"caseInsensitiveVariables": false,
+		"skipFileIfVariableWasNotFound": false,
+		"tryToMatchTitle": false
+	},
+	"fuzzyMatch": {
+		"use": false,
+		"replaceDiacritics": true,
+		"removeCharacters": true,
+		"removeBrackets": true
+	},
+	"executable": {
+		"path": "",
+		"shortcutPassthrough": false,
+		"appendArgsToExecutable": true
+	}
+}
