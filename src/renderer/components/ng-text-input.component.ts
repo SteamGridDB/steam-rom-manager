@@ -176,11 +176,6 @@ export class NgTextInputComponent implements ControlValueAccessor {
 
   @Input()
 
-  handleBrowse(event: Event) {
-    console.log('I am called at least')
-    console.log(event)
-  }
-
   set value(value: string) {
     this.writeValue(value);
   }
