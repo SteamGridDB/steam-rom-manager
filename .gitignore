@@ -3,3 +3,4 @@ dist/
 release/
 npm-debug.log*
 .debug/
+electron-builder.yml

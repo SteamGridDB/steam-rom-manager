@@ -55,7 +55,7 @@ export class GenericProviderManager<T extends GenericProvider> {
     self.postMessage(<ProviderPostObject<K>>{ event: event, data: data });
   }
 
-  newInstance(id: string, title: string, imageType: string) {
+  newInstance(id: string, title: string, imageType: string): Map<string,T> {
     return this.instanceMap.set(id, new this.provider(new ProviderProxy(id, title, imageType, this)));
   }
 

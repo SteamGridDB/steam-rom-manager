@@ -8,3 +8,4 @@ export * from './markdown.service';
 export * from './image-provider.service';
 export * from './custom-variables.service';
 export * from './config-presets.service';
+export * from './ipc.service';
