@@ -1,14 +1,14 @@
 {
-	"Nintendo NES - Retroarch - Nestopia UE": {
+	"Bandai WonderSwan/Color - Retroarch - Beetle Cygne": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo NES - Retroarch - Nestopia UE",
-		"steamCategory": "${NES}",
+		"configTitle": "Bandai WonderSwan/Color - Retroarch - Beetle Cygne",
+		"steamCategory": "${WS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}nestopia_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L cores${/}mednafen_wswan_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.nes|.NES|.fds|.FDS|.unf|.UNF|.unif|.UNIF|.zip|.ZIP)",
+			"glob": "${title}@(.pc2|.PC2|.ws|.WS|.wsc|.WSC|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
