@@ -60,11 +60,7 @@ export class ConfigurationPresetsService {
           })
           return Promise.all(presetPromises)
         }).then((data)=>{
-          console.log(data);
-          let result = {}
-          data.forEach((preset: any)=>{
-            result[preset.configTitle]=preset;
-          })
+          let result = Object.assign({},...data);
           const error = this.set(result || {});
           if (error) {
             throw new Error(error);
