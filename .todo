@@ -19,7 +19,7 @@ Custom themes (3.0)
 
 # Backend changes
 Moved migrations to the modifiers (2.3) [done]
-Split up config presets into multiple jsons (and then add a bunch of presets) (2.3)
+Split up config presets into multiple jsons (and then add a bunch of presets) (2.3) [done]
 Auto Updater (2.3)
 Crash Reporter (2.3)
 Command Line Interface (3.0)
