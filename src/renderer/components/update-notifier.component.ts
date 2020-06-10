@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy,Input } from '@angular/core';
-import { IpcRenderer } from 'electron';
+import { IpcService } from '../services';
 
 @Component({
   selector: 'update-notifier',
@@ -19,24 +19,21 @@ import { IpcRenderer } from 'electron';
 
 export class UpdateNotifierComponent {
   private update: boolean = false;
-  private _ipc: IpcRenderer | undefined = void 0;
-  constructor(private changeDetectionRef: ChangeDetectorRef) {
-    this._ipc = require('electron').ipcRenderer;
-  }
+  constructor(private ipcService: IpcService, private changeDetectionRef: ChangeDetectorRef) {  }
 
   @Input()
   public set ipcMessage(message: any){
-    console.log(message)
-    if(message=='update_available'){
-      this.update = true
-    }
+    this.handleUpdateNotification(message);
   }
   private closeNotification() {
-    console.log('closing')
     this.update = false;
   }
   private restartApp() {
-    console.log('restarting')
-    this._ipc.send('restart_app')
+    this.ipcService.send('restart_app')
+  }
+  private handleUpdateNotification(message: any){
+    if(typeof(message)=='string' && message=='update_available'){
+      this.update = true
+    }
   }
 }

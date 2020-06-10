@@ -24,6 +24,7 @@ import * as markdownIt from 'markdown-it';
   styleUrls: ['../styles/app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class AppComponent {
   private ipcMessage: string = null;
   private settingsLoaded: boolean = false;
