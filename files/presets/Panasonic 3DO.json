@@ -1,5 +1,5 @@
 {
-	"3DO - 4DO": {
+	"Panasonic 3DO - 4DO": {
 		"parserType": "Glob",
 		"configTitle": "3DO - 4DO",
 		"steamCategory": "${3DO}",
@@ -54,7 +54,7 @@
 	}
 }
 {
-	"3DO - Retroarch - 4DO": {
+	"Panasonic 3DO - Retroarch - 4DO": {
 		"parserType": "Glob",
 		"configTitle": "3DO - Retroarch - 4DO",
 		"steamCategory": "${3DO}",
