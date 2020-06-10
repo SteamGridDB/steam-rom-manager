@@ -1,5 +1,5 @@
 {
-	"DOS - DOSBox (Requires .conf matching game folder name in with executable)": {
+	"Microsoft DOS - DOSBox (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
 		"configTitle": "DOSBox",
 		"steamCategory": "${DOS}",
@@ -54,7 +54,7 @@
 	}
 }
 {
-	"DOS - GoG": {
+	"Microsoft DOS - GoG": {
 		"parserType": "Glob",
 		"configTitle": "DOS - GoG",
 		"steamCategory": "${DOS}",
@@ -109,7 +109,7 @@
 	}
 }
 {
-	"DOS - Retroarch - DOSBox (Requires .conf matching game folder name in with executable)": {
+	"Microsoft DOS - Retroarch - DOSBox (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
 		"configTitle": "DOS - Retroarch - DOSBox",
 		"steamCategory": "${DOS}",
