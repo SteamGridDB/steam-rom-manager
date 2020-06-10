@@ -26,7 +26,7 @@ import * as markdownIt from 'markdown-it';
 })
 
 export class AppComponent {
-  private ipcMessage: string = null;
+  private ipcMessage: string = '';
   private settingsLoaded: boolean = false;
   private languageLoaded: boolean = false;
   constructor(private settingsService: SettingsService, private languageService: LanguageService, private markdownService: MarkdownService, private router: Router,private ipcService: IpcService, private changeDetectionRef: ChangeDetectorRef) {

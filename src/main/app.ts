@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain, IpcMainEvent } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, IpcMainEvent, crashReporter } from 'electron';
 import * as log from 'electron-log';
 import { autoUpdater, CancellationToken } from 'electron-updater';
 import * as paths from "../paths";
@@ -17,6 +17,9 @@ log.info('App starting...');
 autoUpdater.logger = log;
 autoUpdater.autoDownload = false;
 const cancellationToken = new CancellationToken();
+
+// Crash reporter setup
+crashReporter.start({submitUrl: 'https://srmcrashes.cbartondock.mywire.org'});
 
 function createWindow() {
   let mainWindowState = windowStateKeeper({
@@ -77,7 +80,7 @@ autoUpdater.on('download-progress', (progressObj) => {
   log_message = log_message + '\n Progress: ' + progressObj.percent + '%';
   log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
   log.info(log_message)
-  mainWindow.webContents.send('updater_message',{'progress':log_message});
+  mainWindow.webContents.send('updater_message',{ progress: log_message });
 })
 autoUpdater.on('update-downloaded', (info) => {
   mainWindow.webContents.send('updater_message','update_downloaded');
@@ -88,6 +91,7 @@ app.on('ready', ()=>{
   createWindow()
   mainWindow.webContents.on('dom-ready',()=>{
     autoUpdater.checkForUpdatesAndNotify()
+    //mainWindow.webContents.send('updater_message','update_available')
   });
   ipcMain.on('download_update', (event: IpcMainEvent)=>{
     log.info('downloading update')
