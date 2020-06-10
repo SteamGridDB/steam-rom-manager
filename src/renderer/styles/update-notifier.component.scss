@@ -2,6 +2,9 @@
   &.hidden {
     display: none;
   }
+  .hidden {
+    display: none;
+  }
   > #updateNotification {
     position: fixed;
     bottom: 20px;

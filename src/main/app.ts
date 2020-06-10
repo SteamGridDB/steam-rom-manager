@@ -1,6 +1,6 @@
 import { app, BrowserWindow, shell, ipcMain, IpcMainEvent } from 'electron';
 import * as log from 'electron-log';
-import { autoUpdater } from 'electron-updater';
+import { autoUpdater, CancellationToken } from 'electron-updater';
 import * as paths from "../paths";
 import * as path from 'path';
 import * as url from 'url';
@@ -11,8 +11,12 @@ let mainWindow: Electron.BrowserWindow = null;
 
 // Logging setup
 log.transports.file.level='info';
-autoUpdater.logger = log;
 log.info('App starting...');
+
+// Auto updater setup
+autoUpdater.logger = log;
+autoUpdater.autoDownload = false;
+const cancellationToken = new CancellationToken();
 
 function createWindow() {
   let mainWindowState = windowStateKeeper({
@@ -64,17 +68,16 @@ autoUpdater.on('update-available', (info) => {
   log.info('update available')
   mainWindow.webContents.send('updater_message','update_available');
 })
-autoUpdater.on('update-not-available', (info) => {
-  // do nothing
-})
+
 autoUpdater.on('error', (err) => {
   log.info(err);
 })
 autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = "Download speed: " + progressObj.bytesPerSecond;
-  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+  let log_message = "Speed: " + progressObj.bytesPerSecond;
+  log_message = log_message + '\n Progress: ' + progressObj.percent + '%';
   log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-  mainWindow.webContents.send('updater_message','download_progress');
+  log.info(log_message)
+  mainWindow.webContents.send('updater_message',{'progress':log_message});
 })
 autoUpdater.on('update-downloaded', (info) => {
   mainWindow.webContents.send('updater_message','update_downloaded');
@@ -84,13 +87,19 @@ autoUpdater.on('update-downloaded', (info) => {
 app.on('ready', ()=>{
   createWindow()
   mainWindow.webContents.on('dom-ready',()=>{
-    log.info('sending update_available')
-    mainWindow.webContents.send('updater_message','update_available')
     autoUpdater.checkForUpdatesAndNotify()
   });
-  ipcMain.on('restart_app',(event: IpcMainEvent)=>{
+  ipcMain.on('download_update', (event: IpcMainEvent)=>{
+    log.info('downloading update')
+    autoUpdater.downloadUpdate(cancellationToken);
+  })
+  ipcMain.on('restart_app', (event: IpcMainEvent)=>{
     log.info('restarting and installing update');
-    //autoUpdater.quitAndInstall()
+    autoUpdater.quitAndInstall()
+  })
+  ipcMain.on('cancel_update', (event: IpcMainEvent)=>{
+    log.info('cancelling update');
+    cancellationToken.cancel()
   })
 });
 
