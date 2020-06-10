@@ -11,6 +11,9 @@ For example, this is how you specify groups for "RPCS3" and "rpcs3":
 ${RPCS3}${rpcs3}
 ```
 
+Make sure you **toggle enable to on**. 
+
+
 ## Case-insensitive option
 
 If this option is enabled, case-insensitive matching will be done and first matched custom variable will be used.
@@ -36,3 +39,5 @@ SRM will throw error unless the following JSON structure is used:
     ...
 }
 ```
+
+Then if your user glob were ```MyDir/${title}.wad``` and you had a ```The Legend of Zelda.wad``` located in ```MyDir```, you would set the title from custom variable field to ```${Custom Stuff}``` to obtain a final title of "The Legend of Link".

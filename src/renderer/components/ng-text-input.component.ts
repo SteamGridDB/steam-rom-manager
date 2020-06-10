@@ -5,9 +5,9 @@ import * as he from 'he';
 
 @Component({
     selector: 'ng-text-input',
-    template: `<div class="contents" 
+    template: `<div class="contents"
                     #input
-                    [attr.data-placeholder]="placeholder" 
+                    [attr.data-placeholder]="placeholder"
                     contenteditable="true"
                     (input)="this.writeValue($event.target.textContent, true)"
                     (keypress)="handleKeypress($event)"

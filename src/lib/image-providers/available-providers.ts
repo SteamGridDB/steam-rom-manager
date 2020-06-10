@@ -1,4 +1,4 @@
 export const availableProviders = [
-    'SteamGridDB',
-    'retrogaming.cloud'
+  'SteamGridDB'
+  //,'GoogleImages'
 ];

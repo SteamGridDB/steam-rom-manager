@@ -90,9 +90,3 @@ file.dll
 --On Mac OS:
 file
 ```
-
-## Other variables
-
-|Variable (case-insensitive)|Corresponding value|
-|---:|:---|
-|`${/}`|System specific directory separator: `\` or `/`|

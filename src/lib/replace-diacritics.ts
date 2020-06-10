@@ -7,8 +7,8 @@ declare global {
 }
 
 String.prototype.replaceDiacritics = function () {
-    return (this as String).replace(/[^A-Za-z0-9 ]/g, 
-        function (char) { 
+    return (this as String).replace(/[^A-Za-z0-9 ]/g,
+        function (char) {
             return diacriticList[char] || char;
         }
     );

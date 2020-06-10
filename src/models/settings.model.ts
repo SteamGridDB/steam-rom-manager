@@ -2,21 +2,27 @@ import { FuzzyListTimestamps } from "./fuzzy.model";
 
 export interface PreviewSettings {
     retrieveCurrentSteamImages: boolean,
+    deleteDisabledShortcuts: boolean,
     imageZoomPercentage: number,
-    preload: boolean
+    preload: boolean,
+    imageTypes: string[]
 }
 
 export interface AppSettings {
-    fuzzyMatcher: {
-        timestamps: FuzzyListTimestamps,
-        verbose: boolean,
-        filterProviders: boolean
-    },
-    language: string,
-    offlineMode: boolean,
-    enabledProviders: string[],
-    previewSettings: PreviewSettings,
-    navigationWidth: number,
-    clearLogOnTest: boolean,
-    knownSteamDirectories: string[]
+  fuzzyMatcher: {
+      timestamps: FuzzyListTimestamps,
+      verbose: boolean,
+      filterProviders: boolean
+  },
+  environmentVariables: {
+    steamDirectory: string
+    retroarchPath: string
+  },
+  language: string,
+  offlineMode: boolean,
+  enabledProviders: string[],
+  previewSettings: PreviewSettings,
+  navigationWidth: number,
+  clearLogOnTest: boolean,
+  knownSteamDirectories: string[]
 }

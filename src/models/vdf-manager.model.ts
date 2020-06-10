@@ -29,7 +29,11 @@ export interface VDF_ShortcutsItem {
 }
 
 export interface VDF_AddedItemsData {
-    [key: string]: true | undefined
+  [key: string]: string | undefined
+}
+
+export interface VDF_ExtraneousItemsData {
+  [userId: string]: string[] //list of extraneous appids for userid
 }
 
 export type SteamDirectory = string;

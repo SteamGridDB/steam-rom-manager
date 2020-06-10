@@ -25,3 +25,6 @@ export interface SteamTree<T> {
     },
     numberOfUsers: number
 }
+
+
+export const StringLiteralArray = <L extends string>(arr: L[])=>arr;

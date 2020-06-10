@@ -12,100 +12,100 @@ import * as _ from "lodash";
 
 @Injectable()
 export class ConfigurationPresetsService {
-    private static xRequest = new xRequest(Bluebird);
-    private variableData: BehaviorSubject<ConfigPresets> = new BehaviorSubject({});
-    private downloadStatus: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    private validator: json.Validator = new json.Validator(schemas.configPresets);
-    private savingIsDisabled: boolean = false;
+  private static xRequest = new xRequest(Bluebird);
+  private variableData: BehaviorSubject<ConfigPresets> = new BehaviorSubject({});
+  private downloadStatus: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private validator: json.Validator = new json.Validator(schemas.configPresets);
+  private savingIsDisabled: boolean = false;
 
-    constructor(private loggerService: LoggerService) {
-        this.load();
-    }
+  constructor(private loggerService: LoggerService) {
+    this.load();
+  }
 
-    private get lang() {
-        return APP.lang.configPresets.service;
-    }
+  private get lang() {
+    return APP.lang.configPresets.service;
+  }
 
-    get data() {
-        return this.variableData.getValue();
-    }
+  get data() {
+    return this.variableData.getValue();
+  }
 
-    get dataObservable() {
-        return this.variableData.asObservable();
-    }
+  get dataObservable() {
+    return this.variableData.asObservable();
+  }
 
-    get isDownloading() {
-        return this.downloadStatus;
-    }
+  get isDownloading() {
+    return this.downloadStatus;
+  }
 
-    download(force: boolean = false) {
-        return Promise.resolve().then(() => {
-            if (!this.downloadStatus.getValue()) {
-                this.downloadStatus.next(true);
+  download(force: boolean = false) {
+    return Promise.resolve().then(() => {
+      if (!this.downloadStatus.getValue()) {
+        this.downloadStatus.next(true);
 
-                return ConfigurationPresetsService.xRequest.request(
-                    'https://raw.githubusercontent.com/FrogTheFrog/steam-rom-manager/master/files/configPresets.json',
-                    {
-                        responseType: 'json',
-                        method: 'GET',
-                        timeout: 1000
-                    }
-                ).then((data) => {
-                    const error = this.set(data || {});
-                    if (error !== null) {
-                        throw new Error(error);
-                    }
-                    else {
-                        this.loggerService.info(this.lang.info.downloaded, force ? { invokeAlert: true, alertTimeout: 5000 } : undefined);
-                        this.save(force);
-                    }
-                }).catch((error) => {
-                    this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: _.get(error, 'error.status', error) }));
-                }).finally(() => {
-                    this.downloadStatus.next(false);
-                })
-            }
-        });
-    }
-
-    load() {
-        json.read<ConfigPresets>(paths.configPresets).then((data) => {
-            if (data === null) {
-                return this.download();
-            }
-            else {
-                const error = this.set(data || {});
-                if (error !== null) {
-                    this.savingIsDisabled = true;
-                    this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
-                    this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
-                        file: paths.configPresets,
-                        error
-                    }));
-                }
-            }
+        return ConfigurationPresetsService.xRequest.request(
+          'https://raw.githubusercontent.com/doZennn/steam-rom-manager/master/files/configPresets.json',
+          {
+            responseType: 'json',
+            method: 'GET',
+            timeout: 1000
+          }
+        ).then((data) => {
+          const error = this.set(data || {});
+          if (error !== null) {
+            throw new Error(error);
+          }
+          else {
+            this.loggerService.info(this.lang.info.downloaded, force ? { invokeAlert: true, alertTimeout: 5000 } : undefined);
+            this.save(force);
+          }
         }).catch((error) => {
-            this.savingIsDisabled = true;
-            this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
-            this.loggerService.error(error);
-        });
-    }
+          this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: _.get(error, 'error.status', error) }));
+        }).finally(() => {
+          this.downloadStatus.next(false);
+        })
+      }
+    });
+  }
 
-    set(data: ConfigPresets) {
-        if (this.validator.validate(data).isValid()) {
-            this.variableData.next(data);
-            return null;
+  load() {
+    json.read<ConfigPresets>(paths.configPresets).then((data) => {
+      if (data === null) {
+        return this.download();
+      }
+      else {
+        const error = this.set(data || {});
+        if (error !== null) {
+          this.savingIsDisabled = true;
+          this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
+          this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
+            file: paths.configPresets,
+            error
+          }));
         }
-        else
-            return `\r\n${this.validator.errorString}`;
-    }
+      }
+    }).catch((error) => {
+      this.savingIsDisabled = true;
+      this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
+      this.loggerService.error(error);
+    });
+  }
 
-    save(force: boolean = false) {
-        if (!this.savingIsDisabled || force) {
-            json.write(paths.configPresets, this.variableData.getValue()).then().catch((error) => {
-                this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
-                this.loggerService.error(error);
-            });
-        }
+  set(data: ConfigPresets) {
+    if (this.validator.validate(data).isValid()) {
+      this.variableData.next(data);
+      return null;
     }
+    else
+      return `\r\n${this.validator.errorString}`;
+  }
+
+  save(force: boolean = false) {
+    if (!this.savingIsDisabled || force) {
+      json.write(paths.configPresets, this.variableData.getValue()).then().catch((error) => {
+        this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
+        this.loggerService.error(error);
+      });
+    }
+  }
 }

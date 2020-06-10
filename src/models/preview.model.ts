@@ -3,8 +3,9 @@ import { Observable, BehaviorSubject } from "rxjs";
 export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
 
 export interface ImageContent {
-    imageProvider: 'SteamGridDB' | 'retrogaming.cloud' | 'ConsoleGrid' | 'Steam' | 'LocalStorage',
+    imageProvider: 'SteamGridDB' | 'GoogleImages' | 'Steam' | 'LocalStorage',
     imageUploader?: string,
+    imageRes?: string,
     imageUrl: string,
     loadStatus: ImageDownloadStatus
 };
@@ -31,6 +32,8 @@ export interface PreviewDataApp {
     entryId: number,
     status: 'add' | 'skip' | 'remove',
     configurationTitle: string,
+    parserId: string,
+    parserType: string,
     steamCategories: string[],
     imageProviders: string[],
     startInDirectory: string,
@@ -39,6 +42,9 @@ export interface PreviewDataApp {
     argumentString: string,
     currentIconIndex: number,
     icons: string[],
+    tallimages: PreviewDataAppImage,
+    heroimages: PreviewDataAppImage,
+    logoimages: PreviewDataAppImage,
     images: PreviewDataAppImage
 }
 
@@ -63,4 +69,5 @@ export interface PreviewVariables {
     listIsBeingRemoved: boolean,
     numberOfListItems: number,
     numberOfQueriedImages: number
+
 }

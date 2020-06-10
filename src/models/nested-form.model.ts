@@ -89,6 +89,8 @@ export namespace NestedFormElement {
         onChange?: NestedInputChange;
         /** Optional */
         onInfoClick?: NestedInputInfoClick;
+        /** Optional */
+        highlight?: (input: string, tag: string) => string;
 
         constructor(init?: ObjectFields<Path>) {
             Object.assign(this, init);

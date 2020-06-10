@@ -12,7 +12,7 @@ import * as _ from 'lodash';
                 <ng-container *ngVar="nestedGroup.children[childrenKey] as child">
                     <div class="container" [class.nested]="child.constructor.name === 'Group'" [hidden]="getHiddenMethod(child) | async">
                         <label *ngIf="child.label">
-                            <span class="infoButton infoIcon" *ngIf="child.onInfoClick" 
+                            <span class="infoButton infoIcon" *ngIf="child.onInfoClick"
                                 (click)="child.onInfoClick(currentForm.controls[childrenKey], currentForm.controls[childrenKey]['__path'])">
                             </span>
                             {{child.label}}
@@ -30,7 +30,7 @@ import * as _ from 'lodash';
                             </ng-container>
                             <ng-container *ngSwitchCase="'Path'">
                                 <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight"></ng-text-input>
-                                <ng-path-input class="clickButton" [stateless]="true" [directory]="child.directory" (pathChange)="currentForm.controls[childrenKey].setValue($event)" 
+                                <ng-path-input class="clickButton" [stateless]="true" [directory]="child.directory" (pathChange)="currentForm.controls[childrenKey].setValue($event)"
                                 >Browse</ng-path-input>
                             </ng-container>
                             <ng-container *ngSwitchCase="'Toggle'">

@@ -1,84 +1,104 @@
 <div>
-    <label>
-        {{lang.label.general}}
-    </label>
-    <div class="inputContainer">
-        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.offlineMode" (ngModelChange)="settings.offlineMode = $event; onSettingsChange();">{{lang.text.offlineMode}}</ng-toggle-button>
-        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.clearLogOnTest" (ngModelChange)="settings.clearLogOnTest = $event; onSettingsChange();">{{lang.text.clearLogOnTest}}</ng-toggle-button>
-        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.retrieveCurrentSteamImages" (ngModelChange)="settings.previewSettings.retrieveCurrentSteamImages = $event; onSettingsChange();">{{lang.text.showSteamImages}}</ng-toggle-button>
+  <label>
+    {{lang.label.general}}
+  </label>
+  <div class="inputContainer">
+    <ng-toggle-button class="ngToggleButton" [ngModel]="settings.offlineMode" (ngModelChange)="settings.offlineMode = $event; onSettingsChange();">{{lang.text.offlineMode}}</ng-toggle-button>
+    <ng-toggle-button class="ngToggleButton" [ngModel]="settings.clearLogOnTest" (ngModelChange)="settings.clearLogOnTest = $event; onSettingsChange();">{{lang.text.clearLogOnTest}}</ng-toggle-button>
+    <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.retrieveCurrentSteamImages" (ngModelChange)="settings.previewSettings.retrieveCurrentSteamImages = $event; onSettingsChange();">{{lang.text.showSteamImages}}</ng-toggle-button>
+    <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.deleteDisabledShortcuts" (ngModelChange)="settings.previewSettings.deleteDisabledShortcuts=$event; onSettingsChange();">{{lang.text.deleteDisabledShortcuts}}</ng-toggle-button>
+  </div>
+  <div class="inputContainer">
+    <div class="inlineGroup">
+      <div class=text style="margin-right: 0.25em;">{{lang.text.removeApps_desc}}</div>
+      <div class="clickButton dangerousButton" style="font-size: 0.85em;" [class.disabled]="this.settings.knownSteamDirectories.length === 0"
+                                               (click)="removeApps()">{{lang.text.removeApps_btn}}</div>
     </div>
-    <div class="inputContainer">
-        <div class="inlineGroup">
-            <div class=text style="margin-right: 0.25em;">{{lang.text.removeApps_desc}}</div>
-            <div class="clickButton dangerousButton" style="font-size: 0.85em;" [class.disabled]="this.settings.knownSteamDirectories.length === 0"
-                (click)="removeApps()">{{lang.text.removeApps_btn}}</div>
-        </div>
+  </div>
+  <div class="inputContainer">
+    <div class="inlineGroup">
+      <div class=text style="margin-right: 0.25em;">{{lang.text.selectLanguage}}</div>
+      <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.language" (ngModelChange)="settings.language = $event; loadLanguage(); onSettingsChange();">
+        <ng-option *ngFor="let value of availableLanguages" [ngValue]="value">
+          {{value}}
+        </ng-option>
+      </ng-select>
     </div>
-    <div class="inputContainer">
-        <div class="inlineGroup">
-            <div class=text style="margin-right: 0.25em;">{{lang.text.selectLanguage}}</div>
-            <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.language" (ngModelChange)="settings.language = $event; loadLanguage(); onSettingsChange();">
-                <ng-option *ngFor="let value of availableLanguages" [ngValue]="value">
-                    {{value}}
-                </ng-option>
-            </ng-select>
-        </div>
-    </div>
+  </div>
 </div>
 <div>
-    <label>
-        {{lang.label.fuzzy}}
-    </label>
-    <div class="inputContainer">
-        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.fuzzyMatcher.verbose" (ngModelChange)="settings.fuzzyMatcher.verbose = $event; onSettingsChange();">{{lang.text.fuzzy_verbose}}</ng-toggle-button>
-        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.fuzzyMatcher.filterProviders" (ngModelChange)="settings.fuzzyMatcher.filterProviders = $event; onSettingsChange();">{{lang.text.fuzzy_filter}}</ng-toggle-button>
-        <div class="inlineGroup">
-            <div class=text style="margin-right: 0.25em;">{{lang.text.resetFuzzy_desc}}</div>
-            <div class="clickButton dangerousButton" style="font-size: 0.85em;" (click)="resetFuzzy()">{{lang.text.resetFuzzy_btn}}</div>
-        </div>
-        <div class="inlineGroup" style="margin-top: 0.25em;">
-            <div class=text style="margin-right: 0.25em;">Clear fuzzy cache: </div>
-            <div class="clickButton dangerousButton" style="font-size: 0.85em;" (click)="clearFuzzy()">Clear</div>
-        </div>
+  <label>
+    {{lang.label.fuzzy}}
+  </label>
+  <div class="inputContainer">
+    <ng-toggle-button class="ngToggleButton" [ngModel]="settings.fuzzyMatcher.verbose" (ngModelChange)="settings.fuzzyMatcher.verbose = $event; onSettingsChange();">{{lang.text.fuzzy_verbose}}</ng-toggle-button>
+    <ng-toggle-button class="ngToggleButton" [ngModel]="settings.fuzzyMatcher.filterProviders" (ngModelChange)="settings.fuzzyMatcher.filterProviders = $event; onSettingsChange();">{{lang.text.fuzzy_filter}}</ng-toggle-button>
+    <div class="inlineGroup">
+      <div class=text style="margin-right: 0.25em;">{{lang.text.resetFuzzy_desc}}</div>
+      <div class="clickButton dangerousButton" style="font-size: 0.85em;" (click)="resetFuzzy()">{{lang.text.resetFuzzy_btn}}</div>
     </div>
+    <div class="inlineGroup" style="margin-top: 0.25em;">
+      <div class=text style="margin-right: 0.25em;">Clear fuzzy cache: </div>
+      <div class="clickButton dangerousButton" style="font-size: 0.85em;" (click)="clearFuzzy()">Clear</div>
+    </div>
+  </div>
 </div>
 <div>
-    <label>
-        {{lang.label.imageProviders}}
-    </label>
-    <div class="inputContainer">
-        <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.preload" (ngModelChange)="preload($event); onSettingsChange();">{{lang.text.preloadImages}}</ng-toggle-button>
+  <label>
+    {{lang.label.imageProviders}}
+  </label>
+  <div class="inputContainer">
+    <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.preload" (ngModelChange)="preload($event); onSettingsChange();">{{lang.text.preloadImages}}</ng-toggle-button>
+  </div>
+  <div class="inputContainer">
+    <div class="inlineGroup">
+      <div class=text style="margin-right: 0.25em;">{{lang.text.enabledProviders}}</div>
+      <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.enabledProviders" (ngModelChange)="settings.enabledProviders = $event; onSettingsChange();"
+                                            multiple="true" allowEmpty="true" [placeholder]="lang.placeholder.noProviders">
+        <ng-option *ngFor="let value of availableProviders" [ngValue]="value">
+          {{value}}
+        </ng-option>
+      </ng-select>
     </div>
-    <div class="inputContainer">
-        <div class="inlineGroup">
-            <div class=text style="margin-right: 0.25em;">{{lang.text.enabledProviders}}</div>
-            <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.enabledProviders" (ngModelChange)="settings.enabledProviders = $event; onSettingsChange();"
-                multiple="true" allowEmpty="true" [placeholder]="lang.placeholder.noProviders">
-                <ng-option *ngFor="let value of availableProviders" [ngValue]="value">
-                    {{value}}
-                </ng-option>
-            </ng-select>
-        </div>
-    </div>
+  </div>
 </div>
 <div>
-    <label>
-        Other
-    </label>
-    <div class="inputContainer">
-        <div class="inlineGroup">
-            <div class=text style="margin-right: 0.25em;">Custom variables: </div>
-            <div class="clickButton dangerousButton" 
-                [class.disabled]="cvService.isDownloading | async" style="font-size: 0.85em;"
-                (click)="cvService.download(true)">Force download</div>
-        </div>
+  <label>
+    {{lang.label.communityPresets}}
+  </label>
+  <div class="inputContainer">
+    <div class="inlineGroup">
+      <div class=text style="margin-right: 0.25em;">Custom variables: </div>
+      <div class="clickButton dangerousButton"
+           [class.disabled]="cvService.isDownloading | async" style="font-size: 0.85em;"
+                                                              (click)="cvService.download(true)">Force download</div>
     </div>
-    <div class="inputContainer">
-        <div class="inlineGroup">
-            <div class=text style="margin-right: 0.25em;">Configuration presets: </div>
-            <div class="clickButton dangerousButton" 
-                [class.disabled]="cpService.isDownloading | async" style="font-size: 0.85em;"
-                (click)="cpService.download(true)">Force download</div>
-        </div>
+  </div>
+  <div class="inputContainer">
+    <div class="inlineGroup">
+      <div class=text style="margin-right: 0.25em;">Configuration presets: </div>
+      <div class="clickButton dangerousButton"
+           [class.disabled]="cpService.isDownloading | async" style="font-size: 0.85em;"
+                                                              (click)="cpService.download(true)">Force download</div>
     </div>
+  </div>
+</div>
+<div>
+  <label>
+    {{lang.label.environmentVariables}}
+  </label>
+  <div class="inputContainer">
+    <div class="inlineGroup">
+      <div class="text" style="margin-right: 0.25em;">Steam Directory: </div>
+      <ng-text-input class="ngTextInput" [placeholder]="steamDirectoryPlaceholder" [(ngModel)]='settings.environmentVariables.steamDirectory' (ngModelChange)='settings.environmentVariables.steamDirectory=$event; onSettingsChange()'></ng-text-input>
+      <ng-path-input class="clickButton2" [stateless]="true" [directory]="true" (pathChange)="settings.environmentVariables.steamDirectory=$event">Browse</ng-path-input>
+    </div>
+  </div>
+  <div class="inputContainer">
+    <div class="inlineGroup">
+      <div class="text" style="margin-right: 0.25em;">Retroarch Path: </div>
+      <ng-text-input class="ngTextInput" [placeholder]="retroarchPathPlaceholder" [(ngModel)]='settings.environmentVariables.retroarchPath' (ngModelChange)='settings.environmentVariables.retroarchPath=$event; onSettingsChange()'></ng-text-input>
+      <ng-path-input class="clickButton2" [stateless]="true" [directory]="false" (pathChange)="settings.environmentVariables.retroarchPath=$event">Browse</ng-path-input>
+    </div>
+  </div>
 </div>

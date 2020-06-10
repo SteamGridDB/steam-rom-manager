@@ -1,6 +1,94 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.2.34
+## Fixed
+* Bug where app list would fail to generate if width/height of images could not be retrieved.
+
+## Added
+* More logging for steam parser.
+
+## 2.2.33
+### Fixed
+* Categories not deleting when user hits remove all in settings as opposed to preview
+* Major bug in 2.2.32 that prevented steam-categories from working *unless* emoji or non english character was present (don't ask)
+
+## 2.2.32
+### Added
+* Capability to save categories with emojis or non English characters in the name
+### Fixed
+* SRM failing to save whenever there are non standard unicode characters in the `leveldb`
+
+## 2.2.31
+### Fixed
+* Valve changed a database field
+
+## 2.2.30
+### Fixed
+* Certain parser fields not showing up in Advanced.
+
+## 2.2.29
+This is a big one.
+### Added
+* Environment variables specified in settings, `steamdirglobal` and `retroarchpath`
+* Steam Parsers (experimental), which can manage artwork for specified steam accounts
+
+## 2.2.28
+### Fixed
+* Fixed longstanding issue (since 2.2.20) where UI would lock up when selecting directories that contained many files, eg. the steam directory. This problem was pronounced on systems that used HDD's, and was fixed by dropping webkitdir in favor of electron's showOpenDialog.
+
+## 2.2.27 -2020-05-23
+### Hotfix
+* 2.2.26 broke retro-arch cores. This issue has been fixed in this release.
+
+## 2.2.26 - 2020-05-21
+### Added
+* Better state management for category manager (no more duplicate categories, empty SRM managed categories get deleted)
+* Custom Arguments JSON file capability + documentation
+### Changed
+* Readme now points to github pages with videos
+### Fixed
+* Fixed issue of linux version not saving images
+
+## 2.2.25 - 2020-05-12
+### Added 
+* Setting for whether or not to delete shortcuts from disabled parsers
+* Ability to see number of titles in preview and in test parser logs
+* Environment variables ${/} and ${srmdir} that can be used even in steam directory, rom directory fields. 
+### Changed 
+* Removed retrogaming.cloud from list of image providers (it is defunct)
+* Changed structure of AddedItemsV2.json to include Parser ID
+* Added lontanadascienza as a contributor
+### Fixed
+* A bunch of dead links in Readme and About Markdown
+
+## 2.2.23 - 2020-01-27
+### Added 
+* Improved documentation for custom variables based on advice of a friend.
+
+### Fixed
+* Fixed parsers deleting custom logo positions on re parsing (note they will still delete if that app's name changes - SRM will not yet relocate the old json file to the new name)
+* Fixed downloading borders not showing in all artwork view
+
+## 2.2.22 - 2020-01-24
+### Added
+* Added resolutions to images
+* Added an "All Artwork" view
+
+### Fixed
+* Fixed pngs not replacing jpgs
+* Fixed state management (no more duplicate shortcuts)
+
+## 2.2.21 - 2020-01-15
+### Added
+* Got Logos working
+* Got Recent Images working
+## 2.2.19 - 2019-03-09
+
+### Changed
+
+* Updated `steamgriddb` url.
+
 ## 2.2.18 - 2018-08-17
 
 ### Changed
