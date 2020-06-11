@@ -235,6 +235,7 @@ export const EnglishLang: languageContainer = {
         logger: 'Event log',
         settings: 'Settings',
         parsers: 'Parsers',
+        customVariables: 'Variables',
         noTitle: 'No title!'
       }
     },

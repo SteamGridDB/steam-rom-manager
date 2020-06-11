@@ -215,6 +215,7 @@ export interface languageStruct {
           logger: string,
           settings: string,
           parsers: string,
+          customVariables: string,
           noTitle: string
       }
     },

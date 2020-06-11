@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
+
 
 @Component({
-    selector: 'custom-variables',
-    template: ``,
-    styleUrls: ['../styles/custom-variables.component.scss']
+  selector: 'custom-variables',
+  template: `../templates/custom-variables.component.html`,
+  styleUrls: ['../styles/custom-variables.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomVariablesComponent {
-    constructor() { }
+  constructor(private router: Router,
+    private activatedRoute: ActivatedRoute,) { }
 }

@@ -1,9 +1,9 @@
-# Fixes
+# Fixes [2.3 done]
 Category manager stability [ongoing]
 Add documentation emphasizing User Accounts field, or maybe figure out a way to ignore old accounts (2.3) [done]
 Steam Parser Title Modifier (default to removing illegal symbols) (2.3) [done]
 Move follow .lnk to destination slider to below executable modifier (2.3) [done]
-Remove close steam if open warning and replace with something better (2.3)
+Remove close steam if open warning and replace with something better (some future date)
 
 # Features
 Add a localImagesDir environment variable (2.3) [done]
@@ -17,20 +17,20 @@ Ability to just save artwork from preview (2.3)
 Config presets searchable (2.3) [done]
 Custom themes (3.0)
 
-# Backend changes
+# Backend changes [2.3 done]
 Moved migrations to the modifiers (2.3) [done]
 Split up config presets into multiple jsons (and then add a bunch of presets) (2.3) [done]
-Auto Updater (2.3)
-Crash Reporter (2.3)
+Auto Updater (2.3) [done]
+Crash Reporter (2.3) [done]
 Command Line Interface (3.0)
 
 # New Image Sources
 Google (2.4)
 
-# New Parsers
-Epic (2.3)
+# New Parsers [2.3 done]
+Epic (2.4)
 Origin (3.0)
 Blizzard.net (3.0)
 Uplay (3.0)
-GOG (2.3)
+GOG (2.4)
 EXE (3.0)

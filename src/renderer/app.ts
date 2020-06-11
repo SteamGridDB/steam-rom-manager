@@ -20,6 +20,3 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule);
-
-
-throw new Error('GAAHHHHH')
