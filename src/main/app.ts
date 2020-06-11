@@ -1,9 +1,13 @@
-import { app, BrowserWindow, shell, ipcMain, IpcMainEvent, crashReporter } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, IpcMainEvent } from 'electron';
 import * as log from 'electron-log';
 import { autoUpdater, CancellationToken } from 'electron-updater';
 import * as paths from "../paths";
 import * as path from 'path';
 import * as url from 'url';
+
+// Sentry setup
+import { init } from '@sentry/electron/dist/main'
+init({dsn: 'https://6d0c7793f478480d8b82fb5d4e55ecea@o406253.ingest.sentry.io/5273341'});
 
 // Window setup
 const windowStateKeeper = require('electron-window-state');
@@ -17,9 +21,6 @@ log.info('App starting...');
 autoUpdater.logger = log;
 autoUpdater.autoDownload = false;
 const cancellationToken = new CancellationToken();
-
-// Crash reporter setup
-crashReporter.start({submitUrl: 'https://srmcrashes.cbartondock.mywire.org'});
 
 function createWindow() {
   let mainWindowState = windowStateKeeper({
@@ -41,7 +42,8 @@ function createWindow() {
     webPreferences: {
       devTools: process.env.NODE_ENV !== 'production',
       nodeIntegration: true,
-      nodeIntegrationInWorker: true
+      nodeIntegrationInWorker: true,
+      enableRemoteModule: true
     }
   });
 
