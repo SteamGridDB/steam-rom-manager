@@ -1,14 +1,11 @@
 @import 'mixins';
 
 :host {
+  display: grid;
   overflow: auto;
 
-  padding: 1em;
-
-  background-color: var(--color-settings-background);
-
   grid-area: route;
-  grid-template-areas: 'exclusions userVariables';
+  grid-template-areas: 'docs exceptions';
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr auto;
 
@@ -23,22 +20,16 @@
     grid-area: label;
 
   }
+	.docs {
+		padding: 1em;
 
-  .exclusions {
-    padding: 1em;
-    grid-area: exclusions;
-    @include webkitScrollbar(nested-form-scrollbar);
-    background-color: var(--color-nested-form-background);
-    overflow: auto;
-
-  }
-
-  .userVariables {
+		grid-area: docs;
+	}
+  .userExceptions {
     padding: 1em;
     grid-area: userVariables;
     @include webkitScrollbar(nested-form-scrollbar);
     background-color: var(--color-nested-form-background);
     overflow: auto;
-
   }
 }

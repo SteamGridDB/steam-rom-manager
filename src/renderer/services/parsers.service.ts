@@ -28,14 +28,20 @@ export class ParsersService {
   private validator: json.Validator = new json.Validator(schemas.userConfiguration, modifiers.userConfiguration);
   private savingIsDisabled: boolean = false;
 
-  constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private cVariableService: CustomVariablesService, private settingsService: SettingsService, private http: Http) {
+  constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private cVariableService: CustomVariablesService,
+    private exceptionsService: UserExceptionsService, private settingsService: SettingsService, private http: Http) {
     this.fileParser = new FileParser(this.fuzzyService);
     this.userConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
     this.deletedConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
     this.readUserConfigurations();
-    this.cVariableService.dataObservable.subscribe((data) => {
-      this.fileParser.setCustomVariables(data);
-    });
+    this.cVariableService.dataObservable
+      .subscribe((variables) => {
+        this.fileParser.setCustomVariables(variables);
+      });
+    this.exceptionsService.dataObservable
+      .subscribe((data)=>{
+        this.fileParser.setUserExceptions(data);
+      })
     this.settingsService.onLoad((appSettings: AppSettings) => {
       this.appSettings = appSettings;
     });
@@ -273,8 +279,8 @@ export class ParsersService {
   private validateEnvironmentPath(pathwithvar: string, checkForDirectory?:boolean) {
     let preParser = new VariableParser({ left: '${', right: '}' });
     let parsedPath = preParser.setInput(pathwithvar).parse() ? preParser.replaceVariables((variable) => {
-            return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables,this.appSettings).trim()
-          }) : '';
+      return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables,this.appSettings).trim()
+    }) : '';
     return this.validatePath(parsedPath, checkForDirectory)
   }
 

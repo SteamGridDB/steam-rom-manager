@@ -12,100 +12,103 @@ import * as _ from "lodash";
 
 @Injectable()
 export class CustomVariablesService {
-    private static xRequest = new xRequest(Bluebird);
-    private variableData: BehaviorSubject<CustomVariables> = new BehaviorSubject({});
-    private downloadStatus: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    private validator: json.Validator = new json.Validator(schemas.customVariables);
-    private savingIsDisabled: boolean = false;
+  private static xRequest = new xRequest(Bluebird);
+  private variableData: BehaviorSubject<CustomVariables> = new BehaviorSubject({});
 
-    constructor(private loggerService: LoggerService) {
-        this.load();
-    }
+  private downloadStatus: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private validator: json.Validator = new json.Validator(schemas.customVariables);
+  private savingIsDisabled: boolean = false;
 
-    private get lang() {
-        return APP.lang.customVariables.service;
-    }
+  constructor(private loggerService: LoggerService) {
+    this.load();
+  }
 
-    get data() {
-        return this.variableData.getValue();
-    }
+  private get lang() {
+    return APP.lang.customVariables.service;
+  }
 
-    get dataObservable() {
-        return this.variableData.asObservable();
-    }
+  get data() {
+    return this.variableData.getValue();
+  }
 
-    get isDownloading() {
-        return this.downloadStatus;
-    }
+  get dataObservable() {
+    return this.variableData.asObservable();
+  }
 
-    download(force: boolean = false) {
-        return Promise.resolve().then(() => {
-            if (!this.downloadStatus.getValue()) {
-                this.downloadStatus.next(true);
+  get isDownloading() {
+    return this.downloadStatus;
+  }
 
-                return CustomVariablesService.xRequest.request(
-                    'https://raw.githubusercontent.com/doZennn/steam-rom-manager/master/files/customVariables.json',
-                    {
-                        responseType: 'json',
-                        method: 'GET',
-                        timeout: 1000
-                    }
-                ).then((data) => {
-                    const error = this.set(data || {});
-                    if (error !== null) {
-                        throw new Error(error);
-                    }
-                    else {
-                        this.loggerService.info(this.lang.info.downloaded, force ? { invokeAlert: true, alertTimeout: 5000 } : undefined);
-                        this.save(force);
-                    }
-                }).catch((error) => {
-                    this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: _.get(error, 'error.status', error) }));
-                }).finally(() => {
-                    this.downloadStatus.next(false);
-                })
-            }
-        });
-    }
+  download(force: boolean = false) {
+    return Promise.resolve().then(() => {
+      if (!this.downloadStatus.getValue()) {
+        this.downloadStatus.next(true);
 
-    load() {
-        json.read<CustomVariables>(paths.customVariables).then((data) => {
-            if (data === null) {
-                return this.download();
-            }
-            else {
-                const error = this.set(data || {});
-                if (error !== null) {
-                    this.savingIsDisabled = true;
-                    this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
-                    this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
-                        file: paths.customVariables,
-                        error
-                    }));
-                }
-            }
+        return CustomVariablesService.xRequest.request(
+          'https://raw.githubusercontent.com/doZennn/steam-rom-manager/master/files/customVariables.json',
+          {
+            responseType: 'json',
+            method: 'GET',
+            timeout: 1000
+          }
+        ).then((data) => {
+          const error = this.set(data || {});
+          if (error !== null) {
+            throw new Error(error);
+          }
+          else {
+            this.loggerService.info(this.lang.info.downloaded, force ? { invokeAlert: true, alertTimeout: 5000 } : undefined);
+            this.save(force);
+          }
         }).catch((error) => {
+          this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: _.get(error, 'error.status', error) }));
+        }).finally(() => {
+          this.downloadStatus.next(false);
+        })
+      }
+    });
+  }
+
+  load() {
+    json.read<CustomVariables>(paths.customVariables)
+      .then((data) => {
+        if (data === null) {
+          return this.download();
+        }
+        else {
+          const error = this.set(data || {});
+          if (error !== null) {
             this.savingIsDisabled = true;
             this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
-            this.loggerService.error(error);
-        });
-    }
-
-    set(data: CustomVariables) {
-        if (this.validator.validate(data).isValid()) {
-            this.variableData.next(data);
-            return null;
+            this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
+              file: paths.customVariables,
+              error
+            }));
+          }
         }
-        else
-            return `\r\n${this.validator.errorString}`;
-    }
+      })
+      .catch((error) => {
+        this.savingIsDisabled = true;
+        this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
+        this.loggerService.error(error);
+      });
+  }
 
-    save(force: boolean = false) {
-        if (!this.savingIsDisabled || force) {
-            json.write(paths.customVariables, this.variableData.getValue()).then().catch((error) => {
-                this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
-                this.loggerService.error(error);
-            });
-        }
+  set(data: CustomVariables) {
+    if (this.validator.validate(data).isValid()) {
+      this.variableData.next(data);
+      return null;
     }
+    else
+      return `\r\n${this.validator.errorString}`;
+  }
+
+  save(force: boolean = false) {
+    if (!this.savingIsDisabled || force) {
+      json.write(paths.customVariables, this.variableData.getValue()).then().catch((error) => {
+        this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
+        this.loggerService.error(error);
+      });
+    }
+  }
 }

@@ -239,6 +239,31 @@ export const EnglishLang: languageContainer = {
         noTitle: 'No title!'
       }
     },
+    userExceptions:{
+      component: {
+        buttons: {
+          save:'Save',
+          undoChanges: 'Undo changes',
+          undoDelete: 'Undo delete',
+
+        },
+        docs__md: {
+          userExceptions: [require('./markdown/user-exceptions.md')]
+        },
+        text: {
+          exeptions: 'User Exceptions',
+          add: 'New Exception',
+          remove: 'Delete Exception'
+        }
+        service: {
+          error: {
+            loadingError: 'Could not load user exceptions',
+            corruptedExceptions__i: 'User exceptions corrupt (file - ${file}). Saving is disabled, full error is: ${error}',
+            writingError: 'Error occurred saving user exceptions'
+          }
+        }
+      }
+    },
     parsers: {
       component: {
         buttons: {

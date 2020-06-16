@@ -1,4 +1,4 @@
-import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, CustomArgumentVariables,AppSettings } from '../models';
+import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, UserExclusions, AppSettings } from '../models';
 import { FuzzyService } from "../renderer/services";
 import { VariableParser } from "./variable-parser";
 import { APP } from '../variables';
@@ -18,7 +18,8 @@ import {getPath} from 'windows-shortcuts-ps';
 export class FileParser {
   private availableParsers = parsers;
   private customVariableData: CustomVariables = {};
-  private argumentVariableData: CustomArgumentVariables = {};
+  private argumentVariableData: CustomVariables = {};
+  private userExclusions: UserExclusions = [];
   private globCache: any = {};
 
   constructor(private fuzzyService: FuzzyService) { }
@@ -27,14 +28,16 @@ export class FileParser {
     return APP.lang.fileParser;
   }
 
-  setCustomVariables(data: CustomVariables) {
-    this.customVariableData = data;
+  setCustomVariables(data: CustomVariables, userdata: CustomVariables) {
+    this.customVariableData = Object.assign(data,userdata);
   }
 
-  setCustomArgVariables() {
-    if(fs.existsSync(paths.customArgVariables)){
-      this.argumentVariableData = JSON.parse(fs.readFileSync(paths.customArgVariables,'utf-8'));
-    }
+  setArgumentVariables(data: CustomVariables) {
+    this.argumentVariableData = data;
+  }
+
+  setExclusions(data: UserExclusions) {
+    this.userExclusions = data
   }
 
   getAvailableParsers() {

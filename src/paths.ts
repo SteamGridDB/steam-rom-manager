@@ -19,5 +19,5 @@ export const savedListFilename: string = 'addedItemsV2.json';
 export const fuzzyList: string = path.join(userDataDir, 'fuzzyList.json');
 export const fuzzyCache: string = path.join(userDataDir, 'fuzzyCache.json');
 export const customVariables: string = path.join(userDataDir, 'customVariables.json');
-export const customArgVariables: string = path.join(userDataDir, 'customArgumentVariables.json');
+export const userExceptions: string = path.join(userDataDir, 'userExceptions.json');
 export const configPresets: string = path.join(userDataDir, 'configPresets.json');

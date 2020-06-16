@@ -219,6 +219,31 @@ export interface languageStruct {
           noTitle: string
       }
     },
+    userExceptions:{
+      component: {
+        buttons: {
+          save: string,
+          undoChanges: string,
+          undoDelete: string,
+
+        },
+        docs__md: {
+          userExceptions: string[]
+        },
+        text: {
+          exeptions: string,
+          add: string,
+          remove: string
+        }
+        service: {
+          error: {
+            loadingError: string,
+            corruptedExceptions__i: string, //${file},${error}
+            writingError: string
+          }
+        }
+      }
+    },
     parsers: {
       component: {
         buttons: {
