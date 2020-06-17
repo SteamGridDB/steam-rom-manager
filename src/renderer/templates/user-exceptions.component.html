@@ -3,7 +3,30 @@
   <label>
     User Exceptions
   </label>
-  <ng-container *ngFor="let title of userExceptions | keys">
-    <label>{{title}}</label>
+  <div [formGroup]="exceptionsForm">
+    <div formArrayName="items"
+         *ngFor="let item of exceptionsForm.get('items').controls;let i=index;">
+      <div [formGroupName]="i">
+        <div class="inputContainer">
+          <div class="inlineGroup">
+            <ng-text-input class="ngTextInput" placeholder="Title to overwrite" formControl="oldTitle"></ng-text-input>
+            <ng-text-input class="ngTextInput" placeholder="Title override" formControl="newTitle"></ng-text-input>
+            <ng-text-input class="ngTextInput" placeholder="Arguments override" formControl="commandLineArguments"></ng-text-input>
+          </div>
+          <div class="inlineGroup">
+            <ng-toggle-button class="ngToggleButton" formControl="exclude">Exclude title</ng-toggle-button>
+            <div class="deleteItem" (click)="deleteItem(i)">{{lang.buttons.deleteItem}}</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class='addItem' (click)="addItem()">{{lang.buttons.addItem}}</div>
+</div>
+<div class = "menu" drag-scroll>
+  <ng-container>
+    <div>Fake Button 1</div>
+    <div>Fake Button 2</div>
   </ng-container>
 </div>

@@ -236,6 +236,7 @@ export const EnglishLang: languageContainer = {
         settings: 'Settings',
         parsers: 'Parsers',
         customVariables: 'Variables',
+        userExceptions: 'Exceptions',
         noTitle: 'No title!'
       }
     },
@@ -245,6 +246,8 @@ export const EnglishLang: languageContainer = {
           save:'Save',
           undoChanges: 'Undo changes',
           undoDelete: 'Undo delete',
+          addItem: 'Add exception',
+          deleteItem: 'Remove exception'
 
         },
         docs__md: {

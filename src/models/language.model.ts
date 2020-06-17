@@ -216,6 +216,7 @@ export interface languageStruct {
           settings: string,
           parsers: string,
           customVariables: string,
+          userExceptions: string,
           noTitle: string
       }
     },
@@ -225,6 +226,8 @@ export interface languageStruct {
           save: string,
             undoChanges: string,
             undoDelete: string,
+            addItem: string,
+            deleteItem: string
 
         },
           docs__md: {
