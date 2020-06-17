@@ -4,4 +4,4 @@ export interface UserExceptions {
     commandLineArguments: string,
     exclude: boolean
   }
-}
+};

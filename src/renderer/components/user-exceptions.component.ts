@@ -1,7 +1,8 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { UserExceptions } from '../../models';
-
+import { UserExceptionsService } from '../services';;
+import { Subscription, Observable } from "rxjs";
 @Component({
   selector: 'user-exceptions',
   templateUrl: '../templates/user-exceptions.component.html',
@@ -21,7 +22,7 @@ export class ExceptionsComponent implements AfterViewInit, OnDestroy {
 
   save() {
     let error = this.exceptionsService.set(this.userExceptions||{});
-    if(!error)
+    if(!error) {
       this.exceptionsService.saveUserExceptions();
     }
   }
@@ -31,7 +32,8 @@ export class ExceptionsComponent implements AfterViewInit, OnDestroy {
       this.userExceptions = data;
     }))
   }
-  ngOnDestroy () {
+
+ngOnDestroy () {
     this.subscriptions.unsubscribe()
   }
 }

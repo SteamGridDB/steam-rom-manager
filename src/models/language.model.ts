@@ -223,26 +223,26 @@ export interface languageStruct {
       component: {
         buttons: {
           save: string,
-          undoChanges: string,
-          undoDelete: string,
+            undoChanges: string,
+            undoDelete: string,
 
         },
-        docs__md: {
-          userExceptions: string[]
-        },
-        text: {
-          exeptions: string,
-          add: string,
-          remove: string
-        }
+          docs__md: {
+            userExceptions: string[]
+          },
+          text: {
+            exeptions: string,
+              add: string,
+              remove: string
+          }
+      },
         service: {
           error: {
             loadingError: string,
-            corruptedExceptions__i: string, //${file},${error}
-            writingError: string
+              corruptedExceptions__i: string, //${file},${error}
+              writingError: string
           }
         }
-      }
     },
     parsers: {
       component: {

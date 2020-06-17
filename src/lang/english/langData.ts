@@ -255,12 +255,12 @@ export const EnglishLang: languageContainer = {
           add: 'New Exception',
           remove: 'Delete Exception'
         }
-        service: {
-          error: {
-            loadingError: 'Could not load user exceptions',
-            corruptedExceptions__i: 'User exceptions corrupt (file - ${file}). Saving is disabled, full error is: ${error}',
-            writingError: 'Error occurred saving user exceptions'
-          }
+      },
+      service: {
+        error: {
+          loadingError: 'Could not load user exceptions',
+          corruptedExceptions__i: 'User exceptions corrupt (file - ${file}). Saving is disabled, full error is: ${error}',
+          writingError: 'Error occurred saving user exceptions'
         }
       }
     },

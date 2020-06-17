@@ -1,4 +1,4 @@
-import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, UserExclusions, AppSettings } from '../models';
+import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, UserExceptions, AppSettings } from '../models';
 import { FuzzyService } from "../renderer/services";
 import { VariableParser } from "./variable-parser";
 import { APP } from '../variables';
@@ -18,8 +18,7 @@ import {getPath} from 'windows-shortcuts-ps';
 export class FileParser {
   private availableParsers = parsers;
   private customVariableData: CustomVariables = {};
-  private argumentVariableData: CustomVariables = {};
-  private userExclusions: UserExclusions = [];
+  private userExceptions: UserExceptions = {};
   private globCache: any = {};
 
   constructor(private fuzzyService: FuzzyService) { }
@@ -28,16 +27,12 @@ export class FileParser {
     return APP.lang.fileParser;
   }
 
-  setCustomVariables(data: CustomVariables, userdata: CustomVariables) {
-    this.customVariableData = Object.assign(data,userdata);
+  setCustomVariables(data: CustomVariables) {
+    this.customVariableData = data;
   }
 
-  setArgumentVariables(data: CustomVariables) {
-    this.argumentVariableData = data;
-  }
-
-  setExclusions(data: UserExclusions) {
-    this.userExclusions = data
+  setUserExceptions(data: UserExceptions) {
+    this.userExceptions = data;
   }
 
   getAvailableParsers() {
@@ -88,7 +83,6 @@ export class FileParser {
     let totalUserAccountsFound: number = 0;
     let filteredAccounts: { found: userAccountData[], missing: string[] }[] = [];
     let parsedConfigs: ParsedUserConfiguration[] = [];
-    this.setCustomArgVariables();
     this.globCache = {};
 
     return Promise.resolve()
@@ -690,10 +684,10 @@ export class FileParser {
               }
             }
           }
-
-          if(this.argumentVariableData[output]!==undefined) {
-            return this.argumentVariableData[variable][data.extractedTitle] || '';
-          }
+          // TODO REPLACE WITH EXCEPTIONS
+          // if(this.argumentVariableData[output]!==undefined) {
+          //   return this.argumentVariableData[variable][data.extractedTitle] || '';
+          // }
         }
         break;
     }

@@ -1,4 +1,5 @@
 import { CustomVariablesService } from './custom-variables.service';
+import { UserExceptionsService } from './user-exceptions.service';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { UserConfiguration, ParsedUserConfiguration, AppSettings, EnvironmentVariables } from '../../models';
@@ -39,8 +40,8 @@ export class ParsersService {
         this.fileParser.setCustomVariables(variables);
       });
     this.exceptionsService.dataObservable
-      .subscribe((data)=>{
-        this.fileParser.setUserExceptions(data);
+      .subscribe((exceptions)=>{
+        this.fileParser.setUserExceptions(exceptions);
       })
     this.settingsService.onLoad((appSettings: AppSettings) => {
       this.appSettings = appSettings;
