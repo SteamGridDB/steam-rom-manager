@@ -225,7 +225,7 @@ export interface languageStruct {
         buttons: {
           save: string,
             undoChanges: string,
-            undoDelete: string,
+            deleteAll: string,
             addItem: string,
             deleteItem: string
 

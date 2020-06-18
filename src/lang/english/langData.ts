@@ -244,8 +244,8 @@ export const EnglishLang: languageContainer = {
       component: {
         buttons: {
           save:'Save',
+          deleteAll: 'Clear',
           undoChanges: 'Undo changes',
-          undoDelete: 'Undo delete',
           addItem: 'Add exception',
           deleteItem: 'Remove exception'
 

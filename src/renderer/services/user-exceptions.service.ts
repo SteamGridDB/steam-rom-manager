@@ -57,8 +57,12 @@ export class UserExceptionsService {
       this.variableData.next(data);
       return null;
     }
-    else
+    else {
+      this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
+      this.loggerService.error(this.validator.errorString);
       return `\r\n${this.validator.errorString}`;
+    }
+
   }
 
   saveUserExceptions() {

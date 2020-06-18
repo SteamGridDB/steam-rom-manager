@@ -1,20 +1,21 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
-import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
+import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
 import { UserExceptions } from '../../models';
-import { UserExceptionsService } from '../services';;
+import { UserExceptionsService, LoggerService } from '../services';;
 import { Subscription, Observable } from "rxjs";
 import { APP } from '../../variables';
+import * as _ from 'lodash';
 @Component({
   selector: 'user-exceptions',
   templateUrl: '../templates/user-exceptions.component.html',
   styleUrls: ['../styles/user-exceptions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ExceptionsComponent implements AfterViewInit, OnDestroy {
-  private userExceptions: UserExceptions = {};
+export class ExceptionsComponent implements OnDestroy {
   private currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
   private subscriptions: Subscription = new Subscription();
+  private userExceptions: UserExceptions
 
   private exceptionsForm: FormGroup;
   private exceptionsFormItems: FormArray;
@@ -23,6 +24,7 @@ export class ExceptionsComponent implements AfterViewInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private exceptionsService: UserExceptionsService,
+    private loggerService: LoggerService,
     private formBuilder: FormBuilder
   ) {
     this.currentDoc.content = this.lang.docs__md.userExceptions.join('');
@@ -32,9 +34,19 @@ export class ExceptionsComponent implements AfterViewInit, OnDestroy {
   }
 
   save() {
-    let error = this.exceptionsService.set(this.userExceptions||{});
+    let error = this.exceptionsService.set(Object.fromEntries(this.exceptionsForm.value.items
+      .filter((item: any)=>item.oldTitle)
+      .map((item: any)=>[item.oldTitle,_.omit(item,'oldTitle')])
+    )||{})
     if(!error) {
       this.exceptionsService.saveUserExceptions();
+    }
+  }
+
+  deleteAll() {
+    this.exceptionsFormItems = this.exceptionsForm.get('items') as FormArray;
+    while(this.exceptionsFormItems.length>0) {
+      this.exceptionsFormItems.removeAt(0);
     }
   }
 
@@ -47,27 +59,27 @@ export class ExceptionsComponent implements AfterViewInit, OnDestroy {
     })
   }
 
+  setForm() {
+    this.exceptionsForm = this.formBuilder.group({
+      items: this.formBuilder.array(Object.entries(this.userExceptions)
+        .map(e=>this.formBuilder.group(Object.assign({oldTitle: e[0]},e[1]))))
+    })
+  }
+
   addItem() {
     this.exceptionsFormItems = this.exceptionsForm.get('items') as FormArray;
     this.exceptionsFormItems.push(this.createItem());
   }
   deleteItem(index: number) {
+    this.exceptionsFormItems = this.exceptionsForm.get('items') as FormArray;
     this.exceptionsFormItems.removeAt(this.exceptionsFormItems.value.findIndex((exception: any) => exception.id === index))
   }
 
   ngOnInit() {
-    this.exceptionsForm = this.formBuilder.group({
-      oldTitle: '',
-      newTitle: '',
-      commandLineArguments: '',
-      exclude: false,
-      items: this.formBuilder.array([this.createItem()])
-    })
-  }
-  ngAfterViewInit() {
     this.subscriptions.add(this.exceptionsService.dataObservable.subscribe((data)=>{
       this.userExceptions = data;
-    }))
+      this.setForm();
+    }));
   }
 
   ngOnDestroy () {

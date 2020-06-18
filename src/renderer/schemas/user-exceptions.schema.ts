@@ -4,8 +4,8 @@ export const userExceptions = {
     "^.+$": {
       type: 'object',
       properties: {
-        newTitle: { type: 'string', pattern: "^.+$" },
-        commandLineArguments: { type: 'string', pattern: "^.+$" },
+        newTitle: { type: 'string' },
+        commandLineArguments: { type: 'string'},
         exclude: { type: 'boolean' }
       }
     }
