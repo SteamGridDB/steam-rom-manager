@@ -15,7 +15,7 @@ import * as _ from 'lodash';
 export class ExceptionsComponent implements OnDestroy {
   private currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
   private subscriptions: Subscription = new Subscription();
-  private userExceptions: UserExceptions
+  private userExceptions: UserExceptions;
 
   private exceptionsForm: FormGroup;
   private exceptionsFormItems: FormArray;
@@ -63,7 +63,11 @@ export class ExceptionsComponent implements OnDestroy {
     this.exceptionsForm = this.formBuilder.group({
       items: this.formBuilder.array(Object.entries(this.userExceptions)
         .map(e=>this.formBuilder.group(Object.assign({oldTitle: e[0]},e[1]))))
+    });
+    this.exceptionsForm.valueChanges.subscribe((val)=>{
+      this.exceptionsService.setIsUnsaved(true);
     })
+    this.exceptionsService.setIsUnsaved(false);
   }
 
   addItem() {

@@ -254,9 +254,7 @@ export const EnglishLang: languageContainer = {
           userExceptions: [require('./markdown/user-exceptions.md')]
         },
         text: {
-          exeptions: 'User Exceptions',
-          add: 'New Exception',
-          remove: 'Delete Exception'
+          title: 'User Exceptions'
         }
       },
       service: {

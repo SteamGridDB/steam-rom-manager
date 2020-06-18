@@ -11,6 +11,8 @@ import * as _ from "lodash";
 @Injectable()
 export class UserExceptionsService {
   private variableData: BehaviorSubject<UserExceptions> = new BehaviorSubject({});
+  private isUnsavedData: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
   private validator: json.Validator = new json.Validator(schemas.userExceptions);
   private savingIsDisabled: boolean = false;
 
@@ -28,6 +30,14 @@ export class UserExceptionsService {
 
   get dataObservable() {
     return this.variableData.asObservable();
+  }
+
+  get isUnsaved() {
+    return this.isUnsavedData.getValue()
+  }
+
+  get isUnsavedObservable() {
+    return this.isUnsavedData.asObservable();
   }
 
   load() {
@@ -62,7 +72,10 @@ export class UserExceptionsService {
       this.loggerService.error(this.validator.errorString);
       return `\r\n${this.validator.errorString}`;
     }
+  }
 
+  setIsUnsaved(isUnsaved: boolean) {
+    this.isUnsavedData.next(isUnsaved);
   }
 
   saveUserExceptions() {
@@ -71,6 +84,7 @@ export class UserExceptionsService {
         this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
         this.loggerService.error(error);
       });
+      this.isUnsavedData.next(false);
     }
   }
 }

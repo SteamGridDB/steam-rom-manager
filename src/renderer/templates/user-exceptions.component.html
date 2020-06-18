@@ -1,7 +1,7 @@
 <markdown class="docs" [content]="this.currentDoc.content"></markdown>
 <div class = "userExceptions">
   <label>
-    User Exceptions
+    {{lang.text.title}}
   </label>
   <div [formGroup]="exceptionsForm">
     <div formArrayName="items"
@@ -17,7 +17,6 @@
             <ng-toggle-button class="ngToggleButton" [formControl]="item.controls['exclude']">Exclude title</ng-toggle-button>
             <div class="deleteItem" (click)="deleteItem(i)">{{lang.buttons.deleteItem}}</div>
           </div>
-
         </div>
       </div>
     </div>
@@ -28,6 +27,6 @@
   <ng-container>
     <div (click)=save()>{{lang.buttons.save}}</div>
     <div class="dangerousButton" (click)=deleteAll()>{{lang.buttons.deleteAll}}</div>
-    <div *ngIf="true" (click)="setForm()">{{lang.buttons.undoChanges}}</div>
+    <div *ngIf="exceptionsService.isUnsaved" (click)="setForm()">{{lang.buttons.undoChanges}}</div>
   </ng-container>
 </div>
