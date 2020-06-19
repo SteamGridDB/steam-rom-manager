@@ -110,15 +110,6 @@ export class PreviewService {
 
     this.previewVariables.listIsBeingGenerated = true;
     this.imageProviderService.instance.stopUrlDownload();
-    /* if (fromSteam) {
-            if (this.appSettings.knownSteamDirectories.length === 0) {
-                this.previewVariables.listIsBeingGenerated = false;
-                this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 });
-            }
-            else
-                this.generatePreviewDataFromSteamCallback();
-        }
-        else */
     this.generatePreviewDataCallback();
   }
 
@@ -374,6 +365,10 @@ export class PreviewService {
     this.clearImageCache(true);
     this.previewVariables.numberOfListItems = 0;
     this.previewDataChanged.next();
+  }
+
+  getAllCategories() {
+    return this.previewData ? Object.entries(this.previewData).map(dir=>Object.entries(dir[1]).map(user=>Object.entries(user[1].apps).map(app=>app[1].steamCategories).reduce((x,y)=>_.union(x,y))).reduce((x,y)=>_.union(x,y))).reduce((x,y)=>_.union(x,y)) : [];
   }
 
   private clearImageCache(settingsOnly: boolean) {

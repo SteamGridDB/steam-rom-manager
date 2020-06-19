@@ -19,4 +19,3 @@ export function encodeFile(file_path: string) {
   return encodeURI(`file:///${file_path.replace(/\\/g, '/')}`).replace(/#/g, '%23');
 }
 
-

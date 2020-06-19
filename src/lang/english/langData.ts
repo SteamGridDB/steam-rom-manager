@@ -9,8 +9,9 @@ export const EnglishLang: languageContainer = {
     },
     preview: {
       component: {
-        filter: 'Filter app titles',
+        filter: 'Filter by title',
         selectType: 'Select type',
+        selectCategories: 'Filter by category',
         selectTypeOptions: {
           long: 'Grids',
           tall: 'Posters',

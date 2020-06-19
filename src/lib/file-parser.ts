@@ -196,7 +196,6 @@ export class FileParser {
 
             // Exclude user specified exclusions
             let exceptions = this.userExceptions[data[i].success[j].extractedTitle];
-            console.log(exceptions)
             if(exceptions && exceptions.exclude) {
               parsedConfigs[i].excluded.push(data[i].success[j].filePath);
               continue;

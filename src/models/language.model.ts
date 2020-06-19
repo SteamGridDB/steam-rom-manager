@@ -8,6 +8,7 @@ export interface languageStruct {
       component: {
         filter: string,
           selectType: string,
+          selectCategories: string,
           selectTypeOptions: {
             long: string,
               tall: string,
