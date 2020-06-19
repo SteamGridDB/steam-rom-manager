@@ -32,6 +32,8 @@ export class NavComponent {
     }));
     this.subscriptions.add(this.exceptionsService.isUnsavedObservable.subscribe((val:boolean)=>{
       this.isExceptionsUnsaved = val;
+      this.refreshActiveRoute();
+      this.changeRef.detectChanges();
     }))
     this.languageService.observeChanges().subscribe((lang) => {
       this.changeRef.detectChanges();

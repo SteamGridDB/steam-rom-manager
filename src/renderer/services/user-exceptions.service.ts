@@ -10,13 +10,15 @@ import * as _ from "lodash";
 
 @Injectable()
 export class UserExceptionsService {
-  private variableData: BehaviorSubject<UserExceptions> = new BehaviorSubject({});
+  private variableData: BehaviorSubject<{current: UserExceptions, saved: UserExceptions}>;
   private isUnsavedData: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   private validator: json.Validator = new json.Validator(schemas.userExceptions);
   private savingIsDisabled: boolean = false;
 
   constructor(private loggerService: LoggerService) {
+    this.variableData = new BehaviorSubject({current: null, saved: {}});
+
     this.load();
   }
 
@@ -44,7 +46,7 @@ export class UserExceptionsService {
     json.read<UserExceptions>(paths.userExceptions)
       .then((data) => {
         if(data !== null) {
-          const error = this.setSaved(data || {});
+          const error = this.setSaved(data);
           if (error) {
             this.savingIsDisabled = true;
             this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
@@ -64,7 +66,7 @@ export class UserExceptionsService {
 
   setSaved(data: UserExceptions) {
     if (this.validator.validate(data).isValid()) {
-      this.variableData.next({current: null, saved: data});
+      this.variableData.next({current: null, saved: data||{}});
     } else {
       this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
       this.loggerService.error(this.validator.errorString);
@@ -73,8 +75,9 @@ export class UserExceptionsService {
   }
 
   setCurrent(data: UserExceptions) {
-    if (this.validator.validate(data).isValid()) {
-      this.variableData.next(data);
+    let saved = this.variableData.getValue().saved;
+    if (!data || this.validator.validate(data).isValid()) {
+      this.variableData.next({current: data, saved: this.variableData.getValue().saved});
       return null;
     }
     else {
@@ -89,12 +92,17 @@ export class UserExceptionsService {
   }
 
   saveUserExceptions() {
-    if (!this.savingIsDisabled) {
-      json.write(paths.userExceptions, this.variableData.getValue()).then().catch((error) => {
-        this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
-        this.loggerService.error(error);
-      });
-      this.isUnsavedData.next(false);
+    let current = this.variableData.getValue().current;
+    if (!this.savingIsDisabled && current) {
+      json.write(paths.userExceptions, current)
+        .then(()=>{
+
+        }).catch((error) => {
+          this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
+          this.loggerService.error(error);
+        });
+      this.setIsUnsaved(false);
+      this.variableData.next({current: null, saved: current});
     }
   }
 }

@@ -27,6 +27,6 @@
   <ng-container>
     <div (click)=save()>{{lang.buttons.save}}</div>
     <div class="dangerousButton" (click)=deleteAll()>{{lang.buttons.deleteAll}}</div>
-    <div *ngIf="exceptionsService.isUnsaved" (click)="setForm()">{{lang.buttons.undoChanges}}</div>
+    <div *ngIf="exceptionsService.isUnsaved" (click)="undo()">{{lang.buttons.undoChanges}}</div>
   </ng-container>
 </div>

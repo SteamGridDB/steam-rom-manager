@@ -40,8 +40,8 @@ export class ParsersService {
         this.fileParser.setCustomVariables(variables);
       });
     this.exceptionsService.dataObservable
-      .subscribe((exceptions)=>{
-        this.fileParser.setUserExceptions(exceptions);
+      .subscribe((data)=>{
+        this.fileParser.setUserExceptions(data.saved||{});
       })
     this.settingsService.onLoad((appSettings: AppSettings) => {
       this.appSettings = appSettings;

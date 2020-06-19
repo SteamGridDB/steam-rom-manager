@@ -64,10 +64,12 @@ export class ExceptionsComponent implements OnDestroy {
         .filter((item: any)=>item.oldTitle)
         .map((item: any)=>[item.oldTitle,_.omit(item,'oldTitle')])
       )||{})
-
-
     })
+  }
+
+  undo() {
     this.exceptionsService.setIsUnsaved(false);
+    this.exceptionsService.setCurrent(null);
   }
 
   addItem() {
@@ -82,11 +84,15 @@ export class ExceptionsComponent implements OnDestroy {
   ngOnInit() {
     this.exceptionsService.setIsUnsaved(false);
     this.subscriptions.add(this.exceptionsService.dataObservable.subscribe((data)=>{
-      this.userExceptions = data;
-      if(!this.exceptionsService.isUnsaved){
+      this.userExceptions = data.current ? data.current : data.saved;
+      if(!this.exceptionsService.isUnsaved) {
         this.setForm();
       }
-
+      if(data.current) {
+        this.exceptionsService.setIsUnsaved(true);
+      } else {
+        this.exceptionsService.setIsUnsaved(false);
+      }
     }));
   }
 
