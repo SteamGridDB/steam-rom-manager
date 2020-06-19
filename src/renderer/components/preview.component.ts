@@ -242,6 +242,9 @@ export class PreviewComponent implements OnDestroy {
       this.previewService.downloadImageUrls('logo',[app.logoimages.imagePool], app.imageProviders);
     }
   }
+  private saveImage() {
+
+  }
 
   private previousImage(app: PreviewDataApp, imagetype?: string) {
     if(this.previewService.getImageType()!='games'){

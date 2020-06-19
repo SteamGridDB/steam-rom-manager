@@ -17,6 +17,7 @@ export interface languageStruct {
           },
           by: string,
           refreshImages: string,
+          saveImage: string,
           addLocalImages: string,
           retryDownload: string,
           generateAppList: string,

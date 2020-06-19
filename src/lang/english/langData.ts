@@ -20,6 +20,7 @@ export const EnglishLang: languageContainer = {
         },
         by: 'by',
         refreshImages: 'Refresh images',
+        saveImage: 'Save image to file',
         addLocalImages: 'Add local images',
         retryDownload: 'Retry download',
         generateAppList: 'Generate app list',

@@ -8,11 +8,10 @@ Remove close steam if open warning and replace with something better (some futur
 # Features
 Add a localImagesDir environment variable (2.3) [done]
 Add a sane browse button to localimages/defaultimages fields (2.3) [done]
-Make an exclusions json (2.3)
-Make both exclusions and custom args jsons editable from the preview (2.3)
-Add filters to the preview (included/excluded, custom args, missing artwork, by category) (2.3)
-Add Parser level to preview (2.3)
-Move enable/disable parser to sidebar (2.3)
+Make an exceptions manager (2.3) [done]
+Add filters to the preview (missing artwork, by category) (2.3)
+Add Parser level to preview (2.4)
+Move enable/disable parser to sidebar (2.4)
 Ability to just save artwork from preview (2.3)
 Config presets searchable (2.3) [done]
 Custom themes (3.0)
