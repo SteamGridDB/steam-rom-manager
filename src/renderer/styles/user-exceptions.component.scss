@@ -46,17 +46,17 @@
       display: flex;
       flex-direction: column;
 
-      margin: 0.25em 0 0.25em 0;
-      padding-left: 1em;
+      margin: 0.25em 0 1em 0;
+      padding-left: 0em;
 
       .inlineGroup {
         display: flex;
-
+        margin: 0.25em 0 0.25em 0;
+        justify-content: space-between;
         align-items: center;
         .deleteItem {
           @include button();
           @include clickButtonColor(dangerous-click-button);
-          margin: 0 0 0 0.25em;
         }
       }
 
@@ -87,6 +87,9 @@
         @include ngSelect();
       }
       .ngTextInput {
+        &.middle {
+          margin: 0 0.25em 0 0.25em;
+        }
         @include ngTextInputColor(input);
         @include ngTextInput();
 

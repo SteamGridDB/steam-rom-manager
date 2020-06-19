@@ -234,7 +234,8 @@ export interface languageStruct {
             userExceptions: string[]
           },
           text: {
-            title: string
+            title: string,
+              exclude: string
           }
       },
         service: {

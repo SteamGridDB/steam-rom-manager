@@ -248,13 +248,13 @@ export const EnglishLang: languageContainer = {
           undoChanges: 'Undo changes',
           addItem: 'Add exception',
           deleteItem: 'Remove exception'
-
         },
         docs__md: {
           userExceptions: [require('./markdown/user-exceptions.md')]
         },
         text: {
-          title: 'User Exceptions'
+          title: 'User Exceptions',
+          exclude: 'Exclude Title'
         }
       },
       service: {
