@@ -7,5 +7,4 @@ export const availableParsers = [
 export const availableParserInputs = [
   'glob',
   'glob-regex',
-  'steam'
 ]

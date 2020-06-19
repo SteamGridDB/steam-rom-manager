@@ -1,0 +1,138 @@
+@import 'mixins';
+
+:host {
+  display: grid;
+  overflow: auto;
+
+  grid-area: route;
+  grid-template-areas:
+  'docs exceptions'
+  'menu menu';
+
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr auto;
+
+  .docs {
+    padding: 1em;
+
+    grid-area: docs;
+  }
+
+  .userExceptions {
+    padding: 1em;
+    grid-area: exceptions;
+    @include webkitScrollbar(nested-form-scrollbar);
+    background-color: var(--color-nested-form-background);
+    overflow: auto;
+    label {
+      display: flex;
+
+      margin: 0 0 0.35em 0;
+
+      color: var(--color-nested-form-label);
+
+      align-items: center;
+      grid-area: label;
+
+    }
+    .addItem {
+      @include button();
+      @include clickButtonColor(click-button);
+
+      margin: 0 0 0 0.25em;
+    }
+
+    .inputContainer {
+      display: flex;
+      flex-direction: column;
+
+      margin: 0.25em 0 1em 0;
+      padding-left: 0em;
+
+      .inlineGroup {
+        display: flex;
+        margin: 0.25em 0 0.25em 0;
+        justify-content: space-between;
+        align-items: center;
+        .deleteItem {
+          @include button();
+          @include clickButtonColor(dangerous-click-button);
+        }
+      }
+
+      .text {
+        color: var(--color-settings-text);
+      }
+
+      .ngToggleButton {
+        font-size: 1em;
+
+        margin: 0.25em 0 0.5em 0;
+
+        @include ngToggleButtonColor(ng-toggle-button);
+      }
+
+      .clickButton {
+        @include button();
+      }
+
+      .dangerousButton {
+        @include clickButtonColor(dangerous-click-button, true);
+      }
+
+      .ngSelect {
+        width: 15em;
+
+        @include ngSelectColor(ng-select);
+        @include ngSelect();
+      }
+      .ngTextInput {
+        &.middle {
+          margin: 0 0.25em 0 0.25em;
+        }
+        @include ngTextInputColor(input);
+        @include ngTextInput();
+
+        width: 20em;
+
+        grid-column: 4;
+      }
+      .clickButton2 {
+        @include button();
+        @include clickButtonColor(click-button);
+
+        margin: 0 0 0 0.25em;
+
+        grid-area: button;
+      }
+    }
+
+  }
+  .menu {
+    @include webkitScrollbar(parser-menu-scrollbar, 0.5em);
+
+    display: flex;
+    overflow: auto;
+
+    border: 0.5em solid transparent;
+    background-color: var(--color-parsers-menu-background);
+
+    grid-area: menu;
+
+    > div {
+      @include clickButtonColor(click-button, true);
+      @include button();
+
+      margin: 0 0.25em;
+      &:last-child {
+        margin-right: 0;
+      }
+      &:first-child {
+        margin-left: 0;
+      }
+      &.dangerousButton {
+        @include clickButtonColor(dangerous-click-button);
+      }
+    }
+  }
+}

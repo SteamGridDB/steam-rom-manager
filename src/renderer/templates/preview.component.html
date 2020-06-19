@@ -5,6 +5,10 @@
     <input type="range" min="30" max="100" step="0.25" [value]="appSettings.previewSettings.imageZoomPercentage" (input)="setImageSize($event.target.value)"
                                            (change)="setImageSize($event.target.value, true)" />
     <div>{{appSettings.previewSettings.imageZoomPercentage | number : '1.0-2'}}%</div>
+    <ng-select class="selectCategories" [(ngModel)]="categoryFilter" [placeholder]="lang.selectCategories" (ngModelChange)="setCategoryFilter($event);" multiple="true" allowEmpty="true">
+      <ng-option *ngFor="let category of allCategories" [innerHTML]="category | safeHtml">
+      </ng-option>
+    </ng-select>
     <ng-select class="selectType" [(ngModel)]="appSettings.previewSettings.imageTypes" [placeholder]="lang.selectType" (ngModelChange)="appSettings.previewSettings.imageTypes = $event; setImageType($event);">
       <ng-option *ngFor="let value of imageTypes" [ngValue]="value">
         {{lang.selectTypeOptions[value]}}
@@ -77,6 +81,7 @@
                                 <svg class="button" [title]="lang.addLocalImages" add-images hover="true" active="true" (click)="addLocalImages(app, imagetype)"></svg>
                                 <span class="separator"></span>
                                 <svg class="button" *ngIf="!getImagePool(appimages.imagePool, imagetype).retrieving" (click)="refreshImages(app, imagetype)" [title]="lang.refreshImages" refresh-images hover="true" active="true"></svg>
+                                <svg class="button" *ngIf="image != undefined && image.loadStatus === 'done'" (click)="saveImage(image,app.title)" [title]="lang.saveImage" save-image hover="true" active="true"></svg>
                                 <svg class="button" *ngIf="image != undefined && image.loadStatus === 'failed'" (click)="loadImage(app ,imagetype)" [title]="lang.retryDownload" image-alert hover="true" active="true"></svg>
                               </div>
                             </div>
@@ -95,7 +100,7 @@
                 <ng-container *ngVar="previewData[steamDir][steamUser].apps[appID] as app">
                   <ng-container *ngVar="getBackgroundImage(app) as image">
                     <ng-container *ngVar="getAppImages(app) as appimages">
-                      <div class="app" *ngIf="(app.title | fuzzyTest: filterValue)" [style.backgroundImage]="setBackgroundImage(app, image) | cssUrl | safeStyle"
+                      <div class="app" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: categoryFilter)" [style.backgroundImage]="setBackgroundImage(app, image) | cssUrl | safeStyle"
                            [class.retrieving]="getImagePool(appimages.imagePool).retrieving" [class.noImages]="!getImagePool(appimages.imagePool).retrieving && image == undefined"
                            [class.downloading]="image != undefined && image.loadStatus === 'downloading'" [class.failed]="image != undefined && image.loadStatus === 'failed'"
                            [class.imageLoaded]="image != undefined && image.loadStatus === 'done'" (mouseenter)="entries.hoverIndex = app.entryId"
@@ -130,6 +135,7 @@
                               <svg class="button" [title]="lang.addLocalImages" add-images hover="true" active="true" (click)="addLocalImages(app)"></svg>
                               <span class="separator"></span>
                               <svg class="button" *ngIf="!getImagePool(appimages.imagePool).retrieving" (click)="refreshImages(app)" [title]="lang.refreshImages" refresh-images hover="true" active="true"></svg>
+                              <svg class="button" *ngIf="image != undefined && image.loadStatus === 'done'" (click)="saveImage(image, app.title)" [title]="lang.saveImage" save-image hover="true" active="true"></svg>
                               <svg class="button" *ngIf="image != undefined && image.loadStatus === 'failed'" (click)="loadImage(app)" [title]="lang.retryDownload" image-alert hover="true" active="true"></svg>
                             </div>
                           </div>

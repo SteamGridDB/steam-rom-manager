@@ -19,8 +19,8 @@ import { Component, Input } from '@angular/core';
             background-color: var(--select-arrow-left-background, transparent);
         }
         polyline{
-            stroke-width: var(--select-arrow-left-width, 15); 
-            stroke: var(--color-select-arrow-left); 
+            stroke-width: var(--select-arrow-left-width, 15);
+            stroke: var(--color-select-arrow-left);
             fill: none;
         }
         :host(.hover):hover{

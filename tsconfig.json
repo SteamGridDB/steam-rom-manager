@@ -1,15 +1,12 @@
 {
     "compilerOptions": {
-        "target": "es2015",
-        "module": "commonjs",
+        "target": "es2019",
+        "module":"commonjs",
         "sourceMap": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "removeComments": false,
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true
-    },
-    "exclude": [
-        "node_modules"
-    ]
+    }
 }

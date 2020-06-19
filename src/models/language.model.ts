@@ -8,6 +8,7 @@ export interface languageStruct {
       component: {
         filter: string,
           selectType: string,
+          selectCategories: string,
           selectTypeOptions: {
             long: string,
               tall: string,
@@ -17,6 +18,7 @@ export interface languageStruct {
           },
           by: string,
           refreshImages: string,
+          saveImage: string,
           addLocalImages: string,
           retryDownload: string,
           generateAppList: string,
@@ -192,7 +194,9 @@ export interface languageStruct {
               steamDirectoryMac: string,
               retroarchPathWin: string,
               retroarchPathMac: string,
-              retroarchPathLinux: string
+              retroarchPathLinux: string,
+              localImagesDirectoryWin: string,
+              localImagesDirectoryUnix: string
           }
       },
         service: {
@@ -213,8 +217,36 @@ export interface languageStruct {
           logger: string,
           settings: string,
           parsers: string,
+          customVariables: string,
+          userExceptions: string,
           noTitle: string
       }
+    },
+    userExceptions:{
+      component: {
+        buttons: {
+          save: string,
+            undoChanges: string,
+            deleteAll: string,
+            addItem: string,
+            deleteItem: string
+
+        },
+          docs__md: {
+            userExceptions: string[]
+          },
+          text: {
+            title: string,
+              exclude: string
+          }
+      },
+        service: {
+          error: {
+            loadingError: string,
+              corruptedExceptions__i: string, //${file},${error}
+              writingError: string
+          }
+        }
     },
     parsers: {
       component: {
@@ -266,6 +298,8 @@ export interface languageStruct {
               testCompleted: string,
               nothingWasFound: string,
               copiedToClipboard: string,
+              userExclusions: string,
+              excludedFileInfo__i: string //${index}, ${total}, ${filename}
           },
           error: {
             missingAccounts__i: string, //${count}

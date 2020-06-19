@@ -10,5 +10,5 @@ export const APP: GlobalContainer = {
     version: require('../package.json')['version'],
     os: require('os-name')(os.platform(), os.release()),
     arch: os.arch(),
-    srmdir: process.env.PORTABLE_EXECUTABLE_DIR
+    srmdir: process.env.PORTABLE_EXECUTABLE_DIR||''
 };

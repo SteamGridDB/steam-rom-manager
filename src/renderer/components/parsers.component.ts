@@ -77,14 +77,39 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.steamCategory.join('');
           }
         }),
-        executableLocation: new NestedFormElement.Path({
+        executable: new NestedFormElement.Group({
           isHidden: () => this.isHiddenIfSteamParser(),
           label: this.lang.label.executableLocation,
+          children: {
+            path: new NestedFormElement.Path({
+              highlight: this.highlight.bind(this),
+              onValidate: (self, path) => {
+                let serialized = {};
+                serialized[path[1]] = self.value;
+                return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized)
+              }
+            }),
+            shortcutPassthrough: new NestedFormElement.Toggle({
+              text: this.lang.text.shortcut_passthrough
+            }),
+            appendArgsToExecutable: new NestedFormElement.Toggle({
+              isHidden: () => this.isHiddenIfEither(),
+              text: this.lang.text.appendArgsToExecutable
+            })
+          },
+          onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content = this.lang.docs__md.executableLocation.join('');
+          }
+        }),
+        executableArgs: new NestedFormElement.Input({
+          isHidden: () => this.isHiddenIfSteamParser(),
+          label: this.lang.label.executableArgs,
           highlight: this.highlight.bind(this),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.executableLocation.join('');
+            this.currentDoc.content = this.lang.docs__md.executableArgs.join('');
           }
         }),
         executableModifier: new NestedFormElement.Input({
@@ -135,7 +160,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           children: {
             specifiedAccounts: new NestedFormElement.Input({
               highlight: this.highlight.bind(this),
-              onValidate: (self, path) => this.parsersService.validate(path[path.length - 1] as keyof UserConfiguration, self.value)
+              onValidate: (self, path) => {
+                let serialized = {}
+                serialized[path[1]] = self.value
+                return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized)}
             }),
             skipWithMissingDataDir: new NestedFormElement.Toggle({
               text: this.lang.text.skipWithMissingDataDir
@@ -193,10 +221,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           children: {
             limitToGroups: new NestedFormElement.Input({
               highlight: this.highlight.bind(this),
-              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value)
-            }),
-            shortcutPassthrough: new NestedFormElement.Toggle({
-              text: this.lang.text.shortcut_passthrough
+              onValidate: (self, path) => {
+                let serialized = {};
+                serialized[path[1]] = self.value;
+                return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized)
+              }
             }),
             caseInsensitiveVariables: new NestedFormElement.Toggle({
               text: this.lang.text.caseInsensitiveVariables
@@ -214,7 +243,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         titleModifier: new NestedFormElement.Input({
-          isHidden: () => this.isHiddenIfEither(),
+          isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.titleModifier,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -244,20 +273,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.activePath = path.join();
             this.currentDoc.content = this.lang.docs__md.fuzzyMatch.join('');
           }
-        }),
-        executableArgs: new NestedFormElement.Input({
-          isHidden: () => this.isHiddenIfSteamParser(),
-          label: this.lang.label.executableArgs,
-          highlight: this.highlight.bind(this),
-          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-          onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.executableArgs.join('');
-          }
-        }),
-        appendArgsToExecutable: new NestedFormElement.Toggle({
-          isHidden: () => this.isHiddenIfEither(),
-          text: this.lang.text.appendArgsToExecutable
         }),
         onlineImageQueries: new NestedFormElement.Input({
           label: this.lang.label.onlineImageQueries,
@@ -291,7 +306,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
           }
         }),
-        defaultImage: new NestedFormElement.Input({
+        defaultImage: new NestedFormElement.Path({
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultImage,
@@ -301,7 +316,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.defaultImage.join('');
           }
         }),
-        defaultTallImage: new NestedFormElement.Input({
+        defaultTallImage: new NestedFormElement.Path({
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultTallImage,
@@ -311,7 +326,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.defaultTallImage.join('');
           }
         }),
-        defaultHeroImage: new NestedFormElement.Input({
+        defaultHeroImage: new NestedFormElement.Path({
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultHeroImage,
@@ -321,7 +336,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.defaultHeroImage.join('');
           }
         }),
-        defaultLogoImage: new NestedFormElement.Input({
+        defaultLogoImage: new NestedFormElement.Path({
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultLogoImage,
@@ -331,7 +346,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.defaultLogoImage.join('');
           }
         }),
-        localImages: new NestedFormElement.Input({
+        localImages: new NestedFormElement.Path({
+          directory: true,
+          appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.localImages,
@@ -341,7 +358,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.localImages.join('');
           }
         }),
-        localTallImages: new NestedFormElement.Input({
+        localTallImages: new NestedFormElement.Path({
+          directory: true,
+          appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.localTallImages,
@@ -351,7 +370,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.localTallImages.join('');
           }
         }),
-        localHeroImages: new NestedFormElement.Input({
+        localHeroImages: new NestedFormElement.Path({
+          directory: true,
+          appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.localHeroImages,
@@ -361,7 +382,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.localHeroImages.join('');
           }
         }),
-        localLogoImages: new NestedFormElement.Input({
+        localLogoImages: new NestedFormElement.Path({
+          directory: true,
+          appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.localLogoImages,
@@ -372,7 +395,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
 
-        localIcons: new NestedFormElement.Input({
+        localIcons: new NestedFormElement.Path({
+          directory: true,
+          appendGlob: '${finalTitle}.@(png|PNG|ico|ICO)',
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.localIcons,
@@ -590,7 +615,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.parsersService.executeFileParser(config).then((dataArray) => {
         if (dataArray.parsedData.parsedConfigs.length > 0) {
           let data = dataArray.parsedData.parsedConfigs[0];
-          let totalLength = data.files.length + data.failed.length;
+          let totalLength = data.files.length + data.failed.length + data.excluded.length;
 
           if (data.foundUserAccounts.length > 0) {
             this.loggerService.info('');
@@ -902,6 +927,17 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 index: data.files.length + i + 1,
                 total: totalLength,
                 filename: data.failed[i]
+              }));
+            }
+          }
+          if(data.excluded.length > 0) {
+            this.loggerService.info('');
+            this.loggerService.info(this.lang.info.userExclusions);
+            for(let i=0; i < data.excluded.length; i++) {
+              this.loggerService.info(this.lang.info.excludedFileInfo__i.interpolate({
+                index: data.files.length+ data.failed.length + i + 1,
+                total: totalLength,
+                filename: data.excluded[i]
               }));
             }
           }

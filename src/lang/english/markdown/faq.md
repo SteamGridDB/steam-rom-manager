@@ -103,6 +103,11 @@ Now parser can match any combination and is effectively case-insensitive. Techni
 {*,*/*}/*/${title}.[nN][eE][sS]
 ```
 
+## Troubleshooting
+* Please ensure that steam is actually closed before saving your app list.
+
+* One common issue Steam ROM Manager runs into is the presence of old steam directories from people who logged into steam in your computer before the New Library Update. This can cause Steam ROM Manager to fail in unpredictable ways, as it tries to access directories whose structure has changed. In order to get around this, use the [User Accounts](#user-accounts) field to specify which accounts you actually want to use Steam ROM Manager with.  
+
 ## The Discord
 
 For further help, please see our [discord](https://discord.gg/nxxzBPJ).

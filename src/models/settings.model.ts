@@ -15,8 +15,9 @@ export interface AppSettings {
       filterProviders: boolean
   },
   environmentVariables: {
-    steamDirectory: string
-    retroarchPath: string
+    steamDirectory: string,
+    retroarchPath: string,
+    localImagesDirectory: string
   },
   language: string,
   offlineMode: boolean,

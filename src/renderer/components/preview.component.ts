@@ -5,6 +5,7 @@ import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageConten
 import { APP } from '../../variables';
 import { FileSelector } from '../../lib';
 import * as url from '../../lib/helpers/url';
+import * as FileSaver from 'file-saver';
 import * as appImage from '../../lib/helpers/app-image';
 import * as _ from 'lodash';
 import * as path from 'path';
@@ -21,6 +22,8 @@ export class PreviewComponent implements OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private previewVariables: PreviewVariables;
   private filterValue: string = '';
+  private categoryFilter: string[] = [];
+  private allCategories: string[] = [];
   private imageTypes: string[];
   private scrollingEntries: boolean = false;
   private fileSelector: FileSelector = new FileSelector();
@@ -29,6 +32,8 @@ export class PreviewComponent implements OnDestroy {
     this.previewData = this.previewService.getPreviewData();
     this.previewVariables = this.previewService.getPreviewVariables();
     this.subscriptions.add(this.previewService.getPreviewDataChange().subscribe(_.debounce(() => {
+
+      this.allCategories = this.previewService.getAllCategories();
       this.previewData = this.previewService.getPreviewData();
       this.changeDetectionRef.detectChanges();
     }, 50)));
@@ -60,6 +65,9 @@ export class PreviewComponent implements OnDestroy {
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '920px', RendererStyleFlags2.DashCase);
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '430px', RendererStyleFlags2.DashCase);
     }
+  }
+  setCategoryFilter(categories: string[]) {
+    this.categoryFilter = categories;
   }
 
   ngAfterContentInit() {
@@ -241,6 +249,9 @@ export class PreviewComponent implements OnDestroy {
       this.previewService.downloadImageUrls('hero',[app.heroimages.imagePool], app.imageProviders);
       this.previewService.downloadImageUrls('logo',[app.logoimages.imagePool], app.imageProviders);
     }
+  }
+  private saveImage(image: ImageContent, title: string) {
+    FileSaver.saveAs(image.imageUrl, title.replace(/[/\\?%*:|"<>]/g, '-'))
   }
 
   private previousImage(app: PreviewDataApp, imagetype?: string) {

@@ -4,7 +4,7 @@ export interface ValidatorModifier<T> {
     fields: {
         [controlValue: string]: {
             [fields: string]: {
-                method?: (oldValue: any, self: T) => any,
+                method?: (oldValue: any, self: any) => any,
                 oldValuePath?: string
             }
         }

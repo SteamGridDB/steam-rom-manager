@@ -1,0 +1,32 @@
+<markdown class="docs" [content]="this.currentDoc.content"></markdown>
+<div class = "userExceptions">
+  <label>
+    {{lang.text.title}}
+  </label>
+  <div [formGroup]="exceptionsForm">
+    <div formArrayName="items"
+         *ngFor="let item of exceptionsForm.get('items').controls;let i=index;">
+      <div [formGroupName]="i">
+        <div class="inputContainer">
+          <div class="inlineGroup">
+            <ng-text-input class="ngTextInput" placeholder="Title to overwrite" [formControl]="item.controls['oldTitle']"></ng-text-input>
+            <ng-text-input class="ngTextInput middle" placeholder="Title override" [formControl]="item.controls['newTitle']"></ng-text-input>
+            <ng-text-input class="ngTextInput" placeholder="Arguments override" [formControl]="item.controls['commandLineArguments']"></ng-text-input>
+          </div>
+          <div class="inlineGroup">
+            <ng-toggle-button class="ngToggleButton" [formControl]="item.controls['exclude']">{{lang.text.exclude}}</ng-toggle-button>
+            <div class="deleteItem" (click)="deleteItem(i)">{{lang.buttons.deleteItem}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class='addItem' (click)="addItem()">{{lang.buttons.addItem}}</div>
+</div>
+<div class = "menu" drag-scroll>
+  <ng-container>
+    <div (click)=save()>{{lang.buttons.save}}</div>
+    <div class="dangerousButton" (click)=deleteAll()>{{lang.buttons.deleteAll}}</div>
+    <div *ngIf="exceptionsService.isUnsaved" (click)="undo()">{{lang.buttons.undoChanges}}</div>
+  </ng-container>
+</div>
