@@ -34,13 +34,7 @@ export class ExceptionsComponent implements OnDestroy {
   }
 
   save() {
-    let error = this.exceptionsService.set(Object.fromEntries(this.exceptionsForm.value.items
-      .filter((item: any)=>item.oldTitle)
-      .map((item: any)=>[item.oldTitle,_.omit(item,'oldTitle')])
-    )||{})
-    if(!error) {
-      this.exceptionsService.saveUserExceptions();
-    }
+    this.exceptionsService.saveUserExceptions();
   }
 
   deleteAll() {
@@ -66,7 +60,7 @@ export class ExceptionsComponent implements OnDestroy {
     });
     this.exceptionsForm.valueChanges.subscribe((val)=>{
       this.exceptionsService.setIsUnsaved(true);
-      let error = this.exceptionsService.set(Object.fromEntries(val.items
+      let error = this.exceptionsService.setCurrent(Object.fromEntries(val.items
         .filter((item: any)=>item.oldTitle)
         .map((item: any)=>[item.oldTitle,_.omit(item,'oldTitle')])
       )||{})
@@ -88,8 +82,8 @@ export class ExceptionsComponent implements OnDestroy {
   ngOnInit() {
     this.exceptionsService.setIsUnsaved(false);
     this.subscriptions.add(this.exceptionsService.dataObservable.subscribe((data)=>{
+      this.userExceptions = data;
       if(!this.exceptionsService.isUnsaved){
-        this.userExceptions = data;
         this.setForm();
       }
 
@@ -97,7 +91,6 @@ export class ExceptionsComponent implements OnDestroy {
   }
 
   ngOnDestroy () {
-    console.log('leaving component')
     this.subscriptions.unsubscribe()
   }
 }

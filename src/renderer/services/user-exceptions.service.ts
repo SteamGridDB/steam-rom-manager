@@ -44,7 +44,7 @@ export class UserExceptionsService {
     json.read<UserExceptions>(paths.userExceptions)
       .then((data) => {
         if(data !== null) {
-          const error = this.set(data || {});
+          const error = this.setSaved(data || {});
           if (error) {
             this.savingIsDisabled = true;
             this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
@@ -62,7 +62,17 @@ export class UserExceptionsService {
       });
   }
 
-  set(data: UserExceptions) {
+  setSaved(data: UserExceptions) {
+    if (this.validator.validate(data).isValid()) {
+      this.variableData.next({current: null, saved: data});
+    } else {
+      this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
+      this.loggerService.error(this.validator.errorString);
+      return `\r\n${this.validator.errorString}`;
+    }
+  }
+
+  setCurrent(data: UserExceptions) {
     if (this.validator.validate(data).isValid()) {
       this.variableData.next(data);
       return null;
