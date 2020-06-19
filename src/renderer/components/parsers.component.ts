@@ -615,7 +615,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.parsersService.executeFileParser(config).then((dataArray) => {
         if (dataArray.parsedData.parsedConfigs.length > 0) {
           let data = dataArray.parsedData.parsedConfigs[0];
-          let totalLength = data.files.length + data.failed.length;
+          let totalLength = data.files.length + data.failed.length + data.excluded.length;
 
           if (data.foundUserAccounts.length > 0) {
             this.loggerService.info('');
@@ -927,6 +927,17 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 index: data.files.length + i + 1,
                 total: totalLength,
                 filename: data.failed[i]
+              }));
+            }
+          }
+          if(data.excluded.length > 0) {
+            this.loggerService.info('');
+            this.loggerService.info(this.lang.info.userExclusions);
+            for(let i=0; i < data.excluded.length; i++) {
+              this.loggerService.info(this.lang.info.excludedFileInfo__i.interpolate({
+                index: data.files.length+ data.failed.length + i + 1,
+                total: totalLength,
+                filename: data.excluded[i]
               }));
             }
           }

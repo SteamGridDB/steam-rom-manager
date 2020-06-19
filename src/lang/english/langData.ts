@@ -400,6 +400,8 @@ export const EnglishLang: languageContainer = {
           testCompleted: 'Parser test is completed.',
           nothingWasFound: 'Parser found nothing.',
           copiedToClipboard: 'Configuration copied to clipboard',
+          userExclusions: 'User excluded:',
+          excludedFileInfo__i: '[${index}/${total}]: ${filename}'
         },
         error: {
           missingAccounts__i: 'Following ${count} user account(s) were not found (user must to login to Steam at least once):',

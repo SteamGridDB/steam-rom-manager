@@ -43,7 +43,8 @@ export interface ParsedUserConfiguration {
     foundUserAccounts: userAccountData[],
     missingUserAccounts: string[],
     files: ParsedUserConfigurationFile[],
-    failed: string[]
+    failed: string[],
+    excluded: string[]
 }
 
 export interface ParserInputField {

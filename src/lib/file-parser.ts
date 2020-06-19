@@ -182,7 +182,8 @@ export class FileParser {
             missingUserAccounts: filteredAccounts[i].missing,
             steamDirectory: configs[i].steamDirectory,
             files: [],
-            failed: _.cloneDeep(data[i].failed)
+            failed: _.cloneDeep(data[i].failed),
+            excluded: []
           });
           for (let j = 0; j < data[i].success.length; j++) {
             let fuzzyTitle = data[i].success[j].fuzzyTitle || data[i].success[j].extractedTitle;
@@ -192,6 +193,15 @@ export class FileParser {
               parsedConfigs[i].failed.push(data[i].success[j].filePath);
               continue;
             }
+
+            // Exclude user specified exclusions
+            let exceptions = this.userExceptions[data[i].success[j].extractedTitle];
+            console.log(exceptions)
+            if(exceptions && exceptions.exclude) {
+              parsedConfigs[i].excluded.push(data[i].success[j].filePath);
+              continue;
+            }
+
             let executableLocation:string = undefined;
             let startInDir:string = undefined;
             if(isGlobParser) {
@@ -200,6 +210,7 @@ export class FileParser {
             } else {
               executableLocation = data[i].success[j].extractedAppId;
             }
+
 
             parsedConfigs[i].files.push({
               steamCategories: undefined,
@@ -235,15 +246,21 @@ export class FileParser {
 
             let lastFile = parsedConfigs[i].files[parsedConfigs[i].files.length - 1];
             let variableData = this.makeVariableData(configs[i],settings, lastFile);
-
-            lastFile.finalTitle = vParser.setInput(configs[i].titleModifier).parse() ? vParser.replaceVariables((variable) => {
-              return this.getVariable(variable as AllVariables, variableData).trim();
-            }) : '';
-
+            if(exceptions && exceptions.newTitle) {
+              lastFile.finalTitle = exceptions.newTitle;
+            } else {
+              lastFile.finalTitle = vParser.setInput(configs[i].titleModifier).parse() ? vParser.replaceVariables((variable) => {
+                return this.getVariable(variable as AllVariables, variableData).trim();
+              }) : '';
+            }
             variableData.finalTitle = lastFile.finalTitle;
-            lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
-              return this.getVariable(variable as AllVariables, variableData).trim();
-            }) : '';
+            if(exceptions && exceptions.commandLineArguments) {
+              lastFile.argumentString = exceptions.commandLineArguments;
+            } else {
+              lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
+                return this.getVariable(variable as AllVariables, variableData).trim();
+              }) : '';
+            }
             lastFile.imagePool = vParser.setInput(configs[i].imagePool).parse() ? vParser.replaceVariables((variable) => {
               return this.getVariable(variable as AllVariables, variableData).trim();
             }) : '';

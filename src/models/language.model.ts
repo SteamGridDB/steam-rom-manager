@@ -296,6 +296,8 @@ export interface languageStruct {
               testCompleted: string,
               nothingWasFound: string,
               copiedToClipboard: string,
+              userExclusions: string,
+              excludedFileInfo__i: string //${index}, ${total}, ${filename}
           },
           error: {
             missingAccounts__i: string, //${count}
