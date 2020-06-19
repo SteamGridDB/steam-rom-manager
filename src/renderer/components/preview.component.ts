@@ -5,6 +5,7 @@ import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageConten
 import { APP } from '../../variables';
 import { FileSelector } from '../../lib';
 import * as url from '../../lib/helpers/url';
+import * as FileSaver from 'file-saver';
 import * as appImage from '../../lib/helpers/app-image';
 import * as _ from 'lodash';
 import * as path from 'path';
@@ -242,8 +243,8 @@ export class PreviewComponent implements OnDestroy {
       this.previewService.downloadImageUrls('logo',[app.logoimages.imagePool], app.imageProviders);
     }
   }
-  private saveImage() {
-
+  private saveImage(image: ImageContent, title: string) {
+    FileSaver.saveAs(image.imageUrl, title.replace(/[/\\?%*:|"<>]/g, '-'))
   }
 
   private previousImage(app: PreviewDataApp, imagetype?: string) {
