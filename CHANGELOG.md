@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.3.2
+### Fixed
+* Filter by category also removing titles in all artwork view
+* Round download percentage for auto updater
+
 ## 2.3.1
 ### Fixed
 * Filter by category not working in all artwork view
