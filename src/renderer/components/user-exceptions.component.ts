@@ -32,6 +32,9 @@ export class ExceptionsComponent implements OnDestroy {
   private get lang() {
     return APP.lang.userExceptions.component;
   }
+  exceptionsInfoClick() {
+    this.currentDoc.content = this.lang.docs__md.userExceptions.join('');
+  }
 
   save() {
     this.exceptionsService.saveUserExceptions();

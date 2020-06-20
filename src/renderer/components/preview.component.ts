@@ -24,6 +24,7 @@ export class PreviewComponent implements OnDestroy {
   private filterValue: string = '';
   private categoryFilter: string[] = [];
   private allCategories: string[] = [];
+  private actualCategoryFilter: string[]=[];
   private imageTypes: string[];
   private scrollingEntries: boolean = false;
   private fileSelector: FileSelector = new FileSelector();
@@ -68,6 +69,7 @@ export class PreviewComponent implements OnDestroy {
   }
   setCategoryFilter(categories: string[]) {
     this.categoryFilter = categories;
+    this.actualCategoryFilter = categories.map(c=>c.replace(/&nbsp;/g,' '))
   }
 
   ngAfterContentInit() {

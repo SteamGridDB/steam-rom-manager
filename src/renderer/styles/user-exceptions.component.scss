@@ -33,7 +33,9 @@
 
       align-items: center;
       grid-area: label;
-
+			.infoButton {
+				margin: 0 0.25em 0 0;
+			}
     }
     .addItem {
       @include button();
