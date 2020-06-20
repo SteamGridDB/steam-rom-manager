@@ -1,6 +1,25 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.3.0
+## Fixed
+* Moved data migrations to modifiers 
+## Added
+* Add documentation emphasizing User Accounts field
+* Steam Parser Title Modifier (default to removing illegal symbols)
+* Add a localImagesDir environment variable
+* Add a sane browse button to localimages/defaultimages fields
+* Exceptions manager
+* Add steam category filter to preview
+* Add save images locally to preview
+* Crash logging with sentry.io
+* Auto Updater (hopefully working, sort of hard to test separately)
+* Config Presets are searchable
+
+## Changed
+* Re organized Parser fields slightly to make more sense
+* Split user presets into separate files
+
 ## 2.2.34
 ## Fixed
 * Bug where app list would fail to generate if width/height of images could not be retrieved.
