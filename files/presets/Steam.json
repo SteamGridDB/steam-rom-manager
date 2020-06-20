@@ -5,7 +5,7 @@
 		"steamCategory": "",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "",
-		"steamDirectory": "",
+		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${/:/|${title}|}",
 		"executableArgs": "",
