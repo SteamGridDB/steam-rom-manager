@@ -41,7 +41,7 @@
                   <ng-container *ngFor="let imagetype of ['long','tall','hero','logo']">
                     <ng-container *ngVar="getBackgroundImage(app, imagetype) as image">
                       <ng-container *ngVar="getAppImages(app, imagetype) as appimages">
-                        <div class="app" *ngIf="(app.title | fuzzyTest: filterValue)" [style.backgroundImage]="setBackgroundImage(app, image, imagetype) | cssUrl | safeStyle"
+                        <div class="app" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter)" [style.backgroundImage]="setBackgroundImage(app, image, imagetype) | cssUrl | safeStyle"
                              [class.retrieving]="getImagePool(appimages.imagePool, imagetype).retrieving" [class.noImages]="!getImagePool(appimages.imagePool, imagetype).retrieving && image == undefined"
                              [class.downloading]="image != undefined && image.loadStatus === 'downloading'" [class.failed]="image != undefined && image.loadStatus === 'failed'"
                              [class.imageLoaded]="image != undefined && image.loadStatus === 'done'" (mouseenter)="entries.hoverIndex = app.entryId; entries.hoverType = imagetype;"
