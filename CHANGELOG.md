@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.3.1
+### Fixed
+* Filter by category not working in all artwork view
+* Include latest.yml in build so auto updater can work
+
 ## 2.3.0
 ### Fixed
 * Moved data migrations to modifiers 
