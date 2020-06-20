@@ -188,7 +188,7 @@ export class NgTextInputComponent implements ControlValueAccessor {
     let previousValue = this.currentValue;
     if (value !== this.currentValue) {
       if(value&&value.split('&')[0]=='_browse_'){
-        value = this.appendGlob? path.resolve(value.split('&')[1],path.basename(this.currentValue)||this.appendGlob):value.split('&')[1];
+        value = this.appendGlob? path.resolve(value.split('&')[1],path.basename(this.currentValue)||this.appendGlob).replace(/\\/g,'/'):value.split('&')[1];
       }
       this.currentValue = value;
       if (updateDom || this.highlight)
