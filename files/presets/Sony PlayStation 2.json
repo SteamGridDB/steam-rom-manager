@@ -1,14 +1,14 @@
 {
-	"~Generic~": {
+	"Sony PlayStation 2 - PCSX2": {
 		"parserType": "Glob",
-		"configTitle": "~Generic~",
-		"steamCategory": "${}",
+		"configTitle": "Sony PlayStation 2 - PCSX2",
+		"steamCategory": "${PS2}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "\"${filePath}\"",
+		"executableArgs": "\"${filePath}\" --nogui --fullscreen",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}.*",
+			"glob": "${title}@(.bin|.BIN|.cso|.CSO|.dump|.DUMP|.gz|.GZ|.img|.IMG|.iso|.ISO|.mdf|.MDF|.nrg|.NRG)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -47,7 +47,7 @@
 			"removeBrackets": true
 		},
 		"executable": {
-			"path": "path-to-emulator.exe",
+			"path": "path-to-pcsx2.exe",
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		}

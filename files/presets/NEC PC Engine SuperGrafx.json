@@ -1,14 +1,14 @@
 {
-	"~Generic~": {
+	"NEC PC Engine SuperGrafx - Retroarch - Beetle SGX": {
 		"parserType": "Glob",
-		"configTitle": "~Generic~",
-		"steamCategory": "${}",
+		"configTitle": "NEC PC Engine SuperGrafx - Retroarch - Beetle SGX",
+		"steamCategory": "${PCESGX}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "\"${filePath}\"",
+		"executableArgs": "-L cores${/}mednafen_supergrafx_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}.*",
+			"glob": "${title}@(.ccd|.CCD|.chd|.CHD|.cue|.CUE|.pce|.PCE|.sgx|.SGX|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -47,7 +47,7 @@
 			"removeBrackets": true
 		},
 		"executable": {
-			"path": "path-to-emulator.exe",
+			"path": "${retroarchpath}",
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		}
