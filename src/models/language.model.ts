@@ -8,6 +8,7 @@ export interface languageStruct {
       component: {
         filter: string,
           selectType: string,
+          selectCategories: string,
           selectTypeOptions: {
             long: string,
               tall: string,
@@ -17,6 +18,7 @@ export interface languageStruct {
           },
           by: string,
           refreshImages: string,
+          saveImage: string,
           addLocalImages: string,
           retryDownload: string,
           generateAppList: string,
@@ -55,9 +57,11 @@ export interface languageStruct {
               populatingVDF_entries: string,
                 savingVDF_entries: string,
                 fatalError: string,
+                fatalError__i: string, //${error}
                 knownSteamDirListIsEmpty: string,
                 steamIsRunning: string,
                 categorySaveError: string,
+                categorySaveError__i: string, //${error}
                 retryingDownload__i: string //${imageUrl}, ${appTitle},
               providerError__i: string//${provider}, ${code}, ${title}, ${url}
               unknownProviderError__i: string //${provider}, ${title}, ${error}
@@ -75,7 +79,8 @@ export interface languageStruct {
         errors: {
           directoryInvalid: string,
             noSteamAccounts: string,
-            fatalError: string
+            steamChanged__i: string,
+            fatalError__i: string
         }
     },
     globParser: {
@@ -189,7 +194,9 @@ export interface languageStruct {
               steamDirectoryMac: string,
               retroarchPathWin: string,
               retroarchPathMac: string,
-              retroarchPathLinux: string
+              retroarchPathLinux: string,
+              localImagesDirectoryWin: string,
+              localImagesDirectoryUnix: string
           }
       },
         service: {
@@ -210,8 +217,36 @@ export interface languageStruct {
           logger: string,
           settings: string,
           parsers: string,
+          customVariables: string,
+          userExceptions: string,
           noTitle: string
       }
+    },
+    userExceptions:{
+      component: {
+        buttons: {
+          save: string,
+            undoChanges: string,
+            deleteAll: string,
+            addItem: string,
+            deleteItem: string
+
+        },
+          docs__md: {
+            userExceptions: string[]
+          },
+          text: {
+            title: string,
+              exclude: string
+          }
+      },
+        service: {
+          error: {
+            loadingError: string,
+              corruptedExceptions__i: string, //${file},${error}
+              writingError: string
+          }
+        }
     },
     parsers: {
       component: {
@@ -230,6 +265,7 @@ export interface languageStruct {
           docs__md: {
             intro: string[],
               faq: string[],
+              communityPresets: string[],
               parserType: string[],
               configTitle: string[],
               steamCategory: string[],
@@ -262,6 +298,8 @@ export interface languageStruct {
               testCompleted: string,
               nothingWasFound: string,
               copiedToClipboard: string,
+              userExclusions: string,
+              excludedFileInfo__i: string //${index}, ${total}, ${filename}
           },
           error: {
             missingAccounts__i: string, //${count}

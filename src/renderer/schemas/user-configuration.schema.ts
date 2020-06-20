@@ -9,7 +9,16 @@ export const userConfiguration = {
     configTitle: { type: 'string', default: '' },
     parserId: { type: 'string', default: '' },
     steamCategory: { type: 'string', default: '' },
-    executableLocation: { type: 'string', default: '' },
+    executable: {
+      type: 'object',
+      default: {},
+      properties:{
+        path: {type: 'string', default: ''},
+        shortcutPassthrough: {type: 'boolean', default: false },
+        appendArgsToExecutable: { type: 'boolean', default: true },
+      }
+    },
+    executableArgs: { type: 'string', default: '' },
     executableModifier: { type: 'string', default: '"${exePath}"' },
     romDirectory: { type: 'string', default: '' },
     steamDirectory: { type: 'string', default: '' },
@@ -18,8 +27,8 @@ export const userConfiguration = {
       type: 'object',
       default: {},
       properties: {
-        skipWithMissingDataDir: { type: 'boolean', default: true },
         specifiedAccounts: { type: 'string', default: '' },
+        skipWithMissingDataDir: { type: 'boolean', default: true },
         useCredentials: { type: 'boolean', default: true }
       }
     },
@@ -37,15 +46,12 @@ export const userConfiguration = {
       type: 'object',
       default: {},
       properties: {
-        shortcutPassthrough: {type: 'boolean', default: false },
         limitToGroups: { type: 'string', default: '' },
         skipFileIfVariableWasNotFound: { type: 'boolean', default: false },
         caseInsensitiveVariables: { type: 'boolean', default: false },
         tryToMatchTitle: { type: 'boolean', default: false }
       }
     },
-    executableArgs: { type: 'string', default: '' },
-    appendArgsToExecutable: { type: 'boolean', default: true },
     imagePool: { type: 'string', default: '${fuzzyTitle}' },
     defaultImage: { type: 'string', default: '' },
     defaultTallImage: { type: 'string', default: '' },

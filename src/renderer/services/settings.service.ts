@@ -19,16 +19,7 @@ export class SettingsService {
 
   constructor(private loggerService: LoggerService) {
     this.appSettings = <AppSettings>this.validator.getDefaultValues();
-
     json.read<AppSettings>(paths.userSettings, this.appSettings).then((settings) => {
-      let updateNeeded=false;
-      if(!settings.environmentVariables) {
-        updateNeeded=true;
-        settings.environmentVariables={
-          steamDirectory:"",
-          retroarchPath:""
-        }
-      }
       if (!this.validator.validate(settings).isValid()) {
         this.savingIsDisabled = true;
         this.loggerService.error(this.lang.error.readingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
@@ -39,10 +30,6 @@ export class SettingsService {
       }
       else {
         this.appSettings =settings;
-        if(updateNeeded){
-          this.loggerService.info(this.lang.info.updatingSettings, {invokeAlert:true, alertTimeout: 3000})
-          this.saveAppSettings();
-        }
       }
     }).catch((error) => {
       this.loggerService.error(this.lang.error.readingError, { invokeAlert: true, alertTimeout: 3000 });

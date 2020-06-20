@@ -110,28 +110,19 @@ export class PreviewService {
 
     this.previewVariables.listIsBeingGenerated = true;
     this.imageProviderService.instance.stopUrlDownload();
-    /* if (fromSteam) {
-            if (this.appSettings.knownSteamDirectories.length === 0) {
-                this.previewVariables.listIsBeingGenerated = false;
-                this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 });
-            }
-            else
-                this.generatePreviewDataFromSteamCallback();
-        }
-        else */
     this.generatePreviewDataCallback();
   }
 
   saveData(remove: boolean): Promise<any> {
 
     if (this.previewVariables.listIsBeingSaved)
-      return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     else if (!remove && this.previewVariables.numberOfListItems === 0)
-      return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     else if (this.previewVariables.listIsBeingRemoved)
-      return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     else if (remove && this.appSettings.knownSteamDirectories.length === 0)
-      return Promise.resolve().then(() => { this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    return Promise.resolve().then(() => { this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
 
     let vdfManager = new VDF_Manager();
     let categoryManager = new CategoryManager();
@@ -176,9 +167,11 @@ export class PreviewService {
     }).catch((error: Category_Error | Error)=>{
       if(error instanceof Category_Error) {
         this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
-        this.loggerService.error(this.lang.errors.steamIsRunning, {invokeAlert: true, alertTimeout: 3000});
+        this.loggerService.error(this.lang.errors.categorySaveError__i.interpolate({error:error.message}));
+      } else {
+        // Category errors are considered non fatal
+        throw new Error(error.message);
       }
-      throw new Error(error.message);
     })
     .then(()=>{
       return vdfManager.write()
@@ -189,17 +182,18 @@ export class PreviewService {
       throw new Error(error.message);
     })
     .then(()=>{
-        this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-        this.previewVariables.listIsBeingSaved = false;
+      this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+      this.previewVariables.listIsBeingSaved = false;
 
-        if (remove) {
-          this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-          this.clearPreviewData();
-        }
+      if (remove) {
+        this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+        this.clearPreviewData();
+      }
       return true;
     }).catch((failureError: Error)=>{
       this.previewVariables.listIsBeingSaved = false;
-      this.loggerService.error(failureError);
+      this.loggerService.error(this.lang.errors.fatalError,{ invokeAlert: true, alertTimeout: 3000 });
+      this.loggerService.error(this.lang.errors.fatalError__i.interpolate({error: failureError}))
       return false;
     })
     return chain;
@@ -231,7 +225,9 @@ export class PreviewService {
         let imageLoader = new Image();
         imageLoader.onload = () => {
           image.loadStatus = 'done';
-          image.imageRes = `${imageLoader.width}x${imageLoader.height}`
+          let width = imageLoader ? imageLoader.width : 'unknown';
+          let height = imageLoader ? imageLoader.height : 'unknown';
+          image.imageRes = `${width}x${height}`
           this.previewDataChanged.next();
         };
         imageLoader.onerror = () => {
@@ -255,7 +251,9 @@ export class PreviewService {
       let imageLoader = new Image();
       imageLoader.onload = () => {
         image.loadStatus = 'done';
-        image.imageRes = `${imageLoader.width}x${imageLoader.height}`;
+        let width = imageLoader ? imageLoader.width : 'unknown';
+        let height = imageLoader ? imageLoader.height : 'unknown';
+        image.imageRes = `${width}x${height}`
         this.previewDataChanged.next();
       };
       imageLoader.onerror = () => {
@@ -367,6 +365,10 @@ export class PreviewService {
     this.clearImageCache(true);
     this.previewVariables.numberOfListItems = 0;
     this.previewDataChanged.next();
+  }
+
+  getAllCategories() {
+    return this.previewData ? Object.entries(this.previewData).map(dir=>Object.entries(dir[1]).map(user=>Object.entries(user[1].apps).map(app=>app[1].steamCategories).reduce((x,y)=>_.union(x,y))).reduce((x,y)=>_.union(x,y))).reduce((x,y)=>_.union(x,y)) : [];
   }
 
   private clearImageCache(settingsOnly: boolean) {
@@ -603,7 +605,7 @@ export class PreviewService {
 
               previewData[config.steamDirectory][userAccount.accountID].apps[appID] = {
                 entryId: numberOfItems++,
-                status: 'add', //TODO: change to this when "mark" feature is implemented: oldDataApp !== undefined ? oldDataApp.status : 'add',
+                status: 'add',
                 configurationTitle: config.configurationTitle,
                 parserId: config.parserId,
                 parserType: config.parserType,

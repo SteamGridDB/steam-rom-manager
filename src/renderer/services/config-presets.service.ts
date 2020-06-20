@@ -9,6 +9,7 @@ import * as json from "../../lib/helpers/json";
 import * as paths from "../../paths";
 import * as schemas from '../schemas';
 import * as _ from "lodash";
+import * as path from "path"
 
 @Injectable()
 export class ConfigurationPresetsService {
@@ -44,26 +45,33 @@ export class ConfigurationPresetsService {
         this.downloadStatus.next(true);
 
         return ConfigurationPresetsService.xRequest.request(
-          'https://raw.githubusercontent.com/doZennn/steam-rom-manager/master/files/configPresets.json',
-          {
-            responseType: 'json',
-            method: 'GET',
-            timeout: 1000
-          }
-        ).then((data) => {
-          const error = this.set(data || {});
-          if (error !== null) {
+          'https://api.github.com/repos/doZennn/steam-rom-manager/git/trees/master?recursive=1',
+          { responseType: 'json', method: 'GET', timeout: 1000 }
+        ).then((data: any)=>{
+          let presetURLs = data.tree
+            .filter((entry: any)=>path.dirname(entry.path)=='files/presets')
+            .map((entry: any)=>entry.path)
+
+          let presetPromises: PromiseLike<any>[] = []
+          presetURLs.forEach((url: string)=>{
+            let rawURL = 'https://raw.githubusercontent.com/doZennn/steam-rom-manager/master/'.concat(url);
+            presetPromises.push(ConfigurationPresetsService.xRequest.request(rawURL,
+              { responseType: 'json', method: 'GET', timeout: 1000 }))
+          })
+          return Promise.all(presetPromises)
+        }).then((data)=>{
+          let result = Object.assign({},...data);
+          const error = this.set(result || {});
+          if (error) {
             throw new Error(error);
           }
-          else {
-            this.loggerService.info(this.lang.info.downloaded, force ? { invokeAlert: true, alertTimeout: 5000 } : undefined);
-            this.save(force);
-          }
+          this.loggerService.info(this.lang.info.downloaded, force ? { invokeAlert: true, alertTimeout: 5000 } : undefined);
+          this.save(force);
         }).catch((error) => {
           this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: _.get(error, 'error.status', error) }));
         }).finally(() => {
           this.downloadStatus.next(false);
-        })
+        });
       }
     });
   }
@@ -78,6 +86,7 @@ export class ConfigurationPresetsService {
         if (error !== null) {
           this.savingIsDisabled = true;
           this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
+
           this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
             file: paths.configPresets,
             error

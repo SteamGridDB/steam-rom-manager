@@ -1,6 +1,5 @@
 import { Component, forwardRef, ElementRef, Input, Output, ViewChild, HostListener, EventEmitter } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import * as path from 'path';
 const dialog = require('electron').remote.dialog;
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
@@ -46,7 +45,7 @@ export class NgPathInputComponent implements ControlValueAccessor {
       buttonLabel:buttonLabel
     } as Electron.OpenDialogOptions).then((result: any)=>{
       if(result && !result.canceled && result.filePaths && result.filePaths.length==1){
-        this.writeValue(result.filePaths[0]);
+        this.writeValue('_browse_&:&'.concat(result.filePaths[0]));
       }
     })
   }

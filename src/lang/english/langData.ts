@@ -9,8 +9,9 @@ export const EnglishLang: languageContainer = {
     },
     preview: {
       component: {
-        filter: 'Filter app titles',
+        filter: 'Filter by title',
         selectType: 'Select type',
+        selectCategories: 'Filter by category',
         selectTypeOptions: {
           long: 'Grids',
           tall: 'Posters',
@@ -20,6 +21,7 @@ export const EnglishLang: languageContainer = {
         },
         by: 'by',
         refreshImages: 'Refresh images',
+        saveImage: 'Save image to file',
         addLocalImages: 'Add local images',
         retryDownload: 'Retry download',
         generateAppList: 'Generate app list',
@@ -58,9 +60,11 @@ export const EnglishLang: languageContainer = {
           populatingVDF_entries: 'Non-fatal error(-s) occurred populating VDF entries.',
           savingVDF_entries: 'Non-fatal error(-s) occurred while saving VDF/image files.',
           fatalError: 'Fatal error occurred. See event log for details.',
+          fatalError__i: 'Fatal Error ${error}',
           knownSteamDirListIsEmpty: 'A list of known Steam directories is empty.',
           steamIsRunning: 'Cannot make changes while steam is running!',
-          categorySaveError: 'Error updating categories',
+          categorySaveError: 'Error updating categories. See event log for details.',
+          categorySaveError__i: 'Category error (shortcuts and artwork will still be added): ${error}',
           retryingDownload__i: 'Image download from "${imageUrl}" failed for "${appTitle}".',
           providerError__i: 'Error received from "${provider}" for "${title}" (${url ? `${code}: ${url}` : code}).',
           unknownProviderError__i: 'Unknown error received from "${provider}" for "${title}": ${error}'
@@ -81,7 +85,8 @@ export const EnglishLang: languageContainer = {
       errors: {
         directoryInvalid: "Steam directory invalid",
         noSteamAccounts: "Steam directory specified has no accounts",
-        fatalError: "Steam parser failed with fatal error"
+        steamChanged__i: 'Steam has changed their internal database structure, this parser needs to be fixed. Full error:\n ${error}',
+        fatalError__i: 'Steam parser failed with fatal error:\n ${error}'
       }
     },
     globParser: {
@@ -204,12 +209,14 @@ export const EnglishLang: languageContainer = {
         },
         placeholder: {
           noProviders: 'None',
-          steamDirectoryWin: 'C:\\Program Files(x86)\\Steam',
-          steamDirectoryMac: '~/Library/Application Support/Steam',
-          steamDirectoryLinux: '~/.steam/steam',
-          retroarchPathWin: 'C:\\Path\\To\\retroarch.exe',
-          retroarchPathLinux: '/path/to/retroarch',
-          retroarchPathMac: '/path/to/retroarch'
+          steamDirectoryWin: 'Typically C:\\Program Files (x86)\\Steam',
+          steamDirectoryMac: 'Typically ~/Library/Application Support/Steam',
+          steamDirectoryLinux: 'Typically ~/.steam/steam',
+          retroarchPathWin: 'For example C:\\Path\\To\\retroarch.exe',
+          retroarchPathLinux: 'For example /path/to/retroarch',
+          retroarchPathMac: 'For example /path/to/retroarch',
+          localImagesDirectoryWin: 'For example C\\Path\\To\\LocalArtwork',
+          localImagesDirectoryUnix: 'For example ~/path/to/localartwork'
         }
       },
       service: {
@@ -230,7 +237,34 @@ export const EnglishLang: languageContainer = {
         logger: 'Event log',
         settings: 'Settings',
         parsers: 'Parsers',
+        customVariables: 'Variables',
+        userExceptions: 'Exceptions',
         noTitle: 'No title!'
+      }
+    },
+    userExceptions:{
+      component: {
+        buttons: {
+          save:'Save',
+          deleteAll: 'Clear',
+          undoChanges: 'Undo changes',
+          addItem: 'Add exception',
+          deleteItem: 'Remove exception'
+        },
+        docs__md: {
+          userExceptions: [require('./markdown/user-exceptions.md')]
+        },
+        text: {
+          title: 'User Exceptions',
+          exclude: 'Exclude Title'
+        }
+      },
+      service: {
+        error: {
+          loadingError: 'Could not load user exceptions',
+          corruptedExceptions__i: 'User exceptions corrupt (file - ${file}). Saving is disabled, full error is: ${error}',
+          writingError: 'Error occurred saving user exceptions'
+        }
       }
     },
     parsers: {
@@ -250,26 +284,30 @@ export const EnglishLang: languageContainer = {
         docs__md: {
           intro: [require('./markdown/intro.md')],
           faq: [require('./markdown/faq.md')],
+          communityPresets: [require('./markdown/community-presets.md')],
           parserType: [require('./markdown/empty-parser-type.md')],
           configTitle: [require('./markdown/config-title.md')],
           steamCategory: [
             require('./markdown/steam-category.md'),
-            require('./markdown/parser-variables.md')
+            require('./markdown/parser-variables.md'),
+            require('./markdown/parser-env-variables.md')
           ],
-          executableLocation: [require('./markdown/executable-location.md')],
-          romDirectory: [require('./markdown/rom-directory.md')],
-          steamDirectory: [require('./markdown/steam-directory.md')],
-          startInDirectory: [require('./markdown/start-in-directory.md')],
+          executableLocation: [require('./markdown/executable-location.md'),require('./markdown/parser-env-variables.md')],
+          romDirectory: [require('./markdown/rom-directory.md'),require('./markdown/parser-env-variables.md')],
+          steamDirectory: [require('./markdown/steam-directory.md'),require('./markdown/parser-env-variables.md')],
+          startInDirectory: [require('./markdown/start-in-directory.md'),require('./markdown/parser-env-variables.md')],
           userAccounts: [require('./markdown/user-accounts.md')],
           titleModifier: [
             require('./markdown/title-modifier.md'),
             require('./markdown/what-is-app-id.md'),
-            require('./markdown/parser-variables.md')
+            require('./markdown/parser-variables.md'),
+            require('./markdown/parser-env-variables.md')
           ],
           executableModifier: [
             require('./markdown/executable-modifier.md'),
             require('./markdown/what-is-app-id.md'),
-            require('./markdown/parser-variables.md')
+            require('./markdown/parser-variables.md'),
+            require('./markdown/parser-env-variables.md')
           ],
           titleFromVariable: [
             require('./markdown/title-from-variable.md')
@@ -278,11 +316,13 @@ export const EnglishLang: languageContainer = {
           executableArgs: [
             require('./markdown/executable-arguments.md'),
             require('./markdown/what-is-app-id.md'),
-            require('./markdown/parser-variables.md')
+            require('./markdown/parser-variables.md'),
+            require('./markdown/parser-env-variables.md')
           ],
           onlineImageQueries: [
             require('./markdown/online-image-queries.md'),
-            require('./markdown/parser-variables.md')
+            require('./markdown/parser-variables.md'),
+            require('./markdown/parser-env-variables.md')
           ],
           imageProviders: [
             require('./markdown/image-providers.md')
@@ -294,24 +334,28 @@ export const EnglishLang: languageContainer = {
             require('./markdown/default-image.md'),
             require('./markdown/special-glob-input.md'),
             require('./markdown/parser-variables.md'),
+            require('./markdown/parser-env-variables.md'),
             require('./markdown/spec-glob-chars.md')
           ],
           defaultTallImage: [
             require('./markdown/default-tall-image.md'),
             require('./markdown/special-glob-input.md'),
             require('./markdown/parser-variables.md'),
+            require('./markdown/parser-env-variables.md'),
             require('./markdown/spec-glob-chars.md')
           ],
           defaultHeroImage: [
             require('./markdown/default-hero-image.md'),
             require('./markdown/special-glob-input.md'),
             require('./markdown/parser-variables.md'),
+            require('./markdown/parser-env-variables.md'),
             require('./markdown/spec-glob-chars.md')
           ],
           defaultLogoImage: [
             require('./markdown/default-logo-image.md'),
             require('./markdown/special-glob-input.md'),
             require('./markdown/parser-variables.md'),
+            require('./markdown/parser-env-variables.md'),
             require('./markdown/spec-glob-chars.md')
           ],
 
@@ -319,24 +363,28 @@ export const EnglishLang: languageContainer = {
             require('./markdown/local-images.md'),
             require('./markdown/special-glob-input.md'),
             require('./markdown/parser-variables.md'),
+            require('./markdown/parser-env-variables.md'),
             require('./markdown/spec-glob-chars.md')
           ],
           localTallImages: [
             require('./markdown/local-tall-images.md'),
             require('./markdown/special-glob-input.md'),
             require('./markdown/parser-variables.md'),
+            require('./markdown/parser-env-variables.md'),
             require('./markdown/spec-glob-chars.md')
           ],
           localHeroImages: [
             require('./markdown/local-hero-images.md'),
             require('./markdown/special-glob-input.md'),
             require('./markdown/parser-variables.md'),
+            require('./markdown/parser-env-variables.md'),
             require('./markdown/spec-glob-chars.md')
           ],
           localLogoImages: [
             require('./markdown/local-logo-images.md'),
             require('./markdown/special-glob-input.md'),
             require('./markdown/parser-variables.md'),
+            require('./markdown/parser-env-variables.md'),
             require('./markdown/spec-glob-chars.md')
           ],
 
@@ -344,6 +392,7 @@ export const EnglishLang: languageContainer = {
             require('./markdown/local-icons.md'),
             require('./markdown/special-glob-input.md'),
             require('./markdown/parser-variables.md'),
+            require('./markdown/parser-env-variables.md'),
             require('./markdown/spec-glob-chars.md')
           ]
         },
@@ -353,6 +402,8 @@ export const EnglishLang: languageContainer = {
           testCompleted: 'Parser test is completed.',
           nothingWasFound: 'Parser found nothing.',
           copiedToClipboard: 'Configuration copied to clipboard',
+          userExclusions: 'User excluded:',
+          excludedFileInfo__i: '[${index}/${total}]: ${filename}'
         },
         error: {
           missingAccounts__i: 'Following ${count} user account(s) were not found (user must to login to Steam at least once):',

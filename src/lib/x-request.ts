@@ -71,16 +71,18 @@ export class xRequest {
         return this.Bluebird.delay(delay).then(() => new this.Bluebird<xRequestResolve>(function (resolve, reject, onCancel) {
             let xhr = new XMLHttpRequest();
             let finalUrl = options.url;
-            let params = options.params || null;
+            let paramsString: string = null;
 
-            if (params && typeof params === 'object') {
-                params = Object.keys(params).map(function (key) {
-                    return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
+            if (options.params && typeof options.params === 'object') {
+                paramsString = Object.keys(options.params).map(function (key) {
+                    return encodeURIComponent(key) + '=' + encodeURIComponent(options.params[key]);
                 }).join('&');
+            } else if(typeof options.params==='string'){
+              paramsString = options.params || null;
             }
 
-            if (options.method === 'GET' && params)
-                finalUrl = `${finalUrl}?${params}`;
+            if (options.method === 'GET' && paramsString)
+                finalUrl = `${finalUrl}?${paramsString}`;
 
             xhr.responseType = options.responseType || '';
 
@@ -134,7 +136,7 @@ export class xRequest {
             if (options.method === 'GET')
                 xhr.send(null);
             else
-                xhr.send(params);
+                xhr.send(paramsString);
 
             onCancel(() => {
                 xhr.abort();

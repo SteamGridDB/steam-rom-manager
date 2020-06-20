@@ -1,4 +1,4 @@
-import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, CustomArgumentVariables,AppSettings } from '../models';
+import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, UserExceptions, AppSettings } from '../models';
 import { FuzzyService } from "../renderer/services";
 import { VariableParser } from "./variable-parser";
 import { APP } from '../variables';
@@ -18,7 +18,7 @@ import {getPath} from 'windows-shortcuts-ps';
 export class FileParser {
   private availableParsers = parsers;
   private customVariableData: CustomVariables = {};
-  private argumentVariableData: CustomArgumentVariables = {};
+  private userExceptions: UserExceptions = {};
   private globCache: any = {};
 
   constructor(private fuzzyService: FuzzyService) { }
@@ -31,10 +31,8 @@ export class FileParser {
     this.customVariableData = data;
   }
 
-  setCustomArgVariables() {
-    if(fs.existsSync(paths.customArgVariables)){
-      this.argumentVariableData = JSON.parse(fs.readFileSync(paths.customArgVariables,'utf-8'));
-    }
+  setUserExceptions(data: UserExceptions) {
+    this.userExceptions = data;
   }
 
   getAvailableParsers() {
@@ -85,7 +83,6 @@ export class FileParser {
     let totalUserAccountsFound: number = 0;
     let filteredAccounts: { found: userAccountData[], missing: string[] }[] = [];
     let parsedConfigs: ParsedUserConfiguration[] = [];
-    this.setCustomArgVariables();
     this.globCache = {};
 
     return Promise.resolve()
@@ -105,7 +102,7 @@ export class FileParser {
             configs[i].startInDirectory = preParser.setInput(configs[i].startInDirectory).parse() ? preParser.replaceVariables((variable) => {
               return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
             }) : null;
-            configs[i].executableLocation = preParser.setInput(configs[i].executableLocation).parse() ? preParser.replaceVariables((variable) => {
+            configs[i].executable.path = preParser.setInput(configs[i].executable.path).parse() ? preParser.replaceVariables((variable) => {
               return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
             }) : null;
           }
@@ -178,14 +175,15 @@ export class FileParser {
             configurationTitle: configs[i].configTitle,
             parserId: configs[i].parserId,
             parserType: configs[i].parserType,
-            appendArgsToExecutable: configs[i].appendArgsToExecutable,
-            shortcutPassthrough: configs[i].titleFromVariable.shortcutPassthrough,
+            appendArgsToExecutable: configs[i].executable.appendArgsToExecutable,
+            shortcutPassthrough: configs[i].executable.shortcutPassthrough,
             imageProviders: configs[i].imageProviders,
             foundUserAccounts: filteredAccounts[i].found,
             missingUserAccounts: filteredAccounts[i].missing,
             steamDirectory: configs[i].steamDirectory,
             files: [],
-            failed: _.cloneDeep(data[i].failed)
+            failed: _.cloneDeep(data[i].failed),
+            excluded: []
           });
           for (let j = 0; j < data[i].success.length; j++) {
             let fuzzyTitle = data[i].success[j].fuzzyTitle || data[i].success[j].extractedTitle;
@@ -195,14 +193,23 @@ export class FileParser {
               parsedConfigs[i].failed.push(data[i].success[j].filePath);
               continue;
             }
+
+            // Exclude user specified exclusions
+            let exceptions = this.userExceptions[data[i].success[j].extractedTitle];
+            if(exceptions && exceptions.exclude) {
+              parsedConfigs[i].excluded.push(data[i].success[j].filePath);
+              continue;
+            }
+
             let executableLocation:string = undefined;
             let startInDir:string = undefined;
             if(isGlobParser) {
-              executableLocation = configs[i].executableLocation ? configs[i].executableLocation : data[i].success[j].filePath;
+              executableLocation = configs[i].executable.path ? configs[i].executable.path : data[i].success[j].filePath;
               startInDir = configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation);
             } else {
               executableLocation = data[i].success[j].extractedAppId;
             }
+
 
             parsedConfigs[i].files.push({
               steamCategories: undefined,
@@ -238,15 +245,21 @@ export class FileParser {
 
             let lastFile = parsedConfigs[i].files[parsedConfigs[i].files.length - 1];
             let variableData = this.makeVariableData(configs[i],settings, lastFile);
-
-            lastFile.finalTitle = vParser.setInput(configs[i].titleModifier).parse() ? vParser.replaceVariables((variable) => {
-              return this.getVariable(variable as AllVariables, variableData).trim();
-            }) : '';
-
+            if(exceptions && exceptions.newTitle) {
+              lastFile.finalTitle = exceptions.newTitle;
+            } else {
+              lastFile.finalTitle = vParser.setInput(configs[i].titleModifier).parse() ? vParser.replaceVariables((variable) => {
+                return this.getVariable(variable as AllVariables, variableData).trim();
+              }) : '';
+            }
             variableData.finalTitle = lastFile.finalTitle;
-            lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
-              return this.getVariable(variable as AllVariables, variableData).trim();
-            }) : '';
+            if(exceptions && exceptions.commandLineArguments) {
+              lastFile.argumentString = exceptions.commandLineArguments;
+            } else {
+              lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
+                return this.getVariable(variable as AllVariables, variableData).trim();
+              }) : '';
+            }
             lastFile.imagePool = vParser.setInput(configs[i].imagePool).parse() ? vParser.replaceVariables((variable) => {
               return this.getVariable(variable as AllVariables, variableData).trim();
             }) : '';
@@ -400,7 +413,6 @@ export class FileParser {
     else {
       groups = Object.keys(this.customVariableData);
     }
-
     if (groups.length > 0) {
       for (let i = 0; i < data.success.length; i++) {
         let found = false;
@@ -434,24 +446,13 @@ export class FileParser {
 
   private filterUserAccounts(accountData: userAccountData[], nameFilter: string[], steamDirectory: string, skipWithMissingDirectories: boolean) {
     let data: { found: userAccountData[], missing: string[] } = { found: [], missing: [] };
-
     if (nameFilter.length === 0) {
-      nameFilter = _.map(accountData, 'name');
-    }
-
-    if (nameFilter.length > 0) {
-      for (let i = 0; i < nameFilter.length; i++) {
-        let index = accountData.findIndex((item) => item.name === nameFilter[i]);
-        if (index !== -1) {
-          if (skipWithMissingDirectories) {
-            let accountPath = path.join(steamDirectory, 'userdata', accountData[index].accountID);
-            if (!this.validatePath(accountPath, true))
-              continue;
-          }
-          data.found.push(accountData[index]);
-        }
-        else
-          data.missing.push(nameFilter[i]);
+      data.found = _.cloneDeep(accountData);
+    } else {
+      data.found = accountData.filter((item)=>nameFilter.indexOf(item.name)>=0||nameFilter.indexOf(item.accountID)>=0)
+      data.missing = nameFilter.filter((filt)=>data.found.map(item=>item.name).indexOf(filt)<0&&data.found.map(item=>item.accountID).indexOf(filt)<0);
+      if(skipWithMissingDirectories) {
+        data.found = data.found.filter((item)=>this.validatePath(path.join(steamDirectory,'userdata',item.accountID),true));
       }
     }
     return data;
@@ -469,15 +470,16 @@ export class FileParser {
       let fieldValue = config[field];
       if (fieldValue) {
         let variableData = this.makeVariableData(config,settings, parsedConfig.files[i]);
+        //expandable set is to allow you to comment out stuff using $()$. Decent idea, but ehhhh
         let expandableSet = /\$\((\${.+?})(?:\|(.*?))?\)\$/.exec(fieldValue);
-
+        let cwd = settings.environmentVariables.localImagesDirectory? settings.environmentVariables.localImagesDirectory : config.romDirectory;
         if (expandableSet === null) {
-          let replacedGlob = path.resolve(config.romDirectory, vParser.setInput(fieldValue).parse() ? vParser.replaceVariables((variable) => {
+          let replacedGlob = path.resolve(cwd,vParser.setInput(fieldValue).parse() ? vParser.replaceVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData);
           }) : '').replace(/\\/g, '/');
 
           resolvedGlobs[i].push(replacedGlob);
-          promises.push(this.globPromise(replacedGlob, { silent: true, dot: true, realpath: true, cwd: config.romDirectory, cache: this.globCache }).then((files) => {
+          promises.push(this.globPromise(replacedGlob, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
             resolvedFiles[i] = files;
           }));
         }
@@ -487,12 +489,12 @@ export class FileParser {
           parserMatch = vParser.setInput(parserMatch).parse() ? vParser.replaceVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData);
           }) : '';
-          parserMatch = path.resolve(config.romDirectory, parserMatch.replace('$()$', expandableSet[1])).replace(/\\/g, '/');
+          parserMatch = path.resolve(cwd, parserMatch.replace('$()$', expandableSet[1])).replace(/\\/g, '/');
           resolvedGlobs[i].push(parserMatch);
 
           if (expandableSet[2] != undefined) {
             secondaryMatch = fieldValue.replace(expandableSet[0], expandableSet[2] || '');
-            secondaryMatch = path.resolve(config.romDirectory, vParser.setInput(secondaryMatch).parse() ? vParser.replaceVariables((variable) => {
+            secondaryMatch = path.resolve(cwd, vParser.setInput(secondaryMatch).parse() ? vParser.replaceVariables((variable) => {
               return this.getVariable(variable as AllVariables, variableData);
             }) : '').replace(/\\/g, '/');
             resolvedGlobs[i].push(secondaryMatch);
@@ -500,9 +502,9 @@ export class FileParser {
 
           promises.push(Promise.resolve().then(() => {
             if (/\${title}/i.test(expandableSet[1]))
-              return this.availableParsers['Glob'].execute([config.romDirectory], { 'glob': parserMatch }, this.globCache);
+              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache);
             else
-              return this.availableParsers['Glob-regex'].execute([config.romDirectory], { 'glob-regex': parserMatch }, this.globCache);
+              return this.availableParsers['Glob-regex'].execute([cwd], { 'glob-regex': parserMatch }, this.globCache);
           }).then((parsedData) => {
             for (let j = 0; j < parsedData.success.length; j++) {
               if (config.fuzzyMatch.use) {
@@ -515,7 +517,7 @@ export class FileParser {
               }
             }
             if (secondaryMatch !== undefined) {
-              return this.globPromise(secondaryMatch, { silent: true, dot: true, realpath: true, cwd: config.romDirectory, cache: this.globCache }).then((files) => {
+              return this.globPromise(secondaryMatch, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
                 return resolvedFiles[i].concat(files);
               });
             }
@@ -545,6 +547,9 @@ export class FileParser {
         break;
       case 'RETROARCHPATH':
         output=settings.environmentVariables.retroarchPath;
+        break;
+      case 'LOCALIMAGESDIR':
+        output=settings.environmentVariables.localImagesDirectory;
         break;
       default:
         break;
@@ -609,6 +614,9 @@ export class FileParser {
         break;
       case 'RETROARCHPATH':
         output=data.retroarchPath;
+        break;
+      case 'LOCALIMAGESDIR':
+        output=data.localImagesDirectory;
         break;
       default:
         {
@@ -692,10 +700,10 @@ export class FileParser {
               }
             }
           }
-
-          if(this.argumentVariableData[output]!==undefined) {
-            return this.argumentVariableData[variable][data.extractedTitle] || '';
-          }
+          // TODO REPLACE WITH EXCEPTIONS
+          // if(this.argumentVariableData[output]!==undefined) {
+          //   return this.argumentVariableData[variable][data.extractedTitle] || '';
+          // }
         }
         break;
     }
@@ -713,7 +721,8 @@ export class FileParser {
       fuzzyTitle: file.fuzzyTitle,
       romDirectory: config.romDirectory,
       steamDirectoryGlobal: settings.environmentVariables.steamDirectory,
-      retroarchPath: settings.environmentVariables.retroarchPath
+      retroarchPath: settings.environmentVariables.retroarchPath,
+      localImagesDirectory: settings.environmentVariables.localImagesDirectory
     }
   }
 
