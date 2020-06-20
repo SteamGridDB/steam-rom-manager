@@ -17,7 +17,7 @@ All notable changes to this project will be documented in this file.
 * Config Presets are searchable
 
 ## Changed
-* Re organized Parser fields slightly to make more sense
+* Re organized Parser fields to make more sense
 * Split user presets into separate files
 
 ## 2.2.34
