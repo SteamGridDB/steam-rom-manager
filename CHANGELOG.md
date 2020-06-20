@@ -2,9 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## 2.3.0
-## Fixed
+### Fixed
 * Moved data migrations to modifiers 
-## Added
+### Added
 * Add documentation emphasizing User Accounts field
 * Steam Parser Title Modifier (default to removing illegal symbols)
 * Add a localImagesDir environment variable
@@ -16,15 +16,15 @@ All notable changes to this project will be documented in this file.
 * Auto Updater (hopefully working, sort of hard to test separately)
 * Config Presets are searchable
 
-## Changed
+### Changed
 * Re organized Parser fields slightly to make more sense
 * Split user presets into separate files
 
 ## 2.2.34
-## Fixed
+### Fixed
 * Bug where app list would fail to generate if width/height of images could not be retrieved.
 
-## Added
+### Added
 * More logging for steam parser.
 
 ## 2.2.33
