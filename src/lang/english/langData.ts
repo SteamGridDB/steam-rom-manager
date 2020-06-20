@@ -215,7 +215,7 @@ export const EnglishLang: languageContainer = {
           retroarchPathWin: 'For example C:\\Path\\To\\retroarch.exe',
           retroarchPathLinux: 'For example /path/to/retroarch',
           retroarchPathMac: 'For example /path/to/retroarch',
-          localImagesDirectoryWin: 'For example C\\Path\\To\\LocalArtwork',
+          localImagesDirectoryWin: 'For example C:\\Path\\To\\LocalArtwork',
           localImagesDirectoryUnix: 'For example ~/path/to/localartwork'
         }
       },
