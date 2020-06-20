@@ -45,7 +45,7 @@ export class NgPathInputComponent implements ControlValueAccessor {
       buttonLabel:buttonLabel
     } as Electron.OpenDialogOptions).then((result: any)=>{
       if(result && !result.canceled && result.filePaths && result.filePaths.length==1){
-        this.writeValue('_browse_:'.concat(result.filePaths[0]));
+        this.writeValue('_browse_&'.concat(result.filePaths[0]));
       }
     })
   }
