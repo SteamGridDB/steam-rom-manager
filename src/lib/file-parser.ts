@@ -700,10 +700,6 @@ export class FileParser {
               }
             }
           }
-          // TODO REPLACE WITH EXCEPTIONS
-          // if(this.argumentVariableData[output]!==undefined) {
-          //   return this.argumentVariableData[variable][data.extractedTitle] || '';
-          // }
         }
         break;
     }

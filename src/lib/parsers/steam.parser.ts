@@ -6,6 +6,8 @@ import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
 import * as appid from "appid";
 import * as bvdf from "binary-vdf";
+import * as Sentry from '@sentry/electron';
+
 export class SteamParser implements GenericParser {
 
   private get lang() {
@@ -61,7 +63,8 @@ export class SteamParser implements GenericParser {
           }
           resolve(parsedData);
         }).catch((err)=>{
-          reject(this.lang.errors.fatalError__i.interpolate({error: err}))
+          Sentry.captureException(err);
+          reject(this.lang.errors.fatalError__i.interpolate({error: err}));
         });
 
     })
