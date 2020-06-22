@@ -368,7 +368,8 @@ export class PreviewService {
   }
 
   getAllCategories() {
-    return this.previewData ? Object.entries(this.previewData).map(dir=>Object.entries(dir[1]).map(user=>Object.entries(user[1].apps).map(app=>app[1].steamCategories).reduce((x,y)=>_.union(x,y))).reduce((x,y)=>_.union(x,y))).reduce((x,y)=>_.union(x,y)) : [];
+    const union = (x: string[],y: string[])=>_.union(x,y);
+    return this.previewData ? Object.entries(this.previewData).map(dir=>Object.entries(dir[1]).map(user=>Object.entries(user[1].apps).map(app=>app[1].steamCategories).reduce(union,[])).reduce(union,[])).reduce(union,[]) : [];
   }
 
   private clearImageCache(settingsOnly: boolean) {
