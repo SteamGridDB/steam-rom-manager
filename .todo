@@ -6,6 +6,7 @@ Add missing artwork filter (2.4)
 Add Parser level to preview (2.4)
 Move enable/disable parser to sidebar (2.4)
 Custom themes (3.0)
+Sync tool (3.0)
 
 # Backend changes
 Command Line Interface (3.0)
