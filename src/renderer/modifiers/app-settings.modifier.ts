@@ -5,7 +5,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const appSettings: ValidatorModifier<AppSettings> = {
   controlProperty: 'version',
-  latestVersion: 0,
+  latestVersion: 1,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -25,12 +25,12 @@ export const appSettings: ValidatorModifier<AppSettings> = {
       }
       }
     },
-    '0': {
-      'version': {method: versionUp },
-      'environmentVariables': { method: (oldValue)=>{
+    0: {
+      'version': { method: versionUp },
+      'environmentVariables': { method: (oldValue) => {
         let defaultValue = {retroarchPath:'',raCoresDirectory:'',steamDirectoryGlobal:'',localImagesDirectory:''}
         if(oldValue){
-          return Object.assign(oldValue,{raCoresDirectory: ''});
+          return Object.assign(oldValue, {raCoresDirectory: ''});
         }
         return defaultValue;
       }
