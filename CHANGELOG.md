@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.3.6
+### Added
+* Retroarch Cores environment variable
+
 ## 2.3.5
 ### Fixed
 * Made auto updater styling consistent with rest of application
