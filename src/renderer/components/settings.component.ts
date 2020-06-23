@@ -19,6 +19,7 @@ export class SettingsComponent implements OnDestroy {
   private retroarchPathPlaceholder: string;
   private steamDirectoryPlaceholder: string;
   private localImagesDirectoryPlaceholder: string;
+  private raCoresDirectoryPlaceholder: string;
 
   constructor(private settingsService: SettingsService,
     private fuzzyService: FuzzyService,
@@ -40,17 +41,20 @@ export class SettingsComponent implements OnDestroy {
       this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathWin;
       this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryWin;
       this.localImagesDirectoryPlaceholder = this.lang.placeholder.localImagesDirectoryWin;
+      this.raCoresDirectoryPlaceholder = this.lang.placeholder.raCoresDirectoryWin;
     }
     else if(os.type()=='Darwin'){
       this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathMac;
       this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryMac;
       this.localImagesDirectoryPlaceholder = this.lang.placeholder.localImagesDirectoryUnix;
+      this.raCoresDirectoryPlaceholder = this.lang.placeholder.raCoresDirectoryMac;
+
     }
     else if(os.type()=='Linux'){
       this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathLinux;
       this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryLinux;
       this.localImagesDirectoryPlaceholder = this.lang.placeholder.localImagesDirectoryUnix;
-
+      this.raCoresDirectoryPlaceholder = this.lang.placeholder.raCoresDirectoryLinux;
     }
   }
 

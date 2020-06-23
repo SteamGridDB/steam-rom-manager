@@ -215,6 +215,9 @@ export const EnglishLang: languageContainer = {
           retroarchPathWin: 'For example C:\\Path\\To\\retroarch.exe',
           retroarchPathLinux: 'For example /path/to/retroarch',
           retroarchPathMac: 'For example /path/to/retroarch',
+          raCoresDirectoryWin: 'Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores',
+          raCoresDirectoryLinux: 'Typically /lib/x86_64-linux-gnu/libretro/cores',
+          raCoresDirectoryMac: 'Typically /Applications/Retroarch.app/Contents/Resources/cores',
           localImagesDirectoryWin: 'For example C:\\Path\\To\\LocalArtwork',
           localImagesDirectoryUnix: 'For example ~/path/to/localartwork'
         }

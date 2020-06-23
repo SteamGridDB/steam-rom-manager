@@ -24,6 +24,17 @@ export const appSettings: ValidatorModifier<AppSettings> = {
         return defaultValue;
       }
       }
+    },
+    '0': {
+      'version': {method: versionUp },
+      'environmentVariables': { method: (oldValue)=>{
+        let defaultValue = {retroarchPath:'',raCoresDirectory:'',steamDirectoryGlobal:'',localImagesDirectory:''}
+        if(oldValue){
+          return Object.assign(oldValue,{raCoresDirectory: ''});
+        }
+        return defaultValue;
+      }
+      }
     }
   }
 };

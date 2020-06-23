@@ -548,6 +548,9 @@ export class FileParser {
       case 'RETROARCHPATH':
         output=settings.environmentVariables.retroarchPath;
         break;
+      case 'RACORES':
+        output=settings.environmentVariables.raCoresDirectory;
+        break;
       case 'LOCALIMAGESDIR':
         output=settings.environmentVariables.localImagesDirectory;
         break;
@@ -614,6 +617,9 @@ export class FileParser {
         break;
       case 'RETROARCHPATH':
         output=data.retroarchPath;
+        break;
+      case 'RACORES':
+        output=data.raCoresDirectory;
         break;
       case 'LOCALIMAGESDIR':
         output=data.localImagesDirectory;
@@ -718,6 +724,7 @@ export class FileParser {
       romDirectory: config.romDirectory,
       steamDirectoryGlobal: settings.environmentVariables.steamDirectory,
       retroarchPath: settings.environmentVariables.retroarchPath,
+      raCoresDirectory: settings.environmentVariables.raCoresDirectory,
       localImagesDirectory: settings.environmentVariables.localImagesDirectory
     }
   }

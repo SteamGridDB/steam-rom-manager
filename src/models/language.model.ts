@@ -195,6 +195,9 @@ export interface languageStruct {
               retroarchPathWin: string,
               retroarchPathMac: string,
               retroarchPathLinux: string,
+              raCoresDirectoryWin: string,
+              raCoresDirectoryMac: string,
+              raCoresDirectoryLinux: string,
               localImagesDirectoryWin: string,
               localImagesDirectoryUnix: string
           }
