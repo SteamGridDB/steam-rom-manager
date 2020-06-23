@@ -71,7 +71,11 @@ autoUpdater.on('checking-for-update', () => {
 })
 autoUpdater.on('update-available', (info) => {
   log.info('update available')
-  mainWindow.webContents.send('updater_message','update_available');
+  if(process.platform=='darwin' || process.env.PORTABLE_EXECUTABLE_DIR) {
+    mainWindow.webContents.send('updater_message','update_portable');
+  } else{
+    mainWindow.webContents.send('updater_message','update_available');
+  }
 })
 
 autoUpdater.on('error', (err) => {
@@ -93,7 +97,6 @@ app.on('ready', ()=>{
   createWindow()
   mainWindow.webContents.on('dom-ready',()=>{
     autoUpdater.checkForUpdatesAndNotify()
-    //mainWindow.webContents.send('updater_message','update_available')
   });
   ipcMain.on('download_update', (event: IpcMainEvent)=>{
     log.info('downloading update')
