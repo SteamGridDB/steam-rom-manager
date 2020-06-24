@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.zip|.ZIP)",
+			"glob": "${title}@(.kip|.KIP|.nca|.NCA|.nro|.NRO|.nso|.NSO|.nsp|.NSP|.xci|.XCI)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -47,7 +47,7 @@
 			"removeBrackets": true
 		},
 		"executable": {
-			"path": "path-to-emulator.exe",
+			"path": "path-to-yuzu-cmd.exe",
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		}
