@@ -1,14 +1,14 @@
 {
-	"Nintendo Virtual Boy - Retroarch - Beetle VB": {
+	"Microsoft XBox 360 - Xenia": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo Virtual Boy - Retroarch - Beetle VB",
-		"steamCategory": "${Virtual Boy}",
+		"configTitle": "Microsoft XBox 360 - Xenia",
+		"steamCategory": "${}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|cores|${os:linux|${racores}}}}${/}mednafen_vb_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"executableArgs": "\"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bin|.BIN|.vb|.VB|.vboy|.VBOY|.zip|.ZIP)",
+			"glob": "${title}@(.iso|.ISO)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -47,7 +47,7 @@
 			"removeBrackets": true
 		},
 		"executable": {
-			"path": "${retroarchpath}",
+			"path": "path-to-xenia.exe",
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		}

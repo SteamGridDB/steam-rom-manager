@@ -58,7 +58,7 @@ Can't seem to find images for your title, but they are certainly on supported we
 ## Other features
 
 * Multiplatform - runs on Windows, Mac, and Linux.
-* Capable of supporting multiple image providers - fully supports image downloads from **SteamGridDB**, but more will be supported as they come online (formerly supported the now defunct **Console Grid** and **Retrogaming.cloud** providers )
+* Capable of supporting multiple image providers - fully supports image downloads from **SteamGridDB**, but more will be supported as they come online (formerly supported the now defunct **Console Grid** and **Retrogaming.cloud** providers)
 * Local images - you can set parser up to user your own local images.
 * Exception Manager - Want to rename or exclude a handful of your hundreds of parsed games? SRM has you covered.
 * Presets - a comprehensive list of parser presets to handle importing practically all commonly used emulators.
