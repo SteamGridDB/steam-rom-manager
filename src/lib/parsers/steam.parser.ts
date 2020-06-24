@@ -67,7 +67,7 @@ export class SteamParser implements GenericParser {
         .then(()=>{
           let parsedData: ParsedData = {success: [], failed:[]};
           for(let i=0;i<test_titles.length; i++){
-            parsedData.success.push({extractedTitle: test_titles[i], extractedAppId:test_ids[i]});
+            parsedData.success.push({extractedTitle: test_titles[i].toString(), extractedAppId:test_ids[i]});
           }
           resolve(parsedData);
         }).catch((err)=>{
