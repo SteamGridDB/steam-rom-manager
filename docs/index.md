@@ -1,4 +1,4 @@
-Want to play some old or new emulator games on your couch? Going to add them to the Steam and use big picture mode? Well, fear not! It is no longer a chore that ruins everyone's mood. Introducing **Steam ROM Manager**! 
+Want to play some old or new emulator games on your couch? Adding them to steam gives you access to the steam overlay, excellent controller management, and even in home and remote streaming. Adding your emulator games manually is a huge pain, but fear not! Introducing **Steam ROM Manager**, the bulk game importer and artwork manager for Steam! 
 
 # Features
 
@@ -24,7 +24,7 @@ Everything you need to know is right there under your nose! It even has a cheeky
 
 ## Choose your image
 
-You can choose the image you like!
+You can choose the artwork you like!
 
 <p style="text-align: center;">
     <video style="width: 100%; max-width: 1600px; height: auto;" autoplay loop muted>
@@ -57,11 +57,16 @@ Can't seem to find images for your title, but they are certainly on supported we
 
 ## Other features
 
-* Multiplatform - runs on Windows and Linux! Should run on Mac OS too, but you'll need to build it from source yourself.
-* Multiple image providers - fully supports image downloads from **SteamGridDB**, **retrogaming.cloud** and partially from **ConsoleGrid**.
+* Multiplatform - runs on Windows, Mac, and Linux.
+* Capable of supporting multiple image providers - fully supports image downloads from **SteamGridDB**, but more will be supported as they come online (formerly supported the now defunct **Console Grid** and **Retrogaming.cloud** providers )
 * Local images - you can set parser up to user your own local images.
+* Exception Manager - Want to rename or exclude a handful of your hundreds of parsed games? SRM has you covered.
+* Presets - a comprehensive list of parser presets to handle importing practically all commonly used emulators.
+* Steam Artwork Management - a steam parser/preset that allows you to manage the artwork of existing steam games
 
 # Special thanks
 
-- Thank you **doZennn** for providing title list for fuzzy matching and an icon.
-- Thank you **HEspoke** for actively handling issues and creating Steam group.
+- Thank you **doZennn** for providing title list for fuzzy matching and an icon, and especially for creating and maintaining **SteamGridDB**.
+- Thank you **HEspoke** for building the SRM community in Discord and Steam Groups.
+- Thank you **kencinder** for managing and adding presets.
+- Thank you **klepp0906** for adding thousands of custom variables for Wii U and PS3.
