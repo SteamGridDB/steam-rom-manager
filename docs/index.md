@@ -61,7 +61,7 @@ Can't seem to find images for your title, but they are certainly on supported we
 * Capable of supporting multiple image providers - fully supports image downloads from **SteamGridDB**, but more will be supported as they come online (formerly supported the now defunct **Console Grid** and **Retrogaming.cloud** providers)
 * Local images - you can set parser up to user your own local images.
 * Exception Manager - Want to rename or exclude a handful of your hundreds of parsed games? SRM has you covered.
-* Presets - a comprehensive list of parser presets to handle importing practically all commonly used emulators.
+* Presets - a comprehensive list of more than 100 parser presets to handle importing practically all commonly used emulators.
 * Steam Artwork Management - a steam parser/preset that allows you to manage the artwork of existing steam games
 
 # Special thanks
