@@ -8,7 +8,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}mednafen_snes_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores${os:linux|${racores}}}}${/}mednafen_snes_libretro.${os:win|dll|${os:mac|dylib${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -62,7 +62,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}snes9x_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores${os:linux|${racores}}}}${/}snes9x_libretro.${os:win|dll|${os:mac|dylib${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -116,7 +116,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}bsnes_accuracy_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores${os:linux|${racores}}}}${/}bsnes_accuracy_libretro.${os:win|dll|${os:mac|dylib${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -170,7 +170,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}bsnes_balanced_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores${os:linux|${racores}}}}${/}bsnes_balanced_libretro.${os:win|dll|${os:mac|dylib${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -224,7 +224,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}bsnes_performance_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores${os:linux|${racores}}}}${/}bsnes_performance_libretro.${os:win|dll|${os:mac|dylib${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -278,7 +278,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}bsnes_mercury_accuracy_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores${os:linux|${racores}}}}${/}bsnes_mercury_accuracy_libretro.${os:win|dll|${os:mac|dylib${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -332,7 +332,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}bsnes_mercury_balanced_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores${os:linux|${racores}}}}${/}bsnes_mercury_balanced_libretro.${os:win|dll|${os:mac|dylib${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -386,7 +386,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}bsnes_mercury_performance_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores${os:linux|${racores}}}}${/}bsnes_mercury_performance_libretro.${os:win|dll|${os:mac|dylib${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -440,7 +440,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}higan_sfc_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores${os:linux|${racores}}}}${/}higan_sfc_libretro.${os:win|dll|${os:mac|dylib${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -494,7 +494,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}higan_sfc_balanced_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores${os:linux|${racores}}}}${/}higan_sfc_balanced_libretro.${os:win|dll|${os:mac|dylib${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
