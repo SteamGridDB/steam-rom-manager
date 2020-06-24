@@ -62,11 +62,13 @@ export interface ParserInfo {
     inputs?: ParserInputField
 }
 
+
+// TODO Split this up more sanely into ImporterParsedData and ManagerParsedData
 export interface ParsedData {
     success: {
-        filePath?: string,
+        filePath?: string, // Used by all except steam parser
         extractedTitle: string,
-        extractedAppId?: string
+        extractedAppId?: string // Only used by the steam parser
     }[],
     failed: string[]
 }

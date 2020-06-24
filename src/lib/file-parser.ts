@@ -89,13 +89,13 @@ export class FileParser {
       .then(() => {
         let preParser = new VariableParser({ left: '${', right: '}' });
         for (let i = 0; i < configs.length; i++) {
-          let isGlobParser:boolean = configs[i].parserType!=='Steam';
+          let isImporterParser:boolean = configs[i].parserType!=='Steam';
 
           // Parse environment variables on rom directory, start in path, executable path
           configs[i].steamDirectory = preParser.setInput(configs[i].steamDirectory).parse() ? preParser.replaceVariables((variable) => {
             return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
           }) : null;
-          if(isGlobParser){
+          if(isImporterParser) {
             configs[i].romDirectory = preParser.setInput(configs[i].romDirectory).parse() ? preParser.replaceVariables((variable) => {
               return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
             }) : null;
@@ -128,7 +128,7 @@ export class FileParser {
 
         let promises: Promise<ParsedData>[] = [];
         for(let i=0; i<configs.length;i++) {
-          let isGlobParser:boolean = configs[i].parserType!=='Steam';
+          let isImporterParser:boolean = configs[i].parserType!=='Steam';
           let parser = this.getParserInfo(configs[i].parserType);
           if (parser) {
             if (parser.inputs !== undefined) {
@@ -143,7 +143,7 @@ export class FileParser {
             let userFilter = preParser.setInput(configs[i].userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
             filteredAccounts.push(this.filterUserAccounts(steamDirectories[i].data, userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir));
             totalUserAccountsFound+=filteredAccounts[filteredAccounts.length-1].found.length;
-            let directories = isGlobParser? [configs[i].romDirectory] : filteredAccounts[i].found.map((account: userAccountData)=>path.join(configs[i].steamDirectory,'userdata',account.accountID));
+            let directories = isImporterParser? [configs[i].romDirectory] : filteredAccounts[i].found.map((account: userAccountData)=>path.join(configs[i].steamDirectory,'userdata',account.accountID));
             promises.push(this.availableParsers[configs[i].parserType].execute(directories, configs[i].parserInputs, this.globCache));
           }
           else
@@ -163,11 +163,11 @@ export class FileParser {
         let localIconPromises: Promise<void>[] = [];
         let vParser = new VariableParser({ left: '${', right: '}' });
         for (let i = 0; i < configs.length; i++) {
-          let isGlobParser:boolean = configs[i].parserType !=='Steam';
-          if (isGlobParser && configs[i].titleFromVariable.tryToMatchTitle)
+          let isImporterParser:boolean = configs[i].parserType !=='Steam';
+          if (isImporterParser && configs[i].titleFromVariable.tryToMatchTitle)
             this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);
 
-          if (isGlobParser && configs[i].fuzzyMatch.use)
+          if (isImporterParser && configs[i].fuzzyMatch.use)
             this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data[i], configs[i].fuzzyMatch);
 
 
@@ -203,7 +203,7 @@ export class FileParser {
 
             let executableLocation:string = undefined;
             let startInDir:string = undefined;
-            if(isGlobParser) {
+            if(isImporterParser) {
               executableLocation = configs[i].executable.path ? configs[i].executable.path : data[i].success[j].filePath;
               startInDir = configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation);
             } else {
