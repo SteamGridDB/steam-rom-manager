@@ -8,7 +8,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}vecx_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}${/}${title}.conf\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores${os:linux|${racores}}}}${/}vecx_libretro.${os:win|dll|${os:mac|dylib${os:linux|so}}} \"${filePath}${/}${title}.conf\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [

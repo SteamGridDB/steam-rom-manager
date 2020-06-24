@@ -8,7 +8,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}virtualjaguar_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores${os:linux|${racores}}}}${/}virtualjaguar_libretro.${os:win|dll|${os:mac|dylib${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
