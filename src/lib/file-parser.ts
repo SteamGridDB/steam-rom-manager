@@ -12,6 +12,7 @@ import * as glob from 'glob';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as os from 'os';
+import * as Sentry from '@sentry/electron';
 import {getPath} from 'windows-shortcuts-ps';
 
 
@@ -249,7 +250,16 @@ export class FileParser {
               lastFile.finalTitle = exceptions.newTitle;
             } else {
               lastFile.finalTitle = vParser.setInput(configs[i].titleModifier).parse() ? vParser.replaceVariables((variable) => {
-                return this.getVariable(variable as AllVariables, variableData).trim();
+                try {
+                  return this.getVariable(variable as AllVariables, variableData).trim();
+                } catch (err) {
+                  Sentry.withScope((scope)=>{
+                    scope.setExtra("variable",variable);
+                    scope.setExtra("title",lastFile.extractedTitle);
+                    Sentry.captureException(err);
+                  })
+                  lastFile.finalTitle = lastFile.extractedTitle;
+                }
               }) : '';
             }
             variableData.finalTitle = lastFile.finalTitle;
