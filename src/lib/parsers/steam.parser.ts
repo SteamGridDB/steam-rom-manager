@@ -34,14 +34,22 @@ export class SteamParser implements GenericParser {
         .then(()=>{
           for(let i=0; i<directories.length; i++) {
             let sharedconfig_path = path.join(directories[i],'7','remote','sharedconfig.vdf');
+            try {
             let sharedconfig = genericParser.parse(fs.readFileSync(sharedconfig_path,'utf-8'));
             let appkey= Object.keys(sharedconfig.UserRoamingConfigStore.Software.Valve.Steam).filter((key)=>key.toUpperCase()==='APPS')[0];
-            test_ids= _.union(test_ids, Object.keys(sharedconfig.UserRoamingConfigStore.Software.Valve.Steam[appkey]));
+              test_ids = _.union(test_ids, Object.keys(sharedconfig.UserRoamingConfigStore.Software.Valve.Steam[appkey]));
+            } catch(err) {
+              throw {error:err, path: sharedconfig_path}
+            }
           }
-          return bvdf.readAppInfo(fs.createReadStream(appinfo_path))
+          try {
+            return bvdf.readAppInfo(fs.createReadStream(appinfo_path))
+          } catch (err) {
+            throw {error: err, path: appinfo_path}
+          }
         })
-        .catch((err) => {
-          throw this.lang.errors.steamChanged__i.interpolate({error: err});
+        .catch((errordata) => {
+          throw this.lang.errors.steamChanged__i.interpolate({error: errordata.error, file: errordata.path});
         })
         .then((appinfo)=>{
           test_titles = appinfo.filter((app:any)=>test_ids.indexOf(app.entries.appid.toString())>=0).map((app:any)=>(app.entries.common||{}).name);
