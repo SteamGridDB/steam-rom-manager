@@ -250,18 +250,7 @@ export class FileParser {
               lastFile.finalTitle = exceptions.newTitle;
             } else {
               lastFile.finalTitle = vParser.setInput(configs[i].titleModifier).parse() ? vParser.replaceVariables((variable) => {
-                try {
                   return this.getVariable(variable as AllVariables, variableData).trim();
-                } catch (err) {
-                  Sentry.withScope((scope)=>{
-                    scope.setExtra("variable",variable);
-                    scope.setExtra("title",lastFile.extractedTitle);
-                    scope.setExtra("getVariable",this.getVariable);
-                    scope.setExtra("variableData", variableData);
-                    Sentry.captureException(err);
-                  })
-                  return lastFile.extractedTitle;
-                }
               }) : '';
             }
             variableData.finalTitle = lastFile.finalTitle;
