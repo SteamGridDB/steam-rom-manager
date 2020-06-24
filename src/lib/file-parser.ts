@@ -709,7 +709,7 @@ export class FileParser {
         }
         break;
     }
-    return output;
+    return output || '';
   }
 
   private makeVariableData(config: UserConfiguration, settings: AppSettings, file: ParsedUserConfigurationFile) {
