@@ -256,9 +256,11 @@ export class FileParser {
                   Sentry.withScope((scope)=>{
                     scope.setExtra("variable",variable);
                     scope.setExtra("title",lastFile.extractedTitle);
+                    scope.setExtra("getVariable",this.getVariable);
+                    scope.setExtra("variableData", variableData);
                     Sentry.captureException(err);
                   })
-                  lastFile.finalTitle = lastFile.extractedTitle;
+                  return lastFile.extractedTitle;
                 }
               }) : '';
             }
