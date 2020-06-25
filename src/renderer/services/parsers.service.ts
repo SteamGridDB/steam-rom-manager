@@ -304,7 +304,7 @@ export class ParsersService {
         'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
       ]
     } else if(['Epic'].includes(config['parserType'])){
-      ['configTitle','parserId','steamDirectory','steamCategory','titleModifier',
+      simpleValidations = ['configTitle','parserId','steamDirectory','steamCategory','titleModifier',
         'onlineImageQueries', 'imagePool', 'imageProviders',
         'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
       ]
