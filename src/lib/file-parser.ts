@@ -213,7 +213,7 @@ export class FileParser {
               executableLocation = configs[i].executable.path ? configs[i].executable.path : data[i].success[j].filePath;
               startInDir = configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation);
             } else if(isImporterParser){
-              executableLocation = configs[i].executable.path;
+              executableLocation = data[i].success[j].filePath;
               startInDir = path.dirname(executableLocation);
             } else if(isSteamParser) {
               executableLocation = data[i].success[j].extractedAppId;

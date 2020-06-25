@@ -207,8 +207,8 @@ export class ParsersService {
         {
           console.log('options',options)
           if(options && options.parserType=='Steam') {
-            console.log('heredata',data)
-            return data ? this.validateVariableParserString(data.specifiedAccounts||'') : this.lang.validationErrors.userAccounts__md;
+            console.log('heredata',data.specifiedAccounts)
+            return data && data.specifiedAccounts ? this.validateVariableParserString(data.specifiedAccounts||'') : this.lang.validationErrors.userAccounts__md;
           } else{
             return this.validateVariableParserString((data||{}).specifiedAccounts || '');
           }
