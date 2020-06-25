@@ -44,7 +44,9 @@ export class EpicParser implements GenericParser {
           glob([epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'),(err,files)=>{
             console.log(files)
             files.forEach((file)=>{
+
               console.log('epic manifest file',file)
+              let item = JSON.parse(fs.readFileSync(file).toString())
               console.log('display name',item.DisplayName)
               appTitles.push(item.DisplayName);
               appPaths.push(path.join(item.InstallLocation,item.LaunchExecutable))
