@@ -83,6 +83,16 @@ export interface languageStruct {
             fatalError__i: string
         }
     },
+    epicParser: {
+      docs__md: {
+        self: string[]
+      },
+      errors: {
+        epicNotCompatible: string,
+        epicNotInstalled: string,
+        fatalError__i: string
+      }
+    },
     globParser: {
       inputTitle: string,
         docs__md: {

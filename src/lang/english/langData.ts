@@ -89,6 +89,19 @@ export const EnglishLang: languageContainer = {
         fatalError__i: 'Steam parser failed with fatal error:\n ${error}'
       }
     },
+    epicParser: {
+      docs__md: {
+        self: [
+          require('./markdown/epic-parser.md')
+        ]
+
+      },
+      errors: {
+        epicNotCompatible: "Epic Games not available on Linux",
+        epicNotInstalled: "Epic Games does not appear to be installed",
+        fatalError__i: 'Epic Games parser failed with fatal error:\n ${error}'
+      }
+    },
     globParser: {
       inputTitle: 'User\'s glob',
       docs__md: {
