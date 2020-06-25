@@ -182,7 +182,7 @@ export class ParsersService {
     });
   }
 
-  validate(key: string, data: any) {
+  validate(key: string, data: any,options?: any) {
     switch (key) {
       case 'parserType':
         {
@@ -204,7 +204,13 @@ export class ParsersService {
       case 'startInDirectory':
         return (data == null || data.length === 0 || this.validateEnvironmentPath(data || '', true)) ? null : this.lang.validationErrors.startInDir__md;
       case 'userAccounts':
-        return this.validateVariableParserString((data||{}).specifiedAccounts || '');
+        {
+          if(options && options.parserType=='Steam') {
+            return data ? this.validateVariableParserString(data.specifiedAccounts||'') : this.lang.validationErrors.userAccounts__md;
+          } else{
+            return this.validateVariableParserString((data||{}).specifiedAccounts || '');
+          }
+        }
       case 'parserInputs':
         {
           let availableParser = this.getParserInfo(data['parser']);
@@ -293,27 +299,35 @@ export class ParsersService {
     }
     if(config['parserType']=='Steam') {
 
-      simpleValidations = ['configTitle','parserId','steamDirectory','userAccounts','titleModifier',
+      simpleValidations = ['configTitle','parserId','steamDirectory','titleModifier',
         'onlineImageQueries', 'imagePool', 'imageProviders',
         'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
       ]
-    } else {
+    } else if(['Epic'].includes(config['parserType'])){
+      ['configTitle','parserId','steamDirectory','steamCategory','titleModifier',
+        'onlineImageQueries', 'imagePool', 'imageProviders',
+        'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
+      ]
+    }
+    else {
       simpleValidations = [
         'configTitle', 'parserId', 'steamCategory',
         'executable', 'executableModifier', 'romDirectory',
-        'steamDirectory', 'startInDirectory', 'userAccounts',
+        'steamDirectory', 'startInDirectory',
         'titleFromVariable', 'titleModifier', 'executableArgs',
         'onlineImageQueries', 'imagePool', 'imageProviders',
         'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
       ];
     }
 
+    if(this.validate('userAccounts', config['userAccounts'], {parserType: config['parserType']}) !== null) {
+      return false;
+    }
 
     for (let i = 0; i < simpleValidations.length; i++) {
       if (this.validate(simpleValidations[i], config[simpleValidations[i]]) !== null){
         return false;
       }
-
     }
 
     let availableParser = this.getParserInfo(config.parserType);

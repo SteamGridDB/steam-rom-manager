@@ -78,7 +78,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         executable: new NestedFormElement.Group({
-          isHidden: () => this.isHiddenIfSteamParser(),
+          isHidden: () => this.isHiddenIfNotRomsParser(),
           label: this.lang.label.executableLocation,
           children: {
             path: new NestedFormElement.Path({
@@ -93,7 +93,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               text: this.lang.text.shortcut_passthrough
             }),
             appendArgsToExecutable: new NestedFormElement.Toggle({
-              isHidden: () => this.isHiddenIfEither(),
+              isHidden: () => this.isHiddenIfAny(),
               text: this.lang.text.appendArgsToExecutable
             })
           },
@@ -113,7 +113,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         executableModifier: new NestedFormElement.Input({
-          isHidden: () => this.isHiddenIfEither(),
+          isHidden: () => this.isHiddenIfAny(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.executableModifier,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -123,7 +123,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         romDirectory: new NestedFormElement.Path({
-          isHidden: () => this.isHiddenIfSteamParser(),
+          isHidden: () => this.isHiddenIfNotRomsParser(),
           directory: true,
           label: this.lang.label.romDirectory,
           highlight: this.highlight.bind(this),
@@ -147,7 +147,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           directory: true,
           label: this.lang.label.startInDirectory,
           highlight: this.highlight.bind(this),
-          isHidden: () => this.isHiddenIfEither(),
+          isHidden: () => this.isHiddenIfAny(),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
@@ -216,7 +216,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         })(),
 
         titleFromVariable: new NestedFormElement.Group({
-          isHidden: () => this.isHiddenIfEither(),
+          isHidden: () => this.isHiddenIfAny(),
           label: this.lang.label.titleFromVariable,
           children: {
             limitToGroups: new NestedFormElement.Input({
@@ -253,7 +253,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         fuzzyMatch: new NestedFormElement.Group({
-          isHidden: () => this.isHiddenIfEither(),
+          isHidden: () => this.isHiddenIfAny(),
           label: this.lang.label.fuzzyMatch,
           children: {
             use: new NestedFormElement.Toggle({
@@ -277,7 +277,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         onlineImageQueries: new NestedFormElement.Input({
           label: this.lang.label.onlineImageQueries,
           highlight: this.highlight.bind(this),
-          isHidden: () => this.isHiddenIfEither(),
+          isHidden: () => this.isHiddenIfAny(),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
@@ -287,7 +287,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         imagePool: new NestedFormElement.Input({
           label: this.lang.label.imagePool,
           highlight: this.highlight.bind(this),
-          isHidden: () => this.isHiddenIfEither(),
+          isHidden: () => this.isHiddenIfAny(),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
@@ -477,15 +477,20 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     this.currentDoc.activePath = '';
     this.currentDoc.content = this.lang.docs__md.communityPresets.join('');
   }
-
+  private isHiddenIfNotRomsParser() {
+    return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => !['Glob','Glob-regex'].includes(pType))
+  }
   private isHiddenIfNotAdvanced() {
     return Observable.concat(Observable.of(this.userForm.get('advanced').value), this.userForm.get('advanced').valueChanges).map(val => !val);
   }
   private isHiddenIfSteamParser() {
     return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => pType==='Steam');
   }
-  private isHiddenIfEither() {
-    return Observable.combineLatest(this.isHiddenIfNotAdvanced(),this.isHiddenIfSteamParser()).map(([val1,val2])=> val1||val2)
+  private isHiddenIfAny() {
+    return Observable.combineLatest(
+      this.isHiddenIfNotAdvanced(),
+      this.isHiddenIfSteamParser(),
+      this.isHiddenIfNotRomsParser()).map(([na,s,nr])=>na||s||nr)
   }
 
   private get lang() {

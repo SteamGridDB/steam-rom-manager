@@ -437,6 +437,7 @@ export interface languageStruct {
                     incorrectParser: string
                 },
                 romDir__md: string,
+                userAccounts__md: string,
                 steamDir__md: string,
                 startInDir__md: string,
                 executable__md: string

@@ -544,6 +544,7 @@ export const EnglishLang: languageContainer = {
             incorrectParser: 'Incorrect parser!',
           },
           romDir__md: '> ROMs directory is invalid!',
+          userAccounts__md: 'Steam parser requires User Accounts',
           steamDir__md: '> Steam directory is invalid!',
           startInDir__md: '> "Start In" directory is invalid!',
           executable__md: '> Executable is invalid!',
