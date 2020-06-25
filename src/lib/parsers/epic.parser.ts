@@ -43,13 +43,12 @@ export class EpicParser implements GenericParser {
           console.log('glob',[epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'))
           glob([epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'),(err,files)=>{
             console.log(files)
-            for(const file in files){
+            files.forEach((file)=>{
               console.log('epic manifest file',file)
-              let item = JSON.parse(fs.readFileSync(file).toString())
               console.log('display name',item.DisplayName)
               appTitles.push(item.DisplayName);
               appPaths.push(path.join(item.InstallLocation,item.LaunchExecutable))
-            }
+            })
           });
         })
         .then(()=>{
