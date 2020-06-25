@@ -40,8 +40,9 @@ export class EpicParser implements GenericParser {
       Promise.resolve()
         .then(()=>{
           console.log("in resolve")
-          console.log('glob',path.join(epicManifestsDir,'*.item'))
-          glob(path.join(epicManifestsDir,'*.item'),(err,files)=>{
+          console.log('glob',[epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'))
+          glob([epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'),(err,files)=>{
+            console.log(files)
             for(const file in files){
               console.log('epic manifest file',file)
               let item = JSON.parse(fs.readFileSync(file).toString())
