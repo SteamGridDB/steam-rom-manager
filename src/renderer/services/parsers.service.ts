@@ -207,6 +207,7 @@ export class ParsersService {
         {
           console.log('options',options)
           if(options && options.parserType=='Steam') {
+            console.log('heredata',data)
             return data ? this.validateVariableParserString(data.specifiedAccounts||'') : this.lang.validationErrors.userAccounts__md;
           } else{
             return this.validateVariableParserString((data||{}).specifiedAccounts || '');
@@ -387,10 +388,11 @@ export class ParsersService {
       let errorString: string = '';
       let updateNeeded: boolean = false;
       for (let i = 0; i < data.length; i++) {
-        if(data[i].parserType==='Steam') {
+        if(['Epic','Steam'].includes(data[i].parserType)) {
           updateNeeded=true;
           data[i].fuzzyMatch.use = false;
           data[i].titleFromVariable.tryToMatchTitle = false;
+          data[i].executableModifier = "\"${exePath}\"";
         }
         if (this.validator.validate(data[i]).isValid())
           validatedConfigs.push({ saved: data[i], current: null });
