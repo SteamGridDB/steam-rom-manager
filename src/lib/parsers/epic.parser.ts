@@ -44,7 +44,7 @@ export class EpicParser implements GenericParser {
         .then((files: string[])=>{
           files.forEach((file)=>{
             let item = JSON.parse(fs.readFileSync(file).toString())
-            if(!appTitles.includes(item.displayName)) {
+            if(!appTitles.includes(item.DisplayName)) {
               appTitles.push(item.DisplayName);
               appPaths.push(path.join(item.InstallLocation,item.LaunchExecutable))
             }
@@ -52,10 +52,10 @@ export class EpicParser implements GenericParser {
         })
         .then(()=>{
           let parsedData: ParsedData = {success: [], failed:[]};
-          console.log(parsedData);
           for(let i=0;i<appTitles.length; i++){
             parsedData.success.push({extractedTitle: appTitles[i], filePath: appPaths[i]});
           }
+          console.log('parsed',parsedData);
           resolve(parsedData);
         }).catch((err)=>{
           Sentry.captureException(err);
