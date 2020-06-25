@@ -31,35 +31,30 @@ export class EpicParser implements GenericParser {
       let epicManifestsDir: string = 'C:\\ProgramData\\Epic\\EpicGamesLauncher\\Data\\Manifests';
       if( os.type()=='Linux' ) {
         reject(this.lang.errors.epicNotCompatible)
-      } else if( os.type()=='Darwin' ){
+      } else if( os.type()=='Darwin' ) {
         epicManifestsDir = path.join(os.homedir(),'/Library/Application Support/Epic/EpicGamesLauncher/Data/Manifests');
       }
-      if(!fs.existsSync(epicManifestsDir)){
+      if(!fs.existsSync(epicManifestsDir)) {
         reject(this.lang.errors.epicNotInstalled)
       }
-      console.log("past rejects")
       let chain: Promise<any> = Promise.resolve()
         .then(()=>{
           return globPromise([epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'));
         })
         .then((files: string[])=>{
-          console.log('files',files)
           files.forEach((file)=>{
-            console.log('epic manifest file',file)
             let item = JSON.parse(fs.readFileSync(file).toString())
-            console.log('display name',item.DisplayName)
-            appTitles.push(item.DisplayName);
-            appPaths.push(path.join(item.InstallLocation,item.LaunchExecutable))
+            if(!appTitles.includes(item.displayName)) {
+              appTitles.push(item.DisplayName);
+              appPaths.push(path.join(item.InstallLocation,item.LaunchExecutable))
+            }
           })
         })
         .then(()=>{
-          console.log('app titles',appTitles);
-          console.log('app paths',appPaths)
           let parsedData: ParsedData = {success: [], failed:[]};
           for(let i=0;i<appTitles.length; i++){
             parsedData.success.push({extractedTitle: appTitles[i], filePath: appPaths[i]});
           }
-          console.log('this is what I am resolving',parsedData)
           resolve(parsedData);
         }).catch((err)=>{
           Sentry.captureException(err);
