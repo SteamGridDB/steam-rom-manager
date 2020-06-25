@@ -5,8 +5,9 @@ import * as fs from "fs-extra";
 import * as os from "os";
 import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
-import * as glob from "glob";
+import { globPromise } from "../helpers/glob/promise"
 import * as Sentry from '@sentry/electron';
+
 
 export class EpicParser implements GenericParser {
 
@@ -37,23 +38,23 @@ export class EpicParser implements GenericParser {
         reject(this.lang.errors.epicNotInstalled)
       }
       console.log("past rejects")
-      Promise.resolve()
+      let chain: Promise<any> = Promise.resolve()
         .then(()=>{
-          console.log("in resolve")
-          console.log('glob',[epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'))
-          glob([epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'),(err,files)=>{
-            console.log(files)
-            files.forEach((file)=>{
-
-              console.log('epic manifest file',file)
-              let item = JSON.parse(fs.readFileSync(file).toString())
-              console.log('display name',item.DisplayName)
-              appTitles.push(item.DisplayName);
-              appPaths.push(path.join(item.InstallLocation,item.LaunchExecutable))
-            })
-          });
+          return globPromise([epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'));
+        })
+        .then((files: string[])=>{
+          console.log('files',files)
+          files.forEach((file)=>{
+            console.log('epic manifest file',file)
+            let item = JSON.parse(fs.readFileSync(file).toString())
+            console.log('display name',item.DisplayName)
+            appTitles.push(item.DisplayName);
+            appPaths.push(path.join(item.InstallLocation,item.LaunchExecutable))
+          })
         })
         .then(()=>{
+          console.log('app titles',appTitles);
+          console.log('app paths',appPaths)
           let parsedData: ParsedData = {success: [], failed:[]};
           for(let i=0;i<appTitles.length; i++){
             parsedData.success.push({extractedTitle: appTitles[i], filePath: appPaths[i]});

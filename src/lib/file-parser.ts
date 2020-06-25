@@ -8,12 +8,12 @@ import * as url from './helpers/url';
 import * as steam from './helpers/steam';
 import * as paths from "../paths";
 import * as _ from 'lodash';
-import * as glob from 'glob';
+import { globPromise } from './helpers/glob/promise';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as Sentry from '@sentry/electron';
-import {getPath} from 'windows-shortcuts-ps';
+import { getPath } from 'windows-shortcuts-ps';
 
 
 export class FileParser {
@@ -471,7 +471,7 @@ export class FileParser {
           }) : '').replace(/\\/g, '/');
 
           resolvedGlobs[i].push(replacedGlob);
-          promises.push(this.globPromise(replacedGlob, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
+          promises.push(globPromise(replacedGlob, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
             resolvedFiles[i] = files;
           }));
         }
@@ -509,7 +509,7 @@ export class FileParser {
               }
             }
             if (secondaryMatch !== undefined) {
-              return this.globPromise(secondaryMatch, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
+              return globPromise(secondaryMatch, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
                 return resolvedFiles[i].concat(files);
               });
             }
@@ -728,17 +728,5 @@ export class FileParser {
     } catch (e) {
       return false;
     }
-  }
-
-  private globPromise(pattern: string, options: glob.IOptions) {
-    return new Promise<string[]>((resolve, reject) => {
-      glob(pattern, options, (err, files) => {
-        if (err)
-          reject(err);
-        else {
-          resolve(files);
-        }
-      });
-    });
   }
 }
