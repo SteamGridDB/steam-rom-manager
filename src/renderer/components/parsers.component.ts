@@ -28,6 +28,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private nestedGroup: NestedFormElement.Group;
   private userForm: FormGroup;
   private formChanges: Subscription = new Subscription();
+  private pTypeChanges: Subscription = new Subscription();
 
   constructor(
     private parsersService: ParsersService,
@@ -163,7 +164,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               onValidate: (self, path) => {
                 let serialized = {}
                 serialized[path[1]] = self.value
-                return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized, {parserType: this.userForm.get('parserType').value})
+                return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized, {parserType: this.userForm.get('parserType').value});
               }
             }),
             skipWithMissingDataDir: new NestedFormElement.Toggle({
@@ -1007,6 +1008,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         else
           config.current = data;
       });
+
+      this.pTypeChanges.unsubscribe();
+      this.pTypeChanges = this.userForm.get('parserType').valueChanges.subscribe((pType: string)=>{
+        this.userForm.get('userAccounts.specifiedAccounts').updateValueAndValidity();
+      })
 
       this.loadedIndex = this.configurationIndex;
     }
