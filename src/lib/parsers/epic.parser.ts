@@ -22,6 +22,7 @@ export class EpicParser implements GenericParser {
   }
 
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
+    console.log("executing epic parser");
     return new Promise<ParsedData>((resolve,reject)=>{
 
       let appTitles: string[] = [];
@@ -30,16 +31,19 @@ export class EpicParser implements GenericParser {
       if( os.type()=='Linux' ) {
         reject(this.lang.errors.epicNotCompatible)
       } else if( os.type()=='Darwin' ){
-        epicManifestsDir = path.join(os.homedir(),'/Library/Application Support/Epic/EpicGamesLauncher/Data/Manifests');
+        epicManifestsDir = path.join(os.homedir(),'/Library/Application Support/Epic/EpicGamesLauncher/Data/Manifests/');
       }
       if(!fs.existsSync(epicManifestsDir)){
         reject(this.lang.errors.epicNotInstalled)
       }
+      console.log("past rejects")
       Promise.resolve()
         .then(()=>{
           glob(epicManifestsDir+'*.item',(err,files)=>{
             for(const file in files){
+              console.log('epic manifest file',file)
               let item = JSON.parse(fs.readFileSync(file).toString())
+              console.log('display name',item.DisplayName)
               appTitles.push(item.DisplayName);
               appPaths.push(path.join(item.InstallLocation,item.LaunchExecutable))
             }
