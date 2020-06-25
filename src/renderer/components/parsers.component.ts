@@ -1007,12 +1007,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           this.parsersService.setCurrentConfiguration(this.configurationIndex, data);
         else
           config.current = data;
+
+       this.userForm.get('userAccounts.specifiedAccounts').updateValueAndValidity();
       });
-      this.userForm.get('userAccounts.specifiedAccounts').updateValueAndValidity();
-      this.pTypeChanges.unsubscribe();
-      this.pTypeChanges = this.userForm.get('parserType').valueChanges.subscribe((pType: string)=>{
-        this.userForm.get('userAccounts.specifiedAccounts').updateValueAndValidity();
-      })
+      // this.pTypeChanges.unsubscribe();
+      // this.pTypeChanges = this.userForm.get('parserType').valueChanges.subscribe((pType: string)=>{
+      //   this.userForm.get('userAccounts.specifiedAccounts').updateValueAndValidity();
+      // })
 
       this.loadedIndex = this.configurationIndex;
     }

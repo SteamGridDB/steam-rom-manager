@@ -775,7 +775,7 @@ export class PreviewService {
             image.retrieving = true;
             allImagesRetrieved = false;
             this.previewVariables.numberOfQueriedImages += numberOfQueriesForImageKey;
-
+            console.log("all queries",image.searchQueries)
             for (let j = 0; j < image.searchQueries.length; j++) {
               this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], imageType,  imageProvidersForKey, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
                 switch (event) {
