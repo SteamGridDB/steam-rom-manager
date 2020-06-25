@@ -31,7 +31,7 @@ export class EpicParser implements GenericParser {
       if( os.type()=='Linux' ) {
         reject(this.lang.errors.epicNotCompatible)
       } else if( os.type()=='Darwin' ){
-        epicManifestsDir = path.join(os.homedir(),'/Library/Application Support/Epic/EpicGamesLauncher/Data/Manifests/');
+        epicManifestsDir = path.join(os.homedir(),'/Library/Application Support/Epic/EpicGamesLauncher/Data/Manifests');
       }
       if(!fs.existsSync(epicManifestsDir)){
         reject(this.lang.errors.epicNotInstalled)
@@ -39,7 +39,9 @@ export class EpicParser implements GenericParser {
       console.log("past rejects")
       Promise.resolve()
         .then(()=>{
-          glob(epicManifestsDir+'*.item',(err,files)=>{
+          console.log("in resolve")
+          console.log('glob',path.join(epicManifestsDir,'*.item'))
+          glob(path.join(epicManifestsDir,'*.item'),(err,files)=>{
             for(const file in files){
               console.log('epic manifest file',file)
               let item = JSON.parse(fs.readFileSync(file).toString())
