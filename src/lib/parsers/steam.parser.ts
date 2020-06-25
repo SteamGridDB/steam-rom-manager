@@ -27,8 +27,8 @@ export class SteamParser implements GenericParser {
         reject(this.lang.errors.noSteamAccounts);
       }
 
-      let test_ids: string[]=[];
-      let test_titles: string[]=[];
+      let appIds: string[]=[];
+      let appTitles: string[]=[];
       let appinfo_path = path.normalize(path.join(directories[0],'..','..','appcache','appinfo.vdf'));
       Promise.resolve()
         .then(()=>{
@@ -37,7 +37,7 @@ export class SteamParser implements GenericParser {
             try {
             let sharedconfig = genericParser.parse(fs.readFileSync(sharedconfig_path,'utf-8'));
             let appkey= Object.keys(sharedconfig.UserRoamingConfigStore.Software.Valve.Steam).filter((key)=>key.toUpperCase()==='APPS')[0];
-              test_ids = _.union(test_ids, Object.keys(sharedconfig.UserRoamingConfigStore.Software.Valve.Steam[appkey]));
+              appIds = _.union(appIds, Object.keys(sharedconfig.UserRoamingConfigStore.Software.Valve.Steam[appkey]));
             } catch(err) {
               throw {error:err, path: sharedconfig_path}
             }
@@ -52,22 +52,22 @@ export class SteamParser implements GenericParser {
           throw this.lang.errors.steamChanged__i.interpolate({error: errordata.error, file: errordata.path});
         })
         .then((appinfo)=>{
-          test_titles = appinfo.filter((app:any)=>test_ids.indexOf(app.entries.appid.toString())>=0).map((app:any)=>(app.entries.common||{}).name);
-          return Promise.all(test_titles.map((title,i)=>{
+          appTitles = appinfo.filter((app:any)=>appIds.indexOf(app.entries.appid.toString())>=0).map((app:any)=>(app.entries.common||{}).name);
+          return Promise.all(appTitles.map((title,i)=>{
             if(title){
               return Promise.resolve(title);
             } else {
-              return appid(parseInt(test_ids[i])).then((x:any)=>x.name);
+              return appid(parseInt(appIds[i])).then((x:any)=>x.name);
             }
           }))
         })
         .then((titles)=>{
-          test_titles=titles;
+          appTitles=titles;
         })
         .then(()=>{
           let parsedData: ParsedData = {success: [], failed:[]};
-          for(let i=0;i<test_titles.length; i++){
-            parsedData.success.push({extractedTitle: test_titles[i].toString(), extractedAppId:test_ids[i]});
+          for(let i=0;i<appTitles.length; i++){
+            parsedData.success.push({extractedTitle: appTitles[i].toString(), extractedAppId:appIds[i]});
           }
           resolve(parsedData);
         }).catch((err)=>{

@@ -180,7 +180,7 @@ export class PreviewComponent implements OnDestroy {
     }
     this.fileSelector.onChange = (target) => {
       if (target.files) {
-        let extRegex = /png|tga|jpg|jpeg/i;
+        let extRegex = /png|apng|tga|jpg|jpeg/i;
         for (let i = 0; i < target.files.length; i++) {
           if (extRegex.test(path.extname(target.files[i].path))) {
             let imageUrl = url.encodeFile(target.files[i].path);

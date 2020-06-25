@@ -274,10 +274,12 @@ export class FileParser {
               return this.getVariable(variable as AllVariables, variableData);
             })) : [];
           }
+
+
+          let extRegex = /png|apng|tga|jpg|jpeg/i;
           defaultImagePromises.push(this.resolveFieldGlobs('defaultImage', configs[i],settings, parsedConfigs[i], vParser).then((data) => {
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedDefaultImages = data.resolvedGlobs[j];
-              let extRegex = /png|tga|jpg|jpeg/i;
               for (let k = 0; k < data.resolvedFiles[j].length; k++) {
                 const item = data.resolvedFiles[j][k];
                 if (extRegex.test(path.extname(item))) {
@@ -290,7 +292,6 @@ export class FileParser {
           defaultTallImagePromises.push(this.resolveFieldGlobs('defaultTallImage',configs[i],settings,parsedConfigs[i],vParser).then((data)=>{
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedDefaultTallImages = data.resolvedGlobs[j];
-              let extRegex = /png|tga|jpg|jpeg/i;
               for (let k = 0; k < data.resolvedFiles[j].length; k++) {
                 const item = data.resolvedFiles[j][k];
                 if (extRegex.test(path.extname(item))) {
@@ -303,7 +304,6 @@ export class FileParser {
           defaultHeroImagePromises.push(this.resolveFieldGlobs('defaultHeroImage',configs[i],settings,parsedConfigs[i],vParser).then((data)=>{
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedDefaultHeroImages = data.resolvedGlobs[j];
-              let extRegex = /png|tga|jpg|jpeg/i;
               for (let k = 0; k < data.resolvedFiles[j].length; k++) {
                 const item = data.resolvedFiles[j][k];
                 if (extRegex.test(path.extname(item))) {
@@ -316,7 +316,6 @@ export class FileParser {
           defaultLogoImagePromises.push(this.resolveFieldGlobs('defaultLogoImage',configs[i],settings,parsedConfigs[i],vParser).then((data)=>{
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedDefaultLogoImages = data.resolvedGlobs[j];
-              let extRegex = /png|tga|jpg|jpeg/i;
               for (let k = 0; k < data.resolvedFiles[j].length; k++) {
                 const item = data.resolvedFiles[j][k];
                 if (extRegex.test(path.extname(item))) {
@@ -330,8 +329,6 @@ export class FileParser {
           localImagePromises.push(this.resolveFieldGlobs('localImages', configs[i],settings, parsedConfigs[i], vParser).then((data) => {
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedLocalImages = data.resolvedGlobs[j];
-
-              let extRegex = /png|tga|jpg|jpeg/i;
               data.parsedConfig.files[j].localImages = data.resolvedFiles[j].filter((item) => {
                 return extRegex.test(path.extname(item));
               }).map((item) => {
@@ -342,8 +339,6 @@ export class FileParser {
           localTallImagePromises.push(this.resolveFieldGlobs('localTallImages', configs[i],settings, parsedConfigs[i], vParser).then((data) => {
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedLocalTallImages = data.resolvedGlobs[j];
-
-              let extRegex = /png|tga|jpg|jpeg/i;
               data.parsedConfig.files[j].localTallImages = data.resolvedFiles[j].filter((item) => {
                 return extRegex.test(path.extname(item));
               }).map((item) => {
@@ -354,8 +349,6 @@ export class FileParser {
           localHeroImagePromises.push(this.resolveFieldGlobs('localHeroImages', configs[i],settings, parsedConfigs[i], vParser).then((data) => {
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedLocalHeroImages = data.resolvedGlobs[j];
-
-              let extRegex = /png|tga|jpg|jpeg/i;
               data.parsedConfig.files[j].localHeroImages = data.resolvedFiles[j].filter((item) => {
                 return extRegex.test(path.extname(item));
               }).map((item) => {
@@ -366,8 +359,6 @@ export class FileParser {
           localLogoImagePromises.push(this.resolveFieldGlobs('localLogoImages', configs[i],settings, parsedConfigs[i], vParser).then((data) => {
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedLocalLogoImages = data.resolvedGlobs[j];
-
-              let extRegex = /png|tga|jpg|jpeg/i;
               data.parsedConfig.files[j].localLogoImages = data.resolvedFiles[j].filter((item) => {
                 return extRegex.test(path.extname(item));
               }).map((item) => {
