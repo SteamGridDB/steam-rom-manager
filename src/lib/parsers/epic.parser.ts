@@ -8,7 +8,7 @@ import * as path from "path";
 import * as glob from "glob";
 import * as Sentry from '@sentry/electron';
 
-export class SteamParser implements GenericParser {
+export class EpicParser implements GenericParser {
 
   private get lang() {
     return APP.lang.epicParser;
