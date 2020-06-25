@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.3.7
+### Fixed
+* Steam parser was failing whenever app title was just a number (eg "140")
+
 ## 2.3.6
 ### Added
 * Retroarch Cores environment variable
