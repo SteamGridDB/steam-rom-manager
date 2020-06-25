@@ -58,6 +58,7 @@ export class EpicParser implements GenericParser {
           for(let i=0;i<appTitles.length; i++){
             parsedData.success.push({extractedTitle: appTitles[i], filePath: appPaths[i]});
           }
+          console.log('this is what I am resolving',parsedData)
           resolve(parsedData);
         }).catch((err)=>{
           Sentry.captureException(err);
