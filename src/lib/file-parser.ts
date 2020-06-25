@@ -276,7 +276,7 @@ export class FileParser {
           }
 
 
-          let extRegex = /png|apng|tga|jpg|jpeg/i;
+          let extRegex = /png|tga|jpg|jpeg/i;
           defaultImagePromises.push(this.resolveFieldGlobs('defaultImage', configs[i],settings, parsedConfigs[i], vParser).then((data) => {
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedDefaultImages = data.resolvedGlobs[j];
