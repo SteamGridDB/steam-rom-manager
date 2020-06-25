@@ -157,7 +157,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         userAccounts: new NestedFormElement.Group({
           label: this.lang.label.userAccounts,
-          isHidden: () => this.isHiddenIfNotAdvanced(),
+          //isHidden: () => this.isHiddenIfNotAdvanced(),
           children: {
             specifiedAccounts: new NestedFormElement.Input({
               highlight: this.highlight.bind(this),
@@ -996,7 +996,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     if (this.configurationIndex !== -1 && this.userConfigurations.length > this.configurationIndex) {
       let config = this.userConfigurations[this.configurationIndex];
       this.formChanges.unsubscribe();
-
+      this.pTypeChanges.unsubscribe();
       this.userForm.patchValue(config.current ? config.current : config.saved);
       this.markAsDirtyDeep(this.userForm);
 
@@ -1007,13 +1007,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           this.parsersService.setCurrentConfiguration(this.configurationIndex, data);
         else
           config.current = data;
-
-       this.userForm.get('userAccounts.specifiedAccounts').updateValueAndValidity();
       });
-      // this.pTypeChanges.unsubscribe();
-      // this.pTypeChanges = this.userForm.get('parserType').valueChanges.subscribe((pType: string)=>{
-      //   this.userForm.get('userAccounts.specifiedAccounts').updateValueAndValidity();
-      // })
+      this.pTypeChanges = this.userForm.get('parserType').valueChanges.subscribe((pType: string)=>{
+        this.userForm.get('userAccounts.specifiedAccounts').updateValueAndValidity();
+      })
+      this.userForm.get('userAccounts.specifiedAccounts').updateValueAndValidity();
 
       this.loadedIndex = this.configurationIndex;
     }
