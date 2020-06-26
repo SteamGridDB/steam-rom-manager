@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.3.8
+### Added
+* Experimental Epic Games Parser + Preset (works on Windows and Mac)
+### Changed
+* Made User Accounts field mandatory for the Steam Parser
+
 ## 2.3.7
 ### Fixed
 * Steam parser was failing whenever app title was just a number (eg "140")
