@@ -23,7 +23,6 @@ export class EpicParser implements GenericParser {
   }
 
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
-    console.log("executing epic parser");
     return new Promise<ParsedData>((resolve,reject)=>{
 
       let appTitles: string[] = [];
@@ -55,7 +54,6 @@ export class EpicParser implements GenericParser {
           for(let i=0;i<appTitles.length; i++){
             parsedData.success.push({extractedTitle: appTitles[i], filePath: appPaths[i]});
           }
-          console.log('parsed',parsedData);
           resolve(parsedData);
         }).catch((err)=>{
           Sentry.captureException(err);
