@@ -388,6 +388,8 @@ export class ParsersService {
       for (let i = 0; i < data.length; i++) {
         if(['Epic','Steam'].includes(data[i].parserType)) {
           updateNeeded=true;
+          // TODO get rid of this ugly hack for making specified accounts mandatory for steam parser only
+          data[i].userAccounts.specifiedAccounts = data[i].userAccounts.specifiedAccounts || '';
           data[i].fuzzyMatch.use = false;
           data[i].titleFromVariable.tryToMatchTitle = false;
           data[i].executableModifier = "\"${exePath}\"";
@@ -407,7 +409,6 @@ export class ParsersService {
       }
       this.userConfigurations.next(validatedConfigs);
       if(updateNeeded) {
-        //this.loggerService.info(this.lang.info.updatingConfigurations, {invokeAlert: true, alertTimeout: 5000})
         this.saveUserConfigurations();
       }
     }).catch((error) => {
