@@ -28,7 +28,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private nestedGroup: NestedFormElement.Group;
   private userForm: FormGroup;
   private formChanges: Subscription = new Subscription();
-  private pTypeChanges: Subscription = new Subscription();
+
 
   constructor(
     private parsersService: ParsersService,
@@ -157,10 +157,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         userAccounts: new NestedFormElement.Group({
           label: this.lang.label.userAccounts,
-          //isHidden: () => this.isHiddenIfNotAdvanced(),
           children: {
             specifiedAccounts: new NestedFormElement.Input({
               highlight: this.highlight.bind(this),
+              onValidateObservable: () => this.userForm.get('parserType').valueChanges,
               onValidate: (self, path) => {
                 let serialized = {}
                 serialized[path[1]] = self.value
@@ -996,7 +996,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     if (this.configurationIndex !== -1 && this.userConfigurations.length > this.configurationIndex) {
       let config = this.userConfigurations[this.configurationIndex];
       this.formChanges.unsubscribe();
-      this.pTypeChanges.unsubscribe();
       this.userForm.patchValue(config.current ? config.current : config.saved);
       this.markAsDirtyDeep(this.userForm);
 
@@ -1008,11 +1007,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         else
           config.current = data;
       });
-      this.pTypeChanges = this.userForm.get('parserType').valueChanges.subscribe((pType: string)=>{
-        this.userForm.get('userAccounts.specifiedAccounts').updateValueAndValidity();
-      })
-      this.userForm.get('userAccounts.specifiedAccounts').updateValueAndValidity();
-
       this.loadedIndex = this.configurationIndex;
     }
     else if (this.configurationIndex === -1 && this.userConfigurations !== undefined) {
@@ -1030,7 +1024,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
   private markAsDirtyDeep(control: AbstractControl): void {
     control.markAsDirty();
-
     if (control['controls'] !== undefined) {
       for (let childKey in control['controls']) {
         this.markAsDirtyDeep(control['controls'][childKey]);
