@@ -20,6 +20,7 @@ import * as ids from '../../lib/helpers/steam';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as path from "path";
+import * as Sentry from "@sentry/electron";
 @Injectable()
 export class PreviewService {
   private appSettings: AppSettings;
@@ -193,7 +194,8 @@ export class PreviewService {
     }).catch((failureError: Error)=>{
       this.previewVariables.listIsBeingSaved = false;
       this.loggerService.error(this.lang.errors.fatalError,{ invokeAlert: true, alertTimeout: 3000 });
-      this.loggerService.error(this.lang.errors.fatalError__i.interpolate({error: failureError}))
+      this.loggerService.error(this.lang.errors.fatalError__i.interpolate({error: failureError}));
+      Sentry.captureException(failureError);
       return false;
     })
     return chain;
@@ -368,7 +370,8 @@ export class PreviewService {
   }
 
   getAllCategories() {
-    return this.previewData ? Object.entries(this.previewData).map(dir=>Object.entries(dir[1]).map(user=>Object.entries(user[1].apps).map(app=>app[1].steamCategories).reduce((x,y)=>_.union(x,y))).reduce((x,y)=>_.union(x,y))).reduce((x,y)=>_.union(x,y)) : [];
+    const union = (x: string[],y: string[])=>_.union(x,y);
+    return this.previewData ? Object.entries(this.previewData).map(dir=>Object.entries(dir[1]).map(user=>Object.entries(user[1].apps).map(app=>app[1].steamCategories).reduce(union,[])).reduce(union,[])).reduce(union,[]) : [];
   }
 
   private clearImageCache(settingsOnly: boolean) {
@@ -465,6 +468,7 @@ export class PreviewService {
         this.loggerService.error(error);
         this.previewVariables.listIsBeingGenerated = false;
         this.previewDataChanged.next();
+        Sentry.captureException(error);
       });
     }
   }
@@ -771,7 +775,6 @@ export class PreviewService {
             image.retrieving = true;
             allImagesRetrieved = false;
             this.previewVariables.numberOfQueriedImages += numberOfQueriesForImageKey;
-
             for (let j = 0; j < image.searchQueries.length; j++) {
               this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], imageType,  imageProvidersForKey, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
                 switch (event) {

@@ -1,6 +1,32 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.3.9
+### Fixed
+* Dirty hack to make user accounts field mandatory only on steam parser
+
+## 2.3.8
+### Added
+* Experimental Epic Games Parser + Preset (works on Windows and Mac)
+### Changed
+* Made User Accounts field mandatory for the Steam Parser
+
+## 2.3.7
+### Fixed
+* Steam parser was failing whenever app title was just a number (eg "140")
+
+## 2.3.6
+### Added
+* Retroarch Cores environment variable
+
+## 2.3.5
+### Fixed
+* Made auto updater styling consistent with rest of application
+
+## 2.3.4
+### Fixed
+* Small backend error when user specified no categories
+
 ## 2.3.3
 * Unbork browse for files
 

@@ -83,6 +83,16 @@ export interface languageStruct {
             fatalError__i: string
         }
     },
+    epicParser: {
+      docs__md: {
+        self: string[]
+      },
+      errors: {
+        epicNotCompatible: string,
+        epicNotInstalled: string,
+        fatalError__i: string
+      }
+    },
     globParser: {
       inputTitle: string,
         docs__md: {
@@ -195,6 +205,9 @@ export interface languageStruct {
               retroarchPathWin: string,
               retroarchPathMac: string,
               retroarchPathLinux: string,
+              raCoresDirectoryWin: string,
+              raCoresDirectoryMac: string,
+              raCoresDirectoryLinux: string,
               localImagesDirectoryWin: string,
               localImagesDirectoryUnix: string
           }
@@ -424,6 +437,7 @@ export interface languageStruct {
                     incorrectParser: string
                 },
                 romDir__md: string,
+                userAccounts__md: string,
                 steamDir__md: string,
                 startInDir__md: string,
                 executable__md: string

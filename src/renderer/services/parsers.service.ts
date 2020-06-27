@@ -182,7 +182,7 @@ export class ParsersService {
     });
   }
 
-  validate(key: string, data: any) {
+  validate(key: string, data: any,options?: any) {
     switch (key) {
       case 'parserType':
         {
@@ -204,7 +204,13 @@ export class ParsersService {
       case 'startInDirectory':
         return (data == null || data.length === 0 || this.validateEnvironmentPath(data || '', true)) ? null : this.lang.validationErrors.startInDir__md;
       case 'userAccounts':
-        return this.validateVariableParserString((data||{}).specifiedAccounts || '');
+        {
+          if(options && options.parserType=='Steam') {
+            return data && data.specifiedAccounts ? this.validateVariableParserString(data.specifiedAccounts||'') : this.lang.validationErrors.userAccounts__md;
+          } else{
+            return this.validateVariableParserString((data||{}).specifiedAccounts || '');
+          }
+        }
       case 'parserInputs':
         {
           let availableParser = this.getParserInfo(data['parser']);
@@ -293,27 +299,35 @@ export class ParsersService {
     }
     if(config['parserType']=='Steam') {
 
-      simpleValidations = ['configTitle','parserId','steamDirectory','userAccounts','titleModifier',
+      simpleValidations = ['configTitle','parserId','steamDirectory','titleModifier',
         'onlineImageQueries', 'imagePool', 'imageProviders',
         'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
       ]
-    } else {
+    } else if(['Epic'].includes(config['parserType'])){
+      simpleValidations = ['configTitle','parserId','steamDirectory','steamCategory','titleModifier',
+        'onlineImageQueries', 'imagePool', 'imageProviders',
+        'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
+      ]
+    }
+    else {
       simpleValidations = [
         'configTitle', 'parserId', 'steamCategory',
         'executable', 'executableModifier', 'romDirectory',
-        'steamDirectory', 'startInDirectory', 'userAccounts',
+        'steamDirectory', 'startInDirectory',
         'titleFromVariable', 'titleModifier', 'executableArgs',
         'onlineImageQueries', 'imagePool', 'imageProviders',
         'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
       ];
     }
 
+    if(this.validate('userAccounts', config['userAccounts'], {parserType: config['parserType']}) !== null) {
+      return false;
+    }
 
     for (let i = 0; i < simpleValidations.length; i++) {
       if (this.validate(simpleValidations[i], config[simpleValidations[i]]) !== null){
         return false;
       }
-
     }
 
     let availableParser = this.getParserInfo(config.parserType);
@@ -372,10 +386,13 @@ export class ParsersService {
       let errorString: string = '';
       let updateNeeded: boolean = false;
       for (let i = 0; i < data.length; i++) {
-        if(data[i].parserType==='Steam') {
+        if(['Epic','Steam'].includes(data[i].parserType)) {
           updateNeeded=true;
+          // TODO get rid of this ugly hack for making specified accounts mandatory for steam parser only
+          data[i].userAccounts.specifiedAccounts = data[i].userAccounts.specifiedAccounts || '';
           data[i].fuzzyMatch.use = false;
           data[i].titleFromVariable.tryToMatchTitle = false;
+          data[i].executableModifier = "\"${exePath}\"";
         }
         if (this.validator.validate(data[i]).isValid())
           validatedConfigs.push({ saved: data[i], current: null });
@@ -392,7 +409,6 @@ export class ParsersService {
       }
       this.userConfigurations.next(validatedConfigs);
       if(updateNeeded) {
-        //this.loggerService.info(this.lang.info.updatingConfigurations, {invokeAlert: true, alertTimeout: 5000})
         this.saveUserConfigurations();
       }
     }).catch((error) => {

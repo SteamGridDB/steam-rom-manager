@@ -85,8 +85,21 @@ export const EnglishLang: languageContainer = {
       errors: {
         directoryInvalid: "Steam directory invalid",
         noSteamAccounts: "Steam directory specified has no accounts",
-        steamChanged__i: 'Steam has changed their internal database structure, this parser needs to be fixed. Full error:\n ${error}',
+        steamChanged__i: 'Steam changed internal database structure or parser tried to read an outdated database.\nProblematic file: ${file}\nFull error:\n ${error}',
         fatalError__i: 'Steam parser failed with fatal error:\n ${error}'
+      }
+    },
+    epicParser: {
+      docs__md: {
+        self: [
+          require('./markdown/epic-parser.md')
+        ]
+
+      },
+      errors: {
+        epicNotCompatible: "Epic Games not available on Linux",
+        epicNotInstalled: "Epic Games does not appear to be installed",
+        fatalError__i: 'Epic Games parser failed with fatal error:\n ${error}'
       }
     },
     globParser: {
@@ -215,7 +228,10 @@ export const EnglishLang: languageContainer = {
           retroarchPathWin: 'For example C:\\Path\\To\\retroarch.exe',
           retroarchPathLinux: 'For example /path/to/retroarch',
           retroarchPathMac: 'For example /path/to/retroarch',
-          localImagesDirectoryWin: 'For example C\\Path\\To\\LocalArtwork',
+          raCoresDirectoryWin: 'Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores',
+          raCoresDirectoryLinux: 'Typically /lib/x86_64-linux-gnu/libretro/cores',
+          raCoresDirectoryMac: 'Typically /Applications/Retroarch.app/Contents/Resources/cores',
+          localImagesDirectoryWin: 'For example C:\\Path\\To\\LocalArtwork',
           localImagesDirectoryUnix: 'For example ~/path/to/localartwork'
         }
       },
@@ -528,6 +544,7 @@ export const EnglishLang: languageContainer = {
             incorrectParser: 'Incorrect parser!',
           },
           romDir__md: '> ROMs directory is invalid!',
+          userAccounts__md: '> Steam parser requires `User Accounts` field',
           steamDir__md: '> Steam directory is invalid!',
           startInDir__md: '> "Start In" directory is invalid!',
           executable__md: '> Executable is invalid!',

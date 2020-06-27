@@ -8,7 +8,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}emux_nes_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores|${os:linux|${racores}}}}${/}emux_nes_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -62,7 +62,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}fceumm_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores|${os:linux|${racores}}}}${/}fceumm_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -116,7 +116,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}mesen_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores|${os:linux|${racores}}}}${/}mesen_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -170,7 +170,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}nestopia_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores|${os:linux|${racores}}}}${/}nestopia_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -224,7 +224,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}quicknes_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores|${os:linux|${racores}}}}${/}quicknes_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -278,7 +278,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L cores${/}bnes_libretro.${os:win|dll|${os:mac|dylib|so}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores|${os:linux|${racores}}}}${/}bnes_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [

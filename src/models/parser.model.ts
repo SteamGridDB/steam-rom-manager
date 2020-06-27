@@ -62,11 +62,13 @@ export interface ParserInfo {
     inputs?: ParserInputField
 }
 
+
+// TODO Split this up more sanely into ImporterParsedData and ManagerParsedData
 export interface ParsedData {
     success: {
-        filePath?: string,
+        filePath?: string, // Used by all except steam parser
         extractedTitle: string,
-        extractedAppId?: string
+        extractedAppId?: string // Only used by the steam parser
     }[],
     failed: string[]
 }
@@ -82,6 +84,7 @@ export interface ParserVariableData {
     filePath: string,
     steamDirectoryGlobal: string,
     retroarchPath: string,
+    raCoresDirectory: string,
     localImagesDirectory: string
 }
 
@@ -91,7 +94,7 @@ const nameVariables = StringLiteralArray(['EXENAME','FILENAME']);
 const extensionVariables = StringLiteralArray(['EXEEXT','FILEEXT']);
 const pathVariables = StringLiteralArray(['EXEPATH','FILEPATH']);
 const parserVariables = StringLiteralArray(['TITLE','FUZZYTITLE','FINALTITLE']);
-const environmentVariables = StringLiteralArray(['/','SRMDIR','STEAMDIRGLOBAL','RETROARCHPATH','LOCALIMAGESDIR']);
+const environmentVariables = StringLiteralArray(['/','SRMDIR','STEAMDIRGLOBAL','RETROARCHPATH','RACORES','LOCALIMAGESDIR']);
 
 export type DirectoryVariables = (typeof directoryVariables)[number];
 export type NameVariables = (typeof nameVariables)[number];

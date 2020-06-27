@@ -12,23 +12,6 @@ This setting influences Steam's APP ID.
 ## Shortcut Passthrough
 If you enable "Follow .lnk to destination" and your executable is a ".lnk" file, ie a shortcut, then whatever you put in this field will be overridden with the target of that shortcut. If you would like to add executable arguments either add them to the target of the shortcut or use the "Command Line Arguments" field in the parser.
 
-## Custom Argument Variables
-Assuming you have not enabled "Follow .lnk to destination", this field supports (in addition to all the usual variables), custom per game argument variables specified in `userData/customArgumentVariables.json`. This file does not exist by default, so if you need it you have to create it. The json has a similar layout to `userData/customVariables.json`, but it works slightly differently. Assume your parser loads in games with titles `Subnautica` and `Sundered`, and some others. Then your `userData/customVariables.json` might look like
-```
-{
-  "myVariable": {
-    "Subnautica": "-EpicPortal",
-    "Sundered": "-SomeOtherArg"
-  },
-  "mySecondVariable":{
-    ...
-  },
-  ...
-}
-
-```
-Once you have made this file the way you want it, then referencing `${myVariable}` in either the Executable Modifer or the Command Line Arguments field will map to -EpicPortal if the title of the game is Subnautica, to -SomeOtherArg if the title of the game is Sundered, and to nothing otherwise.
-
 ## Directory variables
 
 |Variable (case-insensitive)|Corresponding value|

@@ -2,6 +2,7 @@ import { AbstractControl } from '@angular/forms';
 import { Observable } from "rxjs";
 
 export type NestedInputValidator = (control: AbstractControl, path: string[]) => string;
+export type NestedInputValidatorObservable = ()=>Observable<string>;
 export type NestedInputInfoClick = (control: AbstractControl, path: string[]) => void;
 export type NestedInputChange = (control: AbstractControl, path: string[]) => void;
 export type NestedInputHidden = () => Observable<boolean> | Promise<boolean>;
@@ -36,6 +37,8 @@ export namespace NestedFormElement {
     /** Optional */
     onValidate?: NestedInputValidator;
     /** Optional */
+    onValidateObservable?: NestedInputValidatorObservable;
+    /** Optional */
     onChange?: NestedInputChange;
     /** Optional */
     onInfoClick?: NestedInputInfoClick;
@@ -57,6 +60,8 @@ export namespace NestedFormElement {
     placeholder?: string;
     /** Optional */
     onValidate?: NestedInputValidator;
+    /** Optional */
+    onValidateObservable?: NestedInputValidatorObservable;
     /** Optional */
     onChange?: NestedInputChange;
     /** Optional */
@@ -88,6 +93,8 @@ export namespace NestedFormElement {
     /** Optional */
     onValidate?: NestedInputValidator;
     /** Optional */
+    onValidateObservable?: NestedInputValidatorObservable;
+    /** Optional */
     onChange?: NestedInputChange;
     /** Optional */
     onInfoClick?: NestedInputInfoClick;
@@ -111,6 +118,8 @@ export namespace NestedFormElement {
     isHidden?: NestedInputHidden;
     /** Optional */
     onValidate?: NestedInputValidator;
+    /** Optional */
+    onValidateObservable?: NestedInputValidatorObservable;
     /** Optional */
     onChange?: NestedInputChange;
     /** Optional */
@@ -136,5 +145,5 @@ export namespace NestedFormElement {
   };
 }
 
-export type NestedFormInputs = NestedFormElement.Input | /*NestedFormElement.Path | */ NestedFormElement.Select | NestedFormElement.Toggle;
+export type NestedFormInputs = NestedFormElement.Input | NestedFormElement.Select | NestedFormElement.Toggle;
 export type NestedFormElements = NestedFormInputs | NestedFormElement.Group;

@@ -71,16 +71,18 @@ autoUpdater.on('checking-for-update', () => {
 })
 autoUpdater.on('update-available', (info) => {
   log.info('update available')
-  mainWindow.webContents.send('updater_message','update_available');
+  if(process.platform=='darwin' || process.env.PORTABLE_EXECUTABLE_DIR) {
+    mainWindow.webContents.send('updater_message','update_portable');
+  } else{
+    mainWindow.webContents.send('updater_message','update_available');
+  }
 })
 
 autoUpdater.on('error', (err) => {
   log.info(err);
 })
 autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = "Speed: " + progressObj.bytesPerSecond;
-  log_message = log_message + '\n Progress: ' + Math.round(progressObj.percent) + '%';
-  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+  let log_message = 'Progress: ' + Math.round(progressObj.percent) + '%';
   log.info(log_message)
   mainWindow.webContents.send('updater_message',{ progress: log_message });
 })
@@ -93,7 +95,6 @@ app.on('ready', ()=>{
   createWindow()
   mainWindow.webContents.on('dom-ready',()=>{
     autoUpdater.checkForUpdatesAndNotify()
-    //mainWindow.webContents.send('updater_message','update_available')
   });
   ipcMain.on('download_update', (event: IpcMainEvent)=>{
     log.info('downloading update')

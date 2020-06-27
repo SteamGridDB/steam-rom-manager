@@ -17,7 +17,8 @@ export interface AppSettings {
   environmentVariables: {
     steamDirectory: string,
     retroarchPath: string,
-    localImagesDirectory: string
+    localImagesDirectory: string,
+    raCoresDirectory: string
   },
   language: string,
   offlineMode: boolean,
