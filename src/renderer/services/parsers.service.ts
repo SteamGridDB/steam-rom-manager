@@ -386,10 +386,10 @@ export class ParsersService {
       let errorString: string = '';
       let updateNeeded: boolean = false;
       for (let i = 0; i < data.length; i++) {
+        // TODO get rid of this ugly hack for making specified accounts mandatory for steam parser only
+        data[i].userAccounts.specifiedAccounts = data[i].userAccounts.specifiedAccounts || '';
+        updateNeeded=true;
         if(['Epic','Steam'].includes(data[i].parserType)) {
-          updateNeeded=true;
-          // TODO get rid of this ugly hack for making specified accounts mandatory for steam parser only
-          data[i].userAccounts.specifiedAccounts = data[i].userAccounts.specifiedAccounts || '';
           data[i].fuzzyMatch.use = false;
           data[i].titleFromVariable.tryToMatchTitle = false;
           data[i].executableModifier = "\"${exePath}\"";
