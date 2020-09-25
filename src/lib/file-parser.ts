@@ -1,4 +1,4 @@
-import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, CustomArgumentVariables,AppSettings } from '../models';
+import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, UserExceptions, AppSettings } from '../models';
 import { FuzzyService } from "../renderer/services";
 import { VariableParser } from "./variable-parser";
 import { APP } from '../variables';
@@ -8,17 +8,18 @@ import * as url from './helpers/url';
 import * as steam from './helpers/steam';
 import * as paths from "../paths";
 import * as _ from 'lodash';
-import * as glob from 'glob';
+import { globPromise } from './helpers/glob/promise';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as os from 'os';
-import {getPath} from 'windows-shortcuts-ps';
+import * as Sentry from '@sentry/electron';
+import { getPath } from 'windows-shortcuts-ps';
 
 
 export class FileParser {
   private availableParsers = parsers;
   private customVariableData: CustomVariables = {};
-  private argumentVariableData: CustomArgumentVariables = {};
+  private userExceptions: UserExceptions = {};
   private globCache: any = {};
 
   constructor(private fuzzyService: FuzzyService) { }
@@ -31,10 +32,8 @@ export class FileParser {
     this.customVariableData = data;
   }
 
-  setCustomArgVariables() {
-    if(fs.existsSync(paths.customArgVariables)){
-      this.argumentVariableData = JSON.parse(fs.readFileSync(paths.customArgVariables,'utf-8'));
-    }
+  setUserExceptions(data: UserExceptions) {
+    this.userExceptions = data;
   }
 
   getAvailableParsers() {
@@ -85,27 +84,27 @@ export class FileParser {
     let totalUserAccountsFound: number = 0;
     let filteredAccounts: { found: userAccountData[], missing: string[] }[] = [];
     let parsedConfigs: ParsedUserConfiguration[] = [];
-    this.setCustomArgVariables();
     this.globCache = {};
 
     return Promise.resolve()
       .then(() => {
         let preParser = new VariableParser({ left: '${', right: '}' });
         for (let i = 0; i < configs.length; i++) {
-          let isGlobParser:boolean = configs[i].parserType!=='Steam';
-
+          let isSteamParser:boolean = configs[i].parserType=='Steam';
+          let isImporterParser:boolean = ['Epic'].includes(configs[i].parserType);
+          let isGlobParser:boolean = ['Glob','Glob-regex'].includes(configs[i].parserType);
           // Parse environment variables on rom directory, start in path, executable path
           configs[i].steamDirectory = preParser.setInput(configs[i].steamDirectory).parse() ? preParser.replaceVariables((variable) => {
             return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
           }) : null;
-          if(isGlobParser){
+          if(isGlobParser) {
             configs[i].romDirectory = preParser.setInput(configs[i].romDirectory).parse() ? preParser.replaceVariables((variable) => {
               return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
             }) : null;
             configs[i].startInDirectory = preParser.setInput(configs[i].startInDirectory).parse() ? preParser.replaceVariables((variable) => {
               return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
             }) : null;
-            configs[i].executableLocation = preParser.setInput(configs[i].executableLocation).parse() ? preParser.replaceVariables((variable) => {
+            configs[i].executable.path = preParser.setInput(configs[i].executable.path).parse() ? preParser.replaceVariables((variable) => {
               return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
             }) : null;
           }
@@ -131,7 +130,9 @@ export class FileParser {
 
         let promises: Promise<ParsedData>[] = [];
         for(let i=0; i<configs.length;i++) {
-          let isGlobParser:boolean = configs[i].parserType!=='Steam';
+          let isSteamParser:boolean = configs[i].parserType=='Steam';
+          let isImporterParser:boolean = ['Epic'].includes(configs[i].parserType);
+          let isGlobParser:boolean = ['Glob','Glob-regex'].includes(configs[i].parserType);
           let parser = this.getParserInfo(configs[i].parserType);
           if (parser) {
             if (parser.inputs !== undefined) {
@@ -144,18 +145,14 @@ export class FileParser {
             }
             let preParser = new VariableParser({ left: '${', right: '}' });
             let userFilter = preParser.setInput(configs[i].userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
-
-            console.log(userFilter);
             filteredAccounts.push(this.filterUserAccounts(steamDirectories[i].data, userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir));
             totalUserAccountsFound+=filteredAccounts[filteredAccounts.length-1].found.length;
-            let directories = isGlobParser? [configs[i].romDirectory] : filteredAccounts[i].found.map((account: userAccountData)=>path.join(configs[i].steamDirectory,'userdata',account.accountID));
+            let directories = isGlobParser ? [configs[i].romDirectory] : filteredAccounts[i].found.map((account: userAccountData)=>path.join(configs[i].steamDirectory,'userdata',account.accountID));
             promises.push(this.availableParsers[configs[i].parserType].execute(directories, configs[i].parserInputs, this.globCache));
           }
           else
             throw new Error(this.lang.error.parserNotFound__i.interpolate({ name: configs[i].parserType }));
         }
-        console.log(steamDirectories);
-        console.log(filteredAccounts);
         return Promise.all(promises);
       })
       .then((data: ParsedDataWithFuzzy[]) => {
@@ -170,7 +167,9 @@ export class FileParser {
         let localIconPromises: Promise<void>[] = [];
         let vParser = new VariableParser({ left: '${', right: '}' });
         for (let i = 0; i < configs.length; i++) {
-          let isGlobParser:boolean = configs[i].parserType !=='Steam';
+          let isSteamParser:boolean = configs[i].parserType=='Steam';
+          let isImporterParser:boolean = ['Epic'].includes(configs[i].parserType);
+          let isGlobParser:boolean = ['Glob','Glob-regex'].includes(configs[i].parserType);
           if (isGlobParser && configs[i].titleFromVariable.tryToMatchTitle)
             this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);
 
@@ -182,14 +181,15 @@ export class FileParser {
             configurationTitle: configs[i].configTitle,
             parserId: configs[i].parserId,
             parserType: configs[i].parserType,
-            appendArgsToExecutable: configs[i].appendArgsToExecutable,
-            shortcutPassthrough: configs[i].titleFromVariable.shortcutPassthrough,
+            appendArgsToExecutable: configs[i].executable.appendArgsToExecutable,
+            shortcutPassthrough: configs[i].executable.shortcutPassthrough,
             imageProviders: configs[i].imageProviders,
             foundUserAccounts: filteredAccounts[i].found,
             missingUserAccounts: filteredAccounts[i].missing,
             steamDirectory: configs[i].steamDirectory,
             files: [],
-            failed: _.cloneDeep(data[i].failed)
+            failed: _.cloneDeep(data[i].failed),
+            excluded: []
           });
           for (let j = 0; j < data[i].success.length; j++) {
             let fuzzyTitle = data[i].success[j].fuzzyTitle || data[i].success[j].extractedTitle;
@@ -199,14 +199,26 @@ export class FileParser {
               parsedConfigs[i].failed.push(data[i].success[j].filePath);
               continue;
             }
+
+            // Exclude user specified exclusions
+            let exceptions = this.userExceptions[data[i].success[j].extractedTitle];
+            if(exceptions && exceptions.exclude) {
+              parsedConfigs[i].excluded.push(data[i].success[j].filePath);
+              continue;
+            }
+
             let executableLocation:string = undefined;
             let startInDir:string = undefined;
             if(isGlobParser) {
-              executableLocation = configs[i].executableLocation ? configs[i].executableLocation : data[i].success[j].filePath;
+              executableLocation = configs[i].executable.path ? configs[i].executable.path : data[i].success[j].filePath;
               startInDir = configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation);
-            } else {
+            } else if(isImporterParser){
+              executableLocation = data[i].success[j].filePath;
+              startInDir = path.dirname(executableLocation);
+            } else if(isSteamParser) {
               executableLocation = data[i].success[j].extractedAppId;
             }
+
 
             parsedConfigs[i].files.push({
               steamCategories: undefined,
@@ -242,15 +254,21 @@ export class FileParser {
 
             let lastFile = parsedConfigs[i].files[parsedConfigs[i].files.length - 1];
             let variableData = this.makeVariableData(configs[i],settings, lastFile);
-
-            lastFile.finalTitle = vParser.setInput(configs[i].titleModifier).parse() ? vParser.replaceVariables((variable) => {
-              return this.getVariable(variable as AllVariables, variableData).trim();
-            }) : '';
-
+            if(exceptions && exceptions.newTitle) {
+              lastFile.finalTitle = exceptions.newTitle;
+            } else {
+              lastFile.finalTitle = vParser.setInput(configs[i].titleModifier).parse() ? vParser.replaceVariables((variable) => {
+                  return this.getVariable(variable as AllVariables, variableData).trim();
+              }) : '';
+            }
             variableData.finalTitle = lastFile.finalTitle;
-            lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
-              return this.getVariable(variable as AllVariables, variableData).trim();
-            }) : '';
+            if(exceptions && exceptions.commandLineArguments) {
+              lastFile.argumentString = exceptions.commandLineArguments;
+            } else {
+              lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
+                return this.getVariable(variable as AllVariables, variableData).trim();
+              }) : '';
+            }
             lastFile.imagePool = vParser.setInput(configs[i].imagePool).parse() ? vParser.replaceVariables((variable) => {
               return this.getVariable(variable as AllVariables, variableData).trim();
             }) : '';
@@ -264,10 +282,12 @@ export class FileParser {
               return this.getVariable(variable as AllVariables, variableData);
             })) : [];
           }
+
+
+          let extRegex = /png|tga|jpg|jpeg/i;
           defaultImagePromises.push(this.resolveFieldGlobs('defaultImage', configs[i],settings, parsedConfigs[i], vParser).then((data) => {
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedDefaultImages = data.resolvedGlobs[j];
-              let extRegex = /png|tga|jpg|jpeg/i;
               for (let k = 0; k < data.resolvedFiles[j].length; k++) {
                 const item = data.resolvedFiles[j][k];
                 if (extRegex.test(path.extname(item))) {
@@ -280,7 +300,6 @@ export class FileParser {
           defaultTallImagePromises.push(this.resolveFieldGlobs('defaultTallImage',configs[i],settings,parsedConfigs[i],vParser).then((data)=>{
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedDefaultTallImages = data.resolvedGlobs[j];
-              let extRegex = /png|tga|jpg|jpeg/i;
               for (let k = 0; k < data.resolvedFiles[j].length; k++) {
                 const item = data.resolvedFiles[j][k];
                 if (extRegex.test(path.extname(item))) {
@@ -293,7 +312,6 @@ export class FileParser {
           defaultHeroImagePromises.push(this.resolveFieldGlobs('defaultHeroImage',configs[i],settings,parsedConfigs[i],vParser).then((data)=>{
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedDefaultHeroImages = data.resolvedGlobs[j];
-              let extRegex = /png|tga|jpg|jpeg/i;
               for (let k = 0; k < data.resolvedFiles[j].length; k++) {
                 const item = data.resolvedFiles[j][k];
                 if (extRegex.test(path.extname(item))) {
@@ -306,7 +324,6 @@ export class FileParser {
           defaultLogoImagePromises.push(this.resolveFieldGlobs('defaultLogoImage',configs[i],settings,parsedConfigs[i],vParser).then((data)=>{
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedDefaultLogoImages = data.resolvedGlobs[j];
-              let extRegex = /png|tga|jpg|jpeg/i;
               for (let k = 0; k < data.resolvedFiles[j].length; k++) {
                 const item = data.resolvedFiles[j][k];
                 if (extRegex.test(path.extname(item))) {
@@ -320,8 +337,6 @@ export class FileParser {
           localImagePromises.push(this.resolveFieldGlobs('localImages', configs[i],settings, parsedConfigs[i], vParser).then((data) => {
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedLocalImages = data.resolvedGlobs[j];
-
-              let extRegex = /png|tga|jpg|jpeg/i;
               data.parsedConfig.files[j].localImages = data.resolvedFiles[j].filter((item) => {
                 return extRegex.test(path.extname(item));
               }).map((item) => {
@@ -332,8 +347,6 @@ export class FileParser {
           localTallImagePromises.push(this.resolveFieldGlobs('localTallImages', configs[i],settings, parsedConfigs[i], vParser).then((data) => {
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedLocalTallImages = data.resolvedGlobs[j];
-
-              let extRegex = /png|tga|jpg|jpeg/i;
               data.parsedConfig.files[j].localTallImages = data.resolvedFiles[j].filter((item) => {
                 return extRegex.test(path.extname(item));
               }).map((item) => {
@@ -344,8 +357,6 @@ export class FileParser {
           localHeroImagePromises.push(this.resolveFieldGlobs('localHeroImages', configs[i],settings, parsedConfigs[i], vParser).then((data) => {
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedLocalHeroImages = data.resolvedGlobs[j];
-
-              let extRegex = /png|tga|jpg|jpeg/i;
               data.parsedConfig.files[j].localHeroImages = data.resolvedFiles[j].filter((item) => {
                 return extRegex.test(path.extname(item));
               }).map((item) => {
@@ -356,8 +367,6 @@ export class FileParser {
           localLogoImagePromises.push(this.resolveFieldGlobs('localLogoImages', configs[i],settings, parsedConfigs[i], vParser).then((data) => {
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedLocalLogoImages = data.resolvedGlobs[j];
-
-              let extRegex = /png|tga|jpg|jpeg/i;
               data.parsedConfig.files[j].localLogoImages = data.resolvedFiles[j].filter((item) => {
                 return extRegex.test(path.extname(item));
               }).map((item) => {
@@ -404,7 +413,6 @@ export class FileParser {
     else {
       groups = Object.keys(this.customVariableData);
     }
-
     if (groups.length > 0) {
       for (let i = 0; i < data.success.length; i++) {
         let found = false;
@@ -462,15 +470,16 @@ export class FileParser {
       let fieldValue = config[field];
       if (fieldValue) {
         let variableData = this.makeVariableData(config,settings, parsedConfig.files[i]);
+        //expandable set is to allow you to comment out stuff using $()$. Decent idea, but ehhhh
         let expandableSet = /\$\((\${.+?})(?:\|(.*?))?\)\$/.exec(fieldValue);
-
+        let cwd = settings.environmentVariables.localImagesDirectory? settings.environmentVariables.localImagesDirectory : config.romDirectory;
         if (expandableSet === null) {
-          let replacedGlob = path.resolve(config.romDirectory, vParser.setInput(fieldValue).parse() ? vParser.replaceVariables((variable) => {
+          let replacedGlob = path.resolve(cwd,vParser.setInput(fieldValue).parse() ? vParser.replaceVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData);
           }) : '').replace(/\\/g, '/');
 
           resolvedGlobs[i].push(replacedGlob);
-          promises.push(this.globPromise(replacedGlob, { silent: true, dot: true, realpath: true, cwd: config.romDirectory, cache: this.globCache }).then((files) => {
+          promises.push(globPromise(replacedGlob, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
             resolvedFiles[i] = files;
           }));
         }
@@ -480,12 +489,12 @@ export class FileParser {
           parserMatch = vParser.setInput(parserMatch).parse() ? vParser.replaceVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData);
           }) : '';
-          parserMatch = path.resolve(config.romDirectory, parserMatch.replace('$()$', expandableSet[1])).replace(/\\/g, '/');
+          parserMatch = path.resolve(cwd, parserMatch.replace('$()$', expandableSet[1])).replace(/\\/g, '/');
           resolvedGlobs[i].push(parserMatch);
 
           if (expandableSet[2] != undefined) {
             secondaryMatch = fieldValue.replace(expandableSet[0], expandableSet[2] || '');
-            secondaryMatch = path.resolve(config.romDirectory, vParser.setInput(secondaryMatch).parse() ? vParser.replaceVariables((variable) => {
+            secondaryMatch = path.resolve(cwd, vParser.setInput(secondaryMatch).parse() ? vParser.replaceVariables((variable) => {
               return this.getVariable(variable as AllVariables, variableData);
             }) : '').replace(/\\/g, '/');
             resolvedGlobs[i].push(secondaryMatch);
@@ -493,9 +502,9 @@ export class FileParser {
 
           promises.push(Promise.resolve().then(() => {
             if (/\${title}/i.test(expandableSet[1]))
-              return this.availableParsers['Glob'].execute([config.romDirectory], { 'glob': parserMatch }, this.globCache);
+              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache);
             else
-              return this.availableParsers['Glob-regex'].execute([config.romDirectory], { 'glob-regex': parserMatch }, this.globCache);
+              return this.availableParsers['Glob-regex'].execute([cwd], { 'glob-regex': parserMatch }, this.globCache);
           }).then((parsedData) => {
             for (let j = 0; j < parsedData.success.length; j++) {
               if (config.fuzzyMatch.use) {
@@ -508,7 +517,7 @@ export class FileParser {
               }
             }
             if (secondaryMatch !== undefined) {
-              return this.globPromise(secondaryMatch, { silent: true, dot: true, realpath: true, cwd: config.romDirectory, cache: this.globCache }).then((files) => {
+              return globPromise(secondaryMatch, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
                 return resolvedFiles[i].concat(files);
               });
             }
@@ -538,6 +547,12 @@ export class FileParser {
         break;
       case 'RETROARCHPATH':
         output=settings.environmentVariables.retroarchPath;
+        break;
+      case 'RACORES':
+        output=settings.environmentVariables.raCoresDirectory;
+        break;
+      case 'LOCALIMAGESDIR':
+        output=settings.environmentVariables.localImagesDirectory;
         break;
       default:
         break;
@@ -602,6 +617,12 @@ export class FileParser {
         break;
       case 'RETROARCHPATH':
         output=data.retroarchPath;
+        break;
+      case 'RACORES':
+        output=data.raCoresDirectory;
+        break;
+      case 'LOCALIMAGESDIR':
+        output=data.localImagesDirectory;
         break;
       default:
         {
@@ -685,14 +706,10 @@ export class FileParser {
               }
             }
           }
-
-          if(this.argumentVariableData[output]!==undefined) {
-            return this.argumentVariableData[variable][data.extractedTitle] || '';
-          }
         }
         break;
     }
-    return output;
+    return output || '';
   }
 
   private makeVariableData(config: UserConfiguration, settings: AppSettings, file: ParsedUserConfigurationFile) {
@@ -706,7 +723,9 @@ export class FileParser {
       fuzzyTitle: file.fuzzyTitle,
       romDirectory: config.romDirectory,
       steamDirectoryGlobal: settings.environmentVariables.steamDirectory,
-      retroarchPath: settings.environmentVariables.retroarchPath
+      retroarchPath: settings.environmentVariables.retroarchPath,
+      raCoresDirectory: settings.environmentVariables.raCoresDirectory,
+      localImagesDirectory: settings.environmentVariables.localImagesDirectory
     }
   }
 
@@ -717,17 +736,5 @@ export class FileParser {
     } catch (e) {
       return false;
     }
-  }
-
-  private globPromise(pattern: string, options: glob.IOptions) {
-    return new Promise<string[]>((resolve, reject) => {
-      glob(pattern, options, (err, files) => {
-        if (err)
-          reject(err);
-        else {
-          resolve(files);
-        }
-      });
-    });
   }
 }

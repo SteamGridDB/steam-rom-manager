@@ -1,11 +1,73 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.3.10
+### Fixed
+* Slight oversight on dirty hack
+
+## 2.3.9
+### Fixed
+* Dirty hack to make user accounts field mandatory only on steam parser
+
+## 2.3.8
+### Added
+* Experimental Epic Games Parser + Preset (works on Windows and Mac)
+### Changed
+* Made User Accounts field mandatory for the Steam Parser
+
+## 2.3.7
+### Fixed
+* Steam parser was failing whenever app title was just a number (eg "140")
+
+## 2.3.6
+### Added
+* Retroarch Cores environment variable
+
+## 2.3.5
+### Fixed
+* Made auto updater styling consistent with rest of application
+
+## 2.3.4
+### Fixed
+* Small backend error when user specified no categories
+
+## 2.3.3
+* Unbork browse for files
+
+## 2.3.2
+### Fixed
+* Filter by category also removing titles in all artwork view
+* Round download percentage for auto updater
+
+## 2.3.1
+### Fixed
+* Filter by category not working in all artwork view
+* Include latest.yml in build so auto updater can work
+
+## 2.3.0
+### Fixed
+* Moved data migrations to modifiers 
+### Added
+* Add documentation emphasizing User Accounts field
+* Steam Parser Title Modifier (default to removing illegal symbols)
+* Add a localImagesDir environment variable
+* Add a sane browse button to localimages/defaultimages fields
+* Exceptions manager
+* Add steam category filter to preview
+* Add save images locally to preview
+* Crash logging with sentry.io
+* Auto Updater (hopefully working, sort of hard to test separately)
+* Config Presets are searchable
+
+### Changed
+* Re organized Parser fields slightly to make more sense
+* Split user presets into separate files
+
 ## 2.2.34
-## Fixed
+### Fixed
 * Bug where app list would fail to generate if width/height of images could not be retrieved.
 
-## Added
+### Added
 * More logging for steam parser.
 
 ## 2.2.33

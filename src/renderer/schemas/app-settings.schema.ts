@@ -4,6 +4,7 @@ import { availableProviders } from "../../lib/image-providers/available-provider
 export const appSettings = {
   type: 'object',
   properties: {
+    version: { type: 'number' },
     fuzzyMatcher: {
       type: 'object',
       default: {},
@@ -25,7 +26,9 @@ export const appSettings = {
       default: {},
       properties: {
         steamDirectory: {type: 'string', default:""},
-        retroarchPath: {type: 'string', default:""}
+        retroarchPath: {type: 'string', default:""},
+        raCoresDirectory: {type: 'string', default:""},
+        localImagesDirectory: {type: 'string', default: ""},
       }
     },
 

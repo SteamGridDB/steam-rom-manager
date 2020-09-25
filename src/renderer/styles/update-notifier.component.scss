@@ -1,0 +1,59 @@
+@import 'mixins';
+
+:host {
+  &.hidden {
+    display: none;
+  }
+  .hidden {
+    display: none;
+  }
+  /deep/ a {
+    text-decoration: none;
+
+    color: var(--color-markdown-link);
+
+    &:hover {
+      color: var(--color-markdown-link-hover);
+    }
+
+    &:active {
+      color: var(--color-markdown-link-active);
+    }
+  }
+  > #updateNotification {
+    font-size: 1em;
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    display: inline-block;
+
+    margin: 0.5em 0.5em;
+    padding: 1em 2em;
+
+    text-align: right;
+    word-wrap: break-word;
+
+    color: var(--color-alert-text);
+    border: 1px solid var(--color-info);
+    background-color: var(--color-alert-background);
+
+    .goButton {
+      @include button();
+      @include clickButtonColor(click-button);
+      &.hidden {
+        display: none;
+      }
+      margin-left: 1em;
+
+    }
+    .noButton {
+      @include button();
+      @include clickButtonColor(dangerous-click-button);
+      &.hidden {
+        display: none;
+      }
+    }
+  }
+}

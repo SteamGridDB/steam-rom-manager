@@ -9,8 +9,9 @@ export const EnglishLang: languageContainer = {
     },
     preview: {
       component: {
-        filter: 'Filter app titles',
+        filter: 'Filter by title',
         selectType: 'Select type',
+        selectCategories: 'Filter by category',
         selectTypeOptions: {
           long: 'Grids',
           tall: 'Posters',
@@ -20,6 +21,7 @@ export const EnglishLang: languageContainer = {
         },
         by: 'by',
         refreshImages: 'Refresh images',
+        saveImage: 'Save image to file',
         addLocalImages: 'Add local images',
         retryDownload: 'Retry download',
         generateAppList: 'Generate app list',
@@ -83,8 +85,21 @@ export const EnglishLang: languageContainer = {
       errors: {
         directoryInvalid: "Steam directory invalid",
         noSteamAccounts: "Steam directory specified has no accounts",
-        steamChanged__i: 'Steam has changed their internal database structure, this parser needs to be fixed. Full error:\n ${error}',
+        steamChanged__i: 'Steam changed internal database structure or parser tried to read an outdated database.\nProblematic file: ${file}\nFull error:\n ${error}',
         fatalError__i: 'Steam parser failed with fatal error:\n ${error}'
+      }
+    },
+    epicParser: {
+      docs__md: {
+        self: [
+          require('./markdown/epic-parser.md')
+        ]
+
+      },
+      errors: {
+        epicNotCompatible: "Epic Games not available on Linux",
+        epicNotInstalled: "Epic Games does not appear to be installed",
+        fatalError__i: 'Epic Games parser failed with fatal error:\n ${error}'
       }
     },
     globParser: {
@@ -207,12 +222,17 @@ export const EnglishLang: languageContainer = {
         },
         placeholder: {
           noProviders: 'None',
-          steamDirectoryWin: 'C:\\Program Files(x86)\\Steam',
-          steamDirectoryMac: '~/Library/Application Support/Steam',
-          steamDirectoryLinux: '~/.steam/steam',
-          retroarchPathWin: 'C:\\Path\\To\\retroarch.exe',
-          retroarchPathLinux: '/path/to/retroarch',
-          retroarchPathMac: '/path/to/retroarch'
+          steamDirectoryWin: 'Typically C:\\Program Files (x86)\\Steam',
+          steamDirectoryMac: 'Typically ~/Library/Application Support/Steam',
+          steamDirectoryLinux: 'Typically ~/.steam/steam',
+          retroarchPathWin: 'For example C:\\Path\\To\\retroarch.exe',
+          retroarchPathLinux: 'For example /path/to/retroarch',
+          retroarchPathMac: 'For example /path/to/retroarch',
+          raCoresDirectoryWin: 'Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores',
+          raCoresDirectoryLinux: 'Typically /lib/x86_64-linux-gnu/libretro/cores',
+          raCoresDirectoryMac: 'Typically /Applications/Retroarch.app/Contents/Resources/cores',
+          localImagesDirectoryWin: 'For example C:\\Path\\To\\LocalArtwork',
+          localImagesDirectoryUnix: 'For example ~/path/to/localartwork'
         }
       },
       service: {
@@ -233,7 +253,34 @@ export const EnglishLang: languageContainer = {
         logger: 'Event log',
         settings: 'Settings',
         parsers: 'Parsers',
+        customVariables: 'Variables',
+        userExceptions: 'Exceptions',
         noTitle: 'No title!'
+      }
+    },
+    userExceptions:{
+      component: {
+        buttons: {
+          save:'Save',
+          deleteAll: 'Clear',
+          undoChanges: 'Undo changes',
+          addItem: 'Add exception',
+          deleteItem: 'Remove exception'
+        },
+        docs__md: {
+          userExceptions: [require('./markdown/user-exceptions.md')]
+        },
+        text: {
+          title: 'User Exceptions',
+          exclude: 'Exclude Title'
+        }
+      },
+      service: {
+        error: {
+          loadingError: 'Could not load user exceptions',
+          corruptedExceptions__i: 'User exceptions corrupt (file - ${file}). Saving is disabled, full error is: ${error}',
+          writingError: 'Error occurred saving user exceptions'
+        }
       }
     },
     parsers: {
@@ -371,6 +418,8 @@ export const EnglishLang: languageContainer = {
           testCompleted: 'Parser test is completed.',
           nothingWasFound: 'Parser found nothing.',
           copiedToClipboard: 'Configuration copied to clipboard',
+          userExclusions: 'User excluded:',
+          excludedFileInfo__i: '[${index}/${total}]: ${filename}'
         },
         error: {
           missingAccounts__i: 'Following ${count} user account(s) were not found (user must to login to Steam at least once):',
@@ -495,6 +544,7 @@ export const EnglishLang: languageContainer = {
             incorrectParser: 'Incorrect parser!',
           },
           romDir__md: '> ROMs directory is invalid!',
+          userAccounts__md: '> Steam parser requires `User Accounts` field',
           steamDir__md: '> Steam directory is invalid!',
           startInDir__md: '> "Start In" directory is invalid!',
           executable__md: '> Executable is invalid!',

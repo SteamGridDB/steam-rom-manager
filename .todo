@@ -1,30 +1,23 @@
 # Fixes
-Category manager stability
-Steam Parser Title Modifier (default to removing illegal symbols) (2.3)
-Move follow .lnk to destination slider to below executable modifier
+Remove close steam if open warning and replace with something better
 
 # Features
-Make an exclusions json (2.3)
-Make both exclusions and custom args jsons editable from the preview (2.3)
-Add filters to the preview (included/excluded, custom args, missing artwork, by category) (2.3)
-Add Parser level to preview (2.3)
-Move enable/disable parser to sidebar (2.3)
-Ability to just save artwork from preview (2.3)
-Config presets searchable (2.3)
+Add missing artwork filter (2.4)
+Add Parser level to preview (2.4)
+Move enable/disable parser to sidebar (2.4)
+Custom themes (3.0)
+Sync tool (3.0)
 
 # Backend changes
-Split up config presets into multiple jsons (and then add a bunch of presets) (2.3)
-Auto Updater (2.3)
-Crash Reporter (2.3)
-Command Line Interface (2.3)
+Command Line Interface (3.0)
 
 # New Image Sources
-Google
+Google (2.4)
 
 # New Parsers
-Epic (2.3)
-Origin
-Blizzard.net
-Uplay
-GOG (2.3)
-EXE (2.3)
+Epic (2.4)
+Origin (3.0)
+Blizzard.net (3.0)
+Uplay (3.0)
+GOG (2.4)
+EXE (3.0)

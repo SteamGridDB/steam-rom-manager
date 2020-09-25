@@ -5,8 +5,8 @@ import { Observable } from "rxjs";
 import * as _ from 'lodash';
 
 @Component({
-    selector: 'ng-nested-form',
-    template: `
+  selector: 'ng-nested-form',
+  template: `
         <ng-container [formGroup]="currentForm">
             <ng-container *ngFor="let childrenKey of nestedGroup.children | keys">
                 <ng-container *ngVar="nestedGroup.children[childrenKey] as child">
@@ -29,7 +29,7 @@ import * as _ from 'lodash';
                                 <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight"></ng-text-input>
                             </ng-container>
                             <ng-container *ngSwitchCase="'Path'">
-                                <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight"></ng-text-input>
+                                <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight" [appendGlob]="child.appendGlob"></ng-text-input>
                                 <ng-path-input class="clickButton" [stateless]="true" [directory]="child.directory" (pathChange)="currentForm.controls[childrenKey].setValue($event)"
                                 >Browse</ng-path-input>
                             </ng-container>
@@ -48,76 +48,84 @@ import * as _ from 'lodash';
             </ng-container>
         </ng-container>
     `,
-    styleUrls: ['../styles/ng-nested-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None
+  styleUrls: ['../styles/ng-nested-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class NgNestedFormComponent implements OnInit {
-    private currentForm: FormGroup = new FormGroup({});
+  private currentForm: FormGroup = new FormGroup({});
+  private validityObservables: (()=>Observable<string>)[] = [];
+  @Input() public parentForm: FormGroup;
+  @Input() public groupName: string;
+  @Input() public nestedGroup: NestedFormElement.Group;
 
-    @Input() public parentForm: FormGroup;
-    @Input() public groupName: string;
-    @Input() public nestedGroup: NestedFormElement.Group;
+  @Output() private parentFormChange = new EventEmitter();
 
-    @Output() private parentFormChange = new EventEmitter();
+  constructor(private changeRef: ChangeDetectorRef) { }
 
-    constructor(private changeRef: ChangeDetectorRef) { }
+  ngOnInit() {
+    this.currentForm = this.buildFromTemplate(this.nestedGroup);
 
-    ngOnInit() {
-        this.currentForm = this.buildFromTemplate(this.nestedGroup);
+    if (this.groupName)
+      this.parentForm.setControl(this.groupName, this.currentForm);
+    else
+      this.parentFormChange.next(this.currentForm);
+  }
 
-        if (this.groupName)
-            this.parentForm.setControl(this.groupName, this.currentForm);
-        else
-            this.parentFormChange.next(this.currentForm);
+  private getHiddenMethod(el: NestedFormElements) {
+    if (el['__hidden'] === undefined) {
+      if (el.isHidden !== undefined) {
+        el['__hidden'] = el.isHidden();
+      }
+      else {
+        el['__hidden'] = null;
+      }
     }
+    return el['__hidden'];
+  }
 
-    private getHiddenMethod(el: NestedFormElements) {
-        if (el['__hidden'] === undefined) {
-            if (el.isHidden !== undefined) {
-                el['__hidden'] = el.isHidden();
-            }
-            else {
-                el['__hidden'] = null;
-            }
+  private buildFromTemplate(group: NestedFormElement.Group) {
+    let formGroup = new FormGroup({});
+    formGroup['__path'] = this.groupName ? (this.parentForm ? this.parentForm['__path'] : null as Array<string> || []).concat(this.groupName) : [];
+
+    for (let childKey in group.children) {
+      if (group.children[childKey] instanceof NestedFormElement.Group === false) {
+        let child = group.children[childKey] as NestedFormInputs;
+        let formControl = new FormControl();
+
+        formControl['__path'] = formGroup['__path'].concat(childKey);
+        formControl.reset({ value: child.initialValue || null, disabled: child.disabled || false }, { onlySelf: true, emitEvent: false });
+
+        let callbacks: ValidatorFn[] = [];
+
+        if (child.onValidate) {
+          callbacks.push((c) => {
+            let error = child.onValidate(c, c['__path']);
+            return error ? { error } : null;
+          });
         }
-        return el['__hidden'];
-    }
-
-    private buildFromTemplate(group: NestedFormElement.Group) {
-        let formGroup = new FormGroup({});
-        formGroup['__path'] = this.groupName ? (this.parentForm ? this.parentForm['__path'] : null as Array<string> || []).concat(this.groupName) : [];
-
-        for (let childKey in group.children) {
-            if (group.children[childKey] instanceof NestedFormElement.Group === false) {
-                let child = group.children[childKey] as NestedFormInputs;
-                let formControl = new FormControl();
-
-                formControl['__path'] = formGroup['__path'].concat(childKey);
-                formControl.reset({ value: child.initialValue || null, disabled: child.disabled || false }, { onlySelf: true, emitEvent: false });
-
-                let callbacks: ValidatorFn[] = [];
-
-                if (child.onValidate) {
-                    callbacks.push((c) => {
-                        let error = child.onValidate(c, c['__path']);
-                        return error ? { error } : null;
-                    });
-                }
-
-                if (child.onChange) {
-                    callbacks.push((c) => {
-                        child.onChange(c, c['__path']);
-                        return null;
-                    });
-                }
-
-                formControl.setValidators(callbacks);
-
-                formGroup.setControl(childKey, formControl);
-            }
+        if (child.onValidateObservable) {
+          child.onValidateObservable().subscribe((val)=>{
+            this.currentForm.controls[childKey].setValue(null)
+            this.currentForm.controls[childKey].markAsTouched();
+            this.currentForm.controls[childKey].markAsDirty();
+            this.currentForm.controls[childKey].updateValueAndValidity();
+          })
         }
 
-        return formGroup;
+        if (child.onChange) {
+          callbacks.push((c) => {
+            child.onChange(c, c['__path']);
+            return null;
+          });
+        }
+
+        formControl.setValidators(callbacks);
+
+        formGroup.setControl(childKey, formControl);
+      }
     }
+
+    return formGroup;
+  }
 }
