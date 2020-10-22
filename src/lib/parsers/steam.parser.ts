@@ -7,6 +7,7 @@ import * as path from "path";
 import * as appid from "appid";
 import * as bvdf from "binary-vdf";
 import * as Sentry from '@sentry/electron';
+import * as json from "../helpers/json";
 
 export class SteamParser implements GenericParser {
 
@@ -36,8 +37,7 @@ export class SteamParser implements GenericParser {
             let sharedconfig_path = path.join(directories[i],'7','remote','sharedconfig.vdf');
             try {
             let sharedconfig = genericParser.parse(fs.readFileSync(sharedconfig_path,'utf-8'));
-            let appkey= Object.keys(sharedconfig.UserRoamingConfigStore.Software.Valve.Steam).filter((key)=>key.toUpperCase()==='APPS')[0];
-              appIds = _.union(appIds, Object.keys(sharedconfig.UserRoamingConfigStore.Software.Valve.Steam[appkey]));
+            appIds = _.union(appIds, Object.keys(json.caseInsensitiveTraverse(sharedconfig, ['userroamingconfigstore','software','valve','steam','apps'])));
             } catch(err) {
               throw {error:err, path: sharedconfig_path}
             }
