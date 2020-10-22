@@ -1,4 +1,58 @@
 {
+	"Sony PlayStation - ePSXe": {
+		"parserType": "Glob",
+		"configTitle": "Sony PlayStation - ePSXe",
+		"steamCategory": "${PS1}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-nogui -loadbin \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"defaultTallImage": "",
+		"defaultHeroImage": "",
+		"defaultLogoImage": "",
+		"localImages": "",
+		"localTallImages": "",
+		"localHeroImages": "",
+		"localLogoImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.bin|.BIN|.ccd|.CCD|.cue|.CUE|.ecm|.ECM|.iso|.ISO|.mds|.MDS|.pbp|.PBP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "${path-to-epsxe.exe}",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		}
+	}
+,
 	"Sony PlayStation - Retroarch - Beetle PSX HW": {
 		"parserType": "Glob",
 		"configTitle": "Sony PlayStation - Retroarch - Beetle PSX HW",
