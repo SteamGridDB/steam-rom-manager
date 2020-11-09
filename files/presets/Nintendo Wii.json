@@ -56,7 +56,7 @@
 	"Nintendo Wii - Retroarch - Dolphin": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo Wii - Retroarch - Dolphin",
-		"steamCategory": "${SNES}",
+		"steamCategory": "${Wii}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
