@@ -56,7 +56,7 @@
 	"Nintendo GameCube - Retroarch - Dolphin": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo GameCube - Retroarch - Dolphin",
-		"steamCategory": "${GameBoy Advance}",
+		"steamCategory": "${Gamecube}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
