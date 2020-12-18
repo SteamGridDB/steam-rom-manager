@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}/PS3_GAME/USRDIR/eboot.bin",
+			"glob": "${title}/PS3_GAME/USRDIR/EBOOT.BIN",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -85,7 +85,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}/USRDIR/eboot.bin",
+			"glob": "${title}/USRDIR/EBOOT.BIN",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
