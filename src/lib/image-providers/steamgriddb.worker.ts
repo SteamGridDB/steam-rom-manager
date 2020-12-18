@@ -18,15 +18,20 @@ class SteamGridDbProvider extends GenericProvider {
     let self = this;
     this.xrw.promise = new this.xrw.Bluebird<string>(function (resolve, reject, onCancel) {
       self.client.searchGame(self.proxy.title).then((res: any)=>{
+        // Temporary work around to fix an issue in search API
+        // Delete this when doZennn has fixed the issue
+        let exactMatchIndices = res.map((e: any,i: number) => e.name.toLowerCase() === self.proxy.title.toLowerCase() ? i : '').filter(String);
+        let chosenIndex = exactMatchIndices.length ? exactMatchIndices[0] : 0;
+
         let query: Promise<any>;
         if(self.proxy.imageType === 'long') {
-          query = self.client.getGridsById(res[0].id,undefined,["legacy","460x215","920x430"]);
+          query = self.client.getGridsById(res[chosenIndex].id,undefined,["legacy","460x215","920x430"]);
         } else if (self.proxy.imageType === 'tall') {
-          query = self.client.getGridsById(res[0].id,undefined,["600x900"]);
+          query = self.client.getGridsById(res[chosenIndex].id,undefined,["600x900"]);
         } else if (self.proxy.imageType === 'hero') {
-          query = self.client.getHeroes({id: res[0].id, type: 'game'});
+          query = self.client.getHeroes({id: res[chosenIndex].id, type: 'game'});
         } else if (self.proxy.imageType === 'logo') {
-          query = self.client.getLogos({id: res[0].id, type: 'game'});
+          query = self.client.getLogos({id: res[chosenIndex].id, type: 'game'});
         }
 
         query.then((res: any)=>{
