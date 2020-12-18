@@ -1,6 +1,6 @@
 {
   "name": "steam-rom-manager",
-  "version": "2.3.9",
+  "version": "2.3.11",
   "license": "GPL-3.0",
   "description": "An app for managing ROMs in Steam",
   "author": {
@@ -159,7 +159,7 @@
     "html-webpack-plugin": "^3.1.0",
     "nested-require-loader": "^0.2.1",
     "node-loader": "^0.6.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "null-loader": "^0.1.1",
     "postcss": "^6.0.21",
     "postcss-loader": "^2.1.3",

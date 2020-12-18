@@ -1,7 +1,7 @@
 Steam ROM Manager
 =================
 
-[![Build Status](https://travis-ci.org/doZennn/steam-rom-manager.svg)](https://travis-ci.org/doZennn/steam-rom-manager)
+[![Build Status](https://travis-ci.org/doZennn/steam-rom-manager.svg?branch=master)](https://travis-ci.org/doZennn/steam-rom-manager)
 [![Discord](https://img.shields.io/discord/344691247098757121?color=%237289DA&label=SRM&logo=discord&logoColor=white)](https://discord.gg/vrd6385)
 
 # For casual users

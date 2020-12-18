@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcm|.GCM|.gcz|.GCZ|.iso|.ISO|.wad|.WAD)",
+			"glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcm|.GCM|.gcz|.GCZ|.iso|.ISO|.rvz|.RVZ|.wad|.WAD|.wia|.WIA)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -56,7 +56,7 @@
 	"Nintendo GameCube - Retroarch - Dolphin": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo GameCube - Retroarch - Dolphin",
-		"steamCategory": "${GameBoy Advance}",
+		"steamCategory": "${Gamecube}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
