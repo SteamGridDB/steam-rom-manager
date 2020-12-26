@@ -272,9 +272,13 @@ export class FileParser {
             if(exceptions && exceptions.commandLineArguments) {
               lastFile.argumentString = exceptions.commandLineArguments;
             } else {
-              lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
-                return this.getVariable(variable as AllVariables, variableData).trim();
-              }) : (launchOptions || '');
+              if(isEpicParser) {
+                lastFile.argumentString = launchOptions;
+              } else {
+                lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
+                  return this.getVariable(variable as AllVariables, variableData).trim();
+                }) : '';
+              }
             }
             lastFile.imagePool = vParser.setInput(configs[i].imagePool).parse() ? vParser.replaceVariables((variable) => {
               return this.getVariable(variable as AllVariables, variableData).trim();

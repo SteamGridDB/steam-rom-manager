@@ -104,7 +104,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         executableArgs: new NestedFormElement.Input({
-          isHidden: () => this.isHiddenIfSteamParser(),
+          isHidden: () => this.isHiddenIfNotRomsParser(),
           label: this.lang.label.executableArgs,
           highlight: this.highlight.bind(this),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
