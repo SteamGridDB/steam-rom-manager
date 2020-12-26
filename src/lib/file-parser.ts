@@ -181,7 +181,7 @@ export class FileParser {
             configurationTitle: configs[i].configTitle,
             parserId: configs[i].parserId,
             parserType: configs[i].parserType,
-            appendArgsToExecutable: configs[i].executable.appendArgsToExecutable,
+            appendArgsToExecutable: isEpicParser ? false : configs[i].executable.appendArgsToExecutable,
             shortcutPassthrough: configs[i].executable.shortcutPassthrough,
             imageProviders: configs[i].imageProviders,
             foundUserAccounts: filteredAccounts[i].found,
@@ -216,7 +216,7 @@ export class FileParser {
             } else if(isEpicParser){
               if(os.type()=='Windows_NT') {
                 executableLocation = `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`;
-                launchOptions = `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \"com.epicgames.launcher://apps/${data[i].success[j].extractedAppId}?action=launch&silent=true\""`;
+                launchOptions = `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \\"com.epicgames.launcher://apps/${data[i].success[j].extractedAppId}?action=launch&silent=true\\""`;
                 startInDir = path.dirname(data[i].success[j].filePath);
               } else {
                 executableLocation = data[i].success[j].filePath;
