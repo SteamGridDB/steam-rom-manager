@@ -91,7 +91,7 @@ export class FileParser {
         let preParser = new VariableParser({ left: '${', right: '}' });
         for (let i = 0; i < configs.length; i++) {
           let isSteamParser:boolean = configs[i].parserType=='Steam';
-          let isImporterParser:boolean = ['Epic'].includes(configs[i].parserType);
+          let isEpicParser:boolean = configs[i].parserType=='Epic';
           let isGlobParser:boolean = ['Glob','Glob-regex'].includes(configs[i].parserType);
           // Parse environment variables on rom directory, start in path, executable path
           configs[i].steamDirectory = preParser.setInput(configs[i].steamDirectory).parse() ? preParser.replaceVariables((variable) => {
@@ -131,7 +131,7 @@ export class FileParser {
         let promises: Promise<ParsedData>[] = [];
         for(let i=0; i<configs.length;i++) {
           let isSteamParser:boolean = configs[i].parserType=='Steam';
-          let isImporterParser:boolean = ['Epic'].includes(configs[i].parserType);
+          let isEpicParser:boolean = configs[i].parserType=='Epic';
           let isGlobParser:boolean = ['Glob','Glob-regex'].includes(configs[i].parserType);
           let parser = this.getParserInfo(configs[i].parserType);
           if (parser) {
@@ -168,7 +168,7 @@ export class FileParser {
         let vParser = new VariableParser({ left: '${', right: '}' });
         for (let i = 0; i < configs.length; i++) {
           let isSteamParser:boolean = configs[i].parserType=='Steam';
-          let isImporterParser:boolean = ['Epic'].includes(configs[i].parserType);
+          let isEpicParser:boolean = configs[i].parserType=='Epic';
           let isGlobParser:boolean = ['Glob','Glob-regex'].includes(configs[i].parserType);
           if (isGlobParser && configs[i].titleFromVariable.tryToMatchTitle)
             this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);
@@ -209,12 +209,19 @@ export class FileParser {
 
             let executableLocation:string = undefined;
             let startInDir:string = undefined;
+            let executableArguments:string = undefined;
             if(isGlobParser) {
               executableLocation = configs[i].executable.path ? configs[i].executable.path : data[i].success[j].filePath;
               startInDir = configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation);
-            } else if(isImporterParser){
-              executableLocation = data[i].success[j].filePath;
-              startInDir = path.dirname(executableLocation);
+            } else if(isEpicParser){
+              if(os.type()=='Windows_NT') {
+                executableLocation = "C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe";
+                startInDir = path.dirname(data[i].success[j].filePath);
+                executableArguments = `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "& Start-Process \"com.epicgames.launcher://apps/${data[i].success[j].extractedAppId}?action=launch&silent=true\" "`;
+              } else {
+                executableLocation = data[i].success[j].filePath;
+                startInDir = path.dirname(executableLocation);
+              }
             } else if(isSteamParser) {
               executableLocation = data[i].success[j].extractedAppId;
             }
@@ -225,7 +232,7 @@ export class FileParser {
               executableLocation: executableLocation,
               modifiedExecutableLocation: undefined,
               startInDirectory: startInDir,
-              argumentString: undefined,
+              argumentString: executableArguments,
               resolvedLocalImages: [],
               resolvedLocalTallImages: [],
               resolvedLocalHeroImages: [],
@@ -258,7 +265,7 @@ export class FileParser {
               lastFile.finalTitle = exceptions.newTitle;
             } else {
               lastFile.finalTitle = vParser.setInput(configs[i].titleModifier).parse() ? vParser.replaceVariables((variable) => {
-                  return this.getVariable(variable as AllVariables, variableData).trim();
+                return this.getVariable(variable as AllVariables, variableData).trim();
               }) : '';
             }
             variableData.finalTitle = lastFile.finalTitle;

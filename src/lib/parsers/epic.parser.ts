@@ -27,6 +27,7 @@ export class EpicParser implements GenericParser {
 
       let appTitles: string[] = [];
       let appPaths: string[] = [];
+      let appNames: string[] = [];
       let epicManifestsDir: string = 'C:\\ProgramData\\Epic\\EpicGamesLauncher\\Data\\Manifests';
       if( os.type()=='Linux' ) {
         reject(this.lang.errors.epicNotCompatible)
@@ -46,6 +47,7 @@ export class EpicParser implements GenericParser {
             console.log(item);
             if(!appTitles.includes(item.DisplayName)) {
               appTitles.push(item.DisplayName);
+              appNames.push(item.AppName);
               appPaths.push(path.join(item.InstallLocation,item.LaunchExecutable))
             }
           })
@@ -53,7 +55,7 @@ export class EpicParser implements GenericParser {
         .then(()=>{
           let parsedData: ParsedData = {success: [], failed:[]};
           for(let i=0;i<appTitles.length; i++){
-            parsedData.success.push({extractedTitle: appTitles[i], filePath: appPaths[i]});
+            parsedData.success.push({extractedTitle: appTitles[i], extractedAppId: appNames[i] , filePath: appPaths[i]});
           }
           resolve(parsedData);
         }).catch((err)=>{

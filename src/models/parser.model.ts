@@ -66,9 +66,9 @@ export interface ParserInfo {
 // TODO Split this up more sanely into ImporterParsedData and ManagerParsedData
 export interface ParsedData {
     success: {
-        filePath?: string, // Used by all except steam parser
+        filePath?: string, // Used by all except steam parser and epic parser
         extractedTitle: string,
-        extractedAppId?: string // Only used by the steam parser
+        extractedAppId?: string // Only used by the steam parser and steam parser
     }[],
     failed: string[]
 }
