@@ -280,9 +280,7 @@ export class FileParser {
                 }) : '';
               }
             }
-            if(isEpicParser) {
-              lastFile.localIcons.push(data[i].success[j].filePath)
-            }
+
             lastFile.imagePool = vParser.setInput(configs[i].imagePool).parse() ? vParser.replaceVariables((variable) => {
               return this.getVariable(variable as AllVariables, variableData).trim();
             }) : '';
@@ -392,6 +390,9 @@ export class FileParser {
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedLocalIcons = data.resolvedGlobs[j];
               data.parsedConfig.files[j].localIcons = data.resolvedFiles[j];
+              if(isEpicParser) {
+                data.parsedConfig.files[j].localIcons.push(data.parsedConfig.files[j].filePath)
+              }
             }
           }));
         }
