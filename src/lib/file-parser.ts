@@ -209,12 +209,14 @@ export class FileParser {
 
             let executableLocation:string = undefined;
             let startInDir:string = undefined;
+            let launchOptions:string = undefined;
             if(isGlobParser) {
               executableLocation = configs[i].executable.path ? configs[i].executable.path : data[i].success[j].filePath;
               startInDir = configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation);
             } else if(isEpicParser){
               if(os.type()=='Windows_NT') {
-                executableLocation = `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \"com.epicgames.launcher://apps/${data[i].success[j].extractedAppId}?action=launch&silent=true\""`;
+                executableLocation = `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`;
+                launchOptions = `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \"com.epicgames.launcher://apps/${data[i].success[j].extractedAppId}?action=launch&silent=true\""`;
                 startInDir = path.dirname(data[i].success[j].filePath);
               } else {
                 executableLocation = data[i].success[j].filePath;
@@ -272,7 +274,7 @@ export class FileParser {
             } else {
               lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
                 return this.getVariable(variable as AllVariables, variableData).trim();
-              }) : '';
+              }) : (launchOptions || '');
             }
             lastFile.imagePool = vParser.setInput(configs[i].imagePool).parse() ? vParser.replaceVariables((variable) => {
               return this.getVariable(variable as AllVariables, variableData).trim();
