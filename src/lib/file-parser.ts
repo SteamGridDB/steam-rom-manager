@@ -209,15 +209,13 @@ export class FileParser {
 
             let executableLocation:string = undefined;
             let startInDir:string = undefined;
-            let executableArguments:string = undefined;
             if(isGlobParser) {
               executableLocation = configs[i].executable.path ? configs[i].executable.path : data[i].success[j].filePath;
               startInDir = configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation);
             } else if(isEpicParser){
               if(os.type()=='Windows_NT') {
-                executableLocation = "C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe";
+                executableLocation = `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \"com.epicgames.launcher://apps/${data[i].success[j].extractedAppId}?action=launch&silent=true\""`;
                 startInDir = path.dirname(data[i].success[j].filePath);
-                executableArguments = `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "& Start-Process \"com.epicgames.launcher://apps/${data[i].success[j].extractedAppId}?action=launch&silent=true\" "`;
               } else {
                 executableLocation = data[i].success[j].filePath;
                 startInDir = path.dirname(executableLocation);
@@ -232,7 +230,7 @@ export class FileParser {
               executableLocation: executableLocation,
               modifiedExecutableLocation: undefined,
               startInDirectory: startInDir,
-              argumentString: executableArguments,
+              argumentString: undefined,
               resolvedLocalImages: [],
               resolvedLocalTallImages: [],
               resolvedLocalHeroImages: [],
