@@ -280,6 +280,9 @@ export class FileParser {
                 }) : '';
               }
             }
+            if(isEpicParser) {
+              lastFile.localIcons.push(data[i].success[j].filePath)
+            }
             lastFile.imagePool = vParser.setInput(configs[i].imagePool).parse() ? vParser.replaceVariables((variable) => {
               return this.getVariable(variable as AllVariables, variableData).trim();
             }) : '';
