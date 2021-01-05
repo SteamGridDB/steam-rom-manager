@@ -12,7 +12,7 @@ var decodeFile = exports.decodeFile = function decodeFile(file_uri: string) {
 }
 
 export function imageDimensions(file_uri: string) {
-  return ((result: any)=> `${result.width}x${result.height}`)(probe.sync(fs.readFileSync(decodeFile(file_uri))));
+  return ((result: any)=> `${result.width||0}x${result.height||0}`)(probe.sync(fs.readFileSync(decodeFile(file_uri)))||{});
 }
 
 export function encodeFile(file_path: string) {
