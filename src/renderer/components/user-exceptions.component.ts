@@ -81,7 +81,7 @@ export class ExceptionsComponent implements OnDestroy {
   }
   deleteItem(index: number) {
     this.exceptionsFormItems = this.exceptionsForm.get('items') as FormArray;
-    this.exceptionsFormItems.removeAt(this.exceptionsFormItems.value.findIndex((exception: any) => exception.id === index))
+    this.exceptionsFormItems.removeAt(index);
   }
 
   ngOnInit() {
