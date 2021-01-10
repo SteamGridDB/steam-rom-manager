@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bin|.BIN|.vec|.VEC|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.vec|.VEC|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
