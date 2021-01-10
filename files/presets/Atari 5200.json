@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.a52|.A52|.atr|.ATR|.atx|.ATX|.bin|.BIN|.cas|.CAS|.cdm|.CDM|.xex|.XEX|.xfd|.XFD|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.a52|.A52|.atr|.ATR|.atx|.ATX|.bin|.BIN|.cas|.CAS|.cdm|.CDM|.xex|.XEX|.xfd|.XFD|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
