@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.cas|.CAS|.dsk|.DSK|.m3u|.M3U|.ri|.RI|.rom|.ROM|.sc|.SC|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.cas|.CAS|.dsk|.DSK|.m3u|.M3U|.ri|.RI|.rom|.ROM|.sc|.SC|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {

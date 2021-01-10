@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.lnx|.LNX|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.lnx|.LNX|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -85,7 +85,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.lnx|.LNX|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.lnx|.LNX|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {

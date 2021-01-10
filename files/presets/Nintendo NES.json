@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bin|.BIN|.nes|.NES|.rom|.ROM|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.nes|.NES|.rom|.ROM|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -85,7 +85,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.fds|.FDS|.nes|.NES|.unif|.UNIF|.unf|.UNF|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.fds|.FDS|.nes|.NES|.unif|.UNIF|.unf|.UNF|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -139,7 +139,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.fds|.FDS|.nes|.NES|.unif|.UNIF|.unf|.UNF|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.fds|.FDS|.nes|.NES|.unif|.UNIF|.unf|.UNF|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -193,7 +193,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.nes|.NES|.fds|.FDS|.unf|.UNF|.unif|.UNIF|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.nes|.NES|.fds|.FDS|.unf|.UNF|.unif|.UNIF|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -247,7 +247,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.nes|.NES|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.nes|.NES|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -301,7 +301,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.nes|.NES|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.nes|.NES|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {

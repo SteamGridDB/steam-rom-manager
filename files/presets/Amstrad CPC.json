@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.cdt|.CDT|.dsk|.DSK|.sna|.SNA|.tap|.TAP|.voc|.VOC|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.cdt|.CDT|.dsk|.DSK|.sna|.SNA|.tap|.TAP|.voc|.VOC|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -85,7 +85,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.dsk|.DSK|.sna|.SNA|.kcr|.KCR|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.dsk|.DSK|.sna|.SNA|.kcr|.KCR|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {

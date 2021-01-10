@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.ccd|.CCD|.chd|.CHD|.cue|.CUE|.m3u|.M3U|.toc|.TOC)",
+			"glob": "${title}@(.7z|.7Z|.ccd|.CCD|.chd|.CHD|.cue|.CUE|.m3u|.M3U|.toc|.TOC)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -85,7 +85,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bin|.BIN|.cue|.CUE|.iso|.ISO|.zip|ZIP)",
+			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.cue|.CUE|.iso|.ISO|.zip|ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {

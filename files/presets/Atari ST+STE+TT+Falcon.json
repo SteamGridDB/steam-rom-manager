@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.dim|.DIM|.ipf|.IPF|.msa|.MSA|.st|.ST|.stx|.STX|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.dim|.DIM|.ipf|.IPF|.msa|.MSA|.st|.ST|.stx|.STX|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {

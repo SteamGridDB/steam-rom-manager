@@ -193,7 +193,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bin|.BIN|.n64|.N64|.ndd|.NDD|.u1|.U1|.v64|.V64|.z64|.Z64|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.n64|.N64|.ndd|.NDD|.u1|.U1|.v64|.V64|.z64|.Z64|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -247,7 +247,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bin|.BIN|.n64|.N64|.ndd|.NDD|.u1|.U1|.v64|.V64|.z64|.Z64|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.n64|.N64|.ndd|.NDD|.u1|.U1|.v64|.V64|.z64|.Z64|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {

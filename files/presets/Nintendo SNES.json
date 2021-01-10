@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.st|.ST|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.st|.ST|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -85,7 +85,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.swc|.SWC|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.swc|.SWC|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -139,7 +139,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -193,7 +193,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -247,7 +247,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -301,7 +301,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -355,7 +355,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -409,7 +409,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -463,7 +463,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -517,7 +517,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {

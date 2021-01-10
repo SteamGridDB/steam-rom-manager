@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.gen|.GEN|.md|.MD|.smd|.SMD|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.gen|.GEN|.md|.MD|.smd|.SMD|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -85,7 +85,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.68k|.68K|.bin|.BIN|.gen|.GEN|.md|.MD|.smd|.SMD|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.68k|.68K|.bin|.BIN|.gen|.GEN|.md|.MD|.smd|.SMD|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {

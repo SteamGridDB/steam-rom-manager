@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.cdi|.CDI|.chd|.CHD|.cue|.CUE|.gdi|.GDI)",
+			"glob": "${title}@(.7z|.7Z|.cdi|.CDI|.chd|.CHD|.cue|.CUE|.gdi|.GDI)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {

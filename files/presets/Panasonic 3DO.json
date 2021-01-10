@@ -85,7 +85,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bin|.BIN|.chd|.CHD|.cue|.CUE|.iso|.ISO)",
+			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.chd|.CHD|.cue|.CUE|.iso|.ISO)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {

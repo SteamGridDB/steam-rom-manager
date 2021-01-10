@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.gb|.GB|.bin|.bin|.rom|.ROM|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.bin|.bin|.rom|.ROM|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -85,7 +85,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.gb|.GB|.dmg|.DMG|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.dmg|.DMG|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -139,7 +139,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.gb|.GB|.dmg|.DMG|.sgb|.SGB|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.dmg|.DMG|.sgb|.SGB|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -193,7 +193,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.gb|.GB|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -247,7 +247,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.gb|.GB|.sgb|.SGB|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.sgb|.SGB|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -301,7 +301,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.gb|.GB|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {

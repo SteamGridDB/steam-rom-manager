@@ -31,7 +31,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.iso|.ISO|.cue|.CUE|.chd|.CHD|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.iso|.ISO|.cue|.CUE|.chd|.CHD|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
@@ -85,7 +85,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.iso|.ISO|.cue|.CUE|.zip|.ZIP)",
+			"glob": "${title}@(.7z|.7Z|.iso|.ISO|.cue|.CUE|.zip|.ZIP)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
