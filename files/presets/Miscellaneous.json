@@ -139,7 +139,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.lnk|.LNK)",
+			"glob": "${title}@(.lnk|.LNK|.url|.URL)",
 			"glob-regex": null
 		},
 		"titleFromVariable": {
