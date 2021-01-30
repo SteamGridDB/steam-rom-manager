@@ -1,4 +1,4 @@
-
+{
 	"Non Steam PC": {
 		"parserType": "Glob",
 		"configTitle": "Non Steam PC",
@@ -8,7 +8,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "\"${filePath}\"",
+		"executableArgs": "",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
