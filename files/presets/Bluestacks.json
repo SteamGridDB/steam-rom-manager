@@ -8,7 +8,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "\"${filePath}\"",
+		"executableArgs": "",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
