@@ -1,6 +1,20 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.3.13
+## Fixed
+* Fixed default image field calling backslashes invalid
+## Changed
+* Default behavior is to not auto-delete shortcuts for disabled parsers
+
+## 2.3.12
+## Fixed
+* Epic parser now launches games from epic launcher, allowing for the use of epic online services
+
+## 2.3.11
+## Fixed
+* Steam parser got borked by something valve changed. This version fixes it. 
+
 ## 2.3.10
 ### Fixed
 * Slight oversight on dirty hack
