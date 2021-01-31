@@ -442,6 +442,7 @@ export interface languageStruct {
                 startInDir__md: string,
                 executable__md: string
               imagePool__md: string,
+                defaultImage__md: string,
                 titleModifier__md: string,
                 executableModifier__md: string,
                 variableString__md: string,
