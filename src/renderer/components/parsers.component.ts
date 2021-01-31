@@ -309,6 +309,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         defaultImage: new NestedFormElement.Path({
+          directory: false,
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultImage,
@@ -319,6 +320,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         defaultTallImage: new NestedFormElement.Path({
+          directory: false,
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultTallImage,
@@ -329,6 +331,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         defaultHeroImage: new NestedFormElement.Path({
+          directory: false,
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultHeroImage,
@@ -339,6 +342,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         defaultLogoImage: new NestedFormElement.Path({
+          directory: false,
           isHidden: () => this.isHiddenIfNotAdvanced(),
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultLogoImage,

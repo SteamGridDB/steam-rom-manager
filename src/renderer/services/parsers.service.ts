@@ -241,13 +241,13 @@ export class ParsersService {
       case 'imagePool':
         return this.validateVariableParserString(data || '', this.lang.validationErrors.imagePool__md);
       case 'defaultImage':
-        return this.validateEnvironmentPath(data || '', true) ? null : this.lang.validationErrors.defaultImage__md;
+        return !data || this.validateEnvironmentPath(data || '', false) ? null : this.lang.validationErrors.defaultImage__md;
       case 'defaultTallImage':
-        return this.validateEnvironmentPath(data || '', true) ? null : this.lang.validationErrors.defaultImage__md;
+        return !data || this.validateEnvironmentPath(data || '', false) ? null : this.lang.validationErrors.defaultImage__md;
       case 'defaultHeroImage':
-        return this.validateEnvironmentPath(data || '', true) ? null : this.lang.validationErrors.defaultImage__md;
+        return !data || this.validateEnvironmentPath(data || '', false) ? null : this.lang.validationErrors.defaultImage__md;
       case 'defaultLogoImage':
-        return this.validateEnvironmentPath(data || '', true) ? null : this.lang.validationErrors.defaultImage__md;
+        return !data || this.validateEnvironmentPath(data || '', false) ? null : this.lang.validationErrors.defaultImage__md;
       case 'localImages':
         return this.fileParser.validateFieldGlob(data || '');
       case 'localTallImages':

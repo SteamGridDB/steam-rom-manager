@@ -549,7 +549,7 @@ export const EnglishLang: languageContainer = {
           startInDir__md: '> "Start In" directory is invalid!',
           executable__md: '> Executable is invalid!',
           imagePool__md: '> Image pool must not be empty!',
-          defaultImage__md: 'Default image is an invalid path!',
+          defaultImage__md: '> Default image is an invalid path!',
           titleModifier__md: '> Title modifier must not be empty!',
           executableModifier__md: '> Executable modifier must not be empty!',
           variableString__md: '> Uneven number of `${` and `}` pairs. Use `\\` to escape `${` or `}` if you want to use them as characters.',
