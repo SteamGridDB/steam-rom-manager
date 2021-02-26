@@ -618,7 +618,7 @@ export class PreviewService {
                 imageProviders: config.imageProviders,
                 argumentString: config.appendArgsToExecutable ? '' : file.argumentString,
                 title: file.finalTitle,
-                fuzzyTitle: file.fuzzyTitle,
+                extractedTitle: file.extractedTitle,
                 images: {
                   steam: steamImage ? {
                     imageProvider: 'Steam',
