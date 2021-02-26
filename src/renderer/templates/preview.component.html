@@ -58,6 +58,7 @@
                             </ng-container>
                             <div class="appInfo">
                               <div class="title" text-scroll><span>{{app.title}}</span></div>
+                              <div class="fuzzyTitle" text-scroll><span>Title derived from: {{app.fuzzyTitle}}</span></div>
                               <ng-container *ngIf="image != null">
                                 <div class="provider" text-scroll>
                                   {{image.imageProvider + (image.imageUploader ? ' (' + lang.by + ' ' + image.imageUploader + ')' : '') + (image.imageRes ? '['+image.imageRes+']':'')  }}

@@ -39,6 +39,7 @@ export interface PreviewDataApp {
     startInDirectory: string,
     executableLocation: string,
     title: string,
+    fuzzyTitle: string,
     argumentString: string,
     currentIconIndex: number,
     icons: string[],
