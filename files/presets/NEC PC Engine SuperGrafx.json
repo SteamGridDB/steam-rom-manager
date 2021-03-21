@@ -2,7 +2,7 @@
 	"NEC PC Engine SuperGrafx - Retroarch - Beetle PCE": {
 		"parserType": "Glob",
 		"configTitle": "NEC PC Engine SuperGrafx - Retroarch - Beetle PCE",
-		"steamCategory": "${PCECD}",
+		"steamCategory": "${PCESGX}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
