@@ -107,16 +107,16 @@
 		}
 	}
 ,
-	"Microsoft DOS - Retroarch - DOSBox (Requires .conf matching game folder name in with executable)": {
+	"Microsoft DOS - Retroarch - DOSBox Core (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
-		"configTitle": "DOS - Retroarch - DOSBox",
+		"configTitle": "DOS - Retroarch - DOSBox Core",
 		"steamCategory": "${DOS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-games",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|cores|${os:linux|${racores}}}}${/}dosbox_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}${/}${title}.conf\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores|${os:linux|${racores}}}}${/}dosbox_core_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}${/}${title}.conf\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -194,6 +194,60 @@
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "${retroarchpath}",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		}
+	}
+,
+	"Microsoft DOS - Retroarch - DOSBox SVN (Requires .conf matching game folder name in with executable)": {
+		"parserType": "Glob",
+		"configTitle": "DOS - Retroarch - DOSBox SVN",
+		"steamCategory": "${DOS}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-games",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores|${os:linux|${racores}}}}${/}dosbox_svn_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}${/}${title}.conf\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"defaultTallImage": "",
+		"defaultHeroImage": "",
+		"defaultLogoImage": "",
+		"localImages": "",
+		"localTallImages": "",
+		"localHeroImages": "",
+		"localLogoImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}",
 			"glob-regex": null
 		},
 		"titleFromVariable": {

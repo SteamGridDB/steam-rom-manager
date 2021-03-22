@@ -1,7 +1,7 @@
 {
 	"Panasonic 3DO - 4DO": {
 		"parserType": "Glob",
-		"configTitle": "3DO - 4DO",
+		"configTitle": "Panasonic 3DO - 4DO",
 		"steamCategory": "${3DO}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
@@ -53,16 +53,16 @@
 		}
 	}
 ,
-	"Panasonic 3DO - Retroarch - 4DO": {
+	"Panasonic 3DO - Retroarch - Opera": {
 		"parserType": "Glob",
-		"configTitle": "3DO - Retroarch - 4DO",
+		"configTitle": "Panasonic 3DO - Retroarch - Opera",
 		"steamCategory": "${3DO}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|cores|${os:linux|${racores}}}}${/}4do_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|cores|${os:linux|${racores}}}}${/}opera_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
