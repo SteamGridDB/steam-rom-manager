@@ -107,7 +107,7 @@
     "highlight.js": "^9.12.0",
     "is-color": "^0.2.0",
     "loader-utils": "^1.1.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "long": "^4.0.0",
     "markdown-it": "^8.4.1",
     "markdown-it-anchor": "^4.0.0",
