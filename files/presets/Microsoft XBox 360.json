@@ -2,7 +2,7 @@
 	"Microsoft XBox 360 - Xenia": {
 		"parserType": "Glob",
 		"configTitle": "Microsoft XBox 360 - Xenia",
-		"steamCategory": "${}",
+		"steamCategory": "${XBox 360}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
