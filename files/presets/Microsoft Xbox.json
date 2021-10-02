@@ -1,0 +1,55 @@
+{
+	"Microsoft XBox - Xemu": {
+		"parserType": "Glob",
+		"configTitle": "Microsoft XBox - Xemu",
+		"steamCategory": "${XBox}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-full-screen -dvd_path \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"defaultTallImage": "",
+		"defaultHeroImage": "",
+		"defaultLogoImage": "",
+		"localImages": "",
+		"localTallImages": "",
+		"localHeroImages": "",
+		"localLogoImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.iso|.ISO)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "path-to-xemu.exe",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		}
+	}
+}
