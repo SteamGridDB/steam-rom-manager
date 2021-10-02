@@ -1,7 +1,7 @@
 {
 	"Arcade - MAME": {
 		"parserType": "Glob",
-		"configTitle": "MAME - MAME",
+		"configTitle": "Arcade - MAME",
 		"steamCategory": "${Arcade}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
@@ -156,6 +156,60 @@
 		},
 		"executable": {
 			"path": "${retroarchpath}",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		}
+	}
+,
+	"Arcade - Model 2 Emulator": {
+		"parserType": "Glob",
+		"configTitle": "Arcade - Model 2 Emulator",
+		"steamCategory": "${Arcade}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "\"${fileName}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"defaultTallImage": "",
+		"defaultHeroImage": "",
+		"defaultLogoImage": "",
+		"localImages": "",
+		"localTallImages": "",
+		"localHeroImages": "",
+		"localLogoImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.zip|.ZIP)",
+			"glob-regex": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "${MAME}",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": true
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "path-to-model-2-emulator.exe",
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		}
