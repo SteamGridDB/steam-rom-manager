@@ -1,14 +1,14 @@
 {
-	"Microsoft XBox 360 - Xenia": {
+	"Microsoft XBox - Xemu": {
 		"parserType": "Glob",
-		"configTitle": "Microsoft XBox 360 - Xenia",
-		"steamCategory": "${XBox 360}",
+		"configTitle": "Microsoft XBox - Xemu",
+		"steamCategory": "${XBox}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "\"${filePath}\"",
+		"executableArgs": "-full-screen -dvd_path \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -47,7 +47,7 @@
 			"removeBrackets": true
 		},
 		"executable": {
-			"path": "path-to-xenia.exe",
+			"path": "path-to-xemu.exe",
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		}
