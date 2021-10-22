@@ -11,7 +11,7 @@ Not sure what this app is even for? See [here](https://dozennn.github.io/steam-r
 Check out the [releases page](https://github.com/doZennn/steam-rom-manager/releases) for compiled downloads.
 
 # For developers
-To compile this app, you'll need the latest `Node.js` and `npm`. Every script will need to be run from project directory.
+To compile this app, you'll need the latest `Node.js` and `npm` (if for any reason this doesn't work try downgrading to node 13.5.0 using nvm). Every script will need to be run from project directory.
 
 Before running any scripts, dependencies must be installed using:
 
