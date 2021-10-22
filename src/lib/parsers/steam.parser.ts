@@ -37,7 +37,7 @@ export class SteamParser implements GenericParser {
             let sharedconfig_path = path.join(directories[i],'7','remote','sharedconfig.vdf');
             try {
             let sharedconfig = genericParser.parse(fs.readFileSync(sharedconfig_path,'utf-8'));
-            appIds = _.union(appIds, Object.keys(json.caseInsensitiveTraverse(sharedconfig, ['userroamingconfigstore','software','valve','steam','apps'])));
+            appIds = _.union(appIds, Object.keys(json.caseInsensitiveTraverse(sharedconfig, [['userroamingconfigstore','userlocalconfigstore'],['software'],['valve'],['steam'],['apps']])));
             } catch(err) {
               throw {error:err, path: sharedconfig_path}
             }
