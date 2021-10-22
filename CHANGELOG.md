@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.3.14
+## Fixed
+* Possibility of steam parser breaking because of a slightly different shortcuts.vdf key.
+
 ## 2.3.13
 ## Fixed
 * Fixed default image field calling backslashes invalid
