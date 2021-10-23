@@ -39,18 +39,18 @@ jobs:
           
       - name: Build Linux
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: npm run build:linux
+        run: npm run build:linux -- --publish=onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
         
       - name: Build Windows
         if: ${{ matrix.os == 'windows-latest' }}
-        run: npm run build:win
+        run: npm run build:win -- --publish=onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
           
       - name: Build Mac
         if: ${{ matrix.os == 'macOS-latest' }}
-        run: npm run build:mac
+        run: npm run build:mac -- --publish=onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
