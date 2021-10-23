@@ -41,16 +41,16 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: npm run build:linux
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
         
       - name: Build Windows
         if: ${{ matrix.os == 'windows-latest' }}
         run: npm run build:win
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
           
       - name: Build Mac
         if: ${{ matrix.os == 'macOS-latest' }}
         run: npm run build:mac
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
