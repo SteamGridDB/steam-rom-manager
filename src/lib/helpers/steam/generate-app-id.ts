@@ -20,5 +20,5 @@ export function shortenAppId(appid: string) {
 }
 
 export function lengthenAppId(appid: string) {
-  return String(BigInt(appid) << BigInt (32) | BigInt(0x02000000));
+  return String(BigInt(appid) << BigInt(32) | BigInt(0x02000000));
 }
