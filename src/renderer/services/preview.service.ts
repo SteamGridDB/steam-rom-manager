@@ -116,14 +116,19 @@ export class PreviewService {
 
   saveData(remove: boolean): Promise<any> {
 
-    if (this.previewVariables.listIsBeingSaved)
-    return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
-    else if (!remove && this.previewVariables.numberOfListItems === 0)
-    return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
-    else if (this.previewVariables.listIsBeingRemoved)
-    return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
-    else if (remove && this.appSettings.knownSteamDirectories.length === 0)
-    return Promise.resolve().then(() => { this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    let knownSteamDirectories = this.parsersService.getKnownSteamDirectories();
+    if (this.previewVariables.listIsBeingSaved) {
+      return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    }
+    else if (!remove && this.previewVariables.numberOfListItems === 0) {
+      return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    }
+    else if (this.previewVariables.listIsBeingRemoved) {
+      return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    }
+    else if (remove && knownSteamDirectories.length === 0) {
+      return Promise.resolve().then(() => { this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
+    }
 
     let vdfManager = new VDF_Manager();
     let categoryManager = new CategoryManager();
@@ -132,7 +137,7 @@ export class PreviewService {
     let chain: Promise<any> =  Promise.resolve()
     .then(()=>{
       this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
-      return vdfManager.prepare(remove ? this.appSettings.knownSteamDirectories : this.previewData)
+      return vdfManager.prepare(remove ? knownSteamDirectories : this.previewData)
     }).catch((error:VDF_Error)=>{
       this.loggerService.error(this.lang.errors.populatingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
       throw new Error(error.message);

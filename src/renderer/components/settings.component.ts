@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { SettingsService, PreviewService, LanguageService, ImageProviderService, FuzzyService, CustomVariablesService, ConfigurationPresetsService } from "../services";
+import { SettingsService, ParsersService, PreviewService, LanguageService, ImageProviderService, FuzzyService, CustomVariablesService, ConfigurationPresetsService } from "../services";
 import { APP } from '../../variables';
 import { AppSettings } from "../../models";
 import { Subscription } from 'rxjs';
@@ -16,6 +16,7 @@ export class SettingsComponent implements OnDestroy {
   private settings: AppSettings;
   private availableProviders: string[];
   private availableLanguages: string[];
+  private knownSteamDirectories: string[];
   private retroarchPathPlaceholder: string;
   private steamDirectoryPlaceholder: string;
   private localImagesDirectoryPlaceholder: string;
@@ -26,6 +27,7 @@ export class SettingsComponent implements OnDestroy {
     private languageService: LanguageService,
     private imageProviderService: ImageProviderService,
     private previewService: PreviewService,
+    private parsersService: ParsersService,
     private cpService: ConfigurationPresetsService,
     private cvService: CustomVariablesService,
     private changeDetectionRef: ChangeDetectorRef) { }
@@ -33,6 +35,11 @@ export class SettingsComponent implements OnDestroy {
   ngOnInit() {
     this.subscriptions.add(this.settingsService.getChangeObservable().subscribe(() => {
       this.changeDetectionRef.detectChanges();
+      this.knownSteamDirectories = this.parsersService.getKnownSteamDirectories();
+    }));
+    this.knownSteamDirectories = this.parsersService.getKnownSteamDirectories();
+    this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe(()=>{
+      this.knownSteamDirectories = this.parsersService.getKnownSteamDirectories();
     }));
     this.settings = this.settingsService.getSettings();
     this.availableProviders = this.imageProviderService.instance.getAvailableProviders();
@@ -74,8 +81,9 @@ export class SettingsComponent implements OnDestroy {
   }
 
   private removeApps() {
-    if (this.settings.knownSteamDirectories.length > 0)
+    if (this.parsersService.getKnownSteamDirectories().length > 0) {
       this.previewService.saveData(true);
+    }
   }
 
   private resetFuzzy(){

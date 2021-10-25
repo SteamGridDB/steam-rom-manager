@@ -11,7 +11,7 @@
   <div class="inputContainer">
     <div class="inlineGroup">
       <div class=text style="margin-right: 0.25em;">{{lang.text.removeApps_desc}}</div>
-      <div class="clickButton dangerousButton" style="font-size: 0.85em;" [class.disabled]="this.settings.knownSteamDirectories.length === 0"
+      <div class="clickButton dangerousButton" style="font-size: 0.85em;" [class.disabled]="this.knownSteamDirectories.length === 0"
                                                (click)="removeApps()">{{lang.text.removeApps_btn}}</div>
     </div>
   </div>

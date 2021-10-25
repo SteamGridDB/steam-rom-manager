@@ -5,11 +5,11 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const appSettings: ValidatorModifier<AppSettings> = {
   controlProperty: 'version',
-  latestVersion: 1,
+  latestVersion: 2,
   fields: {
     undefined: {
       'version': { method: () => 0 },
-      'enabledProviders': {
+        'enabledProviders': {
         method: (oldValue) => Array.isArray(oldValue) ? oldValue.filter((val) => val !== "ConsoleGrid" && val !== "retrogaming.cloud") : oldValue
       },
       'environmentVariables': { method: (oldValue) => {
@@ -34,6 +34,14 @@ export const appSettings: ValidatorModifier<AppSettings> = {
         }
         return defaultValue;
       }
+      }
+    },
+    1: {
+      'version': {method: versionUp },
+      'knownSteamDirectories': {
+        method: (oldValue, oldConfiguration)=>{
+          delete oldConfiguration.knownSteamDirectories;
+        }
       }
     }
   }

@@ -60,6 +60,20 @@ export class ParsersService {
     return this.userConfigurations.getValue();
   }
 
+  getKnownSteamDirectories() {
+    let preParser = new VariableParser({ left: '${', right: '}' });
+    let steamdirs = this.getUserConfigurationsArray().map(config => {
+      let parsedSteamPath = preParser.setInput(config.saved.steamDirectory).parse() ? preParser.replaceVariables((variable) => {
+        return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables, this.appSettings).trim()
+      }) : '';
+      return parsedSteamPath;
+    }).filter(path => path!=="");
+    if(this.appSettings.environmentVariables.steamDirectory) {
+      steamdirs.push(this.appSettings.environmentVariables.steamDirectory)
+    }
+    return _.uniq(steamdirs)
+  }
+
   getDeletedConfigurations() {
     return this.deletedConfigurations.asObservable();
   }
