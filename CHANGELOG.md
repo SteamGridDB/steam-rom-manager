@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.3.17
+### Fixed
+* Steam Parser should not to try to give images for tools (appids like xxx\_yyyy)
+
 ## 2.3.16
 ### Changed
 * Enabled steamgriddb as image provider by default in new parsers
