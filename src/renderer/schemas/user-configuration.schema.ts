@@ -1,4 +1,4 @@
-import { availableProviders } from '../../lib/image-providers/available-providers';
+import { availableProviders, defaultProviders } from '../../lib/image-providers/available-providers';
 import { availableParsers, availableParserInputs } from '../../lib/parsers/available-parsers';
 
 export const userConfiguration = {
@@ -65,7 +65,7 @@ export const userConfiguration = {
     onlineImageQueries: { type: 'string', default: '${${fuzzyTitle}}' },
     imageProviders: {
       type: 'array',
-      default: <any>[],
+      default: defaultProviders,
       items: {
         oneOf: [
           {
