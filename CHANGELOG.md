@@ -1,22 +1,29 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 2.3.14
-## Fixed
+## 2.3.16
+### Changed
+* Enabled steamgriddb as image provider by default in new parsers
+### Fixed
+* Incorrect tracking of steam directories
+* Steam Parser not handling games that were deleted from the steam store ([issue 232](https://github.com/doZennn/steam-rom-manager/issues/232))
+
+## 2.3.15
+### Fixed
 * Possibility of steam parser breaking because of a slightly different shortcuts.vdf key.
 
 ## 2.3.13
-## Fixed
+### Fixed
 * Fixed default image field calling backslashes invalid
-## Changed
+### Changed
 * Default behavior is to not auto-delete shortcuts for disabled parsers
 
-## 2.3.12
-## Fixed
+### 2.3.12
+### Fixed
 * Epic parser now launches games from epic launcher, allowing for the use of epic online services
 
 ## 2.3.11
-## Fixed
+### Fixed
 * Steam parser got borked by something valve changed. This version fixes it. 
 
 ## 2.3.10
