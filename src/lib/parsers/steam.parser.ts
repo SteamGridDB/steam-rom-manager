@@ -29,7 +29,6 @@ export class SteamParser implements GenericParser {
       }
 
       let appIds: string[]=[];
-      let appTitles: string[]=[];
       let appinfo_path = path.normalize(path.join(directories[0],'..','..','appcache','appinfo.vdf'));
       Promise.resolve()
         .then(()=>{
@@ -52,25 +51,25 @@ export class SteamParser implements GenericParser {
           throw this.lang.errors.steamChanged__i.interpolate({error: errordata.error, file: errordata.path});
         })
         .then((appinfo)=>{
-          appTitles = appinfo.filter((app:any)=>appIds.indexOf(app.entries.appid.toString())>=0).map((app:any)=>(app.entries.common||{}).name);
-          return Promise.all(appTitles.map((title,i)=>{
-            if(title){
-              return Promise.resolve(title);
+          return Promise.all(appIds.map(appId =>{
+            let infoIndex = appinfo.map((app: any)=>app.entries.appid).indexOf(parseInt(appId));
+            if(infoIndex>=0 && (appinfo[infoIndex].entries.common||{}).name){
+              return Promise.resolve({title: (appinfo[infoIndex].entries.common||{}).name, appid: appId});
             } else {
-              return appid(parseInt(appIds[i])).then((x:any)=>x.name);
+              return appid(parseInt(appId)).then((x: any)=>{
+                console.log(x);
+                return {title: (x||{}).name, appid: appId}
+              });
             }
-          }))
-        })
-        .then((titles)=>{
-          appTitles=titles;
-        })
-        .then(()=>{
-          let parsedData: ParsedData = {success: [], failed:[]};
-          for(let i=0;i<appTitles.length; i++){
-            parsedData.success.push({extractedTitle: appTitles[i].toString(), extractedAppId:appIds[i]});
+          })).then((appsWithInfo: any[])=>appsWithInfo.filter((x: any)=>x.title))
+        }).then((appsWithInfo: any[]) => {
+          let parsedData: ParsedData = {success: [], failed: []}
+          for(let i=0;i<appsWithInfo.length; i++){
+            parsedData.success.push({extractedTitle: appsWithInfo[i].title, extractedAppId:appsWithInfo[i].appid.toString()});
           }
           resolve(parsedData);
-        }).catch((err)=>{
+        })
+        .catch((err)=>{
           Sentry.captureException(err);
           reject(this.lang.errors.fatalError__i.interpolate({error: err}));
         });
