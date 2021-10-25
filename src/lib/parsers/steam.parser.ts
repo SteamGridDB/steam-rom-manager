@@ -51,7 +51,7 @@ export class SteamParser implements GenericParser {
           throw this.lang.errors.steamChanged__i.interpolate({error: errordata.error, file: errordata.path});
         })
         .then((appinfo)=>{
-          return Promise.all(appIds.map(appId =>{
+          return Promise.all(appIds.filter(appId => /^[0-9]*$/g.test(appId)).map(appId =>{
             let infoIndex = appinfo.map((app: any)=>app.entries.appid).indexOf(parseInt(appId));
             if(infoIndex>=0 && (appinfo[infoIndex].entries.common||{}).name){
               return Promise.resolve({title: (appinfo[infoIndex].entries.common||{}).name, appid: appId});
