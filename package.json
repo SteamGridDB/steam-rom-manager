@@ -168,6 +168,7 @@
     "to-string-loader": "^1.1.5",
     "ts-node": "^5.0.1",
     "typescript": "^3.9.5",
+    "upath": "^1.0.5",
     "webpack": "^3.11.0",
     "webpack-merge": "^4.1.2",
     "worker-loader": "^1.1.1"
