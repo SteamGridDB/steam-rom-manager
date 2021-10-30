@@ -1,5 +1,5 @@
-import { join, resolve } from "path";
+import { resolve } from 'path';
 
 export const root = (...args: string[]) => {
-  return join(resolve(__dirname, '..'), ...args)
-}
+  return resolve(__dirname, '..', ...args);
+};
