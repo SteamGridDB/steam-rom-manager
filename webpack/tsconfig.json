@@ -1,0 +1,8 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "sourceMap": false
+  },
+  "include": ["./*.ts"]
+}
