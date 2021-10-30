@@ -10,14 +10,14 @@ import * as _ from 'lodash';
         <ng-container [formGroup]="currentForm">
             <ng-container *ngFor="let childrenKey of nestedGroup.children | keys">
                 <ng-container *ngVar="nestedGroup.children[childrenKey] as child">
-                    <div class="container" [class.nested]="child.constructor.name === 'Group'" [hidden]="getHiddenMethod(child) | async">
+                    <div class="container" [class.nested]="child.constructor.displayName === 'Group'" [hidden]="getHiddenMethod(child) | async">
                         <label *ngIf="child.label">
                             <span class="infoButton infoIcon" *ngIf="child.onInfoClick"
                                 (click)="child.onInfoClick(currentForm.controls[childrenKey], currentForm.controls[childrenKey]['__path'])">
                             </span>
                             {{child.label}}
                         </label>
-                        <ng-container [ngSwitch]="child.constructor.name">
+                        <ng-container [ngSwitch]="child.constructor.displayName">
                             <ng-container *ngSwitchCase="'Select'">
                                 <ng-select [formControlName]="childrenKey" [placeholder]="child.placeholder" [multiple]="child.multiple" [allowEmpty]="child.allowEmpty">
                                     <ng-option *ngFor="let value of child.values" [ngValue]="value.real || value.display">

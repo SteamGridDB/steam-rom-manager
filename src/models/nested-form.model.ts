@@ -13,6 +13,7 @@ type ObjectFields<T> = {
 
 export namespace NestedFormElement {
   export class Select {
+    static displayName = 'Select';
     /** Optional */
     label?: string;
     /** Optional */
@@ -48,6 +49,7 @@ export namespace NestedFormElement {
     }
   };
   export class Input {
+    static displayName = 'Input';
     /** Optional */
     label?: string;
     /** Optional */
@@ -74,6 +76,7 @@ export namespace NestedFormElement {
     }
   };
   export class Path {
+    static displayName = 'Path';
     /** Optional */
     label?: string;
     /** Optional */
@@ -106,6 +109,7 @@ export namespace NestedFormElement {
     }
   };
   export class Toggle {
+    static displayName = 'Toggle';
     /** Optional */
     label?: string;
     /** Optional */
@@ -130,6 +134,7 @@ export namespace NestedFormElement {
     }
   };
   export class Group {
+    static displayName = 'Group';
     /** Optional */
     label?: string;
     /** Optional */
