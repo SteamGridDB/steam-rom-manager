@@ -14,7 +14,8 @@ let clientConfig: Configuration = {
   output: {
     filename: '[name].bundle.js',
     path: helpers.root('dist', 'renderer'),
-    publicPath: './'
+    publicPath: './',
+    chunkFilename: '[chunkhash].bundle.js'
   },
   resolve: {
     extensions: ['.ts', '.js']
@@ -28,7 +29,14 @@ let clientConfig: Configuration = {
       {
         test: /global\.scss$/i,
         use: [
-          MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // below at `new MiniCssExtractPlugin` we add `styles/` to the path,
+              // so we need to remove it here again, so relative resources can be found
+              publicPath: '../'
+            }
+          },
           'css-loader',
           'postcss-loader',
           'sass-loader'
@@ -46,7 +54,17 @@ let clientConfig: Configuration = {
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
-        type: 'asset/resource'
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[name][ext]'
+        }
+      },
+      {
+        test: /\.(ttf|eot|woff|woff2)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[name][ext]'
+        }
       },
       {
         test: /\.html$/i,
@@ -60,7 +78,9 @@ let clientConfig: Configuration = {
     ]
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'styles/globalStyles.css',
+    }),
     new HtmlWebpackPlugin({
       filename: helpers.root('dist', 'renderer', 'index.html'),
       template: helpers.root('src', 'renderer', 'index.html')
@@ -93,71 +113,3 @@ let productionConfig: Configuration = {
 if (process.env.NODE_ENV === 'production')
   module.exports = merge(clientConfig, productionConfig);
 else module.exports = merge(clientConfig, developmentConfig);
-
-// let helpers = require('./helpers');
-// let webpack = require('webpack');
-// let merge = require('webpack-merge');
-// let HtmlWebpackPlugin = require('html-webpack-plugin');
-// let ExtractTextPlugin = require("extract-text-webpack-plugin");
-// let GlobalStyle = new ExtractTextPlugin('styles/globalStyle.css');
-
-// let clientConfig = {
-//   module: {
-//     rules: [
-//     {
-//       test: /worker\.ts$/i,
-//       use: ['worker-loader?inline&fallback=false', 'awesome-typescript-loader']
-//     },
-//     {
-//       test: /\.ts$/i,
-//       exclude: /worker\.ts$/i,
-//       use: ['awesome-typescript-loader', 'angular2-template-loader']
-//     },
-//     {
-//       test: /global\.scss$/i,
-//       loader: GlobalStyle.extract(['css-loader?importLoaders=2', 'postcss-loader', 'sass-loader'])
-//     },
-//     {
-//       test: /\.scss$/,
-//       exclude: /global\.scss$/i,
-//       use: ['to-string-loader', 'css-loader?importLoaders=2', 'postcss-loader', 'sass-loader']
-//     },
-//     {
-//       test: /\.(gif|png|jpe?g|svg)$/i,
-//       use: 'file-loader?name=images/[name].[ext]'
-//     },
-//     {
-//       test: /\.(ttf|eot|woff|woff2)$/i,
-//       use: 'file-loader?name=fonts/[name].[ext]&publicPath=../'
-//     },
-//     {
-//       test: /\.html$/i,
-//       use: {
-//         loader: 'html-loader',
-//         options: {
-//           attrs: ['object:data', 'img:src']
-//         }
-//       }
-//     },
-//     {
-//       test: /\.md$/i,
-//       use: [
-//         'raw-loader',
-//         'nested-require-loader?rawString=true',
-//         helpers.root('webpack', 'markdown.js')
-//       ]
-//     }
-//     ]
-//   },
-//   plugins: [
-//     new webpack.optimize.CommonsChunkPlugin({
-//       names: ['polyfill']
-//     }),
-//     new webpack.ContextReplacementPlugin(
-//         /\@angular(\\|\/)core(\\|\/)esm5/,
-//         helpers.root('dist')
-//         ),
-//     GlobalStyle
-//   ],
-
-// };
