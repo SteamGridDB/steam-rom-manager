@@ -42,8 +42,7 @@ let clientConfig: Configuration = {
           'postcss-loader',
           'sass-loader'
         ],
-        exclude: /global\.scss$/,
-        type: 'asset/inline'
+        exclude: /global\.scss$/
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
