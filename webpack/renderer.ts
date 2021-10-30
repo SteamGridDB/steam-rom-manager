@@ -1,6 +1,8 @@
-import HtmlWebpackPlugin from 'html-webpack-plugin';
+import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { merge } from 'webpack-merge';
 import { Configuration } from 'webpack';
+
 import * as helpers from './helpers';
 
 let clientConfig: Configuration = {
@@ -20,25 +22,43 @@ let clientConfig: Configuration = {
   module: {
     rules: [
       {
-        test: /.ts$/i,
-        use: ['ts-loader']
+        test: /\.ts$/i,
+        use: ['ts-loader', 'angular2-template-loader']
       },
       {
-        test: /.scss$/i,
-        use: ['css-loader', 'postcss-loader', 'sass-loader']
+        test: /global\.scss$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader',
+          'sass-loader'
+        ]
+      },
+      {
+        test: /\.scss$/i,
+        use: ['css-loader', 'postcss-loader', 'sass-loader'],
+        exclude: /global\.scss$/,
+        type: 'asset/inline'
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
         type: 'asset/resource'
       },
       {
-        test: /.md$/i,
+        test: /\.html$/i,
+        use: {
+          loader: 'html-loader'
+        }
+      },
+      {
+        test: /\.md$/i,
         use: [helpers.root('webpack', 'markdown.js')],
         type: 'asset/source'
       }
     ]
   },
   plugins: [
+    new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       filename: helpers.root('dist', 'renderer', 'index.html'),
       template: helpers.root('src', 'renderer', 'index.html')
