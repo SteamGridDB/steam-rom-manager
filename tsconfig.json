@@ -1,13 +1,14 @@
 {
     "compilerOptions": {
         "target": "es2019",
-        "module": "commonjs",
+        "module": "ESNext",
         "sourceMap": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "removeComments": false,
         "noImplicitAny": true,
-        "suppressImplicitAnyIndexErrors": true
+        "suppressImplicitAnyIndexErrors": true,
+        "moduleResolution": "Node"
     },
     "include": ["./*.ts", "./src/**/*.ts"]
 }
