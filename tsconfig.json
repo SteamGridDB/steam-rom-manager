@@ -1,13 +1,12 @@
 {
     "compilerOptions": {
         "target": "es2019",
-        "module": "commonjs",
+        "module":"commonjs",
         "sourceMap": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "removeComments": false,
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true
-    },
-    "include": ["./*.ts", "./src/**/*.ts"]
+    }
 }
