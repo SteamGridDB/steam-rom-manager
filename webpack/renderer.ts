@@ -36,7 +36,12 @@ let clientConfig: Configuration = {
       },
       {
         test: /\.scss$/i,
-        use: ['css-loader', 'postcss-loader', 'sass-loader'],
+        use: [
+          'to-string-loader',
+          'css-loader',
+          'postcss-loader',
+          'sass-loader'
+        ],
         exclude: /global\.scss$/,
         type: 'asset/inline'
       },
@@ -46,9 +51,7 @@ let clientConfig: Configuration = {
       },
       {
         test: /\.html$/i,
-        use: {
-          loader: 'html-loader'
-        }
+        use: ['to-string-loader', 'html-loader']
       },
       {
         test: /\.md$/i,
