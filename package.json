@@ -133,10 +133,6 @@
     "zone.js": "^0.8.20"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.2",
-    "@babel/plugin-transform-runtime": "^7.10.1",
-    "@babel/preset-env": "^7.10.2",
-    "@babel/runtime": "^7.10.2",
     "@types/async": "^2.0.48",
     "@types/bluebird": "^3.5.20",
     "@types/crc": "^3.4.0",
