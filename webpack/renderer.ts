@@ -1,5 +1,6 @@
-import { merge } from 'lodash';
-import { Configuration, DefinePlugin } from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { merge } from 'webpack-merge';
+import { Configuration } from 'webpack';
 import * as helpers from './helpers';
 
 let clientConfig: Configuration = {
@@ -36,11 +37,22 @@ let clientConfig: Configuration = {
         type: 'asset/source'
       }
     ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: helpers.root('dist', 'renderer', 'index.html'),
+      template: helpers.root('src', 'renderer', 'index.html')
+    })
+  ],
+  node: false,
+  externals: {
+    leveldown: "require('leveldown')"
   }
 };
 
 let developmentConfig: Configuration = {
-  devtool: 'cheap-module-eval-source-map',
+  mode: 'development',
+  devtool: 'eval-cheap-module-source-map',
   performance: {
     hints: false
   },
@@ -52,12 +64,8 @@ let developmentConfig: Configuration = {
 };
 
 let productionConfig: Configuration = {
-  bail: process.env.TRAVIS ? JSON.parse(process.env.TRAVIS) : false,
-  plugins: [
-    new DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-    })
-  ]
+  mode: 'production',
+  bail: process.env.TRAVIS ? JSON.parse(process.env.TRAVIS) : false
 };
 
 if (process.env.NODE_ENV === 'production')
@@ -123,17 +131,11 @@ else module.exports = merge(clientConfig, developmentConfig);
 //     new webpack.optimize.CommonsChunkPlugin({
 //       names: ['polyfill']
 //     }),
-//     new HtmlWebpackPlugin({
-//       filename: helpers.root('dist', 'renderer', 'index.html'),
-//       template: helpers.root('src', 'renderer', 'index.html')
-//     }),
 //     new webpack.ContextReplacementPlugin(
 //         /\@angular(\\|\/)core(\\|\/)esm5/,
 //         helpers.root('dist')
 //         ),
 //     GlobalStyle
 //   ],
-//   externals: {
-//     'leveldown': "require('leveldown')"
-//   },
+
 // };

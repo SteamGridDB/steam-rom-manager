@@ -1,5 +1,5 @@
-import { merge } from 'lodash';
 import { Configuration } from 'webpack';
+import merge from 'webpack-merge';
 import * as helpers from './helpers';
 
 let clientConfig: Configuration = {
@@ -22,22 +22,25 @@ let clientConfig: Configuration = {
         use: ['ts-loader']
       }
     ]
-  }
+  },
+  node: false
 };
 
 let developmentConfig: Configuration = {
+  mode: 'development',
   devtool: 'source-map',
   performance: {
     hints: false
   },
   output: {
-    devtoolModuleFilenameTemplate (info: any) {
-      return "file:///" + encodeURI(info.absoluteResourcePath);
+    devtoolModuleFilenameTemplate(info: any) {
+      return 'file:///' + encodeURI(info.absoluteResourcePath);
     }
   }
 };
 
 let productionConfig: Configuration = {
+  mode: 'production',
   bail: process.env.TRAVIS ? JSON.parse(process.env.TRAVIS) : false
 };
 
