@@ -49,30 +49,3 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   module.exports = merge(clientConfig, developmentConfig);
 }
-
-// let helpers = require('./helpers');
-// let webpack = require('webpack');
-// let merge = require('webpack-merge');
-// let path = require('path');
-
-// let clientConfig = {
-//   module: {
-//     rules: [
-//     {
-//       test: /\.js$/i,
-//       use: {
-//         loader: 'babel-loader?cacheDirectory=true',
-//         options: {
-//           presets: ["@babel/preset-env"],
-//           plugins: ["@babel/plugin-transform-runtime"],
-//           sourceType: 'unambiguous'
-//         }
-//       }
-//     }
-//     ]
-//   },
-//   node: {
-//     __dirname: false,
-//     __filename: false
-//   }
-// };
