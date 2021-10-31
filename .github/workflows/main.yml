@@ -25,7 +25,6 @@ jobs:
         uses: actions/setup-node@v2.4.1
         with:
           node-version: 14.18.1
-          npm-version: 8.1.2
           check-latest: true
 
       - name: Install dependencies
