@@ -19,4 +19,8 @@ if (process.env.NODE_ENV === 'production') {
   enableProdMode();
 }
 
+// Zone.js doesn't like it if Bluebird replaces the global `Promise` object.
+// This will instruct Bluebird to return the original Promise.
+(Promise as any).noConflict?.()
+
 platformBrowserDynamic().bootstrapModule(AppModule);
