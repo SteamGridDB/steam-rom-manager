@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Bluebird } from '../../lib/zone-bluebird';
 import { ConfigPresets } from "../../models";
 import { LoggerService } from './logger.service';
 import { BehaviorSubject } from "rxjs";
@@ -13,7 +12,7 @@ import * as path from "path"
 
 @Injectable()
 export class ConfigurationPresetsService {
-  private static xRequest = new xRequest(Bluebird);
+  private static xRequest = new xRequest();
   private variableData: BehaviorSubject<ConfigPresets> = new BehaviorSubject({});
   private downloadStatus: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private validator: json.Validator = new json.Validator(schemas.configPresets);

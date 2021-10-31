@@ -1,50 +1,44 @@
 import { xRequestError, xRequestOptions, xRequestOptionsWithUrl, xRequestResolve } from "../models";
-import * as Bluebird from 'bluebird';
+
+const wait = (timeout: number) => new Promise((resolve) => setTimeout(resolve, timeout))
 
 export class xRequest {
     private cancellingPromises: boolean = false;
-    private promiseRef: Bluebird<any>[] = [];
+    /**
+     * maps generated Promises in `makeRequest` to their `cancel` method
+     */
+    private cancelHandlerMap = new WeakMap<Promise<any>, () => void | undefined>()
+    private promiseRef = new Set<Promise<any>>();
 
-    constructor(private bluebird?: typeof Bluebird, protected timeout: number = 3000) {
-        if (bluebird === undefined) {
-            this.bluebird = Bluebird.getNewLibraryCopy();
-
-            this.bluebird.config({
-                cancellation: true
-            });
-        }
-    }
-
-    get Bluebird() {
-        return this.bluebird;
-    }
+    constructor(protected timeout: number = 3000) {}
 
     /* Handle promises and their cancelation */
 
-    private removePromiseRef(promise: Bluebird<any>) {
+    private removePromiseRef(promise: Promise<any>) {
         if (!this.cancellingPromises) {
-            let index = this.promiseRef.indexOf(promise);
-            if (index !== -1)
-                this.promiseRef.splice(index, 1);
+            this.promiseRef.delete(promise);
         }
     }
 
-    addPromise(promise: Bluebird<any>) {
-        if (this.promiseRef.indexOf(promise) === -1) {
-            this.promiseRef.push(promise);
+    addPromise(promise: Promise<any>) {
+        if (!this.promiseRef.has(promise)) {
+            this.promiseRef.add(promise);
             promise.finally(() => this.removePromiseRef(promise));
         }
         return promise;
     }
 
-    set promise(promise: Bluebird<any>) {
+    set promise(promise: Promise<any>) {
         this.addPromise(promise);
     }
 
     cancel() {
         this.cancellingPromises = true;
-        this.promiseRef.forEach(promise => promise.cancel());
-        this.promiseRef = [];
+        this.promiseRef.forEach((promise) => {
+            const cancel = this.cancelHandlerMap.get(promise)
+            cancel?.();
+        })
+        this.promiseRef.clear();
         this.cancellingPromises = false;
     }
 
@@ -68,7 +62,9 @@ export class xRequest {
 
     protected makeRequest(options: xRequestOptionsWithUrl, delay: number) {
         let self = this;
-        return this.Bluebird.delay(delay).then(() => new this.Bluebird<xRequestResolve>(function (resolve, reject, onCancel) {
+        let cancel: () => void | undefined;
+
+        const promise = wait(delay).then(() => new Promise<xRequestResolve>(function (resolve, reject) {
             let xhr = new XMLHttpRequest();
             let finalUrl = options.url;
             let paramsString: string = null;
@@ -138,10 +134,14 @@ export class xRequest {
             else
                 xhr.send(paramsString);
 
-            onCancel(() => {
+            cancel = () => {
                 xhr.abort();
-            });
+            }
         }));
+
+        this.cancelHandlerMap.set(promise, cancel)
+
+        return promise;
     }
 
     request(url: string, options: xRequestOptions, delay: number = 0) {

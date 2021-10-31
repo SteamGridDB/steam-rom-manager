@@ -1,8 +1,6 @@
 import { GenericProvider, GenericProviderManager, ProviderProxy } from "./generic-provider";
 import { xRequestWrapper } from "./x-request-wrapper";
 const SGDB = require("steamgriddb");
-import * as Bluebird from 'bluebird';
-declare global { export interface Promise<T> extends Bluebird<T> {} }
 
 class SteamGridDbProvider extends GenericProvider {
   private xrw: xRequestWrapper;
@@ -16,7 +14,7 @@ class SteamGridDbProvider extends GenericProvider {
 
   retrieveUrls() {
     let self = this;
-    this.xrw.promise = new this.xrw.Bluebird<string>(function (resolve, reject, onCancel) {
+    this.xrw.promise = new Promise<void>(function (resolve) {
       self.client.searchGame(self.proxy.title).then((res: any)=>{
 
         //eventually the user should have the ability to change this
@@ -51,9 +49,6 @@ class SteamGridDbProvider extends GenericProvider {
         self.xrw.logError(error);
         self.proxy.completed();
         resolve();
-      });
-      onCancel(()=>{
-        return;
       });
     });
   }
