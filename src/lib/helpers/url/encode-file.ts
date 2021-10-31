@@ -4,7 +4,7 @@ import * as path from 'path';
 import * as probe from 'probe-image-size';
 import * as uri2path from 'file-uri-to-path';
 
-var decodeFile = exports.decodeFile = function decodeFile(file_uri: string) {
+export function decodeFile(file_uri: string) {
   if(os.type()=="Windows_NT") {
     return uri2path(file_uri);
   }

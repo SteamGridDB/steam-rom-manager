@@ -7,7 +7,7 @@
   .hidden {
     display: none;
   }
-  /deep/ a {
+  ::ng-deep a {
     text-decoration: none;
 
     color: var(--color-markdown-link);

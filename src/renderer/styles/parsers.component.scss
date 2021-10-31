@@ -52,7 +52,7 @@
 			margin: 0 0 0.5em 0;
 		}
 
-		/deep/ ng-text-input{
+		::ng-deep ng-text-input{
 			@for $i from 0 through 2 {
 				highlight {
 					&.level-#{$i} {

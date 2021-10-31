@@ -13,7 +13,7 @@
 		}
 	}
 
-	/deep/ * {
+	::ng-deep * {
 		cursor: text;
 	}
 

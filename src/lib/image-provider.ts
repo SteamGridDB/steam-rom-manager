@@ -20,7 +20,7 @@ export class ImageProvider {
     constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService) {
         for (let key in imageProviders) {
             this.availableProviders[key] = {
-                worker: (new (imageProviders[key])() as Worker),
+                worker: imageProviders[key],
                 queue: this.createQueue(key)
             };
             this.availableProviders[key].worker.addEventListener('message', this.messageEvent.bind(this));

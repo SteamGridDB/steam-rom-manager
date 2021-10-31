@@ -1,4 +1,4 @@
 export const imageProviders = {
-  'SteamGridDB': require('./steamgriddb.worker'),
-  //'GoogleImages': require('./googleimages.worker')
+  'SteamGridDB': new Worker(new URL('./steamgriddb.worker', import.meta.url)),
+  // 'GoogleImages': new Worker(new URL('./googleimages.worker', import.meta.url))
 }
