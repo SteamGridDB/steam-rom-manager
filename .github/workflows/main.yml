@@ -24,7 +24,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.4.1
         with:
-          node-version: 13.5.0
+          node-version: 14.18.1
           check-latest: true
 
       - name: Install dependencies
