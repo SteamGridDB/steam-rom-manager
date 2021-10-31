@@ -5,7 +5,7 @@ import * as json from "./src/lib/helpers/json";
 let isValid = true;
 const validator = new json.Validator(undefined, undefined, { useDefaults: false });
 
-json.read('./files/configPresets.json').then((data) => {
+json.read('./files/configPresets.json').then((data: object) => {
     if (data !== null && !validator.setSchema(configPresets).validate(data).isValid()){
         throw new Error(`\r\n${validator.errorString}`);
     }
@@ -14,7 +14,7 @@ json.read('./files/configPresets.json').then((data) => {
     isValid = false;
 }).then(() => {
     return json.read('./files/customVariables.json');
-}).then((data) => {
+}).then((data: object) => {
     if (data !== null && !validator.setSchema(customVariables).validate(data).isValid()){
         throw new Error(`\r\n${validator.errorString}`);
     }

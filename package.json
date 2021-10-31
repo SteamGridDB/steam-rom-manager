@@ -159,7 +159,7 @@
     "sass-loader": "^12.3.0",
     "to-string-loader": "^1.2.0",
     "ts-loader": "^9.2.6",
-    "ts-node": "^5.0.1",
+    "ts-node": "^10.4.0",
     "typescript": "^3.9.5",
     "upath": "^1.0.5",
     "webpack": "^5.61.0",

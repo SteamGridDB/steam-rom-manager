@@ -1,14 +1,19 @@
 {
+  "ts-node": {
     "compilerOptions": {
-        "target": "es2019",
-        "module": "ESNext",
-        "sourceMap": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "removeComments": false,
-        "noImplicitAny": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "moduleResolution": "Node"
-    },
-    "include": ["./*.ts", "./src/**/*.ts"]
+      "module": "CommonJS"
+    }
+  },
+  "compilerOptions": {
+    "target": "es2019",
+    "module": "ESNext",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": false,
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "moduleResolution": "Node"
+  },
+  "include": ["./*.ts", "./src/**/*.ts"]
 }
