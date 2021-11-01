@@ -1,5 +1,3 @@
-import * as _Bluebird from 'bluebird';
-
 export interface xRequestOptions {
     method: 'GET',
     timeout: number,

@@ -1,13 +1,12 @@
 import { GenericProvider, ProviderProxy } from "./generic-provider";
 import { xRequestError } from "../../models";
 import { xRequest } from "../x-request";
-import * as Bluebird from 'bluebird';
 
 export class xRequestWrapper extends xRequest {
     private specialErrors: { [statusCode: string]: { retryCount?: number, silent: boolean } } = {};
 
     constructor(private proxy: ProviderProxy, private handleErrors: boolean, private retryCount: number, timeout: number) {
-        super(undefined, timeout);
+        super(timeout);
     }
 
     private canRetry(status: number, config: any) {
@@ -25,7 +24,7 @@ export class xRequestWrapper extends xRequest {
             return false;
     }
 
-    private errorHandler(promise: Bluebird<any>): Bluebird<any> {
+    private errorHandler(promise: Promise<any>): Promise<any> {
         if (this.handleErrors) {
             return promise.catch((data: xRequestError) => {
                 if (data.error) {
@@ -39,11 +38,11 @@ export class xRequestWrapper extends xRequest {
                     else {
                         if (this.specialErrors[`${data.error.status}`] === undefined || !this.specialErrors[`${data.error.status}`].silent)
                             this.logError(data.error.status, data.error.url);
-                        return this.Bluebird.resolve(null);
+                        return Promise.resolve(null);
                     }
                 }
                 else
-                    return this.Bluebird.reject(data);
+                    return Promise.reject(data);
             });
         }
         else

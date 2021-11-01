@@ -92,7 +92,6 @@
     "async": "^2.6.0",
     "binary-vdf": "^0.1.0",
     "blob-to-buffer": "^1.2.7",
-    "bluebird": "^3.5.1",
     "colornames": "^1.1.1",
     "crc": "^3.5.0",
     "electron-log": "^4.2.1",
@@ -130,7 +129,6 @@
   },
   "devDependencies": {
     "@types/async": "^2.0.48",
-    "@types/bluebird": "^3.5.20",
     "@types/crc": "^3.4.0",
     "@types/fs-extra": "~5.0.0",
     "@types/glob": "^5.0.35",

@@ -2,7 +2,6 @@ import { VDF_ScreenshotsData } from "../models";
 import { xRequest } from './x-request';
 import { VDF_Error } from './vdf-error';
 import { APP } from '../variables';
-import { Bluebird } from './zone-bluebird';
 import * as genericParser from '@node-steam/vdf';
 import { globPromise } from './helpers/glob';
 import * as file from './helpers/file';
@@ -15,7 +14,7 @@ const mimeTypes = require('mime-types');
 const toBuffer = require('blob-to-buffer');
 
 export class VDF_ScreenshotsFile {
-  private static xRequest = new xRequest(Bluebird);
+  private static xRequest = new xRequest();
   private fileData: any = undefined;
   private extraneousAppIds: string[] = [];
 
@@ -178,8 +177,7 @@ export class VDF_ScreenshotsFile {
         }
       }
 
-      // Limit promise concurrency to 100
-      return Bluebird.map(promises, promise => promise, { concurrency: 100 }).then((errors) => {
+      return Promise.all(promises).then((errors) => {
         this.fileData['Screenshots']['shortcutnames'] = _.pickBy(this.fileData['Screenshots']['shortcutnames'], item => item !== undefined);
         let data = genericParser.stringify(this.fileData);
         return fs.outputFile(this.filepath, data).then(() => errors);

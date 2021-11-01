@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Bluebird } from '../../lib/zone-bluebird';
 import { CustomVariables } from "../../models";
 import { LoggerService } from './logger.service';
 import { BehaviorSubject } from "rxjs";
@@ -12,7 +11,7 @@ import * as _ from "lodash";
 
 @Injectable()
 export class CustomVariablesService {
-  private static xRequest = new xRequest(Bluebird);
+  private static xRequest = new xRequest();
   private variableData: BehaviorSubject<CustomVariables> = new BehaviorSubject({});
 
   private downloadStatus: BehaviorSubject<boolean> = new BehaviorSubject(false);
