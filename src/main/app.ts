@@ -40,7 +40,7 @@ function createWindow() {
     frame: false,
     backgroundColor: '#121212',
     webPreferences: {
-      devTools: process.env.NODE_ENV !== 'production',
+      devTools: true,
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
       enableRemoteModule: true
