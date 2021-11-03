@@ -38,6 +38,7 @@ export interface UserConfiguration {
     defaultTallImage: string,
     defaultHeroImage: string,
     defaultLogoImage: string,
+    defaultIcon: string,
     localImages: string,
     localTallImages: string,
     localHeroImages: string,

@@ -19,8 +19,7 @@ In case you're having trouble with SRM, feel free to visit the [discord](https:/
 * `HE Spoke`{.noWrap} - responsible for creating community around SRM. Creator of [Steam](http://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/nxxzBPJ) groups. Also manages issues in [Github](https://github.com/doZennn/steam-rom-manager).
 * `Choko`{.noWrap} - helps most users setup SRM in [Discord](https://discord.gg/nxxzBPJ).
 * `AlexDobeck`{.noWrap} - improved [retrogaming.cloud](http://retrogaming.cloud/) performance.
-* `lontanadascienza`{.noWrap} - updated SRM to handle heroes, posters, logos. Some other stuff too.
-
+* `lontanadascienza`{.noWrap} - Current maintainer. Updated SRM to handle heroes, posters, logos, and icons.
 ## Credits
 
 * SRM icon created by [doZennn](https://www.reddit.com/user/dozennn) who's also the big boss of [SteamGridDB](http://www.steamgriddb.com/).

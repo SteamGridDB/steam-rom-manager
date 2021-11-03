@@ -31,6 +31,7 @@ export class PreviewService {
   private appTallImages: AppImages;
   private appHeroImages: AppImages;
   private appLogoImages: AppImages;
+  private appIcons: AppImages;
   private allEditedSteamDirectories: string[];
   private imageTypes: string[];
   private currentImageType: string;
@@ -52,7 +53,15 @@ export class PreviewService {
     this.appTallImages = {};
     this.appHeroImages = {};
     this.appLogoImages = {};
-    this.imageTypes = ["long","tall", "hero","logo", "games"];
+    this.appIcons = {};
+    this.imageTypes = [
+      "long",
+      "tall",
+      "hero",
+      "logo",
+      "icon",
+      "games"
+    ];
     this.currentImageType = "long";
     this.imageProviderService.instance.stopEvent.subscribe(() => {
       for (let imageKey in this.appImages) {
@@ -67,7 +76,9 @@ export class PreviewService {
       for(let imageKey in this.appLogoImages) {
         this.appLogoImages[imageKey].retrieving = false;
       }
-
+      for(let imageKey in this.appIcons) {
+        this.appIcons[imageKey].retrieving = false;
+      }
       this.previewVariables.numberOfQueriedImages = 0;
       this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
       this.previewDataChanged.next();
@@ -153,7 +164,7 @@ export class PreviewService {
     if(!remove) {
       chain = chain.then(()=>{
         this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-        return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages, this.appSettings.previewSettings.deleteDisabledShortcuts)
+        return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages,this.appIcons, this.appSettings.previewSettings.deleteDisabledShortcuts)
       })
     } else {
       chain = chain.then(()=>{
@@ -217,6 +228,8 @@ export class PreviewService {
         image = appImage.getCurrentImage(app.heroimages, this.appHeroImages);
       } else if (this.currentImageType === 'logo' || (this.currentImageType==='games' && imagetype==='logo') ) {
         image = appImage.getCurrentImage(app.logoimages, this.appLogoImages);
+      } else if (this.currentImageType === 'icon' || (this.currentImageType==='games' && imagetype==='icon') ) {
+        image = appImage.getCurrentImage(app.icons, this.appIcons);
       }
 
       if (image !== undefined && (image.loadStatus === 'notStarted' || image.loadStatus === 'failed')) {
@@ -292,6 +305,11 @@ export class PreviewService {
         this.preloadImage(this.appLogoImages[imageKey].content[i]);
       }
     }
+    for (let imageKey in this.appIcons) {
+      for (let i = 0; i < this.appIcons[imageKey].content.length; i++) {
+        this.preloadImage(this.appIcons[imageKey].content[i]);
+      }
+    }
   }
 
   setImageIndex(app: PreviewDataApp, index: number, imagetype?: string) {
@@ -307,6 +325,8 @@ export class PreviewService {
         appImage.setImageIndex(app.heroimages, this.appHeroImages, index);
       } else if (imagetype === 'logo') {
         appImage.setImageIndex(app.logoimages, this.appLogoImages, index);
+      } else if (imagetype === 'icon') {
+        appImage.setImageIndex(app.icons, this.appIcons, index);
       }
 
       this.previewDataChanged.next();
@@ -330,6 +350,8 @@ export class PreviewService {
         return appImage.getMaxLength(app.heroimages, this.appHeroImages);
       } else if (imagetype === 'logo') {
         return appImage.getMaxLength(app.logoimages, this.appLogoImages);
+      } else if (imagetype === 'icon') {
+        return appImage.getMaxLength(app.icons, this.appIcons);
       }
     }
     else
@@ -345,13 +367,8 @@ export class PreviewService {
       return appImage.getCurrentImage(app.heroimages, this.appHeroImages);
     } else if (this.currentImageType === 'logo'|| (this.currentImageType=='games' && imagetype=='logo')) {
       return appImage.getCurrentImage(app.logoimages, this.appLogoImages);
-    }
-  }
-
-  setIconIndex(app: PreviewDataApp, index: number) {
-    if (app && app.icons.length) {
-      app.currentIconIndex = index < 0 ? app.icons.length - 1 : (index < app.icons.length ? index : 0);
-      this.previewDataChanged.next();
+    } else if (this.currentImageType === 'icon'|| (this.currentImageType=='games' && imagetype=='icon')) {
+      return appImage.getCurrentImage(app.icons, this.appIcons);
     }
   }
 
@@ -364,6 +381,8 @@ export class PreviewService {
       return this.appHeroImages;
     } else if (this.currentImageType === 'logo'|| (this.currentImageType=='games' && imagetype=='logo')) {
       return this.appLogoImages;
+    } else if (this.currentImageType === 'icon'|| (this.currentImageType=='games' && imagetype=='icon')) {
+      return this.appIcons;
     }
   }
 
@@ -408,7 +427,13 @@ export class PreviewService {
       if (!settingsOnly)
         this.appLogoImages[imageKey].content = [];
     }
-
+    for (let imageKey in this.appIcons) {
+      this.appIcons[imageKey].defaultImageProviders = [];
+      this.appIcons[imageKey].searchQueries = [];
+      this.appIcons[imageKey].retrieving = false;
+      if (!settingsOnly)
+        this.appIcons[imageKey].content = [];
+    }
   }
 
   private generatePreviewDataCallback() {
@@ -461,6 +486,7 @@ export class PreviewService {
           this.downloadImageUrls('tall');
           this.downloadImageUrls('hero');
           this.downloadImageUrls('logo');
+          this.downloadImageUrls('icon');
         }
         else {
           this.previewVariables.numberOfListItems = 0;
@@ -595,6 +621,21 @@ export class PreviewService {
               this.appLogoImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appLogoImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
+            if (this.appIcons[file.imagePool] === undefined) {
+              this.appIcons[file.imagePool] = {
+                retrieving: false,
+                searchQueries: file.onlineImageQueries,
+                defaultImageProviders: config.imageProviders,
+                content: []
+              };
+            }
+            else {
+              let currentQueries = this.appIcons[file.imagePool].searchQueries;
+              let currentProviders = this.appIcons[file.imagePool].defaultImageProviders;
+
+              this.appIcons[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
+              this.appIcons[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
+            }
 
 
             if (previewData[config.steamDirectory][userAccount.accountID].apps[appID] === undefined) {
@@ -602,15 +643,12 @@ export class PreviewService {
               let steamTallImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('p')];
               let steamHeroImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('_hero')];
               let steamLogoImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('_logo')];
+              let steamIcon = undefined; //TODO add handling to get these
+              let steamIconUrl = undefined;
               let steamImageUrl = steamImage ? url.encodeFile(steamImage) : undefined;
               let steamTallImageUrl = steamTallImage ? url.encodeFile(steamTallImage) : undefined;
               let steamHeroImageUrl = steamHeroImage ? url.encodeFile(steamHeroImage) : undefined;
               let steamLogoImageUrl = steamLogoImage ? url.encodeFile(steamLogoImage) : undefined;
-
-              let currentIconIndex = oldDataApp !== undefined ? oldDataApp.currentIconIndex : 0;
-
-              if (0 > currentIconIndex || currentIconIndex > file.localIcons.length)
-                currentIconIndex = 0;
 
               previewData[config.steamDirectory][userAccount.accountID].apps[appID] = {
                 entryId: numberOfItems++,
@@ -690,9 +728,24 @@ export class PreviewService {
                   imagePool: file.imagePool,
                   imageIndex: 0
                 },
-                executableLocation,
-                currentIconIndex,
-                icons: file.localIcons
+                icons: {
+                  steam: steamIcon ? {
+                    imageProvider: 'Steam',
+                    imageUrl: steamIconUrl,
+                    imageRes: url.imageDimensions(steamIconUrl),
+
+                    loadStatus: 'done'
+                  } : undefined,
+                  default: file.defaultIcon ? {
+                    imageProvider: 'LocalStorage',
+                    imageUrl: file.defaultIcon,
+                    imageRes: url.imageDimensions(file.defaultIcon),
+                    loadStatus: 'done'
+                  } : undefined,
+                  imagePool: file.imagePool,
+                  imageIndex: 0
+                },
+                executableLocation
               };
             }
             else {
@@ -736,6 +789,15 @@ export class PreviewService {
                 loadStatus: 'done'
               },'logo')
             }
+            for (let l = 0; l < file.localIcons.length; l++) {
+
+              this.addUniqueImage(file.imagePool, {
+                imageProvider: 'LocalStorage',
+                imageUrl: file.localIcons[l],
+                imageRes: url.imageDimensions(file.localIcons[l]),
+                loadStatus: 'done'
+              },'icon')
+            }
           }
         }
       }
@@ -757,6 +819,8 @@ export class PreviewService {
           imageKeys = Object.keys(this.appHeroImages);
         } else if (imageType=="logo"){
           imageKeys = Object.keys(this.appLogoImages);
+        } else if (imageType=="icon"){
+          imageKeys = Object.keys(this.appIcons);
         }
 
       }
@@ -771,6 +835,8 @@ export class PreviewService {
           image = this.appHeroImages[imageKeys[i]];
         } else if (imageType=="logo") {
           image = this.appLogoImages[imageKeys[i]];
+        } else if (imageType=="icon") {
+          image = this.appIcons[imageKeys[i]];
         }
         let imageProvidersForKey: string[] = imageProviders === undefined || imageProviders.length === 0 ? image.defaultImageProviders : imageProviders;
 
@@ -860,6 +926,8 @@ export class PreviewService {
       return this.appHeroImages[imageKey].content.findIndex((item) => item.imageUrl ===imageUrl) === -1;
     } else if (imageType === 'logo') {
       return this.appLogoImages[imageKey].content.findIndex((item) => item.imageUrl ===imageUrl) === -1;
+    } else if (imageType === 'icon') {
+      return this.appIcons[imageKey].content.findIndex((item) => item.imageUrl ===imageUrl) === -1;
     }
   }
 
@@ -877,7 +945,11 @@ export class PreviewService {
       } else if (imageType === 'logo') {
         this.appLogoImages[imageKey].content.push(content);
         return this.appLogoImages[imageKey].content[this.appLogoImages[imageKey].content.length - 1];
+      } else if (imageType === 'icon') {
+        this.appIcons[imageKey].content.push(content);
+        return this.appIcons[imageKey].content[this.appIcons[imageKey].content.length - 1];
       }
+
 
     }
     return null;

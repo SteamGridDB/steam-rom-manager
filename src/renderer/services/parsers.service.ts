@@ -262,6 +262,8 @@ export class ParsersService {
         return !data || this.validateEnvironmentPath(data || '', false) ? null : this.lang.validationErrors.defaultImage__md;
       case 'defaultLogoImage':
         return !data || this.validateEnvironmentPath(data || '', false) ? null : this.lang.validationErrors.defaultImage__md;
+      case 'defaultIcon':
+        return !data || this.validateEnvironmentPath(data || '', false) ? null : this.lang.validationErrors.defaultImage__md;
       case 'localImages':
         return this.fileParser.validateFieldGlob(data || '');
       case 'localTallImages':
@@ -319,12 +321,12 @@ export class ParsersService {
 
       simpleValidations = ['configTitle','parserId','steamDirectory','titleModifier',
         'onlineImageQueries', 'imagePool', 'imageProviders',
-        'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
+        'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','defaultIcon','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
       ]
     } else if(['Epic'].includes(config['parserType'])){
       simpleValidations = ['configTitle','parserId','steamDirectory','steamCategory','titleModifier',
         'onlineImageQueries', 'imagePool', 'imageProviders',
-        'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
+        'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','defaultIcon','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
       ]
     }
     else {
@@ -334,7 +336,7 @@ export class ParsersService {
         'steamDirectory', 'startInDirectory',
         'titleFromVariable', 'titleModifier', 'executableArgs',
         'onlineImageQueries', 'imagePool', 'imageProviders',
-        'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
+        'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','defaultIcon','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
       ];
     }
 

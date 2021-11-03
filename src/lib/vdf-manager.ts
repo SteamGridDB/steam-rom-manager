@@ -125,7 +125,7 @@ export class VDF_Manager {
     }
   }
 
-  mergeData(previewData: PreviewData, images: AppImages, tallimages: AppImages, heroimages: AppImages, logoimages: AppImages, deleteDisabledShortcuts: boolean) {
+  mergeData(previewData: PreviewData, images: AppImages, tallimages: AppImages, heroimages: AppImages, logoimages: AppImages, icons: AppImages, deleteDisabledShortcuts: boolean) {
     return new Promise<VDF_ExtraneousItemsData>((resolve, reject) => {
       Promise.resolve().then(()=>{
         let extraneousAppIds: VDF_ExtraneousItemsData = {};
@@ -145,27 +145,29 @@ export class VDF_Manager {
           for (let appId in apps) {
             let app = apps[appId];
             if (app.status === 'add') {
-              let item = listItem.shortcuts.getItem(appId);
               let currentImage = appImage.getCurrentImage(app.images, images);
               let currentTallImage = appImage.getCurrentImage(app.tallimages, tallimages);
               let currentHeroImage = appImage.getCurrentImage(app.heroimages, heroimages);
               let currentLogoImage = appImage.getCurrentImage(app.logoimages, logoimages);
+              let currentIcon = appImage.getCurrentImage(app.icons, icons);
+
+              let item = listItem.shortcuts.getItem(appId);
               if (item !== undefined) {
                 item.appname = app.title;
                 item.exe = app.executableLocation;
                 item.StartDir = app.startInDirectory;
                 item.LaunchOptions = app.argumentString;
                 item.tags = _.union(app.steamCategories, item.tags);
-                item.icon = app.icons.length > 0 ? app.icons[app.currentIconIndex] : '';
+                item.icon = currentIcon || '';
               }
-              else if(app.parserType!=='Steam') {
+              else if(app.parserType !== 'Steam') {
                 listItem.shortcuts.addItem(appId, {
                   appname: app.title,
                   exe: app.executableLocation,
                   StartDir: app.startInDirectory,
                   LaunchOptions: app.argumentString,
                   tags: app.steamCategories,
-                  icon: app.icons.length > 0 ? app.icons[app.currentIconIndex] : ''
+                  icon: ''
                 });
               }
 

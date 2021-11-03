@@ -62,6 +62,9 @@ export class PreviewComponent implements OnDestroy {
     } else if(this.previewService.getImageType()=='logo') {
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '960px', RendererStyleFlags2.DashCase);
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '540px', RendererStyleFlags2.DashCase);
+    } else if(this.previewService.getImageType()=='icon') {
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '200px', RendererStyleFlags2.DashCase);
+      this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '200px', RendererStyleFlags2.DashCase);
     } else if(this.previewService.getImageType()=='games') {
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-width-max', '920px', RendererStyleFlags2.DashCase);
       this.renderer.setStyle(this.elementRef.nativeElement, '--image-height-max', '430px', RendererStyleFlags2.DashCase);
@@ -101,6 +104,8 @@ export class PreviewComponent implements OnDestroy {
       return app.heroimages;
     } else if (this.previewService.getImageType() === 'logo' || (this.previewService.getImageType() === 'games' && imagetype ==='logo')) {
       return app.logoimages;
+    } else if (this.previewService.getImageType() === 'icon' || (this.previewService.getImageType() === 'games' && imagetype ==='icon')) {
+      return app.icons;
     }
   }
 
@@ -119,6 +124,8 @@ export class PreviewComponent implements OnDestroy {
         imagepool = app.heroimages.imagePool;
       } else if (this.previewService.getImageType()==='logo' || (this.previewService.getImageType()==='games' && imagetype==='logo')) {
         imagepool = app.logoimages.imagePool;
+      } else if (this.previewService.getImageType()==='icon' || (this.previewService.getImageType()==='games' && imagetype==='icon')) {
+        imagepool = app.icons.imagePool;
       }
       if (this.previewService.getImages(imagetype)[imagepool].retrieving)
         return require('../../assets/images/retrieving-images.svg');
@@ -163,7 +170,9 @@ export class PreviewComponent implements OnDestroy {
     } else if (imagetype === 'hero') {
       return app.heroimages.imageIndex + 1;
     } else if (imagetype === 'logo') {
-      return app.logoimages.imageIndex +1;
+      return app.logoimages.imageIndex + 1;
+    } else if (imagetype === 'icon') {
+      return app.icons.imageIndex + 1;
     }
 
   }
@@ -208,6 +217,12 @@ export class PreviewComponent implements OnDestroy {
                 imageUrl,
                 loadStatus: 'done'
               }, 'logo');
+            } else if (imagetype === 'icon') {
+              this.previewService.addUniqueImage(app.icons.imagePool, {
+                imageProvider: 'LocalStorage',
+                imageUrl,
+                loadStatus: 'done'
+              }, 'icon');
             }
           }
         }
@@ -250,6 +265,7 @@ export class PreviewComponent implements OnDestroy {
       this.previewService.downloadImageUrls('tall',[app.tallimages.imagePool], app.imageProviders);
       this.previewService.downloadImageUrls('hero',[app.heroimages.imagePool], app.imageProviders);
       this.previewService.downloadImageUrls('logo',[app.logoimages.imagePool], app.imageProviders);
+      this.previewService.downloadImageUrls('icon',[app.icons.imagePool], app.imageProviders);
     }
   }
   private saveImage(image: ImageContent, title: string) {
@@ -268,6 +284,8 @@ export class PreviewComponent implements OnDestroy {
       this.previewService.setImageIndex(app, app.heroimages.imageIndex - 1, imagetype);
     } else if (imagetype === 'logo') {
       this.previewService.setImageIndex(app, app.logoimages.imageIndex - 1, imagetype);
+    } else if (imagetype === 'icon') {
+      this.previewService.setImageIndex(app, app.icons.imageIndex - 1, imagetype);
     }
 
   }
@@ -284,19 +302,10 @@ export class PreviewComponent implements OnDestroy {
       this.previewService.setImageIndex(app, app.heroimages.imageIndex + 1, imagetype);
     } else if (imagetype === 'logo') {
       this.previewService.setImageIndex(app, app.logoimages.imageIndex + 1, imagetype);
+    } else if (imagetype === 'icon') {
+      this.previewService.setImageIndex(app, app.icons.imageIndex + 1, imagetype);
     }
-  }
 
-  private setFallbackIcon(imageElement: HTMLImageElement) {
-    imageElement.src = require('../../assets/images/crossed-eye.svg');
-  }
-
-  private previousIcon(app: PreviewDataApp) {
-    this.previewService.setIconIndex(app, app.currentIconIndex - 1);
-  }
-
-  private nextIcon(app: PreviewDataApp) {
-    this.previewService.setIconIndex(app, app.currentIconIndex + 1);
   }
 
   private setImageSize(value: number, save: boolean = false) {

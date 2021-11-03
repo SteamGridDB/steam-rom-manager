@@ -352,6 +352,17 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.defaultLogoImage.join('');
           }
         }),
+        defaultIcon: new NestedFormElement.Path({
+          directory: false,
+          isHidden: () => this.isHiddenIfNotAdvanced(),
+          highlight: this.highlight.bind(this),
+          label: this.lang.label.defaultIcon,
+          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+          onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content = this.lang.docs__md.defaultIcon.join('');
+          }
+        }),
         localImages: new NestedFormElement.Path({
           directory: true,
           appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
@@ -766,7 +777,19 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }));
               }
             }
-
+            if (data.files[i].resolvedDefaultIcons.length) {
+              success(this.lang.success.resolvedDefaultIconGlob__i.interpolate({
+                index: i + 1,
+                total: totalLength
+              }));
+              for (let j = 0; j < data.files[i].resolvedDefaultIcons.length; j++) {
+                success(this.lang.success.resolvedImageGlobInfo__i.interpolate({
+                  index: i + 1,
+                  total: totalLength,
+                  glob: data.files[i].resolvedDefaultIcons[j]
+                }));
+              }
+            }
             if (data.files[i].defaultImage !== undefined) {
               success(this.lang.success.defaultImageResolved__i.interpolate({
                 index: i + 1,
@@ -793,6 +816,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 index: i+1,
                 total: totalLength,
                 image: data.files[i].defaultLogoImage
+              }));
+            }
+            if (data.files[i].defaultIcon !== undefined) {
+              success(this.lang.success.defaultLogoImageResolved__i.interpolate({
+                index: i+1,
+                total: totalLength,
+                image: data.files[i].defaultIcon
               }));
             }
 

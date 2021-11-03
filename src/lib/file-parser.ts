@@ -160,6 +160,7 @@ export class FileParser {
         let defaultTallImagePromises: Promise<void>[] = [];
         let defaultHeroImagePromises: Promise<void>[] = [];
         let defaultLogoImagePromises: Promise<void>[] = [];
+        let defaultIconPromises: Promise<void>[] = [];
         let localImagePromises: Promise<void>[] = [];
         let localTallImagePromises: Promise<void>[] = [];
         let localHeroImagePromises: Promise<void>[] = [];
@@ -237,19 +238,21 @@ export class FileParser {
               resolvedLocalTallImages: [],
               resolvedLocalHeroImages: [],
               resolvedLocalLogoImages: [],
+              resolvedLocalIcons: [],
               resolvedDefaultImages: [],
               resolvedDefaultTallImages: [],
               resolvedDefaultHeroImages: [],
               resolvedDefaultLogoImages: [],
+              resolvedDefaultIcons: [],
               defaultImage: undefined,
               defaultTallImage: undefined,
               defaultHeroImage: undefined,
               defaultLogoImage: undefined,
+              defaultIcon: undefined,
               localImages: [],
               localTallImages: [],
               localHeroImages: [],
               localLogoImages: [],
-              resolvedLocalIcons: [],
               localIcons: [],
               fuzzyTitle: fuzzyTitle,
               extractedTitle: data[i].success[j].extractedTitle,
@@ -345,6 +348,18 @@ export class FileParser {
               }
             }
           }));
+          defaultIconPromises.push(this.resolveFieldGlobs('defaultIcon',configs[i],settings,parsedConfigs[i],vParser).then((data)=>{
+            for (let j = 0; j < data.parsedConfig.files.length; j++) {
+              data.parsedConfig.files[j].resolvedDefaultIcons = data.resolvedGlobs[j];
+              for (let k = 0; k < data.resolvedFiles[j].length; k++) {
+                const item = data.resolvedFiles[j][k];
+                if (extRegex.test(path.extname(item))) {
+                  data.parsedConfig.files[j].defaultIcon = url.encodeFile(item);
+                  break;
+                }
+              }
+            }
+          }));
 
           localImagePromises.push(this.resolveFieldGlobs('localImages', configs[i],settings, parsedConfigs[i], vParser).then((data) => {
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
@@ -396,7 +411,7 @@ export class FileParser {
             }
           }));
         }
-        return Promise.all(localImagePromises).then(() => Promise.all(localTallImagePromises)).then(()=> Promise.all(localHeroImagePromises).then(()=> Promise.all(localLogoImagePromises))).then(() => Promise.all(localIconPromises)).then(() => Promise.all(defaultImagePromises)).then(() => Promise.all(defaultTallImagePromises)).then(()=>Promise.all(defaultHeroImagePromises)).then(()=>Promise.all(defaultLogoImagePromises));
+        return Promise.all(localImagePromises).then(() => Promise.all(localTallImagePromises)).then(()=> Promise.all(localHeroImagePromises).then(()=> Promise.all(localLogoImagePromises))).then(() => Promise.all(localIconPromises)).then(() => Promise.all(defaultImagePromises)).then(() => Promise.all(defaultTallImagePromises)).then(()=>Promise.all(defaultHeroImagePromises)).then(()=>Promise.all(defaultLogoImagePromises)).then(()=>Promise.all(defaultIconPromises));
       }).then(() => {
         let shortcutPromises: Promise<void>[] = [];
         if(os.type()=='Windows_NT') {

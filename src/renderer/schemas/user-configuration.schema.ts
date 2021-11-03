@@ -57,6 +57,7 @@ export const userConfiguration = {
     defaultTallImage: { type: 'string', default: '' },
     defaultHeroImage: { type: 'string', default: '' },
     defaultLogoImage: { type: 'string', default: '' },
+    defaultIcon: {type: 'string', default: ''},
     localImages: { type: 'string', default: '' },
     localTallImages: { type: 'string', default: '' },
     localHeroImages: { type: 'string', default: '' },

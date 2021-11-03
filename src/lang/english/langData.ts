@@ -16,6 +16,7 @@ export const EnglishLang: languageContainer = {
           long: 'Grids',
           tall: 'Posters',
           hero: 'Heroes',
+          icon: 'Icons',
           logo: 'Logos',
           games: 'All Artwork'
         },
@@ -367,6 +368,13 @@ export const EnglishLang: languageContainer = {
             require('./markdown/parser-env-variables.md'),
             require('./markdown/spec-glob-chars.md')
           ],
+          defaultIcon: [
+            require('./markdown/default-icon.md'),
+            require('./markdown/special-glob-input.md'),
+            require('./markdown/parser-variables.md'),
+            require('./markdown/parser-env-variables.md'),
+            require('./markdown/spec-glob-chars.md')
+          ],
           defaultLogoImage: [
             require('./markdown/default-logo-image.md'),
             require('./markdown/special-glob-input.md'),
@@ -452,10 +460,14 @@ export const EnglishLang: languageContainer = {
           resolvedDefaultHeroImageGlobInfo__i: '[${index}/${total}]:                        ${glob}',
           resolvedDefaultLogoImageGlob__i: '[${index}/${total}]:  Default logo image glob:',
           resolvedDefaultLogoImageGlobInfo__i: '[${index}/${total}]:                        ${glob}',
+          resolvedDefaultIconGlob__i: '[${index}/${total}]:  Default icon glob:',
+          resolvedDefaultIconGlobInfo__i: '[${index}/${total}]:                        ${glob}',
           defaultImageResolved__i: '[${index}/${total}]:       Default image:\r\n[${index}/${total}]:                        ${image}',
           defaultTallImageResolved__i: '[${index}/${total}]:       Default tall image:\r\n[${index}/${total}]:                        ${image}',
           defaultHeroImageResolved__i: '[${index}/${total}]:       Default hero image:\r\n[${index}/${total}]:                        ${image}',
           defaultLogoImageResolved__i: '[${index}/${total}]:       Default logo image:\r\n[${index}/${total}]:                        ${image}',
+
+          defaultIconResolved__i: '[${index}/${total}]:       Default icon:\r\n[${index}/${total}]:                        ${image}',
           resolvedImageGlob__i: '[${index}/${total}]: Resolved image glob:',
           resolvedImageGlobInfo__i: '[${index}/${total}]:                        ${glob}',
           localImagesResolved__i: '[${index}/${total}]:     Resolved images:',
@@ -498,6 +510,7 @@ export const EnglishLang: languageContainer = {
           defaultTallImage: 'Default tall image',
           defaultHeroImage: 'Default hero image',
           defaultLogoImage: 'Default logo image',
+          defaultIcon: 'Default icon',
           localImages: 'Local images',
           localTallImages: 'Local tall images',
           localHeroImages: 'Local hero images',
