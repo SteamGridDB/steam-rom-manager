@@ -24,6 +24,10 @@ export class VDF_ScreenshotsFile {
     return APP.lang.vdfFile;
   }
 
+  get gridDir() {
+    return this.gridDirectory
+  }
+
   get data(): VDF_ScreenshotsData {
     if (this.fileData === undefined)
       return undefined;
@@ -40,7 +44,7 @@ export class VDF_ScreenshotsFile {
 
   set extraneous(value: string[]) {
     this.extraneousAppIds = value.reduce((r, e)=>{
-      r.push(e, ids.shortenAppId(e), ids.shortenAppId(e).concat('p'),ids.shortenAppId(e).concat('_hero'),ids.shortenAppId(e).concat('_logo'));
+      r.push(e, ids.shortenAppId(e), ids.shortenAppId(e).concat('p'),ids.shortenAppId(e).concat('_hero'),ids.shortenAppId(e).concat('_logo'),ids.shortenAppId(e).concat('_icon'));
       return r;
     }, []);
   }
@@ -131,7 +135,7 @@ export class VDF_ScreenshotsFile {
                 timeout: 1000
               }
             ).then((blob: Blob) => {
-              let ext: string = data.url.split('.').slice(-1)[0];//mimeTypes.extension(blob.type);
+              let ext: string = data.url.split('.').slice(-1)[0];
               if (ext === "")
                 return this.lang.error.unsupportedMimeType__i.interpolate({ type: blob.type, title: data.title });
               else {

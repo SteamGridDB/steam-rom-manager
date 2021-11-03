@@ -5,6 +5,7 @@ import * as vdf from './helpers/vdf';
 import * as appImage from './helpers/app-image';
 import * as ids from './helpers/steam';
 import * as _ from 'lodash';
+import * as path from 'path';
 
 export class VDF_Manager {
   private data: VDF_ListData = {};
@@ -152,13 +153,21 @@ export class VDF_Manager {
               let currentIcon = appImage.getCurrentImage(app.icons, icons);
 
               let item = listItem.shortcuts.getItem(appId);
+
+              let icon_path: string = "";
+              if(currentIcon !== undefined) {
+                let icon_ext: string = currentIcon.imageUrl.split('.').slice(-1)[0];
+                icon_ext = ids.map_ext[""+icon_ext] || icon_ext;
+                icon_path = path.join(listItem.screenshots.gridDir, `${ids.shortenAppId(appId).concat('_icon')}.${icon_ext}`);
+              }
+
               if (item !== undefined) {
                 item.appname = app.title;
                 item.exe = app.executableLocation;
                 item.StartDir = app.startInDirectory;
                 item.LaunchOptions = app.argumentString;
                 item.tags = _.union(app.steamCategories, item.tags);
-                item.icon = currentIcon || '';
+                item.icon = icon_path;
               }
               else if(app.parserType !== 'Steam') {
                 listItem.shortcuts.addItem(appId, {
@@ -167,7 +176,7 @@ export class VDF_Manager {
                   StartDir: app.startInDirectory,
                   LaunchOptions: app.argumentString,
                   tags: app.steamCategories,
-                  icon: ''
+                  icon: icon_path
                 });
               }
 
@@ -181,14 +190,17 @@ export class VDF_Manager {
               }
 
               if (currentTallImage !== undefined && currentTallImage.imageProvider !== 'Steam') {
-                listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('p'), title: app.title, url: currentTallImage.imageUrl })
+                listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('p'), title: app.title, url: currentTallImage.imageUrl });
               }
 
               if (currentHeroImage !== undefined && currentHeroImage.imageProvider !== 'Steam') {
-                listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('_hero'), title: app.title, url: currentHeroImage.imageUrl })
+                listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('_hero'), title: app.title, url: currentHeroImage.imageUrl });
               }
               if (currentLogoImage !== undefined && currentLogoImage.imageProvider !== 'Steam') {
-                listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('_logo'), title: app.title, url: currentLogoImage.imageUrl })
+                listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('_logo'), title: app.title, url: currentLogoImage.imageUrl });
+              }
+              if (currentIcon !== undefined && currentIcon.imageProvider !=='Steam') {
+                listItem.screenshots.addItem({appId: ids.shortenAppId(appId).concat('_icon'), title:app.title, url: currentIcon.imageUrl });
               }
             }
             else if (app.status === 'remove') {
@@ -200,6 +212,7 @@ export class VDF_Manager {
               listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('p'));
               listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_hero'));
               listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_logo'));
+              listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_icon'));
               app.images.steam = undefined
             }
           }
@@ -229,6 +242,7 @@ export class VDF_Manager {
             listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('p'));
             listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_hero'));
             listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_logo'));
+            listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_icon'));
           }
           listItem.addedItems.data = {};
         });
