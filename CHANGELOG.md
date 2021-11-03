@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.3.18
+### Changed
+* Updated several backend packages (for example node version went from 9 to 14.1.18 LTS)
+* Removed bluebird. 
+### Fixed
+* Logos got broken by a previous update that was using an outdated version of steam-categories. That is now fixed.
+Thanks to [Maykin-99](https://github.com/Maykin-99) for these much needed changes!
+
 ## 2.3.17
 ### Fixed
 * Steam Parser should not to try to give images for tools (appids like xxx\_yyyy)
