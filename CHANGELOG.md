@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.3.19
+### Added
+* Icon support! Icons are now on equal footing with other types of artwork and can be added from SGDB. Thanks @Davejl2006 for reminding me that custom icons are worth having.
+
 ## 2.3.18
 ### Changed
 * Updated several backend packages (for example node version went from 9 to 14.1.18 LTS)
