@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 * Removed bluebird. 
 ### Fixed
 * Logos got broken by a previous update that was using an outdated version of steam-categories. That is now fixed.
+
 Thanks to [Maykin-99](https://github.com/Maykin-99) for these much needed changes!
 
 ## 2.3.17
