@@ -1,55 +1,56 @@
 {
-	"Bluestacks": {
-		"parserType": "Glob",
-		"configTitle": "Bluestacks",
-		"steamCategory": "${Bluestacks}",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-shortcuts",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "",
-		"onlineImageQueries": "${${fuzzyTitle}}",
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"SteamGridDB"
-		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
-		"disabled": false,
-		"advanced": false,
-		"userAccounts": {
-			"specifiedAccounts": "",
-			"skipWithMissingDataDir": true,
-			"useCredentials": true
-		},
-		"parserInputs": {
-			"glob": "${title}@(.lnk|.LNK)",
-			"glob-regex": null
-		},
-		"titleFromVariable": {
-			"limitToGroups": "",
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
-		},
-		"fuzzyMatch": {
-			"use": true,
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		}
-	}
+  "Bluestacks": {
+    "parserType": "Glob",
+    "configTitle": "Bluestacks",
+    "steamCategory": "${Bluestacks}",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-shortcuts",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "",
+    "onlineImageQueries": "${${fuzzyTitle}}",
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": [
+      "SteamGridDB"
+    ],
+    "defaultImage": "",
+    "defaultTallImage": "",
+    "defaultHeroImage": "",
+    "defaultLogoImage": "",
+    "defaultIcon": "",
+    "localImages": "",
+    "localTallImages": "",
+    "localHeroImages": "",
+    "localLogoImages": "",
+    "localIcons": "",
+    "disabled": false,
+    "advanced": false,
+    "userAccounts": {
+      "specifiedAccounts": "",
+      "skipWithMissingDataDir": true,
+      "useCredentials": true
+    },
+    "parserInputs": {
+      "glob": "${title}@(.lnk|.LNK)",
+      "glob-regex": null
+    },
+    "titleFromVariable": {
+      "limitToGroups": "",
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "tryToMatchTitle": false
+    },
+    "fuzzyMatch": {
+      "use": true,
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    }
+  }
 }
