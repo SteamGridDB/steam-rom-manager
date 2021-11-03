@@ -8,3 +8,5 @@ map_ext['png']='png';
 map_ext['PNG']='png';
 map_ext['tga']='tga';
 map_ext['tga']='tga';
+map_ext['ico']='ico';
+map_ext['ICO']='ico';

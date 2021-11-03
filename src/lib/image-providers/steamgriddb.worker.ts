@@ -30,8 +30,7 @@ class SteamGridDbProvider extends GenericProvider {
         } else if (self.proxy.imageType === 'logo') {
           query = self.client.getLogos({id: res[chosenIndex].id, type: 'game'});
         } else if (self.proxy.imageType === 'icon') {
-          //query = self.client.getIcons({id: res[chosenIndex].id, type: 'game'})
-          query = Promise.resolve();
+          query = self.client.getIcons({id: res[chosenIndex].id, type: 'game'})
         }
 
         query.then((res: any)=>{
