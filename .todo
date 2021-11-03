@@ -1,3 +1,11 @@
+# Notes
+To update all the config presets at once I use
+1) in WSL:
+find . -type f -exec sed -i 's/\"defaultLogoImage\"\:\ \"\"\,/\"defaultLogoI
+mage"\:\ \"\"\,\n\"defaultIcon\"\:\ \"\"\,/g' {} \;
+2) in VIM:
+:args . | argdo execute "normal gg=G" | update
+
 # Fixes
 Remove close steam if open warning and replace with something better
 
