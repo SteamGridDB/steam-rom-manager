@@ -401,12 +401,17 @@ export class FileParser {
               });
             }
           }));
+          let iconextRegex = /png|ico|exe|jpg|jpeg/i
           localIconPromises.push(this.resolveFieldGlobs('localIcons', configs[i],settings, parsedConfigs[i], vParser).then((data) => {
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedLocalIcons = data.resolvedGlobs[j];
-              data.parsedConfig.files[j].localIcons = data.resolvedFiles[j];
+              data.parsedConfig.files[j].localIcons = data.resolvedFiles[j].filter((item)=>{
+                return iconextRegex.test(path.extname(item));
+              }).map((item)=> {
+                return url.encodeFile(item);
+              });
               if(isEpicParser) {
-                data.parsedConfig.files[j].localIcons.push(data.parsedConfig.files[j].filePath)
+                data.parsedConfig.files[j].localIcons.push(url.encodeFile(data.parsedConfig.files[j].filePath))
               }
             }
           }));

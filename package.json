@@ -57,7 +57,6 @@
     "url": "https://github.com/doZennn/steam-rom-manager"
   },
   "scripts": {
-    "rebuild": "electron-rebuild",
     "postinstall": "electron-builder install-app-deps",
     "validate-files": "ts-node ./.validate-files.ts",
     "start": "electron ./dist/main.bundle.js",
@@ -146,7 +145,6 @@
     "css-loader": "^6.5.0",
     "electron": "^9.0.3",
     "electron-builder": "^21.2.0",
-    "electron-rebuild": "^1.8.8",
     "html-loader": "^3.0.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.4.3",
