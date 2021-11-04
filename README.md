@@ -8,7 +8,7 @@ Steam ROM Manager
 
 # For users
 
-Steam ROM Manager is a super flexible tool for adding non Steam games to steam in bulk. Added games could be ROMs for emulators, games from other stores such as Epic, or even not games at all. Have you always wanted your notes from junior year as a category in steam? If so that's pretty weird! But now it's possible.
+Steam ROM Manager is a super flexible tool for adding non-Steam games to steam in bulk. Added games could be ROMs for emulators, games from other stores such as Epic, or even not games at all. Have you always wanted your notes from junior year as a category in steam? If so that's pretty weird! But now it's possible.
 
 For an overview of how SRM works see [here](https://dozennn.github.io/steam-rom-manager/). There is plenty of documentation available in the app's built in FAQ, and if you need further help there are expert users to be found on the [discord](https://discord.gg/nxxzBPJ) and the [subreddit](https://www.reddit.com/r/SteamRomManager/).
 
@@ -28,9 +28,9 @@ If you're feeling exceptionally generous then feel free to also buy me a coffee!
   <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="38" width="174">
 </a>
 
-# For Developers
+# For developers
 
-To compile this app, you'll need the latest `Node.js` and `npm` (if for any reason this doesn't work try downgrading to node 14.18.1 using nvm or volta). Every script will need to be run from project directory.
+To compile this app, you'll need the latest `Node.js` and `npm` (if for any reason this doesn't work try downgrading to node 14.18.1 LTS using nvm or volta). Every script will need to be run from the project directory.
 
 Before running any scripts, dependencies must be installed using:
 
