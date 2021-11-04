@@ -3,7 +3,7 @@ Steam ROM Manager
 
 [![Build Status](https://github.com/doZennn/steam-rom-manager/actions/workflows/main.yml/badge.svg)](https://github.com/doZennn/steam-rom-manager/actions/workflows/main.yml)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/doZennn/steam-rom-manager?logo=github&style=flat-square&label=commits)]()
-[![GitHub all releases](https://img.shields.io/github/downloads/doZennn/steam-rom-manager/total?logo=github&style=flat-square)](https://github.com/janeczku/calibre-web/releases)
+[![GitHub all releases](https://img.shields.io/github/downloads/doZennn/steam-rom-manager/total?logo=github&style=flat-square)](https://github.com/doZennn/steam-rom-manager/releases)
 [![Discord](https://img.shields.io/discord/344691247098757121?color=%237289DA&label=SRM&logo=discord&logoColor=white)](https://discord.gg/vrd6385)
 
 # For users
