@@ -44,10 +44,11 @@ export class EpicParser implements GenericParser {
         .then((files: string[])=>{
           files.forEach((file)=>{
             let item = JSON.parse(fs.readFileSync(file).toString())
-            if(!appTitles.includes(item.DisplayName)) {
+            let launchPath = path.join(item.InstallLocation,item.LaunchExecutable);
+            if(fs.existsSync(launchPath) && !appTitles.includes(item.DisplayName)) {
               appTitles.push(item.DisplayName);
               appNames.push(item.AppName);
-              appPaths.push(path.join(item.InstallLocation,item.LaunchExecutable))
+              appPaths.push(launchPath)
             }
           })
         })
