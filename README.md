@@ -16,7 +16,7 @@ To compile this app, you'll need the latest `Node.js` and `npm` (if for any reas
 Before running any scripts, dependencies must be installed using:
 
 ```
-npm install
+npm ci
 ```
 
 ## Scripts
