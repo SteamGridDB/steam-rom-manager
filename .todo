@@ -23,7 +23,7 @@ Command Line Interface (3.0)
 Google (2.4)
 
 # New Parsers
-Epic (2.4)
+Epic (2.4) -- Still has some strange behavior when finalTitle is used instead of fuzzyTitle
 Origin (3.0)
 Blizzard.net (3.0)
 Uplay (3.0)

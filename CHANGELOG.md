@@ -1,5 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+## 2.3.20
+### Fixed
+* Fixed local icons
+* Fixed epic parser in the case that you had previously moved your epic library
 
 ## 2.3.19
 ### Added
