@@ -16,7 +16,7 @@ Check out the [releases page](https://github.com/doZennn/steam-rom-manager/relea
 
 # Support
 
-If you enjoy Steam ROM Manager and want it to continue to be useful consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. SteamGridDB hosts all of the artwork that is used by Steam ROM Manager to make your steam library the envy of the town, so we should probably help them keep their lights on.
+If you enjoy Steam ROM Manager and want it to continue to be useful consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. [SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork that is used by Steam ROM Manager to make your steam library the envy of the town, so we should probably help them keep their lights on.
 
 <a href="https://www.patreon.com/steamgriddb">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
