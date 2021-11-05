@@ -44,7 +44,7 @@ export class ConfigurationPresetsService {
         this.downloadStatus.next(true);
 
         return ConfigurationPresetsService.xRequest.request(
-          'https://api.github.com/repos/doZennn/steam-rom-manager/git/trees/master?recursive=1',
+          'https://api.github.com/repos/SteamGridDB/steam-rom-manager/git/trees/master?recursive=1',
           { responseType: 'json', method: 'GET', timeout: 1000 }
         ).then((data: any)=>{
           let presetURLs = data.tree
@@ -53,7 +53,7 @@ export class ConfigurationPresetsService {
 
           let presetPromises: PromiseLike<any>[] = []
           presetURLs.forEach((url: string)=>{
-            let rawURL = 'https://raw.githubusercontent.com/doZennn/steam-rom-manager/master/'.concat(url);
+            let rawURL = 'https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/'.concat(url);
             presetPromises.push(ConfigurationPresetsService.xRequest.request(rawURL,
               { responseType: 'json', method: 'GET', timeout: 1000 }))
           })

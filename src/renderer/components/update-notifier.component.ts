@@ -50,7 +50,7 @@ export class UpdateNotifierComponent {
     else if(typeof(message)=='string' && message=='update_portable'){
       this.showUpdater = true;
       this.isPortableUpdate = true;
-      this.messageText = 'An update is available. <a href="https://github.com/doZennn/steam-rom-manager/releases/latest">Download it now?</a>'
+      this.messageText = 'An update is available. <a href="https://github.com/SteamGridDB/steam-rom-manager/releases/latest">Download it now?</a>'
     }
     else if(typeof(message)=='string' && message=='update_downloaded') {
       this.downloadComplete=true;
