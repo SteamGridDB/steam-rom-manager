@@ -1,5 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+
+## 2.3.21
+### Fixed
+* Fixed OS Version in About page
+### Changed
+* Migrated to new repository as part of SteamGridDB organization.
+
 ## 2.3.20
 ### Fixed
 * Fixed local icons
