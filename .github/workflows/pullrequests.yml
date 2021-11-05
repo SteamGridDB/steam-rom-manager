@@ -1,9 +1,9 @@
-name: CI
+name: CIPR
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
-  push:
+  pull_request:
     branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -38,18 +38,12 @@ jobs:
 
       - name: Build Linux
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: npm run build:linux -- --publish=onTagOrDraft
-        env:
-          GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: npm run build:linux
 
       - name: Build Windows
         if: ${{ matrix.os == 'windows-latest' }}
-        run: npm run build:win -- --publish=onTagOrDraft
-        env:
-          GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: npm run build:win
 
       - name: Build Mac
         if: ${{ matrix.os == 'macOS-latest' }}
-        run: npm run build:mac -- --publish=onTagOrDraft
-        env:
-          GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: npm run build:mac
