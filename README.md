@@ -2,7 +2,7 @@ Steam ROM Manager
 =================
 
 [![Build Status](https://github.com/SteamGridDB/steam-rom-manager/actions/workflows/main.yml/badge.svg)](https://github.com/SteamGridDB/steam-rom-manager/actions/workflows/main.yml)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/SteamGridDB/steam-rom-manager?logo=github&style=flat-square&label=commits)]()
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/SteamGridDB/steam-rom-manager?logo=github&style=flat-square&label=commits)](https://github.com/SteamGridDB/steam-rom-manager/commits/master)
 [![GitHub all releases](https://img.shields.io/github/downloads/SteamGridDB/steam-rom-manager/total?logo=github&style=flat-square)](https://github.com/SteamGridDB/steam-rom-manager/releases)
 [![Discord](https://img.shields.io/discord/344691247098757121?color=%237289DA&label=SRM&logo=discord&logoColor=white)](https://discord.gg/vrd6385)
 
