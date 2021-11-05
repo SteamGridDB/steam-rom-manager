@@ -4,11 +4,10 @@ import * as os from 'os';
 import * as process from 'process'
 
 export const languageManager = new LanguageManager();
-
 export const APP: GlobalContainer = {
     lang: languageManager.getLanguage('English'),
     version: require('../package.json')['version'],
-    os: require('os-name')(os.platform(), os.release()),
+    os: os.platform()==='win32' && parseInt(os.release().split('.').pop()) >= 22000 ? 'Windows 11' : require('os-name')(),
     arch: os.arch(),
     srmdir: process.env.PORTABLE_EXECUTABLE_DIR||''
 };
