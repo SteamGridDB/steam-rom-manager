@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, O
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
 import { UserExceptions } from '../../models';
-import { UserExceptionsService, LoggerService } from '../services';;
+import { UserExceptionsService, LoggerService } from '../services';
 import { Subscription, Observable } from "rxjs";
 import { APP } from '../../variables';
 import * as _ from 'lodash';
