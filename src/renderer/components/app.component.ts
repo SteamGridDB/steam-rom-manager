@@ -57,9 +57,11 @@ export class AppComponent {
       this.updateMessage=message;
     });
     ipcService.on('cli_message', (event, message) => {
-      this.cliMessage=message;
-      console.log("climessage: ",this.cliMessage);
-      this.router.navigate(['/parsers',-1],{queryParams: {cliMessage: message}})
+      if(message=='list_parsers') {
+        this.router.navigate(['/parsers',-1],{queryParams: {cliMessage: message}})
+      } else if(message=='run_parsers') {
+        return;
+      }
     });
   };
 }

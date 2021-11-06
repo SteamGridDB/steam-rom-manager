@@ -28,7 +28,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private nestedGroup: NestedFormElement.Group;
   private userForm: FormGroup;
   private formChanges: Subscription = new Subscription();
-
+  private CLI_COMMAND: string = '';
 
   constructor(
     private parsersService: ParsersService,
@@ -40,12 +40,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private changeRef: ChangeDetectorRef,
     private cpService: ConfigurationPresetsService,
     private ipcService: IpcService) {
-      this.activatedRoute.queryParamMap.subscribe(paramContainer=>{
-        let alpha = {...paramContainer};
-        console.log(alpha)
-        let params = (alpha as any).params||{};
-        if(params['cliMessage']=='list_parsers') {
-          this.ipcService.send('parsers_list',this.parsersService.getAvailableParsers())
+      this.activatedRoute.queryParamMap.subscribe(paramContainer => {
+        let params = ({...paramContainer} as any).params || {};
+        if(params['cliMessage'] == 'list_parsers') {
+          this.CLI_COMMAND = 'list_parsers'
         }
       });
       this.nestedGroup = new NestedFormElement.Group({
@@ -449,6 +447,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe((data) => {
         this.userConfigurations = data;
         this.loadConfiguration();
+        let configs = this.parsersService.getUserConfigurationsArray();
+        if(this.CLI_COMMAND && this.CLI_COMMAND == 'list_parsers' && configs.length>0){
+          this.ipcService.send('parsers_list',configs.map(config=>config.saved))
+        }
       })).add(this.activatedRoute.params.subscribe((params) => {
         this.configurationIndex = parseInt(params['index']);
         this.loadConfiguration();

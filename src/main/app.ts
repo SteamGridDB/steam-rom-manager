@@ -97,13 +97,8 @@ autoUpdater.on('update-downloaded', (info) => {
 
 // Main Listeners
 app.on('ready', ()=>{
-  log.info(argv)
   let isCalledViaCLI = argv && argv.noshow;
   if(isCalledViaCLI) {
-    log.info('Plunder the Thunders!');
-    //createWindow()
-
-    //mainWindow = new BrowserWindow({ show: false, width: 0, height: 0});
     mainWindow = new BrowserWindow({
       width: 0,
       height: 0,
@@ -122,18 +117,19 @@ app.on('ready', ()=>{
       protocol: 'file:',
       slashes: true
     }));
-
-    mainWindow.webContents.on('dom-ready',()=>{
-      log.info("Sending hoards");
-      process.stdout.write("Sending hoards"+"\n");
-      mainWindow.webContents.send('cli_message','list_parsers')
-    })
+    //createWindow()
     ipcMain.on('parsers_list', (event: IpcMainEvent, plist)=> {
-      log.info('Parsers List: ', plist);
-      console.log('Parsers List2: ',plist);
-      process.stdout.write('Parsers List: '+JSON.stringify(plist)+"\n");
+      console.log('Parsers List: ',plist);
       app.quit();
     })
+    mainWindow.webContents.on('dom-ready',()=>{
+      if(argv['list']) {
+        mainWindow.webContents.send('cli_message','list_parsers');
+      } else {
+        app.quit();
+      }
+    })
+
   } else {
     createWindow();
     mainWindow.webContents.on('dom-ready',()=>{
