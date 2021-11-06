@@ -60,6 +60,7 @@
     "postinstall": "electron-builder install-app-deps",
     "validate-files": "ts-node ./.validate-files.ts",
     "start": "electron ./dist/main.bundle.js",
+    "cli": "electron ./dist/main.bundle.js --noshow",
     "watch:main": "webpack --watch --config ./webpack/main.js",
     "watch:renderer": "webpack --watch --config ./webpack/renderer.js",
     "prepare:build": "cross-env tsc -P ./webpack",
@@ -123,6 +124,7 @@
     "steamgriddb": "https://github.com/cbartondock/node-steamgriddb.git",
     "to-css": "^1.2.1",
     "windows-shortcuts-ps": "https://github.com/cbartondock/windows-shortcuts-ps.git",
+    "yargs": "^17.1.1-candidate.0",
     "zone.js": "^0.8.20"
   },
   "devDependencies": {

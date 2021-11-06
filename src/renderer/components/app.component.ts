@@ -15,7 +15,7 @@ import * as markdownIt from 'markdown-it';
             <router-outlet style="display: none;"></router-outlet>
             <theme></theme>
             <alert></alert>
-            <update-notifier [ipcMessage]=ipcMessage></update-notifier>
+            <update-notifier [ipcMessage]=updateMessage></update-notifier>
         </ng-container>
         <ng-template #stillLoading>
             <div class="appLoading"></div>
@@ -26,7 +26,8 @@ import * as markdownIt from 'markdown-it';
 })
 
 export class AppComponent {
-  private ipcMessage: string = '';
+  private updateMessage: string = '';
+  private cliMessage: string = '';
   private settingsLoaded: boolean = false;
   private languageLoaded: boolean = false;
   constructor(private settingsService: SettingsService, private languageService: LanguageService, private markdownService: MarkdownService, private router: Router,private ipcService: IpcService, private changeDetectionRef: ChangeDetectorRef) {
@@ -52,8 +53,13 @@ export class AppComponent {
         return '';
       }
     }).use(MarkdownVariable).use(require('markdown-it-attrs')).use(require('markdown-it-anchor')));
-    ipcService.on('updater_message',(event, message)=>{
-      this.ipcMessage=message;
-    })
+    ipcService.on('updater_message', (event, message) => {
+      this.updateMessage=message;
+    });
+    ipcService.on('cli_message', (event, message) => {
+      this.cliMessage=message;
+      console.log("climessage: ",this.cliMessage);
+      this.router.navigate(['/parsers',-1],{queryParams: {cliMessage: message}})
+    });
   };
 }

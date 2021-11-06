@@ -1,3 +1,5 @@
+declare module 'yargs';
+declare module 'yargs/helpers';
 declare module 'file-saver';
 declare module 'windows-shortcuts-ps';
 declare module 'steamgriddb';

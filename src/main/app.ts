@@ -5,6 +5,11 @@ import * as paths from "../paths";
 import * as path from 'path';
 import * as url from 'url';
 
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+
+const argv = yargs(hideBin(process.argv)).argv
+
 // Sentry setup
 import { init } from '@sentry/electron/dist/main'
 init({dsn: 'https://6d0c7793f478480d8b82fb5d4e55ecea@o406253.ingest.sentry.io/5273341'});
@@ -92,22 +97,62 @@ autoUpdater.on('update-downloaded', (info) => {
 
 // Main Listeners
 app.on('ready', ()=>{
-  createWindow()
-  mainWindow.webContents.on('dom-ready',()=>{
-    autoUpdater.checkForUpdatesAndNotify()
-  });
-  ipcMain.on('download_update', (event: IpcMainEvent)=>{
-    log.info('downloading update')
-    autoUpdater.downloadUpdate(cancellationToken);
-  })
-  ipcMain.on('restart_app', (event: IpcMainEvent)=>{
-    log.info('restarting and installing update');
-    autoUpdater.quitAndInstall()
-  })
-  ipcMain.on('cancel_update', (event: IpcMainEvent)=>{
-    log.info('cancelling update');
-    cancellationToken.cancel()
-  })
+  log.info(argv)
+  let isCalledViaCLI = argv && argv.noshow;
+  if(isCalledViaCLI) {
+    log.info('Plunder the Thunders!');
+    //createWindow()
+
+    //mainWindow = new BrowserWindow({ show: false, width: 0, height: 0});
+    mainWindow = new BrowserWindow({
+      width: 0,
+      height: 0,
+      show: false,
+      frame: false,
+      backgroundColor: '#121212',
+      webPreferences: {
+        devTools: true,
+        nodeIntegration: true,
+        nodeIntegrationInWorker: true,
+        enableRemoteModule: true
+      }
+    });
+    mainWindow.loadURL(url.format({
+      pathname: path.join(__dirname, 'renderer', 'index.html'),
+      protocol: 'file:',
+      slashes: true
+    }));
+
+    mainWindow.webContents.on('dom-ready',()=>{
+      log.info("Sending hoards");
+      process.stdout.write("Sending hoards"+"\n");
+      mainWindow.webContents.send('cli_message','list_parsers')
+    })
+    ipcMain.on('parsers_list', (event: IpcMainEvent, plist)=> {
+      log.info('Parsers List: ', plist);
+      console.log('Parsers List2: ',plist);
+      process.stdout.write('Parsers List: '+JSON.stringify(plist)+"\n");
+      app.quit();
+    })
+  } else {
+    createWindow();
+    mainWindow.webContents.on('dom-ready',()=>{
+      autoUpdater.checkForUpdatesAndNotify()
+    });
+    ipcMain.on('download_update', (event: IpcMainEvent)=>{
+      log.info('downloading update')
+      autoUpdater.downloadUpdate(cancellationToken);
+    })
+    ipcMain.on('restart_app', (event: IpcMainEvent)=>{
+      log.info('restarting and installing update');
+      autoUpdater.quitAndInstall()
+    })
+    ipcMain.on('cancel_update', (event: IpcMainEvent)=>{
+      log.info('cancelling update');
+      cancellationToken.cancel()
+    })
+
+  }
 });
 
 app.on('window-all-closed', () => {
