@@ -4,28 +4,47 @@ import { autoUpdater, CancellationToken } from 'electron-updater';
 import * as paths from "../paths";
 import * as path from 'path';
 import * as url from 'url';
-
-import yargs from 'yargs';
+import yargs, {Argv} from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
-const argv = yargs(hideBin(process.argv)).argv
+// CLI Setup
+//const argv = yargs(hideBin(process.argv)).argv
 
-// Sentry setup
-import { init } from '@sentry/electron/dist/main'
-init({dsn: 'https://6d0c7793f478480d8b82fb5d4e55ecea@o406253.ingest.sentry.io/5273341'});
-
-// Window setup
-const windowStateKeeper = require('electron-window-state');
-let mainWindow: Electron.BrowserWindow = null;
+let commandCLI:string = '';
+let argsCLI: string[] = [];
+yargs(hideBin(process.argv))
+.command('list','list all parsers',(yargs: Argv)=>{
+  commandCLI = 'list'
+  return
+})
+.strict()
+.parse();
 
 // Logging setup
-log.transports.file.level='info';
-log.info('App starting...');
+if(commandCLI) {
+  delete process.env.ELECTRON_ENABLE_SECURITY_WARNINGS;
+  process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true';
+  process.env.ELECTRON_ENABLE_LOGGING='1';
+  process.emitWarning = (warning, ...args) => {};
+  log.transports.file.level='error';
+} else {
+  log.transports.file.level='info';
+  log.info('App starting...');
+}
+
+// Sentry setup
+import { init } from '@sentry/electron'
+init({dsn: 'https://6d0c7793f478480d8b82fb5d4e55ecea@o406253.ingest.sentry.io/5273341'});
+
 
 // Auto updater setup
 autoUpdater.logger = log;
 autoUpdater.autoDownload = false;
 const cancellationToken = new CancellationToken();
+
+// Window setup
+const windowStateKeeper = require('electron-window-state');
+let mainWindow: Electron.BrowserWindow = null;
 
 function createWindow() {
   let mainWindowState = windowStateKeeper({
@@ -97,8 +116,7 @@ autoUpdater.on('update-downloaded', (info) => {
 
 // Main Listeners
 app.on('ready', ()=>{
-  let isCalledViaCLI = argv && argv.noshow;
-  if(isCalledViaCLI) {
+  if(commandCLI) {
     mainWindow = new BrowserWindow({
       width: 0,
       height: 0,
@@ -117,14 +135,13 @@ app.on('ready', ()=>{
       protocol: 'file:',
       slashes: true
     }));
-    //createWindow()
     ipcMain.on('parsers_list', (event: IpcMainEvent, plist)=> {
-      console.log('Parsers List: ',plist);
+      console.log('Parsers List: ', plist);
       app.quit();
     })
-    mainWindow.webContents.on('dom-ready',()=>{
-      if(argv['list']) {
-        mainWindow.webContents.send('cli_message','list_parsers');
+    mainWindow.webContents.on('did-finish-load',()=>{
+      if(commandCLI) {
+        mainWindow.webContents.send('cli_message',{command: commandCLI, args: argsCLI});
       } else {
         app.quit();
       }

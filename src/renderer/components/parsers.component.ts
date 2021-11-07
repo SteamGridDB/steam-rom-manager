@@ -41,11 +41,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private cpService: ConfigurationPresetsService,
     private ipcService: IpcService) {
       this.activatedRoute.queryParamMap.subscribe(paramContainer => {
-        let params = ({...paramContainer} as any).params || {};
-        if(params['cliMessage'] == 'list_parsers') {
-          this.CLI_COMMAND = 'list_parsers'
-        }
+        let params = ({...paramContainer} as any).params;
+        // TODO Fix this ugly hack
+        this.CLI_COMMAND = (JSON.parse(params['cliMessage']||'{}')).command || this.CLI_COMMAND
       });
+      this.parsersService.onLoad((userConfigurations: UserConfiguration[])=>{
+        if(this.CLI_COMMAND && this.CLI_COMMAND == 'list'){
+          this.ipcService.send('parsers_list',userConfigurations);
+        }
+      })
       this.nestedGroup = new NestedFormElement.Group({
         children: {
           parserType: new NestedFormElement.Select({
@@ -447,10 +451,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe((data) => {
         this.userConfigurations = data;
         this.loadConfiguration();
-        let configs = this.parsersService.getUserConfigurationsArray();
-        if(this.CLI_COMMAND && this.CLI_COMMAND == 'list_parsers' && configs.length>0){
-          this.ipcService.send('parsers_list',configs.map(config=>config.saved))
-        }
       })).add(this.activatedRoute.params.subscribe((params) => {
         this.configurationIndex = parseInt(params['index']);
         this.loadConfiguration();

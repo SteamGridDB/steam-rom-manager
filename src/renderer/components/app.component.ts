@@ -57,10 +57,13 @@ export class AppComponent {
       this.updateMessage=message;
     });
     ipcService.on('cli_message', (event, message) => {
-      if(message=='list_parsers') {
-        this.router.navigate(['/parsers',-1],{queryParams: {cliMessage: message}})
-      } else if(message=='run_parsers') {
-        return;
+      if(message.command === 'list') {
+        this.router.navigate(['/parsers',-1],{queryParams: {cliMessage: JSON.stringify(message)}})
+
+      } else if(message["command"] === 'test_parser') {
+
+      } else if(message.command === 'run_parsers') {
+
       }
     });
   };

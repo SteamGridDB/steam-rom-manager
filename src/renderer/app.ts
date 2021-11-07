@@ -12,7 +12,7 @@ import './styles/fonts.global.scss';
 import './styles/main.global.scss';
 
 // Sentry setup
-import { init } from '@sentry/electron/dist/renderer'
+import { init } from '@sentry/electron'
 init({dsn: 'https://6d0c7793f478480d8b82fb5d4e55ecea@o406253.ingest.sentry.io/5273341'});
 
 if (process.env.NODE_ENV === 'production') {

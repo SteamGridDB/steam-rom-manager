@@ -57,7 +57,6 @@ export class SteamParser implements GenericParser {
               return Promise.resolve({title: (appinfo[infoIndex].entries.common||{}).name, appid: appId});
             } else {
               return appid(parseInt(appId)).then((x: any)=>{
-                console.log(x);
                 return {title: (x||{}).name, appid: appId}
               });
             }

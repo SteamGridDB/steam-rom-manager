@@ -26,6 +26,7 @@ export class ParsersService {
   private fileParser: FileParser;
   private userConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
   private deletedConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
+  private configurationsLoadedSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private validator: json.Validator = new json.Validator(schemas.userConfiguration, modifiers.userConfiguration);
   private savingIsDisabled: boolean = false;
 
@@ -50,6 +51,14 @@ export class ParsersService {
 
   get lang() {
     return APP.lang.parsers.service;
+  }
+
+  onLoad(callback: (userConfigurations: UserConfiguration[]) => void) {
+    this.configurationsLoadedSubject.asObservable().takeWhile((loaded) => {
+      if (loaded)
+        callback(this.userConfigurations.getValue().map(item=>item.saved));
+      return !loaded;
+    }).subscribe();
   }
 
   getUserConfigurations() {
@@ -431,6 +440,8 @@ export class ParsersService {
       if(updateNeeded) {
         this.saveUserConfigurations();
       }
+    }).then(()=>{
+      this.configurationsLoadedSubject.next(true);
     }).catch((error) => {
       this.loggerService.error(this.lang.error.readingConfiguration, { invokeAlert: true, alertTimeout: 5000 });
       this.loggerService.error(error);
