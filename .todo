@@ -8,6 +8,8 @@ mage"\:\ \"\"\,\n\"defaultIcon\"\:\ \"\"\,/g' {} \;
 
 # Fixes
 Remove close steam if open warning and replace with something better
+Steam parser only works for steam apps that are in a category
+
 
 # Features
 Add missing artwork filter (2.4)

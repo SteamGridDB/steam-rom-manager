@@ -102,6 +102,13 @@ export class ParsersService {
     this.saveUserConfigurations();
   }
 
+  changeEnabledStatus(parserId: string, enabled: boolean) {
+    let updateIndex = this.userConfigurations.getValue().map(e=>e.saved.parserId).indexOf(parserId);
+    let config = _.cloneDeep(this.userConfigurations.getValue()[updateIndex].saved);
+    config.disabled = !enabled;
+    this.updateConfiguration(updateIndex, config);
+  }
+
   updateConfiguration(index: number, config?: UserConfiguration) {
     let userConfigurations = this.userConfigurations.getValue();
 

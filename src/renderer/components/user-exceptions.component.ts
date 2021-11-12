@@ -1,9 +1,9 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
 import { UserExceptions } from '../../models';
 import { UserExceptionsService, LoggerService } from '../services';
-import { Subscription, Observable } from "rxjs";
+import { Subscription } from "rxjs";
 import { APP } from '../../variables';
 import * as _ from 'lodash';
 @Component({
@@ -90,6 +90,9 @@ export class ExceptionsComponent implements OnDestroy {
       this.userExceptions = data.current ? data.current : data.saved;
       if(!this.exceptionsService.isUnsaved) {
         this.setForm();
+        console.log("how many times we doin that.");
+        console.log("numexceps: ", this.userExceptions.length);
+        console.log(this.exceptionsForm);
       }
       if(data.current) {
         this.exceptionsService.setIsUnsaved(true);
