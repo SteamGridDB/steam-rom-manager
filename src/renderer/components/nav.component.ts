@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, ApplicationRef, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ParsersService, LanguageService, UserExceptionsService } from '../services';
 import { UserConfiguration } from '../../models';
@@ -28,33 +28,33 @@ export class NavComponent implements OnDestroy {
     private languageService: LanguageService,
     private exceptionsService: UserExceptionsService,
     private changeRef: ChangeDetectorRef,
-    private appRef: ApplicationRef,
     private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit() {
     this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe((userConfigurations) => {
-      //if(userConfigurations.length != this.numConfigurations) {
-        this.navForm = this.formBuilder.group({
-          parserStatuses: this.formBuilder.array(userConfigurations.map((config: {saved: UserConfiguration, current: UserConfiguration}) => {
-            let singleton={};
-            singleton[config.saved.parserId] = ! config.saved.disabled;
-            return this.formBuilder.group(singleton);
-          }))
-        });
-        (this.navForm.get("parserStatuses") as FormArray).controls.forEach((control: FormControl)=>{
-          control.valueChanges.subscribe((val: {[parserId: string]: boolean}) => {
-            console.log("Little Change: ", val)
-            this.parsersService.changeEnabledStatus(Object.keys(val)[0], Object.values(val)[0])
-          })
+      this.numConfigurations = userConfigurations.length;
+      this.userConfigurations = userConfigurations;
+      let someOn = userConfigurations.length ? userConfigurations.map(config=>!config.saved.disabled).reduce((x,y)=>x||y) : false;
+      this.navForm = this.formBuilder.group({
+        selectAll: someOn,
+        parserStatuses: this.formBuilder.array(userConfigurations.map((config: {saved: UserConfiguration, current: UserConfiguration}) => {
+          let singleton={};
+          singleton[config.saved.parserId] = ! config.saved.disabled;
+          return this.formBuilder.group(singleton);
+        }))
+      });
+      this.navForm.get("selectAll").valueChanges.subscribe((val)=>{
+        if(!val || this.userConfigurations.map(config=>config.saved.disabled).reduce((x,y)=>x&&y)) {
+          this.parsersService.changeEnabledStatusAll(val);
+        }
+      });
+      (this.navForm.get("parserStatuses") as FormArray).controls.forEach((control: FormControl)=>{
+        control.valueChanges.subscribe((val: {[parserId: string]: boolean}) => {
+          this.parsersService.changeEnabledStatus(Object.keys(val)[0], Object.values(val)[0])
         })
-        this.numConfigurations = userConfigurations.length;
-        this.userConfigurations = userConfigurations;
-      //}
-
-      this.appRef.tick()
+      })
       this.changeRef.detectChanges();
-      this.refreshActiveRoute();
     }));
     this.subscriptions.add(this.exceptionsService.isUnsavedObservable.subscribe((val:boolean)=>{
       this.isExceptionsUnsaved = val;

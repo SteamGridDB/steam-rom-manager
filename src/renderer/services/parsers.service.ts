@@ -97,16 +97,24 @@ export class ParsersService {
     let temp = userConfigurations[currentIndex];
     userConfigurations[currentIndex] = userConfigurations[newIndex];
     userConfigurations[newIndex] = temp;
-
     this.userConfigurations.next(userConfigurations);
     this.saveUserConfigurations();
   }
 
   changeEnabledStatus(parserId: string, enabled: boolean) {
-    let updateIndex = this.userConfigurations.getValue().map(e=>e.saved.parserId).indexOf(parserId);
-    let config = _.cloneDeep(this.userConfigurations.getValue()[updateIndex].saved);
-    config.disabled = !enabled;
-    this.updateConfiguration(updateIndex, config);
+    let userConfigurations = this.userConfigurations.getValue();
+    let updateIndex = userConfigurations.map(e=>e.saved.parserId).indexOf(parserId);
+    userConfigurations[updateIndex].saved.disabled = !enabled;
+    this.userConfigurations.next(userConfigurations);
+    this.saveUserConfigurations();
+  }
+  changeEnabledStatusAll(enabled: boolean) {
+    let userConfigurations = this.userConfigurations.getValue();
+    for(let i=0; i < userConfigurations.length; i++) {
+      userConfigurations[i].saved.disabled = !enabled;
+    }
+    this.userConfigurations.next(userConfigurations);
+    this.saveUserConfigurations();
   }
 
   updateConfiguration(index: number, config?: UserConfiguration) {

@@ -90,9 +90,6 @@ export class ExceptionsComponent implements OnDestroy {
       this.userExceptions = data.current ? data.current : data.saved;
       if(!this.exceptionsService.isUnsaved) {
         this.setForm();
-        console.log("how many times we doin that.");
-        console.log("numexceps: ", this.userExceptions.length);
-        console.log(this.exceptionsForm);
       }
       if(data.current) {
         this.exceptionsService.setIsUnsaved(true);

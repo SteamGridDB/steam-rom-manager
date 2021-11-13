@@ -15,7 +15,35 @@
 	--link-vPadding: 0.5em;
 	grid-area: nav;
 	@include webkitScrollbar(nav-scrollbar, 0.375em);
+  .parsers {
+    .parserlink {
+      width: 64%;
+    }
+    .titlelink {
+      width: 64%;
+    }
+    .inputContainer {
+      display: flex;
+      flex-direction: column;
 
+      margin: 0.1em 0 .1em 0;
+      padding-left: 0em;
+
+      .inlineGroup {
+        display: flex;
+        margin: 0.1em 0.1em 0.1em 0;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .ngToggleButton {
+        font-size: 1em;
+
+        margin: 0.1em 0 0.1em 0;
+
+        @include ngToggleButtonColor(ng-toggle-button);
+      }
+    }
+  }
 	nav-link {
 		height: var(--link-height);
 		padding: var(--link-vPadding) 1em;
@@ -26,7 +54,8 @@
 		svg {
 			height: var(--link-height);
 			width: 1em;
-
+      margin-bottom:-4px;
+      margin-left: -5px;
 			polyline {
 				stroke: var(--color-nav-link-text);
 			}
@@ -66,8 +95,11 @@
 		}
 	}
 
-	> nav-expand {
-		nav-link:not(.title) {
+	nav-expand {
+    nav-link.titlelink {
+      padding: var(--link-vPadding) 2em var(--link-vPadding) 1em;
+    }
+		nav-link:not(.titlelink) {
 			padding: var(--link-vPadding) 1em var(--link-vPadding) 2em;
 
 			position: relative;
@@ -147,14 +179,6 @@
 					&::before {
 						background-color: var(--color-nav-link-unsaved-active);
 					}
-				}
-			}
-		}
-
-		&.empty {
-			nav-link.title {
-				svg {
-					display: none;
 				}
 			}
 		}
