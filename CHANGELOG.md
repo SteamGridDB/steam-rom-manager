@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.3.22
+### Added
+* Better UI for enabling and disabling parsers. This can still be done from within the parsers themselves but inaddition there are now toggles on the navigation bar on the right, as well as an "enable/disable" all toggle.
+* Documented issue discovered by Discord user @KiwiKitten that Steam parser only works for Steam games that appear in at least one category.
+
 ## 2.3.21
 ### Fixed
 * Fixed OS Version in About page
