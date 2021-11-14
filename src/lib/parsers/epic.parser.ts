@@ -38,30 +38,32 @@ export class EpicParser implements GenericParser {
         reject(this.lang.errors.epicNotInstalled)
       }
       let chain: Promise<any> = Promise.resolve()
-        .then(()=>{
-          return globPromise([epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'));
-        })
-        .then((files: string[])=>{
-          files.forEach((file)=>{
+      .then(()=>{
+        return globPromise([epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'));
+      })
+      .then((files: string[])=>{
+        files.forEach((file)=>{
+          if(fs.existsSync(file) && fs.lstatSync(file).isFile()) {
             let item = JSON.parse(fs.readFileSync(file).toString())
             let launchPath = path.join(item.InstallLocation,item.LaunchExecutable);
-            if(fs.existsSync(launchPath) && !appTitles.includes(item.DisplayName)) {
+            if(item.LaunchExecutable && fs.existsSync(launchPath) && !appTitles.includes(item.DisplayName)) {
               appTitles.push(item.DisplayName);
               appNames.push(item.AppName);
               appPaths.push(launchPath)
             }
-          })
-        })
-        .then(()=>{
-          let parsedData: ParsedData = {success: [], failed:[]};
-          for(let i=0;i<appTitles.length; i++){
-            parsedData.success.push({extractedTitle: appTitles[i], extractedAppId: appNames[i] , filePath: appPaths[i]});
           }
-          resolve(parsedData);
-        }).catch((err)=>{
-          Sentry.captureException(err);
-          reject(this.lang.errors.fatalError__i.interpolate({error: err}));
-        });
+        })
+      })
+      .then(()=>{
+        let parsedData: ParsedData = {success: [], failed:[]};
+        for(let i=0;i < appTitles.length; i++){
+          parsedData.success.push({extractedTitle: appTitles[i], extractedAppId: appNames[i] , filePath: appPaths[i]});
+        }
+        resolve(parsedData);
+      }).catch((err)=>{
+        Sentry.captureException(err);
+        reject(this.lang.errors.fatalError__i.interpolate({error: err}));
+      });
     })
   }
 }

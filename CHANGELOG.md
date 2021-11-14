@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+##2.3.23
+### Fixed
+* Fixed Epic parser in the case where manifests file doesn't specify executable location. Thanks to Discord user @xsessive182 for helping me debug.
+
 ## 2.3.22
 ### Added
 * Better UI for enabling and disabling parsers. This can still be done from within the parsers themselves but inaddition there are now toggles on the navigation bar on the right, as well as an "enable/disable" all toggle.

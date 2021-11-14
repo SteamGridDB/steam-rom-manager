@@ -60,8 +60,8 @@ export const EnglishLang: languageContainer = {
         errors: {
           populatingVDF_entries: 'Non-fatal error(-s) occurred populating VDF entries.',
           savingVDF_entries: 'Non-fatal error(-s) occurred while saving VDF/image files.',
-          fatalError: 'Fatal error occurred. See event log for details.',
-          fatalError__i: 'Fatal Error ${error}',
+          fatalError: 'Fatal error occurred in Preview. See event log for details.',
+          fatalError__i: 'Fatal Preview Error ${error}',
           knownSteamDirListIsEmpty: 'A list of known Steam directories is empty.',
           steamIsRunning: 'Cannot make changes while steam is running!',
           categorySaveError: 'Error updating categories. See event log for details.',
