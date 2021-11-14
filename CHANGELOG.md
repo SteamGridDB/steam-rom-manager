@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-##2.3.23
+## 2.3.23
 ### Fixed
 * Fixed Epic parser in the case where manifests file doesn't specify executable location. Thanks to Discord user @xsessive182 for helping me debug.
 
