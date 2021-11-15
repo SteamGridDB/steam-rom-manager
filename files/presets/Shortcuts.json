@@ -1,0 +1,56 @@
+{
+  "Shortcuts": {
+        "parserType": "Glob",
+        "configTitle": "Shortcuts",
+        "steamCategory": "${Shortcuts}",
+        "executableArgs": "",
+        "executableModifier": "\"${exePath}\"",
+        "romDirectory": "path-to-lnks",
+        "steamDirectory": "${steamdirglobal}",
+        "startInDirectory": "",
+        "titleModifier": "${fuzzyTitle}",
+        "onlineImageQueries": "${${fuzzyTitle}}",
+        "imagePool": "${fuzzyTitle}",
+        "imageProviders": [
+            "SteamGridDB"
+        ],
+        "defaultImage": "",
+        "defaultTallImage": "",
+        "defaultHeroImage": "",
+        "defaultLogoImage": "",
+        "defaultIcon": "",
+        "localImages": "",
+        "localTallImages": "",
+        "localHeroImages": "",
+        "localLogoImages": "",
+        "localIcons": "",
+        "disabled": false,
+        "advanced": false,
+        "executable": {
+            "path": "",
+            "shortcutPassthrough": true,
+            "appendArgsToExecutable": true
+        },
+        "userAccounts": {
+            "specifiedAccounts": "",
+            "skipWithMissingDataDir": true,
+            "useCredentials": true
+        },
+        "parserInputs": {
+            "glob": "${title}.@(lnk|LNK)",
+            "glob-regex": null
+        },
+        "titleFromVariable": {
+            "limitToGroups": "",
+            "caseInsensitiveVariables": false,
+            "skipFileIfVariableWasNotFound": false,
+            "tryToMatchTitle": false
+        },
+        "fuzzyMatch": {
+            "use": true,
+            "replaceDiacritics": true,
+            "removeCharacters": true,
+            "removeBrackets": true
+        }
+    }
+}
