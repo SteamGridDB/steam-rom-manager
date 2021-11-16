@@ -1,56 +1,56 @@
 {
-	"Microsoft XBox 360 - Xenia": {
-		"parserType": "Glob",
-		"configTitle": "Microsoft XBox 360 - Xenia",
-		"steamCategory": "${XBox 360}",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "\"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"SteamGridDB"
-		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
-		"disabled": false,
-		"advanced": false,
-		"userAccounts": {
-			"specifiedAccounts": "",
-			"skipWithMissingDataDir": true,
-			"useCredentials": true
-		},
-		"parserInputs": {
-			"glob": "${title}@(.iso|.ISO)"
-		},
-		"titleFromVariable": {
-			"limitToGroups": "",
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
-		},
-		"fuzzyMatch": {
-			"use": true,
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "path-to-xenia.exe",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 0
-	}
+  "Microsoft XBox 360 - Xenia": {
+    "parserType": "Glob",
+    "configTitle": "Microsoft XBox 360 - Xenia",
+    "steamCategory": "${XBox 360}",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "\"${filePath}\"",
+    "onlineImageQueries": "${${fuzzyTitle}}",
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": [
+      "SteamGridDB"
+    ],
+    "defaultImage": "",
+    "defaultTallImage": "",
+    "defaultHeroImage": "",
+    "defaultLogoImage": "",
+    "defaultIcon": "",
+    "localImages": "",
+    "localTallImages": "",
+    "localHeroImages": "",
+    "localLogoImages": "",
+    "localIcons": "",
+    "disabled": false,
+    "advanced": false,
+    "userAccounts": {
+      "specifiedAccounts": "",
+      "skipWithMissingDataDir": true,
+      "useCredentials": true
+    },
+    "parserInputs": {
+      "glob": "${title}@(.iso|.ISO)",
+      "glob-regex": null
+    },
+    "titleFromVariable": {
+      "limitToGroups": "",
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "tryToMatchTitle": false
+    },
+    "fuzzyMatch": {
+      "use": true,
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "path-to-xenia.exe",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    }
+  }
 }
