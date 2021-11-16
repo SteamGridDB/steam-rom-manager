@@ -84,10 +84,10 @@ export const EnglishLang: languageContainer = {
 
       },
       errors: {
-        directoryInvalid: "Steam directory invalid",
-        noSteamAccounts: "Steam directory specified has no accounts",
-        steamChanged__i: 'Steam changed internal database structure or parser tried to read an outdated database.\nProblematic file: ${file}\nFull error:\n ${error}',
-        fatalError__i: 'Steam parser failed with fatal error:\n ${error}'
+        directoryInvalid: "> Steam directory invalid",
+        noSteamAccounts: "> Steam directory specified has no accounts",
+        steamChanged__i: '> Steam changed internal database structure or parser tried to read an outdated database.\nProblematic file: ${file}\nFull error:\n ${error}',
+        fatalError__i: '> Steam parser failed with fatal error:\n ${error}'
       }
     },
     epicParser: {
@@ -101,10 +101,10 @@ export const EnglishLang: languageContainer = {
         ]
       },
       errors: {
-        invalidManifestsOverride: "Manifests Override is not a valid directory",
-        epicNotCompatible: "Epic Games Store not available on Linux.\n If you are using the Legendary store on Linux you need to set Manifests Override.",
-        epicNotInstalled: "Epic Games does not appear to be installed",
-        fatalError__i: 'Epic Games parser failed with fatal error:\n ${error}'
+        invalidManifestsOverride: "> Manifests Override is not a valid directory",
+        epicNotCompatible: "> Epic Games Store not available on Linux.\n If you are using the Legendary store on Linux you need to set Manifests Override.",
+        epicNotInstalled: "> Epic Games does not appear to be installed",
+        fatalError__i: '> Epic Games parser failed with fatal error:\n ${error}'
       }
     },
     globParser: {
