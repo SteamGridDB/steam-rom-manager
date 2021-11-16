@@ -1,56 +1,56 @@
 {
-  "Epic Games": {
-        "parserType": "Epic",
-        "configTitle": "Epic Games",
-        "steamCategory": "${Epic Games}",
-        "executableArgs": "",
-        "executableModifier": "\"${exePath}\"",
-        "romDirectory": "",
-        "steamDirectory": "${steamdirglobal}",
-        "startInDirectory": "",
-        "titleModifier": "${fuzzyTitle}",
-        "onlineImageQueries": "${${fuzzyTitle}}",
-        "imagePool": "${fuzzyTitle}",
-        "imageProviders": [
-            "SteamGridDB"
-        ],
-        "defaultImage": "",
-        "defaultTallImage": "",
-        "defaultHeroImage": "",
-        "defaultLogoImage": "",
-        "defaultIcon": "",
-        "localImages": "",
-        "localTallImages": "",
-        "localHeroImages": "",
-        "localLogoImages": "",
-        "localIcons": "",
-        "disabled": false,
-        "advanced": false,
-        "executable": {
-            "path": "",
-            "shortcutPassthrough": false,
-            "appendArgsToExecutable": true
-        },
-        "userAccounts": {
-            "specifiedAccounts": "",
-            "skipWithMissingDataDir": true,
-            "useCredentials": true
-        },
-        "parserInputs": {
-            "glob": "${title}.@(lnk|LNK)",
-            "glob-regex": null
-        },
-        "titleFromVariable": {
-            "limitToGroups": "",
-            "caseInsensitiveVariables": false,
-            "skipFileIfVariableWasNotFound": false,
-            "tryToMatchTitle": false
-        },
-        "fuzzyMatch": {
-            "use": false,
-            "replaceDiacritics": true,
-            "removeCharacters": true,
-            "removeBrackets": true
-        }
-    }
+	"Epic Games": {
+		"parserType": "Epic",
+		"configTitle": "Epic Games",
+		"steamCategory": "${Epic Games}",
+		"executableArgs": "",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"defaultTallImage": "",
+		"defaultHeroImage": "",
+		"defaultLogoImage": "",
+		"defaultIcon": "",
+		"localImages": "",
+		"localTallImages": "",
+		"localHeroImages": "",
+		"localLogoImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"executable": {
+			"path": "",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"manifests": null
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": false,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"presetVersion": 0
+	}
 }
