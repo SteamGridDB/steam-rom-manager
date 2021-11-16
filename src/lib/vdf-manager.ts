@@ -162,6 +162,7 @@ export class VDF_Manager {
               }
 
               if (item !== undefined) {
+                item.appid = ids.generateShortcutId(app.executableLocation, app.title),
                 item.appname = app.title;
                 item.exe = app.executableLocation;
                 item.StartDir = app.startInDirectory;
@@ -171,6 +172,7 @@ export class VDF_Manager {
               }
               else if(app.parserType !== 'Steam') {
                 listItem.shortcuts.addItem(appId, {
+                  appid: ids.generateShortcutId(app.executableLocation, app.title),
                   appname: app.title,
                   exe: app.executableLocation,
                   StartDir: app.startInDirectory,

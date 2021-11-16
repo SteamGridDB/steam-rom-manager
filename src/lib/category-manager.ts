@@ -59,7 +59,7 @@ export class CategoryManager {
           if(!removeAll) {
             for (const appId of Object.keys(userData.apps).filter((appId: string)=>userData.apps[appId].status ==='add')) {
               const app = userData.apps[appId];
-              const appIdNew = parseInt(steam.generateNewAppId(app.executableLocation, app.title), 10);
+              const appIdNew = parseInt(steam.generateShortAppId(app.executableLocation, app.title), 10);
 
               // Loop "steamCategories" and make a new category from each
               app.steamCategories.forEach((catName: string) => {
