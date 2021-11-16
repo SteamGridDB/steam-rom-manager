@@ -18,7 +18,7 @@
 		"defaultTallImage": "",
 		"defaultHeroImage": "",
 		"defaultLogoImage": "",
-"defaultIcon": "",
+		"defaultIcon": "",
 		"localImages": "",
 		"localTallImages": "",
 		"localHeroImages": "",
@@ -32,8 +32,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.int|.INT|.itv|.ITV|.zip|.ZIP)",
-			"glob-regex": null
+			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.int|.INT|.itv|.ITV|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -51,6 +50,7 @@
 			"path": "${retroarchpath}",
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
-		}
+		},
+		"presetVersion": 0
 	}
 }
