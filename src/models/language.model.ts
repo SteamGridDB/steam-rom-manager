@@ -85,8 +85,10 @@ export interface languageStruct {
         }
     },
     epicParser: {
+      inputTitle: string,
       docs__md: {
-        self: string[]
+        self: string[],
+        input: string[]
       },
       errors: {
         epicNotCompatible: string,

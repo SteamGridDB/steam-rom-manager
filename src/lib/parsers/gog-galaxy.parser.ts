@@ -13,7 +13,7 @@ export class SteamParser implements GenericParser {
   }
   getParserInfo(): ParserInfo {
     return {
-      title: 'Epic',
+      title: 'GOG Galaxy',
       info: this.lang.docs__md.self.join(''),
       inputs: {}
     };

@@ -7,7 +7,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',
-  latestVersion: 4,
+  latestVersion: 5,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -52,7 +52,7 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         }
       },
       'executable': {
-        method: (oldValue, oldConfiguration: any) =>{
+        method: (oldValue, oldConfiguration: any) => {
           if(!oldValue){
             let result = {
               path: oldConfiguration.executableLocation,
@@ -70,6 +70,22 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
     3: {
       'version': {method: versionUp},
       'localIcons': { method: replaceVariables_undefined }
+    },
+    4: {
+      'version': { method: versionUp },
+      'parserInputs': {
+        method: (oldValue, oldConfiguration: any) => {
+          let result: any = {};
+          if(oldConfiguration.parserType=='Glob'){
+            result['glob'] = oldConfiguration.parserInputs['glob']
+          } else if(oldConfiguration.parserType=='Glob-regex') {
+            result['glob-regex'] = oldConfiguration.parserInputs['glob-regex']
+          } else if(oldConfiguration.parserType=='Epic') {
+            result['manifests'] = null;
+          }
+          return result;
+        }
+      }
     }
   }
 };

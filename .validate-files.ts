@@ -28,6 +28,7 @@ Promise.all(presetPromises).catch((error: Error) => {
   process.stderr.write(`${error.stack}\r\n`);
   isValid = false;
 }).then(() => {
+  console.log(isValid ? 'Valid' : 'Invalid');
   process.exit(isValid ? 0 : 1);
 });
 

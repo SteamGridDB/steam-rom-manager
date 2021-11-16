@@ -91,11 +91,14 @@ export const EnglishLang: languageContainer = {
       }
     },
     epicParser: {
+      inputTitle: 'Manifests Directory Override',
       docs__md: {
         self: [
           require('./markdown/epic-parser.md')
+        ],
+        input: [
+          require('./markdown/epic-parser-input.md')
         ]
-
       },
       errors: {
         epicNotCompatible: "Epic Games not available on Linux",

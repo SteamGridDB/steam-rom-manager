@@ -1,11 +1,11 @@
 import { availableProviders, defaultProviders } from '../../lib/image-providers/available-providers';
 import { availableParsers, availableParserInputs } from '../../lib/parsers/available-parsers';
 
-export const userConfiguration = {
-  type: 'object',
+import { cloneDeep, union } from "lodash";
+
+const sharedProperties = {
   properties: {
     version: { type: 'number' },
-    parserType: { type: 'string', default: '', enum: availableParsers.concat('') },
     configTitle: { type: 'string', default: '' },
     parserId: { type: 'string', default: '' },
     steamCategory: { type: 'string', default: '' },
@@ -30,16 +30,6 @@ export const userConfiguration = {
         specifiedAccounts: { type: 'string', default: '' },
         skipWithMissingDataDir: { type: 'boolean', default: true },
         useCredentials: { type: 'boolean', default: true }
-      }
-    },
-    parserInputs: {
-      type: 'object',
-      default: {},
-      propertyNames: {
-        enum: availableParserInputs
-      },
-      patternProperties: {
-        "^.+$": { "type": ["string", "null"] }
       }
     },
     titleFromVariable: {
@@ -90,4 +80,40 @@ export const userConfiguration = {
     advanced: { type: 'boolean', default: false },
     disabled: { type: 'boolean', default: false },
   }
+}
+
+let options = availableParsers.map((parserType: string)=>{
+  let temp = cloneDeep(sharedProperties);
+  if(availableParserInputs[parserType].length) {
+    Object.assign(temp.properties, {
+      parserType: {type: 'string', default: '',enum: [parserType,'']},
+      parserInputs: {
+        type: 'object',
+        default: {},
+        propertyNames: {
+          enum: availableParserInputs[parserType]
+        },
+        patternProperties: {
+          "^.+$": { "type": ["string", "null"] }
+        }
+      }
+    });
+  } else {
+    Object.assign(temp.properties, {
+      parserType: {type: 'string', default: '', enum: [parserType,'']},
+      parserInputs: {
+        type: 'object',
+        default: {},
+        patternProperties: {
+          "^.+$": { "type": ["string", "null"] }
+        }
+      }
+    })
+  }
+  return temp
+})
+
+export const userConfiguration = {
+  type: 'object',
+  oneOf: options
 };

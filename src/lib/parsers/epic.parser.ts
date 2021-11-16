@@ -18,7 +18,13 @@ export class EpicParser implements GenericParser {
     return {
       title: 'Epic',
       info: this.lang.docs__md.self.join(''),
-      inputs: {}
+      inputs: {
+        'manifests': {
+          label: this.lang.inputTitle,
+          validationFn: (input: string)=>{return null;},
+          info: this.lang.docs__md.input.join('')
+        }
+      }
     };
   }
 

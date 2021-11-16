@@ -5,7 +5,9 @@ export const availableParsers = [
   'Steam'
 ]
 
-export const availableParserInputs = [
-  'glob',
-  'glob-regex',
-]
+export const availableParserInputs: {[parserType: string]: string[]} = {
+  'Glob': ['glob'],
+  'Glob-regex': ['glob-regex'],
+  'Steam': [],
+  'Epic': ['manifests']
+}
