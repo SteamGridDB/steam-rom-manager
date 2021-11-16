@@ -117,3 +117,5 @@ export const userConfiguration = {
   type: 'object',
   oneOf: options
 };
+
+export const defaultUserConfiguration = options[0];

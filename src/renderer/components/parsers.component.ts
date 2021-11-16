@@ -4,6 +4,7 @@ import { Component, AfterViewInit, OnDestroy, ChangeDetectionStrategy, ChangeDet
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { ParsersService, LoggerService, ImageProviderService, SettingsService, ConfigurationPresetsService } from '../services';
+import { availableParsers, availableParserInputs } from '../../lib/parsers/available-parsers';
 import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets } from '../../models';
 import { Subscription, Observable } from "rxjs";
 import { APP } from '../../variables';
@@ -45,7 +46,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           parserType: new NestedFormElement.Select({
             label: this.lang.label.parserType,
             placeholder: this.lang.placeholder.parserType,
-            values: this.parsersService.getAvailableParsers().map((parser) => { return { display: parser }; }),
+            values: availableParsers.map((parser) => { return { display: parser }; }),
               onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
               let parser = this.parsersService.getParserInfo(self.value);
@@ -181,7 +182,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           parserInputs: (() => {
             let parserInputs = {};
-            let parsers = this.parsersService.getAvailableParsers();
+            let parsers = availableParsers;
 
             for (let i = 0; i < parsers.length; i++) {
               let parser = this.parsersService.getParserInfo(parsers[i]);

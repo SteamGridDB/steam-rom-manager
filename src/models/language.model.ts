@@ -91,6 +91,7 @@ export interface languageStruct {
         input: string[]
       },
       errors: {
+        invalidManifestsOverride: string,
         epicNotCompatible: string,
         epicNotInstalled: string,
         fatalError__i: string

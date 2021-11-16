@@ -101,7 +101,8 @@ export const EnglishLang: languageContainer = {
         ]
       },
       errors: {
-        epicNotCompatible: "Epic Games not available on Linux",
+        invalidManifestsOverride: "Manifests Override is not a valid directory",
+        epicNotCompatible: "Epic Games Store not available on Linux.\n If you are using the Legendary store on Linux you need to set Manifests Override.",
         epicNotInstalled: "Epic Games does not appear to be installed",
         fatalError__i: 'Epic Games parser failed with fatal error:\n ${error}'
       }

@@ -21,8 +21,14 @@ export class EpicParser implements GenericParser {
       inputs: {
         'manifests': {
           label: this.lang.inputTitle,
-          validationFn: (input: string)=>{return null;},
-          info: this.lang.docs__md.input.join('')
+          validationFn: (input: string)=>{
+            if(!input || fs.existsSync(input) && fs.lstatSync(input).isDirectory()) {
+              return null;
+            } else {
+              return this.lang.errors.invalidManifestsOverride;
+            }
+          },
+            info: this.lang.docs__md.input.join('')
         }
       }
     };
@@ -34,11 +40,17 @@ export class EpicParser implements GenericParser {
       let appTitles: string[] = [];
       let appPaths: string[] = [];
       let appNames: string[] = [];
-      let epicManifestsDir: string = 'C:\\ProgramData\\Epic\\EpicGamesLauncher\\Data\\Manifests';
-      if( os.type()=='Linux' ) {
-        reject(this.lang.errors.epicNotCompatible)
-      } else if( os.type()=='Darwin' ) {
-        epicManifestsDir = path.join(os.homedir(),'/Library/Application Support/Epic/EpicGamesLauncher/Data/Manifests');
+      let epicManifestsDir: string = "";
+      if(inputs.manifests) {
+        epicManifestsDir = inputs.manifests
+      } else {
+        if(os.type()=='Windows_NT') {
+          epicManifestsDir = 'C:\\ProgramData\\Epic\\EpicGamesLauncher\\Data\\Manifests';
+        } else if(os.type()=='Linux') {
+          reject(this.lang.errors.epicNotCompatible)
+        } else if( os.type()=='Darwin' ) {
+          epicManifestsDir = path.join(os.homedir(),'/Library/Application Support/Epic/EpicGamesLauncher/Data/Manifests');
+        }
       }
       if(!fs.existsSync(epicManifestsDir)) {
         reject(this.lang.errors.epicNotInstalled)

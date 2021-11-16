@@ -20,6 +20,20 @@ In case you're having trouble with SRM, feel free to visit the [discord](https:/
 * `Choko`{.noWrap} - helps most users setup SRM in [Discord](https://discord.gg/nxxzBPJ).
 * `AlexDobeck`{.noWrap} - improved [retrogaming.cloud](https://retrogaming.cloud/) performance.
 * `lontanadascienza`{.noWrap} - Current maintainer of SRM. Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, steam parser, and epic parser.
+
+## Support
+If you enjoy Steam ROM Manager and want it to continue to be useful consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. [SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork Steam ROM Manager uses to make your Steam library the envy of the town, so we should probably help them keep their lights on.
+
+<a href="https://www.patreon.com/steamgriddb">
+    <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+</a>
+
+If you're feeling exceptionally generous then feel free to also buy me a coffee!
+
+<a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="38" width="174">
+</a>
+
 ## Credits
 
 * SRM icon created by [doZennn](https://www.reddit.com/user/dozennn) who's also the big boss of [SteamGridDB](https://www.steamgriddb.com/).

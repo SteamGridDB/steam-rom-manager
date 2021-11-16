@@ -12,6 +12,7 @@ import { BehaviorSubject } from "rxjs";
 import {availableProviders} from "../../lib/image-providers/available-providers"
 import { APP } from '../../variables';
 import * as json from "../../lib/helpers/json";
+import { availableParsers, availableParserInputs } from '../../lib/parsers/available-parsers';
 import * as unique_ids from "../../lib/helpers/unique-ids";
 import * as paths from "../../paths";
 import * as path from 'path';
@@ -27,6 +28,7 @@ export class ParsersService {
   private userConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
   private deletedConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
   private validator: json.Validator = new json.Validator(schemas.userConfiguration, modifiers.userConfiguration);
+  private defaultValidator: json.Validator = new json.Validator(schemas.defaultUserConfiguration, modifiers.userConfiguration);
   private savingIsDisabled: boolean = false;
 
   constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private cVariableService: CustomVariablesService,
@@ -79,7 +81,7 @@ export class ParsersService {
   }
 
   getDefaultValues() {
-    return this.validator.getDefaultValues() as UserConfiguration;
+    return this.defaultValidator.getDefaultValues() as UserConfiguration;
   }
 
   saveConfiguration(config: { saved: UserConfiguration, current: UserConfiguration }) {
@@ -176,10 +178,6 @@ export class ParsersService {
     }
   }
 
-  getAvailableParsers() {
-    return this.fileParser.getAvailableParsers();
-  }
-
   getParserInfo(parser: string) {
     return this.fileParser.getParserInfo(parser);
   }
@@ -215,7 +213,6 @@ export class ParsersService {
     switch (key) {
       case 'parserType':
         {
-          let availableParsers = this.getAvailableParsers();
           return (availableParsers.indexOf(data) !== -1) ? null : this.lang.validationErrors.parserType__md;
         }
       case 'configTitle':
@@ -382,8 +379,14 @@ export class ParsersService {
   private saveUserConfigurations() {
     return new Promise<UserConfiguration[]>((resolve, reject) => {
       if (!this.savingIsDisabled) {
+
         fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => {
           item.saved[modifiers.userConfiguration.controlProperty] = modifiers.userConfiguration.latestVersion;
+          for(let key of Object.keys(item.saved.parserInputs)) {
+            if(!availableParserInputs[item.saved.parserType].includes(key)) {
+              delete item.saved.parserInputs[key]
+            }
+          }
           return item.saved;
         }), null, 4), (error) => {
           if (error)
