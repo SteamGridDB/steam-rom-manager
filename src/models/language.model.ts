@@ -85,7 +85,8 @@ export interface languageStruct {
         }
     },
     epicParser: {
-      inputTitle: string,
+      manifestsInputTitle: string,
+      launcherModeInputTitle: string,
       docs__md: {
         self: string[],
         input: string[]
@@ -94,6 +95,15 @@ export interface languageStruct {
         invalidManifestsOverride: string,
         epicNotCompatible: string,
         epicNotInstalled: string,
+        fatalError__i: string
+      }
+    },
+    gogParser: {
+      launcherModeInputTitle: string,
+      docs__md: {
+        self: string[],
+        input: string[]
+      }, errors: {
         fatalError__i: string
       }
     },

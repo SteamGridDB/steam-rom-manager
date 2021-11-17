@@ -17,7 +17,7 @@ export interface UserConfiguration {
         skipWithMissingDataDir: boolean,
         useCredentials: boolean
     },
-    parserInputs: { [inputKey: string]: string },
+    parserInputs: { [inputKey: string]: string | boolean },
     titleFromVariable: {
         limitToGroups: string,
         skipFileIfVariableWasNotFound: boolean,

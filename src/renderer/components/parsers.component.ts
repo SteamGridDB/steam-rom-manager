@@ -4,7 +4,7 @@ import { Component, AfterViewInit, OnDestroy, ChangeDetectionStrategy, ChangeDet
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { ParsersService, LoggerService, ImageProviderService, SettingsService, ConfigurationPresetsService } from '../services';
-import { availableParsers, availableParserInputs } from '../../lib/parsers/available-parsers';
+import * as parserInfo from '../../lib/parsers/available-parsers';
 import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets } from '../../models';
 import { Subscription, Observable } from "rxjs";
 import { APP } from '../../variables';
@@ -46,7 +46,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           parserType: new NestedFormElement.Select({
             label: this.lang.label.parserType,
             placeholder: this.lang.placeholder.parserType,
-            values: availableParsers.map((parser) => { return { display: parser }; }),
+            values: parserInfo.availableParsers.map((parser) => { return { display: parser }; }),
               onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
               let parser = this.parsersService.getParserInfo(self.value);
@@ -70,7 +70,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             }
           }),
           steamCategory: new NestedFormElement.Input({
-            isHidden: () => this.isHiddenIfSteamParser(),
+            isHidden: () => this.isHiddenIfArtworkOnlyParser(),
               label: this.lang.label.steamCategory,
             highlight: this.highlight.bind(this),
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -182,14 +182,14 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           parserInputs: (() => {
             let parserInputs = {};
-            let parsers = availableParsers;
+            let parsers = parserInfo.availableParsers;
 
             for (let i = 0; i < parsers.length; i++) {
               let parser = this.parsersService.getParserInfo(parsers[i]);
               if (parser && parser.inputs !== undefined) {
                 for (let inputFieldName in parser.inputs) {
                   let input = parser.inputs[inputFieldName];
-                  if(inputFieldName=='manifests') {
+                  if(input.inputType == 'path') {
                     parserInputs[inputFieldName] = new NestedFormElement.Path({
                       directory: true,
                       initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
@@ -211,7 +211,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                         this.currentDoc.content = input.info;
                       }
                     })
-                  } else {
+                  } else if (input.inputType == 'text') {
                     parserInputs[inputFieldName] = new NestedFormElement.Input({
                       initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
                       highlight: this.highlight.bind(this),
@@ -232,6 +232,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                         this.currentDoc.content = input.info;
                       }
                     })
+                  } else if (input.inputType == 'toggle') {
+                    parserInputs[inputFieldName] = new NestedFormElement.Toggle({
+                      text: input.label,
+                      isHidden: () => {
+                        return Observable.concat(Observable.of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).map((pType: string) => {
+                          return pType !== parsers[i];
+                        });
+                      },
+                    });
                   }
                 }
               }
@@ -520,18 +529,18 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.currentDoc.content = this.lang.docs__md.communityPresets.join('');
     }
     private isHiddenIfNotRomsParser() {
-      return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => !['Glob','Glob-regex'].includes(pType))
+      return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => !parserInfo.ROMParsers.includes(pType))
     }
     private isHiddenIfNotAdvanced() {
       return Observable.concat(Observable.of(this.userForm.get('advanced').value), this.userForm.get('advanced').valueChanges).map(val => !val);
     }
-    private isHiddenIfSteamParser() {
-      return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => pType==='Steam');
+    private isHiddenIfArtworkOnlyParser() {
+      return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => parserInfo.artworkOnlyParsers.includes(pType));
     }
     private isHiddenIfAny() {
       return Observable.combineLatest(
         this.isHiddenIfNotAdvanced(),
-        this.isHiddenIfSteamParser(),
+        this.isHiddenIfArtworkOnlyParser(),
         this.isHiddenIfNotRomsParser()).map(([na,s,nr])=>na||s||nr)
     }
 
@@ -655,8 +664,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       };
 
       if (this.parsersService.isConfigurationValid(config)) {
-        if (this.appSettings.clearLogOnTest)
+        if (this.appSettings.clearLogOnTest) {
           this.loggerService.clearLog();
+        }
         success('Parser ID: '.concat(config.parserId));
         success('');
         this.parsersService.executeFileParser(config).then((dataArray) => {
@@ -1029,8 +1039,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }))
         this.router.navigateByUrl('/logger');
       }
-      else
+      else {
         this.loggerService.error(this.lang.error.cannotTestInvalid, { invokeAlert: true, alertTimeout: 3000 });
+      }
     }
 
     private moveUp() {

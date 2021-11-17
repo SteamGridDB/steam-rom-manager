@@ -12,7 +12,7 @@ import { BehaviorSubject } from "rxjs";
 import {availableProviders} from "../../lib/image-providers/available-providers"
 import { APP } from '../../variables';
 import * as json from "../../lib/helpers/json";
-import { availableParsers, availableParserInputs } from '../../lib/parsers/available-parsers';
+import * as parserInfo from '../../lib/parsers/available-parsers';
 import * as unique_ids from "../../lib/helpers/unique-ids";
 import * as paths from "../../paths";
 import * as path from 'path';
@@ -178,8 +178,8 @@ export class ParsersService {
     }
   }
 
-  getParserInfo(parser: string) {
-    return this.fileParser.getParserInfo(parser);
+  getParserInfo(parserType: string) {
+    return this.fileParser.getParserInfo(parserType);
   }
 
   executeFileParser(...configs: UserConfiguration[]) {
@@ -213,7 +213,7 @@ export class ParsersService {
     switch (key) {
       case 'parserType':
         {
-          return (availableParsers.indexOf(data) !== -1) ? null : this.lang.validationErrors.parserType__md;
+          return (parserInfo.availableParsers.indexOf(data) !== -1) ? null : this.lang.validationErrors.parserType__md;
         }
       case 'configTitle':
         return data ? null : this.lang.validationErrors.configTitle__md;
@@ -329,19 +329,18 @@ export class ParsersService {
     if(this.validate('parserType',config['parserType'])!==null){
       return false;
     }
-    if(config['parserType']=='Steam') {
-
+    if(parserInfo.artworkOnlyParsers.includes(config['parserType'])) {
       simpleValidations = ['configTitle','parserId','steamDirectory','titleModifier',
         'onlineImageQueries', 'imagePool', 'imageProviders',
         'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','defaultIcon','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
       ]
-    } else if(['Epic'].includes(config['parserType'])){
+    } else if(parserInfo.platformParsers.includes(config['parserType'])) {
       simpleValidations = ['configTitle','parserId','steamDirectory','steamCategory','titleModifier',
         'onlineImageQueries', 'imagePool', 'imageProviders',
         'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','defaultIcon','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
       ]
     }
-    else {
+    else if(parserInfo.ROMParsers.includes(config['parserType'])) {
       simpleValidations = [
         'configTitle', 'parserId', 'steamCategory',
         'executable', 'executableModifier', 'romDirectory',
@@ -383,7 +382,7 @@ export class ParsersService {
         fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => {
           item.saved[modifiers.userConfiguration.controlProperty] = modifiers.userConfiguration.latestVersion;
           for(let key of Object.keys(item.saved.parserInputs)) {
-            if(!availableParserInputs[item.saved.parserType].includes(key)) {
+            if(!parserInfo.availableParserInputs[item.saved.parserType].includes(key)) {
               delete item.saved.parserInputs[key]
             }
           }

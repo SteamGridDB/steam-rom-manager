@@ -20,15 +20,22 @@ export class EpicParser implements GenericParser {
       info: this.lang.docs__md.self.join(''),
       inputs: {
         'manifests': {
-          label: this.lang.inputTitle,
-          validationFn: (input: string)=>{
+          label: this.lang.manifestsInputTitle,
+          inputType: 'path',
+          validationFn: (input: string) => {
             if(!input || fs.existsSync(input) && fs.lstatSync(input).isDirectory()) {
               return null;
             } else {
               return this.lang.errors.invalidManifestsOverride;
             }
           },
-            info: this.lang.docs__md.input.join('')
+          info: this.lang.docs__md.input.join('')
+        },
+        'epicLauncherMode': {
+          label: this.lang.launcherModeInputTitle,
+          inputType: 'toggle',
+          validationFn: (input: any) => { return null },
+          info: this.lang.docs__md.input.join('')
         }
       }
     };
@@ -55,10 +62,7 @@ export class EpicParser implements GenericParser {
       if(!fs.existsSync(epicManifestsDir)) {
         reject(this.lang.errors.epicNotInstalled)
       }
-      let chain: Promise<any> = Promise.resolve()
-      .then(()=>{
-        return globPromise([epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'));
-      })
+      globPromise([epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'))
       .then((files: string[])=>{
         files.forEach((file)=>{
           if(fs.existsSync(file) && fs.lstatSync(file).isFile()) {
@@ -73,9 +77,18 @@ export class EpicParser implements GenericParser {
         })
       })
       .then(()=>{
-        let parsedData: ParsedData = {success: [], failed:[]};
-        for(let i=0;i < appTitles.length; i++){
-          parsedData.success.push({extractedTitle: appTitles[i], extractedAppId: appNames[i] , filePath: appPaths[i]});
+        let parsedData: ParsedData = {
+          executableLocation: `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`,
+          success: [],
+          failed:[]
+        };
+        for(let i=0; i < appTitles.length; i++){
+          parsedData.success.push({
+            extractedTitle: appTitles[i],
+            extractedAppId: appNames[i] ,
+            launchOptions: `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \\"com.epicgames.launcher://apps/${appNames[i]}?action=launch&silent=true\\""`,
+            filePath: appPaths[i]
+          });
         }
         resolve(parsedData);
       }).catch((err)=>{

@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.4.0
+### Added
+* GOG Parser.
+* UPlay Parser.
+* Automatic Preset Updating.
+* Icons now work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
+
+### Fixed
+* appid Field is now set correctly in `shortcuts.vdf`.
+
 ## 2.3.24
 ### Added
 * Ability to override manifests directory in epic parser (so that for example the Legendary store can be used instead).
@@ -18,14 +28,14 @@ All notable changes to this project will be documented in this file.
 
 ## 2.3.21
 ### Fixed
-* Fixed OS Version in About page
+* Fixed OS Version in About page.
 ### Changed
 * Migrated to new repository as part of SteamGridDB organization.
 
 ## 2.3.20
 ### Fixed
-* Fixed local icons
-* Fixed epic parser in the case that you had previously moved your epic library
+* Fixed local icons.
+* Fixed epic parser in the case that you had previously moved your epic library.
 
 ## 2.3.19
 ### Added
@@ -33,7 +43,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2.3.18
 ### Changed
-* Updated several backend packages (for example node version went from 9 to 14.1.18 LTS)
+* Updated several backend packages (for example node version went from 9 to 14.1.18 LTS).
 * Removed bluebird. 
 ### Fixed
 * Logos got broken by a previous update that was using an outdated version of steam-categories. That is now fixed.
@@ -42,14 +52,14 @@ Thanks to [Maykin-99](https://github.com/Maykin-99) for these much needed change
 
 ## 2.3.17
 ### Fixed
-* Steam Parser should not to try to give images for tools (appids like xxx\_yyyy)
+* Steam Parser should not to try to give images for tools (appids like xxx\_yyyy).
 
 ## 2.3.16
 ### Changed
-* Enabled steamgriddb as image provider by default in new parsers
+* Enabled steamgriddb as image provider by default in new parsers.
 ### Fixed
-* Incorrect tracking of steam directories
-* Steam Parser not handling games that were deleted from the steam store ([issue 232](https://github.com/doZennn/steam-rom-manager/issues/232))
+* Incorrect tracking of steam directories.
+* Steam Parser not handling games that were deleted from the steam store ([issue 232](https://github.com/doZennn/steam-rom-manager/issues/232)).
 
 ## 2.3.15
 ### Fixed
@@ -57,13 +67,13 @@ Thanks to [Maykin-99](https://github.com/Maykin-99) for these much needed change
 
 ## 2.3.13
 ### Fixed
-* Fixed default image field calling backslashes invalid
+* Fixed default image field calling backslashes invalid.
 ### Changed
-* Default behavior is to not auto-delete shortcuts for disabled parsers
+* Default behavior is to not auto-delete shortcuts for disabled parsers.
 
 ### 2.3.12
 ### Fixed
-* Epic parser now launches games from epic launcher, allowing for the use of epic online services
+* Epic parser now launches games from epic launcher, allowing for the use of epic online services.
 
 ## 2.3.11
 ### Fixed
@@ -71,65 +81,65 @@ Thanks to [Maykin-99](https://github.com/Maykin-99) for these much needed change
 
 ## 2.3.10
 ### Fixed
-* Slight oversight on dirty hack
+* Slight oversight on dirty hack.
 
 ## 2.3.9
 ### Fixed
-* Dirty hack to make user accounts field mandatory only on steam parser
+* Dirty hack to make user accounts field mandatory only on steam parser.
 
 ## 2.3.8
 ### Added
-* Experimental Epic Games Parser + Preset (works on Windows and Mac)
+* Experimental Epic Games Parser + Preset (works on Windows and Mac).
 ### Changed
-* Made User Accounts field mandatory for the Steam Parser
+* Made User Accounts field mandatory for the Steam Parser.
 
 ## 2.3.7
 ### Fixed
-* Steam parser was failing whenever app title was just a number (eg "140")
+* Steam parser was failing whenever app title was just a number (eg "140").
 
 ## 2.3.6
 ### Added
-* Retroarch Cores environment variable
+* Retroarch Cores environment variable.
 
 ## 2.3.5
 ### Fixed
-* Made auto updater styling consistent with rest of application
+* Made auto updater styling consistent with rest of application.
 
 ## 2.3.4
 ### Fixed
-* Small backend error when user specified no categories
+* Small backend error when user specified no categories.
 
 ## 2.3.3
-* Unbork browse for files
+* Unbork browse for files.
 
 ## 2.3.2
 ### Fixed
-* Filter by category also removing titles in all artwork view
-* Round download percentage for auto updater
+* Filter by category also removing titles in all artwork view.
+* Round download percentage for auto updater.
 
 ## 2.3.1
 ### Fixed
-* Filter by category not working in all artwork view
-* Include latest.yml in build so auto updater can work
+* Filter by category not working in all artwork view.
+* Include latest.yml in build so auto updater can work.
 
 ## 2.3.0
 ### Fixed
-* Moved data migrations to modifiers 
+* Moved data migrations to modifiers.
 ### Added
-* Add documentation emphasizing User Accounts field
-* Steam Parser Title Modifier (default to removing illegal symbols)
-* Add a localImagesDir environment variable
-* Add a sane browse button to localimages/defaultimages fields
-* Exceptions manager
-* Add steam category filter to preview
-* Add save images locally to preview
-* Crash logging with sentry.io
-* Auto Updater (hopefully working, sort of hard to test separately)
-* Config Presets are searchable
+* Add documentation emphasizing User Accounts field.
+* Steam Parser Title Modifier (default to removing illegal symbols).
+* Add a localImagesDir environment variable.
+* Add a sane browse button to localimages/defaultimages fields.
+* Exceptions manager.
+* Add steam category filter to preview.
+* Add save images locally to preview.
+* Crash logging with sentry.io.
+* Auto Updater (hopefully working, sort of hard to test separately).
+* Config Presets are searchable.
 
 ### Changed
-* Re organized Parser fields slightly to make more sense
-* Split user presets into separate files
+* Re organized Parser fields slightly to make more sense.
+* Split user presets into separate files.
 
 ## 2.2.34
 ### Fixed
@@ -141,17 +151,17 @@ Thanks to [Maykin-99](https://github.com/Maykin-99) for these much needed change
 ## 2.2.33
 ### Fixed
 * Categories not deleting when user hits remove all in settings as opposed to preview
-* Major bug in 2.2.32 that prevented steam-categories from working *unless* emoji or non english character was present (don't ask)
+* Major bug in 2.2.32 that prevented steam-categories from working *unless* emoji or non english character was present (don't ask).
 
 ## 2.2.32
 ### Added
-* Capability to save categories with emojis or non English characters in the name
+* Capability to save categories with emojis or non English characters in the name.
 ### Fixed
-* SRM failing to save whenever there are non standard unicode characters in the `leveldb`
+* SRM failing to save whenever there are non standard unicode characters in the `leveldb`.
 
 ## 2.2.31
 ### Fixed
-* Valve changed a database field
+* Valve changed a database field.
 
 ## 2.2.30
 ### Fixed
@@ -160,8 +170,8 @@ Thanks to [Maykin-99](https://github.com/Maykin-99) for these much needed change
 ## 2.2.29
 This is a big one.
 ### Added
-* Environment variables specified in settings, `steamdirglobal` and `retroarchpath`
-* Steam Parsers (experimental), which can manage artwork for specified steam accounts
+* Environment variables specified in settings, `steamdirglobal` and `retroarchpath`.
+* Steam Parsers (experimental), which can manage artwork for specified steam accounts.
 
 ## 2.2.28
 ### Fixed
@@ -173,46 +183,46 @@ This is a big one.
 
 ## 2.2.26 - 2020-05-21
 ### Added
-* Better state management for category manager (no more duplicate categories, empty SRM managed categories get deleted)
-* Custom Arguments JSON file capability + documentation
+* Better state management for category manager (no more duplicate categories, empty SRM managed categories get deleted).
+* Custom Arguments JSON file capability + documentation.
 ### Changed
-* Readme now points to github pages with videos
+* Readme now points to github pages with videos.
 ### Fixed
-* Fixed issue of linux version not saving images
+* Fixed issue of linux version not saving images.
 
 ## 2.2.25 - 2020-05-12
 ### Added 
-* Setting for whether or not to delete shortcuts from disabled parsers
-* Ability to see number of titles in preview and in test parser logs
+* Setting for whether or not to delete shortcuts from disabled parsers.
+* Ability to see number of titles in preview and in test parser logs.
 * Environment variables ${/} and ${srmdir} that can be used even in steam directory, rom directory fields. 
 ### Changed 
-* Removed retrogaming.cloud from list of image providers (it is defunct)
-* Changed structure of AddedItemsV2.json to include Parser ID
-* Added lontanadascienza as a contributor
+* Removed retrogaming.cloud from list of image providers (it is defunct).
+* Changed structure of AddedItemsV2.json to include Parser ID.
+* Added lontanadascienza as a contributor.
 ### Fixed
-* A bunch of dead links in Readme and About Markdown
+* A bunch of dead links in Readme and About Markdown.
 
 ## 2.2.23 - 2020-01-27
 ### Added 
 * Improved documentation for custom variables based on advice of a friend.
 
 ### Fixed
-* Fixed parsers deleting custom logo positions on re parsing (note they will still delete if that app's name changes - SRM will not yet relocate the old json file to the new name)
-* Fixed downloading borders not showing in all artwork view
+* Fixed parsers deleting custom logo positions on re parsing (note they will still delete if that app's name changes - SRM will not yet relocate the old json file to the new name).
+* Fixed downloading borders not showing in all artwork view.
 
 ## 2.2.22 - 2020-01-24
 ### Added
-* Added resolutions to images
-* Added an "All Artwork" view
+* Added resolutions to images.
+* Added an "All Artwork" view.
 
 ### Fixed
-* Fixed pngs not replacing jpgs
-* Fixed state management (no more duplicate shortcuts)
+* Fixed pngs not replacing jpgs.
+* Fixed state management (no more duplicate shortcuts).
 
 ## 2.2.21 - 2020-01-15
 ### Added
-* Got Logos working
-* Got Recent Images working
+* Got Logos working.
+* Got Recent Images working.
 ## 2.2.19 - 2019-03-09
 
 ### Changed

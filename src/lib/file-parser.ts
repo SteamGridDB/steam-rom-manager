@@ -3,7 +3,7 @@ import { FuzzyService } from "../renderer/services";
 import { VariableParser } from "./variable-parser";
 import { APP } from '../variables';
 import { parsers } from './parsers';
-import { availableParsers } from './parsers/available-parsers';
+import * as parserInfo from './parsers/available-parsers';
 import * as url from './helpers/url';
 import * as steam from './helpers/steam';
 import * as paths from "../paths";
@@ -34,10 +34,6 @@ export class FileParser {
 
   setUserExceptions(data: UserExceptions) {
     this.userExceptions = data;
-  }
-
-  getAvailableParsers() {
-    return availableParsers;
   }
 
   getParserInfo(key: string) {
@@ -80,6 +76,7 @@ export class FileParser {
   }
 
   executeFileParser(configs: UserConfiguration[], settings: AppSettings) {
+    console.log("executing File Parser");
     let steamDirectories: { directory: string, useCredentials: boolean, data: userAccountData[] }[] = [];
     let totalUserAccountsFound: number = 0;
     let filteredAccounts: { found: userAccountData[], missing: string[] }[] = [];
@@ -90,14 +87,15 @@ export class FileParser {
       .then(() => {
         let preParser = new VariableParser({ left: '${', right: '}' });
         for (let i = 0; i < configs.length; i++) {
-          let isSteamParser:boolean = configs[i].parserType=='Steam';
-          let isEpicParser:boolean = configs[i].parserType=='Epic';
-          let isGlobParser:boolean = ['Glob','Glob-regex'].includes(configs[i].parserType);
+          console.log("parserType: ", configs[i].parserType)
+          let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(configs[i].parserType);
+          let isPlatformParser:boolean = parserInfo.platformParsers.includes(configs[i].parserType);
+          let isROMParser:boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
           // Parse environment variables on rom directory, start in path, executable path
           configs[i].steamDirectory = preParser.setInput(configs[i].steamDirectory).parse() ? preParser.replaceVariables((variable) => {
             return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
           }) : null;
-          if(isGlobParser) {
+          if(isROMParser) {
             configs[i].romDirectory = preParser.setInput(configs[i].romDirectory).parse() ? preParser.replaceVariables((variable) => {
               return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
             }) : null;
@@ -130,9 +128,9 @@ export class FileParser {
 
         let promises: Promise<ParsedData>[] = [];
         for(let i=0; i<configs.length;i++) {
-          let isSteamParser:boolean = configs[i].parserType=='Steam';
-          let isEpicParser:boolean = configs[i].parserType=='Epic';
-          let isGlobParser:boolean = ['Glob','Glob-regex'].includes(configs[i].parserType);
+          let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(configs[i].parserType);
+          let isPlatformParser:boolean = parserInfo.platformParsers.includes(configs[i].parserType);
+          let isROMParser:boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
           let parser = this.getParserInfo(configs[i].parserType);
           if (parser) {
             if (parser.inputs !== undefined) {
@@ -147,7 +145,7 @@ export class FileParser {
             let userFilter = preParser.setInput(configs[i].userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
             filteredAccounts.push(this.filterUserAccounts(steamDirectories[i].data, userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir));
             totalUserAccountsFound+=filteredAccounts[filteredAccounts.length-1].found.length;
-            let directories = isGlobParser ? [configs[i].romDirectory] : filteredAccounts[i].found.map((account: userAccountData)=>path.join(configs[i].steamDirectory,'userdata',account.accountID));
+            let directories = isROMParser ? [configs[i].romDirectory] : filteredAccounts[i].found.map((account: userAccountData)=>path.join(configs[i].steamDirectory,'userdata',account.accountID));
             promises.push(this.availableParsers[configs[i].parserType].execute(directories, configs[i].parserInputs, this.globCache));
           }
           else
@@ -168,13 +166,14 @@ export class FileParser {
         let localIconPromises: Promise<void>[] = [];
         let vParser = new VariableParser({ left: '${', right: '}' });
         for (let i = 0; i < configs.length; i++) {
-          let isSteamParser:boolean = configs[i].parserType=='Steam';
-          let isEpicParser:boolean = configs[i].parserType=='Epic';
-          let isGlobParser:boolean = ['Glob','Glob-regex'].includes(configs[i].parserType);
-          if (isGlobParser && configs[i].titleFromVariable.tryToMatchTitle)
+          let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(configs[i].parserType);
+          let isPlatformParser:boolean = parserInfo.platformParsers.includes(configs[i].parserType);
+          let isROMParser:boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
+          let launcherMode = !!(configs[i].parserInputs.epicLauncherMode || configs[i].parserInputs.gogLauncherMode);
+          if (isROMParser && configs[i].titleFromVariable.tryToMatchTitle)
             this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);
 
-          if (isGlobParser && configs[i].fuzzyMatch.use)
+          if (isROMParser && configs[i].fuzzyMatch.use)
             this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data[i], configs[i].fuzzyMatch);
 
 
@@ -182,7 +181,7 @@ export class FileParser {
             configurationTitle: configs[i].configTitle,
             parserId: configs[i].parserId,
             parserType: configs[i].parserType,
-            appendArgsToExecutable: isEpicParser ? false : configs[i].executable.appendArgsToExecutable,
+            appendArgsToExecutable: isROMParser ? configs[i].executable.appendArgsToExecutable: false,
             shortcutPassthrough: configs[i].executable.shortcutPassthrough,
             imageProviders: configs[i].imageProviders,
             foundUserAccounts: filteredAccounts[i].found,
@@ -211,19 +210,23 @@ export class FileParser {
             let executableLocation:string = undefined;
             let startInDir:string = undefined;
             let launchOptions:string = undefined;
-            if(isGlobParser) {
+            if(isROMParser) {
+              console.log("ROM Parser")
               executableLocation = configs[i].executable.path ? configs[i].executable.path : data[i].success[j].filePath;
               startInDir = configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation);
-            } else if(isEpicParser){
-              if(os.type()=='Windows_NT') {
-                executableLocation = `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`;
-                launchOptions = `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \\"com.epicgames.launcher://apps/${data[i].success[j].extractedAppId}?action=launch&silent=true\\""`;
-                startInDir = path.dirname(data[i].success[j].filePath);
+            } else if(isPlatformParser) {
+              console.log("Platform Parser")
+              startInDir = path.dirname(data[i].success[j].filePath);
+              console.log(configs[i]);
+              console.log("Launcher Mode: ",launcherMode)
+              if(launcherMode) {
+                executableLocation = data[i].executableLocation;
+                launchOptions = data[i].success[j].launchOptions;
               } else {
                 executableLocation = data[i].success[j].filePath;
-                startInDir = path.dirname(executableLocation);
               }
-            } else if(isSteamParser) {
+            } else if(isArtworkOnlyParser) {
+              console.log("Artwork Only Parser")
               executableLocation = data[i].success[j].extractedAppId;
             }
 
@@ -275,9 +278,9 @@ export class FileParser {
             if(exceptions && exceptions.commandLineArguments) {
               lastFile.argumentString = exceptions.commandLineArguments;
             } else {
-              if(isEpicParser) {
+              if(isPlatformParser) {
                 lastFile.argumentString = launchOptions;
-              } else {
+              } else if(isROMParser) {
                 lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
                   return this.getVariable(variable as AllVariables, variableData).trim();
                 }) : '';
@@ -410,7 +413,7 @@ export class FileParser {
               }).map((item)=> {
                 return url.encodeFile(item);
               });
-              if(isEpicParser) {
+              if(isPlatformParser) {
                 data.parsedConfig.files[j].localIcons.push(url.encodeFile(data.parsedConfig.files[j].filePath))
               }
             }

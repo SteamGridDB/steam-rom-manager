@@ -94,7 +94,7 @@ let options = availableParsers.map((parserType: string)=>{
           enum: availableParserInputs[parserType]
         },
         patternProperties: {
-          "^.+$": { "type": ["string", "null"] }
+          "^.+$": { "type": ["string","boolean", "null"] }
         }
       }
     });

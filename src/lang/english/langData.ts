@@ -91,7 +91,8 @@ export const EnglishLang: languageContainer = {
       }
     },
     epicParser: {
-      inputTitle: 'Manifests Directory Override',
+      manifestsInputTitle: 'Manifests Directory Override',
+      launcherModeInputTitle: 'Launch games via Epic for online services',
       docs__md: {
         self: [
           require('./markdown/epic-parser.md')
@@ -105,6 +106,20 @@ export const EnglishLang: languageContainer = {
         epicNotCompatible: "> Epic Games Store not available on Linux.\n If you are using the Legendary store on Linux you need to set Manifests Override.",
         epicNotInstalled: "> Epic Games does not appear to be installed.",
         fatalError__i: '> Epic Games parser failed with fatal error:\n ${error}'
+      }
+    },
+    gogParser: {
+      launcherModeInputTitle: 'Launch games via GOG Galaxy',
+      docs__md: {
+        self: [
+          require('./markdown/epic-parser.md')
+        ],
+        input: [
+          require('./markdown/epic-parser-input.md')
+        ]
+      },
+      errors: {
+        fatalError__i: '> GOG Galaxy parser failed with fatal error:\n ${error}'
       }
     },
     globParser: {

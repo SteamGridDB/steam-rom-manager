@@ -25,6 +25,7 @@ export class GlobParser implements GenericParser {
       inputs: {
         'glob': {
           label: this.lang.inputTitle,
+          inputType: 'text',
           validationFn: this.validate.bind(this),
           info: this.lang.docs__md.input.join('')
         }

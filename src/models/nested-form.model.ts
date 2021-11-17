@@ -150,5 +150,5 @@ export namespace NestedFormElement {
   };
 }
 
-export type NestedFormInputs = NestedFormElement.Input | NestedFormElement.Select | NestedFormElement.Toggle;
+export type NestedFormInputs = NestedFormElement.Input | NestedFormElement.Select | NestedFormElement.Toggle | NestedFormElement.Path;
 export type NestedFormElements = NestedFormInputs | NestedFormElement.Group;
