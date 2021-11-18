@@ -399,7 +399,7 @@ export class FileParser {
               });
             }
           }));
-          let iconextRegex = /png|ico|exe|jpg|jpeg/i
+          let iconextRegex = /png|ico|jpg|jpeg/i
           localIconPromises.push(this.resolveFieldGlobs('localIcons', configs[i],settings, parsedConfigs[i], vParser).then((data) => {
             for (let j = 0; j < data.parsedConfig.files.length; j++) {
               data.parsedConfig.files[j].resolvedLocalIcons = data.resolvedGlobs[j];
@@ -408,9 +408,6 @@ export class FileParser {
               }).map((item)=> {
                 return url.encodeFile(item);
               });
-              if(isPlatformParser) {
-                data.parsedConfig.files[j].localIcons.push(url.encodeFile(data.parsedConfig.files[j].filePath))
-              }
             }
           }));
         }
