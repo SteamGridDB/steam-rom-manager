@@ -643,8 +643,8 @@ export class PreviewService {
               let steamTallImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('p')];
               let steamHeroImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('_hero')];
               let steamLogoImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('_logo')];
-              let steamIcon = undefined; //TODO add handling to get these
-              let steamIconUrl = undefined;
+              let steamIcon = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('_icon')];
+              let steamIconUrl = steamIcon ? url.encodeFile(steamIcon) : undefined;
               let steamImageUrl = steamImage ? url.encodeFile(steamImage) : undefined;
               let steamTallImageUrl = steamTallImage ? url.encodeFile(steamTallImage) : undefined;
               let steamHeroImageUrl = steamHeroImage ? url.encodeFile(steamHeroImage) : undefined;

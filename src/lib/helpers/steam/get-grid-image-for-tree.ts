@@ -15,7 +15,7 @@ export function getGridImagesForTree(tree: SteamTree<{ [appId: string]: string }
                 for (let userId in data.tree[steamDirectory]) {
                     promises.push(
                         fs.readdir(path.join(steamDirectory, 'userdata', userId, 'config', 'grid')).then((files) => {
-                            let extRegex = /png|tga|jpg|jpeg/i;
+                            let extRegex = /png|ico|tga|jpg|jpeg/i;
                             for (let i = 0; i < files.length; i++) {
                                 let ext = path.extname(files[i]);
                                 let appId = path.basename(files[i], ext);
