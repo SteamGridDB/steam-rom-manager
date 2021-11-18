@@ -1,8 +1,8 @@
 {
 	"Epic Games": {
 		"parserType": "Epic",
-		"configTitle": "Epic Games",
-		"steamCategory": "${Epic Games}",
+		"configTitle": "Epic",
+		"steamCategory": "${Epic}",
 		"executableArgs": "",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "",
@@ -37,7 +37,8 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"manifests": null
+			"manifests": null,
+      "epicLauncherMode": true
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
