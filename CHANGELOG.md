@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 * appid Field is now set correctly in `shortcuts.vdf`.
+* Icons no longer can be set to exes (which would result in those exe's being copied to grids folder)
 
 ## 2.3.25
 ### Added
@@ -18,6 +19,7 @@ All notable changes to this project will be documented in this file.
 * Epic and GOG parsers have launcherless option.
 ### Fixed
 * appid Field is now set correctly in `shortcuts.vdf`
+* Icons no longer can be set to exes (which would result in those exe's being copied to grids folder)
 
 ## 2.3.24
 ### Added
