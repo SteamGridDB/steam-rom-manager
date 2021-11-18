@@ -40,7 +40,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           sudo apt-get update
-          sudo apt-get install gcc-multilib
+          sudo apt-get install gcc-multilib g++-multilib
           npm run build:linux -- --publish=onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
