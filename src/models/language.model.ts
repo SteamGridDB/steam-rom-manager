@@ -99,11 +99,13 @@ export interface languageStruct {
       }
     },
     gogParser: {
+      galaxyExeOverrideTitle: string,
       launcherModeInputTitle: string,
       docs__md: {
         self: string[],
         input: string[]
       }, errors: {
+        invalidGalaxyExeOverride: string,
         fatalError__i: string
       }
     },

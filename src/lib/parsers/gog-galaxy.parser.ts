@@ -19,11 +19,23 @@ export class GOGParser implements GenericParser {
       title: 'GOG Galaxy',
       info: this.lang.docs__md.self.join(''),
       inputs: {
+        'galaxyExeOverride': {
+          label: this.lang.galaxyExeOverrideTitle,
+          inputType: 'path',
+          validationFn: (input: string) => {
+            if(!input || fs.existsSync(input) && fs.lstatSync(input).isFile()) {
+              return null;
+            } else {
+              return this.lang.errors.invalidGalaxyExeOverride;
+            }
+          },
+          info: this.lang.docs__md.input.join('')
+        },
         'gogLauncherMode': {
           label: this.lang.launcherModeInputTitle,
           inputType: 'toggle',
           validationFn: (input: any)=>{ return null },
-          info: this.lang.docs__md.input.join('')
+            info: this.lang.docs__md.input.join('')
         }
       }
     };
@@ -35,6 +47,8 @@ export class GOGParser implements GenericParser {
       let appPaths: string[] = [];
       let productIds: string[] = [];
       let dbPath: string = '';
+      let galaxyExePath = inputs.galaxyExeOverride || 'C:\\Program Files (x86)\\GOG Galaxy\\GalaxyClient.exe';
+
 
       if(os.type()=='Windows_NT') {
         dbPath = 'C:\\ProgramData\\GOG.com\\Galaxy\\storage\\galaxy-2.0.db'
@@ -59,9 +73,12 @@ export class GOGParser implements GenericParser {
         .filter((x:any) => x.productType == 'gog' && x.isPrimary)
         .map((x:any) => {
           x.params = playtaskparams.filter((y: any) => y.playTaskId==x.id)[0]
-          x.title = details.filter((y: any) => y.productId==x.productId)[0].title
+          let xdetails = details.filter((y: any) => y.productId==x.productId);
+          if(xdetails.length && xdetails[0]) {
+            x.title = xdetails[0].title
+          }
           return x;
-        })
+        });
         for(let task of playtasks) {
           if(task.title && task.params.executablePath) {
             appTitles.push(task.title);
@@ -72,13 +89,13 @@ export class GOGParser implements GenericParser {
       })
       .then(()=>{
         let parsedData: ParsedData = {success: [], failed:[]};
-        parsedData.executableLocation = 'C:\\Program Files (x86)\\GOG Galaxy\\GalaxyClient.exe'
+        parsedData.executableLocation = galaxyExePath;
         for(let i=0; i < appTitles.length; i++){
           parsedData.success.push({
             extractedTitle: appTitles[i],
             extractedAppId: productIds[i],
             launchOptions: `/command=runGame /gameId=${productIds[i]}`,
-            filePath: appPaths[i]
+              filePath: appPaths[i]
           });
         }
         resolve(parsedData);

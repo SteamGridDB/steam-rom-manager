@@ -109,6 +109,7 @@ export const EnglishLang: languageContainer = {
       }
     },
     gogParser: {
+      galaxyExeOverrideTitle: "Galaxy Path Override",
       launcherModeInputTitle: 'Launch games via GOG Galaxy',
       docs__md: {
         self: [
@@ -119,6 +120,7 @@ export const EnglishLang: languageContainer = {
         ]
       },
       errors: {
+        invalidGalaxyExeOverride: "> Galaxy Client Override is not a valid path.",
         fatalError__i: '> GOG Galaxy parser failed with fatal error:\n ${error}'
       }
     },

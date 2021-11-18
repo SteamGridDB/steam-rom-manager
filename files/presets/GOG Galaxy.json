@@ -37,6 +37,7 @@
       "useCredentials": true
     },
     "parserInputs": {
+      "galaxyExeOverride": "",
       "gogLauncherMode": false
     },
     "titleFromVariable": {

@@ -189,9 +189,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               if (parser && parser.inputs !== undefined) {
                 for (let inputFieldName in parser.inputs) {
                   let input = parser.inputs[inputFieldName];
-                  if(input.inputType == 'path') {
+                  if(input.inputType == 'path' || input.inputType == 'dir') {
                     parserInputs[inputFieldName] = new NestedFormElement.Path({
-                      directory: true,
+                      directory: input.inputType=='dir' ? true : false,
                       initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
                       highlight: this.highlight.bind(this),
                       label: input.label,

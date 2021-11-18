@@ -21,7 +21,7 @@ export class EpicParser implements GenericParser {
       inputs: {
         'manifests': {
           label: this.lang.manifestsInputTitle,
-          inputType: 'path',
+          inputType: 'dir',
           validationFn: (input: string) => {
             if(!input || fs.existsSync(input) && fs.lstatSync(input).isDirectory()) {
               return null;

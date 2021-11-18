@@ -52,7 +52,7 @@ export interface ParsedUserConfiguration {
 export interface ParserInputField {
   [inputKey: string]: {
     label: string,
-    inputType: 'text' | 'path' | 'toggle',
+    inputType: 'text' | 'path' | 'dir' | 'toggle',
     info?: string,
     forcedInput?: string,
     validationFn?: (inputData: any, suppressSlashError?: boolean) => null | string
