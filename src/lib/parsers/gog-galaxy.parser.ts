@@ -72,7 +72,7 @@ export class GOGParser implements GenericParser {
       })
       .then(()=>{
         let parsedData: ParsedData = {success: [], failed:[]};
-        parsedData.executableLocation = 'C:\\Program Files (x86)\\GOG Galaxy\\Galaxy Client.exe'
+        parsedData.executableLocation = 'C:\\Program Files (x86)\\GOG Galaxy\\GalaxyClient.exe'
         for(let i=0; i < appTitles.length; i++){
           parsedData.success.push({
             extractedTitle: appTitles[i],

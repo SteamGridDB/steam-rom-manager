@@ -90,7 +90,6 @@ export class CategoryManager {
                 }
               });
             }
-
           }
         }).catch((error: any)=>{
           throw error;
