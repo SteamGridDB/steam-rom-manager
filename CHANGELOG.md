@@ -1,15 +1,23 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 2.4.0
+## 2.4.0 (Planned)
 ### Added
 * GOG Parser.
+* Epic and GOG parsers have launcherless option.
 * UPlay Parser.
 * Automatic Preset Updating.
 * Icons now work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
 ### Fixed
 * appid Field is now set correctly in `shortcuts.vdf`.
+
+## 2.3.25
+### Added
+* GOG Parser.
+* Epic and GOG parsers have launcherless option.
+### Fixed
+* appid Field is now set correctly in `shortcuts.vdf`
 
 ## 2.3.24
 ### Added
