@@ -11,7 +11,7 @@ export const availableParserInputs: {[parserType: string]: string[]} = {
   'Glob-regex': ['glob-regex'],
   'Steam': [],
   'Epic': ['manifests', 'epicLauncherMode'],
-  'GOG Galaxy': ['gogLauncherMode']
+  'GOG Galaxy': ['galaxyExeOverride','gogLauncherMode']
 }
 
 export const artworkOnlyParsers = ['Steam']
