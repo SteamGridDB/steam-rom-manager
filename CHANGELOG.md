@@ -11,9 +11,10 @@ All notable changes to this project will be documented in this file.
 * Automatic Preset Updating.
 * Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.26
 ### Fixed
-* appid Field is now set correctly in `shortcuts.vdf`.
-* Icons no longer can be set to exes (which would result in those exe's being copied to grids folder)
+* Potential error in GOG Parser when details are missing (for now it just won't add the game).
+* Fixed existing icons not populating from grids folder.
 
 ## 2.3.25
 ### Added
