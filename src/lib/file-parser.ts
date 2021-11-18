@@ -76,7 +76,6 @@ export class FileParser {
   }
 
   executeFileParser(configs: UserConfiguration[], settings: AppSettings) {
-    console.log("executing File Parser");
     let steamDirectories: { directory: string, useCredentials: boolean, data: userAccountData[] }[] = [];
     let totalUserAccountsFound: number = 0;
     let filteredAccounts: { found: userAccountData[], missing: string[] }[] = [];
@@ -87,7 +86,6 @@ export class FileParser {
       .then(() => {
         let preParser = new VariableParser({ left: '${', right: '}' });
         for (let i = 0; i < configs.length; i++) {
-          console.log("parserType: ", configs[i].parserType)
           let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(configs[i].parserType);
           let isPlatformParser:boolean = parserInfo.platformParsers.includes(configs[i].parserType);
           let isROMParser:boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
@@ -211,14 +209,10 @@ export class FileParser {
             let startInDir:string = undefined;
             let launchOptions:string = undefined;
             if(isROMParser) {
-              console.log("ROM Parser")
               executableLocation = configs[i].executable.path ? configs[i].executable.path : data[i].success[j].filePath;
               startInDir = configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation);
             } else if(isPlatformParser) {
-              console.log("Platform Parser")
               startInDir = path.dirname(data[i].success[j].filePath);
-              console.log(configs[i]);
-              console.log("Launcher Mode: ",launcherMode)
               if(launcherMode) {
                 executableLocation = data[i].executableLocation;
                 launchOptions = data[i].success[j].launchOptions;
@@ -226,7 +220,6 @@ export class FileParser {
                 executableLocation = data[i].success[j].filePath;
               }
             } else if(isArtworkOnlyParser) {
-              console.log("Artwork Only Parser")
               executableLocation = data[i].success[j].extractedAppId;
             }
 
@@ -279,11 +272,13 @@ export class FileParser {
               lastFile.argumentString = exceptions.commandLineArguments;
             } else {
               if(isPlatformParser) {
-                lastFile.argumentString = launchOptions;
+                lastFile.argumentString = launchOptions || '';
               } else if(isROMParser) {
                 lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
                   return this.getVariable(variable as AllVariables, variableData).trim();
                 }) : '';
+              } else if(isArtworkOnlyParser) {
+                lastFile.argumentString = '';
               }
             }
 

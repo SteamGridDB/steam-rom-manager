@@ -112,10 +112,10 @@ export const EnglishLang: languageContainer = {
       launcherModeInputTitle: 'Launch games via GOG Galaxy',
       docs__md: {
         self: [
-          require('./markdown/epic-parser.md')
+          require('./markdown/gog-parser.md')
         ],
         input: [
-          require('./markdown/epic-parser-input.md')
+          require('./markdown/gog-parser-input.md')
         ]
       },
       errors: {

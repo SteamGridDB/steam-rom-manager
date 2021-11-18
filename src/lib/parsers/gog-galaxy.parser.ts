@@ -47,19 +47,16 @@ export class GOGParser implements GenericParser {
       Promise.resolve()
       .then(()=>{
         let db = sqlite(dbPath);
-        console.log(db)
-        let installed = db.prepare("select * from InstalledProducts").all().map((x: any) =>x.productId);
-        let details = db.prepare("select * from LimitedDetails").all()
-        .filter((x:any) => installed.includes(x.productId));
+        let details = db.prepare("select * from LimitedDetails").all();
         let playtaskparams = db.prepare("select * from PlayTaskLaunchParameters").all();
         let playtasks = db.prepare("select * from PlayTasks").all();
         db.close();
-        console.log('Installed ProductIds: ', installed)
         playtasks = playtasks.map((x:any) => {
           x.productId = parseInt(x.gameReleaseKey.split('_').pop());
+          x.productType = x.gameReleaseKey.split('_')[0]
           return x;
         })
-        .filter((x:any) => installed.includes(x.productId) && x.isPrimary)
+        .filter((x:any) => x.productType == 'gog' && x.isPrimary)
         .map((x:any) => {
           x.params = playtaskparams.filter((y: any) => y.playTaskId==x.id)[0]
           x.title = details.filter((y: any) => y.productId==x.productId)[0].title
