@@ -214,7 +214,8 @@ export const EnglishLang: languageContainer = {
           corruptedVariables__i: 'Saved configuration presets are invalid!\r\nPermanent file saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}',
         },
         info: {
-          downloaded: 'Configuration preset file has been downloaded.'
+          updatingPresets: 'Local config presets are out of date. Updating now.'
+          downloaded: 'New config preset file has been downloaded.'
         }
       }
     },

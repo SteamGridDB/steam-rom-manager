@@ -44,7 +44,6 @@ export class ConfigurationPresetsService {
     return Promise.resolve().then(() => {
       if (!this.downloadStatus.getValue()) {
         this.downloadStatus.next(true);
-
         return ConfigurationPresetsService.xRequest.request(
           'https://api.github.com/repos/SteamGridDB/steam-rom-manager/git/trees/master?recursive=1',
           { responseType: 'json', method: 'GET', timeout: 1000 }
@@ -87,9 +86,10 @@ export class ConfigurationPresetsService {
       let localVersion = fs.existsSync(paths.presetsData) ? fs.readJsonSync(paths.presetsData).version : 0;
       let remoteVersion = presetsData.version;
       if(localVersion < remoteVersion) {
+        this.loggerService.info(this.lang.info.updatingPresets);
         return this.download().then(()=>json.write(paths.presetsData, presetsData));
       } else {
-        json.read<ConfigPresets>(paths.configPresets).then((data) => {
+        return json.read<ConfigPresets>(paths.configPresets).then((data) => {
           if (data === null) {
             return this.download();
           }
@@ -106,7 +106,6 @@ export class ConfigurationPresetsService {
             }
           }
         })
-
       }
     }).catch((error) => {
       this.savingIsDisabled = true;
