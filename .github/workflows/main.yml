@@ -31,6 +31,8 @@ jobs:
           npm ci
 
       - name: Build
+        env:
+          SENTRY_AUTH: ${{ secrets.SENTRY_AUTH }}
         run: |
           git lfs pull
           npm run validate-files
