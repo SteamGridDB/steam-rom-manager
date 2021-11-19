@@ -6,8 +6,6 @@ import * as path from 'path';
 import * as url from 'url';
 
 // Sentry setup
-//import { init } from '@sentry/electron/dist/main'
-//init({dsn: 'https://6d0c7793f478480d8b82fb5d4e55ecea@o406253.ingest.sentry.io/5273341'});
 import * as Sentry from "@sentry/electron";
 Sentry.init({dsn: 'https://6d0c7793f478480d8b82fb5d4e55ecea@o406253.ingest.sentry.io/5273341'});
 

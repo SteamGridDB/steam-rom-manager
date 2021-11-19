@@ -12,16 +12,11 @@ import './styles/fonts.global.scss';
 import './styles/main.global.scss';
 
 // Sentry setup
-// import { init } from '@sentry/electron/dist/renderer'
-// init({dsn: 'https://6d0c7793f478480d8b82fb5d4e55ecea@o406253.ingest.sentry.io/5273341'});
 import * as Sentry from "@sentry/electron";
 Sentry.init({dsn: 'https://6d0c7793f478480d8b82fb5d4e55ecea@o406253.ingest.sentry.io/5273341'});
+
 if (process.env.NODE_ENV === 'production') {
   enableProdMode();
 }
-
-// Zone.js doesn't like it if Bluebird replaces the global `Promise` object.
-// This will instruct Bluebird to return the original Promise.
-(Promise as any).noConflict?.()
 
 platformBrowserDynamic().bootstrapModule(AppModule);
