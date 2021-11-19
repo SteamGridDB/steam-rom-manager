@@ -180,6 +180,18 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               this.currentDoc.content = this.lang.docs__md.userAccounts.join('');
             }
           }),
+          imageProviders: new NestedFormElement.Select({
+            label: this.lang.label.imageProviders,
+            placeholder: this.lang.placeholder.imageProviders,
+            multiple: true,
+            allowEmpty: true,
+            values: this.imageProviderService.instance.getAvailableProviders().map((provider) => { return { display: provider }; }),
+              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+              onInfoClick: (self, path) => {
+              this.currentDoc.activePath = path.join();
+              this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
+            }
+          }),
           parserInputs: (() => {
             let parserInputs = {};
             let parsers = parserInfo.availableParsers;
@@ -328,18 +340,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               onInfoClick: (self, path) => {
               this.currentDoc.activePath = path.join();
               this.currentDoc.content = this.lang.docs__md.imagePool.join('');
-            }
-          }),
-          imageProviders: new NestedFormElement.Select({
-            label: this.lang.label.imageProviders,
-            placeholder: this.lang.placeholder.imageProviders,
-            multiple: true,
-            allowEmpty: true,
-            values: this.imageProviderService.instance.getAvailableProviders().map((provider) => { return { display: provider }; }),
-              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-              onInfoClick: (self, path) => {
-              this.currentDoc.activePath = path.join();
-              this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
             }
           }),
           defaultImage: new NestedFormElement.Path({
