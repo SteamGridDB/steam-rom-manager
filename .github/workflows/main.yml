@@ -30,23 +30,23 @@ jobs:
           npm install -g npm@latest
           npm ci
 
-      - name: Build
-        env:
-          SENTRY_AUTH: ${{ secrets.SENTRY_AUTH }}
+      - name: Build Distribution
         run: |
           git lfs pull
           npm run validate-files
           npm run build:dist
-
-      - name: Build Linux
+        env:
+          SENTRY_AUTH: ${{ secrets.SENTRY_AUTH }}
+      - name: Prepare Linux Environment
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           sudo apt-get update
           sudo apt-get install gcc-multilib g++-multilib
-          npm run build:linux -- --publish=onTagOrDraft
+      - name: Build Linux
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: npm run build:linux -- --publish=onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-
       - name: Build Windows
         if: ${{ matrix.os == 'windows-latest' }}
         run: npm run build:win -- --publish=onTagOrDraft
