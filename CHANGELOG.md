@@ -3,13 +3,18 @@ All notable changes to this project will be documented in this file.
 
 ## 2.4.0
 ### Planned
-* GOG Parser.
-* UPlay Parser.
-* Origin Parser.
-* Command Line Interface.
-* Platform parsers have launcher and launcherless mode.
-* Automatic Preset Updating.
-* Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
+* [x] GOG Parser.
+* [ ] UPlay Parser.
+* [ ] Origin Parser.
+* [ ] Command Line Interface.
+* [x] Platform parsers have launcher and launcherless mode.
+* [x] Automatic Preset Updating.
+* [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
+
+## 2.3.27
+### Added 
+* Automatic Preset Updating
+* New Icon
 
 ## 2.3.26
 ### Fixed
