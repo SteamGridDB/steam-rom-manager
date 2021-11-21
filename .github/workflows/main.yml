@@ -37,11 +37,6 @@ jobs:
           npm run build:dist
         env:
           SENTRY_AUTH: ${{ secrets.SENTRY_AUTH }}
-  #    - name: Prepare Linux Environment
-  #      if: ${{ matrix.os == 'ubuntu-latest' }}
-  #      run: |
-  #        sudo apt-get update
-  #        sudo apt-get install gcc-multilib g++-multilib
       - name: Build Linux
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: npm run build:linux -- --publish=onTagOrDraft
