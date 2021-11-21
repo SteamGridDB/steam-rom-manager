@@ -90,7 +90,7 @@
     "ajv": "^6.4.0",
     "appid": "^1.0.3",
     "async": "^2.6.0",
-    "better-sqlite3": "^7.4.5",
+    "better-sqlite3": "https://github.com/cbartondock/better-sqlite3",
     "binary-vdf": "^0.1.0",
     "blob-to-buffer": "^1.2.7",
     "colornames": "^1.1.1",
