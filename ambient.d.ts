@@ -1,4 +1,4 @@
-declare module 'better_sqlite3';
+declare module 'better-sqlite3';
 declare module 'file-saver';
 declare module 'windows-shortcuts-ps';
 declare module 'steamgriddb';

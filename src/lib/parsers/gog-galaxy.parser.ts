@@ -7,7 +7,7 @@ import * as path from "path";
 import * as Sentry from '@sentry/electron';
 import * as os from "os";
 import * as json from "../helpers/json";
-import * as sqlite from "better_sqlite3";
+import * as sqlite from "better-sqlite3";
 
 export class GOGParser implements GenericParser {
 

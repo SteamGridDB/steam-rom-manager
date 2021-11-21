@@ -90,7 +90,7 @@ let clientConfig: Configuration = {
   node: false,
   externals: {
     leveldown: "require('leveldown')",
-    better_sqlite3: "require('better-sqlite3')"
+    'better-sqlite3': "commonjs better-sqlite3"
   }
 };
 
