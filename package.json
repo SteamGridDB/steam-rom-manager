@@ -54,7 +54,7 @@
   "main": "./dist/main.bundle.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/doZennn/steam-rom-manager"
+    "url": "https://github.com/SteamGridDB/steam-rom-manager"
   },
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
