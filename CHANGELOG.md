@@ -1,4 +1,4 @@
-# Change Log
+# Changelog
 All notable changes to this project will be documented in this file.
 
 ## 2.4.0
@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 * [ ] UPlay Parser.
 * [ ] Origin Parser.
 * [ ] Command Line Interface.
+* [x] Capability to override image searches.
 * [x] Platform parsers have launcher and launcherless mode.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
@@ -15,6 +16,9 @@ All notable changes to this project will be documented in this file.
 ### Added 
 * Automatic Preset Updating
 * New Icon
+* Search Title Override in Exceptions Manager
+### Fixed
+* A stray paranthesis in a preset.
 
 ## 2.3.26
 ### Fixed
