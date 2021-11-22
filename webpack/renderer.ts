@@ -90,7 +90,7 @@ let clientConfig: Configuration = {
     new CopyPlugin([
       {
         from: 'node_modules/better-sqlite3/',
-        to: 'release/node_modules/better-sqlite3/',
+        to: 'resourcesapp.asar.unpacked/node_modules/better-sqlite3/',
       }
     ])
   ],
