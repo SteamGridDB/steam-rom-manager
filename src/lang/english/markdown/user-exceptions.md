@@ -7,5 +7,12 @@ The only mandatory field here is `extractedTitle to override`. Once this is spec
 
 If you aren't sure what the `extractedTitle` is for a given game, check the output of testing the parser that game is in.
 
+## Search Title
+
+There are two options for overriding the title that is used to get images from SteamGridDB:
+
+* Specify the new search title.
+* Specify the exact game id to pull images from. For example to get images for the game [Flow](https://www.steamgriddb.com/game/5254019) which has SteamGridDB url `https://www.steamgriddb.com/game/5254019` you would put `${gameid:5254019}`.
+
 ## Custom Variables
 The task of overriding specific titles can also be accomplished by manually editing the custom variables JSON file and using appropriate variables in the `Title Modifier` parser field. It is recommended, however, that you use this tool instead since the custom variables JSON file will be updated over time and your edits may be overwritten.
