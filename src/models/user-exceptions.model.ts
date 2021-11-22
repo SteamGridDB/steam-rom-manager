@@ -1,7 +1,12 @@
+export interface UserExceptionsTitles {
+    [title: string] : {
+      newTitle: string,
+      searchTitle: string,
+      commandLineArguments: string,
+      exclude: boolean
+    }
+}
 export interface UserExceptions {
-  [title: string] : {
-    newTitle: string,
-    commandLineArguments: string,
-    exclude: boolean
-  }
+  exceptionsVersion?: number,
+  titles: UserExceptionsTitles
 };

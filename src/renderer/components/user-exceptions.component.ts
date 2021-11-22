@@ -51,6 +51,7 @@ export class ExceptionsComponent implements OnDestroy {
     return this.formBuilder.group({
       oldTitle:'',
       newTitle:'',
+      searchTitle:'',
       commandLineArguments: '',
       exclude: false
     })
@@ -58,16 +59,18 @@ export class ExceptionsComponent implements OnDestroy {
 
   setForm() {
     this.exceptionsForm = this.formBuilder.group({
-      items: this.formBuilder.array(Object.entries(this.userExceptions)
+      items: this.formBuilder.array(Object.entries(this.userExceptions.titles)
         .map(e=>this.formBuilder.group(Object.assign({oldTitle: e[0]},e[1]))))
     });
     this.exceptionsForm.valueChanges.subscribe((val)=>{
       this.exceptionsService.setIsUnsaved(true);
-      let error = this.exceptionsService.setCurrent(Object.fromEntries(val.items
+      let error = this.exceptionsService.setCurrent({
+        exceptionsVersion: this.userExceptions.exceptionsVersion,
+        titles: Object.fromEntries(val.items
         .filter((item: any)=>item.oldTitle)
-        .map((item: any)=>[item.oldTitle,_.omit(item,'oldTitle')])
-      )||{})
-    })
+        .map((item: any)=>[item.oldTitle,_.omit(item,'oldTitle')]))||{}
+      });
+    });
   }
 
   undo() {

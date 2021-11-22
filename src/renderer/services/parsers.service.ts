@@ -43,7 +43,7 @@ export class ParsersService {
       });
     this.exceptionsService.dataObservable
       .subscribe((data)=>{
-        this.fileParser.setUserExceptions(data.saved||{});
+        this.fileParser.setUserExceptions(data.saved||{titles: {}});
       })
     this.settingsService.onLoad((appSettings: AppSettings) => {
       this.appSettings = appSettings;
