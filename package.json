@@ -130,6 +130,7 @@
   },
   "devDependencies": {
     "@types/async": "^2.0.48",
+    "@types/copy-webpack-plugin": "^8.0.1",
     "@types/crc": "^3.4.0",
     "@types/fs-extra": "~5.0.0",
     "@types/glob": "^5.0.35",
@@ -144,6 +145,7 @@
     "@types/rangy": "0.0.32",
     "angular2-template-loader": "^0.6.2",
     "autoprefixer": "^10.4.0",
+    "copy-webpack-plugin": "^10.0.0",
     "cross-env": "^5.1.4",
     "css-loader": "^6.5.0",
     "electron": "^12.2.3",

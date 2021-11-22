@@ -1,6 +1,7 @@
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import * as SentryCliPlugin from '@sentry/webpack-plugin';
+import * as CopyPlugin from 'copy-webpack-plugin';
 import { merge } from 'webpack-merge';
 import { Configuration } from 'webpack';
 
@@ -85,7 +86,13 @@ let clientConfig: Configuration = {
     new HtmlWebpackPlugin({
       filename: helpers.root('dist', 'renderer', 'index.html'),
       template: helpers.root('src', 'renderer', 'index.html')
-    })
+    }),
+    new CopyPlugin([
+      {
+        from: 'node_modules/better-sqlite3/',
+        to: 'release/node_modules/better-sqlite3/',
+      }
+    ])
   ],
   node: false,
   externals: {
