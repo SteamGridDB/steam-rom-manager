@@ -45,7 +45,7 @@
       "dist/**/*",
       "package.json",
       "!node_modules/leveldown/{build,deps}/**",
-      "!node_modules/better-sqlite3/{build,deps}/**"
+      "node_modules/better-sqlite3/{build,deps}/**"
     ],
     "publish": {
       "provider": "github",
@@ -130,7 +130,6 @@
   },
   "devDependencies": {
     "@types/async": "^2.0.48",
-    "@types/copy-webpack-plugin": "^8.0.1",
     "@types/crc": "^3.4.0",
     "@types/fs-extra": "~5.0.0",
     "@types/glob": "^5.0.35",
@@ -145,12 +144,10 @@
     "@types/rangy": "0.0.32",
     "angular2-template-loader": "^0.6.2",
     "autoprefixer": "^10.4.0",
-    "copy-webpack-plugin": "^10.0.0",
     "cross-env": "^5.1.4",
     "css-loader": "^6.5.0",
     "electron": "^12.2.3",
     "electron-builder": "^21.2.0",
-    "electron-rebuild": "^3.2.5",
     "html-loader": "^3.0.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.4.3",

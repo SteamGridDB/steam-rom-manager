@@ -101,7 +101,6 @@ export class Validator<T = object> {
           _.set(data, key, _.get(data,oldKey,undefined));
         }
       }
-      console.log('modified data:', data);
       return !_.isEqual(controlValue, _.get(data, this.modifier!.controlProperty, undefined));
     }
     else {

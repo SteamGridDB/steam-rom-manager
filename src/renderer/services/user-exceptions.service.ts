@@ -66,7 +66,6 @@ export class UserExceptionsService {
 
   setSaved(data: UserExceptions) {
     if (this.validator.validate(data).isValid() && data) {
-      console.log('newData: ', data)
       this.variableData.next({current: null, saved: data});
     } else {
       this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });

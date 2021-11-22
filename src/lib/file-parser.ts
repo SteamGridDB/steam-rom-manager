@@ -285,7 +285,6 @@ export class FileParser {
             return this.getVariable(variable as AllVariables, variableData).trim();
           }) : '';
           if(exceptions && exceptions.searchTitle) {
-            console.log("setting image queries in file parser")
             lastFile.onlineImageQueries = [exceptions.searchTitle];
             lastFile.imagePool = exceptions.searchTitle;
           } else {
