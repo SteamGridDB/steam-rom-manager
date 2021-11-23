@@ -68,11 +68,12 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
       }
     },
     3: {
-      'version': {method: versionUp},
+      'version': { method: versionUp},
       'localIcons': { method: replaceVariables_undefined }
     },
     4: {
       'version': { method: versionUp },
+      'parserType': { method: (pType)=> pType || 'Glob' }
       'parserInputs': {
         method: (oldValue, oldConfiguration: any) => {
           let result: any = {};

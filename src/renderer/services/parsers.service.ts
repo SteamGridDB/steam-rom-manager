@@ -381,6 +381,9 @@ export class ParsersService {
 
         fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => {
           item.saved[modifiers.userConfiguration.controlProperty] = modifiers.userConfiguration.latestVersion;
+          if(!item.saved.parserType) {
+            throw new Error(this.lang.error.parserTypeMissing);
+          }
           for(let key of Object.keys(item.saved.parserInputs)) {
             if(!parserInfo.availableParserInputs[item.saved.parserType].includes(key)) {
               delete item.saved.parserInputs[key]
@@ -431,10 +434,12 @@ export class ParsersService {
           data[i].titleFromVariable.tryToMatchTitle = false;
           data[i].executableModifier = "\"${exePath}\"";
         }
-        if (this.validator.validate(data[i]).isValid())
+        if (this.validator.validate(data[i]).isValid()) {
           validatedConfigs.push({ saved: data[i], current: null });
-        else
+        }
+        else {
           errorString += `\r\n[Config ${i} with title ${data[i].configTitle||''}]:\r\n    ${this.validator.errorString.replace(/\n/g, '\n    ')}`;
+        }
       };
       if (errorString.length > 0) {
         this.savingIsDisabled = true;

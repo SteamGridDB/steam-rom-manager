@@ -447,6 +447,7 @@ export interface languageStruct {
             error: {
               savingConfiguration: string,
                 readingConfiguration: string,
+                parserTypeMissing: string,
                 corruptedConfiguration__i: string//${file}, ${error}
             },
             validationErrors: {
