@@ -434,7 +434,7 @@ export class ParsersService {
         if (this.validator.validate(data[i]).isValid())
           validatedConfigs.push({ saved: data[i], current: null });
         else
-          errorString += `\r\n[${i}]:\r\n    ${this.validator.errorString.replace(/\n/g, '\n    ')}`;
+          errorString += `\r\n[Config ${i} with title ${data[i].configTitle||''}]:\r\n    ${this.validator.errorString.replace(/\n/g, '\n    ')}`;
       };
       if (errorString.length > 0) {
         this.savingIsDisabled = true;
