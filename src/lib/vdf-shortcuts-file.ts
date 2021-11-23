@@ -2,6 +2,7 @@ import { VDF_ShortcutsItem } from "../models";
 import { VDF_Error } from './vdf-error';
 import { APP } from '../variables';
 import * as steam from './helpers/steam';
+import * as json from './helpers/json';
 import * as file from './helpers/file';
 import * as _ from "lodash";
 import * as fs from 'fs-extra';
@@ -72,7 +73,9 @@ export class VDF_ShortcutsFile {
       if (!skipIndexing) {
         for (let i = 0; i < shortcutsData.length; i++) {
           let shortcut = shortcutsData[i];
-          this.indexMap[steam.generateAppId(shortcut.exe, shortcut.appname || shortcut['AppName'] /* fallback due to old mistakes */)] = i;
+          let exe = json.caseInsensitiveTraverse(shortcut, [['exe']]);
+          let appname = json.caseInsensitiveTraverse(shortcut, [['appname']]);
+          this.indexMap[steam.generateAppId(exe,appname)] = i;
         }
       }
 
