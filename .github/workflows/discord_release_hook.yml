@@ -1,7 +1,8 @@
 name: Send Discord Webhook
 
 on:
-  release: [published]
+  release:
+    types: [published]
   workflow_dispatch:
 
 jobs:
