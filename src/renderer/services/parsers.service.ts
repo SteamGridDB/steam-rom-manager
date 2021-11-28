@@ -128,7 +128,6 @@ export class ParsersService {
       else
         userConfigurations[index].current.parserId = userConfigurations[index].saved.parserId;
       if(userConfigurations[index].current.parserType==='Steam') {
-        userConfigurations[index].current.fuzzyMatch.use=false;
         userConfigurations[index].current.titleFromVariable.tryToMatchTitle=false;
       }
       userConfigurations[index] = { saved: userConfigurations[index].current, current: null };
@@ -429,8 +428,7 @@ export class ParsersService {
         // TODO get rid of this ugly hack for making specified accounts mandatory for steam parser only
         data[i].userAccounts.specifiedAccounts = data[i].userAccounts.specifiedAccounts || '';
         updateNeeded=true;
-        if(['Epic','Steam'].includes(data[i].parserType)) {
-          data[i].fuzzyMatch.use = false;
+        if(!parserInfo.ROMParsers.includes(data[i].parserType)) {
           data[i].titleFromVariable.tryToMatchTitle = false;
           data[i].executableModifier = "\"${exePath}\"";
         }

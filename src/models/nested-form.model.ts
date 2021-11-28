@@ -148,7 +148,19 @@ export namespace NestedFormElement {
       Object.assign(this, init);
     }
   };
+
+  export class Section {
+    static displayName = 'Section';
+    /** Mandatory */
+    label: string;
+    /** Optional */
+    isHidden?: NestedInputHidden;
+
+    constructor(init?: ObjectFields<Section>) {
+      Object.assign(this, init);
+    }
+  }
 }
 
 export type NestedFormInputs = NestedFormElement.Input | NestedFormElement.Select | NestedFormElement.Toggle | NestedFormElement.Path;
-export type NestedFormElements = NestedFormInputs | NestedFormElement.Group;
+export type NestedFormElements = NestedFormInputs | NestedFormElement.Group | NestedFormElement.Section;

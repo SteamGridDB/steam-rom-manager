@@ -171,7 +171,7 @@ export class FileParser {
         if (isROMParser && configs[i].titleFromVariable.tryToMatchTitle)
           this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);
 
-        if (isROMParser && configs[i].fuzzyMatch.use)
+        if (isROMParser)
           this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data[i], configs[i].fuzzyMatch);
 
 
@@ -506,6 +506,7 @@ export class FileParser {
         let variableData = this.makeVariableData(config,settings, parsedConfig.files[i]);
         //expandable set is to allow you to comment out stuff using $()$. Decent idea, but ehhhh
         let expandableSet = /\$\((\${.+?})(?:\|(.*?))?\)\$/.exec(fieldValue);
+        console.log("expandable set: ",expandableSet)
         let cwd = settings.environmentVariables.localImagesDirectory? settings.environmentVariables.localImagesDirectory : config.romDirectory;
         if (expandableSet === null) {
           let replacedGlob = path.resolve(cwd,vParser.setInput(fieldValue).parse() ? vParser.replaceVariables((variable) => {
@@ -535,18 +536,31 @@ export class FileParser {
           }
 
           promises.push(Promise.resolve().then(() => {
-            if (/\${title}/i.test(expandableSet[1]))
-            return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache);
-            else
-              return this.availableParsers['Glob-regex'].execute([cwd], { 'glob-regex': parserMatch }, this.globCache);
-          }).then((parsedData) => {
+            if (/\${title}/i.test(expandableSet[1])) {
+              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache).then((parsedData)=>{
+                return {parsedData: parsedData, isFuzzy: false}
+              });
+            }
+            else if (/\${fuzzyTitle}/i.test(expandableSet[1])) {
+              parserMatch = parserMatch.replace('${fuzzyTitle}','${title}')
+              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache).then((parsedData)=>{
+                return {parsedData: parsedData, isFuzzy: true}
+              });
+            }
+            else {
+              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache).then((parsedData)=>{
+                return {parsedData: parsedData, isFuzzy: false}
+              });
+
+            }
+          }).then((data) => {
+            let parsedData = data.parsedData;
+            let isFuzzy = data.isFuzzy;
             for (let j = 0; j < parsedData.success.length; j++) {
-              if (config.fuzzyMatch.use) {
-                if (this.fuzzyService.fuzzyMatcher.fuzzyMatchString(parsedData.success[j].extractedTitle, config.fuzzyMatch) === parsedConfig.files[i].fuzzyTitle) {
-                  resolvedFiles[i].push(parsedData.success[j].filePath);
-                }
+              if (isFuzzy && parsedData.success[j].extractedTitle === parsedConfig.files[i].fuzzyTitle) {
+                resolvedFiles[i].push(parsedData.success[j].filePath);
               }
-              else if (parsedData.success[j].extractedTitle === parsedConfig.files[i].extractedTitle) {
+              else if (!isFuzzy && parsedData.success[j].extractedTitle === parsedConfig.files[i].extractedTitle) {
                 resolvedFiles[i].push(parsedData.success[j].filePath);
               }
             }
