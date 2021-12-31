@@ -53,6 +53,60 @@
 		},
 		"presetVersion": 0
 	},
+	"Nintendo Wii U - Cemu (RPX - Installed)": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo WiiU - Cemu (RPX - Installed)",
+		"steamCategory": "${Wii U}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-cemu-mlc01-usr-title-00050000",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-f -g \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"defaultTallImage": "",
+		"defaultHeroImage": "",
+		"defaultLogoImage": "",
+		"defaultIcon": "",
+		"localImages": "",
+		"localTallImages": "",
+		"localHeroImages": "",
+		"localLogoImages": "",
+		"localIcons": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}/*/*@(.rpx|.RPX)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "${WIIU}",
+			"caseInsensitiveVariables": true,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": true
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "path-to-cemu.exe",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 0
+	},
 	"Nintendo Wii U - Cemu (WUD/WUX)": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo WiiU - Cemu (WUD/WUX)",
