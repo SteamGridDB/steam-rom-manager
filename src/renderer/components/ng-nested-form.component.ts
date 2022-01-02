@@ -44,6 +44,14 @@ export class NgNestedFormComponent implements OnInit {
     this.hiddenSections.next(hiddenSections);
   }
 
+  // writeHiddenSections(newHiddenSections: {[sectionName: string]: boolean}) {
+  //   this.hiddenSections.next(newHiddenSections);
+  // }
+  //
+  // hiddenSectionsObservable() {
+  //   return this.hiddenSections.asObservable();
+  // }
+
   private isSectionHidden(sectionName: string) {
     return !!this.hiddenSections.getValue()[sectionName];
   }

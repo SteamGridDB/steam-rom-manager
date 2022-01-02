@@ -29,6 +29,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private nestedGroup: NestedFormElement.Group;
   private userForm: FormGroup;
   private formChanges: Subscription = new Subscription();
+  private hiddenSections: {[parserId: string]: {[sectionName: string]: boolean}}
 
 
   constructor(
@@ -478,7 +479,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.loadConfiguration();
       })).add(this.cpService.dataObservable.subscribe((data) => {
         this.configPresets = data;
-      }));
+      }))
+      // .add(this.nestedGroup.hiddenSectionsObservable().subscribe((hiddenSections: {[sectionName:string]:boolean})=>{
+      //   console.log("hidden sections observable: ", hiddenSections);
+      // }));
     }
 
     private setPreset(key: string) {
