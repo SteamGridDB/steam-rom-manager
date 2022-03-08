@@ -86,7 +86,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.cue|.CUE|.iso|.ISO|.zip|ZIP)"
+			"glob": "${title}@(.7z|.7Z|.cue|.CUE|.iso|.ISO|.zip|ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",

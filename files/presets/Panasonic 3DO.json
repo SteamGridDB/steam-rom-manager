@@ -32,7 +32,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.bin|.BIN|.cue|.CUE|.iso|.ISO)"
+			"glob": "${title}@(.cue|.CUE|.iso|.ISO)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -86,7 +86,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.chd|.CHD|.cue|.CUE|.iso|.ISO)"
+			"glob": "${title}@(.7z|.7Z|.chd|.CHD|.cue|.CUE|.iso|.ISO)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
