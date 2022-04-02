@@ -1,4 +1,112 @@
 {
+	"Nintendo Switch - Ryujinx": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Switch - Ryujinx",
+		"steamCategory": "${}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "--fullscreen \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"defaultTallImage": "",
+		"defaultHeroImage": "",
+		"defaultLogoImage": "",
+		"defaultIcon": "",
+		"localImages": "",
+		"localTallImages": "",
+		"localHeroImages": "",
+		"localLogoImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.nca|.NCA|.nro|.NRO|.nso|.NSO|.nsp|.NSP|.xci|.XCI)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "path-to-ryujinx.exe",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 0
+	},
+	"Nintendo Switch - Ryujinx(Flatpak)": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Switch - Ryujinx(Flatpak)",
+		"steamCategory": "${}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "run org.ryujinx.Ryujinx --fullscreen \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"defaultTallImage": "",
+		"defaultHeroImage": "",
+		"defaultLogoImage": "",
+		"defaultIcon": "",
+		"localImages": "",
+		"localTallImages": "",
+		"localHeroImages": "",
+		"localLogoImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.nca|.NCA|.nro|.NRO|.nso|.NSO|.nsp|.NSP|.xci|.XCI)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "/usr/bin/flatpak",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 0
+	},
 	"Nintendo Switch - Yuzu": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo Switch - Yuzu",
@@ -53,16 +161,16 @@
 		},
 		"presetVersion": 0
 	},
-	"Nintendo Switch - Ryujinx": {
+	"Nintendo Switch - Yuzu(Flatpak)": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo Switch - Ryujinx",
+		"configTitle": "Nintendo Switch - Yuzu(Flatpak)",
 		"steamCategory": "${}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "--fullscreen \"${filePath}\"",
+		"executableArgs": "run org.yuzu_emu.yuzu -f -g \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -86,7 +194,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.nca|.NCA|.nro|.NRO|.nso|.NSO|.nsp|.NSP|.xci|.XCI)"
+			"glob": "${title}@(.kip|.KIP|.nca|.NCA|.nro|.NRO|.nso|.NSO|.nsp|.NSP|.xci|.XCI)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -101,7 +209,7 @@
 			"removeBrackets": true
 		},
 		"executable": {
-			"path": "path-to-ryujinx.exe",
+			"path": "/usr/bin/flatpak",
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},

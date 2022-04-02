@@ -52,5 +52,59 @@
 			"appendArgsToExecutable": true
 		},
 		"presetVersion": 0
+	},
+	"Nintendo Virtual Boy - Retroarch(Flatpak) - Beetle VB": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Virtual Boy - Retroarch(Flatpak) - Beetle VB",
+		"steamCategory": "${Virtual Boy}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mednafen_vb_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"defaultTallImage": "",
+		"defaultHeroImage": "",
+		"defaultLogoImage": "",
+		"defaultIcon": "",
+		"localImages": "",
+		"localTallImages": "",
+		"localHeroImages": "",
+		"localLogoImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.vb|.VB|.vboy|.VBOY|.zip|.ZIP)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "/usr/bin/flatpak",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 0
 	}
 }
