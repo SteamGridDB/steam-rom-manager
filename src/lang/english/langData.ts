@@ -124,6 +124,22 @@ export const EnglishLang: languageContainer = {
         fatalError__i: '> GOG Galaxy parser failed with fatal error:\n ${error}'
       }
     },
+    itchIoParser: {
+      itchIoAppDataOverrideTitle: "itch.io AppData Path Override",
+      docs__md: {
+        self: [
+          require('./markdown/itch-io-parser.md')
+        ],
+        input: [
+          require('./markdown/itch-io-parser-input.md')
+        ]
+      },
+      errors: {
+        invalidItchIoAppDataOverride: "> itch.io AppData Override is not a valid directory.",
+        osUnsupported: "> itch.io parser failed because it only supports windows currently",
+        fatalError__i: '> itch.io parser failed with fatal error:\n ${error}'
+      }
+    },
     globParser: {
       inputTitle: 'User\'s glob',
       docs__md: {
