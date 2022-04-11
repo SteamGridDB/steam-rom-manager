@@ -212,10 +212,10 @@ export class FileParser {
             executableLocation = configs[i].executable.path ? configs[i].executable.path : data[i].success[j].filePath;
             startInDir = configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation);
           } else if(isPlatformParser) {
-            startInDir = path.dirname(data[i].success[j].filePath);
+            startInDir = data[i].success[j].startInDir || path.dirname(data[i].success[j].filePath);
+            launchOptions = data[i].success[j].launchOptions;
             if(launcherMode) {
               executableLocation = data[i].executableLocation;
-              launchOptions = data[i].success[j].launchOptions;
             } else {
               executableLocation = data[i].success[j].filePath;
             }

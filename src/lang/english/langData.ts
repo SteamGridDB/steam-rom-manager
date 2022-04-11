@@ -124,6 +124,21 @@ export const EnglishLang: languageContainer = {
         fatalError__i: '> GOG Galaxy parser failed with fatal error:\n ${error}'
       }
     },
+    amazonGamesParser: {
+      amazonGamesDirOverrideTitle: "Amazon Games Installation Path Override",
+      docs__md: {
+        self: [
+          require('./markdown/amazon-games-parser.md')
+        ],
+        input: [
+          require('./markdown/amazon-games-parser-input.md')
+        ]
+      },
+      errors: {
+        invalidAmazonGamesDirOverride: "> Amazon Games Installation Override is not a valid directory.",
+        osUnsupported: "> Amazon Games parser failed because Amazon Games is windows only"
+      }
+    },
     globParser: {
       inputTitle: 'User\'s glob',
       docs__md: {

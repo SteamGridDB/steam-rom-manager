@@ -126,6 +126,7 @@
     "steamgriddb": "https://github.com/cbartondock/node-steamgriddb.git",
     "to-css": "^1.2.1",
     "windows-shortcuts-ps": "https://github.com/cbartondock/windows-shortcuts-ps.git",
+    "yaml": "^1.10.2",
     "zone.js": "^0.8.20"
   },
   "devDependencies": {
