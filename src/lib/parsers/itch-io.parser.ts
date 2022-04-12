@@ -3,6 +3,7 @@ import { APP } from '../../variables';
 import * as fs from "fs-extra";
 import * as os from "os";
 import * as sqlite from "better-sqlite3";
+import * as Sentry from '@sentry/electron';
 
 export class ItchIoParser implements GenericParser {
 
@@ -32,38 +33,43 @@ export class ItchIoParser implements GenericParser {
 
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
     return new Promise<ParsedData>((resolve,reject)=>{
-      if(os.type()!='Windows_NT') {
-        reject(this.lang.errors.osUnsupported);
-      }
-
-      const itchIoAppDataDir = inputs.itchIoAppDataOverride || `${process.env.APPDATA}\\itch`;
-      const dbPath = `${itchIoAppDataDir}\\db\\butler.db`;
-
-      if(!fs.existsSync(dbPath)) {
-        reject();
-      }
-
-      const db = sqlite(dbPath);
-      const games: { extractedTitle:string, filePath:string }[] = db.prepare(
-        "select title, verdict from caves as c join games as g on c.game_id = g.id"
-      ).all()
-      .map(({ title, verdict }: { [key:string]:string }) => {
-        const { basePath, candidates } = JSON.parse(verdict);
-
-        if (!candidates) {
-          return null;
+      try {
+        if(os.type()!='Windows_NT') {
+          reject(this.lang.errors.osUnsupported);
         }
 
-        const exePath = candidates[0].path.replace('/','\\');
+        const itchIoAppDataDir = inputs.itchIoAppDataOverride || `${process.env.APPDATA}\\itch`;
+        const dbPath = `${itchIoAppDataDir}\\db\\butler.db`;
 
-        return { 
-          extractedTitle: title,
-          filePath: `${basePath}\\${exePath}`,
-        };
-      })
-      .filter((gameDetails:any) => gameDetails !== null);
+        if(!fs.existsSync(dbPath)) {
+          reject();
+        }
 
-      resolve({success: games, failed:[]});
+        const db = sqlite(dbPath);
+        const games: { extractedTitle:string, filePath:string }[] = db.prepare(
+          "select title, verdict from caves as c join games as g on c.game_id = g.id"
+        ).all()
+        .map(({ title, verdict }: { [key:string]:string }) => {
+          const { basePath, candidates } = JSON.parse(verdict);
+
+          if (!candidates) {
+            return null;
+          }
+
+          const exePath = candidates[0].path.replace('/','\\');
+
+          return { 
+            extractedTitle: title,
+            filePath: `${basePath}\\${exePath}`,
+          };
+        })
+        .filter((gameDetails:any) => gameDetails !== null);
+
+        resolve({success: games, failed:[]});
+      } catch(err) {
+        Sentry.captureException(err);
+        reject(this.lang.errors.fatalError__i.interpolate({error: err}));
+      }
     })
   }
 }

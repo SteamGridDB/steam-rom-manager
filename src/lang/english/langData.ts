@@ -136,7 +136,7 @@ export const EnglishLang: languageContainer = {
       },
       errors: {
         invalidItchIoAppDataOverride: "> itch.io AppData Override is not a valid directory.",
-        osUnsupported: "> itch.io parser failed because it only supports windows currently",
+        osUnsupported: "> itch.io parser failed because the parser only supports windows currently.",
         fatalError__i: '> itch.io parser failed with fatal error:\n ${error}'
       }
     },
