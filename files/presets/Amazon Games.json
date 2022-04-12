@@ -38,7 +38,7 @@
 		},
 		"parserInputs": {
 			"amazonGamesExeOverride": "",
-      "amazonGamesLauncherMode": true
+			"amazonGamesLauncherMode": true
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
