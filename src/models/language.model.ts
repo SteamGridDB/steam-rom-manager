@@ -85,14 +85,16 @@ export interface languageStruct {
         }
     },
     amazonGamesParser: {
-      amazonGamesDirOverrideTitle: string,
+      exeOverrideTitle: string,
+      launcherModeInputTitle: string,
       docs__md: {
         self: string[],
         input: string[]
       },
       errors: {
-        invalidAmazonGamesDirOverride: string,
-        osUnsupported: string
+        invalidExeOverride: string,
+        osUnsupported: string,
+        fatalError__i: string
       }
     },
     epicParser: {

@@ -167,7 +167,11 @@ export class FileParser {
         let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(configs[i].parserType);
         let isPlatformParser:boolean = parserInfo.platformParsers.includes(configs[i].parserType);
         let isROMParser:boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
-        let launcherMode = !!(configs[i].parserInputs.epicLauncherMode || configs[i].parserInputs.gogLauncherMode);
+        let launcherMode = !!(
+             configs[i].parserInputs.epicLauncherMode
+          || configs[i].parserInputs.gogLauncherMode
+          || configs[i].parserInputs.amazonGamesLauncherMode
+        );
         if (isROMParser && configs[i].titleFromVariable.tryToMatchTitle)
           this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);
 

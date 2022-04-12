@@ -37,7 +37,8 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"amazonGamesDirOverride": ""
+			"amazonGamesExeOverride": "",
+      "amazonGamesLauncherMode": true
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",

@@ -125,7 +125,8 @@ export const EnglishLang: languageContainer = {
       }
     },
     amazonGamesParser: {
-      amazonGamesDirOverrideTitle: "Amazon Games Installation Path Override",
+      exeOverrideTitle: "Amazon Games Path Override",
+      launcherModeInputTitle: "Launch games via Amazon Games",
       docs__md: {
         self: [
           require('./markdown/amazon-games-parser.md')
@@ -135,8 +136,9 @@ export const EnglishLang: languageContainer = {
         ]
       },
       errors: {
-        invalidAmazonGamesDirOverride: "> Amazon Games Installation Override is not a valid directory.",
-        osUnsupported: "> Amazon Games parser failed because Amazon Games is windows only"
+        invalidExeOverride: "> Amazon Games Installation Override is not a valid directory.",
+        osUnsupported: "> Amazon Games parser failed because Amazon Games is only avaliable on windows.",
+        fatalError__i: '> Amazon Games parser failed with fatal error:\n ${error}'
       }
     },
     globParser: {

@@ -13,7 +13,7 @@ export const availableParserInputs: {[parserType: string]: string[]} = {
   'Steam': [],
   'Epic': ['manifests', 'epicLauncherMode'],
   'GOG Galaxy': ['galaxyExeOverride','gogLauncherMode'],
-  'Amazon Games': ['amazonGamesDirOverride']
+  'Amazon Games': ['amazonGamesExeOverride', 'amazonGamesLauncherMode']
 }
 
 export const artworkOnlyParsers = ['Steam']
