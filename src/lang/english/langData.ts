@@ -90,6 +90,23 @@ export const EnglishLang: languageContainer = {
         fatalError__i: '> Steam parser failed with fatal error:\n ${error}'
       }
     },
+    manualPraser: {
+        manifestsInputTitle: 'Manifests Directory',
+
+        docs__md: {
+            self: [
+                require('./markdown/manual-parser.md')
+            ],
+            input: [
+                require('./markdown/manual-parser-input.md')
+            ]
+        },
+        errors: {
+            invalidManifestsOverride: "> Manifests Direcotry is not a valid directory.",
+            fatalError__i: '> Manual parser failed with fatal error:\n ${error}'
+
+        }
+    },
     epicParser: {
       manifestsInputTitle: 'Manifests Directory Override',
       launcherModeInputTitle: 'Launch games via Epic for online services',

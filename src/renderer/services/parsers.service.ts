@@ -361,6 +361,12 @@ export class ParsersService {
         'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','defaultIcon','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
       ];
     }
+    else if (parserInfo.manualPrasers.includes(config['parserType'])) {
+        simpleValidations = ['configTitle', 'parserId', 'steamDirectory', 'steamCategory', 'titleModifier',
+            'onlineImageQueries', 'imagePool', 'imageProviders',
+            'defaultImage', 'defaultTallImage', 'defaultHeroImage', 'defaultLogoImage', 'defaultIcon', 'localImages', 'localTallImages', 'localHeroImages', 'localLogoImages', 'localIcons'
+        ]
+    }
 
     if(this.validate('userAccounts', config['userAccounts'], {parserType: config['parserType']}) !== null) {
       return false;

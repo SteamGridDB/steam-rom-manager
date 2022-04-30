@@ -128,7 +128,8 @@ export class FileParser {
       for(let i=0; i<configs.length;i++) {
         let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(configs[i].parserType);
         let isPlatformParser:boolean = parserInfo.platformParsers.includes(configs[i].parserType);
-        let isROMParser:boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
+        let isROMParser: boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
+        let isManualPraser: boolean = parserInfo.manualPrasers.includes(configs[i].parserType);
         let parser = this.getParserInfo(configs[i].parserType);
         if (parser) {
           if (parser.inputs !== undefined) {
@@ -143,7 +144,7 @@ export class FileParser {
           let userFilter = preParser.setInput(configs[i].userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
           filteredAccounts.push(this.filterUserAccounts(steamDirectories[i].data, userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir));
           totalUserAccountsFound+=filteredAccounts[filteredAccounts.length-1].found.length;
-          let directories = isROMParser ? [configs[i].romDirectory] : filteredAccounts[i].found.map((account: userAccountData)=>path.join(configs[i].steamDirectory,'userdata',account.accountID));
+          let directories = isROMParser || isManualPraser ? [configs[i].romDirectory] : filteredAccounts[i].found.map((account: userAccountData)=>path.join(configs[i].steamDirectory,'userdata',account.accountID));
           promises.push(this.availableParsers[configs[i].parserType].execute(directories, configs[i].parserInputs, this.globCache));
         }
         else
@@ -166,7 +167,8 @@ export class FileParser {
       for (let i = 0; i < configs.length; i++) {
         let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(configs[i].parserType);
         let isPlatformParser:boolean = parserInfo.platformParsers.includes(configs[i].parserType);
-        let isROMParser:boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
+        let isROMParser: boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
+        let isManualParser: boolean = parserInfo.manualPrasers.includes(configs[i].parserType);
         let launcherMode = !!(configs[i].parserInputs.epicLauncherMode || configs[i].parserInputs.gogLauncherMode);
         if (isROMParser && configs[i].titleFromVariable.tryToMatchTitle)
           this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);
@@ -207,11 +209,19 @@ export class FileParser {
 
           let executableLocation:string = undefined;
           let startInDir:string = undefined;
-          let launchOptions:string = undefined;
-          if(isROMParser) {
+          let launchOptions: string = undefined;
+          let argumentString: string = undefined;
+
+          if (isManualParser) {
+              executableLocation = data[i].success[j].filePath;
+              startInDir = data[i].success[j].startInDirectory.length > 0 ? data[i].success[j].startInDirectory : path.dirname(executableLocation);
+              argumentString = data[i].success[j].launchOptions;
+          }
+          else if(isROMParser) {
             executableLocation = configs[i].executable.path ? configs[i].executable.path : data[i].success[j].filePath;
             startInDir = configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation);
-          } else if(isPlatformParser) {
+          }
+          else if (isPlatformParser) {
             startInDir = path.dirname(data[i].success[j].filePath);
             if(launcherMode) {
               executableLocation = data[i].executableLocation;
@@ -229,7 +239,7 @@ export class FileParser {
             executableLocation: executableLocation,
             modifiedExecutableLocation: undefined,
             startInDirectory: startInDir,
-            argumentString: undefined,
+            argumentString: argumentString,
             resolvedLocalImages: [],
             resolvedLocalTallImages: [],
             resolvedLocalHeroImages: [],
@@ -271,9 +281,10 @@ export class FileParser {
           if(exceptions && exceptions.commandLineArguments) {
             lastFile.argumentString = exceptions.commandLineArguments;
           } else {
-            if(isPlatformParser) {
+            if (isPlatformParser) {
               lastFile.argumentString = launchOptions || '';
-            } else if(isROMParser) {
+            }
+            else if (isROMParser) {
               lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
                 return this.getVariable(variable as AllVariables, variableData).trim();
               }) : '';
