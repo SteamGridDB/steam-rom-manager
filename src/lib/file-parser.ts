@@ -144,7 +144,17 @@ export class FileParser {
           let userFilter = preParser.setInput(configs[i].userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
           filteredAccounts.push(this.filterUserAccounts(steamDirectories[i].data, userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir));
           totalUserAccountsFound+=filteredAccounts[filteredAccounts.length-1].found.length;
-          let directories = isROMParser || isManualPraser ? [configs[i].romDirectory] : filteredAccounts[i].found.map((account: userAccountData)=>path.join(configs[i].steamDirectory,'userdata',account.accountID));
+          let directories:string[] = undefined;
+            if (isROMParser) {
+                directories = [configs[i].romDirectory];
+            }
+            else if (isManualPraser) {
+                directories = [configs[i].parserInputs["manifests"] as string];
+            }
+            else {
+                directories = filteredAccounts[i].found.map((account: userAccountData) => path.join(configs[i].steamDirectory, 'userdata', account.accountID));
+            }
+
           promises.push(this.availableParsers[configs[i].parserType].execute(directories, configs[i].parserInputs, this.globCache));
         }
         else
