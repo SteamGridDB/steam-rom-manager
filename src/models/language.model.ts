@@ -84,6 +84,17 @@ export interface languageStruct {
             fatalError__i: string
         }
     },
+    manualPraser: {
+        manifestsInputTitle: string,
+        docs__md: {
+            self: string[],
+            input: string[]
+        },
+        errors: {
+            invalidManifestsOverride: string,
+            fatalError__i: string
+        }
+    },
     epicParser: {
       manifestsInputTitle: string,
       launcherModeInputTitle: string,
