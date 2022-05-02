@@ -360,7 +360,7 @@ export class ParsersService {
         'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','defaultIcon','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
       ];
     }
-    else if (parserInfo.manualPrasers.includes(config['parserType'])) {
+    else if (parserInfo.manualParsers.includes(config['parserType'])) {
         simpleValidations = ['configTitle', 'parserId', 'steamDirectory', 'steamCategory', 'titleModifier',
             'onlineImageQueries', 'imagePool', 'imageProviders',
             'defaultImage', 'defaultTallImage', 'defaultHeroImage', 'defaultLogoImage', 'defaultIcon', 'localImages', 'localTallImages', 'localHeroImages', 'localLogoImages', 'localIcons'

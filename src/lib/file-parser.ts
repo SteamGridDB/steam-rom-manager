@@ -129,7 +129,7 @@ export class FileParser {
         let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(configs[i].parserType);
         let isPlatformParser:boolean = parserInfo.platformParsers.includes(configs[i].parserType);
         let isROMParser: boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
-        let isManualPraser: boolean = parserInfo.manualPrasers.includes(configs[i].parserType);
+        let isManualPraser: boolean = parserInfo.manualParsers.includes(configs[i].parserType);
         let parser = this.getParserInfo(configs[i].parserType);
         if (parser) {
           if (parser.inputs !== undefined) {
@@ -178,7 +178,7 @@ export class FileParser {
         let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(configs[i].parserType);
         let isPlatformParser:boolean = parserInfo.platformParsers.includes(configs[i].parserType);
         let isROMParser: boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
-        let isManualParser: boolean = parserInfo.manualPrasers.includes(configs[i].parserType);
+        let isManualParser: boolean = parserInfo.manualParsers.includes(configs[i].parserType);
         let launcherMode = !!(configs[i].parserInputs.epicLauncherMode || configs[i].parserInputs.gogLauncherMode);
         if (isROMParser && configs[i].titleFromVariable.tryToMatchTitle)
           this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);

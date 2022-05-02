@@ -90,7 +90,7 @@ export const EnglishLang: languageContainer = {
         fatalError__i: '> Steam parser failed with fatal error:\n ${error}'
       }
     },
-    manualPraser: {
+    manualParser: {
         manifestsInputTitle: 'Manifests Directory',
 
         docs__md: {

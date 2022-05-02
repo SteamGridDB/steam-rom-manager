@@ -16,7 +16,7 @@ export const availableParserInputs: {[parserType: string]: string[]} = {
   'Manual': ['manifests']
 }
 
-export const manualPrasers = ['Manual']
+export const manualParsers = ['Manual']
 export const artworkOnlyParsers = ['Steam']
 export const ROMParsers = ['Glob', 'Glob-regex']
 export const platformParsers = ['Epic','GOG Galaxy']

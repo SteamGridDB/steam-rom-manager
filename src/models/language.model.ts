@@ -84,7 +84,7 @@ export interface languageStruct {
             fatalError__i: string
         }
     },
-    manualPraser: {
+    manualParser: {
         manifestsInputTitle: string,
         docs__md: {
             self: string[],

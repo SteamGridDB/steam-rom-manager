@@ -10,7 +10,7 @@ import { stat } from 'original-fs';
 export class ManualPraser implements GenericParser {
 
   private get lang() {
-    return APP.lang.manualPraser;
+    return APP.lang.manualParser;
   }
   getParserInfo(): ParserInfo {
       return {
