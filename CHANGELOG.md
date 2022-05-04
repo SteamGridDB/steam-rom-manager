@@ -12,6 +12,18 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+
+## 2.3.31
+### Added 
+* Experimental parser sections. If people don't like them they can be removed, but I think they clean up the parsers a tad.
+* Manual Parser. Ability to specify shortcut info in JSON files, thanks @CarJem for the PR.
+### Fixed
+* Environment variables now work in parser inputs.
+
+## 2.3.30
+### Fixed
+* Fixed [Issue 288](https://github.com/SteamGridDB/steam-rom-manager/issues/288). Thanks @Witherking25.
+
 ## 2.3.29
 ### Fixed
 * Fixed [Issue 239](https://github.com/SteamGridDB/steam-rom-manager/issues/239)

@@ -7,7 +7,7 @@ import * as path from "path";
 import * as Sentry from '@sentry/electron';
 import { stat } from 'original-fs';
 
-export class ManualPraser implements GenericParser {
+export class ManualParser implements GenericParser {
 
   private get lang() {
     return APP.lang.manualParser;
@@ -20,13 +20,7 @@ export class ManualPraser implements GenericParser {
               'manifests': {
                   label: this.lang.manifestsInputTitle,
                   inputType: 'dir',
-                  validationFn: (input: string) => {
-                      if (fs.existsSync(input) && fs.lstatSync(input).isDirectory()) {
-                          return null;
-                      } else {
-                          return this.lang.errors.invalidManifestsOverride;
-                      }
-                  },
+                  validationFn: null,
                   info: this.lang.docs__md.input.join('')
               }
           }
@@ -43,7 +37,14 @@ export class ManualPraser implements GenericParser {
                     let filePath = path.join(directory, files[i]);
                     try {
                         let jsonObj = fs.readJsonSync(filePath)
-                        parsedData.success.push({ extractedTitle: jsonObj.title, filePath: jsonObj.target, startInDirectory: jsonObj.startIn, launchOptions: jsonObj.launchOptions });
+                        let keys = Object.keys(jsonObj)
+                        if(typeof(jsonObj[keys[0]]) === 'string') {
+                          parsedData.success.push({ extractedTitle: jsonObj.title, filePath: jsonObj.target, startInDirectory: jsonObj.startIn, launchOptions: jsonObj.launchOptions });
+                        } else if(typeof(jsonObj[keys[0]]) === 'object') {
+                          for(let j = 0; j < keys.length; j++) {
+                            parsedData.success.push({ extractedTitle: jsonObj[keys[j]].title, filePath: jsonObj[keys[j]].target, startInDirectory: jsonObj[keys[j]].startIn, launchOptions: jsonObj[keys[j]].launchOptions })
+                          }
+                        }
                     }
                     catch (err) {
                         Sentry.captureException(err);

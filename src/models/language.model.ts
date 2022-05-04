@@ -91,7 +91,6 @@ export interface languageStruct {
             input: string[]
         },
         errors: {
-            invalidManifestsOverride: string,
             fatalError__i: string
         }
     },
@@ -481,7 +480,9 @@ export interface languageStruct {
                 executableModifier__md: string,
                 variableString__md: string,
                 imageProviders__md: string,
-                unhandledValidationKey__md: string
+                unhandledValidationKey__md: string,
+                genericDir__md: string,
+                genericPath__md: string
             },
             text: {
               noTitle: string

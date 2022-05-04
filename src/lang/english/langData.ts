@@ -95,14 +95,14 @@ export const EnglishLang: languageContainer = {
 
         docs__md: {
             self: [
-                require('./markdown/manual-parser.md')
+                require('./markdown/manual-parser.md'),
+                require('./markdown/manual-parser-input.md')
             ],
             input: [
                 require('./markdown/manual-parser-input.md')
             ]
         },
         errors: {
-            invalidManifestsOverride: "> Manifests Direcotry is not a valid directory.",
             fatalError__i: '> Manual parser failed with fatal error:\n ${error}'
 
         }
@@ -607,7 +607,9 @@ export const EnglishLang: languageContainer = {
           executableModifier__md: '> Executable modifier must not be empty!',
           variableString__md: '> Uneven number of `${` and `}` pairs. Use `\\` to escape `${` or `}` if you want to use them as characters.',
           imageProviders__md: '> Incorrect image providers type!',
-          unhandledValidationKey__md: '> Input\'s validation is unhandled'
+          unhandledValidationKey__md: '> Input\'s validation is unhandled',
+          genericDir__md: '> Directory is invalid',
+          genericPath__md: '> Path is invalid'
         },
         text: {
           noTitle: 'No title!'

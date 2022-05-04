@@ -129,18 +129,25 @@ export class FileParser {
         let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(configs[i].parserType);
         let isPlatformParser:boolean = parserInfo.platformParsers.includes(configs[i].parserType);
         let isROMParser: boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
-        let isManualPraser: boolean = parserInfo.manualParsers.includes(configs[i].parserType);
+        let isManualParser: boolean = parserInfo.manualParsers.includes(configs[i].parserType);
         let parser = this.getParserInfo(configs[i].parserType);
         if (parser) {
+          let preParser = new VariableParser({ left: '${', right: '}' });
           if (parser.inputs !== undefined) {
             for (var inputName in parser.inputs) {
-              if (parser.inputs[inputName].forcedInput)
+              if (['dir','path'].includes(parser.inputs[inputName].inputType) && typeof(configs[i].parserInputs[inputName])==='string') {
+                configs[i].parserInputs[inputName] = preParser.setInput(configs[i].parserInputs[inputName] as string).parse() ? preParser.replaceVariables((variable) => {
+                  return this.getEnvironmentVariable(variable as EnvironmentVariables, settings).trim()
+                }) : null;
+              }
+              if (parser.inputs[inputName].forcedInput) {
                 configs[i].parserInputs[inputName] = parser.inputs[inputName].forcedInput;
-              else if (configs[i].parserInputs[inputName] === undefined)
+              }
+              else if (configs[i].parserInputs[inputName] === undefined) {
                 configs[i].parserInputs[inputName] = '';
+              }
             }
           }
-          let preParser = new VariableParser({ left: '${', right: '}' });
           let userFilter = preParser.setInput(configs[i].userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
           filteredAccounts.push(this.filterUserAccounts(steamDirectories[i].data, userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir));
           totalUserAccountsFound+=filteredAccounts[filteredAccounts.length-1].found.length;
@@ -148,7 +155,7 @@ export class FileParser {
             if (isROMParser) {
                 directories = [configs[i].romDirectory];
             }
-            else if (isManualPraser) {
+            else if (isManualParser) {
                 directories = [configs[i].parserInputs["manifests"] as string];
             }
             else {

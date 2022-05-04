@@ -22,13 +22,7 @@ export class EpicParser implements GenericParser {
         'manifests': {
           label: this.lang.manifestsInputTitle,
           inputType: 'dir',
-          validationFn: (input: string) => {
-            if(!input || fs.existsSync(input) && fs.lstatSync(input).isDirectory()) {
-              return null;
-            } else {
-              return this.lang.errors.invalidManifestsOverride;
-            }
-          },
+          validationFn: null,
           info: this.lang.docs__md.input.join('')
         },
         'epicLauncherMode': {
