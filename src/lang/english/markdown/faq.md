@@ -110,4 +110,4 @@ Now parser can match any combination and is effectively case-insensitive. Techni
 
 ## The Discord
 
-For further help, please see our [discord](https://discord.gg/nxxzBPJ).
+For further help, please see our [Discord](https://discord.gg/bnSVJrz).
