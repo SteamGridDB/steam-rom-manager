@@ -89,7 +89,7 @@
     "@sentry/webpack-plugin": "^1.18.3",
     "ajv": "^6.4.0",
     "appid": "^1.0.3",
-    "async": "^2.6.0",
+    "async": "^2.6.4",
     "better-sqlite3": "https://github.com/cbartondock/better-sqlite3",
     "binary-vdf": "^0.1.0",
     "blob-to-buffer": "^1.2.7",
