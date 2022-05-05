@@ -22,6 +22,7 @@ All notable changes to this project will be documented in this file.
 * Environment variables now work in parser inputs.
 ### Changed
 * Brought settings UI more into line with the rest of the app, and added documentation.
+* Removed "Show Advanced" and "Disable Parser" (disable parser is now on the sidebar only)
 
 ## 2.3.30
 ### Fixed
