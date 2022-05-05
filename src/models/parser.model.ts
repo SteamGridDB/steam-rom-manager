@@ -89,6 +89,7 @@ export interface ParserVariableData {
   finalTitle: string,
   filePath: string,
   steamDirectoryGlobal: string,
+  romsDirectoryGlobal: string,
   retroarchPath: string,
   raCoresDirectory: string,
   localImagesDirectory: string

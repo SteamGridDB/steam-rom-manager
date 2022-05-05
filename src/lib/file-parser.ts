@@ -694,6 +694,9 @@ export class FileParser {
       case 'STEAMDIRGLOBAL':
         output=data.steamDirectoryGlobal;
       break;
+      case 'ROMSDIRGLOBAL':
+        output=data.romsDirectoryGlobal;
+      break;
       case 'RETROARCHPATH':
         output=data.retroarchPath;
       break;
@@ -802,6 +805,7 @@ export class FileParser {
       fuzzyTitle: file.fuzzyTitle,
       romDirectory: config.romDirectory,
       steamDirectoryGlobal: settings.environmentVariables.steamDirectory,
+      romsDirectoryGlobal: settings.environmentVariables.romsDirectory,
       retroarchPath: settings.environmentVariables.retroarchPath,
       raCoresDirectory: settings.environmentVariables.raCoresDirectory,
       localImagesDirectory: settings.environmentVariables.localImagesDirectory
