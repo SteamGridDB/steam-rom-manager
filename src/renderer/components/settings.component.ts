@@ -13,12 +13,14 @@ import * as os from 'os';
 })
 export class SettingsComponent implements OnDestroy {
   private subscriptions: Subscription = new Subscription();
+  private currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
   private settings: AppSettings;
   private availableProviders: string[];
   private availableLanguages: string[];
   private knownSteamDirectories: string[];
   private retroarchPathPlaceholder: string;
   private steamDirectoryPlaceholder: string;
+  private romsDirectoryPlaceholder: string;
   private localImagesDirectoryPlaceholder: string;
   private raCoresDirectoryPlaceholder: string;
 
@@ -30,7 +32,10 @@ export class SettingsComponent implements OnDestroy {
     private parsersService: ParsersService,
     private cpService: ConfigurationPresetsService,
     private cvService: CustomVariablesService,
-    private changeDetectionRef: ChangeDetectorRef) { }
+    private changeDetectionRef: ChangeDetectorRef) {
+
+    this.currentDoc.content = this.lang.docs__md.settings.join('');
+    }
 
   ngOnInit() {
     this.subscriptions.add(this.settingsService.getChangeObservable().subscribe(() => {
@@ -47,12 +52,14 @@ export class SettingsComponent implements OnDestroy {
     if(os.type()=='Windows_NT'){
       this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathWin;
       this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryWin;
+      this.romsDirectoryPlaceholder = this.lang.placeholder.romsDirectoryWin;
       this.localImagesDirectoryPlaceholder = this.lang.placeholder.localImagesDirectoryWin;
       this.raCoresDirectoryPlaceholder = this.lang.placeholder.raCoresDirectoryWin;
     }
     else if(os.type()=='Darwin'){
       this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathMac;
       this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryMac;
+      this.romsDirectoryPlaceholder = this.lang.placeholder.romsDirectoryMac;
       this.localImagesDirectoryPlaceholder = this.lang.placeholder.localImagesDirectoryUnix;
       this.raCoresDirectoryPlaceholder = this.lang.placeholder.raCoresDirectoryMac;
 
@@ -60,6 +67,7 @@ export class SettingsComponent implements OnDestroy {
     else if(os.type()=='Linux'){
       this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathLinux;
       this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryLinux;
+      this.romsDirectoryPlaceholder = this.lang.placeholder.romsDirectoryLinux;
       this.localImagesDirectoryPlaceholder = this.lang.placeholder.localImagesDirectoryUnix;
       this.raCoresDirectoryPlaceholder = this.lang.placeholder.raCoresDirectoryLinux;
     }

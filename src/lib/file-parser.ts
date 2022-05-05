@@ -621,6 +621,9 @@ export class FileParser {
       case 'STEAMDIRGLOBAL':
         output=settings.environmentVariables.steamDirectory;
       break;
+      case 'ROMSDIRGLOBAL':
+        output=settings.environmentVariables.romsDirectory;
+      break;
       case 'RETROARCHPATH':
         output=settings.environmentVariables.retroarchPath;
       break;

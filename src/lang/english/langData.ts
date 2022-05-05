@@ -245,13 +245,19 @@ export const EnglishLang: languageContainer = {
           environmentVariables: 'Environment variable settings',
           communityPresets: 'Community variable/preset settings'
         },
+        docs__md: {
+          settings: [
+            require('./markdown/settings.md'),
+            require('./markdown/parser-env-variables.md')
+          ]
+        },
         text: {
           offlineMode: 'Offline mode',
           removeApps_desc: 'Remove all added app entries:',
           removeApps_btn: 'Remove!',
           preloadImages: 'Preload retrieved images immediately',
-          fuzzy_verbose: 'Log matching results (logged results are hidden by default in Event log)',
-          fuzzy_filter: 'Filter images (tries to filter out unrelated images returned by some image providers)',
+          fuzzy_verbose: 'Log matching results',
+          fuzzy_filter: 'Filter images',
           enabledProviders: 'Enabled providers:',
           selectLanguage: 'Select language:',
           resetFuzzy_desc: 'Reset fuzzy list:',
@@ -265,6 +271,9 @@ export const EnglishLang: languageContainer = {
           steamDirectoryWin: 'Typically C:\\Program Files (x86)\\Steam',
           steamDirectoryMac: 'Typically ~/Library/Application Support/Steam',
           steamDirectoryLinux: 'Typically ~/.steam/steam',
+          romsDirectoryWin: 'For example D:\\ROMs',
+          romsDirectoryMac: 'For example ~/ROMs',
+          romsDirectoryLinux: 'For example ~/ROMs',
           retroarchPathWin: 'For example C:\\Path\\To\\retroarch.exe',
           retroarchPathLinux: 'For example /path/to/retroarch',
           retroarchPathMac: 'For example /path/to/retroarch',

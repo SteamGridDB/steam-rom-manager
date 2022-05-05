@@ -209,6 +209,9 @@ export interface languageStruct {
             environmentVariables: string,
             communityPresets: string
         },
+        docs__md: {
+          settings: string[]
+        },
           text: {
             offlineMode: string,
               removeApps_desc: string,
@@ -229,6 +232,9 @@ export interface languageStruct {
               steamDirectoryWin: string,
               steamDirectoryLinux: string,
               steamDirectoryMac: string,
+              romsDirectoryWin: string,
+              romsDirectoryLinux: string,
+              romsDirectoryMac: string,
               retroarchPathWin: string,
               retroarchPathMac: string,
               retroarchPathLinux: string,

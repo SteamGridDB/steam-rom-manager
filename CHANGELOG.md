@@ -15,10 +15,13 @@ All notable changes to this project will be documented in this file.
 
 ## 2.3.31
 ### Added 
-* Experimental parser sections. If people don't like them they can be removed, but I think they clean up the parsers a tad.
+* Experimental parser sections. If people don't like them they can be removed, but I think they clean up the parsers significantly.
 * Manual Parser. Ability to specify shortcut info in JSON files, thanks @CarJem for the PR.
+* Global ROMs Directory environment variable. 
 ### Fixed
 * Environment variables now work in parser inputs.
+### Changed
+* Brought settings UI more into line with the rest of the app, and added documentation.
 
 ## 2.3.30
 ### Fixed
