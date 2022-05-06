@@ -111,7 +111,7 @@
     "loader-utils": "^1.1.0",
     "lodash": "^4.17.19",
     "long": "^4.0.0",
-    "markdown-it": "^8.4.1",
+    "markdown-it": "^12.3.2",
     "markdown-it-anchor": "^4.0.0",
     "markdown-it-attrs": "^0.8.0",
     "mime-types": "^2.1.18",
