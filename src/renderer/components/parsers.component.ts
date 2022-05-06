@@ -195,7 +195,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           parserInputs: (() => {
             let parserInputs = {};
             let parsers = parserInfo.availableParsers;
-
             for (let i = 0; i < parsers.length; i++) {
               let parser = this.parsersService.getParserInfo(parsers[i]);
               if (parser && parser.inputs !== undefined) {
@@ -480,6 +479,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       })).add(this.cpService.dataObservable.subscribe((data) => {
         this.configPresets = data;
       }))
+      // TODO Make sections independent between parsers
       // .add(this.nestedGroup.hiddenSectionsObservable().subscribe((hiddenSections: {[sectionName:string]:boolean})=>{
       //   console.log("hidden sections observable: ", hiddenSections);
       // }));

@@ -108,6 +108,20 @@ export interface languageStruct {
         fatalError__i: string
       }
     },
+    uplayParser: {
+      uplayDirTitle: string,
+      launcherModeInputTitle: string,
+      docs__md: {
+        self: string[],
+        input: string[]
+      },
+      errors: {
+        invalidManifestsOverride: string,
+        epicNotCompatible: string,
+        epicNotInstalled: string,
+        fatalError__i: string
+      }
+    },
     gogParser: {
       galaxyExeOverrideTitle: string,
       launcherModeInputTitle: string,

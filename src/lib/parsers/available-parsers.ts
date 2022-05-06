@@ -1,9 +1,10 @@
 export const availableParsers = [
   'Glob',
   'Glob-regex',
-  'Epic',
   'Steam',
+  'Epic',
   'GOG Galaxy',
+  'UPlay',
   'Manual'
 ]
 
@@ -13,10 +14,11 @@ export const availableParserInputs: {[parserType: string]: string[]} = {
   'Steam': [],
   'Epic': ['manifests', 'epicLauncherMode'],
   'GOG Galaxy': ['galaxyExeOverride','gogLauncherMode'],
+  'UPlay': ['uplayDir','uplayLauncherMode'],
   'Manual': ['manifests']
 }
 
 export const manualParsers = ['Manual']
 export const artworkOnlyParsers = ['Steam']
 export const ROMParsers = ['Glob', 'Glob-regex']
-export const platformParsers = ['Epic','GOG Galaxy']
+export const platformParsers = ['Epic','GOG Galaxy','UPlay']

@@ -125,6 +125,24 @@ export const EnglishLang: languageContainer = {
         fatalError__i: '> Epic Games parser failed with fatal error:\n ${error}'
       }
     },
+    uplayParser: {
+      uplayDirTitle: 'Uplay Directory Override',
+      launcherModeInputTitle: 'Launch games via UPlay for online services',
+      docs__md: {
+        self: [
+          require('./markdown/epic-parser.md')
+        ],
+        input: [
+          require('./markdown/epic-parser-input.md')
+        ]
+      },
+      errors: {
+        invalidManifestsOverride: "> Uplay Directory Override is not a valid directory.",
+        epicNotCompatible: "> UPlay not available on Linux.\n",
+        epicNotInstalled: "> UPlay / Ubisoft Connect does not appear to be installed.",
+        fatalError__i: '> UPlay parser failed with fatal error:\n ${error}'
+      }
+    },
     gogParser: {
       galaxyExeOverrideTitle: "Galaxy Path Override",
       launcherModeInputTitle: 'Launch games via GOG Galaxy',

@@ -22,7 +22,7 @@ export class FileParser {
   private userExceptions: UserExceptionsTitles = {};
   private globCache: any = {};
 
-  constructor(private fuzzyService: FuzzyService) { }
+  constructor(private fuzzyService: FuzzyService) {  }
 
   private get lang() {
     return APP.lang.fileParser;
@@ -534,7 +534,6 @@ export class FileParser {
         let variableData = this.makeVariableData(config,settings, parsedConfig.files[i]);
         //expandable set is to allow you to comment out stuff using $()$. Decent idea, but ehhhh
         let expandableSet = /\$\((\${.+?})(?:\|(.*?))?\)\$/.exec(fieldValue);
-        console.log("expandable set: ",expandableSet)
         let cwd = settings.environmentVariables.localImagesDirectory? settings.environmentVariables.localImagesDirectory : config.romDirectory;
         if (expandableSet === null) {
           let replacedGlob = path.resolve(cwd,vParser.setInput(fieldValue).parse() ? vParser.replaceVariables((variable) => {
