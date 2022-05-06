@@ -222,7 +222,10 @@ export interface languageStruct {
               enabledProviders: string,
               selectLanguage: string,
               resetFuzzy_desc: string,
+              resetFuzzyCache_desc: string,
               resetFuzzy_btn: string,
+              customVariables_desc: string,
+              configPresets_desc: string,
               showSteamImages: string,
               deleteDisabledShortcuts: string,
               clearLogOnTest: string

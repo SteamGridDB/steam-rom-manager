@@ -46,7 +46,13 @@
       .inlineLeft {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         margin: 0.25em 0em 0.25em 0;
+        .directoryInput {
+          display: flex;
+          align-items: right;
+          width: 69%;
+        }
       }
       .inlineGroup {
         display: flex;
@@ -60,6 +66,9 @@
       }
 
       .text {
+        &.path {
+          width: 30%;
+        }
         color: var(--color-settings-text);
       }
 
@@ -89,8 +98,7 @@
         @include ngTextInputColor(input);
         @include ngTextInput();
 
-        width: 20em;
-
+        width: 100%;
         grid-column: 4;
       }
       .clickButton2 {
