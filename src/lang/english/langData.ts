@@ -112,7 +112,8 @@ export const EnglishLang: languageContainer = {
       launcherModeInputTitle: 'Launch games via Epic for online services',
       docs__md: {
         self: [
-          require('./markdown/epic-parser.md')
+          require('./markdown/epic-parser.md'),
+          require('./markdown/epic-parser-input.md')
         ],
         input: [
           require('./markdown/epic-parser-input.md')
@@ -130,7 +131,8 @@ export const EnglishLang: languageContainer = {
       launcherModeInputTitle: 'Launch games via UPlay for online services',
       docs__md: {
         self: [
-          require('./markdown/uplay-parser.md')
+          require('./markdown/uplay-parser.md'),
+          require('./markdown/uplay-parser-input.md')
         ],
         input: [
           require('./markdown/uplay-parser-input.md')
@@ -149,7 +151,8 @@ export const EnglishLang: languageContainer = {
       launcherModeInputTitle: 'Launch games via GOG Galaxy',
       docs__md: {
         self: [
-          require('./markdown/gog-parser.md')
+          require('./markdown/gog-parser.md'),
+          require('./markdown/gog-parser-input.md')
         ],
         input: [
           require('./markdown/gog-parser-input.md')

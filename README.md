@@ -38,6 +38,8 @@ Before running any scripts, dependencies must be installed using:
 npm ci
 ```
 
+Unfortunately, because of an issue with `better-sqlite3` you will most likely also have to run `npm ci` after building for windows if you want `npm run start` to work. Otherwise, you will likely see the runtime error `better-sqlite3 is not a valid win32 application`.
+
 ## Scripts
 
 All script must be run using `npm run` command. For example, `npm run watch:renderer`.
