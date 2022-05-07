@@ -14,6 +14,17 @@ For an overview of how SRM works see [here](https://steamgriddb.github.io/steam-
 
 Check out the [releases page](https://github.com/SteamGridDB/steam-rom-manager/releases) for compiled downloads.
 
+## Platform Parsers
+In addition to flexible ROM parsers, SRM now has several *platform parsers* for importing from popular game stores:
+
+|Parser|Windows|Mac OS|Linux|
+|---|---|---|---|
+|Epic Games Store|✅|✅|❌|
+|GOG Galaxy|✅|❌|❌|
+|UPlay|✅|❌|❌|
+
+Planned parsers include the Amazon Games Store, Itch.io, and Origin.
+
 # Support
 
 If you enjoy Steam ROM Manager and want it to continue to be useful consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. [SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork Steam ROM Manager uses to make your Steam library the envy of the town, so we should probably help them keep their lights on.
@@ -67,7 +78,7 @@ App can be run using `start` script. After every recompile by `watch:renderer`, 
 
 `Ctrl + Shift + I` can be used to launch Chrome inspector once the app is running. This works even in the release version.
 
-## Building and app
+## Building the app
 
 ### For Windows
 
