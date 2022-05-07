@@ -47,10 +47,10 @@ export class GOGParser implements GenericParser {
       if(os.type()=='Windows_NT') {
         dbPath = 'C:\\ProgramData\\GOG.com\\Galaxy\\storage\\galaxy-2.0.db'
       } else {
-        reject();
+        reject(this.lang.errors.gogNotCompatible);
       }
       if(!fs.existsSync(dbPath)) {
-        reject();
+        reject(this.lang.errors.gogNotInstalled);
       }
       Promise.resolve()
       .then(()=>{
@@ -89,7 +89,7 @@ export class GOGParser implements GenericParser {
             extractedTitle: appTitles[i],
             extractedAppId: productIds[i],
             launchOptions: `/command=runGame /gameId=${productIds[i]}`,
-              filePath: appPaths[i]
+            filePath: appPaths[i]
           });
         }
         resolve(parsedData);

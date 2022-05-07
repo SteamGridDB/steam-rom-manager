@@ -249,11 +249,10 @@ export class ParsersService {
                         return null;
                       }
                       else if (!inputInfo.validationFn) {
-                        if (inputInfo.inputType == 'dir') {
-                          return this.validateEnvironmentPath(data['inputData']||'', true) ? null : this.lang.validationErrors.genericDir__md;
-                        }
-                        else if (inputInfo.inputType == 'path') {
-                          return this.validateEnvironmentPath(data['inputData']||'', false) ? null : this.lang.validationErrors.genericPath__md;
+                        if(['dir','path'].includes(inputInfo.inputType)){
+                          if(!data['inputData']) { return null; }
+                          return this.validateEnvironmentPath(data['inputData']||'', inputInfo.inputType == 'dir') ? null : this.lang.validationErrors.genericDir__md;
+
                         }
                         return null;
                       }

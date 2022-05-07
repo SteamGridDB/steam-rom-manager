@@ -186,7 +186,9 @@ export class FileParser {
         let isPlatformParser:boolean = parserInfo.platformParsers.includes(configs[i].parserType);
         let isROMParser: boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
         let isManualParser: boolean = parserInfo.manualParsers.includes(configs[i].parserType);
-        let launcherMode = !!(configs[i].parserInputs.epicLauncherMode || configs[i].parserInputs.gogLauncherMode);
+        let launcherMode = !!(configs[i].parserInputs.epicLauncherMode
+          || configs[i].parserInputs.gogLauncherMode
+          || configs[i].parserInputs.uplayLauncherMode);
         if (isROMParser && configs[i].titleFromVariable.tryToMatchTitle)
           this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);
 

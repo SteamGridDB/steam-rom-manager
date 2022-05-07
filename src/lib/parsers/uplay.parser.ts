@@ -3,8 +3,10 @@ import { APP } from '../../variables';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as yaml from "js-yaml";
+import * as Registry from "winreg";
 import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
+import * as os from "os";
 import * as Sentry from '@sentry/electron';
 
 export class UPlayParser implements GenericParser {
@@ -43,6 +45,45 @@ export class UPlayParser implements GenericParser {
     }
     return launchId;
   }
+  private processRegKey(key: any) {
+    return new Promise((resolve) => {
+      const id = path.basename(key.key);
+      key.get('InstallDir', (err: string, installDir: any) => {
+        resolve({
+          id,
+          installDir: installDir.value,
+        });
+      });
+    });
+  }
+  private getRegInstalled() {
+    return new Promise<{[key: string] : any}>((resolve, reject) => {
+      const reg = new Registry({
+        hive: Registry.HKLM,
+        arch: 'x86',
+        key: '\\SOFTWARE\\Ubisoft\\Launcher\\Installs',
+      });
+      reg.keys((err, keys: any[]) => {
+        if (err) {
+          reject(err);
+        }
+        if (keys) {
+          console.log("got keys");
+          const promiseArr = keys.map((key: any) => this.processRegKey(key));
+          Promise.all(promiseArr).then((resultsArray) => {
+            let out = {};
+            resultsArray.forEach((item: any) => {
+              out[String(item.id)] = item.installDir;
+            });
+            console.log("out",out)
+            return resolve(out);
+          });
+        } else {
+          return resolve({});
+        }
+      });
+    });
+  }
   getParserInfo(): ParserInfo {
     return {
       title: 'UPlay',
@@ -58,7 +99,7 @@ export class UPlayParser implements GenericParser {
           label: this.lang.launcherModeInputTitle,
           inputType: 'toggle',
           validationFn: (input: any) => { return null },
-          info: this.lang.docs__md.input.join('')
+            info: this.lang.docs__md.input.join('')
         }
       }
     };
@@ -68,17 +109,37 @@ export class UPlayParser implements GenericParser {
     return new Promise<ParsedData>((resolve,reject)=>{
 
       let appTitles: string[] = [];
+      let appNames: string[] = [];
       let appPaths: string[] = [];
-'> UPlay parser failed with fatal error:\n ${error}'
-      Promise.resolve()
-      .then(()=>{
-        // TODO PARSE STUFF
-        let configPath = "C:\\Program Files (x86)\\Ubisoft\\Ubisoft Game Launcher\\cache\\configuration\\configurations";
+      let installDirDictPromise: Promise<any> = null;
+      let ubisoftDir = inputs.uplayDir || 'C:\\Program Files (x86)\\Ubisoft';
+      if(os.type() === 'Windows_NT') {
+        console.log("Attempting getreginstalled")
+        installDirDictPromise = this.getRegInstalled();
+      } else{
+        reject(this.lang.errors.uplayNotCompatible)
+        //TODO Mac Handling
+        // installDirDictPromise = new Promise<{[key: string] : any}>((resolve,reject)=>{
+        //   resolve({});
+        // })
+      }
+      if(!fs.existsSync(ubisoftDir)) {
+        reject(this.lang.errors.uplayDirNotFound)
+      }
+      let configPath = path.join(ubisoftDir,"Ubisoft Game Launcher","cache","configuration","configurations")
+      if(!fs.existsSync(configPath)) {
+        reject(this.lang.errors.uplayNotInstalled)
+      }
+
+      installDirDictPromise
+      .then((installDirDict: {[key: string] : any})=>{
+        console.log("installdirdict", installDirDict)
         let configHex = fs.readFileSync(configPath,'hex');
         let finalOutput: any[] = [];
         let game: string[] = ['root:'];
         let launcherId: number = null;
         let end = false;
+
         this.generateHexArray(configHex).forEach((hexStr: string)=>{
           const line = Buffer.from(hexStr, 'hex').toString('utf8').replace(/\n/g, '');
           const foundId = hexStr.match(/08([0-9a-f]+)10[0-9a-f]+1a/);
@@ -91,7 +152,6 @@ export class UPlayParser implements GenericParser {
             } if (game.length > 1) {
               try {
                 let gameParsed: any = yaml.load(game.join('\n'), {'json': true });
-
                 if (launcherId) {
                   gameParsed.root.launcher_id = launcherId;
                 }
@@ -125,11 +185,29 @@ export class UPlayParser implements GenericParser {
         });
         let parsedGames = finalOutput.filter(x=>x&&x.root&&x.root.start_game&&!x.root.third_party_platform).map(x=>x.root)
         console.log(parsedGames)
+        parsedGames.forEach((item: any)=>{
+          let basePath = (item.start_game.offline || item.start_game.online).executables[0].path.relative;
+          console.log("basepath", basePath);
+          if(item.name && item.launcher_id) {
+            appTitles.push(item.name);
+            appNames.push(item.launcher_id.toString());
+            appPaths.push(path.join(installDirDict[item.launcher_id.toString()],basePath));
+          }
+        });
       })
       .then(()=>{
-        let parsedData: ParsedData = {success: [], failed:[]};
-        for(let i=0;i<appTitles.length; i++){
-          parsedData.success.push({extractedTitle: appTitles[i], filePath: appPaths[i]});
+        let parsedData: ParsedData = {
+          executableLocation: `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`,
+          success: [],
+          failed:[]
+        };
+        for(let i=0;i < appTitles.length; i++){
+          parsedData.success.push({
+            extractedTitle: appTitles[i],
+            extractedAppId: appNames[i],
+            launchOptions:  `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \\"uplay://launch/${appNames[i]}\\""`,
+              filePath: appPaths[i]
+          });
         }
         resolve(parsedData);
       }).catch((err)=>{

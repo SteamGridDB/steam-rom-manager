@@ -60,6 +60,13 @@ export class VDF_ScreenshotsFile {
     return !this.valid;
   }
 
+  sanitizeTitle(title: string) {
+    return title.replace("\\","\\\\")
+    .replace("\"","\\\"")
+    .replace("}","\\}")
+    .replace("{","\\{");
+  }
+
   read() {
     return fs.readFile(this.filepath, 'utf8').catch((error) => {
       if (error.code !== 'ENOENT') {
@@ -212,7 +219,7 @@ export class VDF_ScreenshotsFile {
   }
 
   addItem(data: { appId: string, title: string, url: string }) {
-    this.fileData['Screenshots']['shortcutnames'][data.appId] = { title: data.title, url: data.url };
+    this.fileData['Screenshots']['shortcutnames'][data.appId] = { title: this.sanitizeTitle(data.title), url: data.url };
   }
 
   removeItem(appId: string) {
