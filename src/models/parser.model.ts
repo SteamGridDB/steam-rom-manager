@@ -73,8 +73,8 @@ export interface ParsedData {
     extractedTitle: string,
     filePath?: string, // Used by ROM parsers and platform parsers in executable mode
     extractedAppId?: string // Used by artwork only parsers
-    startInDir?: string // Used by apps the start in a different directory than the executable
     launchOptions?: string, // Used by platform parsers
+    startInDirectory?: string, //Used by manual parsers and apps the start in a different directory than the executable
   }[],
   failed: string[]
 }
@@ -89,6 +89,7 @@ export interface ParserVariableData {
   finalTitle: string,
   filePath: string,
   steamDirectoryGlobal: string,
+  romsDirectoryGlobal: string,
   retroarchPath: string,
   raCoresDirectory: string,
   localImagesDirectory: string
@@ -100,7 +101,7 @@ const nameVariables = StringLiteralArray(['EXENAME','FILENAME']);
 const extensionVariables = StringLiteralArray(['EXEEXT','FILEEXT']);
 const pathVariables = StringLiteralArray(['EXEPATH','FILEPATH']);
 const parserVariables = StringLiteralArray(['TITLE','FUZZYTITLE','FINALTITLE']);
-const environmentVariables = StringLiteralArray(['/','SRMDIR','STEAMDIRGLOBAL','RETROARCHPATH','RACORES','LOCALIMAGESDIR']);
+const environmentVariables = StringLiteralArray(['/','SRMDIR','STEAMDIRGLOBAL','ROMSDIRGLOBAL','RETROARCHPATH','RACORES','LOCALIMAGESDIR']);
 
 export type DirectoryVariables = (typeof directoryVariables)[number];
 export type NameVariables = (typeof nameVariables)[number];

@@ -16,6 +16,7 @@ export interface AppSettings {
   },
   environmentVariables: {
     steamDirectory: string,
+    romsDirectory: string,
     retroarchPath: string,
     localImagesDirectory: string,
     raCoresDirectory: string

@@ -71,13 +71,11 @@ const sharedProperties = {
       type: 'object',
       default: {},
       properties: {
-        use: { type: 'boolean', default: true },
         removeCharacters: { type: 'boolean', default: true },
         removeBrackets: { type: 'boolean', default: true },
         replaceDiacritics: { type: 'boolean', default: true }
       }
     },
-    advanced: { type: 'boolean', default: false },
     disabled: { type: 'boolean', default: false },
   }
 }

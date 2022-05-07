@@ -45,9 +45,9 @@ export interface ParsedDataWithFuzzy {
     extractedTitle: string,
     fuzzyTitle: string,
     filePath?: string, // Used by ROM parsers and platform parsers in executable mode
-    extractedAppId?: string // Used by artwork only parsers
-    startInDir?: string // Used by apps the start in a different directory than the executable
+    extractedAppId?: string, // Used by artwork only parsers
     launchOptions?: string, // Used by platform parsers
+    startInDirectory?: string, //Used by manual parsers and apps the start in a different directory than the executable
   }[],
   failed: string[]
 }

@@ -44,31 +44,19 @@ Here `..` means "traverse back" and it allows to go back to previous directory:
   - `C:/ROMS/../path/to/images/Metroid Fusion.*`
     - `C:/path/to/images/Metroid Fusion.*`
 
-### Adding parser support
+### Matching either Fuzzy Title or Extracted Title
 
-To enable parser support you need to use a special syntax:
+To grab images that match either extractedTitle or fuzzyTitle (or a constant default image name) a special syntax can be used:
 
+Suppose you have `Luigi's Mansion (USA).iso` and thus have extractedTitle `Luigi's Mansion (USA)` and fuzzyTitle `Luigi's Mansion`. If we have a directory of artwork with:
 ```
-$(parser variable|secondary value [optional])$
+(1) dir/Luigi's Mansion (USA).png
+(2) dir/Luigi's Mansion.png
+(3) dir/default.png
 ```
+Then:
 
-Here parser variable must be either `${title}` (belongs to Glob parser) or `${/.../}` (belongs to Glob-regex parser).
-
-Secondary value is optional and can be anything you would use in a special glob input without parser support. For example, this is how you could write special syntax without secondary value:
-
-```
-${dir}/../../path/to/images/$(${title})$.png
-```
-
-and this is how you write  with secondary value:
-
-```
-${dir}/../../path/to/images/$(${title}|@(${title}|default))$.png
-```
-
-Second example will result in `2` glob sets:
-
-- `${dir}/../../path/to/images/${title}.png`
-- `${dir}/../../path/to/images/@(Metroid Fusion [USA]|default).png`
-
-If fuzzy matching is enabled, a special equality check will be made. Parser will check if any of the titles from `${dir}/../../path/to/images/${title}.png` glob matches current file's fuzzy title. Matched files will be used. 
+- `dir/$(${fuzzyTitle}|@(${title}))$.png` will match and retrieve images (1) and (2)
+- `dir/$(${title}|@(${title}|default))$.png` will match and retrieve images (1) and (3)
+- `dir/$(${fuzzyTitle}|@(${fuzzyTitle}|default))$.png` will match and retrieve images (2) and (3)
+- `dir/$(${title}|@(${fuzzyTitle}|default))$.png` will match match and retrieve images (1) and (2) and (3)

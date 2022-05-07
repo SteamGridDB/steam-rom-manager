@@ -22,13 +22,7 @@ export class GOGParser implements GenericParser {
         'galaxyExeOverride': {
           label: this.lang.galaxyExeOverrideTitle,
           inputType: 'path',
-          validationFn: (input: string) => {
-            if(!input || fs.existsSync(input) && fs.lstatSync(input).isFile()) {
-              return null;
-            } else {
-              return this.lang.errors.invalidGalaxyExeOverride;
-            }
-          },
+          validationFn: null,
           info: this.lang.docs__md.input.join('')
         },
         'gogLauncherMode': {
