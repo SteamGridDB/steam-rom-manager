@@ -68,14 +68,12 @@ export class UPlayParser implements GenericParser {
           reject(err);
         }
         if (keys) {
-          console.log("got keys");
           const promiseArr = keys.map((key: any) => this.processRegKey(key));
           Promise.all(promiseArr).then((resultsArray) => {
             let out = {};
             resultsArray.forEach((item: any) => {
               out[String(item.id)] = item.installDir;
             });
-            console.log("out",out)
             return resolve(out);
           });
         } else {
@@ -114,7 +112,6 @@ export class UPlayParser implements GenericParser {
       let installDirDictPromise: Promise<any> = null;
       let ubisoftDir = inputs.uplayDir || 'C:\\Program Files (x86)\\Ubisoft';
       if(os.type() === 'Windows_NT') {
-        console.log("Attempting getreginstalled")
         installDirDictPromise = this.getRegInstalled();
       } else{
         reject(this.lang.errors.uplayNotCompatible)
@@ -133,7 +130,6 @@ export class UPlayParser implements GenericParser {
 
       installDirDictPromise
       .then((installDirDict: {[key: string] : any})=>{
-        console.log("installdirdict", installDirDict)
         let configHex = fs.readFileSync(configPath,'hex');
         let finalOutput: any[] = [];
         let game: string[] = ['root:'];
@@ -156,9 +152,7 @@ export class UPlayParser implements GenericParser {
                   gameParsed.root.launcher_id = launcherId;
                 }
                 finalOutput.push(gameParsed);
-              } catch (e) {
-                console.log(e)
-              }
+              } catch (e) {  }
 
               let hexChars = foundId[1].match(/.{1,2}/g);
               let ints = hexChars.map((x) => parseInt(x, 16));
@@ -184,10 +178,8 @@ export class UPlayParser implements GenericParser {
           }
         });
         let parsedGames = finalOutput.filter(x=>x&&x.root&&x.root.start_game&&!x.root.third_party_platform).map(x=>x.root)
-        console.log(parsedGames)
         parsedGames.forEach((item: any)=>{
           let basePath = (item.start_game.offline || item.start_game.online).executables[0].path.relative;
-          console.log("basepath", basePath);
           if(item.name && item.launcher_id) {
             appTitles.push(item.name);
             appNames.push(item.launcher_id.toString());
