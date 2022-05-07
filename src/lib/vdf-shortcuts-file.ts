@@ -89,7 +89,6 @@ export class VDF_ShortcutsFile {
   }
 
   write() {
-    console.log("shortcutsdata",this.fileData['shortcuts'])
     return Promise.resolve().then(() => {
       for(let j=0; j<this.extraneous.length; j++) {
         let exAppId = this.extraneous[j]
