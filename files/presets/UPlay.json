@@ -1,5 +1,5 @@
 {
-	"Epic Games": {
+	"UPlay (Ubisoft Connect)": {
 		"parserType": "UPlay",
 		"configTitle": "UPlay (Ubisoft Connect)",
 		"steamCategory": "${UPlay}",
