@@ -12,6 +12,9 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.33
+### Fixed
+* Actually hopefully fixed title sanitization in `screenshots.vdf`.
 
 ## 2.3.32
 ### Added
