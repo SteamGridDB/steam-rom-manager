@@ -86,7 +86,6 @@ export class VDF_ScreenshotsFile {
       else if (this.fileData['Screenshots']['shortcutnames'] === undefined)
         this.fileData['Screenshots']['shortcutnames'] = {};
 
-      //TODO Hacky fix for number titles until @node-steam/vdf is fixed.
       Object.keys(this.data).forEach((key: string) =>{
         let val = this.data[key];
         if(val){
@@ -196,9 +195,18 @@ export class VDF_ScreenshotsFile {
       }
 
       return Promise.all(promises).then((errors) => {
+        // This is a bit odd, it clears out undefineds on write
         this.fileData['Screenshots']['shortcutnames'] = _.pickBy(this.fileData['Screenshots']['shortcutnames'], item => item !== undefined);
-        let data = genericParser.stringify(this.fileData);
-        return fs.outputFile(this.filepath, data).then(() => errors);
+        let tempData = _.cloneDeep(this.fileData);
+        let tempDataNames = tempData['Screenshots']['shortcutnames']
+        Object.keys(tempDataNames).forEach((key: string) =>{
+        let val = tempDataNames[key];
+        if(val){
+          tempData['Screenshots']['shortcutnames'][key] = this.sanitizeTitle(val);
+        }
+        });
+        let stringifiedData = genericParser.stringify(tempData);
+        return fs.outputFile(this.filepath, stringifiedData).then(() => errors);
       }).then((errors) => {
         if (errors.length > 0) {
           let error = new VDF_Error(errors);
@@ -226,7 +234,7 @@ export class VDF_ScreenshotsFile {
   }
 
   addItem(data: { appId: string, title: string, url: string }) {
-    this.fileData['Screenshots']['shortcutnames'][data.appId] = { title: this.sanitizeTitle(data.title), url: data.url };
+    this.fileData['Screenshots']['shortcutnames'][data.appId] = { title: data.title, url: data.url };
   }
 
   removeItem(appId: string) {
