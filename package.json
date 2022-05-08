@@ -1,6 +1,6 @@
 {
   "name": "steam-rom-manager",
-  "version": "2.3.31",
+  "version": "2.3.33",
   "license": "GPL-3.0",
   "description": "An app for managing ROMs in Steam",
   "author": {
@@ -128,6 +128,7 @@
     "to-css": "^1.2.1",
     "windows-shortcuts-ps": "https://github.com/cbartondock/windows-shortcuts-ps.git",
     "yaml": "^1.10.2",
+    "winreg": "^1.2.4",
     "zone.js": "^0.8.20"
   },
   "devDependencies": {
@@ -145,6 +146,7 @@
     "@types/minimatch": "^3.0.3",
     "@types/node": "12.12.46",
     "@types/rangy": "0.0.32",
+    "@types/winreg": "^1.2.31",
     "angular2-template-loader": "^0.6.2",
     "autoprefixer": "^10.4.0",
     "cross-env": "^5.1.4",

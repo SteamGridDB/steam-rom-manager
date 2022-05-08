@@ -1,0 +1,57 @@
+{
+	"UPlay (Ubisoft Connect)": {
+		"parserType": "UPlay",
+		"configTitle": "UPlay (Ubisoft Connect)",
+		"steamCategory": "${UPlay}",
+		"executableArgs": "",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"defaultTallImage": "",
+		"defaultHeroImage": "",
+		"defaultLogoImage": "",
+		"defaultIcon": "",
+		"localImages": "",
+		"localTallImages": "",
+		"localHeroImages": "",
+		"localLogoImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"executable": {
+			"path": "",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"uplayDir": "",
+      "uplayLauncherMode": true
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": false,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"presetVersion": 0
+	}
+}

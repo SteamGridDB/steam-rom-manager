@@ -60,6 +60,13 @@ export class VDF_ScreenshotsFile {
     return !this.valid;
   }
 
+  sanitizeTitle(title: string) {
+    return title.replace(/\\/g,"\\\\").replace(/\"/g,"\\\"");
+  }
+  desanitizeTitle(title: string) {
+    return title.replace(/\\\"/g,"\"").replace(/\\\\/g,"\\");
+  }
+
   read() {
     return fs.readFile(this.filepath, 'utf8').catch((error) => {
       if (error.code !== 'ENOENT') {
@@ -79,6 +86,13 @@ export class VDF_ScreenshotsFile {
       else if (this.fileData['Screenshots']['shortcutnames'] === undefined)
         this.fileData['Screenshots']['shortcutnames'] = {};
 
+      //TODO Hacky fix for number titles until @node-steam/vdf is fixed.
+      Object.keys(this.data).forEach((key: string) =>{
+        let val = this.data[key];
+        if(val){
+          this.fileData['Screenshots']['shortcutnames'][key] = this.desanitizeTitle(val.toString());
+        }
+      });
       return this.data;
     });
   }
@@ -212,7 +226,7 @@ export class VDF_ScreenshotsFile {
   }
 
   addItem(data: { appId: string, title: string, url: string }) {
-    this.fileData['Screenshots']['shortcutnames'][data.appId] = { title: data.title, url: data.url };
+    this.fileData['Screenshots']['shortcutnames'][data.appId] = { title: this.sanitizeTitle(data.title), url: data.url };
   }
 
   removeItem(appId: string) {

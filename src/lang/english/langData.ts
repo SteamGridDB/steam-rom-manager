@@ -112,7 +112,8 @@ export const EnglishLang: languageContainer = {
       launcherModeInputTitle: 'Launch games via Epic for online services',
       docs__md: {
         self: [
-          require('./markdown/epic-parser.md')
+          require('./markdown/epic-parser.md'),
+          require('./markdown/epic-parser-input.md')
         ],
         input: [
           require('./markdown/epic-parser-input.md')
@@ -130,16 +131,18 @@ export const EnglishLang: languageContainer = {
       launcherModeInputTitle: 'Launch games via UPlay for online services',
       docs__md: {
         self: [
-          require('./markdown/epic-parser.md')
+          require('./markdown/uplay-parser.md'),
+          require('./markdown/uplay-parser-input.md')
         ],
         input: [
-          require('./markdown/epic-parser-input.md')
+          require('./markdown/uplay-parser-input.md')
         ]
       },
       errors: {
         invalidManifestsOverride: "> Uplay Directory Override is not a valid directory.",
-        epicNotCompatible: "> UPlay not available on Linux.\n",
-        epicNotInstalled: "> UPlay / Ubisoft Connect does not appear to be installed.",
+        uplayNotCompatible: "> UPlay Parser not available on Linux or Mac.",
+        uplayDirNotFound: "> Specified UPlay directory does not exist.",
+        uplayNotInstalled: "> UPlay not installed in specified directory.",
         fatalError__i: '> UPlay parser failed with fatal error:\n ${error}'
       }
     },
@@ -148,7 +151,8 @@ export const EnglishLang: languageContainer = {
       launcherModeInputTitle: 'Launch games via GOG Galaxy',
       docs__md: {
         self: [
-          require('./markdown/gog-parser.md')
+          require('./markdown/gog-parser.md'),
+          require('./markdown/gog-parser-input.md')
         ],
         input: [
           require('./markdown/gog-parser-input.md')
@@ -156,7 +160,9 @@ export const EnglishLang: languageContainer = {
       },
       errors: {
         invalidGalaxyExeOverride: "> Galaxy Client Override is not a valid path.",
-        fatalError__i: '> GOG Galaxy parser failed with fatal error:\n ${error}'
+        fatalError__i: '> GOG Galaxy parser failed with fatal error:\n ${error}',
+        gogNotCompatible: '>GOG Galaxy parser is currently only available on Windows.',
+        gogNotInstalled: '> GOG Galaxy does not appear to be installed.'
       }
     },
     amazonGamesParser: {

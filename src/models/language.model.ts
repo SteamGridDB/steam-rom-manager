@@ -130,8 +130,9 @@ export interface languageStruct {
       },
       errors: {
         invalidManifestsOverride: string,
-        epicNotCompatible: string,
-        epicNotInstalled: string,
+        uplayNotCompatible: string,
+        uplayNotInstalled: string,
+        uplayDirNotFound: string,
         fatalError__i: string
       }
     },
@@ -143,6 +144,8 @@ export interface languageStruct {
         input: string[]
       }, errors: {
         invalidGalaxyExeOverride: string,
+        gogNotCompatible: string,
+        gogNotInstalled: string,
         fatalError__i: string
       }
     },

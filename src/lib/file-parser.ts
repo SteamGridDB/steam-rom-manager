@@ -190,6 +190,7 @@ export class FileParser {
              configs[i].parserInputs.epicLauncherMode
           || configs[i].parserInputs.gogLauncherMode
           || configs[i].parserInputs.amazonGamesLauncherMode
+          || configs[i].parserInputs.uplayLauncherMode
         );
         if (isROMParser && configs[i].titleFromVariable.tryToMatchTitle)
           this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);
