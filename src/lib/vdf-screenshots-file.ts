@@ -226,7 +226,7 @@ export class VDF_ScreenshotsFile {
   }
 
   addItem(data: { appId: string, title: string, url: string }) {
-    this.fileData['Screenshots']['shortcutnames'][data.appId] = { title: data.title, url: data.url };
+    this.fileData['Screenshots']['shortcutnames'][data.appId] = { title: this.sanitizeTitle(data.title), url: data.url };
   }
 
   removeItem(appId: string) {
