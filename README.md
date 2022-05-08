@@ -23,7 +23,7 @@ In addition to flexible ROM parsers, SRM now has several *platform parsers* for 
 |GOG Galaxy|✅|❌|❌|
 |UPlay|✅|❌|❌|
 
-Planned parsers include the Amazon Games Store, Itch.io, and Origin.
+Planned platform parsers include the Amazon Games Store, Itch.io, and Origin.
 
 # Support
 
