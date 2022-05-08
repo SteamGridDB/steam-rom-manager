@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2.3.33
 ### Fixed
-* Actually fixed title sanitization in `screenshots.vdf`. [Issue 296](https://github.com/SteamGridDB/steam-rom-manager/issues/296).
+* Actually fixed the title sanitization issue in `screenshots.vdf`. [Issue 296](https://github.com/SteamGridDB/steam-rom-manager/issues/296).
 * Fixed [Issue 284](https://github.com/SteamGridDB/steam-rom-manager/issues/284) and [Issue 278](https://github.com/SteamGridDB/steam-rom-manager/issues/278)
 
 ## 2.3.32
