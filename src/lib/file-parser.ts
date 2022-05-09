@@ -156,7 +156,7 @@ export class FileParser {
                 directories = [configs[i].romDirectory];
             }
             else if (isManualParser) {
-                directories = [configs[i].parserInputs["manifests"] as string];
+                directories = [configs[i].parserInputs["manualManifests"] as string];
             }
             else {
                 directories = filteredAccounts[i].found.map((account: userAccountData) => path.join(configs[i].steamDirectory, 'userdata', account.accountID));

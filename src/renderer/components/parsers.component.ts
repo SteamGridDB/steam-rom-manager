@@ -331,41 +331,47 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             multiple: true,
             allowEmpty: true,
             values: this.imageProviderService.instance.getAvailableProviders().map((provider) => { return { display: provider }; }),
-            onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-            onInfoClick: (self, path) => {
+              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+              onInfoClick: (self, path) => {
               this.currentDoc.activePath = path.join();
               this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
             }
           }),
           imageProviderAPIs: (()=>{
             let imageProviderAPIs = {};
-            let providers = this.imageProviderService.instance.getAvailableProviders();
-            for (let i=0;i < providers.length; i++) {
-              let provider = this.imageProviderService.instance.getProviderInfo(providers[i]);
+            let providerNames = this.imageProviderService.instance.getAvailableProviders();
+            for (let i=0;i < providerNames.length; i++) {
+              let provider = this.imageProviderService.instance.getProviderInfo(providerNames[i]);
               if (provider && provider.inputs !== undefined) {
-                for (let inputFieldName in provider.inputs) {
-                  let input = provider.inputs[inputFieldName];
-                  if(input.inputType == 'toggle') {
-                    imageProviderAPIs[inputFieldName] = new NestedFormElement.Toggle({
-                      text: input.label
-                    });
+                imageProviderAPIs[providerNames[i]] = (()=>{
+                  let apiInputs = {}
+                  for (let inputFieldName in provider.inputs) {
+                    let input = provider.inputs[inputFieldName];
+                    if(input.inputType == 'toggle') {
+                      apiInputs[inputFieldName] = new NestedFormElement.Toggle({
+                        text: input.label
+                      });
+                    }
+                    else if (input.inputType == 'multiselect') {
+                      apiInputs[inputFieldName] = new NestedFormElement.Select({
+                        label: input.label,
+                        multiple: input.multiple,
+                        allowEmpty: input.allowEmpty,
+                        values: input.allowedValues.map((option: string) => {return {display: option}}),
+                          onValidate: (self, path) => {
+                          return null;
+                        },
+                        onInfoClick: (self, path) => {
+                          this.currentDoc.activePath = path.join();
+                          this.currentDoc.content = input.info;
+                        }
+                      })
+                    }
                   }
-                  else if (input.inputType == 'multiselect') {
-                    imageProviderAPIs[inputFieldName] = new NestedFormElement.Select({
-                      label: input.label,
-                      multiple: input.multiple,
-                      allowEmpty: input.allowEmpty,
-                      values: input.allowedValues.map((option: string) => {return {display: option}}),
-                      onValidate: (self, path) => {
-                        return null;
-                      },
-                      onInfoClick: (self, path) => {
-                        this.currentDoc.activePath = path.join();
-                        this.currentDoc.content = input.info;
-                      }
-                    })
-                  }
-                }
+                  return new NestedFormElement.Group({
+                    children: apiInputs
+                  })
+                })();
               }
             }
             return new NestedFormElement.Group({
@@ -375,7 +381,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           onlineImageQueries: new NestedFormElement.Input({
             label: this.lang.label.onlineImageQueries,
             highlight: this.highlight.bind(this),
-              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+            onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
               this.currentDoc.activePath = path.join();
               this.currentDoc.content = this.lang.docs__md.onlineImageQueries.join('');
@@ -384,7 +390,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           imagePool: new NestedFormElement.Input({
             label: this.lang.label.imagePool,
             highlight: this.highlight.bind(this),
-              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+            onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
               this.currentDoc.activePath = path.join();
               this.currentDoc.content = this.lang.docs__md.imagePool.join('');

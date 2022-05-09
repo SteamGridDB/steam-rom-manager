@@ -8,14 +8,16 @@ export const availableParsers = [
   'Manual'
 ]
 
+// Two parser inputs can't have the same names!
+// Hard to fix bug involving schema
 export const availableParserInputs: {[parserType: string]: string[]} = {
   'Glob': ['glob'],
   'Glob-regex': ['glob-regex'],
   'Steam': [],
-  'Epic': ['manifests', 'epicLauncherMode'],
+  'Epic': ['epicManifests', 'epicLauncherMode'],
   'GOG Galaxy': ['galaxyExeOverride','gogLauncherMode'],
   'UPlay': ['uplayDir','uplayLauncherMode'],
-  'Manual': ['manifests']
+  'Manual': ['manualManifests']
 }
 
 export const manualParsers = ['Manual']

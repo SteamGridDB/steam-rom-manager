@@ -17,7 +17,7 @@ export class ManualParser implements GenericParser {
           title: 'Manual',
           info: this.lang.docs__md.self.join(''),
           inputs: {
-              'manifests': {
+              'manualManifests': {
                   label: this.lang.manifestsInputTitle,
                   inputType: 'dir',
                   validationFn: null,
