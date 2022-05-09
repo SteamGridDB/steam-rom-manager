@@ -523,6 +523,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       }))
       // TODO Make sections independent between parsers
       // .add(this.nestedGroup.hiddenSectionsObservable().subscribe((hiddenSections: {[sectionName:string]:boolean})=>{
+      //   console.log("hidden sections observable: ", hiddenSections);
       // }));
     }
 
