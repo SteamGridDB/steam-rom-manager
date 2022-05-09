@@ -1,7 +1,7 @@
 import { ProviderPostEventMap, ProviderCallback, ProviderReceiveEventMap, ProviderReceiveObject } from '../models';
 import { FuzzyService, LoggerService, SettingsService } from "../renderer/services";
 import { imageProviders } from './image-providers';
-import { availableProviders } from './image-providers/available-providers';
+import { availableProviders, providerInfo } from './image-providers/available-providers';
 import { APP } from '../variables';
 import { queue } from "async";
 import { Subject } from "rxjs";
@@ -58,7 +58,11 @@ export class ImageProvider {
     }
 
     getAvailableProviders() {
-        return availableProviders;
+      return availableProviders;
+    }
+
+    getProviderInfo(provider: string) {
+      return providerInfo[provider];
     }
 
     retrieveUrls(title: string, imageType: string, providers: string[], eventCallback: ProviderCallback) {

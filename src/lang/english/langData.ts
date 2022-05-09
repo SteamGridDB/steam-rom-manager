@@ -221,6 +221,15 @@ export const EnglishLang: languageContainer = {
         noAnyCharInPatternNextToRegex__md: '> Any char `?`, inside a pattern, can not be next to `${regex}`!'
       }
     },
+    sgdbProvider: {
+      nsfwInputTitle: 'Allow NSFW artwork',
+      humorInputTitle: 'Allow joke artwork',
+      imageMotionTypesTitle: 'Allowed Image Types',
+      docs__md: {
+        self: [],
+        input: []
+      }
+    },
     logger: {
       component: {
         noMessages: 'No messages are available',

@@ -32,6 +32,11 @@ export interface UserConfiguration {
     },
     onlineImageQueries: string,
     imageProviders: string[],
+    imageProviderAPIs: {
+      [imageProvider: string]: {
+        [apiInputName: string]: string | string[] | boolean
+      }
+    },
     executableArgs: string,
     imagePool: string,
     defaultImage: string,

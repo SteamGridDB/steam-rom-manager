@@ -1,6 +1,25 @@
 import { ImageContent } from "./preview.model";
 import { FuzzyEventMap } from "./fuzzy.model";
 
+
+export interface ProviderInputField {
+  [inputKey: string]: {
+    label: string,
+    inputType: 'multiselect' | 'toggle',
+    info?: string,
+    multiple?: boolean,
+    allowEmpty?: boolean,
+    allowedValues?: string[]
+  }
+}
+
+export interface ProviderInfo {
+  [providerKey: string]: {
+    info?: string,
+    inputs?: ProviderInputField
+  }
+}
+
 //Callback
 
 export interface ProviderImageData {

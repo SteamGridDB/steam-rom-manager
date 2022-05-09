@@ -178,6 +178,15 @@ export interface languageStruct {
             noAnyCharInPatternNextToRegex__md: string
         }
     },
+    sgdbProvider: {
+      nsfwInputTitle: string,
+      humorInputTitle: string,
+      imageMotionTypesTitle: string,
+      docs__md: {
+        self: [],
+        input: []
+      }
+    },
     logger: {
       component: {
         noMessages: string,

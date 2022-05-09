@@ -66,6 +66,29 @@ const sharedProperties = {
         ]
       }
     },
+    imageProviderAPIs: {
+      type: 'object',
+      default: {},
+      properties: {
+        SteamGridDB: {
+          type: 'object',
+          default: {},
+          properties: {
+            nsfw: {type: 'boolean', default: false},
+            humor: {type: 'boolean', default: false},
+            imageMotionTypes: {
+              type: 'array',
+              default: ['static'],
+              items: {
+                oneOf: [
+                  {type: 'string', enum: ['static', 'animated']}
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
     titleModifier: { type: 'string', default: '${fuzzyTitle}' },
     fuzzyMatch: {
       type: 'object',
