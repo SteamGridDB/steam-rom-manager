@@ -186,9 +186,12 @@ export class FileParser {
         let isPlatformParser:boolean = parserInfo.platformParsers.includes(configs[i].parserType);
         let isROMParser: boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
         let isManualParser: boolean = parserInfo.manualParsers.includes(configs[i].parserType);
-        let launcherMode = !!(configs[i].parserInputs.epicLauncherMode
+        let launcherMode = !!(
+             configs[i].parserInputs.epicLauncherMode
           || configs[i].parserInputs.gogLauncherMode
-          || configs[i].parserInputs.uplayLauncherMode);
+          || configs[i].parserInputs.amazonGamesLauncherMode
+          || configs[i].parserInputs.uplayLauncherMode
+        );
         if (isROMParser && configs[i].titleFromVariable.tryToMatchTitle)
           this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);
 
@@ -240,11 +243,11 @@ export class FileParser {
             executableLocation = configs[i].executable.path ? configs[i].executable.path : data[i].success[j].filePath;
             startInDir = configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation);
           }
-          else if (isPlatformParser) {
-            startInDir = path.dirname(data[i].success[j].filePath);
+          else if(isPlatformParser) {
+            startInDir = data[i].success[j].startInDirectory || path.dirname(data[i].success[j].filePath);
+            launchOptions = data[i].success[j].launchOptions;
             if(launcherMode) {
               executableLocation = data[i].executableLocation;
-              launchOptions = data[i].success[j].launchOptions;
             } else {
               executableLocation = data[i].success[j].filePath;
             }
