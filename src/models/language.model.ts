@@ -84,6 +84,19 @@ export interface languageStruct {
             fatalError__i: string
         }
     },
+    amazonGamesParser: {
+      exeOverrideTitle: string,
+      launcherModeInputTitle: string,
+      docs__md: {
+        self: string[],
+        input: string[]
+      },
+      errors: {
+        invalidExeOverride: string,
+        osUnsupported: string,
+        fatalError__i: string
+      }
+    },
     manualParser: {
         manifestsInputTitle: string,
         docs__md: {

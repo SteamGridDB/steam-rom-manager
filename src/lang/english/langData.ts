@@ -165,6 +165,23 @@ export const EnglishLang: languageContainer = {
         gogNotInstalled: '> GOG Galaxy does not appear to be installed.'
       }
     },
+    amazonGamesParser: {
+      exeOverrideTitle: "Amazon Games Path Override",
+      launcherModeInputTitle: "Launch games via Amazon Games",
+      docs__md: {
+        self: [
+          require('./markdown/amazon-games-parser.md')
+        ],
+        input: [
+          require('./markdown/amazon-games-parser-input.md')
+        ]
+      },
+      errors: {
+        invalidExeOverride: "> Amazon Games Installation Override is not a valid directory.",
+        osUnsupported: "> Amazon Games parser failed because Amazon Games is only avaliable on windows.",
+        fatalError__i: '> Amazon Games parser failed with fatal error:\n ${error}'
+      }
+    },
     globParser: {
       inputTitle: 'User\'s glob',
       docs__md: {

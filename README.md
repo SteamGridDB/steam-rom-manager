@@ -21,9 +21,10 @@ In addition to flexible ROM parsers, SRM now has several *platform parsers* for 
 |---|---|---|---|
 |[Epic](https://store.epicgames.com/en-US/) / [Legendary](https://github.com/derrod/legendary)|✅|✅|❌|
 |[GOG Galaxy](https://www.gog.com/galaxy)|✅|❌|❌|
+|[Amazon Games](https://gaming.amazon.com/amazon-games-app)|✅|❌|❌|
 |[UPlay](https://ubisoftconnect.com/en-US/)|✅|❌|❌|
 
-Planned platform parsers include the Amazon Games Store, Itch.io, and Origin.
+Planned platform parsers include Itch.io, and Origin.
 
 # Support
 
