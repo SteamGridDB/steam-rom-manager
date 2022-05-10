@@ -203,6 +203,7 @@ export class FileParser {
           appendArgsToExecutable: isROMParser ? configs[i].executable.appendArgsToExecutable: false,
           shortcutPassthrough: configs[i].executable.shortcutPassthrough,
           imageProviders: configs[i].imageProviders,
+          imageProviderAPIs: configs[i].imageProviderAPIs,
           foundUserAccounts: filteredAccounts[i].found,
           missingUserAccounts: filteredAccounts[i].missing,
           steamDirectory: configs[i].steamDirectory,

@@ -16,6 +16,7 @@ class SteamGridDbProvider extends GenericProvider {
 
   retrieveUrls() {
     let self = this;
+    console.log("imageProviderAPIs", self.proxy.imageProviderAPIs);
     this.xrw.promise = new Promise<void>(function (resolve) {
       let idPromise: Promise<number> = null;
       if(idRegex.test(self.proxy.title)) {
@@ -26,16 +27,27 @@ class SteamGridDbProvider extends GenericProvider {
       idPromise.then((chosenId: number)=>{
 
         let query: Promise<any>;
+        let params = {
+          id: chosenId,
+          type: 'game',
+          types: self.proxy.imageProviderAPIs.imageMotionTypes,
+          nsfw: self.proxy.imageProviderAPIs.nsfw ? "any" : "false",
+          humor: self.proxy.imageProviderAPIs.humor ? "any" : "false"
+        };
         if(self.proxy.imageType === 'long') {
-          query = self.client.getGridsById(chosenId,undefined,["legacy","460x215","920x430"]);
+          query = self.client.getGrids(Object.assign(params, {
+            dimensions: ["legacy","460x215","920x430"]
+          }))
         } else if (self.proxy.imageType === 'tall') {
-          query = self.client.getGridsById(chosenId,undefined,["600x900"]);
+          query = self.client.getGrids(Object.assign(params, {
+            dimensions: ["600x900"]
+          }));
         } else if (self.proxy.imageType === 'hero') {
-          query = self.client.getHeroes({id: chosenId, type: 'game'});
+          query = self.client.getHeroes(params);
         } else if (self.proxy.imageType === 'logo') {
-          query = self.client.getLogos({id: chosenId, type: 'game'});
+          query = self.client.getLogos(params);
         } else if (self.proxy.imageType === 'icon') {
-          query = self.client.getIcons({id: chosenId, type: 'game'})
+          query = self.client.getIcons(params);
         }
 
         query.then((res: any)=>{

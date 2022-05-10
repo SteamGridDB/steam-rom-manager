@@ -1,6 +1,6 @@
 import { ImageContent } from "./preview.model";
 import { FuzzyEventMap } from "./fuzzy.model";
-
+import { ImageProviderAPI } from "./user-configuration.model";
 
 export interface ProviderInputField {
   [inputKey: string]: {
@@ -91,7 +91,8 @@ export interface ProviderFuzzyListData {
 
 export interface ProviderRetrieveData extends ProviderId {
   title: string,
-  imageType: string
+  imageType: string,
+  imageProviderAPIs: ImageProviderAPI
 }
 
 export interface ProviderFilterData {

@@ -18,7 +18,7 @@ export class ConfigurationPresetsService {
   private downloadStatus: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private validator: json.Validator = new json.Validator(schemas.configPresets);
   private savingIsDisabled: boolean = false;
-  private rawURL: string = 'https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/';
+  private rawURL: string = 'https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/updatepresets/';
 
   constructor(private loggerService: LoggerService) {
     this.load();
@@ -45,7 +45,7 @@ export class ConfigurationPresetsService {
       if (!this.downloadStatus.getValue()) {
         this.downloadStatus.next(true);
         return ConfigurationPresetsService.xRequest.request(
-          'https://api.github.com/repos/SteamGridDB/steam-rom-manager/git/trees/master?recursive=1',
+          'https://api.github.com/repos/SteamGridDB/steam-rom-manager/git/trees/updatepresets?recursive=1',
           { responseType: 'json', method: 'GET', timeout: 1000 }
         ).then((data: any)=>{
           let presetURLs = data.tree
@@ -125,6 +125,7 @@ export class ConfigurationPresetsService {
 
   save(force: boolean = false) {
     if (!this.savingIsDisabled || force) {
+      console.log("writing presets to", paths.configPresets)
       json.write(paths.configPresets, this.variableData.getValue()).then().catch((error) => {
         this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
         this.loggerService.error(error);

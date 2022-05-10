@@ -1,4 +1,5 @@
 import { userAccountData, StringLiteralArray } from './helpers.model';
+import { ImageProviderAPI } from './user-configuration.model';;
 
 export interface ParsedUserConfigurationFile {
   executableLocation: string,
@@ -39,6 +40,7 @@ export interface ParsedUserConfiguration {
   parserId: string,
   parserType: string,
   imageProviders: string[],
+  imageProviderAPIs: ImageProviderAPI,
   steamDirectory: string,
   appendArgsToExecutable: boolean,
   shortcutPassthrough: boolean,
