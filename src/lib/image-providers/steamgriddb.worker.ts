@@ -16,7 +16,6 @@ class SteamGridDbProvider extends GenericProvider {
 
   retrieveUrls() {
     let self = this;
-    console.log("imageProviderAPIs", self.proxy.imageProviderAPIs);
     this.xrw.promise = new Promise<void>(function (resolve) {
       let idPromise: Promise<number> = null;
       if(idRegex.test(self.proxy.title)) {
@@ -30,9 +29,9 @@ class SteamGridDbProvider extends GenericProvider {
         let params = {
           id: chosenId,
           type: 'game',
-          types: self.proxy.imageProviderAPIs.imageMotionTypes,
-          nsfw: self.proxy.imageProviderAPIs.nsfw ? "any" : "false",
-          humor: self.proxy.imageProviderAPIs.humor ? "any" : "false"
+          types: self.proxy.imageProviderAPIs.SteamGridDB.imageMotionTypes,
+          nsfw: self.proxy.imageProviderAPIs.SteamGridDB.nsfw ? "any" : "false",
+          humor: self.proxy.imageProviderAPIs.SteamGridDB.humor ? "any" : "false"
         };
         if(self.proxy.imageType === 'long') {
           query = self.client.getGrids(Object.assign(params, {

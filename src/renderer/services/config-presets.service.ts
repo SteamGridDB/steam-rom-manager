@@ -125,7 +125,6 @@ export class ConfigurationPresetsService {
 
   save(force: boolean = false) {
     if (!this.savingIsDisabled || force) {
-      console.log("writing presets to", paths.configPresets)
       json.write(paths.configPresets, this.variableData.getValue()).then().catch((error) => {
         this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
         this.loggerService.error(error);
