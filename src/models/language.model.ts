@@ -195,6 +195,7 @@ export interface languageStruct {
       nsfwInputTitle: string,
       humorInputTitle: string,
       imageMotionTypesTitle: string,
+      stylesTitle: string,
       docs__md: {
         self: [],
         input: []

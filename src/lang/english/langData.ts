@@ -241,7 +241,8 @@ export const EnglishLang: languageContainer = {
     sgdbProvider: {
       nsfwInputTitle: 'Allow NSFW artwork',
       humorInputTitle: 'Allow joke artwork',
-      imageMotionTypesTitle: 'Allowed Image Types',
+      imageMotionTypesTitle: 'Allowed animation types',
+      styles: 'Allowed artwork styles',
       docs__md: {
         self: [],
         input: []

@@ -7,7 +7,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',
-  latestVersion: 8,
+  latestVersion: 9,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -127,6 +127,16 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
               imageMotionTypes: ['static']
             }
           };
+        }
+      }
+    },
+    8: {
+      'version': { method: versionUp },
+      'imageProviderAPIs': {
+        method: (oldValue, oldConfiguration: any) => {
+          newValue = _.cloneDeep(oldValue);
+          newValue["styles"] = [];
+          return newValue;
         }
       }
     }

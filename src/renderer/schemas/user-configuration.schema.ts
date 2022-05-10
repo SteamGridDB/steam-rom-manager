@@ -1,4 +1,4 @@
-import { availableProviders, defaultProviders } from '../../lib/image-providers/available-providers';
+import { availableProviders, defaultProviders, providerInfo } from '../../lib/image-providers/available-providers';
 import { availableParsers, availableParserInputs } from '../../lib/parsers/available-parsers';
 
 import { cloneDeep, union } from "lodash";
@@ -76,12 +76,21 @@ const sharedProperties = {
           properties: {
             nsfw: {type: 'boolean', default: false},
             humor: {type: 'boolean', default: false},
+            styles: {
+              type: 'array',
+              default: [],
+              items: {
+                oneOf: [
+                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.styles.allowedValues}
+                ]
+              }
+            },
             imageMotionTypes: {
               type: 'array',
               default: ['static'],
               items: {
                 oneOf: [
-                  {type: 'string', enum: ['static', 'animated']}
+                  {type: 'string', enum: providerInfo.SteamGridDB.inpus.imageMotionTypes.allowedValues}
                 ]
               }
             }

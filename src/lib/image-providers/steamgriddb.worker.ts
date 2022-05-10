@@ -30,6 +30,7 @@ class SteamGridDbProvider extends GenericProvider {
           id: chosenId,
           type: 'game',
           types: self.proxy.imageProviderAPIs.SteamGridDB.imageMotionTypes,
+          styles: self.proxy.imageProviderAPIs.SteamGridDB.styles,
           nsfw: self.proxy.imageProviderAPIs.SteamGridDB.nsfw ? "any" : "false",
           humor: self.proxy.imageProviderAPIs.SteamGridDB.humor ? "any" : "false"
         };

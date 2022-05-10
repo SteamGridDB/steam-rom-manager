@@ -15,6 +15,14 @@ export const providerInfo: ProviderInfo = {
         inputType: 'toggle',
         info: APP.lang.sgdbProvider.docs__md.input.join('')
       },
+      styles: {
+        label: APP.lang.sgdbProvider.stylesTitle,
+        inputType: 'multiselect',
+        allowedValues: ['alternate', 'blurred', 'white_logo', 'material', 'no_logo'],
+        multiple: true,
+        allowEmpty: true,
+        info: APP.lang.sgdbProvider.docs__md.input.join('')
+      },
       imageMotionTypes: {
         label: APP.lang.sgdbProvider.imageMotionTypesTitle,
         inputType: 'multiselect',
