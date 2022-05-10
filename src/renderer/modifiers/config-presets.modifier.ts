@@ -6,7 +6,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const configPreset: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'presetVersion',
-  latestVersion: 0,
+  latestVersion: 1,
   fields: {
     undefined: {
       'presetVersion': { method: ()=>0 },
@@ -21,6 +21,34 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
             result['manifests'] = null;
           }
           return result;
+        }
+      }
+    },
+    0: {
+      'presetVersion': { method: versionUp },
+      'parserInputs': {
+        method: (oldValue, oldConfiguration: any)=>{
+          let newValue = _.cloneDeep(oldValue);
+          if(['Manual','Epic'].includes(oldConfiguration.parserType)) {
+            if(oldConfiguration.parserType=='Epic') {
+              newValue.epicManifests = oldValue.manifests || "";
+            } else {
+              newValue.manualManifests = oldValue.manifests || "";
+            }
+            delete newValue.manifests;
+          }
+          return newValue;
+        }
+      },
+      'imageProviderAPIs': {
+        method: (oldValue, oldConfiguration: any) => {
+          return {
+            SteamGridDB: {
+              nsfw: false,
+              humor: false,
+              imageMotionTypes: ['static']
+            }
+          };
         }
       }
     }

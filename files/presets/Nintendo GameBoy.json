@@ -51,7 +51,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - Gambatte": {
 		"parserType": "Glob",
@@ -105,7 +114,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Nintendo GameBoy - Retroarch - Gearboy": {
 		"parserType": "Glob",
@@ -159,7 +177,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - Gearboy": {
 		"parserType": "Glob",
@@ -213,7 +240,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Nintendo GameBoy - Retroarch - Mesen-S": {
 		"parserType": "Glob",
@@ -267,7 +303,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - Mesen-S": {
 		"parserType": "Glob",
@@ -321,7 +366,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Nintendo GameBoy - Retroarch - mGBA": {
 		"parserType": "Glob",
@@ -375,7 +429,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - mGBA": {
 		"parserType": "Glob",
@@ -429,7 +492,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Nintendo GameBoy - Retroarch - SameBoy": {
 		"parserType": "Glob",
@@ -483,7 +555,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - SameBoy": {
 		"parserType": "Glob",
@@ -537,7 +618,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Nintendo GameBoy - Retroarch - TGB Dual": {
 		"parserType": "Glob",
@@ -591,7 +681,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - TGB Dual": {
 		"parserType": "Glob",
@@ -645,6 +744,15 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	}
 }

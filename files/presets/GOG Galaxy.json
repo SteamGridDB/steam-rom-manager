@@ -1,57 +1,66 @@
 {
-  "GOG Galaxy": {
-    "parserType": "GOG Galaxy",
-    "configTitle": "GOG Galaxy",
-    "steamCategory": "${GOG Galaxy}",
-    "executableArgs": "",
-    "executableModifier": "\"${exePath}\"",
-    "romDirectory": "",
-    "steamDirectory": "${steamdirglobal}",
-    "startInDirectory": "",
-    "titleModifier": "${fuzzyTitle}",
-    "onlineImageQueries": "${${fuzzyTitle}}",
-    "imagePool": "${fuzzyTitle}",
-    "imageProviders": [
-      "SteamGridDB"
-    ],
-    "defaultImage": "",
-    "defaultTallImage": "",
-    "defaultHeroImage": "",
-    "defaultLogoImage": "",
-    "defaultIcon": "",
-    "localImages": "",
-    "localTallImages": "",
-    "localHeroImages": "",
-    "localLogoImages": "",
-    "localIcons": "",
-    "disabled": false,
-    "advanced": false,
-    "executable": {
-      "path": "",
-      "shortcutPassthrough": false,
-      "appendArgsToExecutable": true
-    },
-    "userAccounts": {
-      "specifiedAccounts": "",
-      "skipWithMissingDataDir": true,
-      "useCredentials": true
-    },
-    "parserInputs": {
-      "galaxyExeOverride": "",
-      "gogLauncherMode": false
-    },
-    "titleFromVariable": {
-      "limitToGroups": "",
-      "caseInsensitiveVariables": false,
-      "skipFileIfVariableWasNotFound": false,
-      "tryToMatchTitle": false
-    },
-    "fuzzyMatch": {
-      "use": true,
-      "replaceDiacritics": true,
-      "removeCharacters": true,
-      "removeBrackets": true
-    },
-    "presetVersion": 0
-  }
+	"GOG Galaxy": {
+		"parserType": "GOG Galaxy",
+		"configTitle": "GOG Galaxy",
+		"steamCategory": "${GOG Galaxy}",
+		"executableArgs": "",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"defaultImage": "",
+		"defaultTallImage": "",
+		"defaultHeroImage": "",
+		"defaultLogoImage": "",
+		"defaultIcon": "",
+		"localImages": "",
+		"localTallImages": "",
+		"localHeroImages": "",
+		"localLogoImages": "",
+		"localIcons": "",
+		"disabled": false,
+		"advanced": false,
+		"executable": {
+			"path": "",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"userAccounts": {
+			"specifiedAccounts": "",
+			"skipWithMissingDataDir": true,
+			"useCredentials": true
+		},
+		"parserInputs": {
+			"galaxyExeOverride": "",
+			"gogLauncherMode": false
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
+	}
 }

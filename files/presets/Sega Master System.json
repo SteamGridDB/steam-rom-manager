@@ -51,7 +51,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Sega Master System - Retroarch(Flatpak) - Gearsystem": {
 		"parserType": "Glob",
@@ -105,7 +114,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Sega Master System - Retroarch - Genesis Plus GX": {
 		"parserType": "Glob",
@@ -159,7 +177,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Sega Master System - Retroarch(Flatpak) - Genesis Plus GX": {
 		"parserType": "Glob",
@@ -213,7 +240,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Sega Master System - Retroarch - PicoDrive": {
 		"parserType": "Glob",
@@ -267,7 +303,16 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	},
 	"Sega Master System - Retroarch(Flatpak) - PicoDrive": {
 		"parserType": "Glob",
@@ -321,6 +366,15 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	}
 }

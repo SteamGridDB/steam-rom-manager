@@ -6,6 +6,7 @@ import * as glob from "glob";
 let isValid = true;
 const validator = new json.Validator(undefined, undefined, { useDefaults: false });
 let presetFiles: string[] = glob.sync("./files/presets/*.json")
+console.log(presetFiles)
 let presetPromises: Promise<object|void>[] = []
 for(let i=0; i <presetFiles.length; i++) {
   presetPromises.push(json.read(presetFiles[i])

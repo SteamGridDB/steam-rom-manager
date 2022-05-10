@@ -37,8 +37,8 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"manifests": "",
-      "epicLauncherMode": true
+			"epicLauncherMode": true,
+			"epicManifests": ""
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -52,6 +52,15 @@
 			"removeCharacters": true,
 			"removeBrackets": true
 		},
-		"presetVersion": 0
+		"presetVersion": 1,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				]
+			}
+		}
 	}
 }

@@ -7,7 +7,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',
-  latestVersion: 6,
+  latestVersion: 8,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -96,6 +96,37 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
           let newValue = _.cloneDeep(oldValue);
           delete newValue.use;
           return newValue
+        }
+      }
+    },
+    6: {
+      'version': { method: versionUp },
+      'parserInputs': {
+        method: (oldValue, oldConfiguration: any)=>{
+          let newValue = _.cloneDeep(oldValue);
+          if(['Manual','Epic'].includes(oldConfiguration.parserType)) {
+            if(oldConfiguration.parserType=='Epic') {
+              newValue.epicManifests = oldValue.manifests || "";
+            } else {
+              newValue.manualManifests = oldValue.manifests || "";
+            }
+            delete newValue.manifests;
+          }
+          return newValue;
+        }
+      }
+    },
+    7: {
+      'version': { method: versionUp },
+      'imageProviderAPIs': {
+        method: (oldValue, oldConfiguration: any) => {
+          return {
+            SteamGridDB: {
+              nsfw: false,
+              humor: false,
+              imageMotionTypes: ['static']
+            }
+          };
         }
       }
     }
