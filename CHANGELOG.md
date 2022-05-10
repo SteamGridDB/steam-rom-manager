@@ -12,6 +12,14 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.34
+### Fixed
+* Title sanitization yet again.
+* Epic manifests not showing
+### Added
+* Amazon Games parser (thanks @lexarvn)
+* Exposed some API options for SteamGridDB: nsfw, humor, and image motion types
+
 ## 2.3.33
 ### Fixed
 * Actually fixed the title sanitization issue in `screenshots.vdf`. [Issue 296](https://github.com/SteamGridDB/steam-rom-manager/issues/296).
