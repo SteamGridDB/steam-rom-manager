@@ -3,7 +3,7 @@ export const availableParsers = [
   'Glob-regex',
   'Steam',
   'GOG Galaxy',
-  'itch.io'
+  'itch.io',
   'Epic',
   'GOG Galaxy',
   'Amazon Games',
@@ -17,7 +17,7 @@ export const availableParserInputs: {[parserType: string]: string[]} = {
   'Glob': ['glob'],
   'Glob-regex': ['glob-regex'],
   'Steam': [],
-  'itch.io': ['itchIoAppDataOverride']
+  'itch.io': ['itchIoAppDataOverride'],
   'Epic': ['epicManifests', 'epicLauncherMode'],
   'GOG Galaxy': ['galaxyExeOverride','gogLauncherMode'],
   'Amazon Games': ['amazonGamesExeOverride', 'amazonGamesLauncherMode'],
