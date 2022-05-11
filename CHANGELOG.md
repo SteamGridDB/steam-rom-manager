@@ -12,6 +12,11 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.36
+### Fixed
+* Added handling to UPlay parser to simply not add games whose path is not stored in the registry (thanks @CheezyFriez12 for helping to debug).
+* Shortcut passthrough for `.lnk` files no longer drops arguments ([Issue 227](https://github.com/SteamGridDB/steam-rom-manager/issues/227)).
+
 ## 2.3.35
 ### Added
 * Itch.io parser (thanks @lexarvn)
@@ -182,6 +187,7 @@ Thanks to [Maykin-99](https://github.com/Maykin-99) for these much needed change
 * Small backend error when user specified no categories.
 
 ## 2.3.3
+### Fixed
 * Unbork browse for files.
 
 ## 2.3.2
@@ -208,7 +214,6 @@ Thanks to [Maykin-99](https://github.com/Maykin-99) for these much needed change
 * Crash logging with sentry.io.
 * Auto Updater (hopefully working, sort of hard to test separately).
 * Config Presets are searchable.
-
 ### Changed
 * Re organized Parser fields slightly to make more sense.
 * Split user presets into separate files.
@@ -216,7 +221,6 @@ Thanks to [Maykin-99](https://github.com/Maykin-99) for these much needed change
 ## 2.2.34
 ### Fixed
 * Bug where app list would fail to generate if width/height of images could not be retrieved.
-
 ### Added
 * More logging for steam parser.
 
@@ -240,7 +244,6 @@ Thanks to [Maykin-99](https://github.com/Maykin-99) for these much needed change
 * Certain parser fields not showing up in Advanced.
 
 ## 2.2.29
-This is a big one.
 ### Added
 * Environment variables specified in settings, `steamdirglobal` and `retroarchpath`.
 * Steam Parsers (experimental), which can manage artwork for specified steam accounts.
@@ -249,11 +252,11 @@ This is a big one.
 ### Fixed
 * Fixed longstanding issue (since 2.2.20) where UI would lock up when selecting directories that contained many files, eg. the steam directory. This problem was pronounced on systems that used HDD's, and was fixed by dropping webkitdir in favor of electron's showOpenDialog.
 
-## 2.2.27 -2020-05-23
-### Hotfix
+## 2.2.27
+### Fixed
 * 2.2.26 broke retro-arch cores. This issue has been fixed in this release.
 
-## 2.2.26 - 2020-05-21
+## 2.2.26
 ### Added
 * Better state management for category manager (no more duplicate categories, empty SRM managed categories get deleted).
 * Custom Arguments JSON file capability + documentation.
@@ -262,7 +265,7 @@ This is a big one.
 ### Fixed
 * Fixed issue of linux version not saving images.
 
-## 2.2.25 - 2020-05-12
+## 2.2.25
 ### Added 
 * Setting for whether or not to delete shortcuts from disabled parsers.
 * Ability to see number of titles in preview and in test parser logs.
@@ -274,75 +277,56 @@ This is a big one.
 ### Fixed
 * A bunch of dead links in Readme and About Markdown.
 
-## 2.2.23 - 2020-01-27
+## 2.2.23
 ### Added 
 * Improved documentation for custom variables based on advice of a friend.
-
 ### Fixed
 * Fixed parsers deleting custom logo positions on re parsing (note they will still delete if that app's name changes - SRM will not yet relocate the old json file to the new name).
 * Fixed downloading borders not showing in all artwork view.
 
-## 2.2.22 - 2020-01-24
+## 2.2.22
 ### Added
 * Added resolutions to images.
 * Added an "All Artwork" view.
-
 ### Fixed
 * Fixed pngs not replacing jpgs.
 * Fixed state management (no more duplicate shortcuts).
 
-## 2.2.21 - 2020-01-15
+## 2.2.21
 ### Added
 * Got Logos working.
 * Got Recent Images working.
-## 2.2.19 - 2019-03-09
 
+## 2.2.19
 ### Changed
-
 * Updated `steamgriddb` url.
 
-## 2.2.18 - 2018-08-17
-
+## 2.2.18
 ### Changed
-
 * `retrogaming.cloud` is now turned of by default for new users.
-
 ### Fixed
+* Fixed [Issue 111](https://github.com/SteamGridDB/steam-rom-manager/issues/111).
 
-* Fixed issue #111.
-
-## 2.2.17 - 2018-07-15
-
+## 2.2.17
 ### Added
-
 * Added `${os:[win|mac|linux]|on match|no match(optional)}` variable. Can be used to select OS specific extensions and etc.
 
-## 2.2.16 - 2018-06-12
-
+## 2.2.16
 ### Changed
-
 * For existing entries, an union of parser categories and already existing categories will be used when saving `VDF` files. This will preserve any user added category.
 
-## 2.2.15 - 2018-04-08
-
+## 2.2.15
 ### Changed
-
 * Removed file restriction for `Executable` field. Any valid path can be used for executable.
 
-## 2.2.14 - 2018-04-06
-
+## 2.2.14
 ### Fixed
-
 * A bug introduced in `2.2.12` would modify `userSettings` schema. This allows user to save invalid configurations, but would throw an error when trying to load it.
 
-## 2.2.13 - 2018-04-05
-
+## 2.2.13
 ### Added
-
 * Added primitive/unlimited cache for fuzzy matcher. Increases performance and can be used to change undesired fuzzy matcher's result by modifying `fuzzyCache.json`.
-
 ### Fixed
-
 * Added addition step for `"the"` matching. Fuzzy matcher will now modify and try to match title in the following order:
 ```
 Original title: "Addams Family, The - Pugsley's Scavenger Hunt"
@@ -352,149 +336,100 @@ Original title: "Addams Family, The - Pugsley's Scavenger Hunt"
 3rd try: "Addams Family, The - Pugsley's Scavenger Hunt" (original)
 ```
 
-## 2.2.12 - 2018-03-27
-
+## 2.2.12
 ### Removed
 * ConsoleGrid support, because it's dead (again...).
-
 ### Added
-
 * Configuration preset support has been added. User-made configurations can now be loaded from `configPresets.json` file. This file, together with `customVariables.json`, will be automatically downloaded from github **only** if they don't exist on user's computer. Downloads can be forced from **settings** page.
 * Hosted files can be found [here](https://github.com/FrogTheFrog/steam-rom-manager/tree/master/files).
 
-## 2.2.11 - 2018-03-17
-
+## 2.2.11
 ### Fixed
-
 * Improved diacritic character handling for fuzzy matcher. For ex. `Pokémon Snap` should now be matched to `Pokemon Snap` with diacritic option enabled.
-
 ### Added
-
 * More emulator examples (by **Chocobubba** and **Wesim**).
 
-## 2.2.10 - 2017-11-21
-
+## 2.2.10
 ### Fixed
-
 * `Shortcuts.vdf` file would not have elements properly removed. If you had app entry at index 0, followed by other apps, removing app at 0 would not re-index remaining entries. Thus, array element at 0 index would remain empty, forever. This, besides corrupting `vdf`, would result in "`exe` of undefined" error.
 * Since the rewrite of `shortcuts.vdf` parser, you could not add Steam categories that were numbers (for ex. 7800, 123, 777, etc.). This is fixed now.
 
-## 2.2.9 - 2017-11-16
-
+## 2.2.9
 ### Added
-
 * Fuzzy matcher now has an option to replace diacritic characters to their latin equivalent. Available character list is probably not full, so if you find a missing character be sure to post an issue.
 * Parser variable added which can replace diacritic characters to their latin equivalent.
 * Added default/fallback image option for when there is no image available.
-
 ### Fixed
-
 * `substr` error when glob contains space characters at the start of input.
 * Could not add local image manually most of the time due tue file input being removed before callback is fired.
 
-## 2.2.8 - 2017-11-12
-
+## 2.2.8
 ### Added
-
 * Parser configuration can now be copied to clipboard in "ready-to-paste" text format.
-
 ### Changed 
-
 * Completely rewritten `VDF manager` to ease implementation of new features. Should increase list saving performance. If something breaks, there's always a **backup** VDF!
 * Optimized `shortcuts.vdf` parser. Should give a **huge** performance increase for people with a lot of entries.
 * Default page changed from `Preview` to `Parsers`.
 * Changed generic `vdf` library from [node-vdf](https://github.com/RJacksonm1/node-vdf) to [@node-steam/vdf](https://github.com/node-steam/vdf). Previous one did not properly convert data to `vdf`. This change **might** require to delete `screenshots.vdf` (only if SRM throws an error).
 
-## 2.2.7 - 2017-11-10
-
+## 2.2.7
 ### Added
-
 * Executable modifier field is now available. Now you can modify executable, append/prepend custom data.
-
 ### Changed 
-
 * Arguments are now appended to executable by default.
 * A lot of fields are now trimmed for whitespace.
-
-### Fixed 
-
+### Fixed
 * Added missing and fixed incorrect whitespace validation.
 
-## 2.2.6 - 2017-11-09
-
+## 2.2.6
 ### Added
-
 * Titles, not found in `customVariables.json` can now be failed (skipped). Useful for MAME and similar emulators.
-
 ### Fixed 
-
 * Empty titles (with a length of a 0) will now be failed (skipped) by a parser.
 
-## 2.2.5 - 2017-11-07
-
+## 2.2.5
 ### Added
-
 * Image and icon indexes will now persist from **previously** generated list. This means that if your newly generated list overwrites apps with the **same** `APPID`, you should see previously selected images/icons.
 * Local images with `png`, `tga`, `jpg` and `jpeg` extensions can now be added to image pool manually in preview page.
-
 ### Fixed
-
 * Field `Image pool` will have highlighting enabled.
 * `#` is now encoded for local files.
 * UTF-8 BOM is now properly removed from read files.
 * Custom-input field will not scroll when trying to select text while scrolling. The downside is that it will loose focus when mouse is not hovering input element itself. Can be fixed with Chromium v60 which is yet to be implemented in Electron.
-
 ### Changed
-
 * Fuzzy parser will now look for `..., The...` segment first. Before it looked for it after no matches were found. That, however, sometimes returned false positives which resulted in `..., The...` segment replacement being skipped. Click [here](https://regex101.com/r/o2DCJ7/2) to see how it does it.
 * Changed image size from `cover` to `contain` in preview menu, because Steam seems to be doing it for non-standard images.
 
-## 2.2.4 - 2017-10-27
-
+## 2.2.4
 ### Fixed
-
 * Users with configuration made in v2.0.0 could not migrate to older versions due to `Glob-regex` and `Glob-Regex` type mismatch.
 
-## 2.2.3 - 2017-10-10
-
+## 2.2.3
 ### Fixed
-
 * `regex` function variable would use substitution.
 * Single line text input fields will now have newlines removed on paste.
-
 ### Changed
-
 * Updated command line examples to use `${exeDir}`.
 
-## 2.2.2 - 2017-10-09
-
+## 2.2.2
 ### Fixed
-
 * `Glob-regex` would not accept `g` flag.
 
-## 2.2.1 - 2017-10-07
-
+## 2.2.1
 ### Added
-
 * Parser configuration title together with Steam categories is now shown on generated app entry.
 * Custom text input fields.
 * Variable bracket highlighting in input fields. 
 * Information about color codes near configuration title.
 * Missing backend validation.
 * Experimental custom variable support.
-
 ### Changed
-
 * Steam categories are no longer in advanced options.
-
 ### Fixed
-
 * Some typos in FAQ.
 
-## 2.2.0 - 2017-09-30
-
+## 2.2.0
 #### A lot of additions/changes/fixes are not listed here due to unfortunate misclicks which commit changes before I am able to record them.
-
 ### Added
 * Parser support to local images and local icons.
 * Temporary glob cache.
@@ -515,7 +450,6 @@ Original title: "Addams Family, The - Pugsley's Scavenger Hunt"
 * Image urls are now cached for a session.
 * Steam categories now support variables.
 * Image pool field has been exposed.
-
 ### Changed
 * Changed fuzzy library from [fuzzy](https://github.com/mattyork/fuzzy) to [fuzzaldrin-plus](https://github.com/jeancroy/fuzz-aldrin-plus).
 * Parser configuration will now have `disable` option instead of `enable`. Should be less confusing.
@@ -525,22 +459,20 @@ Original title: "Addams Family, The - Pugsley's Scavenger Hunt"
 * Title modifier now supports and uses variables.
 * Image url retrieving is now aborted instantly.
 * Rewritten variable parser to support nested variables.
-
 ### Fixed
 * Empty executable is now allowed.
 * A logic "bug" for `retrogaming.cloud`. If filter is enabled, titles will be filtered out before making queries `retrogaming.cloud`. This will dramatically decrease number of timeouts. Big thanks to **AlexDobeck** for finding and providing a fix for this.
 * Fixed a bug where `retrogaming.cloud` could not be stopped.
 * Fixed various bugs related to parser form.
 
-## 2.1.1 - 2017-08-09
+## 2.1.1
 ### Added
 * CMD examples for Nestopia and Project64.
-
 ### Fixed
 * Initial image size would remain at 40% if preview menu was opened without an already generated list.
 * Image size would not save if user exists app in preview menu.
 
-## 2.1.0 - 2017-08-08
+## 2.1.0
 ### Added
 * Ability to select image providers both globally and per user configuration.
 * Markdown support.
@@ -558,7 +490,6 @@ Original title: "Addams Family, The - Pugsley's Scavenger Hunt"
     * `*(a|b|c)` Matches zero or more occurrences of the patterns provided.
     * `@(pattern|pat*|pat?erN)` Matches exactly one of the patterns provided
     * `**` If a "globstar" is alone in a path portion, then it matches zero or more directories and subdirectories searching for matches. It does not crawl symlinked directories.
-
 ### Changed
 * `ng-select` now supports multi-select.
 * Invalid configurations can now be saved.
@@ -569,19 +500,17 @@ Original title: "Addams Family, The - Pugsley's Scavenger Hunt"
 * Parser form no longer uses Angular's form module. A new "recursive" module is now used to create parser form.
 * Drastically reduced the amount of css variables.
 * Layout changed to support `CSS grid`.
-
 ### Fixed
 * `Observable` settings load logic bug.
 * Url encoding bug (issue #27).
-
 ### Removed
 * Color picker module can no longer be accessed and is used for development only.
 
-## 2.0.1 - 2017-06-12
+## 2.0.1
 ### Fixed
 * Url retrieving would silently stop after 3 timeouts. Now they stop after 3 failures, not timeouts, as intended.
 
-## 2.0.0 - 2017-06-11
+## 2.0.0
 ### Added
 * 2 new options for fuzzy matcher.
 * Online image query option allows to specify search string for images.
@@ -594,7 +523,6 @@ Original title: "Addams Family, The - Pugsley's Scavenger Hunt"
 * Timeout support added for `retrogaming.cloud`. After requested timeout, images will continue to download.
 * New nagging message will now announce when all downloads are complete.
 * User configurations and user settings (new in this release) will now be validated. Incorrect structure types will be replaced with default values (it will add missing options for new APP versions).
-
 ### Changed
 * Parser no longer needs executable location. If left empty, a file, returned by parser, will be used as executable. This allows to use custom batch files that do not require executable. Technically, any non-steam game can be added now.
 * Title prefix and suffix fields replaced by one `Title modifier` field.
@@ -602,48 +530,42 @@ Original title: "Addams Family, The - Pugsley's Scavenger Hunt"
 * Image retrieve logic. Images are now retrieved in background, allowing user to view currently available images.
 * Internal data structure has changed to allow unique configurations for multiple apps per multiple user accounts per multiple directories.
 * Using the new API for `SteamGridDB`.
-
 ### Fixed
 * Properly show image url retrieve errors.
-
 ### Removed
 * Preferred image list is removed as it is impossible to implement with background image downloader.
 * ConsoleGrid support, because it's dead.
 * Greedy mode option.
 
-## 1.1.4 - 2017-05-02
+## 1.1.4
 ### Fixed
 * `shortcuts.vdf` should now have recurring titles removed as intended. If you had titles disappear, it was because Steam changed `AppName` property to `appname`. That resulted in too many titles and Steam got confused. Simply re-adding all titles via SRM should fix it as it will delete duplicates.
 
-## 1.1.3 - 2017-05-01
+## 1.1.3
 ### Added
 * Greedy search option which will search for images using both `${title}` and `${fuzzyTitle}`
-
 ### Fixed
 * Added a temporary fix, which should prevent `shortcuts.vdf` corruption
 
-## 1.1.2 - 2017-05-01
+## 1.1.2
 ### Added
 * Additional one time backups will be made with extension `.firstbackup`
-
 ### Changed
 * Glob-regex now joins capture pairs. See [here](https://regex101.com/r/xasqq9/2) how it can be used
-
 ### Fixed
 * Alert component now times out as intended (previously it would just stay there until user clicked it or it received a new message to display)
 
-## 1.1.1 - 2017-05-01
+## 1.1.1
 ### Changed
 - You won't be forced to shut down Steam anymore, but will be adviced to, everytime you generate a list
 
-## 1.1.0 - 2017-05-01
+## 1.1.0
 ### Added
 - Offline mode
-
 ### Changed
 - In order to release binaries for multiple platforms, Steam check is done only on Windows
 - User data is now located at: `%APPDATA%\steam-rom-manager\userData` (Windows) or `~/.config/steam-rom-manager/userData` (linux)
 
-## 1.0.0 - 2017-04-30
+## 1.0.0
 ### Added
 - Everything

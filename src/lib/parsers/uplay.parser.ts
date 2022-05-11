@@ -180,7 +180,7 @@ export class UPlayParser implements GenericParser {
         let parsedGames = finalOutput.filter(x=>x&&x.root&&x.root.start_game&&!x.root.third_party_platform).map(x=>x.root)
         parsedGames.forEach((item: any)=>{
           let basePath = (item.start_game.offline || item.start_game.online).executables[0].path.relative;
-          if(item.name && item.launcher_id) {
+          if(item.name && item.launcher_id && installDirDict[item.launcher_id.toString()]) {
             appTitles.push(item.name);
             appNames.push(item.launcher_id.toString());
             appPaths.push(path.join(installDirDict[item.launcher_id.toString()],basePath));
