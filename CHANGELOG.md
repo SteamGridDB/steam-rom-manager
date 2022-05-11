@@ -12,6 +12,10 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.35
+### Added
+* Itch.io parser (thanks @lexarvn)
+
 ## 2.3.34
 ### Fixed
 * Title sanitization yet again.
