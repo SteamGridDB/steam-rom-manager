@@ -143,11 +143,13 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
     9: {
       'version': { method: versionUp },
       'imageProviderAPIs': {
-        let newValue = _.cloneDeep(oldValue);
-        newValue["SteamGridDB"]["stylesHero"] = [];
-        newValue["SteamGridDB"]["stylesLogo"] = [];
-        newValue["SteamGridDB"]["stylesIcon"] = [];
-        return newValue;
+        method: (oldValue, oldConfiguration: any) => {
+          let newValue = _.cloneDeep(oldValue);
+          newValue["SteamGridDB"]["stylesHero"] = [];
+          newValue["SteamGridDB"]["stylesLogo"] = [];
+          newValue["SteamGridDB"]["stylesIcon"] = [];
+          return newValue;
+        }
       }
     }
   }
