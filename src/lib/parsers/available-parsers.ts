@@ -1,14 +1,13 @@
 export const availableParsers = [
   'Glob',
   'Glob-regex',
-  'Steam',
-  'GOG Galaxy',
-  'itch.io',
+  'Manual',
+  'Amazon Games',
   'Epic',
   'GOG Galaxy',
-  'Amazon Games',
+  'itch.io',
+  'Steam',
   'UPlay',
-  'Manual'
 ]
 
 // Two parser inputs can't have the same names!
@@ -16,13 +15,13 @@ export const availableParsers = [
 export const availableParserInputs: {[parserType: string]: string[]} = {
   'Glob': ['glob'],
   'Glob-regex': ['glob-regex'],
-  'Steam': [],
-  'itch.io': ['itchIoAppDataOverride'],
+  'Manual': ['manualManifests'],
+  'Amazon Games': ['amazonGamesExeOverride', 'amazonGamesLauncherMode'],
   'Epic': ['epicManifests', 'epicLauncherMode'],
   'GOG Galaxy': ['galaxyExeOverride','gogLauncherMode'],
-  'Amazon Games': ['amazonGamesExeOverride', 'amazonGamesLauncherMode'],
+  'itch.io': ['itchIoAppDataOverride'],
+  'Steam': [],
   'UPlay': ['uplayDir','uplayLauncherMode'],
-  'Manual': ['manualManifests']
 }
 
 export const manualParsers = ['Manual']
