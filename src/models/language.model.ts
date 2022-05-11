@@ -84,6 +84,18 @@ export interface languageStruct {
             fatalError__i: string
         }
     },
+    itchIoParser: {
+      itchIoAppDataOverrideTitle: string,
+      docs__md: {
+        self: string[],
+        input: string[]
+      },
+      errors: {
+        invalidItchIoAppDataOverride: string,
+        osUnsupported: string,
+        fatalError__i: string
+      }
+    },
     amazonGamesParser: {
       exeOverrideTitle: string,
       launcherModeInputTitle: string,
