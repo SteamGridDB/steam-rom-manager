@@ -242,7 +242,7 @@ export const EnglishLang: languageContainer = {
       nsfwInputTitle: 'Allow NSFW artwork',
       humorInputTitle: 'Allow joke artwork',
       imageMotionTypesTitle: 'Allowed animation types',
-      styles: 'Allowed artwork styles',
+      stylesTitle: 'Allowed artwork styles',
       docs__md: {
         self: [],
         input: []

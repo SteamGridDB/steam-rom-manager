@@ -78,7 +78,7 @@ const sharedProperties = {
             humor: {type: 'boolean', default: false},
             styles: {
               type: 'array',
-              default: [],
+              default: [] as string[],
               items: {
                 oneOf: [
                   {type: 'string', enum: providerInfo.SteamGridDB.inputs.styles.allowedValues}
@@ -90,7 +90,7 @@ const sharedProperties = {
               default: ['static'],
               items: {
                 oneOf: [
-                  {type: 'string', enum: providerInfo.SteamGridDB.inpus.imageMotionTypes.allowedValues}
+                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.imageMotionTypes.allowedValues}
                 ]
               }
             }
