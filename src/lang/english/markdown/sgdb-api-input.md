@@ -1,4 +1,4 @@
-# SteamGridDB API Options
+## Image provider API options
 
 This set of options are direct inputs into the APIs of image providers, for example SteamGridDB's [API](https://www.steamgriddb.com/api/v2). 
 
@@ -12,4 +12,4 @@ An interesting quirk of these settings is that re-generating the preview (hittin
 * Allowed hero styles - Alternate, Blurred, Materiel.
 * Allowed logo styles - Official, White, Black, Custom.
 * Allowed icon styles - Official, Custom.
-* Allowed animation types - Static (`.png`,`.ico`,etc), Animated (`.webp`).
+* Allowed animation types - Static (`.png`,`.ico`, etc), Animated (`.webp`).

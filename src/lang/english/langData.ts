@@ -401,7 +401,7 @@ export const EnglishLang: languageContainer = {
           faq: 'FAQ',
           undoChanges: 'Undo changes',
           undoDelete: 'Undo delete',
-          toClipboard: 'Copy configuration to clipboard'
+          toClipboard: 'Copy configuration to clipboard',
         },
         docs__md: {
           intro: [require('./markdown/intro.md')],
@@ -625,7 +625,8 @@ export const EnglishLang: languageContainer = {
         },
         placeholder: {
           parserType: 'Select parser...',
-          imageProviders: 'None'
+          imageProviders: 'None',
+          multiAPIPlaceholder: 'No Filter'
         },
         text: {
           skipWithMissingDataDir: 'Skip found accounts with missing data directories',

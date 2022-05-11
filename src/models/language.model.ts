@@ -352,7 +352,7 @@ export interface languageStruct {
             faq: string,
             undoChanges: string,
             undoDelete: string,
-            toClipboard: string
+            toClipboard: string,
         },
           docs__md: {
             intro: string[],
@@ -483,7 +483,8 @@ export interface languageStruct {
           },
           placeholder: {
             parserType: string,
-              imageProviders: string
+              imageProviders: string,
+            multiAPIPlaceholder: string
           },
           text: {
             skipWithMissingDataDir: string,

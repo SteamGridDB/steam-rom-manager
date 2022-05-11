@@ -399,6 +399,7 @@ export class PreviewService {
     return this.previewData ? Object.entries(this.previewData).map(dir=>Object.entries(dir[1]).map(user=>Object.entries(user[1].apps).map(app=>app[1].steamCategories).reduce(union,[])).reduce(union,[])).reduce(union,[]) : [];
   }
 
+  // If settingsOnly is true then api filters are not applied
   private clearImageCache(settingsOnly: boolean) {
     for (let imageKey in this.appImages) {
       this.appImages[imageKey].defaultImageProviders = [];

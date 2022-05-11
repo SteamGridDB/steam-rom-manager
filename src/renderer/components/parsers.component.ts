@@ -8,6 +8,7 @@ import * as parserInfo from '../../lib/parsers/available-parsers';
 import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets } from '../../models';
 import { Subscription, Observable } from "rxjs";
 import { APP } from '../../variables';
+import * as _ from 'lodash';
 @Component({
   selector: 'parsers',
   templateUrl:'../templates/parsers.component.html',
@@ -357,7 +358,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                         label: input.label,
                         multiple: input.multiple,
                         allowEmpty: input.allowEmpty,
-                        values: input.allowedValues.map((option: string) => {return {display: option}}),
+                        placeholder: this.lang.placeholder.multiAPIPlaceholder,
+                        values: input.allowedValues.map((option: string) => {return {
+                          real: option, display: _.startCase(option.replace(/_/g," "))
+                        }}),
                           onValidate: (self, path) => {
                           return null;
                         },
@@ -451,7 +455,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           localImages: new NestedFormElement.Path({
             directory: true,
-            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
+            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
             highlight: this.highlight.bind(this),
             label: this.lang.label.localImages,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -462,7 +466,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           localTallImages: new NestedFormElement.Path({
             directory: true,
-            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
+            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
             highlight: this.highlight.bind(this),
             label: this.lang.label.localTallImages,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -473,7 +477,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           localHeroImages: new NestedFormElement.Path({
             directory: true,
-            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
+            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
             highlight: this.highlight.bind(this),
             label: this.lang.label.localHeroImages,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -484,7 +488,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           localLogoImages: new NestedFormElement.Path({
             directory: true,
-            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
+            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
             highlight: this.highlight.bind(this),
             label: this.lang.label.localLogoImages,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
