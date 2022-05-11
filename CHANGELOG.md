@@ -17,8 +17,9 @@ All notable changes to this project will be documented in this file.
 * Title sanitization yet again.
 * Epic manifests not showing
 ### Added
+* Ability to handle animated artwork
 * Amazon Games parser (thanks @lexarvn)
-* Exposed some API options for SteamGridDB: nsfw, humor, and image motion types
+* Exposed API options for SteamGridDB: style, nsfw, humor, and image motion types
 
 ## 2.3.33
 ### Fixed
