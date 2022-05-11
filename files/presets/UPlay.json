@@ -52,14 +52,18 @@
 			"removeCharacters": true,
 			"removeBrackets": true
 		},
-		"presetVersion": 1,
+		"presetVersion": 3,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
 				"humor": false,
 				"imageMotionTypes": [
 					"static"
-				]
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
 			}
 		}
 	}
