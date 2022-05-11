@@ -15,16 +15,17 @@ For an overview of how SRM works see [here](https://steamgriddb.github.io/steam-
 Check out the [releases page](https://github.com/SteamGridDB/steam-rom-manager/releases) for compiled downloads.
 
 ## Platform Parsers
-In addition to flexible ROM parsers, SRM now has several *platform parsers* for importing from popular game stores:
+In addition to flexible importing of ROMS, SRM now has several *platform parsers* for importing from popular game stores:
 
 |Parser|Windows|Mac OS|Linux|
 |---|---|---|---|
+|[Amazon Games](https://gaming.amazon.com/amazon-games-app)|✅|❌|❌|
 |[Epic](https://store.epicgames.com/en-US/) / [Legendary](https://github.com/derrod/legendary)|✅|✅|❌|
 |[GOG Galaxy](https://www.gog.com/galaxy)|✅|❌|❌|
-|[Amazon Games](https://gaming.amazon.com/amazon-games-app)|✅|❌|❌|
+|[Itch.io](https://itch.io/app)|✅|❌|❌|
 |[UPlay](https://ubisoftconnect.com/en-US/)|✅|❌|❌|
 
-Planned platform parsers include Itch.io, and Origin.
+Planned platform parsers include Origin, the EA Games Store, and Battle.net.
 
 # Support
 
