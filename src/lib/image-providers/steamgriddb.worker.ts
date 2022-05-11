@@ -24,30 +24,36 @@ class SteamGridDbProvider extends GenericProvider {
         idPromise = self.client.searchGame(self.proxy.title).then((res: any) => res[0].id);
       }
       idPromise.then((chosenId: number)=>{
-
         let query: Promise<any>;
         let params = {
           id: chosenId,
           type: 'game',
           types: self.proxy.imageProviderAPIs.SteamGridDB.imageMotionTypes,
-          styles: self.proxy.imageProviderAPIs.SteamGridDB.styles,
           nsfw: self.proxy.imageProviderAPIs.SteamGridDB.nsfw ? "any" : "false",
           humor: self.proxy.imageProviderAPIs.SteamGridDB.humor ? "any" : "false"
         };
         if(self.proxy.imageType === 'long') {
           query = self.client.getGrids(Object.assign(params, {
-            dimensions: ["legacy","460x215","920x430"]
+            dimensions: ["legacy","460x215","920x430"],
+            styles: self.proxy.imageProviderAPIs.SteamGridDB.styles
           }))
         } else if (self.proxy.imageType === 'tall') {
           query = self.client.getGrids(Object.assign(params, {
-            dimensions: ["600x900"]
+            dimensions: ["600x900"],
+            styles: self.proxy.imageProviderAPIs.SteamGridDB.styles
           }));
         } else if (self.proxy.imageType === 'hero') {
-          query = self.client.getHeroes(params);
+          query = self.client.getHeroes(Object.assign(params, {
+            styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesHero
+          }));
         } else if (self.proxy.imageType === 'logo') {
-          query = self.client.getLogos(params);
+          query = self.client.getLogos(Object.assign(params, {
+            styles: self.poxy.imageProviderAPIs.SteamGridDB.stylesLogo
+          }));
         } else if (self.proxy.imageType === 'icon') {
-          query = self.client.getIcons(params);
+          query = self.client.getIcons(Object.assign(params, {
+            styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesIcon
+          }));
         }
 
         query.then((res: any)=>{

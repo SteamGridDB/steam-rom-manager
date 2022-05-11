@@ -47,8 +47,8 @@ export class ManualParser implements GenericParser {
                         }
                     }
                     catch (err) {
-                        Sentry.captureException(err);
-                        parsedData.failed.push(filePath);
+                      Sentry.captureException(err);
+                      parsedData.failed.push(filePath);
                     }
                 }
             }

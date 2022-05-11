@@ -23,6 +23,30 @@ export const providerInfo: ProviderInfo = {
         allowEmpty: true,
         info: APP.lang.sgdbProvider.docs__md.input.join('')
       },
+      stylesHero: {
+        label: APP.lang.sgdbProvider.stylesHeroTitle,
+        inputType: 'multiselect',
+        allowedValues: ['alternate', 'blurred', 'material'],
+        multiple: true,
+        allowEmpty: true,
+        info: APP.lang.sgdbProvider.docs__md.input.join('')
+      },
+      stylesLogo: {
+        label: APP.lang.sgdbProvider.stylesLogoTitle,
+        inputType: 'multiselect',
+        allowedValues: ['official', 'white', 'black', 'custom'],
+        multiple: true,
+        allowEmpty: true,
+        info: APP.lang.sgdbProvider.docs__md.input.join('')
+      },
+      stylesIcon: {
+        label: APP.lang.sgdbProvider.stylesIconTitle,
+        inputType: 'multiselect',
+        allowedValues: ['official','custom'],
+        multiple: true,
+        allowEmpty: true,
+        info: APP.lang.sgdbProvider.docs__md.input.join('')
+      },
       imageMotionTypes: {
         label: APP.lang.sgdbProvider.imageMotionTypesTitle,
         inputType: 'multiselect',

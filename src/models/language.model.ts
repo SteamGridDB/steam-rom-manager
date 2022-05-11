@@ -196,6 +196,9 @@ export interface languageStruct {
       humorInputTitle: string,
       imageMotionTypesTitle: string,
       stylesTitle: string,
+      stylesHeroTitle: string,
+      stylesLogoTitle: string,
+      stylesIconTitle: string,
       docs__md: {
         self: [],
         input: []

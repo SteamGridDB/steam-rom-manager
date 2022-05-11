@@ -6,11 +6,11 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const configPreset: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'presetVersion',
-  latestVersion: 2,
+  latestVersion: 3,
   fields: {
     undefined: {
       'presetVersion': { method: ()=>0 },
-      'parserInputs': {
+        'parserInputs': {
         method: (oldValue, oldConfiguration: any) => {
           let result: any = {};
           if(oldConfiguration.parserType=='Glob'){
@@ -60,6 +60,16 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
           newValue["SteamGridDB"]["styles"] = [];
           return newValue;
         }
+      }
+    },
+    2: {
+      'presetVersion': { method: versionUp },
+      'imageProviderAPIs': {
+        let newValue = _.cloneDeep(oldValue);
+        newValue["SteamGridDB"]["stylesHero"] = [];
+        newValue["SteamGridDB"]["stylesLogo"] = [];
+        newValue["SteamGridDB"]["stylesIcon"] = [];
+        return newValue;
       }
     }
   }

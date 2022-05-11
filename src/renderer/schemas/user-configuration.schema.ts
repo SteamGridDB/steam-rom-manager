@@ -85,6 +85,33 @@ const sharedProperties = {
                 ]
               }
             },
+            stylesHero: {
+              type: 'array',
+              default: [] as string[],
+              items: {
+                oneOf: [
+                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.stylesHero.allowedValues}
+                ]
+              }
+            },
+            stylesLogo: {
+              type: 'array',
+              default: [] as string[],
+              items: {
+                oneOf: [
+                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.stylesLogo.allowedValues}
+                ]
+              }
+            },
+            stylesIcon: {
+              type: 'array',
+              default: [] as string[],
+              items: {
+                oneOf: [
+                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.stylesIcon.allowedValues}
+                ]
+              }
+            },
             imageMotionTypes: {
               type: 'array',
               default: ['static'],

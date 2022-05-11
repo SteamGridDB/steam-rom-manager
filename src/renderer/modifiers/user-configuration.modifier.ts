@@ -7,7 +7,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',
-  latestVersion: 9,
+  latestVersion: 10,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -138,6 +138,16 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
           newValue["SteamGridDB"]["styles"] = [];
           return newValue;
         }
+      }
+    },
+    9: {
+      'version': { method: versionUp },
+      'imageProviderAPIs': {
+        let newValue = _.cloneDeep(oldValue);
+        newValue["SteamGridDB"]["stylesHero"] = [];
+        newValue["SteamGridDB"]["stylesLogo"] = [];
+        newValue["SteamGridDB"]["stylesIcon"] = [];
+        return newValue;
       }
     }
   }

@@ -575,6 +575,7 @@ export class PreviewService {
               let currentQueries = this.appImages[file.imagePool].searchQueries;
               let currentProviders = this.appImages[file.imagePool].defaultImageProviders;
 
+              this.appImages[file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
               this.appImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
@@ -591,6 +592,7 @@ export class PreviewService {
               let currentQueries = this.appTallImages[file.imagePool].searchQueries;
               let currentProviders = this.appTallImages[file.imagePool].defaultImageProviders;
 
+              this.appTallImages[file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
               this.appTallImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appTallImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
@@ -607,6 +609,7 @@ export class PreviewService {
               let currentQueries = this.appHeroImages[file.imagePool].searchQueries;
               let currentProviders = this.appHeroImages[file.imagePool].defaultImageProviders;
 
+              this.appHeroImages[file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
               this.appHeroImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appHeroImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
@@ -623,6 +626,7 @@ export class PreviewService {
               let currentQueries = this.appLogoImages[file.imagePool].searchQueries;
               let currentProviders = this.appLogoImages[file.imagePool].defaultImageProviders;
 
+              this.appLogoImages[file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
               this.appLogoImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appLogoImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
@@ -638,7 +642,7 @@ export class PreviewService {
             else {
               let currentQueries = this.appIcons[file.imagePool].searchQueries;
               let currentProviders = this.appIcons[file.imagePool].defaultImageProviders;
-
+              this.appIcons[file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
               this.appIcons[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appIcons[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }

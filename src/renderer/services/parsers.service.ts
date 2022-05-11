@@ -250,7 +250,7 @@ export class ParsersService {
                       }
                       else if (!inputInfo.validationFn) {
                         if(['dir','path'].includes(inputInfo.inputType)){
-                          if(!data['inputData']) { return null; }
+                          if(data['parser']!=='Manual'&&!data['inputData']) { return null; }
                           return this.validateEnvironmentPath(data['inputData']||'', inputInfo.inputType == 'dir') ? null : this.lang.validationErrors.genericDir__md;
 
                         }
