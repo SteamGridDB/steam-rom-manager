@@ -33,29 +33,24 @@ class SteamGridDbProvider extends GenericProvider {
           humor: self.proxy.imageProviderAPIs.SteamGridDB.humor ? "any" : "false"
         };
         if(self.proxy.imageType === 'long') {
-          console.log("grid", self.proxy.imageProviderAPIs.SteamGridDB.styles)
           query = self.client.getGrids(Object.assign(params, {
             dimensions: ["legacy","460x215","920x430"],
             styles: self.proxy.imageProviderAPIs.SteamGridDB.styles
           }))
         } else if (self.proxy.imageType === 'tall') {
-          console.log("tall", self.proxy.imageProviderAPIs.SteamGridDB.styles)
           query = self.client.getGrids(Object.assign(params, {
             dimensions: ["600x900"],
             styles: self.proxy.imageProviderAPIs.SteamGridDB.styles
           }));
         } else if (self.proxy.imageType === 'hero') {
-          console.log("hero", self.proxy.imageProviderAPIs.SteamGridDB.stylesHero)
           query = self.client.getHeroes(Object.assign(params, {
             styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesHero
           }));
         } else if (self.proxy.imageType === 'logo') {
-          console.log("logo", self.proxy.imageProviderAPIs.SteamGridDB.stylesLogo)
           query = self.client.getLogos(Object.assign(params, {
             styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesLogo
           }));
         } else if (self.proxy.imageType === 'icon') {
-          console.log("icon", self.proxy.imageProviderAPIs.SteamGridDB.stylesIcon)
           query = self.client.getIcons(Object.assign(params, {
             styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesIcon
           }));

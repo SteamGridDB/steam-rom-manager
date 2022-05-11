@@ -200,8 +200,8 @@ export interface languageStruct {
       stylesLogoTitle: string,
       stylesIconTitle: string,
       docs__md: {
-        self: [],
-        input: []
+        self: string[],
+        input: string[]
       }
     },
     logger: {

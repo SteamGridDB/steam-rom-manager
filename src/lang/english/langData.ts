@@ -248,7 +248,7 @@ export const EnglishLang: languageContainer = {
       stylesIconTitle: 'Allowed icon styles',
       docs__md: {
         self: [],
-        input: []
+        input: [require('./markdown/sgdb-api-input.md')]
       }
     },
     logger: {
@@ -447,7 +447,8 @@ export const EnglishLang: languageContainer = {
             require('./markdown/parser-env-variables.md')
           ],
           imageProviders: [
-            require('./markdown/image-providers.md')
+            require('./markdown/image-providers.md'),
+            require('./markdown/sgdb-api-input.md')
           ],
           imagePool: [
             require('./markdown/image-pool.md'),

@@ -4,4 +4,4 @@ Here you can select image providers that are used to retrieve images. This optio
 
 ## Similar option in "Settings" menu
 
-Settings menu has "Enabled providers" which enable image providers globally -- if it's not enabled, it won't work.
+Settings menu has "Enabled providers" which enable image providers globally -- if it's not enabled in Settings, it won't work.

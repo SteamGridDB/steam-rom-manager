@@ -389,7 +389,7 @@ export class PreviewService {
 
   clearPreviewData() {
     this.previewData = undefined;
-    this.clearImageCache(true);
+    this.clearImageCache(false);
     this.previewVariables.numberOfListItems = 0;
     this.previewDataChanged.next();
   }
