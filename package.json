@@ -124,7 +124,7 @@
     "rxjs": "^5.5.8",
     "steam-categories": "https://github.com/cbartondock/steam-categories.git",
     "steam-shortcut-editor": "^3.1.1",
-    "steamgriddb": "https://github.com/cbartondock/node-steamgriddb.git",
+    "steamgriddb": "1.5.0",
     "to-css": "^1.2.1",
     "windows-shortcuts-ps": "https://github.com/cbartondock/windows-shortcuts-ps.git",
     "yaml": "^1.10.2",
