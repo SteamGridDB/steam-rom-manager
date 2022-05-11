@@ -343,6 +343,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             let providerNames = this.imageProviderService.instance.getAvailableProviders();
             for (let i=0;i < providerNames.length; i++) {
               let provider = this.imageProviderService.instance.getProviderInfo(providerNames[i]);
+              let providerL = this.imageProviderService.instance.getProviderInfoLang(providerNames[i]);
               if (provider && provider.inputs !== undefined) {
                 imageProviderAPIs[providerNames[i]] = (()=>{
                   let apiInputs = {}
@@ -350,12 +351,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     let input = provider.inputs[inputFieldName];
                     if(input.inputType == 'toggle') {
                       apiInputs[inputFieldName] = new NestedFormElement.Toggle({
-                        text: input.label
+                        text: providerL.inputs[inputFieldName].label
                       });
                     }
                     else if (input.inputType == 'multiselect') {
                       apiInputs[inputFieldName] = new NestedFormElement.Select({
-                        label: input.label,
+                        label: providerL.inputs[inputFieldName].label,
                         multiple: input.multiple,
                         allowEmpty: input.allowEmpty,
                         placeholder: this.lang.placeholder.multiAPIPlaceholder,
@@ -367,7 +368,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                         },
                         onInfoClick: (self, path) => {
                           this.currentDoc.activePath = path.join();
-                          this.currentDoc.content = input.info;
+                          this.currentDoc.content = providerL.inputs[inputFieldName].info;
                         }
                       })
                     }

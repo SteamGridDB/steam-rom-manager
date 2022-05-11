@@ -2,6 +2,7 @@ import { ProviderPostEventMap, ProviderCallback, ProviderReceiveEventMap, Provid
 import { FuzzyService, LoggerService, SettingsService } from "../renderer/services";
 import { imageProviders } from './image-providers';
 import { availableProviders, providerInfo } from './image-providers/available-providers';
+import { providerInfoLang } from './image-providers/available-providers-lang';
 import { APP } from '../variables';
 import { queue } from "async";
 import { Subject } from "rxjs";
@@ -63,6 +64,9 @@ export class ImageProvider {
 
     getProviderInfo(provider: string) {
       return providerInfo[provider];
+    }
+    getProviderInfoLang(provider: string) {
+      return providerInfoLang[provider];
     }
 
     retrieveUrls(title: string, imageType: string, imageProviderAPIs: ImageProviderAPI, providers: string[], eventCallback: ProviderCallback) {

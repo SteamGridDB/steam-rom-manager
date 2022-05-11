@@ -4,8 +4,8 @@ import { ImageProviderAPI } from "./user-configuration.model";
 
 export interface ProviderInputField {
   [inputKey: string]: {
-    label: string,
-    inputType: 'multiselect' | 'toggle',
+    label?: string,
+    inputType?: 'multiselect' | 'toggle',
     info?: string,
     multiple?: boolean,
     allowEmpty?: boolean,
