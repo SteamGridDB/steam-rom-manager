@@ -7,16 +7,16 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',
-  latestVersion: 5,
+  latestVersion: 10,
   fields: {
     undefined: {
       'version': { method: () => 0 },
-      'disabled': {
+        'disabled': {
         method: (oldValue) => oldValue === undefined ? false : !!!oldValue,
-        oldValuePath: 'enabled'
+          oldValuePath: 'enabled'
       },
       'parserType': { method: (oldValue) => (typeof oldValue === 'string' && /glob-regex/i.test(oldValue)) ? 'Glob-regex' : oldValue },
-      'executableArgs': { method: replaceVariables_undefined },
+        'executableArgs': { method: replaceVariables_undefined },
       'onlineImageQueries': { method: replaceVariables_undefined },
       'localImages': { method: replaceVariables_undefined },
       'localTallImages': { method: replaceVariables_undefined },
@@ -74,7 +74,7 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
     4: {
       'version': { method: versionUp },
       'parserType': { method: (pType)=> pType || 'Glob' },
-      'parserInputs': {
+        'parserInputs': {
         method: (oldValue, oldConfiguration: any) => {
           let result: any = {};
           if(oldConfiguration.parserType=='Glob'){
@@ -85,6 +85,70 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
             result['manifests'] = null;
           }
           return result;
+        }
+      }
+    },
+    5: {
+      'version': { method: versionUp },
+      'fuzzyMatch': {
+        method: (oldValue, oldConfiguration: any)=>{
+          delete oldConfiguration.advanced;
+          let newValue = _.cloneDeep(oldValue);
+          delete newValue.use;
+          return newValue
+        }
+      }
+    },
+    6: {
+      'version': { method: versionUp },
+      'parserInputs': {
+        method: (oldValue, oldConfiguration: any)=>{
+          let newValue = _.cloneDeep(oldValue);
+          if(['Manual','Epic'].includes(oldConfiguration.parserType)) {
+            if(oldConfiguration.parserType=='Epic') {
+              newValue.epicManifests = oldValue.manifests || "";
+            } else {
+              newValue.manualManifests = oldValue.manifests || "";
+            }
+            delete newValue.manifests;
+          }
+          return newValue;
+        }
+      }
+    },
+    7: {
+      'version': { method: versionUp },
+      'imageProviderAPIs': {
+        method: (oldValue, oldConfiguration: any) => {
+          return {
+            SteamGridDB: {
+              nsfw: false,
+              humor: false,
+              imageMotionTypes: ['static']
+            }
+          };
+        }
+      }
+    },
+    8: {
+      'version': { method: versionUp },
+      'imageProviderAPIs': {
+        method: (oldValue, oldConfiguration: any) => {
+          let newValue = _.cloneDeep(oldValue);
+          newValue["SteamGridDB"]["styles"] = [];
+          return newValue;
+        }
+      }
+    },
+    9: {
+      'version': { method: versionUp },
+      'imageProviderAPIs': {
+        method: (oldValue, oldConfiguration: any) => {
+          let newValue = _.cloneDeep(oldValue);
+          newValue["SteamGridDB"]["stylesHero"] = [];
+          newValue["SteamGridDB"]["stylesLogo"] = [];
+          newValue["SteamGridDB"]["stylesIcon"] = [];
+          return newValue;
         }
       }
     }

@@ -1,4 +1,5 @@
 import { Observable, BehaviorSubject } from "rxjs";
+import { ImageProviderAPI } from "./user-configuration.model";
 
 export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
 
@@ -14,6 +15,7 @@ export interface ImagesStatusAndContent {
     retrieving: boolean,
     defaultImageProviders: string[],
     searchQueries: string[],
+    imageProviderAPIs: ImageProviderAPI,
     content: ImageContent[]
 }
 

@@ -4,13 +4,51 @@ All notable changes to this project will be documented in this file.
 ## 2.4.0
 ### Planned
 * [x] GOG Parser.
-* [ ] UPlay Parser.
+* [x] UPlay Parser.
 * [ ] Origin Parser.
 * [ ] Command Line Interface.
 * [x] Capability to override image searches.
 * [x] Platform parsers have launcher and launcherless mode.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
+
+## 2.3.34
+### Fixed
+* Title sanitization yet again.
+* Epic manifests not showing
+### Added
+* Ability to handle animated artwork
+* Amazon Games parser (thanks @lexarvn)
+* Exposed API options for SteamGridDB: style, nsfw, humor, and image motion types
+
+## 2.3.33
+### Fixed
+* Actually fixed the title sanitization issue in `screenshots.vdf`. [Issue 296](https://github.com/SteamGridDB/steam-rom-manager/issues/296).
+* Fixed [Issue 284](https://github.com/SteamGridDB/steam-rom-manager/issues/284) and [Issue 278](https://github.com/SteamGridDB/steam-rom-manager/issues/278)
+
+## 2.3.32
+### Added
+* UPlay Parser.
+### Changed
+* Prettied up the settings page further.
+### Fixed
+* Now properly sanitizing the titles put into `screenshots.vdf`.
+* Fixed the change in 2.3.31 that prevented GOG/Epic Parser from working unless directory overrides were set.
+
+## 2.3.31
+### Added 
+* Experimental parser sections. If people don't like them they can be removed, but I think they clean up the parsers significantly.
+* Manual Parser. Ability to specify shortcut info in JSON files, thanks @CarJem for the PR.
+* Global ROMs Directory environment variable. 
+### Fixed
+* Environment variables now work in parser inputs.
+### Changed
+* Brought settings UI more into line with the rest of the app, and added documentation.
+* Removed "Show Advanced" and "Disable Parser" (disable parser is now on the sidebar only)
+
+## 2.3.30
+### Fixed
+* Fixed [Issue 288](https://github.com/SteamGridDB/steam-rom-manager/issues/288). Thanks @Witherking25.
 
 ## 2.3.29
 ### Fixed

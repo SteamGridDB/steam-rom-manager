@@ -51,7 +51,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Sony PlayStation - DuckStation(Flatpak)": {
 		"parserType": "Glob",
@@ -105,7 +118,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Sony PlayStation - ePSXe": {
 		"parserType": "Glob",
@@ -159,7 +185,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Sony PlayStation - Retroarch - Beetle PSX HW": {
 		"parserType": "Glob",
@@ -213,7 +252,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Sony PlayStation - Retroarch(Flatpak) - Beetle PSX HW": {
 		"parserType": "Glob",
@@ -267,6 +319,19 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	}
 }

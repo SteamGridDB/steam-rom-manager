@@ -1,13 +1,14 @@
-import { ProviderPostEventMap, ProviderCallback, ProviderReceiveEventMap, ProviderReceiveObject } from '../models';
+import { ProviderPostEventMap, ProviderCallback, ProviderReceiveEventMap, ProviderReceiveObject, ImageProviderAPI } from '../models';
 import { FuzzyService, LoggerService, SettingsService } from "../renderer/services";
 import { imageProviders } from './image-providers';
-import { availableProviders } from './image-providers/available-providers';
+import { availableProviders, providerInfo } from './image-providers/available-providers';
+import { providerInfoLang } from './image-providers/available-providers-lang';
 import { APP } from '../variables';
 import { queue } from "async";
 import { Subject } from "rxjs";
 import * as _ from 'lodash';
 
-type QueueTask = { title: string, imageType: string, eventCallback: ProviderCallback };
+type QueueTask = { title: string, imageType: string, imageProviderAPIs: ImageProviderAPI, eventCallback: ProviderCallback };
 const _queue = true ? undefined as never : queue<QueueTask, void>((task, callback) => { });
 type AsyncQueue = typeof _queue;
 
@@ -39,7 +40,7 @@ export class ImageProvider {
         return queue<QueueTask, void>((task, callback) => {
             let id = _.uniqueId();
             this.callbackMap.set(id, { eventCallback: task.eventCallback, queueCallback: callback });
-            this.postMessage(this.availableProviders[key].worker, 'retrieveUrls', { id: id, imageType: task.imageType, title: task.title });
+            this.postMessage(this.availableProviders[key].worker, 'retrieveUrls', { id: id, imageType: task.imageType, imageProviderAPIs: task.imageProviderAPIs, title: task.title });
         }, 10);
     }
 
@@ -58,13 +59,20 @@ export class ImageProvider {
     }
 
     getAvailableProviders() {
-        return availableProviders;
+      return availableProviders;
     }
 
-    retrieveUrls(title: string, imageType: string, providers: string[], eventCallback: ProviderCallback) {
+    getProviderInfo(provider: string) {
+      return providerInfo[provider];
+    }
+    getProviderInfoLang(provider: string) {
+      return providerInfoLang[provider];
+    }
+
+    retrieveUrls(title: string, imageType: string, imageProviderAPIs: ImageProviderAPI, providers: string[], eventCallback: ProviderCallback) {
         for (let i = 0; i < providers.length; i++) {
             if (this.availableProviders[providers[i]])
-                this.availableProviders[providers[i]].queue.push({ title, imageType, eventCallback });
+                this.availableProviders[providers[i]].queue.push({ title, imageType, imageProviderAPIs, eventCallback });
             else
                 eventCallback('completed', { title: title });
         }

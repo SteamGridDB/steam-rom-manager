@@ -31,4 +31,3 @@ Promise.all(presetPromises).catch((error: Error) => {
   console.log(isValid ? 'Valid' : 'Invalid');
   process.exit(isValid ? 0 : 1);
 });
-

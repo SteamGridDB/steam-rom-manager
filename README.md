@@ -14,6 +14,18 @@ For an overview of how SRM works see [here](https://steamgriddb.github.io/steam-
 
 Check out the [releases page](https://github.com/SteamGridDB/steam-rom-manager/releases) for compiled downloads.
 
+## Platform Parsers
+In addition to flexible ROM parsers, SRM now has several *platform parsers* for importing from popular game stores:
+
+|Parser|Windows|Mac OS|Linux|
+|---|---|---|---|
+|[Epic](https://store.epicgames.com/en-US/) / [Legendary](https://github.com/derrod/legendary)|✅|✅|❌|
+|[GOG Galaxy](https://www.gog.com/galaxy)|✅|❌|❌|
+|[Amazon Games](https://gaming.amazon.com/amazon-games-app)|✅|❌|❌|
+|[UPlay](https://ubisoftconnect.com/en-US/)|✅|❌|❌|
+
+Planned platform parsers include Itch.io, and Origin.
+
 # Support
 
 If you enjoy Steam ROM Manager and want it to continue to be useful consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. [SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork Steam ROM Manager uses to make your Steam library the envy of the town, so we should probably help them keep their lights on.
@@ -37,6 +49,8 @@ Before running any scripts, dependencies must be installed using:
 ```
 npm ci
 ```
+
+Unfortunately, because of an issue with `better-sqlite3` you will most likely also have to run `npm ci` after building for windows if you want `npm run start` to work. Otherwise, you will likely see the runtime error `better-sqlite3 is not a valid win32 application`.
 
 ## Scripts
 
@@ -65,7 +79,7 @@ App can be run using `start` script. After every recompile by `watch:renderer`, 
 
 `Ctrl + Shift + I` can be used to launch Chrome inspector once the app is running. This works even in the release version.
 
-## Building and app
+## Building the app
 
 ### For Windows
 

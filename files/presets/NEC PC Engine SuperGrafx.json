@@ -51,7 +51,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"NEC PC Engine SuperGrafx - Retroarch(Flatpak) - Beetle PCE": {
 		"parserType": "Glob",
@@ -105,7 +118,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"NEC PC Engine SuperGrafx - Retroarch - Beetle SGX": {
 		"parserType": "Glob",
@@ -159,7 +185,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"NEC PC Engine SuperGrafx - Retroarch(Flatpak) - Beetle SGX": {
 		"parserType": "Glob",
@@ -213,6 +252,19 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	}
 }

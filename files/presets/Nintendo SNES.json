@@ -51,7 +51,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - Beetle bsnes": {
 		"parserType": "Glob",
@@ -105,7 +118,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch - Snes9x": {
 		"parserType": "Glob",
@@ -159,7 +185,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - Snes9x": {
 		"parserType": "Glob",
@@ -213,7 +252,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch - bsnes2014 Accuracy": {
 		"parserType": "Glob",
@@ -267,7 +319,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Accuracy": {
 		"parserType": "Glob",
@@ -321,7 +386,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch - bsnes2014 Balanced": {
 		"parserType": "Glob",
@@ -375,7 +453,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Balanced": {
 		"parserType": "Glob",
@@ -429,7 +520,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch - bsnes2014 Performance": {
 		"parserType": "Glob",
@@ -483,7 +587,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Performance": {
 		"parserType": "Glob",
@@ -537,7 +654,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch - bsnes-mercury Accuracy": {
 		"parserType": "Glob",
@@ -591,7 +721,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Accuracy": {
 		"parserType": "Glob",
@@ -645,7 +788,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch - bsnes-mercury Balanced": {
 		"parserType": "Glob",
@@ -699,7 +855,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Balanced": {
 		"parserType": "Glob",
@@ -753,7 +922,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch - bsnes-mercury Performance": {
 		"parserType": "Glob",
@@ -807,7 +989,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Performance": {
 		"parserType": "Glob",
@@ -861,7 +1056,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch - Mesen-S": {
 		"parserType": "Glob",
@@ -915,7 +1123,20 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - Mesen-S": {
 		"parserType": "Glob",
@@ -969,6 +1190,19 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 0
+		"presetVersion": 3,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		}
 	}
 }

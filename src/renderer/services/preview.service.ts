@@ -22,6 +22,7 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import * as Sentry from "@sentry/electron";
 @Injectable()
+
 export class PreviewService {
   private appSettings: AppSettings;
   private previewData: PreviewData;
@@ -388,7 +389,7 @@ export class PreviewService {
 
   clearPreviewData() {
     this.previewData = undefined;
-    this.clearImageCache(true);
+    this.clearImageCache(false);
     this.previewVariables.numberOfListItems = 0;
     this.previewDataChanged.next();
   }
@@ -398,6 +399,7 @@ export class PreviewService {
     return this.previewData ? Object.entries(this.previewData).map(dir=>Object.entries(dir[1]).map(user=>Object.entries(user[1].apps).map(app=>app[1].steamCategories).reduce(union,[])).reduce(union,[])).reduce(union,[]) : [];
   }
 
+  // If settingsOnly is true then api filters are not applied
   private clearImageCache(settingsOnly: boolean) {
     for (let imageKey in this.appImages) {
       this.appImages[imageKey].defaultImageProviders = [];
@@ -565,6 +567,7 @@ export class PreviewService {
               this.appImages[file.imagePool] = {
                 retrieving: false,
                 searchQueries: file.onlineImageQueries,
+                imageProviderAPIs: config.imageProviderAPIs,
                 defaultImageProviders: config.imageProviders,
                 content: []
               };
@@ -573,6 +576,7 @@ export class PreviewService {
               let currentQueries = this.appImages[file.imagePool].searchQueries;
               let currentProviders = this.appImages[file.imagePool].defaultImageProviders;
 
+              this.appImages[file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
               this.appImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
@@ -580,6 +584,7 @@ export class PreviewService {
               this.appTallImages[file.imagePool] = {
                 retrieving: false,
                 searchQueries: file.onlineImageQueries,
+                imageProviderAPIs: config.imageProviderAPIs,
                 defaultImageProviders: config.imageProviders,
                 content: []
               };
@@ -588,6 +593,7 @@ export class PreviewService {
               let currentQueries = this.appTallImages[file.imagePool].searchQueries;
               let currentProviders = this.appTallImages[file.imagePool].defaultImageProviders;
 
+              this.appTallImages[file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
               this.appTallImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appTallImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
@@ -595,6 +601,7 @@ export class PreviewService {
               this.appHeroImages[file.imagePool] = {
                 retrieving: false,
                 searchQueries: file.onlineImageQueries,
+                imageProviderAPIs: config.imageProviderAPIs,
                 defaultImageProviders: config.imageProviders,
                 content: []
               };
@@ -603,6 +610,7 @@ export class PreviewService {
               let currentQueries = this.appHeroImages[file.imagePool].searchQueries;
               let currentProviders = this.appHeroImages[file.imagePool].defaultImageProviders;
 
+              this.appHeroImages[file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
               this.appHeroImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appHeroImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
@@ -610,6 +618,7 @@ export class PreviewService {
               this.appLogoImages[file.imagePool] = {
                 retrieving: false,
                 searchQueries: file.onlineImageQueries,
+                imageProviderAPIs: config.imageProviderAPIs,
                 defaultImageProviders: config.imageProviders,
                 content: []
               };
@@ -618,6 +627,7 @@ export class PreviewService {
               let currentQueries = this.appLogoImages[file.imagePool].searchQueries;
               let currentProviders = this.appLogoImages[file.imagePool].defaultImageProviders;
 
+              this.appLogoImages[file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
               this.appLogoImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appLogoImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
@@ -625,6 +635,7 @@ export class PreviewService {
               this.appIcons[file.imagePool] = {
                 retrieving: false,
                 searchQueries: file.onlineImageQueries,
+                imageProviderAPIs: config.imageProviderAPIs,
                 defaultImageProviders: config.imageProviders,
                 content: []
               };
@@ -632,7 +643,7 @@ export class PreviewService {
             else {
               let currentQueries = this.appIcons[file.imagePool].searchQueries;
               let currentProviders = this.appIcons[file.imagePool].defaultImageProviders;
-
+              this.appIcons[file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
               this.appIcons[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appIcons[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
@@ -848,7 +859,7 @@ export class PreviewService {
             allImagesRetrieved = false;
             this.previewVariables.numberOfQueriedImages += numberOfQueriesForImageKey;
             for (let j = 0; j < image.searchQueries.length; j++) {
-              this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], imageType,  imageProvidersForKey, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
+              this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], imageType, image.imageProviderAPIs,  imageProvidersForKey, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
                 switch (event) {
                   case 'error':
                     {

@@ -22,7 +22,7 @@ export class FileParser {
   private userExceptions: UserExceptionsTitles = {};
   private globCache: any = {};
 
-  constructor(private fuzzyService: FuzzyService) { }
+  constructor(private fuzzyService: FuzzyService) {  }
 
   private get lang() {
     return APP.lang.fileParser;
@@ -128,22 +128,40 @@ export class FileParser {
       for(let i=0; i<configs.length;i++) {
         let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(configs[i].parserType);
         let isPlatformParser:boolean = parserInfo.platformParsers.includes(configs[i].parserType);
-        let isROMParser:boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
+        let isROMParser: boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
+        let isManualParser: boolean = parserInfo.manualParsers.includes(configs[i].parserType);
         let parser = this.getParserInfo(configs[i].parserType);
         if (parser) {
+          let preParser = new VariableParser({ left: '${', right: '}' });
           if (parser.inputs !== undefined) {
             for (var inputName in parser.inputs) {
-              if (parser.inputs[inputName].forcedInput)
+              if (['dir','path'].includes(parser.inputs[inputName].inputType) && typeof(configs[i].parserInputs[inputName])==='string') {
+                configs[i].parserInputs[inputName] = preParser.setInput(configs[i].parserInputs[inputName] as string).parse() ? preParser.replaceVariables((variable) => {
+                  return this.getEnvironmentVariable(variable as EnvironmentVariables, settings).trim()
+                }) : null;
+              }
+              if (parser.inputs[inputName].forcedInput) {
                 configs[i].parserInputs[inputName] = parser.inputs[inputName].forcedInput;
-              else if (configs[i].parserInputs[inputName] === undefined)
+              }
+              else if (configs[i].parserInputs[inputName] === undefined) {
                 configs[i].parserInputs[inputName] = '';
+              }
             }
           }
-          let preParser = new VariableParser({ left: '${', right: '}' });
           let userFilter = preParser.setInput(configs[i].userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
           filteredAccounts.push(this.filterUserAccounts(steamDirectories[i].data, userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir));
           totalUserAccountsFound+=filteredAccounts[filteredAccounts.length-1].found.length;
-          let directories = isROMParser ? [configs[i].romDirectory] : filteredAccounts[i].found.map((account: userAccountData)=>path.join(configs[i].steamDirectory,'userdata',account.accountID));
+          let directories:string[] = undefined;
+            if (isROMParser) {
+                directories = [configs[i].romDirectory];
+            }
+            else if (isManualParser) {
+                directories = [configs[i].parserInputs["manualManifests"] as string];
+            }
+            else {
+                directories = filteredAccounts[i].found.map((account: userAccountData) => path.join(configs[i].steamDirectory, 'userdata', account.accountID));
+            }
+
           promises.push(this.availableParsers[configs[i].parserType].execute(directories, configs[i].parserInputs, this.globCache));
         }
         else
@@ -166,12 +184,18 @@ export class FileParser {
       for (let i = 0; i < configs.length; i++) {
         let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(configs[i].parserType);
         let isPlatformParser:boolean = parserInfo.platformParsers.includes(configs[i].parserType);
-        let isROMParser:boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
-        let launcherMode = !!(configs[i].parserInputs.epicLauncherMode || configs[i].parserInputs.gogLauncherMode);
+        let isROMParser: boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
+        let isManualParser: boolean = parserInfo.manualParsers.includes(configs[i].parserType);
+        let launcherMode = !!(
+             configs[i].parserInputs.epicLauncherMode
+          || configs[i].parserInputs.gogLauncherMode
+          || configs[i].parserInputs.amazonGamesLauncherMode
+          || configs[i].parserInputs.uplayLauncherMode
+        );
         if (isROMParser && configs[i].titleFromVariable.tryToMatchTitle)
           this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);
 
-        if (isROMParser && configs[i].fuzzyMatch.use)
+        if (isROMParser)
           this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data[i], configs[i].fuzzyMatch);
 
 
@@ -182,6 +206,7 @@ export class FileParser {
           appendArgsToExecutable: isROMParser ? configs[i].executable.appendArgsToExecutable: false,
           shortcutPassthrough: configs[i].executable.shortcutPassthrough,
           imageProviders: configs[i].imageProviders,
+          imageProviderAPIs: configs[i].imageProviderAPIs,
           foundUserAccounts: filteredAccounts[i].found,
           missingUserAccounts: filteredAccounts[i].missing,
           steamDirectory: configs[i].steamDirectory,
@@ -207,15 +232,23 @@ export class FileParser {
 
           let executableLocation:string = undefined;
           let startInDir:string = undefined;
-          let launchOptions:string = undefined;
-          if(isROMParser) {
+          let launchOptions: string = undefined;
+          let argumentString: string = undefined;
+
+          if (isManualParser) {
+              executableLocation = data[i].success[j].filePath;
+              startInDir = data[i].success[j].startInDirectory.length > 0 ? data[i].success[j].startInDirectory : path.dirname(executableLocation);
+              argumentString = data[i].success[j].launchOptions;
+          }
+          else if(isROMParser) {
             executableLocation = configs[i].executable.path ? configs[i].executable.path : data[i].success[j].filePath;
             startInDir = configs[i].startInDirectory.length > 0 ? configs[i].startInDirectory : path.dirname(executableLocation);
-          } else if(isPlatformParser) {
-            startInDir = path.dirname(data[i].success[j].filePath);
+          }
+          else if(isPlatformParser) {
+            startInDir = data[i].success[j].startInDirectory || path.dirname(data[i].success[j].filePath);
+            launchOptions = data[i].success[j].launchOptions;
             if(launcherMode) {
               executableLocation = data[i].executableLocation;
-              launchOptions = data[i].success[j].launchOptions;
             } else {
               executableLocation = data[i].success[j].filePath;
             }
@@ -229,7 +262,7 @@ export class FileParser {
             executableLocation: executableLocation,
             modifiedExecutableLocation: undefined,
             startInDirectory: startInDir,
-            argumentString: undefined,
+            argumentString: argumentString,
             resolvedLocalImages: [],
             resolvedLocalTallImages: [],
             resolvedLocalHeroImages: [],
@@ -271,9 +304,10 @@ export class FileParser {
           if(exceptions && exceptions.commandLineArguments) {
             lastFile.argumentString = exceptions.commandLineArguments;
           } else {
-            if(isPlatformParser) {
+            if (isPlatformParser) {
               lastFile.argumentString = launchOptions || '';
-            } else if(isROMParser) {
+            }
+            else if (isROMParser) {
               lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {
                 return this.getVariable(variable as AllVariables, variableData).trim();
               }) : '';
@@ -301,7 +335,7 @@ export class FileParser {
         }
 
 
-        let extRegex = /png|tga|jpg|jpeg/i;
+        let extRegex = /png|tga|jpg|jpeg|webp/i;
         defaultImagePromises.push(this.resolveFieldGlobs('defaultImage', configs[i],settings, parsedConfigs[i], vParser).then((data) => {
           for (let j = 0; j < data.parsedConfig.files.length; j++) {
             data.parsedConfig.files[j].resolvedDefaultImages = data.resolvedGlobs[j];
@@ -535,18 +569,31 @@ export class FileParser {
           }
 
           promises.push(Promise.resolve().then(() => {
-            if (/\${title}/i.test(expandableSet[1]))
-            return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache);
-            else
-              return this.availableParsers['Glob-regex'].execute([cwd], { 'glob-regex': parserMatch }, this.globCache);
-          }).then((parsedData) => {
+            if (/\${title}/i.test(expandableSet[1])) {
+              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache).then((parsedData)=>{
+                return {parsedData: parsedData, isFuzzy: false}
+              });
+            }
+            else if (/\${fuzzyTitle}/i.test(expandableSet[1])) {
+              parserMatch = parserMatch.replace('${fuzzyTitle}','${title}')
+              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache).then((parsedData)=>{
+                return {parsedData: parsedData, isFuzzy: true}
+              });
+            }
+            else {
+              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache).then((parsedData)=>{
+                return {parsedData: parsedData, isFuzzy: false}
+              });
+
+            }
+          }).then((data) => {
+            let parsedData = data.parsedData;
+            let isFuzzy = data.isFuzzy;
             for (let j = 0; j < parsedData.success.length; j++) {
-              if (config.fuzzyMatch.use) {
-                if (this.fuzzyService.fuzzyMatcher.fuzzyMatchString(parsedData.success[j].extractedTitle, config.fuzzyMatch) === parsedConfig.files[i].fuzzyTitle) {
-                  resolvedFiles[i].push(parsedData.success[j].filePath);
-                }
+              if (isFuzzy && parsedData.success[j].extractedTitle === parsedConfig.files[i].fuzzyTitle) {
+                resolvedFiles[i].push(parsedData.success[j].filePath);
               }
-              else if (parsedData.success[j].extractedTitle === parsedConfig.files[i].extractedTitle) {
+              else if (!isFuzzy && parsedData.success[j].extractedTitle === parsedConfig.files[i].extractedTitle) {
                 resolvedFiles[i].push(parsedData.success[j].filePath);
               }
             }
@@ -578,6 +625,9 @@ export class FileParser {
       break;
       case 'STEAMDIRGLOBAL':
         output=settings.environmentVariables.steamDirectory;
+      break;
+      case 'ROMSDIRGLOBAL':
+        output=settings.environmentVariables.romsDirectory;
       break;
       case 'RETROARCHPATH':
         output=settings.environmentVariables.retroarchPath;
@@ -648,6 +698,9 @@ export class FileParser {
       break;
       case 'STEAMDIRGLOBAL':
         output=data.steamDirectoryGlobal;
+      break;
+      case 'ROMSDIRGLOBAL':
+        output=data.romsDirectoryGlobal;
       break;
       case 'RETROARCHPATH':
         output=data.retroarchPath;
@@ -757,6 +810,7 @@ export class FileParser {
       fuzzyTitle: file.fuzzyTitle,
       romDirectory: config.romDirectory,
       steamDirectoryGlobal: settings.environmentVariables.steamDirectory,
+      romsDirectoryGlobal: settings.environmentVariables.romsDirectory,
       retroarchPath: settings.environmentVariables.retroarchPath,
       raCoresDirectory: settings.environmentVariables.raCoresDirectory,
       localImagesDirectory: settings.environmentVariables.localImagesDirectory
