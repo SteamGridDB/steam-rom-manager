@@ -4,7 +4,7 @@ import { ImageProviderAPI } from "./user-configuration.model";
 export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
 
 export interface ImageContent {
-    imageProvider: 'SteamGridDB' | 'GoogleImages' | 'Steam' | 'LocalStorage',
+    imageProvider: 'SteamGridDB' | 'SteamScraper' | 'GoogleImages' | 'Steam' | 'LocalStorage',
     imageUploader?: string,
     imageRes?: string,
     imageUrl: string,
@@ -15,6 +15,7 @@ export interface ImagesStatusAndContent {
     retrieving: boolean,
     defaultImageProviders: string[],
     searchQueries: string[],
+    romPath: string,
     imageProviderAPIs: ImageProviderAPI,
     content: ImageContent[]
 }

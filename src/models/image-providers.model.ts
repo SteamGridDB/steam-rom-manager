@@ -91,6 +91,7 @@ export interface ProviderFuzzyListData {
 
 export interface ProviderRetrieveData extends ProviderId {
   title: string,
+  path: string,
   imageType: string,
   imageProviderAPIs: ImageProviderAPI
 }

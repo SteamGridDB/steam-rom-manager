@@ -8,7 +8,7 @@ import { queue } from "async";
 import { Subject } from "rxjs";
 import * as _ from 'lodash';
 
-type QueueTask = { title: string, imageType: string, imageProviderAPIs: ImageProviderAPI, eventCallback: ProviderCallback };
+type QueueTask = { title: string, path: string, imageType: string, imageProviderAPIs: ImageProviderAPI, eventCallback: ProviderCallback };
 const _queue = true ? undefined as never : queue<QueueTask, void>((task, callback) => { });
 type AsyncQueue = typeof _queue;
 
@@ -40,7 +40,7 @@ export class ImageProvider {
         return queue<QueueTask, void>((task, callback) => {
             let id = _.uniqueId();
             this.callbackMap.set(id, { eventCallback: task.eventCallback, queueCallback: callback });
-            this.postMessage(this.availableProviders[key].worker, 'retrieveUrls', { id: id, imageType: task.imageType, imageProviderAPIs: task.imageProviderAPIs, title: task.title });
+            this.postMessage(this.availableProviders[key].worker, 'retrieveUrls', { id: id, imageType: task.imageType, imageProviderAPIs: task.imageProviderAPIs, title: task.title, path: task.path });
         }, 10);
     }
 
@@ -69,10 +69,10 @@ export class ImageProvider {
       return providerInfoLang[provider];
     }
 
-    retrieveUrls(title: string, imageType: string, imageProviderAPIs: ImageProviderAPI, providers: string[], eventCallback: ProviderCallback) {
+    retrieveUrls(title: string, path: string, imageType: string, imageProviderAPIs: ImageProviderAPI, providers: string[], eventCallback: ProviderCallback) {
         for (let i = 0; i < providers.length; i++) {
             if (this.availableProviders[providers[i]])
-                this.availableProviders[providers[i]].queue.push({ title, imageType, imageProviderAPIs, eventCallback });
+                this.availableProviders[providers[i]].queue.push({ title, path, imageType, imageProviderAPIs, eventCallback });
             else
                 eventCallback('completed', { title: title });
         }

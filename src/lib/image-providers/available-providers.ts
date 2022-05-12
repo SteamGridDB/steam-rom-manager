@@ -39,7 +39,8 @@ export const providerInfo: ProviderInfo = {
         allowEmpty: false,
       }
     }
-  }
+  },
+  SteamScraper: {}
 };
 
 export const availableProviders = Object.keys(providerInfo);

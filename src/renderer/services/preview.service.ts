@@ -567,6 +567,7 @@ export class PreviewService {
               this.appImages[file.imagePool] = {
                 retrieving: false,
                 searchQueries: file.onlineImageQueries,
+                romPath: file.filePath,
                 imageProviderAPIs: config.imageProviderAPIs,
                 defaultImageProviders: config.imageProviders,
                 content: []
@@ -584,6 +585,7 @@ export class PreviewService {
               this.appTallImages[file.imagePool] = {
                 retrieving: false,
                 searchQueries: file.onlineImageQueries,
+                romPath: file.filePath,
                 imageProviderAPIs: config.imageProviderAPIs,
                 defaultImageProviders: config.imageProviders,
                 content: []
@@ -601,6 +603,7 @@ export class PreviewService {
               this.appHeroImages[file.imagePool] = {
                 retrieving: false,
                 searchQueries: file.onlineImageQueries,
+                romPath: file.filePath,
                 imageProviderAPIs: config.imageProviderAPIs,
                 defaultImageProviders: config.imageProviders,
                 content: []
@@ -618,6 +621,7 @@ export class PreviewService {
               this.appLogoImages[file.imagePool] = {
                 retrieving: false,
                 searchQueries: file.onlineImageQueries,
+                romPath: file.filePath,
                 imageProviderAPIs: config.imageProviderAPIs,
                 defaultImageProviders: config.imageProviders,
                 content: []
@@ -635,6 +639,7 @@ export class PreviewService {
               this.appIcons[file.imagePool] = {
                 retrieving: false,
                 searchQueries: file.onlineImageQueries,
+                romPath: file.filePath,
                 imageProviderAPIs: config.imageProviderAPIs,
                 defaultImageProviders: config.imageProviders,
                 content: []
@@ -859,7 +864,7 @@ export class PreviewService {
             allImagesRetrieved = false;
             this.previewVariables.numberOfQueriedImages += numberOfQueriesForImageKey;
             for (let j = 0; j < image.searchQueries.length; j++) {
-              this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], imageType, image.imageProviderAPIs,  imageProvidersForKey, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
+              this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], image.romPath, imageType, image.imageProviderAPIs,  imageProvidersForKey, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
                 switch (event) {
                   case 'error':
                     {
