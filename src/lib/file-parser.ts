@@ -310,8 +310,8 @@ export class FileParser {
           if(exceptions && exceptions.commandLineArguments) {
             lastFile.argumentString = exceptions.commandLineArguments;
           } else {
-            if (isPlatformParser && launcherMode) {
-              lastFile.argumentString = launchOptions || '';
+            if (isPlatformParser) {
+              lastFile.argumentString = launcherMode ? launchOptions || '' : '';
             }
             else if (isROMParser) {
               lastFile.argumentString = vParser.setInput(configs[i].executableArgs).parse() ? vParser.replaceVariables((variable) => {

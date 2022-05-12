@@ -571,6 +571,7 @@ export const EnglishLang: languageContainer = {
           fuzzyTitle__i: '[${index}/${total}]:          Fuzzy title - ${title}',
           finalTitle__i: '[${index}/${total}]:          Final title - ${title}',
           filePath__i: '[${index}/${total}]:            File path - ${filePath}',
+          startDir__i: '[${index}/${total}]:            Start dir - ${startDir}',
           completeShortcut__i: '[${index}/${total}]:    Complete shortcut - ${shortcut}',
           firstImageQuery__i: '[${index}/${total}]:        Image queries - ${query}',
           imageQueries__i: '[${index}/${total}]:                        ${query}',
