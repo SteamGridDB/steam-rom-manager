@@ -11,7 +11,7 @@ class SteamScraperProvider extends GenericProvider {
 
   constructor(protected proxy: ProviderProxy) {
     super(proxy);
-    this.xrw = new xRequestWrapper(proxy, true, 3, 3000);
+    this.xrw = new xRequestWrapper(proxy, true, 5, 8000);
     this.client = new ScrapeApi("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbiI6ImV5SjBlWEFpT2lKS1YxUWlMQ0poYkdjaU9pSklVekkxTmlKOS5leUoxYzJWeWJtRnRaU0k2SW5kcGRHaGxjbXRwYm1jeU5TSjkuZG5FejluelVMMk14YjhvWUZ6b1MwSTdoNXREdlA1QWxlay16R210US1PdyJ9._eANIWkeiym15LgNCvMGUQQbIqjdnxmGwPlXjdXHi_4")
   }
 
