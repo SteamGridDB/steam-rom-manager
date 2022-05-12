@@ -1,7 +1,7 @@
 import '../replace-diacritics';
 
 import { FuzzyMatcher } from "../fuzzy-matcher";
-import { FuzzyEventMap, ProviderPostEventMap, ProviderPostObject, ProviderReceiveEventMap, ImageContent } from "../../models";
+import { FuzzyEventMap, ProviderPostEventMap, ProviderPostObject, ProviderReceiveEventMap, ImageContent, ImageProviderAPI } from "../../models";
 
 declare var self: Worker;
 
@@ -55,8 +55,8 @@ export class GenericProviderManager<T extends GenericProvider> {
     self.postMessage(<ProviderPostObject<K>>{ event: event, data: data });
   }
 
-  newInstance(id: string, title: string, imageType: string): Map<string,T> {
-    return this.instanceMap.set(id, new this.provider(new ProviderProxy(id, title, imageType, this)));
+  newInstance(id: string, title: string, imageType: string, imageProviderAPIs: ImageProviderAPI): Map<string,T> {
+    return this.instanceMap.set(id, new this.provider(new ProviderProxy(id, title, imageType, imageProviderAPIs, this)));
   }
 
   removeInstance(id: string) {
@@ -72,7 +72,7 @@ export class GenericProviderManager<T extends GenericProvider> {
         case 'retrieveUrls':
           {
             let data = (event.data.data as ProviderReceiveEventMap['retrieveUrls']);
-            this.newInstance(data.id, data.title, data.imageType).get(data.id).retrieveUrls();
+            this.newInstance(data.id, data.title, data.imageType,data.imageProviderAPIs).get(data.id).retrieveUrls();
           }
           break;
         case 'stopDownloads':
@@ -98,10 +98,14 @@ export class GenericProviderManager<T extends GenericProvider> {
 };
 
 export class ProviderProxy {
-  constructor(private _id: string, private _title: string, private _imageType: string, private _manager: GenericProviderManager<GenericProvider>) { }
+  constructor(private _id: string, private _title: string, private _imageType: string, private _imageProviderAPIs: ImageProviderAPI,  private _manager: GenericProviderManager<GenericProvider>) { }
 
   get title() {
     return this._title;
+  }
+
+  get imageProviderAPIs() {
+    return this._imageProviderAPIs;
   }
 
   get imageType() {

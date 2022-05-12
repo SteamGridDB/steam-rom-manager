@@ -18,6 +18,25 @@ const getLatestRelease = () => new Promise((resolve) => {
   req.end();
 });
 
+const formatDiscordMD = (body) => {
+  // Normalize \r\n
+  body = body.replace(/\r\n/gm, '\n');
+  // Strip out main header (should just be the version, which is shown already)
+  body = body.replace(/^#{2} [\d\.]*/g, '');
+  // Replace rest of the ## with underlined bold text followed by a :
+  body = body.replace(/^#{2} (.*)/gm, '**__$1__:**');
+  // Make ### bold
+  body = body.replace(/^#{3} (.*)/gm, '\n**$1**');
+  // Replace checkboxes
+  body = body.replace(/^[\*|-] \[ \]/gm, '☐');
+  body = body.replace(/^[\*|-] \[x\]/gm, '\\☑'); // escape so Discord doesn't turn it into a huge emoji
+  // Replace list items with •
+  body = body.replace(/^[\*|-] /gm, '• ');
+  // Replace triple newlines that may have been created with doubles
+  body = body.replace(/\n\n\n/gm, '\n\n');
+  return body;
+};
+
 (async () => {
   // Get latest GitHub release
   const ghbody = await getLatestRelease();
@@ -26,21 +45,20 @@ const getLatestRelease = () => new Promise((resolve) => {
   const discordHookData = {
     username: 'Steam ROM Manager',
     avatar_url: 'https://i.imgur.com/9isYw2q.png',
-    content: '',
+    content: '<@&912746542492966922>',
     allowed_mentions: {
-      parse: []
+      parse: ['roles']
     },
     // https://discord.com/developers/docs/resources/channel#embed-object
     embeds: [
       {
-        title: ghbody.name,
         color: 2657830,
-        description: ghbody.body,
+        description: formatDiscordMD(ghbody.body),
         timestamp: ghbody.published_at,
         url: ghbody.html_url,
         author: {
-          name: 'Latest Release',
-          url: 'https://github.com/SteamGridDB/steam-rom-manager/releases'
+          name: `Release ${ghbody.tag_name}`,
+          url: 'https://github.com/SteamGridDB/steam-rom-manager/releases/latest'
         }
       }
     ],
@@ -51,8 +69,14 @@ const getLatestRelease = () => new Promise((resolve) => {
           {
             type: 2,
             style: 5,
+            label: `Download ${ghbody.tag_name}`,
+            url: ghbody.html_url
+          },
+          {
+            type: 2,
+            style: 5,
             label: 'Full Changelog',
-            url: 'https://github.com/SteamGridDB/steam-rom-manager/blob/master/CHANGELOG.md'
+            url: `https://github.com/SteamGridDB/steam-rom-manager/blob/master/CHANGELOG.md#${ghbody.name.replace(/\./g, '')}` // scroll to version
           },
           {
             type: 2,

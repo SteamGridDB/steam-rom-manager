@@ -90,12 +90,30 @@ export const EnglishLang: languageContainer = {
         fatalError__i: '> Steam parser failed with fatal error:\n ${error}'
       }
     },
+    manualParser: {
+        manifestsInputTitle: 'Manifests Directory',
+
+        docs__md: {
+            self: [
+                require('./markdown/manual-parser.md'),
+                require('./markdown/manual-parser-input.md')
+            ],
+            input: [
+                require('./markdown/manual-parser-input.md')
+            ]
+        },
+        errors: {
+            fatalError__i: '> Manual parser failed with fatal error:\n ${error}'
+
+        }
+    },
     epicParser: {
       manifestsInputTitle: 'Manifests Directory Override',
       launcherModeInputTitle: 'Launch games via Epic for online services',
       docs__md: {
         self: [
-          require('./markdown/epic-parser.md')
+          require('./markdown/epic-parser.md'),
+          require('./markdown/epic-parser-input.md')
         ],
         input: [
           require('./markdown/epic-parser-input.md')
@@ -108,12 +126,33 @@ export const EnglishLang: languageContainer = {
         fatalError__i: '> Epic Games parser failed with fatal error:\n ${error}'
       }
     },
+    uplayParser: {
+      uplayDirTitle: 'Uplay Directory Override',
+      launcherModeInputTitle: 'Launch games via UPlay for online services',
+      docs__md: {
+        self: [
+          require('./markdown/uplay-parser.md'),
+          require('./markdown/uplay-parser-input.md')
+        ],
+        input: [
+          require('./markdown/uplay-parser-input.md')
+        ]
+      },
+      errors: {
+        invalidManifestsOverride: "> Uplay Directory Override is not a valid directory.",
+        uplayNotCompatible: "> UPlay Parser not available on Linux or Mac.",
+        uplayDirNotFound: "> Specified UPlay directory does not exist.",
+        uplayNotInstalled: "> UPlay not installed in specified directory.",
+        fatalError__i: '> UPlay parser failed with fatal error:\n ${error}'
+      }
+    },
     gogParser: {
       galaxyExeOverrideTitle: "Galaxy Path Override",
       launcherModeInputTitle: 'Launch games via GOG Galaxy',
       docs__md: {
         self: [
-          require('./markdown/gog-parser.md')
+          require('./markdown/gog-parser.md'),
+          require('./markdown/gog-parser-input.md')
         ],
         input: [
           require('./markdown/gog-parser-input.md')
@@ -121,7 +160,42 @@ export const EnglishLang: languageContainer = {
       },
       errors: {
         invalidGalaxyExeOverride: "> Galaxy Client Override is not a valid path.",
-        fatalError__i: '> GOG Galaxy parser failed with fatal error:\n ${error}'
+        fatalError__i: '> GOG Galaxy parser failed with fatal error:\n ${error}',
+        gogNotCompatible: '>GOG Galaxy parser is currently only available on Windows.',
+        gogNotInstalled: '> GOG Galaxy does not appear to be installed.'
+      }
+    },
+    amazonGamesParser: {
+      exeOverrideTitle: "Amazon Games Path Override",
+      launcherModeInputTitle: "Launch games via Amazon Games",
+      docs__md: {
+        self: [
+          require('./markdown/amazon-games-parser.md')
+        ],
+        input: [
+          require('./markdown/amazon-games-parser-input.md')
+        ]
+      },
+      errors: {
+        invalidExeOverride: "> Amazon Games Installation Override is not a valid directory.",
+        osUnsupported: "> Amazon Games parser failed because Amazon Games is only avaliable on windows.",
+        fatalError__i: '> Amazon Games parser failed with fatal error:\n ${error}'
+      }
+    },
+    itchIoParser: {
+      itchIoAppDataOverrideTitle: "itch.io AppData Path Override",
+      docs__md: {
+        self: [
+          require('./markdown/itch-io-parser.md')
+        ],
+        input: [
+          require('./markdown/itch-io-parser-input.md')
+        ]
+      },
+      errors: {
+        invalidItchIoAppDataOverride: "> itch.io AppData Override is not a valid directory.",
+        osUnsupported: "> itch.io parser failed because the parser only supports windows currently.",
+        fatalError__i: '> itch.io parser failed with fatal error:\n ${error}'
       }
     },
     globParser: {
@@ -180,6 +254,19 @@ export const EnglishLang: languageContainer = {
         noAnyCharInPatternNextToRegex__md: '> Any char `?`, inside a pattern, can not be next to `${regex}`!'
       }
     },
+    sgdbProvider: {
+      nsfwInputTitle: 'Allow NSFW artwork',
+      humorInputTitle: 'Allow joke artwork',
+      imageMotionTypesTitle: 'Allowed animation types',
+      stylesTitle: 'Allowed grid styles',
+      stylesHeroTitle: 'Allowed hero styles',
+      stylesLogoTitle: 'Allowed logo styles',
+      stylesIconTitle: 'Allowed icon styles',
+      docs__md: {
+        self: [],
+        input: [require('./markdown/sgdb-api-input.md')]
+      }
+    },
     logger: {
       component: {
         noMessages: 'No messages are available',
@@ -228,17 +315,26 @@ export const EnglishLang: languageContainer = {
           environmentVariables: 'Environment variable settings',
           communityPresets: 'Community variable/preset settings'
         },
+        docs__md: {
+          settings: [
+            require('./markdown/settings.md'),
+            require('./markdown/parser-env-variables.md')
+          ]
+        },
         text: {
           offlineMode: 'Offline mode',
-          removeApps_desc: 'Remove all added app entries:',
-          removeApps_btn: 'Remove!',
+          removeApps_desc: 'all added app entries',
+          removeApps_btn: 'Remove',
           preloadImages: 'Preload retrieved images immediately',
-          fuzzy_verbose: 'Log matching results (logged results are hidden by default in Event log)',
-          fuzzy_filter: 'Filter images (tries to filter out unrelated images returned by some image providers)',
+          fuzzy_verbose: 'Log matching results',
+          fuzzy_filter: 'Filter images',
           enabledProviders: 'Enabled providers:',
           selectLanguage: 'Select language:',
-          resetFuzzy_desc: 'Reset fuzzy list:',
+          resetFuzzy_desc: 'fuzzy list',
+          resetFuzzyCache_desc: 'fuzzy cache',
           resetFuzzy_btn: 'Reset',
+          customVariables_desc: 'custom variables',
+          configPresets_desc: 'config presets',
           showSteamImages: 'Show current Steam images by default',
           deleteDisabledShortcuts: 'Remove shortcuts for disabled parsers',
           clearLogOnTest: 'Automatically clear log before testing parsers'
@@ -248,6 +344,9 @@ export const EnglishLang: languageContainer = {
           steamDirectoryWin: 'Typically C:\\Program Files (x86)\\Steam',
           steamDirectoryMac: 'Typically ~/Library/Application Support/Steam',
           steamDirectoryLinux: 'Typically ~/.steam/steam',
+          romsDirectoryWin: 'For example D:\\ROMs',
+          romsDirectoryMac: 'For example ~/ROMs',
+          romsDirectoryLinux: 'For example ~/ROMs',
           retroarchPathWin: 'For example C:\\Path\\To\\retroarch.exe',
           retroarchPathLinux: 'For example /path/to/retroarch',
           retroarchPathMac: 'For example /path/to/retroarch',
@@ -318,7 +417,7 @@ export const EnglishLang: languageContainer = {
           faq: 'FAQ',
           undoChanges: 'Undo changes',
           undoDelete: 'Undo delete',
-          toClipboard: 'Copy configuration to clipboard'
+          toClipboard: 'Copy configuration to clipboard',
         },
         docs__md: {
           intro: [require('./markdown/intro.md')],
@@ -364,7 +463,8 @@ export const EnglishLang: languageContainer = {
             require('./markdown/parser-env-variables.md')
           ],
           imageProviders: [
-            require('./markdown/image-providers.md')
+            require('./markdown/image-providers.md'),
+            require('./markdown/sgdb-api-input.md')
           ],
           imagePool: [
             require('./markdown/image-pool.md'),
@@ -471,6 +571,7 @@ export const EnglishLang: languageContainer = {
           fuzzyTitle__i: '[${index}/${total}]:          Fuzzy title - ${title}',
           finalTitle__i: '[${index}/${total}]:          Final title - ${title}',
           filePath__i: '[${index}/${total}]:            File path - ${filePath}',
+          startDir__i: '[${index}/${total}]:            Start dir - ${startDir}',
           completeShortcut__i: '[${index}/${total}]:    Complete shortcut - ${shortcut}',
           firstImageQuery__i: '[${index}/${total}]:        Image queries - ${query}',
           imageQueries__i: '[${index}/${total}]:                        ${query}',
@@ -541,7 +642,8 @@ export const EnglishLang: languageContainer = {
         },
         placeholder: {
           parserType: 'Select parser...',
-          imageProviders: 'None'
+          imageProviders: 'None',
+          multiAPIPlaceholder: 'No Filter'
         },
         text: {
           skipWithMissingDataDir: 'Skip found accounts with missing data directories',
@@ -590,7 +692,9 @@ export const EnglishLang: languageContainer = {
           executableModifier__md: '> Executable modifier must not be empty!',
           variableString__md: '> Uneven number of `${` and `}` pairs. Use `\\` to escape `${` or `}` if you want to use them as characters.',
           imageProviders__md: '> Incorrect image providers type!',
-          unhandledValidationKey__md: '> Input\'s validation is unhandled'
+          unhandledValidationKey__md: '> Input\'s validation is unhandled',
+          genericDir__md: '> Directory is invalid',
+          genericPath__md: '> Path is invalid'
         },
         text: {
           noTitle: 'No title!'

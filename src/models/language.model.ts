@@ -84,6 +84,41 @@ export interface languageStruct {
             fatalError__i: string
         }
     },
+    itchIoParser: {
+      itchIoAppDataOverrideTitle: string,
+      docs__md: {
+        self: string[],
+        input: string[]
+      },
+      errors: {
+        invalidItchIoAppDataOverride: string,
+        osUnsupported: string,
+        fatalError__i: string
+      }
+    },
+    amazonGamesParser: {
+      exeOverrideTitle: string,
+      launcherModeInputTitle: string,
+      docs__md: {
+        self: string[],
+        input: string[]
+      },
+      errors: {
+        invalidExeOverride: string,
+        osUnsupported: string,
+        fatalError__i: string
+      }
+    },
+    manualParser: {
+        manifestsInputTitle: string,
+        docs__md: {
+            self: string[],
+            input: string[]
+        },
+        errors: {
+            fatalError__i: string
+        }
+    },
     epicParser: {
       manifestsInputTitle: string,
       launcherModeInputTitle: string,
@@ -98,6 +133,21 @@ export interface languageStruct {
         fatalError__i: string
       }
     },
+    uplayParser: {
+      uplayDirTitle: string,
+      launcherModeInputTitle: string,
+      docs__md: {
+        self: string[],
+        input: string[]
+      },
+      errors: {
+        invalidManifestsOverride: string,
+        uplayNotCompatible: string,
+        uplayNotInstalled: string,
+        uplayDirNotFound: string,
+        fatalError__i: string
+      }
+    },
     gogParser: {
       galaxyExeOverrideTitle: string,
       launcherModeInputTitle: string,
@@ -106,6 +156,8 @@ export interface languageStruct {
         input: string[]
       }, errors: {
         invalidGalaxyExeOverride: string,
+        gogNotCompatible: string,
+        gogNotInstalled: string,
         fatalError__i: string
       }
     },
@@ -150,6 +202,19 @@ export interface languageStruct {
             noStarInPatternNextToRegex__md: string,
             noAnyCharInPatternNextToRegex__md: string
         }
+    },
+    sgdbProvider: {
+      nsfwInputTitle: string,
+      humorInputTitle: string,
+      imageMotionTypesTitle: string,
+      stylesTitle: string,
+      stylesHeroTitle: string,
+      stylesLogoTitle: string,
+      stylesIconTitle: string,
+      docs__md: {
+        self: string[],
+        input: string[]
+      }
     },
     logger: {
       component: {
@@ -199,6 +264,9 @@ export interface languageStruct {
             environmentVariables: string,
             communityPresets: string
         },
+        docs__md: {
+          settings: string[]
+        },
           text: {
             offlineMode: string,
               removeApps_desc: string,
@@ -209,7 +277,10 @@ export interface languageStruct {
               enabledProviders: string,
               selectLanguage: string,
               resetFuzzy_desc: string,
+              resetFuzzyCache_desc: string,
               resetFuzzy_btn: string,
+              customVariables_desc: string,
+              configPresets_desc: string,
               showSteamImages: string,
               deleteDisabledShortcuts: string,
               clearLogOnTest: string
@@ -219,6 +290,9 @@ export interface languageStruct {
               steamDirectoryWin: string,
               steamDirectoryLinux: string,
               steamDirectoryMac: string,
+              romsDirectoryWin: string,
+              romsDirectoryLinux: string,
+              romsDirectoryMac: string,
               retroarchPathWin: string,
               retroarchPathMac: string,
               retroarchPathLinux: string,
@@ -290,7 +364,7 @@ export interface languageStruct {
             faq: string,
             undoChanges: string,
             undoDelete: string,
-            toClipboard: string
+            toClipboard: string,
         },
           docs__md: {
             intro: string[],
@@ -352,6 +426,7 @@ export interface languageStruct {
             fuzzyTitle__i: string, //${index}, ${total}, ${title}
             finalTitle__i: string, //${index}, ${total}, ${title}
             filePath__i: string, //${index}, ${total}, ${filePath}
+            startDir__i: string, //${index}, ${total}, ${filePath}
             completeShortcut__i: string, //${index}, ${total}, ${shortcut}
             firstImageQuery__i: string, //${index}, ${total}, ${query}
             imageQueries__i: string, //${index}, ${total}, ${query}
@@ -421,7 +496,8 @@ export interface languageStruct {
           },
           placeholder: {
             parserType: string,
-              imageProviders: string
+              imageProviders: string,
+            multiAPIPlaceholder: string
           },
           text: {
             skipWithMissingDataDir: string,
@@ -470,7 +546,9 @@ export interface languageStruct {
                 executableModifier__md: string,
                 variableString__md: string,
                 imageProviders__md: string,
-                unhandledValidationKey__md: string
+                unhandledValidationKey__md: string,
+                genericDir__md: string,
+                genericPath__md: string
             },
             text: {
               noTitle: string

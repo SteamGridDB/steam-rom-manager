@@ -19,16 +19,10 @@ export class EpicParser implements GenericParser {
       title: 'Epic',
       info: this.lang.docs__md.self.join(''),
       inputs: {
-        'manifests': {
+        'epicManifests': {
           label: this.lang.manifestsInputTitle,
           inputType: 'dir',
-          validationFn: (input: string) => {
-            if(!input || fs.existsSync(input) && fs.lstatSync(input).isDirectory()) {
-              return null;
-            } else {
-              return this.lang.errors.invalidManifestsOverride;
-            }
-          },
+          validationFn: null,
           info: this.lang.docs__md.input.join('')
         },
         'epicLauncherMode': {
@@ -48,8 +42,8 @@ export class EpicParser implements GenericParser {
       let appPaths: string[] = [];
       let appNames: string[] = [];
       let epicManifestsDir: string = "";
-      if(inputs.manifests) {
-        epicManifestsDir = inputs.manifests
+      if(inputs.epicManifests) {
+        epicManifestsDir = inputs.epicManifests;
       } else {
         if(os.type()=='Windows_NT') {
           epicManifestsDir = 'C:\\ProgramData\\Epic\\EpicGamesLauncher\\Data\\Manifests';

@@ -1,4 +1,4 @@
-import { availableProviders, defaultProviders } from '../../lib/image-providers/available-providers';
+import { availableProviders, defaultProviders, providerInfo } from '../../lib/image-providers/available-providers';
 import { availableParsers, availableParserInputs } from '../../lib/parsers/available-parsers';
 
 import { cloneDeep, union } from "lodash";
@@ -66,18 +66,75 @@ const sharedProperties = {
         ]
       }
     },
+    imageProviderAPIs: {
+      type: 'object',
+      default: {},
+      properties: {
+        SteamGridDB: {
+          type: 'object',
+          default: {},
+          properties: {
+            nsfw: {type: 'boolean', default: false},
+            humor: {type: 'boolean', default: false},
+            styles: {
+              type: 'array',
+              default: [] as string[],
+              items: {
+                oneOf: [
+                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.styles.allowedValues}
+                ]
+              }
+            },
+            stylesHero: {
+              type: 'array',
+              default: [] as string[],
+              items: {
+                oneOf: [
+                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.stylesHero.allowedValues}
+                ]
+              }
+            },
+            stylesLogo: {
+              type: 'array',
+              default: [] as string[],
+              items: {
+                oneOf: [
+                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.stylesLogo.allowedValues}
+                ]
+              }
+            },
+            stylesIcon: {
+              type: 'array',
+              default: [] as string[],
+              items: {
+                oneOf: [
+                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.stylesIcon.allowedValues}
+                ]
+              }
+            },
+            imageMotionTypes: {
+              type: 'array',
+              default: ['static'],
+              items: {
+                oneOf: [
+                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.imageMotionTypes.allowedValues}
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
     titleModifier: { type: 'string', default: '${fuzzyTitle}' },
     fuzzyMatch: {
       type: 'object',
       default: {},
       properties: {
-        use: { type: 'boolean', default: true },
         removeCharacters: { type: 'boolean', default: true },
         removeBrackets: { type: 'boolean', default: true },
         replaceDiacritics: { type: 'boolean', default: true }
       }
     },
-    advanced: { type: 'boolean', default: false },
     disabled: { type: 'boolean', default: false },
   }
 }

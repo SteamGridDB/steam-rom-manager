@@ -1,4 +1,5 @@
 import { userAccountData, StringLiteralArray } from './helpers.model';
+import { ImageProviderAPI } from './user-configuration.model';;
 
 export interface ParsedUserConfigurationFile {
   executableLocation: string,
@@ -39,6 +40,7 @@ export interface ParsedUserConfiguration {
   parserId: string,
   parserType: string,
   imageProviders: string[],
+  imageProviderAPIs: ImageProviderAPI,
   steamDirectory: string,
   appendArgsToExecutable: boolean,
   shortcutPassthrough: boolean,
@@ -73,7 +75,8 @@ export interface ParsedData {
     extractedTitle: string,
     filePath?: string, // Used by ROM parsers and platform parsers in executable mode
     extractedAppId?: string // Used by artwork only parsers
-    launchOptions?: string, // Used by platform parsers in launcher mode
+    launchOptions?: string, // Used by platform parsers
+    startInDirectory?: string, //Used by manual parsers and apps the start in a different directory than the executable
   }[],
   failed: string[]
 }
@@ -88,6 +91,7 @@ export interface ParserVariableData {
   finalTitle: string,
   filePath: string,
   steamDirectoryGlobal: string,
+  romsDirectoryGlobal: string,
   retroarchPath: string,
   raCoresDirectory: string,
   localImagesDirectory: string
@@ -99,7 +103,7 @@ const nameVariables = StringLiteralArray(['EXENAME','FILENAME']);
 const extensionVariables = StringLiteralArray(['EXEEXT','FILEEXT']);
 const pathVariables = StringLiteralArray(['EXEPATH','FILEPATH']);
 const parserVariables = StringLiteralArray(['TITLE','FUZZYTITLE','FINALTITLE']);
-const environmentVariables = StringLiteralArray(['/','SRMDIR','STEAMDIRGLOBAL','RETROARCHPATH','RACORES','LOCALIMAGESDIR']);
+const environmentVariables = StringLiteralArray(['/','SRMDIR','STEAMDIRGLOBAL','ROMSDIRGLOBAL','RETROARCHPATH','RACORES','LOCALIMAGESDIR']);
 
 export type DirectoryVariables = (typeof directoryVariables)[number];
 export type NameVariables = (typeof nameVariables)[number];
