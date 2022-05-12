@@ -426,6 +426,7 @@ export interface languageStruct {
             fuzzyTitle__i: string, //${index}, ${total}, ${title}
             finalTitle__i: string, //${index}, ${total}, ${title}
             filePath__i: string, //${index}, ${total}, ${filePath}
+            startDir__i: string, //${index}, ${total}, ${filePath}
             completeShortcut__i: string, //${index}, ${total}, ${shortcut}
             firstImageQuery__i: string, //${index}, ${total}, ${query}
             imageQueries__i: string, //${index}, ${total}, ${query}
