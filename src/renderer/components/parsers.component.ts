@@ -778,6 +778,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 total: totalLength,
                 filePath: data.files[i].filePath
               }));
+              success(this.lang.success.startDir__i.interpolate({
+                index: i + 1,
+                total: totalLength,
+                startDir: data.files[i].startInDirectory
+              }));
               success(this.lang.success.completeShortcut__i.interpolate({
                 index: i + 1,
                 total: totalLength,
