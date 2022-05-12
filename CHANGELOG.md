@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 * Added handling to UPlay parser to simply not add games whose path is not stored in the registry (thanks @CheezyFriez12 for helping to debug).
 * Shortcut passthrough for `.lnk` files no longer drops arguments ([Issue 227](https://github.com/SteamGridDB/steam-rom-manager/issues/227)).
+* Platform parser launcher mode arguments no longer added in launcherless mode.
 
 ## 2.3.35
 ### Added

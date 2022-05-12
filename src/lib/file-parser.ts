@@ -13,7 +13,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as Sentry from '@sentry/electron';
-import { getPath } from 'windows-shortcuts-ps';
+import { getPath, getArgs, getStartDir } from 'windows-shortcuts-ps';
 
 
 export class FileParser {
@@ -89,6 +89,12 @@ export class FileParser {
         let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(configs[i].parserType);
         let isPlatformParser:boolean = parserInfo.platformParsers.includes(configs[i].parserType);
         let isROMParser:boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
+        let launcherMode = !!(
+          configs[i].parserInputs.epicLauncherMode
+            || configs[i].parserInputs.gogLauncherMode
+              || configs[i].parserInputs.amazonGamesLauncherMode
+                || configs[i].parserInputs.uplayLauncherMode
+        );
         // Parse environment variables on rom directory, start in path, executable path
         configs[i].steamDirectory = preParser.setInput(configs[i].steamDirectory).parse() ? preParser.replaceVariables((variable) => {
           return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
@@ -152,15 +158,15 @@ export class FileParser {
           filteredAccounts.push(this.filterUserAccounts(steamDirectories[i].data, userFilter, configs[i].steamDirectory, configs[i].userAccounts.skipWithMissingDataDir));
           totalUserAccountsFound+=filteredAccounts[filteredAccounts.length-1].found.length;
           let directories:string[] = undefined;
-            if (isROMParser) {
-                directories = [configs[i].romDirectory];
-            }
-            else if (isManualParser) {
-                directories = [configs[i].parserInputs["manualManifests"] as string];
-            }
-            else {
-                directories = filteredAccounts[i].found.map((account: userAccountData) => path.join(configs[i].steamDirectory, 'userdata', account.accountID));
-            }
+          if (isROMParser) {
+            directories = [configs[i].romDirectory];
+          }
+          else if (isManualParser) {
+            directories = [configs[i].parserInputs["manualManifests"] as string];
+          }
+          else {
+            directories = filteredAccounts[i].found.map((account: userAccountData) => path.join(configs[i].steamDirectory, 'userdata', account.accountID));
+          }
 
           promises.push(this.availableParsers[configs[i].parserType].execute(directories, configs[i].parserInputs, this.globCache));
         }
@@ -187,10 +193,10 @@ export class FileParser {
         let isROMParser: boolean = parserInfo.ROMParsers.includes(configs[i].parserType);
         let isManualParser: boolean = parserInfo.manualParsers.includes(configs[i].parserType);
         let launcherMode = !!(
-             configs[i].parserInputs.epicLauncherMode
-          || configs[i].parserInputs.gogLauncherMode
-          || configs[i].parserInputs.amazonGamesLauncherMode
-          || configs[i].parserInputs.uplayLauncherMode
+          configs[i].parserInputs.epicLauncherMode
+            || configs[i].parserInputs.gogLauncherMode
+              || configs[i].parserInputs.amazonGamesLauncherMode
+                || configs[i].parserInputs.uplayLauncherMode
         );
         if (isROMParser && configs[i].titleFromVariable.tryToMatchTitle)
           this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);
@@ -236,9 +242,9 @@ export class FileParser {
           let argumentString: string = undefined;
 
           if (isManualParser) {
-              executableLocation = data[i].success[j].filePath;
-              startInDir = data[i].success[j].startInDirectory.length > 0 ? data[i].success[j].startInDirectory : path.dirname(executableLocation);
-              argumentString = data[i].success[j].launchOptions;
+            executableLocation = data[i].success[j].filePath;
+            startInDir = data[i].success[j].startInDirectory.length > 0 ? data[i].success[j].startInDirectory : path.dirname(executableLocation);
+            argumentString = data[i].success[j].launchOptions;
           }
           else if(isROMParser) {
             executableLocation = configs[i].executable.path ? configs[i].executable.path : data[i].success[j].filePath;
@@ -246,8 +252,8 @@ export class FileParser {
           }
           else if(isPlatformParser) {
             startInDir = data[i].success[j].startInDirectory || path.dirname(data[i].success[j].filePath);
-            launchOptions = data[i].success[j].launchOptions;
             if(launcherMode) {
+              launchOptions = data[i].success[j].launchOptions;
               executableLocation = data[i].executableLocation;
             } else {
               executableLocation = data[i].success[j].filePath;
@@ -304,7 +310,7 @@ export class FileParser {
           if(exceptions && exceptions.commandLineArguments) {
             lastFile.argumentString = exceptions.commandLineArguments;
           } else {
-            if (isPlatformParser) {
+            if (isPlatformParser && launcherMode) {
               lastFile.argumentString = launchOptions || '';
             }
             else if (isROMParser) {
@@ -455,12 +461,26 @@ export class FileParser {
       if(os.type()=='Windows_NT') {
         for(let i=0; i < parsedConfigs.length; i++) {
           if(parsedConfigs[i].shortcutPassthrough) {
+            let targetPath: string = undefined;
             for(let j=0; j < parsedConfigs[i].files.length; j++) {
               if(parsedConfigs[i].files[j].filePath.split('.').slice(-1)[0].toLowerCase()=='lnk') {
-                shortcutPromises.push(getPath(parsedConfigs[i].files[j].filePath).then((actualPath: string)=>{
+                let shortcutPromise: Promise<void> = getPath(parsedConfigs[i].files[j].filePath)
+                .then((actualPath: string)=>{
+                  targetPath = actualPath;
                   parsedConfigs[i].files[j].modifiedExecutableLocation = "\"".concat(actualPath,"\"");
-                  parsedConfigs[i].files[j].startInDirectory = path.dirname(actualPath);
-                }))
+                })
+                .then(() => getStartDir(parsedConfigs[i].files[j].filePath))
+                .then((startInDir: string) => {
+                  console.log("startInDir",startInDir)
+                  parsedConfigs[i].files[j].startInDirectory = startInDir || path.dirname(targetPath);
+                })
+                .then(() => getArgs(parsedConfigs[i].files[j].filePath))
+                .then((shortcutArgs: string) => {
+                  console.log("shortcutArgs", shortcutArgs)
+                  parsedConfigs[i].files[j].argumentString = shortcutArgs || "";
+                })
+
+                shortcutPromises.push(shortcutPromise)
               }
             }
           }
