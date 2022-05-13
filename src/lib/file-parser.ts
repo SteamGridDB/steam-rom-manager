@@ -14,6 +14,10 @@ import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as Sentry from '@sentry/electron';
 import { getPath, getArgs, getStartDir } from 'windows-shortcuts-ps';
+// @ts-ignore
+import * as xdgparse from 'xdg-parse';
+// @ts-ignore
+import * as which from 'which';
 
 
 export class FileParser {
@@ -485,6 +489,29 @@ export class FileParser {
             }
           }
         }
+      }else if(os.type()=='Linux'){
+          for(let i=0; i < parsedConfigs.length; i++) {
+              if(parsedConfigs[i].shortcutPassthrough) {
+                  let targetPath: string = undefined;
+                  for(let j=0; j < parsedConfigs[i].files.length; j++) {
+                      if(parsedConfigs[i].files[j].filePath.split('.').slice(-1)[0].toLowerCase()=='desktop') {
+                          let shortcutPromise: Promise<void> = fs.promises.open(parsedConfigs[i].files[j].filePath, 'r')
+                              .then(filehandle => {
+                                  return filehandle.readFile("utf8");
+                              }).then(data => {
+                                let entry = xdgparse.parse(data)["Desktop Entry"];
+                                //parsedConfigs[i].files[j].extractedTitle = String(entry["Name"]);
+                                let splitExec = String(entry["Exec"]).match(/(?:(?:\S*\\\s)+|(?:[^\s"]+|"[^"]*"))+/g);
+                                let modifiedExecutableLocation = which.sync(splitExec.shift());
+                                parsedConfigs[i].files[j].modifiedExecutableLocation = modifiedExecutableLocation;
+                                parsedConfigs[i].files[j].startInDirectory = (entry["Path"] && String(entry["Path"])) || path.dirname(modifiedExecutableLocation);
+                                parsedConfigs[i].files[j].argumentString = splitExec.join(' ');
+                              })
+                          shortcutPromises.push(shortcutPromise);
+                      }
+                  }
+              }
+          }
       }
       return Promise.all(shortcutPromises).then(()=>{
         return { parsedConfigs, noUserAccounts: totalUserAccountsFound === 0 };
