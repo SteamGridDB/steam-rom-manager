@@ -465,7 +465,7 @@ export class FileParser {
         if(parsedConfigs[i].shortcutPassthrough && os.type() == 'Windows_NT') {
           let targetPath: string = undefined;
           for(let j=0; j < parsedConfigs[i].files.length; j++) {
-            if(path.extname(parsedConfigs[i].files[j].filePath).toLowerCase() == 'lnk') {
+            if(path.extname(parsedConfigs[i].files[j].filePath).toLowerCase() === '.lnk') {
               let shortcutPromise: Promise<void> = getPath(parsedConfigs[i].files[j].filePath)
               .then((actualPath: string)=>{
                 targetPath = actualPath;
@@ -473,12 +473,10 @@ export class FileParser {
               })
               .then(() => getStartDir(parsedConfigs[i].files[j].filePath))
               .then((startInDir: string) => {
-                console.log("startInDir",startInDir)
                 parsedConfigs[i].files[j].startInDirectory = startInDir || path.dirname(targetPath);
               })
               .then(() => getArgs(parsedConfigs[i].files[j].filePath))
               .then((shortcutArgs: string) => {
-                console.log("shortcutArgs", shortcutArgs)
                 parsedConfigs[i].files[j].argumentString = shortcutArgs || "";
               })
 
@@ -489,13 +487,15 @@ export class FileParser {
         if(parsedConfigs[i].shortcutPassthrough && os.type() == 'Linux') {
           let targetPath: string = undefined;
           for(let j=0; j < parsedConfigs[i].files.length; j++) {
-            if(path.extname(parsedConfigs[i].files[j].filePath).toLowerCase() == 'desktop') {
+            if(path.extname(parsedConfigs[i].files[j].filePath).toLowerCase() === '.desktop') {
               let shortcutPromise: Promise<void> = fs.promises.open(parsedConfigs[i].files[j].filePath, 'r')
               .then(filehandle => {
                 return filehandle.readFile("utf8");
               }).then(data => {
                 let entry = xdgparse.parse(data)["Desktop Entry"];
-                //parsedConfigs[i].files[j].extractedTitle = String(entry["Name"]);
+                if(!this.userExceptions[parsedConfigs[i].files[j].extractedTitle]) {
+                  parsedConfigs[i].files[j].finalTitle = String(entry["Name"]);
+                }
                 let splitExec = String(entry["Exec"]).match(/(?:(?:\S*\\\s)+|(?:[^\s"]+|"[^"]*"))+/g);
                 let modifiedExecutableLocation = which.sync(splitExec.shift());
                 parsedConfigs[i].files[j].modifiedExecutableLocation = modifiedExecutableLocation;
