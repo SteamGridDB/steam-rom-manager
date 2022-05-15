@@ -78,47 +78,13 @@ export class FileParser {
 
     return null;
   }
-  private imageSearchPromise( ) {
-    return new Promise<ParsedUserConfiguration[]>((resolve, reject)=>{
 
-    })
-  }
   executeFileParser(configs: UserConfiguration[], settings: AppSettings) {
     let steamDirectories: { directory: string, useCredentials: boolean, data: userAccountData[] }[] = [];
     let totalUserAccountsFound: number = 0;
     let filteredAccounts: { found: userAccountData[], missing: string[] }[] = [];
     let parsedConfigs: ParsedUserConfiguration[] = [];
     this.globCache = {};
-    for (let i = 0; i < configs.length; i++) {
-      parsedConfigs.push({
-          configurationTitle: configs[i].configTitle,
-          parserId: configs[i].parserId,
-          parserType: configs[i].parserType,
-          appendArgsToExecutable: undefined,//isROMParser ? configs[i].executable.appendArgsToExecutable: false,
-          shortcutPassthrough: configs[i].executable.shortcutPassthrough,
-          imageProviders: configs[i].imageProviders,
-          imageProviderAPIs: configs[i].imageProviderAPIs,
-          foundUserAccounts: undefined,//filteredAccounts[i].found,
-          missingUserAccounts: undefined//filteredAccounts[i].missing,
-          steamDirectory: configs[i].steamDirectory,
-          files: [],
-          failed: [],//_.cloneDeep(data[i].failed),
-          excluded: []
-        });
-    }
-
-    return this.preParsePromise(configs, settings, parsedConfigs)
-      .then(this.steamDirectoriesPromise)
-      .then(this.executeParsersPromise)
-      .then(this.shortcutsPassthroughPromise)
-      .then(this.fuzzyMatchPromise)
-      .then(this.imageSearchPromise)
-      .then((parsedConfigs: ParsedUserConfiguration[]) => {
-          return { parsedConfigs, noUserAccounts: totalUserAccountsFound === 0 };
-      });
-
-
-
 
     return Promise.resolve()
     .then(() => {
@@ -167,7 +133,6 @@ export class FileParser {
       }
     })
     .then(()=>{
-
       let promises: Promise<ParsedData>[] = [];
       for(let i=0; i < configs.length;i++) {
         let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(configs[i].parserType);
@@ -208,62 +173,12 @@ export class FileParser {
 
           promises.push(this.availableParsers[configs[i].parserType].execute(directories, configs[i].parserInputs, this.globCache));
         }
-        else {
+        else
           throw new Error(this.lang.error.parserNotFound__i.interpolate({ name: configs[i].parserType }));
-        }
       }
       return Promise.all(promises);
     })
-    .then((data: ParsedData[]) => {
-      let shortcutPromises: Promise<void>[] = [];
-      for(let i=0; i < configs.length; i++) {
-        if(configs[i].executable.shortcutPassthrough && os.type() == 'Windows_NT') {
-          let targetPath: string = undefined;
-          for(let j=0; j < data[i].success.length; j++) {
-            if(path.extname(data[i].success[j].filePath).toLowerCase() == 'lnk') {
-              let shortcutPromise: Promise<void> = getPath(data[i].success[j].filePath)
-              .then((actualPath: string)=>{
-                targetPath = actualPath;
-                data[i].success[j].modifiedExecutableLocation = "\"".concat(actualPath,"\"");
-              })
-              .then(() => getStartDir(data[i].success[j].filePath))
-              .then((startInDir: string) => {
-                data[i].success[j].startInDirectory = startInDir || path.dirname(targetPath);
-              })
-              .then(() => getArgs(data[i].success[j].filePath))
-              .then((shortcutArgs: string) => {
-                data[i].success[j].argumentString = shortcutArgs || "";
-              })
-
-              shortcutPromises.push(shortcutPromise)
-            }
-          }
-        }
-        for(let i=0; i < configs.length; i++) {
-          if(configs[i].executable.shortcutPassthrough && os.type() == 'Linux') {
-            let targetPath: string = undefined;
-            for(let j=0; j < data[i].success.length; j++) {
-              if(path.extname(data[i].success[j].filePath).toLowerCase() == 'desktop') {
-                let shortcutPromise: Promise<void> = fs.promises.open(data[i].success[j].filePath, 'r')
-                .then((filehandle) => {
-                  return filehandle.readFile("utf8");
-                }).then((data) => {
-                  let entry = xdgparse.parse(data)["Desktop Entry"];
-                  //data[i].success[j].extractedTitle = String(entry["Name"]);
-                  let splitExec = String(entry["Exec"]).match(/(?:(?:\S*\\\s)+|(?:[^\s"]+|"[^"]*"))+/g);
-                  let modifiedExecutableLocation = which.sync(splitExec.shift());
-                  data[i].success[j].modifiedExecutableLocation = modifiedExecutableLocation;
-                  data[i].success[j].startInDirectory = (entry["Path"] && String(entry["Path"])) || path.dirname(modifiedExecutableLocation);
-                  data[i].success[j].argumentString = splitExec.join(' ');
-                })
-                shortcutPromises.push(shortcutPromise);
-              }
-            }
-          }
-        }
-        return Promise.all(shortcutPromises).then(()=> { return {parsedData: data, }; })
-      })
-      .then((data: ParsedDataWithFuzzy[]) => {
+    .then((data: ParsedDataWithFuzzy[]) => {
       let defaultImagePromises: Promise<void>[] = [];
       let defaultTallImagePromises: Promise<void>[] = [];
       let defaultHeroImagePromises: Promise<void>[] = [];
@@ -286,13 +201,12 @@ export class FileParser {
               || configs[i].parserInputs.amazonGamesLauncherMode
                 || configs[i].parserInputs.uplayLauncherMode
         );
-        // TODO get rid of these toggles.
-        if (isROMParser && configs[i].titleFromVariable.tryToMatchTitle) {
+        if (isROMParser && configs[i].titleFromVariable.tryToMatchTitle)
           this.tryToReplaceTitlesWithVariables(data[i], configs[i], vParser);
-        }
-        if (isROMParser) {
+
+        if (isROMParser)
           this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data[i], configs[i].fuzzyMatch);
-        }
+
 
         parsedConfigs.push({
           configurationTitle: configs[i].configTitle,
@@ -545,363 +459,411 @@ export class FileParser {
         }));
       }
       return Promise.all(localImagePromises).then(() => Promise.all(localTallImagePromises)).then(()=> Promise.all(localHeroImagePromises).then(()=> Promise.all(localLogoImagePromises))).then(() => Promise.all(localIconPromises)).then(() => Promise.all(defaultImagePromises)).then(() => Promise.all(defaultTallImagePromises)).then(()=>Promise.all(defaultHeroImagePromises)).then(()=>Promise.all(defaultLogoImagePromises)).then(()=>Promise.all(defaultIconPromises));
-    })
-    .then(() => {
-          return { parsedConfigs, noUserAccounts: totalUserAccountsFound === 0 };
+    }).then(() => {
+      let shortcutPromises: Promise<void>[] = [];
+      for(let i=0; i < parsedConfigs.length; i++) {
+        if(parsedConfigs[i].shortcutPassthrough && os.type() == 'Windows_NT') {
+          let targetPath: string = undefined;
+          for(let j=0; j < parsedConfigs[i].files.length; j++) {
+            if(path.extname(parsedConfigs[i].files[j].filePath).toLowerCase() == 'lnk') {
+              let shortcutPromise: Promise<void> = getPath(parsedConfigs[i].files[j].filePath)
+              .then((actualPath: string)=>{
+                targetPath = actualPath;
+                parsedConfigs[i].files[j].modifiedExecutableLocation = "\"".concat(actualPath,"\"");
+              })
+              .then(() => getStartDir(parsedConfigs[i].files[j].filePath))
+              .then((startInDir: string) => {
+                console.log("startInDir",startInDir)
+                parsedConfigs[i].files[j].startInDirectory = startInDir || path.dirname(targetPath);
+              })
+              .then(() => getArgs(parsedConfigs[i].files[j].filePath))
+              .then((shortcutArgs: string) => {
+                console.log("shortcutArgs", shortcutArgs)
+                parsedConfigs[i].files[j].argumentString = shortcutArgs || "";
+              })
+
+              shortcutPromises.push(shortcutPromise)
+            }
+          }
+        }
+        if(parsedConfigs[i].shortcutPassthrough && os.type() == 'Linux') {
+          let targetPath: string = undefined;
+          for(let j=0; j < parsedConfigs[i].files.length; j++) {
+            if(path.extname(parsedConfigs[i].files[j].filePath).toLowerCase() == 'desktop') {
+              let shortcutPromise: Promise<void> = fs.promises.open(parsedConfigs[i].files[j].filePath, 'r')
+              .then(filehandle => {
+                return filehandle.readFile("utf8");
+              }).then(data => {
+                let entry = xdgparse.parse(data)["Desktop Entry"];
+                //parsedConfigs[i].files[j].extractedTitle = String(entry["Name"]);
+                let splitExec = String(entry["Exec"]).match(/(?:(?:\S*\\\s)+|(?:[^\s"]+|"[^"]*"))+/g);
+                let modifiedExecutableLocation = which.sync(splitExec.shift());
+                parsedConfigs[i].files[j].modifiedExecutableLocation = modifiedExecutableLocation;
+                parsedConfigs[i].files[j].startInDirectory = (entry["Path"] && String(entry["Path"])) || path.dirname(modifiedExecutableLocation);
+                parsedConfigs[i].files[j].argumentString = splitExec.join(' ');
+              })
+              shortcutPromises.push(shortcutPromise);
+            }
+          }
+        }
+      }
+      return Promise.all(shortcutPromises).then(() => {
+        return { parsedConfigs, noUserAccounts: totalUserAccountsFound === 0 };
+      })
     });
+  }
+
+  private tryToReplaceTitlesWithVariables(data: ParsedDataWithFuzzy, config: UserConfiguration, vParser: VariableParser) {
+    let groups = undefined;
+    if (config.titleFromVariable.limitToGroups.length > 0) {
+      groups = vParser.setInput(config.titleFromVariable.limitToGroups).parse() ? _.uniq(vParser.extractVariables(data => null)) : [];
+      groups = _.intersection(Object.keys(this.customVariableData), groups);
     }
-
-    private tryToReplaceTitlesWithVariables(data: ParsedDataWithFuzzy, config: UserConfiguration, vParser: VariableParser) {
-      let groups = undefined;
-      if (config.titleFromVariable.limitToGroups.length > 0) {
-        groups = vParser.setInput(config.titleFromVariable.limitToGroups).parse() ? _.uniq(vParser.extractVariables(data => null)) : [];
-        groups = _.intersection(Object.keys(this.customVariableData), groups);
-      }
-      else {
-        groups = Object.keys(this.customVariableData);
-      }
-      if (groups.length > 0) {
-        for (let i = 0; i < data.success.length; i++) {
-          let found = false;
-          for (let j = 0; j < groups.length; j++) {
-            if (config.titleFromVariable.caseInsensitiveVariables) {
-              for (let key in this.customVariableData[groups[j]]) {
-                if (data.success[i].extractedTitle.toLowerCase() === key.toLowerCase()) {
-                  data.success[i].extractedTitle = this.customVariableData[groups[j]][key];
-                  found = true;
-                  break;
-                }
-              }
-            }
-            else if (this.customVariableData[groups[j]][data.success[i].extractedTitle] !== undefined) {
-              data.success[i].extractedTitle = this.customVariableData[groups[j]][data.success[i].extractedTitle];
-              found = true;
-            }
-            if (found)
-              break;
-          }
-          if (config.titleFromVariable.skipFileIfVariableWasNotFound && !found)
-            data.success[i].extractedTitle = '';
-        }
-      }
-      else if (config.titleFromVariable.skipFileIfVariableWasNotFound) {
-        for (let i = 0; i < data.success.length; i++) {
-          data.success[i].extractedTitle = '';
-        }
-      }
+    else {
+      groups = Object.keys(this.customVariableData);
     }
-
-    private filterUserAccounts(accountData: userAccountData[], nameFilter: string[], steamDirectory: string, skipWithMissingDirectories: boolean) {
-      let data: { found: userAccountData[], missing: string[] } = { found: [], missing: [] };
-      if (nameFilter.length === 0) {
-        data.found = _.cloneDeep(accountData);
-      } else {
-        data.found = accountData.filter((item)=>nameFilter.indexOf(item.name)>=0||nameFilter.indexOf(item.accountID)>=0)
-        data.missing = nameFilter.filter((filt)=>data.found.map(item=>item.name).indexOf(filt)<0&&data.found.map(item=>item.accountID).indexOf(filt)<0);
-        if(skipWithMissingDirectories) {
-          data.found = data.found.filter((item)=>this.validatePath(path.join(steamDirectory,'userdata',item.accountID),true));
-        }
-      }
-      return data;
-    }
-
-    private resolveFieldGlobs(field: string, config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration, vParser: VariableParser) {
-      let promises: Promise<void>[] = [];
-      let resolvedGlobs: string[][] = [];
-      let resolvedFiles: string[][] = [];
-
-      for (let i = 0; i < parsedConfig.files.length; i++) {
-        resolvedGlobs.push([]);
-        resolvedFiles.push([]);
-
-        let fieldValue = config[field];
-        if (fieldValue) {
-          let variableData = this.makeVariableData(config,settings, parsedConfig.files[i]);
-          //expandable set is to allow you to comment out stuff using $()$. Decent idea, but ehhhh
-          let expandableSet = /\$\((\${.+?})(?:\|(.*?))?\)\$/.exec(fieldValue);
-          let cwd = settings.environmentVariables.localImagesDirectory? settings.environmentVariables.localImagesDirectory : config.romDirectory;
-          if (expandableSet === null) {
-            let replacedGlob = path.resolve(cwd,vParser.setInput(fieldValue).parse() ? vParser.replaceVariables((variable) => {
-              return this.getVariable(variable as AllVariables, variableData);
-            }) : '').replace(/\\/g, '/');
-
-            resolvedGlobs[i].push(replacedGlob);
-            promises.push(globPromise(replacedGlob, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
-              resolvedFiles[i] = files;
-            }));
-          }
-          else {
-            let secondaryMatch: string = undefined;
-            let parserMatch = fieldValue.replace(expandableSet[0], '$()$');
-            parserMatch = vParser.setInput(parserMatch).parse() ? vParser.replaceVariables((variable) => {
-              return this.getVariable(variable as AllVariables, variableData);
-            }) : '';
-            parserMatch = path.resolve(cwd, parserMatch.replace('$()$', expandableSet[1])).replace(/\\/g, '/');
-            resolvedGlobs[i].push(parserMatch);
-
-            if (expandableSet[2] != undefined) {
-              secondaryMatch = fieldValue.replace(expandableSet[0], expandableSet[2] || '');
-              secondaryMatch = path.resolve(cwd, vParser.setInput(secondaryMatch).parse() ? vParser.replaceVariables((variable) => {
-                return this.getVariable(variable as AllVariables, variableData);
-              }) : '').replace(/\\/g, '/');
-              resolvedGlobs[i].push(secondaryMatch);
-            }
-
-            promises.push(Promise.resolve().then(() => {
-              if (/\${title}/i.test(expandableSet[1])) {
-                return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache).then((parsedData)=>{
-                  return {parsedData: parsedData, isFuzzy: false}
-                });
-              }
-              else if (/\${fuzzyTitle}/i.test(expandableSet[1])) {
-                parserMatch = parserMatch.replace('${fuzzyTitle}','${title}')
-                return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache).then((parsedData)=>{
-                  return {parsedData: parsedData, isFuzzy: true}
-                });
-              }
-              else {
-                return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache).then((parsedData)=>{
-                  return {parsedData: parsedData, isFuzzy: false}
-                });
-
-              }
-            }).then((data) => {
-              let parsedData = data.parsedData;
-              let isFuzzy = data.isFuzzy;
-              for (let j = 0; j < parsedData.success.length; j++) {
-                if (isFuzzy && parsedData.success[j].extractedTitle === parsedConfig.files[i].fuzzyTitle) {
-                  resolvedFiles[i].push(parsedData.success[j].filePath);
-                }
-                else if (!isFuzzy && parsedData.success[j].extractedTitle === parsedConfig.files[i].extractedTitle) {
-                  resolvedFiles[i].push(parsedData.success[j].filePath);
-                }
-              }
-              if (secondaryMatch !== undefined) {
-                return globPromise(secondaryMatch, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
-                  return resolvedFiles[i].concat(files);
-                });
-              }
-              else
-                return resolvedFiles[i];
-            }).then((files) => {
-              resolvedFiles[i] = _.uniq(files);
-            }));
-          }
-        }
-      }
-      return Promise.all(promises).then(() => {
-        return { config, parsedConfig, resolvedGlobs, resolvedFiles };
-      });
-    }
-    getEnvironmentVariable(variable: EnvironmentVariables, settings: AppSettings) {
-      let output = variable as string;
-      switch (<EnvironmentVariables>variable.toUpperCase()) {
-        case '/':
-          output = path.sep;
-        break;
-        case 'SRMDIR':
-          output = APP.srmdir;
-        break;
-        case 'STEAMDIRGLOBAL':
-          output=settings.environmentVariables.steamDirectory;
-        break;
-        case 'ROMSDIRGLOBAL':
-          output=settings.environmentVariables.romsDirectory;
-        break;
-        case 'RETROARCHPATH':
-          output=settings.environmentVariables.retroarchPath;
-        break;
-        case 'RACORES':
-          output=settings.environmentVariables.raCoresDirectory;
-        break;
-        case 'LOCALIMAGESDIR':
-          output=settings.environmentVariables.localImagesDirectory;
-        break;
-        default:
-          break;
-      }
-      return output;
-    }
-
-    private getVariable(variable: AllVariables, data: ParserVariableData) {
-      const unavailable = 'undefined';
-      let output = variable as string;
-      switch (<AllVariables>variable.toUpperCase()) {
-        case '/':
-          output = path.sep;
-        break;
-        case 'SRMDIR':
-          output = APP.srmdir;
-        break;
-        case 'EXEDIR':
-          output = data.executableLocation != undefined ? path.dirname(data.executableLocation) : unavailable;
-        break;
-        case 'EXEEXT':
-          output = data.executableLocation != undefined ? path.extname(data.executableLocation) : unavailable;
-        break;
-        case 'EXENAME':
-          output = data.executableLocation != undefined ? path.basename(data.executableLocation, path.extname(data.executableLocation)) : unavailable;
-        break;
-        case 'EXEPATH':
-          output = data.executableLocation != undefined ? data.executableLocation : unavailable;
-        break;
-        case 'FILEDIR':
-          output = data.filePath != undefined ? path.dirname(data.filePath) : unavailable;
-        break;
-        case 'FILEEXT':
-          output = data.filePath != undefined ? path.extname(data.filePath) : unavailable;
-        break;
-        case 'FILENAME':
-          output = data.filePath != undefined ? path.basename(data.filePath, path.extname(data.filePath)) : unavailable;
-        break;
-        case 'FILEPATH':
-          output = data.filePath != undefined ? data.filePath : unavailable;
-        break;
-        case 'FINALTITLE':
-          output = data.finalTitle != undefined ? data.finalTitle : unavailable;
-        break;
-        case 'FUZZYTITLE':
-          output = data.fuzzyTitle != undefined ? data.fuzzyTitle : unavailable;
-        break;
-        case 'ROMDIR':
-          output = data.romDirectory != undefined ? data.romDirectory : unavailable;
-        break;
-        case 'STARTINDIR':
-          output = data.startInDirectory != undefined ? data.startInDirectory : unavailable;
-        break;
-        case 'STEAMDIR':
-          output = data.steamDirectory != undefined ? data.steamDirectory : unavailable;
-        break;
-        case 'TITLE':
-          output = data.extractedTitle != undefined ? data.extractedTitle : unavailable;
-        break;
-        case 'STEAMDIRGLOBAL':
-          output=data.steamDirectoryGlobal;
-        break;
-        case 'ROMSDIRGLOBAL':
-          output=data.romsDirectoryGlobal;
-        break;
-        case 'RETROARCHPATH':
-          output=data.retroarchPath;
-        break;
-        case 'RACORES':
-          output=data.raCoresDirectory;
-        break;
-        case 'LOCALIMAGESDIR':
-          output=data.localImagesDirectory;
-        break;
-        default:
-          {
-          let match = /^\/(.*?)\/([giu]{0,3})\|(.*?)(?:\|(.*?))?$/.exec(output);
-          if (match) {
-            let regex = new RegExp(match[1], match[2] || '');
-            let replaceText = match[4];
-            if (typeof replaceText === 'string') {
-              output = match[3].replace(regex, replaceText);
-            }
-            else {
-              let innerMatch = match[3].match(regex);
-              output = '';
-              if (innerMatch !== null) {
-                for (let i = 1; i < innerMatch.length; i++) {
-                  if (innerMatch[i])
-                    output += innerMatch[i];
-                }
-                if (output.length === 0)
-                  output = innerMatch[0];
-              }
-            }
-            break;
-          }
-
-          match = /^uc\|(.*)$/i.exec(output);
-          if (match) {
-            output = match[1].toUpperCase();
-            break;
-          }
-
-          match = /^lc\|(.*)$/i.exec(output);
-          if (match) {
-            output = match[1].toLowerCase();
-            break;
-          }
-
-          match = /^rdc\|(.*)$/i.exec(output);
-          if (match) {
-            output = match[1].replaceDiacritics();
-            break;
-          }
-
-          match = /^cv:?(.*)\|(.+)$/i.exec(output);
-          if (match) {
-            let groups = match[1] ? _.intersection(Object.keys(this.customVariableData), match[1]) : Object.keys(this.customVariableData);
-            let found = false;
-            for (let i = 0; i < groups.length; i++) {
-              if (this.customVariableData[groups[i]][match[2]] !== undefined) {
-                output = match[2];
+    if (groups.length > 0) {
+      for (let i = 0; i < data.success.length; i++) {
+        let found = false;
+        for (let j = 0; j < groups.length; j++) {
+          if (config.titleFromVariable.caseInsensitiveVariables) {
+            for (let key in this.customVariableData[groups[j]]) {
+              if (data.success[i].extractedTitle.toLowerCase() === key.toLowerCase()) {
+                data.success[i].extractedTitle = this.customVariableData[groups[j]][key];
                 found = true;
                 break;
               }
             }
-            if (!found)
-              output = unavailable;
+          }
+          else if (this.customVariableData[groups[j]][data.success[i].extractedTitle] !== undefined) {
+            data.success[i].extractedTitle = this.customVariableData[groups[j]][data.success[i].extractedTitle];
+            found = true;
+          }
+          if (found)
             break;
-          }
-
-          match = /^os:(.+?)\|(.*?)(?:\|(.*?))?$/i.exec(output);
-          if (match) {
-            const regexPlatform = match[1].toLowerCase();
-            if (regexPlatform === "win" || regexPlatform === "mac" || regexPlatform === "linux") {
-              let platform: string = null;
-              switch (os.platform()) {
-                case "win32":
-                  platform = "win";
-                break;
-                case "linux":
-                  platform = "linux";
-                break;
-                case "darwin":
-                  platform = "mac";
-                break;
-                default:
-                  break;
-              }
-
-              if (platform !== null) {
-                output = ((platform === regexPlatform) ? match[2] : match[3]) || '';
-              }
-            }
-          }
         }
-        break;
-      }
-      return output || '';
-    }
-
-    private makeVariableData(config: UserConfiguration, settings: AppSettings, file: ParsedUserConfigurationFile) {
-      return <ParserVariableData>{
-        executableLocation: file.executableLocation,
-        startInDirectory: file.startInDirectory,
-        extractedTitle: file.extractedTitle,
-        steamDirectory: config.steamDirectory,
-        filePath: file.filePath,
-        finalTitle: file.finalTitle,
-        fuzzyTitle: file.fuzzyTitle,
-        romDirectory: config.romDirectory,
-        steamDirectoryGlobal: settings.environmentVariables.steamDirectory,
-        romsDirectoryGlobal: settings.environmentVariables.romsDirectory,
-        retroarchPath: settings.environmentVariables.retroarchPath,
-        raCoresDirectory: settings.environmentVariables.raCoresDirectory,
-        localImagesDirectory: settings.environmentVariables.localImagesDirectory
+        if (config.titleFromVariable.skipFileIfVariableWasNotFound && !found)
+          data.success[i].extractedTitle = '';
       }
     }
-
-    private validatePath(fsPath: string, checkForDirectory: boolean) {
-      try {
-        let path = fs.statSync(fsPath);
-        return checkForDirectory ? path.isDirectory() : path.isFile();
-      } catch (e) {
-        return false;
+    else if (config.titleFromVariable.skipFileIfVariableWasNotFound) {
+      for (let i = 0; i < data.success.length; i++) {
+        data.success[i].extractedTitle = '';
       }
     }
   }
+
+  private filterUserAccounts(accountData: userAccountData[], nameFilter: string[], steamDirectory: string, skipWithMissingDirectories: boolean) {
+    let data: { found: userAccountData[], missing: string[] } = { found: [], missing: [] };
+    if (nameFilter.length === 0) {
+      data.found = _.cloneDeep(accountData);
+    } else {
+      data.found = accountData.filter((item)=>nameFilter.indexOf(item.name)>=0||nameFilter.indexOf(item.accountID)>=0)
+      data.missing = nameFilter.filter((filt)=>data.found.map(item=>item.name).indexOf(filt)<0&&data.found.map(item=>item.accountID).indexOf(filt)<0);
+      if(skipWithMissingDirectories) {
+        data.found = data.found.filter((item)=>this.validatePath(path.join(steamDirectory,'userdata',item.accountID),true));
+      }
+    }
+    return data;
+  }
+
+  private resolveFieldGlobs(field: string, config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration, vParser: VariableParser) {
+    let promises: Promise<void>[] = [];
+    let resolvedGlobs: string[][] = [];
+    let resolvedFiles: string[][] = [];
+
+    for (let i = 0; i < parsedConfig.files.length; i++) {
+      resolvedGlobs.push([]);
+      resolvedFiles.push([]);
+
+      let fieldValue = config[field];
+      if (fieldValue) {
+        let variableData = this.makeVariableData(config,settings, parsedConfig.files[i]);
+        //expandable set is to allow you to comment out stuff using $()$. Decent idea, but ehhhh
+        let expandableSet = /\$\((\${.+?})(?:\|(.*?))?\)\$/.exec(fieldValue);
+        let cwd = settings.environmentVariables.localImagesDirectory? settings.environmentVariables.localImagesDirectory : config.romDirectory;
+        if (expandableSet === null) {
+          let replacedGlob = path.resolve(cwd,vParser.setInput(fieldValue).parse() ? vParser.replaceVariables((variable) => {
+            return this.getVariable(variable as AllVariables, variableData);
+          }) : '').replace(/\\/g, '/');
+
+          resolvedGlobs[i].push(replacedGlob);
+          promises.push(globPromise(replacedGlob, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
+            resolvedFiles[i] = files;
+          }));
+        }
+        else {
+          let secondaryMatch: string = undefined;
+          let parserMatch = fieldValue.replace(expandableSet[0], '$()$');
+          parserMatch = vParser.setInput(parserMatch).parse() ? vParser.replaceVariables((variable) => {
+            return this.getVariable(variable as AllVariables, variableData);
+          }) : '';
+          parserMatch = path.resolve(cwd, parserMatch.replace('$()$', expandableSet[1])).replace(/\\/g, '/');
+          resolvedGlobs[i].push(parserMatch);
+
+          if (expandableSet[2] != undefined) {
+            secondaryMatch = fieldValue.replace(expandableSet[0], expandableSet[2] || '');
+            secondaryMatch = path.resolve(cwd, vParser.setInput(secondaryMatch).parse() ? vParser.replaceVariables((variable) => {
+              return this.getVariable(variable as AllVariables, variableData);
+            }) : '').replace(/\\/g, '/');
+            resolvedGlobs[i].push(secondaryMatch);
+          }
+
+          promises.push(Promise.resolve().then(() => {
+            if (/\${title}/i.test(expandableSet[1])) {
+              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache).then((parsedData)=>{
+                return {parsedData: parsedData, isFuzzy: false}
+              });
+            }
+            else if (/\${fuzzyTitle}/i.test(expandableSet[1])) {
+              parserMatch = parserMatch.replace('${fuzzyTitle}','${title}')
+              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache).then((parsedData)=>{
+                return {parsedData: parsedData, isFuzzy: true}
+              });
+            }
+            else {
+              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache).then((parsedData)=>{
+                return {parsedData: parsedData, isFuzzy: false}
+              });
+
+            }
+          }).then((data) => {
+            let parsedData = data.parsedData;
+            let isFuzzy = data.isFuzzy;
+            for (let j = 0; j < parsedData.success.length; j++) {
+              if (isFuzzy && parsedData.success[j].extractedTitle === parsedConfig.files[i].fuzzyTitle) {
+                resolvedFiles[i].push(parsedData.success[j].filePath);
+              }
+              else if (!isFuzzy && parsedData.success[j].extractedTitle === parsedConfig.files[i].extractedTitle) {
+                resolvedFiles[i].push(parsedData.success[j].filePath);
+              }
+            }
+            if (secondaryMatch !== undefined) {
+              return globPromise(secondaryMatch, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
+                return resolvedFiles[i].concat(files);
+              });
+            }
+            else
+              return resolvedFiles[i];
+          }).then((files) => {
+            resolvedFiles[i] = _.uniq(files);
+          }));
+        }
+      }
+    }
+    return Promise.all(promises).then(() => {
+      return { config, parsedConfig, resolvedGlobs, resolvedFiles };
+    });
+  }
+  getEnvironmentVariable(variable: EnvironmentVariables, settings: AppSettings) {
+    let output = variable as string;
+    switch (<EnvironmentVariables>variable.toUpperCase()) {
+      case '/':
+        output = path.sep;
+      break;
+      case 'SRMDIR':
+        output = APP.srmdir;
+      break;
+      case 'STEAMDIRGLOBAL':
+        output=settings.environmentVariables.steamDirectory;
+      break;
+      case 'ROMSDIRGLOBAL':
+        output=settings.environmentVariables.romsDirectory;
+      break;
+      case 'RETROARCHPATH':
+        output=settings.environmentVariables.retroarchPath;
+      break;
+      case 'RACORES':
+        output=settings.environmentVariables.raCoresDirectory;
+      break;
+      case 'LOCALIMAGESDIR':
+        output=settings.environmentVariables.localImagesDirectory;
+      break;
+      default:
+        break;
+    }
+    return output;
+  }
+
+  private getVariable(variable: AllVariables, data: ParserVariableData) {
+    const unavailable = 'undefined';
+    let output = variable as string;
+    switch (<AllVariables>variable.toUpperCase()) {
+      case '/':
+        output = path.sep;
+      break;
+      case 'SRMDIR':
+        output = APP.srmdir;
+      break;
+      case 'EXEDIR':
+        output = data.executableLocation != undefined ? path.dirname(data.executableLocation) : unavailable;
+      break;
+      case 'EXEEXT':
+        output = data.executableLocation != undefined ? path.extname(data.executableLocation) : unavailable;
+      break;
+      case 'EXENAME':
+        output = data.executableLocation != undefined ? path.basename(data.executableLocation, path.extname(data.executableLocation)) : unavailable;
+      break;
+      case 'EXEPATH':
+        output = data.executableLocation != undefined ? data.executableLocation : unavailable;
+      break;
+      case 'FILEDIR':
+        output = data.filePath != undefined ? path.dirname(data.filePath) : unavailable;
+      break;
+      case 'FILEEXT':
+        output = data.filePath != undefined ? path.extname(data.filePath) : unavailable;
+      break;
+      case 'FILENAME':
+        output = data.filePath != undefined ? path.basename(data.filePath, path.extname(data.filePath)) : unavailable;
+      break;
+      case 'FILEPATH':
+        output = data.filePath != undefined ? data.filePath : unavailable;
+      break;
+      case 'FINALTITLE':
+        output = data.finalTitle != undefined ? data.finalTitle : unavailable;
+      break;
+      case 'FUZZYTITLE':
+        output = data.fuzzyTitle != undefined ? data.fuzzyTitle : unavailable;
+      break;
+      case 'ROMDIR':
+        output = data.romDirectory != undefined ? data.romDirectory : unavailable;
+      break;
+      case 'STARTINDIR':
+        output = data.startInDirectory != undefined ? data.startInDirectory : unavailable;
+      break;
+      case 'STEAMDIR':
+        output = data.steamDirectory != undefined ? data.steamDirectory : unavailable;
+      break;
+      case 'TITLE':
+        output = data.extractedTitle != undefined ? data.extractedTitle : unavailable;
+      break;
+      case 'STEAMDIRGLOBAL':
+        output=data.steamDirectoryGlobal;
+      break;
+      case 'ROMSDIRGLOBAL':
+        output=data.romsDirectoryGlobal;
+      break;
+      case 'RETROARCHPATH':
+        output=data.retroarchPath;
+      break;
+      case 'RACORES':
+        output=data.raCoresDirectory;
+      break;
+      case 'LOCALIMAGESDIR':
+        output=data.localImagesDirectory;
+      break;
+      default:
+        {
+        let match = /^\/(.*?)\/([giu]{0,3})\|(.*?)(?:\|(.*?))?$/.exec(output);
+        if (match) {
+          let regex = new RegExp(match[1], match[2] || '');
+          let replaceText = match[4];
+          if (typeof replaceText === 'string') {
+            output = match[3].replace(regex, replaceText);
+          }
+          else {
+            let innerMatch = match[3].match(regex);
+            output = '';
+            if (innerMatch !== null) {
+              for (let i = 1; i < innerMatch.length; i++) {
+                if (innerMatch[i])
+                  output += innerMatch[i];
+              }
+              if (output.length === 0)
+                output = innerMatch[0];
+            }
+          }
+          break;
+        }
+
+        match = /^uc\|(.*)$/i.exec(output);
+        if (match) {
+          output = match[1].toUpperCase();
+          break;
+        }
+
+        match = /^lc\|(.*)$/i.exec(output);
+        if (match) {
+          output = match[1].toLowerCase();
+          break;
+        }
+
+        match = /^rdc\|(.*)$/i.exec(output);
+        if (match) {
+          output = match[1].replaceDiacritics();
+          break;
+        }
+
+        match = /^cv:?(.*)\|(.+)$/i.exec(output);
+        if (match) {
+          let groups = match[1] ? _.intersection(Object.keys(this.customVariableData), match[1]) : Object.keys(this.customVariableData);
+          let found = false;
+          for (let i = 0; i < groups.length; i++) {
+            if (this.customVariableData[groups[i]][match[2]] !== undefined) {
+              output = match[2];
+              found = true;
+              break;
+            }
+          }
+          if (!found)
+            output = unavailable;
+          break;
+        }
+
+        match = /^os:(.+?)\|(.*?)(?:\|(.*?))?$/i.exec(output);
+        if (match) {
+          const regexPlatform = match[1].toLowerCase();
+          if (regexPlatform === "win" || regexPlatform === "mac" || regexPlatform === "linux") {
+            let platform: string = null;
+            switch (os.platform()) {
+              case "win32":
+                platform = "win";
+              break;
+              case "linux":
+                platform = "linux";
+              break;
+              case "darwin":
+                platform = "mac";
+              break;
+              default:
+                break;
+            }
+
+            if (platform !== null) {
+              output = ((platform === regexPlatform) ? match[2] : match[3]) || '';
+            }
+          }
+        }
+      }
+      break;
+    }
+    return output || '';
+  }
+
+  private makeVariableData(config: UserConfiguration, settings: AppSettings, file: ParsedUserConfigurationFile) {
+    return <ParserVariableData>{
+      executableLocation: file.executableLocation,
+      startInDirectory: file.startInDirectory,
+      extractedTitle: file.extractedTitle,
+      steamDirectory: config.steamDirectory,
+      filePath: file.filePath,
+      finalTitle: file.finalTitle,
+      fuzzyTitle: file.fuzzyTitle,
+      romDirectory: config.romDirectory,
+      steamDirectoryGlobal: settings.environmentVariables.steamDirectory,
+      romsDirectoryGlobal: settings.environmentVariables.romsDirectory,
+      retroarchPath: settings.environmentVariables.retroarchPath,
+      raCoresDirectory: settings.environmentVariables.raCoresDirectory,
+      localImagesDirectory: settings.environmentVariables.localImagesDirectory
+    }
+  }
+
+  private validatePath(fsPath: string, checkForDirectory: boolean) {
+    try {
+      let path = fs.statSync(fsPath);
+      return checkForDirectory ? path.isDirectory() : path.isFile();
+    } catch (e) {
+      return false;
+    }
+  }
+}
