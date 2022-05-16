@@ -12,6 +12,12 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.37
+### Added
+* Ability to do shortcut passthrough for `.desktop` shortcuts on Linux
+### Changed
+* Totally re-factored the `executeFileParsers` method to use an actually sane promise stack. As an added bonus, the refactoring allowed for per parser error logging and for exceptions to overrule the results of shortcutt passthrough.
+
 ## 2.3.36
 ### Fixed
 * Added handling to UPlay parser to simply not add games whose path is not stored in the registry (thanks @CheezyFriez12 for helping to debug).
