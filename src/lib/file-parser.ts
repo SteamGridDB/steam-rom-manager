@@ -265,27 +265,25 @@ export class FileParser {
 
           let executableLocation:string = undefined;
           let startInDir:string = undefined;
-          let launchOptions: string = undefined;
-          let argumentString: string = undefined;
 
           if (isManualParser) {
-            executableLocation = data.success[j].filePath;
             startInDir = data.success[j].startInDirectory.length > 0 ? data.success[j].startInDirectory : path.dirname(executableLocation);
-            argumentString = data.success[j].launchOptions;
+            executableLocation = config.executable.path ? config.executable.path : data.success[j].filePath;
           }
           else if(isROMParser) {
-            executableLocation = config.executable.path ? config.executable.path : data.success[j].filePath;
             startInDir = config.startInDirectory.length > 0 ? config.startInDirectory : path.dirname(executableLocation);
+            executableLocation = config.executable.path ? config.executable.path : data.success[j].filePath;
           }
           else if(isPlatformParser) {
             startInDir = data.success[j].startInDirectory || path.dirname(data.success[j].filePath);
             if(launcherMode) {
-              launchOptions = data.success[j].launchOptions;
               executableLocation = data.executableLocation;
             } else {
               executableLocation = data.success[j].filePath;
             }
-          } else if(isArtworkOnlyParser) {
+          }
+          else if(isArtworkOnlyParser) {
+            startInDir = '';
             executableLocation = data.success[j].extractedAppId;
           }
           let newFile: ParsedUserConfigurationFile = {
@@ -293,7 +291,7 @@ export class FileParser {
             executableLocation: executableLocation,
             modifiedExecutableLocation: undefined,
             startInDirectory: startInDir,
-            argumentString: argumentString,
+            argumentString: undefined,
             resolvedLocalImages: [],
             resolvedLocalTallImages: [],
             resolvedLocalHeroImages: [],
@@ -327,14 +325,18 @@ export class FileParser {
             return this.getVariable(variable as AllVariables, variableData).trim();
           }) : '';
 
-          if (isPlatformParser) {
-            newFile.argumentString = launcherMode ? launchOptions || '' : '';
+          if (isManualParser) {
+            newFile.argumentString = data.success[j].launchOptions;
+          }
+          else if (isPlatformParser) {
+            newFile.argumentString = launcherMode ? data.success[j].launchOptions || '' : '';
           }
           else if (isROMParser) {
             newFile.argumentString = vParser.setInput(config.executableArgs).parse() ? vParser.replaceVariables((variable) => {
               return this.getVariable(variable as AllVariables, variableData).trim();
             }) : '';
-          } else if(isArtworkOnlyParser) {
+          }
+          else if(isArtworkOnlyParser) {
             newFile.argumentString = '';
           }
           newFile.modifiedExecutableLocation = vParser.setInput(config.executableModifier).parse() ? vParser.replaceVariables((variable) => {
