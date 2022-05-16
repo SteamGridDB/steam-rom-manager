@@ -21,9 +21,13 @@ class SteamGridDbProvider extends GenericProvider {
       if(idRegex.test(self.proxy.title)) {
         idPromise = Promise.resolve(parseInt(self.proxy.title.split(':')[1].slice(0,-1)))
       } else {
-        idPromise = self.client.searchGame(self.proxy.title).then((res: any) => res[0].id);
+        idPromise = self.client.searchGame(self.proxy.title).then((res: any) => (res[0]||{}).id);
       }
-      idPromise.then((chosenId: number)=>{
+      idPromise.then((chosenId: number|undefined)=>{
+        if(!chosenId) {
+          self.proxy.completed();
+          resolve();
+        }
         let query: Promise<any>;
         let params = {
           id: chosenId,
