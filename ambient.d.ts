@@ -7,3 +7,4 @@ declare module 'probe-image-size';
 declare module 'file-uri-to-path';
 declare module 'appid';
 declare module 'binary-vdf';
+declare module 'xdg-parse';

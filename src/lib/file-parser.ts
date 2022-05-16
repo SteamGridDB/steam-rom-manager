@@ -14,9 +14,7 @@ import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as Sentry from '@sentry/electron';
 import { getPath, getArgs, getStartDir } from 'windows-shortcuts-ps';
-// @ts-ignore
 import * as xdgparse from 'xdg-parse';
-// @ts-ignore
 import * as which from 'which';
 
 
@@ -42,41 +40,6 @@ export class FileParser {
 
   getParserInfo(key: string) {
     return this.availableParsers[key] ? this.availableParsers[key].getParserInfo() : undefined;
-  }
-
-  validateFieldGlob(input: string) {
-    let regex = /\$\(\${(.*?)}(?:\|(.*?))?\)\$/;
-    let match = regex.exec(input);
-    let vParser = new VariableParser({ left: '${', right: '}' });
-
-    if (match !== null) {
-      let fieldSets = input.match(/\$\(.*?\)\$/g);
-      if (fieldSets != null && fieldSets.length > 1)
-        return this.lang.error.tooManyFieldGlobs__md;
-
-      let error = null;
-      if (!match[1])
-        error = this.lang.error.parserIsRequired__md;
-      else if ('title' === match[1].toLowerCase())
-        error = this.availableParsers['Glob'].getParserInfo().inputs['glob'].validationFn(input.replace(match[0],'${'+match[1]+'}'), true);
-      else
-        error = this.availableParsers['Glob-regex'].getParserInfo().inputs['glob-regex'].validationFn(input.replace(match[0], '${'+match[1]+'}'), true);
-      if (match[2])
-        error = vParser.setInput(input.replace(match[0], match[2])).isValid() ? null : APP.lang.parsers.service.validationErrors.variableString__md;
-
-      if (error)
-        return error;
-    }
-    else {
-      if (!vParser.setInput(input).isValid())
-        return APP.lang.parsers.service.validationErrors.variableString__md;
-    }
-
-    if (/\\/g.test(vParser.setInput(input).parse() ? vParser.removeVariables() : input)) {
-      return this.lang.error.noWinSlashes__md;
-    }
-
-    return null;
   }
 
   executeFileParser(configs: UserConfiguration[], settings: AppSettings) {
@@ -202,8 +165,7 @@ export class FileParser {
       try {
         let vParser = new VariableParser({ left: '${', right: '}' });
         let isROMParser: boolean = parserInfo.ROMParsers.includes(config.parserType);
-        let isManualParser: boolean = parserInfo.manualParsers.includes(config.parserType);
-        if (isROMParser || isManualParser) {
+        if (isROMParser) {
           if(config.titleFromVariable.tryToMatchTitle) {
             this.tryToReplaceTitlesWithVariables(data, config, vParser);
           }
@@ -267,24 +229,24 @@ export class FileParser {
           let startInDir:string = undefined;
 
           if (isManualParser) {
+            executableLocation = data.success[j].filePath;
             startInDir = data.success[j].startInDirectory.length > 0 ? data.success[j].startInDirectory : path.dirname(executableLocation);
-            executableLocation = config.executable.path ? config.executable.path : data.success[j].filePath;
           }
           else if(isROMParser) {
-            startInDir = config.startInDirectory.length > 0 ? config.startInDirectory : path.dirname(executableLocation);
             executableLocation = config.executable.path ? config.executable.path : data.success[j].filePath;
+            startInDir = config.startInDirectory.length > 0 ? config.startInDirectory : path.dirname(executableLocation);
           }
           else if(isPlatformParser) {
-            startInDir = data.success[j].startInDirectory || path.dirname(data.success[j].filePath);
             if(launcherMode) {
               executableLocation = data.executableLocation;
             } else {
               executableLocation = data.success[j].filePath;
             }
+            startInDir = data.success[j].startInDirectory || path.dirname(data.success[j].filePath);
           }
           else if(isArtworkOnlyParser) {
-            startInDir = '';
             executableLocation = data.success[j].extractedAppId;
+            startInDir = '';
           }
           let newFile: ParsedUserConfigurationFile = {
             steamCategories: undefined,
@@ -319,7 +281,7 @@ export class FileParser {
             imagePool: undefined,
             onlineImageQueries: undefined
           };
-          let variableData = this.makeVariableData(config,settings, newFile);
+          let variableData = this.makeVariableData(config, settings, newFile);
 
           newFile.finalTitle = vParser.setInput(config.titleModifier).parse() ? vParser.replaceVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData).trim();
@@ -328,13 +290,13 @@ export class FileParser {
           if (isManualParser) {
             newFile.argumentString = data.success[j].launchOptions;
           }
-          else if (isPlatformParser) {
-            newFile.argumentString = launcherMode ? data.success[j].launchOptions || '' : '';
-          }
           else if (isROMParser) {
             newFile.argumentString = vParser.setInput(config.executableArgs).parse() ? vParser.replaceVariables((variable) => {
               return this.getVariable(variable as AllVariables, variableData).trim();
             }) : '';
+          }
+          else if (isPlatformParser) {
+            newFile.argumentString = launcherMode ? data.success[j].launchOptions || '' : '';
           }
           else if(isArtworkOnlyParser) {
             newFile.argumentString = '';
@@ -549,6 +511,37 @@ export class FileParser {
     return data;
   }
 
+  validateFieldGlob(input: string) {
+    let regex = /\$\(\${(.*?)}(?:\|(.*?))?\)\$/;
+    let match = regex.exec(input);
+    let vParser = new VariableParser({ left: '${', right: '}' });
+    if (match !== null) {
+      let fieldSets = input.match(/\$\(.*?\)\$/g);
+      if (fieldSets != null && fieldSets.length > 1)
+        return this.lang.error.tooManyFieldGlobs__md;
+      let error = null;
+      if (!match[1])
+        error = this.lang.error.parserIsRequired__md;
+      else if ('title' === match[1].toLowerCase())
+        error = this.availableParsers['Glob'].getParserInfo().inputs['glob'].validationFn(input.replace(match[0],'${'+match[1]+'}'), true);
+      else
+        error = this.availableParsers['Glob-regex'].getParserInfo().inputs['glob-regex'].validationFn(input.replace(match[0], '${'+match[1]+'}'), true);
+      if (match[2])
+        error = vParser.setInput(input.replace(match[0], match[2])).isValid() ? null : APP.lang.parsers.service.validationErrors.variableString__md;
+      if (error)
+        return error;
+    }
+    else {
+      if (!vParser.setInput(input).isValid())
+        return APP.lang.parsers.service.validationErrors.variableString__md;
+    }
+
+    if (/\\/g.test(vParser.setInput(input).parse() ? vParser.removeVariables() : input)) {
+      return this.lang.error.noWinSlashes__md;
+    }
+    return null;
+  }
+
   private resolveFieldGlobs(field: string, config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration, vParser: VariableParser) {
     let promises: Promise<void>[] = [];
     let resolvedGlobs: string[][] = [];
@@ -637,6 +630,7 @@ export class FileParser {
       return { config, parsedConfig, resolvedGlobs, resolvedFiles };
     });
   }
+
   getEnvironmentVariable(variable: EnvironmentVariables, settings: AppSettings) {
     let output = variable as string;
     switch (<EnvironmentVariables>variable.toUpperCase()) {

@@ -148,6 +148,7 @@
     "@types/minimatch": "^3.0.3",
     "@types/node": "12.12.46",
     "@types/rangy": "0.0.32",
+    "@types/which": "^2.0.1",
     "@types/winreg": "^1.2.31",
     "angular2-template-loader": "^0.6.2",
     "autoprefixer": "^10.4.0",
