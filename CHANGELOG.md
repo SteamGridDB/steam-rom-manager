@@ -14,9 +14,9 @@ All notable changes to this project will be documented in this file.
 
 ## 2.3.37
 ### Added
-* Ability to do shortcut passthrough for `.desktop` shortcuts on Linux
+* Ability to do shortcut passthrough for `.desktop` shortcuts on Linux (thanks @UndarkAido for the PR).
 ### Changed
-* Totally re-factored the `executeFileParsers` method to use an actually sane promise stack. As an added bonus, the refactoring allowed for per parser error logging and for exceptions to overrule the results of shortcutt passthrough.
+* Totally re-factored the `executeFileParsers` method to use an actually sane promise stack. As an added bonus, the refactoring allowed for per parser error logging and for exceptions to overrule the results of shortcut passthrough.
 
 ## 2.3.36
 ### Fixed
