@@ -161,7 +161,7 @@ export const EnglishLang: languageContainer = {
       errors: {
         invalidGalaxyExeOverride: "> Galaxy Client Override is not a valid path.",
         fatalError__i: '> GOG Galaxy parser failed with fatal error:\n ${error}',
-        gogNotCompatible: '>GOG Galaxy parser is currently only available on Windows.',
+        gogNotCompatible: '> GOG Galaxy parser is currently only available on Windows.',
         gogNotInstalled: '> GOG Galaxy does not appear to be installed.'
       }
     },

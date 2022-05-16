@@ -99,8 +99,8 @@ export class FileParser {
       let maxAccounts:number = Math.max(...parsedConfigs.map((x: ParsedUserConfiguration)=>x.foundUserAccounts.length));
       return { parsedConfigs, noUserAccounts: maxAccounts === 0 };
     }).catch((err) => {
-      console.log("Error", err);
-      throw new Error(`File Parser Execution Error: ${err}`)
+      console.log("Caught Error", err);
+      throw new Error(`File Parser Execution Error: ${err}`);
     });
   }
 
@@ -182,7 +182,7 @@ export class FileParser {
         this.availableParsers[config.parserType].execute(directories, config.parserInputs, this.globCache)
           .then((data: ParsedDataWithFuzzy) => {
             resolve({config: config, settings: settings, data: data, filteredAccounts: filteredAccounts})
-          });
+          }).catch((error) =>{ reject(error) });
       }
       else {
         reject(this.lang.error.parserNotFound__i.interpolate({ name: config.parserType }));
