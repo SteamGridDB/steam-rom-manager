@@ -85,19 +85,22 @@ export class FileParser {
     for(let i=0; i < configs.length; i++) {
       configPromises.push(
         Promise.resolve({config: configs[i], settings: settings})
-        .then(this.preParserPromise)
-        .then(this.steamDirectoriesPromise)
-        .then(this.parserPromise)
-        .then(this.fuzzyMatchPromise)
-        .then(this.buildParsedConfigsPromise)
-        .then(this.parsedConfigFilesPromise)
-        .then(this.imagesPromise)
-        .then(this.shortcutsPromise) as Promise<ParsedUserConfiguration>
+        .then(this.preParserPromise.bind(this))
+        .then(this.steamDirectoriesPromise.bind(this))
+        .then(this.parserPromise.bind(this))
+        .then(this.fuzzyMatchPromise.bind(this))
+        .then(this.buildParsedConfigsPromise.bind(this))
+        .then(this.parsedConfigFilesPromise.bind(this))
+        .then(this.imagesPromise.bind(this))
+        .then(this.shortcutsPromise.bind(this)) as Promise<ParsedUserConfiguration>
       )
     }
     return Promise.all(configPromises).then((parsedConfigs: ParsedUserConfiguration[])=>{
       let maxAccounts:number = Math.max(...parsedConfigs.map((x: ParsedUserConfiguration)=>x.foundUserAccounts.length));
       return { parsedConfigs, noUserAccounts: maxAccounts === 0 };
+    }).catch((err) => {
+      console.log("Error", err);
+      throw new Error(`File Parser Execution Error: ${err}`)
     });
   }
 
@@ -105,7 +108,7 @@ export class FileParser {
   preParserPromise({config, settings}: {config: UserConfiguration, settings: AppSettings}) {
 
     return new Promise((resolve,reject)=>{
-
+      console.log("preParser")
       let isROMParser: boolean = parserInfo.ROMParsers.includes(config.parserType);
       let preParser = new VariableParser({ left: '${', right: '}' });
       // Parse environment variables on rom directory, start in path, executable path
@@ -144,6 +147,7 @@ export class FileParser {
   }
   steamDirectoriesPromise({config, settings}: {config: UserConfiguration, settings: AppSettings}) {
     return new Promise((resolve, reject)=>{
+      console.log("steamDirs")
       let steamDirectory: {directory: string, useCredentials: boolean, data: userAccountData[] } = {
         directory: config.steamDirectory,
         useCredentials: config.userAccounts.useCredentials,
@@ -157,6 +161,7 @@ export class FileParser {
   }
   parserPromise({config, settings, steamDirectory}: {config: UserConfiguration, settings: AppSettings, steamDirectory: {directory: string, useCredentials: boolean, data: userAccountData[] }}) {
     return new Promise((resolve, reject)=>{
+      console.log("parsers")
       let isROMParser: boolean = parserInfo.ROMParsers.includes(config.parserType);
       let isManualParser: boolean = parserInfo.manualParsers.includes(config.parserType);
       let parser = this.getParserInfo(config.parserType);
@@ -186,6 +191,7 @@ export class FileParser {
   }
   fuzzyMatchPromise({config, settings, data, filteredAccounts}: {config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, filteredAccounts: { found: userAccountData[], missing: string[] }}) {
     return new Promise((resolve, reject) => {
+      console.log("fuzzyMatch")
       let vParser = new VariableParser({ left: '${', right: '}' });
       let isROMParser: boolean = parserInfo.ROMParsers.includes(config.parserType);
       let isManualParser: boolean = parserInfo.manualParsers.includes(config.parserType);
@@ -200,6 +206,7 @@ export class FileParser {
   }
   buildParsedConfigsPromise({config, settings, data, filteredAccounts}: {config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, filteredAccounts: { found: userAccountData[], missing: string[] }}) {
     return new Promise((resolve,reject) => {
+      console.log("buildParsedConfigs")
       let isROMParser: boolean = parserInfo.ROMParsers.includes(config.parserType);
       let parsedConfig: ParsedUserConfiguration = {
         configurationTitle: config.configTitle,
@@ -221,7 +228,7 @@ export class FileParser {
   }
   parsedConfigFilesPromise({config, settings, data, parsedConfig}: {config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, parsedConfig: ParsedUserConfiguration}) {
     return new Promise((resolve, reject) => {
-
+      console.log("parsedConfigFiles")
       let vParser = new VariableParser({ left: '${', right: '}' });
       let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(config.parserType);
       let isPlatformParser:boolean = parserInfo.platformParsers.includes(config.parserType);
@@ -234,6 +241,7 @@ export class FileParser {
         || config.parserInputs.uplayLauncherMode
       );
       for(let j=0; j < data.success.length; j++) {
+        console.log("data:",j,data.success[j])
         let fuzzyTitle = data.success[j].fuzzyTitle || data.success[j].extractedTitle;
 
         // Fail empty titles
@@ -347,29 +355,33 @@ export class FileParser {
         newFile.steamCategories = vParser.setInput(config.steamCategory).parse() ? _.uniq(vParser.extractVariables((variable) => {
           return this.getVariable(variable as AllVariables, variableData);
         })) : [];
+
+        parsedConfig.files.push(newFile);
       }
+      resolve({config: config, settings: settings, parsedConfig: parsedConfig})
     })
   }
   imagesPromise({config, settings, parsedConfig}: {config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
+    console.log("imagesPromise")
     return new Promise((resolve, reject) => {
-      let extRegex = /pnDg|tga|jpg|jpeg|webp/i;
+      let extRegex = /png|tga|jpg|jpeg|webp/i;
       let defaultPromises: Promise<void>[] = [];
       let localPromises: Promise<void>[]=[];
-      let imageTypes = ["Image","TallImage","HeroImage","LogoImage","IconImage"];
+      let imageTypes = ["Image","TallImage","HeroImage","LogoImage","Icon"];
       let defaultFields = imageTypes.map((x: string) => "default".concat(x));
       let defaultFieldsRes = imageTypes.map((x: string) => "resolvedDefault".concat(x,"s"));
-      let localFields = imageTypes.map((x: string) => "local".concat(x));
+      let localFields = imageTypes.map((x: string) => "local".concat(x, "s"));
       let localFieldsRes = imageTypes.map((x: string) => "resolvedLocal".concat(x,"s"));
       let vParser = new VariableParser({ left: '${', right: '}' });
       for(let m = 0; m < imageTypes.length; m++) {
         defaultPromises.push(
           this.resolveFieldGlobs(defaultFields[m], config, settings, parsedConfig, vParser).then((fieldData)=>{
             for (let j = 0; j < fieldData.parsedConfig.files.length; j++) {
-              fieldData.parsedConfig.files[j][defaultFieldsRes[m]] = fieldData.resolvedGlobs[j];
+              parsedConfig.files[j][defaultFieldsRes[m]] = fieldData.resolvedGlobs[j];
               for (let k = 0; k < fieldData.resolvedFiles[j].length; k++) {
                 const item = fieldData.resolvedFiles[j][k];
                 if (extRegex.test(path.extname(item))) {
-                  fieldData.parsedConfig.files[j][defaultFields[m]] = url.encodeFile(item);
+                  parsedConfig.files[j][defaultFields[m]] = url.encodeFile(item);
                   break;
                 }
               }
@@ -379,8 +391,8 @@ export class FileParser {
         localPromises.push(
           this.resolveFieldGlobs(localFields[m], config,settings, parsedConfig, vParser).then((fieldData) => {
             for (let j = 0; j < fieldData.parsedConfig.files.length; j++) {
-              fieldData.parsedConfig.files[j].resolvedLocalImages = fieldData.resolvedGlobs[j];
-              fieldData.parsedConfig.files[j].localImages = fieldData.resolvedFiles[j].filter((item) => {
+              parsedConfig.files[j][localFieldsRes[m]] = fieldData.resolvedGlobs[j];
+              parsedConfig.files[j][localFields[m]] = fieldData.resolvedFiles[j].filter((item) => {
                 return extRegex.test(path.extname(item));
               }).map((item) => {
                 return url.encodeFile(item);
@@ -390,12 +402,14 @@ export class FileParser {
         )
       }
       Promise.all(localPromises).then(()=>Promise.all(defaultPromises)).then(()=>{
+        console.log("afterimage", parsedConfig)
         resolve({config: config, settings: settings, parsedConfig: parsedConfig})
       })
     })
   }
 
   shortcutsPromise({config, settings, parsedConfig}: {config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
+    console.log("shortcutsPromise")
     return new Promise((resolve, reject)=>{
       let shortcutPromises: Promise<void>[] = [];
       if(parsedConfig.shortcutPassthrough && os.type() == 'Windows_NT') {
