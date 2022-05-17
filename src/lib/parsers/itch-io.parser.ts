@@ -15,7 +15,7 @@ export class ItchIoParser implements GenericParser {
       title: 'itch.io',
       info: this.lang.docs__md.self.join(''),
       inputs: {
-        'itchIoAppDataDir': {
+        'itchIoAppDataOverride': {
           label: this.lang.itchIoAppDataOverrideTitle,
           inputType: 'dir',
           validationFn: (input: string) => {
@@ -45,7 +45,7 @@ export class ItchIoParser implements GenericParser {
             case "Linux":
               return `${process.env.HOME}/.config/itch`;
             case "Darwin":
-              return `${process.env.HOME}/Library/Application Support/itch"`;
+              return `${process.env.HOME}/Library/Application Support/itch`;
           }
         })();
         const dbPath = os.type()=="Windows_NT" ? `${itchIoAppDataDir}\\db\\butler.db`:`${itchIoAppDataDir}/db/butler.db`;
