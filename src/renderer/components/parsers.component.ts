@@ -617,6 +617,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.parsersService.updateConfiguration(this.configurationIndex);
     }
 
+    private readControllers() {
+      console.log("Monkey")
+      this.parsersService.readControllers();
+    }
+
     private deleteForm() {
       this.parsersService.deleteConfiguration(this.configurationIndex);
       if (this.configurationIndex >= this.userConfigurations.length)

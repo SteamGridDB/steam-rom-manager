@@ -7,7 +7,7 @@ import { LoggerService } from './logger.service';
 import { FuzzyService } from './fuzzy.service';
 import { ImageProviderService } from './image-provider.service';
 import { SettingsService } from './settings.service';
-import { FileParser, VariableParser } from '../../lib';
+import { FileParser, VariableParser, ControllerManager } from '../../lib';
 import { BehaviorSubject } from "rxjs";
 import {availableProviders} from "../../lib/image-providers/available-providers"
 import { APP } from '../../variables';
@@ -23,6 +23,7 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class ParsersService {
+  private controllerManager: any;
   private appSettings: AppSettings;
   private fileParser: FileParser;
   private userConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
@@ -33,6 +34,7 @@ export class ParsersService {
 
   constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private cVariableService: CustomVariablesService,
               private exceptionsService: UserExceptionsService, private settingsService: SettingsService, private http: Http) {
+                this.controllerManager = new ControllerManager();
                 this.fileParser = new FileParser(this.fuzzyService);
                 this.userConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
                 this.deletedConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
@@ -60,6 +62,11 @@ export class ParsersService {
 
               getUserConfigurationsArray() {
                 return this.userConfigurations.getValue();
+              }
+
+              readControllers() {
+                console.log("Pustle")
+                this.controllerManager.readControllers()
               }
 
               getKnownSteamDirectories() {
