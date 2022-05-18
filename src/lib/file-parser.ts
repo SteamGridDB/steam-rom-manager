@@ -371,8 +371,9 @@ export class FileParser {
         }
         Promise.all(shortcutPromises).then(()=>{
           resolve({ config: config, settings: settings, parsedConfig: parsedConfig })
+        }).catch((error)=>{
+          reject(`Shortcut passthrough step for "${config.configTitle}":\n ${error}`);
         })
-
       } catch(e) {
         reject(`Shortcut passthrough step for "${config.configTitle}":\n ${e}`);
       }
