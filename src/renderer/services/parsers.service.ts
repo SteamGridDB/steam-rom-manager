@@ -65,7 +65,6 @@ export class ParsersService {
               }
 
               readControllers() {
-                console.log("Pustle")
                 this.controllerManager.readControllers()
               }
 

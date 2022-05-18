@@ -618,7 +618,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     }
 
     private readControllers() {
-      console.log("Monkey")
       this.parsersService.readControllers();
     }
 
