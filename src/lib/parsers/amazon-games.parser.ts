@@ -52,7 +52,7 @@ export class AmazonGamesParser implements GenericParser {
         const dbPath = path.resolve(`${path.dirname(amazonGamesExe)}\\..\\Data\\Games\\Sql\\GameInstallInfo.sqlite`);
 
         if(!fs.existsSync(dbPath)) {
-          reject();
+          reject(this.lang.errors.databaseNotFound);
         }
 
         const db = sqlite(dbPath);
@@ -73,7 +73,7 @@ export class AmazonGamesParser implements GenericParser {
           // not really json so need to parse with yaml parser
           const { Main: { Command, Args } } = parse(fuelJson.toString());
 
-          return { 
+          return {
             extractedTitle: ProductTitle,
             startInDirectory: InstallDirectory,
             filePath: `${InstallDirectory}\\${Command}`,

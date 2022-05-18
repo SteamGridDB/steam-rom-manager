@@ -179,6 +179,7 @@ export const EnglishLang: languageContainer = {
       errors: {
         invalidExeOverride: "> Amazon Games Installation Override is not a valid directory.",
         osUnsupported: "> Amazon Games parser failed because Amazon Games is only avaliable on windows.",
+        databaseNotFound: "> Amazon Games database file not found.",
         fatalError__i: '> Amazon Games parser failed with fatal error:\n ${error}'
       }
     },

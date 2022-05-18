@@ -106,6 +106,7 @@ export interface languageStruct {
       errors: {
         invalidExeOverride: string,
         osUnsupported: string,
+        databaseNotFound: string,
         fatalError__i: string
       }
     },
