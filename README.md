@@ -14,7 +14,17 @@ For an overview of how SRM works see [here](https://steamgriddb.github.io/steam-
 
 Check out the [releases page](https://github.com/SteamGridDB/steam-rom-manager/releases) for compiled downloads.
 
+## ROM Parsers
+
+ROM parsers allow one to import shortcuts using search strings, e.g. `games/${title}.@(iso|rvz)`, or in the case of the manual parser by specifying ROM locations directly.
+|Parsers|Windows|Mac OS|Linux|Description|
+|---|---|---|---|---|
+|Glob|✅|✅|✅|Parsing using simple `glob` style search strings|
+|Glob-regex|✅|✅|✅|Parsing using `reg-ex` style search strings|
+|Manual|✅|✅|✅|Parsing using a JSON file specifying locations|
+
 ## Platform Parsers
+
 In addition to flexible importing of ROMS, SRM now has several *platform parsers* for importing from popular game stores:
 
 |Parser|Windows|Mac OS|Linux|
@@ -26,6 +36,14 @@ In addition to flexible importing of ROMS, SRM now has several *platform parsers
 |[UPlay](https://ubisoftconnect.com/en-US/)|✅|❌|❌|
 
 Planned platform parsers include Origin, the EA Games Store, and Battle.net.
+
+## Artwork Only Parsers
+Artwork only parsers allow you to change the artwork for existing non-SRM added games. Put it simply they just change artwork, they don't add shortcuts.
+|Parser|Windows|Mac OS|Linux|
+|---|---|---|---|
+|Steam|✅|✅|✅|
+
+In the future we plan to add an artwork only parser for non Steam games (either added manually or through some tool other than SRM).
 
 # Support
 
