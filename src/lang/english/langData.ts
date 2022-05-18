@@ -67,8 +67,8 @@ export const EnglishLang: languageContainer = {
           categorySaveError: 'Error updating categories. See event log for details.',
           categorySaveError__i: 'Category error (shortcuts and artwork will still be added): ${error}',
           retryingDownload__i: 'Image download from "${imageUrl}" failed for "${appTitle}".',
-          providerError__i: 'Error received from "${provider}" for "${title}" (${url ? `${code}: ${url}` : code}).',
-          unknownProviderError__i: 'Unknown error received from "${provider}" for "${title}": ${error}'
+          providerError__i: 'Error received from "${provider}" for "${title}":\n (${url ? `${code}: ${url}` : code}).',
+          unknownProviderError__i: 'Error received from "${provider}" for "${title}":\n ${error}'
         },
         success: {
           writingVDF_entries: 'Done adding/removing entries.',

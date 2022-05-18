@@ -387,6 +387,7 @@ export class FileParser {
           if(exceptions && exceptions.exclude) {
             parsedConfig.excluded.push(parsedConfig.files[j].filePath);
             parsedConfig.files[j] = null;
+            continue;
           }
           if(exceptions && exceptions.newTitle) {
             parsedConfig.files[j].finalTitle = exceptions.newTitle;

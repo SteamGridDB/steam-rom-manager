@@ -26,7 +26,7 @@ class SteamGridDbProvider extends GenericProvider {
       idPromise.then((chosenId: number|undefined)=>{
         if(!chosenId) {
           self.proxy.completed();
-          resolve();
+          reject(`SGDB found no matching games for title "${self.proxy.title}"`)
         }
         let query: Promise<any>;
         let params = {

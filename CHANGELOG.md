@@ -12,6 +12,14 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.38
+## Added
+* Made itch.io fully cross platform (thanks @OneMoreByte for the PR).
+## Changed
+* Better errors when SGDB can't find a matching title (no more 'Unknown Error').
+## Fixed 
+* Excluding titles and forcing a name change caused an error as of 2.3.37 [Issue 308](https://github.com/SteamGridDB/steam-rom-manager/issues/308)
+
 ## 2.3.37
 ### Added
 * Ability to do shortcut passthrough for `.desktop` shortcuts on Linux (thanks @UndarkAido for the PR).
