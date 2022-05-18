@@ -19,7 +19,7 @@ export class ItchIoParser implements GenericParser {
           label: this.lang.itchIoAppDataOverrideTitle,
           inputType: 'dir',
           validationFn: (input: string) => {
-            if(!input || fs.existsSync(input) && fs.lstatSync(input).isFile()) {
+            if(!input || fs.existsSync(input) && !fs.lstatSync(input).isFile()) {
               return null;
             } else {
               return this.lang.errors.invalidItchIoAppDataOverride;
@@ -34,16 +34,21 @@ export class ItchIoParser implements GenericParser {
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
     return new Promise<ParsedData>((resolve,reject)=>{
       try {
-        if(os.type()!='Windows_NT') {
+        if(!["Windows_NT", "Linux", "Darwin"].includes(os.type())) {
           reject(this.lang.errors.osUnsupported);
         }
 
-        const itchIoAppDataDir = inputs.itchIoAppDataOverride || `${process.env.APPDATA}\\itch`;
-        const dbPath = `${itchIoAppDataDir}\\db\\butler.db`;
-
-        if(!fs.existsSync(dbPath)) {
-          reject();
-        }
+        const itchIoAppDataDir = inputs.itchIoAppDataOverride || (() => {
+          switch(os.type()) {
+            case "Windows_NT":
+              return `${process.env.APPDATA}\\itch`;
+            case "Linux":
+              return `${process.env.HOME}/.config/itch`;
+            case "Darwin":
+              return `${process.env.HOME}/Library/Application Support/itch`;
+          }
+        })();
+        const dbPath = os.type()=="Windows_NT" ? `${itchIoAppDataDir}\\db\\butler.db`:`${itchIoAppDataDir}/db/butler.db`;
 
         const db = sqlite(dbPath);
         const games: { extractedTitle:string, filePath:string }[] = db.prepare(
@@ -56,16 +61,21 @@ export class ItchIoParser implements GenericParser {
             return null;
           }
 
-          const exePath = candidates[0].path.replace('/','\\');
+            const exePath = candidates[0].path;
+            let filePath = `${basePath}/${exePath}`
 
-          return { 
-            extractedTitle: title,
-            filePath: `${basePath}\\${exePath}`,
-          };
-        })
-        .filter((gameDetails:any) => gameDetails !== null);
 
-        resolve({success: games, failed:[]});
+            if(os.type() == "Windows_NT") {
+              filePath = filePath.replace('/','\\');
+            }
+
+            return { 
+              extractedTitle: title,
+              filePath: filePath,
+            };
+          })
+          .filter((gameDetails:any) => gameDetails !== null);
+          resolve({success: games, failed:[]});
       } catch(err) {
         Sentry.captureException(err);
         reject(this.lang.errors.fatalError__i.interpolate({error: err}));
