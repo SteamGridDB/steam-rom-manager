@@ -12,6 +12,7 @@ import { BehaviorSubject } from "rxjs";
 import {availableProviders} from "../../lib/image-providers/available-providers"
 import { APP } from '../../variables';
 import * as json from "../../lib/helpers/json";
+import * as file from "../../lib/helpers/file";
 import * as parserInfo from '../../lib/parsers/available-parsers';
 import * as unique_ids from "../../lib/helpers/unique-ids";
 import * as paths from "../../paths";
@@ -316,35 +317,13 @@ export class ParsersService {
                   return emptyError;
               }
 
-              private validatePath(fsPath: string, checkForDirectory?: boolean) {
-                try {
-                  let path = fs.statSync(fsPath);
-                  if (checkForDirectory !== undefined)
-                    return checkForDirectory ? path.isDirectory() : path.isFile();
-                  else
-                    return true;
-                } catch (e) {
-                  if (process.env["IN_FLATPAK"]) {
-                    try {
-                      let path = fs.statSync("/var/run/host" + fsPath);
-                      if (checkForDirectory !== undefined)
-                        return checkForDirectory ? path.isDirectory() : path.isFile();
-                      else
-                        return true;
-                    } catch (e) {
-                      return false;
-                    }
-                  }
-                  return false;
-                }
-              }
 
               private validateEnvironmentPath(pathwithvar: string, checkForDirectory?:boolean) {
                 let preParser = new VariableParser({ left: '${', right: '}' });
                 let parsedPath = preParser.setInput(pathwithvar).parse() ? preParser.replaceVariables((variable) => {
                   return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables,this.appSettings).trim()
                 }) : '';
-                return this.validatePath(parsedPath, checkForDirectory)
+                return file.validatePath(parsedPath, checkForDirectory)
               }
 
               isConfigurationValid(config: UserConfiguration) {

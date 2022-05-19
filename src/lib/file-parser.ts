@@ -6,9 +6,10 @@ import { parsers } from './parsers';
 import * as parserInfo from './parsers/available-parsers';
 import * as url from './helpers/url';
 import * as steam from './helpers/steam';
+import * as file from './helpers/file';
+import { globPromise } from './helpers/glob/promise';
 import * as paths from "../paths";
 import * as _ from 'lodash';
-import { globPromise } from './helpers/glob/promise';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as os from 'os';
@@ -507,7 +508,7 @@ export class FileParser {
       data.found = accountData.filter((item)=>nameFilter.indexOf(item.name)>=0||nameFilter.indexOf(item.accountID)>=0)
       data.missing = nameFilter.filter((filt)=>data.found.map(item=>item.name).indexOf(filt)<0&&data.found.map(item=>item.accountID).indexOf(filt)<0);
       if(skipWithMissingDirectories) {
-        data.found = data.found.filter((item)=>this.validatePath(path.join(steamDirectory,'userdata',item.accountID),true));
+        data.found = data.found.filter((item)=>file.validatePath(path.join(steamDirectory,'userdata',item.accountID),true));
       }
     }
     return data;
@@ -833,15 +834,6 @@ export class FileParser {
       retroarchPath: settings.environmentVariables.retroarchPath,
       raCoresDirectory: settings.environmentVariables.raCoresDirectory,
       localImagesDirectory: settings.environmentVariables.localImagesDirectory
-    }
-  }
-
-  private validatePath(fsPath: string, checkForDirectory: boolean) {
-    try {
-      let path = fs.statSync(fsPath);
-      return checkForDirectory ? path.isDirectory() : path.isFile();
-    } catch (e) {
-      return false;
     }
   }
 }

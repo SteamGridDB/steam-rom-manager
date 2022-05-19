@@ -60,6 +60,9 @@ export class AmazonGamesParser implements GenericParser {
         const games: {extractedTitle: string, filePath: string, startInDirectory?: string, launchOptions?: string}[] =
         db.prepare("select ProductTitle, InstallDirectory, Id from DbSet")
         .all()
+        .filter(({ InstallDirectory }:{ [key:string]:string }) => {
+          return fs.existsSync(`${InstallDirectory}\\fuel.json`) || launcherMode;
+        })
         .map(({ ProductTitle, InstallDirectory, Id }: { [key:string]:string }) => {
           if (launcherMode) {
             return {
