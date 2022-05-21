@@ -132,14 +132,17 @@ npm run build:linux
 
 ### For linux flatpak
 
-Unfortunately electron-builder does not yet competently build flatpaks, and the older approach using electron-packager and electron-installer-flatpak can't handle native modules. A work-around is to use electron-builder for the packaging step and electron-installer-flatpak for the actual flatpak creation:
+Unfortunately electron-builder does not yet competently build flatpaks, and the older approach using electron-packager and electron-installer-flatpak can't handle native modules. A work-around is to use electron-builder for the packaging step and electron-installer-flatpak for the actual flatpak creation.
 
+First you need to run `npm install -g @malept/electron-installer-flatpak` (this can't be added as dev-dependency since it is not cross-platform and npm doesn't allow optional dev-dependencies).
+
+Then
 ```
 npm run build:dist
 npm run build:linux
 npm run build:flatpak
 ```
-
+Note: *It is only possible to build flatpaks on linux.*
 Note: *You must run build:linux before running build:flatpak!*
 Note: *You must have already installed flatpak-builder, org.freedesktop.Platform//19.08, org.freedesktop.Sdk//19.08, and org.electronjs.Electron2.BaseApp/x86_64/stable* 
 
@@ -150,6 +153,5 @@ flatpak install flathub flatpak-builder;
 flatpak install flathub org.freedesktop.Platform//19.08;
 flatpak install org.freedesktop.Sdk//19.08;
 flatpak install org.electronjs.Electron2.BaseApp/x86_64/stable
-//flatpak install flathub org.freedesktop.Sdk.Extension.node14//21.08
 ```
 
