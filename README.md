@@ -12,14 +12,11 @@ Steam ROM Manager is a super flexible tool for adding non-Steam games to steam i
 
 For an overview of how SRM works see [here](https://steamgriddb.github.io/steam-rom-manager/). There is plenty of documentation available in the app's built in FAQ, and if you need further help there are expert users to be found on the [SGDB discord](https://discord.gg/bnSVJrz) under the Steam ROM Manager category and the [SRM subreddit](https://www.reddit.com/r/SteamRomManager/).
 
-Check out the [releases page](https://github.com/SteamGridDB/steam-rom-manager/releases) for compiled downloads for Windows (exe), macOS (dmg) and Linux (AppImage).
+Check out the [releases page](https://github.com/SteamGridDB/steam-rom-manager/releases) for compiled downloads for Windows (exe), macOS (dmg) and Linux (AppImage, deb).
 
-Linux version is also available as [Flatpak](https://flatpak.org) on [Flathub](https://flathub.org). Get it as Flatpak [here](https://flathub.org/apps/details/com.steamgriddb.steam-rom-manager).
-
-*Note: On some distributions Flatpak must be [pre-configured manually](https://flatpak.org/setup).*
-
-*Note: The AppImage needs to be [made executable](http://discourse.appimage.org/t/how-to-make-an-appimage-executable/80) after download.*
-
+Linux version is also available as a [Flatpak](https://flatpak.org) at [Flathub/steam-rom-manager](https://flathub.org](https://flathub.org/apps/details/com.steamgriddb.steam-rom-manager). Linux caveats:
+* On some distributions Flatpak must be [pre-configured manually](https://flatpak.org/setup).
+* The AppImage needs to be [made executable](http://discourse.appimage.org/t/how-to-make-an-appimage-executable/80) after download.
 
 # Support
 
