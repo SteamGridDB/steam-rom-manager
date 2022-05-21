@@ -351,17 +351,27 @@ export class FileParser {
           }
         }
         if(parsedConfig.shortcutPassthrough && os.type() == 'Linux') {
+          console.log("Linux confirmed")
           let targetPath: string = undefined;
           for(let j = 0; j < parsedConfig.files.length; j++) {
             if(path.extname(parsedConfig.files[j].filePath).toLowerCase() === '.desktop') {
+              console.log(`Parsing .desktop ${parsedConfig.files[j].filePath}`);
               let shortcutPromise: Promise<void> = fs.promises.open(parsedConfig.files[j].filePath, 'r')
                 .then(filehandle => {
                   return filehandle.readFile("utf8");
                 }).then(data => {
+                  console.log(`xdg data:\n ${data}`);
                   let entry = xdgparse.parse(data)["Desktop Entry"];
                   parsedConfig.files[j].finalTitle = String(entry["Name"]);
                   let splitExec = String(entry["Exec"]).match(/(?:(?:\S*\\\s)+|(?:[^\s"]+|"[^"]*"))+/g);
-                  let modifiedExecutableLocation = which.sync(splitExec.shift());
+                  console.log(`splitExec:\n ${splitExec}`);
+                  //
+                  // if(process.env["IN_FLATPAK"]) {
+                  //   let modifiedExecutableLocation =
+                  // }
+                  // let modifiedExecutableLocation = which.sync(splitExec.shift());
+                  let modifiedExecutableLocation="\"".concat(String(entry["Exec"]),"\"");
+                  console.log(`modified executable: ${modifiedExecutableLocation}`);
                   parsedConfig.files[j].modifiedExecutableLocation = modifiedExecutableLocation;
                   parsedConfig.files[j].startInDirectory = (entry["Path"] && String(entry["Path"])) || path.dirname(modifiedExecutableLocation);
                   parsedConfig.files[j].argumentString = splitExec.join(' ');

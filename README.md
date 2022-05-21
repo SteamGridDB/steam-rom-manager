@@ -109,6 +109,15 @@ npm run build:dist
 npm run build:win
 ```
 
+### For MacOS
+
+Scripts must be run in this order:
+
+```
+npm run build:dist
+npm run build:mac
+```
+
 ### For linux
 
 Scripts must be run in this order:
@@ -118,11 +127,26 @@ npm run build:dist
 npm run build:linux
 ```
 
-### For MacOS
+### For linux flatpak
 
-Scripts must be run in this order:
+Unfortunately electron-builder does not yet competently build flatpaks, and the older approach using electron-packager and electron-installer-flatpak can't handle native modules. A work-around is to use electron-builder for the packaging step and electron-installer-flatpak for the actual flatpak creation:
 
 ```
 npm run build:dist
-npm run build:mac
+npm run build:linux
+npm run build:flatpak
 ```
+
+Note: *You must run build:linux before running build:flatpak!*
+Note: *You must have already installed flatpak-builder, org.freedesktop.Platform//19.08, org.freedesktop.Sdk//19.08, and org.electronjs.Electron2.BaseApp/x86_64/stable* 
+
+If this isn't working, try first running:
+
+```
+flatpak install flathub flatpak-builder;
+flatpak install flathub org.freedesktop.Platform//19.08;
+flatpak install org.freedesktop.Sdk//19.08;
+flatpak install org.electronjs.Electron2.BaseApp/x86_64/stable
+//flatpak install flathub org.freedesktop.Sdk.Extension.node14//21.08
+```
+
