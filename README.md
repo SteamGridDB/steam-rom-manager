@@ -14,9 +14,7 @@ For an overview of how SRM works see [here](https://steamgriddb.github.io/steam-
 
 Check out the [releases page](https://github.com/SteamGridDB/steam-rom-manager/releases) for compiled downloads for Windows (exe), macOS (dmg) and Linux (AppImage).
 
-Linux version is also available as [Flatpak](https://flatpak.org) on [Flathub](https://flathub.org). Get it using the button below.
-
-<a href='https://flathub.org/apps/details/com.steamgriddb.steam-rom-manager'><img width='240' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a>
+Linux version is also available as [Flatpak](https://flatpak.org) on [Flathub](https://flathub.org). Get it as Flatpak [here](https://flathub.org/apps/details/com.steamgriddb.steam-rom-manager).
 
 *Note: On some distributions Flatpak must be [pre-configured manually](https://flatpak.org/setup).*
 
