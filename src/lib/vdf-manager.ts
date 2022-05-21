@@ -167,8 +167,8 @@ export class VDF_Manager {
                 item.exe = app.executableLocation;
                 item.StartDir = app.startInDirectory;
                 item.LaunchOptions = app.argumentString;
-                item.tags = _.union(app.steamCategories, item.tags);
                 item.icon = icon_path;
+                item.tags = _.union(app.steamCategories, item.tags);
               }
               else if(app.parserType !== 'Steam') {
                 listItem.shortcuts.addItem(appId, {
@@ -177,8 +177,8 @@ export class VDF_Manager {
                   exe: app.executableLocation,
                   StartDir: app.startInDirectory,
                   LaunchOptions: app.argumentString,
-                  tags: app.steamCategories,
-                  icon: icon_path
+                  icon: icon_path,
+                  tags: app.steamCategories
                 });
               }
 
