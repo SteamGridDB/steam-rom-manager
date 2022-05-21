@@ -278,7 +278,10 @@ export const EnglishLang: languageContainer = {
         fuzzy: 'FUZZY',
         textWrap: 'TEXT-WRAP',
         autoscroll: 'AUTOSCROLL',
-        clearLog: 'Clear log'
+        clearLog: 'Clear log',
+        docs__md: {
+          self: [require('./markdown/logger.md')]
+        }
       }
     },
     customVariables: {

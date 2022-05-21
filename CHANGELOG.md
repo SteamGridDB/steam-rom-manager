@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 * Better errors when SGDB can't find a matching title (no more 'Unknown Error').
 ## Fixed 
 * Excluding titles and forcing a name change caused an error as of 2.3.37 [Issue 308](https://github.com/SteamGridDB/steam-rom-manager/issues/308)
+* .desktop shortcut passthrough now works in the flatpak version of srm.
 
 ## 2.3.37
 ### Added

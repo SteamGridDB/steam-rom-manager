@@ -227,7 +227,10 @@ export interface languageStruct {
           fuzzy: string,
           textWrap: string,
           autoscroll: string,
-          clearLog: string
+          clearLog: string,
+          docs__md: {
+            self: string[]
+          }
       }
     },
     customVariables: {
