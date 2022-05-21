@@ -93,7 +93,8 @@ export interface languageStruct {
       errors: {
         invalidItchIoAppDataOverride: string,
         osUnsupported: string,
-        fatalError__i: string
+        fatalError__i: string,
+        databaseNotFound: string
       }
     },
     amazonGamesParser: {

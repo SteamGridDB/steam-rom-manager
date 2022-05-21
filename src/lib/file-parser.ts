@@ -16,7 +16,6 @@ import * as os from 'os';
 import * as Sentry from '@sentry/electron';
 import { getPath, getArgs, getStartDir } from 'windows-shortcuts-ps';
 import * as xdgparse from 'xdg-parse';
-import * as which from 'which';
 
 
 export class FileParser {
@@ -360,11 +359,9 @@ export class FileParser {
                 }).then(data => {
                   let entry = xdgparse.parse(data)["Desktop Entry"];
                   parsedConfig.files[j].finalTitle = String(entry["Name"]);
-                  let splitExec = String(entry["Exec"]).match(/(?:(?:\S*\\\s)+|(?:[^\s"]+|"[^"]*"))+/g);
-                  let modifiedExecutableLocation = which.sync(splitExec.shift());
+                  let modifiedExecutableLocation=String(entry["Exec"]);
                   parsedConfig.files[j].modifiedExecutableLocation = modifiedExecutableLocation;
                   parsedConfig.files[j].startInDirectory = (entry["Path"] && String(entry["Path"])) || path.dirname(modifiedExecutableLocation);
-                  parsedConfig.files[j].argumentString = splitExec.join(' ');
                 })
               shortcutPromises.push(shortcutPromise);
             }

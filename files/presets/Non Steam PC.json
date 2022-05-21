@@ -1,8 +1,8 @@
 {
-	"Non Steam PC": {
+	"Non Steam Shortcuts": {
 		"parserType": "Glob",
-		"configTitle": "Non Steam PC",
-		"steamCategory": "${Non Steam PC}",
+		"configTitle": "Non Steam Shortcuts",
+		"steamCategory": "${Non Steam Shortcuts}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-shortcuts",
 		"steamDirectory": "${steamdirglobal}",
@@ -32,7 +32,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.lnk|.LNK|.url|.URL)"
+			"glob": "${title}@(.lnk|.LNK|.url|.URL|.desktop|.DESKTOP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",

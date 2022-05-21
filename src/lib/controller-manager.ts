@@ -9,8 +9,16 @@ import { PreviewDataUser } from '../models';
 export class ControllerManager {
 
   constructor() {
-    console.log("constructing")
   }
+
+  //TODO This manager is in progress
+  /*
+So add an entry in   `.\userdata\84977612\241100\remotecache.vdf`
+
+Then create the directory with (lower case of title) so that for each controller you can put `.\steamapps\common\Steam Controller Configs\84977612\config\geographical adventures\controller_xbox360.vdf"`
+
+Templates / existing configurations can be found in C:\Program Files (x86)\Steam\steamapps\workshop\content\241100 as .bin files.
+   */
 
   readControllers(data: { userId: string, steamDirectory: string, userData: PreviewDataUser }|undefined) {
     console.log("readingAvailableConfigs")

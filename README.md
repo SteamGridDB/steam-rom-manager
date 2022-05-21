@@ -20,6 +20,23 @@ Linux version is also available as [Flatpak](https://flatpak.org) on [Flathub](h
 
 *Note: The AppImage needs to be [made executable](http://discourse.appimage.org/t/how-to-make-an-appimage-executable/80) after download.*
 
+
+# Support
+
+If you enjoy Steam ROM Manager and want it to continue to be useful consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. [SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork Steam ROM Manager uses to make your Steam library the envy of the town, so we should probably help them keep their lights on.
+
+<a href="https://www.patreon.com/steamgriddb">
+    <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+</a>
+
+If you're feeling exceptionally generous then feel free to also buy me a coffee!
+
+<a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="38" width="174">
+</a>
+
+# Parsers
+
 ## ROM Parsers
 
 ROM parsers allow one to import shortcuts using search strings, e.g. `games/${title}.@(iso|rvz)`, or in the case of the manual parser by specifying ROM locations directly.
@@ -50,20 +67,6 @@ Artwork only parsers allow you to change the artwork for existing non-SRM added 
 |Steam|✅|✅|✅|
 
 In the future we plan to add an artwork only parser for non Steam games (either added manually or through some tool other than SRM).
-
-# Support
-
-If you enjoy Steam ROM Manager and want it to continue to be useful consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. [SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork Steam ROM Manager uses to make your Steam library the envy of the town, so we should probably help them keep their lights on.
-
-<a href="https://www.patreon.com/steamgriddb">
-    <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
-
-If you're feeling exceptionally generous then feel free to also buy me a coffee!
-
-<a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
-  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="38" width="174">
-</a>
 
 # For developers
 
@@ -115,6 +118,15 @@ npm run build:dist
 npm run build:win
 ```
 
+### For MacOS
+
+Scripts must be run in this order:
+
+```
+npm run build:dist
+npm run build:mac
+```
+
 ### For linux
 
 Scripts must be run in this order:
@@ -124,11 +136,28 @@ npm run build:dist
 npm run build:linux
 ```
 
-### For MacOS
+### For linux flatpak
 
-Scripts must be run in this order:
+Unfortunately electron-builder does not yet competently build flatpaks, and the older approach using electron-packager and electron-installer-flatpak can't handle native modules. A work-around is to use electron-builder for the packaging step and electron-installer-flatpak for the actual flatpak creation.
 
+First you need to run `npm install -g @malept/electron-installer-flatpak` (this can't be added as dev-dependency since it is not cross-platform and npm doesn't allow optional dev-dependencies).
+
+Then
 ```
 npm run build:dist
-npm run build:mac
+npm run build:linux
+npm run build:flatpak
 ```
+Note: *It is only possible to build flatpaks on linux.*
+Note: *You must run build:linux before running build:flatpak!*
+Note: *You must have already installed flatpak-builder, org.freedesktop.Platform//19.08, org.freedesktop.Sdk//19.08, and org.electronjs.Electron2.BaseApp/x86_64/stable* 
+
+If this isn't working, try first running:
+
+```
+flatpak install flathub flatpak-builder;
+flatpak install flathub org.freedesktop.Platform//19.08;
+flatpak install org.freedesktop.Sdk//19.08;
+flatpak install org.electronjs.Electron2.BaseApp/x86_64/stable
+```
+

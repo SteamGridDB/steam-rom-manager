@@ -1,18 +1,18 @@
 import * as fs from 'fs-extra';
-
+import * as path from 'path';
 export function validatePath(fsPath: string, checkForDirectory?: boolean) {
   try {
-    let path = fs.statSync(fsPath);
+    let pathStat = fs.statSync(fsPath);
     if (checkForDirectory !== undefined)
-      return checkForDirectory ? path.isDirectory() : path.isFile();
+      return checkForDirectory ? pathStat.isDirectory() : pathStat.isFile();
     else
       return true;
   } catch (e) {
     if (process.env["IN_FLATPAK"]) {
       try {
-        let path = fs.statSync("/var/run/host" + fsPath);
+        let pathStat = fs.statSync(path.join("/var/run/host",fsPath));
         if (checkForDirectory !== undefined)
-          return checkForDirectory ? path.isDirectory() : path.isFile();
+          return checkForDirectory ? pathStat.isDirectory() : pathStat.isFile();
         else
           return true;
       } catch (e) {

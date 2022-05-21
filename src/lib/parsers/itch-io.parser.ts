@@ -49,7 +49,9 @@ export class ItchIoParser implements GenericParser {
           }
         })();
         const dbPath = os.type()=="Windows_NT" ? `${itchIoAppDataDir}\\db\\butler.db`:`${itchIoAppDataDir}/db/butler.db`;
-
+        if(!fs.existsSync(dbPath)) {
+          reject(this.lang.errors.databaseNotFound);
+        }
         const db = sqlite(dbPath);
         const games: { extractedTitle:string, filePath:string }[] = db.prepare(
           "select title, verdict from caves as c join games as g on c.game_id = g.id"
@@ -69,7 +71,7 @@ export class ItchIoParser implements GenericParser {
               filePath = filePath.replace('/','\\');
             }
 
-            return { 
+            return {
               extractedTitle: title,
               filePath: filePath,
             };
