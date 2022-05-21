@@ -16,7 +16,6 @@ import * as os from 'os';
 import * as Sentry from '@sentry/electron';
 import { getPath, getArgs, getStartDir } from 'windows-shortcuts-ps';
 import * as xdgparse from 'xdg-parse';
-import * as which from 'which';
 
 
 export class FileParser {
