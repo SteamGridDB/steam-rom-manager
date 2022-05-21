@@ -70,8 +70,8 @@
     "prebuild:dist": "npm run prepare:build",
     "build:dist": "rimraf dist && npm run build:main && npm run build:renderer",
     "build:win": "electron-builder --win --ia32 --x64",
-    "build:linux": "electron-builder --linux --ia32 --x64 --dir && cp LICENSE release/linux-unpacked/ && cp electron-version release/linux-unpacked/version",
-    "build:flatpak": "electron-installer-flatpak --src release/linux-unpacked --dest release/ --arch x64 --config flatconf.json",
+    "build:linux": "electron-builder --linux --ia32 --x64 --dir",
+    "build:flatpak": "cp LICENSE release/linux-unpacked/ && cp electron-version release/linux-unpacked/version && electron-installer-flatpak --src release/linux-unpacked --dest release/ --arch x64 --config flatconf.json",
     "build:docker": "electron-builder --linux --win --ia32 --x64 --publish onTagOrDraft",
     "build:mac": "electron-builder --mac --ia32 --x64"
   },
