@@ -179,7 +179,7 @@ export const EnglishLang: languageContainer = {
       errors: {
         invalidExeOverride: "> Amazon Games Installation Override is not a valid directory.",
         osUnsupported: "> Amazon Games parser failed because Amazon Games is only avaliable on windows.",
-        databaseNotFound: "> Amazon Games database file not found.",
+        databaseNotFound: "> Amazon Games database file not found. Amazon Games is most likely not installed.",
         fatalError__i: '> Amazon Games parser failed with fatal error:\n ${error}'
       }
     },
@@ -196,7 +196,8 @@ export const EnglishLang: languageContainer = {
       errors: {
         invalidItchIoAppDataOverride: "> itch.io AppData Override is not a valid directory.",
         osUnsupported: "> itch.io parser failed because the parser only supports macos, linux, and windows currently.",
-        fatalError__i: '> itch.io parser failed with fatal error:\n ${error}'
+        fatalError__i: '> itch.io parser failed with fatal error:\n ${error}',
+        databaseNotFound: "> itch.io database file not found. Itch is most likely not installed."
       }
     },
     globParser: {
