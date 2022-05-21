@@ -14,6 +14,23 @@ For an overview of how SRM works see [here](https://steamgriddb.github.io/steam-
 
 Check out the [releases page](https://github.com/SteamGridDB/steam-rom-manager/releases) for compiled downloads.
 
+
+# Support
+
+If you enjoy Steam ROM Manager and want it to continue to be useful consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. [SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork Steam ROM Manager uses to make your Steam library the envy of the town, so we should probably help them keep their lights on.
+
+<a href="https://www.patreon.com/steamgriddb">
+    <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+</a>
+
+If you're feeling exceptionally generous then feel free to also buy me a coffee!
+
+<a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="38" width="174">
+</a>
+
+# Parsers
+
 ## ROM Parsers
 
 ROM parsers allow one to import shortcuts using search strings, e.g. `games/${title}.@(iso|rvz)`, or in the case of the manual parser by specifying ROM locations directly.
@@ -44,20 +61,6 @@ Artwork only parsers allow you to change the artwork for existing non-SRM added 
 |Steam|✅|✅|✅|
 
 In the future we plan to add an artwork only parser for non Steam games (either added manually or through some tool other than SRM).
-
-# Support
-
-If you enjoy Steam ROM Manager and want it to continue to be useful consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. [SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork Steam ROM Manager uses to make your Steam library the envy of the town, so we should probably help them keep their lights on.
-
-<a href="https://www.patreon.com/steamgriddb">
-    <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
-
-If you're feeling exceptionally generous then feel free to also buy me a coffee!
-
-<a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
-  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="38" width="174">
-</a>
 
 # For developers
 
