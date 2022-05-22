@@ -80,6 +80,8 @@ export class LoggerService {
     return new Promise<{key: string, deleteKey: string}>((resolve, reject)=>{
       let body = new FormData();
       body.append('description', new Blob([`Description: ${description}\n\n Discord User: ${discordUser}`]), "description.txt");
+      let logMessages = this.logMessages.getValue().map((item: any) => `[${item.type}] ${item.text}`);
+      body.append('logMessages', new Blob([logMessages.join('\n')]),"log.txt");
       if(fs.existsSync(paths.userSettings)) {
         let userSettings = new Blob([fs.readFileSync(paths.userSettings)]);
         body.append('files[]', userSettings, "userSettings.json");
@@ -121,7 +123,7 @@ export class LoggerService {
           reject(`Bug report server returned no data.`)
         }
       }).catch((err) =>{
-        reject(`Bug report server error: ${err}`);
+        reject(`Bug report server error: ${JSON.stringify(err)}`);
       })
     })
   }
