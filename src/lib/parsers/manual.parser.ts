@@ -4,7 +4,6 @@ import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
-import * as Sentry from '@sentry/electron';
 import { stat } from 'original-fs';
 
 export class ManualParser implements GenericParser {
@@ -47,14 +46,12 @@ export class ManualParser implements GenericParser {
                         }
                     }
                     catch (err) {
-                      Sentry.captureException(err);
                       parsedData.failed.push(filePath);
                     }
                 }
             }
             return parsedData;
         }).catch((err) => {
-            Sentry.captureException(err);
             return undefined;
         });
   }

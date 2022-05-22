@@ -4,7 +4,6 @@ import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
-import * as Sentry from '@sentry/electron';
 import * as os from "os";
 import * as json from "../helpers/json";
 import * as sqlite from "better-sqlite3";
@@ -94,7 +93,6 @@ export class GOGParser implements GenericParser {
         }
         resolve(parsedData);
       }).catch((err)=>{
-        Sentry.captureException(err);
         reject(this.lang.errors.fatalError__i.interpolate({error: err}));
       });
     })

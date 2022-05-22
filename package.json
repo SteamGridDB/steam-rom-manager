@@ -71,10 +71,10 @@
     "build:dist": "rimraf dist && npm run build:main && npm run build:renderer",
     "build:win": "electron-builder --win --ia32 --x64",
     "build:linux": "electron-builder --linux --ia32 --x64",
-    "build:linuxdir": "electron-builder --linux --dir",
-    "build:flatpak": "cp LICENSE release/linux-unpacked/ && cp electron-version release/linux-unpacked/version && electron-installer-flatpak --src release/linux-unpacked --dest release/ --arch x64 --config flatconf.json",
-    "build:docker": "electron-builder --linux --win --ia32 --x64 --publish onTagOrDraft",
-    "build:mac": "electron-builder --mac --ia32 --x64"
+    "build:mac": "electron-builder --mac --ia32 --x64",
+    "build:linuxdir": "electron-builder --linux --x64 --dir && cp electron-version release/linux-unpacked/version && cp LICENSE release/linux-unpacked/",
+    "build:flatpak": "electron-installer-flatpak --src release/linux-unpacked --dest release/ --arch x64 --config flatconf.json",
+    "build:docker": "electron-builder --linux --win --ia32 --x64 --publish onTagOrDraft"
   },
   "dependencies": {
     "@angular/animations": "^5.2.9",
@@ -87,8 +87,6 @@
     "@angular/platform-browser-dynamic": "^5.2.9",
     "@angular/router": "^5.2.9",
     "@node-steam/vdf": "^2.0.1",
-    "@sentry/electron": "^2.5.4",
-    "@sentry/webpack-plugin": "^1.18.3",
     "ajv": "^6.4.0",
     "appid": "^1.0.3",
     "async": "^2.6.4",
@@ -149,7 +147,6 @@
     "@types/minimatch": "^3.0.3",
     "@types/node": "12.12.46",
     "@types/rangy": "0.0.32",
-    "@types/which": "^2.0.1",
     "@types/winreg": "^1.2.31",
     "angular2-template-loader": "^0.6.2",
     "autoprefixer": "^10.4.0",

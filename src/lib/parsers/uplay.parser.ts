@@ -7,7 +7,6 @@ import * as Registry from "winreg";
 import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
 import * as os from "os";
-import * as Sentry from '@sentry/electron';
 
 export class UPlayParser implements GenericParser {
 
@@ -203,7 +202,6 @@ export class UPlayParser implements GenericParser {
         }
         resolve(parsedData);
       }).catch((err)=>{
-        Sentry.captureException(err);
         reject(this.lang.errors.fatalError__i.interpolate({error: err}));
       });
     })

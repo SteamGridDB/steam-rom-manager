@@ -6,7 +6,6 @@ import * as os from "os";
 import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
 import { globPromise } from "../helpers/glob/promise"
-import * as Sentry from '@sentry/electron';
 
 
 export class EpicParser implements GenericParser {
@@ -86,7 +85,6 @@ export class EpicParser implements GenericParser {
         }
         resolve(parsedData);
       }).catch((err)=>{
-        Sentry.captureException(err);
         reject(this.lang.errors.fatalError__i.interpolate({error: err}));
       });
     })

@@ -20,7 +20,6 @@ import * as ids from '../../lib/helpers/steam';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as path from "path";
-import * as Sentry from "@sentry/electron";
 @Injectable()
 
 export class PreviewService {
@@ -212,7 +211,6 @@ export class PreviewService {
       this.previewVariables.listIsBeingSaved = false;
       this.loggerService.error(this.lang.errors.fatalError,{ invokeAlert: true, alertTimeout: 3000 });
       this.loggerService.error(this.lang.errors.fatalError__i.interpolate({error: failureError}));
-      Sentry.captureException(failureError);
       return false;
     })
     return chain;
@@ -501,7 +499,6 @@ export class PreviewService {
         this.loggerService.error(error);
         this.previewVariables.listIsBeingGenerated = false;
         this.previewDataChanged.next();
-        Sentry.captureException(error);
       });
     }
   }

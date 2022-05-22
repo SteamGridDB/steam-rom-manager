@@ -1,6 +1,5 @@
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import * as SentryCliPlugin from '@sentry/webpack-plugin';
 import { merge } from 'webpack-merge';
 import { Configuration } from 'webpack';
 
@@ -111,18 +110,6 @@ let productionConfig: Configuration = {
   mode: 'production',
   bail: false
 };
-
-if(process.env.SENTRY_AUTH) {
-  clientConfig.plugins.push(
-    new SentryCliPlugin({
-      include: '../src',
-      org: 'steam-rom-manager',
-      project: 'steam-rom-manager',
-      release: require('child_process').execSync('git rev-parse --short HEAD').toString().trim(),
-      authToken: process.env.SENTRY_AUTH
-    })
-  )
-}
 
 if (process.env.NODE_ENV === 'production')
   module.exports = merge(clientConfig, productionConfig);

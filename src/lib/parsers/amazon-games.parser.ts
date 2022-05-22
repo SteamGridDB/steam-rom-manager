@@ -5,7 +5,6 @@ import * as os from "os";
 import * as sqlite from "better-sqlite3";
 import * as path from 'path';
 import { parse } from 'yaml';
-import * as Sentry from '@sentry/electron';
 
 export class AmazonGamesParser implements GenericParser {
 
@@ -86,7 +85,6 @@ export class AmazonGamesParser implements GenericParser {
 
         resolve({executableLocation: launcherMode ? amazonGamesExe : null, success: games, failed:[]});
       } catch(err) {
-        Sentry.captureException(err);
         reject(this.lang.errors.fatalError__i.interpolate({error: err}));
       }
     })

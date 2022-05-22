@@ -3,7 +3,6 @@ import { APP } from '../../variables';
 import * as fs from "fs-extra";
 import * as os from "os";
 import * as sqlite from "better-sqlite3";
-import * as Sentry from '@sentry/electron';
 
 export class ItchIoParser implements GenericParser {
 
@@ -79,7 +78,6 @@ export class ItchIoParser implements GenericParser {
           .filter((gameDetails:any) => gameDetails !== null);
           resolve({success: games, failed:[]});
       } catch(err) {
-        Sentry.captureException(err);
         reject(this.lang.errors.fatalError__i.interpolate({error: err}));
       }
     })
