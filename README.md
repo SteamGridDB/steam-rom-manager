@@ -142,7 +142,7 @@ First you need to run `npm install -g @malept/electron-installer-flatpak` (this 
 Then
 ```
 npm run build:dist
-npm run build:linux
+npm run build:linuxdir
 npm run build:flatpak
 ```
 Note: *It is only possible to build flatpaks on linux.*
