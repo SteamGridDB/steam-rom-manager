@@ -67,14 +67,13 @@
       .reportID {
         padding: 0.2em 0em;
         margin-left: .25em;
-        color: rgb(200,200,0);
-        width: 4em;
+        color: var(--color-logger-reportid);
       }
       .reportIDLabel {
         padding: 0.2em 0em;
         color: var(--color-settings-text);
       }
-      .reportIDCopy {
+      .copy {
         @include button();
 				@include clickButtonColor(click-button);
         margin-left: .25em;

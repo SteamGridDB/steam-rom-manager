@@ -1,7 +1,8 @@
 export interface xRequestOptions {
-    method: 'GET',
+    method: 'GET'|'POST',
     timeout: number,
     params?: String | Object,
+    body?: any,
     responseType?: XMLHttpRequestResponseType,
     headers?: Object
 }

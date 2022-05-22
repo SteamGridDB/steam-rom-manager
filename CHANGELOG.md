@@ -15,6 +15,8 @@ All notable changes to this project will be documented in this file.
 ## 2.3.38
 ## Added
 * Made itch.io fully cross platform (thanks @OneMoreByte for the PR).
+* Capacity to build flatpaks! (Only on linux)
+* Built in bug-reporter. Thanks @doZennn for making an awesome bug-reporting server!
 ## Changed
 * Better errors when SGDB can't find a matching title (no more 'Unknown Error').
 ## Fixed 
