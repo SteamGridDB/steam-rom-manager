@@ -187,7 +187,8 @@ export class VDF_Manager {
               if (currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
                 listItem.screenshots.addItem({ appId: appId, title: app.title, url: currentImage.imageUrl });
               }
-              if (currentImage !== undefined) {
+
+              if (currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
                 listItem.screenshots.addItem({ appId: ids.shortenAppId(appId), title: app.title, url: currentImage.imageUrl });
               }
 
@@ -201,7 +202,7 @@ export class VDF_Manager {
               if (currentLogoImage !== undefined && currentLogoImage.imageProvider !== 'Steam') {
                 listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('_logo'), title: app.title, url: currentLogoImage.imageUrl });
               }
-              if (currentIcon !== undefined && currentIcon.imageProvider !=='Steam') {
+              if (currentIcon !== undefined && currentIcon.imageProvider !== 'Steam') {
                 listItem.screenshots.addItem({appId: ids.shortenAppId(appId).concat('_icon'), title:app.title, url: currentIcon.imageUrl });
               }
             }

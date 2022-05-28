@@ -29,17 +29,15 @@ export class VDF_ScreenshotsFile {
   }
 
   get data(): VDF_ScreenshotsData {
-    if (this.fileData === undefined)
-      return undefined;
-    else
+    if(this.valid) {
       return this.fileData['Screenshots']['shortcutnames'];
+    }
   }
 
   set data(value: VDF_ScreenshotsData) {
-    if (this.fileData === undefined)
-      return;
-    else
+    if(this.valid) {
       this.fileData['Screenshots']['shortcutnames'] = value;
+    }
   }
 
   set extraneous(value: string[]) {
@@ -48,17 +46,19 @@ export class VDF_ScreenshotsFile {
       return r;
     }, []);
   }
+
   get extraneous() {
     return this.extraneousAppIds;
   }
 
-  get valid() {
-    return this.fileData !== undefined;
+  get invalid() {
+    return this.fileData == undefined || this.fileData['Screenshots'] == undefined || this.fileData['Screenshots']['shortcutnames'] == undefined;
   }
 
-  get invalid() {
-    return !this.valid;
+  get valid() {
+    return !this.invalid;
   }
+
 
   sanitizeTitle(title: string) {
     return title.replace(/\\/g,"\\\\").replace(/\"/g,"\\\"");
@@ -76,17 +76,13 @@ export class VDF_ScreenshotsFile {
         }));
       }
     }).then((data) => {
-      if (data)
-        this.fileData = genericParser.parse(data);
-      else
-        this.fileData = {};
+      this.fileData = !!data ? genericParser.parse(data) || {} : {};
 
       if (this.fileData['Screenshots'] === undefined)
-        this.fileData['Screenshots'] = { 'shortcutnames': {} };
-      else if (this.fileData['Screenshots']['shortcutnames'] === undefined)
+        this.fileData['Screenshots'] = {};
+      if (this.fileData['Screenshots']['shortcutnames'] === undefined)
         this.fileData['Screenshots']['shortcutnames'] = {};
 
-      //TODO Hacky fix for number titles until @node-steam/vdf is fixed.
       Object.keys(this.data).forEach((key: string) =>{
         let val = this.data[key];
         if(val){
@@ -197,7 +193,15 @@ export class VDF_ScreenshotsFile {
 
       return Promise.all(promises).then((errors) => {
         this.fileData['Screenshots']['shortcutnames'] = _.pickBy(this.fileData['Screenshots']['shortcutnames'], item => item !== undefined);
-        let data = genericParser.stringify(this.fileData);
+        let tempData = _.cloneDeep(this.fileData);
+        let tempDataNames = tempData['Screenshots']['shortcutnames']
+        Object.keys(tempDataNames).forEach((key: string) =>{
+        let val = tempDataNames[key];
+        if(val){
+          tempData['Screenshots']['shortcutnames'][key] = this.sanitizeTitle(val);
+        }
+        });
+        let data = genericParser.stringify(tempData);
         return fs.outputFile(this.filepath, data).then(() => errors);
       }).then((errors) => {
         if (errors.length > 0) {
@@ -225,11 +229,21 @@ export class VDF_ScreenshotsFile {
     });
   }
 
-  addItem(data: { appId: string, title: string, url: string }) {
-    this.fileData['Screenshots']['shortcutnames'][data.appId] = { title: this.sanitizeTitle(data.title), url: data.url };
+  getItem(appId: string) {
+    if(this.valid) {
+      return this.fileData['Screenshots']['shortcutnames'][appId];
+    }
   }
 
   removeItem(appId: string) {
-    this.fileData['Screenshots']['shortcutnames'][appId] = undefined;
+    if(this.valid) {
+      this.fileData['Screenshots']['shortcutnames'][appId] = undefined;
+    }
+  }
+
+  addItem(data: { appId: string, title: string, url: string }) {
+    if(this.valid) {
+      this.fileData['Screenshots']['shortcutnames'][data.appId] = { title: data.title, url: data.url };
+    }
   }
 }
