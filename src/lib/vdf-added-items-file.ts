@@ -30,7 +30,6 @@ export class VDF_AddedItemsFile {
   read() {
     return json.read<string[]>(this.filepath, []).then((data) => {
       this.fileData = {};
-
       for (let i = 0; i < data.length; i++) {
         if(data[i].includes("_")) {
           this.fileData[data[i].split('_')[0]] = data[i].split('_')[1]; //fileData[data[i]] was just set to true
@@ -38,7 +37,6 @@ export class VDF_AddedItemsFile {
           this.fileData[data[i]] = '-legacy-';
         }
       }
-
       return this.data;
     });
   }

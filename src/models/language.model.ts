@@ -55,8 +55,12 @@ export interface languageStruct {
               noAccountsWarning: string
           },
             errors: {
-              populatingVDF_entries: string,
-                savingVDF_entries: string,
+              populatingVDFEntries: string,
+                backingUpVDFEntries: string,
+                readingVDFEntries: string,
+                mergingVDFEntries: string,
+                removingVDFEntries: string,
+                savingVDFEntries: string,
                 fatalError: string,
                 fatalError__i: string, //${error}
                 knownSteamDirListIsEmpty: string,
@@ -594,6 +598,10 @@ export interface languageStruct {
       error: {
         noUsersFound: string,
           emptyDirectoryList: string,
+          couldNotPrepareToRead__i: string, //${error}
+          couldNotBackupEntries__i: string, //${error}
+          couldNotReadEntries__i: string, //${error}
+          couldNotWriteEntries: string,
           couldNotMergeEntries__i: string, //${error}
           couldNotRemoveEntries__i: string //${error}
       }
