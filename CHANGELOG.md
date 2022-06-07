@@ -12,6 +12,11 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.39
+## Fixed
+* Logging of vdf merging errors (no longer produces blank errors sometimes)
+* `this.fileData.shortcuts.push` error. Hopefully.
+
 ## 2.3.38
 ## Added
 * Made itch.io fully cross platform (thanks @OneMoreByte for the PR).
