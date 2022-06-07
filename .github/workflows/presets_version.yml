@@ -1,4 +1,4 @@
-name: Send Discord Webhook
+name: Presets Version
 
 on:
   release:
