@@ -252,7 +252,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-    "presetVersion": 3,
+		"presetVersion": 3,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -315,7 +315,6 @@
 			"removeBrackets": true
 		},
 		"executable": {
-
 			"path": "/usr/bin/flatpak",
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
@@ -383,7 +382,6 @@
 			"removeBrackets": true
 		},
 		"executable": {
-
 			"path": "/usr/bin/flatpak",
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true

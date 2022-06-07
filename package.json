@@ -59,8 +59,9 @@
   },
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
-    "validate-files": "ts-node ./.validate-files.ts",
-    "update-files": "ts-node ./.update-files.ts",
+    "validate-files": "ts-node ./scripts/validate-files.ts",
+    "update-files": "ts-node ./scripts/update-files.ts",
+    "version-files": "ts-node ./scripts/version-files.ts",
     "start": "electron ./dist/main.bundle.js",
     "watch:main": "webpack --watch --config ./webpack/main.js",
     "watch:renderer": "webpack --watch --config ./webpack/renderer.js",

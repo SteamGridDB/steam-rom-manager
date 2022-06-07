@@ -1,13 +1,13 @@
-import { configPresets } from "./src/renderer/schemas/config-presets.schema";
-import { customVariables } from "./src/renderer/schemas/custom-variables.schema";
-import * as json from "./src/lib/helpers/json";
+import { configPresets } from "../src/renderer/schemas/config-presets.schema";
+import { customVariables } from "../src/renderer/schemas/custom-variables.schema";
+import * as json from "../src/lib/helpers/json";
 import * as glob from "glob";
 
 let isValid = true;
 const validator = new json.Validator(undefined, undefined, { useDefaults: false });
 let presetFiles: string[] = glob.sync("./files/presets/*.json")
 let presetPromises: Promise<object|void>[] = []
-for(let i=0; i <presetFiles.length; i++) {
+for(let i=0; i < presetFiles.length; i++) {
   presetPromises.push(json.read(presetFiles[i])
                       .then((data: object|void) => {
                         if (data !== null && !validator.setSchema(configPresets).validate(data||{}).isValid()){

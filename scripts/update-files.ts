@@ -1,7 +1,7 @@
-import * as modifiers from "./src/renderer/modifiers";
-import * as json from "./src/lib/helpers/json";
+import * as modifiers from "../src/renderer/modifiers";
+import * as json from "../src/lib/helpers/json";
 import * as glob from "glob";
-import { configPresets } from "./src/renderer/schemas/config-presets.schema";
+import { configPresets } from "../src/renderer/schemas/config-presets.schema";
 // Used for updating config presets en masse via new schema
 let isValid = true;
 const validator = new json.Validator(undefined, modifiers.configPreset, { useDefaults: false });
