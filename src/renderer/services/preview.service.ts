@@ -143,45 +143,29 @@ export class PreviewService {
 
     let vdfManager = new VDF_Manager();
     let categoryManager = new CategoryManager();
-
     this.previewVariables.listIsBeingSaved = true;
     let chain: Promise<any> =  Promise.resolve()
     .then(()=>{
       this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
       return vdfManager.prepare(remove ? knownSteamDirectories : this.previewData)
-    }).catch((error: VDF_Error)=>{
-      this.loggerService.error(this.lang.errors.populatingVDFEntries);
-      throw new Error(error.message);
     })
     .then(()=>{
       this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
       return vdfManager.backup();
-    }).catch((error: VDF_Error)=>{
-      this.loggerService.error(this.lang.errors.backingUpVDFEntries);
-      throw new Error(error.message);
     })
     .then(()=>{
       this.loggerService.info(this.lang.info.readingVDF_Files, { invokeAlert: true, alertTimeout: 3000 });
       return vdfManager.read();
-    }).catch((error: VDF_Error)=>{
-      this.loggerService.error(this.lang.errors.readingVDFEntries);
-      throw new Error(error.message)
     })
     if(!remove) {
       chain = chain.then(()=>{
         this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages,this.appIcons, this.appSettings.previewSettings.deleteDisabledShortcuts)
-      }).catch((error: VDF_Error)=>{
-        this.loggerService.error(this.lang.errors.mergingVDFEntries);
-        throw new Error(error.message)
       })
     } else {
       chain = chain.then(()=>{
         this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         return vdfManager.removeAllAddedEntries()
-      }).catch((error: VDF_Error) => {
-        this.loggerService.error(this.lang.errors.removingVDFEntries)
-        throw new Error(error.message)
       })
     }
     chain = chain.then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
@@ -193,28 +177,27 @@ export class PreviewService {
         this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
         this.loggerService.error(this.lang.errors.categorySaveError__i.interpolate({error:error.message}));
       } else {
-        throw new Error(error.message);
+        console.log(`Error: ${error}`)
+        console.log(`Error Message: ${error.message}`)
+        throw error;
       }
     })
-    .then(()=>{
-      return vdfManager.write()
-    }).catch((error: VDF_Error)=>{
-      this.loggerService.error(this.lang.errors.savingVDFEntries);
-      throw new Error(error.message);
+    .then(() => {
+      return vdfManager.write();
     })
-    .then(()=>{
-      this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+    .then(() => {
       this.previewVariables.listIsBeingSaved = false;
-
       if (remove) {
         this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         this.clearPreviewData();
+      } else {
+        this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
       }
       return true;
-    }).catch((failureError: Error)=>{
+    }).catch((failureError: Error) => {
       this.previewVariables.listIsBeingSaved = false;
       this.loggerService.error(this.lang.errors.fatalError,{ invokeAlert: true, alertTimeout: 3000 });
-      this.loggerService.error(this.lang.errors.fatalError__i.interpolate({error: failureError}));
+      this.loggerService.error(failureError)
       return false;
     })
     return chain;

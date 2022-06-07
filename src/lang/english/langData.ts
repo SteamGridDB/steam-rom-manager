@@ -58,12 +58,6 @@ export const EnglishLang: languageContainer = {
           noAccountsWarning: 'User accounts not found. Incorrect Steam directory?'
         },
         errors: {
-          populatingVDFEntries: 'Error(s) occurred populating VDF entries.',
-          backingUpVDFEntries: 'Error(s) occurred backing up VDF entries.',
-          readingVDFEntries: 'Error(s) occurred reading VDF entries.',
-          mergingVDFEntries: 'Error(s) occurred merging VDF entries.',
-          removingVDFEntries: 'Error(s) occurred removing VDF entries.',
-          savingVDFEntries: 'Error(s) occurred while saving VDF/image files.',
           fatalError: 'Fatal error occurred in Preview. See event log for details.',
           fatalError__i: 'Fatal Preview Error ${error}',
           knownSteamDirListIsEmpty: 'A list of known Steam directories is empty.',
@@ -744,12 +738,12 @@ export const EnglishLang: languageContainer = {
       error: {
         noUsersFound: 'None of the provided steam directories contained any user directory.',
         emptyDirectoryList: 'Directory list is empty.',
-        couldNotPrepareToRead__i: 'Could not find required steam files: ${error}',
-        couldNotBackupEntries__i: 'Could not backup required steam files: ${error}',
-        couldNotReadEntries__i: 'Could not read required steam files: ${error}',
-        couldNotWriteEntries: 'Could not write entries to steam files: ${error}',
-        couldNotMergeEntries__i: 'Could not merge entries. ${error}',
-        couldNotRemoveEntries__i: 'Could not remove entries. ${error}'
+        couldNotPrepareToRead__i: 'Could not find required steam files:\n ${error}',
+        couldNotBackupEntries__i: 'Could not backup required steam files:\n ${error}',
+        couldNotReadEntries__i: 'Could not read required steam files:\n ${error}',
+        couldNotWriteEntries: 'Could not write entries to steam files:',
+        couldNotMergeEntries__i: 'Could not merge entries:\n ${error}',
+        couldNotRemoveEntries__i: 'Could not remove entries:\n ${error}'
       }
     },
     vdfFile: {

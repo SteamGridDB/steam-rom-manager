@@ -55,12 +55,6 @@ export interface languageStruct {
               noAccountsWarning: string
           },
             errors: {
-              populatingVDFEntries: string,
-                backingUpVDFEntries: string,
-                readingVDFEntries: string,
-                mergingVDFEntries: string,
-                removingVDFEntries: string,
-                savingVDFEntries: string,
                 fatalError: string,
                 fatalError__i: string, //${error}
                 knownSteamDirListIsEmpty: string,
