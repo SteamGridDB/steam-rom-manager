@@ -149,53 +149,57 @@ export class PreviewService {
     .then(()=>{
       this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
       return vdfManager.prepare(remove ? knownSteamDirectories : this.previewData)
-    }).catch((error:VDF_Error)=>{
-      this.loggerService.error(this.lang.errors.populatingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+    }).catch((error: VDF_Error)=>{
+      this.loggerService.error(this.lang.errors.populatingVDFEntries);
       throw new Error(error.message);
     })
     .then(()=>{
       this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
       return vdfManager.backup();
+    }).catch((error: VDF_Error)=>{
+      this.loggerService.error(this.lang.errors.backingUpVDFEntries);
+      throw new Error(error.message);
     })
     .then(()=>{
       this.loggerService.info(this.lang.info.readingVDF_Files, { invokeAlert: true, alertTimeout: 3000 });
       return vdfManager.read();
+    }).catch((error: VDF_Error)=>{
+      this.loggerService.error(this.lang.errors.readingVDFEntries);
+      throw new Error(error.message)
     })
     if(!remove) {
       chain = chain.then(()=>{
         this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages,this.appIcons, this.appSettings.previewSettings.deleteDisabledShortcuts)
+      }).catch((error: VDF_Error)=>{
+        this.loggerService.error(this.lang.errors.mergingVDFEntries);
+        throw new Error(error.message)
       })
     } else {
       chain = chain.then(()=>{
         this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         return vdfManager.removeAllAddedEntries()
+      }).catch((error: VDF_Error) => {
+        this.loggerService.error(this.lang.errors.removingVDFEntries)
+        throw new Error(error.message)
       })
     }
-    chain = chain.catch((error: VDF_Error | Error)=>{
-      if(error instanceof VDF_Error) {
-        this.loggerService.error(this.lang.errors.steamIsRunning, {invokeAlert: true, alertTimeout: 3000});
-      }
-      throw new Error(error.message);
-    })
-    .then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
+    chain = chain.then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
       this.loggerService.info(this.lang.info.savingCategories)
       return categoryManager.save(this.previewData, extraneousAppIds, remove)
-    }).catch((error: Category_Error | Error)=>{
+    }).catch((error: Category_Error | Error) => {
+      // Category errors are considered non fatal
       if(error instanceof Category_Error) {
         this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
         this.loggerService.error(this.lang.errors.categorySaveError__i.interpolate({error:error.message}));
       } else {
-        // Category errors are considered non fatal
         throw new Error(error.message);
       }
     })
     .then(()=>{
       return vdfManager.write()
     }).catch((error: VDF_Error)=>{
-      if(error instanceof VDF_Error) {
-        this.loggerService.error(this.lang.errors.savingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-      }
+      this.loggerService.error(this.lang.errors.savingVDFEntries);
       throw new Error(error.message);
     })
     .then(()=>{
@@ -652,11 +656,11 @@ export class PreviewService {
               let steamHeroImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('_hero')];
               let steamLogoImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('_logo')];
               let steamIcon = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('_icon')];
-              let steamIconUrl = steamIcon ? url.encodeFile(steamIcon) : undefined;
               let steamImageUrl = steamImage ? url.encodeFile(steamImage) : undefined;
               let steamTallImageUrl = steamTallImage ? url.encodeFile(steamTallImage) : undefined;
               let steamHeroImageUrl = steamHeroImage ? url.encodeFile(steamHeroImage) : undefined;
               let steamLogoImageUrl = steamLogoImage ? url.encodeFile(steamLogoImage) : undefined;
+              let steamIconUrl = steamIcon ? url.encodeFile(steamIcon) : undefined;
 
               previewData[config.steamDirectory][userAccount.accountID].apps[appID] = {
                 entryId: numberOfItems++,
