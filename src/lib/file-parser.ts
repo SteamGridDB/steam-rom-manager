@@ -280,11 +280,14 @@ export class FileParser {
             imagePool: undefined,
             onlineImageQueries: undefined
           };
+
           let variableData = this.makeVariableData(config, settings, newFile);
 
           newFile.finalTitle = vParser.setInput(config.titleModifier).parse() ? vParser.replaceVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData).trim();
           }) : '';
+
+          variableData.finalTitle = newFile.finalTitle;
 
           if (isManualParser) {
             newFile.argumentString = data.success[j].launchOptions;
@@ -357,7 +360,10 @@ export class FileParser {
                   return filehandle.readFile("utf8");
                 }).then(data => {
                   let entry = xdgparse.parse(data)["Desktop Entry"];
-                  parsedConfig.files[j].finalTitle = String(entry["Name"]);
+                  let entryName = String(entry["Name"]);
+                  parsedConfig.files[j].finalTitle = entryName;
+                  parsedConfig.files[j].onlineImageQueries = [entryName];
+                  parsedConfig.files[j].imagePool = entryName;
                   let modifiedExecutableLocation=String(entry["Exec"]);
                   parsedConfig.files[j].modifiedExecutableLocation = modifiedExecutableLocation;
                   parsedConfig.files[j].startInDirectory = (entry["Path"] && String(entry["Path"])) || path.dirname(modifiedExecutableLocation);
