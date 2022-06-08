@@ -148,7 +148,9 @@ npm run build:linuxdir
 npm run build:flatpak
 ```
 Note: *It is only possible to build flatpaks on linux.*
+
 Note: *You must run build:linux before running build:flatpak!*
+
 Note: *You must have already installed flatpak-builder, org.freedesktop.Platform//19.08, org.freedesktop.Sdk//19.08, and org.electronjs.Electron2.BaseApp/x86_64/stable* 
 
 If this isn't working, try first running:
