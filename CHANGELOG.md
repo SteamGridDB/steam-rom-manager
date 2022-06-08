@@ -12,19 +12,23 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.40
+### Fixed
+* Incorrect image queries for shortcut passthrough of .desktop files on Linux.
+
 ## 2.3.39
-## Fixed
+### Fixed
 * Logging of vdf merging errors (no longer produces blank errors sometimes)
 * `this.fileData.shortcuts.push` error. Hopefully.
 
 ## 2.3.38
-## Added
+### Added
 * Made itch.io fully cross platform (thanks @OneMoreByte for the PR).
 * Capacity to build flatpaks! (Only on linux)
 * Built in bug-reporter. Thanks @doZennn for making an awesome bug-reporting server!
-## Changed
+### Changed
 * Better errors when SGDB can't find a matching title (no more 'Unknown Error').
-## Fixed 
+### Fixed 
 * Excluding titles and forcing a name change caused an error as of 2.3.37 [Issue 308](https://github.com/SteamGridDB/steam-rom-manager/issues/308)
 * .desktop shortcut passthrough now works in the flatpak version of srm.
 
