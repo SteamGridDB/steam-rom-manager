@@ -396,9 +396,11 @@ export class FileParser {
                   return filehandle.readFile("utf8");
                 }).then(data => {
                   let entry = xdgparse.parse(data)["Desktop Entry"];
-                  let modifiedExecutableLocation=entry["Exec"];
+                  let splitExec = String(entry["Exec"]).match(/(?:(?:\S*\\\s)+|(?:[^\s"]+|"[^"]*"))+/g);
+                  let modifiedExecutableLocation = splitExec.shift();
                   parsedConfig.files[j].modifiedExecutableLocation = modifiedExecutableLocation;
-                  parsedConfig.files[j].startInDirectory = entry["Path"] || path.dirname(modifiedExecutableLocation);
+                  parsedConfig.files[j].startInDirectory = (entry["Path"] && String(entry["Path"])) || path.dirname(modifiedExecutableLocation);
+                  parsedConfig.files[j].argumentString = splitExec.join(' ');
                 })
               shortcutPromises.push(shortcutPromise);
             }
