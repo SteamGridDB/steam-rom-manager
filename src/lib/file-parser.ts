@@ -23,6 +23,11 @@ export class FileParser {
   private userExceptions: UserExceptionsTitles = {};
   private globCache: any = {};
 
+  private isROMParser:boolean;
+  private isManualParser:boolean;
+  private isPlatformParser:boolean;
+  private isArtworkOnlyParser:boolean;
+
   constructor(private fuzzyService: FuzzyService) {  }
 
   private get lang() {
@@ -45,17 +50,24 @@ export class FileParser {
     this.globCache = {};
     let configPromises: Promise<ParsedUserConfiguration>[] = [];
     for(let i=0; i < configs.length; i++) {
+      let env = Object.assign(this, {
+        isArtworkOnlyParser: parserInfo.artworkOnlyParsers.includes(configs[i].parserType),
+        isPlatformParser: parserInfo.platformParsers.includes(configs[i].parserType),
+        isROMParser: parserInfo.ROMParsers.includes(configs[i].parserType),
+        isManualParser: parserInfo.manualParsers.includes(configs[i].parserType)
+      });
       configPromises.push(
         Promise.resolve({config: configs[i], settings: settings})
-        .then(this.preParserPromise.bind(this))
-        .then(this.steamDirectoriesPromise.bind(this))
-        .then(this.parserPromise.bind(this))
-        .then(this.fuzzyMatchPromise.bind(this))
-        .then(this.buildParsedConfigsPromise.bind(this))
-        .then(this.parsedConfigFilesPromise.bind(this))
-        .then(this.shortcutsPromise.bind(this))
-        .then(this.userExceptionsPromise.bind(this))
-        .then(this.imagesPromise.bind(this)) as Promise<ParsedUserConfiguration>
+        .then(this.preParserPromise.bind(env))
+        .then(this.steamDirectoriesPromise.bind(env))
+        .then(this.parserPromise.bind(env))
+        .then(this.linuxShortcutsPromise.bind(env))
+        .then(this.fuzzyMatchPromise.bind(env))
+        .then(this.buildParsedConfigsPromise.bind(env))
+        .then(this.parsedConfigFilesPromise.bind(env))
+        .then(this.shortcutsPromise.bind(env))
+        .then(this.userExceptionsPromise.bind(env))
+        .then(this.imagesPromise.bind(env)) as Promise<ParsedUserConfiguration>
       )
     }
     return Promise.all(configPromises).then((parsedConfigs: ParsedUserConfiguration[])=>{
@@ -66,17 +78,15 @@ export class FileParser {
     });
   }
 
-
   private preParserPromise({config, settings}: {config: UserConfiguration, settings: AppSettings}) {
     return new Promise((resolve,reject)=>{
       try {
-        let isROMParser: boolean = parserInfo.ROMParsers.includes(config.parserType);
         let preParser = new VariableParser({ left: '${', right: '}' });
         // Parse environment variables on rom directory, start in path, executable path
         config.steamDirectory = preParser.setInput(config.steamDirectory).parse() ? preParser.replaceVariables((variable) => {
           return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
         }) : null;
-        if(isROMParser) {
+        if(this.isROMParser) {
           config.romDirectory = preParser.setInput(config.romDirectory).parse() ? preParser.replaceVariables((variable) => {
             return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
           }) : null;
@@ -109,6 +119,7 @@ export class FileParser {
       }
     })
   }
+
   private steamDirectoriesPromise({config, settings}: {config: UserConfiguration, settings: AppSettings}) {
     return new Promise((resolve, reject)=>{
       try {
@@ -126,21 +137,20 @@ export class FileParser {
       }
     });
   }
+
   private parserPromise({config, settings, steamDirectory}: {config: UserConfiguration, settings: AppSettings, steamDirectory: {directory: string, useCredentials: boolean, data: userAccountData[] }}) {
     return new Promise((resolve, reject)=>{
       try {
-        let isROMParser: boolean = parserInfo.ROMParsers.includes(config.parserType);
-        let isManualParser: boolean = parserInfo.manualParsers.includes(config.parserType);
         let parser = this.getParserInfo(config.parserType);
         if (parser) {
           let preParser = new VariableParser({ left: '${', right: '}' });
           let userFilter = preParser.setInput(config.userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
           let filteredAccounts: { found: userAccountData[], missing: string[] } = this.filterUserAccounts(steamDirectory.data, userFilter, config.steamDirectory, config.userAccounts.skipWithMissingDataDir);
           let directories:string[] = undefined;
-          if (isROMParser) {
+          if (this.isROMParser) {
             directories = [config.romDirectory];
           }
-          else if (isManualParser) {
+          else if (this.isManualParser) {
             directories = [config.parserInputs["manualManifests"] as string];
           }
           else {
@@ -159,12 +169,43 @@ export class FileParser {
       }
     });
   }
+
+  private linuxShortcutsPromise({config, settings, data, filteredAccounts}: {config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, filteredAccounts: { found: userAccountData[], missing: string[] }}) {
+    return new Promise((resolve, reject) => {
+      try {
+        let shortcutPromises: Promise<void>[] = [];
+        if(this.isROMParser && config.executable.shortcutPassthrough && os.type() == 'Linux') {
+          let targetPath: string = undefined;
+          for(let j = 0; j < data.success.length; j++) {
+            if(path.extname(data.success[j].filePath).toLowerCase() === '.desktop') {
+              let shortcutPromise: Promise<void> = fs.promises.open(data.success[j].filePath, 'r')
+                .then(filehandle => {
+                  return filehandle.readFile("utf8");
+                }).then((fileData) => {
+                  let entry = xdgparse.parse(fileData)["Desktop Entry"];
+                  data.success[j].extractedTitle = entry["Name"];
+                })
+              shortcutPromises.push(shortcutPromise);
+            }
+          }
+        }
+        Promise.all(shortcutPromises).then(()=>{
+          resolve({ config: config, settings: settings, data:data, filteredAccounts:filteredAccounts })
+        }).catch((error)=>{
+          reject(`Linux shortcuts step for "${config.configTitle}":\n ${error}`);
+        })
+      } catch(e) {
+        reject(`Linux shortcuts step for "${config.configTitle}":\n ${e}`);
+      }
+    });
+  }
+
+
   private fuzzyMatchPromise({config, settings, data, filteredAccounts}: {config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, filteredAccounts: { found: userAccountData[], missing: string[] }}) {
     return new Promise((resolve, reject) => {
       try {
         let vParser = new VariableParser({ left: '${', right: '}' });
-        let isROMParser: boolean = parserInfo.ROMParsers.includes(config.parserType);
-        if (isROMParser) {
+        if (this.isROMParser) {
           if(config.titleFromVariable.tryToMatchTitle) {
             this.tryToReplaceTitlesWithVariables(data, config, vParser);
           }
@@ -179,12 +220,11 @@ export class FileParser {
   private buildParsedConfigsPromise({config, settings, data, filteredAccounts}: {config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, filteredAccounts: { found: userAccountData[], missing: string[] }}) {
     return new Promise((resolve,reject) => {
       try {
-        let isROMParser: boolean = parserInfo.ROMParsers.includes(config.parserType);
         let parsedConfig: ParsedUserConfiguration = {
           configurationTitle: config.configTitle,
           parserId: config.parserId,
           parserType: config.parserType,
-          appendArgsToExecutable: isROMParser ? config.executable.appendArgsToExecutable: false,
+          appendArgsToExecutable: this.isROMParser ? config.executable.appendArgsToExecutable: false,
           shortcutPassthrough: config.executable.shortcutPassthrough,
           imageProviders: config.imageProviders,
           imageProviderAPIs: config.imageProviderAPIs,
@@ -205,10 +245,6 @@ export class FileParser {
     return new Promise((resolve, reject) => {
       try {
         let vParser = new VariableParser({ left: '${', right: '}' });
-        let isArtworkOnlyParser:boolean = parserInfo.artworkOnlyParsers.includes(config.parserType);
-        let isPlatformParser:boolean = parserInfo.platformParsers.includes(config.parserType);
-        let isROMParser: boolean = parserInfo.ROMParsers.includes(config.parserType);
-        let isManualParser: boolean = parserInfo.manualParsers.includes(config.parserType);
         let launcherMode = !!(
           config.parserInputs.epicLauncherMode
           || config.parserInputs.gogLauncherMode
@@ -227,15 +263,15 @@ export class FileParser {
           let executableLocation:string = undefined;
           let startInDir:string = undefined;
 
-          if (isManualParser) {
+          if (this.isManualParser) {
             executableLocation = data.success[j].filePath;
-            startInDir = data.success[j].startInDirectory.length > 0 ? data.success[j].startInDirectory : path.dirname(executableLocation);
+            startInDir = data.success[j].startInDirectory || path.dirname(executableLocation);
           }
-          else if(isROMParser) {
-            executableLocation = config.executable.path ? config.executable.path : data.success[j].filePath;
-            startInDir = config.startInDirectory.length > 0 ? config.startInDirectory : path.dirname(executableLocation);
+          else if(this.isROMParser) {
+            executableLocation = config.executable.path || data.success[j].filePath;
+            startInDir = config.startInDirectory || path.dirname(executableLocation);
           }
-          else if(isPlatformParser) {
+          else if(this.isPlatformParser) {
             if(launcherMode) {
               executableLocation = data.executableLocation;
             } else {
@@ -243,7 +279,7 @@ export class FileParser {
             }
             startInDir = data.success[j].startInDirectory || path.dirname(data.success[j].filePath);
           }
-          else if(isArtworkOnlyParser) {
+          else if(this.isArtworkOnlyParser) {
             executableLocation = data.success[j].extractedAppId;
             startInDir = '';
           }
@@ -280,24 +316,27 @@ export class FileParser {
             imagePool: undefined,
             onlineImageQueries: undefined
           };
+
           let variableData = this.makeVariableData(config, settings, newFile);
 
           newFile.finalTitle = vParser.setInput(config.titleModifier).parse() ? vParser.replaceVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData).trim();
           }) : '';
 
-          if (isManualParser) {
+          variableData.finalTitle = newFile.finalTitle;
+
+          if (this.isManualParser) {
             newFile.argumentString = data.success[j].launchOptions;
           }
-          else if (isROMParser) {
+          else if (this.isROMParser) {
             newFile.argumentString = vParser.setInput(config.executableArgs).parse() ? vParser.replaceVariables((variable) => {
               return this.getVariable(variable as AllVariables, variableData).trim();
             }) : '';
           }
-          else if (isPlatformParser) {
+          else if (this.isPlatformParser) {
             newFile.argumentString = launcherMode ? data.success[j].launchOptions || '' : '';
           }
-          else if(isArtworkOnlyParser) {
+          else if(this.isArtworkOnlyParser) {
             newFile.argumentString = '';
           }
           newFile.modifiedExecutableLocation = vParser.setInput(config.executableModifier).parse() ? vParser.replaceVariables((variable) => {
@@ -326,7 +365,7 @@ export class FileParser {
     return new Promise((resolve, reject)=>{
       try {
         let shortcutPromises: Promise<void>[] = [];
-        if(parsedConfig.shortcutPassthrough && os.type() == 'Windows_NT') {
+        if(this.isROMParser && parsedConfig.shortcutPassthrough && os.type() == 'Windows_NT') {
           let targetPath: string = undefined;
           for(let j = 0; j < parsedConfig.files.length; j++) {
             if(path.extname(parsedConfig.files[j].filePath).toLowerCase() === '.lnk') {
@@ -348,7 +387,7 @@ export class FileParser {
             }
           }
         }
-        if(parsedConfig.shortcutPassthrough && os.type() == 'Linux') {
+        if(this.isROMParser && parsedConfig.shortcutPassthrough && os.type() == 'Linux') {
           let targetPath: string = undefined;
           for(let j = 0; j < parsedConfig.files.length; j++) {
             if(path.extname(parsedConfig.files[j].filePath).toLowerCase() === '.desktop') {
@@ -357,10 +396,11 @@ export class FileParser {
                   return filehandle.readFile("utf8");
                 }).then(data => {
                   let entry = xdgparse.parse(data)["Desktop Entry"];
-                  parsedConfig.files[j].finalTitle = String(entry["Name"]);
-                  let modifiedExecutableLocation=String(entry["Exec"]);
+                  let splitExec = String(entry["Exec"]).match(/(?:(?:\S*\\\s)+|(?:[^\s"]+|"[^"]*"))+/g);
+                  let modifiedExecutableLocation = splitExec.shift();
                   parsedConfig.files[j].modifiedExecutableLocation = modifiedExecutableLocation;
                   parsedConfig.files[j].startInDirectory = (entry["Path"] && String(entry["Path"])) || path.dirname(modifiedExecutableLocation);
+                  parsedConfig.files[j].argumentString = splitExec.join(' ');
                 })
               shortcutPromises.push(shortcutPromise);
             }
