@@ -1,6 +1,5 @@
 node_modules/
 dist/
-flatdist/
 release/
 npm-debug.log*
 .debug/
