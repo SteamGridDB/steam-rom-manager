@@ -305,9 +305,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           fuzzyMatch: new NestedFormElement.Group({
             label: this.lang.label.fuzzyMatch,
             children: {
-              use: new NestedFormElement.Toggle({
-                text: this.lang.text.fuzzy_use
-              }),
               replaceDiacritics: new NestedFormElement.Toggle({
                 text: this.lang.text.fuzzy_replaceDiacritic
               }),

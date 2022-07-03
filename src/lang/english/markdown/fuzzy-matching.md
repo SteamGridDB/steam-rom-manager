@@ -1,6 +1,8 @@
 # Fuzzy matching
 
-When enabled, fuzzy (natural) matching will be done against the tittle list provided by [SteamGridDB](http://www.steamgriddb.com/). It will try to fill in missing characters for titles which will increase probability for finding images.
+Fuzzy (natural) matching will be done against the tittle list provided by [SteamGridDB](http://www.steamgriddb.com/). It will try to fill in missing characters for titles which will increase probability for finding images.
+
+Fuzzy titles are available as title modifiers via `${fuzzyTitle}`. Currently fuzzy matching is only enabled for `ROM Parsers` and `Manual Parsers`.
 
 It is possible, that `false` matching might occur for titles that are not in the list. If you encounter missing titles, feel free to post an issue on [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
 

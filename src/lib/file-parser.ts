@@ -205,10 +205,11 @@ export class FileParser {
     return new Promise((resolve, reject) => {
       try {
         let vParser = new VariableParser({ left: '${', right: '}' });
-        if (this.isROMParser) {
+        if (this.isROMParser || this.isManualParser) {
           if(config.titleFromVariable.tryToMatchTitle) {
             this.tryToReplaceTitlesWithVariables(data, config, vParser);
           }
+          console.log("ding dong motha fucka")
           this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data, config.fuzzyMatch);
         }
         resolve({config:config, settings:settings, data:data, filteredAccounts:filteredAccounts});
@@ -326,7 +327,7 @@ export class FileParser {
           variableData.finalTitle = newFile.finalTitle;
 
           if (this.isManualParser) {
-            newFile.argumentString = data.success[j].launchOptions;
+            newFile.argumentString = data.success[j].launchOptions || '';
           }
           else if (this.isROMParser) {
             newFile.argumentString = vParser.setInput(config.executableArgs).parse() ? vParser.replaceVariables((variable) => {
