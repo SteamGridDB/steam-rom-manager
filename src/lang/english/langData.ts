@@ -340,7 +340,8 @@ export const EnglishLang: languageContainer = {
           configPresets_desc: 'config presets',
           showSteamImages: 'Show current Steam images by default',
           deleteDisabledShortcuts: 'Remove shortcuts for disabled parsers',
-          clearLogOnTest: 'Automatically clear log before testing parsers'
+          clearLogOnTest: 'Automatically clear log before testing parsers',
+          configDir: 'Open Config Directory'
         },
         placeholder: {
           noProviders: 'None',

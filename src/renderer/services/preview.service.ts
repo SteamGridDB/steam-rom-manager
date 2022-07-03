@@ -177,8 +177,6 @@ export class PreviewService {
         this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
         this.loggerService.error(this.lang.errors.categorySaveError__i.interpolate({error:error.message}));
       } else {
-        console.log(`Error: ${error}`)
-        console.log(`Error Message: ${error.message}`)
         throw error;
       }
     })

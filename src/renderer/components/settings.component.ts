@@ -112,4 +112,8 @@ export class SettingsComponent implements OnDestroy {
   private loadLanguage(){
     this.languageService.loadLanguage(this.settings.language);
   }
+
+  configDir() {
+    this.settingsService.configDir();
+  }
 }

@@ -286,7 +286,8 @@ export interface languageStruct {
               configPresets_desc: string,
               showSteamImages: string,
               deleteDisabledShortcuts: string,
-              clearLogOnTest: string
+              clearLogOnTest: string,
+              configDir: string
           },
           placeholder: {
             noProviders: string,
