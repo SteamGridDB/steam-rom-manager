@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 ## 2.3.40
 ### Added
 * Ability to open config directory from settings.
+* Enabled fuzzy matching for manual parser in addition to rom parsers.
 ### Fixed
 * Incorrect image queries for shortcut passthrough of .desktop files on Linux.
 
