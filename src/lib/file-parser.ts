@@ -209,7 +209,6 @@ export class FileParser {
           if(config.titleFromVariable.tryToMatchTitle) {
             this.tryToReplaceTitlesWithVariables(data, config, vParser);
           }
-          console.log("ding dong motha fucka")
           this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data, config.fuzzyMatch);
         }
         resolve({config:config, settings:settings, data:data, filteredAccounts:filteredAccounts});

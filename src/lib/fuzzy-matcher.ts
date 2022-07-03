@@ -85,7 +85,6 @@ export class FuzzyMatcher {
 
   private matchFromList(input: string, options: FuzzyMatcherOptions) {
 
-    console.log("fuzzy input: ", input)
     if (input.length === 0) {
       return { output: input, matched: false };
     }
@@ -107,7 +106,6 @@ export class FuzzyMatcher {
     }
 
     let modifiedInput = this.modifyString(input, options);
-    console.log(`modifiedInput: ${modifiedInput}`)
     return this.performMatching(modifiedInput, options.replaceDiacritics);
   }
 
@@ -124,7 +122,6 @@ export class FuzzyMatcher {
         matches.push(this.list.games[i]);
       }
     }
-    console.log("matches: ", matches)
     if (matches.length) {
       return { output: this.getBestMatch(input, matches), matched: true };
     }
