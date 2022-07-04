@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2.3.40
 ### Added
-* Ability to open config directory from settings.
+* Ability to open the config directory from settings.
 ### Fixed
 * Incorrect image queries for shortcut passthrough of .desktop files on Linux.
 * Fixed weird bug involving a race condition on `.bind(env)`, resulting in the error:
