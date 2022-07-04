@@ -15,9 +15,13 @@ All notable changes to this project will be documented in this file.
 ## 2.3.40
 ### Added
 * Ability to open config directory from settings.
-* Enabled fuzzy matching for manual parser in addition to rom parsers.
 ### Fixed
 * Incorrect image queries for shortcut passthrough of .desktop files on Linux.
+* Fixed weird bug involving a race condition on `.bind(env)`, resulting in the error:
+```
+Error: File Parser Execution:
+  TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received undefined
+```
 
 ## 2.3.39
 ### Fixed
