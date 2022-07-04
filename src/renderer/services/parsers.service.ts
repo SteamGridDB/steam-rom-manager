@@ -332,18 +332,18 @@ export class ParsersService {
                 if(this.validate('parserType',config['parserType'])!==null){
                   return false;
                 }
-                if(parserInfo.artworkOnlyParsers.includes(config['parserType'])) {
+                if(parserInfo.superTypesMap[config['parserType']] === 'ArtworkOnly') {
                   simpleValidations = ['configTitle','parserId','steamDirectory','titleModifier',
                     'onlineImageQueries', 'imagePool', 'imageProviders',
                   'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','defaultIcon','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
                   ]
-                } else if(parserInfo.platformParsers.includes(config['parserType'])) {
+                } else if(parserInfo.superTypesMap[config['parserType']] === 'Platform') {
                   simpleValidations = ['configTitle','parserId','steamDirectory','steamCategory','titleModifier',
                     'onlineImageQueries', 'imagePool', 'imageProviders',
                   'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','defaultIcon','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
                   ]
                 }
-                else if(parserInfo.ROMParsers.includes(config['parserType'])) {
+                else if(parserInfo.superTypesMap[config['parserType']] === 'ROM') {
                   simpleValidations = [
                     'configTitle', 'parserId', 'steamCategory',
                     'executable', 'executableModifier', 'romDirectory',
@@ -353,7 +353,7 @@ export class ParsersService {
                     'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','defaultIcon','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
                   ];
                 }
-                else if (parserInfo.manualParsers.includes(config['parserType'])) {
+                else if (parserInfo.superTypesMap[config['parserType']] === 'Manual') {
                   simpleValidations = ['configTitle', 'parserId', 'steamDirectory', 'steamCategory', 'titleModifier',
                     'onlineImageQueries', 'imagePool', 'imageProviders',
                   'defaultImage', 'defaultTallImage', 'defaultHeroImage', 'defaultLogoImage', 'defaultIcon', 'localImages', 'localTallImages', 'localHeroImages', 'localLogoImages', 'localIcons'
@@ -438,7 +438,7 @@ export class ParsersService {
                     // TODO get rid of this ugly hack for making specified accounts mandatory for steam parser only
                     data[i].userAccounts.specifiedAccounts = data[i].userAccounts.specifiedAccounts || '';
                     updateNeeded=true;
-                    if(!parserInfo.ROMParsers.includes(data[i].parserType)) {
+                    if(parserInfo.superTypesMap[data[i].parserType] !== "ROM") {
                       data[i].titleFromVariable.tryToMatchTitle = false;
                       data[i].executableModifier = "\"${exePath}\"";
                     }

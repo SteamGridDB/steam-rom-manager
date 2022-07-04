@@ -23,11 +23,6 @@ export class FileParser {
   private userExceptions: UserExceptionsTitles = {};
   private globCache: any = {};
 
-  private isROMParser:boolean;
-  private isManualParser:boolean;
-  private isPlatformParser:boolean;
-  private isArtworkOnlyParser:boolean;
-
   constructor(private fuzzyService: FuzzyService) {  }
 
   private get lang() {
@@ -50,24 +45,19 @@ export class FileParser {
     this.globCache = {};
     let configPromises: Promise<ParsedUserConfiguration>[] = [];
     for(let i=0; i < configs.length; i++) {
-      let env = Object.assign(this, {
-        isArtworkOnlyParser: parserInfo.artworkOnlyParsers.includes(configs[i].parserType),
-        isPlatformParser: parserInfo.platformParsers.includes(configs[i].parserType),
-        isROMParser: parserInfo.ROMParsers.includes(configs[i].parserType),
-        isManualParser: parserInfo.manualParsers.includes(configs[i].parserType)
-      });
+      let superType = parserInfo.superTypesMap[configs[i].parserType];
       configPromises.push(
-        Promise.resolve({config: configs[i], settings: settings})
-        .then(this.preParserPromise.bind(env))
-        .then(this.steamDirectoriesPromise.bind(env))
-        .then(this.parserPromise.bind(env))
-        .then(this.linuxShortcutsPromise.bind(env))
-        .then(this.fuzzyMatchPromise.bind(env))
-        .then(this.buildParsedConfigsPromise.bind(env))
-        .then(this.parsedConfigFilesPromise.bind(env))
-        .then(this.shortcutsPromise.bind(env))
-        .then(this.userExceptionsPromise.bind(env))
-        .then(this.imagesPromise.bind(env)) as Promise<ParsedUserConfiguration>
+        Promise.resolve({superType: superType, config: configs[i], settings: settings})
+        .then(this.preParserPromise.bind(this))
+        .then(this.steamDirectoriesPromise.bind(this))
+        .then(this.parserPromise.bind(this))
+        .then(this.linuxShortcutsPromise.bind(this))
+        .then(this.fuzzyMatchPromise.bind(this))
+        .then(this.buildParsedConfigsPromise.bind(this))
+        .then(this.parsedConfigFilesPromise.bind(this))
+        .then(this.shortcutsPromise.bind(this))
+        .then(this.userExceptionsPromise.bind(this))
+        .then(this.imagesPromise.bind(this)) as Promise<ParsedUserConfiguration>
       )
     }
     return Promise.all(configPromises).then((parsedConfigs: ParsedUserConfiguration[])=>{
@@ -78,7 +68,7 @@ export class FileParser {
     });
   }
 
-  private preParserPromise({config, settings}: {config: UserConfiguration, settings: AppSettings}) {
+  private preParserPromise({superType, config, settings}: {superType: string, config: UserConfiguration, settings: AppSettings}) {
     return new Promise((resolve,reject)=>{
       try {
         let preParser = new VariableParser({ left: '${', right: '}' });
@@ -86,7 +76,7 @@ export class FileParser {
         config.steamDirectory = preParser.setInput(config.steamDirectory).parse() ? preParser.replaceVariables((variable) => {
           return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
         }) : null;
-        if(this.isROMParser) {
+        if(superType === 'ROM') {
           config.romDirectory = preParser.setInput(config.romDirectory).parse() ? preParser.replaceVariables((variable) => {
             return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
           }) : null;
@@ -113,14 +103,14 @@ export class FileParser {
             }
           }
         }
-        resolve({config: config, settings: settings});
+        resolve({superType: superType, config: config, settings: settings});
       } catch(e) {
         reject(`Preparser step for "${config.configTitle}":\n ${e}`)
       }
     })
   }
 
-  private steamDirectoriesPromise({config, settings}: {config: UserConfiguration, settings: AppSettings}) {
+  private steamDirectoriesPromise({superType, config, settings}: {superType: string, config: UserConfiguration, settings: AppSettings}) {
     return new Promise((resolve, reject)=>{
       try {
         let steamDirectory: {directory: string, useCredentials: boolean, data: userAccountData[] } = {
@@ -130,7 +120,7 @@ export class FileParser {
         };
         steam.getAvailableLogins(steamDirectory.directory, steamDirectory.useCredentials).then((data)=>{
           steamDirectory.data = data;
-          resolve({config: config, settings: settings, steamDirectory: steamDirectory});
+          resolve({superType: superType, config: config, settings: settings, steamDirectory: steamDirectory});
         }).catch((error)=>{ reject(error) });
       } catch(e) {
         reject(`Get steam directories step for "${config.configTitle}":\n ${e}`)
@@ -138,7 +128,7 @@ export class FileParser {
     });
   }
 
-  private parserPromise({config, settings, steamDirectory}: {config: UserConfiguration, settings: AppSettings, steamDirectory: {directory: string, useCredentials: boolean, data: userAccountData[] }}) {
+  private parserPromise({superType,config, settings, steamDirectory}: {superType: string, config: UserConfiguration, settings: AppSettings, steamDirectory: {directory: string, useCredentials: boolean, data: userAccountData[] }}) {
     return new Promise((resolve, reject)=>{
       try {
         let parser = this.getParserInfo(config.parserType);
@@ -147,10 +137,10 @@ export class FileParser {
           let userFilter = preParser.setInput(config.userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
           let filteredAccounts: { found: userAccountData[], missing: string[] } = this.filterUserAccounts(steamDirectory.data, userFilter, config.steamDirectory, config.userAccounts.skipWithMissingDataDir);
           let directories:string[] = undefined;
-          if (this.isROMParser) {
+          if (superType === 'ROM') {
             directories = [config.romDirectory];
           }
-          else if (this.isManualParser) {
+          else if (superType === 'Manual') {
             directories = [config.parserInputs["manualManifests"] as string];
           }
           else {
@@ -158,7 +148,7 @@ export class FileParser {
           }
           this.availableParsers[config.parserType].execute(directories, config.parserInputs, this.globCache)
             .then((data: ParsedDataWithFuzzy) => {
-              resolve({config: config, settings: settings, data: data, filteredAccounts: filteredAccounts})
+              resolve({superType: superType, config: config, settings: settings, data: data, filteredAccounts: filteredAccounts})
             }).catch((error) =>{ reject(error) });
         }
         else {
@@ -170,11 +160,11 @@ export class FileParser {
     });
   }
 
-  private linuxShortcutsPromise({config, settings, data, filteredAccounts}: {config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, filteredAccounts: { found: userAccountData[], missing: string[] }}) {
+  private linuxShortcutsPromise({superType, config, settings, data, filteredAccounts}: {superType: string, config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, filteredAccounts: { found: userAccountData[], missing: string[] }}) {
     return new Promise((resolve, reject) => {
       try {
         let shortcutPromises: Promise<void>[] = [];
-        if(this.isROMParser && config.executable.shortcutPassthrough && os.type() == 'Linux') {
+        if(superType === 'ROM' && config.executable.shortcutPassthrough && os.type() == 'Linux') {
           let targetPath: string = undefined;
           for(let j = 0; j < data.success.length; j++) {
             if(path.extname(data.success[j].filePath).toLowerCase() === '.desktop') {
@@ -190,7 +180,7 @@ export class FileParser {
           }
         }
         Promise.all(shortcutPromises).then(()=>{
-          resolve({ config: config, settings: settings, data:data, filteredAccounts:filteredAccounts })
+          resolve({ superType: superType, config: config, settings: settings, data:data, filteredAccounts:filteredAccounts })
         }).catch((error)=>{
           reject(`Linux shortcuts step for "${config.configTitle}":\n ${error}`);
         })
@@ -201,30 +191,30 @@ export class FileParser {
   }
 
 
-  private fuzzyMatchPromise({config, settings, data, filteredAccounts}: {config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, filteredAccounts: { found: userAccountData[], missing: string[] }}) {
+  private fuzzyMatchPromise({superType, config, settings, data, filteredAccounts}: {superType: string, config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, filteredAccounts: { found: userAccountData[], missing: string[] }}) {
     return new Promise((resolve, reject) => {
       try {
         let vParser = new VariableParser({ left: '${', right: '}' });
-        if (this.isROMParser || this.isManualParser) {
+        if (superType === 'ROM' || superType === 'Manual') {
           if(config.titleFromVariable.tryToMatchTitle) {
             this.tryToReplaceTitlesWithVariables(data, config, vParser);
           }
           this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data, config.fuzzyMatch);
         }
-        resolve({config:config, settings:settings, data:data, filteredAccounts:filteredAccounts});
+        resolve({superType: superType, config: config, settings: settings, data: data, filteredAccounts: filteredAccounts});
       } catch(e) {
         reject(`Fuzzy matching step for "${config.configTitle}":\n ${e}`);
       }
     });
   }
-  private buildParsedConfigsPromise({config, settings, data, filteredAccounts}: {config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, filteredAccounts: { found: userAccountData[], missing: string[] }}) {
+  private buildParsedConfigsPromise({superType, config, settings, data, filteredAccounts}: {superType: string, config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, filteredAccounts: { found: userAccountData[], missing: string[] }}) {
     return new Promise((resolve,reject) => {
       try {
         let parsedConfig: ParsedUserConfiguration = {
           configurationTitle: config.configTitle,
           parserId: config.parserId,
           parserType: config.parserType,
-          appendArgsToExecutable: this.isROMParser ? config.executable.appendArgsToExecutable: false,
+          appendArgsToExecutable: superType === 'ROM' ? config.executable.appendArgsToExecutable: false,
           shortcutPassthrough: config.executable.shortcutPassthrough,
           imageProviders: config.imageProviders,
           imageProviderAPIs: config.imageProviderAPIs,
@@ -235,13 +225,13 @@ export class FileParser {
           failed: _.cloneDeep(data.failed),
           excluded: []
         };
-        resolve({config: config, settings:settings, data:data, parsedConfig: parsedConfig})
+        resolve({superType: superType, config: config, settings:settings, data:data, parsedConfig: parsedConfig})
       } catch(e) {
         reject(`Initialize parsed configs step for "${config.configTitle}":\n ${e}`);
       }
     })
   }
-  private parsedConfigFilesPromise({config, settings, data, parsedConfig}: {config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, parsedConfig: ParsedUserConfiguration}) {
+  private parsedConfigFilesPromise({superType, config, settings, data, parsedConfig}: {superType: string, config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, parsedConfig: ParsedUserConfiguration}) {
     return new Promise((resolve, reject) => {
       try {
         let vParser = new VariableParser({ left: '${', right: '}' });
@@ -263,15 +253,15 @@ export class FileParser {
           let executableLocation:string = undefined;
           let startInDir:string = undefined;
 
-          if (this.isManualParser) {
+          if (superType === 'Manual') {
             executableLocation = data.success[j].filePath;
             startInDir = data.success[j].startInDirectory || path.dirname(executableLocation);
           }
-          else if(this.isROMParser) {
+          else if(superType === 'ROM') {
             executableLocation = config.executable.path || data.success[j].filePath;
             startInDir = config.startInDirectory || path.dirname(executableLocation);
           }
-          else if(this.isPlatformParser) {
+          else if(superType === 'Platform') {
             if(launcherMode) {
               executableLocation = data.executableLocation;
             } else {
@@ -279,7 +269,7 @@ export class FileParser {
             }
             startInDir = data.success[j].startInDirectory || path.dirname(data.success[j].filePath);
           }
-          else if(this.isArtworkOnlyParser) {
+          else if(superType === 'ArtworkOnly') {
             executableLocation = data.success[j].extractedAppId;
             startInDir = '';
           }
@@ -325,18 +315,18 @@ export class FileParser {
 
           variableData.finalTitle = newFile.finalTitle;
 
-          if (this.isManualParser) {
+          if (superType === 'Manual') {
             newFile.argumentString = data.success[j].launchOptions || '';
           }
-          else if (this.isROMParser) {
+          else if (superType === 'ROM') {
             newFile.argumentString = vParser.setInput(config.executableArgs).parse() ? vParser.replaceVariables((variable) => {
               return this.getVariable(variable as AllVariables, variableData).trim();
             }) : '';
           }
-          else if (this.isPlatformParser) {
+          else if (superType === 'Platform') {
             newFile.argumentString = launcherMode ? data.success[j].launchOptions || '' : '';
           }
-          else if(this.isArtworkOnlyParser) {
+          else if (superType === 'ArtworkOnly') {
             newFile.argumentString = '';
           }
           newFile.modifiedExecutableLocation = vParser.setInput(config.executableModifier).parse() ? vParser.replaceVariables((variable) => {
@@ -354,18 +344,18 @@ export class FileParser {
 
           parsedConfig.files.push(newFile);
         }
-        resolve({config: config, settings: settings, parsedConfig: parsedConfig})
+        resolve({superType: superType, config: config, settings: settings, parsedConfig: parsedConfig})
       } catch(e) {
         reject(`Add parsed files step for "${config.configTitle}":\n ${e}`);
       }
     })
   }
 
-  private shortcutsPromise({config, settings, parsedConfig}: {config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
+  private shortcutsPromise({superType, config, settings, parsedConfig}: {superType: string, config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
     return new Promise((resolve, reject)=>{
       try {
         let shortcutPromises: Promise<void>[] = [];
-        if(this.isROMParser && parsedConfig.shortcutPassthrough && os.type() == 'Windows_NT') {
+        if(superType === 'ROM' && parsedConfig.shortcutPassthrough && os.type() == 'Windows_NT') {
           let targetPath: string = undefined;
           for(let j = 0; j < parsedConfig.files.length; j++) {
             if(path.extname(parsedConfig.files[j].filePath).toLowerCase() === '.lnk') {
@@ -387,7 +377,7 @@ export class FileParser {
             }
           }
         }
-        if(this.isROMParser && parsedConfig.shortcutPassthrough && os.type() == 'Linux') {
+        if(superType === 'ROM' && parsedConfig.shortcutPassthrough && os.type() == 'Linux') {
           let targetPath: string = undefined;
           for(let j = 0; j < parsedConfig.files.length; j++) {
             if(path.extname(parsedConfig.files[j].filePath).toLowerCase() === '.desktop') {
@@ -407,7 +397,7 @@ export class FileParser {
           }
         }
         Promise.all(shortcutPromises).then(()=>{
-          resolve({ config: config, settings: settings, parsedConfig: parsedConfig })
+          resolve({ superType: superType, config: config, settings: settings, parsedConfig: parsedConfig })
         }).catch((error)=>{
           reject(`Shortcut passthrough step for "${config.configTitle}":\n ${error}`);
         })
@@ -417,7 +407,7 @@ export class FileParser {
     })
   }
 
-  private userExceptionsPromise({config, settings, parsedConfig}: {config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
+  private userExceptionsPromise({superType, config, settings, parsedConfig}: {superType: string, config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
     return new Promise((resolve,reject)=>{
       try {
         for(let j=0; j < parsedConfig.files.length; j++) {

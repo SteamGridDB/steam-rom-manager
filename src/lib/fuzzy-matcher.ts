@@ -35,11 +35,9 @@ export class FuzzyMatcher {
   }
 
   fuzzyMatchParsedData(data: ParsedDataWithFuzzy, options: FuzzyMatcherOptions, verbose: boolean = true) {
-    console.log("matchingData", data, options, verbose)
     if (this.isLoaded()) {
       for (let i = 0; i < data.success.length; i++) {
         let matchedData = this.memFn.fn(data.success[i].extractedTitle, options);
-        console.log("matchedData", matchedData)
         if (matchedData.matched) {
           data.success[i].fuzzyTitle = matchedData.output;
           if (verbose)

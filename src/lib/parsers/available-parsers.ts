@@ -1,17 +1,7 @@
-export const availableParsers = [
-  'Glob',
-  'Glob-regex',
-  'Manual',
-  'Amazon Games',
-  'Epic',
-  'GOG Galaxy',
-  'itch.io',
-  'Steam',
-  'UPlay',
-]
+import * as json from '../helpers/json';
 
 // Two parser inputs can't have the same names!
-// Hard to fix bug involving schema
+// Reason: Hard to fix bug involving schema
 export const availableParserInputs: {[parserType: string]: string[]} = {
   'Glob': ['glob'],
   'Glob-regex': ['glob-regex'],
@@ -24,7 +14,13 @@ export const availableParserInputs: {[parserType: string]: string[]} = {
   'UPlay': ['uplayDir','uplayLauncherMode'],
 }
 
-export const manualParsers = ['Manual']
-export const artworkOnlyParsers = ['Steam']
-export const ROMParsers = ['Glob', 'Glob-regex']
-export const platformParsers = ['Epic','GOG Galaxy','Amazon Games','UPlay','itch.io']
+export const availableParsers = Object.keys(availableParserInputs);
+
+export const superTypes: {[superType: string]: string[]} = {
+  'Manual': ['Manual'],
+  'ArtworkOnly': ['Steam'],
+  'ROM': ['Glob','Glob-regex'],
+  'Platform': ['Epic','GOG Galaxy','Amazon Games','UPlay','itch.io']
+}
+
+export const superTypesMap: {[parserType: string]: string | string[]} = json.multiInvert(superTypes);
