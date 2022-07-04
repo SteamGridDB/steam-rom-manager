@@ -76,7 +76,7 @@ export class FileParser {
         config.steamDirectory = preParser.setInput(config.steamDirectory).parse() ? preParser.replaceVariables((variable) => {
           return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
         }) : null;
-        if(superType === 'ROM') {
+        if(superType === parserInfo.ROMType) {
           config.romDirectory = preParser.setInput(config.romDirectory).parse() ? preParser.replaceVariables((variable) => {
             return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
           }) : null;
@@ -137,10 +137,10 @@ export class FileParser {
           let userFilter = preParser.setInput(config.userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
           let filteredAccounts: { found: userAccountData[], missing: string[] } = this.filterUserAccounts(steamDirectory.data, userFilter, config.steamDirectory, config.userAccounts.skipWithMissingDataDir);
           let directories:string[] = undefined;
-          if (superType === 'ROM') {
+          if (superType === parserInfo.ROMType) {
             directories = [config.romDirectory];
           }
-          else if (superType === 'Manual') {
+          else if (superType === parserInfo.ManualType) {
             directories = [config.parserInputs["manualManifests"] as string];
           }
           else {
@@ -164,7 +164,7 @@ export class FileParser {
     return new Promise((resolve, reject) => {
       try {
         let shortcutPromises: Promise<void>[] = [];
-        if(superType === 'ROM' && config.executable.shortcutPassthrough && os.type() == 'Linux') {
+        if(superType === parserInfo.ROMType && config.executable.shortcutPassthrough && os.type() == 'Linux') {
           let targetPath: string = undefined;
           for(let j = 0; j < data.success.length; j++) {
             if(path.extname(data.success[j].filePath).toLowerCase() === '.desktop') {
@@ -195,7 +195,7 @@ export class FileParser {
     return new Promise((resolve, reject) => {
       try {
         let vParser = new VariableParser({ left: '${', right: '}' });
-        if (superType === 'ROM' || superType === 'Manual') {
+        if (superType === parserInfo.ROMType || superType === parserInfo.ManualType) {
           if(config.titleFromVariable.tryToMatchTitle) {
             this.tryToReplaceTitlesWithVariables(data, config, vParser);
           }
@@ -214,7 +214,7 @@ export class FileParser {
           configurationTitle: config.configTitle,
           parserId: config.parserId,
           parserType: config.parserType,
-          appendArgsToExecutable: superType === 'ROM' ? config.executable.appendArgsToExecutable: false,
+          appendArgsToExecutable: superType === parserInfo.ROMType ? config.executable.appendArgsToExecutable: false,
           shortcutPassthrough: config.executable.shortcutPassthrough,
           imageProviders: config.imageProviders,
           imageProviderAPIs: config.imageProviderAPIs,
@@ -253,15 +253,15 @@ export class FileParser {
           let executableLocation:string = undefined;
           let startInDir:string = undefined;
 
-          if (superType === 'Manual') {
+          if (superType === parserInfo.ManualType) {
             executableLocation = data.success[j].filePath;
             startInDir = data.success[j].startInDirectory || path.dirname(executableLocation);
           }
-          else if(superType === 'ROM') {
+          else if(superType === parserInfo.ROMType) {
             executableLocation = config.executable.path || data.success[j].filePath;
             startInDir = config.startInDirectory || path.dirname(executableLocation);
           }
-          else if(superType === 'Platform') {
+          else if(superType === parserInfo.PlatformType) {
             if(launcherMode) {
               executableLocation = data.executableLocation;
             } else {
@@ -269,7 +269,7 @@ export class FileParser {
             }
             startInDir = data.success[j].startInDirectory || path.dirname(data.success[j].filePath);
           }
-          else if(superType === 'ArtworkOnly') {
+          else if(superType === parserInfo.ArtworkOnlyType) {
             executableLocation = data.success[j].extractedAppId;
             startInDir = '';
           }
@@ -315,18 +315,18 @@ export class FileParser {
 
           variableData.finalTitle = newFile.finalTitle;
 
-          if (superType === 'Manual') {
+          if (superType === parserInfo.ManualType) {
             newFile.argumentString = data.success[j].launchOptions || '';
           }
-          else if (superType === 'ROM') {
+          else if (superType === parserInfo.ROMType) {
             newFile.argumentString = vParser.setInput(config.executableArgs).parse() ? vParser.replaceVariables((variable) => {
               return this.getVariable(variable as AllVariables, variableData).trim();
             }) : '';
           }
-          else if (superType === 'Platform') {
+          else if (superType === parserInfo.PlatformType) {
             newFile.argumentString = launcherMode ? data.success[j].launchOptions || '' : '';
           }
-          else if (superType === 'ArtworkOnly') {
+          else if (superType === parserInfo.ArtworkOnlyType) {
             newFile.argumentString = '';
           }
           newFile.modifiedExecutableLocation = vParser.setInput(config.executableModifier).parse() ? vParser.replaceVariables((variable) => {
@@ -355,7 +355,7 @@ export class FileParser {
     return new Promise((resolve, reject)=>{
       try {
         let shortcutPromises: Promise<void>[] = [];
-        if(superType === 'ROM' && parsedConfig.shortcutPassthrough && os.type() == 'Windows_NT') {
+        if(superType === parserInfo.ROMType && parsedConfig.shortcutPassthrough && os.type() == 'Windows_NT') {
           let targetPath: string = undefined;
           for(let j = 0; j < parsedConfig.files.length; j++) {
             if(path.extname(parsedConfig.files[j].filePath).toLowerCase() === '.lnk') {
@@ -377,7 +377,7 @@ export class FileParser {
             }
           }
         }
-        if(superType === 'ROM' && parsedConfig.shortcutPassthrough && os.type() == 'Linux') {
+        if(superType === parserInfo.ROMType && parsedConfig.shortcutPassthrough && os.type() == 'Linux') {
           let targetPath: string = undefined;
           for(let j = 0; j < parsedConfig.files.length; j++) {
             if(path.extname(parsedConfig.files[j].filePath).toLowerCase() === '.desktop') {

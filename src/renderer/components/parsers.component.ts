@@ -575,10 +575,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.currentDoc.content = this.lang.docs__md.communityPresets.join('');
     }
     private isHiddenIfNotRomsParser() {
-      return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => parserInfo.superTypesMap[pType] !== "ROM")
+      return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => parserInfo.superTypesMap[pType] !== parserInfo.ROMType)
     }
     private isHiddenIfArtworkOnlyParser() {
-      return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => parserInfo.superTypesMap[pType] === "ArtworkOnly");
+      return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => parserInfo.superTypesMap[pType] === parserInfo.ArtworkOnlyType);
     }
     private isHiddenIfParserBlank() {
       return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => !pType)

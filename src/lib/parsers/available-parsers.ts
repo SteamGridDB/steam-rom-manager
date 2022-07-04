@@ -24,3 +24,8 @@ export const superTypes: {[superType: string]: string[]} = {
 }
 
 export const superTypesMap: {[parserType: string]: string | string[]} = json.multiInvert(superTypes);
+
+export const ManualType = 'Manual'
+export const ROMType = 'ROM'
+export const PlatformType = 'Platform'
+export const ArtworkOnlyType = 'ArtworkOnly'
