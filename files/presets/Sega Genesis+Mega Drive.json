@@ -32,7 +32,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gen|.GEN|.md|.MD|.smd|.SMD|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gen|.GEN|.md|.MD|.smd|.SMD|.zip|.ZIP|.bin|.BIN)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -99,7 +99,7 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gen|.GEN|.md|.MD|.smd|.SMD|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gen|.GEN|.md|.MD|.smd|.SMD|.zip|.ZIP|.bin|.BIN)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
