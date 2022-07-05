@@ -65,8 +65,12 @@ export class ParsersService {
                 return this.userConfigurations.getValue();
               }
 
-              readControllers() {
-                this.controllerManager.readControllers()
+              readControllers(config: UserConfiguration) {
+                let preParser = new VariableParser({ left: '${', right: '}' });
+                let steamDir = preParser.setInput(config.steamDirectory).parse() ? preParser.replaceVariables((variable)=>{
+                  return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables, this.appSettings).trim()
+                }) : '';
+                this.controllerManager.readControllers(steamDir);
               }
 
               getKnownSteamDirectories() {

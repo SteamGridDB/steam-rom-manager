@@ -615,7 +615,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     }
 
     private readControllers() {
-      this.parsersService.readControllers();
+      let config = this.userForm.value as UserConfiguration;
+      this.parsersService.readControllers(config);
     }
 
     private deleteForm() {
@@ -687,7 +688,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
     private testForm() {
       let config = this.userForm.value as UserConfiguration;
-      config.parserId = this.configurationIndex===-1?'UNSAVED SO NO ID':this.parsersService.getParserId(this.configurationIndex);
+      config.parserId = this.configurationIndex === -1 ? 'UNSAVED SO NO ID' : this.parsersService.getParserId(this.configurationIndex);
       let successData: string = '';
       let errorData: string = '';
 

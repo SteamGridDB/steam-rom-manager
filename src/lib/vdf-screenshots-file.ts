@@ -62,10 +62,10 @@ export class VDF_ScreenshotsFile {
 
 
   sanitizeTitle(title: string) {
-    return title.replace(/\\/g,"\\\\").replace(/\"/g,"\\\"");
+    return (title || "").replace(/\\/g,"\\\\").replace(/\"/g,"\\\"");
   }
   desanitizeTitle(title: string) {
-    return title.replace(/\\\"/g,"\"").replace(/\\\\/g,"\\");
+    return (title || "").replace(/\\\"/g,"\"").replace(/\\\\/g,"\\");
   }
 
   read() {

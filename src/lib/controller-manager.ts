@@ -20,12 +20,27 @@ Then create the directory with (lower case of title) so that for each controller
 Templates / existing configurations can be found in C:\Program Files (x86)\Steam\steamapps\workshop\content\241100 as .bin files.
    */
 
-  readControllers(data: { userId: string, steamDirectory: string, userData: PreviewDataUser }|undefined) {
+  readControllers(steamDirectory: string) {
     console.log("readingAvailableConfigs")
-    let steamDirectory = 'C:\\Program Files (x86)\\Steam';
-    let userId = '84977612';
-    let localConfigPath = path.join(steamDirectory, 'userdata', userId, 'config', 'localconfig.vdf');
-    let localConfig = genericParser.parse(fs.readFileSync(localConfigPath, 'utf-8'));
-    console.log("localConfig", localConfig)
+    let files = fs.readdirSync(path.join(steamDirectory,'steamapps','workshop','content','241100'));
+    console.log('files', files)
+    // let steamDirectory = 'C:\\Program Files (x86)\\Steam';
+    // let userId = '84977612';
+    // let localConfigPath = path.join(steamDirectory, 'userdata', userId, 'config', 'localconfig.vdf');
+    // let localConfig = genericParser.parse(fs.readFileSync(localConfigPath, 'utf-8'));
+    // console.log("localConfig", localConfig)
+
+  }
+
+  backupController(controllerType: string) {
+
+  }
+
+  restoreController(controllerType: string) {
+
+  }
+
+  setController(controllerType: string) {
+
   }
 }
