@@ -24,7 +24,6 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class ParsersService {
-  private controllerManager: any;
   private appSettings: AppSettings;
   private fileParser: FileParser;
   private userConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
@@ -35,7 +34,6 @@ export class ParsersService {
 
   constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private cVariableService: CustomVariablesService,
               private exceptionsService: UserExceptionsService, private settingsService: SettingsService, private http: Http) {
-                this.controllerManager = new ControllerManager();
                 this.fileParser = new FileParser(this.fuzzyService);
                 this.userConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
                 this.deletedConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
@@ -66,11 +64,21 @@ export class ParsersService {
               }
 
               readControllers(config: UserConfiguration) {
+
                 let preParser = new VariableParser({ left: '${', right: '}' });
                 let steamDir = preParser.setInput(config.steamDirectory).parse() ? preParser.replaceVariables((variable)=>{
                   return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables, this.appSettings).trim()
                 }) : '';
-                this.controllerManager.readControllers(steamDir);
+
+                let controllerManager = new ControllerManager(steamDir, '84977612');
+                controllerManager.readControllers();
+                controllerManager.backupControllers();
+                controllerManager.readTemplates().then((templates:any)=>{
+                  console.log("templates", templates)
+                  controllerManager.setTemplate("kingdom hearts ii", templates[0].controller_type, templates[0].mapping_id)
+                  console.log("cmd", controllerManager.data)
+                  controllerManager.writeControllers();
+                });
               }
 
               getKnownSteamDirectories() {
