@@ -571,6 +571,8 @@ export const EnglishLang: languageContainer = {
           foundAccountInfo__i: '  ${name} (steamID64: ${steamID64}, accountID: ${accountID})',
           steamCategory__i: '[${index}/${total}]:     Steam categories - ${steamCategory}',
           steamCategoryInfo__i: '[${index}/${total}]:                        ${steamCategory}',
+          appId__i: '[${index}/${total}]:                AppID - ${appid}',
+          shortAppId__i: '[${index}/${total}]:          Short AppID - ${appid}',
           extractedTitle__i: '[${index}/${total}]:      Extracted title - ${title}',
           fuzzyTitle__i: '[${index}/${total}]:          Fuzzy title - ${title}',
           finalTitle__i: '[${index}/${total}]:          Final title - ${title}',

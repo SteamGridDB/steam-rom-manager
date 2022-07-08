@@ -5,7 +5,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as _ from 'lodash';
-import { globPromise } from './helpers/glob';
+import * as glob from 'glob';
 import * as json from './helpers/json'
 import { PreviewDataUser } from '../models';
 
@@ -38,33 +38,29 @@ export class ControllerManager {
   }
 
   // TODO
-  // 1) Make reading templates synchronous
-  // 2) State management
-  // 3) Convert to AppIDs
+  // 1) State management
+  // 2) Convert to AppIDs [doesn't seem possible sadly]
 
-  readTemplates() {
-    return new Promise((resolve, reject) => {
-      try {
-        let templateDir = path.join(this.steamDirectory, 'steamapps', 'workshop', 'content', '241100')
-        let files = fs.readdirSync(templateDir);
-        globPromise('*/*', { silent: true, dot: true, cwd: templateDir, absolute: true }).then((files)=>{
-          let parsedTemplates: any[] = files.map((f: string) => Object.assign({mapping_id: f.split('/').slice(-2)[0]}, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
-            .filter(x=>!!x['controller_mappings']
-              && !!x['controller_mappings']['title']
-              && !!x['controller_mappings']['controller_type']
-            )
-            .filter(x=> x.controller_mappings.title.slice(-match.length) === match)
-            .map(x=>Object.assign({},{
-              title: x.controller_mappings.title,
-              controller_type: x.controller_mappings.controller_type,
-              mapping_id: x.mapping_id
-            }));
-          resolve(parsedTemplates);
-        });
-      } catch(e) {
-        reject(e);
-      }
-    })
+  static readTemplates(steamDirectory: string) {
+    try {
+      let templateDir = path.join(steamDirectory, 'steamapps', 'workshop', 'content', '241100')
+      let files = glob.sync('*/*', { silent: true, dot: true, cwd: templateDir, absolute: true });
+      let parsedTemplates: any[] = files.map((f: string) => Object.assign({mapping_id: f.split('/').slice(-2)[0]}, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
+        .filter(x=>!!x['controller_mappings']
+          && !!x['controller_mappings']['title']
+          && !!x['controller_mappings']['controller_type']
+        )
+        .filter(x=> x.controller_mappings.title.slice(-match.length) === match)
+        .map(x=>Object.assign({},{
+          title: x.controller_mappings.title,
+          controller_type: x.controller_mappings.controller_type,
+          mapping_id: x.mapping_id
+        }));
+      return parsedTemplates
+    } catch(e) {
+      console.log(`Error getting Controller Templates:\n ${e}`)
+      return [];
+    }
   }
 
 

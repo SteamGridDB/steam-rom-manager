@@ -57,6 +57,7 @@ export class FileParser {
         .then(this.parsedConfigFilesPromise.bind(this))
         .then(this.shortcutsPromise.bind(this))
         .then(this.userExceptionsPromise.bind(this))
+        .then(this.appendArgsPromise.bind(this))
         .then(this.imagesPromise.bind(this)) as Promise<ParsedUserConfiguration>
       )
     }
@@ -432,6 +433,23 @@ export class FileParser {
         resolve({ config: config, settings: settings, parsedConfig: parsedConfig });
       } catch(e) {
         reject(`Apply user exceptions step for ${config.configTitle}:\n ${e}`);
+      }
+    })
+  }
+
+  private appendArgsPromise({config, settings, parsedConfig}: {config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
+    return new Promise((resolve, reject)=>{
+      try{
+        for(let j=0; j< parsedConfig.files.length; j++) {
+          if(config.executable.appendArgsToExecutable) {
+            parsedConfig.files[j].modifiedExecutableLocation = `${parsedConfig.files[j].modifiedExecutableLocation} ${parsedConfig.files[j].argumentString}`;
+            parsedConfig.files[j].argumentString = '';
+          }
+          parsedConfig.files[j].modifiedExecutableLocation = parsedConfig.files[j].modifiedExecutableLocation.trim();
+        }
+        resolve({ config: config, settings: settings, parsedConfig: parsedConfig });
+      } catch(e) {
+        reject(`Append args to executable step for ${config.configTitle}:\n ${e}`);
       }
     })
   }

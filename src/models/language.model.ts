@@ -426,6 +426,8 @@ export interface languageStruct {
             foundAccountInfo__i: string, //${name}, ${steamID64}, ${accountID}
             steamCategory__i: string, //${index}, ${total}, ${steamCategory}
             steamCategoryInfo__i: string, //${steamCategory}
+            appId__i: string, //${index}, ${total}, ${appid}
+            shortAppId__i: string, //${index}, ${total}, ${appid}
             extractedTitle__i: string, //${index}, ${total}, ${title}
             fuzzyTitle__i: string, //${index}, ${total}, ${title}
             finalTitle__i: string, //${index}, ${total}, ${title}

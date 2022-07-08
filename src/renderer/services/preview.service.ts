@@ -528,10 +528,11 @@ export class PreviewService {
 
           for (let k = 0; k < data[i].files.length; k++) {
             let file = config.files[k];
-            let executableLocation = (config.appendArgsToExecutable ? `${file.modifiedExecutableLocation} ${file.argumentString}` : `${file.modifiedExecutableLocation}`).trim();
+            let executableLocation = file.modifiedExecutableLocation;
+            let title = file.finalTitle;
             let appID: string = '';
-            if(config.parserType!=='Steam') {
-              appID = steam.generateAppId(executableLocation, file.finalTitle);
+            if(config.parserType !== 'Steam') {
+              appID = steam.generateAppId(executableLocation, title);
             } else {
               appID = steam.lengthenAppId(executableLocation.replace(/\"/g,""));
             }
@@ -652,7 +653,7 @@ export class PreviewService {
                 steamCategories: file.steamCategories,
                 startInDirectory: file.startInDirectory,
                 imageProviders: config.imageProviders,
-                argumentString: config.appendArgsToExecutable ? '' : file.argumentString,
+                argumentString: file.argumentString,
                 title: file.finalTitle,
                 extractedTitle: file.extractedTitle,
                 images: {
