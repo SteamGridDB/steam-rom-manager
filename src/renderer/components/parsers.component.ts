@@ -5,6 +5,7 @@ import { FormGroup, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { ParsersService, LoggerService, ImageProviderService, SettingsService, ConfigurationPresetsService } from '../services';
 import * as parserInfo from '../../lib/parsers/available-parsers';
+import * as steam from '../../lib/helpers/steam';
 import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets } from '../../models';
 import { Subscription, Observable } from "rxjs";
 import { APP } from '../../variables';
@@ -320,6 +321,21 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               this.currentDoc.content = this.lang.docs__md.fuzzyMatch.join('');
             }
           }),
+          controllerSection: new NestedFormElement.Section({
+            label: 'Controller Templates Configuration'
+          }),
+          xbox360: new NestedFormElement.Select({
+            label: 'Xbox360',
+            placeholder: 'Select a Template',
+            multiple: false,
+            allowEmpty: true,
+            values: this.parsersService.getTemplates('C:\\Program Files (x86)\\Steam').map((template) => { return { display: template.title, real: template } }),
+            onInfoClick: (self, path) => {
+              this.currentDoc.activePath = path.join();
+              this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
+            }
+          }),
+
           onlineImageSection: new NestedFormElement.Section({
             label: 'Artwork Provider Configuration'
           }),
@@ -760,6 +776,26 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             success('Number of Titles: '.concat(data.files.length.toString()));
             for (let i = 0; i < data.files.length; i++) {
               success('');
+              let executableLocation = data.files[i].modifiedExecutableLocation;
+              let title = data.files[i].finalTitle;
+              let shortAppId = undefined; let appId = undefined;
+              if(config.parserType !== 'Steam') {
+                 shortAppId = steam.generateShortAppId(executableLocation, title);
+                 appId = steam.lengthenAppId(shortAppId);
+              } else {
+                 shortAppId = executableLocation.replace(/\"/g,"");
+                 appId = steam.lengthenAppId(shortAppId);
+              }
+              success(this.lang.success.appId__i.interpolate({
+                index: i + 1,
+                total: totalLength,
+                appid: appId
+              }));
+              success(this.lang.success.shortAppId__i.interpolate({
+                index: i + 1,
+                total: totalLength,
+                appid: shortAppId
+              }));
               success(this.lang.success.extractedTitle__i.interpolate({
                 index: i + 1,
                 total: totalLength,
