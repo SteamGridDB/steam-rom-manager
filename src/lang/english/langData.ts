@@ -29,7 +29,9 @@ export const EnglishLang: languageContainer = {
         saveAppList: 'Save app list',
         removeAppList: 'Remove app list',
         remainingImages: 'Remaining providers:',
-        stopUrlRetrieving: 'Stop image providers'
+        stopUrlRetrieving: 'Stop image providers',
+        exportSelections: 'Export selections',
+        importSelections: 'Import and save selections',
       },
       service: {
         info: {
@@ -55,7 +57,10 @@ export const EnglishLang: languageContainer = {
           parserFoundNoFiles: 'Parser(s) found no files matching user configuration.',
           allImagesRetrieved: 'All available image urls retrieved.',
           providerTimeout__i: 'Timeout was requested by "${provider}" for ${time} second(s).',
-          noAccountsWarning: 'User accounts not found. Incorrect Steam directory?'
+          noAccountsWarning: 'User accounts not found. Incorrect Steam directory?',
+          preparingExport: 'Preparing export.',
+          exportProgress__i: 'Saving app selections ${progress}.',
+          readingSelections: 'Applying imported selections.'
         },
         errors: {
           fatalError: 'Fatal error occurred in Preview. See event log for details.',
@@ -66,11 +71,16 @@ export const EnglishLang: languageContainer = {
           categorySaveError__i: 'Category error (shortcuts and artwork will still be added): ${error}',
           retryingDownload__i: 'Image download from "${imageUrl}" failed for "${appTitle}".',
           providerError__i: 'Error received from "${provider}" for "${title}":\n (${url ? `${code}: ${url}` : code}).',
-          unknownProviderError__i: 'Error received from "${provider}" for "${title}":\n ${error}'
+          unknownProviderError__i: 'Error received from "${provider}" for "${title}":\n ${error}',
+          exportError__i: 'Could not save slections package folder: ${error}',
+          importJSONFailError__i: 'Could not import selections, JSON was malformed: ${error}',
+          importFailError__i: 'Could not import selections: ${error}'
         },
         success: {
           writingVDF_entries: 'Done adding/removing entries.',
           removingVDF_entries: 'Entries have been removed.',
+          exportSuccess__i: 'Selections package folder succesfully saved to "${path}"!',
+          importSelectionsSuccess__i: 'Succesfully imported ${count} selections!'
         }
       }
     },

@@ -26,49 +26,59 @@ export interface languageStruct {
           saveAppList: string,
           removeAppList: string,
           remainingImages: string,
-          stopUrlRetrieving: string
+          stopUrlRetrieving: string,
+          exportSelections: string,
+          importSelections: string
       },
         service: {
           info: {
             listIsBeingGenerated: string,
-              listIsBeingSaved: string,
-              listIsBeingRemoved: string,
-              listIsEmpty: string
+            listIsBeingSaved: string,
+            listIsBeingRemoved: string,
+            listIsEmpty: string
             populatingVDF_List: string,
-              creatingBackups: string,
-              readingVDF_Files: string,
-              mergingVDF_entries: string,
-              removingVDF_entries: string,
-              savingCategories: string,
-              removingFromCategories: string,
-              writingVDF_entries: string,
-              updatingKnownSteamDirList: string,
-              retryingDownload__i: string, //${imageUrl}, ${appTitle}
-              disabledConfigurations__i: string, //${count}
-              invalidConfigurations__i: string, //${count}
-              executingParsers: string,
-              shutdownSteam: string,
-              noParserConfigurations: string,
-              parserFoundNoFiles: string,
-              allImagesRetrieved: string,
-              providerTimeout__i: string,//${provider}, ${time}
-              noAccountsWarning: string
+            creatingBackups: string,
+            readingVDF_Files: string,
+            mergingVDF_entries: string,
+            removingVDF_entries: string,
+            savingCategories: string,
+            removingFromCategories: string,
+            writingVDF_entries: string,
+            updatingKnownSteamDirList: string,
+            retryingDownload__i: string, //${imageUrl}, ${appTitle}
+            disabledConfigurations__i: string, //${count}
+            invalidConfigurations__i: string, //${count}
+            executingParsers: string,
+            shutdownSteam: string,
+            noParserConfigurations: string,
+            parserFoundNoFiles: string,
+            allImagesRetrieved: string,
+            providerTimeout__i: string, //${provider}, ${time}
+            noAccountsWarning: string,
+            preparingExport: string,
+            exportProgress__i: string, //${progres}
+            readingSelections: string
           },
-            errors: {
-                fatalError: string,
-                fatalError__i: string, //${error}
-                knownSteamDirListIsEmpty: string,
-                steamIsRunning: string,
-                categorySaveError: string,
-                categorySaveError__i: string, //${error}
-                retryingDownload__i: string //${imageUrl}, ${appTitle},
-              providerError__i: string//${provider}, ${code}, ${title}, ${url}
-              unknownProviderError__i: string //${provider}, ${title}, ${error}
-            },
-            success: {
-              writingVDF_entries: string,
-                removingVDF_entries: string
-            }
+          errors: {
+            fatalError: string,
+            fatalError__i: string, //${error}
+            knownSteamDirListIsEmpty: string,
+            steamIsRunning: string,
+            categorySaveError: string,
+            categorySaveError__i: string, //${error}
+            retryingDownload__i: string, //${imageUrl}, ${appTitle},
+            providerError__i: string, //${provider}, ${code}, ${title}, ${url}
+            unknownProviderError__i: string, //${provider}, ${title}, ${error}
+            exportError__i: string, //{$error}
+            importJSONFailError__i: string, //{$error}
+            importFailError__i: string //${error}
+          },
+          success: {
+            writingVDF_entries: string,
+            removingVDF_entries: string,
+            exportSuccess__i: string, 
+            importSelectionsSuccess__i: string //${count}
+          }
         }
     },
     steamParser: {
