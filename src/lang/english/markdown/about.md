@@ -15,11 +15,12 @@ In case you're having trouble with SRM, feel free to visit the [discord](https:/
 
 ## Contributors
 * `FrogTheFrog`{.noWrap} - creator of SRM, no longer active.
-* `Zennn`{.noWrap} - helped before the initial release of SRM and many times after the release with various stuff.
+* `Zennn`{.noWrap} - helped before the initial release of SRM and many times after the release with various stuff. Big boss over at [SteamGridDB](https://steamgriddb.com).
+* `lontanadascienza`{.noWrap} - Current maintainer of SRM. Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller templates, and platform parsers (Epic, GOG, Steam, etc). 
 * `HE Spoke`{.noWrap} - responsible for creating community around SRM. Creator of [Steam](https://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/bnSVJrz) groups. Also manages issues in [Github](https://github.com/SteamGridDB/steam-rom-manager).
-* `Choko`{.noWrap} - helps most users setup SRM in [Discord](https://discord.gg/bnSVJrz).
+* `Choko`{.noWrap} - helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
+* `KenCinder`{.noWrap} - manages the parser presets.
 * `AlexDobeck`{.noWrap} - improved [retrogaming.cloud](https://retrogaming.cloud/) performance.
-* `lontanadascienza`{.noWrap} - Current maintainer of SRM. Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager and platform parsers (Epic, GOG, Steam, etc). 
 
 ## Support
 If you enjoy Steam ROM Manager and want it to continue to be useful consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. [SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork Steam ROM Manager uses to make your Steam library the envy of the town, so we should probably help them keep their lights on.
