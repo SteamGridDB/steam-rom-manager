@@ -10,7 +10,7 @@ import {
   ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings,
   SteamTree, userAccountData, VDF_ExtraneousItemsData, ErrorData
 } from '../../models';
-import { VDF_Manager, VDF_Error, CategoryManager, Category_Error } from "../../lib";
+import { VDF_Manager, VDF_Error, CategoryManager, ControllerManager, Acceptable_Error } from "../../lib";
 import { APP } from '../../variables';
 import { queue } from 'async';
 import * as steam from "../../lib/helpers/steam";
@@ -143,9 +143,11 @@ export class PreviewService {
 
     let vdfManager = new VDF_Manager();
     let categoryManager = new CategoryManager();
+    let controllerManager = new ControllerManager();
     this.previewVariables.listIsBeingSaved = true;
-    let chain: Promise<any> =  Promise.resolve()
-    .then(()=>{
+
+    let extraneousAppIds: VDF_ExtraneousItemsData = undefined;
+    let chain: Promise<any> =  Promise.resolve().then(()=>{
       this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
       return vdfManager.prepare(remove ? knownSteamDirectories : this.previewData)
     })
@@ -158,24 +160,37 @@ export class PreviewService {
       return vdfManager.read();
     })
     if(!remove) {
-      chain = chain.then(()=>{
+      chain = chain.then(() => {
         this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages,this.appIcons, this.appSettings.previewSettings.deleteDisabledShortcuts)
       })
     } else {
-      chain = chain.then(()=>{
+      chain = chain.then(() => {
         this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         return vdfManager.removeAllAddedEntries()
       })
     }
-    chain = chain.then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
+    chain = chain.then((exAppIds: VDF_ExtraneousItemsData) => {
+      extraneousAppIds = exAppIds;
+    })
+    .then(() => {
       this.loggerService.info(this.lang.info.savingCategories)
       return categoryManager.save(this.previewData, extraneousAppIds, remove)
-    }).catch((error: Category_Error | Error) => {
-      // Category errors are considered non fatal
-      if(error instanceof Category_Error) {
+    }).catch((error: Acceptable_Error | Error) => {
+      if(error instanceof Acceptable_Error) {
         this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
         this.loggerService.error(this.lang.errors.categorySaveError__i.interpolate({error:error.message}));
+      } else {
+        throw error;
+      }
+    })
+    .then(() => {
+      this.loggerService.info('Saving controllers')
+      return controllerManager.save(this.previewData, extraneousAppIds, remove)
+    }).catch((error: Acceptable_Error | Error) => {
+      if(error instanceof Acceptable_Error) {
+        this.loggerService.error(this.lang.errors.controllerSaveError, { invokeAlert: true, alertTimeout: 3000 });
+        this.loggerService.error(this.lang.errors.controllerSaveError__i.interpolate({error:error.message}));
       } else {
         throw error;
       }
@@ -656,6 +671,7 @@ export class PreviewService {
                 argumentString: file.argumentString,
                 title: file.finalTitle,
                 extractedTitle: file.extractedTitle,
+                controllers: config.controllers,
                 images: {
                   steam: steamImage ? {
                     imageProvider: 'Steam',

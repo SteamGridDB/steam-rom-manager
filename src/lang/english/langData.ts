@@ -64,6 +64,8 @@ export const EnglishLang: languageContainer = {
           steamIsRunning: 'Cannot make changes while steam is running!',
           categorySaveError: 'Error updating categories. See event log for details.',
           categorySaveError__i: 'Category error (shortcuts and artwork will still be added): ${error}',
+          controllerSaveError: 'Error updating controller templates. See event log for details.',
+          controllerSaveError__i: 'Controller error (shortcuts and artwork will still be added): ${error}',
           retryingDownload__i: 'Image download from "${imageUrl}" failed for "${appTitle}".',
           providerError__i: 'Error received from "${provider}" for "${title}":\n (${url ? `${code}: ${url}` : code}).',
           unknownProviderError__i: 'Error received from "${provider}" for "${title}":\n ${error}'

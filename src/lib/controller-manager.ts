@@ -7,54 +7,61 @@ import * as os from 'os';
 import * as _ from 'lodash';
 import * as glob from 'glob';
 import * as json from './helpers/json'
-import { PreviewDataUser } from '../models';
+import { PreviewData, PreviewDataUser, VDF_ExtraneousItemsData, Controllers } from '../models';
+import { Acceptable_Error } from './acceptable-error';
 
-const controllerTypes = [
-  'controller_ps4',
-  'controller_ps5',
-  'controller_xbox360',
-  'controller_xboxone',
-  'controller_switch_joycon',
-  'controller_switch_pro',
-  'controller_neptune'
+export const controllerTypes = [
+  'ps4',
+  'ps5',
+  'xbox360',
+  'xboxone',
+  'switch_joycon',
+  'switch_pro',
+  'neptune'
 ]
 
 const match = '(SRM)';
 const topKey = 'controller_config';
+const srmkey = 'srmAppId';
 
 export class ControllerManager {
-  private configsetDir:string;
-  private steamDirectory: string;
-  private userID: string
-  private configsetData: {[controllerType: string]: any} = {};
-  constructor(steamDirectory: string, userID: string) {
-    this.steamDirectory = steamDirectory;
-    this.userID = userID
-    this.configsetDir = path.join(steamDirectory,'steamapps','common','Steam Controller Configs', userID,'config' );
+  private titleMap: {[appId: string]: string};
+  constructor() {
+    this.titleMap = {}
   }
 
-  get data() {
-    return this.configsetData;
+  createList(previewData: PreviewData) {
+    const list = [];
+    for(const steamDirectory in previewData) {
+      for(const userId in previewData[steamDirectory]) {
+        list.push({
+          userId,
+          steamDirectory,
+          userData: previewData[steamDirectory][userId]
+        });
+      }
+    }
+    return list;
   }
 
   // TODO
-  // 1) State management
-  // 2) Convert to AppIDs [doesn't seem possible sadly]
+  // 1) Convert to AppIDs [doesn't seem possible sadly]
+  // 2) Make titlemap not a class variable
 
-  static readTemplates(steamDirectory: string) {
+  static readTemplates(steamDirectory: string, controllerType: string) {
     try {
       let templateDir = path.join(steamDirectory, 'steamapps', 'workshop', 'content', '241100')
       let files = glob.sync('*/*', { silent: true, dot: true, cwd: templateDir, absolute: true });
-      let parsedTemplates: any[] = files.map((f: string) => Object.assign({mapping_id: f.split('/').slice(-2)[0]}, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
-        .filter(x=>!!x['controller_mappings']
+      let parsedTemplates: any[] = files.map((f: string) => Object.assign({ mappingId: f.split('/').slice(-2)[0] }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
+        .filter((x: any) => !!x['controller_mappings']
           && !!x['controller_mappings']['title']
           && !!x['controller_mappings']['controller_type']
         )
+        .filter(x=> x.controller_mappings.controller_type === 'controller_'+controllerType)
         .filter(x=> x.controller_mappings.title.slice(-match.length) === match)
         .map(x=>Object.assign({},{
           title: x.controller_mappings.title,
-          controller_type: x.controller_mappings.controller_type,
-          mapping_id: x.mapping_id
+          mappingId: x.mappingId
         }));
       return parsedTemplates
     } catch(e) {
@@ -63,46 +70,82 @@ export class ControllerManager {
     }
   }
 
-
-  setTemplate(gameTitle: string, controllerType: string, templateID: string) {
-    if(!this.configsetData[controllerType]) {
-      this.configsetData[controllerType] = {};
-    }
-    if(!this.configsetData[controllerType][topKey]) {
-      this.configsetData[controllerType][topKey] = {};
-    }
-    this.configsetData[controllerType][topKey][gameTitle] = { workshop: templateID };
+  transformTitle(gameTitle: string) {
+    return (gameTitle||"").toLowerCase().trim()
   }
 
-  removeTemplate(gameTitle: string, controllerType: string) {
-    this.configsetData[controllerType][topKey][gameTitle] = null;
-    if(Object.keys(this.configsetData[controllerType][topKey]).length == 0) {
-      this.configsetData[controllerType] = null;
-    }
-  }
 
-  readControllers() {
-    for(let controllerType of controllerTypes) {
-      let configsetPath = path.join(this.configsetDir, `configset_${controllerType}.vdf`);
-      if(fs.existsSync(configsetPath)) {
-        this.configsetData[controllerType] = genericParser.parse(fs.readFileSync(configsetPath, 'utf-8')) || {};
-        if(!this.configsetData[controllerType][topKey]) {
-          this.configsetData[controllerType][topKey] = {};
-        }
-        for(let game of Object.keys(this.configsetData[controllerType][topKey])) {
-          console.log(game)
-          for(let key of Object.keys(this.configsetData[controllerType][topKey][game])) {
-            console.log(key)
-            this.configsetData[controllerType][topKey][game][key] = String(this.configsetData[controllerType][topKey][game][key])
-          }
-        }
-      }
+  setTemplate(configsetData: {[controllerType: string]: any},
+    appId: string,
+    controllerType: string,
+    gameTitle: string,
+    mappingId: string
+  ) {
+    if(!configsetData[controllerType]) {
+      configsetData[controllerType] = {};
+    }
+    if(!configsetData[controllerType][topKey]) {
+      configsetData[controllerType][topKey] = {};
+    }
+    let title = this.transformTitle(gameTitle)
+    this.titleMap[appId] = title;
+    configsetData[controllerType][topKey][title] = {
+      workshop: mappingId,
+      srmAppId: appId
     };
   }
 
-  backupControllers() {
-    for(let controllerType of controllerTypes) {
-      let configsetPath = path.join(this.configsetDir, `configset_${controllerType}.vdf`);
+  removeTemplate(configsetData: {[controllerType: string]: any}, appId: string, controllerType: string) {
+    if(configsetData[controllerType] && configsetData[controllerType][topKey]) {
+      if((configsetData[controllerType][topKey][this.titleMap[appId]]||{})[srmkey] == appId) {
+        delete configsetData[controllerType][topKey][this.titleMap[appId]];
+      }
+      if(Object.keys(configsetData[controllerType][topKey]).length == 0) {
+        delete configsetData[controllerType];
+      }
+    }
+  }
+
+  removeAllTemplates(configsetData: {[controllerType: string]: any}) {
+    for(const gameTitle of Object.values(this.titleMap)) {
+      for(const controllerType of controllerTypes) {
+        if(configsetData[controllerType] && configsetData[controllerType][topKey] && configsetData[controllerType][topKey][gameTitle]) {
+          delete configsetData[controllerType][topKey][gameTitle];
+        }
+      }
+    }
+    for(const controllerType of controllerTypes) {
+      if(configsetData[controllerType] && configsetData[controllerType][topKey] && Object.keys(configsetData[controllerType][topKey]).length == 0) {
+        delete configsetData[controllerType]
+      }
+    }
+  }
+
+  readControllers(configsetDir: string) {
+    let configsetData: {[controllerType: string]: any} = {};
+    for(const controllerType of controllerTypes) {
+      let configsetPath = path.join(configsetDir, `configset_controller_${controllerType}.vdf`);
+      if(fs.existsSync(configsetPath)) {
+        configsetData[controllerType] = genericParser.parse(fs.readFileSync(configsetPath, 'utf-8')) || {};
+        if(!configsetData[controllerType][topKey]) {
+          configsetData[controllerType][topKey] = {};
+        }
+        for(const game of Object.keys(configsetData[controllerType][topKey])) {
+          for(const key of Object.keys(configsetData[controllerType][topKey][game])) {
+            configsetData[controllerType][topKey][game][key] = String(configsetData[controllerType][topKey][game][key])
+          }
+          if(configsetData[controllerType][topKey][game][srmkey]) {
+            this.titleMap[configsetData[controllerType][topKey][game][srmkey]] = game;
+          }
+        }
+      }
+    }
+    return configsetData;
+  }
+
+  backupControllers(configsetDir: string) {
+    for(const controllerType of controllerTypes) {
+      let configsetPath = path.join(configsetDir, `configset_${controllerType}.vdf`);
       let bkPath = configsetPath + '.backup'
       if(fs.existsSync(configsetPath)) {
         fs.copyFileSync(configsetPath, bkPath)
@@ -110,11 +153,51 @@ export class ControllerManager {
     }
   }
 
-  writeControllers() {
-    for(let controllerType of Object.keys(this.configsetData)) {
-      let configsetPath = path.join(this.configsetDir, `configset_${controllerType}.vdf`)
-      fs.outputFile(configsetPath, genericParser.stringify(this.configsetData[controllerType]))
+  writeControllers(user: { userId: string, steamDirectory: string, userData: PreviewDataUser }, extraneousAppIds: string[], removeAll: boolean) {
+    let configsetDir = path.join(user.steamDirectory, 'steamapps', 'common', 'Steam Controller Configs', user.userId,'config' );
+    this.backupControllers(configsetDir);
+    let configsetData = this.readControllers(configsetDir);
+    if(removeAll) {
+      this.removeAllTemplates(configsetData);
     }
+    else {
+      for(const controllerType of controllerTypes) {
+        for (const appId of extraneousAppIds) {
+          this.removeTemplate(configsetData, appId, controllerType)
+        }
+      }
+      for (const appId of Object.keys(user.userData.apps).filter((appId: string)=>user.userData.apps[appId].status ==='add')) {
+        const app = user.userData.apps[appId];
+        for(const controllerType of Object.keys(app.controllers)) {
+          const controller = app.controllers[controllerType]
+          this.setTemplate(configsetData, appId, controllerType, app.title, controller.mappingId);
+        }
+      }
+    }
+    for(const controllerType of controllerTypes) {
+      let configsetPath = path.join(configsetDir, `configset_controller_${controllerType}.vdf`)
+      if(configsetData[controllerType]) {
+        fs.outputFile(configsetPath, genericParser.stringify(configsetData[controllerType]))
+      } else if(fs.existsSync(configsetPath)) {
+        fs.unlinkSync(configsetPath)
+      }
+    }
+  }
+
+  save(previewData: PreviewData, extraneousAppIds: VDF_ExtraneousItemsData, removeAll: boolean) {
+    return new Promise((resolveSave, rejectSave) => {
+      let result = this.createList(previewData).reduce((accumulatorPromise, user) => {
+        return accumulatorPromise.then(() => {
+          return this.writeControllers(user, extraneousAppIds[user.userId], removeAll);
+        });
+      }, Promise.resolve());
+
+      return result.then(() => {
+        resolveSave(extraneousAppIds);
+      }).catch((error: Error) => {
+        rejectSave(new Acceptable_Error(error));
+      });
+    });
   }
 
 }

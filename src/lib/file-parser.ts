@@ -219,6 +219,7 @@ export class FileParser {
           shortcutPassthrough: config.executable.shortcutPassthrough,
           imageProviders: config.imageProviders,
           imageProviderAPIs: config.imageProviderAPIs,
+          controllers: config.controllers,
           foundUserAccounts: filteredAccounts.found,
           missingUserAccounts: filteredAccounts.missing,
           steamDirectory: config.steamDirectory,

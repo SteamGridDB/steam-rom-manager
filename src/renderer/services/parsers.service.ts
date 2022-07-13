@@ -65,25 +65,17 @@ export class ParsersService {
 
   readControllers(config: UserConfiguration) {
 
-    let preParser = new VariableParser({ left: '${', right: '}' });
-    let steamDir = preParser.setInput(config.steamDirectory).parse() ? preParser.replaceVariables((variable)=>{
-      return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables, this.appSettings).trim()
-    }) : '';
-
-    let controllerManager = new ControllerManager(steamDir, '84977612');
-    controllerManager.readControllers();
-    controllerManager.backupControllers();
-    let templates = ControllerManager.readTemplates(steamDir);
-    console.log("templates", templates)
-    // controllerManager.setTemplate("kingdom hearts ii", templates[0].controller_type, templates[0].mapping_id)
-    // console.log("cmd", controllerManager.data)
-    // controllerManager.writeControllers();
   }
 
-  getTemplates(steamDir: string): any[] {
-    let res = ControllerManager.readTemplates(steamDir);
-    console.log("gotTemplates",res)
-    return res;
+  getTemplates(steamDir: string, controllerType: string): any[] {
+    return ControllerManager.readTemplates(steamDir, controllerType);
+  }
+
+  parseSteamDir(steamDirInput: string) {
+    let preParser = new VariableParser({ left: '${', right: '}' });
+    return preParser.setInput(steamDirInput).parse() ? preParser.replaceVariables((variable) => {
+      return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables, this.appSettings).trim()
+    }) : '';
   }
 
   getKnownSteamDirectories() {

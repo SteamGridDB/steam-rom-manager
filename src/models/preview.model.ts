@@ -1,5 +1,5 @@
 import { Observable, BehaviorSubject } from "rxjs";
-import { ImageProviderAPI } from "./user-configuration.model";
+import { ImageProviderAPI, Controllers } from "./user-configuration.model";
 
 export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
 
@@ -30,6 +30,7 @@ export interface PreviewDataAppImage {
     imageIndex: number
 }
 
+
 export interface PreviewDataApp {
     entryId: number,
     status: 'add' | 'skip' | 'remove',
@@ -37,6 +38,7 @@ export interface PreviewDataApp {
     parserId: string,
     parserType: string,
     steamCategories: string[],
+    controllers: Controllers,
     imageProviders: string[],
     startInDirectory: string,
     executableLocation: string,

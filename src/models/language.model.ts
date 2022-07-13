@@ -61,6 +61,8 @@ export interface languageStruct {
                 steamIsRunning: string,
                 categorySaveError: string,
                 categorySaveError__i: string, //${error}
+                controllerSaveError: string,
+                controllerSaveError__i: string, //${error}
                 retryingDownload__i: string //${imageUrl}, ${appTitle},
               providerError__i: string//${provider}, ${code}, ${title}, ${url}
               unknownProviderError__i: string //${provider}, ${title}, ${error}

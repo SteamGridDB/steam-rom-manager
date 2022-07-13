@@ -135,6 +135,20 @@ const sharedProperties = {
         replaceDiacritics: { type: 'boolean', default: true }
       }
     },
+    controllers: {
+      type: 'object',
+      default: {},
+      patternProperties: {
+        "^.+$": {
+          type: 'object',
+          default: { title: "", mappingId: "" },
+          properties: {
+            title: { type: 'string', default: '' },
+            mappingId: { type: 'string', default: '' },
+          }
+        }
+      }
+    },
     disabled: { type: 'boolean', default: false },
   }
 }
