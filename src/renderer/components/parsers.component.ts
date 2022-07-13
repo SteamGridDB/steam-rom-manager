@@ -740,7 +740,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
   private testForm() {
     let config = this.userForm.value as UserConfiguration;
-    console.log('config',config)
     config.parserId = this.configurationIndex === -1 ? 'UNSAVED SO NO ID' : this.parsersService.getParserId(this.configurationIndex);
     let successData: string = '';
     let errorData: string = '';
