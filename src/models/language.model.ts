@@ -421,8 +421,9 @@ export interface languageStruct {
               testFailed: string,
               cannotTestInvalid: string,
               cannotCopyInvalid: string,
-              failedToCopy: string
-          }
+              failedToCopy: string,
+              cannotFetchTemplates: string
+          },
         success: {
           foundAccounts__i: string, //${count}
             foundAccountInfo__i: string, //${name}, ${steamID64}, ${accountID}

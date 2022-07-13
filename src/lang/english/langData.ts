@@ -566,7 +566,8 @@ export const EnglishLang: languageContainer = {
           testFailed: 'Testing failed',
           cannotTestInvalid: 'Can not test invalid configuration!',
           cannotCopyInvalid: 'Can not copy invalid configuration!',
-          failedToCopy: 'Failed to copy to clipbard!'
+          failedToCopy: 'Failed to copy to clipbard!',
+          cannotFetchTemplates: 'Can not fetch controller templates for invalid steam dir!'
         },
         success: {
           foundAccounts__i: 'Found ${count} available user account(s):',

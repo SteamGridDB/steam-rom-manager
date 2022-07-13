@@ -325,6 +325,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         controllerSection: new NestedFormElement.Section({
           label: 'Controller Templates Configuration'
         }),
+        fetchControllersButton: new NestedFormElement.Button({
+          label: 'Fetch Controller Templates',
+          onClickMethod: this.fetchControllerTemplates.bind(this)
+        }),
         controllers: new NestedFormElement.Group({
           label: 'Controllers',
           children: (() => {
@@ -554,41 +558,31 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.configPresets = data;
     }))
 
-    this.steamDirObservable().subscribe((steamDir)=>{
-      console.log("steamDir", steamDir)
-      console.log(this.userForm.controls.controllers.controls['xbox360'])
-      // console.log((this.nestedGroup.children.controllers as NestedFormElement.Group).children)
-      // this.nestedGroup.children.controllers.children.forEach(child=>{
-      //   console.log(child)
-      // })
-    //   this.nestedGroup.children.controllers = new NestedFormElement.Group({
-    //       label: 'Controllers',
-    //       children: (() => {
-    //         let children = {};
-    //         for(let controllerType of controllerTypes) {
-    //           children[controllerType] = new NestedFormElement.Select({
-    //             label: controllerType,
-    //             placeholder: 'Select a Template',
-    //             multiple: false,
-    //             allowEmpty: true,
-    //             values: this.parsersService.getTemplates(steamDir, controllerType).map((template) => { return { display: template.title, real: template } }),
-    //             onInfoClick: (self, path) => {
-    //               this.currentDoc.activePath = path.join();
-    //               this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
-    //             }
-    //           })
-    //         }
-    //         return children;
-    //       })(),
-    //       onInfoClick: (control, path) => {
-    //         this.currentDoc.activePath = path.join();
-    //         this.currentDoc.content = this.lang.docs__md.fuzzyMatch.join('');
-    //       }
+    // this.steamDirObservable().subscribe((steamDir)=>{
+    //   if(this.parsersService.validate('steamDirectory', steamDir) !== null) {
+    //     return;
+    //   }
+    //   for(let controllerType of controllerTypes) {
+    //     ((this.nestedGroup.children.controllers as NestedFormElement.Group).children[controllerType] as NestedFormElement.Select).values = this.parsersService.getTemplates(steamDir, controllerType).map((template) => {
+    //       return { display: template.title, real: template }
     //     });
-    });
-    // TODO Make sections independent between parsers
-    // .add(this.nestedGroup.hiddenSectionsObservable().subscribe((hiddenSections: {[sectionName:string]:boolean})=>{
-    // }));
+    //   }
+    // });
+  }
+
+  private fetchControllerTemplates() {
+    let steamDirInput = this.userForm.get('steamDirectory').value || '';
+    let steamDir = this.parsersService.parseSteamDir(steamDirInput);
+    if(this.parsersService.validate('steamDirectory', steamDir) == null) {
+      for(let controllerType of controllerTypes) {
+        let newvals = this.parsersService.getTemplates(steamDir, controllerType).map((template) => {
+          return { display: template.title, real: template }
+        });
+        ((this.nestedGroup.children.controllers as NestedFormElement.Group).children[controllerType] as NestedFormElement.Select).values = newvals;
+      }
+    } else {
+        this.loggerService.error(this.lang.error.cannotFetchTemplates, { invokeAlert: true, alertTimeout: 3000 });
+    }
   }
 
   private setPreset(key: string) {
@@ -646,9 +640,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private isHiddenIfParserBlank() {
     return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => !pType)
   }
-  private steamDirObservable() {
-    return Observable.concat(Observable.of(this.userForm.get('steamDirectory').value),this.userForm.get('steamDirectory').valueChanges).map(sdir=>this.parsersService.parseSteamDir(sdir||''));
-  }
 
   // Not currently used but potentially very useful
   private isHiddenIfArtworkOnlyOrBlank() {
@@ -678,11 +669,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
   private updateForm() {
     this.parsersService.updateConfiguration(this.configurationIndex);
-  }
-
-  private readControllers() {
-    let config = this.userForm.value as UserConfiguration;
-    this.parsersService.readControllers(config);
   }
 
   private deleteForm() {

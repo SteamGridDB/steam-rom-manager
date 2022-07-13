@@ -6,7 +6,7 @@ export type NestedInputValidatorObservable = ()=>Observable<string>;
 export type NestedInputInfoClick = (control: AbstractControl, path: string[]) => void;
 export type NestedInputChange = (control: AbstractControl, path: string[]) => void;
 export type NestedInputHidden = () => Observable<boolean> | Promise<boolean>;
-
+export type NestedInputClick = () => any;
 type ObjectFields<T> = {
   [P in keyof T]: T[P];
 };
@@ -160,7 +160,19 @@ export namespace NestedFormElement {
       Object.assign(this, init);
     }
   }
+
+  export class Button {
+    static displayName = 'Button';
+    /** Mandatory */
+    label: string;
+    onClickMethod: NestedInputClick;
+    /** Optional */
+    isHidden?: NestedInputHidden;
+    constructor(init?: ObjectFields<Button>) {
+      Object.assign(this, init)
+    }
+  }
 }
 
 export type NestedFormInputs = NestedFormElement.Input | NestedFormElement.Select | NestedFormElement.Toggle | NestedFormElement.Path;
-export type NestedFormElements = NestedFormInputs | NestedFormElement.Group | NestedFormElement.Section;
+export type NestedFormElements = NestedFormInputs | NestedFormElement.Group | NestedFormElement.Section | NestedFormElement.Button;

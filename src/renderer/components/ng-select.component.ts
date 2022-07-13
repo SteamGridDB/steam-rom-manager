@@ -28,9 +28,7 @@ import * as _ from 'lodash';
     multi: true
   }]
 })
-/*        <div class="options" [class.open]="open">
-            <ng-content select="ng-option"></ng-content>
-        </div>*/
+
 export class NgSelectComponent implements ControlValueAccessor {
   private open: boolean = false;
 
