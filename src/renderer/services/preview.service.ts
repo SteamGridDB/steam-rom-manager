@@ -196,6 +196,7 @@ export class PreviewService {
       }
     })
     .then(() => {
+      this.loggerService.info('Writing VDFs')
       return vdfManager.write();
     })
     .then(() => {
