@@ -61,7 +61,13 @@ ng-nested-form {
 
       grid-area: error;
     }
-
+    .freeButton {
+      @include button();
+      @include clickButtonColor(click-button);
+      width: 14em;
+      margin: auto;
+      justify-content: center;
+    }
     .clickButton {
       @include button();
       @include clickButtonColor(click-button);

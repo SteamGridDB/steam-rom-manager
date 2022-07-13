@@ -6,7 +6,7 @@ import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { ParsersService, LoggerService, ImageProviderService, SettingsService, ConfigurationPresetsService } from '../services';
 import * as parserInfo from '../../lib/parsers/available-parsers';
 import * as steam from '../../lib/helpers/steam';
-import { controllerTypes } from '../../lib/controller-manager';
+import { controllerTypes, controllerNames } from '../../lib/controller-manager';
 import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets } from '../../models';
 import { Subscription, Observable } from "rxjs";
 import { APP } from '../../variables';
@@ -47,7 +47,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
     this.nestedGroup = new NestedFormElement.Group({
       children: {
-        sectionTest: new NestedFormElement.Section({
+        basicSection: new NestedFormElement.Section({
           label: 'Basic Configuration'
         }),
         parserType: new NestedFormElement.Select({
@@ -326,33 +326,27 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           label: 'Controller Templates Configuration'
         }),
         fetchControllersButton: new NestedFormElement.Button({
-          label: 'Fetch Controller Templates',
+          buttonLabel: 'Fetch Controller Templates',
           onClickMethod: this.fetchControllerTemplates.bind(this)
         }),
         controllers: new NestedFormElement.Group({
-          label: 'Controllers',
           children: (() => {
             let children = {};
             for(let controllerType of controllerTypes) {
               children[controllerType] = new NestedFormElement.Select({
-                label: controllerType,
+                label: controllerNames[controllerType]+" Template",
                 placeholder: 'Select a Template',
                 multiple: false,
                 allowEmpty: true,
                 values: this.parsersService.getTemplates('C:\\Program Files (x86)\\Steam', controllerType).map((template) => { return { display: template.title, real: template } }),
                 onInfoClick: (self, path) => {
                   this.currentDoc.activePath = path.join();
-                  this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
+                  this.currentDoc.content = this.lang.docs__md.controllerTemplates.join('');
                 }
               })
             }
             return children;
-          })(),
-          onInfoClick: (control, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.fuzzyMatch.join('');
-          }
-
+          })()
         }),
         onlineImageSection: new NestedFormElement.Section({
           label: 'Artwork Provider Configuration'

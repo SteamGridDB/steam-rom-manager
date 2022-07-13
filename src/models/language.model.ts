@@ -379,6 +379,7 @@ export interface languageStruct {
               parserType: string[],
               configTitle: string[],
               steamCategory: string[],
+              controllerTemplates: string[],
               executableLocation: string[],
               romDirectory: string[],
               steamDirectory: string[],

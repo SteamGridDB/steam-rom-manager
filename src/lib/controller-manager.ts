@@ -17,8 +17,15 @@ export const controllerTypes = [
   'xboxone',
   'switch_joycon',
   'switch_pro',
-  'neptune'
 ]
+export const controllerNames = {
+  ps4: 'PS4',
+  ps5: 'PS5',
+  xbox360: 'Xbox 360',
+  xboxone: 'Xbox One',
+  switch_joycon: 'Switch Joy-Cons',
+  switch_pro: 'Switch Pro'
+}
 
 const match = '(SRM)';
 const topKey = 'controller_config';
@@ -170,7 +177,11 @@ export class ControllerManager {
         const app = user.userData.apps[appId];
         for(const controllerType of Object.keys(app.controllers)) {
           const controller = app.controllers[controllerType]
-          this.setTemplate(configsetData, appId, controllerType, app.title, controller.mappingId);
+          if(controller) {
+            this.setTemplate(configsetData, appId, controllerType, app.title, controller.mappingId);
+          } else {
+            this.removeTemplate(configsetData, appId, controllerType)
+          }
         }
       }
     }

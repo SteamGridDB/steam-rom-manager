@@ -140,12 +140,17 @@ const sharedProperties = {
       default: {},
       patternProperties: {
         "^.+$": {
-          type: 'object',
-          default: { title: "", mappingId: "" },
-          properties: {
-            title: { type: 'string', default: '' },
-            mappingId: { type: 'string', default: '' },
-          }
+          anyOf: [
+            {
+              type: 'object',
+              default: { title: "", mappingId: "" },
+              properties: {
+                title: { type: 'string', default: '' },
+                mappingId: { type: 'string', default: '' },
+              }
+            },
+            { type: 'null' }
+          ]
         }
       }
     },

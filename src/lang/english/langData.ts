@@ -436,6 +436,7 @@ export const EnglishLang: languageContainer = {
             require('./markdown/parser-variables.md'),
             require('./markdown/parser-env-variables.md')
           ],
+          controllerTemplates: [require('./markdown/controller-templates.md')],
           executableLocation: [require('./markdown/executable-location.md'),require('./markdown/parser-env-variables.md')],
           romDirectory: [require('./markdown/rom-directory.md'),require('./markdown/parser-env-variables.md')],
           steamDirectory: [require('./markdown/steam-directory.md'),require('./markdown/parser-env-variables.md')],

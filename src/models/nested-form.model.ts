@@ -164,9 +164,10 @@ export namespace NestedFormElement {
   export class Button {
     static displayName = 'Button';
     /** Mandatory */
-    label: string;
+    buttonLabel: string;
     onClickMethod: NestedInputClick;
     /** Optional */
+    label?: string;
     isHidden?: NestedInputHidden;
     constructor(init?: ObjectFields<Button>) {
       Object.assign(this, init)

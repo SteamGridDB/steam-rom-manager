@@ -39,7 +39,7 @@
                 </ng-select>
               </ng-container>
               <ng-container *ngSwitchCase="'Button'">
-                <div class="clickButton" (click)="child.onClickMethod()">{{child.label}}</div>
+                <div class="freeButton" (click)="child.onClickMethod()">{{child.buttonLabel}}</div>
               </ng-container>
               <ng-container *ngSwitchCase="'Input'">
                 <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight"></ng-text-input>
