@@ -95,17 +95,17 @@ export class ControllerManager {
       configsetData[controllerType][topKey] = {};
     }
     let title = this.transformTitle(gameTitle)
-    this.titleMap[appId] = title;
     configsetData[controllerType][topKey][title] = {
       workshop: mappingId,
       srmAppId: appId
     };
   }
 
-  removeTemplate(configsetData: {[controllerType: string]: any}, appId: string, controllerType: string) {
+  removeTemplate(configsetData: {[controllerType: string]: any}, gameTitle: string, controllerType: string) {
+    let title = this.transformTitle(gameTitle);
     if(configsetData[controllerType] && configsetData[controllerType][topKey]) {
-      if((configsetData[controllerType][topKey][this.titleMap[appId]]||{})[srmkey] == appId) {
-        delete configsetData[controllerType][topKey][this.titleMap[appId]];
+       if((configsetData[controllerType][topKey][title]||{})[srmkey]) {
+        delete configsetData[controllerType][topKey][title];
       }
       if(Object.keys(configsetData[controllerType][topKey]).length == 0) {
         delete configsetData[controllerType];
@@ -170,7 +170,9 @@ export class ControllerManager {
     else {
       for(const controllerType of controllerTypes) {
         for (const appId of extraneousAppIds) {
-          this.removeTemplate(configsetData, appId, controllerType)
+          if(this.titleMap[appId]) {
+            this.removeTemplate(configsetData, this.titleMap[appId], controllerType)
+          }
         }
       }
       for (const appId of Object.keys(user.userData.apps).filter((appId: string)=>user.userData.apps[appId].status ==='add')) {
@@ -180,7 +182,7 @@ export class ControllerManager {
           if(controller) {
             this.setTemplate(configsetData, appId, controllerType, app.title, controller.mappingId);
           } else {
-            this.removeTemplate(configsetData, appId, controllerType)
+            this.removeTemplate(configsetData, app.title, controllerType)
           }
         }
       }
