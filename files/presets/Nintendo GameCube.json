@@ -35,10 +35,10 @@
 			"glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcm|.GCM|.gcz|.GCZ|.iso|.ISO|.nkit.iso|.NKIT.ISO|.rvz|.RVZ|.wad|.WAD|.wia|.WIA)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": "${GCN}",
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"tryToMatchTitle": true
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -102,10 +102,10 @@
 			"glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcm|.GCM|.gcz|.GCZ|.iso|.ISO|.nkit.iso|.NKIT.ISO|.rvz|.RVZ|.wad|.WAD|.wia|.WIA)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": "${GCN}",
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"tryToMatchTitle": true
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -169,10 +169,10 @@
 			"glob": "${title}@(.7z|.7Z|.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcm|.GCM|.gcz|.GCZ|.iso|.ISO|.nkit.iso|.NKIT.ISO|.rvz|.RVZ|.wad|.WAD|.wia|.WIA)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": "${GCN}",
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"tryToMatchTitle": true
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -236,10 +236,10 @@
 			"glob": "${title}@(.7z|.7Z|.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcm|.GCM|.gcz|.GCZ|.iso|.ISO|.nkit.iso|.NKIT.ISO|.rvz|.RVZ|.wad|.WAD|.wia|.WIA)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": "${GCN}",
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"tryToMatchTitle": true
 		},
 		"fuzzyMatch": {
 			"use": true,
