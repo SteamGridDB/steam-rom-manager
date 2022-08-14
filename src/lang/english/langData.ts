@@ -126,6 +126,23 @@ export const EnglishLang: languageContainer = {
         fatalError__i: '> Epic Games parser failed with fatal error:\n ${error}'
       }
     },
+    UWPParser: {
+      UWPDirTitle: 'Games directory',
+      UWPLauncherModeTitle: 'Launch game as UWP instead of launcher helper.',
+      docs__md: {
+        self: [
+          require('./markdown/UWP-parser.md'),
+          require('./markdown/UWP-parser-input.md')
+        ],
+        input: [
+          require('./markdown/UWP-parser-input.md')
+        ]
+      },
+      errors: {
+        fatalError__i: '> UWP parser failed with fatal error:\n ${error}',
+        UWPNotCompatible: '> UWP parser is not compatible in this platform.'
+      }
+    },
     uplayParser: {
       uplayDirTitle: 'Uplay Directory Override',
       launcherModeInputTitle: 'Launch games via UPlay for online services',
