@@ -35,10 +35,10 @@
 			"glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcz|.GCZ|.iso|.ISO|.rvz|.RVZ|.wad|.WAD|.wbfs|.WBFS|.wia|.WIA)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${WII}",
+			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": true
+			"tryToMatchTitle": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -102,10 +102,10 @@
 			"glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcz|.GCZ|.iso|.ISO|.rvz|.RVZ|.wad|.WAD|.wbfs|.WBFS|.wia|.WIA)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${WII}",
+			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": true
+			"tryToMatchTitle": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -169,10 +169,10 @@
 			"glob": "${title}@(.7z|.7Z|.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcz|.GCZ|.iso|.ISO|.rvz|.RVZ|.wad|.WAD|.wbfs|.WBFS|.wia|.WIA)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${WII}",
+			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": true
+			"tryToMatchTitle": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -236,10 +236,10 @@
 			"glob": "${title}@(.7z|.7Z|.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcz|.GCZ|.iso|.ISO|.rvz|.RVZ|.wad|.WAD|.wbfs|.WBFS|.wia|.WIA)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${WII}",
+			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": true
+			"tryToMatchTitle": false
 		},
 		"fuzzyMatch": {
 			"use": true,
