@@ -44,14 +44,14 @@ export class ItchIoParser implements GenericParser {
   }
 
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
-    return new Promise<ParsedData>((resolve, reject) => {
+    return new Promise<ParsedData>((resolve, reject)=>{
       try {
-        if (!["Windows_NT", "Linux", "Darwin"].includes(os.type())) {
+        if(!["Windows_NT", "Linux", "Darwin"].includes(os.type())) {
           reject(this.lang.errors.osUnsupported);
         }
 
         const itchIoAppDataDir = inputs.itchIoAppDataOverride || (() => {
-          switch (os.type()) {
+          switch(os.type()) {
             case "Windows_NT":
               return `${process.env.APPDATA}\\itch`;
             case "Linux":
@@ -60,20 +60,20 @@ export class ItchIoParser implements GenericParser {
               return `${process.env.HOME}/Library/Application Support/itch`;
           }
         })();
-        const dbPath = os.type() == "Windows_NT" ? `${itchIoAppDataDir}\\db\\butler.db` : `${itchIoAppDataDir}/db/butler.db`;
-        if (!fs.existsSync(dbPath)) {
+        const dbPath = os.type()=="Windows_NT" ? `${itchIoAppDataDir}\\db\\butler.db`:`${itchIoAppDataDir}/db/butler.db`;
+        if(!fs.existsSync(dbPath)) {
           reject(this.lang.errors.databaseNotFound);
         }
         const db = sqlite(dbPath);
-        const games: { extractedTitle: string, filePath: string }[] = db.prepare(
+        const games: { extractedTitle:string, filePath:string }[] = db.prepare(
           "select title, verdict from caves as c join games as g on c.game_id = g.id"
         ).all()
-          .map(({ title, verdict }: { [key: string]: string }) => {
-            const { basePath, candidates } = JSON.parse(verdict);
+        .map(({ title, verdict }: { [key:string]:string }) => {
+          const { basePath, candidates } = JSON.parse(verdict);
 
-            if (!candidates) {
-              return null;
-            }
+          if (!candidates) {
+            return null;
+          }
 
             const exePath = candidates[0].path;
             let filePath = `${basePath}/${exePath}`
@@ -94,10 +94,10 @@ export class ItchIoParser implements GenericParser {
               filePath: filePath,
             };
           })
-          .filter((gameDetails: any) => gameDetails !== null);
-        resolve({ success: games, failed: [] });
+          .filter((gameDetails:any) => gameDetails !== null);
+        resolve({success: games, failed:[]});
       } catch (err) {
-        reject(this.lang.errors.fatalError__i.interpolate({ error: err }));
+        reject(this.lang.errors.fatalError__i.interpolate({error: err}));
       }
     })
   }
