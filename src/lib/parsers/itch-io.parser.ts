@@ -34,7 +34,7 @@ export class ItchIoParser implements GenericParser {
             if (!input || fs.existsSync(input) && !fs.lstatSync(input).isFile()) {
               return null;
             } else {
-              return this.lang.errors.invalidItchIoAppDataOverride;
+              return this.lang.errors.invalidItchIoWindowsOnLinuxInstallDriveRedirect;
             }
           },
           info: this.lang.docs__md.input.join('')

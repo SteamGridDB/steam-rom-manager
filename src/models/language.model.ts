@@ -93,6 +93,7 @@ export interface languageStruct {
       },
       errors: {
         invalidItchIoAppDataOverride: string,
+        invalidItchIoWindowsOnLinuxInstallDriveRedirect: string,
         osUnsupported: string,
         fatalError__i: string,
         databaseNotFound: string
