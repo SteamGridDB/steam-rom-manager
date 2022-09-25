@@ -19,7 +19,7 @@ export class ItchIoParser implements GenericParser {
           label: this.lang.itchIoAppDataOverrideTitle,
           inputType: 'dir',
           validationFn: (input: string) => {
-            if (!input || fs.existsSync(input) && !fs.lstatSync(input).isFile()) {
+            if(!input || fs.existsSync(input) && !fs.lstatSync(input).isFile()) {
               return null;
             } else {
               return this.lang.errors.invalidItchIoAppDataOverride;
@@ -31,7 +31,7 @@ export class ItchIoParser implements GenericParser {
           label: this.lang.itchIoWindowsOnLinuxInstallDriveRedirectTitle,
           inputType: 'dir',
           validationFn: (input: string) => {
-            if (!input || fs.existsSync(input) && !fs.lstatSync(input).isFile()) {
+            if(!input || fs.existsSync(input) && !fs.lstatSync(input).isFile()) {
               return null;
             } else {
               return this.lang.errors.invalidItchIoWindowsOnLinuxInstallDriveRedirect;
@@ -44,7 +44,7 @@ export class ItchIoParser implements GenericParser {
   }
 
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
-    return new Promise<ParsedData>((resolve, reject)=>{
+    return new Promise<ParsedData>((resolve,reject)=>{
       try {
         if(!["Windows_NT", "Linux", "Darwin"].includes(os.type())) {
           reject(this.lang.errors.osUnsupported);
@@ -96,7 +96,7 @@ export class ItchIoParser implements GenericParser {
           })
           .filter((gameDetails:any) => gameDetails !== null);
         resolve({success: games, failed:[]});
-      } catch (err) {
+      } catch(err) {
         reject(this.lang.errors.fatalError__i.interpolate({error: err}));
       }
     })
