@@ -185,7 +185,7 @@ export const EnglishLang: languageContainer = {
     },
     itchIoParser: {
       itchIoAppDataOverrideTitle: "itch.io AppData Path Override",
-      itchIoProtonDrivePrefixTitle: "Proton Install Drive Prefix",
+      itchIoWindowsOnLinuxInstallDriveRedirectTitle: "Windows-on-Linux Install Drive Redirect",
       docs__md: {
         self: [
           require('./markdown/itch-io-parser.md')

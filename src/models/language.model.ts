@@ -86,7 +86,7 @@ export interface languageStruct {
     },
     itchIoParser: {
       itchIoAppDataOverrideTitle: string,
-      itchIoProtonDrivePrefixTitle: string,
+      itchIoWindowsOnLinuxInstallDriveRedirectTitle: string,
       docs__md: {
         self: string[],
         input: string[]

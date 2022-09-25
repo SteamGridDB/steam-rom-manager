@@ -19,7 +19,7 @@ export class ItchIoParser implements GenericParser {
           label: this.lang.itchIoAppDataOverrideTitle,
           inputType: 'dir',
           validationFn: (input: string) => {
-            if(!input || fs.existsSync(input) && !fs.lstatSync(input).isFile()) {
+            if (!input || fs.existsSync(input) && !fs.lstatSync(input).isFile()) {
               return null;
             } else {
               return this.lang.errors.invalidItchIoAppDataOverride;
@@ -27,30 +27,31 @@ export class ItchIoParser implements GenericParser {
           },
           info: this.lang.docs__md.input.join('')
         },
-        'itchIoProtonDrivePrefix': {
-          label: this.lang.itchIoProtonDrivePrefixTitle,
+        'itchIoWindowsOnLinuxInstallDriveRedirect': {
+          label: this.lang.itchIoWindowsOnLinuxInstallDriveRedirectTitle,
           inputType: 'dir',
           validationFn: (input: string) => {
-            if(!input || fs.existsSync(input) && !fs.lstatSync(input).isFile()) {
+            if (!input || fs.existsSync(input) && !fs.lstatSync(input).isFile()) {
               return null;
             } else {
               return this.lang.errors.invalidItchIoAppDataOverride;
             }
-          }
+          },
+          info: this.lang.docs__md.input.join('')
         }
       }
     };
   }
 
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
-    return new Promise<ParsedData>((resolve,reject)=>{
+    return new Promise<ParsedData>((resolve, reject) => {
       try {
-        if(!["Windows_NT", "Linux", "Darwin"].includes(os.type())) {
+        if (!["Windows_NT", "Linux", "Darwin"].includes(os.type())) {
           reject(this.lang.errors.osUnsupported);
         }
 
         const itchIoAppDataDir = inputs.itchIoAppDataOverride || (() => {
-          switch(os.type()) {
+          switch (os.type()) {
             case "Windows_NT":
               return `${process.env.APPDATA}\\itch`;
             case "Linux":
@@ -59,34 +60,33 @@ export class ItchIoParser implements GenericParser {
               return `${process.env.HOME}/Library/Application Support/itch`;
           }
         })();
-        const dbPath = os.type()=="Windows_NT" ? `${itchIoAppDataDir}\\db\\butler.db`:`${itchIoAppDataDir}/db/butler.db`;
-        if(!fs.existsSync(dbPath)) {
+        const dbPath = os.type() == "Windows_NT" ? `${itchIoAppDataDir}\\db\\butler.db` : `${itchIoAppDataDir}/db/butler.db`;
+        if (!fs.existsSync(dbPath)) {
           reject(this.lang.errors.databaseNotFound);
         }
         const db = sqlite(dbPath);
-        const games: { extractedTitle:string, filePath:string }[] = db.prepare(
+        const games: { extractedTitle: string, filePath: string }[] = db.prepare(
           "select title, verdict from caves as c join games as g on c.game_id = g.id"
         ).all()
-        .map(({ title, verdict }: { [key:string]:string }) => {
-          const { basePath, candidates} = JSON.parse(verdict);
+          .map(({ title, verdict }: { [key: string]: string }) => {
+            const { basePath, candidates } = JSON.parse(verdict);
 
-          if (!candidates) {
-            return null;
-          }
+            if (!candidates) {
+              return null;
+            }
 
             const exePath = candidates[0].path;
             let filePath = `${basePath}/${exePath}`
 
 
-            if(os.type() == "Windows_NT") {
-              filePath = filePath.replace('/','\\');
-            } 
-            else if(os.type() == "Linux" && candidates[0].flavor == "windows" && inputs.itchIoProtonDrivePrefix) {
+            if (os.type() == "Windows_NT") {
+              filePath = filePath.replace('/', '\\');
+            }
+            else if (os.type() == "Linux" && candidates[0].flavor == "windows" && inputs.itchIoWindowsOnLinuxInstallDriveRedirect) {
               const parsedPath = path.win32.parse(filePath);
-              //const driveLetter = parsedPath.base.slice(0,1).toLowerCase();
               const inDrivePath = filePath.slice(parsedPath.root.length);
-              filePath = `${inputs.itchIoProtonDrivePrefix}/${inDrivePath}`;
-              filePath = filePath.replace(/\\/g,"/");
+              filePath = `${inputs.itchIoWindowsOnLinuxInstallDriveRedirect}/${inDrivePath}`;
+              filePath = filePath.replace(/\\/g, "/");
             }
 
             return {
@@ -94,10 +94,10 @@ export class ItchIoParser implements GenericParser {
               filePath: filePath,
             };
           })
-          .filter((gameDetails:any) => gameDetails !== null);
-          resolve({success: games, failed:[]});
-      } catch(err) {
-        reject(this.lang.errors.fatalError__i.interpolate({error: err}));
+          .filter((gameDetails: any) => gameDetails !== null);
+        resolve({ success: games, failed: [] });
+      } catch (err) {
+        reject(this.lang.errors.fatalError__i.interpolate({ error: err }));
       }
     })
   }
