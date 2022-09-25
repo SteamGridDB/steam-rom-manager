@@ -3,6 +3,7 @@ import { APP } from '../../variables';
 import * as fs from "fs-extra";
 import * as os from "os";
 import * as sqlite from "better-sqlite3";
+import * as path from "path";
 
 export class ItchIoParser implements GenericParser {
 
@@ -25,6 +26,17 @@ export class ItchIoParser implements GenericParser {
             }
           },
           info: this.lang.docs__md.input.join('')
+        },
+        'itchIoProtonDrivePrefix': {
+          label: this.lang.itchIoProtonDrivePrefixTitle,
+          inputType: 'dir',
+          validationFn: (input: string) => {
+            if(!input || fs.existsSync(input) && !fs.lstatSync(input).isFile()) {
+              return null;
+            } else {
+              return this.lang.errors.invalidItchIoAppDataOverride;
+            }
+          }
         }
       }
     };
@@ -56,7 +68,7 @@ export class ItchIoParser implements GenericParser {
           "select title, verdict from caves as c join games as g on c.game_id = g.id"
         ).all()
         .map(({ title, verdict }: { [key:string]:string }) => {
-          const { basePath, candidates } = JSON.parse(verdict);
+          const { basePath, candidates} = JSON.parse(verdict);
 
           if (!candidates) {
             return null;
@@ -68,6 +80,13 @@ export class ItchIoParser implements GenericParser {
 
             if(os.type() == "Windows_NT") {
               filePath = filePath.replace('/','\\');
+            } 
+            else if(os.type() == "Linux" && candidates[0].flavor == "windows" && inputs.itchIoProtonDrivePrefix) {
+              const parsedPath = path.win32.parse(filePath);
+              //const driveLetter = parsedPath.base.slice(0,1).toLowerCase();
+              const inDrivePath = filePath.slice(parsedPath.root.length);
+              filePath = `${inputs.itchIoProtonDrivePrefix}/${inDrivePath}`;
+              filePath = filePath.replace(/\\/g,"/");
             }
 
             return {

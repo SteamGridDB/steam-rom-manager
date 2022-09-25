@@ -86,6 +86,7 @@ export interface languageStruct {
     },
     itchIoParser: {
       itchIoAppDataOverrideTitle: string,
+      itchIoProtonDrivePrefixTitle: string,
       docs__md: {
         self: string[],
         input: string[]
