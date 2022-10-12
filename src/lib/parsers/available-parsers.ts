@@ -12,6 +12,7 @@ export const availableParserInputs: {[parserType: string]: string[]} = {
   'itch.io': ['itchIoAppDataOverride'],
   'Steam': [],
   'UPlay': ['uplayDir','uplayLauncherMode'],
+  'UWP': ['UWPDir', 'UWPLauncherMode'],
 }
 
 export const availableParsers = Object.keys(availableParserInputs);
@@ -20,7 +21,7 @@ export const superTypes: {[superType: string]: string[]} = {
   'Manual': ['Manual'],
   'ArtworkOnly': ['Steam'],
   'ROM': ['Glob','Glob-regex'],
-  'Platform': ['Epic','GOG Galaxy','Amazon Games','UPlay','itch.io']
+  'Platform': ['Epic','GOG Galaxy','Amazon Games','UPlay','itch.io','UWP']
 }
 
 export const superTypesMap: {[parserType: string]: string | string[]} = json.multiInvert(superTypes);
