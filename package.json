@@ -109,7 +109,7 @@
     "highlight.js": "^10.4.1",
     "is-color": "^0.2.0",
     "js-yaml": "^4.1.0",
-    "loader-utils": "^1.1.0",
+    "loader-utils": "^1.4.2",
     "lodash": "^4.17.19",
     "long": "^4.0.0",
     "markdown-it": "^12.3.2",
