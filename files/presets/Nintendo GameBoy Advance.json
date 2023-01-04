@@ -535,16 +535,16 @@
 			}
 		}
 	},
-	"Nintendo GameBoy Advance - Retroarch - gbSP": {
+	"Nintendo GameBoy Advance - Retroarch - gpSP": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Advance - Retroarch - gbSP",
+		"configTitle": "Nintendo GameBoy Advance - Retroarch - gpSP",
 		"steamCategory": "${GameBoy Advance}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}gbsp_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}gpsp_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -602,16 +602,16 @@
 			}
 		}
 	},
-	"Nintendo GameBoy Advance - Retroarch(Flatpak) - gbSP": {
+	"Nintendo GameBoy Advance - Retroarch(Flatpak) - gpSP": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Advance - Retroarch(Flatpak) - gbSP",
+		"configTitle": "Nintendo GameBoy Advance - Retroarch(Flatpak) - gpSP",
 		"steamCategory": "${GameBoy Advance}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}gbsp_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}gpsp_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
