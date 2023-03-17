@@ -92,7 +92,7 @@
     "appid": "^1.0.3",
     "async": "^2.6.4",
     "better-sqlite3": "https://github.com/cbartondock/better-sqlite3",
-    "binary-vdf": "^0.1.0",
+    "binary-vdf": "https://github.com/cbartondock/node-binary-vdf",
     "blob-to-buffer": "^1.2.7",
     "colornames": "^1.1.1",
     "crc": "^3.5.0",
