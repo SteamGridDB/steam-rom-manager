@@ -5,7 +5,7 @@ Steam ROM Manager
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/SteamGridDB/steam-rom-manager?logo=github&label=commits)](https://github.com/SteamGridDB/steam-rom-manager/commits/master)
 [![GitHub all releases](https://img.shields.io/github/downloads/SteamGridDB/steam-rom-manager/total?logo=github)](https://github.com/SteamGridDB/steam-rom-manager/releases)
 [![Discord](https://img.shields.io/discord/488621078302949377?color=5865F2&label=SRM&logo=discord&logoColor=white)](https://discord.gg/bnSVJrz)
-
+![Chocolatey](https://img.shields.io/chocolatey/dt/steam-rom-manager?color=blue&label=Chocolatey%20package)
 # For users
 
 Steam ROM Manager is a super flexible tool for adding non-Steam games to steam in bulk and managing their artwork assets. Added games could be ROMs for emulators, games from other stores such as Epic or GOG, or even not games at all. Have you always wanted your notes from junior year as a category in steam? If so that's pretty weird! But now it's possible.
@@ -13,6 +13,8 @@ Steam ROM Manager is a super flexible tool for adding non-Steam games to steam i
 For an overview of how SRM works see [here](https://steamgriddb.github.io/steam-rom-manager/). There is plenty of documentation available in the app's built in FAQ, and if you need further help there are expert users to be found on the [SGDB discord](https://discord.gg/bnSVJrz) under the Steam ROM Manager category and the [SRM subreddit](https://www.reddit.com/r/SteamRomManager/).
 
 Check out the [releases page](https://github.com/SteamGridDB/steam-rom-manager/releases) for compiled downloads for Windows (exe), macOS (dmg) and Linux (AppImage, deb).
+
+The Windows version is also available as a [Chocolatey package](https://community.chocolatey.org/packages/steam-rom-manager).
 
 The Linux version is also available as a [Flatpak](https://flatpak.org) at [Flathub/steam-rom-manager](https://flathub.org/apps/details/com.steamgriddb.steam-rom-manager). Linux caveats:
 * On some distributions Flatpak must be [pre-configured manually](https://flatpak.org/setup).
