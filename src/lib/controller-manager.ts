@@ -17,6 +17,7 @@ export const controllerTypes = [
   'xboxone',
   'switch_joycon',
   'switch_pro',
+  'neptune'
 ]
 export const controllerNames = {
   ps4: 'PS4',
@@ -24,7 +25,8 @@ export const controllerNames = {
   xbox360: 'Xbox 360',
   xboxone: 'Xbox One',
   switch_joycon: 'Switch Joy-Cons',
-  switch_pro: 'Switch Pro'
+  switch_pro: 'Switch Pro',
+  neptune: 'Steam Deck'
 }
 
 const match = '(SRM)';
@@ -78,7 +80,7 @@ export class ControllerManager {
   }
 
   transformTitle(gameTitle: string) {
-    return (gameTitle||"").toLowerCase().trim()
+    return (gameTitle||"").toLowerCase().replace(/[/\\?%*:|"<>\.]/g,'').trim()
   }
 
 
