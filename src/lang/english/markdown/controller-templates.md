@@ -1,6 +1,9 @@
 # Controller Templates
 Controller templates allow you to configure the button layout per controller and per parser. 
 
+You may want to disable `Cloud Synchronization` in Steam to avoid having your SRM assigned controller configs get overwritten.
+You may find the setting under `Steam > Settings > Cloud`.
+
 To make a template:
 * Open Steam.
 * Connect the controller you want to configure a template for.
