@@ -13,6 +13,12 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.42
+### Added
+* Steam Deck per-parser controller templates
+### Fixed
+* Issue where games with special characters in their names couldn't have their controller templates set
+
 ## 2.3.41
 ### Added
 * Ability to set per-parser controller templates, a [long requested feature](https://github.com/SteamGridDB/steam-rom-manager/issues/13)
