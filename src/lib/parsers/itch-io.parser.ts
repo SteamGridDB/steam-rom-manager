@@ -31,7 +31,7 @@ export class ItchIoParser implements GenericParser {
           label: this.lang.itchIoWindowsOnLinuxInstallDriveRedirectTitle,
           inputType: 'dir',
           validationFn: (input: string) => {
-            if(!input || fs.existsSync(input) && !fs.lstatSync(input).isFile()) {
+            if(!input || fs.existsSync(input) && fs.lstatSync(input).isDirectory()) {
               return null;
             } else {
               return this.lang.errors.invalidItchIoWindowsOnLinuxInstallDriveRedirect;
