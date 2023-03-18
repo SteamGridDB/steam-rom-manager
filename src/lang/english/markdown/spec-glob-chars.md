@@ -37,8 +37,8 @@ here are few examples of extended glob matchers in action:
 
 |Glob patterns|Matches (list numbers)|
 |:---|---:|
-|`@(dir[12]|DIR)/**/*.txt`|`1`, `2`, `4`, `5`|
-|`!(dir[12]|DIR)/**/*.txt`|`3`, `6`|
+|`@(dir[12]\|DIR)/**/*.txt`|`1`, `2`, `4`, `5`|
+|`!(dir[12]\|DIR)/**/*.txt`|`3`, `6`|
 |`*/!(*bb*)/*.txt`|`2`, `3`, `4`, `5`|
 |`*/?(abc)/*.txt`|`4`|
 |`*/+(abc)/*.txt`|`4`, `5`|

@@ -351,7 +351,7 @@ export const EnglishLang: languageContainer = {
           noProviders: 'None',
           steamDirectoryWin: 'Typically C:\\Program Files (x86)\\Steam',
           steamDirectoryMac: 'Typically ~/Library/Application Support/Steam',
-          steamDirectoryLinux: 'Typically ~/.steam/steam',
+          steamDirectoryLinux: 'Typically /home/user/.steam/steam',
           romsDirectoryWin: 'For example D:\\ROMs',
           romsDirectoryMac: 'For example ~/ROMs',
           romsDirectoryLinux: 'For example ~/ROMs',
