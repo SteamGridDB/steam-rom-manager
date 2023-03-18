@@ -71,15 +71,15 @@ export class EpicParser implements GenericParser {
       })
       .then(()=>{
         let parsedData: ParsedData = {
-          executableLocation: `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`,
           success: [],
           failed:[]
         };
         for(let i=0; i < appTitles.length; i++){
           parsedData.success.push({
+            executableLocation: `com.epicgames.launcher://apps/${appNames[i]}?action=launch&silent=true`,
             extractedTitle: appTitles[i],
             extractedAppId: appNames[i] ,
-            launchOptions: `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \\"com.epicgames.launcher://apps/${appNames[i]}?action=launch&silent=true\\""`,
+            launchOptions: ``,
             filePath: appPaths[i]
           });
         }
