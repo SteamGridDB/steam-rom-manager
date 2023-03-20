@@ -1,3 +1,3 @@
 files:
   - source: /src/lang/en/markdown/*.md
-    translation: /src/lang/%two_letters_code%/markdown/%original_file_name%
+    translation: /src/lang/%locale%/markdown/%original_file_name%
