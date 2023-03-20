@@ -6,6 +6,7 @@ Steam ROM Manager
 [![GitHub all releases](https://img.shields.io/github/downloads/SteamGridDB/steam-rom-manager/total?logo=github)](https://github.com/SteamGridDB/steam-rom-manager/releases)
 [![Discord](https://img.shields.io/discord/488621078302949377?color=5865F2&label=SRM&logo=discord&logoColor=white)](https://discord.gg/bnSVJrz)
 ![Chocolatey](https://img.shields.io/chocolatey/dt/steam-rom-manager?color=blue&label=Chocolatey%20package)
+[![Crowdin](https://badges.crowdin.net/steam-rom-manager/localized.svg)](https://crowdin.com/project/steam-rom-manager)
 # For users
 
 Steam ROM Manager is a super flexible tool for adding non-Steam games to steam in bulk and managing their artwork assets. Added games could be ROMs for emulators, games from other stores such as Epic or GOG, or even not games at all. Have you always wanted your notes from junior year as a category in steam? If so that's pretty weird! But now it's possible.
