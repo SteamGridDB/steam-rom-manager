@@ -7,16 +7,17 @@ In case you're having trouble with SRM, feel free to visit the [discord](https:/
 
 ## Useful links
 
-* Official [Steam](https://steamcommunity.com/groups/steamrommanager) group.
-* Official [Discord](https://discord.gg/bnSVJrz) group.
-* Official [Subreddit](https://www.reddit.com/r/SteamRomManager/)
-* Official [Github](https://github.com/SteamGridDB/steam-rom-manager) repository.
+* [Steam](https://steamcommunity.com/groups/steamrommanager) group.
+* [Discord](https://discord.gg/bnSVJrz) server.
+* [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
+* [Github](https://github.com/SteamGridDB/steam-rom-manager) repository.
+* [Crowdin](https://crowdin.com/project/steam-rom-manager) translation project.
 * All releases can be downloaded from [here](https://github.com/SteamGridDB/steam-rom-manager/releases).
 
 ## Contributors
 * `FrogTheFrog`{.noWrap} - creator of SRM, no longer active.
-* `Zennn`{.noWrap} - helped before the initial release of SRM and many times after the release with various stuff. Big boss over at [SteamGridDB](https://steamgriddb.com).
 * `lontanadascienza`{.noWrap} - Current maintainer of SRM. Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller templates, and platform parsers (Epic, GOG, Steam, etc).
+* `Zennn`{.noWrap} - helped before the initial release of SRM and many times after the release with various stuff. Big boss over at [SteamGridDB](https://www.steamgriddb.com/).
 * `HE Spoke`{.noWrap} - responsible for creating community around SRM. Creator of [Steam](https://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/bnSVJrz) groups. Also manages issues in [Github](https://github.com/SteamGridDB/steam-rom-manager).
 * `Choko`{.noWrap} - helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
 * `KenCinder`{.noWrap} - manages the parser presets.
@@ -37,5 +38,4 @@ If you're feeling exceptionally generous then feel free to also buy me a coffee!
 
 ## Credits
 
-* SRM icon created by [doZennn](https://www.reddit.com/user/dozennn) who's also the big boss of [SteamGridDB](https://www.steamgriddb.com/).
 * Most icons were made by [Roundicons](https://www.flaticon.com/authors/roundicons) from [Flaticon](https://www.flaticon.com) (licensed by [Creative Commons BY 3.0](https://creativecommons.org/licenses/by/3.0/)).
