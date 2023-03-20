@@ -1,6 +1,6 @@
 import { languageStruct } from "../../models";
 
-export const Lang: languageStruct = {
+export default {
   about: {
     component: {
       info__md: [require('./markdown/about.md')]
@@ -767,4 +767,4 @@ export const Lang: languageStruct = {
       noUserIdsInDir__i: '"${steamDirectory}" contains no user ids.'
     }
   }
-}
+} as languageStruct;

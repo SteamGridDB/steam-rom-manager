@@ -1,2 +1,4 @@
-// Make sure everything is exported as ISO 639-1 codes
-export { Lang as en } from './en/langData';
+// Make sure everything is exported as BCP 47 compatible codes
+export default {
+    'en-US': require('./en-US/langData').default,
+};

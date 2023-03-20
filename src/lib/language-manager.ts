@@ -1,8 +1,9 @@
-import * as languages from "../lang";
+import languages from "../lang";
+import * as log from 'electron-log'
 import { languageContainer } from "../models";
 
 export class LanguageManager {
-    private availableLanguages: languageContainer = {};
+    private availableLanguages = {};
 
     constructor() {
         this.availableLanguages = languages;
@@ -20,9 +21,9 @@ export class LanguageManager {
     }
 
     getDefaultLanguage(){
-        if (this.availableLanguages['en'] === undefined)
+        if (this.availableLanguages['en-US'] === undefined)
             return this.getAvailableLanguages()[0];
         else
-            return 'en';
+            return 'en-US';
     }
 };

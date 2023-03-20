@@ -3,6 +3,7 @@ import { SettingsService } from "../services";
 import { languageManager } from "../../variables";
 import { APP } from '../../variables';
 import { BehaviorSubject } from 'rxjs';
+import { parse } from 'bcp-47';
 
 @Injectable()
 export class LanguageService {
@@ -21,6 +22,13 @@ export class LanguageService {
 
     getAvailableLanguages() {
         return languageManager.getAvailableLanguages();
+    }
+
+    getReadableName(languageKey: string) {
+        const schema = parse(languageKey);
+        const lang = new Intl.DisplayNames([schema.language], { type: 'language' }).of(schema.language);
+        const region = new Intl.DisplayNames([schema.language], { type: 'region' }).of(schema.region);
+        return `${lang} (${region})`;
     }
 
     loadLanguage(languageKey: string) {

@@ -92,6 +92,7 @@
     "ajv": "^6.4.0",
     "appid": "^1.0.3",
     "async": "^2.6.4",
+    "bcp-47": "^2.1.0",
     "better-sqlite3": "https://github.com/cbartondock/better-sqlite3",
     "binary-vdf": "https://github.com/cbartondock/node-binary-vdf",
     "blob-to-buffer": "^1.2.7",
