@@ -5,11 +5,7 @@ export class LanguageManager {
     private availableLanguages: languageContainer = {};
 
     constructor() {
-        for (let langData in languages) {
-            for (let language in languages[langData]) {
-                this.availableLanguages[language] = languages[langData][language];
-            }
-        }
+        this.availableLanguages = languages;
     }
 
     getAvailableLanguages(){
@@ -24,9 +20,9 @@ export class LanguageManager {
     }
 
     getDefaultLanguage(){
-        if (this.availableLanguages['English'] === undefined)
+        if (this.availableLanguages['en'] === undefined)
             return this.getAvailableLanguages()[0];
         else
-            return 'English';
+            return 'en';
     }
 };
