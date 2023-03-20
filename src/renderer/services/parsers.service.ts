@@ -389,7 +389,7 @@ export class ParsersService {
   }
 
   private saveUserConfigurations() {
-    return new Promise<UserConfiguration[]>((resolve, reject) => {
+    return new Promise<UserConfiguration[] | void | void>((resolve, reject) => {
       if (!this.savingIsDisabled) {
 
         fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => {
