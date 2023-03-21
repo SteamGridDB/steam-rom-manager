@@ -13,6 +13,13 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.43
+### Added
+* Crowdin Localization (credit to @doZennn)
+### Fixed
+* Vastly improved state management for controller templates
+* Totally re-worked select component to allow dynamically changing options
+
 ## 2.3.42
 ### Added
 * Steam Deck per-parser controller templates
