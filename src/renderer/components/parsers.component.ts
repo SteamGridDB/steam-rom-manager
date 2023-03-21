@@ -550,10 +550,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       })).add(this.activatedRoute.params.subscribe((params) => {
         this.configurationIndex = parseInt(params['index']);
         this.loadConfiguration();
+        this.fetchControllerTemplates(false);
       })).add(this.cpService.dataObservable.subscribe((data) => {
         this.configPresets = data;
       })).add(this.parsersService.getSavedControllerTemplates().subscribe((data) => {
         this.controllerTemplates = data;
+        this.fetchControllerTemplates(false);
       }))
     }
 
@@ -1190,7 +1192,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       if (this.configurationIndex !== -1 && this.userConfigurations.length > this.configurationIndex) {
         let config = this.userConfigurations[this.configurationIndex];
         this.formChanges.unsubscribe();
-        this.fetchControllerTemplates(false);
         this.userForm.patchValue(config.current ? config.current : config.saved);
         this.markAsDirtyDeep(this.userForm);
 
