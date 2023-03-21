@@ -5,7 +5,7 @@ import * as process from 'process'
 
 export const languageManager = new LanguageManager();
 export const APP: GlobalContainer = {
-    lang: languageManager.getLanguage('English'),
+    lang: languageManager.getLanguage('en-US'),
     version: require('../package.json')['version'],
     os: os.platform()==='win32' && parseInt(os.release().split('.').pop()) >= 22000 ? 'Windows 11' : require('os-name')(),
     arch: os.arch(),

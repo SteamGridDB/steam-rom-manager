@@ -8,9 +8,22 @@ All notable changes to this project will be documented in this file.
 * [ ] Origin Parser.
 * [ ] Command Line Interface.
 * [x] Capability to override image searches.
+* [x] Ability to set per-parser controller templates.
 * [x] Platform parsers have launcher and launcherless mode.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
+
+## 2.3.42
+### Added
+* Steam Deck per-parser controller templates
+### Fixed
+* Issue where games with special characters in their names couldn't have their controller templates set
+
+## 2.3.41
+### Added
+* Ability to set per-parser controller templates, a [long requested feature](https://github.com/SteamGridDB/steam-rom-manager/issues/13)
+### Fixed
+* Steam Parser broke because valve changed the binary encoding of `appinfo.vdf`. See [here](https://github.com/cbartondock/node-binary-vdf).
 
 ## 2.3.40
 ### Added

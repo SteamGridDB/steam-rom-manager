@@ -39,7 +39,7 @@ export class ThemeManager {
     }
 
     saveToColorFile(themeTitle: string) {
-        return new Promise<boolean>((resolve, reject) => {
+        return new Promise<boolean | void>((resolve, reject) => {
             fs.outputFile(path.join(paths.userThemesDir, themeTitle + '.json'), JSON.stringify(this.colorRules, null, 4), (err) => {
                 if (err)
                     reject(err);
@@ -50,7 +50,7 @@ export class ThemeManager {
     }
 
     deleteColorFile(themeTitle: string) {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             fs.unlink(path.join(paths.userThemesDir, themeTitle + '.json'), (error) => {
                 if (error)
                     reject(error);
@@ -61,7 +61,7 @@ export class ThemeManager {
     }
 
     saveToDevColorFile() {
-        return new Promise<boolean>((resolve, reject) => {
+        return new Promise<boolean | void>((resolve, reject) => {
             let newDevFilePath = path.join(path.dirname(paths.devThemePath), 'oldThemes', new Date().getTime() + path.extname(paths.devThemePath));
             fs.ensureDir(path.dirname(newDevFilePath), (error) => {
                 if (error)
@@ -122,7 +122,7 @@ export class ThemeManager {
     }
 
     saveThemeTitle(themeTitle: string) {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             fs.readFile(paths.userSettings, 'utf8', (error, data) => {
                 try {
                     if (error) {

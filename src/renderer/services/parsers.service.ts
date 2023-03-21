@@ -80,12 +80,7 @@ export class ParsersService {
 
   getKnownSteamDirectories() {
     let preParser = new VariableParser({ left: '${', right: '}' });
-    let steamdirs = this.getUserConfigurationsArray().map(config => {
-      let parsedSteamPath = preParser.setInput(config.saved.steamDirectory).parse() ? preParser.replaceVariables((variable) => {
-        return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables, this.appSettings).trim()
-      }) : '';
-      return parsedSteamPath;
-    }).filter(path => path!=="");
+    let steamdirs = this.getUserConfigurationsArray().map(config => this.parseSteamDir(config.saved.steamDirectory)).filter(path => path!=="");
     if(this.appSettings.environmentVariables.steamDirectory) {
       steamdirs.push(this.appSettings.environmentVariables.steamDirectory)
     }
@@ -394,7 +389,7 @@ export class ParsersService {
   }
 
   private saveUserConfigurations() {
-    return new Promise<UserConfiguration[]>((resolve, reject) => {
+    return new Promise<UserConfiguration[] | void | void>((resolve, reject) => {
       if (!this.savingIsDisabled) {
 
         fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => {

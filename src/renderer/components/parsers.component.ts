@@ -45,6 +45,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private changeRef: ChangeDetectorRef,
     private cpService: ConfigurationPresetsService) {
 
+    this.appSettings = this.settingsService.getSettings();
+
     this.nestedGroup = new NestedFormElement.Group({
       children: {
         basicSection: new NestedFormElement.Section({
@@ -338,7 +340,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 placeholder: 'Select a Template',
                 multiple: false,
                 allowEmpty: true,
-                values: this.parsersService.getTemplates('C:\\Program Files (x86)\\Steam', controllerType).map((template) => { return { display: template.title, real: template } }),
+                values: this.parsersService.getTemplates(this.appSettings.environmentVariables.steamDirectory, controllerType).map((template) => { return { display: template.title, real: template } }),
                 onInfoClick: (self, path) => {
                   this.currentDoc.activePath = path.join();
                   this.currentDoc.content = this.lang.docs__md.controllerTemplates.join('');
@@ -538,7 +540,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       }
     });
     this.currentDoc.content = this.lang.docs__md.intro.join('');
-    this.appSettings = this.settingsService.getSettings();
   }
 
   ngAfterViewInit() {
@@ -548,6 +549,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     })).add(this.activatedRoute.params.subscribe((params) => {
       this.configurationIndex = parseInt(params['index']);
       this.loadConfiguration();
+      let parsedSteamDir = this.parsersService.parseSteamDir(this.userConfigurations[this.configurationIndex].saved.steamDirectory);
+      for(let controllerType of controllerTypes) {
+        ((this.nestedGroup.children.controllers as NestedFormElement.Group).children[controllerType] as NestedFormElement.Select).values = this.parsersService.getTemplates(parsedSteamDir, controllerType).map((template) => {
+          return { display: template.title, real: template }
+        });
+      }
+
     })).add(this.cpService.dataObservable.subscribe((data) => {
       this.configPresets = data;
     }))
