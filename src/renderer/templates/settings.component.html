@@ -24,8 +24,13 @@
     <div class="inputContainer">
       <div class="inlineGroup">
         <div class=text style="margin-right: 0.25em;">{{lang.text.selectLanguage}}</div>
-        <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.language" (ngModelChange)="settings.language = $event; loadLanguage(); onSettingsChange();" [values]="availableLanguages">
+        <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.language" (ngModelChange)="settings.language = $event; loadLanguage(); onSettingsChange();" [values]="availableLanguages.map(languageService.getReadableName)">
         </ng-select>
+      </div>
+      <div>
+        <a href="https://crowdin.com/project/steam-rom-manager">
+          <img src="https://badges.crowdin.net/steam-rom-manager/localized.svg" alt="Crowdin" height="20px">
+        </a>
       </div>
     </div>
   </div>
