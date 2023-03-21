@@ -3,7 +3,7 @@
 Als je problemen hebt met SRM, bezoek dan de [discord](https://discord.gg/bnSVJrz) of de [subreddit](https://www.reddit.com/r/SteamRomManager/) en vraag om onze hulp. Om je goed te kunnen helpen, vragen we je deze gegevens te verstrekken:
 
 * SRM versie: **#{APP[version]}**
-* Besturingssysteem **#{APP[os]}**
+* Besturingssysteem: **#{APP[os]}**
 
 ## Handige links
 
@@ -16,8 +16,8 @@ Als je problemen hebt met SRM, bezoek dan de [discord](https://discord.gg/bnSVJr
 
 ## Bijdragers
 * `FrogTheFrog`{.noWrap} - maker van SRM, niet langer actief.
-* `lontanadascienza`{.noWrap} - Huidige onderhouder van SRM. SRM bijgewerkt om helden, posters, logo's en iconen te hanteren. De uitzonderingsmanager, controller-sjablonen en platform-parsers (Epic, GOG, Steam, enz.) zijn toegevoegd.
-* `Zennn`{.noWrap} - heeft geholpen vóór de eerste versie van SRM en vele malen na de release met verschillende dingen. Grote baas bij [SteamGridDB](https://www.steamgriddb.com/).
+* `lontanadascienza`{.noWrap} - Huidige onderhouder van SRM. Heeft SRM bijgewerkt om helden, posters, logo's en pictogrammen te verwerken. Heeft de uitzonderingsbeheerder, controllersjablonen en platformparsers (Epic, GOG, Steam, enz.) toegevoegd.
+* `Zennn`{.noWrap} - heeft geholpen vóór de eerste versie van SRM en vele malen na de release met verschillende dingen. Is grote baas bij [SteamGridDB](https://www.steamgriddb.com/).
 * `HE Spoke`{.noWrap} - verantwoordelijk voor het creëren van een community rond SRM. Maker van [Steam](https://steamcommunity.com/groups/steamrommanager) en [Discord](https://discord.gg/bnSVJrz) groepen. Beheert ook problemen in [Github](https://github.com/SteamGridDB/steam-rom-manager).
 * `Choko`{.noWrap} - helpt gebruikers bij het instellen van SRM in [Discord](https://discord.gg/bnSVJrz).
 * `KenCinder`{.noWrap} - beheert de voorinstellingen van de parser.
