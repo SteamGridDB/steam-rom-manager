@@ -4,8 +4,6 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import * as _ from 'lodash';
 import {SelectItem} from "../../models";
 
-//<ng-content select="ng-option"></ng-content>
-//[innerHTML]="option.displayValue | safeHtml"
 @Component({
   selector: 'ng-select',
   template: `
@@ -109,7 +107,13 @@ export class NgSelectComponent implements ControlValueAccessor {
         currentValue.push(this.optionsList[selectedIds[i]].value);
         currentDisplays.push(this.optionsList[selectedIds[i]].displayValue);
       }
-      this.searchText = this.optionsList[selectedIds[selectedIds.length-1]].displayValue
+      if(this.searchable) {
+        if(selectedIds.length) {
+          this.searchText = this.optionsList[selectedIds[selectedIds.length-1]].displayValue
+        } else{
+          this.searchText = "";
+        }
+      }
 
       if (currentDisplays.length > 0 && this.sort) {
         currentDisplays = currentDisplays.sort();
