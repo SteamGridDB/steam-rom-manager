@@ -47,8 +47,6 @@
       font-size: .75em;
       margin-right: .75em;
       color: var(--color-preview-text);
-      @include ngSelectColor(ng-select);
-      @include ngSelect();
     }
     .selectCategories {
       grid-column: 2;
@@ -56,8 +54,6 @@
       font-size: .75em;
       margin-right: .75em;
       color: var(--color-preview-text);
-      @include ngSelectColor(ng-select);
-      @include ngSelect();
     }
     .slider {
       display: flex;

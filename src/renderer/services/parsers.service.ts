@@ -2,7 +2,7 @@ import { CustomVariablesService } from './custom-variables.service';
 import { UserExceptionsService } from './user-exceptions.service';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { UserConfiguration, ParsedUserConfiguration, AppSettings, EnvironmentVariables } from '../../models';
+import { UserConfiguration, ParsedUserConfiguration, AppSettings, EnvironmentVariables, ControllerTemplates } from '../../models';
 import { LoggerService } from './logger.service';
 import { FuzzyService } from './fuzzy.service';
 import { ImageProviderService } from './image-provider.service';
@@ -26,6 +26,7 @@ import * as _ from 'lodash';
 export class ParsersService {
   private appSettings: AppSettings;
   private fileParser: FileParser;
+  private savedControllerTemplates: BehaviorSubject<ControllerTemplates>;
   private userConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
   private deletedConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
   private validator: json.Validator = new json.Validator(schemas.userConfiguration, modifiers.userConfiguration);
@@ -36,8 +37,10 @@ export class ParsersService {
     private exceptionsService: UserExceptionsService, private settingsService: SettingsService, private http: Http) {
     this.fileParser = new FileParser(this.fuzzyService);
     this.userConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
+    this.savedControllerTemplates = new BehaviorSubject<ControllerTemplates>({});
     this.deletedConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
     this.readUserConfigurations();
+    this.readSavedControllerTemplates()
     this.cVariableService.dataObservable
       .subscribe((variables) => {
         this.fileParser.setCustomVariables(variables);
@@ -59,12 +62,12 @@ export class ParsersService {
     return this.userConfigurations.asObservable();
   }
 
-  getUserConfigurationsArray() {
-    return this.userConfigurations.getValue();
+  getSavedControllerTemplates() {
+    return this.savedControllerTemplates.asObservable();
   }
 
-  readControllers(config: UserConfiguration) {
-
+  getUserConfigurationsArray() {
+    return this.userConfigurations.getValue();
   }
 
   getTemplates(steamDir: string, controllerType: string): any[] {
@@ -102,6 +105,11 @@ export class ParsersService {
     userConfigurations = userConfigurations.concat(copy);
     this.userConfigurations.next(userConfigurations);
     this.saveUserConfigurations();
+  }
+
+  saveControllerTemplates(templates: ControllerTemplates) {
+    this.savedControllerTemplates.next(templates);
+    this.saveUserControllerTemplates();
   }
 
   swapIndex(currentIndex: number, newIndex: number) {
@@ -388,8 +396,46 @@ export class ParsersService {
     return this.userConfigurations.getValue()[configurationIndex].saved.parserId;
   }
 
+  private readSavedControllerTemplates() {
+    return new Promise<ControllerTemplates>((resolve,reject) => {
+      fs.readFile(paths.controllerTemplates, 'utf8', (error, data) => {
+        try {
+          if (error) {
+            if (error.code === 'ENOENT')
+              resolve({});
+            else
+              reject(error);
+          }
+          else
+            resolve(JSON.parse(data));
+        } catch (error) {
+          reject(error);
+        }
+      });
+    }).then((data)=>{
+      this.savedControllerTemplates.next(data);
+    }).catch((error) => {
+      this.loggerService.error(this.lang.error.readingConfiguration, { invokeAlert: true, alertTimeout: 5000 });
+      this.loggerService.error(error);
+    });
+  }
+
+  private saveUserControllerTemplates() {
+    return new Promise<void>((resolve, reject) => {
+        fs.outputFile(paths.controllerTemplates, JSON.stringify(this.savedControllerTemplates.getValue(), null, 4), (error) => {
+          if (error)
+            reject(error);
+          else
+            resolve();
+        })
+    }).catch((error)=>{
+      this.loggerService.error(this.lang.error.savingConfiguration, { invokeAlert: true, alertTimeout: 5000 });
+      this.loggerService.error(error);
+    })
+  }
+
   private saveUserConfigurations() {
-    return new Promise<UserConfiguration[]>((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (!this.savingIsDisabled) {
 
         fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => {

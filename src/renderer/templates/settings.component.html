@@ -24,10 +24,7 @@
     <div class="inputContainer">
       <div class="inlineGroup">
         <div class=text style="margin-right: 0.25em;">{{lang.text.selectLanguage}}</div>
-        <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.language" (ngModelChange)="settings.language = $event; loadLanguage(); onSettingsChange();">
-          <ng-option *ngFor="let value of availableLanguages" [ngValue]="value">
-            {{value}}
-          </ng-option>
+        <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.language" (ngModelChange)="settings.language = $event; loadLanguage(); onSettingsChange();" [values]="availableLanguages">
         </ng-select>
       </div>
     </div>
@@ -65,10 +62,7 @@
       <div class="inlineGroup">
         <div class=text style="margin-right: 0.25em;">{{lang.text.enabledProviders}}</div>
         <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.enabledProviders" (ngModelChange)="settings.enabledProviders = $event; onSettingsChange();"
-                                              multiple="true" allowEmpty="true" [placeholder]="lang.placeholder.noProviders">
-          <ng-option *ngFor="let value of availableProviders" [ngValue]="value">
-            {{value}}
-          </ng-option>
+                                              multiple="true" allowEmpty="true" [placeholder]="lang.placeholder.noProviders" [values]="availableProviders">
         </ng-select>
       </div>
     </div>

@@ -91,9 +91,6 @@
 
       .ngSelect {
         width: 15em;
-
-        @include ngSelectColor(ng-select);
-        @include ngSelect();
       }
       .ngTextInput {
         @include ngTextInputColor(input);
