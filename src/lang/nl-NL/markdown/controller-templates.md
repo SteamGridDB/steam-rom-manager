@@ -1,5 +1,5 @@
-# Controller Templates
-Controller templates allow you to configure the button layout per controller and per parser.
+# Controller sjablonen
+Met controller-sjablonen kunt u de knoppen-indeling per controller en per parser configureren.
 
 You may want to disable `Cloud Synchronization` in Steam to avoid having your SRM assigned controller configs get overwritten. You may find the setting under `Steam > Settings > Cloud`.
 
