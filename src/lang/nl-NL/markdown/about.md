@@ -1,11 +1,11 @@
-## System info
+## Systeeminformatie
 
-In case you're having trouble with SRM, feel free to visit the [discord](https://discord.gg/bnSVJrz) or the [subreddit](https://www.reddit.com/r/SteamRomManager/) and ask for our help. In order for us to help you, we would like you to provide this info:
+Als je problemen hebt met SRM, bezoek dan de [discord](https://discord.gg/bnSVJrz) of de [subreddit](https://www.reddit.com/r/SteamRomManager/) en vraag om onze hulp. Om je goed te kunnen helpen, vragen we je deze gegevens te verstrekken:
 
-* SRM version: **#{APP[version]}**
-* Operating System: **#{APP[os]}**
+* SRM versie: **#{APP[version]}**
+* Besturingssysteem **#{APP[os]}**
 
-## Useful links
+## Handige links
 
 * [Steam](https://steamcommunity.com/groups/steamrommanager) group.
 * [Discord](https://discord.gg/bnSVJrz) server.
