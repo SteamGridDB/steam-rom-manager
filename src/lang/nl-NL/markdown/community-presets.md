@@ -1,8 +1,8 @@
-# Community Presets
-These are parser configurations that have been created by the SRM community and just need to be altered slightly with a few system specific parameters in order to work (usually just `ROMs Directory` and `Executable` need to be specified).
+# Community voorinstellingen
+Dit zijn parser-configuraties die de SRM-gemeenschap heeft gemaakt en die slechts een klein beetje moeten worden gewijzigd met een paar systeemspecifieke parameters om te werken (meestal hoeven alleen `ROMs Directory` en `Executable` te worden gespecificeerd).
 
-## Generic Parser
-The Generic Parser (search `Generic` in presets) works for a wide variety of emulators that don't need specific commandline arguments in order to work, for example:
+## Generieke parser
+De Generieke Parser (zoek op `Generiek` in voorinstellingen) werkt voor een grote hoeveelheid aan emulatoren die geen specifieke commandoregel-argumenten nodig hebben om te werken, bijvoorbeeld:
 * Yuzu
 * Citra
 * Xenia (add `--fullscreen` in `Command Line Arguments` if desired)
