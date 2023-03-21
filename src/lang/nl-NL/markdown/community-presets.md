@@ -5,6 +5,6 @@ Dit zijn parser-configuraties die de SRM-gemeenschap heeft gemaakt en die slecht
 De Generieke Parser (zoek op `Generiek` in voorinstellingen) werkt voor een grote hoeveelheid aan emulatoren die geen specifieke commandoregel-argumenten nodig hebben om te werken, bijvoorbeeld:
 * Yuzu
 * Citra
-* Xenia (add `--fullscreen` in `Command Line Arguments` if desired)
+* Xenia (voeg `--fullscreen` toe in de `commandoregel-argumenten` indien gewenst)
 
-If you have an emulator that isn't in the list of community presets, it is probably worth a shot to try the generic parser. If it works let us know and we will add a preset for it!
+Als je een emulator hebt die niet in de lijst met community-presets staat, is het waarschijnlijk de moeite waard om de generieke parser te proberen. Als het werkt, laat het ons weten en we zullen er een preset voor toevoegen!
