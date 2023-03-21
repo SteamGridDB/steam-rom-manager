@@ -24,7 +24,7 @@
     <div class="inputContainer">
       <div class="inlineGroup">
         <div class=text style="margin-right: 0.25em;">{{lang.text.selectLanguage}}</div>
-        <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.language" (ngModelChange)="settings.language = $event; loadLanguage(); onSettingsChange();" [values]="availableLanguages.map(languageService.getReadableName)">
+        <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.language" (ngModelChange)="settings.language = $event; loadLanguage(); onSettingsChange();" [values]="availableLanguages">
         </ng-select>
       </div>
       <div>

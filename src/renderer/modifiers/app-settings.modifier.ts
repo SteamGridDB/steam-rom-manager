@@ -5,7 +5,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const appSettings: ValidatorModifier<AppSettings> = {
   controlProperty: 'version',
-  latestVersion: 3,
+  latestVersion: 4,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -59,6 +59,14 @@ export const appSettings: ValidatorModifier<AppSettings> = {
         }
         return defaultValue;
       }
+      }
+    },
+    3: {
+      'verson': {method: versionUp},
+      'language': {
+        method: (oldValue) => {
+          if(oldValue=='English') {return 'en-US'}
+        }
       }
     }
   }

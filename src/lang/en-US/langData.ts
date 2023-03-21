@@ -9,10 +9,10 @@ export default {
   preview: {
     component: {
       filter: 'Filter by title',
-      selectType: 'Select type',
+      selectType: 'Select artwork type',
       selectCategories: 'Filter by category',
       selectTypeOptions: {
-        long: 'Grids',
+        long: 'Banners',
         tall: 'Posters',
         hero: 'Heroes',
         icon: 'Icons',
