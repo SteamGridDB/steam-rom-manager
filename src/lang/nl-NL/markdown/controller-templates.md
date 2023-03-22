@@ -1,21 +1,21 @@
-# Controller Templates
-Controller templates allow you to configure the button layout per controller and per parser.
+# Controller sjablonen
+Met controller-sjablonen kunt u de knoppen-indeling per controller en per parser configureren.
 
-You may want to disable `Cloud Synchronization` in Steam to avoid having your SRM assigned controller configs get overwritten. You may find the setting under `Steam > Settings > Cloud`.
+Je kunt `Cloud-synchronisatie` in Steam uitschakelen om te voorkomen dat je SRM toegewezen controller configuraties worden overschrijven. Je kunt de instelling vinden onder `Steam > Instellingen > Cloud`.
 
-To make a template:
-* Open Steam.
-* Connect the controller you want to configure a template for.
-* Right click on any game and hit `Manage > Controller Layout`.
-* Configure the buttons as you see fit.
-* Hit `Export Config` then `Save new template binding`.
-* Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template.
-* Repeat for as many different types of controller as you want to configure.
+Een template maken:
+* Steam openen.
+* Verbind de controller waarvoor je een template wilt configureren.
+* Klik met de rechtermuisknop op een spel en druk op `Beheren > Controller Layout`.
+* Configureer de knoppen zoals je wil.
+* Klik op `Configuratie exporteren` en vervolgens op `Nieuwe sjabloonbinding opslaan`.
+* Geef de sjabloon een naam in het formulier: `Templatetitel (SRM)`. De naam moet eindigen met `(SRM)`, anders neemt SRM het sjabloon niet op.
+* Herhaal dit voor zoveel verschillende soorten controllers als u wilt configureren.
 
-In the SRM parser:
-* Hit `Fetch Controller Templates` to pull templates for all controller types from steam. *This will clear currently selected templates.*
-* Select your templates and save the parser.
+In de SRM parser:
+* Druk op `Fetch Controller-sjablonen` om sjablonen voor alle controllertypen uit Steam op te halen. This will clear your currently selected template if it is not one of the templates available in Steam.
+* Kies uw sjablonen en sla de parser op.
 
-Once this is done you can generate and save the preview as usual, and the template will be applied to all the titles in the parser.
+Zodra dit gedaan is, kunt u de preview genereren en opslaan zoals gebruikelijk, en het sjabloon zal worden toegepast op alle titels in de parser.
 
 
