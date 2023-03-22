@@ -1,3 +1,3 @@
-# Configuration title
+# Configuratie titel
 
-Title to save user configuration as. Does not have to be unique, but is required.
+Titel om de gebruikersconfiguratie op te slaan. Hoeft niet uniek te zijn, maar is wel verplicht.
