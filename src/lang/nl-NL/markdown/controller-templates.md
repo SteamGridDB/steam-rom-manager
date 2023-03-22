@@ -13,7 +13,7 @@ Een template maken:
 * Herhaal dit voor zoveel verschillende soorten controllers als u wilt configureren.
 
 In de SRM parser:
-* Druk op `Fetch Controller-sjablonen` om sjablonen voor alle controllertypen uit Steam op te halen. *Dit zal de huidige geselecteerde sjablonen wissen.*
+* Druk op `Fetch Controller-sjablonen` om sjablonen voor alle controllertypen uit Steam op te halen. This will clear your currently selected template if it is not one of the templates available in Steam.
 * Kies uw sjablonen en sla de parser op.
 
 Zodra dit gedaan is, kunt u de preview genereren en opslaan zoals gebruikelijk, en het sjabloon zal worden toegepast op alle titels in de parser.
