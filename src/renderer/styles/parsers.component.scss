@@ -1,107 +1,102 @@
 @import 'mixins';
 
 :host {
-	display: grid;
-	overflow: auto;
+  display: grid;
+  overflow: auto;
 
-	grid-area: route;
-	grid-template-areas:
-	'docs nestedForm'
-	'menu menu';
+  grid-area: route;
+  grid-template-areas:
+  'docs nestedForm'
+  'menu menu';
 
   grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr auto;
+  grid-template-rows: 1fr auto;
 
-	.docs {
-		padding: 1em;
+  .docs {
+    padding: 1em;
 
-		grid-area: docs;
-	}
+    grid-area: docs;
+  }
+  ng-select {
+    margin: 0 0 0.5em 0;
+  }
+  .nestedForm {
 
-	.nestedForm {
+    padding: 1em;
 
-		padding: 1em;
+    grid-area: nestedForm;
 
-		grid-area: nestedForm;
+    @include webkitScrollbar(nested-form-scrollbar);
 
-		@include webkitScrollbar(nested-form-scrollbar);
+    overflow: auto;
 
-		overflow: auto;
-
-		background-color: var(--color-nested-form-background);
+    background-color: var(--color-nested-form-background);
 
     label {
-			display: flex;
+      display: flex;
 
-			margin: 0 0 0.35em 0;
+      margin: 0 0 0.35em 0;
 
-			color: var(--color-nested-form-label);
+      color: var(--color-nested-form-label);
 
-			align-items: center;
-			grid-area: label;
+      align-items: center;
+      grid-area: label;
 
-			.infoButton {
-				margin: 0 0.25em 0 0;
-			}
-		}
+      .infoButton {
+        margin: 0 0.25em 0 0;
+      }
+    }
 
-		> ng-select {
-			@include ngSelect();
-			@include ngSelectColor(ng-select);
+    ::ng-deep ng-text-input{
+      @for $i from 0 through 2 {
+        highlight {
+          &.level-#{$i} {
+            color: var(--color-highlight-level-#{$i});
+          }
+        }
+        &:hover{
+          highlight {
+            &.level-#{$i} {
+              color: var(--color-highlight-level-#{$i}-hover);
+            }
+          }
+        }
+        &:focus{
+          highlight {
+            &.level-#{$i} {
+              color: var(--color-highlight-level-#{$i}-active);
+            }
+          }
+        }
+      }
+    }
+  }
 
-			margin: 0 0 0.5em 0;
-		}
+  .menu {
+    @include webkitScrollbar(parser-menu-scrollbar, 0.5em);
 
-		::ng-deep ng-text-input{
-			@for $i from 0 through 2 {
-				highlight {
-					&.level-#{$i} {
-						color: var(--color-highlight-level-#{$i});
-					}
-				}
-				&:hover{
-					highlight {
-						&.level-#{$i} {
-							color: var(--color-highlight-level-#{$i}-hover);
-						}
-					}
-				}
-				&:focus{
-					highlight {
-						&.level-#{$i} {
-							color: var(--color-highlight-level-#{$i}-active);
-						}
-					}
-				}
-			}
-		}
-	}
+    display: flex;
+    overflow: auto;
 
-	.menu {
-		@include webkitScrollbar(parser-menu-scrollbar, 0.5em);
+    border: 0.5em solid transparent;
+    background-color: var(--color-parsers-menu-background);
 
-		display: flex;
-		overflow: auto;
+    grid-area: menu;
 
-		border: 0.5em solid transparent;
-		background-color: var(--color-parsers-menu-background);
+    > div {
+      @include clickButtonColor(click-button, true);
+      @include button();
 
-		grid-area: menu;
-
-		> div {
-			@include clickButtonColor(click-button, true);
-			@include button();
-
-			margin: 0 0.25em;
-			&:last-child {
-				margin-right: 0;
-			}
-			&:first-child {
-				margin-left: 0;
-			}
-			&.dangerousButton {
-				@include clickButtonColor(dangerous-click-button);
-			}
-		}
-	}
+      margin: 0 0.25em;
+      &:last-child {
+        margin-right: 0;
+      }
+      &:first-child {
+        margin-left: 0;
+      }
+      &.dangerousButton {
+        @include clickButtonColor(dangerous-click-button);
+      }
+    }
+  }
 }
