@@ -59,9 +59,10 @@ export class ControllerManager {
 
   static readTemplates(steamDirectory: string, controllerType: string) {
     try {
-      let templateDir = path.join(steamDirectory, 'steamapps', 'workshop', 'content', '241100')
-      let files = glob.sync('*/*', { silent: true, dot: true, cwd: templateDir, absolute: true });
-      let parsedTemplates: any[] = files.map((f: string) => Object.assign({ mappingId: f.split('/').slice(-2)[0] }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
+      
+      let templateDirUser = path.join(steamDirectory, 'steamapps', 'workshop', 'content', '241100')
+      let filesUser = glob.sync('*/*', { silent: true, dot: true, cwd: templateDirUser, absolute: true });
+      let parsedTemplatesUser: any[] = filesUser.map((f: string) => Object.assign({ mappingId: f.split('/').slice(-2)[0] }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
         .filter((x: any) => !!x['controller_mappings']
           && !!x['controller_mappings']['title']
           && !!x['controller_mappings']['controller_type']
@@ -72,6 +73,22 @@ export class ControllerManager {
           title: x.controller_mappings.title,
           mappingId: x.mappingId
         }));
+      
+      let templateDirValve = path.join(steamDirectory, 'controller_base', 'templates')
+      let filesValve = glob.sync('*/*', { silent: true, dot: true, cwd: templateDirUser, absolute: true });
+      let parsedTemplatesValve: any[] = filesValve.map((f: string) => Object.assign({ mappingId: f.split('/').slice(-2)[0] }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
+        .filter((x: any) => !!x['controller_mappings']
+          && !!x['controller_mappings']['title']
+          && !!x['controller_mappings']['controller_type']
+        )
+        .filter(x=> x.controller_mappings.controller_type === 'controller_'+controllerType)
+        .map(x=>Object.assign({},{
+          title: x.controller_mappings.title,
+          mappingId: x.mappingId
+        }));
+      
+      let parsedTemplates = parsedTemplatesUser.concat(parsedTemplatesValve);
+      
       return parsedTemplates
     } catch(e) {
       console.log(`Error getting Controller Templates:\n ${e}`)
