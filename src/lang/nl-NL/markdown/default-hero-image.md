@@ -1,4 +1,4 @@
-# Default hero image (optional) `[supports variables]`{.noWrap}
+# Standaard hero-afbeelding (optioneel) `[ondersteunt variabelen]`{.noWrap}
 
 Allows one to use an image, stored locally, as a default/fallback hero image. A [special glob input](#special-glob-input) string is used to retrieve images. Only the first retrieved image is used.
 
