@@ -91,7 +91,7 @@ export class ControllerManager {
       parsedTemplatesValve = _.uniqBy(parsedTemplatesValve,'title');
 
       let parsedTemplates = parsedTemplatesUser.concat(parsedTemplatesValve);
-
+      parsedTemplates.sort((a, b) => a.title.localeCompare(b.title));
       return parsedTemplates
     } catch(e) {
       console.log(`Error getting Controller Templates:\n ${e}`)
