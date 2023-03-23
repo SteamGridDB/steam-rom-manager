@@ -1,5 +1,6 @@
 import { Observable, BehaviorSubject } from "rxjs";
-import { ImageProviderAPI, Controllers } from "./user-configuration.model";
+import { ImageProviderAPI } from "./user-configuration.model";
+import { Controllers } from "./controllers.model";
 
 export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
 

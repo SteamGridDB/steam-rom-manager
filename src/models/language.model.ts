@@ -418,6 +418,7 @@ export interface languageStruct {
               missingAccountInfo__i: string, //${name}
               noAccountsWarning: string,
               failedToMatch: string,
+              cannotParseUserIDs: string,
               failedFileInfo__i: string, //${index}, ${total}, ${filename}
               testFailed: string,
               cannotTestInvalid: string,

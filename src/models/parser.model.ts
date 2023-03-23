@@ -1,5 +1,6 @@
 import { userAccountData, StringLiteralArray } from './helpers.model';
-import { ImageProviderAPI, Controllers } from './user-configuration.model';;
+import { Controllers } from './controllers.model';
+import { ImageProviderAPI } from './user-configuration.model';
 
 export interface ParsedUserConfigurationFile {
   executableLocation: string,

@@ -1,4 +1,5 @@
 export * from './language.model';
+export * from './controllers.model';
 export * from './helpers.model';
 export * from './alert.model';
 export * from './logger.model';

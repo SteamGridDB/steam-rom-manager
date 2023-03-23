@@ -326,11 +326,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             }
           }),
           controllerSection: new NestedFormElement.Section({
-            label: 'Controller Templates Configuration'
+            label: 'Controller Templates Configuration',
+            isHidden: () => this.isHiddenIfArtworkOnlyParser(),
           }),
           fetchControllerTemplatesButton: new NestedFormElement.Button({
             buttonLabel: 'Re-fetch Controller Templates',
             onClickMethod: this.fetchControllerTemplates.bind(this)
+          }),
+          removeControllersButton: new NestedFormElement.Button({
+            buttonLabel: 'Unset All Controllers',
+            onClickMethod: this.removeControllers.bind(this)
           }),
           controllers: new NestedFormElement.Group({
             children: (() => {
@@ -559,6 +564,22 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       }))
     }
 
+    private removeControllers() {
+      let steamDirInput = this.userForm.get('steamDirectory').value || '';
+      let steamDir = this.parsersService.parseSteamDir(steamDirInput);
+      if(this.parsersService.validate('steamDirectory', steamDir) == null) {
+        let userAccountsInfo = this.userForm.get('userAccounts').value;
+        this.parsersService.parseUserAccounts(userAccountsInfo, steamDir).then((userIds)=>{
+        for(let userId of userIds) {
+          this.parsersService.removeControllers(steamDir, userId);
+        }
+        }).catch((error)=>{
+          this.loggerService.error(this.lang.error.cannotParseUserIDs, {invokeAlert: true, alertTimeout: 3000 });
+          this.loggerService.error(error);
+        })
+      }
+    }
+
     private fetchControllerTemplates(force:boolean = true) {
       let steamDirInput = this.userForm.get('steamDirectory').value || '';
       let steamDir = this.parsersService.parseSteamDir(steamDirInput);
@@ -566,7 +587,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         if(force || !this.controllerTemplates[steamDir]) {
           this.controllerTemplates[steamDir] = {};
           for(let controllerType of controllerTypes) {
-            this.controllerTemplates[steamDir][controllerType] = this.parsersService.getTemplates(steamDir, controllerType);
+            this.controllerTemplates[steamDir][controllerType] = this.parsersService.getControllerTemplates(steamDir, controllerType);
           }
           this.parsersService.saveControllerTemplates(this.controllerTemplates);
         } else {

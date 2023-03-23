@@ -129,7 +129,7 @@ export class FileParser {
     });
   }
 
-  private parserPromise({superType,config, settings, steamDirectory}: {superType: string, config: UserConfiguration, settings: AppSettings, steamDirectory: {directory: string, useCredentials: boolean, data: userAccountData[] }}) {
+  private parserPromise({superType, config, settings, steamDirectory}: {superType: string, config: UserConfiguration, settings: AppSettings, steamDirectory: {directory: string, useCredentials: boolean, data: userAccountData[] }}) {
     return new Promise((resolve, reject)=>{
       try {
         let parser = this.getParserInfo(config.parserType);
@@ -551,7 +551,7 @@ export class FileParser {
       data.found = _.cloneDeep(accountData);
     } else {
       data.found = accountData.filter((item)=>nameFilter.indexOf(item.name)>=0||nameFilter.indexOf(item.accountID)>=0)
-      data.missing = nameFilter.filter((filt)=>data.found.map(item=>item.name).indexOf(filt)<0&&data.found.map(item=>item.accountID).indexOf(filt)<0);
+      data.missing = nameFilter.filter((filt)=>data.found.map(item=>item.name).indexOf(filt) < 0&&data.found.map(item=>item.accountID).indexOf(filt) < 0);
       if(skipWithMissingDirectories) {
         data.found = data.found.filter((item)=>file.validatePath(path.join(steamDirectory,'userdata',item.accountID),true));
       }
