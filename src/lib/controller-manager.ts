@@ -26,7 +26,7 @@ export const controllerNames = {
   xbox360: 'Xbox 360',
   xboxone: 'Xbox One',
   switch_joycon_left: 'Switch Joy-Con (Left)',
-  switch_joycon_right: 'Switch Joy-Con (Right)'
+  switch_joycon_right: 'Switch Joy-Con (Right)',
   switch_pro: 'Switch Pro',
   neptune: 'Steam Deck'
 }
