@@ -1,7 +1,7 @@
 export interface ControllerTemplate {
   title: string,
   mappingId: string,
-  source: string
+  profileType: string
 }
 
 export interface Controllers {

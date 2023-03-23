@@ -74,7 +74,7 @@ export class ControllerManager {
         .map(x=>Object.assign({},{
           title: x.controller_mappings.title,
           mappingId: x.mappingId,
-          source: "workshop"
+          profileType: "workshop"
         }));
 
       let templateDirValve = path.join(steamDirectory, 'controller_base', 'templates')
@@ -88,7 +88,7 @@ export class ControllerManager {
         .map(x=>Object.assign({},{
           title: json.caseInsensitiveTraverse(x,[["controller_mappings"],["localization"],["english"],["title"]]),
           mappingId: x.mappingId,
-          source: "template"
+          profileType: "template"
         }));
       parsedTemplatesValve = _.uniqBy(parsedTemplatesValve,'title');
 
@@ -111,7 +111,7 @@ export class ControllerManager {
     controllerType: string,
     gameTitle: string,
     mappingId: string,
-    source: string
+    profileType: string
   ) {
     if(!configsetData[controllerType]) {
       configsetData[controllerType] = {};
@@ -121,9 +121,9 @@ export class ControllerManager {
     }
     let title = ControllerManager.transformTitle(gameTitle)
     configsetData[controllerType][topKey][title] = {
+      [profileType]: mappingId,
       srmAppId: appId
     };
-    configsetData[controllerType][topKey][title][source] = mappingId;
   }
 
   removeController(configsetData: {[controllerType: string]: any}, gameTitle: string, controllerType: string) {
@@ -228,7 +228,7 @@ export class ControllerManager {
         for(const controllerType of Object.keys(app.controllers)) {
           const controller = app.controllers[controllerType]
           if(controller) {
-            this.setTemplate(configsetData, appId, controllerType, app.title, controller.mappingId, controller.source);
+            this.setTemplate(configsetData, appId, controllerType, app.title, controller.mappingId, controller.profileType);
           } else {
             this.removeController(configsetData, app.title, controllerType)
           }

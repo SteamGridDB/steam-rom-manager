@@ -593,8 +593,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         } else {
           for(let controllerType of Object.keys(this.controllerTemplates[steamDir])) {
             ((this.nestedGroup.children.controllers as NestedFormElement.Group).children[controllerType] as NestedFormElement.Select).values = this.controllerTemplates[steamDir][controllerType].map(template=>{
-              return {displayValue: template.title, value: template}
-            });
+              return { displayValue: template.title, value: template }
+          });
           }
         }
       } else if(force) {
