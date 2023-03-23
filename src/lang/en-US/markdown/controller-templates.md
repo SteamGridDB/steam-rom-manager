@@ -14,7 +14,7 @@ To make a template:
 * Repeat for as many different types of controller as you want to configure.
 
 In the SRM parser: 
-* Hit `Fetch Controller Templates` to pull templates for all controller types from steam. *This will clear currently selected templates.*
+* Hit `Fetch Controller Templates` to pull templates for all controller types from steam. This will clear your currently selected template if it is not one of the templates available in Steam.
 * Select your templates and save the parser.
 
 Once this is done you can generate and save the preview as usual, and the template will be applied to all the titles in the parser.

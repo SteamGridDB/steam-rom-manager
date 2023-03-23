@@ -1,13 +1,13 @@
-# Default image (optional) `[supports variables]`{.noWrap}
+# Standaardafbeelding (optioneel) `[ondersteunt variabelen]`{.noWrap}
 
-Allows one to use an image, stored locally, as a default/fallback image. A [special glob input](#special-glob-input) string is used to retrieve images. Only the first retrieved image is used.
+Hiermee kan een lokaal opgeslagen afbeelding worden gebruikt als standaard-/terugvalafbeelding. Een [special glob input](#special-glob-input) string wordt gebruikt om afbeeldingen op te halen. Alleen de eerste opgehaalde afbeelding wordt gebruikt.
 
-This image will be shown **only** if there are no other images available. If Steam image is available, you will be able to choose from Steam and this image.
+Deze afbeelding wordt **alleen** getoond als er geen andere afbeeldingen beschikbaar zijn. Als Steam-afbeelding beschikbaar is, kan je kiezen uit Steam en deze afbeelding.
 
-## Allowed image extensions
+## Toegestane afbeeldingsformaten
 
-Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Even if parser finds files with other extensions, they are not included into the final list.
+Alleen `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} en `TGA`{.noWrap} bestandsextensies worden ondersteund. Zelfs als de parser bestanden met andere extensies vindt, worden ze niet opgenomen in de definitieve lijst.
 
-## Can you move the directory of default image after saving app list?
+## Kun je de map van de standaard afbeelding verplaatsen na het opslaan van de app-lijst?
 
-Yes, once the list is saved, default image is copied to a Steam directory where they are renamed to match Steam's APP ID.
+Ja, zodra de lijst is opgeslagen, wordt de standaardafbeelding gekopieerd naar een Steam-map waar ze worden hernoemd om overeen te komen met de APP-ID van Steam.

@@ -11,6 +11,11 @@ type ObjectFields<T> = {
   [P in keyof T]: T[P];
 };
 
+export type SelectItem = {
+  displayValue: string,
+  value: any
+}
+
 export namespace NestedFormElement {
   export class Select {
     static displayName = 'Select';
@@ -23,12 +28,7 @@ export namespace NestedFormElement {
     /** Optional */
     disabled?: boolean;
     /** Required */
-    values: {
-      /** Required */
-      display: string,
-        /** Optional */
-        real?: any
-    }[];
+    values: SelectItem[]|string[];
     /** Optional */
     placeholder?: string;
     /** Optional */

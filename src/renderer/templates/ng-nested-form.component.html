@@ -32,10 +32,7 @@
             </label>
             <ng-container [ngSwitch]="child.constructor.displayName">
               <ng-container *ngSwitchCase="'Select'">
-                <ng-select [formControlName]="childrenKey" [placeholder]="child.placeholder" [multiple]="child.multiple" [allowEmpty]="child.allowEmpty">
-                  <ng-option *ngFor="let value of child.values" [ngValue]="value.real || value.display">
-                    {{value.display}}
-                  </ng-option>
+                <ng-select [formControlName]="childrenKey" [placeholder]="child.placeholder" [multiple]="child.multiple" [allowEmpty]="child.allowEmpty" [values]="child.values">
                 </ng-select>
               </ng-container>
               <ng-container *ngSwitchCase="'Button'">

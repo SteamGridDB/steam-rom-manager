@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { SettingsService, ParsersService, PreviewService, LanguageService, ImageProviderService, FuzzyService, CustomVariablesService, ConfigurationPresetsService } from "../services";
 import { APP } from '../../variables';
-import { AppSettings } from "../../models";
+import { AppSettings, SelectItem } from "../../models";
 import { Subscription } from 'rxjs';
 import * as os from 'os';
 
@@ -16,7 +16,7 @@ export class SettingsComponent implements OnDestroy {
   private currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
   private settings: AppSettings;
   private availableProviders: string[];
-  private availableLanguages: string[];
+  private availableLanguages: SelectItem[];
   private knownSteamDirectories: string[];
   private retroarchPathPlaceholder: string;
   private steamDirectoryPlaceholder: string;
@@ -48,7 +48,9 @@ export class SettingsComponent implements OnDestroy {
     }));
     this.settings = this.settingsService.getSettings();
     this.availableProviders = this.imageProviderService.instance.getAvailableProviders();
-    this.availableLanguages = this.languageService.getAvailableLanguages();
+    this.availableLanguages = this.languageService.getAvailableLanguages().map((lang)=>{
+      return {value: lang, displayValue: this.languageService.getReadableName(lang)}
+    });
     if(os.type()=='Windows_NT'){
       this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathWin;
       this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryWin;

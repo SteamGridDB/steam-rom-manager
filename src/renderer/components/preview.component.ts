@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Renderer2, ElementRef, RendererStyleFlags2, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PreviewService, SettingsService, ImageProviderService } from "../services";
-import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageContent } from "../../models";
+import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageContent, SelectItem } from "../../models";
 import { APP } from '../../variables';
 import { FileSelector } from '../../lib';
 import * as url from '../../lib/helpers/url';
@@ -9,6 +9,15 @@ import * as FileSaver from 'file-saver';
 import * as appImage from '../../lib/helpers/app-image';
 import * as _ from 'lodash';
 import * as path from 'path';
+
+const imageTypeDict = {
+  long: 'Banners',
+  tall: 'Portraits',
+  hero: 'Heroes',
+  logo: 'Logos',
+  icon: 'Icons',
+  games: 'All Artwork'
+};
 
 @Component({
   selector: 'preview',
@@ -25,7 +34,7 @@ export class PreviewComponent implements OnDestroy {
   private categoryFilter: string[] = [];
   private allCategories: string[] = [];
   private actualCategoryFilter: string[]=[];
-  private imageTypes: string[];
+  private imageTypes: SelectItem[];
   private scrollingEntries: boolean = false;
   private fileSelector: FileSelector = new FileSelector();
 
@@ -39,7 +48,9 @@ export class PreviewComponent implements OnDestroy {
       this.changeDetectionRef.detectChanges();
     }, 50)));
     this.appSettings = this.settingsService.getSettings();
-    this.imageTypes = this.previewService.getImageTypes();
+    this.imageTypes = this.previewService.getImageTypes().map((imageType: string)=>{
+      return {value: imageType, displayValue: imageTypeDict[imageType]}
+    });
   }
 
   generatePreviewData() {

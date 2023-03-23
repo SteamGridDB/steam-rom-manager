@@ -4,10 +4,18 @@ export interface ImageProviderAPI {
   }
 }
 
+export interface ControllerTemplate {
+  title: string,
+  mappingId: string
+}
+
 export interface Controllers {
-  [controllerType: string]: {
-    title: string,
-    mappingId: string
+  [controllerType: string]: ControllerTemplate
+}
+
+export interface ControllerTemplates {
+  [steamDirectory: string]: {
+    [controllerType: string]: ControllerTemplate[]
   }
 }
 
