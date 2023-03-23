@@ -6,7 +6,8 @@ export interface ImageProviderAPI {
 
 export interface ControllerTemplate {
   title: string,
-  mappingId: string
+  mappingId: string,
+  profileType: string
 }
 
 export interface Controllers {

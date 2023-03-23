@@ -26,7 +26,7 @@ export const controllerNames = {
   xbox360: 'Xbox 360',
   xboxone: 'Xbox One',
   switch_joycon_left: 'Switch Joy-Con (Left)',
-  switch_joycon_right: 'Switch Joy-Con (Right)'
+  switch_joycon_right: 'Switch Joy-Con (Right)',
   switch_pro: 'Switch Pro',
   neptune: 'Steam Deck'
 }
@@ -72,26 +72,28 @@ export class ControllerManager {
         .filter(x=> x.controller_mappings.controller_type === 'controller_'+controllerType)
         .filter(x=> x.controller_mappings.title.slice(-match.length) === match)
         .map(x=>Object.assign({},{
+          profileType: 'workshop',
           title: x.controller_mappings.title,
           mappingId: x.mappingId
         }));
 
       let templateDirValve = path.join(steamDirectory, 'controller_base', 'templates')
       let filesValve = glob.sync('*.vdf', { silent: true, dot: true, cwd: templateDirValve, absolute: true });
-      let parsedTemplatesValve: any[] = filesValve.map((f: string) => Object.assign({ mappingId: f.split('/').slice(-2)[0] }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
+      let parsedTemplatesValve: any[] = filesValve.map((f: string) => Object.assign({ mappingId: f.split('/').pop() }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
         .filter((x: any) => !!x['controller_mappings']
           && !!x['controller_mappings']['title']
           && !!x['controller_mappings']['controller_type']
         )
         .filter(x=> x.controller_mappings.controller_type === 'controller_'+controllerType)
-        .map(x=>Object.assign({},{
-          title: json.caseInsensitiveTraverse(x,[["controller_mappings"],["localization"],["english"],["title"]]),
+        .map(x => Object.assign({}, {
+          profileType: 'template',
+          title: x.controller_mappings.title.toLowerCase() === '#title' ? json.caseInsensitiveTraverse(x,[["controller_mappings"],["localization"],["english"],["title"]]) : x.controller_mappings.title,
           mappingId: x.mappingId
         }));
       parsedTemplatesValve = _.uniqBy(parsedTemplatesValve,'title');
 
       let parsedTemplates = parsedTemplatesUser.concat(parsedTemplatesValve);
-
+      parsedTemplates.sort((a, b) => a.title.localeCompare(b.title));
       return parsedTemplates
     } catch(e) {
       console.log(`Error getting Controller Templates:\n ${e}`)
@@ -108,6 +110,7 @@ export class ControllerManager {
     appId: string,
     controllerType: string,
     gameTitle: string,
+    profileType: string,
     mappingId: string
   ) {
     if(!configsetData[controllerType]) {
@@ -118,7 +121,7 @@ export class ControllerManager {
     }
     let title = this.transformTitle(gameTitle)
     configsetData[controllerType][topKey][title] = {
-      workshop: mappingId,
+      [profileType]: mappingId,
       srmAppId: appId
     };
   }
@@ -202,7 +205,7 @@ export class ControllerManager {
         for(const controllerType of Object.keys(app.controllers)) {
           const controller = app.controllers[controllerType]
           if(controller) {
-            this.setTemplate(configsetData, appId, controllerType, app.title, controller.mappingId);
+            this.setTemplate(configsetData, appId, controllerType, app.title, controller.profileType, controller.mappingId);
           } else {
             this.removeTemplate(configsetData, app.title, controllerType)
           }
