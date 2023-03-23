@@ -84,8 +84,8 @@ export class ControllerManager {
           && !!x['controller_mappings']['controller_type']
         )
         .filter(x=> x.controller_mappings.controller_type === 'controller_'+controllerType)
-        .map(x=>Object.assign({},{
-          title: json.caseInsensitiveTraverse(x,[["controller_mappings"],["localization"],["english"],["title"]]),
+        .map(x => Object.assign({}, {
+          title: x.controller_mappings.title.toLowerCase() === '#title' ? json.caseInsensitiveTraverse(x,[["controller_mappings"],["localization"],["english"],["title"]]) : x.controller_mappings.title,
           mappingId: x.mappingId
         }));
       parsedTemplatesValve = _.uniqBy(parsedTemplatesValve,'title');
