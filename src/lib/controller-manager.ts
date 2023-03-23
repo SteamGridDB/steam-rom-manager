@@ -205,7 +205,7 @@ export class ControllerManager {
         for(const controllerType of Object.keys(app.controllers)) {
           const controller = app.controllers[controllerType]
           if(controller) {
-            this.setTemplate(configsetData, appId, controllerType, app.title, controller.mappingId);
+            this.setTemplate(configsetData, appId, controllerType, app.title, controller.profileType, controller.mappingId);
           } else {
             this.removeTemplate(configsetData, app.title, controllerType)
           }
