@@ -626,5 +626,8 @@ export interface languageStruct {
 }
 
 export interface languageContainer {
-  [language: string]: languageStruct
+  [language: string]: {
+    langStrings: any,
+    markdowns: any
+  }
 }
