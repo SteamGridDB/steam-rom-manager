@@ -1,3 +1,3 @@
-# What is glob?
+# Wat is glob?
 
-Glob is a pattern that describes a file path using wildcards. For example, `*.txt` will match any file that ends with a `.txt` extension. In addition to normal wildcards, other **special** characters can be used to specify a more complex patterns making glob based parser a powerful tool for retrieving files.
+Glob is een patroon dat een bestandspad beschrijft met behulp van jokertekens. `*.txt` komt bijvoorbeeld overeen met elk bestand dat eindigt met de extensie `.txt`. Naast normale jokertekens kunnen andere **speciale** tekens worden gebruikt om een complexer patroon op te geven, waardoor een glob-gebaseerde parser een krachtig hulpmiddel is voor het ophalen van bestanden.
