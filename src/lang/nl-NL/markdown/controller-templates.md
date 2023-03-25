@@ -3,7 +3,7 @@ Met controller-sjablonen kunt u de knoppen-indeling per controller en per parser
 
 Je kunt `Cloud-synchronisatie` in Steam uitschakelen om te voorkomen dat je SRM toegewezen controller configuraties worden overschrijven. Je kunt de instelling vinden onder `Steam > Instellingen > Cloud`.
 
-Een template maken:
+To make a custom template:
 * Steam openen.
 * Verbind de controller waarvoor je een template wilt configureren.
 * Klik met de rechtermuisknop op een spel en druk op `Beheren > Controller Layout`.
@@ -13,7 +13,7 @@ Een template maken:
 * Herhaal dit voor zoveel verschillende soorten controllers als u wilt configureren.
 
 In de SRM parser:
-* Druk op `Fetch Controller-sjablonen` om sjablonen voor alle controllertypen uit Steam op te halen. Hiermee wordt je momenteel geselecteerde sjabloon gewist als het niet één van de sjablonen is die beschikbaar zijn in Steam.
+* Hit `Re-Fetch Controller Templates` to pull templates for all controller types from steam. This will clear your currently selected template if it is not one of the templates available in Steam.
 
 Currently, SRM pulls all of the default (Valve made) templates for each controller as well as all of the user defined templates that end in `(SRM)`.
 
