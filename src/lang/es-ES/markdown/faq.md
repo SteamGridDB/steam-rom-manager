@@ -9,7 +9,7 @@ Read this if you're still having trouble with configuration. For most examples t
 | **File2**          | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
 | **File3**          | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
 | **File4**          | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
-| **File5**          | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
+| **File5**          | `C:/ROMs/dir1/dir2/Dragon Quest IV. NES`   |
 | **File6**          | `C:/ROMs/dir1/dir2/save.sav`               |
 
 ## So, how do I setup user's glob?
@@ -20,7 +20,7 @@ We end up with `Kingdom Hearts/game.iso`. It obvious for us that `Kingdom Hearts
 
 Again, we end up with `${title}/game.iso`, but we also want **File2**, because it is for the same emulator. **File1** is `game.iso` and **File2** is `rom.iso`. What now?
 
-Remember wild cards? They allow us to discard information that does not really matter. In this case we don't care if it is `game` or `rom`, we want both to be matched. That's why we replace them with `*`. This is the final glob for both **File1** and **File2**:
+Remember wild cards? Remember wild cards? They allow us to discard information that does not really matter. In this case we don't care if it is `game` or `rom`, we want both to be matched. That's why we replace them with `*`. This is the final glob for both **File1** and **File2**:
 
 ```
 ${title}/*.iso
@@ -40,7 +40,7 @@ Now we can use a globstar and that's it!
 ```
 **/${title}.*
 ```
-Is it really that simple? **NO!** Globstar will have some impact in parser's performance if there are many subdirectories with thousands of files each. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere.
+Is it really that simple? Is it really that simple? **NO!** Globstar will have some impact in parser's performance if there are many subdirectories with thousands of files each. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere.
 
 A recommended solution is to use braced sets. They can make multiple globs out of `1` glob. If we write a glob like this:
 
