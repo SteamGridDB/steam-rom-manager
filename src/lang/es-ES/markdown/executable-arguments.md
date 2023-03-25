@@ -61,7 +61,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 ### nullDC (Sega Dreamcast)
 
 ```
--config nullDC_GUI:Fullscreen=1 -config ImageReader:DefaultImage="${filePath}"
+-config nullDC_GUI:Fullscreen=1 -config ImageReader: DefaultImage="${filePath}"
 ```
 
 ### Kega Fusion (Sega Genesis and Sega 32X)
