@@ -1,6 +1,6 @@
 # Image providers
 
-Here you can select image providers that are used to retrieve images. This option is for this configuration only.
+Here you can select image providers that are used to retrieve images. This option is for this configuration only. This option is for this configuration only.
 
 ## Similar option in "Settings" menu
 
