@@ -1,19 +1,19 @@
 # Controller Templates
 Controller templates allow you to configure the button layout per controller and per parser.
 
-You may want to disable `Cloud Synchronization` in Steam to avoid having your SRM assigned controller configs get overwritten. You may find the setting under `Steam > Settings > Cloud`. You may find the setting under `Steam > Settings > Cloud`. You may find the setting under `Steam > Settings > Cloud`.
+You may want to disable `Cloud Synchronization` in Steam to avoid having your SRM assigned controller configs get overwritten. You may find the setting under `Steam > Settings > Cloud`.
 
-To make a template:
+To make a custom template:
 * Open Steam.
 * Connect the controller you want to configure a template for.
 * Right click on any game and hit `Manage > Controller Layout`.
 * Configure the buttons as you see fit.
 * Hit `Export Config` then `Save new template binding`.
-* Name the template in the form: `Template Title (SRM)`. Name the template in the form: `Template Title (SRM)`. Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template.
+* Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template.
 * Repeat for as many different types of controller as you want to configure.
 
 In the SRM parser:
-* Hit `Fetch Controller Templates` to pull templates for all controller types from steam. This will clear your currently selected template if it is not one of the templates available in Steam. This will clear your currently selected template if it is not one of the templates available in Steam. This will clear your currently selected template if it is not one of the templates available in Steam.
+* Hit `Re-Fetch Controller Templates` to pull templates for all controller types from steam. This will clear your currently selected template if it is not one of the templates available in Steam.
 
 Currently, SRM pulls all of the default (Valve made) templates for each controller as well as all of the user defined templates that end in `(SRM)`.
 
