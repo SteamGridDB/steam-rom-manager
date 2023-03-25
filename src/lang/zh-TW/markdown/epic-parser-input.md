@@ -8,4 +8,4 @@ If, however, for some reason your manifests directory is located in a non-typica
 
 ## Launch Via Epic Games Store `[Recommend enabled]`
 
-What it sounds like, this toggle let's you set whether games will launch via the Epic Games Store or directly. If you don't launch via the epic games store you will not have access to Epic's online services in game.
+What it sounds like, this toggle let's you set whether games will launch via the Epic Games Store or directly. If you don't launch via the epic games store you will not have access to Epic's online services in game. If you don't launch via the epic games store you will not have access to Epic's online services in game.
