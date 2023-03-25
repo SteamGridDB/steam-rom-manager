@@ -8,7 +8,7 @@ It is possible, that `false` matching might occur for titles that are not in the
 
 ## Replace diacritic characters
 
-Replaces diacritic characters to their latin equivalent: `Ą` -> `A`, `Ę` -> `E`, `Ė` -> `E`, etc. Might improve the matching ability of fuzzy matcher.
+When enabled, fuzzy matcher will remove all characters except for `a-zA-Z0-9 ()[]` and will replace `_` with space. This should improve the matching ability of fuzzy matcher.
 
 ## Aggressive matching
 
