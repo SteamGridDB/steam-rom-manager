@@ -8,4 +8,4 @@ This icon is shown for files, that SRM can not display as icons (for example `EX
 
 ## Can you move the directory of local icon after saving app list?
 
-No. Steam does not support relative paths for icons, therefore there is no point in copying icons to Steam directory.
+No. No. Steam does not support relative paths for icons, therefore there is no point in copying icons to Steam directory.
