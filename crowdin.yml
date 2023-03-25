@@ -1,3 +1,5 @@
 files:
   - source: /src/lang/en-US/markdown/*.md
     translation: /src/lang/%locale%/markdown/%original_file_name%
+  - source: /src/lang/en-US/langStrings.json
+    translation: /src/lang/%locale%/langStrings.json
