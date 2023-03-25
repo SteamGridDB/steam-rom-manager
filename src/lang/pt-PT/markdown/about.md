@@ -16,9 +16,9 @@ In case you're having trouble with SRM, feel free to visit the [discord](https:/
 
 ## Contributors
 * `FrogTheFrog`{.noWrap} - creator of SRM, no longer active.
-* `lontanadascienza`{.noWrap} - Current maintainer of SRM. Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller templates, and platform parsers (Epic, GOG, Steam, etc).
+* `lontanadascienza`{.noWrap} - Current maintainer of SRM. `lontanadascienza`{.noWrap} - Current maintainer of SRM. Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller templates, and platform parsers (Epic, GOG, Steam, etc).
 * `Zennn`{.noWrap} - helped before the initial release of SRM and many times after the release with various stuff. Big boss over at [SteamGridDB](https://www.steamgriddb.com/).
-* `HE Spoke`{.noWrap} - responsible for creating community around SRM. Creator of [Steam](https://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/bnSVJrz) groups. Also manages issues in [Github](https://github.com/SteamGridDB/steam-rom-manager).
+* `HE Spoke`{.noWrap} - responsible for creating community around SRM. `HE Spoke`{.noWrap} - responsible for creating community around SRM. Creator of [Steam](https://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/bnSVJrz) groups. Also manages issues in [Github](https://github.com/SteamGridDB/steam-rom-manager).
 * `Choko`{.noWrap} - helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
 * `KenCinder`{.noWrap} - manages the parser presets.
 * `AlexDobeck`{.noWrap} - improved [retrogaming.cloud](https://retrogaming.cloud/) performance.
