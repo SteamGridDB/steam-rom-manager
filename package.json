@@ -118,7 +118,7 @@
     "markdown-it-anchor": "^4.0.0",
     "markdown-it-attrs": "^0.8.0",
     "mime-types": "^2.1.18",
-    "minimatch": "^3.0.4",
+    "minimatch": "^3.0.5",
     "ngx-color-picker": "^5.3.3",
     "os-name": "^4.0.1",
     "probe-image-size": "^5.0.0",
