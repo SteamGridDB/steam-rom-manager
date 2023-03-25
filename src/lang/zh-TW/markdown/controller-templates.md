@@ -9,7 +9,7 @@ To make a template:
 * Right click on any game and hit `Manage > Controller Layout`.
 * Configure the buttons as you see fit.
 * Hit `Export Config` then `Save new template binding`.
-* Name the template in the form: `Template Title (SRM)`. Name the template in the form: `Template Title (SRM)`. Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template. Name the template in the form: `Template Title (SRM)`. Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template.
+* Name the template in the form: `Template Title (SRM)`. Name the template in the form: `Template Title (SRM)`. Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template. You must end the name with `(SRM)` or SRM will not pick up the template.
 * Repeat for as many different types of controller as you want to configure.
 
 In the SRM parser:
