@@ -86,9 +86,7 @@ file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for 
 ```
 will be replaced with these:
 ```
-Pokémon (USA) (Disc 1).iso
-Pokémon (USA) (Disc 1).iso
-Pokémon.iso
+Pokémon (USA) (Disc 1).iso Pokémon (USA) (Disc 1).iso Pokémon.iso
 (Disc 1)
 (DISC 1)
 Pokemon (USA) (Disc 1).iso
