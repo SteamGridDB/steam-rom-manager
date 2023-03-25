@@ -1,6 +1,6 @@
 # Command line arguments (optional) `[supports variables]`{.noWrap}
 
-Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
+Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables. Most of the time you will want to set it using provided parser variables.
 
 ## Examples By System
 
@@ -134,7 +134,7 @@ This setting is used to influence Steam's APP ID.
 |             `${startInDir}` | "StartIn" directory                     |
 |                `${fileDir}` | File's, returned by a parser, directory |
 
-In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
+In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
 
 ## Name variables
 
@@ -175,18 +175,18 @@ In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is
 
 ## Function variables
 
-|                                 Variable (case-insensitive) | Corresponding function                                                                                                 |
-| -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
-|                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
-|                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
-|                                             `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                                      |
-|                                       `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
-|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
-| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                           |
+|                                 Variable (case-insensitive) | Corresponding function                                                                                                                          |
+| -----------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------- |
+|                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
+|                                             `${uc\|input}` | Uppercase variable. Uppercase variable. Transforms input to uppercase                                                                           |
+|                                             `${lc\|input}` | Lowercase variable. Lowercase variable. Transforms input to lowercase                                                                           |
+|                                       `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                                                   |
+|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                                                  |
+| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                                                    |
 
 ### Function variable example
 
-Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
+Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables: Then these variables:
 ```
 ${/.*/|${title}}                           //Matches everything
 ${/(.*)/|${title}}                         //Captures everything
