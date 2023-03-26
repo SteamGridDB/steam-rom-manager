@@ -170,6 +170,20 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
           return newValue;
         }
       }
+    },
+    12: {
+      'version': { method: versionUp },
+      'controllers': {
+        method: (oldValue, oldConfiguration: any) => {
+          let newValue = _.cloneDeep(oldValue);
+          for(let controllerType of controllerTypes) {
+            if(newValue[controllerType] && !newValue[controllerType].profileType) {
+              newValue[controllerType].profileType = "workshop";
+            }
+          }
+          return newValue;
+        }
+      }
     }
   }
 };

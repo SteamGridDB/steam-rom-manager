@@ -174,14 +174,24 @@ export class NgSelectComponent implements ControlValueAccessor {
 
   writeValue(value: any, suppressChanges: boolean = true): void {
     let optionIndex = this.getOptionId(value);
+
     if (optionIndex !== -1)
       this.selectOption(optionIndex, false, suppressChanges);
     else if (value instanceof Array) {
-      for (let i = 0; i < value.length; i++)
-      this.writeValue(value[i], suppressChanges);
+      for (let i = 0; i < value.length; i++) {
+        this.writeValue(value[i], suppressChanges);
+      }
     }
-    else
+    else if (this.values.length==0 && value && value.title) {
+      this.changeOptions([{
+        value: value,
+        displayValue: value.title
+      }]);
+      this.selectOption(0, false);
+    }
+    else {
       this.clearOptions();
+    }
   }
 
   registerOnChange(fn: (value: any) => any): void {
