@@ -541,7 +541,8 @@ export interface languageStruct {
         savingConfiguration: string,
         readingConfiguration: string,
         parserTypeMissing: string,
-        corruptedConfiguration__i: string//${file}, ${error}
+        corruptedConfiguration__i: string,//${file}, ${error}
+        fetchingTemplates: string
       },
       validationErrors: {
         parserType__md: string,

@@ -604,13 +604,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           this.parsersService.saveControllerTemplates(this.controllerTemplates);
         } else {
           for(let controllerType of Object.keys(this.controllerTemplates[steamDir])) {
-            ((this.nestedGroup.children.controllers as NestedFormElement.Group).children[controllerType] as NestedFormElement.Select).values = this.controllerTemplates[steamDir][controllerType].map(template=>{
+            ((this.nestedGroup.children.controllers as NestedFormElement.Group).children[controllerType] as NestedFormElement.Select).values = this.controllerTemplates[steamDir][controllerType].map(template => {
               return { displayValue: template.title, value: template }
           });
           }
         }
         if(force) {
-          this.loggerService.success(this.lang.success.fetchedTemplates, {invokeAlert: true, alertTimeout: 3000})
+          this.loggerService.success(this.lang.success.fetchedTemplates, { invokeAlert: true, alertTimeout: 3000 })
         }
       } else if(force) {
         this.loggerService.error(this.lang.error.cannotFetchTemplates, { invokeAlert: true, alertTimeout: 3000 });

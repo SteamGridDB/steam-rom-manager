@@ -74,7 +74,12 @@ export class ParsersService {
               }
 
               getControllerTemplates(steamDir: string, controllerType: string): any[] {
-                return ControllerManager.readTemplates(steamDir, controllerType);
+                try {
+                  return ControllerManager.readTemplates(steamDir, controllerType);
+                } catch (error) {
+                  this.loggerService.error(this.lang.error.fetchingTemplates, {invokeAlert: true, alertTimeout: 3000});
+                  this.loggerService.error(error);
+                }
               }
 
               removeControllers(steamDir: string, userId: string, parserId?: string) {

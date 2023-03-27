@@ -57,32 +57,30 @@ export class ControllerManager {
   }
 
   // TODO
-  // 1) Convert to AppIDs [doesn't seem possible sadly]
+  // 1) Convert key to appIDs [doesn't seem possible sadly]
   // 2) Make titlemap not a class variable
 
   static readTemplates(steamDirectory: string, controllerType: string) {
-    try {
+    let templateDirUser = path.join(steamDirectory, 'steamapps', 'workshop', 'content', '241100')
+    let filesUser = glob.sync('*/*', { silent: true, dot: true, cwd: templateDirUser, absolute: true });
+    let parsedTemplatesUser: any[] = filesUser.map((f: string) => Object.assign({ mappingId: f.split('/').slice(-2)[0] }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
+      .filter((x: any) => !!x['controller_mappings']
+        && !!x['controller_mappings']['title']
+        && !!x['controller_mappings']['controller_type']
+      )
+      .filter(x=> x.controller_mappings.controller_type === 'controller_'+controllerType)
+      .filter(x=> x.controller_mappings.title.slice(-match.length) === match)
+      .map(x=>Object.assign({},{
+        title: x.controller_mappings.title,
+        mappingId: x.mappingId,
+        profileType: "workshop"
+      }));
 
-      let templateDirUser = path.join(steamDirectory, 'steamapps', 'workshop', 'content', '241100')
-      let filesUser = glob.sync('*/*', { silent: true, dot: true, cwd: templateDirUser, absolute: true });
-      let parsedTemplatesUser: any[] = filesUser.map((f: string) => Object.assign({ mappingId: f.split('/').slice(-2)[0] }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
-        .filter((x: any) => !!x['controller_mappings']
-          && !!x['controller_mappings']['title']
-          && !!x['controller_mappings']['controller_type']
-        )
-        .filter(x=> x.controller_mappings.controller_type === 'controller_'+controllerType)
-        .filter(x=> x.controller_mappings.title.slice(-match.length) === match)
-        .map(x=>Object.assign({},{
-          title: x.controller_mappings.title,
-          mappingId: x.mappingId,
-          profileType: "workshop"
-        }));
-
-      let templateDirValve = path.join(steamDirectory, 'controller_base', 'templates')
-      let filesValve = glob.sync('*.vdf', { silent: true, dot: true, cwd: templateDirValve, absolute: true });
-      let parsedTemplatesValve: any[] = filesValve.map((f: string) => Object.assign({ mappingId: path.basename(f) }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
-        .filter((x: any) => !!x['controller_mappings']
-          && !!x['controller_mappings']['title']
+    let templateDirValve = path.join(steamDirectory, 'controller_base', 'templates')
+    let filesValve = glob.sync('*.vdf', { silent: true, dot: true, cwd: templateDirValve, absolute: true });
+    let parsedTemplatesValve: any[] = filesValve.map((f: string) => Object.assign({ mappingId: path.basename(f) }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
+      .filter((x: any) => !!x['controller_mappings']
+        && !!x['controller_mappings']['title']
           && !!x['controller_mappings']['controller_type']
         )
         .filter(x=> x.controller_mappings.controller_type === 'controller_'+controllerType)
@@ -91,15 +89,11 @@ export class ControllerManager {
           mappingId: x.mappingId,
           profileType: "template"
         }));
-      parsedTemplatesValve = _.uniqBy(parsedTemplatesValve,'title');
+    parsedTemplatesValve = _.uniqBy(parsedTemplatesValve,'title');
 
-      let parsedTemplates = parsedTemplatesUser.concat(parsedTemplatesValve);
+    let parsedTemplates = parsedTemplatesUser.concat(parsedTemplatesValve);
 
-      return parsedTemplates
-    } catch(e) {
-      console.log(`Error getting Controller Templates:\n ${e}`)
-      return [];
-    }
+    return parsedTemplates
   }
 
   static transformTitle(gameTitle: string) {
