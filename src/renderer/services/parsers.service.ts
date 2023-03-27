@@ -77,8 +77,8 @@ export class ParsersService {
                 return ControllerManager.readTemplates(steamDir, controllerType);
               }
 
-              removeControllers(steamDir: string, userId: string) {
-                this.controllerManager.removeAllControllersAndWrite(steamDir, userId);
+              removeControllers(steamDir: string, userId: string, parserId?: string) {
+                this.controllerManager.removeAllControllersAndWrite(steamDir, userId, parserId);
               }
 
               parseSteamDir(steamDirInput: string) {
@@ -155,6 +155,7 @@ export class ParsersService {
                 this.userConfigurations.next(userConfigurations);
                 this.saveUserConfigurations();
               }
+
               changeEnabledStatusAll(enabled: boolean) {
                 let userConfigurations = this.userConfigurations.getValue();
                 for(let i=0; i < userConfigurations.length; i++) {

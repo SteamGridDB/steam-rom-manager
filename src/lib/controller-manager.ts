@@ -33,7 +33,8 @@ export const controllerNames = {
 
 const match = '(SRM)';
 const topKey = 'controller_config';
-const srmkey = 'srmAppId';
+const srmKey = 'srmAppId';
+const srmParserKey = 'srmParserId';
 
 export class ControllerManager {
   private titleMap: {[appId: string]: string};
@@ -106,8 +107,9 @@ export class ControllerManager {
   }
 
 
-  setTemplate(configsetData: {[controllerType: string]: any},
+  private setTemplate(configsetData: {[controllerType: string]: any},
     appId: string,
+    parserId: string,
     controllerType: string,
     gameTitle: string,
     mappingId: string,
@@ -122,14 +124,15 @@ export class ControllerManager {
     let title = ControllerManager.transformTitle(gameTitle)
     configsetData[controllerType][topKey][title] = {
       [profileType]: mappingId,
-      srmAppId: appId
+      [srmKey]: "a"+appId,
+      [srmParserKey]: "p"+parserId //prevents interpretation as an integer, which causes rounding errors
     };
   }
 
   removeController(configsetData: {[controllerType: string]: any}, gameTitle: string, controllerType: string) {
     let title = ControllerManager.transformTitle(gameTitle);
     if(configsetData[controllerType] && configsetData[controllerType][topKey]) {
-       if((configsetData[controllerType][topKey][title]||{})[srmkey]) {
+       if((configsetData[controllerType][topKey][title]||{})[srmKey]) {
         delete configsetData[controllerType][topKey][title];
       }
       if(Object.keys(configsetData[controllerType][topKey]).length == 0) {
@@ -138,18 +141,20 @@ export class ControllerManager {
     }
   }
 
-  removeAllControllersAndWrite(steamDirectory: string, userId: string): void {
+  removeAllControllersAndWrite(steamDirectory: string, userId: string, parserId?: string): void {
     let configsetDir = ControllerManager.configsetDir(steamDirectory, userId);
     let configsetData = this.readControllers(configsetDir);
-    this.removeAllControllers(configsetData);
+    this.removeAllControllers(configsetData, parserId);
     this.writeControllerFiles(configsetDir, configsetData);
   }
 
-  removeAllControllers(configsetData: {[controllerType: string]: any}): void {
+  removeAllControllers(configsetData: {[controllerType: string]: any}, parserId?: string): void {
     for(const gameTitle of Object.values(this.titleMap)) {
       for(const controllerType of controllerTypes) {
         if(configsetData[controllerType] && configsetData[controllerType][topKey] && configsetData[controllerType][topKey][gameTitle]) {
-          delete configsetData[controllerType][topKey][gameTitle];
+          if(!parserId || configsetData[controllerType][topKey][gameTitle][srmParserKey] == "p"+parserId) {
+            delete configsetData[controllerType][topKey][gameTitle];
+          }
         }
       }
     }
@@ -173,8 +178,8 @@ export class ControllerManager {
           for(const key of Object.keys(configsetData[controllerType][topKey][game])) {
             configsetData[controllerType][topKey][game][key] = String(configsetData[controllerType][topKey][game][key])
           }
-          if(configsetData[controllerType][topKey][game][srmkey]) {
-            this.titleMap[configsetData[controllerType][topKey][game][srmkey]] = game;
+          if(configsetData[controllerType][topKey][game][srmKey]) {
+            this.titleMap[configsetData[controllerType][topKey][game][srmKey]] = game;
           }
         }
       }
@@ -218,19 +223,21 @@ export class ControllerManager {
     else {
       for(const controllerType of controllerTypes) {
         for (const appId of extraneousAppIds) {
-          if(this.titleMap[appId]) {
-            this.removeController(configsetData, this.titleMap[appId], controllerType)
+          if(this.titleMap["a"+appId]) {
+            this.removeController(configsetData, this.titleMap["a"+appId], controllerType)
           }
         }
       }
       for (const appId of Object.keys(user.userData.apps).filter((appId: string)=>user.userData.apps[appId].status ==='add')) {
         const app = user.userData.apps[appId];
+        const title = app.parserType == 'Steam' ? steam.shortenAppId(appId) : app.title;
+        const parserId = app.parserId;
         for(const controllerType of Object.keys(app.controllers)) {
-          const controller = app.controllers[controllerType]
+          const controller = app.controllers[controllerType];
           if(controller) {
-            this.setTemplate(configsetData, appId, controllerType, app.title, controller.mappingId, controller.profileType);
+            this.setTemplate(configsetData, appId, parserId, controllerType, title, controller.mappingId, controller.profileType);
           } else {
-            this.removeController(configsetData, app.title, controllerType)
+            this.removeController(configsetData, title, controllerType)
           }
         }
       }

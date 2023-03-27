@@ -34,7 +34,7 @@ export interface VDF_AddedItemsData {
 }
 
 export interface VDF_ExtraneousItemsData {
-  [userId: string]: string[] //list of extraneous appids for userid
+  [userId: string]: string[] //list of extraneous (long) appids for userid
 }
 
 export type SteamDirectory = string;

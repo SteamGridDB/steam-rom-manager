@@ -326,23 +326,26 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             }
           }),
           controllerSection: new NestedFormElement.Section({
-            label: 'Controller Templates Configuration',
-            isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+            label: 'Controller Templates Configuration'
+            // isHidden: () => this.isHiddenIfArtworkOnlyParser(),//only temporary, quite possible to add this for steam parser
           }),
           fetchControllerTemplatesButton: new NestedFormElement.Button({
             buttonLabel: 'Re-fetch Controller Templates',
             onClickMethod: this.fetchControllerTemplates.bind(this)
+            // isHidden: () => this.isHiddenIfArtworkOnlyParser(),
           }),
           removeControllersButton: new NestedFormElement.Button({
-            buttonLabel: 'Unset All Controllers',
+            buttonLabel: 'Unset Controllers for Parser',
             onClickMethod: this.removeControllers.bind(this)
+            // isHidden: () => this.isHiddenIfArtworkOnlyParser(),
           }),
           controllers: new NestedFormElement.Group({
             children: (() => {
               let children = {};
               for(let controllerType of controllerTypes) {
                 children[controllerType] = new NestedFormElement.Select({
-                  label: controllerNames[controllerType]+" Template",
+                  // isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+                  label: controllerNames[controllerType]+ " " + "Template",
                   placeholder: 'Select a Template',
                   multiple: false,
                   allowEmpty: true,
@@ -565,22 +568,31 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     }
 
     private removeControllers() {
+      let configTitle = this.userForm.get('configTitle').value;
+      this.loggerService.info(this.lang.info.removingControllers__i.interpolate({configTitle: configTitle}));
       let steamDirInput = this.userForm.get('steamDirectory').value || '';
       let steamDir = this.parsersService.parseSteamDir(steamDirInput);
       if(this.parsersService.validate('steamDirectory', steamDir) == null) {
         let userAccountsInfo = this.userForm.get('userAccounts').value;
+        let parserId = this.parsersService.getParserId(this.configurationIndex);
         this.parsersService.parseUserAccounts(userAccountsInfo, steamDir).then((userIds)=>{
         for(let userId of userIds) {
-          this.parsersService.removeControllers(steamDir, userId);
+          this.parsersService.removeControllers(steamDir, userId, parserId);
         }
+        this.loggerService.success(this.lang.success.removedControllers__i.interpolate({configTitle: configTitle}), {invokeAlert: true, alertTimeout: 3000 })
         }).catch((error)=>{
-          this.loggerService.error(this.lang.error.cannotParseUserIDs, {invokeAlert: true, alertTimeout: 3000 });
+          this.loggerService.error(this.lang.error.errorRemovingControllers, {invokeAlert: true, alertTimeout: 3000 });
           this.loggerService.error(error);
         })
+      } else {
+        this.loggerService.error(this.lang.error.cannotRemoveControllers, {invokeAlert: true, alertTimeout: 3000 })
       }
     }
 
     private fetchControllerTemplates(force:boolean = true) {
+      if(force) {
+        this.loggerService.info(this.lang.info.fetchingControllerTemplates);
+      }
       let steamDirInput = this.userForm.get('steamDirectory').value || '';
       let steamDir = this.parsersService.parseSteamDir(steamDirInput);
       if(this.parsersService.validate('steamDirectory', steamDir) == null) {
@@ -596,6 +608,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               return { displayValue: template.title, value: template }
           });
           }
+        }
+        if(force) {
+          this.loggerService.success(this.lang.success.fetchedTemplates, {invokeAlert: true, alertTimeout: 3000})
         }
       } else if(force) {
         this.loggerService.error(this.lang.error.cannotFetchTemplates, { invokeAlert: true, alertTimeout: 3000 });

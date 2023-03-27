@@ -19,8 +19,17 @@
 
       <div class=text style="margin-left: 0.25em;">{{lang.text.removeApps_desc}}</div>
       </div>
+    </div>
+    <div class="inputContainer">
+      <div class="inlineGroup">
+        <div class="clickButton dangerousButton" style="font-size: 0.85em;" [class.disabled]="this.knownSteamDirectories.length === 0"
+                                                 (click)="removeControllersOnly()">{{lang.text.removeApps_btn}}</div>
+
+      <div class=text style="margin-left: 0.25em;">all controllers only</div>
+      </div>
 
     </div>
+
     <div class="inputContainer">
       <div class="inlineGroup">
         <div class=text style="margin-right: 0.25em;">{{lang.text.selectLanguage}}</div>
