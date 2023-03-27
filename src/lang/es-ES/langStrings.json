@@ -456,7 +456,8 @@
         "savingConfiguration": "Error encountered while saving user configurations!",
         "readingConfiguration": "Error encountered while reading user configurations!",
         "parserTypeMissing": "Cannot save without specifying parser type",
-        "corruptedConfiguration__i": "One or more saved parser configurations are invalid!\r\nPermanent configuration saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
+        "corruptedConfiguration__i": "One or more saved parser configurations are invalid!\r\nPermanent configuration saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}",
+        "fetcingTemplates": "Error encountered while fetching controllers templates!"
       },
       "validationErrors": {
         "parserType__md": "> Incorrect parser type!",
