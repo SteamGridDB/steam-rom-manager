@@ -326,7 +326,9 @@
         "nothingWasFound": "Parser found nothing.",
         "copiedToClipboard": "Configuration copied to clipboard",
         "userExclusions": "User excluded:",
-        "excludedFileInfo__i": "[${index}/${total}]: ${filename}"
+        "excludedFileInfo__i": "[${index}/${total}]: ${filename}",
+        "removingControllers__i": "Removing controller templates for parser: ${configTitle}",
+        "fetchingControllerTemplates": "Fetching controller templates"
       },
       "error": {
         "missingAccounts__i": "Following ${count} user account(s) were not found (user must to login to Steam at least once):",
@@ -339,7 +341,9 @@
         "cannotTestInvalid": "Can not test invalid configuration!",
         "cannotCopyInvalid": "Can not copy invalid configuration!",
         "failedToCopy": "Failed to copy to clipbard!",
-        "cannotFetchTemplates": "Can not fetch controller templates for invalid steam dir!"
+        "cannotFetchTemplates": "Can not fetch controller templates for invalid steam directory!",
+        "errorRemovingControllers": "Error removing controllers:",
+        "cannotRemoveControllers": "Can not remove controllers from invalid steam directory!"
       },
       "success": {
         "foundAccounts__i": "Found ${count} available user account(s):",
@@ -390,7 +394,9 @@
         "resolvedIconGlob__i": "[${index}/${total}]:  Resolved icon glob:",
         "resolvedIconGlobInfo__i": "[${index}/${total}]:                        ${glob}",
         "localIconsResolved__i": "[${index}/${total}]:      Resolved icons:",
-        "localIconInfo__i": "[${index}/${total}]:                        ${icon}"
+        "localIconInfo__i": "[${index}/${total}]:                        ${icon}",
+        "removedControllers__i": "Succesfully removed controllers for parser: ${configTitle}",
+        "fetchedTemplates": "Fetched all controller templates"
       },
       "label": {
         "parserType": "Parser type",
