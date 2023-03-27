@@ -16,9 +16,12 @@ All notable changes to this project will be documented in this file.
 ## 2.3.43
 ### Added
 * Crowdin Localization (credit to @doZennn)
+* Ability to remove applied controller templates per parser (and globally in settings)
+
 ### Fixed
 * Vastly improved state management for controller templates
 * Totally re-worked select component to allow dynamically changing options
+
 
 ## 2.3.42
 ### Added
