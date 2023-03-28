@@ -8,7 +8,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',
-  latestVersion: 12,
+  latestVersion: 13,
   fields: {
     undefined: {
       'version': { method: () => 0 },

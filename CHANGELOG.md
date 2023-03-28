@@ -13,6 +13,12 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.47
+### Added
+* Ability to exclude non-local artwork in exceptions (addresses [issue 398](https://github.com/SteamGridDB/steam-rom-manager/issues/398))
+### Fixed
+* Image Provider resetting to SGDB even if none was previously selected ([issue 336](https://github.com/SteamGridDB/steam-rom-manager/issues/336))
+
 ## 2.3.46
 ## Added 
 * Ability to filter apps by parser title in addition to steam category.

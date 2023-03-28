@@ -524,11 +524,9 @@ export class ParsersService {
                 }).then((data) => {
                   let validatedConfigs: { saved: UserConfiguration, current: UserConfiguration }[] = [];
                   let errorString: string = '';
-                  let updateNeeded: boolean = false;
                   for (let i = 0; i < data.length; i++) {
                     // TODO get rid of this ugly hack for making specified accounts mandatory for steam parser only
                     data[i].userAccounts.specifiedAccounts = data[i].userAccounts.specifiedAccounts || '';
-                    updateNeeded=true;
                     if(parserInfo.superTypesMap[data[i].parserType] !== parserInfo.ROMType) {
                       data[i].titleFromVariable.tryToMatchTitle = false;
                       data[i].executableModifier = "\"${exePath}\"";
@@ -549,7 +547,7 @@ export class ParsersService {
                     }));
                   }
                   this.userConfigurations.next(validatedConfigs);
-                  if(updateNeeded) {
+                  if(data.length) {
                     this.saveUserConfigurations();
                   }
                 }).catch((error) => {
