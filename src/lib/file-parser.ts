@@ -425,9 +425,12 @@ export class FileParser {
           if(exceptions && exceptions.commandLineArguments) {
             parsedConfig.files[j].argumentString = exceptions.commandLineArguments;
           }
-          if(exceptions && exceptions.searchTitle) {
+          if(exceptions && !exceptions.excludeArtwork && exceptions.searchTitle) {
             parsedConfig.files[j].onlineImageQueries = [exceptions.searchTitle];
             parsedConfig.files[j].imagePool = exceptions.searchTitle;
+          }
+          if(exceptions && exceptions.excludeArtwork) {
+            parsedConfig.files[j].onlineImageQueries = [];
           }
         }
         parsedConfig.files = parsedConfig.files.filter(x=>!!x);

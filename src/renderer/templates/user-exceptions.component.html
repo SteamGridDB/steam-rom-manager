@@ -27,7 +27,10 @@
             <ng-text-input class="ngTextInput" placeholder="--custom-args" [formControl]="item.controls['commandLineArguments']"></ng-text-input>
           </div>
           <div class="inlineGroup">
-            <ng-toggle-button class="ngToggleButton" [formControl]="item.controls['exclude']">{{lang.text.exclude}}</ng-toggle-button>
+            <div class="inlineGroup">
+              <ng-toggle-button class="ngToggleButton excludeButton" [formControl]="item.controls['exclude']">{{lang.text.exclude}}</ng-toggle-button>
+              <ng-toggle-button class="ngToggleButton" [formControl]="item.controls['excludeArtwork']">{{lang.text.excludeArtwork}}</ng-toggle-button>
+            </div>
             <div class="deleteItem" (click)="deleteItem(i)">{{lang.buttons.deleteItem}}</div>
           </div>
         </div>

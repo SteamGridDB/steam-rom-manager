@@ -360,7 +360,8 @@ export interface languageStruct {
       },
       text: {
         title: string,
-        exclude: string
+        exclude: string,
+        excludeArtwork: string
       }
     },
     service: {
