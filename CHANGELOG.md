@@ -16,7 +16,6 @@ All notable changes to this project will be documented in this file.
 ## 2.3.46
 ## Added 
 * Ability to filter apps by parser title in addition to steam category.
-
 ### Fixed
 * Significant lag when transitioning from non parser tab to a parser tab, caused by cached controllers templates being destroyed. Fixed by moving them to service.
 * Category Filter options getting cleared after leaving the preview page.
