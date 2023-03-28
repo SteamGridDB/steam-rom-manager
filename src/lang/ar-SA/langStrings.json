@@ -307,7 +307,8 @@
       },
       "text": {
         "title": "User Exceptions",
-        "exclude": "Exclude Title"
+        "exclude": "Exclude Title",
+        "excludeArtwork": "Local Artwork Only"
       }
     },
     "service": {

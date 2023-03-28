@@ -1,16 +1,16 @@
-# Frequently asked questions
+# Häufig gestellte Fragen
 
-Read this if you're still having trouble with configuration. For most examples the following will be used unless specified otherwise:
+Read this if you're still having trouble with configuration. Für die meisten Beispiele wird Folgendes verwendet, sofern nicht anders angegeben:
 
 |                    |                                            |
 | ------------------ | ------------------------------------------ |
 | **ROMs directory** | `C:/ROMs`                                  |
-| **File1**          | `C:/ROMs/Kingdom Hearts/game.iso`          |
-| **File2**          | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
-| **File3**          | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
-| **File4**          | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
-| **File5**          | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
-| **File6**          | `C:/ROMs/dir1/dir2/save.sav`               |
+| **Datei 1**        | `C:/ROMs/Kingdom Hearts/game.iso`          |
+| **Datei 2**        | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
+| **Datei 3**        | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
+| **Datei 4**        | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
+| **Datei 5**        | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
+| **Datei 6**        | `C:/ROMs/dir1/dir2/save.sav`               |
 
 ## So, how do I setup user's glob?
 

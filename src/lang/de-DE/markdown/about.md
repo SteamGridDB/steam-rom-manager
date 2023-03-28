@@ -1,20 +1,20 @@
-## System info
+## Systeminformation
 
-In case you're having trouble with SRM, feel free to visit the [discord](https://discord.gg/bnSVJrz) or the [subreddit](https://www.reddit.com/r/SteamRomManager/) and ask for our help. In order for us to help you, we would like you to provide this info:
+Falls du Probleme mit SRM hast, kannst du die [Discord](https://discord.gg/bnSVJrz) oder den [Subreddit](https://www.reddit.com/r/SteamRomManager/) besuchen und um Hilfe bitten. In order for us to help you, we would like you to provide this info:
 
-* SRM version: **#{APP[version]}**
+* SRM Version: **#{APP[version]}**
 * Operating System: **#{APP[os]}**
 
-## Useful links
+## Nützliche Links
 
-* [Steam](https://steamcommunity.com/groups/steamrommanager) group.
-* [Discord](https://discord.gg/bnSVJrz) server.
-* [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
-* [Github](https://github.com/SteamGridDB/steam-rom-manager) repository.
-* [Crowdin](https://crowdin.com/project/steam-rom-manager) translation project.
-* All releases can be downloaded from [here](https://github.com/SteamGridDB/steam-rom-manager/releases).
+* [Steam](https://steamcommunity.com/groups/steamrommanager) Gruppe.
+* [Discord](https://discord.gg/bnSVJrz) Server.
+* [r/SteamRomManager,](https://www.reddit.com/r/SteamRomManager/)
+* [Github](https://github.com/SteamGridDB/steam-rom-manager) Repository.
+* [Crowdin](https://crowdin.com/project/steam-rom-manager) Übersetzungsprojekt.
+* Alle Versionen können von [hier heruntergeladen werden](https://github.com/SteamGridDB/steam-rom-manager/releases).
 
-## Contributors
+## Mitwirkende
 * `FrogTheFrog`{.noWrap} - creator of SRM, no longer active.
 * `lontanadascienza`{.noWrap} - Current maintainer of SRM. Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller templates, and platform parsers (Epic, GOG, Steam, etc).
 * `Zennn`{.noWrap} - helped before the initial release of SRM and many times after the release with various stuff. Big boss over at [SteamGridDB](https://www.steamgriddb.com/).
@@ -24,18 +24,18 @@ In case you're having trouble with SRM, feel free to visit the [discord](https:/
 * `AlexDobeck`{.noWrap} - improved [retrogaming.cloud](https://retrogaming.cloud/) performance.
 
 ## Support
-If you enjoy Steam ROM Manager and want it to continue to be useful consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. [SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork Steam ROM Manager uses to make your Steam library the envy of the town, so we should probably help them keep their lights on.
+Wenn dir Steam ROM Manager gefällt, und du möchtest, dass es weiterhin nützlich sein soll, erwäge die Unterstützung von [SteamGridDB](https://www.steamgriddb.com/)Patreon. [SteamGridDB](https://www.steamgriddb.com/) beherbergt alle Kunstwerke des Steam ROM Managers, um deine Steam-Bibliothek zum Neidobjekt der Stadt zu machen. So sollten wir ihnen wahrscheinlich helfen, ihre Lichter am Leuchten zu halten.
 
 <a href="https://www.patreon.com/steamgriddb">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
-If you're feeling exceptionally generous then feel free to also buy me a coffee!
+Wenn du dich besonders großzügig fühlst, kannst du mir auch einen Kaffee kaufen!
 
 <a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
-  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="38" width="174">
+  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Kauf mir einen Kaffee" height="38" width="174">
 </a>
 
 ## Credits
 
-* Most icons were made by [Roundicons](https://www.flaticon.com/authors/roundicons) from [Flaticon](https://www.flaticon.com) (licensed by [Creative Commons BY 3.0](https://creativecommons.org/licenses/by/3.0/)).
+* Die meisten Icons wurden von [Roundicons](https://www.flaticon.com/authors/roundicons) von [Flaticon](https://www.flaticon.com) erstellt (lizenziert von [Creative Commons BY 3.0](https://creativecommons.org/licenses/by/3.0/)).
