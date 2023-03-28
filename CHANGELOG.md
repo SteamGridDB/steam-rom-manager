@@ -13,6 +13,14 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.46
+## Added 
+* Ability to filter apps by parser title in addition to steam category.
+
+### Fixed
+* Significant lag when transitioning from non parser tab to a parser tab, caused by cached controllers templates being destroyed. Fixed by moving them to service.
+* Category Filter options getting cleared after leaving the preview page.
+
 ## 2.3.45
 ### Fixed
 * Bug where controllers couldn't be fetched if user had a custom config whose title was a number (ugh). Credit to emu-deck Discord user emotion for discovering the bug.

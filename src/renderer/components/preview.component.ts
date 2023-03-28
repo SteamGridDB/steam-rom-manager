@@ -33,7 +33,10 @@ export class PreviewComponent implements OnDestroy {
   private filterValue: string = '';
   private categoryFilter: string[] = [];
   private allCategories: string[] = [];
-  private actualCategoryFilter: string[]=[];
+  private actualCategoryFilter: string[] = [];
+  private parserFilter: string[] = [];
+  private allParsers: string[] = [];
+  private actualParserFilter: string[] = [];
   private imageTypes: SelectItem[];
   private scrollingEntries: boolean = false;
   private fileSelector: FileSelector = new FileSelector();
@@ -41,9 +44,15 @@ export class PreviewComponent implements OnDestroy {
   constructor(private previewService: PreviewService, private settingsService: SettingsService, private imageProviderService: ImageProviderService, private changeDetectionRef: ChangeDetectorRef, private renderer: Renderer2, private elementRef: ElementRef) {
     this.previewData = this.previewService.getPreviewData();
     this.previewVariables = this.previewService.getPreviewVariables();
+    if(this.previewService.getPreviewData()) {
+      this.allCategories = this.previewService.getAllCategories();
+      this.allParsers = this.previewService.getAllParsers();
+      this.previewData = this.previewService.getPreviewData();
+    }
     this.subscriptions.add(this.previewService.getPreviewDataChange().subscribe(_.debounce(() => {
 
       this.allCategories = this.previewService.getAllCategories();
+      this.allParsers = this.previewService.getAllParsers();
       this.previewData = this.previewService.getPreviewData();
       this.changeDetectionRef.detectChanges();
     }, 50)));
@@ -83,7 +92,11 @@ export class PreviewComponent implements OnDestroy {
   }
   setCategoryFilter(categories: string[]) {
     this.categoryFilter = categories;
-    this.actualCategoryFilter = categories.map(c=>c.replace(/&nbsp;/g,' '))
+    this.actualCategoryFilter = categories.map(c=>c.replace(/&nbsp;/g,' '));
+  }
+  setParserFilter(parsers: string[]) {
+    this.parserFilter= parsers;
+    this.actualParserFilter = parsers.map(p=>p.replace(/&nbsp;/g,' '));
   }
 
   ngAfterContentInit() {
@@ -352,10 +365,10 @@ export class PreviewComponent implements OnDestroy {
   }
 
   private async exportSelection() {
-    await this.previewService.exportSelection();    
+    await this.previewService.exportSelection();
   }
 
   private async importSelection() {
-    await this.previewService.importSelection();    
+    await this.previewService.importSelection();
   }
 }

@@ -50,11 +50,19 @@
     }
     .selectCategories {
       grid-column: 2;
+      width: 14em;
+      font-size: 1em;
+      margin-right: .75em;
+      color: var(--color-preview-text);
+    }
+    .selectParsers {
+      grid-column: 2;
       width: 12em;
       font-size: 1em;
       margin-right: .75em;
       color: var(--color-preview-text);
     }
+
     .slider {
       display: flex;
       align-items: center;

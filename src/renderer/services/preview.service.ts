@@ -398,9 +398,16 @@ export class PreviewService {
     this.previewDataChanged.next();
   }
 
+  private union(x: string[],y: string[]) {
+    return _.union(x,y);
+  }
+
   getAllCategories() {
-    const union = (x: string[],y: string[])=>_.union(x,y);
-    return this.previewData ? Object.entries(this.previewData).map(dir=>Object.entries(dir[1]).map(user=>Object.entries(user[1].apps).map(app=>app[1].steamCategories).reduce(union,[])).reduce(union,[])).reduce(union,[]) : [];
+    return this.previewData ? Object.entries(this.previewData).map(dir=>Object.entries(dir[1]).map(user=>Object.entries(user[1].apps).map(app=>app[1].steamCategories).reduce(this.union,[])).reduce(this.union,[])).reduce(this.union,[]) : [];
+  }
+
+  getAllParsers() {
+    return this.previewData ? Object.entries(this.previewData).map(dir=>Object.entries(dir[1]).map(user=>Object.entries(user[1].apps).map(app=>app[1].configurationTitle)).reduce(this.union,[])).reduce(this.union,[]) : [];
   }
 
   // If settingsOnly is true then api filters are not applied

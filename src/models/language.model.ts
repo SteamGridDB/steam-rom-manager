@@ -9,6 +9,7 @@ export interface languageStruct {
       filter: string,
       selectType: string,
       selectCategories: string,
+      selectParsers: string,
       selectTypeOptions: {
         long: string,
         tall: string,
