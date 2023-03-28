@@ -1,4 +1,4 @@
-## General Settings
+## Allgemeine Einstellungen
 ### Offline mode `[Recommend disabled]`
 
 When enabled SRM makes no network requests, useful if you only want to use SRM for local images.
