@@ -350,4 +350,12 @@ export class PreviewComponent implements OnDestroy {
     this.scrollingEntries = true;
     this.onScrollEnd();
   }
+
+  private async exportSelection() {
+    await this.previewService.exportSelection();    
+  }
+
+  private async importSelection() {
+    await this.previewService.importSelection();    
+  }
 }

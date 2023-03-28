@@ -143,8 +143,11 @@
 <div class="lowerMenu">
   <div (click)="generatePreviewData(false)">{{lang.generateAppList}}</div>
   <ng-container *ngIf="previewVariables.numberOfListItems > 0 && !previewVariables.listIsBeingGenerated">
-    <div (click)="save()">{{lang.saveAppList}}</div>
-    <div class="dangerousButton" (click)="remove()">{{lang.removeAppList}}</div>
-    <div *ngIf="previewVariables.numberOfQueriedImages" (click)="stopImageRetrieving()">{{lang.stopUrlRetrieving}}</div>
+      <div (click)="save()">{{lang.saveAppList}}</div>
+      <div class="dangerousButton" (click)="remove()">{{lang.removeAppList}}</div>
+      <div *ngIf="previewVariables.numberOfQueriedImages" (click)="stopImageRetrieving()">{{lang.stopUrlRetrieving}}</div>
+      <div (click)="exportSelection()">{{lang.exportSelections}}</div>
+      <div (click)="importSelection()">{{lang.importSelections}}</div>
   </ng-container>
+
 </div>

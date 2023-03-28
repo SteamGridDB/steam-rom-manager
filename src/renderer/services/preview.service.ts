@@ -8,18 +8,23 @@ import { ImageProviderService } from './image-provider.service';
 import {
   PreviewData, ImageContent, ParsedUserConfiguration, AppImages, PreviewVariables,
   ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings,
-  SteamTree, userAccountData, VDF_ExtraneousItemsData, ErrorData
+  SteamTree, userAccountData, VDF_ExtraneousItemsData, ErrorData, AppSelection, AppSelectionImages, AppSelectionImage
 } from '../../models';
 import { VDF_Manager, VDF_Error, CategoryManager, ControllerManager, Acceptable_Error } from "../../lib";
 import { APP } from '../../variables';
 import { queue } from 'async';
 import * as steam from "../../lib/helpers/steam";
 import * as url from "../../lib/helpers/url";
+import * as unique_ids from "../../lib/helpers/unique-ids";
 import * as appImage from "../../lib/helpers/app-image";
 import * as ids from '../../lib/helpers/steam';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
+import * as FileSaver from 'file-saver';
 import * as path from "path";
+import { getMaxLength } from "../../lib/helpers/app-image/get-max-length";
+import { P } from '@angular/core/src/render3';
+import { OpenDialogReturnValue } from 'electron';
 @Injectable()
 
 export class PreviewService {
@@ -312,9 +317,9 @@ export class PreviewService {
     }
   }
 
-  setImageIndex(app: PreviewDataApp, index: number, imagetype?: string) {
+  setImageIndex(app: PreviewDataApp, index: number, imagetype?: string, ignoreCurrentType: boolean = false) {
     if (app) {
-      if(this.currentImageType!="games"){
+      if (!ignoreCurrentType && this.currentImageType!="games"){
         imagetype = this.currentImageType;
       }
       if (imagetype === 'long') {
@@ -337,9 +342,9 @@ export class PreviewService {
     return this.getTotalLengthOfImages(app, imagetype) > 0;
   }
 
-  getTotalLengthOfImages(app: PreviewDataApp, imagetype?: string) {
+  getTotalLengthOfImages(app: PreviewDataApp, imagetype?: string, ignoreCurrentType: boolean = false) {
     if (app) {
-      if(this.currentImageType!="games") {
+      if (!ignoreCurrentType && this.currentImageType!="games") {
         imagetype = this.currentImageType;
       }
       if (imagetype === 'long') {
@@ -964,5 +969,215 @@ export class PreviewService {
 
     }
     return null;
+  }
+
+  async exportSelection() {
+    async function saveImage(imageUrl: string, temporayDir: string, append: string) {
+      const extension = imageUrl.split(/[#?]/)[0].split('.').pop().trim();
+      var request = require('request').defaults({ encoding: null });
+
+      function doRequest(url: string, filename: string) {
+        return new Promise(function (resolve, reject) {
+          request(url, function (error: any, res: any, body: any) {
+            if (!error && res.statusCode == 200) {
+              fs.writeFileSync(filename, body);
+              resolve(body);
+            } else {
+              reject(error);
+            }
+          });
+        });
+      }
+
+      if (imageUrl.startsWith("file://")) {
+        await fs.copyFile(url.decodeFile(imageUrl), `${temporayDir}${path.sep}${append}.${extension}`);
+      }
+      else {
+        await doRequest(imageUrl, `${temporayDir}${path.sep}${append}.${extension}`);
+      }
+
+      return `${append}.${extension}`;
+    }
+
+    const dialog = require('electron').remote.dialog;
+    const options: Electron.OpenDialogSyncOptions = {
+      properties: ['openDirectory', 'createDirectory'],
+      title: 'Choose selections folder save location.'
+    }
+
+    const result: OpenDialogReturnValue = await dialog.showOpenDialog(options);
+
+    if (result.filePaths !== undefined) {
+      let timeout: any;
+      try {
+        const packagePath = path.join(result.filePaths[0],"srm-image-choices-export/");
+        if(fs.existsSync(packagePath)) {
+          fs.rmdirSync(packagePath, {force: true, recursive: true});
+        }
+        fs.mkdirSync(packagePath);
+        const apps: any[] = [];
+        let appsCount: number = 0;
+
+        this.loggerService.info(this.lang.info.preparingExport, { invokeAlert: true, alertTimeout: 3000 });
+
+        for (const directory in this.previewData) {
+          for (const userId in this.previewData[directory]) {
+            for (const appId in this.previewData[directory][userId].apps) {
+              appsCount++;
+            }
+          }
+        };
+
+        timeout = window.setInterval(() => {
+          this.loggerService.info(this.lang.info.exportProgress__i.interpolate({
+            progress: `${apps.length}/${appsCount}`
+          }), { invokeAlert: true, alertTimeout: 3000, doNotAppendToLog: true });
+        }, 1500);
+
+        for (const directory in this.previewData) {
+          for (const userId in this.previewData[directory]) {
+            for (const appId in this.previewData[directory][userId].apps) {
+              const app: PreviewDataApp = this.previewData[directory][userId].apps[appId];
+
+              const selection: AppSelection = {
+                title: app.extractedTitle,
+                images: {
+                  grid: {
+                    pool: app.images.imagePool,
+                    filename: await saveImage(appImage.getCurrentImage(app.images, this.appImages).imageUrl, packagePath, `${app.extractedTitle}.grid`)
+                  },
+                  poster: {
+                    pool: app.tallimages.imagePool,
+                    filename: await saveImage(appImage.getCurrentImage(app.tallimages, this.appImages).imageUrl, packagePath, `${app.extractedTitle}.poster`)
+                  },
+                  hero: {
+                    pool: app.heroimages.imagePool,
+                    filename: await saveImage(appImage.getCurrentImage(app.heroimages, this.appImages).imageUrl, packagePath, `${app.extractedTitle}.hero`)
+                  },
+                  logo: {
+                    pool: app.logoimages.imagePool,
+                    filename: await saveImage(appImage.getCurrentImage(app.logoimages, this.appImages).imageUrl, packagePath, `${app.extractedTitle}.logo`)
+                  },
+                  icon: {
+                    pool: app.icons.imagePool,
+                    filename: await saveImage(appImage.getCurrentImage(app.icons, this.appImages).imageUrl, packagePath, `${app.extractedTitle}.icon`)
+                  }
+                }
+              }
+              apps.push(selection);
+            }
+          }
+        }
+
+        if (timeout !== undefined) {
+          window.clearTimeout(timeout);
+        }
+        fs.writeFileSync(`${packagePath}${path.sep}Selections.json`, JSON.stringify(apps, null, 2));
+
+        this.loggerService.success(this.lang.success.exportSuccess__i.interpolate({
+          path: packagePath
+        }), { invokeAlert: true, alertTimeout: 3000 });
+      }
+      catch (e) {
+
+        if (timeout !== undefined) {
+          window.clearTimeout(timeout);
+        }
+        this.loggerService.error(this.lang.errors.exportError__i.interpolate({
+          error: e.message
+        }), { invokeAlert: true, alertTimeout: 3000 });
+      }
+    }
+  }
+
+  async importSelection() {
+
+    const dialog = require('electron').remote.dialog;
+    const options: Electron.OpenDialogSyncOptions = {
+      properties: ['openDirectory', 'createDirectory'],
+      title: 'Choose selections folder location.'
+    }
+
+    const result: OpenDialogReturnValue = await dialog.showOpenDialog(options);
+
+    if (result.filePaths !== undefined) {
+      try {
+        const packagePath = result.filePaths[0];
+
+        this.loggerService.info(this.lang.info.readingSelections, { invokeAlert: true, alertTimeout: 3000 });
+
+        let selections: AppSelection[] = JSON.parse(fs.readFileSync(`${packagePath}${path.sep}Selections.json`, 'utf8'));
+        let importedApps: string[] = [];
+
+        for (const selection of selections) {
+          let imageUrl = url.encodeFile(`${packagePath}${path.sep}${selection.images.grid.filename}`);
+          this.addUniqueImage(selection.images.grid.pool, {
+            imageProvider: 'LocalStorage',
+            imageUrl,
+            loadStatus: 'done'
+          }, 'long');
+
+          imageUrl = url.encodeFile(`${packagePath}${path.sep}${selection.images.poster.filename}`);
+          this.addUniqueImage(selection.images.poster.pool, {
+            imageProvider: 'LocalStorage',
+            imageUrl,
+            loadStatus: 'done'
+          }, 'tall');
+
+          imageUrl = url.encodeFile(`${packagePath}${path.sep}${selection.images.hero.filename}`);
+          this.addUniqueImage(selection.images.hero.pool, {
+            imageProvider: 'LocalStorage',
+            imageUrl,
+            loadStatus: 'done'
+          }, 'hero');
+
+          imageUrl = url.encodeFile(`${packagePath}${path.sep}${selection.images.logo.filename}`);
+          this.addUniqueImage(selection.images.logo.pool, {
+            imageProvider: 'LocalStorage',
+            imageUrl,
+            loadStatus: 'done'
+          }, 'logo');
+
+          imageUrl = url.encodeFile(`${packagePath}${path.sep}${selection.images.icon.filename}`);
+          this.addUniqueImage(selection.images.icon.pool, {
+            imageProvider: 'LocalStorage',
+            imageUrl,
+            loadStatus: 'done'
+          }, 'icon');
+
+          importedApps.push(selection.title);
+        }
+
+        for (const directory in this.previewData) {
+          for (const userId in this.previewData[directory]) {
+            for (const appId in this.previewData[directory][userId].apps) {
+              const app: PreviewDataApp = this.previewData[directory][userId].apps[appId];
+              if (importedApps.includes(app.extractedTitle)) {
+                this.setImageIndex(app, this.getTotalLengthOfImages(app, 'long', true) - 1, 'long', true);
+                this.setImageIndex(app, this.getTotalLengthOfImages(app, 'tall', true) - 1, 'tall', true);
+                this.setImageIndex(app, this.getTotalLengthOfImages(app, 'hero', true) - 1, 'hero', true);
+                this.setImageIndex(app, this.getTotalLengthOfImages(app, 'logo', true) - 1, 'logo', true);
+                this.setImageIndex(app, this.getTotalLengthOfImages(app, 'icon', true) - 1, 'icon', true);
+              }
+            }
+          }
+        }
+        this.loggerService.success(this.lang.success.importSelectionsSuccess__i.interpolate({
+          count: importedApps.length
+        }), { invokeAlert: true, alertTimeout: 3000 });
+      }
+      catch (e) {
+        if (e instanceof SyntaxError) {
+          this.loggerService.error(this.lang.errors.importJSONFailError__i.interpolate({
+            error: e.message
+          }), { invokeAlert: true, alertTimeout: 3000 });
+        }
+        else {
+          this.loggerService.error(this.lang.errors.importFailError__i.interpolate({
+            error: e.message
+          }), { invokeAlert: true, alertTimeout: 3000 });
+        }
+      }
+    }
   }
 }

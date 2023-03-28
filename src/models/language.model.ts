@@ -26,7 +26,9 @@ export interface languageStruct {
       saveAppList: string,
       removeAppList: string,
       remainingImages: string,
-      stopUrlRetrieving: string
+      stopUrlRetrieving: string,
+      exportSelections: string,
+      importSelections: string
     },
     service: {
       info: {
@@ -52,7 +54,10 @@ export interface languageStruct {
         parserFoundNoFiles: string,
         allImagesRetrieved: string,
         providerTimeout__i: string,//${provider}, ${time}
-        noAccountsWarning: string
+        noAccountsWarning: string,
+        preparingExport: string,
+        exportProgress__i: string,
+        readingSelections: string
       },
       errors: {
         fatalError: string,
@@ -65,11 +70,16 @@ export interface languageStruct {
         controllerSaveError__i: string, //${error}
         retryingDownload__i: string //${imageUrl}, ${appTitle},
         providerError__i: string//${provider}, ${code}, ${title}, ${url}
-        unknownProviderError__i: string //${provider}, ${title}, ${error}
+        unknownProviderError__i: string, //${provider}, ${title}, ${error}
+        exportError__i: string, //${error}
+        importJSONFailError__i: string, //${error}
+        importFailError__i: string //${error}
       },
       success: {
         writingVDF_entries: string,
-        removingVDF_entries: string
+        removingVDF_entries: string,
+        exportSuccess__i: string, //${path}
+        importSelectionsSuccess__i: string //${count}
       }
     }
   },

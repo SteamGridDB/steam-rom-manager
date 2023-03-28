@@ -18,10 +18,12 @@
       "addLocalImages": "Add local images",
       "retryDownload": "Retry download",
       "generateAppList": "Generate app list",
-      "saveAppList": "Save app list",
-      "removeAppList": "Remove app list",
-      "remainingImages": "Remaining providers:",
-      "stopUrlRetrieving": "Stop image providers"
+      "saveAppList": "Save apps to Steam",
+      "removeAppList": "Remove apps from Steam",
+      "remainingImages": "Remaining image downloads:",
+      "stopUrlRetrieving": "Stop image downloads",
+      "exportSelections": "Export image choices",
+      "importSelections": "Import image choices"
     },
     "service": {
       "info": {
@@ -47,7 +49,10 @@
         "parserFoundNoFiles": "Parser(s) found no files matching user configuration.",
         "allImagesRetrieved": "All available image urls retrieved.",
         "providerTimeout__i": "Timeout was requested by \"${provider}\" for ${time} second(s).",
-        "noAccountsWarning": "User accounts not found. Incorrect Steam directory?"
+        "noAccountsWarning": "User accounts not found. Incorrect Steam directory?",
+        "preparingExport": "Preparing export of image choices.",
+        "exportProgress__i": "Saving image choices ${progress}.",
+        "readingSelections": "Applying imported image choices."
       },
       "errors": {
         "fatalError": "Fatal error occurred in Preview. See event log for details.",
@@ -60,11 +65,16 @@
         "controllerSaveError__i": "Controller error (shortcuts and artwork will still be added): ${error}",
         "retryingDownload__i": "Image download from \"${imageUrl}\" failed for \"${appTitle}\".",
         "providerError__i": "Error received from \"${provider}\" for \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
-        "unknownProviderError__i": "Error received from \"${provider}\" for \"${title}\":\n ${error}"
+        "unknownProviderError__i": "Error received from \"${provider}\" for \"${title}\":\n ${error}",
+        "exportError__i": "Could not save selections package folder: ${error}",
+        "importJSONFailError__i": "Could not import selections, JSON was malformed: ${error}",
+        "importFailError__i": "Could not import image choices: ${error}"
       },
       "success": {
         "writingVDF_entries": "Done adding/removing entries.",
-        "removingVDF_entries": "Entries have been removed."
+        "removingVDF_entries": "Entries have been removed.",
+        "exportSuccess__i": "Image choices folder successfully saved to \"${path}\"!",
+        "importSelectionsSuccess__i": "Successfully imported ${count} image choices!"
       }
     }
   },

@@ -76,3 +76,21 @@ export interface PreviewVariables {
     numberOfQueriedImages: number
 
 }
+
+export interface AppSelection {
+  title: string,
+  images: AppSelectionImages
+}
+
+export interface AppSelectionImages {  
+  grid: AppSelectionImage 
+  poster: AppSelectionImage,
+  hero: AppSelectionImage,
+  logo: AppSelectionImage,
+  icon: AppSelectionImage
+}
+
+export interface AppSelectionImage {  
+  pool: string,
+  filename: string
+}
