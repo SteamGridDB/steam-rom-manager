@@ -16,12 +16,12 @@ Si vous rencontrez des problèmes avec SRM, n'hésitez pas à visiter le [discor
 
 ## Contributeurs
 * `FrogTheFrog`{.noWrap} - créateur de SRM, n'est plus actif.
-* `lontanadascienza`{.noWrap} - Responsable actuel de SRM. Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller templates, and platform parsers (Epic, GOG, Steam, etc).
+* `lontanadascienza`{.noWrap} - Responsable actuel de SRM. A mis à jour de SRM pour gérer les arrière-plans, posters, logos et icônes. Ajout du gestionnaire d'exception, des modèles de contrôleur et des analyseurs de plateformes (Epic, GOG, Steam, etc).
 * `Zennn`{.noWrap} - a aidé avant la sortie initiale de SRM et plusieurs fois après la sortie avec diverses choses. Grand patron de [SteamGridDB](https://www.steamgriddb.com/).
-* `HE Spoke`{.noWrap} - responsable de la création de la communauté autour de SRM. Creator of [Steam](https://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/bnSVJrz) groups. Also manages issues in [Github](https://github.com/SteamGridDB/steam-rom-manager).
+* `HE Spoke`{.noWrap} - responsable de la création de la communauté autour de SRM. Créateur des groupes [Steam](https://steamcommunity.com/groups/steamrommanager) et [Discord](https://discord.gg/bnSVJrz). Gère également les tickets sur [Github](https://github.com/SteamGridDB/steam-rom-manager).
 * `Choko`{.noWrap} - aide les utilisateurs à configurer SRM sur [Discord](https://discord.gg/bnSVJrz).
-* `KenCinder`{.noWrap} - manages the parser presets.
-* `AlexDobeck`{.noWrap} - improved [retrogaming.cloud](https://retrogaming.cloud/) performance.
+* `KenCinder`{.noWrap} - gère les préréglages de l'analyseur.
+* `AlexDobeck`{.noWrap} - amélioration des performances de [retrogaming.cloud](https://retrogaming.cloud/).
 
 ## Soutien
 Si vous appréciez Steam ROM Manager et que vous voulez qu'il continue à être utile, pensez à soutenir sur le Patreon de [SteamGridDB](https://www.steamgriddb.com/). [SteamGridDB](https://www.steamgriddb.com/) héberge toutes les artworks que "Steam ROM Manager" utilise pour faire brillez votre bibliothèque Steam de mille feux, donc nous devrions probablement les aider à rester sur les rails.
