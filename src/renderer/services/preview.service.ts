@@ -1033,7 +1033,7 @@ export class PreviewService {
             progress: `${apps.length}/${appsCount}`
           }), { invokeAlert: true, alertTimeout: 3000, doNotAppendToLog: true });
         }, 1500);
-
+        console.log(this.previewData)
         for (const directory in this.previewData) {
           for (const userId in this.previewData[directory]) {
             for (const appId in this.previewData[directory][userId].apps) {
@@ -1048,19 +1048,19 @@ export class PreviewService {
                   },
                   poster: {
                     pool: app.tallimages.imagePool,
-                    filename: await saveImage(appImage.getCurrentImage(app.tallimages, this.appImages).imageUrl, packagePath, `${app.extractedTitle}.poster`)
+                    filename: await saveImage(appImage.getCurrentImage(app.tallimages, this.appTallImages).imageUrl, packagePath, `${app.extractedTitle}.poster`)
                   },
                   hero: {
                     pool: app.heroimages.imagePool,
-                    filename: await saveImage(appImage.getCurrentImage(app.heroimages, this.appImages).imageUrl, packagePath, `${app.extractedTitle}.hero`)
+                    filename: await saveImage(appImage.getCurrentImage(app.heroimages, this.appHeroImages).imageUrl, packagePath, `${app.extractedTitle}.hero`)
                   },
                   logo: {
                     pool: app.logoimages.imagePool,
-                    filename: await saveImage(appImage.getCurrentImage(app.logoimages, this.appImages).imageUrl, packagePath, `${app.extractedTitle}.logo`)
+                    filename: await saveImage(appImage.getCurrentImage(app.logoimages, this.appLogoImages).imageUrl, packagePath, `${app.extractedTitle}.logo`)
                   },
                   icon: {
                     pool: app.icons.imagePool,
-                    filename: await saveImage(appImage.getCurrentImage(app.icons, this.appImages).imageUrl, packagePath, `${app.extractedTitle}.icon`)
+                    filename: await saveImage(appImage.getCurrentImage(app.icons, this.appIcons).imageUrl, packagePath, `${app.extractedTitle}.icon`)
                   }
                 }
               }
