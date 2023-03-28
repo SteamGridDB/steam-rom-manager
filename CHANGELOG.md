@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2.3.45
 ### Fixed
-* Bug where controllers couldn't be fetched if user had a custom config whose title was a number (ugh)
+* Bug where controllers couldn't be fetched if user had a custom config whose title was a number (ugh). Credit to emu-deck Discord user emotion for discovering the bug.
 ### Changed
 * Alphabetization for controller templates (you're right @Godsbane it does look better)
 
