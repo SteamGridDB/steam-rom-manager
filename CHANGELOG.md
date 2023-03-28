@@ -13,6 +13,12 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.45
+### Fixed
+* Bug where controllers couldn't be fetched if user had a custom config whose title was a number (ugh)
+### Changed
+* Alphabetization for controller templates (you're right @Godsbane it does look better)
+
 ## 2.3.44
 ### Added
 * Ability to import and export artwork choices (credit to @MattMckenzy)
