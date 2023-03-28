@@ -1012,7 +1012,7 @@ export class PreviewService {
       try {
         const packagePath = path.join(result.filePaths[0],"srm-image-choices-export/");
         if(fs.existsSync(packagePath)) {
-          fs.rmdirSync(packagePath, {force: true, recursive: true});
+          fs.rmdirSync(packagePath, { recursive: true });
         }
         fs.mkdirSync(packagePath);
         const apps: any[] = [];

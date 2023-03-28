@@ -88,7 +88,6 @@
     "@angular/platform-browser-dynamic": "^5.2.9",
     "@angular/router": "^5.2.9",
     "@node-steam/vdf": "^2.0.1",
-    "adm-zip": "^0.5.9",
     "ajv": "^6.4.0",
     "appid": "^1.0.3",
     "async": "^2.6.4",
