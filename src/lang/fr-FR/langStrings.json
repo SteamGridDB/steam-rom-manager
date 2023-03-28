@@ -1,7 +1,7 @@
 {
   "preview": {
     "component": {
-      "filter": "Filter by title",
+      "filter": "Filtrer par nom",
       "selectType": "Select artwork type",
       "selectCategories": "Filter by Steam category",
       "selectParsers": "Filter by parser",
