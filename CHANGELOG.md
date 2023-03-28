@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 ## 2.3.44
 ### Added
 * Ability to import and export artwork choices (credit to @MattMckenzy)
+* Ability to override drive letter for itch.io apps running via wine/proton on Linux (credit to @Apalatn)
 
 ## 2.3.43
 ### Added
@@ -25,7 +26,6 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 * Vastly improved state management for controller templates
 * Totally re-worked select component to allow dynamically changing options
-
 
 ## 2.3.42
 ### Added
