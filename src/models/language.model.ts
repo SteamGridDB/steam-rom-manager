@@ -96,12 +96,14 @@ export interface languageStruct {
   },
   itchIoParser: {
     itchIoAppDataOverrideTitle: string,
+    itchIoWindowsOnLinuxInstallDriveRedirectTitle: string,
     docs__md: {
       self: string[],
       input: string[]
     },
     errors: {
       invalidItchIoAppDataOverride: string,
+      invalidItchIoWindowsOnLinuxInstallDriveRedirect: string,
       osUnsupported: string,
       fatalError__i: string,
       databaseNotFound: string

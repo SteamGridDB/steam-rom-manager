@@ -9,7 +9,7 @@ export const availableParserInputs: {[parserType: string]: string[]} = {
   'Amazon Games': ['amazonGamesExeOverride', 'amazonGamesLauncherMode'],
   'Epic': ['epicManifests', 'epicLauncherMode'],
   'GOG Galaxy': ['galaxyExeOverride','gogLauncherMode'],
-  'itch.io': ['itchIoAppDataOverride'],
+  'itch.io': ['itchIoAppDataOverride','itchIoWindowsOnLinuxInstallDriveRedirect'],
   'Steam': [],
   'UPlay': ['uplayDir','uplayLauncherMode'],
 }

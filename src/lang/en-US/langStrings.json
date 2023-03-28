@@ -135,8 +135,10 @@
   },
   "itchIoParser": {
     "itchIoAppDataOverrideTitle": "itch.io AppData Path Override",
+    "itchIoWindowsOnLinuxInstallDriveRedirectTitle": "Windows-on-Linux Install Drive Redirect",
     "errors": {
       "invalidItchIoAppDataOverride": "> itch.io AppData Override is not a valid directory.",
+      "invalidItchIoWindowsOnLinuxInstallDriveRedirect": "> itch.io Windows-on-Linux Install Drive Redirect is not a valid directory.",
       "osUnsupported": "> itch.io parser failed because the parser only supports macos, linux, and windows currently.",
       "fatalError__i": "> itch.io parser failed with fatal error:\n ${error}",
       "databaseNotFound": "> itch.io database file not found. Itch is most likely not installed."

@@ -3,6 +3,7 @@ import { APP } from '../../variables';
 import * as fs from "fs-extra";
 import * as os from "os";
 import * as sqlite from "better-sqlite3";
+import * as path from "path";
 
 export class ItchIoParser implements GenericParser {
 
@@ -22,6 +23,18 @@ export class ItchIoParser implements GenericParser {
               return null;
             } else {
               return this.lang.errors.invalidItchIoAppDataOverride;
+            }
+          },
+          info: this.lang.docs__md.input.join('')
+        },
+        'itchIoWindowsOnLinuxInstallDriveRedirect': {
+          label: this.lang.itchIoWindowsOnLinuxInstallDriveRedirectTitle,
+          inputType: 'dir',
+          validationFn: (input: string) => {
+            if(!input || fs.existsSync(input) && fs.lstatSync(input).isDirectory()) {
+              return null;
+            } else {
+              return this.lang.errors.invalidItchIoWindowsOnLinuxInstallDriveRedirect;
             }
           },
           info: this.lang.docs__md.input.join('')
@@ -66,8 +79,14 @@ export class ItchIoParser implements GenericParser {
             let filePath = `${basePath}/${exePath}`
 
 
-            if(os.type() == "Windows_NT") {
-              filePath = filePath.replace('/','\\');
+            if (os.type() == "Windows_NT") {
+              filePath = filePath.replace('/', '\\');
+            }
+            else if (os.type() == "Linux" && candidates[0].flavor == "windows" && inputs.itchIoWindowsOnLinuxInstallDriveRedirect) {
+              const parsedPath = path.win32.parse(filePath);
+              const inDrivePath = filePath.slice(parsedPath.root.length);
+              filePath = `${inputs.itchIoWindowsOnLinuxInstallDriveRedirect}/${inDrivePath}`;
+              filePath = filePath.replace(/\\/g, "/");
             }
 
             return {
