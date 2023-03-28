@@ -23,7 +23,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
   private subscriptions: Subscription = new Subscription();
   private userConfigurations: { saved: UserConfiguration, current: UserConfiguration }[] = [];
-  private controllerTemplates: ControllerTemplates = {};
   private configurationIndex: number = -1;
   private loadedIndex: number = null;
   private isUnsaved: boolean = false;
@@ -562,7 +561,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       })).add(this.cpService.dataObservable.subscribe((data) => {
         this.configPresets = data;
       })).add(this.parsersService.getSavedControllerTemplates().subscribe((data) => {
-        this.controllerTemplates = data;
+        this.parsersService.controllerTemplates = data;
         this.fetchControllerTemplates(false);
       }))
     }
@@ -596,15 +595,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       let steamDirInput = this.userForm.get('steamDirectory').value || '';
       let steamDir = this.parsersService.parseSteamDir(steamDirInput);
       if(this.parsersService.validate('steamDirectory', steamDir) == null) {
-        if(force || !this.controllerTemplates[steamDir]) {
-          this.controllerTemplates[steamDir] = {};
+        if(force || !this.parsersService.controllerTemplates[steamDir]) {
+          this.parsersService.controllerTemplates[steamDir] = {};
           for(let controllerType of controllerTypes) {
-            this.controllerTemplates[steamDir][controllerType] = this.parsersService.getControllerTemplates(steamDir, controllerType);
+            this.parsersService.controllerTemplates[steamDir][controllerType] = this.parsersService.getControllerTemplates(steamDir, controllerType);
           }
-          this.parsersService.saveControllerTemplates(this.controllerTemplates);
+          this.parsersService.saveControllerTemplates();
         } else {
-          for(let controllerType of Object.keys(this.controllerTemplates[steamDir])) {
-            ((this.nestedGroup.children.controllers as NestedFormElement.Group).children[controllerType] as NestedFormElement.Select).values = this.controllerTemplates[steamDir][controllerType].map(template => {
+          for(let controllerType of Object.keys(this.parsersService.controllerTemplates[steamDir])) {
+            ((this.nestedGroup.children.controllers as NestedFormElement.Group).children[controllerType] as NestedFormElement.Select).values = this.parsersService.controllerTemplates[steamDir][controllerType].map(template => {
               return { displayValue: template.title, value: template }
           });
           }

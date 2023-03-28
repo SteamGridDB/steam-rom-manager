@@ -29,6 +29,7 @@ export class ParsersService {
   private fileParser: FileParser;
   private controllerManager: ControllerManager;
   private savedControllerTemplates: BehaviorSubject<ControllerTemplates>;
+  private controllerTemps: ControllerTemplates = {};
   private userConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
   private deletedConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
   private validator: json.Validator = new json.Validator(schemas.userConfiguration, modifiers.userConfiguration);
@@ -59,6 +60,14 @@ export class ParsersService {
 
               get lang() {
                 return APP.lang.parsers.service;
+              }
+
+              get controllerTemplates() {
+                return this.controllerTemps;
+              }
+
+              set controllerTemplates(controllerTemplates: ControllerTemplates) {
+                this.controllerTemps = controllerTemplates;
               }
 
               getUserConfigurations() {
@@ -138,8 +147,8 @@ export class ParsersService {
                 this.saveUserConfigurations();
               }
 
-              saveControllerTemplates(templates: ControllerTemplates) {
-                this.savedControllerTemplates.next(templates);
+              saveControllerTemplates() {
+                this.savedControllerTemplates.next(this.controllerTemplates);
                 this.saveUserControllerTemplates();
               }
 
