@@ -3,7 +3,8 @@
     "component": {
       "filter": "Filter by title",
       "selectType": "Select artwork type",
-      "selectCategories": "Filter by category",
+      "selectCategories": "Filter by Steam category",
+      "selectParsers": "Filter by parser",
       "selectTypeOptions": {
         "long": "Banners",
         "tall": "Posters",
