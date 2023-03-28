@@ -868,54 +868,54 @@ export class PreviewService {
                 switch (event) {
                   case 'error':
                     {
-                      let errorData = (data as ProviderCallbackEventMap['error']);
-                      if (typeof errorData.error === 'number') {
-                        this.loggerService.error(this.lang.errors.providerError__i.interpolate({
-                          provider: errorData.provider,
-                          code: errorData.error,
-                          title: errorData.title,
-                          url: errorData.url
-                        }));
-                      }
-                      else {
-                        this.loggerService.error(this.lang.errors.unknownProviderError__i.interpolate({
-                          provider: errorData.provider,
-                          title: errorData.title,
-                          error: errorData.error
-                        }));
-                      }
+                    let errorData = (data as ProviderCallbackEventMap['error']);
+                    if (typeof errorData.error === 'number') {
+                      this.loggerService.error(this.lang.errors.providerError__i.interpolate({
+                        provider: errorData.provider,
+                        code: errorData.error,
+                        title: errorData.title,
+                        url: errorData.url
+                      }));
                     }
+                    else {
+                      this.loggerService.error(this.lang.errors.unknownProviderError__i.interpolate({
+                        provider: errorData.provider,
+                        title: errorData.title,
+                        error: errorData.error
+                      }));
+                    }
+                  }
 
-                    break;
+                  break;
                   case 'timeout':
                     {
-                      let timeoutData = (data as ProviderCallbackEventMap['timeout']);
-                      this.loggerService.info(this.lang.info.providerTimeout__i.interpolate({
-                        time: timeoutData.time,
-                        provider: timeoutData.provider
-                      }), { invokeAlert: true, alertTimeout: 3000 });
-                    }
-                    break;
+                    let timeoutData = (data as ProviderCallbackEventMap['timeout']);
+                    this.loggerService.info(this.lang.info.providerTimeout__i.interpolate({
+                      time: timeoutData.time,
+                      provider: timeoutData.provider
+                    }), { invokeAlert: true, alertTimeout: 3000 });
+                  }
+                  break;
                   case 'image':
                     imageQueue.push(null, () => {
-                      let newImage = this.addUniqueImage(imageKeys[i], (data as ProviderCallbackEventMap['image']).content, imageType);
-                      if (newImage !== null && this.appSettings.previewSettings.preload)
-                        this.preloadImage(newImage);
+                    let newImage = this.addUniqueImage(imageKeys[i], (data as ProviderCallbackEventMap['image']).content, imageType);
+                    if (newImage !== null && this.appSettings.previewSettings.preload)
+                      this.preloadImage(newImage);
 
-                      this.previewDataChanged.next();
-                    });
-                    break;
+                    this.previewDataChanged.next();
+                  });
+                  break;
                   case 'completed':
                     {
-                      if (--numberOfQueriesForImageKey === 0) {
-                        image.retrieving = false;
-                      }
-                      if (--this.previewVariables.numberOfQueriedImages === 0) {
-                        this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
-                      }
-                      this.previewDataChanged.next();
+                    if (--numberOfQueriesForImageKey === 0) {
+                      image.retrieving = false;
                     }
-                    break;
+                    if (--this.previewVariables.numberOfQueriedImages === 0) {
+                      this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
+                    }
+                    this.previewDataChanged.next();
+                  }
+                  break;
                   default:
                     break;
                 }
@@ -1033,35 +1033,33 @@ export class PreviewService {
             progress: `${apps.length}/${appsCount}`
           }), { invokeAlert: true, alertTimeout: 3000, doNotAppendToLog: true });
         }, 1500);
-        console.log(this.previewData)
         for (const directory in this.previewData) {
           for (const userId in this.previewData[directory]) {
             for (const appId in this.previewData[directory][userId].apps) {
               const app: PreviewDataApp = this.previewData[directory][userId].apps[appId];
-
               const selection: AppSelection = {
                 title: app.extractedTitle,
                 images: {
-                  grid: {
+                  grid: appImage.getCurrentImage(app.images, this.appImages) ? {
                     pool: app.images.imagePool,
                     filename: await saveImage(appImage.getCurrentImage(app.images, this.appImages).imageUrl, packagePath, `${app.extractedTitle}.grid`)
-                  },
-                  poster: {
+                  }: null,
+                  poster: appImage.getCurrentImage(app.tallimages, this.appTallImages) ? {
                     pool: app.tallimages.imagePool,
                     filename: await saveImage(appImage.getCurrentImage(app.tallimages, this.appTallImages).imageUrl, packagePath, `${app.extractedTitle}.poster`)
-                  },
-                  hero: {
+                  }: null,
+                  hero: appImage.getCurrentImage(app.heroimages, this.appHeroImages) ? {
                     pool: app.heroimages.imagePool,
                     filename: await saveImage(appImage.getCurrentImage(app.heroimages, this.appHeroImages).imageUrl, packagePath, `${app.extractedTitle}.hero`)
-                  },
-                  logo: {
+                  } : null,
+                  logo: appImage.getCurrentImage(app.logoimages, this.appLogoImages) ? {
                     pool: app.logoimages.imagePool,
                     filename: await saveImage(appImage.getCurrentImage(app.logoimages, this.appLogoImages).imageUrl, packagePath, `${app.extractedTitle}.logo`)
-                  },
-                  icon: {
+                  } : null,
+                  icon: appImage.getCurrentImage(app.icons,this.appIcons) ? {
                     pool: app.icons.imagePool,
                     filename: await saveImage(appImage.getCurrentImage(app.icons, this.appIcons).imageUrl, packagePath, `${app.extractedTitle}.icon`)
-                  }
+                  } : null
                 }
               }
               apps.push(selection);
@@ -1072,7 +1070,7 @@ export class PreviewService {
         if (timeout !== undefined) {
           window.clearTimeout(timeout);
         }
-        fs.writeFileSync(`${packagePath}${path.sep}Selections.json`, JSON.stringify(apps, null, 2));
+        fs.writeFileSync(path.join(packagePath,"_selections.json"), JSON.stringify(apps, null, 2));
 
         this.loggerService.success(this.lang.success.exportSuccess__i.interpolate({
           path: packagePath
@@ -1106,44 +1104,50 @@ export class PreviewService {
 
         this.loggerService.info(this.lang.info.readingSelections, { invokeAlert: true, alertTimeout: 3000 });
 
-        let selections: AppSelection[] = JSON.parse(fs.readFileSync(`${packagePath}${path.sep}Selections.json`, 'utf8'));
+        let selections: AppSelection[] = JSON.parse(fs.readFileSync(path.join(packagePath,"_selections.json"), 'utf8'));
         let importedApps: string[] = [];
 
         for (const selection of selections) {
-          let imageUrl = url.encodeFile(`${packagePath}${path.sep}${selection.images.grid.filename}`);
-          this.addUniqueImage(selection.images.grid.pool, {
-            imageProvider: 'LocalStorage',
-            imageUrl,
-            loadStatus: 'done'
-          }, 'long');
+          if(selection.images.grid) {
+            this.addUniqueImage(selection.images.grid.pool, {
+              imageProvider: 'LocalStorage',
+              imageUrl: url.encodeFile(`${packagePath}${path.sep}${selection.images.grid.filename}`),
+              loadStatus: 'done'
+            }, 'long');
 
-          imageUrl = url.encodeFile(`${packagePath}${path.sep}${selection.images.poster.filename}`);
-          this.addUniqueImage(selection.images.poster.pool, {
-            imageProvider: 'LocalStorage',
-            imageUrl,
-            loadStatus: 'done'
-          }, 'tall');
+          }
+          if(selection.images.poster) {
+            this.addUniqueImage(selection.images.poster.pool, {
+              imageProvider: 'LocalStorage',
+              imageUrl: url.encodeFile(`${packagePath}${path.sep}${selection.images.poster.filename}`),
+              loadStatus: 'done'
+            }, 'tall');
 
-          imageUrl = url.encodeFile(`${packagePath}${path.sep}${selection.images.hero.filename}`);
-          this.addUniqueImage(selection.images.hero.pool, {
-            imageProvider: 'LocalStorage',
-            imageUrl,
-            loadStatus: 'done'
-          }, 'hero');
+          }
+          if(selection.images.hero) {
+            this.addUniqueImage(selection.images.hero.pool, {
+              imageProvider: 'LocalStorage',
+              imageUrl: url.encodeFile(`${packagePath}${path.sep}${selection.images.hero.filename}`),
+              loadStatus: 'done'
+            }, 'hero');
 
-          imageUrl = url.encodeFile(`${packagePath}${path.sep}${selection.images.logo.filename}`);
-          this.addUniqueImage(selection.images.logo.pool, {
-            imageProvider: 'LocalStorage',
-            imageUrl,
-            loadStatus: 'done'
-          }, 'logo');
+          }
+          if(selection.images.logo) {
+            this.addUniqueImage(selection.images.logo.pool, {
+              imageProvider: 'LocalStorage',
+              imageUrl: url.encodeFile(`${packagePath}${path.sep}${selection.images.logo.filename}`),
+              loadStatus: 'done'
+            }, 'logo');
 
-          imageUrl = url.encodeFile(`${packagePath}${path.sep}${selection.images.icon.filename}`);
-          this.addUniqueImage(selection.images.icon.pool, {
-            imageProvider: 'LocalStorage',
-            imageUrl,
-            loadStatus: 'done'
-          }, 'icon');
+          }
+          if(selection.images.icon) {
+            this.addUniqueImage(selection.images.icon.pool, {
+              imageProvider: 'LocalStorage',
+              imageUrl: url.encodeFile(`${packagePath}${path.sep}${selection.images.icon.filename}`),
+              loadStatus: 'done'
+            }, 'icon');
+
+          }
 
           importedApps.push(selection.title);
         }
