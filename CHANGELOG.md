@@ -13,6 +13,10 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.44
+### Added
+* Ability to import and export artwork choices (credit to @MattMckenzy)
+
 ## 2.3.43
 ### Added
 * Crowdin Localization (credit to @doZennn)
