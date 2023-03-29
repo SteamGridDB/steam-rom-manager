@@ -8,12 +8,12 @@ Títulos difusos estão disponíveis como modificadores de título via `${fuzzyT
 
 ## Substituir caracteres diacríticos
 
-Replaces diacritic characters to their latin equivalent: `Ą` -> `A`, `Ę` -> `E`, `Ė` -> `E`, etc. Might improve the matching ability of fuzzy matcher.
+Substitui os caracteres diacríticos por seu equivalente latino: `A➲` -> `A`, `E➲` -> `E`, `E➲` -> `E`, etc. Pode melhorar a capacidade combinada de um "matcher" difuso.
 
-## Aggressive matching
+## Correspondência agressiva
 
-When enabled, fuzzy matcher will remove all characters except for `a-zA-Z0-9 ()[]` and will replace `_` with space. This should improve the matching ability of fuzzy matcher.
+Quando ativado, o matcher difuso removerá todos os caracteres exceto `a-zA-Z0-9 ()[]` e substituirá `_` por espaço. Pode melhorar a capacidade combinada de um "matcher" difuso.
 
-## Remove (...) and [...] brackets
+## Remover (...) e [...] parênteses
 
-When enabled, fuzzy matcher will remove all `(...)`{.noWrap} and `[...]`{.noWrap} together with their content. Useful for titles with `[USA]`{.noWrap}, `[JPN]`{.noWrap} and etc., as they prevent from matching titles correctly.
+Quando ativado, o matcher difuso removerá todos os `(...)`{.noWrap} e `[...]`{.noWrap} junto com seu conteúdo. Útil para títulos com `[USA]`{.noWrap}, `[JPN]`{.noWrap} e etc., pois eles impedem que os títulos correspondam corretamente.
