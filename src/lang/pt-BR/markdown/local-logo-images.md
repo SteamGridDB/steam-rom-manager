@@ -1,10 +1,10 @@
-# Local Logo images (optional) `[supports variables]`{.noWrap}
+# Imagem de logotipo padrão (opcional) `[suporta variáveis]`{.noWrap}
 
-Allows one to use Logo images stored locally. A [special glob input](#special-glob-input) string is used to retrieve images.
+Permite o uso de imagens altas armazenadas localmente. Uma entrada glob [especial](#special-glob-input) string é usada para recuperar imagens.
 
-## Allowed image extensions
+## Extensões de imagens permitidas
 
-Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Mesmo que o analisador encontre arquivos com outras extensões, eles não estão incluídos na lista final.
+Apenas `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} extensões de arquivo são suportadas. Mesmo que o analisador encontre arquivos com outras extensões, eles não estão incluídos na lista final.
 
 ## Você pode mover o diretório da imagem padrão depois de salvar a lista de aplicativos?
 
