@@ -22,55 +22,55 @@ If you enable "Follow .lnk to destination" and your executable is a ".lnk" file,
 |             `${startInDir}` | "StartIn" directory                     |
 |                `${fileDir}` | File's, returned by a parser, directory |
 
-In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
+Caso a entrada do diretório executável seja deixada **vazia**, `${exeDir}`{.noWrap} é igual a `${fileDir}`{.noWrap}. Além disso, se o diretório "StartIn" for deixado **vazio**, `${startInDir}`{.noWrap} é igual a `${exeDir}`{.noWrap}.
 
-## Name variables
+## Variáveis de nome
 
-| Variable (case-insensitive) | Corresponding value                                             |
-| ---------------------------:|:--------------------------------------------------------------- |
-|                `${exeName}` | Name of executable (without extension)                          |
-|               `${fileName}` | Name of file which was returned by a parser (without extension) |
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                        |
+| ----------------------------------:|:------------------------------------------------------------------ |
+|                       `${exeName}` | Nome do executável (sem extensão)                                  |
+|                      `${fileName}` | Nome do arquivo que foi retornado por um analisador (sem extensão) |
 
-In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
+Caso a entrada do diretório executável seja deixada **vazia**, `${exeName}`{.noWrap} é igual a `${fileName}`{.noWrap}.
 
-## Extension variables
+## Variáveis de extensão
 
-| Variable (case-insensitive) | Corresponding value                                           |
-| ---------------------------:|:------------------------------------------------------------- |
-|                 `${exeExt}` | Extension of executable (with a dot)                          |
-|                `${fileExt}` | Extension of file which was returned by a parser (with a dot) |
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                            |
+| ----------------------------------:|:---------------------------------------------------------------------- |
+|                        `${exeExt}` | Extensão do executável (com um ponto)                                  |
+|                       `${fileExt}` | Extensão do arquivo que foi retornado por um analisador (com um ponto) |
 
-In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
+Caso a entrada do diretório executável seja deixada **vazia**, `${exeExt}`{.noWrap} é igual a `${fileExt}`{.noWrap}.
 
-## Path variables
+## Variáveis de nome
 
-| Variable (case-insensitive) | Corresponding value                                |
-| ---------------------------:|:-------------------------------------------------- |
-|                `${exePath}` | Full path to an executable                         |
-|               `${filePath}` | Full path to a file which was returned by a parser |
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                          |
+| ----------------------------------:|:-------------------------------------------------------------------- |
+|                       `${exePath}` | Caminho completo para um executável                                  |
+|                      `${filePath}` | Caminho completo para um arquivo que foi retornado por um analisador |
 
-In case executable directory input is left **empty**, `${exePath}`{.noWrap} is equal to `${filePath}`{.noWrap}.
+Caso a entrada do diretório executável seja deixada **vazia**, `${exePath}`{.noWrap} é igual a `${filePath}`{.noWrap}.
 
-## Parser variables
+## Variáveis de nome
 
-| Variable (case-insensitive) | Corresponding value                              |
-| ---------------------------:|:------------------------------------------------ |
-|                  `${title}` | Extracted title                                  |
-|             `${fuzzyTitle}` | Fuzzy matched title                              |
-|             `${finalTitle}` | Title which was the end result of title modifier |
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                 |
+| ----------------------------------:|:----------------------------------------------------------- |
+|                         `${title}` | Título extraído                                             |
+|                    `${fuzzyTitle}` | Título difuso correspondente                                |
+|                    `${finalTitle}` | O título que foi o resultado final do modificador do título |
 
-In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
+No caso de correspondência difusa **falhar** ou está **desabilitado**, `${fuzzyTitle}`{.noWrap} é igual a `${title}`{.noWrap}.
 
-## Function variables
+## Custom variables
 
-|                                 Variable (case-insensitive) | Corresponding function                                                                                                 |
-| -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
-|                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
-|                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
-|                                             `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                                      |
-|                                       `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
-|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
-| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                           |
+|                          Variável (maiúsculas e minúsculas) | Função correspondente                                                                                                                           |
+| -----------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------- |
+|                 `${regex\├input\├substitution(opcional)}` | Executa a expressão regex na entrada. Suporta `u`, `g` e `i` bandeiras (grupos capturados se juntam, a menos que a substituição seja fornecida) |
+|                                             `${uc\├input}` | Variável maiúscula. Transformar em maiúsculas                                                                                                   |
+|                                             `${uc\├input}` | Variável maiúscula. Transformar em maiúsculas                                                                                                   |
+|                                       `${cv:group\├input}` | Alterar entrada com variável personalizada correspondente (grupo é opcional)                                                                    |
+|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                                                  |
+| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                                                    |
 
 ### Function variable example
 
