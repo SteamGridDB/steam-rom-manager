@@ -10,6 +10,6 @@ Nach dem Speichern der Parser-Konfiguration werden **1** von **3** Farben neben 
 
 <span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Aktivierte Konfiguration. Diese Konfiguration wird verwendet, wenn eine Liste in der **Vorschau** Seite erzeugt wird.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Ungespeicherte Änderungen. Diese Konfiguration wird nicht verwendet, wenn eine Liste in der **-Vorschau-** Seite erstellt wird. Stattdessen wird die zuletzt **gespeicherte** -Version verwendet.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Deaktivierte Konfiguration. Diese Konfiguration wird nicht verwendet, wenn eine Liste in der **Vorschau** Seite erstellt wird.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Deaktivierte Konfiguration. Diese Konfiguration wird nicht verwendet, wenn eine Liste in der **Vorschau** Seite erstellt wird.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Deaktivierte Konfiguration. Diese Konfiguration wird nicht verwendet, wenn eine Liste in der **-Vorschau-** Seite erstellt wird.
