@@ -1,43 +1,43 @@
-# Parser variables
+# Variáveis de nome
 
-Here are tables of variables that can be used with options that have `[supports variables]`{.noWrap} specified in their descriptions. Variable can be nested.
+Aqui estão as tabelas de variáveis que podem ser usadas com opções que têm `[suporta variáveis]`{.noWrap} especificado em suas descrições. A variável pode ser aninhada.
 
-## Directory variables
+## Variáveis de diretório
 
-| Variable (case-insensitive) | Corresponding value                     |
-| ---------------------------:|:--------------------------------------- |
-|                 `${exeDir}` | Executable directory                    |
-|                 `${romDir}` | ROMs directory                          |
-|               `${steamDir}` | Steam directory                         |
-|             `${startInDir}` | "StartIn" directory                     |
-|                `${fileDir}` | File's, returned by a parser, directory |
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                  |
+| ----------------------------------:|:-------------------------------------------- |
+|                        `${exeDir}` | Diretório executável                         |
+|                        `${romDir}` | Diretório ROMs                               |
+|                      `${steamDir}` | Diretório Steam                              |
+|                    `${startInDir}` | Diretório inicial                            |
+|                       `${fileDir}` | Arquivo retornado pelo analisador, diretório |
 
-In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
+Caso a entrada do diretório executável seja deixada **vazia**, `${exeDir}`{.noWrap} é igual a `${fileDir}`{.noWrap}. Além disso, se o diretório "StartIn" for deixado **vazio**, `${startInDir}`{.noWrap} é igual a `${exeDir}`{.noWrap}.
 
-## Name variables
+## Variáveis de nome
 
-| Variable (case-insensitive) | Corresponding value                                             |
-| ---------------------------:|:--------------------------------------------------------------- |
-|                `${exeName}` | Name of executable (without extension)                          |
-|               `${fileName}` | Name of file which was returned by a parser (without extension) |
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                        |
+| ----------------------------------:|:------------------------------------------------------------------ |
+|                       `${exeName}` | Nome do executável (sem extensão)                                  |
+|                      `${fileName}` | Nome do arquivo que foi retornado por um analisador (sem extensão) |
 
-In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
+Caso a entrada do diretório executável seja deixada **vazia**, `${exeName}`{.noWrap} é igual a `${fileName}`{.noWrap}.
 
-## Extension variables
+## Variáveis de extensão
 
-| Variable (case-insensitive) | Corresponding value                                           |
-| ---------------------------:|:------------------------------------------------------------- |
-|                 `${exeExt}` | Extension of executable (with a dot)                          |
-|                `${fileExt}` | Extension of file which was returned by a parser (with a dot) |
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                            |
+| ----------------------------------:|:---------------------------------------------------------------------- |
+|                        `${exeExt}` | Extensão do executável (com um ponto)                                  |
+|                       `${fileExt}` | Extensão do arquivo que foi retornado por um analisador (com um ponto) |
 
-In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
+Caso a entrada do diretório executável seja deixada **vazia**, `${exeExt}`{.noWrap} é igual a `${fileExt}`{.noWrap}.
 
-## Path variables
+## Variáveis de nome
 
-| Variable (case-insensitive) | Corresponding value                                                  |
-| ---------------------------:|:-------------------------------------------------------------------- |
-|                `${exePath}` | Caminho completo para um executável                                  |
-|               `${filePath}` | Caminho completo para um arquivo que foi retornado por um analisador |
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                          |
+| ----------------------------------:|:-------------------------------------------------------------------- |
+|                       `${exePath}` | Caminho completo para um executável                                  |
+|                      `${filePath}` | Caminho completo para um arquivo que foi retornado por um analisador |
 
 Caso a entrada do diretório executável seja deixada **vazia**, `${exePath}`{.noWrap} é igual a `${filePath}`{.noWrap}.
 
