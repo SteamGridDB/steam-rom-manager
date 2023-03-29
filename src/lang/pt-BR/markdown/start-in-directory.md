@@ -1,14 +1,14 @@
-# "Start In" directory (optional) `[supports environment variables]`{.noWrap}
+# "Diretório de Manifestos `[Suporta Variáveis de Ambiente]`{.noWrap}
 
-By default "Start In" directory is set to executable's directory:
+Por padrão o diretório "Start In" está definido para o diretório do executável:
 
-![Default "Start In" directory](../../../assets/images/default-start-in-directory.png) {.fitImage.center}
+![Padrão "Iniciar em" diretório](../../../assets/images/default-start-in-directory.png) {.fitImage.center}
 
-This option allows you to specify any directory you want as a "Start In" directory:
+Esta opção permite que você especifique qualquer diretório que quiser como um diretório "Iniciar em":
 
-![Ner "Start In" directory](../../../assets/images/new-start-in-directory.png) {.fitImage.center}
+![Ner "Iniciar Em" Diretório](../../../assets/images/new-start-in-directory.png) {.fitImage.center}
 
-It is useful when you're using batch files to start emulator and a game, but emulator requires a specific "Start In" directory to work properly.
+É útil quando você está usando arquivos em lote para iniciar o emulador e um jogo, mas o emulador requer um diretório "Iniciar In" específico para funcionar corretamente.
 
-## Shortcut Passthrough
-If you enable "Follow .lnk to destination" and your executable is a ".lnk" file, ie a shortcut, then whatever you put in this field will be overridden with the directory of the target of that shortcut. In the future, it will be overridden with the start in directory of that shortcut.
+## Mostrar a passagem
+Se você ativar "Seguir .lnk para destino" e o seu executável é um ". arquivo nk", ou seja, um atalho, então tudo o que você colocar neste campo será sobrescrito com o alvo desse atalho. No futuro, ela será substituída pelo início no diretório desse atalho.
