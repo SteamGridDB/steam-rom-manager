@@ -4,12 +4,12 @@ Configurar um analisador pode parecer esmagador em primeiro lugar, mas é mais f
 
 Além disso, não se esqueça de verificar as Perguntas Frequentes. Se você ainda tiver dúvidas sobre como configurar a configuração, visite nosso grupo oficial de SRM no [Steam](http://steamcommunity.com/groups/steamrommanager) ou nosso grupo oficial de [Discord](https://discord.gg/bnSVJrz).
 
-## Configuration color code
+## Configurar código de cor
 
-After saving parser configuration, **1** of **3** colors will be shown next to its title:
+Depois de salvar a configuração do analisador, **1** de **3** cores serão mostradas ao lado do seu título:
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Enabled configuration. This configuration will be used when generating a list in **preview** page.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Configuração habilitada. Esta configuração será usada quando gerar uma lista na página **pré-visualização**.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Unsaved changes. This configuration will not be used when generating a list in **preview** page, however earlier **saved** version will be used instead.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> Alterações não salvas. Esta configuração não será usada quando gerar uma lista na página **preview**, no entanto a versão **salva** anterior será usada.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Disabled configuration. This configuration will not be used when generating a list in **preview** page.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Configuração habilitada. Esta configuração será usada quando gerar uma lista na página **pré-visualização**.
