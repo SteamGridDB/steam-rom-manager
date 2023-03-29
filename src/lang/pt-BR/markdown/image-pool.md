@@ -1,3 +1,3 @@
-# Image pool `[supports variables]`{.noWrap}
+# Imagem padrão (opcional) `[suporta variáveis]`{.noWrap}
 
-Default value is `${fuzzyTitle}`{.noWrap}. This setting is used to allow different apps share the same images -- same "image pool", or allow unique image pool per app. To use unique image pool per app just set it to something unique. For example `${fuzzyTitle} SNES`{.noWrap}.
+O valor padrão é `${fuzzyTitle}`{.noWrap}. Esta configuração é usada para permitir que diferentes aplicativos compartilhem as mesmas imagens -- o mesmo "pool de imagens", ou permitir que um pool de imagens único por aplicativo. Para usar um pool de imagens único por aplicativo basta defini-lo para algo único. Por exemplo, `${fuzzyTitle} SNES`{.noWrap}.
