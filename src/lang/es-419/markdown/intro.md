@@ -8,8 +8,8 @@ Además, no olvides consultar las preguntas frecuentes. Si aún tienes preguntas
 
 Luego de guardar la configuración del analizador, **1** de **3** colores aparecerán al lado del título:
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Enabled configuration. This configuration will be used when generating a list in **preview** page.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Configuración activada. Esta configuración será usada al generar una lista en la página de **vista previa**.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Unsaved changes. This configuration will not be used when generating a list in **preview** page, however earlier **saved** version will be used instead.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Cambios sin guardar. This configuration will not be used when generating a list in **preview** page, however earlier **saved** version will be used instead.
 
 <span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Disabled configuration. This configuration will not be used when generating a list in **preview** page.
