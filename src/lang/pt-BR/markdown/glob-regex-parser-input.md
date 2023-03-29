@@ -1,28 +1,28 @@
-# User's glob-regex
+# Regex do usuário global
 
-This is where you create your glob for extracting title from file path. Please read all of [special glob characters](#special-glob-characters) if you don't know how to construct a glob.
+Aqui é onde você cria seu glob para extrair o título do caminho do arquivo. Leia todos os [caracteres especiais glob](#special-glob-characters) se você não sabe como construir um glob.
 
-## How does it work?
+## Como funciona?
 
-In addition to special glob characters, glob parser requires you to enter `${/.../}`{.noWrap} variable. Parser will locate it's position inside your  glob, for example:
+Além de caracteres glob especiais, o analisador glob requer que você digite a variável `${title}`{.noWrap}. O analisador localizará sua posição dentro do seu  glob, por exemplo:
 
-| User's glob           | Position                    |
-| --------------------- | --------------------------- |
-| `${/.+/}/*/*.txt`     | First level from the left   |
-| `{*,*/*}/${/.+/}.txt` | First level from the right  |
-| `**/${/.+/}/*.txt`    | Second level from the right |
+| Global do usuário     | Posição                    |
+| --------------------- | -------------------------- |
+| `${/.+/}/*/*.txt`     | Primeiro nível da esquerda |
+| `{*,*/*}/${/.+/}.txt` | Primeiro nível da esquerda |
+| `**/${/.+/}/*.txt`    | Primeiro nível da esquerda |
 
-After acquiring `${/.../}`{.noWrap} position, `${/.../}`{.noWrap} will be replaced with a wildcard `*`.
+Depois de adquirir a posição de `${title}`{.noWrap}, `${title}`{.noWrap} será substituído por um curinga `*`.
 
-## Regex post-processing
+## Pós-processamento de Regex
 
-After title extraction, title will be processed by a regular expression. There are 3 ways you can write a regular expression.
+Após a extração do título, o título será processado por uma expressão regular. Há três maneiras de escrever uma expressão regular.
 
-### Regular expression with no capture: `${/.+/}`{.noWrap}
+### Expressão regular sem captura: `${/.+/}`{.noWrap}
 
-This is practically identical to "Glob" parser -- every piece of extracted title will be used.
+Isso é praticamente idêntico ao analisador "Glob" -- cada pedaço do título extraído será usado.
 
-### Regular expression with capture brackets: `${/(.+)/}`{.noWrap}
+### Expressão regular sem captura: `${/.+/}`{.noWrap}
 
 Múltiplas correspondências e grupos de captura são permitidos. Por exemplo, aqui temos dois grupos de correspondência com vários grupos de captura:
 ```
