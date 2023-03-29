@@ -4,8 +4,8 @@ Allows one to use Logo images stored locally. A [special glob input](#special-gl
 
 ## Allowed image extensions
 
-Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Even if parser finds files with other extensions, they are not included into the final list.
+Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Mesmo que o analisador encontre arquivos com outras extensões, eles não estão incluídos na lista final.
 
-## Can you move the directory of local images after saving app list?
+## Você pode mover o diretório da imagem padrão depois de salvar a lista de aplicativos?
 
-Yes, once the list is saved, local images are copied to a Steam directory where they are renamed to match Steam's APP ID.
+Sim, uma vez que a lista é salva, a imagem padrão é copiada para um diretório Steam onde eles são renomeados para coincidir com o ID APP da Steam.
