@@ -1,7 +1,7 @@
-# Image providers
+# Bildanbieter
 
-Here you can select image providers that are used to retrieve images. This option is for this configuration only.
+Hier kannst du Bildanbieter auswählen, die zum Abrufen von Bildern zur Verfügung stehen. Diese Einstellung ist nur für diese Konfiguration.
 
-## Similar option in "Settings" menu
+## Ähnliche Option im Menü "Einstellungen"
 
-Settings menu has "Enabled providers" which enable image providers globally -- if it's not enabled in Settings, it won't work.
+Im Einstellungsmenü gibt es auch die Option "Aktivierte Anbieter", die Bildanbieter global aktiviert - wenn dies in den Einstellungen nicht aktiviert ist, wird es nicht funktionieren.
