@@ -1,9 +1,9 @@
 ## Systeminformation
 
-Falls du Probleme mit SRM hast, kannst du die [Discord](https://discord.gg/bnSVJrz) oder den [Subreddit](https://www.reddit.com/r/SteamRomManager/) besuchen und um Hilfe bitten. In order for us to help you, we would like you to provide this info:
+Falls du Probleme mit SRM hast, kannst du die [Discord](https://discord.gg/bnSVJrz) oder den [Subreddit](https://www.reddit.com/r/SteamRomManager/) besuchen und um Hilfe bitten. Um dir weiterhelfen zu können, benötigen wir die folgenden Informationen:
 
 * SRM Version: **#{APP[version]}**
-* Operating System: **#{APP[os]}**
+* Betriebssystem: **#{APP[os]}**
 
 ## Nützliche Links
 
