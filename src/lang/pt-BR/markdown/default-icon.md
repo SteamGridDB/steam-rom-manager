@@ -1,13 +1,13 @@
-# Default icon (optional) `[supports variables]`{.noWrap}
+# Ícone padrão (opcional) `[suporta variáveis]`{.noWrap}
 
-Allows one to use an image, stored locally, as a default/fallback icon. A [special glob input](#special-glob-input) string is used to retrieve images. Only the first retrieved image is used.
+Permite que uma pessoa use uma imagem, armazenada localmente, como um ícone padrão/fallback. Uma entrada glob [especial](#special-glob-input) string é usada para recuperar imagens. Apenas a primeira imagem recuperada é usada.
 
-This image will be shown **only** if there are no other images available. If Steam image is available, you will be able to choose from Steam and this image.
+Esta imagem será exibida **somente** se não houver outras imagens disponíveis. Se a imagem Steam estiver disponível, você poderá escolher do Steam e desta imagem.
 
-## Allowed image extensions
+## Extensões de imagens permitidas
 
-Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Even if parser finds files with other extensions, they are not included into the final list.
+Apenas `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} extensões de arquivo são suportadas. Mesmo que o analisador encontre arquivos com outras extensões, eles não estão incluídos na lista final.
 
-## Can you move the directory of default image after saving app list?
+## Você pode mover o diretório da imagem padrão depois de salvar a lista de aplicativos?
 
-Yes, once the list is saved, default icon is copied to a Steam directory where they are renamed to match Steam's APP ID.
+Sim, uma vez que a lista é salva, o ícone padrão é copiado para o diretório Steam onde eles são renomeados para coincidir com o ID APP do Steam.
