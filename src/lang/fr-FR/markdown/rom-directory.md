@@ -1,3 +1,3 @@
-# ROMs directory `[supports environment variables]`
+# Répertoire ROMs `[prend en charge les variables d'environnement]`
 
-Starting directory for game or app files.
+Répertoire de départ des jeux ou fichiers d'applications.
