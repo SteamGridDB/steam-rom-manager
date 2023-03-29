@@ -1,26 +1,26 @@
-# Executable modifier `[supports variables]`{.noWrap}
+# Imagem padrão (opcional) `[suporta variáveis]`{.noWrap}
 
-Default value is `"${exePath}"`{.noWrap}. This setting can be used to prepend or append desired characters to an executable which will be added to Steam (`Target` property). For example, given that `${exePath}`{.noWrap} is `C:\RetroArch\retroarch.exe`, you can add `"cmd" /k start /min` to it by setting value to:
+O valor padrão é `${exePath}`{.noWrap}. Esta configuração pode ser usada para antecipar ou anexar caracteres desejados a um executável que será adicionado à propriedade Steam (`Target`). Por exemplo, dado que `${exePath}`{.noWrap} é `C:\RetroArch\retroarch. xeque`, você pode adicionar `"cmd" /k start /min` definindo o valor para:
 ```
 "cmd" /k start /min "${exePath}"
 ```
-You can use any other variable to construct the final executable.
+Você pode usar qualquer outra variável para construir o executável final.
 
-This setting influences Steam's APP ID.
+Esta configuração é usada para influenciar o ID APP do Steam.
 
 
-## Shortcut Passthrough
-If you enable "Follow .lnk to destination" and your executable is a ".lnk" file, ie a shortcut, then whatever you put in this field will be overridden with the target of that shortcut. If you would like to add executable arguments either add them to the target of the shortcut or use the "Command Line Arguments" field in the parser.
+## Mostrar a passagem
+Se você ativar "Seguir .lnk para destino" e o seu executável é um ". arquivo nk", ou seja, um atalho, então tudo o que você colocar neste campo será sobrescrito com o alvo desse atalho. Se você gostaria de adicionar argumentos executáveis adicioná-los ao alvo do atalho ou use o campo "Argumentos de Linha de Comando" no analisador.
 
-## Directory variables
+## Variáveis de diretório
 
-| Variable (case-insensitive) | Corresponding value                     |
-| ---------------------------:|:--------------------------------------- |
-|                 `${exeDir}` | Executable directory                    |
-|                 `${romDir}` | ROMs directory                          |
-|               `${steamDir}` | Steam directory                         |
-|             `${startInDir}` | "StartIn" directory                     |
-|                `${fileDir}` | File's, returned by a parser, directory |
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                  |
+| ----------------------------------:|:-------------------------------------------- |
+|                        `${exeDir}` | Diretório executável                         |
+|                        `${romDir}` | Diretório ROMs                               |
+|                      `${steamDir}` | Diretório Steam                              |
+|                    `${startInDir}` | Diretório inicial                            |
+|                       `${fileDir}` | Arquivo retornado pelo analisador, diretório |
 
 Caso a entrada do diretório executável seja deixada **vazia**, `${exeDir}`{.noWrap} é igual a `${fileDir}`{.noWrap}. Além disso, se o diretório "StartIn" for deixado **vazio**, `${startInDir}`{.noWrap} é igual a `${exeDir}`{.noWrap}.
 
@@ -63,32 +63,30 @@ No caso de correspondência difusa **falhar** ou está **desabilitado**, `${fuzz
 
 ## Custom variables
 
-|                          Variável (maiúsculas e minúsculas) | Função correspondente                                                                                                                           |
-| -----------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------- |
-|                 `${regex\├input\├substitution(opcional)}` | Executa a expressão regex na entrada. Suporta `u`, `g` e `i` bandeiras (grupos capturados se juntam, a menos que a substituição seja fornecida) |
-|                                             `${uc\├input}` | Variável maiúscula. Transformar em maiúsculas                                                                                                   |
-|                                             `${uc\├input}` | Variável maiúscula. Transformar em maiúsculas                                                                                                   |
-|                                       `${cv:group\├input}` | Alterar entrada com variável personalizada correspondente (grupo é opcional)                                                                    |
-|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                                                  |
-| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                                                    |
+|                               Variável (maiúsculas e minúsculas) | Função correspondente                                                                                                                           |
+| ----------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------- |
+|                      `${regex\├input\├substitution(opcional)}` | Executa a expressão regex na entrada. Suporta `u`, `g` e `i` bandeiras (grupos capturados se juntam, a menos que a substituição seja fornecida) |
+|                                                  `${uc\├input}` | Variável maiúscula. Transformar em maiúsculas                                                                                                   |
+|                                                  `${uc\├input}` | Variável maiúscula. Transformar em maiúsculas                                                                                                   |
+|                                            `${cv:group\├input}` | Alterar entrada com variável personalizada correspondente (grupo é opcional)                                                                    |
+|                                                  `${uc\├input}` | Substituir caracteres diacríticos de entrada com seu equivalente latino                                                                         |
+| `${os:[win\├mac\├linux]\├na ocorrência\├no match(opcional)}` | Se o SO corresponder, usa `na correspondência valor` ou `não corresponde` caso contrário                                                        |
 
-### Function variable example
+### Exemplo de variável função
 
-Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
+Digamos que a variável `${title}` é igual a `Poke├mon (EUA) (Disc 1).iso`. Então essas variáveis:
 ```
-${/.*/|${title}}                           //Matches everything
-${/(.*)/|${title}}                         //Captures everything
-${/(\(.*?\))/|${title}|}                   //Captures all brackets and substitutes with nothing
-${/(\(Disc\s?[0-9]\))/|${title}}           //Captures "Disc..." part
-${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transforms it to uppercase
-${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
-file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
+${/.*/➲${title}} //Corresponde a tudo
+${/(.)/，${title}} //Captura tudo
+${/(\(.?\))/├${title}├} //Captura todos os parênteses e substitutos com nada
+${/(\(Discos?[0-9]\))/├${title}} /Captures "Disco... parte
+${uccerteza, ${/(\(Disc\s?[0-9]\))/¡${title}}} //Captures "Disco... peça e transforma em maiúsculas
+${rdc├${title}} //Substituir caracteres diacríticos (nesse caso: e├-> e)
+arquivo${os:linuxwill.. oive ${os:win|.dll}} //Selects a extensão de arquivo correta para o SO
 ```
-will be replaced with these:
+será substituído por estes:
 ```
-Pokémon (USA) (Disc 1).iso
-Pokémon (USA) (Disc 1).iso
-Pokémon.iso
+Pokémon (USA) (Disc 1).iso Pokémon (USA) (Disc 1).iso Pokémon.iso
 (Disc 1)
 (DISC 1)
 Pokemon (USA) (Disc 1).iso
