@@ -56,11 +56,11 @@ In addition to flexible importing of ROMS, SRM now has several *platform parsers
 
 |Parser|Windows|Mac OS|Linux|
 |---|---|---|---|
-|[Amazon Games](https://gaming.amazon.com/amazon-games-app)|✅|❌|❌|
+|[Amazon Games](https://gaming.amazon.com/amazon-games-app)|✅|🟦|🟦|
 |[Epic](https://store.epicgames.com/en-US/) / [Legendary](https://github.com/derrod/legendary)|✅|✅|❌|
-|[GOG Galaxy](https://www.gog.com/galaxy)|✅|❌|❌|
+|[GOG Galaxy](https://www.gog.com/galaxy)|✅|❌|🟦|
 |[Itch.io](https://itch.io/app)|✅|✅|✅|
-|[UPlay](https://ubisoftconnect.com/en-US/)|✅|❌|❌|
+|[UPlay](https://ubisoftconnect.com/en-US/)|✅|❌|🟦|
 
 Planned platform parsers include Origin, the EA Games Store, and Battle.net.
 
