@@ -1,8 +1,8 @@
-# Welcome to parser configuration!
+# Bem-vindo à configuração do analisador!
 
-Configuring a parser might look overwhelming at first, but it is easier than you think. If you are lost, click on <span class="infoIcon" style="top: 0.15em;"></span> near option label to see related information which might be useful for you.
+Configurar um analisador pode parecer esmagador em primeiro lugar, mas é mais fácil do que pensa. Se você for perdido, clique em <span class="infoIcon" style="top: 0.15em;"></span> próximo do rótulo de opções para ver as informações relacionadas, que podem ser úteis para você.
 
-Also, don't forget to check FAQ. If you still got questions about setting up configuration, visit our official SRM group at [Steam](http://steamcommunity.com/groups/steamrommanager) or our official [Discord](https://discord.gg/bnSVJrz) group.
+Além disso, não se esqueça de verificar as Perguntas Frequentes. Se você ainda tiver dúvidas sobre como configurar a configuração, visite nosso grupo oficial de SRM no [Steam](http://steamcommunity.com/groups/steamrommanager) ou nosso grupo oficial de [Discord](https://discord.gg/bnSVJrz).
 
 ## Configuration color code
 
