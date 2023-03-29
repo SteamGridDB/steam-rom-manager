@@ -1,66 +1,66 @@
-# Special glob characters
+# Caracteres especiais
 
-## Wildcards: `*`, `?`, `[...]`{.noWrap}
+## Caracteres: `*`, `?`, `[...]`{.noWrap}
 
-- `*` -- matches **0** or **more** characters in a **single** path portion;
-- `?` -- matches exactly **1** character;
-- `[...]`{.noWrap} -- matches a range of characters. If the first character in brackets is `!` or `^` then it matches any character not in the range:
-  - `[abc]`{.noWrap} -- matches `a`, `b` or `c` characters;
-  - `[!abc]`{.noWrap} -- matches any character except for `a`, `b` or `c`;
-  - `[0-9]`{.noWrap} -- matches any character between `0` and `9` characters (all numbers);
-  - `[a-z]`{.noWrap} -- matches any character between `a` and `z` characters (lower english alphabet).
+- `*` -- corresponde a **0** ou **mais** caracteres em uma **única** porção de caminho;
+- `?` -- corresponde exatamente a **1** caractere;
+- `[...]`{.noWrap} -- corresponde a uma variedade de caracteres. Se o primeiro caractere entre colchetes é `!` ou `^` então corresponde a qualquer caractere que não esteja no intervalo:
+  - `[abc]`{.noWrap} -- corresponde a `caracteres`, `` ou `c` e;
+  - `[!abc]`{.noWrap} -- corresponde a qualquer caractere exceto por `um`, `b` ou `c`;
+  - `[0-9]`{.noWrap} -- corresponde a qualquer caractere entre `0` e `9` caracteres (todos os números);
+  - `[a-z]`{.noWrap} -- corresponde a qualquer caractere entre `um` e `z` caracteres (minúsculos em alfabeto).
 
 ## Globstar: `**`
 
-`**` matches **0** or **more** directories and subdirectories searching for matches. If directories have a **lot** of subdirectories, it will cause performance issues. If possible, use [braced sets](#braced-sets).
+`**` corresponde a **0** ou **mais** diretórios e subdiretórios procurando por partidas. Se os diretórios têm um **monte** de subdiretórios, isso vai causar problemas de desempenho. Se possível, use [conjuntos empacotados](#braced-sets).
 
-## Extended glob matchers: `!(...)`{.noWrap}, `?(...)`{.noWrap}, `+(...)`{.noWrap}, `*(...)`{.noWrap}, `@(...)`{.noWrap}
+## Partidas glob estendidas: `!(...)`{.noWrap}, `?(...)`{.noWrap}, `+(..)`{.noWrap}, `*(...)`{.noWrap}, `@(...)`{.noWrap}
 
-It allows to specify how to use patterns made from simple characters and wildcards. More than one pattern may be specified inside `(...)`{.noWrap} and separated with `|`.
+Ele permite especificar como usar padrões feitos a partir de caracteres simples e caracteres curinga. Mais de um padrão pode ser especificado dentro de `(...)`{.noWrap} e separado com `'y`.
 
-- `!(...)`{.noWrap} -- matches anything **except** one of the given pattern(s);
-- `?(...)`{.noWrap} -- matches **zero** or **one** occurrence of the given pattern(s);
-- `+(...)`{.noWrap} -- matches **one** or **more** occurrences of the given pattern(s);
-- `*(...)`{.noWrap} -- matches **zero** or **more** occurrences of the given pattern(s);
-- `@(...)`{.noWrap} -- matches **one** of the given pattern(s).
+- `!(...)`{.noWrap} -- corresponde a qualquer coisa **exceto** um do(s) padrão(is);
+- `?(...)`{.noWrap} -- corresponde a **zero** ou **um** ocorrência do(s) padrão(is);
+- `?(...)`{.noWrap} -- corresponde a **zero** ou **um** ocorrência do(s) padrão(is);
+- `?(...)`{.noWrap} -- corresponde a **zero** ou **um** ocorrência do(s) padrão(is);
+- `!(...)`{.noWrap} -- corresponde a qualquer coisa **exceto** um do(s) padrão(is).
 
-Given these files paths:
+Dados esses caminhos de arquivos:
 
 1. `dir1/file.txt`;
 1. `dir2/dir3/file.txt`;
-1. `dir4/111222/file.txt`;
-1. `DIR/abc/file.txt`;
-1. `DIR/abcabc/file.txt`;
-1. `123/aabbcc/file.txt`;
+1. `dir1/file.txt`;
+1. `Dir1/file.txt`;
+1. `Dir1/file.txt`;
+1. `dir1/file.txt`;
 
-here are few examples of extended glob matchers in action:
+aqui estão alguns exemplos de "glob matchers" extendidos em ação:
 
-| Glob patterns                        |  Matches (list numbers) |
-|:------------------------------------ | -----------------------:|
-| `@(dir[12]\|DIR)/**/*.txt`          |      `1`, `2`, `4`, `5` |
-| `!(dir[12]\|DIR)/**/*.txt`          |                `3`, `6` |
-| `*/!(*bb*)/*.txt`                    |      `2`, `3`, `4`, `5` |
-| `*/?(abc)/*.txt`                     |                     `4` |
-| `*/+(abc)/*.txt`                     |                `4`, `5` |
-| `*([a-zA-Z])/*/*.txt`                |                `4`, `5` |
-| `*([a-zA-Z])?([0-9])/*/${title}.txt` |      `2`, `3`, `4`, `5` |
-| `*([a-zA-Z])+([0-9])/*/${title}.txt` |           `2`, `3`, `6` |
-| `*([a-zA-Z])*([0-9])/*/${title}.txt` | `2`, `3`, `4`, `5`, `6` |
+| Padrões de flor                      |  Correspondências (números da lista) |
+|:------------------------------------ | ------------------------------------:|
+| `@(dir[12]\|DIR)/**/*.txt`          |     `>`, `<`, `>=`, `=<` |
+| `!(dir[12]\|DIR)/**/*.txt`          |                         `302`, `307` |
+| `*/!(*bb*)/*.txt`                    |     `>`, `<`, `>=`, `=<` |
+| `*/?(bb*)/*.txt`                     |                                  `4` |
+| `*/+(bb*)/*.txt`                     |                         `402`, `307` |
+| `*([a-zA-Z]/*/*.txt`                 |                         `402`, `307` |
+| `*([a-zA-Z])?([0-9])/*/${title}.txt` |     `>`, `<`, `>=`, `=<` |
+| `*([a-zA-Z])?([0-9])/*/${title}.txt` | &gt;, `<`, `>=`, `=<` |
+| `*([a-zA-Z])?([0-9])/*/${title}.txt` |     `>`, `<`, `>=`, `=<` |
 
-## Braced sets: `{...}`{.noWrap}
+## Conjunto de chaves: `{...}`{.noWrap}
 
-It is a way to make more glob pattern sets out of one set. Braced set starts with `{` and ends with `}`, with any number of comma-delimited sections within (nested braced sets are allowed). For example, `C:/dir1/{dir2,dir3/dir4}/file.txt` will expand to:
-
-- `C:/dir1/dir2/file.txt`
-- `C:/dir1/dir3/dir4/file.txt`
-
-Braced sets also have less useful range syntax `{x..x}` where `x` is a single character. For example, `C:/dir1/dir{2..4}/file.txt` will expand to:
+É uma maneira de fazer com que um conjunto de instrumentos se revele mais duro. Braced set começa com `{` e termina com `}`, com qualquer número de seções delimitadas por vírgula dentro (conjuntos de chaves aninhados são permitidos). Por exemplo, `C:/+(a├{b),c)}/file.txt` expandiria para:
 
 - `C:/dir1/dir2/file.txt`
-- `C:/dir1/dir3/file.txt`
-- `C:/dir1/dir4/file.txt`
+- `C:/Roms/dir1/dir2/dir3/file.txt`
 
-Braced set is expanded **before** actual parsing, therefore can be useful to generate different subdirectories or even [extended glob matchers](#extended-glob-matchers). For example, `C:/+(a|{b),c)}/file.txt` would expand to:
+Conjuntos emparelhados também têm sintaxe de intervalo menos útil `{x..x}` onde `x` é um único caractere. Por exemplo, `C:/+(a├{b),c)}/file.txt` expandiria para:
 
-- `C:/+(a|b)/file.txt`
-- `C:/+(a|c)/file.txt`
+- `C:/dir1/dir2/file.txt`
+- `C:/dir1/dir2/file.txt`
+- `C:/dir1/dir2/file.txt`
+
+Um conjunto de chaves é expandido **antes do** análise real, portanto pode ser útil para gerar subdiretórios diferentes ou até mesmo ["matchers" extendidos glob](#extended-glob-matchers). Por exemplo, `C:/+(a├{b),c)}/file.txt` expandiria para:
+
+- `C:/+(aseuropeb)/file.txt`
+- `C:/+(aseuropeb)/file.txt`
