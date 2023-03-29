@@ -3,10 +3,10 @@
     "component": {
       "filter": "Filtrer par nom",
       "selectType": "Sélectionner le type d'artwork",
-      "selectCategories": "Filter by Steam category",
-      "selectParsers": "Filter by parser",
+      "selectCategories": "Filtrer par catégorie Steam",
+      "selectParsers": "Filtrer par analyseur",
       "selectTypeOptions": {
-        "long": "Banners",
+        "long": "Bannières",
         "tall": "Posters",
         "hero": "Arrière-plans",
         "icon": "Icônes",

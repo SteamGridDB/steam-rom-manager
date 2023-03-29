@@ -1,4 +1,4 @@
-# User accounts (Optional)
+# Benutzerkonten (Optional)
 
 Can be used to limit configuration to specific user accounts. In order to set user accounts, the following syntax must be used:
 ```

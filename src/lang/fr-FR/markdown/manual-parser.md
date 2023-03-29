@@ -1,3 +1,3 @@
-# Manual Parser
+# Analyseur manuel
 
-This parser is able to turn json files into steam shortcuts. It is useful for the creation of manual shortcuts to applications in Linux (in Windows the shortcut preset may be used instead to parse a directory of `.lnk` files). 
+Cet analyseur est capable de transformer les fichiers json en raccourcis Steam. Il est utile pour la création de raccourcis manuels pour les applications sous Linux (dans Windows, le préréglage du raccourci peut être utilisé à la place pour analyser un répertoire de `fichiers .Ink`). 
