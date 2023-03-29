@@ -1,11 +1,11 @@
-# Unique inputs for Epic Parser
+# Entradas únicas para o analisador épico
 
-## Manifests Directory Override
+## Substituir Diretório de Manifests
 
-Most users shouldn't use this, as they use the standard Epic Games Store installation where the game manifests will be located in, for example on Windows, `C:\ProgramData\Epic\EpicGamesLauncher\Data\Manifests`.
+A maioria dos usuários não deve usar isto, pois eles usam a instalação padrão da loja Epic Games onde os manifestos do jogo estarão localizados. por exemplo no Windows, `C:\ProgramData\Epic\EpicGamesLauncher\Data\Manifests`.
 
-If, however, for some reason your manifests directory is located in a non-typical location then you can specify the correct manifests directory here.
+No entanto, se por alguma razão o diretório de manifestos estiver localizado em um local não típico você pode especificar aqui o diretório de manifestos.
 
-## Launch Via Epic Games Store `[Recommend enabled]`
+## Inicie a Via Epic Games loja `[Recomendado ativado]`
 
-What it sounds like, this toggle let's you set whether games will launch via the Epic Games Store or directly. If you don't launch via the epic games store you will not have access to Epic's online services in game.
+Como parece, este alternador permite que você defina se os jogos serão executados via Amazon Games ou diretamente. Se você não iniciar através da loja épica, você não terá acesso aos serviços on-line da Epic.
