@@ -8,3 +8,4 @@ export * from './itch-io.parser';
 export * from './amazon-games.parser';
 export * from './uplay.parser';
 export * from './manual.parser';
+export * from './ea-desktop.parser';

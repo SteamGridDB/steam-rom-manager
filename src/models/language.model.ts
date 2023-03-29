@@ -110,6 +110,17 @@ export interface languageStruct {
       databaseNotFound: string
     }
   },
+  eaDesktopParser: {
+    eaGamesDirTitle: string,
+    docs__md: {
+      self: string[],
+      input: string[]
+    },
+    errors: {
+      invalidXML__i: string,
+      fatalError__i: string
+    }
+  },
   amazonGamesParser: {
     exeOverrideTitle: string,
     launcherModeInputTitle: string,

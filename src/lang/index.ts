@@ -262,6 +262,16 @@ function getMarkdown(langPath: string) {
         ]
       }
     },
+    eaDesktopParser: {
+      docs__md: {
+        self: [
+          require(`${langPath}/ea-desktop-parser.md`)
+        ],
+        input: [
+          require(`${langPath}/ea-desktop-parser-input.md`)
+        ]
+      }
+    },
     sgdbProvider: {
       docs__md: {
         self: [] as string[],
