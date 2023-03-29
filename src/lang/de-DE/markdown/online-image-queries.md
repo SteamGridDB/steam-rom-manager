@@ -1,14 +1,14 @@
-# Online image query `[supports variables]`{.noWrap}
+# Online Bildabfrage `[unterstützt Variablen]`{.noWrap}
 
-Queries that are used to search for images. In order to set image query, the following syntax must be used:
+Abfragen, mit denen nach Bildern gesucht wird. Um eine Bildabfrage festzulegen, muss folgende Syntax verwendet werden:
 ```
 ${...}
 ```
-For example, images for "Legend of Zelda" and "The Legend of Zelda: A Link to the Past" can be queried like this:
+Zum Beispiel, Bilder für "Legende von Zelda" und "Die Legende von Zelda: Ein Link zur Vergangenheit" können wie folgt abgefragt werden:
 ```
 ${The Legend of Zelda}${The Legend of Zelda: A Link to the Past}
 ```
-You will most likely want to use parser variables for queries. Which will look like this (also the **default** value):
+Du wirst höchstwahrscheinlich Parser-Variablen für Abfragen verwenden wollen. Welche so aussehen werden (auch der **Standardwert** Wert):
 ```
 ${${fuzzyTitle}}
 ```
