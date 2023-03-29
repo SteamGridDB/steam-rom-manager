@@ -1,13 +1,13 @@
-# Controller Templates
-Controller templates allow you to configure the button layout per controller and per parser.
+# Controller-Vorlagen
+Mit Controller-Vorlagen können Sie das Button-Layout pro Controller und Parser konfigurieren.
 
-You may want to disable `Cloud Synchronization` in Steam to avoid having your SRM assigned controller configs get overwritten. You may find the setting under `Steam > Settings > Cloud`.
+Möglicherweise solltest du die `Cloud-Synchronisierung` in Steam deaktivieren, um zu vermeiden, dass deine SRM-zugewiesenen Controller-Einstellungen überschrieben werden. Die Einstellung findest du unter `Steam > Einstellungen > Cloud`.
 
-To make a custom template:
-* Open Steam.
-* Connect the controller you want to configure a template for.
-* Right click on any game and hit `Manage > Controller Layout`.
-* Configure the buttons as you see fit.
+Um eine benutzerdefinierte Vorlage erstellen:
+* Öffne Steam.
+* Schließe den Controller an, für den du eine Vorlage konfigurieren möchtest.
+* Rechtsklick auf ein beliebiges Spiel und drücke `Verwalte > Controller Layout`.
+* Konfiguriere die Buttons nach deinem Geschmack.
 * Hit `Export Config` then `Save new template binding`.
 * Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template.
 * Repeat for as many different types of controller as you want to configure.
