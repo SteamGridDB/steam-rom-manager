@@ -1,12 +1,12 @@
-# Fuzzy matching
+# Correspondência difusa de Tm
 
-Fuzzy (natural) matching will be done against the tittle list provided by [SteamGridDB](http://www.steamgriddb.com/). It will try to fill in missing characters for titles which will increase probability for finding images.
+Correspondência difusa (natural) será feita contra a lista de blocos fornecida pelo [SteamGridDB](http://www.steamgriddb.com/). Ele tentará preencher os caracteres que faltam para títulos que aumentarão a probabilidade de encontrar imagens.
 
-Fuzzy titles are available as title modifiers via `${fuzzyTitle}`. Currently fuzzy matching is only enabled for `ROM Parsers` and `Manual Parsers`.
+Títulos difusos estão disponíveis como modificadores de título via `${fuzzyTitle}`. Correspondência difusa atualmente está ativada apenas para `Analisadores da ROM` e `Analisadores manuais`.
 
-It is possible, that `false` matching might occur for titles that are not in the list. If you encounter missing titles, feel free to post an issue on [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
+É possível que `falsa` correspondência possa ocorrer para títulos que não estão na lista. Se você encontrar títulos faltantes, sinta-se livre para postar uma issue no [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
 
-## Replace diacritic characters
+## Substituir caracteres diacríticos
 
 Replaces diacritic characters to their latin equivalent: `Ą` -> `A`, `Ę` -> `E`, `Ė` -> `E`, etc. Might improve the matching ability of fuzzy matcher.
 
