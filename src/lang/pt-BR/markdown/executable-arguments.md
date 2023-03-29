@@ -1,13 +1,13 @@
-# Command line arguments (optional) `[supports variables]`{.noWrap}
+# Imagem de logotipo padrão (opcional) `[suporta variáveis]`{.noWrap}
 
-Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
+Argumentos que são anexados ao executável para produzir o atalho final. Na maioria das vezes você vai querer configurá-lo usando as variáveis de análise fornecidas.
 
-## Examples By System
+## Exemplos por Sistema
 
 ### RetroArch
 
 ```
--L cores${/}YOUR_CORE.dll "${filePath}"
+-L núcleos${/}SEU_CORE.dll "${filePath}"
 ```
 
 ### Cemu (WiiU)
@@ -16,13 +16,13 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 -f -g "${filePath}"
 ```
 
-### Dolphin Emu (Gamecube and Wii)
+### Format@@0 Dolphin Emu (Gamecube and Wii)
 
 ```
 --exec="${filePath}" --batch --confirm=false
 ```
 
-### Project64 2.3+ (N64)
+### Projeto 64 2.3+ (N64)
 
 ```
 "${filePath}"
@@ -40,19 +40,19 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 "${filePath}"
 ```
 
-### mGBA (Gameboy, Gameboy Color, and Gameboy Advance)
+### mGBA (Gameboy, Gameboy Color, e Gameboy Advance)
 
 ```
--f "${filePath}"
+-f -g "${filePath}"
 ```
 
-### Nestopia (NES/Famicom)
+### Nestopia (NES/Família)
 
 ```
-"${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen on start : yes -view size fullscreen : stretched 
+"${filePath}" -video fullscreen bpp : 16 -video fullscreen largura em tela cheia: 1024 -video fullscreen altura : 768 -preferences fullscreen no inicio : yes -view size fullscreen : esticado 
 ```
 
-### higan (NES/Famicom, SNES/Famicom, Gameboy, Gameboy Color, Gameboy Advance)
+### higan (NES/Famicom, SNES/Famicom, Gameboy, Cor do Gameboy, Advance)
 
 ```
 "${filePath}"
@@ -64,143 +64,141 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 -config nullDC_GUI:Fullscreen=1 -config ImageReader:DefaultImage="${filePath}"
 ```
 
-### Kega Fusion (Sega Genesis and Sega 32X)
+### Fusão Kega (Sega Gênesis e Sega 32X)
 
 ```
-"${filePath}" -gen -auto -fullscreen
+"${filePath}" -gen -auto -tela cheia
 ```
 
-### RPCS3 (Sony Playstation 3)
+### RPCS3 (Sony PlayStation 3)
 
 ```
 "${filePath}"
 ```
 
-### PCSX2 (Sony Playstation 2)
+### EPSXe (Sony PlayStation 2)
 
 ```
---fullscreen --nogui "${filePath}"
+--fullscreen "${filePath}"
 ```
 
-### PCSX-R (Sony Playstation 1)
+### EPSXe (Sony PlayStation 1)
 
 ```
 -nogui -cdfile "${filePath}"
 ```
 
-### ePSXe (Sony Playstation 1)
+### ePSXe (Sony PlayStation 1)
 
 ```
--f -nogui -loadbin "${filePath}"
+-nogui -cdfile "${filePath}"
 ```
 
 ### Xebra (Sony Playstation 1)
 
 ```
--IMAGE "${filePath}" -RUN1 -FULL
+-IMAGEM "${filePath}" -RUN1 -COMPLETO
 ```
 
-### Mednafen (Sony Playstation 1, NES/Famicom, SNES/Super Famicom, etc.)
-
-```
-"${filePath}"
-```
-
-### PPSSPP (Sony Playstation Portable)
+### Mednafen (Sony Playstation 1, NES/Famicom, SNES/Super Família, etc.)
 
 ```
 "${filePath}"
 ```
 
-## What does "Append arguments to executable" do?
+### PPSSPP (Sony Playstation portable)
 
-Instead of adding arguments to Steam's launch options:
-
-![Not appended arguments](../../../assets/images/cmd-not-appended.png) {.fitImage.center}
-
-arguments are appended to target as shown below:
-
-![Appended arguments](../../../assets/images/cmd-appended.png) {.fitImage.center}
-
-This setting is used to influence Steam's APP ID.
-
-## Directory variables
-
-| Variable (case-insensitive) | Corresponding value                     |
-| ---------------------------:|:--------------------------------------- |
-|                 `${exeDir}` | Executable directory                    |
-|                 `${romDir}` | ROMs directory                          |
-|               `${steamDir}` | Steam directory                         |
-|             `${startInDir}` | "StartIn" directory                     |
-|                `${fileDir}` | File's, returned by a parser, directory |
-
-In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
-
-## Name variables
-
-| Variable (case-insensitive) | Corresponding value                                             |
-| ---------------------------:|:--------------------------------------------------------------- |
-|                `${exeName}` | Name of executable (without extension)                          |
-|               `${fileName}` | Name of file which was returned by a parser (without extension) |
-
-In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
-
-## Extension variables
-
-| Variable (case-insensitive) | Corresponding value                                           |
-| ---------------------------:|:------------------------------------------------------------- |
-|                 `${exeExt}` | Extension of executable (with a dot)                          |
-|                `${fileExt}` | Extension of file which was returned by a parser (with a dot) |
-
-In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
-
-## Path variables
-
-| Variable (case-insensitive) | Corresponding value                                |
-| ---------------------------:|:-------------------------------------------------- |
-|                `${exePath}` | Full path to an executable                         |
-|               `${filePath}` | Full path to a file which was returned by a parser |
-
-In case executable directory input is left **empty**, `${exePath}`{.noWrap} is equal to `${filePath}`{.noWrap}.
-
-## Parser variables
-
-| Variable (case-insensitive) | Corresponding value                              |
-| ---------------------------:|:------------------------------------------------ |
-|                  `${title}` | Extracted title                                  |
-|             `${fuzzyTitle}` | Fuzzy matched title                              |
-|             `${finalTitle}` | Title which was the end result of title modifier |
-
-In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
-
-## Function variables
-
-|                                 Variable (case-insensitive) | Corresponding function                                                                                                 |
-| -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
-|                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
-|                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
-|                                             `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                                      |
-|                                       `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
-|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
-| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                           |
-
-### Function variable example
-
-Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
 ```
-${/.*/|${title}}                           //Matches everything
-${/(.*)/|${title}}                         //Captures everything
-${/(\(.*?\))/|${title}|}                   //Captures all brackets and substitutes with nothing
-${/(\(Disc\s?[0-9]\))/|${title}}           //Captures "Disc..." part
-${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transforms it to uppercase
-${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
-file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
+"${filePath}"
 ```
-will be replaced with these:
+
+## O que faz "Acrescentar argumentos ao executável"?
+
+Ao invés de adicionar argumentos para as opções de lançamento do Steam:
+
+![Argumentos não anexados](../../../assets/images/cmd-not-appended.png) {.fitImage.center}
+
+argumentos são anexados ao destino, como mostrado abaixo:
+
+![Argumentos anexados](../../../assets/images/cmd-appended.png) {.fitImage.center}
+
+Esta configuração é usada para influenciar o ID APP do Steam.
+
+## Variáveis de diretório
+
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                  |
+| ----------------------------------:|:-------------------------------------------- |
+|                        `${exeDir}` | Diretório executável                         |
+|                        `${romDir}` | Diretório ROMs                               |
+|                      `${steamDir}` | Diretório Steam                              |
+|                    `${startInDir}` | Diretório inicial                            |
+|                       `${fileDir}` | Arquivo retornado pelo analisador, diretório |
+
+Caso a entrada do diretório executável seja deixada **vazia**, `${exeDir}`{.noWrap} é igual a `${fileDir}`{.noWrap}. Além disso, se o diretório "StartIn" for deixado **vazio**, `${startInDir}`{.noWrap} é igual a `${exeDir}`{.noWrap}.
+
+## Variáveis de nome
+
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                        |
+| ----------------------------------:|:------------------------------------------------------------------ |
+|                       `${exeName}` | Nome do executável (sem extensão)                                  |
+|                      `${fileName}` | Nome do arquivo que foi retornado por um analisador (sem extensão) |
+
+Caso a entrada do diretório executável seja deixada **vazia**, `${exeName}`{.noWrap} é igual a `${fileName}`{.noWrap}.
+
+## Variáveis de extensão
+
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                            |
+| ----------------------------------:|:---------------------------------------------------------------------- |
+|                        `${exeExt}` | Extensão do executável (com um ponto)                                  |
+|                       `${fileExt}` | Extensão do arquivo que foi retornado por um analisador (com um ponto) |
+
+Caso a entrada do diretório executável seja deixada **vazia**, `${exeExt}`{.noWrap} é igual a `${fileExt}`{.noWrap}.
+
+## Variáveis de nome
+
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                          |
+| ----------------------------------:|:-------------------------------------------------------------------- |
+|                       `${exePath}` | Caminho completo para um executável                                  |
+|                      `${filePath}` | Caminho completo para um arquivo que foi retornado por um analisador |
+
+Caso a entrada do diretório executável seja deixada **vazia**, `${exePath}`{.noWrap} é igual a `${filePath}`{.noWrap}.
+
+## Variáveis de nome
+
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                 |
+| ----------------------------------:|:----------------------------------------------------------- |
+|                         `${title}` | Título extraído                                             |
+|                    `${fuzzyTitle}` | Título difuso correspondente                                |
+|                    `${finalTitle}` | O título que foi o resultado final do modificador do título |
+
+No caso de correspondência difusa **falhar** ou está **desabilitado**, `${fuzzyTitle}`{.noWrap} é igual a `${title}`{.noWrap}.
+
+## Custom variables
+
+|                               Variável (maiúsculas e minúsculas) | Função correspondente                                                                                                                           |
+| ----------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------- |
+|                      `${regex\├input\├substitution(opcional)}` | Executa a expressão regex na entrada. Suporta `u`, `g` e `i` bandeiras (grupos capturados se juntam, a menos que a substituição seja fornecida) |
+|                                                  `${uc\├input}` | Variável maiúscula. Transformar em maiúsculas                                                                                                   |
+|                                                  `${uc\├input}` | Variável maiúscula. Transformar em maiúsculas                                                                                                   |
+|                                            `${cv:group\├input}` | Alterar entrada com variável personalizada correspondente (grupo é opcional)                                                                    |
+|                                                  `${uc\├input}` | Substituir caracteres diacríticos de entrada com seu equivalente latino                                                                         |
+| `${os:[win\├mac\├linux]\├na ocorrência\├no match(opcional)}` | Se o SO corresponder, usa `na correspondência valor` ou `não corresponde` caso contrário                                                        |
+
+### Exemplo de variável função
+
+Digamos que a variável `${title}` é igual a `Poke├mon (EUA) (Disc 1).iso`. Então essas variáveis:
 ```
-Pokémon (USA) (Disc 1).iso
-Pokémon (USA) (Disc 1).iso
-Pokémon.iso
+${/.*/➲${title}} //Corresponde a tudo
+${/(.)/，${title}} //Captura tudo
+${/(\(.?\))/├${title}├} //Captura todos os parênteses e substitutos com nada
+${/(\(Discos?[0-9]\))/├${title}} /Captures "Disco... parte
+${uccerteza, ${/(\(Disc\s?[0-9]\))/¡${title}}} //Captures "Disco... peça e transforma em maiúsculas
+${rdc├${title}} //Substituir caracteres diacríticos (nesse caso: e├-> e)
+arquivo${os:linuxwill.. oive ${os:win|.dll}} //Selects a extensão de arquivo correta para o SO
+```
+será substituído por estes:
+```
+Pokémon (USA) (Disc 1).iso Pokémon (USA) (Disc 1).iso Pokémon.iso
 (Disc 1)
 (DISC 1)
 Pokemon (USA) (Disc 1).iso

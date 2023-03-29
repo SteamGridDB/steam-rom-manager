@@ -10,4 +10,4 @@ Apenas `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} extens
 
 ## Você pode mover o diretório da imagem padrão depois de salvar a lista de aplicativos?
 
-Sim, uma vez que a lista é salva, o ícone padrão é copiado para o diretório Steam onde eles são renomeados para coincidir com o ID APP do Steam.
+Sim, visto que a lista é salva, o ícone padrão é copiado para o diretório Steam onde eles são renomeados para coincidir com o IDA PP do Steam.

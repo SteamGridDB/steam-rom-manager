@@ -1,3 +1,3 @@
-# What is glob?
+# O que é global?
 
-Glob is a pattern that describes a file path using wildcards. For example, `*.txt` will match any file that ends with a `.txt` extension. In addition to normal wildcards, other **special** characters can be used to specify a more complex patterns making glob based parser a powerful tool for retrieving files.
+Glob é um padrão que descreve um caminho de arquivo usando curinga. Por exemplo, `*.txt` irá corresponder a qualquer arquivo que termine com uma extensão `.txt`. Além de caracteres curinga normais, outros caracteres **especiais** podem ser usados para especificar um padrão mais complexo, fazendo com que o analisador baseado em glob seja uma ferramenta poderosa para recuperar arquivos.

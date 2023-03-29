@@ -1,19 +1,19 @@
-# User's glob
+# Global do usuário
 
-This is where you create your glob for extracting title from file path. Please read all of [special glob characters](#special-glob-characters) if you don't know how to construct a glob.
+Aqui é onde você cria seu glob para extrair o título do caminho do arquivo. Leia todos os [caracteres especiais glob](#special-glob-characters) se você não sabe como construir um glob.
 
-## How does it work?
+## Como funciona?
 
-In addition to special glob characters, glob parser requires you to enter `${title}`{.noWrap} variable. Parser will locate it's position inside your  **glob**, for example:
+Além de caracteres glob especiais, o analisador glob requer que você digite a variável `${title}`{.noWrap}. O analisador localizará sua posição dentro do seu  **glob**, por exemplo:
 
-| User's glob            | Position                    |
-| ---------------------- | --------------------------- |
-| `${title}/*/*.txt`     | First level from the left   |
-| `{*,*/*}/${title}.txt` | First level from the right  |
-| `**/${title}/*.txt`    | Second level from the right |
+| Global do usuário          | Posição                    |
+| -------------------------- | -------------------------- |
+| `${title}/*/*.txt`         | Primeiro nível da esquerda |
+| `{*,*/*}/${title}/*/*.txt` | Primeiro nível da esquerda |
+| `**/${title}/*/*.txt`      | Primeiro nível da esquerda |
 
-After acquiring `${title}`{.noWrap} position, `${title}`{.noWrap} will be replaced with a wildcard `*`.
+Depois de adquirir a posição de `${title}`{.noWrap}, `${title}`{.noWrap} será substituído por um curinga `*`.
 
-## Limitations
+## Limitações
 
-Position extraction comes with some limitations -- glob is invalid if position can not be extracted. Most of the time you will be warned about what you can't do, however, if you find a combination that is allowed, but produces incorrect titles please make an issue at [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
+A extração de posição vem com algumas limitações -- glob é inválido se a posição não puder ser extraída. Na maioria das vezes você será avisado sobre o que você não pode fazer, no entanto, se você encontrar uma combinação que é permitida, mas produz títulos incorretos, por favor faça um problema no [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).

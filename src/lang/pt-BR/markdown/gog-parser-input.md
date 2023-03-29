@@ -1,10 +1,10 @@
-# Unique inputs for GOG Galaxy Parser
+# Entradas exclusivas para Amazon Games Parser
 
-## Galaxy Path Override
-By default Steam ROM Manager assumes your Galaxy Client is located at `C:\Program Files (x86)\GOG Galaxy\GalaxyClient.exe`. This field allows you to override that path if your GOG Galaxy installation is elsewhere.
+## Sobrescrever caminho da Galáxia
+Por padrão Steam ROM Manager pressupõe que seu Galaxy Client está localizado em `C:\ProgramFiles (x86)\GOG GalaxyClient.exe`. Este campo permite que você substitua esse caminho se sua instalação do Amazon Games estiver em outro lugar.
 
-This field is actually only necessary if you enable launch via GOG Galaxy (see below), as otherwise SRM has no need of the location of the Galaxy Client.
+Este campo só é necessário se você ativar o lançamento via GOG Galaxy (veja abaixo), como de outra forma a SRM não precisa da localização do Cliente Galaxy.
 
-## Launch Via GOG Galaxy `[Recommend disabled]`
+## Inicie a Via Epic Games loja `[Recomendado ativado]`
 
-What it sounds like, this toggle let's you set whether games will launch via GOG Galaxy or directly. Note that for some games launching from GOG Galaxy may fail, and the Steam overlay will most likely not work.
+Como parece, este alternador permite que você defina se os jogos serão executados via Amazon Games ou diretamente. Note que para alguns jogos rodando o GOG Galaxy pode falhar, e a sobreposição da Steam provavelmente não funcionará.

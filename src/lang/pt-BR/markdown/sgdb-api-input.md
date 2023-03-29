@@ -1,15 +1,15 @@
-## Image provider API options
+## Imagem do provedor API opções
 
-This set of options are direct inputs into the APIs of image providers, for example SteamGridDB's [API](https://www.steamgriddb.com/api/v2).
+Este conjunto de opções são entradas diretas para as APIs dos provedores de imagem, por exemplo SteamGridDB's [API](https://www.steamgriddb.com/api/v2).
 
-An interesting quirk of these settings is that re-generating the preview (hitting the `Generate App List` button) *will only add artwork*, not remove it. If one wants to apply a stronger set of filters and remove artwork, one has to hit the `Remove App List` button in preview before hitting `Generate App List`. The reason for this behavior is that it allows for *preferential* artwork selection. For example, one might first generate the preview with the blurred grid filter on and then re-generate it with the blurred grid filter off in order to achieve the effect of *preferring* blurred grids, but still allowing non-blurred grids in the case no blurred grid exists.
+Uma peculiaridade interessante destas configurações é que re-gerar a pré-visualização (apertando o botão `Gerar a Lista de Apps` na *só irá adicionar arte*, não removê-lo. Se você quer aplicar um conjunto mais forte de filtros e remover a arte, uma tem que clicar no botão `Remover a lista de aplicativos` na pré-visualização antes de acertar `Gerar a lista de aplicativos`. A razão para esse comportamento é que ele permite a seleção de arte *preferencial*. Por exemplo, primeiro é possível gerar a pré-visualização com o filtro de grade desfocada e, em seguida, gerá-la novamente com o filtro de grade desfocado a fim de obter o efeito de *preferir* grades desfocadas, mas ainda permitindo redes não borradas no caso de não existir grade borrada.
 
 ## SteamGridDB
 
-* Allow NSFW artwork - self-explanatory.
-* Allow joke artwork - self-explanatory.
-* Allowed grid styles - Alternate, Blurred, White Logo, Materiel, or No Logo. Applies to posters and to banner grids.
-* Allowed hero styles - Alternate, Blurred, Materiel.
-* Allowed logo styles - Official, White, Black, Custom.
-* Allowed icon styles - Official, Custom.
-* Allowed animation types - Static (`.png`,`.ico`, etc), Animated (`.webp`).
+* Permitir arte NSFW - auto-explicativa.
+* Permitir arte da piada - auto-explicativa.
+* Estilos de grade permitidos - Alterna, borrado, logotipo branco, material ou sem Logo. Aplica-se aos cartazes e às grades de estandarte.
+* Estilos de herói permitidos - Alternate, desfocado, Material.
+* Estilos de logotipo permitidos - Oficial, Branco, Preto, Personalizado.
+* Estilos de ícones permitidos - Oficial, Personalizado.
+* Tipos de animação permitidos - Estática (`.png`,`.ico`, etc), Animado (`.webp`).

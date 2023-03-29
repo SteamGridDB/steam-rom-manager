@@ -1,41 +1,41 @@
-## System info
+## Informações do Sistema
 
-In case you're having trouble with SRM, feel free to visit the [discord](https://discord.gg/bnSVJrz) or the [subreddit](https://www.reddit.com/r/SteamRomManager/) and ask for our help. In order for us to help you, we would like you to provide this info:
+Caso você tenha problemas com a SRM, não hesite em visitar o [discord](https://discord.gg/bnSVJrz) ou o [subreddit](https://www.reddit.com/r/SteamRomManager/) e pedir a nossa ajuda. Para que possamos ajudá-lo, gostaríamos que você fornecesse estas informações:
 
-* SRM version: **#{APP[version]}**
-* Operating System: **#{APP[os]}**
+* Versão SRM: **#{APP[version]}**
+* Sistema Operacional: **#{APP[os]}**
 
-## Useful links
+## Links Úteis
 
-* [Steam](https://steamcommunity.com/groups/steamrommanager) group.
-* [Discord](https://discord.gg/bnSVJrz) server.
+* [grupo](https://steamcommunity.com/groups/steamrommanager) Steam.
+* [Servidor](https://discord.gg/bnSVJrz) Discord.
 * [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
-* [Github](https://github.com/SteamGridDB/steam-rom-manager) repository.
-* [Crowdin](https://crowdin.com/project/steam-rom-manager) translation project.
-* All releases can be downloaded from [here](https://github.com/SteamGridDB/steam-rom-manager/releases).
+* [Repositório](https://github.com/SteamGridDB/steam-rom-manager) do Github.
+* [Crowdin](https://crowdin.com/project/steam-rom-manager) projeto de tradução.
+* Todas as versões podem ser baixadas do [aqui](https://github.com/SteamGridDB/steam-rom-manager/releases).
 
-## Contributors
-* `FrogTheFrog`{.noWrap} - creator of SRM, no longer active.
-* `lontanadascienza`{.noWrap} - Current maintainer of SRM. Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller templates, and platform parsers (Epic, GOG, Steam, etc).
-* `Zennn`{.noWrap} - helped before the initial release of SRM and many times after the release with various stuff. Big boss over at [SteamGridDB](https://www.steamgriddb.com/).
-* `HE Spoke`{.noWrap} - responsible for creating community around SRM. Creator of [Steam](https://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/bnSVJrz) groups. Also manages issues in [Github](https://github.com/SteamGridDB/steam-rom-manager).
-* `Choko`{.noWrap} - helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
-* `KenCinder`{.noWrap} - manages the parser presets.
-* `AlexDobeck`{.noWrap} - improved [retrogaming.cloud](https://retrogaming.cloud/) performance.
+## Colaboradores
+* `FrogTheFrog`{.noWrap} - criador de SRM, não mais ativo.
+* `lontanadascienza`{.noWrap} - Mantenedor atual da SRM. SRM atualizado para lidar com heróis, pôsteres, logotipos e ícones. Adicionado o gerenciador de exceção, modelos de controladores e analisadores de plataforma (Epic, GOG, Steam, etc.).
+* `Zennn`{.noWrap} - ajudou antes da liberação inicial da SRM e muitas vezes depois da liberação com várias coisas. Grande chefe no [SteamGridDB](https://www.steamgriddb.com/).
+* `HE Spoke`{.noWrap} - responsável por criar comunidade em torno da SRM. Criador de [grupos Steam](https://steamcommunity.com/groups/steamrommanager) e [Discord](https://discord.gg/bnSVJrz). Também gerencia issues no [Github](https://github.com/SteamGridDB/steam-rom-manager).
+* `Choko`{.noWrap} - ajuda os usuários na configuração da SRM no [Discord](https://discord.gg/bnSVJrz).
+* `KenCinder`{.noWrap} - gerencia as predefinições do analisador.
+* `AlexDobeck`{.noWrap} - melhorou o desempenho de [retrogaming.cloud](https://retrogaming.cloud/).
 
-## Support
-If you enjoy Steam ROM Manager and want it to continue to be useful consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. [SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork Steam ROM Manager uses to make your Steam library the envy of the town, so we should probably help them keep their lights on.
+## Suporte
+Se você gosta do Gerente de ROM Steam e quer que ele continue sendo útil, considere suportar o Patreon de [SteamGridDB](https://www.steamgriddb.com/). [SteamGridDB](https://www.steamgriddb.com/) hospeda todas as artes que o gerenciador de ROM usa para fazer de sua biblioteca Steam a inveja da cidade, então devemos provavelmente ajudá-los a manter as luzes acesas.
 
 <a href="https://www.patreon.com/steamgriddb">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
-If you're feeling exceptionally generous then feel free to also buy me a coffee!
+Se você está se sentindo excepcionalmente generoso, então sinta-se livre para me comprar um café!
 
 <a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
-  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="38" width="174">
+  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Pagar um café" height="38" width="174">
 </a>
 
-## Credits
+## Créditos
 
-* Most icons were made by [Roundicons](https://www.flaticon.com/authors/roundicons) from [Flaticon](https://www.flaticon.com) (licensed by [Creative Commons BY 3.0](https://creativecommons.org/licenses/by/3.0/)).
+* A maioria dos ícones foram feitos por [Roundicons](https://www.flaticon.com/authors/roundicons) do [Flaticon](https://www.flaticon.com) (licenciado por [Creative Commons BY 3.0](https://creativecommons.org/licenses/by/3.0/)).
