@@ -1,11 +1,11 @@
-# Local Hero images (optional) `[supports variables]`{.noWrap}
+# Imagem de logotipo padrão (opcional) `[suporta variáveis]`{.noWrap}
 
-Allows one to use hero images stored locally. A [special glob input](#special-glob-input) string is used to retrieve images.
+Permite o uso de imagens altas armazenadas localmente. Uma entrada glob [especial](#special-glob-input) string é usada para recuperar imagens.
 
-## Allowed image extensions
+## Extensões de imagens permitidas
 
-Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Even if parser finds files with other extensions, they are not included into the final list.
+Apenas `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} extensões de arquivo são suportadas. Mesmo que o analisador encontre arquivos com outras extensões, eles não estão incluídos na lista final.
 
-## Can you move the directory of local images after saving app list?
+## Você pode mover o diretório da imagem padrão depois de salvar a lista de aplicativos?
 
-Yes, once the list is saved, local images are copied to a Steam directory where they are renamed to match Steam's APP ID.
+Sim, uma vez que a lista é salva, a imagem padrão é copiada para um diretório Steam onde eles são renomeados para coincidir com o ID APP da Steam.
