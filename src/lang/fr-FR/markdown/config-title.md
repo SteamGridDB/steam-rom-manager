@@ -1,3 +1,3 @@
-# Configuration title
+# Titre de configuration
 
-Title to save user configuration as. Does not have to be unique, but is required.
+Titre pour enregistrer la configuration de l'utilisateur. Ne doit pas être unique, mais il est nécessaire.

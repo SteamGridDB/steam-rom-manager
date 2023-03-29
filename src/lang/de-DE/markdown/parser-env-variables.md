@@ -11,4 +11,4 @@ Diese Variablen werden vorgeparst und können auch im Rom Verzeichnis, Steam Ver
 |                  `${localimagesdir}` | Directory of your local images, specified in `Settings` |
 
 
-The utility of the environment variable `${srmdir}` is to make SRM fully portable, eg if you wanted to have the directory layout `D:\Games\Roms` and `D:\Games\PortableSRM\SRM.exe` then setting the field Roms Directory to be `${srmdir}${/}..${/}Roms` would allow you to move the Games directory somewhere else without breaking your setup.
+Der Nutzen der Umgebungsvariable `${srmdir}` besteht darin, SRM vollständig portabel zu machen. Wenn du z.B. das Verzeichnislayout `D:\Games\Roms` und `D:\Games\PortableSRM\SRM.exe`haben möchtest, würdest du das Feld Roms Directory auf `${srmdir}${/}..${/}Roms` setzen, um das Spielverzeichnis an einen anderen Ort zu verschieben, ohne dein Setup zu verändern.

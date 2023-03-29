@@ -1,3 +1,3 @@
-# Configuration title
+# Name der Einstellungen
 
-Titel unter dem die Benutzerkonfiguration gespeichert wird. Muss nicht einzigartig sein, aber ist erforderlich.
+Titel, unter dem die Benutzereinstellung gespeichert wird. Muss nicht einzigartig sein, aber ist erforderlich.
