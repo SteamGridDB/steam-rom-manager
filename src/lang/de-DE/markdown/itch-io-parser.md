@@ -1,3 +1,3 @@
 # itch.io Parser
 
-This parser imports games from `the itch.io desktop app` so that artwork can be chosen for them and they can be added into Steam. If it doesn't work it is because itch.io has altered the structure of their game database, in this case please let the developers of SRM know and we will resolve the issue. 
+Dieser Parser importiert Spiele von der `the itch.io Desktop-App`, sodass Artwork für diese ausgewählt und in Steam hinzugefügt werden kann. Wenn dies nicht funktioniert, liegt es daran, dass Amazon Games die Struktur ihrer Spiele-Datenbank oder ihrer itch.io Datei verändert hat. In diesem Fall informiere bitte die Entwickler von SRM, die das Problem lösen werden. 
