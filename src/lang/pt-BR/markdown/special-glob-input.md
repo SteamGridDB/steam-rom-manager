@@ -1,62 +1,62 @@
-# Special glob input
+# Entrada glob especial
 
-## How does it work?
+## Como funciona?
 
-Image paths are resolved in 4 step process:
-1. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets.
-1. All provided variables are replaced with their corresponding values.
-1. New string(s) is/are resolved against root directory (root directory is always a configuration's ROMs directory).
-1. Final string(s) is/are passed to glob parser which then returns a list of available files.
+Caminhos de imagem são resolvidos no processo de 4 etapas:
+1. A frase é avaliada para ver se um analisador baseado em glob é usado. Dependendo do resultado, a análise futura pode continuar com `2` conjuntos de glob.
+1. Todas as variáveis fornecidas são substituídas por seus valores correspondentes.
+1. Novas string(s) é/são resolvidas contra o diretório raiz (diretório raiz é sempre o diretório ROMs de configuração de configuração).
+1. As string(s) finais/são passadas para o analisador de globas, que retorna uma lista de arquivos disponíveis.
 
-## Usage example
+## Exemplos de uso
 
-### Absolute paths
+### Caminhos Absolutos
 
-Let's say that the extracted title is `Metroid Fusion [USA]` and fuzzy title is `Metroid Fusion`. You can then construct an image path like this:
+Digamos que o título extraído é `Fusão Metroid [USA]` e título difuso é `Fusão Metroid`. Você pode então construir um caminho de imagem como este:
 
 - `C:/path/to/images/${title}.*`
 - `C:/path/to/images/${fuzzyTitle}.*`
 
-which will be resolved to this:
+que será resolvido para isso:
 
-- `C:/path/to/images/Metroid Fusion [USA].png`
-- `C:/path/to/images/Metroid Fusion.jpg`
+- `C:/path/to/images/Fusão Metroid [USA].png`
+- `C:/path/para/imagens/Fusion.jpg Metroid`
 
-### Relative paths
+### Caminhos relativos
 
-For this example, let's say that ROMs directory is `C:/ROMS/GBA` and rom itself is `C:/ROMS/GBA/Metroid Fusion [USA].gba`. Set up a relative path, using `${filePath}`{.noWrap} or `${dir}`{.noWrap} variables, for example:
+Para este exemplo, digamos que o diretório ROMs é `C:/ROMS/GBA` e a rom em si é `C:/ROMS/GBA/Metroid Fusion [USA].gba`. Configure um caminho relativo usando `${filePath}`{.noWrap} ou `${dir}`{.noWrap} variáveis, por exemplo:
 
-- `${filePath}/../../../path/to/images/${title}.*`
-- `${dir}/../../path/to/images/${title}.*`
+- `${filePath}/../../../caminho/para/images/${title}.*`
+- `${dir}/../../caminho/para/images/${title}.*`
 
-will be replaced like this:
+será substituído por estes:
 
-- `C:/ROMS/GBA/Metroid Fusion [USA].gba/../../../path/to/images/Metroid Fusion.*`
-- `C:/ROMS/GBA/../../path/to/images/Metroid Fusion.*`
+- `C:/ROMS/GBA/Fusão Metroid [USA].gba/../../../path/to/images/Fução Metroid.*`
+- `C:/ROMS/GBA/../../caminho/para/images/Fução Metroid.*`
 
-Here `..` means "traverse back" and it allows to go back to previous directory:
+Aqui `..` significa "cruzar de volta" e permite voltar ao diretório anterior:
 
-- `C:/ROMS/GBA/Metroid Fusion [USA].gba/../../../path/to/images/Metroid Fusion.*`
-  - `C:/ROMS/GBA/../../path/to/images/Metroid Fusion.*`
-    - `C:/ROMS/../path/to/images/Metroid Fusion.*`
-      - `C:/path/to/images/Metroid Fusion.*`
-- `C:/ROMS/GBA/../../path/to/images/Metroid Fusion.*`
-  - `C:/ROMS/../path/to/images/Metroid Fusion.*`
-    - `C:/path/to/images/Metroid Fusion.*`
+- `C:/ROMS/GBA/Fusão Metroid [USA].gba/../../../path/to/images/Fução Metroid.*`
+  - `C:/ROMS/GBA/../../caminho/para/images/Fução Metroid.*`
+    - `C:/ROMS/GBA/../../caminho/para/images/Fução Metroid.*`
+      - `C:/path/para/imagens/Fusion. jpg Metroid`
+- `C:/ROMS/GBA/../../caminho/para/images/Fução Metroid.*`
+  - `C:/ROMS/GBA/../../caminho/para/images/Fução Metroid.*`
+    - `C:/path/para/imagens/Fusion. jpg Metroid`
 
-### Matching either Fuzzy Title or Extracted Title
+### Correspondência de título difuso ou título extraído
 
-To grab images that match either extractedTitle or fuzzyTitle (or a constant default image name) a special syntax can be used:
+Para pegar as imagens que coincidem com extractedTitle ou fuzzyTitle (ou um nome de imagem padrão constante), uma sintaxe especial pode ser usada:
 
-Suppose you have `Luigi's Mansion (USA).iso` and thus have extractedTitle `Luigi's Mansion (USA)` and fuzzyTitle `Luigi's Mansion`. If we have a directory of artwork with:
+Suponha que você tenha `Luigi's Mansion (EUA).iso` e assim extraiu o Título `Luigi's Mansion (EUA)` e fuzzyTitle `Luigi's Mansion`. Se tivermos um diretório de arte com:
 ```
-(1) dir/Luigi's Mansion (USA).png
+(1) Ir/Luigi's Mansion (EUA).png
 (2) dir/Luigi's Mansion.png
 (3) dir/default.png
 ```
-Then:
+Então:
 
-- `dir/$(${fuzzyTitle}|@(${title}))$.png` will match and retrieve images (1) and (2)
-- `dir/$(${title}|@(${title}|default))$.png` will match and retrieve images (1) and (3)
-- `dir/$(${fuzzyTitle}|@(${fuzzyTitle}|default))$.png` will match and retrieve images (2) and (3)
-- `dir/$(${title}|@(${fuzzyTitle}|default))$.png` will match match and retrieve images (1) and (2) and (3)
+- `dir/$(${fuzzyTitle}├@(${title})$.png` irá coincidir e recuperar imagens (1) e (2)
+- `dir/$(${title}├@(${title}default))$.png` irá coincidir e recuperar imagens (1) e (3)
+- `dir/$(${fuzzyTitle}├@(${fuzzyTitle}default))$.png` irá coincidir e recuperar imagens (2) e (3)
+- `dir/$(${title}├@(${fuzzyTitle}default))$.png` irá coincidir e recuperar imagens (1) e (2)
