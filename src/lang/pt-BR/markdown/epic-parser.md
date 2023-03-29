@@ -1,10 +1,10 @@
-# Epic Games Parser
+# Epic Games Store
 
-This parser imports games from the `Epic Games Store` so that artwork can be chosen for them and they can be added into Steam.
+Este analisador importa jogos da `Amazon Games` para que os trabalhos de arte possam ser escolhidos para eles e eles possam ser adicionados ao Steam.
 
-If it doesn't work it is because Epic has altered the structure of their game manifests, in this case please let the developers of SRM know and we will resolve the issue.
+Se não funcionar, é porque a Amazon Games alterou a estrutura da base de dados de jogos ou o combustível. filho, neste caso, por favor avise os desenvolvedores da SRM e resolveremos o problema.
 
-In order for this parser to work with the open source Epic alternative [Legendary](https://github.com/derrod/legendary), [EGL sync must be enabled in Legendary](https://github.com/derrod/legendary/discussions/276#discussioncomment-709748) (this creates the appropriate files for the parser to read, and does not require the Epic Games Store to be installed).
+Para que este analisador trabalhe com a fonte aberta épica [Lendária](https://github.com/derrod/legendary), [A sincronização do EGL deve ser ativada no Legendário](https://github.com/derrod/legendary/discussions/276#discussioncomment-709748) (isto cria os arquivos apropriados para o analisador ler, e não exige que a Epic Games Store seja instalada).
 
-## Compatibility
-This parser is currently functional on `Windows` and `Mac OS` systems only. On `Mac OS` it is not possible to launch from the Epic Store, so that toggle should remain disabled.
+## Compatibilidade
+Este analisador está atualmente funcional somente nos sistemas `Windows` e `Mac OS`. No `Mac OS` não é possível iniciar a partir da Epic Store, para que o alternador deva permanecer desativado.
