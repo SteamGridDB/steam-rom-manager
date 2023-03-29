@@ -1,6 +1,6 @@
-## System info
+## Información del sistema
 
-In case you're having trouble with SRM, feel free to visit the [discord](https://discord.gg/bnSVJrz) or the [subreddit](https://www.reddit.com/r/SteamRomManager/) and ask for our help. In order for us to help you, we would like you to provide this info:
+En caso de tener problemas con SRM, siéntete libre de visitar el servidor de [Discord](https://discord.gg/bnSVJrz) o el [subreddit](https://www.reddit.com/r/SteamRomManager/) y pedir ayuda. Para que podamos ayudarte, nos gustaría que nos proporciones esta información:
 
 * SRM version: **#{APP[version]}**
 * Operating System: **#{APP[os]}**
