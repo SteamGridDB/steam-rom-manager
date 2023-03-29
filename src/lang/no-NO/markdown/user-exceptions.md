@@ -26,5 +26,9 @@ Custom commandline arguments like `--fullscreen`, etc, that can be applied to a 
 
 The ability to exclude individual titles from being added to Steam. This allows you to keep titles that you don't want in Steam in the same folder as the rest of your games.
 
+## Local Artwork Only
+
+Don't fetch artwork from remote providers (e.g. [steamgriddb](https://www.steamgriddb.com)). Useful when SGDB is incorrectly matching the game.
+
 ## Custom Variables
 The task of overriding specific titles can also be accomplished by manually editing the custom variables JSON file and using appropriate variables in the `Title Modifier` parser field. It is recommended, however, that you use this tool instead since the custom variables JSON file will be updated over time and your edits may be overwritten.

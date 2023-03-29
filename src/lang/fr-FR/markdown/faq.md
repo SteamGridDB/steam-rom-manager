@@ -7,12 +7,12 @@ Lisez ceci si vous rencontrez encore des problèmes de configuration. Pour la pl
 | **Répertoire des ROMs** | `C:/ROMs`                                  |
 | **Fichier 1**           | `C:/ROMs/Kingdom Hearts/game.iso`          |
 | **Fichier 2**           | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
-| **Fichier 3**           | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
+| **Fichier 3**           | `C:/ROMs/dir1/dir2/dir3/Metroid [PAL].nes` |
 | **Fichier 4**           | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
 | **Fichier 5**           | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
 | **Fichier 6**           | `C:/ROMs/dir1/dir2/save.sav`               |
 
-## So, how do I setup user's glob?
+## Alors, comment configurer le glob de l'utilisateur ?
 
 First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. Since our **ROMs directory** is `C:/ROMs`, we can just remove it from **File1**'s path.
 
@@ -103,11 +103,11 @@ Now parser can match any combination and is effectively case-insensitive. Techni
 {*,*/*}/*/${title}.[nN][eE][sS]
 ```
 
-## Troubleshooting
-* Please ensure that steam is actually closed before saving your app list.
+## Résolution des problèmes
+* Veuillez vous assurer que Steam est belle et bien fermé avant d'enregistrer votre liste d'applications.
 
 * One common issue Steam ROM Manager runs into is the presence of old steam directories from people who logged into steam in your computer before the New Library Update. This can cause Steam ROM Manager to fail in unpredictable ways, as it tries to access directories whose structure has changed. In order to get around this, use the [User Accounts](#user-accounts) field to specify which accounts you actually want to use Steam ROM Manager with.
 
-## The Discord
+## Le Discord
 
-For further help, please see our [Discord](https://discord.gg/bnSVJrz).
+Pour plus d'aide, veuillez consulter notre [Discord](https://discord.gg/bnSVJrz).

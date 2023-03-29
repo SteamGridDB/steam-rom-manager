@@ -5,11 +5,11 @@ Steam ROM Manager
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/SteamGridDB/steam-rom-manager?logo=github&label=commits)](https://github.com/SteamGridDB/steam-rom-manager/commits/master)
 [![GitHub all releases](https://img.shields.io/github/downloads/SteamGridDB/steam-rom-manager/total?logo=github)](https://github.com/SteamGridDB/steam-rom-manager/releases)
 [![Discord](https://img.shields.io/discord/488621078302949377?color=5865F2&label=SRM&logo=discord&logoColor=white)](https://discord.gg/bnSVJrz)
-![Chocolatey](https://img.shields.io/chocolatey/dt/steam-rom-manager?color=blue&label=Chocolatey%20package)
+[![Chocolatey](https://img.shields.io/chocolatey/dt/steam-rom-manager?color=blue&label=Chocolatey%20package)](https://community.chocolatey.org/packages/steam-rom-manager)
 [![Crowdin](https://badges.crowdin.net/steam-rom-manager/localized.svg)](https://crowdin.com/project/steam-rom-manager)
 # For users
 
-Steam ROM Manager is a super flexible tool for adding non-Steam games to steam in bulk and managing their artwork assets. Added games could be ROMs for emulators, games from other stores such as Epic or GOG, or even not games at all. Have you always wanted your notes from junior year as a category in steam? If so that's pretty weird! But now it's possible.
+Steam ROM Manager is a super flexible tool for adding non-Steam games to Steam in bulk and managing their artwork assets and controller templates. Added games could be ROMs for emulators, games from other stores such as Epic or GOG, or even not games at all. Have you always wanted your notes from junior year as a category in steam? If so that's pretty weird! But now it's possible.
 
 For an overview of how SRM works see [here](https://steamgriddb.github.io/steam-rom-manager/). There is plenty of documentation available in the app's built in FAQ, and if you need further help there are expert users to be found on the [SGDB discord](https://discord.gg/bnSVJrz) under the Steam ROM Manager category and the [SRM subreddit](https://www.reddit.com/r/SteamRomManager/).
 
@@ -35,6 +35,10 @@ If you're feeling exceptionally generous then feel free to also buy me a coffee!
   <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="38" width="174">
 </a>
 
+# Steam Deck Users
+
+If you're on a Steam Deck we recommend setting everything up through [EmuDeck](https://www.emudeck.com/), as it will install and automatically configure Steam ROM Manager and whatever emulators you want.
+
 # Parsers
 
 ## ROM Parsers
@@ -52,11 +56,11 @@ In addition to flexible importing of ROMS, SRM now has several *platform parsers
 
 |Parser|Windows|Mac OS|Linux|
 |---|---|---|---|
-|[Amazon Games](https://gaming.amazon.com/amazon-games-app)|✅|❌|❌|
+|[Amazon Games](https://gaming.amazon.com/amazon-games-app)|✅|🟦|🟦|
 |[Epic](https://store.epicgames.com/en-US/) / [Legendary](https://github.com/derrod/legendary)|✅|✅|❌|
-|[GOG Galaxy](https://www.gog.com/galaxy)|✅|❌|❌|
+|[GOG Galaxy](https://www.gog.com/galaxy)|✅|❌|🟦|
 |[Itch.io](https://itch.io/app)|✅|✅|✅|
-|[UPlay](https://ubisoftconnect.com/en-US/)|✅|❌|❌|
+|[UPlay](https://ubisoftconnect.com/en-US/)|✅|❌|🟦|
 
 Planned platform parsers include Origin, the EA Games Store, and Battle.net.
 

@@ -1,15 +1,15 @@
-# Welcome to parser configuration!
+# ¡Bienvenido a la configuración del analizador!
 
-Configuring a parser might look overwhelming at first, but it is easier than you think. If you are lost, click on <span class="infoIcon" style="top: 0.15em;"></span> near option label to see related information which might be useful for you.
+Configurar un analizador puede parecer abrumador al principio, pero es más fácil de lo que crees. Si te pierdes, haz clic en <span class="infoIcon" style="top: 0.15em;"></span> cerca del nombre de la opción para ver información relacionada que pueda serte útil.
 
-Also, don't forget to check FAQ. If you still got questions about setting up configuration, visit our official SRM group at [Steam](http://steamcommunity.com/groups/steamrommanager) or our official [Discord](https://discord.gg/bnSVJrz) group.
+Además, no olvides consultar las preguntas frecuentes. Si aún tienes preguntas sobre cómo configurar el programa, visita nuestro grupo oficial de SRM en [Steam](http://steamcommunity.com/groups/steamrommanager) o nuestro servidor oficial de [Discord](https://discord.gg/bnSVJrz).
 
-## Configuration color code
+## Código de colores de la configuración
 
-After saving parser configuration, **1** of **3** colors will be shown next to its title:
+Luego de guardar la configuración del analizador, **1** de **3** colores aparecerán al lado del título:
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Enabled configuration. This configuration will be used when generating a list in **preview** page.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Configuración activada. Esta configuración será usada al generar una lista en la página de **vista previa**.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Unsaved changes. This configuration will not be used when generating a list in **preview** page, however earlier **saved** version will be used instead.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Cambios sin guardar. Esta configuración no será usada al generar una lista en la página de **vista previa**, sin embargo, las versiones **grabadas** anteriormente se usarán en su lugar.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Disabled configuration. This configuration will not be used when generating a list in **preview** page.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Configuración desactivada. Esta configuración no será usada al genrear una lista en la página de **vista previa**.
