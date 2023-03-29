@@ -1,42 +1,42 @@
-# Frequently asked questions
+# Perguntas Frequentes
 
-Read this if you're still having trouble with configuration. For most examples the following will be used unless specified otherwise:
+Leia isto se você ainda está com problemas com a configuração. Para a maioria dos exemplos, os seguintes serão usados a não ser que especificado de contrário:
 
 |                    |                                            |
 | ------------------ | ------------------------------------------ |
-| **ROMs directory** | `C:/ROMs`                                  |
-| **File1**          | `C:/ROMs/Kingdom Hearts/game.iso`          |
-| **File2**          | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
-| **File3**          | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
-| **File4**          | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
-| **File5**          | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
-| **File6**          | `C:/ROMs/dir1/dir2/save.sav`               |
+| **Diretório ROMs** | `CD-ROMs`                                  |
+| **Arquivo1**       | `C:/ROMs/Corações do Reino/jogo.iso`       |
+| **Arquivo2**       | `C:/ROMs/Corações do Reino/jogo.iso`       |
+| **Arquivo3**       | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
+| **Arquivo4**       | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
+| **Arquivo5**       | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
+| **Arquivo6**       | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
 
-## So, how do I setup user's glob?
+## Então, como faço eu configurar o mundo do usuário?
 
-First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. Since our **ROMs directory** is `C:/ROMs`, we can just remove it from **File1**'s path.
+Primeiro, vamos analisar o **File1**. Seu caminho completo é `C:/ROMs/Kingdom Hearts/game.iso`. Como nosso **diretório ROMs** é `C:/ROMs`, podemos removê-lo do caminho do **File1**.
 
-We end up with `Kingdom Hearts/game.iso`. It obvious for us that `Kingdom Hearts` is the title, however parser is dumber than you -- you must specify path portion which contains the title by replacing `Kingdom Hearts` with `${title}`.
+Nós terminamos com `Corações do Reino/game.iso`. É óbvio para nós que `Corações do Reino` é o título, no entanto o parser é mais burro do que você -- você deve especificar a porção do caminho que contém o título substituindo `Corações do Reino` por `${title}`.
 
-Again, we end up with `${title}/game.iso`, but we also want **File2**, because it is for the same emulator. **File1** is `game.iso` and **File2** is `rom.iso`. What now?
+Mais uma vez, acabamos com `${title}/game.iso`, mas também queremos **File2**, porque ele é para o mesmo emulador. **File1** é `game.iso` e **File2** é `rom.iso`. E agora?
 
-Remember wild cards? They allow us to discard information that does not really matter. In this case we don't care if it is `game` or `rom`, we want both to be matched. That's why we replace them with `*`. This is the final glob for both **File1** and **File2**:
+Lembrar dos cards selvagens? Permitem-nos descartar informações que realmente não interessam. Neste caso nós não nos importamos se é `jogo` ou `rom`, nós queremos que ambas sejam correspondentes. É por isso que os substituímos por `*`. Agora, não precisamos do **File4** and **File6**:
 
 ```
 ${title}/*.iso
 ```
 
-Using similar logic we can produce glob for **File3**:
+Usando uma lógica similar nós podemos produzir glob para **File3**:
 
 ```
-*/*/*/${title}.nes
+{*,*/*}/*/${title}.*
 ```
 
-## How to deal with multi-leveled directories?
+## Como lidar com directórios de vários níveis?
 
-This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now?
+Desta vez queremos **File3** and **File5** (ambas têm extensões diferentes, ler a próxima seção sobre o que fazer a respeito de agora, usaremos `*` para ignorar a extensão). Observe que **File3** tem `3` subdiretórios enquanto  **File5** tem `2`. E agora?
 
-Now we can use a globstar and that's it!
+Agora podemos usar um globstar e é isso!
 ```
 **/${title}.*
 ```
