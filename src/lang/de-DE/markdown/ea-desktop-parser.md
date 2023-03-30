@@ -1,3 +1,3 @@
 # EA Desktop Parser
 
-This parser imports games from the `EA Desktop` app, so that artwork can be chosen for them and they can be added into Steam. If it doesn't work it is because EA has altered the structure of their xml files, in which case please let the developers of SRM know and we will resolve the issue. 
+Dieser Parser importiert Spiele von der `the Desktop-App`, sodass Artwork für diese ausgewählt und in Steam hinzugefügt werden kann. Wenn dies nicht funktioniert, liegt es daran, dass Amazon Games die Struktur ihrer Spiele-Datenbank oder ihrer xml-Dateien verändert hat. In diesem Fall informiere bitte die Entwickler von SRM, die das Problem lösen werden. 
