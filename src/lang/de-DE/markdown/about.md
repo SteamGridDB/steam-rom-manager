@@ -24,7 +24,7 @@ Falls du Probleme mit SRM hast, kannst du die [Discord](https://discord.gg/bnSVJ
 * `AlexDobeck`{.noWrap} - verbesserte die [retrogaming.cloud](https://retrogaming.cloud/) Leistung.
 
 ## Support
-Wenn dir Steam ROM Manager gefällt, und du möchtest, dass es weiterhin nützlich sein soll, erwäge die Unterstützung als [SteamGridDB](https://www.steamgriddb.com/)-Patreon. [SteamGridDB](https://www.steamgriddb.com/) beherbergt alle Kunstwerke des Steam ROM Managers, um deine Steam-Bibliothek zum Neidobjekt der Stadt zu machen. So sollten wir ihnen wahrscheinlich helfen, ihre Lichter am Leuchten zu halten.
+Wenn dir Steam ROM Manager gefällt, und du möchtest, dass es weiterhin nützlich sein soll, erwäge die Unterstützung als [SteamGridDB](https://www.steamgriddb.com/)-Patreon. [SteamGridDB](https://www.steamgriddb.com/) beherbergt alle Artworks des Steam ROM Managers, um deine Steam-Bibliothek zum Neidobjekt der Stadt zu machen. So sollten wir ihnen wahrscheinlich helfen, ihre Lichter am Leuchten zu halten.
 
 <a href="https://www.patreon.com/steamgriddb">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
