@@ -1,9 +1,9 @@
-# Steam parser
+# Steam-Parser
 
-This parser imports steam games into SRM. It does not add shortcuts, but it allows you to set the artwork for your steam games. By default the parser will get games from all user accounts in the steam directory specified &mdash; if you would prefer to only get the games for a subset of the accounts then specify them in the `User accounts` field.
+Dieser Parser importiert Steam Spiele in SRM. It does not add shortcuts, but it allows you to set the artwork for your steam games. By default the parser will get games from all user accounts in the steam directory specified &mdash; if you would prefer to only get the games for a subset of the accounts then specify them in the `User accounts` field.
 
 ## Limitations
-Unfortunately for the time being this parser only works for steam games **that are in at least one category**. The reason for this is that Steam only stores your full list of games locally if they are categorized. Sometimes, for unknown reasons, games will be stored locally regardless and the parser will work, but to be safe the easiest thing to do is just **create a Steam Category** that has all of your Steam games in it.
+Leider funktioniert dieser Parser vorerst nur für Steam Spiele, ** die in mindestens einer Kategorie** sind. The reason for this is that Steam only stores your full list of games locally if they are categorized. Sometimes, for unknown reasons, games will be stored locally regardless and the parser will work, but to be safe the easiest thing to do is just **create a Steam Category** that has all of your Steam games in it.
 
 ## User accounts (Optional)
 
