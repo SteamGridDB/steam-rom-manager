@@ -1,6 +1,6 @@
 # Häufig gestellte Fragen
 
-Read this if you're still having trouble with configuration. Für die meisten Beispiele wird Folgendes verwendet, sofern nicht anders angegeben:
+Lies dies, wenn du immer noch Probleme mit der Konfiguration hast. Für die meisten Beispiele wird Folgendes verwendet, sofern nicht anders angegeben:
 
 |                    |                                            |
 | ------------------ | ------------------------------------------ |
@@ -57,7 +57,7 @@ we will get `2` globs:
 
 These `2` globs both satisfy our files, **File3** and **File5**.
 
-## How to limit file extensions?
+## Wie kann ich Dateierweiterungen begrenzen?
 
 Let's say we use glob from previous example:
 
