@@ -6,5 +6,5 @@ If it doesn't work it is because Epic has altered the structure of their game ma
 
 In order for this parser to work with the open source Epic alternative [Legendary](https://github.com/derrod/legendary), [EGL sync must be enabled in Legendary](https://github.com/derrod/legendary/discussions/276#discussioncomment-709748) (this creates the appropriate files for the parser to read, and does not require the Epic Games Store to be installed).
 
-## Compatibility
-This parser is currently functional on `Windows` and `Mac OS` systems only. On `Mac OS` it is not possible to launch from the Epic Store, so that toggle should remain disabled.
+## Kompabilität
+Dieser Parser funktioniert derzeit nur auf `Windows` und `Mac OS` Systemen. On `Mac OS` it is not possible to launch from the Epic Store, so that toggle should remain disabled.
