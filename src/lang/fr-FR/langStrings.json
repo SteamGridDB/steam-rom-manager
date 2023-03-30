@@ -1,10 +1,10 @@
 {
   "preview": {
     "component": {
-      "filter": "Filtrer par nom",
-      "selectType": "Sélectionner le type d'artwork",
-      "selectCategories": "Filtrer par catégorie Steam",
-      "selectParsers": "Filtrer par analyseur",
+      "filter": "Search for game",
+      "selectType": "Artwork Type",
+      "selectCategories": "Steam Category",
+      "selectParsers": "Parser Title",
       "selectTypeOptions": {
         "long": "Bannières",
         "tall": "Posters",
