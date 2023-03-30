@@ -3,9 +3,9 @@
 Dieser Parser importiert Steam Spiele in SRM. Er fügt keine Verknüpfungen hinzu, aber erlaubt dir, das Artwork für deine Steam Spiele festzulegen. Standardmäßig holt der Parser Spiele von allen Benutzerkonten im angegebenen Verzeichnis &mdash;. Wenn du es vorziehst, nur die Spiele für eine Teilmenge der Konten zu erhalten, gib diese im Feld `Benutzerkonten` an.
 
 ## Einschränkungen
-Leider funktioniert dieser Parser vorerst nur für Steam Spiele, ** die in mindestens einer Kategorie** sind. The reason for this is that Steam only stores your full list of games locally if they are categorized. Sometimes, for unknown reasons, games will be stored locally regardless and the parser will work, but to be safe the easiest thing to do is just **create a Steam Category** that has all of your Steam games in it.
+Leider funktioniert dieser Parser vorerst nur für Steam Spiele, ** die in mindestens einer Kategorie** sind. Der Grund dafür ist, dass Steam deine vollständige Liste der Spiele nur lokal speichert, wenn diese kategorisiert sind. Manchmal werden aus unbekannten Gründen Spiele auch ohne Kategorie lokal gespeichert und der Parser funktioniert, aber um sicher zu sein ist es am einfachsten, **eine Steam Kategorie zu erstellen**, die alle deine Steam Spiele enthält.
 
-## User accounts (Optional)
+## Benutzerkonten (Optional)
 
 Can be used to limit configuration to specific user accounts. In order to set user accounts, the following syntax must be used:
 ```
