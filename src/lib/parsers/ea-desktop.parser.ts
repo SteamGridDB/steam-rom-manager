@@ -38,9 +38,8 @@ export class EADesktopParser implements GenericParser {
       const xmlParser = new XMLParser();
       Promise.resolve()
         .then(()=>{
-          glob("*/__Installer/installerdata.xml", { silent: true, dot: true, cwd: eaInstallDir, absolute: true }, (error: Error, installDataFiles: string[])=>{
-            for(let installDataFile of installDataFiles) {
-
+          let installDataFiles: string[] = glob.sync("*/__Installer/installerdata.xml", { silent: true, dot: true, cwd: eaInstallDir, absolute: true });
+          for(let installDataFile of installDataFiles) {
               let gameDir = path.join(path.dirname(installDataFile),'..')
               let xmldata = fs.readFileSync(installDataFile, 'utf-8');
               if(XMLValidator.validate(xmldata)) {
@@ -69,9 +68,6 @@ export class EADesktopParser implements GenericParser {
                   runtimePath = json.caseInsensitiveTraverse(runtime,[["filePath"]])
                 }
                 if(title && runtimePath) {
-                  console.log(title)
-                  console.log(path.join(gameDir,runtimePath.replace(/^\[.*?\]/,'')))
-
                   appTitles.push(title);
                   appPaths.push(path.join(gameDir,runtimePath.replace(/^\[.*?\]/,'')))
                 }
@@ -80,14 +76,14 @@ export class EADesktopParser implements GenericParser {
                 reject(this.lang.errors.invalidXML__i.interpolate({datafile: installDataFile}));
               }
             }
-          })
         })
         .then(()=>{
-          console.log(appTitles)
-          console.log(appPaths)
           let parsedData: ParsedData = {success: [], failed:[]};
-          for(let i=0;i<appTitles.length; i++){
-            parsedData.success.push({extractedTitle: appTitles[i], filePath: appPaths[i]});
+          for(let i=0; i < appTitles.length; i++){
+            parsedData.success.push({
+              extractedTitle: appTitles[i],
+              filePath: appPaths[i]
+            });
           }
           resolve(parsedData);
         }).catch((err)=>{
