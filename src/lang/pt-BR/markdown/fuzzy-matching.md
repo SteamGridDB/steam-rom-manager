@@ -8,7 +8,7 @@ Títulos difusos estão disponíveis como modificadores de título via `${fuzzyT
 
 ## Substituir caracteres diacríticos
 
-Substitui os caracteres diacríticos por seu equivalente latino: `A➲` -> `A`, `E➲` -> `E`, `E➲` -> `E`, etc. Pode melhorar a capacidade combinada de um "matcher" difuso.
+Quando ativado, o matcher difuso removerá todos os caracteres exceto `a-zA-Z0-9 ()[]` e substituirá `_` por espaço. Pode melhorar a capacidade combinada de um "matcher" difuso.
 
 ## Correspondência agressiva
 

@@ -28,4 +28,4 @@ Configuração global para desativar certos provedores. Atualmente, o único pro
 ### Forçar download de variáveis personalizadas.
 Redefine o arquivo JSON de variáveis personalizadas que é usado para certas predefinições para qualquer coisa que seu estado atual esteja no github. Útil se o arquivo JSON de variáveis personalizadas tiver sido corrompido.
 ### Forçar download de variáveis personalizadas.
-Redefine os arquivos JSON para as predefinições do analisador para o que estiver no github, a SRM. Útil se sua lista de predefinições não estiver atualizando automaticamente por algum motivo, ou se tiver sido corrompida.
+Redefine os arquivos JSON para as predefinições do analisador para o que estiver no github, a SRM. Útil se sua lista de predefinições não estiver atualizando automaticamente por algum motivo, ou se tiver sido corrompida. Útil se sua lista de predefinições não estiver atualizando automaticamente por algum motivo, ou se tiver sido corrompida.

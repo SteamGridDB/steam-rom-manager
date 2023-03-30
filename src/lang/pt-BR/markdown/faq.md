@@ -40,7 +40,7 @@ Agora podemos usar um globstar e é isso!
 ```
 **/${title}.*
 ```
-... É assim tão simples? **NÃO!** A Globstar terá algum impacto no desempenho do analisador se existirem muitos subdiretórios com milhares de arquivos cada. A Globstar se certificará de que o analisador verifique todos os arquivos que pode encontrar. Uma vez o usuário relatou que a análise levou ~10 minutos quando usou estrelas globais em todos os lugares.
+É assim tão simples? **NÃO!** A Globstar terá algum impacto no desempenho do analisador se existirem muitos subdiretórios com milhares de arquivos cada. A Globstar se certificará de que o analisador verifique todos os arquivos que pode encontrar. Uma vez o usuário relatou que a análise levou ~10 minutos quando usou estrelas globais em todos os lugares.
 
 Uma solução recomendada é usar conjuntos emparelhados. Eles podem fazer vários globs de `1` glob. Se escrevermos um glob como este:
 
