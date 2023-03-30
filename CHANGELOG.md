@@ -17,6 +17,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 * EA Desktop Platform Parser 🚀
 * Several new languages in various stages of translation 🌍. Congrats to everyone who worked on *finishing* the Brazilian Portuguese translation!
+### Fixed
+* Hopefully fixed scaling issue on steamdeck where scroll bars were being added to preview page.
+
 
 ## 2.3.47
 ### Added
