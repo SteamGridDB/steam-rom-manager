@@ -1,18 +1,18 @@
-# Online image query `[supports variables]`{.noWrap}
+# Consulta de imagem on-line `[suporta variáveis]`{.noWrap}
 
-Queries that are used to search for images. In order to set image query, the following syntax must be used:
+Consultas que são usadas para procurar imagens. Para definir a consulta de imagem, é necessário usar a seguinte sintaxe:
 ```
 ${...}
 ```
-For example, images for "Legend of Zelda" and "The Legend of Zelda: A Link to the Past" can be queried like this:
+Por exemplo, imagens para "Legend of Zelda" e "The Legend of Zelda: A Link para os Passados" podem ser consultadas assim:
 ```
 ${The Legend of Zelda}${The Legend of Zelda: A Link to the Past}
 ```
-You will most likely want to use parser variables for queries. Which will look like this (also the **default** value):
+Você provavelmente vai querer usar variáveis do analisador para consultas. Que vai se parecer com isso (também o valor padrão de ****):
 ```
-${${fuzzyTitle}}
+$${fuzzyTitle}
 ```
-The legacy **greedy** mode can be enabled by setting query to:
+O modo legado **ganancioso** pode ser ativado definindo a consulta para:
 ```
 ${${fuzzyTitle}}${${title}}
 ```

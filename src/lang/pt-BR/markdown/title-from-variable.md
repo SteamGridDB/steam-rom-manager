@@ -1,43 +1,43 @@
-# Title from custom variable (optional)
+# Título da variável personalizada)
 
-Allows to overwrite extracted title with a custom variable. This is done right after title extraction, meaning that the replaced title can be used for fuzzy matching and so on. Groups and variables themselves are **case-sensitive**, unless case-insesitive variable option is enabled.
+Permite substituir o título extraído com uma variável personalizada. Isso é feito logo após a extração do título, o que significa que o título substituído pode ser usado para correspondência incerta e assim por diante. Grupos e variáveis em si são **sensíveis a maiúsculas e minúsculas**, a não ser que uma opção de variável insesitiva esteja habilitada.
 
-Title matching can be limited to specific groups of custom variables. In order to specify groups, the following syntax must be used:
+Correspondência de título pode ser limitada a grupos específicos de variáveis personalizadas. Para definir a consulta de imagem, é necessário usar a seguinte sintaxe:
 ```
 ${...}
 ```
-For example, this is how you specify groups for "RPCS3" and "rpcs3":
+Por exemplo, é assim que você especifica grupos para "RPCS3" e "rpcs3":
 ```
 ${RPCS3}${rpcs3}
 ```
 
-Make sure you **toggle enable to on**.
+Certifique-se de **ativar a opção**.
 
 
-## Case-insensitive option
+## Opção insensível
 
-If this option is enabled, case-insensitive matching will be done and first matched custom variable will be used.
+Se esta opção estiver habilitada, a correspondência insensível a maiúsculas e minúsculas será feita e a primeira variável personalizada correspondente será usada.
 
-## Note. This feature is **experimental**
+## Notas. Este recurso é **experimental**
 
-Basically, it might change in the future release (very unlikelly). Furthermore, currently the only way to add variables is to create/edit `customVariables.json` used by SRM directly.
+Basicamente, ele pode mudar no lançamento futuro (muito improvavelmente). Além disso, atualmente a única maneira de adicionar variáveis é criar/editar `customVariables.json` usado diretamente pelo SRM.
 
-This file is/shoud be located in SRM's `userData` directory.
+Este arquivo é/shoud localizado no diretório `userData` da SRM.
 
-SRM will throw error unless the following JSON structure is used:
+SRM irá lançar erro a menos que a seguinte estrutura JSON seja usada:
 
 ```
 {
     "RPCS3": {
         "NPUB30698": "Catherine",
-        "NPUB30024": "1942: Joint Strike",
-        ...
+        "NPUB30024": "1942: Golpe Conto",
+...
     },
     "Custom Stuff": {
-        "The Legend Of Zelda": "The Legend Of Link"
+        "The Legend Of Zelda": "The Legend of Link"
     },
-    ...
+...
 }
 ```
 
-Then if your user glob were `MyDir/${title}.wad` and you had a `The Legend of Zelda.wad` located in `MyDir`, you would set the title from custom variable field to `${Custom Stuff}` to obtain a final title of "The Legend of Link".
+Então se o seu usuário glob era `MyDir/${title}.wad` e você tinha um `Legend de Zelda. anúncio` localizado em `MyDir`, você definiria o título do campo de variável personalizada para `${Custom Stuff}` para obter um título final de "A Legenda do Link".

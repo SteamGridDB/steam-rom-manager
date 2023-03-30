@@ -1,7 +1,7 @@
-# Image providers
+# Provedores de imagem
 
-Here you can select image providers that are used to retrieve images. This option is for this configuration only.
+Aqui você pode selecionar provedores de imagem que são usados para recuperar imagens. Esta opção é apenas para esta configuração.
 
-## Similar option in "Settings" menu
+## Opção similar no menu "Configurações"
 
-Settings menu has "Enabled providers" which enable image providers globally -- if it's not enabled in Settings, it won't work.
+O menu de configurações tem "Provedores habilitados" que ativam provedores de imagens globalmente -- se não estiver ativado em Configurações, isso não funcionará.
