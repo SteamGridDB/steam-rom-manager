@@ -2,7 +2,7 @@
 Dies sind Parser-Konfigurationen, die von der SRM-Community erstellt wurden und mit nur ein paar systemspezifischen Parametern leicht geändert werden müssen, um funktionieren zu können (normalerweise müssen nur `ROMs Directory` und `Executable` angegeben werden).
 
 ## Allgemeiner Parser
-Der allgemeine Parser (Suche `Generic` in den Voreinstellungen) funktioniert für eine Vielzahl von Emulatoren, die keine spezifischen Kommandozeilenargumente benötigen, um zu funktionieren. Zum Beispiel:
+Der allgemeine Parser (Suche `Generic` in den Voreinstellungen) funktioniert für eine Vielzahl von Emulatoren, die keine spezifischen Kommandozeilenargumente benötigen, um zu funktionieren.
 * Yuzu
 * Citra
 * Xenia (Füge `--fullscreen` in `Kommandozeilenargumenten` hinzu, falls gewünscht)
