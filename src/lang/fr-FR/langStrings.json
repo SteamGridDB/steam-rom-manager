@@ -145,6 +145,13 @@
       "databaseNotFound": "> itch.io database file not found. Itch is most likely not installed."
     }
   },
+  "eaDesktopParser": {
+    "eaGamesDirTitle": "EA Games Install Directory",
+    "errors": {
+      "fatalError__i": "> EA Desktop parser failed with fatal error:\n ${error}",
+      "invalidXML__i": "> Invalid XML file ${dataFile}"
+    }
+  },
   "globParser": {
     "inputTitle": "User's glob",
     "errors": {

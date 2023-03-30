@@ -145,6 +145,13 @@
       "databaseNotFound": "> Arquivo de banco de dados itch.io não encontrado. Provavelmente o arquivo não está instalado."
     }
   },
+  "eaDesktopParser": {
+    "eaGamesDirTitle": "EA Games Install Directory",
+    "errors": {
+      "fatalError__i": "> EA Desktop parser failed with fatal error:\n ${error}",
+      "invalidXML__i": "> Invalid XML file ${dataFile}"
+    }
+  },
   "globParser": {
     "inputTitle": "Global do usuário",
     "errors": {

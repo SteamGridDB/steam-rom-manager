@@ -3,7 +3,7 @@
 Esta ferramenta pode ser usada para definir por app exceções que sobrepõem os analisadores. Não deve ser utilizado para realizar tarefas em massa. Por exemplo, remover o caractere dois-pontos dos títulos pode ser feito através do modificador de título `${/:/-;${title}├}` e não deve ser feito aqui. Se um argumento de linha de comando é comum a cada app analisado, então use o campo de argumento de linha de comando - não crie um monte de entradas aqui!
 
 ## Título Extraído - *Obrigatório*
-O único campo de exceção obrigatório é `Título Extraído`. (Automatic Translation). Uma vez que isso for especificado e a exceção for salva, qualquer jogo cuja `Ocorrências no Título` tenha seus campos substituídos por quaisquer campos de exceção não-vazios (se deixar em branco, os campos de exceção não fazem nada).
+O único campo de exceção obrigatório é `Título Extraído`. Uma vez que isso for especificado e a exceção for salva, qualquer jogo cuja `Ocorrências no Título` tenha seus campos substituídos por quaisquer campos de exceção não-vazios (se deixar em branco, os campos de exceção não fazem nada).
 
 Se não tiver certeza do que é o `Título Extraído` para um determinado jogo, verifique a saída do teste do analisador em que o jogo está.
 
