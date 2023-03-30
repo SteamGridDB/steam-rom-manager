@@ -1,5 +1,5 @@
 # Parser type
 
-Select a parser which will be used to do parsing. Once the parser is selected, you'll see more detailed information.
+Selecteer een parser die zal worden gebruikt om te parseren. Zodra de parser is geselecteerd, ziet u meer gedetailleerde informatie.
 
-**Configurations without parser types will not save, and will not be reloaded if you exit out of SRM.**
+**Configuraties zonder parsertypen worden niet opgeslagen en worden niet opnieuw geladen als u SRM afsluit.**
