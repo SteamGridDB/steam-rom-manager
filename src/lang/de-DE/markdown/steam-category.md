@@ -1,6 +1,6 @@
-# Steam category (optional) `[supports variables]`{.noWrap}
+# Steam-Kategorie (optional) `[unterstützt Variablen]`{.noWrap}
 
-Also known as "tags", can be used to group apps in Steam. In order to set Steam category, the following syntax must be used:
+Auch als "Tags" bezeichnet, kann verwendet werden, um Apps in Steam zu gruppieren. In order to set Steam category, the following syntax must be used:
 ```
 ${...}
 ```
