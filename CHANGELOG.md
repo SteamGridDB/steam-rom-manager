@@ -19,7 +19,7 @@ All notable changes to this project will be documented in this file.
 * Several new languages in various stages of translation 🌍. Congrats to everyone who worked on *finishing* the Brazilian Portuguese translation!
 ### Fixed
 * Hopefully fixed scaling issue on steamdeck where scroll bars were being added to preview page.
-
+* Fixed amazon games parser adding games that had been uninstalled ([issue 425](https://github.com/SteamGridDB/steam-rom-manager/issues/425))
 
 ## 2.3.47
 ### Added
