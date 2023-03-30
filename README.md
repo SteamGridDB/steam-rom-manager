@@ -61,8 +61,13 @@ In addition to flexible importing of ROMS, SRM now has several *platform parsers
 |[GOG Galaxy](https://www.gog.com/galaxy)|✅|❌|🟦|
 |[Itch.io](https://itch.io/app)|✅|✅|✅|
 |[UPlay](https://ubisoftconnect.com/en-US/)|✅|❌|🟦|
+|[EA Desktop](https://www.ea.com/ea-app)|✅|🟦|🟦|
 
-Planned platform parsers include Origin, the EA Games Store, and Battle.net.
+✅  Implemented
+❌  Planned
+🟦  Store not present on system
+
+Planned platform parsers include XBox Game Pass and Battle.net.
 
 ## Artwork Only Parsers
 Artwork only parsers allow you to change the artwork for existing non-SRM added games. Put it simply they just change artwork, they don't add shortcuts.
