@@ -126,15 +126,15 @@ Diese Einstellung wird verwendet, um die App-ID von Steam zu beeinflussen.
 
 ## Verzeichnis-Variablen
 
-| Variable (Groß- und Kleinschreibung unberücksichtigt) | Corresponding value                     |
-| -----------------------------------------------------:|:--------------------------------------- |
-|                                           `${exeDir}` | Executable directory                    |
-|                                           `${romDir}` | ROMs directory                          |
-|                                         `${steamDir}` | Steam directory                         |
-|                                       `${startInDir}` | "StartIn" directory                     |
-|                                          `${fileDir}` | File's, returned by a parser, directory |
+| Variable (Groß- und Kleinschreibung unberücksichtigt) | Corresponding value                                  |
+| -----------------------------------------------------:|:---------------------------------------------------- |
+|                                           `${exeDir}` | Executable directory                                 |
+|                                           `${romDir}` | ROM-Verzeichnis                                      |
+|                                         `${steamDir}` | Dampftraktor                                         |
+|                                       `${startInDir}` | "Startin"-Verzeichnis                                |
+|                                          `${fileDir}` | Dateien, von einem Parser zurückgegeben, Verzeichnis |
 
-In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
+Falls die ausführbare Verzeichniseingabe **leer gelassen wurde,**, `${exeDir}`{.noWrap} ist gleich `${fileDir}`{.noWrap}. Außerdem ist, wenn das Verzeichnis "StartIn" **leer** gelassen wird, `${startInDir}`{.noWrap} gleich `${exeDir}`{.noWrap}.
 
 ## Namen-Variablen
 
@@ -143,33 +143,33 @@ In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is eq
 |                                          `${exeName}` | Name der ausführbaren Datei (ohne Erweiterung)                              |
 |                                         `${fileName}` | Name der Datei, die von einem Parser zurückgegeben wurde (ohne Erweiterung) |
 
-In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
+Falls die ausführbare Verzeichniseingabe **leer gelassen wurde,**, `${exeName}`{.noWrap} ist gleich `${fileName}`{.noWrap}.
 
 ## Erweiterungs-Variablen
 
-| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                           |
-| -----------------------------------------------------:|:------------------------------------------------------------- |
-|                                           `${exeExt}` | Extension of executable (with a dot)                          |
-|                                          `${fileExt}` | Extension of file which was returned by a parser (with a dot) |
+| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                                          |
+| -----------------------------------------------------:|:---------------------------------------------------------------------------- |
+|                                           `${exeExt}` | Erweiterung der ausführbaren Datei (mit einem Punkt)                         |
+|                                          `${fileExt}` | Dateierweiterung, die von einem Parser (mit einem Punkt) zurückgegeben wurde |
 
-In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
+Falls die ausführbare Verzeichniseingabe **leer gelassen wurde,**, `${exeExt}`{.noWrap} ist gleich `${fileExt}`{.noWrap}.
 
 ## Pfad-Variablen
 
-| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                |
-| -----------------------------------------------------:|:-------------------------------------------------- |
-|                                          `${exePath}` | Full path to an executable                         |
-|                                         `${filePath}` | Full path to a file which was returned by a parser |
+| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                                         |
+| -----------------------------------------------------:|:--------------------------------------------------------------------------- |
+|                                          `${exePath}` | Vollständiger Pfad zu einer ausführbaren Datei                              |
+|                                         `${filePath}` | Vollständiger Pfad zu einer Datei, die von einem Parser zurückgegeben wurde |
 
-In case executable directory input is left **empty**, `${exePath}`{.noWrap} is equal to `${filePath}`{.noWrap}.
+Falls die ausführbare Verzeichniseingabe **leer gelassen wurde,**, `${exePath}`{.noWrap} ist gleich `${filePath}`{.noWrap}.
 
 ## Parser-Variablen
 
-| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                              |
-| -----------------------------------------------------:|:------------------------------------------------ |
-|                                            `${title}` | Extracted title                                  |
-|                                       `${fuzzyTitle}` | Fuzzy matched title                              |
-|                                       `${finalTitle}` | Title which was the end result of title modifier |
+| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                   |
+| -----------------------------------------------------:|:----------------------------------------------------- |
+|                                            `${title}` | Extrahierter Titel                                    |
+|                                       `${fuzzyTitle}` | Fuzzy matched title                                   |
+|                                       `${finalTitle}` | Titel, der das Endergebnis des Titel-Modifikators war |
 
 In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
 
