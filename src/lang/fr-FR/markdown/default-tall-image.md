@@ -1,6 +1,6 @@
-# Default tall image (optional) `[supports variables]`{.noWrap}
+# Poster par défaut (facultative) `[prend en charge les variables]`{.noWrap}
 
-Allows one to use an image, stored locally, as a default/fallback tall image. A [special glob input](#special-glob-input) string is used to retrieve images. Only the first retrieved image is used.
+Permet d'utiliser une image stockée localement, comme poster par défaut. A [special glob input](#special-glob-input) string is used to retrieve images. Only the first retrieved image is used.
 
 This image will be shown **only** if there are no other images available. If Steam image is available, you will be able to choose from Steam and this image.
 
