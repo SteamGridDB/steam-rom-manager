@@ -5,13 +5,18 @@ All notable changes to this project will be documented in this file.
 ### Planned
 * [x] GOG Parser.
 * [x] UPlay Parser.
-* [ ] Origin Parser.
+* [x] EA Desktop Parser.
 * [ ] Command Line Interface.
 * [x] Capability to override image searches.
 * [x] Ability to set per-parser controller templates.
 * [x] Platform parsers have launcher and launcherless mode.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
+
+## 2.3.48
+### Added
+* EA Desktop Platform Parser 🚀
+* Several new languages in various stages of translation 🌍. Congrats to everyone who worked on *finishing* the Brazilian Portuguese translation!
 
 ## 2.3.47
 ### Added
