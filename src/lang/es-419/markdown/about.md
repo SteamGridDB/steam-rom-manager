@@ -20,7 +20,7 @@ En caso de tener problemas con SRM, siéntete libre de visitar el servidor de [D
 * `Zennn`{.noWrap} - ayudó antes del lanzamiento inicial de SRM y muchas veces después del lanzamiento con varias cosas. Gran jefe en [SteamGridDB](https://www.steamgriddb.com/).
 * `HE Spoke`{.noWrap} - responsable de crear la comunidad de SRM. Creador del grupo de [Steam](https://steamcommunity.com/groups/steamrommanager) y servidor de [Discord](https://discord.gg/bnSVJrz). También gestiona los problemas en [Github](https://github.com/SteamGridDB/steam-rom-manager).
 * `Choko`{.noWrap} - ayuda a los usuarios a configurar SRM en [Discord](https://discord.gg/bnSVJrz).
-* `KenCinder`{.noWrap} - gestiona los pre-ajustes del analizador.
+* `KenCinder`{.noWrap} - gestiona los presets del analizador.
 * `AlexDobeck`{.noWrap} - mejoró el rendimiento de [retrogaming.cloud](https://retrogaming.cloud/).
 
 ## Apoyo
