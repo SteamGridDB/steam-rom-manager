@@ -86,13 +86,13 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
       }
     },
     3: {
-      'version': { method: versionUp },
+      'presetVersion': { method: versionUp },
       'controllers': {
         method: () => { return {} }
       }
     },
     4: {
-      'version': { method: versionUp },
+      'presetVersion': { method: versionUp },
       'controllers': {
         method: (oldValue, oldConfiguration: any) => {
           let newValue = _.cloneDeep(oldValue);
