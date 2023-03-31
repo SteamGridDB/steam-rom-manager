@@ -219,7 +219,8 @@ function getMarkdown(langPath: string) {
     amazonGamesParser: {
       docs__md: {
         self: [
-          require(`${langPath}/amazon-games-parser.md`)
+          require(`${langPath}/amazon-games-parser.md`),
+          require(`${langPath}/amazon-games-parser-input.md`)
         ],
         input: [
           require(`${langPath}/amazon-games-parser-input.md`)
@@ -229,7 +230,8 @@ function getMarkdown(langPath: string) {
     itchIoParser: {
       docs__md: {
         self: [
-          require(`${langPath}/itch-io-parser.md`)
+          require(`${langPath}/itch-io-parser.md`),
+          require(`${langPath}/itch-io-parser-input.md`)
         ],
         input: [
           require(`${langPath}/itch-io-parser-input.md`)
@@ -265,7 +267,8 @@ function getMarkdown(langPath: string) {
     eaDesktopParser: {
       docs__md: {
         self: [
-          require(`${langPath}/ea-desktop-parser.md`)
+          require(`${langPath}/ea-desktop-parser.md`),
+          require(`${langPath}/ea-desktop-parser-input.md`)
         ],
         input: [
           require(`${langPath}/ea-desktop-parser-input.md`)

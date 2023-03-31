@@ -12,7 +12,7 @@ export const availableParserInputs: {[parserType: string]: string[]} = {
   'itch.io': ['itchIoAppDataOverride','itchIoWindowsOnLinuxInstallDriveRedirect'],
   'Steam': [],
   'UPlay': ['uplayDir','uplayLauncherMode'],
-  'EA Desktop': ['eaGamesDir']
+  'EA Desktop': ['eaGamesDir','eaLauncherMode']
 }
 
 export const availableParsers = Object.keys(availableParserInputs);

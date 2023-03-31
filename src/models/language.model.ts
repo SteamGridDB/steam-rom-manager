@@ -112,13 +112,15 @@ export interface languageStruct {
   },
   eaDesktopParser: {
     eaGamesDirTitle: string,
+    eaLauncherModeTitle: string,
     docs__md: {
       self: string[],
       input: string[]
     },
     errors: {
       invalidXML__i: string,
-      fatalError__i: string
+      fatalError__i: string,
+      eaNotCompatible: string
     }
   },
   amazonGamesParser: {
