@@ -2,8 +2,8 @@
 Diese Variablen werden vorgeparst und können auch im Rom Verzeichnis, Steam Verzeichnis, Executable Location, und Start In Dir Feldern verwendet werden.
 | Variable (Groß- und Kleinschreibung) | Entsprechender Wert                                     |
 | ------------------------------------:|:------------------------------------------------------- |
-|                               `${/}` | System specific directory separator: `\` or `/`        |
-|                          `${srmdir}` | Directory of portable SRM executable                    |
+|                               `${/}` | Systemspezifische Verzeichnistrenner: `\` oder `/`     |
+|                          `${srmdir}` | Verzeichnis der portablen ausführbaren SRM Datei        |
 |                  `${steamdirglobal}` | Global steam directory, specified in `Settings`         |
 |                   `${romsdirglobal}` | Global ROMs directory, specified in `Settings`          |
 |                   `${retroarchpath}` | Path to Retroarch executable, specified in `Settings`   |

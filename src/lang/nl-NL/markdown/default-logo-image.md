@@ -10,4 +10,4 @@ Alleen `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} en `TGA`{.noWrap} bestand
 
 ## Kun je de map van de standaard afbeelding verplaatsen na het opslaan van de app-lijst?
 
-Hiermee kan een lokaal opgeslagen afbeelding worden gebruikt als standaard-/terugvallogo-afbeelding.
+Ja, zodra de lijst is opgeslagen, wordt de standaardlogo-afbeelding gekopieerd naar een Steam-map en hernoemd om overeen te komen met de APP-ID van Steam.

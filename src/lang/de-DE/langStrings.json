@@ -103,6 +103,13 @@
       "fatalError__i": "> Epic Games parser failed with fatal error:\n ${error}"
     }
   },
+  "legendaryParser": {
+    "legendaryInstalledFileTitle": "Legendary installed.json Path Override",
+    "errors": {
+      "legendaryNotInstalled": "> Legendary installed.json not found",
+      "fatalError__i": "> Legendary parser failed with fatal error: \n ${error}"
+    }
+  },
   "uplayParser": {
     "uplayDirTitle": "Uplay Directory Override",
     "launcherModeInputTitle": "Launch games via UPlay for online services",

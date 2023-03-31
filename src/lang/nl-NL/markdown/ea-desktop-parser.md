@@ -1,3 +1,3 @@
-# EA Desktop Parser
+# EA-bureaubladparser
 
-This parser imports games from the `EA Desktop` app, so that artwork can be chosen for them and they can be added into Steam. If it doesn't work it is because EA has altered the structure of their xml files, in which case please let the developers of SRM know and we will resolve the issue. 
+Deze parser importeert games uit de `EA Desktop`-app, zodat er illustraties voor kunnen worden gekozen en ze kunnen worden toegevoegd aan Steam. Als het niet werkt, komt dat doordat EA de structuur van hun xml-bestanden heeft gewijzigd. Laat het in dat geval de ontwikkelaars van SRM weten en we zullen het probleem oplossen. 

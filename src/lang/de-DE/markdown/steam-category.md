@@ -1,21 +1,21 @@
-# Steam category (optional) `[supports variables]`{.noWrap}
+# Steam-Kategorie (optional) `[unterstützt Variablen]`{.noWrap}
 
-Also known as "tags", can be used to group apps in Steam. In order to set Steam category, the following syntax must be used:
+Auch als "Tags" bezeichnet, kann verwendet werden, um Apps in Steam zu gruppieren. Um die Steam-Kategorie festzulegen, muss folgende Syntax verwendet werden:
 ```
 ${...}
 ```
-For example, this is how you specify categories for "WII" and "GBA" (paired with "ROMS") category:
+So definieren Sie beispielsweise Kategorien für "WII" und "GBA" (gepaart mit "ROMS") Kategorie:
 ```
 ${WII}
 ```
 ```
 ${GBA}${ROMS}
 ```
-This how "WII" category will look like in Steam:
+So wird die Kategorie "WII" in Steam aussehen:
 
 ![steamCategory](../../../assets/images/category-example.png)
 
-## Emojis and non-Standard Unicode Characters
+## Emojis und nicht-Standard Unicode-Zeichen
 Please not that this field works just fine with emojis like `🎮` work just fine in category names.
 
-You can find a list of them here: [https://copychar.cc/](https://copychar.cc/)
+Eine Liste davon findest du hier: [https://copychar.cc/](https://copychar.cc/)
