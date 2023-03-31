@@ -103,6 +103,13 @@
       "fatalError__i": "> O analisador da falhou com erro fatal:\n ${error}"
     }
   },
+  "legendaryParser": {
+    "legendaryInstalledFileTitle": "Legendary installed.json Path Override",
+    "errors": {
+      "legendaryNotInstalled": "> Legendary installed.json not found",
+      "fatalError__i": "> Legendary parser failed with fatal error: \n ${error}"
+    }
+  },
   "uplayParser": {
     "uplayDirTitle": "Sobrescrever Diretório Uplay",
     "launcherModeInputTitle": "Inicie jogos via Epic para serviços online",
