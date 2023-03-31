@@ -353,7 +353,7 @@
         "testCompleted": "Test de l'analyseur terminé.",
         "nothingWasFound": "L'analyseur n'a rien trouvé.",
         "copiedToClipboard": "Configuration copiée dans le presse-papiers",
-        "userExclusions": "User excluded:",
+        "userExclusions": "Utilisateur exclu:",
         "excludedFileInfo__i": "[${index}/${total}]: ${filename}",
         "removingControllers__i": "Removing controller templates for parser: ${configTitle}",
         "fetchingControllerTemplates": "Fetching controller templates"
@@ -361,8 +361,8 @@
       "error": {
         "missingAccounts__i": "Following ${count} user account(s) were not found (user must to login to Steam at least once):",
         "missingAccountInfo__i": "  ${name}",
-        "noAccountsWarning": "Warning! No user accounts found, it could be due to one of the reasons below:\r\n - incorrect Steam directory;\r\n - no user has ever logged in;\r\n - Steam does not save user credentials (\"Show advanced options -> User accounts -> Use account credentials\").\r\nIf you're seeing this, preview won't be generated for this configuration.",
-        "cannotParseUserIDs": "Error parsing user accounts:",
+        "noAccountsWarning": "Attention! Aucun compte utilisateur trouvé, cela pourrait être dû à l'une des raisons ci-dessous:\n - répertoire Steam incorrect;\n - aucun utilisateur n'a jamais été connecté;\n - Steam n'enregistre pas les noms de compte (\"Afficher les options avancées -> Comptes utilisateur -> Utiliser les noms de compte\").\nSi vous voyez cela, l'aperçu ne sera pas généré pour cette configuration.",
+        "cannotParseUserIDs": "Erreur lors de l'analyse des comptes utilisateur:",
         "failedToMatch": "Failed to match:",
         "failedFileInfo__i": "[${index}/${total}]: ${filename}",
         "testFailed": "Le test a échoué",
@@ -435,7 +435,7 @@
         "romDirectory": "Répertoire des ROMs",
         "steamDirectory": "Répertoire Steam",
         "startInDirectory": "\"Start In\" directory",
-        "userAccounts": "User accounts",
+        "userAccounts": "Comptes utilisateur",
         "titleFromVariable": "Title from custom variable",
         "titleModifier": "Title modifier",
         "fuzzyMatch": "Fuzzy matching",
@@ -461,7 +461,7 @@
       },
       "text": {
         "skipWithMissingDataDir": "Ignorer les comptes trouvés avec des données manquantes",
-        "useCredentials": "Use account credentials",
+        "useCredentials": "Utiliser les noms de compte",
         "tryToMatchTitle": "Enable Title from Custom Variable",
         "skipFileIfVariableWasNotFound": "Skip file if variable was not found",
         "caseInsensitiveVariables": "Case-insensitive variables",
@@ -497,7 +497,7 @@
           "incorrectParser": "Incorrect parser!"
         },
         "romDir__md": "> ROMs directory is invalid!",
-        "userAccounts__md": "> Steam parser requires `User Accounts` field",
+        "userAccounts__md": "> L'analyseur Steam requiert le champ `Comptes Utilisateur`",
         "steamDir__md": "> Steam directory is invalid!",
         "startInDir__md": "> \"Start In\" directory is invalid!",
         "executable__md": "> Executable is invalid!",
@@ -548,7 +548,7 @@
   },
   "vdfManager": {
     "error": {
-      "noUsersFound": "None of the provided steam directories contained any user directory.",
+      "noUsersFound": "Aucun des répertoires Steam fournis ne contenait de répertoires utilisateurs.",
       "emptyDirectoryList": "Directory list is empty.",
       "couldNotPrepareToRead__i": "Could not find required steam files:\n ${error}",
       "couldNotBackupEntries__i": "Could not backup required steam files:\n ${error}",
