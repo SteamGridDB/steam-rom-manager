@@ -1,4 +1,6 @@
-# Regex do usuário global
+# Glob-regex Parser specific inputs
+
+## Regex do usuário global
 
 Aqui é onde você cria seu glob para extrair o título do caminho do arquivo. Leia todos os [caracteres especiais glob](#special-glob-characters) se você não sabe como construir um glob.
 
