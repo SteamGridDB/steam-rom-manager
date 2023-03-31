@@ -41,6 +41,8 @@ If you're on a Steam Deck we recommend setting everything up through [EmuDeck](h
 
 # Parsers
 
+Parsers are the heart and soul of SRM. If Steam is the octopus, then these are its tentacles &mdash; reaching into your ROM directories and the databases and manifest files of other game stores and pulling out the games you want.
+
 ## ROM Parsers
 
 ROM parsers allow one to import shortcuts using search strings, e.g. `games/${title}.@(iso|rvz)`, or in the case of the manual parser by specifying ROM locations directly.
