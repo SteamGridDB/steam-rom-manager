@@ -57,7 +57,8 @@ In addition to flexible importing of ROMS, SRM now has several *platform parsers
 |Parser|Windows|Mac OS|Linux|
 |---|---|---|---|
 |[Amazon Games](https://gaming.amazon.com/amazon-games-app)|✅|🟦|🟦|
-|[Epic](https://store.epicgames.com/en-US/) / [Legendary](https://github.com/derrod/legendary)|✅|✅|❌|
+|[Epic](https://store.epicgames.com/en-US/)|✅|✅|🟦|
+|[Legendary](https://github.com/derrod/legendary)|✅|✅|✅|
 |[GOG Galaxy](https://www.gog.com/galaxy)|✅|❌|🟦|
 |[Itch.io](https://itch.io/app)|✅|✅|✅|
 |[UPlay](https://ubisoftconnect.com/en-US/)|✅|❌|🟦|
@@ -65,7 +66,7 @@ In addition to flexible importing of ROMS, SRM now has several *platform parsers
 
 ✅  Implemented
 ❌  Planned
-🟦  Store not present on system
+🟦  Store not present
 
 Planned platform parsers include XBox Game Pass (for the time being use [UWPHook](https://github.com/BrianLima/UWPHook)) and Battle.net.
 
