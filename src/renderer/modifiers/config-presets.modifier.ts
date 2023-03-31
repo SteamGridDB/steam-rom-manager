@@ -1,6 +1,17 @@
 import { ValidatorModifier, UserConfiguration } from '../../models';
 import * as _ from "lodash";
 
+const controllerTypes = [
+  'ps4',
+  'ps5',
+  'xbox360',
+  'xboxone',
+  'switch_joycon_left',
+  'switch_joycon_right',
+  'switch_pro',
+  'neptune'
+]
+
 let replaceVariables_undefined = (oldValue: any) => typeof oldValue === 'string' ? oldValue.replace(/\${dir}/gi, '${romDir}').replace(/\${file}/gi, '${fileName}').replace(/\${sep}/gi, '${/}') : '';
 let versionUp = (version: number) => { return version + 1 };
 
