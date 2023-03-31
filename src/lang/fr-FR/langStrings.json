@@ -3,7 +3,7 @@
     "component": {
       "filter": "Search for game",
       "selectType": "Artwork Type",
-      "selectCategories": "Steam Category",
+      "selectCategories": "Catégorie Steam",
       "selectParsers": "Parser Title",
       "selectTypeOptions": {
         "long": "Bannières",
@@ -338,7 +338,7 @@
       "buttons": {
         "save": "Enregistrer",
         "copy": "Copier",
-        "testParser": "Test parser",
+        "testParser": "Tester Analyseur",
         "delete": "Supprimer",
         "moveUp": "Move up",
         "moveDown": "Move down",
@@ -455,7 +455,7 @@
         "localIcons": "Local icons"
       },
       "placeholder": {
-        "parserType": "Select parser...",
+        "parserType": "Sélectionner analyseur...",
         "imageProviders": "Vide",
         "multiAPIPlaceholder": "Aucun filtre"
       },
