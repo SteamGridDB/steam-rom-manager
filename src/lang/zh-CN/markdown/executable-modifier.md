@@ -31,14 +31,14 @@ In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is eq
 |                `${exeName}` | Name of executable (without extension)                          |
 |               `${fileName}` | Name of file which was returned by a parser (without extension) |
 
-In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
+如果可执行目录输入**留空<**，则 `${exeName}`{.noWrap} 等于 `${fileName}`{.noWrap}。
 
-## Extension variables
+## 扩展变量
 
-| Variable (case-insensitive) | Corresponding value                                           |
-| ---------------------------:|:------------------------------------------------------------- |
-|                 `${exeExt}` | Extension of executable (with a dot)                          |
-|                `${fileExt}` | Extension of file which was returned by a parser (with a dot) |
+|  变量 (大小写不敏感) | 对应的值             |
+| ------------:|:---------------- |
+|  `${exeExt}` | 可执行文件的扩展名（带点）    |
+| `${fileExt}` | 由解析器返回的文件扩展名（带点） |
 
 In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
 
