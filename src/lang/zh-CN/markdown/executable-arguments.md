@@ -186,7 +186,7 @@ This setting is used to influence Steam's APP ID.
 
 ### Function variable example
 
-Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
+Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables: Then these variables:
 ```
 ${/.*/|${title}}                           //Matches everything
 ${/(.*)/|${title}}                         //Captures everything
