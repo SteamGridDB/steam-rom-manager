@@ -1,4 +1,6 @@
-# User's glob
+# Glob Parser specific inputs
+
+## User's glob
 
 This is where you create your glob for extracting title from file path. Please read all of [special glob characters](#special-glob-characters) if you don't know how to construct a glob. 
 
