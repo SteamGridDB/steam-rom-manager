@@ -4,4 +4,4 @@ Doit être un répertoire Steam valide qui contient l'exécutable Steam. Pour qu
 
 ## Comment puis-je limiter les comptes Steam à édités?
 
-Enable **Show advanced options** and check **User accounts** option.
+Activez l'option **Afficher les options avancées** et cochez l'option **Comptes utilisateur**.

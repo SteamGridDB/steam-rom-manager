@@ -55,59 +55,59 @@ we will get `2` globs:
 */*/*/${title}.*
 ```
 
-These `2` globs both satisfy our files, **File3** and **File5**.
+这`2`个blob都符合我们的文件，**File3**和**File5**。
 
-## How to limit file extensions?
+## 如何限制文件扩展名？
 
-Let's say we use glob from previous example:
+假设我们使用前面例子中的 glob：
 
 ```
 {*,*/*}/*/${title}.*
 ```
 
-We will end up with 4 files: **File3**, **File4**, **File5** and **File6**. Now, we don't need **File4** and **File6**. Normally we could set glob to:
+我们最终会得到4个文件：**File3**、**File4**、**File5**和**File6**。 现在，我们不需要**文件4**和**文件6**。 通常我们可以将 glob 设置为：
 
 ```
 {*,*/*}/*/${title}.nes
 ```
 
-but then we will end up only with **File3**, because `nes` is not equal to `NES` -- parser is case sensitive. There are two ways to solve this problem using extended glob matcher.
+但是最终我们只会得到**File3**，因为`nes`不等于`NES`--解析器区分大小写。 使用扩展的 glob 匹配器，有两种方法可以解决这个问题。
 
-### Exclude `sav` extension
+### 排除 `sav` 扩展名
 
-Extended glob matcher `!(...)` allows us to exclude stuff. Simply write glob like this:
+扩展的 glob 匹配器 `!(...)` 允许我们排除一些东西。 像这样简单地编写 glob：
 
 ```
 {*,*/*}/*/${title}.!(sav)
 ```
 
-and files with `sav` extension will be excluded.
+具有 `sav` 扩展名的文件将被排除在外。
 
-### Check for multiple extensions
+### 检查多个扩展名
 
-Extended glob matcher `@(...)` allows us to match multiple things. Simply write glob like this:
+扩展的 glob 匹配器 `@(...)` 允许我们匹配多个内容。 像这样简单地编写 glob：
 
 ```
 {*,*/*}/*/${title}.@(nes|NES)
 ```
 
-and only files with `nes` and `NES` will be matched. If you're feeling fancy or if you have files with extensions `nes`, `NES`, `neS`, `nEs`, `Nes` and etc., you need a glob that uses character range:
+只有带有`nes`和`NES`的文件才会匹配。 如果你感觉很高级，或者你有扩展名为`nes`, `NES`, `neS`, `nEs`, `Nes`等的文件，那么你需要使用字符范围的通配符：
 
 ```
 {*,*/*}/*/${title}.@([nN][eE][sS])
 ```
 
-Now parser can match any combination and is effectively case-insensitive. Technically, the following glob will work too, but the one above looks better.
+现在解析器可以匹配任何组合，并且是有效的不区分大小写。 从技术上讲，下面的通配符也可以工作，但是上面那个看起来更好。
 
 ```
 {*,*/*}/*/${title}.[nN][eE][sS]
 ```
 
-## Troubleshooting
-* Please ensure that steam is actually closed before saving your app list.
+## 故障处理
+* 请确保在保存应用程序列表之前， Steam 已经完全关闭。
 
-* One common issue Steam ROM Manager runs into is the presence of old steam directories from people who logged into steam in your computer before the New Library Update. This can cause Steam ROM Manager to fail in unpredictable ways, as it tries to access directories whose structure has changed. In order to get around this, use the [User Accounts](#user-accounts) field to specify which accounts you actually want to use Steam ROM Manager with.
+* Steam ROM Manager 经常遇到的一个问题是，在新库更新之前，曾经在您的计算机上登录过 Steam 的人留下了旧的 steam 目录。 这可能会导致 Steam ROM Manager 以不可预测的方式失败，因为它试图访问目录结构已更改的目录。 为了解决这个问题，请使用“[用户账户](#user-accounts)”字段来指定您实际想要使用 Steam ROM Manager 的帐户。
 
-## The Discord
+## Discord
 
-For further help, please see our [Discord](https://discord.gg/bnSVJrz).
+如需进一步帮助，请查看我们的[Discord](https://discord.gg/bnSVJrz)。

@@ -1,3 +1,3 @@
-# Manual Parser
+# Analizador manual
 
-This parser is able to turn json files into steam shortcuts. It is useful for the creation of manual shortcuts to applications in Linux (in Windows the shortcut preset may be used instead to parse a directory of `.lnk` files). 
+Este analizador es capaz de convertir archivos json en accesos directos de Steam. Es útil para la creación manual de accesos directos para aplicaciones en Linux (en Windows el preset de acceso directo puede ser usado en su lugar para analizar una carpeta con archivos `.lnk`). 

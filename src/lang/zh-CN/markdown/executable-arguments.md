@@ -1,8 +1,8 @@
-# Command line arguments (optional) `[supports variables]`{.noWrap}
+# 命令行参数（可选）`[支持变量]`{.noWrap}
 
-Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
+附加到可执行文件以生成最终快捷方式的参数。 大多数情况下，您将希望使用提供的解析器变量进行设置。
 
-## Examples By System
+## 系统示例
 
 ### RetroArch
 
@@ -134,55 +134,55 @@ This setting is used to influence Steam's APP ID.
 |             `${startInDir}` | "StartIn" directory                     |
 |                `${fileDir}` | File's, returned by a parser, directory |
 
-In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
+如果可执行目录输入留空，则 **empty**，`${exeDir}`{.noWrap} 等于 `${fileDir}`{.noWrap}。 此外，如果“StartIn”目录为**空**，则`${startInDir}`{.noWrap}等于`${exeDir}`{.noWrap}。
 
-## Name variables
+## 名称变量
 
-| Variable (case-insensitive) | Corresponding value                                             |
-| ---------------------------:|:--------------------------------------------------------------- |
-|                `${exeName}` | Name of executable (without extension)                          |
-|               `${fileName}` | Name of file which was returned by a parser (without extension) |
+|   变量 (大小写不敏感) | 对应的值              |
+| -------------:|:----------------- |
+|  `${exeName}` | 可执行文件名称 (无扩展名)    |
+| `${fileName}` | 由解析器返回的文件名（不带扩展名） |
 
-In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
+如果可执行目录输入**留空**，则 `${exeName}`{.noWrap} 等于 `${fileName}`{.noWrap}。
 
-## Extension variables
+## 扩展变量
 
-| Variable (case-insensitive) | Corresponding value                                           |
-| ---------------------------:|:------------------------------------------------------------- |
-|                 `${exeExt}` | Extension of executable (with a dot)                          |
-|                `${fileExt}` | Extension of file which was returned by a parser (with a dot) |
+|  变量 (大小写不敏感) | 对应的值             |
+| ------------:|:---------------- |
+|  `${exeExt}` | 可执行文件的扩展名（带点）    |
+| `${fileExt}` | 由解析器返回的文件扩展名（带点） |
 
-In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
+如果可执行目录输入**留空**，则`${exeExt}`{.noWrap}等于`${fileExt}`{.noWrap}。
 
-## Path variables
+## 路径变量
 
-| Variable (case-insensitive) | Corresponding value                                |
-| ---------------------------:|:-------------------------------------------------- |
-|                `${exePath}` | Full path to an executable                         |
-|               `${filePath}` | Full path to a file which was returned by a parser |
+|   变量 (大小写不敏感) | 对应的值           |
+| -------------:|:-------------- |
+|  `${exePath}` | 可执行文件的完整路径     |
+| `${filePath}` | 由解析器返回的文件的完整路径 |
 
-In case executable directory input is left **empty**, `${exePath}`{.noWrap} is equal to `${filePath}`{.noWrap}.
+如果可执行目录输入**留空**，则`${exePath}`{.noWrap}等于`${filePath}`{.noWrap}。
 
-## Parser variables
+## 解析器变量
 
-| Variable (case-insensitive) | Corresponding value                              |
-| ---------------------------:|:------------------------------------------------ |
-|                  `${title}` | Extracted title                                  |
-|             `${fuzzyTitle}` | Fuzzy matched title                              |
-|             `${finalTitle}` | Title which was the end result of title modifier |
+|     变量 (大小写不敏感) | 对应的值          |
+| ---------------:|:------------- |
+|      `${title}` | 提取的标题         |
+| `${fuzzyTitle}` | 模糊匹配的标题       |
+| `${finalTitle}` | 标题是标题修改器的最终结果 |
 
-In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
+如果模糊匹配**失败**或被**禁用**，则`${fuzzyTitle}`{.noWrap}等于`${title}`{.noWrap}。
 
-## Function variables
+## 函数变量
 
-|                                 Variable (case-insensitive) | Corresponding function                                                                                                 |
-| -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
-|                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
-|                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
-|                                             `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                                      |
-|                                       `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
-|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
-| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                           |
+|                                                 变量 (大小写不敏感) | 对应的函数                                                          |
+| -----------------------------------------------------------:|:-------------------------------------------------------------- |
+|                                 `${regex\|input\|替换(可选)}` | 在输入上执行正则表达式。 支持 `u`、`g` 和 `i` 标志（捕获的组将被连接，除非提供了替换）。            |
+|                                             `${uc\|input}` | 大写变量。 将输入转换为大写                                                 |
+|                                             `${lc\|input}` | 小写变量。 将输入转换为小写                                                 |
+|                                       `${cv:group\|input}` | 使用匹配的自定义变量更改输入（组是可选的）                                          |
+|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent |
+| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise   |
 
 ### Function variable example
 

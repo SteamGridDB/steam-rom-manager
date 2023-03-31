@@ -1,5 +1,5 @@
-# Parser type
+# 解析器类型
 
-Select a parser which will be used to do parsing. Once the parser is selected, you'll see more detailed information.
+选择一个解析器来进行解析。 一旦选择了解析器，您将看到更详细的信息。
 
-**Configurations without parser types will not save, and will not be reloaded if you exit out of SRM.**
+**没有解析器类型的配置将无法保存，并且如果您退出 SRM，则不会重新加载。**
