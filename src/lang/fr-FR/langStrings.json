@@ -3,7 +3,7 @@
     "component": {
       "filter": "Search for game",
       "selectType": "Artwork Type",
-      "selectCategories": "Steam Category",
+      "selectCategories": "Catégorie Steam",
       "selectParsers": "Parser Title",
       "selectTypeOptions": {
         "long": "Bannières",
@@ -455,7 +455,7 @@
         "localIcons": "Local icons"
       },
       "placeholder": {
-        "parserType": "Select parser...",
+        "parserType": "Sélectionner analyseur...",
         "imageProviders": "Vide",
         "multiAPIPlaceholder": "Aucun filtre"
       },
