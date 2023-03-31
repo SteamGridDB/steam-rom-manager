@@ -1,4 +1,6 @@
-# Global do usuário
+# Glob Parser specific inputs
+
+## Global do usuário
 
 Aqui é onde você cria seu glob para extrair o título do caminho do arquivo. Leia todos os [caracteres especiais glob](#special-glob-characters) se você não sabe como construir um glob.
 
