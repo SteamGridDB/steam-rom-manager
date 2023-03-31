@@ -6,7 +6,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const configPreset: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'presetVersion',
-  latestVersion: 3,
+  latestVersion: 5,
   fields: {
     undefined: {
       'presetVersion': { method: ()=>0 },
@@ -73,6 +73,24 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
           return newValue;
         }
       }
-    }
+    },
+    3: {
+      'version': { method: versionUp },
+      'controllers': {
+        method: () => { return {} }
+      }
+    },
+    4: {
+      'version': { method: versionUp },
+      'controllers': {
+        method: (oldValue, oldConfiguration: any) => {
+          let newValue = _.cloneDeep(oldValue);
+          for(let controllerType of controllerTypes) {
+            newValue[controllerType]=newValue[controllerType] || null;
+          }
+          return newValue;
+        }
+      }
+    },
   }
 };
