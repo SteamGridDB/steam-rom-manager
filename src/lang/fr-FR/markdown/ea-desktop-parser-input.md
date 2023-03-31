@@ -1,4 +1,4 @@
-# EA Desktop Parser specific inputs
+# Entrées spécifiques de l'analyseur EA Desktop
 
 ## Répertoire des jeux EA Desktop
 
