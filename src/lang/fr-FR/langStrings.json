@@ -266,7 +266,7 @@
         "configPresets_desc": "config presets",
         "showSteamImages": "Show current Steam images by default",
         "deleteDisabledShortcuts": "Remove shortcuts for disabled parsers",
-        "clearLogOnTest": "Automatically clear log before testing parsers",
+        "clearLogOnTest": "Effacer automatiquement le journal avant de tester les analyseurs",
         "configDir": "Open Config Directory"
       },
       "placeholder": {
@@ -277,7 +277,7 @@
         "romsDirectoryWin": "For example D:\\ROMs",
         "romsDirectoryMac": "For example ~/ROMs",
         "romsDirectoryLinux": "For example ~/ROMs",
-        "retroarchPathWin": "For example C:\\Path\\To\\retroarch.exe",
+        "retroarchPathWin": "Par exemple C:\\Chemin\\Vers\\retroarch.exe",
         "retroarchPathLinux": "For example /path/to/retroarch",
         "retroarchPathMac": "For example /path/to/retroarch",
         "raCoresDirectoryWin": "Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
@@ -348,7 +348,7 @@
         "toClipboard": "Copier la configuration dans le presse-papiers"
       },
       "info": {
-        "testStarting__i": "Testing \"${title}\" parser (SRM version - ${version} ${portable}).",
+        "testStarting__i": "Test de l'analyseur \"${title}\" (SRM version - ${version} ${portable}).",
         "opSys__i": "Operating system is \"${os}\"",
         "testCompleted": "Test de l'analyseur terminé.",
         "nothingWasFound": "L'analyseur n'a rien trouvé.",
@@ -365,8 +365,8 @@
         "cannotParseUserIDs": "Error parsing user accounts:",
         "failedToMatch": "Failed to match:",
         "failedFileInfo__i": "[${index}/${total}]: ${filename}",
-        "testFailed": "Testing failed",
-        "cannotTestInvalid": "Can not test invalid configuration!",
+        "testFailed": "Le test a échoué",
+        "cannotTestInvalid": "Impossible de tester une configuration invalide!",
         "cannotCopyInvalid": "Can not copy invalid configuration!",
         "failedToCopy": "Failed to copy to clipbard!",
         "cannotFetchTemplates": "Can not fetch controller templates for invalid steam directory!",
