@@ -1,4 +1,4 @@
-import * as modifiers from "../src/renderer/modifiers";
+import * as modifiers from "../src/renderer/modifiers/config-presets.modifier";
 import * as json from "../src/lib/helpers/json";
 import * as glob from "glob";
 import { configPresets } from "../src/renderer/schemas/config-presets.schema";

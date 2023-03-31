@@ -1,4 +1,6 @@
-# Diretório de Manifestos `[Suporta Variáveis de Ambiente]`{.noWrap}
+# Manual Parser specific inputs
+
+## Diretório de Manifestos `[Suporta Variáveis de Ambiente]`{.noWrap}
 
 A localização dos arquivos json que você quer transformar em atalhos Steam. `Diretório de Participantes` deve ser do formulário:
 

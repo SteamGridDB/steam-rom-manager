@@ -1,8 +1,8 @@
-# Command line arguments (optional) `[supports variables]`{.noWrap}
+# Befehlszeilenargumente (optional) `[unterstützt Variablen]`{.noWrap}
 
-Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
+Arguments which are appended to executable to produce final shortcut. Meistens wirst du diese mit bereitgestellten Parser-Variablen einstellen.
 
-## Examples By System
+## Beispiele nach System
 
 ### RetroArch
 
@@ -114,68 +114,68 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 
 ## What does "Append arguments to executable" do?
 
-Instead of adding arguments to Steam's launch options:
+Anstatt Argumente zu den Start-Optionen von Steam hinzuzufügen:
 
-![Not appended arguments](../../../assets/images/cmd-not-appended.png) {.fitImage.center}
+![Nicht angehängte Argumente](../../../assets/images/cmd-not-appended.png) {.fitImage.center}
 
-arguments are appended to target as shown below:
+Argumente werden dem Ziel wie unten gezeigt angehängt:
 
-![Appended arguments](../../../assets/images/cmd-appended.png) {.fitImage.center}
+![Angehängte Argumente](../../../assets/images/cmd-appended.png) {.fitImage.center}
 
-This setting is used to influence Steam's APP ID.
+Diese Einstellung wird verwendet, um die App-ID von Steam zu beeinflussen.
 
-## Directory variables
+## Verzeichnis-Variablen
 
-| Variable (case-insensitive) | Corresponding value                     |
-| ---------------------------:|:--------------------------------------- |
-|                 `${exeDir}` | Executable directory                    |
-|                 `${romDir}` | ROMs directory                          |
-|               `${steamDir}` | Steam directory                         |
-|             `${startInDir}` | "StartIn" directory                     |
-|                `${fileDir}` | File's, returned by a parser, directory |
+| Variable (Groß- und Kleinschreibung unberücksichtigt) | Corresponding value                                  |
+| -----------------------------------------------------:|:---------------------------------------------------- |
+|                                           `${exeDir}` | Executable directory                                 |
+|                                           `${romDir}` | ROM-Verzeichnis                                      |
+|                                         `${steamDir}` | Dampftraktor                                         |
+|                                       `${startInDir}` | "Startin"-Verzeichnis                                |
+|                                          `${fileDir}` | Dateien, von einem Parser zurückgegeben, Verzeichnis |
 
-In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
+Falls die ausführbare Verzeichniseingabe **leer gelassen wurde,**, `${exeDir}`{.noWrap} ist gleich `${fileDir}`{.noWrap}. Außerdem ist, wenn das Verzeichnis "StartIn" **leer** gelassen wird, `${startInDir}`{.noWrap} gleich `${exeDir}`{.noWrap}.
 
-## Name variables
+## Namen-Variablen
 
-| Variable (case-insensitive) | Corresponding value                                             |
-| ---------------------------:|:--------------------------------------------------------------- |
-|                `${exeName}` | Name of executable (without extension)                          |
-|               `${fileName}` | Name of file which was returned by a parser (without extension) |
+| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                                         |
+| -----------------------------------------------------:|:--------------------------------------------------------------------------- |
+|                                          `${exeName}` | Name der ausführbaren Datei (ohne Erweiterung)                              |
+|                                         `${fileName}` | Name der Datei, die von einem Parser zurückgegeben wurde (ohne Erweiterung) |
 
-In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
+Falls die ausführbare Verzeichniseingabe **leer gelassen wurde,**, `${exeName}`{.noWrap} ist gleich `${fileName}`{.noWrap}.
 
-## Extension variables
+## Erweiterungs-Variablen
 
-| Variable (case-insensitive) | Corresponding value                                           |
-| ---------------------------:|:------------------------------------------------------------- |
-|                 `${exeExt}` | Extension of executable (with a dot)                          |
-|                `${fileExt}` | Extension of file which was returned by a parser (with a dot) |
+| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                                          |
+| -----------------------------------------------------:|:---------------------------------------------------------------------------- |
+|                                           `${exeExt}` | Erweiterung der ausführbaren Datei (mit einem Punkt)                         |
+|                                          `${fileExt}` | Dateierweiterung, die von einem Parser (mit einem Punkt) zurückgegeben wurde |
 
-In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
+Falls die ausführbare Verzeichniseingabe **leer gelassen wurde,**, `${exeExt}`{.noWrap} ist gleich `${fileExt}`{.noWrap}.
 
-## Path variables
+## Pfad-Variablen
 
-| Variable (case-insensitive) | Corresponding value                                |
-| ---------------------------:|:-------------------------------------------------- |
-|                `${exePath}` | Full path to an executable                         |
-|               `${filePath}` | Full path to a file which was returned by a parser |
+| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                                         |
+| -----------------------------------------------------:|:--------------------------------------------------------------------------- |
+|                                          `${exePath}` | Vollständiger Pfad zu einer ausführbaren Datei                              |
+|                                         `${filePath}` | Vollständiger Pfad zu einer Datei, die von einem Parser zurückgegeben wurde |
 
-In case executable directory input is left **empty**, `${exePath}`{.noWrap} is equal to `${filePath}`{.noWrap}.
+Falls die ausführbare Verzeichniseingabe **leer gelassen wurde,**, `${exePath}`{.noWrap} ist gleich `${filePath}`{.noWrap}.
 
-## Parser variables
+## Parser-Variablen
 
-| Variable (case-insensitive) | Corresponding value                              |
-| ---------------------------:|:------------------------------------------------ |
-|                  `${title}` | Extracted title                                  |
-|             `${fuzzyTitle}` | Fuzzy matched title                              |
-|             `${finalTitle}` | Title which was the end result of title modifier |
+| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                   |
+| -----------------------------------------------------:|:----------------------------------------------------- |
+|                                            `${title}` | Extrahierter Titel                                    |
+|                                       `${fuzzyTitle}` | Fuzzy matched title                                   |
+|                                       `${finalTitle}` | Titel, der das Endergebnis des Titel-Modifikators war |
 
 In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
 
-## Function variables
+## Funktions-Variablen
 
-|                                 Variable (case-insensitive) | Corresponding function                                                                                                 |
+|       Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechende Funktion                                                                                                 |
 | -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
 |                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
 |                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
@@ -184,7 +184,7 @@ In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is
 |                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
 | `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                           |
 
-### Function variable example
+### Beispiel für Funktions-Variablen
 
 Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
 ```
@@ -196,19 +196,19 @@ ${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transfo
 ${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
 file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
 ```
-will be replaced with these:
+wird durch folgende ersetzt:
 ```
-Pokémon (USA) (Disc 1).iso
-Pokémon (USA) (Disc 1).iso
-Pokémon.iso
+Poke<unk> mon (USA) (Disc 1).iso
+Poke<unk> mon (USA) (Disc 1).iso
+Poke<unk> mon.iso
 (Disc 1)
 (DISC 1)
-Pokemon (USA) (Disc 1).iso
+Pokemon (USA) (Disc 1). so
 
---On linux:
+--Unter Linux:
 file.so
---On Windows:
+--Unter Windows:
 file.dll
---On Mac OS:
-file
+--Auf MacOS:
+Datei
 ```

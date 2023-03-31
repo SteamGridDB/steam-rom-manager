@@ -1,5 +1,5 @@
-# Parser type
+# Type d'analyseur
 
-Select a parser which will be used to do parsing. Once the parser is selected, you'll see more detailed information.
+Sélectionnez un analyseur qui sera utilisé pour effectuer l'analyse. Une fois que l'analyseur est sélectionné, vous verrez des informations plus détaillées.
 
-**Configurations without parser types will not save, and will not be reloaded if you exit out of SRM.**
+**Les configurations sans types d'analyseur ne seront pas enregistrées et ne seront pas rechargées si vous quittez SRM.**

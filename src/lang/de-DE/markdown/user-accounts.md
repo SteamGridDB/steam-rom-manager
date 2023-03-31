@@ -6,7 +6,7 @@ ${...}
 ```
 You **must** use the username you use to **log in** into Steam **if** [use account credentials](#what-does-use-account-credentials-do) is enabled:
 
-![Account example](../../../assets/images/user-account-example.png) {.fitImage.center}
+![Konto-Beispiel](../../../assets/images/user-account-example.png) {.fitImage.center}
 
 For example, this is how you specify account for "Banana" and "Apple":
 
@@ -28,6 +28,6 @@ Sometimes Steam's file that contains logins, may contain users that do not have 
 
 Tries to look for account credentials in Steam directory. In other words -- username. Username then can be used to filter accounts without actually having to know their ids.
 
-### Warning!
+### Achtung!
 
-If Steam has credential saving disabled, this option will prevent finding user accounts.
+Wenn Steam das Speichern von Anmeldeinformationen deaktiviert ist, verhindert diese Option das Finden von Benutzerkonten.

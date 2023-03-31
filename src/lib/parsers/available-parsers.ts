@@ -8,6 +8,7 @@ export const availableParserInputs: {[parserType: string]: string[]} = {
   'Manual': ['manualManifests'],
   'Amazon Games': ['amazonGamesExeOverride', 'amazonGamesLauncherMode'],
   'Epic': ['epicManifests', 'epicLauncherMode'],
+  'Legendary': ['legendaryInstalledFile'],
   'GOG Galaxy': ['galaxyExeOverride','gogLauncherMode'],
   'itch.io': ['itchIoAppDataOverride','itchIoWindowsOnLinuxInstallDriveRedirect'],
   'Steam': [],
@@ -20,8 +21,19 @@ export const availableParsers = Object.keys(availableParserInputs);
 export const superTypes: {[superType: string]: string[]} = {
   'Manual': ['Manual'],
   'ArtworkOnly': ['Steam'],
-  'ROM': ['Glob','Glob-regex'],
-  'Platform': ['Epic','GOG Galaxy','Amazon Games','UPlay','itch.io', 'EA Desktop']
+  'ROM': [
+    'Glob',
+    'Glob-regex'
+  ],
+  'Platform': [
+    'Epic',
+    'Legendary',
+    'GOG Galaxy',
+    'Amazon Games',
+    'UPlay',
+    'itch.io',
+    'EA Desktop'
+  ]
 }
 
 export const superTypesMap: {[parserType: string]: string | string[]} = json.multiInvert(superTypes);

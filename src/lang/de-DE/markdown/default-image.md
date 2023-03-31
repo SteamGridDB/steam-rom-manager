@@ -1,13 +1,13 @@
-# Default image (optional) `[supports variables]`{.noWrap}
+# Standardbild (optional) `[unterstützt Variablen]`{.noWrap}
 
-Allows one to use an image, stored locally, as a default/fallback image. A [special glob input](#special-glob-input) string is used to retrieve images. Only the first retrieved image is used.
+Ermöglicht es, ein lokal gespeichertes Bild als Standard/Fallback-Bild zu verwenden. A [special glob input](#special-glob-input) string is used to retrieve images. Only the first retrieved image is used.
 
-This image will be shown **only** if there are no other images available. If Steam image is available, you will be able to choose from Steam and this image.
+Dieses Bild wird **nur** angezeigt, wenn kein anderes Bild verfügbar ist. Wenn ein Steam-Bild verfügbar ist, kannst du dieses aus Steam auswählen.
 
-## Allowed image extensions
+## Erlaubte Bild-Dateiformate
 
-Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Even if parser finds files with other extensions, they are not included into the final list.
+Es werden nur `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} und `TGA`{.noWrap} Dateiformate unterstützt. Selbst wenn der Parser Dateien mit anderen Dateiformaten findet, werden diese nicht in die endgültige Liste aufgenommen.
 
-## Can you move the directory of default image after saving app list?
+## Kannst du das Verzeichnis des Standardbilds nach dem Speichern der App-Liste verschieben?
 
-Yes, once the list is saved, default image is copied to a Steam directory where they are renamed to match Steam's APP ID.
+Ja, sobald die Liste gespeichert ist, ist das Standardbild in ein Steam-Verzeichnis kopiert, in dem es umbenannt wird, um der App-ID von Steam zu entsprechen.

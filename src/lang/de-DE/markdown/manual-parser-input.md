@@ -1,6 +1,8 @@
-# Manifests Directory `[Supports Environment Variables]`{.noWrap}
+# Manual Parser specific inputs
 
-The location of the json files you want to turn into steam shortcuts. `Manifests Directory` is expected to be of the form:
+## Manifests Directory `[Supports Environment Variables]`{.noWrap}
+
+Der Speicherort der json-Dateien, die du in Steam-Verknüpfungen umwandeln möchtest. `Manifests Directory` is expected to be of the form:
 
 ```
 /path/to/manifests
@@ -9,7 +11,7 @@ The location of the json files you want to turn into steam shortcuts. `Manifests
 --manifest3.json
 ...
 ```
-The names of the files do not matter. What does matter is that each `manifest.json` file is either a single title, like so:
+Die Namen der Dateien sind egal. Wichtig ist, dass jede `manifest.json` Datei entweder ein einzelner Titel ist, wie:
 ```json
 {
     "title": "gameTitle",
@@ -18,7 +20,7 @@ The names of the files do not matter. What does matter is that each `manifest.js
     "launchOptions": "--args"
 }
 ```
-Or a list of titles, like so:
+Oder eine Liste von Titeln, wie diese:
 ```json
 [
   {
@@ -36,4 +38,4 @@ Or a list of titles, like so:
 ]
 ```
 
-A typical use case would be to use a single json file per game type, or per year, etc.
+Ein typischer Anwendungsfall wäre die Verwendung einer einzigen json-Datei pro Spiel, pro Jahr usw.

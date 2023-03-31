@@ -1,10 +1,10 @@
 {
   "preview": {
     "component": {
-      "filter": "Filtrer par nom",
-      "selectType": "Sélectionner le type d'artwork",
-      "selectCategories": "Filtrer par catégorie Steam",
-      "selectParsers": "Filtrer par analyseur",
+      "filter": "Search for game",
+      "selectType": "Artwork Type",
+      "selectCategories": "Catégorie Steam",
+      "selectParsers": "Parser Title",
       "selectTypeOptions": {
         "long": "Bannières",
         "tall": "Posters",
@@ -81,10 +81,10 @@
   },
   "steamParser": {
     "errors": {
-      "directoryInvalid": "> Steam directory invalid.",
-      "noSteamAccounts": "> Steam directory specified has no accounts.",
-      "steamChanged__i": "> Steam changed internal database structure or parser tried to read an outdated database.\nProblematic file: ${file}\nFull error:\n ${error}",
-      "fatalError__i": "> Steam parser failed with fatal error:\n ${error}"
+      "directoryInvalid": "> Répertoire Steam invalide.",
+      "noSteamAccounts": "> Le répertoire Steam spécifié n'a aucun compte.",
+      "steamChanged__i": "> Steam a modifié la structure de la base de données interne ou l'analyseur a essayé de lire une base de données obsolète.\nFichier problématique: ${file}\nErreur complète:\n ${error}",
+      "fatalError__i": "> L'analyseur Steam a échoué avec une erreur fatale:\n ${error}"
     }
   },
   "manualParser": {
@@ -99,39 +99,46 @@
     "errors": {
       "invalidManifestsOverride": "> Manifests Override is not a valid directory.",
       "epicNotCompatible": "> Epic Games Store not available on Linux.\n If you are using the Legendary store on Linux you need to set Manifests Override.",
-      "epicNotInstalled": "> Epic Games does not appear to be installed.",
-      "fatalError__i": "> Epic Games parser failed with fatal error:\n ${error}"
+      "epicNotInstalled": "> Epic Games ne semble pas être installé.",
+      "fatalError__i": "> L'analyseur Epic Games a échoué avec une erreur fatale:\n ${error}"
+    }
+  },
+  "legendaryParser": {
+    "legendaryInstalledFileTitle": "Legendary installed.json Path Override",
+    "errors": {
+      "legendaryNotInstalled": "> Legendary installed.json not found",
+      "fatalError__i": "> L'analyseur Legendary a échoué avec une erreur fatale:\n ${error}"
     }
   },
   "uplayParser": {
     "uplayDirTitle": "Uplay Directory Override",
-    "launcherModeInputTitle": "Launch games via UPlay for online services",
+    "launcherModeInputTitle": "Lancer les jeux via UPlay pour les services en ligne",
     "errors": {
       "invalidManifestsOverride": "> Uplay Directory Override is not a valid directory.",
-      "uplayNotCompatible": "> UPlay Parser not available on Linux or Mac.",
-      "uplayDirNotFound": "> Specified UPlay directory does not exist.",
-      "uplayNotInstalled": "> UPlay not installed in specified directory.",
-      "fatalError__i": "> UPlay parser failed with fatal error:\n ${error}"
+      "uplayNotCompatible": "> L'analyseur UPlay n'est pas disponible sur Linux ou Mac.",
+      "uplayDirNotFound": "> Le répertoire UPlay spécifié n'existe pas.",
+      "uplayNotInstalled": "> UPlay n'est pas installé dans le répertoire spécifié.",
+      "fatalError__i": "> L'analyseur UPlay a échoué avec une erreur fatale:\n ${error}"
     }
   },
   "gogParser": {
     "galaxyExeOverrideTitle": "Galaxy Path Override",
-    "launcherModeInputTitle": "Launch games via GOG Galaxy",
+    "launcherModeInputTitle": "Lancer les jeux via GOG Galaxy",
     "errors": {
       "invalidGalaxyExeOverride": "> Galaxy Client Override is not a valid path.",
-      "fatalError__i": "> GOG Galaxy parser failed with fatal error:\n ${error}",
-      "gogNotCompatible": "> GOG Galaxy parser is currently only available on Windows.",
-      "gogNotInstalled": "> GOG Galaxy does not appear to be installed."
+      "fatalError__i": "> L'analyseur GOG Galaxy a échoué avec une erreur fatale:\n ${error}",
+      "gogNotCompatible": "> L'analyseur GOG Galaxy n'est actuellement disponible que sous Windows.",
+      "gogNotInstalled": "> GOG Galaxy ne semble pas être installé."
     }
   },
   "amazonGamesParser": {
     "exeOverrideTitle": "Amazon Games Path Override",
-    "launcherModeInputTitle": "Launch games via Amazon Games",
+    "launcherModeInputTitle": "Lancer les jeux via Amazon Games",
     "errors": {
       "invalidExeOverride": "> Amazon Games Installation Override is not a valid directory.",
-      "osUnsupported": "> Amazon Games parser failed because Amazon Games is only avaliable on windows.",
-      "databaseNotFound": "> Amazon Games database file not found. Amazon Games is most likely not installed.",
-      "fatalError__i": "> Amazon Games parser failed with fatal error:\n ${error}"
+      "osUnsupported": "> L'analyseur Amazon Games a échoué car Amazon Games n'est disponible que sur windows.",
+      "databaseNotFound": "> Fichier de base de données Amazon Games introuvable. Amazon Games n'est probablement pas installé.",
+      "fatalError__i": "> L'analyseur Amazon Games a échoué avec une erreur fatale:\n ${error}"
     }
   },
   "itchIoParser": {
@@ -198,13 +205,13 @@
   "logger": {
     "component": {
       "noMessages": "No messages are available",
-      "error": "ERROR",
+      "error": "ERREUR",
       "info": "INFO",
-      "success": "SUCCESS",
+      "success": "Succès",
       "fuzzy": "FUZZY",
       "textWrap": "TEXT-WRAP",
       "autoscroll": "AUTOSCROLL",
-      "clearLog": "Clear log"
+      "clearLog": "Effacer les logs"
     }
   },
   "customVariables": {
@@ -237,7 +244,7 @@
   "settings": {
     "component": {
       "label": {
-        "general": "General settings",
+        "general": "Paramètres généraux",
         "imageProviders": "Image provider settings",
         "fuzzy": "Fuzzy matcher settings",
         "environmentVariables": "Environment variable settings",
@@ -293,24 +300,24 @@
   },
   "nav": {
     "component": {
-      "about": "About",
-      "preview": "Preview",
+      "about": "À propos",
+      "preview": "Aperçu",
       "logger": "Event log",
-      "settings": "Settings",
-      "parsers": "Parsers",
+      "settings": "Paramètres",
+      "parsers": "Analyseurs",
       "customVariables": "Variables",
       "userExceptions": "Exceptions",
-      "noTitle": "No title!"
+      "noTitle": "Aucun titre!"
     }
   },
   "userExceptions": {
     "component": {
       "buttons": {
-        "save": "Save",
-        "deleteAll": "Clear",
-        "undoChanges": "Undo changes",
-        "addItem": "Add exception",
-        "deleteItem": "Remove exception"
+        "save": "Enregistrer",
+        "deleteAll": "Effacer",
+        "undoChanges": "Annuler les changements",
+        "addItem": "Ajouter une exception",
+        "deleteItem": "Supprimer l'exception"
       },
       "text": {
         "title": "User Exceptions",
@@ -329,23 +336,23 @@
   "parsers": {
     "component": {
       "buttons": {
-        "save": "Save",
-        "copy": "Copy",
-        "testParser": "Test parser",
-        "delete": "Delete",
+        "save": "Enregistrer",
+        "copy": "Copier",
+        "testParser": "Tester Analyseur",
+        "delete": "Supprimer",
         "moveUp": "Move up",
         "moveDown": "Move down",
         "faq": "FAQ",
-        "undoChanges": "Undo changes",
-        "undoDelete": "Undo delete",
-        "toClipboard": "Copy configuration to clipboard"
+        "undoChanges": "Annuler les changements",
+        "undoDelete": "Annuler la suppression",
+        "toClipboard": "Copier la configuration dans le presse-papiers"
       },
       "info": {
         "testStarting__i": "Testing \"${title}\" parser (SRM version - ${version} ${portable}).",
         "opSys__i": "Operating system is \"${os}\"",
-        "testCompleted": "Parser test is completed.",
-        "nothingWasFound": "Parser found nothing.",
-        "copiedToClipboard": "Configuration copied to clipboard",
+        "testCompleted": "Test de l'analyseur terminé.",
+        "nothingWasFound": "L'analyseur n'a rien trouvé.",
+        "copiedToClipboard": "Configuration copiée dans le presse-papiers",
         "userExclusions": "User excluded:",
         "excludedFileInfo__i": "[${index}/${total}]: ${filename}",
         "removingControllers__i": "Removing controller templates for parser: ${configTitle}",
@@ -420,13 +427,13 @@
         "fetchedTemplates": "Fetched all controller templates"
       },
       "label": {
-        "parserType": "Parser type",
-        "configTitle": "Configuration title",
-        "steamCategory": "Steam category",
+        "parserType": "Type d'analyseur",
+        "configTitle": "Titre de configuration",
+        "steamCategory": "Catégorie Steam",
         "executableModifier": "Executable modifier",
-        "executableLocation": "Executable",
-        "romDirectory": "ROMs directory",
-        "steamDirectory": "Steam directory",
+        "executableLocation": "Exécutable",
+        "romDirectory": "Répertoire des ROMs",
+        "steamDirectory": "Répertoire Steam",
         "startInDirectory": "\"Start In\" directory",
         "userAccounts": "User accounts",
         "titleFromVariable": "Title from custom variable",
@@ -436,7 +443,7 @@
         "onlineImageQueries": "Online image query",
         "imagePool": "Image pool",
         "imageProviders": "Image providers",
-        "defaultImage": "Default image",
+        "defaultImage": "Image par défaut",
         "defaultTallImage": "Default tall image",
         "defaultHeroImage": "Default hero image",
         "defaultLogoImage": "Default logo image",
@@ -448,12 +455,12 @@
         "localIcons": "Local icons"
       },
       "placeholder": {
-        "parserType": "Select parser...",
-        "imageProviders": "None",
-        "multiAPIPlaceholder": "No Filter"
+        "parserType": "Sélectionner analyseur...",
+        "imageProviders": "Vide",
+        "multiAPIPlaceholder": "Aucun filtre"
       },
       "text": {
-        "skipWithMissingDataDir": "Skip found accounts with missing data directories",
+        "skipWithMissingDataDir": "Ignorer les comptes trouvés avec des données manquantes",
         "useCredentials": "Use account credentials",
         "tryToMatchTitle": "Enable Title from Custom Variable",
         "skipFileIfVariableWasNotFound": "Skip file if variable was not found",
@@ -555,15 +562,15 @@
     "error": {
       "readingVdf__i": "Failed to read from \"${filePath}\". ${error}",
       "writingVdf__i": "Failed to write to \"${filePath}\". ${error}",
-      "corruptedVdf__i": "\"${filePath}\" is corrupted. ${error}",
-      "creatingBackup__i": "Could not create backup for \"${filePath}\". ${error}",
+      "corruptedVdf__i": "\"${filePath}\" est corrompu. ${error}",
+      "creatingBackup__i": "Impossible de créer une backup pour \"${filePath}\". ${error}",
       "unsupportedMimeType__i": "Mime type (${type}) is unsupported (title - \"${title}\").",
       "imageError__i": "Error occurred while saving/downloading image for \"${title}\". Url: ${url}. ${error}"
     }
   },
   "helpers": {
     "error": {
-      "noUserIdsInDir__i": "\"${steamDirectory}\" contains no user ids."
+      "noUserIdsInDir__i": "\"${steamDirectory}\" ne contient aucun identifiant d'utilisateur."
     }
   }
 }

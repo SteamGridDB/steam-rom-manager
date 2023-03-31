@@ -10,4 +10,4 @@ Alleen `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} en `TGA`{.noWrap} bestand
 
 ## Kun je de map van de standaard afbeelding verplaatsen na het opslaan van de app-lijst?
 
-Ja, zodra de lijst is opgeslagen, wordt de standaardafbeelding gekopieerd naar een Steam-map waar ze worden hernoemd om overeen te komen met de APP-ID van Steam.
+Ja, zodra de lijst is opgeslagen, wordt de standaardafbeelding gekopieerd naar een Steam-directory en hernoemd om overeen te komen met de APP-ID van Steam.

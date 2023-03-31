@@ -1,2 +1,5 @@
-## EA Desktop Games Directory
-By default Steam ROM Manager assumes your `EA Desktop` games are installed at ``C:\Program Files\EA Games\`. This field allows you to change that to wherever your games are installed, e.g.``D:\Games\EA Games`.
+# Entrées spécifiques de l'analyseur EA Desktop
+
+## Répertoire des jeux EA Desktop
+
+Par défaut, Steam ROM Manager assume que vos jeux `EA Desktop` sont installés sur ``C:\Program Files\EA Games\`. Ce champ vous permet de remplacer ce chemin à l'endroit où vos jeux sont installés, par exemple``D:\Games\EA Games`.

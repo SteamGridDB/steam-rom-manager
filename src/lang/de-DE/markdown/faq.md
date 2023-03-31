@@ -1,6 +1,6 @@
 # Häufig gestellte Fragen
 
-Read this if you're still having trouble with configuration. Für die meisten Beispiele wird Folgendes verwendet, sofern nicht anders angegeben:
+Lies dies, wenn du immer noch Probleme mit der Konfiguration hast. Für die meisten Beispiele wird Folgendes verwendet, sofern nicht anders angegeben:
 
 |                    |                                            |
 | ------------------ | ------------------------------------------ |
@@ -40,9 +40,9 @@ Now we can use a globstar and that's it!
 ```
 **/${title}.*
 ```
-Is it really that simple? **NO!** Globstar will have some impact in parser's performance if there are many subdirectories with thousands of files each. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere.
+Ist es wirklich so einfach? **Nein!** Globstar wird Auswirkungen auf die Leistung des Parsers haben, wenn es viele Unterverzeichnisse mit jeweils Tausenden von Dateien gibt. Globstar wird sicherstellen, dass der Parser jede Datei überprüft, die er finden kann. Ein Benutzer hat einmal gemeldet, dass das Parsen ~10 Minuten dauerte, als er überall Globstars verwendete.
 
-A recommended solution is to use braced sets. They can make multiple globs out of `1` glob. If we write a glob like this:
+Eine empfohlene Lösung ist die Verwendung von geklammerten Sätzen. Diese können aus `1` Glob mehrere machen. Wenn wir einen Glob wie folgt schreiben:
 
 ```
 {*,*/*}/*/${title}.*
@@ -57,7 +57,7 @@ we will get `2` globs:
 
 These `2` globs both satisfy our files, **File3** and **File5**.
 
-## How to limit file extensions?
+## Wie kann ich Dateierweiterungen begrenzen?
 
 Let's say we use glob from previous example:
 
@@ -65,13 +65,13 @@ Let's say we use glob from previous example:
 {*,*/*}/*/${title}.*
 ```
 
-We will end up with 4 files: **File3**, **File4**, **File5** and **File6**. Now, we don't need **File4** and **File6**. Normally we could set glob to:
+Wir werden vier Dateien erhalten: **Datei3**, **Datei4**, **Datei5** und **Datei6**. Nun benötigen wir **File4** und **File6** nicht. Normalerweise könnten wir den Glob dann wie folgt setzen:
 
 ```
 {*,*/*}/*/${title}.nes
 ```
 
-but then we will end up only with **File3**, because `nes` is not equal to `NES` -- parser is case sensitive. There are two ways to solve this problem using extended glob matcher.
+aber dann werden wir nur mit **File3** enden, denn `nes` ist nicht gleich `NES` -- der Parser berücksichtigt die Groß-/Kleinschreibung. Es gibt zwei Möglichkeiten, dieses Problem mithilfe des erweiterten Glob-Matchers zu lösen.
 
 ### Exclude `sav` extension
 
@@ -103,11 +103,11 @@ Now parser can match any combination and is effectively case-insensitive. Techni
 {*,*/*}/*/${title}.[nN][eE][sS]
 ```
 
-## Troubleshooting
-* Please ensure that steam is actually closed before saving your app list.
+## Fehlerbehebung
+* Bitte stelle sicher, dass Steam tatsächlich geschlossen ist, bevor du deine App-Liste speicherst.
 
-* One common issue Steam ROM Manager runs into is the presence of old steam directories from people who logged into steam in your computer before the New Library Update. This can cause Steam ROM Manager to fail in unpredictable ways, as it tries to access directories whose structure has changed. In order to get around this, use the [User Accounts](#user-accounts) field to specify which accounts you actually want to use Steam ROM Manager with.
+* Ein häufig auftretendes Problem ist das Vorhandensein alter Steam-Verzeichnisse von Leuten, die sich vor dem Update der neuen Bibliothek in deinem Computer eingeloggt haben. Dies kann dazu führen, dass der Steam ROM Manager auf unvorhersehbare Weise fehlschlägt, da er versucht, auf Verzeichnisse zuzugreifen, deren Struktur sich geändert hat. Um dies zu umgehen, verwende das [Benutzerkonten](#user-accounts) Feld um festzulegen, mit welchen Konten du Steam ROM Manager verwenden möchtest.
 
-## The Discord
+## Der Discord
 
-For further help, please see our [Discord](https://discord.gg/bnSVJrz).
+Für weitere Hilfe, schau dir bitte unseren [Discord](https://discord.gg/bnSVJrz) an.

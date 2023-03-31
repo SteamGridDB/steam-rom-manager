@@ -1,4 +1,6 @@
-# Manifests Directory `[Supports Environment Variables]`{.noWrap}
+# Manual Parser specific inputs
+
+## Manifests Directory `[Supports Environment Variables]`{.noWrap}
 
 The location of the json files you want to turn into steam shortcuts. `Manifests Directory` is expected to be of the form:
 

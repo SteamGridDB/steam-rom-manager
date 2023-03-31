@@ -1,10 +1,10 @@
 {
   "preview": {
     "component": {
-      "filter": "Filtrar por título",
-      "selectType": "Selecionar tipo de arte",
-      "selectCategories": "Filtrar por categoria de Steam",
-      "selectParsers": "Filtrar por analisador",
+      "filter": "Search for game",
+      "selectType": "Artwork Type",
+      "selectCategories": "Steam Category",
+      "selectParsers": "Parser Title",
       "selectTypeOptions": {
         "long": "Banners",
         "tall": "Pôsteres",
@@ -101,6 +101,13 @@
       "epicNotCompatible": "> Loja Epic Games não disponível no Linux.\n Se você está usando a loja Lendária no Linux, você precisa definir a Substituição de Manifãs.",
       "epicNotInstalled": "> Parece que a Epic Games não está instalada.",
       "fatalError__i": "> O analisador da falhou com erro fatal:\n ${error}"
+    }
+  },
+  "legendaryParser": {
+    "legendaryInstalledFileTitle": "Legendary installed.json Path Override",
+    "errors": {
+      "legendaryNotInstalled": "> Legendary installed.json not found",
+      "fatalError__i": "> Legendary parser failed with fatal error: \n ${error}"
     }
   },
   "uplayParser": {

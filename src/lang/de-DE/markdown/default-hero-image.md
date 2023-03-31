@@ -10,4 +10,4 @@ Es werden nur `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} und `TGA`{.noWrap}
 
 ## Kannst du das Verzeichnis des Standardbilds nach dem Speichern der App-Liste verschieben?
 
-Yes, once the list is saved, default hero image is copied to a Steam directory where they are renamed to match Steam's APP ID.
+Ja, sobald die Liste gespeichert ist, ist das Standard-Heldenbild in ein Steam-Verzeichnis kopiert, in dem dieses umbenannt wird, um der APP-ID von Steam zu entsprechen.
