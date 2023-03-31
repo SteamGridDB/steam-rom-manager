@@ -540,7 +540,7 @@ Original title: "Addams Family, The - Pugsley's Scavenger Hunt"
 * Parser configurations and app settings from now will have versions. This will allow to automatically upgrade, update or remove deprecated entries.
 * A lot of new variables are now available for users to further customize "stuff".
 * App can now automatically clear log before testing parser.
-* Navigation panel can now be resized. Maximum allowed width is 25% of viewport width.
+* Navigation panel can now be re-sized. Maximum allowed width is 25% of viewport width.
 * Configuration unsaved status is now reflected near its title in navigation. It also shows if configuration is disabled or not.
 * Image urls are now cached for a session.
 * Steam categories now support variables.
