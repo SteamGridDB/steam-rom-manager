@@ -7,19 +7,21 @@ Steam ROM Manager
 [![Discord](https://img.shields.io/discord/488621078302949377?color=5865F2&label=SRM&logo=discord&logoColor=white)](https://discord.gg/bnSVJrz)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/steam-rom-manager?color=blue&label=Chocolatey%20package)](https://community.chocolatey.org/packages/steam-rom-manager)
 [![Crowdin](https://badges.crowdin.net/steam-rom-manager/localized.svg)](https://crowdin.com/project/steam-rom-manager)
-# For users
+# Overview
 
-Steam ROM Manager is a super flexible tool for adding non-Steam games to Steam in bulk and managing their artwork assets and controller templates. Added games could be ROMs for emulators, games from other stores such as Epic or GOG, or even not games at all. Have you always wanted your notes from junior year as a category in steam? If so that's pretty weird! But now it's possible.
+Steam ROM Manager (SRM) is a super flexible tool for adding non-Steam games to Steam in bulk and managing their artwork assets and controller templates. Added games could be ROMs for emulators, games from other stores such as Epic or GOG, or even not games at all. Have you always wanted your notes from junior year as a category in steam? If so that's pretty weird! But now it's possible.
 
 For an overview of how SRM works see [here](https://steamgriddb.github.io/steam-rom-manager/). There is plenty of documentation available in the app's built in FAQ, and if you need further help there are expert users to be found on the [SGDB discord](https://discord.gg/bnSVJrz) under the Steam ROM Manager category and the [SRM subreddit](https://www.reddit.com/r/SteamRomManager/).
 
-Check out the [releases page](https://github.com/SteamGridDB/steam-rom-manager/releases) for compiled downloads for Windows (exe), macOS (dmg) and Linux (AppImage, deb).
+Check out the [releases page](https://github.com/SteamGridDB/steam-rom-manager/releases) for compiled downloads for Windows (exe), macOS (dmg), and Linux (AppImage, deb).
 
 The Windows version is also available as a [Chocolatey package](https://community.chocolatey.org/packages/steam-rom-manager).
 
 The Linux version is also available as a [Flatpak](https://flatpak.org) at [Flathub/steam-rom-manager](https://flathub.org/apps/details/com.steamgriddb.steam-rom-manager). Linux caveats:
 * On some distributions Flatpak must be [pre-configured manually](https://flatpak.org/setup).
 * The AppImage needs to be [made executable](http://discourse.appimage.org/t/how-to-make-an-appimage-executable/80) after download.
+
+If you're on a Steam Deck we recommend setting everything up through [EmuDeck](https://www.emudeck.com/), as it will install and automatically configure Steam ROM Manager and whatever emulators you want.
 
 # Support
 
@@ -35,11 +37,9 @@ If you're feeling exceptionally generous then feel free to also buy me a coffee!
   <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="38" width="174">
 </a>
 
-# Steam Deck Users
-
-If you're on a Steam Deck we recommend setting everything up through [EmuDeck](https://www.emudeck.com/), as it will install and automatically configure Steam ROM Manager and whatever emulators you want.
-
 # Parsers
+
+Parsers are the heart and soul of SRM. If Steam is the octopus, then these are its tentacles &mdash; reaching into your ROM directories and the databases and manifest files of other game stores and pulling out the games you want.
 
 ## ROM Parsers
 
@@ -57,12 +57,13 @@ In addition to flexible importing of ROMS, SRM now has several *platform parsers
 |Parser|Windows|Mac OS|Linux|
 |---|---|---|---|
 |[Amazon Games](https://gaming.amazon.com/amazon-games-app)|✅|🟦|🟦|
+|[EA Desktop](https://www.ea.com/ea-app)|✅|🟦|🟦|
 |[Epic](https://store.epicgames.com/en-US/)|✅|✅|🟦|
-|[Legendary](https://github.com/derrod/legendary)|✅|✅|✅|
 |[GOG Galaxy](https://www.gog.com/galaxy)|✅|❌|🟦|
 |[Itch.io](https://itch.io/app)|✅|✅|✅|
+|[Legendary](https://github.com/derrod/legendary)|✅|✅|✅|
 |[UPlay](https://ubisoftconnect.com/en-US/)|✅|❌|🟦|
-|[EA Desktop](https://www.ea.com/ea-app)|✅|🟦|🟦|
+
 
 ✅  Implemented
 ❌  Planned
