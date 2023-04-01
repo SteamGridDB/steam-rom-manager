@@ -1,7 +1,7 @@
-# Image providers
+# 图像提供程序
 
-Here you can select image providers that are used to retrieve images. This option is for this configuration only.
+在这里，您可以选择用于检索图像的图像提供程序。 此选项仅适用于此配置。
 
-## Similar option in "Settings" menu
+## “设置”菜单中的类似选项
 
-Settings menu has "Enabled providers" which enable image providers globally -- if it's not enabled in Settings, it won't work.
+设置菜单中有“启用提供程序”选项，可以全局启用图像提供程序 -- 如果在设置中未启用，则无法使用。
