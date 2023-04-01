@@ -1,35 +1,35 @@
-# Executable modifier `[supports variables]`{.noWrap}
+# 可执行文件修饰符`[支持变量]`{.noWrap}
 
-Default value is `"${exePath}"`{.noWrap}. Default value is `"${exePath}"`{.noWrap}. This setting can be used to prepend or append desired characters to an executable which will be added to Steam (`Target` property). Default value is `"${exePath}"`{.noWrap}. This setting can be used to prepend or append desired characters to an executable which will be added to Steam (`Target` property). For example, given that `${exePath}`{.noWrap} is `C:\RetroArch\retroarch.exe`, you can add `"cmd" /k start /min` to it by setting value to: Default value is `"${exePath}"`{.noWrap}. This setting can be used to prepend or append desired characters to an executable which will be added to Steam (`Target` property). For example, given that `${exePath}`{.noWrap} is `C:\RetroArch\retroarch.exe`, you can add `"cmd" /k start /min` to it by setting value to:
+默认值为`"${exePath}"`{.noWrap}。 Default value is `"${exePath}"`{.noWrap}. This setting can be used to prepend or append desired characters to an executable which will be added to Steam (`Target` property). Default value is `"${exePath}"`{.noWrap}. This setting can be used to prepend or append desired characters to an executable which will be added to Steam (`Target` property). For example, given that `${exePath}`{.noWrap} is `C:\RetroArch\retroarch.exe`, you can add `"cmd" /k start /min` to it by setting value to: Default value is `"${exePath}"`{.noWrap}. This setting can be used to prepend or append desired characters to an executable which will be added to Steam (`Target` property). For example, given that `${exePath}`{.noWrap} is `C:\RetroArch\retroarch.exe`, you can add `"cmd" /k start /min` to it by setting value to:
 ```
 "cmd" /k start /min "${exePath}"
 ```
-You can use any other variable to construct the final executable.
+你可以使用任何其他变量来构建最终的可执行文件。
 
-This setting influences Steam's APP ID.
+这个设置会影响 Steam 的应用 APP ID。
 
 
-## Shortcut Passthrough
-If you enable "Follow .lnk to destination" and your executable is a ".lnk" file, ie a shortcut, then whatever you put in this field will be overridden with the target of that shortcut. If you would like to add executable arguments either add them to the target of the shortcut or use the "Command Line Arguments" field in the parser. If you would like to add executable arguments either add them to the target of the shortcut or use the "Command Line Arguments" field in the parser. If you would like to add executable arguments either add them to the target of the shortcut or use the "Command Line Arguments" field in the parser.
+## 快捷方式直通
+If you enable "Follow .lnk to destination" and your executable is a ".lnk" file, ie a shortcut, then whatever you put in this field will be overridden with the target of that shortcut. If you would like to add executable arguments either add them to the target of the shortcut or use the "Command Line Arguments" field in the parser. If you would like to add executable arguments either add them to the target of the shortcut or use the "Command Line Arguments" field in the parser. 如果您想添加可执行参数，请将它们添加到快捷方式的目标中，或者使用解析器中的“命令行参数”字段。
 
-## Directory variables
+## 目录变量
 
-| Variable (case-insensitive) | Corresponding value                     |
-| ---------------------------:|:--------------------------------------- |
-|                 `${exeDir}` | Executable directory                    |
-|                 `${romDir}` | ROMs directory                          |
-|               `${steamDir}` | Steam directory                         |
-|             `${startInDir}` | "StartIn" directory                     |
-|                `${fileDir}` | File's, returned by a parser, directory |
+|     变量 (大小写不敏感) | 对应的值          |
+| ---------------:|:------------- |
+|     `${exeDir}` | 可执行文件目录:      |
+|     `${romDir}` | ROM 目录        |
+|   `${steamDir}` | Steam 目录      |
+| `${startInDir}` | "Start In" 目录 |
+|    `${fileDir}` | 由解析器返回的文件目录。  |
 
-In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
+In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}. 此外，如果“StartIn”目录为**空**，则`${startInDir}`{.noWrap}等于`${exeDir}`{.noWrap}。
 
-## Name variables
+## 名称变量
 
-| Variable (case-insensitive) | Corresponding value                                             |
-| ---------------------------:|:--------------------------------------------------------------- |
-|                `${exeName}` | Name of executable (without extension)                          |
-|               `${fileName}` | Name of file which was returned by a parser (without extension) |
+|   变量 (大小写不敏感) | 对应的值              |
+| -------------:|:----------------- |
+|  `${exeName}` | 可执行文件名称 (无扩展名)    |
+| `${fileName}` | 由解析器返回的文件名（不带扩展名） |
 
 如果可执行目录输入**留空<**，则 `${exeName}`{.noWrap} 等于 `${fileName}`{.noWrap}。
 
@@ -93,10 +93,10 @@ Pokémon.iso
 (DISC 1)
 Pokemon (USA) (Disc 1).iso
 
---On linux:
+--在 Linux:
 file.so
---On Windows:
+--在 Windows:
 file.dll
---On Mac OS:
+--在 macOS:
 file
 ```
