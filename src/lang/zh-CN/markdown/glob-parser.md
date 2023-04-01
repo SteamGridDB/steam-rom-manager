@@ -1,5 +1,5 @@
-# Glob Parser
+# 全局解析器
 
-A glob based path parser used to extract title from a file path.
+一个基于通配符的路径解析器，用于从文件路径中提取标题。
 
-If your ROMs Directory (eg. `D:\ROMS`) contains `Donkey Kong.gba`,`Super Mario.gba`, and `Sonic.gba` then the glob `${title}.gba` will find titles `Donkey Kong`, `Super Mario`, and `Sonic`.
+如果您的 ROM 目录（例如`D:\ROMS`）包含`Donkey Kong.gba`，`Super Mario.gba`和`Sonic.gba `，那么glob `${title}.gba` 将找到标题为`Donkey Kong`, `Super Mario`和`Sonic`。
