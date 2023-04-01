@@ -112,27 +112,27 @@
 "${filePath}"
 ```
 
-## What does "Append arguments to executable" do?
+## “将参数附加到可执行文件”是什么意思？
 
-Instead of adding arguments to Steam's launch options:
+不要在 Steam 的启动选项中添加参数：
 
-![Not appended arguments](../../../assets/images/cmd-not-appended.png) {.fitImage.center}
+![未附加参数](../../../assets/images/cmd-not-appended.png) {.fitImage.center}
 
-arguments are appended to target as shown below:
+参数将如下所示附加到目标：
 
-![Appended arguments](../../../assets/images/cmd-appended.png) {.fitImage.center}
+![附加参数](../../../assets/images/cmd-appended.png) {.fitImage.center}
 
-This setting is used to influence Steam's APP ID.
+此设置用于影响 Steam 的 APP ID。
 
-## Directory variables
+## 目录变量
 
-| Variable (case-insensitive) | Corresponding value                     |
-| ---------------------------:|:--------------------------------------- |
-|                 `${exeDir}` | Executable directory                    |
-|                 `${romDir}` | ROMs directory                          |
-|               `${steamDir}` | Steam directory                         |
-|             `${startInDir}` | "StartIn" directory                     |
-|                `${fileDir}` | File's, returned by a parser, directory |
+|     变量 (大小写不敏感) | 对应的值          |
+| ---------------:|:------------- |
+|     `${exeDir}` | 可执行文件目录:      |
+|     `${romDir}` | ROM 目录        |
+|   `${steamDir}` | Steam 目录      |
+| `${startInDir}` | "Start In" 目录 |
+|    `${fileDir}` | 由解析器返回的文件目录。  |
 
 如果可执行目录输入留空，则 **empty**，`${exeDir}`{.noWrap} 等于 `${fileDir}`{.noWrap}。 此外，如果“StartIn”目录为**空**，则`${startInDir}`{.noWrap}等于`${exeDir}`{.noWrap}。
 
