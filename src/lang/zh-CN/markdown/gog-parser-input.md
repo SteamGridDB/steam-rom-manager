@@ -7,4 +7,4 @@
 
 ## 通过 GOG Galaxy 启动`[推荐禁用]`
 
-What it sounds like, this toggle let's you set whether games will launch via GOG Galaxy or directly. Note that for some games launching from GOG Galaxy may fail, and the Steam overlay will most likely not work. 请注意，对于某些游戏，从 GOG Galaxy 启动可能会失败，并且 Steam 覆盖层很可能无法正常工作。
+What it sounds like, this toggle let's you set whether games will launch via GOG Galaxy or directly. Note that for some games launching from GOG Galaxy may fail, and the Steam overlay will most likely not work. 请注意，对于某些游戏，从 GOG Galaxy 启动可能会失败，并且 Steam 覆盖层很可能无法正常工作。 请注意，对于某些游戏，从 GOG Galaxy 启动可能会失败，并且 Steam 覆盖层很可能无法正常工作。

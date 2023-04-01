@@ -110,6 +110,14 @@
       "fatalError__i": "> Legendary parser failed with fatal error: \n ${error}"
     }
   },
+  "UWPParser": {
+    "UWPDirTitle": "Games directory",
+    "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper.",
+    "errors": {
+      "UWPNotCompatible": "> UWP parser failed with fatal error:\n ${error}",
+      "fatalError__i": "> UWP parser is not compatible in this platform."
+    }
+  },
   "uplayParser": {
     "uplayDirTitle": "Sobrescrever Diretório Uplay",
     "launcherModeInputTitle": "Inicie jogos via Epic para serviços online",

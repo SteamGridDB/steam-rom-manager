@@ -6,7 +6,7 @@
 
 ## 它是如何工作的？
 
-In addition to special glob characters, glob parser requires you to enter `${/.../}`{.noWrap} variable. Parser will locate it's position inside your  glob, for example: 解析器将定位其位置在您的全局变量中，例如：
+In addition to special glob characters, glob parser requires you to enter `${/.../}`{.noWrap} variable. Parser will locate it's position inside your  glob, for example: 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如：
 
 | 用户的 glob              | 位置         |
 | --------------------- | ---------- |
@@ -38,7 +38,7 @@ Similar to [regular expression with capture brackets](#regular-expression-with-c
 ```
 ${/(.*?)\s*\[USA\]\s*(.+)/|Second capture group: "$2" precedes the first one, which is "$1" }
 ```
-If our first capture group is `Legend of Zelda` and second one is `SUPER EDITION`, then we will get the following (not very useful) title:
+如果我们的第一个捕获组是 `Legend of Zelda`，第二个捕获组是 `SUPER EDITION`，那么我们将得到以下（不太有用）的标题：
 
 `第二个捕获组："SUPER EDITION" 在第一个捕获组 "Legend of Zelda" 之前。`
 
