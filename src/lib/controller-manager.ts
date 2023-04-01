@@ -15,21 +15,26 @@ export const controllerTypes = [
   'ps5',
   'xbox360',
   'xboxone',
-  'switch_joycon',
+  'switch_joycon_left',
+  'switch_joycon_right',
   'switch_pro',
+  'neptune'
 ]
 export const controllerNames = {
   ps4: 'PS4',
   ps5: 'PS5',
   xbox360: 'Xbox 360',
   xboxone: 'Xbox One',
-  switch_joycon: 'Switch Joy-Cons',
-  switch_pro: 'Switch Pro'
+  switch_joycon_left: 'Switch Joy-Con (Left)',
+  switch_joycon_right: 'Switch Joy-Con (Right)',
+  switch_pro: 'Switch Pro',
+  neptune: 'Steam Deck'
 }
 
 const match = '(SRM)';
 const topKey = 'controller_config';
-const srmkey = 'srmAppId';
+const srmKey = 'srmAppId';
+const srmParserKey = 'srmParserId';
 
 export class ControllerManager {
   private titleMap: {[appId: string]: string};
@@ -37,7 +42,7 @@ export class ControllerManager {
     this.titleMap = {}
   }
 
-  createList(previewData: PreviewData) {
+  static createList(previewData: PreviewData) {
     const list = [];
     for(const steamDirectory in previewData) {
       for(const userId in previewData[steamDirectory]) {
@@ -52,41 +57,57 @@ export class ControllerManager {
   }
 
   // TODO
-  // 1) Convert to AppIDs [doesn't seem possible sadly]
+  // 1) Convert key to appIDs [doesn't seem possible sadly]
   // 2) Make titlemap not a class variable
 
   static readTemplates(steamDirectory: string, controllerType: string) {
-    try {
-      let templateDir = path.join(steamDirectory, 'steamapps', 'workshop', 'content', '241100')
-      let files = glob.sync('*/*', { silent: true, dot: true, cwd: templateDir, absolute: true });
-      let parsedTemplates: any[] = files.map((f: string) => Object.assign({ mappingId: f.split('/').slice(-2)[0] }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
-        .filter((x: any) => !!x['controller_mappings']
-          && !!x['controller_mappings']['title']
+    let templateDirUser = path.join(steamDirectory, 'steamapps', 'workshop', 'content', '241100')
+    let filesUser = glob.sync('*/*', { silent: true, dot: true, cwd: templateDirUser, absolute: true });
+    let parsedTemplatesUser: any[] = filesUser.map((f: string) => Object.assign({ mappingId: f.split('/').slice(-2)[0] }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
+      .filter((x: any) => !!x['controller_mappings']
+        && !!x['controller_mappings']['title']
+        && !!x['controller_mappings']['controller_type']
+      )
+      .filter(x=> x.controller_mappings.controller_type === 'controller_'+controllerType)
+      .filter(x=> String(x.controller_mappings.title).slice(-match.length) === match)
+      .map(x=>Object.assign({},{
+        title: x.controller_mappings.title,
+        mappingId: x.mappingId,
+        profileType: "workshop"
+      }));
+    parsedTemplatesUser.sort((a, b) => a.title.localeCompare(b.title));
+
+    let templateDirValve = path.join(steamDirectory, 'controller_base', 'templates')
+    let filesValve = glob.sync('*.vdf', { silent: true, dot: true, cwd: templateDirValve, absolute: true });
+    let parsedTemplatesValve: any[] = filesValve.map((f: string) => Object.assign({ mappingId: path.basename(f) }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
+      .filter((x: any) => !!x['controller_mappings']
+        && !!x['controller_mappings']['title']
           && !!x['controller_mappings']['controller_type']
         )
         .filter(x=> x.controller_mappings.controller_type === 'controller_'+controllerType)
-        .filter(x=> x.controller_mappings.title.slice(-match.length) === match)
         .map(x=>Object.assign({},{
-          title: x.controller_mappings.title,
-          mappingId: x.mappingId
+          title: json.caseInsensitiveTraverse(x,[["controller_mappings"],["localization"],["english"],["title"]]) || json.caseInsensitiveTraverse(x,[["controller_mappings"],["title"]]),
+          mappingId: x.mappingId,
+          profileType: "template"
         }));
-      return parsedTemplates
-    } catch(e) {
-      console.log(`Error getting Controller Templates:\n ${e}`)
-      return [];
-    }
+    parsedTemplatesValve = _.uniqBy(parsedTemplatesValve,'title');
+    parsedTemplatesValve.sort((a, b) => a.title.localeCompare(b.title));
+
+    return parsedTemplatesUser.concat(parsedTemplatesValve);
   }
 
-  transformTitle(gameTitle: string) {
-    return (gameTitle||"").toLowerCase().trim()
+  static transformTitle(gameTitle: string) {
+    return (gameTitle||"").toLowerCase().replace(/[/\\?%*:|"<>\.]/g,'')
   }
 
 
-  setTemplate(configsetData: {[controllerType: string]: any},
+  private setTemplate(configsetData: {[controllerType: string]: any},
     appId: string,
+    parserId: string,
     controllerType: string,
     gameTitle: string,
-    mappingId: string
+    mappingId: string,
+    profileType: string
   ) {
     if(!configsetData[controllerType]) {
       configsetData[controllerType] = {};
@@ -94,17 +115,18 @@ export class ControllerManager {
     if(!configsetData[controllerType][topKey]) {
       configsetData[controllerType][topKey] = {};
     }
-    let title = this.transformTitle(gameTitle)
+    let title = ControllerManager.transformTitle(gameTitle)
     configsetData[controllerType][topKey][title] = {
-      workshop: mappingId,
-      srmAppId: appId
+      [profileType]: mappingId,
+      [srmKey]: "a"+appId,
+      [srmParserKey]: "p"+parserId //prevents interpretation as an integer, which causes rounding errors
     };
   }
 
-  removeTemplate(configsetData: {[controllerType: string]: any}, gameTitle: string, controllerType: string) {
-    let title = this.transformTitle(gameTitle);
+  removeController(configsetData: {[controllerType: string]: any}, gameTitle: string, controllerType: string) {
+    let title = ControllerManager.transformTitle(gameTitle);
     if(configsetData[controllerType] && configsetData[controllerType][topKey]) {
-       if((configsetData[controllerType][topKey][title]||{})[srmkey]) {
+       if((configsetData[controllerType][topKey][title]||{})[srmKey]) {
         delete configsetData[controllerType][topKey][title];
       }
       if(Object.keys(configsetData[controllerType][topKey]).length == 0) {
@@ -113,11 +135,20 @@ export class ControllerManager {
     }
   }
 
-  removeAllTemplates(configsetData: {[controllerType: string]: any}) {
+  removeAllControllersAndWrite(steamDirectory: string, userId: string, parserId?: string): void {
+    let configsetDir = ControllerManager.configsetDir(steamDirectory, userId);
+    let configsetData = this.readControllers(configsetDir);
+    this.removeAllControllers(configsetData, parserId);
+    this.writeControllerFiles(configsetDir, configsetData);
+  }
+
+  removeAllControllers(configsetData: {[controllerType: string]: any}, parserId?: string): void {
     for(const gameTitle of Object.values(this.titleMap)) {
       for(const controllerType of controllerTypes) {
         if(configsetData[controllerType] && configsetData[controllerType][topKey] && configsetData[controllerType][topKey][gameTitle]) {
-          delete configsetData[controllerType][topKey][gameTitle];
+          if(!parserId || configsetData[controllerType][topKey][gameTitle][srmParserKey] == "p"+parserId) {
+            delete configsetData[controllerType][topKey][gameTitle];
+          }
         }
       }
     }
@@ -141,8 +172,8 @@ export class ControllerManager {
           for(const key of Object.keys(configsetData[controllerType][topKey][game])) {
             configsetData[controllerType][topKey][game][key] = String(configsetData[controllerType][topKey][game][key])
           }
-          if(configsetData[controllerType][topKey][game][srmkey]) {
-            this.titleMap[configsetData[controllerType][topKey][game][srmkey]] = game;
+          if(configsetData[controllerType][topKey][game][srmKey]) {
+            this.titleMap[configsetData[controllerType][topKey][game][srmKey]] = game;
           }
         }
       }
@@ -160,33 +191,12 @@ export class ControllerManager {
     }
   }
 
-  writeControllers(user: { userId: string, steamDirectory: string, userData: PreviewDataUser }, extraneousAppIds: string[], removeAll: boolean) {
-    let configsetDir = path.join(user.steamDirectory, 'steamapps', 'common', 'Steam Controller Configs', user.userId,'config' );
-    this.backupControllers(configsetDir);
-    let configsetData = this.readControllers(configsetDir);
-    if(removeAll) {
-      this.removeAllTemplates(configsetData);
-    }
-    else {
-      for(const controllerType of controllerTypes) {
-        for (const appId of extraneousAppIds) {
-          if(this.titleMap[appId]) {
-            this.removeTemplate(configsetData, this.titleMap[appId], controllerType)
-          }
-        }
-      }
-      for (const appId of Object.keys(user.userData.apps).filter((appId: string)=>user.userData.apps[appId].status ==='add')) {
-        const app = user.userData.apps[appId];
-        for(const controllerType of Object.keys(app.controllers)) {
-          const controller = app.controllers[controllerType]
-          if(controller) {
-            this.setTemplate(configsetData, appId, controllerType, app.title, controller.mappingId);
-          } else {
-            this.removeTemplate(configsetData, app.title, controllerType)
-          }
-        }
-      }
-    }
+  private static configsetDir(steamDir: string, userId: string) {
+    return path.join(steamDir, 'steamapps', 'common', 'Steam Controller Configs', userId,'config' );
+
+  }
+
+  private writeControllerFiles(configsetDir: string, configsetData: {[controllerType: string]: any}) {
     for(const controllerType of controllerTypes) {
       let configsetPath = path.join(configsetDir, `configset_controller_${controllerType}.vdf`)
       if(configsetData[controllerType]) {
@@ -197,9 +207,41 @@ export class ControllerManager {
     }
   }
 
+  writeControllers(user: { userId: string, steamDirectory: string, userData: PreviewDataUser }, extraneousAppIds: string[], removeAll: boolean) {
+    let configsetDir = ControllerManager.configsetDir(user.steamDirectory, user.userId);
+    this.backupControllers(configsetDir);
+    let configsetData = this.readControllers(configsetDir);
+    if(removeAll) {
+      this.removeAllControllers(configsetData);
+    }
+    else {
+      for(const controllerType of controllerTypes) {
+        for (const appId of extraneousAppIds) {
+          if(this.titleMap["a"+appId]) {
+            this.removeController(configsetData, this.titleMap["a"+appId], controllerType)
+          }
+        }
+      }
+      for (const appId of Object.keys(user.userData.apps).filter((appId: string)=>user.userData.apps[appId].status ==='add')) {
+        const app = user.userData.apps[appId];
+        const title = app.parserType == 'Steam' ? steam.shortenAppId(appId) : app.title;
+        const parserId = app.parserId;
+        for(const controllerType of Object.keys(app.controllers)) {
+          const controller = app.controllers[controllerType];
+          if(controller) {
+            this.setTemplate(configsetData, appId, parserId, controllerType, title, controller.mappingId, controller.profileType);
+          } else {
+            this.removeController(configsetData, title, controllerType)
+          }
+        }
+      }
+    }
+    this.writeControllerFiles(configsetDir, configsetData);
+  }
+
   save(previewData: PreviewData, extraneousAppIds: VDF_ExtraneousItemsData, removeAll: boolean) {
     return new Promise((resolveSave, rejectSave) => {
-      let result = this.createList(previewData).reduce((accumulatorPromise, user) => {
+      let result = ControllerManager.createList(previewData).reduce((accumulatorPromise, user) => {
         return accumulatorPromise.then(() => {
           return this.writeControllers(user, extraneousAppIds[user.userId], removeAll);
         });
@@ -212,5 +254,4 @@ export class ControllerManager {
       });
     });
   }
-
 }

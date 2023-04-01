@@ -57,12 +57,12 @@ export class AmazonGamesParser implements GenericParser {
         const db = sqlite(dbPath);
 
         const games: {extractedTitle: string, filePath: string, startInDirectory?: string, launchOptions?: string}[] =
-        db.prepare("select ProductTitle, InstallDirectory, Id from DbSet")
+        db.prepare("select ProductTitle, InstallDirectory, Installed, Id from DbSet")
         .all()
-        .filter(({ InstallDirectory }:{ [key:string]:string }) => {
-          return fs.existsSync(`${InstallDirectory}\\fuel.json`) || launcherMode;
+        .filter(({ InstallDirectory, Installed }:{ [key:string]:string }) => {
+          return (fs.existsSync(`${InstallDirectory}\\fuel.json`) || launcherMode) && Installed;
         })
-        .map(({ ProductTitle, InstallDirectory, Id }: { [key:string]:string }) => {
+        .map(({ ProductTitle, InstallDirectory, Installed, Id }: { [key:string]:string }) => {
           if (launcherMode) {
             return {
               extractedTitle: ProductTitle,

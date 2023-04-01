@@ -43,22 +43,26 @@
     }
     .selectType {
       grid-column: 2;
-      width: 9em;
-      font-size: .75em;
+      width: 8em;
+      font-size: 1em;
       margin-right: .75em;
       color: var(--color-preview-text);
-      @include ngSelectColor(ng-select);
-      @include ngSelect();
     }
     .selectCategories {
       grid-column: 2;
-      width: 12em;
-      font-size: .75em;
+      width: 9em;
+      font-size: 1em;
       margin-right: .75em;
       color: var(--color-preview-text);
-      @include ngSelectColor(ng-select);
-      @include ngSelect();
     }
+    .selectParsers {
+      grid-column: 2;
+      width: 9em;
+      font-size: 1em;
+      margin-right: .75em;
+      color: var(--color-preview-text);
+    }
+
     .slider {
       display: flex;
       align-items: center;
@@ -233,7 +237,7 @@
             }
 
             > .appOverlay {
-              --row-height: calc(var(--preview-image-size) * 105px);
+              --row-height: calc(var(--preview-image-size) * 106px);
 
               height: 100%;
               display: grid;

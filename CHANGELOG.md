@@ -5,12 +5,71 @@ All notable changes to this project will be documented in this file.
 ### Planned
 * [x] GOG Parser.
 * [x] UPlay Parser.
-* [ ] Origin Parser.
+* [x] EA Desktop Parser.
 * [ ] Command Line Interface.
 * [x] Capability to override image searches.
+* [x] Ability to set per-parser controller templates.
 * [x] Platform parsers have launcher and launcherless mode.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
+
+## 2.3.49
+### Added
+* Legendary Platform Parser (working on Windows, Linux, and Mac OS)
+* Presets for EA Desktop and Legendary Parser
+
+## 2.3.48
+### Added
+* EA Desktop Platform Parser 🚀
+* Several new languages in various stages of translation 🌍. Congrats to everyone who worked on *finishing* the Brazilian Portuguese translation!
+### Fixed
+* Hopefully fixed scaling issue on steamdeck where scroll bars were being added to preview page.
+* Fixed amazon games parser adding games that had been uninstalled ([issue 425](https://github.com/SteamGridDB/steam-rom-manager/issues/425))
+
+## 2.3.47
+### Added
+* Ability to exclude non-local artwork in exceptions (addresses [issue 398](https://github.com/SteamGridDB/steam-rom-manager/issues/398))
+### Fixed
+* Image Provider resetting to SGDB even if none was previously selected ([issue 336](https://github.com/SteamGridDB/steam-rom-manager/issues/336))
+
+## 2.3.46
+## Added 
+* Ability to filter apps by parser title in addition to steam category.
+### Fixed
+* Significant lag when transitioning from non parser tab to a parser tab, caused by cached controllers templates being destroyed. Fixed by moving them to service.
+* Category Filter options getting cleared after leaving the preview page.
+
+## 2.3.45
+### Fixed
+* Bug where controllers couldn't be fetched if user had a custom config whose title was a number (ugh). Credit to emu-deck Discord user emotion for discovering the bug.
+### Changed
+* Alphabetization for controller templates (you're right @Godsbane it does look better)
+
+## 2.3.44
+### Added
+* Ability to import and export artwork choices (credit to @MattMckenzy)
+* Ability to override drive letter for itch.io apps running via wine/proton on Linux (credit to @Apalatn)
+
+## 2.3.43
+### Added
+* Crowdin Localization (credit to @doZennn)
+* Ability to remove applied controller templates per parser (and globally in settings)
+
+### Fixed
+* Vastly improved state management for controller templates
+* Totally re-worked select component to allow dynamically changing options
+
+## 2.3.42
+### Added
+* Steam Deck per-parser controller templates
+### Fixed
+* Issue where games with special characters in their names couldn't have their controller templates set
+
+## 2.3.41
+### Added
+* Ability to set per-parser controller templates, a [long requested feature](https://github.com/SteamGridDB/steam-rom-manager/issues/13)
+### Fixed
+* Steam Parser broke because valve changed the binary encoding of `appinfo.vdf`. See [here](https://github.com/cbartondock/node-binary-vdf).
 
 ## 2.3.40
 ### Added
@@ -481,7 +540,7 @@ Original title: "Addams Family, The - Pugsley's Scavenger Hunt"
 * Parser configurations and app settings from now will have versions. This will allow to automatically upgrade, update or remove deprecated entries.
 * A lot of new variables are now available for users to further customize "stuff".
 * App can now automatically clear log before testing parser.
-* Navigation panel can now be resized. Maximum allowed width is 25% of viewport width.
+* Navigation panel can now be re-sized. Maximum allowed width is 25% of viewport width.
 * Configuration unsaved status is now reflected near its title in navigation. It also shows if configuration is disabled or not.
 * Image urls are now cached for a session.
 * Steam categories now support variables.

@@ -11,58 +11,28 @@ import { NgSelectComponent } from "./ng-select.component";
   ],
   host: {
     '[class.selected]': 'isSelected',
-    '[class.hidden]': 'select&&select.searchable&&select.searchText.length&&!select.filteredIds.includes(id)'
+    '[class.hidden]': 'isHidden'
   }
 })
 export class NgOptionComponent {
-  private id: number;
-  private value: any;
-  private valueString: string;
-  private isSelected: boolean = false;
+  @Input() displayValue: string;
+  @Input() isSelected: boolean = false;
+  @Input() isHidden: boolean = false;
+  // @Input() selectOnClick: ()=>void
+  constructor(private element: ElementRef) {
 
-  constructor(private element: ElementRef, @Optional() @Host() private select: NgSelectComponent) {
-    if (this.select) {
-      this.id = this.select.registerOption();
-    }
   }
 
-  @Input()
-  set ngValue(value: any) {
-    this.value = value;
-    if (this.select)
-      this.select.setOption(this.id, { value: this.value, displayValue: JSON.stringify(this.value) });
-  }
-
-  @HostListener('click')
-  onClick() {
-    if (this.select)
-      this.select.selectOption(this.id, true);
-  }
-
-  getId(){
-    return this.id;
-  }
-
-  toggleSelected(selected: boolean) {
-    this.isSelected = selected;
-  }
+  // @HostListener('click')
+  // onClick() {
+  //   this.selectOnClick();
+  // }
 
   ngAfterViewChecked() {
-    if (this.element.nativeElement) {
-      this.valueString = (<HTMLElement>this.element.nativeElement).innerHTML.trim();
-      if (this.valueString) {
-        if (this.value === undefined)
-          this.value = this.valueString;
 
-        if (this.select) {
-          this.select.setOption(this.id, { value: this.value, displayValue: this.valueString });
-        }
-      }
-    }
   }
 
   ngOnDestroy() {
-    if (this.select)
-      this.select.unregisterOption(this.id);
+
   }
 }

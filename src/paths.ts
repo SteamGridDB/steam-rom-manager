@@ -14,6 +14,7 @@ export const userDataDir: string = _userDataDir;
 export const userSettings: string = path.join(userDataDir, 'userSettings.json');
 export const userThemesDir: string = path.join(userDataDir, 'User themes');
 export const userConfigurations: string = path.join(userDataDir, 'userConfigurations.json');
+export const controllerTemplates: string = path.join(userDataDir, 'controllerTemplates.json');
 export const devThemePath: string = './renderer/styles/themes.global.scss';
 export const savedListFilename: string = 'addedItemsV2.json';
 export const fuzzyList: string = path.join(userDataDir, 'fuzzyList.json');

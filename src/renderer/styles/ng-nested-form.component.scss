@@ -85,9 +85,6 @@ ng-nested-form {
     }
 
     ng-select {
-      @include ngSelect();
-      @include ngSelectColor(ng-select);
-
       grid-area: input;
     }
 

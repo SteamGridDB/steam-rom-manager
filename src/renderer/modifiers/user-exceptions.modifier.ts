@@ -7,7 +7,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const userExceptions: ValidatorModifier<UserExceptions> = {
   controlProperty: 'exceptionsVersion',
-  latestVersion: 0,
+  latestVersion: 1,
   fields: {
     undefined: {
       'exceptionsVersion': { method: () => 0 },
@@ -23,6 +23,18 @@ export const userExceptions: ValidatorModifier<UserExceptions> = {
             }
             return result;
           }
+        })
+      }
+    },
+    0: {
+      'exceptionsVersion': { method: versionUp },
+      'titles': {
+        method: ((oldValue: any, oldExceptions: any) => {
+          let result = _.cloneDeep(oldValue);
+          for(let key in oldValue) {
+            result[key].excludeArtwork = false;
+          }
+          return result;
         })
       }
     }

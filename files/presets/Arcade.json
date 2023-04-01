@@ -51,7 +51,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -64,6 +64,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
 	"Arcade - Retroarch - FBNeo": {
@@ -118,7 +128,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -131,6 +141,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
 	"Arcade - Retroarch(Flatpak) - FBNeo": {
@@ -185,7 +205,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -198,6 +218,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
 	"Arcade - Retroarch - MAME": {
@@ -252,7 +282,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -265,6 +295,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
 	"Arcade - Retroarch(Flatpak) - MAME": {
@@ -319,7 +359,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -332,6 +372,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
 	"Arcade - Model 2 Emulator": {
@@ -386,7 +436,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -399,6 +449,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	}
 }

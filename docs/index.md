@@ -66,7 +66,7 @@ Can't seem to find images for your title, but they are certainly on supported we
 
 # Special thanks
 
-- Thank you **doZennn** for providing title list for fuzzy matching and an icon, and especially for creating and maintaining **SteamGridDB**.
+- Thank you **Zennn** for providing title list for fuzzy matching and an icon, and especially for creating and maintaining **SteamGridDB**.
 - Thank you **HEspoke** for building the SRM community in Discord and Steam Groups.
 - Thank you **kencinder** for managing and adding presets.
 - Thank you **klepp0906** for adding thousands of custom variables for Wii U and PS3.

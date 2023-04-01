@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Renderer2, ElementRef, RendererStyleFlags2, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PreviewService, SettingsService, ImageProviderService } from "../services";
-import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageContent } from "../../models";
+import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageContent, SelectItem } from "../../models";
 import { APP } from '../../variables';
 import { FileSelector } from '../../lib';
 import * as url from '../../lib/helpers/url';
@@ -9,6 +9,15 @@ import * as FileSaver from 'file-saver';
 import * as appImage from '../../lib/helpers/app-image';
 import * as _ from 'lodash';
 import * as path from 'path';
+
+const imageTypeDict = {
+  long: 'Banners',
+  tall: 'Portraits',
+  hero: 'Heroes',
+  logo: 'Logos',
+  icon: 'Icons',
+  games: 'All Artwork'
+};
 
 @Component({
   selector: 'preview',
@@ -24,22 +33,33 @@ export class PreviewComponent implements OnDestroy {
   private filterValue: string = '';
   private categoryFilter: string[] = [];
   private allCategories: string[] = [];
-  private actualCategoryFilter: string[]=[];
-  private imageTypes: string[];
+  private actualCategoryFilter: string[] = [];
+  private parserFilter: string[] = [];
+  private allParsers: string[] = [];
+  private actualParserFilter: string[] = [];
+  private imageTypes: SelectItem[];
   private scrollingEntries: boolean = false;
   private fileSelector: FileSelector = new FileSelector();
 
   constructor(private previewService: PreviewService, private settingsService: SettingsService, private imageProviderService: ImageProviderService, private changeDetectionRef: ChangeDetectorRef, private renderer: Renderer2, private elementRef: ElementRef) {
     this.previewData = this.previewService.getPreviewData();
     this.previewVariables = this.previewService.getPreviewVariables();
+    if(this.previewService.getPreviewData()) {
+      this.allCategories = this.previewService.getAllCategories();
+      this.allParsers = this.previewService.getAllParsers();
+      this.previewData = this.previewService.getPreviewData();
+    }
     this.subscriptions.add(this.previewService.getPreviewDataChange().subscribe(_.debounce(() => {
 
       this.allCategories = this.previewService.getAllCategories();
+      this.allParsers = this.previewService.getAllParsers();
       this.previewData = this.previewService.getPreviewData();
       this.changeDetectionRef.detectChanges();
     }, 50)));
     this.appSettings = this.settingsService.getSettings();
-    this.imageTypes = this.previewService.getImageTypes();
+    this.imageTypes = this.previewService.getImageTypes().map((imageType: string)=>{
+      return {value: imageType, displayValue: imageTypeDict[imageType]}
+    });
   }
 
   generatePreviewData() {
@@ -72,7 +92,11 @@ export class PreviewComponent implements OnDestroy {
   }
   setCategoryFilter(categories: string[]) {
     this.categoryFilter = categories;
-    this.actualCategoryFilter = categories.map(c=>c.replace(/&nbsp;/g,' '))
+    this.actualCategoryFilter = categories.map(c=>c.replace(/&nbsp;/g,' '));
+  }
+  setParserFilter(parsers: string[]) {
+    this.parserFilter= parsers;
+    this.actualParserFilter = parsers.map(p=>p.replace(/&nbsp;/g,' '));
   }
 
   ngAfterContentInit() {
@@ -338,5 +362,13 @@ export class PreviewComponent implements OnDestroy {
   private onScroll() {
     this.scrollingEntries = true;
     this.onScrollEnd();
+  }
+
+  private async exportSelection() {
+    await this.previewService.exportSelection();
+  }
+
+  private async importSelection() {
+    await this.previewService.importSelection();
   }
 }

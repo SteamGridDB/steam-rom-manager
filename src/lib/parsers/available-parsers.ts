@@ -8,11 +8,13 @@ export const availableParserInputs: {[parserType: string]: string[]} = {
   'Manual': ['manualManifests'],
   'Amazon Games': ['amazonGamesExeOverride', 'amazonGamesLauncherMode'],
   'Epic': ['epicManifests', 'epicLauncherMode'],
+  'Legendary': ['legendaryInstalledFile'],
   'GOG Galaxy': ['galaxyExeOverride','gogLauncherMode'],
-  'itch.io': ['itchIoAppDataOverride'],
+  'itch.io': ['itchIoAppDataOverride','itchIoWindowsOnLinuxInstallDriveRedirect'],
   'Steam': [],
   'UPlay': ['uplayDir','uplayLauncherMode'],
   'UWP': ['UWPDir', 'UWPLauncherMode'],
+  'EA Desktop': ['eaGamesDir','eaLauncherMode']
 }
 
 export const availableParsers = Object.keys(availableParserInputs);
@@ -20,8 +22,20 @@ export const availableParsers = Object.keys(availableParserInputs);
 export const superTypes: {[superType: string]: string[]} = {
   'Manual': ['Manual'],
   'ArtworkOnly': ['Steam'],
-  'ROM': ['Glob','Glob-regex'],
-  'Platform': ['Epic','GOG Galaxy','Amazon Games','UPlay','itch.io','UWP']
+  'ROM': [
+    'Glob',
+    'Glob-regex'
+  ],
+  'Platform': [
+    'Epic',
+    'Legendary',
+    'GOG Galaxy',
+    'Amazon Games',
+    'UPlay',
+    'itch.io',
+    'UWP',
+    'EA Desktop'
+  ]
 }
 
 export const superTypesMap: {[parserType: string]: string | string[]} = json.multiInvert(superTypes);

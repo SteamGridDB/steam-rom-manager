@@ -9,3 +9,5 @@ export * from './amazon-games.parser';
 export * from './uplay.parser';
 export * from './manual.parser';
 export * from './UWP.parser';
+export * from './legendary.parser';
+export * from './ea-desktop.parser';

@@ -1,14 +1,15 @@
+import { Controllers } from './controllers.model';
+
 export interface ImageProviderAPI {
   [imageProvider: string]: {
     [apiInputName: string]: string | string[] | boolean
   }
 }
 
-export interface Controllers {
-  [controllerType: string]: {
-    title: string,
-    mappingId: string
-  }
+export interface UserAccountsInfo {
+  specifiedAccounts: string,
+  skipWithMissingDataDir: boolean,
+  useCredentials: boolean
 }
 
 export interface UserConfiguration {
@@ -25,11 +26,7 @@ export interface UserConfiguration {
     romDirectory: string,
     steamDirectory: string,
     startInDirectory: string,
-    userAccounts: {
-      specifiedAccounts: string,
-        skipWithMissingDataDir: boolean,
-        useCredentials: boolean
-    },
+    userAccounts: UserAccountsInfo,
     parserInputs: { [inputKey: string]: string | boolean },
     titleFromVariable: {
       limitToGroups: string,

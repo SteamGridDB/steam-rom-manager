@@ -53,7 +53,8 @@ export class ExceptionsComponent implements OnDestroy {
       newTitle:'',
       searchTitle:'',
       commandLineArguments: '',
-      exclude: false
+      exclude: false,
+      excludeArtwork: false
     })
   }
 

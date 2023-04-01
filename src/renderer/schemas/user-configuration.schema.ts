@@ -143,10 +143,11 @@ const sharedProperties = {
           anyOf: [
             {
               type: 'object',
-              default: { title: "", mappingId: "" },
+              default: { title: "", mappingId: "", profileType: "" },
               properties: {
                 title: { type: 'string', default: '' },
                 mappingId: { type: 'string', default: '' },
+                profileType: { type: 'string', default: '' }
               }
             },
             { type: 'null' }

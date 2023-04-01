@@ -3,7 +3,8 @@ export interface UserExceptionsTitles {
       newTitle: string,
       searchTitle: string,
       commandLineArguments: string,
-      exclude: boolean
+      exclude: boolean,
+      excludeArtwork: boolean
     }
 }
 export interface UserExceptions {

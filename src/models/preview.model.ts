@@ -1,5 +1,6 @@
 import { Observable, BehaviorSubject } from "rxjs";
-import { ImageProviderAPI, Controllers } from "./user-configuration.model";
+import { ImageProviderAPI } from "./user-configuration.model";
+import { Controllers } from "./controllers.model";
 
 export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
 
@@ -74,4 +75,22 @@ export interface PreviewVariables {
     numberOfListItems: number,
     numberOfQueriedImages: number
 
+}
+
+export interface AppSelection {
+  title: string,
+  images: AppSelectionImages
+}
+
+export interface AppSelectionImages {  
+  grid: AppSelectionImage 
+  poster: AppSelectionImage,
+  hero: AppSelectionImage,
+  logo: AppSelectionImage,
+  icon: AppSelectionImage
+}
+
+export interface AppSelectionImage {  
+  pool: string,
+  filename: string
 }

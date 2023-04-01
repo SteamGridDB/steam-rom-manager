@@ -2,22 +2,29 @@ import { Component, forwardRef, ElementRef, Optional, Host, HostListener, Input,
 import { NgOptionComponent, NgTextInputComponent } from "../components";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import * as _ from 'lodash';
+import {SelectItem} from "../../models";
 
 @Component({
   selector: 'ng-select',
   template: `
-        <div class="display" *ngIf="!searchable" (click)="open = !open" [class.open]="open">
-            <div text-scroll>{{displayValue || placeholder || 'null'}}</div>
-            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
-                <polyline points="70, 110 150, 200 230, 110" />
-            </svg>
-        </div>
-        <ng-text-input *ngIf="searchable" class="display" [placeholder]="placeholder" (click)="open = !open" [class.open]="open" [(ngModel)]="searchText" (ngModelChange)="searchText=$event;filterOptions($event);" value="searchText;">
-        </ng-text-input>
-        <div class="options" [class.open]="open">
-          <ng-content select="ng-option"></ng-content>
-        </div>
-    `,
+  <div class="display" *ngIf="!searchable" (click)="open = !open" [class.open]="open">
+  <div text-scroll>{{currentDisplay || placeholder || 'null'}}</div>
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
+    <polyline points="70, 110 150, 200 230, 110" />
+  </svg>
+  </div>
+  <ng-text-input *ngIf="searchable" class="display" [placeholder]="placeholder" (click)="open = !open" [class.open]="open" [(ngModel)]="searchText" (ngModelChange)="searchText=$event;filterOptions($event);" value="searchText;">
+  </ng-text-input>
+  <div class="options" [class.open]="open">
+  <ng-option text-scroll *ngFor="let option of optionsList; let i = index"
+  [displayValue]="option.displayValue"
+  [isSelected]="selected.indexOf(i)>=0"
+  [isHidden]="searchable&&searchText.length&&filtered.indexOf(i)>=0"
+  (click)="selectOption(i, true)">
+  {{option.displayValue}}
+  </ng-option>
+  </div>
+  `,
   styleUrls: [
     '../styles/ng-select.component.scss'
   ],
@@ -25,23 +32,20 @@ import * as _ from 'lodash';
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => NgSelectComponent),
-    multi: true
+      multi: true
   }]
 })
 
 export class NgSelectComponent implements ControlValueAccessor {
   private open: boolean = false;
 
-  private idCounter: number = -1;
-  private selectedIds: number[] = [];
-  private optionsMap = new Map<number, { value: any, displayValue: string }>();
-  private displayValue: string = '';
+  private optionsList: SelectItem[] = [];
+  private currentDisplay: string = '';
   private currentValue: any[] = [];
 
   private onChange = (_: any) => { };
   private onTouched = () => { };
 
-  @ContentChildren(forwardRef(() => NgOptionComponent)) private optionComponents: QueryList<NgOptionComponent>;
   @Input() private placeholder: string = '';
   @Input() private multiple: boolean = false;
   @Input() private allowEmpty: boolean = false;
@@ -50,106 +54,93 @@ export class NgSelectComponent implements ControlValueAccessor {
   @Input() private emitOnly: boolean = false;
   @Input() private searchable: boolean = false;
   @Output() searchText: string='';
-  @Output() filteredIds: number[] = [];
-  constructor(private element: ElementRef, private changeRef: ChangeDetectorRef) { }
-
-  registerOption() {
-    return ++this.idCounter;
+  @Output() filtered: number[] = [];
+  @Output() selected: number[] = [];
+  constructor(private element: ElementRef, private changeRef: ChangeDetectorRef) {
   }
 
-  unregisterOption(id: number) {
-    if (this.selectedIds.indexOf(id) !== -1) {
-      let emptyState = this.allowEmpty;
-      this.allowEmpty = true;
-      this.selectOption(id, true, true);
-      this.allowEmpty = emptyState;
-    }
-    this.optionsMap.delete(id);
+  changeOptions(newOptions: SelectItem[]) {
+    let currentOptions = this.selected.map(i=>this.optionsList[i]);
+    let newSelected = _.intersectionWith(newOptions, currentOptions, _.isEqual);
+    this.optionsList = newOptions;
+    this.selected = newSelected.map(value=>_.findIndex(this.optionsList,(e)=>_.isEqual(e,value)));
   }
 
-  setOption(id: number, data: { value: any, displayValue: string }) {
-    this.optionsMap.set(id, data);
-  }
 
   selectOption(id: number, toggle: boolean, suppressChanges: boolean = false) {
-    if (this.optionsMap.has(id)) {
-      let valueChanged = true;
-      let selectedIds =  this.selectedIds;
+    let valueChanged = true;
+    let selectedIds =  this.selected;
 
-      if (this.multiple) {
-        let selectedIdIndex = selectedIds.indexOf(id);
+    if (this.multiple) {
+      let selectedIdIndex = selectedIds.indexOf(id);
 
-        if (selectedIdIndex === -1) {
-          selectedIds = selectedIds.concat(id);
-        }
-        else {
-          if ((this.allowEmpty || selectedIds.length > 1) && toggle)
-            selectedIds.splice(selectedIdIndex, 1);
-          else
-            valueChanged = false;
-        }
+      if (selectedIdIndex === -1) {
+        selectedIds = selectedIds.concat(id);
       }
       else {
-        if (selectedIds.length === 0) {
-          selectedIds = [id];
-        }
-        else if (selectedIds[0] !== id){
-          selectedIds[0] = id;
-        }
-        else {
-          if (this.allowEmpty && toggle)
-            selectedIds = [];
-          else
-            valueChanged = false;
+        if ((this.allowEmpty || selectedIds.length > 1) && toggle)
+          selectedIds.splice(selectedIdIndex, 1);
+        else
+          valueChanged = false;
+      }
+    }
+    else {
+      if (selectedIds.length === 0) {
+        selectedIds = [id];
+      }
+      else if (selectedIds[0] !== id){
+        selectedIds[0] = id;
+      }
+      else {
+        if (this.allowEmpty && toggle)
+          selectedIds = [];
+        else
+          valueChanged = false;
+      }
+    }
+
+    if (valueChanged) {
+      let currentDisplays: string[] = [];
+      let currentValue = [];
+
+      for (let i = 0; i < selectedIds.length; i++) {
+        currentValue.push(this.optionsList[selectedIds[i]].value);
+        currentDisplays.push(this.optionsList[selectedIds[i]].displayValue);
+      }
+      if(this.searchable) {
+        if(selectedIds.length) {
+          this.searchText = this.optionsList[selectedIds[selectedIds.length-1]].displayValue
+        } else{
+          this.searchText = "";
         }
       }
 
-      if (valueChanged) {
-        let displayValues: string[] = [];
-        let currentValue = [];
-
-        for (let i = 0; i < selectedIds.length; i++) {
-          currentValue.push(this.optionsMap.get(selectedIds[i]).value);
-          displayValues.push(this.optionsMap.get(selectedIds[i]).displayValue);
-          this.searchText = this.optionsMap.get(selectedIds[i]).displayValue;
-        }
-
-        if (displayValues.length > 0 && this.sort) {
-          displayValues = displayValues.sort();
-        }
-
-        if (!this.emitOnly) {
-          this.displayValue = displayValues.length > 0 ? displayValues.join(this.separator) : displayValues[0];
-          this.currentValue = currentValue;
-          this.selectedIds = selectedIds;
-
-          this.optionComponents.forEach((option) => {
-            option.toggleSelected(this.selectedIds.indexOf(option.getId()) !== -1);
-          });
-        }
-
-        if (!suppressChanges) {
-          this.onChange(this.multiple ? currentValue : (currentValue[0] || null));
-        }
-
-        this.changeRef.markForCheck();
+      if (currentDisplays.length > 0 && this.sort) {
+        currentDisplays = currentDisplays.sort();
       }
+
+      if (!this.emitOnly) {
+        this.currentDisplay = currentDisplays.join(this.separator);
+        this.currentValue = currentValue;
+        this.selected = selectedIds;
+      }
+
       if (!suppressChanges) {
-        this.open = this.open && this.multiple;
-        this.onTouched();
+        this.onChange(this.multiple ? currentValue : (currentValue[0] || null));
       }
+
+      this.changeRef.markForCheck();
+    }
+    if (!suppressChanges) {
+      this.open = this.open && this.multiple;
+      this.onTouched();
     }
   }
 
   clearOptions() {
-    this.selectedIds = [];
+    this.selected = [];
     this.currentValue = [];
-    this.displayValue = '';
-    if (this.optionComponents) {
-      this.optionComponents.forEach((option) => {
-        option.toggleSelected(false);
-      });
-    }
+    this.currentDisplay = '';
   }
 
   @Input()
@@ -161,16 +152,48 @@ export class NgSelectComponent implements ControlValueAccessor {
     return this.multiple ? this.currentValue : (this.currentValue[0] || null);
   }
 
+  @Input()
+  set values(values: SelectItem[]|string[]) {
+    if(values && values.length) {
+      if((values[0] as SelectItem).displayValue!==undefined) {
+        this.changeOptions(values as SelectItem[])
+      } else {
+        this.changeOptions((values as string[]).map((option: string) => {
+          return {displayValue: option, value: option}
+        }) as SelectItem[]);
+      }
+    } else {
+      this.changeOptions([] as SelectItem[])
+    }
+
+  }
+
+  get values() {
+    return this.optionsList;
+  }
+
   writeValue(value: any, suppressChanges: boolean = true): void {
     let optionIndex = this.getOptionId(value);
     if (optionIndex !== -1)
-    this.selectOption(optionIndex, false, suppressChanges);
+      this.selectOption(optionIndex, false, suppressChanges);
     else if (value instanceof Array) {
-      for (let i = 0; i < value.length; i++)
+      for (let i = 0; i < value.length; i++) {
         this.writeValue(value[i], suppressChanges);
+      }
+      if(!value.length) {
+        this.clearOptions();
+      }
     }
-    else
-    this.clearOptions();
+    else if (this.values.length==0 && value && value.title) {
+      this.changeOptions([{
+        value: value,
+        displayValue: value.title
+      }]);
+      this.selectOption(0, false);
+    }
+    else {
+      this.clearOptions();
+    }
   }
 
   registerOnChange(fn: (value: any) => any): void {
@@ -188,24 +211,16 @@ export class NgSelectComponent implements ControlValueAccessor {
   }
 
   private getOptionId(value: any) {
-    for (let [id, val] of this.optionsMap) {
-      if (_.isEqual(val.value, value)) {
-        return id;
-      }
-    }
-    return -1;
+    return _.findIndex(this.optionsList.map(option=>option.value), (e)=>_.isEqual(e,value))
   }
 
   private filterOptions(filter: string){
     let filteredIds: number[]=[];
-    for(let [id,val] of this.optionsMap) {
-
-      if(val.displayValue.toUpperCase().includes(filter.toUpperCase())){
+    for(let id=0; id < this.optionsList.length; id++) {
+      if(!this.optionsList[id].displayValue.toUpperCase().includes(filter.toUpperCase())){
         filteredIds.push(id)
       }
     }
-    this.filteredIds = filteredIds;
-
+    this.filtered = filteredIds;
   }
-
 }

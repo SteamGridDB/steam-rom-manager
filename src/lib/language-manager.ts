@@ -1,15 +1,13 @@
-import * as languages from "../lang";
-import { languageContainer } from "../models";
+import languages from "../lang";
+import * as log from 'electron-log'
+import * as _ from 'lodash';
+import { languageContainer, languageStruct } from "../models";
 
 export class LanguageManager {
     private availableLanguages: languageContainer = {};
 
     constructor() {
-        for (let langData in languages) {
-            for (let language in languages[langData]) {
-                this.availableLanguages[language] = languages[langData][language];
-            }
-        }
+        this.availableLanguages = languages;
     }
 
     getAvailableLanguages(){
@@ -17,16 +15,20 @@ export class LanguageManager {
     }
 
     getLanguage(language: string){
-        if (this.availableLanguages[language] === undefined)
-            return this.availableLanguages[this.getAvailableLanguages()[0]];
-        else
-            return this.availableLanguages[language];
+      if (this.availableLanguages[language] === undefined) {
+        let langData = this.availableLanguages[this.getAvailableLanguages()[0]];
+        return _.merge(langData.langStrings, langData.markdowns) as languageStruct;
+      }
+      else {
+        let langData = this.availableLanguages[language];
+        return _.merge(langData.langStrings, langData.markdowns) as languageStruct;
+      }
     }
 
     getDefaultLanguage(){
-        if (this.availableLanguages['English'] === undefined)
+        if (this.availableLanguages['en-US'] === undefined)
             return this.getAvailableLanguages()[0];
         else
-            return 'English';
+            return 'en-US';
     }
 };

@@ -51,7 +51,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -64,6 +64,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
 	"Nintendo GameBoy Advance - Retroarch(Flatpak) - Beetle GBA": {
@@ -118,7 +128,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -131,6 +141,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
 	"Nintendo GameBoy Advance - Retroarch - Meteor": {
@@ -185,7 +205,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -198,6 +218,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
 	"Nintendo GameBoy Advance - Retroarch(Flatpak) - Meteor": {
@@ -252,7 +282,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -265,6 +295,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
 	"Nintendo GameBoy Advance - Retroarch - VBA Next": {
@@ -319,7 +359,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -332,6 +372,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
 	"Nintendo GameBoy Advance - Retroarch(Flatpak) - VBA Next": {
@@ -386,7 +436,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -399,6 +449,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
 	"Nintendo GameBoy Advance - Retroarch - VBA-M": {
@@ -453,7 +513,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -466,6 +526,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
 	"Nintendo GameBoy Advance - Retroarch(Flatpak) - VBA-M": {
@@ -520,7 +590,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -533,18 +603,28 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
-	"Nintendo GameBoy Advance - Retroarch - gbSP": {
+	"Nintendo GameBoy Advance - Retroarch - gpSP": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Advance - Retroarch - gbSP",
+		"configTitle": "Nintendo GameBoy Advance - Retroarch - gpSP",
 		"steamCategory": "${GameBoy Advance}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}gbsp_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}gpsp_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -587,7 +667,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -600,18 +680,28 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
-	"Nintendo GameBoy Advance - Retroarch(Flatpak) - gbSP": {
+	"Nintendo GameBoy Advance - Retroarch(Flatpak) - gpSP": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Advance - Retroarch(Flatpak) - gbSP",
+		"configTitle": "Nintendo GameBoy Advance - Retroarch(Flatpak) - gpSP",
 		"steamCategory": "${GameBoy Advance}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}gbsp_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}gpsp_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -654,7 +744,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -667,6 +757,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
 	"Nintendo GameBoy Advance - Retroarch - mGBA": {
@@ -721,7 +821,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -734,6 +834,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	},
 	"Nintendo GameBoy Advance - Retroarch(Flatpak) - mGBA": {
@@ -788,7 +898,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 3,
+		"presetVersion": 5,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -801,6 +911,16 @@
 				"stylesLogo": [],
 				"stylesIcon": []
 			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
 		}
 	}
 }

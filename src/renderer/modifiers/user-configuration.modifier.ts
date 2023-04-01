@@ -1,5 +1,6 @@
 import { ValidatorModifier, UserConfiguration } from '../../models';
 import * as unique_ids from "../../lib/helpers/unique-ids";
+import { controllerTypes } from "../../lib/controller-manager";
 import * as _ from "lodash";
 
 let replaceVariables_undefined = (oldValue: any) => typeof oldValue === 'string' ? oldValue.replace(/\${dir}/gi, '${romDir}').replace(/\${file}/gi, '${fileName}').replace(/\${sep}/gi, '${/}') : '';
@@ -7,7 +8,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',
-  latestVersion: 11,
+  latestVersion: 13,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -156,6 +157,32 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
       'version': { method: versionUp },
       'controllers': {
         method: () => { return {} }
+      }
+    },
+    11: {
+      'version': { method: versionUp },
+      'controllers': {
+        method: (oldValue, oldConfiguration: any) => {
+          let newValue = _.cloneDeep(oldValue);
+          for(let controllerType of controllerTypes) {
+            newValue[controllerType]=newValue[controllerType] || null;
+          }
+          return newValue;
+        }
+      }
+    },
+    12: {
+      'version': { method: versionUp },
+      'controllers': {
+        method: (oldValue, oldConfiguration: any) => {
+          let newValue = _.cloneDeep(oldValue);
+          for(let controllerType of controllerTypes) {
+            if(newValue[controllerType] && !newValue[controllerType].profileType) {
+              newValue[controllerType].profileType = "workshop";
+            }
+          }
+          return newValue;
+        }
       }
     }
   }

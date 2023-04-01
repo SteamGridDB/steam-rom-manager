@@ -10,7 +10,8 @@ export const userExceptions = {
             newTitle: { type: 'string', default: '' },
             searchTitle: { type: 'string', default: '' },
             commandLineArguments: { type: 'string', default: ''},
-            exclude: { type: 'boolean', default: false }
+            exclude: { type: 'boolean', default: false },
+            excludeArtwork: { type: 'boolean', default: false }
           }
         }
       }

@@ -11,6 +11,9 @@
 
     fill: black;
 
+    @include ngSelect();
+    @include ngSelectColor(ng-select);
+
     .display {
         display: grid;
 

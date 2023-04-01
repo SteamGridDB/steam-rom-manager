@@ -5,10 +5,7 @@
     </span>
     Community Presets
   </label>
-  <ng-select placeholder="Search for preset" allowEmpty="true" emitOnly="false" ngModel (ngModelChange)="setPreset($event)" searchable="true">
-    <ng-option text-scroll *ngFor="let value of configPresets | keys">
-      {{value}}
-    </ng-option>
+  <ng-select placeholder="Search for preset" [allowEmpty]="true" [emitOnly]="false" ngModel (ngModelChange)="setPreset($event)" [searchable]="true" [values]="configPresets | keys">
   </ng-select>
   <ng-nested-form (parentFormChange)="userForm = $event" [nestedGroup]="nestedGroup"></ng-nested-form>
 </div>

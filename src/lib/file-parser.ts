@@ -129,7 +129,7 @@ export class FileParser {
     });
   }
 
-  private parserPromise({superType,config, settings, steamDirectory}: {superType: string, config: UserConfiguration, settings: AppSettings, steamDirectory: {directory: string, useCredentials: boolean, data: userAccountData[] }}) {
+  private parserPromise({superType, config, settings, steamDirectory}: {superType: string, config: UserConfiguration, settings: AppSettings, steamDirectory: {directory: string, useCredentials: boolean, data: userAccountData[] }}) {
     return new Promise((resolve, reject)=>{
       try {
         let parser = this.getParserInfo(config.parserType);
@@ -243,6 +243,7 @@ export class FileParser {
           || config.parserInputs.amazonGamesLauncherMode
           || config.parserInputs.uplayLauncherMode
           || config.parserInputs.UWPLauncherMode
+          || config.parserInputs.eaLauncherMode
         );
         for(let j=0; j < data.success.length; j++) {
           let fuzzyTitle = data.success[j].fuzzyTitle || data.success[j].extractedTitle;
@@ -426,9 +427,12 @@ export class FileParser {
           if(exceptions && exceptions.commandLineArguments) {
             parsedConfig.files[j].argumentString = exceptions.commandLineArguments;
           }
-          if(exceptions && exceptions.searchTitle) {
+          if(exceptions && !exceptions.excludeArtwork && exceptions.searchTitle) {
             parsedConfig.files[j].onlineImageQueries = [exceptions.searchTitle];
             parsedConfig.files[j].imagePool = exceptions.searchTitle;
+          }
+          if(exceptions && exceptions.excludeArtwork) {
+            parsedConfig.files[j].onlineImageQueries = [];
           }
         }
         parsedConfig.files = parsedConfig.files.filter(x=>!!x);
@@ -552,7 +556,7 @@ export class FileParser {
       data.found = _.cloneDeep(accountData);
     } else {
       data.found = accountData.filter((item)=>nameFilter.indexOf(item.name)>=0||nameFilter.indexOf(item.accountID)>=0)
-      data.missing = nameFilter.filter((filt)=>data.found.map(item=>item.name).indexOf(filt)<0&&data.found.map(item=>item.accountID).indexOf(filt)<0);
+      data.missing = nameFilter.filter((filt)=>data.found.map(item=>item.name).indexOf(filt) < 0&&data.found.map(item=>item.accountID).indexOf(filt) < 0);
       if(skipWithMissingDirectories) {
         data.found = data.found.filter((item)=>file.validatePath(path.join(steamDirectory,'userdata',item.accountID),true));
       }

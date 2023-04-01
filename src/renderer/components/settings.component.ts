@@ -1,9 +1,10 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { SettingsService, ParsersService, PreviewService, LanguageService, ImageProviderService, FuzzyService, CustomVariablesService, ConfigurationPresetsService } from "../services";
 import { APP } from '../../variables';
-import { AppSettings } from "../../models";
+import { AppSettings, SelectItem, userAccountData } from "../../models";
 import { Subscription } from 'rxjs';
 import * as os from 'os';
+import * as steam from "../../lib/helpers/steam";
 
 @Component({
   selector: 'settings',
@@ -16,7 +17,7 @@ export class SettingsComponent implements OnDestroy {
   private currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
   private settings: AppSettings;
   private availableProviders: string[];
-  private availableLanguages: string[];
+  private availableLanguages: SelectItem[];
   private knownSteamDirectories: string[];
   private retroarchPathPlaceholder: string;
   private steamDirectoryPlaceholder: string;
@@ -48,7 +49,9 @@ export class SettingsComponent implements OnDestroy {
     }));
     this.settings = this.settingsService.getSettings();
     this.availableProviders = this.imageProviderService.instance.getAvailableProviders();
-    this.availableLanguages = this.languageService.getAvailableLanguages();
+    this.availableLanguages = this.languageService.getAvailableLanguages().map((lang)=>{
+      return {value: lang, displayValue: this.languageService.getReadableName(lang)}
+    });
     if(os.type()=='Windows_NT'){
       this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathWin;
       this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryWin;
@@ -89,8 +92,18 @@ export class SettingsComponent implements OnDestroy {
   }
 
   private removeApps() {
-    if (this.parsersService.getKnownSteamDirectories().length > 0) {
+    if (this.knownSteamDirectories.length > 0) {
       this.previewService.saveData(true);
+    }
+  }
+
+  private removeControllersOnly() {
+    for(let steamDir of this.knownSteamDirectories) {
+      steam.getAvailableLogins(steamDir, false).then((accounts: userAccountData[])=>{
+        for(let account of accounts) {
+          this.parsersService.removeControllers(steamDir, account.accountID);
+        }
+      })
     }
   }
 
