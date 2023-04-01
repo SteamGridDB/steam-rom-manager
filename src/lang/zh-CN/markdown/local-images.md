@@ -4,8 +4,8 @@
 
 ## 允许的图片扩展名
 
-仅支持`JPEG`{.noWrap}、`JPG`{.noWrap}、`PNG`{.noWrap}和`TGA`{.noWrap}文件扩展名。 Even if parser finds files with other extensions, they are not included into the final list.
+仅支持`JPEG`{.noWrap}、`JPG`{.noWrap}、`PNG`{.noWrap}和`TGA`{.noWrap}文件扩展名。 即使解析器发现其他扩展名的文件，它们也不会包含在最终列表中。
 
-## Can you move the directory of local images after saving app list?
+## 你能在保存应用程序列表后移动本地图像目录吗？
 
-Yes, once the list is saved, local images are copied to a Steam directory where they are renamed to match Steam's APP ID.
+是的，一旦列表保存，本地图像将被复制到 Steam 目录中，并重命名以匹配 Steam 的 APP ID。
