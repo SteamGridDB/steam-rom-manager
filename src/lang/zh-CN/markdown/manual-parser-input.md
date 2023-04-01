@@ -1,8 +1,8 @@
-# Manual Parser specific inputs
+# 手动解析器特定输入
 
-## Manifests Directory `[Supports Environment Variables]`{.noWrap}
+## 清单目录 `[支持环境变量]`{.noWrap}
 
-The location of the json files you want to turn into steam shortcuts. `Manifests Directory` is expected to be of the form:
+您想将其转换为 Steam 快捷方式的 JSON 文件位置。 `清单目录`应该是以下形式：
 
 ```
 /path/to/manifests
@@ -11,7 +11,7 @@ The location of the json files you want to turn into steam shortcuts. `Manifests
 --manifest3.json
 ...
 ```
-The names of the files do not matter. What does matter is that each `manifest.json` file is either a single title, like so:
+文件的名称并不重要。 重要的是每个`manifest.json`文件都只有一个标题，如下所示：
 ```json
 {
     "title": "gameTitle",
@@ -20,7 +20,7 @@ The names of the files do not matter. What does matter is that each `manifest.js
     "launchOptions": "--args"
 }
 ```
-Or a list of titles, like so:
+或者是标题列表，像这样：
 ```json
 [
   {
@@ -38,4 +38,4 @@ Or a list of titles, like so:
 ]
 ```
 
-A typical use case would be to use a single json file per game type, or per year, etc.
+一个典型的用例是每种游戏类型或每年代使用一个 json 文件。
