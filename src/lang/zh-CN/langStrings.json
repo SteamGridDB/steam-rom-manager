@@ -2,16 +2,16 @@
   "preview": {
     "component": {
       "filter": "搜索游戏",
-      "selectType": "艺术品类型",
+      "selectType": "艺术作品类型",
       "selectCategories": "Steam 类别",
       "selectParsers": "解析器标题",
       "selectTypeOptions": {
         "long": "条幅",
         "tall": "海报",
-        "hero": "英雄",
+        "hero": "主页",
         "icon": "图标",
         "logo": "标志",
-        "games": "所有艺术品"
+        "games": "所有艺术作品"
       },
       "by": "由",
       "refreshImages": "刷新图像",
@@ -61,9 +61,9 @@
         "knownSteamDirListIsEmpty": "已知的 Steam 目录列表为空。",
         "steamIsRunning": "无法在 Steam 运行时进行更改！",
         "categorySaveError": "更新类别时出错。请查看事件日志获取详细信息。",
-        "categorySaveError__i": "类别错误（快捷方式和艺术品仍将被添加）：${error}",
+        "categorySaveError__i": "类别错误（快捷方式和艺术作品仍将被添加）：${error}",
         "controllerSaveError": "更新控制器模板时出错。请查看事件日志获取详细信息。",
-        "controllerSaveError__i": "控制器错误（快捷方式和艺术品仍将被添加）：${error}",
+        "controllerSaveError__i": "控制器错误（快捷方式和艺术作品仍将被添加）：${error}",
         "retryingDownload__i": "从 \"${imageUrl}\" 下载图片失败，应用程序名称为 \"${appTitle}\"。",
         "providerError__i": "从\"${provider}\" 接收到的错误，针对 \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
         "unknownProviderError__i": "从 \"${provider}\" 接收到的 \"${title}\" 错误：\n ${error}",
@@ -108,6 +108,14 @@
     "errors": {
       "legendaryNotInstalled": "> 找不到已安装的 Legendary installed.json 文件",
       "fatalError__i": "> Legendary 解析器发生致命错误：\n ${error}"
+    }
+  },
+  "UWPParser": {
+    "UWPDirTitle": "游戏目录",
+    "UWPLauncherModeTitle": "以 UWP 形式启动游戏，而不是使用启动器助手。",
+    "errors": {
+      "UWPNotCompatible": "> UWP 解析器发生致命错误：\n ${error}",
+      "fatalError__i": "> UWP 解析器在此平台上不兼容。"
     }
   },
   "uplayParser": {
@@ -200,7 +208,7 @@
     "humorInputTitle": "允许开玩笑的艺术作品",
     "imageMotionTypesTitle": "允许的动画类型",
     "stylesTitle": "允许的网格样式",
-    "stylesHeroTitle": "允许的英雄样式",
+    "stylesHeroTitle": "允许的主页样式",
     "stylesLogoTitle": "允许的 Logo 样式",
     "stylesIconTitle": "允许的图标样式"
   },
@@ -324,7 +332,7 @@
       "text": {
         "title": "用户异常",
         "exclude": "排除标题",
-        "excludeArtwork": "仅限本地艺术品"
+        "excludeArtwork": "仅限本地艺术作品"
       }
     },
     "service": {
@@ -394,7 +402,7 @@
         "resolvedDefaultImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
         "resolvedDefaultTallImageGlob__i": "[${index}/${total}]: 默认的高图片通配符：",
         "resolvedDefaultTallImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
-        "resolvedDefaultHeroImageGlob__i": "[${index}/${total}]: 默认英雄图片通配符：",
+        "resolvedDefaultHeroImageGlob__i": "[${index}/${total}]: 默认主页图片通配符：",
         "resolvedDefaultHeroImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
         "resolvedDefaultLogoImageGlob__i": "[${index}/${total}]: 默认 Logo 图片通配符：",
         "resolvedDefaultLogoImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
@@ -402,7 +410,7 @@
         "resolvedDefaultIconGlobInfo__i": "[${index}/${total}]:                        ${glob}",
         "defaultImageResolved__i": "[${index}/${total}]:       默认图片:\n[${index}/${total}]:                        ${image}",
         "defaultTallImageResolved__i": "[${index}/${total}]:       默认高图片:\n[${index}/${total}]:                        ${image}",
-        "defaultHeroImageResolved__i": "[${index}/${total}]:       默认英雄图片:\n[${index}/${total}]:                        ${image}",
+        "defaultHeroImageResolved__i": "[${index}/${total}]:       默认主页图片:\n[${index}/${total}]:                        ${image}",
         "defaultLogoImageResolved__i": "[${index}/${total}]:       默认 Logo 图片:\n[${index}/${total}]:                        ${image}",
         "defaultIconResolved__i": "[${index}/${total}]:       默认图标:\n[${index}/${total}]:                        ${image}",
         "resolvedImageGlob__i": "[${index}/${total}]: 已解析图像通配符：",
@@ -413,9 +421,9 @@
         "resolvedTallImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
         "localTallImagesResolved__i": "[${index}/${total}]: 已解析的高图片：",
         "localTallImageInfo__i": "[${index}/${total}]:                        ${image}",
-        "resolvedHeroImageGlob__i": "[${index}/${total}]: 已解析英雄图片通配符：",
+        "resolvedHeroImageGlob__i": "[${index}/${total}]: 已解析主页图片通配符：",
         "resolvedHeroImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
-        "localHeroImagesResolved__i": "[${index}/${total}]: 已解析的英雄图片：",
+        "localHeroImagesResolved__i": "[${index}/${total}]: 已解析的主页图片：",
         "localHeroImageInfo__i": "[${index}/${total}]:                        ${image}",
         "resolvedLogoImageGlob__i": "[${index}/${total}]: 已解析 Logo 图像通配符：",
         "resolvedLogoImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
@@ -446,13 +454,13 @@
         "imagePool": "图像库",
         "imageProviders": "图像提供方",
         "defaultImage": "默认图像",
-        "defaultTallImage": "默认高清图像",
-        "defaultHeroImage": "默认英雄图像",
+        "defaultTallImage": "默认高图像",
+        "defaultHeroImage": "默认主页图像",
         "defaultLogoImage": "默认 Logo 图像",
         "defaultIcon": "默认图标",
         "localImages": "本地图像",
-        "localTallImages": "本地高清图像",
-        "localHeroImages": "本地英雄图像",
+        "localTallImages": "本地高图像",
+        "localHeroImages": "本地主页图像",
         "localLogoImages": "本地英雄图像",
         "localIcons": "本地图标"
       },
