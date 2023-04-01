@@ -52,22 +52,19 @@ export class UWPParser implements GenericParser {
       });
       let UWPDir: string = inputs.UWPDir || "C:\\XboxGames";
 
-      globPromise(path.join(UWPDir.replace(/\\/g,'/'),'**','Content','appxmanifest.xml'))
+      globPromise(path.join(UWPDir,'**','Content','appxmanifest.xml'))
       .then((files: string[])=>{
         files.forEach((file)=>{
           if(fs.existsSync(file) && fs.lstatSync(file).isFile()) {
-            console.log("file",file)
             var xmldata = fs.readFileSync(file,'utf-8');
             if(XMLValidator.validate(xmldata)) {
               const parsedData: any = xmlParser.parse(xmldata);
 
-              console.log("parsedData", parsedData)
               var gameManifest: SimpleManifest = {
                 idName: json.caseInsensitiveTraverse(parsedData,[["Package"],["Identity"],["@_Name"]]),
                 idPublisher: json.caseInsensitiveTraverse(parsedData,[["Package"],["Identity"],["@_Publisher"]]),
                 appExecutable: json.caseInsensitiveTraverse(parsedData,[["Package"],["Applications"],["Application"],["@_Executable"]])
               } as SimpleManifest;
-              console.log("gameManifest",gameManifest)
               if(gameManifest.idName && gameManifest.idPublisher && gameManifest.appExecutable) {
                 var gameDetail: SimpleUWPApp = getUWPAppDetail(gameManifest, xmlParser);
                 appTitles.push(gameDetail.name);
@@ -310,7 +307,6 @@ $htable | ConvertTo-Json
 function getUWPAppDetail(manifest: SimpleManifest, xmlParser: XMLParser) {
   var uwpApp: SimpleUWPApp = {} as SimpleUWPApp;
 
-  console.log(`Searching for UWP app: ${manifest.idName}, ${manifest.idPublisher}`);
   const searchResults = spawnSync(
     `$PkgMgr = [Windows.Management.Deployment.PackageManager,Windows.Web,ContentType=WindowsRuntime]::new(); $PkgMgr.FindPackagesForUser([System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value, "${manifest.idName}", "${manifest.idPublisher}") | ConvertTo-Json`,
     {
@@ -318,10 +314,8 @@ function getUWPAppDetail(manifest: SimpleManifest, xmlParser: XMLParser) {
       encoding: "utf-8",
     }
   ).stdout;
-  console.log("searchResults",searchResults)
   const jsonuwpapp = JSON.parse(searchResults);
 
-  console.log(`found json: ${JSON.stringify(jsonuwpapp)}`);
   if (
     jsonuwpapp.IsFramework ||
     jsonuwpapp.IsResourcePackage ||
@@ -347,7 +341,6 @@ function getUWPAppDetail(manifest: SimpleManifest, xmlParser: XMLParser) {
     var name: string;
     if(XMLValidator.validate(xml)) {
       let parsedData: any = xmlParser.parse(xml);
-      console.log("appdetails",parsedData)
       apxApp = json.caseInsensitiveTraverse(parsedData,[["Package"],["Applications"],["Application"]]);
       appId = json.caseInsensitiveTraverse(apxApp,[["@_Id"]]);
       name = json.caseInsensitiveTraverse(parsedData,[["Package"],["Properties"],["DisplayName"]]);
