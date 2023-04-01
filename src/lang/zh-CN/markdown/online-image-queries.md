@@ -12,7 +12,7 @@ ${The Legend of Zelda}${The Legend of Zelda: A Link to the Past}
 ```
 ${${fuzzyTitle}}
 ```
-**贪婪模式**可以通过将查询设置为以下内容来启用：
+传统 **贪婪模式** 可以通过将查询设置为以下内容来启用：
 ```
 ${${fuzzyTitle}}${${title}}
 ```
