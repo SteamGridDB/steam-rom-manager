@@ -132,6 +132,7 @@
     "windows-shortcuts-ps": "https://github.com/cbartondock/windows-shortcuts-ps.git",
     "winreg": "^1.2.4",
     "xdg-parse": "^1.1.0",
+    "xml2js": "^0.4.11",
     "yaml": "^1.10.2",
     "zone.js": "^0.8.20"
   },
@@ -153,6 +154,7 @@
     "@types/wicg-file-system-access": "^2020.9.5",
     "@types/winreg": "^1.2.31",
     "@types/yargs": "^17.0.10",
+    "@types/xml2js": "^0.4.11",
     "angular2-template-loader": "^0.6.2",
     "autoprefixer": "^10.4.0",
     "cross-env": "^5.1.4",

@@ -95,6 +95,18 @@ export interface languageStruct {
             fatalError__i: string
         }
     },
+    UWPParser: {
+      UWPDirTitle: string,
+      UWPLauncherModeTitle: string,
+      docs__md: {
+        self: string[],
+        input: string[]
+      },
+        errors: {
+          fatalError__i: string,
+          UWPNotCompatible: string
+        }
+    },
     itchIoParser: {
       itchIoAppDataOverrideTitle: string,
         itchIoWindowsOnLinuxInstallDriveRedirectTitle: string,

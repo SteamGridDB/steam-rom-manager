@@ -242,6 +242,7 @@ export class FileParser {
           || config.parserInputs.gogLauncherMode
           || config.parserInputs.amazonGamesLauncherMode
           || config.parserInputs.uplayLauncherMode
+          || config.parserInputs.UWPLauncherMode
           || config.parserInputs.eaLauncherMode
         );
         for(let j=0; j < data.success.length; j++) {

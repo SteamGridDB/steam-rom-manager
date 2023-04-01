@@ -13,6 +13,7 @@ export const availableParserInputs: {[parserType: string]: string[]} = {
   'itch.io': ['itchIoAppDataOverride','itchIoWindowsOnLinuxInstallDriveRedirect'],
   'Steam': [],
   'UPlay': ['uplayDir','uplayLauncherMode'],
+  'UWP': ['UWPDir', 'UWPLauncherMode'],
   'EA Desktop': ['eaGamesDir','eaLauncherMode']
 }
 
@@ -32,6 +33,7 @@ export const superTypes: {[superType: string]: string[]} = {
     'Amazon Games',
     'UPlay',
     'itch.io',
+    'UWP',
     'EA Desktop'
   ]
 }
