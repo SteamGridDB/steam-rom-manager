@@ -4,14 +4,14 @@
 ```
 ${...}
 ```
-例如，这是如何为“WII”和“GBA”（与“ROMS”配对）类别指定的示例：
+例如，这是如何为 “WII” 和 “GBA”（与 “ROMS” 配对）类别指定的示例：
 ```
 ${WII}
 ```
 ```
 ${GBA}${ROMS}
 ```
-这是“WII”类别在 Steam 中的样子：
+这是 “WII” 类别在 Steam 中的样子：
 
 ![Steam 类别](../../../assets/images/category-example.png)
 

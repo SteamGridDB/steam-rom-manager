@@ -1,6 +1,6 @@
 # 常见问题
 
-Read this if you're still having trouble with configuration. For most examples the following will be used unless specified otherwise: Read this if you're still having trouble with configuration. For most examples the following will be used unless specified otherwise: For most examples the following will be used unless specified otherwise: 除非另有说明，否则大多数情况下将使用以下内容：
+Read this if you're still having trouble with configuration. For most examples the following will be used unless specified otherwise: Read this if you're still having trouble with configuration. For most examples the following will be used unless specified otherwise: For most examples the following will be used unless specified otherwise: 除非另有说明，否则大多数情况下将使用以下内容： 除非另有说明，否则大多数情况下将使用以下内容：
 
 |            |                                            |
 | ---------- | ------------------------------------------ |
