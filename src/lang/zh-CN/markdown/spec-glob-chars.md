@@ -12,7 +12,7 @@
 
 ## Globstar: `**`
 
-`**` matches **0** or **more** directories and subdirectories searching for matches. If directories have a **lot** of subdirectories, it will cause performance issues. If possible, use [braced sets](#braced-sets). 如果目录下有**很多**子目录，会导致性能问题。 如果可能，请使用 [花括号集合](#braced-sets)。
+`**` matches **0** or **more** directories and subdirectories searching for matches. If directories have a **lot** of subdirectories, it will cause performance issues. If possible, use [braced sets](#braced-sets). 如果目录下有**很多**子目录，会导致性能问题。 如果目录下有**很多**子目录，会导致性能问题。 如果可能，请使用 [花括号集合](#braced-sets)。
 
 ## 扩展的 glob 匹配器：`!(...)`{.noWrap}、`?(...)`{.noWrap}、`+(...)`{.noWrap}、`*(...)`{.noWrap}、`@(...)`{.noWrap}
 
@@ -54,13 +54,13 @@
 - `C:/dir1/dir2/file.txt`
 - `C:/dir1/dir3/dir4/file.txt`
 
-Braced sets also have less useful range syntax `{x..x}` where `x` is a single character. For example, `C:/dir1/dir{2..4}/file.txt` will expand to: 例如，`C:/dir1/dir{2..4}/file.txt` 将会扩展为：
+Braced sets also have less useful range syntax `{x..x}` where `x` is a single character. For example, `C:/dir1/dir{2..4}/file.txt` will expand to: 例如，`C:/dir1/dir{2..4}/file.txt` 将会扩展为： 例如，`C:/dir1/dir{2..4}/file.txt` 将会扩展为：
 
 - `C:/dir1/dir2/file.txt`
 - `C:/dir1/dir3/file.txt`
 - `C:/dir1/dir4/file.txt`
 
-Braced set is expanded **before** actual parsing, therefore can be useful to generate different subdirectories or even [extended glob matchers](#extended-glob-matchers). For example, `C:/+(a|{b),c)}/file.txt` would expand to: 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为：
+Braced set is expanded **before** actual parsing, therefore can be useful to generate different subdirectories or even [extended glob matchers](#extended-glob-matchers). For example, `C:/+(a|{b),c)}/file.txt` would expand to: 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为： 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为：
 
 - `C:/+(a|b)/file.txt`
 - `C:/+(a|c)/file.txt`
