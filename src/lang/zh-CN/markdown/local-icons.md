@@ -1,11 +1,11 @@
-# Local icons (optional) `[supports variables]`{.noWrap}
+# 本地图标（可选）`[支持变量]`{.noWrap}
 
-Allows one to set icons stored locally. A [special glob input](#special-glob-input) string is used to retrieve images.
+允许用户设置本地存储的图标。 使用一个[特殊的全局输入](#special-glob-input)字符串来检索图像。
 
-## Preview shows some kind of eye icon
+## 预览显示某种眼睛图标
 
-This icon is shown for files, that SRM can not display as icons (for example `EXE` files). It does not mean that those files are invalid and will probably be displayed properly by Steam.
+此图标用于显示 SRM 无法作为图标显示的文件（例如 `EXE` 文件）。 这并不意味着这些文件无效，它们很可能会被 Steam 正确显示。
 
-## Can you move the directory of local icon after saving app list?
+## 在保存应用程序列表后，您能否移动本地图标目录？
 
-No. Steam does not support relative paths for icons, therefore there is no point in copying icons to Steam directory.
+No. Steam 不支持相对路径的图标，因此将图标复制到 Steam 目录中没有意义。
