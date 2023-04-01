@@ -3,8 +3,9 @@ import { APP } from '../../variables';
 import * as fs from "fs-extra";
 import * as os from "os";
 import * as path from "path";
+import * as json from "../helpers/json";
 import { spawnSync } from "child_process";
-import { parseString } from "xml2js";
+import { XMLParser, XMLValidator} from "fast-xml-parser";
 import { globPromise } from '../helpers/glob/promise';
 
 export class UWPParser implements GenericParser {
@@ -41,33 +42,40 @@ export class UWPParser implements GenericParser {
       let appArgs: string[] = [];
       let appTitles: string[] = [];
       let appPaths: string[] = [];
-
-      if (os.type() != 'Windows_NT') {
+      if (os.type() !== 'Windows_NT') {
         reject(this.lang.errors.UWPNotCompatible)
       }
 
-      let UWPDir: string = "C:\\XboxGames";
-      if (inputs.UWPDir) {
-        UWPDir = inputs.UWPDir;
-      }
-
+      const xmlParser = new XMLParser({
+        ignoreAttributes: false,
+        attributeNamePrefix: "@_"
+      });
+      let UWPDir: string = inputs.UWPDir || "C:\\XboxGames";
 
       globPromise(path.join(UWPDir.replace(/\\/g,'/'),'**','Content','appxmanifest.xml'))
       .then((files: string[])=>{
         files.forEach((file)=>{
           if(fs.existsSync(file) && fs.lstatSync(file).isFile()) {
-            var xml = fs.readFileSync(file).toString();
-            parseString(xml, function (err, result) {
-              var gameManifest: SimpleManifest = {} as SimpleManifest;
-              gameManifest.idName = result.Package.Identity[0].$.Name;
-              gameManifest.idPublisher = result.Package.Identity[0].$.Publisher;
-              gameManifest.appExecutable = result.Package.Applications[0].Application[0].$.Executable;
-              var gameDetail: SimpleUWPApp = getUWPAppDetail(gameManifest);
-              appTitles.push(gameDetail.name);
-              appIds.push(gameDetail.appId);
-              appPaths.push(gameDetail.path);
-              appArgs.push(gameDetail.arguments);
-            });
+            console.log("file",file)
+            var xmldata = fs.readFileSync(file,'utf-8');
+            if(XMLValidator.validate(xmldata)) {
+              const parsedData: any = xmlParser.parse(xmldata);
+
+              console.log("parsedData", parsedData)
+              var gameManifest: SimpleManifest = {
+                idName: json.caseInsensitiveTraverse(parsedData,[["Package"],["Identity"],["@_Name"]]),
+                idPublisher: json.caseInsensitiveTraverse(parsedData,[["Package"],["Identity"],["@_Publisher"]]),
+                appExecutable: json.caseInsensitiveTraverse(parsedData,[["Package"],["Applications"],["Application"],["@_Executable"]])
+              } as SimpleManifest;
+              console.log("gameManifest",gameManifest)
+              if(gameManifest.idName && gameManifest.idPublisher && gameManifest.appExecutable) {
+                var gameDetail: SimpleUWPApp = getUWPAppDetail(gameManifest, xmlParser);
+                appTitles.push(gameDetail.name);
+                appIds.push(gameDetail.appId);
+                appPaths.push(gameDetail.path);
+                appArgs.push(gameDetail.arguments);
+              }
+            }
           }
         })
       })
@@ -217,7 +225,6 @@ interface UWPObj {
 
 // inspired by https://github.com/JosefNemec/Playnite/blob/master/source/Playnite/Common/Resources.cs
 function getIndirectResourceString(fullName: string, packageName: string, resource: string) {
-
   const lastSegment = new URL(resource).pathname.split("/").reverse()[0];
 
   var resourceString;
@@ -253,7 +260,7 @@ $htable = @{
     "intValue" = $returnValue
     "stringValue" = $sb.ToString()
     }
-$htable | ConvertTo-Json  
+$htable | ConvertTo-Json
 `
     fs.writeFileSync(psScriptPath, psScriptContent);
   } catch (err) {
@@ -300,122 +307,21 @@ $htable | ConvertTo-Json
   return '';
 }
 
-// inspired https://github.com/JosefNemec/Playnite/blob/master/source/Playnite/Common/Programs2.cs
-// unused, useful for deep searching apps
-function getUWPApps() {
-  var uwpApps: Array<SimpleUWPApp> = [];
-
-  console.debug(`Reading UWP apps installed, please wait`);
-  const jsonuwpapps = JSON.parse(spawnSync(
-    '$PkgMgr = [Windows.Management.Deployment.PackageManager,Windows.Web,ContentType=WindowsRuntime]::new(); $PkgMgr.FindPackagesForUser([System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value) | ConvertTo-Json',
-    {
-      shell: 'powershell',
-      encoding: "utf-8",
-    }
-  ).stdout);
-
-  jsonuwpapps.forEach((element: UWPObj) => {
-    if (
-      element.IsFramework ||
-      element.IsResourcePackage ||
-      element.SignatureKind != 3 // https://docs.microsoft.com/en-us/uwp/api/windows.applicationmodel.packagesignaturekind
-    ) {
-      return;
-    }
-    
-    // parse manifest files
-    try {
-      var manifestPath;
-      if (element.IsBundle) {
-        manifestPath = "AppxMetadataAppxBundleManifest.xml";
-      } else {
-        manifestPath = "AppxManifest.xml";
-      }
-      manifestPath = path.join(element.InstalledLocation.Path, manifestPath);
-
-      var xml = fs.readFileSync(manifestPath, "utf8");
-
-      var apxApp;
-      var appId;
-      var name;
-
-      parseString(xml, function (err, result) {
-
-        apxApp = result.Package.Applications[0].Application[0];
-        appId = apxApp.$.Id;
-        name = result.Package.Properties[0].DisplayName;
-
-        if (name.toString().startsWith("ms-resource")) {
-          name = getIndirectResourceString(element.Id.FullName, element.Id.Name, name);
-          if (name == null || name == "") {
-            name = result.Package.Identity[0].$.Name;
-          }
-        }
-
-        console.debug(`Parsed UWP App Manifest: ${name}`);
-
-        var uwpApp: SimpleUWPApp = {} as SimpleUWPApp;
-        console.debug(`Created uwpApp variable`);
-
-        uwpApp.name = name;
-        uwpApp.workdir = element.InstalledLocation.Path;
-        uwpApp.path = "explorer.exe";
-        uwpApp.arguments = `shell:AppsFolder\\${element.Id.FamilyName}!${appId}`;
-        uwpApp.appId = element.Id.FamilyName;
-
-        console.debug(`uwpApp var = ${uwpApp}`);
-
-        uwpApps.push(uwpApp);
-
-      });
-    } catch (err) {
-      console.error("Error parsing xml files: " + err);
-    }
-  });
-
-  return uwpApps;
-}
-
-// unused
-function getGamesLibraryNames(gamesLibraryPath: string) {
-  var gamesLibraryNames: Array<SimpleManifest> = [];
-  try {
-    fs.readdirSync(path.normalize(gamesLibraryPath)).forEach((element) => {
-      var manifestPath = path.join(
-        path.normalize(gamesLibraryPath),
-        element,
-        "Content",
-        "appxmanifest.xml"
-      );
-      var xml = fs.readFileSync(manifestPath, "utf8");
-      parseString(xml, function (err, result) {
-        var gameManifest: SimpleManifest = {} as SimpleManifest;
-        gameManifest.idName = result.Package.Identity[0].$.Name;
-        gameManifest.idPublisher = result.Package.Identity[0].$.Publisher;
-        gameManifest.appExecutable = result.Package.Applications[0].Application[0].$.Executable;
-        gamesLibraryNames.push(gameManifest);
-      });
-    });
-  } catch (err) {
-    console.error("Error getting games in library path: " + err.toString());
-  }
-  console.debug(`Found ${gamesLibraryNames.length} games in library path ${gamesLibraryPath}`);
-  return gamesLibraryNames;
-}
-
-function getUWPAppDetail(manifest: SimpleManifest) {
+function getUWPAppDetail(manifest: SimpleManifest, xmlParser: XMLParser) {
   var uwpApp: SimpleUWPApp = {} as SimpleUWPApp;
 
-  console.debug(`Searching for UWP app: ${manifest.idName}, ${manifest.idPublisher}`);
-  const jsonuwpapp = JSON.parse(spawnSync(
+  console.log(`Searching for UWP app: ${manifest.idName}, ${manifest.idPublisher}`);
+  const searchResults = spawnSync(
     `$PkgMgr = [Windows.Management.Deployment.PackageManager,Windows.Web,ContentType=WindowsRuntime]::new(); $PkgMgr.FindPackagesForUser([System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value, "${manifest.idName}", "${manifest.idPublisher}") | ConvertTo-Json`,
     {
       shell: 'powershell',
       encoding: "utf-8",
     }
-  ).stdout);
+  ).stdout;
+  console.log("searchResults",searchResults)
+  const jsonuwpapp = JSON.parse(searchResults);
 
-  //console.debug(`found json: ${JSON.stringify(jsonuwpapp)}`);
+  console.log(`found json: ${JSON.stringify(jsonuwpapp)}`);
   if (
     jsonuwpapp.IsFramework ||
     jsonuwpapp.IsResourcePackage ||
@@ -423,7 +329,7 @@ function getUWPAppDetail(manifest: SimpleManifest) {
   ) {
     return;
   }
-  
+
   // parse manifest files
   try {
     var manifestPath;
@@ -439,35 +345,142 @@ function getUWPAppDetail(manifest: SimpleManifest) {
     var apxApp: string;
     var appId: string;
     var name: string;
-
-    parseString(xml, function (err, result) {
-
-      apxApp = result.Package.Applications[0].Application[0];
-      appId = result.Package.Applications[0].Application[0].$.Id;
-      name = result.Package.Properties[0].DisplayName[0];
+    if(XMLValidator.validate(xml)) {
+      let parsedData: any = xmlParser.parse(xml);
+      console.log("appdetails",parsedData)
+      apxApp = parsedData.Package.Applications[0].Application[0];
+      appId = parsedData.Package.Applications[0].Application[0].$.Id;
+      name = parsedData.Package.Properties[0].DisplayName[0];
 
       if (name.toString().startsWith("ms-resource")) {
         console.debug(`name starts with ms-resource: ${name}"`);
         name = getIndirectResourceString(jsonuwpapp.Id.FullName, jsonuwpapp.Id.Name, name);
         if (name == null || name == "") {
-          name = result.Package.Identity[0].$.Name;
+          name = parsedData.Package.Identity[0].$.Name;
         }
       }
 
       console.debug(`Parsed UWP App Manifest: ${name}`);
-      
+
       uwpApp.name = name;
       uwpApp.workdir = jsonuwpapp.InstalledLocation.Path;
       uwpApp.path = path.join(jsonuwpapp.InstalledLocation.Path,manifest.appExecutable).toString();
       uwpApp.arguments = `shell:AppsFolder\\${jsonuwpapp.Id.FamilyName}!${appId}`;
       uwpApp.appId = jsonuwpapp.Id.FamilyName;
 
-      //console.debug(`uwpApp var = ${uwpApp}`);
-
-
-    });
+    }
   } catch (err) {
     console.error("Error parsing xml files: " + err);
   }
   return uwpApp;
 }
+
+
+
+
+
+
+
+// inspired https://github.com/JosefNemec/Playnite/blob/master/source/Playnite/Common/Programs2.cs
+// unused, useful for deep searching apps
+// function getUWPApps() {
+//   var uwpApps: Array<SimpleUWPApp> = [];
+//
+//   console.debug(`Reading UWP apps installed, please wait`);
+//   const jsonuwpapps = JSON.parse(spawnSync(
+//     '$PkgMgr = [Windows.Management.Deployment.PackageManager,Windows.Web,ContentType=WindowsRuntime]::new(); $PkgMgr.FindPackagesForUser([System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value) | ConvertTo-Json',
+//     {
+//       shell: 'powershell',
+//       encoding: "utf-8",
+//     }
+//   ).stdout);
+//
+//   jsonuwpapps.forEach((element: UWPObj) => {
+//     if (
+//       element.IsFramework ||
+//       element.IsResourcePackage ||
+//       element.SignatureKind != 3 // https://docs.microsoft.com/en-us/uwp/api/windows.applicationmodel.packagesignaturekind
+//     ) {
+//       return;
+//     }
+//
+//     // parse manifest files
+//     try {
+//       var manifestPath;
+//       if (element.IsBundle) {
+//         manifestPath = "AppxMetadataAppxBundleManifest.xml";
+//       } else {
+//         manifestPath = "AppxManifest.xml";
+//       }
+//       manifestPath = path.join(element.InstalledLocation.Path, manifestPath);
+//
+//       var xml = fs.readFileSync(manifestPath, "utf8");
+//
+//       var apxApp;
+//       var appId;
+//       var name;
+//
+//       parseString(xml, function (err, result) {
+//
+//         apxApp = result.Package.Applications[0].Application[0];
+//         appId = apxApp.$.Id;
+//         name = result.Package.Properties[0].DisplayName;
+//
+//         if (name.toString().startsWith("ms-resource")) {
+//           name = getIndirectResourceString(element.Id.FullName, element.Id.Name, name);
+//           if (name == null || name == "") {
+//             name = result.Package.Identity[0].$.Name;
+//           }
+//         }
+//
+//         console.debug(`Parsed UWP App Manifest: ${name}`);
+//
+//         var uwpApp: SimpleUWPApp = {} as SimpleUWPApp;
+//         console.debug(`Created uwpApp variable`);
+//
+//         uwpApp.name = name;
+//         uwpApp.workdir = element.InstalledLocation.Path;
+//         uwpApp.path = "explorer.exe";
+//         uwpApp.arguments = `shell:AppsFolder\\${element.Id.FamilyName}!${appId}`;
+//         uwpApp.appId = element.Id.FamilyName;
+//
+//         console.debug(`uwpApp var = ${uwpApp}`);
+//
+//         uwpApps.push(uwpApp);
+//
+//       });
+//     } catch (err) {
+//       console.error("Error parsing xml files: " + err);
+//     }
+//   });
+//
+//   return uwpApps;
+// }
+
+// unused
+// function getGamesLibraryNames(gamesLibraryPath: string) {
+//   var gamesLibraryNames: Array<SimpleManifest> = [];
+//   try {
+//     fs.readdirSync(path.normalize(gamesLibraryPath)).forEach((element) => {
+//       var manifestPath = path.join(
+//         path.normalize(gamesLibraryPath),
+//         element,
+//         "Content",
+//         "appxmanifest.xml"
+//       );
+//       var xml = fs.readFileSync(manifestPath, "utf8");
+//       parseString(xml, function (err, result) {
+//         var gameManifest: SimpleManifest = {} as SimpleManifest;
+//         gameManifest.idName = result.Package.Identity[0].$.Name;
+//         gameManifest.idPublisher = result.Package.Identity[0].$.Publisher;
+//         gameManifest.appExecutable = result.Package.Applications[0].Application[0].$.Executable;
+//         gamesLibraryNames.push(gameManifest);
+//       });
+//     });
+//   } catch (err) {
+//     console.error("Error getting games in library path: " + err.toString());
+//   }
+//   console.debug(`Found ${gamesLibraryNames.length} games in library path ${gamesLibraryPath}`);
+//   return gamesLibraryNames;
+// }
+

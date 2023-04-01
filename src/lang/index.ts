@@ -205,6 +205,17 @@ function getMarkdown(langPath: string) {
         ]
       }
     },
+    UWPParser: {
+      docs__md: {
+        self: [
+          require(`${langPath}/UWP-parser.md`),
+          require(`${langPath}/UWP-parser-input.md`)
+        ],
+        input: [
+          require(`${langPath}/UWP-parser-input.md`)
+        ]
+      }
+    },
     uplayParser: {
       docs__md: {
         self: [
@@ -296,8 +307,8 @@ function getMarkdown(langPath: string) {
 }
 
 // Make sure everything is exported as BCP 47 compatible codes
-let enabledLanguages = ['en-US', 'nl-NL', 'pt-BR','fr-FR','de-DE'];
-// let enabledLanguages = ['en-US'];
+// let enabledLanguages = ['en-US', 'nl-NL', 'pt-BR','fr-FR','de-DE'];
+let enabledLanguages = ['en-US'];
 let langData = Object.fromEntries(enabledLanguages.map(x=>[x,{
   langStrings: require(`./${x}/langStrings.json`),
   markdowns: getMarkdown(`./${x}/markdown`)
