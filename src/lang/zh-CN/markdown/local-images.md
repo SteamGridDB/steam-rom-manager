@@ -1,10 +1,10 @@
-# Local images (optional) `[supports variables]`{.noWrap}
+# 本地图片（可选）`[支持变量]`{.noWrap}
 
-Allows one to use images stored locally. A [special glob input](#special-glob-input) string is used to retrieve images.
+允许使用本地存储的图像。 使用一个[特殊的全局输入](#special-glob-input)字符串来检索图像。
 
-## Allowed image extensions
+## 允许的图片扩展名
 
-Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Even if parser finds files with other extensions, they are not included into the final list.
+仅支持`JPEG`{.noWrap}、`JPG`{.noWrap}、`PNG`{.noWrap}和`TGA`{.noWrap}文件扩展名。 Even if parser finds files with other extensions, they are not included into the final list.
 
 ## Can you move the directory of local images after saving app list?
 
