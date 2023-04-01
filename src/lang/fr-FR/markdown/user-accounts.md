@@ -1,33 +1,33 @@
-# User accounts (Optional)
+# Comptes utilisateur (facultatif)
 
-Can be used to limit configuration to specific user accounts. In order to set user accounts, the following syntax must be used:
+Peut être utilisé pour limiter la configuration à des comptes utilisateurs spécifiques. Afin de définir des comptes utilisateurs, la syntaxe suivante doit être utilisée:
 ```
 ${...}
 ```
-You **must** use the username you use to **log in** into Steam **if** [use account credentials](#what-does-use-account-credentials-do) is enabled:
+Vous **devez** utiliser le nom d'utilisateur que vous utilisez pour vous **connecter** à Steam **si** [utiliser les noms de compte](#what-does-use-account-credentials-do) est activé:
 
-![Account example](../../../assets/images/user-account-example.png) {.fitImage.center}
+![Exemple de compte](../../../assets/images/user-account-example.png) {.fitImage.center}
 
-For example, this is how you specify account for "Banana" and "Apple":
+Par exemple, c'est ainsi que vous spécifiez le compte pour "Banana" et "Apple":
 
 ```
 ${Banana}${Apple}
 ```
 
-In case the [use account credentials](#what-does-use-account-credentials-do) is disabled, you can still limit accounts by specifying their ids directly:
+Si [utiliser les noms de compte](#what-does-use-account-credentials-do) est désactivés, vous pouvez toujours limiter les comptes en spécifiant leurs identifiants directement:
 
 ```
 ${56489124}${21987424}
 ```
 
-## What does "Skip found accounts with missing data directories" do?
+## Que fait "Ignorer les comptes trouvés avec des données manquantes"?
 
-Sometimes Steam's file that contains logins, may contain users that do not have data directory created (might have been manually deleted, etc.). You can specify to skip those accounts by enabling this option.
+Parfois, le fichier Steam qui contient les identifiants, peut contenir des utilisateurs qui n'ont pas de répertoire de données créé (peut avoir été supprimé manuellement, etc.). Vous pouvez spécifier d'ignorer ces comptes en activant cette option.
 
-## What does "Use account credentials" do?
+## Que fait "Utiliser les noms de compte"?
 
-Tries to look for account credentials in Steam directory. In other words -- username. Username then can be used to filter accounts without actually having to know their ids.
+Tente de rechercher les noms de compte dans le répertoire Steam.   Les noms de compte peuvent alors être utilisé pour filtrer les comptes sans avoir à connaître leurs identifiants.
 
-### Warning!
+### Attention!
 
-If Steam has credential saving disabled, this option will prevent finding user accounts.
+Si dans Steam la sauvegarde des informations d'identification est désactivée, cette option empêchera la recherche de comptes d'utilisateur.
