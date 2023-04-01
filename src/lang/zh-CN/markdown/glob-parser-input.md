@@ -1,12 +1,12 @@
-# Glob Parser specific inputs
+# Glob 解析器特定输入
 
-## User's glob
+## 用户的全局变量
 
-This is where you create your glob for extracting title from file path. Please read all of [special glob characters](#special-glob-characters) if you don't know how to construct a glob.
+这是您创建从文件路径提取标题的 glob 的位置。 如果您不知道如何构建通配符，请阅读所有的[特殊通配符](#special-glob-characters)。
 
-## How does it work?
+## 它是如何工作的？
 
-In addition to special glob characters, glob parser requires you to enter `${title}`{.noWrap} variable. 解析器将定位其位置在您的**全局变量**中，例如：
+除了特殊的 glob 字符外，glob 解析器还要求您输入`${title}`{.noWrap} 变量。 解析器将定位其位置在您的**全局变量**中，例如：
 
 | 用户的全局变量                | 位置         |
 | ---------------------- | ---------- |
