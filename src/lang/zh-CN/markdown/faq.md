@@ -14,41 +14,41 @@ Read this if you're still having trouble with configuration. For most examples t
 
 ## So, how do I setup user's glob?
 
-First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. Since our **ROMs directory** is `C:/ROMs`, we can just remove it from **File1**'s path.
+首先，让我们分析**File1**。 它的完整路径是`C:/ROMs/Kingdom Hearts/game.iso`。 First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. Since our **ROMs directory** is `C:/ROMs`, we can just remove it from **File1**'s path.
 
-We end up with `Kingdom Hearts/game.iso`. We end up with `Kingdom Hearts/game.iso`. We end up with `Kingdom Hearts/game.iso`. It obvious for us that `Kingdom Hearts` is the title, however parser is dumber than you -- you must specify path portion which contains the title by replacing `Kingdom Hearts` with `${title}`.
+我们最终得到了 `Kingdom Hearts/game.iso`。 We end up with `Kingdom Hearts/game.iso`. We end up with `Kingdom Hearts/game.iso`. It obvious for us that `Kingdom Hearts` is the title, however parser is dumber than you -- you must specify path portion which contains the title by replacing `Kingdom Hearts` with `${title}`.
 
-Again, we end up with `${title}/game.iso`, but we also want **File2**, because it is for the same emulator. **File1** is `game.iso` and **File2** is `rom.iso`. What now? **File1** is `game.iso` and **File2** is `rom.iso`. What now? **File1** is `game.iso` and **File2** is `rom.iso`. What now?
+Again, we end up with `${title}/game.iso`, but we also want **File2**, because it is for the same emulator. **File1** is `game.iso` and **File2** is `rom.iso`. What now? **File1** is `game.iso` and **File2** is `rom.iso`. What now? **File1** is `game.iso` and **File2** is `rom.iso`. 现在怎么办？
 
-Remember wild cards? They allow us to discard information that does not really matter. In this case we don't care if it is `game` or `rom`, we want both to be matched. That's why we replace them with `*`. This is the final glob for both **File1** and **File2**:
+还记得通配符吗？ 它们允许我们丢弃那些并不重要的信息。 在这种情况下，我们不关心它是`游戏`还是`ROM`，我们希望两者都匹配。 那就是为什么我们用`*`替换它们。 这是**File1**和**File2**的最终结果：
 
 ```
 ${title}/*.iso
 ```
 
-Using similar logic we can produce glob for **File3**:
+使用类似的逻辑，我们可以为**File3**生成全局变量：
 
 ```
 */*/*/${title}.nes
 ```
 
-## How to deal with multi-leveled directories?
+## 如何处理多层目录？
 
-This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now? Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now? Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now?
+This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now? Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now? 请注意，**File3**有`3`个子目录，而**File5**有`2`个。 现在怎么办？
 
-Now we can use a globstar and that's it!
+现在我们可以使用 globstar，就这样！
 ```
 **/${title}.*
 ```
-Is it really that simple? Is it really that simple? Is it really that simple? **NO!** Globstar will have some impact in parser's performance if there are many subdirectories with thousands of files each. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere.
+它真的那么简单吗？ Is it really that simple? Is it really that simple? **NO!** Globstar will have some impact in parser's performance if there are many subdirectories with thousands of files each. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere. Globstar 会确保解析器检查它能找到的每个文件。 用户曾经报告过解析需要约10分钟的时间来使用 globstar。
 
-A recommended solution is to use braced sets. A recommended solution is to use braced sets. A recommended solution is to use braced sets. They can make multiple globs out of `1` glob. If we write a glob like this: If we write a glob like this: If we write a glob like this:
+建议的解决方案是使用花括号集合。 A recommended solution is to use braced sets. A recommended solution is to use braced sets. They can make multiple globs out of `1` glob. If we write a glob like this: If we write a glob like this: 如果我们像这样写一个全局通配符：
 
 ```
 {*,*/*}/*/${title}.*
 ```
 
-we will get `2` globs:
+我们将获得`2`个 globs：
 
 ```
 */*/${title}.*
