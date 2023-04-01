@@ -18,7 +18,7 @@
       "saveImage": "Save image to file",
       "addLocalImages": "Add local images",
       "retryDownload": "Retry download",
-      "generateAppList": "Generate app list",
+      "generateAppList": "Apps erzeugen",
       "saveAppList": "Save apps to Steam",
       "removeAppList": "Remove apps from Steam",
       "remainingImages": "Remaining image downloads:",
@@ -154,11 +154,11 @@
   },
   "eaDesktopParser": {
     "eaGamesDirTitle": "EA Games Install Directory",
-    "eaLauncherModeTitle": "Launch games via EA Desktop",
+    "eaLauncherModeTitle": "Spiele über EA Desktop starten",
     "errors": {
       "fatalError__i": "> EA Desktop parser failed with fatal error:\n ${error}",
       "invalidXML__i": "> Invalid XML file ${dataFile}",
-      "eaNotCompatible": "> EA Desktop Parser only supports Windows."
+      "eaNotCompatible": "> EA Desktop Parser unterstützt nur Windows."
     }
   },
   "globParser": {
