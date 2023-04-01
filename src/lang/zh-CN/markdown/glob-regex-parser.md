@@ -1,3 +1,3 @@
-# Glob-regex Parser
+# Glob-regex 解析器
 
-A glob based path parser used to extract title from a file path. Furthermore, a regular expression can be used to modify title even further. This is meant to be used when a simple "Glob" parser is not enough.
+一个基于 glob 的路径解析器，用于从文件路径中提取标题。 此外，正则表达式可以进一步修改标题。 这是用于在简单的 “Glob” 解析器不足时使用的。

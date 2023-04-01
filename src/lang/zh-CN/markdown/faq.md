@@ -1,32 +1,32 @@
 # 常见问题
 
-Read this if you're still having trouble with configuration. For most examples the following will be used unless specified otherwise: Read this if you're still having trouble with configuration. For most examples the following will be used unless specified otherwise: For most examples the following will be used unless specified otherwise:
+Read this if you're still having trouble with configuration. For most examples the following will be used unless specified otherwise: Read this if you're still having trouble with configuration. For most examples the following will be used unless specified otherwise: For most examples the following will be used unless specified otherwise: 除非另有说明，否则大多数情况下将使用以下内容：
 
 |            |                                            |
 | ---------- | ------------------------------------------ |
 | **ROM 目录** | `C:/ROMs`                                  |
-| **文件1**    | `C:/ROMs/Kingdom Hearts/game.iso`          |
+| **File1**  | `C:/ROMs/Kingdom Hearts/game.iso`          |
 | **File2**  | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
 | **File3**  | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
 | **File4**  | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
 | **File5**  | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
 | **File6**  | `C:/ROMs/dir1/dir2/save.sav`               |
 
-## So, how do I setup user's glob?
+## 那么，我该如何设置用户的全局变量？
 
-首先，让我们分析**File1**。 它的完整路径是`C:/ROMs/Kingdom Hearts/game.iso`。 First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. Since our **ROMs directory** is `C:/ROMs`, we can just remove it from **File1**'s path.
+首先，让我们分析 **File1**。 它的完整路径是 `C:/ROMs/Kingdom Hearts/game.iso`。 由于我们的 **ROMs目录** 位于 `C:/ROMs`，因此我们可以从 **File1** 的路径中删除它。
 
-我们最终得到了 `Kingdom Hearts/game.iso`。 We end up with `Kingdom Hearts/game.iso`. We end up with `Kingdom Hearts/game.iso`. It obvious for us that `Kingdom Hearts` is the title, however parser is dumber than you -- you must specify path portion which contains the title by replacing `Kingdom Hearts` with `${title}`.
+我们最终得到了 `Kingdom Hearts/game.iso`。 对我们来说，`Kingdom Hearts` 是标题很明显，但解析器比你还要笨 -- 你必须用 `${title}` 替换 `Kingdom Hearts` 以指定包含标题的路径部分。
 
-Again, we end up with `${title}/game.iso`, but we also want **File2**, because it is for the same emulator. **File1** is `game.iso` and **File2** is `rom.iso`. What now? **File1** is `game.iso` and **File2** is `rom.iso`. What now? **File1** is `game.iso` and **File2** is `rom.iso`. 现在怎么办？
+再次强调，我们得到了 `${title}/game.iso`，但是我们也需要 **File2**，因为它适用于同一个模拟器。 Again, we end up with `${title}/game.iso`, but we also want **File2**, because it is for the same emulator. **File1** is `game.iso` and **File2** is `rom.iso`. What now? **File1** is `game.iso` and **File2** is `rom.iso`. What now? **File1** is `game.iso` and **File2** is `rom.iso`. 现在怎么办？ 现在怎么办？
 
-还记得通配符吗？ 它们允许我们丢弃那些并不重要的信息。 在这种情况下，我们不关心它是`游戏`还是`ROM`，我们希望两者都匹配。 那就是为什么我们用`*`替换它们。 这是**File1**和**File2**的最终结果：
+还记得通配符吗？ 它们允许我们丢弃那些并不重要的信息。 在这种情况下，我们不关心它是`游戏`还是`ROM`，我们希望两者都匹配。 那就是为什么我们用 `*` 替换它们。 这是 **File1** 和 **File2** 的最终结果：
 
 ```
 ${title}/*.iso
 ```
 
-使用类似的逻辑，我们可以为**File3**生成全局变量：
+使用类似的逻辑，我们可以为 **File3** 生成全局变量：
 
 ```
 */*/*/${title}.nes
@@ -34,28 +34,28 @@ ${title}/*.iso
 
 ## 如何处理多层目录？
 
-This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now? Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now? 请注意，**File3**有`3`个子目录，而**File5**有`2`个。 现在怎么办？
+This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now? Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now? 请注意，**File3**有`3`个子目录，而**File5**有`2`个。 请注意，**File3** 有 `3` 个子目录，而 **File5** 有 `2` 个。 现在怎么办？
 
-现在我们可以使用 globstar，就这样！
+现在我们可以使用 globstar，就是这样！
 ```
 **/${title}.*
 ```
-它真的那么简单吗？ Is it really that simple? Is it really that simple? **NO!** Globstar will have some impact in parser's performance if there are many subdirectories with thousands of files each. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere. Globstar 会确保解析器检查它能找到的每个文件。 用户曾经报告过解析需要约10分钟的时间来使用 globstar。
+它真的那么简单吗？ Is it really that simple? Is it really that simple? **NO!** Globstar will have some impact in parser's performance if there are many subdirectories with thousands of files each. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere. Globstar 会确保解析器检查它能找到的每个文件。 Globstar 会确保解析器检查它能找到的每个文件。 用户曾经报告过解析需要约10分钟的时间来使用 globstar。
 
-建议的解决方案是使用花括号集合。 A recommended solution is to use braced sets. A recommended solution is to use braced sets. They can make multiple globs out of `1` glob. If we write a glob like this: If we write a glob like this: 如果我们像这样写一个全局通配符：
+建议的解决方案是使用花括号集合。 A recommended solution is to use braced sets. A recommended solution is to use braced sets. They can make multiple globs out of `1` glob. If we write a glob like this: If we write a glob like this: 如果我们像这样写一个全局通配符： 如果我们像这样写一个全局通配符：
 
 ```
 {*,*/*}/*/${title}.*
 ```
 
-我们将获得`2`个 globs：
+我们将获得 `2` 个 globs：
 
 ```
 */*/${title}.*
 */*/*/${title}.*
 ```
 
-这`2`个blob都符合我们的文件，**File3**和**File5**。
+这 `2` 个 globs 都符合我们的文件，**File3** 和 **File5**。
 
 ## 如何限制文件扩展名？
 
@@ -65,13 +65,13 @@ This time we want **File3** and **File5** (both have different extensions, read 
 {*,*/*}/*/${title}.*
 ```
 
-我们最终会得到4个文件：**File3**、**File4**、**File5**和**File6**。 现在，我们不需要**文件4**和**文件6**。 通常我们可以将 glob 设置为：
+我们最终会得到4个文件：**File3**、**File4**、**File5** 和 **File6**。 现在，我们不需要 **File4** 和 **File6**。 通常我们可以将 glob 设置为：
 
 ```
 {*,*/*}/*/${title}.nes
 ```
 
-但是最终我们只会得到**File3**，因为`nes`不等于`NES`--解析器区分大小写。 使用扩展的 glob 匹配器，有两种方法可以解决这个问题。
+但是最终我们只会得到 **File3**，因为 `nes` 不等于 `NES` -- 解析器区分大小写。 使用扩展的 glob 匹配器，有两种方法可以解决这个问题。
 
 ### 排除 `sav` 扩展名
 
@@ -91,7 +91,7 @@ This time we want **File3** and **File5** (both have different extensions, read 
 {*,*/*}/*/${title}.@(nes|NES)
 ```
 
-只有带有`nes`和`NES`的文件才会匹配。 如果你感觉很高级，或者你有扩展名为`nes`, `NES`, `neS`, `nEs`, `Nes`等的文件，那么你需要使用字符范围的通配符：
+只有带有 `nes` 和 `NES` 的文件才会匹配。 如果你感觉很炫酷，或者你有扩展名为 `nes`, `NES`, `neS`, `nEs`, `Nes` 等的文件，那么你需要使用字符范围的通配符：
 
 ```
 {*,*/*}/*/${title}.@([nN][eE][sS])
@@ -110,4 +110,4 @@ This time we want **File3** and **File5** (both have different extensions, read 
 
 ## Discord
 
-如需进一步帮助，请查看我们的[Discord](https://discord.gg/bnSVJrz)。
+如需进一步帮助，请查看我们的 [Discord](https://discord.gg/bnSVJrz)。

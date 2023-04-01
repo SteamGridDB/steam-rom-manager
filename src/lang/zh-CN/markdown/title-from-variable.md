@@ -38,6 +38,12 @@ ${RPCS3}${rpcs3}
     },
     ...
 }
+    },
+    "Custom Stuff": {
+        "The Legend Of Zelda": "The Legend Of Link"
+    },
+    ...
+}
 ```
 
 如果您的用户全局变量是`MyDir/${title}.wad`，并且您在`MyDir`中有一个名为`The Legend of Zelda.wad`的文件，则可以将标题从自定义变量字段设置为`${Custom Stuff}`以获得最终标题“ The Legend of Link”。

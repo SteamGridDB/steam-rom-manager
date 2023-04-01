@@ -8,4 +8,4 @@
 
 ## 通过 Epic Games Store 启动 `[建议启用]`
 
-听起来，这个切换可以让你设置游戏是通过 Epic Games Store 启动还是直接启动。 如果您不通过`Epic Games Store`启动游戏，将无法在游戏中使用Epic的在线服务。
+这个切换可以让你设置游戏是通过 Epic Games Store 启动还是直接启动。 如果您不通过 `Epic Games Store` 启动游戏，将无法在游戏中使用 Epic 的在线服务。
