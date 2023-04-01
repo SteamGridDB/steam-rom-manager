@@ -107,22 +107,22 @@
     "legendaryInstalledFileTitle": "Legendary installed.json 路径覆盖",
     "errors": {
       "legendaryNotInstalled": "> 找不到已安装的 Legendary installed.json 文件",
-      "fatalError__i": "> Legendary parser failed with fatal error: \n ${error}"
+      "fatalError__i": "> Legendary 解析器发生致命错误：\n ${error}"
     }
   },
   "uplayParser": {
-    "uplayDirTitle": "Uplay Directory Override",
-    "launcherModeInputTitle": "Launch games via UPlay for online services",
+    "uplayDirTitle": "Uplay 目录覆盖",
+    "launcherModeInputTitle": "通过 Uplay 启动游戏以使用在线服务。",
     "errors": {
-      "invalidManifestsOverride": "> Uplay Directory Override is not a valid directory.",
-      "uplayNotCompatible": "> UPlay Parser not available on Linux or Mac.",
-      "uplayDirNotFound": "> Specified UPlay directory does not exist.",
-      "uplayNotInstalled": "> UPlay not installed in specified directory.",
-      "fatalError__i": "> UPlay parser failed with fatal error:\n ${error}"
+      "invalidManifestsOverride": "> Uplay 目录覆盖不是有效的目录。",
+      "uplayNotCompatible": "> Uplay 解析器在Linux或Mac上不可用。",
+      "uplayDirNotFound": "> 指定的 Uplay 目录不存在。",
+      "uplayNotInstalled": "> 指定的目录中未安装 Uplay。",
+      "fatalError__i": "> Uplay 解析器发生致命错误：\n ${error}"
     }
   },
   "gogParser": {
-    "galaxyExeOverrideTitle": "Galaxy Path Override",
+    "galaxyExeOverrideTitle": "Galaxy 路径覆盖",
     "launcherModeInputTitle": "通过 GOG Galaxy 启动游戏",
     "errors": {
       "invalidGalaxyExeOverride": "> Galaxy 客户端覆盖不是一个有效的路径。",
@@ -232,69 +232,69 @@
   "configPresets": {
     "service": {
       "error": {
-        "failedToDownload__i": "Failed to download configuration presets file. Status: ${error}.",
-        "writingError": "Error occurred while saving configuration presets.",
-        "loadingError": "Error occurred while loading configuration presets.",
-        "corruptedVariables__i": "Saved configuration presets are invalid!\r\nPermanent file saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
+        "failedToDownload__i": "无法下载配置预设文件。状态：${error}。",
+        "writingError": "保存配置预设时发生错误。",
+        "loadingError": "加载配置预设时发生错误。",
+        "corruptedVariables__i": "保存的配置预设无效！\n在解决此问题之前，永久文件保存已被禁用。\n尝试手动修复错误（文件 - ${file}）\n或在我们的官方 Discord 频道或 Github 上寻求帮助：${error}"
       },
       "info": {
-        "updatingPresets": "Local config presets are out of date. Updating now.",
-        "downloaded": "New config preset file has been downloaded."
+        "updatingPresets": "本地配置预设已过期。正在更新。",
+        "downloaded": "新的配置预设文件已下载。"
       }
     }
   },
   "settings": {
     "component": {
       "label": {
-        "general": "General settings",
-        "imageProviders": "Image provider settings",
-        "fuzzy": "Fuzzy matcher settings",
-        "environmentVariables": "Environment variable settings",
-        "communityPresets": "Community variable/preset settings"
+        "general": "常规设置",
+        "imageProviders": "图像提供者设置",
+        "fuzzy": "模糊匹配器设置",
+        "environmentVariables": "环境变量设置",
+        "communityPresets": "社区变量/预设设置"
       },
       "text": {
-        "offlineMode": "Offline mode",
-        "removeApps_desc": "all added app entries and controllers",
-        "removeApps_btn": "Remove",
-        "preloadImages": "Preload retrieved images immediately",
-        "fuzzy_verbose": "Log matching results",
-        "fuzzy_filter": "Filter images",
-        "enabledProviders": "Enabled providers:",
-        "selectLanguage": "Select language:",
-        "resetFuzzy_desc": "fuzzy list",
-        "resetFuzzyCache_desc": "fuzzy cache",
-        "resetFuzzy_btn": "Reset",
-        "customVariables_desc": "custom variables",
-        "configPresets_desc": "config presets",
-        "showSteamImages": "Show current Steam images by default",
-        "deleteDisabledShortcuts": "Remove shortcuts for disabled parsers",
-        "clearLogOnTest": "Automatically clear log before testing parsers",
-        "configDir": "Open Config Directory"
+        "offlineMode": "离线模式",
+        "removeApps_desc": "所有添加的应用程序条目和控制器",
+        "removeApps_btn": "删除",
+        "preloadImages": "立即预加载检索到的图像",
+        "fuzzy_verbose": "记录匹配结果",
+        "fuzzy_filter": "筛选图像",
+        "enabledProviders": "已启用的提供者：",
+        "selectLanguage": "选择语言：",
+        "resetFuzzy_desc": "模糊列表",
+        "resetFuzzyCache_desc": "模糊缓存",
+        "resetFuzzy_btn": "重置",
+        "customVariables_desc": "自定义变量",
+        "configPresets_desc": "配置预设",
+        "showSteamImages": "默认显示当前的 Steam 图片",
+        "deleteDisabledShortcuts": "删除已禁用解析器的快捷方式",
+        "clearLogOnTest": "在测试解析器之前自动清除日志",
+        "configDir": "打开配置目录"
       },
       "placeholder": {
-        "noProviders": "None",
-        "steamDirectoryWin": "Typically C:\\Program Files (x86)\\Steam",
-        "steamDirectoryMac": "Typically ~/Library/Application Support/Steam",
-        "steamDirectoryLinux": "Typically /home/user/.steam/steam",
-        "romsDirectoryWin": "For example D:\\ROMs",
-        "romsDirectoryMac": "For example ~/ROMs",
-        "romsDirectoryLinux": "For example ~/ROMs",
-        "retroarchPathWin": "For example C:\\Path\\To\\retroarch.exe",
-        "retroarchPathLinux": "For example /path/to/retroarch",
-        "retroarchPathMac": "For example /path/to/retroarch",
-        "raCoresDirectoryWin": "Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
-        "raCoresDirectoryLinux": "Typically /lib/x86_64-linux-gnu/libretro/cores",
-        "raCoresDirectoryMac": "Typically /Applications/Retroarch.app/Contents/Resources/cores",
-        "localImagesDirectoryWin": "For example C:\\Path\\To\\LocalArtwork",
-        "localImagesDirectoryUnix": "For example ~/path/to/localartwork"
+        "noProviders": "无",
+        "steamDirectoryWin": "通常是 C:\\Program Files (x86)\\Steam。",
+        "steamDirectoryMac": "通常是 ~/Library/Application Support/Steam。",
+        "steamDirectoryLinux": "通常是 /home/user/.steam/steam",
+        "romsDirectoryWin": "例如 D:\\ROMs",
+        "romsDirectoryMac": "例如 ~/ROMs",
+        "romsDirectoryLinux": "例如 ~/ROMs",
+        "retroarchPathWin": "例如：C:\\Path\\To\\retroarch.exe",
+        "retroarchPathLinux": "例如 /path/to/retroarch",
+        "retroarchPathMac": "例如 /path/to/retroarch",
+        "raCoresDirectoryWin": "通常是 C:\\Users\\ UserName\\AppData\\Roaming\\RetroArch\\cores",
+        "raCoresDirectoryLinux": "通常是 /lib/x86_64-linux-gnu/libretro/cores",
+        "raCoresDirectoryMac": "通常是 /Applications/Retroarch.app/",
+        "localImagesDirectoryWin": "例如：C:\\Path\\To\\LocalArtwork",
+        "localImagesDirectoryUnix": "例如 ~/path/to/localartwork"
       }
     },
     "service": {
       "info": {
-        "updatingSettings": "Updating user settings with new fields."
+        "updatingSettings": "正在使用新字段更新用户设置。"
       },
       "error": {
-        "writingError": "Error occurred while saving user settings.",
+        "writingError": "保存用户设置时发生错误。",
         "readingError": "读取用户设置时发生错误。",
         "corruptedSettings__i": "保存的应用程序设置无效！\n在解决此问题之前，永久设置保存已禁用。\n尝试手动修复错误（文件 - ${file}）\n或在 GitHub 或我们的官方 Discord 频道上寻求帮助：${error}"
       }
@@ -371,57 +371,57 @@
         "cannotTestInvalid": "无法测试无效的配置！",
         "cannotCopyInvalid": "无法复制无效配置！",
         "failedToCopy": "复制到剪贴板失败！",
-        "cannotFetchTemplates": "Can not fetch controller templates for invalid steam directory!",
-        "errorRemovingControllers": "Error removing controllers:",
-        "cannotRemoveControllers": "Can not remove controllers from invalid steam directory!"
+        "cannotFetchTemplates": "无法获取控制器模板，因为 Steam 目录无效！",
+        "errorRemovingControllers": "删除控制器时出错：",
+        "cannotRemoveControllers": "无法从无效的 Steam 目录中删除控制器！"
       },
       "success": {
-        "foundAccounts__i": "Found ${count} available user account(s):",
+        "foundAccounts__i": "发现 ${count} 个可用的用户账户：",
         "foundAccountInfo__i": "  ${name} (steamID64: ${steamID64}, accountID: ${accountID})",
-        "steamCategory__i": "[${index}/${total}]:     Steam categories - ${steamCategory}",
+        "steamCategory__i": "[${index}/${total}]:     Steam 分类 - ${steamCategory}",
         "steamCategoryInfo__i": "[${index}/${total}]:                        ${steamCategory}",
         "appId__i": "[${index}/${total}]:                AppID - ${appid}",
         "shortAppId__i": "[${index}/${total}]:          Short AppID - ${appid}",
-        "extractedTitle__i": "[${index}/${total}]:      Extracted title - ${title}",
-        "fuzzyTitle__i": "[${index}/${total}]:          Fuzzy title - ${title}",
-        "finalTitle__i": "[${index}/${total}]:          Final title - ${title}",
-        "filePath__i": "[${index}/${total}]:            File path - ${filePath}",
-        "startDir__i": "[${index}/${total}]:            Start dir - ${startDir}",
-        "completeShortcut__i": "[${index}/${total}]:    Complete shortcut - ${shortcut}",
-        "firstImageQuery__i": "[${index}/${total}]:        Image queries - ${query}",
+        "extractedTitle__i": "[${index}/${total}]:      提取标题 - ${title}",
+        "fuzzyTitle__i": "[${index}/${total}]:          模糊标题 - ${title}",
+        "finalTitle__i": "[${index}/${total}]:          最终标题 - ${title}",
+        "filePath__i": "[${index}/${total}]:            文件路径 - ${filePath}",
+        "startDir__i": "[${index}/${total}]:            开始目录 - ${startDir}",
+        "completeShortcut__i": "[${index}/${total}]:    完成快捷方式 - ${shortcut}",
+        "firstImageQuery__i": "[${index}/${total}]:        图像查询 - ${query}",
         "imageQueries__i": "[${index}/${total}]:                        ${query}",
-        "resolvedDefaultImageGlob__i": "[${index}/${total}]:  Default image glob:",
+        "resolvedDefaultImageGlob__i": "[${index}/${total}]: 默认图像通配符：",
         "resolvedDefaultImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
-        "resolvedDefaultTallImageGlob__i": "[${index}/${total}]:  Default tall image glob:",
+        "resolvedDefaultTallImageGlob__i": "[${index}/${total}]: 默认的高图片通配符：",
         "resolvedDefaultTallImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
-        "resolvedDefaultHeroImageGlob__i": "[${index}/${total}]:  Default hero image glob:",
+        "resolvedDefaultHeroImageGlob__i": "[${index}/${total}]: 默认英雄图片通配符：",
         "resolvedDefaultHeroImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
-        "resolvedDefaultLogoImageGlob__i": "[${index}/${total}]:  Default logo image glob:",
+        "resolvedDefaultLogoImageGlob__i": "[${index}/${total}]: 默认 Logo 图片通配符：",
         "resolvedDefaultLogoImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
-        "resolvedDefaultIconGlob__i": "[${index}/${total}]:  Default icon glob:",
+        "resolvedDefaultIconGlob__i": "[${index}/${total}]: 默认图标通配符：",
         "resolvedDefaultIconGlobInfo__i": "[${index}/${total}]:                        ${glob}",
-        "defaultImageResolved__i": "[${index}/${total}]:       Default image:\r\n[${index}/${total}]:                        ${image}",
-        "defaultTallImageResolved__i": "[${index}/${total}]:       Default tall image:\r\n[${index}/${total}]:                        ${image}",
-        "defaultHeroImageResolved__i": "[${index}/${total}]:       Default hero image:\r\n[${index}/${total}]:                        ${image}",
-        "defaultLogoImageResolved__i": "[${index}/${total}]:       Default logo image:\r\n[${index}/${total}]:                        ${image}",
-        "defaultIconResolved__i": "[${index}/${total}]:       Default icon:\r\n[${index}/${total}]:                        ${image}",
-        "resolvedImageGlob__i": "[${index}/${total}]: Resolved image glob:",
+        "defaultImageResolved__i": "[${index}/${total}]:       默认图片:\n[${index}/${total}]:                        ${image}",
+        "defaultTallImageResolved__i": "[${index}/${total}]:       默认高图片:\n[${index}/${total}]:                        ${image}",
+        "defaultHeroImageResolved__i": "[${index}/${total}]:       默认英雄图片:\n[${index}/${total}]:                        ${image}",
+        "defaultLogoImageResolved__i": "[${index}/${total}]:       默认 Logo 图片:\n[${index}/${total}]:                        ${image}",
+        "defaultIconResolved__i": "[${index}/${total}]:       默认图标:\n[${index}/${total}]:                        ${image}",
+        "resolvedImageGlob__i": "[${index}/${total}]: 已解析图像通配符：",
         "resolvedImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
-        "localImagesResolved__i": "[${index}/${total}]:     Resolved images:",
+        "localImagesResolved__i": "[${index}/${total}]:     已解析的图像：",
         "localImageInfo__i": "[${index}/${total}]:                        ${image}",
-        "resolvedTallImageGlob__i": "[${index}/${total}]: Resolved tall image glob:",
+        "resolvedTallImageGlob__i": "[${index}/${total}]: 已解析高图像文件组：",
         "resolvedTallImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
-        "localTallImagesResolved__i": "[${index}/${total}]:     Resolved tall images:",
+        "localTallImagesResolved__i": "[${index}/${total}]: 已解析的高图片：",
         "localTallImageInfo__i": "[${index}/${total}]:                        ${image}",
-        "resolvedHeroImageGlob__i": "[${index}/${total}]: Resolved hero image glob:",
+        "resolvedHeroImageGlob__i": "[${index}/${total}]: 已解析英雄图片通配符：",
         "resolvedHeroImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
-        "localHeroImagesResolved__i": "[${index}/${total}]:     Resolved hero images:",
+        "localHeroImagesResolved__i": "[${index}/${total}]: 已解析的英雄图片：",
         "localHeroImageInfo__i": "[${index}/${total}]:                        ${image}",
-        "resolvedLogoImageGlob__i": "[${index}/${total}]: Resolved logo image glob:",
+        "resolvedLogoImageGlob__i": "[${index}/${total}]: 已解析 Logo 图像通配符：",
         "resolvedLogoImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
-        "localLogoImagesResolved__i": "[${index}/${total}]:     Resolved logo images:",
+        "localLogoImagesResolved__i": "[${index}/${total}]:     已解决的 Logo 图片：",
         "localLogoImageInfo__i": "[${index}/${total}]:                        ${image}",
-        "resolvedIconGlob__i": "[${index}/${total}]:  Resolved icon glob:",
+        "resolvedIconGlob__i": "[${index}/${total}]: 已解析的图标通配符：",
         "resolvedIconGlobInfo__i": "[${index}/${total}]:                        ${glob}",
         "localIconsResolved__i": "[${index}/${total}]: 已解决的图标：",
         "localIconInfo__i": "[${index}/${total}]:                        ${icon}",
@@ -471,108 +471,108 @@
         "fuzzy_use": "使用模糊匹配",
         "fuzzy_removeCharacters": "积极匹配",
         "fuzzy_removeBrackets": "删除 (...) 和 [...] 括号",
-        "fuzzy_replaceDiacritic": "Replace diacritic characters",
-        "appendArgsToExecutable": "Append arguments to executable",
-        "disabled": "Disable current parser",
-        "advanced": "Show advanced options",
+        "fuzzy_replaceDiacritic": "替换变音符号字符",
+        "appendArgsToExecutable": "将参数附加到可执行文件",
+        "disabled": "禁用当前解析器",
+        "advanced": "显示高级选项",
         "noTitle": "无标题！"
       }
     },
     "service": {
       "info": {
-        "updatingConfigurations": "Updating user configurations with new fields"
+        "updatingConfigurations": "使用新字段更新用户配置"
       },
       "error": {
-        "savingConfiguration": "Error encountered while saving user configurations!",
-        "readingConfiguration": "Error encountered while reading user configurations!",
-        "parserTypeMissing": "Cannot save without specifying parser type",
-        "corruptedConfiguration__i": "One or more saved parser configurations are invalid!\r\nPermanent configuration saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}",
-        "fetcingTemplates": "Error encountered while fetching controllers templates!"
+        "savingConfiguration": "保存用户配置时遇到错误！",
+        "readingConfiguration": "读取用户配置时遇到错误！",
+        "parserTypeMissing": "未指定解析器类型，无法保存",
+        "corruptedConfiguration__i": "一个或多个保存的解析器配置无效！\n在此问题得到解决之前，永久配置保存被禁用。\n尝试手动修复错误（文件 - ${file}）\n或在我们的官方 Discord 频道上寻求帮助：${error}。",
+        "fetcingTemplates": "获取控制器模板时遇到错误！"
       },
       "validationErrors": {
-        "parserType__md": "> Incorrect parser type!",
-        "configTitle__md": "> Configuration title is required!",
-        "parserId__md": "> Parser Id is missing, something is horribly wrong.",
+        "parserType__md": "> 解析器类型不正确！",
+        "configTitle__md": "> 配置标题是必填项！",
+        "parserId__md": "> 解析器 ID 丢失，出现了严重的问题。",
         "parserInput": {
-          "noInput": "No inputs are available!",
-          "inputNotAvailable__i": "\"${name}\" input is not available!",
-          "incorrectParser": "Incorrect parser!"
+          "noInput": "没有可用的输入！",
+          "inputNotAvailable__i": "${name}\" 输入不可用！",
+          "incorrectParser": "错误的解析器！"
         },
-        "romDir__md": "> ROMs directory is invalid!",
-        "userAccounts__md": "> Steam parser requires `User Accounts` field",
-        "steamDir__md": "> Steam directory is invalid!",
-        "startInDir__md": "> \"Start In\" directory is invalid!",
-        "executable__md": "> Executable is invalid!",
-        "imagePool__md": "> Image pool must not be empty!",
-        "defaultImage__md": "> Default image is an invalid path!",
-        "titleModifier__md": "> Title modifier must not be empty!",
-        "executableModifier__md": "> Executable modifier must not be empty!",
-        "variableString__md": "> Uneven number of `${` and `}` pairs. Use `\\` to escape `${` or `}` if you want to use them as characters.",
-        "imageProviders__md": "> Incorrect image providers type!",
-        "unhandledValidationKey__md": "> Input's validation is unhandled",
-        "genericDir__md": "> Directory is invalid",
-        "genericPath__md": "> Path is invalid"
+        "romDir__md": "> ROM目录无效！",
+        "userAccounts__md": "> Steam 解析器需要 `用户账户` 字段",
+        "steamDir__md": "> Steam 目录无效！",
+        "startInDir__md": "> \"Start In\" 目录无效！",
+        "executable__md": "> 可执行文件无效！",
+        "imagePool__md": "> 图片池不能为空！",
+        "defaultImage__md": "> 默认图像路径无效！",
+        "titleModifier__md": "> 标题修饰符不能为空！",
+        "executableModifier__md": "> 可执行文件修饰符不能为空！",
+        "variableString__md": "> `${` and `}` 的数量不匹配。如果您想将它们用作字符，请使用 `\\` 转义 `${` or `}`。",
+        "imageProviders__md": "> 图像提供者类型不正确！",
+        "unhandledValidationKey__md": "> 输入验证未处理",
+        "genericDir__md": "> 目录无效",
+        "genericPath__md": "> 路径无效"
       },
       "text": {
-        "noTitle": "No title!"
+        "noTitle": "无标题！"
       }
     }
   },
   "fuzzyMatcher": {
     "info": {
-      "downloading": "Title list for fuzzy matching will be downloaded.",
-      "successfulDownload": "Download was successful. Saving list.",
-      "checkingIfListIsUpToDate": "Checking if title list is up to date.",
-      "listIsOutdated": "List is outdated. Title list for fuzzy matching will be downloaded.",
-      "listIsUpToDate": "Title list is up to date.",
-      "match__i": "Fuzzy title \"${fuzzyTitle}\" from \"${extractedTitle}\"",
-      "equal__i": "Fuzzy compare: \"${a}\" == \"${b}\"",
-      "notEqual__i": "Fuzzy compare: \"${a}\" != \"${b}\""
+      "downloading": "模糊匹配的标题列表将被下载。",
+      "successfulDownload": "下载成功。正在保存列表。",
+      "checkingIfListIsUpToDate": "检查标题列表是否最新。",
+      "listIsOutdated": "列表已过时。将下载用于模糊匹配的标题列表。",
+      "listIsUpToDate": "标题列表已更新。",
+      "match__i": "来自 \"${extractedTitle}\" 的模糊标题 \"${fuzzyTitle}",
+      "equal__i": "模糊比较：\"${a}\" == \"${b}",
+      "notEqual__i": "模糊比较：\"${a}\" != \"${b}"
     },
     "error": {
-      "fatalError": "Fatal error occurred while loading list for Fuzzy matcher. Fuzzy matching will be skipped.",
-      "totalGamesIsUndefined": "Failed to get fuzzy list count. \"totalGames\" key is undefined."
+      "fatalError": "加载模糊匹配器列表时发生致命错误。将跳过模糊匹配。",
+      "totalGamesIsUndefined": "无法获取模糊列表计数。 “totalGames” 键未定义。"
     }
   },
   "fileParser": {
     "error": {
-      "parserNotFound__i": "Parser \"${name}\" not found!",
-      "tooManyFieldGlobs__md": "> Only one `$(...)$` set is allowed per input.",
-      "parserIsRequired__md": "> First part of `$(...)$` must contain a valid **Glob** ir **Glob-regex** field.",
-      "noWinSlashes__md": "> Windows directory character `\\` is not allowed! Use `/` instead."
+      "parserNotFound__i": "未找到解析器 “${name}”！",
+      "tooManyFieldGlobs__md": "> 每个输入只允许一个 `$(...)$` 集。",
+      "parserIsRequired__md": "> `$(...)$` 的第一部分必须包含一个有效的 **Glob** 或者 **Glob-regex** 字段。",
+      "noWinSlashes__md": "> Windows 目录字符`\\`不允许使用！请改用`/`。"
     }
   },
   "imageProvider": {
     "error": {
-      "webWorkerError__i": "Web worker error has occurred. ${error}",
-      "unknownWebWorkerError": "Unknown web worker error has occurred. Error data: ${data}"
+      "webWorkerError__i": "Web worker 发生错误。${error}",
+      "unknownWebWorkerError": "发生未知的 Web worker 错误。错误数据：${data}"
     }
   },
   "vdfManager": {
     "error": {
-      "noUsersFound": "None of the provided steam directories contained any user directory.",
-      "emptyDirectoryList": "Directory list is empty.",
-      "couldNotPrepareToRead__i": "Could not find required steam files:\n ${error}",
-      "couldNotBackupEntries__i": "Could not backup required steam files:\n ${error}",
-      "couldNotReadEntries__i": "Could not read required steam files:\n ${error}",
-      "couldNotWriteEntries": "Could not write entries to steam files:",
-      "couldNotMergeEntries__i": "Could not merge entries:\n ${error}",
-      "couldNotRemoveEntries__i": "Could not remove entries:\n ${error}"
+      "noUsersFound": "提供的 Steam 目录没有包含任何用户目录。",
+      "emptyDirectoryList": "目录列表为空。",
+      "couldNotPrepareToRead__i": "无法找到所需的 Steam 文件：\n ${error}",
+      "couldNotBackupEntries__i": "无法备份所需的Steam文件：\n ${error}",
+      "couldNotReadEntries__i": "无法读取所需的 Steam 文件：\n ${error}",
+      "couldNotWriteEntries": "无法将条目写入 Steam 文件：",
+      "couldNotMergeEntries__i": "无法合并条目：\n ${error}",
+      "couldNotRemoveEntries__i": "无法删除条目：\n ${error}"
     }
   },
   "vdfFile": {
     "error": {
-      "readingVdf__i": "Failed to read from \"${filePath}\". ${error}",
-      "writingVdf__i": "Failed to write to \"${filePath}\". ${error}",
-      "corruptedVdf__i": "\"${filePath}\" is corrupted. ${error}",
-      "creatingBackup__i": "Could not create backup for \"${filePath}\". ${error}",
-      "unsupportedMimeType__i": "Mime type (${type}) is unsupported (title - \"${title}\").",
-      "imageError__i": "Error occurred while saving/downloading image for \"${title}\". Url: ${url}. ${error}"
+      "readingVdf__i": "无法从 \"${filePath}\" 读取。${error}",
+      "writingVdf__i": "无法写入\"${filePath}\"。${error}",
+      "corruptedVdf__i": "${filePath}\" 已损坏。${error}",
+      "creatingBackup__i": "无法为 \"${filePath}\" 创建备份。${error}",
+      "unsupportedMimeType__i": "Mime类型（${type}）不受支持（标题 - \"${title}\"）。",
+      "imageError__i": "在保存/下载 \"${title}\" 的图片时发生错误。URL: ${url}。${error}"
     }
   },
   "helpers": {
     "error": {
-      "noUserIdsInDir__i": "\"${steamDirectory}\" contains no user ids."
+      "noUserIdsInDir__i": "${steamDirectory}\" 不包含用户 ID。"
     }
   }
 }
