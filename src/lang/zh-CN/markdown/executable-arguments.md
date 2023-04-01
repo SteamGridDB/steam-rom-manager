@@ -175,28 +175,28 @@ This setting is used to influence Steam's APP ID.
 
 ## 函数变量
 
-|                                                 变量 (大小写不敏感) | 对应的函数                                                          |
-| -----------------------------------------------------------:|:-------------------------------------------------------------- |
-|                                 `${regex\|input\|替换(可选)}` | 在输入上执行正则表达式。 支持 `u`、`g` 和 `i` 标志（捕获的组将被连接，除非提供了替换）。            |
-|                                             `${uc\|input}` | 大写变量。 将输入转换为大写                                                 |
-|                                             `${lc\|input}` | 小写变量。 将输入转换为小写                                                 |
-|                                       `${cv:group\|input}` | 使用匹配的自定义变量更改输入（组是可选的）                                          |
-|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent |
-| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise   |
+|                                  变量 (大小写不敏感) | 对应的函数                                               |
+| --------------------------------------------:|:--------------------------------------------------- |
+|                  `${regex\|input\|替换(可选)}` | 在输入上执行正则表达式。 支持 `u`、`g` 和 `i` 标志（捕获的组将被连接，除非提供了替换）。 |
+|                              `${uc\|input}` | 大写变量。 将输入转换为大写                                      |
+|                              `${lc\|input}` | 小写变量。 将输入转换为小写                                      |
+|                        `${cv:group\|input}` | 使用匹配的自定义变量更改输入（组是可选的）                               |
+|                             `${rdc\|input}` | 用拉丁字母替换带音符的输入字符                                     |
+| `${os:[win\|mac\|linux]\|处于匹配\|无匹配(可选)}` | 如果操作系统匹配，则使用`匹配`值，否则使用`不匹配`。                        |
 
-### Function variable example
+### 函数变量示例
 
-Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables: Then these variables: Then these variables:
+Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables: Then these variables: 然后这些变量：
 ```
-${/.*/|${title}}                           //Matches everything
-${/(.*)/|${title}}                         //Captures everything
-${/(\(.*?\))/|${title}|}                   //Captures all brackets and substitutes with nothing
-${/(\(Disc\s?[0-9]\))/|${title}}           //Captures "Disc..." part
-${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transforms it to uppercase
-${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
-file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
+${/.*/|${title}}                           //匹配所有内容
+${/(.*)/|${title}}                         //捕获所有内容
+${/(\(.*?\))/|${title}|}                   //捕获所有括号并替换为空
+${/(\(Disc\s?[0-9]\))/|${title}}           //捕获“Disc…”部分
+${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //捕获“Disc…”部分并将其转换为大写字母
+$ {rdc|${title}}                            //替换变音符号（在本例中：é -> e）
+file${os:linux|.so|${os:win|.dll}}          //选择适用于操作系统的正确文件扩展名
 ```
-will be replaced with these:
+将被替换为以下内容：
 ```
 Pokémon (USA) (Disc 1).iso
 Pokémon (USA) (Disc 1).iso
@@ -205,10 +205,10 @@ Pokémon.iso
 (DISC 1)
 Pokemon (USA) (Disc 1).iso
 
---On linux:
+--在 Linux:
 file.so
---On Windows:
+--在 Windows:
 file.dll
---On Mac OS:
+--在 macOS:
 file
 ```
