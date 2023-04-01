@@ -348,15 +348,15 @@ function getUWPAppDetail(manifest: SimpleManifest, xmlParser: XMLParser) {
     if(XMLValidator.validate(xml)) {
       let parsedData: any = xmlParser.parse(xml);
       console.log("appdetails",parsedData)
-      apxApp = parsedData.Package.Applications[0].Application[0];
-      appId = parsedData.Package.Applications[0].Application[0].$.Id;
-      name = parsedData.Package.Properties[0].DisplayName[0];
+      apxApp = json.caseInsensitiveTraverse(parsedData,[["Package"],["Applications"],["Application"]]);
+      appId = json.caseInsensitiveTraverse(apxApp,[["@_Id"]]);
+      name = json.caseInsensitiveTraverse(parsedData,[["Package"],["Properties"],["DisplayName"]]);
 
       if (name.toString().startsWith("ms-resource")) {
         console.debug(`name starts with ms-resource: ${name}"`);
         name = getIndirectResourceString(jsonuwpapp.Id.FullName, jsonuwpapp.Id.Name, name);
         if (name == null || name == "") {
-          name = parsedData.Package.Identity[0].$.Name;
+          name = json.caseInsensitiveTraverse(parsedData,[["Package"],["Identity"],["@_Name"]]);
         }
       }
 
