@@ -112,27 +112,27 @@
 "${filePath}"
 ```
 
-## What does "Append arguments to executable" do?
+## “将参数附加到可执行文件”是什么意思？
 
-Instead of adding arguments to Steam's launch options:
+不要在 Steam 的启动选项中添加参数：
 
-![Not appended arguments](../../../assets/images/cmd-not-appended.png) {.fitImage.center}
+![未附加参数](../../../assets/images/cmd-not-appended.png) {.fitImage.center}
 
-arguments are appended to target as shown below:
+参数将如下所示附加到目标：
 
-![Appended arguments](../../../assets/images/cmd-appended.png) {.fitImage.center}
+![附加参数](../../../assets/images/cmd-appended.png) {.fitImage.center}
 
-This setting is used to influence Steam's APP ID.
+此设置用于影响 Steam 的 APP ID。
 
-## Directory variables
+## 目录变量
 
-| Variable (case-insensitive) | Corresponding value                     |
-| ---------------------------:|:--------------------------------------- |
-|                 `${exeDir}` | Executable directory                    |
-|                 `${romDir}` | ROMs directory                          |
-|               `${steamDir}` | Steam directory                         |
-|             `${startInDir}` | "StartIn" directory                     |
-|                `${fileDir}` | File's, returned by a parser, directory |
+|     变量 (大小写不敏感) | 对应的值          |
+| ---------------:|:------------- |
+|     `${exeDir}` | 可执行文件目录:      |
+|     `${romDir}` | ROM 目录        |
+|   `${steamDir}` | Steam 目录      |
+| `${startInDir}` | "Start In" 目录 |
+|    `${fileDir}` | 由解析器返回的文件目录。  |
 
 如果可执行目录输入留空，则 **empty**，`${exeDir}`{.noWrap} 等于 `${fileDir}`{.noWrap}。 此外，如果“StartIn”目录为**空**，则`${startInDir}`{.noWrap}等于`${exeDir}`{.noWrap}。
 
@@ -175,28 +175,28 @@ This setting is used to influence Steam's APP ID.
 
 ## 函数变量
 
-|                                                 变量 (大小写不敏感) | 对应的函数                                                          |
-| -----------------------------------------------------------:|:-------------------------------------------------------------- |
-|                                 `${regex\|input\|替换(可选)}` | 在输入上执行正则表达式。 支持 `u`、`g` 和 `i` 标志（捕获的组将被连接，除非提供了替换）。            |
-|                                             `${uc\|input}` | 大写变量。 将输入转换为大写                                                 |
-|                                             `${lc\|input}` | 小写变量。 将输入转换为小写                                                 |
-|                                       `${cv:group\|input}` | 使用匹配的自定义变量更改输入（组是可选的）                                          |
-|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent |
-| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise   |
+|                                  变量 (大小写不敏感) | 对应的函数                                               |
+| --------------------------------------------:|:--------------------------------------------------- |
+|                  `${regex\|input\|替换(可选)}` | 在输入上执行正则表达式。 支持 `u`、`g` 和 `i` 标志（捕获的组将被连接，除非提供了替换）。 |
+|                              `${uc\|input}` | 大写变量。 将输入转换为大写                                      |
+|                              `${lc\|input}` | 小写变量。 将输入转换为小写                                      |
+|                        `${cv:group\|input}` | 使用匹配的自定义变量更改输入（组是可选的）                               |
+|                             `${rdc\|input}` | 用拉丁字母替换带音符的输入字符                                     |
+| `${os:[win\|mac\|linux]\|处于匹配\|无匹配(可选)}` | 如果操作系统匹配，则使用`匹配`值，否则使用`不匹配`。                        |
 
-### Function variable example
+### 函数变量示例
 
-Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables: Then these variables:
+Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables: Then these variables: 然后这些变量：
 ```
-${/.*/|${title}}                           //Matches everything
-${/(.*)/|${title}}                         //Captures everything
-${/(\(.*?\))/|${title}|}                   //Captures all brackets and substitutes with nothing
-${/(\(Disc\s?[0-9]\))/|${title}}           //Captures "Disc..." part
-${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transforms it to uppercase
-${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
-file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
+${/.*/|${title}}                           //匹配所有内容
+${/(.*)/|${title}}                         //捕获所有内容
+${/(\(.*?\))/|${title}|}                   //捕获所有括号并替换为空
+${/(\(Disc\s?[0-9]\))/|${title}}           //捕获“Disc…”部分
+${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //捕获“Disc…”部分并将其转换为大写字母
+$ {rdc|${title}}                            //替换变音符号（在本例中：é -> e）
+file${os:linux|.so|${os:win|.dll}}          //选择适用于操作系统的正确文件扩展名
 ```
-will be replaced with these:
+将被替换为以下内容：
 ```
 Pokémon (USA) (Disc 1).iso
 Pokémon (USA) (Disc 1).iso
@@ -205,10 +205,10 @@ Pokémon.iso
 (DISC 1)
 Pokemon (USA) (Disc 1).iso
 
---On linux:
+--在 Linux:
 file.so
---On Windows:
+--在 Windows:
 file.dll
---On Mac OS:
+--在 macOS:
 file
 ```

@@ -1,3 +1,3 @@
-# What is glob?
+# 什么是 glob？
 
-Glob is a pattern that describes a file path using wildcards. For example, `*.txt` will match any file that ends with a `.txt` extension. In addition to normal wildcards, other **special** characters can be used to specify a more complex patterns making glob based parser a powerful tool for retrieving files.
+Glob 是一种使用通配符描述文件路径的模式。 例如，`*.txt` 将匹配任何以 `.txt` 扩展名结尾的文件。 除了普通的通配符外，其他**特殊**字符也可以用来指定更复杂的模式，使基于 glob 的解析器成为检索文件的强大工具。

@@ -1,40 +1,40 @@
-# Steam parser
+# Steam 解析器
 
-This parser imports steam games into SRM. It does not add shortcuts, but it allows you to set the artwork for your steam games. By default the parser will get games from all user accounts in the steam directory specified &mdash; if you would prefer to only get the games for a subset of the accounts then specify them in the `User accounts` field.
+这个解析器将 Steam 游戏导入 SRM。 它不会添加快捷方式，但它允许您为 Steam 游戏设置艺术作品。 默认情况下，解析器将从指定的 Steam 目录中获取所有用户帐户的游戏 &mdash; 如果您只想获取某些帐户的游戏，则在`用户帐户`字段中指定它们。
 
-## Limitations
-Unfortunately for the time being this parser only works for steam games **that are in at least one category**. The reason for this is that Steam only stores your full list of games locally if they are categorized. Sometimes, for unknown reasons, games will be stored locally regardless and the parser will work, but to be safe the easiest thing to do is just **create a Steam Category** that has all of your Steam games in it.
+## 限制
+很遗憾，目前这个解析器只适用于至少属于一个类别的 Steam 游戏。 这是因为如果游戏被分类，Steam 才会在本地存储您的完整游戏列表。 有时候，由于未知原因，游戏会被本地存储并且解析器可以正常工作，但为了安全起见，最简单的方法就是**创建一个 Steam 游戏分类**将所有 Steam 游戏放入其中。
 
-## User accounts (Optional)
+## 用户账户（可选）
 
-Can be used to limit configuration to specific user accounts. In order to set user accounts, the following syntax must be used:
+可以用于将配置限制为特定的用户帐户。 为了设置用户帐户，必须使用以下语法：
 ```
 ${...}
 ```
-You **must** use the username you use to **log in** into Steam **if** [use account credentials](#what-does-use-account-credentials-do) is enabled:
+如果启用了“使用帐户凭据”，则必须使用您在 Steam 登录时使用的用户名：
 
-![Account example](../../../assets/images/user-account-example.png) {.fitImage.center}
+![账户示例](../../../assets/images/user-account-example.png) {.fitImage.center}
 
-For example, this is how you specify account for "Banana" and "Apple":
+例如，这是您指定的“Banana”和“Apple”账户的方式：
 
 ```
 ${Banana}${Apple}
 ```
 
-In case the [use account credentials](#what-does-use-account-credentials-do) is disabled, you can still limit accounts by specifying their ids directly:
+如果[使用帐户凭据](#what-does-use-account-credentials-do)被禁用，您仍然可以通过直接指定其 ID 来限制帐户：
 
 ```
 ${56489124}${21987424}
 ```
 
-## What does "Skip found accounts with missing data directories" do?
+## “跳过找到的缺少数据目录的账户”是什么意思？
 
-Sometimes Steam's file that contains logins, may contain users that do not have data directory created (might have been manually deleted, etc.). You can specify to skip those accounts by enabling this option.
+有时候，Steam 的包含登录信息的文件可能会包含未创建数据目录的用户（可能已被手动删除等）。 您可以启用此选项来跳过那些账户。
 
-## What does "Use account credentials" do?
+## “使用帐户凭据"是什么意思？
 
-Tries to look for account credentials in Steam directory. In other words -- username. Username then can be used to filter accounts without actually having to know their ids.
+尝试在 Steam 目录中查找帐户凭据。 换句话说 -- 用户名。 用户名可以用来过滤账户，而无需实际知道它们的 ID。
 
-### Warning!
+### 警告！
 
-If Steam has credential saving disabled, this option will prevent finding user accounts.
+如果 Steam 禁用了凭据保存，这个选项将防止找到用户账户。

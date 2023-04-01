@@ -1,7 +1,7 @@
-# Steam directory `[supports environment variables]`{.noWrap}
+# Steam 目录 `[支持环境变量]`{.noWrap}
 
-Must be a valid Steam directory which contains Steam executable. In order for Steam account to be detected, user must have logged in at least once.
+必须是包含 Steam 可执行文件的有效 Steam 目录。 为了检测到 Steam 账户，用户必须至少登录一次。
 
-## How do I limit edited Steam accounts?
+## 我如何限制编辑过的 Steam 账户？
 
-Enable **Show advanced options** and check **User accounts** option.
+启用**显示高级选项**并勾选**用户账户**选项。

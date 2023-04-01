@@ -1,13 +1,13 @@
-# Default image (optional) `[supports variables]`{.noWrap}
+# 默认图片（可选）`[支持变量]`{.noWrap}
 
-Allows one to use an image, stored locally, as a default/fallback image. A [special glob input](#special-glob-input) string is used to retrieve images. Only the first retrieved image is used.
+允许使用本地存储的图像作为默认/备用图像。 使用一个[特殊的全局输入](#special-glob-input)字符串来检索图像。 仅使用第一个检索到的图像。
 
-This image will be shown **only** if there are no other images available. If Steam image is available, you will be able to choose from Steam and this image.
+如果没有其他可用的图像，**仅**会显示此图像。 如果有Steam图像可用，您将能够从Steam和此图像中进行选择。
 
-## Allowed image extensions
+## 允许的图片扩展名
 
-Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Even if parser finds files with other extensions, they are not included into the final list.
+仅支持`JPEG`{.noWrap}、`JPG`{.noWrap}、`PNG`{.noWrap}和`TGA`{.noWrap}文件扩展名。 即使解析器发现其他扩展名的文件，它们也不会包含在最终列表中。
 
-## Can you move the directory of default image after saving app list?
+## 在保存应用程序列表后，您能否移动默认图像的目录？
 
-Yes, once the list is saved, default image is copied to a Steam directory where they are renamed to match Steam's APP ID.
+是的，一旦列表保存，默认图像将被复制到 Steam 目录中，并且它们会被重命名以匹配 Steam 的 APP ID。

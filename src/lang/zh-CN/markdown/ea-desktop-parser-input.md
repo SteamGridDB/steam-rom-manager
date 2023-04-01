@@ -1,7 +1,7 @@
-# EA Desktop Parser specific inputs
+# EA Desktop 解析器特定输入
 
-## EA Desktop Games Directory
-By default Steam ROM Manager assumes your `EA Desktop` games are installed at ``C:\Program Files\EA Games\`. This field allows you to change that to wherever your games are installed, e.g.``D:\Games\EA Games`. This field allows you to change that to wherever your games are installed, e.g.</code>D:\Games\EA Games`.
+## EA Desktop 游戏目录
+默认情况下，Steam ROM 管理器假定您的`EA Desktop`游戏已安装在``C:\Program Files\EA Games\`。 该字段允许您更改游戏安装的位置，例如``D:\Games\EA Games`。
 
-## Launch via EA Desktop
-If enabled SRM will add a shortcut to `origin2://game/launch/?offerIds=${gameid}` instead of just the game's executable. This ensures the game launches via EA and will have access to online services. This ensures the game launches via EA and will have access to online services.
+## 通过 EA Desktop 启动
+如果启用了SRM，它将添加一个快捷方式到`origin2://game/launch/?offerIds=${gameid}`而不仅仅是游戏的可执行文件。 这将确保游戏通过 EA 启动，并且可以访问在线服务。

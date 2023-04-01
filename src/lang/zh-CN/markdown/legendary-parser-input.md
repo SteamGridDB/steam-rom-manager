@@ -1,7 +1,7 @@
-# Legendary Parser specific inputs
+# Legendary 解析器特定输入
 
-## Legendary `installed.json` Path Override
+## Legendary `installed.json` 路径覆盖
 
-Most users shouldn't use this, as they use the standard `Legendary` installation where installed games manifest will be located at `~/.config/legendary/installed.json`.
+大多数用户不应该使用这个，因为他们使用标准的`Legendary`安装，在那里已安装游戏清单将位于`~/.config/legendary/installed.json`。
 
-If, however, for some reason your installed games manifest is located in a non-typical location then you can specify the correct manifest path here.
+然而，如果由于某些原因您安装的游戏清单位于非典型位置，则可以在此处指定正确的清单路径。

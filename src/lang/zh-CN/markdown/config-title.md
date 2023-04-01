@@ -1,3 +1,3 @@
-# Configuration title
+# 配置标题
 
-Title to save user configuration as. Does not have to be unique, but is required.
+将用户配置保存为的标题。 不必唯一，但是必须存在。

@@ -1,3 +1,3 @@
-# itch.io Parser
+# itch.io 解析器
 
-This parser imports games from `the itch.io desktop app` so that artwork can be chosen for them and they can be added into Steam. If it doesn't work it is because itch.io has altered the structure of their game database, in this case please let the developers of SRM know and we will resolve the issue. 
+该解析器从`itch.io 桌面应用程序`导入游戏，以便为它们选择艺术品并将其添加到 Steam 中。 如果它无法正常工作，那是因为 itch.io 已经更改了他们游戏数据库的结构，在这种情况下，请让 SRM 的开发人员知道，我们将解决此问题。 

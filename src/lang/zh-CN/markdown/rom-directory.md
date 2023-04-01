@@ -1,3 +1,3 @@
-# ROMs directory `[supports environment variables]`
+# ROM 目录`[支持环境变量]`
 
-Starting directory for game or app files.
+游戏或应用程序文件的起始目录。

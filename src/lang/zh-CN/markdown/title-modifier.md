@@ -1,9 +1,9 @@
-# Title modifier `[supports variables]`{.noWrap}
+# 标题修饰符`[支持变量]`{.noWrap}
 
-Default value is `${fuzzyTitle}`{.noWrap}. This setting can be used to prepend or append desired characters to a title which will be added to Steam. For example, given that `${fuzzyTitle}`{.noWrap} is `Zelda 2`, you can add `(1.7.5)` to it by setting value to:
+默认值为`${fuzzyTitle}`{.noWrap}。 此设置可用于在标题前缀或后缀所需的字符，这些字符将添加到 Steam 中。 例如，假设`${fuzzyTitle}`{.noWrap}是`Zelda 2`，您可以通过将值设置为以下内容来添加`(1.7.5)`:
 ```
 ${fuzzyTitle} (1.7.5)
 ```
-You can use `${title}`{.noWrap} or any other variable to construct the final title.
+您可以使用`${title}`{.noWrap}或任何其他变量来构建最终标题。
 
-This setting influences Steam's APP ID.
+这个设置会影响 Steam 的应用 APP ID。

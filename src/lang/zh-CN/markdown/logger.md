@@ -1,13 +1,13 @@
-Submitting a report will upload:
+提交报告将上传：
 
-* Your entire SRM configuration (parsers, exceptions, etc).
-* The contents of the `Event Log`.
-* The Steam VDF files that SRM modifies `[Optional]`.
+* 你的整个 SRM 配置（解析器、异常等）。
+* `事件日志`的内容。
+* SRM 修改的 Steam VDF 文件`[可选]`。
 
-After submitting a report you can:
+提交报告后，您可以：
 
-* View the report by entering the `Report ID` into the [Logs Server](https://logs.jozen.blue).
-* DM the `Report ID` to person helping you on the [SRM Discord](https://discord.gg/bnSVJrz).
-* Delete the report from the [Logs Server](https://logs.jozen.blue) by entering the `Delete Key` instead.
+* 通过将`报告 ID`输入到[日志服务器](https://logs.jozen.blue)中查看报告。
+* 将`报告 ID`私信给在[SRM Discord](https://discord.gg/bnSVJrz)上帮助你的人。
+* 通过输入`删除密钥`，从[日志服务器](https://logs.jozen.blue)中删除报告。
 
-*Anyone with the `Report ID` has full access to your issue report and its attached data!*
+*任何人拥有`报告 ID`都可以完全访问您的问题报告及其附加数据！*

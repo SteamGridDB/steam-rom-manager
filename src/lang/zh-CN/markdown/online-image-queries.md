@@ -1,18 +1,18 @@
-# Online image query `[supports variables]`{.noWrap}
+# 在线图像查询`[支持变量]`{.noWrap}
 
-Queries that are used to search for images. In order to set image query, the following syntax must be used:
+用于搜索图像的查询。 为了设置图像查询，必须使用以下语法：
 ```
 ${...}
 ```
-For example, images for "Legend of Zelda" and "The Legend of Zelda: A Link to the Past" can be queried like this:
+例如，可以像这样查询 "Legend of Zelda" 和 "The Legend of Zelda: A Link to the Past" 的图像：
 ```
 ${The Legend of Zelda}${The Legend of Zelda: A Link to the Past}
 ```
-You will most likely want to use parser variables for queries. Which will look like this (also the **default** value):
+您很可能想要使用解析器变量来进行查询。 将会看起来像这样（也是**默认**值）：
 ```
 ${${fuzzyTitle}}
 ```
-The legacy **greedy** mode can be enabled by setting query to:
+**贪婪模式**可以通过将查询设置为以下内容来启用：
 ```
 ${${fuzzyTitle}}${${title}}
 ```

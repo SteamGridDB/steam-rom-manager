@@ -1,80 +1,80 @@
-# Parser variables
+# 解析器变量
 
-Here are tables of variables that can be used with options that have `[supports variables]`{.noWrap} specified in their descriptions. Variable can be nested.
+以下是变量表，这些变量可以与选项一起使用，这些选项在其描述中指定了`[支持变量]`{.noWrap}。 变量可以嵌套。
 
-## Directory variables
+## 目录变量
 
-| Variable (case-insensitive) | Corresponding value                     |
-| ---------------------------:|:--------------------------------------- |
-|                 `${exeDir}` | Executable directory                    |
-|                 `${romDir}` | ROMs directory                          |
-|               `${steamDir}` | Steam directory                         |
-|             `${startInDir}` | "StartIn" directory                     |
-|                `${fileDir}` | File's, returned by a parser, directory |
+|     变量 (大小写不敏感) | 对应的值          |
+| ---------------:|:------------- |
+|     `${exeDir}` | 可执行文件目录:      |
+|     `${romDir}` | ROM 目录        |
+|   `${steamDir}` | Steam 目录      |
+| `${startInDir}` | "Start In" 目录 |
+|    `${fileDir}` | 由解析器返回的文件目录。  |
 
-In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
+如果可执行目录输入留空，则 **空**，`${exeDir}`{.noWrap} 等于 `${fileDir}`{.noWrap}。 此外，如果“StartIn”目录为**空**，则`${startInDir}`{.noWrap}等于`${exeDir}`{.noWrap}。
 
-## Name variables
+## 名称变量
 
-| Variable (case-insensitive) | Corresponding value                                             |
-| ---------------------------:|:--------------------------------------------------------------- |
-|                `${exeName}` | Name of executable (without extension)                          |
-|               `${fileName}` | Name of file which was returned by a parser (without extension) |
+|   变量 (大小写不敏感) | 对应的值              |
+| -------------:|:----------------- |
+|  `${exeName}` | 可执行文件名称 (无扩展名)    |
+| `${fileName}` | 由解析器返回的文件名（不带扩展名） |
 
-In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
+如果可执行目录输入**空**，则 `${exeName}`{.noWrap} 等于 `${fileName}`{.noWrap}。
 
-## Extension variables
+## 扩展变量
 
-| Variable (case-insensitive) | Corresponding value                                           |
-| ---------------------------:|:------------------------------------------------------------- |
-|                 `${exeExt}` | Extension of executable (with a dot)                          |
-|                `${fileExt}` | Extension of file which was returned by a parser (with a dot) |
+|  变量 (大小写不敏感) | 对应的值             |
+| ------------:|:---------------- |
+|  `${exeExt}` | 可执行文件的扩展名（带点）    |
+| `${fileExt}` | 由解析器返回的文件扩展名（带点） |
 
-In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
+如果可执行目录输入**留空**，则 `${exeExt}`{.noWrap} 等于 `${fileExt}`{.noWrap}。
 
-## Path variables
+## 路径变量
 
-| Variable (case-insensitive) | Corresponding value                                |
-| ---------------------------:|:-------------------------------------------------- |
-|                `${exePath}` | Full path to an executable                         |
-|               `${filePath}` | Full path to a file which was returned by a parser |
+|   变量 (大小写不敏感) | 对应的值           |
+| -------------:|:-------------- |
+|  `${exePath}` | 可执行文件的完整路径     |
+| `${filePath}` | 由解析器返回的文件的完整路径 |
 
-In case executable directory input is left **empty**, `${exePath}`{.noWrap} is equal to `${filePath}`{.noWrap}.
+如果可执行目录输入**留空**，则`${exePath}`{.noWrap}等于`${filePath}`{.noWrap}。
 
-## Parser variables
+## 解析器变量
 
-| Variable (case-insensitive) | Corresponding value                              |
-| ---------------------------:|:------------------------------------------------ |
-|                  `${title}` | Extracted title                                  |
-|             `${fuzzyTitle}` | Fuzzy matched title                              |
-|             `${finalTitle}` | Title which was the end result of title modifier |
+|     变量 (大小写不敏感) | 对应的值          |
+| ---------------:|:------------- |
+|      `${title}` | 提取的标题         |
+| `${fuzzyTitle}` | 模糊匹配的标题       |
+| `${finalTitle}` | 标题是标题修改器的最终结果 |
 
-In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
+如果模糊匹配**失败**或被**禁用**，则`${fuzzyTitle}`{.noWrap}等于`${title}`{.noWrap}。
 
-## Function variables
+## 函数变量
 
-|                                 Variable (case-insensitive) | Corresponding function                                                                                                 |
-| -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
-|                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
-|                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
-|                                             `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                                      |
-|                                       `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
-|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
-| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                           |
+|                                  变量 (大小写不敏感) | 对应的函数                                               |
+| --------------------------------------------:|:--------------------------------------------------- |
+|                  `${regex\|input\|替换(可选)}` | 在输入上执行正则表达式。 支持 `u`、`g` 和 `i` 标志（捕获的组将被连接，除非提供了替换）。 |
+|                              `${uc\|input}` | 大写变量。 将输入转换为大写                                      |
+|                              `${lc\|input}` | 小写变量。 将输入转换为小写                                      |
+|                        `${cv:group\|input}` | 使用匹配的自定义变量更改输入（组是可选的）                               |
+|                             `${rdc\|input}` | 用拉丁字母替换带音符的输入字符                                     |
+| `${os:[win\|mac\|linux]\|处于匹配\|无匹配(可选)}` | 如果操作系统匹配，则使用`匹配`值，否则使用`不匹配`。                        |
 
-### Function variable example
+### 函数变量示例
 
-Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
+假设`${title}`变量等于`Pokémon (USA) (Disc 1).iso`。 然后这些变量：
 ```
-${/.*/|${title}}                           //Matches everything
-${/(.*)/|${title}}                         //Captures everything
-${/(\(.*?\))/|${title}|}                   //Captures all brackets and substitutes with nothing
-${/(\(Disc\s?[0-9]\))/|${title}}           //Captures "Disc..." part
-${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transforms it to uppercase
-${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
-file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
+${/.*/|${title}}                           //匹配所有内容
+${/(.*)/|${title}}                         //捕获所有内容
+${/(\(.*?\))/|${title}|}                   //捕获所有括号并替换为空
+${/(\(Disc\s?[0-9]\))/|${title}}           //捕获“Disc…”部分
+${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //捕获“Disc…”部分并将其转换为大写字母
+$ {rdc|${title}}                            //替换变音符号（在本例中：é -> e）
+file${os:linux|.so|${os:win|.dll}}          //选择适用于操作系统的正确文件扩展名
 ```
-will be replaced with these:
+将被替换为以下内容：
 ```
 Pokémon (USA) (Disc 1).iso
 Pokémon (USA) (Disc 1).iso
@@ -83,10 +83,10 @@ Pokémon.iso
 (DISC 1)
 Pokemon (USA) (Disc 1).iso
 
---On linux:
+--在 Linux:
 file.so
---On Windows:
+--在 Windows:
 file.dll
---On Mac OS:
+--在 macOS:
 file
 ```

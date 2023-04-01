@@ -1,11 +1,11 @@
-# Executable (optional) `[supports environment variables]`
+# 可执行文件（可选）`[支持环境变量]`
 
-Path to emulator's executable. Can be a file or any valid system path.
+模拟器可执行文件的路径。 可以是文件或任何有效的系统路径。
 
-## Why optional?
+## 为什么是可选的？
 
-In some cases you might want to run game from a some kind batch file which will also automatically run the emulator itself. If that is the case, then providing executable is unnecessary.
+在某些情况下，您可能希望从某种批处理文件中运行游戏，该文件还将自动运行模拟器本身。 如果是这样的话，那么提供可执行文件就没有必要了。
 
-### So, how do I add files to Steam without default executable?
+### 那么，如果没有默认可执行文件，我该如何将文件添加到 Steam？
 
-All files retrieved by a parser will be treated as executables instead.
+由解析器检索到的所有文件将被视为可执行文件。
