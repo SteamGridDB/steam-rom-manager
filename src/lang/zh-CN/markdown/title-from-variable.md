@@ -1,30 +1,30 @@
-# Title from custom variable (optional)
+# 自定义变量的标题（可选）
 
-Allows to overwrite extracted title with a custom variable. This is done right after title extraction, meaning that the replaced title can be used for fuzzy matching and so on. Groups and variables themselves are **case-sensitive**, unless case-insesitive variable option is enabled.
+允许使用自定义变量覆盖提取的标题。 这是在提取标题之后立即完成的，这意味着替换后的标题可以用于模糊匹配等操作。 群组和变量本身是**区分大小写**的，除非启用了不区分大小写的变量选项。
 
-Title matching can be limited to specific groups of custom variables. In order to specify groups, the following syntax must be used:
+标题匹配可以限制在特定的自定义变量组中。 为了指定组，必须使用以下语法：
 ```
 ${...}
 ```
-For example, this is how you specify groups for "RPCS3" and "rpcs3":
+例如，这是如何为“RPCS3”和“rpcs3”指定群组的方法：
 ```
 ${RPCS3}${rpcs3}
 ```
 
-Make sure you **toggle enable to on**.
+请确保您**将开关打开**。
 
 
-## Case-insensitive option
+## 不区分大小写选项
 
-If this option is enabled, case-insensitive matching will be done and first matched custom variable will be used.
+如果启用了此选项，则将执行不区分大小写的匹配，并使用第一个匹配的自定义变量。
 
-## Note. This feature is **experimental**
+## 注意。 该功能是**实验性的**。
 
-Basically, it might change in the future release (very unlikelly). Furthermore, currently the only way to add variables is to create/edit `customVariables.json` used by SRM directly.
+基本上，它可能会在未来的版本中更改（但很不可能）。 此外，目前唯一添加变量的方法是创建/编辑 SRM 直接使用的 `customVariables.json`。
 
-This file is/shoud be located in SRM's `userData` directory.
+该文件应位于 SRM 的 `userData` 目录中。
 
-SRM will throw error unless the following JSON structure is used:
+除非使用以下 JSON 结构，否则 SRM 将会抛出错误：
 
 ```
 {
@@ -40,4 +40,4 @@ SRM will throw error unless the following JSON structure is used:
 }
 ```
 
-Then if your user glob were `MyDir/${title}.wad` and you had a `The Legend of Zelda.wad` located in `MyDir`, you would set the title from custom variable field to `${Custom Stuff}` to obtain a final title of "The Legend of Link".
+如果您的用户全局变量是`MyDir/${title}.wad`，并且您在`MyDir`中有一个名为`The Legend of Zelda.wad`的文件，则可以将标题从自定义变量字段设置为`${Custom Stuff}`以获得最终标题“ The Legend of Link”。
