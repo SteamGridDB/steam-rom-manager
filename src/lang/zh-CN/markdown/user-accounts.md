@@ -1,12 +1,12 @@
-# User accounts (Optional)
+# 用户账户（可选）
 
-Can be used to limit configuration to specific user accounts. In order to set user accounts, the following syntax must be used:
+可以用于将配置限制为特定的用户帐户。 为了设置用户帐户，必须使用以下语法：
 ```
 ${...}
 ```
-You **must** use the username you use to **log in** into Steam **if** [use account credentials](#what-does-use-account-credentials-do) is enabled:
+**如果**启用了[使用帐户凭据](#what-does-use-account-credentials-do)，则**必须**使用您在 Steam **登录** 时使用的用户名：
 
-![Account example](../../../assets/images/user-account-example.png) {.fitImage.center}
+![账户示例](../../../assets/images/user-account-example.png) {.fitImage.center}
 
 For example, this is how you specify account for "Banana" and "Apple":
 
@@ -20,14 +20,14 @@ In case the [use account credentials](#what-does-use-account-credentials-do) is 
 ${56489124}${21987424}
 ```
 
-## What does "Skip found accounts with missing data directories" do?
+## “跳过找到的缺少数据目录的账户”是什么意思？
 
-Sometimes Steam's file that contains logins, may contain users that do not have data directory created (might have been manually deleted, etc.). You can specify to skip those accounts by enabling this option.
+有时候，Steam 的包含登录信息的文件可能会包含未创建数据目录的用户（可能已被手动删除等）。 您可以启用此选项来跳过那些账户。
 
-## What does "Use account credentials" do?
+## “使用帐户凭据"是什么意思？
 
 Tries to look for account credentials in Steam directory. In other words -- username. Username then can be used to filter accounts without actually having to know their ids.
 
 ### Warning!
 
-If Steam has credential saving disabled, this option will prevent finding user accounts.
+如果 Steam 禁用了凭据保存，这个选项将防止找到用户账户。
