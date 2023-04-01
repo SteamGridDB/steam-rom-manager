@@ -1,10 +1,10 @@
-# Glob-regex Parser specific inputs
+# Glob-regex 解析器特定输入
 
-## User's glob-regex
+## 用户的 glob-regex
 
-This is where you create your glob for extracting title from file path. Please read all of [special glob characters](#special-glob-characters) if you don't know how to construct a glob.
+这是您创建从文件路径提取标题的 glob 的位置。 Please read all of [special glob characters](#special-glob-characters) if you don't know how to construct a glob.
 
-## How does it work?
+## 它是如何工作的？
 
 In addition to special glob characters, glob parser requires you to enter `${/.../}`{.noWrap} variable. Parser will locate it's position inside your  glob, for example:
 
@@ -18,15 +18,15 @@ After acquiring `${/.../}`{.noWrap} position, `${/.../}`{.noWrap} will be replac
 
 ## Regex post-processing
 
-After title extraction, title will be processed by a regular expression. There are 3 ways you can write a regular expression.
+After title extraction, title will be processed by a regular expression. 有三种方法可以编写正则表达式。
 
-### Regular expression with no capture: `${/.+/}`{.noWrap}
+### 不带捕获的正则表达式：`${/.+/}`{.noWrap}
 
-This is practically identical to "Glob" parser -- every piece of extracted title will be used.
+这几乎与“Glob”解析器完全相同 -- 每个提取的标题片段都将被使用。
 
-### Regular expression with capture brackets: `${/(.+)/}`{.noWrap}
+### 带有捕获括号的正则表达式：`${/(.+)/}`{.noWrap}
 
-Multiple matches and capture groups are allowed. For example, here we have 2 match groups with multiple capture groups:
+允许多个匹配和捕获组。 For example, here we have 2 match groups with multiple capture groups:
 ```
 ${/(.*?)\s*\[USA\]\s*(.+)|(.*)/}
 ```
@@ -34,7 +34,7 @@ First match group (from left to right) with all correct captures will be used. F
 
 ### Regular expression with capture brackets and replacement text: `${/(.+)/|...}`{.noWrap}
 
-Similar to [regular expression with capture brackets](#regular-expression-with-capture-brackets) except for how it handles captured groups. Replacement text can be used to move around captured groups. For example:
+Similar to [regular expression with capture brackets](#regular-expression-with-capture-brackets) except for how it handles captured groups. 替换文本可以用于移动捕获的组。 例如：
 ```
 ${/(.*?)\s*\[USA\]\s*(.+)/|Second capture group: "$2" precedes the first one, which is "$1" }
 ```
