@@ -8,13 +8,13 @@ ${...}
 
 ![账户示例](../../../assets/images/user-account-example.png) {.fitImage.center}
 
-For example, this is how you specify account for "Banana" and "Apple":
+例如，这是您指定的“Banana”和“Apple”账户的方式：
 
 ```
 ${Banana}${Apple}
 ```
 
-In case the [use account credentials](#what-does-use-account-credentials-do) is disabled, you can still limit accounts by specifying their ids directly:
+如果[使用帐户凭据](#what-does-use-account-credentials-do)被禁用，您仍然可以通过直接指定其 ID 来限制帐户：
 
 ```
 ${56489124}${21987424}
@@ -26,8 +26,8 @@ ${56489124}${21987424}
 
 ## “使用帐户凭据"是什么意思？
 
-Tries to look for account credentials in Steam directory. In other words -- username. Username then can be used to filter accounts without actually having to know their ids.
+Tries to look for account credentials in Steam directory. In other words -- username. Username then can be used to filter accounts without actually having to know their ids. 换句话说 -- 用户名。 用户名可以用来过滤账户，而无需实际知道它们的 ID。
 
-### Warning!
+### 警告！
 
 如果 Steam 禁用了凭据保存，这个选项将防止找到用户账户。
