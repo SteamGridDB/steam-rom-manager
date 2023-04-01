@@ -1,15 +1,15 @@
-# Welcome to parser configuration!
+# 欢迎使用解析器配置！
 
-Configuring a parser might look overwhelming at first, but it is easier than you think. If you are lost, click on <span class="infoIcon" style="top: 0.15em;"></span> near option label to see related information which might be useful for you.
+配置解析器可能一开始看起来很吓人，但其实比你想象的要容易。 如果您迷失了，请单击选项标签附近的<span class="infoIcon" style="top: 0.15em;"></span>，以查看可能对您有用的相关信息。
 
-Also, don't forget to check FAQ. If you still got questions about setting up configuration, visit our official SRM group at [Steam](http://steamcommunity.com/groups/steamrommanager) or our official [Discord](https://discord.gg/bnSVJrz) group.
+此外，请不要忘记查看常见问题解答。 如果您仍然有关于设置配置的问题，请访问我们在 [Steam](http://steamcommunity.com/groups/steamrommanager) 的官方 SRM 群组或我们的官方 [Discord](https://discord.gg/bnSVJrz) 群组。
 
-## Configuration color code
+## 配置颜色代码
 
-After saving parser configuration, **1** of **3** colors will be shown next to its title:
+保存解析器配置后，标题旁将显示**3**种颜色中的**1**种：
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Enabled configuration. This configuration will be used when generating a list in **preview** page.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- 已启用配置。 此配置将在生成**预览**页面中的列表时使用。
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Unsaved changes. This configuration will not be used when generating a list in **preview** page, however earlier **saved** version will be used instead.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- 未保存的更改。 该配置不会在生成**预览**页面列表时使用，而是将使用先前的**保存**版本。
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Disabled configuration. This configuration will not be used when generating a list in **preview** page.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- 已禁用配置。 在生成**预览**页面列表时，不会使用此配置。
