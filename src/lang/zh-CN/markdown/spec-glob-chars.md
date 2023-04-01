@@ -1,14 +1,14 @@
-# Special glob characters
+# 特殊的全局字符
 
-## Wildcards: `*`, `?`, `[...]`{.noWrap}
+## 通配符：`*`，`?`，`[...]`{.noWrap}
 
-- `*` -- matches **0** or **more** characters in a **single** path portion;
-- `?` -- matches exactly **1** character;
-- `[...]`{.noWrap} -- matches a range of characters. If the first character in brackets is `!` or `^` then it matches any character not in the range:
-  - `[abc]`{.noWrap} -- matches `a`, `b` or `c` characters;
-  - `[!abc]`{.noWrap} -- matches any character except for `a`, `b` or `c`;
-  - `[0-9]`{.noWrap} -- matches any character between `0` and `9` characters (all numbers);
-  - `[a-z]`{.noWrap} -- matches any character between `a` and `z` characters (lower english alphabet).
+- `*` -- 在**单个**路径部分中匹配**0**或**更多**字符；
+- `?` -- 精确匹配 **1** 个字符；
+- `[...]`{.noWrap} -- 匹配一系列字符。 如果方括号中的第一个字符是`!`或`^`，则它匹配不在范围内的任何字符：
+  - `[abc]`{.noWrap} -- 匹配`a`、`b`或`c`字符；
+  - `[!abc]`{.noWrap} -- 匹配除了`a`、`b`或`c`以外的任何字符；
+  - `[0-9]`{.noWrap} -- 匹配`0`和`9`之间的任何字符（所有数字）；
+  - `[a-z]`{.noWrap} -- 匹配 `a` 到 `z` 之间的任何字符（小写英文字母）。
 
 ## Globstar: `**`
 
@@ -49,7 +49,7 @@ here are few examples of extended glob matchers in action:
 
 ## Braced sets: `{...}`{.noWrap}
 
-It is a way to make more glob pattern sets out of one set. Braced set starts with `{` and ends with `}`, with any number of comma-delimited sections within (nested braced sets are allowed). For example, `C:/dir1/{dir2,dir3/dir4}/file.txt` will expand to:
+这是一种将一个集合拆分成更多全局模式集的方法。 大括号集合以`{`开头，以`}`结尾，在其中可以有任意数量的逗号分隔的部分（允许嵌套大括号集合） 例如，`C:/dir1/{dir2,dir3/dir4}/file.txt` 将会扩展为：
 
 - `C:/dir1/dir2/file.txt`
 - `C:/dir1/dir3/dir4/file.txt`
