@@ -1,21 +1,21 @@
-# Steam category (optional) `[supports variables]`{.noWrap}
+# Steam 类别（可选）`[支持变量]`{.noWrap}
 
-Also known as "tags", can be used to group apps in Steam. In order to set Steam category, the following syntax must be used:
+也被称为“标签”，可用于在 Steam 中对应用程序进行分组。 为了设置 Steam 类别，必须使用以下语法：
 ```
 ${...}
 ```
-For example, this is how you specify categories for "WII" and "GBA" (paired with "ROMS") category:
+例如，这是如何为“WII”和“GBA”（与“ROMS”配对）类别指定的示例：
 ```
 ${WII}
 ```
 ```
 ${GBA}${ROMS}
 ```
-This how "WII" category will look like in Steam:
+这是“WII”类别在 Steam 中的样子：
 
-![steamCategory](../../../assets/images/category-example.png)
+![Steam 类别](../../../assets/images/category-example.png)
 
-## Emojis and non-Standard Unicode Characters
-Please not that this field works just fine with emojis like `🎮` work just fine in category names.
+## 表情符号和非标准 Unicode 字符
+请注意，此字段与类别名称中的表情符号（如`🎮`）完全兼容。
 
-You can find a list of them here: [https://copychar.cc/](https://copychar.cc/)
+您可以在这里找到它们的列表：[https://copychar.cc/](https://copychar.cc/)
