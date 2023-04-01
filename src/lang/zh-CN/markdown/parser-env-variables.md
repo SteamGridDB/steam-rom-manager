@@ -11,4 +11,4 @@
 | `${localimagesdir}` | 本地图像目录，指定在`设置`中的目录          |
 
 
-The utility of the environment variable `${srmdir}` is to make SRM fully portable, eg if you wanted to have the directory layout `D:\Games\Roms` and `D:\Games\PortableSRM\SRM.exe` then setting the field Roms Directory to be `${srmdir}${/}..${/}Roms` would allow you to move the Games directory somewhere else without breaking your setup.
+环境变量`${srmdir}`的实用性在于使 SRM 完全可移植，例如，如果您想要具有目录布局`D:\Games\Roms`和`D:\Games\PortableSRM\SRM.exe`，那么将 Roms 目录字段设置为`${srmdir}${/}..${/}Roms`将允许您将游戏目录移动到其他地方而不会破坏设置。
