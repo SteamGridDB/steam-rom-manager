@@ -18,7 +18,7 @@ ${RPCS3}${rpcs3}
 
 如果启用了此选项，则将执行不区分大小写的匹配，并使用第一个匹配的自定义变量。
 
-## 注意! 该功能是**实验性的**。
+## 注意! 注意! 该功能是**实验性的**。
 
 基本上，它可能会在未来的版本中更改（但很不可能）。 此外，目前唯一添加变量的方法是创建/编辑 SRM 直接使用的 `customVariables.json`。
 
@@ -49,11 +49,23 @@ ${RPCS3}${rpcs3}
     },
     ...
 }
+    {
+    "RPCS3": {
+        "NPUB30698": "Catherine",
+        "NPUB30024": "1942: Joint Strike",
+        ...
     },
     "Custom Stuff": {
         "The Legend Of Zelda": "The Legend Of Link"
     },
     ...
+}
+    },
+    "Custom Stuff": {
+        "The Legend Of Zelda": "The Legend Of Link"
+    },
+    ...
+}
 }
 }
 ```
