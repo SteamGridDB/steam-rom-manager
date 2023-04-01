@@ -1,112 +1,112 @@
 {
   "preview": {
     "component": {
-      "filter": "Search for game",
-      "selectType": "Artwork Type",
-      "selectCategories": "Steam Category",
-      "selectParsers": "Parser Title",
+      "filter": "搜索游戏",
+      "selectType": "艺术品类型",
+      "selectCategories": "Steam 类别",
+      "selectParsers": "解析器标题",
       "selectTypeOptions": {
-        "long": "Banners",
-        "tall": "Posters",
-        "hero": "Heroes",
-        "icon": "Icons",
-        "logo": "Logos",
-        "games": "All Artwork"
+        "long": "条幅",
+        "tall": "海报",
+        "hero": "英雄",
+        "icon": "图标",
+        "logo": "标志",
+        "games": "所有艺术品"
       },
-      "by": "by",
-      "refreshImages": "Refresh images",
-      "saveImage": "Save image to file",
-      "addLocalImages": "Add local images",
-      "retryDownload": "Retry download",
+      "by": "由",
+      "refreshImages": "刷新图像",
+      "saveImage": "保存图像到文件",
+      "addLocalImages": "添加本地图片",
+      "retryDownload": "重试下载",
       "generateAppList": "生成应用程序",
-      "saveAppList": "Save apps to Steam",
-      "removeAppList": "Remove apps from Steam",
-      "remainingImages": "Remaining images:",
-      "stopUrlRetrieving": "Stop image downloads",
-      "exportSelections": "Export image choices",
-      "importSelections": "Import image choices"
+      "saveAppList": "将应用保存到 Steam",
+      "removeAppList": "从 Steam 中删除应用程序",
+      "remainingImages": "剩余的图像：",
+      "stopUrlRetrieving": "停止图像下载",
+      "exportSelections": "导出图像选项",
+      "importSelections": "导入图像选择"
     },
     "service": {
       "info": {
-        "listIsBeingGenerated": "List is being generated. Please wait.",
-        "listIsBeingSaved": "List is being saved. Please wait.",
-        "listIsBeingRemoved": "List is being removed. Please wait.",
-        "listIsEmpty": "List is empty.",
-        "populatingVDF_List": "Populating VDF list.",
-        "creatingBackups": "Creating backups.",
-        "readingVDF_Files": "Reading VDF files.",
-        "mergingVDF_entries": "Merging VDF entries.",
-        "removingVDF_entries": "Removing VDF entries and image files.",
-        "savingCategories": "Saving added category information to localconfig.vdf",
-        "removingFromCategories": "Removing all added category information",
-        "writingVDF_entries": "Writing VDF files and saving/removing images.",
-        "updatingKnownSteamDirList": "Updating a list of known Steam directories.",
-        "retryingDownload__i": "Retrying image download from \"${imageUrl}\" for \"${appTitle}\".",
-        "disabledConfigurations__i": "${count} user configuration(s) was/were skipped (disabled by user).",
-        "invalidConfigurations__i": "${count} user configuration(s) was/were skipped (invalid).",
-        "executingParsers": "Executing parsers.",
-        "shutdownSteam": "Please shutdown Steam if it is running.",
-        "noParserConfigurations": "Please create parser configuration in \"Parsers\" menu first.",
-        "parserFoundNoFiles": "Parser(s) found no files matching user configuration.",
-        "allImagesRetrieved": "All available image urls retrieved.",
-        "providerTimeout__i": "Timeout was requested by \"${provider}\" for ${time} second(s).",
-        "noAccountsWarning": "User accounts not found. Incorrect Steam directory?",
-        "preparingExport": "Preparing export of image choices.",
-        "exportProgress__i": "Saving image choices ${progress}.",
-        "readingSelections": "Applying imported image choices."
+        "listIsBeingGenerated": "列表正在生成中，请稍候。",
+        "listIsBeingSaved": "列表正在保存，请稍候。",
+        "listIsBeingRemoved": "列表正在保存，请稍候。",
+        "listIsEmpty": "列表为空。",
+        "populatingVDF_List": "正在填充 VDF 列表。",
+        "creatingBackups": "创建备份。",
+        "readingVDF_Files": "读取 VDF 文件。",
+        "mergingVDF_entries": "合并 VDF 条目。",
+        "removingVDF_entries": "删除 VDF 条目和图像文件。",
+        "savingCategories": "将添加的类别信息保存到 localconfig.vdf 文件中。",
+        "removingFromCategories": "删除所有添加的类别信息",
+        "writingVDF_entries": "编写 VDF 文件并保存/删除图像。",
+        "updatingKnownSteamDirList": "更新已知的 Steam 目录列表。",
+        "retryingDownload__i": "正在为 \"${appTitle}\" 重试从 \"${imageUrl}\" 下载图片。",
+        "disabledConfigurations__i": "${count} 个用户配置被跳过（由用户禁用）\"。",
+        "invalidConfigurations__i": "${count} 个用户配置被跳过（无效）。",
+        "executingParsers": "执行解析器。",
+        "shutdownSteam": "请关闭 Steam，如果它正在运行。",
+        "noParserConfigurations": "请先在“解析器”菜单中创建解析器配置。",
+        "parserFoundNoFiles": "解析器未找到与用户配置匹配的文件。",
+        "allImagesRetrieved": "已检索到所有可用的图像网址。",
+        "providerTimeout__i": "${provider}\" 请求了 ${time} 秒的超时。",
+        "noAccountsWarning": "未找到用户账户。Steam 目录不正确？",
+        "preparingExport": "准备导出图像选项。",
+        "exportProgress__i": "正在保存图像选项 ${progress}。",
+        "readingSelections": "应用导入的图像选项。"
       },
       "errors": {
-        "fatalError": "Fatal error occurred in Preview. See event log for details.",
-        "fatalError__i": "Fatal Preview Error ${error}",
-        "knownSteamDirListIsEmpty": "A list of known Steam directories is empty.",
-        "steamIsRunning": "Cannot make changes while steam is running!",
-        "categorySaveError": "Error updating categories. See event log for details.",
-        "categorySaveError__i": "Category error (shortcuts and artwork will still be added): ${error}",
-        "controllerSaveError": "Error updating controller templates. See event log for details.",
-        "controllerSaveError__i": "Controller error (shortcuts and artwork will still be added): ${error}",
-        "retryingDownload__i": "Image download from \"${imageUrl}\" failed for \"${appTitle}\".",
-        "providerError__i": "Error received from \"${provider}\" for \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
-        "unknownProviderError__i": "Error received from \"${provider}\" for \"${title}\":\n ${error}",
-        "exportError__i": "Could not save selections package folder: ${error}",
-        "importJSONFailError__i": "Could not import selections, JSON was malformed: ${error}",
-        "importFailError__i": "Could not import image choices: ${error}"
+        "fatalError": "预览中发生致命错误。请查看事件日志获取详细信息。",
+        "fatalError__i": "致命预览错误 ${error}",
+        "knownSteamDirListIsEmpty": "已知的 Steam 目录列表为空。",
+        "steamIsRunning": "无法在 Steam 运行时进行更改！",
+        "categorySaveError": "更新类别时出错。请查看事件日志获取详细信息。",
+        "categorySaveError__i": "类别错误（快捷方式和艺术品仍将被添加）：${error}",
+        "controllerSaveError": "更新控制器模板时出错。请查看事件日志获取详细信息。",
+        "controllerSaveError__i": "控制器错误（快捷方式和艺术品仍将被添加）：${error}",
+        "retryingDownload__i": "从 \"${imageUrl}\" 下载图片失败，应用程序名称为 \"${appTitle}\"。",
+        "providerError__i": "从\"${provider}\" 接收到的错误，针对 \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
+        "unknownProviderError__i": "从 \"${provider}\" 接收到的 \"${title}\" 错误：\n ${error}",
+        "exportError__i": "无法保存选择的包文件夹：${error}",
+        "importJSONFailError__i": "无法导入选择，JSON 格式不正确：${error}",
+        "importFailError__i": "无法导入图像选项：${error}"
       },
       "success": {
-        "writingVDF_entries": "Done adding/removing entries.",
-        "removingVDF_entries": "Entries have been removed.",
-        "exportSuccess__i": "Image choices folder successfully saved to \"${path}\"!",
-        "importSelectionsSuccess__i": "Successfully imported ${count} image choices!"
+        "writingVDF_entries": "添加/删除条目完成。",
+        "removingVDF_entries": "条目已被删除。",
+        "exportSuccess__i": "图像选择文件夹已成功保存到 \"${path}\"！",
+        "importSelectionsSuccess__i": "成功导入了 ${count} 个图像选项！"
       }
     }
   },
   "steamParser": {
     "errors": {
-      "directoryInvalid": "> Steam directory invalid.",
-      "noSteamAccounts": "> Steam directory specified has no accounts.",
-      "steamChanged__i": "> Steam changed internal database structure or parser tried to read an outdated database.\nProblematic file: ${file}\nFull error:\n ${error}",
-      "fatalError__i": "> Steam parser failed with fatal error:\n ${error}"
+      "directoryInvalid": "> Steam 目录无效。",
+      "noSteamAccounts": "> 指定的 Steam 目录中没有帐户。",
+      "steamChanged__i": "> Steam 更改了内部数据库结构或解析器尝试读取过时的数据库。\n有问题的文件：${file}\n完整错误信息：\n ${error}",
+      "fatalError__i": "> Steam 解析器发生致命错误：\n ${error}"
     }
   },
   "manualParser": {
-    "manifestsInputTitle": "Manifests Directory",
+    "manifestsInputTitle": "列表目录",
     "errors": {
-      "fatalError__i": "> Manual parser failed with fatal error:\n ${error}"
+      "fatalError__i": "> 手动解析器失败，致命错误：\n ${error}"
     }
   },
   "epicParser": {
-    "manifestsInputTitle": "Manifests Directory Override",
-    "launcherModeInputTitle": "Launch games via Epic for online services",
+    "manifestsInputTitle": "列表目录覆盖",
+    "launcherModeInputTitle": "通过 Epic 启动游戏以使用在线服务。",
     "errors": {
-      "invalidManifestsOverride": "> Manifests Override is not a valid directory.",
-      "epicNotCompatible": "> Epic Games Store not available on Linux.\n If you are using the Legendary store on Linux you need to set Manifests Override.",
-      "epicNotInstalled": "> Epic Games does not appear to be installed.",
-      "fatalError__i": "> Epic Games parser failed with fatal error:\n ${error}"
+      "invalidManifestsOverride": "> Manifests Override 不是一个有效的目录。",
+      "epicNotCompatible": "> Epic Games Store 在 Linux 上不可用。\n如果您在 Linux 上使用 Legendary 商店，则需要设置列表覆盖。",
+      "epicNotInstalled": "> Epic Games 似乎未安装。",
+      "fatalError__i": "> Epic Games 解析器遇到致命错误：\n ${error}"
     }
   },
   "legendaryParser": {
-    "legendaryInstalledFileTitle": "Legendary installed.json Path Override",
+    "legendaryInstalledFileTitle": "Legendary installed.json 路径覆盖",
     "errors": {
-      "legendaryNotInstalled": "> Legendary installed.json not found",
+      "legendaryNotInstalled": "> 找不到已安装的 Legendary installed.json 文件",
       "fatalError__i": "> Legendary parser failed with fatal error: \n ${error}"
     }
   },
@@ -123,109 +123,109 @@
   },
   "gogParser": {
     "galaxyExeOverrideTitle": "Galaxy Path Override",
-    "launcherModeInputTitle": "Launch games via GOG Galaxy",
+    "launcherModeInputTitle": "通过 GOG Galaxy 启动游戏",
     "errors": {
-      "invalidGalaxyExeOverride": "> Galaxy Client Override is not a valid path.",
-      "fatalError__i": "> GOG Galaxy parser failed with fatal error:\n ${error}",
-      "gogNotCompatible": "> GOG Galaxy parser is currently only available on Windows.",
-      "gogNotInstalled": "> GOG Galaxy does not appear to be installed."
+      "invalidGalaxyExeOverride": "> Galaxy 客户端覆盖不是一个有效的路径。",
+      "fatalError__i": "> GOG Galaxy 解析器发生致命错误：\n ${error}",
+      "gogNotCompatible": "> GOG Galaxy 解析器目前仅在 Windows 上可用。",
+      "gogNotInstalled": "> GOG Galaxy 似乎未安装。"
     }
   },
   "amazonGamesParser": {
-    "exeOverrideTitle": "Amazon Games Path Override",
-    "launcherModeInputTitle": "Launch games via Amazon Games",
+    "exeOverrideTitle": "Amazon Games 路径覆盖",
+    "launcherModeInputTitle": "通过 Amazon Games 启动",
     "errors": {
-      "invalidExeOverride": "> Amazon Games Installation Override is not a valid directory.",
-      "osUnsupported": "> Amazon Games parser failed because Amazon Games is only avaliable on windows.",
-      "databaseNotFound": "> Amazon Games database file not found. Amazon Games is most likely not installed.",
-      "fatalError__i": "> Amazon Games parser failed with fatal error:\n ${error}"
+      "invalidExeOverride": "> Amazon Games Installation Override 不是一个有效的目录。",
+      "osUnsupported": "> Amazon Games 解析器失败，因为 Amazon Games 仅在 Windows 上可用。",
+      "databaseNotFound": "> 未找到 Amazon Games 数据库文件。很可能没有安装 Amazon Games。",
+      "fatalError__i": "> Amazon Games 解析器发生致命错误：\n ${error}"
     }
   },
   "itchIoParser": {
-    "itchIoAppDataOverrideTitle": "itch.io AppData Path Override",
-    "itchIoWindowsOnLinuxInstallDriveRedirectTitle": "Windows-on-Linux Install Drive Redirect",
+    "itchIoAppDataOverrideTitle": "itch.io AppData 路径覆盖",
+    "itchIoWindowsOnLinuxInstallDriveRedirectTitle": "Windows-on-Linux 安装驱动器重定向",
     "errors": {
-      "invalidItchIoAppDataOverride": "> itch.io AppData Override is not a valid directory.",
-      "invalidItchIoWindowsOnLinuxInstallDriveRedirect": "> itch.io Windows-on-Linux Install Drive Redirect is not a valid directory.",
-      "osUnsupported": "> itch.io parser failed because the parser only supports macos, linux, and windows currently.",
-      "fatalError__i": "> itch.io parser failed with fatal error:\n ${error}",
-      "databaseNotFound": "> itch.io database file not found. Itch is most likely not installed."
+      "invalidItchIoAppDataOverride": "> itch.io AppData Override 不是一个有效的目录。",
+      "invalidItchIoWindowsOnLinuxInstallDriveRedirect": "> itch.io Windows-on-Linux 安装驱动器重定向不是一个有效的目录。",
+      "osUnsupported": "> itch.io 解析器失败，因为该解析器目前仅支持 macOS、Linux 和 Windows 操作系统。",
+      "fatalError__i": "> itch.io 解析器发生致命错误：\n ${error}",
+      "databaseNotFound": "> itch.io 数据库文件未找到。很可能没有安装 itch。"
     }
   },
   "eaDesktopParser": {
-    "eaGamesDirTitle": "EA Games Install Directory",
+    "eaGamesDirTitle": "EA Games 安装目录",
     "eaLauncherModeTitle": "通过 EA Desktop 启动游戏",
     "errors": {
-      "fatalError__i": "> EA Desktop parser failed with fatal error:\n ${error}",
-      "invalidXML__i": "> Invalid XML file ${dataFile}",
+      "fatalError__i": "> EA Desktop 解析器发生致命错误：\n ${error}",
+      "invalidXML__i": "> 无效的 XML 文件 ${dataFile}",
       "eaNotCompatible": "> EA Desktop 解析器仅支持 Windows 操作系统。"
     }
   },
   "globParser": {
-    "inputTitle": "User's glob",
+    "inputTitle": "用户的全局变量",
     "errors": {
-      "noTitle__md": "> File glob must contain `${title}`!",
-      "moreThanOneTitle__md": "> File glob must contain only one `${title}`!",
-      "noStarNextToTitle__md": "> Star `*` can not be next to `${title}`!",
-      "noAnyCharNextToTitle__md": "> Any char `?` can not be next to `${title}`!",
-      "noWindowsSlash__md": "> Windows directory character `\\` is not allowed! Use `/` instead.",
-      "noGlobstarOnBothSides__md": "> Globstar `**` can only be on one side of `${title}`!",
-      "noBracedDirSetOnBothSides__md": "> A braced set, containing at least one slash `/` can only be on one side of `${title}`!",
-      "noBracedDirSetOrGlobstarOnBothSides__md": "> A braced set, containing at least one slash `/` and a globstar `**` can only be on one side of `${title}`!",
-      "noEmptyPattern__md": "> Pattern can not be empty!",
-      "noEmptyCharRange__md": "> Character range can not be empty!",
-      "noStarInPatternNextToTitle__md": "> Star `*`, inside a pattern, can not be next to `${title}`!",
-      "noAnyCharInPatternNextToTitle__md": "> Any char `?`, inside a pattern, can not be next to `${title}`!"
+      "noTitle__md": "> 文件通配符必须包含 `${title}`！",
+      "moreThanOneTitle__md": "> 文件通配符必须只包含一个 `${title}`！",
+      "noStarNextToTitle__md": "> 星号 `*` 不能在 `${title}` 旁边！",
+      "noAnyCharNextToTitle__md": "> 任何字符 `?` 都不能紧挨着 `${title}`！",
+      "noWindowsSlash__md": "> Windows 目录字符`\\`不允许使用！请改用`/`。",
+      "noGlobstarOnBothSides__md": "> Globstar `**` 只能在 `${title}` 的一侧！",
+      "noBracedDirSetOnBothSides__md": "> 包含至少一个斜杠 `/` 的大括号集合只能在 `${title}` 的一侧！",
+      "noBracedDirSetOrGlobstarOnBothSides__md": "> 包含至少一个斜杠 `/` 和一个 globstar `**` 的大括号集合只能在 `${title}` 的一侧！",
+      "noEmptyPattern__md": "> 模式不能为空！",
+      "noEmptyCharRange__md": "> 字符范围不能为空！",
+      "noStarInPatternNextToTitle__md": "> 星号 `*` 不能在模式内与 `${title}` 相邻！",
+      "noAnyCharInPatternNextToTitle__md": "> 任何一个字符 `?` 在模式中不能紧挨着 `${title}`！"
     }
   },
   "globRegexParser": {
-    "inputTitle": "User's glob-regex",
+    "inputTitle": "用户的全局正则表达式",
     "errors": {
-      "noRegex__md": "> File glob must contain `${regex}` where **regex** is your regular expression!",
-      "moreThanOneRegex__md": "> File glob must contain only one `${regex}`!",
-      "noStarNextToRegex__md": "> Star `*` can not be next to `${regex}`!",
-      "noAnyCharNextToRegex__md": "> Any char `?` can not be next to `${regex}`!",
-      "noWindowsSlash__md": "> Windows directory character `\\` is not allowed! Use `/` instead.",
-      "noGlobstarOnBothSides__md": "> Globstar `**` can only be on one side of `${regex}`!",
-      "noBracedDirSetOnBothSides__md": "> A braced set, containing at least one slash `/` can only be on one side of `${regex}`!",
-      "noBracedDirSetOrGlobstarOnBothSides__md": "> A braced set, containing at least one slash `/` and a globstar `**` can only be on one side of `${regex}`!",
-      "noEmptyPattern__md": "> Pattern can not be empty!",
-      "noEmptyCharRange__md": "> Character range can not be empty!",
-      "noStarInPatternNextToRegex__md": "> Star `*`, inside a pattern, can not be next to `${regex}`!",
-      "noAnyCharInPatternNextToRegex__md": "> Any char `?`, inside a pattern, can not be next to `${regex}`!"
+      "noRegex__md": "> 文件通配符必须包含 `${regex}`，其中 **regex** 是您的正则表达式！",
+      "moreThanOneRegex__md": "> 文件通配符必须只包含一个 `${regex}`！",
+      "noStarNextToRegex__md": "> 星号 `*` 不能在 `${regex}` 旁边！",
+      "noAnyCharNextToRegex__md": "> 任何字符 `?` 都不能紧跟在 `${regex}` 后面！",
+      "noWindowsSlash__md": "> Windows 目录字符`\\`不允许使用！请改用`/`。",
+      "noGlobstarOnBothSides__md": "> Globstar `**` 只能在 `${regex}` 的一侧使用！",
+      "noBracedDirSetOnBothSides__md": "> 一个包含至少一个斜杠 `/` 的大括号集合只能在 `${regex}` 的一侧！",
+      "noBracedDirSetOrGlobstarOnBothSides__md": "> 一个包含至少一个斜杠 `/` 和一个 globstar `**` 的大括号集合只能在 `${regex}` 的一侧！",
+      "noEmptyPattern__md": "> 模式不能为空！",
+      "noEmptyCharRange__md": "> 字符范围不能为空！",
+      "noStarInPatternNextToRegex__md": "> Star `*` 在模式内不能与 `${regex}` 相邻！",
+      "noAnyCharInPatternNextToRegex__md": "> 在模式中，任何字符 `?` 都不能紧挨着 `${regex}`！"
     }
   },
   "sgdbProvider": {
-    "nsfwInputTitle": "Allow NSFW artwork",
-    "humorInputTitle": "Allow joke artwork",
-    "imageMotionTypesTitle": "Allowed animation types",
-    "stylesTitle": "Allowed grid styles",
-    "stylesHeroTitle": "Allowed hero styles",
-    "stylesLogoTitle": "Allowed logo styles",
-    "stylesIconTitle": "Allowed icon styles"
+    "nsfwInputTitle": "允许 NSFW 艺术作品",
+    "humorInputTitle": "允许开玩笑的艺术作品",
+    "imageMotionTypesTitle": "允许的动画类型",
+    "stylesTitle": "允许的网格样式",
+    "stylesHeroTitle": "允许的英雄样式",
+    "stylesLogoTitle": "允许的 Logo 样式",
+    "stylesIconTitle": "允许的图标样式"
   },
   "logger": {
     "component": {
-      "noMessages": "No messages are available",
-      "error": "ERROR",
-      "info": "INFO",
-      "success": "SUCCESS",
-      "fuzzy": "FUZZY",
-      "textWrap": "TEXT-WRAP",
-      "autoscroll": "AUTOSCROLL",
-      "clearLog": "Clear log"
+      "noMessages": "没有可用的消息",
+      "error": "错误",
+      "info": "信息",
+      "success": "成功！",
+      "fuzzy": "模糊",
+      "textWrap": "文本换行",
+      "autoscroll": "自动滚屏",
+      "clearLog": "清除日志"
     }
   },
   "customVariables": {
     "service": {
       "error": {
-        "failedToDownload__i": "Failed to download custom variables file. Status: ${error}.",
-        "writingError": "Error occurred while saving custom variables.",
-        "loadingError": "Error occurred while loading custom variables.",
-        "corruptedVariables__i": "Saved custom variables are invalid!\r\nPermanent variable saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
+        "failedToDownload__i": "无法下载自定义变量文件。状态：${error}。",
+        "writingError": "保存自定义变量时发生错误。",
+        "loadingError": "加载自定义变量时发生错误。",
+        "corruptedVariables__i": "保存的自定义变量无效！\n在解决此问题之前，永久变量保存已被禁用。\n您可以尝试手动修复错误（文件 - ${file}）\n或在 GitHub 或我们的官方 Discord 频道上寻求帮助：${error}"
       },
       "info": {
-        "downloaded": "Custom variables file has been downloaded."
+        "downloaded": "自定义变量文件已下载。"
       }
     }
   },
@@ -295,82 +295,82 @@
       },
       "error": {
         "writingError": "Error occurred while saving user settings.",
-        "readingError": "Error occurred while reading user settings.",
-        "corruptedSettings__i": "Saved app settings are invalid!\r\nPermanent settings saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
+        "readingError": "读取用户设置时发生错误。",
+        "corruptedSettings__i": "保存的应用程序设置无效！\n在解决此问题之前，永久设置保存已禁用。\n尝试手动修复错误（文件 - ${file}）\n或在 GitHub 或我们的官方 Discord 频道上寻求帮助：${error}"
       }
     }
   },
   "nav": {
     "component": {
-      "about": "About",
-      "preview": "Preview",
-      "logger": "Event log",
-      "settings": "Settings",
-      "parsers": "Parsers",
-      "customVariables": "Variables",
-      "userExceptions": "Exceptions",
-      "noTitle": "No title!"
+      "about": "关于我们",
+      "preview": "预览",
+      "logger": "事件日志",
+      "settings": "设置",
+      "parsers": "解析器",
+      "customVariables": "变量",
+      "userExceptions": "异常",
+      "noTitle": "无标题！"
     }
   },
   "userExceptions": {
     "component": {
       "buttons": {
-        "save": "Save",
-        "deleteAll": "Clear",
-        "undoChanges": "Undo changes",
-        "addItem": "Add exception",
-        "deleteItem": "Remove exception"
+        "save": "保存",
+        "deleteAll": "清除",
+        "undoChanges": "撤销更改",
+        "addItem": "添加异常",
+        "deleteItem": "删除异常"
       },
       "text": {
-        "title": "User Exceptions",
-        "exclude": "Exclude Title",
-        "excludeArtwork": "Local Artwork Only"
+        "title": "用户异常",
+        "exclude": "排除标题",
+        "excludeArtwork": "仅限本地艺术品"
       }
     },
     "service": {
       "error": {
-        "loadingError": "Could not load user exceptions",
-        "corruptedExceptions__i": "User exceptions corrupt (file - ${file}). Saving is disabled, full error is: ${error}",
-        "writingError": "Error occurred saving user exceptions"
+        "loadingError": "无法加载用户异常。",
+        "corruptedExceptions__i": "用户异常导致文件损坏（文件 - ${file}）。保存已禁用，完整错误信息为：${error}。",
+        "writingError": "保存用户异常时发生错误"
       }
     }
   },
   "parsers": {
     "component": {
       "buttons": {
-        "save": "Save",
-        "copy": "Copy",
-        "testParser": "Test parser",
-        "delete": "Delete",
-        "moveUp": "Move up",
-        "moveDown": "Move down",
-        "faq": "FAQ",
-        "undoChanges": "Undo changes",
-        "undoDelete": "Undo delete",
-        "toClipboard": "Copy configuration to clipboard"
+        "save": "保存",
+        "copy": "复制",
+        "testParser": "测试解析器",
+        "delete": "删除",
+        "moveUp": "向上移",
+        "moveDown": "向下移",
+        "faq": "常见问答（FAQ）",
+        "undoChanges": "撤销更改",
+        "undoDelete": "撤消删除",
+        "toClipboard": "复制配置到剪贴板"
       },
       "info": {
-        "testStarting__i": "Testing \"${title}\" parser (SRM version - ${version} ${portable}).",
-        "opSys__i": "Operating system is \"${os}\"",
-        "testCompleted": "Parser test is completed.",
-        "nothingWasFound": "Parser found nothing.",
-        "copiedToClipboard": "Configuration copied to clipboard",
-        "userExclusions": "User excluded:",
+        "testStarting__i": "测试 \"${title}\" 解析器（SRM版本 - ${version} ${portable}）。",
+        "opSys__i": "操作系统是 ${os}",
+        "testCompleted": "解析器测试已完成。",
+        "nothingWasFound": "解析器未找到任何内容。",
+        "copiedToClipboard": "配置已复制到剪贴板",
+        "userExclusions": "用户排除：",
         "excludedFileInfo__i": "[${index}/${total}]: ${filename}",
-        "removingControllers__i": "Removing controller templates for parser: ${configTitle}",
-        "fetchingControllerTemplates": "Fetching controller templates"
+        "removingControllers__i": "删除解析器控制器模板：${configTitle}",
+        "fetchingControllerTemplates": "获取控制器模板"
       },
       "error": {
-        "missingAccounts__i": "Following ${count} user account(s) were not found (user must to login to Steam at least once):",
+        "missingAccounts__i": "以下 ${count} 个用户账户未找到（用户必须至少登录一次 Steam）：",
         "missingAccountInfo__i": "  ${name}",
-        "noAccountsWarning": "Warning! No user accounts found, it could be due to one of the reasons below:\r\n - incorrect Steam directory;\r\n - no user has ever logged in;\r\n - Steam does not save user credentials (\"Show advanced options -> User accounts -> Use account credentials\").\r\nIf you're seeing this, preview won't be generated for this configuration.",
-        "cannotParseUserIDs": "Error parsing user accounts:",
-        "failedToMatch": "Failed to match:",
+        "noAccountsWarning": "警告！未找到用户帐户，可能是由于以下原因之一：\n- Steam 目录不正确；\n- 没有任何用户登录过；\n- Steam 没有保存用户凭据（“显示高级选项-> 用户帐户-> 使用帐户凭据”）。\n如果您看到此消息，则无法为此配置生成预览。",
+        "cannotParseUserIDs": "解析用户帐户时出错：",
+        "failedToMatch": "匹配失败：",
         "failedFileInfo__i": "[${index}/${total}]: ${filename}",
-        "testFailed": "Testing failed",
-        "cannotTestInvalid": "Can not test invalid configuration!",
-        "cannotCopyInvalid": "Can not copy invalid configuration!",
-        "failedToCopy": "Failed to copy to clipbard!",
+        "testFailed": "测试失败",
+        "cannotTestInvalid": "无法测试无效的配置！",
+        "cannotCopyInvalid": "无法复制无效配置！",
+        "failedToCopy": "复制到剪贴板失败！",
         "cannotFetchTemplates": "Can not fetch controller templates for invalid steam directory!",
         "errorRemovingControllers": "Error removing controllers:",
         "cannotRemoveControllers": "Can not remove controllers from invalid steam directory!"
@@ -423,59 +423,59 @@
         "localLogoImageInfo__i": "[${index}/${total}]:                        ${image}",
         "resolvedIconGlob__i": "[${index}/${total}]:  Resolved icon glob:",
         "resolvedIconGlobInfo__i": "[${index}/${total}]:                        ${glob}",
-        "localIconsResolved__i": "[${index}/${total}]:      Resolved icons:",
+        "localIconsResolved__i": "[${index}/${total}]: 已解决的图标：",
         "localIconInfo__i": "[${index}/${total}]:                        ${icon}",
-        "removedControllers__i": "Succesfully removed controllers for parser: ${configTitle}",
-        "fetchedTemplates": "Fetched all controller templates"
+        "removedControllers__i": "成功删除解析器控制器：${configTitle}",
+        "fetchedTemplates": "获取所有控制器模板"
       },
       "label": {
-        "parserType": "Parser type",
-        "configTitle": "Configuration title",
-        "steamCategory": "Steam category",
-        "executableModifier": "Executable modifier",
-        "executableLocation": "Executable",
-        "romDirectory": "ROMs directory",
-        "steamDirectory": "Steam directory",
-        "startInDirectory": "\"Start In\" directory",
-        "userAccounts": "User accounts",
-        "titleFromVariable": "Title from custom variable",
-        "titleModifier": "Title modifier",
-        "fuzzyMatch": "Fuzzy matching",
-        "executableArgs": "Command line arguments",
-        "onlineImageQueries": "Online image query",
-        "imagePool": "Image pool",
-        "imageProviders": "Image providers",
-        "defaultImage": "Default image",
-        "defaultTallImage": "Default tall image",
-        "defaultHeroImage": "Default hero image",
-        "defaultLogoImage": "Default logo image",
-        "defaultIcon": "Default icon",
-        "localImages": "Local images",
-        "localTallImages": "Local tall images",
-        "localHeroImages": "Local hero images",
-        "localLogoImages": "Local logo images",
-        "localIcons": "Local icons"
+        "parserType": "解析器类型",
+        "configTitle": "配置标题",
+        "steamCategory": "Steam 类别",
+        "executableModifier": "可执行修饰符",
+        "executableLocation": "可执行文件",
+        "romDirectory": "ROM 目录",
+        "steamDirectory": "Steam 目录",
+        "startInDirectory": "\"Start In\" 目录",
+        "userAccounts": "用户帐户",
+        "titleFromVariable": "自定义变量的标题",
+        "titleModifier": "标题修饰词",
+        "fuzzyMatch": "模糊匹配",
+        "executableArgs": "命令行参数",
+        "onlineImageQueries": "在线图像查询",
+        "imagePool": "图像库",
+        "imageProviders": "图像提供方",
+        "defaultImage": "默认图像",
+        "defaultTallImage": "默认高清图像",
+        "defaultHeroImage": "默认英雄图像",
+        "defaultLogoImage": "默认 Logo 图像",
+        "defaultIcon": "默认图标",
+        "localImages": "本地图像",
+        "localTallImages": "本地高清图像",
+        "localHeroImages": "本地英雄图像",
+        "localLogoImages": "本地英雄图像",
+        "localIcons": "本地图标"
       },
       "placeholder": {
-        "parserType": "Select parser...",
-        "imageProviders": "None",
-        "multiAPIPlaceholder": "No Filter"
+        "parserType": "选择解析器...",
+        "imageProviders": "无",
+        "multiAPIPlaceholder": "无筛选条件"
       },
       "text": {
-        "skipWithMissingDataDir": "Skip found accounts with missing data directories",
-        "useCredentials": "Use account credentials",
-        "tryToMatchTitle": "Enable Title from Custom Variable",
-        "skipFileIfVariableWasNotFound": "Skip file if variable was not found",
-        "caseInsensitiveVariables": "Case-insensitive variables",
-        "shortcut_passthrough": "Follow .lnk or .desktop to destination (Windows and Linux only)",
-        "fuzzy_use": "Use fuzzy matching",
-        "fuzzy_removeCharacters": "Aggressive matching",
-        "fuzzy_removeBrackets": "Remove (...) and [...] brackets",
+        "skipWithMissingDataDir": "跳过找到的缺少数据目录的账户",
+        "useCredentials": "使用帐户凭据",
+        "tryToMatchTitle": "从自定义变量启用标题",
+        "skipFileIfVariableWasNotFound": "如果未找到变量，则跳过文件。",
+        "caseInsensitiveVariables": "不区分大小写的变量",
+        "shortcut_passthrough": "跟随 .lnk 或 .desktop 到目标（仅适用于 Windows 和 Linux）",
+        "fuzzy_use": "使用模糊匹配",
+        "fuzzy_removeCharacters": "积极匹配",
+        "fuzzy_removeBrackets": "删除 (...) 和 [...] 括号",
         "fuzzy_replaceDiacritic": "Replace diacritic characters",
         "appendArgsToExecutable": "Append arguments to executable",
         "disabled": "Disable current parser",
         "advanced": "Show advanced options",
-        "noTitle": "No title!"
+        "noTitle": "无标题！"
       }
     },
     "service": {
