@@ -4,17 +4,17 @@
 ```
 ${...}
 ```
-**如果**启用了[使用帐户凭据](#what-does-use-account-credentials-do)，则**必须**使用您在 Steam **登录** 时使用的用户名：
+**如果** 启用了 [使用帐户凭据](#what-does-use-account-credentials-do)，则 **必须** 使用您在 Steam **登录** 时使用的用户名：
 
 ![账户示例](../../../assets/images/user-account-example.png) {.fitImage.center}
 
-例如，这是您指定的“Banana”和“Apple”账户的方式：
+例如，这是您指定的 “Banana” 和 “Apple” 账户的方式：
 
 ```
 ${Banana}${Apple}
 ```
 
-如果[使用帐户凭据](#what-does-use-account-credentials-do)被禁用，您仍然可以通过直接指定其 ID 来限制帐户：
+如果 [使用帐户凭据](#what-does-use-account-credentials-do) 被禁用，您仍然可以通过直接指定其 ID 来限制帐户：
 
 ```
 ${56489124}${21987424}
@@ -26,7 +26,7 @@ ${56489124}${21987424}
 
 ## “使用帐户凭据"是什么意思？
 
-Tries to look for account credentials in Steam directory. In other words -- username. Username then can be used to filter accounts without actually having to know their ids. 换句话说 -- 用户名。 用户名可以用来过滤账户，而无需实际知道它们的 ID。
+Tries to look for account credentials in Steam directory. In other words -- username. Username then can be used to filter accounts without actually having to know their ids. 换句话说 -- 用户名。 换句话说 -- 用户名。 用户名可以用来过滤账户，而无需实际知道它们的 ID。
 
 ### 警告！
 
