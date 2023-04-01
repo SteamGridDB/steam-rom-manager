@@ -8,15 +8,15 @@
 
 In addition to special glob characters, glob parser requires you to enter `${/.../}`{.noWrap} variable. Parser will locate it's position inside your  glob, for example:
 
-| User's glob           | Position                    |
-| --------------------- | --------------------------- |
-| `${/.+/}/*/*.txt`     | First level from the left   |
-| `{*,*/*}/${/.+/}.txt` | First level from the right  |
-| `**/${/.+/}/*.txt`    | Second level from the right |
+| User's glob           | 位置         |
+| --------------------- | ---------- |
+| `${/.+/}/*/*.txt`     | 从左边开始的第一层级 |
+| `{*,*/*}/${/.+/}.txt` | 从右边开始的第一层级 |
+| `**/${/.+/}/*.txt`    | 从右边开始的第二层级 |
 
 After acquiring `${/.../}`{.noWrap} position, `${/.../}`{.noWrap} will be replaced with a wildcard `*`.
 
-## Regex post-processing
+## 正则表达式后处理
 
 After title extraction, title will be processed by a regular expression. 有三种方法可以编写正则表达式。
 
@@ -26,11 +26,11 @@ After title extraction, title will be processed by a regular expression. 有三�
 
 ### 带有捕获括号的正则表达式：`${/(.+)/}`{.noWrap}
 
-允许多个匹配和捕获组。 For example, here we have 2 match groups with multiple capture groups:
+允许多个匹配和捕获组。 例如，这里有2个匹配组和多个捕获组：
 ```
 ${/(.*?)\s*\[USA\]\s*(.+)|(.*)/}
 ```
-First match group (from left to right) with all correct captures will be used. Furthermore, all capture groups will be **joined**.
+First match group (from left to right) with all correct captures will be used. 此外，所有捕获组将被**合并**。
 
 ### Regular expression with capture brackets and replacement text: `${/(.+)/|...}`{.noWrap}
 
@@ -48,6 +48,6 @@ Untouched text will remain by default, so if you see some trailing characters be
 
 Allowed flags are `i`, `g` and `u`.
 
-## Limitations
+## 限制
 
 Position extraction comes with some limitations -- glob is invalid if position can not be extracted. Most of the time you will be warned about what you can't do, however, if you find a combination that is allowed, but produces incorrect titles please make an issue at [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
