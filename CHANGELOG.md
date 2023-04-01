@@ -13,6 +13,11 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.50
+### Added
+* Launcher Mode for EA Desktop Parser
+* UWP Parser for XBox Game Pass (credit to @alvaromunoz, great work!)
+
 ## 2.3.49
 ### Added
 * Legendary Platform Parser (working on Windows, Linux, and Mac OS)

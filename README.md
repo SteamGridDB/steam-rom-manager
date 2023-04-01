@@ -63,13 +63,15 @@ In addition to flexible importing of ROMS, SRM now has several *platform parsers
 |[Itch.io](https://itch.io/app)|✅|✅|✅|
 |[Legendary](https://github.com/derrod/legendary)|✅|✅|✅|
 |[UPlay](https://ubisoftconnect.com/en-US/)|✅|❌|🟦|
+|[UWP/XBox](https://www.xbox.com/en-US/xbox-game-pass/pc-game-pass)|✅|🟦|🟦|
+
 
 
 ✅  Implemented
 ❌  Planned
 🟦  Store not present
 
-Planned platform parsers include XBox Game Pass (for the time being use [UWPHook](https://github.com/BrianLima/UWPHook)) and Battle.net.
+The only remaining planned platform parser is Battle.net, but we are open to suggestions and pull requests!
 
 ## Artwork Only Parsers
 Artwork only parsers allow you to change the artwork for existing non-SRM added games. Put it simply they just change artwork, they don't add shortcuts.
