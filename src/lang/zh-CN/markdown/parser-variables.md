@@ -21,7 +21,7 @@
 |  `${exeName}` | 可执行文件名称 (无扩展名)    |
 | `${fileName}` | 由解析器返回的文件名（不带扩展名） |
 
-如果可执行目录输入**空**，则 `${exeName}`{.noWrap} 等于 `${fileName}`{.noWrap}。
+如果可执行目录输入**留空**，则 `${exeName}`{.noWrap} 等于 `${fileName}`{.noWrap}。
 
 ## 扩展变量
 
@@ -39,7 +39,7 @@
 |  `${exePath}` | 可执行文件的完整路径     |
 | `${filePath}` | 由解析器返回的文件的完整路径 |
 
-如果可执行目录输入**留空**，则`${exePath}`{.noWrap}等于`${filePath}`{.noWrap}。
+如果可执行目录输入**留空**，则 `${exePath}`{.noWrap}等于`${filePath}`{.noWrap}。
 
 ## 解析器变量
 
@@ -49,7 +49,7 @@
 | `${fuzzyTitle}` | 模糊匹配的标题       |
 | `${finalTitle}` | 标题是标题修改器的最终结果 |
 
-如果模糊匹配**失败**或被**禁用**，则`${fuzzyTitle}`{.noWrap}等于`${title}`{.noWrap}。
+如果模糊匹配**失败**或被**禁用**，则 `${fuzzyTitle}`{.noWrap}等于`${title}`{.noWrap}。
 
 ## 函数变量
 
