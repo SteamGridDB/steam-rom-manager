@@ -13,7 +13,7 @@ Um eine benutzerdefinierte Vorlage erstellen:
 * Repeat for as many different types of controller as you want to configure.
 
 Im SRM-Parser:
-* Hit `Re-Fetch Controller Templates` to pull templates for all controller types from steam. This will clear your currently selected template if it is not one of the templates available in Steam.
+* Hit `Re-Fetch Controller Templates` to pull templates for all controller types from steam. Dies wird Ihre aktuell ausgewählte Vorlage löschen, wenn sie nicht zu den in Steam verfügbaren Templates gehört.
 
 Aktuell bezieht SRM die Standardvorlagen (Valve made) für jeden Controller sowie alle benutzerdefinierten Vorlagen, die in `(SRM)` enden.
 
