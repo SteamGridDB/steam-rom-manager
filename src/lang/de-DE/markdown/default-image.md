@@ -1,6 +1,6 @@
 # Standardbild (optional) `[unterstützt Variablen]`{.noWrap}
 
-Ermöglicht es, ein lokal gespeichertes Bild als Standard/Fallback-Bild zu verwenden. A [special glob input](#special-glob-input) string is used to retrieve images. Only the first retrieved image is used.
+Ermöglicht es, ein lokal gespeichertes Bild als Standard/Fallback-Bild zu verwenden. Um Bilder abzurufen, wird ein [special glob input](#special-glob-input) String verwendet. Es wird nur das erste abgerufene Bild verwendet.
 
 Dieses Bild wird **nur** angezeigt, wenn kein anderes Bild verfügbar ist. Wenn ein Steam-Bild verfügbar ist, kannst du dieses aus Steam auswählen.
 
