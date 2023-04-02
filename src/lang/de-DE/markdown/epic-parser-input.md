@@ -2,10 +2,10 @@
 
 ## Manifests Directory Override
 
-Most users shouldn't use this, as they use the standard `Epic Games Store` installation where the game manifests will be located in, for example on Windows, `C:\ProgramData\Epic\EpicGamesLauncher\Data\Manifests`.
+Die meisten Benutzer sollten dies nicht verwenden da sie die Standard- `Epic Games Store` Installation verwenden, in der sich die Spielmanifeste befinden werden zum Beispiel unter Windows, `C:\ProgramData\Epic\EpicGamesLauncher\Data\Manifests`.
 
-If, however, for some reason your manifests directory is located in a non-typical location then you can specify the correct manifests directory here.
+Wenn sich dein Manifest-Verzeichnis jedoch aus irgendeinem Grund an einem nicht typischen Ort befindet, kannst du das richtige Manifests-Verzeichnis hier angeben.
 
-## Launch Via Epic Games Store `[Recommend enabled]`
+## Im Epic Games Store starten `[Empfohlen aktiviert]`
 
-What it sounds like, this toggle let's you set whether games will launch via the Epic Games Store or directly. If you don't launch via the `Epic Games Store` you will not have access to Epic's online services in game.
+What it sounds like, this toggle let's you set whether games will launch via the Epic Games Store or directly. Wenn du nicht über den `Epic Games Store` startest, wirst du im Spiel keinen Zugriff auf die Online-Dienste von Epic haben.
