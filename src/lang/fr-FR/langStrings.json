@@ -18,7 +18,7 @@
       "saveImage": "Save image to file",
       "addLocalImages": "Add local images",
       "retryDownload": "Réessayer le téléchargement",
-      "generateAppList": "Generate app list",
+      "generateAppList": "Générer une liste de jeu",
       "saveAppList": "Enregistrer les applications sur Steam",
       "removeAppList": "Supprimer les applications de Steam",
       "remainingImages": "Nombre de téléchargements restant:",
@@ -95,7 +95,7 @@
   },
   "epicParser": {
     "manifestsInputTitle": "Manifests Directory Override",
-    "launcherModeInputTitle": "Launch games via Epic for online services",
+    "launcherModeInputTitle": "Lancer les jeux via Epic pour les services en ligne",
     "errors": {
       "invalidManifestsOverride": "> Manifests Override is not a valid directory.",
       "epicNotCompatible": "> Epic Games Store not available on Linux.\n If you are using the Legendary store on Linux you need to set Manifests Override.",
@@ -162,7 +162,7 @@
   },
   "eaDesktopParser": {
     "eaGamesDirTitle": "EA Games Install Directory",
-    "eaLauncherModeTitle": "Launch games via EA Desktop",
+    "eaLauncherModeTitle": "Lancer les jeux via EA Desktop",
     "errors": {
       "fatalError__i": "> EA Desktop parser failed with fatal error:\n ${error}",
       "invalidXML__i": "> Invalid XML file ${dataFile}",
