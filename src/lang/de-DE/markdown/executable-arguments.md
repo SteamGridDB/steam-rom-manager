@@ -179,7 +179,7 @@ In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is
 | -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
 |                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
 |                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
-|                                             `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                                      |
+|                                             `${lc\|input}` | Lowercase variable. Wandelt Eingaben in Kleinbuchstaben um                                                             |
 |                                       `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
 |                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
 | `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                           |
