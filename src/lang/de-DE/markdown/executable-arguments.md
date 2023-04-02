@@ -178,7 +178,7 @@ In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is
 |       Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechende Funktion                                                                                                 |
 | -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
 |                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
-|                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
+|                                             `${uc\|input}` | Uppercase variable. Wandelt Eingaben in Großbuchstaben um                                                              |
 |                                             `${lc\|input}` | Lowercase variable. Wandelt Eingaben in Kleinbuchstaben um                                                             |
 |                                       `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
 |                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
