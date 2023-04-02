@@ -61,7 +61,7 @@ export class EADesktopParser implements GenericParser {
                   } else {
                     title = String(gameTitle)
                   }
-                  runtime = json.caseInsensitiveTraverse(parsedData, [["DiPManifest"],["runtime"],["launcher"]]);
+                  runtime = json.caseInsensitiveTraverse(parsedData, [["DiPManifest"],["runtime"],["launcher"]], true);
                   contentID = json.caseInsensitiveTraverse(parsedData, [["DiPManifest"],["contentIDs"],["contentID"]])
                 } else if(json.caseInsensitiveHasKey(parsedData,["game"])) {
                   let localeInfo = json.caseInsensitiveTraverse(parsedData,[["game"],["metadata"],["localeInfo"]]);
@@ -70,10 +70,10 @@ export class EADesktopParser implements GenericParser {
                   } else {
                     title = String(localeInfo.title);
                   }
-                  runtime = json.caseInsensitiveTraverse(parsedData,[["game"],["runtime"],["launcher"]])
+                  runtime = json.caseInsensitiveTraverse(parsedData,[["game"],["runtime"],["launcher"]], true)
                   contentID = json.caseInsensitiveTraverse(parsedData,[["game"],["contentIDs"],["contentID"]])
                 }
-                if(Array.isArray(runtime) && runtime.length) {
+                if(runtime && Array.isArray(runtime) && runtime.length) {
                   runtimePath = json.caseInsensitiveTraverse(runtime[0],[["filePath"]]);
                 } else if(json.caseInsensitiveHasKey(runtime,["filePath"])) {
                   runtimePath = json.caseInsensitiveTraverse(runtime,[["filePath"]])
@@ -83,12 +83,19 @@ export class EADesktopParser implements GenericParser {
                 } else {
                   appID = String(contentID);
                 }
-                if(title && runtimePath && appID) {
-                  appTitles.push(title);
-                  appNames.push(appID)
-                  appPaths.push(path.join(gameDir,runtimePath.replace(/^\[.*?\]/,'')))
+                if(inputs.eaLauncherMode) {
+                  if(title && appID) {
+                    appTitles.push(title)
+                    appNames.push(appID)
+                    appPaths.push(gameDir)
+                  }
+                } else {
+                  if (title && appID && runtimePath) {
+                    appTitles.push(title)
+                    appNames.push(appID)
+                    appPaths.push(path.join(gameDir,runtimePath.replace(/^\[.*?\]/,'')))
+                  }
                 }
-
               } else {
                 reject(this.lang.errors.invalidXML__i.interpolate({datafile: installDataFile}));
               }

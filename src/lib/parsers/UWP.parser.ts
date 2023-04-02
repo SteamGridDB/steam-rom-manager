@@ -29,7 +29,7 @@ export class UWPParser implements GenericParser {
           label: this.lang.UWPLauncherModeTitle,
           inputType: 'toggle',
           validationFn: (input: any) => { return null },
-          info: this.lang.docs__md.input.join('')
+            info: this.lang.docs__md.input.join('')
         }
       }
     };
@@ -59,18 +59,19 @@ export class UWPParser implements GenericParser {
             var xmldata = fs.readFileSync(file,'utf-8');
             if(XMLValidator.validate(xmldata)) {
               const parsedData: any = xmlParser.parse(xmldata);
-
-              var gameManifest: SimpleManifest = {
-                idName: json.caseInsensitiveTraverse(parsedData,[["Package"],["Identity"],["@_Name"]]),
-                idPublisher: json.caseInsensitiveTraverse(parsedData,[["Package"],["Identity"],["@_Publisher"]]),
-                appExecutable: json.caseInsensitiveTraverse(parsedData,[["Package"],["Applications"],["Application"],["@_Executable"]])
-              } as SimpleManifest;
-              if(gameManifest.idName && gameManifest.idPublisher && gameManifest.appExecutable) {
-                var gameDetail: SimpleUWPApp = getUWPAppDetail(gameManifest, xmlParser);
-                appTitles.push(gameDetail.name);
-                appIds.push(gameDetail.appId);
-                appPaths.push(gameDetail.path);
-                appArgs.push(gameDetail.arguments);
+              if(json.caseInsensitiveHasKey(json.caseInsensitiveTraverse(parsedData,[["Package"]]),["Applications"])) {
+                var gameManifest: SimpleManifest = {
+                  idName: json.caseInsensitiveTraverse(parsedData,[["Package"],["Identity"],["@_Name"]]),
+                  idPublisher: json.caseInsensitiveTraverse(parsedData,[["Package"],["Identity"],["@_Publisher"]]),
+                  appExecutable: json.caseInsensitiveTraverse(parsedData,[["Package"],["Applications"],["Application"],["@_Executable"]])
+                } as SimpleManifest;
+                if(gameManifest.idName && gameManifest.idPublisher && gameManifest.appExecutable) {
+                  var gameDetail: SimpleUWPApp = getUWPAppDetail(gameManifest, xmlParser);
+                  appTitles.push(gameDetail.name);
+                  appIds.push(gameDetail.appId);
+                  appPaths.push(gameDetail.path);
+                  appArgs.push(gameDetail.arguments);
+                }
               }
             }
           }
@@ -232,76 +233,76 @@ function getIndirectResourceString(fullName: string, packageName: string, resour
   } else if (resource.toString().includes("/")) {
     //$"@{{{fullName}? ms-resource://{packageName}/{resource.Replace("ms-resource:", "").Trim('/')}}}";
     const cleanResource = resource
-      .toString()
-      .replace("ms-resource:", "")
-      .replace(/^\/+/, "")
-      .replace(/\/+$/, "");
+    .toString()
+    .replace("ms-resource:", "")
+    .replace(/^\/+/, "")
+    .replace(/\/+$/, "");
     resourceString = `@{${fullName}? ms-resource://${packageName}/${cleanResource}}`;
   } else {
-    //$"@{{{fullName}? ms-resource://{packageName}/resources/{resUri.Segments.Last()}}}";
-    resourceString = `@{${fullName}? ms-resource://${packageName}/resources/${lastSegment}}`;
-  }
+      //$"@{{{fullName}? ms-resource://{packageName}/resources/{resUri.Segments.Last()}}}";
+      resourceString = `@{${fullName}? ms-resource://${packageName}/resources/${lastSegment}}`;
+    }
 
-  const psScriptPath = path.join(process.env.TEMP, 'SHLoadIndirectString.ps1');
+      const psScriptPath = path.join(process.env.TEMP, 'SHLoadIndirectString.ps1');
 
-  try {
-    const psScriptContent = `Param($pszSource)
-$sb = [System.Text.StringBuilder]::new(1024)
-$MemberDefinition = @"
-[DllImport("shlwapi.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
+      try {
+        const psScriptContent = `Param($pszSource)
+        $sb = [System.Text.StringBuilder]::new(1024)
+        $MemberDefinition = @"
+        [DllImport("shlwapi.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
         public static extern int SHLoadIndirectString(string pszSource, [MarshalAs(UnmanagedType.LPWStr)] System.Text.StringBuilder pszOutBuf, uint cchOutBuf, IntPtr ppvReserved);
-"@
-Add-Type -MemberDefinition $MemberDefinition -Name "Shlwapi" -Namespace "Win32"
-$returnValue = [Win32.Shlwapi]::SHLoadIndirectString($pszSource, $sb, $sb.Capacity, [IntPtr]::Zero)
-$htable = @{
-    "intValue" = $returnValue
-    "stringValue" = $sb.ToString()
-    }
-$htable | ConvertTo-Json
-`
-    fs.writeFileSync(psScriptPath, psScriptContent);
-  } catch (err) {
-    console.error(err);
-  }
-
-  var jsonResult;
-
-  try {
-    var result = spawnSync(
-      psScriptPath, ['-pszSource', `"${resourceString}"`],
-      {
-        shell: 'powershell',
-        encoding: "utf-8",
+        "@
+        Add-Type -MemberDefinition $MemberDefinition -Name "Shlwapi" -Namespace "Win32"
+        $returnValue = [Win32.Shlwapi]::SHLoadIndirectString($pszSource, $sb, $sb.Capacity, [IntPtr]::Zero)
+        $htable = @{
+          "intValue" = $returnValue
+          "stringValue" = $sb.ToString()
+        }
+        $htable | ConvertTo-Json
+        `
+        fs.writeFileSync(psScriptPath, psScriptContent);
+      } catch (err) {
+        console.error(err);
       }
-    ).stdout;
-    jsonResult = JSON.parse(result);
-    if (jsonResult.intValue === 0) {
-      return jsonResult.stringValue;
-    }
-  }
-  catch (err) {
-    console.error("Error parsing json: " + err);
-  }
 
-  resourceString = `@{${fullName}? ms-resource://${packageName}/${lastSegment}}`;
-  try {
-    var result = spawnSync(
-      psScriptPath, ['-pszSource', `"${resourceString}"`],
-      {
-        shell: 'powershell',
-        encoding: "utf-8",
+      var jsonResult;
+
+      try {
+        var result = spawnSync(
+          psScriptPath, ['-pszSource', `"${resourceString}"`],
+          {
+            shell: 'powershell',
+            encoding: "utf-8",
+          }
+        ).stdout;
+        jsonResult = JSON.parse(result);
+        if (jsonResult.intValue === 0) {
+          return jsonResult.stringValue;
+        }
       }
-    ).stdout;
-    jsonResult = JSON.parse(result);
-    if (jsonResult.intValue === 0) {
-      return jsonResult.stringValue;
-    }
-  }
-  catch (err) {
-    console.error("Error parsing json: " + err);
-  }
+      catch (err) {
+        console.error("Error parsing json: " + err);
+      }
 
-  return '';
+      resourceString = `@{${fullName}? ms-resource://${packageName}/${lastSegment}}`;
+        try {
+        var result = spawnSync(
+          psScriptPath, ['-pszSource', `"${resourceString}"`],
+          {
+            shell: 'powershell',
+            encoding: "utf-8",
+          }
+        ).stdout;
+        jsonResult = JSON.parse(result);
+        if (jsonResult.intValue === 0) {
+          return jsonResult.stringValue;
+        }
+      }
+      catch (err) {
+        console.error("Error parsing json: " + err);
+      }
+
+      return '';
 }
 
 function getUWPAppDetail(manifest: SimpleManifest, xmlParser: XMLParser) {
@@ -309,7 +310,7 @@ function getUWPAppDetail(manifest: SimpleManifest, xmlParser: XMLParser) {
 
   const searchResults = spawnSync(
     `$PkgMgr = [Windows.Management.Deployment.PackageManager,Windows.Web,ContentType=WindowsRuntime]::new(); $PkgMgr.FindPackagesForUser([System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value, "${manifest.idName}", "${manifest.idPublisher}") | ConvertTo-Json`,
-    {
+      {
       shell: 'powershell',
       encoding: "utf-8",
     }
@@ -319,7 +320,7 @@ function getUWPAppDetail(manifest: SimpleManifest, xmlParser: XMLParser) {
   if (
     jsonuwpapp.IsFramework ||
     jsonuwpapp.IsResourcePackage ||
-    jsonuwpapp.SignatureKind != 3 // https://docs.microsoft.com/en-us/uwp/api/windows.applicationmodel.packagesignaturekind
+  jsonuwpapp.SignatureKind != 3 // https://docs.microsoft.com/en-us/uwp/api/windows.applicationmodel.packagesignaturekind
   ) {
     return;
   }
