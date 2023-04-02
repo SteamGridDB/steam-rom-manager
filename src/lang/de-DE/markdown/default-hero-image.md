@@ -1,8 +1,8 @@
 # Standard-Heldenbild (optional) `[unterstützt Variablen]`{.noWrap}
 
-Ermöglicht es, ein lokal gespeichertes Bild als Standard/Fallback Heldenbild zu verwenden. A [special glob input](#special-glob-input) string is used to retrieve images. Es wird nur das erste abgerufene Bild verwendet.
+Ermöglicht es, ein lokal gespeichertes Bild als Standard/Fallback Heldenbild zu verwenden. Um Bilder abzurufen, wird ein [special glob input](#special-glob-input) String verwendet. Es wird nur das erste abgerufene Bild verwendet.
 
-Dieses Bild wird **nur** angezeigt, wenn kein anderes Bild verfügbar ist. If Steam image is available, you will be able to choose from Steam and this image.
+Dieses Bild wird **nur** angezeigt, wenn kein anderes Bild verfügbar ist. Wenn ein Steam-Bild verfügbar ist, kannst du dieses aus Steam auswählen.
 
 ## Erlaubte Bild-Dateiformate
 
