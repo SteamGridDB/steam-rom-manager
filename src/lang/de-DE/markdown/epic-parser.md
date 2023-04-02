@@ -1,8 +1,8 @@
 # Epic Games Parser
 
-This parser imports games from the [Epic Games Store](https://store.epicgames.com/en-US/) so that artwork can be chosen for them and they can be added into Steam.
+Dieser Parser importiert Spiele von dem [Epic Games Store](https://store.epicgames.com/en-US/), sodass Artwork für diese ausgewählt und in Steam hinzugefügt werden kann.
 
-If it doesn't work it is because Epic has altered the structure of their game manifests, in this case please let the developers of SRM know and we will resolve the issue.
+Wenn dies nicht funktioniert, liegt es daran, dass Epic die Struktur ihrer Spiele-Manifeste verändert hat. In diesem Fall informiere bitte die Entwickler von SRM, die das Problem lösen werden.
 
 In order for this parser to work with the open source Epic alternative [Legendary](https://github.com/derrod/legendary), [EGL sync must be enabled in Legendary](https://github.com/derrod/legendary/discussions/276#discussioncomment-709748) (this creates the appropriate files for the parser to read, and does not require the `Epic Games Store` to be installed).
 
