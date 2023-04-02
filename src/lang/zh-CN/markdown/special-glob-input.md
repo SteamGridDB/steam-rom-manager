@@ -12,7 +12,7 @@
 
 ### 绝对路径
 
-Let's say that the extracted title is `Metroid Fusion [USA]` and fuzzy title is `Metroid Fusion`. 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径：
+Let's say that the extracted title is `Metroid Fusion [USA]` and fuzzy title is `Metroid Fusion`. 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径：
 
 - `C:/path/to/images/${title}.*`
 - `C:/path/to/images/${fuzzyTitle}.*`
@@ -24,7 +24,7 @@ Let's say that the extracted title is `Metroid Fusion [USA]` and fuzzy title is 
 
 ### 相对路径
 
-For this example, let's say that ROMs directory is `C:/ROMS/GBA` and rom itself is `C:/ROMS/GBA/Metroid Fusion [USA].gba`. Set up a relative path, using `${filePath}`{.noWrap} or `${dir}`{.noWrap} variables, for example: 设置相对路径，使用 `${filePath}`{.noWrap} 或 `${dir}`{.noWrap} 变量，例如： 设置相对路径，使用 `${filePath}`{.noWrap} 或 `${dir}`{.noWrap} 变量，例如： 设置相对路径，使用 `${filePath}`{.noWrap} 或 `${dir}`{.noWrap} 变量，例如： 设置相对路径，使用 `${filePath}`{.noWrap} 或 `${dir}`{.noWrap} 变量，例如： 设置相对路径，使用 `${filePath}`{.noWrap} 或 `${dir}`{.noWrap} 变量，例如：
+For this example, let's say that ROMs directory is `C:/ROMS/GBA` and rom itself is `C:/ROMS/GBA/Metroid Fusion [USA].gba`. Set up a relative path, using `${filePath}`{.noWrap} or `${dir}`{.noWrap} variables, for example: 设置相对路径，使用 `${filePath}`{.noWrap} 或 `${dir}`{.noWrap} 变量，例如： 设置相对路径，使用 `${filePath}`{.noWrap} 或 `${dir}`{.noWrap} 变量，例如： 设置相对路径，使用 `${filePath}`{.noWrap} 或 `${dir}`{.noWrap} 变量，例如： 设置相对路径，使用 `${filePath}`{.noWrap} 或 `${dir}`{.noWrap} 变量，例如： 设置相对路径，使用 `${filePath}`{.noWrap} 或 `${dir}`{.noWrap} 变量，例如： 设置相对路径，使用 `${filePath}`{.noWrap} 或 `${dir}`{.noWrap} 变量，例如：
 
 - `${filePath}/../../../path/to/images/${title}.*`
 - `${dir}/../../path/to/images/${title}.*`
