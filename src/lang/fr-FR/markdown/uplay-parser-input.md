@@ -1,9 +1,9 @@
-# Unique inputs for UPlay Parser
-## Ubisoft Directory Override
-By default Steam ROM Manager assumes your UPlay install is located in `C:\Program Files (x86)\Ubisoft`. This field allows you to override that path if your UPlay installation is elsewhere.
+# Entrées uniques pour l'analyseur UPlay
+## Remplacer le répertoire Ubisoft
+Par défaut, Steam ROM Manager suppose que votre installation UPlay est située à `C:\Program Files (x86)\Ubisoft`. Ce champ vous permet de remplacer ce chemin si votre installation UPlay est ailleurs.
 
-## Launch Via UPlay `[Recommend disabled]`
+## Lancez via UPlay `[Recommander désactivé]`
 
-What it sounds like, this toggle let's you set whether games will launch via UPlay or directly from the game's executable.
+Cette option vous permet de décider si les jeux seront lancés par l'intermédiaire d'UPlay ou directement.
 
-For UPlay this doesn't matter too much as UPlay games will automatically launch UPlay in the background even when launched from the executable. Steam Overlay will not work when `Launch via UPlay` is enabled, whereas both Steam and Ubisoft overlays work when `Launch via UPlay` is disabled.
+Pour UPlay, cela n'a pas beaucoup d'importance car les jeux UPlay lanceront automatiquement UPlay en arrière-plan, même lorsqu'ils sont lancés à partir de l'exécutable. L'overlay Steam ne fonctionnera pas lorsque `Lancer via UPlay` est activé, alors que les surcouches Steam et Ubisoft fonctionnent quand `Lancer via UPlay` est désactivé.
