@@ -4,9 +4,9 @@ Ermöglicht es, ein lokal gespeichertes Bild als Standard/Fallback-Bild zu verwe
 
 Dieses Bild wird **nur** angezeigt, wenn kein anderes Bild verfügbar ist. Wenn ein Steam-Bild verfügbar ist, kannst du dieses aus Steam auswählen.
 
-## Erlaubte Bild-Dateiformate
+## Erlaubte Bilderweiterungen
 
-Es werden nur `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} und `TGA`{.noWrap} Dateiformate unterstützt. Selbst wenn der Parser Dateien mit anderen Dateiformaten findet, werden diese nicht in die endgültige Liste aufgenommen.
+Es werden nur `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} und `TGA`{.noWrap} Dateierweiterungen unterstützt. Selbst wenn der Parser Dateien mit anderen Dateierweiterungen findet, werden diese nicht in die endgültige Liste aufgenommen.
 
 ## Kannst du das Verzeichnis des Standardbilds nach dem Speichern der App-Liste verschieben?
 
