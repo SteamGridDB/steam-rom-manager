@@ -50,7 +50,7 @@ export class UPlayParser implements GenericParser {
       key.get('InstallDir', (err: string, installDir: any) => {
         resolve({
           id,
-          installDir: installDir.value,
+          installDir: installDir ? installDir.value: "",
         });
       });
     });
@@ -71,7 +71,9 @@ export class UPlayParser implements GenericParser {
           Promise.all(promiseArr).then((resultsArray) => {
             let out = {};
             resultsArray.forEach((item: any) => {
-              out[String(item.id)] = item.installDir;
+              if(item.installDir) {
+                out[String(item.id)] = item.installDir;
+              }
             });
             return resolve(out);
           });
