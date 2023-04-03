@@ -44,11 +44,11 @@
         "retryingDownload__i": "Retrying image download from \"${imageUrl}\" for \"${appTitle}\".",
         "disabledConfigurations__i": "${count} user configuration(s) was/were skipped (disabled by user).",
         "invalidConfigurations__i": "${count} user configuration(s) was/were skipped (invalid).",
-        "executingParsers": "Executing parsers.",
-        "shutdownSteam": "Please shutdown Steam if it is running.",
-        "noParserConfigurations": "Please create parser configuration in \"Parsers\" menu first.",
+        "executingParsers": "Exécution des analyseurs.",
+        "shutdownSteam": "Veuillez arrêter Steam s'il est en cours d'exécution.",
+        "noParserConfigurations": "Veuillez d'abord créer la configuration de l'analyseur dans le menu \"Analyseurs\".",
         "parserFoundNoFiles": "Parser(s) found no files matching user configuration.",
-        "allImagesRetrieved": "All available image urls retrieved.",
+        "allImagesRetrieved": "Toutes les URL des images disponibles ont été récupérées.",
         "providerTimeout__i": "Timeout was requested by \"${provider}\" for ${time} second(s).",
         "noAccountsWarning": "User accounts not found. Incorrect Steam directory?",
         "preparingExport": "Préparation de l'exportation des choix d'image.",
@@ -209,7 +209,7 @@
     "imageMotionTypesTitle": "Allowed animation types",
     "stylesTitle": "Allowed grid styles",
     "stylesHeroTitle": "Allowed hero styles",
-    "stylesLogoTitle": "Allowed logo styles",
+    "stylesLogoTitle": "Styles de logo autorisés",
     "stylesIconTitle": "Allowed icon styles"
   },
   "logger": {
@@ -220,7 +220,7 @@
       "success": "Succès",
       "fuzzy": "FUZZY",
       "textWrap": "RETOUR À LA LIGNE",
-      "autoscroll": "AUTOSCROLL",
+      "autoscroll": "DÉFILEMENT-AUTO",
       "clearLog": "Effacer les logs"
     }
   },
