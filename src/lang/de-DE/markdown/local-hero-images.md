@@ -2,7 +2,7 @@
 
 Allows one to use hero images stored locally. A [special glob input](#special-glob-input) string is used to retrieve images.
 
-## Allowed image extensions
+## Erlaubte Bilderweiterungen
 
 Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Even if parser finds files with other extensions, they are not included into the final list.
 

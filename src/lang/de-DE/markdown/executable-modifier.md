@@ -26,10 +26,10 @@ In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is eq
 
 ## Name variables
 
-| Variable (case-insensitive) | Corresponding value                                             |
-| ---------------------------:|:--------------------------------------------------------------- |
-|                `${exeName}` | Name of executable (without extension)                          |
-|               `${fileName}` | Name of file which was returned by a parser (without extension) |
+| Variable (case-insensitive) | Corresponding value                                                         |
+| ---------------------------:|:--------------------------------------------------------------------------- |
+|                `${exeName}` | Name der ausführbaren Datei (ohne Erweiterung)                              |
+|               `${fileName}` | Name der Datei, die von einem Parser zurückgegeben wurde (ohne Erweiterung) |
 
 In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
 
@@ -68,7 +68,7 @@ In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is
 |                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
 |                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
 |                                             `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                                      |
-|                                       `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
+|                                     `${cv:group\|Eingabe}` | Change input with matched custom variable (group is optional)                                                          |
 |                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
 | `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                           |
 

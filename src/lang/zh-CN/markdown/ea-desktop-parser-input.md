@@ -5,3 +5,5 @@
 
 ## 通过 EA Desktop 启动
 如果启用了 SRM，它将添加一个快捷方式到 `origin2://game/launch/?offerIds=${gameid}` 而不仅仅是游戏的可执行文件。 这将确保游戏通过 EA 启动，并且可以访问在线服务。
+
+`This is required to add EA Play games. EA Play games will not be detected if this is not toggled on.`
