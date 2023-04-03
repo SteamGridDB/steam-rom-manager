@@ -480,7 +480,7 @@
         "fuzzy_removeCharacters": "Aggressive matching",
         "fuzzy_removeBrackets": "Remove (...) and [...] brackets",
         "fuzzy_replaceDiacritic": "Replace diacritic characters",
-        "appendArgsToExecutable": "Append arguments to executable",
+        "appendArgsToExecutable": "Ajouter des arguments à l'exécutable",
         "disabled": "Disable current parser",
         "advanced": "Show advanced options",
         "noTitle": "No title!"
