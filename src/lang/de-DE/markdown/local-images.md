@@ -1,11 +1,11 @@
 # Local images (optional) `[supports variables]`{.noWrap}
 
-Allows one to use images stored locally. A [special glob input](#special-glob-input) string is used to retrieve images.
+Erlaubt es, lokal gespeicherte Bilder zu verwenden. Um Bilder abzurufen, wird ein [special glob input](#special-glob-input) String verwendet.
 
 ## Erlaubte Bilderweiterungen
 
-Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Even if parser finds files with other extensions, they are not included into the final list.
+Es werden nur `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} und `TGA`{.noWrap} Dateierweiterungen unterstützt. Selbst wenn der Parser Dateien mit anderen Dateierweiterungen findet, werden diese nicht in die endgültige Liste aufgenommen.
 
-## Can you move the directory of local images after saving app list?
+## Kannst du das Verzeichnis des lokalen Bildes nach dem Speichern der App-Liste verschieben?
 
-Yes, once the list is saved, local images are copied to a Steam directory where they are renamed to match Steam's APP ID.
+Ja, sobald die Liste gespeichert ist, ist das lokale Bild in ein Steam-Verzeichnis kopiert, in dem es umbenannt wird, um der App-ID von Steam zu entsprechen.
