@@ -52,7 +52,7 @@ export class UWPParser implements GenericParser {
       });
       let UWPDir: string = inputs.UWPDir || "C:\\XboxGames";
 
-      globPromise(path.join(UWPDir,'**','Content','appxmanifest.xml'))
+      globPromise(path.join(UWPDir,'*','Content','appxmanifest.xml'))
       .then((files: string[])=>{
         files.forEach((file)=>{
           if(fs.existsSync(file) && fs.lstatSync(file).isFile()) {
@@ -324,7 +324,6 @@ function getUWPAppDetail(manifest: SimpleManifest, xmlParser: XMLParser) {
   ) {
     return;
   }
-
   // parse manifest files
   try {
     var manifestPath;
@@ -333,7 +332,8 @@ function getUWPAppDetail(manifest: SimpleManifest, xmlParser: XMLParser) {
     } else {
       manifestPath = "AppxManifest.xml";
     }
-    manifestPath = path.join(jsonuwpapp.InstalledLocation.Path, manifestPath);
+    let installedDir = jsonuwpapp.InstalledLocation ? jsonuwpapp.InstalledLocation.Path : jsonuwpapp.InstalledPath;
+    manifestPath = path.join(installedDir, manifestPath);
 
     var xml = fs.readFileSync(manifestPath, "utf8");
 
@@ -357,8 +357,8 @@ function getUWPAppDetail(manifest: SimpleManifest, xmlParser: XMLParser) {
       console.debug(`Parsed UWP App Manifest: ${name}`);
 
       uwpApp.name = name;
-      uwpApp.workdir = jsonuwpapp.InstalledLocation.Path;
-      uwpApp.path = path.join(jsonuwpapp.InstalledLocation.Path,manifest.appExecutable).toString();
+      uwpApp.workdir = installedDir;
+      uwpApp.path = path.join(installedDir, manifest.appExecutable).toString();
       uwpApp.arguments = `shell:AppsFolder\\${jsonuwpapp.Id.FamilyName}!${appId}`;
       uwpApp.appId = jsonuwpapp.Id.FamilyName;
 

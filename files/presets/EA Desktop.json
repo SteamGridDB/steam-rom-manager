@@ -37,7 +37,8 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-		  "eaGamesDir": "C:\\Program Files\\EA Games"
+		  "eaGamesDir": "C:\\Program Files\\EA Games",
+      "eaLauncherMode": true
     },
 		"titleFromVariable": {
 			"limitToGroups": "",
