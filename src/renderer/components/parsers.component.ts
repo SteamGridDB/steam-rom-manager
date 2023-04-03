@@ -46,6 +46,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private cpService: ConfigurationPresetsService) {
 
       this.appSettings = this.settingsService.getSettings();
+      this.currentDoc.content = this.lang.docs__md.intro.join('');
 
       this.nestedGroup = new NestedFormElement.Group({
         children: {
@@ -547,7 +548,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           })
         }
       });
-      this.currentDoc.content = this.lang.docs__md.intro.join('');
     }
 
     ngAfterViewInit() {
@@ -556,6 +556,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.loadConfiguration();
       })).add(this.activatedRoute.params.subscribe((params) => {
         this.configurationIndex = parseInt(params['index']);
+        if(this.configurationIndex !== -1) {
+          this.currentDoc.activePath = 'parserType';
+        } else {
+          this.currentDoc.activePath = '';
+          this.currentDoc.content = this.lang.docs__md.intro.join('');
+        }
         this.loadConfiguration();
         this.fetchControllerTemplates(false);
       })).add(this.cpService.dataObservable.subscribe((data) => {
