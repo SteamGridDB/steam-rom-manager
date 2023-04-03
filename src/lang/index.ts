@@ -307,7 +307,7 @@ function getMarkdown(langPath: string) {
 }
 
 // Make sure everything is exported as BCP 47 compatible codes
-let enabledLanguages = ['en-US', 'nl-NL', 'pt-BR','fr-FR','de-DE'];
+let enabledLanguages = ['en-US'].concat(['nl-NL', 'pt-BR','fr-FR','de-DE','zh-CN'].sort());
 // let enabledLanguages = ['en-US'];
 let langData = Object.fromEntries(enabledLanguages.map(x=>[x,{
   langStrings: require(`./${x}/langStrings.json`),
