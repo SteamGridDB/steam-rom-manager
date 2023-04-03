@@ -1,10 +1,10 @@
 # Local Hero images (optional) `[supports variables]`{.noWrap}
 
-Allows one to use hero images stored locally. A [special glob input](#special-glob-input) string is used to retrieve images.
+Erlaubt es, lokal gespeicherte Heldenbilder zu verwenden. A [special glob input](#special-glob-input) string is used to retrieve images.
 
 ## Erlaubte Bilderweiterungen
 
-Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Even if parser finds files with other extensions, they are not included into the final list.
+Es werden nur `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} und `TGA`{.noWrap} Dateierweiterungen unterstützt. Selbst wenn der Parser Dateien mit anderen Dateierweiterungen findet, werden diese nicht in die endgültige Liste aufgenommen.
 
 ## Can you move the directory of local images after saving app list?
 
