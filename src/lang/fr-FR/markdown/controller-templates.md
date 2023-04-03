@@ -1,26 +1,26 @@
-# Controller Templates
-Controller templates allow you to configure the button layout per controller and per parser.
+# Modèles de Contrôleur
+Les modèles de contrôleur vous permettent de configurer la mise en page des boutons par contrôleur et par analyseur.
 
-You may want to disable `Cloud Synchronization` in Steam to avoid having your SRM assigned controller configs get overwritten. You may find the setting under `Steam > Settings > Cloud`.
+Vous pouvez désactiver la `Synchronisation Cloud` dans Steam pour éviter que vos configurations de contrôleur SRM soient écrasées. Vous pouvez trouver ce réglage dans `Steam > Paramètres > Cloud`.
 
-To make a custom template:
-* Open Steam.
-* Connect the controller you want to configure a template for.
-* Right click on any game and hit `Manage > Controller Layout`.
-* Configure the buttons as you see fit.
-* Hit `Export Config` then `Save new template binding`.
-* Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template.
-* Repeat for as many different types of controller as you want to configure.
+Pour créer un modèle personnalisé:
+* Ouvrir Steam.
+* Connectez le contrôleur pour lequel vous voulez configurer un modèle.
+* Faites un clic droit sur n'importe quel jeu et cliquez sur `Gérer > Configuration du contrôleur`.
+* Configurez les boutons comme bon vous semble.
+* Appuyez sur `Options de configuration` puis `Exporter la configuration`.
+* Nommez le modèle dans la forme: `Titre du modèle (SRM)`. Vous devez terminer le nom par `(SRM)` ou SRM ignorera le modèle.
+* Répétez pour autant de types de contrôleur différents que vous voulez configurer.
 
-In the SRM parser:
-* Hit `Re-Fetch Controller Templates` to pull templates for all controller types from steam. This will clear your currently selected template if it is not one of the templates available in Steam.
+Dans l'analyseur SRM:
+* Hit `Re-Fetch Controller Templates` to pull templates for all controller types from steam. Cela effacera vos modèles actuellement sélectionné s'il ne fait pas partie des modèles disponibles dans Steam.
 
-Currently, SRM pulls all of the default (Valve made) templates for each controller as well as all of the user defined templates that end in `(SRM)`.
+Actuellement SRM tire tous les modèles par défaut (fait par Valve) pour chaque contrôleur ainsi que tous les modèles définis par l'utilisateur qui se terminent par `(SRM)`.
 
-* Select your templates and save the parser. The controller configsets will be applied once you hit `Save App List` in the preview.
+* Sélectionnez vos modèles et enregistrez l'analyseur. Les configurations de contrôleur seront appliquées une fois que vous aurez cliqué sur `Enregistrer les applications sur Steam` dans l'aperçu.
 
-* To unset controller configs, you may either `Remove All Added App Entries` from global settings (this deletes all SRM made changes to your steam data) or hit `Unset All Controllers` in the parser (this only removes controller settings for the steam directory and user specified in that parser).
+* Pour annuler la configuration du contrôleur, vous pouvez soit `Retirer toutes les entrées d'application et contrôleur ajoutées` dans les paramètres généraux (cela supprime toutes les modifications apportées à vos données Steam) ou appuyer sur `supprime tous les contrôleurs` dans l'analyseur (cela supprime uniquement les paramètres du contrôleur pour le répertoire Steam et l'utilisateur spécifié dans cet analyseur).
 
-Once this is done you can generate and save the preview as usual, and the template will be applied to all the titles in the parser.
+Une fois cela fait, vous pouvez générer et enregistrer l'aperçu comme d'habitude, et le modèle sera appliqué à tous les titres de l'analyseur.
 
 

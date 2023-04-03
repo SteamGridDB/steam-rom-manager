@@ -1,13 +1,13 @@
 # Default tall image (optional) `[supports variables]`{.noWrap}
 
-Allows one to use an image, stored locally, as a default/fallback tall image. A [special glob input](#special-glob-input) string is used to retrieve images. Only the first retrieved image is used.
+Ermöglicht es, ein lokal gespeichertes Bild als Standard/Fallback Heldenbild zu verwenden. Um Bilder abzurufen, wird ein [special glob input](#special-glob-input) String verwendet. Es wird nur das erste abgerufene Bild verwendet.
 
-This image will be shown **only** if there are no other images available. If Steam image is available, you will be able to choose from Steam and this image.
+Dieses Bild wird **nur** angezeigt, wenn kein anderes Bild verfügbar ist. Wenn ein Steam-Bild verfügbar ist, kannst du dieses aus Steam auswählen.
 
-## Allowed image extensions
+## Erlaubte Bilderweiterungen
 
-Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Even if parser finds files with other extensions, they are not included into the final list.
+Es werden nur `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} und `TGA`{.noWrap} Dateierweiterungen unterstützt. Selbst wenn der Parser Dateien mit anderen Dateierweiterungen findet, werden diese nicht in die endgültige Liste aufgenommen.
 
-## Can you move the directory of default image after saving app list?
+## Kannst du das Verzeichnis des Standardbilds nach dem Speichern der App-Liste verschieben?
 
 Yes, once the list is saved, default tall image is copied to a Steam directory where they are renamed to match Steam's APP ID.
