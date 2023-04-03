@@ -6,4 +6,4 @@ Standardmäßig geht der Steam ROM Manager davon aus, dass deine `EA Desktop` Sp
 ## Starte über EA Desktop
 Wenn aktiviert, wird SRM anstatt der ausführbaren Datei eine Verknüpfung zu `origin2://game/launch/?offerIds=${gameid}` hinzufügen. Dies stellt sicher, dass das Spiel über EA gestartet wird und Zugang zu Online-Diensten hat.
 
-`This is required to add EA Play games. EA Play games will not be detected if this is not toggled on.`
+`Dies ist erforderlich, um EA Play Spiele hinzuzufügen. EA Play Spiele werden nicht erkannt, wenn dies nicht eingeschaltet wird.`
