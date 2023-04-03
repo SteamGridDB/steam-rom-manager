@@ -2,12 +2,12 @@
 
 Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
 
-## Examples By System
+## Exemples par Système
 
 ### RetroArch
 
 ```
--L cores${/}YOUR_CORE.dll "${filePath}"
+-L cores${/}VOTRE_COEUR.dll "${filePath}"
 ```
 
 ### Cemu (WiiU)
@@ -16,7 +16,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 -f -g "${filePath}"
 ```
 
-### Dolphin Emu (Gamecube and Wii)
+### Dolphin Emu (Gamecube et Wii)
 
 ```
 --exec="${filePath}" --batch --confirm=false
