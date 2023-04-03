@@ -6,12 +6,19 @@ All notable changes to this project will be documented in this file.
 * [x] GOG Parser.
 * [x] UPlay Parser.
 * [x] EA Desktop Parser.
+* [x] XBox Game Pass Parser.
 * [ ] Command Line Interface.
 * [x] Capability to override image searches.
 * [x] Ability to set per-parser controller templates.
 * [x] Platform parsers have launcher and launcherless mode.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
+
+## 2.3.52
+### Fixed
+* Bug in UPlay parser that could cause it to fail when Ubisoft left stray registry entries for Ubisoft games installed by steam. Thanks to SGDB Discord user djib for helping to debug.
+### Changed
+* Made it so that the docs page returns to the intro page when clicking new parser, and otherwise changes to the main docs page for whatever parser type is clicked.
 
 ## 2.3.51
 ### Fixed
