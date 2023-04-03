@@ -175,7 +175,7 @@ In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is
 
 ## Function variables
 
-|                                 Variable (case-insensitive) | Corresponding function                                                                                                 |
+|                            Variable (insensible à la casse) | Corresponding function                                                                                                 |
 | -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
 |                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
 |                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
