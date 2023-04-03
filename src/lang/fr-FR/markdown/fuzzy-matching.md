@@ -6,7 +6,7 @@ Fuzzy titles are available as title modifiers via `${fuzzyTitle}`. Currently fuz
 
 It is possible, that `false` matching might occur for titles that are not in the list. If you encounter missing titles, feel free to post an issue on [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
 
-## Replace diacritic characters
+## Remplacer les caractères diacritiques
 
 Replaces diacritic characters to their latin equivalent: `Ą` -> `A`, `Ę` -> `E`, `Ė` -> `E`, etc. Might improve the matching ability of fuzzy matcher.
 
