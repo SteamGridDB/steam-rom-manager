@@ -13,6 +13,12 @@ All notable changes to this project will be documented in this file.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
 
+## 2.3.51
+### Fixed
+* EA Parser works for EA Play games (will only add them in launcher mode, skips them in launcherless mode)
+* Two UWP parser fixes involving different possible structures for uwp xml and json files. Greatly increases the number of games the parser works for.
+Credit to SGDB Discord user Zedan for helping debug both these issues.
+
 ## 2.3.50
 ### Added
 * Launcher Mode for EA Desktop Parser
