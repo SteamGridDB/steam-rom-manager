@@ -1,4 +1,4 @@
-# Command line arguments (optional) `[supports variables]`{.noWrap}
+# Arguments de commande (facultative) `[prend en charge les variables]`{.noWrap}
 
 Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
 
@@ -40,7 +40,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 "${filePath}"
 ```
 
-### mGBA (Gameboy, Gameboy Color, and Gameboy Advance)
+### mGBA (Gameboy, Gameboy Color, et Gameboy Advance)
 
 ```
 -f "${filePath}"
@@ -64,7 +64,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 -config nullDC_GUI:Fullscreen=1 -config ImageReader:DefaultImage="${filePath}"
 ```
 
-### Kega Fusion (Sega Genesis and Sega 32X)
+### Kega Fusion (Sega Genesis et Sega 32X)
 
 ```
 "${filePath}" -gen -auto -fullscreen
