@@ -17,7 +17,9 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 * EA Parser works for EA Play games (will only add them in launcher mode, skips them in launcherless mode)
 * Two UWP parser fixes involving different possible structures for uwp xml and json files. Greatly increases the number of games the parser works for.
-Credit to SGDB Discord user Zedan for helping debug both these issues.
+* Fix incorrect titles bug for UPlay parser [issue](https://github.com/SteamGridDB/steam-rom-manager/issues/421)
+* Hopefully fixed path undefined bug for UPlay parser [issue 355](https://github.com/SteamGridDB/steam-rom-manager/issues/355)
+Credit to SGDB Discord user Zedan for helping debug all four of these issues.
 
 ## 2.3.50
 ### Added
