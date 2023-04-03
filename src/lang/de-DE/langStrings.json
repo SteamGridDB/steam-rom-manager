@@ -114,8 +114,8 @@
     "UWPDirTitle": "Spiele-Verzeichnis",
     "UWPLauncherModeTitle": "Starte das Spiel als UWP statt als Launcher Helfer.",
     "errors": {
-      "UWPNotCompatible": "> UWP Parser mit folgendem Fehler fehlgeschlagen:\n ${error}",
-      "fatalError__i": "> UWP parser is not compatible in this platform."
+      "fatalError__i": "> UWP parser is not compatible in this platform.",
+      "UWPNotCompatible": "> UWP Parser mit folgendem Fehler fehlgeschlagen:\n ${error}"
     }
   },
   "uplayParser": {

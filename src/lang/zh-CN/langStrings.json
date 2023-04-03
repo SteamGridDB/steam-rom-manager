@@ -114,8 +114,8 @@
     "UWPDirTitle": "游戏目录",
     "UWPLauncherModeTitle": "以 UWP 形式启动游戏，而不是使用启动器助手。",
     "errors": {
-      "UWPNotCompatible": "> UWP 解析器发生致命错误：\n ${error}",
-      "fatalError__i": "> UWP 解析器在此平台上不兼容。"
+      "fatalError__i": "> UWP 解析器在此平台上不兼容。",
+      "UWPNotCompatible": "> UWP 解析器发生致命错误：\n ${error}"
     }
   },
   "uplayParser": {
