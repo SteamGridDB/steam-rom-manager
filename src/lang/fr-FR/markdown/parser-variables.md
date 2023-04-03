@@ -1,16 +1,16 @@
-# Parser variables
+# Variables d'analyseur
 
-Here are tables of variables that can be used with options that have `[supports variables]`{.noWrap} specified in their descriptions. Variable can be nested.
+Voici des tables de variables qui peuvent être utilisées avec des options qui ont `[prend en charge les variables]`{.noWrap} spécifiées dans leurs descriptions. Les variables peuvent être imbriquées.
 
-## Directory variables
+## Variables de répertoire
 
-| Variable (case-insensitive) | Corresponding value                     |
-| ---------------------------:|:--------------------------------------- |
-|                 `${exeDir}` | Executable directory                    |
-|                 `${romDir}` | ROMs directory                          |
-|               `${steamDir}` | Steam directory                         |
-|             `${startInDir}` | "StartIn" directory                     |
-|                `${fileDir}` | File's, returned by a parser, directory |
+| Variable (insensible à la casse) | Valeur correspondante                   |
+| --------------------------------:|:--------------------------------------- |
+|                      `${exeDir}` | Répertoire exécutable                   |
+|                      `${romDir}` | Répertoire des ROMs                     |
+|                    `${steamDir}` | Répertoire Steam                        |
+|                  `${startInDir}` | "StartIn" directory                     |
+|                     `${fileDir}` | File's, returned by a parser, directory |
 
 In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
 
