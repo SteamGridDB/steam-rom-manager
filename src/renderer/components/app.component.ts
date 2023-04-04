@@ -3,8 +3,8 @@ import { SettingsService, LanguageService, MarkdownService, IpcService} from "..
 import { MarkdownVariable } from '../../lib';
 import { Router } from "@angular/router";
 import * as highlight from 'highlight.js';
-import * as markdownIt from 'markdown-it';
-
+import markdownItAnchor from 'markdown-it-anchor';
+import markdownItAttrs from 'markdown-it-attrs';
 @Component({
   selector: 'app',
   template: `
@@ -41,10 +41,10 @@ export class AppComponent {
         this.languageLoaded = true;
       }
     });
-    this.markdownService.createInstance('default', new markdownIt({
+    this.markdownService.createInstance('default', require('markdown-it')({
       html: true,
       typographer: true,
-      highlight: function (str, lang) {
+      highlight: function (str: string , lang: any) {
         if (lang && highlight.getLanguage(lang)) {
           try {
             return highlight.highlight(lang, str).value;
@@ -52,7 +52,8 @@ export class AppComponent {
         }
         return '';
       }
-    }).use(MarkdownVariable).use(require('markdown-it-attrs')).use(require('markdown-it-anchor')));
+    }).use(MarkdownVariable).use(markdownItAttrs).use(markdownItAnchor));
+
     ipcService.on('updater_message', (event, message) => {
       this.updateMessage=message;
     });

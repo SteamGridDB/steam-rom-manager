@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MarkdownIt } from 'markdown-it';
-import * as markdownIt from 'markdown-it';
+
+const markdownIt = require('markdown-it')()
 
 @Injectable()
 export class MarkdownService {
@@ -34,6 +35,6 @@ export class MarkdownService {
         if (instance !== undefined)
             return instance.render(text, env);
         else
-            return new markdownIt().render(text, env);
+            return markdownIt.render(text, env);
     }
 }

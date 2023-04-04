@@ -119,6 +119,7 @@
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.7",
     "markdown-it-attrs": "^4.1.6",
+    "markdown-it-toc-done-right": "^4.2.0",
     "mime-types": "^2.1.35",
     "minimatch": "^3.0.5",
     "ngx-color-picker": "^5.3.3",
