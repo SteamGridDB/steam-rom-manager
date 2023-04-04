@@ -6,37 +6,37 @@
       "selectCategories": "Steam-Kategorie",
       "selectParsers": "Parser-Titel",
       "selectTypeOptions": {
-        "long": "Banners",
-        "tall": "Posters",
-        "hero": "Heroes",
-        "icon": "Icons",
+        "long": "Banner",
+        "tall": "Poster",
+        "hero": "Helden",
+        "icon": "Symbole",
         "logo": "Logos",
-        "games": "All Artwork"
+        "games": "Artworks"
       },
       "by": "by",
-      "refreshImages": "Refresh images",
-      "saveImage": "Save image to file",
-      "addLocalImages": "Add local images",
-      "retryDownload": "Retry download",
+      "refreshImages": "Bild aktualisieren",
+      "saveImage": "Bild zu Datei speichern",
+      "addLocalImages": "Lokale Bilder hinzufügen",
+      "retryDownload": "Download erneut versuchen",
       "generateAppList": "Apps erzeugen",
-      "saveAppList": "Save apps to Steam",
-      "removeAppList": "Remove apps from Steam",
+      "saveAppList": "Apps in Steam speichern",
+      "removeAppList": "Apps aus Steam entfernen",
       "remainingImages": "Remaining image downloads:",
-      "stopUrlRetrieving": "Stop image downloads",
-      "exportSelections": "Export image choices",
-      "importSelections": "Import image choices"
+      "stopUrlRetrieving": "Bild-Downloads stoppen",
+      "exportSelections": "Bild-Auswahl exportieren",
+      "importSelections": "Bild-Auswahl importieren"
     },
     "service": {
       "info": {
-        "listIsBeingGenerated": "List is being generated. Please wait.",
-        "listIsBeingSaved": "List is being saved. Please wait.",
-        "listIsBeingRemoved": "List is being removed. Please wait.",
-        "listIsEmpty": "List is empty.",
+        "listIsBeingGenerated": "Liste wird erstellt. Bitte warten.",
+        "listIsBeingSaved": "Liste wird gespeichert. Bitte warten.",
+        "listIsBeingRemoved": "Die Liste wird entfernt. Bitte warten.",
+        "listIsEmpty": "Liste ist leer.",
         "populatingVDF_List": "Populating VDF list.",
-        "creatingBackups": "Creating backups.",
+        "creatingBackups": "Erstelle Backups.",
         "readingVDF_Files": "Reading VDF files.",
         "mergingVDF_entries": "Merging VDF entries.",
-        "removingVDF_entries": "Removing VDF entries and image files.",
+        "removingVDF_entries": "Entfernen von VDF-Einträgen und Bild-Dateien.",
         "savingCategories": "Saving added category information to localconfig.vdf",
         "removingFromCategories": "Removing all added category information",
         "writingVDF_entries": "Writing VDF files and saving/removing images.",
@@ -50,10 +50,10 @@
         "parserFoundNoFiles": "Parser(s) found no files matching user configuration.",
         "allImagesRetrieved": "All available image urls retrieved.",
         "providerTimeout__i": "Timeout was requested by \"${provider}\" for ${time} second(s).",
-        "noAccountsWarning": "User accounts not found. Incorrect Steam directory?",
+        "noAccountsWarning": "Benutzerkonten nicht gefunden. Falsches Steam-Verzeichnis?",
         "preparingExport": "Bereite den Export von Bildauswahl vor.",
         "exportProgress__i": "Speichere Bildauswahl ${progress}.",
-        "readingSelections": "Applying imported image choices."
+        "readingSelections": "Importierte Bild-Auswahl wird übernommen."
       },
       "errors": {
         "fatalError": "In der Vorschau ist ein schwerer Fehler aufgetreten. Details findest du im Ereignisprotokoll.",
@@ -161,10 +161,10 @@
     }
   },
   "eaDesktopParser": {
-    "eaGamesDirTitle": "EA Games Install Directory",
+    "eaGamesDirTitle": "EA Games Installationsverzeichnis",
     "eaLauncherModeTitle": "Spiele über EA Desktop starten",
     "errors": {
-      "fatalError__i": "> EA Desktop parser failed with fatal error:\n ${error}",
+      "fatalError__i": "> EA Desktop Parser mit folgendem Fehler fehlgeschlagen:\n ${error}",
       "invalidXML__i": "> Invalid XML file ${dataFile}",
       "eaNotCompatible": "> EA Desktop Parser unterstützt nur Windows."
     }
@@ -241,8 +241,8 @@
     "service": {
       "error": {
         "failedToDownload__i": "Failed to download configuration presets file. Status: ${error}.",
-        "writingError": "Error occurred while saving configuration presets.",
-        "loadingError": "Error occurred while loading configuration presets.",
+        "writingError": "Fehler beim Speichern der Konfigurationsvorgaben.",
+        "loadingError": "Fehler beim Laden der Konfigurationsvorgaben.",
         "corruptedVariables__i": "Saved configuration presets are invalid!\r\nPermanent file saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
       },
       "info": {
@@ -261,8 +261,8 @@
         "communityPresets": "Community variable/preset settings"
       },
       "text": {
-        "offlineMode": "Offline mode",
-        "removeApps_desc": "all added app entries and controllers",
+        "offlineMode": "Offline-Modus",
+        "removeApps_desc": "alle hinzugefügten App-Einträge und -Controller",
         "removeApps_btn": "Remove",
         "preloadImages": "Preload retrieved images immediately",
         "fuzzy_verbose": "Log matching results",
@@ -280,17 +280,17 @@
         "configDir": "Open Config Directory"
       },
       "placeholder": {
-        "noProviders": "None",
+        "noProviders": "Keine",
         "steamDirectoryWin": "Typically C:\\Program Files (x86)\\Steam",
         "steamDirectoryMac": "Typically ~/Library/Application Support/Steam",
         "steamDirectoryLinux": "Typically /home/user/.steam/steam",
-        "romsDirectoryWin": "For example D:\\ROMs",
-        "romsDirectoryMac": "For example ~/ROMs",
-        "romsDirectoryLinux": "For example ~/ROMs",
-        "retroarchPathWin": "For example C:\\Path\\To\\retroarch.exe",
-        "retroarchPathLinux": "For example /path/to/retroarch",
-        "retroarchPathMac": "For example /path/to/retroarch",
-        "raCoresDirectoryWin": "Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
+        "romsDirectoryWin": "Zum Beispiel D:\\ROMs",
+        "romsDirectoryMac": "Zum Beispiel ~/ROMs",
+        "romsDirectoryLinux": "Zum Beispiel ~/ROMs",
+        "retroarchPathWin": "Zum Beispiel C:\\Pfad\\To\\retroarch.exe",
+        "retroarchPathLinux": "Zum Beispiel /path/to/retroarch",
+        "retroarchPathMac": "Zum Beispiel /path/to/retroarch",
+        "raCoresDirectoryWin": "Typischerweise C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
         "raCoresDirectoryLinux": "Typically /lib/x86_64-linux-gnu/libretro/cores",
         "raCoresDirectoryMac": "Typically /Applications/Retroarch.app/Contents/Resources/cores",
         "localImagesDirectoryWin": "For example C:\\Path\\To\\LocalArtwork",
@@ -302,8 +302,8 @@
         "updatingSettings": "Updating user settings with new fields."
       },
       "error": {
-        "writingError": "Error occurred while saving user settings.",
-        "readingError": "Error occurred while reading user settings.",
+        "writingError": "Ein Fehler trat beim Speichern der Benutzereinstellungen auf.",
+        "readingError": "Ein Fehler trat beim Lesen der Benutzereinstellungen auf.",
         "corruptedSettings__i": "Saved app settings are invalid!\r\nPermanent settings saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
       }
     }
@@ -375,12 +375,12 @@
         "cannotParseUserIDs": "Error parsing user accounts:",
         "failedToMatch": "Failed to match:",
         "failedFileInfo__i": "[${index}/${total}]: ${filename}",
-        "testFailed": "Testing failed",
-        "cannotTestInvalid": "Can not test invalid configuration!",
-        "cannotCopyInvalid": "Can not copy invalid configuration!",
-        "failedToCopy": "Failed to copy to clipbard!",
+        "testFailed": "Test fehlgeschlagen",
+        "cannotTestInvalid": "Kann ungültige Konfiguration nicht testen!",
+        "cannotCopyInvalid": "Kann ungültige Konfiguration nicht kopieren!",
+        "failedToCopy": "Fehler beim Kopieren in die Zwischenablage!",
         "cannotFetchTemplates": "Can not fetch controller templates for invalid steam directory!",
-        "errorRemovingControllers": "Error removing controllers:",
+        "errorRemovingControllers": "Fehler beim Entfernen der Controller:",
         "cannotRemoveControllers": "Can not remove controllers from invalid steam directory!"
       },
       "success": {
@@ -453,10 +453,10 @@
         "onlineImageQueries": "Online image query",
         "imagePool": "Image pool",
         "imageProviders": "Image providers",
-        "defaultImage": "Default image",
+        "defaultImage": "Standardbild",
         "defaultTallImage": "Default tall image",
-        "defaultHeroImage": "Default hero image",
-        "defaultLogoImage": "Default logo image",
+        "defaultHeroImage": "Standard-Heldenbild",
+        "defaultLogoImage": "Standard-Logobild",
         "defaultIcon": "Standardsymbol",
         "localImages": "Lokale Bilder",
         "localTallImages": "Local tall images",
@@ -466,8 +466,8 @@
       },
       "placeholder": {
         "parserType": "Select parser...",
-        "imageProviders": "None",
-        "multiAPIPlaceholder": "No Filter"
+        "imageProviders": "Keine",
+        "multiAPIPlaceholder": "Kein Filter"
       },
       "text": {
         "skipWithMissingDataDir": "Gefundene Konten mit fehlenden Datenverzeichnissen überspringen",
@@ -481,7 +481,7 @@
         "fuzzy_removeBrackets": "Remove (...) and [...] brackets",
         "fuzzy_replaceDiacritic": "Replace diacritic characters",
         "appendArgsToExecutable": "Append arguments to executable",
-        "disabled": "Disable current parser",
+        "disabled": "Aktuellen Parser deaktivieren",
         "advanced": "Show advanced options",
         "noTitle": "Kein Titel!"
       }
