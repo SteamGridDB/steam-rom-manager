@@ -34,9 +34,9 @@ Using similar logic we can produce glob for **File3**:
 
 ## Wie gehe ich mit mehrstufigen Verzeichnissen um?
 
-This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. Was nun?
+Diesmal wollen wir **File3** und **File5** (beide haben unterschiedliche Erweiterungen, Lies den nächsten Abschnitt darüber, was zu tun ist, da wir derzeit `*` verwenden, um die Erweiterung zu ignorieren). Beachte, dass **File3** `3` Unterverzeichnisse hat, während  **Datei 5** `2` hat. Was nun?
 
-Now we can use a globstar and that's it!
+Jetzt können wir einen Globstar benutzen und das war's!
 ```
 **/${title}.*
 ```
@@ -59,7 +59,7 @@ These `2` globs both satisfy our files, **File3** and **File5**.
 
 ## Wie kann ich Dateierweiterungen begrenzen?
 
-Let's say we use glob from previous example:
+Nehmen wir einmal an, wir verwenden den Glob vom vorherigen Beispiel:
 
 ```
 {*,*/*}/*/${title}.*
@@ -73,7 +73,7 @@ Wir werden vier Dateien erhalten: **Datei3**, **Datei4**, **Datei5** und **Datei
 
 aber dann werden wir nur mit **File3** enden, denn `nes` ist nicht gleich `NES` -- der Parser berücksichtigt die Groß-/Kleinschreibung. Es gibt zwei Möglichkeiten, dieses Problem mithilfe des erweiterten Glob-Matchers zu lösen.
 
-### Exclude `sav` extension
+### `sav` Erweiterung ausschließen
 
 Extended glob matcher `!(...)` allows us to exclude stuff. Simply write glob like this:
 
@@ -81,9 +81,9 @@ Extended glob matcher `!(...)` allows us to exclude stuff. Simply write glob lik
 {*,*/*}/*/${title}.!(sav)
 ```
 
-and files with `sav` extension will be excluded.
+und Dateien mit `sav` Erweiterung werden ausgeschlossen.
 
-### Check for multiple extensions
+### Auf mehrere Erweiterungen prüfen
 
 Extended glob matcher `@(...)` allows us to match multiple things. Simply write glob like this:
 
@@ -91,13 +91,13 @@ Extended glob matcher `@(...)` allows us to match multiple things. Simply write 
 {*,*/*}/*/${title}.@(nes|NES)
 ```
 
-and only files with `nes` and `NES` will be matched. If you're feeling fancy or if you have files with extensions `nes`, `NES`, `neS`, `nEs`, `Nes` and etc., you need a glob that uses character range:
+und nur Dateien mit `nes` und `NES` werden abgeglichen. If you're feeling fancy or if you have files with extensions `nes`, `NES`, `neS`, `nEs`, `Nes` and etc., you need a glob that uses character range:
 
 ```
 {*,*/*}/*/${title}.@([nN][eE][sS])
 ```
 
-Now parser can match any combination and is effectively case-insensitive. Technically, the following glob will work too, but the one above looks better.
+Jetzt kann der Parser jeder Kombination entsprechen und ist effektiv unabhängig von Groß- und Kleinschreibung. Technisch wird auch der folgende Glob funktionieren, aber der obige sieht besser aus.
 
 ```
 {*,*/*}/*/${title}.[nN][eE][sS]
