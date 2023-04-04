@@ -7,6 +7,9 @@ import * as url from 'url';
 import yargs, {Argv} from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
+//Enable remote
+require('@electron/remote/main').initialize()
+
 // CLI Setup
 //const argv = yargs(hideBin(process.argv)).argv
 
@@ -64,10 +67,10 @@ function createWindow() {
       devTools: true,
       contextIsolation: false,
       nodeIntegration: true,
-      nodeIntegrationInWorker: true,
-      enableRemoteModule: true
+      nodeIntegrationInWorker: true
     }
   });
+  require("@electron/remote/main").enable(mainWindow.webContents);
 
   mainWindowState.manage(mainWindow);
 
@@ -124,10 +127,12 @@ app.on('ready', ()=>{
       webPreferences: {
         devTools: true,
         nodeIntegration: true,
-        nodeIntegrationInWorker: true,
-        enableRemoteModule: true
+        nodeIntegrationInWorker: true
       }
     });
+
+    require("@electron/remote/main").enable(mainWindow.webContents);
+
     mainWindow.loadURL(url.format({
       pathname: path.join(__dirname, 'renderer', 'index.html'),
       protocol: 'file:',

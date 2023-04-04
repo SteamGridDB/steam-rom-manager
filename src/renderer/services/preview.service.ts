@@ -1006,7 +1006,7 @@ export class PreviewService {
       return `${append}.${extension}`;
     }
 
-    const dialog = require('electron').remote.dialog;
+    const { dialog } = require('@electron/remote');
     const options: Electron.OpenDialogSyncOptions = {
       properties: ['openDirectory', 'createDirectory'],
       title: 'Choose selections folder save location.'
@@ -1097,7 +1097,7 @@ export class PreviewService {
 
   async importSelection() {
 
-    const dialog = require('electron').remote.dialog;
+    const { dialog } = require('@electron/remote');
     const options: Electron.OpenDialogSyncOptions = {
       properties: ['openDirectory', 'createDirectory'],
       title: 'Choose selections folder location.'
