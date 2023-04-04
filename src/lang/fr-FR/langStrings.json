@@ -44,11 +44,11 @@
         "retryingDownload__i": "Retrying image download from \"${imageUrl}\" for \"${appTitle}\".",
         "disabledConfigurations__i": "${count} user configuration(s) was/were skipped (disabled by user).",
         "invalidConfigurations__i": "${count} user configuration(s) was/were skipped (invalid).",
-        "executingParsers": "Executing parsers.",
-        "shutdownSteam": "Please shutdown Steam if it is running.",
-        "noParserConfigurations": "Please create parser configuration in \"Parsers\" menu first.",
+        "executingParsers": "Exécution des analyseurs.",
+        "shutdownSteam": "Veuillez arrêter Steam s'il est en cours d'exécution.",
+        "noParserConfigurations": "Veuillez d'abord créer la configuration de l'analyseur dans le menu \"Analyseurs\".",
         "parserFoundNoFiles": "Parser(s) found no files matching user configuration.",
-        "allImagesRetrieved": "All available image urls retrieved.",
+        "allImagesRetrieved": "Toutes les URL des images disponibles ont été récupérées.",
         "providerTimeout__i": "Timeout was requested by \"${provider}\" for ${time} second(s).",
         "noAccountsWarning": "User accounts not found. Incorrect Steam directory?",
         "preparingExport": "Préparation de l'exportation des choix d'image.",
@@ -209,7 +209,7 @@
     "imageMotionTypesTitle": "Allowed animation types",
     "stylesTitle": "Allowed grid styles",
     "stylesHeroTitle": "Allowed hero styles",
-    "stylesLogoTitle": "Allowed logo styles",
+    "stylesLogoTitle": "Styles de logo autorisés",
     "stylesIconTitle": "Allowed icon styles"
   },
   "logger": {
@@ -220,7 +220,7 @@
       "success": "Succès",
       "fuzzy": "FUZZY",
       "textWrap": "RETOUR À LA LIGNE",
-      "autoscroll": "AUTOSCROLL",
+      "autoscroll": "DÉFILEMENT-AUTO",
       "clearLog": "Effacer les logs"
     }
   },
@@ -350,8 +350,8 @@
         "copy": "Copier",
         "testParser": "Tester Analyseur",
         "delete": "Supprimer",
-        "moveUp": "Move up",
-        "moveDown": "Move down",
+        "moveUp": "Monter",
+        "moveDown": "Descendre",
         "faq": "FAQ",
         "undoChanges": "Annuler les changements",
         "undoDelete": "Annuler la suppression",
@@ -359,7 +359,7 @@
       },
       "info": {
         "testStarting__i": "Test de l'analyseur \"${title}\" (SRM version - ${version} ${portable}).",
-        "opSys__i": "Operating system is \"${os}\"",
+        "opSys__i": "Le système d'exploitation est \"${os}\"",
         "testCompleted": "Test de l'analyseur terminé.",
         "nothingWasFound": "L'analyseur n'a rien trouvé.",
         "copiedToClipboard": "Configuration copiée dans le presse-papiers",
@@ -369,7 +369,7 @@
         "fetchingControllerTemplates": "Fetching controller templates"
       },
       "error": {
-        "missingAccounts__i": "Following ${count} user account(s) were not found (user must to login to Steam at least once):",
+        "missingAccounts__i": "${count} comptes utilisateurs n'ont pas été trouvés (l'utilisateur doit se connecter à Steam au moins une fois):",
         "missingAccountInfo__i": "  ${name}",
         "noAccountsWarning": "Attention! Aucun compte utilisateur trouvé, cela pourrait être dû à l'une des raisons ci-dessous:\n - répertoire Steam incorrect;\n - aucun utilisateur n'a jamais été connecté;\n - Steam n'enregistre pas les noms de compte (\"Afficher les options avancées -> Comptes utilisateur -> Utiliser les noms de compte\").\nSi vous voyez cela, l'aperçu ne sera pas généré pour cette configuration.",
         "cannotParseUserIDs": "Erreur lors de l'analyse des comptes utilisateur:",
@@ -384,19 +384,19 @@
         "cannotRemoveControllers": "Can not remove controllers from invalid steam directory!"
       },
       "success": {
-        "foundAccounts__i": "Found ${count} available user account(s):",
+        "foundAccounts__i": "${count} compte(s) utilisateur disponible(s) trouvé:",
         "foundAccountInfo__i": "  ${name} (steamID64: ${steamID64}, accountID: ${accountID})",
-        "steamCategory__i": "[${index}/${total}]:     Steam categories - ${steamCategory}",
+        "steamCategory__i": "[${index}/${total}]:     Catégories Steam - ${steamCategory}",
         "steamCategoryInfo__i": "[${index}/${total}]:                        ${steamCategory}",
         "appId__i": "[${index}/${total}]:                AppID - ${appid}",
-        "shortAppId__i": "[${index}/${total}]:          Short AppID - ${appid}",
-        "extractedTitle__i": "[${index}/${total}]:      Extracted title - ${title}",
+        "shortAppId__i": "[${index}/${total}]:      AppID Raccourci - ${appid}",
+        "extractedTitle__i": "[${index}/${total}]:        Titre extrait - ${title}",
         "fuzzyTitle__i": "[${index}/${total}]:          Fuzzy title - ${title}",
-        "finalTitle__i": "[${index}/${total}]:          Final title - ${title}",
-        "filePath__i": "[${index}/${total}]:            File path - ${filePath}",
-        "startDir__i": "[${index}/${total}]:            Start dir - ${startDir}",
-        "completeShortcut__i": "[${index}/${total}]:    Complete shortcut - ${shortcut}",
-        "firstImageQuery__i": "[${index}/${total}]:        Image queries - ${query}",
+        "finalTitle__i": "[${index}/${total}]:          Titre final - ${title}",
+        "filePath__i": "[${index}/${total}]:    Chemin du fichier - ${filePath}",
+        "startDir__i": "[${index}/${total}]: Répertoire de départ - ${startDir}",
+        "completeShortcut__i": "[${index}/${total}]:    Raccourci complet - ${shortcut}",
+        "firstImageQuery__i": "[${index}/${total}]:     Requêtes d'image - ${query}",
         "imageQueries__i": "[${index}/${total}]:                        ${query}",
         "resolvedDefaultImageGlob__i": "[${index}/${total}]:  Default image glob:",
         "resolvedDefaultImageGlobInfo__i": "[${index}/${total}]:                        ${glob}",
@@ -433,8 +433,8 @@
         "resolvedIconGlobInfo__i": "[${index}/${total}]:                        ${glob}",
         "localIconsResolved__i": "[${index}/${total}]:      Resolved icons:",
         "localIconInfo__i": "[${index}/${total}]:                        ${icon}",
-        "removedControllers__i": "Succesfully removed controllers for parser: ${configTitle}",
-        "fetchedTemplates": "Fetched all controller templates"
+        "removedControllers__i": "Contrôleurs supprimés avec succès pour l'analyseur: ${configTitle}",
+        "fetchedTemplates": "Tous les modèles de contrôleur ont été récupérés"
       },
       "label": {
         "parserType": "Type d'analyseur",
@@ -473,17 +473,17 @@
         "skipWithMissingDataDir": "Ignorer les comptes trouvés avec des données manquantes",
         "useCredentials": "Utiliser les noms de compte",
         "tryToMatchTitle": "Enable Title from Custom Variable",
-        "skipFileIfVariableWasNotFound": "Skip file if variable was not found",
-        "caseInsensitiveVariables": "Case-insensitive variables",
-        "shortcut_passthrough": "Follow .lnk or .desktop to destination (Windows and Linux only)",
+        "skipFileIfVariableWasNotFound": "Ignorer le fichier si la variable n'a pas été trouvée",
+        "caseInsensitiveVariables": "Variables insensibles à la casse",
+        "shortcut_passthrough": "Suivez .lnk ou .desktop vers destination (Windows et Linux uniquement)",
         "fuzzy_use": "Use fuzzy matching",
         "fuzzy_removeCharacters": "Aggressive matching",
-        "fuzzy_removeBrackets": "Remove (...) and [...] brackets",
-        "fuzzy_replaceDiacritic": "Replace diacritic characters",
-        "appendArgsToExecutable": "Append arguments to executable",
-        "disabled": "Disable current parser",
-        "advanced": "Show advanced options",
-        "noTitle": "No title!"
+        "fuzzy_removeBrackets": "Retirer les accolades (...) et [...]",
+        "fuzzy_replaceDiacritic": "Remplacer les caractères diacritiques",
+        "appendArgsToExecutable": "Ajouter des arguments à l'exécutable",
+        "disabled": "Désactiver l'analyseur actuel",
+        "advanced": "Afficher les options avancées",
+        "noTitle": "Aucun titre!"
       }
     },
     "service": {
@@ -544,7 +544,7 @@
   },
   "fileParser": {
     "error": {
-      "parserNotFound__i": "Parser \"${name}\" not found!",
+      "parserNotFound__i": "L'analyseur \"${name}\" n'a pas été trouvé!",
       "tooManyFieldGlobs__md": "> Only one `$(...)$` set is allowed per input.",
       "parserIsRequired__md": "> First part of `$(...)$` must contain a valid **Glob** ir **Glob-regex** field.",
       "noWinSlashes__md": "> Windows directory character `\\` is not allowed! Use `/` instead."

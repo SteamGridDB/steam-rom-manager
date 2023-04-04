@@ -1,13 +1,13 @@
-# Command line arguments (optional) `[supports variables]`{.noWrap}
+# Arguments de commande (facultative) `[prend en charge les variables]`{.noWrap}
 
 Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
 
-## Examples By System
+## Exemples par Système
 
 ### RetroArch
 
 ```
--L cores${/}YOUR_CORE.dll "${filePath}"
+-L cores${/}VOTRE_COEUR.dll "${filePath}"
 ```
 
 ### Cemu (WiiU)
@@ -16,7 +16,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 -f -g "${filePath}"
 ```
 
-### Dolphin Emu (Gamecube and Wii)
+### Dolphin Emu (Gamecube et Wii)
 
 ```
 --exec="${filePath}" --batch --confirm=false
@@ -40,7 +40,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 "${filePath}"
 ```
 
-### mGBA (Gameboy, Gameboy Color, and Gameboy Advance)
+### mGBA (Gameboy, Gameboy Color, et Gameboy Advance)
 
 ```
 -f "${filePath}"
@@ -64,7 +64,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 -config nullDC_GUI:Fullscreen=1 -config ImageReader:DefaultImage="${filePath}"
 ```
 
-### Kega Fusion (Sega Genesis and Sega 32X)
+### Kega Fusion (Sega Genesis et Sega 32X)
 
 ```
 "${filePath}" -gen -auto -fullscreen
@@ -112,70 +112,70 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 "${filePath}"
 ```
 
-## What does "Append arguments to executable" do?
+## Que fait "Ajouter des arguments à l'exécutable"?
 
-Instead of adding arguments to Steam's launch options:
+Au lieu d'ajouter des arguments dans les options de lancement de Steam:
 
-![Not appended arguments](../../../assets/images/cmd-not-appended.png) {.fitImage.center}
+![Arguments non ajoutés](../../../assets/images/cmd-not-appended.png) {.fitImage.center}
 
-arguments are appended to target as shown below:
+les arguments sont ajoutés à la cible comme indiqué ci-dessous:
 
-![Appended arguments](../../../assets/images/cmd-appended.png) {.fitImage.center}
+![Arguments ajoutés](../../../assets/images/cmd-appended.png) {.fitImage.center}
 
-This setting is used to influence Steam's APP ID.
+Ce paramètre est utilisé pour influer sur l'APP ID de Steam.
 
-## Directory variables
+## Variables de répertoire
 
-| Variable (case-insensitive) | Corresponding value                     |
-| ---------------------------:|:--------------------------------------- |
-|                 `${exeDir}` | Executable directory                    |
-|                 `${romDir}` | ROMs directory                          |
-|               `${steamDir}` | Steam directory                         |
-|             `${startInDir}` | "StartIn" directory                     |
-|                `${fileDir}` | File's, returned by a parser, directory |
+| Variable (insensible à la casse) | Valeur correspondante                           |
+| --------------------------------:|:----------------------------------------------- |
+|                      `${exeDir}` | Répertoire exécutable                           |
+|                      `${romDir}` | Répertoire des ROMs                             |
+|                    `${steamDir}` | Répertoire Steam                                |
+|                  `${startInDir}` | Répertoire "Démarrer"                           |
+|                     `${fileDir}` | Fichiers retournés par un analyseur, répertoire |
 
-In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
+Dans le cas où l'entrée du répertoire exécutable est laissée **vide**, `${exeDir}`{.noWrap} est égal à `${fileDir}`{.noWrap}. De plus, si le répertoire "Démarrer" est laissé **vide**, `${startInDir}`{.noWrap} est égal à `${exeDir}`{.noWrap}.
 
-## Name variables
+## Nom des variables
 
-| Variable (case-insensitive) | Corresponding value                                             |
-| ---------------------------:|:--------------------------------------------------------------- |
-|                `${exeName}` | Name of executable (without extension)                          |
-|               `${fileName}` | Name of file which was returned by a parser (without extension) |
+| Variable (insensible à la casse) | Valeur correspondante                                               |
+| --------------------------------:|:------------------------------------------------------------------- |
+|                     `${exeName}` | Nom de l'exécutable (sans extension)                                |
+|                    `${fileName}` | Nom du fichier qui a été retourné par un analyseur (sans extension) |
 
-In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
+Dans le cas où l'entrée nom de l'exécutable est laissée **vide**, `${exeName}`{.noWrap} est égal à `${fileName}`{.noWrap}.
 
-## Extension variables
+## Variables d'extension
 
-| Variable (case-insensitive) | Corresponding value                                           |
-| ---------------------------:|:------------------------------------------------------------- |
-|                 `${exeExt}` | Extension of executable (with a dot)                          |
-|                `${fileExt}` | Extension of file which was returned by a parser (with a dot) |
+| Variable (insensible à la casse) | Valeur correspondante                                                     |
+| --------------------------------:|:------------------------------------------------------------------------- |
+|                      `${exeExt}` | Extension de l'exécutable (avec un point)                                 |
+|                     `${fileExt}` | Extension de fichier qui a été retournée par un analyseur (avec un point) |
 
-In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
+Dans le cas où l'entrée extension de l'exécutable est laissée **vide**, `${exeExt}`{.noWrap} est égal à `${fileExt}`{.noWrap}.
 
-## Path variables
+## Variables de chemin
 
-| Variable (case-insensitive) | Corresponding value                                |
-| ---------------------------:|:-------------------------------------------------- |
-|                `${exePath}` | Full path to an executable                         |
-|               `${filePath}` | Full path to a file which was returned by a parser |
+| Variable (insensible à la casse) | Valeur correspondante                                              |
+| --------------------------------:|:------------------------------------------------------------------ |
+|                     `${exePath}` | Chemin complet vers un exécutable                                  |
+|                    `${filePath}` | Chemin complet vers un fichier qui a été retourné par un analyseur |
 
-In case executable directory input is left **empty**, `${exePath}`{.noWrap} is equal to `${filePath}`{.noWrap}.
+Dans le cas où l'entrée chemin complet vers un exécutable est laissée **vide**, `${exePath}`{.noWrap} est égal à `${filePath}`{.noWrap}.
 
-## Parser variables
+## Variables d'analyseur
 
-| Variable (case-insensitive) | Corresponding value                              |
-| ---------------------------:|:------------------------------------------------ |
-|                  `${title}` | Extracted title                                  |
-|             `${fuzzyTitle}` | Fuzzy matched title                              |
-|             `${finalTitle}` | Title which was the end result of title modifier |
+| Variable (insensible à la casse) | Valeur correspondante                            |
+| --------------------------------:|:------------------------------------------------ |
+|                       `${title}` | Extracted title                                  |
+|                  `${fuzzyTitle}` | Fuzzy matched title                              |
+|                  `${finalTitle}` | Title which was the end result of title modifier |
 
 In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
 
 ## Function variables
 
-|                                 Variable (case-insensitive) | Corresponding function                                                                                                 |
+|                            Variable (insensible à la casse) | Corresponding function                                                                                                 |
 | -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
 |                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
 |                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
