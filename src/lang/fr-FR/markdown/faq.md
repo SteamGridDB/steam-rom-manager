@@ -34,13 +34,13 @@ En utilisant une logique similaire, nous pouvons produire un global pour **Fichi
 
 ## How to deal with multi-leveled directories?
 
-This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now?
+This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. Et maintenant?
 
 Now we can use a globstar and that's it!
 ```
 **/${title}.*
 ```
-Is it really that simple? **NO!** Globstar will have some impact in parser's performance if there are many subdirectories with thousands of files each. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere.
+Est-ce vraiment aussi simple? **NO!** Globstar will have some impact in parser's performance if there are many subdirectories with thousands of files each. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere.
 
 A recommended solution is to use braced sets. They can make multiple globs out of `1` glob. If we write a glob like this:
 
@@ -57,9 +57,9 @@ we will get `2` globs:
 
 These `2` globs both satisfy our files, **File3** and **File5**.
 
-## How to limit file extensions?
+## Comment limiter les extensions de fichier?
 
-Let's say we use glob from previous example:
+Disons que nous utilisons le global de l'exemple précédent:
 
 ```
 {*,*/*}/*/${title}.*
@@ -81,9 +81,9 @@ Extended glob matcher `!(...)` allows us to exclude stuff. Simply write glob lik
 {*,*/*}/*/${title}.!(sav)
 ```
 
-and files with `sav` extension will be excluded.
+et les fichiers avec l'extension `sav` seront exclus.
 
-### Check for multiple extensions
+### Rechercher plusieurs extensions
 
 Extended glob matcher `@(...)` allows us to match multiple things. Simply write glob like this:
 
