@@ -9,10 +9,10 @@ If you use `RetroArch` or similar emulators to add the same game, but on differe
 
 ## Adding identical titles from different consoles
 
-Steam APP ID must not be identical. This can be achieved by changing **Title modifier** value or enabling **Append arguments to executable**. Second option adds a third variable to APP ID:
+Die Steam-APP-ID darf nicht identisch sein. Dies kann erreicht werden, indem du den **Titelmodifikator** Wert änderst oder **Argumente an ausführbare anhängen** aktivierst. Die zweite Option fügt eine dritte Variable zur APP-ID hinzu:
 
-- Executable;
-- Final app title;
+- Ausführbare Datei;
+- Finaler App-Titel;
 - Command line arguments.
 
-Most of the time command line will contain unique game path which should allow to generate unique APP IDs.
+Die meiste Zeit wird die Kommandozeile einen eindeutigen Spielpfad enthalten, der es erlauben sollte, eindeutige APP-IDs zu generieren.
