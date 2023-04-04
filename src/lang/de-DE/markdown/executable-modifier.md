@@ -35,10 +35,10 @@ In case executable directory input is left **empty**, `${exeName}`{.noWrap} is e
 
 ## Extension variables
 
-| Variable (case-insensitive) | Corresponding value                                           |
-| ---------------------------:|:------------------------------------------------------------- |
-|                 `${exeExt}` | Extension of executable (with a dot)                          |
-|                `${fileExt}` | Extension of file which was returned by a parser (with a dot) |
+| Variable (case-insensitive) | Corresponding value                                                          |
+| ---------------------------:|:---------------------------------------------------------------------------- |
+|                 `${exeExt}` | Erweiterung der ausführbaren Datei (mit einem Punkt)                         |
+|                `${fileExt}` | Dateierweiterung, die von einem Parser (mit einem Punkt) zurückgegeben wurde |
 
 In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
 
