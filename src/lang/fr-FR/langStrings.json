@@ -277,7 +277,7 @@
         "showSteamImages": "Afficher les images Steam actuelles par défaut",
         "deleteDisabledShortcuts": "Retirer les raccourcis pour les analyseurs désactivés",
         "clearLogOnTest": "Effacer automatiquement les logs avant de tester les analyseurs",
-        "configDir": "Open Config Directory"
+        "configDir": "Dossier de Configuration"
       },
       "placeholder": {
         "noProviders": "None",
