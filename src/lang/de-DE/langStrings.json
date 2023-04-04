@@ -170,7 +170,7 @@
     }
   },
   "globParser": {
-    "inputTitle": "User's glob",
+    "inputTitle": "Benutzer-Glob",
     "errors": {
       "noTitle__md": "> File glob must contain `${title}`!",
       "moreThanOneTitle__md": "> File glob must contain only one `${title}`!",
@@ -187,7 +187,7 @@
     }
   },
   "globRegexParser": {
-    "inputTitle": "User's glob-regex",
+    "inputTitle": "Benutzer glob-regex",
     "errors": {
       "noRegex__md": "> File glob must contain `${regex}` where **regex** is your regular expression!",
       "moreThanOneRegex__md": "> File glob must contain only one `${regex}`!",
@@ -559,9 +559,9 @@
   "vdfManager": {
     "error": {
       "noUsersFound": "None of the provided steam directories contained any user directory.",
-      "emptyDirectoryList": "Directory list is empty.",
-      "couldNotPrepareToRead__i": "Could not find required steam files:\n ${error}",
-      "couldNotBackupEntries__i": "Could not backup required steam files:\n ${error}",
+      "emptyDirectoryList": "Die Verzeichnisliste ist leer.",
+      "couldNotPrepareToRead__i": "Konnte benötigte Steamdateien nicht finden:\n ${error}",
+      "couldNotBackupEntries__i": "Konnte benötigte Steamdateien nicht sichern:\n ${error}",
       "couldNotReadEntries__i": "Could not read required steam files:\n ${error}",
       "couldNotWriteEntries": "Could not write entries to steam files:",
       "couldNotMergeEntries__i": "Could not merge entries:\n ${error}",
