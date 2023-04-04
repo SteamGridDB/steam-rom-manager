@@ -40,13 +40,16 @@ export type FuzzyError =
 export type FuzzyEventCallback = <K extends keyof FuzzyEventMap>(event: K, data: FuzzyEventMap[K]) => void;
 
 export interface ParsedDataWithFuzzy {
-    success: {
-        filePath?: string,
-        extractedTitle: string,
-        extractedAppId?: string,
-        fuzzyTitle: string
-    }[],
-    failed: string[]
+  executableLocation?: string // Used by platform parsers in launcher mode
+  success: {
+    extractedTitle: string,
+    fuzzyTitle: string,
+    filePath?: string, // Used by ROM parsers and platform parsers in executable mode
+    extractedAppId?: string, // Used by artwork only parsers
+    launchOptions?: string, // Used by platform parsers
+    startInDirectory?: string, //Used by manual parsers and apps the start in a different directory than the executable
+  }[],
+  failed: string[]
 }
 
 export interface FuzzyMatcherOptions {

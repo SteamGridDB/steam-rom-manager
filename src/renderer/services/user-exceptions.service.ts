@@ -6,6 +6,7 @@ import { APP } from '../../variables';
 import * as json from "../../lib/helpers/json";
 import * as paths from "../../paths";
 import * as schemas from '../schemas';
+import * as modifiers from '../modifiers';
 import * as _ from "lodash";
 
 @Injectable()
@@ -13,12 +14,11 @@ export class UserExceptionsService {
   private variableData: BehaviorSubject<{current: UserExceptions, saved: UserExceptions}>;
   private isUnsavedData: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  private validator: json.Validator = new json.Validator(schemas.userExceptions);
+  private validator: json.Validator = new json.Validator(schemas.userExceptions, modifiers.userExceptions);
   private savingIsDisabled: boolean = false;
 
   constructor(private loggerService: LoggerService) {
-    this.variableData = new BehaviorSubject({current: null, saved: {}});
-
+    this.variableData = new BehaviorSubject({current: null, saved: {titles: {}}});
     this.load();
   }
 
@@ -65,8 +65,8 @@ export class UserExceptionsService {
   }
 
   setSaved(data: UserExceptions) {
-    if (this.validator.validate(data).isValid()) {
-      this.variableData.next({current: null, saved: data||{}});
+    if (this.validator.validate(data).isValid() && data) {
+      this.variableData.next({current: null, saved: data});
     } else {
       this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
       this.loggerService.error(this.validator.errorString);

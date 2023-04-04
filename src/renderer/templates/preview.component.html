@@ -5,14 +5,11 @@
     <input type="range" min="30" max="100" step="0.25" [value]="appSettings.previewSettings.imageZoomPercentage" (input)="setImageSize($event.target.value)"
                                            (change)="setImageSize($event.target.value, true)" />
     <div>{{appSettings.previewSettings.imageZoomPercentage | number : '1.0-2'}}%</div>
-    <ng-select class="selectCategories" [(ngModel)]="categoryFilter" [placeholder]="lang.selectCategories" (ngModelChange)="setCategoryFilter($event);" multiple="true" allowEmpty="true">
-      <ng-option *ngFor="let cat of allCategories" [innerHTML]="cat | safeHtml">
-      </ng-option>
+    <ng-select class="selectCategories" [(ngModel)]="categoryFilter" [placeholder]="lang.selectCategories" (ngModelChange)="setCategoryFilter($event);" multiple="true" allowEmpty="true" [values]="allCategories">
     </ng-select>
-    <ng-select class="selectType" [(ngModel)]="appSettings.previewSettings.imageTypes" [placeholder]="lang.selectType" (ngModelChange)="appSettings.previewSettings.imageTypes = $event; setImageType($event);">
-      <ng-option *ngFor="let value of imageTypes" [ngValue]="value">
-        {{lang.selectTypeOptions[value]}}
-      </ng-option>
+    <ng-select class="selectParsers" [(ngModel)]="parserFilter" [placeholder]="lang.selectParsers" (ngModelChange)="setParserFilter($event);" multiple="true" allowEmpty="true" [values]="allParsers">
+    </ng-select>
+    <ng-select class="selectType" [(ngModel)]="appSettings.previewSettings.imageTypes" [placeholder]="lang.selectType" (ngModelChange)="appSettings.previewSettings.imageTypes = $event; setImageType($event);" [values]="imageTypes">
     </ng-select>
   </div>
   <ng-text-input class="appFilter" [placeholder]="lang.filter" [(ngModel)]='filterValue' ></ng-text-input>
@@ -35,13 +32,13 @@
             <div class="apps">
               <ng-container *ngFor="let appId of previewData[steamDir][steamUser].apps | keys">
                 <ng-container *ngVar="previewData[steamDir][steamUser].apps[appId] as app">
-                  <div class="title" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter)">
+                  <div class="title" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter) &&([app.configurationTitle] | intersectionTest: actualParserFilter)">
                     <span>{{app.title}}</span>
                   </div>
                   <ng-container *ngFor="let imagetype of ['long','tall','hero','logo','icon']">
                     <ng-container *ngVar="getBackgroundImage(app, imagetype) as image">
                       <ng-container *ngVar="getAppImages(app, imagetype) as appimages">
-                        <div class="app" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter)" [style.backgroundImage]="setBackgroundImage(app, image, imagetype) | cssUrl | safeStyle"
+                        <div class="app" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter) && ([app.configurationTitle] | intersectionTest: actualParserFilter)" [style.backgroundImage]="setBackgroundImage(app, image, imagetype) | cssUrl | safeStyle"
                              [class.retrieving]="getImagePool(appimages.imagePool, imagetype).retrieving" [class.noImages]="!getImagePool(appimages.imagePool, imagetype).retrieving && image == undefined"
                              [class.downloading]="image != undefined && image.loadStatus === 'downloading'" [class.failed]="image != undefined && image.loadStatus === 'failed'"
                              [class.imageLoaded]="image != undefined && image.loadStatus === 'done'" (mouseenter)="entries.hoverIndex = app.entryId; entries.hoverType = imagetype;"
@@ -97,7 +94,7 @@
                 <ng-container *ngVar="previewData[steamDir][steamUser].apps[appID] as app">
                   <ng-container *ngVar="getBackgroundImage(app) as image">
                     <ng-container *ngVar="getAppImages(app) as appimages">
-                      <div class="app" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter)" [style.backgroundImage]="setBackgroundImage(app, image) | cssUrl | safeStyle"
+                      <div class="app" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter) && ([app.configurationTitle] | intersectionTest: actualParserFilter)" [style.backgroundImage]="setBackgroundImage(app, image) | cssUrl | safeStyle"
                            [class.retrieving]="getImagePool(appimages.imagePool).retrieving" [class.noImages]="!getImagePool(appimages.imagePool).retrieving && image == undefined"
                            [class.downloading]="image != undefined && image.loadStatus === 'downloading'" [class.failed]="image != undefined && image.loadStatus === 'failed'"
                            [class.imageLoaded]="image != undefined && image.loadStatus === 'done'" (mouseenter)="entries.hoverIndex = app.entryId"
@@ -148,8 +145,11 @@
 <div class="lowerMenu">
   <div (click)="generatePreviewData(false)">{{lang.generateAppList}}</div>
   <ng-container *ngIf="previewVariables.numberOfListItems > 0 && !previewVariables.listIsBeingGenerated">
-    <div (click)="save()">{{lang.saveAppList}}</div>
-    <div class="dangerousButton" (click)="remove()">{{lang.removeAppList}}</div>
-    <div *ngIf="previewVariables.numberOfQueriedImages" (click)="stopImageRetrieving()">{{lang.stopUrlRetrieving}}</div>
+      <div (click)="save()">{{lang.saveAppList}}</div>
+      <div class="dangerousButton" (click)="remove()">{{lang.removeAppList}}</div>
+      <div *ngIf="previewVariables.numberOfQueriedImages" (click)="stopImageRetrieving()">{{lang.stopUrlRetrieving}}</div>
+      <div (click)="exportSelection()">{{lang.exportSelections}}</div>
+      <div (click)="importSelection()">{{lang.importSelections}}</div>
   </ng-container>
+
 </div>

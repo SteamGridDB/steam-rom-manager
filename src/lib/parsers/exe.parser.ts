@@ -4,7 +4,6 @@ import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
-import * as Sentry from '@sentry/electron';
 
 export class SteamParser implements GenericParser {
 
@@ -13,7 +12,7 @@ export class SteamParser implements GenericParser {
   }
   getParserInfo(): ParserInfo {
     return {
-      title: 'Epic',
+      title: 'EXE',
       info: this.lang.docs__md.self.join(''),
       inputs: {}
     };
@@ -36,7 +35,6 @@ export class SteamParser implements GenericParser {
           }
           resolve(parsedData);
         }).catch((err)=>{
-          Sentry.captureException(err);
           reject(this.lang.errors.fatalError__i.interpolate({error: err}));
         });
     })

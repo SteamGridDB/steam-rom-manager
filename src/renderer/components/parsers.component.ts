@@ -4,9 +4,13 @@ import { Component, AfterViewInit, OnDestroy, ChangeDetectionStrategy, ChangeDet
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { ParsersService, LoggerService, ImageProviderService, SettingsService, ConfigurationPresetsService, IpcService } from '../services';
-import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets } from '../../models';
+import * as parserInfo from '../../lib/parsers/available-parsers';
+import * as steam from '../../lib/helpers/steam';
+import { controllerTypes, controllerNames } from '../../lib/controller-manager';
+import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets, ControllerTemplates } from '../../models';
 import { Subscription, Observable } from "rxjs";
 import { APP } from '../../variables';
+import * as _ from 'lodash';
 @Component({
   selector: 'parsers',
   templateUrl:'../templates/parsers.component.html',
@@ -22,13 +26,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private configurationIndex: number = -1;
   private loadedIndex: number = null;
   private isUnsaved: boolean = false;
-  private appSettings: AppSettings;
   private vParser = new VariableParser({ left: '${', right: '}' });
+  private appSettings: AppSettings;
   private configPresets: ConfigPresets = {};
   private nestedGroup: NestedFormElement.Group;
   private userForm: FormGroup;
   private formChanges: Subscription = new Subscription();
+  private hiddenSections: {[parserId: string]: {[sectionName: string]: boolean}}
   private CLI_COMMAND: string = '';
+
 
   constructor(
     private parsersService: ParsersService,
@@ -39,24 +45,32 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
     private cpService: ConfigurationPresetsService,
-    private ipcService: IpcService) {
+    private ipcService: IpcService
+  ) {
+      this.ipcService.send('log', 'Parser Constructor')
+      this.appSettings = this.settingsService.getSettings();
+      this.currentDoc.content = this.lang.docs__md.intro.join('');
       this.activatedRoute.queryParamMap.subscribe(paramContainer => {
         let params = ({...paramContainer} as any).params;
         // TODO Fix this ugly hack
+        this.ipcService.send('log', "Testing testing")
         this.CLI_COMMAND = (JSON.parse(params['cliMessage']||'{}')).command || this.CLI_COMMAND
       });
       this.parsersService.onLoad((userConfigurations: UserConfiguration[])=>{
         if(this.CLI_COMMAND && this.CLI_COMMAND == 'list'){
           this.ipcService.send('parsers_list',userConfigurations);
         }
-      })
+      });
       this.nestedGroup = new NestedFormElement.Group({
         children: {
+          basicSection: new NestedFormElement.Section({
+            label: 'Basic Configuration'
+          }),
           parserType: new NestedFormElement.Select({
             label: this.lang.label.parserType,
             placeholder: this.lang.placeholder.parserType,
-            values: this.parsersService.getAvailableParsers().map((parser) => { return { display: parser }; }),
-              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+            values: parserInfo.availableParsers,
+            onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
               let parser = this.parsersService.getParserInfo(self.value);
               this.currentDoc.activePath = path.join();
@@ -79,69 +93,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             }
           }),
           steamCategory: new NestedFormElement.Input({
-            isHidden: () => this.isHiddenIfSteamParser(),
+            isHidden: () => this.isHiddenIfArtworkOnlyParser(),
               label: this.lang.label.steamCategory,
             highlight: this.highlight.bind(this),
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
               this.currentDoc.activePath = path.join();
               this.currentDoc.content = this.lang.docs__md.steamCategory.join('');
-            }
-          }),
-          executable: new NestedFormElement.Group({
-            isHidden: () => this.isHiddenIfNotRomsParser(),
-              label: this.lang.label.executableLocation,
-            children: {
-              path: new NestedFormElement.Path({
-                highlight: this.highlight.bind(this),
-                onValidate: (self, path) => {
-                  let serialized = {};
-                  serialized[path[1]] = self.value;
-                  return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized)
-                }
-              }),
-              shortcutPassthrough: new NestedFormElement.Toggle({
-                text: this.lang.text.shortcut_passthrough
-              }),
-              appendArgsToExecutable: new NestedFormElement.Toggle({
-                isHidden: () => this.isHiddenIfAny(),
-                  text: this.lang.text.appendArgsToExecutable
-              })
-            },
-            onInfoClick: (self, path) => {
-              this.currentDoc.activePath = path.join();
-              this.currentDoc.content = this.lang.docs__md.executableLocation.join('');
-            }
-          }),
-          executableArgs: new NestedFormElement.Input({
-            isHidden: () => this.isHiddenIfNotRomsParser(),
-              label: this.lang.label.executableArgs,
-            highlight: this.highlight.bind(this),
-            onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-              onInfoClick: (self, path) => {
-              this.currentDoc.activePath = path.join();
-              this.currentDoc.content = this.lang.docs__md.executableArgs.join('');
-            }
-          }),
-          executableModifier: new NestedFormElement.Input({
-            isHidden: () => this.isHiddenIfAny(),
-              highlight: this.highlight.bind(this),
-            label: this.lang.label.executableModifier,
-            onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-              onInfoClick: (self, path) => {
-              this.currentDoc.activePath = path.join();
-              this.currentDoc.content = this.lang.docs__md.executableModifier.join('');
-            }
-          }),
-          romDirectory: new NestedFormElement.Path({
-            isHidden: () => this.isHiddenIfNotRomsParser(),
-              directory: true,
-            label: this.lang.label.romDirectory,
-            highlight: this.highlight.bind(this),
-            onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-              onInfoClick: (self, path) => {
-              this.currentDoc.activePath = path.join();
-              this.currentDoc.content = this.lang.docs__md.romDirectory.join('');
             }
           }),
           steamDirectory: new NestedFormElement.Path({
@@ -152,17 +110,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               onInfoClick: (self, path) => {
               this.currentDoc.activePath = path.join();
               this.currentDoc.content = this.lang.docs__md.steamDirectory.join('');
-            }
-          }),
-          startInDirectory: new NestedFormElement.Path({
-            directory: true,
-            label: this.lang.label.startInDirectory,
-            highlight: this.highlight.bind(this),
-            isHidden: () => this.isHiddenIfAny(),
-              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-              onInfoClick: (self, path) => {
-              this.currentDoc.activePath = path.join();
-              this.currentDoc.content = this.lang.docs__md.startInDirectory.join('');
             }
           }),
           userAccounts: new NestedFormElement.Group({
@@ -189,35 +136,143 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               this.currentDoc.content = this.lang.docs__md.userAccounts.join('');
             }
           }),
+          romDirectory: new NestedFormElement.Path({
+            isHidden: () => this.isHiddenIfNotRomsParser(),
+              directory: true,
+            label: this.lang.label.romDirectory,
+            highlight: this.highlight.bind(this),
+            onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+              onInfoClick: (self, path) => {
+              this.currentDoc.activePath = path.join();
+              this.currentDoc.content = this.lang.docs__md.romDirectory.join('');
+            }
+          }),
+          executableSection: new NestedFormElement.Section({
+            label: 'Executable Configuration',
+            isHidden: () => this.isHiddenIfNotRomsParser()
+          }),
+          executable: new NestedFormElement.Group({
+            isHidden: () => this.isHiddenIfNotRomsParser(),
+              label: this.lang.label.executableLocation,
+            children: {
+              path: new NestedFormElement.Path({
+                highlight: this.highlight.bind(this),
+                onValidate: (self, path) => {
+                  let serialized = {};
+                  serialized[path[1]] = self.value;
+                  return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized)
+                }
+              }),
+              shortcutPassthrough: new NestedFormElement.Toggle({
+                text: this.lang.text.shortcut_passthrough
+              }),
+              appendArgsToExecutable: new NestedFormElement.Toggle({
+                isHidden: () => this.isHiddenIfNotRomsParser(),
+                  text: this.lang.text.appendArgsToExecutable
+              })
+            },
+            onInfoClick: (self, path) => {
+              this.currentDoc.activePath = path.join();
+              this.currentDoc.content = this.lang.docs__md.executableLocation.join('');
+            }
+          }),
+          executableArgs: new NestedFormElement.Input({
+            isHidden: () => this.isHiddenIfNotRomsParser(),
+              label: this.lang.label.executableArgs,
+            highlight: this.highlight.bind(this),
+            onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+              onInfoClick: (self, path) => {
+              this.currentDoc.activePath = path.join();
+              this.currentDoc.content = this.lang.docs__md.executableArgs.join('');
+            }
+          }),
+          executableModifier: new NestedFormElement.Input({
+            isHidden: () => this.isHiddenIfNotRomsParser(),
+              highlight: this.highlight.bind(this),
+            label: this.lang.label.executableModifier,
+            onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+              onInfoClick: (self, path) => {
+              this.currentDoc.activePath = path.join();
+              this.currentDoc.content = this.lang.docs__md.executableModifier.join('');
+            }
+          }),
+          startInDirectory: new NestedFormElement.Path({
+            directory: true,
+            label: this.lang.label.startInDirectory,
+            highlight: this.highlight.bind(this),
+            isHidden: () => this.isHiddenIfNotRomsParser(),
+              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+              onInfoClick: (self, path) => {
+              this.currentDoc.activePath = path.join();
+              this.currentDoc.content = this.lang.docs__md.startInDirectory.join('');
+            }
+          }),
+          parserInputsSection: new NestedFormElement.Section({
+            label: 'Parser Specific Configuration',
+            isHidden: () => this.isHiddenIfArtworkOnlyOrBlank()
+          }),
           parserInputs: (() => {
             let parserInputs = {};
-            let parsers = this.parsersService.getAvailableParsers();
-
+            let parsers = parserInfo.availableParsers;
             for (let i = 0; i < parsers.length; i++) {
               let parser = this.parsersService.getParserInfo(parsers[i]);
               if (parser && parser.inputs !== undefined) {
                 for (let inputFieldName in parser.inputs) {
                   let input = parser.inputs[inputFieldName];
-                  parserInputs[inputFieldName] = new NestedFormElement.Input({
-                    initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
-                    highlight: this.highlight.bind(this),
-                    label: input.label,
-                    isHidden: () => {
-                      return Observable.concat(Observable.of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).map((pType: string) => {
-                        return pType !== parsers[i];
-                      });
-                    },
-                    onValidate: (self, path) => {
-                      if (parsers[i]!=='Steam' && this.userForm.get('parserType').value === parsers[i])
-                        return this.parsersService.validate(path[0] as keyof UserConfiguration, { parser: parsers[i], input: inputFieldName, inputData: self.value });
-                      else
-                        return null;
-                    },
-                    onInfoClick: (self, path) => {
-                      this.currentDoc.activePath = path.join();
-                      this.currentDoc.content = input.info;
-                    }
-                  });
+                  if(input.inputType == 'path' || input.inputType == 'dir') {
+                    parserInputs[inputFieldName] = new NestedFormElement.Path({
+
+                      directory: input.inputType=='dir' ? true : false,
+                      initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
+                      highlight: this.highlight.bind(this),
+                      label: input.label,
+                      isHidden: () => {
+                        return Observable.concat(Observable.of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).map((pType: string) => {
+                          return pType !== parsers[i];
+                        });
+                      },
+                      onValidate: (self, path) => {
+                        if (parsers[i]!=='Steam' && this.userForm.get('parserType').value === parsers[i])
+                          return this.parsersService.validate(path[0] as keyof UserConfiguration, { parser: parsers[i], input: inputFieldName, inputData: self.value });
+                        else
+                          return null;
+                      },
+                      onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = input.info;
+                      }
+                    })
+                  } else if (input.inputType == 'text') {
+                    parserInputs[inputFieldName] = new NestedFormElement.Input({
+                      initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
+                      highlight: this.highlight.bind(this),
+                      label: input.label,
+                      isHidden: () => {
+                        return Observable.concat(Observable.of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).map((pType: string) => {
+                          return pType !== parsers[i];
+                        });
+                      },
+                      onValidate: (self, path) => {
+                        if (parsers[i]!=='Steam' && this.userForm.get('parserType').value === parsers[i])
+                          return this.parsersService.validate(path[0] as keyof UserConfiguration, { parser: parsers[i], input: inputFieldName, inputData: self.value });
+                        else
+                          return null;
+                      },
+                      onInfoClick: (self, path) => {
+                        this.currentDoc.activePath = path.join();
+                        this.currentDoc.content = input.info;
+                      }
+                    })
+                  } else if (input.inputType == 'toggle') {
+                    parserInputs[inputFieldName] = new NestedFormElement.Toggle({
+                      text: input.label,
+                      isHidden: () => {
+                        return Observable.concat(Observable.of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).map((pType: string) => {
+                          return pType !== parsers[i];
+                        });
+                      },
+                    });
+                  }
                 }
               }
             }
@@ -226,9 +281,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               children: parserInputs
             });
           })(),
-
+          titleSection: new NestedFormElement.Section({
+            label: 'Title Modification Configuration'
+          }),
           titleFromVariable: new NestedFormElement.Group({
-            isHidden: () => this.isHiddenIfAny(),
+            isHidden: () => this.isHiddenIfNotRomsParser(),
               label: this.lang.label.titleFromVariable,
             children: {
               limitToGroups: new NestedFormElement.Input({
@@ -255,8 +312,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             }
           }),
           titleModifier: new NestedFormElement.Input({
-            isHidden: () => this.isHiddenIfNotAdvanced(),
-              highlight: this.highlight.bind(this),
+            highlight: this.highlight.bind(this),
             label: this.lang.label.titleModifier,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
@@ -265,12 +321,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             }
           }),
           fuzzyMatch: new NestedFormElement.Group({
-            isHidden: () => this.isHiddenIfAny(),
-              label: this.lang.label.fuzzyMatch,
+            label: this.lang.label.fuzzyMatch,
             children: {
-              use: new NestedFormElement.Toggle({
-                text: this.lang.text.fuzzy_use
-              }),
               replaceDiacritics: new NestedFormElement.Toggle({
                 text: this.lang.text.fuzzy_replaceDiacritic
               }),
@@ -286,11 +338,104 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               this.currentDoc.content = this.lang.docs__md.fuzzyMatch.join('');
             }
           }),
+          controllerSection: new NestedFormElement.Section({
+            label: 'Controller Templates Configuration'
+            // isHidden: () => this.isHiddenIfArtworkOnlyParser(),//only temporary, quite possible to add this for steam parser
+          }),
+          fetchControllerTemplatesButton: new NestedFormElement.Button({
+            buttonLabel: 'Re-fetch Controller Templates',
+            onClickMethod: this.fetchControllerTemplates.bind(this)
+            // isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+          }),
+          removeControllersButton: new NestedFormElement.Button({
+            buttonLabel: 'Unset Controllers for Parser',
+            onClickMethod: this.removeControllers.bind(this)
+            // isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+          }),
+          controllers: new NestedFormElement.Group({
+            children: (() => {
+              let children = {};
+              for(let controllerType of controllerTypes) {
+                children[controllerType] = new NestedFormElement.Select({
+                  // isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+                  label: controllerNames[controllerType]+ " " + "Template",
+                  placeholder: 'Select a Template',
+                  multiple: false,
+                  allowEmpty: true,
+                  values: [],
+                  onInfoClick: (self, path) => {
+                    this.currentDoc.activePath = path.join();
+                    this.currentDoc.content = this.lang.docs__md.controllerTemplates.join('');
+                  }
+                })
+              }
+              return children;
+            })()
+          }),
+          onlineImageSection: new NestedFormElement.Section({
+            label: 'Artwork Provider Configuration'
+          }),
+          imageProviders: new NestedFormElement.Select({
+            label: this.lang.label.imageProviders,
+            placeholder: this.lang.placeholder.imageProviders,
+            multiple: true,
+            allowEmpty: true,
+            values: this.imageProviderService.instance.getAvailableProviders(),
+            onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+              onInfoClick: (self, path) => {
+              this.currentDoc.activePath = path.join();
+              this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
+            }
+          }),
+          imageProviderAPIs: (()=>{
+            let imageProviderAPIs = {};
+            let providerNames = this.imageProviderService.instance.getAvailableProviders();
+            for (let i=0;i < providerNames.length; i++) {
+              let provider = this.imageProviderService.instance.getProviderInfo(providerNames[i]);
+              let providerL = this.imageProviderService.instance.getProviderInfoLang(providerNames[i]);
+              if (provider && provider.inputs !== undefined) {
+                imageProviderAPIs[providerNames[i]] = (()=>{
+                  let apiInputs = {}
+                  for (let inputFieldName in provider.inputs) {
+                    let input = provider.inputs[inputFieldName];
+                    if(input.inputType == 'toggle') {
+                      apiInputs[inputFieldName] = new NestedFormElement.Toggle({
+                        text: providerL.inputs[inputFieldName].label
+                      });
+                    }
+                    else if (input.inputType == 'multiselect') {
+                      apiInputs[inputFieldName] = new NestedFormElement.Select({
+                        label: providerL.inputs[inputFieldName].label,
+                        multiple: input.multiple,
+                        allowEmpty: input.allowEmpty,
+                        placeholder: this.lang.placeholder.multiAPIPlaceholder,
+                        values: input.allowedValues.map((option: string) => {return {
+                          value: option, displayValue: _.startCase(option.replace(/_/g," "))
+                        }}),
+                        onValidate: (self, path) => {
+                          return null;
+                        },
+                        onInfoClick: (self, path) => {
+                          this.currentDoc.activePath = path.join();
+                          this.currentDoc.content = providerL.inputs[inputFieldName].info;
+                        }
+                      })
+                    }
+                  }
+                  return new NestedFormElement.Group({
+                    children: apiInputs
+                  })
+                })();
+              }
+            }
+            return new NestedFormElement.Group({
+              children: imageProviderAPIs
+            })
+          })(),
           onlineImageQueries: new NestedFormElement.Input({
             label: this.lang.label.onlineImageQueries,
             highlight: this.highlight.bind(this),
-            isHidden: () => this.isHiddenIfAny(),
-              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+            onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
               this.currentDoc.activePath = path.join();
               this.currentDoc.content = this.lang.docs__md.onlineImageQueries.join('');
@@ -299,29 +444,18 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           imagePool: new NestedFormElement.Input({
             label: this.lang.label.imagePool,
             highlight: this.highlight.bind(this),
-            isHidden: () => this.isHiddenIfAny(),
-              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+            onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
               this.currentDoc.activePath = path.join();
               this.currentDoc.content = this.lang.docs__md.imagePool.join('');
             }
           }),
-          imageProviders: new NestedFormElement.Select({
-            label: this.lang.label.imageProviders,
-            placeholder: this.lang.placeholder.imageProviders,
-            multiple: true,
-            allowEmpty: true,
-            values: this.imageProviderService.instance.getAvailableProviders().map((provider) => { return { display: provider }; }),
-              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-              onInfoClick: (self, path) => {
-              this.currentDoc.activePath = path.join();
-              this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
-            }
+          localImageSection: new NestedFormElement.Section({
+            label: 'Local Artwork Configuration'
           }),
           defaultImage: new NestedFormElement.Path({
             directory: false,
-            isHidden: () => this.isHiddenIfNotAdvanced(),
-              highlight: this.highlight.bind(this),
+            highlight: this.highlight.bind(this),
             label: this.lang.label.defaultImage,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
@@ -331,8 +465,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           defaultTallImage: new NestedFormElement.Path({
             directory: false,
-            isHidden: () => this.isHiddenIfNotAdvanced(),
-              highlight: this.highlight.bind(this),
+            highlight: this.highlight.bind(this),
             label: this.lang.label.defaultTallImage,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
@@ -342,8 +475,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           defaultHeroImage: new NestedFormElement.Path({
             directory: false,
-            isHidden: () => this.isHiddenIfNotAdvanced(),
-              highlight: this.highlight.bind(this),
+            highlight: this.highlight.bind(this),
             label: this.lang.label.defaultHeroImage,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
@@ -353,8 +485,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           defaultLogoImage: new NestedFormElement.Path({
             directory: false,
-            isHidden: () => this.isHiddenIfNotAdvanced(),
-              highlight: this.highlight.bind(this),
+            highlight: this.highlight.bind(this),
             label: this.lang.label.defaultLogoImage,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
@@ -364,8 +495,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           defaultIcon: new NestedFormElement.Path({
             directory: false,
-            isHidden: () => this.isHiddenIfNotAdvanced(),
-              highlight: this.highlight.bind(this),
+            highlight: this.highlight.bind(this),
             label: this.lang.label.defaultIcon,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
@@ -375,9 +505,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           localImages: new NestedFormElement.Path({
             directory: true,
-            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
-            isHidden: () => this.isHiddenIfNotAdvanced(),
-              highlight: this.highlight.bind(this),
+            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
+            highlight: this.highlight.bind(this),
             label: this.lang.label.localImages,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
@@ -387,9 +516,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           localTallImages: new NestedFormElement.Path({
             directory: true,
-            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
-            isHidden: () => this.isHiddenIfNotAdvanced(),
-              highlight: this.highlight.bind(this),
+            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
+            highlight: this.highlight.bind(this),
             label: this.lang.label.localTallImages,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
@@ -399,9 +527,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           localHeroImages: new NestedFormElement.Path({
             directory: true,
-            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
-            isHidden: () => this.isHiddenIfNotAdvanced(),
-              highlight: this.highlight.bind(this),
+            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
+            highlight: this.highlight.bind(this),
             label: this.lang.label.localHeroImages,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
@@ -411,9 +538,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           localLogoImages: new NestedFormElement.Path({
             directory: true,
-            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG)',
-            isHidden: () => this.isHiddenIfNotAdvanced(),
-              highlight: this.highlight.bind(this),
+            appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
+            highlight: this.highlight.bind(this),
             label: this.lang.label.localLogoImages,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
@@ -425,27 +551,17 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           localIcons: new NestedFormElement.Path({
             directory: true,
             appendGlob: '${finalTitle}.@(png|PNG|ico|ICO)',
-            isHidden: () => this.isHiddenIfNotAdvanced(),
-              highlight: this.highlight.bind(this),
+            highlight: this.highlight.bind(this),
             label: this.lang.label.localIcons,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
               this.currentDoc.activePath = path.join();
               this.currentDoc.content = this.lang.docs__md.localIcons.join('');
             }
-          }),
-          disabled: new NestedFormElement.Toggle({
-            text: this.lang.text.disabled
-          }),
-          advanced: new NestedFormElement.Toggle({
-            text: this.lang.text.advanced
           })
         }
       });
-      this.currentDoc.content = this.lang.docs__md.intro.join('');
-      this.appSettings = this.settingsService.getSettings();
     }
-
 
     ngAfterViewInit() {
       this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe((data) => {
@@ -453,10 +569,70 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.loadConfiguration();
       })).add(this.activatedRoute.params.subscribe((params) => {
         this.configurationIndex = parseInt(params['index']);
+        if(this.configurationIndex !== -1) {
+          this.currentDoc.activePath = 'parserType';
+        } else {
+          this.currentDoc.activePath = '';
+          this.currentDoc.content = this.lang.docs__md.intro.join('');
+        }
         this.loadConfiguration();
+        this.fetchControllerTemplates(false);
       })).add(this.cpService.dataObservable.subscribe((data) => {
         this.configPresets = data;
-      }));
+      })).add(this.parsersService.getSavedControllerTemplates().subscribe((data) => {
+        this.parsersService.controllerTemplates = data;
+        this.fetchControllerTemplates(false);
+      }))
+    }
+
+    private removeControllers() {
+      let configTitle = this.userForm.get('configTitle').value;
+      this.loggerService.info(this.lang.info.removingControllers__i.interpolate({configTitle: configTitle}));
+      let steamDirInput = this.userForm.get('steamDirectory').value || '';
+      let steamDir = this.parsersService.parseSteamDir(steamDirInput);
+      if(this.parsersService.validate('steamDirectory', steamDir) == null) {
+        let userAccountsInfo = this.userForm.get('userAccounts').value;
+        let parserId = this.parsersService.getParserId(this.configurationIndex);
+        this.parsersService.parseUserAccounts(userAccountsInfo, steamDir).then((userIds)=>{
+        for(let userId of userIds) {
+          this.parsersService.removeControllers(steamDir, userId, parserId);
+        }
+        this.loggerService.success(this.lang.success.removedControllers__i.interpolate({configTitle: configTitle}), {invokeAlert: true, alertTimeout: 3000 })
+        }).catch((error)=>{
+          this.loggerService.error(this.lang.error.errorRemovingControllers, {invokeAlert: true, alertTimeout: 3000 });
+          this.loggerService.error(error);
+        })
+      } else {
+        this.loggerService.error(this.lang.error.cannotRemoveControllers, {invokeAlert: true, alertTimeout: 3000 })
+      }
+    }
+
+    private fetchControllerTemplates(force:boolean = true) {
+      if(force) {
+        this.loggerService.info(this.lang.info.fetchingControllerTemplates);
+      }
+      let steamDirInput = this.userForm.get('steamDirectory').value || '';
+      let steamDir = this.parsersService.parseSteamDir(steamDirInput);
+      if(this.parsersService.validate('steamDirectory', steamDir) == null) {
+        if(force || !this.parsersService.controllerTemplates[steamDir]) {
+          this.parsersService.controllerTemplates[steamDir] = {};
+          for(let controllerType of controllerTypes) {
+            this.parsersService.controllerTemplates[steamDir][controllerType] = this.parsersService.getControllerTemplates(steamDir, controllerType);
+          }
+          this.parsersService.saveControllerTemplates();
+        } else {
+          for(let controllerType of Object.keys(this.parsersService.controllerTemplates[steamDir])) {
+            ((this.nestedGroup.children.controllers as NestedFormElement.Group).children[controllerType] as NestedFormElement.Select).values = this.parsersService.controllerTemplates[steamDir][controllerType].map(template => {
+              return { displayValue: template.title, value: template }
+          });
+          }
+        }
+        if(force) {
+          this.loggerService.success(this.lang.success.fetchedTemplates, { invokeAlert: true, alertTimeout: 3000 })
+        }
+      } else if(force) {
+        this.loggerService.error(this.lang.error.cannotFetchTemplates, { invokeAlert: true, alertTimeout: 3000 });
+      }
     }
 
     private setPreset(key: string) {
@@ -506,19 +682,21 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.currentDoc.content = this.lang.docs__md.communityPresets.join('');
     }
     private isHiddenIfNotRomsParser() {
-      return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => !['Glob','Glob-regex'].includes(pType))
+      return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => parserInfo.superTypesMap[pType] !== parserInfo.ROMType)
     }
-    private isHiddenIfNotAdvanced() {
-      return Observable.concat(Observable.of(this.userForm.get('advanced').value), this.userForm.get('advanced').valueChanges).map(val => !val);
+    private isHiddenIfArtworkOnlyParser() {
+      return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => parserInfo.superTypesMap[pType] === parserInfo.ArtworkOnlyType);
     }
-    private isHiddenIfSteamParser() {
-      return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => pType==='Steam');
+    private isHiddenIfParserBlank() {
+      return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => !pType)
     }
-    private isHiddenIfAny() {
+
+    // Not currently used but potentially very useful
+    private isHiddenIfArtworkOnlyOrBlank() {
       return Observable.combineLatest(
-        this.isHiddenIfNotAdvanced(),
-        this.isHiddenIfSteamParser(),
-        this.isHiddenIfNotRomsParser()).map(([na,s,nr])=>na||s||nr)
+        this.isHiddenIfArtworkOnlyParser(),
+        this.isHiddenIfParserBlank()
+      ).map(([ao,pb])=>ao||pb)
     }
 
     private get lang() {
@@ -612,7 +790,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
     private testForm() {
       let config = this.userForm.value as UserConfiguration;
-      config.parserId = this.configurationIndex===-1?'UNSAVED SO NO ID':this.parsersService.getParserId(this.configurationIndex);
+      config.parserId = this.configurationIndex === -1 ? 'UNSAVED SO NO ID' : this.parsersService.getParserId(this.configurationIndex);
       let successData: string = '';
       let errorData: string = '';
 
@@ -641,8 +819,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       };
 
       if (this.parsersService.isConfigurationValid(config)) {
-        if (this.appSettings.clearLogOnTest)
+        if (this.appSettings.clearLogOnTest) {
           this.loggerService.clearLog();
+        }
         success('Parser ID: '.concat(config.parserId));
         success('');
         this.parsersService.executeFileParser(config).then((dataArray) => {
@@ -683,6 +862,26 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             success('Number of Titles: '.concat(data.files.length.toString()));
             for (let i = 0; i < data.files.length; i++) {
               success('');
+              let executableLocation = data.files[i].modifiedExecutableLocation;
+              let title = data.files[i].finalTitle;
+              let shortAppId = undefined; let appId = undefined;
+              if(config.parserType !== 'Steam') {
+                shortAppId = steam.generateShortAppId(executableLocation, title);
+                appId = steam.lengthenAppId(shortAppId);
+              } else {
+                shortAppId = executableLocation.replace(/\"/g,"");
+                appId = steam.lengthenAppId(shortAppId);
+              }
+              success(this.lang.success.appId__i.interpolate({
+                index: i + 1,
+                total: totalLength,
+                appid: appId
+              }));
+              success(this.lang.success.shortAppId__i.interpolate({
+                index: i + 1,
+                total: totalLength,
+                appid: shortAppId
+              }));
               success(this.lang.success.extractedTitle__i.interpolate({
                 index: i + 1,
                 total: totalLength,
@@ -702,6 +901,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 index: i + 1,
                 total: totalLength,
                 filePath: data.files[i].filePath
+              }));
+              success(this.lang.success.startDir__i.interpolate({
+                index: i + 1,
+                total: totalLength,
+                startDir: data.files[i].startInDirectory
               }));
               success(this.lang.success.completeShortcut__i.interpolate({
                 index: i + 1,
@@ -1015,8 +1219,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }))
         this.router.navigateByUrl('/logger');
       }
-      else
+      else {
         this.loggerService.error(this.lang.error.cannotTestInvalid, { invokeAlert: true, alertTimeout: 3000 });
+      }
     }
 
     private moveUp() {

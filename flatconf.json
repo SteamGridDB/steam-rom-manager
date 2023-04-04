@@ -1,0 +1,19 @@
+{
+  "runtimeVersion": "19.08",
+  "icon": {
+    "512x512": "src/assets/icons/512x512.png"
+  },
+  "categories": [
+    "Accessories"
+  ],
+  "description": "An app for managing ROMs in Steam",
+  "finishArgs": [
+    "--share=ipc",
+    "--socket=x11",
+    "--socket=pulseaudio",
+    "--share=network",
+    "--device=all",
+    "--filesystem=host",
+    "--env=IN_FLATPAK=1"
+  ]
+}

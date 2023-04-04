@@ -8,20 +8,25 @@ import { ImageProviderService } from './image-provider.service';
 import {
   PreviewData, ImageContent, ParsedUserConfiguration, AppImages, PreviewVariables,
   ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings,
-  SteamTree, userAccountData, VDF_ExtraneousItemsData, ErrorData
+  SteamTree, userAccountData, VDF_ExtraneousItemsData, ErrorData, AppSelection, AppSelectionImages, AppSelectionImage
 } from '../../models';
-import { VDF_Manager, VDF_Error, CategoryManager, Category_Error } from "../../lib";
+import { VDF_Manager, VDF_Error, CategoryManager, ControllerManager, Acceptable_Error } from "../../lib";
 import { APP } from '../../variables';
 import { queue } from 'async';
 import * as steam from "../../lib/helpers/steam";
 import * as url from "../../lib/helpers/url";
+import * as unique_ids from "../../lib/helpers/unique-ids";
 import * as appImage from "../../lib/helpers/app-image";
 import * as ids from '../../lib/helpers/steam';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
+import * as FileSaver from 'file-saver';
 import * as path from "path";
-import * as Sentry from "@sentry/electron";
+import { getMaxLength } from "../../lib/helpers/app-image/get-max-length";
+import { P } from '@angular/core/src/render3';
+import { OpenDialogReturnValue } from 'electron';
 @Injectable()
+
 export class PreviewService {
   private appSettings: AppSettings;
   private previewData: PreviewData;
@@ -143,15 +148,13 @@ export class PreviewService {
 
     let vdfManager = new VDF_Manager();
     let categoryManager = new CategoryManager();
-
+    let controllerManager = new ControllerManager();
     this.previewVariables.listIsBeingSaved = true;
-    let chain: Promise<any> =  Promise.resolve()
-    .then(()=>{
+
+    let extraneousAppIds: VDF_ExtraneousItemsData = undefined;
+    let chain: Promise<any> =  Promise.resolve().then(()=>{
       this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
       return vdfManager.prepare(remove ? knownSteamDirectories : this.previewData)
-    }).catch((error:VDF_Error)=>{
-      this.loggerService.error(this.lang.errors.populatingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-      throw new Error(error.message);
     })
     .then(()=>{
       this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
@@ -162,56 +165,58 @@ export class PreviewService {
       return vdfManager.read();
     })
     if(!remove) {
-      chain = chain.then(()=>{
+      chain = chain.then(() => {
         this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages,this.appIcons, this.appSettings.previewSettings.deleteDisabledShortcuts)
       })
     } else {
-      chain = chain.then(()=>{
+      chain = chain.then(() => {
         this.loggerService.info(this.lang.info.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         return vdfManager.removeAllAddedEntries()
       })
     }
-    chain = chain.catch((error: VDF_Error | Error)=>{
-      if(error instanceof VDF_Error) {
-        this.loggerService.error(this.lang.errors.steamIsRunning, {invokeAlert: true, alertTimeout: 3000});
-      }
-      throw new Error(error.message);
+    chain = chain.then((exAppIds: VDF_ExtraneousItemsData) => {
+      extraneousAppIds = exAppIds;
     })
-    .then((extraneousAppIds: VDF_ExtraneousItemsData)=>{
+    .then(() => {
       this.loggerService.info(this.lang.info.savingCategories)
       return categoryManager.save(this.previewData, extraneousAppIds, remove)
-    }).catch((error: Category_Error | Error)=>{
-      if(error instanceof Category_Error) {
+    }).catch((error: Acceptable_Error | Error) => {
+      if(error instanceof Acceptable_Error) {
         this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
         this.loggerService.error(this.lang.errors.categorySaveError__i.interpolate({error:error.message}));
       } else {
-        // Category errors are considered non fatal
-        throw new Error(error.message);
+        throw error;
       }
     })
-    .then(()=>{
-      return vdfManager.write()
-    }).catch((error: VDF_Error)=>{
-      if(error instanceof VDF_Error) {
-        this.loggerService.error(this.lang.errors.savingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+    .then(() => {
+      this.loggerService.info('Saving controllers')
+      return controllerManager.save(this.previewData, extraneousAppIds, remove)
+    }).catch((error: Acceptable_Error | Error) => {
+      if(error instanceof Acceptable_Error) {
+        this.loggerService.error(this.lang.errors.controllerSaveError, { invokeAlert: true, alertTimeout: 3000 });
+        this.loggerService.error(this.lang.errors.controllerSaveError__i.interpolate({error:error.message}));
+      } else {
+        throw error;
       }
-      throw new Error(error.message);
     })
-    .then(()=>{
-      this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
+    .then(() => {
+      this.loggerService.info('Writing VDFs')
+      return vdfManager.write();
+    })
+    .then(() => {
       this.previewVariables.listIsBeingSaved = false;
-
       if (remove) {
         this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         this.clearPreviewData();
+      } else {
+        this.loggerService.success(this.lang.success.writingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
       }
       return true;
-    }).catch((failureError: Error)=>{
+    }).catch((failureError: Error) => {
       this.previewVariables.listIsBeingSaved = false;
       this.loggerService.error(this.lang.errors.fatalError,{ invokeAlert: true, alertTimeout: 3000 });
-      this.loggerService.error(this.lang.errors.fatalError__i.interpolate({error: failureError}));
-      Sentry.captureException(failureError);
+      this.loggerService.error(failureError)
       return false;
     })
     return chain;
@@ -312,9 +317,9 @@ export class PreviewService {
     }
   }
 
-  setImageIndex(app: PreviewDataApp, index: number, imagetype?: string) {
+  setImageIndex(app: PreviewDataApp, index: number, imagetype?: string, ignoreCurrentType: boolean = false) {
     if (app) {
-      if(this.currentImageType!="games"){
+      if (!ignoreCurrentType && this.currentImageType!="games"){
         imagetype = this.currentImageType;
       }
       if (imagetype === 'long') {
@@ -337,9 +342,9 @@ export class PreviewService {
     return this.getTotalLengthOfImages(app, imagetype) > 0;
   }
 
-  getTotalLengthOfImages(app: PreviewDataApp, imagetype?: string) {
+  getTotalLengthOfImages(app: PreviewDataApp, imagetype?: string, ignoreCurrentType: boolean = false) {
     if (app) {
-      if(this.currentImageType!="games") {
+      if (!ignoreCurrentType && this.currentImageType!="games") {
         imagetype = this.currentImageType;
       }
       if (imagetype === 'long') {
@@ -388,16 +393,24 @@ export class PreviewService {
 
   clearPreviewData() {
     this.previewData = undefined;
-    this.clearImageCache(true);
+    this.clearImageCache(false);
     this.previewVariables.numberOfListItems = 0;
     this.previewDataChanged.next();
   }
 
-  getAllCategories() {
-    const union = (x: string[],y: string[])=>_.union(x,y);
-    return this.previewData ? Object.entries(this.previewData).map(dir=>Object.entries(dir[1]).map(user=>Object.entries(user[1].apps).map(app=>app[1].steamCategories).reduce(union,[])).reduce(union,[])).reduce(union,[]) : [];
+  private union(x: string[],y: string[]) {
+    return _.union(x,y);
   }
 
+  getAllCategories() {
+    return this.previewData ? Object.entries(this.previewData).map(dir=>Object.entries(dir[1]).map(user=>Object.entries(user[1].apps).map(app=>app[1].steamCategories).reduce(this.union,[])).reduce(this.union,[])).reduce(this.union,[]) : [];
+  }
+
+  getAllParsers() {
+    return this.previewData ? Object.entries(this.previewData).map(dir=>Object.entries(dir[1]).map(user=>Object.entries(user[1].apps).map(app=>app[1].configurationTitle)).reduce(this.union,[])).reduce(this.union,[]) : [];
+  }
+
+  // If settingsOnly is true then api filters are not applied
   private clearImageCache(settingsOnly: boolean) {
     for (let imageKey in this.appImages) {
       this.appImages[imageKey].defaultImageProviders = [];
@@ -499,7 +512,6 @@ export class PreviewService {
         this.loggerService.error(error);
         this.previewVariables.listIsBeingGenerated = false;
         this.previewDataChanged.next();
-        Sentry.captureException(error);
       });
     }
   }
@@ -544,10 +556,11 @@ export class PreviewService {
 
           for (let k = 0; k < data[i].files.length; k++) {
             let file = config.files[k];
-            let executableLocation = (config.appendArgsToExecutable ? `${file.modifiedExecutableLocation} ${file.argumentString}` : `${file.modifiedExecutableLocation}`).trim();
+            let executableLocation = file.modifiedExecutableLocation;
+            let title = file.finalTitle;
             let appID: string = '';
-            if(config.parserType!=='Steam') {
-              appID = steam.generateAppId(executableLocation, file.finalTitle);
+            if(config.parserType !== 'Steam') {
+              appID = steam.generateAppId(executableLocation, title);
             } else {
               appID = steam.lengthenAppId(executableLocation.replace(/\"/g,""));
             }
@@ -565,6 +578,7 @@ export class PreviewService {
               this.appImages[file.imagePool] = {
                 retrieving: false,
                 searchQueries: file.onlineImageQueries,
+                imageProviderAPIs: config.imageProviderAPIs,
                 defaultImageProviders: config.imageProviders,
                 content: []
               };
@@ -573,6 +587,7 @@ export class PreviewService {
               let currentQueries = this.appImages[file.imagePool].searchQueries;
               let currentProviders = this.appImages[file.imagePool].defaultImageProviders;
 
+              this.appImages[file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
               this.appImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
@@ -580,6 +595,7 @@ export class PreviewService {
               this.appTallImages[file.imagePool] = {
                 retrieving: false,
                 searchQueries: file.onlineImageQueries,
+                imageProviderAPIs: config.imageProviderAPIs,
                 defaultImageProviders: config.imageProviders,
                 content: []
               };
@@ -588,6 +604,7 @@ export class PreviewService {
               let currentQueries = this.appTallImages[file.imagePool].searchQueries;
               let currentProviders = this.appTallImages[file.imagePool].defaultImageProviders;
 
+              this.appTallImages[file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
               this.appTallImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appTallImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
@@ -595,6 +612,7 @@ export class PreviewService {
               this.appHeroImages[file.imagePool] = {
                 retrieving: false,
                 searchQueries: file.onlineImageQueries,
+                imageProviderAPIs: config.imageProviderAPIs,
                 defaultImageProviders: config.imageProviders,
                 content: []
               };
@@ -603,6 +621,7 @@ export class PreviewService {
               let currentQueries = this.appHeroImages[file.imagePool].searchQueries;
               let currentProviders = this.appHeroImages[file.imagePool].defaultImageProviders;
 
+              this.appHeroImages[file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
               this.appHeroImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appHeroImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
@@ -610,6 +629,7 @@ export class PreviewService {
               this.appLogoImages[file.imagePool] = {
                 retrieving: false,
                 searchQueries: file.onlineImageQueries,
+                imageProviderAPIs: config.imageProviderAPIs,
                 defaultImageProviders: config.imageProviders,
                 content: []
               };
@@ -618,6 +638,7 @@ export class PreviewService {
               let currentQueries = this.appLogoImages[file.imagePool].searchQueries;
               let currentProviders = this.appLogoImages[file.imagePool].defaultImageProviders;
 
+              this.appLogoImages[file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
               this.appLogoImages[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appLogoImages[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
@@ -625,6 +646,7 @@ export class PreviewService {
               this.appIcons[file.imagePool] = {
                 retrieving: false,
                 searchQueries: file.onlineImageQueries,
+                imageProviderAPIs: config.imageProviderAPIs,
                 defaultImageProviders: config.imageProviders,
                 content: []
               };
@@ -632,7 +654,7 @@ export class PreviewService {
             else {
               let currentQueries = this.appIcons[file.imagePool].searchQueries;
               let currentProviders = this.appIcons[file.imagePool].defaultImageProviders;
-
+              this.appIcons[file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
               this.appIcons[file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
               this.appIcons[file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
             }
@@ -643,12 +665,12 @@ export class PreviewService {
               let steamTallImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('p')];
               let steamHeroImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('_hero')];
               let steamLogoImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('_logo')];
-              let steamIcon = undefined; //TODO add handling to get these
-              let steamIconUrl = undefined;
+              let steamIcon = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat('_icon')];
               let steamImageUrl = steamImage ? url.encodeFile(steamImage) : undefined;
               let steamTallImageUrl = steamTallImage ? url.encodeFile(steamTallImage) : undefined;
               let steamHeroImageUrl = steamHeroImage ? url.encodeFile(steamHeroImage) : undefined;
               let steamLogoImageUrl = steamLogoImage ? url.encodeFile(steamLogoImage) : undefined;
+              let steamIconUrl = steamIcon ? url.encodeFile(steamIcon) : undefined;
 
               previewData[config.steamDirectory][userAccount.accountID].apps[appID] = {
                 entryId: numberOfItems++,
@@ -659,9 +681,10 @@ export class PreviewService {
                 steamCategories: file.steamCategories,
                 startInDirectory: file.startInDirectory,
                 imageProviders: config.imageProviders,
-                argumentString: config.appendArgsToExecutable ? '' : file.argumentString,
+                argumentString: file.argumentString,
                 title: file.finalTitle,
                 extractedTitle: file.extractedTitle,
+                controllers: config.controllers,
                 images: {
                   steam: steamImage ? {
                     imageProvider: 'Steam',
@@ -848,58 +871,58 @@ export class PreviewService {
             allImagesRetrieved = false;
             this.previewVariables.numberOfQueriedImages += numberOfQueriesForImageKey;
             for (let j = 0; j < image.searchQueries.length; j++) {
-              this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], imageType,  imageProvidersForKey, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
+              this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], imageType, image.imageProviderAPIs,  imageProvidersForKey, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
                 switch (event) {
                   case 'error':
                     {
-                      let errorData = (data as ProviderCallbackEventMap['error']);
-                      if (typeof errorData.error === 'number') {
-                        this.loggerService.error(this.lang.errors.providerError__i.interpolate({
-                          provider: errorData.provider,
-                          code: errorData.error,
-                          title: errorData.title,
-                          url: errorData.url
-                        }));
-                      }
-                      else {
-                        this.loggerService.error(this.lang.errors.unknownProviderError__i.interpolate({
-                          provider: errorData.provider,
-                          title: errorData.title,
-                          error: errorData.error
-                        }));
-                      }
+                    let errorData = (data as ProviderCallbackEventMap['error']);
+                    if (typeof errorData.error === 'number') {
+                      this.loggerService.error(this.lang.errors.providerError__i.interpolate({
+                        provider: errorData.provider,
+                        code: errorData.error,
+                        title: errorData.title,
+                        url: errorData.url
+                      }));
                     }
+                    else {
+                      this.loggerService.error(this.lang.errors.unknownProviderError__i.interpolate({
+                        provider: errorData.provider,
+                        title: errorData.title,
+                        error: errorData.error
+                      }));
+                    }
+                  }
 
-                    break;
+                  break;
                   case 'timeout':
                     {
-                      let timeoutData = (data as ProviderCallbackEventMap['timeout']);
-                      this.loggerService.info(this.lang.info.providerTimeout__i.interpolate({
-                        time: timeoutData.time,
-                        provider: timeoutData.provider
-                      }), { invokeAlert: true, alertTimeout: 3000 });
-                    }
-                    break;
+                    let timeoutData = (data as ProviderCallbackEventMap['timeout']);
+                    this.loggerService.info(this.lang.info.providerTimeout__i.interpolate({
+                      time: timeoutData.time,
+                      provider: timeoutData.provider
+                    }), { invokeAlert: true, alertTimeout: 3000 });
+                  }
+                  break;
                   case 'image':
                     imageQueue.push(null, () => {
-                      let newImage = this.addUniqueImage(imageKeys[i], (data as ProviderCallbackEventMap['image']).content, imageType);
-                      if (newImage !== null && this.appSettings.previewSettings.preload)
-                        this.preloadImage(newImage);
+                    let newImage = this.addUniqueImage(imageKeys[i], (data as ProviderCallbackEventMap['image']).content, imageType);
+                    if (newImage !== null && this.appSettings.previewSettings.preload)
+                      this.preloadImage(newImage);
 
-                      this.previewDataChanged.next();
-                    });
-                    break;
+                    this.previewDataChanged.next();
+                  });
+                  break;
                   case 'completed':
                     {
-                      if (--numberOfQueriesForImageKey === 0) {
-                        image.retrieving = false;
-                      }
-                      if (--this.previewVariables.numberOfQueriedImages === 0) {
-                        this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
-                      }
-                      this.previewDataChanged.next();
+                    if (--numberOfQueriesForImageKey === 0) {
+                      image.retrieving = false;
                     }
-                    break;
+                    if (--this.previewVariables.numberOfQueriedImages === 0) {
+                      this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
+                    }
+                    this.previewDataChanged.next();
+                  }
+                  break;
                   default:
                     break;
                 }
@@ -953,5 +976,219 @@ export class PreviewService {
 
     }
     return null;
+  }
+
+  async exportSelection() {
+    async function saveImage(imageUrl: string, temporayDir: string, append: string) {
+      const extension = imageUrl.split(/[#?]/)[0].split('.').pop().trim();
+      var request = require('request').defaults({ encoding: null });
+
+      function doRequest(url: string, filename: string) {
+        return new Promise(function (resolve, reject) {
+          request(url, function (error: any, res: any, body: any) {
+            if (!error && res.statusCode == 200) {
+              fs.writeFileSync(filename, body);
+              resolve(body);
+            } else {
+              reject(error);
+            }
+          });
+        });
+      }
+
+      if (imageUrl.startsWith("file://")) {
+        await fs.copyFile(url.decodeFile(imageUrl), `${temporayDir}${path.sep}${append}.${extension}`);
+      }
+      else {
+        await doRequest(imageUrl, `${temporayDir}${path.sep}${append}.${extension}`);
+      }
+
+      return `${append}.${extension}`;
+    }
+
+    const dialog = require('electron').remote.dialog;
+    const options: Electron.OpenDialogSyncOptions = {
+      properties: ['openDirectory', 'createDirectory'],
+      title: 'Choose selections folder save location.'
+    }
+
+    const result: OpenDialogReturnValue = await dialog.showOpenDialog(options);
+
+    if (result.filePaths !== undefined) {
+      let timeout: any;
+      try {
+        const packagePath = path.join(result.filePaths[0],"srm-image-choices-export/");
+        if(fs.existsSync(packagePath)) {
+          fs.rmdirSync(packagePath, { recursive: true });
+        }
+        fs.mkdirSync(packagePath);
+        const apps: any[] = [];
+        let appsCount: number = 0;
+
+        this.loggerService.info(this.lang.info.preparingExport, { invokeAlert: true, alertTimeout: 3000 });
+
+        for (const directory in this.previewData) {
+          for (const userId in this.previewData[directory]) {
+            for (const appId in this.previewData[directory][userId].apps) {
+              appsCount++;
+            }
+          }
+        };
+
+        timeout = window.setInterval(() => {
+          this.loggerService.info(this.lang.info.exportProgress__i.interpolate({
+            progress: `${apps.length}/${appsCount}`
+          }), { invokeAlert: true, alertTimeout: 3000, doNotAppendToLog: true });
+        }, 1500);
+        for (const directory in this.previewData) {
+          for (const userId in this.previewData[directory]) {
+            for (const appId in this.previewData[directory][userId].apps) {
+              const app: PreviewDataApp = this.previewData[directory][userId].apps[appId];
+              const selection: AppSelection = {
+                title: app.extractedTitle,
+                images: {
+                  grid: appImage.getCurrentImage(app.images, this.appImages) ? {
+                    pool: app.images.imagePool,
+                    filename: await saveImage(appImage.getCurrentImage(app.images, this.appImages).imageUrl, packagePath, `${app.extractedTitle}.grid`)
+                  }: null,
+                  poster: appImage.getCurrentImage(app.tallimages, this.appTallImages) ? {
+                    pool: app.tallimages.imagePool,
+                    filename: await saveImage(appImage.getCurrentImage(app.tallimages, this.appTallImages).imageUrl, packagePath, `${app.extractedTitle}.poster`)
+                  }: null,
+                  hero: appImage.getCurrentImage(app.heroimages, this.appHeroImages) ? {
+                    pool: app.heroimages.imagePool,
+                    filename: await saveImage(appImage.getCurrentImage(app.heroimages, this.appHeroImages).imageUrl, packagePath, `${app.extractedTitle}.hero`)
+                  } : null,
+                  logo: appImage.getCurrentImage(app.logoimages, this.appLogoImages) ? {
+                    pool: app.logoimages.imagePool,
+                    filename: await saveImage(appImage.getCurrentImage(app.logoimages, this.appLogoImages).imageUrl, packagePath, `${app.extractedTitle}.logo`)
+                  } : null,
+                  icon: appImage.getCurrentImage(app.icons,this.appIcons) ? {
+                    pool: app.icons.imagePool,
+                    filename: await saveImage(appImage.getCurrentImage(app.icons, this.appIcons).imageUrl, packagePath, `${app.extractedTitle}.icon`)
+                  } : null
+                }
+              }
+              apps.push(selection);
+            }
+          }
+        }
+
+        if (timeout !== undefined) {
+          window.clearTimeout(timeout);
+        }
+        fs.writeFileSync(path.join(packagePath,"_selections.json"), JSON.stringify(apps, null, 2));
+
+        this.loggerService.success(this.lang.success.exportSuccess__i.interpolate({
+          path: packagePath
+        }), { invokeAlert: true, alertTimeout: 3000 });
+      }
+      catch (e) {
+
+        if (timeout !== undefined) {
+          window.clearTimeout(timeout);
+        }
+        this.loggerService.error(this.lang.errors.exportError__i.interpolate({
+          error: e.message
+        }), { invokeAlert: true, alertTimeout: 3000 });
+      }
+    }
+  }
+
+  async importSelection() {
+
+    const dialog = require('electron').remote.dialog;
+    const options: Electron.OpenDialogSyncOptions = {
+      properties: ['openDirectory', 'createDirectory'],
+      title: 'Choose selections folder location.'
+    }
+
+    const result: OpenDialogReturnValue = await dialog.showOpenDialog(options);
+
+    if (result.filePaths !== undefined) {
+      try {
+        const packagePath = result.filePaths[0];
+
+        this.loggerService.info(this.lang.info.readingSelections, { invokeAlert: true, alertTimeout: 3000 });
+
+        let selections: AppSelection[] = JSON.parse(fs.readFileSync(path.join(packagePath,"_selections.json"), 'utf8'));
+        let importedApps: string[] = [];
+
+        for (const selection of selections) {
+          if(selection.images.grid) {
+            this.addUniqueImage(selection.images.grid.pool, {
+              imageProvider: 'LocalStorage',
+              imageUrl: url.encodeFile(`${packagePath}${path.sep}${selection.images.grid.filename}`),
+              loadStatus: 'done'
+            }, 'long');
+
+          }
+          if(selection.images.poster) {
+            this.addUniqueImage(selection.images.poster.pool, {
+              imageProvider: 'LocalStorage',
+              imageUrl: url.encodeFile(`${packagePath}${path.sep}${selection.images.poster.filename}`),
+              loadStatus: 'done'
+            }, 'tall');
+
+          }
+          if(selection.images.hero) {
+            this.addUniqueImage(selection.images.hero.pool, {
+              imageProvider: 'LocalStorage',
+              imageUrl: url.encodeFile(`${packagePath}${path.sep}${selection.images.hero.filename}`),
+              loadStatus: 'done'
+            }, 'hero');
+
+          }
+          if(selection.images.logo) {
+            this.addUniqueImage(selection.images.logo.pool, {
+              imageProvider: 'LocalStorage',
+              imageUrl: url.encodeFile(`${packagePath}${path.sep}${selection.images.logo.filename}`),
+              loadStatus: 'done'
+            }, 'logo');
+
+          }
+          if(selection.images.icon) {
+            this.addUniqueImage(selection.images.icon.pool, {
+              imageProvider: 'LocalStorage',
+              imageUrl: url.encodeFile(`${packagePath}${path.sep}${selection.images.icon.filename}`),
+              loadStatus: 'done'
+            }, 'icon');
+
+          }
+
+          importedApps.push(selection.title);
+        }
+
+        for (const directory in this.previewData) {
+          for (const userId in this.previewData[directory]) {
+            for (const appId in this.previewData[directory][userId].apps) {
+              const app: PreviewDataApp = this.previewData[directory][userId].apps[appId];
+              if (importedApps.includes(app.extractedTitle)) {
+                this.setImageIndex(app, this.getTotalLengthOfImages(app, 'long', true) - 1, 'long', true);
+                this.setImageIndex(app, this.getTotalLengthOfImages(app, 'tall', true) - 1, 'tall', true);
+                this.setImageIndex(app, this.getTotalLengthOfImages(app, 'hero', true) - 1, 'hero', true);
+                this.setImageIndex(app, this.getTotalLengthOfImages(app, 'logo', true) - 1, 'logo', true);
+                this.setImageIndex(app, this.getTotalLengthOfImages(app, 'icon', true) - 1, 'icon', true);
+              }
+            }
+          }
+        }
+        this.loggerService.success(this.lang.success.importSelectionsSuccess__i.interpolate({
+          count: importedApps.length
+        }), { invokeAlert: true, alertTimeout: 3000 });
+      }
+      catch (e) {
+        if (e instanceof SyntaxError) {
+          this.loggerService.error(this.lang.errors.importJSONFailError__i.interpolate({
+            error: e.message
+          }), { invokeAlert: true, alertTimeout: 3000 });
+        }
+        else {
+          this.loggerService.error(this.lang.errors.importFailError__i.interpolate({
+            error: e.message
+          }), { invokeAlert: true, alertTimeout: 3000 });
+        }
+      }
+    }
   }
 }

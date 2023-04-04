@@ -6,7 +6,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as _ from 'lodash';
-import { Category_Error } from './category-error';
+import { Acceptable_Error } from './acceptable-error';
 
 export class CategoryManager {
   private data: object = {};
@@ -59,7 +59,7 @@ export class CategoryManager {
           if(!removeAll) {
             for (const appId of Object.keys(userData.apps).filter((appId: string)=>userData.apps[appId].status ==='add')) {
               const app = userData.apps[appId];
-              const appIdNew = parseInt(steam.generateNewAppId(app.executableLocation, app.title), 10);
+              const appIdNew = parseInt(steam.generateShortAppId(app.executableLocation, app.title), 10);
 
               // Loop "steamCategories" and make a new category from each
               app.steamCategories.forEach((catName: string) => {
@@ -90,7 +90,6 @@ export class CategoryManager {
                 }
               });
             }
-
           }
         }).catch((error: any)=>{
           throw error;
@@ -111,20 +110,20 @@ export class CategoryManager {
     });
   }
 
-  save(PreviewData: PreviewData, extraneousItems: VDF_ExtraneousItemsData, removeAll: boolean) {
+  save(PreviewData: PreviewData, extraneousAppIds: VDF_ExtraneousItemsData, removeAll: boolean) {
     return new Promise((resolveSave, rejectSave) => {
       this.data = PreviewData;
 
       let result = this.createList().reduce((accumulatorPromise, user) => {
         return accumulatorPromise.then(() => {
-          return this.writeCat(user, extraneousItems[user.userId].map((x)=>steam.shortenAppId(x)), removeAll);
+          return this.writeCat(user, extraneousAppIds[user.userId].map((x)=>steam.shortenAppId(x)), removeAll);
         });
       }, Promise.resolve());
 
       return result.then(() => {
-        resolveSave();
+        resolveSave(extraneousAppIds);
       }).catch((error: Error) => {
-        rejectSave(new Category_Error(error));
+        rejectSave(new Acceptable_Error(error));
       });
     });
   }

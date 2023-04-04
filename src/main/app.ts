@@ -13,7 +13,7 @@ import { hideBin } from 'yargs/helpers';
 let commandCLI:string = '';
 let argsCLI: string[] = [];
 yargs(hideBin(process.argv))
-.command('list','list all parsers',(yargs: Argv)=>{
+.command('list','list all parsers',(yargs: typeof Argv)=>{
   commandCLI = 'list'
   return
 })
@@ -22,6 +22,7 @@ yargs(hideBin(process.argv))
 
 // Logging setup
 if(commandCLI) {
+  log.info('In CLI')
   delete process.env.ELECTRON_ENABLE_SECURITY_WARNINGS;
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true';
   process.env.ELECTRON_ENABLE_LOGGING='1';
@@ -31,10 +32,6 @@ if(commandCLI) {
   log.transports.file.level='info';
   log.info('App starting...');
 }
-
-// Sentry setup
-import { init } from '@sentry/electron'
-init({dsn: 'https://6d0c7793f478480d8b82fb5d4e55ecea@o406253.ingest.sentry.io/5273341'});
 
 
 // Auto updater setup
@@ -65,6 +62,7 @@ function createWindow() {
     backgroundColor: '#121212',
     webPreferences: {
       devTools: true,
+      contextIsolation: false,
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
       enableRemoteModule: true
@@ -135,12 +133,17 @@ app.on('ready', ()=>{
       protocol: 'file:',
       slashes: true
     }));
-    ipcMain.on('parsers_list', (event: IpcMainEvent, plist)=> {
+    ipcMain.on('parsers_list', (event: IpcMainEvent, plist) => {
       console.log('Parsers List: ', plist);
       app.quit();
     })
+    ipcMain.on('log', (event: IpcMainEvent, loggable: any) => {
+      console.log(loggable);
+    })
     mainWindow.webContents.on('did-finish-load',()=>{
       if(commandCLI) {
+        log.info("sending contents");
+        console.log("other log type")
         mainWindow.webContents.send('cli_message',{command: commandCLI, args: argsCLI});
       } else {
         app.quit();

@@ -18,6 +18,7 @@ nav-expand {
     & >.title {
         display: flex;
         overflow-y: auto;
+        overflow-x: hidden;
         flex-direction: column;
 
         margin: 0;

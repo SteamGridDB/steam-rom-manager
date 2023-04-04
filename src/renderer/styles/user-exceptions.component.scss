@@ -14,7 +14,6 @@
 
   .docs {
     padding: 1em;
-
     grid-area: docs;
   }
 
@@ -50,10 +49,14 @@
 
       margin: 0.25em 0 1em 0;
       padding-left: 0em;
-
+      .inlineLeft {
+        display: flex;
+        align-items: center;
+        margin: 0.25em 0em 0.25em 0;
+      }
       .inlineGroup {
         display: flex;
-        margin: 0.25em 0 0.25em 0;
+        margin: 0.25em 0em 0.25em 0;
         justify-content: space-between;
         align-items: center;
         .deleteItem {
@@ -63,13 +66,14 @@
       }
 
       .text {
+        width: 30%;
         color: var(--color-settings-text);
       }
 
       .ngToggleButton {
         font-size: 1em;
 
-        margin: 0.25em 0 0.5em 0;
+        margin: 0.25em 1em 0.5em 0;
 
         @include ngToggleButtonColor(ng-toggle-button);
       }
@@ -95,7 +99,7 @@
         @include ngTextInputColor(input);
         @include ngTextInput();
 
-        width: 20em;
+        width: 70%;
 
         grid-column: 4;
       }

@@ -1,37 +1,49 @@
+import { Controllers } from './controllers.model';
+
+export interface ImageProviderAPI {
+  [imageProvider: string]: {
+    [apiInputName: string]: string | string[] | boolean
+  }
+}
+
+export interface UserAccountsInfo {
+  specifiedAccounts: string,
+  skipWithMissingDataDir: boolean,
+  useCredentials: boolean
+}
+
 export interface UserConfiguration {
-    parserType: string,
+  parserType: string,
     configTitle: string,
     parserId: string,
     steamCategory: string,
     executable: {
       path: string,
-      shortcutPassthrough: boolean,
-      appendArgsToExecutable: boolean,
+        shortcutPassthrough: boolean,
+        appendArgsToExecutable: boolean,
     },
     executableModifier: string,
     romDirectory: string,
     steamDirectory: string,
     startInDirectory: string,
-    userAccounts: {
-        specifiedAccounts: string,
-        skipWithMissingDataDir: boolean,
-        useCredentials: boolean
-    },
-    parserInputs: { [inputKey: string]: string },
+    userAccounts: UserAccountsInfo,
+    parserInputs: { [inputKey: string]: string | boolean },
     titleFromVariable: {
-        limitToGroups: string,
+      limitToGroups: string,
         skipFileIfVariableWasNotFound: boolean,
         caseInsensitiveVariables: boolean,
         tryToMatchTitle: boolean
     },
     fuzzyMatch: {
-        use: boolean,
+      use: boolean,
         removeCharacters: boolean,
         removeBrackets: boolean,
         replaceDiacritics: boolean
     },
+    controllers: Controllers,
     onlineImageQueries: string,
     imageProviders: string[],
+    imageProviderAPIs: ImageProviderAPI,
     executableArgs: string,
     imagePool: string,
     defaultImage: string,

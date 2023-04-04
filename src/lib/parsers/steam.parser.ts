@@ -6,7 +6,6 @@ import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
 import * as appid from "appid";
 import * as bvdf from "binary-vdf";
-import * as Sentry from '@sentry/electron';
 import * as json from "../helpers/json";
 
 export class SteamParser implements GenericParser {
@@ -32,13 +31,13 @@ export class SteamParser implements GenericParser {
       let appinfo_path = path.normalize(path.join(directories[0],'..','..','appcache','appinfo.vdf'));
       Promise.resolve()
         .then(()=>{
-          for(let i=0; i<directories.length; i++) {
+          for(let i=0; i < directories.length; i++) {
             let sharedconfig_path = path.join(directories[i],'7','remote','sharedconfig.vdf');
             try {
             let sharedconfig = genericParser.parse(fs.readFileSync(sharedconfig_path,'utf-8'));
             appIds = _.union(appIds, Object.keys(json.caseInsensitiveTraverse(sharedconfig, [['userroamingconfigstore','userlocalconfigstore'],['software'],['valve'],['steam'],['apps']])));
             } catch(err) {
-              throw {error:err, path: sharedconfig_path}
+              throw {error: err, path: sharedconfig_path}
             }
           }
           try {
@@ -60,16 +59,18 @@ export class SteamParser implements GenericParser {
                 return {title: (x||{}).name, appid: appId}
               });
             }
-          })).then((appsWithInfo: any[])=>appsWithInfo.filter((x: any)=>x.title))
+          })).then((appsWithInfo: any[])=>appsWithInfo.filter((x: any)=>x.title !== undefined))
         }).then((appsWithInfo: any[]) => {
           let parsedData: ParsedData = {success: [], failed: []}
-          for(let i=0;i<appsWithInfo.length; i++){
-            parsedData.success.push({extractedTitle: appsWithInfo[i].title, extractedAppId:appsWithInfo[i].appid.toString()});
+          for(let i=0;i < appsWithInfo.length; i++){
+            parsedData.success.push({
+              extractedTitle: appsWithInfo[i].title.toString(),
+              extractedAppId: appsWithInfo[i].appid.toString()
+            });
           }
           resolve(parsedData);
         })
         .catch((err)=>{
-          Sentry.captureException(err);
           reject(this.lang.errors.fatalError__i.interpolate({error: err}));
         });
 

@@ -15,7 +15,7 @@ export class VDF_Manager {
   }
 
   prepare(data: SteamDirectory[] | PreviewData) {
-    return new Promise<void>((resolve,reject)=>{
+    return new Promise<void>((resolve, reject)=>{
       let chain: Promise<any> = Promise.resolve(data);
       if (data instanceof Array) {
         if (data.length > 0) {
@@ -26,91 +26,100 @@ export class VDF_Manager {
       } else {
         chain = chain.then(vdf.generateListFromPreviewData)
       }
-      chain = chain.then((generatedData)=>{
+      return chain.then((generatedData)=>{
         if (generatedData.numberOfGeneratedEntries > 0) {
-          this.data = generatedData.data;
           if (generatedData.errors.length > 0) {
             reject(new VDF_Error(generatedData.errors))
-          } else { resolve(); }
+          } else {
+            this.data = generatedData.data;
+            resolve();
+          }
         } else {
           if (generatedData.errors.length > 0) {
             reject(new VDF_Error(generatedData.errors))
           } else {
-            reject(new VDF_Error(APP.lang.vdfManager.error.noUsersFound));
+            reject(new VDF_Error(this.lang.error.noUsersFound));
           }
         }
+      }).catch((error) => {
+        reject(new VDF_Error(this.lang.error.couldNotPrepareToRead__i.interpolate({ error })));
       });
     })
   }
 
   backup(options?: { shortcuts?: boolean, screenshots?: boolean }) {
-    let promises: Promise<void>[] = []
-    let backupShortcuts = options !== undefined ? options.shortcuts : true;
-    let backupScreenshots = options !== undefined ? options.screenshots : true;
+    return new Promise<void>((resolve,reject)=>{
+      let promises: Promise<void>[] = []
+      let backupShortcuts = options !== undefined ? options.shortcuts : true;
+      let backupScreenshots = options !== undefined ? options.screenshots : true;
 
-    for (let steamDirectory in this.data) {
-      for (let userId in this.data[steamDirectory]) {
-        if (backupShortcuts) {
-          promises.push(this.data[steamDirectory][userId].shortcuts.backup('backup', true));
-          promises.push(this.data[steamDirectory][userId].shortcuts.backup('firstbackup'));
-        }
-        if (backupScreenshots) {
-          promises.push(this.data[steamDirectory][userId].screenshots.backup('backup', true));
-          promises.push(this.data[steamDirectory][userId].screenshots.backup('firstbackup'));
+      for (let steamDirectory in this.data) {
+        for (let userId in this.data[steamDirectory]) {
+          if (backupShortcuts) {
+            promises.push(this.data[steamDirectory][userId].shortcuts.backup('backup', true));
+            promises.push(this.data[steamDirectory][userId].shortcuts.backup('firstbackup'));
+          }
+          if (backupScreenshots) {
+            promises.push(this.data[steamDirectory][userId].screenshots.backup('backup', true));
+            promises.push(this.data[steamDirectory][userId].screenshots.backup('firstbackup'));
+          }
         }
       }
-    }
 
-    return Promise.all(promises);
+      return Promise.all(promises)
+        .then(()=>resolve())
+        .catch((error)=>reject(this.lang.error.couldNotBackupEntries__i.interpolate({ error })));
+    })
   }
 
   read(options?: { shortcuts?: { skipIndexing: boolean, read: boolean }, addedItems?: boolean, screenshots?: boolean }) {
-    let promises: Promise<any>[] = [];
-    let readShortcuts = _.get(options, 'shortcuts.read', true);
-    let skipIndexing = _.get(options, 'shortcuts.skipIndexing', false);
-    let readAddedItems = _.get(options, 'addedItems', true);
-    let readScreenshots = _.get(options, 'screenshots', true);
+    return new Promise<void>((resolve,reject)=>{
+      let promises: Promise<any>[] = [];
+      let readShortcuts = _.get(options, 'shortcuts.read', true);
+      let skipIndexing = _.get(options, 'shortcuts.skipIndexing', false);
+      let readAddedItems = _.get(options, 'addedItems', true);
+      let readScreenshots = _.get(options, 'screenshots', true);
 
-    for (let steamDirectory in this.data) {
-      for (let userId in this.data[steamDirectory]) {
-        if (readShortcuts)
-          promises.push(this.data[steamDirectory][userId].shortcuts.read(skipIndexing));
-        if (readAddedItems)
-          promises.push(this.data[steamDirectory][userId].addedItems.read());
-        if (readScreenshots)
-          promises.push(this.data[steamDirectory][userId].screenshots.read());
+      for (let steamDirectory in this.data) {
+        for (let userId in this.data[steamDirectory]) {
+          if (readShortcuts)
+            promises.push(this.data[steamDirectory][userId].shortcuts.read(skipIndexing));
+          if (readAddedItems)
+            promises.push(this.data[steamDirectory][userId].addedItems.read());
+          if (readScreenshots)
+            promises.push(this.data[steamDirectory][userId].screenshots.read());
+        }
       }
-    }
 
-    return Promise.all(promises);
+      Promise.all(promises)
+        .then(()=>resolve())
+        .catch((error) => {
+          reject(this.lang.error.couldNotReadEntries__i.interpolate({ error }));
+        });
+    })
   }
 
   write(options?: { shortcuts?: boolean, addedItems?: boolean, screenshots?: boolean }) {
-    let promises: Promise<VDF_Error>[] = []
-    let writeShortcuts = options !== undefined ? options.shortcuts : true;
-    let writeAddedItems = options !== undefined ? options.addedItems : true;
-    let writeScreenshots = options !== undefined ? options.screenshots : true;
-
-    for (let steamDirectory in this.data) {
-      for (let userId in this.data[steamDirectory]) {
-        if (writeShortcuts)
-          promises.push(this.data[steamDirectory][userId].shortcuts.write() as Promise<undefined>);
-        if (writeAddedItems)
-          promises.push(this.data[steamDirectory][userId].addedItems.write() as Promise<undefined>);
-        if (writeScreenshots)
-          promises.push(this.data[steamDirectory][userId].screenshots.write());
-      }
-    }
-
     return new Promise<void>((resolve,reject)=>{
+      let promises: Promise<VDF_Error>[] = []
+      let writeShortcuts = options !== undefined ? options.shortcuts : true;
+      let writeAddedItems = options !== undefined ? options.addedItems : true;
+      let writeScreenshots = options !== undefined ? options.screenshots : true;
+
+      for (let steamDirectory in this.data) {
+        for (let userId in this.data[steamDirectory]) {
+          if (writeShortcuts)
+            promises.push(this.data[steamDirectory][userId].shortcuts.write() as Promise<undefined>);
+          if (writeAddedItems)
+            promises.push(this.data[steamDirectory][userId].addedItems.write() as Promise<undefined>);
+          if (writeScreenshots)
+            promises.push(this.data[steamDirectory][userId].screenshots.write());
+        }
+      }
       Promise.all(promises).then((errors)=>{
-        if(errors.length>0) {
-          let error = new VDF_Error(errors);
-          if(error.valid) {
-            reject(error);
-          } else {
-            resolve();
-          }
+        let error = new VDF_Error(errors, this.lang.error.couldNotWriteEntries);
+        if(error.valid) {
+          reject(error);
         } else {
           resolve();
         }
@@ -162,21 +171,23 @@ export class VDF_Manager {
               }
 
               if (item !== undefined) {
-                item.appname = app.title;
+                item.appid = ids.generateShortcutId(app.executableLocation, app.title),
+                  item.appname = app.title;
                 item.exe = app.executableLocation;
                 item.StartDir = app.startInDirectory;
                 item.LaunchOptions = app.argumentString;
-                item.tags = _.union(app.steamCategories, item.tags);
                 item.icon = icon_path;
+                item.tags = _.union(app.steamCategories, item.tags);
               }
               else if(app.parserType !== 'Steam') {
                 listItem.shortcuts.addItem(appId, {
+                  appid: ids.generateShortcutId(app.executableLocation, app.title),
                   appname: app.title,
                   exe: app.executableLocation,
                   StartDir: app.startInDirectory,
                   LaunchOptions: app.argumentString,
-                  tags: app.steamCategories,
-                  icon: icon_path
+                  icon: icon_path,
+                  tags: app.steamCategories
                 });
               }
 
@@ -185,7 +196,8 @@ export class VDF_Manager {
               if (currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
                 listItem.screenshots.addItem({ appId: appId, title: app.title, url: currentImage.imageUrl });
               }
-              if (currentImage !== undefined) {
+
+              if (currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
                 listItem.screenshots.addItem({ appId: ids.shortenAppId(appId), title: app.title, url: currentImage.imageUrl });
               }
 
@@ -199,7 +211,7 @@ export class VDF_Manager {
               if (currentLogoImage !== undefined && currentLogoImage.imageProvider !== 'Steam') {
                 listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('_logo'), title: app.title, url: currentLogoImage.imageUrl });
               }
-              if (currentIcon !== undefined && currentIcon.imageProvider !=='Steam') {
+              if (currentIcon !== undefined && currentIcon.imageProvider !== 'Steam') {
                 listItem.screenshots.addItem({appId: ids.shortenAppId(appId).concat('_icon'), title:app.title, url: currentIcon.imageUrl });
               }
             }

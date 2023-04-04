@@ -1,6 +1,8 @@
 import { GenericProvider, GenericProviderManager, ProviderProxy } from "./generic-provider";
 import { xRequestWrapper } from "./x-request-wrapper";
+
 const SGDB = require("steamgriddb");
+const idRegex: RegExp = /^\$\{gameid\:([0-9]*?)\}$/;
 
 class SteamGridDbProvider extends GenericProvider {
   private xrw: xRequestWrapper;
@@ -15,38 +17,68 @@ class SteamGridDbProvider extends GenericProvider {
   retrieveUrls() {
     let self = this;
     this.xrw.promise = new Promise<void>(function (resolve) {
-      self.client.searchGame(self.proxy.title).then((res: any)=>{
-
-        //eventually the user should have the ability to change this
-        let chosenIndex=0;
-
-        let query: Promise<any>;
-        if(self.proxy.imageType === 'long') {
-          query = self.client.getGridsById(res[chosenIndex].id,undefined,["legacy","460x215","920x430"]);
-        } else if (self.proxy.imageType === 'tall') {
-          query = self.client.getGridsById(res[chosenIndex].id,undefined,["600x900"]);
-        } else if (self.proxy.imageType === 'hero') {
-          query = self.client.getHeroes({id: res[chosenIndex].id, type: 'game'});
-        } else if (self.proxy.imageType === 'logo') {
-          query = self.client.getLogos({id: res[chosenIndex].id, type: 'game'});
-        } else if (self.proxy.imageType === 'icon') {
-          query = self.client.getIcons({id: res[chosenIndex].id, type: 'game'})
-        }
-
-        query.then((res: any)=>{
-          if(res !== null && res.length>0) {
-            for (let i=0; i < res.length; i++) {
-              self.proxy.image({
-                imageProvider: 'SteamGridDB',
-                imageUrl: res[i].url,
-                imageUploader: res[i].author.name,
-                loadStatus: 'notStarted'
-              });
-            }
+      let idPromise: Promise<number> = null;
+      if(idRegex.test(self.proxy.title)) {
+        idPromise = Promise.resolve(parseInt(self.proxy.title.split(':')[1].slice(0,-1)))
+      } else {
+        idPromise = self.client.searchGame(self.proxy.title).then((res: any) => (res[0]||{}).id);
+      }
+      idPromise.then((chosenId: number|undefined)=>{
+        if(!chosenId) {
+          if(self.proxy.imageType === 'long') {
+            self.xrw.logError(`SGDB found no matching games for title "${self.proxy.title}"`)
           }
           self.proxy.completed();
           resolve();
-        })
+        } else {
+          let query: Promise<any>;
+          let params = {
+            id: chosenId,
+            type: 'game',
+            types: self.proxy.imageProviderAPIs.SteamGridDB.imageMotionTypes,
+            nsfw: self.proxy.imageProviderAPIs.SteamGridDB.nsfw ? "any" : "false",
+            humor: self.proxy.imageProviderAPIs.SteamGridDB.humor ? "any" : "false"
+          };
+          if(self.proxy.imageType === 'long') {
+            query = self.client.getGrids(Object.assign(params, {
+              dimensions: ["legacy","460x215","920x430"],
+              styles: self.proxy.imageProviderAPIs.SteamGridDB.styles
+            }))
+          } else if (self.proxy.imageType === 'tall') {
+            query = self.client.getGrids(Object.assign(params, {
+              dimensions: ["600x900"],
+              styles: self.proxy.imageProviderAPIs.SteamGridDB.styles
+            }));
+          } else if (self.proxy.imageType === 'hero') {
+            query = self.client.getHeroes(Object.assign(params, {
+              styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesHero
+            }));
+          } else if (self.proxy.imageType === 'logo') {
+            query = self.client.getLogos(Object.assign(params, {
+              styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesLogo
+            }));
+          } else if (self.proxy.imageType === 'icon') {
+            query = self.client.getIcons(Object.assign(params, {
+              styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesIcon
+            }));
+          }
+
+          query.then((res: any)=>{
+            if(res !== null && res.length>0) {
+              for (let i=0; i < res.length; i++) {
+                self.proxy.image({
+                  imageProvider: 'SteamGridDB',
+                  imageUrl: res[i].url,
+                  imageUploader: res[i].author.name,
+                  loadStatus: 'notStarted'
+                });
+              }
+            }
+            self.proxy.completed();
+            resolve();
+          })
+
+        }
       }).catch((error: string) => {
         self.xrw.logError(error);
         self.proxy.completed();

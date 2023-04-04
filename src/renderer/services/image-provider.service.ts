@@ -4,7 +4,6 @@ import { LoggerService } from './logger.service';
 import { SettingsService } from './settings.service';
 import { AppSettings } from '../../models';
 import { ImageProvider } from "../../lib";
-
 @Injectable()
 export class ImageProviderService {
     private imageProvider: ImageProvider;

@@ -9,6 +9,7 @@ export interface languageStruct {
         filter: string,
           selectType: string,
           selectCategories: string,
+          selectParsers: string,
           selectTypeOptions: {
             long: string,
               tall: string,
@@ -26,7 +27,9 @@ export interface languageStruct {
           saveAppList: string,
           removeAppList: string,
           remainingImages: string,
-          stopUrlRetrieving: string
+          stopUrlRetrieving: string,
+          exportSelections: string,
+          importSelections: string
       },
         service: {
           info: {
@@ -52,24 +55,32 @@ export interface languageStruct {
               parserFoundNoFiles: string,
               allImagesRetrieved: string,
               providerTimeout__i: string,//${provider}, ${time}
-              noAccountsWarning: string
+              noAccountsWarning: string,
+              preparingExport: string,
+              exportProgress__i: string,
+              readingSelections: string
           },
             errors: {
-              populatingVDF_entries: string,
-                savingVDF_entries: string,
-                fatalError: string,
+              fatalError: string,
                 fatalError__i: string, //${error}
                 knownSteamDirListIsEmpty: string,
                 steamIsRunning: string,
                 categorySaveError: string,
                 categorySaveError__i: string, //${error}
+                controllerSaveError: string,
+                controllerSaveError__i: string, //${error}
                 retryingDownload__i: string //${imageUrl}, ${appTitle},
               providerError__i: string//${provider}, ${code}, ${title}, ${url}
-              unknownProviderError__i: string //${provider}, ${title}, ${error}
+              unknownProviderError__i: string, //${provider}, ${title}, ${error}
+                exportError__i: string, //${error}
+                importJSONFailError__i: string, //${error}
+                importFailError__i: string //${error}
             },
             success: {
               writingVDF_entries: string,
-                removingVDF_entries: string
+                removingVDF_entries: string,
+                exportSuccess__i: string, //${path}
+                importSelectionsSuccess__i: string //${count}
             }
         }
     },
@@ -84,15 +95,122 @@ export interface languageStruct {
             fatalError__i: string
         }
     },
-    epicParser: {
+    UWPParser: {
+      UWPDirTitle: string,
+      UWPLauncherModeTitle: string,
       docs__md: {
-        self: string[]
+        self: string[],
+        input: string[]
       },
-      errors: {
-        epicNotCompatible: string,
-        epicNotInstalled: string,
-        fatalError__i: string
-      }
+        errors: {
+          fatalError__i: string,
+          UWPNotCompatible: string
+        }
+    },
+    itchIoParser: {
+      itchIoAppDataOverrideTitle: string,
+        itchIoWindowsOnLinuxInstallDriveRedirectTitle: string,
+        docs__md: {
+          self: string[],
+            input: string[]
+        },
+        errors: {
+          invalidItchIoAppDataOverride: string,
+            invalidItchIoWindowsOnLinuxInstallDriveRedirect: string,
+            osUnsupported: string,
+            fatalError__i: string,
+            databaseNotFound: string
+        }
+    },
+    eaDesktopParser: {
+      eaGamesDirTitle: string,
+      eaLauncherModeTitle: string,
+        docs__md: {
+          self: string[],
+            input: string[]
+        },
+        errors: {
+          invalidXML__i: string,
+          eaNotCompatible: string,
+            fatalError__i: string
+        }
+    },
+    amazonGamesParser: {
+      exeOverrideTitle: string,
+        launcherModeInputTitle: string,
+        docs__md: {
+          self: string[],
+            input: string[]
+        },
+        errors: {
+          invalidExeOverride: string,
+            osUnsupported: string,
+            databaseNotFound: string,
+            fatalError__i: string
+        }
+    },
+    manualParser: {
+      manifestsInputTitle: string,
+        docs__md: {
+          self: string[],
+            input: string[]
+        },
+        errors: {
+          fatalError__i: string
+        }
+    },
+    epicParser: {
+      manifestsInputTitle: string,
+        launcherModeInputTitle: string,
+        docs__md: {
+          self: string[],
+            input: string[]
+        },
+        errors: {
+          invalidManifestsOverride: string,
+            epicNotCompatible: string,
+            epicNotInstalled: string,
+            fatalError__i: string
+        }
+    },
+    legendaryParser: {
+      legendaryInstalledFileTitle: string,
+        docs__md: {
+          self: string[],
+            input: string[]
+        },
+        errors: {
+          legendaryNotInstalled: string,
+            fatalError__i: string
+        }
+    },
+    uplayParser: {
+      uplayDirTitle: string,
+        launcherModeInputTitle: string,
+        docs__md: {
+          self: string[],
+            input: string[]
+        },
+        errors: {
+          invalidManifestsOverride: string,
+            uplayNotCompatible: string,
+            uplayNotInstalled: string,
+            uplayDirNotFound: string,
+            fatalError__i: string
+        }
+    },
+    gogParser: {
+      galaxyExeOverrideTitle: string,
+        launcherModeInputTitle: string,
+        docs__md: {
+          self: string[],
+            input: string[]
+        }, errors: {
+          invalidGalaxyExeOverride: string,
+            gogNotCompatible: string,
+            gogNotInstalled: string,
+            fatalError__i: string
+        }
     },
     globParser: {
       inputTitle: string,
@@ -136,6 +254,19 @@ export interface languageStruct {
             noAnyCharInPatternNextToRegex__md: string
         }
     },
+    sgdbProvider: {
+      nsfwInputTitle: string,
+        humorInputTitle: string,
+        imageMotionTypesTitle: string,
+        stylesTitle: string,
+        stylesHeroTitle: string,
+        stylesLogoTitle: string,
+        stylesIconTitle: string,
+        docs__md: {
+          self: string[],
+            input: string[]
+        }
+    },
     logger: {
       component: {
         noMessages: string,
@@ -145,7 +276,10 @@ export interface languageStruct {
           fuzzy: string,
           textWrap: string,
           autoscroll: string,
-          clearLog: string
+          clearLog: string,
+          docs__md: {
+            self: string[]
+          }
       }
     },
     customVariables: {
@@ -170,7 +304,8 @@ export interface languageStruct {
             corruptedVariables__i: string//${file}, ${error}
         },
           info: {
-            downloaded: string
+            updatingPresets: string,
+              downloaded: string
           }
       }
     },
@@ -183,6 +318,9 @@ export interface languageStruct {
             environmentVariables: string,
             communityPresets: string
         },
+          docs__md: {
+            settings: string[]
+          },
           text: {
             offlineMode: string,
               removeApps_desc: string,
@@ -193,16 +331,23 @@ export interface languageStruct {
               enabledProviders: string,
               selectLanguage: string,
               resetFuzzy_desc: string,
+              resetFuzzyCache_desc: string,
               resetFuzzy_btn: string,
+              customVariables_desc: string,
+              configPresets_desc: string,
               showSteamImages: string,
               deleteDisabledShortcuts: string,
-              clearLogOnTest: string
+              clearLogOnTest: string,
+              configDir: string
           },
           placeholder: {
             noProviders: string,
               steamDirectoryWin: string,
               steamDirectoryLinux: string,
               steamDirectoryMac: string,
+              romsDirectoryWin: string,
+              romsDirectoryLinux: string,
+              romsDirectoryMac: string,
               retroarchPathWin: string,
               retroarchPathMac: string,
               retroarchPathLinux: string,
@@ -251,7 +396,8 @@ export interface languageStruct {
           },
           text: {
             title: string,
-              exclude: string
+              exclude: string,
+              excludeArtwork: string
           }
       },
         service: {
@@ -274,7 +420,7 @@ export interface languageStruct {
             faq: string,
             undoChanges: string,
             undoDelete: string,
-            toClipboard: string
+            toClipboard: string,
         },
           docs__md: {
             intro: string[],
@@ -283,6 +429,7 @@ export interface languageStruct {
               parserType: string[],
               configTitle: string[],
               steamCategory: string[],
+              controllerTemplates: string[],
               executableLocation: string[],
               romDirectory: string[],
               steamDirectory: string[],
@@ -314,67 +461,78 @@ export interface languageStruct {
               nothingWasFound: string,
               copiedToClipboard: string,
               userExclusions: string,
-              excludedFileInfo__i: string //${index}, ${total}, ${filename}
+              excludedFileInfo__i: string, //${index}, ${total}, ${filename},
+              removingControllers__i: string, //${configTitle},
+              fetchingControllerTemplates: string
           },
           error: {
             missingAccounts__i: string, //${count}
               missingAccountInfo__i: string, //${name}
               noAccountsWarning: string,
               failedToMatch: string,
+              cannotParseUserIDs: string,
               failedFileInfo__i: string, //${index}, ${total}, ${filename}
               testFailed: string,
               cannotTestInvalid: string,
               cannotCopyInvalid: string,
-              failedToCopy: string
-          }
-        success: {
-          foundAccounts__i: string, //${count}
-            foundAccountInfo__i: string, //${name}, ${steamID64}, ${accountID}
-            steamCategory__i: string, //${index}, ${total}, ${steamCategory}
-            steamCategoryInfo__i: string, //${steamCategory}
-            extractedTitle__i: string, //${index}, ${total}, ${title}
-            fuzzyTitle__i: string, //${index}, ${total}, ${title}
-            finalTitle__i: string, //${index}, ${total}, ${title}
-            filePath__i: string, //${index}, ${total}, ${filePath}
-            completeShortcut__i: string, //${index}, ${total}, ${shortcut}
-            firstImageQuery__i: string, //${index}, ${total}, ${query}
-            imageQueries__i: string, //${index}, ${total}, ${query}
-            resolvedDefaultImageGlob__i: string, //${index}, ${total}
-            resolvedDefaultImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-            resolvedDefaultTallImageGlob__i: string, //${index}, ${total}
-            resolvedDefaultTallImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-            resolvedDefaultHeroImageGlob__i: string, //${index}, ${total}
-            resolvedDefaultHeroImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-            resolvedDefaultLogoImageGlob__i: string, //${index}, ${total}
-            resolvedDefaultLogoImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-            resolvedDefaultIconGlob__i: string, //${index}, ${total}
-            resolvedDefaultIconGlobInfo__i: string, //${index}, ${total}, ${glob}
-            defaultImageResolved__i: string, //${index}, ${total}, ${image}
-            defaultTallImageResolved__i: string, //${index}, ${total}, ${image}
-            defaultHeroImageResolved__i: string, //${index}, ${total}, ${image}
-            defaultLogoImageResolved__i: string, //${index}, ${total}, ${image}
-            defaultIconResolved__i: string, //${index}, ${total}, ${image}
-            resolvedImageGlob__i: string, //${index}, ${total}
-            resolvedImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-            resolvedTallImageGlob__i: string, //${index}, ${total}
-            resolvedTallImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-            resolvedHeroImageGlob__i: string, //${index}, ${total}
-            resolvedHeroImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-            resolvedLogoImageGlob__i: string, //${index}, ${total}
-            resolvedLogoImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-            resolvedIconGlob__i: string, //${index}, ${total}
-            resolvedIconGlobInfo__i: string, //${index}, ${total}, ${glob}
-            localImagesResolved__i: string, //${index}, ${total}
-            localImageInfo__i: string, //${index}, ${total}, ${image}
-            localTallImagesResolved__i: string, //${index}, ${total}
-            localTallImageInfo__i: string, //${index}, ${total}, ${image}
-            localHeroImagesResolved__i: string, //${index}, ${total}
-            localHeroImageInfo__i: string, //${index}, ${total}, ${image}
-            localLogoImagesResolved__i: string, //${index}, ${total}
-            localLogoImageInfo__i: string, //${index}, ${total}, ${image}
-            localIconsResolved__i: string, //${index}, ${total}
-            localIconInfo__i: string //${index}, ${total}, ${icon}
-        },
+              failedToCopy: string,
+              cannotFetchTemplates: string,
+              errorRemovingControllers: string,
+              cannotRemoveControllers: string
+          },
+          success: {
+            foundAccounts__i: string, //${count}
+              foundAccountInfo__i: string, //${name}, ${steamID64}, ${accountID}
+              steamCategory__i: string, //${index}, ${total}, ${steamCategory}
+              steamCategoryInfo__i: string, //${steamCategory}
+              appId__i: string, //${index}, ${total}, ${appid}
+              shortAppId__i: string, //${index}, ${total}, ${appid}
+              extractedTitle__i: string, //${index}, ${total}, ${title}
+              fuzzyTitle__i: string, //${index}, ${total}, ${title}
+              finalTitle__i: string, //${index}, ${total}, ${title}
+              filePath__i: string, //${index}, ${total}, ${filePath}
+              startDir__i: string, //${index}, ${total}, ${filePath}
+              completeShortcut__i: string, //${index}, ${total}, ${shortcut}
+              firstImageQuery__i: string, //${index}, ${total}, ${query}
+              imageQueries__i: string, //${index}, ${total}, ${query}
+              resolvedDefaultImageGlob__i: string, //${index}, ${total}
+              resolvedDefaultImageGlobInfo__i: string, //${index}, ${total}, ${glob}
+              resolvedDefaultTallImageGlob__i: string, //${index}, ${total}
+              resolvedDefaultTallImageGlobInfo__i: string, //${index}, ${total}, ${glob}
+              resolvedDefaultHeroImageGlob__i: string, //${index}, ${total}
+              resolvedDefaultHeroImageGlobInfo__i: string, //${index}, ${total}, ${glob}
+              resolvedDefaultLogoImageGlob__i: string, //${index}, ${total}
+              resolvedDefaultLogoImageGlobInfo__i: string, //${index}, ${total}, ${glob}
+              resolvedDefaultIconGlob__i: string, //${index}, ${total}
+              resolvedDefaultIconGlobInfo__i: string, //${index}, ${total}, ${glob}
+              defaultImageResolved__i: string, //${index}, ${total}, ${image}
+              defaultTallImageResolved__i: string, //${index}, ${total}, ${image}
+              defaultHeroImageResolved__i: string, //${index}, ${total}, ${image}
+              defaultLogoImageResolved__i: string, //${index}, ${total}, ${image}
+              defaultIconResolved__i: string, //${index}, ${total}, ${image}
+              resolvedImageGlob__i: string, //${index}, ${total}
+              resolvedImageGlobInfo__i: string, //${index}, ${total}, ${glob}
+              resolvedTallImageGlob__i: string, //${index}, ${total}
+              resolvedTallImageGlobInfo__i: string, //${index}, ${total}, ${glob}
+              resolvedHeroImageGlob__i: string, //${index}, ${total}
+              resolvedHeroImageGlobInfo__i: string, //${index}, ${total}, ${glob}
+              resolvedLogoImageGlob__i: string, //${index}, ${total}
+              resolvedLogoImageGlobInfo__i: string, //${index}, ${total}, ${glob}
+              resolvedIconGlob__i: string, //${index}, ${total}
+              resolvedIconGlobInfo__i: string, //${index}, ${total}, ${glob}
+              localImagesResolved__i: string, //${index}, ${total}
+              localImageInfo__i: string, //${index}, ${total}, ${image}
+              localTallImagesResolved__i: string, //${index}, ${total}
+              localTallImageInfo__i: string, //${index}, ${total}, ${image}
+              localHeroImagesResolved__i: string, //${index}, ${total}
+              localHeroImageInfo__i: string, //${index}, ${total}, ${image}
+              localLogoImagesResolved__i: string, //${index}, ${total}
+              localLogoImageInfo__i: string, //${index}, ${total}, ${image}
+              localIconsResolved__i: string, //${index}, ${total}
+              localIconInfo__i: string, //${index}, ${total}, ${icon}
+              removedControllers__i: string, //${configTitle}
+              fetchedTemplates: string
+          },
           label: {
             parserType: string,
               configTitle: string,
@@ -405,7 +563,8 @@ export interface languageStruct {
           },
           placeholder: {
             parserType: string,
-              imageProviders: string
+              imageProviders: string,
+              multiAPIPlaceholder: string
           },
           text: {
             skipWithMissingDataDir: string,
@@ -431,7 +590,9 @@ export interface languageStruct {
             error: {
               savingConfiguration: string,
                 readingConfiguration: string,
-                corruptedConfiguration__i: string//${file}, ${error}
+                parserTypeMissing: string,
+                corruptedConfiguration__i: string,//${file}, ${error}
+                fetchingTemplates: string
             },
             validationErrors: {
               parserType__md: string,
@@ -453,7 +614,9 @@ export interface languageStruct {
                 executableModifier__md: string,
                 variableString__md: string,
                 imageProviders__md: string,
-                unhandledValidationKey__md: string
+                unhandledValidationKey__md: string,
+                genericDir__md: string,
+                genericPath__md: string
             },
             text: {
               noTitle: string
@@ -494,6 +657,10 @@ export interface languageStruct {
       error: {
         noUsersFound: string,
           emptyDirectoryList: string,
+          couldNotPrepareToRead__i: string, //${error}
+          couldNotBackupEntries__i: string, //${error}
+          couldNotReadEntries__i: string, //${error}
+          couldNotWriteEntries: string,
           couldNotMergeEntries__i: string, //${error}
           couldNotRemoveEntries__i: string //${error}
       }
@@ -516,5 +683,8 @@ export interface languageStruct {
 }
 
 export interface languageContainer {
-  [language: string]: languageStruct
+  [language: string]: {
+    langStrings: any,
+      markdowns: any
+  }
 }

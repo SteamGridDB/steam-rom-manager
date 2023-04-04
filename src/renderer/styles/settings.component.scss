@@ -1,79 +1,139 @@
 @import 'mixins';
 
 :host {
-	overflow: auto;
+  display: grid;
+  overflow: auto;
+  background-color: var(--color-settings-background);
 
-	padding: 1em;
+  grid-area: route;
+  grid-template-areas:
+  'docs settings'
+  'menu menu';
 
-	background-color: var(--color-settings-background);
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr auto;
 
-	grid-area: route;
+  .docs {
+    padding: 1em;
+    grid-area: docs;
+  }
+  .settings {
+    padding: 1em;
+    grid-area: settings;
+    @include webkitScrollbar(nested-form-scrollbar);
+    background-color: var(--color-nested-form-background);
+    overflow: auto;
+    label {
+      display: flex;
 
-	label {
-		display: flex;
+      margin: 0.75em 0 0.25em 0;
 
-		margin: 0.75em 0 0.25em 0;
-
-		color: var(--color-settings-text);
-		&:first-child {
-			margin: 0 0 0.25em 0;
-		}
-	}
-
-	.inputContainer {
-		display: flex;
-		flex-direction: column;
-
-		margin: 0.25em 0 0.25em 0;
-		padding-left: 1em;
-
-		.inlineGroup {
-			display: flex;
-
-			align-items: center;
-		}
-
-		.text {
-			color: var(--color-settings-text);
-		}
-
-		.ngToggleButton {
-			font-size: 1em;
-
-			margin: 0.25em 0 0.25em 0;
-
-			@include ngToggleButtonColor(ng-toggle-button);
-		}
-
-		.clickButton {
-			@include button();
-		}
-
-		.dangerousButton {
-			@include clickButtonColor(dangerous-click-button, true);
-		}
-
-		.ngSelect {
-			width: 15em;
-
-			@include ngSelectColor(ng-select);
-			@include ngSelect();
-		}
-    .ngTextInput {
-      @include ngTextInputColor(input);
-      @include ngTextInput();
-
-      width: 20em;
-
-      grid-column: 4;
+      color: var(--color-settings-text);
+      &:first-child {
+        margin: 0 0 0.25em 0;
+      }
     }
-		.clickButton2 {
-			@include button();
-			@include clickButtonColor(click-button);
+    .section {
+      margin-top: 1em;
+      border-bottom: .1em solid;
+      border-bottom-color: var(--color-nested-form-label);
+    }
+    .inputContainer {
+      display: flex;
+      flex-direction: column;
 
-			margin: 0 0 0 0.25em;
+      margin: 0.25em 0 0.25em 0;
+      padding-left: 1em;
+      .inlineLeft {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0.25em 0em 0.25em 0;
+        .directoryInput {
+          display: flex;
+          align-items: right;
+          width: 69%;
+        }
+      }
+      .inlineGroup {
+        display: flex;
+        margin: 0.25em 0em 0.25em 0;
+        justify-content: flex-start;
+        align-items: center;
+        .deleteItem {
+          @include button();
+          @include clickButtonColor(dangerous-click-button);
+        }
+      }
 
-			grid-area: button;
-		}
-	}
+      .text {
+        &.path {
+          width: 30%;
+        }
+        color: var(--color-settings-text);
+      }
+
+      .ngToggleButton {
+        font-size: 1em;
+
+        margin: 0.25em 0 0.25em 0;
+
+        @include ngToggleButtonColor(ng-toggle-button);
+      }
+
+      .clickButton {
+        @include button();
+      }
+
+      .dangerousButton {
+        @include clickButtonColor(dangerous-click-button, true);
+      }
+
+      .ngSelect {
+        width: 15em;
+      }
+      .ngTextInput {
+        @include ngTextInputColor(input);
+        @include ngTextInput();
+
+        width: 100%;
+        grid-column: 4;
+      }
+      .clickButton2 {
+        @include button();
+        @include clickButtonColor(click-button);
+
+        margin: 0 0 0 0.25em;
+
+        grid-area: button;
+      }
+    }
+  }
+
+  .menu {
+    @include webkitScrollbar(parser-menu-scrollbar, 0.5em);
+
+    display: flex;
+    overflow: auto;
+
+    border: 0.5em solid transparent;
+    background-color: var(--color-parsers-menu-background);
+
+    grid-area: menu;
+
+    > div {
+      @include clickButtonColor(click-button, true);
+      @include button();
+      margin: 0 0.25em;
+      &:last-child {
+        margin-right: 0;
+      }
+      &:first-child {
+        margin-left: auto;
+      }
+      &.dangerousButton {
+        @include clickButtonColor(dangerous-click-button);
+      }
+    }
+  }
 }

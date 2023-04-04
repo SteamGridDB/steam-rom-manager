@@ -5,17 +5,21 @@
 	overflow: auto;
 
 	grid-area: route;
-	grid-template-columns: auto;
-	grid-template-rows: 1fr auto;
+  grid-template-areas:
+  'messages bugreport'
+  'messages bugreportdocs'
+  'menu menu';
+	grid-template-columns: 1.5fr 1fr;
+	grid-template-rows: 1fr 1.3fr auto;
 
 	.menu {
 		@include webkitScrollbar(logger-menu-scrollbar, 0.5em);
-
+    grid-area: menu;
 		display: flex;
 		overflow: auto;
 
 		border: solid 0.5em transparent;
-		background-color: var(--color-logger-menu-background);
+    background-color: var(--color-logger-menu-background);
 
 		align-self: end;
 
@@ -36,10 +40,88 @@
 			}
 		}
 	}
+  .bugreport {
+    grid-area: bugreport;
+    @include webkitScrollbar(logger-messages-scrollbar);
+    background-color: var(--color-logger-bugreport-background);
+    padding: 1em;
+    .inputContainer {
+      display: flex;
+      flex-direction: column;
+      margin: 0.25em 0 1em 0;
+      padding-left: 0em;
+      .inlineLeft {
+        display: flex;
+        align-items: left;
+        margin: 0.25em 0em 0.25em 0;
+        &.hidden {
+          display: none;
+        }
+      }
+      .inlineGroup {
+        display: flex;
+        margin: 0.25em 0em 0.25em 0;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .reportID {
+        padding: 0.2em 0em;
+        margin-left: .25em;
+        color: var(--color-logger-reportid);
+      }
+      .reportIDLabel {
+        padding: 0.2em 0em;
+        color: var(--color-settings-text);
+      }
+      .copy {
+        @include button();
+				@include clickButtonColor(click-button);
+        margin-left: .25em;
+      }
+      .text {
+        width: 30%;
+        color: var(--color-settings-text);
+      }
 
+      .longtext {
+        width: 100%;
+        color: var(--color-settings-text);
+      }
+
+
+      .ngToggleButton {
+        font-size: 1em;
+        margin: 0.25em 0 0.5em 0;
+        @include ngToggleButtonColor(ng-toggle-button);
+      }
+			.submit {
+        @include button();
+				@include clickButtonColor(click-button);
+			}
+
+      .ngTextInput {
+        @include ngTextInputColor(input);
+        @include ngTextInput();
+        &.multiline {
+          width: 100%;
+          height: 10em;
+        }
+        &:not(.multiline) {
+          width: 70%;
+        }
+        grid-column: 4;
+      }
+    }
+  }
+  .bugreportdocs {
+    grid-area: bugreportdocs;
+    background-color: var(--color-logger-bugreport-background);
+    overflow: auto;
+    padding: 1em;
+  }
 	.messages {
+    grid-area: messages;
 		@include webkitScrollbar(logger-messages-scrollbar);
-
 		overflow: auto;
 
 		color: var(--color-logger-messages-text);

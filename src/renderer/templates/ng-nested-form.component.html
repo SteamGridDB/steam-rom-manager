@@ -1,0 +1,63 @@
+<ng-container [formGroup]="currentForm">
+  <ng-container *ngFor="let childrenKey of nestedGroup.children | keys">
+    <ng-container *ngVar="nestedGroup.children[childrenKey] as child">
+      <ng-container [ngSwitch]="child.constructor.displayName">
+        <ng-container *ngSwitchCase="'Section'">
+          <div class="section container" [hidden]="getHiddenMethod(child,childrenKey) | async" (click)="toggleHiddenSection(childrenKey)">
+            <label>
+              <span>{{child.label}}</span>
+              <span>&nbsp;&nbsp;</span>
+              <span>
+                <ng-container *ngIf="!isSectionHidden(childrenKey)">
+                  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
+                    <polyline points="30,110 150,210 270,110" style="stroke-width:30;fill:none;" />
+                  </svg>
+                </ng-container>
+                <ng-container *ngIf="isSectionHidden(childrenKey)">
+                  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
+                    <polyline points="30,30 130,150 30,270" style="stroke-width:30;fill:none;" />
+                  </svg>
+                </ng-container>
+              </span>
+            </label>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <div class="container" [class.nested]="child.constructor.displayName === 'Group'" [hidden]="getHiddenMethod(child, childrenKey) | async">
+            <label *ngIf="child.label">
+              <span class="infoButton infoIcon" *ngIf="child.onInfoClick"
+                    (click)="child.onInfoClick(currentForm.controls[childrenKey], currentForm.controls[childrenKey]['__path'])">
+              </span>
+              {{child.label}}
+            </label>
+            <ng-container [ngSwitch]="child.constructor.displayName">
+              <ng-container *ngSwitchCase="'Select'">
+                <ng-select [formControlName]="childrenKey" [placeholder]="child.placeholder" [multiple]="child.multiple" [allowEmpty]="child.allowEmpty" [values]="child.values">
+                </ng-select>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Button'">
+                <div class="freeButton" (click)="child.onClickMethod()">{{child.buttonLabel}}</div>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Input'">
+                <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight"></ng-text-input>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Path'">
+                <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight" [appendGlob]="child.appendGlob"></ng-text-input>
+                <ng-path-input class="clickButton" [stateless]="true" [directory]="child.directory" (pathChange)="currentForm.controls[childrenKey].setValue($event)">Browse</ng-path-input>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Toggle'">
+                <ng-toggle-button [formControlName]="childrenKey">{{child.text || ''}}</ng-toggle-button>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Group'">
+                <ng-nested-form class="nested" [parentForm]="currentForm" [groupName]="childrenKey" [nestedGroup]="child"></ng-nested-form>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="(currentForm.controls[childrenKey]?.invalid && currentForm.controls[childrenKey]?.dirty) && currentForm.controls[childrenKey]?.errors?.error">
+              <markdown class="errorMessage lastMarginZero" [content]="currentForm.controls[childrenKey].errors.error"></markdown>
+            </ng-container>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-container>

@@ -2,6 +2,7 @@ import { VDF_ShortcutsItem } from "../models";
 import { VDF_Error } from './vdf-error';
 import { APP } from '../variables';
 import * as steam from './helpers/steam';
+import * as json from './helpers/json';
 import * as file from './helpers/file';
 import * as _ from "lodash";
 import * as fs from 'fs-extra';
@@ -22,17 +23,16 @@ export class VDF_ShortcutsFile {
   }
 
   get data(): VDF_ShortcutsItem[] {
-    if (this.fileData === undefined)
+    if (this.invalid)
       return undefined;
     else
       return this.fileData['shortcuts'];
   }
 
   set data(value: VDF_ShortcutsItem[]) {
-    if (this.fileData === undefined)
-      return;
-    else
+    if (this.valid) {
       this.fileData['shortcuts'] = value;
+    }
   }
   set extraneous(value: string[]) {
     this.extraneousAppIds = value;
@@ -41,13 +41,15 @@ export class VDF_ShortcutsFile {
     return this.extraneousAppIds;
   }
 
-  get valid() {
-    return this.fileData !== undefined;
+  get invalid() {
+    return this.fileData == undefined || this.fileData['shortcuts'] == undefined;
   }
 
-  get invalid() {
-    return !this.valid;
+  get valid() {
+    return !this.invalid;
   }
+
+
 
   read(skipIndexing: boolean = false) {
     return fs.readFile(this.filepath).catch((error) => {
@@ -58,13 +60,11 @@ export class VDF_ShortcutsFile {
         }));
       }
     }).then((data) => {
-      if (data)
-        this.fileData = shortcutsParser.parseBuffer(data);
-      else
-        this.fileData = {};
+      this.fileData = !!data ? shortcutsParser.parseBuffer(data) || {} : {};
 
-      if (this.fileData['shortcuts'] === undefined)
+      if (this.fileData['shortcuts'] === undefined) {
         this.fileData['shortcuts'] = [];
+      }
 
       let shortcutsData = this.data;
       this.indexMap = {};
@@ -72,7 +72,9 @@ export class VDF_ShortcutsFile {
       if (!skipIndexing) {
         for (let i = 0; i < shortcutsData.length; i++) {
           let shortcut = shortcutsData[i];
-          this.indexMap[steam.generateAppId(shortcut.exe, shortcut.appname || shortcut['AppName'] /* fallback due to old mistakes */)] = i;
+          let exe = json.caseInsensitiveTraverse(shortcut, [['exe']]);
+          let appname = json.caseInsensitiveTraverse(shortcut, [['appname']]);
+          this.indexMap[steam.generateAppId(exe,appname)] = i;
         }
       }
 
@@ -87,17 +89,23 @@ export class VDF_ShortcutsFile {
 
   write() {
     return Promise.resolve().then(() => {
-      for(let j=0; j<this.extraneous.length; j++) {
+      let tempData = _.cloneDeep(this.fileData);
+      let tempMap = _.cloneDeep(this.indexMap);
+      for(let j=0; j < this.extraneous.length; j++) {
         let exAppId = this.extraneous[j]
-        if (this.indexMap[exAppId] !== undefined) {
-          this.fileData['shortcuts'][this.indexMap[exAppId]] = undefined;
-          this.indexMap[exAppId] = undefined;
+        if (tempMap[exAppId] !== undefined) {
+          tempData['shortcuts'][tempMap[exAppId]] = undefined;
+          tempMap[exAppId] = undefined;
         }
       }
-      this.fileData['shortcuts'] = (this.fileData['shortcuts'] as VDF_ShortcutsItem[]).filter(item => item !== undefined);
-      let data = shortcutsParser.writeBuffer(this.fileData);
-      return fs.outputFile(this.filepath, data);
-    }).catch((error) => {
+      tempData['shortcuts'] = (tempData['shortcuts'] as VDF_ShortcutsItem[]).filter(item => item !== undefined);
+      let data = shortcutsParser.writeBuffer(tempData);
+      let out = fs.outputFile(this.filepath, data);
+      this.fileData = tempData;
+      this.indexMap = tempMap;
+      return out;
+    })
+    .catch((error) => {
       throw new VDF_Error(this.lang.error.writingVdf__i.interpolate({
         filePath: this.filepath,
         error: error
@@ -117,21 +125,21 @@ export class VDF_ShortcutsFile {
   }
 
   getItem(appId: string) {
-    if (this.indexMap[appId] !== undefined)
+    if (this.valid && this.indexMap[appId] !== undefined)
       return this.fileData['shortcuts'][this.indexMap[appId]];
     else
       return undefined;
   }
 
   removeItem(appId: string) {
-    if (this.indexMap[appId] !== undefined) {
+    if (this.valid && this.indexMap[appId] !== undefined) {
       this.fileData['shortcuts'][this.indexMap[appId]] = undefined;
       this.indexMap[appId] = undefined;
     }
   }
 
   addItem(appId: string, value: VDF_ShortcutsItem) {
-    if (this.indexMap[appId] === undefined) {
+    if (this.valid && this.indexMap[appId] === undefined) {
       this.fileData['shortcuts'].push(value);
       this.indexMap[appId] = this.fileData['shortcuts'].length - 1;
     }

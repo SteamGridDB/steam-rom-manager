@@ -10,13 +10,27 @@
          *ngFor="let item of exceptionsForm.get('items').controls;let i=index;">
       <div [formGroupName]="i">
         <div class="inputContainer">
-          <div class="inlineGroup">
-            <ng-text-input class="ngTextInput" placeholder="Title to overwrite" [formControl]="item.controls['oldTitle']"></ng-text-input>
-            <ng-text-input class="ngTextInput middle" placeholder="Title override" [formControl]="item.controls['newTitle']"></ng-text-input>
-            <ng-text-input class="ngTextInput" placeholder="Arguments override" [formControl]="item.controls['commandLineArguments']"></ng-text-input>
+          <div class="inlineLeft">
+            <div class=text style="margin-right: 0.25em;">Extracted Title: </div>
+            <ng-text-input class="ngTextInput" placeholder="extractedTitle to override" [formControl]="item.controls['oldTitle']"></ng-text-input>
+          </div>
+          <div class="inlineLeft">
+            <div class=text style="margin-right: 0.25em;">New Display Title: </div>
+            <ng-text-input class="ngTextInput" placeholder="Display title" [formControl]="item.controls['newTitle']"></ng-text-input>
+          </div>
+          <div class="inlineLeft">
+            <div class=text style="margin-right: 0.25em;">New Search Title: </div>
+            <ng-text-input class="ngTextInput" placeholder="Search title" [formControl]="item.controls['searchTitle']"></ng-text-input>
+          </div>
+          <div class="inlineLeft">
+            <div class=text style="margin-right: 0.25em;">New Commandline Args: </div>
+            <ng-text-input class="ngTextInput" placeholder="--custom-args" [formControl]="item.controls['commandLineArguments']"></ng-text-input>
           </div>
           <div class="inlineGroup">
-            <ng-toggle-button class="ngToggleButton" [formControl]="item.controls['exclude']">{{lang.text.exclude}}</ng-toggle-button>
+            <div class="inlineGroup">
+              <ng-toggle-button class="ngToggleButton excludeButton" [formControl]="item.controls['exclude']">{{lang.text.exclude}}</ng-toggle-button>
+              <ng-toggle-button class="ngToggleButton" [formControl]="item.controls['excludeArtwork']">{{lang.text.excludeArtwork}}</ng-toggle-button>
+            </div>
             <div class="deleteItem" (click)="deleteItem(i)">{{lang.buttons.deleteItem}}</div>
           </div>
         </div>

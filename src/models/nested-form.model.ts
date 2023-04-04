@@ -6,10 +6,15 @@ export type NestedInputValidatorObservable = ()=>Observable<string>;
 export type NestedInputInfoClick = (control: AbstractControl, path: string[]) => void;
 export type NestedInputChange = (control: AbstractControl, path: string[]) => void;
 export type NestedInputHidden = () => Observable<boolean> | Promise<boolean>;
-
+export type NestedInputClick = () => any;
 type ObjectFields<T> = {
   [P in keyof T]: T[P];
 };
+
+export type SelectItem = {
+  displayValue: string,
+  value: any
+}
 
 export namespace NestedFormElement {
   export class Select {
@@ -23,12 +28,7 @@ export namespace NestedFormElement {
     /** Optional */
     disabled?: boolean;
     /** Required */
-    values: {
-      /** Required */
-      display: string,
-        /** Optional */
-        real?: any
-    }[];
+    values: SelectItem[]|string[];
     /** Optional */
     placeholder?: string;
     /** Optional */
@@ -148,7 +148,32 @@ export namespace NestedFormElement {
       Object.assign(this, init);
     }
   };
+
+  export class Section {
+    static displayName = 'Section';
+    /** Mandatory */
+    label: string;
+    /** Optional */
+    isHidden?: NestedInputHidden;
+
+    constructor(init?: ObjectFields<Section>) {
+      Object.assign(this, init);
+    }
+  }
+
+  export class Button {
+    static displayName = 'Button';
+    /** Mandatory */
+    buttonLabel: string;
+    onClickMethod: NestedInputClick;
+    /** Optional */
+    label?: string;
+    isHidden?: NestedInputHidden;
+    constructor(init?: ObjectFields<Button>) {
+      Object.assign(this, init)
+    }
+  }
 }
 
-export type NestedFormInputs = NestedFormElement.Input | NestedFormElement.Select | NestedFormElement.Toggle;
-export type NestedFormElements = NestedFormInputs | NestedFormElement.Group;
+export type NestedFormInputs = NestedFormElement.Input | NestedFormElement.Select | NestedFormElement.Toggle | NestedFormElement.Path;
+export type NestedFormElements = NestedFormInputs | NestedFormElement.Group | NestedFormElement.Section | NestedFormElement.Button;

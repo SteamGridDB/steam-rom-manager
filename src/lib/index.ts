@@ -12,6 +12,7 @@ export * from './vdf-shortcuts-file';
 export * from './vdf-screenshots-file';
 export * from './vdf-added-items-file';
 export * from './vdf-error';
-export * from './category-error';
+export * from './acceptable-error';
 export * from './file-selector';
 export * from './category-manager';
+export * from './controller-manager';

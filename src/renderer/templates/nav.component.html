@@ -7,15 +7,31 @@
   </nav-link>
 </nav-expand>
 <nav-link routerLink="/about" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{lang.about}}</nav-link>
-<nav-expand routerLinkActive="active">
-  <nav-link class="title" [routerLink]="['/parsers', -1]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-    <span>{{lang.parsers}}</span>
-    <span>&nbsp;&nbsp;</span>
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
-      <polyline points="30,110 150,210 270,110" style="stroke-width:30;fill:none;" />
-    </svg>
-  </nav-link>
-  <nav-link class="item" [ngClass]="{unsaved: config.current != null, disabled: config.saved.disabled}" *ngFor="let config of userConfigurations; index as i" [routerLink]="['/parsers', i]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true, dummy: dummy }">
-    {{config.saved.configTitle || lang.noTitle}}
-  </nav-link>
-</nav-expand>
+<div class="parsers" [formGroup]="navForm" *ngIf="!!navForm">
+  <nav-expand routerLinkActive="active">
+    <div class="title">
+      <div class="inputContainer">
+        <div class="inlineGroup">
+          <nav-link class="titlelink" [routerLink]="['/parsers', -1]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <span>{{lang.parsers}}</span>
+            <span>&nbsp;&nbsp;</span>
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300" *ngIf="userConfigurations.length">
+              <polyline points="30,110 150,210 270,110" style="stroke-width:30;fill:none;" />
+            </svg>
+          </nav-link>
+          <ng-toggle-button class="ngToggleButton" [formControl]="navForm.get('selectAll')"></ng-toggle-button>
+        </div>
+      </div>
+    </div>
+    <div class="item" formArrayName="parserStatuses" *ngFor="let item of navForm.get('parserStatuses').controls;let i=index">
+      <div class="inputContainer" [formGroupName]=i>
+        <div class="inlineGroup">
+          <nav-link class="parserlink" [ngClass]="{unsaved: userConfigurations[i].current != null, disabled: userConfigurations[i].saved.disabled}" [routerLink]="['/parsers', i]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true, dummy: dummy }">
+            {{userConfigurations[i].saved.configTitle || lang.noTitle}}
+          </nav-link>
+          <ng-toggle-button class="ngToggleButton" [formControl]="item.controls[userConfigurations[i].saved.parserId]"></ng-toggle-button>
+        </div>
+      </div>
+    </div>
+  </nav-expand>
+</div>

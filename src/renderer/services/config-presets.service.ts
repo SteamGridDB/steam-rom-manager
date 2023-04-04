@@ -9,6 +9,7 @@ import * as paths from "../../paths";
 import * as schemas from '../schemas';
 import * as _ from "lodash";
 import * as path from "path"
+import * as fs from "fs-extra";
 
 @Injectable()
 export class ConfigurationPresetsService {
@@ -17,6 +18,7 @@ export class ConfigurationPresetsService {
   private downloadStatus: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private validator: json.Validator = new json.Validator(schemas.configPresets);
   private savingIsDisabled: boolean = false;
+  private rawURL: string = 'https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/';
 
   constructor(private loggerService: LoggerService) {
     this.load();
@@ -42,20 +44,22 @@ export class ConfigurationPresetsService {
     return Promise.resolve().then(() => {
       if (!this.downloadStatus.getValue()) {
         this.downloadStatus.next(true);
-
         return ConfigurationPresetsService.xRequest.request(
           'https://api.github.com/repos/SteamGridDB/steam-rom-manager/git/trees/master?recursive=1',
           { responseType: 'json', method: 'GET', timeout: 1000 }
         ).then((data: any)=>{
           let presetURLs = data.tree
-            .filter((entry: any)=>path.dirname(entry.path)=='files/presets')
-            .map((entry: any)=>entry.path)
+          .filter((entry: any)=>path.dirname(entry.path)=='files/presets')
+          .map((entry: any)=>entry.path)
 
           let presetPromises: PromiseLike<any>[] = []
           presetURLs.forEach((url: string)=>{
-            let rawURL = 'https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/'.concat(url);
-            presetPromises.push(ConfigurationPresetsService.xRequest.request(rawURL,
-              { responseType: 'json', method: 'GET', timeout: 1000 }))
+            let queryURL = this.rawURL.concat(url);
+            presetPromises.push(ConfigurationPresetsService.xRequest.request(queryURL, {
+              responseType: 'json',
+              method: 'GET',
+              timeout: 1000
+            }));
           })
           return Promise.all(presetPromises)
         }).then((data)=>{
@@ -76,21 +80,32 @@ export class ConfigurationPresetsService {
   }
 
   load() {
-    json.read<ConfigPresets>(paths.configPresets).then((data) => {
-      if (data === null) {
-        return this.download();
-      }
-      else {
-        const error = this.set(data || {});
-        if (error !== null) {
-          this.savingIsDisabled = true;
-          this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
+    ConfigurationPresetsService.xRequest.request(this.rawURL.concat('files/presetsData.json'), {
+      responseType: 'json', method: 'GET', timeout: 1000
+    }).then((presetsData)=>{
+      let localVersion = fs.existsSync(paths.presetsData) ? fs.readJsonSync(paths.presetsData).version : 0;
+      let remoteVersion = presetsData.version;
+      if(localVersion < remoteVersion) {
+        this.loggerService.info(this.lang.info.updatingPresets);
+        return this.download().then(()=>json.write(paths.presetsData, presetsData));
+      } else {
+        return json.read<ConfigPresets>(paths.configPresets).then((data) => {
+          if (data === null) {
+            return this.download();
+          }
+          else {
+            const error = this.set(data || {});
+            if (error !== null) {
+              this.savingIsDisabled = true;
+              this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
 
-          this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
-            file: paths.configPresets,
-            error
-          }));
-        }
+              this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
+                file: paths.configPresets,
+                error
+              }));
+            }
+          }
+        })
       }
     }).catch((error) => {
       this.savingIsDisabled = true;

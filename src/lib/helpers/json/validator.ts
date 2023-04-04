@@ -84,25 +84,21 @@ export class Validator<T = object> {
   private modify(data: any) {
     const controlValue = _.get(data, this.modifier!.controlProperty, undefined);
     const modifierFieldSet = this.modifier!.fields[controlValue];
-
     if (modifierFieldSet) {
       for (const key in modifierFieldSet) {
         const fieldData = modifierFieldSet[key];
-        if (fieldData.method) {
-          _.set(
-            data,
-            key,
-            fieldData.method(
-              _.get(
-                data,
-                typeof fieldData.oldValuePath === "string" ? fieldData.oldValuePath : key, undefined,
-              ),
-              data,
-            ),
-          );
+        const oldKey = fieldData.oldValuePath ? fieldData.oldValuePath : key;
+        if (fieldData.keyMatch && fieldData.method) {
+          const matchedKeys = Object.keys(data).filter(k=>fieldData.keyMatch.test(k));
+          for(const matchedKey of matchedKeys) {
+            _.set(data, matchedKey, fieldData.method(_.get(data,matchedKey,undefined),data));
+          }
         }
-        else if (typeof fieldData.oldValuePath === "string") {
-          _.set(data, key, _.get(data, fieldData.oldValuePath, undefined));
+        else if (fieldData.method) {
+          _.set(data,key,fieldData.method(_.get(data,oldKey,undefined),data));
+        }
+        else {
+          _.set(data, key, _.get(data,oldKey,undefined));
         }
       }
       return !_.isEqual(controlValue, _.get(data, this.modifier!.controlProperty, undefined));

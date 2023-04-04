@@ -1,4 +1,6 @@
 import { Observable, BehaviorSubject } from "rxjs";
+import { ImageProviderAPI } from "./user-configuration.model";
+import { Controllers } from "./controllers.model";
 
 export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
 
@@ -14,6 +16,7 @@ export interface ImagesStatusAndContent {
     retrieving: boolean,
     defaultImageProviders: string[],
     searchQueries: string[],
+    imageProviderAPIs: ImageProviderAPI,
     content: ImageContent[]
 }
 
@@ -28,6 +31,7 @@ export interface PreviewDataAppImage {
     imageIndex: number
 }
 
+
 export interface PreviewDataApp {
     entryId: number,
     status: 'add' | 'skip' | 'remove',
@@ -35,6 +39,7 @@ export interface PreviewDataApp {
     parserId: string,
     parserType: string,
     steamCategories: string[],
+    controllers: Controllers,
     imageProviders: string[],
     startInDirectory: string,
     executableLocation: string,
@@ -70,4 +75,22 @@ export interface PreviewVariables {
     numberOfListItems: number,
     numberOfQueriedImages: number
 
+}
+
+export interface AppSelection {
+  title: string,
+  images: AppSelectionImages
+}
+
+export interface AppSelectionImages {  
+  grid: AppSelectionImage 
+  poster: AppSelectionImage,
+  hero: AppSelectionImage,
+  logo: AppSelectionImage,
+  icon: AppSelectionImage
+}
+
+export interface AppSelectionImage {  
+  pool: string,
+  filename: string
 }

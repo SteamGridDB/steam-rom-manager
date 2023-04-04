@@ -4,6 +4,7 @@ import { LoggerService } from './logger.service';
 import { Subject, BehaviorSubject } from "rxjs";
 import { APP } from '../../variables';
 import * as json from "../../lib/helpers/json";
+import * as file from "../../lib/helpers/file";
 import * as paths from "../../paths";
 import * as schemas from '../schemas';
 import * as modifiers from '../modifiers';
@@ -62,6 +63,10 @@ export class SettingsService {
         this.loggerService.error(error);
       });
     }
+  }
+
+  configDir() {
+    file.dirOpen(paths.userDataDir);
   }
 
   onLoad(callback: (appSettings: AppSettings) => void) {

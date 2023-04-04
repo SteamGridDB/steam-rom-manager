@@ -16,6 +16,7 @@ const toBuffer = require('blob-to-buffer');
 export class VDF_ScreenshotsFile {
   private static xRequest = new xRequest();
   private fileData: any = undefined;
+  private topKey: string = undefined;
   private extraneousAppIds: string[] = [];
 
   constructor(private filepath: string, private gridDirectory: string) { }
@@ -29,17 +30,15 @@ export class VDF_ScreenshotsFile {
   }
 
   get data(): VDF_ScreenshotsData {
-    if (this.fileData === undefined)
-      return undefined;
-    else
-      return this.fileData['Screenshots']['shortcutnames'];
+    if(this.valid) {
+      return this.fileData[this.topKey]['shortcutnames'];
+    }
   }
 
   set data(value: VDF_ScreenshotsData) {
-    if (this.fileData === undefined)
-      return;
-    else
-      this.fileData['Screenshots']['shortcutnames'] = value;
+    if(this.valid) {
+      this.fileData[this.topKey]['shortcutnames'] = value;
+    }
   }
 
   set extraneous(value: string[]) {
@@ -48,16 +47,25 @@ export class VDF_ScreenshotsFile {
       return r;
     }, []);
   }
+
   get extraneous() {
     return this.extraneousAppIds;
   }
 
-  get valid() {
-    return this.fileData !== undefined;
+  get invalid() {
+    return this.fileData == undefined || this.fileData[this.topKey] == undefined || this.fileData[this.topKey]['shortcutnames'] == undefined;
   }
 
-  get invalid() {
-    return !this.valid;
+  get valid() {
+    return !this.invalid;
+  }
+
+
+  sanitizeTitle(title: string) {
+    return (title || "").replace(/\\/g,"\\\\").replace(/\"/g,"\\\"");
+  }
+  desanitizeTitle(title: string) {
+    return (title || "").replace(/\\\"/g,"\"").replace(/\\\\/g,"\\");
   }
 
   read() {
@@ -69,16 +77,23 @@ export class VDF_ScreenshotsFile {
         }));
       }
     }).then((data) => {
-      if (data)
-        this.fileData = genericParser.parse(data);
-      else
-        this.fileData = {};
+      this.fileData = !!data ? genericParser.parse(data) || {} : {};
+      if(!!this.fileData['screenshots']) {
+        this.topKey='screenshots'
+      } else {
+        this.topKey='Screenshots'
+      }
+      if (this.fileData[this.topKey] === undefined)
+        this.fileData[this.topKey] = {};
+      if (this.fileData[this.topKey]['shortcutnames'] === undefined)
+        this.fileData[this.topKey]['shortcutnames'] = {};
 
-      if (this.fileData['Screenshots'] === undefined)
-        this.fileData['Screenshots'] = { 'shortcutnames': {} };
-      else if (this.fileData['Screenshots']['shortcutnames'] === undefined)
-        this.fileData['Screenshots']['shortcutnames'] = {};
-
+      Object.keys(this.data).forEach((key: string) =>{
+        let val = this.data[key];
+        if(val){
+          this.fileData[this.topKey]['shortcutnames'][key] = this.desanitizeTitle(val.toString());
+        }
+      });
       return this.data;
     });
   }
@@ -182,8 +197,16 @@ export class VDF_ScreenshotsFile {
       }
 
       return Promise.all(promises).then((errors) => {
-        this.fileData['Screenshots']['shortcutnames'] = _.pickBy(this.fileData['Screenshots']['shortcutnames'], item => item !== undefined);
-        let data = genericParser.stringify(this.fileData);
+        this.fileData[this.topKey]['shortcutnames'] = _.pickBy(this.fileData[this.topKey]['shortcutnames'], item => item !== undefined);
+        let tempData = _.cloneDeep(this.fileData);
+        let tempDataNames = tempData[this.topKey]['shortcutnames']
+        Object.keys(tempDataNames).forEach((key: string) =>{
+        let val = tempDataNames[key];
+        if(val){
+          tempData[this.topKey]['shortcutnames'][key] = this.sanitizeTitle(val);
+        }
+        });
+        let data = genericParser.stringify(tempData);
         return fs.outputFile(this.filepath, data).then(() => errors);
       }).then((errors) => {
         if (errors.length > 0) {
@@ -211,11 +234,21 @@ export class VDF_ScreenshotsFile {
     });
   }
 
-  addItem(data: { appId: string, title: string, url: string }) {
-    this.fileData['Screenshots']['shortcutnames'][data.appId] = { title: data.title, url: data.url };
+  getItem(appId: string) {
+    if(this.valid) {
+      return this.fileData[this.topKey]['shortcutnames'][appId];
+    }
   }
 
   removeItem(appId: string) {
-    this.fileData['Screenshots']['shortcutnames'][appId] = undefined;
+    if(this.valid) {
+      this.fileData[this.topKey]['shortcutnames'][appId] = undefined;
+    }
+  }
+
+  addItem(data: { appId: string, title: string, url: string }) {
+    if(this.valid) {
+      this.fileData[this.topKey]['shortcutnames'][data.appId] = { title: data.title, url: data.url };
+    }
   }
 }

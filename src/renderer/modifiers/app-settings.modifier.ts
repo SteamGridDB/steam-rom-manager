@@ -5,7 +5,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const appSettings: ValidatorModifier<AppSettings> = {
   controlProperty: 'version',
-  latestVersion: 2,
+  latestVersion: 4,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -13,7 +13,7 @@ export const appSettings: ValidatorModifier<AppSettings> = {
         method: (oldValue) => Array.isArray(oldValue) ? oldValue.filter((val) => val !== "ConsoleGrid" && val !== "retrogaming.cloud") : oldValue
       },
       'environmentVariables': { method: (oldValue) => {
-        let defaultValue = {retroarchPath:'',steamDirectoryGlobal:'',localImagesDirectory:''}
+        let defaultValue = {retroarchPath:'',steamDirectory:'',localImagesDirectory:''}
         if(oldValue){
           let newValue=_.cloneDeep(oldValue);
           Object.keys(defaultValue).forEach((field: string) => {
@@ -28,7 +28,7 @@ export const appSettings: ValidatorModifier<AppSettings> = {
     0: {
       'version': { method: versionUp },
       'environmentVariables': { method: (oldValue) => {
-        let defaultValue = {retroarchPath:'',raCoresDirectory:'',steamDirectoryGlobal:'',localImagesDirectory:''}
+        let defaultValue = {retroarchPath:'',raCoresDirectory:'',steamDirectory:'',localImagesDirectory:''}
         if(oldValue){
           return Object.assign(oldValue, {raCoresDirectory: ''});
         }
@@ -41,6 +41,31 @@ export const appSettings: ValidatorModifier<AppSettings> = {
       'knownSteamDirectories': {
         method: (oldValue, oldConfiguration)=>{
           delete oldConfiguration.knownSteamDirectories;
+        }
+      }
+    },
+    2: {
+      'version': {method: versionUp },
+      'environmentVariables': {method: (oldValue)=>{
+        let defaultValue = {retroarchPath:'',raCoresDirectory:'',steamDirectory:'',romsDirectoryGlobal:'',localImagesDirectory:''}
+        // Fix a past mistake.
+        if(oldValue.steamDirectoryGlobal) {
+          let temp = Object.assign(oldValue,{steamDirectory: oldValue.steamDirectoryGlobal, romsDirectory: ''});
+          delete temp.steamDirectoryGlobal;
+          return temp;
+        }
+        if(oldValue){
+          return Object.assign(oldValue, {romsDirectory: ''});
+        }
+        return defaultValue;
+      }
+      }
+    },
+    3: {
+      'verson': {method: versionUp},
+      'language': {
+        method: (oldValue) => {
+          if(oldValue=='English') {return 'en-US'}
         }
       }
     }
