@@ -12,7 +12,7 @@ Lies dies, wenn du immer noch Probleme mit der Konfiguration hast. Für die meis
 | **Datei 5**        | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
 | **Datei 6**        | `C:/ROMs/dir1/dir2/save.sav`               |
 
-## So, how do I setup user's glob?
+## Wie konfiguriere ich Benutzer-Glob?
 
 First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. Since our **ROMs directory** is `C:/ROMs`, we can just remove it from **File1**'s path.
 
@@ -20,7 +20,7 @@ We end up with `Kingdom Hearts/game.iso`. It obvious for us that `Kingdom Hearts
 
 Again, we end up with `${title}/game.iso`, but we also want **File2**, because it is for the same emulator. **File1** is `game.iso` and **File2** is `rom.iso`. Was nun?
 
-Remember wild cards? They allow us to discard information that does not really matter. In this case we don't care if it is `game` or `rom`, we want both to be matched. That's why we replace them with `*`. This is the final glob for both **File1** and **File2**:
+Remember wild cards? They allow us to discard information that does not really matter. In this case we don't care if it is `game` or `rom`, we want both to be matched. That's why we replace them with `*`. Dies ist der abschließende Glob für **File1** und **File2**:
 
 ```
 ${title}/*.iso
@@ -32,9 +32,9 @@ Using similar logic we can produce glob for **File3**:
 */*/*/${title}.nes
 ```
 
-## How to deal with multi-leveled directories?
+## Wie gehe ich mit mehrstufigen Verzeichnissen um?
 
-This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now?
+This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. Was nun?
 
 Now we can use a globstar and that's it!
 ```
