@@ -1,15 +1,15 @@
-# What is Steam's APP ID?
+# Was ist die APP-ID von Steam?
 
-Steam uses APP ID to identify games. For non-Steam games they are generated using:
+Steam verwendet APP-ID, um Spiele zu identifizieren. Für Nicht-Steam-Spiele werden diese mit folgenden Elementen generiert:
 
-- Executable;
-- Final app title.
+- Ausführbare Datei;
+- Finaler App-Titel.
 
-If you use `RetroArch` or similar emulators to add the same game, but on different consoles, you will encounter a problem where only **one** title is added and others just disappear. This is due to duplicate APP IDs.
+Wenn du `RetroArch` oder ähnliche Emulatoren benutzt, um das gleiche Spiel auf verschiedenen Konsolen hinzuzufügen, wirst du auf ein Problem stoßen, bei dem nur **ein** Titel hinzugefügt wird und andere einfach verschwinden. This is due to duplicate APP IDs.
 
-## Adding identical titles from different consoles
+## Hinzufügen identischer Titel von verschiedenen Konsolen
 
-Die Steam-APP-ID darf nicht identisch sein. Dies kann erreicht werden, indem du den **Titelmodifikator** Wert änderst oder **Argumente an ausführbare anhängen** aktivierst. Die zweite Option fügt eine dritte Variable zur APP-ID hinzu:
+Die Steam-APP-ID darf nicht identisch sein. Dies kann erreicht werden, indem du den **Titelmodifikator** Wert änderst oder **Argumente an ausführbare Dateien anhängen** aktivierst. Die zweite Option fügt eine dritte Variable zur APP-ID hinzu:
 
 - Ausführbare Datei;
 - Finaler App-Titel;
