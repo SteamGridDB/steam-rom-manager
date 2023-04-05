@@ -465,7 +465,7 @@
         "localIcons": "Local icons"
       },
       "placeholder": {
-        "parserType": "Select parser...",
+        "parserType": "Parser auswählen...",
         "imageProviders": "Keine",
         "multiAPIPlaceholder": "Kein Filter"
       },
@@ -482,7 +482,7 @@
         "fuzzy_replaceDiacritic": "Replace diacritic characters",
         "appendArgsToExecutable": "Append arguments to executable",
         "disabled": "Aktuellen Parser deaktivieren",
-        "advanced": "Show advanced options",
+        "advanced": "Erweiterte Optionen anzeigen",
         "noTitle": "Kein Titel!"
       }
     },
