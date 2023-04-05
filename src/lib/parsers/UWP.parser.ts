@@ -6,7 +6,7 @@ import * as path from "path";
 import * as json from "../helpers/json";
 import { spawnSync } from "child_process";
 import { XMLParser, XMLValidator} from "fast-xml-parser";
-import { globPromise } from '../helpers/glob/promise';
+import { glob } from "glob";
 
 export class UWPParser implements GenericParser {
 
@@ -51,10 +51,10 @@ export class UWPParser implements GenericParser {
         attributeNamePrefix: "@_"
       });
       let UWPDir: string = inputs.UWPDir || "C:\\XboxGames";
-
-      globPromise(path.join(UWPDir,'*','Content','appxmanifest.xml'))
+      glob("*/Content/appxmanifest.xml", { cwd: UWPDir })
       .then((files: string[])=>{
-        files.forEach((file)=>{
+        files.forEach((file: string)=>{
+          file = path.join(UWPDir, file)
           if(fs.existsSync(file) && fs.lstatSync(file).isFile()) {
             var xmldata = fs.readFileSync(file,'utf-8');
             if(XMLValidator.validate(xmldata)) {

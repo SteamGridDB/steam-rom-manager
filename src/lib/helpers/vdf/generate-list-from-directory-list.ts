@@ -4,7 +4,7 @@ import { VDF_ScreenshotsFile } from "../../vdf-screenshots-file";
 import { VDF_ShortcutsFile } from "../../vdf-shortcuts-file";
 import { APP } from "../../../variables";
 import * as paths from "../../../paths";
-import * as Glob from 'glob';
+import { glob } from 'glob';
 import * as path from 'path';
 
 export function generateListFromDirectoryList(steamDirectories: string[]) {
@@ -13,10 +13,8 @@ export function generateListFromDirectoryList(steamDirectories: string[]) {
         let promises: Promise<{ data: { directory: string, users: { id: string, paths: string[] }[] }, error: string }>[] = [];
         for (let i = 0; i < steamDirectories.length; i++) {
             promises.push(new Promise<{ data: { directory: string, users: { id: string, paths: string[] }[] }, error: string }>((resolve, reject) => {
-                Glob('userdata/+([0-9])/', { silent: true, dot: true, cwd: steamDirectories[i] }, (error, folders) => {
-                    if (error)
-                        reject(error);
-                    else if (folders.length === 0) {
+                glob('userdata/+([0-9])/', { dot: true, cwd: steamDirectories[i] }).then((folders: string[]) => {
+                    if (folders.length === 0) {
                         resolve({ data: null, error: APP.lang.helpers.error.noUserIdsInDir__i.interpolate({ steamDirectory: steamDirectories[i] }) });
                     }
                     else {
@@ -34,6 +32,8 @@ export function generateListFromDirectoryList(steamDirectories: string[]) {
                         }
                         resolve({ data: { directory: steamDirectories[i], users }, error: null });
                     }
+                }).catch((err: string)=> {
+                  reject(err);
                 });
             }));
         }

@@ -2,7 +2,7 @@ import { ParserInfo, GenericParser, UserConfiguration, ParsedData } from '../../
 import { APP } from '../../variables';
 import * as _ from "lodash";
 import * as minimatch from 'minimatch';
-import * as glob from 'glob';
+import { glob } from 'glob';
 import * as path from 'path';
 
 interface TitleTagData {
@@ -156,7 +156,7 @@ export class GlobRegexParser implements GenericParser {
       if (mm.empty)
         return '^\\s*?$';
       else{
-        return mm.makeRe().source;
+        return (mm.makeRe()||{}).source;
       }
     }
 
@@ -262,11 +262,10 @@ export class GlobRegexParser implements GenericParser {
       let validationText = this.validate(inputs['glob-regex']);
       if (validationText === null) {
         let titleData = this.extractTitleTag(inputs['glob-regex']);
-        glob(titleData.finalGlob, { silent: true, dot: true, cwd: directory as string, cache: cache || {} }, (err, files) => {
-          if (err)
-            reject(err);
-          else
-            resolve(this.extractTitles(titleData, directory as string, files));
+        glob(titleData.finalGlob, { dot: true, cwd: directory as string }).then((files: string[]) => {
+          resolve(this.extractTitles(titleData, directory as string, files));
+        }).catch((err: string)=> {
+          reject(err)
         });
       }
       else

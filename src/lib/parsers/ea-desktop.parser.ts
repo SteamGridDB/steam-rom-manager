@@ -47,7 +47,7 @@ export class EADesktopParser implements GenericParser {
       const xmlParser = new XMLParser();
       Promise.resolve()
         .then(()=>{
-          let installDataFiles: string[] = glob.sync("*/__Installer/installerdata.xml", { silent: true, dot: true, cwd: eaInstallDir, absolute: true });
+          let installDataFiles: string[] = glob.sync("*/__Installer/installerdata.xml", { dot: true, cwd: eaInstallDir, absolute: true });
           for(let installDataFile of installDataFiles) {
               let gameDir = path.join(path.dirname(installDataFile),'..')
               let xmldata = fs.readFileSync(installDataFile, 'utf-8');

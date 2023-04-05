@@ -3,7 +3,7 @@ import { APP } from '../../variables';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as yaml from "js-yaml";
-import * as Registry from "winreg";
+import Registry from "winreg";
 import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
 import * as os from "os";
@@ -62,7 +62,7 @@ export class UPlayParser implements GenericParser {
         arch: 'x86',
         key: '\\SOFTWARE\\Ubisoft\\Launcher\\Installs',
       });
-      reg.keys((err, keys: any[]) => {
+      reg.keys((err: Error, keys: any[]) => {
         if (err) {
           reject(err);
         }

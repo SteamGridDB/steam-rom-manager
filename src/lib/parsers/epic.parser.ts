@@ -5,7 +5,7 @@ import * as fs from "fs-extra";
 import * as os from "os";
 import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
-import { globPromise } from "../helpers/glob/promise"
+import { glob } from "glob";
 
 
 export class EpicParser implements GenericParser {
@@ -55,7 +55,7 @@ export class EpicParser implements GenericParser {
       if(!fs.existsSync(epicManifestsDir)) {
         reject(this.lang.errors.epicNotInstalled)
       }
-      globPromise([epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'))
+      glob([epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'))
       .then((files: string[])=>{
         files.forEach((file)=>{
           if(fs.existsSync(file) && fs.lstatSync(file).isFile()) {

@@ -62,15 +62,15 @@ export class ControllerManager {
 
   static readTemplates(steamDirectory: string, controllerType: string) {
     let templateDirUser = path.join(steamDirectory, 'steamapps', 'workshop', 'content', '241100')
-    let filesUser = glob.sync('*/*', { silent: true, dot: true, cwd: templateDirUser, absolute: true });
+    let filesUser = glob.sync('*/*', { dot: true, cwd: templateDirUser, absolute: true });
     let parsedTemplatesUser: any[] = filesUser.map((f: string) => Object.assign({ mappingId: f.split('/').slice(-2)[0] }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
       .filter((x: any) => !!x['controller_mappings']
         && !!x['controller_mappings']['title']
         && !!x['controller_mappings']['controller_type']
       )
-      .filter(x=> x.controller_mappings.controller_type === 'controller_'+controllerType)
-      .filter(x=> String(x.controller_mappings.title).slice(-match.length) === match)
-      .map(x=>Object.assign({},{
+      .filter((x: any) => x.controller_mappings.controller_type === 'controller_'+controllerType)
+      .filter((x: any) => String(x.controller_mappings.title).slice(-match.length) === match)
+      .map((x: any) => Object.assign({},{
         title: x.controller_mappings.title,
         mappingId: x.mappingId,
         profileType: "workshop"
@@ -78,14 +78,14 @@ export class ControllerManager {
     parsedTemplatesUser.sort((a, b) => a.title.localeCompare(b.title));
 
     let templateDirValve = path.join(steamDirectory, 'controller_base', 'templates')
-    let filesValve = glob.sync('*.vdf', { silent: true, dot: true, cwd: templateDirValve, absolute: true });
+    let filesValve = glob.sync('*.vdf', { dot: true, cwd: templateDirValve, absolute: true });
     let parsedTemplatesValve: any[] = filesValve.map((f: string) => Object.assign({ mappingId: path.basename(f) }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
       .filter((x: any) => !!x['controller_mappings']
         && !!x['controller_mappings']['title']
           && !!x['controller_mappings']['controller_type']
         )
-        .filter(x=> x.controller_mappings.controller_type === 'controller_'+controllerType)
-        .map(x=>Object.assign({},{
+        .filter((x: any) => x.controller_mappings.controller_type === 'controller_'+controllerType)
+        .map((x: any) => Object.assign({},{
           title: json.caseInsensitiveTraverse(x,[["controller_mappings"],["localization"],["english"],["title"]]) || json.caseInsensitiveTraverse(x,[["controller_mappings"],["title"]]),
           mappingId: x.mappingId,
           profileType: "template"

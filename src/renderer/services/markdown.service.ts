@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MarkdownIt } from 'markdown-it';
-
+import MarkdownIt from 'markdown-it';
 const markdownIt = require('markdown-it')()
 
 @Injectable()

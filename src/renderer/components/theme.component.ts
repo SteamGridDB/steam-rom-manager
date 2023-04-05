@@ -76,7 +76,7 @@ export class ThemeComponent implements OnInit {
     private refreshThemes() {
         if (!this.stateVariables.refreshingThemes) {
             this.stateVariables.refreshingThemes = true;
-            this.themeManager.getAvailableThemes().then((themes) => {
+            this.themeManager.getAvailableThemes().then((themes: string[]) => {
                 this.availableThemes = themes;
                 this.stateVariables.refreshingThemes = false;
             }).catch((error) => {
