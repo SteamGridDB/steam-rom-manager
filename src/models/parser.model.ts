@@ -2,7 +2,11 @@ import { userAccountData, StringLiteralArray } from './helpers.model';
 import { Controllers } from './controllers.model';
 import { ImageProviderAPI } from './user-configuration.model';
 
-export interface ParsedUserConfigurationFile {
+export interface StringMap {
+  [key: string]: any
+}
+
+export interface ParsedUserConfigurationFile extends StringMap {
   executableLocation: string,
   modifiedExecutableLocation: string,
   startInDirectory: string,

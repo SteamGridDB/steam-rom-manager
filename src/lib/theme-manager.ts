@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 
 export class ThemeManager {
   private currentThemeField: string = 'currentTheme';
-  private colorRules = {};
+  private colorRules: { [rule: string]: string } = {};
 
   readFromColorFile(themeTitle: string, silentNotFound: boolean) {
     this.colorRules = {};
@@ -130,10 +130,11 @@ export class ThemeManager {
               return reject(error);
           }
 
-          let fileData = {};
+          let fileData: {[k: string]: any} = {};
 
-          if (data)
+          if (data) {
             fileData = JSON.parse(data);
+          }
 
           fileData[this.currentThemeField] = themeTitle;
 

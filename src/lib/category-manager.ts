@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 import { Acceptable_Error } from './acceptable-error';
 
 export class CategoryManager {
-  private data: object = {};
+  private data: PreviewData = {};
 
   createList() {
     const list = [];

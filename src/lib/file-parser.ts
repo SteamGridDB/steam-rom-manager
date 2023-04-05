@@ -602,7 +602,7 @@ export class FileParser {
       resolvedGlobs.push([]);
       resolvedFiles.push([]);
 
-      let fieldValue = config[field];
+      let fieldValue: string = config[field as keyof UserConfiguration] as string;
       if (fieldValue) {
         let variableData = this.makeVariableData(config,settings, parsedConfig.files[i]);
         //expandable set is to allow you to comment out stuff using $()$. Decent idea, but ehhhh
@@ -614,7 +614,7 @@ export class FileParser {
           }) : '').replace(/\\/g, '/');
 
           resolvedGlobs[i].push(replacedGlob);
-          promises.push(glob(replacedGlob, { dot: true, realpath: true, cwd: cwd }).then((files) => {
+          promises.push(glob(replacedGlob, { dot: true, realpath: true, cwd: cwd }).then((files: string[]) => {
             resolvedFiles[i] = files;
           }));
         }
@@ -665,7 +665,7 @@ export class FileParser {
               }
             }
             if (secondaryMatch !== undefined) {
-              return glob(secondaryMatch, { dot: true, realpath: true, cwd: cwd }).then((files) => {
+              return glob(secondaryMatch, { dot: true, realpath: true, cwd: cwd }).then((files: string[]) => {
                 return resolvedFiles[i].concat(files);
               });
             }

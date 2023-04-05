@@ -1,8 +1,8 @@
 import * as _ from "lodash";
 
-export function multiInvert(a: {[k: string]: any}): {[k: string]: string | string[]} {
+export function multiInvert(a: {[k: string]: string | string[]}): {[k: string]: string | string[]} {
   let pairs = _.flattenDepth(Object.entries(a).map(x=>[].concat(x[1]).map(y=>[y,x[0]])),1);
-  let res = {};
+  let res: {[k: string]: string | string[]} = {};
   for(let i=0; i < pairs.length; i++) {
     if(res[pairs[i][0]] === undefined) {
       res[pairs[i][0]]=pairs[i][1]

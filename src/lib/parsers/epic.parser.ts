@@ -84,7 +84,7 @@ export class EpicParser implements GenericParser {
           });
         }
         resolve(parsedData);
-      }).catch((err)=>{
+      }).catch((err: string)=>{
         reject(this.lang.errors.fatalError__i.interpolate({error: err}));
       });
     })

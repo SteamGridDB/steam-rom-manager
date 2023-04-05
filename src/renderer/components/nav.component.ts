@@ -39,7 +39,7 @@ export class NavComponent implements OnDestroy {
       this.navForm = this.formBuilder.group({
         selectAll: someOn,
         parserStatuses: this.formBuilder.array(userConfigurations.map((config: {saved: UserConfiguration, current: UserConfiguration}) => {
-          let singleton={};
+          let singleton: {[k: string]: boolean} = {};
           singleton[config.saved.parserId] = ! config.saved.disabled;
           return this.formBuilder.group(singleton);
         }))

@@ -11,3 +11,4 @@ declare module 'appid';
 declare module 'binary-vdf';
 declare module 'xdg-parse';
 declare module 'markdown-it-attrs';
+declare module 'glob';

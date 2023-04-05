@@ -12,7 +12,6 @@
     "experimentalDecorators": true,
     "removeComments": false,
     "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true,
     "moduleResolution": "Node",
     "esModuleInterop": true
   },

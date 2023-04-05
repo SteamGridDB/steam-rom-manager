@@ -2,7 +2,7 @@ const Memoize = require("fast-memoize");
 
 export class MemoizedFunction<FunctionType = Function> {
     private static fnFallback = () => { throw new Error("memoized function is used before being set."); };
-    private cache: object = {};
+    private cache: {[key: string]: any} = {};
     private memoizedFn!: FunctionType;
 
     constructor() {

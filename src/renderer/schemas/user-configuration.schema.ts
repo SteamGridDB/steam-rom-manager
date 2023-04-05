@@ -159,7 +159,7 @@ const sharedProperties = {
   }
 }
 
-let options = availableParsers.map((parserType: string)=>{
+let options: any[] = availableParsers.map((parserType: string)=>{
   let temp = cloneDeep(sharedProperties);
   if(availableParserInputs[parserType].length) {
     Object.assign(temp.properties, {

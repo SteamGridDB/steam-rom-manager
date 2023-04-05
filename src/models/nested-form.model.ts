@@ -1,14 +1,22 @@
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, FormGroup, FormControl } from '@angular/forms';
 import { Observable } from "rxjs";
+
+export interface IndexedFormGroup extends FormGroup {
+  __path?: string[]
+}
+export interface IndexedFormControl extends FormControl {
+  __path?: string[]
+}
 
 export type NestedInputValidator = (control: AbstractControl, path: string[]) => string;
 export type NestedInputValidatorObservable = ()=>Observable<string>;
 export type NestedInputInfoClick = (control: AbstractControl, path: string[]) => void;
 export type NestedInputChange = (control: AbstractControl, path: string[]) => void;
-export type NestedInputHidden = () => Observable<boolean> | Promise<boolean>;
+export type NestedInputHiddenValue = Observable<boolean> | Promise<boolean>;
+export type NestedInputHidden = () => NestedInputHiddenValue;
 export type NestedInputClick = () => any;
 type ObjectFields<T> = {
-  [P in keyof T]: T[P];
+  [P in keyof Omit<T,"__hidden">]: T[P];
 };
 
 export type SelectItem = {
@@ -25,6 +33,7 @@ export namespace NestedFormElement {
     initialValue?: any;
     /** Optional */
     isHidden?: NestedInputHidden;
+    __hidden: NestedInputHiddenValue;
     /** Optional */
     disabled?: boolean;
     /** Required */
@@ -56,6 +65,7 @@ export namespace NestedFormElement {
     initialValue?: string;
     /** Optional */
     isHidden?: NestedInputHidden;
+    __hidden: NestedInputHiddenValue;
     /** Optional */
     disabled?: boolean;
     /** Optional */
@@ -87,6 +97,7 @@ export namespace NestedFormElement {
     appendGlob?: string;
     /** Optional */
     isHidden?: NestedInputHidden;
+    __hidden: NestedInputHiddenValue;
     /** Optional */
     disabled?: boolean;
     /** Optional */
@@ -120,6 +131,7 @@ export namespace NestedFormElement {
     disabled?: boolean;
     /** Optional */
     isHidden?: NestedInputHidden;
+    __hidden: NestedInputHiddenValue;
     /** Optional */
     onValidate?: NestedInputValidator;
     /** Optional */
@@ -141,6 +153,7 @@ export namespace NestedFormElement {
     onInfoClick?: NestedInputInfoClick;
     /** Optional */
     isHidden?: NestedInputHidden;
+    __hidden: NestedInputHiddenValue;
     /** Optional */
     children?: { [key: string]: NestedFormElements };
 
@@ -155,6 +168,7 @@ export namespace NestedFormElement {
     label: string;
     /** Optional */
     isHidden?: NestedInputHidden;
+    __hidden: NestedInputHiddenValue;
 
     constructor(init?: ObjectFields<Section>) {
       Object.assign(this, init);
@@ -169,6 +183,7 @@ export namespace NestedFormElement {
     /** Optional */
     label?: string;
     isHidden?: NestedInputHidden;
+    __hidden: NestedInputHiddenValue;
     constructor(init?: ObjectFields<Button>) {
       Object.assign(this, init)
     }

@@ -104,7 +104,7 @@ export class VDF_ScreenshotsFile {
       let screenshotsData: VDF_ScreenshotsData = this.data;
       for (let j=0; j < this.extraneous.length; j++) {
         let exAppId = this.extraneous[j]
-        promises.push(glob(`${exAppId}.*`, { dot: true, cwd: this.gridDirectory, absolute: true }).then((files) => {
+        promises.push(glob(`${exAppId}.*`, { dot: true, cwd: this.gridDirectory, absolute: true }).then((files: string[]) => {
           let errors: Error[] = [];
           for (let i = 0; i < files.length; i++) {
             try {
@@ -115,25 +115,25 @@ export class VDF_ScreenshotsFile {
             }
           }
           return errors;
-        }).then((errors) => {
+        }).then((errors: string[]) => {
           if (errors.length > 0)
             return new VDF_Error(errors);
         }));
       }
       for (const appId in screenshotsData) {
         if (screenshotsData[appId] === undefined) {
-          promises.push(glob(`${appId}.*`, { dot: true, cwd: this.gridDirectory, absolute: true }).then((files) => {
+          promises.push(glob(`${appId}.*`, { dot: true, cwd: this.gridDirectory, absolute: true }).then((files: string[]) => {
             let errors: Error[] = [];
             for (let i = 0; i < files.length; i++) {
               try {
                 fs.removeSync(files[i]);
               }
-              catch (error) {
+              catch(error) {
                 errors.push(error);
               }
             }
             return errors;
-          }).then((errors) => {
+          }).then((errors: string[]) => {
             if (errors.length > 0)
               return new VDF_Error(errors);
           }));
@@ -164,7 +164,7 @@ export class VDF_ScreenshotsFile {
                 }).then((buffer) => {
                   return fs.outputFile(path.join(this.gridDirectory, `${appId}.${ids.map_ext[""+ext]||ext}`), buffer).then(() => {
                     screenshotsData[appId] = data.title;
-                    glob(`${appId}.!(json)`, { dot: true, cwd: this.gridDirectory, absolute: true }).then((files) => {
+                    glob(`${appId}.!(json)`, { dot: true, cwd: this.gridDirectory, absolute: true }).then((files: string[]) => {
                       let errors: Error[] = [];
                       for (let i = 0; i < files.length; i++) {
                         if(_.last(files[i].split('.'))!==(ids.map_ext[""+ext]||ext)) {

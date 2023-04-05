@@ -1,6 +1,6 @@
 import { Component, Input, Output, ChangeDetectionStrategy, OnInit, EventEmitter, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
-import { NestedFormElement, NestedFormInputs, NestedFormElements } from "../../models";
+import { FormGroup, FormControl, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { NestedFormElement, NestedFormInputs, NestedFormElements, IndexedFormGroup, IndexedFormControl } from "../../models";
 import { Observable, BehaviorSubject } from "rxjs";
 import * as _ from 'lodash';
 
@@ -12,11 +12,12 @@ import * as _ from 'lodash';
   encapsulation: ViewEncapsulation.None
 })
 export class NgNestedFormComponent implements OnInit {
-  private currentForm: FormGroup = new FormGroup({});
+  private currentForm: IndexedFormGroup = new FormGroup({});
   private hiddenSections: BehaviorSubject<{[sectionName: string]: boolean}>;
   private sectionMap: {[elementName: string]: string} = {};
   private validityObservables: (()=>Observable<string>)[] = [];
-  @Input() public parentForm: FormGroup;
+  private dumb: IndexedFormControl;
+  @Input() public parentForm: IndexedFormGroup;
   @Input() public groupName: string;
   @Input() public nestedGroup: NestedFormElement.Group;
 
@@ -82,20 +83,20 @@ export class NgNestedFormComponent implements OnInit {
   }
 
   private buildFromTemplate(group: NestedFormElement.Group) {
-    let formGroup = new FormGroup({});
+    let formGroup: IndexedFormGroup = new FormGroup({});
     formGroup['__path'] = this.groupName ? (this.parentForm ? this.parentForm['__path'] : null as Array<string> || []).concat(this.groupName) : [];
     for (let childKey in group.children) {
       let notGroup = group.children[childKey] instanceof NestedFormElement.Group === false;
       let notSection = group.children[childKey] instanceof NestedFormElement.Section === false;
       if (notGroup && notSection) {
         let child = group.children[childKey] as NestedFormInputs;
-        let formControl = new FormControl();
+        let formControl: IndexedFormControl = new FormControl();
 
         formControl['__path'] = formGroup['__path'].concat(childKey);
         formControl.reset({ value: child.initialValue || null, disabled: child.disabled || false }, { onlySelf: true, emitEvent: false });
 
-        let callbacks: ValidatorFn[] = [];
-
+        // let callbacks: ValidatorFn[] = [];
+        let callbacks: ((c: IndexedFormControl) => ValidationErrors)[] = [];
         if (child.onValidate) {
           callbacks.push((c) => {
             let error = child.onValidate(c, c['__path']);

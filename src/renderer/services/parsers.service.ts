@@ -277,7 +277,7 @@ export class ParsersService {
                 });
               }
 
-              validate(key: string, data: any,options?: any) {
+              validate(key: string, data: any, options?: any) {
                 switch (key) {
                   case 'parserType':
                     {
@@ -427,7 +427,7 @@ export class ParsersService {
                 }
 
                 for (let i = 0; i < simpleValidations.length; i++) {
-                  if (this.validate(simpleValidations[i], config[simpleValidations[i]]) !== null){
+                  if (this.validate(simpleValidations[i], config[simpleValidations[i] as keyof UserConfiguration]) !== null){
                     return false;
                   }
                 }
@@ -488,7 +488,7 @@ export class ParsersService {
                 return new Promise<void>((resolve, reject) => {
                   if (!this.savingIsDisabled) {
 
-                    fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => {
+                    fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item: any) => {
                       item.saved[modifiers.userConfiguration.controlProperty] = modifiers.userConfiguration.latestVersion;
                       if(!item.saved.parserType) {
                         throw new Error(this.lang.error.parserTypeMissing);

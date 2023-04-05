@@ -10,7 +10,7 @@ import * as appImage from '../../lib/helpers/app-image';
 import * as _ from 'lodash';
 import * as path from 'path';
 
-const imageTypeDict = {
+const imageTypeDict: {[k:string]: string} = {
   long: 'Banners',
   tall: 'Portraits',
   hero: 'Heroes',

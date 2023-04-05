@@ -69,7 +69,7 @@ export class UPlayParser implements GenericParser {
         if (keys) {
           const promiseArr = keys.map((key: any) => this.processRegKey(key));
           Promise.all(promiseArr).then((resultsArray) => {
-            let out = {};
+            let out: {[k: string]: string} = {};
             resultsArray.forEach((item: any) => {
               if(item.installDir) {
                 out[String(item.id)] = item.installDir;
