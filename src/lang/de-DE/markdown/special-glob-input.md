@@ -3,10 +3,10 @@
 ## Wie funktioniert es?
 
 Bildpfade werden in 4 Schritten aufgelöst:
-1. Zeichenkette wird ausgewertet, um zu sehen, ob ein glob-basierter Parser verwendet wird. Abhängig vom Ergebnis kann das weitere Parsen mit `2` Glob-Sätzen fortgesetzt werden.
+1. String wird ausgewertet, um zu sehen, ob ein glob-basierter Parser verwendet wird. Abhängig vom Ergebnis kann das weitere Parsen mit `2` Glob-Sätzen fortgesetzt werden.
 1. Alle angegebenen Variablen werden durch die entsprechenden Werte ersetzt.
-1. Neue Zeichenkette(n) werden gegen das Root-Verzeichnis aufgelöst (Root-Verzeichnis ist immer das ROMs Verzeichnis).
-1. Finale Zeichenkette(n) werden an den Glob-Parser übergeben, der dann eine Liste der verfügbaren Dateien zurückgibt.
+1. Neue(r) String(s) werden gegen das Root-Verzeichnis aufgelöst (Root-Verzeichnis ist immer das ROMs Verzeichnis).
+1. Finale String(s) werden an den Glob-Parser übergeben, der dann eine Liste der verfügbaren Dateien zurückgibt.
 
 ## Beispiele für die Verwendung
 
