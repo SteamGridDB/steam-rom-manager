@@ -1,6 +1,6 @@
 # Local Tall images (optional) `[supports variables]`{.noWrap}
 
-Allows to use tall images stored locally. A [special glob input](#special-glob-input) string is used to retrieve images.
+Allows to use tall images stored locally. Um Bilder abzurufen, wird ein [special glob input](#special-glob-input) String verwendet.
 
 ## Erlaubte Bilderweiterungen
 
