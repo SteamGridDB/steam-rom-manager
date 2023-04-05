@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from
 import { SettingsService, LanguageService, MarkdownService, IpcService} from "../services";
 import { MarkdownVariable } from '../../lib';
 import { Router } from "@angular/router";
-import * as highlight from 'highlight.js';
+import hljs from 'highlight.js';
 import markdownItAnchor from 'markdown-it-anchor';
 import markdownItAttrs from 'markdown-it-attrs';
 @Component({
@@ -45,9 +45,9 @@ export class AppComponent {
       html: true,
       typographer: true,
       highlight: function (str: string , lang: any) {
-        if (lang && highlight.getLanguage(lang)) {
+        if (lang && hljs.getLanguage(lang)) {
           try {
-            return highlight.highlight(lang, str).value;
+            return hljs.highlight(lang, str).value;
           } catch (__) { }
         }
         return '';
