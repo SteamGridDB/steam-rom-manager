@@ -50,7 +50,6 @@ export class PreviewComponent implements OnDestroy {
       this.previewData = this.previewService.getPreviewData();
     }
     this.subscriptions.add(this.previewService.getPreviewDataChange().subscribe(_.debounce(() => {
-
       this.allCategories = this.previewService.getAllCategories();
       this.allParsers = this.previewService.getAllParsers();
       this.previewData = this.previewService.getPreviewData();

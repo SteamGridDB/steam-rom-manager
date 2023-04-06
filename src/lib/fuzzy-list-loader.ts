@@ -133,7 +133,7 @@ export class FuzzyListLoader {
   private getTotalCount() {
     return new Promise<number>((resolve, reject) => {
       this.http.get('https://steamgriddb.com/api/games/?total').timeout(this.timeout).subscribe(
-        (response) => {
+        (response: any) => {
           try {
             let parsedBody = response.json();
             if (parsedBody['totalGames'] !== undefined)
@@ -144,7 +144,7 @@ export class FuzzyListLoader {
             reject(error);
           }
         },
-        (error) => {
+        (error: string) => {
           reject(error);
         }
       );
@@ -154,7 +154,7 @@ export class FuzzyListLoader {
   private downloadList() {
     return new Promise<{ totalGames: number, games: string[], cache: { [key: string]: any } }>((resolve, reject) => {
       this.http.get('https://steamgriddb.com/api/games/').timeout(this.timeout).subscribe(
-        (response) => {
+        (response: any) => {
           try {
             let parsedBody = response.json();
             resolve(Object.assign(parsedBody, { cache: {} }));
@@ -162,7 +162,7 @@ export class FuzzyListLoader {
             reject(error);
           }
         },
-        (error) => {
+        (error: string) => {
           reject(error);
         }
       );

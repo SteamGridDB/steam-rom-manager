@@ -65,7 +65,7 @@ export class NgPathInputComponent implements ControlValueAccessor {
     if (value !== oldValue) {
       this.currentValue = this.stateless ? null : value;
       this.onChange(value);
-      this.pathChange.next(value);
+      this.pathChange.emit(value);
     }
 
     this.onTouched();

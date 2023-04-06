@@ -31,7 +31,7 @@ export class PreviewService {
   private appSettings: AppSettings;
   private previewData: PreviewData;
   private previewVariables: PreviewVariables;
-  private previewDataChanged: Subject<boolean>;
+  private previewDataChanged: Subject<void>;
   private appImages: AppImages;
   private appTallImages: AppImages;
   private appHeroImages: AppImages;
@@ -50,7 +50,7 @@ export class PreviewService {
       numberOfQueriedImages: 0,
       numberOfListItems: 0
     };
-    this.previewDataChanged = new Subject<boolean>();
+    this.previewDataChanged = new Subject<void>();
     this.settingsService.onLoad((appSettings: AppSettings) => {
       this.appSettings = appSettings;
     });

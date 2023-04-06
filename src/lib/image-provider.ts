@@ -16,7 +16,7 @@ export class ImageProvider {
   private availableProviders: { [key: string]: { worker: Worker, queue: AsyncQueue } } = {};
   private callbackMap = new Map<string, { queueCallback: () => void, eventCallback: ProviderCallback }>();
   private filterIsEnabled: boolean = false;
-  private stopped: Subject<any> = new Subject();
+  private stopped: Subject<void> = new Subject();
 
   constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService) {
     let key: keyof typeof imageProviders

@@ -8,7 +8,8 @@ import * as parserInfo from '../../lib/parsers/available-parsers';
 import * as steam from '../../lib/helpers/steam';
 import { controllerTypes, controllerNames } from '../../lib/controller-manager';
 import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets, ControllerTemplates } from '../../models';
-import { Subscription, Observable } from "rxjs";
+import { Subscription, Observable, combineLatest, of, concat } from "rxjs";
+import { map } from 'rxjs/operators'
 import { APP } from '../../variables';
 import * as _ from 'lodash';
 @Component({
@@ -50,7 +51,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     this.ipcService.send('log', 'Parser Constructor')
     this.appSettings = this.settingsService.getSettings();
     this.currentDoc.content = this.lang.docs__md.intro.join('');
-    this.activatedRoute.queryParamMap.subscribe(paramContainer => {
+    this.activatedRoute.queryParamMap.subscribe((paramContainer: any)=> {
       let params = ({...paramContainer} as any).params;
       // TODO Fix this ugly hack
       this.ipcService.send('log', "Testing testing")
@@ -228,9 +229,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     highlight: this.highlight.bind(this),
                     label: input.label,
                     isHidden: () => {
-                      return Observable.concat(Observable.of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).map((pType: string) => {
+                      return concat(of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).pipe(map((pType: string) => {
                         return pType !== parsers[i];
-                      });
+                      }));
                     },
                     onValidate: (self, path) => {
                       if (parsers[i]!=='Steam' && this.userForm.get('parserType').value === parsers[i])
@@ -249,9 +250,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     highlight: this.highlight.bind(this),
                     label: input.label,
                     isHidden: () => {
-                      return Observable.concat(Observable.of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).map((pType: string) => {
+                      return concat(of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).pipe(map((pType: string) => {
                         return pType !== parsers[i];
-                      });
+                      }));
                     },
                     onValidate: (self, path) => {
                       if (parsers[i]!=='Steam' && this.userForm.get('parserType').value === parsers[i])
@@ -268,9 +269,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                   parserInputs[inputFieldName] = new NestedFormElement.Toggle({
                     text: input.label,
                     isHidden: () => {
-                      return Observable.concat(Observable.of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).map((pType: string) => {
+                      return concat(of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).pipe(map((pType: string) => {
                         return pType !== parsers[i];
-                      });
+                      }));
                     },
                   });
                 }
@@ -568,7 +569,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe((data) => {
       this.userConfigurations = data;
       this.loadConfiguration();
-    })).add(this.activatedRoute.params.subscribe((params) => {
+    }))
+    this.subscriptions.add(this.activatedRoute.params.subscribe((params: any) => {
       this.configurationIndex = parseInt(params['index']);
       if(this.configurationIndex !== -1) {
         this.currentDoc.activePath = 'parserType';
@@ -578,9 +580,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       }
       this.loadConfiguration();
       this.fetchControllerTemplates(false);
-    })).add(this.cpService.dataObservable.subscribe((data) => {
+    }))
+    this.subscriptions.add(this.cpService.dataObservable.subscribe((data) => {
       this.configPresets = data;
-    })).add(this.parsersService.getSavedControllerTemplates().subscribe((data) => {
+    }))
+    this.subscriptions.add(this.parsersService.getSavedControllerTemplates().subscribe((data) => {
       this.parsersService.controllerTemplates = data;
       this.fetchControllerTemplates(false);
     }))
@@ -683,21 +687,21 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     this.currentDoc.content = this.lang.docs__md.communityPresets.join('');
   }
   private isHiddenIfNotRomsParser() {
-    return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => parserInfo.superTypesMap[pType] !== parserInfo.ROMType)
+    return concat(of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).pipe(map(pType => parserInfo.superTypesMap[pType] !== parserInfo.ROMType));
   }
   private isHiddenIfArtworkOnlyParser() {
-    return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => parserInfo.superTypesMap[pType] === parserInfo.ArtworkOnlyType);
+    return concat(of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).pipe(map(pType => parserInfo.superTypesMap[pType] === parserInfo.ArtworkOnlyType));
   }
   private isHiddenIfParserBlank() {
-    return Observable.concat(Observable.of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).map(pType => !pType)
+    return concat(of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).pipe(map(pType => !pType))
   }
 
   // Not currently used but potentially very useful
   private isHiddenIfArtworkOnlyOrBlank() {
-    return Observable.combineLatest(
+    return combineLatest(
       this.isHiddenIfArtworkOnlyParser(),
       this.isHiddenIfParserBlank()
-    ).map(([ao,pb])=>ao||pb)
+    ).pipe(map(([ao,pb])=>ao||pb))
   }
 
   private get lang() {

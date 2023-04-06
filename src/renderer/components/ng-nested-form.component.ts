@@ -1,7 +1,8 @@
 import { Component, Input, Output, ChangeDetectionStrategy, OnInit, EventEmitter, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { NestedFormElement, NestedFormInputs, NestedFormElements, IndexedFormGroup, IndexedFormControl } from "../../models";
-import { Observable, BehaviorSubject } from "rxjs";
+import { Observable, BehaviorSubject, combineLatest } from "rxjs";
+import { map } from "rxjs/operators";
 import * as _ from 'lodash';
 
 @Component({
@@ -32,7 +33,7 @@ export class NgNestedFormComponent implements OnInit {
     if (this.groupName)
       this.parentForm.setControl(this.groupName, this.currentForm);
     else
-      this.parentFormChange.next(this.currentForm);
+      this.parentFormChange.emit(this.currentForm);
   }
 
   private toggleHiddenSection(sectionName: string) {
@@ -61,10 +62,10 @@ export class NgNestedFormComponent implements OnInit {
     } else {
       if (el['__hidden'] === undefined) {
         if (el.isHidden !== undefined) {
-          el['__hidden'] = Observable.combineLatest(el.isHidden(),this.hiddenSections).map(([h,hs])=>h||!!hs[this.sectionMap[elName]||""]);
+          el['__hidden'] = combineLatest(el.isHidden(),this.hiddenSections).pipe(map(([h,hs])=>h||!!hs[this.sectionMap[elName]||""]));
         }
         else {
-          el['__hidden'] = this.hiddenSections.map(hs=>!!hs[this.sectionMap[elName]||""]);
+          el['__hidden'] = this.hiddenSections.pipe(map(hs=>!!hs[this.sectionMap[elName]||""]));
         }
       }
     }

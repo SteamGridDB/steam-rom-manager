@@ -9,6 +9,7 @@ import { ImageProviderService } from './image-provider.service';
 import { SettingsService } from './settings.service';
 import { FileParser, VariableParser, ControllerManager } from '../../lib';
 import { BehaviorSubject } from "rxjs";
+import { takeWhile } from "rxjs/operators";
 import {availableProviders} from "../../lib/image-providers/available-providers"
 import { APP } from '../../variables';
 import * as json from "../../lib/helpers/json";
@@ -64,11 +65,11 @@ export class ParsersService {
               }
 
               onLoad(callback: (userConfigurations: UserConfiguration[]) => void) {
-                this.configurationsLoadedSubject.asObservable().takeWhile((loaded) => {
+                this.configurationsLoadedSubject.asObservable().pipe(takeWhile((loaded) => {
                   if (loaded)
                     callback(this.userConfigurations.getValue().map(item=>item.saved));
                   return !loaded;
-                }).subscribe();
+                })).subscribe();
               }
 
               get controllerTemplates() {
