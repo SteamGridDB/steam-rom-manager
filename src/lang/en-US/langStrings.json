@@ -221,7 +221,9 @@
       "fuzzy": "FUZZY",
       "textWrap": "TEXT-WRAP",
       "autoscroll": "AUTOSCROLL",
-      "clearLog": "Clear log"
+      "clearLog": "Clear log",
+      "issueDescription": "Thorough issue description with passable spelling.",
+      "handleExample": "CoolHandle#1234"
     }
   },
   "customVariables": {

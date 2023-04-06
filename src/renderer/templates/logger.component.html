@@ -17,11 +17,11 @@
     <div class="inputContainer">
       <div class="longtext">Describe your issue:</div>
       <div class="inlineLeft">
-        <ng-text-input class="ngTextInput" multiline="true" [formControl]="bugForm.controls['description']" placeholder="Thorough issue description with passable spelling and grammar."></ng-text-input>
+        <ng-text-input class="ngTextInput" multiline="true" [formControl]="bugForm.controls['description']" [placeholder]="lang.issueDescription"></ng-text-input>
       </div>
       <div class="inlineLeft">
         <div class=text style="margin-right: 0.25em;">Discord handle (optional):</div>
-        <ng-text-input class="ngTextInput" [formControl]="bugForm.controls['discordHandle']" placeholder="CoolHandle#1234"></ng-text-input>
+        <ng-text-input class="ngTextInput" [formControl]="bugForm.controls['discordHandle']" [placeholder]="lang.handleExample"></ng-text-input>
       </div>
       <div class="inlineLeft">
         <ng-toggle-button class="ngToggleButton" [formControl]="bugForm.controls['useVDFs']"> Include VDFs (may contain personally identifying info)</ng-toggle-button>
