@@ -40,6 +40,6 @@ const AppRouter: Routes = [
     }
 ];
 
-export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(AppRouter, {
-    useHash: true, initialNavigation: false
+export const AppRoutes: ModuleWithProviders<RouterModule> = RouterModule.forRoot(AppRouter, {
+    useHash: true, initialNavigation: 'disabled'
 });

@@ -1,5 +1,5 @@
 import { Directive, Input, HostListener, ElementRef, OnChanges, SimpleChanges, OnInit, OnDestroy, ContentChildren, QueryList } from '@angular/core';
-
+import { takeWhile } from 'rxjs/operators';
 type limitType = 'none' | 'parent' | 'viewport';
 type userOptionsType = { dragLimit?: limitType, enable?: boolean, dragArea?: boolean };
 
@@ -315,10 +315,10 @@ export class DraggableDirective implements OnInit, OnDestroy, OnChanges {
     ngAfterContentInit() {
         this.parseRedrawableChildren(this.childrenDirectives);
         this.parseDragAreas(this.childrenDirectives, this.childrenDragAreas);
-        this.childrenDirectives.changes.takeWhile(() => this.keepSubscriptionAlive).subscribe((children: QueryList<DraggableDirective>) => {
+        this.childrenDirectives.changes.pipe(takeWhile(() => this.keepSubscriptionAlive)).subscribe((children: QueryList<DraggableDirective>) => {
             this.parseRedrawableChildren(children);
         });
-        this.childrenDragAreas.changes.takeWhile(() => this.keepSubscriptionAlive).subscribe((children: QueryList<ElementRef>) => {
+        this.childrenDragAreas.changes.pipe(takeWhile(() => this.keepSubscriptionAlive)).subscribe((children: QueryList<ElementRef>) => {
             this.parseDragAreas(this.childrenDirectives, children);
         });
     }

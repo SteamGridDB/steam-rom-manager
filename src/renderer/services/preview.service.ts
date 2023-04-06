@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ParsersService } from './parsers.service';
 import { LoggerService } from './logger.service';
@@ -23,7 +23,6 @@ import * as fs from "fs-extra";
 import * as FileSaver from 'file-saver';
 import * as path from "path";
 import { getMaxLength } from "../../lib/helpers/app-image/get-max-length";
-import { P } from '@angular/core/src/render3';
 import { OpenDialogReturnValue } from 'electron';
 @Injectable()
 
