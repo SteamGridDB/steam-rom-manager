@@ -1,6 +1,6 @@
 # Benutzer-Ausnahmen
-## What not to use this for
-This tool can be used to define per app exceptions that over rule the parsers. It should not be used to accomplish bulk tasks. For example, removing the colon character from titles can be accomplished via the title modifier `${/:/|${title}|}` and should not be done here. If a command line argument is common to every parsed app, then use the command line argument field - do not create a bunch of entries here!
+## Wofür dies nicht verwendet werden soll
+Dieses Tool kann verwendet werden, um Ausnahmen pro App festzulegen, die die Parser überschreiben. Es sollte nicht zur Durchführung von Massen-Aufgaben verwendet werden. For example, removing the colon character from titles can be accomplished via the title modifier `${/:/|${title}|}` and should not be done here. Wenn ein Kommandozeilenargument für jede geparste App üblich ist, dann verwende das Kommandozeilenargument-Feld - erstelle hier keine Einträge!
 
 ## Extracted Title - *Mandatory*
 The only mandatory exception field is `Extracted Title`. Once this is specified and the exception is saved, any game whose `Extracted Title` matches will have its fields overridden by any non-blank exception fields (if left blank, the exception fields do nothing).
