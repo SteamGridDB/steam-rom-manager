@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/http';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ParsersService } from './parsers.service';
 import { LoggerService } from './logger.service';
@@ -41,7 +41,7 @@ export class PreviewService {
   private imageTypes: string[];
   private currentImageType: string;
 
-  constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private settingsService: SettingsService, private http: Http) {
+  constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private settingsService: SettingsService, private http: HttpClient) {
     this.previewData = undefined;
     this.previewVariables = {
       listIsBeingSaved: false,

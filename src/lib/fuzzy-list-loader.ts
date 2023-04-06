@@ -1,4 +1,4 @@
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { FuzzyListTimestamps, FuzzyEventCallback, FuzzyError } from "../models";
 import { FuzzyMatcher } from "./fuzzy-matcher";
 import { BehaviorSubject } from "rxjs";
@@ -12,7 +12,7 @@ export class FuzzyListLoader {
   private forcedUpdate: number = 604800000; //every week
   private timeout: number = 120000; //timeout
 
-  constructor(private http: Http, private eventCallback: FuzzyEventCallback, private isOfflineMode?: () => boolean, private timestamps?: FuzzyListTimestamps) {
+  constructor(private http: HttpClient, private eventCallback: FuzzyEventCallback, private isOfflineMode?: () => boolean, private timestamps?: FuzzyListTimestamps) {
     this.setTimestamps(timestamps || { check: 0, download: 0 });
   }
 

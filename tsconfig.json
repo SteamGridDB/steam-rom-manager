@@ -15,5 +15,8 @@
     "moduleResolution": "Node",
     "esModuleInterop": true
   },
+  "angularCompilerOptions": {
+    "preserveWhitespaces": false
+  },
   "include": ["./*.ts", "./src/**/*.ts"]
 }

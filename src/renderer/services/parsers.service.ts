@@ -1,7 +1,7 @@
 import { CustomVariablesService } from './custom-variables.service';
 import { UserExceptionsService } from './user-exceptions.service';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { UserConfiguration, UserAccountsInfo, ParsedUserConfiguration, AppSettings, EnvironmentVariables, ControllerTemplates } from '../../models';
 import { LoggerService } from './logger.service';
 import { FuzzyService } from './fuzzy.service';
@@ -39,7 +39,7 @@ export class ParsersService {
   private configurationsLoadedSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private cVariableService: CustomVariablesService,
-              private exceptionsService: UserExceptionsService, private settingsService: SettingsService, private http: Http) {
+              private exceptionsService: UserExceptionsService, private settingsService: SettingsService, private http: HttpClient) {
                 this.fileParser = new FileParser(this.fuzzyService);
                 this.controllerManager = new ControllerManager();
                 this.userConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);

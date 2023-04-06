@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe, APP_BASE_HREF } from '@angular/common';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -27,7 +27,7 @@ function ngObjectsToArray(importObject: any) {
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
-        HttpModule,
+        HttpClientModule,
         AppRoutes,
         FormsModule,
         ReactiveFormsModule,
