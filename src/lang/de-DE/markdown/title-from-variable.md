@@ -1,6 +1,6 @@
-# Title from custom variable (optional)
+# Titel der benutzerdefinierten Variable (optional)
 
-Allows to overwrite extracted title with a custom variable. This is done right after title extraction, meaning that the replaced title can be used for fuzzy matching and so on. Groups and variables themselves are **case-sensitive**, unless case-insesitive variable option is enabled.
+Erlaubt es, den entpackten Titel mit einer benutzerdefinierten Variable zu überschreiben. This is done right after title extraction, meaning that the replaced title can be used for fuzzy matching and so on. Groups and variables themselves are **case-sensitive**, unless case-insesitive variable option is enabled.
 
 Title matching can be limited to specific groups of custom variables. In order to specify groups, the following syntax must be used:
 ```
