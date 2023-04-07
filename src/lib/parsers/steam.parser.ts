@@ -4,7 +4,7 @@ import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
-import * as bvdf from "binary-vdf";
+import * as bvdf from "binary-vdf-2";
 import * as json from "../helpers/json";
 import { glob } from "glob";
 
