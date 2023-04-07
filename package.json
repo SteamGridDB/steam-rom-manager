@@ -72,11 +72,10 @@
     "prebuild:dist": "npm run prepare:build",
     "build:dist": "rimraf dist && npm run build:main && npm run build:renderer",
     "build:win": "electron-builder --win --ia32 --x64",
-    "build:linux": "electron-builder --linux --ia32 --x64",
+    "build:linux": "electron-builder --linux --x64",
     "build:mac": "electron-builder --mac --x64",
     "build:linuxdir": "electron-builder --linux --x64 --dir && cp electron-version release/linux-unpacked/version && cp LICENSE release/linux-unpacked/",
     "build:flatpak": "electron-installer-flatpak --src release/linux-unpacked --dest release/ --arch x64 --config flatconf.json",
-    "build:docker": "electron-builder --linux --win --ia32 --x64 --publish onTagOrDraft"
   },
   "dependencies": {
     "@angular/animations": "^15.2.6",
