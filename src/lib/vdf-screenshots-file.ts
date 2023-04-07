@@ -115,7 +115,7 @@ export class VDF_ScreenshotsFile {
             }
           }
           return errors;
-        }).then((errors: string[]) => {
+        }).then((errors: Error[]) => {
           if (errors.length > 0)
             return new VDF_Error(errors);
         }));
@@ -133,7 +133,7 @@ export class VDF_ScreenshotsFile {
               }
             }
             return errors;
-          }).then((errors: string[]) => {
+          }).then((errors: Error[]) => {
             if (errors.length > 0)
               return new VDF_Error(errors);
           }));

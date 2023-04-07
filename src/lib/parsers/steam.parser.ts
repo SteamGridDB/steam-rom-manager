@@ -6,7 +6,8 @@ import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
 import * as bvdf from "binary-vdf";
 import * as json from "../helpers/json";
-import {globPromise} from '../helpers/glob';
+import { glob } from "glob";
+
 export class SteamParser implements GenericParser {
 
   private get lang() {
@@ -21,12 +22,10 @@ export class SteamParser implements GenericParser {
   }
 
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
-    return new Promise<ParsedData>((resolve,reject)=>{
+    return new Promise<ParsedData>((resolve, reject)=>{
       if(!directories || directories.length==0){
         reject(this.lang.errors.noSteamAccounts);
       }
-
-      let appIds: string[]=[];
       let appinfo_path = path.normalize(path.join(directories[0],'..','..','appcache','appinfo.vdf'));
       Promise.resolve()
       .then(()=>{
@@ -36,9 +35,8 @@ export class SteamParser implements GenericParser {
         throw this.lang.errors.steamChanged__i.interpolate({error: error, file: appinfo_path});
       })
       .then((appinfo: any)=> {
-        return new Promise((resolve,reject)=>{
-          console.log("appinfo length", appinfo.length)
-          let filteredAppInfo = appinfo.filter((app: any) =>  {
+        return new Promise((resolve, reject)=>{
+          const filteredAppInfo = appinfo.filter((app: any) =>  {
             return app.id
             && app.entries
             && app.entries.appid
@@ -46,8 +44,7 @@ export class SteamParser implements GenericParser {
             && app.entries.common.name
             && app.entries.common.type.toLowerCase()=='game'
           })
-          console.log("appinfo", filteredAppInfo)
-          let withGridsPromises: Promise<string[]>[] = []
+          const withGridsPromises: Promise<string[]>[] = []
           for(let userDir of directories) {
             withGridsPromises.push(this.getAppIdsWithGrids(userDir));
           }
@@ -82,7 +79,7 @@ export class SteamParser implements GenericParser {
         }
         resolve(parsedData);
       })
-      .catch((err)=>{
+      .catch((err:string)=>{
         reject(this.lang.errors.fatalError__i.interpolate({error: err}));
       });
 
@@ -90,11 +87,11 @@ export class SteamParser implements GenericParser {
   }
 
   private getAppIdsWithGrids(userDir: string): Promise<string[]> {
-    return globPromise('./config/grid/*.*', {cwd: userDir, dot: true}).then((res)=>{
-      let ids= _.uniq(res.map(x=>path.basename(x).match(/^\d+/))
-                      .filter(x=>!!x)
-                      .map(x=>x[0])
-                      .filter(x=>x.length < 12))
+    return glob('./config/grid/*.*', {cwd: userDir, dot: true}).then((res)=>{
+      let ids= _.uniq(res.map((x:string)=>path.basename(x).match(/^\d+/))
+                      .filter((x:string[])=>!!x)
+                      .map((x:string[])=>x[0])
+                      .filter((x:string)=>x.length < 12))
                       return ids
     })
   }
