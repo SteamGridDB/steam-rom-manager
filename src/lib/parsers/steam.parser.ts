@@ -57,8 +57,6 @@ export class SteamParser implements GenericParser {
         })
       })
       .then(({idsWithGrids, appinfo}: {idsWithGrids: string[], appinfo: any}) => {
-        console.log("idswithgrids", idsWithGrids);
-        console.log("filteredAppInfo", appinfo);
         return idsWithGrids.map((appid: string)=>{
            let index = appinfo.map((app: any)=>app.entries.appid).indexOf(parseInt(appid));
            if(index !== -1) {
@@ -69,7 +67,6 @@ export class SteamParser implements GenericParser {
         })
       })
       .then((appsWithInfo: any[]) => {
-        console.log("appsWithInfo", appsWithInfo)
         let parsedData: ParsedData = {success: [], failed: []}
         for(let i=0;i < appsWithInfo.length; i++){
           parsedData.success.push({
