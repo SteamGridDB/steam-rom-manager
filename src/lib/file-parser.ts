@@ -277,9 +277,9 @@ export class FileParser {
           }
           let newFile: ParsedUserConfigurationFile = {
             steamCategories: undefined,
-            executableLocation: executableLocation,
+            executableLocation: executableLocation||'',
             modifiedExecutableLocation: undefined,
-            startInDirectory: startInDir,
+            startInDirectory: startInDir||'',
             argumentString: undefined,
             resolvedLocalImages: [],
             resolvedLocalTallImages: [],
@@ -301,10 +301,10 @@ export class FileParser {
             localHeroImages: [],
             localLogoImages: [],
             localIcons: [],
-            fuzzyTitle: fuzzyTitle,
-            extractedTitle: data.success[j].extractedTitle,
+            fuzzyTitle: fuzzyTitle||'',
+            extractedTitle: data.success[j].extractedTitle||'',
             finalTitle: undefined,
-            filePath: data.success[j].filePath,
+            filePath: data.success[j].filePath||'',
             imagePool: undefined,
             onlineImageQueries: undefined
           };
