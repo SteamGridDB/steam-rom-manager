@@ -44,8 +44,7 @@
     "files": [
       "dist/**/*",
       "package.json",
-      "!node_modules/leveldown/{build,deps}/**",
-      "!node_modules/better-sqlite3/{build,deps/**}"
+      "!node_modules/leveldown/{build,deps}/**"
     ],
     "publish": {
       "provider": "github",
