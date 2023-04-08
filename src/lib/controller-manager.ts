@@ -88,8 +88,6 @@ export class ControllerManager {
         }));
     parsedTemplatesValve = _.uniqBy(parsedTemplatesValve,'title');
     parsedTemplatesValve.sort((a, b) => a.title.localeCompare(b.title));
-    console.log(parsedTemplatesUser)
-    console.log(parsedTemplatesValve)
     return parsedTemplatesUser.concat(parsedTemplatesValve);
   }
 

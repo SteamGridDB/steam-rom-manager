@@ -210,6 +210,7 @@ export class NgTextInputComponent implements ControlValueAccessor {
   }
 
   ngAfterViewInit() {
-    // this.writeValue(this.currentValue)
+    // Had to do this to get the placeholder to appear in certain exceptions/logger
+    this.renderer.setProperty(this.elementRef.nativeElement, 'innerHTML', this.currentValue || null);
   }
 }

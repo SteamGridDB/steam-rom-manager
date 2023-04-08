@@ -90,6 +90,7 @@ export class UPlayParser implements GenericParser {
       inputs: {
         'uplayDir': {
           label: this.lang.uplayDirTitle,
+          placeholder: this.lang.uplayDirPlaceholder,
           inputType: 'dir',
           validationFn: null,
           info: this.lang.docs__md.input.join('')

@@ -60,6 +60,7 @@ export interface ParsedUserConfiguration {
 export interface ParserInputField {
   [inputKey: string]: {
     label: string,
+    placeholder?: string,
     inputType: 'text' | 'path' | 'dir' | 'toggle',
     info?: string,
     forcedInput?: string,

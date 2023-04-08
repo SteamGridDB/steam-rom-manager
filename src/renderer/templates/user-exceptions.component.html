@@ -7,7 +7,7 @@
   </label>
   <div [formGroup]="exceptionsForm">
     <div formArrayName="items"
-         *ngFor="let item of exceptionsForm.get('items').controls;let i=index;">
+         *ngFor="let item of exceptionsForm.get('items').controls; let i=index;">
       <div [formGroupName]="i">
         <div class="inputContainer">
           <div class="inlineLeft">

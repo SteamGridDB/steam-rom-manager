@@ -20,6 +20,7 @@ export class EADesktopParser implements GenericParser {
       inputs: {
         'eaGamesDir': {
           label: this.lang.eaGamesDirTitle,
+          placeholder: this.lang.eaGamesDirPlaceholder,
           inputType: 'dir',
           validationFn: null,
           info: this.lang.docs__md.input.join('')

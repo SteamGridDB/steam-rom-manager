@@ -97,6 +97,7 @@ export interface languageStruct {
   },
   UWPParser: {
     UWPDirTitle: string,
+    UWPDirPlaceholder: string,
     UWPLauncherModeTitle: string,
     docs__md: {
       self: string[],
@@ -109,7 +110,9 @@ export interface languageStruct {
   },
   itchIoParser: {
     itchIoAppDataOverrideTitle: string,
+    itchIoAppDataOverridePlaceholder: string,
     itchIoWindowsOnLinuxInstallDriveRedirectTitle: string,
+    itchIoWindowsOnLinuxInstallDriveRedirectPlaceholder: string,
     docs__md: {
       self: string[],
       input: string[]
@@ -124,6 +127,7 @@ export interface languageStruct {
   },
   eaDesktopParser: {
     eaGamesDirTitle: string,
+    eaGamesDirPlaceholder: string,
     eaLauncherModeTitle: string,
     docs__md: {
       self: string[],
@@ -137,6 +141,7 @@ export interface languageStruct {
   },
   amazonGamesParser: {
     exeOverrideTitle: string,
+    exeOverridePlaceholder: string,
     launcherModeInputTitle: string,
     docs__md: {
       self: string[],
@@ -151,6 +156,7 @@ export interface languageStruct {
   },
   manualParser: {
     manifestsInputTitle: string,
+    manifestsInputPlaceholder: string,
     docs__md: {
       self: string[],
       input: string[]
@@ -161,6 +167,7 @@ export interface languageStruct {
   },
   epicParser: {
     manifestsInputTitle: string,
+    manifestsInputPlaceholder: string,
     launcherModeInputTitle: string,
     docs__md: {
       self: string[],
@@ -175,6 +182,7 @@ export interface languageStruct {
   },
   legendaryParser: {
     legendaryInstalledFileTitle: string,
+    legendaryInstalledFilePlaceholder: string,
     docs__md: {
       self: string[],
       input: string[]
@@ -186,6 +194,7 @@ export interface languageStruct {
   },
   uplayParser: {
     uplayDirTitle: string,
+    uplayDirPlaceholder: string,
     launcherModeInputTitle: string,
     docs__md: {
       self: string[],
@@ -201,6 +210,7 @@ export interface languageStruct {
   },
   gogParser: {
     galaxyExeOverrideTitle: string,
+    galaxyExeOverridePlaceholder: string,
     launcherModeInputTitle: string,
     docs__md: {
       self: string[],
@@ -214,6 +224,7 @@ export interface languageStruct {
   },
   globParser: {
     inputTitle: string,
+    inputPlaceholder: string,
     docs__md: {
       self: string[],
       input: string[]
@@ -235,6 +246,7 @@ export interface languageStruct {
   },
   globRegexParser: {
     inputTitle: string,
+    inputPlaceholder: string,
     docs__md: {
       self: string[],
       input: string[]
@@ -565,6 +577,20 @@ export interface languageStruct {
       },
       placeholder: {
         parserType: string,
+        configTitle: string,
+        steamCategory: string,
+        romDirectory: string,
+        steamDirectory: string,
+        userAccounts: string,
+        executableLocation: string,
+        executableArgs: string,
+        startInDirectory: string,
+        defaultImage: string,
+        localImages: string,
+        localTallImages: string,
+        localHeroImages: string,
+        localLogoImages: string,
+        localIcons: string,
         imageProviders: string,
         multiAPIPlaceholder: string
       },

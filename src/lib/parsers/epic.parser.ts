@@ -20,6 +20,7 @@ export class EpicParser implements GenericParser {
       inputs: {
         'epicManifests': {
           label: this.lang.manifestsInputTitle,
+          placeholder: this.lang.manifestsInputPlaceholder,
           inputType: 'dir',
           validationFn: null,
           info: this.lang.docs__md.input.join('')

@@ -20,6 +20,7 @@ export class GOGParser implements GenericParser {
       inputs: {
         'galaxyExeOverride': {
           label: this.lang.galaxyExeOverrideTitle,
+          placeholder: this.lang.galaxyExeOverridePlaceholder,
           inputType: 'path',
           validationFn: null,
           info: this.lang.docs__md.input.join('')

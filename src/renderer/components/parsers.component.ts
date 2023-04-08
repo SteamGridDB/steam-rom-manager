@@ -86,6 +86,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         configTitle: new NestedFormElement.Input({
+          placeholder: this.lang.placeholder.configTitle,
           label: this.lang.label.configTitle,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
             onInfoClick: (self, path) => {
@@ -94,6 +95,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         steamCategory: new NestedFormElement.Input({
+          placeholder: this.lang.placeholder.steamCategory,
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
             label: this.lang.label.steamCategory,
           highlight: this.highlight.bind(this),
@@ -104,6 +106,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         steamDirectory: new NestedFormElement.Path({
+          placeholder: this.lang.placeholder.steamDirectory,
           directory: true,
           label: this.lang.label.steamDirectory,
           highlight: this.highlight.bind(this),
@@ -117,6 +120,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           label: this.lang.label.userAccounts,
           children: {
             specifiedAccounts: new NestedFormElement.Input({
+
+              placeholder: this.lang.placeholder.userAccounts,
               highlight: this.highlight.bind(this),
               onValidateObservable: () => this.userForm.get('parserType').valueChanges,
                 onValidate: (self, path) => {
@@ -138,6 +143,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         romDirectory: new NestedFormElement.Path({
+          placeholder: this.lang.placeholder.romDirectory,
           isHidden: () => this.isHiddenIfNotRomsParser(),
             directory: true,
           label: this.lang.label.romDirectory,
@@ -157,6 +163,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             label: this.lang.label.executableLocation,
           children: {
             path: new NestedFormElement.Path({
+              placeholder: this.lang.placeholder.executableLocation,
               highlight: this.highlight.bind(this),
               onValidate: (self, path) => {
                 let serialized: {[k: string]: any} = {};
@@ -178,6 +185,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }
         }),
         executableArgs: new NestedFormElement.Input({
+          placeholder: this.lang.placeholder.executableArgs,
           isHidden: () => this.isHiddenIfNotRomsParser(),
             label: this.lang.label.executableArgs,
           highlight: this.highlight.bind(this),
@@ -199,6 +207,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         startInDirectory: new NestedFormElement.Path({
           directory: true,
+          placeholder: this.lang.placeholder.startInDirectory,
           label: this.lang.label.startInDirectory,
           highlight: this.highlight.bind(this),
           isHidden: () => this.isHiddenIfNotRomsParser(),
@@ -223,7 +232,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 let input = parser.inputs[inputFieldName];
                 if(input.inputType == 'path' || input.inputType == 'dir') {
                   parserInputs[inputFieldName] = new NestedFormElement.Path({
-
+                    placeholder: input.placeholder,
                     directory: input.inputType=='dir' ? true : false,
                     initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
                     highlight: this.highlight.bind(this),
@@ -248,6 +257,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                   parserInputs[inputFieldName] = new NestedFormElement.Input({
                     initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
                     highlight: this.highlight.bind(this),
+                    placeholder: input.placeholder,
                     label: input.label,
                     isHidden: () => {
                       return concat(of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).pipe(map((pType: string) => {
@@ -457,6 +467,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         defaultImage: new NestedFormElement.Path({
           directory: false,
+          placeholder: this.lang.placeholder.defaultImage,
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultImage,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -467,6 +478,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         defaultTallImage: new NestedFormElement.Path({
           directory: false,
+          placeholder: this.lang.placeholder.defaultImage,
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultTallImage,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -477,6 +489,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         defaultHeroImage: new NestedFormElement.Path({
           directory: false,
+          placeholder: this.lang.placeholder.defaultImage,
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultHeroImage,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -487,6 +500,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         defaultLogoImage: new NestedFormElement.Path({
           directory: false,
+          placeholder: this.lang.placeholder.defaultImage,
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultLogoImage,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -497,6 +511,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         defaultIcon: new NestedFormElement.Path({
           directory: false,
+          placeholder: this.lang.placeholder.defaultImage,
           highlight: this.highlight.bind(this),
           label: this.lang.label.defaultIcon,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -507,6 +522,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         localImages: new NestedFormElement.Path({
           directory: true,
+          placeholder: this.lang.placeholder.localImages,
           appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
           highlight: this.highlight.bind(this),
           label: this.lang.label.localImages,
@@ -518,6 +534,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         localTallImages: new NestedFormElement.Path({
           directory: true,
+          placeholder: this.lang.placeholder.localTallImages,
           appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
           highlight: this.highlight.bind(this),
           label: this.lang.label.localTallImages,
@@ -529,6 +546,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         localHeroImages: new NestedFormElement.Path({
           directory: true,
+          placeholder: this.lang.placeholder.localHeroImages,
           appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
           highlight: this.highlight.bind(this),
           label: this.lang.label.localHeroImages,
@@ -540,6 +558,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         localLogoImages: new NestedFormElement.Path({
           directory: true,
+          placeholder: this.lang.placeholder.localLogoImages,
           appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
           highlight: this.highlight.bind(this),
           label: this.lang.label.localLogoImages,
@@ -552,6 +571,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
         localIcons: new NestedFormElement.Path({
           directory: true,
+          placeholder: this.lang.placeholder.localIcons,
           appendGlob: '${finalTitle}.@(png|PNG|ico|ICO)',
           highlight: this.highlight.bind(this),
           label: this.lang.label.localIcons,
