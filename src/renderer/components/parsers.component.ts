@@ -199,6 +199,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           isHidden: () => this.isHiddenIfNotRomsParser(),
             highlight: this.highlight.bind(this),
           label: this.lang.label.executableModifier,
+          placeholder: this.lang.placeholder.executableModifier,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
             onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
@@ -301,6 +302,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             label: this.lang.label.titleFromVariable,
           children: {
             limitToGroups: new NestedFormElement.Input({
+              placeholder: this.lang.placeholder.titleFromVariable,
               highlight: this.highlight.bind(this),
               onValidate: (self, path) => {
                 let serialized: {[k: string]: any} = {};
@@ -325,6 +327,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         titleModifier: new NestedFormElement.Input({
           highlight: this.highlight.bind(this),
+          placeholder: this.lang.placeholder.titleModifier,
           label: this.lang.label.titleModifier,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
             onInfoClick: (self, path) => {

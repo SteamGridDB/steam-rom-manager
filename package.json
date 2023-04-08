@@ -169,7 +169,7 @@
     "to-string-loader": "^1.2.0",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.3",
+    "typescript": "^5.0.4",
     "upath": "^2.0.1",
     "webpack": "^5.78.0",
     "webpack-cli": "^5.0.1",

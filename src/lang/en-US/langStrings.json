@@ -485,6 +485,8 @@
         "steamCategory": "${cat1}${cat2}",
         "steamDirectory": "${steamdirglobal} or /path/to/steam",
         "userAccounts": "${steamuser1}${steamuser2}",
+        "titleFromVariable": "${myvariable}",
+        "titleModifier": "${fuzzyTitle} or ${title}",
         "defaultImage": "/path/to/fallback.png",
         "localImages": "/path/to/art/banners/${title}.@(png|jpg)",
         "localTallImages": "/path/to/art/posters/${title}.@(png|jpg)",
@@ -495,6 +497,7 @@
         "glob": "${title}.@(iso|ISO)",
         "executableLocation": "Example: /path/to/emulator.exe",
         "executableArgs": "--arg1 --arg2",
+        "executableModifier": "\"${exePath}\"",
         "startInDirectory": "/path/to/start/in/dir",
         "imageProviders": "None",
         "multiAPIPlaceholder": "No Filter"
