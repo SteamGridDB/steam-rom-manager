@@ -5,7 +5,6 @@ import * as fs from "fs-extra";
 import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
 import * as bvdf from "binary-vdf-2";
-import * as json from "../helpers/json";
 import { glob } from "glob";
 
 export class SteamParser implements GenericParser {
@@ -115,37 +114,3 @@ export class SteamParser implements GenericParser {
     })
   }
 }
-
-
-// Promise.resolve()
-//   .then(()=>{
-//     for(let i=0; i < directories.length; i++) {
-//       let sharedconfig_path = path.join(directories[i],'7','remote','sharedconfig.vdf');
-//       try {
-//       let sharedconfig = genericParser.parse(fs.readFileSync(sharedconfig_path,'utf-8'));
-//       appIds = _.union(appIds, Object.keys(json.caseInsensitiveTraverse(sharedconfig, [['userroamingconfigstore','userlocalconfigstore'],['software'],['valve'],['steam'],['apps']])));
-//       } catch(err) {
-//         throw {error: err, path: sharedconfig_path}
-//       }
-//     }
-//     try {
-//       return bvdf.readAppInfo(fs.createReadStream(appinfo_path))
-//     } catch (err) {
-//       throw {error: err, path: appinfo_path}
-//     }
-//   })
-//   .catch((errordata) => {
-//     throw this.lang.errors.steamChanged__i.interpolate({error: errordata.error, file: errordata.path});
-//   })
-//   .then((appinfo)=>{
-//     return Promise.all(appIds.filter(appId => /^[0-9]*$/g.test(appId)).map(appId =>{
-//       let infoIndex = appinfo.map((app: any)=>app.entries.appid).indexOf(parseInt(appId));
-//       if(infoIndex>=0 && (appinfo[infoIndex].entries.common||{}).name){
-//         return Promise.resolve({title: (appinfo[infoIndex].entries.common||{}).name, appid: appId});
-//       } else {
-//         return appid(parseInt(appId)).then((x: any)=>{
-//           return {title: (x||{}).name, appid: appId}
-//         });
-//       }
-//     })).then((appsWithInfo: any[])=>appsWithInfo.filter((x: any)=>x.title !== undefined))
-//   })

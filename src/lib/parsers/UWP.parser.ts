@@ -51,27 +51,40 @@ export class UWPParser implements GenericParser {
         ignoreAttributes: false,
         attributeNamePrefix: "@_"
       });
-      let UWPDir: string = inputs.UWPDir || "C:\\XboxGames";
-      glob("*/Content/appxmanifest.xml", { cwd: UWPDir })
+      const UWPDir: string = inputs.UWPDir || "C:\\XboxGames";
+      glob("*/{,Content/}appxmanifest.xml", { cwd: UWPDir })
       .then((files: string[])=>{
         files.forEach((file: string)=>{
           file = path.join(UWPDir, file)
           if(fs.existsSync(file) && fs.lstatSync(file).isFile()) {
-            var xmldata = fs.readFileSync(file,'utf-8');
+            const xmldata = fs.readFileSync(file,'utf-8');
             if(XMLValidator.validate(xmldata)) {
               const parsedData: any = xmlParser.parse(xmldata);
-              if(json.caseInsensitiveHasKey(json.caseInsensitiveTraverse(parsedData,[["Package"]]),["Applications"])) {
-                var gameManifest: SimpleManifest = {
-                  idName: json.caseInsensitiveTraverse(parsedData,[["Package"],["Identity"],["@_Name"]]),
-                  idPublisher: json.caseInsensitiveTraverse(parsedData,[["Package"],["Identity"],["@_Publisher"]]),
-                  appExecutable: json.caseInsensitiveTraverse(parsedData,[["Package"],["Applications"],["Application"],["@_Executable"]])
-                } as SimpleManifest;
-                if(gameManifest.idName && gameManifest.idPublisher && gameManifest.appExecutable) {
-                  var gameDetail: SimpleUWPApp = getUWPAppDetail(gameManifest, xmlParser);
-                  appTitles.push(gameDetail.name);
-                  appIds.push(gameDetail.appId);
-                  appPaths.push(gameDetail.path);
-                  appArgs.push(gameDetail.arguments);
+              console.log("parsedData", parsedData)
+              if(!json.caselessHas(parsedData,[["Package"],["Properties"],["PublisherDisplayName"]]) || json.caselessGet(parsedData,[["Package"],["Properties"],["PublisherDisplayName"]])=="Microsoft Corporation") {
+                return;
+              }
+              if(json.caselessHas(parsedData,[["Package"],["Applications"],["Application"]])) {
+                let app: any = json.caselessGet(parsedData,[["Package"],["Applications"],["Application"]]);
+                if(Array.isArray(app)) {
+                  app = app.filter(x=>json.caselessHas(x,[["@_Executable"]]))[0]
+                }
+                if(json.caselessHas(app,[["@_Executable"]])) {
+                  const gameManifest: SimpleManifest = {
+                    idName: json.caselessGet(parsedData,[["Package"],["Identity"],["@_Name"]]),
+                    idPublisher: json.caselessGet(parsedData,[["Package"],["Identity"],["@_Publisher"]]),
+                    appExecutable: json.caselessGet(app,[["@_Executable"]])
+                  } as SimpleManifest;
+                  if(gameManifest.idName && gameManifest.idPublisher && gameManifest.appExecutable) {
+                    var gameDetail: SimpleUWPApp = getUWPAppDetail(gameManifest, xmlParser);
+                    console.log("gameDetail",gameDetail)
+                    if(gameDetail && gameDetail.name && gameDetail.appId && gameDetail.path) {
+                      appTitles.push(gameDetail.name);
+                      appIds.push(gameDetail.appId);
+                      appPaths.push(gameDetail.path);
+                      appArgs.push(gameDetail.arguments);
+                    }
+                  }
                 }
               }
             }
@@ -276,14 +289,16 @@ function getIndirectResourceString(fullName: string, packageName: string, resour
             encoding: "utf-8",
           }
         ).stdout;
-        jsonResult = JSON.parse(result);
-        if (jsonResult.intValue === 0) {
-          return jsonResult.stringValue;
+        if(result) {
+          jsonResult = JSON.parse(result);
+          if (jsonResult.intValue === 0) {
+            return jsonResult.stringValue;
+          }
         }
       }
       catch (err) {
         console.error("Error parsing json: " + err);
-      }
+      }C:\Program Files\WindowsApps
 
       resourceString = `@{${fullName}? ms-resource://${packageName}/${lastSegment}}`;
         try {
@@ -294,9 +309,11 @@ function getIndirectResourceString(fullName: string, packageName: string, resour
             encoding: "utf-8",
           }
         ).stdout;
-        jsonResult = JSON.parse(result);
-        if (jsonResult.intValue === 0) {
-          return jsonResult.stringValue;
+        if(result) {
+          jsonResult = JSON.parse(result);
+          if (jsonResult.intValue === 0) {
+            return jsonResult.stringValue;
+          }
         }
       }
       catch (err) {
@@ -316,6 +333,8 @@ function getUWPAppDetail(manifest: SimpleManifest, xmlParser: XMLParser) {
       encoding: "utf-8",
     }
   ).stdout;
+  if(!searchResults)
+    return;
   const jsonuwpapp = JSON.parse(searchResults);
 
   if (
@@ -343,15 +362,19 @@ function getUWPAppDetail(manifest: SimpleManifest, xmlParser: XMLParser) {
     var name: string;
     if(XMLValidator.validate(xml)) {
       let parsedData: any = xmlParser.parse(xml);
-      apxApp = json.caseInsensitiveTraverse(parsedData,[["Package"],["Applications"],["Application"]]);
-      appId = json.caseInsensitiveTraverse(apxApp,[["@_Id"]]);
-      name = json.caseInsensitiveTraverse(parsedData,[["Package"],["Properties"],["DisplayName"]]);
+      apxApp = json.caselessGet(parsedData,[["Package"],["Applications"],["Application"]]);
+      if(Array.isArray(apxApp)) {
+        apxApp = apxApp.filter(x=>json.caselessHas(x,[["@_Executable"]]))[0];
+      }
+
+      appId = json.caselessGet(apxApp,[["@_Id"]]);
+      name = json.caselessGet(parsedData,[["Package"],["Properties"],["DisplayName"]]);
 
       if (name.toString().startsWith("ms-resource")) {
         console.debug(`name starts with ms-resource: ${name}"`);
         name = getIndirectResourceString(jsonuwpapp.Id.FullName, jsonuwpapp.Id.Name, name);
         if (name == null || name == "") {
-          name = json.caseInsensitiveTraverse(parsedData,[["Package"],["Identity"],["@_Name"]]);
+          name = json.caselessGet(parsedData,[["Package"],["Identity"],["@_Name"]]);
         }
       }
 

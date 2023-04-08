@@ -1,9 +1,9 @@
-export function caseInsensitiveTraverse(o: any, kseq: string[][], graceful?: boolean): any {
+export function caselessGet(o: any, kseq: string[][], graceful?: boolean): any {
   if(kseq.length==0){ return o; }
   for(let i = 0; i < kseq[0].length; i++) {
     let validKeys = Object.keys(o).filter(k=>k.toLowerCase()==kseq[0][i].toLowerCase());
     if(validKeys.length!=0) {
-      return caseInsensitiveTraverse(o[validKeys[0]], kseq.slice(1), graceful);
+      return caselessGet(o[validKeys[0]], kseq.slice(1), graceful);
     }
   }
   if(graceful) {
@@ -13,12 +13,14 @@ export function caseInsensitiveTraverse(o: any, kseq: string[][], graceful?: boo
   }
 }
 
-export function caseInsensitiveHasKey(o: any, kpos: string[]) {
-  if(kpos.length==0){ return o; }
-  for(let i = 0; i < kpos.length; i++) {
-    let validKeys = Object.keys(o).filter(k=>k.toLowerCase()==kpos[i].toLowerCase());
-    if(validKeys.length!=0) {
-      return true
+export function caselessHas(o: any, kseq: string[][]): boolean {
+  if(kseq.length==0){ return false }
+  for(let i = 0; i < kseq[0].length; i++) {
+    let validKeys = Object.keys(o).filter(k=>k.toLowerCase() == kseq[0][i].toLowerCase());
+    if(kseq.length == 1 || !validKeys.length) {
+      return !!validKeys.length;
+    } else {
+      return caselessHas(o[validKeys[0]],kseq.slice(1))
     }
   }
   return false;
