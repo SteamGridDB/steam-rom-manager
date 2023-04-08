@@ -1,7 +1,7 @@
 import { CustomVariablesService } from './custom-variables.service';
 import { UserExceptionsService } from './user-exceptions.service';
 import { Injectable } from '@angular/core';
-import { UserConfiguration, UserAccountsInfo, ParsedUserConfiguration, AppSettings, EnvironmentVariables, ControllerTemplates } from '../../models';
+import { UserConfiguration, UserAccountsInfo, ParsedUserConfiguration, AppSettings, EnvironmentVariables, ControllerTemplates, ParserType } from '../../models';
 import { LoggerService } from './logger.service';
 import { FuzzyService } from './fuzzy.service';
 import { ImageProviderService } from './image-provider.service';
@@ -246,7 +246,7 @@ export class ParsersService {
                 }
               }
 
-              getParserInfo(parserType: string) {
+              getParserInfo(parserType: ParserType) {
                 return this.fileParser.getParserInfo(parserType);
               }
 
@@ -488,13 +488,13 @@ export class ParsersService {
                 return new Promise<void>((resolve, reject) => {
                   if (!this.savingIsDisabled) {
 
-                    fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item: any) => {
+                    fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item: {saved: any, current: UserConfiguration}) => {
                       item.saved[modifiers.userConfiguration.controlProperty] = modifiers.userConfiguration.latestVersion;
                       if(!item.saved.parserType) {
                         throw new Error(this.lang.error.parserTypeMissing);
                       }
                       for(let key of Object.keys(item.saved.parserInputs)) {
-                        if(!parserInfo.availableParserInputs[item.saved.parserType].includes(key)) {
+                        if(!parserInfo.availableParserInputs[item.saved.parserType as ParserType].includes(key)) {
                           delete item.saved.parserInputs[key]
                         }
                       }

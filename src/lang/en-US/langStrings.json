@@ -80,6 +80,8 @@
     }
   },
   "steamParser": {
+    "onlyGamesTitle": "Find artwork for games only (no tools)",
+    "onlyInstalledTitle": "Find artwork for installed titles only",
     "errors": {
       "directoryInvalid": "> Steam directory invalid.",
       "noSteamAccounts": "> Steam directory specified has no accounts.",

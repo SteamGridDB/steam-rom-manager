@@ -1,5 +1,5 @@
 import { Controllers } from './controllers.model';
-import { StringMap } from './parser.model';
+import { StringMap, ParserType } from './parser.model';
 
 export interface ImageProviderAPI {
   [imageProvider: string]: {
@@ -14,7 +14,7 @@ export interface UserAccountsInfo {
 }
 
 export interface UserConfiguration {
-  parserType: string,
+  parserType: ParserType,
   configTitle: string,
   parserId: string,
   steamCategory: string,

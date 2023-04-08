@@ -68,12 +68,6 @@ export interface ParserInputField {
   }
 }
 
-export interface ParserInfo {
-  title: string,
-  info?: string,
-  inputs?: ParserInputField
-}
-
 
 // TODO Split this up more sanely into ImporterParsedData and ManagerParsedData
 export interface ParsedData {
@@ -119,6 +113,17 @@ export type PathVariables = (typeof pathVariables)[number];
 export type ParserVariables = (typeof parserVariables)[number];
 export type EnvironmentVariables = (typeof environmentVariables)[number];
 
+
+
+
+export type ParserType = 'Glob' | 'Glob-regex' | 'Manual' | 'Amazon Games' | 'Epic' | 'Legendary' | 'GOG Galaxy' | 'itch.io' | 'Steam' | 'UPlay' | 'UWP' | 'EA Desktop' | 'EXE';
+export type SuperType = 'Manual'|'ArtworkOnly'|'ROM'|'Platform';
+
+export interface ParserInfo {
+  title: ParserType,
+  info?: string,
+  inputs?: ParserInputField
+}
 
 
 export type AllVariables = DirectoryVariables | NameVariables | ExtensionVariables | PathVariables | ParserVariables | EnvironmentVariables;

@@ -85,8 +85,11 @@ export interface languageStruct {
     }
   },
   steamParser: {
+    onlyGamesTitle: string,
+    onlyInstalledTitle: string,
     docs__md: {
-      self: string[]
+      self: string[],
+      input: string[]
     },
     errors: {
       directoryInvalid: string,

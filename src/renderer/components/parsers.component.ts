@@ -7,7 +7,7 @@ import { ParsersService, LoggerService, ImageProviderService, SettingsService, C
 import * as parserInfo from '../../lib/parsers/available-parsers';
 import * as steam from '../../lib/helpers/steam';
 import { controllerTypes, controllerNames } from '../../lib/controller-manager';
-import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets, ControllerTemplates } from '../../models';
+import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets, ControllerTemplates, ParserType } from '../../models';
 import { Subscription, Observable, combineLatest, of, concat } from "rxjs";
 import { map } from 'rxjs/operators'
 import { APP } from '../../variables';
@@ -220,7 +220,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         parserInputsSection: new NestedFormElement.Section({
           label: 'Parser Specific Configuration',
-          isHidden: () => this.isHiddenIfArtworkOnlyOrBlank()
+          isHidden: () => this.isHiddenIfNoParserInputs()
         }),
         parserInputs: (() => {
           let parsers = parserInfo.availableParsers;
@@ -710,13 +710,18 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     this.currentDoc.content = this.lang.docs__md.communityPresets.join('');
   }
   private isHiddenIfNotRomsParser() {
-    return concat(of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).pipe(map(pType => parserInfo.superTypesMap[pType] !== parserInfo.ROMType));
+    return concat(of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).pipe(map((pType: ParserType) => parserInfo.superTypesMap[pType] !== parserInfo.ROMType));
   }
   private isHiddenIfArtworkOnlyParser() {
-    return concat(of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).pipe(map(pType => parserInfo.superTypesMap[pType] === parserInfo.ArtworkOnlyType));
+    return concat(of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).pipe(map((pType: ParserType) => parserInfo.superTypesMap[pType] === parserInfo.ArtworkOnlyType));
   }
   private isHiddenIfParserBlank() {
-    return concat(of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).pipe(map(pType => !pType))
+    return concat(of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).pipe(map((pType: ParserType) => !pType))
+  }
+  private isHiddenIfNoParserInputs(){
+    return concat(of(this.userForm.get('parserType').value),this.userForm.get('parserType').valueChanges).pipe(map((pType: ParserType)=>{
+      return !pType || !parserInfo.availableParserInputs[pType].length
+    }))
   }
 
   // Not currently used but potentially very useful

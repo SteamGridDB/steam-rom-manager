@@ -17,7 +17,20 @@ export class SteamParser implements GenericParser {
     return {
       title: 'Steam',
       info: this.lang.docs__md.self.join(''),
-      inputs: {}
+      inputs: {
+        'onlyGames': {
+          label: this.lang.onlyGamesTitle,
+          inputType: 'toggle',
+          validationFn: (input: any) => { return null },
+            info: this.lang.docs__md.input.join('')
+        },
+        'onlyInstalled': {
+          label: this.lang.onlyInstalledTitle,
+          inputType: 'toggle',
+          validationFn: (input: any) => { return null },
+            info: this.lang.docs__md.input.join('')
+        }
+      }
     };
   }
 
@@ -42,26 +55,35 @@ export class SteamParser implements GenericParser {
             && app.entries.appid
             && app.entries.common
             && app.entries.common.name
-            && app.entries.common.type.toLowerCase()=='game'
+            && (!inputs.onlyGames || app.entries.common.type.toLowerCase()=='game')
           })
-          const withGridsPromises: Promise<string[]>[] = []
-          for(let userDir of directories) {
-            withGridsPromises.push(this.getAppIdsWithGrids(userDir));
-          }
-          Promise.all(withGridsPromises).then((res: string[][])=>{
-            resolve({
-              idsWithGrids: _.union(...res),
-              appinfo: filteredAppInfo
+
+          try {
+            if(inputs.onlyInstalled) {
+              const libraryfolders_path = path.normalize(path.join(directories[0],'..','..','steamapps','libraryfolders.vdf'));
+              const libraryFolders: any = genericParser.parse(fs.readFileSync(libraryfolders_path,'utf-8'));
+              let installed_ids = _.union(Object.values(libraryFolders.libraryfolders).map((x: any)=>Object.keys(x.apps))).map(x=>x.toString());
+            }
+          } finally {
+            const withGridsPromises: Promise<string[]>[] = []
+            for(let userDir of directories) {
+              withGridsPromises.push(this.getAppIdsWithGrids(userDir));
+            }
+            Promise.all(withGridsPromises).then((res: string[][])=>{
+              resolve({
+                idsWithGrids: _.union(...res),
+                appinfo: filteredAppInfo
+              })
             })
-          })
+          }
         })
       })
       .then(({idsWithGrids, appinfo}: {idsWithGrids: string[], appinfo: any}) => {
         return idsWithGrids.map((appid: string)=>{
-           let index = appinfo.map((app: any)=>app.entries.appid).indexOf(parseInt(appid));
-           if(index !== -1) {
-             return { title: appinfo[index].entries.common.name, appid: appid }
-           }
+          let index = appinfo.map((app: any)=>app.entries.appid).indexOf(parseInt(appid));
+          if(index !== -1) {
+            return { title: appinfo[index].entries.common.name, appid: appid, type: appinfo[index].entries.common.type }
+          }
         }).filter(x=>!!x).sort((a,b)=>{
           return a.title.localeCompare(b.title)
         })
