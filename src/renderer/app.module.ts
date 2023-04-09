@@ -15,37 +15,37 @@ import * as Guards from './guards';
 import { AppRoutes } from './app.routing';
 
 function ngObjectsToArray(importObject: any) {
-    let objectArray: any[] = [];
-    for (let attribute in importObject) {
-        if (typeof importObject[attribute] === 'function')
-            objectArray.push(importObject[attribute]);
-    }
-    return objectArray;
+  let objectArray: any[] = [];
+  for (let attribute in importObject) {
+    if (typeof importObject[attribute] === 'function')
+      objectArray.push(importObject[attribute]);
+  }
+  return objectArray;
 }
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        AppRoutes,
-        FormsModule,
-        ReactiveFormsModule,
-        ColorPickerModule
-    ],
-    declarations: [].concat(
-        ngObjectsToArray(Components),
-        ngObjectsToArray(SvgComponents),
-        ngObjectsToArray(Directives),
-        ngObjectsToArray(Pipes)
-    ),
-    providers: [].concat(
-        ngObjectsToArray(Services),
-        ngObjectsToArray(Guards),
-        { provide: APP_BASE_HREF, useValue: 'SRM' },
-        DatePipe,
-        Title
-    ),
-    bootstrap: [Components.AppComponent]
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    AppRoutes,
+    FormsModule,
+    ReactiveFormsModule,
+    ColorPickerModule
+  ],
+  declarations: [].concat(
+    ngObjectsToArray(Components),
+    ngObjectsToArray(SvgComponents),
+    ngObjectsToArray(Directives),
+    ngObjectsToArray(Pipes)
+  ),
+  providers: [].concat(
+    ngObjectsToArray(Services),
+    ngObjectsToArray(Guards),
+    { provide: APP_BASE_HREF, useValue: 'SRM' },
+    DatePipe,
+    Title
+  ),
+  bootstrap: [Components.AppComponent]
 })
 export class AppModule { }

@@ -93,6 +93,7 @@
     "better-sqlite3": "https://github.com/cbartondock/better-sqlite3.git",
     "binary-vdf-2": "^0.1.0",
     "blob-to-buffer": "^1.2.9",
+    "cli-color": "^2.0.3",
     "colornames": "^1.1.1",
     "crc": "^4.3.2",
     "electron-log": "^4.4.8",
@@ -138,6 +139,7 @@
   },
   "devDependencies": {
     "@types/async": "^3.2.18",
+    "@types/cli-color": "^2.0.2",
     "@types/crc": "^3.8.0",
     "@types/fs-extra": "~11.0.1",
     "@types/he": "^1.2.0",

@@ -298,7 +298,7 @@ function getIndirectResourceString(fullName: string, packageName: string, resour
       }
       catch (err) {
         console.error("Error parsing json: " + err);
-      }C:\Program Files\WindowsApps
+      }
 
       resourceString = `@{${fullName}? ms-resource://${packageName}/${lastSegment}}`;
         try {

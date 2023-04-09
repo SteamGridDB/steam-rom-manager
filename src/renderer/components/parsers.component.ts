@@ -8,7 +8,7 @@ import * as parserInfo from '../../lib/parsers/available-parsers';
 import * as steam from '../../lib/helpers/steam';
 import { controllerTypes, controllerNames } from '../../lib/controller-manager';
 import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets, ControllerTemplates, ParserType } from '../../models';
-import { Subscription, Observable, combineLatest, of, concat } from "rxjs";
+import { BehaviorSubject, Subscription, Observable, combineLatest, of, concat } from "rxjs";
 import { map } from 'rxjs/operators'
 import { APP } from '../../variables';
 import * as _ from 'lodash';
@@ -34,7 +34,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private userForm: FormGroup;
   private formChanges: Subscription = new Subscription();
   private hiddenSections: {[parserId: string]: {[sectionName: string]: boolean}}
-  private CLI_COMMAND: string = '';
+  private CLI_COMMAND: BehaviorSubject<string> = new BehaviorSubject("");
 
 
   constructor(
@@ -48,18 +48,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private cpService: ConfigurationPresetsService,
     private ipcService: IpcService
   ) {
-    this.ipcService.send('log', 'Parser Constructor')
     this.appSettings = this.settingsService.getSettings();
     this.currentDoc.content = this.lang.docs__md.intro.join('');
     this.activatedRoute.queryParamMap.subscribe((paramContainer: any)=> {
       let params = ({...paramContainer} as any).params;
-      // TODO Fix this ugly hack
-      this.ipcService.send('log', "Testing testing")
-      this.CLI_COMMAND = (JSON.parse(params['cliMessage']||'{}')).command || this.CLI_COMMAND
-    });
-    this.parsersService.onLoad((userConfigurations: UserConfiguration[])=>{
-      if(this.CLI_COMMAND && this.CLI_COMMAND == 'list'){
-        this.ipcService.send('parsers_list',userConfigurations);
+      if(params['cliMessage']) {
+        const parsedParams = JSON.parse(params['cliMessage']) || {};
+        this.CLI_COMMAND.next(parsedParams.command);
       }
     });
     this.nestedGroup = new NestedFormElement.Group({
@@ -592,7 +587,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe((data) => {
       this.userConfigurations = data;
       this.loadConfiguration();
-    }))
+    }));
     this.subscriptions.add(this.activatedRoute.params.subscribe((params: any) => {
       this.configurationIndex = parseInt(params['index']);
       if(this.configurationIndex !== -1) {
@@ -603,13 +598,21 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       }
       this.loadConfiguration();
       this.fetchControllerTemplates(false);
-    }))
+    }));
     this.subscriptions.add(this.cpService.dataObservable.subscribe((data) => {
       this.configPresets = data;
-    }))
+    }));
     this.subscriptions.add(this.parsersService.getSavedControllerTemplates().subscribe((data) => {
       this.parsersService.controllerTemplates = data;
       this.fetchControllerTemplates(false);
+    }));
+    this.subscriptions.add(this.CLI_COMMAND.asObservable().subscribe((command: string)=> {
+      if(command=='list') {
+        this.parsersService.onLoad((userConfigurations: UserConfiguration[])=>{
+          this.ipcService.send('parsers_list', userConfigurations);
+          this.ipcService.removeListeners('parsers_list');
+        })
+      }
     }))
   }
 

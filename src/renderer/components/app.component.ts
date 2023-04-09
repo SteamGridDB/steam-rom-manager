@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, NgZone } from '@angular/core';
 import { SettingsService, LanguageService, MarkdownService, IpcService} from "../services";
 import { MarkdownVariable } from '../../lib';
 import { Router } from "@angular/router";
@@ -8,19 +8,19 @@ import markdownItAttrs from 'markdown-it-attrs';
 @Component({
   selector: 'app',
   template: `
-        <ng-container *ngIf="settingsLoaded && languageLoaded; else stillLoading">
-            <titlebar></titlebar>
-            <nav></nav>
-            <nav-border></nav-border>
-            <router-outlet style="display: none;"></router-outlet>
-            <theme></theme>
-            <alert></alert>
-            <update-notifier [ipcMessage]=updateMessage></update-notifier>
-        </ng-container>
-        <ng-template #stillLoading>
-            <div class="appLoading"></div>
-        </ng-template>
-    `,
+  <ng-container *ngIf="settingsLoaded && languageLoaded; else stillLoading">
+    <titlebar></titlebar>
+  <nav></nav>
+  <nav-border></nav-border>
+  <router-outlet style="display: none;"></router-outlet>
+  <theme></theme>
+  <alert></alert>
+  <update-notifier [ipcMessage]=updateMessage></update-notifier>
+  </ng-container>
+  <ng-template #stillLoading>
+  <div class="appLoading"></div>
+  </ng-template>
+  `,
   styleUrls: ['../styles/app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -30,7 +30,7 @@ export class AppComponent {
   private cliMessage: string = '';
   private settingsLoaded: boolean = false;
   private languageLoaded: boolean = false;
-  constructor(private settingsService: SettingsService, private languageService: LanguageService, private markdownService: MarkdownService, private router: Router,private ipcService: IpcService, private changeDetectionRef: ChangeDetectorRef) {
+  constructor(private settingsService: SettingsService, private languageService: LanguageService, private markdownService: MarkdownService, private router: Router,private ipcService: IpcService, private changeDetectionRef: ChangeDetectorRef, private zone: NgZone) {
     this.settingsService.onLoad((appSettings) => {
       this.settingsLoaded = true;
       this.router.navigate(['/parsers', -1]);
@@ -58,14 +58,21 @@ export class AppComponent {
       this.updateMessage=message;
     });
     ipcService.on('cli_message', (event, message) => {
-      if(message.command === 'list') {
-        this.router.navigate(['/parsers',-1],{queryParams: {cliMessage: JSON.stringify(message)}})
+      this.settingsService.onLoad((appSettings)=> {
+        if(message.command === 'list') {
+          this.zone.run(()=>{
+            this.router.navigate(['/parsers',-1],{
+              queryParams: {
+                cliMessage: JSON.stringify(message)
+              }
+            });
+          });
+        } else if(message["command"] === 'test_parser') {
 
-      } else if(message["command"] === 'test_parser') {
+        } else if(message.command === 'run_parsers') {
 
-      } else if(message.command === 'run_parsers') {
-
-      }
+        }
+      })
     });
   };
 }

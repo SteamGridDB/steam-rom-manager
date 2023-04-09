@@ -65,8 +65,9 @@ export class ParsersService {
 
               onLoad(callback: (userConfigurations: UserConfiguration[]) => void) {
                 this.configurationsLoadedSubject.asObservable().pipe(takeWhile((loaded) => {
-                  if (loaded)
-                    callback(this.userConfigurations.getValue().map(item=>item.saved));
+                  if (loaded) {
+                    callback(this.userConfigurations.getValue().map(item=>_.cloneDeep(item.saved)));
+                  }
                   return !loaded;
                 })).subscribe();
               }
@@ -151,6 +152,7 @@ export class ParsersService {
                 let userConfigurations = this.userConfigurations.getValue();
                 let copy: { saved: UserConfiguration, current: UserConfiguration } = _.cloneDeep(config);
                 copy.saved.parserId = unique_ids.newParserId();
+                copy.saved.disabled = false;
                 userConfigurations = userConfigurations.concat(copy);
                 this.userConfigurations.next(userConfigurations);
                 this.saveUserConfigurations();

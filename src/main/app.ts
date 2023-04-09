@@ -1,14 +1,15 @@
 import { app, BrowserWindow, shell, ipcMain, IpcMainEvent } from 'electron';
 import * as log from 'electron-log';
+import * as remoteMain from '@electron/remote/main';
 import { autoUpdater, CancellationToken } from 'electron-updater';
 import * as paths from "../paths";
 import * as path from 'path';
 import * as url from 'url';
+import * as clc from "cli-color"
 import yargs, {Argv} from 'yargs';
 import { hideBin } from 'yargs/helpers';
+import { UserConfiguration } from '../models'
 
-//Enable remote
-require('@electron/remote/main').initialize()
 
 // CLI Setup
 //const argv = yargs(hideBin(process.argv)).argv
@@ -18,23 +19,35 @@ let argsCLI: string[] = [];
 yargs(hideBin(process.argv))
 .command('list','list all parsers',(yargs: typeof Argv)=>{
   commandCLI = 'list'
-  return
+  console.log("\nFetching parsers...")
+})
+.command('enable', 'enable parsers by name or id. Usage: enable "P1" "P2"',(yargs: typeof Argv)=> {
+  commandCLI='enable'
+  log.info("args: ", yargs)
+})
+.command('disable', 'disable parsers by name or id. Usage: disable "P1 "P2"', (yargs: typeof Argv) => {
+  commandCLI='disable'
+  log.info("args: ", yargs)
 })
 .strict()
 .parse();
 
 // Logging setup
 if(commandCLI) {
-  log.info('In CLI')
   delete process.env.ELECTRON_ENABLE_SECURITY_WARNINGS;
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true';
-  process.env.ELECTRON_ENABLE_LOGGING='1';
+  process.env.ELECTRON_ENABLE_LOGGING='true';
   process.emitWarning = (warning, ...args) => {};
-  log.transports.file.level='error';
+  log.transports.file.level = 'error';
+  log.transports.console.level = 'error';
 } else {
   log.transports.file.level='info';
   log.info('App starting...');
 }
+
+//Enable remote
+remoteMain.initialize()
+
 
 
 // Auto updater setup
@@ -46,28 +59,30 @@ const cancellationToken = new CancellationToken();
 const windowStateKeeper = require('electron-window-state');
 let mainWindow: Electron.BrowserWindow = null;
 
-function createWindow() {
+function createWindow(show: boolean) {
   let mainWindowState = windowStateKeeper({
-    defaultWidth: 1000,
+    defaultWidth: 1024,
     defaultHeight: 600,
     maximize: false,
     path: paths.userDataDir
   });
 
   mainWindow = new BrowserWindow({
-    x: mainWindowState.x,
-    y: mainWindowState.y,
-    width: mainWindowState.width < 1024 ? 1024 : mainWindowState.width,
-    height: mainWindowState.height,
-    minWidth: 1024,
-    minHeight: 600,
+    x: show ? mainWindowState.x : undefined,
+    y: show ? mainWindowState.y : undefined,
+    width: show ? (mainWindowState.width < 1024 ? 1024 : mainWindowState.width) : 0,
+    height: show ? (mainWindowState.height) : 0,
+    minWidth: show ? 1024 : undefined,
+    minHeight: show ? 600 : undefined,
     frame: false,
+    show: show,
     backgroundColor: '#121212',
     webPreferences: {
       devTools: true,
-      contextIsolation: false,
       nodeIntegration: true,
-      nodeIntegrationInWorker: true
+      nodeIntegrationInWorker: true,
+      contextIsolation: false,
+      webSecurity: false
     }
   });
   require("@electron/remote/main").enable(mainWindow.webContents);
@@ -87,7 +102,9 @@ function createWindow() {
     event.preventDefault();
     shell.openExternal(url);
   });
-  mainWindow.show();
+  if(show) {
+    mainWindow.show();
+  }
 }
 
 // Auto Updater Listeners
@@ -118,45 +135,35 @@ autoUpdater.on('update-downloaded', (info) => {
 // Main Listeners
 app.on('ready', ()=>{
   if(commandCLI) {
-    mainWindow = new BrowserWindow({
-      width: 0,
-      height: 0,
-      show: false,
-      frame: false,
-      backgroundColor: '#121212',
-      webPreferences: {
-        devTools: true,
-        nodeIntegration: true,
-        nodeIntegrationInWorker: true
-      }
-    });
-
-    require("@electron/remote/main").enable(mainWindow.webContents);
+    createWindow(false);
+    remoteMain.enable(mainWindow.webContents);
 
     mainWindow.loadURL(url.format({
       pathname: path.join(__dirname, 'renderer', 'index.html'),
       protocol: 'file:',
       slashes: true
     }));
-    ipcMain.on('parsers_list', (event: IpcMainEvent, plist) => {
-      console.log('Parsers List: ', plist);
+
+    ipcMain.on('parsers_list', (event: IpcMainEvent, plist: UserConfiguration[]) => {
+      process.stdout.write(
+        clc.columns([[clc.bold("Parser Title (w/o emoji)"), clc.bold("Parser ID"), clc.bold("Status")]].concat(
+          plist.map((parser)=>[
+            parser.configTitle.replace(/[^\x20-\x7E]+/g, ""),
+            parser.parserId,
+            parser.disabled ? clc.xterm(203)("Disabled") : clc.xterm(48)("Enabled")
+          ])
+        ))
+      )
       app.quit();
     })
     ipcMain.on('log', (event: IpcMainEvent, loggable: any) => {
       console.log(loggable);
     })
     mainWindow.webContents.on('did-finish-load',()=>{
-      if(commandCLI) {
-        log.info("sending contents");
-        console.log("other log type")
-        mainWindow.webContents.send('cli_message',{command: commandCLI, args: argsCLI});
-      } else {
-        app.quit();
-      }
+      mainWindow.webContents.send('cli_message',{command: commandCLI, args: argsCLI});
     })
-
   } else {
-    createWindow();
+    createWindow(true);
     mainWindow.webContents.on('dom-ready',()=>{
       autoUpdater.checkForUpdatesAndNotify()
     });
@@ -184,6 +191,6 @@ app.on('window-all-closed', () => {
 
 app.on('activate', () => {
   if (mainWindow === null) {
-    //createWindow();
+    createWindow(!commandCLI);
   }
 });

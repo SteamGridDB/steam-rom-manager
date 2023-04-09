@@ -58,6 +58,5 @@ export interface UserConfiguration {
   localLogoImages: string,
   localIcons: string,
   titleModifier: string,
-  disabled: boolean,
-  advanced: boolean
+  disabled: boolean
 }
