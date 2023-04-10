@@ -173,12 +173,16 @@ export class ParsersService {
                 this.saveUserConfigurations();
               }
 
-              changeEnabledStatus(parserId: string, enabled: boolean) {
+              changeEnabledStatus(parserId: string, enabled: boolean): Promise<void> {
                 let userConfigurations = this.userConfigurations.getValue();
                 let updateIndex = userConfigurations.map(e=>e.saved.parserId).indexOf(parserId);
-                userConfigurations[updateIndex].saved.disabled = !enabled;
-                this.userConfigurations.next(userConfigurations);
-                this.saveUserConfigurations();
+                if(updateIndex != -1) {
+                  userConfigurations[updateIndex].saved.disabled = !enabled;
+                  this.userConfigurations.next(userConfigurations);
+                  return this.saveUserConfigurations();
+                } else {
+                  throw `Could not ${enabled?'enable':'disable'} ${parserId}. No such parser exists.`
+                }
               }
 
               changeEnabledStatusAll(enabled: boolean) {
@@ -489,8 +493,7 @@ export class ParsersService {
               private saveUserConfigurations() {
                 return new Promise<void>((resolve, reject) => {
                   if (!this.savingIsDisabled) {
-
-                    fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item: {saved: any, current: UserConfiguration}) => {
+                    const stringToSave = JSON.stringify(this.userConfigurations.getValue().map((item: {saved: any, current: UserConfiguration}) => {
                       item.saved[modifiers.userConfiguration.controlProperty] = modifiers.userConfiguration.latestVersion;
                       if(!item.saved.parserType) {
                         throw new Error(this.lang.error.parserTypeMissing);
@@ -501,12 +504,13 @@ export class ParsersService {
                         }
                       }
                       return item.saved;
-                    }), null, 4), (error) => {
-                      if (error)
-                        reject(error);
-                      else
-                        resolve();
-                    });
+                    }), null, 4);
+                    try {
+                      fs.outputFileSync(paths.userConfigurations, stringToSave);
+                      resolve();
+                    } catch(e) {
+                      reject(e)
+                    }
                   }
                   else
                     resolve();

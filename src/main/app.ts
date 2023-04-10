@@ -15,21 +15,30 @@ import { UserConfiguration } from '../models'
 //const argv = yargs(hideBin(process.argv)).argv
 
 let commandCLI:string = '';
-let argsCLI: string[] = [];
+let argsCLI: string[];
 yargs(hideBin(process.argv))
-.command('list','list all parsers',(yargs: typeof Argv)=>{
+.command('list', clc.blue('List all parsers. Usage: list'),(yargs: typeof Argv)=>{
   commandCLI = 'list'
-  console.log("\nFetching parsers...")
+  console.log("Fetching parsers...\n")
 })
-.command('enable', 'enable parsers by name or id. Usage: enable "P1" "P2"',(yargs: typeof Argv)=> {
+.command('enable', clc.blue('Enable parsers by name or id. Usage: enable "P1" "P2"'),(yargs: typeof Argv)=> {
+  return yargs.positional('parsers', {
+    describe: clc.blue('List of parsers to enable (names or ids)'),
+    type: 'string'
+  })
+}, (argv: any) => {
   commandCLI='enable'
-  log.info("args: ", yargs)
+  argsCLI = argv._.slice(1);
 })
-.command('disable', 'disable parsers by name or id. Usage: disable "P1 "P2"', (yargs: typeof Argv) => {
+.command('disable', clc.blue('Disable parsers by name or id. Usage: disable "P1 "P2"'), (yargs: typeof Argv) => {
+  return yargs.positional('parsers', {
+    describe: clc.blue('List of parsers to disable (names or ids)'),
+    type: 'string'
+  })
+}, (argv: any) => {
   commandCLI='disable'
-  log.info("args: ", yargs)
+  argsCLI = argv._.slice(1);
 })
-.strict()
 .parse();
 
 // Logging setup
@@ -42,7 +51,8 @@ if(commandCLI) {
   log.transports.console.level = 'error';
 } else {
   log.transports.file.level='info';
-  log.info('App starting...');
+  log.transports.console.level='info';
+  console.log('App starting...');
 }
 
 //Enable remote
@@ -109,10 +119,10 @@ function createWindow(show: boolean) {
 
 // Auto Updater Listeners
 autoUpdater.on('checking-for-update', () => {
-  log.info('checking for updates')
+  console.log('checking for updates')
 })
 autoUpdater.on('update-available', (info) => {
-  log.info('update available')
+  console.log('update available')
   if(process.platform=='darwin' || process.env.PORTABLE_EXECUTABLE_DIR) {
     mainWindow.webContents.send('updater_message','update_portable');
   } else{
@@ -121,11 +131,11 @@ autoUpdater.on('update-available', (info) => {
 })
 
 autoUpdater.on('error', (err) => {
-  log.info(err);
+  console.log(err);
 })
 autoUpdater.on('download-progress', (progressObj) => {
   let log_message = 'Progress: ' + Math.round(progressObj.percent) + '%';
-  log.info(log_message)
+  console.log(log_message)
   mainWindow.webContents.send('updater_message',{ progress: log_message });
 })
 autoUpdater.on('update-downloaded', (info) => {
@@ -146,7 +156,7 @@ app.on('ready', ()=>{
 
     ipcMain.on('parsers_list', (event: IpcMainEvent, plist: UserConfiguration[]) => {
       process.stdout.write(
-        clc.columns([[clc.bold("Parser Title (w/o emoji)"), clc.bold("Parser ID"), clc.bold("Status")]].concat(
+        clc.columns([[clc.blue("Parser Title (w/o emoji)"), clc.blue("Parser ID"), clc.blue("Status")]].concat(
           plist.map((parser)=>[
             parser.configTitle.replace(/[^\x20-\x7E]+/g, ""),
             parser.parserId,
@@ -156,27 +166,31 @@ app.on('ready', ()=>{
       )
       app.quit();
     })
+    ipcMain.on('all_done', (event: IpcMainEvent) => {
+      console.log("All Done")
+      app.quit()
+    })
     ipcMain.on('log', (event: IpcMainEvent, loggable: any) => {
       console.log(loggable);
     })
-    mainWindow.webContents.on('did-finish-load',()=>{
-      mainWindow.webContents.send('cli_message',{command: commandCLI, args: argsCLI});
-    })
+    mainWindow.webContents.on('did-finish-load', () => {
+      mainWindow.webContents.send('cli_message',{
+        command: commandCLI,
+        args: argsCLI
+      });
+    });
   } else {
     createWindow(true);
     mainWindow.webContents.on('dom-ready',()=>{
       autoUpdater.checkForUpdatesAndNotify()
     });
     ipcMain.on('download_update', (event: IpcMainEvent)=>{
-      log.info('downloading update')
       autoUpdater.downloadUpdate(cancellationToken);
     })
     ipcMain.on('restart_app', (event: IpcMainEvent)=>{
-      log.info('restarting and installing update');
       autoUpdater.quitAndInstall()
     })
     ipcMain.on('cancel_update', (event: IpcMainEvent)=>{
-      log.info('cancelling update');
       cancellationToken.cancel()
     })
 

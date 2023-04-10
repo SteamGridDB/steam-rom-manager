@@ -34,8 +34,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private userForm: FormGroup;
   private formChanges: Subscription = new Subscription();
   private hiddenSections: {[parserId: string]: {[sectionName: string]: boolean}}
-  private CLI_COMMAND: BehaviorSubject<string> = new BehaviorSubject("");
-
+  private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
 
   constructor(
     private parsersService: ParsersService,
@@ -53,8 +52,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     this.activatedRoute.queryParamMap.subscribe((paramContainer: any)=> {
       let params = ({...paramContainer} as any).params;
       if(params['cliMessage']) {
-        const parsedParams = JSON.parse(params['cliMessage']) || {};
-        this.CLI_COMMAND.next(parsedParams.command);
+        this.CLI_MESSAGE.next(params['cliMessage']);
       }
     });
     this.nestedGroup = new NestedFormElement.Group({
@@ -606,13 +604,29 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.parsersService.controllerTemplates = data;
       this.fetchControllerTemplates(false);
     }));
-    this.subscriptions.add(this.CLI_COMMAND.asObservable().subscribe((command: string)=> {
-      if(command=='list') {
-        this.parsersService.onLoad((userConfigurations: UserConfiguration[])=>{
+    this.subscriptions.add(this.CLI_MESSAGE.asObservable().subscribe((cliMessage: string)=> {
+      const parsedCLI = JSON.parse(cliMessage)||{};
+      this.parsersService.onLoad((userConfigurations: UserConfiguration[])=>{
+        if(parsedCLI.command == 'list') {
           this.ipcService.send('parsers_list', userConfigurations);
-          this.ipcService.removeListeners('parsers_list');
-        })
-      }
+        }
+        else if(['enable','disable'].includes(parsedCLI.command)) {
+          let promises: Promise<void>[] = []
+          for(let parserId of parsedCLI.args) {
+            try {
+              let newStatus:boolean = parsedCLI.command == 'enable';
+              promises.push(this.parsersService.changeEnabledStatus(parserId, newStatus).then(()=>{
+                this.ipcService.send("log",newStatus ? `Enabled parser ${parserId}` : `Disabled parser ${parserId}`);
+              }));
+            } catch(e) {
+              this.ipcService.send("log", e);
+            }
+          }
+          Promise.all(promises).then(()=> {
+            this.ipcService.send("all_done");
+          })
+        }
+      })
     }))
   }
 

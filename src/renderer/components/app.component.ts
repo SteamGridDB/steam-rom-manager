@@ -59,7 +59,7 @@ export class AppComponent {
     });
     ipcService.on('cli_message', (event, message) => {
       this.settingsService.onLoad((appSettings)=> {
-        if(message.command === 'list') {
+        if(['list', 'enable', 'disable'].includes(message.command)) {
           this.zone.run(()=>{
             this.router.navigate(['/parsers',-1],{
               queryParams: {
@@ -67,10 +67,10 @@ export class AppComponent {
               }
             });
           });
-        } else if(message["command"] === 'test_parser') {
-
-        } else if(message.command === 'run_parsers') {
-
+        } else if(message.command === 'run') {
+          this.zone.run(()=>{
+            //TODO actually run the parsers
+          })
         }
       })
     });
