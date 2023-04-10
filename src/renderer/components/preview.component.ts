@@ -122,7 +122,7 @@ export class PreviewComponent implements OnDestroy {
 
   ngAfterViewInit() {
     this.subscriptions.add(this.CLI_MESSAGE.asObservable().subscribe((cliMessage: string)=> {
-      const parsedCLI = JSON.parse(cliMessage)||{};
+      const parsedCLI = cliMessage ? JSON.parse(cliMessage)||{} : {};
       let hasrun = false;
       if(['add','remove'].includes(parsedCLI.command)) {
         this.previewService.onLoadUserConfigurations((userConfigurations: UserConfiguration[])=> {

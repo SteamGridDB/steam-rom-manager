@@ -605,7 +605,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.fetchControllerTemplates(false);
     }));
     this.subscriptions.add(this.CLI_MESSAGE.asObservable().subscribe((cliMessage: string)=> {
-      const parsedCLI = JSON.parse(cliMessage)||{};
+      const parsedCLI = cliMessage ? JSON.parse(cliMessage)||{} : {};
       this.parsersService.onLoad((userConfigurations: UserConfiguration[])=>{
         if(parsedCLI.command == 'list') {
           this.ipcService.send('parsers_list', userConfigurations);
