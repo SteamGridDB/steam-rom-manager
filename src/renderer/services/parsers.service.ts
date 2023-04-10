@@ -185,13 +185,13 @@ export class ParsersService {
                 }
               }
 
-              changeEnabledStatusAll(enabled: boolean) {
+              changeEnabledStatusAll(enabled: boolean): Promise<void> {
                 let userConfigurations = this.userConfigurations.getValue();
                 for(let i=0; i < userConfigurations.length; i++) {
                   userConfigurations[i].saved.disabled = !enabled;
                 }
                 this.userConfigurations.next(userConfigurations);
-                this.saveUserConfigurations();
+                return this.saveUserConfigurations();
               }
 
               updateConfiguration(index: number, config?: UserConfiguration) {

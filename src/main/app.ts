@@ -16,6 +16,8 @@ import { UserConfiguration } from '../models'
 
 let commandCLI:string = '';
 let argsCLI: string[];
+let flagsCLI: {[k: string]: boolean} = {};
+
 yargs(hideBin(process.argv))
 .command('list', clc.blue('List all parsers. Usage: list'),(yargs: typeof Argv)=>{
   commandCLI = 'list'
@@ -25,19 +27,35 @@ yargs(hideBin(process.argv))
   return yargs.positional('parsers', {
     describe: clc.blue('List of parsers to enable (names or ids)'),
     type: 'string'
+  }).option('all', {
+    describe: clc.blue('Command enables all parsers if this flag is set.'),
+    type: 'boolean'
+  }).option('names', {
+    describe: clc.blue('Flag tells SRM to enable by (emoji-stripped) name instead of id'),
+    type: 'boolean'
   })
 }, (argv: any) => {
   commandCLI='enable'
   argsCLI = argv._.slice(1);
+  flagsCLI['all'] = !!argv.all;
+  flagsCLI['names'] = !!argv.names;
 })
 .command('disable', clc.blue('Disable parsers by name or id. Usage: disable "P1 "P2"'), (yargs: typeof Argv) => {
   return yargs.positional('parsers', {
     describe: clc.blue('List of parsers to disable (names or ids)'),
     type: 'string'
+  }).option('all', {
+    describe: clc.blue('Command disables all parsers if this flag is set.'),
+    type: 'boolean'
+  }).option('names', {
+    describe: clc.blue('Flag tells SRM to disable by (emoji-stripped) name instead of id'),
+    type: 'boolean'
   })
 }, (argv: any) => {
   commandCLI='disable'
   argsCLI = argv._.slice(1);
+  flagsCLI['all'] = !!argv.all;
+  flagsCLI['names'] = !!argv.names;
 })
 .parse();
 
@@ -176,7 +194,8 @@ app.on('ready', ()=>{
     mainWindow.webContents.on('did-finish-load', () => {
       mainWindow.webContents.send('cli_message',{
         command: commandCLI,
-        args: argsCLI
+        args: argsCLI,
+        flags: flagsCLI
       });
     });
   } else {

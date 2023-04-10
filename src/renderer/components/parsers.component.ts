@@ -611,20 +611,38 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           this.ipcService.send('parsers_list', userConfigurations);
         }
         else if(['enable','disable'].includes(parsedCLI.command)) {
-          let promises: Promise<void>[] = []
-          for(let parserId of parsedCLI.args) {
-            try {
-              let newStatus:boolean = parsedCLI.command == 'enable';
-              promises.push(this.parsersService.changeEnabledStatus(parserId, newStatus).then(()=>{
-                this.ipcService.send("log",newStatus ? `Enabled parser ${parserId}` : `Disabled parser ${parserId}`);
-              }));
-            } catch(e) {
-              this.ipcService.send("log", e);
+          let newStatus:boolean = parsedCLI.command == 'enable';
+          if(parsedCLI.flags['all']) {
+            this.parsersService.changeEnabledStatusAll(newStatus).then(()=>{
+              this.ipcService.send("all_done")
+            })
+          } else {
+            let promises: Promise<void>[] = []
+            let parserIds: string[];
+            if(parsedCLI.flags['names']) {
+              parserIds = userConfigurations.filter(config=>parsedCLI.args.indexOf(config.configTitle.replace(/[^\x20-\x7E]+/g, ""))!=-1).map(config=>config.parserId);
+              for(let configTitle of parsedCLI.args) {
+                if(userConfigurations.map(config=>config.configTitle.replace(/[^\x20-\x7E]+/g, "")).indexOf(configTitle)==-1) {
+                  this.ipcService.send("log",`Could not find parser ${configTitle}`);
+                }
+              }
+            } else {
+              parserIds = parsedCLI.args;
             }
+            for(let parserId of parserIds) {
+              try {
+                promises.push(this.parsersService.changeEnabledStatus(parserId, newStatus).then(()=>{
+                  this.ipcService.send("log",newStatus ? `Enabled parser ${parserId}` : `Disabled parser ${parserId}`);
+                }));
+              } catch(e) {
+                this.ipcService.send("log", e);
+              }
+            }
+            Promise.all(promises).then(()=> {
+              this.ipcService.send("all_done");
+            })
+
           }
-          Promise.all(promises).then(()=> {
-            this.ipcService.send("all_done");
-          })
         }
       })
     }))
