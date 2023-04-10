@@ -67,9 +67,13 @@ export class AppComponent {
               }
             });
           });
-        } else if(message.command === 'run') {
+        } else if(['add','remove'].includes(message.command)) {
           this.zone.run(()=>{
-            //TODO actually run the parsers
+            this.router.navigate(['/'], {
+              queryParams: {
+                cliMessage: JSON.stringify(message)
+              }
+            })
           })
         }
       })

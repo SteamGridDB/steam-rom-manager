@@ -1,7 +1,8 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Renderer2, ElementRef, RendererStyleFlags2, HostListener } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { PreviewService, SettingsService, ImageProviderService } from "../services";
-import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageContent, SelectItem } from "../../models";
+import { ActivatedRoute } from '@angular/router';
+import { Subscription, BehaviorSubject } from 'rxjs';
+import { PreviewService, SettingsService, ImageProviderService, IpcService } from "../services";
+import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageContent, SelectItem, UserConfiguration } from "../../models";
 import { APP } from '../../variables';
 import { FileSelector } from '../../lib';
 import * as url from '../../lib/helpers/url';
@@ -40,8 +41,18 @@ export class PreviewComponent implements OnDestroy {
   private imageTypes: SelectItem[];
   private scrollingEntries: boolean = false;
   private fileSelector: FileSelector = new FileSelector();
+  private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
 
-  constructor(private previewService: PreviewService, private settingsService: SettingsService, private imageProviderService: ImageProviderService, private changeDetectionRef: ChangeDetectorRef, private renderer: Renderer2, private elementRef: ElementRef) {
+  constructor(
+    private previewService: PreviewService,
+    private settingsService: SettingsService,
+    private imageProviderService: ImageProviderService,
+    private changeDetectionRef: ChangeDetectorRef,
+    private renderer: Renderer2,
+    private elementRef: ElementRef,
+    private activatedRoute: ActivatedRoute,
+    private ipcService: IpcService
+  ) {
     this.previewData = this.previewService.getPreviewData();
     this.previewVariables = this.previewService.getPreviewVariables();
     if(this.previewService.getPreviewData()) {
@@ -58,6 +69,12 @@ export class PreviewComponent implements OnDestroy {
     this.appSettings = this.settingsService.getSettings();
     this.imageTypes = this.previewService.getImageTypes().map((imageType: string)=>{
       return {value: imageType, displayValue: imageTypeDict[imageType]}
+    });
+    this.activatedRoute.queryParamMap.subscribe((paramContainer: any)=> {
+      let params = ({...paramContainer} as any).params;
+      if(params['cliMessage']) {
+        this.CLI_MESSAGE.next(params['cliMessage']);
+      }
     });
   }
 
@@ -102,6 +119,38 @@ export class PreviewComponent implements OnDestroy {
     this.setImageSize(this.appSettings.previewSettings.imageZoomPercentage);
     this.setImageBoxSizes();
   }
+
+  ngAfterViewInit() {
+    this.subscriptions.add(this.CLI_MESSAGE.asObservable().subscribe((cliMessage: string)=> {
+      const parsedCLI = JSON.parse(cliMessage)||{};
+      let hasrun = false;
+      if(['add','remove'].includes(parsedCLI.command)) {
+        this.previewService.onLoadUserConfigurations((userConfigurations: UserConfiguration[])=> {
+          this.ipcService.send('log','Generating app list')
+          this.generatePreviewData();
+        });
+        this.previewService.getPreviewDataChange().subscribe(()=>{
+          let previewVariables = this.previewService.getPreviewVariables();
+          if(this.previewVariables.numberOfListItems > 0 && this.previewVariables.numberOfQueriedImages >= 0) {
+            this.ipcService.send('inline-log',`Apps: ${this.previewVariables.numberOfListItems}. Remaining images: ${this.previewVariables.numberOfQueriedImages}`);
+            if(this.previewVariables.numberOfQueriedImages == 0 && !hasrun) {
+              hasrun = true;
+              this.ipcService.send('log','')
+              if(parsedCLI.command == 'add') {
+                this.ipcService.send('log', 'Adding app list to steam');
+              } else {
+                this.ipcService.send('log', 'Removing app list from steam');
+              }
+              this.save(parsedCLI.command == 'remove').then(()=>{
+                this.ipcService.send('all_done')
+              })
+            }
+          }
+        })
+      }
+    }))
+  }
+
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
@@ -263,7 +312,7 @@ export class PreviewComponent implements OnDestroy {
   }
 
   private save() {
-    this.previewService.saveData(false);
+    return this.previewService.saveData(false);
   }
 
   private remove() {
@@ -274,7 +323,7 @@ export class PreviewComponent implements OnDestroy {
         }
       }
     }
-    this.previewService.saveData(false).then((noError: boolean | void) => {
+    return this.previewService.saveData(false).then((noError: boolean | void) => {
       if (noError)
         this.previewService.clearPreviewData();
     });

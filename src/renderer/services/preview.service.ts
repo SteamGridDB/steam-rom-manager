@@ -8,7 +8,7 @@ import { ImageProviderService } from './image-provider.service';
 import {
   PreviewData, ImageContent, ParsedUserConfiguration, AppImages, PreviewVariables,
   ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings,
-  SteamTree, userAccountData, VDF_ExtraneousItemsData, ErrorData, AppSelection, AppSelectionImages, AppSelectionImage
+  SteamTree, userAccountData, VDF_ExtraneousItemsData, ErrorData, AppSelection, AppSelectionImages, AppSelectionImage, UserConfiguration
 } from '../../models';
 import { VDF_Manager, VDF_Error, CategoryManager, ControllerManager, Acceptable_Error } from "../../lib";
 import { APP } from '../../variables';
@@ -116,6 +116,10 @@ export class PreviewService {
   }
   setImageType(imageType: string) {
     this.currentImageType = imageType;
+  }
+
+  onLoadUserConfigurations(callback: (userConfigurations: UserConfiguration[]) => void) {
+    return this.parsersService.onLoad(callback);
   }
 
   generatePreviewData() {

@@ -19,6 +19,8 @@ let argsCLI: string[];
 let flagsCLI: {[k: string]: boolean} = {};
 
 yargs(hideBin(process.argv))
+.usage(clc.green(`Make sure Steam is fully exited before using add/remove commands.`))
+.usage(clc.green(`If Steam is running apps will still be added, but categories won\'t.`))
 .command('list', clc.blue('List all parsers. Usage: list'),(yargs: typeof Argv)=>{
   commandCLI = 'list'
   console.log("Fetching parsers...\n")
@@ -56,6 +58,12 @@ yargs(hideBin(process.argv))
   argsCLI = argv._.slice(1);
   flagsCLI['all'] = !!argv.all;
   flagsCLI['names'] = !!argv.names;
+})
+.command('add', clc.blue('Run all enabled parsers and save apps to steam. Usage: add'), (yargs: typeof Argv) => {
+  commandCLI='add'
+})
+.command('remove', clc.blue('Run all enabled parsers and remove apps from steam. Usage: remove'), (yargs: typeof Argv) => {
+  commandCLI='remove'
 })
 .parse();
 
@@ -130,9 +138,9 @@ function createWindow(show: boolean) {
     event.preventDefault();
     shell.openExternal(url);
   });
-  if(show) {
+  // if(show) {
     mainWindow.show();
-  }
+  // }
 }
 
 // Auto Updater Listeners
@@ -190,6 +198,11 @@ app.on('ready', ()=>{
     })
     ipcMain.on('log', (event: IpcMainEvent, loggable: any) => {
       console.log(loggable);
+    })
+    ipcMain.on('inline-log',(event: IpcMainEvent, loggable: any) => {
+      process.stdout.write(clc.erase.line);
+      process.stdout.write(clc.move.lineBegin);
+      process.stdout.write(loggable)
     })
     mainWindow.webContents.on('did-finish-load', () => {
       mainWindow.webContents.send('cli_message',{
