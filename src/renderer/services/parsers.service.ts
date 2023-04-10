@@ -478,12 +478,13 @@ export class ParsersService {
 
               private saveUserControllerTemplates() {
                 return new Promise<void>((resolve, reject) => {
-                  fs.outputFile(paths.controllerTemplates, JSON.stringify(this.savedControllerTemplates.getValue(), null, 4), (error) => {
-                    if (error)
-                      reject(error);
-                    else
-                      resolve();
-                  })
+                  const stringToSave = JSON.stringify(this.savedControllerTemplates.getValue(), null, 4);
+                  try {
+                    fs.outputFileSync(paths.controllerTemplates, stringToSave);
+                    resolve();
+                  } catch(e) {
+                    reject(e)
+                  }
                 }).catch((error)=>{
                   this.loggerService.error(this.lang.error.savingConfiguration, { invokeAlert: true, alertTimeout: 5000 });
                   this.loggerService.error(error);
