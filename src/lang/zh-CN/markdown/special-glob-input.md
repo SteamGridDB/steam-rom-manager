@@ -12,7 +12,7 @@
 
 ### 绝对路径
 
-Let's say that the extracted title is `Metroid Fusion [USA]` and fuzzy title is `Metroid Fusion`. 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径：
+Let's say that the extracted title is `Metroid Fusion [USA]` and fuzzy title is `Metroid Fusion`. 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径：
 
 - `C:/path/to/images/${title}.*`
 - `C:/path/to/images/${fuzzyTitle}.*`
