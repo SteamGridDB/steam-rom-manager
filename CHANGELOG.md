@@ -1,6 +1,27 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+
+
+## 2.4.0
+### Added
+* Command line interface! Unfortunately on the Windows portable version the CLI can't print anything out (see [electron-builder issue 3998](https://github.com/electron-userland/electron-builder/issues/3998)), but the commands still work. I am tracking this issue and will update `electron-builder` as soon as it is fixed.
+* Windows Apps capability for UWP parser.
+* Handling for DMCA'd images (SRM doesn't add the "This image has been taken down" fallback to steam)
+* Batched Image downloading, solving the issue where SRM would hang on "Writing VDFs" when lots of images were being added. Batching is 500 images (100 games) at a time, with ten seconds in between in order to give SGDB's servers a break.
+* Ability to filter by installed status and app type in steam parser (e.g. only get artwork for games, not tools).
+* MSI Installer
+
+### Wiki
+* [Command Line Interface](https://github.com/SteamGridDB/steam-rom-manager/wiki/Command-Line-Interface)
+
+### Changed
+* Re-worked steam parser to no longer require apps be categorized (credit to @Tormak for the technique). May still change in the future
+* Bring all SRM dependencies up to date.
+
+### Removed
+* 32 bit linux application (modern versions of electron don't have prebuilt binaries for ia32 linux).
+
 ## 2.4.0
 ### Planned
 * [x] GOG Parser.
@@ -13,22 +34,6 @@ All notable changes to this project will be documented in this file.
 * [x] Platform parsers have launcher and launcherless mode.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
-
-## 2.4.0
-### Added
-* Command line interface! Unfortunately on the Windows portable version the CLI can't print anything out (see [electron-builder issue 3998](https://github.com/electron-userland/electron-builder/issues/3998)), but the commands still work. I am tracking this issue and will update `electron-builder` as soon as it is fixed.
-* Windows Apps capability for UWP parser.
-* Handling for DMCA'd images (SRM doesn't add the "This image has been taken down" fallback to steam)
-* Batched Image downloading, solving the issue where SRM would hang on "Writing VDFs" when lots of images were being added. Batching is 500 images (100 games) at a time, with ten seconds in between in order to give SGDB's servers a break.
-* Ability to filter by installed status and app type in steam parser (e.g. only get artwork for games, not tools).
-* MSI Installer
-
-### Changed
-* Re-worked steam parser to no longer require apps be categorized (credit to @Tormak for the technique). May still change in the future
-* Bring all SRM dependencies up to date.
-
-### Removed
-* 32 bit linux application (modern versions of electron don't have prebuilt binaries for ia32 linux).
 
 ## 2.3.52
 ### Fixed
