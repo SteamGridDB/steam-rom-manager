@@ -13,7 +13,7 @@
 
   --link-height: 1.2em;
   --link-vPadding: 0.5em;
-  grid-area: nav;
+  grid-area: nav-parsers;
   @include webkitScrollbar(nav-scrollbar, 0.375em);
   .parsers {
     .parserlink {

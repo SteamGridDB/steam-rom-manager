@@ -1,13 +1,14 @@
-@import 'mixins';
+@import "mixins";
 
 :host {
   display: grid;
+  //display: none;
   overflow: auto;
 
   grid-area: route;
   grid-template-areas:
-  'docs nestedForm'
-  'menu menu';
+    "docs nestedForm"
+    "menu menu";
 
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr auto;
@@ -21,7 +22,6 @@
     margin: 0 0 0.5em 0;
   }
   .nestedForm {
-
     padding: 1em;
 
     grid-area: nestedForm;
@@ -47,21 +47,21 @@
       }
     }
 
-    ::ng-deep ng-text-input{
+    ::ng-deep ng-text-input {
       @for $i from 0 through 2 {
         highlight {
           &.level-#{$i} {
             color: var(--color-highlight-level-#{$i});
           }
         }
-        &:hover{
+        &:hover {
           highlight {
             &.level-#{$i} {
               color: var(--color-highlight-level-#{$i}-hover);
             }
           }
         }
-        &:focus{
+        &:focus {
           highlight {
             &.level-#{$i} {
               color: var(--color-highlight-level-#{$i}-active);
