@@ -13,13 +13,13 @@ Pour créer un modèle personnalisé:
 * Répétez pour autant de types de contrôleur différents que vous voulez configurer.
 
 Dans l'analyseur SRM:
-* Hit `Re-Fetch Controller Templates` to pull templates for all controller types from steam. Cela effacera vos modèles actuellement sélectionné s'il ne fait pas partie des modèles disponibles dans Steam.
+* Appuyer sur `Re-Fetch Controller Templates` pour extraire des modèles pour tous les types de contrôleur à partir de Steam. Cela effacera vos modèles actuellement sélectionné s'il ne fait pas partie des modèles disponibles dans Steam.
 
 Actuellement SRM tire tous les modèles par défaut (fait par Valve) pour chaque contrôleur ainsi que tous les modèles définis par l'utilisateur qui se terminent par `(SRM)`.
 
 * Sélectionnez vos modèles et enregistrez l'analyseur. Les configurations de contrôleur seront appliquées une fois que vous aurez cliqué sur `Enregistrer les applications sur Steam` dans l'aperçu.
 
-* Pour annuler la configuration du contrôleur, vous pouvez soit `Retirer toutes les entrées d'application et contrôleur ajoutées` dans les paramètres généraux (cela supprime toutes les modifications apportées à vos données Steam) ou appuyer sur `supprime tous les contrôleurs` dans l'analyseur (cela supprime uniquement les paramètres du contrôleur pour le répertoire Steam et l'utilisateur spécifié dans cet analyseur).
+* Pour annuler la configuration du contrôleur, vous pouvez soit `Retirer toutes les entrées d'application et contrôleur ajoutées` dans les paramètres généraux (cela supprime toutes les modifications apportées à vos données Steam) ou appuyer sur `Unset All Controllers` dans l'analyseur (cela supprime uniquement les paramètres du contrôleur pour le répertoire Steam et l'utilisateur spécifié dans cet analyseur).
 
 Une fois cela fait, vous pouvez générer et enregistrer l'aperçu comme d'habitude, et le modèle sera appliqué à tous les titres de l'analyseur.
 

@@ -1,12 +1,12 @@
-# Epic Games Parser
+# Analyseur Epic Games
 
-This parser imports games from the [Epic Games Store](https://store.epicgames.com/en-US/) so that artwork can be chosen for them and they can be added into Steam.
+Cet analyseur importe des jeux depuis [Epic Games Store](https://store.epicgames.com/en-US/) afin que les artwork puissent être choisies pour eux et puissent être ajoutées à Steam.
 
-If it doesn't work it is because Epic has altered the structure of their game manifests, in this case please let the developers of SRM know and we will resolve the issue.
+Si cela ne fonctionne pas, c'est parce qu'Epic a modifié la structure de leurs jeux, dans ce cas, veuillez en informer les développeurs de SRM et nous résoudrons le problème.
 
 In order for this parser to work with the open source Epic alternative [Legendary](https://github.com/derrod/legendary), [EGL sync must be enabled in Legendary](https://github.com/derrod/legendary/discussions/276#discussioncomment-709748) (this creates the appropriate files for the parser to read, and does not require the `Epic Games Store` to be installed).
 
-That said, there is also a `Legendary` parser in SRM which works right out of the box.
+Ceci dit, il y a aussi un analyseur `Legendary` dans SRM qui est disponible.
 
 ## Compatibilité
-This parser is currently functional on `Windows` and `Mac OS` systems only. On `Mac OS` it is not possible to launch from the Epic Store, so that toggle should remain disabled.
+Cet analyseur n'est actuellement fonctionnel que sur les systèmes `Windows` et `Mac OS`. Sur `Mac OS` il n'est pas possible de lancer via Epic, donc il doit rester désactivé.

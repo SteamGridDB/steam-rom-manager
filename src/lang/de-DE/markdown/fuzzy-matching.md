@@ -1,6 +1,6 @@
 # Fuzzy matching
 
-Fuzzy (natural) matching will be done against the tittle list provided by [SteamGridDB](http://www.steamgriddb.com/). It will try to fill in missing characters for titles which will increase probability for finding images.
+Fuzzy (natural) matching will be done against the tittle list provided by [SteamGridDB](http://www.steamgriddb.com/). Es wird versuchen, fehlende Zeichen für Prädikate auszufüllen, was die Wahrscheinlichkeit erhöht, Bilder zu finden.
 
 Fuzzy titles are available as title modifiers via `${fuzzyTitle}`. Currently fuzzy matching is only enabled for `ROM Parsers` and `Manual Parsers`.
 

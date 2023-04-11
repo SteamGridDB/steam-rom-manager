@@ -1,8 +1,8 @@
 # Manual Parser specific inputs
 
-## Manifests Directory `[Supports Environment Variables]`{.noWrap}
+## Manifest-Verzeichnis `[unterstützt Umgebungsvariablen]`{.noWrap}
 
-Der Speicherort der json-Dateien, die du in Steam-Verknüpfungen umwandeln möchtest. `Manifests Directory` is expected to be of the form:
+Der Speicherort der json-Dateien, die du in Steam-Verknüpfungen umwandeln möchtest. `Manifest-Verzeichnis` wird in dieser Form erwartet:
 
 ```
 /path/to/manifests
