@@ -37,10 +37,10 @@
         "readingVDF_Files": "Reading VDF files.",
         "mergingVDF_entries": "Merging VDF entries.",
         "removingVDF_entries": "Entfernen von VDF-Einträgen und Bild-Dateien.",
-        "savingCategories": "Saving category information to localconfig.vdf.",
-        "savingControllers": "Saving controller information.",
+        "savingCategories": "Speichere Kategorie-Informationen in localconfig.vdf.",
+        "savingControllers": "Speichere Controller-Informationen.",
         "removingFromCategories": "Removing all added category information",
-        "writingVDF_entries__i": "Writing VDF files and downloading high res images in batches of ${batchSize}.",
+        "writingVDF_entries__i": "Schreibe VDF-Dateien und lade hochauflösende Bilder in Chargen von ${batchSize} herunter.",
         "updatingKnownSteamDirList": "Updating a list of known Steam directories.",
         "retryingDownload__i": "Retrying image download from \"${imageUrl}\" for \"${appTitle}\".",
         "disabledConfigurations__i": "${count} user configuration(s) was/were skipped (disabled by user).",
@@ -601,18 +601,18 @@
       "couldNotWriteEntries": "Konnte Einträge nicht in Steam-Dateien schreiben:",
       "couldNotMergeEntries__i": "Konnte Einträge nicht zusammenführen:\n ${error}",
       "couldNotRemoveEntries__i": "Konnte Einträge nicht entfernen:\n ${error}",
-      "nonFatal": "Non fatal errors occurred while writing:"
+      "nonFatal": "Beim Schreiben sind nicht-schwerwiegende Fehler aufgetreten:"
     }
   },
   "vdfFile": {
     "error": {
-      "readingVdf__i": "Failed to read from \"${filePath}\".\n ${error}",
-      "writingVdf__i": "Failed to write to \"${filePath}\".\n ${error}",
+      "readingVdf__i": "Lesen von \"${filePath}\" fehlgeschlagen.\n ${error}",
+      "writingVdf__i": "Schreiben auf \"${filePath}\" fehlgeschlagen. ${error}",
       "skippingDMCA__i": "Skipping DMCA'd image for ${title}",
-      "corruptedVdf__i": "\"${filePath}\" is corrupted.\n ${error}",
-      "creatingBackup__i": "Could not create backup for \"${filePath}\".\n ${error}",
+      "corruptedVdf__i": "\"${filePath}\" ist beschädigt. ${error}",
+      "creatingBackup__i": "Backup für \"${filePath}\" konnte nicht erstellt werden. ${error}",
       "unsupportedMimeType__i": "Mime Typ (${type}) wird nicht unterstützt (Titel - \"${title}\").",
-      "imageError__i": "Error occurred while saving/downloading image for \"${title}\". Url: ${url}.\n ${error}"
+      "imageError__i": "Fehler beim Speichern/Herunterladen des Bildes für \"${title}\". Url: ${url}. ${error}"
     }
   },
   "helpers": {
