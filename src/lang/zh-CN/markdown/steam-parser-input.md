@@ -1,7 +1,7 @@
-# Steam Parser specific inputs
+# Steam 解析器特定输入
 
-## Find artwork for games only
-If enabled SRM will filter out any steam applications that are not full games, such as demos and tools like `3DMark` or `Wallpaper Engine`.
+## 仅寻找游戏艺术作品
+如果启用了 SRM，它将过滤掉任何不是完整游戏的 Steam 应用程序，例如演示和工具如 `3DMark` 或 `Wallpaper Engine`。
 
-## Find artwork for installed titles only
-If enabled SRM will filter out any steam applications that are not currently installed locally.
+## 仅查找已安装标题的艺术作品
+如果启用了 SRM，它将过滤掉当前未在本地安装的任何 Steam 应用程序。
