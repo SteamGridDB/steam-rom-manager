@@ -144,9 +144,9 @@ function createWindow(show: boolean) {
     event.preventDefault();
     shell.openExternal(url);
   });
-  // if(show) {
+  if(show) {
     mainWindow.show();
-  // }
+  }
 }
 
 // Auto Updater Listeners
@@ -177,6 +177,7 @@ autoUpdater.on('update-downloaded', (info) => {
 // Main Listeners
 app.on('ready', ()=>{
   if(commandCLI) {
+    console.log("\n");
     createWindow(false);
     remoteMain.enable(mainWindow.webContents);
 
