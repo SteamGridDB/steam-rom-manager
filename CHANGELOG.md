@@ -7,12 +7,22 @@ All notable changes to this project will be documented in this file.
 * [x] UPlay Parser.
 * [x] EA Desktop Parser.
 * [x] XBox Game Pass Parser.
-* [ ] Command Line Interface.
+* [x] Command Line Interface.
 * [x] Capability to override image searches.
 * [x] Ability to set per-parser controller templates.
 * [x] Platform parsers have launcher and launcherless mode.
 * [x] Automatic Preset Updating.
 * [x] Make icons work for Steam parser (with the caveat that they will most likely be overwritten when a developer updates their game).
+
+## 2.4.0
+### Added
+* Command line interface.
+* Windows Apps capability for UWP parser.
+* Handling for DMCA'd images (SRM doesn't add the "This image has been taken down" fallback to steam)
+### Changed
+* Re-worked steam parser to no longer require apps be categorized (credit to @Tormak for the technique). May still change in the future
+* Re-worked image downloading to download in batches of 500 in ten second intervals, so as not to overload memory or SGDB servers (hopefully fixes hanging on "Writing VDFs")
+* Bring all SRM dependencies up to date.
 
 ## 2.3.52
 ### Fixed

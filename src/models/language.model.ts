@@ -43,8 +43,9 @@ export interface languageStruct {
         mergingVDF_entries: string,
         removingVDF_entries: string,
         savingCategories: string,
+        savingControllers: string,
         removingFromCategories: string,
-        writingVDF_entries: string,
+        writingVDF_entries__i: string, // ${batchSize},
         updatingKnownSteamDirList: string,
         retryingDownload__i: string, //${imageUrl}, ${appTitle}
         disabledConfigurations__i: string, //${count}
@@ -696,13 +697,15 @@ export interface languageStruct {
       couldNotReadEntries__i: string, //${error}
       couldNotWriteEntries: string,
       couldNotMergeEntries__i: string, //${error}
-      couldNotRemoveEntries__i: string //${error}
+      couldNotRemoveEntries__i: string, //${error}
+      nonFatal: string //${error}
     }
   },
   vdfFile: {
     error: {
       readingVdf__i: string, //${filePath}, ${error}
       writingVdf__i: string, //${filePath}, ${error}
+      skippingDMCA__i: string //${title}
       corruptedVdf__i: string, //${filePath}, ${error}
       creatingBackup__i: string, //${filePath}, ${error}
       unsupportedMimeType__i: string, //${type}, ${title}

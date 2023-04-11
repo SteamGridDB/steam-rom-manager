@@ -75,6 +75,14 @@ export class AppComponent {
               }
             })
           })
+        } else if(['nuke'].includes(message.command)) {
+          this.zone.run(()=>{
+            this.router.navigate(['/settings'], {
+              queryParams: {
+                cliMessage: JSON.stringify(message)
+              }
+            });
+          })
         }
       })
     });

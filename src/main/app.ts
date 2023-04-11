@@ -19,13 +19,16 @@ let argsCLI: string[];
 let flagsCLI: {[k: string]: boolean} = {};
 
 yargs(hideBin(process.argv))
-.usage(clc.green(`Make sure Steam is fully exited before using add/remove commands.`))
-.usage(clc.green(`If Steam is running apps will still be added, but categories won\'t.`))
-.command('list', clc.blue('List all parsers. Usage: list'),(yargs: typeof Argv)=>{
+.usage(clc.green(`Make sure Steam is fully exited before using add/remove/nuke.`))
+.usage(clc.green(`If Steam is running apps will be added/removed, but categories won\'t.`))
+.command('list', clc.blue('List all parsers and their enabled status.\nUsage: list'),(yargs: typeof Argv)=>{
   commandCLI = 'list'
   console.log("Fetching parsers...\n")
 })
-.command('enable', clc.blue('Enable parsers by name or id. Usage: enable "P1" "P2"'),(yargs: typeof Argv)=> {
+.example (`srm enable --names "name1" "name2"`)
+.example (`srm disable --all; srm enable "id1" "id2"; srm remove;`)
+.example("srm enable --all; srm add;")
+.command('enable', clc.blue('Enable parsers by name or id.\nUsage: enable [p1] [p2]'),(yargs: typeof Argv)=> {
   return yargs.positional('parsers', {
     describe: clc.blue('List of parsers to enable (names or ids)'),
     type: 'string'
@@ -42,7 +45,7 @@ yargs(hideBin(process.argv))
   flagsCLI['all'] = !!argv.all;
   flagsCLI['names'] = !!argv.names;
 })
-.command('disable', clc.blue('Disable parsers by name or id. Usage: disable "P1 "P2"'), (yargs: typeof Argv) => {
+.command('disable', clc.blue('Disable parsers by name or id.\nUsage: disable [p1] [p2]'), (yargs: typeof Argv) => {
   return yargs.positional('parsers', {
     describe: clc.blue('List of parsers to disable (names or ids)'),
     type: 'string'
@@ -59,12 +62,15 @@ yargs(hideBin(process.argv))
   flagsCLI['all'] = !!argv.all;
   flagsCLI['names'] = !!argv.names;
 })
-.command('add', clc.blue('Run all enabled parsers and save apps to steam. Usage: add'), (yargs: typeof Argv) => {
+.command('add', clc.blue('Run all enabled parsers and save apps to steam.\nUsage: add'), (yargs: typeof Argv) => {
   commandCLI='add'
 })
-.command('remove', clc.blue('Run all enabled parsers and remove apps from steam. Usage: remove'), (yargs: typeof Argv) => {
+.command('remove', clc.blue('Run all enabled parsers and remove apps from steam.\nUsage: remove'), (yargs: typeof Argv) => {
   commandCLI='remove'
 })
+.command('nuke', clc.blue('Removes all SRM added changes to your steam library.\nUsage: nuke'), (yargs: typeof Argv)=> {
+  commandCLI='nuke'
+} )
 .parse();
 
 // Logging setup
@@ -193,7 +199,7 @@ app.on('ready', ()=>{
       app.quit();
     })
     ipcMain.on('all_done', (event: IpcMainEvent) => {
-      console.log("All Done")
+      console.log("\nAll Done")
       app.quit()
     })
     ipcMain.on('log', (event: IpcMainEvent, loggable: any) => {

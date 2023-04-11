@@ -60,7 +60,6 @@ export class UWPParser implements GenericParser {
             const xmldata = fs.readFileSync(file,'utf-8');
             if(XMLValidator.validate(xmldata)) {
               const parsedData: any = xmlParser.parse(xmldata);
-              console.log("parsedData", parsedData)
               if(!json.caselessHas(parsedData,[["Package"],["Properties"],["PublisherDisplayName"]]) || json.caselessGet(parsedData,[["Package"],["Properties"],["PublisherDisplayName"]])=="Microsoft Corporation") {
                 return;
               }
@@ -77,7 +76,6 @@ export class UWPParser implements GenericParser {
                   } as SimpleManifest;
                   if(gameManifest.idName && gameManifest.idPublisher && gameManifest.appExecutable) {
                     var gameDetail: SimpleUWPApp = getUWPAppDetail(gameManifest, xmlParser);
-                    console.log("gameDetail",gameDetail)
                     if(gameDetail && gameDetail.name && gameDetail.appId && gameDetail.path) {
                       appTitles.push(gameDetail.name);
                       appIds.push(gameDetail.appId);
@@ -371,14 +369,11 @@ function getUWPAppDetail(manifest: SimpleManifest, xmlParser: XMLParser) {
       name = json.caselessGet(parsedData,[["Package"],["Properties"],["DisplayName"]]);
 
       if (name.toString().startsWith("ms-resource")) {
-        console.debug(`name starts with ms-resource: ${name}"`);
         name = getIndirectResourceString(jsonuwpapp.Id.FullName, jsonuwpapp.Id.Name, name);
         if (name == null || name == "") {
           name = json.caselessGet(parsedData,[["Package"],["Identity"],["@_Name"]]);
         }
       }
-
-      console.debug(`Parsed UWP App Manifest: ${name}`);
 
       uwpApp.name = name;
       uwpApp.workdir = installedDir;

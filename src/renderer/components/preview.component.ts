@@ -138,13 +138,21 @@ export class PreviewComponent implements OnDestroy {
               this.ipcService.send('log','')
               if(parsedCLI.command == 'add') {
                 this.ipcService.send('log', 'Adding app list to steam');
+                this.save().then(()=>{
+                  this.ipcService.send('all_done');
+                })
               } else {
                 this.ipcService.send('log', 'Removing app list from steam');
+                this.remove().then(()=>{
+                  this.ipcService.send('all_done');
+                })
               }
-              this.save(parsedCLI.command == 'remove').then(()=>{
-                this.ipcService.send('all_done')
-              })
             }
+          }
+        })
+        this.previewService.getBatchProgress().subscribe(({update, batch}: {update: string, batch: number})=>{
+          if(batch > -1) {
+            this.ipcService.send('inline-log', update);
           }
         })
       }
@@ -312,7 +320,7 @@ export class PreviewComponent implements OnDestroy {
   }
 
   private save() {
-    return this.previewService.saveData(false);
+    return this.previewService.saveData({removeAll: false, batchWrite: true});
   }
 
   private remove() {
@@ -323,7 +331,7 @@ export class PreviewComponent implements OnDestroy {
         }
       }
     }
-    return this.previewService.saveData(false).then((noError: boolean | void) => {
+    return this.previewService.saveData({removeAll: false, batchWrite: false}).then((noError: boolean | void) => {
       if (noError)
         this.previewService.clearPreviewData();
     });

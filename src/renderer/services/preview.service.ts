@@ -41,6 +41,7 @@ export class PreviewService {
   private allEditedSteamDirectories: string[];
   private imageTypes: string[];
   private currentImageType: string;
+  private batchProgress: BehaviorSubject<{update: string, batch: number}>;
 
   constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private settingsService: SettingsService, private http: HttpClient) {
     this.previewData = undefined;
@@ -52,6 +53,7 @@ export class PreviewService {
       numberOfListItems: 0
     };
     this.previewDataChanged = new Subject<void>();
+    this.batchProgress = new BehaviorSubject({update: "", batch: -1})
     this.settingsService.onLoad((appSettings: AppSettings) => {
       this.appSettings = appSettings;
     });
@@ -102,6 +104,9 @@ export class PreviewService {
   getPreviewDataChange() {
     return this.previewDataChanged;
   }
+  getBatchProgress() {
+    return this.batchProgress.asObservable();
+  }
 
   getPreviewVariables() {
     return this.previewVariables;
@@ -135,19 +140,19 @@ export class PreviewService {
     this.generatePreviewDataCallback();
   }
 
-  saveData(remove: boolean): Promise<any> {
+  saveData({batchWrite, removeAll}: {batchWrite: boolean, removeAll: boolean}): Promise<any> {
 
     let knownSteamDirectories = this.parsersService.getKnownSteamDirectories();
     if (this.previewVariables.listIsBeingSaved) {
       return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     }
-    else if (!remove && this.previewVariables.numberOfListItems === 0) {
+    else if (!removeAll && this.previewVariables.numberOfListItems === 0) {
       return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     }
     else if (this.previewVariables.listIsBeingRemoved) {
       return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     }
-    else if (remove && knownSteamDirectories.length === 0) {
+    else if (removeAll && knownSteamDirectories.length === 0) {
       return Promise.resolve().then(() => { this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     }
 
@@ -159,7 +164,7 @@ export class PreviewService {
     let extraneousAppIds: VDF_ExtraneousItemsData = undefined;
     let chain: Promise<any> =  Promise.resolve().then(()=>{
       this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
-      return vdfManager.prepare(remove ? knownSteamDirectories : this.previewData)
+      return vdfManager.prepare(removeAll ? knownSteamDirectories : this.previewData)
     })
     .then(()=>{
       this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
@@ -169,7 +174,7 @@ export class PreviewService {
       this.loggerService.info(this.lang.info.readingVDF_Files, { invokeAlert: true, alertTimeout: 3000 });
       return vdfManager.read();
     })
-    if(!remove) {
+    if(!removeAll) {
       chain = chain.then(() => {
         this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages,this.appIcons, this.appSettings.previewSettings.deleteDisabledShortcuts)
@@ -185,7 +190,7 @@ export class PreviewService {
     })
     .then(() => {
       this.loggerService.info(this.lang.info.savingCategories)
-      return categoryManager.save(this.previewData, extraneousAppIds, remove)
+      return categoryManager.save(this.previewData, extraneousAppIds, removeAll)
     }).catch((error: Acceptable_Error | Error) => {
       if(error instanceof Acceptable_Error) {
         this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
@@ -195,8 +200,8 @@ export class PreviewService {
       }
     })
     .then(() => {
-      this.loggerService.info('Saving controllers')
-      return controllerManager.save(this.previewData, extraneousAppIds, remove)
+      this.loggerService.info(this.lang.info.savingControllers)
+      return controllerManager.save(this.previewData, extraneousAppIds, removeAll)
     }).catch((error: Acceptable_Error | Error) => {
       if(error instanceof Acceptable_Error) {
         this.loggerService.error(this.lang.errors.controllerSaveError, { invokeAlert: true, alertTimeout: 3000 });
@@ -206,12 +211,31 @@ export class PreviewService {
       }
     })
     .then(() => {
-      this.loggerService.info('Writing VDFs')
-      return vdfManager.write();
+      if (removeAll) {
+        this.loggerService.info(this.lang.info.removingVDF_entries)
+      } else {
+        this.loggerService.info(this.lang.info.writingVDF_entries__i.interpolate({ batchSize: 500 }), { invokeAlert: true, alertTimeout: 3000 })
+      }
+      if (batchWrite) {
+        vdfManager.getBatchProgress().subscribe(({update, batch}: {update: string, batch: number})=> {
+          if(batch > -1) {
+            this.loggerService.info(update, {invokeAlert: true, alertTimeout: 3000})
+            this.batchProgress.next({update: update, batch: batch})
+          }
+        })
+      }
+      return vdfManager.write(batchWrite);
+    })
+    .catch((vdf_error: VDF_Error) => {
+      if(vdf_error.nonFatal) {
+        this.loggerService.error(vdf_error);
+      } else {
+        throw vdf_error;
+      }
     })
     .then(() => {
       this.previewVariables.listIsBeingSaved = false;
-      if (remove) {
+      if (removeAll) {
         this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         this.clearPreviewData();
       } else {

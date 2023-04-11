@@ -29,7 +29,6 @@ export function generateListFromDirectoryList(steamDirectories: string[]) {
                 ]
               });
             }
-            console.log(users)
             resolve({ data: { directory: steamDirectories[i], users }, error: null });
           }
         }).catch((err: string)=> {
