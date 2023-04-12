@@ -1,270 +1,286 @@
-@import 'mixins';
+@import "mixins";
 
 markdown {
-	@include webkitScrollbar(markdown-scrollbar);
+  @include webkitScrollbar(markdown-scrollbar);
 
-	line-height: 1.5;
+  line-height: 1.5;
 
-	overflow: auto;
+  overflow: auto;
 
-	word-wrap: break-word;
+  word-wrap: break-word;
 
-	background-color: var(--color-markdown-background);
+  background-color: var(--color-markdown-background);
 
-	* {
-		box-sizing: border-box;
+  * {
+    box-sizing: border-box;
 
-		cursor: initial;
-		user-select: initial;
-	}
+    cursor: initial;
+    user-select: initial;
+  }
 
-	svg {
-		* {
-			cursor: default;
-			user-select: none;
-		}
-	}
+  svg {
+    * {
+      cursor: default;
+      user-select: none;
+    }
+  }
 
-	> *:first-child {
-		margin-top: 0;
-	}
+  > *:first-child {
+    margin-top: 0;
+  }
 
-	&.lastMarginZero {
-		> *:last-child {
-			margin-bottom: 0;
-		}
-	}
+  &.lastMarginZero {
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
 
-	h1 {
-		font-size: 2em;
+  h1 {
+    font-size: var(--font-markdown-h1);
 
-		color: var(--color-markdown-h1);
-	}
+    color: var(--color-markdown-h1);
+  }
 
-	h2 {
-		font-size: 1.5em;
+  h2 {
+    font-size: var(--font-markdown-h2);
 
-		color: var(--color-markdown-h2);
-	}
+    color: var(--color-markdown-h2);
+  }
 
-	h3 {
-		font-size: 1.25em;
+  h3 {
+    font-size: var(--font-markdown-h3);
 
-		color: var(--color-markdown-h3);
-	}
+    color: var(--color-markdown-h3);
+  }
 
-	h4 {
-		font-size: 1em;
+  h4 {
+    font-size: var(--font-markdown-h4);
 
-		color: var(--color-markdown-h4);
-	}
+    color: var(--color-markdown-h4);
+  }
 
-	h5 {
-		font-size: 0.875em;
+  h5 {
+    font-size: var(--font-markdown-h5);
 
-		color: var(--color-markdown-h5);
-	}
+    color: var(--color-markdown-h5);
+  }
 
-	h6 {
-		font-size: 0.85em;
+  h6 {
+    font-size: var(--font-markdown-h6);
 
-		color: var(--color-markdown-h6);
-	}
+    color: var(--color-markdown-h6);
+  }
 
-	h1, h2 {
-		padding-bottom: 0.3em;
+  h1,
+  h2 {
+    padding-bottom: 0.3em;
 
-		border-bottom: 1px solid var(--color-markdown-underline);
-	}
+    border-bottom: 1px solid var(--color-markdown-underline);
+  }
 
-	h1, h2, h3, h4, h5, h6 {
-		line-height: 1.25;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.25;
 
-		margin: 1.5rem 0 1rem 0;
-	}
+    margin: var(--margin-markdown-hx);
+  }
 
-	p, blockquote, ul, ol {
-		color: var(--color-markdown-text);
-	}
+  p,
+  blockquote,
+  ul,
+  ol {
+    color: var(--color-markdown-text);
+  }
 
-	p, blockquote, ul, ol, table, pre {
-		margin: 0 0 1rem 0;
-	}
+  p,
+  blockquote,
+  ul,
+  ol,
+  table,
+  pre {
+    margin: 0 0 1rem 0;
+  }
 
-	p, blockquote {
-		text-align: justify;
-	}
+  p,
+  blockquote {
+    text-align: justify;
+  }
 
-	ul, ol {
-		padding: 0 0 0 2em;
-	}
+  ul,
+  ol {
+    padding: 0 0 0 2em;
+  }
 
-	li + li {
-		margin: 0.25em 0 0 0;
-	}
+  li + li {
+    margin: 0.25em 0 0 0;
+  }
 
-	code {
-		font-family: 'Hack';
-		font-size: 0.85em;
+  code {
+    font-family: "Hack";
+    font-size: 0.85em;
 
-		margin: 0;
-		padding: 0.2em 0;
+    margin: 0;
+    padding: 0.2em 0;
 
-		color: var(--color-markdown-code-inline);
-		background-color: var(--color-markdown-code-inline-background);
-	}
+    color: var(--color-markdown-code-inline);
+    background-color: var(--color-markdown-code-inline-background);
+  }
 
-	pre {
-		@include webkitScrollbar(markdown-code-scrollbar, 0.75em, 0 0 0.188rem 0.188rem, 0 0 0.188rem 0.188rem);
+  pre {
+    @include webkitScrollbar(markdown-code-scrollbar, 0.75em, 0 0 0.188rem 0.188rem, 0 0 0.188rem 0.188rem);
 
-		font-family: 'Hack';
-		font-size: 0.85em;
-		line-height: 1.45;
+    font-family: "Hack";
+    font-size: 0.85em;
+    line-height: 1.45;
 
-		overflow: auto;
+    overflow: auto;
 
-		margin-right: 0.5em;
-		margin-left: 0.5em;
-		padding: 1rem;
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+    padding: 1rem;
 
-		word-wrap: normal;
+    word-wrap: normal;
 
-		border-radius: 0.188rem;
-		background-color: var(--color-markdown-code-background);
+    border-radius: 0.188rem;
+    background-color: var(--color-markdown-code-background);
 
-		code {
-			font-size: 1em;
-			line-height: inherit;
+    code {
+      font-size: 1em;
+      line-height: inherit;
 
-			display: inline;
-			overflow: visible;
+      display: inline;
+      overflow: visible;
 
-			margin: 0;
-			padding: 0;
+      margin: 0;
+      padding: 0;
 
-			word-wrap: normal;
+      word-wrap: normal;
 
-			color: var(--color-markdown-code);
-			background-color: transparent;
-		}
-	}
+      color: var(--color-markdown-code);
+      background-color: transparent;
+    }
+  }
 
-	table {
-		@include webkitScrollbar(markdown-table-scrollbar);
+  table {
+    @include webkitScrollbar(markdown-table-scrollbar);
 
-		display: block;
-		overflow: auto;
+    display: block;
+    overflow: auto;
 
-		max-width: 100%;
+    max-width: 100%;
 
-		border-spacing: 0;
-		border-collapse: collapse;
+    border-spacing: 0;
+    border-collapse: collapse;
 
-		color: var(--color-markdown-text);
+    color: var(--color-markdown-text);
 
-		tr {
-			background-color: var(--color-markdown-table-row-background);
-			&:nth-child(2n) {
-				background-color: var(--color-markdown-table-row-background-2n);
-			}
-		}
+    tr {
+      background-color: var(--color-markdown-table-row-background);
+      &:nth-child(2n) {
+        background-color: var(--color-markdown-table-row-background-2n);
+      }
+    }
 
-		th {
-			font-weight: 600;
+    th {
+      font-weight: 600;
 
-			padding: 0.375rem 0.813em;
+      padding: 0.375rem 0.813em;
 
-			white-space: nowrap;
+      white-space: nowrap;
 
-			color: var(--color-markdown-table-header);
-			border: 0.063rem solid var(--color-markdown-table-border);
-			&:empty {
-				display: none;
-			}
-		}
+      color: var(--color-markdown-table-header);
+      border: 0.063rem solid var(--color-markdown-table-border);
+      &:empty {
+        display: none;
+      }
+    }
 
-		td {
-			padding: 0.375rem 0.813em;
+    td {
+      padding: 0.375rem 0.813em;
 
-			white-space: nowrap;
+      white-space: nowrap;
 
-			border: 0.063rem solid var(--color-markdown-table-border);
-		}
-	}
+      border: 0.063rem solid var(--color-markdown-table-border);
+    }
+  }
 
-	blockquote {
-		padding: 0 1em;
+  blockquote {
+    padding: 0 1em;
 
-		color: var(--color-markdown-blockquote-text);
-		border-left: 0.25em solid var(--color-markdown-blockquote-border);
+    color: var(--color-markdown-blockquote-text);
+    border-left: 0.25em solid var(--color-markdown-blockquote-border);
 
-		p {
-			margin: 0;
-		}
-	}
+    p {
+      margin: 0;
+    }
+  }
 
-	strong {
-		color: var(--color-markdown-strong);
-	}
+  strong {
+    color: var(--color-markdown-strong);
+  }
 
-	hr {
-		height: 0.25em;
-		margin: 1.563em 0 1.250em 0;
-		padding: 0;
+  hr {
+    height: 0.25em;
+    margin: 1.563em 0 1.25em 0;
+    padding: 0;
 
-		border: 0;
-		background-color: var(--color-markdown-horizontal-rule);
+    border: 0;
+    background-color: var(--color-markdown-horizontal-rule);
 
-		&::before {
-			display: table;
+    &::before {
+      display: table;
 
-			content: '';
-		}
+      content: "";
+    }
 
-		&::after {
-			display: table;
-			clear: both;
+    &::after {
+      display: table;
+      clear: both;
 
-			content: '';
-		}
-	}
+      content: "";
+    }
+  }
 
-	a {
-		text-decoration: none;
+  a {
+    text-decoration: none;
 
-		color: var(--color-markdown-link);
+    color: var(--color-markdown-link);
 
-		&:hover {
-			color: var(--color-markdown-link-hover);
-		}
+    &:hover {
+      color: var(--color-markdown-link-hover);
+    }
 
-		&:active {
-			color: var(--color-markdown-link-active);
-		}
-	}
+    &:active {
+      color: var(--color-markdown-link-active);
+    }
+  }
 
-	p {
-		&.left {
-			text-align: left;
-		}
-		&.center {
-			text-align: center;
-		}
-		&.right {
-			text-align: right;
-		}
-		&.fitImage {
-			img {
-				max-width: 100%;
-			}
-		}
-	}
+  p {
+    &.left {
+      text-align: left;
+    }
+    &.center {
+      text-align: center;
+    }
+    &.right {
+      text-align: right;
+    }
+    &.fitImage {
+      img {
+        max-width: 100%;
+      }
+    }
+  }
 
-	* {
-		&.noWrap {
-			white-space: nowrap;
-		}
-	}
+  * {
+    &.noWrap {
+      white-space: nowrap;
+    }
+  }
 }
 
 /*
@@ -272,85 +288,107 @@ markdown {
  * Author: Nicolas LLOBERA <nllobera@gmail.com>
  */
 
-.hljs-keyword, .hljs-literal, .hljs-symbol, .hljs-name {
-	color: #569CD6;
+.hljs-keyword,
+.hljs-literal,
+.hljs-symbol,
+.hljs-name {
+  color: #569cd6;
 }
 .hljs-link {
-	text-decoration: underline;
+  text-decoration: underline;
 
-	color: #569CD6;
+  color: #569cd6;
 }
 
-.hljs-built_in, .hljs-type {
-	color: #4EC9B0;
+.hljs-built_in,
+.hljs-type {
+  color: #4ec9b0;
 }
 
-.hljs-number, .hljs-class {
-	color: #B8D7A3;
+.hljs-number,
+.hljs-class {
+  color: #b8d7a3;
 }
 
-.hljs-string, .hljs-meta-string {
-	color: #D69D85;
+.hljs-string,
+.hljs-meta-string {
+  color: #d69d85;
 }
 
-.hljs-regexp, .hljs-template-tag {
-	color: #9A5334;
+.hljs-regexp,
+.hljs-template-tag {
+  color: #9a5334;
 }
 
-.hljs-subst, .hljs-function, .hljs-title, .hljs-params, .hljs-formula {
-	color: #DCDCDC;
+.hljs-subst,
+.hljs-function,
+.hljs-title,
+.hljs-params,
+.hljs-formula {
+  color: #dcdcdc;
 }
 
-.hljs-comment, .hljs-quote {
-	font-style: italic;
+.hljs-comment,
+.hljs-quote {
+  font-style: italic;
 
-	color: #57A64A;
+  color: #57a64a;
 }
 
 .hljs-doctag {
-	color: #608B4E;
+  color: #608b4e;
 }
 
-.hljs-meta, .hljs-meta-keyword, .hljs-tag {
-	color: #9B9B9B;
+.hljs-meta,
+.hljs-meta-keyword,
+.hljs-tag {
+  color: #9b9b9b;
 }
 
-.hljs-variable, .hljs-template-variable {
-	color: #BD63C5;
+.hljs-variable,
+.hljs-template-variable {
+  color: #bd63c5;
 }
 
-.hljs-attr, .hljs-attribute, .hljs-builtin-name {
-	color: #9CDCFE;
+.hljs-attr,
+.hljs-attribute,
+.hljs-builtin-name {
+  color: #9cdcfe;
 }
 
 .hljs-section {
-	color: gold;
+  color: gold;
 }
 
 .hljs-emphasis {
-	font-style: italic;
+  font-style: italic;
 }
 
 .hljs-strong {
-	font-weight: bold;
+  font-weight: bold;
 }
 
-.hljs-bullet, .hljs-selector-tag, .hljs-selector-id, .hljs-selector-class, .hljs-selector-attr, .hljs-selector-pseudo {
-	color: #D7BA7D;
+.hljs-bullet,
+.hljs-selector-tag,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #d7ba7d;
 }
 
 .hljs-addition {
-	display: inline-block;
+  display: inline-block;
 
-	width: 100%;
+  width: 100%;
 
-	background-color: #144212;
+  background-color: #144212;
 }
 
 .hljs-deletion {
-	display: inline-block;
+  display: inline-block;
 
-	width: 100%;
+  width: 100%;
 
-	background-color: #660000;
+  background-color: #660000;
 }

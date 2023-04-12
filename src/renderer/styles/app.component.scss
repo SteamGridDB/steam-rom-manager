@@ -2,11 +2,6 @@
   display: grid;
 
   height: 100%;
-
-  // grid-template-areas: "titlebar titlebar titlebar" "nav nav-border route";
-  // grid-template-rows: auto 1fr;
-  // grid-template-columns: auto auto 1fr;
-
   grid-template-areas: "titlebar titlebar titlebar" "navarea navborder route";
   grid-template-rows: auto 1fr;
   grid-template-columns: auto auto 1fr;

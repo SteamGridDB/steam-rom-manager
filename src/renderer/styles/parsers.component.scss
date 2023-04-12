@@ -36,14 +36,15 @@
       display: flex;
 
       margin: 0 0 0.35em 0;
-
+      text-transform: var(--font-transform-nested-form-label);
       color: var(--color-nested-form-label);
 
       align-items: center;
       grid-area: label;
 
       .infoButton {
-        margin: 0 0.25em 0 0;
+        margin: var(--margin-info-button);
+        order: var(--order-info-button);
       }
     }
 

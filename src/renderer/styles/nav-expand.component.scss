@@ -1,27 +1,37 @@
-@import 'mixins';
+@import "mixins";
 
 nav-expand {
+  display: flex;
+  flex-direction: column;
+  display: flex;
+
+  cursor: default;
+  user-select: none;
+  align-items: start;
+  flex-shrink: 0;
+
+  & > .items {
     display: flex;
+    overflow-y: auto;
     flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 
-    & >.items {
-        display: flex;
-        overflow-y: auto;
-        flex-direction: column;
+    @include webkitScrollbar(nav-scrollbar, 0.375em);
+  }
 
-        margin: 0;
-        padding: 0;
+  & > .title {
+    display: flex;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
 
-        @include webkitScrollbar(nav-scrollbar, 0.375em);
-    }
-
-    & >.title {
-        display: flex;
-        overflow-y: auto;
-        overflow-x: hidden;
-        flex-direction: column;
-
-        margin: 0;
-        padding: 0;
-    }
+  .parsers & {
+    padding: 0;
+  }
 }

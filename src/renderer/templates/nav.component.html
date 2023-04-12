@@ -1,12 +1,12 @@
-<nav-link routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{
-  lang.preview
-}}</nav-link>
-<nav-link routerLink="/logger" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{
-  lang.logger
-}}</nav-link>
-<nav-link routerLink="/settings" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{
-  lang.settings
-}}</nav-link>
+<nav-link routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+  <img src="/assets/images/preview.png" alt="Icon" height="16" />{{ lang.preview }}</nav-link
+>
+<nav-link routerLink="/logger" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+  <img src="/assets/images/clipboard.png" alt="Icon" height="16" />{{ lang.logger }}</nav-link
+>
+<nav-link routerLink="/settings" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+  <img src="/assets/images/settings.png" alt="Icon" height="16" />{{ lang.settings }}</nav-link
+>
 <nav-expand routerLinkActive="active">
   <nav-link
     class="item"
@@ -15,9 +15,9 @@
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: true, dummy: dummy }"
   >
-    {{ lang.userExceptions }}
+    <img src="/assets/images/danger.png" alt="Icon" height="16" />{{ lang.userExceptions }}
   </nav-link>
 </nav-expand>
-<nav-link routerLink="/about" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{
-  lang.about
-}}</nav-link>
+<nav-link routerLink="/about" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+  ><img src="/assets/images/information.png" alt="Icon" height="16" />{{ lang.about }}</nav-link
+>
