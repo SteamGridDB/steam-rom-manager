@@ -191,9 +191,9 @@ export class VDF_Manager {
                 icon_path = path.join(listItem.screenshots.gridDir, `${ids.shortenAppId(appId).concat('_icon')}.${icon_ext}`);
               }
 
-              if (item !== undefined) {
+              if (app.parserType!== 'Steam' && item !== undefined) {
                 item.appid = ids.generateShortcutId(app.executableLocation, app.title),
-                  item.appname = app.title;
+                item.appname = app.title;
                 item.exe = app.executableLocation;
                 item.StartDir = app.startInDirectory;
                 item.LaunchOptions = app.argumentString;

@@ -131,19 +131,18 @@ export class VDF_ScreenshotsFile {
   }
 
   async write(batch: boolean) {
-    // let addPromises: Promise<VDF_Error|void>[] = [];
     let addErrors: VDF_Error[] = [];
     let extraneousPromises: Promise<VDF_Error|void>[] = [];
     let screenshotsData: VDF_ScreenshotsData = this.data;
     for (let j=0; j < this.extraneous.length; j++) {
-      // delete screenshotsData[this.extraneous[j]]
       extraneousPromises.push(this.removeExtraneous(this.extraneous[j]))
     }
     for(const appId in screenshotsData) {
-      extraneousPromises.push(this.removeExtraneous(appId));
+      if(screenshotsData[appId] === undefined) {
+        extraneousPromises.push(this.removeExtraneous(appId));
+      }
     }
     const batchSize = 500
-    //Stop here
     const addableAppIds = Object.keys(screenshotsData).filter((appId)=>{
       return screenshotsData[appId] !== undefined && (typeof screenshotsData[appId] !== 'string')
     });
