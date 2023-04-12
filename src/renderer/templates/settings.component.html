@@ -29,6 +29,14 @@
       </div>
 
     </div>
+    
+    <div class="inputContainer">
+      <div class="inlineGroup">
+        <div class=text style="margin-right: 0.25em;">{{lang.text.selectTheme}}:</div>
+        <ng-select placeholder="{{lang.text.selectTheme}}" style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.theme" (ngModelChange)="settings.theme = $event; loadTheme(); onSettingsChange();" [values]="themes">
+        </ng-select>
+      </div>
+    </div>
 
     <div class="inputContainer">
       <div class="inlineGroup">
