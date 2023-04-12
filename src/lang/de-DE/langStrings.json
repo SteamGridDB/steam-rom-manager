@@ -553,7 +553,7 @@
         "variableString__md": "> Uneven number of `${` and `}` pairs. Use `\\` to escape `${` or `}` if you want to use them as characters.",
         "imageProviders__md": "> Incorrect image providers type!",
         "unhandledValidationKey__md": "> Input's validation is unhandled",
-        "genericDir__md": "> Directory is invalid",
+        "genericDir__md": "> Verzeichnis ist ungültig",
         "genericPath__md": "> Pfad ist ungültig"
       },
       "text": {
