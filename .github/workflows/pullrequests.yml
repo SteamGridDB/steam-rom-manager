@@ -49,3 +49,20 @@ jobs:
       - name: Build Mac
         if: ${{ matrix.os == 'macOS-latest' }}
         run: npm run build:mac -- --publish=never
+
+      - name: Upload Artifacts Windows
+        uses: actions/upload-artifact@v3
+        if: ${{ matrix.os == 'windows-latest' }}
+        with:
+          name: srm-build-windows
+          path: |
+            release/*.exe
+            release/*.msi
+      - name: Upload Artifacts Linux
+        uses: actions/upload-artifact@v3
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        with:
+          name: srm-build-linux
+          path: |
+            release/*.deb
+            release/*.AppImage
