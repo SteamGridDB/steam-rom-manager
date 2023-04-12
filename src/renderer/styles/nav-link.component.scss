@@ -9,7 +9,7 @@ nav-link {
 
   > .content {
     overflow: hidden;
-
+    width: 100%;
     white-space: nowrap;
     text-overflow: ellipsis;
     padding: var(--padding-nav-link);

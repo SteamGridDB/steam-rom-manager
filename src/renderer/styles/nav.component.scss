@@ -45,7 +45,10 @@
   nav-link {
     color: var(--color-nav-link-text);
     border-left: solid 2px var(--color-nav-link-border);
-
+    height: auto;
+    img {
+      display: var(--img-nav-link-display);
+    }
     svg {
       height: var(--link-height);
       width: 1em;
@@ -95,7 +98,7 @@
       padding: var(--link-vPadding) 2em var(--link-vPadding) 1em;
     }
     nav-link:not(.titlelink) {
-      padding: var(--link-vPadding) 1em var(--link-vPadding) 2em;
+      padding: var(--padding-nav-link-expand);
 
       position: relative;
 

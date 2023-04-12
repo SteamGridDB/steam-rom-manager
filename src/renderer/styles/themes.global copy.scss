@@ -14,6 +14,8 @@
   --color-click-button-text-active: #f0fff0;
   --color-click-button-text-disabled: #9f9f9f;
   --color-click-button-text-hover: #f0fff0;
+  --padding-click-button: 8px 32px;
+  --radius-click-button: 4px;
   --color-dangerous-click-button-background: rgba(0, 0, 0, 0);
   --color-dangerous-click-button-background-active: #941722;
   --color-dangerous-click-button-background-disabled: #414141;
@@ -45,6 +47,9 @@
   --color-input-text-disabled: #a0a7a0;
   --color-input-text-focus: #f0fff0;
   --color-input-text-hover: #f0fff0;
+  --margin-input-text-hover: #040404;
+  --padding-input-text: var(--ng-select-padding);
+  --margin-input-text: 16px;
   --color-logger-menu-background: #050505;
   --color-logger-messages-background: #181818;
   --color-logger-messages-scrollbar-thumb: rgba(80, 80, 80, 0.5);
@@ -98,6 +103,11 @@
   --color-ng-select-text-hover: #c8c8c8;
   --color-ng-select-scrollbar-thumb: rgb(80, 80, 80);
   --color-ng-select-scrollbar-track: rgb(31, 31, 31);
+  --ng-select-padding: 10px 20px; //
+  --ng-select-background: #33373c; //
+  --ng-select-background-hover: #f5f5f5; //
+  --ng-select-radius: 4px; //
+  --ng-select-margin: var(--margin-input-text); //
   --color-ng-toggle-button-border: #159b44;
   --color-ng-toggle-button-border-active: #18ab4c;
   --color-ng-toggle-button-border-active-hover: #6feb9b;
@@ -171,6 +181,9 @@
   --color-nested-form-label: #a0a0a0;
   --color-nested-form-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-nested-form-scrollbar-track: rgba(80, 80, 80, 0.3);
+  --font-weight-nested-form-label: normal; //
+  --font-transform-nested-form-label: uppercase; //
+  --font-size-nested-form-label: 14px; //
   --color-settings-background: #050505;
   --color-settings-text: #a0a0a0;
   --color-success: #1bd85e;
@@ -231,6 +244,7 @@
   --color-toggle-button-text-active-hover: #f0fff0;
   --color-toggle-button-text-hover: #f0fff0;
   --color-info-button: #03b82f;
+  --color-info-button-text: #040404;
   --color-info-button-background: #151615;
   --color-info-button-hover: #0ade3d;
   --color-info-button-background-hover: #252725;
@@ -242,6 +256,7 @@
   --color-markdown-code: #dcdcdc;
   --color-markdown-code-inline: #f5dc78;
   --color-markdown-code-background: #1e1e1e;
+  --color-nav-background: #32353d; //
   --color-markdown-code-scrollbar-thumb: #414141;
   --color-markdown-code-scrollbar-track: #ababab;
   --color-markdown-h1: #dcdcdc;
