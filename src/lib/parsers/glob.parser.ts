@@ -209,7 +209,7 @@ tempGlob = fileGlob.replace(/.*\${title}/i, '');
   private extractTitles(titleData: TitleTagData, directory: string, files: string[]) {
     let parsedData: ParsedData = { success: [], failed: [] };
     for (let i = 0; i < files.length; i++) {
-      let title = this.extractTitle(titleData, files[i].replace('\\','/'));
+      let title = this.extractTitle(titleData, files[i].replace(/\\/g,'/'));
       let filePath = files[i].replace(/\\|\//g, path.sep);
       filePath = path.isAbsolute(filePath) ? filePath : path.join(directory, filePath);
       if (title !== undefined)
