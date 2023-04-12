@@ -13,6 +13,7 @@ import './styles/main.global.scss';
 
 if (process.env.NODE_ENV === 'production') {
   enableProdMode();
+  console.log = ()=>{}
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule);
