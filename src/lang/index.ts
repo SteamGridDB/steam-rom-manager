@@ -169,6 +169,9 @@ function getMarkdown(langPath: string) {
       docs__md: {
         self: [
           require(`${langPath}/steam-parser.md`)
+        ],
+        input: [
+          require(`${langPath}/steam-parser-input.md`)
         ]
       }
     },

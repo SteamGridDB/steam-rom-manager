@@ -35,16 +35,16 @@ export class NavComponent implements OnDestroy {
     this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe((userConfigurations) => {
       this.numConfigurations = userConfigurations.length;
       this.userConfigurations = userConfigurations;
-      let someOn = userConfigurations.length ? userConfigurations.map(config=>!config.saved.disabled).reduce((x,y)=>x||y) : false;
+      let someOn: boolean = userConfigurations.length ? userConfigurations.map(config=>!config.saved.disabled).reduce((x,y)=>x||y) : false;
       this.navForm = this.formBuilder.group({
         selectAll: someOn,
         parserStatuses: this.formBuilder.array(userConfigurations.map((config: {saved: UserConfiguration, current: UserConfiguration}) => {
-          let singleton={};
+          let singleton: {[k: string]: boolean} = {};
           singleton[config.saved.parserId] = ! config.saved.disabled;
           return this.formBuilder.group(singleton);
         }))
       });
-      this.navForm.get("selectAll").valueChanges.subscribe((val)=>{
+      this.navForm.get("selectAll").valueChanges.subscribe((val: boolean)=>{
         if(!val || this.userConfigurations.map(config=>config.saved.disabled).reduce((x,y)=>x&&y)) {
           this.parsersService.changeEnabledStatusAll(val);
         }

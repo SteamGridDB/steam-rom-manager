@@ -1,6 +1,6 @@
-# Title from custom variable (optional)
+# Titel der benutzerdefinierten Variable (optional)
 
-Allows to overwrite extracted title with a custom variable. This is done right after title extraction, meaning that the replaced title can be used for fuzzy matching and so on. Groups and variables themselves are **case-sensitive**, unless case-insesitive variable option is enabled.
+Erlaubt es, den entpackten Titel mit einer benutzerdefinierten Variable zu überschreiben. This is done right after title extraction, meaning that the replaced title can be used for fuzzy matching and so on. Groups and variables themselves are **case-sensitive**, unless case-insesitive variable option is enabled.
 
 Title matching can be limited to specific groups of custom variables. In order to specify groups, the following syntax must be used:
 ```
@@ -18,13 +18,13 @@ Make sure you **toggle enable to on**.
 
 If this option is enabled, case-insensitive matching will be done and first matched custom variable will be used.
 
-## Note. This feature is **experimental**
+## Note. Diese Funktion ist **experimentell**
 
-Basically, it might change in the future release (very unlikelly). Furthermore, currently the only way to add variables is to create/edit `customVariables.json` used by SRM directly.
+Grundsätzlich könnte sich dies in einer zukünftigen Version ändern (sehr unwahrscheinlich). Furthermore, currently the only way to add variables is to create/edit `customVariables.json` used by SRM directly.
 
-This file is/shoud be located in SRM's `userData` directory.
+Diese Datei ist/sollte sich im Verzeichnis `userData` von SRM befinden.
 
-SRM will throw error unless the following JSON structure is used:
+SRM wird Fehler ausgeben, wenn nicht die folgende JSON-Struktur verwendet wird:
 
 ```
 {
@@ -40,4 +40,4 @@ SRM will throw error unless the following JSON structure is used:
 }
 ```
 
-Then if your user glob were `MyDir/${title}.wad` and you had a `The Legend of Zelda.wad` located in `MyDir`, you would set the title from custom variable field to `${Custom Stuff}` to obtain a final title of "The Legend of Link".
+Wenn dein Benutzer-Glob `MyDir/${title}.wad` wäre und du eine `The Legend of Zelda.wad` in `MyDir` hast, würdest du den Titel des benutzerdefinierten Variablenfeldes auf `${Custom Stuff}` setzen, um einen endgültigen Titel von "Die Legende des Links" zu erhalten.

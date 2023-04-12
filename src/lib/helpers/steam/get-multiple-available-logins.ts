@@ -7,7 +7,7 @@ export function getMultipleAvailableLogins(steamDirectories: string[], useCreden
     let isArray = useCredentials instanceof Array;
 
     for (let i = 0; i < steamDirectories.length; i++) {
-        promises.push(getAvailableLogins(steamDirectories[i], isArray ? (useCredentials[i] || false) : useCredentials || false));
+        promises.push(getAvailableLogins(steamDirectories[i], useCredentials instanceof Array ? (useCredentials[i] || false) : useCredentials || false));
     }
 
     return Promise.resolve().then(() => {

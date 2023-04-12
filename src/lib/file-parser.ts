@@ -1,4 +1,4 @@
-import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, UserExceptions, UserExceptionsTitles, AppSettings } from '../models';
+import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, UserExceptions, UserExceptionsTitles, AppSettings, ParserType } from '../models';
 import { FuzzyService } from "../renderer/services";
 import { VariableParser } from "./variable-parser";
 import { APP } from '../variables';
@@ -7,12 +7,12 @@ import * as parserInfo from './parsers/available-parsers';
 import * as url from './helpers/url';
 import * as steam from './helpers/steam';
 import * as file from './helpers/file';
-import { globPromise } from './helpers/glob/promise';
 import * as paths from "../paths";
 import * as _ from 'lodash';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as os from 'os';
+import { glob } from 'glob';
 import { getPath, getArgs, getStartDir } from 'windows-shortcuts-ps';
 import * as xdgparse from 'xdg-parse';
 
@@ -21,7 +21,6 @@ export class FileParser {
   private availableParsers = parsers;
   private customVariableData: CustomVariables = {};
   private userExceptions: UserExceptionsTitles = {};
-  private globCache: any = {};
 
   constructor(private fuzzyService: FuzzyService) {  }
 
@@ -37,12 +36,11 @@ export class FileParser {
     this.userExceptions = data.titles;
   }
 
-  getParserInfo(key: string) {
+  getParserInfo(key: ParserType) {
     return this.availableParsers[key] ? this.availableParsers[key].getParserInfo() : undefined;
   }
 
   executeFileParser(configs: UserConfiguration[], settings: AppSettings) {
-    this.globCache = {};
     let configPromises: Promise<ParsedUserConfiguration>[] = [];
     for(let i=0; i < configs.length; i++) {
       let superType = parserInfo.superTypesMap[configs[i].parserType];
@@ -147,7 +145,7 @@ export class FileParser {
           else {
             directories = filteredAccounts.found.map((account: userAccountData) => path.join(config.steamDirectory, 'userdata', account.accountID));
           }
-          this.availableParsers[config.parserType].execute(directories, config.parserInputs, this.globCache)
+          this.availableParsers[config.parserType].execute(directories, config.parserInputs)
             .then((data: ParsedDataWithFuzzy) => {
               resolve({superType: superType, config: config, settings: settings, data: data, filteredAccounts: filteredAccounts})
             }).catch((error) =>{ reject(error) });
@@ -279,9 +277,9 @@ export class FileParser {
           }
           let newFile: ParsedUserConfigurationFile = {
             steamCategories: undefined,
-            executableLocation: executableLocation,
+            executableLocation: executableLocation||'',
             modifiedExecutableLocation: undefined,
-            startInDirectory: startInDir,
+            startInDirectory: startInDir||'',
             argumentString: undefined,
             resolvedLocalImages: [],
             resolvedLocalTallImages: [],
@@ -303,10 +301,10 @@ export class FileParser {
             localHeroImages: [],
             localLogoImages: [],
             localIcons: [],
-            fuzzyTitle: fuzzyTitle,
-            extractedTitle: data.success[j].extractedTitle,
+            fuzzyTitle: fuzzyTitle||'',
+            extractedTitle: data.success[j].extractedTitle||'',
             finalTitle: undefined,
-            filePath: data.success[j].filePath,
+            filePath: data.success[j].filePath||'',
             imagePool: undefined,
             onlineImageQueries: undefined
           };
@@ -604,7 +602,7 @@ export class FileParser {
       resolvedGlobs.push([]);
       resolvedFiles.push([]);
 
-      let fieldValue = config[field];
+      let fieldValue: string = config[field as keyof UserConfiguration] as string;
       if (fieldValue) {
         let variableData = this.makeVariableData(config,settings, parsedConfig.files[i]);
         //expandable set is to allow you to comment out stuff using $()$. Decent idea, but ehhhh
@@ -616,7 +614,7 @@ export class FileParser {
           }) : '').replace(/\\/g, '/');
 
           resolvedGlobs[i].push(replacedGlob);
-          promises.push(globPromise(replacedGlob, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
+          promises.push(glob(replacedGlob, { dot: true, realpath: true, cwd: cwd }).then((files: string[]) => {
             resolvedFiles[i] = files;
           }));
         }
@@ -639,18 +637,18 @@ export class FileParser {
 
           promises.push(Promise.resolve().then(() => {
             if (/\${title}/i.test(expandableSet[1])) {
-              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache).then((parsedData)=>{
+              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }).then((parsedData)=>{
                 return {parsedData: parsedData, isFuzzy: false}
               });
             }
             else if (/\${fuzzyTitle}/i.test(expandableSet[1])) {
               parserMatch = parserMatch.replace('${fuzzyTitle}','${title}')
-              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache).then((parsedData)=>{
+              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }).then((parsedData)=>{
                 return {parsedData: parsedData, isFuzzy: true}
               });
             }
             else {
-              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }, this.globCache).then((parsedData)=>{
+              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }).then((parsedData)=>{
                 return {parsedData: parsedData, isFuzzy: false}
               });
 
@@ -667,7 +665,7 @@ export class FileParser {
               }
             }
             if (secondaryMatch !== undefined) {
-              return globPromise(secondaryMatch, { silent: true, dot: true, realpath: true, cwd: cwd, cache: this.globCache }).then((files) => {
+              return glob(secondaryMatch, { dot: true, realpath: true, cwd: cwd }).then((files: string[]) => {
                 return resolvedFiles[i].concat(files);
               });
             }

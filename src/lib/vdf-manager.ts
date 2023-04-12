@@ -6,6 +6,8 @@ import * as appImage from './helpers/app-image';
 import * as ids from './helpers/steam';
 import * as _ from 'lodash';
 import * as path from 'path';
+import { merge, Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 export class VDF_Manager {
   private data: VDF_ListData = {};
@@ -45,6 +47,19 @@ export class VDF_Manager {
         reject(new VDF_Error(this.lang.error.couldNotPrepareToRead__i.interpolate({ error })));
       });
     })
+  }
+
+  getBatchProgress() {
+    let updates: Observable<{update: string, batch: number}>[] = [];
+    for(let steamDirectory in this.data) {
+      for(let userId in this.data[steamDirectory]) {
+        updates.push(
+          this.data[steamDirectory][userId].screenshots.getBatchProgress()
+          .pipe(map(i=>{ return {update: `Doing batch ${i+1} for user ${userId}`, batch: i}}))
+        )
+      }
+    }
+    return merge(...updates);
   }
 
   backup(options?: { shortcuts?: boolean, screenshots?: boolean }) {
@@ -99,7 +114,7 @@ export class VDF_Manager {
     })
   }
 
-  write(options?: { shortcuts?: boolean, addedItems?: boolean, screenshots?: boolean }) {
+  write(batch: boolean, options?: { shortcuts?: boolean, addedItems?: boolean, screenshots?: boolean }) {
     return new Promise<void>((resolve,reject)=>{
       let promises: Promise<VDF_Error>[] = []
       let writeShortcuts = options !== undefined ? options.shortcuts : true;
@@ -109,20 +124,26 @@ export class VDF_Manager {
       for (let steamDirectory in this.data) {
         for (let userId in this.data[steamDirectory]) {
           if (writeShortcuts)
-            promises.push(this.data[steamDirectory][userId].shortcuts.write() as Promise<undefined>);
+            promises.push(this.data[steamDirectory][userId].shortcuts.write().then(()=>{
+            }) as Promise<undefined>);
           if (writeAddedItems)
-            promises.push(this.data[steamDirectory][userId].addedItems.write() as Promise<undefined>);
+            promises.push(this.data[steamDirectory][userId].addedItems.write().then(()=>{
+            }) as Promise<undefined>);
           if (writeScreenshots)
-            promises.push(this.data[steamDirectory][userId].screenshots.write());
+            promises.push(this.data[steamDirectory][userId].screenshots.write(batch).then((errors)=>{
+              return errors;
+            }));
         }
       }
       Promise.all(promises).then((errors)=>{
-        let error = new VDF_Error(errors, this.lang.error.couldNotWriteEntries);
-        if(error.valid) {
-          reject(error);
+        const realErrors = errors.filter(e=>!!e);
+        if(realErrors.length) {
+          reject(new VDF_Error(realErrors, this.lang.error.nonFatal, true));
         } else {
-          resolve();
+          resolve()
         }
+      }).catch((error)=>{
+        reject(new VDF_Error(error, this.lang.error.couldNotWriteEntries));
       })
     });
   }
@@ -170,9 +191,9 @@ export class VDF_Manager {
                 icon_path = path.join(listItem.screenshots.gridDir, `${ids.shortenAppId(appId).concat('_icon')}.${icon_ext}`);
               }
 
-              if (item !== undefined) {
+              if (app.parserType!== 'Steam' && item !== undefined) {
                 item.appid = ids.generateShortcutId(app.executableLocation, app.title),
-                  item.appname = app.title;
+                item.appname = app.title;
                 item.exe = app.executableLocation;
                 item.StartDir = app.startInDirectory;
                 item.LaunchOptions = app.argumentString;

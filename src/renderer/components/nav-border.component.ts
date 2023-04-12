@@ -1,6 +1,6 @@
 import { AppSettings } from '../../models';
 import { SettingsService } from '../services';
-import { Component, HostListener, Renderer } from '@angular/core';
+import { Component, HostListener, Renderer2 } from '@angular/core';
 
 @Component({
     selector: 'nav-border',
@@ -14,7 +14,7 @@ export class NavBorderComponent {
     private isDragging = false;
     private appSettings: AppSettings;
 
-    constructor(private renderer: Renderer, private settingsService: SettingsService) {
+    constructor(private renderer: Renderer2, private settingsService: SettingsService) {
         this.appSettings = this.settingsService.getSettings();
     }
 

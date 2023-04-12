@@ -1,40 +1,40 @@
 # Special glob input
 
-## How does it work?
+## Wie funktioniert es?
 
-Image paths are resolved in 4 step process:
-1. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets.
-1. All provided variables are replaced with their corresponding values.
-1. New string(s) is/are resolved against root directory (root directory is always a configuration's ROMs directory).
-1. Final string(s) is/are passed to glob parser which then returns a list of available files.
+Bildpfade werden in 4 Schritten aufgelöst:
+1. String wird ausgewertet, um zu sehen, ob ein glob-basierter Parser verwendet wird. Abhängig vom Ergebnis kann das weitere Parsen mit `2` Glob-Sätzen fortgesetzt werden.
+1. Alle angegebenen Variablen werden durch die entsprechenden Werte ersetzt.
+1. Neue(r) String(s) werden gegen das Root-Verzeichnis aufgelöst (Root-Verzeichnis ist immer das ROMs Verzeichnis).
+1. Finale String(s) werden an den Glob-Parser übergeben, der dann eine Liste der verfügbaren Dateien zurückgibt.
 
-## Usage example
+## Beispiele für die Verwendung
 
-### Absolute paths
+### Absolute Pfade
 
-Let's say that the extracted title is `Metroid Fusion [USA]` and fuzzy title is `Metroid Fusion`. You can then construct an image path like this:
+Nehmen wir an, dass der entpackte Titel `Metroid Fusion [USA]` und der verschwommener Titel `Metroid Fusion` ist. Du kannst einen Bildpfad dann wie folgt erstellen:
 
 - `C:/path/to/images/${title}.*`
 - `C:/path/to/images/${fuzzyTitle}.*`
 
-which will be resolved to this:
+welche dann wie folgt aufgelöst werden:
 
 - `C:/path/to/images/Metroid Fusion [USA].png`
 - `C:/path/to/images/Metroid Fusion.jpg`
 
-### Relative paths
+### Relative Pfade
 
-For this example, let's say that ROMs directory is `C:/ROMS/GBA` and rom itself is `C:/ROMS/GBA/Metroid Fusion [USA].gba`. Set up a relative path, using `${filePath}`{.noWrap} or `${dir}`{.noWrap} variables, for example:
+In diesem Beispiel nehmen wir an, dass das ROMs Verzeichnis `C:/ROMS/GBA` und rom selbst `C:/ROMS/GBA/Metroid Fusion [USA].gba` ist. Richte einen relativen Pfad unter Verwendung von `${filePath}`{.noWrap} oder `${dir}`{.noWrap} Variablen ein, zum Beispiel:
 
 - `${filePath}/../../../path/to/images/${title}.*`
 - `${dir}/../../path/to/images/${title}.*`
 
-will be replaced like this:
+wird wie folgt ersetzt werden:
 
 - `C:/ROMS/GBA/Metroid Fusion [USA].gba/../../../path/to/images/Metroid Fusion.*`
 - `C:/ROMS/GBA/../../path/to/images/Metroid Fusion.*`
 
-Here `..` means "traverse back" and it allows to go back to previous directory:
+Hier bedeutet `..` "Traverse back" und erlaubt es, zum vorherigen Verzeichnis zurück zu gehen:
 
 - `C:/ROMS/GBA/Metroid Fusion [USA].gba/../../../path/to/images/Metroid Fusion.*`
   - `C:/ROMS/GBA/../../path/to/images/Metroid Fusion.*`

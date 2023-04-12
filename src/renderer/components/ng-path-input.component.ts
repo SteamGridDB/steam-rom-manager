@@ -1,7 +1,7 @@
 import { Component, forwardRef, ElementRef, Input, Output, ViewChild, HostListener, EventEmitter } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-const dialog = require('electron').remote.dialog;
-const BrowserWindow = require('electron').remote.BrowserWindow;
+const { dialog } = require('@electron/remote');
+const { BrowserWindow } = require('@electron/remote');
 
 @Component({
   selector: 'ng-path-input',
@@ -65,7 +65,7 @@ export class NgPathInputComponent implements ControlValueAccessor {
     if (value !== oldValue) {
       this.currentValue = this.stateless ? null : value;
       this.onChange(value);
-      this.pathChange.next(value);
+      this.pathChange.emit(value);
     }
 
     this.onTouched();

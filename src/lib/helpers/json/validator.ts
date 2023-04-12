@@ -1,14 +1,14 @@
 import { ValidatorModifier } from "../../../models/helpers.model";
-import * as Ajv from "ajv";
+import Ajv, {ValidateFunction, Options} from "ajv";
 import * as _ from "lodash";
 
 export class Validator<T = object> {
-  private ajv: Ajv.Ajv;
-  private validationFn: Ajv.ValidateFunction | null = null;
+  private ajv: Ajv;
+  private validationFn: ValidateFunction | null = null;
   private modifier: ValidatorModifier<T> | null = null;
 
-  constructor(schema?: object, modifier?: ValidatorModifier<T>, options: Ajv.Options = { removeAdditional: "all", useDefaults: true }) {
-    this.ajv = new Ajv(options);
+  constructor(schema?: object, modifier?: ValidatorModifier<T>, options: Options = { removeAdditional: "all", useDefaults: true }) {
+    this.ajv = new Ajv(Object.assign(options, {strict: false}));
     if (schema !== undefined) {
       this.setSchema(schema);
     }

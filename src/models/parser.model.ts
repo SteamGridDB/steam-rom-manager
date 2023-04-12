@@ -2,7 +2,11 @@ import { userAccountData, StringLiteralArray } from './helpers.model';
 import { Controllers } from './controllers.model';
 import { ImageProviderAPI } from './user-configuration.model';
 
-export interface ParsedUserConfigurationFile {
+export interface StringMap {
+  [key: string]: any
+}
+
+export interface ParsedUserConfigurationFile extends StringMap {
   executableLocation: string,
   modifiedExecutableLocation: string,
   startInDirectory: string,
@@ -56,17 +60,12 @@ export interface ParsedUserConfiguration {
 export interface ParserInputField {
   [inputKey: string]: {
     label: string,
+    placeholder?: string,
     inputType: 'text' | 'path' | 'dir' | 'toggle',
     info?: string,
     forcedInput?: string,
     validationFn?: (inputData: any, suppressSlashError?: boolean) => null | string
   }
-}
-
-export interface ParserInfo {
-  title: string,
-  info?: string,
-  inputs?: ParserInputField
 }
 
 
@@ -114,6 +113,17 @@ export type PathVariables = (typeof pathVariables)[number];
 export type ParserVariables = (typeof parserVariables)[number];
 export type EnvironmentVariables = (typeof environmentVariables)[number];
 
+
+
+
+export type ParserType = 'Glob' | 'Glob-regex' | 'Manual' | 'Amazon Games' | 'Epic' | 'Legendary' | 'GOG Galaxy' | 'itch.io' | 'Steam' | 'UPlay' | 'UWP' | 'EA Desktop' | 'EXE';
+export type SuperType = 'Manual'|'ArtworkOnly'|'ROM'|'Platform';
+
+export interface ParserInfo {
+  title: ParserType,
+  info?: string,
+  inputs?: ParserInputField
+}
 
 
 export type AllVariables = DirectoryVariables | NameVariables | ExtensionVariables | PathVariables | ParserVariables | EnvironmentVariables;

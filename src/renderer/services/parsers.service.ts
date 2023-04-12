@@ -1,14 +1,14 @@
 import { CustomVariablesService } from './custom-variables.service';
 import { UserExceptionsService } from './user-exceptions.service';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { UserConfiguration, UserAccountsInfo, ParsedUserConfiguration, AppSettings, EnvironmentVariables, ControllerTemplates } from '../../models';
+import { UserConfiguration, UserAccountsInfo, ParsedUserConfiguration, AppSettings, EnvironmentVariables, ControllerTemplates, ParserType } from '../../models';
 import { LoggerService } from './logger.service';
 import { FuzzyService } from './fuzzy.service';
 import { ImageProviderService } from './image-provider.service';
 import { SettingsService } from './settings.service';
 import { FileParser, VariableParser, ControllerManager } from '../../lib';
 import { BehaviorSubject } from "rxjs";
+import { takeWhile } from "rxjs/operators";
 import {availableProviders} from "../../lib/image-providers/available-providers"
 import { APP } from '../../variables';
 import * as json from "../../lib/helpers/json";
@@ -35,9 +35,10 @@ export class ParsersService {
   private validator: json.Validator = new json.Validator(schemas.userConfiguration, modifiers.userConfiguration);
   private defaultValidator: json.Validator = new json.Validator(schemas.defaultUserConfiguration, modifiers.userConfiguration);
   private savingIsDisabled: boolean = false;
+  private configurationsLoadedSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private cVariableService: CustomVariablesService,
-              private exceptionsService: UserExceptionsService, private settingsService: SettingsService, private http: Http) {
+              private exceptionsService: UserExceptionsService, private settingsService: SettingsService) {
                 this.fileParser = new FileParser(this.fuzzyService);
                 this.controllerManager = new ControllerManager();
                 this.userConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
@@ -60,6 +61,15 @@ export class ParsersService {
 
               get lang() {
                 return APP.lang.parsers.service;
+              }
+
+              onLoad(callback: (userConfigurations: UserConfiguration[]) => void) {
+                this.configurationsLoadedSubject.asObservable().pipe(takeWhile((loaded) => {
+                  if (loaded) {
+                    callback(this.userConfigurations.getValue().map(item=>_.cloneDeep(item.saved)));
+                  }
+                  return !loaded;
+                })).subscribe();
               }
 
               get controllerTemplates() {
@@ -142,6 +152,7 @@ export class ParsersService {
                 let userConfigurations = this.userConfigurations.getValue();
                 let copy: { saved: UserConfiguration, current: UserConfiguration } = _.cloneDeep(config);
                 copy.saved.parserId = unique_ids.newParserId();
+                copy.saved.disabled = false;
                 userConfigurations = userConfigurations.concat(copy);
                 this.userConfigurations.next(userConfigurations);
                 this.saveUserConfigurations();
@@ -162,21 +173,25 @@ export class ParsersService {
                 this.saveUserConfigurations();
               }
 
-              changeEnabledStatus(parserId: string, enabled: boolean) {
+              changeEnabledStatus(parserId: string, enabled: boolean): Promise<void> {
                 let userConfigurations = this.userConfigurations.getValue();
                 let updateIndex = userConfigurations.map(e=>e.saved.parserId).indexOf(parserId);
-                userConfigurations[updateIndex].saved.disabled = !enabled;
-                this.userConfigurations.next(userConfigurations);
-                this.saveUserConfigurations();
+                if(updateIndex != -1) {
+                  userConfigurations[updateIndex].saved.disabled = !enabled;
+                  this.userConfigurations.next(userConfigurations);
+                  return this.saveUserConfigurations();
+                } else {
+                  throw `Could not ${enabled?'enable':'disable'} ${parserId}. No such parser exists.`
+                }
               }
 
-              changeEnabledStatusAll(enabled: boolean) {
+              changeEnabledStatusAll(enabled: boolean): Promise<void> {
                 let userConfigurations = this.userConfigurations.getValue();
                 for(let i=0; i < userConfigurations.length; i++) {
                   userConfigurations[i].saved.disabled = !enabled;
                 }
                 this.userConfigurations.next(userConfigurations);
-                this.saveUserConfigurations();
+                return this.saveUserConfigurations();
               }
 
               updateConfiguration(index: number, config?: UserConfiguration) {
@@ -237,7 +252,7 @@ export class ParsersService {
                 }
               }
 
-              getParserInfo(parserType: string) {
+              getParserInfo(parserType: ParserType) {
                 return this.fileParser.getParserInfo(parserType);
               }
 
@@ -268,7 +283,7 @@ export class ParsersService {
                 });
               }
 
-              validate(key: string, data: any,options?: any) {
+              validate(key: string, data: any, options?: any) {
                 switch (key) {
                   case 'parserType':
                     {
@@ -418,7 +433,7 @@ export class ParsersService {
                 }
 
                 for (let i = 0; i < simpleValidations.length; i++) {
-                  if (this.validate(simpleValidations[i], config[simpleValidations[i]]) !== null){
+                  if (this.validate(simpleValidations[i], config[simpleValidations[i] as keyof UserConfiguration]) !== null){
                     return false;
                   }
                 }
@@ -463,12 +478,13 @@ export class ParsersService {
 
               private saveUserControllerTemplates() {
                 return new Promise<void>((resolve, reject) => {
-                  fs.outputFile(paths.controllerTemplates, JSON.stringify(this.savedControllerTemplates.getValue(), null, 4), (error) => {
-                    if (error)
-                      reject(error);
-                    else
-                      resolve();
-                  })
+                  const stringToSave = JSON.stringify(this.savedControllerTemplates.getValue(), null, 4);
+                  try {
+                    fs.outputFileSync(paths.controllerTemplates, stringToSave);
+                    resolve();
+                  } catch(e) {
+                    reject(e)
+                  }
                 }).catch((error)=>{
                   this.loggerService.error(this.lang.error.savingConfiguration, { invokeAlert: true, alertTimeout: 5000 });
                   this.loggerService.error(error);
@@ -478,24 +494,24 @@ export class ParsersService {
               private saveUserConfigurations() {
                 return new Promise<void>((resolve, reject) => {
                   if (!this.savingIsDisabled) {
-
-                    fs.outputFile(paths.userConfigurations, JSON.stringify(this.userConfigurations.getValue().map((item) => {
+                    const stringToSave = JSON.stringify(this.userConfigurations.getValue().map((item: {saved: any, current: UserConfiguration}) => {
                       item.saved[modifiers.userConfiguration.controlProperty] = modifiers.userConfiguration.latestVersion;
                       if(!item.saved.parserType) {
                         throw new Error(this.lang.error.parserTypeMissing);
                       }
                       for(let key of Object.keys(item.saved.parserInputs)) {
-                        if(!parserInfo.availableParserInputs[item.saved.parserType].includes(key)) {
+                        if(!parserInfo.availableParserInputs[item.saved.parserType as ParserType].includes(key)) {
                           delete item.saved.parserInputs[key]
                         }
                       }
                       return item.saved;
-                    }), null, 4), (error) => {
-                      if (error)
-                        reject(error);
-                      else
-                        resolve();
-                    });
+                    }), null, 4);
+                    try {
+                      fs.outputFileSync(paths.userConfigurations, stringToSave);
+                      resolve();
+                    } catch(e) {
+                      reject(e)
+                    }
                   }
                   else
                     resolve();
@@ -550,7 +566,10 @@ export class ParsersService {
                   if(data.length) {
                     this.saveUserConfigurations();
                   }
-                }).catch((error) => {
+                }).then(()=>{
+                  this.configurationsLoadedSubject.next(true)
+                })
+                .catch((error) => {
                   this.loggerService.error(this.lang.error.readingConfiguration, { invokeAlert: true, alertTimeout: 5000 });
                   this.loggerService.error(error);
                 });

@@ -71,12 +71,13 @@ export class NgTextInputComponent implements ControlValueAccessor {
   }
 
   private setInnerHtml(data: string, selection?: { start: number, end: number }) {
-    if (this.elementRef.nativeElement) {
-      if (data) {
+    if (this.elementRef && this.elementRef.nativeElement) {
+      if (data && data.length) {
         selection = selection || (document.activeElement === this.elementRef.nativeElement && data.length > 0 ? this.saveSelection(this.elementRef.nativeElement) : null);
 
-        if (this.highlight)
+        if (this.highlight) {
           data = this.highlight(data, this.highlightTag || 'highlight');
+        }
         data = he.encode(data);
         if (this.highlight) {
           data = data.replace(new RegExp(`&#x3C;.*?${this.highlightTag || 'highlight'}.*?&#x3E;`, 'g'), (match: string) => {
@@ -86,11 +87,13 @@ export class NgTextInputComponent implements ControlValueAccessor {
 
         this.renderer.setProperty(this.elementRef.nativeElement, 'innerHTML', data);
 
-        if (selection)
+        if (selection) {
           this.restoreSelection(this.elementRef.nativeElement, selection);
+        }
       }
-      else
+      else {
         this.renderer.setProperty(this.elementRef.nativeElement, 'innerHTML', null);
+      }
     }
   }
 
@@ -174,8 +177,6 @@ export class NgTextInputComponent implements ControlValueAccessor {
 
   constructor(private changeRef: ChangeDetectorRef, private renderer: Renderer2) { }
 
-  @Input()
-
   set value(value: string) {
     this.writeValue(value);
   }
@@ -206,5 +207,10 @@ export class NgTextInputComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: () => any): void {
     this.onTouched = fn;
+  }
+
+  ngAfterViewInit() {
+    // Had to do this to get the placeholder to appear in certain exceptions/logger
+    this.renderer.setProperty(this.elementRef.nativeElement, 'innerHTML', this.currentValue || null);
   }
 }

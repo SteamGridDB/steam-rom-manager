@@ -37,9 +37,10 @@
         "readingVDF_Files": "Lendo arquivos VDF.",
         "mergingVDF_entries": "Mesclando entradas VDF.",
         "removingVDF_entries": "Removendo referências e arquivos de imagem do VDF.",
-        "savingCategories": "Salvando informações de categoria adicionadas em localconfig.vdf",
+        "savingCategories": "Saving category information to localconfig.vdf.",
+        "savingControllers": "Saving controller information.",
         "removingFromCategories": "Removendo todas as informações da categoria adicionada",
-        "writingVDF_entries": "Gravando arquivos VDF e salvando/removendo imagens.",
+        "writingVDF_entries__i": "Writing VDF files and downloading high res images in batches of ${batchSize}.",
         "updatingKnownSteamDirList": "Atualizando uma lista dos diretórios Steam conhecidos.",
         "retryingDownload__i": "Tentando baixar a imagem de \"${imageUrl}\" para \"${appTitle}\".",
         "disabledConfigurations__i": "${count} configuração(ões) de usuário foi/foram ignoradas (desabilitadas pelo usuário).",
@@ -80,6 +81,8 @@
     }
   },
   "steamParser": {
+    "onlyGamesTitle": "Find artwork for games only (no tools)",
+    "onlyInstalledTitle": "Find artwork for installed titles only",
     "errors": {
       "directoryInvalid": "> diretório Steam inválido.",
       "noSteamAccounts": "> O diretório Steam especificado não possui contas.",
@@ -89,12 +92,14 @@
   },
   "manualParser": {
     "manifestsInputTitle": "Diretório de Manifests",
+    "manifestsInputPlaceholder": "/path/to/your/manifests/",
     "errors": {
       "fatalError__i": "> O analisador da falhou com erro fatal:\n ${error}"
     }
   },
   "epicParser": {
-    "manifestsInputTitle": "Substituir Diretório de Manifests",
+    "manifestsInputTitle": "Epic Manifests Directory Override",
+    "manifestsInputPlaceholder": "/path/to/Manifests/",
     "launcherModeInputTitle": "Inicie jogos via Epic para serviços online",
     "errors": {
       "invalidManifestsOverride": "> Manifestas Override não é um diretório válido.",
@@ -105,13 +110,15 @@
   },
   "legendaryParser": {
     "legendaryInstalledFileTitle": "Legendary installed.json Path Override",
+    "legendaryInstalledFilePlaceholder": "/path/to/legendary/installed.json",
     "errors": {
       "legendaryNotInstalled": "> Legendary installed.json not found",
       "fatalError__i": "> Legendary parser failed with fatal error: \n ${error}"
     }
   },
   "UWPParser": {
-    "UWPDirTitle": "Games directory",
+    "UWPDirTitle": "XboxGames Directory Override",
+    "UWPDirPlaceholder": "/path/to/XboxGames or /path/to/WindowsApps",
     "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper.",
     "errors": {
       "fatalError__i": "> UWP parser is not compatible in this platform.",
@@ -119,7 +126,8 @@
     }
   },
   "uplayParser": {
-    "uplayDirTitle": "Sobrescrever Diretório Uplay",
+    "uplayDirTitle": "Ubisoft Directory Override",
+    "uplayDirPlaceholder": "/path/to/Ubisoft/",
     "launcherModeInputTitle": "Inicie jogos via Epic para serviços online",
     "errors": {
       "invalidManifestsOverride": "> Manifestas Override não é um diretório válido.",
@@ -131,6 +139,7 @@
   },
   "gogParser": {
     "galaxyExeOverrideTitle": "Sobrescrever caminho da Galáxia",
+    "galaxyExeOverridePlaceholder": "/path/to/GalaxyClient.exe",
     "launcherModeInputTitle": "Inicie jogos via GOG Galaxy",
     "errors": {
       "invalidGalaxyExeOverride": "> Substituição do Cliente Galaxy não é um caminho válido.",
@@ -141,6 +150,7 @@
   },
   "amazonGamesParser": {
     "exeOverrideTitle": "Substituição de caminho para Amazon Games",
+    "exeOverridePlaceholder": "/path/to/Amazon Games.exe",
     "launcherModeInputTitle": "Inicie via Amazon Games",
     "errors": {
       "invalidExeOverride": "> Substituição de instalação da Amazon Games não é um diretório válido.",
@@ -150,8 +160,10 @@
     }
   },
   "itchIoParser": {
-    "itchIoAppDataOverrideTitle": "substituição do caminho AppData itch.io",
+    "itchIoAppDataOverrideTitle": "itch.io AppData Directory Override",
+    "itchIoAppDataOverridePlaceholder": "/path/to/itch",
     "itchIoWindowsOnLinuxInstallDriveRedirectTitle": "Redirecionamento de unidade Windows-on-Linux",
+    "itchIoWindowsOnLinuxInstallDriveRedirectPlaceholder": "/mnt/d/",
     "errors": {
       "invalidItchIoAppDataOverride": "> Manifestas Override não é um diretório válido.",
       "invalidItchIoWindowsOnLinuxInstallDriveRedirect": "> itch.io Windows-on-Linux Install Drive Redirect não é um diretório válido.",
@@ -161,7 +173,8 @@
     }
   },
   "eaDesktopParser": {
-    "eaGamesDirTitle": "EA Games Install Directory",
+    "eaGamesDirTitle": "EA Games Directory Override",
+    "eaGamesDirPlaceholder": "/path/to/EA Games/",
     "eaLauncherModeTitle": "Launch games via EA Desktop",
     "errors": {
       "fatalError__i": "> EA Desktop parser failed with fatal error:\n ${error}",
@@ -171,6 +184,7 @@
   },
   "globParser": {
     "inputTitle": "Global do usuário",
+    "inputPlaceholder": "${title}.@(iso|ISO)",
     "errors": {
       "noTitle__md": "> Globo de arquivos deve conter `${title}`!",
       "moreThanOneTitle__md": "> Globo de arquivos deve conter apenas um `${title}`!",
@@ -188,6 +202,7 @@
   },
   "globRegexParser": {
     "inputTitle": "Regex do usuário global",
+    "inputPlaceholder": "${/valid regex/}",
     "errors": {
       "noRegex__md": "> Gráfico do arquivo deve conter `${regex}` onde **regex** é sua expressão regular!",
       "moreThanOneRegex__md": "> Globo de arquivos deve conter apenas um `${regex}`!",
@@ -221,7 +236,9 @@
       "fuzzy": "FUZZY",
       "textWrap": "TEXT-WRAP",
       "autoscroll": "AUTOSCROLA",
-      "clearLog": "Limpar Log"
+      "clearLog": "Limpar Log",
+      "issueDescription": "Thorough issue description with passable spelling.",
+      "handleExample": "CoolHandle#1234"
     }
   },
   "customVariables": {
@@ -312,9 +329,9 @@
     "component": {
       "about": "&Sobre",
       "preview": "Pré-visualizar",
-      "logger": "Log de eventos",
+      "logger": "Log",
       "settings": "Confirgurações",
-      "parsers": "Parsers",
+      "parsers": "Create Parser",
       "customVariables": "Variáveis",
       "userExceptions": "Exceções",
       "noTitle": "Sem título!"
@@ -453,19 +470,37 @@
         "onlineImageQueries": "Consulta de imagens online",
         "imagePool": "Banco de imagens",
         "imageProviders": "Provedores de imagem",
-        "defaultImage": "Imagem Padrão",
-        "defaultTallImage": "Imagem Padrão",
-        "defaultHeroImage": "Imagem de capa padrão",
-        "defaultLogoImage": "Imagem de capa padrão",
-        "defaultIcon": "Ícone padrão",
-        "localImages": "Imagem local",
-        "localTallImages": "Imagens locais altas",
-        "localHeroImages": "Imagem local",
-        "localLogoImages": "Imagem local",
-        "localIcons": "Ícones locais"
+        "defaultImage": "Fallback banner",
+        "defaultTallImage": "Fallback poster",
+        "defaultHeroImage": "Fallback hero",
+        "defaultLogoImage": "Fallback logo",
+        "defaultIcon": "Fallback icon",
+        "localImages": "Local banners glob",
+        "localTallImages": "Local posters glob",
+        "localHeroImages": "Local heroes glob",
+        "localLogoImages": "Local logos glob",
+        "localIcons": "Local icons glob"
       },
       "placeholder": {
         "parserType": "Selecione o analisador...",
+        "configTitle": "My Awesome Parser",
+        "steamCategory": "${cat1}${cat2}",
+        "steamDirectory": "${steamdirglobal} or /path/to/steam",
+        "userAccounts": "${steamuser1}${steamuser2}",
+        "titleFromVariable": "${myvariable}",
+        "titleModifier": "${fuzzyTitle} or ${title}",
+        "defaultImage": "/path/to/fallback.png",
+        "localImages": "/path/to/art/banners/${title}.@(png|jpg)",
+        "localTallImages": "/path/to/art/posters/${title}.@(png|jpg)",
+        "localHeroImages": "/path/to/art/heroes/${title}.@(png|jpg)",
+        "localLogoImages": "/path/to/art/logos/${title}.@(png|jpg)",
+        "localIcons": "/path/to/art/icons/${title}.@(png|jpg)",
+        "romDirectory": "/path/to/games/",
+        "glob": "${title}.@(iso|ISO)",
+        "executableLocation": "Example: /path/to/emulator.exe",
+        "executableArgs": "--arg1 --arg2",
+        "executableModifier": "\"${exePath}\"",
+        "startInDirectory": "/path/to/start/in/dir",
         "imageProviders": "Nenhum",
         "multiAPIPlaceholder": "Sem filtro"
       },
@@ -565,17 +600,19 @@
       "couldNotReadEntries__i": "Não foi possível encontrar os arquivos Steam necessários:\n ${error}",
       "couldNotWriteEntries": "Não foi possível escrever as entradas nos arquivos Steam:",
       "couldNotMergeEntries__i": "Não foi possível mesclar as entradas:\n ${error}",
-      "couldNotRemoveEntries__i": "Não foi possível remover as entradas:\n ${error}"
+      "couldNotRemoveEntries__i": "Não foi possível remover as entradas:\n ${error}",
+      "nonFatal": "Non fatal errors occurred while writing:"
     }
   },
   "vdfFile": {
     "error": {
-      "readingVdf__i": "Falha ao ler de \"${filePath}. ${error}",
-      "writingVdf__i": "Falha ao escrever em \"${filePath}\". ${error}",
-      "corruptedVdf__i": "\"${filePath}\" está corrompido. ${error}",
-      "creatingBackup__i": "Não foi possível criar backup para \"${filePath}\". ${error}",
+      "readingVdf__i": "Failed to read from \"${filePath}\".\n ${error}",
+      "writingVdf__i": "Failed to write to \"${filePath}\".\n ${error}",
+      "skippingDMCA__i": "Skipping DMCA'd image for ${title}",
+      "corruptedVdf__i": "\"${filePath}\" is corrupted.\n ${error}",
+      "creatingBackup__i": "Could not create backup for \"${filePath}\".\n ${error}",
       "unsupportedMimeType__i": "Tipo Mime (${type}) não é suportado (título -${title}\").",
-      "imageError__i": "Ocorreu um erro ao salvar/baixar a imagem para \"${title}\" \". Url: ${url}. ${error}"
+      "imageError__i": "Error occurred while saving/downloading image for \"${title}\". Url: ${url}.\n ${error}"
     }
   },
   "helpers": {
