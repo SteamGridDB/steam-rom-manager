@@ -58,9 +58,19 @@ jobs:
         run: npm run build:mac -- --publish=onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-      - name: Upload Artifacts
+      - name: Upload Artifacts Windows
         uses: actions/upload-artifact@v3
-        if: ${{ matrix.os == 'ubuntu-latest' || matrix.os == 'windows-latest' }}
+        if: ${{ matrix.os == 'windows-latest' }}
         with:
-          name: srm-build
-          path: release/
+          name: srm-build-windows
+          path: |
+            release/*.exe
+            release/*.msi
+      - name: Upload Artifacts Linux
+        uses: actions/upload-artifact@v3
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        with:
+          name: srm-build-linux
+          path: |
+            release/*.deb
+            release/*.AppImage
