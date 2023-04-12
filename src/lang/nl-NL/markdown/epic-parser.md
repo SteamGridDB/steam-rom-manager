@@ -1,12 +1,12 @@
-# Epic Games-parser
+# Epic Games Parser
 
-Deze parser importeert games uit de [Epic Games Store](https://store.epicgames.com/en-US/) zodat er illustraties voor kunnen worden gekozen en ze kunnen worden toegevoegd aan Steam.
+This parser imports games from the [Epic Games Store](https://store.epicgames.com/en-US/) so that artwork can be chosen for them and they can be added into Steam.
 
-Als het niet werkt, komt dat omdat Epic de structuur van hun spelmanifesten heeft gewijzigd. Laat het in dit geval de ontwikkelaars van SRM weten en we zullen het probleem oplossen.
+If it doesn't work it is because Epic has altered the structure of their game manifests, in this case please let the developers of SRM know and we will resolve the issue.
 
-Om deze parser te laten werken met het open source Epic-alternatief [Legendary](https://github.com/derrod/legendary), moet [EGL-synchronisatie zijn ingeschakeld in Legendary](https://github.com/derrod/legendary/discussions/276#discussioncomment-709748) (hierdoor worden de juiste bestanden gemaakt die de parser kan lezen, en vereist niet dat de `Epic Games Store` is geïnstalleerd).
+In order for this parser to work with the open source Epic alternative [Legendary](https://github.com/derrod/legendary), [EGL sync must be enabled in Legendary](https://github.com/derrod/legendary/discussions/276#discussioncomment-709748) (this creates the appropriate files for the parser to read, and does not require the `Epic Games Store` to be installed).
 
-Dat gezegd hebbende, er is ook een `Legendary` parser in SRM die direct uit de doos werkt.
+That said, there is also a `Legendary` parser in SRM which works right out of the box.
 
-## Compatibiliteit
-Deze parser werkt momenteel alleen op `Windows`- en `Mac OS`-systemen. Op `Mac OS` is het niet mogelijk om te starten vanuit de Epic Store, dus die schakelaar moet uitgeschakeld blijven.
+## Compatibility
+This parser is currently functional on `Windows` and `Mac OS` systems only. On `Mac OS` it is not possible to launch from the Epic Store, so that toggle should remain disabled.

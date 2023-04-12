@@ -12,11 +12,8 @@
     "experimentalDecorators": true,
     "removeComments": false,
     "noImplicitAny": true,
-    "moduleResolution": "Node",
-    "esModuleInterop": true
-  },
-  "angularCompilerOptions": {
-    "preserveWhitespaces": false
+    "suppressImplicitAnyIndexErrors": true,
+    "moduleResolution": "Node"
   },
   "include": ["./*.ts", "./src/**/*.ts"]
 }

@@ -4,7 +4,7 @@ import { SettingsService } from "./settings.service";
 import { FuzzyEventMap, AppSettings, FuzzyEventCallback } from '../../models';
 import { APP } from '../../variables';
 import { FuzzyListLoader, FuzzyMatcher } from "../../lib";
-import { HttpClient } from '@angular/common/http';
+import { Http } from '@angular/http';
 
 @Injectable()
 export class FuzzyService {
@@ -13,7 +13,7 @@ export class FuzzyService {
     private fuzzyListMatcher: FuzzyMatcher;
     private currentCacheEntries: number;
 
-    constructor(private http: HttpClient, private loggerService: LoggerService, private settingsService: SettingsService) {
+    constructor(private http: Http, private loggerService: LoggerService, private settingsService: SettingsService) {
         this.fuzzyListLoader = new FuzzyListLoader(this.http, this.eventCallback.bind(this), () => this.appSettings.offlineMode);
         this.fuzzyListMatcher = new FuzzyMatcher(this.eventCallback.bind(this));
 

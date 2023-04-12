@@ -1,4 +1,4 @@
-const app = process.type === 'browser' ? require('electron').app : require('@electron/remote').app;
+import { app, remote } from 'electron';
 import * as path from 'path';
 
 let _userDataDir: string;
@@ -7,7 +7,7 @@ if (process.env.PORTABLE_EXECUTABLE_DIR) {
     _userDataDir = path.join(process.env.PORTABLE_EXECUTABLE_DIR, 'userData');
 }
 else {
-    _userDataDir = path.join(app.getPath('userData'), 'userData');
+    _userDataDir = path.join((app || remote.app).getPath('userData'), 'userData');
 }
 
 export const userDataDir: string = _userDataDir;

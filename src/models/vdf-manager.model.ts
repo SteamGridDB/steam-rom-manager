@@ -12,13 +12,11 @@ export interface VDF_ListData {
   }
 }
 
-export interface VDF_ScreenshotItem {
-  title: string,
-  url: string
-}
-
 export interface VDF_ScreenshotsData {
-  [appId: string]: VDF_ScreenshotItem | string
+  [appId: string]: {
+    title: string,
+    url: string
+  } | string
 }
 
 export interface VDF_ShortcutsItem {

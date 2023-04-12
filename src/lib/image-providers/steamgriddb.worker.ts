@@ -1,8 +1,7 @@
 import { GenericProvider, GenericProviderManager, ProviderProxy } from "./generic-provider";
 import { xRequestWrapper } from "./x-request-wrapper";
-import SGDB from "steamgriddb";
 
-
+const SGDB = require("steamgriddb");
 const idRegex: RegExp = /^\$\{gameid\:([0-9]*?)\}$/;
 
 class SteamGridDbProvider extends GenericProvider {

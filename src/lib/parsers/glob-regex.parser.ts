@@ -2,22 +2,22 @@ import { ParserInfo, GenericParser, UserConfiguration, ParsedData } from '../../
 import { APP } from '../../variables';
 import * as _ from "lodash";
 import * as minimatch from 'minimatch';
-import { glob } from 'glob';
+import * as glob from 'glob';
 import * as path from 'path';
 
 interface TitleTagData {
   depth: {
     direction: 'left' | 'right',
-    level: number
+      level: number
   },
-  finalGlob: string,
-  globRegex: {
-    regex: RegExp,
-    replaceText: string
-  }
+    finalGlob: string,
+    globRegex: {
+      regex: RegExp,
+        replaceText: string
+    }
   titleRegex: {
     regex: RegExp,
-    pos: number
+      pos: number
   }
 }
 
@@ -29,7 +29,6 @@ export class GlobRegexParser implements GenericParser {
       inputs: {
         'glob-regex': {
           label: this.lang.inputTitle,
-          placeholder: this.lang.inputPlaceholder,
           inputType: 'text',
           validationFn: this.validate.bind(this),
           info: this.lang.docs__md.input.join('')
@@ -54,76 +53,76 @@ export class GlobRegexParser implements GenericParser {
       return this.lang.errors.moreThanOneRegex__md;
 
     testRegExpr = /.*\*\${.*?}.*|.*\${.*?}\*.*/i;
-match = testRegExpr.exec(fileGlob);
-if (match !== null)
-  return this.lang.errors.noStarNextToRegex__md;
+    match = testRegExpr.exec(fileGlob);
+    if (match !== null)
+      return this.lang.errors.noStarNextToRegex__md;
 
-testRegExpr = /.*\?\${.*?}.*|.*\${.*?}\?.*/i;
-match = testRegExpr.exec(fileGlob);
-if (match !== null)
-  return this.lang.errors.noAnyCharNextToRegex__md;
+    testRegExpr = /.*\?\${.*?}.*|.*\${.*?}\?.*/i;
+    match = testRegExpr.exec(fileGlob);
+    if (match !== null)
+      return this.lang.errors.noAnyCharNextToRegex__md;
 
-let fileGlobWithoutRegex = fileGlob.replace(/\${.*?}/i, '');
+    let fileGlobWithoutRegex = fileGlob.replace(/\${.*?}/i, '');
 
-if (!suppressSlashError) {
-  testRegExpr = /\\/i;
-  match = testRegExpr.exec(fileGlobWithoutRegex);
-  if (match !== null)
-    return this.lang.errors.noWindowsSlash__md;
-}
-
-testRegExpr = /.*\*\*.+\${.*?}.+\*\*.*/i;
-match = testRegExpr.exec(fileGlob);
-if (match !== null)
-  return this.lang.errors.noGlobstarOnBothSides__md;
-
-testRegExpr = /.*\{.*?\/+.*?\}.*\${.*?}.*\{.*?\/+.*?\}.*/i;
-match = testRegExpr.exec(fileGlob);
-if (match !== null)
-  return this.lang.errors.noBracedDirSetOnBothSides__md;
-
-testRegExpr = /.*\{.*?\/+.*?\}.*\${.*?}.+\*\*.*|.*\*\*.+\${.*?}.*\{.*?\/+.*?\}.*/i;
-match = testRegExpr.exec(fileGlob);
-if (match !== null)
-  return this.lang.errors.noBracedDirSetOrGlobstarOnBothSides__md;
-
-testRegExpr = /(\?|!|\+|\*|@)\((.*?)\)/gi;
-while ((match = testRegExpr.exec(fileGlobWithoutRegex)) !== null) {
-  if (match[2].length === 0)
-    return this.lang.errors.noEmptyPattern__md;
-}
-
-testRegExpr = /\[(.*?)\]/g;
-while ((match = testRegExpr.exec(fileGlobWithoutRegex)) !== null) {
-  if (match[1].length === 0)
-    return this.lang.errors.noEmptyCharRange__md;
-}
-
-testRegExpr = /.*(\?|!|\+|\*|@)\((.+?)\)\${.*?}(\?|!|\+|\*|@)\((.+?)\).*|.*(\?|!|\+|\*|@)\((.+?)\)\${.*?}.*|.*\${.*?}(\?|!|\+|\*|@)\((.+?)\).*/i;
-match = testRegExpr.exec(fileGlob);
-if (match !== null) {
-  let patterns: string[];
-  if (match[2] || match[6]) {
-    patterns = (match[2] || match[6]).split('|');
-    for (let i = 0; i < patterns.length; i++) {
-      if (patterns[i][patterns[i].length - 1] === '*')
-        return this.lang.errors.noStarInPatternNextToRegex__md;
-      else if (patterns[i][patterns[i].length - 1] === '?')
-        return this.lang.errors.noAnyCharInPatternNextToRegex__md;
+    if (!suppressSlashError) {
+      testRegExpr = /\\/i;
+      match = testRegExpr.exec(fileGlobWithoutRegex);
+      if (match !== null)
+        return this.lang.errors.noWindowsSlash__md;
     }
-  }
-  else if (match[4] || match[8]) {
-    patterns = (match[4] || match[8]).split('|');
-    for (let i = 0; i < patterns.length; i++) {
-      if (patterns[i][0] === '*')
-        return this.lang.errors.noStarInPatternNextToRegex__md;
-      else if (patterns[i][0] === '?')
-        return this.lang.errors.noAnyCharInPatternNextToRegex__md;
-    }
-  }
-}
 
-return null;
+    testRegExpr = /.*\*\*.+\${.*?}.+\*\*.*/i;
+    match = testRegExpr.exec(fileGlob);
+    if (match !== null)
+      return this.lang.errors.noGlobstarOnBothSides__md;
+
+    testRegExpr = /.*\{.*?\/+.*?\}.*\${.*?}.*\{.*?\/+.*?\}.*/i;
+    match = testRegExpr.exec(fileGlob);
+    if (match !== null)
+      return this.lang.errors.noBracedDirSetOnBothSides__md;
+
+    testRegExpr = /.*\{.*?\/+.*?\}.*\${.*?}.+\*\*.*|.*\*\*.+\${.*?}.*\{.*?\/+.*?\}.*/i;
+    match = testRegExpr.exec(fileGlob);
+    if (match !== null)
+      return this.lang.errors.noBracedDirSetOrGlobstarOnBothSides__md;
+
+    testRegExpr = /(\?|!|\+|\*|@)\((.*?)\)/gi;
+    while ((match = testRegExpr.exec(fileGlobWithoutRegex)) !== null) {
+      if (match[2].length === 0)
+        return this.lang.errors.noEmptyPattern__md;
+    }
+
+    testRegExpr = /\[(.*?)\]/g;
+    while ((match = testRegExpr.exec(fileGlobWithoutRegex)) !== null) {
+      if (match[1].length === 0)
+        return this.lang.errors.noEmptyCharRange__md;
+    }
+
+    testRegExpr = /.*(\?|!|\+|\*|@)\((.+?)\)\${.*?}(\?|!|\+|\*|@)\((.+?)\).*|.*(\?|!|\+|\*|@)\((.+?)\)\${.*?}.*|.*\${.*?}(\?|!|\+|\*|@)\((.+?)\).*/i;
+    match = testRegExpr.exec(fileGlob);
+    if (match !== null) {
+      let patterns: string[];
+      if (match[2] || match[6]) {
+        patterns = (match[2] || match[6]).split('|');
+        for (let i = 0; i < patterns.length; i++) {
+          if (patterns[i][patterns[i].length - 1] === '*')
+            return this.lang.errors.noStarInPatternNextToRegex__md;
+          else if (patterns[i][patterns[i].length - 1] === '?')
+            return this.lang.errors.noAnyCharInPatternNextToRegex__md;
+        }
+      }
+      else if (match[4] || match[8]) {
+        patterns = (match[4] || match[8]).split('|');
+        for (let i = 0; i < patterns.length; i++) {
+          if (patterns[i][0] === '*')
+            return this.lang.errors.noStarInPatternNextToRegex__md;
+          else if (patterns[i][0] === '?')
+            return this.lang.errors.noAnyCharInPatternNextToRegex__md;
+        }
+      }
+    }
+
+    return null;
   }
 
   private getTitleDepth(fileGlob: string) {
@@ -133,8 +132,8 @@ return null;
       depth.level = null;
     }
     else if (/.*(?:\*\*|\{.*?\/+.*?\}).+\${.*?}.*/i.test(fileGlob)) {
-depth.direction = 'right';
-tempGlob = fileGlob.replace(/.*\${.*?}/i, '');
+      depth.direction = 'right';
+      tempGlob = fileGlob.replace(/.*\${.*?}/i, '');
     }
     else {
       depth.direction = 'left';
@@ -157,7 +156,7 @@ tempGlob = fileGlob.replace(/.*\${.*?}/i, '');
       if (mm.empty)
         return '^\\s*?$';
       else{
-        return (mm.makeRe()||{}).source;
+        return mm.makeRe().source;
       }
     }
 
@@ -246,7 +245,7 @@ tempGlob = fileGlob.replace(/.*\${.*?}/i, '');
   private extractTitles(titleData: TitleTagData, directory: string, files: string[]) {
     let parsedData: ParsedData = { success: [], failed: [] };
     for (let i = 0; i < files.length; i++) {
-      let title = this.extractTitle(titleData, files[i].replace(/\\/g,'/'));
+      let title = this.extractTitle(titleData, files[i]);
       let filePath = files[i].replace(/\\|\//g, path.sep);
       filePath = path.isAbsolute(filePath) ? filePath : path.join(directory, filePath);
       if (title !== undefined)
@@ -263,10 +262,11 @@ tempGlob = fileGlob.replace(/.*\${.*?}/i, '');
       let validationText = this.validate(inputs['glob-regex']);
       if (validationText === null) {
         let titleData = this.extractTitleTag(inputs['glob-regex']);
-        glob(titleData.finalGlob, { dot: true, cwd: directory as string }).then((files: string[]) => {
-          resolve(this.extractTitles(titleData, directory as string, files));
-        }).catch((err: string)=> {
-          reject(err)
+        glob(titleData.finalGlob, { silent: true, dot: true, cwd: directory as string, cache: cache || {} }, (err, files) => {
+          if (err)
+            reject(err);
+          else
+            resolve(this.extractTitles(titleData, directory as string, files));
         });
       }
       else

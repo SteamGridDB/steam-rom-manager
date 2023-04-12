@@ -1,27 +1,25 @@
-import { StringMap } from "./parser.model";
-
 export interface xRequestOptions {
-  method: 'GET'|'POST',
-  timeout: number,
-  params?: String | StringMap,
-  body?: any,
-  responseType?: XMLHttpRequestResponseType,
-  headers?: StringMap
+    method: 'GET'|'POST',
+    timeout: number,
+    params?: String | Object,
+    body?: any,
+    responseType?: XMLHttpRequestResponseType,
+    headers?: Object
 }
 
 export interface xRequestOptionsWithUrl extends xRequestOptions {
-  url: string
+    url: string
 }
 
 export interface xRequestError {
-  config: xRequestOptionsWithUrl,
-  response?: xRequestResponse,
-  error: {
-    status: number,
-    statusText: string,
-    url: string,
-    headers: StringMap
-  }
+    config: xRequestOptionsWithUrl,
+    response?: xRequestResponse,
+    error: {
+        status: number,
+        statusText: string,
+        url: string,
+        headers: {}
+    }
 }
 
 export type xRequestResponse = any;

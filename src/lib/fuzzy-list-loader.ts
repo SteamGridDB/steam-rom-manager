@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { Http } from '@angular/http';
 import { FuzzyListTimestamps, FuzzyEventCallback, FuzzyError } from "../models";
 import { FuzzyMatcher } from "./fuzzy-matcher";
 import { BehaviorSubject } from "rxjs";
-import { timeout } from "rxjs/operators";
 import * as paths from "../paths";
 import * as json from "./helpers/json";
 
@@ -13,7 +12,7 @@ export class FuzzyListLoader {
   private forcedUpdate: number = 604800000; //every week
   private timeout: number = 120000; //timeout
 
-  constructor(private http: HttpClient, private eventCallback: FuzzyEventCallback, private isOfflineMode?: () => boolean, private timestamps?: FuzzyListTimestamps) {
+  constructor(private http: Http, private eventCallback: FuzzyEventCallback, private isOfflineMode?: () => boolean, private timestamps?: FuzzyListTimestamps) {
     this.setTimestamps(timestamps || { check: 0, download: 0 });
   }
 
@@ -133,18 +132,19 @@ export class FuzzyListLoader {
 
   private getTotalCount() {
     return new Promise<number>((resolve, reject) => {
-      this.http.get('https://steamgriddb.com/api/games/?total').pipe(timeout(this.timeout)).subscribe(
-        (response: {[k: string]: any, totalGames: string}) => {
+      this.http.get('https://steamgriddb.com/api/games/?total').timeout(this.timeout).subscribe(
+        (response) => {
           try {
-            if (response['totalGames'] !== undefined)
-              resolve(parseInt(response['totalGames']));
+            let parsedBody = response.json();
+            if (parsedBody['totalGames'] !== undefined)
+              resolve(parseInt(parsedBody['totalGames']));
             else
               reject('totalGamesIsUndefined');
           } catch (error) {
             reject(error);
           }
         },
-        (error: string) => {
+        (error) => {
           reject(error);
         }
       );
@@ -153,15 +153,16 @@ export class FuzzyListLoader {
 
   private downloadList() {
     return new Promise<{ totalGames: number, games: string[], cache: { [key: string]: any } }>((resolve, reject) => {
-      this.http.get('https://steamgriddb.com/api/games/').pipe(timeout(this.timeout)).subscribe(
-        (response: {[k: string]: any, totalGames: number, games: string[]}) => {
+      this.http.get('https://steamgriddb.com/api/games/').timeout(this.timeout).subscribe(
+        (response) => {
           try {
-            resolve(Object.assign(response, { cache: {} }));
+            let parsedBody = response.json();
+            resolve(Object.assign(parsedBody, { cache: {} }));
           } catch (error) {
             reject(error);
           }
         },
-        (error: string) => {
+        (error) => {
           reject(error);
         }
       );

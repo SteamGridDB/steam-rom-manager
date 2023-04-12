@@ -1,7 +1,7 @@
-# UPlay-Parser
+# UPlay Parser
 
-Dieser Parser importiert Spiele von `UPlay` (auch bekannt als `Ubisoft Connect`), sodass Artwork für diese ausgewählt und in Steam hinzugefügt werden kann. Wenn dies nicht funktioniert, liegt es sehr wahrscheinlich daran, dass Ubisoft die Struktur ihrer Spiele-Datenbank verändert hat. In diesem Fall informiere bitte die Entwickler von SRM, die das Problem lösen werden.
+This parser imports games from `UPlay` (also known as `Ubisoft Connect`) so that artwork can be chosen for them and they can be added into Steam. If it doesn't work it is most likely because Ubisoft has altered the structure of their game database, in this case please let the developers of SRM know and we will resolve the issue.
 
-## Kompabilität
+## Compatibility
 
-Dieser Parser funktioniert derzeit nur auf `Windows` Systemen.
+This parser is currently functional on `Windows` systems only.

@@ -1,8 +1,8 @@
-# Opdrachtregelargumenten (optioneel) `[ondersteunt variabelen]`{.noWrap}
+# Command line arguments (optional) `[supports variables]`{.noWrap}
 
-Argumenten die aan het uitvoerbare bestand worden toegevoegd om de definitieve snelkoppeling te produceren. Meestal wilt u dit instellen met behulp van de meegeleverde parservariabelen.
+Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
 
-## Voorbeelden per systeem
+## Examples By System
 
 ### RetroArch
 
@@ -16,7 +16,7 @@ Argumenten die aan het uitvoerbare bestand worden toegevoegd om de definitieve s
 -f -g "${filePath}"
 ```
 
-### Dolphin Emu (Gamecube en Wii)
+### Dolphin Emu (Gamecube and Wii)
 
 ```
 --exec="${filePath}" --batch --confirm=false
@@ -40,7 +40,7 @@ Argumenten die aan het uitvoerbare bestand worden toegevoegd om de definitieve s
 "${filePath}"
 ```
 
-### mGBA (Gameboy, Gameboy Color, en Gameboy Advance)
+### mGBA (Gameboy, Gameboy Color, and Gameboy Advance)
 
 ```
 -f "${filePath}"
@@ -49,10 +49,10 @@ Argumenten die aan het uitvoerbare bestand worden toegevoegd om de definitieve s
 ### Nestopia (NES/Famicom)
 
 ```
-"${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen fullscreen on start: yes -view size fullscreen : stretched 
+"${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen on start : yes -view size fullscreen : stretched 
 ```
 
-### higan (NES/Famicom, SNES/Famicom, Gameboy, Gameboy Color en Gameboy Advance)
+### higan (NES/Famicom, SNES/Famicom, Gameboy, Gameboy Color, Gameboy Advance)
 
 ```
 "${filePath}"
@@ -64,7 +64,7 @@ Argumenten die aan het uitvoerbare bestand worden toegevoegd om de definitieve s
 -config nullDC_GUI:Fullscreen=1 -config ImageReader:DefaultImage="${filePath}"
 ```
 
-### Kega Fusion (Sega Genesis en Sega 32X)
+### Kega Fusion (Sega Genesis and Sega 32X)
 
 ```
 "${filePath}" -gen -auto -fullscreen
@@ -100,7 +100,7 @@ Argumenten die aan het uitvoerbare bestand worden toegevoegd om de definitieve s
 -IMAGE "${filePath}" -RUN1 -FULL
 ```
 
-### Mednafen (Sony Playstation 1, NES/Famicom, SNES/Super Famicom, enz.)
+### Mednafen (Sony Playstation 1, NES/Famicom, SNES/Super Famicom, etc.)
 
 ```
 "${filePath}"
@@ -112,68 +112,68 @@ Argumenten die aan het uitvoerbare bestand worden toegevoegd om de definitieve s
 "${filePath}"
 ```
 
-## Wat doet "Argumenten toevoegen aan uitvoerbaar bestand"?
+## What does "Append arguments to executable" do?
 
-In plaats van argumenten toe te voegen aan de startopties van Steam:
+Instead of adding arguments to Steam's launch options:
 
 ![Not appended arguments](../../../assets/images/cmd-not-appended.png) {.fitImage.center}
 
-argumenten worden aan het doel toegevoegd, zoals hieronder weergegeven:
+arguments are appended to target as shown below:
 
 ![Appended arguments](../../../assets/images/cmd-appended.png) {.fitImage.center}
 
-Deze instelling wordt gebruikt om de APP-ID van Steam te beïnvloeden.
+This setting is used to influence Steam's APP ID.
 
-## Folder variabelen
+## Directory variables
 
-| Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                        |
-| ------------------------------------:|:--------------------------------------------- |
-|                          `${exeDir}` | Uitvoerbaar bestand map                       |
-|                          `${romDir}` | ROMs map                                      |
-|                        `${steamDir}` | Steam map                                     |
-|                      `${startInDir}` | "StartIn" map                                 |
-|                         `${fileDir}` | Bestanden, teruggestuurd door een parser, map |
+| Variable (case-insensitive) | Corresponding value                     |
+| ---------------------------:|:--------------------------------------- |
+|                 `${exeDir}` | Executable directory                    |
+|                 `${romDir}` | ROMs directory                          |
+|               `${steamDir}` | Steam directory                         |
+|             `${startInDir}` | "StartIn" directory                     |
+|                `${fileDir}` | File's, returned by a parser, directory |
 
-Als uitvoerbare map-invoer **leeg** wordt gelaten, is `${exeDir}`{.noWrap} gelijk aan `${fileDir}`{.noWrap}. Bovendien, als de map "StartIn" **leeg** wordt gelaten, is `${startInDir}`{.noWrap} gelijk aan `${exeDir}`{.noWrap}.
+In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
 
-## Naam variabelen
+## Name variables
 
-| Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                                                      |
-| ------------------------------------:|:--------------------------------------------------------------------------- |
-|                         `${exeName}` | Naam van het uitvoerbaar bestand (zonder extensie)                          |
-|                        `${fileName}` | Naam van het bestand dat is teruggestuurd door een parser (zonder extensie) |
+| Variable (case-insensitive) | Corresponding value                                             |
+| ---------------------------:|:--------------------------------------------------------------- |
+|                `${exeName}` | Name of executable (without extension)                          |
+|               `${fileName}` | Name of file which was returned by a parser (without extension) |
 
-Als uitvoerbare map-invoer **leeg** wordt gelaten, is `${exeName}`{.noWrap} gelijk aan `${fileName}`{.noWrap}.
+In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
 
-## Extensie variabelen
+## Extension variables
 
-| Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                                                   |
-| ------------------------------------:|:------------------------------------------------------------------------ |
-|                          `${exeExt}` | Uitbreiding van uitvoerbaar bestand (met een punt)                       |
-|                         `${fileExt}` | Extensie van bestand dat teruggestuurd is door een parser (met een punt) |
+| Variable (case-insensitive) | Corresponding value                                           |
+| ---------------------------:|:------------------------------------------------------------- |
+|                 `${exeExt}` | Extension of executable (with a dot)                          |
+|                `${fileExt}` | Extension of file which was returned by a parser (with a dot) |
 
-Als uitvoerbare map-invoer **leeg** wordt gelaten, is `${exeExt}`{.noWrap} gelijk aan `${fileExt}`{.noWrap}.
+In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
 
-## Bestandspadvariabelen
+## Path variables
 
-| Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                                             |
-| ------------------------------------:|:------------------------------------------------------------------ |
-|                         `${exePath}` | Volledig pad naar een uitvoerbaar bestand                          |
-|                        `${filePath}` | Volledig pad naar een bestand dat teruggestuurd is door een parser |
+| Variable (case-insensitive) | Corresponding value                                |
+| ---------------------------:|:-------------------------------------------------- |
+|                `${exePath}` | Full path to an executable                         |
+|               `${filePath}` | Full path to a file which was returned by a parser |
 
-Als uitvoerbare map-invoer **leeg** wordt gelaten, is `${exePath}`{.noWrap} gelijk aan `${filePath}`{.noWrap}.
+In case executable directory input is left **empty**, `${exePath}`{.noWrap} is equal to `${filePath}`{.noWrap}.
 
-## Parser variabelen
+## Parser variables
 
-| Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                               |
-| ------------------------------------:|:---------------------------------------------------- |
-|                           `${title}` | Uitgepakte titel                                     |
-|                      `${fuzzyTitle}` | Fuzzy overeenkomende titel                           |
-|                      `${finalTitle}` | Titel die het eindresultaat is van de title modifier |
+| Variable (case-insensitive) | Corresponding value                              |
+| ---------------------------:|:------------------------------------------------ |
+|                  `${title}` | Extracted title                                  |
+|             `${fuzzyTitle}` | Fuzzy matched title                              |
+|             `${finalTitle}` | Title which was the end result of title modifier |
 
-Als fuzzy matching **mislukt** of **uitgeschakeld** is, is `${fuzzyTitle}`{.noWrap} gelijk aan `${title}`{.noWrap}.
+In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
 
-## Functie variabele
+## Function variables
 
 |                                 Variable (case-insensitive) | Corresponding function                                                                                                 |
 | -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |

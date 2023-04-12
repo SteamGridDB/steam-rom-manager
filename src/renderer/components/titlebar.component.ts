@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import * as remote from '@electron/remote';
+import { remote } from 'electron';
 import { FuzzyService } from "../services";
 
 @Component({

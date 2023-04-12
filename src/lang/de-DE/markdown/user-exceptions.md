@@ -1,15 +1,15 @@
-# Benutzer-Ausnahmen
-## Wofür dies nicht verwendet werden soll
-Dieses Tool kann verwendet werden, um Ausnahmen pro App festzulegen, die die Parser überschreiben. Es sollte nicht zur Durchführung von Massen-Aufgaben verwendet werden. For example, removing the colon character from titles can be accomplished via the title modifier `${/:/|${title}|}` and should not be done here. Wenn ein Kommandozeilenargument für jede geparste App üblich ist, dann verwende das Kommandozeilenargument-Feld - erstelle hier keine Einträge!
+# User Exceptions
+## What not to use this for
+This tool can be used to define per app exceptions that over rule the parsers. It should not be used to accomplish bulk tasks. For example, removing the colon character from titles can be accomplished via the title modifier `${/:/|${title}|}` and should not be done here. If a command line argument is common to every parsed app, then use the command line argument field - do not create a bunch of entries here!
 
 ## Extracted Title - *Mandatory*
 The only mandatory exception field is `Extracted Title`. Once this is specified and the exception is saved, any game whose `Extracted Title` matches will have its fields overridden by any non-blank exception fields (if left blank, the exception fields do nothing).
 
-Wenn du dir nicht sicher bist, was der `entpackte Titel` für ein bestimmtes Spiel ist, überprüfe die Ausgabe des Tests des Parsers, in dem sich das Spiel befindet.
+If you aren't sure what the `Extracted Title` is for a given game, check the output of testing the parser that game is in.
 
-## Neuer Anzeigetitel
+## New Display Title
 
-Wie es klingt. Dies ist der Titel, der in Steam erscheinen wird.
+What it sounds like. This is the title that will show up in Steam.
 
 ## New Search Title
 

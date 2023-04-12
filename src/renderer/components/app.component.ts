@@ -1,10 +1,10 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, NgZone } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from "@angular/core";
 import { SettingsService, LanguageService, MarkdownService, IpcService } from "../services";
 import { MarkdownVariable } from "../../lib";
 import { Router } from "@angular/router";
-import hljs from "highlight.js";
-import markdownItAnchor from "markdown-it-anchor";
-import markdownItAttrs from "markdown-it-attrs";
+import * as highlight from "highlight.js";
+import * as markdownIt from "markdown-it";
+
 @Component({
   selector: "app",
   template: `
@@ -15,7 +15,7 @@ import markdownItAttrs from "markdown-it-attrs";
       <router-outlet style="display: none;"></router-outlet>
       <theme></theme>
       <alert></alert>
-      <update-notifier [ipcMessage]="updateMessage"></update-notifier>
+      <update-notifier [ipcMessage]="ipcMessage"></update-notifier>
     </ng-container>
     <ng-template #stillLoading>
       <div class="appLoading"></div>
@@ -25,8 +25,7 @@ import markdownItAttrs from "markdown-it-attrs";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  private updateMessage: string = "";
-  private cliMessage: string = "";
+  private ipcMessage: string = "";
   private settingsLoaded: boolean = false;
   private languageLoaded: boolean = false;
   constructor(
@@ -35,8 +34,7 @@ export class AppComponent {
     private markdownService: MarkdownService,
     private router: Router,
     private ipcService: IpcService,
-    private changeDetectionRef: ChangeDetectorRef,
-    private zone: NgZone
+    private changeDetectionRef: ChangeDetectorRef
   ) {
     this.settingsService.onLoad((appSettings) => {
       this.settingsLoaded = true;
@@ -48,57 +46,26 @@ export class AppComponent {
         this.languageLoaded = true;
       }
     });
-
     this.markdownService.createInstance(
       "default",
-      require("markdown-it")({
+      new markdownIt({
         html: true,
         typographer: true,
-        highlight: function (str: string, lang: any) {
-          if (lang && hljs.getLanguage(lang)) {
+        highlight: function (str, lang) {
+          if (lang && highlight.getLanguage(lang)) {
             try {
-              return hljs.highlight(lang, str).value;
+              return highlight.highlight(lang, str).value;
             } catch (__) {}
           }
           return "";
         },
       })
         .use(MarkdownVariable)
-        .use(markdownItAttrs)
-        .use(markdownItAnchor)
+        .use(require("markdown-it-attrs"))
+        .use(require("markdown-it-anchor"))
     );
-
     ipcService.on("updater_message", (event, message) => {
-      this.updateMessage = message;
-    });
-    ipcService.on("cli_message", (event, message) => {
-      this.settingsService.onLoad((appSettings) => {
-        if (["list", "enable", "disable"].includes(message.command)) {
-          this.zone.run(() => {
-            this.router.navigate(["/parsers", -1], {
-              queryParams: {
-                cliMessage: JSON.stringify(message),
-              },
-            });
-          });
-        } else if (["add", "remove"].includes(message.command)) {
-          this.zone.run(() => {
-            this.router.navigate(["/"], {
-              queryParams: {
-                cliMessage: JSON.stringify(message),
-              },
-            });
-          });
-        } else if (["nuke"].includes(message.command)) {
-          this.zone.run(() => {
-            this.router.navigate(["/settings"], {
-              queryParams: {
-                cliMessage: JSON.stringify(message),
-              },
-            });
-          });
-        }
-      });
+      this.ipcMessage = message;
     });
   }
 }

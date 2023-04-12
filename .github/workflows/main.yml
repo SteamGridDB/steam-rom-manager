@@ -17,22 +17,22 @@ jobs:
         os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
+      - uses: actions/checkout@v2
+      
       - name: Setup Python environment
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2.4.1
         with:
-          node-version: 19.8.1
+          node-version: 14.18.1
           check-latest: true
 
       - name: Install dependencies
         run: |
-          npm install -g npm@latest
+          npm install -g npm@8.3.1
           npm ci
 
       - name: Build Distribution
@@ -58,19 +58,3 @@ jobs:
         run: npm run build:mac -- --publish=onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-      - name: Upload Artifacts Windows
-        uses: actions/upload-artifact@v3
-        if: ${{ matrix.os == 'windows-latest' }}
-        with:
-          name: srm-build-windows
-          path: |
-            release/*.exe
-            release/*.msi
-      - name: Upload Artifacts Linux
-        uses: actions/upload-artifact@v3
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        with:
-          name: srm-build-linux
-          path: |
-            release/*.deb
-            release/*.AppImage

@@ -18,7 +18,6 @@ export class AmazonGamesParser implements GenericParser {
       inputs: {
         'amazonGamesExeOverride': {
           label: this.lang.exeOverrideTitle,
-          placeholder: this.lang.exeOverridePlaceholder,
           inputType: 'dir',
           validationFn: (input: string) => {
             if(!input || fs.existsSync(input) && fs.lstatSync(input).isFile()) {

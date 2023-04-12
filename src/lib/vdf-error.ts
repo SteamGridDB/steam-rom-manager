@@ -2,15 +2,11 @@ type General_Error = string | Error | VDF_Error;
 
 export class VDF_Error extends Error {
   private isValid: boolean;
-  nonFatal: boolean;
 
-  constructor(messages: General_Error | General_Error[],
-              title?: string,
-              nonFatal?: boolean) {
+  constructor(messages: General_Error | General_Error[], title?: string) {
     let message = VDF_Error.toMessage(messages, title);
     super(message);
     this.isValid = [].concat(messages).filter(message=>!!message).length > 0;
-    this.nonFatal = !!nonFatal;
   }
 
   get valid() {

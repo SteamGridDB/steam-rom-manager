@@ -1,9 +1,8 @@
 import * as json from '../helpers/json';
-import { ParserType, SuperType } from '../../models';
+
 // Two parser inputs can't have the same names!
 // Reason: Hard to fix bug involving schema
-
-export const availableParserInputs: Record<ParserType, string[]> = {
+export const availableParserInputs: {[parserType: string]: string[]} = {
   'Glob': ['glob'],
   'Glob-regex': ['glob-regex'],
   'Manual': ['manualManifests'],
@@ -12,16 +11,15 @@ export const availableParserInputs: Record<ParserType, string[]> = {
   'Legendary': ['legendaryInstalledFile'],
   'GOG Galaxy': ['galaxyExeOverride','gogLauncherMode'],
   'itch.io': ['itchIoAppDataOverride','itchIoWindowsOnLinuxInstallDriveRedirect'],
-  'Steam': ['onlyGames','onlyInstalled'],
+  'Steam': [],
   'UPlay': ['uplayDir','uplayLauncherMode'],
   'UWP': ['UWPDir', 'UWPLauncherMode'],
-  'EA Desktop': ['eaGamesDir','eaLauncherMode'],
-  'EXE': []
-};
+  'EA Desktop': ['eaGamesDir','eaLauncherMode']
+}
 
-export const availableParsers: ParserType[] = Object.keys(availableParserInputs) as ParserType[];
+export const availableParsers = Object.keys(availableParserInputs);
 
-export const superTypes: Record<SuperType, ParserType[]> = {
+export const superTypes: {[superType: string]: string[]} = {
   'Manual': ['Manual'],
   'ArtworkOnly': ['Steam'],
   'ROM': [
@@ -38,11 +36,11 @@ export const superTypes: Record<SuperType, ParserType[]> = {
     'UWP',
     'EA Desktop'
   ]
-};
+}
 
-export const superTypesMap: Record<ParserType, SuperType> = json.multiInvert<SuperType, ParserType>(superTypes);
+export const superTypesMap: {[parserType: string]: string | string[]} = json.multiInvert(superTypes);
 
-export const ManualType: SuperType = 'Manual'
-export const ROMType: SuperType = 'ROM'
-export const PlatformType: SuperType = 'Platform'
-export const ArtworkOnlyType: SuperType = 'ArtworkOnly'
+export const ManualType = 'Manual'
+export const ROMType = 'ROM'
+export const PlatformType = 'Platform'
+export const ArtworkOnlyType = 'ArtworkOnly'

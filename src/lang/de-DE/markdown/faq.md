@@ -12,7 +12,7 @@ Lies dies, wenn du immer noch Probleme mit der Konfiguration hast. Für die meis
 | **Datei 5**        | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
 | **Datei 6**        | `C:/ROMs/dir1/dir2/save.sav`               |
 
-## Wie konfiguriere ich Benutzer-Glob?
+## So, how do I setup user's glob?
 
 First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. Since our **ROMs directory** is `C:/ROMs`, we can just remove it from **File1**'s path.
 
@@ -20,7 +20,7 @@ We end up with `Kingdom Hearts/game.iso`. It obvious for us that `Kingdom Hearts
 
 Again, we end up with `${title}/game.iso`, but we also want **File2**, because it is for the same emulator. **File1** is `game.iso` and **File2** is `rom.iso`. Was nun?
 
-Remember wild cards? They allow us to discard information that does not really matter. In this case we don't care if it is `game` or `rom`, we want both to be matched. That's why we replace them with `*`. Dies ist der abschließende Glob für **File1** und **File2**:
+Remember wild cards? They allow us to discard information that does not really matter. In this case we don't care if it is `game` or `rom`, we want both to be matched. That's why we replace them with `*`. This is the final glob for both **File1** and **File2**:
 
 ```
 ${title}/*.iso
@@ -32,11 +32,11 @@ Using similar logic we can produce glob for **File3**:
 */*/*/${title}.nes
 ```
 
-## Wie gehe ich mit mehrstufigen Verzeichnissen um?
+## How to deal with multi-leveled directories?
 
-Diesmal wollen wir **File3** und **File5** (beide haben unterschiedliche Erweiterungen, Lies den nächsten Abschnitt darüber, was zu tun ist, da wir derzeit `*` verwenden, um die Erweiterung zu ignorieren). Beachte, dass **File3** `3` Unterverzeichnisse hat, während  **Datei 5** `2` hat. Was nun?
+This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now?
 
-Jetzt können wir einen Globstar benutzen und das war's!
+Now we can use a globstar and that's it!
 ```
 **/${title}.*
 ```
@@ -59,7 +59,7 @@ These `2` globs both satisfy our files, **File3** and **File5**.
 
 ## Wie kann ich Dateierweiterungen begrenzen?
 
-Nehmen wir einmal an, wir verwenden den Glob vom vorherigen Beispiel:
+Let's say we use glob from previous example:
 
 ```
 {*,*/*}/*/${title}.*
@@ -73,7 +73,7 @@ Wir werden vier Dateien erhalten: **Datei3**, **Datei4**, **Datei5** und **Datei
 
 aber dann werden wir nur mit **File3** enden, denn `nes` ist nicht gleich `NES` -- der Parser berücksichtigt die Groß-/Kleinschreibung. Es gibt zwei Möglichkeiten, dieses Problem mithilfe des erweiterten Glob-Matchers zu lösen.
 
-### `sav` Erweiterung ausschließen
+### Exclude `sav` extension
 
 Extended glob matcher `!(...)` allows us to exclude stuff. Simply write glob like this:
 
@@ -81,9 +81,9 @@ Extended glob matcher `!(...)` allows us to exclude stuff. Simply write glob lik
 {*,*/*}/*/${title}.!(sav)
 ```
 
-und Dateien mit `sav` Erweiterung werden ausgeschlossen.
+and files with `sav` extension will be excluded.
 
-### Auf mehrere Erweiterungen prüfen
+### Check for multiple extensions
 
 Extended glob matcher `@(...)` allows us to match multiple things. Simply write glob like this:
 
@@ -91,13 +91,13 @@ Extended glob matcher `@(...)` allows us to match multiple things. Simply write 
 {*,*/*}/*/${title}.@(nes|NES)
 ```
 
-und nur Dateien mit `nes` und `NES` werden abgeglichen. If you're feeling fancy or if you have files with extensions `nes`, `NES`, `neS`, `nEs`, `Nes` and etc., you need a glob that uses character range:
+and only files with `nes` and `NES` will be matched. If you're feeling fancy or if you have files with extensions `nes`, `NES`, `neS`, `nEs`, `Nes` and etc., you need a glob that uses character range:
 
 ```
 {*,*/*}/*/${title}.@([nN][eE][sS])
 ```
 
-Jetzt kann der Parser jeder Kombination entsprechen und ist effektiv unabhängig von Groß- und Kleinschreibung. Technisch wird auch der folgende Glob funktionieren, aber der obige sieht besser aus.
+Now parser can match any combination and is effectively case-insensitive. Technically, the following glob will work too, but the one above looks better.
 
 ```
 {*,*/*}/*/${title}.[nN][eE][sS]

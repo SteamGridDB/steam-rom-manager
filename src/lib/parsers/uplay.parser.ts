@@ -3,7 +3,7 @@ import { APP } from '../../variables';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as yaml from "js-yaml";
-import Registry from "winreg";
+import * as Registry from "winreg";
 import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
 import * as os from "os";
@@ -62,14 +62,14 @@ export class UPlayParser implements GenericParser {
         arch: 'x86',
         key: '\\SOFTWARE\\Ubisoft\\Launcher\\Installs',
       });
-      reg.keys((err: Error, keys: any[]) => {
+      reg.keys((err, keys: any[]) => {
         if (err) {
           reject(err);
         }
         if (keys) {
           const promiseArr = keys.map((key: any) => this.processRegKey(key));
           Promise.all(promiseArr).then((resultsArray) => {
-            let out: {[k: string]: string} = {};
+            let out = {};
             resultsArray.forEach((item: any) => {
               if(item.installDir) {
                 out[String(item.id)] = item.installDir;
@@ -90,7 +90,6 @@ export class UPlayParser implements GenericParser {
       inputs: {
         'uplayDir': {
           label: this.lang.uplayDirTitle,
-          placeholder: this.lang.uplayDirPlaceholder,
           inputType: 'dir',
           validationFn: null,
           info: this.lang.docs__md.input.join('')

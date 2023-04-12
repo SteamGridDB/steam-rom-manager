@@ -17,7 +17,6 @@ export class LegendaryParser implements GenericParser {
       inputs: {
         'legendaryInstalledFile': {
           label: this.lang.legendaryInstalledFileTitle,
-          placeholder: this.lang.legendaryInstalledFilePlaceholder,
           inputType: 'path',
           validationFn: null,
           info: this.lang.docs__md.input.join('')

@@ -11,9 +11,9 @@ Steam ROM Manager
 
 Steam ROM Manager (SRM) is a super flexible tool for adding non-Steam games to Steam in bulk and managing their artwork assets and controller templates. Added games could be ROMs for emulators, games from other stores such as Epic or GOG, or even not games at all. Have you always wanted your notes from junior year as a category in steam? If so that's pretty weird! But now it's possible.
 
-For an overview of how SRM works see [here](https://steamgriddb.github.io/steam-rom-manager/). There is plenty of documentation available in the app's built in FAQ and documentation, and if you need further help there are expert users to be found on the [SGDB discord](https://discord.gg/bnSVJrz) under the Steam ROM Manager category and the [SRM subreddit](https://www.reddit.com/r/SteamRomManager/).
+For an overview of how SRM works see [here](https://steamgriddb.github.io/steam-rom-manager/). There is plenty of documentation available in the app's built in FAQ, and if you need further help there are expert users to be found on the [SGDB discord](https://discord.gg/bnSVJrz) under the Steam ROM Manager category and the [SRM subreddit](https://www.reddit.com/r/SteamRomManager/).
 
-Check out the [releases page](https://github.com/SteamGridDB/steam-rom-manager/releases) for compiled downloads for Windows (exe, msi), macOS (dmg), and Linux (AppImage, deb).
+Check out the [releases page](https://github.com/SteamGridDB/steam-rom-manager/releases) for compiled downloads for Windows (exe), macOS (dmg), and Linux (AppImage, deb).
 
 The Windows version is also available as a [Chocolatey package](https://community.chocolatey.org/packages/steam-rom-manager).
 
@@ -81,17 +81,9 @@ Artwork only parsers allow you to change the artwork for existing non-SRM added 
 
 In the future we plan to add an artwork only parser for non Steam games (either added manually or through some tool other than SRM).
 
-
-
 # For developers
 
-## Command Line Interface
-
-SRM has a fully featured command line interface, documented in the [wiki](https://github.com/SteamGridDB/steam-rom-manager/wiki/Command-Line-Interface).
-
-## Building SRM
-
-To compile this app, you'll need the latest `Node.js` and `npm`. Every script will need to be run from the project directory.
+To compile this app, you'll need the latest `Node.js` and `npm` (if for any reason this doesn't work try downgrading to node 14.18.1 LTS using nvm or volta). Every script will need to be run from the project directory.
 
 Before running any scripts, dependencies must be installed using:
 
@@ -123,12 +115,14 @@ All script must be run using `npm run` command. For example, `npm run watch:rend
 
 ## Debugging an app
 
-Run `watch:main` (usually once since one rarely changes anything in the main Electron process) and `watch:renderer`.
+Run `watch:main` (usually once since you rarely change anything in Electron app) and `watch:renderer`.
 Each command creates separate `webpack` instance which will watch referenced files for changes and will recompile app.
 
-App can be run using `start` script or `npx electron .` (if you want to test the CLI use `npx electron . [command] [flags]`). After every recompile by `watch:renderer`, app can be refreshed using `Ctrl + R`, however `watch:main` requires need a restart.
+App can be run using `start` script. After every recompile by `watch:renderer`, app can be refreshed using `Ctrl + R`, however `watch:main` requires need a restart.
 
 `Ctrl + Shift + I` can be used to launch Chrome inspector once the app is running. This works even in the release version.
+
+## Building the app
 
 ### For Windows
 

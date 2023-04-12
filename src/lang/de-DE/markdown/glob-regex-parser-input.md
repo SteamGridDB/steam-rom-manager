@@ -1,38 +1,38 @@
 # Glob-regex Parser specific inputs
 
-## Benutzer glob-regex
+## User's glob-regex
 
 This is where you create your glob for extracting title from file path. Please read all of [special glob characters](#special-glob-characters) if you don't know how to construct a glob.
 
-## Wie funktioniert es?
+## How does it work?
 
 In addition to special glob characters, glob parser requires you to enter `${/.../}`{.noWrap} variable. Parser will locate it's position inside your  glob, for example:
 
-| Benutzer-Glob         | Position                |
-| --------------------- | ----------------------- |
-| `${/.+/}/*/*.txt`     | Erste Ebene von links   |
-| `{*,*/*}/${/.+/}.txt` | Erste Ebene von rechts  |
-| `**/${/.+/}/*.txt`    | Zweite Ebene von rechts |
+| User's glob           | Position                    |
+| --------------------- | --------------------------- |
+| `${/.+/}/*/*.txt`     | First level from the left   |
+| `{*,*/*}/${/.+/}.txt` | First level from the right  |
+| `**/${/.+/}/*.txt`    | Second level from the right |
 
 After acquiring `${/.../}`{.noWrap} position, `${/.../}`{.noWrap} will be replaced with a wildcard `*`.
 
 ## Regex post-processing
 
-Nach der Titelextraktion wird der Titel durch einen regulären Ausdruck verarbeitet. Es gibt 3 Möglichkeiten, einen regulären Ausdruck zu schreiben.
+After title extraction, title will be processed by a regular expression. There are 3 ways you can write a regular expression.
 
-### Regulärer Ausdruck ohne Aufnahme: `${/.+/}`{.noWrap}
+### Regular expression with no capture: `${/.+/}`{.noWrap}
 
 This is practically identical to "Glob" parser -- every piece of extracted title will be used.
 
-### Regulärer Ausdruck mit Aufnahme-Klammern: `${/(.+)/}`{.noWrap}
+### Regular expression with capture brackets: `${/(.+)/}`{.noWrap}
 
-Mehrere Treffer und Aufnahmegruppen sind erlaubt. Zum Beispiel haben wir hier 2 Matchgruppen mit mehreren Aufnahmegruppen:
+Multiple matches and capture groups are allowed. For example, here we have 2 match groups with multiple capture groups:
 ```
 ${/(.*?)\s*\[USA\]\s*(.+)|(.*)/}
 ```
 First match group (from left to right) with all correct captures will be used. Furthermore, all capture groups will be **joined**.
 
-### Regulärer Ausdruck mit Aufnahme-Klammern und ersetztem Text: `${/(.+)/|...}`{.noWrap}
+### Regular expression with capture brackets and replacement text: `${/(.+)/|...}`{.noWrap}
 
 Similar to [regular expression with capture brackets](#regular-expression-with-capture-brackets) except for how it handles captured groups. Replacement text can be used to move around captured groups. For example:
 ```
@@ -44,10 +44,10 @@ If our first capture group is `Legend of Zelda` and second one is `SUPER EDITION
 
 Untouched text will remain by default, so if you see some trailing characters be sure to add `.*` at the end or `.*?` at the begging of regular expression.
 
-### Unterstütze Markierungen
+### Supported flags
 
-Erlaubte Markierungen sind `i`, `g` und `u`.
+Allowed flags are `i`, `g` and `u`.
 
-## Einschränkungen
+## Limitations
 
-Positionsextraktion kommt mit einigen Einschränkungen -- Glob ist ungültig, wenn keine Position extrahiert werden kann. Meistens wirst du davor gewarnt, was du nicht tun kannst. Solltest du jedoch eine Kombination finden, die erlaubt ist, aber falsche Titel erzeugt, gib uns dieses Problem bitte auf [github](https://github.com/FrogTheFrog/steam-rom-manager/issues) weiter.
+Position extraction comes with some limitations -- glob is invalid if position can not be extracted. Most of the time you will be warned about what you can't do, however, if you find a combination that is allowed, but produces incorrect titles please make an issue at [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).

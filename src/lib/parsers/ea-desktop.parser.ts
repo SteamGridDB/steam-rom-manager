@@ -20,7 +20,6 @@ export class EADesktopParser implements GenericParser {
       inputs: {
         'eaGamesDir': {
           label: this.lang.eaGamesDirTitle,
-          placeholder: this.lang.eaGamesDirPlaceholder,
           inputType: 'dir',
           validationFn: null,
           info: this.lang.docs__md.input.join('')
@@ -48,36 +47,36 @@ export class EADesktopParser implements GenericParser {
       const xmlParser = new XMLParser();
       Promise.resolve()
         .then(()=>{
-          let installDataFiles: string[] = glob.sync("*/__Installer/installerdata.xml", { dot: true, cwd: eaInstallDir, absolute: true });
+          let installDataFiles: string[] = glob.sync("*/__Installer/installerdata.xml", { silent: true, dot: true, cwd: eaInstallDir, absolute: true });
           for(let installDataFile of installDataFiles) {
               let gameDir = path.join(path.dirname(installDataFile),'..')
               let xmldata = fs.readFileSync(installDataFile, 'utf-8');
               if(XMLValidator.validate(xmldata)) {
                 let parsedData = xmlParser.parse(xmldata);
                 let title = ""; let runtimePath=""; let runtime; let contentID; let appID="";
-                if(json.caselessHas(parsedData,[["DiPManifest"]])) {
-                  let gameTitle = json.caselessGet(parsedData, [["DiPManifest"],["gameTitles"],["gameTitle"]]);
+                if(json.caseInsensitiveHasKey(parsedData,["DiPManifest"])) {
+                  let gameTitle = json.caseInsensitiveTraverse(parsedData, [["DiPManifest"],["gameTitles"],["gameTitle"]]);
                   if(Array.isArray(gameTitle) && gameTitle.length) {
                     title = String(gameTitle[0])
                   } else {
                     title = String(gameTitle)
                   }
-                  runtime = json.caselessGet(parsedData, [["DiPManifest"],["runtime"],["launcher"]], true);
-                  contentID = json.caselessGet(parsedData, [["DiPManifest"],["contentIDs"],["contentID"]])
-                } else if(json.caselessHas(parsedData,[["game"]])) {
-                  let localeInfo = json.caselessGet(parsedData,[["game"],["metadata"],["localeInfo"]]);
+                  runtime = json.caseInsensitiveTraverse(parsedData, [["DiPManifest"],["runtime"],["launcher"]], true);
+                  contentID = json.caseInsensitiveTraverse(parsedData, [["DiPManifest"],["contentIDs"],["contentID"]])
+                } else if(json.caseInsensitiveHasKey(parsedData,["game"])) {
+                  let localeInfo = json.caseInsensitiveTraverse(parsedData,[["game"],["metadata"],["localeInfo"]]);
                   if(Array.isArray(localeInfo) && localeInfo.length) {
                     title = String(localeInfo[0].title);
                   } else {
                     title = String(localeInfo.title);
                   }
-                  runtime = json.caselessGet(parsedData,[["game"],["runtime"],["launcher"]], true)
-                  contentID = json.caselessGet(parsedData,[["game"],["contentIDs"],["contentID"]])
+                  runtime = json.caseInsensitiveTraverse(parsedData,[["game"],["runtime"],["launcher"]], true)
+                  contentID = json.caseInsensitiveTraverse(parsedData,[["game"],["contentIDs"],["contentID"]])
                 }
                 if(runtime && Array.isArray(runtime) && runtime.length) {
-                  runtimePath = json.caselessGet(runtime[0],[["filePath"]]);
-                } else if(json.caselessHas(runtime,[["filePath"]])) {
-                  runtimePath = json.caselessGet(runtime,[["filePath"]])
+                  runtimePath = json.caseInsensitiveTraverse(runtime[0],[["filePath"]]);
+                } else if(json.caseInsensitiveHasKey(runtime,["filePath"])) {
+                  runtimePath = json.caseInsensitiveTraverse(runtime,[["filePath"]])
                 }
                 if(Array.isArray(contentID) && contentID.length) {
                   appID = String(contentID[0])

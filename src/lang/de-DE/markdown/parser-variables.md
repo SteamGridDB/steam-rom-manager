@@ -1,6 +1,6 @@
 # Parser-Variablen
 
-Hier sind Tabellen von Variablen, die mit Optionen verwendet werden können, die `[Variablen unterstützen]`{.noWrap} in ihren Beschreibungen angegeben haben. Variable kann geschachtelt werden.
+Here are tables of variables that can be used with options that have `[supports variables]`{.noWrap} specified in their descriptions. Variable can be nested.
 
 ## Verzeichnis-Variablen
 
@@ -21,7 +21,7 @@ Falls die ausführbare Verzeichniseingabe **leer bleibt**, ist `${exeDir}`{.noWr
 |                                          `${exeName}` | Name of executable (without extension)                          |
 |                                         `${fileName}` | Name of file which was returned by a parser (without extension) |
 
-Falls die ausführbare Verzeichniseingabe **leer** gelassen wurde, ist `${exeName}`{.noWrap} gleich `${fileName}`{.noWrap}.
+In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
 
 ## Extension variables
 

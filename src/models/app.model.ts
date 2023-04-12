@@ -2,7 +2,7 @@ import { languageStruct } from "./language.model";
 
 export interface GlobalContainer {
     lang: languageStruct,
-    version: string,
+    version: number,
     os: string,
     arch: string,
     srmdir: string

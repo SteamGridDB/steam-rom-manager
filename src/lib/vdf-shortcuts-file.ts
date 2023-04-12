@@ -72,8 +72,8 @@ export class VDF_ShortcutsFile {
       if (!skipIndexing) {
         for (let i = 0; i < shortcutsData.length; i++) {
           let shortcut = shortcutsData[i];
-          let exe = json.caselessGet(shortcut, [['exe']]);
-          let appname = json.caselessGet(shortcut, [['appname']]);
+          let exe = json.caseInsensitiveTraverse(shortcut, [['exe']]);
+          let appname = json.caseInsensitiveTraverse(shortcut, [['appname']]);
           this.indexMap[steam.generateAppId(exe,appname)] = i;
         }
       }

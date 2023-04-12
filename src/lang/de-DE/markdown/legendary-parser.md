@@ -1,8 +1,8 @@
-# Legendärer Parser
+# Legendary Parser
 
-Dieser Parser importiert Spiele von [Legendary](https://github.com/derrod/legendary), der Open Source Kommandozeile Alternative zum `Epic Games Store`, sodass Artworks für die ausgewählt werden können und sie in Steam hinzugefügt werden können.
+This parser imports games from [Legendary](https://github.com/derrod/legendary), the open source commandline alternative to the `Epic Games Store`, so that artwork can be chosen for them and they can be added into Steam.
 
-Wenn dies nicht funktioniert, liegt es daran, dass X die Struktur ihrer Spiele-Manifeste verändert hat. In diesem Fall informiere bitte die Entwickler von SRM, die das Problem lösen werden.
+If it doesn't work it is because has altered the structure of their game manifests, in this case please let the developers of SRM know and we will resolve the issue.
 
-## Kompabilität
-Dieser Parser funktioniert unter `Windows`, `Linux`und `MacOS`. Er würde wahrscheinlich auf deinem Toaster laufen, wenn dieser irgendwo eine `installed.json` Datei hat.
+## Compatibility
+This parser works on `Windows`, `Linux`, and `Mac OS`. It would probably run just fine on your toaster if your toaster has an `installed.json` file somewhere.

@@ -4,7 +4,7 @@ Default value is `"${exePath}"`{.noWrap}. This setting can be used to prepend or
 ```
 "cmd" /k start /min "${exePath}"
 ```
-Du kannst jede andere Variable verwenden, um die endgültige ausführbare Datei zu erstellen.
+You can use any other variable to construct the final executable.
 
 This setting influences Steam's APP ID.
 
@@ -12,46 +12,46 @@ This setting influences Steam's APP ID.
 ## Shortcut Passthrough
 If you enable "Follow .lnk to destination" and your executable is a ".lnk" file, ie a shortcut, then whatever you put in this field will be overridden with the target of that shortcut. If you would like to add executable arguments either add them to the target of the shortcut or use the "Command Line Arguments" field in the parser.
 
-## Verzeichnis-Variablen
+## Directory variables
 
-| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                     |
-| -----------------------------------------------------:|:--------------------------------------- |
-|                                           `${exeDir}` | Executable directory                    |
-|                                           `${romDir}` | ROMs directory                          |
-|                                         `${steamDir}` | Steam directory                         |
-|                                       `${startInDir}` | "StartIn" directory                     |
-|                                          `${fileDir}` | File's, returned by a parser, directory |
+| Variable (case-insensitive) | Corresponding value                     |
+| ---------------------------:|:--------------------------------------- |
+|                 `${exeDir}` | Executable directory                    |
+|                 `${romDir}` | ROMs directory                          |
+|               `${steamDir}` | Steam directory                         |
+|             `${startInDir}` | "StartIn" directory                     |
+|                `${fileDir}` | File's, returned by a parser, directory |
 
 In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
 
-## Namen-Variablen
+## Name variables
 
-| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                                         |
-| -----------------------------------------------------:|:--------------------------------------------------------------------------- |
-|                                          `${exeName}` | Name der ausführbaren Datei (ohne Erweiterung)                              |
-|                                         `${fileName}` | Name der Datei, die von einem Parser zurückgegeben wurde (ohne Erweiterung) |
+| Variable (case-insensitive) | Corresponding value                                                         |
+| ---------------------------:|:--------------------------------------------------------------------------- |
+|                `${exeName}` | Name der ausführbaren Datei (ohne Erweiterung)                              |
+|               `${fileName}` | Name der Datei, die von einem Parser zurückgegeben wurde (ohne Erweiterung) |
 
 In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
 
-## Erweiterungs-Variablen
+## Extension variables
 
-| Variable (case-insensitive) | Corresponding value                                                          |
-| ---------------------------:|:---------------------------------------------------------------------------- |
-|                 `${exeExt}` | Erweiterung der ausführbaren Datei (mit einem Punkt)                         |
-|                `${fileExt}` | Dateierweiterung, die von einem Parser (mit einem Punkt) zurückgegeben wurde |
+| Variable (case-insensitive) | Corresponding value                                           |
+| ---------------------------:|:------------------------------------------------------------- |
+|                 `${exeExt}` | Extension of executable (with a dot)                          |
+|                `${fileExt}` | Extension of file which was returned by a parser (with a dot) |
 
 In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
 
 ## Path variables
 
-| Variable (case-insensitive) | Entsprechender Wert                                |
+| Variable (case-insensitive) | Corresponding value                                |
 | ---------------------------:|:-------------------------------------------------- |
 |                `${exePath}` | Full path to an executable                         |
 |               `${filePath}` | Full path to a file which was returned by a parser |
 
 In case executable directory input is left **empty**, `${exePath}`{.noWrap} is equal to `${filePath}`{.noWrap}.
 
-## Parser-Variablen
+## Parser variables
 
 | Variable (case-insensitive) | Corresponding value                              |
 | ---------------------------:|:------------------------------------------------ |
@@ -61,20 +61,20 @@ In case executable directory input is left **empty**, `${exePath}`{.noWrap} is e
 
 In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
 
-## Funktions-Variablen
+## Function variables
 
-|       Variable (Groß- und Kleinschreibung unberücksichtigt) | Corresponding function                                                                                                 |
+|                                 Variable (case-insensitive) | Corresponding function                                                                                                 |
 | -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
 |                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
-|                                             `${uc\|input}` | Großbuchstaben-Variable. Wandelt Eingaben in Großbuchstaben um                                                         |
-|                                             `${lc\|input}` | Kleinbuchstaben-Variable. Wandelt Eingaben in Kleinbuchstaben um                                                       |
-|                                     `${cv:group\|Eingabe}` | Ändert die Eingabe mit angepasster benutzerdefinierter Variable (Gruppe ist optional)                                  |
-|                                            `${rdc\|input}` | Ersetzt diakritische Eingabezeichen mit ihrem lateinischen Äquivalent                                                  |
+|                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
+|                                             `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                                      |
+|                                     `${cv:group\|Eingabe}` | Change input with matched custom variable (group is optional)                                                          |
+|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
 | `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                           |
 
-### Beispiel für Funktions-Variablen
+### Function variable example
 
-Nehmen wir an, dass die `${title}` Variable mit `Pokémon (USA) (Disc 1).iso` übereinstimmt. Dann werden diese Variablen:
+Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
 ```
 ${/.*/|${title}}                           //Matches everything
 ${/(.*)/|${title}}                         //Captures everything
@@ -84,7 +84,7 @@ ${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transfo
 ${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
 file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
 ```
-durch diese ersetzt:
+will be replaced with these:
 ```
 Pokémon (USA) (Disc 1).iso
 Pokémon (USA) (Disc 1).iso

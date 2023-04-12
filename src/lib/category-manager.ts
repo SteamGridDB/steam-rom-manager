@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 import { Acceptable_Error } from './acceptable-error';
 
 export class CategoryManager {
-  private data: PreviewData = {};
+  private data: object = {};
 
   createList() {
     const list = [];
@@ -67,7 +67,7 @@ export class CategoryManager {
                 // Create new category if it doesn't exist
                 const catKey = `srm-${Buffer.from(catName).toString('base64')}`;
                 const platformCat = cats.get(catKey);
-                if (!platformCat || platformCat.is_deleted) {
+                if (platformCat.is_deleted || !platformCat) {
                   cats.add(catKey, {
                     name: catName,
                     added: [],
@@ -94,7 +94,7 @@ export class CategoryManager {
         }).catch((error: any)=>{
           throw error;
         })
-        .then(() => cats.save())
+        .then(()=>{return cats.save()})
         .then(()=>{
           localConfig.UserLocalConfigStore.WebStorage['user-collections'] = JSON.stringify(collections).replace(/"/g, '\\"');
           const newVDF = genericParser.stringify(localConfig);

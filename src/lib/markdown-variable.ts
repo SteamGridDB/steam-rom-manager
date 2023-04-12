@@ -1,4 +1,4 @@
-import MarkdownIt from 'markdown-it';
+import { MarkdownIt } from 'markdown-it';
 import { APP } from '../variables';
 import * as _ from 'lodash';
 
@@ -17,7 +17,7 @@ export function MarkdownVariable(md: MarkdownIt, options?: any) {
             if (!content.match(/\r\n|\r|\n/g)) {
                 let match = /(APP)\s*\[(.+)\]/.exec(content);
                 if (!silent && match !== null && match[1] != null && match[2] != null) {
-                    let token:any = state.push("markdown-variable", match[1], 0);
+                    let token = state.push("markdown-variable", match[1], 0);
                     token.content = match[2];
                     token.markup = markup;
                 }
@@ -32,7 +32,7 @@ export function MarkdownVariable(md: MarkdownIt, options?: any) {
         state.pos = startPos;
         return true;
     });
-
+    
     md.renderer.rules["markdown-variable"] = (tokens, idx, options, env, self) => {
         const token = tokens[idx];
         switch (token.tag) {

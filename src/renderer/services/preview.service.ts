@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Http } from '@angular/http';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ParsersService } from './parsers.service';
 import { LoggerService } from './logger.service';
@@ -8,7 +8,7 @@ import { ImageProviderService } from './image-provider.service';
 import {
   PreviewData, ImageContent, ParsedUserConfiguration, AppImages, PreviewVariables,
   ImagesStatusAndContent, ProviderCallbackEventMap, PreviewDataApp, AppSettings,
-  SteamTree, userAccountData, VDF_ExtraneousItemsData, ErrorData, AppSelection, AppSelectionImages, AppSelectionImage, UserConfiguration
+  SteamTree, userAccountData, VDF_ExtraneousItemsData, ErrorData, AppSelection, AppSelectionImages, AppSelectionImage
 } from '../../models';
 import { VDF_Manager, VDF_Error, CategoryManager, ControllerManager, Acceptable_Error } from "../../lib";
 import { APP } from '../../variables';
@@ -23,16 +23,15 @@ import * as fs from "fs-extra";
 import * as FileSaver from 'file-saver';
 import * as path from "path";
 import { getMaxLength } from "../../lib/helpers/app-image/get-max-length";
+import { P } from '@angular/core/src/render3';
 import { OpenDialogReturnValue } from 'electron';
-import { dialog } from '@electron/remote';
-
 @Injectable()
 
 export class PreviewService {
   private appSettings: AppSettings;
   private previewData: PreviewData;
   private previewVariables: PreviewVariables;
-  private previewDataChanged: Subject<void>;
+  private previewDataChanged: Subject<boolean>;
   private appImages: AppImages;
   private appTallImages: AppImages;
   private appHeroImages: AppImages;
@@ -41,9 +40,8 @@ export class PreviewService {
   private allEditedSteamDirectories: string[];
   private imageTypes: string[];
   private currentImageType: string;
-  private batchProgress: BehaviorSubject<{update: string, batch: number}>;
 
-  constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private settingsService: SettingsService, private http: HttpClient) {
+  constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private settingsService: SettingsService, private http: Http) {
     this.previewData = undefined;
     this.previewVariables = {
       listIsBeingSaved: false,
@@ -52,8 +50,7 @@ export class PreviewService {
       numberOfQueriedImages: 0,
       numberOfListItems: 0
     };
-    this.previewDataChanged = new Subject<void>();
-    this.batchProgress = new BehaviorSubject({update: "", batch: -1})
+    this.previewDataChanged = new Subject<boolean>();
     this.settingsService.onLoad((appSettings: AppSettings) => {
       this.appSettings = appSettings;
     });
@@ -104,9 +101,6 @@ export class PreviewService {
   getPreviewDataChange() {
     return this.previewDataChanged;
   }
-  getBatchProgress() {
-    return this.batchProgress.asObservable();
-  }
 
   getPreviewVariables() {
     return this.previewVariables;
@@ -123,10 +117,6 @@ export class PreviewService {
     this.currentImageType = imageType;
   }
 
-  onLoadUserConfigurations(callback: (userConfigurations: UserConfiguration[]) => void) {
-    return this.parsersService.onLoad(callback);
-  }
-
   generatePreviewData() {
     if (this.previewVariables.listIsBeingGenerated)
       return this.loggerService.info(this.lang.info.listIsBeingGenerated, { invokeAlert: true, alertTimeout: 3000 });
@@ -140,19 +130,19 @@ export class PreviewService {
     this.generatePreviewDataCallback();
   }
 
-  saveData({batchWrite, removeAll}: {batchWrite: boolean, removeAll: boolean}): Promise<any> {
+  saveData(remove: boolean): Promise<any> {
 
     let knownSteamDirectories = this.parsersService.getKnownSteamDirectories();
     if (this.previewVariables.listIsBeingSaved) {
       return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingSaved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     }
-    else if (!removeAll && this.previewVariables.numberOfListItems === 0) {
+    else if (!remove && this.previewVariables.numberOfListItems === 0) {
       return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     }
     else if (this.previewVariables.listIsBeingRemoved) {
       return Promise.resolve().then(() => { this.loggerService.info(this.lang.info.listIsBeingRemoved, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     }
-    else if (removeAll && knownSteamDirectories.length === 0) {
+    else if (remove && knownSteamDirectories.length === 0) {
       return Promise.resolve().then(() => { this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, { invokeAlert: true, alertTimeout: 3000 }); return false; });
     }
 
@@ -164,7 +154,7 @@ export class PreviewService {
     let extraneousAppIds: VDF_ExtraneousItemsData = undefined;
     let chain: Promise<any> =  Promise.resolve().then(()=>{
       this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
-      return vdfManager.prepare(removeAll ? knownSteamDirectories : this.previewData)
+      return vdfManager.prepare(remove ? knownSteamDirectories : this.previewData)
     })
     .then(()=>{
       this.loggerService.info(this.lang.info.creatingBackups, { invokeAlert: true, alertTimeout: 3000 });
@@ -174,7 +164,7 @@ export class PreviewService {
       this.loggerService.info(this.lang.info.readingVDF_Files, { invokeAlert: true, alertTimeout: 3000 });
       return vdfManager.read();
     })
-    if(!removeAll) {
+    if(!remove) {
       chain = chain.then(() => {
         this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         return vdfManager.mergeData(this.previewData, this.appImages, this.appTallImages, this.appHeroImages, this.appLogoImages,this.appIcons, this.appSettings.previewSettings.deleteDisabledShortcuts)
@@ -190,7 +180,7 @@ export class PreviewService {
     })
     .then(() => {
       this.loggerService.info(this.lang.info.savingCategories)
-      return categoryManager.save(this.previewData, extraneousAppIds, removeAll)
+      return categoryManager.save(this.previewData, extraneousAppIds, remove)
     }).catch((error: Acceptable_Error | Error) => {
       if(error instanceof Acceptable_Error) {
         this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
@@ -200,8 +190,8 @@ export class PreviewService {
       }
     })
     .then(() => {
-      this.loggerService.info(this.lang.info.savingControllers)
-      return controllerManager.save(this.previewData, extraneousAppIds, removeAll)
+      this.loggerService.info('Saving controllers')
+      return controllerManager.save(this.previewData, extraneousAppIds, remove)
     }).catch((error: Acceptable_Error | Error) => {
       if(error instanceof Acceptable_Error) {
         this.loggerService.error(this.lang.errors.controllerSaveError, { invokeAlert: true, alertTimeout: 3000 });
@@ -211,31 +201,12 @@ export class PreviewService {
       }
     })
     .then(() => {
-      if (removeAll) {
-        this.loggerService.info(this.lang.info.removingVDF_entries)
-      } else {
-        this.loggerService.info(this.lang.info.writingVDF_entries__i.interpolate({ batchSize: 500 }), { invokeAlert: true, alertTimeout: 3000 })
-      }
-      if (batchWrite) {
-        vdfManager.getBatchProgress().subscribe(({update, batch}: {update: string, batch: number})=> {
-          if(batch > -1) {
-            this.loggerService.info(update, {invokeAlert: true, alertTimeout: 3000})
-            this.batchProgress.next({update: update, batch: batch})
-          }
-        })
-      }
-      return vdfManager.write(batchWrite);
-    })
-    .catch((vdf_error: VDF_Error) => {
-      if(vdf_error.nonFatal) {
-        this.loggerService.error(vdf_error);
-      } else {
-        throw vdf_error;
-      }
+      this.loggerService.info('Writing VDFs')
+      return vdfManager.write();
     })
     .then(() => {
       this.previewVariables.listIsBeingSaved = false;
-      if (removeAll) {
+      if (remove) {
         this.loggerService.success(this.lang.success.removingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
         this.clearPreviewData();
       } else {
@@ -1035,6 +1006,7 @@ export class PreviewService {
       return `${append}.${extension}`;
     }
 
+    const dialog = require('electron').remote.dialog;
     const options: Electron.OpenDialogSyncOptions = {
       properties: ['openDirectory', 'createDirectory'],
       title: 'Choose selections folder save location.'
@@ -1125,6 +1097,7 @@ export class PreviewService {
 
   async importSelection() {
 
+    const dialog = require('electron').remote.dialog;
     const options: Electron.OpenDialogSyncOptions = {
       properties: ['openDirectory', 'createDirectory'],
       title: 'Choose selections folder location.'

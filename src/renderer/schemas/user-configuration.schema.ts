@@ -1,6 +1,6 @@
 import { availableProviders, defaultProviders, providerInfo } from '../../lib/image-providers/available-providers';
 import { availableParsers, availableParserInputs } from '../../lib/parsers/available-parsers';
-import { ParserType } from "../../models";
+
 import { cloneDeep, union } from "lodash";
 
 const sharedProperties = {
@@ -159,7 +159,7 @@ const sharedProperties = {
   }
 }
 
-let options: any[] = availableParsers.map((parserType: ParserType)=>{
+let options = availableParsers.map((parserType: string)=>{
   let temp = cloneDeep(sharedProperties);
   if(availableParserInputs[parserType].length) {
     Object.assign(temp.properties, {

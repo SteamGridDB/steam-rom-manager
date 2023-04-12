@@ -1,8 +1,7 @@
 import { Component, Input, Output, ChangeDetectionStrategy, OnInit, EventEmitter, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormControl, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { NestedFormElement, NestedFormInputs, NestedFormElements, IndexedFormGroup, IndexedFormControl } from "../../models";
-import { Observable, BehaviorSubject, combineLatest } from "rxjs";
-import { map } from "rxjs/operators";
+import { FormGroup, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
+import { NestedFormElement, NestedFormInputs, NestedFormElements } from "../../models";
+import { Observable, BehaviorSubject } from "rxjs";
 import * as _ from 'lodash';
 
 @Component({
@@ -13,12 +12,11 @@ import * as _ from 'lodash';
   encapsulation: ViewEncapsulation.None
 })
 export class NgNestedFormComponent implements OnInit {
-  private currentForm: IndexedFormGroup = new FormGroup({});
+  private currentForm: FormGroup = new FormGroup({});
   private hiddenSections: BehaviorSubject<{[sectionName: string]: boolean}>;
   private sectionMap: {[elementName: string]: string} = {};
   private validityObservables: (()=>Observable<string>)[] = [];
-  private dumb: IndexedFormControl;
-  @Input() public parentForm: IndexedFormGroup;
+  @Input() public parentForm: FormGroup;
   @Input() public groupName: string;
   @Input() public nestedGroup: NestedFormElement.Group;
 
@@ -33,7 +31,7 @@ export class NgNestedFormComponent implements OnInit {
     if (this.groupName)
       this.parentForm.setControl(this.groupName, this.currentForm);
     else
-      this.parentFormChange.emit(this.currentForm);
+      this.parentFormChange.next(this.currentForm);
   }
 
   private toggleHiddenSection(sectionName: string) {
@@ -62,10 +60,10 @@ export class NgNestedFormComponent implements OnInit {
     } else {
       if (el['__hidden'] === undefined) {
         if (el.isHidden !== undefined) {
-          el['__hidden'] = combineLatest(el.isHidden(),this.hiddenSections).pipe(map(([h,hs])=>h||!!hs[this.sectionMap[elName]||""]));
+          el['__hidden'] = Observable.combineLatest(el.isHidden(),this.hiddenSections).map(([h,hs])=>h||!!hs[this.sectionMap[elName]||""]);
         }
         else {
-          el['__hidden'] = this.hiddenSections.pipe(map(hs=>!!hs[this.sectionMap[elName]||""]));
+          el['__hidden'] = this.hiddenSections.map(hs=>!!hs[this.sectionMap[elName]||""]);
         }
       }
     }
@@ -84,20 +82,20 @@ export class NgNestedFormComponent implements OnInit {
   }
 
   private buildFromTemplate(group: NestedFormElement.Group) {
-    let formGroup: IndexedFormGroup = new FormGroup({});
+    let formGroup = new FormGroup({});
     formGroup['__path'] = this.groupName ? (this.parentForm ? this.parentForm['__path'] : null as Array<string> || []).concat(this.groupName) : [];
     for (let childKey in group.children) {
       let notGroup = group.children[childKey] instanceof NestedFormElement.Group === false;
       let notSection = group.children[childKey] instanceof NestedFormElement.Section === false;
       if (notGroup && notSection) {
         let child = group.children[childKey] as NestedFormInputs;
-        let formControl: IndexedFormControl = new FormControl();
+        let formControl = new FormControl();
 
         formControl['__path'] = formGroup['__path'].concat(childKey);
         formControl.reset({ value: child.initialValue || null, disabled: child.disabled || false }, { onlySelf: true, emitEvent: false });
 
-        // let callbacks: ValidatorFn[] = [];
-        let callbacks: ((c: IndexedFormControl) => ValidationErrors)[] = [];
+        let callbacks: ValidatorFn[] = [];
+
         if (child.onValidate) {
           callbacks.push((c) => {
             let error = child.onValidate(c, c['__path']);
