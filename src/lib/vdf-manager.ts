@@ -207,6 +207,8 @@ export class VDF_Manager {
                   exe: app.executableLocation,
                   StartDir: app.startInDirectory,
                   LaunchOptions: app.argumentString,
+                  IsHidden: false,
+                  AllowOverlay: true,
                   icon: icon_path,
                   tags: app.steamCategories
                 });
