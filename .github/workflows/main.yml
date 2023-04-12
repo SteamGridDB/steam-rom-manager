@@ -17,7 +17,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup Python environment
         uses: actions/setup-python@v4
