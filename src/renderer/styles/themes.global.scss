@@ -83,7 +83,7 @@
   --img-nav-link-display: none;
   --color-nav-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-nav-scrollbar-track: rgba(80, 80, 80, 0.3);
-  --height-navarea: 180px;
+  --height-navarea: 220px;
   --color-ng-select-arrow: #c8c8c8;
   --color-ng-select-arrow-active: #c8c8c8;
   --color-ng-select-arrow-hover: #c8c8c8;
@@ -187,7 +187,7 @@
   --color-nested-form-scrollbar-track: rgba(80, 80, 80, 0.3);
   --font-weight-nested-form-label: normal; //
   --font-transform-nested-form-label: inherit; //
-  --font-size-nested-form-label: 14px; //
+  --font-size-nested-form-label: 16px; //
   --color-settings-background: #050505;
   --color-settings-text: #a0a0a0;
   --color-success: #1bd85e;
@@ -368,12 +368,12 @@
   --padding-input-text: var(--ng-select-padding);
   --margin-input-text: 16px;
   --color-logger-menu-background: #050505;
-  --color-logger-messages-background: #181818;
+  --color-logger-messages-background: var(--color-markdown-background);
   --color-logger-messages-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-logger-messages-scrollbar-track: rgba(80, 80, 80, 0.3);
   --color-logger-menu-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-logger-menu-scrollbar-track: rgba(80, 80, 80, 0.3);
-  --color-logger-bugreport-background: #000000;
+  --color-logger-bugreport-background: var(--color-nested-form-background);
   --color-logger-messages-text: #c8c8c8;
   --color-logger-reportid: rgb(200, 200, 0);
   --color-main-background: #0a1723;
@@ -400,7 +400,7 @@
   --img-nav-link-display: inline-block;
   --color-nav-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-nav-scrollbar-track: rgba(80, 80, 80, 0.3);
-  --height-navarea: 260px;
+  --height-navarea: 316px;
   --color-ng-select-arrow: #c8c8c8;
   --color-ng-select-arrow-active: #c8c8c8;
   --color-ng-select-arrow-hover: #c8c8c8;
@@ -411,13 +411,13 @@
   --color-ng-select-border-active: transparent;
   --color-ng-select-border-hover: transparent;
   --color-ng-select-option-background: var(--ng-select-background);
-  --color-ng-select-option-background-active: #fff;
+  --color-ng-select-option-background-active: var(--color--accent);
   --color-ng-select-option-background-hover: #fff;
   --color-ng-select-option-border: transparent;
   --color-ng-select-option-border-active: transparent;
   --color-ng-select-option-border-hover: transparent;
   --color-ng-select-option-text: #c8c8c8;
-  --color-ng-select-option-text-active: #c8c8c8;
+  --color-ng-select-option-text-active: #fff;
   --color-ng-select-option-text-hover: #040404;
   --color-ng-select-text: #c8c8c8;
   --color-ng-select-text-active: #c8c8c8;
@@ -505,7 +505,7 @@
   --font-weight-nested-form-label: normal; //
   --font-transform-nested-form-label: uppercase; //
   --font-size-nested-form-label: 14px; //
-  --color-settings-background: #050505;
+  --color-settings-background: inherit;
   --color-settings-text: #a0a0a0;
   --color-success: #1bd85e;
   --color-theme-background: #0c0c0c;
@@ -523,7 +523,7 @@
   --color-theme-rules-item-text-active: #c8c8c8;
   --color-theme-rules-item-text-hover: #c8c8c8;
   --color-theme-text: #a0a0a0;
-  --ng-text-placeholder-color: #4a4a4a;
+  --ng-text-placeholder-color: #c8c8c8;
   --color-theme-themes-background: #181818;
   --color-theme-themes-item-background: rgba(0, 0, 0, 0);
   --color-theme-themes-item-background-active: rgba(0, 0, 0, 0.35);
@@ -613,7 +613,7 @@
   --height-nav-area: 260px;
   --color-parser-menu-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-parser-menu-scrollbar-track: rgba(80, 80, 80, 0.3);
-  --color-about-background: #050505;
+  --color-about-background: inherit;
   --color-about-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-about-scrollbar-track: rgba(80, 80, 80, 0.3);
   --color-highlight-level-0: #256e81;
