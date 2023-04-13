@@ -22,6 +22,7 @@ export interface AppSettings {
     raCoresDirectory: string
   },
   language: string,
+  theme: string,
   offlineMode: boolean,
   enabledProviders: string[],
   previewSettings: PreviewSettings,

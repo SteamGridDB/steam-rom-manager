@@ -67,6 +67,11 @@ export const appSettings: ValidatorModifier<AppSettings> = {
         method: (oldValue) => {
           if(oldValue=='English') {return 'en-US'}
         }
+      },
+      'theme': {
+        method: (oldValue) => {
+          if(oldValue=='Deck') {return 'Deck'}
+        }
       }
     }
   }

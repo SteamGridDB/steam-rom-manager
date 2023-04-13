@@ -56,6 +56,7 @@ export const appSettings = {
       }
     },
     language: { type: 'string', default: languageManager.getDefaultLanguage(), enum: languageManager.getAvailableLanguages() },
+    theme: {type:'string', default: 'Deck'},
     offlineMode: { type: 'boolean', default: false },
     navigationWidth: { type: 'number', default: 0 },
     clearLogOnTest: { type: 'boolean', default: false }

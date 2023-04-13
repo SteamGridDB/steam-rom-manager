@@ -1,0 +1,13 @@
+:host {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: var(--height-navarea) auto;
+  gap: 0px 0px;
+  grid-template-areas: "nav" "nav-parsers";
+  grid-area: navarea;
+  overflow: hidden;
+  min-width: 7em;
+  width: var(--nav-width);
+  max-width: 25vw;
+  background-color: var(--color-nav-background);
+}

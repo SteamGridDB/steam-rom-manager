@@ -5,3 +5,4 @@ npm-debug.log*
 .debug/
 electron-builder.yml
 /.vs
+.DS_Store

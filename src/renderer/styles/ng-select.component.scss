@@ -1,79 +1,85 @@
-@import 'mixins';
+@import "mixins";
 
 :host {
-    position: relative;
+  position: relative;
 
+  display: grid;
+
+  color: black;
+  border-color: deepskyblue;
+  background-color: white;
+
+  fill: black;
+
+  @include ngSelect();
+  @include ngSelectColor(ng-select);
+
+  .display {
     display: grid;
 
-    color: black;
-    border-color: deepskyblue;
-    background-color: white;
+    padding: var(--ng-select-padding, 0);
 
-    fill: black;
+    cursor: pointer;
 
-    @include ngSelect();
-    @include ngSelectColor(ng-select);
+    color: var(--color-ng-select-text);
+    border-width: var(--ng-select-border-width, 1px);
+    border-style: solid;
+    border-color: inherit;
+    background-color: var(--ng-select-background);
+    &::placeholder {
+      color: var(--color-ng-select-text);
+    }
+    align-content: center;
+    fill: inherit;
 
-    .display {
-        display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr auto;
+    &:active,
+    &:focus,
+    &.open {
+      background: var(--ng-select-background-hover);
+    }
+    > div {
+      overflow: hidden;
 
-        padding: var(--ng-select-padding, 0);
+      cursor: pointer;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    > svg {
+      height: 1.2em;
+      margin: 0 0 0 auto;
 
+      cursor: pointer;
+
+      fill: inherit;
+      polyline {
         cursor: pointer;
-
-        color: inherit;
-        border-width: var(--ng-select-border-width, 1px);
-        border-style: solid;
-        border-color: inherit;
-        background-color: inherit;
-
-        align-content: center;
-        fill: inherit;
-
-        grid-auto-flow: column;
-        grid-auto-columns: 1fr auto;
-
-        >div {
-            overflow: hidden;
-
-            cursor: pointer;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-        >svg {
-            height: 1.2em;
-            margin: 0 0 0 auto;
-
-            cursor: pointer;
-
-            fill: inherit;
-            polyline {
-                cursor: pointer;
-            }
-        }
+      }
     }
-    .options {
-        position: absolute;
-        z-index: 1;
-        top: 100%;
-        left: 0;
+  }
+  .options {
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 0;
 
-        display: none;
+    display: none;
 
-        &.open {
-            display: grid;
+    &.open {
+      display: grid;
 
-            overflow-y: auto;
+      overflow-y: auto;
 
-            min-width: calc(100% - (var(--ng-select-border-width, 1px) * 2));
+      min-width: calc(100% - (var(--ng-select-border-width, 1px) * 2));
 
-            border-width: var(--ng-select-border-width, 1px);
-            border-style: solid;
-            border-color: inherit;
+      border-width: var(--ng-select-border-width, 1px);
+      border-style: solid;
+      border-color: inherit;
 
-            max-height: 274px;
+      max-height: 274px;
 
-            @include webkitScrollbar(ng-select-scrollbar);
-        }
+      @include webkitScrollbar(ng-select-scrollbar);
     }
+  }
 }
