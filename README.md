@@ -7,6 +7,11 @@ Steam ROM Manager
 [![Discord](https://img.shields.io/discord/488621078302949377?color=5865F2&label=SRM&logo=discord&logoColor=white)](https://discord.gg/bnSVJrz)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/steam-rom-manager?color=blue&label=Chocolatey%20package)](https://community.chocolatey.org/packages/steam-rom-manager)
 [![Crowdin](https://badges.crowdin.net/steam-rom-manager/localized.svg)](https://crowdin.com/project/steam-rom-manager)
+
+<a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="38" width="174">
+</a>
+
 # Overview
 
 Steam ROM Manager (SRM) is a super flexible tool for adding non-Steam games to Steam in bulk and managing their artwork assets and controller templates. Added games could be ROMs for emulators, games from other stores such as Epic or GOG, or even not games at all. Have you always wanted your notes from junior year as a category in steam? If so that's pretty weird! But now it's possible.
@@ -23,18 +28,12 @@ The Linux version is also available as a [Flatpak](https://flatpak.org) at [Flat
 
 If you're on a Steam Deck we recommend setting everything up through [EmuDeck](https://www.emudeck.com/), as it will install and automatically configure Steam ROM Manager and whatever emulators you want.
 
-# Support
+# Support Steam Grid DB
 
 If you enjoy Steam ROM Manager and want it to continue to be useful consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. [SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork Steam ROM Manager uses to make your Steam library the envy of the town, so we should probably help them keep their lights on.
 
 <a href="https://www.patreon.com/steamgriddb">
-    <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
-
-If you're feeling exceptionally generous then feel free to also buy me a coffee!
-
-<a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
-  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="38" width="174">
+    <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" height="38">
 </a>
 
 # Parsers
