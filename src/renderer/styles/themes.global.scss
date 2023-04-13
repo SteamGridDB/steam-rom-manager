@@ -1,4 +1,8 @@
 :root {
+  --color-app-loading-spinner: #31a0f4
+}
+
+.classic-theme {
   --nav-width: 20vw;
   --color-alert-background: #121212;
   --color-alert-text: #c8c8c8;
@@ -16,7 +20,7 @@
   --color-click-button-text-disabled: #9f9f9f;
   --color-click-button-text-hover: #f0fff0;
   --padding-click-button: 0.2em 0.5em;
-  --radius-click-button: 4px;
+  --radius-click-button: 0px;
   --color-dangerous-click-button-background: rgba(0, 0, 0, 0);
   --color-dangerous-click-button-background-active: #941722;
   --color-dangerous-click-button-background-disabled: #414141;
@@ -310,12 +314,13 @@
   --color-custom-variables-background: #050505;
   --color-custom-variables-text: #a0a0a0;
   --color-custom-variables-divider: #121212;
+  --width-preview-select-cats: 9em;
+  --width-preview-select-type: 8em;
 }
 
 .steam-theme {
   --color--accent: #31a0f4;
   --nav-width: 20vw;
-
   --color-alert-background: #121212;
   --color-alert-text: #c8c8c8;
   --color-app-loading-spinner: var(--color--accent);
@@ -553,13 +558,13 @@
   --color-titlebar-minimize-text-hover: #a0a0a0;
   --color-titlebar-title: #a0a0a0;
   --color-toggle-button-background: #fff;
-  --color-toggle-button-background-active: #137c38;
-  --color-toggle-button-background-active-hover: #16ac4b;
-  --color-toggle-button-background-hover: #2f2f2f;
-  --color-toggle-button-border: #1db954;
-  --color-toggle-button-border-active: #137c38;
-  --color-toggle-button-border-active-hover: #16ac4b;
-  --color-toggle-button-border-hover: #1bd85e;
+  --color-toggle-button-background-active: var(--color--accent);
+  --color-toggle-button-background-active-hover: var(--color--accent);
+  --color-toggle-button-background-hover: var(--color--accent);
+  --color-toggle-button-border: transparent;
+  --color-toggle-button-border-active: transparent;
+  --color-toggle-button-border-active-hover:transparent;
+  --color-toggle-button-border-hover: transparent;
   --color-toggle-button-text: #a0a0a0;
   --color-toggle-button-text-active: #f0fff0;
   --color-toggle-button-text-active-hover: #f0fff0;
@@ -628,4 +633,6 @@
   --color-custom-variables-background: #050505;
   --color-custom-variables-text: #a0a0a0;
   --color-custom-variables-divider: #121212;
+  --width-preview-select-cats: 12em;
+  --width-preview-select-type: 10em;
 }

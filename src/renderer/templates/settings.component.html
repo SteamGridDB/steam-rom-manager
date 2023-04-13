@@ -31,20 +31,20 @@
     </div>
     <div class="inputContainer">
       <div class="inlineGroup">
-        <div class=text style="margin-right: 0.25em;">{{lang.text.selectTheme}}:</div>
         <ng-select placeholder="{{lang.text.selectTheme}}" style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.theme" (ngModelChange)="settings.theme = $event; loadTheme(); onSettingsChange();" [values]="themes">
         </ng-select>
+        <div class=text style="margin-left: 0.25em;">{{lang.text.selectTheme}}</div>
       </div>
     </div>
     <div class="inputContainer">
       <div class="inlineGroup">
-        <div class=text style="margin-right: 0.25em;">{{lang.text.selectLanguage}}</div>
         <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.language" (ngModelChange)="settings.language = $event; loadLanguage(); onSettingsChange();" [values]="availableLanguages">
         </ng-select>
+        <div class=text style="margin-left: 0.25em;">{{lang.text.selectLanguage}}</div>
       </div>
       <div>
         <a href="https://crowdin.com/project/steam-rom-manager">
-          <img src="https://badges.crowdin.net/steam-rom-manager/localized.svg" alt="Crowdin" height="20px">
+          <img src="https://badges.crowdin.net/steam-rom-manager/localized.svg" alt="Crowdin" height="25px">
         </a>
       </div>
     </div>
@@ -80,10 +80,10 @@
     </div>
     <div class="inputContainer">
       <div class="inlineGroup">
-        <div class=text style="margin-right: 0.25em;">{{lang.text.enabledProviders}}</div>
         <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.enabledProviders" (ngModelChange)="settings.enabledProviders = $event; onSettingsChange();"
                                               multiple="true" allowEmpty="true" [placeholder]="lang.placeholder.noProviders" [values]="availableProviders">
         </ng-select>
+        <div class=text style="margin-left: 0.25em;">{{lang.text.enabledProviders}}</div>
       </div>
     </div>
   </div>

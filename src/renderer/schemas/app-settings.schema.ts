@@ -1,5 +1,6 @@
 import { languageManager } from '../../variables';
 import { availableProviders } from "../../lib/image-providers/available-providers";
+import { availableThemes } from "../../lib/themes/available-themes";
 
 export const appSettings = {
   type: 'object',
@@ -56,7 +57,7 @@ export const appSettings = {
       }
     },
     language: { type: 'string', default: languageManager.getDefaultLanguage(), enum: languageManager.getAvailableLanguages() },
-    theme: {type:'string', default: 'Deck'},
+    theme: {type:'string', default: 'Deck', enum: availableThemes},
     offlineMode: { type: 'boolean', default: false },
     navigationWidth: { type: 'number', default: 0 },
     clearLogOnTest: { type: 'boolean', default: false }

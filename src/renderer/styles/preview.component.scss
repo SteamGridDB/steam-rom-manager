@@ -43,14 +43,14 @@
     }
     .selectType {
       grid-column: 2;
-      width: 8em;
+      width: var(--width-preview-select-type);
       font-size: 1em;
       margin-right: .75em;
       color: var(--color-preview-text);
     }
     .selectCategories {
       grid-column: 2;
-      width: 9em;
+      width: var(--width-preview-select-cats);
       font-size: 1em;
       margin-right: .75em;
       color: var(--color-preview-text);

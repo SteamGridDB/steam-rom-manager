@@ -17,10 +17,10 @@ export class NavParsersComponent implements OnDestroy {
    private isExceptionsUnsaved: boolean = false;
    private dummy: boolean = true;
    private subscriptions: Subscription = new Subscription();
- 
+
    private navForm: FormGroup;
    private navFormItems: FormArray;
- 
+
    constructor(
      private parsersService: ParsersService,
      private languageService: LanguageService,
@@ -28,7 +28,7 @@ export class NavParsersComponent implements OnDestroy {
      private changeRef: ChangeDetectorRef,
      private formBuilder: FormBuilder,
    ) {}
- 
+
    ngOnInit() {
      this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe((userConfigurations) => {
        this.numConfigurations = userConfigurations.length;
@@ -63,19 +63,23 @@ export class NavParsersComponent implements OnDestroy {
        this.changeRef.detectChanges();
      });
    }
- 
+
+   private flipAll() {
+     this.navForm.get('selectAll').setValue(!this.navForm.get('selectAll').value)
+   }
+
    private refreshActiveRoute(){
      this.dummy = !this.dummy;
    }
- 
+
    private get lang(){
      return APP.lang.nav.component;
    }
- 
+
    getParserControls() {
      return (this.navForm.get('parserStatuses') as FormArray).controls;
    }
- 
+
    ngOnDestroy() {
      this.subscriptions.unsubscribe();
    }

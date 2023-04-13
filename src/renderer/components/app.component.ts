@@ -9,7 +9,7 @@ import markdownItAttrs from 'markdown-it-attrs';
   selector: 'app',
   template: `
   <ng-container *ngIf="settingsLoaded && languageLoaded; else stillLoading">
-    <titlebar></titlebar>
+  <titlebar></titlebar>
   <navarea></navarea>
   <nav-border></nav-border>
   <router-outlet style="display: none;"></router-outlet>
@@ -34,6 +34,13 @@ export class AppComponent {
     this.settingsService.onLoad((appSettings) => {
       this.settingsLoaded = true;
       this.router.navigate(['/parsers', -1]);
+      let themeCSS;
+      switch (appSettings.theme) {
+        case "Classic" : themeCSS = 'classic-theme'; break;
+        default : themeCSS = 'steam-theme'; break;
+      }
+      document.querySelector('html').className = '';
+      document.querySelector('html').classList.add(themeCSS)
       this.changeDetectionRef.detectChanges();
     });
     this.languageService.observeChanges().subscribe((lang) => {
