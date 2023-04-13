@@ -8,7 +8,7 @@ This is where you create your glob for extracting title from file path. Please r
 
 In addition to special glob characters, glob parser requires you to enter `${/.../}`{.noWrap} variable. Parser will locate it's position inside your  glob, for example:
 
-| User's glob           | Position                    |
+| User's glob           | Położenie                   |
 | --------------------- | --------------------------- |
 | `${/.+/}/*/*.txt`     | First level from the left   |
 | `{*,*/*}/${/.+/}.txt` | First level from the right  |
