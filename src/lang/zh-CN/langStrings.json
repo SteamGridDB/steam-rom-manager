@@ -286,6 +286,7 @@
         "fuzzy_filter": "筛选图像",
         "enabledProviders": "已启用的提供者：",
         "selectLanguage": "选择语言：",
+        "selectTheme": "Select theme",
         "resetFuzzy_desc": "模糊列表",
         "resetFuzzyCache_desc": "模糊缓存",
         "resetFuzzy_btn": "重置",
