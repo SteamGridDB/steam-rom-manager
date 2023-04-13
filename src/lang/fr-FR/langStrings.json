@@ -286,6 +286,7 @@
         "fuzzy_filter": "Filter images",
         "enabledProviders": "Enabled providers:",
         "selectLanguage": "Sélectionner la langue:",
+        "selectTheme": "Select theme",
         "resetFuzzy_desc": "fuzzy list",
         "resetFuzzyCache_desc": "fuzzy cache",
         "resetFuzzy_btn": "Réinitialiser",
