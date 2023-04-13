@@ -324,8 +324,13 @@ function getIndirectResourceString(fullName: string, packageName: string, resour
 function getUWPAppDetail(manifest: SimpleManifest, xmlParser: XMLParser) {
   var uwpApp: SimpleUWPApp = {} as SimpleUWPApp;
 
+  const command = `$PkgMgr = [Windows.Management.Deployment.PackageManager,Windows.Web,ContentType=WindowsRuntime]::new(); 
+            $package = $PkgMgr.FindPackagesForUser([System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value, "${manifest.idName}", "${manifest.idPublisher}"); 
+            $newObject = $package | Select-Object IsFramework, IsResourcePackage, SignatureKind, IsBundle, InstalledLocation, InstalledPath, Id; 
+            $newObject | ConvertTo-Json`
+
   const searchResults = spawnSync(
-    `$PkgMgr = [Windows.Management.Deployment.PackageManager,Windows.Web,ContentType=WindowsRuntime]::new(); $PkgMgr.FindPackagesForUser([System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value, "${manifest.idName}", "${manifest.idPublisher}") | ConvertTo-Json`,
+    command,
       {
       shell: 'powershell',
       encoding: "utf-8",
