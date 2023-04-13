@@ -4,7 +4,7 @@ Allows one to use an image, stored locally, as a default/fallback hero image. A 
 
 This image will be shown **only** if there are no other images available. If Steam image is available, you will be able to choose from Steam and this image.
 
-## Allowed image extensions
+## Dozwolone rozszerzenia obrazów
 
 Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Even if parser finds files with other extensions, they are not included into the final list.
 
