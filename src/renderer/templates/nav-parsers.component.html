@@ -1,24 +1,12 @@
 <div class="parsers" [formGroup]="navForm" *ngIf="!!navForm">
   <nav-expand routerLinkActive="active">
-    <div class="title">
+     <div class="title">
       <div class="inputContainer">
         <div class="inlineGroup">
           <nav-link
-            class="titlelink"
-            [routerLink]="['/parsers', -1]"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <span>{{ lang.parsers }}</span>
+            class="titlelink">
+            <span>Toggle Parsers</span>
             <span>&nbsp;&nbsp;</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              version="1.1"
-              viewBox="0 0 300 300"
-              *ngIf="userConfigurations.length"
-            >
-              <polyline points="30,110 150,210 270,110" style="stroke-width: 30; fill: none" />
-            </svg>
           </nav-link>
           <ng-toggle-button class="ngToggleButton" [formControl]="navForm.get('selectAll')"></ng-toggle-button>
         </div>
