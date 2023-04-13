@@ -5,11 +5,13 @@ import { IpcService } from '../services';
   selector: 'update-notifier',
   template: `
             <div id="updateNotification">
+              <div class="update-notifier-content">
               <p id="message" [innerHTML]="messageText"></p>
               <div id="no-button" class="noButton" (click)= "showUpdater=false" [class.hidden]="initiatedDownload">{{isPortableUpdate?'Close':'No'}}</div>
               <div id="yes-button" class="goButton" (click)="downloadUpdate()" [class.hidden]="initiatedDownload||isPortableUpdate">Yes</div>
               <div id="cancel-button" class="noButton" (click)="cancelUpdate()" [class.hidden]="!initiatedDownload">Cancel</div>
               <div id="restart-button" class="goButton" (click)="restartApp()" [class.hidden]="!downloadComplete">Restart</div>
+              </div>
             </div>
     `,
   styleUrls: ['../styles/update-notifier.component.scss'],

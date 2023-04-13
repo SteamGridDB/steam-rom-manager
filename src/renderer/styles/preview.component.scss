@@ -5,7 +5,7 @@
 :host {
   display: grid;
   overflow-y: auto;
-
+  overflow:hidden;
   background-color: var(--color-preview-background);
 
   --preview-image-size: 0.4;
@@ -26,8 +26,7 @@
   grid-template-rows: auto 1fr auto;
 
   .upperMenu {
-    display: grid;
-
+    display: grid;    
     border: 0.5em solid transparent;
     background-color: var(--color-preview-menu-background);
 
@@ -35,6 +34,11 @@
     grid-area: upperMenu;
     grid-template-columns: auto 1fr auto auto;
     grid-template-rows: auto;
+    
+    ng-select,
+    ng-text-input{
+      margin-bottom: 0
+    }
 
     .imageCounter {
       color: var(--color-preview-text);
@@ -82,7 +86,7 @@
     .appFilter {
       @include ngTextInputColor(input);
       @include ngTextInput();
-
+      margin-bottom: 0;
       width: 13em;
 
       grid-column: 4;
@@ -91,7 +95,7 @@
 
   .lowerMenu {
     display: flex;
-
+    overflow-y: auto;
     border: 0.5em solid transparent;
     background-color: var(--color-preview-menu-background);
 
@@ -124,6 +128,7 @@
 
     > .directory {
       > .title {
+        display: var(--display-preview-title);
         padding: 0.5em 0.25em;
         border-top: 1px solid var(--color-preview-separator);
         border-bottom: 1px solid var(--color-preview-separator);
@@ -140,7 +145,7 @@
       }
       > .user {
         > .title {
-          padding: 0.25em 0.25em 0.25em 1.375em;
+          padding: var(--padding-preview-separator);
 
           border-bottom: 1px solid var(--color-preview-separator);
           background-color: var(--color-preview-user-background);

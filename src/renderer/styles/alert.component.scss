@@ -16,19 +16,22 @@
 
 		&.success {
 			color: var(--color-alert-text);
-			border: 1px solid var(--color-success);
+			border: solid var(--color-success);
+			border-width: var(--border-width-alert);
 			background-color: var(--color-alert-background);
 		}
 
 		&.info {
 			color: var(--color-alert-text);
-			border: 1px solid var(--color-info);
+			border: solid var(--color-info);
+			border-width: var(--border-width-alert);
 			background-color: var(--color-alert-background);
 		}
 
 		&.error {
 			color: var(--color-alert-text);
-			border: 1px solid var(--color-error);
+			border: solid var(--color-error);
+			border-width: var(--border-width-alert);
 			background-color: var(--color-alert-background);
 		}
 	}

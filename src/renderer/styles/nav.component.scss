@@ -62,6 +62,7 @@
     &:hover {
       color: var(--color-nav-link-text-hover);
       border-color: var(--color-nav-link-border-hover);
+      background: var(--color-nav-link-bg-hover);
 
       svg {
         polyline {

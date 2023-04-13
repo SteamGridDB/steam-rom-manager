@@ -8,7 +8,7 @@ import { Subscription } from "rxjs";
 @Component({
     selector: 'alert',
     template: `
-        <div *ngIf="currentMessage" [@fadeInOut]="" [ngClass]="currentMessage.type" (click)="closeAlert()">
+        <div *ngIf="currentMessage" [@slideIn]="" [ngClass]="currentMessage.type" (click)="closeAlert()">
             {{currentMessage.text}}
         </div>
     `,
@@ -23,6 +23,16 @@ import { Subscription } from "rxjs";
             ]),
             transition('* => void', [
                 animate(500, style({ opacity: '0' }))
+            ])
+        ]),
+        trigger('slideIn', [
+            transition('void => *', [
+                style({ right: '-50vw' }),
+                animate(500, style({ right: '0' }))
+            ]),
+            transition('* => void', [
+                animate(500, style({ right: '0' })),
+                style({ right: '-50vw' })
             ])
         ])
     ],
