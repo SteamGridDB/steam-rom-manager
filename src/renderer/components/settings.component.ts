@@ -150,13 +150,14 @@ export class SettingsComponent implements OnDestroy {
   private loadLanguage(){
     this.languageService.loadLanguage(this.settings.language);
   }
-  
-  private loadTheme(){   
-    let themeCSS; 
+
+  private loadTheme(){
+    let themeCSS;
     switch (this.settings.theme) {
         case "Deck" : themeCSS = 'steam-theme'; break;
-        default : themeCSS = ''; break;
+        default : themeCSS = 'classic-theme'; break;
     }
+
     document.querySelector('html').className = '';
     document.querySelector('html').classList.add(themeCSS)
   }

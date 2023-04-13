@@ -58,7 +58,7 @@ export class SettingsService {
   }
 
   saveAppSettings() {
-    if (!this.savingIsDisabled){
+    if (!this.savingIsDisabled) {
       json.write(paths.userSettings, this.appSettings).then().catch((error) => {
         this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
         this.loggerService.error(error);

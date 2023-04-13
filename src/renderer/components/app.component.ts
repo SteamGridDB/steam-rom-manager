@@ -34,6 +34,13 @@ export class AppComponent {
     this.settingsService.onLoad((appSettings) => {
       this.settingsLoaded = true;
       this.router.navigate(['/parsers', -1]);
+      let themeCSS;
+      switch (appSettings.theme) {
+        case "Classic" : themeCSS = 'classic-theme'; break;
+        default : themeCSS = 'steam-theme'; break;
+      }
+      document.querySelector('html').className = '';
+      document.querySelector('html').classList.add(themeCSS)
       this.changeDetectionRef.detectChanges();
     });
     this.languageService.observeChanges().subscribe((lang) => {

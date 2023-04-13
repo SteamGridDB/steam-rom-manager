@@ -1,4 +1,4 @@
-:root {
+.classic-theme {
   --nav-width: 20vw;
   --color-alert-background: #121212;
   --color-alert-text: #c8c8c8;
@@ -16,7 +16,7 @@
   --color-click-button-text-disabled: #9f9f9f;
   --color-click-button-text-hover: #f0fff0;
   --padding-click-button: 0.2em 0.5em;
-  --radius-click-button: 4px;
+  --radius-click-button: 0px;
   --color-dangerous-click-button-background: rgba(0, 0, 0, 0);
   --color-dangerous-click-button-background-active: #941722;
   --color-dangerous-click-button-background-disabled: #414141;
@@ -310,6 +310,8 @@
   --color-custom-variables-background: #050505;
   --color-custom-variables-text: #a0a0a0;
   --color-custom-variables-divider: #121212;
+  --width-preview-select-cats: 9em;
+  --width-preview-select-type: 8em;
 }
 
 .steam-theme {
@@ -628,4 +630,6 @@
   --color-custom-variables-background: #050505;
   --color-custom-variables-text: #a0a0a0;
   --color-custom-variables-divider: #121212;
+  --width-preview-select-cats: 12em;
+  --width-preview-select-type: 10em;
 }

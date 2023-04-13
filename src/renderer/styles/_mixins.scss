@@ -153,11 +153,11 @@
   border-radius: var(--ng-select-radius);
   color: var(--color-ng-select-text);
   margin-bottom: var(--ng-select-margin);
-  
+
   .inlineGroup &{
     margin-bottom: 0;
   }
-  
+
   ng-option {
     font-size: 1em;
 
