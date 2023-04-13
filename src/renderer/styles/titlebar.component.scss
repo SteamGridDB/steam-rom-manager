@@ -1,58 +1,58 @@
-@import 'mixins';
+@import "mixins";
 
 :host {
-	display: grid;
+  display: grid;
+  background-color: var(--color-titlebar-background);
+  padding: 2px;
 
-    padding: 2px;
+  height: 1.5em;
+  grid-area: titlebar;
+  grid-template-columns: 1fr 1fr 1fr;
 
-    height: 1.5em;
-	grid-area: titlebar;
-	grid-template-columns: 1fr 1fr 1fr;
+  > div {
+    -webkit-app-region: drag;
+  }
 
-	> div {
-		-webkit-app-region: drag;
-	}
+  .title {
+    font-weight: 300;
 
-	.title {
-		font-weight: 300;
+    display: inline-flex;
 
-		display: inline-flex;
+    color: var(--color-titlebar-title);
 
-		color: var(--color-titlebar-title);
+    align-items: center;
+    justify-content: center;
+  }
 
-		align-items: center;
-		justify-content: center;
-	}
+  .buttons {
+    display: inline-flex;
 
-	.buttons {
-		display: inline-flex;
+    justify-content: flex-end;
 
-		justify-content: flex-end;
+    > div {
+      display: inline-flex;
 
-		> div {
-			display: inline-flex;
+      width: 2.5em;
 
-			width: 2.5em;
+      -webkit-app-region: no-drag;
+      justify-content: center;
 
-			-webkit-app-region: no-drag;
-			justify-content: center;
+      > svg {
+        height: 100%;
+        width: 24px;
+      }
 
-			> svg {
-				height: 100%;
-				width: 24px;
-			}
+      &.minimize {
+        @include titlebarButton(titlebar-minimize);
+      }
 
-			&.minimize {
-				@include titlebarButton(titlebar-minimize);
-			}
+      &.maximize {
+        @include titlebarButton(titlebar-maximize);
+      }
 
-			&.maximize {
-				@include titlebarButton(titlebar-maximize);
-			}
-
-			&.close {
-				@include titlebarButton(titlebar-close);
-			}
-		}
-	}
+      &.close {
+        @include titlebarButton(titlebar-close);
+      }
+    }
+  }
 }

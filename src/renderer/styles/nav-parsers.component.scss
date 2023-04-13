@@ -11,7 +11,9 @@
 
   white-space: nowrap;
 
-  grid-area: nav;
+  --link-height: 1.2em;
+  --link-vPadding: 0.5em;
+  grid-area: nav-parsers;
   @include webkitScrollbar(nav-scrollbar, 0.375em);
   .parsers {
     .parserlink {
@@ -43,12 +45,12 @@
     }
   }
   nav-link {
+    height: var(--link-height);
+    padding: var(--link-vPadding) 1em;
+
     color: var(--color-nav-link-text);
     border-left: solid 2px var(--color-nav-link-border);
-    height: auto;
-    img {
-      display: var(--img-nav-link-display);
-    }
+
     svg {
       height: var(--link-height);
       width: 1em;
@@ -72,7 +74,7 @@
       &.active {
         color: var(--color-nav-link-text-active);
         border-color: var(--color-nav-link-border-active);
-        background-color: var(--color-nav-link-background-active);
+
         & svg {
           & polyline {
             stroke: var(--color-nav-link-text-active);
@@ -84,7 +86,7 @@
     &.active {
       color: var(--color-nav-link-text-active);
       border-color: var(--color-nav-link-border-active);
-      background-color: var(--color-nav-link-background-active);
+
       svg {
         & polyline {
           stroke: var(--color-nav-link-text-active);
@@ -98,7 +100,7 @@
       padding: var(--link-vPadding) 2em var(--link-vPadding) 1em;
     }
     nav-link:not(.titlelink) {
-      padding: var(--padding-nav-link-expand);
+      padding: var(--padding-nav-link);
 
       position: relative;
 

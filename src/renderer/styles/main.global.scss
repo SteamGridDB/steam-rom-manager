@@ -1,103 +1,104 @@
-html, body {
-	margin: 0;
-	padding: 0;
+html,
+body {
+  margin: 0;
+  padding: 0;
 
-	background-color: var(--color-main-background);
+  background-color: var(--color-main-background);
 }
 
 html {
-	font-size: 16px;
+  font-size: 16px;
 
-	height: 100%;
+  height: 100%;
 
-	background-color: var(--color-main-background);
+  background-color: var(--color-main-background);
 }
 
 body {
-	font-family: 'Roboto';
+  font-family: "Roboto";
 
-	overflow: hidden;
+  overflow: hidden;
 
-	height: 100%;
+  height: 100%;
 }
 
 * {
-	cursor: default;
-	user-select: none;
+  cursor: default;
+  user-select: none;
 
-	outline: none;
+  outline: none;
 }
 
 .appLoading {
-	&:before {
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
+  &:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 
-		display: block;
+    display: block;
 
-		width: 5em;
-		height: 5em;
-		margin: auto;
+    width: 5em;
+    height: 5em;
+    margin: auto;
 
-		content: '';
-		animation: appLoading 0.6s linear infinite;
+    content: "";
+    animation: appLoading 0.6s linear infinite;
 
-		border-top: 0.325em solid transparent;
-		border-top-color: var(--color-app-loading-spinner);
-		border-right: 0.325em solid transparent;
-		border-radius: 50%;
-	}
+    border-top: 0.325em solid transparent;
+    border-top-color: var(--color-app-loading-spinner);
+    border-right: 0.325em solid transparent;
+    border-radius: 50%;
+  }
 }
 
 @keyframes appLoading {
-	to {
-		transform: rotate(360deg);
-	}
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .infoIcon {
-	position: relative;
-	display: inline-flex;
+  position: relative;
+  display: inline-flex;
 
-	width: 1em;
-	height: 1em;
+  width: 1em;
+  height: 1em;
 
-	border-radius: 50%;
-	font-family: 'Roboto';
+  border-radius: 50%;
+  font-family: "Roboto";
 
-	line-height: initial;
+  line-height: initial;
 
-	background-color: var(--color-info-button-background);
-	border: 1px solid var(--color-info-button);
+  background-color: var(--color-info-button-background);
+  border: 1px solid var(--color-info-button);
 
-	&:before{
-		position: absolute;
-		right: 0;
-		left: 0;
-		bottom: 0;
-		top: 0;
-		text-align: center;
+  &:before {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    text-align: center;
 
-		display: flex;
-		align-items: center;
-		justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: lowercase;
+    content: "i";
 
-		content: 'i';
+    color: var(--color-info-button-text);
+    border-radius: 50%;
+    font-size: 12px;
+    box-sizing: border-box;
+    user-select: none;
+  }
 
-		color: var(--color-info-button);
-		border-radius: 50%;
-
-		box-sizing: border-box;
-		user-select: none;
-	}
-
-	&:hover {
-		cursor: pointer;
-		color: var(--color-info-button-hover);
-		background-color: var(--color-info-button-background-hover);
-		border-color: var(--color-info-button-hover);
-	}
+  &:hover {
+    cursor: pointer;
+    color: var(--color-info-button-hover);
+    background-color: var(--color-info-button-background-hover);
+    border-color: var(--color-info-button-hover);
+  }
 }

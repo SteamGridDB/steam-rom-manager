@@ -18,6 +18,7 @@ export class SettingsComponent implements OnDestroy {
   private currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
   private settings: AppSettings;
   private availableProviders: string[];
+  private themes: string[];
   private availableLanguages: SelectItem[];
   private knownSteamDirectories: string[];
   private retroarchPathPlaceholder: string;
@@ -63,6 +64,7 @@ export class SettingsComponent implements OnDestroy {
     this.availableLanguages = this.languageService.getAvailableLanguages().map((lang)=>{
       return {value: lang, displayValue: this.languageService.getReadableName(lang)}
     });
+    this.themes = ["Deck","Classic"];
     if(os.type()=='Windows_NT'){
       this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathWin;
       this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryWin;
@@ -147,6 +149,16 @@ export class SettingsComponent implements OnDestroy {
 
   private loadLanguage(){
     this.languageService.loadLanguage(this.settings.language);
+  }
+  
+  private loadTheme(){   
+    let themeCSS; 
+    switch (this.settings.theme) {
+        case "Deck" : themeCSS = 'steam-theme'; break;
+        default : themeCSS = ''; break;
+    }
+    document.querySelector('html').className = '';
+    document.querySelector('html').classList.add(themeCSS)
   }
 
   configDir() {

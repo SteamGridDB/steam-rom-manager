@@ -16,14 +16,27 @@ export class NavBorderComponent {
 
     constructor(private renderer: Renderer2, private settingsService: SettingsService) {
         this.appSettings = this.settingsService.getSettings();
+        let set = this.appSettings
+        console.log(set)
     }
 
     ngOnInit() {
         this.setWidth(this.appSettings.navigationWidth);
+        
+            let themeCSS; 
+            switch (this.appSettings.theme) {
+                case "Deck" : themeCSS = 'steam-theme'; break;
+                default : themeCSS = ''; break;
+            }
+            document.querySelector('html').className = '';
+            document.querySelector('html').classList.add(themeCSS)         
+        
     }
 
-    setWidth(width: number) {
-        document.documentElement.style.setProperty('--nav-width', `${width < 0 ? 0 : width}px`);
+    setWidth(width: number) {        
+        if(width !== 0){
+            document.documentElement.style.setProperty('--nav-width', `${width < 0 ? 0 : width}px`);
+        }        
     }
 
     saveWidth(width: number) {
