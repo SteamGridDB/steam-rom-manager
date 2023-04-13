@@ -18,7 +18,7 @@ export class SettingsComponent implements OnDestroy {
   private currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
   private settings: AppSettings;
   private availableProviders: string[];
-  private themes: SelectItem[];
+  private themes: string[];
   private availableLanguages: SelectItem[];
   private knownSteamDirectories: string[];
   private retroarchPathPlaceholder: string;
