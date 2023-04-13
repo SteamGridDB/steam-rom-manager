@@ -1,3 +1,7 @@
+:root {
+  --color-app-loading-spinner: #31a0f4
+}
+
 .classic-theme {
   --nav-width: 20vw;
   --color-alert-background: #121212;
@@ -317,7 +321,6 @@
 .steam-theme {
   --color--accent: #31a0f4;
   --nav-width: 20vw;
-
   --color-alert-background: #121212;
   --color-alert-text: #c8c8c8;
   --color-app-loading-spinner: var(--color--accent);

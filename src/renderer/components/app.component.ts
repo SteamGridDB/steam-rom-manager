@@ -9,7 +9,7 @@ import markdownItAttrs from 'markdown-it-attrs';
   selector: 'app',
   template: `
   <ng-container *ngIf="settingsLoaded && languageLoaded; else stillLoading">
-    <titlebar></titlebar>
+  <titlebar></titlebar>
   <navarea></navarea>
   <nav-border></nav-border>
   <router-outlet style="display: none;"></router-outlet>
