@@ -5,9 +5,13 @@ All notable changes to this project will be documented in this file.
 
 ## 2.4.0
 ### Added
-* Command line interface! Unfortunately on the Windows portable version the CLI can't print anything out (see [electron-builder issue 3998](https://github.com/electron-userland/electron-builder/issues/3998)), but the commands still work. I am tracking this issue and will update `electron-builder` as soon as it is fixed.
-* New default UI theme by EmuDeck's @dragoonDorise!
-* Batched Image downloading, solving the issue where SRM would hang on "Writing VDFs" when lots of images were being added. Batching is 500 images (100 games) at a time, with ten seconds in between in order to give SGDB's servers a break.
+* Command line interface! 🚀
+
+Unfortunately on the Windows portable version the CLI can't print anything out (see [electron-builder issue 3998](https://github.com/electron-userland/electron-builder/issues/3998)), but the commands still work. I am tracking this issue and will update `electron-builder` as soon as it is fixed.
+* New default UI theme by EmuDeck's @dragoonDorise 🚀
+* Batched Image downloading 🚀
+ 
+Solves the issue where SRM would hang on "Writing VDFs" when lots of images were being added. Batching is 500 images (100 games) at a time, with ten seconds in between in order to give SGDB's servers a break.
 * Ability to filter by installed status and app type in steam parser (e.g. only get artwork for games, not tools).
 * Windows Apps capability for UWP parser.
 * Handling for DMCA'd images (SRM doesn't add the "This image has been taken down" fallback to steam)
