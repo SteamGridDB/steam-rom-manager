@@ -275,11 +275,11 @@
 
 @mixin webkitSlider(
   $colorProp,
-  $trackHeight: 0.25em,
-  $trackBorder: 0,
-  $thumbHeight: 1.5em,
-  $thumbWidth: 0.75em,
-  $thumbBorder: 0
+  $trackHeight:var(--color-preview-app-zoom-slider-track-height),
+  $trackBorder:var(--color-preview-app-zoom-slider-track-border),
+  $thumbHeight:var(--color-preview-app-zoom-slider-thumb-height),
+  $thumbWidth: var(--color-preview-app-zoom-slider-thumb-width),
+  $thumbBorder:var(--color-preview-app-zoom-slider-thumb-border)
 ) {
   -webkit-appearance: none;
   &::-webkit-slider-runnable-track {
@@ -296,12 +296,12 @@
     box-sizing: border-box;
     width: $thumbWidth;
     height: $thumbHeight;
-    margin-top: math.div($trackHeight - $trackBorder - $thumbHeight, 2);
-
+    //margin-top: math.div($trackHeight - $trackBorder - $thumbHeight, 2);
+    margin-top: var(--color-preview-app-zoom-slider-thumb-margin-top);
     background-color: var(--color-#{$colorProp}-thumb-background);
 
     -webkit-appearance: none;
-
+    border-radius: var(--color-preview-app-zoom-slider-thumb-border-radius);
     @if $thumbBorder {
       border: solid $thumbBorder var(--color-#{$colorProp}-thumb-border);
     }
