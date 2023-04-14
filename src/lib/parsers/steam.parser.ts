@@ -6,6 +6,7 @@ import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
 import * as bvdf from "binary-vdf-2";
 import { glob } from "glob";
+import * as json from "../helpers/json";
 
 export class SteamParser implements GenericParser {
 
@@ -38,7 +39,7 @@ export class SteamParser implements GenericParser {
       if(!directories || directories.length==0){
         reject(this.lang.errors.noSteamAccounts);
       }
-      let appinfo_path = path.normalize(path.join(directories[0],'..','..','appcache','appinfo.vdf'));
+      const appinfo_path = path.normalize(path.join(directories[0],'..','..','appcache','appinfo.vdf'));
       Promise.resolve()
       .then(()=>{
         return bvdf.readAppInfo(fs.createReadStream(appinfo_path))
@@ -47,52 +48,49 @@ export class SteamParser implements GenericParser {
         throw this.lang.errors.steamChanged__i.interpolate({error: error, file: appinfo_path});
       })
       .then((appinfo: any)=> {
-        return new Promise((resolve, reject)=>{
-          const filteredAppInfo = appinfo.filter((app: any) =>  {
-            return app.id
-            && app.entries
-            && app.entries.appid
-            && app.entries.common
-            && app.entries.common.name
-            && (!inputs.onlyGames || app.entries.common.type.toLowerCase()=='game')
-          })
-
+        let categorizedAppIds: string[] = [];
+        for(let directory of directories) {
+          const sharedconfig_path = path.join(directory,'7','remote','sharedconfig.vdf');
           try {
-            if(inputs.onlyInstalled) {
-              const libraryfolders_path = path.normalize(path.join(directories[0],'..','..','steamapps','libraryfolders.vdf'));
-              const libraryFolders: any = genericParser.parse(fs.readFileSync(libraryfolders_path,'utf-8'));
-              let installed_ids = _.union(Object.values(libraryFolders.libraryfolders).map((x: any)=>Object.keys(x.apps))).map(x=>x.toString());
-            }
-          } finally {
-            const withGridsPromises: Promise<string[]>[] = []
-            for(let userDir of directories) {
-              withGridsPromises.push(this.getAppIdsWithGrids(userDir));
-            }
-            Promise.all(withGridsPromises).then((res: string[][])=>{
-              resolve({
-                idsWithGrids: _.union(...res),
-                appinfo: filteredAppInfo
-              })
-            })
+            const sharedconfig = genericParser.parse(fs.readFileSync(sharedconfig_path,'utf-8'));
+            categorizedAppIds = _.union(categorizedAppIds, Object.keys(json.caselessGet(sharedconfig, [['userroamingconfigstore','userlocalconfigstore'],['software'],['valve'],['steam'],['apps']]))).filter(appId => /^[0-9]*$/g.test(appId));
+          } catch (e) {
+            throw this.lang.errors.steamChanged__i.interpolate({error: e, file: sharedconfig_path})
+          }
+        }
+
+        const libraryfolders_path = path.normalize(path.join(directories[0],'..','..','steamapps','libraryfolders.vdf'));
+        let installedIds: string[];
+        if(inputs.onlyInstalled) {
+          try {
+            const libraryFolders: any = genericParser.parse(fs.readFileSync(libraryfolders_path,'utf-8'));
+            installedIds = _.union(...Object.values(libraryFolders.libraryfolders).map(x=>Object.keys(x.apps)));
+          } catch(e) {
+            throw this.lang.errors.steamChanged__i.interpolate({error: e, file: libraryfolders_path});
+          }
+        }
+        return appinfo.filter((app: any) =>  {
+          return app.id
+          && app.entries
+          && app.entries.appid
+          && app.entries.common
+          && app.entries.common.name !== undefined
+          && categorizedAppIds.includes(app.entries.appid.toString())
+          && (!inputs.onlyGames || app.entries.common.type.toLowerCase()=='game')
+          && (!inputs.onlyInstalled || installedIds.includes(app.entries.appid.toString()))
+        }).map((app: any) => {
+          return {
+            title: app.entries.common.name.toString(),
+            appid: app.entries.appid.toString()
           }
         })
       })
-      .then(({idsWithGrids, appinfo}: {idsWithGrids: string[], appinfo: any}) => {
-        return idsWithGrids.map((appid: string)=>{
-          let index = appinfo.map((app: any)=>app.entries.appid).indexOf(parseInt(appid));
-          if(index !== -1) {
-            return { title: appinfo[index].entries.common.name, appid: appid, type: appinfo[index].entries.common.type }
-          }
-        }).filter(x=>!!x).sort((a,b)=>{
-          return a.title.localeCompare(b.title)
-        })
-      })
-      .then((appsWithInfo: any[]) => {
+      .then((filteredApps: {title: string, appid: string}[]) => {
         let parsedData: ParsedData = {success: [], failed: []}
-        for(let i=0;i < appsWithInfo.length; i++){
+        for(let app of filteredApps){
           parsedData.success.push({
-            extractedTitle: appsWithInfo[i].title.toString(),
-            extractedAppId: appsWithInfo[i].appid.toString()
+            extractedTitle: app.title,
+            extractedAppId: app.appid
           });
         }
         resolve(parsedData);
@@ -100,17 +98,6 @@ export class SteamParser implements GenericParser {
       .catch((err:string)=>{
         reject(this.lang.errors.fatalError__i.interpolate({error: err}));
       });
-
-    })
-  }
-
-  private getAppIdsWithGrids(userDir: string): Promise<string[]> {
-    return glob('./config/grid/*.*', {cwd: userDir, dot: true}).then((res)=>{
-      let ids= _.uniq(res.map((x:string)=>path.basename(x).match(/^\d+/))
-                      .filter((x:string[])=>!!x)
-                      .map((x:string[])=>x[0])
-                      .filter((x:string)=>x.length < 12))
-                      return ids
     })
   }
 }
