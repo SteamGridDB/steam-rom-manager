@@ -35,7 +35,7 @@ const AppRouter: Routes = [
     },
     {
         path: 'about',
-        component: ParsersListComponent
+        component: AboutComponent
     },
     {
         path: '**',
