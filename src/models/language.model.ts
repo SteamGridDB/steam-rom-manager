@@ -88,6 +88,7 @@ export interface languageStruct {
   steamParser: {
     onlyGamesTitle: string,
     onlyInstalledTitle: string,
+    sourceModsTitle: string,
     docs__md: {
       self: string[],
       input: string[]

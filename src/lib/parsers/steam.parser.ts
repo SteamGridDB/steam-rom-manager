@@ -7,6 +7,7 @@ import * as path from "path";
 import * as bvdf from "binary-vdf-2";
 import { glob } from "glob";
 import * as json from "../helpers/json";
+import * as steam from "../helpers/steam";
 
 export class SteamParser implements GenericParser {
 
@@ -26,6 +27,12 @@ export class SteamParser implements GenericParser {
         },
         'onlyInstalled': {
           label: this.lang.onlyInstalledTitle,
+          inputType: 'toggle',
+          validationFn: (input: any) => { return null },
+            info: this.lang.docs__md.input.join('')
+        },
+        'sourceMods': {
+          label: this.lang.sourceModsTitle,
           inputType: 'toggle',
           validationFn: (input: any) => { return null },
             info: this.lang.docs__md.input.join('')
@@ -69,6 +76,7 @@ export class SteamParser implements GenericParser {
             throw this.lang.errors.steamChanged__i.interpolate({error: e, file: libraryfolders_path});
           }
         }
+
         return appinfo.filter((app: any) =>  {
           return app.id
           && app.entries
@@ -82,6 +90,29 @@ export class SteamParser implements GenericParser {
           return {
             title: app.entries.common.name.toString(),
             appid: app.entries.appid.toString()
+          }
+        })
+      })
+      .then((filteredApps: {title: string, appid: string}[])=>{
+        // source mods
+        return new Promise<{title: string, appid: string}[]>((resolve,reject)=>{
+          let sourceModIds: string[] = [];
+          if(inputs.sourceMods) {
+            const wtfValve: number = 2147483649;
+            const sourcemods_dir = path.normalize(path.join(directories[0],'..','..','steamapps','sourcemods'))
+            glob('*/gameinfo.txt', {dot: true, cwd: sourcemods_dir}).then((files: string[]) => {
+              let sourceMods: {title: string, appid: string}[] = [];
+              files = files.sort();
+              for(let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const fileData = fs.readFileSync(path.join(sourcemods_dir,file),'utf-8');
+                const gameinfo: any = this.gameInfoParser(fileData);
+                sourceMods.push({title: gameinfo.game, appid: (wtfValve + i).toString()})
+              }
+              resolve(filteredApps.concat(sourceMods))
+            })
+          } else {
+            resolve(filteredApps)
           }
         })
       })
@@ -99,5 +130,40 @@ export class SteamParser implements GenericParser {
         reject(this.lang.errors.fatalError__i.interpolate({error: err}));
       });
     })
+  }
+
+
+  gameInfoParser(fileContents: string) {
+    const lines = fileContents.split('\n');
+    const sep = '\t'
+    const uncommentedLines = lines.map(line => line.replace(/\/\/.*/g, '').trim().replace(/[\s,\t]+/g, sep)).filter(line => line.length > 0).slice(1);
+    // Parse uncommented lines into JSON object
+
+    let currentObject: any = {};
+    let i = 0;
+
+    while (i < uncommentedLines.length) {
+      const line = uncommentedLines[i].trim(); i++;
+      if (line === '{') {
+        continue;
+      }
+      else if (line === '}') {
+        // If we encounter a closing brace, move back to the parent object
+        if(currentObject.parent) {
+          currentObject = currentObject.parent;
+        }
+      } else if (line.includes(sep)) {
+        // If we encounter a line with a tab character, split it into a key-value pair and add it to the current object
+        const [key, value] = line.split(sep).map(s => s.trim().replace(/\"/g,''));
+        currentObject[key] = value;
+      } else {
+        // If we encounter a regular line, set it as the key of the current object and create a new object for its value
+        const newObject: any = {};
+        currentObject[line] = newObject;
+        newObject.parent = currentObject;
+        currentObject = newObject;
+      }
+    }
+    return currentObject;
   }
 }

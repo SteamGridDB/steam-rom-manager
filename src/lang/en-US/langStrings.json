@@ -83,6 +83,7 @@
   "steamParser": {
     "onlyGamesTitle": "Find artwork for games only (no tools)",
     "onlyInstalledTitle": "Find artwork for installed titles only",
+    "sourceModsTitle": "Find artwork for unofficial source mods",
     "errors": {
       "directoryInvalid": "> Steam directory invalid.",
       "noSteamAccounts": "> Steam directory specified has no accounts.",

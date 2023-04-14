@@ -12,11 +12,10 @@ export const availableParserInputs: Record<ParserType, string[]> = {
   'Legendary': ['legendaryInstalledFile'],
   'GOG Galaxy': ['galaxyExeOverride','gogLauncherMode'],
   'itch.io': ['itchIoAppDataOverride','itchIoWindowsOnLinuxInstallDriveRedirect'],
-  'Steam': ['onlyGames','onlyInstalled'],
+  'Steam': ['onlyGames','onlyInstalled','sourceMods'],
   'UPlay': ['uplayDir','uplayLauncherMode'],
   'UWP': ['UWPDir', 'UWPLauncherMode'],
-  'EA Desktop': ['eaGamesDir','eaLauncherMode'],
-  'EXE': []
+  'EA Desktop': ['eaGamesDir','eaLauncherMode']
 };
 
 export const availableParsers: ParserType[] = Object.keys(availableParserInputs) as ParserType[];
