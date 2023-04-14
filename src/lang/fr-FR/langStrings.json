@@ -21,7 +21,7 @@
       "generateAppList": "Générer une liste de jeu",
       "saveAppList": "Enregistrer les applications sur Steam",
       "removeAppList": "Supprimer les applications de Steam",
-      "remainingImages": "Nombre de téléchargements restant:",
+      "remainingImages": "Remaining urls:",
       "stopUrlRetrieving": "Arrêter tous les téléchargements",
       "exportSelections": "Exporter les choix d'image",
       "importSelections": "Importer les choix d'image"
@@ -83,6 +83,7 @@
   "steamParser": {
     "onlyGamesTitle": "Find artwork for games only (no tools)",
     "onlyInstalledTitle": "Find artwork for installed titles only",
+    "sourceModsTitle": "Find artwork for unofficial source mods",
     "errors": {
       "directoryInvalid": "> Répertoire Steam invalide.",
       "noSteamAccounts": "> Le répertoire Steam spécifié n'a aucun compte.",
