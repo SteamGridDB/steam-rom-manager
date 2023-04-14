@@ -38,6 +38,12 @@ SRM wird Fehler ausgeben, wenn nicht die folgende JSON-Struktur verwendet wird:
     },
     ...
 }
+    },
+    "Custom Stuff": {
+        "The Legend Of Zelda": "The Legend Of Link"
+    },
+    ...
+}
 ```
 
 Wenn dein Benutzer-Glob `MyDir/${title}.wad` wäre und du eine `The Legend of Zelda.wad` in `MyDir` hast, würdest du den Titel des benutzerdefinierten Variablenfeldes auf `${Custom Stuff}` setzen, um einen endgültigen Titel von "Die Legende des Links" zu erhalten.

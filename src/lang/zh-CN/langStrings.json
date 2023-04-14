@@ -37,10 +37,10 @@
         "readingVDF_Files": "读取 VDF 文件。",
         "mergingVDF_entries": "合并 VDF 条目。",
         "removingVDF_entries": "删除 VDF 条目和图像文件。",
-        "savingCategories": "Saving category information to localconfig.vdf.",
-        "savingControllers": "Saving controller information.",
+        "savingCategories": "将类别信息保存到 localconfig.vdf 文件。",
+        "savingControllers": "保存控制器信息。",
         "removingFromCategories": "删除所有添加的类别信息",
-        "writingVDF_entries__i": "Writing VDF files and downloading high res images in batches of ${batchSize}.",
+        "writingVDF_entries__i": "批量编写 VDF 文件并下载 ${batchSize} 个高分辨率图像。",
         "updatingKnownSteamDirList": "更新已知的 Steam 目录列表。",
         "retryingDownload__i": "正在为 \"${appTitle}\" 重试从 \"${imageUrl}\" 下载图片。",
         "disabledConfigurations__i": "${count} 个用户配置被跳过（由用户禁用）\"。",
@@ -81,8 +81,8 @@
     }
   },
   "steamParser": {
-    "onlyGamesTitle": "Find artwork for games only (no tools)",
-    "onlyInstalledTitle": "Find artwork for installed titles only",
+    "onlyGamesTitle": "仅寻找游戏艺术作品(不包括工具)",
+    "onlyInstalledTitle": "仅查找已安装标题的艺术作品",
     "errors": {
       "directoryInvalid": "> Steam 目录无效。",
       "noSteamAccounts": "> 指定的 Steam 目录中没有帐户。",
@@ -98,7 +98,7 @@
     }
   },
   "epicParser": {
-    "manifestsInputTitle": "Epic Manifests Directory Override",
+    "manifestsInputTitle": "Epic 列表目录覆盖",
     "manifestsInputPlaceholder": "/path/to/Manifests/",
     "launcherModeInputTitle": "通过 Epic 启动游戏以使用在线服务。",
     "errors": {
@@ -117,8 +117,8 @@
     }
   },
   "UWPParser": {
-    "UWPDirTitle": "XboxGames Directory Override",
-    "UWPDirPlaceholder": "/path/to/XboxGames or /path/to/WindowsApps",
+    "UWPDirTitle": "Xbox Games 目录覆盖",
+    "UWPDirPlaceholder": "/path/to/XboxGames 或 /path/to/WindowsApps",
     "UWPLauncherModeTitle": "以 UWP 形式启动游戏，而不是使用启动器助手。",
     "errors": {
       "fatalError__i": "> UWP 解析器在此平台上不兼容。",
@@ -126,7 +126,7 @@
     }
   },
   "uplayParser": {
-    "uplayDirTitle": "Ubisoft Directory Override",
+    "uplayDirTitle": "Ubisoft 目录覆盖",
     "uplayDirPlaceholder": "/path/to/Ubisoft/",
     "launcherModeInputTitle": "通过 Uplay 启动游戏以使用在线服务。",
     "errors": {
@@ -160,7 +160,7 @@
     }
   },
   "itchIoParser": {
-    "itchIoAppDataOverrideTitle": "itch.io AppData Directory Override",
+    "itchIoAppDataOverrideTitle": "itch.io 应用数据目录覆盖",
     "itchIoAppDataOverridePlaceholder": "/path/to/itch",
     "itchIoWindowsOnLinuxInstallDriveRedirectTitle": "Windows-on-Linux 安装驱动器重定向",
     "itchIoWindowsOnLinuxInstallDriveRedirectPlaceholder": "/mnt/d/",
@@ -173,7 +173,7 @@
     }
   },
   "eaDesktopParser": {
-    "eaGamesDirTitle": "EA Games Directory Override",
+    "eaGamesDirTitle": "EA Games 目录覆盖",
     "eaGamesDirPlaceholder": "/path/to/EA Games/",
     "eaLauncherModeTitle": "通过 EA Desktop 启动游戏",
     "errors": {
@@ -284,8 +284,9 @@
         "preloadImages": "立即预加载检索到的图像",
         "fuzzy_verbose": "记录匹配结果",
         "fuzzy_filter": "筛选图像",
-        "enabledProviders": "已启用的提供者：",
-        "selectLanguage": "选择语言：",
+        "enabledProviders": "启用的图片提供程序",
+        "selectLanguage": "选择语言",
+        "selectTheme": "选择主题",
         "resetFuzzy_desc": "模糊列表",
         "resetFuzzyCache_desc": "模糊缓存",
         "resetFuzzy_btn": "重置",
@@ -329,9 +330,9 @@
     "component": {
       "about": "关于我们",
       "preview": "预览",
-      "logger": "Log",
+      "logger": "日志",
       "settings": "设置",
-      "parsers": "Create Parser",
+      "parsers": "创建解析器",
       "customVariables": "变量",
       "userExceptions": "异常",
       "noTitle": "无标题！"
@@ -470,11 +471,11 @@
         "onlineImageQueries": "在线图像查询",
         "imagePool": "图像库",
         "imageProviders": "图像提供方",
-        "defaultImage": "Fallback banner",
-        "defaultTallImage": "Fallback poster",
-        "defaultHeroImage": "Fallback hero",
-        "defaultLogoImage": "Fallback logo",
-        "defaultIcon": "Fallback icon",
+        "defaultImage": "备用横幅",
+        "defaultTallImage": "备用海报",
+        "defaultHeroImage": "备用主页图片",
+        "defaultLogoImage": "备用 Logo",
+        "defaultIcon": "备用图标",
         "localImages": "Local banners glob",
         "localTallImages": "Local posters glob",
         "localHeroImages": "Local heroes glob",
@@ -485,10 +486,10 @@
         "parserType": "选择解析器...",
         "configTitle": "My Awesome Parser",
         "steamCategory": "${cat1}${cat2}",
-        "steamDirectory": "${steamdirglobal} or /path/to/steam",
+        "steamDirectory": "${steamdirglobal} 或 /path/to/steam",
         "userAccounts": "${steamuser1}${steamuser2}",
         "titleFromVariable": "${myvariable}",
-        "titleModifier": "${fuzzyTitle} or ${title}",
+        "titleModifier": "${fuzzyTitle} 或 ${title}",
         "defaultImage": "/path/to/fallback.png",
         "localImages": "/path/to/art/banners/${title}.@(png|jpg)",
         "localTallImages": "/path/to/art/posters/${title}.@(png|jpg)",
@@ -497,7 +498,7 @@
         "localIcons": "/path/to/art/icons/${title}.@(png|jpg)",
         "romDirectory": "/path/to/games/",
         "glob": "${title}.@(iso|ISO)",
-        "executableLocation": "Example: /path/to/emulator.exe",
+        "executableLocation": "示例: /path/to/emulator.exe",
         "executableArgs": "--arg1 --arg2",
         "executableModifier": "\"${exePath}\"",
         "startInDirectory": "/path/to/start/in/dir",
@@ -601,18 +602,18 @@
       "couldNotWriteEntries": "无法将条目写入 Steam 文件：",
       "couldNotMergeEntries__i": "无法合并条目：\n ${error}",
       "couldNotRemoveEntries__i": "无法删除条目：\n ${error}",
-      "nonFatal": "Non fatal errors occurred while writing:"
+      "nonFatal": "写入时发生了非致命错误:"
     }
   },
   "vdfFile": {
     "error": {
-      "readingVdf__i": "Failed to read from \"${filePath}\".\n ${error}",
-      "writingVdf__i": "Failed to write to \"${filePath}\".\n ${error}",
-      "skippingDMCA__i": "Skipping DMCA'd image for ${title}",
-      "corruptedVdf__i": "\"${filePath}\" is corrupted.\n ${error}",
-      "creatingBackup__i": "Could not create backup for \"${filePath}\".\n ${error}",
+      "readingVdf__i": "无法从 \"${filePath}\" 读取。\n ${error}",
+      "writingVdf__i": "无法写入 \"${filePath}\"。\n ${error}",
+      "skippingDMCA__i": "跳过 DMCA 受限制的图片 ${title}",
+      "corruptedVdf__i": "\"${filePath}\" 已损坏。\n ${error}",
+      "creatingBackup__i": "无法为 \"${filePath}\" 创建备份。\n ${error}",
       "unsupportedMimeType__i": "Mime类型（${type}）不受支持（标题 - \"${title}\"）。",
-      "imageError__i": "Error occurred while saving/downloading image for \"${title}\". Url: ${url}.\n ${error}"
+      "imageError__i": "在保存/下载 \"${title}\" 的图片时发生错误。URL: ${url}。${error}\n ${error}"
     }
   },
   "helpers": {
