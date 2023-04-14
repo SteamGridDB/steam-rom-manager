@@ -64,7 +64,7 @@ export class SteamParser implements GenericParser {
         if(inputs.onlyInstalled) {
           try {
             const libraryFolders: any = genericParser.parse(fs.readFileSync(libraryfolders_path,'utf-8'));
-            installedIds = _.union(...Object.values(libraryFolders.libraryfolders).map(x=>Object.keys(x.apps)));
+            installedIds = _.union(...Object.values(libraryFolders.libraryfolders).map((x: any)=>Object.keys(x.apps)));
           } catch(e) {
             throw this.lang.errors.steamChanged__i.interpolate({error: e, file: libraryfolders_path});
           }

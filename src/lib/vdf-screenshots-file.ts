@@ -137,7 +137,8 @@ export class VDF_ScreenshotsFile {
       }
     }
     const batchSize = 500;
-    const delay = 1000;
+    const delay = 10000;
+    const timeout = 20000;
     const addableAppIds = Object.keys(screenshotsData).filter((appId)=>{
       return screenshotsData[appId] !== undefined && (typeof screenshotsData[appId] !== 'string')
     });
@@ -161,8 +162,20 @@ export class VDF_ScreenshotsFile {
             headers: { 'Content-type': 'image' },
             responseType: 'blob',
             method: 'GET',
-            timeout: 1
-        }).then((blob: Blob) => {
+            timeout: timeout
+        })
+        .catch((error: any)=>{
+          if(typeof error == 'object' && error.error) {
+            if(error.error.status == 0 ) {
+              throw `Request timed out for url:\n${data.url}`
+            } else {
+              throw `Requested errored with status ${error.error.status} for url:\n${data.url}`
+            }
+          } else {
+            throw `Unknown request error for url ${data.url}:\n${error}`
+          }
+        })
+        .then((blob: Blob) => {
           if (ext === "") {
             throw this.lang.error.unsupportedMimeType__i.interpolate({ type: blob.type, title: data.title });
           } else if (nintendoSucks) {
@@ -201,7 +214,7 @@ export class VDF_ScreenshotsFile {
         })
         .catch((error) => {
           if(error) {
-            return new VDF_Error(this.lang.error.imageError__i.interpolate({ error, url: data.url, title: data.title }));
+            return new VDF_Error(`Error for title ${data.title}:\n${error}`);
           }
         })
         .finally(()=>{

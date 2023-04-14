@@ -1,6 +1,6 @@
 import { xRequestError, xRequestOptions, xRequestOptionsWithUrl, xRequestResolve, StringMap } from "../models";
 
-const wait = (timeout: number) => new Promise((resolve) => setTimeout(resolve, timeout))
+const wait = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay))
 
 export class xRequest {
   private cancellingPromises: boolean = false;
@@ -9,8 +9,11 @@ export class xRequest {
    */
   private cancelHandlerMap = new WeakMap<Promise<any>, () => void | undefined>()
   private promiseRef = new Set<Promise<any>>();
+  private defaultTimeout: number;
 
-  constructor(protected timeout: number = 3000) {}
+  constructor(protected timeout: number = 3000) {
+    this.defaultTimeout = timeout;
+  }
 
   /* Handle promises and their cancelation */
 
@@ -75,7 +78,6 @@ export class xRequest {
           paramsString = Object.keys(options.params).map(function (key) {
             return encodeURIComponent(key) + '=' + encodeURIComponent((options.params as StringMap)[key]);
           }).join('&');
-
         }
       }
 
@@ -83,6 +85,7 @@ export class xRequest {
         finalUrl = `${finalUrl}?${paramsString}`;
 
       xhr.responseType = options.responseType || '';
+      xhr.timeout = options.timeout || this.defaultTimeout;
 
       xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
