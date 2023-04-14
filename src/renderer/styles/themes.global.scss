@@ -458,6 +458,7 @@
   --ng-select-background-hover: #f5f5f5; //
   --ng-select-radius: 4px; //
   --ng-select-margin: var(--margin-input-text); //
+  --ng-select-border-width: 0px;
   --color-ng-toggle-button-border: #383e46;
   --color-ng-toggle-button-border-active: var(--color--accent);
   --color-ng-toggle-button-border-active-hover: #81868b;
@@ -526,7 +527,7 @@
   --color-preview-menu-background: #050505;
   --color-preview-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-preview-scrollbar-track: rgba(80, 80, 80, 0.3);
-  --color-preview-separator: #0b491a;
+  --color-preview-separator: transparent;
   --padding-preview-separator: 18px;
   --color-preview-text: var(--color-nav-link-text-active);
   --color-preview-user-background: var(--color-nav-link-background-active);

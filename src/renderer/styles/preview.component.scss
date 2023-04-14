@@ -172,11 +172,9 @@
           > .title {
             padding: 0.5em 0.25em;
             flex-basis: 100%;
-            border-top: 1px solid var(--color-preview-separator);
-            border-bottom: 1px solid var(--color-preview-separator);
-            border-right: 1px solid var(--color-preview-separator);
-            border-left: 1px solid var(--color-preview-separator);
-            background-color: var(--color-preview-directory-background);
+            border: 1px solid;
+            border-color: var(--color-preview-separator);
+            background-color: var(--color-preview-user-background);
             span {
               margin-left: 0.25em;
               color: var(--color-preview-text);
