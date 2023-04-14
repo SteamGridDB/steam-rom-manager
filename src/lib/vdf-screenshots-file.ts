@@ -14,16 +14,8 @@ import { glob } from 'glob';
 const mimeTypes = require('mime-types');
 const toBuffer = require('blob-to-buffer');
 
-
-
 export class VDF_ScreenshotsFile {
   private static xRequest = new xRequest();
-  private static requestOptions: xRequestOptions = {
-    headers: { 'Content-type': 'image' },
-    responseType: 'blob',
-    method: 'GET',
-    timeout: 1
-  }
   private fileData: any = undefined;
   private topKey: string = undefined;
   private extraneousAppIds: string[] = [];
@@ -163,8 +155,14 @@ export class VDF_ScreenshotsFile {
         const data = screenshotsData[appId] as VDF_ScreenshotItem;
         const nintendoSucks = data.url.slice(-1) == '?' //DMCA Check
         const ext: string = data.url.split('.').slice(-1)[0].replace(/[^\w\s]*$/gi, "");
-        batchAddPromises.push(VDF_ScreenshotsFile.xRequest.request(data.url, VDF_ScreenshotsFile.requestOptions)
-        .then((blob: Blob) => {
+        batchAddPromises.push(VDF_ScreenshotsFile.xRequest.request(
+          data.url,
+          {
+            headers: { 'Content-type': 'image' },
+            responseType: 'blob',
+            method: 'GET',
+            timeout: 1
+        }).then((blob: Blob) => {
           if (ext === "") {
             throw this.lang.error.unsupportedMimeType__i.interpolate({ type: blob.type, title: data.title });
           } else if (nintendoSucks) {
@@ -212,7 +210,6 @@ export class VDF_ScreenshotsFile {
       }
       let batchErrors: VDF_Error[] = await Promise.all(batchAddPromises);
       addErrors = [...addErrors, ...batchErrors];
-
     }
     return Promise.all(extraneousPromises).then((extraneousErrors)=>{
       return {
