@@ -21,7 +21,7 @@
       "generateAppList": "生成应用程序",
       "saveAppList": "将应用保存到 Steam",
       "removeAppList": "从 Steam 中删除应用程序",
-      "remainingImages": "剩余的图像：",
+      "remainingImages": "Remaining urls:",
       "stopUrlRetrieving": "停止图像下载",
       "exportSelections": "导出图像选项",
       "importSelections": "导入图像选择"
@@ -83,6 +83,7 @@
   "steamParser": {
     "onlyGamesTitle": "仅寻找游戏艺术作品(不包括工具)",
     "onlyInstalledTitle": "仅查找已安装标题的艺术作品",
+    "sourceModsTitle": "Find artwork for unofficial source mods",
     "errors": {
       "directoryInvalid": "> Steam 目录无效。",
       "noSteamAccounts": "> 指定的 Steam 目录中没有帐户。",
