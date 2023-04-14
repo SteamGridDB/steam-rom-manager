@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.2
+### Added
+* Ability to add artwork for unofficial source mods via the steam parser
+* Logging for when steamgriddb times out on an artwork request
+
+### Fixed
+* Steam parser was broken in 2.4.1
+
 ## 2.4.1
 
 ### Fixed 

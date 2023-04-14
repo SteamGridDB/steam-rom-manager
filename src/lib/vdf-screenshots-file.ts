@@ -137,8 +137,8 @@ export class VDF_ScreenshotsFile {
       }
     }
     const batchSize = 500;
-    const delay = 10000;
-    const timeout = 20000;
+    const delay = 5000;
+    const timeout = 15000;
     const addableAppIds = Object.keys(screenshotsData).filter((appId)=>{
       return screenshotsData[appId] !== undefined && (typeof screenshotsData[appId] !== 'string')
     });
