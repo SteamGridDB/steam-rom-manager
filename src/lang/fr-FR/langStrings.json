@@ -229,7 +229,7 @@
   },
   "logger": {
     "component": {
-      "noMessages": "No messages are available",
+      "noMessages": "Aucun message disponible",
       "error": "ERREUR",
       "info": "INFO",
       "success": "Succès",
@@ -330,7 +330,7 @@
     "component": {
       "about": "À propos",
       "preview": "Aperçu",
-      "logger": "Log",
+      "logger": "Journal des Événements",
       "settings": "Paramètres",
       "parsers": "Create Parser",
       "customVariables": "Variables",
