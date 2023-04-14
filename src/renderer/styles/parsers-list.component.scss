@@ -1,0 +1,8 @@
+@import "mixins";
+
+:host {
+  nav-parsers{
+    display: block;
+    max-width: 100vw;
+  }
+}

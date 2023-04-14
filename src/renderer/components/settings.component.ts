@@ -64,7 +64,7 @@ export class SettingsComponent implements OnDestroy {
     this.availableLanguages = this.languageService.getAvailableLanguages().map((lang)=>{
       return {value: lang, displayValue: this.languageService.getReadableName(lang)}
     });
-    this.themes = ["Deck","Classic"];
+    this.themes = ["Deck","Classic","EmuDeck"];
     if(os.type()=='Windows_NT'){
       this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathWin;
       this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryWin;

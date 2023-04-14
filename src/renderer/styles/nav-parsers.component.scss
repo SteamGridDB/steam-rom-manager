@@ -1,7 +1,7 @@
 @import "mixins";
 
 :host {
-  display: flex;
+  display: var(--nav-parsers-display);
   overflow-y: auto;
   flex-direction: column;
 
