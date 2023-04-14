@@ -4,9 +4,9 @@ Controller templates allow you to configure the button layout per controller and
 You may want to disable `Cloud Synchronization` in Steam to avoid having your SRM assigned controller configs get overwritten. You may find the setting under `Steam > Settings > Cloud`.
 
 To make a custom template:
-* Open Steam.
-* Connect the controller you want to configure a template for.
-* Right click on any game and hit `Manage > Controller Layout`.
+* Otwórz Steam.
+* Podłącz kontroler do którego chcesz skonfigurować szablon.
+* Kliknij prawym przyciskiem myszy na dowolną grę i naciśnij `Zarządzaj > Układ kontrolera`.
 * Configure the buttons as you see fit.
 * Hit `Export Config` then `Save new template binding`.
 * Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template.

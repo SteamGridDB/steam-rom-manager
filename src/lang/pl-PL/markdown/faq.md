@@ -5,12 +5,12 @@ Read this if you're still having trouble with configuration. For most examples t
 |                    |                                            |
 | ------------------ | ------------------------------------------ |
 | **ROMs directory** | `C:/ROMs`                                  |
-| **File1**          | `C:/ROMs/Kingdom Hearts/game.iso`          |
-| **File2**          | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
-| **File3**          | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
-| **File4**          | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
-| **File5**          | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
-| **File6**          | `C:/ROMs/dir1/dir2/save.sav`               |
+| **Plik1**          | `C:/ROMs/Kingdom Hearts/game.iso`          |
+| **Plik2**          | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
+| **Plik3**          | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
+| **Plik4**          | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
+| **Plik5**          | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
+| **Plik6**          | `C:/ROMs/dir1/dir2/save.sav`               |
 
 ## So, how do I setup user's glob?
 
@@ -34,7 +34,7 @@ Using similar logic we can produce glob for **File3**:
 
 ## How to deal with multi-leveled directories?
 
-This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now?
+This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. Co teraz?
 
 Now we can use a globstar and that's it!
 ```
