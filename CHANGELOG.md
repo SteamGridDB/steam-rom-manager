@@ -1,7 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.1
 
+### Fixed 
+
+* Race condition bug in saving images to steam.
 
 ## 2.4.0
 ### Added
