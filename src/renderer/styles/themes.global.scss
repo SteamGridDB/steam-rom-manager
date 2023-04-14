@@ -6,7 +6,7 @@
   --nav-width: 20vw;
   --color-alert-background: #121212;
   --color-alert-text: #c8c8c8;
-  --border-width-alert: 1px 2px 3px 4px;
+  --border-width-alert: 1px 1px 1px 1px;
   --color-app-loading-spinner: #0ad868;
   --color-click-button-background: rgba(0, 0, 0, 0);
   --color-click-button-background-active: #179443;
@@ -337,7 +337,7 @@
   --padding-update-notifier: 1em 2em;
   --color-position-update-notifier-border: var(--color-info);
   --border-update-notifier-width: var(--border-width-alert);
-  --display-preview-title: none; 
+  --display-preview-title: none;
 }
 
 .steam-theme {
@@ -563,7 +563,7 @@
   --color-theme-rules-item-text-active: #c8c8c8;
   --color-theme-rules-item-text-hover: #c8c8c8;
   --color-theme-text: #a0a0a0;
-  --ng-text-placeholder-color: #c8c8c8;
+  --ng-text-placeholder-color: #656565;
   --color-theme-themes-background: #181818;
   --color-theme-themes-item-background: rgba(0, 0, 0, 0);
   --color-theme-themes-item-background-active: rgba(0, 0, 0, 0.35);
@@ -679,11 +679,11 @@
   --width-update-notifier-backdrop:100vw;
   --height-update-notifier-backdrop:100vh;
   --position-update-notifier-backdrop:fixed;
-  --filter-update-notifier-backdrop:blur(5px);  
+  --filter-update-notifier-backdrop:blur(5px);
   --width-update-notifier:20vw;
   --height-update-notifier:20vh;
   --color-position-update-notifier-border: #414141;
-  --border-update-notifier-width: 1px;  
+  --border-update-notifier-width: 1px;
   --display-preview-title: none;
 
 }

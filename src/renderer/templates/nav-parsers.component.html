@@ -15,8 +15,7 @@
     <div
       class="item"
       formArrayName="parserStatuses"
-      *ngFor="let item of navForm.get('parserStatuses').controls; let i = index"
-    >
+      *ngFor="let item of navForm.get('parserStatuses').controls; let i = index">
       <div class="inputContainer" [formGroupName]="i">
         <div class="inlineGroup">
           <nav-link

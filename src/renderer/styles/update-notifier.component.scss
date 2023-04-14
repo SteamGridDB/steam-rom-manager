@@ -1,7 +1,7 @@
 @import 'mixins';
 
 :host {
-  
+
   width: var(--width-update-notifier-backdrop);
   height: var(--height-update-notifier-backdrop);
   position: var(--position-update-notifier-backdrop);
@@ -11,9 +11,9 @@
   .update-notifier-content{
     p{
       margin-top: 0;
-    }  
+    }
   }
-  
+
   &.hidden {
     display: none;
   }
@@ -35,7 +35,7 @@
   }
   > #updateNotification {
     font-size: 1em;
-    
+
     display: flex;
     flex-direction: column;
     justify-content: center;
