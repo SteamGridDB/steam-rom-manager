@@ -14,13 +14,15 @@ import { glob } from 'glob';
 const mimeTypes = require('mime-types');
 const toBuffer = require('blob-to-buffer');
 
+
+
 export class VDF_ScreenshotsFile {
   private static xRequest = new xRequest();
-  private requestOptions: xRequestOptions =  {
+  private static requestOptions: xRequestOptions = {
     headers: { 'Content-type': 'image' },
     responseType: 'blob',
     method: 'GET',
-    timeout: 1000
+    timeout: 1
   }
   private fileData: any = undefined;
   private topKey: string = undefined;
@@ -142,85 +144,81 @@ export class VDF_ScreenshotsFile {
         extraneousPromises.push(this.removeExtraneous(appId));
       }
     }
-    const batchSize = 500
+    const batchSize = 500;
+    const delay = 1000;
     const addableAppIds = Object.keys(screenshotsData).filter((appId)=>{
       return screenshotsData[appId] !== undefined && (typeof screenshotsData[appId] !== 'string')
     });
+
     for (let b=0; b < Math.ceil(addableAppIds.length / batchSize); b++ ) {
       if(batch) {
         if(b>0){
-          await new Promise(resolve => setTimeout(resolve, 10000));
+          await new Promise(resolve => setTimeout(resolve, delay));
         }
         this.batchProgress.next(b);
       }
       let batchAddPromises: Promise<VDF_Error>[] = [];
       for(let j= b*batchSize; j < Math.min((b+1)*batchSize,addableAppIds.length); j++) {
         const appId = addableAppIds[j];
-        let data = screenshotsData[appId] as VDF_ScreenshotItem;
-        let nintendoSucks = data.url.slice(-1) == '?' //DMCA Check
-        let ext: string = data.url.split('.').slice(-1)[0].replace(/[^\w\s]*$/gi, "");
-        batchAddPromises.push(Promise.resolve().then(() => {
-          return VDF_ScreenshotsFile.xRequest.request(
-            data.url,
-            {
-              headers: { 'Content-type': 'image' },
-              responseType: 'blob',
-              method: 'GET',
-              timeout: 1000
-            }
-          ).then((blob: Blob) => {
-            if (ext === "") {
-              return this.lang.error.unsupportedMimeType__i.interpolate({ type: blob.type, title: data.title });
-            } else if (nintendoSucks) {
-              return this.lang.error.skippingDMCA__i.interpolate({ title: data.title })
-            }
-            else {
-              return new Promise<Buffer>((resolve, reject) => {
-                toBuffer(blob, (error: Error, buffer: Buffer) => {
-                  if (error)
-                    reject(this.lang.error.imageError__i.interpolate({ error, url: data.url, title: data.title }));
-                  else
-                    resolve(buffer);
-                });
-              })
-              .then((buffer) => {
-                return fs.outputFile(path.join(this.gridDirectory, `${appId}.${ids.map_ext[""+ext]||ext}`), buffer)
-              })
-              .then(() => {
-                glob(`${appId}.!(json)`, { dot: true, cwd: this.gridDirectory, absolute: true }).then((files: string[]) => {
-                  let errors: Error[] = [];
-                  for (let i = 0; i < files.length; i++) {
-                    if(_.last(files[i].split('.'))!==(ids.map_ext[""+ext]||ext)) {
-                      try {
-                        fs.removeSync(files[i]);
-                      }
-                      catch (error) {
-                        errors.push(error);
-                      }
-                    }
-                  }
-                })
-              }).catch((error) => {
-                return this.lang.error.imageError__i.interpolate({ error, url: data.url, title: data.title });
-              })
-              .finally(()=>{
-                screenshotsData[appId] = data.title;
-              })
-            }
-          }).catch((error) => {
-            return new VDF_Error(error);
-          }).then((error) => {
-            if(error) { return new VDF_Error(error) }
+        const data = screenshotsData[appId] as VDF_ScreenshotItem;
+        const nintendoSucks = data.url.slice(-1) == '?' //DMCA Check
+        const ext: string = data.url.split('.').slice(-1)[0].replace(/[^\w\s]*$/gi, "");
+        batchAddPromises.push(VDF_ScreenshotsFile.xRequest.request(data.url, VDF_ScreenshotsFile.requestOptions)
+        .then((blob: Blob) => {
+          if (ext === "") {
+            throw this.lang.error.unsupportedMimeType__i.interpolate({ type: blob.type, title: data.title });
+          } else if (nintendoSucks) {
+            throw this.lang.error.skippingDMCA__i.interpolate({ title: data.title })
+          }
+          return blob;
+        }).then((blob: Blob)=>{
+          return new Promise<Buffer>((resolve, reject) => {
+            toBuffer(blob, (error: Error, buffer: Buffer) => {
+              if (error)
+                reject(this.lang.error.imageError__i.interpolate({ error, url: data.url, title: data.title }));
+              else
+                resolve(buffer);
+            });
           })
-        }));
+        })
+        .then((buffer) => {
+          return fs.outputFile(path.join(this.gridDirectory, `${appId}.${ids.map_ext[""+ext]||ext}`), buffer)
+        })
+        .then(() => {
+          return glob(`${appId}.!(json)`, { dot: true, cwd: this.gridDirectory, absolute: true })
+        })
+        .then((files: string[]) => {
+          let errors: Error[] = [];
+          for (let i = 0; i < files.length; i++) {
+            if(_.last(files[i].split('.'))!==(ids.map_ext[""+ext]||ext)) {
+              try {
+                fs.removeSync(files[i]);
+              }
+              catch (error) {
+                errors.push(error);
+              }
+            }
+          }
+          return new VDF_Error(errors);
+        })
+        .catch((error) => {
+          if(error) {
+            return new VDF_Error(this.lang.error.imageError__i.interpolate({ error, url: data.url, title: data.title }));
+          }
+        })
+        .finally(()=>{
+          screenshotsData[appId] = data.title;
+        }))
       }
       let batchErrors: VDF_Error[] = await Promise.all(batchAddPromises);
       addErrors = [...addErrors, ...batchErrors];
 
     }
-
     return Promise.all(extraneousPromises).then((extraneousErrors)=>{
-      return {extraneousErrors: extraneousErrors, addErrors: addErrors}
+      return {
+        extraneousErrors: extraneousErrors.filter(e=> e && e.message),
+        addErrors: addErrors.filter(e => e && e.message)
+      }
     })
     .then(({extraneousErrors, addErrors}: {extraneousErrors: VDF_Error[], addErrors: VDF_Error[]}) => {
       this.fileData[this.topKey]['shortcutnames'] = _.pickBy(this.fileData[this.topKey]['shortcutnames'], item => item !== undefined);
@@ -234,7 +232,7 @@ export class VDF_ScreenshotsFile {
       });
       let data = genericParser.stringify(tempData);
       fs.outputFileSync(this.filepath, data);
-      return extraneousErrors.concat(addErrors).filter(e=>!!e);
+      return extraneousErrors.concat(addErrors);
     }).then((errors) => {
       if (errors.length > 0) {
         let error = new VDF_Error(errors as VDF_Error[]);
