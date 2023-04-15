@@ -120,7 +120,7 @@
   "UWPParser": {
     "UWPDirTitle": "Xbox Games 目录覆盖",
     "UWPDirPlaceholder": "/path/to/XboxGames 或 /path/to/WindowsApps",
-    "UWPLauncherModeTitle": "以 UWP 形式启动游戏，而不是使用启动器助手。",
+    "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper",
     "errors": {
       "fatalError__i": "> UWP 解析器在此平台上不兼容。",
       "UWPNotCompatible": "> UWP 解析器发生致命错误：\n ${error}"
