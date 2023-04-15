@@ -16,7 +16,7 @@
 
 ## 支持
 
-Help support continued progress on Steam ROM Manager at:
+帮助支持 Steam ROM Manager 的持续进展：
 
 <a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
   <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="请我喝杯咖啡" width="160">
@@ -30,24 +30,24 @@ Help support continued progress on Steam ROM Manager at:
 
 ## 贡献
 
-### Current Maintainers
-* `lontanadascienza`{.noWrap} - Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller management, platform parsers (Epic, GOG, Steam, etc), among many other things. Squashes bugs almost as fast as he introduces them. Added the exception manager, controller management, platform parsers (Epic, GOG, Steam, etc), among many other things. Squashes bugs almost as fast as he introduces them.
-* `Zennn`{.noWrap} - Added category support, langauge localization, and the bug report server among many other things. [SteamGridDB](https://www.steamgriddb.com/) 的大老板。 [SteamGridDB](https://www.steamgriddb.com/) 的大老板。
-* `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz)).
+### 当前维护者
+* `lontanadascienza`{.noWrap} - 更新了 SRM 以处理主页、海报、Logos 和图标。 添加了异常管理器、控制器管理、平台解析器(Epic，GOG，Steam 等)，以及许多其他功能。 几乎以他引入的速度消灭 bug。
+* `Zennn`{.noWrap} - 添加了类别支持、语言本地化和错误报告服务器等许多功能。 [SteamGridDB](https://www.steamgriddb.com/) 的大老板。
+* `KenCinder`{.noWrap} - 管理和创建社区解析器预设，并帮助用户在 [Discord](https://discord.gg/bnSVJrz) 中设置 SRM。
 
-### Feature Contributions
-* `FrogTheFrog`{.noWrap} - Creator of SRM, no longer active on SRM but currently working on the [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
-* `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
-* `alvaromunoz`{.noWrap} - Added Game Pass parser to SRM.
-* `lexarvn`{.noWrap} - Added the Amazon Games parser and the itch.io parser.
-* `CarJem`{.noWrap} - Added the manual parser.
-* `MattMckenzy`{.noWrap} - Added ability to import and export image choices.
-* `Apalatn`{.noWrap} - Added an install drive redirect option to the itch.io parser.
-* `OneMoreByte` - Made itch.io parser work on linux and mac.
-* `UndarkAido` - Added shortcut passthrough for Linux's .desktop shortcuts.
+### 功能贡献
+* `FrogTheFrog`{.noWrap} - SRM 的创作者，目前不再活跃于 SRM，但正在开发 [MoonDeck 插件](https://github.com/FrogTheFrog/moondeck)。
+* `dragoonDorise`{.noWrap} - 将新主题添加到 SRM 中。 [EmuDeck](https://www.emudeck.com/) 的创作者和现任维护者。
+* `alvaromunoz`{.noWrap} - 添加了 Game Pass 解析器到 SRM。
+* `lexarvn`{.noWrap} - 添加了 Amazon Games 解析器和 itch.io 解析器。
+* `CarJem`{.noWrap} - 添加了手动解析器。
+* `MattMckenzy`{.noWrap} - 增加了导入和导出图像选择的功能。
+* `Apalatn`{.noWrap} - 添加了一个安装驱动器重定向选项到 itch.io 解析器。
+* `OneMoreByte` - 使 itch.io 解析器在 Linux 和 Mac 上工作。
+* `UndarkAido` - 为 Linux 的 .desktop 快捷方式添加了快捷通道。
 
-### Community
-* `HE Spoke`{.noWrap} - created a community around SRM. `HE Spoke`{.noWrap} - created a community around SRM. [Steam](https://steamcommunity.com/groups/steamrommanager) 和 [Discord](https://discord.gg/bnSVJrz) 群组的创建者。 Also helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
-* `Choko`{.noWrap} - Helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
-* `livedeht`{.noWrap} - Helps users setup SRM with and without [EmuDeck](https://www.emudeck.com/). Current maintainer of [EmuDeck](https://www.emudeck.com/). Current maintainer of [EmuDeck](https://www.emudeck.com/).
-* `Xav83`{.noWrap} - Creator and maintainer of SRM's [Chocolatey package](https://community.chocolatey.org/packages/steam-rom-manager)
+### 社区
+* `HE Spoke`{.noWrap} - 围绕 SRM 创建了一个社区。 `HE Spoke`{.noWrap} - created a community around SRM. [Steam](https://steamcommunity.com/groups/steamrommanager) 和 [Discord](https://discord.gg/bnSVJrz) 群组的创建者。 也帮助用户在 [Discord](https://discord.gg/bnSVJrz) 中设置 SRM。
+* `Choko`{.noWrap} - 帮助用户在 [Discord](https://discord.gg/bnSVJrz) 中设置 SRM。
+* `livedeht`{.noWrap} - 帮助用户设置带有或不带有 [EmuDeck](https://www.emudeck.com/) 的 SRM。 [EmuDeck](https://www.emudeck.com/) 的当前维护者。
+* `Xav83`{.noWrap} - SRM 的 [Chocolatey 软件包](https://community.chocolatey.org/packages/steam-rom-manager) 的创建者和维护者
