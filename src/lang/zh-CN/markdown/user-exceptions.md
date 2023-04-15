@@ -16,7 +16,7 @@
 有两个选项可以覆盖用于从 SteamGridDB 获取图像的标题：
 
 * 请指定新的搜索标题。
-* Specify the exact game id to pull images from. Specify the exact game id to pull images from. Specify the exact game id to pull images from. For example to get images for the game [Flow](https://www.steamgriddb.com/game/5254019) which has SteamGridDB url `https://www.steamgriddb.com/game/5254019` you would put `${gameid:5254019}`. 例如，要获取游戏 [Flow](https://www.steamgriddb.com/game/5254019) 的图像，其 SteamGridDB 网址为 `https://www.steamgriddb.com/game/5254019`，您需要输入 `${gameid:5254019}`。
+* Specify the exact game id to pull images from. Specify the exact game id to pull images from. Specify the exact game id to pull images from. For example to get images for the game [Flow](https://www.steamgriddb.com/game/5254019) which has SteamGridDB url `https://www.steamgriddb.com/game/5254019` you would put `${gameid:5254019}`. Specify the exact game id to pull images from. Specify the exact game id to pull images from. Specify the exact game id to pull images from. For example to get images for the game [Flow](https://www.steamgriddb.com/game/5254019) which has SteamGridDB url `https://www.steamgriddb.com/game/5254019` you would put `${gameid:5254019}`. 例如，要获取游戏 [Flow](https://www.steamgriddb.com/game/5254019) 的图像，其 SteamGridDB 网址为 `https://www.steamgriddb.com/game/5254019`，您需要输入 `${gameid:5254019}`。
 
 ## 新的命令行参数
 
