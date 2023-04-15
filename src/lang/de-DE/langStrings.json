@@ -21,7 +21,7 @@
       "generateAppList": "Apps erzeugen",
       "saveAppList": "Apps in Steam speichern",
       "removeAppList": "Apps aus Steam entfernen",
-      "remainingImages": "Remaining image downloads:",
+      "remainingImages": "Remaining urls:",
       "stopUrlRetrieving": "Bild-Downloads stoppen",
       "exportSelections": "Bild-Auswahl exportieren",
       "importSelections": "Bild-Auswahl importieren"
@@ -83,6 +83,7 @@
   "steamParser": {
     "onlyGamesTitle": "Find artwork for games only (no tools)",
     "onlyInstalledTitle": "Find artwork for installed titles only",
+    "sourceModsTitle": "Find artwork for unofficial source mods",
     "errors": {
       "directoryInvalid": "> Steam-Verzeichnis ist ungültig.",
       "noSteamAccounts": "> Das angegebene Steam-Verzeichnis hat keine Konten.",
@@ -119,7 +120,7 @@
   "UWPParser": {
     "UWPDirTitle": "XboxGames Directory Override",
     "UWPDirPlaceholder": "/path/to/XboxGames or /path/to/WindowsApps",
-    "UWPLauncherModeTitle": "Starte das Spiel als UWP statt als Launcher Helfer.",
+    "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper",
     "errors": {
       "fatalError__i": "> UWP Parser mit folgendem Fehler fehlgeschlagen:\n ${error}",
       "UWPNotCompatible": "> UWP Parser ist in dieser Plattform nicht kompatibel."
