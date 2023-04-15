@@ -47,7 +47,7 @@ If you enjoy Steam ROM Manager and want it to continue to be useful also conside
 * `UndarkAido` - Added shortcut passthrough for Linux's .desktop shortcuts.
 
 ### Community
-* `HE Spoke`{.noWrap} - created a community around SRM. Ersteller von [Steam](https://steamcommunity.com/groups/steamrommanager) und [Discord](https://discord.gg/bnSVJrz) Gruppen. Also helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
+* Ersteller von [Steam](https://steamcommunity.com/groups/steamrommanager) und [Discord](https://discord.gg/bnSVJrz) Gruppen. `HE Spoke`{.noWrap} - created a community around SRM. Also helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
 * `Choko`{.noWrap} - Helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
 * `livedeht`{.noWrap} - Helps users setup SRM with and without [EmuDeck](https://www.emudeck.com/). Current maintainer of [EmuDeck](https://www.emudeck.com/).
 * `Xav83`{.noWrap} - Creator and maintainer of SRM's [Chocolatey package](https://community.chocolatey.org/packages/steam-rom-manager)
