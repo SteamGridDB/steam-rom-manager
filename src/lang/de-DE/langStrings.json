@@ -120,7 +120,7 @@
   "UWPParser": {
     "UWPDirTitle": "XboxGames Directory Override",
     "UWPDirPlaceholder": "/path/to/XboxGames or /path/to/WindowsApps",
-    "UWPLauncherModeTitle": "Starte das Spiel als UWP statt als Launcher Helfer.",
+    "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper",
     "errors": {
       "fatalError__i": "> UWP Parser mit folgendem Fehler fehlgeschlagen:\n ${error}",
       "UWPNotCompatible": "> UWP Parser ist in dieser Plattform nicht kompatibel."
