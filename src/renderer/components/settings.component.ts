@@ -152,14 +152,8 @@ export class SettingsComponent implements OnDestroy {
   }
 
   private loadTheme(){
-    let themeCSS;
-    switch (this.settings.theme) {
-        case "Deck" : themeCSS = 'steam-theme'; break;
-        default : themeCSS = 'classic-theme'; break;
-    }
-
     document.querySelector('html').className = '';
-    document.querySelector('html').classList.add(themeCSS)
+    document.querySelector('html').classList.add(this.settings.theme)
   }
 
   configDir() {
