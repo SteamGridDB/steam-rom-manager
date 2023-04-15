@@ -338,6 +338,7 @@
   --color-position-update-notifier-border: var(--color-info);
   --border-update-notifier-width: var(--border-width-alert);
   --display-preview-title: none;
+  --display-exceptions-save-status: inherit;
 }
 
 .Deck {
@@ -595,8 +596,8 @@
   --color-titlebar-title: #a0a0a0;
   --color-toggle-button-background: #fff;
   --color-toggle-button-background-active: var(--color--accent);
-  --color-toggle-button-background-active-hover: var(--color--accent);
-  --color-toggle-button-background-hover: var(--color--accent);
+  --color-toggle-button-background-active-hover: #9ed2fa;
+  --color-toggle-button-background-hover: #9ed2fa;
   --color-toggle-button-border: transparent;
   --color-toggle-button-border-active: transparent;
   --color-toggle-button-border-active-hover:transparent;
@@ -686,7 +687,7 @@
   --color-position-update-notifier-border: #414141;
   --border-update-notifier-width: 1px;
   --display-preview-title: none;
-
+  --display-exceptions-save-status: none;
 }
 
 

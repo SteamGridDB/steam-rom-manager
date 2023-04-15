@@ -39,7 +39,7 @@ If you enjoy Steam ROM Manager and want it to continue to be useful also conside
 * `FrogTheFrog`{.noWrap} - Creator of SRM, no longer active on SRM but currently working on the [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
 * `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
 * `alvaromunoz`{.noWrap} - Added Game Pass parser to SRM.
-* `lexarvn`{.noWrap} - Added the Amazon Games and the itch.io parser.
+* `lexarvn`{.noWrap} - Added the Amazon Games parser and the itch.io parser.
 * `CarJem`{.noWrap} - Added the manual parser.
 * `MattMckenzy`{.noWrap} - Added ability to import and export image choices.
 * `Apalatn`{.noWrap} - Added an install drive redirect option to the itch.io parser. 
