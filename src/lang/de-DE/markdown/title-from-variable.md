@@ -60,11 +60,23 @@ SRM wird Fehler ausgeben, wenn nicht die folgende JSON-Struktur verwendet wird:
     },
     ...
 }
+    {
+    "RPCS3": {
+        "NPUB30698": "Catherine",
+        "NPUB30024": "1942: Joint Strike",
+        ...
     },
     "Custom Stuff": {
         "The Legend Of Zelda": "The Legend Of Link"
     },
     ...
+}
+    },
+    "Custom Stuff": {
+        "The Legend Of Zelda": "The Legend Of Link"
+    },
+    ...
+}
 }
 }
 }
