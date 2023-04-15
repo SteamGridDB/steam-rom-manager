@@ -7,12 +7,12 @@
 
 ## 相关链接
 
-* [SRM Releases](https://github.com/SteamGridDB/steam-rom-manager/releases)
-* [Discord Server](https://discord.gg/bnSVJrz)
+* [SRM 发布](https://github.com/SteamGridDB/steam-rom-manager/releases)
+* [Discord 服务器](https://discord.gg/bnSVJrz)
 * [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
-* [Steam Group](https://steamcommunity.com/groups/steamrommanager)
-* [Github Repo](https://github.com/SteamGridDB/steam-rom-manager)
-* [Crowdin Translation Project](https://crowdin.com/project/steam-rom-manager)
+* [Steam 群组](https://steamcommunity.com/groups/steamrommanager)
+* [GitHub 仓库](https://github.com/SteamGridDB/steam-rom-manager)
+* [Crowdin 翻译项目](https://crowdin.com/project/steam-rom-manager)
 
 ## 支持
 
@@ -22,13 +22,13 @@ Help support continued progress on Steam ROM Manager at:
   <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="请我喝杯咖啡" width="160">
 </a>
 
-If you enjoy Steam ROM Manager and want it to continue to be useful also consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. [SteamGridDB](https://www.steamgriddb.com/) 托管了 Steam ROM Manager 使用的所有艺术作品，使您的 Steam 游戏库成为大家羡慕的对象，因此我们应该帮助他们保持运营。 [SteamGridDB](https://www.steamgriddb.com/) 托管了 Steam ROM Manager 使用的所有艺术作品，使您的 Steam 游戏库成为大家羡慕的对象，因此我们应该帮助他们保持运营。
+如果您喜欢 Steam ROM 管理器，并希望它继续有用，请考虑支持 [SteamGridDB](https://www.steamgriddb.com/) 的 Patreon。 [SteamGridDB](https://www.steamgriddb.com/) 托管了 Steam ROM Manager 使用的所有艺术作品，使您的 Steam 游戏库成为大家羡慕的对象，因此我们应该帮助他们保持运营。
 
 <a href="https://www.patreon.com/steamgriddb">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
-## Contributions
+## 贡献
 
 ### Current Maintainers
 * `lontanadascienza`{.noWrap} - Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller management, platform parsers (Epic, GOG, Steam, etc), among many other things. Squashes bugs almost as fast as he introduces them. Added the exception manager, controller management, platform parsers (Epic, GOG, Steam, etc), among many other things. Squashes bugs almost as fast as he introduces them.
