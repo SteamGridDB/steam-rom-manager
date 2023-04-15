@@ -7,35 +7,47 @@ Caso você tenha problemas com a SRM, não hesite em visitar o [discord](https:/
 
 ## Links Úteis
 
-* [grupo](https://steamcommunity.com/groups/steamrommanager) Steam.
-* [Servidor](https://discord.gg/bnSVJrz) Discord.
+* [SRM Releases](https://github.com/SteamGridDB/steam-rom-manager/releases)
+* [Discord Server](https://discord.gg/bnSVJrz)
 * [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
-* [Repositório](https://github.com/SteamGridDB/steam-rom-manager) do Github.
-* [Crowdin](https://crowdin.com/project/steam-rom-manager) projeto de tradução.
-* Todas as versões podem ser baixadas do [aqui](https://github.com/SteamGridDB/steam-rom-manager/releases).
-
-## Colaboradores
-* `FrogTheFrog`{.noWrap} - criador de SRM, não mais ativo.
-* `lontanadascienza`{.noWrap} - Mantenedor atual da SRM. `lontanadascienza`{.noWrap} - Mantenedor atual da SRM. `lontanadascienza`{.noWrap} - Mantenedor atual da SRM. `lontanadascienza`{.noWrap} - Mantenedor atual da SRM. SRM atualizado para lidar com heróis, pôsteres, logotipos e ícones. `lontanadascienza`{.noWrap} - Mantenedor atual da SRM. `lontanadascienza`{.noWrap} - Mantenedor atual da SRM. `lontanadascienza`{.noWrap} - Mantenedor atual da SRM. SRM atualizado para lidar com heróis, pôsteres, logotipos e ícones. Adicionado o gerenciador de exceção, modelos de controladores e analisadores de plataforma (Epic, GOG, Steam, etc.).
-* `Zennn`{.noWrap} - ajudou antes da liberação inicial da SRM e muitas vezes depois da liberação com várias coisas. Grande chefe no [SteamGridDB](https://www.steamgriddb.com/).
-* `HE Spoke`{.noWrap} - responsável por criar comunidade em torno da SRM. `HE Spoke`{.noWrap} - responsável por criar comunidade em torno da SRM. Criador de [grupos Steam](https://steamcommunity.com/groups/steamrommanager) e [Discord](https://discord.gg/bnSVJrz). `HE Spoke`{.noWrap} - responsável por criar comunidade em torno da SRM. Criador de [grupos Steam](https://steamcommunity.com/groups/steamrommanager) e [Discord](https://discord.gg/bnSVJrz). Também gerencia issues no [Github](https://github.com/SteamGridDB/steam-rom-manager).
-* `Choko`{.noWrap} - ajuda os usuários na configuração da SRM no [Discord](https://discord.gg/bnSVJrz).
-* `KenCinder`{.noWrap} - gerencia as predefinições do analisador.
-* `AlexDobeck`{.noWrap} - melhorou o desempenho de [retrogaming.cloud](https://retrogaming.cloud/).
+* [Steam Group](https://steamcommunity.com/groups/steamrommanager)
+* [Github Repo](https://github.com/SteamGridDB/steam-rom-manager)
+* [Crowdin Translation Project](https://crowdin.com/project/steam-rom-manager)
 
 ## Suporte
-Se você gosta do Gerente de ROM Steam e quer que ele continue sendo útil, considere suportar o Patreon de [SteamGridDB](https://www.steamgriddb.com/). [SteamGridDB](https://www.steamgriddb.com/) hospeda todas as artes que o gerenciador de ROM usa para fazer de sua biblioteca Steam a inveja da cidade, então devemos provavelmente ajudá-los a manter as luzes acesas.
+
+Help support continued progress on Steam ROM Manager at:
+
+<a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Pagar um café" width="160">
+</a>
+
+If you enjoy Steam ROM Manager and want it to continue to be useful also consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. [SteamGridDB](https://www.steamgriddb.com/) hospeda todas as artes que o gerenciador de ROM usa para fazer de sua biblioteca Steam a inveja da cidade, então devemos provavelmente ajudá-los a manter as luzes acesas.
 
 <a href="https://www.patreon.com/steamgriddb">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
-Se você está se sentindo excepcionalmente generoso, então sinta-se livre para me comprar um café!
+## Contributions
 
-<a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
-  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Pagar um café" height="38" width="174">
-</a>
+### Current Maintainers
+* `lontanadascienza`{.noWrap} - Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller management, platform parsers (Epic, GOG, Steam, etc), among many other things. Squashes bugs almost as fast as he introduces them.
+* `Zennn`{.noWrap} - Added category support, langauge localization, and the bug report server among many other things. Grande chefe no [SteamGridDB](https://www.steamgriddb.com/).
+* `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz)).
 
-## Créditos
+### Feature Contributions
+* `FrogTheFrog`{.noWrap} - Creator of SRM, no longer active on SRM but currently working on the [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
+* `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
+* `alvaromunoz`{.noWrap} - Added Game Pass parser to SRM.
+* `lexarvn`{.noWrap} - Added the Amazon Games and the itch.io parser.
+* `CarJem`{.noWrap} - Added the manual parser.
+* `MattMckenzy`{.noWrap} - Added ability to import and export image choices.
+* `Apalatn`{.noWrap} - Added an install drive redirect option to the itch.io parser.
+* `OneMoreByte` - Made itch.io parser work on linux and mac.
+* `UndarkAido` - Added shortcut passthrough for Linux's .desktop shortcuts.
 
-* A maioria dos ícones foram feitos por [Roundicons](https://www.flaticon.com/authors/roundicons) do [Flaticon](https://www.flaticon.com) (licenciado por [Creative Commons BY 3.0](https://creativecommons.org/licenses/by/3.0/)).
+### Community
+* `HE Spoke`{.noWrap} - created a community around SRM. `HE Spoke`{.noWrap} - responsável por criar comunidade em torno da SRM. Criador de [grupos Steam](https://steamcommunity.com/groups/steamrommanager) e [Discord](https://discord.gg/bnSVJrz). Also helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
+* `Choko`{.noWrap} - Helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
+* `livedeht`{.noWrap} - Helps users setup SRM with and without [EmuDeck](https://www.emudeck.com/). Current maintainer of [EmuDeck](https://www.emudeck.com/).
+* `Xav83`{.noWrap} - Creator and maintainer of SRM's [Chocolatey package](https://community.chocolatey.org/packages/steam-rom-manager)
