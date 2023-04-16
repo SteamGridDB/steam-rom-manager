@@ -48,6 +48,6 @@ Wenn dir Steam ROM Manager gefällt, und du möchtest, dass es weiterhin nützli
 
 ### Community
 * `HE Spoke`{.noWrap} - erstellte eine Community rund um SRM. Ersteller von [Steam](https://steamcommunity.com/groups/steamrommanager)- und [Discord](https://discord.gg/bnSVJrz)-Gruppen. Hilft auch Benutzern im [Discord](https://discord.gg/bnSVJrz) beim Einrichten von SRM.
-* `livedeht`{.noWrap} - Helps users setup SRM with and without [EmuDeck](https://www.emudeck.com/). Current maintainer of [EmuDeck](https://www.emudeck.com/).
-* `Choko`{.noWrap} - Helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
-* `Xav83`{.noWrap} - Creator and maintainer of SRM's [Chocolatey package](https://community.chocolatey.org/packages/steam-rom-manager)
+* `livedeht`{.noWrap} - Hilft Benutzern beim Einrichten von SRM mit und ohne [EmuDeck](https://www.emudeck.com/). Aktueller Entwickler von [EmuDeck](https://www.emudeck.com/).
+* `Choko`{.noWrap} - Hilft Benutzern im [Discord](https://discord.gg/bnSVJrz) beim Einrichten von SRM.
+* `Xav83`{.noWrap} - Ersteller und Betreuer von SRMs [Chocolatey-Paket](https://community.chocolatey.org/packages/steam-rom-manager)
