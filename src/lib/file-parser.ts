@@ -444,7 +444,7 @@ export class FileParser {
   private appendArgsPromise({config, settings, parsedConfig}: {config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
     return new Promise((resolve, reject)=>{
       try{
-        for(let j=0; j< parsedConfig.files.length; j++) {
+        for(let j=0; j < parsedConfig.files.length; j++) {
           if(config.executable.appendArgsToExecutable) {
             parsedConfig.files[j].modifiedExecutableLocation = `${parsedConfig.files[j].modifiedExecutableLocation} ${parsedConfig.files[j].argumentString}`;
             parsedConfig.files[j].argumentString = '';
@@ -614,7 +614,7 @@ export class FileParser {
           }) : '').replace(/\\/g, '/');
 
           resolvedGlobs[i].push(replacedGlob);
-          promises.push(glob(replacedGlob, { dot: true, realpath: true, cwd: cwd }).then((files: string[]) => {
+          promises.push(glob(replacedGlob, { dot: true, realpath: true, cwd: cwd, follow: true }).then((files: string[]) => {
             resolvedFiles[i] = files;
           }));
         }
@@ -665,7 +665,7 @@ export class FileParser {
               }
             }
             if (secondaryMatch !== undefined) {
-              return glob(secondaryMatch, { dot: true, realpath: true, cwd: cwd }).then((files: string[]) => {
+              return glob(secondaryMatch, { dot: true, realpath: true, cwd: cwd, follow: true }).then((files: string[]) => {
                 return resolvedFiles[i].concat(files);
               });
             }
