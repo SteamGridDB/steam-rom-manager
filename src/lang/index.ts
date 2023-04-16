@@ -141,6 +141,11 @@ function getMarkdown(langPath: string) {
         info__md: [require(`${langPath}/about.md`)]
       }
     },
+    parsers_list: {
+      component: {
+        info__md: [require(`${langPath}/parsers_list.md`)]
+      }
+    },
     logger: {
       component: {
         docs__md: {

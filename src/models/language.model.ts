@@ -4,6 +4,11 @@ export interface languageStruct {
       info__md: string[]
     }
   },
+  parsers_list: {
+    component: {
+      info__md: string[]
+    }
+  },
   preview: {
     component: {
       filter: string,
