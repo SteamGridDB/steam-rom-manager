@@ -1,1 +1,1 @@
-export const availableThemes: string[] = ['Deck', 'Classic']
+export const availableThemes: string[] = ['Deck', 'Classic', 'EmuDeck']

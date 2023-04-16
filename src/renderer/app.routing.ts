@@ -30,7 +30,7 @@ const AppRouter: Routes = [
         component: ParsersComponent
     },
     {
-        path: 'parserslist',
+        path: 'parsers-list',
         component: ParsersListComponent
     },
     {
