@@ -29,6 +29,7 @@ Help support continued progress on Steam ROM Manager at:
 </a>
 
 ## Contributions
+* `FrogTheFrog`{.noWrap} - Creator of SRM, no longer active on SRM but currently working on the [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
 
 ### Current Maintainers
 * `lontanadascienza`{.noWrap} - Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller management, platform parsers (Epic, GOG, Steam, etc), among many other things. Squashes bugs almost as fast as he introduces them.
@@ -36,7 +37,6 @@ Help support continued progress on Steam ROM Manager at:
 * `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz)).
 
 ### Feature Contributions
-* `FrogTheFrog`{.noWrap} - Creator of SRM, no longer active on SRM but currently working on the [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
 * `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
 * `alvaromunoz`{.noWrap} - Added Game Pass parser to SRM.
 * `lexarvn`{.noWrap} - Added the Amazon Games parser and the itch.io parser.
@@ -47,7 +47,7 @@ Help support continued progress on Steam ROM Manager at:
 * `UndarkAido` - Added shortcut passthrough for Linux's .desktop shortcuts.
 
 ### Community
-* Creador del grupo de [Steam](https://steamcommunity.com/groups/steamrommanager) y servidor de [Discord](https://discord.gg/bnSVJrz). `HE Spoke`{.noWrap} - created a community around SRM. Also helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
-* `Choko`{.noWrap} - Helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
+* `HE Spoke`{.noWrap} - created a community around SRM. Creador del grupo de [Steam](https://steamcommunity.com/groups/steamrommanager) y servidor de [Discord](https://discord.gg/bnSVJrz). Also helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
 * `livedeht`{.noWrap} - Helps users setup SRM with and without [EmuDeck](https://www.emudeck.com/). Current maintainer of [EmuDeck](https://www.emudeck.com/).
+* `Choko`{.noWrap} - Helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
 * `Xav83`{.noWrap} - Creator and maintainer of SRM's [Chocolatey package](https://community.chocolatey.org/packages/steam-rom-manager)
