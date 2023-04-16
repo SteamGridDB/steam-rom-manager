@@ -1,3 +1,3 @@
-# Configuration title
+# Заголовок конфігурації
 
-Title to save user configuration as. Does not have to be unique, but is required.
+Заголовок для збереження конфігурації користувача. Не має бути унікальним, але обов’язковим.
