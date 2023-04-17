@@ -32,31 +32,28 @@ export class AppComponent {
   private languageLoaded: boolean = false;
   public shouldHideComponent: boolean = false;
   constructor(private settingsService: SettingsService, private languageService: LanguageService, private markdownService: MarkdownService, private router: Router,private ipcService: IpcService, private changeDetectionRef: ChangeDetectorRef, private zone: NgZone) {
-    
-    
+
     this.settingsService.onLoad((appSettings) => {
       this.settingsLoaded = true;
       document.querySelector('html').className = '';
       document.querySelector('html').classList.add(appSettings.theme)
       console.log(appSettings.theme);
       // EmuDeck special navigation
-      
-        this.router.events.subscribe((val) => {
-          if (this.router.url === '/logger' && appSettings.theme === 'EmuDeck' || this.router.url === '/' && appSettings.theme === 'EmuDeck') {
-            this.shouldHideComponent = true;
-          } else {
-            this.shouldHideComponent = false;
-          }
-           console.log('shouldHideComponent', this.router.url);
-        });
-        
+
+      this.router.events.subscribe((val) => {
+        if (this.router.url === '/logger' && appSettings.theme === 'EmuDeck' || this.router.url === '/' && appSettings.theme === 'EmuDeck') {
+          this.shouldHideComponent = true;
+        } else {
+          this.shouldHideComponent = false;
+        }
+      });
+
       if(appSettings.theme === 'EmuDeck'){
-        this.router.navigate(['/parsers-list']);  
+        this.router.navigate(['/parsers-list']);
       }else{
         this.router.navigate(['/parsers', -1]);
       }
       this.changeDetectionRef.detectChanges();
-      
     });
     this.languageService.observeChanges().subscribe((lang) => {
       if (lang !== null) {
