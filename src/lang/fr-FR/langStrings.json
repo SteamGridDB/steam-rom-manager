@@ -24,7 +24,7 @@
       "remainingImages": "Remaining urls:",
       "stopUrlRetrieving": "Arrêter tous les téléchargements",
       "exportSelections": "Exporter les choix d'image",
-      "importSelections": "Importer les choix d'image"
+      "importSelections": "Importer des choix d'image"
     },
     "service": {
       "info": {
@@ -58,18 +58,18 @@
       },
       "errors": {
         "fatalError": "Une erreur fatale est survenue dans Aperçu. Consultez le journal des événements pour plus de détails.",
-        "fatalError__i": "Fatal Preview Error ${error}",
-        "knownSteamDirListIsEmpty": "A list of known Steam directories is empty.",
-        "steamIsRunning": "Cannot make changes while steam is running!",
+        "fatalError__i": "Erreur fatale d'aperçu ${error}",
+        "knownSteamDirListIsEmpty": "Une liste des répertoires Steam connus est vide.",
+        "steamIsRunning": "Impossible de faire des changements lorsque Steam est en cours d'exécution!",
         "categorySaveError": "Erreur lors de la mise à jour des catégories. Consultez le journal des événements pour plus de détails.",
-        "categorySaveError__i": "Category error (shortcuts and artwork will still be added): ${error}",
+        "categorySaveError__i": "Erreur de catégorie (les raccourcis et les images seront ajoutés): ${error}",
         "controllerSaveError": "Erreur lors de la mise à jour des modèles de contrôleur. Consultez le journal des événements pour plus de détails.",
-        "controllerSaveError__i": "Controller error (shortcuts and artwork will still be added): ${error}",
-        "retryingDownload__i": "Image download from \"${imageUrl}\" failed for \"${appTitle}\".",
-        "providerError__i": "Error received from \"${provider}\" for \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
-        "unknownProviderError__i": "Error received from \"${provider}\" for \"${title}\":\n ${error}",
-        "exportError__i": "Could not save selections package folder: ${error}",
-        "importJSONFailError__i": "Could not import selections, JSON was malformed: ${error}",
+        "controllerSaveError__i": "Erreur de contrôleur (les raccourcis et les images seront ajoutés): ${error}",
+        "retryingDownload__i": "Le téléchargement de l'image depuis \"${imageUrl}\" a échoué pour \"${appTitle}\".",
+        "providerError__i": "Erreur réception de \"${provider}\" pour \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
+        "unknownProviderError__i": "Erreur réception de \"${provider}\" pour \"${title}\":\n ${error}",
+        "exportError__i": "Impossible d'enregistrer le dossier de paquets sélectionné: ${error}",
+        "importJSONFailError__i": "Impossible d'importer les sélections, JSON a été malformé: ${error}",
         "importFailError__i": "Impossible d'importer les choix d'image: ${error}"
       },
       "success": {
@@ -179,7 +179,7 @@
     "eaLauncherModeTitle": "Lancer les jeux via EA Desktop",
     "errors": {
       "fatalError__i": "> EA Desktop parser failed with fatal error:\n ${error}",
-      "invalidXML__i": "> Invalid XML file ${dataFile}",
+      "invalidXML__i": "> Fichier XML invalide ${dataFile}",
       "eaNotCompatible": "> EA Desktop Parser only supports Windows."
     }
   },
@@ -513,8 +513,8 @@
         "variableString__md": "> Uneven number of `${` and `}` pairs. Use `\\` to escape `${` or `}` if you want to use them as characters.",
         "imageProviders__md": "> Incorrect image providers type!",
         "unhandledValidationKey__md": "> Input's validation is unhandled",
-        "genericDir__md": "> Directory is invalid",
-        "genericPath__md": "> Path is invalid"
+        "genericDir__md": "> Le répertoire est incorrect",
+        "genericPath__md": "> Le chemin est incorrect"
       },
       "text": {
         "noTitle": "No title!"
