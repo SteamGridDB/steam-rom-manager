@@ -139,7 +139,6 @@ export class VDF_ScreenshotsFile {
     const batchSize = 500;
     const delay = 5000;
     const timeout = 15000;
-    const gridRegex = /^d+$/;
 
     const addableAppIds = Object.keys(screenshotsData).filter((appId)=>{
       return screenshotsData[appId] !== undefined && (typeof screenshotsData[appId] !== 'string')
@@ -199,8 +198,9 @@ export class VDF_ScreenshotsFile {
         .then((buffer) => {
           const gridPath = path.join(this.gridDirectory, `${appId}.${ext}`);
           fs.outputFileSync(gridPath, buffer);
-          if(gridRegex.test(appId)) {
-            fs.symlink(gridPath, `${ids.lengthenAppId(appId)}.${ext}`)
+          if(/^\d+$/.test(appId)) {
+            const symPath = path.join(this.gridDirectory,`${ids.lengthenAppId(appId)}.${ext}`)
+            fs.symlink(gridPath, symPath)
           }
           return gridPath;
         })
