@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 * New highly simplified EmuDeck theme (only recommended for EmuDeck users as it hides parser config). Credit to @dragoonDorise.
 * Everyone who has made a feature contribution is now in the about page.
 * Legacy banner images now sym-linked instead of copied (reduces storage usage by 17%)
+* Steam images become sources immediately after hitting save apps to steam. This means that if you have some (or many) SGDB requests time out you can just wait a few seconds and hit "save apps to steam" again and it will get only those images.
 
 ### Changed
 * Major re-factor of parsers service, parsers component, and preview component. Preparation for new and more powerful preview.

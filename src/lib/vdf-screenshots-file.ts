@@ -1,4 +1,5 @@
 import { VDF_ScreenshotsData, VDF_ScreenshotItem, xRequestOptions } from "../models";
+import { artworkTypes, artworkIdDict } from "./artwork-types";
 import { xRequest } from './x-request';
 import { VDF_Error } from './vdf-error';
 import { APP } from '../variables';
@@ -51,7 +52,10 @@ export class VDF_ScreenshotsFile {
 
   set extraneous(value: string[]) {
     this.extraneousAppIds = value.reduce((r, e)=>{
-      r.push(e, ids.shortenAppId(e), ids.shortenAppId(e).concat('p'),ids.shortenAppId(e).concat('_hero'),ids.shortenAppId(e).concat('_logo'),ids.shortenAppId(e).concat('_icon'));
+      r.push(e);
+      for(const artworkType of artworkTypes) {
+        r.push(ids.shortenAppId(e).concat(artworkIdDict[artworkType]));
+      }
       return r;
     }, []);
   }
