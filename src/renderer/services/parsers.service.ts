@@ -9,7 +9,8 @@ import { SettingsService } from './settings.service';
 import { FileParser, VariableParser, ControllerManager } from '../../lib';
 import { BehaviorSubject } from "rxjs";
 import { takeWhile } from "rxjs/operators";
-import {availableProviders} from "../../lib/image-providers/available-providers"
+import { availableProviders } from "../../lib/image-providers/available-providers"
+import { artworkTypes } from '../../lib/artwork-types';
 import { APP } from '../../variables';
 import * as json from "../../lib/helpers/json";
 import * as file from "../../lib/helpers/file";
@@ -349,25 +350,10 @@ export class ParsersService {
                   case 'imagePool':
                     return this.validateVariableParserString(data || '', this.lang.validationErrors.imagePool__md);
                   case 'defaultImage':
-                    return !data || this.validateEnvironmentPath(data || '', false) ? null : this.lang.validationErrors.defaultImage__md;
-                  case 'defaultTallImage':
-                    return !data || this.validateEnvironmentPath(data || '', false) ? null : this.lang.validationErrors.defaultImage__md;
-                  case 'defaultHeroImage':
-                    return !data || this.validateEnvironmentPath(data || '', false) ? null : this.lang.validationErrors.defaultImage__md;
-                  case 'defaultLogoImage':
-                    return !data || this.validateEnvironmentPath(data || '', false) ? null : this.lang.validationErrors.defaultImage__md;
-                  case 'defaultIcon':
-                    return !data || this.validateEnvironmentPath(data || '', false) ? null : this.lang.validationErrors.defaultImage__md;
-                  case 'localImages':
-                    return this.fileParser.validateFieldGlob(data || '');
-                  case 'localTallImages':
-                    return this.fileParser.validateFieldGlob(data || '');
-                  case 'localHeroImages':
-                    return this.fileParser.validateFieldGlob(data || '');
-                  case 'localLogoImages':
-                    return this.fileParser.validateFieldGlob(data || '');
-                  case 'localIcons':
-                    return this.fileParser.validateFieldGlob(data || '');
+                    return !data || this.validateEnvironmentPath(data ||'', false) ? null : this.lang.validationErrors.defaultImage__md;
+                  case 'localImages': {
+                    return this.fileParser.validateFieldGlob(data || '')
+                  }
                   default:
                     return this.lang.validationErrors.unhandledValidationKey__md;
                 }
@@ -396,36 +382,51 @@ export class ParsersService {
 
               isConfigurationValid(config: UserConfiguration) {
 
-                let simpleValidations: string[];
                 if(this.validate('parserType',config['parserType'])!==null){
                   return false;
                 }
+
+                let simpleValidations: string[] = [
+                  'configTitle',
+                  'parserId',
+                  'steamDirectory',
+                  'titleModifier',
+                  'onlineImageQueries',
+                  'imagePool',
+                  'imageProviders'
+                ]
+
                 if(parserInfo.superTypesMap[config['parserType']] === parserInfo.ArtworkOnlyType) {
-                  simpleValidations = ['configTitle','parserId','steamDirectory','titleModifier',
-                    'onlineImageQueries', 'imagePool', 'imageProviders',
-                  'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','defaultIcon','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
-                  ]
+                  simpleValidations = simpleValidations.concat([])
                 } else if(parserInfo.superTypesMap[config['parserType']] === parserInfo.PlatformType) {
-                  simpleValidations = ['configTitle','parserId','steamDirectory','steamCategory','titleModifier',
-                    'onlineImageQueries', 'imagePool', 'imageProviders',
-                  'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','defaultIcon','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
-                  ]
+                  simpleValidations = simpleValidations.concat([
+                    'steamCategory',
+                    'onlineImageQueries',
+                    'imagePool',
+                    'imageProviders'
+                  ])
                 }
                 else if(parserInfo.superTypesMap[config['parserType']] === parserInfo.ROMType) {
-                  simpleValidations = [
-                    'configTitle', 'parserId', 'steamCategory',
-                    'executable', 'executableModifier', 'romDirectory',
-                    'steamDirectory', 'startInDirectory',
-                    'titleFromVariable', 'titleModifier', 'executableArgs',
-                    'onlineImageQueries', 'imagePool', 'imageProviders',
-                    'defaultImage','defaultTallImage','defaultHeroImage','defaultLogoImage','defaultIcon','localImages', 'localTallImages','localHeroImages','localLogoImages','localIcons'
-                  ];
+                  simpleValidations = simpleValidations.concat([
+                    'steamCategory',
+                    'executable',
+                    'executableModifier',
+                    'romDirectory',
+                    'startInDirectory',
+                    'titleFromVariable',
+                    'executableArgs',
+                    'onlineImageQueries',
+                    'imagePool',
+                    'imageProviders',
+                  ]);
                 }
                 else if (parserInfo.superTypesMap[config['parserType']] === parserInfo.ManualType) {
-                  simpleValidations = ['configTitle', 'parserId', 'steamDirectory', 'steamCategory', 'titleModifier',
-                    'onlineImageQueries', 'imagePool', 'imageProviders',
-                  'defaultImage', 'defaultTallImage', 'defaultHeroImage', 'defaultLogoImage', 'defaultIcon', 'localImages', 'localTallImages', 'localHeroImages', 'localLogoImages', 'localIcons'
-                  ]
+                  simpleValidations = simpleValidations.concat([
+                    'steamCategory',
+                    'onlineImageQueries',
+                    'imagePool',
+                    'imageProviders'
+                  ])
                 }
 
                 if(this.validate('userAccounts', config['userAccounts'], {parserType: config['parserType']}) !== null) {
@@ -433,7 +434,7 @@ export class ParsersService {
                 }
 
                 for (let i = 0; i < simpleValidations.length; i++) {
-                  if (this.validate(simpleValidations[i], config[simpleValidations[i] as keyof UserConfiguration]) !== null){
+                  if (this.validate(simpleValidations[i], config[simpleValidations[i] as keyof UserConfiguration]) !== null) {
                     return false;
                   }
                 }
@@ -446,6 +447,16 @@ export class ParsersService {
                     return false;
                   }
                 }
+
+                for(const artworkType of artworkTypes) {
+                  if(this.validate('defaultImage',config.defaultImage[artworkType]) !== null) {
+                    return false
+                  }
+                  if(this.validate('localImages', config.defaultImage[artworkType]) !== null) {
+                    return false
+                  }
+                }
+
                 return true;
               }
               getParserId(configurationIndex: number) {

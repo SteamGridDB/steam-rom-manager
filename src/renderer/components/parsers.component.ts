@@ -470,7 +470,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               placeholder: this.lang.placeholder.defaultImage,
               highlight: this.highlight.bind(this),
               label: this.lang.label.defaultImage,
-              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+              onValidate: (self, path) => this.parsersService.validate(path[0], self.value),
                 onInfoClick: (self, path) => {
                 this.currentDoc.activePath = path.join();
                 this.currentDoc.content = this.lang.docs__md.defaultImage.join('');
@@ -490,7 +490,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
               highlight: this.highlight.bind(this),
               label: this.lang.label.localImages,
-              onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+              onValidate: (self, path) => this.parsersService.validate(path[0],self.value),
                 onInfoClick: (self, path) => {
                 this.currentDoc.activePath = path.join();
                 this.currentDoc.content = this.lang.docs__md.localImages.join('');

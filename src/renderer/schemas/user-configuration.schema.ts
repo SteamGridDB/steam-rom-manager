@@ -46,16 +46,10 @@ const sharedProperties = {
     defaultImage: {
       type: 'object',
       default: {},
-      patternProperties: {
-        "^.+$": {type: 'string', default : ''}
-      }
     },
     localImages: {
       type: 'object',
       default: {},
-      patternProperties: {
-        "^.+$": {type: 'string', default : ''}
-      }
     },
     onlineImageQueries: { type: 'string', default: '${${fuzzyTitle}}' },
     imageProviders: {
