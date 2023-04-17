@@ -4,7 +4,7 @@ Cet analyseur importe des jeux depuis [Epic Games Store](https://store.epicgames
 
 Si cela ne fonctionne pas, c'est parce qu'Epic a modifié la structure de leurs jeux, dans ce cas, veuillez en informer les développeurs de SRM et nous résoudrons le problème.
 
-In order for this parser to work with the open source Epic alternative [Legendary](https://github.com/derrod/legendary), [EGL sync must be enabled in Legendary](https://github.com/derrod/legendary/discussions/276#discussioncomment-709748) (this creates the appropriate files for the parser to read, and does not require the `Epic Games Store` to be installed).
+Pour que cet analyseur fonctionne avec l'alternative Open Source Epic [Legendary](https://github.com/derrod/legendary), [l'option EGL sync doit être activée dans Legendary](https://github.com/derrod/legendary/discussions/276#discussioncomment-709748) (cela crée les fichiers appropriés pour l'analyseur, et ne nécessite pas l'installation de l'`Epic Games Store`).
 
 Ceci dit, il y a aussi un analyseur `Legendary` dans SRM qui est disponible.
 
