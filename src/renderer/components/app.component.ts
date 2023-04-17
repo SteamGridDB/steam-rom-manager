@@ -37,19 +37,19 @@ export class AppComponent {
       this.settingsLoaded = true;
       document.querySelector('html').className = '';
       document.querySelector('html').classList.add(appSettings.theme)
-      console.log(appSettings.theme);
+      
       // EmuDeck special navigation
-
       this.router.events.subscribe((val) => {
         if (this.router.url === '/logger' && appSettings.theme === 'EmuDeck' || this.router.url === '/' && appSettings.theme === 'EmuDeck') {
           this.shouldHideComponent = true;
         } else {
           this.shouldHideComponent = false;
-        }
+        }           
       });
-
+        
       if(appSettings.theme === 'EmuDeck'){
-        this.router.navigate(['/parsers-list']);
+        document.querySelector('html').removeAttribute("style");
+        this.router.navigate(['/parsers-list']);  
       }else{
         this.router.navigate(['/parsers', -1]);
       }
