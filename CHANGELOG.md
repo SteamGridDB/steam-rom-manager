@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.3
+### Added
+* Everyone who has made a feature contribution is now in the about page.
+
+### Fixed
+* Glob and Glob Regex parsers with `**` now follow sym-links once more (this was broken by the upgrade to glob 9.0, which no longer follows sym links by default).
+
+
 ## 2.4.2
 ### Added
 * Ability to add artwork for unofficial source mods via the steam parser

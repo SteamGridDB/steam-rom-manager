@@ -21,7 +21,7 @@
       "generateAppList": "Générer une liste de jeu",
       "saveAppList": "Enregistrer les applications sur Steam",
       "removeAppList": "Supprimer les applications de Steam",
-      "remainingImages": "Nombre de téléchargements restant:",
+      "remainingImages": "Remaining urls:",
       "stopUrlRetrieving": "Arrêter tous les téléchargements",
       "exportSelections": "Exporter les choix d'image",
       "importSelections": "Importer les choix d'image"
@@ -83,6 +83,7 @@
   "steamParser": {
     "onlyGamesTitle": "Find artwork for games only (no tools)",
     "onlyInstalledTitle": "Find artwork for installed titles only",
+    "sourceModsTitle": "Find artwork for unofficial source mods",
     "errors": {
       "directoryInvalid": "> Répertoire Steam invalide.",
       "noSteamAccounts": "> Le répertoire Steam spécifié n'a aucun compte.",
@@ -119,7 +120,7 @@
   "UWPParser": {
     "UWPDirTitle": "XboxGames Directory Override",
     "UWPDirPlaceholder": "/path/to/XboxGames or /path/to/WindowsApps",
-    "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper.",
+    "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper",
     "errors": {
       "fatalError__i": "> UWP parser is not compatible in this platform.",
       "UWPNotCompatible": "> UWP parser failed with fatal error:\n ${error}"
@@ -229,7 +230,7 @@
   },
   "logger": {
     "component": {
-      "noMessages": "No messages are available",
+      "noMessages": "Aucun message disponible",
       "error": "ERREUR",
       "info": "INFO",
       "success": "Succès",
@@ -330,7 +331,7 @@
     "component": {
       "about": "À propos",
       "preview": "Aperçu",
-      "logger": "Log",
+      "logger": "Journal des Événements",
       "settings": "Paramètres",
       "parsers": "Create Parser",
       "customVariables": "Variables",
@@ -471,11 +472,11 @@
         "onlineImageQueries": "Online image query",
         "imagePool": "Image pool",
         "imageProviders": "Image providers",
-        "defaultImage": "Fallback banner",
-        "defaultTallImage": "Fallback poster",
-        "defaultHeroImage": "Fallback hero",
-        "defaultLogoImage": "Fallback logo",
-        "defaultIcon": "Fallback icon",
+        "defaultImage": "Bannière par défaut",
+        "defaultTallImage": "Poster par défaut",
+        "defaultHeroImage": "Image d'arrière-plans par défaut",
+        "defaultLogoImage": "Logo par défaut",
+        "defaultIcon": "Icône par défaut",
         "localImages": "Local banners glob",
         "localTallImages": "Local posters glob",
         "localHeroImages": "Local heroes glob",
@@ -490,7 +491,7 @@
         "userAccounts": "${steamuser1}${steamuser2}",
         "titleFromVariable": "${myvariable}",
         "titleModifier": "${fuzzyTitle} or ${title}",
-        "defaultImage": "/path/to/fallback.png",
+        "defaultImage": "/chemin/vers/image.png",
         "localImages": "/path/to/art/banners/${title}.@(png|jpg)",
         "localTallImages": "/path/to/art/posters/${title}.@(png|jpg)",
         "localHeroImages": "/path/to/art/heroes/${title}.@(png|jpg)",
