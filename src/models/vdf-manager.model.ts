@@ -1,4 +1,4 @@
-import { VDF_ScreenshotsFile, VDF_ShortcutsFile, VDF_AddedItemsFile } from '../lib';
+import { VDF_ScreenshotsFile, VDF_ShortcutsFile, VDF_AddedItemsFile, VDF_Error } from '../lib';
 
 export interface VDF_ListItem {
   shortcuts: VDF_ShortcutsFile,
@@ -19,6 +19,19 @@ export interface VDF_ScreenshotItem {
 
 export interface VDF_ScreenshotsData {
   [appId: string]: VDF_ScreenshotItem | string
+}
+
+export interface VDF_ScreenshotsOutcome {
+  error: VDF_Error,
+  successes: {
+    [gridName: string]: string // written url
+  }
+}
+
+export interface VDF_AllScreenshotsOutcomes {
+  [steamDirectory: string]: {
+    [userId: string]: VDF_ScreenshotsOutcome
+  }
 }
 
 export interface VDF_ShortcutsItem {
