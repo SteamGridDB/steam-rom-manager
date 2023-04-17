@@ -20,7 +20,7 @@ export class NavBorderComponent {
   }
 
   ngOnInit() {
-    if(this.appSettings.theme!=='EmuDeck') {
+    if(this.appSettings.theme !== 'EmuDeck') {
       this.setWidth(this.appSettings.navigationWidth);
     }
   }
