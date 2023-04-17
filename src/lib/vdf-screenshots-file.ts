@@ -139,9 +139,12 @@ export class VDF_ScreenshotsFile {
     const batchSize = 500;
     const delay = 5000;
     const timeout = 15000;
+    const gridRegex = /^d+$/;
+
     const addableAppIds = Object.keys(screenshotsData).filter((appId)=>{
       return screenshotsData[appId] !== undefined && (typeof screenshotsData[appId] !== 'string')
     });
+    let successes: {[appId: string]: string} = {};
 
     for (let b=0; b < Math.ceil(addableAppIds.length / batchSize); b++ ) {
       if(batch) {
@@ -155,7 +158,8 @@ export class VDF_ScreenshotsFile {
         const appId = addableAppIds[j];
         const data = screenshotsData[appId] as VDF_ScreenshotItem;
         const nintendoSucks = data.url.slice(-1) == '?' //DMCA Check
-        const ext: string = data.url.split('.').slice(-1)[0].replace(/[^\w\s]*$/gi, "");
+        let ext: string = data.url.split('.').slice(-1)[0].replace(/[^\w\s]*$/gi, "");
+        ext = ids.map_ext["" + ext] || ext;
         batchAddPromises.push(VDF_ScreenshotsFile.xRequest.request(
           data.url,
           {
@@ -193,7 +197,15 @@ export class VDF_ScreenshotsFile {
           })
         })
         .then((buffer) => {
-          return fs.outputFile(path.join(this.gridDirectory, `${appId}.${ids.map_ext[""+ext]||ext}`), buffer)
+          const gridPath = path.join(this.gridDirectory, `${appId}.${ext}`);
+          fs.outputFileSync(gridPath, buffer);
+          if(gridRegex.test(appId)) {
+            fs.symlink(gridPath, `${ids.lengthenAppId(appId)}.${ext}`)
+          }
+          return gridPath;
+        })
+        .then((gridPath: string)=>{
+          successes[appId] = gridPath;
         })
         .then(() => {
           return glob(`${appId}.!(json)`, { dot: true, cwd: this.gridDirectory, absolute: true })
@@ -201,7 +213,7 @@ export class VDF_ScreenshotsFile {
         .then((files: string[]) => {
           let errors: Error[] = [];
           for (let i = 0; i < files.length; i++) {
-            if(_.last(files[i].split('.'))!==(ids.map_ext[""+ext]||ext)) {
+            if(_.last(files[i].split('.')) !== ext) {
               try {
                 fs.removeSync(files[i]);
               }
@@ -243,14 +255,15 @@ export class VDF_ScreenshotsFile {
       let data = genericParser.stringify(tempData);
       fs.outputFileSync(this.filepath, data);
       return extraneousErrors.concat(addErrors);
-    }).then((errors) => {
+    }).then((errors: VDF_Error[]) => {
+      // Handle non-fatal errors
+      let error: VDF_Error = undefined;
       if (errors.length > 0) {
-        let error = new VDF_Error(errors as VDF_Error[]);
-        if (error.valid) {
-          return error;
-        }
+        error = new VDF_Error(errors);
       }
-    }).catch((error) => { // actually fatal error
+      return {successes: successes, error:  error && error.valid ? error : undefined}
+    }).catch((error) => {
+      // Handle fatal errors
       throw new VDF_Error(this.lang.error.writingVdf__i.interpolate({
         filePath: this.filepath,
         error: error
@@ -283,7 +296,10 @@ export class VDF_ScreenshotsFile {
 
   addItem(data: { appId: string, title: string, url: string }) {
     if(this.valid) {
-      this.fileData[this.topKey]['shortcutnames'][data.appId] = { title: data.title, url: data.url };
+      this.fileData[this.topKey]['shortcutnames'][data.appId] = {
+        title: data.title,
+        url: data.url
+      };
     }
   }
 }
