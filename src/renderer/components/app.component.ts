@@ -13,7 +13,6 @@ import markdownItAttrs from 'markdown-it-attrs';
   <navarea *ngIf="!shouldHideComponent"></navarea>
   <nav-border></nav-border>
   <router-outlet style="display: none;"></router-outlet>
-  <theme></theme>
   <alert></alert>
   <update-notifier [ipcMessage]=updateMessage></update-notifier>
   </ng-container>
@@ -37,19 +36,19 @@ export class AppComponent {
       this.settingsLoaded = true;
       document.querySelector('html').className = '';
       document.querySelector('html').classList.add(appSettings.theme)
-      
+
       // EmuDeck special navigation
       this.router.events.subscribe((val) => {
         if (this.router.url === '/logger' && appSettings.theme === 'EmuDeck' || this.router.url === '/' && appSettings.theme === 'EmuDeck') {
           this.shouldHideComponent = true;
         } else {
           this.shouldHideComponent = false;
-        }           
+        }
       });
-        
+
       if(appSettings.theme === 'EmuDeck'){
         document.querySelector('html').removeAttribute("style");
-        this.router.navigate(['/parsers-list']);  
+        this.router.navigate(['/parsers-list']);
       }else{
         this.router.navigate(['/parsers', -1]);
       }

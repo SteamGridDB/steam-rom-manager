@@ -43,16 +43,20 @@ const sharedProperties = {
       }
     },
     imagePool: { type: 'string', default: '${fuzzyTitle}' },
-    defaultImage: { type: 'string', default: '' },
-    defaultTallImage: { type: 'string', default: '' },
-    defaultHeroImage: { type: 'string', default: '' },
-    defaultLogoImage: { type: 'string', default: '' },
-    defaultIcon: {type: 'string', default: ''},
-    localImages: { type: 'string', default: '' },
-    localTallImages: { type: 'string', default: '' },
-    localHeroImages: { type: 'string', default: '' },
-    localLogoImages: { type: 'string', default: '' },
-    localIcons: { type: 'string', default: '' },
+    defaultImage: {
+      type: 'object',
+      default: {},
+      patternProperties: {
+        "^.+$": {type: 'string', default : ''}
+      }
+    },
+    localImages: {
+      type: 'object',
+      default: {},
+      patternProperties: {
+        "^.+$": {type: 'string', default : ''}
+      }
+    },
     onlineImageQueries: { type: 'string', default: '${${fuzzyTitle}}' },
     imageProviders: {
       type: 'array',

@@ -556,10 +556,10 @@ export class PreviewService {
                     imageRes: url.imageDimensions(steamImageUrl),
                     loadStatus: 'done'
                   } : undefined,
-                  default: file.defaultImage ? {
+                  default: file.defaultImage[artworkType] ? {
                     imageProvider: 'LocalStorage',
-                    imageUrl: file.defaultImage,
-                    imageRes: url.imageDimensions(file.defaultImage),
+                    imageUrl: file.defaultImage[artworkType],
+                    imageRes: url.imageDimensions(file.defaultImage[artworkType]),
                     loadStatus: 'done'
                   } : undefined,
                   imagePool: file.imagePool,
@@ -588,51 +588,15 @@ export class PreviewService {
               let currentCategories = previewData[config.steamDirectory][userAccount.accountID].apps[appID].steamCategories;
               previewData[config.steamDirectory][userAccount.accountID].apps[appID].steamCategories = _.union(currentCategories, file.steamCategories);
             }
-
-            for (let l = 0; l < file.localImages.length; l++) {
-
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localImages[l],
-                imageRes: url.imageDimensions(file.localImages[l]),
-                loadStatus: 'done'
-              },'long')
-
-            }
-            for (let l = 0; l < file.localTallImages.length; l++) {
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localTallImages[l],
-                imageRes: url.imageDimensions(file.localTallImages[l]),
-                loadStatus: 'done'
-              },'tall')
-            }
-            for (let l = 0; l < file.localHeroImages.length; l++) {
-
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localHeroImages[l],
-                imageRes: url.imageDimensions(file.localHeroImages[l]),
-                loadStatus: 'done'
-              },'hero')
-            }
-            for (let l = 0; l < file.localLogoImages.length; l++) {
-
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localLogoImages[l],
-                imageRes: url.imageDimensions(file.localLogoImages[l]),
-                loadStatus: 'done'
-              },'logo')
-            }
-            for (let l = 0; l < file.localIcons.length; l++) {
-
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localIcons[l],
-                imageRes: url.imageDimensions(file.localIcons[l]),
-                loadStatus: 'done'
-              },'icon')
+            for(const artworkType of artworkTypes) {
+              for (let l = 0; l < file.localImages[artworkType].length; l++) {
+                this.addUniqueImage(file.imagePool, {
+                  imageProvider: 'LocalStorage',
+                  imageUrl: file.localImages[artworkType][l],
+                  imageRes: url.imageDimensions(file.localImages[artworkType][l]),
+                  loadStatus: 'done'
+                },'long')
+              }
             }
           }
         }

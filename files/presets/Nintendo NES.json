@@ -14,16 +14,6 @@
 		"imageProviders": [
 			"SteamGridDB"
 		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
@@ -51,7 +41,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 5,
+		"presetVersion": 6,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -74,6 +64,20 @@
 			"switch_joycon_right": null,
 			"switch_pro": null,
 			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
 		}
 	},
 	"Nintendo NES - Retroarch(Flatpak) - FCEUmm": {
@@ -91,16 +95,6 @@
 		"imageProviders": [
 			"SteamGridDB"
 		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
@@ -128,7 +122,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 5,
+		"presetVersion": 6,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -151,6 +145,20 @@
 			"switch_joycon_right": null,
 			"switch_pro": null,
 			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
 		}
 	},
 	"Nintendo NES - Retroarch - Mesen": {
@@ -168,16 +176,6 @@
 		"imageProviders": [
 			"SteamGridDB"
 		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
@@ -205,7 +203,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 5,
+		"presetVersion": 6,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -228,6 +226,20 @@
 			"switch_joycon_right": null,
 			"switch_pro": null,
 			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
 		}
 	},
 	"Nintendo NES - Retroarch(Flatpak) - Mesen": {
@@ -245,16 +257,6 @@
 		"imageProviders": [
 			"SteamGridDB"
 		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
@@ -282,7 +284,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 5,
+		"presetVersion": 6,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -305,6 +307,20 @@
 			"switch_joycon_right": null,
 			"switch_pro": null,
 			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
 		}
 	},
 	"Nintendo NES - Retroarch - Nestopia UE": {
@@ -322,16 +338,6 @@
 		"imageProviders": [
 			"SteamGridDB"
 		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
@@ -359,7 +365,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 5,
+		"presetVersion": 6,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -382,6 +388,20 @@
 			"switch_joycon_right": null,
 			"switch_pro": null,
 			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
 		}
 	},
 	"Nintendo NES - Retroarch(Flatpak) - Nestopia UE": {
@@ -399,16 +419,6 @@
 		"imageProviders": [
 			"SteamGridDB"
 		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
@@ -436,7 +446,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 5,
+		"presetVersion": 6,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -459,6 +469,20 @@
 			"switch_joycon_right": null,
 			"switch_pro": null,
 			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
 		}
 	},
 	"Nintendo NES - Retroarch - QuickNES": {
@@ -476,16 +500,6 @@
 		"imageProviders": [
 			"SteamGridDB"
 		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
@@ -513,7 +527,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 5,
+		"presetVersion": 6,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -536,6 +550,20 @@
 			"switch_joycon_right": null,
 			"switch_pro": null,
 			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
 		}
 	},
 	"Nintendo NES - Retroarch(Flatpak) - QuickNES": {
@@ -553,16 +581,6 @@
 		"imageProviders": [
 			"SteamGridDB"
 		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
@@ -590,7 +608,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 5,
+		"presetVersion": 6,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -613,6 +631,20 @@
 			"switch_joycon_right": null,
 			"switch_pro": null,
 			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
 		}
 	}
 }

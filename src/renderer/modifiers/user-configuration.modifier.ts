@@ -8,7 +8,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',
-  latestVersion: 13,
+  latestVersion: 14,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -181,6 +181,43 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
               newValue[controllerType].profileType = "workshop";
             }
           }
+          return newValue;
+        }
+      }
+    },
+    13: {
+      'version': { method: versionUp },
+      'defaultImage': {
+        method: (oldValue, oldConfiguration) => {
+          let newValue = {
+            long: oldConfiguration.defaultImage || '',
+            tall: oldConfiguration.defaulTallImage || '',
+            hero: oldConfiguration.defaultHeroImage || '',
+            logo: oldConfiguration.defaultLogoImage || '',
+            icon: oldConfiguration.defaultIcon || ''
+          }
+          delete oldConfiguration.defaultImage;
+          delete oldConfiguration.defaultTallImage;
+          delete oldConfiguration.defaultHeroImage;
+          delete oldConfiguration.defaultLogoImage;
+          delete oldConfiguration.defaultIcon;
+          return newValue;
+        }
+      },
+      'localImages': {
+        method: (oldValue, oldConfiguration) => {
+          let newValue = {
+            long: oldConfiguration.localImages || '',
+            tall: oldConfiguration.localTallImages || '',
+            hero: oldConfiguration.localHeroImages || '',
+            logo: oldConfiguration.localLogoImages || '',
+            icon: oldConfiguration.localIcons || ''
+          }
+          delete oldConfiguration.localImages || '';
+          delete oldConfiguration.localTallImages || '';
+          delete oldConfiguration.localHeroImages || '';
+          delete oldConfiguration.localLogoImages || '';
+          delete oldConfiguration.localIcons || '';
           return newValue;
         }
       }

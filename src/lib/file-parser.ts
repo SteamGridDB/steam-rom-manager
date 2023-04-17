@@ -4,6 +4,7 @@ import { VariableParser } from "./variable-parser";
 import { APP } from '../variables';
 import { parsers } from './parsers';
 import * as parserInfo from './parsers/available-parsers';
+import { artworkTypes } from './artwork-types';
 import * as url from './helpers/url';
 import * as steam from './helpers/steam';
 import * as file from './helpers/file';
@@ -231,6 +232,7 @@ export class FileParser {
       }
     })
   }
+
   private parsedConfigFilesPromise({superType, config, settings, data, parsedConfig}: {superType: string, config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, parsedConfig: ParsedUserConfiguration}) {
     return new Promise((resolve, reject) => {
       try {
@@ -275,32 +277,17 @@ export class FileParser {
             executableLocation = data.success[j].extractedAppId;
             startInDir = '';
           }
+
           let newFile: ParsedUserConfigurationFile = {
             steamCategories: undefined,
             executableLocation: executableLocation||'',
             modifiedExecutableLocation: undefined,
             startInDirectory: startInDir||'',
             argumentString: undefined,
-            resolvedLocalImages: [],
-            resolvedLocalTallImages: [],
-            resolvedLocalHeroImages: [],
-            resolvedLocalLogoImages: [],
-            resolvedLocalIcons: [],
-            resolvedDefaultImages: [],
-            resolvedDefaultTallImages: [],
-            resolvedDefaultHeroImages: [],
-            resolvedDefaultLogoImages: [],
-            resolvedDefaultIcons: [],
-            defaultImage: undefined,
-            defaultTallImage: undefined,
-            defaultHeroImage: undefined,
-            defaultLogoImage: undefined,
-            defaultIcon: undefined,
-            localImages: [],
-            localTallImages: [],
-            localHeroImages: [],
-            localLogoImages: [],
-            localIcons: [],
+            resolvedLocalImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
+            resolvedDefaultImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
+            defaultImage: Object.fromEntries(artworkTypes.map((artworkType: string) => [artworkType, undefined])),
+            localImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
             fuzzyTitle: fuzzyTitle||'',
             extractedTitle: data.success[j].extractedTitle||'',
             finalTitle: undefined,
@@ -352,6 +339,7 @@ export class FileParser {
       }
     })
   }
+
 
   private shortcutsPromise({superType, config, settings, parsedConfig}: {superType: string, config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
     return new Promise((resolve, reject)=>{
@@ -464,21 +452,16 @@ export class FileParser {
         let extRegex = /png|tga|jpg|jpeg|webp/i;
         let defaultPromises: Promise<void>[] = [];
         let localPromises: Promise<void>[]=[];
-        let imageTypes = ["Image","TallImage","HeroImage","LogoImage","Icon"];
-        let defaultFields = imageTypes.map((x: string) => "default".concat(x));
-        let defaultFieldsRes = imageTypes.map((x: string) => "resolvedDefault".concat(x,"s"));
-        let localFields = imageTypes.map((x: string) => "local".concat(x, "s"));
-        let localFieldsRes = imageTypes.map((x: string) => "resolvedLocal".concat(x,"s"));
         let vParser = new VariableParser({ left: '${', right: '}' });
-        for(let m = 0; m < imageTypes.length; m++) {
+        for(const artworkType of artworkTypes) {
           defaultPromises.push(
-            this.resolveFieldGlobs(defaultFields[m], config, settings, parsedConfig, vParser).then((fieldData)=>{
+            this.resolveFieldGlobs(['defaultImage', artworkType], config, settings, parsedConfig, vParser).then((fieldData)=>{
               for (let j = 0; j < fieldData.parsedConfig.files.length; j++) {
-                parsedConfig.files[j][defaultFieldsRes[m]] = fieldData.resolvedGlobs[j];
+                parsedConfig.files[j].resolvedDefaultImages[artworkType] = fieldData.resolvedGlobs[j];
                 for (let k = 0; k < fieldData.resolvedFiles[j].length; k++) {
                   const item = fieldData.resolvedFiles[j][k];
                   if (extRegex.test(path.extname(item))) {
-                    parsedConfig.files[j][defaultFields[m]] = url.encodeFile(item);
+                    parsedConfig.files[j].defaultImage[artworkType] = url.encodeFile(item);
                     break;
                   }
                 }
@@ -486,10 +469,10 @@ export class FileParser {
             })
           )
           localPromises.push(
-            this.resolveFieldGlobs(localFields[m], config,settings, parsedConfig, vParser).then((fieldData) => {
+            this.resolveFieldGlobs(['localImages', artworkType], config,settings, parsedConfig, vParser).then((fieldData) => {
               for (let j = 0; j < fieldData.parsedConfig.files.length; j++) {
-                parsedConfig.files[j][localFieldsRes[m]] = fieldData.resolvedGlobs[j];
-                parsedConfig.files[j][localFields[m]] = fieldData.resolvedFiles[j].filter((item) => {
+                parsedConfig.files[j].resolvedLocalImages[artworkType] = fieldData.resolvedGlobs[j];
+                parsedConfig.files[j].localImages[artworkType] = fieldData.resolvedFiles[j].filter((item) => {
                   return extRegex.test(path.extname(item));
                 }).map((item) => {
                   return url.encodeFile(item);
@@ -506,7 +489,6 @@ export class FileParser {
       }
     })
   }
-
 
   private tryToReplaceTitlesWithVariables(data: ParsedDataWithFuzzy, config: UserConfiguration, vParser: VariableParser) {
     let groups = undefined;
@@ -593,7 +575,7 @@ export class FileParser {
     return null;
   }
 
-  private resolveFieldGlobs(field: string, config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration, vParser: VariableParser) {
+  private resolveFieldGlobs(fieldPath: string[], config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration, vParser: VariableParser) {
     let promises: Promise<void>[] = [];
     let resolvedGlobs: string[][] = [];
     let resolvedFiles: string[][] = [];
@@ -602,7 +584,7 @@ export class FileParser {
       resolvedGlobs.push([]);
       resolvedFiles.push([]);
 
-      let fieldValue: string = config[field as keyof UserConfiguration] as string;
+      let fieldValue: string = _.get(config,fieldPath) as string;
       if (fieldValue) {
         let variableData = this.makeVariableData(config,settings, parsedConfig.files[i]);
         //expandable set is to allow you to comment out stuff using $()$. Decent idea, but ehhhh
