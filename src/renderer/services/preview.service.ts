@@ -521,8 +521,8 @@ export class PreviewService {
 
             if (shortcutsData[config.steamDirectory][userAccount.accountID][appID] !== undefined) {
               if (shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon'] !== undefined) {
-                if (file.localIcons.indexOf(shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon']) === -1) {
-                  file.localIcons.unshift(shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon']);
+                if (file.localImages['icon'].indexOf(shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon']) === -1) {
+                  file.localImages['icon'].unshift(shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon']);
                 }
               }
             }
@@ -595,7 +595,7 @@ export class PreviewService {
                   imageUrl: file.localImages[artworkType][l],
                   imageRes: url.imageDimensions(file.localImages[artworkType][l]),
                   loadStatus: 'done'
-                },'long')
+                }, artworkType)
               }
             }
           }

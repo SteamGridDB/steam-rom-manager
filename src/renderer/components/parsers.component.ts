@@ -7,7 +7,7 @@ import { ParsersService, LoggerService, ImageProviderService, SettingsService, C
 import * as parserInfo from '../../lib/parsers/available-parsers';
 import * as steam from '../../lib/helpers/steam';
 import { controllerTypes, controllerNames } from '../../lib/controller-manager';
-import { artworkTypes, artworkNamesDict } from '../../lib/artwork-types';
+import { artworkTypes, artworkNamesDict, artworkSingDict } from '../../lib/artwork-types';
 import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets, ControllerTemplates, ParserType } from '../../models';
 import { BehaviorSubject, Subscription, Observable, combineLatest, of, concat } from "rxjs";
 import { map } from 'rxjs/operators'
@@ -467,9 +467,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           for(const artworkType of artworkTypes) {
             defaultImageInputs[artworkType] = new NestedFormElement.Path({
               directory: false,
-              placeholder: this.lang.placeholder.defaultImage,
+              placeholder: this.lang.placeholder.defaultImage__i.interpolate({
+                artworkType: artworkSingDict[artworkType]
+              }),
               highlight: this.highlight.bind(this),
-              label: this.lang.label.defaultImage,
+              label: this.lang.label.defaultImage__i.interpolate({
+                artworkType: artworkSingDict[artworkType]
+              }),
               onValidate: (self, path) => this.parsersService.validate(path[0], self.value),
                 onInfoClick: (self, path) => {
                 this.currentDoc.activePath = path.join();
@@ -486,10 +490,14 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           for(const artworkType of artworkTypes) {
             localImagesInputs[artworkType] = new NestedFormElement.Path({
               directory: true,
-              placeholder: this.lang.placeholder.localImages,
+              placeholder: this.lang.placeholder.localImages__i.interpolate({
+                artworkType: artworkNamesDict[artworkType].toLowerCase()
+              }),
               appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
               highlight: this.highlight.bind(this),
-              label: this.lang.label.localImages,
+              label: this.lang.label.localImages__i.interpolate({
+                artworkType: artworkNamesDict[artworkType].toLowerCase()
+              }),
               onValidate: (self, path) => this.parsersService.validate(path[0],self.value),
                 onInfoClick: (self, path) => {
                 this.currentDoc.activePath = path.join();
@@ -933,19 +941,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               }
             }
             for(const artworkType of artworkTypes) {
-              if (data.files[i].defaultImage[artworkType] !== undefined) {
-                success(this.lang.success.defaultImage__i.interpolate({
-                  index: i+1,
-                  total: totalLength,
-                  artworkType: artworkNamesDict[artworkType],
-                  image: data.files[i].defaultImage[artworkType]
-                }));
-              }
               if (data.files[i].resolvedDefaultImages[artworkType].length) {
                 success(this.lang.success.resolvedDefaultImage__i.interpolate({
                   index: i + 1,
                   total: totalLength,
-                  artworkType: artworkNamesDict[artworkType]
+                  artworkType: artworkSingDict[artworkType]
                 }));
                 for (let j = 0; j < data.files[i].resolvedDefaultImages[artworkType].length; j++) {
                   success(this.lang.success.indexInfo__i.interpolate({
@@ -955,19 +955,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                   }));
                 }
               }
-              if (data.files[i].localImages[artworkType].length) {
-                success(this.lang.success.localImages__i.interpolate({
-                  index: i + 1,
+              if (data.files[i].defaultImage[artworkType] !== undefined) {
+                success(this.lang.success.defaultImage__i.interpolate({
+                  index: i+1,
                   total: totalLength,
-                  artworkType: artworkNamesDict[artworkType]
+                  artworkType: artworkSingDict[artworkType],
+                  image: data.files[i].defaultImage[artworkType]
                 }));
-                for (let j = 0; j < data.files[i].localImages[artworkType].length; j++) {
-                  success(this.lang.success.indexInfo__i.interpolate({
-                    index: i + 1,
-                    total: totalLength,
-                    indexed: data.files[i].localImages[artworkType][j]
-                  }));
-                }
               }
               if (data.files[i].resolvedLocalImages[artworkType].length) {
                 success(this.lang.success.resolvedLocalImages__i.interpolate({
@@ -980,6 +974,20 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     index: i + 1,
                     total: totalLength,
                     indexed: data.files[i].resolvedLocalImages[artworkType][j]
+                  }));
+                }
+              }
+              if (data.files[i].localImages[artworkType].length) {
+                success(this.lang.success.localImages__i.interpolate({
+                  index: i + 1,
+                  total: totalLength,
+                  artworkType: artworkNamesDict[artworkType].toLowerCase()
+                }));
+                for (let j = 0; j < data.files[i].localImages[artworkType].length; j++) {
+                  success(this.lang.success.indexInfo__i.interpolate({
+                    index: i + 1,
+                    total: totalLength,
+                    indexed: data.files[i].localImages[artworkType][j]
                   }));
                 }
               }

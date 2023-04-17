@@ -31,6 +31,7 @@ export class PreviewComponent implements OnDestroy {
   private allParsers: string[] = [];
   private actualParserFilter: string[] = [];
   private imageTypes: SelectItem[];
+  private artworkTypes: string[] = artworkTypes;
   private scrollingEntries: boolean = false;
   private fileSelector: FileSelector = new FileSelector();
   private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");

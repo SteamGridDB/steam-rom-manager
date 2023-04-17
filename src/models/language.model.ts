@@ -544,16 +544,8 @@ export interface languageStruct {
         onlineImageQueries: string,
         imageProviders: string,
         imagePool: string,
-        defaultImage: string,
-        defaultTallImage: string,
-        defaultHeroImage: string,
-        defaultLogoImage: string,
-        defaultIcon: string,
-        localImages: string,
-        localTallImages: string,
-        localHeroImages: string,
-        localLogoImages: string,
-        localIcons: string
+        defaultImage__i: string, //${artworkType}
+        localImages__i: string //${artworkType}
       },
       placeholder: {
         parserType: string,
@@ -568,12 +560,8 @@ export interface languageStruct {
         executableArgs: string,
         executableModifier: string,
         startInDirectory: string,
-        defaultImage: string,
-        localImages: string,
-        localTallImages: string,
-        localHeroImages: string,
-        localLogoImages: string,
-        localIcons: string,
+        defaultImage__i: string, //${artworkType}
+        localImages__i: string, //${artworkType}
         imageProviders: string,
         multiAPIPlaceholder: string
       },

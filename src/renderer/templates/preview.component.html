@@ -35,7 +35,7 @@
                   <div class="title" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter) &&([app.configurationTitle] | intersectionTest: actualParserFilter)">
                     <span>{{app.title}}</span>
                   </div>
-                  <ng-container *ngFor="let imagetype of ['long','tall','hero','logo','icon']">
+                  <ng-container *ngFor="let imagetype of artworkTypes">
                     <ng-container *ngVar="getBackgroundImage(app, imagetype) as image">
                       <ng-container *ngVar="getAppImages(app, imagetype) as appimages">
                         <div class="app" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter) && ([app.configurationTitle] | intersectionTest: actualParserFilter)" [style.backgroundImage]="setBackgroundImage(app, image, imagetype) | cssUrl | safeStyle"
@@ -150,7 +150,6 @@
       <div *ngIf="previewVariables.numberOfQueriedImages" (click)="stopImageRetrieving()">{{lang.stopUrlRetrieving}}</div>
       <div (click)="exportSelection()">{{lang.exportSelections}}</div>
       <div (click)="importSelection()">{{lang.importSelections}}</div>
-      
   </ng-container>
   <div class="only-emudeck" routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
 </div>

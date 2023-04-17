@@ -350,7 +350,7 @@ export class ParsersService {
                   case 'imagePool':
                     return this.validateVariableParserString(data || '', this.lang.validationErrors.imagePool__md);
                   case 'defaultImage':
-                    return !data || this.validateEnvironmentPath(data ||'', false) ? null : this.lang.validationErrors.defaultImage__md;
+                    return !data || this.validateEnvironmentPath(data || '', false) ? null : this.lang.validationErrors.defaultImage__md;
                   case 'localImages': {
                     return this.fileParser.validateFieldGlob(data || '')
                   }
@@ -449,10 +449,10 @@ export class ParsersService {
                 }
 
                 for(const artworkType of artworkTypes) {
-                  if(this.validate('defaultImage',config.defaultImage[artworkType]) !== null) {
+                  if(this.validate('defaultImage', config.defaultImage[artworkType]) !== null) {
                     return false
                   }
-                  if(this.validate('localImages', config.defaultImage[artworkType]) !== null) {
+                  if(this.validate('localImages', config.localImages[artworkType]) !== null) {
                     return false
                   }
                 }
