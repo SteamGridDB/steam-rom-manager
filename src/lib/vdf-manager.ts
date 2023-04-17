@@ -269,11 +269,9 @@ export class VDF_Manager {
             listItem.shortcuts.removeItem(appId);
             listItem.addedItems.removeItem(appId);
             listItem.screenshots.removeItem(appId);
-            listItem.screenshots.removeItem(ids.shortenAppId(appId));
-            listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('p'));
-            listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_hero'));
-            listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_logo'));
-            listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_icon'));
+            for(let artworkType of artworkTypes) {
+              listItem.screenshots.removeItem(ids.shortenAppId(appId).concat(artworkIdDict[artworkType]))
+            }
           }
           listItem.addedItems.data = {};
         });
