@@ -155,6 +155,7 @@ export class SettingsComponent implements OnDestroy {
   private loadTheme(){
     document.querySelector('html').className = '';
     document.querySelector('html').classList.add(this.settings.theme)
+    document.querySelector('html').removeAttribute("style");
   }
 
   configDir() {
