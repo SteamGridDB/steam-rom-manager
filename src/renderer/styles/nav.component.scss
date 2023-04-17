@@ -111,7 +111,7 @@
         height: 0.5em;
         background-color: var(--color-nav-link-enabled);
         border-radius: 50%;
-        margin: 0 0 0 -0.813em;
+        display: var(--display-exceptions-save-status);
         transform: translateY(-50%);
       }
 

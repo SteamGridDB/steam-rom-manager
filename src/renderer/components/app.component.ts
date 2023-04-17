@@ -32,8 +32,7 @@ export class AppComponent {
   private languageLoaded: boolean = false;
   public shouldHideComponent: boolean = false;
   constructor(private settingsService: SettingsService, private languageService: LanguageService, private markdownService: MarkdownService, private router: Router,private ipcService: IpcService, private changeDetectionRef: ChangeDetectorRef, private zone: NgZone) {
-    
-    
+
     this.settingsService.onLoad((appSettings) => {
       this.settingsLoaded = true;
       document.querySelector('html').className = '';
@@ -55,7 +54,6 @@ export class AppComponent {
         this.router.navigate(['/parsers', -1]);
       }
       this.changeDetectionRef.detectChanges();
-      
     });
     this.languageService.observeChanges().subscribe((lang) => {
       if (lang !== null) {

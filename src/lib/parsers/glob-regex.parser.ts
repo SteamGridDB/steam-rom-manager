@@ -258,12 +258,12 @@ tempGlob = fileGlob.replace(/.*\${.*?}/i, '');
   }
 
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
-    let directory = directories[0];
+    const directory: string  = directories[0];
     return new Promise<ParsedData>((resolve, reject) => {
-      let validationText = this.validate(inputs['glob-regex']);
+      const validationText = this.validate(inputs['glob-regex']);
       if (validationText === null) {
-        let titleData = this.extractTitleTag(inputs['glob-regex']);
-        glob(titleData.finalGlob, { dot: true, cwd: directory as string }).then((files: string[]) => {
+        const titleData = this.extractTitleTag(inputs['glob-regex']);
+        glob(titleData.finalGlob, { dot: true, cwd: directory, follow: true }).then((files: string[]) => {
           resolve(this.extractTitles(titleData, directory as string, files));
         }).catch((err: string)=> {
           reject(err)

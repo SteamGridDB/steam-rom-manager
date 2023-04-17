@@ -63,24 +63,24 @@ class SteamGridDbProvider extends GenericProvider {
               styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesIcon
             }));
           }
-
-          query.then((res: any)=>{
-            if(res !== null && res.length>0) {
-              for (let i=0; i < res.length; i++) {
-                self.proxy.image({
-                  imageProvider: 'SteamGridDB',
-                  imageUrl: res[i].url,
-                  imageUploader: res[i].author.name,
-                  loadStatus: 'notStarted'
-                });
-              }
-            }
-            self.proxy.completed();
-            resolve();
-          })
-
+          return query
         }
-      }).catch((error: string) => {
+      })
+      .then((res: any)=>{
+        if(res !== null && res.length>0) {
+          for (let i=0; i < res.length; i++) {
+            self.proxy.image({
+              imageProvider: 'SteamGridDB',
+              imageUrl: res[i].url,
+              imageUploader: res[i].author.name,
+              loadStatus: 'notStarted'
+            });
+          }
+        }
+        self.proxy.completed();
+        resolve();
+      })
+      .catch((error: string) => {
         self.xrw.logError(error);
         self.proxy.completed();
         resolve();

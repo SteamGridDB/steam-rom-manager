@@ -46,11 +46,9 @@ export interface PreviewDataApp {
     title: string,
     extractedTitle: string,
     argumentString: string,
-    icons: PreviewDataAppImage,
-    tallimages: PreviewDataAppImage,
-    heroimages: PreviewDataAppImage,
-    logoimages: PreviewDataAppImage,
-    images: PreviewDataAppImage
+    images: {
+      [artworkType: string]: PreviewDataAppImage
+    }
 }
 
 export interface PreviewDataApps {
@@ -82,15 +80,11 @@ export interface AppSelection {
   images: AppSelectionImages
 }
 
-export interface AppSelectionImages {  
-  grid: AppSelectionImage 
-  poster: AppSelectionImage,
-  hero: AppSelectionImage,
-  logo: AppSelectionImage,
-  icon: AppSelectionImage
+export interface AppSelectionImages {
+  [artworkType: string]: AppSelectionImage
 }
 
-export interface AppSelectionImage {  
+export interface AppSelectionImage {
   pool: string,
   filename: string
 }
