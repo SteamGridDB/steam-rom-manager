@@ -3,11 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## 2.4.3
 ### Added
+* New highly simplified EmuDeck theme (only recommended for EmuDeck users as it hides parser config). Credit to @dragoonDorise.
 * Everyone who has made a feature contribution is now in the about page.
+* Legacy banner images now sym-linked instead of copied (reduces storage usage by 17%)
+
+### Changed
+* Major re-factor of parsers service, parsers component, and preview component. Preparation for new and more powerful preview.
 
 ### Fixed
 * Glob and Glob Regex parsers with `**` now follow sym-links once more (this was broken by the upgrade to glob 9.0, which no longer follows sym links by default).
-
 
 ## 2.4.2
 ### Added
