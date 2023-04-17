@@ -2,7 +2,7 @@
   display: grid;
 
   height: 100%;
-  grid-template-areas: "titlebar titlebar titlebar" "navarea navborder route";
-  grid-template-rows: auto 1fr;
-  grid-template-columns: auto auto 1fr;
+  grid-template-areas: var(--grid-app);
+  grid-template-rows: var(--grid-app-rows);
+  grid-template-columns: var(--grid-app-columns);
 }

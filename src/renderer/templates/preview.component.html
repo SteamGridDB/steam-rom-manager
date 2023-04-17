@@ -150,6 +150,7 @@
       <div *ngIf="previewVariables.numberOfQueriedImages" (click)="stopImageRetrieving()">{{lang.stopUrlRetrieving}}</div>
       <div (click)="exportSelection()">{{lang.exportSelections}}</div>
       <div (click)="importSelection()">{{lang.importSelections}}</div>
+      
   </ng-container>
-
+  <div class="only-emudeck" routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
 </div>

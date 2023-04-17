@@ -1,13 +1,13 @@
 @import "mixins";
 
 :host {
-  display: flex;
+  display: var(--nav-parsers-display);
   overflow-y: auto;
   flex-direction: column;
 
   min-width: 7em;
   width: var(--nav-width);
-  max-width: 25vw;
+  max-width: var(--nav-width-max);
 
   white-space: nowrap;
 
@@ -17,7 +17,8 @@
   @include webkitScrollbar(nav-scrollbar, 0.375em);
   .parsers {
     .parserlink {
-      width: 64%;
+      //width: 64%;
+      flex: 1;
     }
     .titlelink {
       width: 64%;

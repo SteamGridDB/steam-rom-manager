@@ -8,6 +8,6 @@
   overflow: hidden;
   min-width: 7em;
   width: var(--nav-width);
-  max-width: 25vw;
+  max-width: var(--nav-width);
   background-color: var(--color-nav-background);
 }
