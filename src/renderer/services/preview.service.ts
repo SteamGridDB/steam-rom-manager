@@ -252,12 +252,12 @@ export class PreviewService {
           const shortId = gridName.match(/^\d+/).toString();
           const longId = steam.lengthenAppId(shortId);
           const imageType = invertedArtworkIdDict[gridName.replace(/^\d+/,'')];
-          const steamUrl = url.encodeFile(outcomes[steamDirectory][userId].successes[gridName]);
+          const steamImageUrl = url.encodeFile(outcomes[steamDirectory][userId].successes[gridName]);
           if(this.previewData[steamDirectory][userId].apps[longId]) {
             this.previewData[steamDirectory][userId].apps[longId].images[imageType].steam = {
               imageProvider: 'Steam',
-              imageUrl: steamUrl,
-              imageRes: url.imageDimensions(steamUrl),
+              imageUrl: steamImageUrl,
+              imageRes: url.imageDimensions(steamImageUrl),
               loadStatus: 'done'
             }
           }
@@ -547,7 +547,7 @@ export class PreviewService {
             if (previewData[config.steamDirectory][userAccount.accountID].apps[appID] === undefined) {
               let images: {[artworkType: string]: any} = {};
               for(const artworkType of artworkTypes) {
-                const steamImage = gridData[config.steamDirectory][userAccount.accountID][appID.concat(artworkIdDict[artworkType])];
+                const steamImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat(artworkIdDict[artworkType])];
                 const steamImageUrl = steamImage ? url.encodeFile(steamImage) : undefined;
                 images[artworkType] = {
                   steam: steamImage ? {

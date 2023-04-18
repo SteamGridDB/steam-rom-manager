@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.4
+### Fixed
+* Regression in 2.4.3: SRM was not remembering the artwork choices that were already in Steam.
+
 ## 2.4.3
 ### Added
 * New highly simplified EmuDeck theme (only recommended for EmuDeck users as it hides parser config). Credit to @dragoonDorise.
