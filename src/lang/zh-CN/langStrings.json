@@ -83,7 +83,7 @@
   "steamParser": {
     "onlyGamesTitle": "仅寻找游戏艺术作品(不包括工具)",
     "onlyInstalledTitle": "仅查找已安装标题的艺术作品",
-    "sourceModsTitle": "Find artwork for unofficial source mods",
+    "sourceModsTitle": "寻找非官方源模组的艺术作品",
     "errors": {
       "directoryInvalid": "> Steam 目录无效。",
       "noSteamAccounts": "> 指定的 Steam 目录中没有帐户。",
@@ -120,7 +120,7 @@
   "UWPParser": {
     "UWPDirTitle": "Xbox Games 目录覆盖",
     "UWPDirPlaceholder": "/path/to/XboxGames 或 /path/to/WindowsApps",
-    "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper",
+    "UWPLauncherModeTitle": "以 UWP 形式启动游戏，而不是使用启动器助手。",
     "errors": {
       "fatalError__i": "> UWP 解析器在此平台上不兼容。",
       "UWPNotCompatible": "> UWP 解析器发生致命错误：\n ${error}"
@@ -417,7 +417,7 @@
         "completeShortcut__i": "[${index}/${total}]:    完成快捷方式 - ${shortcut}",
         "firstImageQuery__i": "[${index}/${total}]:        图像查询 - ${query}",
         "imageQueries__i": "[${index}/${total}]:                        ${query}",
-        "defaultImage__i": "[${index}/${total}]: Resolved fallback ${artworkType}:\r\n[${index}/${total}]:                        ${image}",
+        "defaultImage__i": "[${index}/${total}]: Resolved fallback ${artworkType}:\n[${index}/${total}]:                        ${image}",
         "resolvedDefaultImage__i": "[${index}/${total}]: Fallback ${artworkType}:",
         "localImages__i": "[${index}/${total}]: Resolved ${artworkType}:",
         "resolvedLocalImages__i": "[${index}/${total}]: ${artworkType} glob:",
