@@ -16,13 +16,13 @@ Si vous rencontrez des problèmes avec SRM, n'hésitez pas à visiter le [discor
 
 ## Soutien
 
-Help support continued progress on Steam ROM Manager at:
+Soutenez-nous pour que nous puissions continuer à améliorer Steam ROM Manager sur:
 
 <a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
   <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Offrez-moi un café" width="160">
 </a>
 
-[SteamGridDB](https://www.steamgriddb.com/) héberge toutes les artworks que "Steam ROM Manager" utilise pour faire brillez votre bibliothèque Steam de mille feux, donc nous devrions probablement les aider à rester sur les rails. If you enjoy Steam ROM Manager and want it to continue to be useful also consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon.
+[SteamGridDB](https://www.steamgriddb.com/) héberge toutes les artworks que "Steam ROM Manager" utilise pour faire brillez votre bibliothèque Steam de mille feux, donc nous devrions probablement les aider à rester sur les rails. Si vous appréciez Steam ROM Manager et souhaitez qu'il continue à être utile, pensez à soutenir le Patreon de [SteamGridDB](https://www.steamgriddb.com/).
 
 <a href="https://www.patreon.com/steamgriddb">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
@@ -32,9 +32,9 @@ Help support continued progress on Steam ROM Manager at:
 * `FrogTheFrog`{.noWrap} - Créateur de SRM, n'est plus actif sur SRM mais travaillant actuellement sur le [Plugin MoonDeck](https://github.com/FrogTheFrog/moondeck)
 
 ### Current Maintainers
-* `lontanadascienza`{.noWrap} - Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller management, platform parsers (Epic, GOG, Steam, etc), among many other things. Squashes bugs almost as fast as he introduces them.
-* `Zennn`{.noWrap} - Added category support, langauge localization, and the bug report server among many other things. Grand patron de [SteamGridDB](https://www.steamgriddb.com/).
-* `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz).
+* `lontanadascienza`{.noWrap} - a mis à jour SRM pour gérer les arrière-plans, les posters, les logos et les icônes. Added the exception manager, controller management, platform parsers (Epic, GOG, Steam, etc), among many other things. Écrase les bugs presque aussi vite qu'ils viennent.
+* `Zennn`{.noWrap} - Ajout de la prise en charge des catégories, de la localisation, du serveur de rapport de bug et plein d'autres choses. Grand patron de [SteamGridDB](https://www.steamgriddb.com/).
+* `KenCinder`{.noWrap} - Gère et crée les préréglages de communauté de l'analyseur et aide l'utilisateur à configurer SRM dans [Discord](https://discord.gg/bnSVJrz).
 
 ### Contributions de fonctionnalités
 * `dragoonDorise`{.noWrap} - Ajout de nouveaux thèmes à SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
@@ -43,8 +43,8 @@ Help support continued progress on Steam ROM Manager at:
 * `CarJem`{.noWrap} - Ajout de l'analyseur manuel.
 * `MattMckenzy`{.noWrap} - Ajout de la possibilité d'importer et d'exporter des choix d'image.
 * `Apalatn`{.noWrap} - Ajout d'une option de redirection du lecteur d'installation à l'analyseur itch.io.
-* `OneMoreByte` - Made itch.io parser work on linux and mac.
-* `UndarkAido` - Added shortcut passthrough for Linux's .desktop shortcuts.
+* `OneMoreByte` - a fait fonctionner l'analyseur itch.io sur mac et linux.
+* `UndarkAido` - Ajout d'un passthrough pour les raccourcis .desktop de Linux.
 
 ### Communauté
 * `HE Spoke`{.noWrap} - a créé une communauté autour de SRM. Créateur des groupes [Steam](https://steamcommunity.com/groups/steamrommanager) et [Discord](https://discord.gg/bnSVJrz). Aide également les utilisateurs à configurer SRM dans [Discord](https://discord.gg/bnSVJrz).
