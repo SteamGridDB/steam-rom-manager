@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Rende
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { PreviewService, SettingsService, ImageProviderService, IpcService, UserExceptionsService } from "../services";
-import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageContent, SelectItem, UserConfiguration } from "../../models";
+import { PreviewData, PreviewDataApp, PreviewDataApps, PreviewVariables, AppSettings, ImageContent, SelectItem, UserConfiguration } from "../../models";
 import { APP } from '../../variables';
 import { FileSelector } from '../../lib';
 import { artworkTypes, artworkViewTypes, artworkNamesDict, artworkDimsDict } from '../../lib/artwork-types';
@@ -295,6 +295,7 @@ export class PreviewComponent implements OnDestroy {
       this.matchFixDict = Object.fromEntries(games.map((x: any)=>[x.id.toString(), {name: x.name, posterUrl: x.posterUrl}]));
       this.matchFixIds = games.map((x:any)=>x.id.toString());
       this.detailsLoading = false;
+      this.changeDetectionRef.detectChanges();
     })
   }
 
@@ -381,6 +382,10 @@ export class PreviewComponent implements OnDestroy {
   private onScroll() {
     this.scrollingEntries = true;
     this.onScrollEnd();
+  }
+
+  private sortedAppIds(apps: PreviewDataApps) {
+    return Object.keys(apps).sort((a,b)=>apps[a].title.localeCompare(apps[b].title))
   }
 
   private async exportSelection() {

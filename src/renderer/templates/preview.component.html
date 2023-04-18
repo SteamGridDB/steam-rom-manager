@@ -17,7 +17,7 @@
 <div class="details">
   <div class="detailsUpper">
     <div class="detailsTitle">
-      <span> Extracted title: {{detailsApp ? detailsApp.app.extractedTitle : ''}}</span>
+      <span> Original title: {{detailsApp ? detailsApp.app.extractedTitle : ''}}</span>
     </div>
     <div class="buttonGroup">
       <div class="detailsButton dangerousButton" (click)="closeDetails()">
@@ -62,7 +62,7 @@
           </div>
           <ng-container *ngIf="getImageType()=='games'">
             <div class="apps">
-              <ng-container *ngFor="let appId of previewData[steamDir][steamUser].apps | keys">
+              <ng-container *ngFor="let appId of sortedAppIds(previewData[steamDir][steamUser].apps)">
                 <ng-container *ngVar="previewData[steamDir][steamUser].apps[appId] as app">
                   <div class="title" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter) &&([app.configurationTitle] | intersectionTest: actualParserFilter)">
                     <span>{{app.title}}</span>
@@ -122,7 +122,7 @@
           </ng-container>
           <ng-container *ngIf="getImageType()!='games'">
             <div class="apps">
-              <ng-container *ngFor="let appID of previewData[steamDir][steamUser].apps | keys">
+              <ng-container *ngFor="let appID of sortedAppIds(previewData[steamDir][steamUser].apps)">
                 <ng-container *ngVar="previewData[steamDir][steamUser].apps[appID] as app">
                   <ng-container *ngVar="getBackgroundImage(app) as image">
                     <ng-container *ngVar="getAppImages(app) as appimages">
