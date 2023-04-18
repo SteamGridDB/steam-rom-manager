@@ -34,7 +34,7 @@
 ### 当前维护者
 * `lontanadascienza`{.noWrap} - 更新了 SRM 以处理主页、海报、Logos 和图标。 添加了异常管理器、控制器管理、平台解析器(Epic，GOG，Steam 等)，以及许多其他功能。 几乎以他引入的速度消灭 bug。
 * `Zennn`{.noWrap} - 添加了类别支持、语言本地化和错误报告服务器等许多功能。 [SteamGridDB](https://www.steamgriddb.com/) 的大老板。
-* `KenCinder`{.noWrap} - 管理和创建社区解析器预设，并帮助用户在 [Discord](https://discord.gg/bnSVJrz) 中设置 SRM。
+* `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz).
 
 ### 功能贡献
 * `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
