@@ -34,7 +34,7 @@ Wenn dir Steam ROM Manager gefällt, und du möchtest, dass es weiterhin nützli
 ### Aktuelle Entwickler
 * `lontanadascienza`{.noWrap} - SRM aktualisiert, um Helden, Poster, Logos und Icons zu verarbeiten. Hat Exception-Manager, Controller-Management, Plattform-Parser (Epic, GOG, Steam, etc) und weitere Dinge hinzugefügt. Vernichtet Bugs fast so schnell wie er sie verursacht.
 * `Zennn`{.noWrap} - Hat Unterstützung für Kategorien, Lokalisierung, den Bugreport-Server und weitere Dinge hinzugefügt. Obester Chef bei [SteamGridDB](https://www.steamgriddb.com/).
-* `KenCinder`{.noWrap} - Verwaltet und erstellt Community-Parser-Vorlagen und hilft Benutzern im [Discord](https://discord.gg/bnSVJrz) beim Einrichten von SRM.
+* `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz).
 
 ### Feature-Beiträge
 * `dragoonDorise`{.noWrap} - Neue Themes zu SRM hinzugefügt. Ersteller und aktueller Entwickler von [EmuDeck](https://www.emudeck.com/).
