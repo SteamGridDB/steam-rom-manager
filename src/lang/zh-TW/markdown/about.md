@@ -34,7 +34,7 @@ If you enjoy Steam ROM Manager and want it to continue to be useful also conside
 ### Current Maintainers
 * `lontanadascienza`{.noWrap} - Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller management, platform parsers (Epic, GOG, Steam, etc), among many other things. Squashes bugs almost as fast as he introduces them. Added the exception manager, controller management, platform parsers (Epic, GOG, Steam, etc), among many other things. Squashes bugs almost as fast as he introduces them.
 * `Zennn`{.noWrap} - Added category support, langauge localization, and the bug report server among many other things. Big boss over at [SteamGridDB](https://www.steamgriddb.com/). Big boss over at [SteamGridDB](https://www.steamgriddb.com/).
-* `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz)).
+* `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz).
 
 ### Feature Contributions
 * `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
