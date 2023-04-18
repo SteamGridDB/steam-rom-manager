@@ -36,7 +36,7 @@ import { Component, Input } from '@angular/core';
             vertical-align: middle;
             background-color: var(--select-refresh-images-background, transparent);
         }
-        path{ 
+        path{
             fill: var(--color-refresh-images);
         }
         :host(.hover):hover{

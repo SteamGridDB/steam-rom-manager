@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Renderer2, ElementRef, RendererStyleFlags2, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, BehaviorSubject } from 'rxjs';
-import { PreviewService, SettingsService, ImageProviderService, IpcService } from "../services";
+import { PreviewService, SettingsService, ImageProviderService, IpcService, UserExceptionsService } from "../services";
 import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageContent, SelectItem, UserConfiguration } from "../../models";
 import { APP } from '../../variables';
 import { FileSelector } from '../../lib';
@@ -9,6 +9,7 @@ import { artworkTypes, artworkViewTypes, artworkNamesDict, artworkDimsDict } fro
 import * as url from '../../lib/helpers/url';
 import * as FileSaver from 'file-saver';
 import * as appImage from '../../lib/helpers/app-image';
+import * as steam from '../../lib/helpers/steam';
 import * as _ from 'lodash';
 import * as path from 'path';
 
@@ -36,10 +37,22 @@ export class PreviewComponent implements OnDestroy {
   private fileSelector: FileSelector = new FileSelector();
   private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
 
+  private detailsApp: {
+    app: PreviewDataApp,
+    userId: string,
+    steamDirectory: string,
+    appId: string
+  };
+  private matchFix: string = '';
+  private matchFixIds: string[] = []
+  private matchFixDict: {[sgdbId: string]: {name: string, posterUrl: string}};
+  private detailsLoading: boolean = true;
+
   constructor(
     private previewService: PreviewService,
     private settingsService: SettingsService,
     private imageProviderService: ImageProviderService,
+    private userExceptionsService: UserExceptionsService,
     private changeDetectionRef: ChangeDetectorRef,
     private renderer: Renderer2,
     private elementRef: ElementRef,
@@ -151,6 +164,7 @@ export class PreviewComponent implements OnDestroy {
     this.previewService.setImageType(imageType);
     this.setImageBoxSizes();
   }
+
   private getImagePool(poolKey: string, imageType?: string) {
     return this.previewService.getImages(imageType)[poolKey];
   }
@@ -163,6 +177,11 @@ export class PreviewComponent implements OnDestroy {
 
   private getBackgroundImage(app: PreviewDataApp, imageType?: string) {
     return this.previewService.getCurrentImage(app, imageType);
+  }
+
+  private setDetailsBackgroundImage(sgdbId: string) {
+    const posterUrl = this.matchFixDict[sgdbId].posterUrl;
+    return posterUrl ? posterUrl : require('../../assets/images/no-images.svg');
   }
 
   private setBackgroundImage(app: PreviewDataApp, image: ImageContent, imageType?: string) {
@@ -260,6 +279,56 @@ export class PreviewComponent implements OnDestroy {
       if (noError)
         this.previewService.clearPreviewData();
     });
+  }
+
+  private changeAppDetails(app: PreviewDataApp, steamDirectory: string, userId: string, appId: string) {
+    this.detailsLoading = true;
+    this.matchFix = '';
+    this.renderer.setStyle(this.elementRef.nativeElement, '--details-grid-width', '50%', RendererStyleFlags2.DashCase);
+    this.detailsApp = {
+      appId: appId,
+      app: app,
+      steamDirectory: steamDirectory,
+      userId: userId
+    };
+    this.previewService.getMatchFixes(this.detailsApp.app.extractedTitle).then((games: any[])=>{
+      this.matchFixDict = Object.fromEntries(games.map((x: any)=>[x.id.toString(), {name: x.name, posterUrl: x.posterUrl}]));
+      this.matchFixIds = games.map((x:any)=>x.id.toString());
+      this.detailsLoading = false;
+    })
+  }
+
+  private fixMatch(sgdbId: string) {
+    this.matchFix = sgdbId;
+  }
+  private closeDetails() {
+    this.renderer.setStyle(this.elementRef.nativeElement, '--details-grid-width', '0%', RendererStyleFlags2.DashCase);
+  }
+  private saveDetails() {
+    if(this.detailsApp && this.matchFix) {
+      const {steamDirectory, userId, appId, app} = this.detailsApp;
+      this.previewData[steamDirectory][userId].apps[appId].title = this.matchFixDict[this.matchFix].name;
+      if(app.parserType !== 'Steam') {
+        const changedId = steam.generateAppId(app.executableLocation, this.matchFixDict[this.matchFix].name);
+        this.previewData[steamDirectory][userId].apps[appId].changedId = changedId;
+      }
+      const newPool = `\$\{gameid:${this.matchFix}\}`
+      for(const artworkType of artworkTypes) {
+        const oldPool = this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool;
+        this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool = newPool;
+        this.previewService.updateAppImages(newPool, oldPool, artworkType)
+      }
+      this.userExceptionsService.addException(app.extractedTitle, {
+        newTitle: this.matchFixDict[this.matchFix].name,
+        searchTitle: newPool,
+        commandLineArguments: '',
+        exclude: false,
+        excludeArtwork: false
+      })
+      this.refreshImages(this.previewData[steamDirectory][userId].apps[appId]);
+      this.matchFix = '';
+      this.closeDetails();
+    }
   }
 
   private refreshImages(app: PreviewDataApp, imageType?: string) {

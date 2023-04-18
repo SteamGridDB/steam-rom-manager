@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserExceptions } from "../../models";
+import { UserExceptions, UserExceptionData } from "../../models";
 import { LoggerService } from './logger.service';
 import { BehaviorSubject } from "rxjs";
 import { APP } from '../../variables';
@@ -26,8 +26,8 @@ export class UserExceptionsService {
     return APP.lang.userExceptions.service;
   }
 
-  get data() {
-    return this.variableData.getValue();
+  get data(): {current: UserExceptions, saved: UserExceptions} {
+    return this.variableData.getValue() as {current: UserExceptions, saved: UserExceptions};
   }
 
   get dataObservable() {
@@ -62,6 +62,13 @@ export class UserExceptionsService {
         this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
         this.loggerService.error(error);
       });
+  }
+
+  addException(extractedTitle: string, newException: UserExceptionData) {
+    let newData = this.data.saved;
+    newData.titles[extractedTitle] = newException;
+    this.variableData.next({current: newData, saved: this.data.saved})
+    this.saveUserExceptions();
   }
 
   setSaved(data: UserExceptions) {

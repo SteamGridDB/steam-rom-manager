@@ -5,19 +5,36 @@ import SGDB from "steamgriddb";
 
 const idRegex: RegExp = /^\$\{gameid\:([0-9]*?)\}$/;
 
-class SteamGridDbProvider extends GenericProvider {
+// TODO bruh change this
+const apiKey = "f80f92019254471cca9d62ff91c21eee";
+
+export class SteamGridDbProvider extends GenericProvider {
   private xrw: xRequestWrapper;
   private client: any;
 
   constructor(protected proxy: ProviderProxy) {
     super(proxy);
     this.xrw = new xRequestWrapper(proxy, true, 3, 3000);
-    this.client = new SGDB({key: "f80f92019254471cca9d62ff91c21eee"});
+    this.client = new SGDB({key: apiKey});
+  }
+
+  static async retrievePossibleIds(title: string) {
+    const client = new SGDB({key: apiKey});
+    const games = await client.searchGame(title)
+    for(const game of games) {
+      const grids = await client.getGrids({
+        id: game.id,
+        type: 'game',
+        dimensions: ["600x900"]
+      })
+      game.posterUrl = grids.length ? grids[0].url: '';
+    }
+    return games;
   }
 
   retrieveUrls() {
     let self = this;
-    this.xrw.promise = new Promise<void>(function (resolve) {
+    this.xrw.promise = new Promise<void>((resolve) => {
       let idPromise: Promise<number> = null;
       if(idRegex.test(self.proxy.title)) {
         idPromise = Promise.resolve(parseInt(self.proxy.title.split(':')[1].slice(0,-1)))

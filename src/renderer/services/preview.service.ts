@@ -5,6 +5,7 @@ import { ParsersService } from './parsers.service';
 import { LoggerService } from './logger.service';
 import { SettingsService } from './settings.service';
 import { ImageProviderService } from './image-provider.service';
+import { SteamGridDbProvider } from '../../lib/image-providers/steamgriddb.worker';
 import {
   PreviewData,
   ImageContent,
@@ -131,6 +132,22 @@ export class PreviewService {
     this.previewVariables.listIsBeingGenerated = true;
     this.imageProviderService.instance.stopUrlDownload();
     this.generatePreviewDataCallback();
+  }
+
+  getMatchFixes(title: string) {
+    return SteamGridDbProvider.retrievePossibleIds(title)
+  }
+
+  updateAppImages(imagePool: string, oldPool: string, artworkType: string) {
+    this.appImages[artworkType][imagePool] = {
+      retrieving: false,
+      searchQueries: [imagePool],
+      imageProviderAPIs: this.appImages[artworkType][oldPool].imageProviderAPIs,
+      defaultImageProviders: this.appImages[artworkType][oldPool].defaultImageProviders,
+      content: this.appImages[artworkType][oldPool].content.filter((imageContent: ImageContent) => {
+        return ['Steam','LocalStorage'].includes(imageContent.imageProvider)
+      })
+    }
   }
 
   saveData({batchWrite, removeAll}: {batchWrite: boolean, removeAll: boolean}): Promise<any> {

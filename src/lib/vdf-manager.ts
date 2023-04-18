@@ -193,6 +193,9 @@ export class VDF_Manager {
           listItem.shortcuts.extraneous = extraneousAppIds[userId];
           for (let appId in apps) {
             let app = apps[appId];
+            if (app.changedId) {
+              appId = app.changedId;
+            }
             if (app.status === 'add') {
               let item = listItem.shortcuts.getItem(appId);
               listItem.addedItems.addItem(appId, app.parserId);

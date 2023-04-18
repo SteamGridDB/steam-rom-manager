@@ -13,7 +13,39 @@
     </ng-select>
   </div>
   <ng-text-input class="appFilter" [placeholder]="lang.filter" [(ngModel)]='filterValue' ></ng-text-input>
-
+</div>
+<div class="details">
+  <div class="detailsUpper">
+    <div class="detailsTitle">
+      <span> Extracted title: {{detailsApp ? detailsApp.app.extractedTitle : ''}}</span>
+    </div>
+    <div class="buttonGroup">
+      <div class="detailsButton dangerousButton" (click)="closeDetails()">
+        <span> Close </span>
+      </div>
+      <div class="detailsButton" (click)= "saveDetails()">
+        <span> Save and close</span>
+      </div>
+    </div>
+  </div>
+  <div class="detailsLower">
+    <ng-container *ngIf="!detailsLoading">
+      <ng-container *ngIf="!!detailsApp">
+        <ng-container *ngFor="let sgdbId of matchFixIds">
+          <div class= "approw" [class.selected]="matchFix == sgdbId" (click)=fixMatch(sgdbId)>
+            <div class="app" [style.backgroundImage]="setDetailsBackgroundImage(sgdbId) | cssUrl | safeStyle">
+            </div>
+            <div class ="apptitle">
+              <span>{{matchFixDict[sgdbId].name}}</span>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="detailsLoading">
+      <div class="loadingSpinner"></div>
+    </ng-container>
+  </div>
 </div>
 <div class="entries" *ngVar="{ hoverIndex: undefined, hoverType: undefined } as entries" (scroll)="onScroll()">
   <ng-container *ngFor="let steamDir of previewData | keys">
@@ -35,7 +67,7 @@
                   <div class="title" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter) &&([app.configurationTitle] | intersectionTest: actualParserFilter)">
                     <span>{{app.title}}</span>
                   </div>
-                  <ng-container *ngFor="let imagetype of artworkTypes">
+                  <ng-container *ngFor="let imagetype of ['long','tall','hero','logo','icon']">
                     <ng-container *ngVar="getBackgroundImage(app, imagetype) as image">
                       <ng-container *ngVar="getAppImages(app, imagetype) as appimages">
                         <div class="app" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter) && ([app.configurationTitle] | intersectionTest: actualParserFilter)" [style.backgroundImage]="setBackgroundImage(app, image, imagetype) | cssUrl | safeStyle"
@@ -68,7 +100,7 @@
                               </ng-container>
                             </div>
                             <div class="bottomPanel">
-                              <div class="configTitle">
+                              <div text-scroll class="configTitle">
                                 {{app.configurationTitle + (app.steamCategories.length > 0 ? ' (' + app.steamCategories.join(', ') + ')' : '')}}
                               </div>
                               <div class="appButtons">
@@ -118,10 +150,11 @@
                             </ng-container>
                           </div>
                           <div class="bottomPanel">
-                            <div class="configTitle">
+                            <div text-scroll class="configTitle">
                               {{app.configurationTitle + (app.steamCategories.length > 0 ? ' (' + app.steamCategories.join(', ') + ')' : '')}}
                             </div>
                             <div class="appButtons">
+                              <svg class="button" title="Fix match" image-alert hover="true" active="true" *ngIf="!image || image.loadStatus === 'done'" (click)="changeAppDetails(app, steamDir, steamUser, appID)"></svg>
                               <svg class="button" [title]="lang.addLocalImages" add-images hover="true" active="true" (click)="addLocalImages(app)"></svg>
                               <span class="separator"></span>
                               <svg class="button" *ngIf="!getImagePool(appimages.imagePool).retrieving" (click)="refreshImages(app)" [title]="lang.refreshImages" refresh-images hover="true" active="true"></svg>
