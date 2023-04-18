@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.5
+### Added
+* Ability to fix matches from the preview! Just click the little exclamation point on the left of the app (icon subject to change), select the game and boom match fixed. Best of all, SRM will automatically save your change as an exception so that you never have to change it again in the future.
+
+### Changed
+* Preview is now sorted in alphabetical order of title
+
 ## 2.4.4
 ### Fixed
 * Regression in 2.4.3: SRM was not remembering the artwork choices that were already in Steam.
