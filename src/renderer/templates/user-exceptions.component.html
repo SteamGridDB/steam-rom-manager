@@ -1,3 +1,8 @@
+<div class= "upperMenu">
+  <div class="search">
+    <ng-text-input class="searchExceptions" placeholder="Search Exceptions" [(ngModel)]="filterValue"></ng-text-input>
+  </div>
+</div>
 <markdown class="docs" [content]="this.currentDoc.content"></markdown>
 <div class = "userExceptions">
   <label>
@@ -8,7 +13,7 @@
   <div [formGroup]="exceptionsForm">
     <div formArrayName="items"
          *ngFor="let item of exceptionsForm.get('items').controls; let i=index;">
-      <div [formGroupName]="i">
+      <div [formGroupName]="i" *ngIf="(item.controls['oldTitle'].value | fuzzyTest: filterValue) ">
         <div class="inputContainer">
           <div class="inlineLeft">
             <div class=text style="margin-right: 0.25em;">Extracted Title: </div>
