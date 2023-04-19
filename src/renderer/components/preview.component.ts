@@ -317,6 +317,7 @@ export class PreviewComponent implements OnDestroy {
       for(const artworkType of artworkTypes) {
         const oldPool = this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool;
         this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool = newPool;
+        this.previewData[steamDirectory][userId].apps[appId].images[artworkType].steam = undefined;
         this.previewService.updateAppImages(newPool, oldPool, artworkType)
       }
       this.userExceptionsService.addException(app.extractedTitle, {

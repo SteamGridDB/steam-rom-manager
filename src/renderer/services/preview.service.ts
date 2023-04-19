@@ -145,7 +145,7 @@ export class PreviewService {
       imageProviderAPIs: this.appImages[artworkType][oldPool].imageProviderAPIs,
       defaultImageProviders: this.appImages[artworkType][oldPool].defaultImageProviders,
       content: this.appImages[artworkType][oldPool].content.filter((imageContent: ImageContent) => {
-        return ['Steam','LocalStorage'].includes(imageContent.imageProvider)
+        return ['LocalStorage'].includes(imageContent.imageProvider)
       })
     }
   }
