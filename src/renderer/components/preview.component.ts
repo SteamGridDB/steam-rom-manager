@@ -97,6 +97,7 @@ export class PreviewComponent implements OnDestroy {
 
   generatePreviewData() {
     this.closeDetails();
+    this.cancelExcludes();
     this.previewService.generatePreviewData();
   }
 
