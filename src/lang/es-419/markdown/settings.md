@@ -18,14 +18,14 @@ Resets the stored list of titles used for fuzzy matching to the list of titles r
 ### Reset fuzzy cache
 Clears the cache of titles that fuzzy matching has already seen (try this if changes you make to fuzzy list are not resulting in changes to titles in SRM).
 
-## Image provider settings
-### Preload retrieved images `[Recommend disabled]`
-When enabled, SRM will pull all available artwork for every game, rather than pulling one piece of artwork at a time as the user flips through the images. Don't enable this unless you have a good reason and a very small library of games, otherwise it could result in very large (slow) network requests.
-### Enabled providers
-Global setting to disable certain providers. Currently the only image provider is `SteamGridDB` since ConsoleGrid and RetroGaming.cloud are defunct.
+## Ajustes del proveedor de imágenes
+### Precargar imágenes `[Recomendación: desactivado]`
+Al estar activado, SRM cargará todas las imágenes disponibles para cada juego, en lugar de cargar una imagen a la vez a medida que el usuario vaya revisando las imágenes. No actives esto a menos que tengas una buena razón y tu biblioteca de juegos sea pequeña, ya que podría resultar en una gran (y lenta) cantidad de peticiones de red.
+### Proveedores habilitados
+Ajuste global para desactivar ciertos proveedores. Actualment el único proveedor de imágenes es `SteamGridDB` ya que ConsoleGrid y RetroGaming.cloud ya no existen.
 
-## Community Variables and Presets
-### Force download custom variables.
-Resets the custom variables JSON file that is used for certain presets to whatever its current state is on the SRM github. Useful if the custom variables JSON file has been corrupted.
-### Force download custom presets.
+## Presets y variables de la comunidad
+### Forzar la descarga de variables personalizadas.
+Restablece el archivo JSON de variables personalizadas usado para ciertos presets al estado actual en el repositorio de GitHub de SRM. Útil si el archivo JSON de variables personalizadas ha sido corrompido.
+### Forzar la descarga de presets personalizados.
 Resets the JSON files for parser presets to whatever is on the SRM github. Useful if your presets list is not automatically updating for some reason, or has become corrupted.
