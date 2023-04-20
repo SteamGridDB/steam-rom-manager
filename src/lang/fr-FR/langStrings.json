@@ -19,12 +19,12 @@
       "addLocalImages": "Image personnalisée",
       "retryDownload": "Réessayer le téléchargement",
       "generateAppList": "Générer une liste de jeu",
-      "saveAppList": "Enregistrer les applications sur Steam",
-      "removeAppList": "Supprimer les applications de Steam",
+      "saveAppList": "Save to Steam",
+      "removeAppList": "Remove from Steam",
       "remainingImages": "Remaining urls:",
       "stopUrlRetrieving": "Arrêter tous les téléchargements",
-      "exportSelections": "Exporter les choix d'image",
-      "importSelections": "Importer des choix d'image"
+      "exportSelections": "Export",
+      "importSelections": "Import"
     },
     "service": {
       "info": {
@@ -407,8 +407,9 @@
         "foundAccountInfo__i": "  ${name} (steamID64: ${steamID64}, accountID: ${accountID})",
         "steamCategory__i": "[${index}/${total}]:     Catégories Steam - ${steamCategory}",
         "steamCategoryInfo__i": "[${index}/${total}]:                        ${steamCategory}",
-        "appId__i": "[${index}/${total}]:                AppID - ${appid}",
-        "shortAppId__i": "[${index}/${total}]:      AppID Raccourci - ${appid}",
+        "exceptionKey__i": "[${index}/${total}]:         Exception ID - ${appid}",
+        "appId__i": "[${index}/${total}]:        Legacy App ID - ${appid}",
+        "shortAppId__i": "[${index}/${total}]:               App ID - ${appid}",
         "extractedTitle__i": "[${index}/${total}]:        Titre extrait - ${title}",
         "fuzzyTitle__i": "[${index}/${total}]:   Titre approximatif - ${title}",
         "finalTitle__i": "[${index}/${total}]:          Titre final - ${title}",
