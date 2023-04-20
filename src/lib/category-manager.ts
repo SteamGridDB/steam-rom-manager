@@ -51,15 +51,24 @@ export class CategoryManager {
             let toRemove = _.union(Object.keys(userData.apps).map((x)=>steam.shortenAppId(x)),extraneousShortIds).map((x)=>+x);
             collections[catKey].added = collections[catKey].added.filter((appId: number) => toRemove.indexOf(appId)<0);
             if(collections[catKey].added.length == 0 || removeAll) {
-              delete collections[catKey];
               cats.remove(catKey);
+              // weirdly this works whereas delete collections[catKey] doesn't
+              collections[catKey] = {
+                id: catKey,
+                added: [],
+                removed: [],
+              };
             }
           }
 
           if(!removeAll) {
-            for (const appId of Object.keys(userData.apps).filter((appId: string)=>userData.apps[appId].status ==='add')) {
+            for (let appId of Object.keys(userData.apps).filter((appId: string)=>userData.apps[appId].status ==='add')) {
               const app = userData.apps[appId];
-              const appIdNew = parseInt(steam.generateShortAppId(app.executableLocation, app.title), 10);
+              if(app.changedId) {
+                appId = app.changedId;
+              }
+              const appIdNew = parseInt(steam.shortenAppId(appId), 10);
+              // const appIdNew = parseInt(steam.generateShortAppId(app.executableLocation, app.title), 10);
 
               // Loop "steamCategories" and make a new category from each
               app.steamCategories.forEach((catName: string) => {
@@ -94,7 +103,9 @@ export class CategoryManager {
         }).catch((error: any)=>{
           throw error;
         })
-        .then(() => cats.save())
+        .then(() => {
+          cats.save()
+        })
         .then(()=>{
           localConfig.UserLocalConfigStore.WebStorage['user-collections'] = JSON.stringify(collections).replace(/"/g, '\\"');
           const newVDF = genericParser.stringify(localConfig);

@@ -15,29 +15,21 @@ export interface ParsedUserConfigurationFile extends StringMap {
   fuzzyTitle: string,
   finalTitle: string,
   argumentString: string,
-  resolvedLocalImages: string[],
-  resolvedLocalTallImages: string[],
-  resolvedLocalHeroImages: string[],
-  resolvedLocalLogoImages: string[],
-  resolvedLocalIcons: string[],
   onlineImageQueries: string[],
   steamCategories: string[],
   imagePool: string,
-  resolvedDefaultImages: string[],
-  resolvedDefaultTallImages: string[],
-  resolvedDefaultHeroImages: string[],
-  resolvedDefaultLogoImages: string[],
-  resolvedDefaultIcons: string[],
-  defaultImage: string,
-  defaultTallImage: string,
-  defaultHeroImage: string,
-  defaultLogoImage: string,
-  defaultIcon: string,
-  localImages: string[],
-  localTallImages: string[],
-  localHeroImages: string[],
-  localLogoImages: string[],
-  localIcons: string[]
+  defaultImage: {
+    [artworkType: string]: string
+  },
+  localImages: {
+    [artworkType: string]: string[]
+  },
+  resolvedDefaultImages: {
+    [artworkType: string]: string[]
+  },
+  resolvedLocalImages: {
+    [artworkType: string]: string[]
+  }
 }
 
 export interface ParsedUserConfiguration {

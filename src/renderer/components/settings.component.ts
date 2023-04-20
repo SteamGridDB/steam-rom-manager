@@ -4,6 +4,7 @@ import { SettingsService, ParsersService, PreviewService, LanguageService, Image
 import { APP } from '../../variables';
 import { AppSettings, SelectItem, userAccountData } from "../../models";
 import { Subscription, BehaviorSubject } from 'rxjs';
+import { availableThemes } from "../../lib/themes";
 import * as os from 'os';
 import * as steam from "../../lib/helpers/steam";
 
@@ -64,7 +65,7 @@ export class SettingsComponent implements OnDestroy {
     this.availableLanguages = this.languageService.getAvailableLanguages().map((lang)=>{
       return {value: lang, displayValue: this.languageService.getReadableName(lang)}
     });
-    this.themes = ["Deck","Classic"];
+    this.themes = availableThemes;
     if(os.type()=='Windows_NT'){
       this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathWin;
       this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryWin;
@@ -154,6 +155,7 @@ export class SettingsComponent implements OnDestroy {
   private loadTheme(){
     document.querySelector('html').className = '';
     document.querySelector('html').classList.add(this.settings.theme)
+    document.querySelector('html').removeAttribute("style");
   }
 
   configDir() {

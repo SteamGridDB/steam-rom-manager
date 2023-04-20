@@ -1,4 +1,14 @@
-import { VDF_ListData, SteamDirectory, PreviewData, PreviewDataApp, AppImages, VDF_ListItem, VDF_ExtraneousItemsData } from "../models";
+import { VDF_ListData,
+  SteamDirectory,
+  PreviewData,
+  PreviewDataApp,
+  AppImages,
+  VDF_ListItem,
+  VDF_ExtraneousItemsData,
+  VDF_ScreenshotsOutcome,
+  VDF_AllScreenshotsOutcomes
+} from "../models";
+import { artworkTypes, artworkIdDict } from './artwork-types';
 import { VDF_Error } from './vdf-error';
 import { APP } from '../variables';
 import * as vdf from './helpers/vdf';
@@ -115,33 +125,41 @@ export class VDF_Manager {
   }
 
   write(batch: boolean, options?: { shortcuts?: boolean, addedItems?: boolean, screenshots?: boolean }) {
-    return new Promise<void>((resolve,reject)=>{
-      let promises: Promise<VDF_Error>[] = []
-      let writeShortcuts = options !== undefined ? options.shortcuts : true;
-      let writeAddedItems = options !== undefined ? options.addedItems : true;
-      let writeScreenshots = options !== undefined ? options.screenshots : true;
-
+    return new Promise<{nonFatal: VDF_Error, outcomes: VDF_AllScreenshotsOutcomes}>((resolve,reject)=>{
+      let shortcutPromises: Promise<void>[] = [];
+      let addedItemsPromises: Promise<void>[] = [];
+      let screenshotPromises: Promise<VDF_Error>[] = [];
+      let writeShortcuts = options ? options.shortcuts : true;
+      let writeAddedItems = options ? options.addedItems : true;
+      let writeScreenshots = options ? options.screenshots : true;
+      let screenshotsOutcomes: VDF_AllScreenshotsOutcomes = {};
       for (let steamDirectory in this.data) {
+        screenshotsOutcomes[steamDirectory] = {};
         for (let userId in this.data[steamDirectory]) {
-          if (writeShortcuts)
-            promises.push(this.data[steamDirectory][userId].shortcuts.write().then(()=>{
-            }) as Promise<undefined>);
-          if (writeAddedItems)
-            promises.push(this.data[steamDirectory][userId].addedItems.write().then(()=>{
-            }) as Promise<undefined>);
-          if (writeScreenshots)
-            promises.push(this.data[steamDirectory][userId].screenshots.write(batch).then((errors)=>{
-              return errors;
-            }));
+          if (writeShortcuts) {
+            shortcutPromises.push(this.data[steamDirectory][userId].shortcuts.write());
+          }
+          if (writeAddedItems) {
+            addedItemsPromises.push(this.data[steamDirectory][userId].addedItems.write());
+          }
+          if (writeScreenshots) {
+            screenshotPromises.push(this.data[steamDirectory][userId].screenshots.write(batch).then((outcome: VDF_ScreenshotsOutcome)=>{
+              screenshotsOutcomes[steamDirectory][userId] = outcome;
+              return outcome.error
+            }))
+          }
         }
       }
-      Promise.all(promises).then((errors)=>{
-        const realErrors = errors.filter(e=>!!e);
-        if(realErrors.length) {
-          reject(new VDF_Error(realErrors, this.lang.error.nonFatal, true));
-        } else {
-          resolve()
-        }
+
+      Promise.all(shortcutPromises)
+      .then(()=>Promise.all(addedItemsPromises))
+      .then(()=>Promise.all(screenshotPromises))
+      .then((errors: VDF_Error[]) => {
+        const realErrors = errors.filter(e=>!!e)
+        resolve({
+          nonFatal: realErrors.length ? new VDF_Error(realErrors, this.lang.error.nonFatal, true) : undefined,
+          outcomes: screenshotsOutcomes
+        })
       }).catch((error)=>{
         reject(new VDF_Error(error, this.lang.error.couldNotWriteEntries));
       })
@@ -156,7 +174,7 @@ export class VDF_Manager {
     }
   }
 
-  mergeData(previewData: PreviewData, images: AppImages, tallimages: AppImages, heroimages: AppImages, logoimages: AppImages, icons: AppImages, deleteDisabledShortcuts: boolean) {
+  mergeData(previewData: PreviewData, images: {[artworkType: string]: AppImages}, deleteDisabledShortcuts: boolean) {
     return new Promise<VDF_ExtraneousItemsData>((resolve, reject) => {
       Promise.resolve().then(()=>{
         let extraneousAppIds: VDF_ExtraneousItemsData = {};
@@ -175,77 +193,60 @@ export class VDF_Manager {
           listItem.shortcuts.extraneous = extraneousAppIds[userId];
           for (let appId in apps) {
             let app = apps[appId];
+            if (app.changedId) {
+              appId = app.changedId;
+            }
             if (app.status === 'add') {
-              let currentImage = appImage.getCurrentImage(app.images, images);
-              let currentTallImage = appImage.getCurrentImage(app.tallimages, tallimages);
-              let currentHeroImage = appImage.getCurrentImage(app.heroimages, heroimages);
-              let currentLogoImage = appImage.getCurrentImage(app.logoimages, logoimages);
-              let currentIcon = appImage.getCurrentImage(app.icons, icons);
-
               let item = listItem.shortcuts.getItem(appId);
-
-              let icon_path: string = "";
-              if(currentIcon !== undefined) {
-                let icon_ext: string = currentIcon.imageUrl.split('.').slice(-1)[0];
-                icon_ext = ids.map_ext[""+icon_ext] || icon_ext;
-                icon_path = path.join(listItem.screenshots.gridDir, `${ids.shortenAppId(appId).concat('_icon')}.${icon_ext}`);
-              }
-
-              if (app.parserType!== 'Steam' && item !== undefined) {
-                item.appid = ids.generateShortcutId(app.executableLocation, app.title),
-                item.appname = app.title;
-                item.exe = app.executableLocation;
-                item.StartDir = app.startInDirectory;
-                item.LaunchOptions = app.argumentString;
-                item.icon = icon_path;
-                item.tags = _.union(app.steamCategories, item.tags);
-              }
-              else if(app.parserType !== 'Steam') {
-                listItem.shortcuts.addItem(appId, {
-                  appid: ids.generateShortcutId(app.executableLocation, app.title),
-                  appname: app.title,
-                  exe: app.executableLocation,
-                  StartDir: app.startInDirectory,
-                  LaunchOptions: app.argumentString,
-                  icon: icon_path,
-                  tags: app.steamCategories
-                });
-              }
-
-
               listItem.addedItems.addItem(appId, app.parserId);
-              if (currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
-                listItem.screenshots.addItem({ appId: appId, title: app.title, url: currentImage.imageUrl });
-              }
-
-              if (currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
-                listItem.screenshots.addItem({ appId: ids.shortenAppId(appId), title: app.title, url: currentImage.imageUrl });
-              }
-
-              if (currentTallImage !== undefined && currentTallImage.imageProvider !== 'Steam') {
-                listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('p'), title: app.title, url: currentTallImage.imageUrl });
-              }
-
-              if (currentHeroImage !== undefined && currentHeroImage.imageProvider !== 'Steam') {
-                listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('_hero'), title: app.title, url: currentHeroImage.imageUrl });
-              }
-              if (currentLogoImage !== undefined && currentLogoImage.imageProvider !== 'Steam') {
-                listItem.screenshots.addItem({ appId: ids.shortenAppId(appId).concat('_logo'), title: app.title, url: currentLogoImage.imageUrl });
-              }
-              if (currentIcon !== undefined && currentIcon.imageProvider !== 'Steam') {
-                listItem.screenshots.addItem({appId: ids.shortenAppId(appId).concat('_icon'), title:app.title, url: currentIcon.imageUrl });
+              for(const artworkType of artworkTypes) {
+                const currentImage = appImage.getCurrentImage(app.images[artworkType], images[artworkType]);
+                if(currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
+                  listItem.screenshots.addItem({
+                    appId: ids.shortenAppId(appId).concat(artworkIdDict[artworkType]),
+                    title: app.title,
+                    url: currentImage.imageUrl
+                  });
+                }
+                // special handling for icon path being added to shortcuts.vdf
+                if(artworkType === 'icon') {
+                  let icon_path: string = "";
+                  if(currentImage !== undefined) {
+                    let icon_ext: string = currentImage.imageUrl.split('.').slice(-1)[0];
+                    icon_ext = ids.map_ext[""+icon_ext] || icon_ext;
+                    icon_path = path.join(listItem.screenshots.gridDir, `${ids.shortenAppId(appId).concat('_icon')}.${icon_ext}`);
+                  }
+                  if (app.parserType!== 'Steam' && item !== undefined) {
+                    item.appid = ids.generateShortcutId(app.executableLocation, app.title),
+                    item.appname = app.title;
+                    item.exe = app.executableLocation;
+                    item.StartDir = app.startInDirectory;
+                    item.LaunchOptions = app.argumentString;
+                    item.icon = icon_path;
+                    item.tags = _.union(app.steamCategories, item.tags);
+                  }
+                  else if(app.parserType !== 'Steam') {
+                    listItem.shortcuts.addItem(appId, {
+                      appid: ids.generateShortcutId(app.executableLocation, app.title),
+                      appname: app.title,
+                      exe: app.executableLocation,
+                      StartDir: app.startInDirectory,
+                      LaunchOptions: app.argumentString,
+                      icon: icon_path,
+                      tags: app.steamCategories
+                    });
+                  }
+                }
               }
             }
             else if (app.status === 'remove') {
               extraneousAppIds[userId].push(appId);
               listItem.shortcuts.removeItem(appId);
               listItem.addedItems.removeItem(appId);
+              for(const artworkType of artworkTypes) {
+                listItem.screenshots.removeItem(ids.shortenAppId(appId).concat(artworkIdDict[artworkType]));
+              }
               listItem.screenshots.removeItem(appId);
-              listItem.screenshots.removeItem(ids.shortenAppId(appId));
-              listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('p'));
-              listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_hero'));
-              listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_logo'));
-              listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_icon'));
               app.images.steam = undefined
             }
           }
@@ -271,11 +272,9 @@ export class VDF_Manager {
             listItem.shortcuts.removeItem(appId);
             listItem.addedItems.removeItem(appId);
             listItem.screenshots.removeItem(appId);
-            listItem.screenshots.removeItem(ids.shortenAppId(appId));
-            listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('p'));
-            listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_hero'));
-            listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_logo'));
-            listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_icon'));
+            for(let artworkType of artworkTypes) {
+              listItem.screenshots.removeItem(ids.shortenAppId(appId).concat(artworkIdDict[artworkType]))
+            }
           }
           listItem.addedItems.data = {};
         });

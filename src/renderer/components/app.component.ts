@@ -10,10 +10,9 @@ import markdownItAttrs from 'markdown-it-attrs';
   template: `
   <ng-container *ngIf="settingsLoaded && languageLoaded; else stillLoading">
   <titlebar></titlebar>
-  <navarea></navarea>
+  <navarea *ngIf="!shouldHideComponent"></navarea>
   <nav-border></nav-border>
   <router-outlet style="display: none;"></router-outlet>
-  <theme></theme>
   <alert></alert>
   <update-notifier [ipcMessage]=updateMessage></update-notifier>
   </ng-container>
@@ -30,12 +29,29 @@ export class AppComponent {
   private cliMessage: string = '';
   private settingsLoaded: boolean = false;
   private languageLoaded: boolean = false;
+  public shouldHideComponent: boolean = false;
   constructor(private settingsService: SettingsService, private languageService: LanguageService, private markdownService: MarkdownService, private router: Router,private ipcService: IpcService, private changeDetectionRef: ChangeDetectorRef, private zone: NgZone) {
+
     this.settingsService.onLoad((appSettings) => {
       this.settingsLoaded = true;
-      this.router.navigate(['/parsers', -1]);
       document.querySelector('html').className = '';
       document.querySelector('html').classList.add(appSettings.theme)
+
+      // EmuDeck special navigation
+      this.router.events.subscribe((val) => {
+        if (this.router.url === '/logger' && appSettings.theme === 'EmuDeck' || this.router.url === '/' && appSettings.theme === 'EmuDeck') {
+          this.shouldHideComponent = true;
+        } else {
+          this.shouldHideComponent = false;
+        }
+      });
+
+      if(appSettings.theme === 'EmuDeck'){
+        document.querySelector('html').removeAttribute("style");
+        this.router.navigate(['/parsers-list']);
+      }else{
+        this.router.navigate(['/parsers', -1]);
+      }
       this.changeDetectionRef.detectChanges();
     });
     this.languageService.observeChanges().subscribe((lang) => {

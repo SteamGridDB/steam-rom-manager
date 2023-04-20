@@ -4,6 +4,11 @@ export interface languageStruct {
       info__md: string[]
     }
   },
+  parsers_list: {
+    component: {
+      info__md: string[]
+    }
+  },
   preview: {
     component: {
       filter: string,
@@ -505,6 +510,7 @@ export interface languageStruct {
         steamCategory__i: string, //${index}, ${total}, ${steamCategory}
         steamCategoryInfo__i: string, //${steamCategory}
         appId__i: string, //${index}, ${total}, ${appid}
+        exceptionKey__i: string, //${index}, ${total}, ${appid}
         shortAppId__i: string, //${index}, ${total}, ${appid}
         extractedTitle__i: string, //${index}, ${total}, ${title}
         fuzzyTitle__i: string, //${index}, ${total}, ${title}
@@ -514,41 +520,11 @@ export interface languageStruct {
         completeShortcut__i: string, //${index}, ${total}, ${shortcut}
         firstImageQuery__i: string, //${index}, ${total}, ${query}
         imageQueries__i: string, //${index}, ${total}, ${query}
-        resolvedDefaultImageGlob__i: string, //${index}, ${total}
-        resolvedDefaultImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-        resolvedDefaultTallImageGlob__i: string, //${index}, ${total}
-        resolvedDefaultTallImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-        resolvedDefaultHeroImageGlob__i: string, //${index}, ${total}
-        resolvedDefaultHeroImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-        resolvedDefaultLogoImageGlob__i: string, //${index}, ${total}
-        resolvedDefaultLogoImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-        resolvedDefaultIconGlob__i: string, //${index}, ${total}
-        resolvedDefaultIconGlobInfo__i: string, //${index}, ${total}, ${glob}
-        defaultImageResolved__i: string, //${index}, ${total}, ${image}
-        defaultTallImageResolved__i: string, //${index}, ${total}, ${image}
-        defaultHeroImageResolved__i: string, //${index}, ${total}, ${image}
-        defaultLogoImageResolved__i: string, //${index}, ${total}, ${image}
-        defaultIconResolved__i: string, //${index}, ${total}, ${image}
-        resolvedImageGlob__i: string, //${index}, ${total}
-        resolvedImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-        resolvedTallImageGlob__i: string, //${index}, ${total}
-        resolvedTallImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-        resolvedHeroImageGlob__i: string, //${index}, ${total}
-        resolvedHeroImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-        resolvedLogoImageGlob__i: string, //${index}, ${total}
-        resolvedLogoImageGlobInfo__i: string, //${index}, ${total}, ${glob}
-        resolvedIconGlob__i: string, //${index}, ${total}
-        resolvedIconGlobInfo__i: string, //${index}, ${total}, ${glob}
-        localImagesResolved__i: string, //${index}, ${total}
-        localImageInfo__i: string, //${index}, ${total}, ${image}
-        localTallImagesResolved__i: string, //${index}, ${total}
-        localTallImageInfo__i: string, //${index}, ${total}, ${image}
-        localHeroImagesResolved__i: string, //${index}, ${total}
-        localHeroImageInfo__i: string, //${index}, ${total}, ${image}
-        localLogoImagesResolved__i: string, //${index}, ${total}
-        localLogoImageInfo__i: string, //${index}, ${total}, ${image}
-        localIconsResolved__i: string, //${index}, ${total}
-        localIconInfo__i: string, //${index}, ${total}, ${icon}
+        defaultImage__i: string, //${index}, ${total}, ${artworkType}, ${image}
+        resolvedDefaultImage__i: string, //${index}, ${total}, ${artworkType}
+        localImages__i: string, //${index}, ${total}, ${artworkType}
+        resolvedLocalImages__i: string, //${index}, ${total}, ${artworkType}
+        indexInfo__i: string, //${index}, ${total}, ${indexed}
         removedControllers__i: string, //${configTitle}
         fetchedTemplates: string
       },
@@ -569,16 +545,8 @@ export interface languageStruct {
         onlineImageQueries: string,
         imageProviders: string,
         imagePool: string,
-        defaultImage: string,
-        defaultTallImage: string,
-        defaultHeroImage: string,
-        defaultLogoImage: string,
-        defaultIcon: string,
-        localImages: string,
-        localTallImages: string,
-        localHeroImages: string,
-        localLogoImages: string,
-        localIcons: string
+        defaultImage__i: string, //${artworkType}
+        localImages__i: string //${artworkType}
       },
       placeholder: {
         parserType: string,
@@ -593,12 +561,8 @@ export interface languageStruct {
         executableArgs: string,
         executableModifier: string,
         startInDirectory: string,
-        defaultImage: string,
-        localImages: string,
-        localTallImages: string,
-        localHeroImages: string,
-        localLogoImages: string,
-        localIcons: string,
+        defaultImage__i: string, //${artworkType}
+        localImages__i: string, //${artworkType}
         imageProviders: string,
         multiAPIPlaceholder: string
       },

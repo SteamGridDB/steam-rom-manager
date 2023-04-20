@@ -14,16 +14,6 @@
 		"imageProviders": [
 			"SteamGridDB"
 		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
 		"disabled": false,
 		"advanced": false,
 		"executable": {
@@ -37,9 +27,9 @@
 			"useCredentials": true
 		},
 		"parserInputs": {
-		  "eaGamesDir": "C:\\Program Files\\EA Games",
-      "eaLauncherMode": true
-    },
+			"eaGamesDir": "C:\\Program Files\\EA Games",
+			"eaLauncherMode": true
+		},
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
@@ -52,7 +42,7 @@
 			"removeCharacters": true,
 			"removeBrackets": true
 		},
-		"presetVersion": 5,
+		"presetVersion": 6,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -75,6 +65,20 @@
 			"switch_joycon_right": null,
 			"switch_pro": null,
 			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
 		}
 	}
 }

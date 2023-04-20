@@ -1,6 +1,39 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.6
+### Added
+* Ability to exclude titles from the preview! Exclusions are automatically saved as exceptions so that the user doesn't have to repeat them. If you want the title back, just go find the exception and get rid of it.
+* Ability to set exceptions based on the exact app through an exception ID, e.g. if you have two titles with the same exact name they no longer need to have the same exceptions applied.
+
+### Changed
+* Shorten the button text in the bottom bar so as to hopefully minimize overflow issues on the Steam Deck.
+
+## 2.4.5
+### Added
+* Ability to fix matches from the preview! Just click the little exclamation point on the left of the app (icon subject to change), select the game and boom match fixed. Best of all, SRM will automatically save your change as an exception so that you never have to change it again in the future.
+* Exceptions are now searchable.
+
+### Changed
+* Preview is now sorted in alphabetical order of title
+
+## 2.4.4
+### Fixed
+* Regression in 2.4.3: SRM was not remembering the artwork choices that were already in Steam.
+
+## 2.4.3
+### Added
+* New highly simplified EmuDeck theme (only recommended for EmuDeck users as it hides parser config). Credit to @dragoonDorise.
+* Everyone who has made a feature contribution is now in the about page.
+* Legacy banner images now sym-linked instead of copied (reduces storage usage by 17%)
+* Steam images become sources immediately after hitting save apps to steam. This means that if you have some (or many) SGDB requests time out you can just wait a few seconds and hit "save apps to steam" again and it will get only those images.
+
+### Changed
+* Major re-factor of parsers service, parsers component, and preview component. Preparation for new and more powerful preview.
+
+### Fixed
+* Glob and Glob Regex parsers with `**` now follow sym-links once more (this was broken by the upgrade to glob 9.0, which no longer follows sym links by default).
+
 ## 2.4.2
 ### Added
 * Ability to add artwork for unofficial source mods via the steam parser

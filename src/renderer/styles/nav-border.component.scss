@@ -3,7 +3,7 @@
     width: 2px;
     background: var(--color-nav-border);
     cursor: ew-resize;
-
+    display: var(--display-nav-border);
     &.dragging{
         background: var(--color-nav-border-drag);
     }

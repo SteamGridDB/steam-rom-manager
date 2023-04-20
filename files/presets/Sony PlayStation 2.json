@@ -14,16 +14,6 @@
 		"imageProviders": [
 			"SteamGridDB"
 		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
@@ -51,7 +41,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 5,
+		"presetVersion": 6,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -74,6 +64,20 @@
 			"switch_joycon_right": null,
 			"switch_pro": null,
 			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
 		}
 	},
 	"Sony PlayStation 2 - PCSX2(Flatpak)": {
@@ -91,16 +95,6 @@
 		"imageProviders": [
 			"SteamGridDB"
 		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
@@ -128,7 +122,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 5,
+		"presetVersion": 6,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -151,6 +145,20 @@
 			"switch_joycon_right": null,
 			"switch_pro": null,
 			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
 		}
 	},
 	"Sony PlayStation 2 - Retroarch - PCSX2": {
@@ -168,16 +176,6 @@
 		"imageProviders": [
 			"SteamGridDB"
 		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
@@ -205,7 +203,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 5,
+		"presetVersion": 6,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -228,6 +226,20 @@
 			"switch_joycon_right": null,
 			"switch_pro": null,
 			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
 		}
 	},
 	"Sony PlayStation 2 - Retroarch(Flatpak) - PCSX2": {
@@ -245,16 +257,6 @@
 		"imageProviders": [
 			"SteamGridDB"
 		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
@@ -282,7 +284,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 5,
+		"presetVersion": 6,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -305,6 +307,20 @@
 			"switch_joycon_right": null,
 			"switch_pro": null,
 			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
 		}
 	},
 	"Sony PlayStation 2 - Retroarch - Play!": {
@@ -322,16 +338,6 @@
 		"imageProviders": [
 			"SteamGridDB"
 		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
@@ -359,7 +365,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 5,
+		"presetVersion": 6,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -382,6 +388,20 @@
 			"switch_joycon_right": null,
 			"switch_pro": null,
 			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
 		}
 	},
 	"Sony PlayStation 2 - Retroarch(Flatpak) - Play!": {
@@ -399,16 +419,6 @@
 		"imageProviders": [
 			"SteamGridDB"
 		],
-		"defaultImage": "",
-		"defaultTallImage": "",
-		"defaultHeroImage": "",
-		"defaultLogoImage": "",
-		"defaultIcon": "",
-		"localImages": "",
-		"localTallImages": "",
-		"localHeroImages": "",
-		"localLogoImages": "",
-		"localIcons": "",
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
@@ -436,7 +446,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 5,
+		"presetVersion": 6,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -459,6 +469,20 @@
 			"switch_joycon_right": null,
 			"switch_pro": null,
 			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
 		}
 	}
 }

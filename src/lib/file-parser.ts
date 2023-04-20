@@ -1,9 +1,10 @@
-import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, UserExceptions, UserExceptionsTitles, AppSettings, ParserType } from '../models';
+import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, UserExceptions, UserExceptionData, UserExceptionsTitles, AppSettings, ParserType } from '../models';
 import { FuzzyService } from "../renderer/services";
 import { VariableParser } from "./variable-parser";
 import { APP } from '../variables';
 import { parsers } from './parsers';
 import * as parserInfo from './parsers/available-parsers';
+import { artworkTypes } from './artwork-types';
 import * as url from './helpers/url';
 import * as steam from './helpers/steam';
 import * as file from './helpers/file';
@@ -15,6 +16,8 @@ import * as os from 'os';
 import { glob } from 'glob';
 import { getPath, getArgs, getStartDir } from 'windows-shortcuts-ps';
 import * as xdgparse from 'xdg-parse';
+
+
 
 
 export class FileParser {
@@ -54,8 +57,8 @@ export class FileParser {
         .then(this.buildParsedConfigsPromise.bind(this))
         .then(this.parsedConfigFilesPromise.bind(this))
         .then(this.shortcutsPromise.bind(this))
-        .then(this.userExceptionsPromise.bind(this))
         .then(this.appendArgsPromise.bind(this))
+        .then(this.userExceptionsPromise.bind(this))
         .then(this.imagesPromise.bind(this)) as Promise<ParsedUserConfiguration>
       )
     }
@@ -231,6 +234,7 @@ export class FileParser {
       }
     })
   }
+
   private parsedConfigFilesPromise({superType, config, settings, data, parsedConfig}: {superType: string, config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, parsedConfig: ParsedUserConfiguration}) {
     return new Promise((resolve, reject) => {
       try {
@@ -275,32 +279,17 @@ export class FileParser {
             executableLocation = data.success[j].extractedAppId;
             startInDir = '';
           }
+
           let newFile: ParsedUserConfigurationFile = {
             steamCategories: undefined,
             executableLocation: executableLocation||'',
             modifiedExecutableLocation: undefined,
             startInDirectory: startInDir||'',
             argumentString: undefined,
-            resolvedLocalImages: [],
-            resolvedLocalTallImages: [],
-            resolvedLocalHeroImages: [],
-            resolvedLocalLogoImages: [],
-            resolvedLocalIcons: [],
-            resolvedDefaultImages: [],
-            resolvedDefaultTallImages: [],
-            resolvedDefaultHeroImages: [],
-            resolvedDefaultLogoImages: [],
-            resolvedDefaultIcons: [],
-            defaultImage: undefined,
-            defaultTallImage: undefined,
-            defaultHeroImage: undefined,
-            defaultLogoImage: undefined,
-            defaultIcon: undefined,
-            localImages: [],
-            localTallImages: [],
-            localHeroImages: [],
-            localLogoImages: [],
-            localIcons: [],
+            resolvedLocalImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
+            resolvedDefaultImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
+            defaultImage: Object.fromEntries(artworkTypes.map((artworkType: string) => [artworkType, undefined])),
+            localImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
             fuzzyTitle: fuzzyTitle||'',
             extractedTitle: data.success[j].extractedTitle||'',
             finalTitle: undefined,
@@ -352,6 +341,7 @@ export class FileParser {
       }
     })
   }
+
 
   private shortcutsPromise({superType, config, settings, parsedConfig}: {superType: string, config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
     return new Promise((resolve, reject)=>{
@@ -409,28 +399,60 @@ export class FileParser {
     })
   }
 
+  private appendArgsPromise({superType, config, settings, parsedConfig}: {superType: string, config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
+    return new Promise((resolve, reject)=>{
+      try{
+        for(let j=0; j < parsedConfig.files.length; j++) {
+          if(config.executable.appendArgsToExecutable) {
+            parsedConfig.files[j].modifiedExecutableLocation = `${parsedConfig.files[j].modifiedExecutableLocation} ${parsedConfig.files[j].argumentString}`;
+            parsedConfig.files[j].argumentString = '';
+          }
+          parsedConfig.files[j].modifiedExecutableLocation = parsedConfig.files[j].modifiedExecutableLocation.trim();
+        }
+        resolve({ supertype: superType, config: config, settings: settings, parsedConfig: parsedConfig });
+      } catch(e) {
+        reject(`Append args to executable step for ${config.configTitle}:\n ${e}`);
+      }
+    })
+  }
+
   private userExceptionsPromise({superType, config, settings, parsedConfig}: {superType: string, config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
+
     return new Promise((resolve,reject)=>{
       try {
+        const appIdRegex: RegExp = /\$\{id\:([0-9]*?)\}/;
         for(let j=0; j < parsedConfig.files.length; j++) {
-          let exceptions = this.userExceptions[parsedConfig.files[j].extractedTitle];
-          if(exceptions && exceptions.exclude) {
-            parsedConfig.excluded.push(parsedConfig.files[j].filePath);
-            parsedConfig.files[j] = null;
-            continue;
-          }
-          if(exceptions && exceptions.newTitle) {
-            parsedConfig.files[j].finalTitle = exceptions.newTitle;
-          }
-          if(exceptions && exceptions.commandLineArguments) {
-            parsedConfig.files[j].argumentString = exceptions.commandLineArguments;
-          }
-          if(exceptions && !exceptions.excludeArtwork && exceptions.searchTitle) {
-            parsedConfig.files[j].onlineImageQueries = [exceptions.searchTitle];
-            parsedConfig.files[j].imagePool = exceptions.searchTitle;
-          }
-          if(exceptions && exceptions.excludeArtwork) {
-            parsedConfig.files[j].onlineImageQueries = [];
+
+          // This little bit of magic means that we can also match on Exception ID
+          const shortAppId = steam.generateShortAppId(parsedConfig.files[j].modifiedExecutableLocation, parsedConfig.files[j].extractedTitle);
+          const exceptionMatches = Object.entries(this.userExceptions).filter(([extractedTitle, exception]: [extractedTitle: string, exception: UserExceptionData]) => {
+            if(appIdRegex.test(extractedTitle)) {
+              return extractedTitle.match(appIdRegex)[1] == shortAppId;
+            } else {
+              return extractedTitle == parsedConfig.files[j].extractedTitle;
+            }
+          }).map(x=>x[1]);
+
+          if(exceptionMatches.length) {
+            const exceptions = exceptionMatches[0];
+            if(exceptions && exceptions.exclude) {
+              parsedConfig.excluded.push(parsedConfig.files[j].filePath);
+              parsedConfig.files[j] = null;
+              continue;
+            }
+            if(exceptions && exceptions.newTitle) {
+              parsedConfig.files[j].finalTitle = exceptions.newTitle;
+            }
+            if(exceptions && exceptions.commandLineArguments) {
+              parsedConfig.files[j].argumentString = exceptions.commandLineArguments;
+            }
+            if(exceptions && !exceptions.excludeArtwork && exceptions.searchTitle) {
+              parsedConfig.files[j].onlineImageQueries = [exceptions.searchTitle];
+              parsedConfig.files[j].imagePool = exceptions.searchTitle;
+            }
+            if(exceptions && exceptions.excludeArtwork) {
+              parsedConfig.files[j].onlineImageQueries = [];
+            }
           }
         }
         parsedConfig.files = parsedConfig.files.filter(x=>!!x);
@@ -441,44 +463,22 @@ export class FileParser {
     })
   }
 
-  private appendArgsPromise({config, settings, parsedConfig}: {config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
-    return new Promise((resolve, reject)=>{
-      try{
-        for(let j=0; j< parsedConfig.files.length; j++) {
-          if(config.executable.appendArgsToExecutable) {
-            parsedConfig.files[j].modifiedExecutableLocation = `${parsedConfig.files[j].modifiedExecutableLocation} ${parsedConfig.files[j].argumentString}`;
-            parsedConfig.files[j].argumentString = '';
-          }
-          parsedConfig.files[j].modifiedExecutableLocation = parsedConfig.files[j].modifiedExecutableLocation.trim();
-        }
-        resolve({ config: config, settings: settings, parsedConfig: parsedConfig });
-      } catch(e) {
-        reject(`Append args to executable step for ${config.configTitle}:\n ${e}`);
-      }
-    })
-  }
-
   private imagesPromise({config, settings, parsedConfig}: {config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
     return new Promise((resolve, reject) => {
       try {
         let extRegex = /png|tga|jpg|jpeg|webp/i;
         let defaultPromises: Promise<void>[] = [];
         let localPromises: Promise<void>[]=[];
-        let imageTypes = ["Image","TallImage","HeroImage","LogoImage","Icon"];
-        let defaultFields = imageTypes.map((x: string) => "default".concat(x));
-        let defaultFieldsRes = imageTypes.map((x: string) => "resolvedDefault".concat(x,"s"));
-        let localFields = imageTypes.map((x: string) => "local".concat(x, "s"));
-        let localFieldsRes = imageTypes.map((x: string) => "resolvedLocal".concat(x,"s"));
         let vParser = new VariableParser({ left: '${', right: '}' });
-        for(let m = 0; m < imageTypes.length; m++) {
+        for(const artworkType of artworkTypes) {
           defaultPromises.push(
-            this.resolveFieldGlobs(defaultFields[m], config, settings, parsedConfig, vParser).then((fieldData)=>{
+            this.resolveFieldGlobs(['defaultImage', artworkType], config, settings, parsedConfig, vParser).then((fieldData)=>{
               for (let j = 0; j < fieldData.parsedConfig.files.length; j++) {
-                parsedConfig.files[j][defaultFieldsRes[m]] = fieldData.resolvedGlobs[j];
+                parsedConfig.files[j].resolvedDefaultImages[artworkType] = fieldData.resolvedGlobs[j];
                 for (let k = 0; k < fieldData.resolvedFiles[j].length; k++) {
                   const item = fieldData.resolvedFiles[j][k];
                   if (extRegex.test(path.extname(item))) {
-                    parsedConfig.files[j][defaultFields[m]] = url.encodeFile(item);
+                    parsedConfig.files[j].defaultImage[artworkType] = url.encodeFile(item);
                     break;
                   }
                 }
@@ -486,10 +486,10 @@ export class FileParser {
             })
           )
           localPromises.push(
-            this.resolveFieldGlobs(localFields[m], config,settings, parsedConfig, vParser).then((fieldData) => {
+            this.resolveFieldGlobs(['localImages', artworkType], config,settings, parsedConfig, vParser).then((fieldData) => {
               for (let j = 0; j < fieldData.parsedConfig.files.length; j++) {
-                parsedConfig.files[j][localFieldsRes[m]] = fieldData.resolvedGlobs[j];
-                parsedConfig.files[j][localFields[m]] = fieldData.resolvedFiles[j].filter((item) => {
+                parsedConfig.files[j].resolvedLocalImages[artworkType] = fieldData.resolvedGlobs[j];
+                parsedConfig.files[j].localImages[artworkType] = fieldData.resolvedFiles[j].filter((item) => {
                   return extRegex.test(path.extname(item));
                 }).map((item) => {
                   return url.encodeFile(item);
@@ -506,7 +506,6 @@ export class FileParser {
       }
     })
   }
-
 
   private tryToReplaceTitlesWithVariables(data: ParsedDataWithFuzzy, config: UserConfiguration, vParser: VariableParser) {
     let groups = undefined;
@@ -593,7 +592,7 @@ export class FileParser {
     return null;
   }
 
-  private resolveFieldGlobs(field: string, config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration, vParser: VariableParser) {
+  private resolveFieldGlobs(fieldPath: string[], config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration, vParser: VariableParser) {
     let promises: Promise<void>[] = [];
     let resolvedGlobs: string[][] = [];
     let resolvedFiles: string[][] = [];
@@ -602,7 +601,7 @@ export class FileParser {
       resolvedGlobs.push([]);
       resolvedFiles.push([]);
 
-      let fieldValue: string = config[field as keyof UserConfiguration] as string;
+      let fieldValue: string = _.get(config,fieldPath) as string;
       if (fieldValue) {
         let variableData = this.makeVariableData(config,settings, parsedConfig.files[i]);
         //expandable set is to allow you to comment out stuff using $()$. Decent idea, but ehhhh
@@ -614,7 +613,7 @@ export class FileParser {
           }) : '').replace(/\\/g, '/');
 
           resolvedGlobs[i].push(replacedGlob);
-          promises.push(glob(replacedGlob, { dot: true, realpath: true, cwd: cwd }).then((files: string[]) => {
+          promises.push(glob(replacedGlob, { dot: true, realpath: true, cwd: cwd, follow: true }).then((files: string[]) => {
             resolvedFiles[i] = files;
           }));
         }
@@ -665,7 +664,7 @@ export class FileParser {
               }
             }
             if (secondaryMatch !== undefined) {
-              return glob(secondaryMatch, { dot: true, realpath: true, cwd: cwd }).then((files: string[]) => {
+              return glob(secondaryMatch, { dot: true, realpath: true, cwd: cwd, follow: true }).then((files: string[]) => {
                 return resolvedFiles[i].concat(files);
               });
             }

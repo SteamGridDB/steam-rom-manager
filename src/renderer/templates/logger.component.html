@@ -59,4 +59,6 @@
   <div class="textWrap" [class.active]="settings.textWrap" (click)="settings.textWrap = !settings.textWrap">{{lang.textWrap}}</div>
   <div class="autoscroll" [class.active]="settings.autoscroll" (click)="settings.autoscroll = !settings.autoscroll">{{lang.autoscroll}}</div>
   <div class="clear" (click)="clearLog()">{{lang.clearLog}}</div>
+  <div  class="clear only-emudeck" routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
+  
 </div>

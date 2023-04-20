@@ -1,6 +1,6 @@
 import { languageManager } from '../../variables';
 import { availableProviders } from "../../lib/image-providers/available-providers";
-import { availableThemes } from "../../lib/themes/available-themes";
+import { availableThemes } from "../../lib/themes";
 
 export const appSettings = {
   type: 'object',

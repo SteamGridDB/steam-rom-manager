@@ -7,9 +7,9 @@ let isValid = true;
 const validator = new json.Validator(undefined, modifiers.configPreset, { useDefaults: false });
 let presetFiles: string[] = glob.sync("./files/presets/*.json")
 let presetPromises: Promise<object|void>[] = []
-for(let i=0; i <presetFiles.length; i++) {
+for(let i=0; i < presetFiles.length; i++) {
   presetPromises.push(json.read(presetFiles[i])
-                      .then((data: object|void) => {
+                      .then((data: {[key: string]: any}|void) => {
                         if(data) {
                           for(let key of Object.keys(data)) {
                             if (data[key] !== null && !validator.validate(data[key]||{}).isValid()){

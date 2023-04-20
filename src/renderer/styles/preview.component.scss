@@ -21,9 +21,15 @@
   --games-logo-height: 540px;
   --games-icon-width: 400px;
   --games-icon-height: 400px;
+  --details-grid-width: 0%;
   grid-area: route;
-  grid-template-areas: 'upperMenu' 'entries' 'lowerMenu';
-  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+  'upperMenu upperMenu'
+  'excludes excludes'
+  'entries details'
+  'lowerMenu lowerMenu';
+  grid-template-rows: auto auto 1fr auto;
+  grid-template-columns: auto var(--details-grid-width);
 
   .upperMenu {
     display: grid;
@@ -88,7 +94,6 @@
       @include ngTextInput();
       margin-bottom: 0;
       width: 13em;
-
       grid-column: 4;
     }
   }
@@ -115,6 +120,118 @@
       }
       &.dangerousButton {
         @include clickButtonColor(dangerous-click-button, true);
+      }
+    }
+  }
+  .excludes {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-preview-menu-background);
+    padding: 0.2em 0.8em 0.4em;
+    grid-area: excludes;
+    > .titleGroup {
+      color: var(--color-preview-text);
+    }
+    > .buttonGroup {
+      display: flex;
+      justify-content: right;
+      margin-right:0.5em;
+      > .excludeButton {
+        @include button();
+        @include clickButtonColor(click-button);
+        margin-right: 1em;
+        &.dangerousButton {
+          @include clickButtonColor(dangerous-click-button, true);
+        }
+      }
+    }
+  }
+
+  .details {
+    @include webkitScrollbar(preview-scrollbar);
+    overflow-y: auto;
+    grid-area: details;
+    display: grid;
+    grid-template-areas: 'detailsUpper' 'detailsLower';
+    grid-template-rows: auto 1fr;
+    > .detailsUpper {
+      display: flex;
+      padding: 0.2em 0.8em 0.4em;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--color-preview-menu-background);
+      > .detailsTitle {
+        color: var(--color-preview-text);
+      }
+      > .buttonGroup {
+        display: flex;
+        justify-content: right;
+        > .detailsButton {
+          @include button();
+          @include clickButtonColor(click-button);
+          margin-left: 1em;
+          &.dangerousButton {
+            @include clickButtonColor(dangerous-click-button, true);
+          }
+        }
+      }
+    }
+    > .detailsLower {
+      .loadingSpinner {
+        &:before {
+          display: block;
+          align: center;
+          justify-content: center;
+          width: 5em;
+          height: 5em;
+          margin: 10em auto auto;
+
+          content: "";
+          animation: loadingSpinner 0.6s linear infinite;
+
+          border-top: 0.325em solid transparent;
+          border-top-color: var(--color-app-loading-spinner);
+          border-right: 0.325em solid transparent;
+          border-radius: 50%;
+        }
+      }
+
+      @keyframes loadingSpinner {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      ng-select {
+        margin: 1em;
+      }
+      > .approw {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        background-color: var(--color-preview-user-background);
+        color: var(--color-preview-text);
+        margin-bottom: 1em;
+        &:hover, &.selected {
+          background-color: var(--color-ng-select-option-background-hover);
+          color: var(--color-ng-select-option-text-hover);
+        }
+
+        .app {
+          flex-shrink: 0;
+          border: solid 2px var(--color-preview-image-border);
+          margin: 0.75em;
+          width: calc(var(--preview-image-size) * var(--games-tall-width));
+          height: calc(var(--preview-image-size) * var(--games-tall-height));
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-size: 100%;
+        }
+        .apptitle {
+          margin-left: 5em;
+        }
+
       }
     }
   }
@@ -194,7 +311,10 @@
             background-repeat: no-repeat;
             background-position: center center;
             background-size: auto 75%;
-
+            &.showExcludes:not(.isExcluded) {
+              border: solid 3px;
+              border-color: #099 !important;
+            }
             &.longStyle {
               width: calc(var(--preview-image-size) * var(--games-long-width));
               height: calc(var(--preview-image-size) * var(--games-long-height));
@@ -340,21 +460,28 @@
               > .bottomPanel {
                 display: grid;
                 grid-area: bottomPanel;
-
+                grid-template-areas:
+                "title"
+                "buttons";
+                grid-gap: 2px;
                 grid-auto-flow: row;
                 grid-auto-columns: 1fr;
                 grid-auto-rows: 50% 50%;
 
                 > .configTitle{
+                  grid-area: title;
                   text-align: right;
                   padding: 0.1em;
-
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
                   font-size: calc(var(--preview-image-size) * 2em);
 
                   color: var(--color-preview-text);
                 }
 
                 > .appButtons {
+                  grid-area: buttons;
                   display: flex;
 
                   justify-content: flex-end;

@@ -3,11 +3,11 @@
 :host {
   display: flex;
   overflow-y: auto;
-  flex-direction: column;
+  flex-direction: var(--nav-direction);
 
   min-width: 7em;
   width: var(--nav-width);
-  max-width: 25vw;
+  max-width: var(--nav-width-max);
 
   white-space: nowrap;
 

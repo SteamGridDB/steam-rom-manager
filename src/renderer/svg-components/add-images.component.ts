@@ -44,7 +44,7 @@ import { Component, Input } from '@angular/core';
             vertical-align: middle;
             background-color: var(--select-image-alert-background, transparent);
         }
-        path{ 
+        path{
             fill: var(--color-image-alert);
         }
         :host(.hover):hover{
