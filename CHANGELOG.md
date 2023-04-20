@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2.4.6
 ### Added
-* Ability to exclude titles from the preview! Exclusions are automatically saved as exceptions so that the user doesn't have repeat them. If you want the title back, just go find the exception and get rid of it.
+* Ability to exclude titles from the preview! Exclusions are automatically saved as exceptions so that the user doesn't have to repeat them. If you want the title back, just go find the exception and get rid of it.
 * Ability to set exceptions based on the exact app through an exception ID, e.g. if you have two titles with the same exact name they no longer need to have the same exceptions applied.
 
 ### Changed
