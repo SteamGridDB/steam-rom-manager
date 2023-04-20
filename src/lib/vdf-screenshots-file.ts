@@ -204,7 +204,10 @@ export class VDF_ScreenshotsFile {
           fs.outputFileSync(gridPath, buffer);
           if(/^\d+$/.test(appId)) {
             const symPath = path.join(this.gridDirectory,`${ids.lengthenAppId(appId)}.${ext}`)
-            fs.symlink(gridPath, symPath)
+            if(fs.existsSync(symPath)) {
+              fs.unlinkSync(symPath);
+            }
+            fs.symlinkSync(gridPath, symPath)
           }
           return gridPath;
         })

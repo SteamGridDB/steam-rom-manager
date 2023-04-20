@@ -94,8 +94,11 @@
                              [class.heroStyle]="imagetype === 'hero'"
                              [class.logoStyle]="imagetype === 'logo'"
                              [class.iconStyle]="imagetype === 'icon'"
-                             (mouseleave)="entries.hoverIndex = undefined; entries.hoverType = undefined;">
-
+                             [class.showExcludes]="showExcludes"
+                             [class.isExcluded]="!!excludedAppIds[steamDir]&&!!excludedAppIds[steamDir][steamUser]&&!!excludedAppIds[steamDir][steamUser][appId]"
+                             (mouseleave)="entries.hoverIndex = undefined; entries.hoverType = undefined;"
+                             (click)="excludeAppId(steamDir, steamUser, appId)"
+                           >
                           <div class="appOverlay" *ngIf="!this.scrollingEntries && entries.hoverIndex === app.entryId && entries.hoverType === imagetype">
                             <div class="appInfo">
                               <div class="title" text-scroll [attr.title]="app.extractedTitle"><span>{{app.title}}</span></div>

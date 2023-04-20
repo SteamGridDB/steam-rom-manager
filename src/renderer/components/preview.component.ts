@@ -95,6 +95,7 @@ export class PreviewComponent implements OnDestroy {
   }
 
   generatePreviewData() {
+    this.closeDetails();
     this.previewService.generatePreviewData();
   }
 
@@ -313,6 +314,8 @@ export class PreviewComponent implements OnDestroy {
     this.matchFix = sgdbId;
   }
   private closeDetails() {
+    this.matchFix = '';
+    this.detailsApp = undefined;
     this.renderer.setStyle(this.elementRef.nativeElement, '--details-grid-width', '0%', RendererStyleFlags2.DashCase);
   }
   private saveDetails() {
@@ -340,7 +343,6 @@ export class PreviewComponent implements OnDestroy {
         excludeArtwork: false
       })
       this.refreshImages(this.previewData[steamDirectory][userId].apps[appId]);
-      this.matchFix = '';
       this.closeDetails();
     }
   }
