@@ -22,22 +22,22 @@ Help support continued progress on Steam ROM Manager at:
   <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Pagar um café" width="160">
 </a>
 
-If you enjoy Steam ROM Manager and want it to continue to be useful also consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon. [SteamGridDB](https://www.steamgriddb.com/) hospeda todas as artes que o gerenciador de ROM usa para fazer de sua biblioteca Steam a inveja da cidade, então devemos provavelmente ajudá-los a manter as luzes acesas.
+[SteamGridDB](https://www.steamgriddb.com/) hospeda todas as artes que o gerenciador de ROM usa para fazer de sua biblioteca Steam a inveja da cidade, então devemos provavelmente ajudá-los a manter as luzes acesas. If you enjoy Steam ROM Manager and want it to continue to be useful also consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon.
 
 <a href="https://www.patreon.com/steamgriddb">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
 ## Contributions
+* `FrogTheFrog`{.noWrap} - Creator of SRM, no longer active on SRM but currently working on the [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
 
 ### Current Maintainers
 * `lontanadascienza`{.noWrap} - Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller management, platform parsers (Epic, GOG, Steam, etc), among many other things. Squashes bugs almost as fast as he introduces them.
 * `Zennn`{.noWrap} - Added category support, langauge localization, and the bug report server among many other things. Grande chefe no [SteamGridDB](https://www.steamgriddb.com/).
-* `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz)).
+* `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz).
 
 ### Feature Contributions
-* `FrogTheFrog`{.noWrap} - Creator of SRM, no longer active on SRM but currently working on the [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
-* `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
+* `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
 * `alvaromunoz`{.noWrap} - Added Game Pass parser to SRM.
 * `lexarvn`{.noWrap} - Added the Amazon Games parser and the itch.io parser.
 * `CarJem`{.noWrap} - Added the manual parser.
@@ -47,7 +47,7 @@ If you enjoy Steam ROM Manager and want it to continue to be useful also conside
 * `UndarkAido` - Added shortcut passthrough for Linux's .desktop shortcuts.
 
 ### Community
-* `HE Spoke`{.noWrap} - created a community around SRM. `HE Spoke`{.noWrap} - responsável por criar comunidade em torno da SRM. Criador de [grupos Steam](https://steamcommunity.com/groups/steamrommanager) e [Discord](https://discord.gg/bnSVJrz). Also helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
+* `HE Spoke`{.noWrap} - created a community around SRM. `HE Spoke`{.noWrap} - responsável por criar comunidade em torno da SRM. Criador de [grupos Steam](https://steamcommunity.com/groups/steamrommanager) e [Discord](https://discord.gg/bnSVJrz). Creator of [Steam](https://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/bnSVJrz) groups. Also helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
+* `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). Current maintainer of [EmuDeck](https://www.emudeck.com/).
 * `Choko`{.noWrap} - Helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
-* `livedeht`{.noWrap} - Helps users setup SRM with and without [EmuDeck](https://www.emudeck.com/). Current maintainer of [EmuDeck](https://www.emudeck.com/).
 * `Xav83`{.noWrap} - Creator and maintainer of SRM's [Chocolatey package](https://community.chocolatey.org/packages/steam-rom-manager)

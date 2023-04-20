@@ -1,3 +1,4 @@
-# Parsers
+# 解析器
 
-In this page you can chose what systems you want to add to your Steam Library. Simply toggle them on or off, after that click on **Preview** and then on **Generate Apps**
+在这个页面上，您可以选择要添加到您的 Steam 库中的系统。 只需切换它们的开关，然后点击**预览**，再点击**生成应用程序**。
+
