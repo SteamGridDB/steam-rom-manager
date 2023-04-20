@@ -2,7 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 ## 2.4.7
+## Fixed
 * Fixed possibility of `fix match` creating duplicates or not working, state management changed to incorporate possibility of app id changes better.
+
+## Changed
+* Optimizations for `1280x800` screen (Steam Deck). Should stop horizontal scroll bars from appearing.
 * Improved consistency of fix match appearance with preview.
 
 ## 2.4.6
