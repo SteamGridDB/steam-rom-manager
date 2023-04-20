@@ -3,31 +3,31 @@
 这个工具可以用来定义每个应用程序的异常情况，这些异常情况会覆盖解析器。 它不应该用于完成批量任务。 例如，从标题中删除冒号字符可以通过标题修改器 `${/:/|${title}|}` 实现，不应在此处执行。 如果一个命令行参数适用于每个解析的应用程序，请使用命令行参数字段 - 不要在此处创建一堆条目！
 
 ## 提取的标题 - *必填*
-唯一必填的例外字段是`提取的标题`。 Once this is specified and the exception is saved, any game that matches will have its fields overridden by any non-blank exception fields (if left blank, the exception fields do nothing).
+唯一必填的例外字段是`提取的标题`。 一旦指定并保存了异常，任何匹配的游戏都将被其非空白异常字段覆盖(如果留空，则异常字段不起作用)。
 
-The `Extracted Title` field matches in two ways:
+`提取的标题`字段有两种匹配方式：
 
-* Based on the `Exception ID` (found by running test parser). For example if the game were `Portal 1` and its `Exception ID` was `12345` then you might put `Portal 1 ${id:12345}`. If the `Exception ID` is present then it doesn't matter what label you put in front of it, but for readability and searchability it's nice to put the game's actual name in front of the `Exception ID`.
-* Based on the `Extracted Title` (found by running test parser). For example if the `Extracted Title` were `Portal 2` you would put `Portal 2`.
+* Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. 如果`异常 ID`存在，那么放在它前面的标签不重要，但为了可读性和搜索性，在`异常 ID`前面加上游戏的实际名称是很好的。
+* Based on the `Extracted Title` (found by running test parser). 例如，如果`提取的标题`是 `Portal 2`，您应该输入 `Portal 2`。
 
-Thus you can either have an exception that applies to all games with the same name or an exception that applies only to an exact game (`Exception ID`s are unique). The reason for this is primarily backwards compatibility -- SRM formerly matched only on the `Extracted Title`.
+因此，您可以选择适用于所有具有相同名称的游戏的异常或仅适用于确切游戏的异常(`异常 ID`是唯一的)。 这是因为主要考虑向后兼容性 -- SRM 以前仅匹配`提取的标题`。
 
-Exceptions generated from `Preview` will always be in the form `Extracted Title ${id:XXXXXX}`.
+由`预览`生成的异常将始终采用以下形式：`提取标题 ${id:XXXXXX}`。
 
 ## 新的显示标题
 
-This is the title that will display in Steam. It will not be used to search for images.
+这是在 Steam 中显示的标题。 它不会被用来搜索图片。
 
 ## 新搜索标题
 
-This is the title that will be used to search for images on [SteamGridDB](https://www.steamgriddb.com). There are two options for overriding it:
+这是用于在 [SteamGridDB](https://www.steamgriddb.com) 上搜索图像的标题。 覆盖它有两个选项:
 
-* Specify the new search title as whatever text you want.
+* 将新的搜索标题指定为您想要的任何文本。
 * 请指定要提取图像的确切游戏 ID。 例如，要获取游戏 [Flow](https://www.steamgriddb.com/game/5254019) 的图像，其 SteamGridDB 网址为 `https://www.steamgriddb.com/game/5254019`，您需要输入 `${gameid:5254019}`。
 
 ## 新的命令行参数
 
-自定义命令行参数，例如 `--fullscreen` 等，可应用于特定的标题。 These only override the arguments field of the Steam shortcut and are never appended to the executable.
+自定义命令行参数，例如 `--fullscreen` 等，可应用于特定的标题。 这些只覆盖了 Steam 快捷方式的参数字段，不会附加到可执行文件中。
 
 ## 排除标题
 
@@ -35,7 +35,7 @@ This is the title that will be used to search for images on [SteamGridDB](https:
 
 ## 仅限本地艺术作品
 
-不要从远程提供程序(例如 [steamgriddb](https://www.steamgriddb.com) )获取艺术作品。 Useful when SGDB is incorrectly matching the game or you just don't like any of the artwork available for it.
+不要从远程提供程序(例如 [steamgriddb](https://www.steamgriddb.com) )获取艺术作品。 当 SGDB 错误地匹配游戏或您不喜欢可用的任何艺术作品时，此功能非常有用。
 
 ## 自定义变量
 覆盖特定标题的任务也可以通过手动编辑自定义变量 JSON 文件并在`标题修改器`解析器字段中使用适当的变量来完成。 然而，建议您使用此工具，因为自定义变量 JSON 文件将随时间更新，并且您的编辑可能会被覆盖。
