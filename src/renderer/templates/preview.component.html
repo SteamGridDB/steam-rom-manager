@@ -1,6 +1,4 @@
 <div class="upperMenu" *ngIf="previewVariables.numberOfListItems > 0 && !previewVariables.listIsBeingGenerated">
-  <div class="imageCounter" *ngIf="previewVariables.numberOfQueriedImages">{{lang.remainingImages}} {{previewVariables.numberOfQueriedImages}}</div>
-
   <div class="slider">
     <input type="range" min="30" max="100" step="0.25" [value]="appSettings.previewSettings.imageZoomPercentage" (input)="setImageSize($event.target.value)"
                                            (change)="setImageSize($event.target.value, true)" />
@@ -29,39 +27,43 @@
   </div>
 </div>
 
-<!-- <div class="details"> -->
-  <div class="detailsUpper" *ngIf="showDetails">
-    <div class="detailsTitle">
-      <span>Fix match for: {{detailsApp ? detailsApp.app.title : ''}}</span>
+
+<div class="detailsUpper" *ngIf="showDetails">
+  <div class="detailsTitle">
+    <span>Fix match for: {{detailsApp ? detailsApp.app.title : ''}}</span>
+  </div>
+  <div class="buttonGroup">
+    <div class="detailsButton dangerousButton" (click)="closeDetails()">
+      <span>Cancel</span>
     </div>
-    <div class="buttonGroup">
-      <div class="detailsButton dangerousButton" (click)="closeDetails()">
-        <span>Cancel</span>
-      </div>
-      <div class="detailsButton" (click)= "saveDetails()">
-        <span>Save and close</span>
-      </div>
+    <div class="detailsButton" (click)= "saveDetails()">
+      <span>Save and close</span>
     </div>
   </div>
-  <div class="detailsLower">
-    <ng-container *ngIf="!detailsLoading">
-      <ng-container *ngIf="!!detailsApp">
-        <ng-container *ngFor="let sgdbId of matchFixIds">
-          <div class= "approw" [class.selected]="matchFix == sgdbId" (click)=fixMatch(sgdbId)>
-            <div class="app" [style.backgroundImage]="setDetailsBackgroundImage(sgdbId) | cssUrl | safeStyle">
-            </div>
-            <div class ="apptitle">
-              <span>{{matchFixDict[sgdbId].name}}</span>
-            </div>
+</div>
+<div class="detailsLower">
+  <ng-container *ngIf="!detailsLoading">
+    <ng-container *ngIf="!!detailsApp">
+      <ng-container *ngFor="let sgdbId of matchFixIds">
+        <div class= "approw" [class.selected]="matchFix == sgdbId" (click)=fixMatch(sgdbId)>
+          <div class="app" [style.backgroundImage]="setDetailsBackgroundImage(sgdbId) | cssUrl | safeStyle">
           </div>
-        </ng-container>
+          <div class ="apptitle">
+            <span>{{matchFixDict[sgdbId].name}}</span>
+          </div>
+        </div>
       </ng-container>
     </ng-container>
-    <ng-container *ngIf="detailsLoading">
-      <div class="loadingSpinner"></div>
-    </ng-container>
-  </div>
-<!-- </div> -->
+  </ng-container>
+  <ng-container *ngIf="detailsLoading">
+    <div class="loadingSpinner"></div>
+  </ng-container>
+</div>
+<div class="urls" *ngIf="previewVariables.numberOfQueriedImages">
+  <div class="stopButton" (click)="stopImageRetrieving()">{{lang.stopUrlRetrieving}}</div>
+  <div class="imageCounter">{{lang.remainingImages}} {{previewVariables.numberOfQueriedImages}}</div>
+</div>
+
 <div class="entries" *ngVar="{ hoverIndex: undefined, hoverType: undefined } as entries" [class.detailsOpen]="!!this.detailsApp" (scroll)="onScroll()">
   <ng-container *ngFor="let steamDir of previewData | keys">
     <div class="directory" *ngVar="{ isHidden: false } as directory" [class.hidden]="directory.isHidden">
@@ -203,7 +205,6 @@
   <ng-container *ngIf="previewVariables.numberOfListItems > 0 && !previewVariables.listIsBeingGenerated">
       <div (click)="save()">{{lang.saveAppList}}</div>
       <div class="dangerousButton" (click)="remove()">{{lang.removeAppList}}</div>
-      <div *ngIf="previewVariables.numberOfQueriedImages" (click)="stopImageRetrieving()">{{lang.stopUrlRetrieving}}</div>
       <div (click)="exportSelection()" [attr.title]="'Export image choices'">{{lang.exportSelections}}</div>
       <div (click)="importSelection()" [attr.title]="'Import image choices'">{{lang.importSelections}}</div>
       <div (click)="showExclusions()" *ngIf="!this.detailsApp">{{"Exclude Apps"}}</div>

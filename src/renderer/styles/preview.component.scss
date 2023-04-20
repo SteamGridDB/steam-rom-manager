@@ -27,9 +27,10 @@
   'upperMenu upperMenu'
   'excludes excludes'
   'detailsUpper detailsUpper'
+  'urls urls'
   'entries detailsLower'
   'lowerMenu lowerMenu';
-  grid-template-rows: auto auto auto 1fr auto;
+  grid-template-rows: auto auto auto auto 1fr auto;
   grid-template-columns: auto var(--details-width);
   .upperMenu {
     display: grid;
@@ -228,6 +229,21 @@
       }
 
     }
+  }
+
+  .urls {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    background: var(--color-preview-menu-background);
+    padding: 0.2em 0.8em 0.4em;
+    color: var(--color-preview-text);
+    > .stopButton {
+      @include button();
+      @include clickButtonColor(click-button);
+      margin-right: 1em;
+    }
+    grid-area: urls;
   }
   // .details {
   //   overflow-y: auto;
