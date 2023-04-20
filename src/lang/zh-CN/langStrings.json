@@ -19,12 +19,12 @@
       "addLocalImages": "添加本地图片",
       "retryDownload": "重试下载",
       "generateAppList": "生成应用程序",
-      "saveAppList": "将应用保存到 Steam",
-      "removeAppList": "从 Steam 中删除应用程序",
+      "saveAppList": "Save to Steam",
+      "removeAppList": "Remove from Steam",
       "remainingImages": "Remaining urls:",
       "stopUrlRetrieving": "停止图像下载",
-      "exportSelections": "导出图像选项",
-      "importSelections": "导入图像选择"
+      "exportSelections": "Export",
+      "importSelections": "Import"
     },
     "service": {
       "info": {
@@ -407,8 +407,9 @@
         "foundAccountInfo__i": "  ${name} (steamID64: ${steamID64}, accountID: ${accountID})",
         "steamCategory__i": "[${index}/${total}]:     Steam 分类 - ${steamCategory}",
         "steamCategoryInfo__i": "[${index}/${total}]:                        ${steamCategory}",
-        "appId__i": "[${index}/${total}]:                AppID - ${appid}",
-        "shortAppId__i": "[${index}/${total}]:          Short AppID - ${appid}",
+        "exceptionKey__i": "[${index}/${total}]:         Exception ID - ${appid}",
+        "appId__i": "[${index}/${total}]:        Legacy App ID - ${appid}",
+        "shortAppId__i": "[${index}/${total}]:               App ID - ${appid}",
         "extractedTitle__i": "[${index}/${total}]:      提取标题 - ${title}",
         "fuzzyTitle__i": "[${index}/${total}]:          模糊标题 - ${title}",
         "finalTitle__i": "[${index}/${total}]:          最终标题 - ${title}",
