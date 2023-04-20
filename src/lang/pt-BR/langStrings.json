@@ -19,12 +19,12 @@
       "addLocalImages": "Adicionar imagens locais",
       "retryDownload": "Repetir download",
       "generateAppList": "Generate apps",
-      "saveAppList": "Salvar aplicativos no Steam",
-      "removeAppList": "Remover aplicativos do Steam",
+      "saveAppList": "Save to Steam",
+      "removeAppList": "Remove from Steam",
       "remainingImages": "Remaining urls:",
       "stopUrlRetrieving": "Parar download da imagem",
-      "exportSelections": "Exportar escolhas de imagem",
-      "importSelections": "Importar opções de imagem"
+      "exportSelections": "Export",
+      "importSelections": "Import"
     },
     "service": {
       "info": {
@@ -407,8 +407,9 @@
         "foundAccountInfo__i": "  ${name} (steamID64: ${steamID64}, accountID: ${accountID})",
         "steamCategory__i": "[${index}/${total}]: Categorias Steam - ${steamCategory}",
         "steamCategoryInfo__i": "[${index}/${total}]:                        ${steamCategory}",
-        "appId__i": "[${index}/${total}]: AppID - ${appid}",
-        "shortAppId__i": "[${index}/${total}]: AppID curto - ${appid}",
+        "exceptionKey__i": "[${index}/${total}]:         Exception ID - ${appid}",
+        "appId__i": "[${index}/${total}]:        Legacy App ID - ${appid}",
+        "shortAppId__i": "[${index}/${total}]:               App ID - ${appid}",
         "extractedTitle__i": "[${index}/${total}]: Título extraído - ${title}",
         "fuzzyTitle__i": "[${index}/${total}]: AppID - ${title}",
         "finalTitle__i": "[${index}/${total}]: Título extraído - ${title}",
