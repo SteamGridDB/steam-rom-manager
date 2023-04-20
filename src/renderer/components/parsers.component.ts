@@ -862,25 +862,32 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           success('Number of Titles: '.concat(data.files.length.toString()));
           for (let i = 0; i < data.files.length; i++) {
             success('');
-            let executableLocation = data.files[i].modifiedExecutableLocation;
-            let title = data.files[i].finalTitle;
-            let shortAppId = undefined; let appId = undefined;
+            const executableLocation = data.files[i].modifiedExecutableLocation;
+            const title = data.files[i].finalTitle;
+            let shortAppId; let appId; let exceptionKey;
             if(config.parserType !== 'Steam') {
               shortAppId = steam.generateShortAppId(executableLocation, title);
               appId = steam.lengthenAppId(shortAppId);
+              exceptionKey = steam.generateShortAppId(executableLocation, data.files[i].extractedTitle);
             } else {
               shortAppId = executableLocation.replace(/\"/g,"");
               appId = steam.lengthenAppId(shortAppId);
+              exceptionKey = shortAppId;
             }
-            success(this.lang.success.appId__i.interpolate({
+            success(this.lang.success.exceptionKey__i.interpolate({
               index: i + 1,
               total: totalLength,
-              appid: appId
+              appid: exceptionKey 
             }));
             success(this.lang.success.shortAppId__i.interpolate({
               index: i + 1,
               total: totalLength,
               appid: shortAppId
+            }));
+            success(this.lang.success.appId__i.interpolate({
+              index: i + 1,
+              total: totalLength,
+              appid: appId
             }));
             success(this.lang.success.extractedTitle__i.interpolate({
               index: i + 1,

@@ -1,4 +1,4 @@
-import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, UserExceptions, UserExceptionsTitles, AppSettings, ParserType } from '../models';
+import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, UserExceptions, UserExceptionData, UserExceptionsTitles, AppSettings, ParserType } from '../models';
 import { FuzzyService } from "../renderer/services";
 import { VariableParser } from "./variable-parser";
 import { APP } from '../variables';
@@ -16,6 +16,8 @@ import * as os from 'os';
 import { glob } from 'glob';
 import { getPath, getArgs, getStartDir } from 'windows-shortcuts-ps';
 import * as xdgparse from 'xdg-parse';
+
+
 
 
 export class FileParser {
@@ -55,8 +57,8 @@ export class FileParser {
         .then(this.buildParsedConfigsPromise.bind(this))
         .then(this.parsedConfigFilesPromise.bind(this))
         .then(this.shortcutsPromise.bind(this))
-        .then(this.userExceptionsPromise.bind(this))
         .then(this.appendArgsPromise.bind(this))
+        .then(this.userExceptionsPromise.bind(this))
         .then(this.imagesPromise.bind(this)) as Promise<ParsedUserConfiguration>
       )
     }
@@ -397,39 +399,7 @@ export class FileParser {
     })
   }
 
-  private userExceptionsPromise({superType, config, settings, parsedConfig}: {superType: string, config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
-    return new Promise((resolve,reject)=>{
-      try {
-        for(let j=0; j < parsedConfig.files.length; j++) {
-          let exceptions = this.userExceptions[parsedConfig.files[j].extractedTitle];
-          if(exceptions && exceptions.exclude) {
-            parsedConfig.excluded.push(parsedConfig.files[j].filePath);
-            parsedConfig.files[j] = null;
-            continue;
-          }
-          if(exceptions && exceptions.newTitle) {
-            parsedConfig.files[j].finalTitle = exceptions.newTitle;
-          }
-          if(exceptions && exceptions.commandLineArguments) {
-            parsedConfig.files[j].argumentString = exceptions.commandLineArguments;
-          }
-          if(exceptions && !exceptions.excludeArtwork && exceptions.searchTitle) {
-            parsedConfig.files[j].onlineImageQueries = [exceptions.searchTitle];
-            parsedConfig.files[j].imagePool = exceptions.searchTitle;
-          }
-          if(exceptions && exceptions.excludeArtwork) {
-            parsedConfig.files[j].onlineImageQueries = [];
-          }
-        }
-        parsedConfig.files = parsedConfig.files.filter(x=>!!x);
-        resolve({ config: config, settings: settings, parsedConfig: parsedConfig });
-      } catch(e) {
-        reject(`Apply user exceptions step for ${config.configTitle}:\n ${e}`);
-      }
-    })
-  }
-
-  private appendArgsPromise({config, settings, parsedConfig}: {config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
+  private appendArgsPromise({superType, config, settings, parsedConfig}: {superType: string, config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
     return new Promise((resolve, reject)=>{
       try{
         for(let j=0; j < parsedConfig.files.length; j++) {
@@ -439,9 +409,56 @@ export class FileParser {
           }
           parsedConfig.files[j].modifiedExecutableLocation = parsedConfig.files[j].modifiedExecutableLocation.trim();
         }
-        resolve({ config: config, settings: settings, parsedConfig: parsedConfig });
+        resolve({ supertype: superType, config: config, settings: settings, parsedConfig: parsedConfig });
       } catch(e) {
         reject(`Append args to executable step for ${config.configTitle}:\n ${e}`);
+      }
+    })
+  }
+
+  private userExceptionsPromise({superType, config, settings, parsedConfig}: {superType: string, config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration}) {
+
+    return new Promise((resolve,reject)=>{
+      try {
+        const appIdRegex: RegExp = /\$\{id\:([0-9]*?)\}/;
+        for(let j=0; j < parsedConfig.files.length; j++) {
+
+          // This little bit of magic means that we can also match on Exception ID
+          const shortAppId = steam.generateShortAppId(parsedConfig.files[j].modifiedExecutableLocation, parsedConfig.files[j].extractedTitle);
+          const exceptionMatches = Object.entries(this.userExceptions).filter(([extractedTitle, exception]: [extractedTitle: string, exception: UserExceptionData]) => {
+            if(appIdRegex.test(extractedTitle)) {
+              return extractedTitle.match(appIdRegex)[1] == shortAppId;
+            } else {
+              return extractedTitle == parsedConfig.files[j].extractedTitle;
+            }
+          }).map(x=>x[1]);
+
+          if(exceptionMatches.length) {
+            const exceptions = exceptionMatches[0];
+            if(exceptions && exceptions.exclude) {
+              parsedConfig.excluded.push(parsedConfig.files[j].filePath);
+              parsedConfig.files[j] = null;
+              continue;
+            }
+            if(exceptions && exceptions.newTitle) {
+              parsedConfig.files[j].finalTitle = exceptions.newTitle;
+            }
+            if(exceptions && exceptions.commandLineArguments) {
+              parsedConfig.files[j].argumentString = exceptions.commandLineArguments;
+            }
+            if(exceptions && !exceptions.excludeArtwork && exceptions.searchTitle) {
+              parsedConfig.files[j].onlineImageQueries = [exceptions.searchTitle];
+              parsedConfig.files[j].imagePool = exceptions.searchTitle;
+            }
+            if(exceptions && exceptions.excludeArtwork) {
+              parsedConfig.files[j].onlineImageQueries = [];
+            }
+          }
+        }
+        parsedConfig.files = parsedConfig.files.filter(x=>!!x);
+        resolve({ config: config, settings: settings, parsedConfig: parsedConfig });
+      } catch(e) {
+        reject(`Apply user exceptions step for ${config.configTitle}:\n ${e}`);
       }
     })
   }

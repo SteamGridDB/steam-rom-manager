@@ -17,7 +17,7 @@
 <div class="details">
   <div class="detailsUpper">
     <div class="detailsTitle">
-      <span> Original title: {{detailsApp ? detailsApp.app.extractedTitle : ''}}</span>
+      <span> Original title: {{detailsApp ? detailsApp.app.title : ''}}</span>
     </div>
     <div class="buttonGroup">
       <div class="detailsButton dangerousButton" (click)="closeDetails()">
@@ -104,6 +104,7 @@
                                 {{app.configurationTitle + (app.steamCategories.length > 0 ? ' (' + app.steamCategories.join(', ') + ')' : '')}}
                               </div>
                               <div class="appButtons">
+                                <svg class="button" title="Fix match" image-alert hover="true" active="true" *ngIf="!image || image.loadStatus === 'done'" (click)="changeAppDetails(app, steamDir, steamUser, appId)"></svg>
                                 <svg class="button" [title]="lang.addLocalImages" add-images hover="true" active="true" (click)="addLocalImages(app, imagetype)"></svg>
                                 <span class="separator"></span>
                                 <svg class="button" *ngIf="!getImagePool(appimages.imagePool, imagetype).retrieving" (click)="refreshImages(app, imagetype)" [title]="lang.refreshImages" refresh-images hover="true" active="true"></svg>
@@ -122,8 +123,8 @@
           </ng-container>
           <ng-container *ngIf="getImageType()!='games'">
             <div class="apps">
-              <ng-container *ngFor="let appID of sortedAppIds(previewData[steamDir][steamUser].apps)">
-                <ng-container *ngVar="previewData[steamDir][steamUser].apps[appID] as app">
+              <ng-container *ngFor="let appId of sortedAppIds(previewData[steamDir][steamUser].apps)">
+                <ng-container *ngVar="previewData[steamDir][steamUser].apps[appId] as app">
                   <ng-container *ngVar="getBackgroundImage(app) as image">
                     <ng-container *ngVar="getAppImages(app) as appimages">
                       <div class="app" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter) && ([app.configurationTitle] | intersectionTest: actualParserFilter)" [style.backgroundImage]="setBackgroundImage(app, image) | cssUrl | safeStyle"
@@ -154,7 +155,7 @@
                               {{app.configurationTitle + (app.steamCategories.length > 0 ? ' (' + app.steamCategories.join(', ') + ')' : '')}}
                             </div>
                             <div class="appButtons">
-                              <svg class="button" title="Fix match" image-alert hover="true" active="true" *ngIf="!image || image.loadStatus === 'done'" (click)="changeAppDetails(app, steamDir, steamUser, appID)"></svg>
+                              <svg class="button" title="Fix match" image-alert hover="true" active="true" *ngIf="!image || image.loadStatus === 'done'" (click)="changeAppDetails(app, steamDir, steamUser, appId)"></svg>
                               <svg class="button" [title]="lang.addLocalImages" add-images hover="true" active="true" (click)="addLocalImages(app)"></svg>
                               <span class="separator"></span>
                               <svg class="button" *ngIf="!getImagePool(appimages.imagePool).retrieving" (click)="refreshImages(app)" [title]="lang.refreshImages" refresh-images hover="true" active="true"></svg>

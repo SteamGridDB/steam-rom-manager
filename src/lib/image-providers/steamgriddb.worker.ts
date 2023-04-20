@@ -5,7 +5,7 @@ import SGDB from "steamgriddb";
 
 const idRegex: RegExp = /^\$\{gameid\:([0-9]*?)\}$/;
 
-// TODO bruh change this
+// TODO make the user input this
 const apiKey = "f80f92019254471cca9d62ff91c21eee";
 
 export class SteamGridDbProvider extends GenericProvider {
@@ -37,7 +37,7 @@ export class SteamGridDbProvider extends GenericProvider {
     this.xrw.promise = new Promise<void>((resolve) => {
       let idPromise: Promise<number> = null;
       if(idRegex.test(self.proxy.title)) {
-        idPromise = Promise.resolve(parseInt(self.proxy.title.split(':')[1].slice(0,-1)))
+        idPromise = Promise.resolve(parseInt(self.proxy.title.match(idRegex)[1]))
       } else {
         idPromise = self.client.searchGame(self.proxy.title).then((res: any) => (res[0]||{}).id);
       }

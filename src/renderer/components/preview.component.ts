@@ -320,7 +320,9 @@ export class PreviewComponent implements OnDestroy {
         this.previewData[steamDirectory][userId].apps[appId].images[artworkType].steam = undefined;
         this.previewService.updateAppImages(newPool, oldPool, artworkType)
       }
-      this.userExceptionsService.addException(app.extractedTitle, {
+      const exceptionId = steam.generateShortAppId(app.executableLocation, app.extractedTitle)
+      const exceptionKey = `${app.extractedTitle} \$\{id:${exceptionId}\}`;
+      this.userExceptionsService.addException(exceptionKey, {
         newTitle: this.matchFixDict[this.matchFix].name,
         searchTitle: newPool,
         commandLineArguments: '',

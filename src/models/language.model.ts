@@ -510,6 +510,7 @@ export interface languageStruct {
         steamCategory__i: string, //${index}, ${total}, ${steamCategory}
         steamCategoryInfo__i: string, //${steamCategory}
         appId__i: string, //${index}, ${total}, ${appid}
+        exceptionKey__i: string, //${index}, ${total}, ${appid}
         shortAppId__i: string, //${index}, ${total}, ${appid}
         extractedTitle__i: string, //${index}, ${total}, ${title}
         fuzzyTitle__i: string, //${index}, ${total}, ${title}

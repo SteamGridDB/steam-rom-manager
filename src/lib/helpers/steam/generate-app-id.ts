@@ -6,14 +6,14 @@ function generatePreliminaryId(exe: string, appname: string) {
 
 }
 
-// Used for Big Picture Grids
+// Used for Big Picture Grids (also as key in SRM data structures)
 export function generateAppId(exe: string, appname: string) {
   return String(generatePreliminaryId(exe, appname));
 }
 
 // Used for all other Grids
 export function generateShortAppId(exe: string, appname: string) {
-  return String(generatePreliminaryId(exe, appname) >> BigInt(32));
+  return shortenAppId(generateAppId(exe, appname));
 }
 
 // Used as appid in shortcuts.vdf
