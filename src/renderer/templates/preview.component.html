@@ -122,7 +122,7 @@
                                 {{app.configurationTitle + (app.steamCategories.length > 0 ? ' (' + app.steamCategories.join(', ') + ')' : '')}}
                               </div>
                               <div class="appButtons">
-                                <svg class="button" title="Fix match" image-alert hover="true" active="true" *ngIf="!image || image.loadStatus === 'done'" (click)="changeAppDetails(app, steamDir, steamUser, appId)"></svg>
+                                <svg class="button" title="Fix match" image-alert hover="true" active="true" *ngIf="!showExcludes &&(!image || image.loadStatus === 'done')" (click)="changeAppDetails(app, steamDir, steamUser, appId)"></svg>
                                 <svg class="button" [title]="lang.addLocalImages" add-images hover="true" active="true" (click)="addLocalImages(app, imagetype)"></svg>
                                 <span class="separator"></span>
                                 <svg class="button" *ngIf="!getImagePool(appimages.imagePool, imagetype).retrieving" (click)="refreshImages(app, imagetype)" [title]="lang.refreshImages" refresh-images hover="true" active="true"></svg>
@@ -177,7 +177,7 @@
                               {{app.configurationTitle + (app.steamCategories.length > 0 ? ' (' + app.steamCategories.join(', ') + ')' : '')}}
                             </div>
                             <div class="appButtons">
-                              <svg class="button" title="Fix match" image-alert hover="true" active="true" *ngIf="!image || image.loadStatus === 'done'" (click)="changeAppDetails(app, steamDir, steamUser, appId)"></svg>
+                              <svg class="button" title="Fix match" image-alert hover="true" active="true" *ngIf="!showExcludes &&(!image || image.loadStatus === 'done')" (click)="changeAppDetails(app, steamDir, steamUser, appId)"></svg>
                               <svg class="button" [title]="lang.addLocalImages" add-images hover="true" active="true" (click)="addLocalImages(app)"></svg>
                               <span class="separator"></span>
                               <svg class="button" *ngIf="!getImagePool(appimages.imagePool).retrieving" (click)="refreshImages(app)" [title]="lang.refreshImages" refresh-images hover="true" active="true"></svg>
@@ -206,7 +206,7 @@
       <div *ngIf="previewVariables.numberOfQueriedImages" (click)="stopImageRetrieving()">{{lang.stopUrlRetrieving}}</div>
       <div (click)="exportSelection()" [attr.title]="'Export image choices'">{{lang.exportSelections}}</div>
       <div (click)="importSelection()" [attr.title]="'Import image choices'">{{lang.importSelections}}</div>
-      <div (click)="showExclusions()">{{"Exclude Apps"}}</div>
+      <div (click)="showExclusions()" *ngIf="!this.detailsApp">{{"Exclude Apps"}}</div>
   </ng-container>
   <div class="only-emudeck" routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
 </div>

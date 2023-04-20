@@ -110,7 +110,6 @@
     > div {
       @include button();
       @include clickButtonColor(click-button);
-
       margin: 0 0.25em;
       &:last-child {
         margin-right: 0;
@@ -324,6 +323,9 @@
             &.showExcludes:not(.isExcluded) {
               border: solid 3px;
               border-color: #099 !important;
+            }
+            &.showExcludes.isExcluded {
+              opacity: 0.3;
             }
             &.longStyle {
               width: calc(var(--preview-image-size) * var(--games-long-width));

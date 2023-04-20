@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.7
+* Fixed possibility of `fix match` creating duplicates or not working, state management changed to incorporate possibility of app id changes better.
+* Improved consistency of fix match appearance with preview.
+
 ## 2.4.6
 ### Added
 * Ability to exclude titles from the preview! Exclusions are automatically saved as exceptions so that the user doesn't have to repeat them. If you want the title back, just go find the exception and get rid of it.
