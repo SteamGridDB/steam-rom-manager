@@ -22,7 +22,7 @@
   <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="请我喝杯咖啡" width="160">
 </a>
 
-如果您喜欢 Steam ROM 管理器，并希望它继续有用，请考虑支持 [SteamGridDB](https://www.steamgriddb.com/) 的 Patreon。 [SteamGridDB](https://www.steamgriddb.com/) 托管了 Steam ROM Manager 使用的所有艺术作品，使您的 Steam 游戏库成为大家羡慕的对象，因此我们应该帮助他们保持运营。
+[SteamGridDB](https://www.steamgriddb.com/) 托管了 Steam ROM Manager 使用的所有艺术作品，使您的 Steam 游戏库成为大家羡慕的对象，因此我们应该帮助他们保持运营。 如果您喜欢 Steam ROM 管理器，并希望它继续有用，请考虑支持 [SteamGridDB](https://www.steamgriddb.com/) 的 Patreon。
 
 <a href="https://www.patreon.com/steamgriddb">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
