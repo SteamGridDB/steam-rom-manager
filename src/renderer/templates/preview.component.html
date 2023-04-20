@@ -29,8 +29,8 @@
   </div>
 </div>
 
-<div class="details">
-  <div class="detailsUpper">
+<!-- <div class="details"> -->
+  <div class="detailsUpper" *ngIf="showDetails">
     <div class="detailsTitle">
       <span>Fix match for: {{detailsApp ? detailsApp.app.title : ''}}</span>
     </div>
@@ -61,8 +61,8 @@
       <div class="loadingSpinner"></div>
     </ng-container>
   </div>
-</div>
-<div class="entries" *ngVar="{ hoverIndex: undefined, hoverType: undefined } as entries" (scroll)="onScroll()">
+<!-- </div> -->
+<div class="entries" *ngVar="{ hoverIndex: undefined, hoverType: undefined } as entries" [class.detailsOpen]="!!this.detailsApp" (scroll)="onScroll()">
   <ng-container *ngFor="let steamDir of previewData | keys">
     <div class="directory" *ngVar="{ isHidden: false } as directory" [class.hidden]="directory.isHidden">
       <div class="title" (click)="directory.isHidden = !directory.isHidden">

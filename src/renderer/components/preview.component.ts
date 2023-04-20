@@ -47,6 +47,7 @@ export class PreviewComponent implements OnDestroy {
   private matchFixIds: string[] = []
   private matchFixDict: {[sgdbId: string]: {name: string, posterUrl: string}};
   private detailsLoading: boolean = true;
+  private showDetails: boolean = false;
 
   private showExcludes: boolean = false;
   private excludedAppIds: {
@@ -294,8 +295,9 @@ export class PreviewComponent implements OnDestroy {
 
   private changeAppDetails(app: PreviewDataApp, steamDirectory: string, userId: string, appId: string) {
     this.detailsLoading = true;
+    this.showDetails= true;
     this.matchFix = '';
-    this.renderer.setStyle(this.elementRef.nativeElement, '--details-grid-width', '50%', RendererStyleFlags2.DashCase);
+    this.renderer.setStyle(this.elementRef.nativeElement, '--details-width', '50%', RendererStyleFlags2.DashCase);
     this.detailsApp = {
       appId: appId,
       app: app,
@@ -316,8 +318,11 @@ export class PreviewComponent implements OnDestroy {
   private closeDetails() {
     this.matchFix = '';
     this.detailsApp = undefined;
-    this.renderer.setStyle(this.elementRef.nativeElement, '--details-grid-width', '0%', RendererStyleFlags2.DashCase);
+    this.showDetails = false;
+    this.renderer.setStyle(this.elementRef.nativeElement, '--details-width','0%', RendererStyleFlags2.DashCase);
+    this.detailsLoading = false;
   }
+
   private saveDetails() {
     if(this.detailsApp && this.matchFix) {
       const {steamDirectory, userId, appId, app} = this.detailsApp;
