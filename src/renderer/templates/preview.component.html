@@ -14,17 +14,32 @@
   </div>
   <ng-text-input class="appFilter" [placeholder]="lang.filter" [(ngModel)]='filterValue' ></ng-text-input>
 </div>
+
+<div class="excludes" *ngIf="showExcludes">
+  <div class="titleGroup">
+    <span>Number Excluded: {{exclusionCount}}</span>
+  </div>
+  <div class="buttonGroup">
+    <div class="excludeButton dangerousButton" (click)="cancelExcludes()">
+      <span>Cancel</span>
+    </div>
+    <div class="excludeButton" (click)="saveExcludes()">
+      <span>Save Exclusions</span>
+    </div>
+  </div>
+</div>
+
 <div class="details">
   <div class="detailsUpper">
     <div class="detailsTitle">
-      <span> Original title: {{detailsApp ? detailsApp.app.title : ''}}</span>
+      <span>Fix match for: {{detailsApp ? detailsApp.app.title : ''}}</span>
     </div>
     <div class="buttonGroup">
       <div class="detailsButton dangerousButton" (click)="closeDetails()">
-        <span> Close </span>
+        <span>Cancel</span>
       </div>
       <div class="detailsButton" (click)= "saveDetails()">
-        <span> Save and close</span>
+        <span>Save and close</span>
       </div>
     </div>
   </div>
@@ -131,7 +146,11 @@
                            [class.retrieving]="getImagePool(appimages.imagePool).retrieving" [class.noImages]="!getImagePool(appimages.imagePool).retrieving && image == undefined"
                            [class.downloading]="image != undefined && image.loadStatus === 'downloading'" [class.failed]="image != undefined && image.loadStatus === 'failed'"
                            [class.imageLoaded]="image != undefined && image.loadStatus === 'done'" (mouseenter)="entries.hoverIndex = app.entryId"
-                           (mouseleave)="entries.hoverIndex = undefined">
+                           [class.showExcludes]="showExcludes"
+                           [class.isExcluded]="!!excludedAppIds[steamDir]&&!!excludedAppIds[steamDir][steamUser]&&!!excludedAppIds[steamDir][steamUser][appId]"
+                           (mouseleave)="entries.hoverIndex = undefined"
+                           (click)="excludeAppId(steamDir, steamUser, appId)"
+                           >
                         <div class="appOverlay" *ngIf="!this.scrollingEntries && entries.hoverIndex === app.entryId">
                           <div class="appInfo">
                             <div class="title" text-scroll [attr.title]="app.extractedTitle"><span>{{app.title}}</span></div>
@@ -182,8 +201,9 @@
       <div (click)="save()">{{lang.saveAppList}}</div>
       <div class="dangerousButton" (click)="remove()">{{lang.removeAppList}}</div>
       <div *ngIf="previewVariables.numberOfQueriedImages" (click)="stopImageRetrieving()">{{lang.stopUrlRetrieving}}</div>
-      <div (click)="exportSelection()">{{lang.exportSelections}}</div>
-      <div (click)="importSelection()">{{lang.importSelections}}</div>
+      <div (click)="exportSelection()" [attr.title]="'Export image choices'">{{lang.exportSelections}}</div>
+      <div (click)="importSelection()" [attr.title]="'Import image choices'">{{lang.importSelections}}</div>
+      <div (click)="showExclusions()">{{"Exclude Apps"}}</div>
   </ng-container>
   <div class="only-emudeck" routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
 </div>

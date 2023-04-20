@@ -25,9 +25,10 @@
   grid-area: route;
   grid-template-areas:
   'upperMenu upperMenu'
+  'excludes excludes'
   'entries details'
   'lowerMenu lowerMenu';
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto auto 1fr auto;
   grid-template-columns: auto var(--details-grid-width);
 
   .upperMenu {
@@ -119,6 +120,31 @@
       }
       &.dangerousButton {
         @include clickButtonColor(dangerous-click-button, true);
+      }
+    }
+  }
+  .excludes {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-preview-menu-background);
+    padding: 0.2em 0.8em 0.4em;
+    grid-area: excludes;
+    > .titleGroup {
+      color: var(--color-preview-text);
+    }
+    > .buttonGroup {
+      display: flex;
+      justify-content: right;
+      margin-right:0.5em;
+      > .excludeButton {
+        @include button();
+        @include clickButtonColor(click-button);
+        margin-right: 1em;
+        &.dangerousButton {
+          @include clickButtonColor(dangerous-click-button, true);
+        }
       }
     }
   }
@@ -285,7 +311,10 @@
             background-repeat: no-repeat;
             background-position: center center;
             background-size: auto 75%;
-
+            &.showExcludes:not(.isExcluded) {
+              border: solid 3px;
+              border-color: #099 !important;
+            }
             &.longStyle {
               width: calc(var(--preview-image-size) * var(--games-long-width));
               height: calc(var(--preview-image-size) * var(--games-long-height));

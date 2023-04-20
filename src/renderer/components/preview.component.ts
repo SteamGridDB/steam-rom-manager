@@ -48,6 +48,16 @@ export class PreviewComponent implements OnDestroy {
   private matchFixDict: {[sgdbId: string]: {name: string, posterUrl: string}};
   private detailsLoading: boolean = true;
 
+  private showExcludes: boolean = false;
+  private excludedAppIds: {
+    [steamDirectory: string]: {
+      [userId: string]: {
+        [appId: string]: boolean
+      }
+    }
+  } = {};
+  private exclusionCount: number = 0;
+
   constructor(
     private previewService: PreviewService,
     private settingsService: SettingsService,
@@ -333,6 +343,68 @@ export class PreviewComponent implements OnDestroy {
       this.matchFix = '';
       this.closeDetails();
     }
+  }
+
+  private excludeAppId(steamDirectory: string, userId: string, appId: string) {
+    if(this.showExcludes) {
+      if(!this.excludedAppIds[steamDirectory]) {
+        this.excludedAppIds[steamDirectory] = {};
+      }
+      if(!this.excludedAppIds[steamDirectory][userId]) {
+        this.excludedAppIds[steamDirectory][userId] = {};
+      }
+      if(this.excludedAppIds[steamDirectory][userId][appId]) {
+        this.excludedAppIds[steamDirectory][userId][appId] = false;
+        this.exclusionCount -= 1;
+      } else {
+        this.excludedAppIds[steamDirectory][userId][appId] = true;
+        this.exclusionCount += 1;
+      }
+    }
+  }
+
+  private showExclusions() {
+    this.showExcludes = true;
+  }
+
+  private cancelExcludes() {
+    this.showExcludes = false;
+    this.excludedAppIds = {};
+    this.exclusionCount = 0;
+  }
+
+  private saveExcludes() {
+    let exceptionKeys: string[] = [];
+    for(const steamDirectory in this.previewData) {
+      if(this.excludedAppIds[steamDirectory]) {
+        for(const userId in this.previewData[steamDirectory]) {
+          if(this.excludedAppIds[steamDirectory][userId]) {
+            let newKeys = Object.keys(this.excludedAppIds[steamDirectory][userId]).filter((appId: string)=> {
+              return !!this.excludedAppIds[steamDirectory][userId][appId]
+            }).map((appId: string) =>{
+              const app = this.previewData[steamDirectory][userId].apps[appId];
+              const exceptionId = steam.generateShortAppId(app.executableLocation, app.extractedTitle)
+              return `${app.extractedTitle} \$\{id:${exceptionId}\}`
+            });
+            exceptionKeys = exceptionKeys.concat(newKeys)
+
+            this.previewData[steamDirectory][userId].apps = _.pickBy(this.previewData[steamDirectory][userId].apps, (value: PreviewDataApp, key: string) => {
+              return !this.excludedAppIds[steamDirectory][userId][key]
+            })
+          }
+        }
+      }
+    }
+    for(const exceptionKey of exceptionKeys) {
+      this.userExceptionsService.addException(exceptionKey, {
+        newTitle: '',
+        searchTitle: '',
+        commandLineArguments: '',
+        exclude: true,
+        excludeArtwork: false
+      })
+    }
+    this.cancelExcludes();
   }
 
   private refreshImages(app: PreviewDataApp, imageType?: string) {

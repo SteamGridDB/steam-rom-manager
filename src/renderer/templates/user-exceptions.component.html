@@ -46,8 +46,9 @@
 </div>
 <div class = "menu" drag-scroll>
   <ng-container>
-    <div (click)=save()>{{lang.buttons.save}}</div>
+
     <div class="dangerousButton" (click)=deleteAll()>{{lang.buttons.deleteAll}}</div>
+    <div (click)=save() *ngIf="exceptionsService.isUnsaved">{{lang.buttons.save}}</div>
     <div *ngIf="exceptionsService.isUnsaved" (click)="undo()">{{lang.buttons.undoChanges}}</div>
   </ng-container>
 </div>
