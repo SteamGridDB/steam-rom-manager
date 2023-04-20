@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.6
+### Added
+* Ability to exclude titles from the preview! Exclusions are automatically saved as exceptions so that the user doesn't have repeat them. If you want the title back, just go find the exception and get rid of it.
+* Ability to set exceptions based on the exact app through an exception ID, e.g. if you have two titles with the same exact name they no longer need to have the same exceptions applied.
+
+### Changed
+* Shorten the button text in the bottom bar so as to hopefully minimize overflow issues on the Steam Deck.
+
 ## 2.4.5
 ### Added
 * Ability to fix matches from the preview! Just click the little exclamation point on the left of the app (icon subject to change), select the game and boom match fixed. Best of all, SRM will automatically save your change as an exception so that you never have to change it again in the future.
