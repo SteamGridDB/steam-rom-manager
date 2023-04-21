@@ -18,14 +18,14 @@ Resets the stored list of titles used for fuzzy matching to the list of titles r
 ### Reset fuzzy cache
 Clears the cache of titles that fuzzy matching has already seen (try this if changes you make to fuzzy list are not resulting in changes to titles in SRM).
 
-## Image provider settings
-### Preload retrieved images `[Recommend disabled]`
-When enabled, SRM will pull all available artwork for every game, rather than pulling one piece of artwork at a time as the user flips through the images. Don't enable this unless you have a good reason and a very small library of games, otherwise it could result in very large (slow) network requests.
-### Enabled providers
-Global setting to disable certain providers. Currently the only image provider is `SteamGridDB` since ConsoleGrid and RetroGaming.cloud are defunct.
+## Paramètres du fournisseur d'images
+### Précharger toutes les images trouvées `[Recommander désactivé]`
+Lorsque cette option est activée, SRM préchargera toutes les images disponibles pour chaque jeu, plutôt que de charger une image à la fois au fur et à mesure que l'utilisateur se déplace dans les images. Ne l'activez pas à moins que vous n'ayez une bonne raison et une très petite bibliothèque de jeux, sinon cela pourrait donner lieu à de très grandes (et lentes) requêtes réseau.
+### Activés fournisseurs d'images
+Réglage global pour désactiver certains fournisseurs. Actuellement, le seul fournisseur d'images est `SteamGridDB` puisque ConsoleGrid et RetroGaming.cloud sont défunts.
 
-## Community Variables and Presets
-### Force download custom variables.
-Resets the custom variables JSON file that is used for certain presets to whatever its current state is on the SRM github. Useful if the custom variables JSON file has been corrupted.
-### Force download custom presets.
-Resets the JSON files for parser presets to whatever is on the SRM github. Useful if your presets list is not automatically updating for some reason, or has become corrupted.
+## Paramètres de variable/préréglage de la communauté
+### Forcer le téléchargement des variables personnalisées.
+Réinitialise le fichier JSON des variables personnalisées qui est utilisé pour certains préréglages en utilisant le fichier sur le github SRM. Utile si le fichier JSON des variables personnalisées a été corrompu.
+### Forcer le téléchargement des configurations prédéfinies.
+Réinitialise les fichiers JSON pour les préréglages de l'analyseur en utilisant le fichier sur le github SRM. Utile si votre liste de pré-configurations n'est pas automatiquement mise à jour pour une raison quelconque, ou est corrompue.
