@@ -1,8 +1,8 @@
-# Fuzzy matching
+# Emparejamiento aproximado
 
-Fuzzy (natural) matching will be done against the tittle list provided by [SteamGridDB](http://www.steamgriddb.com/). It will try to fill in missing characters for titles which will increase probability for finding images.
+El emparejamiento aproximado (natural) se hará con la lista proporcionada por [SteamGridDB](http://www.steamgriddb.com/). Intentará rellenar caracteres faltantes para los títulos, lo que aumentará la probabilidad de encontrar imágenes.
 
-Fuzzy titles are available as title modifiers via `${fuzzyTitle}`. Currently fuzzy matching is only enabled for `ROM Parsers` and `Manual Parsers`.
+Los títulos aproximados están disponibles como modificadores de títulos a través de `${fuzzyTitle}`. Actualmente el emparejamiento aproximado solo está habilitado para los `Analizadores de ROMs` y los `Analizadores manuales`.
 
 It is possible, that `false` matching might occur for titles that are not in the list. If you encounter missing titles, feel free to post an issue on [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
 
