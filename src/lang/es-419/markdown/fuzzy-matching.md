@@ -4,16 +4,16 @@ El emparejamiento aproximado (natural) se hará con la lista proporcionada por [
 
 Los títulos aproximados están disponibles como modificadores de títulos a través de `${fuzzyTitle}`. Actualmente el emparejamiento aproximado solo está habilitado para los `Analizadores de ROMs` y los `Analizadores manuales`.
 
-It is possible, that `false` matching might occur for titles that are not in the list. If you encounter missing titles, feel free to post an issue on [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
+Es posible que ocurran emparejamientos `falsos` para títulos que no estén en la lista. Si encuentras títulos faltantes, no dudes en publicarlos en la sección Issues en [GitHub](https://github.com/FrogTheFrog/steam-rom-manager/issues).
 
-## Replace diacritic characters
+## Reemplazar caracteres diacríticos
 
-Replaces diacritic characters to their latin equivalent: `Ą` -> `A`, `Ę` -> `E`, `Ė` -> `E`, etc. Might improve the matching ability of fuzzy matcher.
+Reemplaza los caracteres diacríticos a su equivalente en latín: `Ą` -> `A`, `Ę` -> `E`, `Ė` -> `E`, etc. Podría mejorar la capacidad de encontrar resultados del emparejador.
 
-## Aggressive matching
+## Emparejamiento agresivo
 
-When enabled, fuzzy matcher will remove all characters except for `a-zA-Z0-9 ()[]` and will replace `_` with space. This should improve the matching ability of fuzzy matcher.
+Al estar activado, el emparejador removerá todos los caracteres excepto `a-z A-Z 0-9 ()[]` y reemplazará `_` con un espacio. Esto debería mejorar la habilidad del emparejador de encontrar resultados.
 
-## Remove (...) and [...] brackets
+## Remover paréntesis (...) y corchetes [...]
 
-When enabled, fuzzy matcher will remove all `(...)`{.noWrap} and `[...]`{.noWrap} together with their content. Useful for titles with `[USA]`{.noWrap}, `[JPN]`{.noWrap} and etc., as they prevent from matching titles correctly.
+Al estar activado, el emparejador removerá todos los paréntesis `(...)`{.noWrap} y corchetes `[...]`{.noWrap} incluyendo su contenido. Útil para títulos que contengan `[USA]`{.noWrap}, `[JPN]`{.noWrap}, etc., ya que evitan que los títulos se encuentren correctamente.
