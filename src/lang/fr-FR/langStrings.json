@@ -273,19 +273,19 @@
     "component": {
       "label": {
         "general": "Paramètres généraux",
-        "imageProviders": "Image provider settings",
+        "imageProviders": "Paramètres du fournisseur d'images",
         "fuzzy": "Paramètres de correspondance approximative",
-        "environmentVariables": "Environment variable settings",
-        "communityPresets": "Community variable/preset settings"
+        "environmentVariables": "Paramètres des variables d'environnement",
+        "communityPresets": "Paramètres de variable/préréglage de la communauté"
       },
       "text": {
         "offlineMode": "Mode hors ligne",
         "removeApps_desc": "toutes les entrées d'application et contrôleur ajoutées",
         "removeApps_btn": "Retirer",
-        "preloadImages": "Preload retrieved images immediately",
+        "preloadImages": "Précharger toutes les images trouvées",
         "fuzzy_verbose": "Log matching results",
         "fuzzy_filter": "Filter images",
-        "enabledProviders": "Enabled image providers",
+        "enabledProviders": "Activés fournisseurs d'images",
         "selectLanguage": "Select language",
         "selectTheme": "Select theme",
         "resetFuzzy_desc": "fuzzy list",
@@ -299,19 +299,19 @@
         "configDir": "Dossier de Configuration"
       },
       "placeholder": {
-        "noProviders": "None",
-        "steamDirectoryWin": "Typically C:\\Program Files (x86)\\Steam",
-        "steamDirectoryMac": "Typically ~/Library/Application Support/Steam",
-        "steamDirectoryLinux": "Typically /home/user/.steam/steam",
-        "romsDirectoryWin": "For example D:\\ROMs",
-        "romsDirectoryMac": "For example ~/ROMs",
-        "romsDirectoryLinux": "For example ~/ROMs",
+        "noProviders": "Aucun",
+        "steamDirectoryWin": "Généralement C:\\Program Files (x86)\\Steam",
+        "steamDirectoryMac": "Généralement ~/Library/Application Support/Steam",
+        "steamDirectoryLinux": "Généralement /home/user/.steam/steam",
+        "romsDirectoryWin": "Par exemple D:\\ROMs",
+        "romsDirectoryMac": "Par exemple ~/ROMs",
+        "romsDirectoryLinux": "Par exemple ~/ROMs",
         "retroarchPathWin": "Par exemple C:\\Chemin\\Vers\\retroarch.exe",
         "retroarchPathLinux": "Par exemple /chemin/vers/retroarch",
         "retroarchPathMac": "Par exemple /chemin/vers/retroarch",
-        "raCoresDirectoryWin": "Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
-        "raCoresDirectoryLinux": "Typically /lib/x86_64-linux-gnu/libretro/cores",
-        "raCoresDirectoryMac": "Typically /Applications/Retroarch.app/Contents/Resources/cores",
+        "raCoresDirectoryWin": "Généralement C:\\Utilisateurs\\NomD'Utilisateurs\\AppData\\Roaming\\RetroArch\\cores",
+        "raCoresDirectoryLinux": "Généralement /lib/x86_64-linux-gnu/libretro/core",
+        "raCoresDirectoryMac": "Généralement /Applications/Retroarch.app/Contents/Resources/cores",
         "localImagesDirectoryWin": "For example C:\\Path\\To\\LocalArtwork",
         "localImagesDirectoryUnix": "For example ~/path/to/localartwork"
       }
@@ -442,13 +442,13 @@
         "executableArgs": "Command line arguments",
         "onlineImageQueries": "Online image query",
         "imagePool": "Image pool",
-        "imageProviders": "Image providers",
+        "imageProviders": "Fournisseurs d'images",
         "defaultImage__i": "Fallback ${artworkType}",
         "localImages__i": "Local ${artworkType} glob"
       },
       "placeholder": {
         "parserType": "Sélectionner analyseur...",
-        "configTitle": "My Awesome Parser",
+        "configTitle": "Mon Super Analyseur",
         "steamCategory": "${cat1}${cat2}",
         "steamDirectory": "${steamdirglobal} ou /chemin/vers/Steam",
         "userAccounts": "${steamuser1}${steamuser2}",
@@ -512,7 +512,7 @@
         "titleModifier__md": "> Title modifier must not be empty!",
         "executableModifier__md": "> Executable modifier must not be empty!",
         "variableString__md": "> Uneven number of `${` and `}` pairs. Use `\\` to escape `${` or `}` if you want to use them as characters.",
-        "imageProviders__md": "> Incorrect image providers type!",
+        "imageProviders__md": "> Type de fournisseur d'image incorrect!",
         "unhandledValidationKey__md": "> Input's validation is unhandled",
         "genericDir__md": "> Le répertoire est incorrect",
         "genericPath__md": "> Le chemin est incorrect"
