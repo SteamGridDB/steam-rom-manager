@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.8
+## Fixed
+* Exceptions Id not matching for steam parser
+
+
 ## 2.4.7
 ## Fixed
 * Fixed possibility of `fix match` creating duplicates or not working, state management changed to incorporate possibility of app id changes better.

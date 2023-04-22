@@ -409,7 +409,7 @@ export class FileParser {
           }
           parsedConfig.files[j].modifiedExecutableLocation = parsedConfig.files[j].modifiedExecutableLocation.trim();
         }
-        resolve({ supertype: superType, config: config, settings: settings, parsedConfig: parsedConfig });
+        resolve({ superType: superType, config: config, settings: settings, parsedConfig: parsedConfig });
       } catch(e) {
         reject(`Append args to executable step for ${config.configTitle}:\n ${e}`);
       }
@@ -424,7 +424,12 @@ export class FileParser {
         for(let j=0; j < parsedConfig.files.length; j++) {
 
           // This little bit of magic means that we can also match on Exception ID
-          const shortAppId = steam.generateShortAppId(parsedConfig.files[j].modifiedExecutableLocation, parsedConfig.files[j].extractedTitle);
+          let shortAppId: string;
+          if(superType === parserInfo.ArtworkOnlyType) {
+            shortAppId = parsedConfig.files[j].modifiedExecutableLocation.replace(/\"/g,"");
+          } else {
+            shortAppId = steam.generateShortAppId(parsedConfig.files[j].modifiedExecutableLocation, parsedConfig.files[j].extractedTitle);
+          }
           const exceptionMatches = Object.entries(this.userExceptions).filter(([extractedTitle, exception]: [extractedTitle: string, exception: UserExceptionData]) => {
             if(appIdRegex.test(extractedTitle)) {
               return extractedTitle.match(appIdRegex)[1] == shortAppId;
