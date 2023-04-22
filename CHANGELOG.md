@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## Fixed
 * Exceptions Id not matching for steam parser
 * CLI would hang on generate apps if no apps were found.
+* Handling for bug in `osName` where an error would be thrown if `powershell` not found on a Windows system, [issue 521](https://github.com/SteamGridDB/steam-rom-manager/issues/521)
 
 ## 2.4.7
 ## Fixed
