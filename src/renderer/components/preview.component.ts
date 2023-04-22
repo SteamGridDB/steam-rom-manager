@@ -137,7 +137,7 @@ export class PreviewComponent implements OnDestroy {
         });
         this.previewService.getPreviewDataChange().subscribe(()=>{
           let previewVariables = this.previewService.getPreviewVariables();
-          if(this.previewVariables.numberOfListItems > 0 && this.previewVariables.numberOfQueriedImages >= 0) {
+          if(this.previewVariables.listHasGenerated && this.previewVariables.numberOfListItems > 0) {
             this.ipcService.send('inline-log',`Apps: ${this.previewVariables.numberOfListItems}. Remaining images: ${this.previewVariables.numberOfQueriedImages}`);
             if(this.previewVariables.numberOfQueriedImages == 0 && !hasrun) {
               hasrun = true;
@@ -154,6 +154,9 @@ export class PreviewComponent implements OnDestroy {
                 })
               }
             }
+          } else if(this.previewVariables.listHasGenerated){
+            this.ipcService.send('log', 'No apps found');
+            this.ipcService.send('all_done');
           }
         })
         this.previewService.getBatchProgress().subscribe(({update, batch}: {update: string, batch: number})=>{

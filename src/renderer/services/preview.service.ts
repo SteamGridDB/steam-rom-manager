@@ -65,6 +65,7 @@ export class PreviewService {
       listIsBeingSaved: false,
       listIsBeingGenerated: false,
       listIsBeingRemoved: false,
+      listHasGenerated: false,
       numberOfQueriedImages: 0,
       numberOfListItems: 0
     };
@@ -475,11 +476,13 @@ export class PreviewService {
         }
 
         this.previewVariables.listIsBeingGenerated = false;
+        this.previewVariables.listHasGenerated = true;
         this.previewDataChanged.next();
       }).catch((error) => {
         this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
         this.loggerService.error(error);
         this.previewVariables.listIsBeingGenerated = false;
+        this.previewVariables.listHasGenerated = true;
         this.previewDataChanged.next();
       });
     }

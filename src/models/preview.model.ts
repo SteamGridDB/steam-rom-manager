@@ -71,6 +71,7 @@ export interface PreviewVariables {
     listIsBeingGenerated: boolean,
     listIsBeingSaved: boolean,
     listIsBeingRemoved: boolean,
+    listHasGenerated: boolean,
     numberOfListItems: number,
     numberOfQueriedImages: number
 
