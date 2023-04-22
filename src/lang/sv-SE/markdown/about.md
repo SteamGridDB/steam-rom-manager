@@ -1,18 +1,18 @@
-## System info
+## Systeminformation
 
-In case you're having trouble with SRM, feel free to visit the [discord](https://discord.gg/bnSVJrz) or the [subreddit](https://www.reddit.com/r/SteamRomManager/) and ask for our help. In order for us to help you, we would like you to provide this info:
+Om du har problem med SRM, tveka inte att besöka [discorden](https://discord.gg/bnSVJrz) eller [subredditen](https://www.reddit.com/r/SteamRomManager/) och be om vår hjälp. För att vi ska kunna hjälpa dig vill vi att du tillhandahåller den här informationen:
 
 * SRM version: **#{APP[version]}**
-* Operating System: **#{APP[os]}**
+* Operativsystem: **#{APP[os]}**
 
-## Useful links
+## Användbara länkar
 
-* [SRM Releases](https://github.com/SteamGridDB/steam-rom-manager/releases)
-* [Discord Server](https://discord.gg/bnSVJrz)
+* [SRM utgåvor](https://github.com/SteamGridDB/steam-rom-manager/releases)
+* [Discord-server](https://discord.gg/bnSVJrz)
 * [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
 * [Steam Group](https://steamcommunity.com/groups/steamrommanager)
 * [Github Repo](https://github.com/SteamGridDB/steam-rom-manager)
-* [Crowdin Translation Project](https://crowdin.com/project/steam-rom-manager)
+* [Crowdins översättningsprojekt](https://crowdin.com/project/steam-rom-manager)
 
 ## Support
 
