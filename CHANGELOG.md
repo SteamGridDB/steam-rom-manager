@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 ## 2.4.8
 ## Fixed
 * Exceptions Id not matching for steam parser
-
+* CLI would hang on generate apps if no apps were found.
 
 ## 2.4.7
 ## Fixed
