@@ -4,7 +4,7 @@ export interface languageStruct {
       info__md: string[]
     }
   },
-  parsers_list: {
+  parsersList: {
     component: {
       info__md: string[]
     }

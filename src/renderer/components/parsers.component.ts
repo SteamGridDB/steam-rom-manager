@@ -493,13 +493,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               placeholder: this.lang.placeholder.localImages__i.interpolate({
                 artworkType: artworkNamesDict[artworkType].toLowerCase()
               }),
-              appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
+              appendGlob: '${title}.@(png|PNG|jpg|JPG|webp|WEBP)',
               highlight: this.highlight.bind(this),
               label: this.lang.label.localImages__i.interpolate({
                 artworkType: artworkNamesDict[artworkType].toLowerCase()
               }),
-              onValidate: (self, path) => this.parsersService.validate(path[0],self.value),
-                onInfoClick: (self, path) => {
+              onValidate: (self, path) => {
+                return this.parsersService.validate(path[0], self.value)
+              },
+              onInfoClick: (self, path) => {
                 this.currentDoc.activePath = path.join();
                 this.currentDoc.content = this.lang.docs__md.localImages.join('');
               }
@@ -877,7 +879,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             success(this.lang.success.exceptionKey__i.interpolate({
               index: i + 1,
               total: totalLength,
-              appid: exceptionKey 
+              appid: exceptionKey
             }));
             success(this.lang.success.shortAppId__i.interpolate({
               index: i + 1,

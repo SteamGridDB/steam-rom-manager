@@ -3,6 +3,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import * as rangy from 'rangy';
 import * as he from 'he';
 import * as path from 'path';
+import { escape } from 'glob';
 
 @Component({
   selector: 'ng-text-input',
@@ -188,8 +189,17 @@ export class NgTextInputComponent implements ControlValueAccessor {
   writeValue(value: string, updateDom: boolean = true, selection?: { start: number, end: number }): void {
     let previousValue = this.currentValue;
     if (value !== this.currentValue) {
-      if(value&&value.split('&:&')[0]=='_browse_'){
-        value = this.appendGlob? path.resolve(value.split('&:&')[1],path.basename(this.currentValue)||this.appendGlob).replace(/\\/g,'/'):value.split('&:&')[1];
+      if(value && value.split('&:&')[0]=='_browse_'){
+        const selectedPath = value.split('&:&')[1]
+        if(this.appendGlob) {
+          const swapString = '$:$:$'
+          const t1 = escape(selectedPath.replaceAll('\\','/'));
+          const t2 = t1.replaceAll('\\', swapString)
+          const t3 = path.resolve(t2, path.basename(this.currentValue) || this.appendGlob)
+          value = t3.replaceAll('\\','/').replaceAll(swapString,'\\');
+        } else {
+          value = selectedPath;
+        }
       }
       this.currentValue = value;
       if (updateDom || this.highlight)

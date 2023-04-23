@@ -56,7 +56,7 @@ export interface ParserInputField {
     inputType: 'text' | 'path' | 'dir' | 'toggle',
     info?: string,
     forcedInput?: string,
-    validationFn?: (inputData: any, suppressSlashError?: boolean) => null | string
+    validationFn?: (inputData: any) => null | string
   }
 }
 

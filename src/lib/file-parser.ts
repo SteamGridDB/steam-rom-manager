@@ -13,7 +13,7 @@ import * as _ from 'lodash';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as os from 'os';
-import { glob } from 'glob';
+import { glob, escape } from 'glob';
 import { getPath, getArgs, getStartDir } from 'windows-shortcuts-ps';
 import * as xdgparse from 'xdg-parse';
 
@@ -567,34 +567,8 @@ export class FileParser {
   }
 
   validateFieldGlob(input: string) {
-    let regex = /\$\(\${(.*?)}(?:\|(.*?))?\)\$/;
-    let match = regex.exec(input);
     let vParser = new VariableParser({ left: '${', right: '}' });
-    if (match !== null) {
-      let fieldSets = input.match(/\$\(.*?\)\$/g);
-      if (fieldSets != null && fieldSets.length > 1)
-        return this.lang.error.tooManyFieldGlobs__md;
-      let error = null;
-      if (!match[1])
-        error = this.lang.error.parserIsRequired__md;
-      else if ('title' === match[1].toLowerCase())
-        error = this.availableParsers['Glob'].getParserInfo().inputs['glob'].validationFn(input.replace(match[0],'${'+match[1]+'}'), true);
-      else
-        error = this.availableParsers['Glob-regex'].getParserInfo().inputs['glob-regex'].validationFn(input.replace(match[0], '${'+match[1]+'}'), true);
-      if (match[2])
-        error = vParser.setInput(input.replace(match[0], match[2])).isValid() ? null : APP.lang.parsers.service.validationErrors.variableString__md;
-      if (error)
-        return error;
-    }
-    else {
-      if (!vParser.setInput(input).isValid())
-        return APP.lang.parsers.service.validationErrors.variableString__md;
-    }
-
-    if (/\\/g.test(vParser.setInput(input).parse() ? vParser.removeVariables() : input)) {
-      return this.lang.error.noWinSlashes__md;
-    }
-    return null;
+    return vParser.setInput(input).isValid() ? null : APP.lang.parsers.service.validationErrors.variableString__md;
   }
 
   private resolveFieldGlobs(fieldPath: string[], config: UserConfiguration, settings: AppSettings, parsedConfig: ParsedUserConfiguration, vParser: VariableParser) {
@@ -602,83 +576,23 @@ export class FileParser {
     let resolvedGlobs: string[][] = [];
     let resolvedFiles: string[][] = [];
 
-    for (let i = 0; i < parsedConfig.files.length; i++) {
+    for (let i=0; i < parsedConfig.files.length; i++) {
       resolvedGlobs.push([]);
       resolvedFiles.push([]);
-
-      let fieldValue: string = _.get(config,fieldPath) as string;
+      const fieldValue: string = _.get(config,fieldPath) as string;
       if (fieldValue) {
-        let variableData = this.makeVariableData(config,settings, parsedConfig.files[i]);
-        //expandable set is to allow you to comment out stuff using $()$. Decent idea, but ehhhh
-        let expandableSet = /\$\((\${.+?})(?:\|(.*?))?\)\$/.exec(fieldValue);
-        let cwd = settings.environmentVariables.localImagesDirectory? settings.environmentVariables.localImagesDirectory : config.romDirectory;
-        if (expandableSet === null) {
-          let replacedGlob = path.resolve(cwd,vParser.setInput(fieldValue).parse() ? vParser.replaceVariables((variable) => {
-            return this.getVariable(variable as AllVariables, variableData);
-          }) : '').replace(/\\/g, '/');
-
-          resolvedGlobs[i].push(replacedGlob);
-          promises.push(glob(replacedGlob, { dot: true, realpath: true, cwd: cwd, follow: true }).then((files: string[]) => {
-            resolvedFiles[i] = files;
-          }));
-        }
-        else {
-          let secondaryMatch: string = undefined;
-          let parserMatch = fieldValue.replace(expandableSet[0], '$()$');
-          parserMatch = vParser.setInput(parserMatch).parse() ? vParser.replaceVariables((variable) => {
-            return this.getVariable(variable as AllVariables, variableData);
-          }) : '';
-          parserMatch = path.resolve(cwd, parserMatch.replace('$()$', expandableSet[1])).replace(/\\/g, '/');
-          resolvedGlobs[i].push(parserMatch);
-
-          if (expandableSet[2] != undefined) {
-            secondaryMatch = fieldValue.replace(expandableSet[0], expandableSet[2] || '');
-            secondaryMatch = path.resolve(cwd, vParser.setInput(secondaryMatch).parse() ? vParser.replaceVariables((variable) => {
-              return this.getVariable(variable as AllVariables, variableData);
-            }) : '').replace(/\\/g, '/');
-            resolvedGlobs[i].push(secondaryMatch);
-          }
-
-          promises.push(Promise.resolve().then(() => {
-            if (/\${title}/i.test(expandableSet[1])) {
-              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }).then((parsedData)=>{
-                return {parsedData: parsedData, isFuzzy: false}
-              });
-            }
-            else if (/\${fuzzyTitle}/i.test(expandableSet[1])) {
-              parserMatch = parserMatch.replace('${fuzzyTitle}','${title}')
-              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }).then((parsedData)=>{
-                return {parsedData: parsedData, isFuzzy: true}
-              });
-            }
-            else {
-              return this.availableParsers['Glob'].execute([cwd], { 'glob': parserMatch }).then((parsedData)=>{
-                return {parsedData: parsedData, isFuzzy: false}
-              });
-
-            }
-          }).then((data) => {
-            let parsedData = data.parsedData;
-            let isFuzzy = data.isFuzzy;
-            for (let j = 0; j < parsedData.success.length; j++) {
-              if (isFuzzy && parsedData.success[j].extractedTitle === parsedConfig.files[i].fuzzyTitle) {
-                resolvedFiles[i].push(parsedData.success[j].filePath);
-              }
-              else if (!isFuzzy && parsedData.success[j].extractedTitle === parsedConfig.files[i].extractedTitle) {
-                resolvedFiles[i].push(parsedData.success[j].filePath);
-              }
-            }
-            if (secondaryMatch !== undefined) {
-              return glob(secondaryMatch, { dot: true, realpath: true, cwd: cwd, follow: true }).then((files: string[]) => {
-                return resolvedFiles[i].concat(files);
-              });
-            }
-            else
-              return resolvedFiles[i];
-          }).then((files) => {
-            resolvedFiles[i] = _.uniq(files);
-          }));
-        }
+        const variableData = this.makeVariableData(config, settings, parsedConfig.files[i]);
+        const cwd = config.romDirectory;
+        const parsedGlob = vParser.setInput(fieldValue).parse() ? vParser.replaceVariables((variable) => {
+          return escape(this.getVariable(variable as AllVariables, variableData).replaceAll('\\','/'));
+        }) : ''
+        const swapString='$:$:$'
+        let replacedGlob = path.resolve(cwd, parsedGlob.replaceAll('\\', swapString))
+        replacedGlob = replacedGlob.replaceAll('\\','/').replaceAll(swapString,'\\');
+        resolvedGlobs[i].push(replacedGlob);
+        promises.push(glob(replacedGlob, { dot: true, realpath: true, cwd: cwd, follow: true }).then((files: string[]) => {
+          resolvedFiles[i] = files;
+        }));
       }
     }
     return Promise.all(promises).then(() => {
