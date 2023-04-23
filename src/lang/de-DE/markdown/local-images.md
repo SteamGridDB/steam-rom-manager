@@ -1,6 +1,8 @@
 # Local images (optional) `[supports variables]`{.noWrap}
 
-Erlaubt es, lokal gespeicherte Bilder zu verwenden. Um Bilder abzurufen, wird ein [special glob input](#special-glob-input) String verwendet.
+Erlaubt es, lokal gespeicherte Bilder zu verwenden. A [special glob input](#special-glob-input) string is used to retrieve images, so for example you might do `/path/to/heroes/${title}.@(png|jpg)`. Backslashes can be used to escape characters, so that if your images live in `artwork [portraits]` you might do `/path/to/artwork \[portraits\]/${title}.@(png|jpg)`. A good idea is to set your artwork directory globally and then use the `${localimages}` dir environment variable in this field: `${localimagesdir}/emuname/heroes/${title}.@(png|jpg)` for example.
+
+Any variable you use in this field that contains special glob characters will have those characters escaped.
 
 ## Erlaubte Bilderweiterungen
 
