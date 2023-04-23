@@ -565,8 +565,6 @@ export interface languageStruct {
         multiAPIPlaceholder: string
       },
       text: {
-        skipWithMissingDataDir: string,
-        useCredentials: string,
         tryToMatchTitle: string,
         skipFileIfVariableWasNotFound: string,
         caseInsensitiveVariables: string,

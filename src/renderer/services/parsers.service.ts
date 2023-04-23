@@ -117,10 +117,8 @@ export class ParsersService {
                 return new Promise<string[]>((resolve, reject)=>{
                   let preParser = new VariableParser({ left: '${', right: '}' });
                   let accountList = preParser.setInput(accountsInfo.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
-                  steam.getAvailableLogins(steamDir, accountsInfo.useCredentials).then((data)=>{
-                    if(accountsInfo.skipWithMissingDataDir) {
-                      data=data.filter(x=>fs.existsSync(path.join(steamDir,'userdata',x.accountID)));
-                    }
+                  steam.getAvailableLogins(steamDir).then((data)=>{
+                    data=data.filter(x=>fs.existsSync(path.join(steamDir,'userdata',x.accountID)));
                     if(accountList.length) {
                       resolve(data.filter(x=> accountList.indexOf(x.name) > -1).map(x => x.accountID));
                     } else {

@@ -14,20 +14,10 @@ For example, this is how you specify account for "Banana" and "Apple":
 ${Banana}${Apple}
 ```
 
-In case the [use account credentials](#what-does-use-account-credentials-do) is disabled, you can still limit accounts by specifying their ids directly: 
+You can also set accounts accounts by specifying their ids directly: 
 
 ```
 ${56489124}${21987424}
 ```
 
-## What does "Skip found accounts with missing data directories" do?
-
-Sometimes Steam's file that contains logins, may contain users that do not have data directory created (might have been manually deleted, etc.). You can specify to skip those accounts by enabling this option.
-
-## What does "Use account credentials" do?
-
-Tries to look for account credentials in Steam directory. In other words -- username. Username then can be used to filter accounts without actually having to know their ids.
-
-### Warning!
-
-If Steam has credential saving disabled, this option will prevent finding user accounts.
+The account id is the name of the account directory that appears in `/path/to/steam/userdata`.

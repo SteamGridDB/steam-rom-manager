@@ -9,8 +9,6 @@ export interface ImageProviderAPI {
 
 export interface UserAccountsInfo {
   specifiedAccounts: string,
-  skipWithMissingDataDir: boolean,
-  useCredentials: boolean
 }
 
 export interface UserConfiguration {

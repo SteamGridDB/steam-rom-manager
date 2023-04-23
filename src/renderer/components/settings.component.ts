@@ -125,7 +125,7 @@ export class SettingsComponent implements OnDestroy {
 
   private removeControllersOnly() {
     for(let steamDir of this.knownSteamDirectories) {
-      steam.getAvailableLogins(steamDir, false).then((accounts: userAccountData[])=>{
+      steam.getAvailableLogins(steamDir).then((accounts: userAccountData[])=>{
         for(let account of accounts) {
           this.parsersService.removeControllers(steamDir, account.accountID);
         }

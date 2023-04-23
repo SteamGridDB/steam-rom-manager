@@ -115,12 +115,11 @@ export class FileParser {
   private steamDirectoriesPromise({superType, config, settings}: {superType: string, config: UserConfiguration, settings: AppSettings}) {
     return new Promise((resolve, reject)=>{
       try {
-        let steamDirectory: {directory: string, useCredentials: boolean, data: userAccountData[] } = {
+        let steamDirectory: {directory: string, data: userAccountData[] } = {
           directory: config.steamDirectory,
-          useCredentials: config.userAccounts.useCredentials,
           data: []
         };
-        steam.getAvailableLogins(steamDirectory.directory, steamDirectory.useCredentials).then((data)=>{
+        steam.getAvailableLogins(steamDirectory.directory).then((data)=>{
           steamDirectory.data = data;
           resolve({superType: superType, config: config, settings: settings, steamDirectory: steamDirectory});
         }).catch((error)=>{ reject(error) });
@@ -130,14 +129,14 @@ export class FileParser {
     });
   }
 
-  private parserPromise({superType, config, settings, steamDirectory}: {superType: string, config: UserConfiguration, settings: AppSettings, steamDirectory: {directory: string, useCredentials: boolean, data: userAccountData[] }}) {
+  private parserPromise({superType, config, settings, steamDirectory}: {superType: string, config: UserConfiguration, settings: AppSettings, steamDirectory: {directory: string, data: userAccountData[] }}) {
     return new Promise((resolve, reject)=>{
       try {
         let parser = this.getParserInfo(config.parserType);
         if (parser) {
           let preParser = new VariableParser({ left: '${', right: '}' });
           let userFilter = preParser.setInput(config.userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
-          let filteredAccounts: { found: userAccountData[], missing: string[] } = this.filterUserAccounts(steamDirectory.data, userFilter, config.steamDirectory, config.userAccounts.skipWithMissingDataDir);
+          let filteredAccounts: { found: userAccountData[], missing: string[] } = this.filterUserAccounts(steamDirectory.data, userFilter, config.steamDirectory);
           let directories:string[] = undefined;
           if (superType === parserInfo.ROMType) {
             directories = [config.romDirectory];
@@ -552,16 +551,14 @@ export class FileParser {
     }
   }
 
-  private filterUserAccounts(accountData: userAccountData[], nameFilter: string[], steamDirectory: string, skipWithMissingDirectories: boolean) {
+  private filterUserAccounts(accountData: userAccountData[], nameFilter: string[], steamDirectory: string) {
     let data: { found: userAccountData[], missing: string[] } = { found: [], missing: [] };
     if (nameFilter.length === 0) {
       data.found = _.cloneDeep(accountData);
     } else {
       data.found = accountData.filter((item)=>nameFilter.indexOf(item.name)>=0||nameFilter.indexOf(item.accountID)>=0)
-      data.missing = nameFilter.filter((filt)=>data.found.map(item=>item.name).indexOf(filt) < 0&&data.found.map(item=>item.accountID).indexOf(filt) < 0);
-      if(skipWithMissingDirectories) {
-        data.found = data.found.filter((item)=>file.validatePath(path.join(steamDirectory,'userdata',item.accountID),true));
-      }
+      data.missing = nameFilter.filter((filt)=>data.found.map(item=>item.name).indexOf(filt) < 0 && data.found.map(item=>item.accountID).indexOf(filt) < 0);
+      data.found = data.found.filter((item)=>file.validatePath(path.join(steamDirectory,'userdata',item.accountID),true));
     }
     return data;
   }

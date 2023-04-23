@@ -8,11 +8,11 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',
-  latestVersion: 14,
+  latestVersion: 15,
   fields: {
     undefined: {
       'version': { method: () => 0 },
-        'disabled': {
+      'disabled': {
         method: (oldValue) => oldValue === undefined ? false : !!!oldValue,
           oldValuePath: 'enabled'
       },
@@ -219,6 +219,16 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
           delete oldConfiguration.localLogoImages || '';
           delete oldConfiguration.localIcons || '';
           return newValue;
+        }
+      }
+    },
+    14: {
+      'version': { method: versionUp },
+      'userAccounts': {
+        method: (oldValue, oldConfiguration) => {
+          delete oldValue.skipWithMissingDataDir;
+          delete oldValue.useCredentials;
+          return oldValue;
         }
       }
     }

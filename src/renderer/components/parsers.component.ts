@@ -123,12 +123,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 serialized[path[1]] = self.value
                 return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized, {parserType: this.userForm.get('parserType').value});
               }
-            }),
-            skipWithMissingDataDir: new NestedFormElement.Toggle({
-              text: this.lang.text.skipWithMissingDataDir
-            }),
-            useCredentials: new NestedFormElement.Toggle({
-              text: this.lang.text.useCredentials
             })
           },
           onInfoClick: (self, path) => {

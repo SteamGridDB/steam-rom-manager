@@ -28,8 +28,6 @@ const sharedProperties = {
       default: {},
       properties: {
         specifiedAccounts: { type: 'string', default: '' },
-        skipWithMissingDataDir: { type: 'boolean', default: true },
-        useCredentials: { type: 'boolean', default: true }
       }
     },
     titleFromVariable: {

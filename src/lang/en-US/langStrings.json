@@ -465,8 +465,6 @@
         "multiAPIPlaceholder": "No Filter"
       },
       "text": {
-        "skipWithMissingDataDir": "Skip found accounts with missing data directories",
-        "useCredentials": "Use account credentials",
         "tryToMatchTitle": "Enable Title from Custom Variable",
         "skipFileIfVariableWasNotFound": "Skip file if variable was not found",
         "caseInsensitiveVariables": "Case-insensitive variables",
