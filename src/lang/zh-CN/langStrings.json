@@ -191,7 +191,6 @@
       "moreThanOneTitle__md": "> 文件通配符必须只包含一个 `${title}`！",
       "noStarNextToTitle__md": "> 星号 `*` 不能在 `${title}` 旁边！",
       "noAnyCharNextToTitle__md": "> 任何字符 `?` 都不能紧挨着 `${title}`！",
-      "noWindowsSlash__md": "> Windows 目录字符`\\`不允许使用！请改用`/`。",
       "noGlobstarOnBothSides__md": "> Globstar `**` 只能在 `${title}` 的一侧！",
       "noBracedDirSetOnBothSides__md": "> 包含至少一个斜杠 `/` 的大括号集合只能在 `${title}` 的一侧！",
       "noBracedDirSetOrGlobstarOnBothSides__md": "> 包含至少一个斜杠 `/` 和一个 globstar `**` 的大括号集合只能在 `${title}` 的一侧！",
@@ -209,7 +208,6 @@
       "moreThanOneRegex__md": "> 文件通配符必须只包含一个 `${regex}`！",
       "noStarNextToRegex__md": "> 星号 `*` 不能在 `${regex}` 旁边！",
       "noAnyCharNextToRegex__md": "> 任何字符 `?` 都不能紧跟在 `${regex}` 后面！",
-      "noWindowsSlash__md": "> Windows 目录字符`\\`不允许使用！请改用`/`。",
       "noGlobstarOnBothSides__md": "> Globstar `**` 只能在 `${regex}` 的一侧使用！",
       "noBracedDirSetOnBothSides__md": "> 一个包含至少一个斜杠 `/` 的大括号集合只能在 `${regex}` 的一侧！",
       "noBracedDirSetOrGlobstarOnBothSides__md": "> 一个包含至少一个斜杠 `/` 和一个 globstar `**` 的大括号集合只能在 `${regex}` 的一侧！",
@@ -466,8 +464,6 @@
         "multiAPIPlaceholder": "无筛选条件"
       },
       "text": {
-        "skipWithMissingDataDir": "跳过找到的缺少数据目录的账户",
-        "useCredentials": "使用帐户凭据",
         "tryToMatchTitle": "从自定义变量启用标题",
         "skipFileIfVariableWasNotFound": "如果未找到变量，则跳过文件。",
         "caseInsensitiveVariables": "不区分大小写的变量",
