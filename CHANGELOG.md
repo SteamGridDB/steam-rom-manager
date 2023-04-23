@@ -2,10 +2,18 @@
 All notable changes to this project will be documented in this file.
 
 ## 2.4.8
+
+## Added
+* Ability to comment things out in glob fields using `\`. Addresses [issue 404](https://github.com/SteamGridDB/steam-rom-manager/issues/404)
+
 ## Fixed
 * Exceptions Id not matching for steam parser
 * CLI would hang on generate apps if no apps were found.
 * Handling for bug in `osName` where an error would be thrown if `powershell` not found on a Windows system, [issue 521](https://github.com/SteamGridDB/steam-rom-manager/issues/521)
+* Handling for issue where `addedItemsV2.json` could be invalid json. Also made the write synchronous so this is less likely to occur.
+
+## Removed
+* Expandable set notation `$()$` that could be used in the local images fields. Classic example of SRM being overcomplicated. I might bring it back if there is popular demand.
 
 ## 2.4.7
 ## Fixed
