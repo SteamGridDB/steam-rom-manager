@@ -326,7 +326,6 @@ export interface languageStruct {
         corruptedVariables__i: string//${file}, ${error}
       },
       info: {
-        updatingPresets: string,
         downloaded: string
       }
     }

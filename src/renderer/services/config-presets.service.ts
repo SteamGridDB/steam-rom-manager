@@ -19,6 +19,7 @@ export class ConfigurationPresetsService {
   private validator: json.Validator = new json.Validator(schemas.configPresets);
   private savingIsDisabled: boolean = false;
   private rawURL: string = 'https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/';
+  private treesURL: string = 'https://api.github.com/repos/SteamGridDB/steam-rom-manager/git/trees/';
 
   constructor(private loggerService: LoggerService) {
     this.load();
@@ -41,14 +42,33 @@ export class ConfigurationPresetsService {
   }
 
   download(force: boolean = false) {
-    return Promise.resolve().then(() => {
-      if (!this.downloadStatus.getValue()) {
+    return new Promise<void>((resolve, reject) => {
+      if(this.downloadStatus.getValue()) {
+        resolve();
+      } else {
         this.downloadStatus.next(true);
-        return ConfigurationPresetsService.xRequest.request(
-          'https://api.github.com/repos/SteamGridDB/steam-rom-manager/git/trees/master?recursive=1',
-          { responseType: 'json', method: 'GET', timeout: 1000 }
-        ).then((data: any)=>{
-          let presetURLs = data.tree
+        ConfigurationPresetsService.xRequest.request(this.rawURL.concat('files/presetsHashes.json'), {
+          responseType: 'json', method: 'GET', timeout: 5000
+        })
+        .then((presetsHashes) => {
+          const appVersion: string = APP.version || '';
+          let downloadURL: string;
+          if(presetsHashes && presetsHashes[appVersion]) {
+            const commit = presetsHashes[appVersion].commit;
+            downloadURL = this.treesURL.concat(commit).concat('?recursive=1')
+          } else {
+            downloadURL = this.treesURL.concat('master').concat('?recursive=1')
+          }
+          console.log("downloadURL", downloadURL)
+          return downloadURL;
+        })
+        .then((downloadURL) => {
+          return ConfigurationPresetsService.xRequest.request(downloadURL, {
+            responseType: 'json', method: 'GET', timeout: 5000
+          })
+        })
+        .then((treedata: any)=>{
+          let presetURLs = treedata.tree
           .filter((entry: any)=>path.dirname(entry.path)=='files/presets')
           .map((entry: any)=>entry.path)
 
@@ -62,52 +82,43 @@ export class ConfigurationPresetsService {
             }));
           })
           return Promise.all(presetPromises)
-        }).then((data)=>{
-          let result = Object.assign({},...data);
-          const error = this.set(result || {});
+        })
+        .then((presets)=>{
+          let joinedPresets = Object.assign({}, ...presets);
+          const error = this.set(joinedPresets);
           if (error) {
             throw new Error(error);
           }
           this.loggerService.info(this.lang.info.downloaded, force ? { invokeAlert: true, alertTimeout: 5000 } : undefined);
-          this.save(force);
-        }).catch((error) => {
+          return this.save(force);
+        })
+        .catch((error) => {
           this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: _.get(error, 'error.status', error) }));
-        }).finally(() => {
+        })
+        .finally(() => {
           this.downloadStatus.next(false);
+          resolve();
         });
       }
-    });
+    })
   }
 
   load() {
-    ConfigurationPresetsService.xRequest.request(this.rawURL.concat('files/presetsData.json'), {
-      responseType: 'json', method: 'GET', timeout: 1000
-    }).then((presetsData)=>{
-      let localVersion = fs.existsSync(paths.presetsData) ? fs.readJsonSync(paths.presetsData).version : 0;
-      let remoteVersion = presetsData.version;
-      if(localVersion < remoteVersion) {
-        this.loggerService.info(this.lang.info.updatingPresets);
-        return this.download().then(()=>json.write(paths.presetsData, presetsData));
-      } else {
-        return json.read<ConfigPresets>(paths.configPresets).then((data) => {
-          if (data === null) {
-            return this.download();
-          }
-          else {
-            const error = this.set(data || {});
-            if (error !== null) {
-              this.savingIsDisabled = true;
-              this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
-
-              this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
-                file: paths.configPresets,
-                error
-              }));
-            }
-          }
-        })
+    return this.download().then(() => {
+      return json.read<ConfigPresets>(paths.configPresets)
+    })
+    .then((data) => {
+      const error = this.set(data || {});
+      if (error !== null) {
+        this.savingIsDisabled = true;
+        this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
+        this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
+          file: paths.configPresets,
+          error
+        }));
       }
-    }).catch((error) => {
+    })
+    .catch((error) => {
       this.savingIsDisabled = true;
       this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
       this.loggerService.error(error);
@@ -125,7 +136,7 @@ export class ConfigurationPresetsService {
 
   save(force: boolean = false) {
     if (!this.savingIsDisabled || force) {
-      json.write(paths.configPresets, this.variableData.getValue()).then().catch((error) => {
+      return json.write(paths.configPresets, this.variableData.getValue()).then().catch((error) => {
         this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
         this.loggerService.error(error);
       });
