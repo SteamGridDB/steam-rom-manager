@@ -2,7 +2,6 @@
 All notable changes to this project will be documented in this file.
 
 ## 2.4.8
-
 ## Added
 * Ability to comment things out in glob fields using `\`. Addresses [issue 404](https://github.com/SteamGridDB/steam-rom-manager/issues/404)
 * Config presets are now grabbed by version, so that older versions of SRM (from here on out) won't break when breaking changes are made to the presets files (they also won't receive any new presets, but c'est la vie).
