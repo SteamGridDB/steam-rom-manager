@@ -262,8 +262,7 @@
         "corruptedVariables__i": "Variáveis personalizadas salvas são inválidas!\nO salvamento permanente de variáveis está desabilitado até que o problema seja resolvido.\nTente corrigir manualmente os erros (arquivo - ${file})\nou procure ajuda no github ou no nosso canal oficial do discord: ${error}"
       },
       "info": {
-        "updatingPresets": "As predefinições de configuração local estão desatualizadas. Atualizando agora.",
-        "downloaded": "O arquivo de nova predefinição de configuração foi baixado."
+        "downloaded": "New config presets have been downloaded."
       }
     }
   },
