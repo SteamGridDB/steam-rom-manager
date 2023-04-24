@@ -15,6 +15,9 @@ All notable changes to this project will be documented in this file.
 
 ## Removed
 * Expandable set notation `$()$` that could be used in the local images fields. Classic example of SRM being overcomplicated. I might bring it back if there is popular demand.
+* `Skip Accounts with Missing Data Dirs` option (always true now)
+* `Use Account Credentials` option (now set based on whether or not `loginusers.vdf` exists)
+
 
 ## 2.4.7
 ## Fixed

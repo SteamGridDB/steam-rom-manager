@@ -20,26 +20,28 @@
         unsaved: userConfigurations[i].current != null,
         disabled: userConfigurations[i].saved.disabled
       }">
-      <div class="inputContainer" [formGroupName]="i">
-        <div class="inlineGroup">
-          <nav-link
-            class="parserlink"
-            [ngClass]="{
-              unsaved: userConfigurations[i].current != null,
-              disabled: userConfigurations[i].saved.disabled
-            }"
-            [routerLink]="['/parsers', i]"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true, dummy: dummy }"
-          >
-            {{ userConfigurations[i].saved.configTitle || lang.noTitle }}
-          </nav-link>
-          <ng-toggle-button
-            class="ngToggleButton"
-            [formControl]="item.controls[userConfigurations[i].saved.parserId]"
-          ></ng-toggle-button>
+      <ng-container *ngVar="item.controls[userConfigurations[i].saved.parserId] as toggle">
+        <div class="inputContainer" [formGroupName]="i" (click)="emuClick(toggle)" >
+          <div class="inlineGroup">
+            <nav-link
+              class="parserlink"
+              [ngClass]="{
+                unsaved: userConfigurations[i].current != null,
+                disabled: userConfigurations[i].saved.disabled
+              }"
+              [routerLink]="['/parsers', i]"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true, dummy: dummy }"
+            >
+              {{ userConfigurations[i].saved.configTitle || lang.noTitle }}
+            </nav-link>
+            <ng-toggle-button
+              class="ngToggleButton"
+              [formControl]="toggle"
+            ></ng-toggle-button>
+          </div>
         </div>
-      </div>
+      </ng-container>
     </div>
   </nav-expand>
 </div>
