@@ -18,11 +18,11 @@
       "saveImage": "Save image to file",
       "addLocalImages": "Add local images",
       "retryDownload": "Retry download",
-      "generateAppList": "Generate apps",
+      "generateAppList": "Parse",
       "saveAppList": "Save to Steam",
       "removeAppList": "Remove from Steam",
-      "remainingImages": "Remaining urls:",
-      "stopUrlRetrieving": "Stop image downloads",
+      "remainingImages": "Retrieving urls:",
+      "stopUrlRetrieving": "Stop",
       "exportSelections": "Export",
       "importSelections": "Import"
     },
@@ -191,7 +191,6 @@
       "moreThanOneTitle__md": "> File glob must contain only one `${title}`!",
       "noStarNextToTitle__md": "> Star `*` can not be next to `${title}`!",
       "noAnyCharNextToTitle__md": "> Any char `?` can not be next to `${title}`!",
-      "noWindowsSlash__md": "> Windows directory character `\\` is not allowed! Use `/` instead.",
       "noGlobstarOnBothSides__md": "> Globstar `**` can only be on one side of `${title}`!",
       "noBracedDirSetOnBothSides__md": "> A braced set, containing at least one slash `/` can only be on one side of `${title}`!",
       "noBracedDirSetOrGlobstarOnBothSides__md": "> A braced set, containing at least one slash `/` and a globstar `**` can only be on one side of `${title}`!",
@@ -209,7 +208,6 @@
       "moreThanOneRegex__md": "> File glob must contain only one `${regex}`!",
       "noStarNextToRegex__md": "> Star `*` can not be next to `${regex}`!",
       "noAnyCharNextToRegex__md": "> Any char `?` can not be next to `${regex}`!",
-      "noWindowsSlash__md": "> Windows directory character `\\` is not allowed! Use `/` instead.",
       "noGlobstarOnBothSides__md": "> Globstar `**` can only be on one side of `${regex}`!",
       "noBracedDirSetOnBothSides__md": "> A braced set, containing at least one slash `/` can only be on one side of `${regex}`!",
       "noBracedDirSetOrGlobstarOnBothSides__md": "> A braced set, containing at least one slash `/` and a globstar `**` can only be on one side of `${regex}`!",
@@ -264,8 +262,7 @@
         "corruptedVariables__i": "Saved configuration presets are invalid!\r\nPermanent file saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
       },
       "info": {
-        "updatingPresets": "Local config presets are out of date. Updating now.",
-        "downloaded": "New config preset file has been downloaded."
+        "downloaded": "New config presets have been downloaded."
       }
     }
   },
@@ -466,8 +463,6 @@
         "multiAPIPlaceholder": "No Filter"
       },
       "text": {
-        "skipWithMissingDataDir": "Skip found accounts with missing data directories",
-        "useCredentials": "Use account credentials",
         "tryToMatchTitle": "Enable Title from Custom Variable",
         "skipFileIfVariableWasNotFound": "Skip file if variable was not found",
         "caseInsensitiveVariables": "Case-insensitive variables",

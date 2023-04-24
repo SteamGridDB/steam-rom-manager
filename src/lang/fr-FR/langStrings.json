@@ -18,23 +18,23 @@
       "saveImage": "Sauvegarder l'image",
       "addLocalImages": "Image personnalisée",
       "retryDownload": "Réessayer le téléchargement",
-      "generateAppList": "Générer une liste de jeu",
+      "generateAppList": "Parse",
       "saveAppList": "Save to Steam",
       "removeAppList": "Remove from Steam",
-      "remainingImages": "Remaining urls:",
-      "stopUrlRetrieving": "Arrêter tous les téléchargements",
+      "remainingImages": "Retrieving urls:",
+      "stopUrlRetrieving": "Stop",
       "exportSelections": "Export",
       "importSelections": "Import"
     },
     "service": {
       "info": {
-        "listIsBeingGenerated": "List is being generated. Please wait.",
-        "listIsBeingSaved": "List is being saved. Please wait.",
-        "listIsBeingRemoved": "List is being removed. Please wait.",
+        "listIsBeingGenerated": "La liste est en cours de génération. Veuillez patienter.",
+        "listIsBeingSaved": "La liste est en cours d'enregistrement. Veuillez patienter.",
+        "listIsBeingRemoved": "La liste est en cours de suppression. Veuillez patienter.",
         "listIsEmpty": "Liste vide.",
         "populatingVDF_List": "Populating VDF list.",
         "creatingBackups": "Creating backups.",
-        "readingVDF_Files": "Reading VDF files.",
+        "readingVDF_Files": "Lecture du fichier VDF en cours...",
         "mergingVDF_entries": "Merging VDF entries.",
         "removingVDF_entries": "Removing VDF entries and image files.",
         "savingCategories": "Saving category information to localconfig.vdf.",
@@ -43,15 +43,15 @@
         "writingVDF_entries__i": "Writing VDF files and downloading high res images in batches of ${batchSize}.",
         "updatingKnownSteamDirList": "Updating a list of known Steam directories.",
         "retryingDownload__i": "Retrying image download from \"${imageUrl}\" for \"${appTitle}\".",
-        "disabledConfigurations__i": "${count} user configuration(s) was/were skipped (disabled by user).",
-        "invalidConfigurations__i": "${count} user configuration(s) was/were skipped (invalid).",
+        "disabledConfigurations__i": "${count} configuration(s) utilisateur a été ignorée(s) (désactivée par l'utilisateur).",
+        "invalidConfigurations__i": "${count} configuration(s) utilisateur a été ignorée(s) (invalide).",
         "executingParsers": "Exécution des analyseurs.",
         "shutdownSteam": "Veuillez arrêter Steam s'il est en cours d'exécution.",
         "noParserConfigurations": "Veuillez d'abord créer la configuration de l'analyseur dans le menu \"Analyseurs\".",
         "parserFoundNoFiles": "Parser(s) found no files matching user configuration.",
         "allImagesRetrieved": "Toutes les URL des images disponibles ont été récupérées.",
         "providerTimeout__i": "Timeout was requested by \"${provider}\" for ${time} second(s).",
-        "noAccountsWarning": "User accounts not found. Incorrect Steam directory?",
+        "noAccountsWarning": "Comptes utilisateur introuvables. Répertoire Steam incorrect?",
         "preparingExport": "Préparation de l'exportation des choix d'image.",
         "exportProgress__i": "Sauvegarde des choix d'image ${progress}.",
         "readingSelections": "Application des choix d'image importés."
@@ -111,7 +111,7 @@
   },
   "legendaryParser": {
     "legendaryInstalledFileTitle": "Legendary installed.json Path Override",
-    "legendaryInstalledFilePlaceholder": "/path/to/legendary/installed.json",
+    "legendaryInstalledFilePlaceholder": "/chemin/vers/legendary/installed.json",
     "errors": {
       "legendaryNotInstalled": "> Legendary installed.json not found",
       "fatalError__i": "> L'analyseur Legendary a échoué avec une erreur fatale:\n ${error}"
@@ -119,7 +119,7 @@
   },
   "UWPParser": {
     "UWPDirTitle": "XboxGames Directory Override",
-    "UWPDirPlaceholder": "/path/to/XboxGames or /path/to/WindowsApps",
+    "UWPDirPlaceholder": "/chemin/vers/XboxGames ou /chemin/vers/WindowsApps",
     "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper",
     "errors": {
       "fatalError__i": "> UWP parser is not compatible in this platform.",
@@ -128,7 +128,7 @@
   },
   "uplayParser": {
     "uplayDirTitle": "Ubisoft Directory Override",
-    "uplayDirPlaceholder": "/path/to/Ubisoft/",
+    "uplayDirPlaceholder": "/chemin/vers/Ubisoft/",
     "launcherModeInputTitle": "Lancer les jeux via UPlay pour les services en ligne",
     "errors": {
       "invalidManifestsOverride": "> Uplay Directory Override is not a valid directory.",
@@ -140,7 +140,7 @@
   },
   "gogParser": {
     "galaxyExeOverrideTitle": "Galaxy Path Override",
-    "galaxyExeOverridePlaceholder": "/path/to/GalaxyClient.exe",
+    "galaxyExeOverridePlaceholder": "/chemin/vers/GalaxyClient.exe",
     "launcherModeInputTitle": "Lancer les jeux via GOG Galaxy",
     "errors": {
       "invalidGalaxyExeOverride": "> Galaxy Client Override is not a valid path.",
@@ -151,7 +151,7 @@
   },
   "amazonGamesParser": {
     "exeOverrideTitle": "Amazon Games Path Override",
-    "exeOverridePlaceholder": "/path/to/Amazon Games.exe",
+    "exeOverridePlaceholder": "/chemin/vers/Amazon Games.exe",
     "launcherModeInputTitle": "Lancer les jeux via Amazon Games",
     "errors": {
       "invalidExeOverride": "> Amazon Games Installation Override is not a valid directory.",
@@ -162,7 +162,7 @@
   },
   "itchIoParser": {
     "itchIoAppDataOverrideTitle": "itch.io AppData Directory Override",
-    "itchIoAppDataOverridePlaceholder": "/path/to/itch",
+    "itchIoAppDataOverridePlaceholder": "/chemin/vers/itch",
     "itchIoWindowsOnLinuxInstallDriveRedirectTitle": "Windows-on-Linux Install Drive Redirect",
     "itchIoWindowsOnLinuxInstallDriveRedirectPlaceholder": "/mnt/d/",
     "errors": {
@@ -175,7 +175,7 @@
   },
   "eaDesktopParser": {
     "eaGamesDirTitle": "EA Games Directory Override",
-    "eaGamesDirPlaceholder": "/path/to/EA Games/",
+    "eaGamesDirPlaceholder": "/chemin/vers/EA Games/",
     "eaLauncherModeTitle": "Lancer les jeux via EA Desktop",
     "errors": {
       "fatalError__i": "> EA Desktop parser failed with fatal error:\n ${error}",
@@ -191,7 +191,6 @@
       "moreThanOneTitle__md": "> File glob must contain only one `${title}`!",
       "noStarNextToTitle__md": "> Star `*` can not be next to `${title}`!",
       "noAnyCharNextToTitle__md": "> Any char `?` can not be next to `${title}`!",
-      "noWindowsSlash__md": "> Windows directory character `\\` is not allowed! Use `/` instead.",
       "noGlobstarOnBothSides__md": "> Globstar `**` can only be on one side of `${title}`!",
       "noBracedDirSetOnBothSides__md": "> A braced set, containing at least one slash `/` can only be on one side of `${title}`!",
       "noBracedDirSetOrGlobstarOnBothSides__md": "> A braced set, containing at least one slash `/` and a globstar `**` can only be on one side of `${title}`!",
@@ -209,7 +208,6 @@
       "moreThanOneRegex__md": "> File glob must contain only one `${regex}`!",
       "noStarNextToRegex__md": "> Star `*` can not be next to `${regex}`!",
       "noAnyCharNextToRegex__md": "> Any char `?` can not be next to `${regex}`!",
-      "noWindowsSlash__md": "> Windows directory character `\\` is not allowed! Use `/` instead.",
       "noGlobstarOnBothSides__md": "> Globstar `**` can only be on one side of `${regex}`!",
       "noBracedDirSetOnBothSides__md": "> A braced set, containing at least one slash `/` can only be on one side of `${regex}`!",
       "noBracedDirSetOrGlobstarOnBothSides__md": "> A braced set, containing at least one slash `/` and a globstar `**` can only be on one side of `${regex}`!",
@@ -251,7 +249,7 @@
         "corruptedVariables__i": "Saved custom variables are invalid!\r\nPermanent variable saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
       },
       "info": {
-        "downloaded": "Custom variables file has been downloaded."
+        "downloaded": "Le fichier de variables personnalisées a été téléchargé."
       }
     }
   },
@@ -264,8 +262,7 @@
         "corruptedVariables__i": "Saved configuration presets are invalid!\r\nPermanent file saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
       },
       "info": {
-        "updatingPresets": "Local config presets are out of date. Updating now.",
-        "downloaded": "New config preset file has been downloaded."
+        "downloaded": "New config presets have been downloaded."
       }
     }
   },
@@ -273,45 +270,45 @@
     "component": {
       "label": {
         "general": "Paramètres généraux",
-        "imageProviders": "Image provider settings",
+        "imageProviders": "Paramètres du fournisseur d'images",
         "fuzzy": "Paramètres de correspondance approximative",
-        "environmentVariables": "Environment variable settings",
-        "communityPresets": "Community variable/preset settings"
+        "environmentVariables": "Paramètres des variables d'environnement",
+        "communityPresets": "Paramètres de variable/préréglage de la communauté"
       },
       "text": {
         "offlineMode": "Mode hors ligne",
         "removeApps_desc": "toutes les entrées d'application et contrôleur ajoutées",
         "removeApps_btn": "Retirer",
-        "preloadImages": "Preload retrieved images immediately",
+        "preloadImages": "Précharger toutes les images trouvées",
         "fuzzy_verbose": "Log matching results",
         "fuzzy_filter": "Filter images",
-        "enabledProviders": "Enabled image providers",
+        "enabledProviders": "Activés fournisseurs d'images",
         "selectLanguage": "Select language",
         "selectTheme": "Select theme",
         "resetFuzzy_desc": "fuzzy list",
         "resetFuzzyCache_desc": "fuzzy cache",
         "resetFuzzy_btn": "Réinitialiser",
-        "customVariables_desc": "custom variables",
-        "configPresets_desc": "config presets",
+        "customVariables_desc": "des variables personnalisées",
+        "configPresets_desc": "des configurations prédéfinies",
         "showSteamImages": "Afficher les images Steam actuelles par défaut",
         "deleteDisabledShortcuts": "Retirer les raccourcis pour les analyseurs désactivés",
         "clearLogOnTest": "Effacer automatiquement les logs avant de tester les analyseurs",
         "configDir": "Dossier de Configuration"
       },
       "placeholder": {
-        "noProviders": "None",
-        "steamDirectoryWin": "Typically C:\\Program Files (x86)\\Steam",
-        "steamDirectoryMac": "Typically ~/Library/Application Support/Steam",
-        "steamDirectoryLinux": "Typically /home/user/.steam/steam",
-        "romsDirectoryWin": "For example D:\\ROMs",
-        "romsDirectoryMac": "For example ~/ROMs",
-        "romsDirectoryLinux": "For example ~/ROMs",
+        "noProviders": "Aucun",
+        "steamDirectoryWin": "Généralement C:\\Program Files (x86)\\Steam",
+        "steamDirectoryMac": "Généralement ~/Library/Application Support/Steam",
+        "steamDirectoryLinux": "Généralement /home/user/.steam/steam",
+        "romsDirectoryWin": "Par exemple D:\\ROMs",
+        "romsDirectoryMac": "Par exemple ~/ROMs",
+        "romsDirectoryLinux": "Par exemple ~/ROMs",
         "retroarchPathWin": "Par exemple C:\\Chemin\\Vers\\retroarch.exe",
-        "retroarchPathLinux": "For example /path/to/retroarch",
-        "retroarchPathMac": "For example /path/to/retroarch",
-        "raCoresDirectoryWin": "Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
-        "raCoresDirectoryLinux": "Typically /lib/x86_64-linux-gnu/libretro/cores",
-        "raCoresDirectoryMac": "Typically /Applications/Retroarch.app/Contents/Resources/cores",
+        "retroarchPathLinux": "Par exemple /chemin/vers/retroarch",
+        "retroarchPathMac": "Par exemple /chemin/vers/retroarch",
+        "raCoresDirectoryWin": "Généralement C:\\Utilisateurs\\NomD'Utilisateurs\\AppData\\Roaming\\RetroArch\\cores",
+        "raCoresDirectoryLinux": "Généralement /lib/x86_64-linux-gnu/libretro/core",
+        "raCoresDirectoryMac": "Généralement /Applications/Retroarch.app/Contents/Resources/cores",
         "localImagesDirectoryWin": "For example C:\\Path\\To\\LocalArtwork",
         "localImagesDirectoryUnix": "For example ~/path/to/localartwork"
       }
@@ -442,23 +439,23 @@
         "executableArgs": "Command line arguments",
         "onlineImageQueries": "Online image query",
         "imagePool": "Image pool",
-        "imageProviders": "Image providers",
-        "defaultImage__i": "Fallback ${artworkType}",
+        "imageProviders": "Fournisseurs d'images",
+        "defaultImage__i": "${artworkType} par défaut",
         "localImages__i": "Local ${artworkType} glob"
       },
       "placeholder": {
         "parserType": "Sélectionner analyseur...",
-        "configTitle": "My Awesome Parser",
+        "configTitle": "Mon Super Analyseur",
         "steamCategory": "${cat1}${cat2}",
-        "steamDirectory": "${steamdirglobal} or /path/to/steam",
+        "steamDirectory": "${steamdirglobal} ou /chemin/vers/Steam",
         "userAccounts": "${steamuser1}${steamuser2}",
         "titleFromVariable": "${myvariable}",
         "titleModifier": "${fuzzyTitle} or ${title}",
-        "defaultImage__i": "/path/to/fallback_${artworkType}.png",
+        "defaultImage__i": "/chemin/vers/${artworkType}_pardefaut.png",
         "localImages__i": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)",
-        "romDirectory": "/path/to/games/",
+        "romDirectory": "/chemin/vers/jeux/",
         "glob": "${title}.@(iso|ISO)",
-        "executableLocation": "Example: /path/to/emulator.exe",
+        "executableLocation": "Exemple: /chemin/vers/émulateur.exe",
         "executableArgs": "--arg1 --arg2",
         "executableModifier": "\"${exePath}\"",
         "startInDirectory": "/path/to/start/in/dir",
@@ -466,8 +463,6 @@
         "multiAPIPlaceholder": "Aucun filtre"
       },
       "text": {
-        "skipWithMissingDataDir": "Ignorer les comptes trouvés avec des données manquantes",
-        "useCredentials": "Utiliser les noms de compte",
         "tryToMatchTitle": "Enable Title from Custom Variable",
         "skipFileIfVariableWasNotFound": "Ignorer le fichier si la variable n'a pas été trouvée",
         "caseInsensitiveVariables": "Variables insensibles à la casse",
@@ -512,7 +507,7 @@
         "titleModifier__md": "> Title modifier must not be empty!",
         "executableModifier__md": "> Executable modifier must not be empty!",
         "variableString__md": "> Uneven number of `${` and `}` pairs. Use `\\` to escape `${` or `}` if you want to use them as characters.",
-        "imageProviders__md": "> Incorrect image providers type!",
+        "imageProviders__md": "> Type de fournisseur d'image incorrect!",
         "unhandledValidationKey__md": "> Input's validation is unhandled",
         "genericDir__md": "> Le répertoire est incorrect",
         "genericPath__md": "> Le chemin est incorrect"

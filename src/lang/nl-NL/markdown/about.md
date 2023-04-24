@@ -18,8 +18,8 @@ Als je problemen hebt met SRM, bezoek dan de [discord](https://discord.gg/bnSVJr
 
 Help support continued progress on Steam ROM Manager at:
 
-<a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
-  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Koop een kopje koffie voor mij" width="160">
+<a href="https://www.buymeacoffee.com/cbartondock">
+  <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="Koop een kopje koffie voor mij" width="160">
 </a>
 
 [SteamGridDB](https://www.steamgriddb.com/) host al het artwork dat Steam ROM Manager gebruikt om je Steam-bibliotheek de afgunst van de stad te maken, dus we zouden ze waarschijnlijk moeten helpen om hun lichten aan te houden. If you enjoy Steam ROM Manager and want it to continue to be useful also consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon.

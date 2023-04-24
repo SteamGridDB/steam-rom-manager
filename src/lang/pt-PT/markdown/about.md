@@ -18,8 +18,8 @@ In case you're having trouble with SRM, feel free to visit the [discord](https:/
 
 Help support continued progress on Steam ROM Manager at:
 
-<a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
-  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" width="160">
+<a href="https://www.buymeacoffee.com/cbartondock">
+  <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="Buy Me A Coffee" width="160">
 </a>
 
 [SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork Steam ROM Manager uses to make your Steam library the envy of the town, so we should probably help them keep their lights on. If you enjoy Steam ROM Manager and want it to continue to be useful also consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon.
@@ -47,7 +47,7 @@ Help support continued progress on Steam ROM Manager at:
 * `UndarkAido` - Added shortcut passthrough for Linux's .desktop shortcuts.
 
 ### Community
-* `HE Spoke`{.noWrap} - created a community around SRM. `HE Spoke`{.noWrap} - created a community around SRM. Creator of [Steam](https://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/bnSVJrz) groups. Also helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
+* `HE Spoke`{.noWrap} - created a community around SRM. `HE Spoke`{.noWrap} - created a community around SRM. Creator of [Steam](https://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/bnSVJrz) groups. `HE Spoke`{.noWrap} - created a community around SRM. Creator of [Steam](https://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/bnSVJrz) groups. Also helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
 * `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). Current maintainer of [EmuDeck](https://www.emudeck.com/).
 * `Choko`{.noWrap} - Helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
 * `Xav83`{.noWrap} - Creator and maintainer of SRM's [Chocolatey package](https://community.chocolatey.org/packages/steam-rom-manager)

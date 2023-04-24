@@ -18,11 +18,11 @@
       "saveImage": "Salvar imagem no arquivo",
       "addLocalImages": "Adicionar imagens locais",
       "retryDownload": "Repetir download",
-      "generateAppList": "Generate apps",
+      "generateAppList": "Parse",
       "saveAppList": "Save to Steam",
       "removeAppList": "Remove from Steam",
-      "remainingImages": "Remaining urls:",
-      "stopUrlRetrieving": "Parar download da imagem",
+      "remainingImages": "Retrieving urls:",
+      "stopUrlRetrieving": "Stop",
       "exportSelections": "Export",
       "importSelections": "Import"
     },
@@ -191,7 +191,6 @@
       "moreThanOneTitle__md": "> Globo de arquivos deve conter apenas um `${title}`!",
       "noStarNextToTitle__md": "> Estrela `*` não pode estar perto de `${title}`!",
       "noAnyCharNextToTitle__md": "> Qualquer caractere `?` não pode estar ao lado de `${title}`!",
-      "noWindowsSlash__md": "> Caracter de diretório Windows `\\` não é permitido! Use `/` em vez disso.",
       "noGlobstarOnBothSides__md": "> Globstar `**` só pode estar em um lado de `${title}`!",
       "noBracedDirSetOnBothSides__md": "> Um conjunto de pulseiras, contendo pelo menos uma barra `/` só pode estar em um lado de `${title}`!",
       "noBracedDirSetOrGlobstarOnBothSides__md": "> Um conjunto de pulseiras, contendo pelo menos uma barra `/` e uma estrela `**` global só pode estar em um lado de `${title}`!",
@@ -209,7 +208,6 @@
       "moreThanOneRegex__md": "> Globo de arquivos deve conter apenas um `${regex}`!",
       "noStarNextToRegex__md": "> Estrela `*` não pode estar perto de `${regex}`!",
       "noAnyCharNextToRegex__md": "> Qualquer caractere `?` não pode estar ao lado de `${regex}`!",
-      "noWindowsSlash__md": "> Caracter de diretório Windows `\\` não é permitido! Use `/` em vez disso.",
       "noGlobstarOnBothSides__md": "> Globstar `**` só pode estar em um lado de `${regex}`!",
       "noBracedDirSetOnBothSides__md": "> Um conjunto de pulseiras, contendo pelo menos uma barra `/` só pode estar em um lado de `${regex}`!",
       "noBracedDirSetOrGlobstarOnBothSides__md": "> Um conjunto de pulseiras, contendo pelo menos uma barra `/` e uma estrela `**` global só pode estar em um lado de `${regex}`!",
@@ -264,8 +262,7 @@
         "corruptedVariables__i": "Variáveis personalizadas salvas são inválidas!\nO salvamento permanente de variáveis está desabilitado até que o problema seja resolvido.\nTente corrigir manualmente os erros (arquivo - ${file})\nou procure ajuda no github ou no nosso canal oficial do discord: ${error}"
       },
       "info": {
-        "updatingPresets": "As predefinições de configuração local estão desatualizadas. Atualizando agora.",
-        "downloaded": "O arquivo de nova predefinição de configuração foi baixado."
+        "downloaded": "New config presets have been downloaded."
       }
     }
   },
@@ -466,8 +463,6 @@
         "multiAPIPlaceholder": "Sem filtro"
       },
       "text": {
-        "skipWithMissingDataDir": "Ignorar contas encontradas com diretórios de dados ausentes",
-        "useCredentials": "Credenciais de conta",
         "tryToMatchTitle": "Título da variável personalizada",
         "skipFileIfVariableWasNotFound": "Ignorar o arquivo se a variável não foi encontrada",
         "caseInsensitiveVariables": "Variáveis insensiveis",
