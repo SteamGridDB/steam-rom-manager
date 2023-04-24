@@ -18,8 +18,8 @@ Falls du Probleme mit SRM hast, kannst du die [Discord](https://discord.gg/bnSVJ
 
 Unterstütze die fortlaufende Entwicklung am Steam ROM Manager auf:
 
-<a href="https://www.buymeacoffee.com/cbartondock" target="_blank">
-  <img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Kauf mir einen Kaffee" width="160">
+<a href="https://www.buymeacoffee.com/cbartondock">
+  <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="Kauf mir einen Kaffee" width="160">
 </a>
 
 Wenn dir Steam ROM Manager gefällt, und du möchtest, dass es weiterhin nützlich sein soll, erwäge die Unterstützung als [SteamGridDB](https://www.steamgriddb.com/)-Patreon. [SteamGridDB](https://www.steamgriddb.com/) beherbergt alle Artworks des Steam ROM Managers, um deine Steam-Bibliothek zum Neidobjekt der Stadt zu machen. So sollten wir ihnen wahrscheinlich helfen, ihre Lichter am Leuchten zu halten.
