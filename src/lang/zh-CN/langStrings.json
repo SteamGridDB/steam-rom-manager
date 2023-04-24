@@ -262,8 +262,7 @@
         "corruptedVariables__i": "保存的配置预设无效！\n在解决此问题之前，永久文件保存已被禁用。\n尝试手动修复错误（文件 - ${file}）\n或在我们的官方 Discord 频道或 Github 上寻求帮助：${error}"
       },
       "info": {
-        "updatingPresets": "本地配置预设已过期。正在更新。",
-        "downloaded": "新的配置预设文件已下载。"
+        "downloaded": "New config presets have been downloaded."
       }
     }
   },
