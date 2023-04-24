@@ -262,8 +262,7 @@
         "corruptedVariables__i": "Saved configuration presets are invalid!\r\nPermanent file saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
       },
       "info": {
-        "updatingPresets": "Les pré-réglages de configuration locale sont obsolètes. Mise à jour en cours.",
-        "downloaded": "Le fichier de configuration prédéfini a été téléchargé."
+        "downloaded": "New config presets have been downloaded."
       }
     }
   },
@@ -441,7 +440,7 @@
         "onlineImageQueries": "Online image query",
         "imagePool": "Image pool",
         "imageProviders": "Fournisseurs d'images",
-        "defaultImage__i": "Fallback ${artworkType}",
+        "defaultImage__i": "${artworkType} par défaut",
         "localImages__i": "Local ${artworkType} glob"
       },
       "placeholder": {
@@ -452,7 +451,7 @@
         "userAccounts": "${steamuser1}${steamuser2}",
         "titleFromVariable": "${myvariable}",
         "titleModifier": "${fuzzyTitle} or ${title}",
-        "defaultImage__i": "/path/to/fallback_${artworkType}.png",
+        "defaultImage__i": "/chemin/vers/${artworkType}_pardefaut.png",
         "localImages__i": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)",
         "romDirectory": "/chemin/vers/jeux/",
         "glob": "${title}.@(iso|ISO)",
