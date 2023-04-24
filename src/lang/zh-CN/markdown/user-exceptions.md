@@ -7,7 +7,7 @@
 
 `提取的标题`字段有两种匹配方式：
 
-* Based on the `Exception ID` (found by running test parser). Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. 如果`异常 ID`存在，那么放在它前面的标签不重要，但为了可读性和搜索性，在`异常 ID`前面加上游戏的实际名称是很好的。 Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. 如果`异常 ID`存在，那么放在它前面的标签不重要，但为了可读性和搜索性，在`异常 ID`前面加上游戏的实际名称是很好的。
+* Based on the `Exception ID` (found by running test parser). Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. 如果`异常 ID`存在，那么放在它前面的标签不重要，但为了可读性和搜索性，在`异常 ID`前面加上游戏的实际名称是很好的。 Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. 如果`异常 ID`存在，那么放在它前面的标签不重要，但为了可读性和搜索性，在`异常 ID`前面加上游戏的实际名称是很好的。 Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. 如果`异常 ID`存在，那么放在它前面的标签不重要，但为了可读性和搜索性，在`异常 ID`前面加上游戏的实际名称是很好的。
 * Based on the `Extracted Title` (found by running test parser). 例如，如果`提取的标题`是 `Portal 2`，您应该输入 `Portal 2`。 例如，如果`提取的标题`是 `Portal 2`，您应该输入 `Portal 2`。
 
 因此，您可以选择适用于所有具有相同名称的游戏的异常或仅适用于确切游戏的异常(`异常 ID`是唯一的)。 这是因为主要考虑向后兼容性 -- SRM 以前仅匹配`提取的标题`。
