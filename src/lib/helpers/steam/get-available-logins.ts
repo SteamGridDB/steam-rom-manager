@@ -37,7 +37,6 @@ export function getAvailableLogins(steamDirectory: string) {
           let accountData: userAccountData[] = [];
           for (let i = 0; i < files.length; i++) {
             const userId = files[i].split(path.sep).slice(-1)[0];
-            console.log("userId", userId)
             accountData.push({ steamID64: 'unavailable', accountID: userId, name: userId });
           }
           resolve(accountData);
