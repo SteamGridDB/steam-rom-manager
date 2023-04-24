@@ -5,9 +5,10 @@ All notable changes to this project will be documented in this file.
 
 ## Added
 * Ability to comment things out in glob fields using `\`. Addresses [issue 404](https://github.com/SteamGridDB/steam-rom-manager/issues/404)
+* Config presets are now grabbed by version, so that older versions of SRM (from here on out) won't break when breaking changes are made to the presets files (they also won't receive any new presets, but c'est la vie).
 
 ## Fixed
-* Exceptions Id not matching for steam parser
+* Exceptions ID not matching for steam parser
 * CLI would hang on generate apps if no apps were found.
 * Handling for bug in `osName` where an error would be thrown if `powershell` not found on a Windows system, [issue 521](https://github.com/SteamGridDB/steam-rom-manager/issues/521)
 * Handling for issue where `addedItemsV2.json` could be invalid json. Also made the write synchronous so this is less likely to occur.

@@ -7,27 +7,43 @@ import * as fs from 'fs-extra';
 
 export function getAvailableLogins(steamDirectory: string) {
   return new Promise<userAccountData[]>((resolve, reject) => {
-    fs.readFile(path.join(steamDirectory, 'config', 'loginusers.vdf'), 'utf8', (err, data) => {
-      try {
-        if (err && err.code !== 'ENOENT')
-          reject(err);
-        else {
-          if (data) {
-            let parsedData = genericParser.parse(data) as any;
-            let accountData: userAccountData[] = [];
-            if (parsedData.users) {
-              for (let steamID64 in parsedData.users) {
-                accountData.push({ steamID64: steamID64, accountID: steamID_64_ToAccountID(steamID64), name: parsedData.users[steamID64].AccountName });
+    const usersFile = path.join(steamDirectory, 'config', 'loginusers.vdf');
+    if(fs.existsSync(usersFile)) {
+      fs.readFile(path.join(steamDirectory, 'config', 'loginusers.vdf'), 'utf8', (err, data) => {
+        try {
+          if (err && err.code !== 'ENOENT')
+            reject(err);
+          else {
+            if (data) {
+              let parsedData = genericParser.parse(data) as any;
+              let accountData: userAccountData[] = [];
+              if (parsedData.users) {
+                for (let steamID64 in parsedData.users) {
+                  accountData.push({ steamID64: steamID64, accountID: steamID_64_ToAccountID(steamID64), name: parsedData.users[steamID64].AccountName });
+                }
               }
+              resolve(accountData);
             }
-            resolve(accountData);
+            else
+              resolve([]);
           }
-          else
-            resolve([]);
+        } catch (error) {
+          reject(error);
         }
-      } catch (error) {
-        reject(error);
-      }
-    });
+      });
+    } else {
+      glob('userdata/+([0-9])/', { cwd: steamDirectory })
+      .then((files: string[]) => {
+          let accountData: userAccountData[] = [];
+          for (let i = 0; i < files.length; i++) {
+            const userId = files[i].split(path.sep).slice(-1)[0];
+            console.log("userId", userId)
+            accountData.push({ steamID64: 'unavailable', accountID: userId, name: userId });
+          }
+          resolve(accountData);
+      }).catch((err: string)=>{
+        reject(err)
+      });
+    }
   });
 }
