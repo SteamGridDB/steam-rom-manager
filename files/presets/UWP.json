@@ -22,9 +22,7 @@
 			"appendArgsToExecutable": true
 		},
 		"userAccounts": {
-			"specifiedAccounts": "",
-			"skipWithMissingDataDir": true,
-			"useCredentials": true
+			"specifiedAccounts": ""
 		},
 		"parserInputs": {
 			"UWPDir": ""
@@ -41,7 +39,7 @@
 			"removeCharacters": true,
 			"removeBrackets": true
 		},
-		"presetVersion": 6,
+		"presetVersion": 7,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,

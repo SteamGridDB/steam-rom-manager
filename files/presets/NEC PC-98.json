@@ -17,9 +17,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "",
-			"skipWithMissingDataDir": true,
-			"useCredentials": true
+			"specifiedAccounts": ""
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.2hd|.2HD|.88d|.88D|.98d|.98D|.cmd|.CMD|.d88|.D88|.d98|.D98|.dup|.DUP|.fdd|.FDD|.fdi|.FDI|.hdd|.HDD|.hdi|.HDI|.hdm|.HDM|.hdn|.HDN|.nhd|.NHD|.tfd|.TFD|.thd|.THD|.xdf|.XDF|.zip|.ZIP)"
@@ -41,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 6,
+		"presetVersion": 7,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -98,9 +96,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "",
-			"skipWithMissingDataDir": true,
-			"useCredentials": true
+			"specifiedAccounts": ""
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.2hd|.2HD|.88d|.88D|.98d|.98D|.cmd|.CMD|.d88|.D88|.d98|.D98|.dup|.DUP|.fdd|.FDD|.fdi|.FDI|.hdd|.HDD|.hdi|.HDI|.hdm|.HDM|.hdn|.HDN|.nhd|.NHD|.tfd|.TFD|.thd|.THD|.xdf|.XDF|.zip|.ZIP)"
@@ -122,7 +118,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 6,
+		"presetVersion": 7,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,

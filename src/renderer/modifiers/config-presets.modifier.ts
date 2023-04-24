@@ -17,7 +17,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const configPreset: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'presetVersion',
-  latestVersion: 6,
+  latestVersion: 7,
   fields: {
     undefined: {
       'presetVersion': { method: ()=>0 },
@@ -137,6 +137,16 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
           delete oldConfiguration.localLogoImages || '';
           delete oldConfiguration.localIcons || '';
           return newValue;
+        }
+      }
+    },
+    6: {
+      'presetVersion': { method: versionUp },
+      'userAccounts': {
+        method: (oldValue, oldConfiguration) => {
+          delete oldValue.skipWithMissingDataDir;
+          delete oldValue.useCredentials;
+          return oldValue;
         }
       }
     }
