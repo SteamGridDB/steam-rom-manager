@@ -1,23 +1,17 @@
 # Benutzerkonten (Optional)
 
-Kann verwendet werden, um die Konfiguration auf bestimmte Benutzerkonten zu beschränken. Um Benutzerkonten festzulegen, muss folgende Syntax verwendet werden:
-```
-${...}
-```
-Es **müssen** die Benutzernamen verwendet werden, die zum **Einloggen** in Steam verwendet werden, **falls** [Anmeldeinformationen verwenden](#what-does-use-account-credentials-do) aktiviert wurde:
+This field is used to limit SRM's effects to specific user accounts, and takes values of the form:
 
-![Konto-Beispiel](../../../assets/images/user-account-example.png) {.fitImage.center}
+`${...}`
 
-So können Sie zum Beispiel das Konto für "Banana" und "Apple" festlegen:
+This will limit SRM's effects to accounts `XXX` and `YYY` (you may specify as many accounts as you like). Here `XXX` and `YYY` stand in for either:
 
-```
-${Banana}${Apple}
-```
+* The account id is the name of the account directory that appears in `/path/to/steam/userdata`. For example, you would specify the account directory `userdata/56489124` like `${56489124}`.
 
-You can also set accounts accounts by specifying their ids directly:
+* A `Steam Username` (the username you use to actually log in to Steam). For example you would specify the users `Banana` and `Apple` like `${Banana}${Apple}`.
 
-```
-${56489124}${21987424}
-```
+You can also mix and match: `${56489124}${Apple}` is fine.
 
-The account id is the name of the account directory that appears in `/path/to/steam/userdata`.
+## Warning
+
+Es **müssen** die Benutzernamen verwendet werden, die zum **Einloggen** in Steam verwendet werden, **falls** [Anmeldeinformationen verwenden](#what-does-use-account-credentials-do) aktiviert wurde: If you would like to use `Steam Usernames` here, go to `Steam > Settings > Account` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.

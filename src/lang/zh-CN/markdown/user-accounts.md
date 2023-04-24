@@ -1,23 +1,17 @@
 # 用户账户（可选）
 
-可以用于将配置限制为特定的用户帐户。 为了设置用户帐户，必须使用以下语法：
-```
-${...}
-```
-**如果** 启用了 [使用帐户凭据](#what-does-use-account-credentials-do)，则 **必须** 使用您在 Steam **登录** 时使用的用户名：
+This field is used to limit SRM's effects to specific user accounts, and takes values of the form:
 
-![账户示例](../../../assets/images/user-account-example.png) {.fitImage.center}
+`${...}`
 
-例如，这是您指定的 “Banana” 和 “Apple” 账户的方式：
+This will limit SRM's effects to accounts `XXX` and `YYY` (you may specify as many accounts as you like). Here `XXX` and `YYY` stand in for either:
 
-```
-${Banana}${Apple}
-```
+* The account id is the name of the account directory that appears in `/path/to/steam/userdata`. For example, you would specify the account directory `userdata/56489124` like `${56489124}`.
 
-You can also set accounts accounts by specifying their ids directly:
+* A `Steam Username` (the username you use to actually log in to Steam). For example you would specify the users `Banana` and `Apple` like `${Banana}${Apple}`.
 
-```
-${56489124}${21987424}
-```
+You can also mix and match: `${56489124}${Apple}` is fine.
 
-The account id is the name of the account directory that appears in `/path/to/steam/userdata`.
+## Warning
+
+**如果** 启用了 [使用帐户凭据](#what-does-use-account-credentials-do)，则 **必须** 使用您在 Steam **登录** 时使用的用户名： If you would like to use `Steam Usernames` here, go to `Steam > Settings > Account` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.

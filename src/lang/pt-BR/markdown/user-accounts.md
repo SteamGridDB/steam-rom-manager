@@ -1,23 +1,17 @@
 # Contas de usuário (opcional)
 
-Pode ser usado para limitar a configuração para contas de usuário específicas. Para definir a consulta de imagem, é necessário usar a seguinte sintaxe:
-```
-${...}
-```
-Você **deve** usar o nome de usuário que você usa para **entrar** no Steam **se** [usar credenciais de conta](#what-does-use-account-credentials-do) estiver ativado:
+This field is used to limit SRM's effects to specific user accounts, and takes values of the form:
 
-![Exemplo de conta](../../../assets/images/user-account-example.png) {.fitImage.center}
+`${...}`
 
-Por exemplo, é assim que você especifica grupos para "Rpcs3" e "rpcs3":
+This will limit SRM's effects to accounts `XXX` and `YYY` (you may specify as many accounts as you like). Here `XXX` and `YYY` stand in for either:
 
-```
-${Banana}${Apple}
-```
+* The account id is the name of the account directory that appears in `/path/to/steam/userdata`. For example, you would specify the account directory `userdata/56489124` like `${56489124}`.
 
-You can also set accounts accounts by specifying their ids directly:
+* A `Steam Username` (the username you use to actually log in to Steam). For example you would specify the users `Banana` and `Apple` like `${Banana}${Apple}`.
 
-```
-${56489124}${21987424}
-```
+You can also mix and match: `${56489124}${Apple}` is fine.
 
-The account id is the name of the account directory that appears in `/path/to/steam/userdata`.
+## Warning
+
+Você **deve** usar o nome de usuário que você usa para **entrar** no Steam **se** [usar credenciais de conta](#what-does-use-account-credentials-do) estiver ativado: If you would like to use `Steam Usernames` here, go to `Steam > Settings > Account` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.
