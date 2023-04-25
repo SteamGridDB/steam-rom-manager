@@ -77,28 +77,27 @@ export class ItchIoParser implements GenericParser {
             return null;
           }
 
-            const exePath = candidates[0].path;
-            let filePath = `${basePath}/${exePath}`
+          const exePath = candidates[0].path;
+          let filePath = `${basePath}/${exePath}`
 
 
-            if (os.type() == "Windows_NT") {
-              filePath = filePath.replace('/', '\\');
-            }
-            else if (os.type() == "Linux" && candidates[0].flavor == "windows" && inputs.itchIoWindowsOnLinuxInstallDriveRedirect) {
-              const parsedPath = path.win32.parse(filePath);
-              const inDrivePath = filePath.slice(parsedPath.root.length);
-              filePath = `${inputs.itchIoWindowsOnLinuxInstallDriveRedirect}/${inDrivePath}`;
-              filePath = filePath.replace(/\\/g, "/");
-            }
+          if (os.type() == "Windows_NT") {
+            filePath = filePath.replace('/', '\\');
+          }
+          else if (os.type() == "Linux" && candidates[0].flavor == "windows" && inputs.itchIoWindowsOnLinuxInstallDriveRedirect) {
+            const parsedPath = path.win32.parse(filePath);
+            const inDrivePath = filePath.slice(parsedPath.root.length);
+            filePath = `${inputs.itchIoWindowsOnLinuxInstallDriveRedirect}/${inDrivePath}`;
+            filePath = filePath.replace(/\\/g, "/");
+          }
 
-            return {
-              extractedTitle: title,
-              filePath: filePath,
-            };
-          })
-          .filter((gameDetails:any) => gameDetails !== null);
-          db.close();
-          resolve({success: games, failed:[]});
+          return {
+            extractedTitle: title,
+            filePath: filePath,
+          };
+        })
+        .filter((gameDetails:any) => gameDetails !== null);
+        resolve({success: games, failed:[]});
       } catch(err) {
         reject(this.lang.errors.fatalError__i.interpolate({error: err}));
       }
