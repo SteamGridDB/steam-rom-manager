@@ -4,15 +4,13 @@ All notable changes to this project will be documented in this file.
 ## 2.4.9
 
 ### Added
-* Explanation of SRM's workflow on the preview page when no apps are present.
-
-### Changed
-* Moved better-sqlite calls to a child process. This fixes crashes that have been happening since upgrading to electron 24.1.2
+* Explanation of SRM's workflow on the preview page when no apps are present. Credit to @dragoonDorise.
 * Highlight mandatory fields in create parser
 
 ### Changed
+* Moved better-sqlite calls to a child process. This fixes crashes that have been happening since upgrading to `Electron 24`.
 * Re-worked module `windows-shortcuts-ps` to use massively less RAM when doing shortcut-passthrough (only spawn one powershell process, per parse, not one per each shortcut).
-* Increased timeouts to account for the fact that timeout is now being set correctly.
+* Increased api call timeouts.
 
 ## 2.4.8
 ## Added
