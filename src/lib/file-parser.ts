@@ -347,26 +347,35 @@ export class FileParser {
       try {
         let shortcutPromises: Promise<void>[] = [];
         if(superType === parserInfo.ROMType && parsedConfig.shortcutPassthrough && os.type() == 'Windows_NT') {
-          let targetPath: string = undefined;
-          for(let j = 0; j < parsedConfig.files.length; j++) {
-            if(path.extname(parsedConfig.files[j].filePath).toLowerCase() === '.lnk') {
-              let shortcutPromise: Promise<void> = getPath(parsedConfig.files[j].filePath)
-                .then((actualPath: string)=>{
-                  targetPath = actualPath;
-                  parsedConfig.files[j].modifiedExecutableLocation = "\"".concat(actualPath,"\"");
-                })
-                .then(() => getStartDir(parsedConfig.files[j].filePath))
-                .then((startInDir: string) => {
-                  parsedConfig.files[j].startInDirectory = startInDir || path.dirname(targetPath);
-                })
-                .then(() => getArgs(parsedConfig.files[j].filePath))
-                .then((shortcutArgs: string) => {
-                  parsedConfig.files[j].argumentString = shortcutArgs || "";
-                })
-
-              shortcutPromises.push(shortcutPromise)
+          let indices: number[] = []; let shortcutPaths: string[] = [];
+          for(let i=0; i < parsedConfig.files.length; i++) {
+            if(path.extname(parsedConfig.files[i].filePath).toLowerCase() === '.lnk') {
+              indices.push(i);
+              shortcutPaths.push(parsedConfig.files[i].filePath)
             }
           }
+          let actualPaths: string[]; let startDirs: string[]; let shortcutArgs: string[];
+          shortcutPromises.push(
+            getPath(shortcutPaths)
+            .then((actuals: string[]) => {
+              actualPaths = actuals;
+              return getStartDir(shortcutPaths)
+            })
+            .then((starts: string[]) => {
+              startDirs= starts;
+              return getArgs(shortcutPaths)
+            })
+            .then((args: string[]) => {
+              shortcutArgs = args;
+            }).then(() => {
+              for(let i=0; i < indices.length; i++) {
+                let index = indices[i];
+                parsedConfig.files[index].modifiedExecutableLocation = `"${actualPaths[i]}"`;
+                parsedConfig.files[index].startInDirectory = startDirs[i] || path.dirname(actualPaths[i]);
+                parsedConfig.files[index].argumentString = shortcutArgs[i] || "";
+              }
+            })
+          )
         }
         if(superType === parserInfo.ROMType && parsedConfig.shortcutPassthrough && os.type() == 'Linux') {
           let targetPath: string = undefined;

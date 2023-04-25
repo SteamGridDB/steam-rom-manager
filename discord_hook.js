@@ -1,4 +1,4 @@
-const { request } = require('https');
+const { request } = require('https')
 
 const getLatestRelease = () => new Promise((resolve) => {
   const req = request({
@@ -7,39 +7,39 @@ const getLatestRelease = () => new Promise((resolve) => {
     path: '/repos/steamgriddb/steam-rom-manager/releases/latest',
     method: 'GET',
     headers: {
-      'Accept': 'application/vnd.github.v3+json',
+      Accept: 'application/vnd.github.v3+json',
       'User-Agent': 'steamgriddb/steam-rom-manager'
     }
   }, (resp) => {
-    let output = '';
-    resp.on('data', (chunk) => output += chunk);
-    resp.on('end', () => resolve(JSON.parse(output)));
-  });
-  req.end();
-});
+    let output = ''
+    resp.on('data', (chunk) => output += chunk)
+    resp.on('end', () => resolve(JSON.parse(output)))
+  })
+  req.end()
+})
 
 const formatDiscordMD = (body) => {
   // Normalize \r\n
-  body = body.replace(/\r\n/gm, '\n');
+  body = body.replace(/\r\n/gm, '\n')
   // Strip out main header (should just be the version, which is shown already)
-  body = body.replace(/^#{2} [\d\.]*/g, '');
+  body = body.replace(/^#{2} [\d\.]*/g, '')
   // Replace rest of the ## with underlined bold text followed by a :
-  body = body.replace(/^#{2} (.*)/gm, '**__$1__:**');
+  body = body.replace(/^#{2} (.*)/gm, '**__$1__:**')
   // Make ### bold
-  body = body.replace(/^#{3} (.*)/gm, '\n**$1**');
+  body = body.replace(/^#{3} (.*)/gm, '\n**$1**')
   // Replace checkboxes
-  body = body.replace(/^[\*|-] \[ \]/gm, '☐');
-  body = body.replace(/^[\*|-] \[x\]/gm, '\\☑'); // escape so Discord doesn't turn it into a huge emoji
+  body = body.replace(/^[\*|-] \[ \]/gm, '☐')
+  body = body.replace(/^[\*|-] \[x\]/gm, '\\☑') // escape so Discord doesn't turn it into a huge emoji
   // Replace list items with •
-  body = body.replace(/^[\*|-] /gm, '• ');
+  body = body.replace(/^[\*|-] /gm, '• ')
   // Replace triple newlines that may have been created with doubles
-  body = body.replace(/\n\n\n/gm, '\n\n');
-  return body;
+  body = body.replace(/\n\n\n/gm, '\n\n')
+  return body
 };
 
 (async () => {
   // Get latest GitHub release
-  const ghbody = await getLatestRelease();
+  const ghbody = await getLatestRelease()
 
   // https://discord.com/developers/docs/resources/webhook#execute-webhook
   const discordHookData = {
@@ -87,8 +87,7 @@ const formatDiscordMD = (body) => {
         ]
       }
     ]
-  };
-
+  }
 
   // Send Discord hook, edits message if MSG_EDIT_ID env variable is a message
   const discordReq = request({
@@ -99,7 +98,7 @@ const formatDiscordMD = (body) => {
     headers: {
       'Content-Type': 'application/json'
     }
-  });
-  discordReq.write(JSON.stringify(discordHookData));
-  discordReq.end();
-})();
+  })
+  discordReq.write(JSON.stringify(discordHookData))
+  discordReq.end()
+})()
