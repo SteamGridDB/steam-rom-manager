@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## 2.4.9
+### Fixed
+* Database connection wasn't being closed in itch.io and amazon parser, could cause a crash when hitting "parse" more than once.
+
 ### Changed
 * Re-worked module `windows-shortcuts-ps` to use massively less RAM when doing shortcut-passthrough (only spawn one powershell process, per parse, not one per each shortcut).
 * Increased timeouts to account for the fact that timeout is now being set correctly.

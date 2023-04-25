@@ -97,6 +97,7 @@ export class ItchIoParser implements GenericParser {
             };
           })
           .filter((gameDetails:any) => gameDetails !== null);
+          db.close();
           resolve({success: games, failed:[]});
       } catch(err) {
         reject(this.lang.errors.fatalError__i.interpolate({error: err}));

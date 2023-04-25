@@ -83,6 +83,7 @@ export class AmazonGamesParser implements GenericParser {
             launchOptions: Args?.join(' '),
           };
         });
+        db.close()
 
         resolve({executableLocation: launcherMode ? amazonGamesExe : null, success: games, failed:[]});
       } catch(err) {

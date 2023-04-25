@@ -11,7 +11,7 @@ import { hideBin } from 'yargs/helpers';
 import { UserConfiguration } from '../models'
 
 // Crash Reporting
-crashReporter.start({ uploadToServer: false });
+// crashReporter.start({ uploadToServer: false });
 
 // CLI Setup
 let commandCLI:string = '';
