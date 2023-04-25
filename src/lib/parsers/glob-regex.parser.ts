@@ -42,7 +42,7 @@ export class GlobRegexParser implements GenericParser {
     return APP.lang.globRegexParser;
   }
 
-  private validate(fileGlob: string, suppressSlashError: boolean = false) {
+  private validate(fileGlob: string) {
     let testRegExpr = /\${\/(.+)\/([uig]{0,3})(?:\|(.*?))?}/i;
     let match = testRegExpr.exec(fileGlob);
     if (match === null)
@@ -64,13 +64,6 @@ if (match !== null)
   return this.lang.errors.noAnyCharNextToRegex__md;
 
 let fileGlobWithoutRegex = fileGlob.replace(/\${.*?}/i, '');
-
-if (!suppressSlashError) {
-  testRegExpr = /\\/i;
-  match = testRegExpr.exec(fileGlobWithoutRegex);
-  if (match !== null)
-    return this.lang.errors.noWindowsSlash__md;
-}
 
 testRegExpr = /.*\*\*.+\${.*?}.+\*\*.*/i;
 match = testRegExpr.exec(fileGlob);

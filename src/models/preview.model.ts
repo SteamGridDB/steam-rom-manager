@@ -34,6 +34,7 @@ export interface PreviewDataAppImage {
 
 export interface PreviewDataApp {
     entryId: number,
+    changedId?: string,
     status: 'add' | 'skip' | 'remove',
     configurationTitle: string,
     parserId: string,
@@ -70,6 +71,7 @@ export interface PreviewVariables {
     listIsBeingGenerated: boolean,
     listIsBeingSaved: boolean,
     listIsBeingRemoved: boolean,
+    listHasGenerated: boolean,
     numberOfListItems: number,
     numberOfQueriedImages: number
 

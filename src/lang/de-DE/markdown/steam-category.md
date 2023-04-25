@@ -16,6 +16,6 @@ So wird die Kategorie "WII" in Steam aussehen:
 ![steamCategory](../../../assets/images/category-example.png)
 
 ## Emojis und nicht-Standard Unicode-Zeichen
-Please not that this field works just fine with emojis like `🎮` work just fine in category names.
+Bitte beachte, dass dieses Feld mit Emojis wie `🎮` gut funktioniert.
 
 Eine Liste davon findest du hier: [https://copychar.cc/](https://copychar.cc/)

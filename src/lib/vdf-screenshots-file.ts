@@ -1,4 +1,5 @@
 import { VDF_ScreenshotsData, VDF_ScreenshotItem, xRequestOptions } from "../models";
+import { artworkTypes, artworkIdDict } from "./artwork-types";
 import { xRequest } from './x-request';
 import { VDF_Error } from './vdf-error';
 import { APP } from '../variables';
@@ -51,7 +52,10 @@ export class VDF_ScreenshotsFile {
 
   set extraneous(value: string[]) {
     this.extraneousAppIds = value.reduce((r, e)=>{
-      r.push(e, ids.shortenAppId(e), ids.shortenAppId(e).concat('p'),ids.shortenAppId(e).concat('_hero'),ids.shortenAppId(e).concat('_logo'),ids.shortenAppId(e).concat('_icon'));
+      r.push(e);
+      for(const artworkType of artworkTypes) {
+        r.push(ids.shortenAppId(e).concat(artworkIdDict[artworkType]));
+      }
       return r;
     }, []);
   }
@@ -139,7 +143,6 @@ export class VDF_ScreenshotsFile {
     const batchSize = 500;
     const delay = 5000;
     const timeout = 15000;
-    const gridRegex = /^d+$/;
 
     const addableAppIds = Object.keys(screenshotsData).filter((appId)=>{
       return screenshotsData[appId] !== undefined && (typeof screenshotsData[appId] !== 'string')
@@ -199,8 +202,12 @@ export class VDF_ScreenshotsFile {
         .then((buffer) => {
           const gridPath = path.join(this.gridDirectory, `${appId}.${ext}`);
           fs.outputFileSync(gridPath, buffer);
-          if(gridRegex.test(appId)) {
-            fs.symlink(gridPath, `${ids.lengthenAppId(appId)}.${ext}`)
+          if(/^\d+$/.test(appId)) {
+            const symPath = path.join(this.gridDirectory,`${ids.lengthenAppId(appId)}.${ext}`)
+            if(fs.existsSync(symPath)) {
+              fs.unlinkSync(symPath);
+            }
+            fs.symlinkSync(gridPath, symPath)
           }
           return gridPath;
         })

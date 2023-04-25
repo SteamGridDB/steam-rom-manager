@@ -1,14 +1,15 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Renderer2, ElementRef, RendererStyleFlags2, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, BehaviorSubject } from 'rxjs';
-import { PreviewService, SettingsService, ImageProviderService, IpcService } from "../services";
-import { PreviewData, PreviewDataApp, PreviewVariables, AppSettings, ImageContent, SelectItem, UserConfiguration } from "../../models";
+import { PreviewService, SettingsService, ImageProviderService, IpcService, UserExceptionsService } from "../services";
+import { PreviewData, PreviewDataApp, PreviewDataApps, PreviewVariables, AppSettings, ImageContent, SelectItem, UserConfiguration } from "../../models";
 import { APP } from '../../variables';
 import { FileSelector } from '../../lib';
 import { artworkTypes, artworkViewTypes, artworkNamesDict, artworkDimsDict } from '../../lib/artwork-types';
 import * as url from '../../lib/helpers/url';
 import * as FileSaver from 'file-saver';
 import * as appImage from '../../lib/helpers/app-image';
+import * as steam from '../../lib/helpers/steam';
 import * as _ from 'lodash';
 import * as path from 'path';
 
@@ -31,14 +32,38 @@ export class PreviewComponent implements OnDestroy {
   private allParsers: string[] = [];
   private actualParserFilter: string[] = [];
   private imageTypes: SelectItem[];
+  private artworkTypes: string[] = artworkTypes;
   private scrollingEntries: boolean = false;
   private fileSelector: FileSelector = new FileSelector();
   private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
+
+  private detailsApp: {
+    app: PreviewDataApp,
+    userId: string,
+    steamDirectory: string,
+    appId: string
+  };
+  private matchFix: string = '';
+  private matchFixIds: string[] = []
+  private matchFixDict: {[sgdbId: string]: {name: string, posterUrl: string}};
+  private detailsLoading: boolean = true;
+  private showDetails: boolean = false;
+
+  private showExcludes: boolean = false;
+  private excludedAppIds: {
+    [steamDirectory: string]: {
+      [userId: string]: {
+        [appId: string]: boolean
+      }
+    }
+  } = {};
+  private exclusionCount: number = 0;
 
   constructor(
     private previewService: PreviewService,
     private settingsService: SettingsService,
     private imageProviderService: ImageProviderService,
+    private userExceptionsService: UserExceptionsService,
     private changeDetectionRef: ChangeDetectorRef,
     private renderer: Renderer2,
     private elementRef: ElementRef,
@@ -71,6 +96,8 @@ export class PreviewComponent implements OnDestroy {
   }
 
   generatePreviewData() {
+    this.closeDetails();
+    this.cancelExcludes();
     this.previewService.generatePreviewData();
   }
 
@@ -110,7 +137,7 @@ export class PreviewComponent implements OnDestroy {
         });
         this.previewService.getPreviewDataChange().subscribe(()=>{
           let previewVariables = this.previewService.getPreviewVariables();
-          if(this.previewVariables.numberOfListItems > 0 && this.previewVariables.numberOfQueriedImages >= 0) {
+          if(this.previewVariables.listHasGenerated && this.previewVariables.numberOfListItems > 0) {
             this.ipcService.send('inline-log',`Apps: ${this.previewVariables.numberOfListItems}. Remaining images: ${this.previewVariables.numberOfQueriedImages}`);
             if(this.previewVariables.numberOfQueriedImages == 0 && !hasrun) {
               hasrun = true;
@@ -127,6 +154,9 @@ export class PreviewComponent implements OnDestroy {
                 })
               }
             }
+          } else if(this.previewVariables.listHasGenerated){
+            this.ipcService.send('log', 'No apps found');
+            this.ipcService.send('all_done');
           }
         })
         this.previewService.getBatchProgress().subscribe(({update, batch}: {update: string, batch: number})=>{
@@ -150,6 +180,7 @@ export class PreviewComponent implements OnDestroy {
     this.previewService.setImageType(imageType);
     this.setImageBoxSizes();
   }
+
   private getImagePool(poolKey: string, imageType?: string) {
     return this.previewService.getImages(imageType)[poolKey];
   }
@@ -162,6 +193,11 @@ export class PreviewComponent implements OnDestroy {
 
   private getBackgroundImage(app: PreviewDataApp, imageType?: string) {
     return this.previewService.getCurrentImage(app, imageType);
+  }
+
+  private setDetailsBackgroundImage(sgdbId: string) {
+    const posterUrl = this.matchFixDict[sgdbId].posterUrl;
+    return posterUrl ? posterUrl : require('../../assets/images/no-images.svg');
   }
 
   private setBackgroundImage(app: PreviewDataApp, image: ImageContent, imageType?: string) {
@@ -261,6 +297,127 @@ export class PreviewComponent implements OnDestroy {
     });
   }
 
+  private changeAppDetails(app: PreviewDataApp, steamDirectory: string, userId: string, appId: string) {
+    this.detailsLoading = true;
+    this.showDetails= true;
+    this.matchFix = '';
+    this.renderer.setStyle(this.elementRef.nativeElement, '--details-width', '50%', RendererStyleFlags2.DashCase);
+    this.detailsApp = {
+      appId: appId,
+      app: app,
+      steamDirectory: steamDirectory,
+      userId: userId
+    };
+    this.previewService.getMatchFixes(this.detailsApp.app.extractedTitle).then((games: any[])=>{
+      this.matchFixDict = Object.fromEntries(games.map((x: any)=>[x.id.toString(), {name: x.name, posterUrl: x.posterUrl}]));
+      this.matchFixIds = games.map((x:any)=>x.id.toString());
+      this.detailsLoading = false;
+      this.changeDetectionRef.detectChanges();
+    })
+  }
+
+  private fixMatch(sgdbId: string) {
+    this.matchFix = sgdbId;
+  }
+  private closeDetails() {
+    this.matchFix = '';
+    this.detailsApp = undefined;
+    this.showDetails = false;
+    this.renderer.setStyle(this.elementRef.nativeElement, '--details-width','0%', RendererStyleFlags2.DashCase);
+    this.detailsLoading = false;
+  }
+
+  private saveDetails() {
+    if(this.detailsApp && this.matchFix) {
+      const {steamDirectory, userId, appId, app} = this.detailsApp;
+      this.previewData[steamDirectory][userId].apps[appId].title = this.matchFixDict[this.matchFix].name;
+      if(app.parserType !== 'Steam') {
+        const changedId = steam.generateAppId(app.executableLocation, this.matchFixDict[this.matchFix].name);
+        this.previewData[steamDirectory][userId].apps[appId].changedId = changedId;
+      }
+      const newPool = `\$\{gameid:${this.matchFix}\}`
+      for(const artworkType of artworkTypes) {
+        const oldPool = this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool;
+        this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool = newPool;
+        this.previewData[steamDirectory][userId].apps[appId].images[artworkType].steam = undefined;
+        this.previewService.updateAppImages(newPool, oldPool, artworkType)
+      }
+      const exceptionId = steam.generateShortAppId(app.executableLocation, app.extractedTitle)
+      const exceptionKey = `${app.extractedTitle} \$\{id:${exceptionId}\}`;
+      this.userExceptionsService.addException(exceptionKey, {
+        newTitle: this.matchFixDict[this.matchFix].name,
+        searchTitle: newPool,
+        commandLineArguments: '',
+        exclude: false,
+        excludeArtwork: false
+      })
+      this.refreshImages(this.previewData[steamDirectory][userId].apps[appId]);
+      this.closeDetails();
+    }
+  }
+
+  private excludeAppId(steamDirectory: string, userId: string, appId: string) {
+    if(this.showExcludes) {
+      if(!this.excludedAppIds[steamDirectory]) {
+        this.excludedAppIds[steamDirectory] = {};
+      }
+      if(!this.excludedAppIds[steamDirectory][userId]) {
+        this.excludedAppIds[steamDirectory][userId] = {};
+      }
+      if(this.excludedAppIds[steamDirectory][userId][appId]) {
+        this.excludedAppIds[steamDirectory][userId][appId] = false;
+        this.exclusionCount -= 1;
+      } else {
+        this.excludedAppIds[steamDirectory][userId][appId] = true;
+        this.exclusionCount += 1;
+      }
+    }
+  }
+
+  private showExclusions() {
+    this.showExcludes = true;
+  }
+
+  private cancelExcludes() {
+    this.showExcludes = false;
+    this.excludedAppIds = {};
+    this.exclusionCount = 0;
+  }
+
+  private saveExcludes() {
+    let exceptionKeys: string[] = [];
+    for(const steamDirectory in this.previewData) {
+      if(this.excludedAppIds[steamDirectory]) {
+        for(const userId in this.previewData[steamDirectory]) {
+          if(this.excludedAppIds[steamDirectory][userId]) {
+            let newKeys = Object.keys(this.excludedAppIds[steamDirectory][userId]).filter((appId: string)=> {
+              return !!this.excludedAppIds[steamDirectory][userId][appId]
+            }).map((appId: string) =>{
+              const app = this.previewData[steamDirectory][userId].apps[appId];
+              const exceptionId = steam.generateShortAppId(app.executableLocation, app.extractedTitle)
+              return `${app.extractedTitle} \$\{id:${exceptionId}\}`
+            });
+            exceptionKeys = exceptionKeys.concat(newKeys)
+
+            this.previewData[steamDirectory][userId].apps = _.pickBy(this.previewData[steamDirectory][userId].apps, (value: PreviewDataApp, key: string) => {
+              return !this.excludedAppIds[steamDirectory][userId][key]
+            })
+          }
+        }
+      }
+    }
+    for(const exceptionKey of exceptionKeys) {
+      this.userExceptionsService.addException(exceptionKey, {
+        newTitle: '',
+        searchTitle: '',
+        commandLineArguments: '',
+        exclude: true,
+        excludeArtwork: false
+      })
+    }
+    this.cancelExcludes();
+  }
+
   private refreshImages(app: PreviewDataApp, imageType?: string) {
     if(this.previewService.getImageType()=='games') {
       this.previewService.downloadImageUrls(imageType,[app.images[imageType].imagePool], app.imageProviders);
@@ -311,6 +468,10 @@ export class PreviewComponent implements OnDestroy {
   private onScroll() {
     this.scrollingEntries = true;
     this.onScrollEnd();
+  }
+
+  private sortedAppIds(apps: PreviewDataApps) {
+    return Object.keys(apps).sort((a,b)=>apps[a].title.localeCompare(apps[b].title))
   }
 
   private async exportSelection() {

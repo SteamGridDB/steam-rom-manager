@@ -1,33 +1,17 @@
 # 用户账户（可选）
 
-可以用于将配置限制为特定的用户帐户。 为了设置用户帐户，必须使用以下语法：
-```
-${...}
-```
-**如果** 启用了 [使用帐户凭据](#what-does-use-account-credentials-do)，则 **必须** 使用您在 Steam **登录** 时使用的用户名：
+This field is used to limit SRM's effects to specific user accounts, and takes values of the form:
 
-![账户示例](../../../assets/images/user-account-example.png) {.fitImage.center}
+`${...}`
 
-例如，这是您指定的 “Banana” 和 “Apple” 账户的方式：
+This will limit SRM's effects to accounts `XXX` and `YYY` (you may specify as many accounts as you like). Here `XXX` and `YYY` stand in for either: Here `XXX` and `YYY` stand in for either:
 
-```
-${Banana}${Apple}
-```
+* The account id is the name of the account directory that appears in `/path/to/steam/userdata`. For example, you would specify the account directory `userdata/56489124` like `${56489124}`. For example, you would specify the account directory `userdata/56489124` like `${56489124}`.
 
-如果 [使用帐户凭据](#what-does-use-account-credentials-do) 被禁用，您仍然可以通过直接指定其 ID 来限制帐户：
+* A `Steam Username` (the username you use to actually log in to Steam). A `Steam Username` (the username you use to actually log in to Steam). For example you would specify the users `Banana` and `Apple` like `${Banana}${Apple}`.
 
-```
-${56489124}${21987424}
-```
+You can also mix and match: `${56489124}${Apple}` is fine.
 
-## “跳过找到的缺少数据目录的账户”是什么意思？
+## Warning
 
-有时候，Steam 的包含登录信息的文件可能会包含未创建数据目录的用户（可能已被手动删除等）。 您可以启用此选项来跳过那些账户。
-
-## “使用帐户凭据"是什么意思？
-
-Tries to look for account credentials in Steam directory. In other words -- username. Username then can be used to filter accounts without actually having to know their ids. 换句话说 -- 用户名。 换句话说 -- 用户名。 用户名可以用来过滤账户，而无需实际知道它们的 ID。
-
-### 警告！
-
-如果 Steam 禁用了凭据保存，这个选项将防止找到用户账户。
+**如果** 启用了 [使用帐户凭据](#what-does-use-account-credentials-do)，则 **必须** 使用您在 Steam **登录** 时使用的用户名： If you would like to use `Steam Usernames` here, go to `Steam > Settings > Account` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM. If you would like to use `Steam Usernames` here, go to `Steam > Settings > Account` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.

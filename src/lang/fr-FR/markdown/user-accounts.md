@@ -1,33 +1,17 @@
 # Comptes utilisateur (facultatif)
 
-Peut être utilisé pour limiter la configuration à des comptes utilisateurs spécifiques. Afin de définir des comptes utilisateurs, la syntaxe suivante doit être utilisée:
-```
-${...}
-```
-Vous **devez** utiliser le nom d'utilisateur que vous utilisez pour vous **connecter** à Steam **si** [utiliser les noms de compte](#what-does-use-account-credentials-do) est activé:
+This field is used to limit SRM's effects to specific user accounts, and takes values of the form:
 
-![Exemple de compte](../../../assets/images/user-account-example.png) {.fitImage.center}
+`${...}`
 
-Par exemple, c'est ainsi que vous spécifiez le compte pour "Banana" et "Apple":
+This will limit SRM's effects to accounts `XXX` and `YYY` (you may specify as many accounts as you like). Here `XXX` and `YYY` stand in for either:
 
-```
-${Banana}${Apple}
-```
+* The account id is the name of the account directory that appears in `/path/to/steam/userdata`. For example, you would specify the account directory `userdata/56489124` like `${56489124}`.
 
-Si [utiliser les noms de compte](#what-does-use-account-credentials-do) est désactivés, vous pouvez toujours limiter les comptes en spécifiant leurs identifiants directement:
+* A `Steam Username` (the username you use to actually log in to Steam). For example you would specify the users `Banana` and `Apple` like `${Banana}${Apple}`.
 
-```
-${56489124}${21987424}
-```
+You can also mix and match: `${56489124}${Apple}` is fine.
 
-## Que fait "Ignorer les comptes trouvés avec des données manquantes"?
+## Warning
 
-Parfois, le fichier Steam qui contient les identifiants, peut contenir des utilisateurs qui n'ont pas de répertoire de données créé (peut avoir été supprimé manuellement, etc.). Vous pouvez spécifier d'ignorer ces comptes en activant cette option.
-
-## Que fait "Utiliser les noms de compte"?
-
-Tente de rechercher les noms de compte dans le répertoire Steam.   Les noms de compte peuvent alors être utilisé pour filtrer les comptes sans avoir à connaître leurs identifiants.
-
-### Attention!
-
-Si dans Steam la sauvegarde des informations d'identification est désactivée, cette option empêchera la recherche de comptes d'utilisateur.
+Vous **devez** utiliser le nom d'utilisateur que vous utilisez pour vous **connecter** à Steam **si** [utiliser les noms de compte](#what-does-use-account-credentials-do) est activé: If you would like to use `Steam Usernames` here, go to `Steam > Settings > Account` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM. If you would like to use `Steam Usernames` here, go to `Steam > Settings > Account` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.

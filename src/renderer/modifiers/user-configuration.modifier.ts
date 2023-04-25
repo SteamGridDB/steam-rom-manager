@@ -8,11 +8,11 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',
-  latestVersion: 13,
+  latestVersion: 15,
   fields: {
     undefined: {
       'version': { method: () => 0 },
-        'disabled': {
+      'disabled': {
         method: (oldValue) => oldValue === undefined ? false : !!!oldValue,
           oldValuePath: 'enabled'
       },
@@ -182,6 +182,53 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
             }
           }
           return newValue;
+        }
+      }
+    },
+    13: {
+      'version': { method: versionUp },
+      'defaultImage': {
+        method: (oldValue, oldConfiguration) => {
+          let newValue = {
+            long: oldConfiguration.defaultImage || '',
+            tall: oldConfiguration.defaulTallImage || '',
+            hero: oldConfiguration.defaultHeroImage || '',
+            logo: oldConfiguration.defaultLogoImage || '',
+            icon: oldConfiguration.defaultIcon || ''
+          }
+          delete oldConfiguration.defaultImage;
+          delete oldConfiguration.defaultTallImage;
+          delete oldConfiguration.defaultHeroImage;
+          delete oldConfiguration.defaultLogoImage;
+          delete oldConfiguration.defaultIcon;
+          return newValue;
+        }
+      },
+      'localImages': {
+        method: (oldValue, oldConfiguration) => {
+          let newValue = {
+            long: oldConfiguration.localImages || '',
+            tall: oldConfiguration.localTallImages || '',
+            hero: oldConfiguration.localHeroImages || '',
+            logo: oldConfiguration.localLogoImages || '',
+            icon: oldConfiguration.localIcons || ''
+          }
+          delete oldConfiguration.localImages || '';
+          delete oldConfiguration.localTallImages || '';
+          delete oldConfiguration.localHeroImages || '';
+          delete oldConfiguration.localLogoImages || '';
+          delete oldConfiguration.localIcons || '';
+          return newValue;
+        }
+      }
+    },
+    14: {
+      'version': { method: versionUp },
+      'userAccounts': {
+        method: (oldValue, oldConfiguration) => {
+          delete oldValue.skipWithMissingDataDir;
+          delete oldValue.useCredentials;
+          return oldValue;
         }
       }
     }

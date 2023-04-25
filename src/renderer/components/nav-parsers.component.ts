@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from "@angular/core";
 import { FormBuilder, FormArray, FormGroup, FormControl } from "@angular/forms";
-import { ParsersService, LanguageService, UserExceptionsService } from "../services";
-import { UserConfiguration } from "../../models";
+import { ParsersService, LanguageService, UserExceptionsService, SettingsService } from "../services";
+import { UserConfiguration, AppSettings } from "../../models";
 import { Subscription } from "rxjs";
 import { APP } from "../../variables";
 
@@ -12,12 +12,12 @@ import { APP } from "../../variables";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavParsersComponent implements OnDestroy {
- private userConfigurations: { saved: UserConfiguration, current: UserConfiguration }[];
+   private userConfigurations: { saved: UserConfiguration, current: UserConfiguration }[];
    private numConfigurations: number = -1;
    private isExceptionsUnsaved: boolean = false;
    private dummy: boolean = true;
    private subscriptions: Subscription = new Subscription();
-
+   private appSettings: AppSettings;
    private navForm: FormGroup;
    private navFormItems: FormArray;
 
@@ -25,11 +25,13 @@ export class NavParsersComponent implements OnDestroy {
      private parsersService: ParsersService,
      private languageService: LanguageService,
      private exceptionsService: UserExceptionsService,
+     private settingsService: SettingsService,
      private changeRef: ChangeDetectorRef,
-     private formBuilder: FormBuilder,
+     private formBuilder: FormBuilder
    ) {}
 
    ngOnInit() {
+     this.appSettings = this.settingsService.getSettings();
      this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe((userConfigurations) => {
        this.numConfigurations = userConfigurations.length;
        this.userConfigurations = userConfigurations;
@@ -47,7 +49,7 @@ export class NavParsersComponent implements OnDestroy {
            this.parsersService.changeEnabledStatusAll(val);
          }
        });
-       (this.navForm.get("parserStatuses") as FormArray).controls.forEach((control: FormControl)=>{
+       this.getParserControls().forEach((control: FormControl)=>{
          control.valueChanges.subscribe((val: {[parserId: string]: boolean}) => {
            this.parsersService.changeEnabledStatus(Object.keys(val)[0], Object.values(val)[0])
          })
@@ -78,6 +80,12 @@ export class NavParsersComponent implements OnDestroy {
 
    getParserControls() {
      return (this.navForm.get('parserStatuses') as FormArray).controls;
+   }
+
+   emuClick(control: FormControl) {
+     if(this.appSettings.theme == 'EmuDeck') {
+      control.setValue(!control.value)
+     }
    }
 
    ngOnDestroy() {

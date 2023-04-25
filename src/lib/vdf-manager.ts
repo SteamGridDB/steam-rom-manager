@@ -182,8 +182,20 @@ export class VDF_Manager {
           if (listItem.shortcuts.invalid || listItem.addedItems.invalid || listItem.screenshots.invalid)
             return;
           let apps = previewData[steamDirectory][userId].apps;
-          let currentAppIds = Object.keys(previewData[steamDirectory][userId].apps)
-          let enabledParsers = Array.from(new Set(currentAppIds.map((appid:string)=> apps[appid].parserId)));
+          let currentAppIds = Object.entries(previewData[steamDirectory][userId].apps).map(([appId, app]: [appId: string, app: PreviewDataApp]) => {
+            if(app.changedId) {
+              return app.changedId
+            } else {
+              return appId
+            }
+          });
+          let enabledParsers = Array.from(new Set(currentAppIds.map((appid:string)=> {
+            if(apps[appid]) {
+              return apps[appid].parserId
+            } else {
+              return Object.values(apps).filter((app: PreviewDataApp)=>app.changedId==appid)[0].parserId
+            }
+          })));
           let addedAppIds = Object.keys(listItem.addedItems.data);
           if(!deleteDisabledShortcuts) {
             addedAppIds = addedAppIds.filter((appid:string) => listItem.addedItems.data[appid]==='-legacy-' || enabledParsers.indexOf(listItem.addedItems.data[appid])>=0);
@@ -193,6 +205,9 @@ export class VDF_Manager {
           listItem.shortcuts.extraneous = extraneousAppIds[userId];
           for (let appId in apps) {
             let app = apps[appId];
+            if (app.changedId) {
+              appId = app.changedId;
+            }
             if (app.status === 'add') {
               let item = listItem.shortcuts.getItem(appId);
               listItem.addedItems.addItem(appId, app.parserId);
@@ -269,11 +284,9 @@ export class VDF_Manager {
             listItem.shortcuts.removeItem(appId);
             listItem.addedItems.removeItem(appId);
             listItem.screenshots.removeItem(appId);
-            listItem.screenshots.removeItem(ids.shortenAppId(appId));
-            listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('p'));
-            listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_hero'));
-            listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_logo'));
-            listItem.screenshots.removeItem(ids.shortenAppId(appId).concat('_icon'));
+            for(let artworkType of artworkTypes) {
+              listItem.screenshots.removeItem(ids.shortenAppId(appId).concat(artworkIdDict[artworkType]))
+            }
           }
           listItem.addedItems.data = {};
         });

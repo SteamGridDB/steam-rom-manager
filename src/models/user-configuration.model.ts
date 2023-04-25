@@ -9,8 +9,6 @@ export interface ImageProviderAPI {
 
 export interface UserAccountsInfo {
   specifiedAccounts: string,
-  skipWithMissingDataDir: boolean,
-  useCredentials: boolean
 }
 
 export interface UserConfiguration {
@@ -47,16 +45,12 @@ export interface UserConfiguration {
   imageProviderAPIs: ImageProviderAPI,
   executableArgs: string,
   imagePool: string,
-  defaultImage: string,
-  defaultTallImage: string,
-  defaultHeroImage: string,
-  defaultLogoImage: string,
-  defaultIcon: string,
-  localImages: string,
-  localTallImages: string,
-  localHeroImages: string,
-  localLogoImages: string,
-  localIcons: string,
+  defaultImage: {
+    [artworkType: string]: string
+  },
+  localImages: {
+    [artworkType: string]: string
+  },
   titleModifier: string,
   disabled: boolean
 }

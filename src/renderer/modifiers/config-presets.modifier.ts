@@ -17,7 +17,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const configPreset: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'presetVersion',
-  latestVersion: 5,
+  latestVersion: 7,
   fields: {
     undefined: {
       'presetVersion': { method: ()=>0 },
@@ -103,5 +103,52 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
         }
       }
     },
+    5: {
+      'presetVersion': { method: versionUp },
+      'defaultImage': {
+        method: (oldValue, oldConfiguration) => {
+          let newValue = {
+            long: oldConfiguration.defaultImage || '',
+            tall: oldConfiguration.defaulTallImage || '',
+            hero: oldConfiguration.defaultHeroImage || '',
+            logo: oldConfiguration.defaultLogoImage || '',
+            icon: oldConfiguration.defaultIcon || ''
+          }
+          delete oldConfiguration.defaultImage;
+          delete oldConfiguration.defaultTallImage;
+          delete oldConfiguration.defaultHeroImage;
+          delete oldConfiguration.defaultLogoImage;
+          delete oldConfiguration.defaultIcon;
+          return newValue;
+        }
+      },
+      'localImages': {
+        method: (oldValue, oldConfiguration) => {
+          let newValue = {
+            long: oldConfiguration.localImages || '',
+            tall: oldConfiguration.localTallImages || '',
+            hero: oldConfiguration.localHeroImages || '',
+            logo: oldConfiguration.localLogoImages || '',
+            icon: oldConfiguration.localIcons || ''
+          }
+          delete oldConfiguration.localImages || '';
+          delete oldConfiguration.localTallImages || '';
+          delete oldConfiguration.localHeroImages || '';
+          delete oldConfiguration.localLogoImages || '';
+          delete oldConfiguration.localIcons || '';
+          return newValue;
+        }
+      }
+    },
+    6: {
+      'presetVersion': { method: versionUp },
+      'userAccounts': {
+        method: (oldValue, oldConfiguration) => {
+          delete oldValue.skipWithMissingDataDir;
+          delete oldValue.useCredentials;
+          return oldValue;
+        }
+      }
+    }
   }
 };

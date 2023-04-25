@@ -217,8 +217,11 @@ export class ControllerManager {
           }
         }
       }
-      for (const appId of Object.keys(user.userData.apps).filter((appId: string)=>user.userData.apps[appId].status ==='add')) {
+      for (let appId of Object.keys(user.userData.apps).filter((appId: string)=>user.userData.apps[appId].status ==='add')) {
         const app = user.userData.apps[appId];
+        if(app.changedId) {
+          appId = app.changedId;
+        }
         const title = app.parserType == 'Steam' ? steam.shortenAppId(appId) : app.title;
         const parserId = app.parserId;
         for(const controllerType of Object.keys(app.controllers)) {

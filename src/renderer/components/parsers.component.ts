@@ -7,6 +7,7 @@ import { ParsersService, LoggerService, ImageProviderService, SettingsService, C
 import * as parserInfo from '../../lib/parsers/available-parsers';
 import * as steam from '../../lib/helpers/steam';
 import { controllerTypes, controllerNames } from '../../lib/controller-manager';
+import { artworkTypes, artworkNamesDict, artworkSingDict } from '../../lib/artwork-types';
 import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets, ControllerTemplates, ParserType } from '../../models';
 import { BehaviorSubject, Subscription, Observable, combineLatest, of, concat } from "rxjs";
 import { map } from 'rxjs/operators'
@@ -122,12 +123,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 serialized[path[1]] = self.value
                 return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized, {parserType: this.userForm.get('parserType').value});
               }
-            }),
-            skipWithMissingDataDir: new NestedFormElement.Toggle({
-              text: this.lang.text.skipWithMissingDataDir
-            }),
-            useCredentials: new NestedFormElement.Toggle({
-              text: this.lang.text.useCredentials
             })
           },
           onInfoClick: (self, path) => {
@@ -461,122 +456,55 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         localImageSection: new NestedFormElement.Section({
           label: 'Local Artwork Configuration'
         }),
-        defaultImage: new NestedFormElement.Path({
-          directory: false,
-          placeholder: this.lang.placeholder.defaultImage,
-          highlight: this.highlight.bind(this),
-          label: this.lang.label.defaultImage,
-          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-            onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.defaultImage.join('');
+        defaultImage: (()=>{
+          let defaultImageInputs: { [k: string]: NestedFormElement.Path } = {};
+          for(const artworkType of artworkTypes) {
+            defaultImageInputs[artworkType] = new NestedFormElement.Path({
+              directory: false,
+              placeholder: this.lang.placeholder.defaultImage__i.interpolate({
+                artworkType: artworkSingDict[artworkType]
+              }),
+              highlight: this.highlight.bind(this),
+              label: this.lang.label.defaultImage__i.interpolate({
+                artworkType: artworkSingDict[artworkType]
+              }),
+              onValidate: (self, path) => this.parsersService.validate(path[0], self.value),
+                onInfoClick: (self, path) => {
+                this.currentDoc.activePath = path.join();
+                this.currentDoc.content = this.lang.docs__md.defaultImage.join('');
+              }
+            })
           }
-        }),
-        defaultTallImage: new NestedFormElement.Path({
-          directory: false,
-          placeholder: this.lang.placeholder.defaultImage,
-          highlight: this.highlight.bind(this),
-          label: this.lang.label.defaultTallImage,
-          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-            onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.defaultTallImage.join('');
+          return new NestedFormElement.Group({
+            children: defaultImageInputs
+          })
+        })(),
+        localImages: (()=>{
+          let localImagesInputs: { [k: string]: NestedFormElement.Path } = {};
+          for(const artworkType of artworkTypes) {
+            localImagesInputs[artworkType] = new NestedFormElement.Path({
+              directory: true,
+              placeholder: this.lang.placeholder.localImages__i.interpolate({
+                artworkType: artworkNamesDict[artworkType].toLowerCase()
+              }),
+              appendGlob: '${title}.@(png|PNG|jpg|JPG|webp|WEBP)',
+              highlight: this.highlight.bind(this),
+              label: this.lang.label.localImages__i.interpolate({
+                artworkType: artworkNamesDict[artworkType].toLowerCase()
+              }),
+              onValidate: (self, path) => {
+                return this.parsersService.validate(path[0], self.value)
+              },
+              onInfoClick: (self, path) => {
+                this.currentDoc.activePath = path.join();
+                this.currentDoc.content = this.lang.docs__md.localImages.join('');
+              }
+            })
           }
-        }),
-        defaultHeroImage: new NestedFormElement.Path({
-          directory: false,
-          placeholder: this.lang.placeholder.defaultImage,
-          highlight: this.highlight.bind(this),
-          label: this.lang.label.defaultHeroImage,
-          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-            onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.defaultHeroImage.join('');
-          }
-        }),
-        defaultLogoImage: new NestedFormElement.Path({
-          directory: false,
-          placeholder: this.lang.placeholder.defaultImage,
-          highlight: this.highlight.bind(this),
-          label: this.lang.label.defaultLogoImage,
-          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-            onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.defaultLogoImage.join('');
-          }
-        }),
-        defaultIcon: new NestedFormElement.Path({
-          directory: false,
-          placeholder: this.lang.placeholder.defaultImage,
-          highlight: this.highlight.bind(this),
-          label: this.lang.label.defaultIcon,
-          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-            onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.defaultIcon.join('');
-          }
-        }),
-        localImages: new NestedFormElement.Path({
-          directory: true,
-          placeholder: this.lang.placeholder.localImages,
-          appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
-          highlight: this.highlight.bind(this),
-          label: this.lang.label.localImages,
-          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-            onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.localImages.join('');
-          }
-        }),
-        localTallImages: new NestedFormElement.Path({
-          directory: true,
-          placeholder: this.lang.placeholder.localTallImages,
-          appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
-          highlight: this.highlight.bind(this),
-          label: this.lang.label.localTallImages,
-          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-            onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.localTallImages.join('');
-          }
-        }),
-        localHeroImages: new NestedFormElement.Path({
-          directory: true,
-          placeholder: this.lang.placeholder.localHeroImages,
-          appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
-          highlight: this.highlight.bind(this),
-          label: this.lang.label.localHeroImages,
-          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-            onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.localHeroImages.join('');
-          }
-        }),
-        localLogoImages: new NestedFormElement.Path({
-          directory: true,
-          placeholder: this.lang.placeholder.localLogoImages,
-          appendGlob: '${finalTitle}.@(png|PNG|jpg|JPG|webp|WEBP)',
-          highlight: this.highlight.bind(this),
-          label: this.lang.label.localLogoImages,
-          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-            onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.localLogoImages.join('');
-          }
-        }),
-
-        localIcons: new NestedFormElement.Path({
-          directory: true,
-          placeholder: this.lang.placeholder.localIcons,
-          appendGlob: '${finalTitle}.@(png|PNG|ico|ICO)',
-          highlight: this.highlight.bind(this),
-          label: this.lang.label.localIcons,
-          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-            onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.localIcons.join('');
-          }
-        })
+          return new NestedFormElement.Group({
+            children: localImagesInputs
+          });
+        })()
       }
     });
   }
@@ -930,25 +858,32 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           success('Number of Titles: '.concat(data.files.length.toString()));
           for (let i = 0; i < data.files.length; i++) {
             success('');
-            let executableLocation = data.files[i].modifiedExecutableLocation;
-            let title = data.files[i].finalTitle;
-            let shortAppId = undefined; let appId = undefined;
+            const executableLocation = data.files[i].modifiedExecutableLocation;
+            const title = data.files[i].finalTitle;
+            let shortAppId; let appId; let exceptionKey;
             if(config.parserType !== 'Steam') {
               shortAppId = steam.generateShortAppId(executableLocation, title);
               appId = steam.lengthenAppId(shortAppId);
+              exceptionKey = steam.generateShortAppId(executableLocation, data.files[i].extractedTitle);
             } else {
               shortAppId = executableLocation.replace(/\"/g,"");
               appId = steam.lengthenAppId(shortAppId);
+              exceptionKey = shortAppId;
             }
-            success(this.lang.success.appId__i.interpolate({
+            success(this.lang.success.exceptionKey__i.interpolate({
               index: i + 1,
               total: totalLength,
-              appid: appId
+              appid: exceptionKey
             }));
             success(this.lang.success.shortAppId__i.interpolate({
               index: i + 1,
               total: totalLength,
               appid: shortAppId
+            }));
+            success(this.lang.success.appId__i.interpolate({
+              index: i + 1,
+              total: totalLength,
+              appid: appId
             }));
             success(this.lang.success.extractedTitle__i.interpolate({
               index: i + 1,
@@ -1008,237 +943,56 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }));
               }
             }
-            if (data.files[i].resolvedDefaultImages.length) {
-              success(this.lang.success.resolvedDefaultImageGlob__i.interpolate({
-                index: i + 1,
-                total: totalLength
-              }));
-              for (let j = 0; j < data.files[i].resolvedDefaultImages.length; j++) {
-                success(this.lang.success.resolvedImageGlobInfo__i.interpolate({
+            for(const artworkType of artworkTypes) {
+              if (data.files[i].resolvedDefaultImages[artworkType].length) {
+                success(this.lang.success.resolvedDefaultImage__i.interpolate({
                   index: i + 1,
                   total: totalLength,
-                  glob: data.files[i].resolvedDefaultImages[j]
+                  artworkType: artworkSingDict[artworkType]
+                }));
+                for (let j = 0; j < data.files[i].resolvedDefaultImages[artworkType].length; j++) {
+                  success(this.lang.success.indexInfo__i.interpolate({
+                    index: i + 1,
+                    total: totalLength,
+                    indexed: data.files[i].resolvedDefaultImages[artworkType][j]
+                  }));
+                }
+              }
+              if (data.files[i].defaultImage[artworkType] !== undefined) {
+                success(this.lang.success.defaultImage__i.interpolate({
+                  index: i+1,
+                  total: totalLength,
+                  artworkType: artworkSingDict[artworkType],
+                  image: data.files[i].defaultImage[artworkType]
                 }));
               }
-            }
-            if (data.files[i].resolvedDefaultTallImages.length) {
-              success(this.lang.success.resolvedDefaultTallImageGlob__i.interpolate({
-                index: i + 1,
-                total: totalLength
-              }));
-              for (let j = 0; j < data.files[i].resolvedDefaultTallImages.length; j++) {
-                success(this.lang.success.resolvedImageGlobInfo__i.interpolate({
+              if (data.files[i].resolvedLocalImages[artworkType].length) {
+                success(this.lang.success.resolvedLocalImages__i.interpolate({
                   index: i + 1,
                   total: totalLength,
-                  glob: data.files[i].resolvedDefaultTallImages[j]
+                  artworkType: artworkNamesDict[artworkType]
                 }));
+                for (let j = 0; j < data.files[i].resolvedLocalImages[artworkType].length; j++) {
+                  success(this.lang.success.indexInfo__i.interpolate({
+                    index: i + 1,
+                    total: totalLength,
+                    indexed: data.files[i].resolvedLocalImages[artworkType][j]
+                  }));
+                }
               }
-            }
-            if (data.files[i].resolvedDefaultHeroImages.length) {
-              success(this.lang.success.resolvedDefaultHeroImageGlob__i.interpolate({
-                index: i + 1,
-                total: totalLength
-              }));
-              for (let j = 0; j < data.files[i].resolvedDefaultHeroImages.length; j++) {
-                success(this.lang.success.resolvedImageGlobInfo__i.interpolate({
+              if (data.files[i].localImages[artworkType].length) {
+                success(this.lang.success.localImages__i.interpolate({
                   index: i + 1,
                   total: totalLength,
-                  glob: data.files[i].resolvedDefaultHeroImages[j]
+                  artworkType: artworkNamesDict[artworkType].toLowerCase()
                 }));
-              }
-            }
-            if (data.files[i].resolvedDefaultLogoImages.length) {
-              success(this.lang.success.resolvedDefaultLogoImageGlob__i.interpolate({
-                index: i + 1,
-                total: totalLength
-              }));
-              for (let j = 0; j < data.files[i].resolvedDefaultLogoImages.length; j++) {
-                success(this.lang.success.resolvedImageGlobInfo__i.interpolate({
-                  index: i + 1,
-                  total: totalLength,
-                  glob: data.files[i].resolvedDefaultLogoImages[j]
-                }));
-              }
-            }
-            if (data.files[i].resolvedDefaultIcons.length) {
-              success(this.lang.success.resolvedDefaultIconGlob__i.interpolate({
-                index: i + 1,
-                total: totalLength
-              }));
-              for (let j = 0; j < data.files[i].resolvedDefaultIcons.length; j++) {
-                success(this.lang.success.resolvedImageGlobInfo__i.interpolate({
-                  index: i + 1,
-                  total: totalLength,
-                  glob: data.files[i].resolvedDefaultIcons[j]
-                }));
-              }
-            }
-            if (data.files[i].defaultImage !== undefined) {
-              success(this.lang.success.defaultImageResolved__i.interpolate({
-                index: i + 1,
-                total: totalLength,
-                image: data.files[i].defaultImage
-              }));
-            }
-            if (data.files[i].defaultTallImage !== undefined) {
-              success(this.lang.success.defaultTallImageResolved__i.interpolate({
-                index: i+1,
-                total: totalLength,
-                image: data.files[i].defaultTallImage
-              }));
-            }
-            if (data.files[i].defaultHeroImage !== undefined) {
-              success(this.lang.success.defaultHeroImageResolved__i.interpolate({
-                index: i+1,
-                total: totalLength,
-                image: data.files[i].defaultHeroImage
-              }));
-            }
-            if (data.files[i].defaultLogoImage !== undefined) {
-              success(this.lang.success.defaultLogoImageResolved__i.interpolate({
-                index: i+1,
-                total: totalLength,
-                image: data.files[i].defaultLogoImage
-              }));
-            }
-            if (data.files[i].defaultIcon !== undefined) {
-              success(this.lang.success.defaultLogoImageResolved__i.interpolate({
-                index: i+1,
-                total: totalLength,
-                image: data.files[i].defaultIcon
-              }));
-            }
-
-
-            if (data.files[i].resolvedLocalImages.length) {
-              success(this.lang.success.resolvedImageGlob__i.interpolate({
-                index: i + 1,
-                total: totalLength
-              }));
-              for (let j = 0; j < data.files[i].resolvedLocalImages.length; j++) {
-                success(this.lang.success.resolvedImageGlobInfo__i.interpolate({
-                  index: i + 1,
-                  total: totalLength,
-                  glob: data.files[i].resolvedLocalImages[j]
-                }));
-              }
-            }
-            if (data.files[i].localImages.length) {
-              success(this.lang.success.localImagesResolved__i.interpolate({
-                index: i + 1,
-                total: totalLength
-              }));
-              for (let j = 0; j < data.files[i].localImages.length; j++) {
-                success(this.lang.success.localImageInfo__i.interpolate({
-                  index: i + 1,
-                  total: totalLength,
-                  image: data.files[i].localImages[j]
-                }));
-              }
-            }
-            if (data.files[i].resolvedLocalTallImages.length) {
-              success(this.lang.success.resolvedTallImageGlob__i.interpolate({
-                index: i + 1,
-                total: totalLength
-              }));
-              for (let j = 0; j < data.files[i].resolvedLocalTallImages.length; j++) {
-                success(this.lang.success.resolvedTallImageGlobInfo__i.interpolate({
-                  index: i + 1,
-                  total: totalLength,
-                  glob: data.files[i].resolvedLocalTallImages[j]
-                }));
-              }
-            }
-            if (data.files[i].localTallImages.length) {
-              success(this.lang.success.localTallImagesResolved__i.interpolate({
-                index: i + 1,
-                total: totalLength
-              }));
-              for (let j = 0; j < data.files[i].localTallImages.length; j++) {
-                success(this.lang.success.localTallImageInfo__i.interpolate({
-                  index: i + 1,
-                  total: totalLength,
-                  image: data.files[i].localTallImages[j]
-                }));
-              }
-            }
-            if (data.files[i].resolvedLocalHeroImages.length) {
-              success(this.lang.success.resolvedHeroImageGlob__i.interpolate({
-                index: i + 1,
-                total: totalLength
-              }));
-              for (let j = 0; j < data.files[i].resolvedLocalHeroImages.length; j++) {
-                success(this.lang.success.resolvedHeroImageGlobInfo__i.interpolate({
-                  index: i + 1,
-                  total: totalLength,
-                  glob: data.files[i].resolvedLocalHeroImages[j]
-                }));
-              }
-            }
-            if (data.files[i].localHeroImages.length) {
-              success(this.lang.success.localHeroImagesResolved__i.interpolate({
-                index: i + 1,
-                total: totalLength
-              }));
-              for (let j = 0; j < data.files[i].localHeroImages.length; j++) {
-                success(this.lang.success.localHeroImageInfo__i.interpolate({
-                  index: i + 1,
-                  total: totalLength,
-                  image: data.files[i].localHeroImages[j]
-                }));
-              }
-            }
-            if (data.files[i].resolvedLocalLogoImages.length) {
-              success(this.lang.success.resolvedLogoImageGlob__i.interpolate({
-                index: i + 1,
-                total: totalLength
-              }));
-              for (let j = 0; j < data.files[i].resolvedLocalLogoImages.length; j++) {
-                success(this.lang.success.resolvedLogoImageGlobInfo__i.interpolate({
-                  index: i + 1,
-                  total: totalLength,
-                  glob: data.files[i].resolvedLocalLogoImages[j]
-                }));
-              }
-            }
-            if (data.files[i].localLogoImages.length) {
-              success(this.lang.success.localLogoImagesResolved__i.interpolate({
-                index: i + 1,
-                total: totalLength
-              }));
-              for (let j = 0; j < data.files[i].localLogoImages.length; j++) {
-                success(this.lang.success.localLogoImageInfo__i.interpolate({
-                  index: i + 1,
-                  total: totalLength,
-                  image: data.files[i].localLogoImages[j]
-                }));
-              }
-            }
-
-            if (data.files[i].resolvedLocalIcons.length) {
-              success(this.lang.success.resolvedIconGlob__i.interpolate({
-                index: i + 1,
-                total: totalLength
-              }));
-              for (let j = 0; j < data.files[i].resolvedLocalIcons.length; j++) {
-                success(this.lang.success.resolvedIconGlobInfo__i.interpolate({
-                  index: i + 1,
-                  total: totalLength,
-                  glob: data.files[i].resolvedLocalIcons[j]
-                }));
-              }
-            }
-            if (data.files[i].localIcons.length) {
-              success(this.lang.success.localIconsResolved__i.interpolate({
-                index: i + 1,
-                total: totalLength
-              }));
-              for (let j = 0; j < data.files[i].localIcons.length; j++) {
-                success(this.lang.success.localIconInfo__i.interpolate({
-                  index: i + 1,
-                  total: totalLength,
-                  icon: data.files[i].localIcons[j]
-                }));
+                for (let j = 0; j < data.files[i].localImages[artworkType].length; j++) {
+                  success(this.lang.success.indexInfo__i.interpolate({
+                    index: i + 1,
+                    total: totalLength,
+                    indexed: data.files[i].localImages[artworkType][j]
+                  }));
+                }
               }
             }
           }

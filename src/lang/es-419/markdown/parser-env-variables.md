@@ -1,14 +1,14 @@
-## Environment variables
-These variables are pre parsed and can be used even in the Rom Directory, Steam Directory, Executable Location, and Start In Dir fields.
-| Variable (case-insensitive) | Corresponding value                                     |
-| ---------------------------:|:------------------------------------------------------- |
-|                      `${/}` | System specific directory separator: `\` or `/`        |
-|                 `${srmdir}` | Directory of portable SRM executable                    |
-|         `${steamdirglobal}` | Global steam directory, specified in `Settings`         |
-|          `${romsdirglobal}` | Global ROMs directory, specified in `Settings`          |
-|          `${retroarchpath}` | Path to Retroarch executable, specified in `Settings`   |
-|                `${racores}` | Directory of retroarch cores, specified in `Settings`   |
-|         `${localimagesdir}` | Directory of your local images, specified in `Settings` |
+## Variables de entorno
+Estas variables son pre-analizadas y pueden ser usadas en los campos de Directorio de roms, Directorio de Steam, Ubicación del ejecutable e Iniciar en.
+| Variable (distingue entre mayúsculas) | Valor correspondiente                                                 |
+| -------------------------------------:|:--------------------------------------------------------------------- |
+|                                `${/}` | Separador de carpetas del sistema operativo: `\` o `/`               |
+|                           `${srmdir}` | Directorio del ejecutable portable de SRM                             |
+|                   `${steamdirglobal}` | Directorio global de Steam, especificado en los `Ajustes`             |
+|                    `${romsdirglobal}` | Directorio global de ROMs, especificado en los `Ajustes`              |
+|                    `${retroarchpath}` | Ruta al ejecutable de Retroarch, especificado en los `Ajustes`        |
+|                          `${racores}` | Directorio de los núcleos de Retroarch, especificado en los `Ajustes` |
+|                   `${localimagesdir}` | Directorio de tus imágenes locales, especificado en los `Ajustes`     |
 
 
-The utility of the environment variable `${srmdir}` is to make SRM fully portable, eg if you wanted to have the directory layout `D:\Games\Roms` and `D:\Games\PortableSRM\SRM.exe` then setting the field Roms Directory to be `${srmdir}${/}..${/}Roms` would allow you to move the Games directory somewhere else without breaking your setup.
+La utilidad de la variable `${srmdir}` es hacer a SRM completamente portable, por ej. si quisieras tener como Directorio de ROMs a `D:\Juegos\Roms` y a SRM en `D:\Juegos\PortableSRM\SRM.exe` y configuraras el Directorio de ROMs para que sea `${srmdir}${/}..${/}Roms`, esto te permitiría mover la carpeta Juegos sin romper tu configuración.

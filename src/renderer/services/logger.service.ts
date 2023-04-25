@@ -115,7 +115,7 @@ export class LoggerService {
         responseType: 'json',
         method: 'POST',
         body: body,
-        timeout: 1000
+        timeout: 10000
       }).then((data: any)=>{
         if(data && data.key && data.delete_key) {
           resolve({key: data.key, deleteKey: data.delete_key});

@@ -85,7 +85,7 @@ export class xRequest {
         finalUrl = `${finalUrl}?${paramsString}`;
 
       xhr.responseType = options.responseType || '';
-      xhr.timeout = options.timeout || this.defaultTimeout;
+      xhr.timeout = options.timeout !== undefined ? options.timeout : self.defaultTimeout;
 
       xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {

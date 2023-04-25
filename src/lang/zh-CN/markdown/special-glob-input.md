@@ -12,7 +12,7 @@
 
 ### 绝对路径
 
-Let's say that the extracted title is `Metroid Fusion [USA]` and fuzzy title is `Metroid Fusion`. 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径：
+Let's say that the extracted title is `Metroid Fusion [USA]` and fuzzy title is `Metroid Fusion`. 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径： 然后，您可以像这样构建图像路径：
 
 - `C:/path/to/images/${title}.*`
 - `C:/path/to/images/${fuzzyTitle}.*`
@@ -43,20 +43,3 @@ For this example, let's say that ROMs directory is `C:/ROMS/GBA` and rom itself 
 - `C:/ROMS/GBA/../../path/to/images/Metroid Fusion.*`
   - `C:/ROMS/../path/to/images/Metroid Fusion.*`
     - `C:/path/to/images/Metroid Fusion.*`
-
-### 匹配模糊标题或提取的标题
-
-为了获取与提取的标题（extractedTitle）或模糊标题（fuzzyTitle）匹配的图像（或常量默认图像名称），可以使用特殊语法：
-
-假设你有 `Luigi's Mansion (USA).iso`，因此提取了标题 `Luigi's Mansion (USA)` 和模糊标题 `Luigi's Mansion`。 如果我们有一份艺术作品目录，其中包括：
-```
-(1) dir/Luigi's Mansion (USA).png
-(2) dir/Luigi's Mansion.png
-(3) dir/default.png
-```
-然后：
-
-- `dir/$(${fuzzyTitle}|@(${title}))$.png` 将匹配并检索图像 (1) 和 (2)
-- `dir/$(${title}|@(${title}|default))$.png`" 将匹配并检索图像（1）和（3）。
-- `dir/$(${fuzzyTitle}|@(${fuzzyTitle}|default))$.png`" 将匹配并检索图像 (2) 和 (3)。
-- `dir/$(${title}|@(${fuzzyTitle}|default))$.png`" 将匹配并检索图像 (1)、(2) 和 (3)。

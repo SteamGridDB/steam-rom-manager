@@ -1,33 +1,17 @@
 # User accounts (Optional)
 
-Can be used to limit configuration to specific user accounts. In order to set user accounts, the following syntax must be used:
-```
-${...}
-```
-You **must** use the username you use to **log in** into Steam **if** [use account credentials](#what-does-use-account-credentials-do) is enabled:
+This field is used to limit SRM's effects to specific user accounts, and takes values of the form:
 
-![Account example](../../../assets/images/user-account-example.png) {.fitImage.center}
+`${...}`
 
-For example, this is how you specify account for "Banana" and "Apple":
+This will limit SRM's effects to accounts `XXX` and `YYY` (you may specify as many accounts as you like). Here `XXX` and `YYY` stand in for either:
 
-```
-${Banana}${Apple}
-```
+* The account id is the name of the account directory that appears in `/path/to/steam/userdata`. For example, you would specify the account directory `userdata/56489124` like `${56489124}`.
 
-In case the [use account credentials](#what-does-use-account-credentials-do) is disabled, you can still limit accounts by specifying their ids directly:
+* A `Steam Username` (the username you use to actually log in to Steam). For example you would specify the users `Banana` and `Apple` like `${Banana}${Apple}`.
 
-```
-${56489124}${21987424}
-```
+You can also mix and match: `${56489124}${Apple}` is fine.
 
-## What does "Skip found accounts with missing data directories" do?
+## Warning
 
-Sometimes Steam's file that contains logins, may contain users that do not have data directory created (might have been manually deleted, etc.). You can specify to skip those accounts by enabling this option.
-
-## What does "Use account credentials" do?
-
-Tries to look for account credentials in Steam directory. In other words -- username. Username then can be used to filter accounts without actually having to know their ids.
-
-### Warning!
-
-If Steam has credential saving disabled, this option will prevent finding user accounts.
+You **must** use the username you use to **log in** into Steam **if** [use account credentials](#what-does-use-account-credentials-do) is enabled: If you would like to use `Steam Usernames` here, go to `Steam > Settings > Account` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.

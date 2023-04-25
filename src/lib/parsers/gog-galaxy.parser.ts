@@ -58,7 +58,6 @@ export class GOGParser implements GenericParser {
         let details = db.prepare("select * from LimitedDetails").all();
         let playtaskparams = db.prepare("select * from PlayTaskLaunchParameters").all();
         let playtasks = db.prepare("select * from PlayTasks").all();
-        db.close();
         playtasks = playtasks.map((x:any) => {
           x.productId = parseInt(x.gameReleaseKey.split('_').pop());
           x.productType = x.gameReleaseKey.split('_')[0]

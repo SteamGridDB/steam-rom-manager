@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain, IpcMainEvent } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, IpcMainEvent, crashReporter } from 'electron';
 import * as log from 'electron-log';
 import * as remoteMain from '@electron/remote/main';
 import { autoUpdater, CancellationToken } from 'electron-updater';
@@ -10,10 +10,15 @@ import yargs, {Argv} from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { UserConfiguration } from '../models'
 
+// Crash Reporting
+crashReporter.start({
+  productName: 'steam-rom-manager',
+  companyName: 'cbd',
+  submitURL: 'https://cbd.sp.backtrace.io:6098/post?format=minidump&token=f2caa6949cf9a39cb04a0cfef310e0479f47e6cb070b3b0cd0f4d54b97281730',
+  uploadToServer: true,
+});
 
 // CLI Setup
-//const argv = yargs(hideBin(process.argv)).argv
-
 let commandCLI:string = '';
 let argsCLI: string[];
 let flagsCLI: {[k: string]: boolean} = {};
@@ -124,7 +129,6 @@ function createWindow(show: boolean) {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
       contextIsolation: false,
-      webSecurity: false
     }
   });
   require("@electron/remote/main").enable(mainWindow.webContents);

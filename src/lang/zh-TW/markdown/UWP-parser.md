@@ -1,6 +1,6 @@
 # UWP Games Parser
 
-This parser imports `UWP` games in your Windows OS, having a games library path as reference. Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass!
+This parser imports `UWP` games in your Windows OS, having a games library path as reference. Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass! Useful for PC gamepass!
 
 ## Compatibility
 

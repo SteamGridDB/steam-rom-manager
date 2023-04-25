@@ -16,7 +16,6 @@ export class NavBorderComponent {
 
   constructor(private renderer: Renderer2, private settingsService: SettingsService) {
     this.appSettings = this.settingsService.getSettings();
-    let set = this.appSettings
   }
 
   ngOnInit() {

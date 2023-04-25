@@ -5,6 +5,7 @@ import { ParsersService } from './parsers.service';
 import { LoggerService } from './logger.service';
 import { SettingsService } from './settings.service';
 import { ImageProviderService } from './image-provider.service';
+import { SteamGridDbProvider } from '../../lib/image-providers/steamgriddb.worker';
 import {
   PreviewData,
   ImageContent,
@@ -64,6 +65,7 @@ export class PreviewService {
       listIsBeingSaved: false,
       listIsBeingGenerated: false,
       listIsBeingRemoved: false,
+      listHasGenerated: false,
       numberOfQueriedImages: 0,
       numberOfListItems: 0
     };
@@ -131,6 +133,22 @@ export class PreviewService {
     this.previewVariables.listIsBeingGenerated = true;
     this.imageProviderService.instance.stopUrlDownload();
     this.generatePreviewDataCallback();
+  }
+
+  getMatchFixes(title: string) {
+    return SteamGridDbProvider.retrievePossibleIds(title)
+  }
+
+  updateAppImages(imagePool: string, oldPool: string, artworkType: string) {
+    this.appImages[artworkType][imagePool] = {
+      retrieving: false,
+      searchQueries: [imagePool],
+      imageProviderAPIs: this.appImages[artworkType][oldPool].imageProviderAPIs,
+      defaultImageProviders: this.appImages[artworkType][oldPool].defaultImageProviders,
+      content: this.appImages[artworkType][oldPool].content.filter((imageContent: ImageContent) => {
+        return ['LocalStorage'].includes(imageContent.imageProvider)
+      })
+    }
   }
 
   saveData({batchWrite, removeAll}: {batchWrite: boolean, removeAll: boolean}): Promise<any> {
@@ -252,12 +270,12 @@ export class PreviewService {
           const shortId = gridName.match(/^\d+/).toString();
           const longId = steam.lengthenAppId(shortId);
           const imageType = invertedArtworkIdDict[gridName.replace(/^\d+/,'')];
-          const steamUrl = url.encodeFile(outcomes[steamDirectory][userId].successes[gridName]);
+          const steamImageUrl = url.encodeFile(outcomes[steamDirectory][userId].successes[gridName]);
           if(this.previewData[steamDirectory][userId].apps[longId]) {
             this.previewData[steamDirectory][userId].apps[longId].images[imageType].steam = {
               imageProvider: 'Steam',
-              imageUrl: steamUrl,
-              imageRes: url.imageDimensions(steamUrl),
+              imageUrl: steamImageUrl,
+              imageRes: url.imageDimensions(steamImageUrl),
               loadStatus: 'done'
             }
           }
@@ -458,11 +476,13 @@ export class PreviewService {
         }
 
         this.previewVariables.listIsBeingGenerated = false;
+        this.previewVariables.listHasGenerated = true;
         this.previewDataChanged.next();
       }).catch((error) => {
         this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
         this.loggerService.error(error);
         this.previewVariables.listIsBeingGenerated = false;
+        this.previewVariables.listHasGenerated = true;
         this.previewDataChanged.next();
       });
     }
@@ -521,8 +541,8 @@ export class PreviewService {
 
             if (shortcutsData[config.steamDirectory][userAccount.accountID][appID] !== undefined) {
               if (shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon'] !== undefined) {
-                if (file.localIcons.indexOf(shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon']) === -1) {
-                  file.localIcons.unshift(shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon']);
+                if (file.localImages['icon'].indexOf(shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon']) === -1) {
+                  file.localImages['icon'].unshift(shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon']);
                 }
               }
             }
@@ -547,7 +567,7 @@ export class PreviewService {
             if (previewData[config.steamDirectory][userAccount.accountID].apps[appID] === undefined) {
               let images: {[artworkType: string]: any} = {};
               for(const artworkType of artworkTypes) {
-                const steamImage = gridData[config.steamDirectory][userAccount.accountID][appID.concat(artworkIdDict[artworkType])];
+                const steamImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat(artworkIdDict[artworkType])];
                 const steamImageUrl = steamImage ? url.encodeFile(steamImage) : undefined;
                 images[artworkType] = {
                   steam: steamImage ? {
@@ -556,10 +576,10 @@ export class PreviewService {
                     imageRes: url.imageDimensions(steamImageUrl),
                     loadStatus: 'done'
                   } : undefined,
-                  default: file.defaultImage ? {
+                  default: file.defaultImage[artworkType] ? {
                     imageProvider: 'LocalStorage',
-                    imageUrl: file.defaultImage,
-                    imageRes: url.imageDimensions(file.defaultImage),
+                    imageUrl: file.defaultImage[artworkType],
+                    imageRes: url.imageDimensions(file.defaultImage[artworkType]),
                     loadStatus: 'done'
                   } : undefined,
                   imagePool: file.imagePool,
@@ -588,51 +608,15 @@ export class PreviewService {
               let currentCategories = previewData[config.steamDirectory][userAccount.accountID].apps[appID].steamCategories;
               previewData[config.steamDirectory][userAccount.accountID].apps[appID].steamCategories = _.union(currentCategories, file.steamCategories);
             }
-
-            for (let l = 0; l < file.localImages.length; l++) {
-
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localImages[l],
-                imageRes: url.imageDimensions(file.localImages[l]),
-                loadStatus: 'done'
-              },'long')
-
-            }
-            for (let l = 0; l < file.localTallImages.length; l++) {
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localTallImages[l],
-                imageRes: url.imageDimensions(file.localTallImages[l]),
-                loadStatus: 'done'
-              },'tall')
-            }
-            for (let l = 0; l < file.localHeroImages.length; l++) {
-
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localHeroImages[l],
-                imageRes: url.imageDimensions(file.localHeroImages[l]),
-                loadStatus: 'done'
-              },'hero')
-            }
-            for (let l = 0; l < file.localLogoImages.length; l++) {
-
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localLogoImages[l],
-                imageRes: url.imageDimensions(file.localLogoImages[l]),
-                loadStatus: 'done'
-              },'logo')
-            }
-            for (let l = 0; l < file.localIcons.length; l++) {
-
-              this.addUniqueImage(file.imagePool, {
-                imageProvider: 'LocalStorage',
-                imageUrl: file.localIcons[l],
-                imageRes: url.imageDimensions(file.localIcons[l]),
-                loadStatus: 'done'
-              },'icon')
+            for(const artworkType of artworkTypes) {
+              for (let l = 0; l < file.localImages[artworkType].length; l++) {
+                this.addUniqueImage(file.imagePool, {
+                  imageProvider: 'LocalStorage',
+                  imageUrl: file.localImages[artworkType][l],
+                  imageRes: url.imageDimensions(file.localImages[artworkType][l]),
+                  loadStatus: 'done'
+                }, artworkType)
+              }
             }
           }
         }

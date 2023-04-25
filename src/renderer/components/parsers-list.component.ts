@@ -13,6 +13,6 @@ import { APP } from "../../variables";
 })
 export class ParsersListComponent {
  private get lang(){
-     return APP.lang.parsers_list.component;
+     return APP.lang.parsersList.component;
  }
 }

@@ -5,7 +5,7 @@
     }
   },
   "compilerOptions": {
-    "target": "es2019",
+    "target": "es2022",
     "module": "ESNext",
     "sourceMap": true,
     "emitDecoratorMetadata": true,

@@ -20,6 +20,8 @@ export class ExceptionsComponent implements OnDestroy {
   private exceptionsForm: FormGroup;
   private exceptionsFormItems: FormArray;
 
+  private filterValue = '';
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,

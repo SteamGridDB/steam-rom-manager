@@ -5,9 +5,10 @@ import * as genericParser from '@node-steam/vdf';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 
-export function getAvailableLogins(steamDirectory: string, useCredentials: boolean) {
+export function getAvailableLogins(steamDirectory: string) {
   return new Promise<userAccountData[]>((resolve, reject) => {
-    if (useCredentials) {
+    const usersFile = path.join(steamDirectory, 'config', 'loginusers.vdf');
+    if(fs.existsSync(usersFile)) {
       fs.readFile(path.join(steamDirectory, 'config', 'loginusers.vdf'), 'utf8', (err, data) => {
         try {
           if (err && err.code !== 'ENOENT')
@@ -30,17 +31,12 @@ export function getAvailableLogins(steamDirectory: string, useCredentials: boole
           reject(error);
         }
       });
-    }
-    else {
+    } else {
       glob('userdata/+([0-9])/', { cwd: steamDirectory })
       .then((files: string[]) => {
-          let getUserId = function (filename: string) {
-            return /userdata(\\|\/)(.*?)(\\|\/)/i.exec(filename)[2];
-          }
-
           let accountData: userAccountData[] = [];
           for (let i = 0; i < files.length; i++) {
-            let userId = getUserId(files[i]);
+            const userId = files[i].split(path.sep).slice(-1)[0];
             accountData.push({ steamID64: 'unavailable', accountID: userId, name: userId });
           }
           resolve(accountData);
