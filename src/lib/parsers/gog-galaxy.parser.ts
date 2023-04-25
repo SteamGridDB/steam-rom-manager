@@ -6,7 +6,7 @@ import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
 import * as os from "os";
 import * as json from "../helpers/json";
-import * as sqlite from "better-sqlite3";
+import { SqliteWrapper } from "../helpers/sqlite";
 
 export class GOGParser implements GenericParser {
 
@@ -43,7 +43,6 @@ export class GOGParser implements GenericParser {
       let dbPath: string = '';
       let galaxyExePath = inputs.galaxyExeOverride || 'C:\\Program Files (x86)\\GOG Galaxy\\GalaxyClient.exe';
 
-
       if(os.type()=='Windows_NT') {
         dbPath = 'C:\\ProgramData\\GOG.com\\Galaxy\\storage\\galaxy-2.0.db'
       } else {
@@ -52,26 +51,10 @@ export class GOGParser implements GenericParser {
       if(!fs.existsSync(dbPath)) {
         reject(this.lang.errors.gogNotInstalled);
       }
-      Promise.resolve()
-      .then(()=>{
-        let db = sqlite(dbPath);
-        let details = db.prepare("select * from LimitedDetails").all();
-        let playtaskparams = db.prepare("select * from PlayTaskLaunchParameters").all();
-        let playtasks = db.prepare("select * from PlayTasks").all();
-        playtasks = playtasks.map((x:any) => {
-          x.productId = parseInt(x.gameReleaseKey.split('_').pop());
-          x.productType = x.gameReleaseKey.split('_')[0]
-          return x;
-        })
-        .filter((x:any) => x.productType == 'gog' && x.isPrimary)
-        .map((x:any) => {
-          x.params = playtaskparams.filter((y: any) => y.playTaskId==x.id)[0]
-          let xdetails = details.filter((y: any) => y.productId==x.productId);
-          if(xdetails.length && xdetails[0]) {
-            x.title = xdetails[0].title
-          }
-          return x;
-        });
+
+      const sqliteWrapper = new SqliteWrapper('gog-galaxy', dbPath);
+      sqliteWrapper.callWorker()
+      .then((playtasks: {[k: string]: any}[]) => {
         for(let task of playtasks) {
           if(task.title && task.params.executablePath) {
             appTitles.push(task.title);
@@ -88,7 +71,7 @@ export class GOGParser implements GenericParser {
             extractedTitle: appTitles[i],
             extractedAppId: productIds[i],
             launchOptions: `/command=runGame /gameId=${productIds[i]}`,
-            filePath: appPaths[i]
+              filePath: appPaths[i]
           });
         }
         resolve(parsedData);
