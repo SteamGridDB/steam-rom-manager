@@ -78,7 +78,7 @@ export class ConfigurationPresetsService {
             presetPromises.push(ConfigurationPresetsService.xRequest.request(queryURL, {
               responseType: 'json',
               method: 'GET',
-              timeout: 1000
+              timeout: 5000
             }));
           })
           return Promise.all(presetPromises)

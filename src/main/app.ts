@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain, IpcMainEvent } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, IpcMainEvent, crashReporter } from 'electron';
 import * as log from 'electron-log';
 import * as remoteMain from '@electron/remote/main';
 import { autoUpdater, CancellationToken } from 'electron-updater';
@@ -10,10 +10,10 @@ import yargs, {Argv} from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { UserConfiguration } from '../models'
 
+// Crash Reporting
+crashReporter.start({ uploadToServer: false });
 
 // CLI Setup
-//const argv = yargs(hideBin(process.argv)).argv
-
 let commandCLI:string = '';
 let argsCLI: string[];
 let flagsCLI: {[k: string]: boolean} = {};
@@ -124,7 +124,6 @@ function createWindow(show: boolean) {
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
       contextIsolation: false,
-      webSecurity: false
     }
   });
   require("@electron/remote/main").enable(mainWindow.webContents);

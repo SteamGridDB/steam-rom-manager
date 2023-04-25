@@ -48,7 +48,7 @@ export class CustomVariablesService {
           {
             responseType: 'json',
             method: 'GET',
-            timeout: 1000
+            timeout: 5000
           }
         ).then((data) => {
           const error = this.set(data || {});
