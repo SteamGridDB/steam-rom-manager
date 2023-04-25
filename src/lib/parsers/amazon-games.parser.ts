@@ -2,9 +2,9 @@ import { ParserInfo, GenericParser, ParsedData } from '../../models';
 import { APP } from '../../variables';
 import * as fs from "fs-extra";
 import * as os from "os";
-import * as sqlite from "better-sqlite3";
 import * as path from 'path';
 import { parse } from 'yaml';
+import { SqliteWrapper } from '../helpers/sqlite';
 
 export class AmazonGamesParser implements GenericParser {
 
@@ -33,7 +33,7 @@ export class AmazonGamesParser implements GenericParser {
           label: this.lang.launcherModeInputTitle,
           inputType: 'toggle',
           validationFn: (input: any) => { return null },
-          info: this.lang.docs__md.input.join('')
+            info: this.lang.docs__md.input.join('')
         }
       }
     };
@@ -54,39 +54,40 @@ export class AmazonGamesParser implements GenericParser {
         if(!fs.existsSync(dbPath)) {
           reject(this.lang.errors.databaseNotFound);
         }
+        const sqliteWrapper = new SqliteWrapper('amazon-games', dbPath);
+        sqliteWrapper.callWorker().then((games: {[k: string]: any}[]) => {
+          const success = games.filter(({ InstallDirectory, Installed }:{ [key:string]:string }) => {
+            return (fs.existsSync(`${InstallDirectory}\\fuel.json`) || launcherMode) && Installed;
+          })
+          .map(({ ProductTitle, InstallDirectory, Installed, Id }: { [key:string]:string }) => {
+            if (launcherMode) {
+              return {
+                extractedTitle: ProductTitle,
+                startInDirectory: InstallDirectory,
+                launchOptions: `amazon-games://play/${Id}`,
+              };
+            }
 
-        const db = sqlite(dbPath);
+            const fuelJson = fs.readFileSync(`${InstallDirectory}\\fuel.json`);
+            // not really json so need to parse with yaml parser
+            const { Main: { Command, Args } } = parse(fuelJson.toString());
 
-        const games: {extractedTitle: string, filePath: string, startInDirectory?: string, launchOptions?: string}[] =
-        db.prepare("select ProductTitle, InstallDirectory, Installed, Id from DbSet")
-        .all()
-        .filter(({ InstallDirectory, Installed }:{ [key:string]:string }) => {
-          return (fs.existsSync(`${InstallDirectory}\\fuel.json`) || launcherMode) && Installed;
-        })
-        .map(({ ProductTitle, InstallDirectory, Installed, Id }: { [key:string]:string }) => {
-          if (launcherMode) {
             return {
               extractedTitle: ProductTitle,
               startInDirectory: InstallDirectory,
-              launchOptions: `amazon-games://play/${Id}`,
+              filePath: `${InstallDirectory}\\${Command}`,
+              launchOptions: Args?.join(' '),
             };
-          }
+          });
 
-          const fuelJson = fs.readFileSync(`${InstallDirectory}\\fuel.json`);
-          // not really json so need to parse with yaml parser
-          const { Main: { Command, Args } } = parse(fuelJson.toString());
+          resolve({executableLocation: launcherMode ? amazonGamesExe : null, success: success, failed:[]});
 
-          return {
-            extractedTitle: ProductTitle,
-            startInDirectory: InstallDirectory,
-            filePath: `${InstallDirectory}\\${Command}`,
-            launchOptions: Args?.join(' '),
-          };
-        });
+        }).catch((error)=>{
+          reject(this.lang.errors.fatalError__i.interpolate({error: error}))
+        })
 
-        resolve({executableLocation: launcherMode ? amazonGamesExe : null, success: games, failed:[]});
-      } catch(err) {
-        reject(this.lang.errors.fatalError__i.interpolate({error: err}));
+      } catch(error) {
+        reject(this.lang.errors.fatalError__i.interpolate({error: error}));
       }
     })
   }
