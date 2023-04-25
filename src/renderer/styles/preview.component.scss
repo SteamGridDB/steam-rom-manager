@@ -47,19 +47,11 @@
       background: transparent;
     }
     .fake-btn{
+      
+      @include button();
+      @include clickButtonColor(click-button);      
       color: var(--color-click-button-text-hover);
-      border-color: var(--color-click-button-border-hover);
       background-color: var(--color-click-button-background-hover);
-      fill: var(--color-click-button-text-hover);
-      display: inline-flex;
-      padding: var(--padding-click-button);
-      border-radius: var(--radius-click-button);
-      white-space: nowrap;
-      cursor: pointer;
-      border-width: 1px;
-      border-style: solid;
-      align-items: center;
-      margin: 0 0.25em;
     }
     strong{
       color: var(--color-markdown-h1);
