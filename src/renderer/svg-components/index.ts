@@ -4,5 +4,6 @@ export * from './select-arrow-down.component';
 export * from './refresh-images.component';
 export * from './save-image.component';
 export * from './image-alert.component';
+export * from './image-lens.component';
 export * from './add-images.component';
 export * from './copy-icon.component';
