@@ -2,8 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 ## 2.4.9
-### Fixed
-* Database connection wasn't being closed in itch.io and amazon parser, could cause a crash when hitting "parse" more than once.
+
+### Added
+* Explanation of SRM's workflow on the preview page when no apps are present.
+
+### Changed
+* Moved better-sqlite calls to a child process. This fixes crashes that have been happening since upgrading to electron 24.1.2
+* Highlight mandatory fields in create parser
 
 ### Changed
 * Re-worked module `windows-shortcuts-ps` to use massively less RAM when doing shortcut-passthrough (only spawn one powershell process, per parse, not one per each shortcut).
