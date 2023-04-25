@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.9
+### Changed
+* Re-worked module `windows-shortcuts-ps` to use massively less RAM when doing shortcut-passthrough (only spawn one powershell process, per parse, not one per each shortcut).
+* Increased timeouts to account for the fact that timeout is now being set correctly.
+
 ## 2.4.8
 ## Added
 * Ability to comment things out in glob fields using `\`. Addresses [issue 404](https://github.com/SteamGridDB/steam-rom-manager/issues/404)
