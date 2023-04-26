@@ -89,14 +89,20 @@ ng-nested-form {
       @include ngTextInputColor(input, true);
       grid-area: input;
       &.required {
-        border: 2px solid #059;
+        outline: 1px solid var(--color--accent);
+        .display{
+          border: 0
+        }
       }
     }
 
     ng-select {
       grid-area: input;
       &.required {
-        border: 2px solid #059;
+        outline: 1px solid var(--color--accent);
+        .display{
+          border: 0
+        }
       }
     }
 
