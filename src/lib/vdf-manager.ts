@@ -65,7 +65,9 @@ export class VDF_Manager {
       for(let userId in this.data[steamDirectory]) {
         updates.push(
           this.data[steamDirectory][userId].screenshots.getBatchProgress()
-          .pipe(map(i=>{ return {update: `Doing batch ${i+1} for user ${userId}`, batch: i}}))
+          .pipe(map((b: {batch: number, total: number}) => {
+            return {update: `Doing batch (${b.batch + 1}/${b.total}) for user ${userId}`, batch: b.batch}
+          }))
         )
       }
     }

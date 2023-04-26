@@ -20,10 +20,10 @@ export class VDF_ScreenshotsFile {
   private fileData: any = undefined;
   private topKey: string = undefined;
   private extraneousAppIds: string[] = [];
-  private batchProgress: BehaviorSubject<number>
+  private batchProgress: BehaviorSubject<{batch: number, total: number}>
 
   constructor(private filepath: string, private gridDirectory: string) {
-    this.batchProgress = new BehaviorSubject<number>(-1);
+    this.batchProgress = new BehaviorSubject<{batch: number, total: number}>({batch: -1, total: undefined});
   }
 
   private get lang() {
@@ -148,13 +148,13 @@ export class VDF_ScreenshotsFile {
       return screenshotsData[appId] !== undefined && (typeof screenshotsData[appId] !== 'string')
     });
     let successes: {[appId: string]: string} = {};
-
-    for (let b=0; b < Math.ceil(addableAppIds.length / batchSize); b++ ) {
+    const nbatches: number = Math.ceil(addableAppIds.length / batchSize);
+    for (let b = 0; b < nbatches; b++ ) {
       if(batch) {
         if(b>0){
           await new Promise(resolve => setTimeout(resolve, delay));
         }
-        this.batchProgress.next(b);
+        this.batchProgress.next({batch: b, total: nbatches});
       }
       let batchAddPromises: Promise<VDF_Error>[] = [];
       for(let j= b*batchSize; j < Math.min((b+1)*batchSize,addableAppIds.length); j++) {

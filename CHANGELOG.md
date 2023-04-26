@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.10
+
+## Added
+* Show total number of batches in batch progress alerts.
+
+## Fixed
+* Some small UI bugs that cropped up in 2.4.9.
+
 ## 2.4.9
 
 ### Added
