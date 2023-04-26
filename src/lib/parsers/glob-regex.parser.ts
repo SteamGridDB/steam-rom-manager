@@ -30,6 +30,7 @@ export class GlobRegexParser implements GenericParser {
         'glob-regex': {
           label: this.lang.inputTitle,
           placeholder: this.lang.inputPlaceholder,
+          required: true,
           inputType: 'text',
           validationFn: this.validate.bind(this),
           info: this.lang.docs__md.input.join('')
