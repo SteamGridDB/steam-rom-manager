@@ -87,12 +87,23 @@ ng-nested-form {
     ng-text-input {
       @include ngTextInput();
       @include ngTextInputColor(input, true);
-
       grid-area: input;
+      &.required {
+        outline: 1px solid var(--color--accent);
+        .display{
+          border: 0
+        }
+      }
     }
 
     ng-select {
       grid-area: input;
+      &.required {
+        outline: 1px solid var(--color--accent);
+        .display{
+          border: 0
+        }
+      }
     }
 
     ng-toggle-button {

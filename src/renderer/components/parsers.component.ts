@@ -64,6 +64,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         parserType: new NestedFormElement.Select({
           label: this.lang.label.parserType,
           placeholder: this.lang.placeholder.parserType,
+          required: true,
           values: parserInfo.availableParsers,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
             onInfoClick: (self, path) => {
@@ -81,11 +82,24 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         configTitle: new NestedFormElement.Input({
           placeholder: this.lang.placeholder.configTitle,
+          required: true,
           label: this.lang.label.configTitle,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
             onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
             this.currentDoc.content = this.lang.docs__md.configTitle.join('');
+          }
+        }),
+        steamDirectory: new NestedFormElement.Path({
+          placeholder: this.lang.placeholder.steamDirectory,
+          directory: true,
+          required: true,
+          label: this.lang.label.steamDirectory,
+          highlight: this.highlight.bind(this),
+          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+            onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content = this.lang.docs__md.steamDirectory.join('');
           }
         }),
         steamCategory: new NestedFormElement.Input({
@@ -97,17 +111,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
             this.currentDoc.content = this.lang.docs__md.steamCategory.join('');
-          }
-        }),
-        steamDirectory: new NestedFormElement.Path({
-          placeholder: this.lang.placeholder.steamDirectory,
-          directory: true,
-          label: this.lang.label.steamDirectory,
-          highlight: this.highlight.bind(this),
-          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-            onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.steamDirectory.join('');
           }
         }),
         userAccounts: new NestedFormElement.Group({
@@ -132,6 +135,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         romDirectory: new NestedFormElement.Path({
           placeholder: this.lang.placeholder.romDirectory,
+          required: true,
           isHidden: () => this.isHiddenIfNotRomsParser(),
             directory: true,
           label: this.lang.label.romDirectory,
@@ -147,11 +151,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           isHidden: () => this.isHiddenIfNotRomsParser()
         }),
         executable: new NestedFormElement.Group({
+          label: this.lang.label.executableLocation,
           isHidden: () => this.isHiddenIfNotRomsParser(),
-            label: this.lang.label.executableLocation,
           children: {
             path: new NestedFormElement.Path({
               placeholder: this.lang.placeholder.executableLocation,
+              required: true,
               highlight: this.highlight.bind(this),
               onValidate: (self, path) => {
                 let serialized: {[k: string]: any} = {};
@@ -222,6 +227,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 if(input.inputType == 'path' || input.inputType == 'dir') {
                   parserInputs[inputFieldName] = new NestedFormElement.Path({
                     placeholder: input.placeholder,
+                    required: !!input.required,
                     directory: input.inputType=='dir' ? true : false,
                     initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
                     highlight: this.highlight.bind(this),
@@ -247,6 +253,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
                     highlight: this.highlight.bind(this),
                     placeholder: input.placeholder,
+                    required: !!input.required,
                     label: input.label,
                     isHidden: () => {
                       return concat(of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).pipe(map((pType: string) => {

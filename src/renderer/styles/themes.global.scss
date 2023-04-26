@@ -3,10 +3,13 @@
 
 }
 
+
+
 .Classic {
   .only-emudeck{
     display: none !important
   }
+  --color--accent: #fff;
   --grid-app:"titlebar titlebar titlebar" "navarea navborder route";
   --grid-app-rows :auto 1fr;
   --grid-app-columns: auto auto 1fr;
@@ -580,8 +583,16 @@
   &.EmuDeck.EmuDeck preview{
     // grid-template-areas:  "lowerMenu" "upperMenu" "entries";
     // grid-template-rows: auto  auto 1fr;
+    position:relative;
+    
+    .preview-description{
+      padding: 0;
+      padding-top: 30px;
+    }
+    
     .entries{
       background: var(--color-preview-menu-background);
+      z-index:2;
     }
     .lowerMenu{
       justify-content: end;

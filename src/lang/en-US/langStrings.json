@@ -24,7 +24,9 @@
       "remainingImages": "Retrieving urls:",
       "stopUrlRetrieving": "Stop",
       "exportSelections": "Export",
-      "importSelections": "Import"
+      "importSelections": "Import",
+      "backButton": "Back",
+      "logButton": "Log"
     },
     "service": {
       "info": {
@@ -285,7 +287,7 @@
         "fuzzy_filter": "Filter images",
         "enabledProviders": "Enabled image providers",
         "selectLanguage": "Select language",
-        "selectTheme":"Select theme",
+        "selectTheme": "Select theme",
         "resetFuzzy_desc": "fuzzy list",
         "resetFuzzyCache_desc": "fuzzy cache",
         "resetFuzzy_btn": "Reset",
@@ -477,7 +479,6 @@
         "advanced": "Show advanced options",
         "noTitle": "No title!"
       }
-
     },
     "service": {
       "info": {

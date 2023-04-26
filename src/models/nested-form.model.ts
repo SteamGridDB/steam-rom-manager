@@ -45,6 +45,8 @@ export namespace NestedFormElement {
     /** Optional */
     allowEmpty?: boolean
     /** Optional */
+    required?: boolean
+    /** Optional */
     onValidate?: NestedInputValidator;
     /** Optional */
     onValidateObservable?: NestedInputValidatorObservable;
@@ -70,6 +72,8 @@ export namespace NestedFormElement {
     disabled?: boolean;
     /** Optional */
     placeholder?: string;
+    /** Optional */
+    required?: boolean
     /** Optional */
     onValidate?: NestedInputValidator;
     /** Optional */
@@ -102,6 +106,8 @@ export namespace NestedFormElement {
     disabled?: boolean;
     /** Optional */
     placeholder?: string;
+    /** Optional */
+    required?: boolean
     /** Optional */
     error?: string;
     /** Optional */

@@ -29,20 +29,21 @@
                     (click)="child.onInfoClick(currentForm.controls[childrenKey], currentForm.controls[childrenKey]['__path'])">
               </span>
               {{child.label}}
+              <small *ngIf="child.required"> * Required</small>
             </label>
             <ng-container [ngSwitch]="child.constructor.displayName">
               <ng-container *ngSwitchCase="'Select'">
-                <ng-select [formControlName]="childrenKey" [placeholder]="child.placeholder" [multiple]="child.multiple" [allowEmpty]="child.allowEmpty" [values]="child.values">
+                <ng-select [formControlName]="childrenKey" [placeholder]="child.placeholder" [multiple]="child.multiple" [allowEmpty]="child.allowEmpty" [values]="child.values" [class.required]="child.required">
                 </ng-select>
               </ng-container>
               <ng-container *ngSwitchCase="'Button'">
                 <div class="freeButton" (click)="child.onClickMethod()">{{child.buttonLabel}}</div>
               </ng-container>
               <ng-container *ngSwitchCase="'Input'">
-                <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight"></ng-text-input>
+                <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight" [class.required]="child.required"></ng-text-input>
               </ng-container>
               <ng-container *ngSwitchCase="'Path'">
-                <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight" [appendGlob]="child.appendGlob"></ng-text-input>
+                <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight" [appendGlob]="child.appendGlob" [class.required]="child.required"></ng-text-input>
                 <ng-path-input class="clickButton" [stateless]="true" [directory]="child.directory" (pathChange)="currentForm.controls[childrenKey].setValue($event)">Browse</ng-path-input>
               </ng-container>
               <ng-container *ngSwitchCase="'Toggle'">
