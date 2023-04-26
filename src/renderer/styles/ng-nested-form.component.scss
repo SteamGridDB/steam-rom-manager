@@ -83,13 +83,15 @@ ng-nested-form {
       grid-area: button;
       margin-bottom: var(--margin-input-text);
     }
-
+    .reqText {
+      margin-left: 0.25em;
+    }
     ng-text-input {
       @include ngTextInput();
       @include ngTextInputColor(input, true);
       grid-area: input;
       &.required {
-        outline: 1px solid var(--color--accent);
+        outline: 1px solid var(--color--required);
         .display{
           border: 0
         }
@@ -99,7 +101,7 @@ ng-nested-form {
     ng-select {
       grid-area: input;
       &.required {
-        outline: 1px solid var(--color--accent);
+        outline: 2px solid var(--color--required);
         .display{
           border: 0
         }
