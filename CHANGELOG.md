@@ -1,11 +1,19 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.10
+
+## Added
+* Show total number of batches in batch progress alerts.
+
+## Fixed
+* Some small UI bugs that cropped up in 2.4.9.
+
 ## 2.4.9
 
 ### Added
 * Explanation of SRM's workflow on the preview page when no apps are present. Credit to @dragoonDorise.
-* Highlight mandatory fields in create parser
+* Highlight mandatory fields in create parser.
 
 ### Changed
 * Moved better-sqlite calls to a child process. This fixes crashes that have been happening since upgrading to `Electron 24`.

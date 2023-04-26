@@ -155,6 +155,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           isHidden: () => this.isHiddenIfNotRomsParser(),
           children: {
             path: new NestedFormElement.Path({
+
+              label: this.lang.label.executableLocation,
               placeholder: this.lang.placeholder.executableLocation,
               required: true,
               highlight: this.highlight.bind(this),
@@ -162,6 +164,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 let serialized: {[k: string]: any} = {};
                 serialized[path[1]] = self.value;
                 return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized)
+              },
+              onInfoClick: (self, path) => {
+                this.currentDoc.activePath = path.join();
+                this.currentDoc.content = this.lang.docs__md.executableLocation.join('');
               }
             }),
             shortcutPassthrough: new NestedFormElement.Toggle({
@@ -172,10 +178,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 text: this.lang.text.appendArgsToExecutable
             })
           },
-          onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.executableLocation.join('');
-          }
         }),
         executableArgs: new NestedFormElement.Input({
           placeholder: this.lang.placeholder.executableArgs,

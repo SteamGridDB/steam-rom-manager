@@ -229,6 +229,7 @@ export class PreviewService {
       }
       if (batchWrite) {
         vdfManager.getBatchProgress().subscribe(({update, batch}: {update: string, batch: number})=> {
+          console.log("batch", batch, update)
           if(batch > -1) {
             this.loggerService.info(update, {invokeAlert: true, alertTimeout: 3000})
             this.batchProgress.next({update: update, batch: batch})

@@ -29,7 +29,7 @@
                     (click)="child.onInfoClick(currentForm.controls[childrenKey], currentForm.controls[childrenKey]['__path'])">
               </span>
               {{child.label}}
-              <small *ngIf="child.required"> * Required</small>
+              <small *ngIf="child.required" class="reqText">*Required</small>
             </label>
             <ng-container [ngSwitch]="child.constructor.displayName">
               <ng-container *ngSwitchCase="'Select'">
