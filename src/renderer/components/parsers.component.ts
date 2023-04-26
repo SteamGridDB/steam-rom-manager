@@ -253,7 +253,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
                     highlight: this.highlight.bind(this),
                     placeholder: input.placeholder,
-                    required: !!input.required
+                    required: !!input.required,
                     label: input.label,
                     isHidden: () => {
                       return concat(of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).pipe(map((pType: string) => {
