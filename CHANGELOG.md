@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 * Explanation of SRM's workflow on the preview page when no apps are present. Credit to @dragoonDorise.
-* Highlight mandatory fields in create parser
+* Highlight mandatory fields in create parser.
 
 ### Changed
 * Moved better-sqlite calls to a child process. This fixes crashes that have been happening since upgrading to `Electron 24`.
