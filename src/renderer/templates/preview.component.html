@@ -1,4 +1,4 @@
-<div class="preview-description" *ngIf="previewVariables.numberOfListItems === 0">
+<div class="preview-description" *ngIf="!previewVariables.listIsBeingGenerated && !previewVariables.listHasGenerated">
   <h1>Add your games to Steam</h1>
   <p>Follow these steps to add games to your Steam Library</p>
   <ol>
@@ -6,7 +6,7 @@
     <li>Wait until all the images are downloaded</li>
     <li>Click on <strong>Save to Steam</strong> and wait for the message "Done adding/merging entries". If you have a big library this could take some time</li>
   </ol>
-  
+
   <p>If some games are showing incorrect info, press on the image and click on the ! icon to show alternatives</p>
   <p>If you don't want to add all games click <strong>Exclude Apps</strong> and then select the ones you don't want and hit <strong>Save Exclusions</strong></p>
   <div class="fake-btn" (click)="generatePreviewData(false)">{{lang.generateAppList}}</div>
