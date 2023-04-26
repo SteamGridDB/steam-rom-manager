@@ -59,7 +59,6 @@ export class ConfigurationPresetsService {
           } else {
             downloadURL = this.treesURL.concat('master').concat('?recursive=1')
           }
-          console.log("downloadURL", downloadURL)
           return downloadURL;
         })
         .then((downloadURL) => {
