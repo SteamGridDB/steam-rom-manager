@@ -24,7 +24,9 @@
       "remainingImages": "Retrieving urls:",
       "stopUrlRetrieving": "Stop",
       "exportSelections": "Export",
-      "importSelections": "Import"
+      "importSelections": "Import",
+      "backButton": "Back",
+      "logButton": "Log"
     },
     "service": {
       "info": {
