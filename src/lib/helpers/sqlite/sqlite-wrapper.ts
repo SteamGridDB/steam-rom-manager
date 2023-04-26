@@ -1,6 +1,7 @@
 import { fork } from 'child_process';
+import * as fs from 'fs-extra';
+import * as path from 'path';
 
-const worker = 'src/lib/helpers/sqlite/sqlite-worker.js';
 
 export class SqliteWrapper {
   private dbPath;
@@ -11,9 +12,21 @@ export class SqliteWrapper {
     this.task = task;
   }
 
+  // Work-around for calling fork inside a packed application
+  // https://github.com/electron/electron/issues/2708#issuecomment-137764698
   callWorker() {
     return new Promise((resolve, reject) => {
-      const sqliteWorker = fork(worker)
+      let cwd = path.join(__dirname, "../../..");
+      let workerPath;
+      if(fs.existsSync(path.join(cwd,'app.asar'))) {
+        workerPath = 'app.asar/workers/sqlite-worker.js';
+      } else {
+        workerPath = 'workers/sqlite-worker.js'
+        cwd = null;
+      }
+      const sqliteWorker = fork(workerPath, [], {
+        cwd: cwd
+      })
       sqliteWorker.on('message', (data: {[k: string]: any}) => {
         if (data.type === 'error') {
           reject(data.error);
