@@ -6,7 +6,8 @@
   height: var(--height-update-notifier-backdrop);
   position: var(--position-update-notifier-backdrop);
   backdrop-filter: var(--filter-update-notifier-backdrop);
-
+  z-index: 9;
+  display: var(--display-update);
 
   .update-notifier-content{
     p{
@@ -40,7 +41,7 @@
     flex-direction: column;
     justify-content: center;
 
-    position: absolute;
+    position: var(--position-update);
     left: var(--position-update-notifier-left);
     right: var(--position-update-notifier-right);
     bottom: var(--position-update-notifier-bottom);
