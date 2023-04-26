@@ -44,6 +44,7 @@
     },
     "files": [
       "dist/**/*",
+      "workers/*",
       "package.json",
       "!node_modules/leveldown/{build,deps}/**"
     ],
@@ -96,6 +97,7 @@
     "blob-to-buffer": "^1.2.9",
     "cli-color": "^2.0.3",
     "colornames": "^1.1.1",
+    "copy-webpack-plugin": "^11.0.0",
     "crc": "^4.3.2",
     "electron-log": "^4.4.8",
     "electron-updater": "^5.3.0",
