@@ -348,10 +348,14 @@
   --position-update-notifier-right: auto;
   --position-update-notifier-bottom: 0;
   --position-update-notifier-top: auto;
+  --width-update-notifier:20vw;
+  --height-update-notifier:20vh;
   --margin-update-notifier: 0.5em 0.5em;
   --padding-update-notifier: 1em 2em;
   --color-position-update-notifier-border: var(--color-info);
   --border-update-notifier-width: var(--border-width-alert);
+  --display-update: inherit;
+  --position-update: absolute;
   --display-preview-title: none;
   --display-exceptions-save-status: inherit;
 }
@@ -1000,10 +1004,12 @@
   --height-update-notifier-backdrop:100vh;
   --position-update-notifier-backdrop:fixed;
   --filter-update-notifier-backdrop:blur(5px);
-  --width-update-notifier:20vw;
-  --height-update-notifier:20vh;
+  --width-update-notifier:auto;
+  --height-update-notifier:auto;
   --color-position-update-notifier-border: #414141;
   --border-update-notifier-width: 1px;
+  --display-update: flex;
+  --position-update: static;
   --display-preview-title: none;
 
 }
@@ -1360,10 +1366,12 @@
   --height-update-notifier-backdrop:100vh;
   --position-update-notifier-backdrop:fixed;
   --filter-update-notifier-backdrop:blur(5px);
-  --width-update-notifier:20vw;
-  --height-update-notifier:20vh;
+  --width-update-notifier:auto;
+  --height-update-notifier:auto;
   --color-position-update-notifier-border: #414141;
   --border-update-notifier-width: 1px;
+  --display-update: flex;
+  --position-update: static;
   --display-preview-title: none;
   --display-exceptions-save-status: none;
 }
