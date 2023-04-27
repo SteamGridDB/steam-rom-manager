@@ -101,7 +101,7 @@ ng-nested-form {
     ng-select {
       grid-area: input;
       &.required {
-        outline: 2px solid var(--color--required);
+        outline: 1px solid var(--color--required);
         .display{
           border: 0
         }
