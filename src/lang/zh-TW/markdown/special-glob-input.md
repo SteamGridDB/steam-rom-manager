@@ -3,7 +3,7 @@
 ## How does it work?
 
 Image paths are resolved in 4 step process:
-1. String is evaluated to see if a glob based parser is used. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets.
+1. String is evaluated to see if a glob based parser is used. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets.
 1. All provided variables are replaced with their corresponding values.
 1. New string(s) is/are resolved against root directory (root directory is always a configuration's ROMs directory).
 1. Final string(s) is/are passed to glob parser which then returns a list of available files.
@@ -12,7 +12,7 @@ Image paths are resolved in 4 step process:
 
 ### Absolute paths
 
-Let's say that the extracted title is `Metroid Fusion [USA]` and fuzzy title is `Metroid Fusion`. You can then construct an image path like this: You can then construct an image path like this: You can then construct an image path like this: You can then construct an image path like this:
+Let's say that the extracted title is `Metroid Fusion [USA]` and fuzzy title is `Metroid Fusion`. You can then construct an image path like this: You can then construct an image path like this: You can then construct an image path like this: You can then construct an image path like this: Let's say that the extracted title is `Metroid Fusion [USA]` and fuzzy title is `Metroid Fusion`. You can then construct an image path like this: You can then construct an image path like this: You can then construct an image path like this: You can then construct an image path like this: You can then construct an image path like this:
 
 - `C:/path/to/images/${title}.*`
 - `C:/path/to/images/${fuzzyTitle}.*`
@@ -24,7 +24,7 @@ which will be resolved to this:
 
 ### Relative paths
 
-For this example, let's say that ROMs directory is `C:/ROMS/GBA` and rom itself is `C:/ROMS/GBA/Metroid Fusion [USA].gba`. Set up a relative path, using `${filePath}`{.noWrap} or `${dir}`{.noWrap} variables, for example: Set up a relative path, using `${filePath}`{.noWrap} or `${dir}`{.noWrap} variables, for example: Set up a relative path, using `${filePath}`{.noWrap} or `${dir}`{.noWrap} variables, for example: Set up a relative path, using `${filePath}`{.noWrap} or `${dir}`{.noWrap} variables, for example:
+For this example, let's say that ROMs directory is `C:/ROMS/GBA` and rom itself is `C:/ROMS/GBA/Metroid Fusion [USA].gba`. Set up a relative path, using `${filePath}`{.noWrap} or `${dir}`{.noWrap} variables, for example: Set up a relative path, using `${filePath}`{.noWrap} or `${dir}`{.noWrap} variables, for example: Set up a relative path, using `${filePath}`{.noWrap} or `${dir}`{.noWrap} variables, for example: Set up a relative path, using `${filePath}`{.noWrap} or `${dir}`{.noWrap} variables, for example: Set up a relative path, using `${filePath}`{.noWrap} or `${dir}`{.noWrap} variables, for example: Set up a relative path, using `${filePath}`{.noWrap} or `${dir}`{.noWrap} variables, for example:
 
 - `${filePath}/../../../path/to/images/${title}.*`
 - `${dir}/../../path/to/images/${title}.*`

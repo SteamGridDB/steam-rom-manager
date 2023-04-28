@@ -32,24 +32,41 @@
   'lowerMenu lowerMenu';
   grid-template-rows: auto auto auto auto 1fr auto;
   grid-template-columns: auto var(--details-width);
-  
+  .loadingSpinner {
+    &:before {
+      display: block;
+      align: center;
+      justify-content: center;
+      width: 5em;
+      height: 5em;
+      margin: 40vh auto auto;
+
+      content: "";
+      animation: loadingSpinner 0.6s linear infinite;
+
+      border-top: 0.325em solid transparent;
+      border-top-color: var(--color-app-loading-spinner);
+      border-right: 0.325em solid transparent;
+      border-radius: 50%;
+    }
+  }
   .preview-description{
     height: 100%;
-    grid-area: entries;      
+    grid-area: entries;
     z-index: 3;
     width: 100%;
     max-width: 94vw;
     margin: 0 auto;
     padding: 30px;
     box-sizing: border-box;
-   color: var(--color-markdown-h1);
+    color: var(--color-markdown-h1);
     + div + div {
       background: transparent;
     }
     .fake-btn{
-      
+
       @include button();
-      @include clickButtonColor(click-button);      
+      @include clickButtonColor(click-button);
       color: var(--color-click-button-text-hover);
       background-color: var(--color-click-button-background-hover);
     }
@@ -76,7 +93,7 @@
       }
     }
   }
-  
+
   .upperMenu {
     display: grid;
     border: 0.5em solid transparent;
@@ -220,24 +237,7 @@
     @include webkitScrollbar(preview-scrollbar);
     grid-area: detailsLower;
     overflow-y: auto;
-    .loadingSpinner {
-      &:before {
-        display: block;
-        align: center;
-        justify-content: center;
-        width: 5em;
-        height: 5em;
-        margin: 10em auto auto;
 
-        content: "";
-        animation: loadingSpinner 0.6s linear infinite;
-
-        border-top: 0.325em solid transparent;
-        border-top-color: var(--color-app-loading-spinner);
-        border-right: 0.325em solid transparent;
-        border-radius: 50%;
-      }
-    }
 
     @keyframes loadingSpinner {
       to {
@@ -305,8 +305,8 @@
     @include webkitScrollbar(preview-scrollbar);
     overflow-y: auto;
     &.detailsOpen {
-     ::-webkit-scrollbar {
-          width: 0.75em;
+      ::-webkit-scrollbar {
+        width: 0.75em;
       }
       overflow-y: scroll;
     }

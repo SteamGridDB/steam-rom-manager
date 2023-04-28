@@ -15,7 +15,12 @@
   routerLinkActive="active"
   [routerLinkActiveOptions]="{ exact: true, dummy: dummy }"
 >
-  <img src="/assets/images/danger.png" alt="Icon" height="16" />{{ lang.userExceptions }}
+  <ng-container *ngIf="!isExceptionsUnsaved">
+    <img src="/assets/images/danger.png" alt="Icon" height="16" />{{ lang.userExceptions }}
+  </ng-container>
+  <ng-container *ngIf="isExceptionsUnsaved">
+    <img src="/assets/images/danger-unsaved.png" alt="Icon" height="16" />{{ lang.userExceptions }}
+  </ng-container>
 </nav-link>
 </nav-expand>
 <nav-link routerLink="/about" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"

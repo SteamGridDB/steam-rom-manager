@@ -154,7 +154,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           isHidden: () => this.isHiddenIfNotRomsParser(),
           children: {
             path: new NestedFormElement.Path({
-
               label: this.lang.label.executableLocation,
               placeholder: this.lang.placeholder.executableLocation,
               required: true,
