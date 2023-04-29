@@ -363,7 +363,9 @@
 }
 
 .EmuDeck {
-  
+  .not-emudeck{
+    display: none !important
+  }
   @font-face {
     font-family: 'MotivaSans';
     src: url('../../assets/fonts/Raleway-Thin.ttf') format('truetype');
@@ -390,55 +392,55 @@
     font-weight: 600;
   }
 
-  
+
   body{
     font-family: 'MotivaSans';
     background: #222
-      url('../../assets/themes/emudeck/bg.png')
-      no-repeat;
+    url('../../assets/themes/emudeck/bg.png')
+    no-repeat;
     background-size: cover;
   }
-  
+
   &.EmuDeck.EmuDeck.EmuDeck.EmuDeck.EmuDeck navarea nav{
     justify-content: end;
     margin: 0 10px;
-    
+
     nav-link:nth-child(6)
     {
       display: none;
     }
-    
+
     nav-link, nav-expand .items nav-link{
       display: inline-flex;
-      
+
       @include button();
       @include clickButtonColor(click-button);
-      
-      
+
+
       margin-left: 18px;
-      
-      
+
+
       &:hover {
         color: var(--color-click-button-text-hover);
         border-color: var(--color-click-button-border-hover);
         background-color: var(--color-click-button-background-hover);
-      
+
         fill: var(--color-click-button-text-hover);
       }
-    
-      
+
+
       &:active {
         color: var(--color-click-button-text-active);
         border-color: var(--color-click-button-border-active);
         background-color: var(--color-click-button-background-active);
-      
+
         fill: var(--color-click-button-text-active);
       }
       img{
         display: none !important;
       }
     }
-    
+
     nav-expand{
       margin-left: 18px;
       nav-link{
@@ -448,28 +450,28 @@
         }
       }
     }
-    
+
   }
-  
-  
-  
+
+
+
   navarea{
     background: transparent;
     display: flex;
-   
-   box-sizing: border-box;
-   
-   &:not(:empty){
-     padding: 28px;
-   }
-   
+
+    box-sizing: border-box;
+
+    &:not(:empty){
+      padding: 28px;
+    }
+
   }
-  
+
   &.EmuDeck.EmuDeck .ng-trigger-slideIn{
     top:32px;
     bottom: auto;
   }
-  
+
   &.EmuDeck.EmuDeck settings,
   &.EmuDeck.EmuDeck about{
     width:94vw;
@@ -481,7 +483,7 @@
     padding-top: 0;
     margin-top: 30px;  
   }
-  
+
 
   &.EmuDeck.EmuDeck nav-parsers{
     height: 70vh;
@@ -516,7 +518,7 @@
               border-radius: 4px 0 0 4px;
               margin: 0 0 0 0em;
               transform: translateY(0%);
-              
+
             }
             &.active,
             &:hover,
@@ -524,7 +526,7 @@
               color: #444
             }
           }
-          
+
         }        
       }
     }
@@ -539,7 +541,7 @@
           margin: 0;
           justify-content: start
         }
-        
+
       }
       .titlelink{
         padding: 0;
@@ -549,7 +551,7 @@
         }
       }
     }
-    
+
     .item{
       background-color: rgba(255,255,255,1);
       padding-right: 10px;
@@ -558,35 +560,31 @@
       border-radius: 4px;
       transition:.8s;
       &.disabled{
-        background-color: rgba(255,255,255,0.6);  
+        background-color: rgba(255,255,255,0.6);
         transition:.8s
       }
     }
   }
-  
+
   &.EmuDeck.EmuDeck.EmuDeck.EmuDeck user-exceptions{
-    grid-template-areas: 
+    grid-template-areas:
     "description description"
     "upperMenu upperMenu"
     "exceptions exceptions"
     "menu menu";
-        
+
     grid-template-rows: auto auto 1fr auto;
-    
+
     .upperMenu{
       max-width: 94vw;
       width: 100%;
       margin: 0 auto;
       .search{
-        justify-content: left;        
+        justify-content: left;
       }
-      .searchExceptions,.searchExceptions:hover{
-        margin: 0;
-        background: #fff;
-        color: #444
-      }
+
     }
-    
+
     .exception-entry{
       background-color: rgb(255, 255, 255);
       padding: 10px 14px;
@@ -604,34 +602,34 @@
         }
       }
     }
-    
+
     //Only Emudeck
     .description{
       grid-area: description;
       color: #fff;
       max-width: 94vw;
       width: 100%;
-      margin: 0 auto;      
+      margin: 0 auto;
       overflow: hidden;
       h1{
-          line-height: 1.25;          
-          margin-top:0;
-          margin: var(--margin-markdown-hx);
-          padding-bottom: 0.3em;
-          font-size: var(--font-markdown-h1);
-          font-family: var(--font-family-markdown-h1);
-          color: var(--color-markdown-h1);
-        }
+        line-height: 1.25;
+        margin-top:0;
+        margin: var(--margin-markdown-hx);
+        padding-bottom: 0.3em;
+        font-size: var(--font-markdown-h1);
+        font-family: var(--font-family-markdown-h1);
+        color: var(--color-markdown-h1);
+      }
       p{
         color: var(--color-markdown-text);
       }
-      
+
     }
-    
+
     markdown{
       display: none
     }
-    
+
     .userExceptions{
       max-width: 94vw;
       width: 100%;
@@ -641,7 +639,7 @@
       }
       label{
         display: none;
-      }  
+      }
       label + div{
         display: flex;
         justify-content: space-between;
@@ -649,12 +647,11 @@
       }
       > div > div{
         margin-bottom: 16px;
-        border-bottom: 1px solid var(--color-click-button-background);
-        max-width: 40vw;
+        // max-width: 40vw;
         width: 100%;
       }
     }
-    
+
     .menu{
       display: flex;
       justify-content: end;
@@ -668,7 +665,7 @@
       }
     }
   }
-  
+
   &.EmuDeck.EmuDeck log{
     grid-template-areas:
     "messages bugreport"
@@ -685,22 +682,22 @@
       padding: 24px;
       background: rgba(0,0,0,.6)
     }
-    
+
     .bugreportdocs{
       display: none
     }
   }
-  
+
   &.EmuDeck.EmuDeck preview{
     // grid-template-areas:  "lowerMenu" "upperMenu" "entries";
     // grid-template-rows: auto  auto 1fr;
     position:relative;
-    
+
     .preview-description{
       padding: 0;
       padding-top: 30px;
     }
-    
+
     .entries{
       background: var(--color-preview-menu-background);
       z-index:2;
@@ -712,21 +709,21 @@
       border: 0;
     }
   }
-  
+
   &.EmuDeck.EmuDeck settings{
     grid-template-areas: "settings settings" "menu menu";
     markdown{
       display: none;
     }
-    
+
     .settings{
       padding: 0;
       margin-top: 30px;
-      
+
       .inputContainer{
         padding-left: 0;
       }
-      
+
       .section{
         margin: 0;
       }
@@ -735,16 +732,16 @@
         font-weight: bold;
         color: #fff;
       }
-      
+
       > div {
-        
+
         &:nth-child(2),
         &:nth-child(3),
         &:nth-child(4),
         &:nth-child(5),{
           display: none; 
         }
-        
+
         > div:nth-child(2),                
         > div:nth-child(6),
         > div:nth-child(7),
@@ -752,15 +749,15 @@
         > div:nth-child(9){
           display: none
         }
-        
+
       }
     }
     .menu{
       display: none;
     }
-    
+
   }
-  
+
   --grid-app: "titlebar" "route" "navarea" ;
   --grid-app-rows :auto 1fr auto ;
   --grid-app-columns: auto ;
