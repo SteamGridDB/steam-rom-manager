@@ -348,14 +348,14 @@
             color: var(--color-preview-text);
           }
         }
-
         > .apps{
           margin: 0.75em;
           display: flex;
           flex-wrap: wrap;
           align-items: center;
           align-content: space-around;
-          justify-content: space-around;
+          justify-content: left;
+          margin-left:1vw;
           > .title {
             padding: 0.5em 0.25em;
             flex-basis: 100%;
