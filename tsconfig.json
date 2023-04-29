@@ -13,7 +13,8 @@
     "removeComments": false,
     "noImplicitAny": true,
     "moduleResolution": "Node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": false
