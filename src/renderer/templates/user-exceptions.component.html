@@ -1,8 +1,3 @@
-<div class="description only-emudeck">
-  <h1>Excluded Games & Exceptions</h1>
-  <p>Here you can see the games you've excluded on the Preview page in case you want to add them back</p>
-</div>
-
 <div class= "upperMenu">
   <div class="search">
     <ng-text-input class="searchExceptions" placeholder="Search Exceptions" [(ngModel)]="filterValue"></ng-text-input>
@@ -18,7 +13,7 @@
   <div [formGroup]="exceptionsForm">
     <div formArrayName="items"
          *ngFor="let item of exceptionsForm.get('items').controls; let i=index;">
-      <div class="exception-entry" [formGroupName]="i" *ngIf="(item.controls['oldTitle'].value | fuzzyTest: filterValue) ">
+      <div [formGroupName]="i" *ngIf="(item.controls['oldTitle'].value | fuzzyTest: filterValue) ">
         <div class="inputContainer">
           <div class="inlineLeft">
             <div class=text style="margin-right: 0.25em;">Extracted Title: </div>
@@ -55,8 +50,5 @@
     <div class="dangerousButton" (click)=deleteAll()>{{lang.buttons.deleteAll}}</div>
     <div (click)=save() *ngIf="exceptionsService.isUnsaved">{{lang.buttons.save}}</div>
     <div *ngIf="exceptionsService.isUnsaved" (click)="undo()">{{lang.buttons.undoChanges}}</div>
-    <div class='addItem' class="only-emudeck" (click)="addItem()">{{lang.buttons.addItem}}</div>
-    <nav-link [routerLink]="['/parsers-list']" class="only-emudeck" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-    >Back</nav-link>
   </ng-container>
 </div>

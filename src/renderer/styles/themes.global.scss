@@ -1,5 +1,3 @@
-@import "mixins";
-
 :root {
   --color-app-loading-spinner: #31a0f4
 
@@ -399,20 +397,34 @@
     background-size: cover;
   }
   
-  &.EmuDeck.EmuDeck.EmuDeck.EmuDeck.EmuDeck navarea nav{
+  navarea nav{
     justify-content: end;
     margin: 0 10px;
     
-    nav-link:nth-child(6)
+    nav-link:nth-child(6),
+    nav-expand:nth-child(4),
     {
       display: none;
     }
     
-    nav-link, nav-expand .items nav-link{
+    nav-link{
       display: inline-flex;
       
-      @include button();
-      @include clickButtonColor(click-button);
+      padding: var(--padding-click-button);
+      border-radius: var(--radius-click-button);
+      white-space: nowrap;
+      cursor: pointer;
+      border-width: 1px;
+      border-style: solid;
+      
+      align-items: center;
+  
+      
+      color: var(--color-click-button-text);
+      border-color: var(--color-click-button-border);
+      background-color: #666666;
+      
+      fill: var(--color-click-button-text);
       
       
       margin-left: 18px;
@@ -425,7 +437,6 @@
       
         fill: var(--color-click-button-text-hover);
       }
-    
       
       &:active {
         color: var(--color-click-button-text-active);
@@ -439,19 +450,7 @@
       }
     }
     
-    nav-expand{
-      margin-left: 18px;
-      nav-link{
-        margin-left:0 !important;
-        &:before{
-          display: none !important;
-        }
-      }
-    }
-    
   }
-  
-  
   
   navarea{
     background: transparent;
@@ -564,115 +563,10 @@
     }
   }
   
-  &.EmuDeck.EmuDeck.EmuDeck.EmuDeck user-exceptions{
-    grid-template-areas: 
-    "description description"
-    "upperMenu upperMenu"
-    "exceptions exceptions"
-    "menu menu";
-        
-    grid-template-rows: auto auto 1fr auto;
-    
-    .upperMenu{
-      max-width: 94vw;
-      width: 100%;
-      margin: 0 auto;
-      .search{
-        justify-content: left;        
-      }
-      .searchExceptions,.searchExceptions:hover{
-        margin: 0;
-        background: #fff;
-        color: #444
-      }
-    }
-    
-    .exception-entry{
-      background-color: rgb(255, 255, 255);
-      padding: 10px 14px;
-      margin-bottom: 10px;
-      margin-right: 10px;
-      border-radius: 4px;
-      transition: 0.8s;
-      .text{
-        color: #444;
-      }
-      .inputContainer{
-        margin-bottom: 0;
-        & > div:nth-child(4){
-          display: none
-        }
-      }
-    }
-    
-    //Only Emudeck
-    .description{
-      grid-area: description;
-      color: #fff;
-      max-width: 94vw;
-      width: 100%;
-      margin: 0 auto;      
-      overflow: hidden;
-      h1{
-          line-height: 1.25;          
-          margin-top:0;
-          margin: var(--margin-markdown-hx);
-          padding-bottom: 0.3em;
-          font-size: var(--font-markdown-h1);
-          font-family: var(--font-family-markdown-h1);
-          color: var(--color-markdown-h1);
-        }
-      p{
-        color: var(--color-markdown-text);
-      }
-      
-    }
-    
-    markdown{
-      display: none
-    }
-    
-    .userExceptions{
-      max-width: 94vw;
-      width: 100%;
-      margin: 0 auto;
-      .addItem{
-        display: none
-      }
-      label{
-        display: none;
-      }  
-      label + div{
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap
-      }
-      > div > div{
-        margin-bottom: 16px;
-        border-bottom: 1px solid var(--color-click-button-background);
-        max-width: 46vw;
-        width: 100%;
-      }
-    }
-    
-    .menu{
-      display: flex;
-      justify-content: end;
-      padding: 28px;
-      background: transparent;
-      border: 0;
-      nav-link{
-        margin: 0 0.25em;
-        @include button();
-        @include clickButtonColor(click-button);
-      }
-    }
-  }
-  
   &.EmuDeck.EmuDeck log{
     grid-template-areas:
-    "messages bugreport"
-    "messages bugreport"
+    "messages messages"
+    "messages messages"
     "menu menu";
     .menu{      
       margin: 0;
@@ -686,7 +580,7 @@
       background: rgba(0,0,0,.6)
     }
     
-    .bugreportdocs{
+    .bugreport, .bugreportdocs{
       display: none
     }
   }
@@ -903,7 +797,7 @@
   --color-ng-toggle-button-fill-active-hover: var(--color--accent);
   --color-ng-toggle-button-fill-hover: #2f2f2f;
   --color-ng-toggle-button-text: #a0a0a0;
-  --color-parsers-menu-background: transparent;
+  --color-parsers-menu-background: #050505;
   --color-parsers-user-form-background: rgba(29, 29, 29, 0.7);
   --color-parsers-user-form-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-parsers-user-form-scrollbar-track: rgba(80, 80, 80, 0.3);
