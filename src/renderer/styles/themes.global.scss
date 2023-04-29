@@ -641,7 +641,7 @@
         display: none;
       }
       label + div{
-        display: flex;
+        display: block;
         justify-content: space-between;
         flex-wrap: wrap
       }
