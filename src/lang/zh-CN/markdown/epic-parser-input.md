@@ -8,4 +8,4 @@
 
 ## 通过 Epic Games Store 启动 `[建议启用]`
 
-This toggle lets you set whether games will launch via the Epic Games Store or directly. 如果您不通过 `Epic Games Store` 启动游戏，将无法在游戏中使用 Epic 的在线服务。 如果您不通过 `Epic Games Store` 启动游戏，将无法在游戏中使用 Epic 的在线服务。
+This toggle lets you set whether games will launch via the Epic Games Store or directly. 如果您不通过 `Epic Games Store` 启动游戏，将无法在游戏中使用 Epic 的在线服务。

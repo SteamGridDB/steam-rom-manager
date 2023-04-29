@@ -186,7 +186,7 @@
 
 ### 函数变量示例
 
-Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables: Then these variables: 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量：
+Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables: Then these variables: 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量：
 ```
 ${/.*/|${title}}                           //匹配所有内容
 ${/(.*)/|${title}}                         //捕获所有内容
