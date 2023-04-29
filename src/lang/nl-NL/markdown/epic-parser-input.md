@@ -8,4 +8,4 @@ Als uw manifestenmap zich om de een of andere reden echter op een niet-typische 
 
 ## Start Via Epic Games Store `[Ingeschakeld aanbevolen]`
 
-Zoals het klinkt, met deze schakelaar kun je instellen of games via de Epic Games Store of rechtstreeks worden gestart. Als je niet start via de `Epic Games Store`, heb je geen toegang tot de online services van Epic in de game.
+This toggle lets you set whether games will launch via the Epic Games Store or directly. Als je niet start via de `Epic Games Store`, heb je geen toegang tot de online services van Epic in de game.
