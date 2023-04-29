@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## 2.4.12
+### Added
+* Exceptions now usable in EmuDeck theme. Credit to @dragoonDorise.
+
 ### Changed
 * Use App Id instead of titles for import/export images (gets rid of title collisions and also issues with titles that have illegal filename characters)
 * Total re-work of image downloading method to remove dependence on deprecated library `request`. Should also hopefully fix timeout issues, as it now automatically retries (once) if an image request times out.
