@@ -77,12 +77,6 @@ export class PreviewComponent implements OnDestroy {
       this.allParsers = this.previewService.getAllParsers();
       this.previewData = this.previewService.getPreviewData();
     }
-    this.subscriptions.add(this.previewService.getPreviewDataChange().subscribe(_.debounce(() => {
-      this.allCategories = this.previewService.getAllCategories();
-      this.allParsers = this.previewService.getAllParsers();
-      this.previewData = this.previewService.getPreviewData();
-      this.changeDetectionRef.detectChanges();
-    }, 50)));
     this.appSettings = this.settingsService.getSettings();
     this.imageTypes = artworkViewTypes.map((imageType: string)=>{
       return {value: imageType, displayValue: artworkNamesDict[imageType]}
@@ -127,6 +121,12 @@ export class PreviewComponent implements OnDestroy {
   }
 
   ngAfterViewInit() {
+    this.subscriptions.add(this.previewService.getPreviewDataChange().subscribe(_.debounce(() => {
+      this.allCategories = this.previewService.getAllCategories();
+      this.allParsers = this.previewService.getAllParsers();
+      this.previewData = this.previewService.getPreviewData();
+      this.changeDetectionRef.detectChanges();
+    }, 50)));
     this.subscriptions.add(this.CLI_MESSAGE.asObservable().subscribe((cliMessage: string)=> {
       const parsedCLI = cliMessage ? JSON.parse(cliMessage)||{} : {};
       let hasrun = false;

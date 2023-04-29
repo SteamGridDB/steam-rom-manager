@@ -229,7 +229,6 @@ export class PreviewService {
       }
       if (batchWrite) {
         vdfManager.getBatchProgress().subscribe(({update, batch}: {update: string, batch: number})=> {
-          console.log("batch", batch, update)
           if(batch > -1) {
             this.loggerService.info(update, {invokeAlert: true, alertTimeout: 3000})
             this.batchProgress.next({update: update, batch: batch})
@@ -729,31 +728,11 @@ export class PreviewService {
   }
 
   async exportSelection() {
-    async function saveImage(imageUrl: string, temporayDir: string, append: string) {
+    async function saveImage(imageUrl: string, temporaryDir: string, append: string) {
       const extension = imageUrl.split(/[#?]/)[0].split('.').pop().trim();
-      var request = require('request').defaults({ encoding: null });
-
-      function doRequest(url: string, filename: string) {
-        return new Promise(function (resolve, reject) {
-          request(url, function (error: any, res: any, body: any) {
-            if (!error && res.statusCode == 200) {
-              fs.writeFileSync(filename, body);
-              resolve(body);
-            } else {
-              reject(error);
-            }
-          });
-        });
-      }
-
-      if (imageUrl.startsWith("file://")) {
-        await fs.copyFile(url.decodeFile(imageUrl), `${temporayDir}${path.sep}${append}.${extension}`);
-      }
-      else {
-        await doRequest(imageUrl, `${temporayDir}${path.sep}${append}.${extension}`);
-      }
-
-      return `${append}.${extension}`;
+      const filename = `${append}.${extension}`;
+      await url.downloadAndSaveImage(imageUrl, path.join(temporaryDir,filename))
+      return filename
     }
 
     const options: Electron.OpenDialogSyncOptions = {
@@ -791,15 +770,22 @@ export class PreviewService {
           for (const userId in this.previewData[directory]) {
             for (const appId in this.previewData[directory][userId].apps) {
               const app: PreviewDataApp = this.previewData[directory][userId].apps[appId];
+              const saveId = app.changedId ? app.changedId : appId;
               let selection: AppSelection = {
                 title: app.extractedTitle,
                 images: {}
               }
               for(const artworkType of artworkTypes) {
-                selection.images[artworkType] = appImage.getCurrentImage(app.images[artworkType], this.appImages[artworkType]) ? {
-                  pool: app.images[artworkType].imagePool,
-                  filename: await saveImage(appImage.getCurrentImage(app.images[artworkType], this.appImages[artworkType]).imageUrl, packagePath,`${app.extractedTitle}.${artworkType}`)
-                }: null;
+                if(appImage.getCurrentImage(app.images[artworkType], this.appImages[artworkType])) {
+                  const imageUrl = appImage.getCurrentImage(app.images[artworkType], this.appImages[artworkType]).imageUrl;
+                  const nintendoSucks = imageUrl.slice(-1) == '?';
+                  if(!nintendoSucks) {
+                    selection.images[artworkType] = {
+                      pool: app.images[artworkType].imagePool,
+                      filename: await saveImage(imageUrl, packagePath,`${saveId}.${artworkType}`)
+                    };
+                  }
+                }
               }
               apps.push(selection);
             }
@@ -847,10 +833,10 @@ export class PreviewService {
 
         for (const selection of selections) {
           for(const artworkType of artworkTypes) {
-            if(selection.images.grid) {
+            if(selection.images[artworkType]) {
               this.addUniqueImage(selection.images[artworkType].pool, {
                 imageProvider: 'LocalStorage',
-                imageUrl: url.encodeFile(`${packagePath}${path.sep}${selection.images[artworkType].filename}`),
+                imageUrl: url.encodeFile(path.join(packagePath, selection.images[artworkType].filename)),
                 loadStatus: 'done'
               }, artworkType);
             }
