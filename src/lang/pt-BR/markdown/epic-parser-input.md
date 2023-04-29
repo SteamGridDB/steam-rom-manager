@@ -8,4 +8,4 @@ No entanto, se por alguma razão o diretório de manifestos estiver localizado e
 
 ## Inicie a Via Epic Games loja `[Recomendado ativado]`
 
-This toggle lets you set whether games will launch via the Epic Games Store or directly. If you don't launch via the `Epic Games Store` you will not have access to Epic's online services in game.
+If you don't launch via the `Epic Games Store` you will not have access to Epic's online services in game. This toggle lets you set whether games will launch via the Epic Games Store or directly.
