@@ -246,7 +246,7 @@ export class FileParser {
           || config.parserInputs.UWPLauncherMode
           || config.parserInputs.eaLauncherMode
         );
-        for(let j=0; j < data.success.length; j++) {
+        for(let j = 0; j < data.success.length; j++) {
           let fuzzyTitle = data.success[j].fuzzyTitle || data.success[j].extractedTitle;
 
           // Fail empty titles
@@ -348,31 +348,26 @@ export class FileParser {
         let shortcutPromises: Promise<void>[] = [];
         if(superType === parserInfo.ROMType && parsedConfig.shortcutPassthrough && os.type() == 'Windows_NT') {
           let indices: number[] = []; let shortcutPaths: string[] = [];
-          for(let i=0; i < parsedConfig.files.length; i++) {
+          for(let i = 0; i < parsedConfig.files.length; i++) {
             if(path.extname(parsedConfig.files[i].filePath).toLowerCase() === '.lnk') {
               indices.push(i);
               shortcutPaths.push(parsedConfig.files[i].filePath)
             }
           }
-          let actualPaths: string[]; let startDirs: string[]; let shortcutArgs: string[];
           shortcutPromises.push(
             getPath(shortcutPaths)
             .then((actuals: string[]) => {
-              actualPaths = actuals;
-              return getStartDir(shortcutPaths)
+              return getStartDir(shortcutPaths).then((starts:string[]) => {return {actuals: actuals, starts: starts}})
             })
-            .then((starts: string[]) => {
-              startDirs= starts;
-              return getArgs(shortcutPaths)
+            .then(({actuals, starts}: {actuals: string[], starts: string[]}) => {
+              return getArgs(shortcutPaths).then((args:string[]) => {return {actuals: actuals, starts: starts, args: args}})
             })
-            .then((args: string[]) => {
-              shortcutArgs = args;
-            }).then(() => {
-              for(let i=0; i < indices.length; i++) {
+            .then(({actuals, starts, args}: {actuals: string[], starts: string[], args: string[]}) => {
+              for(let i = 0; i < indices.length; i++) {
                 let index = indices[i];
-                parsedConfig.files[index].modifiedExecutableLocation = `"${actualPaths[i]}"`;
-                parsedConfig.files[index].startInDirectory = startDirs[i] || path.dirname(actualPaths[i]);
-                parsedConfig.files[index].argumentString = shortcutArgs[i] || "";
+                parsedConfig.files[index].modifiedExecutableLocation = `"${actuals[i]}"`;
+                parsedConfig.files[index].startInDirectory = starts[i] || path.dirname(actuals[i]);
+                parsedConfig.files[index].argumentString = args[i] || "";
               }
             })
           )
@@ -396,7 +391,7 @@ export class FileParser {
             }
           }
         }
-        Promise.all(shortcutPromises).then(()=>{
+        Promise.all(shortcutPromises).then(() => {
           resolve({ superType: superType, config: config, settings: settings, parsedConfig: parsedConfig })
         }).catch((error)=>{
           reject(`Shortcut passthrough step for "${config.configTitle}":\n ${error}`);
