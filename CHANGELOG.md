@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.13
+### Fixed
+* Issue where shortcut passthrough wouldn't work on a directory containing only one shortcut.
+
 ## 2.4.12
 ### Added
 * Exceptions now usable in EmuDeck theme. Credit to @dragoonDorise.
