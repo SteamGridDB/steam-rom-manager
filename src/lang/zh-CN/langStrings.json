@@ -302,7 +302,7 @@
         "steamDirectoryWin": "通常是 C:\\Program Files (x86)\\Steam。",
         "steamDirectoryMac": "通常是 ~/Library/Application Support/Steam。",
         "steamDirectoryLinux": "通常是 /home/user/.steam/steam",
-        "userAccounts": "For example ${steamlogin}",
+        "userAccounts": "例如 ${steamlogin}",
         "romsDirectoryWin": "例如 D:\\ROMs",
         "romsDirectoryMac": "例如 ~/ROMs",
         "romsDirectoryLinux": "例如 ~/ROMs",
