@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.14
+### Fixed
+* Filter out weird '0' userdata directories that were causing problems for people in 2.4.13. I don't have one, so I didn't catch this issue.
+
 ## 2.4.13
 ### Added
 * A global environment variable for the user accounts field (planning to eventually make this parser field mandatory)
