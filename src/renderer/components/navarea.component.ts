@@ -16,11 +16,11 @@ export class NavareaComponent implements OnDestroy {
     constructor(
 
     ) {}
-  
+
     ngOnInit() {
 
     }
-  
+
     ngOnDestroy() {
 
     }

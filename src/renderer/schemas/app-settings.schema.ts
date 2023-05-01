@@ -27,6 +27,7 @@ export const appSettings = {
       default: {},
       properties: {
         steamDirectory: {type: 'string', default:""},
+        userAccounts: {type: 'string', default: ""},
         romsDirectory: {type: 'string', default:""},
         retroarchPath: {type: 'string', default:""},
         raCoresDirectory: {type: 'string', default:""},

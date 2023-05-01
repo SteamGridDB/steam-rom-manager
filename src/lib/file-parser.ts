@@ -78,6 +78,12 @@ export class FileParser {
         config.steamDirectory = preParser.setInput(config.steamDirectory).parse() ? preParser.replaceVariables((variable) => {
           return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
         }) : null;
+        const doubleVarRegex = /^\$\{\$\{.+\}\}$/;
+        if(doubleVarRegex.test(config.userAccounts.specifiedAccounts)) {
+          config.userAccounts.specifiedAccounts = preParser.setInput(config.userAccounts.specifiedAccounts).parse() ? preParser.replaceVariables((variable)=>{
+            return this.getEnvironmentVariable(variable as EnvironmentVariables, settings).trim();
+          }): null;
+        }
         if(superType === parserInfo.ROMType) {
           config.romDirectory = preParser.setInput(config.romDirectory).parse() ? preParser.replaceVariables((variable) => {
             return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
@@ -613,6 +619,9 @@ export class FileParser {
       case 'STEAMDIRGLOBAL':
         output=settings.environmentVariables.steamDirectory;
         break;
+      case 'ACCOUNTSGLOBAL':
+        output=settings.environmentVariables.userAccounts;
+        break;
       case 'ROMSDIRGLOBAL':
         output=settings.environmentVariables.romsDirectory;
         break;
@@ -685,6 +694,9 @@ export class FileParser {
         break;
       case 'STEAMDIRGLOBAL':
         output=data.steamDirectoryGlobal;
+        break;
+      case 'ACCOUNTSGLOBAL':
+        output=data.userAccountsGlobal;
         break;
       case 'ROMSDIRGLOBAL':
         output=data.romsDirectoryGlobal;
@@ -797,6 +809,7 @@ export class FileParser {
       fuzzyTitle: file.fuzzyTitle,
       romDirectory: config.romDirectory,
       steamDirectoryGlobal: settings.environmentVariables.steamDirectory,
+      userAccountsGlobal: settings.environmentVariables.userAccounts,
       romsDirectoryGlobal: settings.environmentVariables.romsDirectory,
       retroarchPath: settings.environmentVariables.retroarchPath,
       raCoresDirectory: settings.environmentVariables.raCoresDirectory,

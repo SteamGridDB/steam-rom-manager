@@ -24,11 +24,12 @@ export class SettingsComponent implements OnDestroy {
   private knownSteamDirectories: string[];
   private retroarchPathPlaceholder: string;
   private steamDirectoryPlaceholder: string;
+  private userAccountsPlaceholder: string;
   private romsDirectoryPlaceholder: string;
   private localImagesDirectoryPlaceholder: string;
   private raCoresDirectoryPlaceholder: string;
   private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
-
+  private chooseUserAccountsVisible: boolean = false;
   constructor(private settingsService: SettingsService,
     private fuzzyService: FuzzyService,
     private languageService: LanguageService,
@@ -66,6 +67,7 @@ export class SettingsComponent implements OnDestroy {
       return {value: lang, displayValue: this.languageService.getReadableName(lang)}
     });
     this.themes = availableThemes;
+    this.userAccountsPlaceholder = this.lang.placeholder.userAccounts;
     if(os.type()=='Windows_NT'){
       this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathWin;
       this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryWin;
@@ -160,5 +162,19 @@ export class SettingsComponent implements OnDestroy {
 
   configDir() {
     this.settingsService.configDir();
+  }
+
+  chooseAccounts() {
+    if(this.settings.environmentVariables.steamDirectory) {
+      this.chooseUserAccountsVisible = true;
+    }
+  }
+  setUserAccounts(accounts: string) {
+    if(accounts) {
+      this.settings.environmentVariables.userAccounts = accounts;
+    }
+  }
+  exitChooseAccounts() {
+    this.chooseUserAccountsVisible = false;
   }
 }

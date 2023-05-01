@@ -1,0 +1,74 @@
+@import 'mixins';
+
+:host {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  backdrop-filter: var(--filter-update-notifier-backdrop);
+  z-index: 9;
+  display: flex;
+  &.hidden {
+    display: none;
+  }
+  .hidden {
+    display: none;
+  }
+  .chooseAccounts {
+    font-size: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 20em;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    padding:  var(--padding-update-notifier);
+    text-align: center;
+    word-wrap: break-word;
+    .accounts {
+      margin-bottom: 1em;
+      max-height: 10em;
+      overflow-y: auto;
+      @include webkitScrollbar(preview-scrollbar);
+      > .account {
+        img {
+          height: 3em;
+          width: 3em;
+          margin-right: 1em;
+        }
+        padding: 1em;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        &.selected {
+          background-color: var(--color-ng-select-option-background-hover);
+          color: var(--color-ng-select-option-text-hover);
+        }
+      }
+    }
+    color: var(--color-alert-text);
+    border: solid var(--color-position-update-notifier-border);
+    border-width: var(--border-update-notifier-width);
+    background-color: var(--color-alert-background);
+    .goButton {
+      @include button();
+      @include clickButtonColor(click-button);
+      &.hidden {
+        display: none;
+      }
+      margin-left: 1em;
+
+    }
+    .noButton {
+      @include button();
+      @include clickButtonColor(dangerous-click-button);
+      &.hidden {
+        display: none;
+      }
+    }
+  }
+}
