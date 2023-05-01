@@ -31,7 +31,7 @@ Benutzerdefinierte Befehlszeilenargumente wie `--fullscreen`, usw., die auf eine
 
 ## Titel ausschließen
 
-Die Möglichkeit, einzelne Titel von der Aufnahme in Steam auszuschließen. This allows you to keep titles that you don't want in Steam in the same folder as the rest of your games.
+Die Möglichkeit, einzelne Titel von der Aufnahme in Steam auszuschließen. Dies ermöglicht es dir, Titel, die du nicht in Steam angezeigt haben möchtest, im gleichen Ordner wie deine anderen Spiele zu behalten.
 
 ## Nur lokale Artworks
 
