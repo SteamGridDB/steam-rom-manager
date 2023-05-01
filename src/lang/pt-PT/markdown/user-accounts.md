@@ -10,7 +10,9 @@ This will limit SRM's effects to accounts `XXX` and `YYY` (you may specify as ma
 
 * A `Steam Username` (the username you use to actually log in to Steam). For example you would specify the users `Banana` and `Apple` like `${Banana}${Apple}`.
 
-You can also mix and match: `${56489124}${Apple}` is fine.
+You can mix and match: `${56489124}${Apple}` is fine.
+
+You can also set this field using the `Accounts Global` environment variable found in settings via `${${accountsglobal}}`.
 
 ## Warning
 
