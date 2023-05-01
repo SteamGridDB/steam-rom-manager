@@ -8,9 +8,9 @@ Um eine benutzerdefinierte Vorlage erstellen:
 * Schließe den Controller an, für den du eine Vorlage konfigurieren möchtest.
 * Rechtsklick auf ein beliebiges Spiel und drücke `Verwalte > Controller Layout`.
 * Konfiguriere die Buttons nach deinem Geschmack.
-* Hit `Export Config` then `Save new template binding`.
-* Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template.
-* Repeat for as many different types of controller as you want to configure.
+* Klicken Sie auf `Export Config` und dann auf `Save new template binding`.
+* Benenne die Vorlage in dieser Form: `Template Title (SRM)`. Du musst den Namen mit `(SRM)` abschließen, sonst kann SRM die Vorlage nicht übernehmen.
+* Wiederhole diesen Schritt, wenn du mehrere Controller-Typen konfigurieren möchtest.
 
 Im SRM-Parser:
 * Hit `Re-Fetch Controller Templates` to pull templates for all controller types from steam. Dies wird Ihre aktuell ausgewählte Vorlage löschen, wenn sie nicht zu den in Steam verfügbaren Templates gehört.
