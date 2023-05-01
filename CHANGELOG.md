@@ -2,17 +2,18 @@
 All notable changes to this project will be documented in this file.
 
 ## 2.4.13
+### Added
+* A global environment variable for the user accounts field (planning to eventually make this parser field mandatory)
+* A noice modal to set the global user accounts filter from settings.
 ### Fixed
 * Issue where shortcut passthrough wouldn't work on a directory containing only one shortcut.
 
 ## 2.4.12
 ### Added
 * Exceptions now usable in EmuDeck theme. Credit to @dragoonDorise.
-
 ### Changed
 * Use App Id instead of titles for import/export images (gets rid of title collisions and also issues with titles that have illegal filename characters)
 * Total re-work of image downloading method to remove dependence on deprecated library `request`. Should also hopefully fix timeout issues, as it now automatically retries (once) if an image request times out.
-
 ### Fixed
 * A regression in 2.4.6 that would cause import to fail for other artwork types if a grid wasn't present.
 
@@ -23,7 +24,6 @@ All notable changes to this project will be documented in this file.
 ## 2.4.10
 ## Added
 * Show total number of batches in batch progress alerts.
-
 ## Fixed
 * Some small UI bugs that cropped up in 2.4.9.
 
@@ -31,7 +31,6 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Explanation of SRM's workflow on the preview page when no apps are present. Credit to @dragoonDorise.
 * Highlight mandatory fields in create parser.
-
 ### Changed
 * Moved better-sqlite calls to a child process. This fixes crashes that have been happening since upgrading to `Electron 24`.
 * Re-worked module `windows-shortcuts-ps` to use massively less RAM when doing shortcut-passthrough (only spawn one powershell process, per parse, not one per each shortcut).
@@ -41,16 +40,13 @@ All notable changes to this project will be documented in this file.
 ## Added
 * Ability to comment things out in glob fields using `\`. Addresses [issue 404](https://github.com/SteamGridDB/steam-rom-manager/issues/404)
 * Config presets are now grabbed by version, so that older versions of SRM (from here on out) won't break when breaking changes are made to the presets files (they also won't receive any new presets, but c'est la vie).
-
 ## Changed
 * Made the whole parser clickable in the parsers list in the `EmuDeck` theme.
-
 ## Fixed
 * Exceptions ID not matching for steam parser
 * CLI would hang on generate apps if no apps were found.
 * Handling for bug in `osName` where an error would be thrown if `powershell` not found on a Windows system, [issue 521](https://github.com/SteamGridDB/steam-rom-manager/issues/521)
 * Handling for issue where `addedItemsV2.json` could be invalid json. Also made the write synchronous so this is less likely to occur.
-
 ## Removed
 * Expandable set notation `$()$` that could be used in the local images fields. Classic example of SRM being overcomplicated. I might bring it back if there is popular demand.
 * `Skip Accounts with Missing Data Dirs` option (always true now)
@@ -60,7 +56,6 @@ All notable changes to this project will be documented in this file.
 ## 2.4.7
 ## Fixed
 * Fixed possibility of `fix match` creating duplicates or not working, state management changed to incorporate possibility of app id changes better.
-
 ## Changed
 * Optimizations for `1280x800` screen (Steam Deck). Should stop horizontal scroll bars from appearing.
 * Improved consistency of fix match appearance with preview.
@@ -69,7 +64,6 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Ability to exclude titles from the preview! Exclusions are automatically saved as exceptions so that the user doesn't have to repeat them. If you want the title back, just go find the exception and get rid of it.
 * Ability to set exceptions based on the exact app through an exception ID, e.g. if you have two titles with the same exact name they no longer need to have the same exceptions applied.
-
 ### Changed
 * Shorten the button text in the bottom bar so as to hopefully minimize overflow issues on the Steam Deck.
 
@@ -77,7 +71,6 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Ability to fix matches from the preview! Just click the little exclamation point on the left of the app (icon subject to change), select the game and boom match fixed. Best of all, SRM will automatically save your change as an exception so that you never have to change it again in the future.
 * Exceptions are now searchable.
-
 ### Changed
 * Preview is now sorted in alphabetical order of title
 
@@ -91,10 +84,8 @@ All notable changes to this project will be documented in this file.
 * Everyone who has made a feature contribution is now in the about page.
 * Legacy banner images now sym-linked instead of copied (reduces storage usage by 17%)
 * Steam images become sources immediately after hitting save apps to steam. This means that if you have some (or many) SGDB requests time out you can just wait a few seconds and hit "save apps to steam" again and it will get only those images.
-
 ### Changed
 * Major re-factor of parsers service, parsers component, and preview component. Preparation for new and more powerful preview.
-
 ### Fixed
 * Glob and Glob Regex parsers with `**` now follow sym-links once more (this was broken by the upgrade to glob 9.0, which no longer follows sym links by default).
 
@@ -102,14 +93,11 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Ability to add artwork for unofficial source mods via the steam parser
 * Logging for when steamgriddb times out on an artwork request
-
 ### Fixed
 * Steam parser was broken in 2.4.1
 
 ## 2.4.1
-
 ### Fixed 
-
 * Race condition bug in saving images to steam.
 
 ## 2.4.0
@@ -126,17 +114,13 @@ Solves the issue where SRM would hang on "Writing VDFs" when lots of images were
 * Handling for DMCA'd images (SRM doesn't add the "This image has been taken down" fallback to steam)
 * MSI Installer
 * Helpful placeholders in parser fields.
-
 ### Wiki
 * [Command Line Interface](https://github.com/SteamGridDB/steam-rom-manager/wiki/Command-Line-Interface)
-
 ### Changed
 * Re-worked steam parser to no longer require apps be categorized (credit to @Tormak for the technique). May still change in the future
 * Bring all SRM dependencies up to date.
-
 ### Fixed
 * UWP Parser in cases where pulled json has special characters (credit to @tlt21 for the PR).
-
 ### Removed
 * 32 bit linux application (modern versions of electron don't have prebuilt binaries for ia32 linux).
 
