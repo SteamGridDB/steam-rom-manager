@@ -486,7 +486,8 @@
 
 
   &.EmuDeck.EmuDeck nav-parsers{
-    height: 70vh;
+    min-height: 50vh;
+    max-height: 70vh;
     .parsers{
       height: 100%;
       overflow: hidden;
@@ -495,7 +496,7 @@
         .items{
           height: 100%;
           overflow-y: auto;
-          padding-bottom: 100px;
+          padding-bottom: 10px;
           .inputContainer,
           .inlineGroup.inlineGroup.inlineGroup{
             margin: 0;
