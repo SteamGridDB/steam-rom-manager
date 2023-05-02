@@ -1,23 +1,23 @@
 {
   "preview": {
     "component": {
-      "filter": "Search for game",
-      "selectType": "Artwork Type",
-      "selectCategories": "Steam Category",
-      "selectParsers": "Parser Title",
+      "filter": "Cerca un titolo",
+      "selectType": "Tipo di artwork",
+      "selectCategories": "Categoria di Steam",
+      "selectParsers": "Titolo del parser",
       "selectTypeOptions": {
-        "long": "Banners",
-        "tall": "Posters",
+        "long": "Banner",
+        "tall": "Poster",
         "hero": "Heroes",
-        "icon": "Icons",
-        "logo": "Logos",
-        "games": "All Artwork"
+        "icon": "Icone",
+        "logo": "Loghi",
+        "games": "Tutti gli artwork"
       },
-      "by": "by",
-      "refreshImages": "Refresh images",
-      "saveImage": "Save image to file",
-      "addLocalImages": "Add local images",
-      "retryDownload": "Retry download",
+      "by": "da",
+      "refreshImages": "Aggiorna immagini",
+      "saveImage": "Salva l'immagine in un file",
+      "addLocalImages": "Aggiungi immagini locali",
+      "retryDownload": "Riprova a scaricare",
       "generateAppList": "Parse",
       "saveAppList": "Save to Steam",
       "removeAppList": "Remove from Steam",
