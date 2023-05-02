@@ -5,7 +5,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const appSettings: ValidatorModifier<AppSettings> = {
   controlProperty: 'version',
-  latestVersion: 5,
+  latestVersion: 6,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -76,6 +76,13 @@ export const appSettings: ValidatorModifier<AppSettings> = {
           return oldValue || 'Deck'
         }
       }
+    },
+    5: {
+      'version': {method: versionUp},
+      'environmentVariables': {method: (oldValue)=> {
+        oldValue['userAccounts'] = '';
+        return oldValue;
+      }}
     }
   }
 };

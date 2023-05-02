@@ -16,7 +16,7 @@
     {{lang.text.title}}
   </label>
   <div [formGroup]="exceptionsForm">
-    <div formArrayName="items"
+    <div class="itemsform" formArrayName="items"
          *ngFor="let item of exceptionsForm.get('items').controls; let i=index;">
       <div class="exception-entry" [formGroupName]="i" *ngIf="(item.controls['oldTitle'].value | fuzzyTest: filterValue) ">
         <div class="inputContainer">

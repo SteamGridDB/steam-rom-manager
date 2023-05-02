@@ -6,13 +6,16 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 
 export function getAvailableLogins(steamDirectory: string) {
-  return new Promise<userAccountData[]>((resolve, reject) => {
-    const usersFile = path.join(steamDirectory, 'config', 'loginusers.vdf');
-    if(fs.existsSync(usersFile)) {
-      fs.readFile(path.join(steamDirectory, 'config', 'loginusers.vdf'), 'utf8', (err, data) => {
-        try {
-          if (err && err.code !== 'ENOENT')
-            reject(err);
+
+  const usersFile = path.join(steamDirectory, 'config', 'loginusers.vdf');
+  let usersPromise: Promise<userAccountData[]>;
+  if(fs.existsSync(usersFile)) {
+    usersPromise = new Promise<userAccountData[]>((resolve, reject) => {
+      try {
+        fs.readFile(path.join(steamDirectory, 'config', 'loginusers.vdf'), 'utf8', (err, data) => {
+          if (err && err.code !== 'ENOENT') {
+            resolve([])
+          }
           else {
             if (data) {
               let parsedData = genericParser.parse(data) as any;
@@ -24,25 +27,30 @@ export function getAvailableLogins(steamDirectory: string) {
               }
               resolve(accountData);
             }
-            else
-              resolve([]);
+            else {
+              resolve([])
+            }
           }
-        } catch (error) {
-          reject(error);
+        });
+      } catch (error) {
+        resolve([])
+      }
+    })
+  } else {
+    usersPromise = Promise.resolve([])
+  }
+
+  return usersPromise.then((userAccounts: userAccountData[]) => {
+    return glob('userdata/+([0-9])/', { cwd: steamDirectory })
+    .then((files: string[]) => {
+      let extraAccounts: userAccountData[] = [];
+      for (let i = 0; i < files.length; i++) {
+        const userId = files[i].split(path.sep).slice(-1)[0];
+        if(!userAccounts.map(account => account.accountID).includes(userId) && userId!=='0') {
+          extraAccounts.push({ steamID64: 'unavailable', accountID: userId, name: userId });
         }
-      });
-    } else {
-      glob('userdata/+([0-9])/', { cwd: steamDirectory })
-      .then((files: string[]) => {
-          let accountData: userAccountData[] = [];
-          for (let i = 0; i < files.length; i++) {
-            const userId = files[i].split(path.sep).slice(-1)[0];
-            accountData.push({ steamID64: 'unavailable', accountID: userId, name: userId });
-          }
-          resolve(accountData);
-      }).catch((err: string)=>{
-        reject(err)
-      });
-    }
-  });
+      }
+      return [...userAccounts, ...extraAccounts]
+    })
+  })
 }

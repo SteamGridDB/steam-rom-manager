@@ -1,22 +1,20 @@
 import { VDF_ScreenshotsData, VDF_ScreenshotItem, xRequestOptions } from "../models";
 import { artworkTypes, artworkIdDict } from "./artwork-types";
-import { xRequest } from './x-request';
 import { VDF_Error } from './vdf-error';
 import { APP } from '../variables';
 import * as genericParser from '@node-steam/vdf';
 import * as file from './helpers/file';
 import * as ids from './helpers/steam';
+import * as url from "./helpers/url";
+
 import * as _ from "lodash";
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import { BehaviorSubject } from 'rxjs'
 import { glob } from 'glob';
-
-const mimeTypes = require('mime-types');
-const toBuffer = require('blob-to-buffer');
+import { got, Response } from 'got';
 
 export class VDF_ScreenshotsFile {
-  private static xRequest = new xRequest();
   private fileData: any = undefined;
   private topKey: string = undefined;
   private extraneousAppIds: string[] = [];
@@ -129,7 +127,7 @@ export class VDF_ScreenshotsFile {
   }
 
   async write(batch: boolean) {
-    let addErrors: VDF_Error[] = [];
+    let addErrors: (VDF_Error|void)[] = [];
     let extraneousPromises: Promise<VDF_Error|void>[] = [];
     let screenshotsData: VDF_ScreenshotsData = this.data;
     for (let j=0; j < this.extraneous.length; j++) {
@@ -141,8 +139,7 @@ export class VDF_ScreenshotsFile {
       }
     }
     const batchSize = 500;
-    const delay = 5000;
-    const timeout = 15000;
+    const delay = 0; //increase if SGDB timing out a lot
 
     const addableAppIds = Object.keys(screenshotsData).filter((appId)=>{
       return screenshotsData[appId] !== undefined && (typeof screenshotsData[appId] !== 'string')
@@ -156,91 +153,50 @@ export class VDF_ScreenshotsFile {
         }
         this.batchProgress.next({batch: b, total: nbatches});
       }
-      let batchAddPromises: Promise<VDF_Error>[] = [];
+      let batchAddPromises: Promise<VDF_Error|void>[] = [];
       for(let j= b*batchSize; j < Math.min((b+1)*batchSize,addableAppIds.length); j++) {
         const appId = addableAppIds[j];
         const data = screenshotsData[appId] as VDF_ScreenshotItem;
         const nintendoSucks = data.url.slice(-1) == '?' //DMCA Check
-        let ext: string = data.url.split('.').slice(-1)[0].replace(/[^\w\s]*$/gi, "");
-        ext = ids.map_ext["" + ext] || ext;
-        batchAddPromises.push(VDF_ScreenshotsFile.xRequest.request(
-          data.url,
-          {
-            headers: { 'Content-type': 'image' },
-            responseType: 'blob',
-            method: 'GET',
-            timeout: timeout
-        })
-        .catch((error: any)=>{
-          if(typeof error == 'object' && error.error) {
-            if(error.error.status == 0 ) {
-              throw `Request timed out for url:\n${data.url}`
-            } else {
-              throw `Requested errored with status ${error.error.status} for url:\n${data.url}`
-            }
-          } else {
-            throw `Unknown request error for url ${data.url}:\n${error}`
-          }
-        })
-        .then((blob: Blob) => {
-          if (ext === "") {
-            throw this.lang.error.unsupportedMimeType__i.interpolate({ type: blob.type, title: data.title });
-          } else if (nintendoSucks) {
-            throw this.lang.error.skippingDMCA__i.interpolate({ title: data.title })
-          }
-          return blob;
-        }).then((blob: Blob)=>{
-          return new Promise<Buffer>((resolve, reject) => {
-            toBuffer(blob, (error: Error, buffer: Buffer) => {
-              if (error)
-                reject(this.lang.error.imageError__i.interpolate({ error, url: data.url, title: data.title }));
-              else
-                resolve(buffer);
-            });
-          })
-        })
-        .then((buffer) => {
+        if(!nintendoSucks) {
+          let ext: string = data.url.split('.').slice(-1)[0].replace(/[^\w\s]*$/gi, "");
+          ext = ids.map_ext["" + ext] || ext;
           const gridPath = path.join(this.gridDirectory, `${appId}.${ext}`);
-          fs.outputFileSync(gridPath, buffer);
-          if(/^\d+$/.test(appId)) {
-            const symPath = path.join(this.gridDirectory,`${ids.lengthenAppId(appId)}.${ext}`)
-            if(fs.existsSync(symPath)) {
-              fs.unlinkSync(symPath);
+          batchAddPromises.push(url.downloadAndSaveImage(data.url, gridPath)
+          .then(() => {
+            if(/^\d+$/.test(appId)) {
+              const symPath = path.join(this.gridDirectory,`${ids.lengthenAppId(appId)}.${ext}`)
+              if(fs.existsSync(symPath)) {
+                fs.unlinkSync(symPath);
+              }
+              fs.symlinkSync(gridPath, symPath)
             }
-            fs.symlinkSync(gridPath, symPath)
-          }
-          return gridPath;
-        })
-        .then((gridPath: string)=>{
-          successes[appId] = gridPath;
-        })
-        .then(() => {
-          return glob(`${appId}.!(json)`, { dot: true, cwd: this.gridDirectory, absolute: true })
-        })
-        .then((files: string[]) => {
-          let errors: Error[] = [];
-          for (let i = 0; i < files.length; i++) {
-            if(_.last(files[i].split('.')) !== ext) {
-              try {
+            return gridPath;
+          })
+          .then((gridPath: string)=>{
+            successes[appId] = gridPath;
+          })
+          .then(() => {
+            return glob(`${appId}.!(json)`, { dot: true, cwd: this.gridDirectory, absolute: true })
+          })
+          .then((files: string[]) => {
+            for (let i = 0; i < files.length; i++) {
+              if(_.last(files[i].split('.')) !== ext) {
                 fs.removeSync(files[i]);
               }
-              catch (error) {
-                errors.push(error);
-              }
             }
-          }
-          return new VDF_Error(errors);
-        })
-        .catch((error) => {
-          if(error) {
-            return new VDF_Error(`Error for title ${data.title}:\n${error}`);
-          }
-        })
-        .finally(()=>{
-          screenshotsData[appId] = data.title;
-        }))
+          })
+          .catch((error) => {
+            if(error) {
+              return new VDF_Error(`Error for title ${data.title}:\n${error}`);
+            }
+          })
+          .finally(()=>{
+            screenshotsData[appId] = data.title;
+          }))
+        }
       }
-      let batchErrors: VDF_Error[] = await Promise.all(batchAddPromises);
+      const batchErrors = await Promise.all(batchAddPromises);
       addErrors = [...addErrors, ...batchErrors];
     }
     return Promise.all(extraneousPromises).then((extraneousErrors)=>{

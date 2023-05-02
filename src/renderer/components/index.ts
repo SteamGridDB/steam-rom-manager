@@ -22,3 +22,4 @@ export * from './markdown.component';
 export * from './about.component';
 export * from './user-exceptions.component';
 export * from './update-notifier.component';
+export * from './choose-accounts.component';

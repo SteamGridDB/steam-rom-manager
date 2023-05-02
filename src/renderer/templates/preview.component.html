@@ -214,7 +214,7 @@
       </div>
     </ng-container>
   </div>
-  <div class="lowerMenu" *ngIf="previewVariables.listHasGenerated && previewVariables.numberOfListItems!==0">
+  <div class="lowerMenu not-emudeck" *ngIf="previewVariables.listHasGenerated && previewVariables.numberOfListItems!==0">
     <div (click)="generatePreviewData(false)">{{lang.generateAppList}}</div>
     <ng-container *ngIf="previewVariables.numberOfListItems !== 0">
       <div (click)="save()">{{lang.saveAppList}}</div>
@@ -226,5 +226,18 @@
     <div class="only-emudeck" routerLink="/logger" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *ngIf="previewVariables.numberOfListItems !== 0">Log</div>
     <div class="only-emudeck" routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
   </div>
+  <div class="lowerMenu only-emudeck">
+    <ng-container *ngIf="previewVariables.listHasGenerated && previewVariables.numberOfListItems !== 0">
+      <div (click)="generatePreviewData(false)">{{lang.generateAppList}}</div>
+      <div (click)="save()">{{lang.saveAppList}}</div>
+      <div class="dangerousButton" (click)="remove()">{{lang.removeAppList}}</div>
+      <div (click)="exportSelection()" [attr.title]="'Export image choices'">{{lang.exportSelections}}</div>
+      <div (click)="importSelection()" [attr.title]="'Import image choices'">{{lang.importSelections}}</div>
+      <div (click)="showExclusions()" *ngIf="!this.detailsApp">{{"Exclude Apps"}}</div>
+    </ng-container>
+    <div routerLink="/logger" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *ngIf="previewVariables.numberOfListItems !== 0">Log</div>
+    <div routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
+  </div>
+
 </ng-container>
 

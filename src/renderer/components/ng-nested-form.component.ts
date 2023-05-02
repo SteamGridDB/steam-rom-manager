@@ -17,7 +17,6 @@ export class NgNestedFormComponent implements OnInit {
   private hiddenSections: BehaviorSubject<{[sectionName: string]: boolean}>;
   private sectionMap: {[elementName: string]: string} = {};
   private validityObservables: (()=>Observable<string>)[] = [];
-  private dumb: IndexedFormControl;
   @Input() public parentForm: IndexedFormGroup;
   @Input() public groupName: string;
   @Input() public nestedGroup: NestedFormElement.Group;

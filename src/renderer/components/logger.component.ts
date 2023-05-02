@@ -32,7 +32,7 @@ export class LoggerComponent {
 
   constructor(
     private loggerService: LoggerService,
-    private changeRef: ChangeDetectorRef,
+    private changeDetectionRef: ChangeDetectorRef,
     private formBuilder: FormBuilder
   ) {
     this.settings = this.loggerService.getLogSettings();
@@ -45,6 +45,8 @@ export class LoggerComponent {
       useVDFs: formBuilder.control(false),
       steamDirectory: formBuilder.control('')
     })
+
+
   }
 
   get lang() {
@@ -52,6 +54,9 @@ export class LoggerComponent {
   }
 
   ngAfterViewInit() {
+    this.messages.subscribe((logMessages: LogMessage[]) => {
+      this.changeDetectionRef.detectChanges();
+    })
     if (this.settings.currentScrollValue && this.messageWindow)
       this.messageWindow.nativeElement.scrollTop = this.settings.currentScrollValue;
   }
@@ -95,7 +100,7 @@ export class LoggerComponent {
     this.loggerService.submitReport(description, useVDFs, discordHandle, steamDirectory).then(({key, deleteKey}:{key:string, deleteKey:string}) => {
       this.reportID = key;
       this.deleteKey = deleteKey;
-      this.changeRef.detectChanges();
+      this.changeDetectionRef.detectChanges();
     }).catch((err)=>{
       this.loggerService.error(`Could not upload bug report:\n ${err}`)
     });

@@ -78,6 +78,12 @@ export class FileParser {
         config.steamDirectory = preParser.setInput(config.steamDirectory).parse() ? preParser.replaceVariables((variable) => {
           return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
         }) : null;
+        const doubleVarRegex = /^\$\{\$\{.+\}\}$/;
+        if(doubleVarRegex.test(config.userAccounts.specifiedAccounts)) {
+          config.userAccounts.specifiedAccounts = preParser.setInput(config.userAccounts.specifiedAccounts).parse() ? preParser.replaceVariables((variable)=>{
+            return this.getEnvironmentVariable(variable as EnvironmentVariables, settings).trim();
+          }): null;
+        }
         if(superType === parserInfo.ROMType) {
           config.romDirectory = preParser.setInput(config.romDirectory).parse() ? preParser.replaceVariables((variable) => {
             return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
@@ -246,7 +252,7 @@ export class FileParser {
           || config.parserInputs.UWPLauncherMode
           || config.parserInputs.eaLauncherMode
         );
-        for(let j=0; j < data.success.length; j++) {
+        for(let j = 0; j < data.success.length; j++) {
           let fuzzyTitle = data.success[j].fuzzyTitle || data.success[j].extractedTitle;
 
           // Fail empty titles
@@ -348,31 +354,26 @@ export class FileParser {
         let shortcutPromises: Promise<void>[] = [];
         if(superType === parserInfo.ROMType && parsedConfig.shortcutPassthrough && os.type() == 'Windows_NT') {
           let indices: number[] = []; let shortcutPaths: string[] = [];
-          for(let i=0; i < parsedConfig.files.length; i++) {
+          for(let i = 0; i < parsedConfig.files.length; i++) {
             if(path.extname(parsedConfig.files[i].filePath).toLowerCase() === '.lnk') {
               indices.push(i);
               shortcutPaths.push(parsedConfig.files[i].filePath)
             }
           }
-          let actualPaths: string[]; let startDirs: string[]; let shortcutArgs: string[];
           shortcutPromises.push(
             getPath(shortcutPaths)
             .then((actuals: string[]) => {
-              actualPaths = actuals;
-              return getStartDir(shortcutPaths)
+              return getStartDir(shortcutPaths).then((starts:string[]) => {return {actuals: actuals, starts: starts}})
             })
-            .then((starts: string[]) => {
-              startDirs= starts;
-              return getArgs(shortcutPaths)
+            .then(({actuals, starts}: {actuals: string[], starts: string[]}) => {
+              return getArgs(shortcutPaths).then((args:string[]) => {return {actuals: actuals, starts: starts, args: args}})
             })
-            .then((args: string[]) => {
-              shortcutArgs = args;
-            }).then(() => {
-              for(let i=0; i < indices.length; i++) {
+            .then(({actuals, starts, args}: {actuals: string[], starts: string[], args: string[]}) => {
+              for(let i = 0; i < indices.length; i++) {
                 let index = indices[i];
-                parsedConfig.files[index].modifiedExecutableLocation = `"${actualPaths[i]}"`;
-                parsedConfig.files[index].startInDirectory = startDirs[i] || path.dirname(actualPaths[i]);
-                parsedConfig.files[index].argumentString = shortcutArgs[i] || "";
+                parsedConfig.files[index].modifiedExecutableLocation = `"${actuals[i]}"`;
+                parsedConfig.files[index].startInDirectory = starts[i] || path.dirname(actuals[i]);
+                parsedConfig.files[index].argumentString = args[i] || "";
               }
             })
           )
@@ -396,7 +397,7 @@ export class FileParser {
             }
           }
         }
-        Promise.all(shortcutPromises).then(()=>{
+        Promise.all(shortcutPromises).then(() => {
           resolve({ superType: superType, config: config, settings: settings, parsedConfig: parsedConfig })
         }).catch((error)=>{
           reject(`Shortcut passthrough step for "${config.configTitle}":\n ${error}`);
@@ -618,6 +619,9 @@ export class FileParser {
       case 'STEAMDIRGLOBAL':
         output=settings.environmentVariables.steamDirectory;
         break;
+      case 'ACCOUNTSGLOBAL':
+        output=settings.environmentVariables.userAccounts;
+        break;
       case 'ROMSDIRGLOBAL':
         output=settings.environmentVariables.romsDirectory;
         break;
@@ -690,6 +694,9 @@ export class FileParser {
         break;
       case 'STEAMDIRGLOBAL':
         output=data.steamDirectoryGlobal;
+        break;
+      case 'ACCOUNTSGLOBAL':
+        output=data.userAccountsGlobal;
         break;
       case 'ROMSDIRGLOBAL':
         output=data.romsDirectoryGlobal;
@@ -802,6 +809,7 @@ export class FileParser {
       fuzzyTitle: file.fuzzyTitle,
       romDirectory: config.romDirectory,
       steamDirectoryGlobal: settings.environmentVariables.steamDirectory,
+      userAccountsGlobal: settings.environmentVariables.userAccounts,
       romsDirectoryGlobal: settings.environmentVariables.romsDirectory,
       retroarchPath: settings.environmentVariables.retroarchPath,
       raCoresDirectory: settings.environmentVariables.raCoresDirectory,

@@ -8,4 +8,4 @@ Wenn sich dein Manifest-Verzeichnis jedoch aus irgendeinem Grund an einem nicht 
 
 ## Im Epic Games Store starten `[Empfohlen aktiviert]`
 
-This toggle lets you set whether games will launch via the Epic Games Store or directly. Wenn du nicht über den `Epic Games Store` startest, wirst du im Spiel keinen Zugriff auf die Online-Dienste von Epic haben.
+Wenn du nicht über den `Epic Games Store` startest, wirst du im Spiel keinen Zugriff auf die Online-Dienste von Epic haben. This toggle lets you set whether games will launch via the Epic Games Store or directly.
