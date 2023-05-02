@@ -18,15 +18,15 @@
       "saveImage": "Salva l'immagine in un file",
       "addLocalImages": "Aggiungi immagini locali",
       "retryDownload": "Riprova a scaricare",
-      "generateAppList": "Parse",
-      "saveAppList": "Save to Steam",
-      "removeAppList": "Remove from Steam",
-      "remainingImages": "Retrieving urls:",
+      "generateAppList": "Analizza",
+      "saveAppList": "Salva su Steam",
+      "removeAppList": "Rimuovi da Steam",
+      "remainingImages": "Recupero degli urls:",
       "stopUrlRetrieving": "Stop",
-      "exportSelections": "Export",
-      "importSelections": "Import",
-      "backButton": "Back",
-      "logButton": "Log"
+      "exportSelections": "Esporta",
+      "importSelections": "Importa",
+      "backButton": "Indietro",
+      "logButton": "Registro"
     },
     "service": {
       "info": {
