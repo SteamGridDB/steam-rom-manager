@@ -5,6 +5,7 @@ import { VDF_ListData,
   AppImages,
   VDF_ListItem,
   VDF_ExtraneousItemsData,
+  VDF_AddedCategoriesData,
   VDF_ScreenshotsOutcome,
   VDF_AllScreenshotsOutcomes
 } from "../models";
@@ -14,7 +15,7 @@ import { VDF_Error } from './vdf-error';
 import { APP } from '../variables';
 import * as vdf from './helpers/vdf';
 import * as appImage from './helpers/app-image';
-import * as ids from './helpers/steam';
+import * as steam from './helpers/steam';
 import * as _ from 'lodash';
 import * as path from 'path';
 import { merge, Observable } from "rxjs";
@@ -178,9 +179,10 @@ export class VDF_Manager {
   }
 
   mergeData(previewData: PreviewData, images: {[artworkType: string]: AppImages}, deleteDisabledShortcuts: boolean) {
-    return new Promise<VDF_ExtraneousItemsData>((resolve, reject) => {
+    return new Promise<{extraneousAppIds: VDF_ExtraneousItemsData, addedCategories: VDF_AddedCategoriesData}>((resolve, reject) => {
       Promise.resolve().then(()=>{
         let extraneousAppIds: VDF_ExtraneousItemsData = {};
+        let addedCategories: VDF_AddedCategoriesData = {};
         this.forEach((steamDirectory, userId, listItem) => {
           if (listItem.shortcuts.invalid || listItem.addedItems.invalid || listItem.screenshots.invalid)
             return;
@@ -199,13 +201,21 @@ export class VDF_Manager {
               return Object.values(apps).filter((app: PreviewDataApp)=>app.changedId==appid)[0].parserId
             }
           })));
-          let addedAppIds = Object.keys(listItem.addedItems.data.addedApps);
+          const addedApps = listItem.addedItems.data.addedApps;
+          let addedAppIds = Object.keys(addedApps);
           if(!deleteDisabledShortcuts) {
-            addedAppIds = addedAppIds.filter((appid:string) => enabledParsers.includes(listItem.addedItems.data.addedApps[appid].parserId));
+            addedAppIds = addedAppIds.filter((appid:string) => enabledParsers.includes(addedApps[appid].parserId));
           }
-          extraneousAppIds[userId] = addedAppIds.filter((appid:string) => !currentAppIds.includes(appid));
-          listItem.screenshots.extraneous = extraneousAppIds[userId];
-          listItem.shortcuts.extraneous = extraneousAppIds[userId];
+          if(!extraneousAppIds[steamDirectory]) {
+            extraneousAppIds[steamDirectory] = {}
+          }
+          extraneousAppIds[steamDirectory][userId] = addedAppIds.filter((appid:string) => !currentAppIds.includes(appid));
+          listItem.screenshots.extraneous = extraneousAppIds[steamDirectory][userId];
+          listItem.shortcuts.extraneous = extraneousAppIds[steamDirectory][userId];
+          if(!addedCategories[steamDirectory]) {
+            addedCategories[steamDirectory] = {}
+          }
+          addedCategories[steamDirectory][userId] = Object.fromEntries(addedAppIds.map(appId => [steam.shortenAppId(appId), addedApps[appId].categories]))
           for (let appId in apps) {
             let app = apps[appId];
             if (app.status === 'add') {
@@ -214,12 +224,12 @@ export class VDF_Manager {
               }
               let item = listItem.shortcuts.getItem(appId);
               const artworkOnly = superTypes[ArtworkOnlyType].includes(app.parserType);
-              listItem.addedItems.addItem(appId, app.parserId, artworkOnly);
+              listItem.addedItems.addItem(appId, app.parserId, artworkOnly, app.steamCategories);
               for(const artworkType of artworkTypes) {
                 const currentImage = appImage.getCurrentImage(app.images[artworkType], images[artworkType]);
                 if(currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
                   listItem.screenshots.addItem({
-                    appId: ids.shortenAppId(appId).concat(artworkIdDict[artworkType]),
+                    appId: steam.shortenAppId(appId).concat(artworkIdDict[artworkType]),
                     title: app.title,
                     url: currentImage.imageUrl
                   });
@@ -229,11 +239,11 @@ export class VDF_Manager {
                   let icon_path: string = "";
                   if(currentImage !== undefined) {
                     let icon_ext: string = currentImage.imageUrl.split('.').slice(-1)[0];
-                    icon_ext = ids.map_ext[""+icon_ext] || icon_ext;
-                    icon_path = path.join(listItem.screenshots.gridDir, `${ids.shortenAppId(appId).concat('_icon')}.${icon_ext}`);
+                    icon_ext = steam.map_ext[""+icon_ext] || icon_ext;
+                    icon_path = path.join(listItem.screenshots.gridDir, `${steam.shortenAppId(appId).concat('_icon')}.${icon_ext}`);
                   }
                   if (!artworkOnly && item !== undefined) {
-                    item.appid = ids.generateShortcutId(app.executableLocation, app.title),
+                    item.appid = steam.generateShortcutId(app.executableLocation, app.title),
                       item.appname = app.title;
                     item.exe = app.executableLocation;
                     item.StartDir = app.startInDirectory;
@@ -243,7 +253,7 @@ export class VDF_Manager {
                   }
                   else if(!artworkOnly) {
                     listItem.shortcuts.addItem(appId, {
-                      appid: ids.generateShortcutId(app.executableLocation, app.title),
+                      appid: steam.generateShortcutId(app.executableLocation, app.title),
                       appname: app.title,
                       exe: app.executableLocation,
                       StartDir: app.startInDirectory,
@@ -256,20 +266,20 @@ export class VDF_Manager {
               }
             }
             else if (app.status === 'remove') {
-              if(!listItem.addedItems.data.addedApps[appId].artworkOnly) {
-                extraneousAppIds[userId].push(appId);
+              if(!addedApps[appId] || !addedApps[appId].artworkOnly) {
+                extraneousAppIds[steamDirectory][userId].push(appId);
               }
               listItem.shortcuts.removeItem(appId);
               listItem.addedItems.removeItem(appId);
               for(const artworkType of artworkTypes) {
-                listItem.screenshots.removeItem(ids.shortenAppId(appId).concat(artworkIdDict[artworkType]));
+                listItem.screenshots.removeItem(steam.shortenAppId(appId).concat(artworkIdDict[artworkType]));
               }
               listItem.screenshots.removeItem(appId);
               app.images.steam = undefined
             }
           }
         });
-        resolve(extraneousAppIds)
+        resolve({extraneousAppIds: extraneousAppIds, addedCategories: addedCategories})
       }).catch((error: Error) => {
         reject(new VDF_Error(this.lang.error.couldNotMergeEntries__i.interpolate({ error })));
       });
@@ -277,25 +287,28 @@ export class VDF_Manager {
   }
 
   removeAllAddedEntries() {
-    return new Promise<VDF_ExtraneousItemsData>((resolve,reject)=>{
+    return new Promise<{extraneousAppIds: VDF_ExtraneousItemsData,addedCategories: VDF_AddedCategoriesData}>((resolve,reject)=>{
       Promise.resolve().then(()=>{
         let extraneousAppIds: VDF_ExtraneousItemsData = {}
         this.forEach((steamDirectory, userId, listItem) => {
-          let apps = listItem.addedItems.data.addedApps;
-          extraneousAppIds[userId] = Object.keys(apps).filter((appId) => !apps[appId].artworkOnly);
+          const addedApps = listItem.addedItems.data.addedApps;
+          if(!extraneousAppIds[steamDirectory]) {
+            extraneousAppIds[steamDirectory] = {}
+          }
+          extraneousAppIds[steamDirectory][userId] = Object.keys(addedApps).filter((appId) => !addedApps[appId].artworkOnly);
           if (listItem.shortcuts.invalid || listItem.addedItems.invalid || listItem.screenshots.invalid) {
             return;
           }
-          for (let appId in apps) {
+          for (const appId in addedApps) {
             listItem.shortcuts.removeItem(appId);
             listItem.screenshots.removeItem(appId);
             for(let artworkType of artworkTypes) {
-              listItem.screenshots.removeItem(ids.shortenAppId(appId).concat(artworkIdDict[artworkType]))
+              listItem.screenshots.removeItem(steam.shortenAppId(appId).concat(artworkIdDict[artworkType]))
             }
           }
           listItem.addedItems.clear();
         });
-        resolve(extraneousAppIds);
+        resolve({extraneousAppIds: extraneousAppIds, addedCategories: undefined});
       }).catch((error: Error) => {
         reject(new VDF_Error(this.lang.error.couldNotRemoveEntries__i.interpolate({ error })));
       });

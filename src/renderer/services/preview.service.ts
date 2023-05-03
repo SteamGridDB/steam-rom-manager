@@ -19,6 +19,7 @@ import {
   SteamTree,
   userAccountData,
   VDF_ExtraneousItemsData,
+  VDF_AddedCategoriesData,
   VDF_AllScreenshotsOutcomes,
   ErrorData, AppSelection,
   AppSelectionImages,
@@ -58,7 +59,7 @@ export class PreviewService {
   private appImages: {[artworkType: string]: AppImages};
   private currentImageType: string;
   private batchProgress: BehaviorSubject<{update: string, batch: number}>;
-
+  private categoryManager: CategoryManager;
   constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private settingsService: SettingsService, private http: HttpClient) {
     this.previewData = undefined;
     this.previewVariables = {
@@ -69,6 +70,7 @@ export class PreviewService {
       numberOfQueriedImages: 0,
       numberOfListItems: 0
     };
+    this.categoryManager = new CategoryManager();
     this.previewDataChanged = new Subject<void>();
     this.batchProgress = new BehaviorSubject({update: "", batch: -1})
     this.settingsService.onLoad((appSettings: AppSettings) => {
@@ -150,6 +152,14 @@ export class PreviewService {
       })
     }
   }
+  async removeCategories(steamDir: string, userId: string) {
+    try {
+      await this.categoryManager.removeAllCategoriesAndWrite(steamDir, userId);
+    } catch(error) {
+      this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
+      this.loggerService.error(this.lang.errors.categorySaveError__i.interpolate({error:error.message}));
+    }
+  }
 
   saveData({batchWrite, removeAll}: {batchWrite: boolean, removeAll: boolean}): Promise<any> {
 
@@ -168,11 +178,9 @@ export class PreviewService {
     }
 
     let vdfManager = new VDF_Manager();
-    let categoryManager = new CategoryManager();
-    let controllerManager = new ControllerManager();
     this.previewVariables.listIsBeingSaved = true;
-
-    let extraneousAppIds: VDF_ExtraneousItemsData = undefined;
+    let exAppIds: VDF_ExtraneousItemsData = undefined;
+    let addedCats: VDF_AddedCategoriesData = undefined;
     let chain: Promise<any> =  Promise.resolve().then(()=>{
       this.loggerService.info(this.lang.info.populatingVDF_List, { invokeAlert: true, alertTimeout: 3000 });
       return vdfManager.prepare(removeAll ? knownSteamDirectories : this.previewData)
@@ -196,12 +204,15 @@ export class PreviewService {
         return vdfManager.removeAllAddedEntries()
       })
     }
-    chain = chain.then((exAppIds: VDF_ExtraneousItemsData) => {
-      extraneousAppIds = exAppIds; //non-artwork only extraneous app ids
+    chain = chain.then(({extraneousAppIds, addedCategories}: {extraneousAppIds: VDF_ExtraneousItemsData, addedCategories: VDF_AddedCategoriesData}) => {
+      exAppIds = extraneousAppIds; //Non artwork-only extraneous app ids
+      addedCats = addedCategories; //Added categories for all app ids
     })
     .then(() => {
       this.loggerService.info(this.lang.info.savingCategories)
-      return categoryManager.save(this.previewData, extraneousAppIds, removeAll)
+      if(!removeAll) {
+        return this.categoryManager.save(this.previewData, exAppIds, addedCats)
+      }
     }).catch((error: Acceptable_Error | Error) => {
       if(error instanceof Acceptable_Error) {
         this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
@@ -212,7 +223,10 @@ export class PreviewService {
     })
     .then(() => {
       this.loggerService.info(this.lang.info.savingControllers)
-      return controllerManager.save(this.previewData, extraneousAppIds, removeAll)
+      if(!removeAll) {
+        const controllerManager = new ControllerManager();
+        return controllerManager.save(this.previewData, exAppIds)
+      }
     }).catch((error: Acceptable_Error | Error) => {
       if(error instanceof Acceptable_Error) {
         this.loggerService.error(this.lang.errors.controllerSaveError, { invokeAlert: true, alertTimeout: 3000 });

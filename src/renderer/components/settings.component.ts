@@ -121,17 +121,31 @@ export class SettingsComponent implements OnDestroy {
 
   private removeApps() {
     if (this.knownSteamDirectories.length > 0) {
-      return this.previewService.saveData({removeAll: true, batchWrite: false});
+      return this.previewService.saveData({removeAll: true, batchWrite: false})
+      .then(() => {
+        this.removeCategoriesOnly();
+      })
+      .then(() => {
+        this.removeControllersOnly();
+      });
     }
   }
 
-  private removeControllersOnly() {
+  private async removeCategoriesOnly() {
     for(let steamDir of this.knownSteamDirectories) {
-      steam.getAvailableLogins(steamDir).then((accounts: userAccountData[])=>{
-        for(let account of accounts) {
-          this.parsersService.removeControllers(steamDir, account.accountID);
-        }
-      })
+      const accounts = await steam.getAvailableLogins(steamDir);
+      for(let account of accounts) {
+        await this.previewService.removeCategories(steamDir, account.accountID)
+      }
+    }
+  }
+
+  private async removeControllersOnly() {
+    for(let steamDir of this.knownSteamDirectories) {
+      const accounts = await steam.getAvailableLogins(steamDir);
+      for(let account of accounts) {
+        await this.parsersService.removeControllers(steamDir, account.accountID);
+      }
     }
   }
 

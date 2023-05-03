@@ -9,7 +9,7 @@ import * as path from 'path';
 export class VDF_AddedItemsFile {
   private fileData: VDF_AddedItemsData = undefined;
 
-  constructor(private filepath: string) { }
+  constructor(private filePath: string) { }
 
   get data() {
     return this.fileData;
@@ -28,27 +28,51 @@ export class VDF_AddedItemsFile {
   }
 
   read() {
-    return json.read<any>(this.filepath, {}).then((readData) => {
-      if(Array.isArray(readData) || !readData.version) {
-        this.fileData = { version: 1, addedApps: {} };
-        for (let i = 0; i < readData.length; i++) {
-          this.fileData.addedApps[readData[i].split('_')[0]] = {
-            parserId: readData[i].split('_')[1],
-            artworkOnly: (readData[i].split('_')[0].length < 17)
+
+    const modifierLatest = 2;
+    const modifier = {
+      "0": {
+        method: (readData: any) => {
+          let result: any = { version: 1, addedApps: {} };
+          for (let i = 0; i < readData.length; i++) {
+            result.addedApps[readData[i].split('_')[0]] = {
+              parserId: readData[i].split('_')[1],
+              artworkOnly: (readData[i].split('_')[0].length < 17),
+            }
           }
         }
-      } else if(readData.version == 1) {
-        this.fileData = readData;
+      },
+      "1": {
+        method:(readData: any) => {
+          readData.version = 2;
+          for(let appId in readData.addedApps) {
+            readData.addedApps[appId].categories = []
+          }
+          return readData;
+        }
       }
+    }
+    return json.read<any>(this.filePath, {}).then((readData) => {
+      let controlVersion;
+      if(Array.isArray(readData) || !readData.version) {
+        controlVersion = 0;
+      } else {
+        controlVersion = readData.version
+      }
+      let result = readData;
+      for(let j = controlVersion; j < modifierLatest; j++) {
+        result = modifier[j.toString() as keyof typeof modifier].method(result);
+      }
+      this.fileData = result;
       return this.data;
     }).catch((error) => {
-      this.fileData = {addedApps: {}};
+      this.fileData = {version: modifierLatest, addedApps: {}};
     });
   }
 
   write() {
     this.fileData.addedApps = _.pickBy(this.fileData.addedApps, item => item !== undefined);
-    return json.write(this.filepath, this.fileData);
+    return json.write(this.filePath, this.fileData);
   }
 
   getItem(appId: string){
@@ -65,7 +89,11 @@ export class VDF_AddedItemsFile {
     this.fileData.addedApps = {};
   }
 
-  addItem(appId: string, parserId: string, artworkOnly: boolean) {
-    this.fileData.addedApps[appId] = {parserId: parserId, artworkOnly: artworkOnly};
+  addItem(appId: string, parserId: string, artworkOnly: boolean, categories: string[]) {
+    this.fileData.addedApps[appId] = {
+      parserId: parserId,
+      artworkOnly: artworkOnly,
+      categories: categories
+    };
   }
 }

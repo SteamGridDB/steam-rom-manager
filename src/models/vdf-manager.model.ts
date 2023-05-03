@@ -49,13 +49,24 @@ export interface VDF_AddedItemsData {
   addedApps: {
     [appId: string]: {
       parserId: string,
-      artworkOnly: boolean
+      artworkOnly: boolean,
+      categories: string[]
     } | undefined
   }
 }
 
 export interface VDF_ExtraneousItemsData {
-  [userId: string]: string[] //list of extraneous (long) appids for userid
+  [steamDirectory: string]: {
+    [userId: string]: string[] //list of extraneous (long) appids for userid
+  }
+}
+
+export interface VDF_AddedCategoriesData {
+  [steamDirectory: string]: {
+    [userId: string]: {
+      [shortAppId: string]: string[] //list of categories app was added to
+    }
+  }
 }
 
 export type SteamDirectory = string;
