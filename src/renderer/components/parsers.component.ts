@@ -290,7 +290,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           });
         })(),
         titleSection: new NestedFormElement.Section({
-          label: 'Title Modification Configuration'
+          label: 'Title Modification Configuration',
+          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
         }),
         titleFromVariable: new NestedFormElement.Group({
           isHidden: () => this.isHiddenIfNotRomsParser(),
@@ -322,6 +323,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         titleModifier: new NestedFormElement.Input({
           highlight: this.highlight.bind(this),
+          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
           placeholder: this.lang.placeholder.titleModifier,
           label: this.lang.label.titleModifier,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -332,6 +334,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         fuzzyMatch: new NestedFormElement.Group({
           label: this.lang.label.fuzzyMatch,
+          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
           children: {
             replaceDiacritics: new NestedFormElement.Toggle({
               text: this.lang.text.fuzzy_replaceDiacritic
