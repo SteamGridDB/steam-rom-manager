@@ -1,6 +1,7 @@
 import { PreviewData, PreviewDataUser, VDF_ExtraneousItemsData } from "../models";
 import * as genericParser from '@node-steam/vdf';
 import * as steam from './helpers/steam';
+import { superTypes, ArtworkOnlyType } from './parsers/available-parsers';
 import * as SteamCategories from 'steam-categories';
 import * as path from 'path';
 import * as fs from 'fs-extra';
@@ -38,67 +39,85 @@ export class CategoryManager {
       let localConfigPath='';
       let localConfig: any = {};
       let collections: any = {};
+      let levelCollections: any = {};
       cats.read()
-        .then(() => {
+        .then((lcs: any) => {
           localConfigPath = path.join(steamDirectory, 'userdata', userId, 'config', 'localconfig.vdf');
           localConfig = genericParser.parse(fs.readFileSync(localConfigPath, 'utf-8'));
 
           if (localConfig.UserLocalConfigStore.WebStorage['user-collections']) {
             collections = JSON.parse(localConfig.UserLocalConfigStore.WebStorage['user-collections'].replace(/\\"/g, '"'));
           }
+          if(lcs && Object.keys(lcs).length) {
+            try {
+              const topKey = Object.keys(lcs)[0]
+              levelCollections = Object.fromEntries(Object.keys(lcs[topKey]).filter(s => s.startsWith('user-collections') && !lcs[topKey][s].is_deleted).map(s=> {return [[s.split('.')[1]], lcs[topKey][s].value]}));
+            } catch (e) {}
+          }
+          const appIds = Object.keys(userData.apps).filter(appId => !superTypes[ArtworkOnlyType].includes(userData.apps[appId].parserType));
+          const toRemove = _.union(
+            appIds.map((x) => steam.shortenAppId(x)),
+            extraneousShortIds
+          ).map((x) => +x);
 
-          for (const catKey of Object.keys(collections).filter((key:string)=>key.split('-')[0]==='srm')) {
-            let toRemove = _.union(Object.keys(userData.apps).map((x)=>steam.shortenAppId(x)),extraneousShortIds).map((x)=>+x);
-            collections[catKey].added = collections[catKey].added.filter((appId: number) => toRemove.indexOf(appId)<0);
-            if(collections[catKey].added.length == 0 || removeAll) {
-              cats.remove(catKey);
-              // weirdly this works whereas delete collections[catKey] doesn't
+          // Clear out local collections
+          for (const catKey of Object.keys(collections)) {
+            const newAdded = collections[catKey].added.filter((appId: number) => !toRemove.includes(appId));
+            collections[catKey].added = newAdded;
+            if(catKey.startsWith('srm') && (newAdded.length == 0 || removeAll)) {
+
+              // weirdly this deletes the collection whereas `delete collections[catKey]` does not
               collections[catKey] = {
                 id: catKey,
                 added: [],
                 removed: [],
               };
+              cats.remove(catKey);
             }
           }
 
-          if(!removeAll) {
-            for (let appId of Object.keys(userData.apps).filter((appId: string)=>userData.apps[appId].status ==='add')) {
-              const app = userData.apps[appId];
-              if(app.changedId) {
-                appId = app.changedId;
-              }
-              const appIdNew = parseInt(steam.shortenAppId(appId), 10);
-              // const appIdNew = parseInt(steam.generateShortAppId(app.executableLocation, app.title), 10);
-
-              // Loop "steamCategories" and make a new category from each
-              app.steamCategories.forEach((catName: string) => {
-
-                // Create new category if it doesn't exist
-                const catKey = `srm-${Buffer.from(catName).toString('base64')}`;
-                const platformCat = cats.get(catKey);
-                if (!platformCat || platformCat.is_deleted) {
-                  cats.add(catKey, {
-                    name: catName,
-                    added: [],
-                  });
-                }
-
-                // Create entries in localconfig.vdf
-                if (!collections[catKey]) {
-                  collections[catKey] = {
-                    id: catKey,
-                    added: [],
-                    removed: [],
-                  };
-                }
-
-                // Add appids to localconfig.vdf
-                if (collections[catKey].added.indexOf(appIdNew) === -1) {
-                  // Only add if it doesn't exist already
-                  collections[catKey].added.push(appIdNew);
-                }
-              });
+          const addableAppIds = removeAll ? [] : appIds.filter((appId: string)=>userData.apps[appId].status=='add');
+          for (let appId of addableAppIds) {
+            const app = userData.apps[appId];
+            if(app.changedId) {
+              appId = app.changedId;
             }
+            const appIdNew = parseInt(steam.shortenAppId(appId), 10);
+
+            // Loop "steamCategories" for app
+            app.steamCategories.forEach((catName: string) => {
+
+              // check the levelDB collections to see if a category already exists
+              const lcKeys = Object.keys(levelCollections).filter((lckey: string)=> levelCollections[lckey].name.toUpperCase() === catName.toUpperCase());
+              let catKey;
+              if(lcKeys.length) {
+                catKey = levelCollections[lcKeys[0]].id
+              } else {
+                catKey = `srm-${Buffer.from(catName).toString('base64')}`;
+              }
+
+              // Create level collection if it doesn't exist or is deleted
+              if ((x=>!x||x.is_deleted)(cats.get(catKey))) {
+                cats.add(catKey, {
+                  name: catName,
+                  added: [],
+                });
+              }
+
+              // Create entries in localconfig.vdf
+              if (!collections[catKey]) {
+                collections[catKey] = {
+                  id: catKey,
+                  added: [],
+                  removed: [],
+                };
+              }
+
+              // Add appids to localconfig.vdf
+              if (!collections[catKey].added.includes(appIdNew)) {
+                collections[catKey].added.push(appIdNew);
+              }
+            });
           }
         }).catch((error: any)=>{
           throw error;
@@ -127,7 +146,7 @@ export class CategoryManager {
 
       let result = this.createList().reduce((accumulatorPromise, user) => {
         return accumulatorPromise.then(() => {
-          return this.writeCat(user, extraneousAppIds[user.userId].map((x)=>steam.shortenAppId(x)), removeAll);
+          return this.writeCat(user, extraneousAppIds[user.userId].map((x) => steam.shortenAppId(x)), removeAll);
         });
       }, Promise.resolve());
 

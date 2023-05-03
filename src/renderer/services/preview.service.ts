@@ -197,7 +197,7 @@ export class PreviewService {
       })
     }
     chain = chain.then((exAppIds: VDF_ExtraneousItemsData) => {
-      extraneousAppIds = exAppIds;
+      extraneousAppIds = exAppIds; //non-artwork only extraneous app ids
     })
     .then(() => {
       this.loggerService.info(this.lang.info.savingCategories)

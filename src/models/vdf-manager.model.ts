@@ -45,7 +45,13 @@ export interface VDF_ShortcutsItem {
 }
 
 export interface VDF_AddedItemsData {
-  [key: string]: string | undefined
+  version?: number,
+  addedApps: {
+    [appId: string]: {
+      parserId: string,
+      artworkOnly: boolean
+    } | undefined
+  }
 }
 
 export interface VDF_ExtraneousItemsData {
