@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 * Fix match was somewhat broken for the artwork only (Steam) parser, wasn't setting the `exceptionId` correctly.
+* Subtle bug that prevented `Remove All Added Entries` from doing anything to categories or controllers when Preview hadn't been generated.
 
 ## 2.4.14
 ### Fixed
