@@ -5,6 +5,7 @@ Diese Variablen werden vorgeparst und können auch im Rom Verzeichnis, Steam Ver
 |                               `${/}` | Systemspezifische Verzeichnistrenner: `\` oder `/`     |
 |                          `${srmdir}` | Verzeichnis der portablen ausführbaren SRM Datei        |
 |                  `${steamdirglobal}` | Global steam directory, specified in `Settings`         |
+|                  `${accountsglobal}` | Global user accounts, specified in `Settings`           |
 |                   `${romsdirglobal}` | Global ROMs directory, specified in `Settings`          |
 |                   `${retroarchpath}` | Path to Retroarch executable, specified in `Settings`   |
 |                         `${racores}` | Directory of retroarch cores, specified in `Settings`   |

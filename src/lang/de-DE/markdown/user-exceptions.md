@@ -16,24 +16,24 @@ Exceptions generated from `Preview` will always be in the form `Extracted Title 
 
 ## Neuer Anzeigetitel
 
-This is the title that will display in Steam. It will not be used to search for images.
+Dies ist der Titel, der in Steam angezeigt wird. Er wird nicht für die Suche nach Bildern verwendet.
 
-## New Search Title
+## Neuer Suchtitel
 
-This is the title that will be used to search for images on [SteamGridDB](https://www.steamgriddb.com). There are two options for overriding it:
+Dies ist der Titel, der für die Suche nach Bildern in [SteamGridDB](https://www.steamgriddb.com) verwendet wird. Es gibt zwei Möglichkeiten, sie außer Kraft zu setzen:
 
-* Specify the new search title as whatever text you want.
-* Specify the exact game id to pull images from. For example to get images for the game [Flow](https://www.steamgriddb.com/game/5254019) which has SteamGridDB url `https://www.steamgriddb.com/game/5254019` you would put `${gameid:5254019}`.
+* Legen Sie den neuen Text für die Suche fest.
+* Geben Sie die genaue Spiel-ID an, von der Bilder abgerufen werden sollen. Um zum Beispiel Bilder für das Spiel [Flow](https://www.steamgriddb.com/game/5254019) mit der SteamGridDB Url `https://www.steamgriddb.com/game/5254019` zu erhalten, würde man `${gameid:5254019}` eingeben.
 
-## New Commandline Args
+## Neue Befehlszeilen-Argumente
 
-Custom commandline arguments like `--fullscreen`, etc, that can be applied to a specific title. These only override the arguments field of the Steam shortcut and are never appended to the executable.
+Benutzerdefinierte Befehlszeilenargumente wie `--fullscreen`, usw., die auf einen bestimmten Titel angewendet werden können. Diese überschreiben nur das Argumentfeld der Steam-Verknüpfung und werden nie an die ausführbare Datei angehängt.
 
-## Exclude Title
+## Titel ausschließen
 
-The ability to exclude individual titles from being added to Steam. This allows you to keep titles that you don't want in Steam in the same folder as the rest of your games.
+Die Möglichkeit, einzelne Titel von der Aufnahme in Steam auszuschließen. Dies ermöglicht es dir, Titel, die du nicht in Steam angezeigt haben möchtest, im gleichen Ordner wie deine anderen Spiele zu behalten.
 
-## Local Artwork Only
+## Nur lokale Artworks
 
 Don't fetch artwork from remote providers (e.g. [steamgriddb](https://www.steamgriddb.com)). Useful when SGDB is incorrectly matching the game or you just don't like any of the artwork available for it.
 
