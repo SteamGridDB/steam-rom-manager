@@ -167,7 +167,7 @@
     "npm-check-updates": "^16.10.9",
     "postcss": "^8.4.23",
     "postcss-loader": "^7.3.0",
-    "rimraf": "^4.4.1",
+    "rimraf": "^5.0.0",
     "sass": "^1.62.1",
     "sass-loader": "^13.2.2",
     "to-string-loader": "^1.2.0",
