@@ -112,7 +112,7 @@ export class SteamParser implements GenericParser {
               resolve(filteredApps.concat(sourceMods))
             })
           } else {
-            resolve(filteredApps)
+            resolve(filteredApps.sort((a,b)=>a.title.localeCompare(b.title)))
           }
         })
       })

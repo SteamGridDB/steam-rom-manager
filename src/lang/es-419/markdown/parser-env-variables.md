@@ -5,6 +5,7 @@ Estas variables son pre-analizadas y pueden ser usadas en los campos de Director
 |                                `${/}` | Separador de carpetas del sistema operativo: `\` o `/`               |
 |                           `${srmdir}` | Directorio del ejecutable portable de SRM                             |
 |                   `${steamdirglobal}` | Directorio global de Steam, especificado en los `Ajustes`             |
+|                   `${accountsglobal}` | Global user accounts, specified in `Settings`                         |
 |                    `${romsdirglobal}` | Directorio global de ROMs, especificado en los `Ajustes`              |
 |                    `${retroarchpath}` | Ruta al ejecutable de Retroarch, especificado en los `Ajustes`        |
 |                          `${racores}` | Directorio de los núcleos de Retroarch, especificado en los `Ajustes` |

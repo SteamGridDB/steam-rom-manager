@@ -1,6 +1,7 @@
 import { Observable, BehaviorSubject } from "rxjs";
 import { ImageProviderAPI } from "./user-configuration.model";
 import { Controllers } from "./controllers.model";
+import { ParserType } from "./parser.model";
 
 export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
 
@@ -38,7 +39,7 @@ export interface PreviewDataApp {
     status: 'add' | 'skip' | 'remove',
     configurationTitle: string,
     parserId: string,
-    parserType: string,
+    parserType: ParserType,
     steamCategories: string[],
     controllers: Controllers,
     imageProviders: string[],

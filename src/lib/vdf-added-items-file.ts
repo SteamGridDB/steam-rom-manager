@@ -28,39 +28,44 @@ export class VDF_AddedItemsFile {
   }
 
   read() {
-    return json.read<string[]>(this.filepath, []).then((data) => {
-      this.fileData = {};
-      for (let i = 0; i < data.length; i++) {
-        if(data[i].includes("_")) {
-          this.fileData[data[i].split('_')[0]] = data[i].split('_')[1];
-        } else {
-          this.fileData[data[i]] = '-legacy-';
+    return json.read<any>(this.filepath, {}).then((readData) => {
+      if(Array.isArray(readData) || !readData.version) {
+        this.fileData = { version: 1, addedApps: {} };
+        for (let i = 0; i < readData.length; i++) {
+          this.fileData.addedApps[readData[i].split('_')[0]] = {
+            parserId: readData[i].split('_')[1],
+            artworkOnly: (readData[i].split('_')[0].length < 17)
+          }
         }
+      } else if(readData.version == 1) {
+        this.fileData = readData;
       }
       return this.data;
     }).catch((error) => {
-      this.fileData = {};
+      this.fileData = {addedApps: {}};
     });
   }
 
   write() {
-    this.fileData = _.pickBy(this.fileData, item => item !== undefined);
-    let app_ids = Object.keys(this.fileData).filter((app_id:string) => this.fileData[app_id]!=='-legacy-');
-    let data = app_ids.map((app_id:string)=>app_id.concat('_',this.fileData[app_id])) //data was just keys
-    return json.write(this.filepath, data);
+    this.fileData.addedApps = _.pickBy(this.fileData.addedApps, item => item !== undefined);
+    return json.write(this.filepath, this.fileData);
   }
 
   getItem(appId: string){
-    return this.fileData[appId];
+    return this.fileData.addedApps[appId];
   }
 
   removeItem(appId: string){
-    if (this.fileData[appId] !== undefined){
-      this.fileData[appId] = undefined;
+    if (this.fileData.addedApps[appId] !== undefined){
+      this.fileData.addedApps[appId] = undefined;
     }
   }
 
-  addItem(appId: string, parserId: string) {
-    this.fileData[appId] = parserId;
+  clear() {
+    this.fileData.addedApps = {};
+  }
+
+  addItem(appId: string, parserId: string, artworkOnly: boolean) {
+    this.fileData.addedApps[appId] = {parserId: parserId, artworkOnly: artworkOnly};
   }
 }

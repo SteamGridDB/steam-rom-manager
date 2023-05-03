@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.15
+### Added
+* Ability to add games to categories created in steam (including `Favorites` and `Hidden`!)
+* SRM now respects addition of non SRM managed games to SRM created categories, i.e. it won't delete them.
+
+### Fixed
+* Fix match was somewhat broken for the artwork only (Steam) parser, wasn't setting the `exceptionId` correctly.
+
 ## 2.4.14
 ### Fixed
 * Filter out weird '0' userdata directories that were causing problems for people in 2.4.13. I don't have one, so I didn't catch this issue.

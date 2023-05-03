@@ -6,6 +6,7 @@ import { PreviewData, PreviewDataApp, PreviewDataApps, PreviewVariables, AppSett
 import { APP } from '../../variables';
 import { FileSelector } from '../../lib';
 import { artworkTypes, artworkViewTypes, artworkNamesDict, artworkDimsDict } from '../../lib/artwork-types';
+import { superTypes, ArtworkOnlyType } from '../../lib/parsers/available-parsers';
 import * as url from '../../lib/helpers/url';
 import * as FileSaver from 'file-saver';
 import * as appImage from '../../lib/helpers/app-image';
@@ -342,7 +343,12 @@ export class PreviewComponent implements OnDestroy {
         this.previewData[steamDirectory][userId].apps[appId].images[artworkType].steam = undefined;
         this.previewService.updateAppImages(newPool, oldPool, artworkType)
       }
-      const exceptionId = steam.generateShortAppId(app.executableLocation, app.extractedTitle)
+      let exceptionId;
+      if(superTypes[ArtworkOnlyType].includes(app.parserType)) {
+        exceptionId = app.executableLocation.replace(/\"/g,"");
+      } else {
+        exceptionId = steam.generateShortAppId(app.executableLocation, app.extractedTitle)
+      }
       const exceptionKey = `${app.extractedTitle} \$\{id:${exceptionId}\}`;
       this.userExceptionsService.addException(exceptionKey, {
         newTitle: this.matchFixDict[this.matchFix].name,

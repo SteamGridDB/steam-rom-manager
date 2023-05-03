@@ -35,7 +35,7 @@ export interface ParsedUserConfigurationFile extends StringMap {
 export interface ParsedUserConfiguration {
   configurationTitle: string,
   parserId: string,
-  parserType: string,
+  parserType: ParserType,
   imageProviders: string[],
   imageProviderAPIs: ImageProviderAPI,
   controllers: Controllers,
