@@ -49,6 +49,7 @@ export class PreviewComponent implements OnDestroy {
   private matchFixDict: {[sgdbId: string]: {name: string, posterUrl: string}};
   private detailsLoading: boolean = true;
   private showDetails: boolean = false;
+  private detailsSearchText: string = '';
 
   private showExcludes: boolean = false;
   private excludedAppIds: {
@@ -297,7 +298,19 @@ export class PreviewComponent implements OnDestroy {
         this.previewService.clearPreviewData();
     });
   }
-
+  private searchMatches(searchTitle: string) {
+    this.previewService.getMatchFixes(searchTitle).then((games: any[])=>{
+      this.matchFixDict = Object.fromEntries(games.map((x: any)=>[x.id.toString(), {name: x.name, posterUrl: x.posterUrl}]));
+      this.matchFixIds = games.map((x:any)=>x.id.toString());
+      this.detailsLoading = false;
+      this.changeDetectionRef.detectChanges();
+    })
+  }
+  private searchForDetails() {
+    if(this.detailsSearchText) {
+      this.searchMatches(this.detailsSearchText);
+    }
+  }
   private changeAppDetails(app: PreviewDataApp, steamDirectory: string, userId: string, appId: string) {
     this.detailsLoading = true;
     this.showDetails= true;
@@ -309,18 +322,14 @@ export class PreviewComponent implements OnDestroy {
       steamDirectory: steamDirectory,
       userId: userId
     };
-    this.previewService.getMatchFixes(this.detailsApp.app.extractedTitle).then((games: any[])=>{
-      this.matchFixDict = Object.fromEntries(games.map((x: any)=>[x.id.toString(), {name: x.name, posterUrl: x.posterUrl}]));
-      this.matchFixIds = games.map((x:any)=>x.id.toString());
-      this.detailsLoading = false;
-      this.changeDetectionRef.detectChanges();
-    })
+    this.searchMatches(this.detailsApp.app.extractedTitle);
   }
 
   private fixMatch(sgdbId: string) {
     this.matchFix = sgdbId;
   }
   private closeDetails() {
+    this.detailsSearchText = '';
     this.matchFix = '';
     this.detailsApp = undefined;
     this.showDetails = false;

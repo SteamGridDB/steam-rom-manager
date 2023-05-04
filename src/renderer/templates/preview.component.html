@@ -59,15 +59,23 @@
   <div class="detailsLower">
     <ng-container *ngIf="!detailsLoading">
       <ng-container *ngIf="!!detailsApp">
-        <ng-container *ngFor="let sgdbId of matchFixIds">
-          <div class= "approw" [class.selected]="matchFix == sgdbId" (click)=fixMatch(sgdbId)>
-            <div class="app" [style.backgroundImage]="setDetailsBackgroundImage(sgdbId) | cssUrl | safeStyle">
-            </div>
-            <div class ="apptitle">
-              <span>{{matchFixDict[sgdbId].name}}</span>
-            </div>
+        <div class= "detailsOptions">
+          <div class="detailsSearch">
+            <ng-text-input class="ngTextInput" placeholder="Search SteamGridDB" [(ngModel)]='detailsSearchText' (ngModelChange)='detailsSearchText=$event;'></ng-text-input>
+            <div class="clickButton2" (click)="searchForDetails()">Search</div>
           </div>
-        </ng-container>
+        </div>
+        <div class="appResults">
+          <ng-container *ngFor="let sgdbId of matchFixIds">
+            <div class= "approw" [class.selected]="matchFix == sgdbId" (click)=fixMatch(sgdbId)>
+              <div class="app" [style.backgroundImage]="setDetailsBackgroundImage(sgdbId) | cssUrl | safeStyle">
+              </div>
+              <div class ="apptitle">
+                <span>{{matchFixDict[sgdbId].name}}</span>
+              </div>
+            </div>
+          </ng-container>
+        </div>
       </ng-container>
     </ng-container>
     <ng-container *ngIf="detailsLoading">
