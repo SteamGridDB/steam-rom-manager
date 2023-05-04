@@ -5,10 +5,15 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Ability to add games to categories created in steam (including `Favorites` and `Hidden`!)
 * SRM now respects addition of non SRM managed games to SRM created categories, i.e. it won't delete them.
-
+* Global buttons added to steam directory and user accounts field in parsers.
+* Choose Account button added to user accounts field in parsers.
+### Changed
+* Requests library changed to `node-fetch`, hopefully fixing timeout issues. But I have been burnt before.
 ### Fixed
 * Fix match was somewhat broken for the artwork only (Steam) parser, wasn't setting the `exceptionId` correctly.
 * Subtle bug that prevented `Remove All Added Entries` from doing anything to categories or controllers when Preview hadn't been generated.
+* Minor issue where image index wasn't being set to zero even after an image was saved to steam (making it seem like the image didn't save even though it did).
+* Graphical issue with scrollbar in EmuDeck theme, credit to @DragoonDorise.
 
 ## 2.4.14
 ### Fixed
