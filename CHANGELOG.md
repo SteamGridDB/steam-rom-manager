@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 * Global buttons added to steam directory and user accounts field in parsers.
 * Choose Account button added to user accounts field in parsers.
 * Added an SGDB search field to the fix match page in preview.
+* `Include Visible` and `Exclude Visible` buttons in preview to make adding exceptions even easier.
 ### Changed
 * Requests library changed to `node-fetch`, hopefully fixing timeout issues. But I have been burnt before.
 ### Fixed

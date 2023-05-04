@@ -33,11 +33,17 @@
       <span>Number Excluded: {{exclusionCount}}</span>
     </div>
     <div class="buttonGroup">
+      <div class="excludeButton" (click)="excludeVisible()">
+        <span>Exclude Visible</span>
+      </div>
+      <div class="excludeButton" (click)="includeVisible()">
+        <span>Include Visible</span>
+      </div>
       <div class="excludeButton dangerousButton" (click)="cancelExcludes()">
         <span>Cancel</span>
       </div>
       <div class="excludeButton" (click)="saveExcludes()">
-        <span>Save Exclusions</span>
+        <span>Save</span>
       </div>
     </div>
   </div>
@@ -103,7 +109,7 @@
               <div class="apps">
                 <ng-container *ngFor="let appId of sortedAppIds(previewData[steamDir][steamUser].apps)">
                   <ng-container *ngVar="previewData[steamDir][steamUser].apps[appId] as app">
-                    <div class="title" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter) &&([app.configurationTitle] | intersectionTest: actualParserFilter)">
+                    <div class="title" *ngIf="isAppVisible(app)">
                       <span [attr.title]="app.extractedTitle">{{app.title}}</span>
                     </div>
                     <ng-container *ngFor="let imagetype of ['long','tall','hero','logo','icon']">
@@ -169,7 +175,7 @@
                   <ng-container *ngVar="previewData[steamDir][steamUser].apps[appId] as app">
                     <ng-container *ngVar="getBackgroundImage(app) as image">
                       <ng-container *ngVar="getAppImages(app) as appimages">
-                        <div class="app" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter) && ([app.configurationTitle] | intersectionTest: actualParserFilter)" [style.backgroundImage]="setBackgroundImage(app, image) | cssUrl | safeStyle"
+                        <div class="app" *ngIf="isAppVisible(app)" [style.backgroundImage]="setBackgroundImage(app, image) | cssUrl | safeStyle"
                              [class.retrieving]="getImagePool(appimages.imagePool).retrieving" [class.noImages]="!getImagePool(appimages.imagePool).retrieving && image == undefined"
                              [class.downloading]="image != undefined && image.loadStatus === 'downloading'" [class.failed]="image != undefined && image.loadStatus === 'failed'"
                              [class.imageLoaded]="image != undefined && image.loadStatus === 'done'" (mouseenter)="entries.hoverIndex = app.entryId"
@@ -229,7 +235,7 @@
       <div class="dangerousButton" (click)="remove()">{{lang.removeAppList}}</div>
       <div (click)="exportSelection()" [attr.title]="'Export image choices'">{{lang.exportSelections}}</div>
       <div (click)="importSelection()" [attr.title]="'Import image choices'">{{lang.importSelections}}</div>
-      <div (click)="showExclusions()" *ngIf="!this.detailsApp">{{"Exclude Apps"}}</div>
+      <div (click)="showExclusions()" *ngIf="!this.detailsApp">{{"Exclude"}}</div>
     </ng-container>
     <div class="only-emudeck" routerLink="/logger" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *ngIf="previewVariables.numberOfListItems !== 0">Log</div>
     <div class="only-emudeck" routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
@@ -241,7 +247,7 @@
       <div class="dangerousButton" (click)="remove()">{{lang.removeAppList}}</div>
       <div (click)="exportSelection()" [attr.title]="'Export image choices'">{{lang.exportSelections}}</div>
       <div (click)="importSelection()" [attr.title]="'Import image choices'">{{lang.importSelections}}</div>
-      <div (click)="showExclusions()" *ngIf="!this.detailsApp">{{"Exclude Apps"}}</div>
+      <div (click)="showExclusions()" *ngIf="!this.detailsApp">{{"Exclude"}}</div>
     </ng-container>
     <div routerLink="/logger" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *ngIf="previewVariables.numberOfListItems !== 0">Log</div>
     <div routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
