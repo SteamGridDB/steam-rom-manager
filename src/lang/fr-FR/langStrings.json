@@ -3,8 +3,8 @@
     "component": {
       "filter": "Rechercher un jeu",
       "selectType": "Type d'Artwork",
-      "selectCategories": "Catégorie Steam",
-      "selectParsers": "Titre de l'analyseur",
+      "selectCategories": "Category",
+      "selectParsers": "Parser",
       "selectTypeOptions": {
         "long": "Bannières",
         "tall": "Posters",
