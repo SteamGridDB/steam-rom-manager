@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 * SRM now respects addition of non SRM managed games to SRM created categories, i.e. it won't delete them.
 * Global buttons added to steam directory and user accounts field in parsers.
 * Choose Account button added to user accounts field in parsers.
+* Added an SGDB search field to the fix match page in preview.
 ### Changed
 * Requests library changed to `node-fetch`, hopefully fixing timeout issues. But I have been burnt before.
 ### Fixed
