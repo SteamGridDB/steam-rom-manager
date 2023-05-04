@@ -3,8 +3,8 @@
     "component": {
       "filter": "Search for game",
       "selectType": "Artwork Type",
-      "selectCategories": "Steam Category",
-      "selectParsers": "Parser Title",
+      "selectCategories": "Category",
+      "selectParsers": "Parser",
       "selectTypeOptions": {
         "long": "Banners",
         "tall": "Pôsteres",
