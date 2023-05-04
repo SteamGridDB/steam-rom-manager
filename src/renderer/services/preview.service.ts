@@ -285,13 +285,15 @@ export class PreviewService {
           const longId = steam.lengthenAppId(shortId);
           const imageType = invertedArtworkIdDict[gridName.replace(/^\d+/,'')];
           const steamImageUrl = url.encodeFile(outcomes[steamDirectory][userId].successes[gridName]);
-          if(this.previewData[steamDirectory][userId].apps[longId]) {
+          const app = this.previewData[steamDirectory][userId].apps[longId];
+          if(app && imageType) {
             this.previewData[steamDirectory][userId].apps[longId].images[imageType].steam = {
               imageProvider: 'Steam',
               imageUrl: steamImageUrl,
               imageRes: url.imageDimensions(steamImageUrl),
               loadStatus: 'done'
             }
+            this.setImageIndex(app, 0, imageType, true);
           }
         }
       }
@@ -759,7 +761,7 @@ export class PreviewService {
     if (result.filePaths !== undefined) {
       let timeout: any;
       try {
-        const packagePath = path.join(result.filePaths[0],"srm-image-choices-export/");
+        const packagePath = path.join(result.filePaths[0],"srm-image-choices");
         if(fs.existsSync(packagePath)) {
           fs.rmdirSync(packagePath, { recursive: true });
         }
