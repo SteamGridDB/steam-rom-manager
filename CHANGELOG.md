@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 * Fix match was somewhat broken for the artwork only (Steam) parser, wasn't setting the `exceptionId` correctly.
 * Subtle bug that prevented `Remove All Added Entries` from doing anything to categories or controllers when Preview hadn't been generated.
-* Minor issue where image index wasn't being set to zero even after an image was saved to steam (making it seem like the image didn't save even though it did).
+* Minor issue where image index wasn't being set to zero after an image was saved to steam (making it seem like the image didn't save even though it did).
 * Graphical issue with scrollbar in EmuDeck theme, credit to @DragoonDorise.
 
 ## 2.4.14
