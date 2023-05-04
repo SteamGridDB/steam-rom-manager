@@ -70,10 +70,9 @@ jobs:
         uses: actions/upload-artifact@v3
         if: ${{ matrix.os == 'macOS-latest' }}
         with:
-          name:
-            srm-build-mac
-            path: |
-              release/*.dmg
+          name: srm-build-mac
+          path: |
+            release/*.dmg
       - name: Upload Artifacts Linux
         uses: actions/upload-artifact@v3
         if: ${{ matrix.os == 'ubuntu-latest' }}
