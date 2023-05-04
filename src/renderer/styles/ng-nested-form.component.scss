@@ -76,12 +76,14 @@ ng-nested-form {
       margin: auto;
       justify-content: center;
     }
-    .clickButton {
-      @include clickButtonColor(click-button, true);
-      @include button();
-      margin: 0 0 0 0.25em;
+    .clickButtons {
       grid-area: button;
-      margin-bottom: var(--margin-input-text);
+      .clickButton {
+        @include clickButtonColor(click-button, true);
+        @include button();
+        margin: 0 0 0 0.25em;
+        margin-bottom: var(--margin-input-text);
+      }
     }
     .reqText {
       margin-left: 0.25em;

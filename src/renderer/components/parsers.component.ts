@@ -35,6 +35,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private userForm: FormGroup;
   private formChanges: Subscription = new Subscription();
   private hiddenSections: {[parserId: string]: {[sectionName: string]: boolean}}
+  private chooseUserAccountsVisible: boolean = false;
+  private steamDirectoryForChooseAccounts: string = '';
+  private chooseAccountsControl: AbstractControl;
   private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
 
   constructor(
@@ -90,9 +93,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.configTitle.join('');
           }
         }),
-        steamDirectory: new NestedFormElement.Path({
+        steamDirectory: new NestedFormElement.Input({
+          path: { directory: true },
           placeholder: this.lang.placeholder.steamDirectory,
-          directory: true,
           required: true,
           label: this.lang.label.steamDirectory,
           highlight: this.highlight.bind(this),
@@ -100,6 +103,48 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
             this.currentDoc.content = this.lang.docs__md.steamDirectory.join('');
+          },
+          buttons: [
+            new NestedFormElement.Button({
+              buttonLabel: 'Global',
+              onClickControlMethod: (control: AbstractControl) => {
+                control.setValue('${steamdirglobal}')
+              }
+            })
+          ]
+        }),
+        userAccounts: new NestedFormElement.Group({
+          label: this.lang.label.userAccounts,
+          children: {
+            specifiedAccounts: new NestedFormElement.Input({
+              placeholder: this.lang.placeholder.userAccounts,
+              highlight: this.highlight.bind(this),
+              onValidateObservable: () => this.userForm.get('parserType').valueChanges,
+                onValidate: (self, path) => {
+                let serialized: {[k: string]: any} = {}
+                serialized[path[1]] = self.value
+                return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized, {parserType: this.userForm.get('parserType').value});
+              },
+              buttons: [
+                new NestedFormElement.Button({
+                  buttonLabel: 'Choose',
+                  onClickControlMethod: (control: AbstractControl) => {
+                    this.chooseAccountsControl = control;
+                    this.chooseAccounts()
+                  }
+                }),
+                new NestedFormElement.Button({
+                  buttonLabel: 'Global',
+                  onClickControlMethod: (control: AbstractControl) => {
+                    control.setValue('${${accountsglobal}}')
+                  }
+                })
+              ]
+            })
+          },
+          onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content = this.lang.docs__md.userAccounts.join('');
           }
         }),
         steamCategory: new NestedFormElement.Input({
@@ -113,31 +158,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.steamCategory.join('');
           }
         }),
-        userAccounts: new NestedFormElement.Group({
-          label: this.lang.label.userAccounts,
-          children: {
-            specifiedAccounts: new NestedFormElement.Input({
-
-              placeholder: this.lang.placeholder.userAccounts,
-              highlight: this.highlight.bind(this),
-              onValidateObservable: () => this.userForm.get('parserType').valueChanges,
-                onValidate: (self, path) => {
-                let serialized: {[k: string]: any} = {}
-                serialized[path[1]] = self.value
-                return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized, {parserType: this.userForm.get('parserType').value});
-              }
-            })
-          },
-          onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.userAccounts.join('');
-          }
-        }),
-        romDirectory: new NestedFormElement.Path({
+        romDirectory: new NestedFormElement.Input({
+          path: { directory: true },
           placeholder: this.lang.placeholder.romDirectory,
           required: true,
           isHidden: () => this.isHiddenIfNotRomsParser(),
-            directory: true,
           label: this.lang.label.romDirectory,
           highlight: this.highlight.bind(this),
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -153,7 +178,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         executable: new NestedFormElement.Group({
           isHidden: () => this.isHiddenIfNotRomsParser(),
             children: {
-            path: new NestedFormElement.Path({
+            path: new NestedFormElement.Input({
+              path: { directory: false },
               label: this.lang.label.executableLocation,
               placeholder: this.lang.placeholder.executableLocation,
               required: true,
@@ -199,8 +225,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.executableModifier.join('');
           }
         }),
-        startInDirectory: new NestedFormElement.Path({
-          directory: true,
+        startInDirectory: new NestedFormElement.Input({
+          path: { directory: true },
           placeholder: this.lang.placeholder.startInDirectory,
           label: this.lang.label.startInDirectory,
           highlight: this.highlight.bind(this),
@@ -224,36 +250,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               let inputFieldName: keyof typeof parser.inputs;
               for (inputFieldName in parser.inputs) {
                 let input = parser.inputs[inputFieldName];
-                if(input.inputType == 'path' || input.inputType == 'dir') {
-                  parserInputs[inputFieldName] = new NestedFormElement.Path({
-                    placeholder: input.placeholder,
-                    required: !!input.required,
-                    directory: input.inputType=='dir' ? true : false,
-                    initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
-                    highlight: this.highlight.bind(this),
-                    label: input.label,
-                    isHidden: () => {
-                      return concat(of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).pipe(map((pType: string) => {
-                        return pType !== parsers[i];
-                      }));
-                    },
-                    onValidate: (self, path) => {
-                      if (parsers[i]!=='Steam' && this.userForm.get('parserType').value === parsers[i])
-                        return this.parsersService.validate(path[0] as keyof UserConfiguration, { parser: parsers[i], input: inputFieldName, inputData: self.value });
-                      else
-                        return null;
-                    },
-                    onInfoClick: (self, path) => {
-                      this.currentDoc.activePath = path.join();
-                      this.currentDoc.content = input.info;
-                    }
-                  })
-                } else if (input.inputType == 'text') {
+                if(['path','dir','text'].includes(input.inputType)) {
                   parserInputs[inputFieldName] = new NestedFormElement.Input({
-                    initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
-                    highlight: this.highlight.bind(this),
+                    path: ['path','dir'].includes(input.inputType) ? {
+                      directory: input.inputType === 'dir'
+                    } : undefined,
                     placeholder: input.placeholder,
                     required: !!input.required,
+                    initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
+                    highlight: this.highlight.bind(this),
                     label: input.label,
                     isHidden: () => {
                       return concat(of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).pipe(map((pType: string) => {
@@ -467,10 +472,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 label: 'Local Artwork Configuration'
               }),
               defaultImage: (()=>{
-                let defaultImageInputs: { [k: string]: NestedFormElement.Path } = {};
+                let defaultImageInputs: { [k: string]: NestedFormElement.Input } = {};
                 for(const artworkType of artworkTypes) {
-                  defaultImageInputs[artworkType] = new NestedFormElement.Path({
-                    directory: false,
+                  defaultImageInputs[artworkType] = new NestedFormElement.Input({
+                    path: { directory: false },
                     placeholder: this.lang.placeholder.defaultImage__i.interpolate({
                       artworkType: artworkSingDict[artworkType]
                     }),
@@ -490,14 +495,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 })
               })(),
               localImages: (()=>{
-                let localImagesInputs: { [k: string]: NestedFormElement.Path } = {};
+                let localImagesInputs: { [k: string]: NestedFormElement.Input } = {};
                 for(const artworkType of artworkTypes) {
-                  localImagesInputs[artworkType] = new NestedFormElement.Path({
-                    directory: true,
+                  localImagesInputs[artworkType] = new NestedFormElement.Input({
+                    path: {
+                      directory: true,
+                      appendGlob: '${title}.@(png|PNG|jpg|JPG|webp|WEBP)'
+                    },
                     placeholder: this.lang.placeholder.localImages__i.interpolate({
                       artworkType: artworkNamesDict[artworkType].toLowerCase()
                     }),
-                    appendGlob: '${title}.@(png|PNG|jpg|JPG|webp|WEBP)',
                     highlight: this.highlight.bind(this),
                     label: this.lang.label.localImages__i.interpolate({
                       artworkType: artworkNamesDict[artworkType].toLowerCase()
@@ -756,7 +763,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             if (item instanceof NestedFormElement.Group) {
               iterateGroup(item, itemPath);
             }
-            else if (item instanceof NestedFormElement.Input || item instanceof NestedFormElement.Path) {
+            else if (item instanceof NestedFormElement.Input) {
               let title = item.label;
               if (title)
                 text += `# ${title}\r\n`;
@@ -1109,6 +1116,25 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.markAsDirtyDeep(control.get(childKey) as FormGroup);
       }
     }
+  }
+
+  chooseAccounts() {
+    let steamDirInput = this.userForm.get('steamDirectory').value || '';
+    let steamDir = this.parsersService.parseSteamDir(steamDirInput);
+    if(this.parsersService.validate('steamDirectory', steamDir) == null) {
+      this.chooseUserAccountsVisible = true;
+      this.steamDirectoryForChooseAccounts = steamDir;
+    }
+  }
+
+  setUserAccounts(accounts: string) {
+    if(accounts && this.chooseAccountsControl) {
+      this.chooseAccountsControl.setValue(accounts)
+    }
+  }
+
+  exitChooseAccounts() {
+    this.chooseUserAccountsVisible = false;
   }
 
   ngOnDestroy() {

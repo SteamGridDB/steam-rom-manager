@@ -28,8 +28,8 @@ export class SettingsComponent implements OnDestroy {
   private romsDirectoryPlaceholder: string;
   private localImagesDirectoryPlaceholder: string;
   private raCoresDirectoryPlaceholder: string;
-  private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
   private chooseUserAccountsVisible: boolean = false;
+  private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
   constructor(private settingsService: SettingsService,
     private fuzzyService: FuzzyService,
     private languageService: LanguageService,

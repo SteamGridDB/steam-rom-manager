@@ -15,6 +15,7 @@ export type NestedInputChange = (control: AbstractControl, path: string[]) => vo
 export type NestedInputHiddenValue = Observable<boolean> | Promise<boolean>;
 export type NestedInputHidden = () => NestedInputHiddenValue;
 export type NestedInputClick = () => any;
+export type NestedInputControlClick = (control: AbstractControl) => any
 type ObjectFields<T> = {
   [P in keyof Omit<T,"__hidden">]: T[P];
 };
@@ -84,44 +85,15 @@ export namespace NestedFormElement {
     onInfoClick?: NestedInputInfoClick;
     /** Optional */
     highlight?: (input: string, tag: string) => string;
+    /** Optional */
+    path?: {
+      directory?: boolean,
+      appendGlob?: string
+    }
+    /** Optional */
+    buttons?: Button[];
 
     constructor(init?: ObjectFields<Input>) {
-      Object.assign(this, init);
-    }
-  };
-  export class Path {
-    static displayName = 'Path';
-    /** Optional */
-    label?: string;
-    /** Optional */
-    initialValue?: string;
-    /** Optional */
-    directory?: boolean;
-    /** Optional */
-    appendGlob?: string;
-    /** Optional */
-    isHidden?: NestedInputHidden;
-    __hidden: NestedInputHiddenValue;
-    /** Optional */
-    disabled?: boolean;
-    /** Optional */
-    placeholder?: string;
-    /** Optional */
-    required?: boolean
-    /** Optional */
-    error?: string;
-    /** Optional */
-    onValidate?: NestedInputValidator;
-    /** Optional */
-    onValidateObservable?: NestedInputValidatorObservable;
-    /** Optional */
-    onChange?: NestedInputChange;
-    /** Optional */
-    onInfoClick?: NestedInputInfoClick;
-    /** Optional */
-    highlight?: (input: string, tag: string) => string;
-
-    constructor(init?: ObjectFields<Path>) {
       Object.assign(this, init);
     }
   };
@@ -185,7 +157,8 @@ export namespace NestedFormElement {
     static displayName = 'Button';
     /** Mandatory */
     buttonLabel: string;
-    onClickMethod: NestedInputClick;
+    onClickMethod?: NestedInputClick;
+    onClickControlMethod?: NestedInputControlClick
     /** Optional */
     label?: string;
     isHidden?: NestedInputHidden;
@@ -196,5 +169,5 @@ export namespace NestedFormElement {
   }
 }
 
-export type NestedFormInputs = NestedFormElement.Input | NestedFormElement.Select | NestedFormElement.Toggle | NestedFormElement.Path;
+export type NestedFormInputs = NestedFormElement.Input | NestedFormElement.Select | NestedFormElement.Toggle;
 export type NestedFormElements = NestedFormInputs | NestedFormElement.Group | NestedFormElement.Section | NestedFormElement.Button;
