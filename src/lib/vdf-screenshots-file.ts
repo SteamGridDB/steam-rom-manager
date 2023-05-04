@@ -1,4 +1,4 @@
-import { VDF_ScreenshotsData, VDF_ScreenshotItem, xRequestOptions } from "../models";
+import { VDF_ScreenshotsData, VDF_ScreenshotItem } from "../models";
 import { artworkTypes, artworkIdDict } from "./artwork-types";
 import { VDF_Error } from './vdf-error';
 import { APP } from '../variables';
@@ -12,7 +12,6 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 import { BehaviorSubject } from 'rxjs'
 import { glob } from 'glob';
-import { got, Response } from 'got';
 
 export class VDF_ScreenshotsFile {
   private fileData: any = undefined;

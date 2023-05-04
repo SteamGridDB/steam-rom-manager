@@ -3,24 +3,27 @@ import * as fs from 'fs-extra'
 import * as path from 'path';
 import * as probe from 'probe-image-size';
 import * as uri2path from 'file-uri-to-path';
-import {got, Response} from 'got';
+import fetch, { AbortError } from 'node-fetch';
 
-export function downloadAndSaveImage(imageUrl: string, filepath: string) {
+const timeout = 10000;
+
+export async function downloadAndSaveImage(imageUrl: string, filePath: string) {
   if(imageUrl.startsWith('file://')) {
-    return fs.copyFile(decodeFile(imageUrl), filepath);
+    return await fs.copyFile(decodeFile(imageUrl), filePath);
   } else {
-    return got(imageUrl, {
-      headers: {'Content-type': 'image'},
-      timeout: { request: 10000 }
-    }).then((response: Response) => {
-      if( response.statusCode === 200 ) {
-        return response.rawBody
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    try {
+      const res = await fetch(imageUrl, { signal: controller.signal });
+      const arrayBuff = await res.arrayBuffer();
+      fs.outputFileSync(filePath, Buffer.from(arrayBuff))
+    } catch(error) {
+      if(error instanceof AbortError) {
+        throw `Request timed out after ${timeout} milliseconds.`
       } else {
-        throw `Error with status ${response.statusCode} for url:\n${imageUrl}`
+        throw error;
       }
-    }).then((buffer: Buffer) => {
-      fs.outputFileSync(filepath, buffer)
-    })
+    }
   }
 }
 
@@ -37,6 +40,6 @@ export function imageDimensions(file_uri: string) {
 
 export function encodeFile(file_path: string) {
   return encodeURI(`file:///${file_path.replace(/\\/g, '/')}`).replace(/#/g, '%23');
-}
+  }
 
 
