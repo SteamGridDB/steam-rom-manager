@@ -3,8 +3,8 @@
     "component": {
       "filter": "Cerca un titolo",
       "selectType": "Tipo di artwork",
-      "selectCategories": "Categoria di Steam",
-      "selectParsers": "Titolo del parser",
+      "selectCategories": "Category",
+      "selectParsers": "Parser",
       "selectTypeOptions": {
         "long": "Banner",
         "tall": "Poster",
