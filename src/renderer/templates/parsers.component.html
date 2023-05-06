@@ -1,4 +1,10 @@
 <markdown class="docs" [content]="this.currentDoc.content"></markdown>
+<choose-accounts
+  [showChooseAccounts]="chooseUserAccountsVisible"
+  [steamDirectory]="steamDirectoryForChooseAccounts"
+  (showAccounts)="chooseUserAccountsVisible=$event"
+  (accountsJoined)="setUserAccounts($event)">
+</choose-accounts>
 <div class="nestedForm">
   <label>
     <span class="infoButton infoIcon" (click)="presetsInfoClick()"> </span>

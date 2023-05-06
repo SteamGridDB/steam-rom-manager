@@ -6,7 +6,7 @@ import { LoggerService } from './logger.service';
 import { FuzzyService } from './fuzzy.service';
 import { ImageProviderService } from './image-provider.service';
 import { SettingsService } from './settings.service';
-import { FileParser, VariableParser, ControllerManager } from '../../lib';
+import { FileParser, VariableParser, ControllerManager, CategoryManager } from '../../lib';
 import { BehaviorSubject } from "rxjs";
 import { takeWhile } from "rxjs/operators";
 import { availableProviders } from "../../lib/image-providers/available-providers"
@@ -28,7 +28,6 @@ import * as _ from 'lodash';
 export class ParsersService {
   private appSettings: AppSettings;
   private fileParser: FileParser;
-  private controllerManager: ControllerManager;
   private savedControllerTemplates: BehaviorSubject<ControllerTemplates>;
   private controllerTemps: ControllerTemplates = {};
   private userConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
@@ -41,7 +40,6 @@ export class ParsersService {
   constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService, private cVariableService: CustomVariablesService,
               private exceptionsService: UserExceptionsService, private settingsService: SettingsService) {
                 this.fileParser = new FileParser(this.fuzzyService);
-                this.controllerManager = new ControllerManager();
                 this.userConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
                 this.savedControllerTemplates = new BehaviorSubject<ControllerTemplates>({});
                 this.deletedConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
@@ -103,7 +101,8 @@ export class ParsersService {
               }
 
               removeControllers(steamDir: string, userId: string, parserId?: string) {
-                this.controllerManager.removeAllControllersAndWrite(steamDir, userId, parserId);
+                const controllerManager: ControllerManager = new ControllerManager();
+                controllerManager.removeAllControllersAndWrite(steamDir, userId, parserId);
               }
 
               parseSteamDir(steamDirInput: string) {

@@ -236,43 +236,64 @@
   .detailsLower {
     @include webkitScrollbar(preview-scrollbar);
     grid-area: detailsLower;
+    display: grid;
+    grid-template-areas:
+    'detailsOptions'
+    'detailsList';
+    grid-template-rows: auto 1fr;
     overflow-y: auto;
-
-
     @keyframes loadingSpinner {
       to {
         transform: rotate(360deg);
       }
     }
-    ng-select {
-      margin: 1em;
+    .detailsOptions {
+      padding: 1em 1em 0.5em 1em;
+      grid-area: detailsOptions;
+      .detailsSearch {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .ngTextInput {
+          @include ngTextInputColor(input);
+          @include ngTextInput();
+          width: 100%;
+        }
+        .clickButton2 {
+          @include button();
+          @include clickButtonColor(click-button);
+          margin: 0 0 0 0.25em;
+          margin-bottom: var(--margin-input-text);
+        }
+      }
     }
-    > .approw {
-      display: flex;
-      justify-content: left;
-      align-items: center;
-      background-color: var(--color-preview-user-background);
-      color: var(--color-preview-text);
-      margin-bottom: 1em;
-      &:hover, &.selected {
-        background-color: var(--color-ng-select-option-background-hover);
-        color: var(--color-ng-select-option-text-hover);
+    .appResults {
+      grid-area: detailsList;
+      > .approw {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        background-color: var(--color-preview-user-background);
+        color: var(--color-preview-text);
+        margin-bottom: 1em;
+        &:hover, &.selected {
+          background-color: var(--color-ng-select-option-background-hover);
+          color: var(--color-ng-select-option-text-hover);
+        }
+        .app {
+          flex-shrink: 0;
+          border: solid 2px var(--color-preview-image-border);
+          margin: 0.75em;
+          width: calc(var(--preview-image-size) * var(--games-tall-width));
+          height: calc(var(--preview-image-size) * var(--games-tall-height));
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-size: 100%;
+        }
+        .apptitle {
+          margin-left: 5em;
+        }
       }
-
-      .app {
-        flex-shrink: 0;
-        border: solid 2px var(--color-preview-image-border);
-        margin: 0.75em;
-        width: calc(var(--preview-image-size) * var(--games-tall-width));
-        height: calc(var(--preview-image-size) * var(--games-tall-height));
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: 100%;
-      }
-      .apptitle {
-        margin-left: 5em;
-      }
-
     }
   }
 
@@ -290,16 +311,6 @@
     }
     grid-area: urls;
   }
-  // .details {
-  //   overflow-y: auto;
-  //   overflow:hidden;
-  //   grid-area: details;
-  //   display: grid;
-  //   grid-template-areas:
-  //   'detailsUpper'
-  //   'detailsLower';
-  //   grid-template-rows: auto 1fr;
-  // }
 
   .entries {
     @include webkitScrollbar(preview-scrollbar);

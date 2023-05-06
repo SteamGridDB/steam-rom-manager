@@ -195,53 +195,48 @@ export class ControllerManager {
     for(const controllerType of controllerTypes) {
       let configsetPath = path.join(configsetDir, `configset_controller_${controllerType}.vdf`)
       if(configsetData[controllerType]) {
-        fs.outputFile(configsetPath, genericParser.stringify(configsetData[controllerType]))
+        fs.outputFileSync(configsetPath, genericParser.stringify(configsetData[controllerType]))
       } else if(fs.existsSync(configsetPath)) {
         fs.unlinkSync(configsetPath)
       }
     }
   }
 
-  writeControllers(user: { userId: string, steamDirectory: string, userData: PreviewDataUser }, extraneousAppIds: string[], removeAll: boolean) {
+  writeControllers(user: { userId: string, steamDirectory: string, userData: PreviewDataUser }, extraneousAppIds: string[]) {
     let configsetDir = ControllerManager.configsetDir(user.steamDirectory, user.userId);
     this.backupControllers(configsetDir);
     let configsetData = this.readControllers(configsetDir);
-    if(removeAll) {
-      this.removeAllControllers(configsetData);
-    }
-    else {
-      for(const controllerType of controllerTypes) {
-        for (const appId of extraneousAppIds) {
-          if(this.titleMap["a"+appId]) {
-            this.removeController(configsetData, this.titleMap["a"+appId], controllerType)
-          }
+    for(const controllerType of controllerTypes) {
+      for (const appId of extraneousAppIds) {
+        if(this.titleMap["a"+appId]) {
+          this.removeController(configsetData, this.titleMap["a"+appId], controllerType)
         }
       }
-      for (let appId of Object.keys(user.userData.apps).filter((appId: string)=>user.userData.apps[appId].status ==='add')) {
-        const app = user.userData.apps[appId];
-        if(app.changedId) {
-          appId = app.changedId;
-        }
-        const title = app.parserType == 'Steam' ? steam.shortenAppId(appId) : app.title;
-        const parserId = app.parserId;
-        for(const controllerType of Object.keys(app.controllers)) {
-          const controller = app.controllers[controllerType];
-          if(controller) {
-            this.setTemplate(configsetData, appId, parserId, controllerType, title, controller.mappingId, controller.profileType);
-          } else {
-            this.removeController(configsetData, title, controllerType)
-          }
+    }
+    for (let appId of Object.keys(user.userData.apps).filter((appId: string)=>user.userData.apps[appId].status ==='add')) {
+      const app = user.userData.apps[appId];
+      if(app.changedId) {
+        appId = app.changedId;
+      }
+      const title = app.parserType == 'Steam' ? steam.shortenAppId(appId) : app.title;
+      const parserId = app.parserId;
+      for(const controllerType of Object.keys(app.controllers)) {
+        const controller = app.controllers[controllerType];
+        if(controller) {
+          this.setTemplate(configsetData, appId, parserId, controllerType, title, controller.mappingId, controller.profileType);
+        } else {
+          this.removeController(configsetData, title, controllerType)
         }
       }
     }
     this.writeControllerFiles(configsetDir, configsetData);
   }
 
-  save(previewData: PreviewData, extraneousAppIds: VDF_ExtraneousItemsData, removeAll: boolean) {
+  save(previewData: PreviewData, extraneousAppIds: VDF_ExtraneousItemsData) {
     return new Promise((resolveSave, rejectSave) => {
       let result = ControllerManager.createList(previewData).reduce((accumulatorPromise, user) => {
         return accumulatorPromise.then(() => {
-          return this.writeControllers(user, extraneousAppIds[user.userId], removeAll);
+          return this.writeControllers(user, extraneousAppIds[user.steamDirectory][user.userId]);
         });
       }, Promise.resolve());
 

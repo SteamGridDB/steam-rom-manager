@@ -31,6 +31,7 @@ export class ChooseAccountsComponent {
     if(this.steamDir && fs.existsSync(this.steamDir)) {
       steam.getAvailableLogins(this.steamDir).then((userAccounts: userAccountData[]) => {
         this.availableAccounts = userAccounts;
+        this.changeRef.detectChanges();
       })
     }
   }

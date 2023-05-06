@@ -42,6 +42,7 @@ function ngObjectsToArray(importObject: any) {
   providers: [].concat(
     ngObjectsToArray(Services),
     ngObjectsToArray(Guards),
+    ngObjectsToArray(Pipes),
     { provide: APP_BASE_HREF, useValue: 'SRM' },
     DatePipe,
     Title

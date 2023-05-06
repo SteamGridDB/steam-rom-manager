@@ -95,7 +95,6 @@ export class NgNestedFormComponent implements OnInit {
         formControl['__path'] = formGroup['__path'].concat(childKey);
         formControl.reset({ value: child.initialValue || null, disabled: child.disabled || false }, { onlySelf: true, emitEvent: false });
 
-        // let callbacks: ValidatorFn[] = [];
         let callbacks: ((c: IndexedFormControl) => ValidationErrors)[] = [];
         if (child.onValidate) {
           callbacks.push((c) => {
