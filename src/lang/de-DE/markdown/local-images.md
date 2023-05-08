@@ -1,13 +1,13 @@
-# Local images (optional) `[supports variables]`{.noWrap}
+# Lokale Bilder (optional) `[unterstützt Variablen]`{.noWrap}
 
-Erlaubt es, lokal gespeicherte Bilder zu verwenden. A [special glob input](#special-glob-input) string is used to retrieve images, so for example you might do `/path/to/heroes/${title}.@(png|jpg)`. Backslashes can be used to escape characters, so that if your images live in `artwork [portraits]` you might do `/path/to/artwork \[portraits\]/${title}.@(png|jpg)`. A good idea is to set your artwork directory globally and then use the `${localimages}` dir environment variable in this field: `${localimagesdir}/emuname/heroes/${title}.@(png|jpg)` for example.
+Erlaubt es, lokal gespeicherte Bilder zu verwenden. Ein [spezieller Glob Input](#special-glob-input) String wird genutzt, um Bilder abzurufen, so kannst du zum Beispiel: `/Pfad/zu/heroes/${title}.@(png|jpg)` nutzen. Backslashes kann genutzt werden um Zeichen zu escapen. Wenn deine Bilder z. B. in `artwork [portraits]` liegen, kannst du diese mit `/Pfad/zu/artwork \[portraits\]/${title}.@(png|jpg)` angeben. Es wird empfohlen dein Artwork Verzeichnis global zu setzen und es mit der `${localimages}` Umgebungsvariable in diesem Feld: `${localimagesdir}/emuname/heroes/${title}.@(png|jpg)` zu setzen.
 
-Any variable you use in this field that contains special glob characters will have those characters escaped.
+Jede Variable, die du in diesem Feld verwendest, die spezielle Globzeichen enthält, werden diese Zeichen escaped haben.
 
-## Erlaubte Bilderweiterungen
+## Erlaubte Dateiendungen
 
 Es werden nur `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} und `TGA`{.noWrap} Dateierweiterungen unterstützt. Selbst wenn der Parser Dateien mit anderen Dateierweiterungen findet, werden diese nicht in die endgültige Liste aufgenommen.
 
-## Kannst du das Verzeichnis des lokalen Bildes nach dem Speichern der App-Liste verschieben?
+## Kannst das Verzeichnis der lokalen Bilder nach dem Speichern der App-Liste verschoben werden?
 
-Ja, sobald die Liste gespeichert ist, ist das lokale Bild in ein Steam-Verzeichnis kopiert, in dem es umbenannt wird, um der App-ID von Steam zu entsprechen.
+Ja, sobald die Liste gespeichert ist, werden die Bilder in das Steam-Verzeichnis kopiert, in dem sie umbenannt wird, um Steams App-IDs zu entsprechen.
