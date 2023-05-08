@@ -1,11 +1,11 @@
-# Executable (optional) `[supports environment variables]`
+# Programmdateien (optional) `[unterstützt Umgebungsvariablen]`
 
-Path to emulator's executable. Can be a file or any valid system path.
+Pfad zur ausführbaren Datei des Emulators. Kann eine Datei oder ein gültiger Systempfad sein.
 
-## Why optional?
+## Warum optional?
 
-In some cases you might want to run game from a some kind batch file which will also automatically run the emulator itself. If that is the case, then providing executable is unnecessary.
+In manchen Fällen willst du eventuell Spiele über eine Batch-Datei ausführen, die automatisch den Emulator starten. In diesem Fall muss keine ausführbare Datei angegeben werden.
 
-### So, how do I add files to Steam without default executable?
+### Wie füge ich Dateien zu Steam hinzu ohne eine Datei anzugeben?
 
-All files retrieved by a parser will be treated as executables instead.
+Alle Dateien, die von einem der Parser zurückgegeben werden, werden stattdessen als ausführbare Dateien behandelt.
