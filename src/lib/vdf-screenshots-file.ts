@@ -137,7 +137,7 @@ export class VDF_ScreenshotsFile {
         extraneousPromises.push(this.removeExtraneous(appId));
       }
     }
-    const batchSize = 500;
+    const batchSize = 100;
     const delay = 0; //increase if SGDB timing out a lot
     const imageDownloader: ImageDownloader = new ImageDownloader();
     const addableAppIds = Object.keys(screenshotsData).filter((appId)=>{
