@@ -5,7 +5,7 @@ import { APP } from '../variables';
 import * as genericParser from '@node-steam/vdf';
 import * as file from './helpers/file';
 import * as ids from './helpers/steam';
-import * as url from "./helpers/url";
+import { ImageDownloader } from "./helpers/url";
 
 import * as _ from "lodash";
 import * as fs from 'fs-extra';
@@ -139,7 +139,7 @@ export class VDF_ScreenshotsFile {
     }
     const batchSize = 500;
     const delay = 0; //increase if SGDB timing out a lot
-
+    const imageDownloader: ImageDownloader = new ImageDownloader();
     const addableAppIds = Object.keys(screenshotsData).filter((appId)=>{
       return screenshotsData[appId] !== undefined && (typeof screenshotsData[appId] !== 'string')
     });
@@ -161,7 +161,7 @@ export class VDF_ScreenshotsFile {
           let ext: string = data.url.split('.').slice(-1)[0].replace(/[^\w\s]*$/gi, "");
           ext = ids.map_ext["" + ext] || ext;
           const gridPath = path.join(this.gridDirectory, `${appId}.${ext}`);
-          batchAddPromises.push(url.downloadAndSaveImage(data.url, gridPath)
+          batchAddPromises.push(imageDownloader.downloadAndSaveImage(data.url, gridPath)
           .then(() => {
             if(/^\d+$/.test(appId)) {
               const symPath = path.join(this.gridDirectory,`${ids.lengthenAppId(appId)}.${ext}`)

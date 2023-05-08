@@ -744,10 +744,11 @@ export class PreviewService {
   }
 
   async exportSelection() {
+    const imageDownloader = new url.ImageDownloader();
     async function saveImage(imageUrl: string, temporaryDir: string, append: string) {
       const extension = imageUrl.split(/[#?]/)[0].split('.').pop().trim();
       const filename = `${append}.${extension}`;
-      await url.downloadAndSaveImage(imageUrl, path.join(temporaryDir,filename))
+      await imageDownloader.downloadAndSaveImage(imageUrl, path.join(temporaryDir,filename))
       return filename
     }
 
