@@ -1,4 +1,4 @@
-# Manual Parser specific inputs
+# Manueller Parser spezifische Eingaben
 
 ## Manifest-Verzeichnis `[unterstützt Umgebungsvariablen]`{.noWrap}
 
