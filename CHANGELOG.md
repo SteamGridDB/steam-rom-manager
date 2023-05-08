@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.16
+### Fixed
+* Image timeouts issue should be resolved. If it isn't resolved for you try lowering the batch size in settings.
+### Added
+* Ability to set batch size for image downloads in settings
+### Changed
+* Automatically retry image downloads up to 4 times.
+* DNS resolution now happens in SRM and uses cacheing.
+
 ## 2.4.15
 ### Added
 * Ability to add games to categories created in steam (including `Favorites` and `Hidden`!)
