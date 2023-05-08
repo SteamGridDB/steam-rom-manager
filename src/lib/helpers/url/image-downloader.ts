@@ -6,12 +6,13 @@ import { decodeFile } from './encode-file'
 export class ImageDownloader {
   private dnsResolver = new Resolver();
   private timeout: number = 10000;
+  private dnsCache: {[host: string]: string} = {};
+
   constructor() {
-    console.log("constructor call")
     this.dnsResolver.setServers(['1.1.1.1', '8.8.8.8']);
   }
 
-  async downloadAndSaveImage(imageUrl: string, filePath: string) {
+  async downloadAndSaveImage(imageUrl: string, filePath: string, retryCount?: number): Promise<void> {
     if(imageUrl.startsWith('file://')) {
       return await fs.copyFile(decodeFile(imageUrl), filePath);
     } else {
@@ -19,7 +20,6 @@ export class ImageDownloader {
       const timeoutId = setTimeout(() => controller.abort(), this.timeout);
       try {
         const {resolved, host} = await this.resolveDNS(imageUrl)
-        console.log("resolved", resolved)
         const res = await fetch(resolved, {
           signal: controller.signal,
           method: 'GET',
@@ -31,7 +31,11 @@ export class ImageDownloader {
         fs.outputFileSync(filePath, Buffer.from(arrayBuff))
       } catch(error) {
         if(error instanceof AbortError) {
-          throw `Request timed out after ${this.timeout} milliseconds.`
+          if(retryCount && retryCount > 0) {
+            return this.downloadAndSaveImage(imageUrl, filePath, retryCount - 1);
+          } else {
+            throw `Request timed out after ${this.timeout} milliseconds.`
+          }
         } else {
           throw error;
         }
@@ -41,18 +45,25 @@ export class ImageDownloader {
 
   resolveDNS(imageUrl: string) {
     return new Promise<{resolved: string, host: string}>((resolve,reject)=> {
-      const url = new URL(imageUrl);
-      const { host, pathname, protocol } = url;
-      this.dnsResolver.resolve(host, (err, addresses)=>{
-        if(err || !addresses.length) {
-          reject(err)
-        } else {
-          resolve({
-            resolved: `${protocol}//${addresses[0]}${pathname}`,
-            host: host
-          })
-        }
-      })
+      const { host, pathname, protocol } = new URL(imageUrl);
+      if(this.dnsCache[host]) {
+        resolve({
+          resolved: `${protocol}//${this.dnsCache[host]}${pathname}`,
+          host: host
+        })
+      } else {
+        this.dnsResolver.resolve(host, (err, addresses) => {
+          if(err || !addresses.length) {
+            reject(err)
+          } else {
+            this.dnsCache[host] = addresses[0];
+            resolve({
+              resolved: `${protocol}//${addresses[0]}${pathname}`,
+              host: host
+            })
+          }
+        })
+      }
     })
   }
 }

@@ -161,7 +161,7 @@ export class VDF_ScreenshotsFile {
           let ext: string = data.url.split('.').slice(-1)[0].replace(/[^\w\s]*$/gi, "");
           ext = ids.map_ext["" + ext] || ext;
           const gridPath = path.join(this.gridDirectory, `${appId}.${ext}`);
-          batchAddPromises.push(imageDownloader.downloadAndSaveImage(data.url, gridPath)
+          batchAddPromises.push(imageDownloader.downloadAndSaveImage(data.url, gridPath, 4)
           .then(() => {
             if(/^\d+$/.test(appId)) {
               const symPath = path.join(this.gridDirectory,`${ids.lengthenAppId(appId)}.${ext}`)
