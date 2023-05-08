@@ -12,7 +12,7 @@ Du wirst höchstwahrscheinlich Parser-Variablen für Abfragen verwenden wollen. 
 ```
 ${${fuzzyTitle}}
 ```
-The legacy **greedy** mode can be enabled by setting query to:
+Der Legacy **greedy** Modus kann durch ändern der Abfrage aktiviert werden:
 ```
 ${${fuzzyTitle}}${${title}}
 ```
