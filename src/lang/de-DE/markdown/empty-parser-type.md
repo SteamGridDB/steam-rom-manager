@@ -1,4 +1,4 @@
-# Parser type
+# Parser Arten
 
 Wähle einen Parser, der zum Parsen verwendet werden soll. Sobald der Parser ausgewählt ist, wirst du genauere Informationen sehen.
 
