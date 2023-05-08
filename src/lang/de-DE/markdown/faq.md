@@ -2,15 +2,15 @@
 
 Lies dies, wenn du immer noch Probleme mit der Konfiguration hast. Für die meisten Beispiele wird Folgendes verwendet, sofern nicht anders angegeben:
 
-|                    |                                            |
-| ------------------ | ------------------------------------------ |
-| **ROMs directory** | `C:/ROMs`                                  |
-| **Datei 1**        | `C:/ROMs/Kingdom Hearts/game.iso`          |
-| **Datei 2**        | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
-| **Datei 3**        | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
-| **Datei 4**        | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
-| **Datei 5**        | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
-| **Datei 6**        | `C:/ROMs/dir1/dir2/save.sav`               |
+|                     |                                            |
+| ------------------- | ------------------------------------------ |
+| **ROM Verzeichnis** | `C:/ROMs`                                  |
+| **Datei 1**         | `C:/ROMs/Kingdom Hearts/game.iso`          |
+| **Datei 2**         | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
+| **Datei 3**         | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
+| **Datei 4**         | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
+| **Datei 5**         | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
+| **Datei 6**         | `C:/ROMs/dir1/dir2/save.sav`               |
 
 ## Wie konfiguriere ich Benutzer-Glob?
 
@@ -26,7 +26,7 @@ Remember wild cards? They allow us to discard information that does not really m
 ${title}/*.iso
 ```
 
-Using similar logic we can produce glob for **File3**:
+Mit ähnlicher Logik können wir Globs für **File3** erstellen:
 
 ```
 */*/*/${title}.nes
@@ -48,14 +48,14 @@ Eine empfohlene Lösung ist die Verwendung von geklammerten Sätzen. Diese könn
 {*,*/*}/*/${title}.*
 ```
 
-we will get `2` globs:
+erhalten wir `2` globs:
 
 ```
 */*/${title}.*
 */*/*/${title}.*
 ```
 
-These `2` globs both satisfy our files, **File3** and **File5**.
+Diese `2` globs enthält unsere Dateien, **File3** und **File5**.
 
 ## Wie kann ich Dateierweiterungen begrenzen?
 
