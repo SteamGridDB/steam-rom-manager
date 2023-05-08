@@ -1,6 +1,6 @@
-# Epic Games Store specific inputs
+# Epic Games Store spezifische Inputs
 
-## Manifests Directory Override
+## Manifest Verzeichnis überschreiben
 
 Die meisten Benutzer sollten dies nicht verwenden da sie die Standard- `Epic Games Store` Installation verwenden, in der sich die Spielmanifeste befinden werden zum Beispiel unter Windows, `C:\ProgramData\Epic\EpicGamesLauncher\Data\Manifests`.
 
