@@ -3,7 +3,7 @@
     "component": {
       "filter": "Spiel suchen",
       "selectType": "Artwork-Typ",
-      "selectCategories": "Category",
+      "selectCategories": "Kategorie",
       "selectParsers": "Parser",
       "selectTypeOptions": {
         "long": "Banner",
@@ -18,15 +18,15 @@
       "saveImage": "Bild zu Datei speichern",
       "addLocalImages": "Lokale Bilder hinzufügen",
       "retryDownload": "Download erneut versuchen",
-      "generateAppList": "Parse",
-      "saveAppList": "Save to Steam",
-      "removeAppList": "Remove from Steam",
+      "generateAppList": "parsen",
+      "saveAppList": "In Steam speichern",
+      "removeAppList": "Aus Steam entfernen",
       "remainingImages": "Retrieving urls:",
       "stopUrlRetrieving": "Stop",
-      "exportSelections": "Export",
-      "importSelections": "Import",
-      "backButton": "Back",
-      "logButton": "Log"
+      "exportSelections": "Exportieren",
+      "importSelections": "Importieren",
+      "backButton": "Zurück",
+      "logButton": "Logs"
     },
     "service": {
       "info": {
@@ -36,22 +36,22 @@
         "listIsEmpty": "Liste ist leer.",
         "populatingVDF_List": "Populating VDF list.",
         "creatingBackups": "Erstelle Backups.",
-        "readingVDF_Files": "Reading VDF files.",
-        "mergingVDF_entries": "Merging VDF entries.",
+        "readingVDF_Files": "Lese VDF Dateien.",
+        "mergingVDF_entries": "Kombiniere VDF Einträge.",
         "removingVDF_entries": "Entfernen von VDF-Einträgen und Bild-Dateien.",
         "savingCategories": "Speichere Kategorie-Informationen in localconfig.vdf.",
         "savingControllers": "Speichere Controller-Informationen.",
         "removingFromCategories": "Removing all added category information",
         "writingVDF_entries__i": "Schreibe VDF-Dateien und lade hochauflösende Bilder in Chargen von ${batchSize} herunter.",
-        "updatingKnownSteamDirList": "Updating a list of known Steam directories.",
-        "retryingDownload__i": "Retrying image download from \"${imageUrl}\" for \"${appTitle}\".",
-        "disabledConfigurations__i": "${count} user configuration(s) was/were skipped (disabled by user).",
+        "updatingKnownSteamDirList": "Aktualisiere Liste bekannter Steam Verzeichnisse.",
+        "retryingDownload__i": "Bilddownload von \"${imageUrl}\" für \"${appTitle} \" wird erneut gestartet.",
+        "disabledConfigurations__i": "${count} Benutzerkonfiguration(en) wurden übersprungen (deaktiviert durch Benutzer).",
         "invalidConfigurations__i": "${count} user configuration(s) was/were skipped (invalid).",
-        "executingParsers": "Executing parsers.",
-        "shutdownSteam": "Please shutdown Steam if it is running.",
+        "executingParsers": "Führe Parser aus.",
+        "shutdownSteam": "Bitte beende Steam, falls es läuft.",
         "noParserConfigurations": "Please create parser configuration in \"Parsers\" menu first.",
         "parserFoundNoFiles": "Parser(s) found no files matching user configuration.",
-        "allImagesRetrieved": "All available image urls retrieved.",
+        "allImagesRetrieved": "Alle verfügbaren Bild URLs wurden abgerufen.",
         "providerTimeout__i": "Timeout was requested by \"${provider}\" for ${time} second(s).",
         "noAccountsWarning": "Benutzerkonten nicht gefunden. Falsches Steam-Verzeichnis?",
         "preparingExport": "Bereite den Export von Bildauswahl vor.",
@@ -72,13 +72,13 @@
         "unknownProviderError__i": "Error received from \"${provider}\" for \"${title}\":\n ${error}",
         "exportError__i": "Could not save selections package folder: ${error}",
         "importJSONFailError__i": "Could not import selections, JSON was malformed: ${error}",
-        "importFailError__i": "Could not import image choices: ${error}"
+        "importFailError__i": "Bildauswahl konnte nicht importiert werden: ${error}"
       },
       "success": {
-        "writingVDF_entries": "Done adding/removing entries.",
+        "writingVDF_entries": "Alle Einträge hinzugefügt/gelöscht.",
         "removingVDF_entries": "Einträge wurden entfernt.",
         "exportSuccess__i": "Bildauswahlordner erfolgreich in \"${path} \"gespeichert!",
-        "importSelectionsSuccess__i": "Successfully imported ${count} image choices!"
+        "importSelectionsSuccess__i": "${count} Bildauswahlen erfolgreich importiert!"
       }
     }
   },
@@ -95,14 +95,14 @@
   },
   "manualParser": {
     "manifestsInputTitle": "Manifest-Verzeichnis",
-    "manifestsInputPlaceholder": "/path/to/your/manifests/",
+    "manifestsInputPlaceholder": "/Pfad/zu/deinen/Manifesten/",
     "errors": {
       "fatalError__i": "> Manual parser failed with fatal error:\n ${error}"
     }
   },
   "epicParser": {
     "manifestsInputTitle": "Epic Manifests Directory Override",
-    "manifestsInputPlaceholder": "/path/to/Manifests/",
+    "manifestsInputPlaceholder": "/pfad/zu/Manifesten/",
     "launcherModeInputTitle": "Spiele über Epic für Online-Dienste starten",
     "errors": {
       "invalidManifestsOverride": "> Manifests Override is not a valid directory.",
@@ -115,7 +115,7 @@
     "legendaryInstalledFileTitle": "Legendary installed.json Path Override",
     "legendaryInstalledFilePlaceholder": "/path/to/legendary/installed.json",
     "errors": {
-      "legendaryNotInstalled": "> Legendary installed.json not found",
+      "legendaryNotInstalled": "> Legendary installed.json konnte nicht gefunden werden",
       "fatalError__i": "> Legendary parser failed with fatal error: \n ${error}"
     }
   },
@@ -130,19 +130,19 @@
   },
   "uplayParser": {
     "uplayDirTitle": "Ubisoft Directory Override",
-    "uplayDirPlaceholder": "/path/to/Ubisoft/",
+    "uplayDirPlaceholder": "/pfad/zu/Ubisoft/",
     "launcherModeInputTitle": "Launch games via UPlay for online services",
     "errors": {
       "invalidManifestsOverride": "> Uplay Directory Override is not a valid directory.",
-      "uplayNotCompatible": "> UPlay Parser not available on Linux or Mac.",
+      "uplayNotCompatible": "> UPlay Parser nicht unter Linux oder Mac verfügbar.",
       "uplayDirNotFound": "> Specified UPlay directory does not exist.",
       "uplayNotInstalled": "> UPlay not installed in specified directory.",
-      "fatalError__i": "> UPlay parser failed with fatal error:\n ${error}"
+      "fatalError__i": "> UPlay-Parser fehlgeschlagen mit fatalem Fehler:\n ${error}"
     }
   },
   "gogParser": {
     "galaxyExeOverrideTitle": "Galaxy Path Override",
-    "galaxyExeOverridePlaceholder": "/path/to/GalaxyClient.exe",
+    "galaxyExeOverridePlaceholder": "/Pfad/zu/GalaxyClient.exe",
     "launcherModeInputTitle": "Spiele über GOG Galaxy starten",
     "errors": {
       "invalidGalaxyExeOverride": "> Galaxy Client Override is not a valid path.",
@@ -295,13 +295,13 @@
         "showSteamImages": "Show current Steam images by default",
         "deleteDisabledShortcuts": "Remove shortcuts for disabled parsers",
         "clearLogOnTest": "Automatically clear log before testing parsers",
-        "configDir": "Open Config Directory"
+        "configDir": "Konfigurationsverzeichnis öffnen"
       },
       "placeholder": {
         "noProviders": "Keine",
-        "steamDirectoryWin": "Typically C:\\Program Files (x86)\\Steam",
-        "steamDirectoryMac": "Typically ~/Library/Application Support/Steam",
-        "steamDirectoryLinux": "Typically /home/user/.steam/steam",
+        "steamDirectoryWin": "Normalerweise C:\\Program Files (x86)\\Steam",
+        "steamDirectoryMac": "Normalerweise ~/Library/Application Support/Steam",
+        "steamDirectoryLinux": "Normalerweise /home/user/.steam/steam",
         "userAccounts": "For example ${steamlogin}",
         "romsDirectoryWin": "Zum Beispiel D:\\ROMs",
         "romsDirectoryMac": "Zum Beispiel ~/ROMs",
@@ -312,13 +312,13 @@
         "raCoresDirectoryWin": "Typischerweise C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
         "raCoresDirectoryLinux": "Typically /lib/x86_64-linux-gnu/libretro/cores",
         "raCoresDirectoryMac": "Typically /Applications/Retroarch.app/Contents/Resources/cores",
-        "localImagesDirectoryWin": "For example C:\\Path\\To\\LocalArtwork",
+        "localImagesDirectoryWin": "Zum Beispiel C:\\Pfad\\zu\\lokalemArtwork",
         "localImagesDirectoryUnix": "For example ~/path/to/localartwork"
       }
     },
     "service": {
       "info": {
-        "updatingSettings": "Updating user settings with new fields."
+        "updatingSettings": "Aktualisiere Benutzereinstellungen mit neuen Werten."
       },
       "error": {
         "writingError": "Ein Fehler trat beim Speichern der Benutzereinstellungen auf.",
@@ -331,9 +331,9 @@
     "component": {
       "about": "Über",
       "preview": "Vorschau",
-      "logger": "Log",
+      "logger": "Logs",
       "settings": "Einstellungen",
-      "parsers": "Create Parser",
+      "parsers": "Parser erstellen",
       "customVariables": "Variablen",
       "userExceptions": "Ausnahmen",
       "noTitle": "Kein Titel!"
@@ -378,11 +378,11 @@
       },
       "info": {
         "testStarting__i": "Testing \"${title}\" parser (SRM version - ${version} ${portable}).",
-        "opSys__i": "Operating system is \"${os}\"",
+        "opSys__i": "Betriebssystem ist \"${os}\"",
         "testCompleted": "Parser-Test ist abgeschlossen.",
         "nothingWasFound": "Parser hat nichts gefunden.",
         "copiedToClipboard": "Konfiguration in Zwischenablage kopiert",
-        "userExclusions": "User excluded:",
+        "userExclusions": "Benutzer ausgeschlossen:",
         "excludedFileInfo__i": "[${index}/${total}]: ${filename}",
         "removingControllers__i": "Removing controller templates for parser: ${configTitle}",
         "fetchingControllerTemplates": "Fetching controller templates"
@@ -505,7 +505,7 @@
         "steamDir__md": "> Steam-Verzeichnis ist ungültig!",
         "startInDir__md": "> \"Start In\" directory is invalid!",
         "executable__md": "> Ausführbare Datei ist ungültig!",
-        "imagePool__md": "> Image pool must not be empty!",
+        "imagePool__md": "> Bilderpool darf nicht leer sein!",
         "defaultImage__md": "> Default image is an invalid path!",
         "titleModifier__md": "> Title modifier must not be empty!",
         "executableModifier__md": "> Executable modifier must not be empty!",
@@ -538,7 +538,7 @@
   },
   "fileParser": {
     "error": {
-      "parserNotFound__i": "Parser \"${name}\" not found!",
+      "parserNotFound__i": "Parser \"${name}\" konnte nicht gefunden ewrden!",
       "tooManyFieldGlobs__md": "> Only one `$(...)$` set is allowed per input.",
       "parserIsRequired__md": "> First part of `$(...)$` must contain a valid **Glob** ir **Glob-regex** field.",
       "noWinSlashes__md": "> Windows directory character `\\` is not allowed! Use `/` instead."
@@ -567,7 +567,7 @@
     "error": {
       "readingVdf__i": "Lesen von \"${filePath}\" fehlgeschlagen.\n ${error}",
       "writingVdf__i": "Schreiben auf \"${filePath}\" fehlgeschlagen. ${error}",
-      "skippingDMCA__i": "Skipping DMCA'd image for ${title}",
+      "skippingDMCA__i": "Bild für ${title} aufgrund von DMCA übersprungen",
       "corruptedVdf__i": "\"${filePath}\" ist beschädigt. ${error}",
       "creatingBackup__i": "Backup für \"${filePath}\" konnte nicht erstellt werden. ${error}",
       "unsupportedMimeType__i": "Mime Typ (${type}) wird nicht unterstützt (Titel - \"${title}\").",
