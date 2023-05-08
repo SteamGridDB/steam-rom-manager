@@ -34,7 +34,7 @@
         "listIsBeingSaved": "Liste wird gespeichert. Bitte warten.",
         "listIsBeingRemoved": "Die Liste wird entfernt. Bitte warten.",
         "listIsEmpty": "Liste ist leer.",
-        "populatingVDF_List": "Populating VDF list.",
+        "populatingVDF_List": "VDF-Liste wird gefüllt.",
         "creatingBackups": "Erstelle Backups.",
         "readingVDF_Files": "Lese VDF Dateien.",
         "mergingVDF_entries": "Kombiniere VDF Einträge.",
@@ -121,7 +121,7 @@
   },
   "UWPParser": {
     "UWPDirTitle": "XboxGames Directory Override",
-    "UWPDirPlaceholder": "/path/to/XboxGames or /path/to/WindowsApps",
+    "UWPDirPlaceholder": "/Pfad/zu/XboxGames oder /Pfad/zu/WindowsApps",
     "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper",
     "errors": {
       "fatalError__i": "> UWP Parser mit folgendem Fehler fehlgeschlagen:\n ${error}",
@@ -153,8 +153,8 @@
   },
   "amazonGamesParser": {
     "exeOverrideTitle": "Amazon Games Path Override",
-    "exeOverridePlaceholder": "/path/to/Amazon Games.exe",
-    "launcherModeInputTitle": "Launch games via Amazon Games",
+    "exeOverridePlaceholder": "/Pfad/zu/Amazon Games.exe",
+    "launcherModeInputTitle": "Spiele via Amazon Games starten",
     "errors": {
       "invalidExeOverride": "> Amazon Games Installation Override is not a valid directory.",
       "osUnsupported": "> Amazon Games parser failed because Amazon Games is only avaliable on windows.",
@@ -164,24 +164,24 @@
   },
   "itchIoParser": {
     "itchIoAppDataOverrideTitle": "itch.io AppData Directory Override",
-    "itchIoAppDataOverridePlaceholder": "/path/to/itch",
+    "itchIoAppDataOverridePlaceholder": "/Pfad/zu/itch",
     "itchIoWindowsOnLinuxInstallDriveRedirectTitle": "Windows-on-Linux Install Drive Redirect",
     "itchIoWindowsOnLinuxInstallDriveRedirectPlaceholder": "/mnt/d/",
     "errors": {
       "invalidItchIoAppDataOverride": "> itch.io AppData Override is not a valid directory.",
       "invalidItchIoWindowsOnLinuxInstallDriveRedirect": "> itch.io Windows-on-Linux Install Drive Redirect is not a valid directory.",
       "osUnsupported": "> itch.io parser failed because the parser only supports macos, linux, and windows currently.",
-      "fatalError__i": "> itch.io parser failed with fatal error:\n ${error}",
-      "databaseNotFound": "> itch.io database file not found. Itch is most likely not installed."
+      "fatalError__i": "> itch.io Parser fehlgeschlagen mit fatalem Fehler:\n ${error}",
+      "databaseNotFound": "> itch.io Datenbankdatei nicht gefunden. Itch ist wahrscheinlich nicht installiert."
     }
   },
   "eaDesktopParser": {
     "eaGamesDirTitle": "EA Games Directory Override",
-    "eaGamesDirPlaceholder": "/path/to/EA Games/",
+    "eaGamesDirPlaceholder": "/Pfad/zu/EA Games/",
     "eaLauncherModeTitle": "Spiele über EA Desktop starten",
     "errors": {
       "fatalError__i": "> EA Desktop Parser mit folgendem Fehler fehlgeschlagen:\n ${error}",
-      "invalidXML__i": "> Invalid XML file ${dataFile}",
+      "invalidXML__i": "> Ungültige XML Datei ${dataFile}",
       "eaNotCompatible": "> EA Desktop Parser unterstützt nur Windows."
     }
   },
@@ -191,7 +191,7 @@
     "errors": {
       "noTitle__md": "> File glob must contain `${title}`!",
       "moreThanOneTitle__md": "> File glob must contain only one `${title}`!",
-      "noStarNextToTitle__md": "> Star `*` can not be next to `${title}`!",
+      "noStarNextToTitle__md": "> Asterisk `*` kann nicht neben `${title}` sein!",
       "noAnyCharNextToTitle__md": "> Any char `?` can not be next to `${title}`!",
       "noGlobstarOnBothSides__md": "> Globstar `**` can only be on one side of `${title}`!",
       "noBracedDirSetOnBothSides__md": "> A braced set, containing at least one slash `/` can only be on one side of `${title}`!",
@@ -220,7 +220,7 @@
     }
   },
   "sgdbProvider": {
-    "nsfwInputTitle": "Allow NSFW artwork",
+    "nsfwInputTitle": "NSFW Artworks erlauben",
     "humorInputTitle": "Scherzbild erlauben",
     "imageMotionTypesTitle": "Erlaubte Animationsarten",
     "stylesTitle": "Erlaubte Raster-Stile",
@@ -264,7 +264,7 @@
         "corruptedVariables__i": "Saved configuration presets are invalid!\r\nPermanent file saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
       },
       "info": {
-        "downloaded": "New config presets have been downloaded."
+        "downloaded": "Neue Konfigurationsvoreinstellungen wurden heruntergeladen."
       }
     }
   },
@@ -280,16 +280,16 @@
       "text": {
         "offlineMode": "Offline-Modus",
         "removeApps_desc": "alle hinzugefügten App-Einträge und -Controller",
-        "removeApps_btn": "Remove",
+        "removeApps_btn": "Entfernen",
         "preloadImages": "Preload retrieved images immediately",
         "fuzzy_verbose": "Log matching results",
         "fuzzy_filter": "Filter images",
         "enabledProviders": "Aktivierte Bildanbieter",
         "selectLanguage": "Sprache auswählen",
         "selectTheme": "Design auswählen",
-        "resetFuzzy_desc": "fuzzy list",
-        "resetFuzzyCache_desc": "fuzzy cache",
-        "resetFuzzy_btn": "Reset",
+        "resetFuzzy_desc": "Fuzzy Liste",
+        "resetFuzzyCache_desc": "Fuzzy Cache",
+        "resetFuzzy_btn": "Zurücksetzen",
         "customVariables_desc": "custom variables",
         "configPresets_desc": "config presets",
         "showSteamImages": "Show current Steam images by default",
@@ -302,7 +302,7 @@
         "steamDirectoryWin": "Normalerweise C:\\Program Files (x86)\\Steam",
         "steamDirectoryMac": "Normalerweise ~/Library/Application Support/Steam",
         "steamDirectoryLinux": "Normalerweise /home/user/.steam/steam",
-        "userAccounts": "For example ${steamlogin}",
+        "userAccounts": "Zum Beispiel ${steamlogin}",
         "romsDirectoryWin": "Zum Beispiel D:\\ROMs",
         "romsDirectoryMac": "Zum Beispiel ~/ROMs",
         "romsDirectoryLinux": "Zum Beispiel ~/ROMs",
@@ -310,10 +310,10 @@
         "retroarchPathLinux": "Zum Beispiel /path/to/retroarch",
         "retroarchPathMac": "Zum Beispiel /path/to/retroarch",
         "raCoresDirectoryWin": "Typischerweise C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
-        "raCoresDirectoryLinux": "Typically /lib/x86_64-linux-gnu/libretro/cores",
+        "raCoresDirectoryLinux": "Üblicherweise /lib/x86_64-linux-gnu/libretro/cores",
         "raCoresDirectoryMac": "Typically /Applications/Retroarch.app/Contents/Resources/cores",
         "localImagesDirectoryWin": "Zum Beispiel C:\\Pfad\\zu\\lokalemArtwork",
-        "localImagesDirectoryUnix": "For example ~/path/to/localartwork"
+        "localImagesDirectoryUnix": "Zum Beispiel C:\\Pfad\\zu\\lokalemArtwork"
       }
     },
     "service": {
@@ -400,10 +400,10 @@
         "failedToCopy": "Fehler beim Kopieren in die Zwischenablage!",
         "cannotFetchTemplates": "Can not fetch controller templates for invalid steam directory!",
         "errorRemovingControllers": "Fehler beim Entfernen der Controller:",
-        "cannotRemoveControllers": "Can not remove controllers from invalid steam directory!"
+        "cannotRemoveControllers": "Controller können nicht aus einem ungültigen Steam-Verzeichnis entfernt werden!"
       },
       "success": {
-        "foundAccounts__i": "Found ${count} available user account(s):",
+        "foundAccounts__i": "${count} verfügbare Benutzerkonto(n) gefunden:",
         "foundAccountInfo__i": "  ${name} (steamID64: ${steamID64}, accountID: ${accountID})",
         "steamCategory__i": "[${index}/${total}]:     Steam categories - ${steamCategory}",
         "steamCategoryInfo__i": "[${index}/${total}]:                        ${steamCategory}",
@@ -421,10 +421,10 @@
         "defaultImage__i": "[${index}/${total}]: Resolved fallback ${artworkType}:\r\n[${index}/${total}]:                        ${image}",
         "resolvedDefaultImage__i": "[${index}/${total}]: Fallback ${artworkType}:",
         "localImages__i": "[${index}/${total}]: Resolved ${artworkType}:",
-        "resolvedLocalImages__i": "[${index}/${total}]: ${artworkType} glob:",
+        "resolvedLocalImages__i": "[${index}/${total}]: ${artworkType} Glob:",
         "indexInfo__i": "[${index}/${total}]:                        ${indexed}",
         "removedControllers__i": "Succesfully removed controllers for parser: ${configTitle}",
-        "fetchedTemplates": "Fetched all controller templates"
+        "fetchedTemplates": "Alle Controller-Vorlagen abgerufen"
       },
       "label": {
         "parserType": "Parser type",
@@ -441,7 +441,7 @@
         "fuzzyMatch": "Fuzzy matching",
         "executableArgs": "Command line arguments",
         "onlineImageQueries": "Online image query",
-        "imagePool": "Image pool",
+        "imagePool": "Bildpool",
         "imageProviders": "Image providers",
         "defaultImage__i": "Fallback ${artworkType}",
         "localImages__i": "Local ${artworkType} glob"
@@ -450,15 +450,15 @@
         "parserType": "Parser auswählen...",
         "configTitle": "My Awesome Parser",
         "steamCategory": "${cat1}${cat2}",
-        "steamDirectory": "${steamdirglobal} or /path/to/steam",
+        "steamDirectory": "${steamdirglobal} oder /Pfad/zu/Steam",
         "userAccounts": "${steamuser1}${steamuser2} or ${${accountsglobal}}",
         "titleFromVariable": "${myvariable}",
-        "titleModifier": "${fuzzyTitle} or ${title}",
-        "defaultImage__i": "/path/to/fallback_${artworkType}.png",
+        "titleModifier": "${fuzzyTitle} oder ${title}",
+        "defaultImage__i": "/Pfad/zu/fallback_${artworkType}.png",
         "localImages__i": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)",
-        "romDirectory": "/path/to/games/",
+        "romDirectory": "/Pfad/zu/Games/",
         "glob": "${title}.@(iso|ISO)",
-        "executableLocation": "Example: /path/to/emulator.exe",
+        "executableLocation": "Beispiel: /Pfad/zu/emulator.exe",
         "executableArgs": "--arg1 --arg2",
         "executableModifier": "\"${exePath}\"",
         "startInDirectory": "/path/to/start/in/dir",
@@ -472,7 +472,7 @@
         "shortcut_passthrough": "Follow .lnk or .desktop to destination (Windows and Linux only)",
         "fuzzy_use": "Use fuzzy matching",
         "fuzzy_removeCharacters": "Aggressive matching",
-        "fuzzy_removeBrackets": "Remove (...) and [...] brackets",
+        "fuzzy_removeBrackets": "Entferne (...) und [...] Klammern",
         "fuzzy_replaceDiacritic": "Replace diacritic characters",
         "appendArgsToExecutable": "Append arguments to executable",
         "disabled": "Aktuellen Parser deaktivieren",
@@ -489,7 +489,7 @@
         "readingConfiguration": "Error encountered while reading user configurations!",
         "parserTypeMissing": "Cannot save without specifying parser type",
         "corruptedConfiguration__i": "One or more saved parser configurations are invalid!\r\nPermanent configuration saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}",
-        "fetcingTemplates": "Error encountered while fetching controllers templates!"
+        "fetcingTemplates": "Fehler beim Abrufen der Controller-Vorlagen!"
       },
       "validationErrors": {
         "parserType__md": "> Incorrect parser type!",
@@ -498,9 +498,9 @@
         "parserInput": {
           "noInput": "No inputs are available!",
           "inputNotAvailable__i": "\"${name}\" input is not available!",
-          "incorrectParser": "Incorrect parser!"
+          "incorrectParser": "Falscher Parser!"
         },
-        "romDir__md": "> ROMs directory is invalid!",
+        "romDir__md": "ROM Verzeichnis ist ungültig!",
         "userAccounts__md": "> Steam parser requires `User Accounts` field",
         "steamDir__md": "> Steam-Verzeichnis ist ungültig!",
         "startInDir__md": "> \"Start In\" directory is invalid!",
@@ -523,13 +523,13 @@
   "fuzzyMatcher": {
     "info": {
       "downloading": "Title list for fuzzy matching will be downloaded.",
-      "successfulDownload": "Download was successful. Saving list.",
-      "checkingIfListIsUpToDate": "Checking if title list is up to date.",
+      "successfulDownload": "Download war erfolgreich. Liste wird gespeichert.",
+      "checkingIfListIsUpToDate": "Überprüfe, ob die Titelliste aktuell ist.",
       "listIsOutdated": "List is outdated. Title list for fuzzy matching will be downloaded.",
       "listIsUpToDate": "Titelliste ist aktuell.",
-      "match__i": "Fuzzy title \"${fuzzyTitle}\" from \"${extractedTitle}\"",
-      "equal__i": "Fuzzy compare: \"${a}\" == \"${b}\"",
-      "notEqual__i": "Fuzzy compare: \"${a}\" != \"${b}\""
+      "match__i": "Fuzzy Titel \"${fuzzyTitle}\" aus \"${extractedTitle}\"",
+      "equal__i": "Fuzzy Vergleich: \"${a}\" == \"${b}\"",
+      "notEqual__i": "Fuzzy Vergleich: \"${a}\" != \"${b}\""
     },
     "error": {
       "fatalError": "Fatal error occurred while loading list for Fuzzy matcher. Fuzzy matching will be skipped.",
@@ -539,15 +539,15 @@
   "fileParser": {
     "error": {
       "parserNotFound__i": "Parser \"${name}\" konnte nicht gefunden ewrden!",
-      "tooManyFieldGlobs__md": "> Only one `$(...)$` set is allowed per input.",
+      "tooManyFieldGlobs__md": "> Pro Eingabe ist nur ein `$(...)$` Set erlaubt.",
       "parserIsRequired__md": "> First part of `$(...)$` must contain a valid **Glob** ir **Glob-regex** field.",
-      "noWinSlashes__md": "> Windows directory character `\\` is not allowed! Use `/` instead."
+      "noWinSlashes__md": "> Windows-Verzeichniszeichen `\\` ist nicht zulässig! Verwende stattdessen `/`."
     }
   },
   "imageProvider": {
     "error": {
-      "webWorkerError__i": "Web worker error has occurred. ${error}",
-      "unknownWebWorkerError": "Unknown web worker error has occurred. Error data: ${data}"
+      "webWorkerError__i": "Web Worker Fehler ist aufgetreten. ${error}",
+      "unknownWebWorkerError": "Unbekannter Web Worker Fehler ist aufgetreten. Fehlerdaten: ${data}"
     }
   },
   "vdfManager": {
@@ -556,7 +556,7 @@
       "emptyDirectoryList": "Die Verzeichnisliste ist leer.",
       "couldNotPrepareToRead__i": "Konnte benötigte Steamdateien nicht finden:\n ${error}",
       "couldNotBackupEntries__i": "Konnte benötigte Steamdateien nicht sichern:\n ${error}",
-      "couldNotReadEntries__i": "Could not read required steam files:\n ${error}",
+      "couldNotReadEntries__i": "Konnte benötigte Steam Datei nicht lesen:\n ${error}",
       "couldNotWriteEntries": "Konnte Einträge nicht in Steam-Dateien schreiben:",
       "couldNotMergeEntries__i": "Konnte Einträge nicht zusammenführen:\n ${error}",
       "couldNotRemoveEntries__i": "Konnte Einträge nicht entfernen:\n ${error}",
