@@ -1,3 +1,3 @@
-# Parsers
+# Parser
 
-In this page you can chose what systems you want to add to your Steam Library. Simply toggle them on or off, after that click on **Preview** and then on **Parse**
+Hier kannst du auswählen, welche Systeme du zu deiner Steam Bibliothek hinzufügen willst. De-/Aktiviere die gewünschten Systeme und klicke dann auf **Preview** und danach auf **Parse**
