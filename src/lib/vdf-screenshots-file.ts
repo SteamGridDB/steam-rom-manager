@@ -125,7 +125,7 @@ export class VDF_ScreenshotsFile {
     })
   }
 
-  async write(batch: boolean) {
+  async write(batch: boolean, batchSizeInput?: number) {
     let addErrors: (VDF_Error|void)[] = [];
     let extraneousPromises: Promise<VDF_Error|void>[] = [];
     let screenshotsData: VDF_ScreenshotsData = this.data;
@@ -137,8 +137,7 @@ export class VDF_ScreenshotsFile {
         extraneousPromises.push(this.removeExtraneous(appId));
       }
     }
-    const batchSize = 100;
-    const delay = 0; //increase if SGDB timing out a lot
+    const batchSize = batchSizeInput || 50;
     const imageDownloader: ImageDownloader = new ImageDownloader();
     const addableAppIds = Object.keys(screenshotsData).filter((appId)=>{
       return screenshotsData[appId] !== undefined && (typeof screenshotsData[appId] !== 'string')
@@ -147,9 +146,6 @@ export class VDF_ScreenshotsFile {
     const nbatches: number = Math.ceil(addableAppIds.length / batchSize);
     for (let b = 0; b < nbatches; b++ ) {
       if(batch) {
-        if(b>0){
-          await new Promise(resolve => setTimeout(resolve, delay));
-        }
         this.batchProgress.next({batch: b, total: nbatches});
       }
       let batchAddPromises: Promise<VDF_Error|void>[] = [];

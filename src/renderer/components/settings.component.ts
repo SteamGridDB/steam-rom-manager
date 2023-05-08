@@ -19,6 +19,7 @@ export class SettingsComponent implements OnDestroy {
   private currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
   private settings: AppSettings;
   private availableProviders: string[];
+  private availableBatches: {displayValue: string, value: number}[];
   private themes: string[];
   private availableLanguages: SelectItem[];
   private knownSteamDirectories: string[];
@@ -62,6 +63,9 @@ export class SettingsComponent implements OnDestroy {
       this.knownSteamDirectories = this.parsersService.getKnownSteamDirectories();
     }));
     this.settings = this.settingsService.getSettings();
+    this.availableBatches = [10, 20, 50, 100, 200, 500].map(x=>{
+      return {value: x, displayValue: x.toString()}
+    })
     this.availableProviders = this.imageProviderService.instance.getAvailableProviders();
     this.availableLanguages = this.languageService.getAvailableLanguages().map((lang)=>{
       return {value: lang, displayValue: this.languageService.getReadableName(lang)}

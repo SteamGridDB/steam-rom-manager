@@ -249,7 +249,7 @@ export class PreviewService {
           }
         })
       }
-      return vdfManager.write(batchWrite);
+      return vdfManager.write(batchWrite, this.appSettings.batchDownloadSize);
     })
     .then(({nonFatal, outcomes}: {nonFatal: VDF_Error, outcomes: VDF_AllScreenshotsOutcomes})=> {
       if(nonFatal) {
