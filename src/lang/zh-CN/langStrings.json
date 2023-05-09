@@ -42,7 +42,7 @@
         "savingCategories": "将类别信息保存到 localconfig.vdf 文件。",
         "savingControllers": "保存控制器信息。",
         "removingFromCategories": "删除所有添加的类别信息",
-        "writingVDF_entries__i": "批量编写 VDF 文件并下载 ${batchSize} 个高分辨率图像。",
+        "writingVDF_entries__i": "Writing VDF files. Doing artwork in batches of ${batchSize}.",
         "updatingKnownSteamDirList": "更新已知的 Steam 目录列表。",
         "retryingDownload__i": "正在为 \"${appTitle}\" 重试从 \"${imageUrl}\" 下载图片。",
         "disabledConfigurations__i": "${count} 个用户配置被跳过（由用户禁用）\"。",
