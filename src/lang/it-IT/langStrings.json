@@ -42,7 +42,7 @@
         "savingCategories": "Salvataggio delle informazioni di categoria in localconfig.vdf.",
         "savingControllers": "Salvataggio informazioni del controller.",
         "removingFromCategories": "Rimozione di tutte le informazioni aggiunte alle categorie",
-        "writingVDF_entries__i": "Eseguo la scrittura di file VDF e il download d'immagini ad alta risoluzione in blocchi di ${batchSize}.",
+        "writingVDF_entries__i": "Writing VDF files. Doing artwork in batches of ${batchSize}.",
         "updatingKnownSteamDirList": "Aggiornamento dell'elenco di directory di Steam note in corso.",
         "retryingDownload__i": "Ritento il download delle immagini per \"${appTitle}\" da \"${imageUrl}\".",
         "disabledConfigurations__i": "${count} configurazione/i utente/i sono/erano state saltate (poiché disabilitate dall'utente).",
