@@ -239,7 +239,7 @@ export class PreviewService {
       if (removeAll) {
         this.loggerService.info(this.lang.info.removingVDF_entries)
       } else {
-        this.loggerService.info(this.lang.info.writingVDF_entries__i.interpolate({ batchSize: 500 }), { invokeAlert: true, alertTimeout: 3000 })
+        this.loggerService.info(this.lang.info.writingVDF_entries__i.interpolate({ batchSize: this.appSettings.bachDownloadSize }), { invokeAlert: true, alertTimeout: 3000 })
       }
       if (batchWrite) {
         vdfManager.getBatchProgress().subscribe(({update, batch}: {update: string, batch: number})=> {
