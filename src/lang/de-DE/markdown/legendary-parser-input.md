@@ -1,7 +1,7 @@
-# Legendary Parser specific inputs
+# Legendary Parser spezifische inputs
 
-## Legendary `installed.json` Path Override
+## Legendary `installed.json` Pfad überschreiben
 
-Most users shouldn't use this, as they use the standard `Legendary` installation where installed games manifest will be located at `~/.config/legendary/installed.json`.
+Standardmäßig werden Manifeste von `Legendary` in `~/.config/legendary/installed.json` gespeichert.
 
-If, however, for some reason your installed games manifest is located in a non-typical location then you can specify the correct manifest path here.
+Sollte dies nicht der Fall sein, kann hier der korrekte Pfad eingetragen werden.
