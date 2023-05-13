@@ -8,16 +8,16 @@
       "selectTypeOptions": {
         "long": "Banner",
         "tall": "Poster",
-        "hero": "Helden",
-        "icon": "Symbole",
+        "hero": "Heroes",
+        "icon": "Icons",
         "logo": "Logos",
-        "games": "Artworks"
+        "games": "Alle Artworks"
       },
       "by": "by",
-      "refreshImages": "Bild aktualisieren",
-      "saveImage": "Bild zu Datei speichern",
+      "refreshImages": "Bilder aktualisieren",
+      "saveImage": "Bild in Datei speichern",
       "addLocalImages": "Lokale Bilder hinzufügen",
-      "retryDownload": "Download erneut versuchen",
+      "retryDownload": "Download erneut starten",
       "generateAppList": "parsen",
       "saveAppList": "In Steam speichern",
       "removeAppList": "Aus Steam entfernen",
@@ -32,13 +32,13 @@
       "info": {
         "listIsBeingGenerated": "Liste wird erstellt. Bitte warten.",
         "listIsBeingSaved": "Liste wird gespeichert. Bitte warten.",
-        "listIsBeingRemoved": "Die Liste wird entfernt. Bitte warten.",
+        "listIsBeingRemoved": "Liste wird entfernt. Bitte warten.",
         "listIsEmpty": "Liste ist leer.",
         "populatingVDF_List": "VDF-Liste wird gefüllt.",
         "creatingBackups": "Erstelle Backups.",
-        "readingVDF_Files": "Lese VDF Dateien.",
-        "mergingVDF_entries": "Kombiniere VDF Einträge.",
-        "removingVDF_entries": "Entfernen von VDF-Einträgen und Bild-Dateien.",
+        "readingVDF_Files": "Lese VDF-Dateien.",
+        "mergingVDF_entries": "Kombiniere VDF-Einträge.",
+        "removingVDF_entries": "Entferne VDF-Einträge und Bild-Dateien.",
         "savingCategories": "Speichere Kategorie-Informationen in localconfig.vdf.",
         "savingControllers": "Speichere Controller-Informationen.",
         "removingFromCategories": "Removing all added category information",
@@ -53,20 +53,20 @@
         "parserFoundNoFiles": "Parser(s) found no files matching user configuration.",
         "allImagesRetrieved": "Alle verfügbaren Bild URLs wurden abgerufen.",
         "providerTimeout__i": "Timeout was requested by \"${provider}\" for ${time} second(s).",
-        "noAccountsWarning": "Benutzerkonten nicht gefunden. Falsches Steam-Verzeichnis?",
+        "noAccountsWarning": "Benutzerkonten wurden nicht gefunden. Falsches Steam-Verzeichnis?",
         "preparingExport": "Bereite den Export von Bildauswahl vor.",
         "exportProgress__i": "Speichere Bildauswahl ${progress}.",
         "readingSelections": "Importierte Bild-Auswahl wird übernommen."
       },
       "errors": {
-        "fatalError": "In der Vorschau ist ein schwerer Fehler aufgetreten. Details findest du im Ereignisprotokoll.",
-        "fatalError__i": "Schwerer Vorschau-Fehler ${error}",
-        "knownSteamDirListIsEmpty": "Eine Liste bekannter Steam-Verzeichnisse ist leer.",
+        "fatalError": "In der Vorschau ist ein schwerwiegender Fehler aufgetreten. Details findest du im Ereignisprotokoll.",
+        "fatalError__i": "Schwerwiegender Vorschau-Fehler ${error}",
+        "knownSteamDirListIsEmpty": "Die Liste bekannter Steam-Verzeichnisse ist leer.",
         "steamIsRunning": "Änderungen können nicht vorgenommen werden, während Steam läuft!",
         "categorySaveError": "Fehler beim Aktualisieren der Kategorien. Details findest du im Ereignisprotokoll.",
-        "categorySaveError__i": "Kategoriefehler (Verknüpfungen und Grafiken werden noch hinzugefügt): ${error}",
-        "controllerSaveError": "Fehler beim Aktualisieren der Controller-Vorlagen. Details findest du im Ereignisprotokoll.",
-        "controllerSaveError__i": "Controller-Fehler (Verknüpfungen und Grafiken werden weiterhin hinzugefügt): ${error}",
+        "categorySaveError__i": "Kategoriefehler (Verknüpfungen und Grafiken werden trotzdem hinzugefügt): ${error}",
+        "controllerSaveError": "Fehler beim Aktualisieren der Controller-Templates. Details findest du im Ereignisprotokoll.",
+        "controllerSaveError__i": "Controller-Fehler (Verknüpfungen und Artworks werden trotzdem hinzugefügt): ${error}",
         "retryingDownload__i": "Bild-Download von \"${imageUrl}\" für \"${appTitle}\" fehlgeschlagen.",
         "providerError__i": "Error received from \"${provider}\" for \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
         "unknownProviderError__i": "Error received from \"${provider}\" for \"${title}\":\n ${error}",
@@ -77,7 +77,7 @@
       "success": {
         "writingVDF_entries": "Alle Einträge hinzugefügt/gelöscht.",
         "removingVDF_entries": "Einträge wurden entfernt.",
-        "exportSuccess__i": "Bildauswahlordner erfolgreich in \"${path} \"gespeichert!",
+        "exportSuccess__i": "Bildauswahlordner erfolgreich in \"${path}\" gespeichert!",
         "importSelectionsSuccess__i": "${count} Bildauswahlen erfolgreich importiert!"
       }
     }
@@ -102,8 +102,8 @@
   },
   "epicParser": {
     "manifestsInputTitle": "Epic Manifests Directory Override",
-    "manifestsInputPlaceholder": "/pfad/zu/Manifesten/",
-    "launcherModeInputTitle": "Spiele über Epic für Online-Dienste starten",
+    "manifestsInputPlaceholder": "/Pfad/zu/Manifesten/",
+    "launcherModeInputTitle": "Spiele mit Epic für Online-Dienste starten",
     "errors": {
       "invalidManifestsOverride": "> Manifests Override is not a valid directory.",
       "epicNotCompatible": "> Epic Games Store not available on Linux.\n If you are using the Legendary store on Linux you need to set Manifests Override.",
@@ -124,26 +124,26 @@
     "UWPDirPlaceholder": "/Pfad/zu/XboxGames oder /Pfad/zu/WindowsApps",
     "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper",
     "errors": {
-      "fatalError__i": "> UWP Parser mit fatalem Fehler fehlgeschlagen:\n ${error}",
+      "fatalError__i": "> UWP Parser mit schwerwiegendem Fehler fehlgeschlagen:\n ${error}",
       "UWPNotCompatible": "> UWP Parser ist nicht mit dieser Plattform kompatibel."
     }
   },
   "uplayParser": {
     "uplayDirTitle": "Ubisoft Directory Override",
-    "uplayDirPlaceholder": "/pfad/zu/Ubisoft/",
+    "uplayDirPlaceholder": "/Pfad/zu/Ubisoft/",
     "launcherModeInputTitle": "Launch games via UPlay for online services",
     "errors": {
       "invalidManifestsOverride": "> Uplay Directory Override is not a valid directory.",
       "uplayNotCompatible": "> UPlay Parser nicht unter Linux oder Mac verfügbar.",
       "uplayDirNotFound": "> Specified UPlay directory does not exist.",
       "uplayNotInstalled": "> UPlay not installed in specified directory.",
-      "fatalError__i": "> UPlay-Parser fehlgeschlagen mit fatalem Fehler:\n ${error}"
+      "fatalError__i": "> UPlay Parser fehlgeschlagen mit fatalem Fehler:\n ${error}"
     }
   },
   "gogParser": {
     "galaxyExeOverrideTitle": "Galaxy Path Override",
     "galaxyExeOverridePlaceholder": "/Pfad/zu/GalaxyClient.exe",
-    "launcherModeInputTitle": "Spiele über GOG Galaxy starten",
+    "launcherModeInputTitle": "Spiele mit GOG Galaxy starten",
     "errors": {
       "invalidGalaxyExeOverride": "> Galaxy Client Override is not a valid path.",
       "fatalError__i": "> GOG Galaxy parser failed with fatal error:\n ${error}",
@@ -154,7 +154,7 @@
   "amazonGamesParser": {
     "exeOverrideTitle": "Amazon Games Path Override",
     "exeOverridePlaceholder": "/Pfad/zu/Amazon Games.exe",
-    "launcherModeInputTitle": "Spiele via Amazon Games starten",
+    "launcherModeInputTitle": "Spiele mit Amazon Games starten",
     "errors": {
       "invalidExeOverride": "> Amazon Games Installation Override is not a valid directory.",
       "osUnsupported": "> Amazon Games parser failed because Amazon Games is only avaliable on windows.",
@@ -178,9 +178,9 @@
   "eaDesktopParser": {
     "eaGamesDirTitle": "EA Games Directory Override",
     "eaGamesDirPlaceholder": "/Pfad/zu/EA Games/",
-    "eaLauncherModeTitle": "Spiele über EA Desktop starten",
+    "eaLauncherModeTitle": "Spiele mit EA Desktop starten",
     "errors": {
-      "fatalError__i": "> EA Desktop Parser mit folgendem Fehler fehlgeschlagen:\n ${error}",
+      "fatalError__i": "> EA Desktop Parser mit schwerwiegendem Fehler fehlgeschlagen:\n ${error}",
       "invalidXML__i": "> Ungültige XML Datei ${dataFile}",
       "eaNotCompatible": "> EA Desktop Parser unterstützt nur Windows."
     }
@@ -191,7 +191,7 @@
     "errors": {
       "noTitle__md": "> File glob must contain `${title}`!",
       "moreThanOneTitle__md": "> File glob must contain only one `${title}`!",
-      "noStarNextToTitle__md": "> Asterisk `*` kann nicht neben `${title}` sein!",
+      "noStarNextToTitle__md": "> Asterisk `*` darf nicht neben `${title}` sein!",
       "noAnyCharNextToTitle__md": "> Any char `?` can not be next to `${title}`!",
       "noGlobstarOnBothSides__md": "> Globstar `**` can only be on one side of `${title}`!",
       "noBracedDirSetOnBothSides__md": "> A braced set, containing at least one slash `/` can only be on one side of `${title}`!",
@@ -203,7 +203,7 @@
     }
   },
   "globRegexParser": {
-    "inputTitle": "Benutzer glob-regex",
+    "inputTitle": "Benutzer Glob-regex",
     "inputPlaceholder": "${/valid regex/}",
     "errors": {
       "noRegex__md": "> File glob must contain `${regex}` where **regex** is your regular expression!",
@@ -224,9 +224,9 @@
     "humorInputTitle": "Scherzbild erlauben",
     "imageMotionTypesTitle": "Erlaubte Animationsarten",
     "stylesTitle": "Erlaubte Raster-Stile",
-    "stylesHeroTitle": "Erlaubte Helden-Stile",
+    "stylesHeroTitle": "Erlaubte Hero-Stile",
     "stylesLogoTitle": "Erlaubte Logo-Stile",
-    "stylesIconTitle": "Erlaubte Symbol-Stile"
+    "stylesIconTitle": "Erlaubte Icon-Stile"
   },
   "logger": {
     "component": {
@@ -237,7 +237,7 @@
       "fuzzy": "FUZZY",
       "textWrap": "TEXT-WRAP",
       "autoscroll": "AUTOSCROLL",
-      "clearLog": "Protokoll leeren",
+      "clearLog": "Log leeren",
       "issueDescription": "Thorough issue description with passable spelling.",
       "handleExample": "CoolHandle#1234"
     }
@@ -259,7 +259,7 @@
     "service": {
       "error": {
         "failedToDownload__i": "Failed to download configuration presets file. Status: ${error}.",
-        "writingError": "Fehler beim Speichern der Konfigurationsvorgaben.",
+        "writingError": "Fehler beim Speichern der Konfigurationsvoreinstellungen.",
         "loadingError": "Fehler beim Laden der Konfigurationsvorgaben.",
         "corruptedVariables__i": "Saved configuration presets are invalid!\r\nPermanent file saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
       },
@@ -279,14 +279,14 @@
       },
       "text": {
         "offlineMode": "Offline-Modus",
-        "removeApps_desc": "alle hinzugefügten App-Einträge und -Controller",
+        "removeApps_desc": "Alle hinzugefügten App-Einträge und Controller",
         "removeApps_btn": "Entfernen",
         "preloadImages": "Preload retrieved images immediately",
         "fuzzy_verbose": "Log matching results",
         "fuzzy_filter": "Filter images",
         "enabledProviders": "Aktivierte Bildanbieter",
         "selectLanguage": "Sprache auswählen",
-        "selectTheme": "Design auswählen",
+        "selectTheme": "Theme auswählen",
         "resetFuzzy_desc": "Fuzzy Liste",
         "resetFuzzyCache_desc": "Fuzzy Cache",
         "resetFuzzy_btn": "Zurücksetzen",
@@ -306,11 +306,11 @@
         "romsDirectoryWin": "Zum Beispiel D:\\ROMs",
         "romsDirectoryMac": "Zum Beispiel ~/ROMs",
         "romsDirectoryLinux": "Zum Beispiel ~/ROMs",
-        "retroarchPathWin": "Zum Beispiel C:\\Pfad\\To\\retroarch.exe",
-        "retroarchPathLinux": "Zum Beispiel /path/to/retroarch",
-        "retroarchPathMac": "Zum Beispiel /path/to/retroarch",
-        "raCoresDirectoryWin": "Typischerweise C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
-        "raCoresDirectoryLinux": "Üblicherweise /lib/x86_64-linux-gnu/libretro/cores",
+        "retroarchPathWin": "Zum Beispiel C:\\Pfad\\zu\\retroarch.exe",
+        "retroarchPathLinux": "Zum Beispiel /Pfad/zu/retroarch",
+        "retroarchPathMac": "Zum Beispiel /Pfad/zu/retroarch",
+        "raCoresDirectoryWin": "Normalerweise C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
+        "raCoresDirectoryLinux": "Normalerweise /lib/x86_64-linux-gnu/libretro/cores",
         "raCoresDirectoryMac": "Typically /Applications/Retroarch.app/Contents/Resources/cores",
         "localImagesDirectoryWin": "Zum Beispiel C:\\Pfad\\zu\\lokalemArtwork",
         "localImagesDirectoryUnix": "Zum Beispiel C:\\Pfad\\zu\\lokalemArtwork"
@@ -318,11 +318,11 @@
     },
     "service": {
       "info": {
-        "updatingSettings": "Aktualisiere Benutzereinstellungen mit neuen Werten."
+        "updatingSettings": "Aktualisiere Benutzer-Einstellungen mit neuen Werten."
       },
       "error": {
-        "writingError": "Ein Fehler trat beim Speichern der Benutzereinstellungen auf.",
-        "readingError": "Ein Fehler trat beim Lesen der Benutzereinstellungen auf.",
+        "writingError": "Ein Fehler trat beim Speichern der Benutzer-Einstellungen auf.",
+        "readingError": "Ein Fehler trat beim Lesen der Benutzer-Einstellungen auf.",
         "corruptedSettings__i": "Saved app settings are invalid!\r\nPermanent settings saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
       }
     }
@@ -343,7 +343,7 @@
     "component": {
       "buttons": {
         "save": "Speichern",
-        "deleteAll": "Löschen",
+        "deleteAll": "Leeren",
         "undoChanges": "Änderungen rückgängig machen",
         "addItem": "Ausnahme hinzufügen",
         "deleteItem": "Ausnahme entfernen"
@@ -351,7 +351,7 @@
       "text": {
         "title": "Benutzer-Ausnahmen",
         "exclude": "Titel ausschließen",
-        "excludeArtwork": "Nur lokales Artworks"
+        "excludeArtwork": "Nur lokale Artworks"
       }
     },
     "service": {
@@ -382,7 +382,7 @@
         "testCompleted": "Parser-Test ist abgeschlossen.",
         "nothingWasFound": "Parser hat nichts gefunden.",
         "copiedToClipboard": "Konfiguration in Zwischenablage kopiert",
-        "userExclusions": "Benutzer ausgeschlossen:",
+        "userExclusions": "Ausgeschlossene Benutzer:",
         "excludedFileInfo__i": "[${index}/${total}]: ${filename}",
         "removingControllers__i": "Removing controller templates for parser: ${configTitle}",
         "fetchingControllerTemplates": "Fetching controller templates"
@@ -424,7 +424,7 @@
         "resolvedLocalImages__i": "[${index}/${total}]: ${artworkType} Glob:",
         "indexInfo__i": "[${index}/${total}]:                        ${indexed}",
         "removedControllers__i": "Succesfully removed controllers for parser: ${configTitle}",
-        "fetchedTemplates": "Alle Controller-Vorlagen abgerufen"
+        "fetchedTemplates": "Alle Controller-Templates abgerufen"
       },
       "label": {
         "parserType": "Parser type",
@@ -434,7 +434,7 @@
         "executableLocation": "Ausführbare Datei",
         "romDirectory": "ROM-Verzeichnis",
         "steamDirectory": "Steam-Verzeichnis",
-        "startInDirectory": "\"Start in\"-Verzeichnis",
+        "startInDirectory": "\"Starte in\"-Verzeichnis",
         "userAccounts": "Benutzerkonten",
         "titleFromVariable": "Title from custom variable",
         "titleModifier": "Title modifier",
@@ -489,29 +489,29 @@
         "readingConfiguration": "Error encountered while reading user configurations!",
         "parserTypeMissing": "Cannot save without specifying parser type",
         "corruptedConfiguration__i": "One or more saved parser configurations are invalid!\r\nPermanent configuration saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}",
-        "fetcingTemplates": "Fehler beim Abrufen der Controller-Vorlagen!"
+        "fetcingTemplates": "Fehler beim Abrufen der Controller-Templates!"
       },
       "validationErrors": {
         "parserType__md": "> Incorrect parser type!",
         "configTitle__md": "> Configuration title is required!",
-        "parserId__md": "> Parser Id is missing, something is horribly wrong.",
+        "parserId__md": "> Parser Id fehlt, irgendwas ist fürchterlich schief gegangen.",
         "parserInput": {
-          "noInput": "No inputs are available!",
-          "inputNotAvailable__i": "\"${name}\" input is not available!",
+          "noInput": "Es sind keine Eingaben verfügbar!",
+          "inputNotAvailable__i": "\"${name}\" Eingabe ist nicht verfügbar!",
           "incorrectParser": "Falscher Parser!"
         },
-        "romDir__md": "ROM Verzeichnis ist ungültig!",
-        "userAccounts__md": "> Steam parser requires `User Accounts` field",
+        "romDir__md": "ROM-Verzeichnis ist ungültig!",
+        "userAccounts__md": "> Steam-Parser benötigt das `Benutzerkonten` Feld",
         "steamDir__md": "> Steam-Verzeichnis ist ungültig!",
-        "startInDir__md": "> \"Start In\" directory is invalid!",
+        "startInDir__md": "> \"Starte in\" Verzeichnis ist ungültig!",
         "executable__md": "> Ausführbare Datei ist ungültig!",
         "imagePool__md": "> Bilderpool darf nicht leer sein!",
-        "defaultImage__md": "> Default image is an invalid path!",
-        "titleModifier__md": "> Title modifier must not be empty!",
-        "executableModifier__md": "> Executable modifier must not be empty!",
-        "variableString__md": "> Uneven number of `${` and `}` pairs. Use `\\` to escape `${` or `}` if you want to use them as characters.",
-        "imageProviders__md": "> Incorrect image providers type!",
-        "unhandledValidationKey__md": "> Input's validation is unhandled",
+        "defaultImage__md": "> Pfad für das Standard Bild ist ungültig!",
+        "titleModifier__md": "> Modifikator für den Titel darf nicht leer sein!",
+        "executableModifier__md": "> Modifikator für ausführbare Datei darf nicht leer sein!",
+        "variableString__md": "> Ungerade Anzahl an `${` and `}` Paaren. Nutze `\\` zum escapen von `${` or `}`, wenn du sie als Charakter nutzen willst.",
+        "imageProviders__md": "> Ungültiger Bildanbieter-Typ!",
+        "unhandledValidationKey__md": "> Validierung der EIngabe ist unbehandelt",
         "genericDir__md": "> Verzeichnis ist ungültig",
         "genericPath__md": "> Pfad ist ungültig"
       },
@@ -522,25 +522,25 @@
   },
   "fuzzyMatcher": {
     "info": {
-      "downloading": "Title list for fuzzy matching will be downloaded.",
+      "downloading": "Titelliste für Fuzzy Übereinstimmung wird heruntergeladen.",
       "successfulDownload": "Download war erfolgreich. Liste wird gespeichert.",
       "checkingIfListIsUpToDate": "Überprüfe, ob die Titelliste aktuell ist.",
-      "listIsOutdated": "List is outdated. Title list for fuzzy matching will be downloaded.",
+      "listIsOutdated": "Liste ist veraltet. Titelliste für Fuzzy Abgleichen wird heruntergeladen.",
       "listIsUpToDate": "Titelliste ist aktuell.",
       "match__i": "Fuzzy Titel \"${fuzzyTitle}\" aus \"${extractedTitle}\"",
       "equal__i": "Fuzzy Vergleich: \"${a}\" == \"${b}\"",
       "notEqual__i": "Fuzzy Vergleich: \"${a}\" != \"${b}\""
     },
     "error": {
-      "fatalError": "Fatal error occurred while loading list for Fuzzy matcher. Fuzzy matching will be skipped.",
-      "totalGamesIsUndefined": "Failed to get fuzzy list count. \"totalGames\" key is undefined."
+      "fatalError": "Es ist ein schwerwiegender Fehler beim Laden der Liste für den Fuzzy Abgleicher aufgetreten. Fuzzy Abgleichen wird übersprungen.",
+      "totalGamesIsUndefined": "Fehler beim Abrufen der Anzahl der Fuzzy Liste. \"totalGames\" ist nicht definiert."
     }
   },
   "fileParser": {
     "error": {
-      "parserNotFound__i": "Parser \"${name}\" konnte nicht gefunden ewrden!",
+      "parserNotFound__i": "Parser \"${name}\" konnte nicht gefunden werden!",
       "tooManyFieldGlobs__md": "> Pro Eingabe ist nur ein `$(...)$` Set erlaubt.",
-      "parserIsRequired__md": "> First part of `$(...)$` must contain a valid **Glob** ir **Glob-regex** field.",
+      "parserIsRequired__md": "> Der erste Teil von `$(...)$` muss einen validen **Glob** im **Glob-regex** Feld enthalten.",
       "noWinSlashes__md": "> Windows-Verzeichniszeichen `\\` ist nicht zulässig! Verwende stattdessen `/`."
     }
   },
@@ -552,11 +552,11 @@
   },
   "vdfManager": {
     "error": {
-      "noUsersFound": "None of the provided steam directories contained any user directory.",
+      "noUsersFound": "Keine der angegebenen Steam-Verzeichnisse enthält Benutzer-Verzeichnisse.",
       "emptyDirectoryList": "Die Verzeichnisliste ist leer.",
-      "couldNotPrepareToRead__i": "Konnte benötigte Steamdateien nicht finden:\n ${error}",
-      "couldNotBackupEntries__i": "Konnte benötigte Steamdateien nicht sichern:\n ${error}",
-      "couldNotReadEntries__i": "Konnte benötigte Steam Datei nicht lesen:\n ${error}",
+      "couldNotPrepareToRead__i": "Konnte benötigte Steam-Dateien nicht finden:\n ${error}",
+      "couldNotBackupEntries__i": "Konnte benötigte Steam-Dateien nicht sichern:\n ${error}",
+      "couldNotReadEntries__i": "Konnte benötigte Steam-Dateien nicht lesen:\n ${error}",
       "couldNotWriteEntries": "Konnte Einträge nicht in Steam-Dateien schreiben:",
       "couldNotMergeEntries__i": "Konnte Einträge nicht zusammenführen:\n ${error}",
       "couldNotRemoveEntries__i": "Konnte Einträge nicht entfernen:\n ${error}",
@@ -565,9 +565,9 @@
   },
   "vdfFile": {
     "error": {
-      "readingVdf__i": "Lesen von \"${filePath}\" fehlgeschlagen.\n ${error}",
-      "writingVdf__i": "Schreiben auf \"${filePath}\" fehlgeschlagen. ${error}",
-      "skippingDMCA__i": "Bild für ${title} aufgrund von DMCA übersprungen",
+      "readingVdf__i": "Fehler beim Lesen von \"${filePath}\".\n ${error}",
+      "writingVdf__i": "Fehler beim Schreiben nach \"${filePath}\".\n${error}",
+      "skippingDMCA__i": "Bild für ${title} aufgrund eines DMCA Verstoß übersprungen",
       "corruptedVdf__i": "\"${filePath}\" ist beschädigt.\n${error}",
       "creatingBackup__i": "Backup für \"${filePath}\" konnte nicht erstellt werden.\n${error}",
       "unsupportedMimeType__i": "MIME-Typ (${type}) wird nicht unterstützt (Titel - \"${title}\").",
