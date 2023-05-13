@@ -124,8 +124,8 @@
     "UWPDirPlaceholder": "/Pfad/zu/XboxGames oder /Pfad/zu/WindowsApps",
     "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper",
     "errors": {
-      "fatalError__i": "> UWP Parser mit folgendem Fehler fehlgeschlagen:\n ${error}",
-      "UWPNotCompatible": "> UWP Parser ist in dieser Plattform nicht kompatibel."
+      "fatalError__i": "> UWP Parser mit fatalem Fehler fehlgeschlagen:\n ${error}",
+      "UWPNotCompatible": "> UWP Parser ist nicht mit dieser Plattform kompatibel."
     }
   },
   "uplayParser": {
@@ -568,10 +568,10 @@
       "readingVdf__i": "Lesen von \"${filePath}\" fehlgeschlagen.\n ${error}",
       "writingVdf__i": "Schreiben auf \"${filePath}\" fehlgeschlagen. ${error}",
       "skippingDMCA__i": "Bild für ${title} aufgrund von DMCA übersprungen",
-      "corruptedVdf__i": "\"${filePath}\" ist beschädigt. ${error}",
-      "creatingBackup__i": "Backup für \"${filePath}\" konnte nicht erstellt werden. ${error}",
-      "unsupportedMimeType__i": "Mime Typ (${type}) wird nicht unterstützt (Titel - \"${title}\").",
-      "imageError__i": "Fehler beim Speichern/Herunterladen des Bildes für \"${title}\". Url: ${url}. ${error}"
+      "corruptedVdf__i": "\"${filePath}\" ist beschädigt.\n${error}",
+      "creatingBackup__i": "Backup für \"${filePath}\" konnte nicht erstellt werden.\n${error}",
+      "unsupportedMimeType__i": "MIME-Typ (${type}) wird nicht unterstützt (Titel - \"${title}\").",
+      "imageError__i": "Fehler beim Speichern/Herunterladen des Bildes für \"${title}\". Url: ${url}.\n ${error}"
     }
   },
   "helpers": {
