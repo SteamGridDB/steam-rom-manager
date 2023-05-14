@@ -2,7 +2,7 @@
 
 Das Konfigurieren eines Parsers mag zunächst überwältigend erscheinen,, aber es ist einfacher als man denkt. Wenn du einmal nicht weiter weißt, klicke auf <span class="infoIcon" style="top: 0.15em;"></span> an den Optionen um zugehörige Informationen zu sehen.
 
-Vergiss auch nicht, einen Blick in die FAQ zu werfen. Falls du immer noch Fragen zur Einrichtung der Konfiguration hast, besuche unsere offizielle SRM-Gruppe unter [Steam](http://steamcommunity.com/groups/steamrommanager) oder unsere offizielle [Discord](https://discord.gg/bnSVJrz) Gruppe.
+Vergiss nicht, einen Blick in die FAQ zu werfen. Falls du immer noch Fragen zur Einrichtung der Konfiguration hast, besuche unsere offizielle SRM-Gruppe auf [Steam](http://steamcommunity.com/groups/steamrommanager) oder unsere offizielle [Discord](https://discord.gg/bnSVJrz) Gruppe.
 
 ## Farbcodes
 
@@ -10,6 +10,6 @@ Nach dem Speichern der Parser-Konfiguration werden **1** von **3** Farben neben 
 
 <span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Aktivierte Konfiguration. Diese Konfiguration wird verwendet, wenn eine Liste in der **Vorschau** Seite erzeugt wird.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Deaktivierte Konfiguration. Diese Konfiguration wird nicht verwendet, wenn eine Liste in der **Vorschau** Seite erstellt wird. Stattdessen wird die **gespeicherte** Version benutzt.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Ungespeicherte Änderungen. Diese Konfiguration wird nicht verwendet, wenn eine Liste in der **Vorschau** Seite erstellt wird. Stattdessen wird die **gespeicherte** Version benutzt.
 
 <span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Deaktivierte Konfiguration. Diese Konfiguration wird nicht verwendet, wenn eine Liste in der **-Vorschau-** Seite erstellt wird.
