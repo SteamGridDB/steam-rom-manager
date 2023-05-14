@@ -428,7 +428,7 @@
       },
       "label": {
         "parserType": "Parser-Typ",
-        "configTitle": "Titel der Konfiguration",
+        "configTitle": "Name der Konfiguration",
         "steamCategory": "Steam-Kategorie",
         "executableModifier": "Ausführbare Datei ändern",
         "executableLocation": "Ausführbare Datei",
@@ -493,7 +493,7 @@
       },
       "validationErrors": {
         "parserType__md": "Ungültiger Parser-Typ!",
-        "configTitle__md": "> Titel für die Konfiguration wird benötigt!",
+        "configTitle__md": "> Name für die Konfiguration wird benötigt!",
         "parserId__md": "> Parser Id fehlt, irgendwas ist fürchterlich schief gegangen.",
         "parserInput": {
           "noInput": "Es sind keine Eingaben verfügbar!",
