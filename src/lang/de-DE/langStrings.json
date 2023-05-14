@@ -8,12 +8,12 @@
       "selectTypeOptions": {
         "long": "Banner",
         "tall": "Poster",
-        "hero": "Heroes",
-        "icon": "Icons",
+        "hero": "Heldenbilder",
+        "icon": "Symbole",
         "logo": "Logos",
         "games": "Alle Artworks"
       },
-      "by": "by",
+      "by": "von",
       "refreshImages": "Bilder aktualisieren",
       "saveImage": "Bild in Datei speichern",
       "addLocalImages": "Lokale Bilder hinzufügen",
@@ -42,14 +42,14 @@
         "savingCategories": "Speichere Kategorie-Informationen in localconfig.vdf.",
         "savingControllers": "Speichere Controller-Informationen.",
         "removingFromCategories": "Entferne alle hinzugefügten Kategorie-Informationen",
-        "writingVDF_entries__i": "Writing VDF files. Doing artwork in batches of ${batchSize}.",
+        "writingVDF_entries__i": "Schreibe VDF-Dateien. Lade ${batchSize} Artwork(s) pro Batch.",
         "updatingKnownSteamDirList": "Aktualisiere Liste bekannter Steam Verzeichnisse.",
         "retryingDownload__i": "Bilddownload von \"${imageUrl}\" für \"${appTitle} \" wird erneut gestartet.",
         "disabledConfigurations__i": "${count} Benutzerkonfiguration(en) wurden übersprungen (deaktiviert durch Benutzer).",
         "invalidConfigurations__i": "${count} Benutzer-Konfiguration(en) wurde(n) übersprungen (ungültig).",
         "executingParsers": "Führe Parser aus.",
         "shutdownSteam": "Bitte beende Steam, falls es läuft.",
-        "noParserConfigurations": "Please create parser configuration in \"Parsers\" menu first.",
+        "noParserConfigurations": "Bitte eerstelle zuerst eine Parser-Konfiguration im \"Parser\" Menü.",
         "parserFoundNoFiles": "Parser fanden keine passenden Dateien.",
         "allImagesRetrieved": "Alle verfügbaren Bild URLs wurden abgerufen.",
         "providerTimeout__i": "Timeout angefordert durch \"${provider}\" für ${time} Sekunde(n).",
@@ -70,7 +70,7 @@
         "retryingDownload__i": "Bild-Download von \"${imageUrl}\" für \"${appTitle}\" fehlgeschlagen.",
         "providerError__i": "Fehler von \"${provider}\" für\"${title}\":\n (${url ? `${code}: ${url}` : code}).",
         "unknownProviderError__i": "Fehler von \"${provider}\" für \"${title}\":\n ${error}",
-        "exportError__i": "Could not save selections package folder: ${error}",
+        "exportError__i": "Fehler beim Speichern des Verzeichnisses: ${error}",
         "importJSONFailError__i": "Konnte Auswahl nicht importieren, JSON enthält Formatierungsfehler: ${error}",
         "importFailError__i": "Bildauswahl konnte nicht importiert werden: ${error}"
       },
@@ -89,7 +89,7 @@
     "errors": {
       "directoryInvalid": "> Steam-Verzeichnis ist ungültig.",
       "noSteamAccounts": "> Das angegebene Steam-Verzeichnis hat keine Konten.",
-      "steamChanged__i": "> Steam changed internal database structure or parser tried to read an outdated database.\nProblematic file: ${file}\nFull error:\n ${error}",
+      "steamChanged__i": "> Steam änderte die Datenbankstruktur oder der Parser versuchte ein altes Datenbankformat zu lesen.\nProblem in Datei: ${file}\nKompletter Fehler:\n ${error}",
       "fatalError__i": "> Steam Parser fehlgeschlagen mit fatalem Fehler:\n ${error}"
     }
   },
@@ -101,82 +101,82 @@
     }
   },
   "epicParser": {
-    "manifestsInputTitle": "Epic Manifests Directory Override",
+    "manifestsInputTitle": "Epic Manifest Verzeichnis überschreiben",
     "manifestsInputPlaceholder": "/Pfad/zu/Manifesten/",
     "launcherModeInputTitle": "Spiele mit Epic für Online-Dienste starten",
     "errors": {
-      "invalidManifestsOverride": "> Manifests Override is not a valid directory.",
-      "epicNotCompatible": "> Epic Games Store not available on Linux.\n If you are using the Legendary store on Linux you need to set Manifests Override.",
+      "invalidManifestsOverride": "> Benuzerdefiniertes Manifest Verzeichnis ist kein gültiger Pfad.",
+      "epicNotCompatible": "> Epic Games Store ist nicht unter Linux verfügbar.\n Falls du den Legendary Store unter Linux verwendest, überschreibe das Manifest.",
       "epicNotInstalled": "> Epic Games scheint nicht installiert zu sein.",
       "fatalError__i": "> Epic Games Parser schwerwiegender Fehler:\n ${error}"
     }
   },
   "legendaryParser": {
-    "legendaryInstalledFileTitle": "Legendary installed.json Path Override",
+    "legendaryInstalledFileTitle": "Legendary installed.json Pfad überschreiben",
     "legendaryInstalledFilePlaceholder": "/Pfad/zu/Legendary/installed.json",
     "errors": {
       "legendaryNotInstalled": "> Legendary installed.json konnte nicht gefunden werden",
-      "fatalError__i": "> Legendary parser failed with fatal error: \n ${error}"
+      "fatalError__i": "> Legendary Parser fehlgeschlagen mit fatalem Fehler:\n${error}"
     }
   },
   "UWPParser": {
-    "UWPDirTitle": "XboxGames Directory Override",
+    "UWPDirTitle": "XboxGames Verzeichnis überschreiben",
     "UWPDirPlaceholder": "/Pfad/zu/XboxGames oder /Pfad/zu/WindowsApps",
-    "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper",
+    "UWPLauncherModeTitle": "Spiele mit UWP anstelle des Launcher Helfers starten",
     "errors": {
       "fatalError__i": "> UWP Parser mit schwerwiegendem Fehler fehlgeschlagen:\n ${error}",
       "UWPNotCompatible": "> UWP Parser ist nicht mit dieser Plattform kompatibel."
     }
   },
   "uplayParser": {
-    "uplayDirTitle": "Ubisoft Directory Override",
+    "uplayDirTitle": "Ubisoft Verzeichnis überschreiben",
     "uplayDirPlaceholder": "/Pfad/zu/Ubisoft/",
-    "launcherModeInputTitle": "Launch games via UPlay for online services",
+    "launcherModeInputTitle": "Spiel mit UPlay starten um Online Services zu nutzen",
     "errors": {
-      "invalidManifestsOverride": "> Uplay Directory Override is not a valid directory.",
+      "invalidManifestsOverride": "> Benutzerdefiniertes Uplay Verzeichnis ist kein gültiger Pfad.",
       "uplayNotCompatible": "> UPlay Parser nicht unter Linux oder Mac verfügbar.",
       "uplayDirNotFound": "> Angegebenes UPlay-Verzeichnis existiert nicht.",
-      "uplayNotInstalled": "> UPlay not installed in specified directory.",
+      "uplayNotInstalled": "> UPlay konnte in dem angegebenen Verzeichnis nicht gefunden werden.",
       "fatalError__i": "> UPlay Parser fehlgeschlagen mit fatalem Fehler:\n ${error}"
     }
   },
   "gogParser": {
-    "galaxyExeOverrideTitle": "Galaxy Path Override",
+    "galaxyExeOverrideTitle": "Galaxy Verzeichnis überschreiben",
     "galaxyExeOverridePlaceholder": "/Pfad/zu/GalaxyClient.exe",
     "launcherModeInputTitle": "Spiele mit GOG Galaxy starten",
     "errors": {
-      "invalidGalaxyExeOverride": "> Galaxy Client Override is not a valid path.",
-      "fatalError__i": "> GOG Galaxy parser failed with fatal error:\n ${error}",
+      "invalidGalaxyExeOverride": "> Benutzerdefiniertes Galaxy Client Verzeichnis ist kein gültiger Pfad.",
+      "fatalError__i": "> GOG Galaxy Parser fehlgeschlagen mit fatalem Fehler:\n${error}",
       "gogNotCompatible": "> GOG Galaxy Parser ist momentan nur für Windows verfügbar.",
       "gogNotInstalled": "> GOG Galaxy scheint nicht installiert zu sein."
     }
   },
   "amazonGamesParser": {
-    "exeOverrideTitle": "Amazon Games Path Override",
+    "exeOverrideTitle": "Amazon Games Pfad überschreiben",
     "exeOverridePlaceholder": "/Pfad/zu/Amazon Games.exe",
     "launcherModeInputTitle": "Spiele mit Amazon Games starten",
     "errors": {
-      "invalidExeOverride": "> Amazon Games Installation Override is not a valid directory.",
-      "osUnsupported": "> Amazon Games parser failed because Amazon Games is only avaliable on windows.",
+      "invalidExeOverride": "> Benutzerdefiniertes Amazon Games Verzeichnis ist kein gültiger Pfad.",
+      "osUnsupported": "> Amazon Games Parser schlug fehl, da Amazon games nur auf Windows verfügbar ist.",
       "databaseNotFound": "> Amazon Games Datenbankdatei nicht gefunden. Amazon Games ist wahrscheinlich nicht installiert.",
-      "fatalError__i": "> Amazon Games parser failed with fatal error:\n ${error}"
+      "fatalError__i": "> Amazon Games Parser fehlgeschlagen mit fatalem Fehler:\n${error}"
     }
   },
   "itchIoParser": {
-    "itchIoAppDataOverrideTitle": "itch.io AppData Directory Override",
+    "itchIoAppDataOverrideTitle": "itch.io AppData Verzeichnis überschreiben",
     "itchIoAppDataOverridePlaceholder": "/Pfad/zu/itch",
-    "itchIoWindowsOnLinuxInstallDriveRedirectTitle": "Windows-on-Linux Install Drive Redirect",
+    "itchIoWindowsOnLinuxInstallDriveRedirectTitle": "Windows-on-Linux Installationslaufwerk ändern",
     "itchIoWindowsOnLinuxInstallDriveRedirectPlaceholder": "/mnt/d/",
     "errors": {
-      "invalidItchIoAppDataOverride": "> itch.io AppData Override is not a valid directory.",
-      "invalidItchIoWindowsOnLinuxInstallDriveRedirect": "> itch.io Windows-on-Linux Install Drive Redirect is not a valid directory.",
-      "osUnsupported": "> itch.io parser failed because the parser only supports macos, linux, and windows currently.",
+      "invalidItchIoAppDataOverride": "> Benutzerdefiniertes itch.io AppData Verzeichnis ist kein gültiger Pfad.",
+      "invalidItchIoWindowsOnLinuxInstallDriveRedirect": "> itch.io Windows-on-Linux benutzerdefiniertes Installationslaufwerk ist ungültig.",
+      "osUnsupported": "> itch.io Parser schlug fehl, da der Parser nur für Windows, MacOS und Linux verfügbar ist.",
       "fatalError__i": "> itch.io Parser fehlgeschlagen mit fatalem Fehler:\n ${error}",
       "databaseNotFound": "> itch.io Datenbankdatei nicht gefunden. Itch ist wahrscheinlich nicht installiert."
     }
   },
   "eaDesktopParser": {
-    "eaGamesDirTitle": "EA Games Directory Override",
+    "eaGamesDirTitle": "EA Games Verzeichnis überschreiben",
     "eaGamesDirPlaceholder": "/Pfad/zu/EA Games/",
     "eaLauncherModeTitle": "Spiele mit EA Desktop starten",
     "errors": {
@@ -194,8 +194,8 @@
       "noStarNextToTitle__md": "> Asterisk `*` darf nicht neben `${title}` sein!",
       "noAnyCharNextToTitle__md": "> Beliebiges Zeichen `?` darf nicht neben `${title}` sein!",
       "noGlobstarOnBothSides__md": "> Globstar `**`darf nur auf einer Seite des `${title}` sein!",
-      "noBracedDirSetOnBothSides__md": "> A braced set, containing at least one slash `/` can only be on one side of `${title}`!",
-      "noBracedDirSetOrGlobstarOnBothSides__md": "> A braced set, containing at least one slash `/` and a globstar `**` can only be on one side of `${title}`!",
+      "noBracedDirSetOnBothSides__md": "> Ein Klammerset mit mindestens einem Schrägstrich `/` kann nur auf einer Seite von `${title}` sein!",
+      "noBracedDirSetOrGlobstarOnBothSides__md": "> Ein Klammerset mit mindestens einem Schrägstrich `/` und einem Globstar `** kann nur auf einer Seite von `${title}` sein!",
       "noEmptyPattern__md": "> Muster darf nicht leer sein!",
       "noEmptyCharRange__md": "> Zeichenbereich darf nicht leer sein!",
       "noStarInPatternNextToTitle__md": "> Asterisk `*`, innerhalb eines Musters, darf nicht neben `${title}` sein!",
@@ -211,8 +211,8 @@
       "noStarNextToRegex__md": "> Asterisk `*`darf nicht neben `${regex}` sein!",
       "noAnyCharNextToRegex__md": "> Beliebiges Zeichen `?` darf nicht neben `${regex}` sein!",
       "noGlobstarOnBothSides__md": "> Globstar `**`darf nur auf einer Seite des `${regex}` sein!",
-      "noBracedDirSetOnBothSides__md": "> A braced set, containing at least one slash `/` can only be on one side of `${regex}`!",
-      "noBracedDirSetOrGlobstarOnBothSides__md": "> A braced set, containing at least one slash `/` and a globstar `**` can only be on one side of `${regex}`!",
+      "noBracedDirSetOnBothSides__md": "> Ein Klammerset mit mindestens einem Schrägstrich `/` kann nur auf einer Seite von `${regex}` sein!",
+      "noBracedDirSetOrGlobstarOnBothSides__md": "> Ein Klammerset mit mindestens einem Schrägstrich `/` und einem Globstar `** kann nur auf einer Seite von `${regex}` sein!",
       "noEmptyPattern__md": "> Muster darf nicht leer sein!",
       "noEmptyCharRange__md": "> Zeichenbereich darf nicht leer sein!",
       "noStarInPatternNextToRegex__md": "> Asterisk `*`, innerhalb eines Musters, darf nicht neben `${regex}` sein!",
@@ -223,10 +223,10 @@
     "nsfwInputTitle": "NSFW Artworks erlauben",
     "humorInputTitle": "Scherzbild erlauben",
     "imageMotionTypesTitle": "Erlaubte Animationsarten",
-    "stylesTitle": "Erlaubte Raster-Stile",
-    "stylesHeroTitle": "Erlaubte Hero-Stile",
+    "stylesTitle": "Erlaubte Kapsel-Stile",
+    "stylesHeroTitle": "Erlaubte Heldenbild-Stile",
     "stylesLogoTitle": "Erlaubte Logo-Stile",
-    "stylesIconTitle": "Erlaubte Icon-Stile"
+    "stylesIconTitle": "Erlaubte Symbol-Stile"
   },
   "logger": {
     "component": {
@@ -248,7 +248,7 @@
         "failedToDownload__i": "Fehler beim Herunterladen der benutzerdefinierten Variablen-Datei. Status: ${error}.",
         "writingError": "Fehler beim Speichern der benutzerdefinierten Variablen.",
         "loadingError": "Fehler beim Speichern der benutzerdefinierten Variablen.",
-        "corruptedVariables__i": "Saved custom variables are invalid!\r\nPermanent variable saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
+        "corruptedVariables__i": "Gespeicherte benutzerdefinierte Variablen sind ungültig!\nEndgültiges Speichern von Variablen ist deaktiviert bis das Problem gelöst wurde.\nVersuche das Problem händisch zu beheben (Datei - ${file})\noder lass dir auf GitHub oder unserem offiziellen Discord Channel helfen (Englisch): ${error}"
       },
       "info": {
         "downloaded": "Benutzerdefinierte Variablen-Datei wurde heruntergeladen."
@@ -259,12 +259,12 @@
     "service": {
       "error": {
         "failedToDownload__i": "Fehler beim Download der Konfigurationsvorlagen. Status: ${error}.",
-        "writingError": "Fehler beim Speichern der Konfigurationsvoreinstellungen.",
-        "loadingError": "Fehler beim Laden der Konfigurationsvorgaben.",
-        "corruptedVariables__i": "Saved configuration presets are invalid!\r\nPermanent file saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
+        "writingError": "Fehler beim Speichern der Konfigurationsvorlagen.",
+        "loadingError": "Fehler beim Laden der Konfigurationsvorlagen.",
+        "corruptedVariables__i": "Gespeicherte Konfigurationsvorlagen sind ungültig!\nEndgültiges Speichern ist deaktiviert bis das Problem gelöst wurde.\nVersuche das Problem händisch zu beheben (Datei - ${file})\noder lass dir auf GitHub oder unserem offiziellen Discord Channel helfen (Englisch): ${error}"
       },
       "info": {
-        "downloaded": "Neue Konfigurationsvoreinstellungen wurden heruntergeladen."
+        "downloaded": "Neue Konfigurationsvorlagen wurden heruntergeladen."
       }
     }
   },
@@ -273,15 +273,15 @@
       "label": {
         "general": "Allgemeine Einstellungen",
         "imageProviders": "Bildanbieter Einstellungen",
-        "fuzzy": "Fuzzy matcher settings",
+        "fuzzy": "Fuzzy Matcher Einstellungen",
         "environmentVariables": "Umgebungsvariablen Einstellungen",
-        "communityPresets": "Community variable/preset settings"
+        "communityPresets": "Community Variablen/Vorlagen-Einstellungen"
       },
       "text": {
         "offlineMode": "Offline-Modus",
         "removeApps_desc": "Alle hinzugefügten App-Einträge und Controller",
         "removeApps_btn": "Entfernen",
-        "preloadImages": "Preload retrieved images immediately",
+        "preloadImages": "Abgerufene Bilder sofort vorladen",
         "fuzzy_verbose": "Übereinstimmende Ergebnisse loggen",
         "fuzzy_filter": "Bilder filtern",
         "enabledProviders": "Aktivierte Bildanbieter",
@@ -291,7 +291,7 @@
         "resetFuzzyCache_desc": "Fuzzy Cache",
         "resetFuzzy_btn": "Zurücksetzen",
         "customVariables_desc": "Benutzerdefinierte Variablen",
-        "configPresets_desc": "config presets",
+        "configPresets_desc": "Konfigurationsvorlagen",
         "showSteamImages": "Zeige standardmäßig aktuelle Steam-Bilder",
         "deleteDisabledShortcuts": "Entferne Shortcuts für deaktivierte Parser",
         "clearLogOnTest": "Logs automatisch vor dem Parster-Test leeren",
@@ -323,7 +323,7 @@
       "error": {
         "writingError": "Ein Fehler trat beim Speichern der Benutzer-Einstellungen auf.",
         "readingError": "Ein Fehler trat beim Lesen der Benutzer-Einstellungen auf.",
-        "corruptedSettings__i": "Saved app settings are invalid!\r\nPermanent settings saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
+        "corruptedSettings__i": "Gespeicherte App Einstellungen sind ungültig!\nEndgültiges Speichern von Einstellungen ist deaktiviert bis das Problem gelöst wurde.\nVersuche das Problem händisch zu beheben (Datei - ${file})\noder lass dir auf GitHub oder unserem offiziellen Discord Channel helfen (Englisch): ${error}"
       }
     }
   },
@@ -349,7 +349,7 @@
         "deleteItem": "Ausnahme entfernen"
       },
       "text": {
-        "title": "Benutzer-Ausnahmen",
+        "title": "Benutzerdefinierte Ausnahmen",
         "exclude": "Titel ausschließen",
         "excludeArtwork": "Nur lokale Artworks"
       }
@@ -357,7 +357,7 @@
     "service": {
       "error": {
         "loadingError": "Fehler beim Laden von Benutzerausnahmen",
-        "corruptedExceptions__i": "User exceptions corrupt (file - ${file}). Saving is disabled, full error is: ${error}",
+        "corruptedExceptions__i": "Benutzerdefinierte Ausnahmen korrupt (file - ${file}). Speichern ist deaktiviert, kompletter Fehler: ${error}",
         "writingError": "Ein Fehler ist beim speichern von Benutzerausnahmen aufgetreten"
       }
     }
@@ -430,17 +430,17 @@
         "parserType": "Parser-Typ",
         "configTitle": "Titel der Konfiguration",
         "steamCategory": "Steam-Kategorie",
-        "executableModifier": "Executable modifier",
+        "executableModifier": "Ausführbare Datei ändern",
         "executableLocation": "Ausführbare Datei",
         "romDirectory": "ROM-Verzeichnis",
         "steamDirectory": "Steam-Verzeichnis",
         "startInDirectory": "\"Starte in\"-Verzeichnis",
         "userAccounts": "Benutzerkonten",
         "titleFromVariable": "Titel aus der benutzerdefinierten Variable",
-        "titleModifier": "Title modifier",
-        "fuzzyMatch": "Fuzzy matching",
+        "titleModifier": "Titel ändern",
+        "fuzzyMatch": "Fuzzy Matching",
         "executableArgs": "Kommandozeilen-Argumente",
-        "onlineImageQueries": "Online image query",
+        "onlineImageQueries": "Online Bilder Queries",
         "imagePool": "Bildpool",
         "imageProviders": "Bildanbieter",
         "defaultImage__i": "Fallback ${artworkType}",
@@ -466,15 +466,15 @@
         "multiAPIPlaceholder": "Kein Filter"
       },
       "text": {
-        "tryToMatchTitle": "Enable Title from Custom Variable",
+        "tryToMatchTitle": "Aktiviere Titel aus benutzerdefinierten Variablen",
         "skipFileIfVariableWasNotFound": "Datei überspringen, falls keine Variable gefunden wurde",
-        "caseInsensitiveVariables": "Case-insensitive variables",
+        "caseInsensitiveVariables": "Groß-/Kleinschreibung bei Variablen ignorieren",
         "shortcut_passthrough": "Folge .lnk or .desktop Dateien zum Ziel (nur Windows und Linux)",
-        "fuzzy_use": "Use fuzzy matching",
-        "fuzzy_removeCharacters": "Aggressive matching",
+        "fuzzy_use": "Nutze Fuzzy Matching",
+        "fuzzy_removeCharacters": "Aggressives Matching",
         "fuzzy_removeBrackets": "Entferne (...) und [...] Klammern",
         "fuzzy_replaceDiacritic": "Diakritische Zeichen ersetzen",
-        "appendArgsToExecutable": "Append arguments to executable",
+        "appendArgsToExecutable": "Argumente an ausführbaren Datei anhängen",
         "disabled": "Aktuellen Parser deaktivieren",
         "advanced": "Erweiterte Optionen anzeigen",
         "noTitle": "Kein Titel!"
@@ -488,7 +488,7 @@
         "savingConfiguration": "Fehler beim Speichern der Benutzerkonfigurationen!",
         "readingConfiguration": "Fehler beim Lesen der Benutzerkonfigurationen!",
         "parserTypeMissing": "Speichern ohne Parser-Typ nicht möglich",
-        "corruptedConfiguration__i": "Eine oder mehrere gespeicherte Parser Konfigurationen sind ungültig!\nEndgültiges Speichern von Konfigurationen ist deaktiviert bis das Problem gelöst wurde.\nVersuche das Problem händisch zu beheben (Datei - ${file})\noder lass dir auf github oder unserem offiziellen Discord Channel helfen (Englisch): ${error}",
+        "corruptedConfiguration__i": "Eine oder mehrere gespeicherte Parser Konfigurationen sind ungültig!\nEndgültiges Speichern von Konfigurationen ist deaktiviert bis das Problem gelöst wurde.\nVersuche das Problem händisch zu beheben (Datei - ${file})\noder lass dir auf GitHub oder unserem offiziellen Discord Channel helfen (Englisch): ${error}",
         "fetcingTemplates": "Fehler beim Abrufen der Controller-Templates!"
       },
       "validationErrors": {
@@ -507,8 +507,8 @@
         "executable__md": "> Ausführbare Datei ist ungültig!",
         "imagePool__md": "> Bilderpool darf nicht leer sein!",
         "defaultImage__md": "> Pfad für das Standard Bild ist ungültig!",
-        "titleModifier__md": "> Modifikator für den Titel darf nicht leer sein!",
-        "executableModifier__md": "> Modifikator für ausführbare Datei darf nicht leer sein!",
+        "titleModifier__md": "> \"Titel ändern\" darf nicht leer sein!",
+        "executableModifier__md": "> \"Ausführbare Datei ändern\" darf nicht leer sein!",
         "variableString__md": "> Ungerade Anzahl an `${` and `}` Paaren. Nutze `\\` zum escapen von `${` or `}`, wenn du sie als Charakter nutzen willst.",
         "imageProviders__md": "> Ungültiger Bildanbieter-Typ!",
         "unhandledValidationKey__md": "> Validierung der EIngabe ist unbehandelt",
