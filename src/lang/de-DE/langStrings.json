@@ -21,7 +21,7 @@
       "generateAppList": "parsen",
       "saveAppList": "In Steam speichern",
       "removeAppList": "Aus Steam entfernen",
-      "remainingImages": "Retrieving urls:",
+      "remainingImages": "Abrufen der URLs:",
       "stopUrlRetrieving": "Stop",
       "exportSelections": "Exportieren",
       "importSelections": "Importieren",
@@ -41,18 +41,18 @@
         "removingVDF_entries": "Entferne VDF-Einträge und Bild-Dateien.",
         "savingCategories": "Speichere Kategorie-Informationen in localconfig.vdf.",
         "savingControllers": "Speichere Controller-Informationen.",
-        "removingFromCategories": "Removing all added category information",
+        "removingFromCategories": "Entferne alle hinzugefügten Kategorie-Informationen",
         "writingVDF_entries__i": "Writing VDF files. Doing artwork in batches of ${batchSize}.",
         "updatingKnownSteamDirList": "Aktualisiere Liste bekannter Steam Verzeichnisse.",
         "retryingDownload__i": "Bilddownload von \"${imageUrl}\" für \"${appTitle} \" wird erneut gestartet.",
         "disabledConfigurations__i": "${count} Benutzerkonfiguration(en) wurden übersprungen (deaktiviert durch Benutzer).",
-        "invalidConfigurations__i": "${count} user configuration(s) was/were skipped (invalid).",
+        "invalidConfigurations__i": "${count} Benutzer-Konfiguration(en) wurde(n) übersprungen (ungültig).",
         "executingParsers": "Führe Parser aus.",
         "shutdownSteam": "Bitte beende Steam, falls es läuft.",
         "noParserConfigurations": "Please create parser configuration in \"Parsers\" menu first.",
-        "parserFoundNoFiles": "Parser(s) found no files matching user configuration.",
+        "parserFoundNoFiles": "Parser fanden keine passenden Dateien.",
         "allImagesRetrieved": "Alle verfügbaren Bild URLs wurden abgerufen.",
-        "providerTimeout__i": "Timeout was requested by \"${provider}\" for ${time} second(s).",
+        "providerTimeout__i": "Timeout angefordert durch \"${provider}\" für ${time} Sekunde(n).",
         "noAccountsWarning": "Benutzerkonten wurden nicht gefunden. Falsches Steam-Verzeichnis?",
         "preparingExport": "Bereite den Export von Bildauswahl vor.",
         "exportProgress__i": "Speichere Bildauswahl ${progress}.",
@@ -68,10 +68,10 @@
         "controllerSaveError": "Fehler beim Aktualisieren der Controller-Templates. Details findest du im Ereignisprotokoll.",
         "controllerSaveError__i": "Controller-Fehler (Verknüpfungen und Artworks werden trotzdem hinzugefügt): ${error}",
         "retryingDownload__i": "Bild-Download von \"${imageUrl}\" für \"${appTitle}\" fehlgeschlagen.",
-        "providerError__i": "Error received from \"${provider}\" for \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
-        "unknownProviderError__i": "Error received from \"${provider}\" for \"${title}\":\n ${error}",
+        "providerError__i": "Fehler von \"${provider}\" für\"${title}\":\n (${url ? `${code}: ${url}` : code}).",
+        "unknownProviderError__i": "Fehler von \"${provider}\" für \"${title}\":\n ${error}",
         "exportError__i": "Could not save selections package folder: ${error}",
-        "importJSONFailError__i": "Could not import selections, JSON was malformed: ${error}",
+        "importJSONFailError__i": "Konnte Auswahl nicht importieren, JSON enthält Formatierungsfehler: ${error}",
         "importFailError__i": "Bildauswahl konnte nicht importiert werden: ${error}"
       },
       "success": {
@@ -83,21 +83,21 @@
     }
   },
   "steamParser": {
-    "onlyGamesTitle": "Find artwork for games only (no tools)",
-    "onlyInstalledTitle": "Find artwork for installed titles only",
-    "sourceModsTitle": "Find artwork for unofficial source mods",
+    "onlyGamesTitle": "Finde Artwork nur für Spiele (keine Tools)",
+    "onlyInstalledTitle": "Suche nur nach Artworks für installierte Titel",
+    "sourceModsTitle": "Finde Artworks für inoffizielle Source Mods",
     "errors": {
       "directoryInvalid": "> Steam-Verzeichnis ist ungültig.",
       "noSteamAccounts": "> Das angegebene Steam-Verzeichnis hat keine Konten.",
       "steamChanged__i": "> Steam changed internal database structure or parser tried to read an outdated database.\nProblematic file: ${file}\nFull error:\n ${error}",
-      "fatalError__i": "> Steam parser failed with fatal error:\n ${error}"
+      "fatalError__i": "> Steam Parser fehlgeschlagen mit fatalem Fehler:\n ${error}"
     }
   },
   "manualParser": {
     "manifestsInputTitle": "Manifest-Verzeichnis",
     "manifestsInputPlaceholder": "/Pfad/zu/deinen/Manifesten/",
     "errors": {
-      "fatalError__i": "> Manual parser failed with fatal error:\n ${error}"
+      "fatalError__i": "> Manueller Parser fehlgeschlagen mit fatalem Fehler:\n ${error}"
     }
   },
   "epicParser": {
@@ -107,13 +107,13 @@
     "errors": {
       "invalidManifestsOverride": "> Manifests Override is not a valid directory.",
       "epicNotCompatible": "> Epic Games Store not available on Linux.\n If you are using the Legendary store on Linux you need to set Manifests Override.",
-      "epicNotInstalled": "> Epic Games does not appear to be installed.",
-      "fatalError__i": "> Epic Games parser failed with fatal error:\n ${error}"
+      "epicNotInstalled": "> Epic Games scheint nicht installiert zu sein.",
+      "fatalError__i": "> Epic Games Parser schwerwiegender Fehler:\n ${error}"
     }
   },
   "legendaryParser": {
     "legendaryInstalledFileTitle": "Legendary installed.json Path Override",
-    "legendaryInstalledFilePlaceholder": "/path/to/legendary/installed.json",
+    "legendaryInstalledFilePlaceholder": "/Pfad/zu/Legendary/installed.json",
     "errors": {
       "legendaryNotInstalled": "> Legendary installed.json konnte nicht gefunden werden",
       "fatalError__i": "> Legendary parser failed with fatal error: \n ${error}"
@@ -135,7 +135,7 @@
     "errors": {
       "invalidManifestsOverride": "> Uplay Directory Override is not a valid directory.",
       "uplayNotCompatible": "> UPlay Parser nicht unter Linux oder Mac verfügbar.",
-      "uplayDirNotFound": "> Specified UPlay directory does not exist.",
+      "uplayDirNotFound": "> Angegebenes UPlay-Verzeichnis existiert nicht.",
       "uplayNotInstalled": "> UPlay not installed in specified directory.",
       "fatalError__i": "> UPlay Parser fehlgeschlagen mit fatalem Fehler:\n ${error}"
     }
@@ -147,8 +147,8 @@
     "errors": {
       "invalidGalaxyExeOverride": "> Galaxy Client Override is not a valid path.",
       "fatalError__i": "> GOG Galaxy parser failed with fatal error:\n ${error}",
-      "gogNotCompatible": "> GOG Galaxy parser is currently only available on Windows.",
-      "gogNotInstalled": "> GOG Galaxy does not appear to be installed."
+      "gogNotCompatible": "> GOG Galaxy Parser ist momentan nur für Windows verfügbar.",
+      "gogNotInstalled": "> GOG Galaxy scheint nicht installiert zu sein."
     }
   },
   "amazonGamesParser": {
@@ -158,7 +158,7 @@
     "errors": {
       "invalidExeOverride": "> Amazon Games Installation Override is not a valid directory.",
       "osUnsupported": "> Amazon Games parser failed because Amazon Games is only avaliable on windows.",
-      "databaseNotFound": "> Amazon Games database file not found. Amazon Games is most likely not installed.",
+      "databaseNotFound": "> Amazon Games Datenbankdatei nicht gefunden. Amazon Games ist wahrscheinlich nicht installiert.",
       "fatalError__i": "> Amazon Games parser failed with fatal error:\n ${error}"
     }
   },
@@ -189,34 +189,34 @@
     "inputTitle": "Benutzer-Glob",
     "inputPlaceholder": "${title}.@(iso|ISO)",
     "errors": {
-      "noTitle__md": "> File glob must contain `${title}`!",
-      "moreThanOneTitle__md": "> File glob must contain only one `${title}`!",
+      "noTitle__md": "> Datei-Glob darf nicht `${title}` enthalten!",
+      "moreThanOneTitle__md": "> Datei Glob darf nur einen `${title}` enthalten!",
       "noStarNextToTitle__md": "> Asterisk `*` darf nicht neben `${title}` sein!",
-      "noAnyCharNextToTitle__md": "> Any char `?` can not be next to `${title}`!",
-      "noGlobstarOnBothSides__md": "> Globstar `**` can only be on one side of `${title}`!",
+      "noAnyCharNextToTitle__md": "> Beliebiges Zeichen `?` darf nicht neben `${title}` sein!",
+      "noGlobstarOnBothSides__md": "> Globstar `**`darf nur auf einer Seite des `${title}` sein!",
       "noBracedDirSetOnBothSides__md": "> A braced set, containing at least one slash `/` can only be on one side of `${title}`!",
       "noBracedDirSetOrGlobstarOnBothSides__md": "> A braced set, containing at least one slash `/` and a globstar `**` can only be on one side of `${title}`!",
       "noEmptyPattern__md": "> Muster darf nicht leer sein!",
-      "noEmptyCharRange__md": "> Character range can not be empty!",
-      "noStarInPatternNextToTitle__md": "> Star `*`, inside a pattern, can not be next to `${title}`!",
-      "noAnyCharInPatternNextToTitle__md": "> Any char `?`, inside a pattern, can not be next to `${title}`!"
+      "noEmptyCharRange__md": "> Zeichenbereich darf nicht leer sein!",
+      "noStarInPatternNextToTitle__md": "> Asterisk `*`, innerhalb eines Musters, darf nicht neben `${title}` sein!",
+      "noAnyCharInPatternNextToTitle__md": "> Beliebiges Zeichen `?`, innerhalb eines Musters, darf nicht neben `${title}` sein!"
     }
   },
   "globRegexParser": {
     "inputTitle": "Benutzer Glob-regex",
     "inputPlaceholder": "${/valid regex/}",
     "errors": {
-      "noRegex__md": "> File glob must contain `${regex}` where **regex** is your regular expression!",
-      "moreThanOneRegex__md": "> File glob must contain only one `${regex}`!",
-      "noStarNextToRegex__md": "> Star `*` can not be next to `${regex}`!",
-      "noAnyCharNextToRegex__md": "> Any char `?` can not be next to `${regex}`!",
-      "noGlobstarOnBothSides__md": "> Globstar `**` can only be on one side of `${regex}`!",
+      "noRegex__md": "> Datei Glob muss `${regex}` enthalten!",
+      "moreThanOneRegex__md": "> Datei Glob darf nur ein `${regex}` enthalten!",
+      "noStarNextToRegex__md": "> Asterisk `*`darf nicht neben `${regex}` sein!",
+      "noAnyCharNextToRegex__md": "> Beliebiges Zeichen `?` darf nicht neben `${regex}` sein!",
+      "noGlobstarOnBothSides__md": "> Globstar `**`darf nur auf einer Seite des `${regex}` sein!",
       "noBracedDirSetOnBothSides__md": "> A braced set, containing at least one slash `/` can only be on one side of `${regex}`!",
       "noBracedDirSetOrGlobstarOnBothSides__md": "> A braced set, containing at least one slash `/` and a globstar `**` can only be on one side of `${regex}`!",
       "noEmptyPattern__md": "> Muster darf nicht leer sein!",
       "noEmptyCharRange__md": "> Zeichenbereich darf nicht leer sein!",
-      "noStarInPatternNextToRegex__md": "> Star `*`, inside a pattern, can not be next to `${regex}`!",
-      "noAnyCharInPatternNextToRegex__md": "> Any char `?`, inside a pattern, can not be next to `${regex}`!"
+      "noStarInPatternNextToRegex__md": "> Asterisk `*`, innerhalb eines Musters, darf nicht neben `${regex}` sein!",
+      "noAnyCharInPatternNextToRegex__md": "> Beliebiges Zeichen `?`, innerhalb eines Musters, darf nicht neben `${regex}` sein!"
     }
   },
   "sgdbProvider": {
@@ -238,7 +238,7 @@
       "textWrap": "TEXT-WRAP",
       "autoscroll": "AUTOSCROLL",
       "clearLog": "Log leeren",
-      "issueDescription": "Thorough issue description with passable spelling.",
+      "issueDescription": "Ausführliche Fehlerbeschreibung mit passabler Rechtschreibung.",
       "handleExample": "CoolHandle#1234"
     }
   },
@@ -251,14 +251,14 @@
         "corruptedVariables__i": "Saved custom variables are invalid!\r\nPermanent variable saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
       },
       "info": {
-        "downloaded": "Custom variables file has been downloaded."
+        "downloaded": "Benutzerdefinierte Variablen-Datei wurde heruntergeladen."
       }
     }
   },
   "configPresets": {
     "service": {
       "error": {
-        "failedToDownload__i": "Failed to download configuration presets file. Status: ${error}.",
+        "failedToDownload__i": "Fehler beim Download der Konfigurationsvorlagen. Status: ${error}.",
         "writingError": "Fehler beim Speichern der Konfigurationsvoreinstellungen.",
         "loadingError": "Fehler beim Laden der Konfigurationsvorgaben.",
         "corruptedVariables__i": "Saved configuration presets are invalid!\r\nPermanent file saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
@@ -274,7 +274,7 @@
         "general": "Allgemeine Einstellungen",
         "imageProviders": "Bildanbieter Einstellungen",
         "fuzzy": "Fuzzy matcher settings",
-        "environmentVariables": "Environment variable settings",
+        "environmentVariables": "Umgebungsvariablen Einstellungen",
         "communityPresets": "Community variable/preset settings"
       },
       "text": {
@@ -282,19 +282,19 @@
         "removeApps_desc": "Alle hinzugefügten App-Einträge und Controller",
         "removeApps_btn": "Entfernen",
         "preloadImages": "Preload retrieved images immediately",
-        "fuzzy_verbose": "Log matching results",
-        "fuzzy_filter": "Filter images",
+        "fuzzy_verbose": "Übereinstimmende Ergebnisse loggen",
+        "fuzzy_filter": "Bilder filtern",
         "enabledProviders": "Aktivierte Bildanbieter",
         "selectLanguage": "Sprache auswählen",
         "selectTheme": "Theme auswählen",
         "resetFuzzy_desc": "Fuzzy Liste",
         "resetFuzzyCache_desc": "Fuzzy Cache",
         "resetFuzzy_btn": "Zurücksetzen",
-        "customVariables_desc": "custom variables",
+        "customVariables_desc": "Benutzerdefinierte Variablen",
         "configPresets_desc": "config presets",
-        "showSteamImages": "Show current Steam images by default",
-        "deleteDisabledShortcuts": "Remove shortcuts for disabled parsers",
-        "clearLogOnTest": "Automatically clear log before testing parsers",
+        "showSteamImages": "Zeige standardmäßig aktuelle Steam-Bilder",
+        "deleteDisabledShortcuts": "Entferne Shortcuts für deaktivierte Parser",
+        "clearLogOnTest": "Logs automatisch vor dem Parster-Test leeren",
         "configDir": "Konfigurationsverzeichnis öffnen"
       },
       "placeholder": {
@@ -311,7 +311,7 @@
         "retroarchPathMac": "Zum Beispiel /Pfad/zu/retroarch",
         "raCoresDirectoryWin": "Normalerweise C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
         "raCoresDirectoryLinux": "Normalerweise /lib/x86_64-linux-gnu/libretro/cores",
-        "raCoresDirectoryMac": "Typically /Applications/Retroarch.app/Contents/Resources/cores",
+        "raCoresDirectoryMac": "Normalerweise /Applications/Retroarch.app/Contents/Resources/cores",
         "localImagesDirectoryWin": "Zum Beispiel C:\\Pfad\\zu\\lokalemArtwork",
         "localImagesDirectoryUnix": "Zum Beispiel C:\\Pfad\\zu\\lokalemArtwork"
       }
@@ -358,7 +358,7 @@
       "error": {
         "loadingError": "Fehler beim Laden von Benutzerausnahmen",
         "corruptedExceptions__i": "User exceptions corrupt (file - ${file}). Saving is disabled, full error is: ${error}",
-        "writingError": "Error occurred saving user exceptions"
+        "writingError": "Ein Fehler ist beim speichern von Benutzerausnahmen aufgetreten"
       }
     }
   },
@@ -377,103 +377,103 @@
         "toClipboard": "Konfiguration in Zwischenablage kopieren"
       },
       "info": {
-        "testStarting__i": "Testing \"${title}\" parser (SRM version - ${version} ${portable}).",
+        "testStarting__i": "Teste \"${title}\" Parser (SRM Version - ${version} ${portable}).",
         "opSys__i": "Betriebssystem ist \"${os}\"",
         "testCompleted": "Parser-Test ist abgeschlossen.",
         "nothingWasFound": "Parser hat nichts gefunden.",
         "copiedToClipboard": "Konfiguration in Zwischenablage kopiert",
         "userExclusions": "Ausgeschlossene Benutzer:",
         "excludedFileInfo__i": "[${index}/${total}]: ${filename}",
-        "removingControllers__i": "Removing controller templates for parser: ${configTitle}",
-        "fetchingControllerTemplates": "Fetching controller templates"
+        "removingControllers__i": "Entferne Controller-Templates für Parser: ${configTitle}",
+        "fetchingControllerTemplates": "Rufe Controller-Templates ab"
       },
       "error": {
-        "missingAccounts__i": "Following ${count} user account(s) were not found (user must to login to Steam at least once):",
+        "missingAccounts__i": "Folgende ${count} Benutzerkonto/en wurde(n) nicht gefunden (Nutzer müssen sich mindestens einmal in Steam angemeldet haben):",
         "missingAccountInfo__i": "  ${name}",
-        "noAccountsWarning": "Warning! No user accounts found, it could be due to one of the reasons below:\r\n - incorrect Steam directory;\r\n - no user has ever logged in;\r\n - Steam does not save user credentials (\"Show advanced options -> User accounts -> Use account credentials\").\r\nIf you're seeing this, preview won't be generated for this configuration.",
-        "cannotParseUserIDs": "Error parsing user accounts:",
-        "failedToMatch": "Failed to match:",
+        "noAccountsWarning": "Warnung! Es wurde kein Benutzerkonto gefunden, mögliche Gründe können sein:\n - falsches Steam-Verzeichnis;\n - kein eingeloggter Benutzer;\n - Steam speichert keine Anmeldedaten (\"Show advanced options -> User accounts -> Use account credentials\").\nVorschau wird für diese Konfiguration nicht erstellt.",
+        "cannotParseUserIDs": "Fehler beim parsen der Benutzerkonten:",
+        "failedToMatch": "Fehler bei der Übereinstimmung:",
         "failedFileInfo__i": "[${index}/${total}]: ${filename}",
         "testFailed": "Test fehlgeschlagen",
         "cannotTestInvalid": "Kann ungültige Konfiguration nicht testen!",
         "cannotCopyInvalid": "Kann ungültige Konfiguration nicht kopieren!",
         "failedToCopy": "Fehler beim Kopieren in die Zwischenablage!",
-        "cannotFetchTemplates": "Can not fetch controller templates for invalid steam directory!",
+        "cannotFetchTemplates": "Kann kein Controller-Template aus einem ungültigen Steam-Verzeichnis holen!",
         "errorRemovingControllers": "Fehler beim Entfernen der Controller:",
         "cannotRemoveControllers": "Controller können nicht aus einem ungültigen Steam-Verzeichnis entfernt werden!"
       },
       "success": {
         "foundAccounts__i": "${count} verfügbare Benutzerkonto(n) gefunden:",
         "foundAccountInfo__i": "  ${name} (steamID64: ${steamID64}, accountID: ${accountID})",
-        "steamCategory__i": "[${index}/${total}]:     Steam categories - ${steamCategory}",
+        "steamCategory__i": "[${index}/${total}]:     Steam-Kategorien - ${steamCategory}",
         "steamCategoryInfo__i": "[${index}/${total}]:                        ${steamCategory}",
-        "exceptionKey__i": "[${index}/${total}]:         Exception ID - ${appid}",
+        "exceptionKey__i": "[${index}/${total}]:         Ausnahmen ID - ${appid}",
         "appId__i": "[${index}/${total}]:        Legacy App ID - ${appid}",
         "shortAppId__i": "[${index}/${total}]:               App ID - ${appid}",
-        "extractedTitle__i": "[${index}/${total}]:      Extracted title - ${title}",
-        "fuzzyTitle__i": "[${index}/${total}]:          Fuzzy title - ${title}",
-        "finalTitle__i": "[${index}/${total}]:          Final title - ${title}",
-        "filePath__i": "[${index}/${total}]:            File path - ${filePath}",
-        "startDir__i": "[${index}/${total}]:            Start dir - ${startDir}",
-        "completeShortcut__i": "[${index}/${total}]:    Complete shortcut - ${shortcut}",
-        "firstImageQuery__i": "[${index}/${total}]:        Image queries - ${query}",
+        "extractedTitle__i": "[${index}/${total}]:      Extrahierter Titel - ${title}",
+        "fuzzyTitle__i": "[${index}/${total}]:          Fuzzy Titel - ${title}",
+        "finalTitle__i": "[${index}/${total}]:          Endgültiger Titel - ${title}",
+        "filePath__i": "[${index}/${total}]:            Dateipfad - ${filePath}",
+        "startDir__i": "[${index}/${total}]:            Start Verzeichnis - ${startDir}",
+        "completeShortcut__i": "[${index}/${total}]:    Kompletter Shortcut - ${shortcut}",
+        "firstImageQuery__i": "[${index}/${total}]:        Bild Queries - ${query}",
         "imageQueries__i": "[${index}/${total}]:                        ${query}",
-        "defaultImage__i": "[${index}/${total}]: Resolved fallback ${artworkType}:\r\n[${index}/${total}]:                        ${image}",
+        "defaultImage__i": "[${index}/${total}]: Aufgelöster Fallback ${artworkType}:\n[${index}/${total}]:                        ${image}",
         "resolvedDefaultImage__i": "[${index}/${total}]: Fallback ${artworkType}:",
-        "localImages__i": "[${index}/${total}]: Resolved ${artworkType}:",
+        "localImages__i": "[${index}/${total}]: Aufgelöster ${artworkType}:",
         "resolvedLocalImages__i": "[${index}/${total}]: ${artworkType} Glob:",
         "indexInfo__i": "[${index}/${total}]:                        ${indexed}",
-        "removedControllers__i": "Succesfully removed controllers for parser: ${configTitle}",
+        "removedControllers__i": "Controller erfolgreich entfernt für Parser: ${configTitle}",
         "fetchedTemplates": "Alle Controller-Templates abgerufen"
       },
       "label": {
-        "parserType": "Parser type",
-        "configTitle": "Configuration title",
-        "steamCategory": "Steam category",
+        "parserType": "Parser-Typ",
+        "configTitle": "Titel der Konfiguration",
+        "steamCategory": "Steam-Kategorie",
         "executableModifier": "Executable modifier",
         "executableLocation": "Ausführbare Datei",
         "romDirectory": "ROM-Verzeichnis",
         "steamDirectory": "Steam-Verzeichnis",
         "startInDirectory": "\"Starte in\"-Verzeichnis",
         "userAccounts": "Benutzerkonten",
-        "titleFromVariable": "Title from custom variable",
+        "titleFromVariable": "Titel aus der benutzerdefinierten Variable",
         "titleModifier": "Title modifier",
         "fuzzyMatch": "Fuzzy matching",
-        "executableArgs": "Command line arguments",
+        "executableArgs": "Kommandozeilen-Argumente",
         "onlineImageQueries": "Online image query",
         "imagePool": "Bildpool",
-        "imageProviders": "Image providers",
+        "imageProviders": "Bildanbieter",
         "defaultImage__i": "Fallback ${artworkType}",
-        "localImages__i": "Local ${artworkType} glob"
+        "localImages__i": "Lokaler ${artworkType} Glob"
       },
       "placeholder": {
         "parserType": "Parser auswählen...",
-        "configTitle": "My Awesome Parser",
+        "configTitle": "Mein Parser",
         "steamCategory": "${cat1}${cat2}",
         "steamDirectory": "${steamdirglobal} oder /Pfad/zu/Steam",
-        "userAccounts": "${steamuser1}${steamuser2} or ${${accountsglobal}}",
+        "userAccounts": "${steamuser1}${steamuser2} oder ${${accountsglobal}}",
         "titleFromVariable": "${myvariable}",
         "titleModifier": "${fuzzyTitle} oder ${title}",
         "defaultImage__i": "/Pfad/zu/fallback_${artworkType}.png",
-        "localImages__i": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)",
+        "localImages__i": "/Pfad/zum/Artwork/${artworkType}/\\${title}.@(png|jpg)",
         "romDirectory": "/Pfad/zu/Games/",
         "glob": "${title}.@(iso|ISO)",
         "executableLocation": "Beispiel: /Pfad/zu/emulator.exe",
         "executableArgs": "--arg1 --arg2",
         "executableModifier": "\"${exePath}\"",
-        "startInDirectory": "/path/to/start/in/dir",
+        "startInDirectory": "/Pfad/zu/Start/in/Verzeichnis",
         "imageProviders": "Keine",
         "multiAPIPlaceholder": "Kein Filter"
       },
       "text": {
         "tryToMatchTitle": "Enable Title from Custom Variable",
-        "skipFileIfVariableWasNotFound": "Skip file if variable was not found",
+        "skipFileIfVariableWasNotFound": "Datei überspringen, falls keine Variable gefunden wurde",
         "caseInsensitiveVariables": "Case-insensitive variables",
-        "shortcut_passthrough": "Follow .lnk or .desktop to destination (Windows and Linux only)",
+        "shortcut_passthrough": "Folge .lnk or .desktop Dateien zum Ziel (nur Windows und Linux)",
         "fuzzy_use": "Use fuzzy matching",
         "fuzzy_removeCharacters": "Aggressive matching",
         "fuzzy_removeBrackets": "Entferne (...) und [...] Klammern",
-        "fuzzy_replaceDiacritic": "Replace diacritic characters",
+        "fuzzy_replaceDiacritic": "Diakritische Zeichen ersetzen",
         "appendArgsToExecutable": "Append arguments to executable",
         "disabled": "Aktuellen Parser deaktivieren",
         "advanced": "Erweiterte Optionen anzeigen",
@@ -486,14 +486,14 @@
       },
       "error": {
         "savingConfiguration": "Fehler beim Speichern der Benutzerkonfigurationen!",
-        "readingConfiguration": "Error encountered while reading user configurations!",
-        "parserTypeMissing": "Cannot save without specifying parser type",
-        "corruptedConfiguration__i": "One or more saved parser configurations are invalid!\r\nPermanent configuration saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}",
+        "readingConfiguration": "Fehler beim Lesen der Benutzerkonfigurationen!",
+        "parserTypeMissing": "Speichern ohne Parser-Typ nicht möglich",
+        "corruptedConfiguration__i": "Eine oder mehrere gespeicherte Parser Konfigurationen sind ungültig!\nEndgültiges Speichern von Konfigurationen ist deaktiviert bis das Problem gelöst wurde.\nVersuche das Problem händisch zu beheben (Datei - ${file})\noder lass dir auf github oder unserem offiziellen Discord Channel helfen (Englisch): ${error}",
         "fetcingTemplates": "Fehler beim Abrufen der Controller-Templates!"
       },
       "validationErrors": {
-        "parserType__md": "> Incorrect parser type!",
-        "configTitle__md": "> Configuration title is required!",
+        "parserType__md": "Ungültiger Parser-Typ!",
+        "configTitle__md": "> Titel für die Konfiguration wird benötigt!",
         "parserId__md": "> Parser Id fehlt, irgendwas ist fürchterlich schief gegangen.",
         "parserInput": {
           "noInput": "Es sind keine Eingaben verfügbar!",
@@ -526,7 +526,7 @@
       "successfulDownload": "Download war erfolgreich. Liste wird gespeichert.",
       "checkingIfListIsUpToDate": "Überprüfe, ob die Titelliste aktuell ist.",
       "listIsOutdated": "Liste ist veraltet. Titelliste für Fuzzy Abgleichen wird heruntergeladen.",
-      "listIsUpToDate": "Titelliste ist aktuell.",
+      "listIsUpToDate": "Liste der Titel ist aktuell.",
       "match__i": "Fuzzy Titel \"${fuzzyTitle}\" aus \"${extractedTitle}\"",
       "equal__i": "Fuzzy Vergleich: \"${a}\" == \"${b}\"",
       "notEqual__i": "Fuzzy Vergleich: \"${a}\" != \"${b}\""
