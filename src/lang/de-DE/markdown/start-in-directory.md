@@ -1,10 +1,10 @@
 # "Start In" directory (optional) `[supports environment variables]`{.noWrap}
 
-By default "Start In" directory is set to executable's directory:
+Standardmäßig ist das Verzeichnis "Start in" auf das ausführbare Verzeichnis gesetzt:
 
-![Default "Start In" directory](../../../assets/images/default-start-in-directory.png) {.fitImage.center}
+![Standard "Start in" Verzeichnis](../../../assets/images/default-start-in-directory.png) {.fitImage.center}
 
-This option allows you to specify any directory you want as a "Start In" directory:
+Mit dieser Option können Sie jedes gewünschte Verzeichnis als "Start In" Verzeichnis festlegen:
 
 ![Ner "Start In" directory](../../../assets/images/new-start-in-directory.png) {.fitImage.center}
 
