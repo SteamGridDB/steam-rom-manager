@@ -1,16 +1,16 @@
 # Parser-Variablen
 
-Hier sind Tabellen von Variablen, die mit Optionen verwendet werden können, die `[Variablen unterstützen]`{.noWrap} in ihren Beschreibungen angegeben haben. Variable kann geschachtelt werden.
+Hier findest du eine Sammlung von Variablen, die mit Optionen verwendet werden können, die `[unterstützt Variablen]`{.noWrap} in ihren Beschreibungen haben. Variable kann geschachtelt werden.
 
 ## Verzeichnis-Variablen
 
-| Variable (Groß- und Kleinschreibung unberücksichtigt) | Corresponding value                     |
-| -----------------------------------------------------:|:--------------------------------------- |
-|                                           `${exeDir}` | Ausführbares Verzeichnis                |
-|                                           `${romDir}` | ROM-Verzeichnis                         |
-|                                         `${steamDir}` | Steam-Verzeichnis                       |
-|                                       `${startInDir}` | "Startin"-Verzeichnis                   |
-|                                          `${fileDir}` | File's, returned by a parser, directory |
+| Variable (Groß- und Kleinschreibung nicht berücksichtigt) | Wert                                    |
+| ---------------------------------------------------------:|:--------------------------------------- |
+|                                               `${exeDir}` | Ausführbares Verzeichnis                |
+|                                               `${romDir}` | ROM-Verzeichnis                         |
+|                                             `${steamDir}` | Steam-Verzeichnis                       |
+|                                           `${startInDir}` | "Starte in"-Verzeichnis                 |
+|                                              `${fileDir}` | File's, returned by a parser, directory |
 
 Falls die ausführbare Verzeichniseingabe **leer bleibt**, ist `${exeDir}`{.noWrap} gleich `${fileDir}`{.noWrap}. Außerdem ist, wenn das Verzeichnis "StartIn" **leer** gelassen wird, `${startInDir}`{.noWrap} gleich `${exeDir}`{.noWrap}.
 
