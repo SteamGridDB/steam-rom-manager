@@ -2,77 +2,77 @@
 
 Hier findest du eine Sammlung von Variablen, die mit Optionen verwendet werden können, die `[unterstützt Variablen]`{.noWrap} in ihren Beschreibungen haben. Variable kann geschachtelt werden.
 
-## Verzeichnis-Variablen
+## Verzeichnis
 
-| Variable (Groß- und Kleinschreibung nicht berücksichtigt) | Wert                                    |
-| ---------------------------------------------------------:|:--------------------------------------- |
-|                                               `${exeDir}` | Ausführbares Verzeichnis                |
-|                                               `${romDir}` | ROM-Verzeichnis                         |
-|                                             `${steamDir}` | Steam-Verzeichnis                       |
-|                                           `${startInDir}` | "Starte in"-Verzeichnis                 |
-|                                              `${fileDir}` | File's, returned by a parser, directory |
+| Variable (Groß- und Kleinschreibung nicht berücksichtigt) | Wert                                               |
+| ---------------------------------------------------------:|:-------------------------------------------------- |
+|                                               `${exeDir}` | Ausführbares Verzeichnis                           |
+|                                               `${romDir}` | ROM-Verzeichnis                                    |
+|                                             `${steamDir}` | Steam-Verzeichnis                                  |
+|                                           `${startInDir}` | "Starte in"-Verzeichnis                            |
+|                                              `${fileDir}` | Vom Parser zurückgegebene Dateien oder Verzeichnis |
 
-Falls die ausführbare Verzeichniseingabe **leer bleibt**, ist `${exeDir}`{.noWrap} gleich `${fileDir}`{.noWrap}. Außerdem ist, wenn das Verzeichnis "StartIn" **leer** gelassen wird, `${startInDir}`{.noWrap} gleich `${exeDir}`{.noWrap}.
+Falls die Eingabe für `${exeDir}`{.noWrap} **leer** bleibt, ist es gleich `${fileDir}`{.noWrap}. Falls die Eingabe für `${startInDir}`{.noWrap} **leer ** bleibt, ist es gleich `${exeDir}`{.noWrap}.
 
-## Namen-Variablen
+## Namen
 
-| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                             |
-| -----------------------------------------------------:|:--------------------------------------------------------------- |
-|                                          `${exeName}` | Name of executable (without extension)                          |
-|                                         `${fileName}` | Name of file which was returned by a parser (without extension) |
+| Variable (Groß- und Kleinschreibung nicht berücksichtigt) | Wert                                                         |
+| ---------------------------------------------------------:|:------------------------------------------------------------ |
+|                                              `${exeName}` | Name der ausführbaren Datei (ohne Dateiendung)               |
+|                                             `${fileName}` | Name der vom Parser zurückgegebenen Datei (ohne Dateiendung) |
 
-Falls die ausführbare Verzeichniseingabe **leer** gelassen wurde, ist `${exeName}`{.noWrap} gleich `${fileName}`{.noWrap}.
+Falls die Eingabe für `${exeName}`{.noWrap} **leer ** bleibt, ist es gleich `${fileName}`{.noWrap}.
 
-## Extension variables
+## Dateiendungen
 
-| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                           |
-| -----------------------------------------------------:|:------------------------------------------------------------- |
-|                                           `${exeExt}` | Extension of executable (with a dot)                          |
-|                                          `${fileExt}` | Extension of file which was returned by a parser (with a dot) |
+| Variable (Groß- und Kleinschreibung nicht berücksichtigt) | Wert                                                    |
+| ---------------------------------------------------------:|:------------------------------------------------------- |
+|                                               `${exeExt}` | Erweiterung der ausführbaren Datei (mit Punkt)          |
+|                                              `${fileExt}` | Endung der vom Parser zurückgegebenen Datei (mit Punkt) |
 
-In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
+Falls die Eingabe für `${exeExt}`{.noWrap} **leer ** bleibt, ist es gleich `${fileExt}`{.noWrap}.
 
-## Pfad-Variablen
+## Pfade
 
-| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                |
-| -----------------------------------------------------:|:-------------------------------------------------- |
-|                                          `${exePath}` | Full path to an executable                         |
-|                                         `${filePath}` | Full path to a file which was returned by a parser |
+| Variable (Groß- und Kleinschreibung nicht berücksichtigt) | Wert                                                               |
+| ---------------------------------------------------------:|:------------------------------------------------------------------ |
+|                                              `${exePath}` | Komplette Pfadangabe zur ausführbaren Datei                        |
+|                                             `${filePath}` | Komplette Pfadangabe zur Datei, die vom Parser zurückgegeben wurde |
 
-In case executable directory input is left **empty**, `${exePath}`{.noWrap} is equal to `${filePath}`{.noWrap}.
+Falls die Eingabe für `${exePath}`{.noWrap} **leer ** bleibt, ist es gleich `${filePath}`{.noWrap}.
 
 ## Parser-Variablen
 
-| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                              |
-| -----------------------------------------------------:|:------------------------------------------------ |
-|                                            `${title}` | Extracted title                                  |
-|                                       `${fuzzyTitle}` | Fuzzy matched title                              |
-|                                       `${finalTitle}` | Title which was the end result of title modifier |
+| Variable (Groß- und Kleinschreibung nicht berücksichtigt) | Wert                                         |
+| ---------------------------------------------------------:|:-------------------------------------------- |
+|                                                `${title}` | Extrahierter Titel                           |
+|                                           `${fuzzyTitle}` | Fuzzy Matched Titel                          |
+|                                           `${finalTitle}` | Titel nachdem "Titel ändern" angewandt wurde |
 
-In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
+Falls Fuzzy Matching **fehlschlägt** oder **deaktiviert** ist, ist `${fuzzyTitle}`{.noWrap} gleich `${title}`{.noWrap}.
 
-## Funktionsvariablen
+## Funktionen
 
-|       Variable (Groß- und Kleinschreibung unberücksichtigt) | Corresponding function                                                                                                 |
-| -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
-|                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
-|                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
-|                                             `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                                      |
-|                                       `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
-|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
-| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                           |
+|   Variable (Groß- und Kleinschreibung nicht berücksichtigt) | Funktion                                                                                                                                       |
+| -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------- |
+|                 `${regex\|input\|substitution(optional)}` | Wendet Regex auf den Input an. Unterstützt `u`, `g` und `i` Flags(Gruppierungen werden zusammengefasst, wenn keine Substitution angegeben ist) |
+|                                             `${uc\|input}` | Groß geschriebene Variable. Wandelt Input in Großbuchstaben um                                                                                 |
+|                                             `${lc\|input}` | Klein geschriebene Variable. Wandelt Input in Kleinbuchstaben um                                                                               |
+|                                       `${cv:group\|input}` | Ersetzt den Input mit benutzerdefinierten Variablen (group ist optional)                                                                       |
+|                                            `${rdc\|input}` | Ersetzt diakritische Zeichen mit der lateinischen Variante                                                                                     |
+| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | Wenn das Betriebssystem matcht, wird `on match` angewandt, ansonsten `no match`                                                                |
 
-### Beispiel für Funktionsvariablen
+### Beispiel für Funktionen
 
 Nehmen wir an, dass die `${title}` Variable mit `Pokémon (USA) (Disc 1).iso` übereinstimmt. Dann werden diese Variablen:
 ```
-${/.*/|${title}}                           //Matches everything
-${/(.*)/|${title}}                         //Captures everything
-${/(\(.*?\))/|${title}|}                   //Captures all brackets and substitutes with nothing
-${/(\(Disc\s?[0-9]\))/|${title}}           //Captures "Disc..." part
-${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transforms it to uppercase
-${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
-file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
+${/.*/|${title}}                           //Matched alles
+${/(.*)/|${title}}                         //Gruppiert alles
+${/(\(.*?\))/|${title}|}                   //Erfasst alle Klammern und ersetzt mit nichts
+${/(\(Disc\s?[0-9]\))/|${title}}           //Erfasst den "Disc..." Teil
+${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Erfasst den "Disc..." Teil und wandelt ihn in Großbuchstaben um
+${rdc|${title}}                            //Ersetzt diakritische Zeichen (hier: é -> e)
+file${os:linux|.so|${os:win|.dll}}         //Wählt die korrekte Dateiendung für ein Betriebssystem
 ```
 durch diese ersetzt:
 ```
@@ -83,10 +83,10 @@ Pokémon.iso
 (DISC 1)
 Pokemon (USA) (Disc 1).iso
 
---On linux:
+--Unter linux:
 file.so
---On Windows:
+--Unter Windows:
 file.dll
---On Mac OS:
+--Unter Mac OS:
 file
 ```
