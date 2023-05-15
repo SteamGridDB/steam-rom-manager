@@ -10,10 +10,10 @@ Es ist möglich, dass `false` Matching für Titel, die nicht in der Liste sqind,
 
 Ersetzt diakritische Zeichen mit ihren lateinischen Equivalenten: `Ą` -> `A`, `Ę` -> `E`, `Ė` -> `E`, etc. Dies sollte das Matching des Fuzzy Matchers erhöhen.
 
-## Aggressive matching
+## Aggressives Matching
 
-When enabled, fuzzy matcher will remove all characters except for `a-zA-Z0-9 ()[]` and will replace `_` with space. This should improve the matching ability of fuzzy matcher.
+Wenn du dies aktivierst, wird der Fuzzy Matcher alle Zeichen außer `a-zA-Z0-9 ()[]` entfernen und `_` mit Leerzeichen ersetzen. Dies sollte das Matching des Fuzzy Matchers erhöhen.
 
-## Remove (...) and [...] brackets
+## (...) und [...] Klammern entfernen
 
-When enabled, fuzzy matcher will remove all `(...)`{.noWrap} and `[...]`{.noWrap} together with their content. Useful for titles with `[USA]`{.noWrap}, `[JPN]`{.noWrap} and etc., as they prevent from matching titles correctly.
+Wenn du dies aktivierst, wrid der Fuzzy Matcher alle `(...)`{.noWrap} und `[...]`{.noWrap} inklusive ihrem Inhalt entfernen. Nützlich für Titel mit `[USA]`{.noWrap}, `[JPN]`{.noWrap} etc., da diese das matching erschweren.
