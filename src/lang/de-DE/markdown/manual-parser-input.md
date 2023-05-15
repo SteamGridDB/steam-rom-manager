@@ -5,7 +5,7 @@
 Der Speicherort der json-Dateien, die du in Steam-Verknüpfungen umwandeln möchtest. `Manifest-Verzeichnis` wird in dieser Form erwartet:
 
 ```
-/path/to/manifests
+/Pfad/zu/Manifesten
 --manifest1.json
 --manifest2.json
 --manifest3.json
@@ -14,9 +14,9 @@ Der Speicherort der json-Dateien, die du in Steam-Verknüpfungen umwandeln möch
 Die Namen der Dateien sind egal. Wichtig ist, dass jede `manifest.json` Datei entweder ein einzelner Titel ist, wie:
 ```json
 {
-    "title": "gameTitle",
-    "target": "game/path/target.sh",
-    "startIn": "game/path",
+    "title": "spielTitel",
+    "target": "Spiel/Pfad/Ziel.sh",
+    "startIn": "Spiel/Pfad",
     "launchOptions": "--args"
 }
 ```
@@ -24,15 +24,15 @@ Oder eine Liste von Titeln, wie diese:
 ```json
 [
   {
-    "title": "gameTitle",
-    "target": "game/path/target.sh",
-    "startIn": "game/path",
+    "title": "spielTItel",
+    "target": "Spiel/Pfad/Ziel.sh",
+    "startIn": "Spiel/Pfad",
     "launchOptions": "--args"
   },
   {
-    "title": "gameTitle2",
-    "target": "game2/path/target.sh",
-    "startIn": "game2/path",
+    "title": "spielTItel2",
+    "target": "Spiel2/Pfad/Ziel.sh",
+    "startIn": "Spiel2/Pfad",
     "launchOptions": "--args2"
   }
 ]
