@@ -32,18 +32,18 @@ Si te gusta Steam ROM Manager y quieres que siga siendo util puedes considerar d
 * `FrogTheFrog`{.noWrap} - Creador de SRM, ya no es activo en SRM pero esta trabajando actualmente en [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
 
 ### Current Maintainers
-* `lontanadascienza`{.noWrap} - Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller management, platform parsers (Epic, GOG, Steam, etc), among many other things. Squashes bugs almost as fast as he introduces them.
-* `Zennn`{.noWrap} - Added category support, langauge localization, and the bug report server among many other things. Gran jefe en [SteamGridDB](https://www.steamgriddb.com/).
+* `lontanadascienza`{.noWrap} - Actualizó SRM para que soporte heroes, pósteres, logos e iconos. Añadió el administrador de excepciones, administrador de controles, analizador de plataformas (Epic, GOG, Steam, etc), y muchas otras cosas más. Soluciona los errores casi tan rápido como los crea.
+* `Zennn`{.noWrap} - Añadió soporte para categorías, localización de lenguajes, y el servidor de reportes de errores entre otras cosas. Gran jefe en [SteamGridDB](https://www.steamgriddb.com/).
 * `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz).
 
 ### Feature Contributions
-* `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
-* `alvaromunoz`{.noWrap} - Added Game Pass parser to SRM.
-* `lexarvn`{.noWrap} - Added the Amazon Games parser and the itch.io parser.
-* `CarJem`{.noWrap} - Added the manual parser.
-* `MattMckenzy`{.noWrap} - Added ability to import and export image choices.
+* `dragoonDorise`{.noWrap} - Añadió nuevos temas a SRM. Creador y actualmente mantenedor de [EmuDeck](https://www.emudeck.com/).
+* `alvaromunoz`{.noWrap} - Añadió el analizador de Game Pass a SRM.
+* `lexarvn`{.noWrap} - Añadió el analizador de Amazon Games e itch.io.
+* `CarJem`{.noWrap} - Añadió el analizador manual.
+* `MattMckenzy`{.noWrap} - Añadió la opción de importar y exportar imagenes.
 * `Apalatn`{.noWrap} - Added an install drive redirect option to the itch.io parser.
-* `OneMoreByte` - Made itch.io parser work on linux and mac.
+* `OneMoreByte` - Hizo que el analizador de itch.io funcione en linux y mac.
 * `UndarkAido` - Added shortcut passthrough for Linux's .desktop shortcuts.
 
 ### Community
