@@ -22,14 +22,14 @@ Help support continued progress on Steam ROM Manager at:
   <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="Buy Me A Coffee" width="160">
 </a>
 
-[SteamGridDB](https://www.steamgriddb.com/) aloja toda el arte que Steam ROM Manager usa para hacer que tu biblioteca de Steam sea la envidia de la ciudad, así que probablemente deberíamos ayudarlos a mantenerse a flote. If you enjoy Steam ROM Manager and want it to continue to be useful also consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon.
+Si te gusta Steam ROM Manager y quieres que siga siendo util puedes considerar donar en el patreon de [SteamGridDB](https://www.steamgriddb.com/). [SteamGridDB](https://www.steamgriddb.com/) aloja todo el arte que Steam ROM Manager usa para hacer que tu biblioteca de Steam sea la envidia de la ciudad, así que probablemente deberíamos ayudarlos a mantenerse a flote.
 
 <a href="https://www.patreon.com/steamgriddb">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
-## Contributions
-* `FrogTheFrog`{.noWrap} - Creator of SRM, no longer active on SRM but currently working on the [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
+## Contribuciones
+* `FrogTheFrog`{.noWrap} - Creador de SRM, ya no es activo en SRM pero esta trabajando actualmente en [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
 
 ### Current Maintainers
 * `lontanadascienza`{.noWrap} - Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller management, platform parsers (Epic, GOG, Steam, etc), among many other things. Squashes bugs almost as fast as he introduces them.
