@@ -10,10 +10,10 @@ Dies schränkt SRM auf die Konten `XXX` und `YYY` ein. Die Anzahl der Konten ist
 
 * Ein `Steam Benutzername` (Der Name mit dem du dich in Steam einloggst). So kannst du zum Beispiel den Benutzer `Foo` und `Bar` als `${Foo}${Bar}`.
 
-You can mix and match: `${56489124}${Apple}` is fine.
+Kombinieren ist ebenfalls möglich: `${56489124}${Apple}`.
 
 Du kannst dieses Feld auch mit der `Accounts Global` Umgebungsvariable aus den Einstellungen mit `${${accountsglobal}}` setzen.
 
-## Warning
+## Achtung
 
-Es **müssen** die Benutzernamen verwendet werden, die zum **Einloggen** in Steam verwendet werden, **falls** [Anmeldeinformationen verwenden](#what-does-use-account-credentials-do) aktiviert wurde: If you would like to use `Steam Usernames` here, go to `Steam > Settings > Account` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM. If you would like to use `Steam Usernames` here, go to `Steam > Settings > Account` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.
+Wenn du `Anmeldedaten auf diesem Computer nicht speichern` in Steam eingestellt hast, kann SRM deinen `Steam Benutzernamen` nicht auslesen und du kannst **nur** ` Account IDs` benutzen. Wenn du `Steam Benutzernamen` verwenden willst, gehe zu `Steam > Einstellungen > Benutzerkonto` und deaktiviere `Anmeldedaten auf diesem Computer nicht speichern`. Starte danach Steam und SRM neu.
