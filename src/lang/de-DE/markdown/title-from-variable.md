@@ -1,26 +1,26 @@
-# Titel der benutzerdefinierten Variable (optional)
+# Titel aus benutzerdefinierten Variablen (optional)
 
-Erlaubt es, den entpackten Titel mit einer benutzerdefinierten Variable zu überschreiben. This is done right after title extraction, meaning that the replaced title can be used for fuzzy matching and so on. Groups and variables themselves are **case-sensitive**, unless case-insesitive variable option is enabled.
+Erlaubt es, den extrahierten Titel mit einer benutzerdefinierten Variable zu überschreiben. Dies passiert direkt nach der Extraktion des Titels, damit dieser nachfolgend mit Hilfe von Fuzzy matching bearbeitet werden kann. Gruppen und Variablen beachten Groß- und Kleinschreibung, außer etwas anderes ist aktiviert.
 
-Title matching can be limited to specific groups of custom variables. In order to specify groups, the following syntax must be used:
+Titel Matching kann auf einzelne Gruppen von benutzerdefinierten Variablen eingeschränkt werden. Verwende folgenden Syntax um Gruppen zu spezifizieren:
 ```
 ${...}
 ```
-For example, this is how you specify groups for "RPCS3" and "rpcs3":
+Zum Beispiel kannst du Gruppen für"RPCS3" and "rpcs3" so definieren:
 ```
 ${RPCS3}${rpcs3}
 ```
 
-Make sure you **toggle enable to on**.
+Stelle sicher, dass dies aktiviert ist.
 
 
-## Case-insensitive option
+## Groß- und Kleinschreibung ignorieren
 
-If this option is enabled, case-insensitive matching will be done and first matched custom variable will be used.
+Wenn dies aktiviert ist, wird der erste Treffer benutzt.
 
-## Note. Diese Funktion ist **experimentell**
+## Hinweis. Diese Funktion ist **experimentell**
 
-Grundsätzlich könnte sich dies in einer zukünftigen Version ändern (sehr unwahrscheinlich). Furthermore, currently the only way to add variables is to create/edit `customVariables.json` used by SRM directly.
+Grundsätzlich könnte sich dies in einer zukünftigen Version ändern (sehr unwahrscheinlich). Außerdem können momentan neue Variablen nur hinzugefügt/editiert werden indem man `customVariables.json` direkt anpasst.
 
 Diese Datei ist/sollte sich im Verzeichnis `userData` von SRM befinden.
 
@@ -38,59 +38,11 @@ SRM wird Fehler ausgeben, wenn nicht die folgende JSON-Struktur verwendet wird:
     },
     ...
 }
-    {
-    "RPCS3": {
-        "NPUB30698": "Catherine",
-        "NPUB30024": "1942: Joint Strike",
-        ...
     },
     "Custom Stuff": {
         "The Legend Of Zelda": "The Legend Of Link"
     },
     ...
-}
-    {
-    "RPCS3": {
-        "NPUB30698": "Catherine",
-        "NPUB30024": "1942: Joint Strike",
-        ...
-    },
-    "Custom Stuff": {
-        "The Legend Of Zelda": "The Legend Of Link"
-    },
-    ...
-}
-    {
-    "RPCS3": {
-        "NPUB30698": "Catherine",
-        "NPUB30024": "1942: Joint Strike",
-        ...
-    },
-    "Custom Stuff": {
-        "The Legend Of Zelda": "The Legend Of Link"
-    },
-    ...
-}
-    {
-    "RPCS3": {
-        "NPUB30698": "Catherine",
-        "NPUB30024": "1942: Joint Strike",
-        ...
-    },
-    "Custom Stuff": {
-        "The Legend Of Zelda": "The Legend Of Link"
-    },
-    ...
-}
-    },
-    "Custom Stuff": {
-        "The Legend Of Zelda": "The Legend Of Link"
-    },
-    ...
-}
-}
-}
-}
 }
 ```
 
