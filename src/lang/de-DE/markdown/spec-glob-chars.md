@@ -1,12 +1,12 @@
-# Special glob characters
+# Spezielle Glob Zeichen
 
 ## Wildcards: `*`, `?`, `[...]`{.noWrap}
 
-- `*` -- matches **0** or **more** characters in a **single** path portion;
-- `?` -- matches exactly **1** character;
-- `[...]`{.noWrap} -- matches a range of characters. If the first character in brackets is `!` or `^` then it matches any character not in the range:
-  - `[abc]`{.noWrap} -- matches `a`, `b` or `c` characters;
-  - `[!abc]`{.noWrap} -- matches any character except for `a`, `b` or `c`;
+- `*` -- entspricht **0** oder **mehr** Zeichen in einem **einzelnen** Pfadabschnitt;
+- `?` -- entspricht genau **1** Zeichen;
+- `[...]`{.noWrap} -- entspricht einer Reihe von Zeichen. Wenn das erste Zeichen in Klammern `!` oder `^` ist, dann entspricht es jedem einzelnen Zeichen nicht in dieser Reihe:
+  - `[abc]`{.noWrap} -- entspricht `a`, `b` oder `c` Zeichen;
+  - `[!abc]`{.noWrap} -- entspricht jedem Zeichen außer `a`, `b` oder `c`;
   - `[0-9]`{.noWrap} -- matches any character between `0` and `9` characters (all numbers);
   - `[a-z]`{.noWrap} -- matches any character between `a` and `z` characters (lower english alphabet).
 
