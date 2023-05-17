@@ -2,14 +2,14 @@
 
 Diese Optionen werden direkt an die APIs der Bildanbieter weitergereicht, beispielsweise SteamGridDB's [API](https://www.steamgriddb.com/api/v2).
 
-An interesting quirk of these settings is that re-generating the preview (hitting the `Generate App List` button) *will only add artwork*, not remove it. If one wants to apply a stronger set of filters and remove artwork, one has to hit the `Remove App List` button in preview before hitting `Generate App List`. The reason for this behavior is that it allows for *preferential* artwork selection. For example, one might first generate the preview with the blurred grid filter on and then re-generate it with the blurred grid filter off in order to achieve the effect of *preferring* blurred grids, but still allowing non-blurred grids in the case no blurred grid exists.
+Eine Eigenheit dieser Einstellungen ist, dass das erneute generieren der Preview (`Generiere App Liste`) *nur Artworks hinzufügt*, aber keine entfernt. Wenn du ein anderes Set an Filtern hinzufügen und Artwork entfernen willst, musst du zuerst den `Entferne App Liste` Knopf drücken, bevor du erneut `Generiere App Liste` nutzt,. Der Grund hierfür ist, dass so einfacher *preferierte* Artorks ausgewählt werden können. So kann zum Beispiel zuerst eine Preview erstellt werden bei dem man den "Verschwommen" Filter nutzt und dann erneut ohne Filter eine Preview erstellen um einen *preferierten* Effekt zu erhalten.
 
 ## SteamGridDB
 
 * NSFW-Artworks erlauben.
-* Scherzkunst erlauben.
-* Allowed grid styles - Alternate, Blurred, White Logo, Materiel, or No Logo. Applies to posters and to banner grids.
-* Allowed hero styles - Alternate, Blurred, Materiel.
-* Allowed logo styles - Official, White, Black, Custom.
-* Allowed icon styles - Official, Custom.
-* Allowed animation types - Static (`.png`,`.ico`, etc), Animated (`.webp`).
+* Scherzbild erlauben.
+* Erlaubte Kapsel-Stile - Alternative, Verschwommene, Weißes Logo, Material oder kein Logo. Wird auf Poster und Banner Kapseln angewandt.
+* Erlaubte Heldenbild-Stile - Alternativ, Verschwommen, Material.
+* Erlaubte Logo-Stile - Offiziell, Weiß, Schwarz, Eigen.
+* Erlaubte Symbol-Stile - Offiziell, Eigene.
+* Erlaubte Animationsarten - Statisch (`.png`,`.ico`, etc), Animiert (`.webp`).
