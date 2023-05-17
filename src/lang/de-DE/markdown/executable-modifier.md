@@ -1,16 +1,16 @@
 # Programmdatei ändern`[unterstützt Variablen]`{.noWrap}
 
-Default value is `"${exePath}"`{.noWrap}. This setting can be used to prepend or append desired characters to an executable which will be added to Steam (`Target` property). For example, given that `${exePath}`{.noWrap} is `C:\RetroArch\retroarch.exe`, you can add `"cmd" /k start /min` to it by setting value to:
+Standardwert ist `"${exePath}"`{.noWrap}. Diese Einstellung wird genutzt um Zeichen vor oder hinter Programmdateien zu setzen, welche zu Steam hinzugefügt werden (`Target` Eigenschaft). Zum Beispiel, wenn `${exePath}`{.noWrap} `C:\RetroArch\retroarch.exe` entspricht, kannst du `"cmd" /k start /min` hinzufügen in dem du den Wert eingibst:
 ```
 "cmd" /k start /min "${exePath}"
 ```
 Du kannst jede andere Variable verwenden, um die endgültige ausführbare Datei zu erstellen.
 
-This setting influences Steam's APP ID.
+Diese Einstellung beeinflusst die Steam's APP-ID.
 
 
-## Shortcut Passthrough
-If you enable "Follow .lnk to destination" and your executable is a ".lnk" file, ie a shortcut, then whatever you put in this field will be overridden with the target of that shortcut. If you would like to add executable arguments either add them to the target of the shortcut or use the "Command Line Arguments" field in the parser.
+## Shortcut weiterreichen
+Wenn du "Folge .lnk zum Ziel" aktivierst und deine Programmdatei eine ".lnk" Datei ist, zum Beispiel ein Shortcut, dann wird, was du in dieses Feld einträgst, überschrieben mit dem Ziel der Verknüpfung. Wenn du Argumente hinzufügen willst, füge sie dem Ziel des Shortcuts hinzu oder nutze das "Kommandozeilenargumente" Feld im Parser.
 
 ## Verzeichnis-Variablen
 
