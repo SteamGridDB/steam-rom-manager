@@ -18,4 +18,4 @@ Nach dem Erhalt der `${title}`{.noWrap} Position, wird der `${title}`{.noWrap} d
 
 ## Einschränkungen
 
-Position extraction comes with some limitations -- glob is invalid if position can not be extracted. Meistens wirst du davor gewarnt, was du nicht tun kannst. Solltest du jedoch eine Kombination finden, die erlaubt ist, aber falsche Titel erzeugt, gib uns dieses Problem bitte auf [github](https://github.com/FrogTheFrog/steam-rom-manager/issues) weiter.
+Der Glob ist ungültig, wenn die Position nicht extrahiert werden konnte. Meistens wirst du davor gewarnt, wenn der Input ungültig ist. Solltest du jedoch eine Kombination finden, die erlaubt ist, aber falsche Titel erzeugt, gib uns dieses bitte auf [GitHub](https://github.com/FrogTheFrog/steam-rom-manager/issues) weiter.
