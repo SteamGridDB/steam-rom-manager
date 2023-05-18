@@ -1,20 +1,20 @@
-# Glob Parser specific inputs
+# Glob Parser spezifische Inputs
 
 ## Benutzer-Glob
 
-This is where you create your glob for extracting title from file path. Please read all of [special glob characters](#special-glob-characters) if you don't know how to construct a glob.
+Hier erstellst du Globs zum extrahieren von Titeln aus Dateipfaden. Bitte informiere dich vorher über alle [speziellen Glob Zeichen ](#special-glob-characters), wenn du nicht weißt, wie man einen Glob erstellt.
 
 ## Wie funktioniert es?
 
-In addition to special glob characters, glob parser requires you to enter `${title}`{.noWrap} variable. Parser will locate it's position inside your  **glob**, for example:
+Zusätzlich zu speziellen Glob Zeichen, benötigt der Glob Parser eine `${title}`{.noWrap} Variable. Der Parser wird die Position innerhalb des  **Globs** finden, zum Beispiel:
 
-| Benutzer-Glob          | Position                    |
-| ---------------------- | --------------------------- |
-| `${title}/*/*.txt`     | First level from the left   |
-| `{*,*/*}/${title}.txt` | First level from the right  |
-| `**/${title}/*.txt`    | Second level from the right |
+| Benutzer-Glob          | Position                |
+| ---------------------- | ----------------------- |
+| `${title}/*/*.txt`     | Erste Ebene von links   |
+| `{*,*/*}/${title}.txt` | Erste Ebene von rechts  |
+| `**/${title}/*.txt`    | Zweite Ebene von rechts |
 
-Nach dem Erreichen der `${title}`{.noWrap} Position, wird `${title}`{.noWrap} durch einen Platzhalter `*` ersetzt.
+Nach dem Erhalt der `${title}`{.noWrap} Position, wird der `${title}`{.noWrap} durch einen Platzhalter `*` ersetzt.
 
 ## Einschränkungen
 
