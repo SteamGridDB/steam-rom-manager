@@ -1,8 +1,8 @@
-## General Settings
-### Offline mode `[Recommend disabled]`
+## Ajustes generales
+### Modo sin conexión `[Recomendado: desactivado]`
 
-When enabled SRM makes no network requests, useful if you only want to use SRM for local images.
-### Automatically clear log before testing parsers `[Recommend enabled]`
+Si se activa, SRM no accederá a internet. Útil si solo quieres usarlo con imágenes locales.
+### Vaciar registro automáticamente antes de analizar `[Recomendado: activado]`
 When enabled the log is cleared each time a parser is tested.
 ### Show current steam images by default `[Recommend enabled]`
 When enabled this setting tells SRM to default to whatever artwork is currently in steam for a given app. If it is disabled, then every time SRM is run (and saved) all artwork will be reset.
