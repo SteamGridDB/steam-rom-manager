@@ -22,9 +22,9 @@ If this option is enabled, case-insensitive matching will be done and first matc
 
 Basically, it might change in the future release (very unlikelly). Furthermore, currently the only way to add variables is to create/edit `customVariables.json` used by SRM directly.
 
-This file is/shoud be located in SRM's `userData` directory.
+This file is/should be located in SRM's `userData` directory.
 
-SRM will throw error unless the following JSON structure is used:
+SRM will throw an error unless the following JSON structure is used:
 
 ```
 {
