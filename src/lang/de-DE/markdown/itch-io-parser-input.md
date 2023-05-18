@@ -1,6 +1,6 @@
 # itch.io Parser spezifische Inputs
 
-## itch.io AppData Pfad Override
+## itch.io AppData Pfad überschreiben
 Standardmäßig geht der Steam ROM Manager davon aus, dass sich deine itch.io App-Daten in Windows auf `%APPDATA%\itch`, in Linux auf `$HOME/.config/itch` und in macOS auf `$HOME/Library/Application Support/itch` befinden. Dieses Feld erlaubt dir, diesen Pfad zu überschreiben, wenn deine itch.io Benutzerdaten woanders gespeichert sind.
 
 ## itch.io Windows-on-Linux Installations Laufwerk ändern
