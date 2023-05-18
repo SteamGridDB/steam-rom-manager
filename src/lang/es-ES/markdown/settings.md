@@ -3,11 +3,11 @@
 
 Si se activa, SRM no accederá a internet. Útil si solo quieres usarlo con imágenes locales.
 ### Vaciar registro automáticamente antes de analizar `[Recomendado: activado]`
-When enabled the log is cleared each time a parser is tested.
-### Show current steam images by default `[Recommend enabled]`
-When enabled this setting tells SRM to default to whatever artwork is currently in steam for a given app. If it is disabled, then every time SRM is run (and saved) all artwork will be reset.
-### Remove shortcuts for disabled parsers `[Recommend disabled]`
-When enabled disabling a parser and running SRM will remove all added entries and artwork for the disabled parser. Useful if you want your steam library to be in 1-1 correspondence with enabled parsers.
+Si está activado, se vaciará el registro cada vez que se pruebe a analizar.
+### Mostrar imágenes en uso por defecto `[Recomendado: activado]`
+Si está activado, SRM usará las imágenes que estén actualmente usándose en Steam. Si se desactiva, cada vez que se ejecute (y guarde) SRM se resetearán las imágenes.
+### Eliminar accesos directos de análisis desactivados `[Recomendado: desactivado]`
+Si está activado, al desactivar un análisis y ejecutar SRM, se eliminarán todas las entradas e imágenes del análisis desactivado. Útil si quieres mantener tu biblioteca de Steam idéntica a las fuentes analizadas.
 
 ## Fuzzy Matcher Settings
 ### Log matching results `[Recommend disabled]`
@@ -18,14 +18,14 @@ Resets the stored list of titles used for fuzzy matching to the list of titles r
 ### Reset fuzzy cache
 Clears the cache of titles that fuzzy matching has already seen (try this if changes you make to fuzzy list are not resulting in changes to titles in SRM).
 
-## Image provider settings
-### Preload retrieved images `[Recommend disabled]`
-When enabled, SRM will pull all available artwork for every game, rather than pulling one piece of artwork at a time as the user flips through the images. Don't enable this unless you have a good reason and a very small library of games, otherwise it could result in very large (slow) network requests.
-### Enabled providers
-Global setting to disable certain providers. Currently the only image provider is `SteamGridDB` since ConsoleGrid and RetroGaming.cloud are defunct.
+## Ajustes de proveedores de imágenes
+### Pre-cargar imágenes obtenidas `[Recomendado: deshabilitado]`
+Si está activado, SRM obtendrá todas las imágenes disponibles para cada juego, en lugar de obtener cada imagen según se muestra. No lo actives a no ser qué tengas un muy buen motivo y una biblioteca de juegos muy reducida, de lo contrario, podría llevar a grandes (y lentas) peticiones a internet.
+### Proveedores habilitados
+Configuración global para desactivar ciertos proveedores. Actualmente el único proveedor de imágenes es `SteamGridDB` ya que ConsoleGrid y RetroGaming.cloud están muertos.
 
-## Community Variables and Presets
-### Force download custom variables.
-Resets the custom variables JSON file that is used for certain presets to whatever its current state is on the SRM github. Useful if the custom variables JSON file has been corrupted.
-### Force download custom presets.
-Resets the JSON files for parser presets to whatever is on the SRM github. Useful if your presets list is not automatically updating for some reason, or has become corrupted.
+## Plantillas y variables de la comunidad
+### Forzar descargar variables personalizadas.
+Restablece el archivo JSON de variables personalizadas que se usa para ciertas plantillas a su estado actual en el GitHub de SRM. Útil si el JSON con las variables personalizadas se ha corrompido.
+### Forzar descargar plantillas personalizadas.
+Restablece los archivos JSON de que se usa para ciertas plantillas a su estado actual en el GitHub de SRM. Útil si su lista de plantillas no se actualiza automáticamente por alguna razón, o se ha corrompido.
