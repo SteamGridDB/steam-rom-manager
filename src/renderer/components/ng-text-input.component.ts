@@ -43,9 +43,7 @@ export class NgTextInputComponent implements ControlValueAccessor {
 
   private handlePaste(event: ClipboardEvent) {
     event.preventDefault();
-
     let data = event.clipboardData.getData('text');
-
     if (!this.multiline)
       data = data.replace(/\r?\n|\r/g, '');
 
@@ -178,14 +176,6 @@ export class NgTextInputComponent implements ControlValueAccessor {
 
   constructor(private changeRef: ChangeDetectorRef, private renderer: Renderer2) { }
 
-  set value(value: string) {
-    this.writeValue(value);
-  }
-
-  get value() {
-    return this.currentValue;
-  }
-
   writeValue(value: string, updateDom: boolean = true, selection?: { start: number, end: number }): void {
     let previousValue = this.currentValue;
     if (value !== this.currentValue) {
@@ -195,7 +185,7 @@ export class NgTextInputComponent implements ControlValueAccessor {
           const swapString = '$:$:$'
           const t1 = escape(selectedPath.replaceAll('\\','/'));
           const t2 = t1.replaceAll('\\', swapString)
-          const t3 = path.resolve(t2, path.basename(this.currentValue) || this.appendGlob)
+          const t3 = path.resolve(t2, this.currentValue ? path.basename(this.currentValue) : this.appendGlob)
           value = t3.replaceAll('\\','/').replaceAll(swapString,'\\');
         } else {
           value = selectedPath;

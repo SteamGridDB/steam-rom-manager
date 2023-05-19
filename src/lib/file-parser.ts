@@ -590,13 +590,15 @@ export class FileParser {
       if (fieldValue) {
         const variableData = this.makeVariableData(config, settings, parsedConfig.files[i]);
         const cwd = config.romDirectory;
+        // this is hacky af, figure out a better way to do escaping for glob
         const parsedGlob = vParser.setInput(fieldValue).parse() ? vParser.replaceVariables((variable) => {
           return escape(this.getVariable(variable as AllVariables, variableData).replaceAll('\\','/'));
-        }) : ''
+        }) : '';
         const swapString='$:$:$'
-        let replacedGlob = path.resolve(cwd, parsedGlob.replaceAll('\\', swapString))
+        let replacedGlob = path.resolve(cwd, parsedGlob.replaceAll('\\', swapString));
         replacedGlob = replacedGlob.replaceAll('\\','/').replaceAll(swapString,'\\');
         resolvedGlobs[i].push(replacedGlob);
+        replacedGlob = replacedGlob.split(/\s/).join(" ")
         promises.push(glob(replacedGlob, { dot: true, realpath: true, cwd: cwd, follow: true }).then((files: string[]) => {
           resolvedFiles[i] = files;
         }));
