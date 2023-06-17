@@ -239,7 +239,7 @@ export class PreviewService {
       if (removeAll) {
         this.loggerService.info(this.lang.info.removingVDF_entries)
       } else {
-        this.loggerService.info(this.lang.info.writingVDF_entries__i.interpolate({ batchSize: 500 }), { invokeAlert: true, alertTimeout: 3000 })
+        this.loggerService.info(this.lang.info.writingVDF_entries__i.interpolate({ batchSize: this.appSettings.batchDownloadSize }), { invokeAlert: true, alertTimeout: 3000 })
       }
       if (batchWrite) {
         vdfManager.getBatchProgress().subscribe(({update, batch}: {update: string, batch: number})=> {
@@ -249,7 +249,7 @@ export class PreviewService {
           }
         })
       }
-      return vdfManager.write(batchWrite);
+      return vdfManager.write(batchWrite, this.appSettings.batchDownloadSize);
     })
     .then(({nonFatal, outcomes}: {nonFatal: VDF_Error, outcomes: VDF_AllScreenshotsOutcomes})=> {
       if(nonFatal) {
@@ -744,10 +744,11 @@ export class PreviewService {
   }
 
   async exportSelection() {
+    const imageDownloader = new url.ImageDownloader();
     async function saveImage(imageUrl: string, temporaryDir: string, append: string) {
       const extension = imageUrl.split(/[#?]/)[0].split('.').pop().trim();
       const filename = `${append}.${extension}`;
-      await url.downloadAndSaveImage(imageUrl, path.join(temporaryDir,filename))
+      await imageDownloader.downloadAndSaveImage(imageUrl, path.join(temporaryDir,filename))
       return filename
     }
 

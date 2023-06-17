@@ -26,6 +26,7 @@ export interface AppSettings {
   theme: string,
   offlineMode: boolean,
   enabledProviders: string[],
+  batchDownloadSize: number,
   previewSettings: PreviewSettings,
   navigationWidth: number,
   clearLogOnTest: boolean

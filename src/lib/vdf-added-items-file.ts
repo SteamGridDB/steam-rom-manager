@@ -28,27 +28,29 @@ export class VDF_AddedItemsFile {
   }
 
   read() {
-
     const modifierLatest = 2;
     const modifier = {
       "0": {
         method: (readData: any) => {
-          let result: any = { version: 1, addedApps: {} };
-          for (let i = 0; i < readData.length; i++) {
-            result.addedApps[readData[i].split('_')[0]] = {
-              parserId: readData[i].split('_')[1],
-              artworkOnly: (readData[i].split('_')[0].length < 17),
-            }
+          return {
+            version: 1,
+            addedApps: Object.fromEntries(readData.map((x: string)=>[x.split('_')[0], {
+              parserId: x.split('_')[1],
+              artworkOnly: (x.split('_')[0].length < 17)
+            }]))
           }
         }
       },
       "1": {
         method:(readData: any) => {
-          readData.version = 2;
-          for(let appId in readData.addedApps) {
-            readData.addedApps[appId].categories = []
+          const addedApps = _.cloneDeep(readData.addedApps);
+          const entries = Object.entries(addedApps).map(([k, v]: [k: string, v: any])=>[k, {...v, categories: []}]);
+          const addedAppsWithCats = Object.fromEntries(entries);
+          const result = {
+            version: 2,
+            addedApps: addedAppsWithCats
           }
-          return readData;
+          return result
         }
       }
     }
@@ -59,7 +61,7 @@ export class VDF_AddedItemsFile {
       } else {
         controlVersion = readData.version
       }
-      let result = readData;
+      let result = _.cloneDeep(readData);
       for(let j = controlVersion; j < modifierLatest; j++) {
         result = modifier[j.toString() as keyof typeof modifier].method(result);
       }

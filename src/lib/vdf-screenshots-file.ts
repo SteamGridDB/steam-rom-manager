@@ -5,7 +5,7 @@ import { APP } from '../variables';
 import * as genericParser from '@node-steam/vdf';
 import * as file from './helpers/file';
 import * as ids from './helpers/steam';
-import * as url from "./helpers/url";
+import { ImageDownloader } from "./helpers/url";
 
 import * as _ from "lodash";
 import * as fs from 'fs-extra';
@@ -125,7 +125,7 @@ export class VDF_ScreenshotsFile {
     })
   }
 
-  async write(batch: boolean) {
+  async write(batch: boolean, batchSizeInput?: number) {
     let addErrors: (VDF_Error|void)[] = [];
     let extraneousPromises: Promise<VDF_Error|void>[] = [];
     let screenshotsData: VDF_ScreenshotsData = this.data;
@@ -137,9 +137,8 @@ export class VDF_ScreenshotsFile {
         extraneousPromises.push(this.removeExtraneous(appId));
       }
     }
-    const batchSize = 500;
-    const delay = 0; //increase if SGDB timing out a lot
-
+    const batchSize = batchSizeInput || 50;
+    const imageDownloader: ImageDownloader = new ImageDownloader();
     const addableAppIds = Object.keys(screenshotsData).filter((appId)=>{
       return screenshotsData[appId] !== undefined && (typeof screenshotsData[appId] !== 'string')
     });
@@ -147,9 +146,6 @@ export class VDF_ScreenshotsFile {
     const nbatches: number = Math.ceil(addableAppIds.length / batchSize);
     for (let b = 0; b < nbatches; b++ ) {
       if(batch) {
-        if(b>0){
-          await new Promise(resolve => setTimeout(resolve, delay));
-        }
         this.batchProgress.next({batch: b, total: nbatches});
       }
       let batchAddPromises: Promise<VDF_Error|void>[] = [];
@@ -161,7 +157,7 @@ export class VDF_ScreenshotsFile {
           let ext: string = data.url.split('.').slice(-1)[0].replace(/[^\w\s]*$/gi, "");
           ext = ids.map_ext["" + ext] || ext;
           const gridPath = path.join(this.gridDirectory, `${appId}.${ext}`);
-          batchAddPromises.push(url.downloadAndSaveImage(data.url, gridPath)
+          batchAddPromises.push(imageDownloader.downloadAndSaveImage(data.url, gridPath, 4)
           .then(() => {
             if(/^\d+$/.test(appId)) {
               const symPath = path.join(this.gridDirectory,`${ids.lengthenAppId(appId)}.${ext}`)

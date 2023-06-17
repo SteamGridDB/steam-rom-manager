@@ -128,7 +128,7 @@ export class VDF_Manager {
     })
   }
 
-  write(batch: boolean, options?: { shortcuts?: boolean, addedItems?: boolean, screenshots?: boolean }) {
+  write(batch: boolean, batchSize?: number, options?: { shortcuts?: boolean, addedItems?: boolean, screenshots?: boolean }) {
     return new Promise<{nonFatal: VDF_Error, outcomes: VDF_AllScreenshotsOutcomes}>((resolve,reject)=>{
       let shortcutPromises: Promise<void>[] = [];
       let addedItemsPromises: Promise<void>[] = [];
@@ -147,7 +147,7 @@ export class VDF_Manager {
             addedItemsPromises.push(this.data[steamDirectory][userId].addedItems.write());
           }
           if (writeScreenshots) {
-            screenshotPromises.push(this.data[steamDirectory][userId].screenshots.write(batch).then((outcome: VDF_ScreenshotsOutcome)=>{
+            screenshotPromises.push(this.data[steamDirectory][userId].screenshots.write(batch, batchSize).then((outcome: VDF_ScreenshotsOutcome)=>{
               screenshotsOutcomes[steamDirectory][userId] = outcome;
               return outcome.error
             }))

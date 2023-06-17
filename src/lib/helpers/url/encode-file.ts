@@ -1,31 +1,7 @@
 import * as os from 'os';
 import * as fs from 'fs-extra'
-import * as path from 'path';
 import * as probe from 'probe-image-size';
 import * as uri2path from 'file-uri-to-path';
-import fetch, { AbortError } from 'node-fetch';
-
-const timeout = 10000;
-
-export async function downloadAndSaveImage(imageUrl: string, filePath: string) {
-  if(imageUrl.startsWith('file://')) {
-    return await fs.copyFile(decodeFile(imageUrl), filePath);
-  } else {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
-    try {
-      const res = await fetch(imageUrl, { signal: controller.signal });
-      const arrayBuff = await res.arrayBuffer();
-      fs.outputFileSync(filePath, Buffer.from(arrayBuff))
-    } catch(error) {
-      if(error instanceof AbortError) {
-        throw `Request timed out after ${timeout} milliseconds.`
-      } else {
-        throw error;
-      }
-    }
-  }
-}
 
 export function decodeFile(file_uri: string) {
   if(os.type()=="Windows_NT") {

@@ -57,6 +57,7 @@ export const appSettings = {
         ]
       }
     },
+    batchDownloadSize: { type: 'number', default: 50 },
     language: { type: 'string', default: languageManager.getDefaultLanguage(), enum: languageManager.getAvailableLanguages() },
     theme: {type:'string', default: 'Deck', enum: availableThemes},
     offlineMode: { type: 'boolean', default: false },
