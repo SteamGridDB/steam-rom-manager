@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.17
+### Fixed
+* Fuzzy game name matching
+* EmuDeck theme scrollbar
+### Changed
+* Remove DNS resolution from within SRM
+
 ## 2.4.16
 ### Fixed
 * Image timeouts issue should be resolved. If it isn't resolved for you try lowering the batch size in settings.
