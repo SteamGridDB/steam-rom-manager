@@ -120,8 +120,7 @@ export class FuzzyMatcher {
         matches.push(this.list.games[i]);
       }
     }
-    if (matches.length) {      
-      //return { output: this.getBestMatch(input, matches), matched: true };
+    if (matches.length) {
       const bestMatch = matches[matches.length - 1];
       return { output: bestMatch, matched: true };            
     }
