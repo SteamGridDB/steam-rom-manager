@@ -59,7 +59,8 @@ export class ControllerManager {
   static readTemplates(steamDirectory: string, controllerType: string) {
     let templateDirUser = path.join(steamDirectory, 'steamapps', 'workshop', 'content', '241100')
     let filesUser = glob.sync('*/*', { dot: true, cwd: templateDirUser, absolute: true });
-    let parsedTemplatesUser: ControllerTemplate[] = filesUser.map((f: string) => Object.assign({ mappingId: f.split(path.sep).slice(-2)[0] }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
+    let parsedTemplatesUser: ControllerTemplate[] = filesUser.filter((f: string) => fs.lstatSync(f).isFile())
+      .map((f: string) => Object.assign({ mappingId: f.split(path.sep).slice(-2)[0] }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
       .filter((x: any) => !!x['controller_mappings']
         && !!x['controller_mappings']['title']
         && !!x['controller_mappings']['controller_type']
