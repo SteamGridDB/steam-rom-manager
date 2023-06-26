@@ -1,4 +1,4 @@
-# EA Desktop 解析器特定输入
+# EA 桌面解析特定输入
 
 ## EA Games Directory Override
 默认情况下，Steam ROM Manager 假定您的 `EA Desktop` 游戏已安装在 `C:\Program Files\EA Games\。 该字段允许您更改游戏安装的位置，例如`D:\Games\EA Games。
