@@ -1,19 +1,19 @@
 {
   "preview": {
     "component": {
-      "filter": "Search for game",
-      "selectType": "Artwork Type",
-      "selectCategories": "Category",
+      "filter": "Buscar juego",
+      "selectType": "Tipo de imagen",
+      "selectCategories": "Categoría",
       "selectParsers": "Parser",
       "selectTypeOptions": {
         "long": "Banners",
-        "tall": "Posters",
-        "hero": "Heroes",
-        "icon": "Icons",
+        "tall": "Pósters",
+        "hero": "Héroes",
+        "icon": "Iconos",
         "logo": "Logos",
-        "games": "All Artwork"
+        "games": "Todas las imágenes"
       },
-      "by": "by",
+      "by": "por",
       "refreshImages": "Refresh images",
       "saveImage": "Save image to file",
       "addLocalImages": "Add local images",
