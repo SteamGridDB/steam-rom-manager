@@ -10,13 +10,13 @@ En caso de tener problemas con SRM, siéntete libre de visitar el servidor de [D
 * [SRM Releases](https://github.com/SteamGridDB/steam-rom-manager/releases)
 * [Discord Server](https://discord.gg/bnSVJrz)
 * [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
-* [Steam Group](https://steamcommunity.com/groups/steamrommanager)
-* [Github Repo](https://github.com/SteamGridDB/steam-rom-manager)
-* [Crowdin Translation Project](https://crowdin.com/project/steam-rom-manager)
+* [Grupo de Steam](https://steamcommunity.com/groups/steamrommanager)
+* [Repositorio de GitHub](https://github.com/SteamGridDB/steam-rom-manager)
+* [Crowdin Proyecto de traducción](https://crowdin.com/project/steam-rom-manager)
 
 ## Apoyo
 
-Help support continued progress on Steam ROM Manager at:
+Ayuda a apoyar el progreso continuado en Steam ROM Manager en:
 
 <a href="https://www.buymeacoffee.com/cbartondock">
   <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="Buy Me A Coffee" width="160">
@@ -31,7 +31,7 @@ Si te gusta Steam ROM Manager y quieres que siga siendo util puedes considerar d
 ## Contribuciones
 * `FrogTheFrog`{.noWrap} - Creador de SRM, ya no es activo en SRM pero esta trabajando actualmente en [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
 
-### Current Maintainers
+### Mantenedores Actual
 * `lontanadascienza`{.noWrap} - Actualizó SRM para que soporte heroes, pósteres, logos e iconos. Añadió el administrador de excepciones, administrador de controles, analizador de plataformas (Epic, GOG, Steam, etc), y muchas otras cosas más. Soluciona los errores casi tan rápido como los crea.
 * `Zennn`{.noWrap} - Añadió soporte para categorías, localización de lenguajes, y el servidor de reportes de errores entre otras cosas. Gran jefe en [SteamGridDB](https://www.steamgriddb.com/).
 * `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz).
@@ -46,8 +46,8 @@ Si te gusta Steam ROM Manager y quieres que siga siendo util puedes considerar d
 * `OneMoreByte` - Hizo que el analizador de itch.io funcione en linux y mac.
 * `UndarkAido` - Added shortcut passthrough for Linux's .desktop shortcuts.
 
-### Community
-* `HE Spoke`{.noWrap} - created a community around SRM. Creador del grupo de [Steam](https://steamcommunity.com/groups/steamrommanager) y servidor de [Discord](https://discord.gg/bnSVJrz). Also helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
+### Comunidad
+* `HE Spoke`{.noWrap} - creó una comunidad sobre SRM. Creador del grupo de [Steam](https://steamcommunity.com/groups/steamrommanager) y servidor de [Discord](https://discord.gg/bnSVJrz). Also helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
 * `livedeht`{.noWrap} - Helps users setup SRM with and without [EmuDeck](https://www.emudeck.com/). Current maintainer of [EmuDeck](https://www.emudeck.com/).
 * `Choko`{.noWrap} - Helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
 * `Xav83`{.noWrap} - Creator and maintainer of SRM's [Chocolatey package](https://community.chocolatey.org/packages/steam-rom-manager)
