@@ -16,7 +16,7 @@ En caso de tener problemas con SRM, siéntete libre de visitar el servidor de [D
 
 ## Apoyo
 
-Help support continued progress on Steam ROM Manager at:
+Ayuda a soportar al progeso de Steam ROM Manager en:
 
 <a href="https://www.buymeacoffee.com/cbartondock">
   <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="Buy Me A Coffee" width="160">
@@ -47,7 +47,7 @@ Si te gusta Steam ROM Manager y quieres que siga siendo util puedes considerar d
 * `UndarkAido` - Añadió paso de acceso directo para los atajos de archivos .desktop de Linux.
 
 ### Comunidad
-* `HE Spoke`{.noWrap} - creó una comunidad sobre SRM. Creador del grupo de [Steam](https://steamcommunity.com/groups/steamrommanager) y servidor de [Discord](https://discord.gg/bnSVJrz). Tambien ayuda a los usarios a configurar SRM en [Discord](https://discord.gg/bnSVJrz).
+* `HE Spoke`{.noWrap} - Creó una comunidad sobre SRM. Creador del grupo de [Steam](https://steamcommunity.com/groups/steamrommanager) y servidor de [Discord](https://discord.gg/bnSVJrz). Tambien ayuda a los usarios a configurar SRM en [Discord](https://discord.gg/bnSVJrz).
 * `livedeht`{.noWrap} - Ayuda a los usarios a configurar SRM con y sin [EmuDeck](https://www.emudeck.com/). Mantenedor(a) actual de [EmuDeck](https://www.emudeck.com/).
 * `Choko`{.noWrap} - Ayuda a los usuarios a configurar SRM en [Discord](https://discord.gg/bnSVJrz).
-* `Xav83`{.noWrap} - Creador y mantenedor(a) del [paquete Chocolatey](https://community.chocolatey.org/packages/steam-rom-manager) de SRM
+* `Xav83`{.noWrap} - Creador y mantenedor del [paquete Chocolatey](https://community.chocolatey.org/packages/steam-rom-manager) de SRM
