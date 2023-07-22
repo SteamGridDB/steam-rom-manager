@@ -32,7 +32,7 @@ export class LegendaryParser implements GenericParser {
       let appPaths: string[] = [];
       let legendaryInstalledFile: string = "";
       if(inputs.legendaryInstalledFile) {
-        legendaryInstalledFile = inputs.epicManifests;
+        legendaryInstalledFile = inputs.legendaryInstalledFile;
       } else {
         legendaryInstalledFile = path.join(os.homedir(),'.config/legendary/installed.json');
       }
