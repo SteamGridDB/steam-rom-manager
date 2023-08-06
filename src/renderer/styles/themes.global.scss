@@ -481,17 +481,41 @@
         .items {
           height: 100%;
           overflow-y: auto;
-          padding-bottom: 100px;
+          padding-bottom: 10% !important;
+          display: flex;
+          overflow-y: auto;
+          flex-direction: row;
+          width: 100%;
+          margin: 0;
+          padding: 0;
+          flex-wrap: wrap;
+          justify-content: space-between;
+
           .inputContainer,
           .inlineGroup.inlineGroup.inlineGroup {
             margin: 0;
           }
+          .inlineGroup.inlineGroup.inlineGroup {
+            align-items: baseline;
+          }
           nav-link {
             border-left: 0;
             padding: 24px 26px;
+            padding: 56px 15px;
             color: #444;
             transition: 0.2s;
             pointer-events: none;
+            & + ng-toggle-button {
+              display: none !important;
+            }
+            img {
+              margin-right: 0;
+              width: 120px;
+              max-height: 68px;
+            }
+            small {
+              font-weight: 600;
+            }
             &:before {
               display: none !important;
               top: 0;
@@ -536,11 +560,14 @@
 
     .item {
       background-color: rgba(255, 255, 255, 1);
-      padding-right: 10px;
+      padding-right: 0px;
       margin-bottom: 10px;
       margin-right: 10px;
       border-radius: 4px;
       transition: 0.8s;
+      width: 15%;
+      max-height: 140px;
+      text-align: center;
       &.disabled {
         background-color: rgba(255, 255, 255, 0.6);
         transition: 0.8s;
