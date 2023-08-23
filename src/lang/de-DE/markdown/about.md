@@ -9,7 +9,7 @@ Falls du Probleme mit SRM hast, kannst du [Discord](https://discord.gg/bnSVJrz) 
 
 * [SRM Releases](https://github.com/SteamGridDB/steam-rom-manager/releases)
 * [Discord-Server](https://discord.gg/bnSVJrz)
-* [r/SteamRomManager,](https://www.reddit.com/r/SteamRomManager/)
+* [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
 * [Steam-Gruppe](https://steamcommunity.com/groups/steamrommanager)
 * [GitHub-Repository](https://github.com/SteamGridDB/steam-rom-manager)
 * [Crowdin Übersetzungsprojekt](https://crowdin.com/project/steam-rom-manager)
