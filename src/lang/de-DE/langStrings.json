@@ -330,7 +330,8 @@
   "nav": {
     "component": {
       "about": "Über",
-      "preview": "Vorschau",
+      "preview": "Add Games",
+      "view": "View Games",
       "logger": "Logs",
       "settings": "Einstellungen",
       "parsers": "Parser erstellen",
