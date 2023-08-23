@@ -186,7 +186,7 @@ export class ControllerManager {
     }
   }
 
-  private static configsetDir(steamDir: string, userId: string) {
+  static configsetDir(steamDir: string, userId: string) {
     return path.join(steamDir, 'steamapps', 'common', 'Steam Controller Configs', userId,'config' );
 
   }

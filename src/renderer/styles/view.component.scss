@@ -54,5 +54,17 @@
     background-color: var(--color-parsers-menu-background);
 
     grid-area: menu;
+    > .buttonGroup {
+      display: flex;
+      justify-content: right;
+      > .menuButton {
+        @include button();
+        @include clickButtonColor(click-button);
+        margin-left: 1em;
+        &.dangerousButton {
+          @include clickButtonColor(dangerous-click-button, true);
+        }
+      }
+    }
   }
 }

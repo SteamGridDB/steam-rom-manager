@@ -57,10 +57,12 @@ export class CategoryManager {
     try {
       // Do Task
       collections = await task(collections, levelCollections, cats, data);
-      // Cleanup Task
-      await cats.save();
-      localConfig.UserLocalConfigStore.WebStorage['user-collections'] = JSON.stringify(collections).replace(/"/g, '\\"');
-      fs.writeFileSync(localConfigPath, genericParser.stringify(localConfig));
+      // Cleanup if task is not readonly
+      if(!data || !data.readonly) {
+        await cats.save();
+        localConfig.UserLocalConfigStore.WebStorage['user-collections'] = JSON.stringify(collections).replace(/"/g, '\\"');
+        fs.writeFileSync(localConfigPath, genericParser.stringify(localConfig));
+      }
     } catch(e) {
       throw e
     } finally {
@@ -91,6 +93,35 @@ export class CategoryManager {
         resolve(collections);
       })
     })
+  }
+
+  readCategories(steamDirectory: string, userId: string) {
+    let srmCategories: {[catKey: string]: any} = {};
+    return this.doCatTask(steamDirectory, userId, (collections, levelCollections, cats, data) => {
+      return new Promise<any>((resolve,reject)=>{
+        for(const catKey of Object.keys(collections)) {
+          if(catKey.startsWith('srm')) {
+            srmCategories[catKey] = {
+              collections: collections[catKey],
+              levelCollections: levelCollections[catKey]
+            }
+          }
+        }
+        for(const catKey of Object.keys(levelCollections)) {
+          if(catKey.startsWith('srm') && !collections[catKey]) {
+            srmCategories[catKey] = {
+              collections: null,
+              levelCollections: levelCollections[catKey]
+            }
+          }
+        }
+        resolve(collections);
+      })
+    }, {
+      readonly: true
+    }).then(()=>{
+      return srmCategories;
+    });
   }
 
   writeCat(data: { userId: string, steamDirectory: string, userData: PreviewDataUser }, extraneousShortIds: string[], addedCategories: {[shortId: string]: string[]}) {

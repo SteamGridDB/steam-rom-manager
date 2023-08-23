@@ -222,8 +222,8 @@ export class PreviewService {
       }
     })
     .then(() => {
-      this.loggerService.info(this.lang.info.savingControllers)
       if(!removeAll) {
+        this.loggerService.info(this.lang.info.savingControllers)
         const controllerManager = new ControllerManager();
         return controllerManager.save(this.previewData, exAppIds)
       }

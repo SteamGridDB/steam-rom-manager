@@ -28,6 +28,10 @@ export class VDF_Manager {
     return APP.lang.vdfManager;
   }
 
+  get vdfData() {
+    return this.data;
+  }
+
   prepare(data: SteamDirectory[] | PreviewData) {
     return new Promise<void>((resolve, reject)=>{
       let chain: Promise<any> = Promise.resolve(data);
