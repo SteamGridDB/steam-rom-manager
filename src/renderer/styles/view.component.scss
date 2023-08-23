@@ -1,0 +1,58 @@
+@import 'mixins';
+
+:host {
+  display: grid;
+  overflow: auto;
+
+  grid-area: route;
+  grid-template-areas:
+  'upperMenu upperMenu'
+  'gamesList details'
+  'menu menu';
+
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr auto;
+
+
+  .upperMenu {
+    grid-area: upperMenu;
+    overflow: auto;
+    background: var(--color-parsers-menu-background);
+    .search {
+      display:flex;
+      align-items: center;
+      justify-content: right;
+      .searchExceptions {
+        @include ngTextInputColor(input);
+        @include ngTextInput();
+        margin: 0.5em;
+        width: 20em
+      }
+    }
+  }
+  .gamesList {
+    padding: 1em;
+    grid-area: gamesList;
+    @include webkitScrollbar(nested-form-scrollbar);
+  }
+
+  .details {
+    padding: 1em;
+    grid-area: details;
+    @include webkitScrollbar(nested-form-scrollbar);
+    background-color: var(--color-nested-form-background);
+    overflow: auto;
+
+  }
+  .menu {
+    @include webkitScrollbar(parser-menu-scrollbar, 0.5em);
+
+    display: flex;
+    overflow: auto;
+
+    border: 0.5em solid transparent;
+    background-color: var(--color-parsers-menu-background);
+
+    grid-area: menu;
+  }
+}

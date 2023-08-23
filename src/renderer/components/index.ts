@@ -1,5 +1,6 @@
 export * from './app.component';
 export * from './preview.component';
+export * from './view.component';
 export * from './alert.component';
 export * from './logger.component';
 export * from './titlebar.component';
