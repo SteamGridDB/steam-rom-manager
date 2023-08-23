@@ -330,7 +330,8 @@
   "nav": {
     "component": {
       "about": "关于我们",
-      "preview": "预览",
+      "preview": "Add Games",
+      "view": "View Games",
       "logger": "日志",
       "settings": "设置",
       "parsers": "创建解析器",
