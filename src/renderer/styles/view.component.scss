@@ -31,9 +31,72 @@
     }
   }
   .gamesList {
-    padding: 1em;
     grid-area: gamesList;
     @include webkitScrollbar(nested-form-scrollbar);
+    overflow-y: auto;
+    > .directory {
+      > .title {
+        padding: 0.5em 0.25em;
+        border-top: 1px solid var(--color-preview-separator);
+        border-bottom: 1px solid var(--color-preview-separator);
+        background-color: var(--color-preview-directory-background);
+        svg {
+          --color-select-arrow-down: var(--color-preview-text);
+          --select-arrow-down-width: 30;
+        }
+        span {
+          margin-left: 0.25em;
+
+          color: var(--color-preview-text);
+        }
+      }
+      > .user {
+        > .title {
+          padding: var(--padding-preview-separator);
+
+          border-bottom: 1px solid var(--color-preview-separator);
+          background-color: var(--color-preview-user-background);
+
+          align-items: center;
+
+          svg {
+            --color-select-arrow-down: var(--color-preview-text);
+            --select-arrow-down-width: 30;
+          }
+          span {
+            margin-left: 0.25em;
+            color: var(--color-preview-text);
+          }
+        }
+        > .apps {
+          margin: 0.75em;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          align-content: space-around;
+          justify-content: left;
+          margin-left:1vw;
+          > .title {
+            padding: 0.5em 0.25em;
+            flex-basis: 100%;
+            border: 1px solid;
+            border-color: var(--color-preview-separator);
+            background-color: var(--color-preview-user-background);
+            span {
+              margin-left: 0.25em;
+              color: var(--color-preview-text);
+            }
+          }
+
+          > .app {
+            width: 100%;
+            color: var(--color-preview-text);
+            border-top: solid 2px var(--color-preview-user-background);
+            padding: 1em;
+          }
+        }
+      }
+    }
   }
 
   .details {
@@ -42,8 +105,8 @@
     @include webkitScrollbar(nested-form-scrollbar);
     background-color: var(--color-nested-form-background);
     overflow: auto;
-
   }
+
   .menu {
     @include webkitScrollbar(parser-menu-scrollbar, 0.5em);
 

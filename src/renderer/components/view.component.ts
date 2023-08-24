@@ -11,6 +11,7 @@ import {
   ControllerManager,
   Acceptable_Error
 } from "../../lib";
+import { UserData } from "../../models";
 
 @Component({
   selector: 'view',
@@ -21,6 +22,9 @@ import {
 
 export class ViewComponent implements OnDestroy {
   private subscriptions: Subscription = new Subscription();
+  private vdfData: UserData;
+  private controllerData: UserData;
+  private categoryData: UserData;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -53,15 +57,15 @@ export class ViewComponent implements OnDestroy {
         controllerData[steamDirectory][userId] = controllerManager.readControllers(configsetDir);
       }
     }
-
-    console.log("vdfData", vdfData)
-    console.log("categoryData", categoryData)
-    console.log("controllerData", controllerData)
+    this.vdfData = vdfData;
+    this.controllerData = controllerData;
+    this.categoryData = categoryData;
+    console.log(this.vdfData,this.controllerData,this.categoryData);
   }
 
 
   ngOnInit() {
-
+    this.refreshGames();
   }
 
   ngOnDestroy () {
