@@ -1,0 +1,133 @@
+@import 'mixins';
+
+:host {
+  display: grid;
+  overflow: auto;
+
+  grid-area: route;
+  grid-template-areas:
+  'upperMenu upperMenu'
+  'gamesList details'
+  'menu menu';
+
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr auto;
+
+
+  .upperMenu {
+    grid-area: upperMenu;
+    overflow: auto;
+    background: var(--color-parsers-menu-background);
+    .search {
+      display:flex;
+      align-items: center;
+      justify-content: right;
+      .searchExceptions {
+        @include ngTextInputColor(input);
+        @include ngTextInput();
+        margin: 0.5em;
+        width: 20em
+      }
+    }
+  }
+  .gamesList {
+    grid-area: gamesList;
+    @include webkitScrollbar(nested-form-scrollbar);
+    overflow-y: auto;
+    > .directory {
+      > .title {
+        padding: 0.5em 0.25em;
+        border-top: 1px solid var(--color-preview-separator);
+        border-bottom: 1px solid var(--color-preview-separator);
+        background-color: var(--color-preview-directory-background);
+        svg {
+          --color-select-arrow-down: var(--color-preview-text);
+          --select-arrow-down-width: 30;
+        }
+        span {
+          margin-left: 0.25em;
+
+          color: var(--color-preview-text);
+        }
+      }
+      > .user {
+        > .title {
+          padding: var(--padding-preview-separator);
+
+          border-bottom: 1px solid var(--color-preview-separator);
+          background-color: var(--color-preview-user-background);
+
+          align-items: center;
+
+          svg {
+            --color-select-arrow-down: var(--color-preview-text);
+            --select-arrow-down-width: 30;
+          }
+          span {
+            margin-left: 0.25em;
+            color: var(--color-preview-text);
+          }
+        }
+        > .apps {
+          margin: 0.75em;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          align-content: space-around;
+          justify-content: left;
+          margin-left:1vw;
+          > .title {
+            padding: 0.5em 0.25em;
+            flex-basis: 100%;
+            border: 1px solid;
+            border-color: var(--color-preview-separator);
+            background-color: var(--color-preview-user-background);
+            span {
+              margin-left: 0.25em;
+              color: var(--color-preview-text);
+            }
+          }
+
+          > .app {
+            width: 100%;
+            color: var(--color-preview-text);
+            border-top: solid 2px var(--color-preview-user-background);
+            padding: 1em;
+          }
+        }
+      }
+    }
+  }
+
+  .details {
+    padding: 1em;
+    grid-area: details;
+    @include webkitScrollbar(nested-form-scrollbar);
+    background-color: var(--color-nested-form-background);
+    overflow: auto;
+  }
+
+  .menu {
+    @include webkitScrollbar(parser-menu-scrollbar, 0.5em);
+
+    display: flex;
+    overflow: auto;
+
+    border: 0.5em solid transparent;
+    background-color: var(--color-parsers-menu-background);
+
+    grid-area: menu;
+    > .buttonGroup {
+      display: flex;
+      justify-content: right;
+      > .menuButton {
+        @include button();
+        @include clickButtonColor(click-button);
+        margin-left: 1em;
+        &.dangerousButton {
+          @include clickButtonColor(dangerous-click-button, true);
+        }
+      }
+    }
+  }
+}

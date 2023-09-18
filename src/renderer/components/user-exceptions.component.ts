@@ -6,6 +6,7 @@ import { UserExceptionsService, LoggerService } from '../services';
 import { Subscription } from "rxjs";
 import { APP } from '../../variables';
 import * as _ from 'lodash';
+
 @Component({
   selector: 'user-exceptions',
   templateUrl: '../templates/user-exceptions.component.html',

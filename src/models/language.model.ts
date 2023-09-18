@@ -395,6 +395,7 @@ export interface languageStruct {
     component: {
       about: string,
       preview: string,
+      view: string,
       logger: string,
       settings: string,
       parsers: string,
