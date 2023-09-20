@@ -44,7 +44,7 @@ export class UWPParser implements GenericParser {
       let appTitles: string[] = [];
       let appPaths: string[] = [];
       if (os.type() !== 'Windows_NT') {
-        reject(this.lang.errors.UWPNotCompatible)
+        return reject(this.lang.errors.UWPNotCompatible)
       }
 
       const xmlParser = new XMLParser({

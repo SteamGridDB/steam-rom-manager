@@ -37,7 +37,7 @@ export class LegendaryParser implements GenericParser {
         legendaryInstalledFile = path.join(os.homedir(),'.config/legendary/installed.json');
       }
       if(!fs.existsSync(legendaryInstalledFile)) {
-        reject(this.lang.errors.legendaryNotInstalled)
+        return reject(this.lang.errors.legendaryNotInstalled)
       }
       Promise.resolve()
         .then(()=>{
