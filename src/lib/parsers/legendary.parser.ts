@@ -32,18 +32,21 @@ export class LegendaryParser implements GenericParser {
       let appPaths: string[] = [];
       let legendaryInstalledFile: string = "";
       if(inputs.legendaryInstalledFile) {
-        legendaryInstalledFile = inputs.epicManifests;
+        legendaryInstalledFile = inputs.legendaryInstalledFile;
       } else {
         legendaryInstalledFile = path.join(os.homedir(),'.config/legendary/installed.json');
       }
       if(!fs.existsSync(legendaryInstalledFile)) {
-        reject(this.lang.errors.legendaryNotInstalled)
+        return reject(this.lang.errors.legendaryNotInstalled)
       }
       Promise.resolve()
         .then(()=>{
           let installed = JSON.parse(fs.readFileSync(legendaryInstalledFile, 'utf-8'));
           for(let entry of Object.entries(installed)) {
             let app: any = entry[1];
+            if (app.is_dlc === true || app.executable === "") {
+              continue;
+            }
             appTitles.push(app.title);
             appPaths.push(path.join(app.install_path,app.executable));
           }
