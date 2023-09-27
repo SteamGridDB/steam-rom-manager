@@ -19,5 +19,5 @@
   "angularCompilerOptions": {
     "preserveWhitespaces": false
   },
-  "include": ["./*.ts", "./src/**/*.ts"]
+  "include": ["./*.ts", "./src/**/*.ts", "custom.d.ts"]
 }

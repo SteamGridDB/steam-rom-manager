@@ -200,7 +200,7 @@ import {
   zxspectrum
 } from "../../systems-logos"
 
-const importMap = {
+const importMap: { [key: string]: any[] } = {
   odyssey2,
   primehack,
   nintendoswitch,
@@ -433,9 +433,10 @@ export class NavParsersComponent implements OnDestroy {
         let alternativeValue = false;
         let previousSeparatedValuesImg = false;
 
-        const peep = (importName) => {
+        const peep = (importName: string) => {
            if (importName in importMap) {
-            return importMap[importName];
+             const arrayMap: any[] = importMap[importName];
+            return arrayMap
           } else {
             // Puedes manejar el caso en el que el nombre no coincide con ninguna importación
             return null; // O devuelve un valor predeterminado, lanza una excepción, etc.
@@ -443,8 +444,8 @@ export class NavParsersComponent implements OnDestroy {
         };
 
         this.userConfigurations = userConfigurations.map(
-          (config: { saved: UserConfiguration; current: UserConfiguration }, index: number, array: any[]) => {
-            let separatedValues = config.saved.configTitle.split(" - ");
+          (config: { saved: UserConfiguration; current: UserConfiguration, name: string; restText: string }, index: number, array: any[]) => {
+            let separatedValues: any = config.saved.configTitle.split(" - ");
             let separatedValuesImg = separatedValues[0].replaceAll(" ", "");
             separatedValuesImg = separatedValuesImg.replaceAll("/", "-");
             separatedValuesImg = separatedValuesImg.replaceAll("/", "-");
@@ -457,6 +458,7 @@ export class NavParsersComponent implements OnDestroy {
             console.log({separatedValuesImg})
 
             let imgPath = peep(separatedValuesImg)
+            let previousSeparatedValuesImg: any
 
             if (previousSeparatedValuesImg === false) {
               previousSeparatedValuesImg = separatedValuesImg;
@@ -467,7 +469,6 @@ export class NavParsersComponent implements OnDestroy {
                 alternativeValue = false;
               }
             }
-
             previousSeparatedValuesImg = separatedValuesImg;
             let parserDetails = separatedValues.slice(1).join(" - ");
             parserDetails = parserDetails.replaceAll("-", "<br/>");
