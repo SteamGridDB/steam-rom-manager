@@ -125,7 +125,7 @@ export class SettingsComponent implements OnDestroy {
 
   private removeApps() {
     if (this.knownSteamDirectories.length > 0) {
-      return this.previewService.saveData({removeAll: true, batchWrite: false})
+      return this.previewService.saveData({removeAll: true, batchWrite: false, pegasus: false})
       .then(() => {
         this.removeCategoriesOnly();
       })

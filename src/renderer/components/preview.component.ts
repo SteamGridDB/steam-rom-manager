@@ -300,7 +300,7 @@ export class PreviewComponent implements OnDestroy {
         }
       }
     }
-    return this.previewService.saveData({removeAll: false, batchWrite: false}).then((noError: boolean | void) => {
+    return this.previewService.saveData({removeAll: false, batchWrite: false, pegasus: false}).then((noError: boolean | void) => {
       if (noError)
         this.previewService.clearPreviewData();
     });
