@@ -455,7 +455,6 @@ export class NavParsersComponent implements OnDestroy {
             separatedValuesImg = separatedValuesImg.replaceAll(".", "");
             separatedValuesImg = separatedValuesImg.replaceAll("3do", "p3do");
             separatedValuesImg = separatedValuesImg.toLowerCase();
-            console.log({separatedValuesImg})
 
             let imgPath = peep(separatedValuesImg)
             let previousSeparatedValuesImg: any

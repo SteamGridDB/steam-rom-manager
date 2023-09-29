@@ -161,7 +161,7 @@ export class PreviewService {
     }
   }
 
-  saveData({batchWrite, removeAll}: {batchWrite: boolean, removeAll: boolean}): Promise<any> {
+  saveData({batchWrite, removeAll, pegasus}: {batchWrite: boolean, removeAll: boolean, pegasus: boolean}): Promise<any> {
 
     let knownSteamDirectories = this.parsersService.getKnownSteamDirectories();
     if (this.previewVariables.listIsBeingSaved) {
@@ -196,7 +196,10 @@ export class PreviewService {
     if(!removeAll) {
       chain = chain.then(() => {
         this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-        return vdfManager.mergeData(this.previewData, this.appImages, this.appSettings.previewSettings.deleteDisabledShortcuts)
+        if(pegasus){
+          return vdfManager.mergeData(this.previewData, this.appImages, this.appSettings.previewSettings.deleteDisabledShortcuts, true)
+        }
+        return vdfManager.mergeData(this.previewData, this.appImages, this.appSettings.previewSettings.deleteDisabledShortcuts, false)
       })
     } else {
       chain = chain.then(() => {
@@ -248,6 +251,9 @@ export class PreviewService {
             this.batchProgress.next({update: update, batch: batch})
           }
         })
+      }
+      if (pegasus){
+        return vdfManager.write(batchWrite, this.appSettings.batchDownloadSize, { shortcuts: false ,addedItems: false, screenshots: true });
       }
       return vdfManager.write(batchWrite, this.appSettings.batchDownloadSize);
     })

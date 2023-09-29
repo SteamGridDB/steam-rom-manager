@@ -72,9 +72,9 @@
     "build:renderer": "cross-env NODE_ENV=production webpack --config ./webpack/renderer.js",
     "prebuild:dist": "npm run prepare:build",
     "build:dist": "rimraf dist && npm run build:main && npm run build:renderer",
-    "build:win": "electron-builder --win --ia32 --x64",
+    "build:win": "electron-builder --win --x64",
     "build:linux": "electron-builder --linux --x64",
-    "build:mac": "electron-builder --mac --x64",
+    "build:mac": "electron-builder --mac",
     "build:linuxdir": "electron-builder --linux --x64 --dir && cp electron-version release/linux-unpacked/version && cp LICENSE release/linux-unpacked/",
     "build:flatpak": "electron-installer-flatpak --src release/linux-unpacked --dest release/ --arch x64 --config flatconf.json"
   },

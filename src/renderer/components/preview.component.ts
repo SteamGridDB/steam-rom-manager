@@ -285,7 +285,11 @@ export class PreviewComponent implements OnDestroy {
   }
 
   private save() {
-    return this.previewService.saveData({removeAll: false, batchWrite: true});
+    return this.previewService.saveData({removeAll: false, batchWrite: true, pegasus: false});
+  }
+
+  private savePegasus() {
+    return this.previewService.saveData({removeAll: false, batchWrite: true, pegasus: true});
   }
 
   private remove() {

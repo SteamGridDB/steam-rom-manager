@@ -20,6 +20,7 @@ import * as _ from 'lodash';
 import * as path from 'path';
 import { merge, Observable } from "rxjs";
 import { map } from "rxjs/operators";
+const fs = require('fs');
 
 export class VDF_Manager {
   private data: VDF_ListData = {};
@@ -182,7 +183,7 @@ export class VDF_Manager {
     }
   }
 
-  mergeData(previewData: PreviewData, images: {[artworkType: string]: AppImages}, deleteDisabledShortcuts: boolean) {
+  mergeData(previewData: PreviewData, images: {[artworkType: string]: AppImages}, deleteDisabledShortcuts: boolean, pegasus: boolean) {
     return new Promise<{extraneousAppIds: VDF_ExtraneousItemsData, addedCategories: VDF_AddedCategoriesData}>((resolve, reject) => {
       Promise.resolve().then(()=>{
         let extraneousAppIds: VDF_ExtraneousItemsData = {};
@@ -281,6 +282,65 @@ export class VDF_Manager {
               listItem.screenshots.removeItem(appId);
               app.images.steam = undefined
             }
+          }
+          //Pegasus Symlinks
+          if(pegasus){
+            const gameData = listItem.shortcuts['fileData'].shortcuts;
+
+            gameData.forEach((game: any) => {
+              const imgIcon: string = game.icon;
+              const imgHero: string = imgIcon.replace("icon", "hero"); // screenshot
+              const imgLogo: string = imgIcon.replace("icon", "logo"); // wheel
+              const imgVertical: string = imgIcon.replace("_icon", "p"); // boxFront
+              const imgPeriod: string = imgIcon.replace("_icon", ""); // Grid
+
+              const romPath: string = game.exe
+              .split('"')
+              .filter((item:any) => item !== "")
+              .pop()
+              .match("^(.*/)")[0];
+
+              const romName: string = game.exe
+              .split('"')
+              .filter((item:any) => item !== "")
+              .pop()
+              .match("/([^/]+)$")[1]
+              .replace(/\..+$/, "");
+
+              //Folders
+
+              var dir: string = romPath +"media/"+romName;
+              if (!fs.existsSync(dir)) {
+              fs.mkdirSync(dir);
+              }
+
+              const symlinkScreenshot: string = romPath +"media/"+romName + "/screenshot.png";
+              const symlinkWheel: string = romPath +"media/"+romName + "/logo.png";
+              const symlinkBoxFront: string = romPath +"media/"+romName + "/boxFront.png";
+              const symlinkGrid: string = romPath +"media/"+romName + "/steam.png";
+
+              fs.symlink(imgHero, symlinkScreenshot, "file", (error: string) => {
+              if (error) {
+                console.error(error);
+              }
+              });
+              fs.symlink(imgLogo, symlinkWheel, "file", (error: string) => {
+              if (error) {
+                console.error(error);
+              }
+              });
+              fs.symlink(imgVertical, symlinkBoxFront, "file", (error: string) => {
+              if (error) {
+                console.error(error);
+              }
+              });
+              fs.symlink(imgPeriod, symlinkGrid, "file", (error: string) => {
+              if (error) {
+                console.error(error);
+              }
+              });
+            });
+
           }
         });
         resolve({extraneousAppIds: extraneousAppIds, addedCategories: addedCategories})

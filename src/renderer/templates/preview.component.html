@@ -244,6 +244,7 @@
     <ng-container *ngIf="previewVariables.listHasGenerated && previewVariables.numberOfListItems !== 0">
       <div (click)="generatePreviewData(false)">{{lang.generateAppList}}</div>
       <div (click)="save()">{{lang.saveAppList}}</div>
+      <div class="only-emudeck" (click)="savePegasus()">Save artwork for Pegasus</div>
       <div class="dangerousButton" (click)="remove()">{{lang.removeAppList}}</div>
       <div (click)="exportSelection()" [attr.title]="'Export image choices'">{{lang.exportSelections}}</div>
       <div (click)="importSelection()" [attr.title]="'Import image choices'">{{lang.importSelections}}</div>
