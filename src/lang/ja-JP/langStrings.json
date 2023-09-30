@@ -2,9 +2,9 @@
   "preview": {
     "component": {
       "filter": "ゲームを検索",
-      "selectType": "Artwork Type",
-      "selectCategories": "Category",
-      "selectParsers": "Parser",
+      "selectType": "アートワークの種類",
+      "selectCategories": "カテゴリー",
+      "selectParsers": "パーサ",
       "selectTypeOptions": {
         "long": "Banners",
         "tall": "Posters",
