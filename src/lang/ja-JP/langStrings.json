@@ -1,7 +1,7 @@
 {
   "preview": {
     "component": {
-      "filter": "Search for game",
+      "filter": "ゲームを検索",
       "selectType": "Artwork Type",
       "selectCategories": "Category",
       "selectParsers": "Parser",
