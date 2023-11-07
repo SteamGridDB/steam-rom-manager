@@ -64,7 +64,7 @@ export class UPlayParser implements GenericParser {
       });
       reg.keys((err: Error, keys: any[]) => {
         if (err) {
-          reject(err);
+          return reject(err);
         }
         if (keys) {
           const promiseArr = keys.map((key: any) => this.processRegKey(key));
@@ -116,18 +116,18 @@ export class UPlayParser implements GenericParser {
       if(os.type() === 'Windows_NT') {
         installDirDictPromise = this.getRegInstalled();
       } else{
-        reject(this.lang.errors.uplayNotCompatible)
+        return reject(this.lang.errors.uplayNotCompatible)
         //TODO Mac Handling
         // installDirDictPromise = new Promise<{[key: string] : any}>((resolve,reject)=>{
         //   resolve({});
         // })
       }
       if(!fs.existsSync(ubisoftDir)) {
-        reject(this.lang.errors.uplayDirNotFound)
+        return reject(this.lang.errors.uplayDirNotFound)
       }
       let configPath = path.join(ubisoftDir,"Ubisoft Game Launcher","cache","configuration","configurations")
       if(!fs.existsSync(configPath)) {
-        reject(this.lang.errors.uplayNotInstalled)
+        return reject(this.lang.errors.uplayNotInstalled)
       }
 
       installDirDictPromise

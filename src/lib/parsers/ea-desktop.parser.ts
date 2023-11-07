@@ -42,7 +42,7 @@ export class EADesktopParser implements GenericParser {
       let appNames: string[] = [];
       let appPaths: string[] = [];
       if(os.type()!=='Windows_NT') {
-        reject(this.lang.errors.eaNotCompatible);
+        return reject(this.lang.errors.eaNotCompatible);
       }
       let eaInstallDir = inputs.eaGamesDir || "C:\\Program Files (x86)\\EA Games";
       const xmlParser = new XMLParser();
