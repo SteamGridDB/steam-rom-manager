@@ -532,7 +532,9 @@ export class PreviewService {
             if (data.parsedData.noUserAccounts) {
               this.loggerService.info(this.lang.info.noAccountsWarning, { invokeAlert: true, alertTimeout: 3000 });
             } else {
-              this.loggerService.info(this.lang.info.shutdownSteam, { invokeAlert: true, alertTimeout: 3000 });
+              if (this.appSettings.theme !== "EmuDeck") {
+                this.loggerService.info(this.lang.info.shutdownSteam, { invokeAlert: true, alertTimeout: 3000 });
+              }
               return this.createPreviewData(data.parsedData.parsedConfigs, oldPreviewData);
             }
           } else if (data.invalid.length === 0 && data.skipped.length === 0) {
