@@ -1,20 +1,20 @@
 ## Інформація про систему
 
-Якщо у вас виникли проблеми з SRM, відвідайте [discord](https://discord.gg/bnSVJrz) або [subreddit](https://www.reddit.com/r/SteamRomManager/) і попросіть нашої допомоги. In order for us to help you, we would like you to provide this info:
+Якщо у вас виникли проблеми з SRM, відвідайте [discord](https://discord.gg/bnSVJrz) або [subreddit](https://www.reddit.com/r/SteamRomManager/) і попросіть нашої допомоги. Щоб ми могли вам допомогти, ми б хотіли, щоб ви надали таку інформацію:
 
-* SRM version: **#{APP[version]}**
-* Operating System: **#{APP[os]}**
+* Версія SRM: **#{APP[version]}**
+* Операційна система: **#{APP[os]}**
 
-## Useful links
+## Корисні посилання
 
-* [SRM Releases](https://github.com/SteamGridDB/steam-rom-manager/releases)
-* [Discord Server](https://discord.gg/bnSVJrz)
+* [Релізи SRM](https://github.com/SteamGridDB/steam-rom-manager/releases)
+* [Сервер Discord](https://discord.gg/bnSVJrz)
 * [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
-* [Steam Group](https://steamcommunity.com/groups/steamrommanager)
-* [Github Repo](https://github.com/SteamGridDB/steam-rom-manager)
-* [Crowdin Translation Project](https://crowdin.com/project/steam-rom-manager)
+* [Група Steam](https://steamcommunity.com/groups/steamrommanager)
+* [Репозиторій на Github](https://github.com/SteamGridDB/steam-rom-manager)
+* [Проєкт перекладу Crowdin](https://crowdin.com/project/steam-rom-manager)
 
-## Support
+## Підтримка
 
 Help support continued progress on Steam ROM Manager at:
 
