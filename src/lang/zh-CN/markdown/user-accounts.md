@@ -10,9 +10,9 @@ This will limit SRM's effects to accounts `XXX` and `YYY` (you may specify as ma
 
 * A `Steam Username` (the username you use to actually log in to Steam). A `Steam Username` (the username you use to actually log in to Steam). For example you would specify the users `Banana` and `Apple` like `${Banana}${Apple}`. A `Steam Username` (the username you use to actually log in to Steam). For example you would specify the users `Banana` and `Apple` like `${Banana}${Apple}`. A `Steam Username` (the username you use to actually log in to Steam). For example you would specify the users `Banana` and `Apple` like `${Banana}${Apple}`.
 
-You can mix and match: `${56489124}${Apple}` is fine.
+您可以混合搭配：`${56489124}${Apple}` 就可以。
 
-You can also set this field using the `Accounts Global` environment variable found in settings via `${${accountsglobal}}`.
+您还可以通过 `${${accountsglobal}}` 使用设置中的 `Accounts Global` 环境变量来设置此字段。
 
 ## 警告
 
