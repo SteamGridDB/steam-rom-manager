@@ -1,8 +1,8 @@
-# Unique inputs for UWP Parser
+# UWP Parser spezifische Eingaben
 
 ## Spiele-Verzeichnis
 
-UWP apps are supposed to say if they are games or apps, and this is not always correct. To remediate this, it's useful to say where you're installing your games to only scan for those UWP apps. Defaults to `C:\XboxGames`.
+UWP Applikationen sollten kommunizieren ob sie Spiele oder Apps sind, dies ist aber nicht immer korrekt. Um dies zu beheben, ist es nützlich den Installationsfpad für UWP Spiele anzugeben. Standardmäßig `C:\XboxGames`.
 
 Setze es auf `C:\Programme\WindowsApps` um alle UWP-Anwendungen zu übernehmen -- Du musst unerwünschte von Hand entfernen.
 

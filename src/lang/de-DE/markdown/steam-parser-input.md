@@ -1,7 +1,7 @@
-# Steam Parser specific inputs
+# Steam Parser spezifische Inputs
 
-## Finde Artwork nur für Spiele
-If enabled SRM will filter out any Steam applications that are not full games, such as demos and tools like `3DMark` or `Wallpaper Engine`.
+## Finde Artwork nur für Spiele (keine Tools)
+Wenn dies aktiviert ist, filtert SRM jede Steam Applikation, die keine Vollversion eines Spiels ist, wie z. B. Demos, und Tools wie `3DMark` oder `Wallpaper Engine`.
 
-## Find artwork for installed titles only
-If enabled SRM will filter out any steam applications that are not currently installed locally. If you install or uninstall a game, you need to restart Steam before the updated install list will be available to SRM.
+## Suche nur nach Artworks für installierte Titel
+Wenn dies aktiviert ist, filtert SRM jede Staem Applikation die nicht lokal isntalliert ist. Wenn du Spiele de-/installierst musst du Steam neustarten bevor die Liste der Spiele für SRM verfügbar ist.

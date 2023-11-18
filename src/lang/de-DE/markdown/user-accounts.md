@@ -1,19 +1,19 @@
 # Benutzerkonten (Optional)
 
-This field is used to limit SRM's effects to specific user accounts, and takes values of the form:
+Mit diesem Feld kannst du SRM auf bestimmte Benutzernkonten einschränken. Möglich sind Werte in Form von:
 
-`${...}`
+`${XXX}${YYY}`
 
-This will limit SRM's effects to accounts `XXX` and `YYY` (you may specify as many accounts as you like). Here `XXX` and `YYY` stand in for either:
+Dies schränkt SRM auf die Konten `XXX` und `YYY` ein. Die Anzahl der Konten ist uneingeschränkt. `XXX` und `YYY` stehen hier für:
 
-* The account id is the name of the account directory that appears in `/path/to/steam/userdata`. For example, you would specify the account directory `userdata/56489124` like `${56489124}`.
+* Eine `Account ID` (Die Nummer deines Steam Accounts, zu sehen in deinem Verzeichnis `/Pfad/zu/Steam/userdata/`). So kannst du zum Beispiel `userdata/56489124` als `${56489124}` angeben.
 
-* A `Steam Username` (the username you use to actually log in to Steam). For example you would specify the users `Banana` and `Apple` like `${Banana}${Apple}`.
+* Ein `Steam Benutzername` (Der Name mit dem du dich in Steam einloggst). So kannst du zum Beispiel den Benutzer `Foo` und `Bar` als `${Foo}${Bar}`.
 
-You can mix and match: `${56489124}${Apple}` is fine.
+Kombinieren ist ebenfalls möglich: `${56489124}${Apple}`.
 
-You can also set this field using the `Accounts Global` environment variable found in settings via `${${accountsglobal}}`.
+Du kannst dieses Feld auch mit der `Accounts Global` Umgebungsvariable aus den Einstellungen mit `${${accountsglobal}}` setzen.
 
-## Warning
+## Achtung
 
-Es **müssen** die Benutzernamen verwendet werden, die zum **Einloggen** in Steam verwendet werden, **falls** [Anmeldeinformationen verwenden](#what-does-use-account-credentials-do) aktiviert wurde: If you would like to use `Steam Usernames` here, go to `Steam > Settings > Account` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM. If you would like to use `Steam Usernames` here, go to `Steam > Settings > Account` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.
+Wenn du `Anmeldedaten auf diesem Computer nicht speichern` in Steam eingestellt hast, kann SRM deinen `Steam Benutzernamen` nicht auslesen und du kannst **nur** ` Account IDs` benutzen. Wenn du `Steam Benutzernamen` verwenden willst, gehe zu `Steam > Einstellungen > Benutzerkonto` und deaktiviere `Anmeldedaten auf diesem Computer nicht speichern`. Starte danach Steam und SRM neu.

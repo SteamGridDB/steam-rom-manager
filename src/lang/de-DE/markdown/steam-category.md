@@ -4,7 +4,7 @@ Auch als "Tags" bezeichnet, kann verwendet werden, um Apps in Steam zu gruppiere
 ```
 ${...}
 ```
-So definieren Sie beispielsweise Kategorien für "WII" und "GBA" (gepaart mit "ROMS") Kategorie:
+So definierst du beispielsweise Kategorien für "WII" und "GBA" (gepaart mit "ROMS") Kategorie:
 ```
 ${WII}
 ```
@@ -16,6 +16,6 @@ So wird die Kategorie "WII" in Steam aussehen:
 ![steamCategory](../../../assets/images/category-example.png)
 
 ## Emojis und nicht-Standard Unicode-Zeichen
-Bitte beachte, dass dieses Feld mit Emojis wie `🎮` gut funktioniert.
+Dieses Feld funktioniert mit Emojis wie `🎮`.
 
 Eine Liste davon findest du hier: [https://copychar.cc/](https://copychar.cc/)

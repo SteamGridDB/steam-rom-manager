@@ -3,7 +3,7 @@ These are parser configurations that have been created by the SRM community and 
 
 ## Generic Parser
 The Generic Parser (search `Generic` in presets) works for a wide variety of emulators that don't need specific commandline arguments in order to work, for example:
-* Yuzu
+*
 * Citra
 * Xenia (add `--fullscreen` in `Command Line Arguments` if desired)
 

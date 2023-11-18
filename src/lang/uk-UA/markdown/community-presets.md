@@ -1,10 +1,10 @@
-# Community Presets
-These are parser configurations that have been created by the SRM community and just need to be altered slightly with a few system specific parameters in order to work (usually just `ROMs Directory` and `Executable` need to be specified).
+# Попередні налаштування спільноти
+Це конфігурації синтаксичного аналізатора, які були створені спільнотою SRM, і їх потрібно лише трохи змінити за допомогою кількох системних параметрів, щоб вони працювали (зазвичай лише `каталог ПЗУ` та `виконуваний файл` необхідно уточнити).
 
 ## Generic Parser
-The Generic Parser (search `Generic` in presets) works for a wide variety of emulators that don't need specific commandline arguments in order to work, for example:
+Generic Parser (пошук `Generic` у стилях) працює для широкого спектра емуляторів, для роботи яких не потрібні спеціальні аргументи командного рядка, наприклад:
 * Yuzu
 * Citra
-* Xenia (add `--fullscreen` in `Command Line Arguments` if desired)
+* Ксенія (за бажанням додайте `--fullscreen` в `Аргументи командного рядка`)
 
-If you have an emulator that isn't in the list of community presets, it is probably worth a shot to try the generic parser. If it works let us know and we will add a preset for it!
+Якщо у вас є емулятор, якого немає в списку попередніх налаштувань спільноти, можливо, варто спробувати загальний аналізатор. Якщо це працює, дайте нам знати, і ми додамо для нього попередні налаштування!

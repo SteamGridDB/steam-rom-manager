@@ -1,12 +1,12 @@
-# Glob-regex Parser specific inputs
+# Glob-regex Parser spezifische Inputs
 
-## Benutzer glob-regex
+## Benutzer Glob-regex
 
-This is where you create your glob for extracting title from file path. Please read all of [special glob characters](#special-glob-characters) if you don't know how to construct a glob.
+Hier erstellst du Globs um Titel aus Dateipfaden zu extrahieren. Bitte informiere dich vorher über alle [speziellen Glob Zeichen ](#special-glob-characters), wenn du nicht weißt, wie man einen Glob erstellt.
 
 ## Wie funktioniert es?
 
-In addition to special glob characters, glob parser requires you to enter `${/.../}`{.noWrap} variable. Parser will locate it's position inside your  glob, for example:
+Zusätzlich zu speziellen Glob Zeichen, benötigt der Glob Parser eine `${/.../}`{.noWrap} Variable. Der Parser wird die Position innerhalb des Globs finden, zum Beispiel:
 
 | Benutzer-Glob         | Position                |
 | --------------------- | ----------------------- |
@@ -14,15 +14,15 @@ In addition to special glob characters, glob parser requires you to enter `${/..
 | `{*,*/*}/${/.+/}.txt` | Erste Ebene von rechts  |
 | `**/${/.+/}/*.txt`    | Zweite Ebene von rechts |
 
-After acquiring `${/.../}`{.noWrap} position, `${/.../}`{.noWrap} will be replaced with a wildcard `*`.
+Nach dem Erhalt der `${/.../}`{.noWrap} Position, wird `${/.../}`{.noWrap} durch einen Platzhalter `*` ersetzt.
 
-## Regex post-processing
+## Regex Nachbearbeitung
 
 Nach der Titelextraktion wird der Titel durch einen regulären Ausdruck verarbeitet. Es gibt 3 Möglichkeiten, einen regulären Ausdruck zu schreiben.
 
 ### Regulärer Ausdruck ohne Aufnahme: `${/.+/}`{.noWrap}
 
-This is practically identical to "Glob" parser -- every piece of extracted title will be used.
+Dies ist identisch mit dem Glob Parser -- jeder Teil des extrahierten Titels wird genutzt.
 
 ### Regulärer Ausdruck mit Aufnahme-Klammern: `${/(.+)/}`{.noWrap}
 
@@ -30,24 +30,24 @@ Mehrere Treffer und Aufnahmegruppen sind erlaubt. Zum Beispiel haben wir hier 2 
 ```
 ${/(.*?)\s*\[USA\]\s*(.+)|(.*)/}
 ```
-First match group (from left to right) with all correct captures will be used. Furthermore, all capture groups will be **joined**.
+Die erste Gruppe (von links nach rechts) mit allen Aufnahmen wird benutzt. Zusätzlich werden alle Aufnahmegruppen **gruppiert**.
 
 ### Regulärer Ausdruck mit Aufnahme-Klammern und ersetztem Text: `${/(.+)/|...}`{.noWrap}
 
-Similar to [regular expression with capture brackets](#regular-expression-with-capture-brackets) except for how it handles captured groups. Replacement text can be used to move around captured groups. For example:
+Wie bei [Regulärer Ausdruck mit Aufnahme-Klammern](#regular-expression-with-capture-brackets), außer dass Gruppen anders behandelt werden. Textersetzung kann genutzt werden um Gruppen zu bewegen. Zum Beispiel:
 ```
-${/(.*?)\s*\[USA\]\s*(.+)/|Second capture group: "$2" precedes the first one, which is "$1" }
+${/(.*?)\s*\[USA\]\s*(.+)/|Zweite Gruppe: "$2" ist der ersten vorangestellt "$1" }
 ```
-If our first capture group is `Legend of Zelda` and second one is `SUPER EDITION`, then we will get the following (not very useful) title:
+Wenn unsere erste Gruppe `Legend of Zelda` und die zweite `SUPER EDITION` ist, dann ergibt dies den folgenden (nicht sehr nützlichen) Titel:
 
-`Second capture group: "SUPER EDITION" precedes the first one, which is "Legend of Zelda"`
+`Zweite Gruppe: "SUPER EDITION" ist der ersten vorangestellt "Legend of Zelda"`
 
-Untouched text will remain by default, so if you see some trailing characters be sure to add `.*` at the end or `.*?` at the begging of regular expression.
+Unberührter Text wird standardmäßig bleiben. Wenn du angestellte Zeichen hast, nutze `.*` am Ende oder `.*?` am Anfang des Ausdrucks.
 
-### Unterstütze Markierungen
+### Unterstütze Flags
 
-Erlaubte Markierungen sind `i`, `g` und `u`.
+Erlaubte Flags sind `i`, `g` und `u`.
 
 ## Einschränkungen
 
-Positionsextraktion kommt mit einigen Einschränkungen -- Glob ist ungültig, wenn keine Position extrahiert werden kann. Meistens wirst du davor gewarnt, was du nicht tun kannst. Solltest du jedoch eine Kombination finden, die erlaubt ist, aber falsche Titel erzeugt, gib uns dieses Problem bitte auf [github](https://github.com/FrogTheFrog/steam-rom-manager/issues) weiter.
+Der Glob ist ungültig, wenn die Position nicht extrahiert werden konnte. Meistens wirst du davor gewarnt, wenn der Input ungültig ist. Solltest du jedoch eine Kombination finden, die erlaubt ist, aber falsche Titel erzeugt, gib uns dieses bitte auf [GitHub](https://github.com/FrogTheFrog/steam-rom-manager/issues) weiter.

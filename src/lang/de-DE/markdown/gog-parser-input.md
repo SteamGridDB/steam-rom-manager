@@ -1,10 +1,10 @@
-# Unique inputs for GOG Galaxy Parser
+# GOG Galaxy Parser spezifische Inputs
 
-## Galaxy Path Override
-By default Steam ROM Manager assumes your Galaxy Client is located at `C:\Program Files (x86)\GOG Galaxy\GalaxyClient.exe`. This field allows you to override that path if your GOG Galaxy installation is elsewhere.
+## Galaxy Pfad überschreiben
+Steam ROM Manager geht davon aus, dass dein Galaxy Client sich in `C:\Program Files (x86)\GOG Galaxy\GalaxyClient.exe` befindet. Mit diesem Feld kannst du einen anderen Pfad angeben, unter dem do GOG Galaxy installiert hast.
 
-This field is actually only necessary if you enable launch via GOG Galaxy (see below), as otherwise SRM has no need of the location of the Galaxy Client.
+Dieses Feld ist nur notwendig, wenn du Spiele mit GOG Galaxy (siehe unten) startest. SRM hat sonst keine Verwendung für den Pfad des Galaxy Client.
 
-## Launch Via GOG Galaxy `[Recommend disabled]`
+## Mit GOG Galaxy starten `[Nicht empfohlen]`
 
-What it sounds like, this toggle let's you set whether games will launch via GOG Galaxy or directly. Note that for some games launching from GOG Galaxy may fail, and the Steam overlay will most likely not work.
+Hiermit stellst du ein, ob du Spiele über GOG Galaxy oder direkt starten willst. Für manche Spiele kann das starten mit GOG Galaxy fehlschlagen und das Steam Overlay wird daraufhin wahrscheinlich nicht funktionieren.

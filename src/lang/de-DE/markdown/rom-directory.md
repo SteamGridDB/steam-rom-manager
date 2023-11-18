@@ -1,3 +1,3 @@
-# ROMs-Verzeichnis `[supports environment variables]`
+# ROMs-Verzeichnis `[unterstützt Umgebungsvariablen]`
 
 Startverzeichnis für Spiel- oder Anwendungsdateien.

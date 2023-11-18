@@ -1,14 +1,14 @@
-# "Start In" directory (optional) `[supports environment variables]`{.noWrap}
+# "Starte in" Verzeichnis (Optional) `[unterstützt Umgebungsvariablen]`{.noWrap}
 
-By default "Start In" directory is set to executable's directory:
+Standardmäßig ist das "Starte in" Verzeichnis auf das Verzeichnis der Programmdatei gesetzt:
 
-![Default "Start In" directory](../../../assets/images/default-start-in-directory.png) {.fitImage.center}
+![Standard "Starte in" Verzeichnis](../../../assets/images/default-start-in-directory.png) {.fitImage.center}
 
-This option allows you to specify any directory you want as a "Start In" directory:
+Mit dieser Option können Sie jedes gewünschte Verzeichnis als "Starte in" Verzeichnis festlegen:
 
-![Ner "Start In" directory](../../../assets/images/new-start-in-directory.png) {.fitImage.center}
+![Ner "Starte In" Verzeichnis](../../../assets/images/new-start-in-directory.png) {.fitImage.center}
 
-It is useful when you're using batch files to start emulator and a game, but emulator requires a specific "Start In" directory to work properly.
+Dies ist notwendig, wenn du Batchdateien benutzt um Emulatoren und Spiele zu starten, die ein "Starte in" Verzeichnis benötigen um zu funktionieren.
 
-## Shortcut Passthrough
-If you enable "Follow .lnk to destination" and your executable is a ".lnk" file, ie a shortcut, then whatever you put in this field will be overridden with the directory of the target of that shortcut. In the future, it will be overridden with the start in directory of that shortcut.
+## Shortcut durchgeben
+Wenn du ".lnk zum Ziel folgen" aktivierst und die Programmdatei eine ".lnk" Datei, wie z.B. eine Verknüpfung, ist, dann weird der Input überschrieben mit dem Verzeichnis des Urpsrungs der Verknüpfung. In Zukunft wird dies überschrieben mit dem "Starte in" Verzeichnis des Shortcuts.
