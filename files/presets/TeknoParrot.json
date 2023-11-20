@@ -1,0 +1,89 @@
+{
+	"Arcade - TeknoParrot": {
+        "parserType": "Glob",
+        "configTitle": "TeknoParrot",
+        "steamDirectory": "${steamdirglobal}",
+        "steamCategory": "${TeknoParrot}",
+        "romDirectory": "E:\\Video Game\\Arcade\\TeknoParrot\\UserProfiles",
+        "executableArgs": "--profile=${fileName}.xml --startMinimized",
+        "executableModifier": "\"${exePath}\"",
+        "startInDirectory": "",
+        "titleModifier": "${fuzzyTitle}",
+        "imageProviders": [
+            "SteamGridDB"
+        ],
+        "onlineImageQueries": "${${fuzzyTitle}}",
+        "imagePool": "${fuzzyTitle}",
+        "defaultImage": "",
+        "defaultTallImage": "",
+        "defaultHeroImage": "",
+        "defaultLogoImage": "",
+        "defaultIcon": "",
+        "localImages": "",
+        "localTallImages": "",
+        "localHeroImages": "",
+        "localLogoImages": "",
+        "localIcons": "",
+        "userAccounts": {
+            "specifiedAccounts": "",
+            "skipWithMissingDataDir": true,
+            "useCredentials": true
+        },
+        "executable": {
+            "path": "path-to-TeknoParrotUi.exe",
+            "shortcutPassthrough": false,
+            "appendArgsToExecutable": true
+        },
+        "parserInputs": {
+            "glob": "${title}@(.xml|.XML)"
+        },
+        "titleFromVariable": {
+            "limitToGroups": "${TeknoParrot}",
+            "caseInsensitiveVariables": false,
+            "skipFileIfVariableWasNotFound": true,
+            "tryToMatchTitle": true
+        },
+        "fuzzyMatch": {
+            "replaceDiacritics": true,
+            "removeCharacters": true,
+            "removeBrackets": true
+        },
+        "controllers": {
+            "ps4": null,
+            "ps5": null,
+            "xbox360": null,
+            "xboxone": null,
+            "switch_joycon_left": null,
+            "switch_joycon_right": null,
+            "switch_pro": null,
+            "neptune": null
+        },
+        "imageProviderAPIs": {
+            "SteamGridDB": {
+                "nsfw": false,
+                "humor": false,
+                "styles": [],
+                "stylesHero": [],
+                "stylesLogo": [],
+                "stylesIcon": [],
+                "imageMotionTypes": [
+                    "static"
+                ]
+            }
+        },
+        "defaultImage": {
+            "tall": "",
+            "long": "",
+            "hero": "",
+            "logo": "",
+            "icon": ""
+        },
+        "localImages": {
+            "tall": "",
+            "long": "",
+            "hero": "",
+            "logo": "",
+            "icon": ""
+        },
+    }
+}
