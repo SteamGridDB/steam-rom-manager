@@ -4,13 +4,13 @@ Voici des tables de variables qui peuvent être utilisées avec des options qui 
 
 ## Variables de répertoire
 
-| Variable (insensible à la casse) | Valeur correspondante                           |
-| --------------------------------:|:----------------------------------------------- |
-|                      `${exeDir}` | Répertoire exécutable                           |
-|                      `${romDir}` | Répertoire des ROMs                             |
-|                    `${steamDir}` | Répertoire Steam                                |
-|                  `${startInDir}` | Répertoire "Démarrer"                           |
-|                     `${fileDir}` | Fichiers retournés par un analyseur, répertoire |
+| Variable (insensible à la casse) | Valeur correspondante                     |
+| --------------------------------:|:----------------------------------------- |
+|                      `${exeDir}` | Répertoire exécutable                     |
+|                      `${romDir}` | Répertoire des ROMs                       |
+|                    `${steamDir}` | Répertoire Steam                          |
+|                  `${startInDir}` | Répertoire "Démarrer"                     |
+|                     `${fileDir}` | Files returned by a parser or a directory |
 
 Dans le cas où l'entrée du répertoire exécutable est laissée **vide**, `${exeDir}`{.noWrap} est égal à `${fileDir}`{.noWrap}. De plus, si le répertoire "Démarrer" est laissé **vide**, `${startInDir}`{.noWrap} est égal à `${exeDir}`{.noWrap}.
 
