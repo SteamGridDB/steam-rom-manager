@@ -46334,6 +46334,8 @@
         "KTGS30320": "Sophie no Atelier: Fushigi na Hon no Renkinjutsushi (Premium Box)",
         "MRTC00002": "Lost Planet 2",
         "MRTC00014": "Mindjack",
+	},
+	"PSN": {
         "NPEA00006": "Go! Puzzle",
         "NPEA00015": "Nucleus",
         "NPEA00041": "Tori-Emaki",
@@ -49672,6 +49674,7 @@
         "MDFN90002": "Mednafen Emulator",
         "NEOTRAIL1": "Neo Trail",
         "NORSX0000": "NORSX: A 2D Library for PSL1GHT",
+        "NP0APOLLO": "Apollo Save Tool (PS3)",
         "PCEE00000": "PCE Emu",
         "PKGMANAGE": "XMB Manager Plus",
         "PKGMANAGR": "XMB Manager Plus",

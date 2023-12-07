@@ -1,7 +1,7 @@
 {
-	"Sony PlayStation 3 - RPCS3 (Extracted ISO/PSN)": {
+	"Sony PlayStation 3 - RPCS3 (Extracted ISO)": {
 		"parserType": "Glob",
-		"configTitle": "Sony PlayStation 3 - RPCS3 (Extracted ISO/PSN)",
+		"configTitle": "Sony PlayStation 3 - RPCS3 (Extracted ISO)",
 		"steamCategory": "${PS3}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
@@ -78,9 +78,9 @@
 			"icon": ""
 		}
 	},
-	"Sony PlayStation 3 - RPCS3(Flatpak) (Extracted ISO/PSN)": {
+	"Sony PlayStation 3 - RPCS3(Flatpak) (Extracted ISO)": {
 		"parserType": "Glob",
-		"configTitle": "Sony PlayStation 3 - RPCS3(Flatpak) (Extracted ISO/PSN)",
+		"configTitle": "Sony PlayStation 3 - RPCS3(Flatpak) (Extracted ISO)",
 		"steamCategory": "${PS3}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
@@ -181,7 +181,7 @@
 			"glob": "${title}/USRDIR/@(eboot.bin|EBOOT.BIN)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${PS3}",
+			"limitToGroups": "${PSN}",
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false,
 			"tryToMatchTitle": true
@@ -260,7 +260,7 @@
 			"glob": "${title}/USRDIR/@(eboot.bin|EBOOT.BIN)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${PS3}",
+			"limitToGroups": "${PSN}",
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false,
 			"tryToMatchTitle": true
