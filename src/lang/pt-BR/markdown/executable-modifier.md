@@ -14,13 +14,13 @@ Se você ativar "Seguir .lnk para destino" e o seu executável é um ". arquivo 
 
 ## Variáveis de diretório
 
-| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                  |
-| ----------------------------------:|:-------------------------------------------- |
-|                        `${exeDir}` | Diretório executável                         |
-|                        `${romDir}` | Diretório ROMs                               |
-|                      `${steamDir}` | Diretório Steam                              |
-|                    `${startInDir}` | Diretório inicial                            |
-|                       `${fileDir}` | Arquivo retornado pelo analisador, diretório |
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente               |
+| ----------------------------------:|:----------------------------------------- |
+|                        `${exeDir}` | Diretório executável                      |
+|                        `${romDir}` | Diretório ROMs                            |
+|                      `${steamDir}` | Diretório Steam                           |
+|                    `${startInDir}` | Diretório inicial                         |
+|                       `${fileDir}` | Files returned by a parser or a directory |
 
 Caso a entrada do diretório executável seja deixada **vazia**, `${exeDir}`{.noWrap} é igual a `${fileDir}`{.noWrap}. Além disso, se o diretório "StartIn" for deixado **vazio**, `${startInDir}`{.noWrap} é igual a `${exeDir}`{.noWrap}.
 
