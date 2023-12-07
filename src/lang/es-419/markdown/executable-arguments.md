@@ -61,7 +61,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 ### nullDC (Sega Dreamcast)
 
 ```
--config nullDC_GUI:Fullscreen=1 -config ImageReader:DefaultImage="${filePath}"
+-config nullDC_GUI:Fullscreen=1 -config ImageReader: DefaultImage="${filePath}"
 ```
 
 ### Kega Fusion (Sega Genesis and Sega 32X)
@@ -126,13 +126,13 @@ This setting is used to influence Steam's APP ID.
 
 ## Directory variables
 
-| Variable (case-insensitive) | Corresponding value                     |
-| ---------------------------:|:--------------------------------------- |
-|                 `${exeDir}` | Executable directory                    |
-|                 `${romDir}` | ROMs directory                          |
-|               `${steamDir}` | Steam directory                         |
-|             `${startInDir}` | "StartIn" directory                     |
-|                `${fileDir}` | File's, returned by a parser, directory |
+| Variable (case-insensitive) | Corresponding value                       |
+| ---------------------------:|:----------------------------------------- |
+|                 `${exeDir}` | Executable directory                      |
+|                 `${romDir}` | ROMs directory                            |
+|               `${steamDir}` | Steam directory                           |
+|             `${startInDir}` | "StartIn" directory                       |
+|                `${fileDir}` | Files returned by a parser or a directory |
 
 In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
 
