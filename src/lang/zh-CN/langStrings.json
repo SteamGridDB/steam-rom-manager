@@ -398,7 +398,7 @@
         "testFailed": "测试失败",
         "cannotTestInvalid": "无法测试无效的配置！",
         "cannotCopyInvalid": "无法复制无效配置！",
-        "failedToCopy": "复制到剪贴板失败！",
+        "failedToCopy": "无法复制到剪贴板",
         "cannotFetchTemplates": "无法获取控制器模板，因为 Steam 目录无效！",
         "errorRemovingControllers": "删除控制器时出错：",
         "cannotRemoveControllers": "无法从无效的 Steam 目录中删除控制器！"
@@ -541,7 +541,7 @@
     "error": {
       "parserNotFound__i": "未找到解析器 “${name}”！",
       "tooManyFieldGlobs__md": "> 每个输入只允许一个 `$(...)$` 集。",
-      "parserIsRequired__md": "> `$(...)$` 的第一部分必须包含一个有效的 **Glob** 或者 **Glob-regex** 字段。",
+      "parserIsRequired__md": "> First part of `$(...)$` must contain a valid **Glob** in **Glob-regex** field.",
       "noWinSlashes__md": "> Windows 目录字符`\\`不允许使用！请改用`/`。"
     }
   },
