@@ -14,13 +14,13 @@ If you enable "Follow .lnk to destination" and your executable is a ".lnk" file,
 
 ## Directory variables
 
-| Variable (case-insensitive) | Corresponding value                     |
-| ---------------------------:|:--------------------------------------- |
-|                 `${exeDir}` | Executable directory                    |
-|                 `${romDir}` | ROMs directory                          |
-|               `${steamDir}` | Steam directory                         |
-|             `${startInDir}` | "StartIn" directory                     |
-|                `${fileDir}` | File's, returned by a parser, directory |
+| Variable (case-insensitive) | Corresponding value                       |
+| ---------------------------:|:----------------------------------------- |
+|                 `${exeDir}` | Executable directory                      |
+|                 `${romDir}` | ROMs directory                            |
+|               `${steamDir}` | Steam directory                           |
+|             `${startInDir}` | "StartIn" directory                       |
+|                `${fileDir}` | Files returned by a parser or a directory |
 
 In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
 
