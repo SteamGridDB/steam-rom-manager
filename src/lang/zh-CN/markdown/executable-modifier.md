@@ -20,7 +20,7 @@ If you enable "Follow .lnk to destination" and your executable is a ".lnk" file,
 |     `${romDir}` | ROM 目录        |
 |   `${steamDir}` | Steam 目录      |
 | `${startInDir}` | "Start In" 目录 |
-|    `${fileDir}` | 由解析器返回的文件目录。  |
+|    `${fileDir}` | 解析器或目录返回的文件   |
 
 In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}. 此外，如果“StartIn”目录为**空**，则`${startInDir}`{.noWrap}等于`${exeDir}`{.noWrap}。 此外，如果“StartIn”目录为**空**，则 `${startInDir}`{.noWrap} 等于 `${exeDir}`{.noWrap}。
 
