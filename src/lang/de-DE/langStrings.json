@@ -3,8 +3,8 @@
     "component": {
       "filter": "Spiel suchen",
       "selectType": "Artwork-Typ",
-      "selectCategories": "Kategorie",
-      "selectParsers": "Parser",
+      "selectCategories": "Steam-Kategorie",
+      "selectParsers": "Parser-Titel",
       "selectTypeOptions": {
         "long": "Banner",
         "tall": "Poster",
@@ -42,7 +42,7 @@
         "savingCategories": "Speichere Kategorie-Informationen in localconfig.vdf.",
         "savingControllers": "Speichere Controller-Informationen.",
         "removingFromCategories": "Entferne alle hinzugefügten Kategorie-Informationen",
-        "writingVDF_entries__i": "Schreibe VDF-Dateien. Lade ${batchSize} Artwork(s) pro Batch.",
+        "writingVDF_entries__i": "Schreibe VDF-Dateien und lade hochauflösende Bilder in Chargen von ${batchSize} herunter.",
         "updatingKnownSteamDirList": "Aktualisiere Liste bekannter Steam Verzeichnisse.",
         "retryingDownload__i": "Bilddownload von \"${imageUrl}\" für \"${appTitle} \" wird erneut gestartet.",
         "disabledConfigurations__i": "${count} Benutzerkonfiguration(en) wurden übersprungen (deaktiviert durch Benutzer).",
@@ -330,7 +330,7 @@
   "nav": {
     "component": {
       "about": "Über",
-      "preview": "Spiele hinzufügen",
+      "preview": "Vorschau",
       "view": "Spiele anzeigen",
       "logger": "Logs",
       "settings": "Einstellungen",
@@ -541,7 +541,7 @@
     "error": {
       "parserNotFound__i": "Parser \"${name}\" konnte nicht gefunden werden!",
       "tooManyFieldGlobs__md": "> Pro Eingabe ist nur ein `$(...)$` Set erlaubt.",
-      "parserIsRequired__md": "> Der erste Teil von `$(...)$` muss einen validen **Glob** im **Glob-regex** Feld enthalten.",
+      "parserIsRequired__md": "> First part of `$(...)$` must contain a valid **Glob** in **Glob-regex** field.",
       "noWinSlashes__md": "> Windows-Verzeichniszeichen `\\` ist nicht zulässig! Verwende stattdessen `/`."
     }
   },
