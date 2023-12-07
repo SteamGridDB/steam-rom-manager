@@ -126,13 +126,13 @@ Deze instelling wordt gebruikt om de APP-ID van Steam te beïnvloeden.
 
 ## Folder variabelen
 
-| Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                        |
-| ------------------------------------:|:--------------------------------------------- |
-|                          `${exeDir}` | Uitvoerbaar bestand map                       |
-|                          `${romDir}` | ROMs map                                      |
-|                        `${steamDir}` | Steam map                                     |
-|                      `${startInDir}` | "StartIn" map                                 |
-|                         `${fileDir}` | Bestanden, teruggestuurd door een parser, map |
+| Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                    |
+| ------------------------------------:|:----------------------------------------- |
+|                          `${exeDir}` | Uitvoerbaar bestand map                   |
+|                          `${romDir}` | ROMs map                                  |
+|                        `${steamDir}` | Steam map                                 |
+|                      `${startInDir}` | "StartIn" map                             |
+|                         `${fileDir}` | Files returned by a parser or a directory |
 
 Als uitvoerbare map-invoer **leeg** wordt gelaten, is `${exeDir}`{.noWrap} gelijk aan `${fileDir}`{.noWrap}. Bovendien, als de map "StartIn" **leeg** wordt gelaten, is `${startInDir}`{.noWrap} gelijk aan `${exeDir}`{.noWrap}.
 
