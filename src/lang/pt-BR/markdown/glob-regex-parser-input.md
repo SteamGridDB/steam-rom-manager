@@ -6,7 +6,7 @@ Aqui é onde você cria seu glob para extrair o título do caminho do arquivo. L
 
 ## Como funciona?
 
-Além de caracteres glob especiais, o analisador glob requer que você digite a variável `${title}`{.noWrap}. O analisador localizará sua posição dentro do seu  glob, por exemplo:
+Além de caracteres glob especiais, o analisador glob requer que você digite a variável `${title}`{.noWrap}. Parser will locate it's position inside your glob, for example:
 
 | Global do usuário     | Posição                    |
 | --------------------- | -------------------------- |
