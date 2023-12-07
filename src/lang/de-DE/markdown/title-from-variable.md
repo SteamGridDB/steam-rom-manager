@@ -22,9 +22,9 @@ Wenn dies aktiviert ist, wird der erste Treffer benutzt.
 
 Grundsätzlich könnte sich dies in einer zukünftigen Version ändern (sehr unwahrscheinlich). Außerdem können momentan neue Variablen nur hinzugefügt/editiert werden indem man `customVariables.json` direkt anpasst.
 
-Diese Datei ist/sollte sich im Verzeichnis `userData` von SRM befinden.
+This file is/should be located in SRM's `userData` directory.
 
-SRM wird Fehler ausgeben, wenn nicht die folgende JSON-Struktur verwendet wird:
+SRM will throw an error unless the following JSON structure is used:
 
 ```
 {
