@@ -3,8 +3,8 @@
     "component": {
       "filter": "Search for game",
       "selectType": "Artwork Type",
-      "selectCategories": "Category",
-      "selectParsers": "Parser",
+      "selectCategories": "Steam Category",
+      "selectParsers": "Parser Title",
       "selectTypeOptions": {
         "long": "Banners",
         "tall": "Pôsteres",
@@ -42,7 +42,7 @@
         "savingCategories": "Saving category information to localconfig.vdf.",
         "savingControllers": "Saving controller information.",
         "removingFromCategories": "Removendo todas as informações da categoria adicionada",
-        "writingVDF_entries__i": "Writing VDF files. Doing artwork in batches of ${batchSize}.",
+        "writingVDF_entries__i": "Writing VDF files and downloading high res images in batches of ${batchSize}.",
         "updatingKnownSteamDirList": "Atualizando uma lista dos diretórios Steam conhecidos.",
         "retryingDownload__i": "Tentando baixar a imagem de \"${imageUrl}\" para \"${appTitle}\".",
         "disabledConfigurations__i": "${count} configuração(ões) de usuário foi/foram ignoradas (desabilitadas pelo usuário).",
@@ -330,7 +330,7 @@
   "nav": {
     "component": {
       "about": "&Sobre",
-      "preview": "Add Games",
+      "preview": "Pré-visualizar",
       "view": "View Games",
       "logger": "Log",
       "settings": "Confirgurações",
@@ -541,7 +541,7 @@
     "error": {
       "parserNotFound__i": "Analisador \"${name}\" não encontrado!",
       "tooManyFieldGlobs__md": "> Apenas um conjunto `$(...)$` é permitido por entrada.",
-      "parserIsRequired__md": "> Primeira parte do `$(...)$` deve conter um campo válido **Glob** ir **Glob-regex**.",
+      "parserIsRequired__md": "> Primeira parte do `$(...)$` deve conter um campo válido **Glob** in **Glob-regex**.",
       "noWinSlashes__md": "> Caracter de diretório Windows `\\` não é permitido! Use `/` em vez disso."
     }
   },
