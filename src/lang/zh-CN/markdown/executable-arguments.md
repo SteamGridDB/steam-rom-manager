@@ -132,7 +132,7 @@
 |     `${romDir}` | ROM 目录        |
 |   `${steamDir}` | Steam 目录      |
 | `${startInDir}` | "Start In" 目录 |
-|    `${fileDir}` | 由解析器返回的文件目录。  |
+|    `${fileDir}` | 解析器或目录返回的文件   |
 
 如果可执行目录输入留空，则 **empty**，`${exeDir}`{.noWrap} 等于 `${fileDir}`{.noWrap}。 此外，如果 “StartIn” 目录为 **空**，则 `${startInDir}`{.noWrap} 等于 `${exeDir}`{.noWrap}。
 
