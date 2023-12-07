@@ -8,4 +8,4 @@ Setze es auf `C:\Programme\WindowsApps` um alle UWP-Anwendungen zu übernehmen -
 
 ## Starte als UWP oder von GameLaunchHelper.exe
 
-Gamepass-Spiele können auf beiden Wegen gestartet werden, obwohl UWP bevorzugt ist.
+Gamepass games can be launched both ways, although UWP is preferred.
