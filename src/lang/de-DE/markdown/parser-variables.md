@@ -4,13 +4,13 @@ Hier findest du eine Sammlung von Variablen, die mit Optionen verwendet werden k
 
 ## Verzeichnis
 
-| Variable (Groß- und Kleinschreibung nicht berücksichtigt) | Wert                                               |
-| ---------------------------------------------------------:|:-------------------------------------------------- |
-|                                               `${exeDir}` | Ausführbares Verzeichnis                           |
-|                                               `${romDir}` | ROM-Verzeichnis                                    |
-|                                             `${steamDir}` | Steam-Verzeichnis                                  |
-|                                           `${startInDir}` | "Starte in"-Verzeichnis                            |
-|                                              `${fileDir}` | Vom Parser zurückgegebene Dateien oder Verzeichnis |
+| Variable (Groß- und Kleinschreibung nicht berücksichtigt) | Wert                                      |
+| ---------------------------------------------------------:|:----------------------------------------- |
+|                                               `${exeDir}` | Ausführbares Verzeichnis                  |
+|                                               `${romDir}` | ROM-Verzeichnis                           |
+|                                             `${steamDir}` | Steam-Verzeichnis                         |
+|                                           `${startInDir}` | "Starte in"-Verzeichnis                   |
+|                                              `${fileDir}` | Files returned by a parser or a directory |
 
 Falls die Eingabe für `${exeDir}`{.noWrap} **leer** bleibt, ist es gleich `${fileDir}`{.noWrap}. Falls die Eingabe für `${startInDir}`{.noWrap} **leer ** bleibt, ist es gleich `${exeDir}`{.noWrap}.
 
