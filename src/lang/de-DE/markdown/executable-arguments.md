@@ -126,13 +126,13 @@ Diese Einstellung wird verwendet, um die App-ID von Steam zu beeinflussen.
 
 ## Verzeichnis-Variablen
 
-| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                  |
-| -----------------------------------------------------:|:---------------------------------------------------- |
-|                                           `${exeDir}` | Verzeichnis der Programmdatei                        |
-|                                           `${romDir}` | ROM-Verzeichnis                                      |
-|                                         `${steamDir}` | Steam Verzeichnis                                    |
-|                                       `${startInDir}` | "Starte in"-Verzeichnis                              |
-|                                          `${fileDir}` | Dateien, von einem Parser zurückgegeben, Verzeichnis |
+| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                       |
+| -----------------------------------------------------:|:----------------------------------------- |
+|                                           `${exeDir}` | Verzeichnis der Programmdatei             |
+|                                           `${romDir}` | ROM-Verzeichnis                           |
+|                                         `${steamDir}` | Steam Verzeichnis                         |
+|                                       `${startInDir}` | "Starte in"-Verzeichnis                   |
+|                                          `${fileDir}` | Files returned by a parser or a directory |
 
 Falls der Input für Programmdateien-Verzeichnis **leer**gelassen wurde, ist `${exeDir}`{.noWrap} gleich `${fileDir}`{.noWrap}. Außerdem ist, wenn das Verzeichnis "Starte in" **leer** gelassen wird, `${startInDir}`{.noWrap} gleich `${exeDir}`{.noWrap}.
 
