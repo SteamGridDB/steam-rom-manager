@@ -22,9 +22,9 @@ Se esta opção estiver habilitada, a correspondência insensível a maiúsculas
 
 Basicamente, ele pode mudar no lançamento futuro (muito improvavelmente). Além disso, atualmente a única maneira de adicionar variáveis é criar/editar `customVariables.json` usado diretamente pelo SRM.
 
-Este arquivo é/shoud localizado no diretório `userData` da SRM.
+This file is/should be located in SRM's `userData` directory.
 
-SRM irá lançar erro a menos que a seguinte estrutura JSON seja usada:
+SRM will throw an error unless the following JSON structure is used:
 
 ```
 {
