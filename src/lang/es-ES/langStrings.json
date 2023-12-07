@@ -3,8 +3,8 @@
     "component": {
       "filter": "Buscar juego",
       "selectType": "Tipo de imagen",
-      "selectCategories": "Categoría",
-      "selectParsers": "Analizador",
+      "selectCategories": "Steam Category",
+      "selectParsers": "Parser Title",
       "selectTypeOptions": {
         "long": "Banners",
         "tall": "Pósters",
@@ -42,7 +42,7 @@
         "savingCategories": "Guardando información de categoría en localconfig.vdf.",
         "savingControllers": "Guardando información de mandos.",
         "removingFromCategories": "Eliminando toda la información de categoría añadida",
-        "writingVDF_entries__i": "Escribiendo archivos VDF. Haciendo las imágenes en lotes de ${batchSize}.",
+        "writingVDF_entries__i": "Writing VDF files and downloading high res images in batches of ${batchSize}.",
         "updatingKnownSteamDirList": "Actualizando una lista de directorios conocidos de Steam.",
         "retryingDownload__i": "Reintentando descargar la imagen de \"${imageUrl}\" para \"${appTitle}\".",
         "disabledConfigurations__i": "${count} configuración(es) de usuario se han omitido (desactivadas por el usuario).",
@@ -330,7 +330,7 @@
   "nav": {
     "component": {
       "about": "About",
-      "preview": "Add Games",
+      "preview": "Preview",
       "view": "View Games",
       "logger": "Log",
       "settings": "Settings",
@@ -398,7 +398,7 @@
         "testFailed": "Testing failed",
         "cannotTestInvalid": "Can not test invalid configuration!",
         "cannotCopyInvalid": "Can not copy invalid configuration!",
-        "failedToCopy": "Failed to copy to clipbard!",
+        "failedToCopy": "Failed to copy to clipboard!",
         "cannotFetchTemplates": "Can not fetch controller templates for invalid steam directory!",
         "errorRemovingControllers": "Error removing controllers:",
         "cannotRemoveControllers": "Can not remove controllers from invalid steam directory!"
@@ -541,7 +541,7 @@
     "error": {
       "parserNotFound__i": "Parser \"${name}\" not found!",
       "tooManyFieldGlobs__md": "> Only one `$(...)$` set is allowed per input.",
-      "parserIsRequired__md": "> First part of `$(...)$` must contain a valid **Glob** ir **Glob-regex** field.",
+      "parserIsRequired__md": "> First part of `$(...)$` must contain a valid **Glob** in **Glob-regex** field.",
       "noWinSlashes__md": "> Windows directory character `\\` is not allowed! Use `/` instead."
     }
   },
