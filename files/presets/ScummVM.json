@@ -8,7 +8,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run --branch=stable --arch=x86_64 --command=scummvm_wrapper org.scummvm.ScummVM --path="${filePath}" --auto-detect -x",
+		"executableArgs": "run --branch=stable --arch=x86_64 --command=scummvm_wrapper org.scummvm.ScummVM --path=\"${filePath}\" --auto-detect -x",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
