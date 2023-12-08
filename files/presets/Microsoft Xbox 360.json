@@ -78,9 +78,9 @@
 			"icon": ""
 		}
 	},
-	"Microsoft Xbox 360 - Xenia (ISO)": {
+	"Microsoft Xbox 360 - Xenia": {
 		"parserType": "Glob",
-		"configTitle": "Microsoft Xbox 360 - Xenia (ISO)",
+		"configTitle": "Microsoft Xbox 360 - Xenia",
 		"steamCategory": "${Xbox 360}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
@@ -99,7 +99,7 @@
 			"specifiedAccounts": ""
 		},
 		"parserInputs": {
-			"glob": "${title}@(.iso|.ISO)"
+			"glob": "${title}@(.iso|.ISO|.zar|.ZAR)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
