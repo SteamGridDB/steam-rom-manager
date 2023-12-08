@@ -14,13 +14,13 @@ Wenn du "Folge .lnk zum Ziel" aktivierst und deine Programmdatei eine ".lnk" Dat
 
 ## Verzeichnis-Variablen
 
-| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                       |
-| -----------------------------------------------------:|:----------------------------------------- |
-|                                           `${exeDir}` | Verzeichnis der Programmdatei             |
-|                                           `${romDir}` | ROM-Verzeichnis                           |
-|                                         `${steamDir}` | Steam Verzeichnis                         |
-|                                       `${startInDir}` | "Starte in"-Verzeichnis                   |
-|                                          `${fileDir}` | Files returned by a parser or a directory |
+| Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                |
+| -----------------------------------------------------:|:-------------------------------------------------- |
+|                                           `${exeDir}` | Verzeichnis der Programmdatei                      |
+|                                           `${romDir}` | ROM-Verzeichnis                                    |
+|                                         `${steamDir}` | Steam Verzeichnis                                  |
+|                                       `${startInDir}` | "Starte in"-Verzeichnis                            |
+|                                          `${fileDir}` | Vom Parser zurückgegebene Dateien oder Verzeichnis |
 
 Falls der Input für Programmdateien-Verzeichnis **leer**gelassen wurde, ist `${exeDir}`{.noWrap} gleich `${fileDir}`{.noWrap}. Außerdem ist, wenn das Verzeichnis "Starte in" **leer** gelassen wird, `${startInDir}`{.noWrap} gleich `${exeDir}`{.noWrap}.
 
