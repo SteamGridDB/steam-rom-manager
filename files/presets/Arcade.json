@@ -551,5 +551,84 @@
 			"logo": "",
 			"icon": ""
 		}
+	},
+	"Arcade - TeknoParrot": {
+		"parserType": "Glob",
+		"configTitle": "Arcade - TeknoParrot",
+		"steamCategory": "${Arcade}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "--profile=${fileName}.xml",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": ""
+		},
+		"parserInputs": {
+			"glob": "${title}.xml"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "${TeknoParrot}",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": true
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "path-to-TeknoParrotUi.exe",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 7,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		}
 	}
 }
