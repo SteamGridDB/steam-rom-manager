@@ -20,7 +20,7 @@
 			"specifiedAccounts": ""
 		},
 		"parserInputs": {
-			"glob": "${title}@(.lnk|.LNK|.url|.URL|.desktop|.DESKTOP|.exe)"
+			"glob": "${title}@(.lnk|.LNK|.url|.URL|.desktop|.DESKTOP|.exe|.EXE)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
