@@ -18,13 +18,13 @@ Stelle sicher, dass dies aktiviert ist.
 
 Wenn dies aktiviert ist, wird der erste Treffer benutzt.
 
-## Hinweis. Diese Funktion ist **experimentell**
+## Hinweis: Dieses Feature ist **experimentell**
 
-Grundsätzlich könnte sich dies in einer zukünftigen Version ändern (sehr unwahrscheinlich). Außerdem können momentan neue Variablen nur hinzugefügt/editiert werden indem man `customVariables.json` direkt anpasst.
+Grundsätzlich könnte sich dies in einer zukünftigen Version ändern (sehr unwahrscheinlich). Außerdem können momentan neue Variablen nur hinzugefügt/editiert werden, indem man `customVariables.json` direkt anpasst.
 
-This file is/should be located in SRM's `userData` directory.
+Die Konfiguration muss in SRM's `userData` Ordner hinterlegt werden.
 
-SRM will throw an error unless the following JSON structure is used:
+SRM benötigt die folgende Struktur:
 
 ```
 {
