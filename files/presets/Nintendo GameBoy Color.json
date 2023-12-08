@@ -8,7 +8,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run io.mgba.mGBA -f "${filePath}"",
+		"executableArgs": "run io.mgba.mGBA -f \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
