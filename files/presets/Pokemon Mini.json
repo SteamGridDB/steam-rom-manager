@@ -1,5 +1,5 @@
 {
-    "Nintendo Pokemon Mini - Retroarch"{
+    "Nintendo Pokemon Mini - Retroarch": {
         "parserType": "Glob",
         "configTitle": "Pokemon Mini - Retroarch",
         "steamDirectory": "${steamdirglobal}",
@@ -78,4 +78,4 @@
         "parserId": "164785621902122396",
         "version": 15
       }
-    }
+}
