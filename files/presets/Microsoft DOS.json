@@ -8,7 +8,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run com.dosbox.DOSBox -conf dosbox.conf -conf "${filePath}${/}${title}.conf" -fullscreen -c exit",
+		"executableArgs": "run com.dosbox.DOSBox -conf dosbox.conf -conf \"${filePath}${/}${title}.conf\" -fullscreen -c exit",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
