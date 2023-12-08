@@ -1,4 +1,83 @@
 {
+	"Microsoft DOS - DOSBox (Requires .conf matching game folder name in with executable)": {
+		"parserType": "Glob",
+		"configTitle": "Microsoft DOS - DOSBox",
+		"steamCategory": "${DOS}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-dos-games",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-conf dosbox.conf -conf \"${filePath}${/}${title}.conf\" -noconsole -c exit",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": ""
+		},
+		"parserInputs": {
+			"glob": "${title}"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "path-to-dosbox.exe",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 7,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		}
+	},
 	"Microsoft DOS - DOSBox(Flatpak) (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
 		"configTitle": "Microsoft DOS - DOSBox(Flatpak)",
@@ -78,16 +157,16 @@
 			"icon": ""
 		}
 	},
-	"Microsoft DOS - DOSBox (Requires .conf matching game folder name in with executable)": {
+	"Microsoft DOS - DOSBox Staging(Flatpak) (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
-		"configTitle": "Microsoft DOS - DOSBox",
+		"configTitle": "Microsoft DOS - DOSBox Staging(Flatpak)",
 		"steamCategory": "${DOS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-dos-games",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-conf dosbox.conf -conf \"${filePath}${/}${title}.conf\" -noconsole -c exit",
+		"executableArgs": "run io.github.dosbox-staging -conf dosbox-staging.conf -conf \"${filePath}${/}${title}.conf\" -fullscreen -exit",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -114,7 +193,85 @@
 			"removeBrackets": true
 		},
 		"executable": {
-			"path": "path-to-dosbox.exe",
+			"path": "/usr/bin/flatpak",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 7,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		}
+	},	"Microsoft DOS - DOSBox-X(Flatpak) (Requires .conf matching game folder name in with executable)": {
+		"parserType": "Glob",
+		"configTitle": "Microsoft DOS - DOSBox-X(Flatpak)",
+		"steamCategory": "${DOS}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-dos-games",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "run com.dosbox_x.DOSBox-X -conf dosbox-x.conf -conf \"${filePath}${/}${title}.conf\" -fastlaunch -fullscreen -exit",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": ""
+		},
+		"parserInputs": {
+			"glob": "${title}"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "/usr/bin/flatpak",
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
