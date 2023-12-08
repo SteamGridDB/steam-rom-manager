@@ -8,7 +8,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run dev.bsnes.bsnes --fullscreen "${filePath}",
+		"executableArgs": "run dev.bsnes.bsnes --fullscreen \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
