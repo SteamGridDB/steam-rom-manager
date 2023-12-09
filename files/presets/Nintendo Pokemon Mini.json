@@ -25,7 +25,7 @@
             "appendArgsToExecutable": true
         },
         "parserInputs": {
-            "glob": "/${title}@(.min|.MIN|.7z|.7Z|.zip|.ZIP)"
+            "glob": "${title}@(.min|.MIN|.7z|.7Z|.zip|.ZIP)"
         },
         "titleFromVariable": {
             "limitToGroups": "",
@@ -102,7 +102,7 @@
             "appendArgsToExecutable": true
         },
         "parserInputs": {
-            "glob": "/${title}@(.min|.MIN|.7z|.7Z|.zip|.ZIP)"
+            "glob": "${title}@(.min|.MIN|.7z|.7Z|.zip|.ZIP)"
         },
         "titleFromVariable": {
             "limitToGroups": "",
