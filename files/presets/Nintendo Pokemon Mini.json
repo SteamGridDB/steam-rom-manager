@@ -1,7 +1,7 @@
 {
-    "Nintendo Pokemon Mini - Retroarch (Flatpak)": {
+    "Nintendo Pokemon Mini - Retroarch (Flatpak) - Pokemini": {
         "parserType": "Glob",
-        "configTitle": "Pokemon Mini - Retroarch (Flatpak)",
+        "configTitle": "Pokemon Mini - Retroarch (Flatpak) - Pokemini",
         "steamDirectory": "${steamdirglobal}",
         "steamCategory": "${Pokemon Mini}",
         "romDirectory": "path-to-roms",
@@ -20,12 +20,12 @@
             "specifiedAccounts": ""
         },
         "executable": {
-            "path": "${retroarchpath}",
+            "path": "/usr/bin/flatpak",
             "shortcutPassthrough": false,
             "appendArgsToExecutable": true
         },
         "parserInputs": {
-            "glob": "**/${title}@(.min|.MIN|.7z|.7Z|.zip|.ZIP)"
+            "glob": "/${title}@(.min|.MIN|.7z|.7Z|.zip|.ZIP)"
         },
         "titleFromVariable": {
             "limitToGroups": "",
@@ -74,8 +74,6 @@
             "hero": "",
             "logo": "",
             "icon": ""
-        },
-        "parserId": "164785621902122396",
-        "version": 15
-      }
+        }
+        }
 }
