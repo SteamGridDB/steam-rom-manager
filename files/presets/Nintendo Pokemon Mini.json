@@ -1,7 +1,7 @@
 {
-    "Nintendo Pokemon Mini - Retroarch (Flatpack)": {
+    "Nintendo Pokemon Mini - Retroarch (Flatpak)": {
         "parserType": "Glob",
-        "configTitle": "Pokemon Mini - Retroarch (Flatpack)",
+        "configTitle": "Pokemon Mini - Retroarch (Flatpak)",
         "steamDirectory": "${steamdirglobal}",
         "steamCategory": "${Pokemon Mini}",
         "romDirectory": "path-to-roms",
