@@ -51,11 +51,11 @@
         "shutdownSteam": "Chiudi Steam se è in esecuzione.",
         "noParserConfigurations": "Please create parser configuration in \"Parsers\" menu first.",
         "parserFoundNoFiles": "Parser(s) found no files matching user configuration.",
-        "allImagesRetrieved": "All available image urls retrieved.",
-        "providerTimeout__i": "Timeout was requested by \"${provider}\" for ${time} second(s).",
-        "noAccountsWarning": "User accounts not found. Incorrect Steam directory?",
-        "preparingExport": "Preparing export of image choices.",
-        "exportProgress__i": "Saving image choices ${progress}.",
+        "allImagesRetrieved": "Tutti gli url d'immagine disponibili sono stati recuperati.",
+        "providerTimeout__i": "Il timeout è stato richiesto da \"${provider}\" per ${time} secondi.",
+        "noAccountsWarning": "Account utente non trovato. Cartella di Steam non corretta?",
+        "preparingExport": "Preparazione dell'esportazione delle immagini scelte.",
+        "exportProgress__i": "Salvataggio delle immagini scelte ${progress}.",
         "readingSelections": "Applying imported image choices."
       },
       "errors": {
