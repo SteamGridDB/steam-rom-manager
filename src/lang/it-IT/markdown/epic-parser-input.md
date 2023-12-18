@@ -1,11 +1,11 @@
-# Epic Games Store specific inputs
+# Input specifici per l'Epic Games Store
 
-## Manifests Directory Override
+## Sovrascrittura della Cartella Manifests
 
-Most users shouldn't use this, as they use the standard `Epic Games Store` installation where the game manifests will be located in, for example on Windows, `C:\ProgramData\Epic\EpicGamesLauncher\Data\Manifests`.
+La maggior parte degli utenti non dovrebbero usare questa opzione, in quanto utilizzano l'installazione standard `Epic Games Store` dove si trovaranno i manifests del gioco, ad esempio su Windows, `C:\ProgramData\Epic\EpicGamesLauncher\Data\Manifests`.
 
-If, however, for some reason your manifests directory is located in a non-typical location then you can specify the correct manifests directory here.
+Se, tuttavia, per qualche motivo, la cartella manifests si trova in una posizione non tipica, allora qui puoi specificare la cartella manifests corretta.
 
-## Launch Via Epic Games Store `[Recommend enabled]`
+## Esegui tramite Epic Games Store `[Abilitazione Raccomandata]`
 
-If you don't launch via the `Epic Games Store` you will not have access to Epic's online services in game. This toggle lets you set whether games will launch via the Epic Games Store or directly.
+Questa opzione ti permette d'impostare se i giochi verranno avviati attraverso l'Epic Games Store o direttamente. Se non avvii attraverso l' `Epic Games Store` non avrai accesso ai servizi online di Epic in gioco.
