@@ -1,9 +1,9 @@
-# Title modifier `[supports variables]`{.noWrap}
+# Modificatore del titolo `[supporta le variabili]`{.noWrap}
 
-Default value is `${fuzzyTitle}`{.noWrap}. This setting can be used to prepend or append desired characters to a title which will be added to Steam. For example, given that `${fuzzyTitle}`{.noWrap} is `Zelda 2`, you can add `(1.7.5)` to it by setting value to:
+Il valore predefinito è `${fuzzyTitle}`{.noWrap}. Questa impostazione può essere usata per precedere o aggiungere i caratteri desiderati a un titolo che verrà aggiunto a Steam. Ad esempio, dato che `${fuzzyTitle}`{.noWrap} è `Zelda 2`, puoi aggiungere `(1.7.5)` ad esso impostando valore a:
 ```
 ${fuzzyTitle} (1.7.5)
 ```
-You can use `${title}`{.noWrap} or any other variable to construct the final title.
+Puoi usare `${title}`{.noWrap} o qualsiasi altra variabile per costruire il titolo finale.
 
-This setting influences Steam's APP ID.
+Questa impostazione influenza l'APP ID di Steam.
