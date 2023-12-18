@@ -1,7 +1,7 @@
-# GOG Galaxy Parser
+# Parser di GOG Galaxy
 
-This parser imports games from `GOG Galaxy` so that artwork can be chosen for them and they can be added into Steam. If it doesn't work it is because GOG Galaxy has altered the structure of their game database, in this case please let the developers of SRM know and we will resolve the issue.
+Questo parser importa giochi da `GOG Galaxy`, così che gli artwork possano essere scelti per loro ed essere aggiunti a Steam. Se ciò non funziona è perché probabilmente GOG Galaxy ha modificato la struttura del loro database di giochi, in tal caso si prega di avvisare gli sviluppatori di SRM cosicché risolvano il problema.
 
-## Compatibility
+## Compatibilità
 
-This parser is currently functional on `Windows` systems only.
+Questo parser attualmente funziona solo su sistemi `Windows`.
