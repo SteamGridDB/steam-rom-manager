@@ -1,11 +1,11 @@
-# Unique inputs for UWP Parser
+# Input unici per UWP Parser
 
-## Games directory
+## Cartella gioco
 
-UWP apps are supposed to say if they are games or apps, and this is not always correct. To remediate this, it's useful to say where you're installing your games to only scan for those UWP apps. Defaults to `C:\XboxGames`.
+Le app UWP dovrebbero dire se sono giochi o app, e questo non è sempre corretto. Per rimediare a questo, è utile dire dove stai installando i tuoi giochi per eseguire la scansione solo per quelle app UWP. L'impostazione predefinita è `C:\XboxGames`.
 
-Set it to `C:\Program Files\WindowsApps` to grab all UWP applications -- you'll have to remove unwanted ones by hand.
+Impostala a `C:\Program Files\WindowsApps` per catturare tutte le applicazioni UWP -- dovrai rimuovere a mano quelle indesiderate.
 
-## Launch as UWP or from GameLaunchHelper.exe
+## Avvia come UWP o da GameLaunchHelper.exe
 
-Gamepass games can be launched both ways, although UWP is preferred.
+I giochi Gamepass possono essere avviati in entrambi i modi, anche se UWP è l'opzione preferita.
