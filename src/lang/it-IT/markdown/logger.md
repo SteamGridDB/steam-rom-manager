@@ -1,13 +1,13 @@
-Submitting a report will upload:
+Inviando un report verrà caricato:
 
-* Your entire SRM configuration (parsers, exceptions, etc).
-* The contents of the `Event Log`.
-* The Steam VDF files that SRM modifies `[Optional]`.
+* L'intera configurazione di SRM (parser, eccezioni, ecc.).
+* I contenuti del `Log Eventi`.
+* I file VDF di Steam che SRM modifica `[Opzionale]`.
 
-After submitting a report you can:
+Dopo aver inviato un report puoi:
 
-* View the report by entering the `Report ID` into the [Logs Server](https://logs.jozen.blue).
-* DM the `Report ID` to person helping you on the [SRM Discord](https://discord.gg/bnSVJrz).
-* Delete the report from the [Logs Server](https://logs.jozen.blue) by entering the `Delete Key` instead.
+* Visualizzare il report inserendo il `Report ID` nel [Log Server](https://logs.jozen.blue).
+* DM il `Report ID` alla persona che ti sta aiutando sul [Discord di SRM](https://discord.gg/bnSVJrz).
+* Eliminare il report dal [Logs Server](https://logs.jozen.blue) inserendo la `Delete Key`.
 
-*Anyone with the `Report ID` has full access to your issue report and its attached data!*
+*Chiunque in possesso del `Report ID` ha pieno accesso al tuo report e ai suoi dati allegati!*
