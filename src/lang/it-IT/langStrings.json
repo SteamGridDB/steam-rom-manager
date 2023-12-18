@@ -59,53 +59,53 @@
         "readingSelections": "Applying imported image choices."
       },
       "errors": {
-        "fatalError": "Fatal error occurred in Preview. See event log for details.",
-        "fatalError__i": "Fatal Preview Error ${error}",
-        "knownSteamDirListIsEmpty": "A list of known Steam directories is empty.",
-        "steamIsRunning": "Cannot make changes while steam is running!",
-        "categorySaveError": "Error updating categories. See event log for details.",
-        "categorySaveError__i": "Category error (shortcuts and artwork will still be added): ${error}",
-        "controllerSaveError": "Error updating controller templates. See event log for details.",
-        "controllerSaveError__i": "Controller error (shortcuts and artwork will still be added): ${error}",
-        "retryingDownload__i": "Image download from \"${imageUrl}\" failed for \"${appTitle}\".",
-        "providerError__i": "Error received from \"${provider}\" for \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
-        "unknownProviderError__i": "Error received from \"${provider}\" for \"${title}\":\n ${error}",
-        "exportError__i": "Could not save selections package folder: ${error}",
-        "importJSONFailError__i": "Could not import selections, JSON was malformed: ${error}",
-        "importFailError__i": "Could not import image choices: ${error}"
+        "fatalError": "Si è verificato un errore fatale nell'anteprima. Vedere il log eventi per i dettagli.",
+        "fatalError__i": "Errore Fatale di Anteprima ${error}",
+        "knownSteamDirListIsEmpty": "Una lista delle cartelle di Steam conosciute è vuota.",
+        "steamIsRunning": "Impossibile apportare modifiche mentre Steam è in esecuzione!",
+        "categorySaveError": "Errore nell'aggiornamento delle categorie. Vedi il log eventi per i dettagli.",
+        "categorySaveError__i": "Errore nella categoria (verranno comunque aggiunte scorciatoie e artwork): ${error}",
+        "controllerSaveError": "Errore nell'aggiornamento dei template dei controller. Vedi il log eventi per i dettagli.",
+        "controllerSaveError__i": "Errore Controller (verranno comunque aggiunte scorciatoie e artwork): ${error}",
+        "retryingDownload__i": "Il download dell'immagine da \"${imageUrl}\" è fallito per \"${appTitle}\".",
+        "providerError__i": "Errore ricevuto da \"${provider}\" per \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
+        "unknownProviderError__i": "Errore ricevuto da \"${provider}\" per \"${title}\":\n ${error}",
+        "exportError__i": "Non è stato possibile salvare la cartella di pacchetti selezionati: ${error}",
+        "importJSONFailError__i": "Impossibile importare le selezioni, JSON è stato malformato: ${error}",
+        "importFailError__i": "Non è stato possibile importare le immagini scelte: ${error}"
       },
       "success": {
-        "writingVDF_entries": "Done adding/removing entries.",
-        "removingVDF_entries": "Entries have been removed.",
-        "exportSuccess__i": "Image choices folder successfully saved to \"${path}\"!",
-        "importSelectionsSuccess__i": "Successfully imported ${count} image choices!"
+        "writingVDF_entries": "Completata l'aggiunta/rimozione delle voci.",
+        "removingVDF_entries": "Le voci sono state rimosse.",
+        "exportSuccess__i": "Cartella delle immagini scelte salvata correttamente in \"${path}\"!",
+        "importSelectionsSuccess__i": "Importate con successo ${count} immagini scelte!"
       }
     }
   },
   "steamParser": {
-    "onlyGamesTitle": "Find artwork for games only (no tools)",
-    "onlyInstalledTitle": "Find artwork for installed titles only",
-    "sourceModsTitle": "Find artwork for unofficial source mods",
+    "onlyGamesTitle": "Cerca artwork solo per i giochi (no strumenti)",
+    "onlyInstalledTitle": "Cerca artwork solo per i titoli installati",
+    "sourceModsTitle": "Trova artwork per le mod non ufficiali",
     "errors": {
-      "directoryInvalid": "> Steam directory invalid.",
-      "noSteamAccounts": "> Steam directory specified has no accounts.",
-      "steamChanged__i": "> Steam changed internal database structure or parser tried to read an outdated database.\nProblematic file: ${file}\nFull error:\n ${error}",
-      "fatalError__i": "> Steam parser failed with fatal error:\n ${error}"
+      "directoryInvalid": "> Cartella di Steam non valida.",
+      "noSteamAccounts": "> La cartella di Steam specificata non ha account.",
+      "steamChanged__i": "> Steam ha cambiato la struttura interna del database o il parser ha provato a leggere un database obsoleto.\nFile problematico: ${file}\nErrore completo:\n ${error}",
+      "fatalError__i": "> Il parser di Steam ha fallito con errore fatale:\n ${error}"
     }
   },
   "manualParser": {
-    "manifestsInputTitle": "Manifests Directory",
-    "manifestsInputPlaceholder": "/path/to/your/manifests/",
+    "manifestsInputTitle": "Cartella Manifests",
+    "manifestsInputPlaceholder": "/percorso/al/tuo/manifests/",
     "errors": {
-      "fatalError__i": "> Manual parser failed with fatal error:\n ${error}"
+      "fatalError__i": "> Il parser manuale ha fallito con errore fatale:\n ${error}"
     }
   },
   "epicParser": {
-    "manifestsInputTitle": "Epic Manifests Directory Override",
-    "manifestsInputPlaceholder": "/path/to/Manifests/",
-    "launcherModeInputTitle": "Launch games via Epic for online services",
+    "manifestsInputTitle": "Sovrascrittura Cartella Manifests di Epic",
+    "manifestsInputPlaceholder": "/percorso/a/Manifests/",
+    "launcherModeInputTitle": "Avviare giochi tramite Epic per i servizi online",
     "errors": {
-      "invalidManifestsOverride": "> Manifests Override is not a valid directory.",
+      "invalidManifestsOverride": "> Manifests Override non è una cartella valida.",
       "epicNotCompatible": "> Epic Games Store not available on Linux.\n If you are using the Legendary store on Linux you need to set Manifests Override.",
       "epicNotInstalled": "> Epic Games does not appear to be installed.",
       "fatalError__i": "> Epic Games parser failed with fatal error:\n ${error}"
