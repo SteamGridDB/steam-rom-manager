@@ -6,7 +6,7 @@ If it doesn't work it is because Epic has altered the structure of their game ma
 
 In order for this parser to work with the open source Epic alternative [Legendary](https://github.com/derrod/legendary), [EGL sync must be enabled in Legendary](https://github.com/derrod/legendary/discussions/276#discussioncomment-709748) (this creates the appropriate files for the parser to read, and does not require the `Epic Games Store` to be installed).
 
-That said, there is also a `Legendary` parser in SRM which works right out of the box.
+Detto questo, c'è anche un parser `Legendary` in SRM che funziona proprio direttamente.
 
-## Compatibility
-This parser is currently functional on `Windows` and `Mac OS` systems only. On `Mac OS` it is not possible to launch from the Epic Store, so that toggle should remain disabled.
+## Compatibilità
+Questo parser attualmente funziona solo su sistemi `Windows` e `Mac OS`. Su `Mac OS` non è possibile avviare da Epic Store, quindi il toggle dovrebbe rimanere disabilitato.
