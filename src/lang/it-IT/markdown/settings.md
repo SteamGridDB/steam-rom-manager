@@ -1,12 +1,12 @@
-## Impostazioni generali
-### Modalità offline `[Recommend disabled]`
+## Impostazioni Generali
+### Modalità offline `[Disabilitazione Consigliata]`
 
 Quando è abilitato, SRM non effettua richieste di rete, utile se si desidera utilizzare SRM solo per le immagini locali.
-### Cancella automaticamente il log prima di testare i parser `[Recommend enabled]`
+### Cancella automaticamente il log prima di testare i parser `[Abilitazione Consigliata]`
 Quando è abilitato, il log viene cancellato ogni volta che viene testato un parser.
-### Show current steam images by default `[Recommend enabled]`
-When enabled this setting tells SRM to default to whatever artwork is currently in steam for a given app. If it is disabled, then every time SRM is run (and saved) all artwork will be reset.
-### Remove shortcuts for disabled parsers `[Recommend disabled]`
+### Mostra le attuali immagini di Steam di default `[Abilitazione Consigliata]`
+Quando abilitata, questa impostazione dice a SRM di preimpostare ad un qualsiasi artwork attualmente presente in Steam per una data app. Se è disabilitato, ogni volta che SRM viene eseguito (e salvato) tutti gli artwork verranno resettati.
+### Rimuovi le scorciatoie per i parser disabilitati `[Disabilitazione Consigliata]`
 When enabled disabling a parser and running SRM will remove all added entries and artwork for the disabled parser. Useful if you want your steam library to be in 1-1 correspondence with enabled parsers.
 
 ## Fuzzy Matcher Settings
