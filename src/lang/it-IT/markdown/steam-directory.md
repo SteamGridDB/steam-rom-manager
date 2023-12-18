@@ -1,7 +1,7 @@
-# Steam directory `[supports environment variables]`{.noWrap}
+# Cartella di Steam `[supporta variabili d'ambiente]`{.noWrap}
 
-Must be a valid Steam directory which contains Steam executable. In order for Steam account to be detected, user must have logged in at least once.
+Deve essere una cartella di Steam valida che contiene l'eseguibile di Steam. Affinché l'account di Steam possa essere rilevato, l'utente deve aver effettuato l'accesso almeno una volta.
 
-## How do I limit edited Steam accounts?
+## Come limitare gli account di Steam modificati?
 
-Enable **Show advanced options** and check **User accounts** option.
+Abilita **Mostra le opzioni avanzate** e spunta l'opzione **Account utente**.
