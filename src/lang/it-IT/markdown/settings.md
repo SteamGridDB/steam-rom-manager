@@ -7,25 +7,25 @@ Quando è abilitato, il log viene cancellato ogni volta che viene testato un par
 ### Mostra le attuali immagini di Steam di default `[Abilitazione Consigliata]`
 Quando abilitata, questa impostazione dice a SRM di preimpostare ad un qualsiasi artwork attualmente presente in Steam per una data app. Se è disabilitato, ogni volta che SRM viene eseguito (e salvato) tutti gli artwork verranno resettati.
 ### Rimuovi le scorciatoie per i parser disabilitati `[Disabilitazione Consigliata]`
-When enabled disabling a parser and running SRM will remove all added entries and artwork for the disabled parser. Useful if you want your steam library to be in 1-1 correspondence with enabled parsers.
+Quando abilitato, la disabilitazione di un parser e l'esecuzione di SRM rimuoverà tutte le voci aggiunte e gli artwork aggiunti per il parser disabilitato. Utile se vuoi che la tua libreria di Steam sia in corrispondenza 1-1 con i parser abilitati.
 
-## Fuzzy Matcher Settings
-### Log matching results `[Recommend disabled]`
-When enabled more verbose logs appear for the fuzzy title matcher in the `Event log`. Useful for debugging incorrect fuzzy matches.
+## Impostazioni Matcher Fuzzy
+### Log risultati corrispondenti `[Disabilitazione Consigliata]`
+Quando abilitato, appaiono log più verbosi per il matcher del titolo fuzzy nel `Log Eventi `. Utile per il debug di incorrette corrispondenze fuzzy.
 
-### Reset fuzzy list
-Resets the stored list of titles used for fuzzy matching to the list of titles returned by `SteamGridDB` (removes any user added titles).
-### Reset fuzzy cache
-Clears the cache of titles that fuzzy matching has already seen (try this if changes you make to fuzzy list are not resulting in changes to titles in SRM).
+### Reset elenco fuzzy
+Reimposta l'elenco memorizzato di titoli usati per la corrispondenza fuzzy alla lista di titoli restituiti da `SteamGridDB` (rimuove qualsiasi titolo aggiunto dall'utente).
+### Reset cache fuzzy
+Pulisce la cache dei titoli che il matcher fuzzy ha già visto (prova se le modifiche apportate alla lista fuzzy non comportano modifiche ai titoli in SRM).
 
-## Image provider settings
-### Preload retrieved images `[Recommend disabled]`
-When enabled, SRM will pull all available artwork for every game, rather than pulling one piece of artwork at a time as the user flips through the images. Don't enable this unless you have a good reason and a very small library of games, otherwise it could result in very large (slow) network requests.
-### Enabled providers
-Global setting to disable certain providers. Currently the only image provider is `SteamGridDB` since ConsoleGrid and RetroGaming.cloud are defunct.
+## Impostazioni del provider immagini
+### Precarica le immagini recuperate `[Disabilitazione Consigliata]`
+Quando abilitata, SRM otterrà tutti gli artwork disponibili per ogni gioco, piuttosto che scaricare solo un artwork alla volta mentre l'utente scorre tra le immagini. Non abilitare questa opzione a meno che tu non abbia una buona ragione e una piccolissima libreria di giochi, altrimenti potrebbe dar luogo a richieste di rete molto grandi (lente).
+### Abilita provider
+Impostazione globale per disabilitare alcuni provider. Attualmente l'unico provider di immagini è `SteamGridDB` dal momento che ConsoleGrid e RetroGaming.cloud sono disattivati.
 
-## Community Variables and Presets
-### Force download custom variables.
-Resets the custom variables JSON file that is used for certain presets to whatever its current state is on the SRM github. Useful if the custom variables JSON file has been corrupted.
-### Force download custom presets.
-Resets the JSON files for parser presets to whatever is on the SRM github. Useful if your presets list is not automatically updating for some reason, or has become corrupted.
+## Variabili comunitarie e Preset
+### Forza il download di variabili personalizzate.
+Reimposta il file JSON delle variabili personalizzate che è usato per alcuni preset a qualunque stato corrente si trovi sul github di SRM. Utile se il file JSON delle variabili personalizzate è stato corrotto.
+### Forza il download di preset personalizzati.
+Reimposta i file JSON per i preset di parser a qualsiasi cosa si trovi sul github di SRM. Utile se la tua lista di preset non si aggiorna automaticamente per qualche motivo, o è diventata corrotta.
