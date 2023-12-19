@@ -6,7 +6,7 @@ Hier erstellst du Globs um Titel aus Dateipfaden zu extrahieren. Bitte informier
 
 ## Wie funktioniert es?
 
-Zusätzlich zu speziellen Glob Zeichen, benötigt der Glob Parser eine `${/.../}`{.noWrap} Variable. Parser will locate it's position inside your glob, for example:
+Zusätzlich zu speziellen Glob Zeichen, benötigt der Glob Parser eine `${/.../}`{.noWrap} Variable. Der Parser erkennt die Position innerhalb des Globs:
 
 | Benutzer-Glob         | Position                |
 | --------------------- | ----------------------- |
