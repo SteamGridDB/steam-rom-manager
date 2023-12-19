@@ -203,7 +203,7 @@
     }
   },
   "globRegexParser": {
-    "inputTitle": "Benutzer Glob-regex",
+    "inputTitle": "Benutzer Glob-Regex",
     "inputPlaceholder": "${/valid regex/}",
     "errors": {
       "noRegex__md": "> Datei Glob muss `${regex}` enthalten!",
@@ -541,7 +541,7 @@
     "error": {
       "parserNotFound__i": "Parser \"${name}\" konnte nicht gefunden werden!",
       "tooManyFieldGlobs__md": "> Pro Eingabe ist nur ein `$(...)$` Set erlaubt.",
-      "parserIsRequired__md": "> First part of `$(...)$` must contain a valid **Glob** in **Glob-regex** field.",
+      "parserIsRequired__md": "> Der erste Teil von `$(...)$` muss ein gültiges **Glob** im **Glob-Regex** Feld enthalten.",
       "noWinSlashes__md": "> Windows-Verzeichniszeichen `\\` ist nicht zulässig! Verwende stattdessen `/`."
     }
   },
