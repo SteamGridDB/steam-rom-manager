@@ -408,10 +408,15 @@
         stroke-width: var(--select-arrow-left-width, 55);
       }
     }
+	& > .appInfo .title{
+		min-height: 20px;
+		span{
+			text-overflow: ellipsis;
+		}
+	}
     & > .appInfo > div.imageIndex {
       text-align: right !important;
       padding: 6px 8px 0 0 !important;
-      grid-area: title !important;
       font-size: calc(var(--preview-image-size) * 3em) !important;
     }
     .appButtons {
@@ -565,8 +570,10 @@
             }
             img {
               margin-right: 0;
-              width: 120px;
+              width: 100%;
+			  max-width: 120px;
               max-height: 68px;
+			  object-fit: contain;
             }
             small {
               font-weight: 600;
@@ -1576,7 +1583,6 @@
     & > .appInfo > div.imageIndex {
       text-align: right !important;
       padding: 6px 8px 0 0 !important;
-      grid-area: title !important;
       font-size: calc(var(--preview-image-size) * 3em) !important;
     }
     .appButtons {
