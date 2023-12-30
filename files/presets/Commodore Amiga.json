@@ -1,0 +1,160 @@
+{
+	"Commodore Amiga - Retroarch - PUAE": {
+		"parserType": "Glob",
+		"configTitle": "Commodore Amiga - Retroarch - PUAE",
+		"steamCategory": "${Amiga}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}puae2021_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": ""
+		},
+		"parserInputs": {
+			"glob": "${title}@(.7z|.7Z|.adf|.ADF|.adz|.ADZ|.dms|.DMS|.lha|.LHA|.zip|.ZIP)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "${retroarchpath}",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 7,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		}
+	},
+	"Commodore Amiga - Retroarch - PUAE": {
+		"parserType": "Glob",
+		"configTitle": "Commodore Amiga - Retroarch - PUAE",
+		"steamCategory": "${Amiga}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}puae2021_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": ""
+		},
+		"parserInputs": {
+			"glob": "${title}@(.7z|.7Z|.adf|.ADF|.adz|.ADZ|.dms|.DMS|.lha|.LHA|.zip|.ZIP)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "/usr/bin/flatpak",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 7,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		}
+	}
+}

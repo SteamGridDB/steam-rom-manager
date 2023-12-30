@@ -10,7 +10,7 @@ Hier sind Tabellen von Variablen, die mit Optionen verwendet werden können, die
 |                                           `${romDir}` | ROM-Verzeichnis                         |
 |                                         `${steamDir}` | Steam-Verzeichnis                       |
 |                                       `${startInDir}` | "Startin"-Verzeichnis                   |
-|                                          `${fileDir}` | File's, returned by a parser, directory |
+|                                          `${fileDir}` | Files returned by a parser or a directory |
 
 Falls die ausführbare Verzeichniseingabe **leer bleibt**, ist `${exeDir}`{.noWrap} gleich `${fileDir}`{.noWrap}. Außerdem ist, wenn das Verzeichnis "StartIn" **leer** gelassen wird, `${startInDir}`{.noWrap} gleich `${exeDir}`{.noWrap}.
 

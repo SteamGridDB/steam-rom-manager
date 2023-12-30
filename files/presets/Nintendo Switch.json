@@ -193,7 +193,7 @@
 			"removeBrackets": true
 		},
 		"executable": {
-			"path": "path-to-yuzu-cmd.exe",
+			"path": "path-to-yuzu.exe",
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
