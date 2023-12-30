@@ -41,7 +41,7 @@ export const appSettings = {
       properties: {
         retrieveCurrentSteamImages: { type: 'boolean', default: true },
         deleteDisabledShortcuts: { type: 'boolean', default: false },
-        imageZoomPercentage: { type: 'number', default: 40, minimum: 30, maximum: 100 },
+        imageZoomPercentage: { type: "number", default: 30, minimum: 10, maximum: 100 },
         preload: { type: 'boolean', default: false },
       }
     },

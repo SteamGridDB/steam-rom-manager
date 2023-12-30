@@ -190,6 +190,9 @@ import x1 from "./assets/systems/x1.svg";
 import zmachine from "./assets/systems/zmachine.svg";
 import zx81 from "./assets/systems/zx81.svg";
 import zxspectrum from "./assets/systems/zxspectrum.svg";
+import pegasus from "./assets/systems/pegasus.png";
+import segamodel3  from "./assets/systems/model3.svg";
+import segamodel2  from "./assets/systems/model2.svg";
 export {
 	p3do,
 	ags,
@@ -382,5 +385,8 @@ export {
 	x1,
 	zmachine,
 	zx81,
-	zxspectrum
+	zxspectrum,
+	pegasus,
+	segamodel3,
+	segamodel2
 }
