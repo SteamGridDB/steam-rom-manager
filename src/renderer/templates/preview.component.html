@@ -1,36 +1,74 @@
 <div class="loadingSpinner" *ngIf="previewVariables.listIsBeingGenerated"></div>
 <ng-container *ngIf="!previewVariables.listIsBeingGenerated">
-  <div class="preview-description" *ngIf="!previewVariables.listHasGenerated || previewVariables.numberOfListItems == 0">
+  <div
+    class="preview-description"
+    *ngIf="!previewVariables.listHasGenerated || previewVariables.numberOfListItems == 0"
+  >
     <h1>Add your games to Steam</h1>
     <p>Follow these steps to add games to your Steam Library</p>
     <ol>
       <li>Click on the <strong>Parse button</strong> to scan your games</li>
       <li>Wait until all the images are downloaded</li>
-      <li>Click on <strong>Save to Steam</strong> and wait for the message "Done adding/merging entries". If you have a big library this could take some time</li>
+      <li>
+        Click on <strong>Save to Steam</strong> and wait for the message "Done adding/merging entries". If you have a
+        big library this could take some time
+      </li>
     </ol>
 
     <p>If some games are showing incorrect info, press on the image and click on the ! icon to show alternatives</p>
-    <p>If you don't want to add all games click <strong>Exclude Apps</strong> and then select the ones you don't want and hit <strong>Save Exclusions</strong></p>
-    <div class="fake-btn" (click)="generatePreviewData(false)">{{lang.generateAppList}}</div>
+    <p>
+      If you don't want to add all games click <strong>Exclude Apps</strong> and then select the ones you don't want and
+      hit <strong>Save Exclusions</strong>
+    </p>
+    <div class="fake-btn" (click)="generatePreviewData(false)">{{ lang.generateAppList }}</div>
   </div>
   <div class="upperMenu" *ngIf="previewVariables.numberOfListItems > 0">
     <div class="slider">
-      <input type="range" min="30" max="100" step="0.25" [value]="appSettings.previewSettings.imageZoomPercentage" (input)="setImageSize($event.target.value)"
-                                             (change)="setImageSize($event.target.value, true)" />
-      <div>{{appSettings.previewSettings.imageZoomPercentage | number : '1.0-2'}}%</div>
-      <ng-select class="selectCategories" [(ngModel)]="categoryFilter" [placeholder]="lang.selectCategories" (ngModelChange)="setCategoryFilter($event);" multiple="true" allowEmpty="true" [values]="allCategories">
+      <input
+        type="range"
+        min="30"
+        max="100"
+        step="0.25"
+        [value]="appSettings.previewSettings.imageZoomPercentage"
+        (input)="setImageSize($event.target.value)"
+        (change)="setImageSize($event.target.value, true)"
+      />
+      <div>{{ appSettings.previewSettings.imageZoomPercentage | number : "1.0-2" }}%</div>
+      <ng-select
+        class="selectCategories"
+        [(ngModel)]="categoryFilter"
+        [placeholder]="lang.selectCategories"
+        (ngModelChange)="setCategoryFilter($event)"
+        multiple="true"
+        allowEmpty="true"
+        [values]="allCategories"
+      >
       </ng-select>
-      <ng-select class="selectParsers" [(ngModel)]="parserFilter" [placeholder]="lang.selectParsers" (ngModelChange)="setParserFilter($event);" multiple="true" allowEmpty="true" [values]="allParsers">
+      <ng-select
+        class="selectParsers"
+        [(ngModel)]="parserFilter"
+        [placeholder]="lang.selectParsers"
+        (ngModelChange)="setParserFilter($event)"
+        multiple="true"
+        allowEmpty="true"
+        [values]="allParsers"
+      >
       </ng-select>
-      <ng-select class="selectType" [(ngModel)]="appSettings.previewSettings.imageTypes" [placeholder]="lang.selectType" (ngModelChange)="appSettings.previewSettings.imageTypes = $event; setImageType($event);" [values]="imageTypes">
+      <ng-select
+        class="selectType"
+        [(ngModel)]="appSettings.previewSettings.imageTypes"
+        [placeholder]="lang.selectType"
+        (ngModelChange)="appSettings.previewSettings.imageTypes = $event; setImageType($event)"
+        [values]="imageTypes"
+      >
       </ng-select>
     </div>
-    <ng-text-input class="appFilter" [placeholder]="lang.filter" [(ngModel)]='filterValue' ></ng-text-input>
+    <ng-text-input class="appFilter" [placeholder]="lang.filter" [(ngModel)]="filterValue"></ng-text-input>
   </div>
 
   <div class="excludes" *ngIf="showExcludes">
     <div class="titleGroup">
-      <span>Number Excluded: {{exclusionCount}}</span>
+      <span>Number Excluded: {{ exclusionCount }}</span>
     </div>
     <div class="buttonGroup">
       <div class="excludeButton" (click)="excludeVisible()">
@@ -47,37 +85,26 @@
       </div>
     </div>
   </div>
-
-
-  <div class="detailsUpper" *ngIf="showDetails">
-    <div class="detailsTitle">
-      <span>Fix match for: {{detailsApp ? detailsApp.app.title : ''}}</span>
-    </div>
-    <div class="buttonGroup">
-      <div class="detailsButton dangerousButton" (click)="closeDetails()">
-        <span>Cancel</span>
-      </div>
-      <div class="detailsButton" (click)= "saveDetails()">
-        <span>Save and close</span>
-      </div>
-    </div>
-  </div>
   <div class="detailsLower">
     <ng-container *ngIf="!detailsLoading">
       <ng-container *ngIf="!!detailsApp">
-        <div class= "detailsOptions">
+        <div class="detailsOptions">
           <div class="detailsSearch">
-            <ng-text-input class="ngTextInput" placeholder="Search SteamGridDB" [(ngModel)]='detailsSearchText' (ngModelChange)='detailsSearchText=$event;'></ng-text-input>
+            <ng-text-input
+              class="ngTextInput"
+              placeholder="Search SteamGridDB"
+              [(ngModel)]="detailsSearchText"
+              (ngModelChange)="detailsSearchText = $event"
+            ></ng-text-input>
             <div class="clickButton2" (click)="searchForDetails()">Search</div>
           </div>
         </div>
         <div class="appResults">
           <ng-container *ngFor="let sgdbId of matchFixIds">
-            <div class= "approw" [class.selected]="matchFix == sgdbId" (click)=fixMatch(sgdbId)>
-              <div class="app" [style.backgroundImage]="setDetailsBackgroundImage(sgdbId) | cssUrl | safeStyle">
-              </div>
-              <div class ="apptitle">
-                <span>{{matchFixDict[sgdbId].name}}</span>
+            <div class="approw" [class.selected]="matchFix == sgdbId" (click)="fixMatch(sgdbId)">
+              <div class="app" [style.backgroundImage]="setDetailsBackgroundImage(sgdbId) | cssUrl | safeStyle"></div>
+              <div class="apptitle">
+                <span>{{ matchFixDict[sgdbId].name }}</span>
               </div>
             </div>
           </ng-container>
@@ -88,79 +115,219 @@
       <div class="loadingSpinner"></div>
     </ng-container>
   </div>
-  <div class="urls" *ngIf="previewVariables.numberOfQueriedImages">
-    <div class="stopButton" (click)="stopImageRetrieving()">{{lang.stopUrlRetrieving}}</div>
-    <div class="imageCounter">{{lang.remainingImages}} {{previewVariables.numberOfQueriedImages}}</div>
+  <div class="detailsUpper" *ngIf="showDetails">
+    <div class="detailsTitle">
+      <span>Fix match for: {{ detailsApp ? detailsApp.app.title : "" }}</span>
+    </div>
+    <div class="buttonGroup">
+      <div class="detailsButton dangerousButton" (click)="closeDetails()">
+        <span>Cancel</span>
+      </div>
+      <div class="detailsButton" (click)="saveDetails()">
+        <span>Save and close</span>
+      </div>
+    </div>
   </div>
-  <div class="entries" *ngVar="{ hoverIndex: undefined, hoverType: undefined } as entries" [class.detailsOpen]="!!this.detailsApp" (scroll)="onScroll()">
+
+  <div class="urls" *ngIf="previewVariables.numberOfQueriedImages">
+    <div class="stopButton" (click)="stopImageRetrieving()">{{ lang.stopUrlRetrieving }}</div>
+    <div class="imageCounter">{{ lang.remainingImages }} {{ previewVariables.numberOfQueriedImages }}</div>
+  </div>
+  <div
+    class="entries"
+    *ngVar="{ hoverIndex: undefined, hoverType: undefined } as entries"
+    [class.detailsOpen]="!!this.detailsApp"
+    (scroll)="onScroll()"
+  >
     <ng-container *ngFor="let steamDir of previewData | keys">
       <div class="directory" *ngVar="{ isHidden: false } as directory" [class.hidden]="directory.isHidden">
         <div class="title" (click)="directory.isHidden = !directory.isHidden">
           <svg select-arrow-down></svg>
-          <span>{{steamDir}}</span>
+          <span>{{ steamDir }}</span>
         </div>
         <ng-container *ngFor="let steamUser of previewData[steamDir] | keys">
           <div class="user" *ngVar="{ isHidden: false } as user" [class.hidden]="user.isHidden">
             <div class="title" (click)="user.isHidden = !user.isHidden">
               <svg select-arrow-down></svg>
-              <span>{{previewData[steamDir][steamUser].username}} ({{(previewData[steamDir][steamUser].apps | keys).length}} titles)</span>
+              <span
+                >{{ previewData[steamDir][steamUser].username }} ({{
+                  (previewData[steamDir][steamUser].apps | keys).length
+                }}
+                titles)</span
+              >
             </div>
-            <ng-container *ngIf="getImageType()=='games'">
+            <ng-container *ngIf="getImageType() == 'games'">
               <div class="apps">
                 <ng-container *ngFor="let appId of sortedAppIds(previewData[steamDir][steamUser].apps)">
                   <ng-container *ngVar="previewData[steamDir][steamUser].apps[appId] as app">
                     <div class="title" *ngIf="isAppVisible(app)">
-                      <span [attr.title]="app.extractedTitle">{{app.title}}</span>
+                      <span [attr.title]="app.extractedTitle">{{ app.title }}</span>
                     </div>
-                    <ng-container *ngFor="let imagetype of ['long','tall','hero','logo','icon']">
+                    <ng-container *ngFor="let imagetype of ['long', 'tall', 'hero', 'logo', 'icon']">
                       <ng-container *ngVar="getBackgroundImage(app, imagetype) as image">
                         <ng-container *ngVar="getAppImages(app, imagetype) as appimages">
-                          <div class="app" *ngIf="(app.title | fuzzyTest: filterValue) && (app.steamCategories | intersectionTest: actualCategoryFilter) && ([app.configurationTitle] | intersectionTest: actualParserFilter)" [style.backgroundImage]="setBackgroundImage(app, image, imagetype) | cssUrl | safeStyle"
-                               [class.retrieving]="getImagePool(appimages.imagePool, imagetype).retrieving" [class.noImages]="!getImagePool(appimages.imagePool, imagetype).retrieving && image == undefined"
-                               [class.downloading]="image != undefined && image.loadStatus === 'downloading'" [class.failed]="image != undefined && image.loadStatus === 'failed'"
-                               [class.imageLoaded]="image != undefined && image.loadStatus === 'done'" (mouseenter)="entries.hoverIndex = app.entryId; entries.hoverType = imagetype;"
-                               [class.longStyle]="imagetype === 'long'"
-                               [class.tallStyle]="imagetype === 'tall'"
-                               [class.heroStyle]="imagetype === 'hero'"
-                               [class.logoStyle]="imagetype === 'logo'"
-                               [class.iconStyle]="imagetype === 'icon'"
-                               [class.showExcludes]="showExcludes"
-                               [class.isExcluded]="!!excludedAppIds[steamDir]&&!!excludedAppIds[steamDir][steamUser]&&!!excludedAppIds[steamDir][steamUser][appId]"
-                               (mouseleave)="entries.hoverIndex = undefined; entries.hoverType = undefined;"
-                               (click)="excludeAppId(steamDir, steamUser, appId)"
-                               >
-                               <div class="appOverlay" *ngIf="!this.scrollingEntries && entries.hoverIndex === app.entryId && entries.hoverType === imagetype">
-                                 <div class="appInfo">
-                                   <div class="title" text-scroll [attr.title]="app.extractedTitle"><span>{{app.title}}</span></div>
-                                   <ng-container *ngIf="image != null">
-                                     <div class="provider" text-scroll>
-                                       {{image.imageProvider + (image.imageUploader ? ' (' + lang.by + ' ' + image.imageUploader + ')' : '') + (image.imageRes ? '['+image.imageRes+']':'')  }}
-                                     </div>
-                                     <div class="imageIndex">
-                                       {{currentImageIndex(app, imagetype) + '/' + maxImageIndex(app, imagetype)}}
-                                     </div>
-                                   </ng-container>
-                                 </div>
-                                 <div class="imageSelector">
-                                   <ng-container *ngIf="areImagesAvailable(app, imagetype)">
-                                     <svg class="previous" (click)="previousImage(app, imagetype)" select-arrow-left hover="true" active="true"></svg>
-                                     <svg class="next" (click)="nextImage(app, imagetype)" select-arrow-right hover="true" active="true"></svg>
-                                   </ng-container>
-                                 </div>
-                                 <div class="bottomPanel">
-                                   <div text-scroll class="configTitle">
-                                     {{app.configurationTitle + (app.steamCategories.length > 0 ? ' (' + app.steamCategories.join(', ') + ')' : '')}}
-                                   </div>
-                                   <div class="appButtons">
-                                     <svg class="button" title="Fix match" image-lens hover="true" active="true" *ngIf="!showExcludes &&(!image || image.loadStatus === 'done')" (click)="changeAppDetails(app, steamDir, steamUser, appId)"></svg>
-                                     <svg class="button" [title]="lang.addLocalImages" add-images hover="true" active="true" (click)="addLocalImages(app, imagetype)"></svg>
-                                     <span class="separator"></span>
-                                     <svg class="button" *ngIf="!getImagePool(appimages.imagePool, imagetype).retrieving" (click)="refreshImages(app, imagetype)" [title]="lang.refreshImages" refresh-images hover="true" active="true"></svg>
-                                     <svg class="button" *ngIf="image != undefined && image.loadStatus === 'done'" (click)="saveImage(image,app.title)" [title]="lang.saveImage" save-image hover="true" active="true"></svg>
-                                     <svg class="button" *ngIf="image != undefined && image.loadStatus === 'failed'" (click)="loadImage(app ,imagetype)" [title]="lang.retryDownload" image-alert hover="true" active="true"></svg>
-                                   </div>
-                                 </div>
-                               </div>
+                          <div
+                            class="app"
+                            *ngIf="
+                              (app.title | fuzzyTest : filterValue) &&
+                              (app.steamCategories | intersectionTest : actualCategoryFilter) &&
+                              ([app.configurationTitle] | intersectionTest : actualParserFilter)
+                            "
+                            [style.backgroundImage]="setBackgroundImage(app, image, imagetype) | cssUrl | safeStyle"
+                            [class.retrieving]="getImagePool(appimages.imagePool, imagetype).retrieving"
+                            [class.noImages]="
+                              !getImagePool(appimages.imagePool, imagetype).retrieving && image == undefined
+                            "
+                            [class.downloading]="image != undefined && image.loadStatus === 'downloading'"
+                            [class.failed]="image != undefined && image.loadStatus === 'failed'"
+                            [class.imageLoaded]="image != undefined && image.loadStatus === 'done'"
+                            (mouseenter)="entries.hoverIndex = app.entryId; entries.hoverType = imagetype"
+                            [class.longStyle]="imagetype === 'long'"
+                            [class.tallStyle]="imagetype === 'tall'"
+                            [class.heroStyle]="imagetype === 'hero'"
+                            [class.logoStyle]="imagetype === 'logo'"
+                            [class.iconStyle]="imagetype === 'icon'"
+                            [class.showExcludes]="showExcludes"
+                            [class.isExcluded]="
+                              !!excludedAppIds[steamDir] &&
+                              !!excludedAppIds[steamDir][steamUser] &&
+                              !!excludedAppIds[steamDir][steamUser][appId]
+                            "
+                            (mouseleave)="entries.hoverIndex = undefined; entries.hoverType = undefined"
+                            (click)="excludeAppId(steamDir, steamUser, appId)"
+                          >
+                            <div
+                              class="appOverlay"
+                              *ngIf="
+                                !this.scrollingEntries &&
+                                entries.hoverIndex === app.entryId &&
+                                entries.hoverType === imagetype
+                              "
+                            >
+                              <div class="appInfo">
+                                <div class="title not-emudeck not-deck" text-scroll [attr.title]="app.extractedTitle">
+                                  <span>{{ app.title }}</span>
+                                </div>
+                                <ng-container *ngIf="image != null">
+                                  <div class="provider not-emudeck not-deck" text-scroll>
+                                    {{
+                                      image.imageProvider +
+                                        (image.imageUploader ? " (" + lang.by + " " + image.imageUploader + ")" : "") +
+                                        (image.imageRes ? "[" + image.imageRes + "]" : "")
+                                    }}
+                                  </div>
+                                  <div class="imageIndex">
+                                    {{ currentImageIndex(app, imagetype) + "/" + maxImageIndex(app, imagetype) }}
+                                  </div>
+                                </ng-container>
+                              </div>
+                              <div class="imageSelector">
+                                <ng-container *ngIf="areImagesAvailable(app, imagetype)">
+                                  <svg
+                                    class="previous"
+                                    (click)="previousImage(app, imagetype)"
+                                    select-arrow-left
+                                    hover="true"
+                                    active="true"
+                                  ></svg>
+                                  <svg
+                                    class="next"
+                                    (click)="nextImage(app, imagetype)"
+                                    select-arrow-right
+                                    hover="true"
+                                    active="true"
+                                  ></svg>
+                                </ng-container>
+                              </div>
+                              <div class="bottomPanel">
+                                <div text-scroll class="configTitle not-emudeck">
+                                  {{
+                                    app.configurationTitle +
+                                      (app.steamCategories.length > 0
+                                        ? " (" + app.steamCategories.join(", ") + ")"
+                                        : "")
+                                  }}
+                                </div>
+                                <div class="appButtons">
+                                  <div
+                                    class="btn only-emudeck only-deck"
+                                    title="Fix match"
+                                    image-lens
+                                    hover="true"
+                                    active="true"
+                                    *ngIf="!showExcludes && (!image || image.loadStatus === 'done')"
+                                    (click)="changeAppDetails(app, steamDir, steamUser, appId)"
+                                  >
+                                    Fix
+                                  </div>
+                                  <div
+                                    class="btn only-emudeck only-deck"
+                                    [title]="lang.addLocalImages"
+                                    add-images
+                                    hover="true"
+                                    active="true"
+                                    (click)="addLocalImages(app, imagetype)"
+                                  >
+                                    Upload
+                                  </div>
+                                  <div
+                                    class="btn only-emudeck only-deck"
+                                    (click)="loadImage(app, imagetype)"
+                                    [title]="lang.retryDownload"
+                                  >
+                                    Refresh
+                                  </div>
+
+                                  <div class="not-emudeck not-deck">
+                                    <svg
+                                      class="button"
+                                      title="Fix match"
+                                      image-lens
+                                      hover="true"
+                                      active="true"
+                                      *ngIf="!showExcludes && (!image || image.loadStatus === 'done')"
+                                      (click)="changeAppDetails(app, steamDir, steamUser, appId)"
+                                    ></svg>
+                                    <svg
+                                      class="button"
+                                      [title]="lang.addLocalImages"
+                                      add-images
+                                      hover="true"
+                                      active="true"
+                                      (click)="addLocalImages(app, imagetype)"
+                                    ></svg>
+                                    <span class="separator"></span>
+                                    <svg
+                                      class="button"
+                                      *ngIf="!getImagePool(appimages.imagePool, imagetype).retrieving"
+                                      (click)="refreshImages(app, imagetype)"
+                                      [title]="lang.refreshImages"
+                                      refresh-images
+                                      hover="true"
+                                      active="true"
+                                    ></svg>
+                                    <svg
+                                      class="button"
+                                      *ngIf="image != undefined && image.loadStatus === 'done'"
+                                      (click)="saveImage(image, app.title)"
+                                      [title]="lang.saveImage"
+                                      save-image
+                                      hover="true"
+                                      active="true"
+                                    ></svg>
+                                    <svg
+                                      class="button"
+                                      *ngIf="image != undefined && image.loadStatus === 'failed'"
+                                      (click)="loadImage(app, imagetype)"
+                                      [title]="lang.retryDownload"
+                                      image-alert
+                                      hover="true"
+                                      active="true"
+                                    ></svg>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </ng-container>
                       </ng-container>
@@ -169,53 +336,154 @@
                 </ng-container>
               </div>
             </ng-container>
-            <ng-container *ngIf="getImageType()!='games'">
+            <ng-container *ngIf="getImageType() != 'games'">
               <div class="apps">
                 <ng-container *ngFor="let appId of sortedAppIds(previewData[steamDir][steamUser].apps)">
                   <ng-container *ngVar="previewData[steamDir][steamUser].apps[appId] as app">
                     <ng-container *ngVar="getBackgroundImage(app) as image">
                       <ng-container *ngVar="getAppImages(app) as appimages">
-                        <div class="app" *ngIf="isAppVisible(app)" [style.backgroundImage]="setBackgroundImage(app, image) | cssUrl | safeStyle"
-                             [class.retrieving]="getImagePool(appimages.imagePool).retrieving" [class.noImages]="!getImagePool(appimages.imagePool).retrieving && image == undefined"
-                             [class.downloading]="image != undefined && image.loadStatus === 'downloading'" [class.failed]="image != undefined && image.loadStatus === 'failed'"
-                             [class.imageLoaded]="image != undefined && image.loadStatus === 'done'" (mouseenter)="entries.hoverIndex = app.entryId"
-                             [class.showExcludes]="showExcludes"
-                             [class.isExcluded]="!!excludedAppIds[steamDir]&&!!excludedAppIds[steamDir][steamUser]&&!!excludedAppIds[steamDir][steamUser][appId]"
-                             (mouseleave)="entries.hoverIndex = undefined"
-                             (click)="excludeAppId(steamDir, steamUser, appId)"
-                             >
-                             <div class="appOverlay" *ngIf="!this.scrollingEntries && entries.hoverIndex === app.entryId">
-                               <div class="appInfo">
-                                 <div class="title" text-scroll [attr.title]="app.extractedTitle"><span>{{app.title}}</span></div>
-                                 <ng-container *ngIf="image != null">
-                                   <div class="provider" text-scroll>
-                                     {{image.imageProvider + (image.imageUploader ? ' (' + lang.by + ' ' + image.imageUploader + ')' : '') + (image.imageRes ? '['+image.imageRes+']':'')  }}
-                                   </div>
-                                   <div class="imageIndex">
-                                     {{currentImageIndex(app) + '/' + maxImageIndex(app)}}
-                                   </div>
-                                 </ng-container>
-                               </div>
-                               <div class="imageSelector">
-                                 <ng-container *ngIf="areImagesAvailable(app)">
-                                   <svg class="previous" (click)="previousImage(app)" select-arrow-left hover="true" active="true"></svg>
-                                   <svg class="next" (click)="nextImage(app)" select-arrow-right hover="true" active="true"></svg>
-                                 </ng-container>
-                               </div>
-                               <div class="bottomPanel">
-                                 <div text-scroll class="configTitle">
-                                   {{app.configurationTitle + (app.steamCategories.length > 0 ? ' (' + app.steamCategories.join(', ') + ')' : '')}}
-                                 </div>
-                                 <div class="appButtons">
-                                   <svg class="button" title="Fix match" image-lens hover="true" active="true" *ngIf="!showExcludes &&(!image || image.loadStatus === 'done')" (click)="changeAppDetails(app, steamDir, steamUser, appId)"></svg>
-                                   <svg class="button" [title]="lang.addLocalImages" add-images hover="true" active="true" (click)="addLocalImages(app)"></svg>
-                                   <span class="separator"></span>
-                                   <svg class="button" *ngIf="!getImagePool(appimages.imagePool).retrieving" (click)="refreshImages(app)" [title]="lang.refreshImages" refresh-images hover="true" active="true"></svg>
-                                   <svg class="button" *ngIf="image != undefined && image.loadStatus === 'done'" (click)="saveImage(image, app.title)" [title]="lang.saveImage" save-image hover="true" active="true"></svg>
-                                   <svg class="button" *ngIf="image != undefined && image.loadStatus === 'failed'" (click)="loadImage(app)" [title]="lang.retryDownload" image-alert hover="true" active="true"></svg>
-                                 </div>
-                               </div>
-                             </div>
+                        <div
+                          class="app"
+                          *ngIf="isAppVisible(app)"
+                          [style.backgroundImage]="setBackgroundImage(app, image) | cssUrl | safeStyle"
+                          [class.retrieving]="getImagePool(appimages.imagePool).retrieving"
+                          [class.noImages]="!getImagePool(appimages.imagePool).retrieving && image == undefined"
+                          [class.downloading]="image != undefined && image.loadStatus === 'downloading'"
+                          [class.failed]="image != undefined && image.loadStatus === 'failed'"
+                          [class.imageLoaded]="image != undefined && image.loadStatus === 'done'"
+                          (mouseenter)="entries.hoverIndex = app.entryId"
+                          [class.showExcludes]="showExcludes"
+                          [class.isExcluded]="
+                            !!excludedAppIds[steamDir] &&
+                            !!excludedAppIds[steamDir][steamUser] &&
+                            !!excludedAppIds[steamDir][steamUser][appId]
+                          "
+                          (mouseleave)="entries.hoverIndex = undefined"
+                          (click)="excludeAppId(steamDir, steamUser, appId)"
+                        >
+                          <div class="appOverlay">
+                            <div class="appInfo">
+                              <div class="title" text-scroll [attr.title]="app.extractedTitle">
+                                <span>{{ app.title }}</span>
+                              </div>
+                              <ng-container *ngIf="image != null">
+                                <div class="provider not-emudeck not-deck" text-scroll>
+                                  {{
+                                    image.imageProvider +
+                                      (image.imageUploader ? " (" + lang.by + " " + image.imageUploader + ")" : "") +
+                                      (image.imageRes ? "[" + image.imageRes + "]" : "")
+                                  }}
+                                </div>
+                                <div class="imageIndex">
+                                  {{ currentImageIndex(app) + "/" + maxImageIndex(app) }}
+                                </div>
+                              </ng-container>
+                            </div>
+                            <div class="imageSelector">
+                              <ng-container *ngIf="areImagesAvailable(app)">
+                                <svg
+                                  class="previous"
+                                  (click)="previousImage(app)"
+                                  select-arrow-left
+                                  hover="true"
+                                  active="true"
+                                ></svg>
+                                <svg
+                                  class="next"
+                                  (click)="nextImage(app)"
+                                  select-arrow-right
+                                  hover="true"
+                                  active="true"
+                                ></svg>
+                              </ng-container>
+                            </div>
+                            <div class="bottomPanel">
+                              <div text-scroll class="configTitle not-emudeck">
+                                {{
+                                  app.configurationTitle +
+                                    (app.steamCategories.length > 0 ? " (" + app.steamCategories.join(", ") + ")" : "")
+                                }}
+                              </div>
+                              <div class="appButtons">
+                                <div
+                                  class="btn only-emudeck only-deck"
+                                  title="Fix match"
+                                  image-lens
+                                  hover="true"
+                                  active="true"
+                                  *ngIf="!showExcludes && (!image || image.loadStatus === 'done')"
+                                  (click)="changeAppDetails(app, steamDir, steamUser, appId)"
+                                >
+                                  Fix
+                                </div>
+                                <div
+                                  class="btn only-emudeck only-deck"
+                                  [title]="lang.addLocalImages"
+                                  add-images
+                                  hover="true"
+                                  active="true"
+                                  (click)="addLocalImages(app)"
+                                >
+                                  Upload
+                                </div>
+                                <div
+                                  class="btn only-emudeck only-deck"
+                                  (click)="loadImage(app)"
+                                  [title]="lang.retryDownload"
+                                >
+                                  Refresh
+                                </div>
+
+                                <div class="not-emudeck not-deck">
+                                  <svg
+                                    class="button"
+                                    title="Fix match"
+                                    image-lens
+                                    hover="true"
+                                    active="true"
+                                    *ngIf="!showExcludes && (!image || image.loadStatus === 'done')"
+                                    (click)="changeAppDetails(app, steamDir, steamUser, appId)"
+                                  ></svg>
+                                  <svg
+                                    class="button"
+                                    [title]="lang.addLocalImages"
+                                    add-images
+                                    hover="true"
+                                    active="true"
+                                    (click)="addLocalImages(app)"
+                                  ></svg>
+                                  <span class="separator"></span>
+                                  <svg
+                                    class="button"
+                                    *ngIf="!getImagePool(appimages.imagePool).retrieving"
+                                    (click)="refreshImages(app)"
+                                    [title]="lang.refreshImages"
+                                    refresh-images
+                                    hover="true"
+                                    active="true"
+                                  ></svg>
+                                  <svg
+                                    class="button"
+                                    *ngIf="image != undefined && image.loadStatus === 'done'"
+                                    (click)="saveImage(image, app.title)"
+                                    [title]="lang.saveImage"
+                                    save-image
+                                    hover="true"
+                                    active="true"
+                                  ></svg>
+                                  <svg
+                                    class="button"
+                                    *ngIf="image != undefined && image.loadStatus === 'failed'"
+                                    (click)="loadImage(app)"
+                                    [title]="lang.retryDownload"
+                                    image-alert
+                                    hover="true"
+                                    active="true"
+                                  ></svg>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </ng-container>
                     </ng-container>
@@ -228,30 +496,56 @@
       </div>
     </ng-container>
   </div>
-  <div class="lowerMenu not-emudeck" *ngIf="previewVariables.listHasGenerated && previewVariables.numberOfListItems!==0">
-    <div (click)="generatePreviewData(false)">{{lang.generateAppList}}</div>
+  <div
+    class="lowerMenu not-emudeck"
+    *ngIf="previewVariables.listHasGenerated && previewVariables.numberOfListItems !== 0"
+  >
+    <div (click)="generatePreviewData(false)">{{ lang.generateAppList }}</div>
     <ng-container *ngIf="previewVariables.numberOfListItems !== 0">
-      <div (click)="save()">{{lang.saveAppList}}</div>
-      <div class="dangerousButton" (click)="remove()">{{lang.removeAppList}}</div>
-      <div (click)="exportSelection()" [attr.title]="'Export image choices'">{{lang.exportSelections}}</div>
-      <div (click)="importSelection()" [attr.title]="'Import image choices'">{{lang.importSelections}}</div>
-      <div (click)="showExclusions()" *ngIf="!this.detailsApp">{{"Exclude"}}</div>
+      <div (click)="save()">{{ lang.saveAppList }}</div>
+      <div class="dangerousButton" (click)="remove()">{{ lang.removeAppList }}</div>
+      <div (click)="exportSelection()" [attr.title]="'Export image choices'">{{ lang.exportSelections }}</div>
+      <div (click)="importSelection()" [attr.title]="'Import image choices'">{{ lang.importSelections }}</div>
+      <div (click)="showExclusions()" *ngIf="!this.detailsApp">{{ "Exclude" }}</div>
     </ng-container>
-    <div class="only-emudeck" routerLink="/logger" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *ngIf="previewVariables.numberOfListItems !== 0">Log</div>
-    <div class="only-emudeck" routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
+    <div
+      class="only-emudeck"
+      routerLink="/logger"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      *ngIf="previewVariables.numberOfListItems !== 0"
+    >
+      Log
+    </div>
+    <div
+      class="only-emudeck"
+      routerLink="/parsers-list"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      Back
+    </div>
   </div>
-  <div class="lowerMenu only-emudeck">
+  <div class="lowerMenu only-emudeck" *ngIf="!showExcludes">
     <ng-container *ngIf="previewVariables.listHasGenerated && previewVariables.numberOfListItems !== 0">
-      <div (click)="generatePreviewData(false)">{{lang.generateAppList}}</div>
-      <div (click)="save()">{{lang.saveAppList}}</div>
-      <div class="dangerousButton" (click)="remove()">{{lang.removeAppList}}</div>
-      <div (click)="exportSelection()" [attr.title]="'Export image choices'">{{lang.exportSelections}}</div>
-      <div (click)="importSelection()" [attr.title]="'Import image choices'">{{lang.importSelections}}</div>
-      <div (click)="showExclusions()" *ngIf="!this.detailsApp">{{"Exclude"}}</div>
+      <div class="only-emudeck" (click)="generatePreviewData(false)">Refresh</div>
+      <div (click)="save()">{{ lang.saveAppList }}</div>
+      <div class="only-emudeck not-emudeck" [style.display]="none" (click)="savePegasus()">
+        Save artwork for Pegasus
+      </div>
+      <div class="dangerousButton" (click)="remove()">{{ lang.removeAppList }}</div>
+      <div (click)="exportSelection()" [attr.title]="'Export image choices'">{{ lang.exportSelections }}</div>
+      <div (click)="importSelection()" [attr.title]="'Import image choices'">{{ lang.importSelections }}</div>
+      <div (click)="showExclusions()" *ngIf="!this.detailsApp">{{ "Exclude Game" }}</div>
     </ng-container>
-    <div routerLink="/logger" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *ngIf="previewVariables.numberOfListItems !== 0">Log</div>
+    <div
+      routerLink="/logger"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      *ngIf="previewVariables.numberOfListItems !== 0"
+    >
+      Log
+    </div>
     <div routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
   </div>
-
 </ng-container>
-
