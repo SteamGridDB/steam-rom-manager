@@ -412,7 +412,7 @@ export class FileParser {
     return new Promise((resolve, reject)=>{
       try{
         for(let j=0; j < parsedConfig.files.length; j++) {
-          if(config.executable.appendArgsToExecutable) {
+          if(parsedConfig.appendArgsToExecutable) {
             parsedConfig.files[j].modifiedExecutableLocation = `${parsedConfig.files[j].modifiedExecutableLocation} ${parsedConfig.files[j].argumentString}`;
             parsedConfig.files[j].argumentString = '';
           }
