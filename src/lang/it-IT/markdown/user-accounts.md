@@ -16,4 +16,4 @@ Puoi anche impostare questo campo utilizzando la variabile di ambiente `Account 
 
 ## Attenzione
 
-Se hai `Non salvare le credenziali dell'account su questo computer` impostato in Steam, non c'è modo per SRM di conoscere il tuo `Steam Username` e **puoi solo usare** `Account IDs`. Se si desidera utilizzare `Steam Usernames` qui, vai su `Steam > Impostazioni > Account` e disabilita `Non salvare le credenziali dell'account su questo computer`, poi riavviare sia Steam chee SRM.
+Se hai `Non salvare le credenziali dell'account su questo computer` impostato in Steam, non c'è modo per SRM di conoscere il tuo `Steam Username` e **puoi solo usare** `Account IDs`. If you would like to use `Steam Usernames` here, go to `Steam > Settings > Settings` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.
