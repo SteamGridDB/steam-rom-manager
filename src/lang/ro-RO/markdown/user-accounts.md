@@ -16,4 +16,4 @@ You can also set this field using the `Accounts Global` environment variable fou
 
 ## Warning
 
-If you have `Don't save account credentials on this computer` set in Steam, then there is no way for SRM to know your `Steam Username` and **you must only use** `Account IDs`. If you would like to use `Steam Usernames` here, go to `Steam > Settings > Account` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.
+If you have `Don't save account credentials on this computer` set in Steam, then there is no way for SRM to know your `Steam Username` and **you must only use** `Account IDs`. If you would like to use `Steam Usernames` here, go to `Steam > Settings > Settings` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.
