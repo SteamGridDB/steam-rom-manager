@@ -16,4 +16,4 @@ Du kannst dieses Feld auch mit der `Accounts Global` Umgebungsvariable aus den E
 
 ## Achtung
 
-Wenn du `Anmeldedaten auf diesem Computer nicht speichern` in Steam eingestellt hast, kann SRM deinen `Steam Benutzernamen` nicht auslesen und du kannst **nur** ` Account IDs` benutzen. Wenn du `Steam Benutzernamen` verwenden willst, gehe zu `Steam > Einstellungen > Benutzerkonto` und deaktiviere `Anmeldedaten auf diesem Computer nicht speichern`. Starte danach Steam und SRM neu.
+Wenn du `Anmeldedaten auf diesem Computer nicht speichern` in Steam eingestellt hast, kann SRM deinen `Steam Benutzernamen` nicht auslesen und du kannst **nur** ` Account IDs` benutzen. If you would like to use `Steam Usernames` here, go to `Steam > Settings > Settings` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.
