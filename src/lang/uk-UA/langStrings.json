@@ -23,8 +23,8 @@
       "removeAppList": "Видалити з Steam",
       "remainingImages": "Отримання url-адрес:",
       "stopUrlRetrieving": "Зупинити",
-      "exportSelections": "Експорт",
-      "importSelections": "Імпорт",
+      "exportSelections": "Export settings",
+      "importSelections": "Import settings",
       "backButton": "Назад",
       "logButton": "Журнал"
     },
