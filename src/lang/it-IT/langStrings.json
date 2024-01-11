@@ -23,8 +23,8 @@
       "removeAppList": "Rimuovi da Steam",
       "remainingImages": "Recupero degli urls:",
       "stopUrlRetrieving": "Stop",
-      "exportSelections": "Esporta",
-      "importSelections": "Importa",
+      "exportSelections": "Export settings",
+      "importSelections": "Import settings",
       "backButton": "Indietro",
       "logButton": "Registro"
     },
