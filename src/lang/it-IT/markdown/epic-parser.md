@@ -1,4 +1,4 @@
-# Epic Games Parser
+# Analizzatore di Epic Games
 
 Questo parser importa giochi dall' [Epic Games Store](https://store.epicgames.com/en-US/) app, così che gli artwork possano essere scelti per loro ed essere aggiunti a Steam.
 
