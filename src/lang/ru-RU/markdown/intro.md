@@ -1,15 +1,15 @@
-# Welcome to parser configuration!
+# Добро пожаловать в настройки парсера!
 
-Configuring a parser might look overwhelming at first, but it is easier than you think. If you are lost, click on <span class="infoIcon" style="top: 0.15em;"></span> near option label to see related information which might be useful for you.
+Настройка парсера может выглядеть слишком сложно, но это проще чем вы думаете. Если вы запутались, нажмите на <span class="infoIcon" style="top: 0.15em;"></span> рядом с опцией, чтобы увидеть связанную с ней информацию, которая может быть вам полезна.
 
-Also, don't forget to check FAQ. If you still got questions about setting up configuration, visit our official SRM group at [Steam](http://steamcommunity.com/groups/steamrommanager) or our official [Discord](https://discord.gg/bnSVJrz) group.
+Также, не забудьте посмотреть наш FAQ. Если у вас остались вопросы по настройкам, посетите нашу официальную группу SRM в [Steam](http://steamcommunity.com/groups/steamrommanager) или в официальный сервер [Discord](https://discord.gg/bnSVJrz).
 
-## Configuration color code
+## Коды цветов настройки
 
-After saving parser configuration, **1** of **3** colors will be shown next to its title:
+После сохранения настройки парсера, **1** из **3** цветов будут показаны рядом с его названием:
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Enabled configuration. This configuration will be used when generating a list in **preview** page.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Настройка включена. Эта настройка будет использована при генерации списка на странице **предпросмотра**.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Unsaved changes. This configuration will not be used when generating a list in **preview** page, however earlier **saved** version will be used instead.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Несохраненные изменения. Эта настройка не будет использоваться при создании списка на странице **предпросмотра**, однако вместо этого будет использоваться более **ранняя** версия настройки.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Disabled configuration. This configuration will not be used when generating a list in **preview** page.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Настройка отключена. Эта настройка не будет использована при генерации списка на странице **предпросмотра**.
