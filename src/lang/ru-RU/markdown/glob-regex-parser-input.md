@@ -48,6 +48,6 @@ Untouched text will remain by default, so if you see some trailing characters be
 
 Allowed flags are `i`, `g` and `u`.
 
-## Limitations
+## Ограничения
 
 Position extraction comes with some limitations -- glob is invalid if position can not be extracted. Most of the time you will be warned about what you can't do, however, if you find a combination that is allowed, but produces incorrect titles please make an issue at [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
