@@ -1,3 +1,3 @@
 # Glob-regex Parser
 
-A glob based path parser used to extract title from a file path. Furthermore, a regular expression can be used to modify title even further. This is meant to be used when a simple "Glob" parser is not enough.
+Математический анализатор на основе Globe, используемый для извлечения заголовка из пути к файлу. Кроме того, регулярное выражение может быть использовано для дальнейшего изменения заголовка. Это предназначено для использования, когда простого "глобусного" синтаксического анализатора недостаточно.
