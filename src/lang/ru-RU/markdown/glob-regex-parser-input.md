@@ -44,9 +44,9 @@ If our first capture group is `Legend of Zelda` and second one is `SUPER EDITION
 
 Untouched text will remain by default, so if you see some trailing characters be sure to add `.*` at the end or `.*?` at the begging of regular expression.
 
-### Supported flags
+### Поддерживаемые флаги
 
-Allowed flags are `i`, `g` and `u`.
+Разрешенными флагами являются `i`, `g` и `u`.
 
 ## Ограничения
 
