@@ -3,7 +3,7 @@
     "component": {
       "filter": "Search for game",
       "selectType": "Artwork Type",
-      "selectCategories": "Steam Category",
+      "selectCategories": "Категории",
       "selectParsers": "Parser Title",
       "selectTypeOptions": {
         "long": "Banners",
@@ -333,7 +333,7 @@
       "preview": "Preview",
       "view": "View Games",
       "logger": "Log",
-      "settings": "Settings",
+      "settings": "Настройки",
       "parsers": "Create Parser",
       "customVariables": "Variables",
       "userExceptions": "Exceptions",
@@ -343,7 +343,7 @@
   "userExceptions": {
     "component": {
       "buttons": {
-        "save": "Save",
+        "save": "Сохранить",
         "deleteAll": "Clear",
         "undoChanges": "Undo changes",
         "addItem": "Add exception",
@@ -366,14 +366,14 @@
   "parsers": {
     "component": {
       "buttons": {
-        "save": "Save",
-        "copy": "Copy",
+        "save": "Сохранить",
+        "copy": "Копировать",
         "testParser": "Test parser",
-        "delete": "Delete",
+        "delete": "Удалить",
         "moveUp": "Move up",
         "moveDown": "Move down",
         "faq": "FAQ",
-        "undoChanges": "Undo changes",
+        "undoChanges": "Отменить изменения",
         "undoDelete": "Undo delete",
         "toClipboard": "Copy configuration to clipboard"
       },
@@ -430,7 +430,7 @@
       "label": {
         "parserType": "Parser type",
         "configTitle": "Configuration title",
-        "steamCategory": "Steam category",
+        "steamCategory": "Категория Steam",
         "executableModifier": "Executable modifier",
         "executableLocation": "Executable",
         "romDirectory": "ROMs directory",
