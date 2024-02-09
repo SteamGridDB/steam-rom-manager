@@ -1,5 +1,5 @@
-## General Settings
-### Offline mode `[Recommend disabled]`
+## Общие настройки
+### Автономный режим `[Рекомендуется отключить]`
 
 When enabled SRM makes no network requests, useful if you only want to use SRM for local images.
 ### Automatically clear log before testing parsers `[Recommend enabled]`
