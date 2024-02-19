@@ -1,4 +1,4 @@
-# Epic Games Store specific inputs
+#
 
 ## Manifests Directory Override
 
