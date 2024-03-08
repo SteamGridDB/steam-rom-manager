@@ -107,6 +107,7 @@ import nintendometroidprimetrilogy from "./assets/systems/nintendometroidprimetr
 import nintendones from "./assets/systems/nintendones.svg";
 import nintendosnes from "./assets/systems/nintendosnes.svg";
 import nintendosnessupernintendo from "./assets/systems/nintendosnessupernintendo.svg";
+import nintendosupergameboy from "./assets/systems/nintendosupergameboy.png";
 import nintendosnessupernintendohd from "./assets/systems/nintendosnessupernintendohd.svg";
 import nintendosneswidescreen from "./assets/systems/nintendosneswidescreen.svg";
 import nintendoswitch from "./assets/systems/nintendoswitch.svg";
@@ -303,6 +304,7 @@ export {
 	nintendones,
 	nintendosnes,
 	nintendosnessupernintendo,
+	nintendosupergameboy,
 	nintendosnessupernintendohd,
 	nintendosneswidescreen,
 	nintendoswitch,
