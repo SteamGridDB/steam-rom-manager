@@ -28,7 +28,7 @@ Help support continued progress on Steam ROM Manager at:
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
-## Contributions
+## Contribuições
 * `FrogTheFrog`{.noWrap} - Creator of SRM, no longer active on SRM but currently working on the [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
 
 ### Current Maintainers
@@ -46,7 +46,7 @@ Help support continued progress on Steam ROM Manager at:
 * `OneMoreByte` - Made itch.io parser work on linux and mac.
 * `UndarkAido` - Added shortcut passthrough for Linux's .desktop shortcuts.
 
-### Community
+### Comunidade
 * `HE Spoke`{.noWrap} - created a community around SRM. `HE Spoke`{.noWrap} - responsável por criar comunidade em torno da SRM. Criador de [grupos Steam](https://steamcommunity.com/groups/steamrommanager) e [Discord](https://discord.gg/bnSVJrz). Creator of [Steam](https://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/bnSVJrz) groups. Also helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
 * `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). Current maintainer of [EmuDeck](https://www.emudeck.com/).
 * `Choko`{.noWrap} - Helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
