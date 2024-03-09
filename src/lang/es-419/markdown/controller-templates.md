@@ -1,7 +1,7 @@
-# Controller Templates
-Controller templates allow you to configure the button layout per controller and per parser.
+# Plantillas de controlador
+Las plantillas de controladores le permiten configurar el diseño de botones por controlador y por parser.
 
-You may want to disable `Cloud Synchronization` in Steam to avoid having your SRM assigned controller configs get overwritten. You may find the setting under `Steam > Settings > Cloud`.
+Es posible que quieras desactivar `Cloud Synchronization` en Steam para evitar que se sobrescriban las configuraciones de tu controlador asignado por SRM. You may find the setting under `Steam > Settings > Cloud`.
 
 To make a custom template:
 * Open Steam.
