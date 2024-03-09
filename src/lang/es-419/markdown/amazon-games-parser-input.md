@@ -1,7 +1,7 @@
-# Amazon Games Parser specific inputs
+# Entradas específicas para el Parser de Amazon Games
 
-## Amazon Games Path Override
-By default Steam ROM Manager assumes your Amazon Games installation is located at `C:\Users\&#060;username&#062;\AppData\Local\Amazon Games\App\Amazon Games.exe`. This field allows you to override that path if your Amazon Games installation is elsewhere.
+## Sobrescribir ruta de Amazon Games
+Por defecto Steam ROM Manager asume que la instalación de Amazon Games se encuentra en `C:\Users\&#060;username&#062;\AppData\Local\Amazon Games\App\Amazon Games.exe`. This field allows you to override that path if your Amazon Games installation is elsewhere.
 
 ## Launch Via Amazon Games
 
