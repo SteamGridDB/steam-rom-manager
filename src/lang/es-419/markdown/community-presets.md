@@ -7,4 +7,4 @@ The Generic Parser (search `Generic` in presets) works for a wide variety of emu
 * Citra
 * Xenia (add `--fullscreen` in `Command Line Arguments` if desired)
 
-If you have an emulator that isn't in the list of community presets, it is probably worth a shot to try the generic parser. If it works let us know and we will add a preset for it!
+Si tienes un emulador que no está en la lista de presets de la comunidad, probablemente vale la pena en probar el analizador genérico. Si funciona, háganoslo saber y vamos a añadir un ajuste predefinido para lo!
