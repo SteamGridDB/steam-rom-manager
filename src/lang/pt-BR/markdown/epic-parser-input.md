@@ -1,8 +1,8 @@
-# Epic Games Store specific inputs
+# Inputs específicos da Epic Games Store
 
 ## Substituir Diretório de Manifests
 
-Most users shouldn't use this, as they use the standard `Epic Games Store` installation where the game manifests will be located in, for example on Windows, `C:\ProgramData\Epic\EpicGamesLauncher\Data\Manifests`.
+A maioria dos usuários não deve usar isso, pois eles usam a instalação padrão da `Epic Games Store`, onde os manifestos do jogo estarão localizados, por exemplo no Windows, `C:\ProgramData\Epic\EpicGamesLauncher\Data\Manifests`.
 
 No entanto, se por alguma razão o diretório de manifestos estiver localizado em um local não típico você pode especificar aqui o diretório de manifestos.
 
