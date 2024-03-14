@@ -22,18 +22,18 @@ Help support continued progress on Steam ROM Manager at:
   <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="Pagar um café" width="160">
 </a>
 
-[SteamGridDB](https://www.steamgriddb.com/) hospeda todas as artes que o gerenciador de ROM usa para fazer de sua biblioteca Steam a inveja da cidade, então devemos provavelmente ajudá-los a manter as luzes acesas. If you enjoy Steam ROM Manager and want it to continue to be useful also consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon.
+Se você gosta do Gerente de ROM Steam e quer que ele continue sendo útil, também considere apoiar o Patreon [SteamGridDB](https://www.steamgriddb.com/). [SteamGridDB](https://www.steamgriddb.com/) hospeda todas as artes que o gerenciador de ROM usa para fazer de sua biblioteca Steam a inveja da cidade, então provavelmente devemos ajudá-los a manter as luzes acesas.
 
 <a href="https://www.patreon.com/steamgriddb">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
 ## Contribuições
-* `FrogTheFrog`{.noWrap} - Creator of SRM, no longer active on SRM but currently working on the [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
+* `FrogTheFrog`{.noWrap} - Criador do SRM, não está mais ativo no SRM, mas atualmente está trabalhando no [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
 
-### Current Maintainers
-* `lontanadascienza`{.noWrap} - Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller management, platform parsers (Epic, GOG, Steam, etc), among many other things. Squashes bugs almost as fast as he introduces them.
-* `Zennn`{.noWrap} - Added category support, langauge localization, and the bug report server among many other things. Grande chefe no [SteamGridDB](https://www.steamgriddb.com/).
+### Mantenedores atuais
+* `lontanadascienza`{.noWrap} - SRM atualizado para lidar com capas, pôsteres, logotipos e ícones. Adicionado o gerenciador de exceções, gerenciamento de controladores, analisadores de plataformas (Epic, GOG, Steam, etc), entre muitas outras coisas. Squashes bugs almost as fast as he introduces them.
+* `Zennn`{.noWrap} - Adicionado suporte a categoria, localização de idioma e o servidor de relatório de erros, entre muitas outras coisas. Grande chefe no [SteamGridDB](https://www.steamgriddb.com/).
 * `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz).
 
 ### Feature Contributions
