@@ -7,16 +7,16 @@ Caso você tenha problemas com a SRM, não hesite em visitar o [discord](https:/
 
 ## Links Úteis
 
-* [SRM Releases](https://github.com/SteamGridDB/steam-rom-manager/releases)
-* [Discord Server](https://discord.gg/bnSVJrz)
+* [Versões SRM](https://github.com/SteamGridDB/steam-rom-manager/releases)
+* [Servidor do Discord](https://discord.gg/bnSVJrz)
 * [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
 * [Grupo da Steam](https://steamcommunity.com/groups/steamrommanager)
 * [Repositório do Github](https://github.com/SteamGridDB/steam-rom-manager)
-* [Crowdin Translation Project](https://crowdin.com/project/steam-rom-manager)
+* [Projeto de Traduções Crowdin](https://crowdin.com/project/steam-rom-manager)
 
 ## Suporte
 
-Help support continued progress on Steam ROM Manager at:
+Ajude a apoiar o progresso contínuo no Steam ROM Manager em:
 
 <a href="https://www.buymeacoffee.com/cbartondock">
   <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="Pagar um café" width="160">
@@ -32,11 +32,11 @@ Se você gosta do Gerente de ROM Steam e quer que ele continue sendo útil, tamb
 * `FrogTheFrog`{.noWrap} - Criador do SRM, não está mais ativo no SRM, mas atualmente está trabalhando no [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
 
 ### Mantenedores atuais
-* `lontanadascienza`{.noWrap} - SRM atualizado para lidar com capas, pôsteres, logotipos e ícones. Adicionado o gerenciador de exceções, gerenciamento de controladores, analisadores de plataformas (Epic, GOG, Steam, etc), entre muitas outras coisas. Squashes bugs almost as fast as he introduces them.
+* `lontanadascienza`{.noWrap} - SRM atualizado para lidar com capas, pôsteres, logotipos e ícones. Adicionado o gerenciador de exceções, gerenciamento de controladores, analisadores de plataformas (Epic, GOG, Steam, etc), entre muitas outras coisas. Destrói erros quase tão rápido quanto são introduzidos.
 * `Zennn`{.noWrap} - Adicionado suporte a categoria, localização de idioma e o servidor de relatório de erros, entre muitas outras coisas. Grande chefe no [SteamGridDB](https://www.steamgriddb.com/).
-* `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz).
+* `KenCinder`{.noWrap} - Gerencia e cria predefinições de análise de comunidades e ajuda o usuário a configurar o SRM no [Discord](https://discord.gg/bnSVJrz).
 
-### Feature Contributions
+### Contribuições de recursos
 * `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
 * `alvaromunoz`{.noWrap} - Added Game Pass parser to SRM.
 * `lexarvn`{.noWrap} - Added the Amazon Games parser and the itch.io parser.
