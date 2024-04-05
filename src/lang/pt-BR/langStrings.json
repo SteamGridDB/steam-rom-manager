@@ -23,8 +23,8 @@
       "removeAppList": "Remove from Steam",
       "remainingImages": "Retrieving urls:",
       "stopUrlRetrieving": "Stop",
-      "exportSelections": "Export",
-      "importSelections": "Import",
+      "exportSelections": "Export settings",
+      "importSelections": "Import settings",
       "backButton": "Back",
       "logButton": "Log"
     },
@@ -540,7 +540,7 @@
     "error": {
       "parserNotFound__i": "Analisador \"${name}\" não encontrado!",
       "tooManyFieldGlobs__md": "> Apenas um conjunto `$(...)$` é permitido por entrada.",
-      "parserIsRequired__md": "> Primeira parte do `$(...)$` deve conter um campo válido **Glob** ir **Glob-regex**.",
+      "parserIsRequired__md": "> Primeira parte do `$(...)$` deve conter um campo válido **Glob** in **Glob-regex**.",
       "noWinSlashes__md": "> Caracter de diretório Windows `\\` não é permitido! Use `/` em vez disso."
     }
   },

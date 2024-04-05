@@ -1,10 +1,9 @@
 <div class="parsers" [formGroup]="navForm" *ngIf="!!navForm">
   <nav-expand routerLinkActive="active">
-     <div class="title">
+    <div class="title">
       <div class="inputContainer">
         <div class="inlineGroup">
-          <nav-link
-            class="titlelink" (click)="flipAll()">
+          <nav-link class="titlelink" (click)="flipAll()">
             <span>Toggle Parsers</span>
             <span>&nbsp;&nbsp;</span>
           </nav-link>
@@ -19,9 +18,10 @@
       [ngClass]="{
         unsaved: userConfigurations[i].current != null,
         disabled: userConfigurations[i].saved.disabled
-      }">
+      }"
+    >
       <ng-container *ngVar="item.controls[userConfigurations[i].saved.parserId] as toggle">
-        <div class="inputContainer" [formGroupName]="i" (click)="emuClick(toggle)" >
+        <div class="inputContainer" [formGroupName]="i" (click)="emuClick(toggle)">
           <div class="inlineGroup">
             <nav-link
               class="parserlink"
@@ -33,12 +33,22 @@
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true, dummy: dummy }"
             >
-              {{ userConfigurations[i].saved.configTitle || lang.noTitle }}
+              <div class="not-emudeck">
+                {{ userConfigurations[i].saved.configTitle || lang.noTitle }}
+              </div>
+              <div class="only-emudeck">
+                <p>
+                  <img width="120" src="{{ userConfigurations[i].saved.img }}" />
+                  <span *ngIf="userConfigurations[i].saved.alternativeo">Alternative</span>
+                </p>
+                <small [innerHTML]="userConfigurations[i].saved.details"
+                  >{{ userConfigurations[i].saved.details }} *ngIf="userConfigurations[i].saved.details">{{
+                    userConfigurations[i].saved.details
+                  }}</small
+                >
+              </div>
             </nav-link>
-            <ng-toggle-button
-              class="ngToggleButton"
-              [formControl]="toggle"
-            ></ng-toggle-button>
+            <ng-toggle-button class="ngToggleButton" [formControl]="toggle"></ng-toggle-button>
           </div>
         </div>
       </ng-container>

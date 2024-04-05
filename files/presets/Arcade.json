@@ -20,7 +20,7 @@
 			"specifiedAccounts": ""
 		},
 		"parserInputs": {
-			"glob": "${title}@(.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "${MAME}",
@@ -36,6 +36,85 @@
 		},
 		"executable": {
 			"path": "path-to-mame.exe",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 7,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		}
+	},
+	"Arcade - MAME(Flatpak)": {
+		"parserType": "Glob",
+		"configTitle": "Arcade - MAME(Flatpak)",
+		"steamCategory": "${2600}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "run org.mamedev.MAME -rompath \"${fileDir}\" \"${fileName}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": ""
+		},
+		"parserInputs": {
+			"glob": "${title}@(.7z|.7Z|.zip|.ZIP)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "/usr/bin/flatpak",
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
@@ -431,6 +510,85 @@
 		},
 		"executable": {
 			"path": "path-to-model-2-emulator.exe",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 7,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		}
+	},
+	"Arcade - TeknoParrot": {
+		"parserType": "Glob",
+		"configTitle": "Arcade - TeknoParrot",
+		"steamCategory": "${Arcade}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "--profile=${fileName}.xml",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": ""
+		},
+		"parserInputs": {
+			"glob": "${title}.xml"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "${TeknoParrot}",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": true
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "path-to-TeknoParrotUi.exe",
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},

@@ -50,7 +50,7 @@ export class ItchIoParser implements GenericParser {
     return new Promise<ParsedData>((resolve,reject)=>{
       try {
         if(!["Windows_NT", "Linux", "Darwin"].includes(os.type())) {
-          reject(this.lang.errors.osUnsupported);
+          return reject(this.lang.errors.osUnsupported);
         }
 
         const itchIoAppDataDir = inputs.itchIoAppDataOverride || (() => {
@@ -58,14 +58,14 @@ export class ItchIoParser implements GenericParser {
             case "Windows_NT":
               return `${process.env.APPDATA}\\itch`;
             case "Linux":
-              return `${process.env.HOME}/.config/itch`;
+              return `${os.homedir()}/.config/itch`;
             case "Darwin":
-              return `${process.env.HOME}/Library/Application Support/itch`;
+              return `${os.homedir()}/Library/Application Support/itch`;
           }
         })();
         const dbPath = path.join(itchIoAppDataDir,'/db/butler.db');
         if(!fs.existsSync(dbPath)) {
-          reject(this.lang.errors.databaseNotFound);
+          return reject(this.lang.errors.databaseNotFound);
         }
         const sqliteWrapper = new SqliteWrapper('itch.io', dbPath);
         sqliteWrapper.callWorker()

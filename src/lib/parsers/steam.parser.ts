@@ -44,7 +44,7 @@ export class SteamParser implements GenericParser {
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
     return new Promise<ParsedData>((resolve, reject)=>{
       if(!directories || directories.length==0){
-        reject(this.lang.errors.noSteamAccounts);
+        return reject(this.lang.errors.noSteamAccounts);
       }
       const appinfo_path = path.normalize(path.join(directories[0],'..','..','appcache','appinfo.vdf'));
       Promise.resolve()

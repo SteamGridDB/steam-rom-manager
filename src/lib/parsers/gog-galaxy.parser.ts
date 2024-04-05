@@ -46,10 +46,10 @@ export class GOGParser implements GenericParser {
       if(os.type()=='Windows_NT') {
         dbPath = 'C:\\ProgramData\\GOG.com\\Galaxy\\storage\\galaxy-2.0.db'
       } else {
-        reject(this.lang.errors.gogNotCompatible);
+        return reject(this.lang.errors.gogNotCompatible);
       }
       if(!fs.existsSync(dbPath)) {
-        reject(this.lang.errors.gogNotInstalled);
+        return reject(this.lang.errors.gogNotInstalled);
       }
 
       const sqliteWrapper = new SqliteWrapper('gog-galaxy', dbPath);
@@ -76,7 +76,7 @@ export class GOGParser implements GenericParser {
         }
         resolve(parsedData);
       }).catch((err)=>{
-        reject(this.lang.errors.fatalError__i.interpolate({error: err}));
+        return reject(this.lang.errors.fatalError__i.interpolate({error: err}));
       });
     })
   }

@@ -395,6 +395,66 @@
     background-size: cover;
   }
 
+  &.EmuDeck.EmuDeck.EmuDeck.EmuDeck.EmuDeck .appOverlay {
+    outline: 2px solid var(--color-preview-user-background);
+    opacity: 0;
+    transition: 0.5s;
+    &:hover {
+      opacity: 1;
+    }
+
+    .imageSelector {
+      polyline {
+        stroke-width: var(--select-arrow-left-width, 55);
+      }
+    }
+	& > .appInfo .title{
+		min-height: 20px;
+		span{
+			text-overflow: ellipsis;
+		}
+	}
+    & > .appInfo > div.imageIndex {
+      text-align: right !important;
+      padding: 6px 8px 0 0 !important;
+      font-size: calc(var(--preview-image-size) * 3em) !important;
+    }
+    .appButtons {
+      display: flex;
+      width: 100%;
+    }
+    .btn {
+      @include button();
+      @include clickButtonColor(click-button);
+      display: initial;
+      padding: 12px;
+      flex: 1;
+      font-size: 12px;
+      border-radius: 0;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.8);
+
+      &:hover {
+        color: var(--color-click-button-text-hover);
+        border-color: var(--color-click-button-border-hover);
+        background-color: var(--color-click-button-background-hover);
+
+        fill: var(--color-click-button-text-hover);
+      }
+
+      &:active {
+        color: var(--color-click-button-text-active);
+        border-color: var(--color-click-button-border-active);
+        background-color: var(--color-click-button-background-active);
+
+        fill: var(--color-click-button-text-active);
+      }
+      img {
+        display: none !important;
+      }
+    }
+  }
+
   &.EmuDeck.EmuDeck.EmuDeck.EmuDeck.EmuDeck navarea nav {
     justify-content: end;
     margin: 0 10px;
@@ -481,17 +541,43 @@
         .items {
           height: 100%;
           overflow-y: auto;
-          padding-bottom: 100px;
+          padding-bottom: 10% !important;
+          display: flex;
+          overflow-y: auto;
+          flex-direction: row;
+          width: 100%;
+          margin: 0;
+          padding: 0;
+          flex-wrap: wrap;
+          justify-content: space-between;
+
           .inputContainer,
           .inlineGroup.inlineGroup.inlineGroup {
             margin: 0;
           }
+          .inlineGroup.inlineGroup.inlineGroup {
+            align-items: baseline;
+          }
           nav-link {
             border-left: 0;
             padding: 24px 26px;
+            padding: 56px 15px;
             color: #444;
             transition: 0.2s;
             pointer-events: none;
+            & + ng-toggle-button {
+              display: none !important;
+            }
+            img {
+              margin-right: 0;
+              width: 100%;
+			  max-width: 120px;
+              max-height: 68px;
+			  object-fit: contain;
+            }
+            small {
+              font-weight: 600;
+            }
             &:before {
               display: none !important;
               top: 0;
@@ -536,11 +622,14 @@
 
     .item {
       background-color: rgba(255, 255, 255, 1);
-      padding-right: 10px;
+      padding-right: 0px;
       margin-bottom: 10px;
       margin-right: 10px;
       border-radius: 4px;
       transition: 0.8s;
+      width: 15%;
+      max-height: 140px;
+      text-align: center;
       &.disabled {
         background-color: rgba(255, 255, 255, 0.6);
         transition: 0.8s;
@@ -673,19 +762,33 @@
     // grid-template-rows: auto  auto 1fr;
     position: relative;
 
+    .excludes {
+      grid-area: lowerMenu;
+      box-sizing: border-box;
+      padding: 28px;
+      background: var(--color-preview-menu-background);
+      border: 0;
+      .buttonGroup {
+        margin-right: 0;
+        .dangerousButton + .excludeButton {
+          margin-right: 0 !important;
+        }
+      }
+    }
+
     .preview-description {
       padding: 0;
       padding-top: 30px;
     }
 
     .entries {
-      background: var(--color-preview-menu-background);
+      background: var(--color-preview-menu-background) !important;
       z-index: 2;
     }
     .lowerMenu {
       justify-content: end;
       padding: 28px;
-      background: transparent;
+      background: var(--color-preview-menu-background);
       border: 0;
     }
   }
@@ -891,16 +994,16 @@
   --color-parsers-user-instructions-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-parsers-user-instructions-scrollbar-track: rgba(31, 31, 31, 0.45);
   --color-preview-background: inherit;
-  --color-select-arrow-left: #8d8d8d;
+  --color-select-arrow-left: #fff;
   --color-select-arrow-left-active: #ffffff;
   --color-select-arrow-left-hover: #cccccc;
-  --color-select-arrow-right: #8d8d8d;
+  --color-select-arrow-right: #fff;
   --color-select-arrow-right-active: #ffffff;
   --color-select-arrow-right-hover: #cccccc;
   --color-select-arrow-down: rgba(0, 0, 0, 0);
   --color-select-arrow-down-active: #ffffff;
   --color-select-arrow-down-hover: #9b9b9b;
-  --color-preview-app-hover-background: rgba(0, 0, 0, 0.8);
+  --color-preview-app-hover-background: rgba(0, 0, 0, 0.2);
   --color-preview-app-zoom-slider-text: #a0a0a0;
   --color-preview-app-zoom-slider-thumb-background: #fff;
   --color-preview-app-zoom-slider-thumb-background-focus: #fff;
@@ -1097,6 +1200,12 @@
   .only-emudeck {
     display: none !important;
   }
+  .only-deck {
+    display: block !important;
+  }
+  .not-deck {
+    display: none !important;
+  }
   --grid-app: "titlebar titlebar titlebar" "navarea navborder route";
   --grid-app-rows: auto 1fr;
   --grid-app-columns: auto auto 1fr;
@@ -1253,16 +1362,16 @@
   --color-parsers-user-instructions-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-parsers-user-instructions-scrollbar-track: rgba(31, 31, 31, 0.45);
   --color-preview-background: inherit;
-  --color-select-arrow-left: #8d8d8d;
+  --color-select-arrow-left: #fff;
   --color-select-arrow-left-active: #ffffff;
   --color-select-arrow-left-hover: #cccccc;
-  --color-select-arrow-right: #8d8d8d;
+  --color-select-arrow-right: #fff;
   --color-select-arrow-right-active: #ffffff;
   --color-select-arrow-right-hover: #cccccc;
   --color-select-arrow-down: rgba(0, 0, 0, 0);
   --color-select-arrow-down-active: #ffffff;
   --color-select-arrow-down-hover: #9b9b9b;
-  --color-preview-app-hover-background: rgba(0, 0, 0, 0.8);
+  --color-preview-app-hover-background: rgba(0, 0, 0, 0.2);
   --color-preview-app-zoom-slider-text: #a0a0a0;
   --color-preview-app-zoom-slider-thumb-background: #fff;
   --color-preview-app-zoom-slider-thumb-background-focus: #fff;
@@ -1453,4 +1562,62 @@
   --position-update: static;
   --display-preview-title: none;
   --display-exceptions-save-status: none;
+
+  .only-deck {
+    display: block;
+  }
+
+  &.Deck.Deck.Deck.Deck.Deck .appOverlay {
+    outline: 2px solid var(--color-preview-user-background);
+    opacity: 0;
+    transition: 0.5s;
+    &:hover {
+      opacity: 1;
+    }
+
+    .imageSelector {
+      polyline {
+        stroke-width: var(--select-arrow-left-width, 55);
+      }
+    }
+    & > .appInfo > div.imageIndex {
+      text-align: right !important;
+      padding: 6px 8px 0 0 !important;
+      font-size: calc(var(--preview-image-size) * 3em) !important;
+    }
+    .appButtons {
+      display: flex;
+      width: 100%;
+    }
+    .btn {
+      @include button();
+      @include clickButtonColor(click-button);
+      display: initial;
+      padding: 12px;
+      flex: 1;
+      font-size: 12px;
+      border-radius: 0;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.8);
+
+      &:hover {
+        color: var(--color-click-button-text-hover);
+        border-color: var(--color-click-button-border-hover);
+        background-color: var(--color-click-button-background-hover);
+
+        fill: var(--color-click-button-text-hover);
+      }
+
+      &:active {
+        color: var(--color-click-button-text-active);
+        border-color: var(--color-click-button-border-active);
+        background-color: var(--color-click-button-background-active);
+
+        fill: var(--color-click-button-text-active);
+      }
+      img {
+        display: none !important;
+      }
+    }
+  }
 }

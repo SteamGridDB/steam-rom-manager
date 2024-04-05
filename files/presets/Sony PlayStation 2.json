@@ -8,7 +8,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "\"${filePath}\" -fullscreen",
+		"executableArgs": "\"${filePath}\" -batch -fullscreen",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -87,7 +87,7 @@
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run net.pcsx2.PCSX2 \"${filePath}\" --nogui --fullscreen",
+		"executableArgs": "run net.pcsx2.PCSX2 \"${filePath}\" -batch -fullscreen",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [

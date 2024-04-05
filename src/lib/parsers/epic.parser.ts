@@ -48,13 +48,13 @@ export class EpicParser implements GenericParser {
         if(os.type()=='Windows_NT') {
           epicManifestsDir = 'C:\\ProgramData\\Epic\\EpicGamesLauncher\\Data\\Manifests';
         } else if(os.type()=='Linux') {
-          reject(this.lang.errors.epicNotCompatible)
+          return reject(this.lang.errors.epicNotCompatible)
         } else if( os.type()=='Darwin' ) {
           epicManifestsDir = path.join(os.homedir(),'/Library/Application Support/Epic/EpicGamesLauncher/Data/Manifests');
         }
       }
       if(!fs.existsSync(epicManifestsDir)) {
-        reject(this.lang.errors.epicNotInstalled)
+        return reject(this.lang.errors.epicNotInstalled)
       }
       glob([epicManifestsDir.replace(/\\/g,'/'),'*.item'].join('/'))
       .then((files: string[])=>{

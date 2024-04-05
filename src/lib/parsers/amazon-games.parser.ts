@@ -43,7 +43,7 @@ export class AmazonGamesParser implements GenericParser {
     return new Promise<ParsedData>((resolve,reject)=>{
       try {
         if(os.type()!='Windows_NT') {
-          reject(this.lang.errors.osUnsupported);
+          return reject(this.lang.errors.osUnsupported);
         }
 
         const launcherMode = inputs.amazonGamesLauncherMode;
@@ -52,7 +52,7 @@ export class AmazonGamesParser implements GenericParser {
         const dbPath = path.resolve(`${path.dirname(amazonGamesExe)}\\..\\Data\\Games\\Sql\\GameInstallInfo.sqlite`);
 
         if(!fs.existsSync(dbPath)) {
-          reject(this.lang.errors.databaseNotFound);
+          return reject(this.lang.errors.databaseNotFound);
         }
         const sqliteWrapper = new SqliteWrapper('amazon-games', dbPath);
         sqliteWrapper.callWorker().then((games: {[k: string]: any}[]) => {

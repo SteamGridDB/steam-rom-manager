@@ -36,6 +36,7 @@ export class SqliteWrapper {
         }
       })
       sqliteWorker.send({task: this.task, dbPath: this.dbPath})
+      // TODO: this could never resolve on error
     })
   }
 }

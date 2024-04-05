@@ -1,4 +1,162 @@
 {
+	"Sega Dreamcast - Flycast(Flatpak)": {
+		"parserType": "Glob",
+		"configTitle": "Sega Dreamcast - Flycast(Flatpak)",
+		"steamCategory": "${Dreamcast}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "run org.flycast.Flycast -config window:fullscreen=yes \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": ""
+		},
+		"parserInputs": {
+			"glob": "${title}@(.cdi|.CDI|.cue|.CUE|.chd|.CHD|.gdi|.GDI)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "/usr/bin/flatpak",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 7,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		}
+	},
+	"Sega Dreamcast - ReDream": {
+		"parserType": "Glob",
+		"configTitle": "Sega Dreamcast - ReDream",
+		"steamCategory": "${Dreamcast}",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-b -e \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"SteamGridDB"
+		],
+		"disabled": false,
+		"advanced": false,
+		"userAccounts": {
+			"specifiedAccounts": ""
+		},
+		"parserInputs": {
+			"glob": "${title}@(.7z|.7Z|.cdi|.CDI|.chd|.CHD|.cue|.CUE|.gdi|.GDI)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false,
+			"tryToMatchTitle": false
+		},
+		"fuzzyMatch": {
+			"use": true,
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "path-to-redream.exe",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 7,
+		"imageProviderAPIs": {
+			"SteamGridDB": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		}
+	},
 	"Sega Dreamcast - Retroarch - Flycast": {
 		"parserType": "Glob",
 		"configTitle": "Sega Dreamcast - Retroarch - Flycast",
