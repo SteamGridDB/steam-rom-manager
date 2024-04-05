@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { clipboard } from 'electron';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
 import { PreviewService, LoggerService, ParsersService } from '../services';
@@ -11,7 +12,16 @@ import {
   ControllerManager,
   Acceptable_Error
 } from "../../lib";
-import { UserData } from "../../models";
+import {artworkTypes, artworkIdDict, artworkDimsDict, artworkSingDict} from '../../lib/artwork-types';
+import { UserData, VDF_ListItem, VDF_ListData, VDF_ShortcutsItem } from "../../models";
+import { generateShortAppId } from '../../lib/helpers/steam';
+import path from "path";
+import fs from "fs-extra";
+import _ from "lodash";
+import * as url from '../../lib/helpers/url';
+import { glob } from 'glob';
+import { exec } from "child_process";
+
 
 @Component({
   selector: 'view',
@@ -22,14 +32,18 @@ import { UserData } from "../../models";
 
 export class ViewComponent implements OnDestroy {
   private subscriptions: Subscription = new Subscription();
-  private vdfData: UserData;
+  private vdfData: VDF_ListData;
   private controllerData: UserData;
   private categoryData: UserData;
+  private currentShortcut: VDF_ShortcutsItem;
+  private currentArtwork: {[artworkType: string]: string} = {};
+  private artworkSingDict: {[artworkType: string]: string} = artworkSingDict;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private loggerService: LoggerService,
-    private parsersService: ParsersService
+    private parsersService: ParsersService,
+    private changeDetectionRef: ChangeDetectorRef
   ) {
 
   }
@@ -52,7 +66,9 @@ export class ViewComponent implements OnDestroy {
       categoryData[steamDirectory] = {};
       controllerData[steamDirectory] = {};
       for(const userId in vdfData[steamDirectory]) {
-        categoryData[steamDirectory][userId] = await categoryManager.readCategories(steamDirectory, userId);
+        try {
+          categoryData[steamDirectory][userId] = await categoryManager.readCategories(steamDirectory, userId);
+        } catch (e) {}
         const configsetDir = ControllerManager.configsetDir(steamDirectory, userId);
         controllerData[steamDirectory][userId] = controllerManager.readControllers(configsetDir);
       }
@@ -60,11 +76,37 @@ export class ViewComponent implements OnDestroy {
     this.vdfData = vdfData;
     this.controllerData = controllerData;
     this.categoryData = categoryData;
+    this.changeDetectionRef.detectChanges();
     console.log(this.vdfData,this.controllerData,this.categoryData);
   }
 
+  private sortedShortcuts(shortcuts: VDF_ShortcutsItem[]) {
+    return shortcuts.sort((a,b)=>a.appname.localeCompare(b.appname));
+  }
 
-  ngOnInit() {
+  private async setCurrentShortcut(steamDir: string, steamUser: string, shortcut: VDF_ShortcutsItem) {
+    this.currentShortcut = shortcut;
+    const gridDir = this.vdfData[steamDir][steamUser].screenshots.gridDir;
+    const shortAppId = generateShortAppId(shortcut.exe, shortcut.appname);
+    for(let artworkType of artworkTypes) {
+      const files = await glob(`${shortAppId}${artworkIdDict[artworkType]}.*`, { dot: true, cwd: gridDir, absolute: true });
+      this.currentArtwork[artworkType] = files.length ? url.encodeFile(files[0]) : require('../../assets/images/no-images.svg');
+    }
+    this.currentArtwork = _.clone(this.currentArtwork)
+    this.changeDetectionRef.detectChanges()
+    console.log("currentArtwork", this.currentArtwork)
+  }
+
+  private toClipboard(field: string) {
+    clipboard.writeText(field);
+    this.loggerService.info("Copied to clipboard", { invokeAlert: true, alertTimeout: 3000 });
+  }
+
+  private launchTitle() {
+    exec(this.currentShortcut.exe, {cwd: this.currentShortcut.StartDir})
+  }
+
+  ngAfterViewInit() {
     this.refreshGames();
   }
 

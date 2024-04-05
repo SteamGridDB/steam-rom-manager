@@ -61,7 +61,7 @@ export class VDF_ShortcutsFile {
       }
     }).then((data) => {
       this.fileData = !!data ? shortcutsParser.parseBuffer(data) || {} : {};
-
+      console.log("rawFileData", this.fileData)
       if (this.fileData['shortcuts'] === undefined) {
         this.fileData['shortcuts'] = [];
       }
