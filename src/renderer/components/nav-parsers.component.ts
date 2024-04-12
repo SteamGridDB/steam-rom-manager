@@ -490,8 +490,6 @@ export class NavParsersComponent implements OnDestroy {
           }
         );
 
-        // console.log(this.userConfigurations);
-
         let someOn: boolean = userConfigurations.length
           ? userConfigurations.map((config) => !config.saved.disabled).reduce((x, y) => x || y)
           : false;

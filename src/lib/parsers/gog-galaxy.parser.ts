@@ -2,10 +2,8 @@ import { ParserInfo, GenericParser, ParsedData } from '../../models';
 import { APP } from '../../variables';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
-import * as genericParser from '@node-steam/vdf';
 import * as path from "path";
 import * as os from "os";
-import * as json from "../helpers/json";
 import { SqliteWrapper } from "../helpers/sqlite";
 
 export class GOGParser implements GenericParser {
@@ -29,7 +27,13 @@ export class GOGParser implements GenericParser {
           label: this.lang.launcherModeInputTitle,
           inputType: 'toggle',
           validationFn: (input: any)=>{ return null },
-            info: this.lang.docs__md.input.join('')
+          info: this.lang.docs__md.input.join('')
+        },
+        'parseLinkedExecs': {
+          label: this.lang.parseLinkedExecsTitle,
+          inputType: 'toggle',
+          validationFn: (input: any) => { return null },
+          info: this.lang.docs__md.input.join('')
         }
       }
     };
@@ -52,12 +56,12 @@ export class GOGParser implements GenericParser {
         return reject(this.lang.errors.gogNotInstalled);
       }
 
-      const sqliteWrapper = new SqliteWrapper('gog-galaxy', dbPath);
+      const sqliteWrapper = new SqliteWrapper('gog-galaxy', dbPath, {externals: !!inputs.parseLinkedExecs});
       sqliteWrapper.callWorker()
       .then((playtasks: {[k: string]: any}[]) => {
         for(let task of playtasks) {
-          if(task.title && task.params.executablePath) {
-            appTitles.push(task.title);
+          if(task.params.executablePath) {
+            appTitles.push(task.title || path.dirname(task.params.executablePath).split(path.sep).pop());
             productIds.push(task.productId.toString())
             appPaths.push(task.params.commandLineArgs ? task.params.executablePath+' '+task.params.commandLineArgs : task.params.executablePath)
           }

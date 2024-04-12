@@ -145,6 +145,7 @@
     "galaxyExeOverrideTitle": "Galaxy Path Override",
     "galaxyExeOverridePlaceholder": "/path/to/GalaxyClient.exe",
     "launcherModeInputTitle": "Launch games via GOG Galaxy",
+    "parseLinkedExecsTitle": "Parse linked executables from GOG Galaxy",
     "errors": {
       "invalidGalaxyExeOverride": "> Galaxy Client Override is not a valid path.",
       "fatalError__i": "> GOG Galaxy parser failed with fatal error:\n ${error}",

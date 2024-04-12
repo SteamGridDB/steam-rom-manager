@@ -222,6 +222,7 @@ export interface languageStruct {
     galaxyExeOverrideTitle: string,
     galaxyExeOverridePlaceholder: string,
     launcherModeInputTitle: string,
+    parseLinkedExecsTitle: string,
     docs__md: {
       self: string[],
       input: string[]

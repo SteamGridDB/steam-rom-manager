@@ -77,7 +77,6 @@ export class ViewComponent implements OnDestroy {
     this.controllerData = controllerData;
     this.categoryData = categoryData;
     this.changeDetectionRef.detectChanges();
-    console.log(this.vdfData,this.controllerData,this.categoryData);
   }
 
   private sortedShortcuts(shortcuts: VDF_ShortcutsItem[]) {
@@ -94,7 +93,6 @@ export class ViewComponent implements OnDestroy {
     }
     this.currentArtwork = _.clone(this.currentArtwork)
     this.changeDetectionRef.detectChanges()
-    console.log("currentArtwork", this.currentArtwork)
   }
 
   private toClipboard(field: string) {

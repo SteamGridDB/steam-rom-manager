@@ -1,6 +1,8 @@
 process.on('message', (data) => {
   try {
-    const task = data.task; const dbPath = data.dbPath;
+    const task = data.task; 
+    const dbPath = data.dbPath;
+    const options = data.options;
     const sqlite = require("better-sqlite3")
     const db = sqlite(dbPath);
 
@@ -12,7 +14,8 @@ process.on('message', (data) => {
         productId: parseInt(x.gameReleaseKey.split('_').pop()),
         productType: x.gameReleaseKey.split('_')[0]
       }))
-      .filter(x => x.productType == 'gog' && x.isPrimary)
+      .filter(x => x.productType == 'gog' || (options.externals && x.productType == 'generic'))
+      .filter(x => x.isPrimary)
       .map((x) => {
         x.params = playtaskparams.filter((y) => y.playTaskId==x.id)[0]
         let xdetails = details.filter((y) => y.productId==x.productId);

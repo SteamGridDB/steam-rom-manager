@@ -10,7 +10,7 @@ export const availableParserInputs: Record<ParserType, string[]> = {
   'Amazon Games': ['amazonGamesExeOverride', 'amazonGamesLauncherMode'],
   'Epic': ['epicManifests', 'epicLauncherMode'],
   'Legendary': ['legendaryInstalledFile'],
-  'GOG Galaxy': ['galaxyExeOverride','gogLauncherMode'],
+  'GOG Galaxy': ['galaxyExeOverride','gogLauncherMode','parseLinkedExecs'],
   'itch.io': ['itchIoAppDataOverride','itchIoWindowsOnLinuxInstallDriveRedirect'],
   'Steam': ['onlyGames','onlyInstalled','sourceMods'],
   'UPlay': ['uplayDir','uplayLauncherMode'],

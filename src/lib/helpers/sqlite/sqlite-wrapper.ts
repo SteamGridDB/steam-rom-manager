@@ -6,10 +6,12 @@ import * as path from 'path';
 export class SqliteWrapper {
   private dbPath;
   private task;
+  private options;
 
-  constructor(task: string, dbPath: string) {
+  constructor(task: string, dbPath: string, options?: {[k: string]: any}) {
     this.dbPath = dbPath;
     this.task = task;
+    this.options = options;
   }
 
   // Work-around for calling fork inside a packed application
@@ -35,7 +37,7 @@ export class SqliteWrapper {
           resolve(data.result);
         }
       })
-      sqliteWorker.send({task: this.task, dbPath: this.dbPath})
+      sqliteWorker.send({task: this.task, dbPath: this.dbPath, options: this.options})
       // TODO: this could never resolve on error
     })
   }
