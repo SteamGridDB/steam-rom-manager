@@ -144,6 +144,7 @@
     "galaxyExeOverrideTitle": "Galaxy Verzeichnis überschreiben",
     "galaxyExeOverridePlaceholder": "/Pfad/zu/GalaxyClient.exe",
     "launcherModeInputTitle": "Spiele mit GOG Galaxy starten",
+    "parseLinkedExecsTitle": "Parse linked executables from GOG Galaxy",
     "errors": {
       "invalidGalaxyExeOverride": "> Benutzerdefiniertes Galaxy Client Verzeichnis ist kein gültiger Pfad.",
       "fatalError__i": "> GOG Galaxy Parser fehlgeschlagen mit fatalem Fehler:\n${error}",
