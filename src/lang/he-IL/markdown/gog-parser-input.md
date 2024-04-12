@@ -8,3 +8,7 @@ This field is actually only necessary if you enable launch via GOG Galaxy (see b
 ## Launch Via GOG Galaxy `[Recommend disabled]`
 
 What it sounds like, this toggle let's you set whether games will launch via GOG Galaxy or directly. Note that for some games launching from GOG Galaxy may fail, and the Steam overlay will most likely not work.
+
+## Parse Linked Executables from GOG Galaxy
+
+If enabled, SRM will pull in not only GOG games aquired from GOG Galaxy's store, but also those you have manually linked executables for in GOG Galaxy. This is desirable if those games are not being parsed into SRM elsewhere. A caveat is that because GOG Galaxy does not store the names of such games, SRM will use the directory name of the executable: `C:\\path\\to\\Hoa\\LaunchHoa.exe` would be assigned the title `Hoa`.
