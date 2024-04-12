@@ -144,6 +144,7 @@
     "galaxyExeOverrideTitle": "Sobrescrever caminho da Galáxia",
     "galaxyExeOverridePlaceholder": "/path/to/GalaxyClient.exe",
     "launcherModeInputTitle": "Inicie jogos via GOG Galaxy",
+    "parseLinkedExecsTitle": "Parse linked executables from GOG Galaxy",
     "errors": {
       "invalidGalaxyExeOverride": "> Substituição do Cliente Galaxy não é um caminho válido.",
       "fatalError__i": "> O analisador da falhou com erro fatal:\n ${error}",
