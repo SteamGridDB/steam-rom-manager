@@ -38,14 +38,10 @@
               </div>
               <div class="only-emudeck">
                 <p>
-                  <img width="120" src="{{ userConfigurations[i].saved.img }}" />
-                  <span *ngIf="userConfigurations[i].saved.alternativeo">Alternative</span>
+                  <img width="120" src="{{imageMap[userConfigurations[i].saved.parserId].img}}" />
+                  <span *ngIf="imageMap[userConfigurations[i].saved.parserId].alternative">Non-EmuDeck Parser</span>
                 </p>
-                <small [innerHTML]="userConfigurations[i].saved.details"
-                  >{{ userConfigurations[i].saved.details }} *ngIf="userConfigurations[i].saved.details">{{
-                    userConfigurations[i].saved.details
-                  }}</small
-                >
+                <small>{{imageMap[userConfigurations[i].saved.parserId].details}}</small>
               </div>
             </nav-link>
             <ng-toggle-button class="ngToggleButton" [formControl]="toggle"></ng-toggle-button>

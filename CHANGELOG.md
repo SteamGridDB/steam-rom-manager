@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.18
+### Added
+* View Games page, ability to see what artwork and games are currently in steam without opening steam
+* `Parse Linked Execs` toggle for GOG Galaxy parser, allowing the parsing of games that were not purchased in GOG but instead manually linked.
+* Many changes to the EmuDeck theme, thanks to @dragoonDorise
+
+### Fixed
+* `EISDIR` upon refresh controller templates if steam had created a directory in the controller templates folder (thanks @SteelSavant)
+
 ## 2.4.17
 ### Fixed
 * Fuzzy game name matching
