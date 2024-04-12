@@ -144,6 +144,7 @@
     "galaxyExeOverrideTitle": "Galaxy 路径覆盖",
     "galaxyExeOverridePlaceholder": "/path/to/GalaxyClient.exe",
     "launcherModeInputTitle": "通过 GOG Galaxy 启动游戏",
+    "parseLinkedExecsTitle": "Parse linked executables from GOG Galaxy",
     "errors": {
       "invalidGalaxyExeOverride": "> Galaxy 客户端覆盖不是一个有效的路径。",
       "fatalError__i": "> GOG Galaxy 解析器发生致命错误：\n ${error}",
