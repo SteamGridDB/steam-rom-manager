@@ -240,7 +240,7 @@
                                 </ng-container>
                               </div>
                               <div class="bottomPanel">
-                                <div text-scroll class="configTitle not-emudeck">
+                                <div text-scroll class="configTitle">
                                   {{
                                     app.configurationTitle +
                                       (app.steamCategories.length > 0
@@ -278,7 +278,7 @@
                                     Refresh
                                   </div>
 
-                                  <div class="not-emudeck not-deck">
+                                  <div class="not-emudeck not-deck classic-buttons">
                                     <svg
                                       class="button"
                                       title="Fix match"
@@ -531,8 +531,12 @@
       <div class="only-emudeck" (click)="generatePreviewData(false)">Refresh</div>
       <div (click)="save()">{{ lang.saveAppList }}</div>
       <div class="dangerousButton" (click)="remove()">{{ lang.removeAppList }}</div>
-      <div class="not-emudeck" (click)="exportSelection()" [attr.title]="'Export image choices'">{{ lang.exportSelections }}</div>
-      <div class="not-emudeck" (click)="importSelection()" [attr.title]="'Import image choices'">{{ lang.importSelections }}</div>
+      <div class="not-emudeck" (click)="exportSelection()" [attr.title]="'Export image choices'">
+        {{ lang.exportSelections }}
+      </div>
+      <div class="not-emudeck" (click)="importSelection()" [attr.title]="'Import image choices'">
+        {{ lang.importSelections }}
+      </div>
       <div (click)="showExclusions()" *ngIf="!this.detailsApp">{{ "Exclude Games" }}</div>
     </ng-container>
     <div
