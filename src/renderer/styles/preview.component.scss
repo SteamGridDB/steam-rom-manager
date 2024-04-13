@@ -9,18 +9,18 @@
   background-color: var(--color-preview-background);
 
   --preview-image-size: 0.4;
-  --image-width-max: 920px;
-  --image-height-max: 430px;
-  --games-long-width: 920px;
-  --games-long-height: 430px;
+  --image-width-max: 1196px;
+  --image-height-max: 559px;
+  --games-long-width: 1196px;
+  --games-long-height: 559px;
   --games-tall-width: 600px;
   --games-tall-height: 900px;
   --games-hero-width: 1920px;
   --games-hero-height: 620px;
   --games-logo-width: 960px;
   --games-logo-height: 540px;
-  --games-icon-width: 400px;
-  --games-icon-height: 400px;
+  --games-icon-width: 600px;
+  --games-icon-height: 600px;
   --details-width: 0%;
   grid-area: route;
   grid-template-areas:
@@ -445,7 +445,7 @@
             }
 
             > .appOverlay {
-              --row-height: calc(var(--preview-image-size) * 120px);
+              --row-height: calc(var(--preview-image-size) * 150px);
 
               height: 100%;
               display: grid;
@@ -552,7 +552,7 @@
                 grid-gap: 2px;
                 grid-auto-flow: row;
                 grid-auto-columns: 1fr;
-                grid-auto-rows: 50% 50%;
+                grid-template-rows: 1fr 1fr;
 
                 > .configTitle {
                   grid-area: title;
@@ -568,10 +568,7 @@
 
                 > .appButtons {
                   grid-area: buttons;
-                  display: flex;
 
-                  justify-content: flex-end;
-                  align-items: flex-end;
 
                   --color-refresh-images: var(--color-preview-app-button);
                   --color-image-alert: var(--color-preview-app-button);
@@ -581,7 +578,14 @@
 
                   --color-refresh-images-active: var(--color-preview-app-button-active);
                   --color-image-alert-active: var(--color-preview-app-button-active);
-
+                  .deckbuttons {
+                    display: flex;
+                    width: 100%;
+                    align-items: flex-end;
+                    flex-direction: row;
+                    flex-wrap: nowrap;
+                    justify-content: stretch;
+                  }
                   > .button {
                     height: calc(var(--row-height) * 0.5);
                     padding: 0.2em;

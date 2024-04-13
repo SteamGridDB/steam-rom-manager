@@ -8,6 +8,61 @@
   .only-emudeck {
     display: none !important;
   }
+  .appOverlay {
+    outline: 2px solid var(--color-preview-user-background);
+    opacity: 0;
+    transition: 0.5s;
+    &:hover {
+      opacity: 1;
+    }
+
+    .imageSelector {
+      polyline {
+        stroke-width: var(--select-arrow-left-width, 55);
+      }
+    }
+    & > .appInfo .title {
+      min-height: 20px;
+      span {
+        text-overflow: ellipsis;
+      }
+    }
+    & > .appInfo > div.imageIndex {
+      text-align: right !important;
+      padding: 6px 8px 0 0 !important;
+      font-size: calc(var(--preview-image-size) * 3em) !important;
+    }
+    .btn {
+      @include button();
+      @include clickButtonColor(click-button);
+      display: initial;
+      padding: 5px;
+      flex: 1;
+      font-size: 12px;
+      border-radius: 0;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.8);
+
+      &:hover {
+        color: var(--color-click-button-text-hover);
+        border-color: var(--color-click-button-border-hover);
+        background-color: var(--color-click-button-background-hover);
+
+        fill: var(--color-click-button-text-hover);
+      }
+
+      &:active {
+        color: var(--color-click-button-text-active);
+        border-color: var(--color-click-button-border-active);
+        background-color: var(--color-click-button-background-active);
+
+        fill: var(--color-click-button-text-active);
+      }
+      img {
+        display: none !important;
+      }
+    }
+  }
   --color--accent: #fff;
   --color--required: #1db954;
   --grid-app: "titlebar titlebar titlebar" "navarea navborder route";
@@ -395,13 +450,9 @@
     background-size: cover;
   }
 
-  &.EmuDeck.EmuDeck.EmuDeck.EmuDeck.EmuDeck .appOverlay {
+  .appOverlay {
     outline: 2px solid var(--color-preview-user-background);
-    opacity: 0;
-    transition: 0.5s;
-    &:hover {
-      opacity: 1;
-    }
+    opacity: 1;
 
     .imageSelector {
       polyline {
@@ -1568,7 +1619,7 @@
     display: block;
   }
 
-  &.Deck.Deck.Deck.Deck.Deck .appOverlay {
+  .appOverlay {
     outline: 2px solid var(--color-preview-user-background);
     opacity: 0;
     transition: 0.5s;

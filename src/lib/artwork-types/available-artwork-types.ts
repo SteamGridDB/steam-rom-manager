@@ -19,11 +19,11 @@ export const artworkViewTypes: string[] = [
 
 export const artworkDimsDict: {[k: string]: {width: string, height: string}} = {
   tall: { width: '600px', height: '900px' },
-  long: { width: '920px', height: '430px' },
-  hero: { width: '910px', height: '296px' },
+  long: { width: '1196px', height: '559px' }, // 920x430 x 1.3
+  hero: { width: '1920px', height: '620px' },
   logo: { width: '960px', height: '540px' },
-  icon: { width: '400px', height: '400px' },
-  games: { width: '920px', height: '430px' }
+  icon: { width: '600px', height: '600px' },
+  games: { width: '1196px', height: '559px' } // 920x430 x 1.3
 }
 
 export const artworkNamesDict: {[k:string]: string} = {

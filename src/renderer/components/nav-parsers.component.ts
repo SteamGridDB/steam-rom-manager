@@ -44,14 +44,17 @@ export class NavParsersComponent implements OnDestroy {
           separatedValuesImg = separatedValuesImg.replaceAll("3do", "p3do").toLowerCase();
           let imgValue = "";
           let alternativeValue = false;
+          let detailsValue = "";
           try {
-            imgValue = require(`../../assets/systems/${separatedValuesImg}.svg`)
+            imgValue = require(`../../assets/systems/${separatedValuesImg}.svg`);
+            detailsValue = userConfiguration.saved.configTitle.split(' - ').slice(1).join(' - ')
           } catch(e) {
             alternativeValue = true;
+            detailsValue = userConfiguration.saved.configTitle;
           }
           this.imageMap[userConfiguration.saved.parserId] = {
             alternative: alternativeValue,
-            details: userConfiguration.saved.configTitle,
+            details: detailsValue,
             img: imgValue
           }
         }
