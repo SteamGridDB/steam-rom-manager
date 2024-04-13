@@ -9,6 +9,8 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 
 const shortcutsParser = require('steam-shortcut-editor');
+import * as genericParser from '@node-steam/vdf';
+
 
 export class VDF_ShortcutsFile {
   private fileData: any = undefined;
@@ -61,7 +63,6 @@ export class VDF_ShortcutsFile {
       }
     }).then((data) => {
       this.fileData = !!data ? shortcutsParser.parseBuffer(data) || {} : {};
-      console.log("rawFileData", this.fileData)
       if (this.fileData['shortcuts'] === undefined) {
         this.fileData['shortcuts'] = [];
       }

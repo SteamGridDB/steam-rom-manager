@@ -433,54 +433,51 @@
                                 >
                                   Refresh
                                 </div>
-
-                                <div class="not-emudeck not-deck">
-                                  <svg
-                                    class="button"
-                                    title="Fix match"
-                                    image-lens
-                                    hover="true"
-                                    active="true"
-                                    *ngIf="!showExcludes && (!image || image.loadStatus === 'done')"
-                                    (click)="changeAppDetails(app, steamDir, steamUser, appId)"
-                                  ></svg>
-                                  <svg
-                                    class="button"
-                                    [title]="lang.addLocalImages"
-                                    add-images
-                                    hover="true"
-                                    active="true"
-                                    (click)="addLocalImages(app)"
-                                  ></svg>
-                                  <span class="separator"></span>
-                                  <svg
-                                    class="button"
-                                    *ngIf="!getImagePool(appimages.imagePool).retrieving"
-                                    (click)="refreshImages(app)"
-                                    [title]="lang.refreshImages"
-                                    refresh-images
-                                    hover="true"
-                                    active="true"
-                                  ></svg>
-                                  <svg
-                                    class="button"
-                                    *ngIf="image != undefined && image.loadStatus === 'done'"
-                                    (click)="saveImage(image, app.title)"
-                                    [title]="lang.saveImage"
-                                    save-image
-                                    hover="true"
-                                    active="true"
-                                  ></svg>
-                                  <svg
-                                    class="button"
-                                    *ngIf="image != undefined && image.loadStatus === 'failed'"
-                                    (click)="loadImage(app)"
-                                    [title]="lang.retryDownload"
-                                    image-alert
-                                    hover="true"
-                                    active="true"
-                                  ></svg>
-                                </div>
+                                <svg
+                                  class="button not-emudeck not-deck"
+                                  title="Fix match"
+                                  image-lens
+                                  hover="true"
+                                  active="true"
+                                  *ngIf="!showExcludes && (!image || image.loadStatus === 'done')"
+                                  (click)="changeAppDetails(app, steamDir, steamUser, appId)"
+                                ></svg>
+                                <svg
+                                  class="button not-emudeck not-deck"
+                                  [title]="lang.addLocalImages"
+                                  add-images
+                                  hover="true"
+                                  active="true"
+                                  (click)="addLocalImages(app)"
+                                ></svg>
+                                <span class="separator"></span>
+                                <svg
+                                  class="button not-emudeck not-deck"
+                                  *ngIf="!getImagePool(appimages.imagePool).retrieving"
+                                  (click)="refreshImages(app)"
+                                  [title]="lang.refreshImages"
+                                  refresh-images
+                                  hover="true"
+                                  active="true"
+                                ></svg>
+                                <svg
+                                  class="button not-emudeck not-deck"
+                                  *ngIf="image != undefined && image.loadStatus === 'done'"
+                                  (click)="saveImage(image, app.title)"
+                                  [title]="lang.saveImage"
+                                  save-image
+                                  hover="true"
+                                  active="true"
+                                ></svg>
+                                <svg
+                                  class="button not-emudeck not-deck"
+                                  *ngIf="image != undefined && image.loadStatus === 'failed'"
+                                  (click)="loadImage(app)"
+                                  [title]="lang.retryDownload"
+                                  image-alert
+                                  hover="true"
+                                  active="true"
+                                ></svg>
                               </div>
                             </div>
                           </div>

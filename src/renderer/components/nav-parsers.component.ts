@@ -42,7 +42,6 @@ export class NavParsersComponent implements OnDestroy {
           let separatedValues: string[] = userConfiguration.saved.configTitle.split(" - ");
           let separatedValuesImg = separatedValues.length ? separatedValues[0].replaceAll(/[\/\-\(\)\.\s]/g, "") : "";
           separatedValuesImg = separatedValuesImg.replaceAll("3do", "p3do").toLowerCase();
-          console.log("separatedValuesImg", separatedValuesImg)
           let imgValue = "";
           let alternativeValue = false;
           try {
