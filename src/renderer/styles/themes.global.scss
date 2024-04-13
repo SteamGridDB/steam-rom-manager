@@ -408,12 +408,12 @@
         stroke-width: var(--select-arrow-left-width, 55);
       }
     }
-	& > .appInfo .title{
-		min-height: 20px;
-		span{
-			text-overflow: ellipsis;
-		}
-	}
+    & > .appInfo .title {
+      min-height: 20px;
+      span {
+        text-overflow: ellipsis;
+      }
+    }
     & > .appInfo > div.imageIndex {
       text-align: right !important;
       padding: 6px 8px 0 0 !important;
@@ -427,7 +427,7 @@
       @include button();
       @include clickButtonColor(click-button);
       display: initial;
-      padding: 12px;
+      padding: 5px;
       flex: 1;
       font-size: 12px;
       border-radius: 0;
@@ -571,9 +571,9 @@
             img {
               margin-right: 0;
               width: 100%;
-			  max-width: 120px;
+              max-width: 120px;
               max-height: 68px;
-			  object-fit: contain;
+              object-fit: contain;
             }
             small {
               font-weight: 600;
@@ -1594,7 +1594,7 @@
       @include button();
       @include clickButtonColor(click-button);
       display: initial;
-      padding: 12px;
+      padding: 5px;
       flex: 1;
       font-size: 12px;
       border-radius: 0;
