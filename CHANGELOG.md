@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 * Styling regression on "all artwork" view in non-EmuDeck themes
 * Titles with LaunchOptions not launching from View Games page
+* Regression that prevented fix match from working on "all artwork" view.
 
 ## 2.4.18
 ### Added
