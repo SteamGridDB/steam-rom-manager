@@ -369,7 +369,13 @@ export class PreviewComponent implements OnDestroy {
         exclude: false,
         excludeArtwork: false
       })
-      this.refreshImages(this.previewData[steamDirectory][userId].apps[appId]);
+      if(this.previewService.getImageType()=='games') { 
+        for(const artworkType of artworkTypes) {
+          this.refreshImages(this.previewData[steamDirectory][userId].apps[appId], artworkType)
+        }
+      } else {
+        this.refreshImages(this.previewData[steamDirectory][userId].apps[appId]);
+      }
       this.closeDetails();
     }
   }
