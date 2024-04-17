@@ -1,6 +1,8 @@
 @import 'mixins';
 
 :host {
+  --view-details-width: 0%;
+
   display: grid;
   overflow: auto;
 
@@ -10,7 +12,7 @@
   'gamesList details'
   'menu menu';
 
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: auto var(--view-details-width);
   grid-template-rows: auto 1fr auto;
 
 
@@ -22,7 +24,7 @@
       display:flex;
       align-items: center;
       justify-content: right;
-      .searchExceptions {
+      .searchGames {
         @include ngTextInputColor(input);
         @include ngTextInput();
         margin: 0.5em;

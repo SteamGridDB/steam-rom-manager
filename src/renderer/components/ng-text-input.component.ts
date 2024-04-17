@@ -11,6 +11,7 @@ import { escape } from 'glob';
                     #input
                     [attr.data-placeholder]="placeholder"
                     contenteditable="true"
+                    spellcheck="false"
                     (input)="this.writeValue($event.target.textContent, true)"
                     (keypress)="handleKeypress($event)"
                     (drag)="handleDragAndDrop($event)"

@@ -1,5 +1,7 @@
 <div class="upperMenu">
-  Upper Menu
+  <div class="search">
+    <ng-text-input class="searchGames" placeholder="Search Games" [(ngModel)]="filterValue"></ng-text-input>
+  </div>
 </div>
 <div class="gamesList">
   <ng-container *ngFor="let steamDir of vdfData | keys">
@@ -16,7 +18,9 @@
           </div>
           <div class="apps">
             <ng-container *ngFor="let shortcut of sortedShortcuts(vdfData[steamDir][steamUser].shortcuts.fileData.shortcuts)">
-              <div class="app" (click)="setCurrentShortcut(steamDir, steamUser, shortcut)" [class.currentShortcut]="shortcut==currentShortcut">
+              <div class="app" (click)="setCurrentShortcut(steamDir, steamUser, shortcut)" [class.currentShortcut]="shortcut==currentShortcut"
+              *ngIf="(shortcut.appname | fuzzyTest: filterValue)"
+              >
                 <span>{{shortcut.appname}}</span>
               </div>
             </ng-container>
@@ -26,8 +30,8 @@
     </div>
   </ng-container>
 </div>
-<div class="details">
-  <div class="infos" *ngIf="!!currentShortcut">
+<div class="details" *ngIf="!!currentShortcut">
+  <div class="infos">
     <div class="launch" (click)=launchTitle()>Launch Title</div>
     <div class="info">
       <div class="infoLabel">

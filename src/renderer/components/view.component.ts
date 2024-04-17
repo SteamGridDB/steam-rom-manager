@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, ElementRef, Renderer2, RendererStyleFlags2 } from '@angular/core';
 import { clipboard } from 'electron';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
@@ -38,6 +38,7 @@ export class ViewComponent implements OnDestroy {
   private currentShortcut: VDF_ShortcutsItem;
   private currentCats: string;
   private currentLaunch: string;
+  private filterValue: string = '';
   private currentArtwork: {[artworkType: string]: string} = {};
   private artworkSingDict: {[artworkType: string]: string} = artworkSingDict;
   constructor(
@@ -45,6 +46,8 @@ export class ViewComponent implements OnDestroy {
     private activatedRoute: ActivatedRoute,
     private loggerService: LoggerService,
     private parsersService: ParsersService,
+    private renderer: Renderer2,
+    private elementRef: ElementRef,
     private changeDetectionRef: ChangeDetectorRef
   ) {
 
@@ -55,6 +58,8 @@ export class ViewComponent implements OnDestroy {
   }
 
   async refreshGames() {
+    this.currentShortcut = null;
+    this.renderer.setStyle(this.elementRef.nativeElement, '--view-details-width', '0%', RendererStyleFlags2.DashCase);
     let knownSteamDirectories = this.parsersService.getKnownSteamDirectories();
     const vdfManager = new VDF_Manager();
     await vdfManager.prepare(knownSteamDirectories);
@@ -90,6 +95,7 @@ export class ViewComponent implements OnDestroy {
 
   private async setCurrentShortcut(steamDir: string, steamUser: string, shortcut: VDF_ShortcutsItem) {
     this.currentShortcut = shortcut;
+    this.renderer.setStyle(this.elementRef.nativeElement, '--view-details-width', '50%', RendererStyleFlags2.DashCase);
     const gridDir = this.vdfData[steamDir][steamUser].screenshots.gridDir;
     const shortAppId = generateShortAppId(shortcut.exe, shortcut.appname);
     for(let artworkType of artworkTypes) {
@@ -97,7 +103,7 @@ export class ViewComponent implements OnDestroy {
       this.currentArtwork[artworkType] = files.length ? url.encodeFile(files[0]) : require('../../assets/images/no-images.svg');
     }
     this.currentArtwork = _.clone(this.currentArtwork)
-    this.currentCats = this.currentShortcut.tags.join("\n")
+    this.currentCats = this.currentShortcut.tags.join(" ")
     this.currentLaunch = this.currentShortcut.LaunchOptions ? `${this.currentShortcut.exe} ${this.currentShortcut.LaunchOptions}` : this.currentShortcut.exe;
     this.changeDetectionRef.detectChanges()
   }
