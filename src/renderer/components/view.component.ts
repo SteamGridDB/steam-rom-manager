@@ -36,6 +36,7 @@ export class ViewComponent implements OnDestroy {
   private controllerData: UserData;
   private categoryData: UserData;
   private currentShortcut: VDF_ShortcutsItem;
+  private currentCats: string = "";
   private currentArtwork: {[artworkType: string]: string} = {};
   private artworkSingDict: {[artworkType: string]: string} = artworkSingDict;
   constructor(
@@ -76,6 +77,9 @@ export class ViewComponent implements OnDestroy {
     this.vdfData = vdfData;
     this.controllerData = controllerData;
     this.categoryData = categoryData;
+    //console.log("controllerData", controllerData)
+    //console.log("vdfData",this.vdfData)
+    //console.log("categoryData",this.categoryData)
     this.changeDetectionRef.detectChanges();
   }
 
@@ -92,6 +96,7 @@ export class ViewComponent implements OnDestroy {
       this.currentArtwork[artworkType] = files.length ? url.encodeFile(files[0]) : require('../../assets/images/no-images.svg');
     }
     this.currentArtwork = _.clone(this.currentArtwork)
+    this.currentCats = this.currentShortcut.tags.join("\n")
     this.changeDetectionRef.detectChanges()
   }
 

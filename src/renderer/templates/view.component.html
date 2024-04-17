@@ -45,6 +45,14 @@
         <span>{{currentShortcut.StartDir}}</span>
       </div>
     </div>
+    <div class="info">
+      <div class="infoLabel">
+        <span>CATEGORIES</span>
+      </div>
+      <div class="infoArea" (click)=toClipboard(currentCats)>
+        <span>{{currentCats}}</span>
+      </div>
+    </div>
   </div>
   <div class="artworks">
     <ng-container *ngFor="let artworkType of currentArtwork | keys">
