@@ -36,7 +36,8 @@ export class ViewComponent implements OnDestroy {
   private controllerData: UserData;
   private categoryData: UserData;
   private currentShortcut: VDF_ShortcutsItem;
-  private currentCats: string = "";
+  private currentCats: string;
+  private currentLaunch: string;
   private currentArtwork: {[artworkType: string]: string} = {};
   private artworkSingDict: {[artworkType: string]: string} = artworkSingDict;
   constructor(
@@ -97,6 +98,7 @@ export class ViewComponent implements OnDestroy {
     }
     this.currentArtwork = _.clone(this.currentArtwork)
     this.currentCats = this.currentShortcut.tags.join("\n")
+    this.currentLaunch = this.currentShortcut.LaunchOptions ? `${this.currentShortcut.exe} ${this.currentShortcut.LaunchOptions}` : this.currentShortcut.exe;
     this.changeDetectionRef.detectChanges()
   }
 
@@ -106,7 +108,7 @@ export class ViewComponent implements OnDestroy {
   }
 
   private launchTitle() {
-    exec(this.currentShortcut.exe, {cwd: this.currentShortcut.StartDir})
+    exec(this.currentLaunch, {cwd: this.currentShortcut.StartDir})
   }
 
   ngAfterViewInit() {
