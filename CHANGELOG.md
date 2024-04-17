@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.19
+### Added
+* Ability to search games on view games page
+### Fixed
+* Styling regression on "all artwork" view in non-EmuDeck themes
+* Titles with LaunchOptions not launching from View Games page
+
 ## 2.4.18
 ### Added
 * View Games page, ability to see what artwork and games are currently in steam without opening steam
