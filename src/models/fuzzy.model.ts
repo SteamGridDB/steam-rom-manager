@@ -48,6 +48,7 @@ export interface ParsedDataWithFuzzy {
     extractedAppId?: string, // Used by artwork only parsers
     launchOptions?: string, // Used by platform parsers
     startInDirectory?: string, //Used by manual parsers and apps the start in a different directory than the executable
+    appendArgsToExecutable?: boolean //Used by manual parsers
   }[],
   failed: string[]
 }

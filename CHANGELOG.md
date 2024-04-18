@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.20
+### Added
+* Ability to set `appendArgsToExecutable` from manual parser (resolves [issue 625](https://github.com/SteamGridDB/steam-rom-manager/issues/625))
+
 ## 2.4.19
 ### Added
 * Ability to search games on view games page

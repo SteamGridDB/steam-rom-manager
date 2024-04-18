@@ -221,7 +221,6 @@ export class FileParser {
           configurationTitle: config.configTitle,
           parserId: config.parserId,
           parserType: config.parserType,
-          appendArgsToExecutable: superType === parserInfo.ROMType ? config.executable.appendArgsToExecutable: false,
           shortcutPassthrough: config.executable.shortcutPassthrough,
           imageProviders: config.imageProviders,
           imageProviderAPIs: config.imageProviderAPIs,
@@ -263,14 +262,17 @@ export class FileParser {
 
           let executableLocation:string = undefined;
           let startInDir:string = undefined;
+          let appendArgsToExecutable:boolean = undefined;
 
           if (superType === parserInfo.ManualType) {
             executableLocation = data.success[j].filePath;
             startInDir = data.success[j].startInDirectory || path.dirname(executableLocation);
+            appendArgsToExecutable = data.success[j].appendArgsToExecutable;
           }
           else if(superType === parserInfo.ROMType) {
             executableLocation = config.executable.path || data.success[j].filePath;
             startInDir = config.startInDirectory || path.dirname(executableLocation);
+            appendArgsToExecutable = config.executable.appendArgsToExecutable;
           }
           else if(superType === parserInfo.PlatformType) {
             if(launcherMode) {
@@ -279,10 +281,12 @@ export class FileParser {
               executableLocation = data.success[j].filePath;
             }
             startInDir = data.success[j].startInDirectory || path.dirname(data.success[j].filePath);
+            appendArgsToExecutable = false;
           }
           else if(superType === parserInfo.ArtworkOnlyType) {
             executableLocation = data.success[j].extractedAppId;
             startInDir = '';
+            appendArgsToExecutable = false;
           }
 
           let newFile: ParsedUserConfigurationFile = {
@@ -291,6 +295,7 @@ export class FileParser {
             modifiedExecutableLocation: undefined,
             startInDirectory: startInDir||'',
             argumentString: undefined,
+            appendArgsToExecutable: appendArgsToExecutable,
             resolvedLocalImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
             resolvedDefaultImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
             defaultImage: Object.fromEntries(artworkTypes.map((artworkType: string) => [artworkType, undefined])),
@@ -412,7 +417,7 @@ export class FileParser {
     return new Promise((resolve, reject)=>{
       try{
         for(let j=0; j < parsedConfig.files.length; j++) {
-          if(config.executable.appendArgsToExecutable) {
+          if(parsedConfig.files[j].appendArgsToExecutable) {
             parsedConfig.files[j].modifiedExecutableLocation = `${parsedConfig.files[j].modifiedExecutableLocation} ${parsedConfig.files[j].argumentString}`;
             parsedConfig.files[j].argumentString = '';
           }

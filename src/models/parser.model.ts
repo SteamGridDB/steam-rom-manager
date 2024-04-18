@@ -15,6 +15,7 @@ export interface ParsedUserConfigurationFile extends StringMap {
   fuzzyTitle: string,
   finalTitle: string,
   argumentString: string,
+  appendArgsToExecutable: boolean,
   onlineImageQueries: string[],
   steamCategories: string[],
   imagePool: string,
@@ -40,7 +41,6 @@ export interface ParsedUserConfiguration {
   imageProviderAPIs: ImageProviderAPI,
   controllers: Controllers,
   steamDirectory: string,
-  appendArgsToExecutable: boolean,
   shortcutPassthrough: boolean,
   foundUserAccounts: userAccountData[],
   missingUserAccounts: string[],
@@ -70,7 +70,8 @@ export interface ParsedData {
     filePath?: string, // Used by ROM parsers and platform parsers in executable mode
     extractedAppId?: string // Used by artwork only parsers
     launchOptions?: string, // Used by platform parsers
-    startInDirectory?: string, //Used by manual parsers and apps the start in a different directory than the executable
+    startInDirectory?: string, //Used by manual parsers and apps that start in a different directory than the executable,
+    appendArgsToExecutable?: boolean //Used by manual parsers
   }[],
   failed: string[]
 }

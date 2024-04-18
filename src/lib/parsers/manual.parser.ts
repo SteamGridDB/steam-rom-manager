@@ -39,10 +39,21 @@ export class ManualParser implements GenericParser {
                         let jsonObj = fs.readJsonSync(filePath)
                         let keys = Object.keys(jsonObj)
                         if(typeof(jsonObj[keys[0]]) === 'string') {
-                          parsedData.success.push({ extractedTitle: jsonObj.title, filePath: jsonObj.target, startInDirectory: jsonObj.startIn, launchOptions: jsonObj.launchOptions });
+                          parsedData.success.push({ 
+                            extractedTitle: jsonObj.title, 
+                            filePath: jsonObj.target, startInDirectory: jsonObj.startIn, 
+                            launchOptions: jsonObj.launchOptions, 
+                            appendArgsToExecutable: !!jsonObj.appendArgsToExecutable
+                          });
                         } else if(typeof(jsonObj[keys[0]]) === 'object') {
                           for(let j = 0; j < keys.length; j++) {
-                            parsedData.success.push({ extractedTitle: jsonObj[keys[j]].title, filePath: jsonObj[keys[j]].target, startInDirectory: jsonObj[keys[j]].startIn, launchOptions: jsonObj[keys[j]].launchOptions })
+                            parsedData.success.push({
+                              extractedTitle: jsonObj[keys[j]].title,
+                              filePath: jsonObj[keys[j]].target,
+                              startInDirectory: jsonObj[keys[j]].startIn,
+                              launchOptions: jsonObj[keys[j]].launchOptions,
+                              appendArgsToExecutable: !!jsonObj[keys[j]].appendArgsToExecutable
+                            })
                           }
                         }
                     }
