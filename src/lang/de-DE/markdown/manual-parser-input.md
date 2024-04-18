@@ -14,28 +14,33 @@ Der Speicherort der json-Dateien, die du in Steam-Verknüpfungen umwandeln möch
 Die Namen der Dateien sind egal. Wichtig ist, dass jede `manifest.json` Datei entweder ein einzelner Titel ist, wie:
 ```json
 {
-    "title": "spielTitel",
-    "target": "Spiel/Pfad/Ziel.sh",
-    "startIn": "Spiel/Pfad",
-    "launchOptions": "--args"
+    "title": "gameTitle",
+    "target": "game/path/target.sh",
+    "startIn": "game/path",
+    "launchOptions": "--args",
+    "appendArgsToExecutable": false
 }
 ```
 Oder eine Liste von Titeln, wie diese:
 ```json
 [
   {
-    "title": "spielTItel",
-    "target": "Spiel/Pfad/Ziel.sh",
-    "startIn": "Spiel/Pfad",
-    "launchOptions": "--args"
+    "title": "gameTitle",
+    "target": "game/path/target.sh",
+    "startIn": "game/path",
+    "launchOptions": "--args".
+    "appendArgsToExecutable": true
   },
   {
-    "title": "spielTItel2",
-    "target": "Spiel2/Pfad/Ziel.sh",
-    "startIn": "Spiel2/Pfad",
-    "launchOptions": "--args2"
+    "title": "gameTitle2",
+    "target": "game2/path/target.sh",
+    "startIn": "game2/path",
+    "launchOptions": "--args2",
+    "appendArgsToExecutable": false
   }
 ]
 ```
 
 Ein typischer Anwendungsfall wäre die Verwendung einer einzigen json-Datei pro Spiel, pro Jahr usw.
+
+Just like for ROM parsers, `appendArgsToExecutable` determines whether `launchOptions` are appended to the shortcut `target` or appear separately as launch options in steam.
