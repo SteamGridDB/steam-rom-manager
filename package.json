@@ -165,7 +165,7 @@
     "mini-css-extract-plugin": "^2.7.5",
     "node-abi": "^3.40.0",
     "npm-check-updates": "^16.10.9",
-    "postcss": "^8.4.23",
+    "postcss": "^8.4.31",
     "postcss-loader": "^7.3.0",
     "rimraf": "^5.0.0",
     "sass": "^1.62.1",
