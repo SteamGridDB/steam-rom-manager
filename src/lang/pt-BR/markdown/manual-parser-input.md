@@ -17,7 +17,8 @@ Os nomes dos ficheiros não importam. O que importa é que cada arquivo de `mani
     "title": "gameTitle",
     "target": "game/path/target.sh",
     "startIn": "game/path",
-    "launchOptions": "--args"
+    "launchOptions": "--args",
+    "appendArgsToExecutable": false
 }
 ```
 Ou uma lista de títulos, assim:
@@ -25,17 +26,21 @@ Ou uma lista de títulos, assim:
 [
   {
     "title": "gameTitle",
-    "target": "game/path/targetet. h",
+    "target": "game/path/target.sh",
     "startIn": "game/path",
-    "launchOptions": "--args"
+    "launchOptions": "--args".
+    "appendArgsToExecutable": true
   },
   {
     "title": "gameTitle2",
-    "target": "game2/path/target. h",
+    "target": "game2/path/target.sh",
     "startIn": "game2/path",
-    "launchOptions": "--args2"
+    "launchOptions": "--args2",
+    "appendArgsToExecutable": false
   }
 ]
 ```
 
 Um caso típico de uso seria usar um único arquivo json por tipo de jogo, ou por ano, etc.
+
+Just like for ROM parsers, `appendArgsToExecutable` determines whether `launchOptions` are appended to the shortcut `target` or appear separately as launch options in steam.
