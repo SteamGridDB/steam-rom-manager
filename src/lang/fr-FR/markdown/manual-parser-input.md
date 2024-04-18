@@ -17,7 +17,8 @@ The names of the files do not matter. What does matter is that each `manifest.js
     "title": "gameTitle",
     "target": "game/path/target.sh",
     "startIn": "game/path",
-    "launchOptions": "--args"
+    "launchOptions": "--args",
+    "appendArgsToExecutable": false
 }
 ```
 Or a list of titles, like so:
@@ -27,15 +28,19 @@ Or a list of titles, like so:
     "title": "gameTitle",
     "target": "game/path/target.sh",
     "startIn": "game/path",
-    "launchOptions": "--args"
+    "launchOptions": "--args".
+    "appendArgsToExecutable": true
   },
   {
     "title": "gameTitle2",
     "target": "game2/path/target.sh",
     "startIn": "game2/path",
-    "launchOptions": "--args2"
+    "launchOptions": "--args2",
+    "appendArgsToExecutable": false
   }
 ]
 ```
 
 A typical use case would be to use a single json file per game type, or per year, etc.
+
+Just like for ROM parsers, `appendArgsToExecutable` determines whether `launchOptions` are appended to the shortcut `target` or appear separately as launch options in steam.
