@@ -124,8 +124,7 @@ export class ViewComponent implements OnDestroy {
           if(appTemplates.length && appTemplates[0].title) {
             this.currentControllers[controllerType] = {
               title: appTemplates[0].title,
-              mappingId: mappingId,
-              templateType: appController.template ? 'Template' : 'Workshop'
+              templatePath: appController.template ? path.join(ControllerManager.templatesValveDir(steamDir),mappingId) : path.join(ControllerManager.templatesUserDir(steamDir), mappingId)
             }
           }
         }

@@ -91,11 +91,11 @@
       <div class="infoLabel">
         <span>{{controllerType.toUpperCase()}}</span>
       </div>
-      <div class="infoArea">
+      <div class="infoArea" (click)=toClipboard(currentControllers[controllerType].title)>
         <span>{{currentControllers[controllerType].title}}</span>
       </div>
-      <div class="infoArea">
-        <span>{{currentControllers[controllerType].templateType}} ({{currentControllers[controllerType].mappingId}})</span>
+      <div class="infoArea" (click)=toClipboard(currentControllers[controllerType].templatePath)>
+        <span>{{currentControllers[controllerType].templatePath}}</span>
       </div>
     </div>
   </div>

@@ -64,9 +64,16 @@ export class ControllerManager {
     return list;
   }
 
+  static templatesUserDir(steamDirectory: string) {
+    return path.join(steamDirectory, 'steamapps', 'workshop', 'content', '241100')
+  }
+
+  static templatesValveDir(steamDirectory: string) {
+    return path.join(steamDirectory, 'controller_base','templates')
+  }
   // Manage Templates
   static readTemplates(steamDirectory: string, controllerType: string) {
-    let templateDirUser = path.join(steamDirectory, 'steamapps', 'workshop', 'content', '241100')
+    let templateDirUser = this.templatesUserDir(steamDirectory);
     let filesUser = glob.sync('*/*', { dot: true, cwd: templateDirUser, absolute: true });
     let parsedTemplatesUser: ControllerTemplate[] = filesUser.filter((f: string) => fs.lstatSync(f).isFile())
       .map((f: string) => Object.assign({ mappingId: f.split(path.sep).slice(-2)[0] }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
@@ -83,7 +90,7 @@ export class ControllerManager {
       }));
     parsedTemplatesUser.sort((a, b) => a.title.localeCompare(b.title));
 
-    let templateDirValve = path.join(steamDirectory, 'controller_base', 'templates')
+    let templateDirValve = this.templatesValveDir(steamDirectory);
     let filesValve = glob.sync('*.vdf', { dot: true, cwd: templateDirValve, absolute: true });
     let parsedTemplatesValve: ControllerTemplate[] = filesValve.map((f: string) => Object.assign({ mappingId: path.basename(f) }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
       .filter((x: any) => !!x['controller_mappings']
