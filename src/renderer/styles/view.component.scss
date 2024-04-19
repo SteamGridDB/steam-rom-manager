@@ -137,6 +137,15 @@
       @include clickButtonColor(click-button);
       margin-bottom: 16px;
     }
+    .section {
+      margin-top: 2em;
+      margin-bottom: 1em;
+      border-bottom: 0.1em solid;
+      border-bottom-color: var(--color-nested-form-label);
+      .sectionLabel {
+
+      }
+    }
     .infos {
       .info {
         .infoLabel {

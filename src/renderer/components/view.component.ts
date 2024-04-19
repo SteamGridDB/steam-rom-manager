@@ -12,8 +12,9 @@ import {
   ControllerManager,
   Acceptable_Error
 } from "../../lib";
+import { controllerNames, controllerTypes, enableDisplayNames } from '../../lib/controller-manager';
 import {artworkTypes, artworkIdDict, artworkDimsDict, artworkSingDict} from '../../lib/artwork-types';
-import { UserData, VDF_ListItem, VDF_ListData, VDF_ShortcutsItem } from "../../models";
+import { UserData, VDF_ListItem, VDF_ListData, VDF_ShortcutsItem, SteamInputEnabled } from "../../models";
 import { generateShortAppId } from '../../lib/helpers/steam';
 import path from "path";
 import fs from "fs-extra";
@@ -21,6 +22,8 @@ import _ from "lodash";
 import * as url from '../../lib/helpers/url';
 import { glob } from 'glob';
 import { exec } from "child_process";
+import { steam } from '../../systems-logos';
+import { title } from 'process';
 
 
 @Component({
@@ -38,9 +41,11 @@ export class ViewComponent implements OnDestroy {
   private currentShortcut: VDF_ShortcutsItem;
   private currentCats: string;
   private currentLaunch: string;
+  private currentControllerEnabled: string;
   private filterValue: string = '';
   private currentArtwork: {[artworkType: string]: string} = {};
   private artworkSingDict: {[artworkType: string]: string} = artworkSingDict;
+  private currentControllers:{[controllerType: string]: any} = {}
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -58,6 +63,7 @@ export class ViewComponent implements OnDestroy {
   }
 
   async refreshGames() {
+    this.loggerService.info('Reading Shortcuts, Categories, and Controllers', {invokeAlert: true, alertTimeout: 3000})
     this.currentShortcut = null;
     this.renderer.setStyle(this.elementRef.nativeElement, '--view-details-width', '0%', RendererStyleFlags2.DashCase);
     let knownSteamDirectories = this.parsersService.getKnownSteamDirectories();
@@ -77,15 +83,16 @@ export class ViewComponent implements OnDestroy {
           categoryData[steamDirectory][userId] = await categoryManager.readCategories(steamDirectory, userId);
         } catch (e) {}
         const configsetDir = ControllerManager.configsetDir(steamDirectory, userId);
-        controllerData[steamDirectory][userId] = controllerManager.readControllers(configsetDir);
+        const localConfigPath = ControllerManager.localConfigPath(steamDirectory, userId);
+        controllerData[steamDirectory][userId] = {
+          configsets: controllerManager.readControllers(configsetDir),
+          localConfig: controllerManager.readLocalConfig(localConfigPath),
+        }
       }
     }
     this.vdfData = vdfData;
     this.controllerData = controllerData;
     this.categoryData = categoryData;
-    //console.log("controllerData", controllerData)
-    //console.log("vdfData",this.vdfData)
-    //console.log("categoryData",this.categoryData)
     this.changeDetectionRef.detectChanges();
   }
 
@@ -105,6 +112,27 @@ export class ViewComponent implements OnDestroy {
     this.currentArtwork = _.clone(this.currentArtwork)
     this.currentCats = this.currentShortcut.tags.join(" ")
     this.currentLaunch = this.currentShortcut.LaunchOptions ? `${this.currentShortcut.exe} ${this.currentShortcut.LaunchOptions}` : this.currentShortcut.exe;
+    this.currentControllers = {};
+    for(let controllerType of controllerTypes) {
+      const configset = this.controllerData[steamDir][steamUser].configsets[controllerType]
+      if(configset) {
+        const appController = configset.controller_config[ControllerManager.transformTitle(this.currentShortcut.appname)];
+        if(appController && (appController.template || appController.workshop)) {
+          const templates = ControllerManager.readTemplates(steamDir, controllerType);
+          const mappingId = appController.template || appController.workshop;
+          const appTemplates = Object.values(templates).filter(x=>x.mappingId==mappingId);
+          if(appTemplates.length && appTemplates[0].title) {
+            this.currentControllers[controllerType] = {
+              title: appTemplates[0].title,
+              mappingId: mappingId,
+              templateType: appController.template ? 'Template' : 'Workshop'
+            }
+          }
+        }
+      }
+    }
+    let enabled: SteamInputEnabled = (this.controllerData[steamDir][steamUser].localConfig.UserLocalConfigStore.apps[this.currentShortcut.appid]||{}).UseSteamControllerConfig||"1";
+    this.currentControllerEnabled = enableDisplayNames[enabled];
     this.changeDetectionRef.detectChanges()
   }
 

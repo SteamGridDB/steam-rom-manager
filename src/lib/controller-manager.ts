@@ -7,7 +7,7 @@ import * as os from 'os';
 import * as _ from 'lodash';
 import * as glob from 'glob';
 import * as json from './helpers/json'
-import { PreviewData, PreviewDataUser, VDF_ExtraneousItemsData, Controllers, ControllerTemplate } from '../models';
+import { PreviewData, PreviewDataUser, VDF_ExtraneousItemsData, Controllers, ControllerTemplate, SteamInputEnabled } from '../models';
 import { Acceptable_Error } from './acceptable-error';
 
 export const controllerTypes = [
@@ -29,6 +29,12 @@ export const controllerNames = {
   switch_joycon_right: 'Switch Joy-Con (Right)',
   switch_pro: 'Switch Pro',
   neptune: 'Steam Deck'
+}
+
+export const enableDisplayNames: Record<SteamInputEnabled, string> = {
+  ["0"]: "Disabled",
+  ["1"]: "Use default settings",
+  ["2"]: "Enabled"
 }
 
 const match = '(SRM)';
@@ -244,18 +250,19 @@ export class ControllerManager {
   private writeLocalConfig(localConfigPath: string, localConfig: any) {
     fs.writeFileSync(localConfigPath, genericParser.stringify(localConfig));
   }
-  private readLocalConfig(localConfigPath: string): any {
-    let localConfig = genericParser.parse(fs.readFileSync(localConfigPath,'utf-8')) || {};
-    if(!localConfig[localTopKey]) {
-      localConfig[localTopKey] = { apps: [] }
-    }
-    return localConfig;
-  }
+
   private backupLocalConfig(localConfigPath: string) {
     let bkPath = localConfigPath + '.backup';
     if(fs.existsSync(localConfigPath)) {
       fs.copyFileSync(localConfigPath, bkPath)
     }
+  }
+  readLocalConfig(localConfigPath: string): any {
+    let localConfig = genericParser.parse(fs.readFileSync(localConfigPath,'utf-8')) || {};
+    if(!localConfig[localTopKey]) {
+      localConfig[localTopKey] = { apps: [] }
+    }
+    return localConfig;
   }
   writeControllersEnabled(user: { userId: string, steamDirectory: string, userData: PreviewDataUser }, extraneousAppIds: string[]) {
     let localConfigPath = ControllerManager.localConfigPath(user.steamDirectory,user.userId);

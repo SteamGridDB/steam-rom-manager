@@ -31,8 +31,12 @@
   </ng-container>
 </div>
 <div class="details" *ngIf="!!currentShortcut">
+
   <div class="infos">
-    <div class="launch" (click)=launchTitle()>Launch Title</div>
+    <div class="launch" (click)=launchTitle()>LAUNCH TITLE</div>
+    <div class="section">
+      <span class="sectionLabel">SHORTCUT INFO</span>
+    </div>
     <div class="info">
       <div class="infoLabel">
         <span>FULL SHORTCUT</span>
@@ -58,6 +62,9 @@
       </div>
     </div>
   </div>
+  <div class="section">
+    <span class="sectionLabel">ARTWORK</span>
+  </div>
   <div class="artworks">
     <ng-container *ngFor="let artworkType of currentArtwork | keys">
       <div class= "artworkContainer">
@@ -67,6 +74,30 @@
         <img [src]="currentArtwork[artworkType]" class="artwork"/>
       </div>
     </ng-container>
+  </div>
+  <div class="section">
+    <span class="sectionLabel">CONTROLLERS</span>
+  </div>
+  <div class="infos">
+    <div class="info">
+      <div class="infoLabel">
+        <span>ENABLE STEAM INPUT</span>
+      </div>
+      <div class="infoArea">
+        <span>{{currentControllerEnabled}}</span>
+      </div>
+    </div>
+    <div class="info" *ngFor="let controllerType of currentControllers | keys">
+      <div class="infoLabel">
+        <span>{{controllerType.toUpperCase()}}</span>
+      </div>
+      <div class="infoArea">
+        <span>{{currentControllers[controllerType].title}}</span>
+      </div>
+      <div class="infoArea">
+        <span>{{currentControllers[controllerType].templateType}} ({{currentControllers[controllerType].mappingId}})</span>
+      </div>
+    </div>
   </div>
 </div>
 <div class="menu">
