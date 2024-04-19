@@ -1,5 +1,5 @@
 import { Controllers } from './controllers.model';
-import { StringMap, ParserType } from './parser.model';
+import { StringMap, ParserType, SteamInputEnabled } from './parser.model';
 
 export interface ImageProviderAPI {
   [imageProvider: string]: {
@@ -40,6 +40,7 @@ export interface UserConfiguration {
     replaceDiacritics: boolean
   },
   controllers: Controllers,
+  steamInputEnabled: SteamInputEnabled,
   onlineImageQueries: string,
   imageProviders: string[],
   imageProviderAPIs: ImageProviderAPI,

@@ -30,3 +30,8 @@ export function shortenAppId(longId: string) {
 export function lengthenAppId(shortId: string) {
   return String(BigInt(shortId) << BigInt(32) | BigInt(0x02000000));
 }
+
+// Convert from AppId to ShortcutAppId
+export function shortcutifyAppId(longId: string) {
+  return Number(shortenAppId(longId)) >> 32
+}

@@ -370,6 +370,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               onClickMethod: this.removeControllers.bind(this),
               isHidden: () => this.isHiddenIfArtworkOnlyParser()
             }),
+              steamInputEnabled: new NestedFormElement.Select({
+                isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+                label: "Enable Steam Input",
+                placeholder: "Use default settings",
+                values: [{value: '0', displayValue: 'Disabled'},{value: '1', displayValue: 'Use default settings'},{value: '2', displayValue: 'Enabled'}]
+              }),
               controllers: new NestedFormElement.Group({
                 children: (() => {
                   let children: {[k: string]: any} = {};

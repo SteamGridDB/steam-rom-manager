@@ -615,6 +615,7 @@ export class PreviewService {
                 argumentString: file.argumentString,
                 title: file.finalTitle,
                 extractedTitle: file.extractedTitle,
+                steamInputEnabled: config.steamInputEnabled,
                 controllers: config.controllers,
                 images: images,
                 executableLocation

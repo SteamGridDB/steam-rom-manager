@@ -103,6 +103,7 @@ export class ParsersService {
               removeControllers(steamDir: string, userId: string, parserId?: string) {
                 const controllerManager: ControllerManager = new ControllerManager();
                 controllerManager.removeAllControllersAndWrite(steamDir, userId, parserId);
+                controllerManager.removeAllControllersEnabledAndWrite(steamDir, userId, parserId);
               }
 
               parseSteamDir(steamDirInput: string) {
@@ -115,7 +116,10 @@ export class ParsersService {
               parseUserAccounts(accountsInfo: UserAccountsInfo, steamDir: string) {
                 return new Promise<string[]>((resolve, reject)=>{
                   let preParser = new VariableParser({ left: '${', right: '}' });
-                  let accountList = preParser.setInput(accountsInfo.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
+                  let specifiedAccounts = preParser.setInput(accountsInfo.specifiedAccounts).parse() ? preParser.replaceVariables((variable)=>{
+                    return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables, this.appSettings).trim();
+                  }): null;
+                  let accountList = preParser.setInput(specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
                   steam.getAvailableLogins(steamDir).then((data)=>{
                     data=data.filter(x=>fs.existsSync(path.join(steamDir,'userdata',x.accountID)));
                     if(accountList.length) {

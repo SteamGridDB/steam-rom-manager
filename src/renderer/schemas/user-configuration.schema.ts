@@ -131,6 +131,7 @@ const sharedProperties = {
         replaceDiacritics: { type: 'boolean', default: true }
       }
     },
+    steamInputEnabled: { type: 'string', default: '1', enum: ['0','1','2'] },
     controllers: {
       type: 'object',
       default: {},

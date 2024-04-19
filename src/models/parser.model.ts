@@ -40,6 +40,7 @@ export interface ParsedUserConfiguration {
   imageProviders: string[],
   imageProviderAPIs: ImageProviderAPI,
   controllers: Controllers,
+  steamInputEnabled: SteamInputEnabled,
   steamDirectory: string,
   shortcutPassthrough: boolean,
   foundUserAccounts: userAccountData[],
@@ -108,7 +109,8 @@ export type PathVariables = (typeof pathVariables)[number];
 export type ParserVariables = (typeof parserVariables)[number];
 export type EnvironmentVariables = (typeof environmentVariables)[number];
 
-
+const steamInputEnabled = StringLiteralArray(['0','1','2']) // 0 disabled, 1 global settings, 2 enabled
+export type SteamInputEnabled = (typeof steamInputEnabled)[number];
 
 
 export type ParserType = 'Glob' | 'Glob-regex' | 'Manual' | 'Amazon Games' | 'Epic' | 'Legendary' | 'GOG Galaxy' | 'itch.io' | 'Steam' | 'UPlay' | 'UWP' | 'EA Desktop';
