@@ -53,6 +53,7 @@ export class ConfigurationPresetsService {
         .then((presetsHashes) => {
           const appVersion: string = APP.version || '';
           let downloadURL: string;
+          // change this to work as a version range
           if(presetsHashes && presetsHashes[appVersion]) {
             const commit = presetsHashes[appVersion].commit;
             downloadURL = this.treesURL.concat(commit).concat('?recursive=1')

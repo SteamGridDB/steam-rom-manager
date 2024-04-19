@@ -6,6 +6,17 @@ mage"\:\ \"\"\,\n\"defaultIcon\"\:\ \"\"\,/g' {} \;
 2) in VIM:
 :args . | argdo execute "normal gg=G" | update
 
+
+That was the old method!
+
+New method:
+
+
+1) Make a modifier in `src/renderer/modifiers/config-presets.modifier.ts` to make the desired change to the preset files
+2) Add the current app version and current app commit (or any commit before presets change) to `files/presetsHashes.json`
+3) Run `npm run update-files` and ensure the new presets validate (validation comes from the user-configuration schema)
+4) Commit changes and `git push`
+
 # Fixes
 Remove close steam if open warning and replace with something better
 Steam parser only works for steam apps that are in a category

@@ -17,7 +17,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const configPreset: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'presetVersion',
-  latestVersion: 7,
+  latestVersion: 8,
   fields: {
     undefined: {
       'presetVersion': { method: ()=>0 },
@@ -147,6 +147,14 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
           delete oldValue.skipWithMissingDataDir;
           delete oldValue.useCredentials;
           return oldValue;
+        }
+      }
+    },
+    7: {
+      'presetVersion': { method: versionUp },
+      'steamInputEnabled':{
+        method: (oldValue, oldConfiguration) => {
+          return oldValue || '1';
         }
       }
     }
