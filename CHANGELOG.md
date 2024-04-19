@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Ability to Enable/Disable steam input per parser ([a much requested feature](https://github.com/SteamGridDB/steam-rom-manager/issues/562))
 * Ability to set `appendArgsToExecutable` from manual parser (resolves [issue 625](https://github.com/SteamGridDB/steam-rom-manager/issues/625))
-
+* Controller Template information on View Games page.
 ### Fixed
 * Create `grid` directory in Steam if it does not already exist (resolves [issue 600](https://github.com/SteamGridDB/steam-rom-manager/issues/600))
 
