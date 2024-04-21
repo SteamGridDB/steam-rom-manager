@@ -24,14 +24,16 @@ import {
   ErrorData, AppSelection,
   AppSelectionImages,
   AppSelectionImage,
-  UserConfiguration
+  UserConfiguration,
+  SGDBToArt
 } from '../../models';
 import {
   VDF_Manager,
   VDF_Error,
   CategoryManager,
   ControllerManager,
-  Acceptable_Error
+  Acceptable_Error,
+  ArtworkCache
 } from "../../lib";
 import { APP } from '../../variables';
 import { queue } from 'async';
@@ -56,10 +58,11 @@ export class PreviewService {
   private previewData: PreviewData;
   private previewVariables: PreviewVariables;
   private previewDataChanged: Subject<void>;
-  private appImages: {[artworkType: string]: AppImages};
+  private appImages: AppImages;
   private currentImageType: string;
   private batchProgress: BehaviorSubject<{update: string, batch: number}>;
   private categoryManager: CategoryManager;
+  private sgdbToArt: SGDBToArt; 
   constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private settingsService: SettingsService, private http: HttpClient) {
     this.previewData = undefined;
     this.previewVariables = {
@@ -437,15 +440,17 @@ export class PreviewService {
     }
   }
 
-  private generatePreviewDataCallback() {
+  private async generatePreviewDataCallback() {
     if (this.previewVariables.numberOfQueriedImages !== 0) {
       setTimeout(this.generatePreviewDataCallback.bind(this), 100);
     }
     else {
       let oldPreviewData = this.previewData;
       this.previewData = undefined;
+      let previewData;
       this.loggerService.info(this.lang.info.executingParsers, { invokeAlert: true });
-      this.parsersService.executeFileParser().then((data) => {
+      try {
+        let data = await this.parsersService.executeFileParser();
         if (data.skipped.length > 0) {
           this.loggerService.info(this.lang.info.disabledConfigurations__i.interpolate({
             count: data.skipped.length
@@ -470,7 +475,7 @@ export class PreviewService {
           }
           else {
             this.loggerService.info(this.lang.info.shutdownSteam, { invokeAlert: true, alertTimeout: 3000 });
-            return this.createPreviewData(data.parsedData.parsedConfigs, oldPreviewData);
+            previewData = await this.createPreviewData(data.parsedData.parsedConfigs, oldPreviewData);
           }
         }
         else if (data.invalid.length === 0 && data.skipped.length === 0) {
@@ -479,10 +484,10 @@ export class PreviewService {
           else
             this.loggerService.info(this.lang.info.parserFoundNoFiles, { invokeAlert: true, alertTimeout: 3000 });
         }
-      }).then((previewData) => {
         if (previewData && previewData.numberOfItems > 0) {
           this.previewData = previewData.data;
           this.previewVariables.numberOfListItems = previewData.numberOfItems;
+          await this.readArtworkCache();
           for(const artworkType of artworkTypes) {
             this.downloadImageUrls(artworkType)
           }
@@ -494,29 +499,33 @@ export class PreviewService {
         this.previewVariables.listIsBeingGenerated = false;
         this.previewVariables.listHasGenerated = true;
         this.previewDataChanged.next();
-      }).catch((error) => {
+      } catch (error) {
         this.loggerService.error(this.lang.errors.fatalError, { invokeAlert: true, alertTimeout: 3000 });
         this.loggerService.error(error);
         this.previewVariables.listIsBeingGenerated = false;
         this.previewVariables.listHasGenerated = true;
         this.previewDataChanged.next();
-      });
+      };
     }
   }
 
-  private createPreviewData(data: ParsedUserConfiguration[], oldData?: PreviewData) {
-    return Promise.resolve().then(() => {
-      let steamTreeData = steam.generateTreeFromParsedConfig(data);
+  private async readArtworkCache() {
+    const artworkCache = new ArtworkCache();
+    await artworkCache.read();
+    this.sgdbToArt = artworkCache.sgdbToArt;
+  }
 
+  private async createPreviewData(data: ParsedUserConfiguration[], oldData?: PreviewData) {
+      let steamTreeData = steam.generateTreeFromParsedConfig(data);
+      let treeData: {gridData: SteamTree<any>, steamTreeData: SteamTree<any>};
       if (this.appSettings.previewSettings.retrieveCurrentSteamImages)
-        return steam.getGridImagesForTree(steamTreeData).then((gridData) => { return { gridData, steamTreeData } });
+        treeData = await steam.getGridImagesForTree(steamTreeData).then((gridData) => { return { gridData, steamTreeData } });
       else
-        return { gridData: steamTreeData, steamTreeData };
-    }).then((treeData) => {
-      return steam.getNonSteamShortcutsData(treeData.steamTreeData).then((shortcutData) => { return Object.assign(treeData, { shortcutData }); });
-    }).then((treeData) => {
-      let shortcutsData = treeData.shortcutData.tree;
-      let gridData = treeData.gridData.tree;
+        treeData = { gridData: steamTreeData, steamTreeData };
+
+      let nonSteamShortcutsData = await steam.getNonSteamShortcutsData(treeData.steamTreeData).then((shortcutData) => { return Object.assign(treeData, { shortcutData }); });
+      let shortcutsData = nonSteamShortcutsData.shortcutData.tree;
+      let gridData = nonSteamShortcutsData.gridData.tree;
       let numberOfItems: number = 0;
       let previewData: PreviewData = {};
 
@@ -639,7 +648,6 @@ export class PreviewService {
         }
       }
       return { numberOfItems: numberOfItems, data: previewData };
-    });
   }
 
   downloadImageUrls(imageType: string, imageKeys?: string[], imageProviders?: string[]) {
@@ -697,10 +705,13 @@ export class PreviewService {
                   break;
                   case 'image':
                     imageQueue.push(null, () => {
-                    let newImage = this.addUniqueImage(imageKeys[i], (data as ProviderCallbackEventMap['image']).content, imageType);
-                    if (newImage !== null && this.appSettings.previewSettings.preload)
+                    let imageContent = (data as ProviderCallbackEventMap['image']).content;
+                    const imageArtCache = (this.sgdbToArt[imageType]||{})[imageContent.imageGameId]
+                    const preinsertImage = imageArtCache && imageArtCache.artworkId == imageContent.imageArtworkId;
+                    let newImage: ImageContent = this.addUniqueImage(imageKeys[i], imageContent, imageType, preinsertImage);
+                    if (newImage !== null && this.appSettings.previewSettings.preload) {
                       this.preloadImage(newImage);
-
+                    }
                     this.previewDataChanged.next();
                   });
                   break;
@@ -727,6 +738,7 @@ export class PreviewService {
       if (allImagesRetrieved) {
         this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
       }
+
     }
     else
       this.previewDataChanged.next();
@@ -736,10 +748,16 @@ export class PreviewService {
     return this.appImages[imageType][imageKey].content.findIndex((item) => item.imageUrl === imageUrl) === -1;
   }
 
-  addUniqueImage(imageKey: string, content: ImageContent, imageType: string) {
+  addUniqueImage(imageKey: string, content: ImageContent, imageType: string, preinsert?: boolean) {
     if (this.isImageUnique(imageKey, content.imageUrl, imageType)) {
-      this.appImages[imageType][imageKey].content.push(content);
-      return this.appImages[imageType][imageKey].content[this.appImages[imageType][imageKey].content.length - 1];
+      if(preinsert) {
+        this.appImages[imageType][imageKey].content.unshift(content);
+        return this.appImages[imageType][imageKey].content[0];
+      } else {
+        this.appImages[imageType][imageKey].content.push(content);
+        return this.appImages[imageType][imageKey].content[this.appImages[imageType][imageKey].content.length - 1];
+      }
+
     }
     return null;
   }
@@ -794,8 +812,9 @@ export class PreviewService {
                 images: {}
               }
               for(const artworkType of artworkTypes) {
-                if(appImage.getCurrentImage(app.images[artworkType], this.appImages[artworkType])) {
-                  const imageUrl = appImage.getCurrentImage(app.images[artworkType], this.appImages[artworkType]).imageUrl;
+                const currentImage = appImage.getCurrentImage(app.images[artworkType], this.appImages[artworkType]);
+                if(currentImage) {
+                  const imageUrl = currentImage.imageUrl;
                   const nintendoSucks = imageUrl.slice(-1) == '?';
                   if(!nintendoSucks) {
                     selection.images[artworkType] = {

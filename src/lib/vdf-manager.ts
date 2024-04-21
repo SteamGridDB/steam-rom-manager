@@ -20,9 +20,16 @@ import * as _ from 'lodash';
 import * as path from 'path';
 import { merge, Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import { ArtworkCache } from ".";
+
 
 export class VDF_Manager {
   private data: VDF_ListData = {};
+  private artworkCache: ArtworkCache;
+
+  constructor() {
+    this.artworkCache = new ArtworkCache();
+  }
 
   private get lang() {
     return APP.lang.vdfManager;
@@ -112,6 +119,7 @@ export class VDF_Manager {
       let skipIndexing = _.get(options, 'shortcuts.skipIndexing', false);
       let readAddedItems = _.get(options, 'addedItems', true);
       let readScreenshots = _.get(options, 'screenshots', true);
+      
 
       for (let steamDirectory in this.data) {
         for (let userId in this.data[steamDirectory]) {
@@ -123,8 +131,8 @@ export class VDF_Manager {
             promises.push(this.data[steamDirectory][userId].screenshots.read());
         }
       }
-
       Promise.all(promises)
+      .then(() => this.artworkCache.read())
       .then(()=>resolve())
       .catch((error) => {
         reject(this.lang.error.couldNotReadEntries__i.interpolate({ error }));
@@ -132,7 +140,7 @@ export class VDF_Manager {
     })
   }
 
-  write(batch: boolean, batchSize?: number, options?: { shortcuts?: boolean, addedItems?: boolean, screenshots?: boolean }) {
+  write(batch: boolean, batchSize?: number, options?: { shortcuts?: boolean, addedItems?: boolean, screenshots?: boolean}) {
     return new Promise<{nonFatal: VDF_Error, outcomes: VDF_AllScreenshotsOutcomes}>((resolve,reject)=>{
       let shortcutPromises: Promise<void>[] = [];
       let addedItemsPromises: Promise<void>[] = [];
@@ -158,8 +166,8 @@ export class VDF_Manager {
           }
         }
       }
-
-      Promise.all(shortcutPromises)
+      this.artworkCache.write()
+      .then(()=>Promise.all(shortcutPromises))
       .then(()=>Promise.all(addedItemsPromises))
       .then(()=>Promise.all(screenshotPromises))
       .then((errors: VDF_Error[]) => {
@@ -168,7 +176,7 @@ export class VDF_Manager {
           nonFatal: realErrors.length ? new VDF_Error(realErrors, this.lang.error.nonFatal, true) : undefined,
           outcomes: screenshotsOutcomes
         })
-      }).catch((error)=>{
+      }).catch((error: any)=>{
         reject(new VDF_Error(error, this.lang.error.couldNotWriteEntries));
       })
     });
@@ -182,7 +190,7 @@ export class VDF_Manager {
     }
   }
 
-  mergeData(previewData: PreviewData, images: {[artworkType: string]: AppImages}, deleteDisabledShortcuts: boolean) {
+  mergeData(previewData: PreviewData, images: AppImages, deleteDisabledShortcuts: boolean) {
     return new Promise<{extraneousAppIds: VDF_ExtraneousItemsData, addedCategories: VDF_AddedCategoriesData}>((resolve, reject) => {
       Promise.resolve().then(()=>{
         let extraneousAppIds: VDF_ExtraneousItemsData = {};
@@ -238,6 +246,10 @@ export class VDF_Manager {
                     url: currentImage.imageUrl
                   });
                 }
+                // artwork Cache is shared across steam users and steam directories
+                if(currentImage !== undefined && currentImage.imageProvider == 'SteamGridDB') {
+                  this.artworkCache.cacheArtwork(currentImage.imageGameId, currentImage.imageArtworkId, appId, artworkType)
+                }
                 // special handling for icon path being added to shortcuts.vdf
                 if(artworkType === 'icon') {
                   let icon_path: string = "";
@@ -248,7 +260,7 @@ export class VDF_Manager {
                   }
                   if (!artworkOnly && item !== undefined) {
                     item.appid = steam.generateShortcutId(app.executableLocation, app.title),
-                      item.appname = app.title;
+                    item.appname = app.title;
                     item.exe = app.executableLocation;
                     item.StartDir = app.startInDirectory;
                     item.LaunchOptions = app.argumentString;

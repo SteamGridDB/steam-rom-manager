@@ -10,6 +10,7 @@ export * from './language-manager';
 export * from './vdf-shortcuts-file';
 export * from './vdf-screenshots-file';
 export * from './vdf-added-items-file';
+export * from './artwork-cache';
 export * from './vdf-error';
 export * from './acceptable-error';
 export * from './file-selector';

@@ -3,7 +3,7 @@ import { getMaxLength } from "./get-max-length";
 import { setImageIndex } from "./set-image-index";
 
 
-export function getCurrentImage(data: PreviewDataAppImage, images: AppImages) {
+export function getCurrentImage(data: PreviewDataAppImage, images: AppImages[string]) {
   let imagesLength = images[data.imagePool] !== undefined ? images[data.imagePool].content.length : 0;
   let length = getMaxLength(data, images);
   if (data.imageIndex !== 0 && data.imageIndex >= length)

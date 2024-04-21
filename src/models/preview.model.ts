@@ -6,9 +6,11 @@ import { ParserType, SteamInputEnabled } from "./parser.model";
 export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
 
 export interface ImageContent {
-    imageProvider: 'SteamGridDB' | 'GoogleImages' | 'Steam' | 'LocalStorage',
+    imageProvider: 'SteamGridDB' | 'Steam' | 'LocalStorage',
     imageUploader?: string,
     imageRes?: string,
+    imageGameId?: string, // sgdb game id
+    imageArtworkId?: string, // sgdb artwork id
     imageUrl: string,
     loadStatus: ImageDownloadStatus
 };
@@ -22,7 +24,9 @@ export interface ImagesStatusAndContent {
 }
 
 export interface AppImages {
-    [extractedTitle: string]: ImagesStatusAndContent
+    [artworkType: string]: {
+        [imagePool: string]: ImagesStatusAndContent
+    }
 };
 
 export interface PreviewDataAppImage {
@@ -36,6 +40,7 @@ export interface PreviewDataAppImage {
 export interface PreviewDataApp {
     entryId: number,
     changedId?: string,
+    sgdbId?: string,
     status: 'add' | 'skip' | 'remove',
     configurationTitle: string,
     parserId: string,

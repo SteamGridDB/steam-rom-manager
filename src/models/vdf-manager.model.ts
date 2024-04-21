@@ -3,7 +3,7 @@ import { VDF_ScreenshotsFile, VDF_ShortcutsFile, VDF_AddedItemsFile, VDF_Error }
 export interface VDF_ListItem {
   shortcuts: VDF_ShortcutsFile,
   screenshots: VDF_ScreenshotsFile,
-  addedItems: VDF_AddedItemsFile
+  addedItems: VDF_AddedItemsFile,
 }
 
 export interface VDF_ListData {
@@ -53,6 +53,20 @@ export interface VDF_AddedItemsData {
       categories: string[]
     } | undefined
   }
+}
+
+export interface SGDBToArt {
+  [artworkType: string]: {
+    [sgdbId: string]: {
+      artworkId: string,
+      appId: string
+    }
+  }
+}
+
+export interface ArtworkCacheData {
+  version?: number,
+  sgdbToArt: SGDBToArt
 }
 
 export interface VDF_ExtraneousItemsData {

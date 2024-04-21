@@ -34,6 +34,7 @@ export class SteamGridDbProvider extends GenericProvider {
 
   retrieveUrls() {
     let self = this;
+    let imageGameId: string;
     this.xrw.promise = new Promise<void>((resolve) => {
       let idPromise: Promise<number> = null;
       if(idRegex.test(self.proxy.title)) {
@@ -49,6 +50,7 @@ export class SteamGridDbProvider extends GenericProvider {
           self.proxy.completed();
           resolve();
         } else {
+          imageGameId = String(chosenId);
           let query: Promise<any>;
           let params = {
             id: chosenId,
@@ -89,6 +91,8 @@ export class SteamGridDbProvider extends GenericProvider {
             self.proxy.image({
               imageProvider: 'SteamGridDB',
               imageUrl: res[i].url,
+              imageGameId: imageGameId,
+              imageArtworkId: String(res[i].id),
               imageUploader: res[i].author.name,
               loadStatus: 'notStarted'
             });

@@ -17,6 +17,7 @@ export const userConfigurations: string = path.join(userDataDir, 'userConfigurat
 export const controllerTemplates: string = path.join(userDataDir, 'controllerTemplates.json');
 export const devThemePath: string = './renderer/styles/themes.global.scss';
 export const savedListFilename: string = 'addedItemsV2.json';
+export const imageCacheFilename: string = 'artworkCache.json';
 export const fuzzyList: string = path.join(userDataDir, 'fuzzyList.json');
 export const fuzzyCache: string = path.join(userDataDir, 'fuzzyCache.json');
 export const customVariables: string = path.join(userDataDir, 'customVariables.json');

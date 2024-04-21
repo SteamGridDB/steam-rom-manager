@@ -69,7 +69,7 @@ export class ViewComponent implements OnDestroy {
     let knownSteamDirectories = this.parsersService.getKnownSteamDirectories();
     const vdfManager = new VDF_Manager();
     await vdfManager.prepare(knownSteamDirectories);
-    await vdfManager.read();
+    await vdfManager.read({ addedItems: false });
     const vdfData = vdfManager.vdfData;
     const categoryManager = new CategoryManager();
     let categoryData: {[steamDirectory:string]: {[userId:string]: any}} = {};
