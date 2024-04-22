@@ -47,7 +47,6 @@ import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as FileSaver from 'file-saver';
 import * as path from "path";
-import { getMaxLength } from "../../lib/helpers/app-image/get-max-length";
 import { OpenDialogReturnValue } from 'electron';
 import { dialog } from '@electron/remote';
 
@@ -391,10 +390,9 @@ export class PreviewService {
       if (!ignoreCurrentType && this.currentImageType!="games") {
         imageType = this.currentImageType;
       }
-      return appImage.getMaxLength(app.images[imageType], this.appImages[imageType])
+      return appImage.getMaxLength(app.images[imageType], this.appImages[imageType]).maxLength;
     }
-    else
-      return 0;
+    return 0;
   }
 
   getCurrentImage(app: PreviewDataApp, imageType?: string) {
@@ -607,6 +605,14 @@ export class PreviewService {
                     imageRes: url.imageDimensions(file.defaultImage[artworkType]),
                     loadStatus: 'done'
                   } : undefined,
+                  local: _.uniq(file.localImages[artworkType]).map((localUrl: string) => {
+                    return {
+                      imageProvider: 'LocalStorage',
+                      imageUrl: localUrl,
+                      imageRes: url.imageDimensions(localUrl),
+                      loadStatus: 'done'
+                    }
+                  }),
                   imagePool: file.imagePool,
                   imageIndex: 0
                 }
@@ -634,6 +640,7 @@ export class PreviewService {
               let currentCategories = previewData[config.steamDirectory][userAccount.accountID].apps[appID].steamCategories;
               previewData[config.steamDirectory][userAccount.accountID].apps[appID].steamCategories = _.union(currentCategories, file.steamCategories);
             }
+            /*
             for(const artworkType of artworkTypes) {
               for (let l = 0; l < file.localImages[artworkType].length; l++) {
                 this.addUniqueImage(file.imagePool, {
@@ -643,7 +650,7 @@ export class PreviewService {
                   loadStatus: 'done'
                 }, artworkType)
               }
-            }
+            }*/
           }
         }
       }

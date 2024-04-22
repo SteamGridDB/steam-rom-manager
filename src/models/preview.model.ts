@@ -32,6 +32,7 @@ export interface AppImages {
 export interface PreviewDataAppImage {
     steam: ImageContent,    // 0? index
     default: ImageContent,  // 0-1? index
+    local: ImageContent[],
     imagePool: string,      // 0-2+ index
     imageIndex: number
 }

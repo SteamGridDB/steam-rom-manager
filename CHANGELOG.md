@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.21
+### Added
+* SRM now remembers your sgdb artwork choices (caching sgdbId -> artworkId). It will remember these choices even if you delete your `config/grids` folder or if you change a game's app id.
+* Artwork choices are stored in SRM's config directory under `artworkCache.json`. Moving this file to a new SRM install will instantly reproduce your artwork choices.
+
+### Changed
+* SRM will now always list artwork in the same order: First whatever is currently in steam if available, then local artwork if available, then the cached sgdb image if available, then other sgdb images.
+:q
+
 ## 2.4.20
 ### Added
 * Ability to Enable/Disable steam input per parser ([a much requested feature](https://github.com/SteamGridDB/steam-rom-manager/issues/562))
