@@ -39,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -77,6 +77,7 @@
 			"logo": "",
 			"icon": "${filePath}/sce_sys/icon0@(.png|.PNG|.jpg|.JPG)"
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	}
 }

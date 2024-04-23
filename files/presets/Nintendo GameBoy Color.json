@@ -39,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -77,7 +77,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo GameBoy Color - Retroarch - Gambatte": {
 		"parserType": "Glob",
@@ -119,7 +120,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -157,7 +158,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo GameBoy Color - Retroarch(Flatpak) - Gambatte": {
 		"parserType": "Glob",
@@ -199,7 +201,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -237,7 +239,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo GameBoy Color - Retroarch - Gearboy": {
 		"parserType": "Glob",
@@ -279,7 +282,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -317,7 +320,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo GameBoy Color - Retroarch(Flatpak) - Gearboy": {
 		"parserType": "Glob",
@@ -359,7 +363,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -397,7 +401,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo GameBoy Color - Retroarch - Mesen-S": {
 		"parserType": "Glob",
@@ -439,7 +444,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -477,7 +482,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo GameBoy Color - Retroarch(Flatpak) - Mesen-S": {
 		"parserType": "Glob",
@@ -519,7 +525,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -557,7 +563,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo GameBoy Color - Retroarch - mGBA": {
 		"parserType": "Glob",
@@ -599,7 +606,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -637,7 +644,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo GameBoy Color - Retroarch(Flatpak) - mGBA": {
 		"parserType": "Glob",
@@ -679,7 +687,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -717,7 +725,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo GameBoy Color - Retroarch - SameBoy": {
 		"parserType": "Glob",
@@ -759,7 +768,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -797,7 +806,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo GameBoy Color - Retroarch(Flatpak) - SameBoy": {
 		"parserType": "Glob",
@@ -839,7 +849,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -877,7 +887,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo GameBoy Color - Retroarch - TGB Dual": {
 		"parserType": "Glob",
@@ -919,7 +930,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -957,7 +968,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo GameBoy Color - Retroarch(Flatpak) - TGB Dual": {
 		"parserType": "Glob",
@@ -999,7 +1011,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -1037,6 +1049,7 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	}
 }

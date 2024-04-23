@@ -39,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -77,7 +77,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch - Beetle bsnes": {
 		"parserType": "Glob",
@@ -119,7 +120,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -157,7 +158,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - Beetle bsnes": {
 		"parserType": "Glob",
@@ -199,7 +201,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -237,7 +239,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch - Snes9x": {
 		"parserType": "Glob",
@@ -279,7 +282,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -317,7 +320,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - Snes9x": {
 		"parserType": "Glob",
@@ -359,7 +363,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -397,7 +401,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch - bsnes2014 Accuracy": {
 		"parserType": "Glob",
@@ -439,7 +444,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -477,7 +482,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Accuracy": {
 		"parserType": "Glob",
@@ -519,7 +525,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -557,7 +563,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch - bsnes2014 Balanced": {
 		"parserType": "Glob",
@@ -599,7 +606,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -637,7 +644,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Balanced": {
 		"parserType": "Glob",
@@ -679,7 +687,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -717,7 +725,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch - bsnes2014 Performance": {
 		"parserType": "Glob",
@@ -759,7 +768,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -797,7 +806,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Performance": {
 		"parserType": "Glob",
@@ -839,7 +849,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -877,7 +887,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch - bsnes-mercury Accuracy": {
 		"parserType": "Glob",
@@ -919,7 +930,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -957,7 +968,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Accuracy": {
 		"parserType": "Glob",
@@ -999,7 +1011,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -1037,7 +1049,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch - bsnes-mercury Balanced": {
 		"parserType": "Glob",
@@ -1079,7 +1092,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -1117,7 +1130,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Balanced": {
 		"parserType": "Glob",
@@ -1159,7 +1173,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -1197,7 +1211,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch - bsnes-mercury Performance": {
 		"parserType": "Glob",
@@ -1239,7 +1254,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -1277,7 +1292,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Performance": {
 		"parserType": "Glob",
@@ -1319,7 +1335,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -1357,7 +1373,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch - Mesen-S": {
 		"parserType": "Glob",
@@ -1399,7 +1416,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -1437,7 +1454,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - Mesen-S": {
 		"parserType": "Glob",
@@ -1479,7 +1497,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"imageProviderAPIs": {
 			"SteamGridDB": {
 				"nsfw": false,
@@ -1517,6 +1535,7 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	}
 }

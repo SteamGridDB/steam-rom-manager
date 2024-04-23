@@ -17,7 +17,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const configPreset: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'presetVersion',
-  latestVersion: 8,
+  latestVersion: 9,
   fields: {
     undefined: {
       'presetVersion': { method: ()=>0 },
@@ -155,6 +155,14 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
       'steamInputEnabled':{
         method: (oldValue, oldConfiguration) => {
           return oldValue || '1';
+        }
+      }
+    },
+    8: {
+      'presetVersion': { method: versionUp },
+      'drmProtect': {
+        method: (oldValue, oldConfiguration) => {
+          return oldValue || false;
         }
       }
     }

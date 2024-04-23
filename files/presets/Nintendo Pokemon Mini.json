@@ -61,7 +61,7 @@
 				"stylesIcon": []
 			}
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"defaultImage": {
 			"long": {
 				"tall": "",
@@ -88,7 +88,8 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	},
 	"Nintendo Pokemon Mini - Retroarch - Pokemini": {
 		"parserType": "Glob",
@@ -152,7 +153,7 @@
 				"stylesIcon": []
 			}
 		},
-		"presetVersion": 8,
+		"presetVersion": 9,
 		"defaultImage": {
 			"long": {
 				"tall": "",
@@ -179,6 +180,7 @@
 			"logo": "",
 			"icon": ""
 		},
-		"steamInputEnabled": "1"
+		"steamInputEnabled": "1",
+		"drmProtect": false
 	}
 }
