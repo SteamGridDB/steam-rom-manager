@@ -5,10 +5,12 @@ All notable changes to this project will be documented in this file.
 ### Added
 * SRM now remembers your sgdb artwork choices (caching sgdbId -> artworkId). It will remember these choices even if you delete your `config/grids` folder or if you change a game's app id.
 * Artwork choices are stored in SRM's config directory under `artworkCache.json`. Moving this file to a new SRM install will instantly reproduce your artwork choices.
+* Per parser option to backup SGDB artwork locally. Useful for parsers that experience frequent DRM takedowns. 
+* Artwork backups are stored in SRM's config directory under `artworkBackups/`. Moving this directory to a new SRM install will allow use of the backed up artwork.
 
 ### Changed
 * SRM will now always list artwork in the same order: First whatever is currently in steam if available, then local artwork if available, then the cached sgdb image if available, then other sgdb images.
-:q
+
 
 ## 2.4.20
 ### Added

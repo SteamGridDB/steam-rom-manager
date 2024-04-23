@@ -12,7 +12,7 @@ export class ImageDownloader {
     // this.dnsResolver.setServers(['1.1.1.1', '8.8.8.8']);
   }
 
-  async downloadAndSaveImage(imageUrl: string, filePath: string, retryCount?: number): Promise<void> {
+  async downloadAndSaveImage(imageUrl: string, filePath: string, retryCount?: number, secondaryPath?: string): Promise<void> {
     if(imageUrl.startsWith('file://')) {
       return await fs.copyFile(decodeFile(imageUrl), filePath);
     } else {
@@ -27,8 +27,11 @@ export class ImageDownloader {
           //   Host: host
           // }
         });
-        const arrayBuff = await res.arrayBuffer();
-        fs.outputFileSync(filePath, Buffer.from(arrayBuff))
+        const arrayBuff = Buffer.from(await res.arrayBuffer());
+        fs.outputFileSync(filePath, arrayBuff);
+        if(secondaryPath) {
+          fs.outputFileSync(secondaryPath, arrayBuff)
+        }
       } catch(error) {
         if(error instanceof AbortError) {
           console.log(`Retry Count: ${retryCount}`)

@@ -16,6 +16,8 @@ import * as os from 'os';
 import { glob, escape } from 'glob';
 import { getPath, getArgs, getStartDir } from 'windows-shortcuts-ps';
 import * as xdgparse from 'xdg-parse';
+import { SteamGridDbProvider } from './image-providers/steamgriddb.worker';
+import { config } from 'rxjs';
 
 
 
@@ -59,7 +61,8 @@ export class FileParser {
         .then(this.shortcutsPromise.bind(this))
         .then(this.appendArgsPromise.bind(this))
         .then(this.userExceptionsPromise.bind(this))
-        .then(this.imagesPromise.bind(this)) as Promise<ParsedUserConfiguration>
+        .then(this.imagesPromise.bind(this)) 
+        .then(this.backedUpLocalImagesPromise.bind(this)) as Promise<ParsedUserConfiguration>
       )
     }
     return Promise.all(configPromises).then((parsedConfigs: ParsedUserConfiguration[])=>{
@@ -223,6 +226,7 @@ export class FileParser {
           parserType: config.parserType,
           shortcutPassthrough: config.executable.shortcutPassthrough,
           imageProviders: config.imageProviders,
+          drmProtect: config.drmProtect,
           imageProviderAPIs: config.imageProviderAPIs,
           steamInputEnabled: config.steamInputEnabled,
           controllers: config.controllers,
@@ -523,6 +527,37 @@ export class FileParser {
         })
       } catch(e) {
         reject(`Resolve images step for "${config.configTitle}":\n ${e}`)
+      }
+    })
+  }
+  private backedUpLocalImagesPromise(parsedConfig: ParsedUserConfiguration) {
+    return new Promise((resolve, reject)=>{
+      try {
+        let backedupPromises: Promise<void>[] = [];
+        if(parsedConfig.drmProtect) {
+          for(let j=0; j < parsedConfig.files.length; j++) {
+            const finalTitle = parsedConfig.files[j].finalTitle;
+            for(const artworkType of artworkTypes) {
+              if(parsedConfig.files[j].onlineImageQueries.length) {
+                backedupPromises.push(SteamGridDbProvider.retrieveIdsFromTitle(parsedConfig.files[j].onlineImageQueries[0]).then((possibleGameIds: number[])=>{
+                  if(possibleGameIds.length) {
+                      const backupDir = path.join(paths.userDataDir,'artworkBackups', artworkType);
+                      return glob(`${possibleGameIds[0]}.*`, {dot: true, cwd: backupDir, absolute: true}).then((localBackups: string[])=>{
+                        for(let localBackup of localBackups) {
+                          parsedConfig.files[j].localImages[artworkType].unshift(url.encodeFile(localBackup))
+                        }
+                      });
+                    }
+                  }))
+              }
+            }
+          }
+        }
+        Promise.all(backedupPromises).then(()=>{
+          resolve(parsedConfig)
+        })
+      } catch(e) {
+        reject(`Backed up images step for blech:\n ${e}`)
       }
     })
   }

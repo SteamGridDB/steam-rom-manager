@@ -12,6 +12,7 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 import { BehaviorSubject } from 'rxjs'
 import { glob } from 'glob';
+import * as paths from '../paths';
 
 export class VDF_ScreenshotsFile {
   private fileData: any = undefined;
@@ -157,7 +158,11 @@ export class VDF_ScreenshotsFile {
           let ext: string = data.url.split('.').slice(-1)[0].replace(/[^\w\s]*$/gi, "");
           ext = ids.map_ext["" + ext] || ext;
           const gridPath = path.join(this.gridDirectory, `${appId}.${ext}`);
-          batchAddPromises.push(imageDownloader.downloadAndSaveImage(data.url, gridPath, 4)
+          let secondaryPath: string;
+          if(data.sgdbId && data.drmProtect) {
+            secondaryPath = path.join(paths.userDataDir,'artworkBackups',data.artworkType,`${data.sgdbId}.${ext}`);
+          }
+          batchAddPromises.push(imageDownloader.downloadAndSaveImage(data.url, gridPath, 4, secondaryPath)
           .then(() => {
             if(/^\d+$/.test(appId)) {
               const symPath = path.join(this.gridDirectory,`${ids.lengthenAppId(appId)}.${ext}`)
@@ -179,6 +184,17 @@ export class VDF_ScreenshotsFile {
               if(_.last(files[i].split('.')) !== ext) {
                 fs.removeSync(files[i]);
               }
+            }
+          })
+          .then(()=>{
+            if(secondaryPath) {
+              return glob(`${data.sgdbId}.*`, { dot: true, cwd: path.join(paths.userDataDir,'artworkBackups', data.artworkType), absolute: true}).then((files: string[])=>{
+                for (let i = 0; i < files.length; i++) {
+                  if(_.last(files[i].split('.')) !== ext) {
+                    fs.removeSync(files[i]);
+                  }
+                }
+              })
             }
           })
           .catch((error) => {
@@ -252,11 +268,14 @@ export class VDF_ScreenshotsFile {
     }
   }
 
-  addItem(data: { appId: string, title: string, url: string }) {
+  addItem(data: VDF_ScreenshotItem & {appId: string}) {
     if(this.valid) {
       this.fileData[this.topKey]['shortcutnames'][data.appId] = {
         title: data.title,
-        url: data.url
+        url: data.url,
+        artworkType: data.artworkType,
+        sgdbId: data.sgdbId,
+        drmProtect: data.drmProtect
       };
     }
   }

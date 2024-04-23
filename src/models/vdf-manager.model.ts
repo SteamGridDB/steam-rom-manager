@@ -14,7 +14,10 @@ export interface VDF_ListData {
 
 export interface VDF_ScreenshotItem {
   title: string,
-  url: string
+  url: string,
+  artworkType: string,
+  sgdbId?: string,
+  drmProtect?: boolean
 }
 
 export interface VDF_ScreenshotsData {

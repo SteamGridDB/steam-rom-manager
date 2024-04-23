@@ -4,9 +4,10 @@ import { Controllers } from "./controllers.model";
 import { ParserType, SteamInputEnabled } from "./parser.model";
 
 export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
+export type ImageProvider = 'SteamGridDB' | 'Steam' | 'LocalStorage' | 'Fallback' | 'ArtworkBackup' | 'ManuallyAdded' | 'Imported'
 
 export interface ImageContent {
-    imageProvider: 'SteamGridDB' | 'Steam' | 'LocalStorage',
+    imageProvider: ImageProvider,
     imageUploader?: string,
     imageRes?: string,
     imageGameId?: string, // sgdb game id
@@ -55,6 +56,7 @@ export interface PreviewDataApp {
     title: string,
     extractedTitle: string,
     argumentString: string,
+    drmProtect: boolean,
     images: {
       [artworkType: string]: PreviewDataAppImage
     }

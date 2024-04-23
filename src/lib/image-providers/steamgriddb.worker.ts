@@ -18,9 +18,19 @@ export class SteamGridDbProvider extends GenericProvider {
     this.client = new SGDB({key: apiKey});
   }
 
+  static async retrieveIdsFromTitle(title: string): Promise<number[]> {
+    const client = new SGDB({key: apiKey});
+    if(idRegex.test(title)) {
+      return [parseInt(title.match(idRegex)[1])];
+    } else {
+      const games = await client.searchGame(title);
+      return games.map((game: any)=> game.id)
+    }
+  }
+
   static async retrievePossibleIds(title: string) {
     const client = new SGDB({key: apiKey});
-    const games = await client.searchGame(title)
+    const games = await client.searchGame(title);
     for(const game of games) {
       const grids = await client.getGrids({
         id: game.id,

@@ -98,6 +98,16 @@
         <div class=text style="margin-left: 0.25em;">{{"Batch size for image downloads"}}</div>
       </div>
     </div>
+    <div class="inputContainer">
+      <div class="inlineGroup" style="margin-top: 0.25em;">
+        <div class="clickButton dangerousButton" style="font-size: 0.85em;" (click)="nukeArtworkChoices()">Nuke</div>
+        <div class=text style="margin-left: 0.25em;">artwork choice cache</div>
+      </div>
+      <div class="inlineGroup" style="margin-top: 0.25em;">
+        <div class="clickButton dangerousButton" style="font-size: 0.85em;" (click)="nukeArtworkBackups()">Nuke</div>
+        <div class=text style="margin-left: 0.25em;">local artwork backups</div>
+      </div>
+    </div>
   </div>
   <div>
     <div class="section">

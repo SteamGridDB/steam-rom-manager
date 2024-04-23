@@ -41,6 +41,7 @@ const sharedProperties = {
       }
     },
     imagePool: { type: 'string', default: '${fuzzyTitle}' },
+    drmProtect: { type: 'boolean', default: false },
     defaultImage: {
       type: 'object',
       default: {},

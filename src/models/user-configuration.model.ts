@@ -46,6 +46,7 @@ export interface UserConfiguration {
   imageProviderAPIs: ImageProviderAPI,
   executableArgs: string,
   imagePool: string,
+  drmProtect: boolean,
   defaultImage: {
     [artworkType: string]: string
   },

@@ -255,7 +255,7 @@ export class PreviewComponent implements OnDestroy {
   private addLocalImages(app: PreviewDataApp, imageType?: string) {
     this.fileSelector.multiple = true;
     this.fileSelector.accept = '.png, .jpeg, .jpg, .tga, .webp';
-    if(this.previewService.getImageType()!='games') {
+    if(this.previewService.getImageType() != 'games') {
       imageType=this.previewService.getImageType()
     }
     this.fileSelector.onChange = (target) => {
@@ -265,10 +265,11 @@ export class PreviewComponent implements OnDestroy {
           if (extRegex.test(path.extname(target.files[i].path))) {
             let imageUrl = url.encodeFile(target.files[i].path);
             this.previewService.addUniqueImage(app.images[imageType].imagePool, {
-              imageProvider: 'LocalStorage',
+              imageProvider: 'ManuallyAdded',
               imageUrl: imageUrl,
               loadStatus: 'done'
             }, imageType);
+            this.previewService.setImageIndex(app, this.previewService.getTotalLengthOfImages(app, imageType, true) -1, imageType, true);
           }
         }
       }

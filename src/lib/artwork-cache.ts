@@ -44,8 +44,9 @@ export class ArtworkCache {
     return json.write(this.filePath, this.artworkCache);
   }
 
-  clear() {
+  async emptyCache() {
     this.artworkCache.sgdbToArt = {};
+    await this.write();
   }
 
   cacheArtwork(sgdbId: string, artworkId: string, appId: string, artworkType: string) {

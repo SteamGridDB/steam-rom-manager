@@ -37,6 +37,7 @@ export interface ParsedUserConfiguration {
   configurationTitle: string,
   parserId: string,
   parserType: ParserType,
+  drmProtect: boolean,
   imageProviders: string[],
   imageProviderAPIs: ImageProviderAPI,
   controllers: Controllers,

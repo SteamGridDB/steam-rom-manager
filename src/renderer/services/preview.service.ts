@@ -17,13 +17,10 @@ import {
   PreviewDataApp,
   AppSettings,
   SteamTree,
-  userAccountData,
   VDF_ExtraneousItemsData,
   VDF_AddedCategoriesData,
   VDF_AllScreenshotsOutcomes,
-  ErrorData, AppSelection,
-  AppSelectionImages,
-  AppSelectionImage,
+  AppSelection,
   UserConfiguration,
   SGDBToArt
 } from '../../models';
@@ -39,13 +36,11 @@ import { APP } from '../../variables';
 import { queue } from 'async';
 import * as steam from "../../lib/helpers/steam";
 import * as url from "../../lib/helpers/url";
-import * as unique_ids from "../../lib/helpers/unique-ids";
 import * as appImage from "../../lib/helpers/app-image";
 import * as ids from '../../lib/helpers/steam';
-import { artworkTypes, artworkViewTypes, defaultArtworkType, artworkIdDict, invertedArtworkIdDict } from '../../lib/artwork-types';
+import { artworkTypes, defaultArtworkType, artworkIdDict, invertedArtworkIdDict } from '../../lib/artwork-types';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
-import * as FileSaver from 'file-saver';
 import * as path from "path";
 import { OpenDialogReturnValue } from 'electron';
 import { dialog } from '@electron/remote';
@@ -149,9 +144,7 @@ export class PreviewService {
       searchQueries: [imagePool],
       imageProviderAPIs: this.appImages[artworkType][oldPool].imageProviderAPIs,
       defaultImageProviders: this.appImages[artworkType][oldPool].defaultImageProviders,
-      content: this.appImages[artworkType][oldPool].content.filter((imageContent: ImageContent) => {
-        return ['LocalStorage'].includes(imageContent.imageProvider)
-      })
+      content: []
     }
   }
   async removeCategories(steamDir: string, userId: string) {
@@ -527,7 +520,7 @@ export class PreviewService {
       let numberOfItems: number = 0;
       let previewData: PreviewData = {};
 
-      this.clearImageCache(true);
+      this.clearImageCache(false);
 
       for (let i = 0; i < data.length; i++) {
         let config = data[i];
@@ -600,14 +593,14 @@ export class PreviewService {
                     loadStatus: 'done'
                   } : undefined,
                   default: file.defaultImage[artworkType] ? {
-                    imageProvider: 'LocalStorage',
+                    imageProvider: 'Fallback',
                     imageUrl: file.defaultImage[artworkType],
                     imageRes: url.imageDimensions(file.defaultImage[artworkType]),
                     loadStatus: 'done'
                   } : undefined,
                   local: _.uniq(file.localImages[artworkType]).map((localUrl: string) => {
                     return {
-                      imageProvider: 'LocalStorage',
+                      imageProvider: /\bartworkBackups\b/.test(localUrl) ? 'ArtworkBackup' : 'LocalStorage',
                       imageUrl: localUrl,
                       imageRes: url.imageDimensions(localUrl),
                       loadStatus: 'done'
@@ -617,7 +610,6 @@ export class PreviewService {
                   imageIndex: 0
                 }
               }
-
               previewData[config.steamDirectory][userAccount.accountID].apps[appID] = {
                 entryId: numberOfItems++,
                 status: 'add',
@@ -627,6 +619,7 @@ export class PreviewService {
                 steamCategories: file.steamCategories,
                 startInDirectory: file.startInDirectory,
                 imageProviders: config.imageProviders,
+                drmProtect: config.drmProtect,
                 argumentString: file.argumentString,
                 title: file.finalTitle,
                 extractedTitle: file.extractedTitle,
@@ -640,17 +633,6 @@ export class PreviewService {
               let currentCategories = previewData[config.steamDirectory][userAccount.accountID].apps[appID].steamCategories;
               previewData[config.steamDirectory][userAccount.accountID].apps[appID].steamCategories = _.union(currentCategories, file.steamCategories);
             }
-            /*
-            for(const artworkType of artworkTypes) {
-              for (let l = 0; l < file.localImages[artworkType].length; l++) {
-                this.addUniqueImage(file.imagePool, {
-                  imageProvider: 'LocalStorage',
-                  imageUrl: file.localImages[artworkType][l],
-                  imageRes: url.imageDimensions(file.localImages[artworkType][l]),
-                  loadStatus: 'done'
-                }, artworkType)
-              }
-            }*/
           }
         }
       }
@@ -764,9 +746,14 @@ export class PreviewService {
         this.appImages[imageType][imageKey].content.push(content);
         return this.appImages[imageType][imageKey].content[this.appImages[imageType][imageKey].content.length - 1];
       }
-
     }
     return null;
+  }
+
+  isLocalImageUnique(imageKey: string, imageUrl: string, imageType: string) {
+  }
+  addLocalImage(imageKey: string, content: ImageContent, imageType: string) {
+
   }
 
   async exportSelection() {
@@ -879,7 +866,7 @@ export class PreviewService {
           for(const artworkType of artworkTypes) {
             if(selection.images[artworkType]) {
               this.addUniqueImage(selection.images[artworkType].pool, {
-                imageProvider: 'LocalStorage',
+                imageProvider: 'Imported',
                 imageUrl: url.encodeFile(path.join(packagePath, selection.images[artworkType].filename)),
                 loadStatus: 'done'
               }, artworkType);
@@ -894,7 +881,7 @@ export class PreviewService {
               const app: PreviewDataApp = this.previewData[directory][userId].apps[appId];
               if (importedApps.includes(app.extractedTitle)) {
                 for(const artworkType of artworkTypes) {
-                  this.setImageIndex(app, this.getTotalLengthOfImages(app,artworkType, true) -1, artworkType, true);
+                  this.setImageIndex(app, this.getTotalLengthOfImages(app, artworkType, true) -1, artworkType, true);
                 }
               }
             }

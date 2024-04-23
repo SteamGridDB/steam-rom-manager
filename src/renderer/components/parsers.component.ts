@@ -411,6 +411,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                   this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
                 }
               }),
+              drmProtect: new NestedFormElement.Toggle({
+                text: 'Local backups (DRM takedown protection)'
+              }),
               imageProviderAPIs: (()=>{
                 let imageProviderAPIInputs: { [k: string]: NestedFormElement.Group } = {};
                 let providerNames = this.imageProviderService.instance.getAvailableProviders();

@@ -243,7 +243,10 @@ export class VDF_Manager {
                   listItem.screenshots.addItem({
                     appId: steam.shortenAppId(appId).concat(artworkIdDict[artworkType]),
                     title: app.title,
-                    url: currentImage.imageUrl
+                    url: currentImage.imageUrl,
+                    artworkType: artworkType,
+                    sgdbId: currentImage.imageGameId,
+                    drmProtect: app.drmProtect
                   });
                 }
                 // artwork Cache is shared across steam users and steam directories
