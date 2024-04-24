@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.22
+### Fixed
+* Regression introduced in 2.4.20 resulting in `ENOENT` errors
+
 ## 2.4.21
 ### Added
 * SRM now remembers your sgdb artwork choices (caching sgdbId -> artworkId). It will remember these choices even if you delete your `config/grids` folder or if you change a game's app id.
