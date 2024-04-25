@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 ## 2.4.23
 ### Added
 * Support for Xbox One Elite, PS5 Dualsense Edge, and Steam Controller templates (resolves [issue 555](https://github.com/SteamGridDB/steam-rom-manager/issues/555) and [issue 656](https://github.com/SteamGridDB/steam-rom-manager/issues/656))
+### Fixed
+* Glob and Glob-Regex parser would fail if roms directory was set to the root of a drive on windows. ([issue 580](https://github.com/SteamGridDB/steam-rom-manager/issues/580))
+
 
 ## 2.4.22
 ### Fixed
