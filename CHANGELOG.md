@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.23
+### Added
+* Support for Xbox One Elite, PS5 Dualsense Edge, and Steam Controller templates (resolves [issue 555](https://github.com/SteamGridDB/steam-rom-manager/issues/555) and [issue 656](https://github.com/SteamGridDB/steam-rom-manager/issues/656))
+
 ## 2.4.22
 ### Fixed
 * Regression introduced in 2.4.20 resulting in `ENOENT` errors

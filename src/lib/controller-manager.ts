@@ -13,22 +13,28 @@ import { Acceptable_Error } from './acceptable-error';
 export const controllerTypes = [
   'ps4',
   'ps5',
+  'ps5_edge',
   'xbox360',
   'xboxone',
+  'xboxelite',
   'switch_joycon_left',
   'switch_joycon_right',
   'switch_pro',
-  'neptune'
+  'neptune',
+  'steamcontroller_gordon'
 ]
 export const controllerNames = {
   ps4: 'PS4',
   ps5: 'PS5',
+  ps5_edge: 'PS5 Dualsense Edge',
   xbox360: 'Xbox 360',
   xboxone: 'Xbox One',
+  xboxelite: 'Xbox One Elite',
   switch_joycon_left: 'Switch Joy-Con (Left)',
   switch_joycon_right: 'Switch Joy-Con (Right)',
   switch_pro: 'Switch Pro',
-  neptune: 'Steam Deck'
+  neptune: 'Steam Deck',
+  steamcontroller_gordon: 'Steam Controller'
 }
 
 export const enableDisplayNames: Record<SteamInputEnabled, string> = {
