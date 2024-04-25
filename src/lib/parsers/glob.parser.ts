@@ -191,7 +191,6 @@ tempGlob = fileGlob.replace(/.*\${title}/i, '');
       let fileSections = file.split('/');
       file = fileSections[titleData.depth.direction === 'right' ? fileSections.length - (titleData.depth.level + 1) : titleData.depth.level];
     }
-
     if (file !== undefined) {
       let titleMatch = file.match(titleData.titleRegex.regex);
       if (titleMatch !== null && titleMatch[titleData.titleRegex.pos])
@@ -215,13 +214,17 @@ tempGlob = fileGlob.replace(/.*\${title}/i, '');
   }
 
   execute(directories: string[], inputs: { [key: string]: any }) {
-    const directory = directories[0];
+    const directory: string = directories[0];
     return new Promise<ParsedData>((resolve,reject)=> {
       const validationText = this.validate(inputs['glob']);
       if (validationText === null) {
         const titleData = this.extractTitleTag(inputs['glob']);
         glob(titleData.finalGlob, { dot: true, cwd: directory, follow: true }).then((files: string[]) => {
-          resolve(this.extractTitles(titleData, directory, files));
+          const drive = /^[a-zA-z]\:\\$/g;
+          const driveReplace = /^[a-zA-z]\:\\/g
+          resolve(this.extractTitles(titleData, directory as string, 
+            drive.test(directory) ? files.map(x=>x.replace(driveReplace,'')) : files
+            ));
         }).catch((err: string) => {
           reject(err);
         })

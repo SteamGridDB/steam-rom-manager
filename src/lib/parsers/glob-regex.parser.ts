@@ -258,7 +258,11 @@ tempGlob = fileGlob.replace(/.*\${.*?}/i, '');
       if (validationText === null) {
         const titleData = this.extractTitleTag(inputs['glob-regex']);
         glob(titleData.finalGlob, { dot: true, cwd: directory, follow: true }).then((files: string[]) => {
-          resolve(this.extractTitles(titleData, directory as string, files));
+          const drive = /^[a-zA-z]\:\\$/g;
+          const driveReplace = /^[a-zA-z]\:\\/g
+          resolve(this.extractTitles(titleData, directory as string, 
+            drive.test(directory) ? files.map(x=>x.replace(driveReplace,'')) : files
+            ));
         }).catch((err: string)=> {
           reject(err)
         });
