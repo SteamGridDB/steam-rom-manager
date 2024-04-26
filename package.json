@@ -75,7 +75,7 @@
     "build:win": "electron-builder --win --ia32 --x64",
     "build:linux": "electron-builder --linux --x64",
     "build:mac": "electron-builder --mac --x64",
-    "build:linuxdir": "electron-builder --linux --x64 --dir && cp electron-version release/linux-unpacked/version && cp LICENSE release/linux-unpacked/",
+    "build:linuxdir": "electron-builder --linux --x64 --dir && echo '24.1.3' > release/linux-unpacked/version && cp LICENSE release/linux-unpacked/",
     "build:flatpak": "electron-installer-flatpak --src release/linux-unpacked --dest release/ --arch x64 --config flatconf.json"
   },
   "dependencies": {

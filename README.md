@@ -168,10 +168,9 @@ npm run build:dist
 npm run build:linuxdir
 npm run build:flatpak
 ```
-In order for this to work you must have already run:
+In order for this to work you must have already installed `flatpak-builder` using your favorite package manager (e.g. `sudo pamac install flatpak-builder`) and run:
 
 ```
-flatpak install flathub flatpak-builder;
 flatpak install flathub org.freedesktop.Platform//19.08;
 flatpak install org.freedesktop.Sdk//19.08;
 flatpak install org.electronjs.Electron2.BaseApp/x86_64/stable
