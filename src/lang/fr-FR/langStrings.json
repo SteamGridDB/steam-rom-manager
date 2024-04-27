@@ -279,6 +279,7 @@
         "communityPresets": "Paramètres de variable/préréglage de la communauté"
       },
       "text": {
+        "autoUpdate": "Check for updates on start",
         "offlineMode": "Mode hors ligne",
         "removeApps_desc": "toutes les entrées d'application et contrôleur ajoutées",
         "removeApps_btn": "Retirer",
