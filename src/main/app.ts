@@ -154,8 +154,11 @@ function createWindow(show: boolean) {
 }
 
 // Auto Updater Listeners
+// To test update component uncomment the two lines below.
+//autoUpdater.forceDevUpdateConfig = true;
 autoUpdater.on('checking-for-update', () => {
   console.log('checking for updates')
+  //mainWindow.webContents.send('updater_message','update_portable')
 })
 autoUpdater.on('update-available', (info) => {
   console.log('update available')

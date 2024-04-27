@@ -13,6 +13,7 @@
     </label>
     </div>
     <div class="inputContainer">
+      <ng-toggle-button class="ngToggleButton" [ngModel]="settings.autoUpdate" (ngModelChange)="settings.autoUpdate = $event; onSettingsChange();">{{lang.text.autoUpdate}}</ng-toggle-button>
       <ng-toggle-button class="ngToggleButton" [ngModel]="settings.offlineMode" (ngModelChange)="settings.offlineMode = $event; onSettingsChange();">{{lang.text.offlineMode}}</ng-toggle-button>
       <ng-toggle-button class="ngToggleButton" [ngModel]="settings.clearLogOnTest" (ngModelChange)="settings.clearLogOnTest = $event; onSettingsChange();">{{lang.text.clearLogOnTest}}</ng-toggle-button>
       <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.retrieveCurrentSteamImages" (ngModelChange)="settings.previewSettings.retrieveCurrentSteamImages = $event; onSettingsChange();">{{lang.text.showSteamImages}}</ng-toggle-button>

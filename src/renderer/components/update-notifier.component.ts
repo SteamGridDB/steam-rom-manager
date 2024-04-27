@@ -1,5 +1,6 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy,Input } from '@angular/core';
-import { IpcService } from '../services';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy,Input, ComponentFactoryResolver } from '@angular/core';
+import { AppSettings } from '../../models';
+import { IpcService, SettingsService } from '../services';
 
 @Component({
   selector: 'update-notifier',
@@ -27,7 +28,10 @@ export class UpdateNotifierComponent {
   private initiatedDownload: boolean = false;
   private downloadComplete: boolean = false;
   private messageText: string = '';
-  constructor(private ipcService: IpcService, private changeRef: ChangeDetectorRef) {  }
+  private appSettings: AppSettings;
+  constructor(private ipcService: IpcService, private settingsService: SettingsService,private changeRef: ChangeDetectorRef) {  
+    this.appSettings = this.settingsService.getSettings();
+  }
 
   @Input()
   public set ipcMessage(message: any){
@@ -45,23 +49,32 @@ export class UpdateNotifierComponent {
     this.showUpdater = false;
   }
   private handleUpdateNotification(message: any){
-    if(typeof(message)=='string' && message=='update_available'){
-      this.showUpdater = true;
-      this.messageText = 'An update is available. Download it now?'
+    if(!this.appSettings.autoUpdate) {
+      return
     }
-    else if(typeof(message)=='string' && message=='update_portable'){
+    if(this.appSettings.emudeckInstall && typeof(message) == 'string' && message == 'update_portable') {
       this.showUpdater = true;
+      this.messageText = 'An update is available, please update via EmuDeck.'
       this.isPortableUpdate = true;
-      this.messageText = 'An update is available. <a href="https://github.com/SteamGridDB/steam-rom-manager/releases/latest">Download it now?</a>'
-    }
-    else if(typeof(message)=='string' && message=='update_downloaded') {
-      this.downloadComplete=true;
-      this.messageText = 'Update downloaded. Restart now?'
-    }
-    else {
-      if(message['progress']) {
-        this.messageText= message['progress'];
-        this.changeRef.detectChanges();
+    } else {
+      if(typeof(message)=='string' && message=='update_available'){
+        this.showUpdater = true;
+        this.messageText = 'An update is available. Download it now?'
+      }
+      else if(typeof(message)=='string' && message=='update_portable'){
+        this.showUpdater = true;
+        this.isPortableUpdate = true;
+        this.messageText = 'An update is available. <a href="https://github.com/SteamGridDB/steam-rom-manager/releases/latest">Download it now?</a>'
+      }
+      else if(typeof(message)=='string' && message=='update_downloaded') {
+        this.downloadComplete=true;
+        this.messageText = 'Update downloaded. Restart now?'
+      }
+      else {
+        if(message['progress']) {
+          this.messageText= message['progress'];
+          this.changeRef.detectChanges();
+        }
       }
     }
   }

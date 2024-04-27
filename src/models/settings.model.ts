@@ -24,6 +24,8 @@ export interface AppSettings {
   },
   language: string,
   theme: string,
+  emudeckInstall: boolean,
+  autoUpdate: boolean,
   offlineMode: boolean,
   enabledProviders: string[],
   batchDownloadSize: number,

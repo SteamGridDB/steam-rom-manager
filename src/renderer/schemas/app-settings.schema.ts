@@ -60,6 +60,8 @@ export const appSettings = {
     batchDownloadSize: { type: 'number', default: 50 },
     language: { type: 'string', default: languageManager.getDefaultLanguage(), enum: languageManager.getAvailableLanguages() },
     theme: {type:'string', default: 'Deck', enum: availableThemes},
+    emudeckInstall: {type: 'boolean', default: false},
+    autoUpdate: {type: 'boolean', default: true},
     offlineMode: { type: 'boolean', default: false },
     navigationWidth: { type: 'number', default: 0 },
     clearLogOnTest: { type: 'boolean', default: false }

@@ -345,6 +345,7 @@ export interface languageStruct {
       },
       text: {
         offlineMode: string,
+        autoUpdate: string,
         removeApps_desc: string,
         removeApps_btn: string,
         preloadImages: string,

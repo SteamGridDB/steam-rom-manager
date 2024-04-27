@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.24
+### Added
+* Toggle in settings to disable auto update ([issue 612](https://github.com/SteamGridDB/steam-rom-manager/issues/612))
+* Capability to add EmuDeck specific features.
+
+### Fixed
+* Possible failure to load of `View Games` page if `userdata/0` folder present.
+* Flatpak build process working again
+
 ## 2.4.23
 ### Added
 * Support for Xbox One Elite, PS5 Dualsense Edge, and Steam Controller templates (resolves [issue 555](https://github.com/SteamGridDB/steam-rom-manager/issues/555) and [issue 656](https://github.com/SteamGridDB/steam-rom-manager/issues/656))
