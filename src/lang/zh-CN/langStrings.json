@@ -279,6 +279,7 @@
         "communityPresets": "社区变量/预设设置"
       },
       "text": {
+        "autoUpdate": "Check for updates on start",
         "offlineMode": "离线模式",
         "removeApps_desc": "所有添加的应用程序条目和控制器",
         "removeApps_btn": "删除",
