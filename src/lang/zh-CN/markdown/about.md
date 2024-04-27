@@ -2,7 +2,7 @@
 
 如果您在使用SRM时遇到问题，请随时访问 [discord](https://discord.gg/bnSVJrz) 或 [subreddit](https://www.reddit.com/r/SteamRomManager/) 并寻求帮助。 为了我们能够帮助您，我们需要您提供以下信息：
 
-* SRM版本：**#{APP[version]}**
+* SRM version: **#{APP[version]}** emudeckText
 * 操作系统：**#{APP[os]}**
 
 ## 相关链接
