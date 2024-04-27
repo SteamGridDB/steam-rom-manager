@@ -279,6 +279,7 @@
         "communityPresets": "Community variable/preset settings"
       },
       "text": {
+        "autoUpdate": "Check for updates on start",
         "offlineMode": "Modalità offline",
         "removeApps_desc": "all added app entries and controllers",
         "removeApps_btn": "Rimuovi",
