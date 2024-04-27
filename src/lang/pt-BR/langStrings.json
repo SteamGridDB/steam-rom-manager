@@ -279,6 +279,7 @@
         "communityPresets": "Configurações de variável/predefinição da comunidade"
       },
       "text": {
+        "autoUpdate": "Check for updates on start",
         "offlineMode": "Modo Offline",
         "removeApps_desc": "todas as entradas e controles adicionados pelo app",
         "removeApps_btn": "Remover",
