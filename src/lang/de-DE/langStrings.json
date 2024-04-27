@@ -279,6 +279,7 @@
         "communityPresets": "Community Variablen/Vorlagen-Einstellungen"
       },
       "text": {
+        "autoUpdate": "Check for updates on start",
         "offlineMode": "Offline-Modus",
         "removeApps_desc": "Alle hinzugefügten App-Einträge und Controller",
         "removeApps_btn": "Entfernen",
