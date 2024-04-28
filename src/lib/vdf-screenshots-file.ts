@@ -108,36 +108,30 @@ export class VDF_ScreenshotsFile {
     });
   }
 
-  private removeExtraneous(exAppId: string): Promise<VDF_Error|void> {
-    return glob(`${exAppId}.*`, { dot: true, cwd: this.gridDirectory, absolute: true })
-    .then((files: string[]) => {
+  async removeExtraneous(exAppIds: string[]): Promise<VDF_Error[]> {
+    let vdfErrors: VDF_Error[] = [];
+    for(let exAppId of exAppIds) {
       let errors: Error[] = [];
+      const files = await glob(`${exAppId}.*`, {cwd: this.gridDirectory, absolute: true});
       for (let i = 0; i < files.length; i++) {
         try {
-          fs.removeSync(files[i]);
+          await fs.remove(files[i]);
         }
         catch (error) {
           errors.push(error);
         }
       }
-      if( errors.length ) {
-        return new VDF_Error(errors)
+      if(errors.length) {
+        vdfErrors.push(new VDF_Error(errors))
       }
-    })
+    }
+    return vdfErrors;
   }
 
   async write(batch: boolean, batchSizeInput?: number) {
     let addErrors: (VDF_Error|void)[] = [];
-    let extraneousPromises: Promise<VDF_Error|void>[] = [];
     let screenshotsData: VDF_ScreenshotsData = this.data;
-    for (let j=0; j < this.extraneous.length; j++) {
-      extraneousPromises.push(this.removeExtraneous(this.extraneous[j]))
-    }
-    for(const appId in screenshotsData) {
-      if(screenshotsData[appId] === undefined) {
-        extraneousPromises.push(this.removeExtraneous(appId));
-      }
-    }
+    const extraneous = [...this.extraneous, ...Object.keys(screenshotsData).filter(appId=> !screenshotsData[appId])];
     const batchSize = batchSizeInput || 50;
     const imageDownloader: ImageDownloader = new ImageDownloader();
     const addableAppIds = Object.keys(screenshotsData).filter((appId)=>{
@@ -163,13 +157,13 @@ export class VDF_ScreenshotsFile {
             secondaryPath = path.join(paths.userDataDir,'artworkBackups',data.artworkType,`${data.sgdbId}.${ext}`);
           }
           batchAddPromises.push(imageDownloader.downloadAndSaveImage(data.url, gridPath, 4, secondaryPath)
-          .then(() => {
+          .then(async () => {
             if(/^\d+$/.test(appId)) {
               const symPath = path.join(this.gridDirectory,`${ids.lengthenAppId(appId)}.${ext}`)
-              if(fs.existsSync(symPath)) {
-                fs.unlinkSync(symPath);
+              if(await fs.exists(symPath)) {
+                await fs.unlink(symPath);
               }
-              fs.symlinkSync(gridPath, symPath)
+              await fs.symlink(gridPath, symPath)
             }
             return gridPath;
           })
@@ -179,19 +173,19 @@ export class VDF_ScreenshotsFile {
           .then(() => {
             return glob(`${appId}.!(json)`, { dot: true, cwd: this.gridDirectory, absolute: true })
           })
-          .then((files: string[]) => {
+          .then(async (files: string[]) => {
             for (let i = 0; i < files.length; i++) {
               if(_.last(files[i].split('.')) !== ext) {
-                fs.removeSync(files[i]);
+                await fs.remove(files[i]);
               }
             }
           })
           .then(()=>{
             if(secondaryPath) {
-              return glob(`${data.sgdbId}.*`, { dot: true, cwd: path.join(paths.userDataDir,'artworkBackups', data.artworkType), absolute: true}).then((files: string[])=>{
+              return glob(`${data.sgdbId}.*`, { dot: true, cwd: path.join(paths.userDataDir,'artworkBackups', data.artworkType), absolute: true}).then(async (files: string[])=>{
                 for (let i = 0; i < files.length; i++) {
                   if(_.last(files[i].split('.')) !== ext) {
-                    fs.removeSync(files[i]);
+                    await fs.remove(files[i]);
                   }
                 }
               })
@@ -210,7 +204,9 @@ export class VDF_ScreenshotsFile {
       const batchErrors = await Promise.all(batchAddPromises);
       addErrors = [...addErrors, ...batchErrors];
     }
-    return Promise.all(extraneousPromises).then((extraneousErrors)=>{
+
+
+    return this.removeExtraneous(extraneous).then((extraneousErrors)=>{
       return {
         extraneousErrors: extraneousErrors.filter(e=> e && e.message),
         addErrors: addErrors.filter(e => e && e.message)

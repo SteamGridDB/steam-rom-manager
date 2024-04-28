@@ -14,7 +14,7 @@ export class ImageDownloader {
 
   async downloadAndSaveImage(imageUrl: string, filePath: string, retryCount?: number, secondaryPath?: string): Promise<void> {
     if(imageUrl.startsWith('file://')) {
-      return await fs.copyFile(decodeFile(imageUrl), filePath);
+      await fs.copyFile(decodeFile(imageUrl), filePath);
     } else {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), this.timeout);
@@ -28,13 +28,12 @@ export class ImageDownloader {
           // }
         });
         const arrayBuff = Buffer.from(await res.arrayBuffer());
-        fs.outputFileSync(filePath, arrayBuff);
+        await fs.outputFile(filePath, arrayBuff);
         if(secondaryPath) {
-          fs.outputFileSync(secondaryPath, arrayBuff)
+          await fs.outputFile(secondaryPath, arrayBuff)
         }
       } catch(error) {
         if(error instanceof AbortError) {
-          console.log(`Retry Count: ${retryCount}`)
           if(retryCount && retryCount > 0) {
             return this.downloadAndSaveImage(imageUrl, filePath, retryCount - 1);
           } else {
@@ -46,30 +45,6 @@ export class ImageDownloader {
       }
     }
   }
-
-  // resolveDNS(imageUrl: string) {
-  //   return new Promise<{resolved: string, host: string}>((resolve,reject)=> {
-  //     const { host, pathname, protocol } = new URL(imageUrl);
-  //     if(this.dnsCache[host]) {
-  //       resolve({
-  //         resolved: `${protocol}//${this.dnsCache[host]}${pathname}`,
-  //         host: host
-  //       })
-  //     } else {
-  //       this.dnsResolver.resolve(host, (err, addresses) => {
-  //         if(err || !addresses.length) {
-  //           reject(err)
-  //         } else {
-  //           this.dnsCache[host] = addresses[0];
-  //           resolve({
-  //             resolved: `${protocol}//${addresses[0]}${pathname}`,
-  //             host: host
-  //           })
-  //         }
-  //       })
-  //     }
-  //   })
-  // }
 }
 
 
