@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 * Capability to add EmuDeck specific features.
 
 ### Fixed
+* Renderer blocking when removing extraneous artwork (should resolve many performance issues when large number of ROMs are being handled)
 * Possible failure to load of `View Games` page if `userdata/0` folder present.
 * Flatpak build process working again
 
