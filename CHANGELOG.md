@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.25
+### Added
+
+### Fixed
+* Renderer blocking when running XBox UWP parser
+
 ## 2.4.24
 ### Added
 * Toggle in settings to disable auto update ([issue 612](https://github.com/SteamGridDB/steam-rom-manager/issues/612))

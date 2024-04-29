@@ -75,7 +75,7 @@ export class UWPParser implements GenericParser {
                     appExecutable: json.caselessGet(app, [["@_Executable"]])
                   } as SimpleManifest;
                   if (gameManifest.idName && gameManifest.idPublisher && gameManifest.appExecutable) {
-                    var gameDetail: SimpleUWPApp = await getUWPAppDetail(gameManifest, xmlParser);
+                    const gameDetail: SimpleUWPApp = await getUWPAppDetail(gameManifest, xmlParser);
                     if (gameDetail && gameDetail.name && gameDetail.appId && gameDetail.path) {
                       finalData.success.push({
                         extractedTitle: gameDetail.name,
@@ -101,27 +101,16 @@ export class UWPParser implements GenericParser {
 // inspired by https://github.com/JosefNemec/Playnite/blob/master/source/Playnite/Common/Resources.cs
 const getIndirectResourceString= async (fullName: string, packageName: string, resource: string) => {
   const lastSegment = new URL(resource).pathname.split("/").reverse()[0];
-
-  var resourceString: string;
-
+  let resourceString: string;
   if (resource.toString().startsWith("ms-resource://")) {
-    //$"@{{{fullName}? {resource}}}";
     resourceString = `@{${fullName}? ${resource}}`;
   } else if (resource.toString().includes("/")) {
-    //$"@{{{fullName}? ms-resource://{packageName}/{resource.Replace("ms-resource:", "").Trim('/')}}}";
-    const cleanResource = resource
-      .toString()
-      .replace("ms-resource:", "")
-      .replace(/^\/+/, "")
-      .replace(/\/+$/, "");
+    const cleanResource = resource.toString().replace("ms-resource:", "").replace(/^\/+/, "").replace(/\/+$/, "");
     resourceString = `@{${fullName}? ms-resource://${packageName}/${cleanResource}}`;
   } else {
-    //$"@{{{fullName}? ms-resource://{packageName}/resources/{resUri.Segments.Last()}}}";
     resourceString = `@{${fullName}? ms-resource://${packageName}/resources/${lastSegment}}`;
   }
-
   const psScriptPath = path.join(process.env.TEMP, 'SHLoadIndirectString.ps1');
-
   try {
     const psScriptContent = `Param($pszSource)
       $sb = [System.Text.StringBuilder]::new(1024)
@@ -136,21 +125,15 @@ const getIndirectResourceString= async (fullName: string, packageName: string, r
           "stringValue" = $sb.ToString()
       }
     $htable | ConvertTo-Json
-      `
+      `;
     fs.writeFileSync(psScriptPath, psScriptContent);
   } catch (err) {
     console.error(err);
   }
   try {
     const result: string = await new Promise((resolve) => {
-      const out = spawn(
-        psScriptPath, ['-pszSource', `"${resourceString}"`],
-        {
-          shell: 'powershell'
-        }
-      ).stdout;
-      out.on('data', (data) => {
-        resolve(data.toString('utf8'))})
+      const out = spawn(psScriptPath, ['-pszSource', `"${resourceString}"`], {shell: 'powershell'}).stdout;
+      out.on('data', (data) => resolve(data.toString('utf8')))
       out.on('close', ()=>resolve(''))
     })
     if (result) {
@@ -163,18 +146,12 @@ const getIndirectResourceString= async (fullName: string, packageName: string, r
   catch (err) {
     console.error("Error parsing json: " + err);
   }
-
   resourceString = `@{${fullName}? ms-resource://${packageName}/${lastSegment}}`;
   try {
     const result:string = await new Promise((resolve) => {
-      const out = spawn(
-        psScriptPath, ['-pszSource', `"${resourceString}"`],
-        {
-          shell: 'powershell'
-                }
-      ).stdout;
-      out.on('data', data=> resolve(data.toString('utf8')))
-      out.on('close', ()=>resolve(''))
+      const out = spawn(psScriptPath, ['-pszSource', `"${resourceString}"`], {shell: 'powershell'}).stdout;
+      out.on('data', data => resolve(data.toString('utf8')))
+      out.on('close', () => resolve(''))
     })
     if (result) {
       const jsonResult = JSON.parse(result);
@@ -186,31 +163,21 @@ const getIndirectResourceString= async (fullName: string, packageName: string, r
   catch (err) {
     console.error("Error parsing json: " + err);
   }
-
   return '';
 }
 
 const getUWPAppDetail = async (manifest: SimpleManifest, xmlParser: XMLParser) => {
-  var uwpApp: SimpleUWPApp = {} as SimpleUWPApp;
-
+  let uwpApp: SimpleUWPApp = {} as SimpleUWPApp;
   const command = `$PkgMgr = [Windows.Management.Deployment.PackageManager,Windows.Web,ContentType=WindowsRuntime]::new();
   $package = $PkgMgr.FindPackagesForUser([System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value, "${manifest.idName}", "${manifest.idPublisher}");
   $newObject = $package | Select-Object IsFramework, IsResourcePackage, SignatureKind, IsBundle, InstalledLocation, InstalledPath, Id;
   $newObject | ConvertTo-Json`
-
   const searchResults:string = await new Promise((resolve)=>{
-    const out = spawn(
-      command,
-      {
-        shell: 'powershell',
-      }
-    ).stdout;
-    out.on('data', data=>resolve(data.toString('utf8')))
-    out.on('close',()=>resolve(''))
+    const out = spawn(command,{shell: 'powershell'}).stdout;
+    out.on('data', data => resolve(data.toString('utf8')))
+    out.on('close',() => resolve(''))
   })
-
-  if (!searchResults)
-    return;
+  if (!searchResults) { return }
   const jsonuwpapp = JSON.parse(searchResults);
   if (
     jsonuwpapp.IsFramework ||
@@ -219,9 +186,8 @@ const getUWPAppDetail = async (manifest: SimpleManifest, xmlParser: XMLParser) =
   ) {
     return;
   }
-  // parse manifest files
   try {
-    var manifestPath;
+    let manifestPath;
     if (jsonuwpapp.IsBundle) {
       manifestPath = "AppxMetadataAppxBundleManifest.xml";
     } else {
@@ -229,35 +195,29 @@ const getUWPAppDetail = async (manifest: SimpleManifest, xmlParser: XMLParser) =
     }
     let installedDir = jsonuwpapp.InstalledLocation ? jsonuwpapp.InstalledLocation.Path : jsonuwpapp.InstalledPath;
     manifestPath = path.join(installedDir, manifestPath);
-
-    var xml = fs.readFileSync(manifestPath, "utf8");
-
-    var apxApp: string;
-    var appId: string;
-    var name: string;
+    let xml = fs.readFileSync(manifestPath, "utf8");
+    let apxApp: string;
+    let appId: string;
+    let name: string;
     if (XMLValidator.validate(xml)) {
       let parsedData: any = xmlParser.parse(xml);
       apxApp = json.caselessGet(parsedData, [["Package"], ["Applications"], ["Application"]]);
       if (Array.isArray(apxApp)) {
         apxApp = apxApp.filter(x => json.caselessHas(x, [["@_Executable"]]))[0];
       }
-
       appId = json.caselessGet(apxApp, [["@_Id"]]);
       name = json.caselessGet(parsedData, [["Package"], ["Properties"], ["DisplayName"]]);
-
       if (name.toString().startsWith("ms-resource")) {
         name = await getIndirectResourceString(jsonuwpapp.Id.FullName, jsonuwpapp.Id.Name, name);
         if (name == null || name == "") {
           name = json.caselessGet(parsedData, [["Package"], ["Identity"], ["@_Name"]]);
         }
       }
-
       uwpApp.name = name;
       uwpApp.workdir = installedDir;
       uwpApp.path = path.join(installedDir, manifest.appExecutable).toString();
       uwpApp.arguments = `shell:AppsFolder\\${jsonuwpapp.Id.FamilyName}!${appId}`;
       uwpApp.appId = jsonuwpapp.Id.FamilyName;
-
     }
   } catch (err) {
     console.error("Error parsing xml files: " + err);
