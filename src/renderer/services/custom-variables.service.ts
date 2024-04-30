@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CustomVariables } from "../../models";
+import { CustomVariables, xRequestOptions } from "../../models";
 import { LoggerService } from './logger.service';
 import { BehaviorSubject } from "rxjs";
 import { APP } from '../../variables';
@@ -8,15 +8,25 @@ import * as json from "../../lib/helpers/json";
 import * as paths from "../../paths";
 import * as schemas from '../schemas';
 import * as _ from "lodash";
+import { ConfigurationPresetsService } from '.';
+import path from 'path/posix';
 
 @Injectable()
 export class CustomVariablesService {
-  private static xRequest = new xRequest();
+  private xRequest = new xRequest();
+  private requestOpts: xRequestOptions = {
+    responseType: 'json',
+    method: 'GET',
+    timeout: 5000
+  }
   private variableData: BehaviorSubject<CustomVariables> = new BehaviorSubject({});
 
   private downloadStatus: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private validator: json.Validator = new json.Validator(schemas.customVariables);
   private savingIsDisabled: boolean = false;
+  private treesURL: string = 'https://api.github.com/repos/SteamGridDB/steam-rom-manager/git/trees/';
+  private rawURL: string = 'https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/';
+
 
   constructor(private loggerService: LoggerService) {
     this.load();
@@ -38,12 +48,44 @@ export class CustomVariablesService {
     return this.downloadStatus;
   }
 
-  download(force: boolean = false) {
+  async download(force: boolean = false): Promise<void> {
+    if(!this.downloadStatus.getValue()) {
+      this.downloadStatus.next(true)
+      const downloadURL = this.treesURL.concat('master').concat('?recursive=1')
+      const treeData = await this.xRequest.request(downloadURL, {
+        responseType: 'json', method: 'GET', timeout: 5000
+      });
+      let variableURLs = treeData.tree
+      .filter((entry: any) => path.dirname(entry.path)=='files/customvariables')
+      .map((entry: any)=> entry.path);
+      let customVariables: any[] = [];
+      for(let variableURL of variableURLs) {
+        const cleanURL = variableURL.split('/').map((x:string)=>encodeURI(x)).join('/')
+        const fullURL = this.rawURL.concat(cleanURL)
+        console.log("variableURL", variableURL, fullURL)
+        const customVariable = await this.xRequest.request(fullURL, this.requestOpts)
+        console.log("customVariable", customVariable)
+        customVariables.push(customVariable)
+      }
+      let joinedVariables = Object.assign({}, ...customVariables)
+      console.log("joinedVars", joinedVariables)
+      const error = this.set(joinedVariables)
+      if (error){
+        this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: error }));
+      } else {
+        this.loggerService.info(this.lang.info.downloaded, force ? { invokeAlert: true, alertTimeout: 5000 } : undefined);
+        this.save(force);
+      }
+      this.downloadStatus.next(false);
+    }
+  }
+
+  downloadOld(force: boolean = false) {
     return Promise.resolve().then(() => {
       if (!this.downloadStatus.getValue()) {
         this.downloadStatus.next(true);
 
-        return CustomVariablesService.xRequest.request(
+        return this.xRequest.request(
           'https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/files/customVariables.json',
           {
             responseType: 'json',

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ConfigPresets } from "../../models";
+import { ConfigPresets, xRequestOptions } from "../../models";
 import { LoggerService } from './logger.service';
 import { BehaviorSubject } from "rxjs";
 import { APP } from '../../variables';
@@ -13,7 +13,12 @@ import * as fs from "fs-extra";
 
 @Injectable()
 export class ConfigurationPresetsService {
-  private static xRequest = new xRequest();
+  private xRequest = new xRequest();
+  private requestOpts: xRequestOptions = {
+    responseType: 'json',
+    method: 'GET',
+    timeout: 5000
+  }
   private variableData: BehaviorSubject<ConfigPresets> = new BehaviorSubject({});
   private downloadStatus: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private validator: json.Validator = new json.Validator(schemas.configPresets);
@@ -47,9 +52,7 @@ export class ConfigurationPresetsService {
         resolve();
       } else {
         this.downloadStatus.next(true);
-        ConfigurationPresetsService.xRequest.request(this.rawURL.concat('files/presetsHashes.json'), {
-          responseType: 'json', method: 'GET', timeout: 5000
-        })
+        this.xRequest.request(this.rawURL.concat('files/presetsHashes.json'), this.requestOpts)
         .then((presetsHashes) => {
           const appVersion: string = APP.version || '';
           let downloadURL: string;
@@ -63,7 +66,7 @@ export class ConfigurationPresetsService {
           return downloadURL;
         })
         .then((downloadURL) => {
-          return ConfigurationPresetsService.xRequest.request(downloadURL, {
+          return this.xRequest.request(downloadURL, {
             responseType: 'json', method: 'GET', timeout: 5000
           })
         })
@@ -75,7 +78,7 @@ export class ConfigurationPresetsService {
           let presetPromises: PromiseLike<any>[] = []
           presetURLs.forEach((url: string)=>{
             let queryURL = this.rawURL.concat(url);
-            presetPromises.push(ConfigurationPresetsService.xRequest.request(queryURL, {
+            presetPromises.push(this.xRequest.request(queryURL, {
               responseType: 'json',
               method: 'GET',
               timeout: 5000
