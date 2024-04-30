@@ -48,7 +48,7 @@
         "disabledConfigurations__i": "${count} configurazione/i utente/i sono/erano state saltate (poiché disabilitate dall'utente).",
         "invalidConfigurations__i": "${count} configurazione/i utente/i sono/erano state saltate (poiché non valide).",
         "executingParsers": "Esecuzione del parser.",
-        "shutdownSteam": "Chiudi Steam se è in esecuzione.",
+        "shutdownSteam": "If Steam is running, exit Steam.",
         "noParserConfigurations": "Creare prima la configurazione del parser nel menu \"Parser\" per favore.",
         "parserFoundNoFiles": "Il/I parser non ha trovato file corrispondenti alla configurazione utente.",
         "allImagesRetrieved": "Tutti gli url d'immagine disponibili sono stati recuperati.",
