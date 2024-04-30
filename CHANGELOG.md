@@ -9,7 +9,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 * Filter out DMCA'd artwork.
 * Split custom variables file ([issue 260](https://github.com/SteamGridDB/steam-rom-manager/issues/260)). Thanks @kencinder.
-* Moved filters for preview page into a side panel
+* Moved filters for preview page into a side panel.
+* Automatically download new custom variables on startup.
 
 ## 2.4.24
 ### Added

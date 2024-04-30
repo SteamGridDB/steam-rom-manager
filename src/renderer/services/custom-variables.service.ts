@@ -76,28 +76,29 @@ export class CustomVariablesService {
   }
 
   load() {
-    json.read<CustomVariables>(paths.customVariables)
-      .then((data) => {
-        if (data === null) {
-          return this.download();
+    return this.download().then(() => {
+      return json.read<CustomVariables>(paths.customVariables)
+    }).then((data) => {
+      if (data === null) {
+        return this.download();
+      }
+      else {
+        const error = this.set(data || {});
+        if (error !== null) {
+          this.savingIsDisabled = true;
+          this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
+          this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
+            file: paths.customVariables,
+            error
+          }));
         }
-        else {
-          const error = this.set(data || {});
-          if (error !== null) {
-            this.savingIsDisabled = true;
-            this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
-            this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
-              file: paths.customVariables,
-              error
-            }));
-          }
-        }
-      })
-      .catch((error) => {
-        this.savingIsDisabled = true;
-        this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
-        this.loggerService.error(error);
-      });
+      }
+    })
+    .catch((error) => {
+      this.savingIsDisabled = true;
+      this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
+      this.loggerService.error(error);
+    });
   }
 
   set(data: CustomVariables) {
