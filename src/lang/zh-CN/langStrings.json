@@ -48,7 +48,7 @@
         "disabledConfigurations__i": "${count} 个用户配置被跳过（由用户禁用）\"。",
         "invalidConfigurations__i": "${count} 个用户配置被跳过（无效）。",
         "executingParsers": "执行解析器。",
-        "shutdownSteam": "请关闭 Steam，如果它正在运行。",
+        "shutdownSteam": "If Steam is running, exit Steam.",
         "noParserConfigurations": "请先在“解析器”菜单中创建解析器配置。",
         "parserFoundNoFiles": "解析器未找到与用户配置匹配的文件。",
         "allImagesRetrieved": "已检索到所有可用的图像网址。",
