@@ -36,11 +36,11 @@
   .loadingSpinner {
     &:before {
       display: block;
-      align: center;
       justify-content: center;
       width: 5em;
       height: 5em;
-      margin: 40vh auto auto;
+      margin-top: 40vh;
+      margin-left: calc(0.45 * (100vw - var(--nav-width)));
 
       content: "";
       animation: loadingSpinner 0.6s linear infinite;
