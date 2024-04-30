@@ -48,7 +48,7 @@
         "disabledConfigurations__i": "${count} configuración(es) de usuario se han omitido (desactivadas por el usuario).",
         "invalidConfigurations__i": "${count} configuración(es) de usuario se ha omitido (inválidas).",
         "executingParsers": "Ejecutando análisis.",
-        "shutdownSteam": "Por favor, cierre Steam si se está ejecutando.",
+        "shutdownSteam": "If Steam is running, exit Steam.",
         "noParserConfigurations": "Cree primero la configuración del analizador en el menú \"Analizadores\".",
         "parserFoundNoFiles": "El análisis no ha encontrado ningún archivo que coincida con la configuración del usuario.",
         "allImagesRetrieved": "Se han obtenido todas las urls de imágenes disponibles.",
