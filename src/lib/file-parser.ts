@@ -557,7 +557,7 @@ export class FileParser {
           resolve(parsedConfig)
         })
       } catch(e) {
-        reject(`Backed up images step for blech:\n ${e}`)
+        reject(`Backed up images step for "${parsedConfig.configurationTitle}":\n ${e}`)
       }
     })
   }

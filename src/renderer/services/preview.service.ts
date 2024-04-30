@@ -436,7 +436,6 @@ export class PreviewService {
       setTimeout(this.generatePreviewDataCallback.bind(this), 100);
     }
     else {
-      let oldPreviewData = this.previewData;
       this.previewData = undefined;
       let previewData;
       this.loggerService.info(this.lang.info.executingParsers, { invokeAlert: true });
@@ -466,7 +465,7 @@ export class PreviewService {
           }
           else {
             this.loggerService.info(this.lang.info.shutdownSteam, { invokeAlert: true, alertTimeout: 3000 });
-            previewData = await this.createPreviewData(data.parsedData.parsedConfigs, oldPreviewData);
+            previewData = await this.createPreviewData(data.parsedData.parsedConfigs);
           }
         }
         else if (data.invalid.length === 0 && data.skipped.length === 0) {
@@ -507,7 +506,7 @@ export class PreviewService {
     this.sgdbToArt = artworkCache.sgdbToArt;
   }
 
-  private async createPreviewData(data: ParsedUserConfiguration[], oldData?: PreviewData) {
+  private async createPreviewData(data: ParsedUserConfiguration[]) {
       let steamTreeData = steam.generateTreeFromParsedConfig(data);
       let treeData: {gridData: SteamTree<any>, steamTreeData: SteamTree<any>};
       if (this.appSettings.previewSettings.retrieveCurrentSteamImages)
@@ -525,14 +524,11 @@ export class PreviewService {
 
       for (let i = 0; i < data.length; i++) {
         let config = data[i];
-        let oldDataDir = oldData !== undefined ? oldData[config.steamDirectory] : undefined;
-
         if (previewData[config.steamDirectory] === undefined)
           previewData[config.steamDirectory] = {};
 
         for (let j = 0; j < config.foundUserAccounts.length; j++) {
           let userAccount = config.foundUserAccounts[j];
-          let oldDataAccount = oldDataDir !== undefined ? oldDataDir[userAccount.accountID] : undefined;
 
           if (previewData[config.steamDirectory][userAccount.accountID] === undefined) {
             previewData[config.steamDirectory][userAccount.accountID] = {
@@ -554,7 +550,6 @@ export class PreviewService {
             } else {
               appID = steam.lengthenAppId(executableLocation.replace(/\"/g,""));
             }
-            let oldDataApp = oldDataAccount !== undefined ? oldDataAccount.apps[appID] : undefined;
 
             if (shortcutsData[config.steamDirectory][userAccount.accountID][appID] !== undefined) {
               if (shortcutsData[config.steamDirectory][userAccount.accountID][appID]['icon'] !== undefined) {
