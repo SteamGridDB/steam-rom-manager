@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 * Renderer blocking when running XBox UWP parser
+### Changed
+* Filter out DMCA'd artwork.
 
 ## 2.4.24
 ### Added

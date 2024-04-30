@@ -698,9 +698,12 @@ export class PreviewService {
                     let imageContent = (data as ProviderCallbackEventMap['image']).content;
                     const imageArtCache = (this.sgdbToArt[imageType]||{})[imageContent.imageGameId]
                     const preinsertImage = imageArtCache && imageArtCache.artworkId == imageContent.imageArtworkId;
-                    let newImage: ImageContent = this.addUniqueImage(imageKeys[i], imageContent, imageType, preinsertImage);
-                    if (newImage !== null && this.appSettings.previewSettings.preload) {
-                      this.preloadImage(newImage);
+                    const nintendoSucks = imageContent.imageUrl.slice(-1) == '?';
+                    if(!nintendoSucks) {
+                      let newImage: ImageContent = this.addUniqueImage(imageKeys[i], imageContent, imageType, preinsertImage);
+                      if (newImage !== null && this.appSettings.previewSettings.preload) {
+                        this.preloadImage(newImage);
+                      }
                     }
                     this.previewDataChanged.next();
                   });
