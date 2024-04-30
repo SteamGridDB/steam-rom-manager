@@ -22,16 +22,17 @@
   --games-icon-width: 600px;
   --games-icon-height: 600px;
   --details-width: 0%;
+  --filters-width: 0%;
   grid-area: route;
   grid-template-areas:
-    "upperMenu upperMenu"
-    "excludes excludes"
-    "detailsUpper detailsUpper"
-    "urls urls"
-    "entries detailsLower"
-    "lowerMenu lowerMenu";
+    "upperMenu upperMenu upperMenu"
+    "excludes excludes excludes"
+    "detailsUpper detailsUpper detailsUpper"
+    "urls urls urls"
+    "filters entries detailsLower"
+    "lowerMenu lowerMenu lowerMenu";
   grid-template-rows: auto auto auto auto 1fr auto;
-  grid-template-columns: auto var(--details-width);
+  grid-template-columns: var(--filters-width) auto var(--details-width);
   .loadingSpinner {
     &:before {
       display: block;
@@ -100,36 +101,27 @@
 
     align-items: center;
     grid-area: upperMenu;
-    grid-template-columns: auto 1fr auto auto;
+    grid-template-columns: auto auto 1fr auto auto;
     grid-template-rows: auto;
 
     ng-select,
     ng-text-input {
       margin-bottom: 0;
     }
+    .filtersButton {
+        grid-column: 1;
+        @include button();
+        @include clickButtonColor(click-button);
+    }
 
     .imageCounter {
       color: var(--color-preview-text);
 
-      grid-column: 1;
+      grid-column: 2;
     }
     .selectType {
-      grid-column: 2;
+      grid-column: 3;
       width: var(--width-preview-select-type);
-      font-size: 1em;
-      margin-right: 0.75em;
-      color: var(--color-preview-text);
-    }
-    .selectCategories {
-      grid-column: 2;
-      width: var(--width-preview-select-cats);
-      font-size: 1em;
-      margin-right: 0.75em;
-      color: var(--color-preview-text);
-    }
-    .selectParsers {
-      grid-column: 2;
-      width: 9em;
       font-size: 1em;
       margin-right: 0.75em;
       color: var(--color-preview-text);
@@ -138,7 +130,7 @@
     .slider {
       display: flex;
       align-items: center;
-      grid-column: 3;
+      grid-column: 4;
       > div,
       > input {
         margin: 0 0.25em;
@@ -157,7 +149,7 @@
       @include ngTextInput();
       margin-bottom: 0;
       width: 13em;
-      grid-column: 4;
+      grid-column: 5;
     }
   }
 
@@ -311,6 +303,37 @@
       margin-right: 1em;
     }
     grid-area: urls;
+  }
+
+  .filters {
+    grid-area: filters;
+    background-color: var(--color-preview-user-background);
+    @include webkitScrollbar(preview-scrollbar);
+    overflow-y: scroll;
+
+    .filtergroup {
+      padding-left: 1em;
+      padding-right: 1em;
+      padding-top: 1em;
+      ng-toggle-button {
+        font-size: 1em;
+        margin: 0.25em 0 0.25em 0;
+        @include ngToggleButtonColor(ng-toggle-button);
+        color: var(--color-preview-text)
+      }
+      .filterLabel {
+        margin-bottom: .5em;
+        span {
+          color: var(--color-preview-text);
+        }
+      }
+
+      .select {
+        width: 100%;
+        font-size: 1em;
+        color: var(--color-preview-text);
+      }
+    }
   }
 
   .entries {

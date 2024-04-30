@@ -7,7 +7,7 @@ import {SelectItem} from "../../models";
 @Component({
   selector: 'ng-select',
   template: `
-  <div class="display" *ngIf="!searchable" (click)="open = !open" [class.open]="open">
+  <div class="display" *ngIf="!searchable" (click)="toggleOpen()" [class.open]="open">
   <div text-scroll>{{currentDisplay || placeholder || 'null'}}</div>
   <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
     <polyline points="70, 110 150, 200 230, 110" />
@@ -66,7 +66,10 @@ export class NgSelectComponent implements ControlValueAccessor {
     this.selected = newSelected.map(value=>_.findIndex(this.optionsList,(e)=>_.isEqual(e,value)));
   }
 
-
+  private toggleOpen() {
+    this.open = !this.open;
+    this.changeRef.detectChanges();
+  }
   selectOption(id: number, toggle: boolean, suppressChanges: boolean = false) {
     let valueChanged = true;
     let selectedIds =  this.selected;

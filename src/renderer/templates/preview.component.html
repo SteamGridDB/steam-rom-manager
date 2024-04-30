@@ -23,6 +23,7 @@
     <div class="fake-btn" (click)="generatePreviewData(false)">{{ lang.generateAppList }}</div>
   </div>
   <div class="upperMenu" *ngIf="previewVariables.numberOfListItems > 0">
+    <div class="filtersButton" (click)="toggleFilters()">Filters</div>
     <div class="slider">
       <input
         type="range"
@@ -34,26 +35,6 @@
         (change)="setImageSize($event.target.value, true)"
       />
       <div>{{ appSettings.previewSettings.imageZoomPercentage | number : "1.0-2" }}%</div>
-      <ng-select
-        class="selectCategories"
-        [(ngModel)]="categoryFilter"
-        [placeholder]="lang.selectCategories"
-        (ngModelChange)="setCategoryFilter($event)"
-        multiple="true"
-        allowEmpty="true"
-        [values]="allCategories"
-      >
-      </ng-select>
-      <ng-select
-        class="selectParsers"
-        [(ngModel)]="parserFilter"
-        [placeholder]="lang.selectParsers"
-        (ngModelChange)="setParserFilter($event)"
-        multiple="true"
-        allowEmpty="true"
-        [values]="allParsers"
-      >
-      </ng-select>
       <ng-select
         class="selectType"
         [(ngModel)]="appSettings.previewSettings.imageTypes"
@@ -85,6 +66,7 @@
       </div>
     </div>
   </div>
+
   <div class="detailsLower">
     <ng-container *ngIf="!detailsLoading">
       <ng-container *ngIf="!!detailsApp">
@@ -133,6 +115,44 @@
     <div class="stopButton" (click)="stopImageRetrieving()">{{ lang.stopUrlRetrieving }}</div>
     <div class="imageCounter">{{ lang.remainingImages }} {{ previewVariables.numberOfQueriedImages }}</div>
   </div>
+  <div class="filters" *ngIf="showFilters">
+    <div class="filtergroup">
+      <div class="filterLabel">
+        <span>Filter by Steam category</span>
+      </div>
+      <ng-select
+        class="selectCategories"
+        [(ngModel)]="categoryFilter"
+        [placeholder]="lang.selectCategories"
+        (ngModelChange)="setCategoryFilter($event)"
+        multiple="true"
+        allowEmpty="true"
+        [values]="allCategories"
+      ></ng-select>
+    </div>
+    <div class="filtergroup">
+      <div class="filterLabel">
+        <span>Filter by parser</span>
+      </div>
+      <ng-select
+      class="selectParsers"
+      [(ngModel)]="parserFilter"
+      [placeholder]="lang.selectParsers"
+      (ngModelChange)="setParserFilter($event)"
+      multiple="true"
+      allowEmpty="true"
+      [values]="allParsers"
+    ></ng-select>
+    </div>
+    <div class="filtergroup">
+      <div class="filterLabel"><span>Other Filters</span></div>
+      <ng-toggle-button
+        [ngModel]="missingArtFilter"
+        (ngModelChange)="setArtFilter($event)"
+      >Filter by missing artwork</ng-toggle-button>
+    </div>
+  </div>
+
   <div
     class="entries"
     *ngVar="{ hoverIndex: undefined, hoverType: undefined } as entries"
@@ -168,11 +188,7 @@
                         <ng-container *ngVar="getAppImages(app, imagetype) as appimages">
                           <div
                             class="app"
-                            *ngIf="
-                              (app.title | fuzzyTest : filterValue) &&
-                              (app.steamCategories | intersectionTest : actualCategoryFilter) &&
-                              ([app.configurationTitle] | intersectionTest : actualParserFilter)
-                            "
+                            *ngIf="isAppVisible(app)"
                             [style.backgroundImage]="setBackgroundImage(app, image, imagetype) | cssUrl | safeStyle"
                             [class.retrieving]="getImagePool(appimages.imagePool, imagetype).retrieving"
                             [class.noImages]="

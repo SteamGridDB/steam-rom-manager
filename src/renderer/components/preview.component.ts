@@ -14,6 +14,7 @@ import * as appImage from '../../lib/helpers/app-image';
 import * as steam from '../../lib/helpers/steam';
 import * as _ from 'lodash';
 import * as path from 'path';
+import { getCurrentImage } from '../../lib/helpers/app-image';
 
 @Component({
   selector: 'preview',
@@ -26,6 +27,8 @@ export class PreviewComponent implements OnDestroy {
   private appSettings: AppSettings;
   private subscriptions: Subscription = new Subscription();
   private previewVariables: PreviewVariables;
+  private missingArtFilter: boolean = false;
+  private showFilters: boolean = false;
   private filterValue: string = '';
   private categoryFilter: string[] = [];
   private allCategories: string[] = [];
@@ -302,6 +305,23 @@ export class PreviewComponent implements OnDestroy {
         this.previewService.clearPreviewData();
     });
   }
+
+  private toggleFilters() {
+    if(this.showFilters) {
+      this.showFilters = false;
+      this.renderer.setStyle(this.elementRef.nativeElement,'--filters-width','0%',RendererStyleFlags2.DashCase);
+    } else {
+      this.showFilters = true;
+      this.renderer.setStyle(this.elementRef.nativeElement, '--filters-width', '300px', RendererStyleFlags2.DashCase);
+    }
+    this.changeDetectionRef.detectChanges();
+  }
+
+  private setArtFilter(artFilter: boolean) {
+    this.missingArtFilter = artFilter;
+    this.changeDetectionRef.detectChanges();
+  }
+
   private searchMatches(searchTitle: string) {
     this.previewService.getMatchFixes(searchTitle).then((games: any[])=>{
       this.matchFixDict = Object.fromEntries(games.map((x: any)=>[x.id.toString(), {name: x.name, posterUrl: x.posterUrl}]));
@@ -410,7 +430,18 @@ export class PreviewComponent implements OnDestroy {
     const searchFilter = this.fuzzyTest.transform(app.title, this.filterValue);
     const categoryFilter = this.intersectionTest.transform(app.steamCategories, this.actualCategoryFilter);
     const configFilter = this.intersectionTest.transform([app.configurationTitle], this.actualParserFilter);
-    return searchFilter && categoryFilter && configFilter;
+    let missingArtFilter;
+    const imageType = this.previewService.getImageType();
+    if(!this.missingArtFilter) {
+      missingArtFilter = true;
+    } else {
+      if(imageType=='games') {
+        missingArtFilter = artworkTypes.map(t=> !this.previewService.getCurrentImage(app,t)).reduce((x,y)=>x||y);
+      } else {
+        missingArtFilter = !this.previewService.getCurrentImage(app)
+      }
+    }
+    return searchFilter && categoryFilter && configFilter && missingArtFilter;
   }
 
   private excludeVisible() {

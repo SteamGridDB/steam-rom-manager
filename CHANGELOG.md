@@ -3,12 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## 2.4.25
 ### Added
-
+* Toggle to filter by apps missing artwork (resolves [issue 407](https://github.com/SteamGridDB/steam-rom-manager/issues/407))
 ### Fixed
 * Renderer blocking when running XBox UWP parser
 ### Changed
 * Filter out DMCA'd artwork.
 * Split custom variables file ([issue 260](https://github.com/SteamGridDB/steam-rom-manager/issues/260)). Thanks @kencinder.
+* Moved filters for preview page into a side panel
 
 ## 2.4.24
 ### Added
