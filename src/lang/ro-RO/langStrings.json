@@ -48,7 +48,7 @@
         "disabledConfigurations__i": "${count} user configuration(s) was/were skipped (disabled by user).",
         "invalidConfigurations__i": "${count} user configuration(s) was/were skipped (invalid).",
         "executingParsers": "Executing parsers.",
-        "shutdownSteam": "Please shutdown Steam if it is running.",
+        "shutdownSteam": "If Steam is running, exit Steam.",
         "noParserConfigurations": "Please create parser configuration in \"Parsers\" menu first.",
         "parserFoundNoFiles": "Parser(s) found no files matching user configuration.",
         "allImagesRetrieved": "All available image urls retrieved.",
