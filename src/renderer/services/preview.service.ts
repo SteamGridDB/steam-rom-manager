@@ -485,6 +485,7 @@ export class PreviewService {
         }
         else {
           this.previewVariables.numberOfListItems = 0;
+          this.loggerService.info('Enabled parsers returned no apps', { invokeAlert: true, alertTimeout: 3000 })
         }
 
         this.previewVariables.listIsBeingGenerated = false;
