@@ -52,9 +52,7 @@ export class CustomVariablesService {
     if(!this.downloadStatus.getValue()) {
       this.downloadStatus.next(true)
       const downloadURL = this.treesURL.concat('master').concat('?recursive=1')
-      const treeData = await this.xRequest.request(downloadURL, {
-        responseType: 'json', method: 'GET', timeout: 5000
-      });
+      const treeData = await this.xRequest.request(downloadURL, this.requestOpts);
       let variableURLs = treeData.tree
       .filter((entry: any) => path.dirname(entry.path)=='files/customvariables')
       .map((entry: any)=> entry.path);
@@ -62,13 +60,10 @@ export class CustomVariablesService {
       for(let variableURL of variableURLs) {
         const cleanURL = variableURL.split('/').map((x:string)=>encodeURI(x)).join('/')
         const fullURL = this.rawURL.concat(cleanURL)
-        console.log("variableURL", variableURL, fullURL)
         const customVariable = await this.xRequest.request(fullURL, this.requestOpts)
-        console.log("customVariable", customVariable)
         customVariables.push(customVariable)
       }
       let joinedVariables = Object.assign({}, ...customVariables)
-      console.log("joinedVars", joinedVariables)
       const error = this.set(joinedVariables)
       if (error){
         this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: error }));
@@ -78,36 +73,6 @@ export class CustomVariablesService {
       }
       this.downloadStatus.next(false);
     }
-  }
-
-  downloadOld(force: boolean = false) {
-    return Promise.resolve().then(() => {
-      if (!this.downloadStatus.getValue()) {
-        this.downloadStatus.next(true);
-
-        return this.xRequest.request(
-          'https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/files/customVariables.json',
-          {
-            responseType: 'json',
-            method: 'GET',
-            timeout: 5000
-          }
-        ).then((data) => {
-          const error = this.set(data || {});
-          if (error !== null) {
-            throw new Error(error);
-          }
-          else {
-            this.loggerService.info(this.lang.info.downloaded, force ? { invokeAlert: true, alertTimeout: 5000 } : undefined);
-            this.save(force);
-          }
-        }).catch((error) => {
-          this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: _.get(error, 'error.status', error) }));
-        }).finally(() => {
-          this.downloadStatus.next(false);
-        })
-      }
-    });
   }
 
   load() {

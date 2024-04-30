@@ -46,64 +46,41 @@ export class ConfigurationPresetsService {
     return this.downloadStatus;
   }
 
-  download(force: boolean = false) {
-    return new Promise<void>((resolve, reject) => {
-      if(this.downloadStatus.getValue()) {
-        resolve();
+  async download(force: boolean = false) {
+    if(!this.downloadStatus.getValue()) {
+      this.downloadStatus.next(true);
+      const hashesURL = this.rawURL.concat('files/presetsHashes.json')
+      const presetsHashes = await this.xRequest.request(hashesURL, this.requestOpts);
+      const appVersion: string = APP.version || '';
+      let downloadURL: string;
+      // change this to work as a version range
+      if(presetsHashes && presetsHashes[appVersion]) {
+        const commit = presetsHashes[appVersion].commit;
+        downloadURL = this.treesURL.concat(commit).concat('?recursive=1')
       } else {
-        this.downloadStatus.next(true);
-        this.xRequest.request(this.rawURL.concat('files/presetsHashes.json'), this.requestOpts)
-        .then((presetsHashes) => {
-          const appVersion: string = APP.version || '';
-          let downloadURL: string;
-          // change this to work as a version range
-          if(presetsHashes && presetsHashes[appVersion]) {
-            const commit = presetsHashes[appVersion].commit;
-            downloadURL = this.treesURL.concat(commit).concat('?recursive=1')
-          } else {
-            downloadURL = this.treesURL.concat('master').concat('?recursive=1')
-          }
-          return downloadURL;
-        })
-        .then((downloadURL) => {
-          return this.xRequest.request(downloadURL, {
-            responseType: 'json', method: 'GET', timeout: 5000
-          })
-        })
-        .then((treedata: any)=>{
-          let presetURLs = treedata.tree
-          .filter((entry: any)=>path.dirname(entry.path)=='files/presets')
-          .map((entry: any)=>entry.path)
-
-          let presetPromises: PromiseLike<any>[] = []
-          presetURLs.forEach((url: string)=>{
-            let queryURL = this.rawURL.concat(url);
-            presetPromises.push(this.xRequest.request(queryURL, {
-              responseType: 'json',
-              method: 'GET',
-              timeout: 5000
-            }));
-          })
-          return Promise.all(presetPromises)
-        })
-        .then((presets)=>{
-          let joinedPresets = Object.assign({}, ...presets);
-          const error = this.set(joinedPresets);
-          if (error) {
-            throw new Error(error);
-          }
-          this.loggerService.info(this.lang.info.downloaded, force ? { invokeAlert: true, alertTimeout: 5000 } : undefined);
-          return this.save(force);
-        })
-        .catch((error) => {
-          this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: _.get(error, 'error.status', error) }));
-        })
-        .finally(() => {
-          this.downloadStatus.next(false);
-          resolve();
-        });
+        downloadURL = this.treesURL.concat('master').concat('?recursive=1')
       }
-    })
+      const treeData = await this.xRequest.request(downloadURL, this.requestOpts)
+      let presetURLs = treeData.tree
+      .filter((entry: any)=>path.dirname(entry.path)=='files/presets')
+      .map((entry: any)=>entry.path)
+      let configPresets: any[] = []
+      for(let presetURL of presetURLs) {
+        const cleanURL = presetURL.split('/').map((x:string)=>encodeURI(x)).join('/');
+        const fullURL = this.rawURL.concat(cleanURL)
+        const configPreset = await this.xRequest.request(fullURL, this.requestOpts);
+        configPresets.push(configPreset);
+      }
+      let joinedPresets = Object.assign({},...configPresets)
+      const error = this.set(joinedPresets);
+      if (error){
+        this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: error }));
+      } else {
+        this.loggerService.info(this.lang.info.downloaded, force ? { invokeAlert: true, alertTimeout: 5000 } : undefined);
+        this.save(force);
+      }
+      this.downloadStatus.next(false);
+    }
   }
 
   load() {
