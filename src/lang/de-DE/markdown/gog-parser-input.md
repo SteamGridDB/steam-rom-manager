@@ -1,4 +1,4 @@
-# GOG Galaxy Parser spezifische Inputs
+# GOG Galaxy Parser Specific Inputs
 
 ## Galaxy Pfad überschreiben
 Steam ROM Manager geht davon aus, dass dein Galaxy Client sich in `C:\Program Files (x86)\GOG Galaxy\GalaxyClient.exe` befindet. Mit diesem Feld kannst du einen anderen Pfad angeben, unter dem do GOG Galaxy installiert hast.
