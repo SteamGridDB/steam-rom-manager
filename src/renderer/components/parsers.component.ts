@@ -3,7 +3,7 @@ import { clipboard } from 'electron';
 import { Component, AfterViewInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
-import { ParsersService, LoggerService, ImageProviderService, SettingsService, ConfigurationPresetsService, IpcService } from '../services';
+import { ParsersService, LoggerService, ImageProviderService, SettingsService, ConfigurationPresetsService, ShellScriptsService, IpcService } from '../services';
 import * as parserInfo from '../../lib/parsers/available-parsers';
 import * as steam from '../../lib/helpers/steam';
 import { controllerTypes, controllerNames } from '../../lib/controller-manager';
@@ -49,6 +49,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
     private cpService: ConfigurationPresetsService,
+    private ssService: ShellScriptsService,
     private ipcService: IpcService
   ) {
     this.appSettings = this.settingsService.getSettings();

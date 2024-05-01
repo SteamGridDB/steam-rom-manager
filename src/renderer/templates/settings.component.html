@@ -132,6 +132,14 @@
         <div class=text style="margin-left: 0.25em;">{{lang.text.configPresets_desc}}</div>
       </div>
     </div>
+    <div class="inputContainer" *ngIf="showShellScripts">
+      <div class="inlineGroup">
+        <div class="clickButton dangerousButton"
+             [class.disabled]="ssService.isDownloading | async" style="font-size: 0.85em;"
+                                                                (click)="ssService.download(true)">Force download</div>
+        <div class=text style="margin-left: 0.25em;">shell scripts</div>
+      </div>
+    </div>
   </div>
   <div>
     <div class="section">

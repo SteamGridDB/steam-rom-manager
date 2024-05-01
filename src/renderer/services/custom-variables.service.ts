@@ -8,7 +8,6 @@ import * as json from "../../lib/helpers/json";
 import * as paths from "../../paths";
 import * as schemas from '../schemas';
 import * as _ from "lodash";
-import { ConfigurationPresetsService } from '.';
 import path from 'path/posix';
 
 @Injectable()
