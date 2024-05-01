@@ -1,4 +1,4 @@
-# Input unici per UWP Parser
+# UWP Parser Specific Inputs
 
 ## Cartella gioco
 
