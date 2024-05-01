@@ -116,7 +116,15 @@
     "legendaryInstalledFilePlaceholder": "/path/to/legendary/installed.json",
     "errors": {
       "legendaryNotInstalled": "> 找不到已安装的 Legendary installed.json 文件",
-      "fatalError__i": "> Legendary 解析器发生致命错误：\n ${error}"
+      "fatalError__i": "> Legendary parser failed with fatal error:\n ${error}"
+    }
+  },
+  "battleNetParser": {
+    "battleExeOverrideTitle": "Battle.net.exe Path Override",
+    "battleExeOverridePlaceholder": "/path/to/Battle.net/Battle.net.exe",
+    "errors": {
+      "battleNotCompatible": "> Battle.net parser is only available on Windows.",
+      "fatalError__i": "> Battle.net parser failed with fatal error:\n ${error}"
     }
   },
   "UWPParser": {
@@ -125,7 +133,7 @@
     "UWPLauncherModeTitle": "以 UWP 形式启动游戏，而不是使用启动器助手。",
     "errors": {
       "fatalError__i": "> UWP 解析器在此平台上不兼容。",
-      "UWPNotCompatible": "> UWP 解析器发生致命错误：\n ${error}"
+      "UWPNotCompatible": "> UWP parser is only available on Windows."
     }
   },
   "uplayParser": {
@@ -252,7 +260,7 @@
         "corruptedVariables__i": "保存的自定义变量无效！\n在解决此问题之前，永久变量保存已被禁用。\n您可以尝试手动修复错误（文件 - ${file}）\n或在 GitHub 或我们的官方 Discord 频道上寻求帮助：${error}"
       },
       "info": {
-        "downloaded": "自定义变量文件已下载。"
+        "downloaded": "Custom variables file has been updated."
       }
     }
   },
@@ -265,7 +273,7 @@
         "corruptedVariables__i": "保存的配置预设无效！\n在解决此问题之前，永久文件保存已被禁用。\n尝试手动修复错误（文件 - ${file}）\n或在我们的官方 Discord 频道或 Github 上寻求帮助：${error}"
       },
       "info": {
-        "downloaded": "新的配置预设已下载。"
+        "downloaded": "Community presets have been updated."
       }
     }
   },
