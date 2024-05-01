@@ -1,4 +1,4 @@
-# Manual Parser specific inputs
+# Manual Parser Specific Inputs
 
 ## Diretório de Manifestos `[Suporta Variáveis de Ambiente]`{.noWrap}
 
