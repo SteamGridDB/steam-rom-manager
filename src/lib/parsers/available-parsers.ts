@@ -15,7 +15,8 @@ export const availableParserInputs: Record<ParserType, string[]> = {
   'Steam': ['onlyGames','onlyInstalled','sourceMods'],
   'UPlay': ['uplayDir','uplayLauncherMode'],
   'UWP': ['UWPDir', 'UWPLauncherMode'],
-  'EA Desktop': ['eaGamesDir','eaLauncherMode']
+  'EA Desktop': ['eaGamesDir','eaLauncherMode'],
+  'Battle.net': ['battleDir']
 };
 
 export const availableParsers: ParserType[] = Object.keys(availableParserInputs) as ParserType[];
@@ -35,7 +36,8 @@ export const superTypes: Record<SuperType, ParserType[]> = {
     'UPlay',
     'itch.io',
     'UWP',
-    'EA Desktop'
+    'EA Desktop',
+    'Battle.net'
   ]
 };
 

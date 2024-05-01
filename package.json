@@ -94,6 +94,7 @@
     "bcp-47": "^2.1.0",
     "better-sqlite3": "^8.3.0",
     "binary-vdf-2": "^0.1.0",
+    "blizzard-product-parser": "https://github.com/cbartondock/blizzard-product-parser.git",
     "cli-color": "^2.0.4",
     "colornames": "^1.1.1",
     "copy-webpack-plugin": "^11.0.0",

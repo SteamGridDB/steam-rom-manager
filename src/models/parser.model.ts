@@ -114,7 +114,7 @@ const steamInputEnabled = StringLiteralArray(['0','1','2']) // 0 disabled, 1 glo
 export type SteamInputEnabled = (typeof steamInputEnabled)[number];
 
 
-export type ParserType = 'Glob' | 'Glob-regex' | 'Manual' | 'Amazon Games' | 'Epic' | 'Legendary' | 'GOG Galaxy' | 'itch.io' | 'Steam' | 'UPlay' | 'UWP' | 'EA Desktop';
+export type ParserType = 'Glob' | 'Glob-regex' | 'Manual' | 'Amazon Games' | 'Epic' | 'Legendary' | 'GOG Galaxy' | 'itch.io' | 'Steam' | 'UPlay' | 'UWP' | 'EA Desktop'| 'Battle.net';
 export type SuperType = 'Manual'|'ArtworkOnly'|'ROM'|'Platform';
 
 export interface ParserInfo {

@@ -255,6 +255,7 @@ export class FileParser {
           || config.parserInputs.uplayLauncherMode
           || config.parserInputs.UWPLauncherMode
           || config.parserInputs.eaLauncherMode
+          || config.parserType==='Battle.net'
         );
         for(let j = 0; j < data.success.length; j++) {
           let fuzzyTitle = data.success[j].fuzzyTitle || data.success[j].extractedTitle;

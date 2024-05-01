@@ -10,3 +10,4 @@ declare module 'file-uri-to-path';
 declare module 'binary-vdf-2';
 declare module 'xdg-parse';
 declare module 'markdown-it-attrs';
+declare module 'blizzard-product-parser';
