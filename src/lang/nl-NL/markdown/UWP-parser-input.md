@@ -1,4 +1,4 @@
-# Unique inputs for UWP Parser
+# UWP Parser Specific Inputs
 
 ## Games directory
 
