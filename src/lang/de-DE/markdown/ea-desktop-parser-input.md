@@ -1,4 +1,4 @@
-# EA Desktop spezifische Inputs
+# EA Desktop Parser Specific Inputs
 
 ## EA Games Verzeichnis überschreiben
 Standardmäßig geht der Steam ROM Manager davon aus, dass deine `EA Desktop` Spiele unter `C:\Program Files\EA Spiele installiert sind. Dieses Feld erlaubt es dir, den Speicherort zu ändern, unter dem deine Spiele installiert sind, z.B.`D:\Games\EA Games`.
