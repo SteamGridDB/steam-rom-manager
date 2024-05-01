@@ -1,4 +1,4 @@
-# Manual Parser specific inputs
+# Manual Parser Specific Inputs
 
 ## Manifests Directory `[Supports Environment Variables]`{.noWrap}
 
