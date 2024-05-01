@@ -1,4 +1,4 @@
-# Glob Parser specific inputs
+# Glob Parser Specific Inputs
 
 ## Global do usuário
 
