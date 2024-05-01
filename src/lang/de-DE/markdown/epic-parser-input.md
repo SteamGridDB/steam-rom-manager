@@ -1,4 +1,4 @@
-# Epic Games Store spezifische Inputs
+# Epic Games Store Specific Inputs
 
 ## Manifest Verzeichnis überschreiben
 
