@@ -1,4 +1,4 @@
-# 手动解析器特定输入
+# Manual Parser Specific Inputs
 
 ## 清单目录 `[支持环境变量]`{.noWrap}
 
