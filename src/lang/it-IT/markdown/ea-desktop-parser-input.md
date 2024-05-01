@@ -1,4 +1,4 @@
-# Input specifici per il Parser di EA Desktop
+# EA Desktop Parser Specific Inputs
 
 ## Sovrascrittura Cartella EA Games
 Per impostazione predefinita, Steam ROM Manager assume che i tuoi giochi `EA Desktop` siano installati in `` C:\Program Files\EA Games\`</0>. Questo campo ti permette di modificarlo ovunque i tuoi giochi siano installati, ad esempio <0>D:\Games\EA Games\` ``.
