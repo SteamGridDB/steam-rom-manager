@@ -1,4 +1,4 @@
-# Glob 解析器特定输入
+# Glob Parser Specific Inputs
 
 ## 用户的全局变量
 
