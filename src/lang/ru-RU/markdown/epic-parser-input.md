@@ -1,4 +1,4 @@
-# Специфичные входы для Epic Games Store
+# Epic Games Store Specific Inputs
 
 ## Переопределение директории манифестов
 
