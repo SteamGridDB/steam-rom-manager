@@ -1,4 +1,4 @@
-# Legendary Parser spezifische inputs
+# Legendary Parser Specific Inputs
 
 ## Legendary `installed.json` Pfad überschreiben
 
