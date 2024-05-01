@@ -1,4 +1,4 @@
-#
+# Epic Games Store Specific Inputs
 
 ## Outrepasser le répertoire des Manifestes
 
