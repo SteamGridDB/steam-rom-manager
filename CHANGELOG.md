@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.26
+### Added
+* Battle.net parser (all planned Windows parsers now complete)
+
 ## 2.4.25
 ### Added
 * Toggle to filter by apps missing artwork (resolves [issue 407](https://github.com/SteamGridDB/steam-rom-manager/issues/407))
