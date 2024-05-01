@@ -105,6 +105,18 @@ export interface languageStruct {
       fatalError__i: string
     }
   },
+  battleNetParser: {
+    battleExeOverrideTitle: string,
+    battleExeOverridePlaceholder: string,
+    docs__md: {
+      self: string[],
+      input: string[]
+    },
+    errors: {
+      fatalError__i: string,
+      battleNotCompatible: string
+    }
+  },
   UWPParser: {
     UWPDirTitle: string,
     UWPDirPlaceholder: string,

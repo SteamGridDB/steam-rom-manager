@@ -1,4 +1,4 @@
-# Legendary Parser specific inputs
+# Legendary Parser Specific Inputs
 
 ## Legendary `installed.json` Path Override
 

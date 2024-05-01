@@ -163,6 +163,17 @@ function getMarkdown(langPath: string) {
         ]
       }
     },
+    battleNetParser: {
+      docs__md: {
+        self: [
+          require(`${langPath}/battle-net-parser.md`),
+          require(`${langPath}/battle-net-parser-input.md`)
+        ],
+        input: [
+          require(`${langPath}/battle-net-parser-input.md`)
+        ]
+      }
+    },
     uplayParser: {
       docs__md: {
         self: [

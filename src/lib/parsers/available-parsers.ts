@@ -16,7 +16,7 @@ export const availableParserInputs: Record<ParserType, string[]> = {
   'UPlay': ['uplayDir','uplayLauncherMode'],
   'UWP': ['UWPDir', 'UWPLauncherMode'],
   'EA Desktop': ['eaGamesDir','eaLauncherMode'],
-  'Battle.net': ['battleDir']
+  'Battle.net': ['battleExeOverride']
 };
 
 export const availableParsers: ParserType[] = Object.keys(availableParserInputs) as ParserType[];

@@ -1,4 +1,4 @@
-# itch.io Parser specific inputs
+# itch.io Parser Specific Inputs
 
 ## itch.io AppData Path Override
 By default Steam ROM Manager assumes your itch.io app data is located at `%APPDATA%\itch` on windows `$HOME/.config/itch` on linux and `$HOME/Library/Application Support/itch` on macos.

@@ -84,7 +84,7 @@ const BNET_GAMES: {[k: string]:
 export class BattleNetParser implements GenericParser {
 
   private get lang() {
-    return APP.lang.UWPParser;
+    return APP.lang.battleNetParser;
   }
 
   getParserInfo(): ParserInfo {
@@ -92,10 +92,10 @@ export class BattleNetParser implements GenericParser {
       title: 'Battle.net',
       info: this.lang.docs__md.self.join(''),
       inputs: {
-        'battleDir': {
-          label: 'Battle Dir',
-          placeholder: '/path/to/battle',
-          inputType: 'dir',
+        'battleExeOverride': {
+          label: this.lang.battleExeOverrideTitle,
+          placeholder: this.lang.battleExeOverridePlaceholder,
+          inputType: 'path',
           validationFn: null,
           info: this.lang.docs__md.input.join('')
         }
@@ -106,11 +106,11 @@ export class BattleNetParser implements GenericParser {
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }): Promise<ParsedData> {
     return new Promise<ParsedData>(async (resolve, reject) => {
       if (os.type() !== 'Windows_NT') {
-        reject(this.lang.errors.UWPNotCompatible)
+        reject(this.lang.errors.battleNotCompatible)
       }
       try {
         const dbPath = 'C:\\ProgramData\\Battle.net\\Agent\\product.db';
-        const bNetExe = 'C:\\Program Files (x86)\\Battle.net\\Battle.net.exe';
+        const bNetExe = inputs.battleExeOverride || 'C:\\Program Files (x86)\\Battle.net\\Battle.net.exe';
         const bNetDir = path.dirname(bNetExe)
         const scriptPath = path.join(paths.userDataDir,'scripts','bnet.ps1');
         if(!fs.existsSync(scriptPath)) {

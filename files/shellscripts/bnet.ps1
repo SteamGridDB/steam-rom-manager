@@ -1,3 +1,4 @@
+#From https://github.com/SteamGridDB/steamgriddb-manager/blob/master/BnetHelper.ps1
 param (
     [Parameter(Mandatory=$True)][string]$bnet,    # Path to the Battle.net executable
     [Parameter(Mandatory=$True)][string]$launchid # Battle.net launch id to launch

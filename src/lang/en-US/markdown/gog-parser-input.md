@@ -1,4 +1,4 @@
-# Unique inputs for GOG Galaxy Parser
+# GOG Galaxy Parser Specific Inputs
 
 ## Galaxy Path Override
 By default Steam ROM Manager assumes your Galaxy Client is located at `C:\Program Files (x86)\GOG Galaxy\GalaxyClient.exe`. This field allows you to override that path if your GOG Galaxy installation is elsewhere.
