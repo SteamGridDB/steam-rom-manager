@@ -116,7 +116,15 @@
     "legendaryInstalledFilePlaceholder": "/path/to/legendary/installed.json",
     "errors": {
       "legendaryNotInstalled": "> Legendary installed.json not found",
-      "fatalError__i": "> Legendary parser failed with fatal error: \n ${error}"
+      "fatalError__i": "> Legendary parser failed with fatal error:\n ${error}"
+    }
+  },
+  "battleNetParser": {
+    "battleExeOverrideTitle": "Battle.net.exe Path Override",
+    "battleExeOverridePlaceholder": "/path/to/Battle.net/Battle.net.exe",
+    "errors": {
+      "battleNotCompatible": "> Battle.net parser is only available on Windows.",
+      "fatalError__i": "> Battle.net parser failed with fatal error:\n ${error}"
     }
   },
   "UWPParser": {
@@ -125,7 +133,7 @@
     "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper",
     "errors": {
       "fatalError__i": "> UWP parser is not compatible in this platform.",
-      "UWPNotCompatible": "> UWP parser failed with fatal error:\n ${error}"
+      "UWPNotCompatible": "> UWP parser is only available on Windows."
     }
   },
   "uplayParser": {
@@ -252,7 +260,7 @@
         "corruptedVariables__i": "Saved custom variables are invalid!\r\nPermanent variable saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
       },
       "info": {
-        "downloaded": "Custom variables file has been downloaded."
+        "downloaded": "Custom variables file has been updated."
       }
     }
   },
@@ -265,7 +273,7 @@
         "corruptedVariables__i": "Saved configuration presets are invalid!\r\nPermanent file saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
       },
       "info": {
-        "downloaded": "New config presets have been downloaded."
+        "downloaded": "Community presets have been updated."
       }
     }
   },
