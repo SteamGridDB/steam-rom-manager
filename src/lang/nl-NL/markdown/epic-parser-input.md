@@ -1,4 +1,4 @@
-# Epic Games Store-specifieke inputs
+# Epic Games Store Specific Inputs
 
 ## Manifest Directory overschrijven
 
