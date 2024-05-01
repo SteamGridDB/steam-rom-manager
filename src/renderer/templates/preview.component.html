@@ -39,7 +39,7 @@
         class="selectType"
         [(ngModel)]="appSettings.previewSettings.imageTypes"
         [placeholder]="lang.selectType"
-        (ngModelChange)="appSettings.previewSettings.imageTypes = $event; setImageType($event)"
+        (ngModelChange)="setImageType($event)"
         [values]="imageTypes"
       >
       </ng-select>
