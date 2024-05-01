@@ -1,4 +1,4 @@
-# Glob-regex Parser specific inputs
+# Glob-regex Parser Specific Inputs
 
 ## Regex do usuário global
 
