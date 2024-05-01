@@ -1,4 +1,4 @@
-# UWP Parser spezifische Eingaben
+# UWP Parser Specific Inputs
 
 ## Spiele-Verzeichnis
 
