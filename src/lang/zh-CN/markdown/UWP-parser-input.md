@@ -1,4 +1,4 @@
-# UWP 解析器的独特输入
+# UWP Parser Specific Inputs
 
 ## 游戏目录
 
