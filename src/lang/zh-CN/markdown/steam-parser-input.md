@@ -1,4 +1,4 @@
-# Steam 解析器特定输入
+# Steam Parser Specific Inputs
 
 ## 仅寻找游戏艺术作品
 如果启用了 SRM，它将过滤掉任何不是完整游戏的 Steam 应用程序，例如演示和工具，如 `3DMark` 或 `Wallpaper Engine`。
