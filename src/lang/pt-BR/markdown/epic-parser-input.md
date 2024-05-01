@@ -1,4 +1,4 @@
-# Inputs específicos da Epic Games Store
+# Epic Games Store Specific Inputs
 
 ## Substituir Diretório de Manifests
 
