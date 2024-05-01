@@ -175,4 +175,6 @@ flatpak install flathub org.freedesktop.Platform//19.08;
 flatpak install org.freedesktop.Sdk//19.08;
 flatpak install org.electronjs.Electron2.BaseApp/x86_64/stable
 ```
+## Updating dependencies
 
+Use `npx ncu` to list available dependency updates, and `npx ncu -u target [target]` to update, where `[target]` is either `patch`, `minor`, `latest`, `greatest`, or `newest`.
