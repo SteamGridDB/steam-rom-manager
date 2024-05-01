@@ -1,0 +1,86 @@
+{
+  "Battle.net": {
+    "parserType": "Battle.net",
+    "configTitle": "Battle.net",
+    "steamDirectory": "${steamdirglobal}",
+    "steamCategory": "${Battle.net}",
+    "romDirectory": "",
+    "executableArgs": "",
+    "executableModifier": "\"${exePath}\"",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "fetchControllerTemplatesButton": null,
+    "removeControllersButton": null,
+    "steamInputEnabled": "1",
+    "imageProviders": [
+      "SteamGridDB"
+    ],
+    "drmProtect": false,
+    "onlineImageQueries": "${${fuzzyTitle}}",
+    "imagePool": "${fuzzyTitle}",
+    "userAccounts": {
+      "specifiedAccounts": "${${accountsglobal}}"
+    },
+    "executable": {
+      "path": "",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "parserInputs": {
+      "battleExeOverride": null
+    },
+    "titleFromVariable": {
+      "limitToGroups": "",
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "tryToMatchTitle": false
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "ps5_edge": null,
+      "xbox360": null,
+      "xboxone": null,
+      "xboxelite": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null,
+      "steamcontroller_gordon": null
+    },
+    "imageProviderAPIs": {
+      "SteamGridDB": {
+        "nsfw": false,
+        "humor": false,
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": [],
+        "imageMotionTypes": [
+          "static"
+                ]
+      }
+    },
+    "defaultImage": {
+      "tall": null,
+      "long": null,
+      "hero": null,
+      "logo": null,
+      "icon": null
+    },
+    "localImages": {
+      "tall": null,
+      "long": null,
+      "hero": null,
+      "logo": null,
+      "icon": null
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false
+  }
+}
