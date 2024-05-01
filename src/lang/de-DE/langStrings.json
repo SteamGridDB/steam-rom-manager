@@ -116,7 +116,15 @@
     "legendaryInstalledFilePlaceholder": "/Pfad/zu/Legendary/installed.json",
     "errors": {
       "legendaryNotInstalled": "> Legendary installed.json konnte nicht gefunden werden",
-      "fatalError__i": "> Legendary Parser fehlgeschlagen mit fatalem Fehler:\n${error}"
+      "fatalError__i": "> Legendary parser failed with fatal error:\n ${error}"
+    }
+  },
+  "battleNetParser": {
+    "battleExeOverrideTitle": "Battle.net.exe Path Override",
+    "battleExeOverridePlaceholder": "/path/to/Battle.net/Battle.net.exe",
+    "errors": {
+      "battleNotCompatible": "> Battle.net parser is only available on Windows.",
+      "fatalError__i": "> Battle.net parser failed with fatal error:\n ${error}"
     }
   },
   "UWPParser": {
@@ -125,7 +133,7 @@
     "UWPLauncherModeTitle": "Spiele mit UWP anstelle des Launcher Helfers starten",
     "errors": {
       "fatalError__i": "> UWP Parser mit schwerwiegendem Fehler fehlgeschlagen:\n ${error}",
-      "UWPNotCompatible": "> UWP Parser ist nicht mit dieser Plattform kompatibel."
+      "UWPNotCompatible": "> UWP parser is only available on Windows."
     }
   },
   "uplayParser": {
@@ -252,7 +260,7 @@
         "corruptedVariables__i": "Gespeicherte benutzerdefinierte Variablen sind ungültig!\nEndgültiges Speichern von Variablen ist deaktiviert bis das Problem gelöst wurde.\nVersuche das Problem händisch zu beheben (Datei - ${file})\noder lass dir auf GitHub oder unserem offiziellen Discord Channel helfen (Englisch): ${error}"
       },
       "info": {
-        "downloaded": "Benutzerdefinierte Variablen-Datei wurde heruntergeladen."
+        "downloaded": "Custom variables file has been updated."
       }
     }
   },
@@ -265,7 +273,7 @@
         "corruptedVariables__i": "Gespeicherte Konfigurationsvorlagen sind ungültig!\nEndgültiges Speichern ist deaktiviert bis das Problem gelöst wurde.\nVersuche das Problem händisch zu beheben (Datei - ${file})\noder lass dir auf GitHub oder unserem offiziellen Discord Channel helfen (Englisch): ${error}"
       },
       "info": {
-        "downloaded": "Neue Konfigurationsvorlagen wurden heruntergeladen."
+        "downloaded": "Community presets have been updated."
       }
     }
   },
