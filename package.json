@@ -164,7 +164,7 @@
     "html-webpack-plugin": "^5.5.4",
     "mini-css-extract-plugin": "^2.7.7",
     "node-abi": "^3.40.0",
-    "npm-check-updates": "^16.10.19",
+    "npm-check-updates": "^16.14.20",
     "postcss": "^8.4.38",
     "postcss-loader": "^7.3.4",
     "rimraf": "^5.0.5",
