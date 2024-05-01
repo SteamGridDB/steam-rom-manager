@@ -1,4 +1,4 @@
-# Input specifici per l'Epic Games Store
+# Epic Games Store Specific Inputs
 
 ## Sovrascrittura della Cartella Manifests
 
