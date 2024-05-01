@@ -1,4 +1,4 @@
-# Legendary 解析器特定输入
+# Legendary Parser Specific Inputs
 
 ## Legendary `installed.json` 路径覆盖
 
