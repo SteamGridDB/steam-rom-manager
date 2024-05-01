@@ -1,4 +1,4 @@
-# Input specifici per il Parser di Steam
+# Steam Parser Specific Inputs
 
 ## Cerca artwork solo per i giochi
 Se abilitato, SRM filtrerà tutte le applicazioni Steam che non sono giochi completi, come demo e strumenti come `3DMark` o `Wallpaper Engine`.
