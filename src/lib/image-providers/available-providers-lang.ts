@@ -32,6 +32,18 @@ export const providerInfoLang: ProviderInfo = {
       imageMotionTypes: {
         label: APP.lang.sgdbProvider.imageMotionTypesTitle,
         info: APP.lang.sgdbProvider.docs__md.input.join('')
+      },
+      sizes: {
+        label: APP.lang.sgdbProvider.sizesTitle,
+        info: APP.lang.sgdbProvider.docs__md.input.join('')
+      },
+      sizesHero: {
+        label: APP.lang.sgdbProvider.sizesHeroTitle,
+        info: APP.lang.sgdbProvider.docs__md.input.join('')
+      },
+      sizesIcon: {
+        label: APP.lang.sgdbProvider.sizesIconTitle,
+        info: APP.lang.sgdbProvider.docs__md.input.join('')
       }
     }
   }

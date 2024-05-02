@@ -69,9 +69,10 @@ export class SteamGridDbProvider extends GenericProvider {
             nsfw: self.proxy.imageProviderAPIs.SteamGridDB.nsfw ? "any" : "false",
             humor: self.proxy.imageProviderAPIs.SteamGridDB.humor ? "any" : "false"
           };
+          const choose = (x: any, fallback: string[]) => x && x.length ? x : fallback;
           if(self.proxy.imageType === 'long') {
             query = self.client.getGrids(Object.assign(params, {
-              dimensions: ["legacy","460x215","920x430"],
+              dimensions: choose(self.proxy.imageProviderAPIs.SteamGridDB.sizes, ["460x215","920x430"]),
               styles: self.proxy.imageProviderAPIs.SteamGridDB.styles
             }))
           } else if (self.proxy.imageType === 'tall') {
@@ -81,6 +82,7 @@ export class SteamGridDbProvider extends GenericProvider {
             }));
           } else if (self.proxy.imageType === 'hero') {
             query = self.client.getHeroes(Object.assign(params, {
+              dimensions: choose(self.proxy.imageProviderAPIs.SteamGridDB.sizesHero, null),
               styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesHero
             }));
           } else if (self.proxy.imageType === 'logo') {
@@ -89,6 +91,7 @@ export class SteamGridDbProvider extends GenericProvider {
             }));
           } else if (self.proxy.imageType === 'icon') {
             query = self.client.getIcons(Object.assign(params, {
+              dimensions: choose(self.proxy.imageProviderAPIs.SteamGridDB.sizesIcon, null),
               styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesIcon
             }));
           }

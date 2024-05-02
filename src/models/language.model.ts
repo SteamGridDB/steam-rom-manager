@@ -295,6 +295,9 @@ export interface languageStruct {
     stylesHeroTitle: string,
     stylesLogoTitle: string,
     stylesIconTitle: string,
+    sizesTitle: string,
+    sizesHeroTitle: string,
+    sizesIconTitle: string,
     docs__md: {
       self: string[],
       input: string[]
