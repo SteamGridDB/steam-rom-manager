@@ -235,7 +235,10 @@
     "stylesTitle": "Allowed grid styles",
     "stylesHeroTitle": "Allowed hero styles",
     "stylesLogoTitle": "Styles de logo autorisés",
-    "stylesIconTitle": "Allowed icon styles"
+    "stylesIconTitle": "Allowed icon styles",
+    "sizesTitle": "Allowed banner dimensions",
+    "sizesHeroTitle": "Allowed hero dimensions",
+    "sizesIconTitle": "Allowed icon dimensions"
   },
   "logger": {
     "component": {
