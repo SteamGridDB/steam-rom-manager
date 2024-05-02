@@ -235,7 +235,10 @@
     "stylesTitle": "Estilos de grade permitidos",
     "stylesHeroTitle": "Estilos de herói permitidos",
     "stylesLogoTitle": "Estilos de logotipo permitidos",
-    "stylesIconTitle": "Estilos de ícones permitidos"
+    "stylesIconTitle": "Estilos de ícones permitidos",
+    "sizesTitle": "Allowed banner dimensions",
+    "sizesHeroTitle": "Allowed hero dimensions",
+    "sizesIconTitle": "Allowed icon dimensions"
   },
   "logger": {
     "component": {
