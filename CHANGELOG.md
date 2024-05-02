@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.27
+### Added
+* Ability to filter by artwork size for banners, heroes, and icons.
+
+### Changed
+* Hide API options for SteamGridDB if it isn't selected as an image provider.
+
 ## 2.4.26
 ### Added
 * Battle.net parser ⚔️🔥 ([issue 352](https://github.com/SteamGridDB/steam-rom-manager/issues/352))
