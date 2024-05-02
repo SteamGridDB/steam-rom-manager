@@ -35,7 +35,7 @@ const BNET_GAMES: {[k: string]:
     exes: ['codmw2019', 'ModernWarfare']
     },
   pro: {
-    name: 'Overwatch',
+    name: 'Overwatch 2',
     launchId: 'Pro',
     exes: ['Overwatch']
   },
@@ -78,6 +78,36 @@ const BNET_GAMES: {[k: string]:
     name: 'Call of Duty: Black Ops Cold War',
     launchId: 'ZEUS',
     exes: ['BlackOpsColdWar']
+  },
+  fenris: {
+    name: 'Diablo IV',
+    launchId: 'Fen',
+    exes: ['Diablo IV']
+  },
+  anbs: {
+    name: 'Diablo Immortal',
+    launchId: 'ANBS',
+    exes: ['DiabloImmortal']
+  },
+  osi: {
+    name: 'Diablo II: Resurrected',
+    launchId: 'OSI',
+    exes: ['D2R']
+  },
+  rtro: {
+    name: 'Blizzard Arcade Collection',
+    launchId: 'RTRO',
+    exes: ['Blizzard Arcade Collection Launcher']
+  },
+  lazr: {
+    name: 'Call of Duty: Modern Warfare 2 Campaign Remastered',
+    launchId: 'LAZR',
+    exes: ['MW2CR']
+  },
+  fore: {
+    name: 'Call of Duty: Vanguard',
+    launchId: 'FORE',
+    exes: ['Vanguard']
   },
 };
 
