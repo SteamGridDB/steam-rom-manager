@@ -11,4 +11,4 @@ What it sounds like, this toggle let's you set whether games will launch via GOG
 
 ##
 
-This is desirable if those games are not being parsed into SRM elsewhere. A caveat is that because GOG Galaxy does not store the names of such games, SRM will use the directory name of the executable: `C:\\path\\to\\Hoa\\LaunchHoa.exe` would be assigned the title `Hoa`.
+如果在其他地方不将这些游戏解析成SRM，这样做是可取的。 A caveat is that because GOG Galaxy does not store the names of such games, SRM will use the directory name of the executable: `C:\\path\\to\\Hoa\\LaunchHoa.exe` would be assigned the title `Hoa`.
