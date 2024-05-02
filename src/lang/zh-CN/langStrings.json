@@ -235,7 +235,10 @@
     "stylesTitle": "允许的网格样式",
     "stylesHeroTitle": "允许的主页样式",
     "stylesLogoTitle": "允许的 Logo 样式",
-    "stylesIconTitle": "允许的图标样式"
+    "stylesIconTitle": "允许的图标样式",
+    "sizesTitle": "Allowed banner dimensions",
+    "sizesHeroTitle": "Allowed hero dimensions",
+    "sizesIconTitle": "Allowed icon dimensions"
   },
   "logger": {
     "component": {
