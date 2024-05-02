@@ -235,7 +235,10 @@
     "stylesTitle": "Erlaubte Kapsel-Stile",
     "stylesHeroTitle": "Erlaubte Heldenbild-Stile",
     "stylesLogoTitle": "Erlaubte Logo-Stile",
-    "stylesIconTitle": "Erlaubte Symbol-Stile"
+    "stylesIconTitle": "Erlaubte Symbol-Stile",
+    "sizesTitle": "Allowed banner dimensions",
+    "sizesHeroTitle": "Allowed hero dimensions",
+    "sizesIconTitle": "Allowed icon dimensions"
   },
   "logger": {
     "component": {
