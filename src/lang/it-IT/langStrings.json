@@ -235,7 +235,10 @@
     "stylesTitle": "Stili griglia consentiti",
     "stylesHeroTitle": "Stili hero consentiti",
     "stylesLogoTitle": "Stili logo consentiti",
-    "stylesIconTitle": "Stili icone consentiti"
+    "stylesIconTitle": "Stili icone consentiti",
+    "sizesTitle": "Allowed banner dimensions",
+    "sizesHeroTitle": "Allowed hero dimensions",
+    "sizesIconTitle": "Allowed icon dimensions"
   },
   "logger": {
     "component": {
