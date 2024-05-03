@@ -1,4 +1,4 @@
-# EA Desktop Parser Specific Inputs
+#
 
 ## EA Games 目录覆盖
 默认情况下，Steam ROM Manager 假定您的 `EA Desktop` 游戏已安装在 `C:\Program Files\EA Games\。 该字段允许您更改游戏安装的位置，例如`D:\Games\EA Games。
