@@ -1,4 +1,4 @@
-# GOG Galaxy Parser Specific Inputs
+#
 
 ## Galaxy 路径覆盖
 默认情况下，Steam ROM Manager 假定您的 Galaxy 客户端位于 `C:\Program Files (x86)\GOG Galaxy\GalaxyClient.exe`。 如果你的 GOG Galaxy 安装在其他位置，这个字段允许你覆盖那个路径。
@@ -11,4 +11,4 @@ What it sounds like, this toggle let's you set whether games will launch via GOG
 
 ##
 
-如果在其他地方不将这些游戏解析成SRM，这样做是可取的。 A caveat is that because GOG Galaxy does not store the names of such games, SRM will use the directory name of the executable: `C:\\path\\to\\Hoa\\LaunchHoa.exe` would be assigned the title `Hoa`.
+如果在其他地方不将这些游戏解析成SRM，这样做是可取的。
