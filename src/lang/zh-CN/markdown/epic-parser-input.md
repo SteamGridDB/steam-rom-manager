@@ -1,4 +1,4 @@
-# Epic Games Store Specific Inputs
+#
 
 ## 列表目录覆盖
 
