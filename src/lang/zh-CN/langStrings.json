@@ -283,16 +283,16 @@
   "settings": {
     "component": {
       "label": {
-        "general": "常规设置",
-        "imageProviders": "图像提供者设置",
-        "fuzzy": "模糊匹配器设置",
-        "environmentVariables": "环境变量设置",
-        "communityPresets": "社区变量/预设设置"
+        "general": "General",
+        "imageProviders": "Image Providers",
+        "fuzzy": "Fuzzy Matcher",
+        "environmentVariables": "Environment Variables",
+        "communityPresets": "Community Presets and Custom Variables"
       },
       "text": {
         "autoUpdate": "",
         "offlineMode": "离线模式",
-        "removeApps_desc": "所有添加的应用程序条目和控制器",
+        "removeApps_desc": "all added games and controllers",
         "removeApps_btn": "删除",
         "preloadImages": "立即预加载检索到的图像",
         "fuzzy_verbose": "记录匹配结果",
