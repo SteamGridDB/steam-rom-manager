@@ -283,16 +283,16 @@
   "settings": {
     "component": {
       "label": {
-        "general": "Paramètres généraux",
-        "imageProviders": "Paramètres du fournisseur d'images",
-        "fuzzy": "Paramètres de correspondance approximative",
-        "environmentVariables": "Paramètres des variables d'environnement",
-        "communityPresets": "Paramètres de variable/préréglage de la communauté"
+        "general": "General",
+        "imageProviders": "Image Providers",
+        "fuzzy": "Fuzzy Matcher",
+        "environmentVariables": "Environment Variables",
+        "communityPresets": "Community Presets and Custom Variables"
       },
       "text": {
         "autoUpdate": "Check for updates on start",
         "offlineMode": "Mode hors ligne",
-        "removeApps_desc": "toutes les entrées d'application et contrôleur ajoutées",
+        "removeApps_desc": "all added games and controllers",
         "removeApps_btn": "Retirer",
         "preloadImages": "Précharger toutes les images trouvées",
         "fuzzy_verbose": "Log matching results",
