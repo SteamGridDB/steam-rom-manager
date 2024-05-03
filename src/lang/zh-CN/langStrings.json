@@ -23,8 +23,8 @@
       "removeAppList": "从Steam中移除",
       "remainingImages": "获取网址：",
       "stopUrlRetrieving": "停止",
-      "exportSelections": "Export settings",
-      "importSelections": "Import settings",
+      "exportSelections": "",
+      "importSelections": "",
       "backButton": "返回",
       "logButton": "日志"
     },
@@ -48,7 +48,7 @@
         "disabledConfigurations__i": "${count} 个用户配置被跳过（由用户禁用）\"。",
         "invalidConfigurations__i": "${count} 个用户配置被跳过（无效）。",
         "executingParsers": "执行解析器。",
-        "shutdownSteam": "If Steam is running, exit Steam.",
+        "shutdownSteam": "",
         "noParserConfigurations": "请先在“解析器”菜单中创建解析器配置。",
         "parserFoundNoFiles": "解析器未找到与用户配置匹配的文件。",
         "allImagesRetrieved": "已检索到所有可用的图像网址。",
@@ -116,15 +116,15 @@
     "legendaryInstalledFilePlaceholder": "/path/to/legendary/installed.json",
     "errors": {
       "legendaryNotInstalled": "> 找不到已安装的 Legendary installed.json 文件",
-      "fatalError__i": "> Legendary parser failed with fatal error:\n ${error}"
+      "fatalError__i": ""
     }
   },
   "battleNetParser": {
-    "battleExeOverrideTitle": "Battle.net.exe Path Override",
-    "battleExeOverridePlaceholder": "/path/to/Battle.net/Battle.net.exe",
+    "battleExeOverrideTitle": "",
+    "battleExeOverridePlaceholder": "",
     "errors": {
-      "battleNotCompatible": "> Battle.net parser is only available on Windows.",
-      "fatalError__i": "> Battle.net parser failed with fatal error:\n ${error}"
+      "battleNotCompatible": "",
+      "fatalError__i": ""
     }
   },
   "UWPParser": {
@@ -133,7 +133,7 @@
     "UWPLauncherModeTitle": "以 UWP 形式启动游戏，而不是使用启动器助手。",
     "errors": {
       "fatalError__i": "> UWP 解析器在此平台上不兼容。",
-      "UWPNotCompatible": "> UWP parser is only available on Windows."
+      "UWPNotCompatible": ""
     }
   },
   "uplayParser": {
@@ -152,7 +152,7 @@
     "galaxyExeOverrideTitle": "Galaxy 路径覆盖",
     "galaxyExeOverridePlaceholder": "/path/to/GalaxyClient.exe",
     "launcherModeInputTitle": "通过 GOG Galaxy 启动游戏",
-    "parseLinkedExecsTitle": "Parse linked executables from GOG Galaxy",
+    "parseLinkedExecsTitle": "",
     "errors": {
       "invalidGalaxyExeOverride": "> Galaxy 客户端覆盖不是一个有效的路径。",
       "fatalError__i": "> GOG Galaxy 解析器发生致命错误：\n ${error}",
@@ -236,9 +236,9 @@
     "stylesHeroTitle": "允许的主页样式",
     "stylesLogoTitle": "允许的 Logo 样式",
     "stylesIconTitle": "允许的图标样式",
-    "sizesTitle": "Allowed banner dimensions",
-    "sizesHeroTitle": "Allowed hero dimensions",
-    "sizesIconTitle": "Allowed icon dimensions"
+    "sizesTitle": "",
+    "sizesHeroTitle": "",
+    "sizesIconTitle": ""
   },
   "logger": {
     "component": {
@@ -250,7 +250,7 @@
       "textWrap": "文本换行",
       "autoscroll": "自动滚屏",
       "clearLog": "清除日志",
-      "issueDescription": "Thorough issue description with passable spelling.",
+      "issueDescription": "",
       "handleExample": "CoolHandle#1234"
     }
   },
@@ -263,7 +263,7 @@
         "corruptedVariables__i": "保存的自定义变量无效！\n在解决此问题之前，永久变量保存已被禁用。\n您可以尝试手动修复错误（文件 - ${file}）\n或在 GitHub 或我们的官方 Discord 频道上寻求帮助：${error}"
       },
       "info": {
-        "downloaded": "Custom variables file has been updated."
+        "downloaded": ""
       }
     }
   },
@@ -276,7 +276,7 @@
         "corruptedVariables__i": "保存的配置预设无效！\n在解决此问题之前，永久文件保存已被禁用。\n尝试手动修复错误（文件 - ${file}）\n或在我们的官方 Discord 频道或 Github 上寻求帮助：${error}"
       },
       "info": {
-        "downloaded": "Community presets have been updated."
+        "downloaded": ""
       }
     }
   },
@@ -290,7 +290,7 @@
         "communityPresets": "社区变量/预设设置"
       },
       "text": {
-        "autoUpdate": "Check for updates on start",
+        "autoUpdate": "",
         "offlineMode": "离线模式",
         "removeApps_desc": "所有添加的应用程序条目和控制器",
         "removeApps_btn": "删除",
@@ -422,8 +422,8 @@
         "steamCategory__i": "[${index}/${total}]:     Steam 分类 - ${steamCategory}",
         "steamCategoryInfo__i": "[${index}/${total}]:                        ${steamCategory}",
         "exceptionKey__i": "[${index}/${total}]:         异常 ID - ${appid}",
-        "appId__i": "[${index}/${total}]:        Legacy App ID - ${appid}",
-        "shortAppId__i": "[${index}/${total}]:               App ID - ${appid}",
+        "appId__i": "",
+        "shortAppId__i": "",
         "extractedTitle__i": "[${index}/${total}]:      提取标题 - ${title}",
         "fuzzyTitle__i": "[${index}/${total}]:          模糊标题 - ${title}",
         "finalTitle__i": "[${index}/${total}]:          最终标题 - ${title}",
@@ -457,15 +457,15 @@
         "onlineImageQueries": "在线图像查询",
         "imagePool": "图像库",
         "imageProviders": "图像提供方",
-        "defaultImage__i": "Fallback ${artworkType}",
-        "localImages__i": "Local ${artworkType} glob"
+        "defaultImage__i": "",
+        "localImages__i": ""
       },
       "placeholder": {
         "parserType": "选择解析器...",
-        "configTitle": "My Awesome Parser",
+        "configTitle": "",
         "steamCategory": "${cat1}${cat2}",
         "steamDirectory": "${steamdirglobal} 或 /path/to/steam",
-        "userAccounts": "${steamuser1}${steamuser2} or ${${accountsglobal}}",
+        "userAccounts": "",
         "titleFromVariable": "${myvariable}",
         "titleModifier": "${fuzzyTitle} 或 ${title}",
         "defaultImage__i": "/path/to/fallback_${artworkType}.png",
