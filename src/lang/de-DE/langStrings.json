@@ -283,16 +283,16 @@
   "settings": {
     "component": {
       "label": {
-        "general": "Allgemeine Einstellungen",
-        "imageProviders": "Bildanbieter Einstellungen",
-        "fuzzy": "Fuzzy Matcher Einstellungen",
-        "environmentVariables": "Umgebungsvariablen Einstellungen",
-        "communityPresets": "Community Variablen/Vorlagen-Einstellungen"
+        "general": "General",
+        "imageProviders": "Image Providers",
+        "fuzzy": "Fuzzy Matcher",
+        "environmentVariables": "Environment Variables",
+        "communityPresets": "Community Presets and Custom Variables"
       },
       "text": {
         "autoUpdate": "Check for updates on start",
         "offlineMode": "Offline-Modus",
-        "removeApps_desc": "Alle hinzugefügten App-Einträge und Controller",
+        "removeApps_desc": "all added games and controllers",
         "removeApps_btn": "Entfernen",
         "preloadImages": "Abgerufene Bilder sofort vorladen",
         "fuzzy_verbose": "Übereinstimmende Ergebnisse loggen",
