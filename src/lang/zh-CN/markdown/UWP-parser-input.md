@@ -1,4 +1,4 @@
-# UWP Parser Specific Inputs
+#
 
 ## 游戏目录
 
