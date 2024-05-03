@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
-import { UserExceptions } from '../../models';
+import { UserExceptions, SelectItem } from '../../models';
 import { UserExceptionsService, LoggerService } from '../services';
 import { Subscription } from "rxjs";
 import { APP } from '../../variables';
@@ -22,13 +22,21 @@ export class ExceptionsComponent implements OnDestroy {
   private exceptionsFormItems: FormArray;
 
   private filterValue = '';
+  private sortByOpts: SelectItem[] = _.flatten([
+    {value: 'dateAdded', displayValue: 'Date Added' },
+    {value: 'oldTitle', displayValue: 'Extracted Title'},
+    {value: 'newTitle', displayValue: 'New Title'}
+  ].map(x=>[
+    {value: x.value+'|asc', displayValue: x.displayValue+' (asc)'},
+    {value: x.value+'|desc', displayValue: x.displayValue+' (desc)'}]))
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private exceptionsService: UserExceptionsService,
     private loggerService: LoggerService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.currentDoc.content = this.lang.docs__md.userExceptions.join('');
   }
@@ -75,6 +83,18 @@ export class ExceptionsComponent implements OnDestroy {
         .map((item: any)=>[item.oldTitle,_.omit(item,'oldTitle')]))||{}
       });
     });
+  }
+
+  exceptionsSort(c1: FormGroup, c2: FormGroup) {
+    const sortBy = this.exceptionsService.sortBy.split('|')[0];
+    const asc = this.exceptionsService.sortBy.split('|')[1]==='asc';
+    let result: number;
+    if(!sortBy || sortBy === 'dateAdded') {
+      result = 1;
+    } else {
+      result = c1.value[sortBy].localeCompare(c2.value[sortBy])
+    }
+    return asc ? result : -result;
   }
 
   undo() {

@@ -16,17 +16,27 @@
 
   .upperMenu {
     grid-area: upperMenu;
-    overflow: auto;
     background: var(--color-parsers-menu-background);
-    .search {
-      display:flex;
+    display:grid;
+    grid-template-columns: 1fr auto auto;
+    grid-template-rows: auto;
+    align-items: center;
+
+    .searchExceptions {
+      grid-column: 3;
+      @include ngTextInputColor(input);
+      @include ngTextInput();
+      margin: 0.5em;
+      width: 20em
+    }
+    .slider {
       align-items: center;
-      justify-content: right;
-      .searchExceptions {
-        @include ngTextInputColor(input);
-        @include ngTextInput();
-        margin: 0.5em;
-        width: 20em
+      grid-column: 2;
+      display: flex;
+      .selectSort {
+        width: 14em;
+        color: var(--color-preview-text);
+        margin-bottom: auto;
       }
     }
   }

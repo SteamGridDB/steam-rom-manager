@@ -16,6 +16,7 @@ export class UserExceptionsService {
 
   private validator: json.Validator = new json.Validator(schemas.userExceptions, modifiers.userExceptions);
   private savingIsDisabled: boolean = false;
+  sortBy: string = 'dateAdded|asc';
 
   constructor(private loggerService: LoggerService) {
     this.variableData = new BehaviorSubject({current: null, saved: {titles: {}}});

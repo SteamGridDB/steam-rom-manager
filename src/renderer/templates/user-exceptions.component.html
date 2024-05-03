@@ -4,9 +4,17 @@
 </div>
 
 <div class= "upperMenu">
-  <div class="search">
-    <ng-text-input class="searchExceptions" placeholder="Search Exceptions" [(ngModel)]="filterValue"></ng-text-input>
+  <div class="slider">
+    <ng-select
+    class="selectSort"
+    [(ngModel)]="exceptionsService.sortBy"
+    [placeholder]="lang.sortBy"
+    [values]="sortByOpts"
+  >
+  </ng-select>
   </div>
+
+    <ng-text-input class="searchExceptions" placeholder="Search Exceptions" [(ngModel)]="filterValue"></ng-text-input>
 </div>
 <markdown class="docs" [content]="this.currentDoc.content"></markdown>
 <div class = "userExceptions">
@@ -17,7 +25,7 @@
   </label>
   <div [formGroup]="exceptionsForm">
     <div class="itemsform" formArrayName="items"
-         *ngFor="let item of exceptionsForm.get('items').controls; let i=index;">
+         *ngFor="let item of exceptionsForm.get('items').controls.slice(0).sort(exceptionsSort.bind(this)); let i=index;">
       <div class="exception-entry" [formGroupName]="i" *ngIf="(item.controls['oldTitle'].value | fuzzyTest: filterValue) ">
         <div class="inputContainer">
           <div class="inlineLeft">
