@@ -43,6 +43,7 @@ export const appSettings = {
         deleteDisabledShortcuts: { type: 'boolean', default: false },
         imageZoomPercentage: { type: "number", default: 30, minimum: 10, maximum: 100 },
         preload: { type: 'boolean', default: false },
+        hideUserAccount: { type: 'boolean', default: false}
       }
     },
     enabledProviders: {

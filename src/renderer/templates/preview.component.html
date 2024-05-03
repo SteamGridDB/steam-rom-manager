@@ -34,7 +34,7 @@
         (input)="setImageSize($event.target.value)"
         (change)="setImageSize($event.target.value, true)"
       />
-      <div>{{ appSettings.previewSettings.imageZoomPercentage | number : "1.0-2" }}%</div>
+    <div>{{ appSettings.previewSettings.imageZoomPercentage | number : "1.0-2" }}%</div>
       <ng-select
         class="selectType"
         [(ngModel)]="appSettings.previewSettings.imageTypes"
@@ -170,7 +170,7 @@
             <div class="title" (click)="user.isHidden = !user.isHidden">
               <svg select-arrow-down></svg>
               <span
-                >{{ previewData[steamDir][steamUser].username }} ({{
+                >{{ appSettings.previewSettings.hideUserAccount ? steamUser : previewData[steamDir][steamUser].username }} ({{
                   (previewData[steamDir][steamUser].apps | keys).length
                 }}
                 titles)</span

@@ -5,7 +5,8 @@ export interface PreviewSettings {
     deleteDisabledShortcuts: boolean,
     imageZoomPercentage: number,
     preload: boolean,
-    imageTypes: string[]
+    imageTypes: string[],
+    hideUserAccount: boolean
 }
 
 export interface AppSettings {

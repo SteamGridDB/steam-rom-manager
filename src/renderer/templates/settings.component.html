@@ -16,25 +16,6 @@
       <ng-toggle-button class="ngToggleButton" [ngModel]="settings.autoUpdate" (ngModelChange)="settings.autoUpdate = $event; onSettingsChange();">{{lang.text.autoUpdate}}</ng-toggle-button>
       <ng-toggle-button class="ngToggleButton" [ngModel]="settings.offlineMode" (ngModelChange)="settings.offlineMode = $event; onSettingsChange();">{{lang.text.offlineMode}}</ng-toggle-button>
       <ng-toggle-button class="ngToggleButton" [ngModel]="settings.clearLogOnTest" (ngModelChange)="settings.clearLogOnTest = $event; onSettingsChange();">{{lang.text.clearLogOnTest}}</ng-toggle-button>
-      <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.retrieveCurrentSteamImages" (ngModelChange)="settings.previewSettings.retrieveCurrentSteamImages = $event; onSettingsChange();">{{lang.text.showSteamImages}}</ng-toggle-button>
-      <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.deleteDisabledShortcuts" (ngModelChange)="settings.previewSettings.deleteDisabledShortcuts=$event; onSettingsChange();">{{lang.text.deleteDisabledShortcuts}}</ng-toggle-button>
-    </div>
-    <div class="inputContainer">
-      <div class="inlineGroup">
-        <div class="clickButton dangerousButton" style="font-size: 0.85em;" [class.disabled]="this.knownSteamDirectories.length === 0"
-                                                 (click)="removeApps()">{{lang.text.removeApps_btn}}</div>
-
-      <div class=text style="margin-left: 0.25em;">{{lang.text.removeApps_desc}}</div>
-      </div>
-    </div>
-    <div class="inputContainer">
-      <div class="inlineGroup">
-        <div class="clickButton dangerousButton" style="font-size: 0.85em;" [class.disabled]="this.knownSteamDirectories.length === 0"
-                                                 (click)="removeControllersOnly()">{{lang.text.removeApps_btn}}</div>
-
-      <div class=text style="margin-left: 0.25em;">all controllers only</div>
-      </div>
-
     </div>
     <div class="inputContainer">
       <div class="inlineGroup">
@@ -57,6 +38,33 @@
     </div>
   </div>
   <div>
+    <div class="section">
+      <label>
+        Add Games
+      </label>
+    </div>
+    <div class="inputContainer">
+      <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.retrieveCurrentSteamImages" (ngModelChange)="settings.previewSettings.retrieveCurrentSteamImages = $event; onSettingsChange();">{{lang.text.showSteamImages}}</ng-toggle-button>
+      <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.deleteDisabledShortcuts" (ngModelChange)="settings.previewSettings.deleteDisabledShortcuts=$event; onSettingsChange();">{{lang.text.deleteDisabledShortcuts}}</ng-toggle-button>
+      <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.hideUserAccount" (ngModelChange)="settings.previewSettings.hideUserAccount=$event; onSettingsChange();">Hide Steam username from preview</ng-toggle-button>
+    </div>
+    <div class="inputContainer">
+      <div class="inlineGroup">
+        <div class="clickButton dangerousButton" style="font-size: 0.85em;" [class.disabled]="this.knownSteamDirectories.length === 0"
+                                                 (click)="removeApps()">{{lang.text.removeApps_btn}}</div>
+
+      <div class=text style="margin-left: 0.25em;">{{lang.text.removeApps_desc}}</div>
+      </div>
+    </div>
+    <div class="inputContainer">
+      <div class="inlineGroup">
+        <div class="clickButton dangerousButton" style="font-size: 0.85em;" [class.disabled]="this.knownSteamDirectories.length === 0"
+                                                 (click)="removeControllersOnly()">{{lang.text.removeApps_btn}}</div>
+
+      <div class=text style="margin-left: 0.25em;">all controllers only</div>
+      </div>
+
+    </div>
     <div class="section">
     <label>
       {{lang.label.fuzzy}}
