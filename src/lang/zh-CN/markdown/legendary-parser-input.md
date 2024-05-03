@@ -1,4 +1,4 @@
-# Legendary Parser Specific Inputs
+#
 
 ## Legendary `installed.json` 路径覆盖
 
