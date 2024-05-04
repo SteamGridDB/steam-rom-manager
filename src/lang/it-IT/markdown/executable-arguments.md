@@ -1,4 +1,4 @@
-# Command line arguments (optional) `[supports variables]`{.noWrap}
+# Argomenti a riga di comando (opzionale) `[supporta variabili]`{.noWrap}
 
 Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
 
