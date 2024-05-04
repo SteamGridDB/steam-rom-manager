@@ -31,7 +31,7 @@ In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is eq
 |                `${exeName}` | Name of executable (without extension)                          |
 |               `${fileName}` | Name of file which was returned by a parser (without extension) |
 
-In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
+Nel caso in cui l'input della directory dell'eseguibile sia lasciato **vuoto**, `${exeName}`{.noWrap} è uguale a `${fileName}`{.noWrap}.
 
 ## Extension variables
 
