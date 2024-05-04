@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 * Ability to filter by artwork size for banners, heroes, and icons.
 * Ability to sort exceptions by date, old title, and new title ([issue 343](https://github.com/SteamGridDB/steam-rom-manager/issues/343))
 * Option to hide steam username from preview.
+### Fixed
+* Some newer titles missing from Battle.net parser (thanks @doZennn)
 ### Changed
 * Hide API options for SteamGridDB if it isn't selected as an image provider.
 
