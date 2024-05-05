@@ -40,7 +40,7 @@ export class UWPParser implements GenericParser {
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }): Promise<ParsedData> {
     return new Promise<ParsedData>(async (resolve, reject) => {
       if (os.type() !== 'Windows_NT') {
-        reject(this.lang.errors.UWPNotCompatible)
+        return reject(this.lang.errors.UWPNotCompatible)
       }
       try {
         const xmlParser = new XMLParser({

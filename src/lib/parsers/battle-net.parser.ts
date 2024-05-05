@@ -136,7 +136,7 @@ export class BattleNetParser implements GenericParser {
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }): Promise<ParsedData> {
     return new Promise<ParsedData>(async (resolve, reject) => {
       if (os.type() !== 'Windows_NT') {
-        reject(this.lang.errors.battleNotCompatible)
+        return reject(this.lang.errors.battleNotCompatible)
       }
       try {
         const dbPath = 'C:\\ProgramData\\Battle.net\\Agent\\product.db';
