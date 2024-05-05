@@ -118,7 +118,7 @@ export class ViewComponent implements OnDestroy {
       if(configset) {
         const appController = configset.controller_config[ControllerManager.transformTitle(this.currentShortcut.appname)];
         if(appController && (appController.template || appController.workshop)) {
-          const templates = ControllerManager.readTemplates(steamDir, controllerType);
+          const templates = await ControllerManager.readTemplates(steamDir, controllerType);
           const mappingId = appController.template || appController.workshop;
           const appTemplates = Object.values(templates).filter(x=>x.mappingId==mappingId);
           if(appTemplates.length && appTemplates[0].title) {

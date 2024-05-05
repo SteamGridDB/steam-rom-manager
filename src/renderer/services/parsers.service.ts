@@ -91,9 +91,9 @@ export class ParsersService {
                 return this.savedControllerTemplates.asObservable();
               }
 
-              getControllerTemplates(steamDir: string, controllerType: string): any[] {
+              async getControllerTemplates(steamDir: string, controllerType: string): Promise<any[]> {
                 try {
-                  return ControllerManager.readTemplates(steamDir, controllerType);
+                  return await ControllerManager.readTemplates(steamDir, controllerType);
                 } catch (error) {
                   this.loggerService.error(this.lang.error.fetchingTemplates, {invokeAlert: true, alertTimeout: 3000});
                   this.loggerService.error(error);

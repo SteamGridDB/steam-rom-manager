@@ -627,7 +627,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private fetchControllerTemplates(force:boolean = true) {
+  private async fetchControllerTemplates(force:boolean = true) {
     if(force) {
       this.loggerService.info(this.lang.info.fetchingControllerTemplates);
     }
@@ -637,7 +637,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       if(force || !this.parsersService.controllerTemplates[steamDir]) {
         this.parsersService.controllerTemplates[steamDir] = {};
         for(let controllerType of controllerTypes) {
-          this.parsersService.controllerTemplates[steamDir][controllerType] = this.parsersService.getControllerTemplates(steamDir, controllerType);
+          this.parsersService.controllerTemplates[steamDir][controllerType] = await this.parsersService.getControllerTemplates(steamDir, controllerType);
         }
         this.parsersService.saveControllerTemplates();
       } else {

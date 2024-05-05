@@ -5,7 +5,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as _ from 'lodash';
-import * as glob from 'glob';
+import { glob } from 'glob';
 import * as json from './helpers/json'
 import { PreviewData, PreviewDataUser, VDF_ExtraneousItemsData, Controllers, ControllerTemplate, SteamInputEnabled } from '../models';
 import { Acceptable_Error } from './acceptable-error';
@@ -78,9 +78,9 @@ export class ControllerManager {
     return path.join(steamDirectory, 'controller_base','templates')
   }
   // Manage Templates
-  static readTemplates(steamDirectory: string, controllerType: string) {
+  static async readTemplates(steamDirectory: string, controllerType: string) {
     let templateDirUser = this.templatesUserDir(steamDirectory);
-    let filesUser = glob.sync('*/*', { dot: true, cwd: templateDirUser, absolute: true });
+    let filesUser = await glob('*/*', { dot: true, cwd: templateDirUser, absolute: true });
     let parsedTemplatesUser: ControllerTemplate[] = filesUser.filter((f: string) => fs.lstatSync(f).isFile())
       .map((f: string) => Object.assign({ mappingId: f.split(path.sep).slice(-2)[0] }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
       .filter((x: any) => !!x['controller_mappings']
@@ -97,7 +97,7 @@ export class ControllerManager {
     parsedTemplatesUser.sort((a, b) => a.title.localeCompare(b.title));
 
     let templateDirValve = this.templatesValveDir(steamDirectory);
-    let filesValve = glob.sync('*.vdf', { dot: true, cwd: templateDirValve, absolute: true });
+    let filesValve = await glob('*.vdf', { dot: true, cwd: templateDirValve, absolute: true });
     let parsedTemplatesValve: ControllerTemplate[] = filesValve.map((f: string) => Object.assign({ mappingId: path.basename(f) }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
       .filter((x: any) => !!x['controller_mappings']
         && !!x['controller_mappings']['title']
@@ -274,6 +274,9 @@ export class ControllerManager {
     let localConfig = genericParser.parse(fs.readFileSync(localConfigPath,'utf-8')) || {};
     if(!localConfig[localTopKey]) {
       localConfig[localTopKey] = { apps: [] }
+    }
+    else if(!localConfig[localTopKey].apps){
+      localConfig[localTopKey].apps = [];
     }
     return localConfig;
   }
