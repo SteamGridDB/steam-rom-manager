@@ -295,6 +295,14 @@
                                   >
                                     Refresh
                                   </div>
+                                  <div
+                                  class="btn only-emudeck only-deck"
+                                  *ngIf="image != undefined && image.loadStatus === 'failed'"
+                                  (click)="loadImage(app, imagetype)"
+                                  [title]="lang.retryDownload"
+                                >
+                                  Retry
+                                </div>
                                     <div
                                     class="btn only-emudeck only-deck"
                                     *ngIf="image != undefined && image.loadStatus === 'done'"
@@ -453,12 +461,20 @@
                                 </div>
                                 <div
                                   class="btn only-emudeck only-deck"
-                                  *ngIf="!getImagePool(appimages.imagePool).retrieving"
-                                  (click)="refreshImages(app)"
-                                  [title]="lang.refreshImages"
+                                  *ngIf="image != undefined && image.loadStatus === 'failed'"
+                                  (click)="loadImage(app)"
+                                  [title]="lang.retryDownload"
                                 >
-                                  Refresh
+                                  Retry
                                 </div>
+                                <div
+                                class="btn only-emudeck only-deck"
+                                *ngIf="!getImagePool(appimages.imagePool).retrieving"
+                                (click)="refreshImages(app)"
+                                [title]="lang.refreshImages"
+                              >
+                                Refresh
+                              </div>
                                 <div
                                 class="btn only-emudeck only-deck"
                                 *ngIf="image != undefined && image.loadStatus === 'done'"
