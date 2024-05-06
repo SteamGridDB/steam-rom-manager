@@ -72,6 +72,7 @@ export interface ParsedData {
     filePath?: string, // Used by ROM parsers and platform parsers in executable mode
     extractedAppId?: string // Used by artwork only parsers
     launchOptions?: string, // Used by platform parsers
+    fileLaunchOptions?: string, // Used by platform parsers in non launcher mode
     startInDirectory?: string, //Used by manual parsers and apps that start in a different directory than the executable,
     appendArgsToExecutable?: boolean //Used by manual parsers
   }[],

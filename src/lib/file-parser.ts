@@ -331,7 +331,7 @@ export class FileParser {
             }) : '';
           }
           else if (superType === parserInfo.PlatformType) {
-            newFile.argumentString = launcherMode ? data.success[j].launchOptions || '' : '';
+            newFile.argumentString = launcherMode ? data.success[j].launchOptions || '' : data.success[j].fileLaunchOptions||'';
           }
           else if (superType === parserInfo.ArtworkOnlyType) {
             newFile.argumentString = '';

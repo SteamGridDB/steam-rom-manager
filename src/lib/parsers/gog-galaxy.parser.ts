@@ -40,10 +40,7 @@ export class GOGParser implements GenericParser {
   }
 
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
-    return new Promise<ParsedData>((resolve,reject)=>{
-      let appTitles: string[] = [];
-      let appPaths: string[] = [];
-      let productIds: string[] = [];
+    return new Promise<ParsedData>(async (resolve,reject)=>{
       let dbPath: string = '';
       let galaxyExePath = inputs.galaxyExeOverride || 'C:\\Program Files (x86)\\GOG Galaxy\\GalaxyClient.exe';
 
@@ -55,33 +52,29 @@ export class GOGParser implements GenericParser {
       if(!fs.existsSync(dbPath)) {
         return reject(this.lang.errors.gogNotInstalled);
       }
-
-      const sqliteWrapper = new SqliteWrapper('gog-galaxy', dbPath, {externals: !!inputs.parseLinkedExecs});
-      sqliteWrapper.callWorker()
-      .then((playtasks: {[k: string]: any}[]) => {
-        for(let task of playtasks) {
-          if(task.params.executablePath) {
-            appTitles.push(task.title || path.dirname(task.params.executablePath).split(path.sep).pop());
-            productIds.push(task.productId.toString())
-            appPaths.push(task.params.commandLineArgs ? task.params.executablePath+' '+task.params.commandLineArgs : task.params.executablePath)
-          }
-        }
-      })
-      .then(()=>{
+      try {
+        const sqliteWrapper = new SqliteWrapper('gog-galaxy', dbPath, {externals: !!inputs.parseLinkedExecs});
+        const playtasks = await sqliteWrapper.callWorker() as any[];
         let parsedData: ParsedData = {success: [], failed:[]};
         parsedData.executableLocation = galaxyExePath;
-        for(let i=0; i < appTitles.length; i++){
-          parsedData.success.push({
-            extractedTitle: appTitles[i],
-            extractedAppId: productIds[i],
-            launchOptions: `/command=runGame /gameId=${productIds[i]}`,
-              filePath: appPaths[i]
-          });
+        for(let task of playtasks) {
+          console.log("playtask", task)
+          if(task.params.executablePath) {
+            const productID = task.productId.toString();
+            parsedData.success.push({
+              extractedTitle: task.title || path.dirname(task.params.executablePath).split(path.sep).pop(),
+              extractedAppId: productID,
+              launchOptions: `/command=runGame /gameId=${productID}`,
+              filePath: task.params.executablePath,
+              fileLaunchOptions: task.params.commandLineArgs
+            })
+          }
         }
         resolve(parsedData);
-      }).catch((err)=>{
-        return reject(this.lang.errors.fatalError__i.interpolate({error: err}));
-      });
-    })
+      }
+      catch(err) {
+        reject(this.lang.errors.fatalError__i.interpolate({error: err}));
+      };
+    });
   }
 }
