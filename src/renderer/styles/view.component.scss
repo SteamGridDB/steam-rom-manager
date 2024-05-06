@@ -14,7 +14,29 @@
 
   grid-template-columns: auto var(--view-details-width);
   grid-template-rows: auto 1fr auto;
+  .loadingSpinner {
+    &:before {
+      display: block;
+      justify-content: center;
+      width: 5em;
+      height: 5em;
+      margin-top: 40vh;
+      margin-left: calc(0.45 * (100vw - var(--nav-width)));
 
+      content: "";
+      animation: loadingSpinner 0.6s linear infinite;
+
+      border-top: 0.325em solid transparent;
+      border-top-color: var(--color-app-loading-spinner);
+      border-right: 0.325em solid transparent;
+      border-radius: 50%;
+    }
+  }
+  @keyframes loadingSpinner {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 
   .upperMenu {
     grid-area: upperMenu;
@@ -132,6 +154,11 @@
     background-color: var(--color-nested-form-background);
     color: var(--color-settings-text);
     overflow: auto;
+    .loadingSpinner {
+      &:before {
+        margin-left: calc(0.2 * (100vw - var(--nav-width)));
+      }
+    }
     .launch {
       @include button();
       @include clickButtonColor(click-button);

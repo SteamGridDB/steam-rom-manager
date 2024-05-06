@@ -51,6 +51,11 @@
       border-radius: 50%;
     }
   }
+  @keyframes loadingSpinner {
+    to {
+      transform: rotate(360deg);
+    }
+  }
   .preview-description {
     height: 100%;
     grid-area: entries;
@@ -234,11 +239,7 @@
       "detailsList";
     grid-template-rows: auto 1fr;
     overflow-y: auto;
-    @keyframes loadingSpinner {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+
     .detailsOptions {
       padding: 1em 1em 0.5em 1em;
       grid-area: detailsOptions;

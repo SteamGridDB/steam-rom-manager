@@ -11,3 +11,4 @@ export * from './config-presets.service';
 export * from './shell-scripts.service';
 export * from './user-exceptions.service';
 export * from './ipc.service';
+export * from './view.service';
