@@ -65,17 +65,18 @@ export interface ParserInputField {
 
 
 // TODO Split this up more sanely into ImporterParsedData and ManagerParsedData
+export interface ParsedSuccess {
+  extractedTitle: string,
+  filePath?: string, // Used by ROM parsers, and platform parsers in executable mode
+  extractedAppId?: string // Used by artwork only parsers
+  launchOptions?: string, // Used by platform parsers in launcher mode
+  fileLaunchOptions?: string, // Used by platform parsers executable mode
+  startInDirectory?: string, //Used by manual parsers and parsers whose apps start in a different directory than the executable,
+  appendArgsToExecutable?: boolean //Used by manual parsers
+}
 export interface ParsedData {
   executableLocation?: string // Used by platform parsers in launcher mode
-  success: {
-    extractedTitle: string,
-    filePath?: string, // Used by ROM parsers and platform parsers in executable mode
-    extractedAppId?: string // Used by artwork only parsers
-    launchOptions?: string, // Used by platform parsers
-    fileLaunchOptions?: string, // Used by platform parsers in non launcher mode
-    startInDirectory?: string, //Used by manual parsers and apps that start in a different directory than the executable,
-    appendArgsToExecutable?: boolean //Used by manual parsers
-  }[],
+  success: ParsedSuccess[],
   failed: string[]
 }
 

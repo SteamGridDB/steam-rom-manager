@@ -71,12 +71,11 @@ export class AmazonGamesParser implements GenericParser {
             const fuelJson = fs.readFileSync(`${InstallDirectory}\\fuel.json`);
             // not really json so need to parse with yaml parser
             const { Main: { Command, Args } } = parse(fuelJson.toString());
-
             return {
               extractedTitle: ProductTitle,
               startInDirectory: InstallDirectory,
               filePath: `${InstallDirectory}\\${Command}`,
-              launchOptions: Args?.join(' '),
+              fileLaunchOptions: Args?.join(' '),
             };
           });
 

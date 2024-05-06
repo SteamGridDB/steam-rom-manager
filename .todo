@@ -18,27 +18,18 @@ New method:
 4) Commit changes and `git push`
 
 # Fixes
-Remove close steam if open warning and replace with something better
 Steam parser only works for steam apps that are in a category
 
 
 # Features
-Add missing artwork filter (2.4)
-Add Parser level to preview (2.4)
-Move enable/disable parser to sidebar (2.4)
-Custom themes (3.0)
-Sync tool (3.0)
 
-# Backend changes
-Command Line Interface (3.0)
-
-# New Image Sources
-Google (2.4)
-
-# New Parsers
-Epic (2.4) -- Still has some strange behavior when finalTitle is used instead of fuzzyTitle
-Origin (3.0)
-Blizzard.net (3.0)
-Uplay (3.0)
-GOG (2.4)
-EXE (3.0)
+# Parsers (LM - Launcher Mode, EM - Executable Mode)
+Amazon Games (LM, EM)
+Battle.net (LM)
+EA Desktop (LM, EM)
+Epic (LM, EM)
+GOG Galaxy (LM, EM)
+Itch.io (EM - missing fileLaunchOptions)
+Legendary (EM)
+UPlay (LM, EM - missing fileLaunchOptions)
+UWP (LM, EM - missing fileLaunchOptions)

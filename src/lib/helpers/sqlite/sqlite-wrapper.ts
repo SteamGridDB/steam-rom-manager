@@ -26,19 +26,22 @@ export class SqliteWrapper {
         workerPath = 'workers/sqlite-worker.js'
         cwd = null;
       }
-      const sqliteWorker = fork(workerPath, [], {
-        cwd: cwd
-      })
-      sqliteWorker.on('message', (data: {[k: string]: any}) => {
-        if (data.type === 'error') {
-          reject(data.error);
-        }
-        else if (data.type === 'result') {
-          resolve(data.result);
-        }
-      })
-      sqliteWorker.send({task: this.task, dbPath: this.dbPath, options: this.options})
-      // TODO: this could never resolve on error
+      try {
+        const sqliteWorker = fork(workerPath, [], {
+          cwd: cwd
+        })
+        sqliteWorker.on('message', (data: {[k: string]: any}) => {
+          if (data.type === 'error') {
+            reject(data.error);
+          }
+          else if (data.type === 'result') {
+            resolve(data.result);
+          }
+        })
+        sqliteWorker.send({task: this.task, dbPath: this.dbPath, options: this.options})
+      } catch(error) {
+        reject(error)
+      }
     })
   }
 }

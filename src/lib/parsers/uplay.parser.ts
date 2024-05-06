@@ -200,7 +200,8 @@ export class UPlayParser implements GenericParser {
             extractedTitle: appTitles[i],
             extractedAppId: appNames[i],
             launchOptions:  `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \\"uplay://launch/${appNames[i]}\\""`,
-              filePath: appPaths[i]
+            filePath: appPaths[i],
+            //fileLaunchOptions: not available
           });
         }
         resolve(parsedData);

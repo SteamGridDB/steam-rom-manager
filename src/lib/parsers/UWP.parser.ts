@@ -80,7 +80,8 @@ export class UWPParser implements GenericParser {
                       finalData.success.push({
                         extractedTitle: gameDetail.name,
                         launchOptions: gameDetail.arguments,
-                        filePath: gameDetail.path
+                        filePath: gameDetail.path,
+                        //fileLaunchOptions: not available
                       })
                     }
                   }

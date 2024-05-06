@@ -3,9 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## 2.4.28
 
+### Added
+* Parsing of executable arguments in executable mode for GOG, Amazon, Epic, EA Desktop, and Legendary (resolves [issue 263](https://github.com/SteamGridDB/steam-rom-manager/issues/263)). Previously these were being ignored. As far as I can tell UPlay, UWP, and Itch.io never pass commandline arguments to executables.
+
 ### Fixed
-* Read controller templates blocking renderer process.
-* Commandline argument handling for platform parsers (resolves [issue 263](https://github.com/SteamGridDB/steam-rom-manager/issues/263))
+* Read controller templates blocking renderer process. Should fix the issue some people have had with SRM freezing when hitting save to steam.
 
 ## 2.4.27
 ### Added

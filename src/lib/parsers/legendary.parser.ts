@@ -30,6 +30,7 @@ export class LegendaryParser implements GenericParser {
     return new Promise<ParsedData>((resolve,reject)=>{
       let appTitles: string[] = [];
       let appPaths: string[] = [];
+      let appArgs: string[] = [];
       let legendaryInstalledFile: string = "";
       if(inputs.legendaryInstalledFile) {
         legendaryInstalledFile = inputs.legendaryInstalledFile;
@@ -49,6 +50,7 @@ export class LegendaryParser implements GenericParser {
             }
             appTitles.push(app.title);
             appPaths.push(path.join(app.install_path,app.executable));
+            appArgs.push(app.launch_parameters)
           }
         })
         .then(()=>{
@@ -59,7 +61,8 @@ export class LegendaryParser implements GenericParser {
           for(let i=0; i < appTitles.length; i++){
             parsedData.success.push({
               extractedTitle: appTitles[i],
-              filePath: appPaths[i]
+              filePath: appPaths[i],
+              fileLaunchOptions: appArgs[i]
             });
           }
           resolve(parsedData);
