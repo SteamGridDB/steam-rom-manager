@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 * Read controller templates blocking renderer process. Should fix the issue some people have had with SRM freezing when hitting save to steam.
+* Possible error when writing localconfig.vdf to enable/disable steam input.
+
 
 ## 2.4.27
 ### Added
