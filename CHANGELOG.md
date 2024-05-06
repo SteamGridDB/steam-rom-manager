@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.4.28
+
+### Fixed
+* Read controller templates blocking renderer process.
+* Commandline argument handling for platform parsers (resolves [issue 263](https://github.com/SteamGridDB/steam-rom-manager/issues/263))
+
 ## 2.4.27
 ### Added
 * Ability to filter by artwork size for banners, heroes, and icons.
