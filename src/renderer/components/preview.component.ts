@@ -6,7 +6,7 @@ import { PreviewData, PreviewDataApp, PreviewDataApps, PreviewVariables, AppSett
 import { APP } from '../../variables';
 import { FileSelector } from '../../lib';
 import { artworkTypes, artworkViewTypes, artworkNamesDict, artworkDimsDict } from '../../lib/artwork-types';
-import { superTypes, ArtworkOnlyType } from '../../lib/parsers/available-parsers';
+import { superTypes, ArtworkOnlyType, superTypesMap } from '../../lib/parsers/available-parsers';
 import { FuzzyTestPipe, IntersectionTestPipe } from '../pipes';
 import * as url from '../../lib/helpers/url';
 import * as FileSaver from 'file-saver';
@@ -441,7 +441,8 @@ export class PreviewComponent implements OnDestroy {
         missingArtFilter = !this.previewService.getCurrentImage(app)
       }
     }
-    return searchFilter && categoryFilter && configFilter && missingArtFilter;
+    const excludesArtOnlyFilter = !this.showExcludes || superTypesMap[app.parserType]!=='ArtworkOnly'
+    return searchFilter && categoryFilter && configFilter && missingArtFilter && excludesArtOnlyFilter;
   }
 
   private excludeVisible() {
