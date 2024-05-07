@@ -1,13 +1,13 @@
 # Analisador Steam
 
-Esse analisador importa jogos Steam para a SRM. Esse analisador importa jogos Steam para a SRM. Esse analisador importa jogos Steam para a SRM. Ele não adiciona atalhos, mas permite que você defina o trabalho de arte para seus jogos Steam. Por padrão, o analisador obterá os jogos de todas as contas de usuário no diretório Steam especificado &mdash; se você preferir apenas obter os jogos de um subconjunto das contas então especificá-los no campo `Contas de Usuário`.
+This parser imports steam games into SRM so you can manage their artwork. It does not add shortcuts, and as such is an `Artwork Only` parser. This parser requires the `User Accounts` field to be set.
 
 ## Limitações
 Infelizmente, por enquanto, este analisador só funciona para jogos Steam **que estão em pelo menos uma categoria**. A razão para isso é que o Steam só armazena sua lista completa de jogos localmente se eles forem categorizados. Às vezes, por razões desconhecidas, os jogos serão armazenados localmente, independentemente do funcionamento do analisador. mas ser seguro, a coisa mais fácil de se fazer é apenas **criar uma categoria Steam** que tenha todas as suas partidas Steam dentro.
 
-## Contas de usuário (opcional)
+## User accounts (required)
 
-Pode ser usado para limitar a configuração para contas de usuário específicas. Para definir a consulta de imagem, é necessário usar a seguinte sintaxe:
+Used to limit configuration to specific user accounts. Para definir a consulta de imagem, é necessário usar a seguinte sintaxe:
 ```
 ${...}
 ```
@@ -21,11 +21,12 @@ Por exemplo, é assim que você especifica grupos para "Rpcs3" e "rpcs3":
 ${Banana}${Apple}
 ```
 
-No caso de [usar credenciais da conta](#what-does-use-account-credentials-do) está desativado, você ainda pode limitar as contas especificando seus Ids diretamente:
+You can also limit accounts by specifying their ids directly. For example:
 
 ```
 ${56489124}${21987424}
 ```
+Would limit the search to `steam/userdata/56489124` and `steam/userdata/21987424`.
 
 ## Ignorar contas encontradas com diretórios de dados ausentes?
 
