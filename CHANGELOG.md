@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 * Allow function variables in environment variable fields. One use case being to set start-in-directory based on the os ([issue 292](https://github.com/SteamGridDB/steam-rom-manager/issues/292)).
 * Added back image provider to apps in EmuDeck theme.
+* View Games and About pages now in EmuDeck theme.
 
 ### Fixed
 * Some graphical issues with loading spinner placements
