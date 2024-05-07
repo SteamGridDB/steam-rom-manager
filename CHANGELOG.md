@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.0
+### Added
+* Ability to set Proton version per parser [TODO]
+* Ability to prioritize artwork by certain authors [TODO]
+
+### Changed
+* Allow function variables in environment variable fields. One use case being to set start-in-directory based on the os ([issue 292](https://github.com/SteamGridDB/steam-rom-manager/issues/292)).
+* Added back image provider to apps in EmuDeck theme.
+
+### Fixed
+* Some graphical issues with loading spinner placements
+
 ## 2.4.29
 ### Added
 * Non-SRM Shortcuts Artwork Only Parser.

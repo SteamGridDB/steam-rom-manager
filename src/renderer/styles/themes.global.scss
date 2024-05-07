@@ -8,6 +8,9 @@
   .only-emudeck {
     display: none !important;
   }
+  .previewSpinner {
+    margin-left: calc(0.5 * (100vw - var(--nav-width)) - 2.5em);
+  }
   .appOverlay {
     outline: 2px solid var(--color-preview-user-background);
     opacity: 0;
@@ -417,6 +420,9 @@
 .EmuDeck {
   .not-emudeck {
     display: none !important;
+  }
+  .previewSpinner {
+    margin-left: calc(50vw - 2.5em);
   }
   @font-face {
     font-family: "MotivaSans";
@@ -1257,6 +1263,9 @@
   }
   .not-deck {
     display: none !important;
+  }
+  .previewSpinner {
+    margin-left: calc(0.5 * (100vw - var(--nav-width)) - 2.5em);
   }
   --grid-app: "titlebar titlebar titlebar" "navarea navborder route";
   --grid-app-rows: auto 1fr;

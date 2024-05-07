@@ -1,7 +1,6 @@
-<div class="loadingSpinner" *ngIf="previewVariables.listIsBeingGenerated"></div>
+<div class="loadingSpinner previewSpinner" *ngIf="previewVariables.listIsBeingGenerated"></div>
 <ng-container *ngIf="!previewVariables.listIsBeingGenerated">
-  <div
-    class="preview-description"
+  <div class="preview-description"
     *ngIf="!previewVariables.listHasGenerated || previewVariables.numberOfListItems == 0"
   >
     <h1>Add your games to Steam</h1>
@@ -46,7 +45,6 @@
     </div>
     <ng-text-input class="appFilter" [placeholder]="lang.filter" [(ngModel)]="filterValue"></ng-text-input>
   </div>
-
   <div class="excludes" *ngIf="showExcludes">
     <div class="titleGroup">
       <span>Number Excluded: {{ exclusionCount }}</span>
@@ -66,8 +64,8 @@
       </div>
     </div>
   </div>
-
   <div class="detailsLower">
+    <div class="loadingSpinner" *ngIf="detailsLoading"></div>
     <ng-container *ngIf="!detailsLoading">
       <ng-container *ngIf="!!detailsApp">
         <div class="detailsOptions">
@@ -92,9 +90,6 @@
           </ng-container>
         </div>
       </ng-container>
-    </ng-container>
-    <ng-container *ngIf="detailsLoading">
-      <div class="loadingSpinner"></div>
     </ng-container>
   </div>
   <div class="detailsUpper" *ngIf="showDetails">
@@ -225,7 +220,7 @@
                                   <span>{{ app.title }}</span>
                                 </div>
                                 <ng-container *ngIf="image != null">
-                                  <div class="provider not-emudeck" text-scroll>
+                                  <div class="provider" text-scroll>
                                     {{
                                       image.imageProvider +
                                         (image.imageUploader ? " (" + lang.by + " " + image.imageUploader + ")" : "") +
@@ -399,7 +394,7 @@
                                 <span>{{ app.title }}</span>
                               </div>
                               <ng-container *ngIf="image != null">
-                                <div class="provider not-emudeck" text-scroll>
+                                <div class="provider" text-scroll>
                                   {{
                                     image.imageProvider +
                                       (image.imageUploader ? " (" + lang.by + " " + image.imageUploader + ")" : "") +

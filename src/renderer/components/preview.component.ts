@@ -187,6 +187,7 @@ export class PreviewComponent implements OnDestroy {
   private setImageType(imageType: string) {
     this.previewService.setImageType(imageType);
     this.setImageBoxSizes();
+    this.changeDetectionRef.detectChanges();
   }
 
   private getImagePool(poolKey: string, imageType?: string) {
@@ -340,6 +341,7 @@ export class PreviewComponent implements OnDestroy {
     this.showDetails= true;
     this.matchFix = '';
     this.renderer.setStyle(this.elementRef.nativeElement, '--details-width', '50%', RendererStyleFlags2.DashCase);
+    this.changeDetectionRef.detectChanges()
     this.detailsApp = {
       appId: appId,
       app: app,

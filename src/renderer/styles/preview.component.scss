@@ -40,8 +40,6 @@
       width: 5em;
       height: 5em;
       margin-top: 40vh;
-      margin-left: calc(0.45 * (100vw - var(--nav-width)));
-
       content: "";
       animation: loadingSpinner 0.6s linear infinite;
 
@@ -239,6 +237,9 @@
       "detailsList";
     grid-template-rows: auto 1fr;
     overflow-y: auto;
+    &>.loadingSpinner {
+      margin-left: calc(var(--details-width) - 2.5em)
+    }
 
     .detailsOptions {
       padding: 1em 1em 0.5em 1em;
