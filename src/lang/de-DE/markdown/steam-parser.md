@@ -1,13 +1,13 @@
 # Steam-Parser
 
-Dieser Parser importiert Steam Spiele in SRM. Er fügt keine Verknüpfungen hinzu, aber erlaubt dir, Artworks für deine Steam Spiele festzulegen. Standardmäßig holt der Parser Spiele von allen Benutzerkonten im angegebenen Verzeichnis &mdash;. Wenn du es vorziehst, nur die Spiele für eine Teilmenge der Konten zu erhalten, gib diese im Feld `Benutzerkonten` an.
+This parser imports steam games into SRM so you can manage their artwork. It does not add shortcuts, and as such is an `Artwork Only` parser. This parser requires the `User Accounts` field to be set.
 
 ## Einschränkungen
 Leider funktioniert dieser Parser vorerst nur für Steam Spiele, die in **mindestens einer Kategorie** sind. Der Grund dafür ist, dass Steam die vollständige Liste deiner Spiele nur lokal speichert, wenn diese kategorisiert sind. Manchmal werden aus unbekannten Gründen Spiele auch ohne Kategorie lokal gespeichert und der Parser funktioniert, aber um sicher zu sein ist es am einfachsten, **eine Steam Kategorie zu erstellen**, die alle deine Steam Spiele enthält.
 
-## Benutzerkonten (Optional)
+## User accounts (required)
 
-Kann verwendet werden, um die Konfiguration auf bestimmte Benutzerkonten zu beschränken. Um Benutzerkonten festzulegen, muss folgende Syntax verwendet werden:
+Used to limit configuration to specific user accounts. Um Benutzerkonten festzulegen, muss folgende Syntax verwendet werden:
 ```
 ${...}
 ```
@@ -21,11 +21,12 @@ So kannst du zum Beispiel Konten für "Banana" und "Apple" festlegen:
 ${Banana}${Apple}
 ```
 
-Für den Fall, dass [Anmeldeinformationen verwenden](#what-does-use-account-credentials-do) deaktiviert wurde, können Benutzerkonten immer noch anhand ihrer ID limitiert werden:
+You can also limit accounts by specifying their ids directly. For example:
 
 ```
 ${56489124}${21987424}
 ```
+Would limit the search to `steam/userdata/56489124` and `steam/userdata/21987424`.
 
 ## Was macht "Überspringe gefundene Konten mit fehlenden Datenverzeichnissen"?
 
