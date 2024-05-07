@@ -13,3 +13,5 @@
 
 
 环境变量 `${srmdir}` 的实用性在于使 SRM 完全可移植，例如，如果您想要具有目录布局 `D:\Games\Roms` 和 `D:\Games\PortableSRM\SRM.exe`，那么将 Roms 目录字段设置为 `${srmdir}${/}..${/}Roms` 将允许您将游戏目录移动到其他地方而不会破坏设置。
+
+Function variables can also be used in fields that permit environment variables (e.g. `${os:win|C:\path\to\startdir|${os:linux|/path/to/startdir}}`)
