@@ -13,3 +13,5 @@ Estas variables son pre-analizadas y pueden ser usadas en los campos de Director
 
 
 La utilidad de la variable `${srmdir}` es hacer a SRM completamente portable, por ej. si quisieras tener como Directorio de ROMs a `D:\Juegos\Roms` y a SRM en `D:\Juegos\PortableSRM\SRM.exe` y configuraras el Directorio de ROMs para que sea `${srmdir}${/}..${/}Roms`, esto te permitiría mover la carpeta Juegos sin romper tu configuración.
+
+Function variables can also be used in fields that permit environment variables (e.g. `${os:win|C:\path\to\startdir|${os:linux|/path/to/startdir}}`)
