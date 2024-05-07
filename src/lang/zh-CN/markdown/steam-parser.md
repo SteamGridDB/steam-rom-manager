@@ -1,13 +1,13 @@
 # Steam 解析器
 
-这个解析器将 Steam 游戏导入 SRM。 它不会添加快捷方式，但它允许您为 Steam 游戏设置艺术作品。 默认情况下，解析器将从指定的 Steam 目录中获取所有用户帐户的游戏 &mdash; 如果您只想获取某些帐户的游戏，则在 `用户帐户` 字段中指定它们。
+This parser imports steam games into SRM so you can manage their artwork. It does not add shortcuts, and as such is an `Artwork Only` parser. This parser requires the `User Accounts` field to be set.
 
 ## 限制
 很遗憾，目前这个解析器只适用于至少属于一个类别的 Steam 游戏。 这是因为如果游戏被分类，Steam 才会在本地存储您的完整游戏列表。 有时候，由于未知原因，游戏会被本地存储并且解析器可以正常工作，但为了安全起见，最简单的方法就是 **创建一个 Steam 游戏分类** 将所有 Steam 游戏放入其中。
 
-## 用户账户（可选）
+## User accounts (required)
 
-可以用于将配置限制为特定的用户帐户。 为了设置用户帐户，必须使用以下语法：
+Used to limit configuration to specific user accounts. 为了设置用户帐户，必须使用以下语法：
 ```
 ${...}
 ```
@@ -21,11 +21,12 @@ ${...}
 ${Banana}${Apple}
 ```
 
-如果 [使用帐户凭据](#what-does-use-account-credentials-do) 被禁用，您仍然可以通过直接指定其 ID 来限制帐户：
+You can also limit accounts by specifying their ids directly. For example:
 
 ```
 ${56489124}${21987424}
 ```
+Would limit the search to `steam/userdata/56489124` and `steam/userdata/21987424`.
 
 ## “跳过找到的缺少数据目录的账户”是什么意思？
 
