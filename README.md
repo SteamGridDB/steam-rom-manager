@@ -72,14 +72,11 @@ In addition to flexible importing of ROMS, SRM now has several *platform parsers
 We are open to suggestions and pull requests if you would like a platform parser added!
 
 ## Artwork Only Parsers
-Artwork only parsers allow you to change the artwork for existing non-SRM added games. Put it simply they just change artwork, they don't add shortcuts.
+Artwork only parsers allow you to change the artwork for existing non-SRM games. Put it simply they just change artwork, they don't add shortcuts.
 |Parser|Windows|Mac OS|Linux|
 |---|---|---|---|
 |Steam|✅|✅|✅|
-
-In the future we plan to add an artwork only parser for non Steam games (either added manually or through some tool other than SRM).
-
-
+|Non-SRM Shortcuts|✅|✅|✅|
 
 # For developers
 

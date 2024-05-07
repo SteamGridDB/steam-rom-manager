@@ -1,13 +1,13 @@
 # Steam parser
 
-This parser imports steam games into SRM. It does not add shortcuts, but it allows you to set the artwork for your steam games. By default the parser will get games from all user accounts in the steam directory specified &mdash; if you would prefer to only get the games for a subset of the accounts then specify them in the `User accounts` field.
+This parser imports steam games into SRM so you can manage their artwork. It does not add shortcuts, and as such is an `Artwork Only` parser. This parser requires the `User Accounts` field to be set.
 
 ## Limitations
 Unfortunately for the time being this parser only works for steam games **that are in at least one category**. The reason for this is that Steam only stores your full list of games locally if they are categorized. Sometimes, for unknown reasons, games will be stored locally regardless and the parser will work, but to be safe the easiest thing to do is just **create a Steam Category** that has all of your Steam games in it.
 
-## User accounts (Optional)
+## User accounts (required)
 
-Can be used to limit configuration to specific user accounts. In order to set user accounts, the following syntax must be used:
+Used to limit configuration to specific user accounts. In order to set user accounts, the following syntax must be used:
 ```
 ${...}
 ```
@@ -21,11 +21,12 @@ For example, this is how you specify account for "Banana" and "Apple":
 ${Banana}${Apple}
 ```
 
-In case the [use account credentials](#what-does-use-account-credentials-do) is disabled, you can still limit accounts by specifying their ids directly: 
+You can also limit accounts by specifying their ids directly. For example:
 
 ```
 ${56489124}${21987424}
 ```
+Would limit the search to `steam/userdata/56489124` and `steam/userdata/21987424`.
 
 ## What does "Skip found accounts with missing data directories" do?
 

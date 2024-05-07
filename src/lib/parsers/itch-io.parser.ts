@@ -71,7 +71,6 @@ export class ItchIoParser implements GenericParser {
         sqliteWrapper.callWorker()
         .then((games: {[k: string]: any}[]) => {
           const success = games.map(({ title, verdict }: { [key:string]:string }) => {
-            console.log("verd",JSON.parse(verdict))
             const { basePath, candidates } = JSON.parse(verdict);
             if (!candidates) {
               return null;

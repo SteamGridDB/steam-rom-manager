@@ -365,7 +365,7 @@ export class PreviewComponent implements OnDestroy {
     if(this.detailsApp && this.matchFix) {
       const {steamDirectory, userId, appId, app} = this.detailsApp;
       this.previewData[steamDirectory][userId].apps[appId].title = this.matchFixDict[this.matchFix].name;
-      if(app.parserType !== 'Steam') {
+      if(superTypesMap[app.parserType] !== 'ArtworkOnly') {
         const changedId = steam.generateAppId(app.executableLocation, this.matchFixDict[this.matchFix].name);
         this.previewData[steamDirectory][userId].apps[appId].changedId = changedId;
       }
@@ -493,7 +493,6 @@ export class PreviewComponent implements OnDestroy {
               return `${app.extractedTitle} \$\{id:${exceptionId}\}`
             });
             exceptionKeys = exceptionKeys.concat(newKeys)
-
             this.previewData[steamDirectory][userId].apps = _.pickBy(this.previewData[steamDirectory][userId].apps, (value: PreviewDataApp, key: string) => {
               return !this.excludedAppIds[steamDirectory][userId][key]
             })

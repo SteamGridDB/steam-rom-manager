@@ -7,7 +7,6 @@ import * as path from "path";
 import * as bvdf from "binary-vdf-2";
 import { glob } from "glob";
 import * as json from "../helpers/json";
-import * as steam from "../helpers/steam";
 
 export class SteamParser implements GenericParser {
 

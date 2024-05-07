@@ -267,7 +267,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                       }));
                     },
                     onValidate: (self, path) => {
-                      if (parsers[i]!=='Steam' && this.userForm.get('parserType').value === parsers[i])
+                      if (parserInfo.superTypesMap[parsers[i]] !== parserInfo.ArtworkOnlyType && this.userForm.get('parserType').value === parsers[i])
                         return this.parsersService.validate(path[0] as keyof UserConfiguration, { parser: parsers[i], input: inputFieldName, inputData: self.value });
                       else
                         return null;
@@ -895,7 +895,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             const executableLocation = data.files[i].modifiedExecutableLocation;
             const title = data.files[i].finalTitle;
             let shortAppId; let appId; let exceptionKey;
-            if(config.parserType !== 'Steam') {
+            if(parserInfo.superTypesMap[config.parserType] !== parserInfo.ArtworkOnlyType) {
               shortAppId = steam.generateShortAppId(executableLocation, title);
               appId = steam.lengthenAppId(shortAppId);
               exceptionKey = steam.generateShortAppId(executableLocation, data.files[i].extractedTitle);

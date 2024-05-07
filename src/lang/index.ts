@@ -112,11 +112,20 @@ function getMarkdown(langPath: string) {
     steamParser: {
       docs__md: {
         self: [
-          require(`${langPath}/steam-parser.md`)
+          require(`${langPath}/steam-parser.md`),
+          require(`${langPath}/steam-parser-input.md`)
         ],
         input: [
           require(`${langPath}/steam-parser-input.md`)
         ]
+      }
+    },
+    nonSRMShortcutsParser: {
+      docs__md: {
+        self: [
+          require(`${langPath}/non-srm-shortcuts-parser.md`),
+        ],
+        input: [] as string[]
       }
     },
     manualParser: {

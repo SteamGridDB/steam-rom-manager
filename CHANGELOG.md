@@ -1,8 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2.4.28
+## 2.4.29
+### Changed
+* Don't show artwork only apps when doing excludes (this didn't work anyway, since nothing is being added)
 
+## 2.4.28
 ### Added
 * Parsing of executable arguments in executable mode for GOG, Amazon, Epic, EA Desktop, and Legendary (resolves [issue 263](https://github.com/SteamGridDB/steam-rom-manager/issues/263)). Previously these were being ignored. As far as I can tell UPlay, UWP, and Itch.io never pass commandline arguments to executables.
 

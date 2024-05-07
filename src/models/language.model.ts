@@ -105,6 +105,16 @@ export interface languageStruct {
       fatalError__i: string
     }
   },
+  nonSRMShortcutsParser: {
+    docs__md: {
+      self: string[],
+      input: string[]
+    },
+    errors: {
+      noSteamAccounts: string,
+      fatalError__i: string
+    }
+  }
   battleNetParser: {
     battleExeOverrideTitle: string,
     battleExeOverridePlaceholder: string,

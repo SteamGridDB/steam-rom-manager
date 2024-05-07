@@ -18,7 +18,7 @@
             <span>{{steamUser}}</span>
           </div>
           <div class="apps">
-            <ng-container *ngFor="let shortcut of sortedShortcuts(viewService.vdfData[steamDir][steamUser].shortcuts.fileData.shortcuts)">
+            <ng-container *ngFor="let shortcut of sortedShortcuts(viewService.vdfData[steamDir][steamUser].shortcuts.data)">
               <div class="app" (click)="setCurrentShortcut(steamDir, steamUser, shortcut)" [class.currentShortcut]="shortcut==currentShortcut"
               *ngIf="(shortcut.appname | fuzzyTest: filterValue)"
               >

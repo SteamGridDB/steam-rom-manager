@@ -9,7 +9,6 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 
 const shortcutsParser = require('steam-shortcut-editor');
-import * as genericParser from '@node-steam/vdf';
 
 
 export class VDF_ShortcutsFile {

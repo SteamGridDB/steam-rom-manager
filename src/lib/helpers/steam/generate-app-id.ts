@@ -15,12 +15,6 @@ export function generateAppId(exe: string, appname: string) {
 export function generateShortAppId(exe: string, appname: string) {
   return shortenAppId(generateAppId(exe, appname));
 }
-
-// Used as appid in shortcuts.vdf
-export function generateShortcutId(exe: string, appname: string) {
-  return Number((generatePreliminaryId(exe, appname) >> BigInt(32)) - BigInt(0x100000000));
-}
-
 // Convert from AppId to ShortAppId
 export function shortenAppId(longId: string) {
   return String(BigInt(longId) >> BigInt(32));
@@ -31,7 +25,17 @@ export function lengthenAppId(shortId: string) {
   return String(BigInt(shortId) << BigInt(32) | BigInt(0x02000000));
 }
 
+// Used as appid in shortcuts.vdf
+export function generateShortcutId(exe: string, appname: string) {
+  return Number((generatePreliminaryId(exe, appname) >> BigInt(32)) - BigInt(0x100000000));
+}
+
 // Convert from AppId to ShortcutAppId
 export function shortcutifyAppId(longId: string) {
   return Number(shortenAppId(longId)) >> 32
+}
+
+// Convert from ShortcutAppId to AppId
+export function appifyShortcutId(shortcutId: number) {
+  return lengthenAppId(String(BigInt(shortcutId) + BigInt(0x100000000)))
 }

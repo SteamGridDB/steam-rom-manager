@@ -58,7 +58,6 @@ export class GOGParser implements GenericParser {
         let parsedData: ParsedData = {success: [], failed:[]};
         parsedData.executableLocation = galaxyExePath;
         for(let task of playtasks) {
-          console.log("playtask", task)
           if(task.params.executablePath) {
             const productID = task.productId.toString();
             parsedData.success.push({

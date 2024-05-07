@@ -39,6 +39,7 @@ import * as url from "../../lib/helpers/url";
 import * as appImage from "../../lib/helpers/app-image";
 import * as ids from '../../lib/helpers/steam';
 import { artworkTypes, defaultArtworkType, artworkIdDict, invertedArtworkIdDict } from '../../lib/artwork-types';
+import { superTypesMap } from '../../lib/parsers/available-parsers';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as path from "path";
@@ -545,7 +546,7 @@ export class PreviewService {
             let executableLocation = file.modifiedExecutableLocation;
             let title = file.finalTitle;
             let appID: string = '';
-            if(config.parserType !== 'Steam') {
+            if(superTypesMap[config.parserType] !== 'ArtworkOnly') {
               appID = steam.generateAppId(executableLocation, title);
             } else {
               appID = steam.lengthenAppId(executableLocation.replace(/\"/g,""));

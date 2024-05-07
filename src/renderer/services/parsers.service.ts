@@ -204,7 +204,7 @@ export class ParsersService {
                     return;
                   else
                     userConfigurations[index].current.parserId = userConfigurations[index].saved.parserId;
-                  if(userConfigurations[index].current.parserType==='Steam') {
+                  if(parserInfo.superTypesMap[userConfigurations[index].current.parserType]===parserInfo.ArtworkOnlyType) {
                     userConfigurations[index].current.titleFromVariable.tryToMatchTitle=false;
                   }
                   userConfigurations[index] = { saved: userConfigurations[index].current, current: null };
@@ -307,7 +307,7 @@ export class ParsersService {
                     return (data == null || data.length === 0 || this.validateEnvironmentPath(data || '', true)) ? null : this.lang.validationErrors.startInDir__md;
                   case 'userAccounts':
                     {
-                    if(options && options.parserType=='Steam') {
+                    if(options && parserInfo.superTypesMap[options.parserType as ParserType]==parserInfo.ArtworkOnlyType) {
                       return data && data.specifiedAccounts ? this.validateVariableParserString(data.specifiedAccounts||'') : this.lang.validationErrors.userAccounts__md;
                     } else{
                       return this.validateVariableParserString((data||{}).specifiedAccounts || '');
