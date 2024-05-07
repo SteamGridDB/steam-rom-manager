@@ -13,3 +13,5 @@ Diese Variablen werden vorgeparst und können auch im Rom Verzeichnis, Steam Ver
 
 
 Der Nutzen der Umgebungsvariable `${srmdir}` besteht darin, SRM vollständig portabel zu machen. Wenn du z.B. das Verzeichnislayout `D:\Games\Roms` und `D:\Games\PortableSRM\SRM.exe`haben möchtest, würdest du das Feld ROMs Verzeichnis auf `${srmdir}${/}..${/}Roms` setzen, um das Spielverzeichnis an einen anderen Ort zu verschieben, ohne dein Setup zu verändern.
+
+Function variables can also be used in fields that permit environment variables (e.g. `${os:win|C:\path\to\startdir|${os:linux|/path/to/startdir}}`)
