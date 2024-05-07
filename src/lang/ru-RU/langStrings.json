@@ -93,6 +93,12 @@
       "fatalError__i": "> Steam parser failed with fatal error:\n ${error}"
     }
   },
+  "nonSRMShortcutsParser": {
+    "errors": {
+      "noSteamAccounts": "> Steam directory specified has no accounts.",
+      "fatalError__i": "> Non-SRM Shortcuts parser failed with fatal error:\n ${error}"
+    }
+  },
   "manualParser": {
     "manifestsInputTitle": "Manifests Directory",
     "manifestsInputPlaceholder": "/path/to/your/manifests/",
@@ -515,7 +521,7 @@
           "incorrectParser": "Incorrect parser!"
         },
         "romDir__md": "> ROMs directory is invalid!",
-        "userAccounts__md": "> Steam parser requires `User Accounts` field",
+        "userAccounts__md": "> Artwork Only parsers require `User Accounts` field",
         "steamDir__md": "> Steam directory is invalid!",
         "startInDir__md": "> \"Start In\" directory is invalid!",
         "executable__md": "> Executable is invalid!",
