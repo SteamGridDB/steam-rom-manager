@@ -93,6 +93,12 @@
       "fatalError__i": "> O analisador da falhou com erro fatal:\n ${error}"
     }
   },
+  "nonSRMShortcutsParser": {
+    "errors": {
+      "noSteamAccounts": "> Steam directory specified has no accounts.",
+      "fatalError__i": "> Non-SRM Shortcuts parser failed with fatal error:\n ${error}"
+    }
+  },
   "manualParser": {
     "manifestsInputTitle": "Diretório de Manifests",
     "manifestsInputPlaceholder": "/path/to/your/manifests/",
@@ -515,7 +521,7 @@
           "incorrectParser": "Tipo de usuário incorreto!"
         },
         "romDir__md": "> O diretório ROMs é inválido!",
-        "userAccounts__md": "> O analisador de Steam requer o campo `Contas de Usuário`",
+        "userAccounts__md": "> Artwork Only parsers require `User Accounts` field",
         "steamDir__md": "> diretório Steam inválido!",
         "startInDir__md": "> \"O diretório Roms é inválido!",
         "executable__md": "> O executável é inválido!",
