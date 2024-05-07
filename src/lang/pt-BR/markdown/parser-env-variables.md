@@ -13,3 +13,5 @@ Essas variáveis são pré-analisadas e podem ser usadas até nos campos Rom Dir
 
 
 A utilidade da variável de ambiente `${srmdir}` é tornar a SRM totalmente portátil, por exemplo, se você quisesse ter o layout dos diretórios `D:\Games\Rsala` e `D:\Games\PortableSRM\SRM. xe` então defina o campo Roms Directory para ser `${srmdir}${/}.. {/}Roms` permitiria que você movesse o diretório Jogos para outro lugar sem quebrar sua configuração.
+
+Function variables can also be used in fields that permit environment variables (e.g. `${os:win|C:\path\to\startdir|${os:linux|/path/to/startdir}}`)
