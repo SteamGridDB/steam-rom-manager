@@ -93,6 +93,12 @@
       "fatalError__i": "> Steam 解析器发生致命错误：\n ${error}"
     }
   },
+  "nonSRMShortcutsParser": {
+    "errors": {
+      "noSteamAccounts": "> Steam directory specified has no accounts.",
+      "fatalError__i": "> Non-SRM Shortcuts parser failed with fatal error:\n ${error}"
+    }
+  },
   "manualParser": {
     "manifestsInputTitle": "列表目录",
     "manifestsInputPlaceholder": "/path/to/your/manifests/",
@@ -515,7 +521,7 @@
           "incorrectParser": "错误的解析器！"
         },
         "romDir__md": "> ROM目录无效！",
-        "userAccounts__md": "> Steam 解析器需要 `用户账户` 字段",
+        "userAccounts__md": "> Artwork Only parsers require `User Accounts` field",
         "steamDir__md": "> Steam 目录无效！",
         "startInDir__md": "> \"Start In\" 目录无效！",
         "executable__md": "> 可执行文件无效！",
