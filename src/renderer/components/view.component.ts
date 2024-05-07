@@ -7,7 +7,7 @@ import {
 } from "../../lib";
 import { controllerTypes, enableDisplayNames } from '../../lib/controller-manager';
 import {artworkTypes, artworkIdDict, artworkSingDict} from '../../lib/artwork-types';
-import { VDF_ShortcutsItem, SteamInputEnabled } from "../../models";
+import { VDF_ShortcutsItem, SteamInputEnabled, ControllerTemplate } from "../../models";
 import { generateShortAppId } from '../../lib/helpers/steam';
 import path from "path";
 import _ from "lodash";
@@ -90,9 +90,9 @@ export class ViewComponent {
       if(configset) {
         const appController = configset.controller_config[ControllerManager.transformTitle(this.currentShortcut.appname)];
         if(appController && (appController.template || appController.workshop)) {
-          const templates = this.viewService.controllerTemplateData[steamDir][controllerType]||{};
+          const templates: ControllerTemplate[] = this.viewService.controllerTemplateData[steamDir][controllerType]||[];
           const mappingId = appController.template || appController.workshop;
-          const appTemplates = Object.values(templates).filter(x=>x.mappingId==mappingId);
+          const appTemplates = templates.filter(x=>x.mappingId==mappingId);
           if(appTemplates.length && appTemplates[0].title) {
             this.currentControllers[controllerType] = {
               title: appTemplates[0].title,
