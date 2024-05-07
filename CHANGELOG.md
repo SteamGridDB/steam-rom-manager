@@ -2,8 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## 2.4.29
+### Added
+* Non-SRM Shortcuts Artwork Only Parser.
 ### Changed
-* Don't show artwork only apps when doing excludes (this didn't work anyway, since nothing is being added)
+* Don't show artwork only apps when doing excludes (this didn't work anyway, since nothing is being added).
 
 ## 2.4.28
 ### Added
