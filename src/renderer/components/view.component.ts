@@ -31,8 +31,7 @@ export class ViewComponent {
   private currentLaunch: string;
   private currentControllerEnabled: string;
   private filterValue: string = '';
-  private currentArtwork: {[artworkType: string]: string} = {};
-  private artworkSingDict: {[artworkType: string]: string} = artworkSingDict;
+  private currentArtwork: {[artworkType: string]: string};
   private currentControllers:{[controllerType: string]: any} = {}
   constructor(
     private router: Router,
@@ -43,6 +42,17 @@ export class ViewComponent {
     private elementRef: ElementRef,
     private changeDetectionRef: ChangeDetectorRef
   ) {
+
+  }
+
+  get artworkSingDict() {
+    return artworkSingDict
+  }
+  get artworkTypes() {
+    return artworkTypes
+  }
+
+  ngAfterViewInit() {
     this.refreshGames(false);
   }
 
@@ -67,6 +77,7 @@ export class ViewComponent {
     this.renderer.setStyle(this.elementRef.nativeElement, '--view-details-width', '50%', RendererStyleFlags2.DashCase);
     const gridDir = this.viewService.vdfData[steamDir][steamUser].screenshots.gridDir;
     const shortAppId = generateShortAppId(shortcut.exe, shortcut.appname);
+    this.currentArtwork = {};
     for(let artworkType of artworkTypes) {
       const files = await glob(`${shortAppId}${artworkIdDict[artworkType]}.*`, { dot: true, cwd: gridDir, absolute: true });
       this.currentArtwork[artworkType] = files.length ? url.encodeFile(files[0]) : require('../../assets/images/no-images.svg');
@@ -79,7 +90,7 @@ export class ViewComponent {
       if(configset) {
         const appController = configset.controller_config[ControllerManager.transformTitle(this.currentShortcut.appname)];
         if(appController && (appController.template || appController.workshop)) {
-          const templates = this.viewService.controllerTemplateData[steamDir][controllerType];
+          const templates = this.viewService.controllerTemplateData[steamDir][controllerType]||{};
           const mappingId = appController.template || appController.workshop;
           const appTemplates = Object.values(templates).filter(x=>x.mappingId==mappingId);
           if(appTemplates.length && appTemplates[0].title) {

@@ -3,7 +3,7 @@
     <ng-text-input class="searchGames" placeholder="Search Games" [(ngModel)]="filterValue"></ng-text-input>
   </div>
 </div>
-<div class="loadingSpinner" *ngIf="this.viewService.status.refreshingShortcuts | async"></div>
+<div class="loadingSpinner previewSpinner" *ngIf="this.viewService.status.refreshingShortcuts | async"></div>
 <div class="gamesList" *ngIf="!(this.viewService.status.refreshingShortcuts | async)">
   <ng-container *ngFor="let steamDir of viewService.vdfData | keys">
     <div class="directory" *ngVar="{ isHidden: false } as directory" [class.hidden]="directory.isHidden">
@@ -32,7 +32,7 @@
   </ng-container>
 </div>
 <div class="details" *ngIf="!!currentShortcut">
-  <div class="loadingSpinner" *ngIf="this.viewService.status.refreshingDetails | async"></div>
+  <div class="loadingSpinner" *ngIf="(this.viewService.status.refreshingDetails | async)"></div>
   <ng-container *ngIf="!(viewService.status.refreshingDetails | async)">
     <div class="infos">
       <div class="launch" (click)=launchTitle()>LAUNCH TITLE</div>
@@ -68,7 +68,7 @@
       <span class="sectionLabel">ARTWORK</span>
     </div>
     <div class="artworks">
-      <ng-container *ngFor="let artworkType of currentArtwork | keys">
+      <ng-container *ngFor="let artworkType of artworkTypes">
         <div class= "artworkContainer">
           <div class="artworkLabel">
             <span>{{artworkSingDict[artworkType].toUpperCase()}}</span>
@@ -103,11 +103,21 @@
     </div>
   </ng-container>
 </div>
-<div class="menu">
+<div class="menu not-emudeck">
   <div class="buttonGroup">
     <div class="menuButton" (click)="refreshGames(true)">
       Refresh Games
     </div>
+  </div>
+</div>
+<div class="menu only-emudeck">
+  <div class="buttonGroup">
+    <div class="menuButton" (click)="refreshGames(true)">
+      Refresh Games
+    </div>
+  </div>
+  <div class="buttonGroup">
+    <div class="menuButton" routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
   </div>
 </div>
 

@@ -14,15 +14,13 @@
 
   grid-template-columns: auto var(--view-details-width);
   grid-template-rows: auto 1fr auto;
-  .loadingSpinner {
+ .loadingSpinner {
     &:before {
       display: block;
       justify-content: center;
       width: 5em;
       height: 5em;
       margin-top: 40vh;
-      margin-left: calc(0.45 * (100vw - var(--nav-width)));
-
       content: "";
       animation: loadingSpinner 0.6s linear infinite;
 
@@ -156,7 +154,7 @@
     overflow: auto;
     .loadingSpinner {
       &:before {
-        margin-left: calc(0.2 * (100vw - var(--nav-width)));
+        margin-left: calc(var(--view-details-width) - 2.5em)
       }
     }
     .launch {

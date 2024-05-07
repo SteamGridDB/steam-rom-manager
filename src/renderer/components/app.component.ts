@@ -39,7 +39,7 @@ export class AppComponent {
 
       // EmuDeck special navigation
       this.router.events.subscribe((val) => {
-        if (this.router.url === '/logger' && appSettings.theme === 'EmuDeck' || this.router.url === '/user-exceptions' && appSettings.theme === 'EmuDeck' || this.router.url === '/' && appSettings.theme === 'EmuDeck') {
+        if(appSettings.theme==='EmuDeck' &&(['/logger','/user-exceptions','/view','/',].includes(this.router.url))) {
           this.shouldHideComponent = true;
         } else {
           this.shouldHideComponent = false;
