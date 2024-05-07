@@ -17,7 +17,6 @@ import { glob, escape } from 'glob';
 import { getPath, getArgs, getStartDir } from 'windows-shortcuts-ps';
 import * as xdgparse from 'xdg-parse';
 import { SteamGridDbProvider } from './image-providers/steamgriddb.worker';
-import { config } from 'rxjs';
 
 
 
@@ -651,6 +650,71 @@ export class FileParser {
     });
   }
 
+  execRegex(output: string) {
+    let match = /^\/(.*?)\/([giu]{0,3})\|(.*?)(?:\|(.*?))?$/.exec(output);
+    if (match) {
+      let regex = new RegExp(match[1], match[2] || '');
+      let replaceText = match[4];
+      if (typeof replaceText === 'string') {
+        return match[3].replace(regex, replaceText);
+      }
+      else {
+        let innerMatch = match[3].match(regex);
+        let regexOutput = '';
+        if (innerMatch !== null) {
+          for (let i = 1; i < innerMatch.length; i++) {
+            if (innerMatch[i]) {
+              regexOutput += innerMatch[i];
+            }
+          }
+          if (regexOutput.length === 0) {
+            regexOutput = innerMatch[0];
+          }
+        }
+        return regexOutput
+      }
+    }
+
+    match = /^uc\|(.*)$/i.exec(output);
+    if (match) {
+      return match[1].toUpperCase();
+    }
+
+    match = /^lc\|(.*)$/i.exec(output);
+    if (match) {
+      return match[1].toLowerCase();
+    }
+
+    match = /^rdc\|(.*)$/i.exec(output);
+    if (match) {
+      return match[1].replaceDiacritics();
+    }
+
+    match = /^cv:?(.*)\|(.+)$/i.exec(output);
+    if (match) {
+      let groups = match[1] ? _.intersection(Object.keys(this.customVariableData), match[1]) : Object.keys(this.customVariableData);
+      for (let i = 0; i < groups.length; i++) {
+        if (this.customVariableData[groups[i]][match[2]] !== undefined) {
+          return match[2];
+        }
+      }
+      return 'undefined'
+    }
+
+    match = /^os:(.+?)\|(.*?)(?:\|(.*?))?$/i.exec(output);
+    if (match) {
+      const regexPlatform = match[1].toLowerCase();
+      if (regexPlatform === "win" || regexPlatform === "mac" || regexPlatform === "linux") {
+        const platformMap: {[k: string]: string} = { win32: "win", linux: "linux", darwin: "mac" }
+        const platform = platformMap[os.platform()];
+        if (platform) {
+          return ((platform === regexPlatform) ? match[2] : match[3]) || '';
+        }
+      }
+    }
+    return output
+  }
+
   getEnvironmentVariable(variable: EnvironmentVariables, settings: AppSettings) {
     let output = variable as string;
     switch (<EnvironmentVariables>variable.toUpperCase()) {
@@ -679,9 +743,10 @@ export class FileParser {
         output=settings.environmentVariables.localImagesDirectory;
         break;
       default:
+        output = this.execRegex(output)
         break;
     }
-    return output;
+    return output || '';
   }
 
   private getVariable(variable: AllVariables, data: ParserVariableData) {
@@ -755,88 +820,7 @@ export class FileParser {
         output=data.localImagesDirectory;
         break;
       default:
-        {
-          let match = /^\/(.*?)\/([giu]{0,3})\|(.*?)(?:\|(.*?))?$/.exec(output);
-          if (match) {
-            let regex = new RegExp(match[1], match[2] || '');
-            let replaceText = match[4];
-            if (typeof replaceText === 'string') {
-              output = match[3].replace(regex, replaceText);
-            }
-            else {
-              let innerMatch = match[3].match(regex);
-              output = '';
-              if (innerMatch !== null) {
-                for (let i = 1; i < innerMatch.length; i++) {
-                  if (innerMatch[i])
-                    output += innerMatch[i];
-                }
-                if (output.length === 0)
-                  output = innerMatch[0];
-              }
-            }
-            break;
-          }
-
-          match = /^uc\|(.*)$/i.exec(output);
-          if (match) {
-            output = match[1].toUpperCase();
-            break;
-          }
-
-          match = /^lc\|(.*)$/i.exec(output);
-          if (match) {
-            output = match[1].toLowerCase();
-            break;
-          }
-
-          match = /^rdc\|(.*)$/i.exec(output);
-          if (match) {
-            output = match[1].replaceDiacritics();
-            break;
-          }
-
-          match = /^cv:?(.*)\|(.+)$/i.exec(output);
-          if (match) {
-            let groups = match[1] ? _.intersection(Object.keys(this.customVariableData), match[1]) : Object.keys(this.customVariableData);
-            let found = false;
-            for (let i = 0; i < groups.length; i++) {
-              if (this.customVariableData[groups[i]][match[2]] !== undefined) {
-                output = match[2];
-                found = true;
-                break;
-              }
-            }
-            if (!found)
-              output = unavailable;
-            break;
-          }
-
-          match = /^os:(.+?)\|(.*?)(?:\|(.*?))?$/i.exec(output);
-          if (match) {
-            const regexPlatform = match[1].toLowerCase();
-            if (regexPlatform === "win" || regexPlatform === "mac" || regexPlatform === "linux") {
-              let platform: string = null;
-              switch (os.platform()) {
-                case "win32":
-                  platform = "win";
-                  break;
-                case "linux":
-                  platform = "linux";
-                  break;
-                case "darwin":
-                  platform = "mac";
-                  break;
-                default:
-                  break;
-              }
-
-              if (platform !== null) {
-                output = ((platform === regexPlatform) ? match[2] : match[3]) || '';
-              }
-            }
-          }
-        }
+        output = this.execRegex(output);
         break;
     }
     return output || '';
