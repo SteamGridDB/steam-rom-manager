@@ -53,17 +53,17 @@ ROM parsers allow one to import shortcuts using search strings, e.g. `games/${ti
 
 In addition to flexible importing of ROMS, SRM now has several *platform parsers* for importing from popular game stores:
 
-|Parser|Windows|Mac OS|Linux|
-|---|---|---|---|
-|[Amazon Games](https://gaming.amazon.com/amazon-games-app)|✅|🟦|🟦|
-|[EA Desktop](https://www.ea.com/ea-app)|✅|🟦|🟦|
-|[Epic](https://store.epicgames.com/en-US/)|✅|✅|🟦|
-|[GOG Galaxy](https://www.gog.com/galaxy)|✅|❌|🟦|
-|[Itch.io](https://itch.io/app)|✅|✅|✅|
-|[Legendary](https://github.com/derrod/legendary)|✅|✅|✅|
-|[UPlay](https://ubisoftconnect.com/en-US/)|✅|❌|🟦|
-|[UWP/XBox](https://www.xbox.com/en-US/xbox-game-pass/pc-game-pass)|✅|🟦|🟦|
-|[Battle.net](https://battle.net)|✅|❌|🟦|
+|Parser|Windows|Mac OS|Linux|Launch Modes|
+|---|---|---|---|---|
+|[Amazon Games](https://gaming.amazon.com/amazon-games-app)|✅|🟦|🟦|<ul><li>Launch via Amazon Games</li><li>Launch via executable</li>|
+|[EA Desktop](https://www.ea.com/ea-app)|✅|🟦|🟦|<ul><li>Launch via EA Desktop</li><li>Launch via executable</li>|
+|[Epic](https://store.epicgames.com/en-US/)|✅|✅|🟦|<ul><li>Launch via Epic</li><li>Launch via executable</li>|
+|[GOG Galaxy](https://www.gog.com/galaxy)|✅|❌|🟦|<ul><li>Launch via GOG Galaxy</li><li>Launch via executable</li>|
+|[Itch.io](https://itch.io/app)|✅|✅|✅|<ul><li>Launch via executable</li></ul>|
+|[Legendary](https://github.com/derrod/legendary)|✅|✅|✅|<ul><li>Launch via executable</li></ul>|
+|[Ubisoft Connect](https://ubisoftconnect.com/en-US/)|✅|❌|🟦|<ul><li>Launch via Ubisoft Connect</li><li>Launch via executable</li>|
+|[UWP/XBox](https://www.xbox.com/en-US/xbox-game-pass/pc-game-pass)|✅|🟦|🟦|<ul><li>Launch via UWP</li><li>Launch via executable</li>|
+|[Battle.net](https://battle.net)|✅|❌|🟦|<ul><li>Launch via Battle.net</li></ul>|
 
 ✅  Implemented
 ❌  Planned
@@ -73,10 +73,10 @@ We are open to suggestions and pull requests if you would like a platform parser
 
 ## Artwork Only Parsers
 Artwork only parsers allow you to change the artwork for existing non-SRM games. Put it simply they just change artwork, they don't add shortcuts.
-|Parser|Windows|Mac OS|Linux|
-|---|---|---|---|
-|Steam|✅|✅|✅|
-|Non-SRM Shortcuts|✅|✅|✅|
+|Parser|Windows|Mac OS|Linux|Description|
+|---|---|---|---|---|
+|Steam|✅|✅|✅|Manages artwork for Steam Games|
+|Non-SRM Shortcuts|✅|✅|✅|Manages artwork for Steam Shortcuts not added via SRM|
 
 # For developers
 
