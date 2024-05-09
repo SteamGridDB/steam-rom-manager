@@ -1,7 +1,7 @@
 import '../replace-diacritics';
 
 import { FuzzyMatcher } from "../fuzzy-matcher";
-import { FuzzyEventMap, ProviderPostEventMap, ProviderPostObject, ProviderReceiveEventMap, ImageContent, ImageProviderAPI } from "../../models";
+import { FuzzyEventMap, ProviderPostEventMap, ProviderPostObject, ProviderReceiveEventMap, ImageContent, ImageProviderAPI, OnlineProviderType } from "../../models";
 
 declare var self: Worker;
 
@@ -55,7 +55,7 @@ export class GenericProviderManager<T extends GenericProvider> {
     self.postMessage(<ProviderPostObject<K>>{ event: event, data: data });
   }
 
-  newInstance(id: string, title: string, imageType: string, imageProviderAPIs: ImageProviderAPI): Map<string,T> {
+  newInstance(id: string, title: string, imageType: string, imageProviderAPIs: ImageProviderAPI[OnlineProviderType]): Map<string,T> {
     return this.instanceMap.set(id, new this.provider(new ProviderProxy(id, title, imageType, imageProviderAPIs, this)));
   }
 
@@ -98,7 +98,7 @@ export class GenericProviderManager<T extends GenericProvider> {
 };
 
 export class ProviderProxy {
-  constructor(private _id: string, private _title: string, private _imageType: string, private _imageProviderAPIs: ImageProviderAPI,  private _manager: GenericProviderManager<GenericProvider>) { }
+  constructor(private _id: string, private _title: string, private _imageType: string, private _imageProviderAPIs: ImageProviderAPI[OnlineProviderType],  private _manager: GenericProviderManager<GenericProvider>) { }
 
   get title() {
     return this._title;

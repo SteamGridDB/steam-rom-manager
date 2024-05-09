@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Renderer2, ElementRef, RendererStyleFlags2, HostListener } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Renderer2, ElementRef, RendererStyleFlags2, HostListener, ɵɵsetComponentScope } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { PreviewService, SettingsService, ImageProviderService, IpcService, UserExceptionsService } from "../services";
@@ -15,6 +15,7 @@ import * as steam from '../../lib/helpers/steam';
 import * as _ from 'lodash';
 import * as path from 'path';
 import { getCurrentImage } from '../../lib/helpers/app-image';
+import { imageProviderNames } from '../../lib/image-providers/available-providers';
 
 @Component({
   selector: 'preview',
@@ -96,6 +97,11 @@ export class PreviewComponent implements OnDestroy {
       }
     });
   }
+
+  private get lang() {
+    return APP.lang.preview.component;
+  }
+
 
   generatePreviewData() {
     this.closeDetails();
@@ -213,7 +219,7 @@ export class PreviewComponent implements OnDestroy {
     if (image == undefined) {
       const actualImageType = this.previewService.getImageType() === 'games' ? imageType : this.previewService.getImageType();
       let imagepool: string = app.images[actualImageType].imagePool;
-      if (this.previewService.getImages(imageType)[imagepool].retrieving)
+      if (this.previewService.getImages(imageType)[imagepool].online)
         return require('../../assets/images/retrieving-images.svg');
       else
         return require('../../assets/images/no-images.svg');
@@ -268,21 +274,17 @@ export class PreviewComponent implements OnDestroy {
         for (let i = 0; i < target.files.length; i++) {
           if (extRegex.test(path.extname(target.files[i].path))) {
             let imageUrl = url.encodeFile(target.files[i].path);
-            this.previewService.addUniqueImage(app.images[imageType].imagePool, {
-              imageProvider: 'ManuallyAdded',
+            this.previewService.addUniqueLocalImage(app.images[imageType].imagePool, {
+              imageProvider: imageProviderNames.manual,
               imageUrl: imageUrl,
               loadStatus: 'done'
-            }, imageType);
+            },imageType, 'manual');
             this.previewService.setImageIndex(app, this.previewService.getTotalLengthOfImages(app, imageType, true) -1, imageType, true);
           }
         }
       }
     };
     this.fileSelector.trigger();
-  }
-
-  private get lang() {
-    return APP.lang.preview.component;
   }
 
   private stopImageRetrieving() {
@@ -375,7 +377,7 @@ export class PreviewComponent implements OnDestroy {
       for(const artworkType of artworkTypes) {
         const oldPool = this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool;
         this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool = newPool;
-        this.previewData[steamDirectory][userId].apps[appId].images[artworkType].steam = undefined;
+        this.previewData[steamDirectory][userId].apps[appId].images[artworkType].singleProviders.steam = undefined;
         this.previewService.updateAppImages(newPool, oldPool, artworkType)
       }
       let exceptionId;
@@ -516,10 +518,10 @@ export class PreviewComponent implements OnDestroy {
 
   private refreshImages(app: PreviewDataApp, imageType?: string) {
     if(this.previewService.getImageType()=='games') {
-      this.previewService.downloadImageUrls(imageType,[app.images[imageType].imagePool], app.imageProviders);
+      this.previewService.downloadImageUrls(imageType,[app.images[imageType].imagePool], app.onlineProviders);
     } else {
       for(const artworkType of artworkTypes) {
-        this.previewService.downloadImageUrls(artworkType,[app.images[artworkType].imagePool], app.imageProviders);
+        this.previewService.downloadImageUrls(artworkType,[app.images[artworkType].imagePool], app.onlineProviders);
       }
     }
   }

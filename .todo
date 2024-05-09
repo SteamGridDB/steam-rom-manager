@@ -21,7 +21,13 @@ New method:
 Steam parser only works for steam apps that are in a category
 
 
-# Features
+# Features and Changes
+0) Proton Capability
+1) Filter by author
+2) Assign an sgdbId to sgdb game much earlier (and have fix match alter it as necessary)
+3) Separate out appImages data structure into all image source types
+4) Add a SteamCDN provider
+
 
 # Parsers (LM - Launcher Mode, EM - Executable Mode)
 Amazon Games (LM, EM)

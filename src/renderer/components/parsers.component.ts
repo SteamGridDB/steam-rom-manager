@@ -8,11 +8,12 @@ import * as parserInfo from '../../lib/parsers/available-parsers';
 import * as steam from '../../lib/helpers/steam';
 import { controllerTypes, controllerNames } from '../../lib/controller-manager';
 import { artworkTypes, artworkNamesDict, artworkSingDict } from '../../lib/artwork-types';
-import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets, ControllerTemplates, ParserType } from '../../models';
+import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets, ControllerTemplates, ParserType, OnlineProviderType } from '../../models';
 import { BehaviorSubject, Subscription, Observable, combineLatest, of, concat } from "rxjs";
 import { map } from 'rxjs/operators'
 import { APP } from '../../variables';
 import * as _ from 'lodash';
+import { imageProviderNames } from '../../lib/image-providers/available-providers';
 @Component({
   selector: 'parsers',
   templateUrl:'../templates/parsers.component.html',
@@ -405,7 +406,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             placeholder: this.lang.placeholder.imageProviders,
             multiple: true,
             allowEmpty: true,
-            values: this.imageProviderService.instance.getAvailableProviders(),
+            values: this.imageProviderService.instance.getAvailableProviders().map((provider: OnlineProviderType)=> {return {value: provider, displayValue: imageProviderNames[provider]}}),
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
               onInfoClick: (self, path) => {
               this.currentDoc.activePath = path.join();
@@ -435,19 +436,19 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           imageProviderAPIs: (()=>{
             let imageProviderAPIInputs: { [k: string]: NestedFormElement.Group } = {};
-            let providerNames = this.imageProviderService.instance.getAvailableProviders();
-            for (let i=0; i < providerNames.length; i++) {
-              let provider = this.imageProviderService.instance.getProviderInfo(providerNames[i]);
-              let providerL = this.imageProviderService.instance.getProviderInfoLang(providerNames[i]);
+            let providerKeys = this.imageProviderService.instance.getAvailableProviders();
+            for (let i=0; i < providerKeys.length; i++) {
+              let provider = this.imageProviderService.instance.getProviderInfo(providerKeys[i]);
+              let providerL = this.imageProviderService.instance.getProviderInfoLang(providerKeys[i]);
               if (provider && provider.inputs !== undefined) {
-                imageProviderAPIInputs[providerNames[i]] = (()=>{
+                imageProviderAPIInputs[providerKeys[i]] = (()=>{
                   let apiInputs: {[k: string]: any} = {}
                   for (let inputFieldName in provider.inputs) {
                     let input = provider.inputs[inputFieldName];
                     if(input.inputType == 'toggle') {
                       apiInputs[inputFieldName] = new NestedFormElement.Toggle({
                         text: providerL.inputs[inputFieldName].label,
-                        isHidden: () => this.isHiddenIfNoProvider(providerNames[i])
+                        isHidden: () => this.isHiddenIfNoProvider(providerKeys[i])
                       });
                     }
                     else if (input.inputType == 'multiselect') {
@@ -456,7 +457,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                         multiple: input.multiple,
                         allowEmpty: input.allowEmpty,
                         placeholder: this.lang.placeholder.multiAPIPlaceholder,
-                        isHidden: () => this.isHiddenIfNoProvider(providerNames[i]),
+                        isHidden: () => this.isHiddenIfNoProvider(providerKeys[i]),
                         values: input.allowedValues.map((option: string) => {return {
                           value: option, displayValue: _.startCase(option.replace(/_/g," "))
                         }}),
@@ -471,7 +472,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     }
                   }
                   return new NestedFormElement.Group({
-                    children: apiInputs
+                    children: {section: new NestedFormElement.Section({ 
+                      label: `Filters for ${imageProviderNames[providerKeys[i]]}`,
+                      isHidden: ()=> this.isHiddenIfNoProvider(providerKeys[i])
+                    }), ...apiInputs}
                   })
                 })();
               }
@@ -589,7 +593,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             for(let parserId of parserIds) {
               try {
                 promises.push(this.parsersService.changeEnabledStatus(parserId, newStatus).then(()=>{
-                  this.ipcService.send("log",newStatus ? `Enabled parser ${parserId}` : `Disabled parser ${parserId}`);
+                  this.ipcService.send("log", newStatus ? `Enabled parser ${parserId}` : `Disabled parser ${parserId}`);
                 }));
               } catch(e) {
                 this.ipcService.send("log", e);
@@ -702,8 +706,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private observeField(path: string | string[], decider: (x: any)=>boolean) {
     return concat(of(this.userForm.get(path).value),this.userForm.get(path).valueChanges).pipe(map(decider))
   }
-  private isHiddenIfNoProvider(providerName: string) {
-    return this.observeField('imageProviders', (selectedProviders: string[]) => !selectedProviders || !selectedProviders.includes(providerName));
+  private isHiddenIfNoProvider(providerKey: OnlineProviderType) {
+    return this.observeField('imageProviders', (selectedProviders: OnlineProviderType[]) => !selectedProviders || !selectedProviders.includes(providerKey));
   }
   private isHiddenIfNotRomsParser() {
     return this.observeField('parserType', (pType: ParserType) => parserInfo.superTypesMap[pType] !== parserInfo.ROMType);

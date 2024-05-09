@@ -4,38 +4,45 @@ import { Controllers } from "./controllers.model";
 import { ParserType, SteamInputEnabled } from "./parser.model";
 
 export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
-export type ImageProvider = 'SteamGridDB' | 'Steam' | 'LocalStorage' | 'Fallback' | 'ArtworkBackup' | 'ManuallyAdded' | 'Imported'
+export type ImageProviderName = 'Fallback Artwork' | 'Current Artwork' | 'Backup Artwork' | 'Local Artwork' | 'Manually Added' | 'Imported Artwork' | 'SteamGridDB' | 'Steam CDN'
 
 export interface ImageContent {
-    imageProvider: ImageProvider,
+    imageProvider: ImageProviderName,
     imageUploader?: string,
     imageRes?: string,
-    imageGameId?: string, // sgdb game id
-    imageArtworkId?: string, // sgdb artwork id
     imageUrl: string,
-    loadStatus: ImageDownloadStatus
+    loadStatus: ImageDownloadStatus,
+    steamId?: string // used by steamCDN provider,
+    imageArtworkId?: string // used by sgdb provider,
+    imageGameId?: string // used by steamCDN and sgdb providers (sgdb's game id)
 };
 
 export interface ImagesStatusAndContent {
     retrieving: boolean,
-    defaultImageProviders: string[],
     searchQueries: string[],
-    imageProviderAPIs: ImageProviderAPI,
+    imageProviderAPIs: ImageProviderAPI[OnlineProviderType],
     content: ImageContent[]
 }
+export type OnlineProviderType = 'steamCDN' | 'sgdb';
 
-export interface AppImages {
+export interface OnlineImages {
     [artworkType: string]: {
-        [imagePool: string]: ImagesStatusAndContent
+        [imagePool: string]: {
+            online: Record<OnlineProviderType,ImagesStatusAndContent>,
+            offline: Record<MultiLocalProviderType,ImageContent[]>
+        }
     }
 };
+export type SingleLocalProviderType = 'steam'|'artworkBackup'
+export type MultiLocalProviderType = 'local'|'manual'|'imported'
+export type LocalProviderType = SingleLocalProviderType | MultiLocalProviderType;
+export type ImageProviderType =  'default'|LocalProviderType | OnlineProviderType;
 
 export interface PreviewDataAppImage {
-    steam: ImageContent,    // 0? index
-    default: ImageContent,  // 0-1? index
-    local: ImageContent[],
-    imagePool: string,      // 0-2+ index
-    imageIndex: number
+    default: ImageContent,
+    singleProviders: Record<SingleLocalProviderType,ImageContent>,
+    imagePool: string, // joins with AppImages
+    imageIndex: number // integrated with appImages helper
 }
 
 
@@ -50,7 +57,7 @@ export interface PreviewDataApp {
     steamCategories: string[],
     steamInputEnabled: SteamInputEnabled,
     controllers: Controllers,
-    imageProviders: string[],
+    onlineProviders: OnlineProviderType[],
     startInDirectory: string,
     executableLocation: string,
     title: string,

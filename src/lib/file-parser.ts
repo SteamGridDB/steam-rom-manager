@@ -304,6 +304,7 @@ export class FileParser {
             resolvedLocalImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
             resolvedDefaultImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
             defaultImage: Object.fromEntries(artworkTypes.map((artworkType: string) => [artworkType, undefined])),
+            backupImage: {},
             localImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
             fuzzyTitle: fuzzyTitle||'',
             extractedTitle: data.success[j].extractedTitle||'',
@@ -543,9 +544,7 @@ export class FileParser {
                   if(possibleGameIds.length) {
                       const backupDir = path.join(paths.userDataDir,'artworkBackups', artworkType);
                       return glob(`${possibleGameIds[0]}.*`, {dot: true, cwd: backupDir, absolute: true}).then((localBackups: string[])=>{
-                        for(let localBackup of localBackups) {
-                          parsedConfig.files[j].localImages[artworkType].unshift(url.encodeFile(localBackup))
-                        }
+                        parsedConfig.files[j].backupImage[artworkType] = localBackups.length ? url.encodeFile(localBackups[0]) : undefined
                       });
                     }
                   }))

@@ -5,7 +5,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const appSettings: ValidatorModifier<AppSettings> = {
   controlProperty: 'version',
-  latestVersion: 6,
+  latestVersion: 7,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -79,9 +79,15 @@ export const appSettings: ValidatorModifier<AppSettings> = {
     },
     5: {
       'version': {method: versionUp},
-      'environmentVariables': {method: (oldValue)=> {
+      'environmentVariables': {method: (oldValue) => {
         oldValue['userAccounts'] = '';
         return oldValue;
+      }}
+    },
+    6: {
+      'version': {method: versionUp},
+      'enabledProviders': {method: (oldValue) => {
+        return oldValue.length ? ['sgdb', 'steamCDN'] : []
       }}
     }
   }

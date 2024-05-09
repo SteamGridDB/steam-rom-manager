@@ -1,11 +1,10 @@
+import { OnlineProviderType } from '.';
 import { Controllers } from './controllers.model';
-import { StringMap, ParserType, SteamInputEnabled } from './parser.model';
+import { ParserType, SteamInputEnabled } from './parser.model';
 
-export interface ImageProviderAPI {
-  [imageProvider: string]: {
+export type ImageProviderAPI = Record<OnlineProviderType, {
     [apiInputName: string]: string | string[] | boolean
-  }
-}
+}>
 
 export interface UserAccountsInfo {
   specifiedAccounts: string,
@@ -42,7 +41,7 @@ export interface UserConfiguration {
   controllers: Controllers,
   steamInputEnabled: SteamInputEnabled,
   onlineImageQueries: string,
-  imageProviders: string[],
+  imageProviders: OnlineProviderType[],
   imageProviderAPIs: ImageProviderAPI,
   executableArgs: string,
   imagePool: string,
