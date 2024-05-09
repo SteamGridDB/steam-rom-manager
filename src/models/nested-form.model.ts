@@ -88,7 +88,8 @@ export namespace NestedFormElement {
     /** Optional */
     path?: {
       directory?: boolean,
-      appendGlob?: string
+      appendGlob?: string,
+      useForwardSlash?: boolean
     }
     /** Optional */
     buttons?: Button[];

@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from
 import { ActivatedRoute } from '@angular/router';
 import { SettingsService, ParsersService, PreviewService, LanguageService, ImageProviderService, FuzzyService, CustomVariablesService, ConfigurationPresetsService, ShellScriptsService, IpcService, LoggerService } from "../services";
 import { APP } from '../../variables';
-import { AppSettings, SelectItem, userAccountData } from "../../models";
+import { AppSettings, OnlineProviderType,ImageProviderName, SelectItem, userAccountData } from "../../models";
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { availableThemes } from "../../lib/themes";
 import * as os from 'os';
@@ -12,6 +12,7 @@ import { fstat } from 'fs';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as paths from '../../paths';
+import { imageProviderNames } from '../../lib/image-providers/available-providers';
 
 @Component({
   selector: 'settings',
@@ -23,7 +24,7 @@ export class SettingsComponent implements OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
   private settings: AppSettings;
-  private availableProviders: string[];
+  private availableProviders: {displayValue: ImageProviderName, value: OnlineProviderType}[];
   private availableBatches: {displayValue: string, value: number}[];
   private themes: string[];
   private availableLanguages: SelectItem[];
@@ -74,7 +75,7 @@ export class SettingsComponent implements OnDestroy {
     this.availableBatches = [10, 20, 50, 100, 200, 500].map(x=>{
       return {value: x, displayValue: x.toString()}
     })
-    this.availableProviders = this.imageProviderService.instance.getAvailableProviders();
+    this.availableProviders = this.imageProviderService.instance.getAvailableProviders().map((provider: OnlineProviderType)=> {return { value: provider, displayValue: imageProviderNames[provider]}});
     this.availableLanguages = this.languageService.getAvailableLanguages().map((lang)=>{
       return {value: lang, displayValue: this.languageService.getReadableName(lang)}
     });

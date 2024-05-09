@@ -29,7 +29,8 @@ export interface OnlineImages {
     [artworkType: string]: {
         [imagePool: string]: {
             online: Record<OnlineProviderType,ImagesStatusAndContent>,
-            offline: Record<MultiLocalProviderType,ImageContent[]>
+            offline: Record<MultiLocalProviderType,ImageContent[]>,
+            parserEnabledProviders: OnlineProviderType[]
         }
     }
 };

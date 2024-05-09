@@ -303,7 +303,7 @@ export class FileParser {
             appendArgsToExecutable: appendArgsToExecutable,
             resolvedLocalImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
             resolvedDefaultImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
-            defaultImage: Object.fromEntries(artworkTypes.map((artworkType: string) => [artworkType, undefined])),
+            defaultImage: {},
             backupImage: {},
             localImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
             fuzzyTitle: fuzzyTitle||'',
@@ -537,7 +537,6 @@ export class FileParser {
         let backedupPromises: Promise<void>[] = [];
         if(parsedConfig.drmProtect) {
           for(let j=0; j < parsedConfig.files.length; j++) {
-            const finalTitle = parsedConfig.files[j].finalTitle;
             for(const artworkType of artworkTypes) {
               if(parsedConfig.files[j].onlineImageQueries.length) {
                 backedupPromises.push(SteamGridDbProvider.retrieveIdsFromTitle(parsedConfig.files[j].onlineImageQueries[0]).then((possibleGameIds: number[])=>{

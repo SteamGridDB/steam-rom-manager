@@ -49,7 +49,10 @@
                   </div>
                 </ng-container>
                 <ng-container *ngIf="!!child.path">
-                  <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight" [appendGlob]="child.path.appendGlob" [class.required]="child.required"></ng-text-input>
+                  <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight" 
+                  [appendGlob]="child.path.appendGlob"
+                  [useForwardSlash]="child.path.useForwardSlash" 
+                  [class.required]="child.required"></ng-text-input>
                   <div class="clickButtons">
                     <ng-path-input class="clickButton" [stateless]="true" [directory]="child.path.directory" (pathChange)="currentForm.controls[childrenKey].setValue($event)">Browse</ng-path-input>
                     <ng-container *ngFor="let button of child.buttons">

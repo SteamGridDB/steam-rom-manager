@@ -35,6 +35,7 @@ export class NgTextInputComponent implements ControlValueAccessor {
   @ViewChild("input") private elementRef: ElementRef;
   @Input() private placeholder: string = null;
   @Input() private appendGlob: string = null;
+  @Input() private useForwardSlash: string = null;
   @Input() private highlight: (input: string, tag: string) => string = null;
   @Input() private highlightTag: string = null;
   @Input() private multiline: boolean = false;
@@ -182,13 +183,18 @@ export class NgTextInputComponent implements ControlValueAccessor {
     if (value !== this.currentValue) {
       if(value && value.split('&:&')[0]=='_browse_'){
         const selectedPath = value.split('&:&')[1]
-        if(this.appendGlob) {
-          const swapString = '$:$:$'
+        if(this.appendGlob || this.useForwardSlash) {
           const t1 = escape(selectedPath.replaceAll('\\','/'));
-          const t2 = t1.replaceAll('\\', swapString)
-          const t3 = path.resolve(t2, this.currentValue ? path.basename(this.currentValue) : this.appendGlob)
-          value = t3.replaceAll('\\','/').replaceAll(swapString,'\\');
-        } else {
+          if(this.appendGlob) {
+            const swapString = '$:$:$'
+            const t2 = t1.replaceAll('\\', swapString)
+            const t3 = path.resolve(t2, this.currentValue ? path.basename(this.currentValue) : this.appendGlob)
+            value = t3.replaceAll('\\','/').replaceAll(swapString,'\\');
+          } else {
+            value = t1;
+          }
+        }
+        else {
           value = selectedPath;
         }
       }

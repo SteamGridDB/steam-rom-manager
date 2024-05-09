@@ -491,7 +491,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             let defaultImageInputs: { [k: string]: NestedFormElement.Input } = {};
             for(const artworkType of artworkTypes) {
               defaultImageInputs[artworkType] = new NestedFormElement.Input({
-                path: { directory: false },
+                path: { directory: false, useForwardSlash: true },
                 placeholder: this.lang.placeholder.defaultImage__i.interpolate({
                   artworkType: artworkSingDict[artworkType]
                 }),

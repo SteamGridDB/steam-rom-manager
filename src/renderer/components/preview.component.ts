@@ -518,10 +518,10 @@ export class PreviewComponent implements OnDestroy {
 
   private refreshImages(app: PreviewDataApp, imageType?: string) {
     if(this.previewService.getImageType()=='games') {
-      this.previewService.downloadImageUrls(imageType,[app.images[imageType].imagePool], app.onlineProviders);
+      this.previewService.downloadImageUrls(imageType,[app.images[imageType].imagePool]);
     } else {
       for(const artworkType of artworkTypes) {
-        this.previewService.downloadImageUrls(artworkType,[app.images[artworkType].imagePool], app.onlineProviders);
+        this.previewService.downloadImageUrls(artworkType,[app.images[artworkType].imagePool]);
       }
     }
   }

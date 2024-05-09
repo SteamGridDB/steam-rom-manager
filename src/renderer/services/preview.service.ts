@@ -437,7 +437,7 @@ export class PreviewService {
             searchQueries: [],
             retrieving: false,
             content: settingsOnly ? this.onlineImages[artworkType][imageKey].online[provider].content : [],
-            imageProviderAPIs: this.onlineImages[artworkType][imageKey].online[provider].imageProviderAPIs
+            imageProviderAPIs: this.onlineImages[artworkType][imageKey].online[provider].imageProviderAPIs,
           }
         }
       }
@@ -589,7 +589,8 @@ export class PreviewService {
                       content: []
                     }
                   },
-                  offline: {local: [], manual: [], imported: []}
+                  offline: {local: [], manual: [], imported: []},
+                  parserEnabledProviders: config.imageProviders
                 }
               } else {
                 for(const provider of config.imageProviders) {
@@ -668,7 +669,7 @@ export class PreviewService {
       return { numberOfItems: numberOfItems, data: previewData };
   }
 
-  downloadImageUrls(imageType: string, imageKeys?: string[], imageProviders?: OnlineProviderType[]) {
+  downloadImageUrls(imageType: string, imageKeys?: string[]) {
     if (!this.appSettings.offlineMode) {
       let allImagesRetrieved = true;
       let imageQueue = queue((task, callback) => callback());
@@ -678,9 +679,9 @@ export class PreviewService {
       }
 
       for (let i = 0; i < imageKeys.length; i++) {
-        let imageByProvider = this.onlineImages[imageType][imageKeys[i]].online;
-        let imageProvidersForKey: OnlineProviderType[] = !imageProviders || !imageProviders.length ? Object.keys(imageByProvider) as OnlineProviderType[] : imageProviders;
-        imageProvidersForKey = _.intersection(this.appSettings.enabledProviders, imageProvidersForKey);
+        const imageByProvider = this.onlineImages[imageType][imageKeys[i]].online;
+        const parserEnabledProviders = this.onlineImages[imageType][imageKeys[i]].parserEnabledProviders;
+        const imageProvidersForKey: OnlineProviderType[] = _.intersection(parserEnabledProviders, this.appSettings.enabledProviders);
         for(let provider of imageProvidersForKey) {
           const image = imageByProvider[provider];
           if (image !== undefined && !image.retrieving) {
