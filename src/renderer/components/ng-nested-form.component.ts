@@ -61,7 +61,7 @@ export class NgNestedFormComponent implements OnInit {
     } else {
       if (el['__hidden'] === undefined) {
         if (el.isHidden !== undefined) {
-          el['__hidden'] = combineLatest(el.isHidden(),this.hiddenSections).pipe(map(([h,hs])=>h||!!hs[this.sectionMap[elName]||""]));
+          el['__hidden'] = combineLatest([el.isHidden(),this.hiddenSections]).pipe(map(([h,hs])=>h||!!hs[this.sectionMap[elName]||""]));
         }
         else {
           el['__hidden'] = this.hiddenSections.pipe(map(hs=>!!hs[this.sectionMap[elName]||""]));
@@ -123,7 +123,6 @@ export class NgNestedFormComponent implements OnInit {
         formGroup.setControl(childKey, formControl);
       }
     }
-
     return formGroup;
   }
 }

@@ -249,9 +249,20 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
       'imageProviders': { method: (oldValue) =>{
         return oldValue.length ? ['sgdb', 'steamCDN'] : []
       }},
+
       'imageProviderAPIs': { method: (oldValue) => {
         return {
-          sgdb: oldValue['SteamGridDB'],
+          sgdb: oldValue && oldValue['SteamGridDB'] ? oldValue['SteamGridDB'] : {
+            nsfw: false,
+            humor: false,
+            imageMotionTypes: [
+              "static"
+            ],
+            styles: [],
+            stylesHero: [],
+            stylesLogo: [],
+            stylesIcon: []
+          },
           steamCDN: {}
         }
       }}

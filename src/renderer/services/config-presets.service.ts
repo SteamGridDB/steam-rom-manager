@@ -72,7 +72,7 @@ export class ConfigurationPresetsService {
       }
       let joinedPresets = Object.assign({},...configPresets)
       const error = this.set(joinedPresets);
-      if (error){
+      if (error) {
         this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: error }));
       } else {
         this.loggerService.info(this.lang.info.downloaded, force ? { invokeAlert: true, alertTimeout: 5000 } : undefined);

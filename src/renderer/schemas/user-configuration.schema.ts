@@ -1,4 +1,4 @@
-import { onlineProviders, defaultProviders, providerInfo } from '../../lib/image-providers/available-providers';
+import { onlineProviders, providerInfo } from '../../lib/image-providers/available-providers';
 import { availableParsers, availableParserInputs } from '../../lib/parsers/available-parsers';
 import { ParserType } from "../../models";
 import { cloneDeep, union } from "lodash";
@@ -53,7 +53,7 @@ const sharedProperties = {
     onlineImageQueries: { type: 'string', default: '${${fuzzyTitle}}' },
     imageProviders: {
       type: 'array',
-      default: defaultProviders,
+      default: onlineProviders,
       items: {
         oneOf: [
           {

@@ -542,8 +542,9 @@ export class ParsersService {
                         else
                           reject(error);
                       }
-                      else
+                      else {
                         resolve(JSON.parse(data));
+                      }
                     } catch (error) {
                       reject(error);
                     }

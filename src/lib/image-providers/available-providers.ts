@@ -97,4 +97,6 @@ export const providerInfo: ProviderInfo = {
   }
 };
 
-export const defaultProviders: OnlineProviderType[] = ['sgdb', 'steamCDN'];
+export const providersSelect = onlineProviders.map((provider)=>{
+  return {value: provider, displayValue: imageProviderNames[provider]}
+})

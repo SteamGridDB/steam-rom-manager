@@ -13,7 +13,7 @@ import { BehaviorSubject, Subscription, Observable, combineLatest, of, concat } 
 import { map } from 'rxjs/operators'
 import { APP } from '../../variables';
 import * as _ from 'lodash';
-import { imageProviderNames } from '../../lib/image-providers/available-providers';
+import { imageProviderNames, onlineProviders, providersSelect } from '../../lib/image-providers/available-providers';
 @Component({
   selector: 'parsers',
   templateUrl:'../templates/parsers.component.html',
@@ -406,9 +406,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             placeholder: this.lang.placeholder.imageProviders,
             multiple: true,
             allowEmpty: true,
-            values: this.imageProviderService.instance.getAvailableProviders().map((provider: OnlineProviderType)=> {return {value: provider, displayValue: imageProviderNames[provider]}}),
+            values: providersSelect,
             onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-              onInfoClick: (self, path) => {
+            onInfoClick: (self, path) => {
               this.currentDoc.activePath = path.join();
               this.currentDoc.content = this.lang.docs__md.imageProviders.join('');
             }
@@ -436,7 +436,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           }),
           imageProviderAPIs: (()=>{
             let imageProviderAPIInputs: { [k: string]: NestedFormElement.Group } = {};
-            let providerKeys = this.imageProviderService.instance.getAvailableProviders();
+            let providerKeys = onlineProviders;
             for (let i=0; i < providerKeys.length; i++) {
               let provider = this.imageProviderService.instance.getProviderInfo(providerKeys[i]);
               let providerL = this.imageProviderService.instance.getProviderInfoLang(providerKeys[i]);
@@ -723,14 +723,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       return !pType || !parserInfo.availableParserInputs[pType].length
     })
   }
-
-  // Not currently used but potentially very useful
-  /*private isHiddenIfArtworkOnlyOrBlank() {
-    return combineLatest(
-      this.isHiddenIfArtworkOnlyParser(),
-      this.isHiddenIfParserBlank()
-    ).pipe(map(([ao,pb])=>ao||pb))
-  }*/
 
   private get lang() {
     return APP.lang.parsers.component;
@@ -1105,6 +1097,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private loadConfiguration() {
     if (this.configurationIndex !== -1 && this.userConfigurations.length > this.configurationIndex) {
       let config = this.userConfigurations[this.configurationIndex];
+
       this.formChanges.unsubscribe();
       this.userForm.patchValue(config.current ? config.current : config.saved);
       this.markAsDirtyDeep(this.userForm);
@@ -1128,6 +1121,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     else {
       this.loadedIndex = null;
     }
+
     this.changeRef.detectChanges();
   }
 
