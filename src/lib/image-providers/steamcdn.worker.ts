@@ -37,7 +37,7 @@ export class SteamCDNProvider extends GenericProvider {
             if(self.proxy.imageType === artworkType) {
               self.proxy.image({
                 imageProvider: imageProviderNames.steamCDN,
-                imageUrl: `https://cdn.cloudflare.steamstatic.com/steam/apps/400/${steamArtworkDict[artworkType]}.jpg`,
+                imageUrl: `https://cdn.cloudflare.steamstatic.com/steam/apps/400/${steamArtworkDict[artworkType]}`,
                 loadStatus: 'notStarted'
               })
             }

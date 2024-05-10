@@ -13,8 +13,8 @@ export const multiLocalProviders: MultiLocalProviderType[] = [
 
 export const localProviders: LocalProviderType[] =  [...singleLocalProviders, ...multiLocalProviders]
 export const onlineProviders: OnlineProviderType[] = [
-  'steamCDN',
-  'sgdb'
+  'sgdb',
+  'steamCDN'
 ]
 export const imageProviders: ImageProviderType[] = [...localProviders, ...onlineProviders];
 
