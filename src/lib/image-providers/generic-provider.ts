@@ -1,12 +1,11 @@
+// All in worker process
+
 import '../replace-diacritics';
 
 import { FuzzyMatcher } from "../fuzzy-matcher";
 import { FuzzyEventMap, ProviderPostEventMap, ProviderPostObject, ProviderReceiveEventMap, ImageContent, ImageProviderAPI, OnlineProviderType, ImageProviderName } from "../../models";
-import { SteamGridDbProvider } from './steamgriddb.worker';
-import { SteamCDNProvider } from './steamcdn.worker';
 
-
-declare var self: Worker;
+//declare var self: Worker;
 
 export abstract class GenericProvider {
   constructor(protected proxy: ProviderProxy<GenericProvider>) { }
@@ -64,9 +63,11 @@ export class GenericProviderManager<T extends GenericProvider> {
   removeInstance(id: string) {
     return this.instanceMap.delete(id);
   }
-
+  
+  // How worker handles receiving a message from main process
   private onMessage(event: MessageEvent) {
-    if (event.data && event.data.event) {
+    //self.name == this.providerName fixes issue where workers were intercepting each other's messages... no idea why.
+    if (event.data && event.data.event && self.name==this.providerName) {
       switch ((event.data.event as keyof ProviderReceiveEventMap)) {
         case 'fuzzyList':
           this._fuzzyMatcher.setFuzzyList((event.data.data as ProviderReceiveEventMap['fuzzyList']).list || null);
@@ -74,7 +75,6 @@ export class GenericProviderManager<T extends GenericProvider> {
         case 'retrieveUrls':
           {
             let data = (event.data.data as ProviderReceiveEventMap['retrieveUrls']);
-            console.log("t4",data.imageProviderAPIs, this.providerName)
             this.newInstance(data.id, data.title, data.imageType,data.imageProviderAPIs).get(data.id).retrieveUrls();
           }
           break;
@@ -140,7 +140,7 @@ export class ProviderProxy<T extends GenericProvider> {
   }
 
   image(content: ImageContent) {
-    this._manager.postMessage('image', { content: content, id: this._id });
+    this._manager.postMessage('image', { content: content, id: this._id, provider: this.providerName });
   }
 
   completed() {

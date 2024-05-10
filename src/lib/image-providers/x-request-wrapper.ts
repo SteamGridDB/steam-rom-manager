@@ -28,7 +28,6 @@ export class xRequestWrapper<T extends GenericProvider> extends xRequest {
     if (this.handleErrors) {
       return promise.catch((data: xRequestError) => {
         if (data.error) {
-          console.log("data error", data)
           if (data.error.status === 429) {
             let timeout = data.error.headers['Retry-After'] || 1;
             this.proxy.timeout(timeout);
@@ -64,7 +63,6 @@ export class xRequestWrapper<T extends GenericProvider> extends xRequest {
   }
 
   logError(value: any, url?: string) {
-    console.log("logging erorr", this.proxy.title,this.proxy.providerName, value)
     if (value.error)
       this.logError(value.error, url);
     else

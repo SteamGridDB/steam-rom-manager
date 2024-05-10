@@ -35,7 +35,6 @@ export class SteamCDNProvider extends GenericProvider {
           // return CDN urls
           for(let artworkType of Object.keys(steamArtworkDict)) {
             if(self.proxy.imageType === artworkType) {
-              console.log("here boys", self.proxy.title, self.proxy)
               self.proxy.image({
                 imageProvider: imageProviderNames.steamCDN,
                 imageUrl: `https://cdn.cloudflare.steamstatic.com/steam/apps/400/${steamArtworkDict[artworkType]}.jpg`,

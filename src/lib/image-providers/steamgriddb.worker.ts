@@ -47,7 +47,6 @@ export class SteamGridDbProvider extends GenericProvider {
     let self = this;
     let imageGameId: string;
     this.xrw.promise = new Promise<void>((resolve) => {
-      console.log("don't print")
       let idPromise: Promise<number> = null;
       if(idRegex.test(self.proxy.title)) {
         idPromise = Promise.resolve(parseInt(self.proxy.title.match(idRegex)[1]))
@@ -62,7 +61,6 @@ export class SteamGridDbProvider extends GenericProvider {
           self.proxy.completed();
           resolve();
         } else {
-          console.log("apis", self.proxy.imageProviderAPIs, self.proxy.providerName,self.proxy.title)
           imageGameId = String(chosenId);
           let query: Promise<any>;
           let params = {

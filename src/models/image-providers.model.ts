@@ -22,7 +22,8 @@ export type ProviderInfo = Record<OnlineProviderType, {
 //Callback
 
 export interface ProviderImageData {
-  content: ImageContent
+  content: ImageContent,
+  provider: OnlineProviderType
 }
 
 export interface ProviderErrorData {

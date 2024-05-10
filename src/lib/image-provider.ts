@@ -19,18 +19,14 @@ export class ImageProvider {
   private stopped: Subject<void> = new Subject();
 
   constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService) {
-    let key: keyof typeof imageProviders
-    for (key in imageProviders) {
-
+    for (let key of onlineProviders) {
       this.availableProviders[key] = {
         worker: imageProviders[key],
         queue: this.createQueue(key)
       };
-
       this.availableProviders[key].worker.addEventListener('message', this.messageEvent.bind(this));
       this.availableProviders[key].worker.addEventListener('error', this.errorEvent.bind(this));
     }
-    console.log("zelda", this.availableProviders)
   }
 
   private get lang() {
@@ -48,7 +44,6 @@ export class ImageProvider {
     return queue<QueueTask, void>((task, callback) => {
       let id = _.uniqueId();
       this.callbackMap.set(id, { eventCallback: task.eventCallback, queueCallback: callback });
-      console.log("t3", task.imageProviderAPIs,key)
       this.postMessage(this.availableProviders[key].worker, 'retrieveUrls', { id: id, imageType: task.imageType, imageProviderAPIs: task.imageProviderAPIs, title: task.title });
     }, 10);
   }
@@ -79,7 +74,6 @@ export class ImageProvider {
   }
 
   retrieveUrls(title: string, imageType: string, imageProviderAPIs: ImageProviderAPI[OnlineProviderType], provider: OnlineProviderType, eventCallback: ProviderCallback) {
-    console.log("t2", provider, imageProviderAPIs)
     if (this.availableProviders[provider])
       this.availableProviders[provider].queue.push({ title, imageType, imageProviderAPIs, eventCallback });
     else
@@ -125,7 +119,7 @@ export class ImageProvider {
           {
           let data = (event.data.data as ProviderPostEventMap['image']);
           if (this.callbackMap.has(data.id)) {
-            this.callbackMap.get(data.id).eventCallback('image', { content: data.content });
+            this.callbackMap.get(data.id).eventCallback('image', { content: data.content, provider: data.provider });
           }
         }
         break;
