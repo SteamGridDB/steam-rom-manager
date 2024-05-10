@@ -12,7 +12,8 @@
 		"onlineImageQueries": "${${title}}",
 		"imagePool": "${title}",
 		"imageProviders": [
-			"SteamGridDB"
+			"sgdb",
+			"steamCDN"
 		],
 		"disabled": false,
 		"advanced": false,
@@ -37,9 +38,9 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 9,
+		"presetVersion": 10,
 		"imageProviderAPIs": {
-			"SteamGridDB": {
+			"sgdb": {
 				"nsfw": false,
 				"humor": false,
 				"imageMotionTypes": [
@@ -49,7 +50,8 @@
 				"stylesHero": [],
 				"stylesLogo": [],
 				"stylesIcon": []
-			}
+			},
+			"steamCDN": {}
 		},
 		"controllers": {
 			"ps4": null,

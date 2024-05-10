@@ -43,6 +43,13 @@ export const artworkSingDict: {[k:string]: string} = {
   icon: 'icon'
 };
 
+export const steamArtworkDict: {[k: string]: string} = {
+  tall: 'library_600x900',
+  long: 'header',
+  hero: 'library_hero',
+  logo: 'logo'
+}
+
 export const artworkIdDict: {[k: string]: string} = {
   tall: 'p',
   long: '',

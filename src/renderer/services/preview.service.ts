@@ -574,6 +574,7 @@ export class PreviewService {
             }
             for(const artworkType of artworkTypes) {
               if(this.onlineImages[artworkType][file.imagePool] === undefined) {
+                console.log("t0", config.imageProviderAPIs)
                 this.onlineImages[artworkType][file.imagePool] = {
                   online: {
                     sgdb: {
@@ -585,7 +586,7 @@ export class PreviewService {
                     steamCDN: {
                       retrieving: false,
                       searchQueries: file.onlineImageQueries,
-                      imageProviderAPIs: config.imageProviderAPIs.steamCDN,
+                      imageProviderAPIs: config.imageProviderAPIs.steamCDN||{},
                       content: []
                     }
                   },
@@ -682,6 +683,7 @@ export class PreviewService {
         const imageByProvider = this.onlineImages[imageType][imageKeys[i]].online;
         const parserEnabledProviders = this.onlineImages[imageType][imageKeys[i]].parserEnabledProviders;
         const imageProvidersForKey: OnlineProviderType[] = _.intersection(parserEnabledProviders, this.appSettings.enabledProviders);
+        console.log("forkey", imageProvidersForKey)
         for(let provider of imageProvidersForKey) {
           const image = imageByProvider[provider];
           if (image !== undefined && !image.retrieving) {
@@ -691,7 +693,11 @@ export class PreviewService {
               allImagesRetrieved = false;
               this.previewVariables.numberOfQueriedImages += numberOfQueriesForImageKey;
               for (let j = 0; j < image.searchQueries.length; j++) {
+                console.log("t1", provider, image.imageProviderAPIs)
                 this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], imageType, image.imageProviderAPIs, provider, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
+                  if(provider=='steamCDN'){
+                    console.log("content", provider, data, event)
+                  }
                   switch (event) {
                     case 'error':
                       {
@@ -726,6 +732,7 @@ export class PreviewService {
                     case 'image':
                       imageQueue.push(null, () => {
                       let imageContent = (data as ProviderCallbackEventMap['image']).content;
+
                       let skip=false;
                       let preInsert=false;
                       if(provider === 'sgdb') {

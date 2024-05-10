@@ -91,6 +91,9 @@ export const providerInfo: ProviderInfo = {
     }
   },
   steamCDN: {
+    inputs: {
+      
+    }
   }
 };
 

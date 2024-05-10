@@ -1,7 +1,7 @@
 import { ImageContent } from "./preview.model";
 import { FuzzyEventMap } from "./fuzzy.model";
 import { ImageProviderAPI } from "./user-configuration.model";
-import { OnlineProviderType } from ".";
+import { ImageProviderName, OnlineProviderType } from ".";
 
 export interface ProviderInputField {
   [inputKey: string]: {
@@ -27,14 +27,14 @@ export interface ProviderImageData {
 
 export interface ProviderErrorData {
   title: string,
-    provider: ImageContent["imageProvider"],
-    error: number | string,
-    url?: string
+  provider: OnlineProviderType,
+  error: number | string,
+  url?: string
 }
 
 export interface ProviderTimeoutData {
-  provider: ImageContent["imageProvider"],
-    time: number
+  provider: OnlineProviderType,
+  time: number
 }
 
 export interface ProviderCompletedData {
@@ -71,10 +71,10 @@ export interface ProviderFuzzyEventData {
 
 export interface ProviderPostEventMap {
   image: ProviderPostImageData,
-    error: ProviderPostErrorData,
-    timeout: ProviderPostTimeoutData,
-    fuzzyEvent: ProviderFuzzyEventData,
-    completed: ProviderPostCompletedData
+  error: ProviderPostErrorData,
+  timeout: ProviderPostTimeoutData,
+  fuzzyEvent: ProviderFuzzyEventData,
+  completed: ProviderPostCompletedData
 }
 
 export interface ProviderPostObject<K extends keyof ProviderPostEventMap> {

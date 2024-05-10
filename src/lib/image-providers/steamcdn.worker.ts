@@ -1,43 +1,21 @@
 import { GenericProvider, GenericProviderManager, ProviderProxy } from "./generic-provider";
+import {apiKey, idRegex} from "./steamgriddb.worker";
 import { xRequestWrapper } from "./x-request-wrapper";
-
-
+import SGDB from "steamgriddb";
+import { steamArtworkDict } from '../artwork-types'
+import { imageProviderNames } from "./available-providers";
 export class SteamCDNProvider extends GenericProvider {
-  private xrw: xRequestWrapper;
+  private xrw: xRequestWrapper<SteamCDNProvider>;
   private client: any;
 
-  constructor(protected proxy: ProviderProxy) {
+  constructor(protected proxy: ProviderProxy<SteamCDNProvider>) {
     super(proxy);
     this.xrw = new xRequestWrapper(proxy, true, 3, 3000);
+    this.client = new SGDB({key: apiKey});
   }
 
-  /*static async retrieveIdsFromTitle(title: string): Promise<number[]> {
-    const client = new SGDB({key: apiKey});
-    if(idRegex.test(title)) {
-      return [parseInt(title.match(idRegex)[1])];
-    } else {
-      const games = await client.searchGame(title);
-      return games.map((game: any)=> game.id)
-    }
-  }*/
-
-  /*static async retrievePossibleIds(title: string) {
-    const client = new SGDB({key: apiKey});
-    const games = await client.searchGame(title);
-    for(const game of games) {
-      const grids = await client.getGrids({
-        id: game.id,
-        type: 'game',
-        dimensions: ["600x900"]
-      })
-      game.posterUrl = grids.length ? grids[0].url: '';
-    }
-    return games;
-  }*/
-
   retrieveUrls() {
-  /*  let self = this;
-    let imageGameId: string;
+    let self = this;
     this.xrw.promise = new Promise<void>((resolve) => {
       let idPromise: Promise<number> = null;
       if(idRegex.test(self.proxy.title)) {
@@ -45,74 +23,35 @@ export class SteamCDNProvider extends GenericProvider {
       } else {
         idPromise = self.client.searchGame(self.proxy.title).then((res: any) => (res[0]||{}).id);
       }
-      idPromise.then((chosenId: number|undefined)=>{
+      idPromise.then((chosenId: number|undefined)=> {
         if(!chosenId) {
-          if(self.proxy.imageType === 'long') {
+          if(self.proxy.imageType === 'long') { // Don't throw this error 5 times.
             self.xrw.logError(`SGDB found no matching games for title "${self.proxy.title}"`)
           }
           self.proxy.completed();
           resolve();
         } else {
-          imageGameId = String(chosenId);
-          let query: Promise<any>;
-          let params = {
-            id: chosenId,
-            type: 'game',
-            types: self.proxy.imageProviderAPIs.SteamGridDB.imageMotionTypes,
-            nsfw: self.proxy.imageProviderAPIs.SteamGridDB.nsfw ? "any" : "false",
-            humor: self.proxy.imageProviderAPIs.SteamGridDB.humor ? "any" : "false"
-          };
-          const choose = (x: any, fallback: string[]) => x && x.length ? x : fallback;
-          if(self.proxy.imageType === 'long') {
-            query = self.client.getGrids(Object.assign(params, {
-              dimensions: choose(self.proxy.imageProviderAPIs.SteamGridDB.sizes, ["460x215","920x430"]),
-              styles: self.proxy.imageProviderAPIs.SteamGridDB.styles
-            }))
-          } else if (self.proxy.imageType === 'tall') {
-            query = self.client.getGrids(Object.assign(params, {
-              dimensions: ["600x900"],
-              styles: self.proxy.imageProviderAPIs.SteamGridDB.styles
-            }));
-          } else if (self.proxy.imageType === 'hero') {
-            query = self.client.getHeroes(Object.assign(params, {
-              dimensions: choose(self.proxy.imageProviderAPIs.SteamGridDB.sizesHero, null),
-              styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesHero
-            }));
-          } else if (self.proxy.imageType === 'logo') {
-            query = self.client.getLogos(Object.assign(params, {
-              styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesLogo
-            }));
-          } else if (self.proxy.imageType === 'icon') {
-            query = self.client.getIcons(Object.assign(params, {
-              dimensions: choose(self.proxy.imageProviderAPIs.SteamGridDB.sizesIcon, null),
-              styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesIcon
-            }));
+          // convert sgdbId to steamId
+          // return CDN urls
+          for(let artworkType of Object.keys(steamArtworkDict)) {
+            if(self.proxy.imageType === artworkType) {
+              console.log("here boys", self.proxy.title, self.proxy)
+              self.proxy.image({
+                imageProvider: imageProviderNames.steamCDN,
+                imageUrl: `https://cdn.cloudflare.steamstatic.com/steam/apps/400/${steamArtworkDict[artworkType]}.jpg`,
+                loadStatus: 'notStarted'
+              })
+            }
           }
-          return query
+          self.proxy.completed();
+          resolve();
         }
-      })
-      .then((res: any)=>{
-        if(res !== null && res.length>0) {
-          for (let i=0; i < res.length; i++) {
-            self.proxy.image({
-              imageProvider: 'SteamGridDB',
-              imageUrl: res[i].url,
-              imageGameId: imageGameId,
-              imageArtworkId: String(res[i].id),
-              imageUploader: res[i].author.name,
-              loadStatus: 'notStarted'
-            });
-          }
-        }
-        self.proxy.completed();
-        resolve();
-      })
-      .catch((error: string) => {
+      }).catch((error: string) => {
         self.xrw.logError(error);
         self.proxy.completed();
         resolve();
       });
-    });*/
+    })
   }
 
   stopUrlDownload() {
@@ -120,4 +59,4 @@ export class SteamCDNProvider extends GenericProvider {
   }
 }
 
-new GenericProviderManager(SteamCDNProvider, 'SteamCDN');
+new GenericProviderManager<SteamCDNProvider>(SteamCDNProvider, 'steamCDN');

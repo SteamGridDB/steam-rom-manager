@@ -4,16 +4,16 @@ import SGDB from "steamgriddb";
 import { imageProviderNames } from "./available-providers";
 
 
-const idRegex: RegExp = /^\$\{gameid\:([0-9]*?)\}$/;
+export const idRegex: RegExp = /^\$\{gameid\:([0-9]*?)\}$/;
 
 // TODO make the user input this
-const apiKey = "f80f92019254471cca9d62ff91c21eee";
+export const apiKey = "f80f92019254471cca9d62ff91c21eee";
 
 export class SteamGridDbProvider extends GenericProvider {
-  private xrw: xRequestWrapper;
+  private xrw: xRequestWrapper<SteamGridDbProvider>;
   private client: any;
 
-  constructor(protected proxy: ProviderProxy) {
+  constructor(protected proxy: ProviderProxy<SteamGridDbProvider>) {
     super(proxy);
     this.xrw = new xRequestWrapper(proxy, true, 3, 3000);
     this.client = new SGDB({key: apiKey});
@@ -47,6 +47,7 @@ export class SteamGridDbProvider extends GenericProvider {
     let self = this;
     let imageGameId: string;
     this.xrw.promise = new Promise<void>((resolve) => {
+      console.log("don't print")
       let idPromise: Promise<number> = null;
       if(idRegex.test(self.proxy.title)) {
         idPromise = Promise.resolve(parseInt(self.proxy.title.match(idRegex)[1]))
@@ -55,12 +56,13 @@ export class SteamGridDbProvider extends GenericProvider {
       }
       idPromise.then((chosenId: number|undefined)=>{
         if(!chosenId) {
-          if(self.proxy.imageType === 'long') {
+          if(self.proxy.imageType === 'long') { // Don't throw this error 5 times.
             self.xrw.logError(`SGDB found no matching games for title "${self.proxy.title}"`)
           }
           self.proxy.completed();
           resolve();
         } else {
+          console.log("apis", self.proxy.imageProviderAPIs, self.proxy.providerName,self.proxy.title)
           imageGameId = String(chosenId);
           let query: Promise<any>;
           let params = {
@@ -128,4 +130,4 @@ export class SteamGridDbProvider extends GenericProvider {
   }
 }
 
-new GenericProviderManager(SteamGridDbProvider, 'sgdb');
+new GenericProviderManager<SteamGridDbProvider>(SteamGridDbProvider, 'sgdb');

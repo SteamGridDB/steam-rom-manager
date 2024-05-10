@@ -12,7 +12,8 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
-			"SteamGridDB"
+			"sgdb",
+			"steamCDN"
 		],
 		"disabled": false,
 		"advanced": false,
@@ -39,7 +40,7 @@
 			"removeCharacters": true,
 			"removeBrackets": true
 		},
-		"presetVersion": 9,
+		"presetVersion": 10,
 		"controllers": {
 			"ps4": null,
 			"ps5": null,
@@ -65,6 +66,20 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		}
 	}
 }

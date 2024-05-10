@@ -12,7 +12,8 @@
 		"fetchControllerTemplatesButton": null,
 		"removeControllersButton": null,
 		"imageProviders": [
-			"SteamGridDB"
+			"sgdb",
+			"steamCDN"
 		],
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
@@ -49,7 +50,7 @@
 			"neptune": null
 		},
 		"imageProviderAPIs": {
-			"SteamGridDB": {
+			"sgdb": {
 				"nsfw": false,
 				"humor": false,
 				"imageMotionTypes": [
@@ -59,9 +60,10 @@
 				"stylesHero": [],
 				"stylesLogo": [],
 				"stylesIcon": []
-			}
+			},
+			"steamCDN": {}
 		},
-		"presetVersion": 9,
+		"presetVersion": 10,
 		"defaultImage": {
 			"long": {
 				"tall": "",
@@ -104,7 +106,8 @@
 		"fetchControllerTemplatesButton": null,
 		"removeControllersButton": null,
 		"imageProviders": [
-			"SteamGridDB"
+			"sgdb",
+			"steamCDN"
 		],
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
@@ -141,7 +144,7 @@
 			"neptune": null
 		},
 		"imageProviderAPIs": {
-			"SteamGridDB": {
+			"sgdb": {
 				"nsfw": false,
 				"humor": false,
 				"imageMotionTypes": [
@@ -151,9 +154,10 @@
 				"stylesHero": [],
 				"stylesLogo": [],
 				"stylesIcon": []
-			}
+			},
+			"steamCDN": {}
 		},
-		"presetVersion": 9,
+		"presetVersion": 10,
 		"defaultImage": {
 			"long": {
 				"tall": "",

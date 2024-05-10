@@ -48,6 +48,8 @@ export const providerInfoLang: ProviderInfo = {
     }
   },
   steamCDN: {
+    info: 'Official Steam Artwork', //TODO add docs__md
+    inputs: {}
   }
 };
 

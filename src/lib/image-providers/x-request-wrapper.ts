@@ -1,11 +1,11 @@
-import { GenericProvider, ProviderProxy } from "./generic-provider";
+import { ProviderProxy, GenericProvider } from "./generic-provider";
 import { xRequestError } from "../../models";
 import { xRequest } from "../x-request";
 
-export class xRequestWrapper extends xRequest {
+export class xRequestWrapper<T extends GenericProvider> extends xRequest {
   private specialErrors: { [statusCode: string]: { retryCount?: number, silent: boolean } } = {};
 
-  constructor(private proxy: ProviderProxy, private handleErrors: boolean, private retryCount: number, timeout: number) {
+  constructor(private proxy: ProviderProxy<T>, private handleErrors: boolean, private retryCount: number, timeout: number) {
     super(timeout);
   }
 
@@ -28,6 +28,7 @@ export class xRequestWrapper extends xRequest {
     if (this.handleErrors) {
       return promise.catch((data: xRequestError) => {
         if (data.error) {
+          console.log("data error", data)
           if (data.error.status === 429) {
             let timeout = data.error.headers['Retry-After'] || 1;
             this.proxy.timeout(timeout);
@@ -63,6 +64,7 @@ export class xRequestWrapper extends xRequest {
   }
 
   logError(value: any, url?: string) {
+    console.log("logging erorr", this.proxy.title,this.proxy.providerName, value)
     if (value.error)
       this.logError(value.error, url);
     else
