@@ -25,7 +25,11 @@ import {
   SGDBToArt,
   OnlineProviderType,
   PreviewDataAppImage,
-  MultiLocalProviderType
+  MultiLocalProviderType,
+  ArtworkType,
+  ArtworkViewType,
+  isArtworkType,
+  initArtworkRecord
 } from '../../models';
 import {
   VDF_Manager,
@@ -48,7 +52,7 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import { OpenDialogReturnValue } from 'electron';
 import { dialog } from '@electron/remote';
-import { onlineProviders, imageProviderNames, multiLocalProviders } from '../../lib/image-providers/available-providers';
+import { onlineProviders, imageProviderNames } from '../../lib/image-providers/available-providers';
 
 @Injectable()
 
@@ -58,7 +62,7 @@ export class PreviewService {
   private previewVariables: PreviewVariables;
   private previewDataChanged: Subject<void>;
   private onlineImages: OnlineImages;
-  private currentImageType: string;
+  private currentViewType: ArtworkViewType;
   private batchProgress: BehaviorSubject<{update: string, batch: number}>;
   private categoryManager: CategoryManager;
   private sgdbToArt: SGDBToArt;
@@ -78,12 +82,12 @@ export class PreviewService {
     this.settingsService.onLoad((appSettings: AppSettings) => {
       this.appSettings = appSettings;
     });
-    this.onlineImages = {};
+    this.onlineImages = initArtworkRecord<OnlineImages[ArtworkType]>({});
     for(const artworkType of artworkTypes) {
       this.onlineImages[artworkType] = {};
     }
 
-    this.currentImageType = defaultArtworkType;
+    this.currentViewType = defaultArtworkType;
     this.imageProviderService.instance.stopEvent.subscribe(() => {
       for(const artworkType of artworkTypes) {
         for(const imagePool in this.onlineImages[artworkType]) {
@@ -117,11 +121,11 @@ export class PreviewService {
     return this.previewVariables;
   }
 
-  getImageType() {
-    return this.currentImageType;
+  getCurrentViewType() {
+    return this.currentViewType;
   }
-  setImageType(imageType: string) {
-    this.currentImageType = imageType;
+  setCurrentViewType(viewType: ArtworkViewType) {
+    this.currentViewType = viewType;
   }
 
   onLoadUserConfigurations(callback: (userConfigurations: UserConfiguration[]) => void) {
@@ -145,7 +149,7 @@ export class PreviewService {
     return SteamGridDbProvider.retrievePossibleIds(title)
   }
 
-  updateAppImages(imageKey: string, oldPool: string, artworkType: string) {
+  updateAppImages(imageKey: string, oldPool: string, artworkType: ArtworkType) {
     for(const providerType of onlineProviders) {
       this.onlineImages[artworkType][imageKey].online[providerType] = {
         retrieving: false,
@@ -287,17 +291,17 @@ export class PreviewService {
         for(const gridName in outcomes[steamDirectory][userId].successes) {
           const shortId = gridName.match(/^\d+/).toString();
           const longId = steam.lengthenAppId(shortId);
-          const imageType = invertedArtworkIdDict[gridName.replace(/^\d+/,'')];
+          const artworkType = invertedArtworkIdDict[gridName.replace(/^\d+/,'')];
           const steamImageUrl = url.encodeFile(outcomes[steamDirectory][userId].successes[gridName]);
           const app = this.previewData[steamDirectory][userId].apps[longId];
-          if(app && imageType) {
-            this.previewData[steamDirectory][userId].apps[longId].images[imageType].singleProviders.steam = {
+          if(app && artworkType) {
+            this.previewData[steamDirectory][userId].apps[longId].images[artworkType].singleProviders.steam = {
               imageProvider: imageProviderNames.steam,
               imageUrl: steamImageUrl,
               imageRes: url.imageDimensions(steamImageUrl),
               loadStatus: 'done'
             }
-            this.setImageIndex(app, 0, imageType, true);
+            this.setImageIndex(app, 0, artworkType, true);
           }
         }
       }
@@ -305,12 +309,11 @@ export class PreviewService {
     this.previewDataChanged.next()
   }
 
-  loadImage(app: PreviewDataApp, imageType?: string) {
+  loadImage(app: PreviewDataApp, artworkType?: ArtworkType) {
     if (app) {
       let image: ImageContent;
-      const actualImageType = this.currentImageType === 'games' ? imageType : this.currentImageType;
-      image = appImage.getCurrentImage(app.images[actualImageType], this.onlineImages[actualImageType]);
-
+      const actualArtworkType = isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
+      image = appImage.getCurrentImage(app.images[actualArtworkType], this.onlineImages[actualArtworkType]);
       if (image !== undefined && (image.loadStatus === 'notStarted' || image.loadStatus === 'failed')) {
         if (image.loadStatus === 'failed') {
           this.loggerService.info(this.lang.info.retryingDownload__i.interpolate({
@@ -375,37 +378,33 @@ export class PreviewService {
     }
   }
 
-  setImageIndex(app: PreviewDataApp, index: number, imageType?: string, ignoreCurrentType: boolean = false) {
+  setImageIndex(app: PreviewDataApp, index: number, artworkType?: ArtworkType, ignoreCurrentType: boolean = false) {
     if (app) {
-      if (!ignoreCurrentType && this.currentImageType!="games"){
-        imageType = this.currentImageType;
-      }
-      appImage.setImageIndex(app.images[imageType],this.onlineImages[imageType], index)
+      const actualArtworkType = !ignoreCurrentType && isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
+      appImage.setImageIndex(app.images[actualArtworkType],this.onlineImages[actualArtworkType], index)
       this.previewDataChanged.next();
     }
   }
 
-  areImagesAvailable(app: PreviewDataApp, imageType?: string) {
-    return this.getTotalLengthOfImages(app, imageType) > 0;
+  areImagesAvailable(app: PreviewDataApp, artworkType?: ArtworkType) {
+    return this.getTotalLengthOfImages(app, artworkType) > 0;
   }
 
-  getTotalLengthOfImages(app: PreviewDataApp, imageType?: string, ignoreCurrentType: boolean = false) {
+  getTotalLengthOfImages(app: PreviewDataApp, artworkType?: ArtworkType, ignoreCurrentType: boolean = false) {
     if (app) {
-      if (!ignoreCurrentType && this.currentImageType!="games") {
-        imageType = this.currentImageType;
-      }
-      return appImage.getMaxLength(app.images[imageType], this.onlineImages[imageType]).maxLength;
+      const actualArtworkType = !ignoreCurrentType && isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
+      return appImage.getMaxLength(app.images[actualArtworkType], this.onlineImages[actualArtworkType]).maxLength;
     }
     return 0;
   }
 
-  getCurrentImage(app: PreviewDataApp, imageType?: string) {
-    const actualImageType = this.currentImageType === 'games' ? imageType : this.currentImageType;
+  getCurrentImage(app: PreviewDataApp, artworkType?: ArtworkType) {
+    const actualImageType = isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
     return appImage.getCurrentImage(app.images[actualImageType], this.onlineImages[actualImageType])
   }
 
-  getImages(imageType?: string) {
-    const actualImageType = this.currentImageType === 'games' ? imageType : this.currentImageType;
+  getImages(artworkType?: ArtworkType) {
+    const actualImageType = isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
     return this.onlineImages[actualImageType]
   }
 
@@ -602,7 +601,7 @@ export class PreviewService {
             }
 
             if (previewData[config.steamDirectory][userAccount.accountID].apps[appID] === undefined) {
-              let images: {[artworkType: string]: PreviewDataAppImage} = {};
+              let images: Record<ArtworkType,PreviewDataAppImage> = initArtworkRecord<PreviewDataAppImage>(null);
               for(const artworkType of artworkTypes) {
                 const steamImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat(artworkIdDict[artworkType])];
                 const steamImageUrl = steamImage ? url.encodeFile(steamImage) : undefined;
@@ -669,18 +668,18 @@ export class PreviewService {
       return { numberOfItems: numberOfItems, data: previewData };
   }
 
-  downloadImageUrls(imageType: string, imageKeys?: string[]) {
+  downloadImageUrls(artworkType: ArtworkType, imageKeys?: string[]) {
     if (!this.appSettings.offlineMode) {
       let allImagesRetrieved = true;
       let imageQueue = queue((task, callback) => callback());
 
       if (imageKeys === undefined || imageKeys.length === 0) {
-        imageKeys = Object.keys(this.onlineImages[imageType]);
+        imageKeys = Object.keys(this.onlineImages[artworkType]);
       }
 
       for (let i = 0; i < imageKeys.length; i++) {
-        const imageByProvider = this.onlineImages[imageType][imageKeys[i]].online;
-        const parserEnabledProviders = this.onlineImages[imageType][imageKeys[i]].parserEnabledProviders;
+        const imageByProvider = this.onlineImages[artworkType][imageKeys[i]].online;
+        const parserEnabledProviders = this.onlineImages[artworkType][imageKeys[i]].parserEnabledProviders;
         const imageProvidersForKey: OnlineProviderType[] = _.intersection(parserEnabledProviders, this.appSettings.enabledProviders);
         for(let provider of imageProvidersForKey) {
           const image = imageByProvider[provider]
@@ -696,7 +695,7 @@ export class PreviewService {
               image.retrieving = true;
               allImagesRetrieved = false;
               for (let j = 0; j < image.searchQueries.length; j++) {
-                this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], imageType, image.imageProviderAPIs, provider, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
+                this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], artworkType, image.imageProviderAPIs, provider, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
                   switch (event) {
                     case 'error':
                       {
@@ -735,12 +734,12 @@ export class PreviewService {
                       let skip=false;
                       let preInsert=false;
                       if(returnedProvider === 'sgdb') {
-                        const imageArtCache = (this.sgdbToArt[imageType]||{})[imageContent.imageGameId]
+                        const imageArtCache = (this.sgdbToArt[artworkType]||{})[imageContent.imageGameId]
                         preInsert = imageArtCache && imageArtCache.artworkId == imageContent.imageArtworkId;
                         skip = imageContent.imageUrl.slice(-1) == '?'; // DMCA filter. Nintendo Sucks.
                       }
                       if(!skip) {
-                        let newImage: ImageContent = this.addUniqueImage(imageKeys[i], imageContent, imageType, returnedProvider, preInsert);
+                        let newImage: ImageContent = this.addUniqueImage(imageKeys[i], imageContent, artworkType, returnedProvider, preInsert);
                         if (newImage !== null && this.appSettings.previewSettings.preload) {
                           this.preloadImage(newImage);
                         }
@@ -779,11 +778,11 @@ export class PreviewService {
       this.previewDataChanged.next();
   }
 
-  isImageUnique(imageKey: string, imageUrl: string, artworkType: string, provider: OnlineProviderType) {
+  isImageUnique(imageKey: string, imageUrl: string, artworkType: ArtworkType, provider: OnlineProviderType) {
     return this.onlineImages[artworkType][imageKey].online[provider].content.findIndex((item) => item.imageUrl === imageUrl) === -1;
   }
 
-  addUniqueImage(imageKey: string, content: ImageContent, artworkType: string, provider: OnlineProviderType, preinsert?: boolean) {
+  addUniqueImage(imageKey: string, content: ImageContent, artworkType: ArtworkType, provider: OnlineProviderType, preinsert?: boolean) {
     if (this.isImageUnique(imageKey, content.imageUrl, artworkType, provider)) {
       if(preinsert) {
         this.onlineImages[artworkType][imageKey].online[provider].content.unshift(content);
@@ -796,11 +795,11 @@ export class PreviewService {
     return null;
   }
 
-  isLocalImageUnique(imageKey: string, imageUrl: string, artworkType: string, provider: MultiLocalProviderType) {
+  isLocalImageUnique(imageKey: string, imageUrl: string, artworkType: ArtworkType, provider: MultiLocalProviderType) {
     return this.onlineImages[artworkType][imageKey].offline[provider].findIndex((item) => item.imageUrl === imageUrl) === -1;
   }
 
-  addUniqueLocalImage(imageKey: string, content: ImageContent, artworkType: string, provider: MultiLocalProviderType, preinsert?: boolean) {
+  addUniqueLocalImage(imageKey: string, content: ImageContent, artworkType: ArtworkType, provider: MultiLocalProviderType, preinsert?: boolean) {
     if (this.isLocalImageUnique(imageKey, content.imageUrl, artworkType, provider)) {
         if(preinsert) {
           this.onlineImages[artworkType][imageKey].offline[provider].unshift(content)
@@ -860,7 +859,7 @@ export class PreviewService {
               const saveId = app.changedId ? app.changedId : appId;
               let selection: AppSelection = {
                 title: app.extractedTitle,
-                images: {}
+                images: { tall: null, long: null, hero: null, logo: null, icon: null }
               }
               for(const artworkType of artworkTypes) {
                 const currentImage = appImage.getCurrentImage(app.images[artworkType], this.onlineImages[artworkType]);

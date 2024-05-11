@@ -1,4 +1,4 @@
-import { PreviewDataAppImage, OnlineImages, ImageProviderType, LocalProviderType, SingleLocalProviderType, MultiLocalProviderType, OnlineProviderType } from "../../../models";
+import { PreviewDataAppImage, OnlineImages, ArtworkType, SingleLocalProviderType, MultiLocalProviderType, OnlineProviderType } from "../../../models";
 import { singleLocalProviders,multiLocalProviders,onlineProviders, imageProviders } from "../../image-providers/available-providers"
 
 
@@ -6,7 +6,7 @@ const mod = (l:number, n:number) => n==0 ? 0 : (l % n + n) %n
 const orlen = (x: any[]) => x ? x.length : 0;
 
 // return section lengths and total length
-export function getMaxLength(previewAppImage: PreviewDataAppImage, onlineImages: OnlineImages[string]) {
+export function getMaxLength(previewAppImage: PreviewDataAppImage, onlineImages: OnlineImages[ArtworkType]) {
   const singleLocalLengths = Object.fromEntries(singleLocalProviders.map((providerType: SingleLocalProviderType) => {
     return [providerType, previewAppImage.singleProviders[providerType] ? 1 : 0]
   }));
@@ -28,12 +28,12 @@ export function getMaxLength(previewAppImage: PreviewDataAppImage, onlineImages:
 }
 
 // Set index modulo max length.
-export function setImageIndex(previewAppImage: PreviewDataAppImage, onlineImages: OnlineImages[string], index: number) {
+export function setImageIndex(previewAppImage: PreviewDataAppImage, onlineImages: OnlineImages[ArtworkType], index: number) {
   const lens = getMaxLength(previewAppImage, onlineImages);
   previewAppImage.imageIndex = mod(index, lens.maxLength)
 }
 
-export function getCurrentImage(previewAppImage: PreviewDataAppImage, onlineImages: OnlineImages[string]) {
+export function getCurrentImage(previewAppImage: PreviewDataAppImage, onlineImages: OnlineImages[ArtworkType]) {
   const lens = getMaxLength(previewAppImage, onlineImages)
   if (lens.maxLength !== 0) {
     setImageIndex(previewAppImage, onlineImages, previewAppImage.imageIndex)

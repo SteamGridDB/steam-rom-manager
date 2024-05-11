@@ -7,9 +7,9 @@ import { ParsersService, LoggerService, ImageProviderService, SettingsService, C
 import * as parserInfo from '../../lib/parsers/available-parsers';
 import * as steam from '../../lib/helpers/steam';
 import { controllerTypes, controllerNames } from '../../lib/controller-manager';
-import { artworkTypes, artworkNamesDict, artworkSingDict } from '../../lib/artwork-types';
+import { artworkTypes, artworkViewNames, artworkSingDict } from '../../lib/artwork-types';
 import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets, ControllerTemplates, ParserType, OnlineProviderType } from '../../models';
-import { BehaviorSubject, Subscription, Observable, combineLatest, of, concat } from "rxjs";
+import { BehaviorSubject, Subscription, of, concat } from "rxjs";
 import { map } from 'rxjs/operators'
 import { APP } from '../../variables';
 import * as _ from 'lodash';
@@ -519,11 +519,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                   appendGlob: '${title}.@(png|PNG|jpg|JPG|webp|WEBP)'
                 },
                 placeholder: this.lang.placeholder.localImages__i.interpolate({
-                  artworkType: artworkNamesDict[artworkType].toLowerCase()
+                  artworkType: artworkViewNames[artworkType].toLowerCase()
                 }),
                 highlight: this.highlight.bind(this),
                 label: this.lang.label.localImages__i.interpolate({
-                  artworkType: artworkNamesDict[artworkType].toLowerCase()
+                  artworkType: artworkViewNames[artworkType].toLowerCase()
                 }),
                 onValidate: (self, path) => {
                   return this.parsersService.validate(path[0], self.value)
@@ -707,7 +707,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     return concat(of(this.userForm.get(path).value),this.userForm.get(path).valueChanges).pipe(map(decider))
   }
   private isHiddenIfNoProvider(providerKey: OnlineProviderType) {
-    return this.observeField('imageProviders', (selectedProviders: OnlineProviderType[]) => !selectedProviders || !selectedProviders.includes(providerKey));
+    return this.observeField('imageProviders', (selectedProviders: OnlineProviderType[]) => {
+      return !selectedProviders || !selectedProviders.includes(providerKey)
+    });
   }
   private isHiddenIfNotRomsParser() {
     return this.observeField('parserType', (pType: ParserType) => parserInfo.superTypesMap[pType] !== parserInfo.ROMType);
@@ -1000,7 +1002,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 success(this.lang.success.resolvedLocalImages__i.interpolate({
                   index: i + 1,
                   total: totalLength,
-                  artworkType: artworkNamesDict[artworkType]
+                  artworkType: artworkViewNames[artworkType]
                 }));
                 for (let j = 0; j < data.files[i].resolvedLocalImages[artworkType].length; j++) {
                   success(this.lang.success.indexInfo__i.interpolate({
@@ -1014,7 +1016,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 success(this.lang.success.localImages__i.interpolate({
                   index: i + 1,
                   total: totalLength,
-                  artworkType: artworkNamesDict[artworkType].toLowerCase()
+                  artworkType: artworkViewNames[artworkType].toLowerCase()
                 }));
                 for (let j = 0; j < data.files[i].localImages[artworkType].length; j++) {
                   success(this.lang.success.indexInfo__i.interpolate({

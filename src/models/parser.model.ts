@@ -1,7 +1,7 @@
 import { userAccountData, StringLiteralArray } from './helpers.model';
 import { Controllers } from './controllers.model';
 import { ImageProviderAPI } from './user-configuration.model';
-import { OnlineProviderType } from '.';
+import { OnlineProviderType, ArtworkType } from '.';
 
 export interface StringMap {
   [key: string]: any
@@ -20,21 +20,11 @@ export interface ParsedUserConfigurationFile extends StringMap {
   onlineImageQueries: string[],
   steamCategories: string[],
   imagePool: string,
-  defaultImage: {
-    [artworkType: string]: string
-  },
-  backupImage: {
-    [artworkType: string]: string
-  },
-  localImages: {
-    [artworkType: string]: string[]
-  },
-  resolvedDefaultImages: {
-    [artworkType: string]: string[]
-  },
-  resolvedLocalImages: {
-    [artworkType: string]: string[]
-  }
+  defaultImage: Record<ArtworkType,string>
+  backupImage: Record<ArtworkType,string>
+  localImages: Record<ArtworkType,string[]>
+  resolvedDefaultImages: Record<ArtworkType,string[]>
+  resolvedLocalImages: Record<ArtworkType,string[]>
 }
 
 export interface ParsedUserConfiguration {

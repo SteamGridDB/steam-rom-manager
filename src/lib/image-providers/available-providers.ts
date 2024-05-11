@@ -1,21 +1,23 @@
 import { ProviderInfo, ImageProviderType, LocalProviderType, OnlineProviderType, SingleLocalProviderType, MultiLocalProviderType, ImageProviderName } from '../../models';
 
-export const singleLocalProviders: SingleLocalProviderType[] = [
+export const singleLocalProviders = [
   'steam',
   'artworkBackup'
-]
+] as const
 
-export const multiLocalProviders: MultiLocalProviderType[] = [
+export const multiLocalProviders = [
   'local',
   'imported',
   'manual'
-]
+] as const
 
 export const localProviders: LocalProviderType[] =  [...singleLocalProviders, ...multiLocalProviders]
-export const onlineProviders: OnlineProviderType[] = [
+
+export const onlineProviders = [
   'sgdb',
   'steamCDN'
-]
+] as const;
+
 export const imageProviders: ImageProviderType[] = [...localProviders, ...onlineProviders];
 
 export const imageProviderNames: Record<ImageProviderType, ImageProviderName> = {

@@ -1,10 +1,22 @@
-import { Observable, BehaviorSubject } from "rxjs";
 import { ImageProviderAPI } from "./user-configuration.model";
 import { Controllers } from "./controllers.model";
 import { ParserType, SteamInputEnabled } from "./parser.model";
+import { multiLocalProviders, onlineProviders, singleLocalProviders } from "../lib/image-providers/available-providers";
+import { artworkTypes, viewTypes } from "../lib/artwork-types";
 
 export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
 export type ImageProviderName = 'Fallback Artwork' | 'Current Artwork' | 'Backup Artwork' | 'Local Artwork' | 'Manually Added' | 'Imported Artwork' | 'SteamGridDB' | 'Steam CDN'
+
+export type ArtworkType = typeof artworkTypes[number];
+export type ViewType = typeof viewTypes[number];
+export type ArtworkViewType = ArtworkType | ViewType;
+
+export function isArtworkType(artworkViewType: ArtworkViewType): artworkViewType is ArtworkType {
+    return artworkTypes.includes(artworkViewType as ArtworkType)
+}
+export function initArtworkRecord<Y>(defaultValue: Y): Record<ArtworkType,Y>{
+    return Object.assign({},...artworkTypes.map(x=>({[x]:defaultValue})))
+}
 
 export interface ImageContent {
     imageProvider: ImageProviderName,
@@ -23,25 +35,23 @@ export interface ImagesStatusAndContent {
     imageProviderAPIs: ImageProviderAPI[OnlineProviderType],
     content: ImageContent[]
 }
-export type OnlineProviderType = 'steamCDN' | 'sgdb';
+export type OnlineProviderType = typeof onlineProviders[number];
 
-export interface OnlineImages {
-    [artworkType: string]: {
-        [imagePool: string]: {
-            online: Record<OnlineProviderType,ImagesStatusAndContent>,
-            offline: Record<MultiLocalProviderType,ImageContent[]>,
-            parserEnabledProviders: OnlineProviderType[]
-        }
+export type OnlineImages = Record<ArtworkType, {
+    [imagePool: string]: {
+        online: Record<OnlineProviderType,ImagesStatusAndContent>,
+        offline: Record<MultiLocalProviderType,ImageContent[]>,
+        parserEnabledProviders: OnlineProviderType[]
     }
-};
-export type SingleLocalProviderType = 'steam'|'artworkBackup'
-export type MultiLocalProviderType = 'local'|'manual'|'imported'
+}>
+export type SingleLocalProviderType = typeof singleLocalProviders[number]
+export type MultiLocalProviderType = typeof multiLocalProviders[number]//'local'|'manual'|'imported'
 export type LocalProviderType = SingleLocalProviderType | MultiLocalProviderType;
-export type ImageProviderType =  'default'|LocalProviderType | OnlineProviderType;
+export type ImageProviderType =  'default' | LocalProviderType | OnlineProviderType;
 
 export interface PreviewDataAppImage {
     default: ImageContent,
-    singleProviders: Record<SingleLocalProviderType,ImageContent>,
+    singleProviders: Record<SingleLocalProviderType, ImageContent>,
     imagePool: string, // joins with AppImages
     imageIndex: number // integrated with appImages helper
 }
@@ -65,9 +75,7 @@ export interface PreviewDataApp {
     extractedTitle: string,
     argumentString: string,
     drmProtect: boolean,
-    images: {
-      [artworkType: string]: PreviewDataAppImage
-    }
+    images: Record<ArtworkType, PreviewDataAppImage>
 }
 
 export interface PreviewDataApps {
@@ -100,9 +108,8 @@ export interface AppSelection {
   images: AppSelectionImages
 }
 
-export interface AppSelectionImages {
-  [artworkType: string]: AppSelectionImage
-}
+export type AppSelectionImages = Record<ArtworkType,AppSelectionImage>
+
 
 export interface AppSelectionImage {
   pool: string,

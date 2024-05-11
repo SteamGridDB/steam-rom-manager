@@ -2,7 +2,7 @@ import { GenericProvider, GenericProviderManager, ProviderProxy } from "./generi
 import {apiKey, idRegex} from "./steamgriddb.worker";
 import { xRequestWrapper } from "./x-request-wrapper";
 import SGDB from "steamgriddb";
-import { steamArtworkDict } from '../artwork-types'
+import { artworkTypes, steamArtworkDict } from '../artwork-types'
 import { imageProviderNames } from "./available-providers";
 export class SteamCDNProvider extends GenericProvider {
   private xrw: xRequestWrapper<SteamCDNProvider>;
@@ -33,7 +33,7 @@ export class SteamCDNProvider extends GenericProvider {
         } else {
           // convert sgdbId to steamId
           // return CDN urls
-          for(let artworkType of Object.keys(steamArtworkDict)) {
+          for(let artworkType of artworkTypes) {
             if(self.proxy.imageType === artworkType) {
               self.proxy.image({
                 imageProvider: imageProviderNames.steamCDN,

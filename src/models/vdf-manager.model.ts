@@ -1,3 +1,4 @@
+import { ArtworkType } from '.';
 import { VDF_ScreenshotsFile, VDF_ShortcutsFile, VDF_AddedItemsFile, VDF_Error } from '../lib';
 
 export interface VDF_ListItem {
@@ -15,7 +16,7 @@ export interface VDF_ListData {
 export interface VDF_ScreenshotItem {
   title: string,
   url: string,
-  artworkType: string,
+  artworkType: ArtworkType,
   sgdbId?: string,
   drmProtect?: boolean
 }
@@ -58,14 +59,12 @@ export interface VDF_AddedItemsData {
   }
 }
 
-export interface SGDBToArt {
-  [artworkType: string]: {
-    [sgdbId: string]: {
-      artworkId: string,
-      appId: string
-    }
+export type SGDBToArt = Record<ArtworkType, {
+  [sgdbId: string]: {
+    artworkId: string,
+    appId: string
   }
-}
+}>
 
 export interface ArtworkCacheData {
   version?: number,

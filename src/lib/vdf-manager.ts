@@ -293,9 +293,9 @@ export class VDF_Manager {
               listItem.addedItems.removeItem(appId);
               for(const artworkType of artworkTypes) {
                 listItem.screenshots.removeItem(steam.shortenAppId(appId).concat(artworkIdDict[artworkType]));
+                app.images[artworkType].singleProviders.steam = undefined;
               }
               listItem.screenshots.removeItem(appId);
-              app.images.steam = undefined
             }
           }
         });

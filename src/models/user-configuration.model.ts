@@ -1,4 +1,4 @@
-import { OnlineProviderType } from '.';
+import { OnlineProviderType, ArtworkType } from '.';
 import { Controllers } from './controllers.model';
 import { ParserType, SteamInputEnabled } from './parser.model';
 
@@ -46,12 +46,8 @@ export interface UserConfiguration {
   executableArgs: string,
   imagePool: string,
   drmProtect: boolean,
-  defaultImage: {
-    [artworkType: string]: string
-  },
-  localImages: {
-    [artworkType: string]: string
-  },
+  defaultImage: Record<ArtworkType,string>
+  localImages: Record<ArtworkType,string>
   titleModifier: string,
   disabled: boolean
 }

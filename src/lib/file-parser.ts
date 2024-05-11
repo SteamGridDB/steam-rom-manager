@@ -1,4 +1,4 @@
-import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, UserExceptions, UserExceptionData, UserExceptionsTitles, AppSettings, ParserType } from '../models';
+import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, UserExceptions, UserExceptionData, UserExceptionsTitles, AppSettings, ParserType, initArtworkRecord } from '../models';
 import { FuzzyService } from "../renderer/services";
 import { VariableParser } from "./variable-parser";
 import { APP } from '../variables';
@@ -301,11 +301,11 @@ export class FileParser {
             startInDirectory: startInDir||'',
             argumentString: undefined,
             appendArgsToExecutable: appendArgsToExecutable,
-            resolvedLocalImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
-            resolvedDefaultImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
-            defaultImage: {},
-            backupImage: {},
-            localImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
+            resolvedLocalImages: initArtworkRecord<string[]>([]),
+            resolvedDefaultImages: initArtworkRecord<string[]>([]),
+            defaultImage: initArtworkRecord<string>(null),
+            backupImage: initArtworkRecord<string>(null),
+            localImages: initArtworkRecord<string[]>([]),
             fuzzyTitle: fuzzyTitle||'',
             extractedTitle: data.success[j].extractedTitle||'',
             finalTitle: undefined,
