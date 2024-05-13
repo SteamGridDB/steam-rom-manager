@@ -46,6 +46,7 @@
     <div class="inputContainer">
       <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.retrieveCurrentSteamImages" (ngModelChange)="settings.previewSettings.retrieveCurrentSteamImages = $event; onSettingsChange();">{{lang.text.showSteamImages}}</ng-toggle-button>
       <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.deleteDisabledShortcuts" (ngModelChange)="settings.previewSettings.deleteDisabledShortcuts=$event; onSettingsChange();">{{lang.text.deleteDisabledShortcuts}}</ng-toggle-button>
+      <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.disableCategories" (ngModelChange)="settings.previewSettings.disableCategories=$event; onSettingsChange();">Disable saving of steam categories.</ng-toggle-button>
       <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.hideUserAccount" (ngModelChange)="settings.previewSettings.hideUserAccount=$event; onSettingsChange();">Hide Steam username from preview</ng-toggle-button>
     </div>
     <div class="inputContainer">

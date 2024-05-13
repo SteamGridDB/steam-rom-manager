@@ -214,7 +214,7 @@ export class PreviewService {
     })
     .then(() => {
       this.loggerService.info(this.lang.info.savingCategories)
-      if(!removeAll) {
+      if(!removeAll && !this.appSettings.previewSettings.disableCategories) {
         return this.categoryManager.save(this.previewData, exAppIds, addedCats)
       }
     }).catch((error: Acceptable_Error | Error) => {
@@ -472,7 +472,9 @@ export class PreviewService {
             this.loggerService.info(this.lang.info.noAccountsWarning, { invokeAlert: true, alertTimeout: 3000 });
           }
           else {
-            this.loggerService.info(this.lang.info.shutdownSteam, { invokeAlert: true, alertTimeout: 3000 });
+            if(!this.appSettings.previewSettings.disableCategories){
+              this.loggerService.info(this.lang.info.shutdownSteam, { invokeAlert: true, alertTimeout: 3000 });
+            }
             previewData = await this.createPreviewData(data.parsedData.parsedConfigs);
           }
         }
