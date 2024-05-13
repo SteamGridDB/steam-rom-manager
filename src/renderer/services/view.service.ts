@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { LoggerService, ParsersService } from '../services';
-import { VDF_ListData, UserData, ControllerTemplates } from '../../models';
+import { ParsersService } from '../services';
+import { VDF_ListData, ControllerTemplates, ControllerTemplate, SteamList, VDF_ListItem, SteamDirList } from '../../models';
 import * as _ from "lodash";
 import {
   VDF_Manager,
@@ -14,9 +14,21 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class ViewService {
   vdfData: VDF_ListData;
-  controllerData: UserData;
-  categoryData: UserData;
+  controllerData: SteamList<any>;
+  categoryData: SteamList<any>;
   controllerTemplateData: ControllerTemplates;
+  listData: SteamDirList<{
+    dir: {
+      controllerTemplate: {[controllerType: string]: ControllerTemplate[]}
+    },
+    user: {
+      [userId: string]: {
+        vdf: VDF_ListItem,
+        controller: any,
+        category?: any,
+      }
+    }
+  }>;
   status: {[k: string]: BehaviorSubject<boolean>} = {
     refreshingShortcuts: new BehaviorSubject(false),
     refreshingDetails: new BehaviorSubject(false)

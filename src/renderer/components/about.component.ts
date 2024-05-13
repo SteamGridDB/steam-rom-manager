@@ -11,15 +11,15 @@ import { SettingsService } from '../services';
 })
 
 export class AboutComponent {
+    emudeckText: string = '';
     private appSettings: AppSettings;
-    private emudeckText: string = '';
     constructor(private settingsService: SettingsService) {
         this.appSettings = this.settingsService.getSettings();
         if(this.appSettings.emudeckInstall) {
             this.emudeckText = '**(EmuDeck)**'
         }
     }
-    private get lang(){
+    get lang(){
         return APP.lang.about.component;
     }
 }

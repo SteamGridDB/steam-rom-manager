@@ -2,7 +2,7 @@ import { PipeTransform, Pipe } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Pipe({ name: 'safeHtml' })
-export class SafeHtml {
+export class SafeHtml implements PipeTransform {
     constructor(private sanitizer: DomSanitizer) { }
 
     transform(html: string) {
@@ -11,7 +11,7 @@ export class SafeHtml {
 }
 
 @Pipe({ name: 'safeStyle' })
-export class SafeStyle {
+export class SafeStyle implements PipeTransform {
     constructor(private sanitizer: DomSanitizer) { }
 
     transform(style: string) {
@@ -20,7 +20,7 @@ export class SafeStyle {
 }
 
 @Pipe({ name: 'safeResourceUrl' })
-export class SafeResourceUrl {
+export class SafeResourceUrl implements PipeTransform {
     constructor(private sanitizer: DomSanitizer) { }
 
     transform(resourceUrl: string) {

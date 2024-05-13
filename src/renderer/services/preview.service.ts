@@ -12,7 +12,6 @@ import {
   ParsedUserConfiguration,
   OnlineImages,
   PreviewVariables,
-  ImagesStatusAndContent,
   ProviderCallbackEventMap,
   PreviewDataApp,
   AppSettings,
@@ -91,9 +90,7 @@ export class PreviewService {
     this.imageProviderService.instance.stopEvent.subscribe(() => {
       for(const artworkType of artworkTypes) {
         for(const imagePool in this.onlineImages[artworkType]) {
-          for(const providerType of onlineProviders) {
-            this.onlineImages[artworkType][imagePool].online[providerType].retrieving = false;
-          }
+          this.onlineImages[artworkType][imagePool].retrieving = false;
         }
       }
       this.previewVariables.numberOfQueriedImages = 0;
@@ -152,7 +149,6 @@ export class PreviewService {
   updateAppImages(imageKey: string, oldPool: string, artworkType: ArtworkType) {
     for(const providerType of onlineProviders) {
       this.onlineImages[artworkType][imageKey].online[providerType] = {
-        retrieving: false,
         searchQueries: [imageKey],
         imageProviderAPIs: this.onlineImages[artworkType][oldPool].online[providerType].imageProviderAPIs,
         content: []
@@ -432,9 +428,9 @@ export class PreviewService {
     for(const artworkType of artworkTypes) {
       for(const imageKey in this.onlineImages[artworkType]) {
         for(const provider of onlineProviders) {
+          this.onlineImages[artworkType][imageKey].retrieving = false;
           this.onlineImages[artworkType][imageKey].online[provider] = {
             searchQueries: [],
-            retrieving: false,
             content: settingsOnly ? this.onlineImages[artworkType][imageKey].online[provider].content : [],
             imageProviderAPIs: this.onlineImages[artworkType][imageKey].online[provider].imageProviderAPIs,
           }
@@ -576,19 +572,18 @@ export class PreviewService {
                 this.onlineImages[artworkType][file.imagePool] = {
                   online: {
                     sgdb: {
-                      retrieving: false,
                       searchQueries: file.onlineImageQueries,
                       imageProviderAPIs: config.imageProviderAPIs.sgdb,
                       content: []
                     }, 
                     steamCDN: {
-                      retrieving: false,
                       searchQueries: file.onlineImageQueries,
                       imageProviderAPIs: config.imageProviderAPIs.steamCDN||{},
                       content: []
                     }
                   },
                   offline: {local: [], manual: [], imported: []},
+                  retrieving: false,
                   parserEnabledProviders: config.imageProviders
                 }
               } else {
@@ -668,105 +663,95 @@ export class PreviewService {
       return { numberOfItems: numberOfItems, data: previewData };
   }
 
-  downloadImageUrls(artworkType: ArtworkType, imageKeys?: string[]) {
+  downloadImageUrls(artworkType: ArtworkType, imKeys?: string[]) {
     if (!this.appSettings.offlineMode) {
       let allImagesRetrieved = true;
       let imageQueue = queue((task, callback) => callback());
-
-      if (imageKeys === undefined || imageKeys.length === 0) {
-        imageKeys = Object.keys(this.onlineImages[artworkType]);
-      }
-
-      for (let i = 0; i < imageKeys.length; i++) {
-        const imageByProvider = this.onlineImages[artworkType][imageKeys[i]].online;
-        const parserEnabledProviders = this.onlineImages[artworkType][imageKeys[i]].parserEnabledProviders;
+      const imageKeys = imKeys && imKeys.length ? imKeys : Object.keys(this.onlineImages[artworkType]);
+      for (let imageKey of imageKeys) {
+        const imageByPool = this.onlineImages[artworkType][imageKey]
+        if(imageByPool.retrieving) { continue; }
+        imageByPool.retrieving = true;
+        const imageByProvider = imageByPool.online;
+        const parserEnabledProviders = imageByPool.parserEnabledProviders;
         const imageProvidersForKey: OnlineProviderType[] = _.intersection(parserEnabledProviders, this.appSettings.enabledProviders);
-        for(let provider of imageProvidersForKey) {
-          const image = imageByProvider[provider]
-          if(image!==undefined && !image.retrieving) {
-            this.previewVariables.numberOfQueriedImages += image.searchQueries.length;
-          }
-        }
+        this.previewVariables.numberOfQueriedImages += imageProvidersForKey.map((provider)=> imageByProvider[provider].searchQueries.length).reduce((x,y)=>x+y);
+        let retrievingByProvider = {sgdb: true, steamCDN: true}
         for(let provider of imageProvidersForKey) {
           const image = imageByProvider[provider];
-          if (image !== undefined && !image.retrieving) {
-            let numberOfQueriesForImageKey = image.searchQueries.length;
-            if (numberOfQueriesForImageKey > 0) {
-              image.retrieving = true;
-              allImagesRetrieved = false;
-              for (let j = 0; j < image.searchQueries.length; j++) {
-                this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], artworkType, image.imageProviderAPIs, provider, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
-                  switch (event) {
-                    case 'error':
-                      {
-                      let errorData = (data as ProviderCallbackEventMap['error']);
-                      if (typeof errorData.error === 'number') {
-                        this.loggerService.error(this.lang.errors.providerError__i.interpolate({
-                          provider: errorData.provider,
-                          code: errorData.error,
-                          title: errorData.title,
-                          url: errorData.url
-                        }));
-                      }
-                      else {
-                        this.loggerService.error(this.lang.errors.unknownProviderError__i.interpolate({
-                          provider: errorData.provider,
-                          title: errorData.title,
-                          error: errorData.error
-                        }));
-                      }
+          if (image !== undefined && image.searchQueries.length) {
+            allImagesRetrieved = false;
+            for (let j = 0; j < image.searchQueries.length; j++) {
+              this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], artworkType, image.imageProviderAPIs, provider, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
+                switch (event) {
+                  case 'error':
+                    {
+                    let errorData = (data as ProviderCallbackEventMap['error']);
+                    if (typeof errorData.error === 'number') {
+                      this.loggerService.error(this.lang.errors.providerError__i.interpolate({
+                        provider: errorData.provider,
+                        code: errorData.error,
+                        title: errorData.title,
+                        url: errorData.url
+                      }));
                     }
-  
-                    break;
-                    case 'timeout':
-                      {
-                      let timeoutData = (data as ProviderCallbackEventMap['timeout']);
-                      this.loggerService.info(this.lang.info.providerTimeout__i.interpolate({
-                        time: timeoutData.time,
-                        provider: timeoutData.provider
-                      }), { invokeAlert: true, alertTimeout: 3000 });
+                    else {
+                      this.loggerService.error(this.lang.errors.unknownProviderError__i.interpolate({
+                        provider: errorData.provider,
+                        title: errorData.title,
+                        error: errorData.error
+                      }));
                     }
-                    break;
-                    case 'image':
-                      imageQueue.push(null, () => {
-                      let imageContent = (data as ProviderCallbackEventMap['image']).content;
-                      let returnedProvider = (data as ProviderCallbackEventMap['image']).provider;
-                      let skip=false;
-                      let preInsert=false;
-                      if(returnedProvider === 'sgdb') {
-                        const imageArtCache = (this.sgdbToArt[artworkType]||{})[imageContent.imageGameId]
-                        preInsert = imageArtCache && imageArtCache.artworkId == imageContent.imageArtworkId;
-                        skip = imageContent.imageUrl.slice(-1) == '?'; // DMCA filter. Nintendo Sucks.
-                      }
-                      if(!skip) {
-                        let newImage: ImageContent = this.addUniqueImage(imageKeys[i], imageContent, artworkType, returnedProvider, preInsert);
-                        if (newImage !== null && this.appSettings.previewSettings.preload) {
-                          this.preloadImage(newImage);
-                        }
-                      }
-                      this.previewDataChanged.next();
-                    });
-                    break;
-                    case 'completed':
-                      {
-                      if (--numberOfQueriesForImageKey === 0) {
-                        image.retrieving = false;
-                      }
-                      if (--this.previewVariables.numberOfQueriedImages === 0) {
-                        this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
-                      }
-                      this.previewDataChanged.next();
-                    }
-                    break;
-                    default:
-                      break;
                   }
-                });
-              }
+
+                  break;
+                  case 'timeout':
+                    {
+                    let timeoutData = (data as ProviderCallbackEventMap['timeout']);
+                    this.loggerService.info(this.lang.info.providerTimeout__i.interpolate({
+                      time: timeoutData.time,
+                      provider: timeoutData.provider
+                    }), { invokeAlert: true, alertTimeout: 3000 });
+                  }
+                  break;
+                  case 'image':
+                    imageQueue.push(null, () => {
+                    let imageContent = (data as ProviderCallbackEventMap['image']).content;
+                    let returnedProvider = (data as ProviderCallbackEventMap['image']).provider;
+                    let skip=false;
+                    let preInsert=false;
+                    if(returnedProvider === 'sgdb') {
+                      const imageArtCache = (this.sgdbToArt[artworkType]||{})[imageContent.imageGameId]
+                      preInsert = imageArtCache && imageArtCache.artworkId == imageContent.imageArtworkId;
+                      skip = imageContent.imageUrl.slice(-1) == '?'; // DMCA filter. Nintendo Sucks.
+                    }
+                    if(!skip) {
+                      let newImage: ImageContent = this.addUniqueImage(imageKey, imageContent, artworkType, returnedProvider, preInsert);
+                      if (newImage !== null && this.appSettings.previewSettings.preload) {
+                        this.preloadImage(newImage);
+                      }
+                    }
+                    this.previewDataChanged.next();
+                  });
+                  break;
+                  case 'completed':
+                    {
+                    retrievingByProvider[provider] = false;
+                    imageByPool.retrieving = Object.values(retrievingByProvider).reduce((x,y)=> x||y)
+                    if (--this.previewVariables.numberOfQueriedImages === 0) {
+                      allImagesRetrieved=true;
+                      this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
+                    }
+                    this.previewDataChanged.next();
+                  }
+                  break;
+                  default:
+                    break;
+                }
+              });
             }
           }
         }
-
       }
       this.previewDataChanged.next();
       if (allImagesRetrieved) {

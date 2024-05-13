@@ -17,18 +17,18 @@
     <div class="inputContainer">
       <div class="longtext">Describe your issue:</div>
       <div class="inlineLeft">
-        <ng-text-input class="ngTextInput" multiline="true" [formControl]="bugForm.controls['description']" [placeholder]="lang.issueDescription"></ng-text-input>
+        <ng-text-input class="ngTextInput" [multiline]="true" [formControl]="bugForm.controls['description'] | formControl" [placeholder]="lang.issueDescription"></ng-text-input>
       </div>
       <div class="inlineLeft">
         <div class=text style="margin-right: 0.25em;">Discord handle (optional):</div>
-        <ng-text-input class="ngTextInput" [formControl]="bugForm.controls['discordHandle']" [placeholder]="lang.handleExample"></ng-text-input>
+        <ng-text-input class="ngTextInput" [formControl]="bugForm.controls['discordHandle'] | formControl" [placeholder]="lang.handleExample"></ng-text-input>
       </div>
       <div class="inlineLeft">
-        <ng-toggle-button class="ngToggleButton" [formControl]="bugForm.controls['useVDFs']"> Include VDFs (may contain personally identifying info)</ng-toggle-button>
+        <ng-toggle-button class="ngToggleButton" [formControl]="bugForm.controls['useVDFs'] | formControl"> Include VDFs (may contain personally identifying info)</ng-toggle-button>
       </div>
       <div class="inlineLeft" [class.hidden]="!bugForm.controls['useVDFs'].value">
         <div class=text style="margin-right: 0.25em;">Steam Directory:</div>
-        <ng-text-input class="ngTextInput" [formControl]="bugForm.controls['steamDirectory']" placeholder="C:\Program Files (x86)\Steam or ~/.steam/steam"></ng-text-input>
+        <ng-text-input class="ngTextInput" [formControl]="bugForm.controls['steamDirectory'] | formControl" placeholder="C:\Program Files (x86)\Steam or ~/.steam/steam"></ng-text-input>
       </div>
       <div class="inlineLeft">
         <div class="submit" (click)="submitReport()">Submit Report</div>

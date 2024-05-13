@@ -15,14 +15,14 @@ import * as path from 'path';
 })
 
 export class ChooseAccountsComponent {
-  private steamDir: string = '';
-  private show: boolean = false;
-  private selectedAccounts: {[accountID: string]: string} = {};
-  private availableAccounts: userAccountData[] = [];
+  steamDir: string = '';
+  show: boolean = false;
+  selectedAccounts: {[accountID: string]: string} = {};
+  availableAccounts: userAccountData[] = [];
   @Output()
-  private showAccounts = new EventEmitter<boolean>();
+  showAccounts = new EventEmitter<boolean>();
   @Output()
-  private accountsJoined = new EventEmitter<string>();
+  accountsJoined = new EventEmitter<string>();
   constructor(private changeRef: ChangeDetectorRef) {
   }
   @Input()

@@ -21,21 +21,21 @@ import { providersSelect } from '../../lib/image-providers/available-providers';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsComponent implements OnDestroy {
+  currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
+  settings: AppSettings;
+  availableBatches: {displayValue: string, value: number}[];
+  themes: string[];
+  availableLanguages: SelectItem[];
+  knownSteamDirectories: string[];
+  retroarchPathPlaceholder: string;
+  steamDirectoryPlaceholder: string;
+  userAccountsPlaceholder: string;
+  romsDirectoryPlaceholder: string;
+  localImagesDirectoryPlaceholder: string;
+  raCoresDirectoryPlaceholder: string;
+  chooseUserAccountsVisible: boolean = false;
+  showShellScripts: boolean = false;
   private subscriptions: Subscription = new Subscription();
-  private currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
-  private settings: AppSettings;
-  private availableBatches: {displayValue: string, value: number}[];
-  private themes: string[];
-  private availableLanguages: SelectItem[];
-  private knownSteamDirectories: string[];
-  private retroarchPathPlaceholder: string;
-  private steamDirectoryPlaceholder: string;
-  private userAccountsPlaceholder: string;
-  private romsDirectoryPlaceholder: string;
-  private localImagesDirectoryPlaceholder: string;
-  private raCoresDirectoryPlaceholder: string;
-  private chooseUserAccountsVisible: boolean = false;
-  private showShellScripts: boolean = false;
   private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
   constructor(private settingsService: SettingsService,
     private fuzzyService: FuzzyService,
@@ -44,9 +44,9 @@ export class SettingsComponent implements OnDestroy {
     private imageProviderService: ImageProviderService,
     private previewService: PreviewService,
     private parsersService: ParsersService,
-    private cpService: ConfigurationPresetsService,
-    private cvService: CustomVariablesService,
-    private ssService: ShellScriptsService,
+    public cpService: ConfigurationPresetsService,
+    public cvService: CustomVariablesService,
+    public ssService: ShellScriptsService,
     private changeDetectionRef: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute,
     private ipcService: IpcService
@@ -65,6 +65,9 @@ export class SettingsComponent implements OnDestroy {
     return providersSelect
   }
 
+  get lang() {
+    return APP.lang.settings.component;
+  }
 
   ngOnInit() {
     this.subscriptions.add(this.settingsService.getChangeObservable().subscribe(() => {
@@ -125,25 +128,21 @@ export class SettingsComponent implements OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  private get lang() {
-    return APP.lang.settings.component;
-  }
-
-  private onSettingsChange(detectChanges: boolean = true) {
+  onSettingsChange(detectChanges: boolean = true) {
     if (detectChanges)
       this.settingsService.settingsChanged();
 
     this.settingsService.saveAppSettings();
   }
 
-  private async nukeArtworkChoices() {
+  async nukeArtworkChoices() {
     const artworkCache = new ArtworkCache();
     await artworkCache.read();
     await artworkCache.emptyCache();
     this.loggerService.info('Emptied artwork cache.', {invokeAlert: true, alertTimeout: 3000})
   }
 
-  private nukeArtworkBackups() {
+  nukeArtworkBackups() {
     const backupsDir = path.join(paths.userDataDir,'artworkBackups');
     if(fs.existsSync(backupsDir)) {
       fs.rmSync(backupsDir, { recursive: true, force: true });
@@ -151,7 +150,7 @@ export class SettingsComponent implements OnDestroy {
     this.loggerService.info('Nuked artwork backups.', {invokeAlert: true, alertTimeout: 3000})
   }
 
-  private removeApps() {
+  removeApps() {
     if (this.knownSteamDirectories.length > 0) {
       return this.previewService.saveData({removeAll: true, batchWrite: false})
       .then(() => {
@@ -163,7 +162,7 @@ export class SettingsComponent implements OnDestroy {
     }
   }
 
-  private async removeCategoriesOnly() {
+  async removeCategoriesOnly() {
     for(let steamDir of this.knownSteamDirectories) {
       const accounts = await steam.getAvailableLogins(steamDir);
       for(let account of accounts) {
@@ -172,7 +171,7 @@ export class SettingsComponent implements OnDestroy {
     }
   }
 
-  private async removeControllersOnly() {
+  async removeControllersOnly() {
     for(let steamDir of this.knownSteamDirectories) {
       const accounts = await steam.getAvailableLogins(steamDir);
       for(let account of accounts) {
@@ -181,26 +180,26 @@ export class SettingsComponent implements OnDestroy {
     }
   }
 
-  private resetFuzzy(){
+  resetFuzzy(){
     this.fuzzyService.fuzzyLoader.resetList();
   }
 
-  private clearFuzzy(){
+  clearFuzzy(){
     this.fuzzyService.fuzzyLoader.resetCache();
   }
 
-  private preload(value: boolean) {
+  preload(value: boolean) {
     if (this.settings.previewSettings.preload !== value && value)
       this.previewService.preloadImages();
 
     this.settings.previewSettings.preload = value;
   }
 
-  private loadLanguage(){
+  loadLanguage(){
     this.languageService.loadLanguage(this.settings.language);
   }
 
-  private loadTheme(){
+  loadTheme(){
     document.querySelector('html').className = '';
     document.querySelector('html').classList.add(this.settings.theme)
     document.querySelector('html').removeAttribute("style");

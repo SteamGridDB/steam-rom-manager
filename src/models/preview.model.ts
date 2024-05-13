@@ -3,6 +3,7 @@ import { Controllers } from "./controllers.model";
 import { ParserType, SteamInputEnabled } from "./parser.model";
 import { multiLocalProviders, onlineProviders, singleLocalProviders } from "../lib/image-providers/available-providers";
 import { artworkTypes, viewTypes } from "../lib/artwork-types";
+import { SteamList } from "./helpers.model";
 
 export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
 export type ImageProviderName = 'Fallback Artwork' | 'Current Artwork' | 'Backup Artwork' | 'Local Artwork' | 'Manually Added' | 'Imported Artwork' | 'SteamGridDB' | 'Steam CDN'
@@ -30,7 +31,6 @@ export interface ImageContent {
 };
 
 export interface ImagesStatusAndContent {
-    retrieving: boolean,
     searchQueries: string[],
     imageProviderAPIs: ImageProviderAPI[OnlineProviderType],
     content: ImageContent[]
@@ -39,6 +39,7 @@ export type OnlineProviderType = typeof onlineProviders[number];
 
 export type OnlineImages = Record<ArtworkType, {
     [imagePool: string]: {
+        retrieving: boolean,
         online: Record<OnlineProviderType,ImagesStatusAndContent>,
         offline: Record<MultiLocalProviderType,ImageContent[]>,
         parserEnabledProviders: OnlineProviderType[]
@@ -87,11 +88,7 @@ export interface PreviewDataUser {
     apps: PreviewDataApps
 }
 
-export interface PreviewData {
-    [steamDirectory: string]: {
-        [userID: string]: PreviewDataUser
-    }
-}
+export type PreviewData = SteamList<PreviewDataUser>
 
 export interface PreviewVariables {
     listIsBeingGenerated: boolean,

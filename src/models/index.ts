@@ -19,5 +19,4 @@ export * from './custom-variables.model';
 export * from './user-exceptions.model';
 export * from './config-presets.model';
 export * from './error.model';
-export * from './view.model';
 export * from './uwp.model';

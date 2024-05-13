@@ -25,9 +25,11 @@
         <ng-container *ngSwitchDefault>
           <div class="container" [class.nested]="child.constructor.displayName === 'Group'" [hidden]="getHiddenMethod(child, childrenKey) | async">
             <label *ngIf="child.label">
-              <span class="infoButton infoIcon" *ngIf="child.onInfoClick"
-                    (click)="child.onInfoClick(currentForm.controls[childrenKey], currentForm.controls[childrenKey]['__path'])">
-              </span>
+              <ng-container *ngVar="currentForm.controls[childrenKey] | formControl as currentControl">
+                <span class="infoButton infoIcon" *ngIf="child.onInfoClick" 
+                (click)="child.onInfoClick(currentForm.controls[childrenKey], currentControl['__path'])">
+                </span>
+              </ng-container>
               {{child.label}}
               <small *ngIf="child.required" class="reqText">*Required</small>
             </label>

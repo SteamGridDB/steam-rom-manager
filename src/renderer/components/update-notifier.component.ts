@@ -23,11 +23,11 @@ import { IpcService, SettingsService } from '../services';
 })
 
 export class UpdateNotifierComponent {
-  private showUpdater: boolean = false;
-  private isPortableUpdate: boolean = false;
-  private initiatedDownload: boolean = false;
-  private downloadComplete: boolean = false;
-  private messageText: string = '';
+  showUpdater: boolean = false;
+  isPortableUpdate: boolean = false;
+  initiatedDownload: boolean = false;
+  downloadComplete: boolean = false;
+  messageText: string = '';
   private appSettings: AppSettings;
   constructor(private ipcService: IpcService, private settingsService: SettingsService,private changeRef: ChangeDetectorRef) {  
     this.appSettings = this.settingsService.getSettings();
@@ -37,14 +37,14 @@ export class UpdateNotifierComponent {
   public set ipcMessage(message: any){
     this.handleUpdateNotification(message);
   }
-  private restartApp() {
+  restartApp() {
     this.ipcService.send('restart_app')
   }
-  private downloadUpdate(){
+  downloadUpdate(){
     this.ipcService.send('download_update');
     this.initiatedDownload = true;
   }
-  private cancelUpdate() {
+  cancelUpdate() {
     this.ipcService.send('cancel_update');
     this.showUpdater = false;
   }

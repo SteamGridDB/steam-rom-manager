@@ -26,6 +26,9 @@ export class ShellScriptsService {
       this.download();
     }
   }
+  get isDownloading() {
+    return this.downloadStatus;
+  }
 
   async download(force: boolean = false) {
     if(!this.downloadStatus.getValue()) {

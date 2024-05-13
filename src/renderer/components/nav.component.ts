@@ -14,14 +14,13 @@ import { APP } from '../../variables';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavComponent implements OnDestroy {
+  isExceptionsUnsaved: boolean = false;
+  dummy: boolean = true;
   private userConfigurations: { saved: UserConfiguration, current: UserConfiguration }[];
-  private numConfigurations: number = -1;
-  private isExceptionsUnsaved: boolean = false;
-  private dummy: boolean = true;
+
   private subscriptions: Subscription = new Subscription();
 
   private navForm: FormGroup;
-  private navFormItems: FormArray;
 
   constructor(
     private parsersService: ParsersService,
@@ -31,9 +30,12 @@ export class NavComponent implements OnDestroy {
     private formBuilder: FormBuilder,
   ) {}
 
+  get lang(){
+    return APP.lang.nav.component;
+  }
+
   ngOnInit() {
     this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe((userConfigurations) => {
-      this.numConfigurations = userConfigurations.length;
       this.userConfigurations = userConfigurations;
       let someOn: boolean = userConfigurations.length ? userConfigurations.map(config=>!config.saved.disabled).reduce((x,y)=>x||y) : false;
       this.navForm = this.formBuilder.group({
@@ -68,10 +70,6 @@ export class NavComponent implements OnDestroy {
 
   private refreshActiveRoute(){
     this.dummy = !this.dummy;
-  }
-
-  private get lang(){
-    return APP.lang.nav.component;
   }
 
   getParserControls() {

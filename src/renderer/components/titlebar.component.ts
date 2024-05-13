@@ -32,9 +32,9 @@ import { FuzzyService } from "../services";
   ]
 })
 export class TitleComponent {
+  minimizable: boolean;
+  maximizable: boolean;
   private mainWindow: Electron.BrowserWindow;
-  private minimizable: boolean;
-  private maximizable: boolean;
 
   constructor(private title: Title, private fuzzyService: FuzzyService) {
     this.mainWindow = remote.getCurrentWindow();

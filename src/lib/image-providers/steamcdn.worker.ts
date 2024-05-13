@@ -34,7 +34,7 @@ export class SteamCDNProvider extends GenericProvider {
           // convert sgdbId to steamId
           // return CDN urls
           for(let artworkType of artworkTypes) {
-            if(self.proxy.imageType === artworkType) {
+            if(self.proxy.imageType === artworkType && self.proxy.imageType !== 'icon') {
               self.proxy.image({
                 imageProvider: imageProviderNames.steamCDN,
                 imageUrl: `https://cdn.cloudflare.steamstatic.com/steam/apps/400/${steamArtworkDict[artworkType]}`,

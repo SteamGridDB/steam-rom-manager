@@ -23,21 +23,20 @@ import { imageProviderNames, onlineProviders, providersSelect } from '../../lib/
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ParsersComponent implements AfterViewInit, OnDestroy {
-  private currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
+  currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
+  configurationIndex: number = -1;
+  isUnsaved: boolean = false;
+  configPresets: ConfigPresets = {};
+  nestedGroup: NestedFormElement.Group;
+  userForm: FormGroup;
+  chooseUserAccountsVisible: boolean = false;
+  steamDirectoryForChooseAccounts: string = '';
+  userConfigurations: { saved: UserConfiguration, current: UserConfiguration }[] = [];
   private subscriptions: Subscription = new Subscription();
-  private userConfigurations: { saved: UserConfiguration, current: UserConfiguration }[] = [];
-  private configurationIndex: number = -1;
   private loadedIndex: number = null;
-  private isUnsaved: boolean = false;
   private vParser = new VariableParser({ left: '${', right: '}' });
   private appSettings: AppSettings;
-  private configPresets: ConfigPresets = {};
-  private nestedGroup: NestedFormElement.Group;
-  private userForm: FormGroup;
   private formChanges: Subscription = new Subscription();
-  private hiddenSections: {[parserId: string]: {[sectionName: string]: boolean}}
-  private chooseUserAccountsVisible: boolean = false;
-  private steamDirectoryForChooseAccounts: string = '';
   private chooseAccountsControl: AbstractControl;
   private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
 
@@ -542,6 +541,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  get lang() {
+    return APP.lang.parsers.component;
+  }
+
   ngAfterViewInit() {
     this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe((data) => {
       this.userConfigurations = data;
@@ -609,57 +612,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     }))
   }
 
-  private removeControllers() {
-    let configTitle = this.userForm.get('configTitle').value;
-    this.loggerService.info(this.lang.info.removingControllers__i.interpolate({configTitle: configTitle}));
-    let steamDirInput = this.userForm.get('steamDirectory').value || '';
-    let steamDir = this.parsersService.parseSteamDir(steamDirInput);
-    if(this.parsersService.validate('steamDirectory', steamDir) == null) {
-      let userAccountsInfo = this.userForm.get('userAccounts').value;
-      let parserId = this.parsersService.getParserId(this.configurationIndex);
-      this.parsersService.parseUserAccounts(userAccountsInfo, steamDir).then((userIds)=>{
-        for(let userId of userIds) {
-          this.parsersService.removeControllers(steamDir, userId, parserId);
-        }
-        this.loggerService.success(this.lang.success.removedControllers__i.interpolate({configTitle: configTitle}), {invokeAlert: true, alertTimeout: 3000 })
-      }).catch((error)=>{
-        this.loggerService.error(this.lang.error.errorRemovingControllers, {invokeAlert: true, alertTimeout: 3000 });
-        this.loggerService.error(error);
-      })
-    } else {
-      this.loggerService.error(this.lang.error.cannotRemoveControllers, {invokeAlert: true, alertTimeout: 3000 })
-    }
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+    this.formChanges.unsubscribe();
   }
 
-  private async fetchControllerTemplates(force:boolean = true) {
-    if(force) {
-      this.loggerService.info(this.lang.info.fetchingControllerTemplates);
-    }
-    let steamDirInput = this.userForm.get('steamDirectory').value || '';
-    let steamDir = this.parsersService.parseSteamDir(steamDirInput);
-    if(this.parsersService.validate('steamDirectory', steamDir) == null) {
-      if(force || !this.parsersService.controllerTemplates[steamDir]) {
-        this.parsersService.controllerTemplates[steamDir] = {};
-        for(let controllerType of controllerTypes) {
-          this.parsersService.controllerTemplates[steamDir][controllerType] = await this.parsersService.getControllerTemplates(steamDir, controllerType);
-        }
-        this.parsersService.saveControllerTemplates();
-      } else {
-        for(let controllerType of Object.keys(this.parsersService.controllerTemplates[steamDir])) {
-          ((this.nestedGroup.children.controllers as NestedFormElement.Group).children[controllerType] as NestedFormElement.Select).values = this.parsersService.controllerTemplates[steamDir][controllerType].map(template => {
-            return { displayValue: template.title, value: template }
-          });
-        }
-      }
-      if(force) {
-        this.loggerService.success(this.lang.success.fetchedTemplates, { invokeAlert: true, alertTimeout: 3000 })
-      }
-    } else if(force) {
-      this.loggerService.error(this.lang.error.cannotFetchTemplates, { invokeAlert: true, alertTimeout: 3000 });
-    }
+  getDeletedConfigurations() {
+    return this.parsersService.getDeletedConfigurations()
   }
 
-  private setPreset(key: string) {
+  setPreset(key: string) {
     if (key != null) {
       const config = this.configPresets[key];
       if (this.loadedIndex === -1) {
@@ -671,71 +633,18 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private highlight(input: string, tag: string) {
-    let output = '';
-    if (this.vParser.setInput(input).parse()) {
-      this.vParser.traverseAST((ast, item, level, passedData: string[]) => {
-        if (level === 0) {
-          if (item.type === 'string') {
-            output += ast.input.substring(item.range.start, item.range.end);
-          }
-          else {
-            let modLevel = level % 3;
-            output += `<${tag} class="level-${modLevel}">${ast.leftDelimiter}</${tag}>${(passedData ? passedData.join('') : '')}<${tag} class="level-${modLevel}">${ast.rightDelimiter}</${tag}>`;
-          }
-        }
-        else {
-          if (item.type === 'string') {
-            return ast.input.substring(item.range.start, item.range.end);
-          }
-          else {
-            let modLevel = level % 3;
-            return `<${tag} class="level-${modLevel}">${ast.leftDelimiter}</${tag}>${(passedData ? passedData.join('') : '')}<${tag} class="level-${modLevel}">${ast.rightDelimiter}</${tag}>`;
-          }
-        }
-      }, false);
-    }
-    else
-      output = input;
-    return output;
-  }
-  private presetsInfoClick() {
+
+  presetsInfoClick() {
     this.currentDoc.activePath = '';
     this.currentDoc.content = this.lang.docs__md.communityPresets.join('');
   }
-  private observeField(path: string | string[], decider: (x: any)=>boolean) {
-    return concat(of(this.userForm.get(path).value),this.userForm.get(path).valueChanges).pipe(map(decider))
-  }
-  private isHiddenIfNoProvider(providerKey: OnlineProviderType) {
-    return this.observeField('imageProviders', (selectedProviders: OnlineProviderType[]) => {
-      return !selectedProviders || !selectedProviders.includes(providerKey)
-    });
-  }
-  private isHiddenIfNotRomsParser() {
-    return this.observeField('parserType', (pType: ParserType) => parserInfo.superTypesMap[pType] !== parserInfo.ROMType);
-  }
-  private isHiddenIfArtworkOnlyParser() {
-    return this.observeField('parserType', (pType: ParserType) => parserInfo.superTypesMap[pType] === parserInfo.ArtworkOnlyType);
-  }
-  private isHiddenIfParserBlank() {
-    return this.observeField('parserType', (pType: ParserType) => !pType);
-  }
-  private isHiddenIfNoParserInputs(){
-    return this.observeField('parserType', (pType: ParserType)=>{
-      return !pType || !parserInfo.availableParserInputs[pType].length
-    })
-  }
 
-  private get lang() {
-    return APP.lang.parsers.component;
-  }
-
-  private openFAQ() {
+  openFAQ() {
     this.currentDoc.activePath = '';
     this.currentDoc.content = this.lang.docs__md.faq.join('');
   }
 
-  private saveForm() {
+  saveForm() {
     if (this.userConfigurations.length === 0 || this.configurationIndex === -1)
       this.parsersService.saveConfiguration({ saved: this.userForm.value as UserConfiguration, current: null });
     else
@@ -744,21 +653,21 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     this.router.navigate(['/parsers', this.userConfigurations.length - 1]);
   }
 
-  private updateForm() {
+  updateForm() {
     this.parsersService.updateConfiguration(this.configurationIndex);
   }
 
-  private deleteForm() {
+  deleteForm() {
     this.parsersService.deleteConfiguration(this.configurationIndex);
     if (this.configurationIndex >= this.userConfigurations.length)
       this.router.navigate(['/parsers', this.userConfigurations.length - 1]);
   }
 
-  private restoreForm() {
+  restoreForm() {
     this.parsersService.restoreConfiguration();
   }
 
-  private toClipboard() {
+  toClipboard() {
     let config = this.userForm.value as UserConfiguration;
     config.parserId = this.configurationIndex===-1?'UNSAVED SO NO ID':this.parsersService.getParserId(this.configurationIndex);
     if (this.parsersService.isConfigurationValid(config)) {
@@ -815,7 +724,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.loggerService.error(this.lang.error.cannotCopyInvalid, { invokeAlert: true, alertTimeout: 3000 });
   }
 
-  private testForm() {
+  testForm() {
     let config = this.userForm.value as UserConfiguration;
     config.parserId = this.configurationIndex === -1 ? 'UNSAVED SO NO ID' : this.parsersService.getParserId(this.configurationIndex);
     let successData: string = '';
@@ -1078,22 +987,62 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private moveUp() {
+  moveUp() {
     if (this.configurationIndex > 0) {
       this.parsersService.swapIndex(this.configurationIndex, this.configurationIndex - 1);
       this.router.navigate(['/parsers', this.configurationIndex - 1]);
     }
   }
 
-  private moveDown() {
+  moveDown() {
     if (this.configurationIndex + 1 < this.userConfigurations.length) {
       this.parsersService.swapIndex(this.configurationIndex, this.configurationIndex + 1);
       this.router.navigate(['/parsers', this.configurationIndex + 1]);
     }
   }
 
-  private undoChanges() {
+  undoChanges() {
     this.parsersService.setCurrentConfiguration(this.configurationIndex, null);
+  }
+
+  chooseAccounts() {
+    let steamDirInput = this.userForm.get('steamDirectory').value || '';
+    let steamDir = this.parsersService.parseSteamDir(steamDirInput);
+    if(this.parsersService.validate('steamDirectory', steamDir) == null) {
+      this.chooseUserAccountsVisible = true;
+      this.steamDirectoryForChooseAccounts = steamDir;
+    }
+  }
+
+  setUserAccounts(accounts: string) {
+    if(accounts && this.chooseAccountsControl) {
+      this.chooseAccountsControl.setValue(accounts)
+    }
+  }
+
+  exitChooseAccounts() {
+    this.chooseUserAccountsVisible = false;
+  }
+
+  private observeField(path: string | string[], decider: (x: any)=>boolean) {
+    return concat(of(this.userForm.get(path).value),this.userForm.get(path).valueChanges).pipe(map(decider))
+  }
+  private isHiddenIfNoProvider(providerKey: OnlineProviderType) {
+    return this.observeField('imageProviders', (selectedProviders: OnlineProviderType[]) => {
+      return !selectedProviders || !selectedProviders.includes(providerKey)
+    });
+  }
+  private isHiddenIfNotRomsParser() {
+    return this.observeField('parserType', (pType: ParserType) => parserInfo.superTypesMap[pType] !== parserInfo.ROMType);
+  }
+  private isHiddenIfArtworkOnlyParser() {
+    return this.observeField('parserType', (pType: ParserType) => parserInfo.superTypesMap[pType] === parserInfo.ArtworkOnlyType);
+  }
+
+  private isHiddenIfNoParserInputs(){
+    return this.observeField('parserType', (pType: ParserType)=>{
+      return !pType || !parserInfo.availableParserInputs[pType].length
+    })
   }
 
   private loadConfiguration() {
@@ -1136,27 +1085,82 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  chooseAccounts() {
+  private highlight(input: string, tag: string) {
+    let output = '';
+    if (this.vParser.setInput(input).parse()) {
+      this.vParser.traverseAST((ast, item, level, passedData: string[]) => {
+        if (level === 0) {
+          if (item.type === 'string') {
+            output += ast.input.substring(item.range.start, item.range.end);
+          }
+          else {
+            let modLevel = level % 3;
+            output += `<${tag} class="level-${modLevel}">${ast.leftDelimiter}</${tag}>${(passedData ? passedData.join('') : '')}<${tag} class="level-${modLevel}">${ast.rightDelimiter}</${tag}>`;
+          }
+        }
+        else {
+          if (item.type === 'string') {
+            return ast.input.substring(item.range.start, item.range.end);
+          }
+          else {
+            let modLevel = level % 3;
+            return `<${tag} class="level-${modLevel}">${ast.leftDelimiter}</${tag}>${(passedData ? passedData.join('') : '')}<${tag} class="level-${modLevel}">${ast.rightDelimiter}</${tag}>`;
+          }
+        }
+      }, false);
+    }
+    else
+      output = input;
+    return output;
+  }
+
+  private removeControllers() {
+    let configTitle = this.userForm.get('configTitle').value;
+    this.loggerService.info(this.lang.info.removingControllers__i.interpolate({configTitle: configTitle}));
     let steamDirInput = this.userForm.get('steamDirectory').value || '';
     let steamDir = this.parsersService.parseSteamDir(steamDirInput);
     if(this.parsersService.validate('steamDirectory', steamDir) == null) {
-      this.chooseUserAccountsVisible = true;
-      this.steamDirectoryForChooseAccounts = steamDir;
+      let userAccountsInfo = this.userForm.get('userAccounts').value;
+      let parserId = this.parsersService.getParserId(this.configurationIndex);
+      this.parsersService.parseUserAccounts(userAccountsInfo, steamDir).then((userIds)=>{
+        for(let userId of userIds) {
+          this.parsersService.removeControllers(steamDir, userId, parserId);
+        }
+        this.loggerService.success(this.lang.success.removedControllers__i.interpolate({configTitle: configTitle}), {invokeAlert: true, alertTimeout: 3000 })
+      }).catch((error)=>{
+        this.loggerService.error(this.lang.error.errorRemovingControllers, {invokeAlert: true, alertTimeout: 3000 });
+        this.loggerService.error(error);
+      })
+    } else {
+      this.loggerService.error(this.lang.error.cannotRemoveControllers, {invokeAlert: true, alertTimeout: 3000 })
     }
   }
 
-  setUserAccounts(accounts: string) {
-    if(accounts && this.chooseAccountsControl) {
-      this.chooseAccountsControl.setValue(accounts)
+  private async fetchControllerTemplates(force:boolean = true) {
+    if(force) {
+      this.loggerService.info(this.lang.info.fetchingControllerTemplates);
     }
-  }
-
-  exitChooseAccounts() {
-    this.chooseUserAccountsVisible = false;
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-    this.formChanges.unsubscribe();
+    let steamDirInput = this.userForm.get('steamDirectory').value || '';
+    let steamDir = this.parsersService.parseSteamDir(steamDirInput);
+    if(this.parsersService.validate('steamDirectory', steamDir) == null) {
+      if(force || !this.parsersService.controllerTemplates[steamDir]) {
+        this.parsersService.controllerTemplates[steamDir] = {};
+        for(let controllerType of controllerTypes) {
+          this.parsersService.controllerTemplates[steamDir][controllerType] = await this.parsersService.getControllerTemplates(steamDir, controllerType);
+        }
+        this.parsersService.saveControllerTemplates();
+      } else {
+        for(let controllerType of Object.keys(this.parsersService.controllerTemplates[steamDir])) {
+          ((this.nestedGroup.children.controllers as NestedFormElement.Group).children[controllerType] as NestedFormElement.Select).values = this.parsersService.controllerTemplates[steamDir][controllerType].map(template => {
+            return { displayValue: template.title, value: template }
+          });
+        }
+      }
+      if(force) {
+        this.loggerService.success(this.lang.success.fetchedTemplates, { invokeAlert: true, alertTimeout: 3000 })
+      }
+    } else if(force) {
+      this.loggerService.error(this.lang.error.cannotFetchTemplates, { invokeAlert: true, alertTimeout: 3000 });
+    }
   }
 }

@@ -39,8 +39,8 @@ import { Subscription } from "rxjs";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AlertComponent implements OnInit, OnDestroy {
+  currentMessage: AlertMessage = undefined;
   private subscriptions: Subscription = new Subscription();
-  private currentMessage: AlertMessage = undefined;
   private timeoutId: number = undefined;
 
   constructor(private router: Router, private loggerService: LoggerService, private changeRef: ChangeDetectorRef) { }

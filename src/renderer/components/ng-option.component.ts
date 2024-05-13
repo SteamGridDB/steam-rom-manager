@@ -1,5 +1,4 @@
-import { Component, ElementRef, Optional, Host, HostListener, Input } from '@angular/core';
-import { NgSelectComponent } from "./ng-select.component";
+import { Component, ElementRef, Input } from '@angular/core';
 
 @Component({
   selector: 'ng-option',

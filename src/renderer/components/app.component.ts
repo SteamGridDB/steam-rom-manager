@@ -25,11 +25,11 @@ import markdownItAttrs from 'markdown-it-attrs';
 })
 
 export class AppComponent {
-  private updateMessage: string = '';
+  updateMessage: string = '';
+  settingsLoaded: boolean = false;
+  languageLoaded: boolean = false;
+  shouldHideComponent: boolean = false;
   private cliMessage: string = '';
-  private settingsLoaded: boolean = false;
-  private languageLoaded: boolean = false;
-  public shouldHideComponent: boolean = false;
   constructor(private settingsService: SettingsService, private languageService: LanguageService, private markdownService: MarkdownService, private router: Router,private ipcService: IpcService, private changeDetectionRef: ChangeDetectorRef, private zone: NgZone) {
 
     this.settingsService.onLoad((appSettings) => {

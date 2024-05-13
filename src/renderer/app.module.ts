@@ -3,7 +3,7 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DatePipe, APP_BASE_HREF } from '@angular/common';
+import { DatePipe, PercentPipe, APP_BASE_HREF } from '@angular/common';
 import { ColorPickerModule } from 'ngx-color-picker';
 
 import * as Components from './components';
@@ -14,13 +14,15 @@ import * as Pipes from './pipes';
 import * as Guards from './guards';
 import { AppRoutes } from './app.routing';
 
-function ngObjectsToArray(importObject: any) {
-  let objectArray: any[] = [];
+// Unfortunately not usable for declarations right now, as the strictly typed compiler can't evaluate statically
+// Ideally one would have declarations: [...ngObjectsToArray<Components(Components), etc]
+function ngObjectsToArray<T>(importObject: T) {
+  let objectArray: (T[keyof T])[] = [];
   for (let attribute in importObject) {
     if (typeof importObject[attribute] === 'function')
       objectArray.push(importObject[attribute]);
   }
-  return objectArray;
+  return objectArray as (T[keyof T])[];
 }
 
 @NgModule({
@@ -33,18 +35,65 @@ function ngObjectsToArray(importObject: any) {
     ReactiveFormsModule,
     ColorPickerModule
   ],
-  declarations: [].concat(
-    ngObjectsToArray(Components),
-    ngObjectsToArray(SvgComponents),
-    ngObjectsToArray(Directives),
-    ngObjectsToArray(Pipes)
-  ),
+  declarations: [
+    Components.AboutComponent,
+    Components.AlertComponent,
+    Components.AppComponent,
+    Components.ChooseAccountsComponent,
+    Components.ExceptionsComponent,
+    Components.LoggerComponent,
+    Components.MarkdownComponent,
+    Components.NavBorderComponent,
+    Components.NavComponent,
+    Components.NavExpandComponent,
+    Components.NavLinkComponent,
+    Components.NavParsersComponent,
+    Components.NavareaComponent,
+    Components.NgNestedFormComponent,
+    Components.NgOptionComponent,
+    Components.NgPathInputComponent,
+    Components.NgSelectComponent,
+    Components.NgTextInputComponent,
+    Components.NgToggleButtonComponent,
+    Components.ParsersComponent,
+    Components.ParsersListComponent,
+    Components.PreviewComponent,
+    Components.SettingsComponent,
+    Components.TitleComponent,
+    Components.UpdateNotifierComponent,
+    Components.ViewComponent,
+    SvgComponents.AddImagesComponent,
+    SvgComponents.CopyIconComponent,
+    SvgComponents.ImageAlertComponent,
+    SvgComponents.ImageLensComponent,
+    SvgComponents.RefreshImagesComponent,
+    SvgComponents.SaveImagesComponent,
+    SvgComponents.SelectArrowDownComponent,
+    SvgComponents.SelectArrowLeftComponent,
+    SvgComponents.SelectArrowRightComponent,
+    Directives.DraggableDirective,
+    Directives.TextScrollDirective,
+    Directives.VarDirective,
+    Pipes.ArrayConcatPipe,
+    Pipes.CssUrl,
+    Pipes.FileImage,
+    Pipes.FormControlPipe,
+    Pipes.FormGroupPipe,
+    Pipes.FuzzyTestPipe,
+    Pipes.IntersectionTestPipe,
+    Pipes.KeyPipe,
+    Pipes.KeysPipe,
+    Pipes.SafeHtml,
+    Pipes.SafeResourceUrl,
+    Pipes.SafeStyle
+  ],
   providers: [].concat(
     ngObjectsToArray(Services),
     ngObjectsToArray(Guards),
     ngObjectsToArray(Pipes),
     { provide: APP_BASE_HREF, useValue: 'SRM' },
     DatePipe,
+    PercentPipe,
     Title
   ),
   bootstrap: [Components.AppComponent]

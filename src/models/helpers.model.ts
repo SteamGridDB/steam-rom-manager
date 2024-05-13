@@ -18,12 +18,16 @@ export interface userAccountData{
   accountID: string
 }
 
+export interface SteamDirList<T> {
+  [steamDir: string]: T
+}
+
+export type SteamList<T> = SteamDirList<{ 
+  [userId: string]: T
+}>
+
 export interface SteamTree<T> {
-  tree: {
-    [steamDirectory: string]: {
-      [userId: string]: T
-    }
-  },
+  tree: SteamList<T>,
   numberOfUsers: number
 }
 
