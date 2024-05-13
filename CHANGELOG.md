@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 * Steam CDN Provider
 * Browse All Artwork on Preview
 * List View on Preview
+* Settings toggle to disable saving steam categories (useful on Deck so steam doesn't have to be closed)
 
 ### Changed
 * Allow function variables in environment variable fields. One use case being to set start-in-directory based on the os ([issue 292](https://github.com/SteamGridDB/steam-rom-manager/issues/292)).
