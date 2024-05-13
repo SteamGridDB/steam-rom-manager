@@ -2,7 +2,7 @@ import { ProviderInfo } from '../../models';
 import { APP } from '../../variables';
 // necessary to split this out because of ts-node .validate-files
 export const providerInfoLang: ProviderInfo = {
-  SteamGridDB: {
+  sgdb: {
     info: APP.lang.sgdbProvider.docs__md.self.join(''),
     inputs: {
       nsfw: {
@@ -46,6 +46,10 @@ export const providerInfoLang: ProviderInfo = {
         info: APP.lang.sgdbProvider.docs__md.input.join('')
       }
     }
+  },
+  steamCDN: {
+    info: 'Official Steam Artwork', //TODO add docs__md
+    inputs: {}
   }
 };
 

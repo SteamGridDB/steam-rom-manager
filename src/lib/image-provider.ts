@@ -1,14 +1,14 @@
-import { ProviderPostEventMap, ProviderCallback, ProviderReceiveEventMap, ProviderReceiveObject, ImageProviderAPI } from '../models';
+import { ProviderPostEventMap, ProviderCallback, ProviderReceiveEventMap, ProviderReceiveObject, ImageProviderAPI, OnlineProviderType } from '../models';
 import { FuzzyService, LoggerService, SettingsService } from "../renderer/services";
 import { imageProviders } from './image-providers';
-import { availableProviders, providerInfo } from './image-providers/available-providers';
+import { onlineProviders, providerInfo } from './image-providers/available-providers';
 import { providerInfoLang } from './image-providers/available-providers-lang';
 import { APP } from '../variables';
 import { queue } from "async";
 import { Subject } from "rxjs";
 import * as _ from 'lodash';
 
-type QueueTask = { title: string, imageType: string, imageProviderAPIs: ImageProviderAPI, eventCallback: ProviderCallback };
+type QueueTask = { title: string, imageType: string, imageProviderAPIs: ImageProviderAPI[OnlineProviderType], eventCallback: ProviderCallback };
 const _queue = true ? undefined as never : queue<QueueTask, void>((task, callback) => { });
 type AsyncQueue = typeof _queue;
 
@@ -19,8 +19,7 @@ export class ImageProvider {
   private stopped: Subject<void> = new Subject();
 
   constructor(private fuzzyService: FuzzyService, private loggerService: LoggerService) {
-    let key: keyof typeof imageProviders
-    for (key in imageProviders) {
+    for (let key of onlineProviders) {
       this.availableProviders[key] = {
         worker: imageProviders[key],
         queue: this.createQueue(key)
@@ -32,6 +31,10 @@ export class ImageProvider {
 
   private get lang() {
     return APP.lang.imageProvider;
+  }
+
+  get stopEvent() {
+    return this.stopped.asObservable();
   }
 
   private createQueue(key: string) {
@@ -60,23 +63,21 @@ export class ImageProvider {
   }
 
   getAvailableProviders() {
-    return availableProviders;
+    return onlineProviders;
   }
 
-  getProviderInfo(provider: string) {
+  getProviderInfo(provider: OnlineProviderType) {
     return providerInfo[provider];
   }
-  getProviderInfoLang(provider: string) {
+  getProviderInfoLang(provider: OnlineProviderType) {
     return providerInfoLang[provider];
   }
 
-  retrieveUrls(title: string, imageType: string, imageProviderAPIs: ImageProviderAPI, providers: string[], eventCallback: ProviderCallback) {
-    for (let i = 0; i < providers.length; i++) {
-      if (this.availableProviders[providers[i]])
-        this.availableProviders[providers[i]].queue.push({ title, imageType, imageProviderAPIs, eventCallback });
-      else
-        eventCallback('completed', { title: title });
-    }
+  retrieveUrls(title: string, imageType: string, imageProviderAPIs: ImageProviderAPI[OnlineProviderType], provider: OnlineProviderType, eventCallback: ProviderCallback) {
+    if (this.availableProviders[provider])
+      this.availableProviders[provider].queue.push({ title, imageType, imageProviderAPIs, eventCallback });
+    else
+      eventCallback('completed', { title: title });
   }
 
   stopUrlDownload() {
@@ -89,10 +90,6 @@ export class ImageProvider {
 
     this.callbackMap.clear();
     this.stopped.next();
-  }
-
-  get stopEvent() {
-    return this.stopped.asObservable();
   }
 
   private postMessage<K extends keyof ProviderReceiveEventMap>(worker: Worker, event: K, data: ProviderReceiveEventMap[K]) {
@@ -122,7 +119,7 @@ export class ImageProvider {
           {
           let data = (event.data.data as ProviderPostEventMap['image']);
           if (this.callbackMap.has(data.id)) {
-            this.callbackMap.get(data.id).eventCallback('image', { content: data.content });
+            this.callbackMap.get(data.id).eventCallback('image', { content: data.content, provider: data.provider });
           }
         }
         break;

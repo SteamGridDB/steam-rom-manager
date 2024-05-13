@@ -1,13 +1,14 @@
+// All in worker process
+
 import '../replace-diacritics';
 
 import { FuzzyMatcher } from "../fuzzy-matcher";
-import { FuzzyEventMap, ProviderPostEventMap, ProviderPostObject, ProviderReceiveEventMap, ImageContent, ImageProviderAPI } from "../../models";
+import { FuzzyEventMap, ProviderPostEventMap, ProviderPostObject, ProviderReceiveEventMap, ImageContent, ImageProviderAPI, OnlineProviderType, ImageProviderName } from "../../models";
 
-declare var self: Worker;
+//declare var self: Worker;
 
 export abstract class GenericProvider {
-  constructor(protected proxy: ProviderProxy) { }
-
+  constructor(protected proxy: ProviderProxy<GenericProvider>) { }
   abstract retrieveUrls(): void;
   abstract stopUrlDownload(): void;
 }
@@ -19,7 +20,7 @@ export class GenericProviderManager<T extends GenericProvider> {
   private instanceMap = new Map<string, T>();
   private isTimedOut: boolean = false;
 
-  constructor(private provider: new (proxy: ProviderProxy) => T, private _providerName: string) {
+  constructor(private provider: new (proxy: ProviderProxy<T>) => T, private _providerName: OnlineProviderType) {
     if (!this.listening) {
       self.addEventListener('message', this.onMessage.bind(this));
       this.listening = true;
@@ -55,16 +56,18 @@ export class GenericProviderManager<T extends GenericProvider> {
     self.postMessage(<ProviderPostObject<K>>{ event: event, data: data });
   }
 
-  newInstance(id: string, title: string, imageType: string, imageProviderAPIs: ImageProviderAPI): Map<string,T> {
-    return this.instanceMap.set(id, new this.provider(new ProviderProxy(id, title, imageType, imageProviderAPIs, this)));
+  newInstance(id: string, title: string, imageType: string, imageProviderAPIs: ImageProviderAPI[OnlineProviderType]): Map<string,T> {
+    return this.instanceMap.set(id, new this.provider(new ProviderProxy<T>(id, title, imageType, imageProviderAPIs, this)));
   }
 
   removeInstance(id: string) {
     return this.instanceMap.delete(id);
   }
-
+  
+  // How worker handles receiving a message from main process
   private onMessage(event: MessageEvent) {
-    if (event.data && event.data.event) {
+    //self.name == this.providerName fixes issue where workers were intercepting each other's messages... no idea why.
+    if (event.data && event.data.event && self.name==this.providerName) {
       switch ((event.data.event as keyof ProviderReceiveEventMap)) {
         case 'fuzzyList':
           this._fuzzyMatcher.setFuzzyList((event.data.data as ProviderReceiveEventMap['fuzzyList']).list || null);
@@ -97,8 +100,9 @@ export class GenericProviderManager<T extends GenericProvider> {
   }
 };
 
-export class ProviderProxy {
-  constructor(private _id: string, private _title: string, private _imageType: string, private _imageProviderAPIs: ImageProviderAPI,  private _manager: GenericProviderManager<GenericProvider>) { }
+export class ProviderProxy<T extends GenericProvider> {
+  constructor(private _id: string, private _title: string, private _imageType: string, private _imageProviderAPIs: ImageProviderAPI[OnlineProviderType],  private _manager: GenericProviderManager<T>) { 
+  }
 
   get title() {
     return this._title;
@@ -127,16 +131,16 @@ export class ProviderProxy {
   timeout(timeInSeconds: number) {
     if (!this._manager.timedOut) {
       this._manager.timeout(timeInSeconds * 1000);
-      this._manager.postMessage('timeout', { provider: this.providerName as ImageContent["imageProvider"], time: timeInSeconds, id: this._id });
+      this._manager.postMessage('timeout', { provider: this.providerName, time: timeInSeconds, id: this._id });
     }
   }
 
   error(error: number | string, url?: string) {
-    this._manager.postMessage('error', { error: error, title: this._title, provider: this.providerName as ImageContent["imageProvider"], id: this._id, url: url });
+    this._manager.postMessage('error', { error: error, title: this._title, provider: this.providerName, id: this._id, url: url });
   }
 
   image(content: ImageContent) {
-    this._manager.postMessage('image', { content: content, id: this._id });
+    this._manager.postMessage('image', { content: content, id: this._id, provider: this.providerName });
   }
 
   completed() {

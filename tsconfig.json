@@ -6,6 +6,7 @@
   },
   "compilerOptions": {
     "target": "es2022",
+    "lib": ["es2022"],
     "module": "ESNext",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
@@ -17,7 +18,8 @@
     "skipLibCheck": true
   },
   "angularCompilerOptions": {
-    "preserveWhitespaces": false
+    "preserveWhitespaces": false,
+    "strictTemplates": true
   },
   "include": ["./*.ts", "./src/**/*.ts"]
 }

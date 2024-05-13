@@ -1,3 +1,4 @@
+import { OnlineProviderType } from ".";
 import { FuzzyListTimestamps } from "./fuzzy.model";
 
 export interface PreviewSettings {
@@ -28,7 +29,7 @@ export interface AppSettings {
   emudeckInstall: boolean,
   autoUpdate: boolean,
   offlineMode: boolean,
-  enabledProviders: string[],
+  enabledProviders: OnlineProviderType[],
   batchDownloadSize: number,
   previewSettings: PreviewSettings,
   navigationWidth: number,

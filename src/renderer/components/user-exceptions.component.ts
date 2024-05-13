@@ -14,15 +14,13 @@ import * as _ from 'lodash';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExceptionsComponent implements OnDestroy {
-  private currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
+  currentDoc: { activePath: string, content: string } = { activePath: '', content: '' };
+  exceptionsForm: FormGroup;
+  filterValue = '';
   private subscriptions: Subscription = new Subscription();
   private userExceptions: UserExceptions;
 
-  private exceptionsForm: FormGroup;
-  private exceptionsFormItems: FormArray;
-
-  private filterValue = '';
-  private sortByOpts: SelectItem[] = _.flatten([
+  sortByOpts: SelectItem[] = _.flatten([
     {value: 'dateAdded', displayValue: 'Date Added' },
     {value: 'oldTitle', displayValue: 'Extracted Title'},
     {value: 'newTitle', displayValue: 'New Title'}
@@ -40,9 +38,27 @@ export class ExceptionsComponent implements OnDestroy {
   ) {
     this.currentDoc.content = this.lang.docs__md.userExceptions.join('');
   }
-  private get lang() {
+  
+  get lang() {
     return APP.lang.userExceptions.component;
   }
+
+  get isUnsaved() {
+    return this.exceptionsService.isUnsaved;
+  }
+  
+  get sortBy() {
+    return this.exceptionsService.sortBy;
+  }
+
+  set sortBy(sortBy: string) {
+    this.exceptionsService.sortBy = sortBy
+  }
+  
+  get exceptionsFormItems() {
+    return this.exceptionsForm.get('items') as FormArray;
+  }
+
   exceptionsInfoClick() {
     this.currentDoc.content = this.lang.docs__md.userExceptions.join('');
   }
@@ -52,7 +68,6 @@ export class ExceptionsComponent implements OnDestroy {
   }
 
   deleteAll() {
-    this.exceptionsFormItems = this.exceptionsForm.get('items') as FormArray;
     while(this.exceptionsFormItems.length>0) {
       this.exceptionsFormItems.removeAt(0);
     }
@@ -102,12 +117,12 @@ export class ExceptionsComponent implements OnDestroy {
     this.exceptionsService.setCurrent(null);
   }
 
+
+
   addItem() {
-    this.exceptionsFormItems = this.exceptionsForm.get('items') as FormArray;
     this.exceptionsFormItems.push(this.createItem());
   }
   deleteItem(index: number) {
-    this.exceptionsFormItems = this.exceptionsForm.get('items') as FormArray;
     this.exceptionsFormItems.removeAt(index);
   }
 

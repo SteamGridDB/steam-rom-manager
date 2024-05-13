@@ -1,5 +1,5 @@
 import { languageManager } from '../../variables';
-import { availableProviders } from "../../lib/image-providers/available-providers";
+import { onlineProviders } from "../../lib/image-providers/available-providers";
 import { availableThemes } from "../../lib/themes";
 
 export const appSettings = {
@@ -48,12 +48,12 @@ export const appSettings = {
     },
     enabledProviders: {
       type: 'array',
-      default: ['SteamGridDB'],
+      default: onlineProviders,
       items: {
         oneOf: [
           {
             type: 'string',
-            enum: availableProviders
+            enum: onlineProviders
           }
         ]
       }

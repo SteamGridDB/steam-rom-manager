@@ -7,14 +7,14 @@
             <span>Toggle Parsers</span>
             <span>&nbsp;&nbsp;</span>
           </nav-link>
-          <ng-toggle-button class="ngToggleButton" [formControl]="navForm.get('selectAll')"></ng-toggle-button>
+          <ng-toggle-button class="ngToggleButton" [formControl]="navForm.get('selectAll') | formControl"></ng-toggle-button>
         </div>
       </div>
     </div>
     <div
       class="item"
       formArrayName="parserStatuses"
-      *ngFor="let item of navForm.get('parserStatuses').controls; let i = index"
+      *ngFor="let item of getParserControls(); let i = index"
       [ngClass]="{
         unsaved: userConfigurations[i].current != null,
         disabled: userConfigurations[i].saved.disabled
@@ -31,7 +31,7 @@
               }"
               [routerLink]="['/parsers', i]"
               routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true, dummy: dummy }"
+              [routerLinkActiveOptions]="{ exact: true }"
             >
               <div class="not-emudeck">
                 {{ userConfigurations[i].saved.configTitle || lang.noTitle }}

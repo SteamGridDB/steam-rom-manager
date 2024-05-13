@@ -3,7 +3,7 @@
     <ng-text-input class="searchGames" placeholder="Search Games" [(ngModel)]="filterValue"></ng-text-input>
   </div>
 </div>
-<div class="loadingSpinner previewSpinner" *ngIf="this.viewService.status.refreshingShortcuts | async"></div>
+<div class="loadingSpinner previewSpinner" *ngIf="viewService.status.refreshingShortcuts | async"></div>
 <div class="gamesList" *ngIf="!(this.viewService.status.refreshingShortcuts | async)">
   <ng-container *ngFor="let steamDir of viewService.vdfData | keys">
     <div class="directory" *ngVar="{ isHidden: false } as directory" [class.hidden]="directory.isHidden">

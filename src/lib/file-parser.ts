@@ -1,4 +1,4 @@
-import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, UserExceptions, UserExceptionData, UserExceptionsTitles, AppSettings, ParserType } from '../models';
+import { UserConfiguration, ParsedUserConfiguration, ParsedData, ParsedUserConfigurationFile, ParsedDataWithFuzzy, userAccountData, ParserVariableData, AllVariables,isVariable, EnvironmentVariables,isEnvironmentVariable, CustomVariables, UserExceptions, UserExceptionData, UserExceptionsTitles, AppSettings, ParserType, initArtworkRecord } from '../models';
 import { FuzzyService } from "../renderer/services";
 import { VariableParser } from "./variable-parser";
 import { APP } from '../variables';
@@ -301,10 +301,11 @@ export class FileParser {
             startInDirectory: startInDir||'',
             argumentString: undefined,
             appendArgsToExecutable: appendArgsToExecutable,
-            resolvedLocalImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
-            resolvedDefaultImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
-            defaultImage: Object.fromEntries(artworkTypes.map((artworkType: string) => [artworkType, undefined])),
-            localImages: Object.fromEntries(artworkTypes.map((artworkType) => [artworkType,[]])),
+            resolvedLocalImages: initArtworkRecord<string[]>([]),
+            resolvedDefaultImages: initArtworkRecord<string[]>([]),
+            defaultImage: initArtworkRecord<string>(null),
+            backupImage: initArtworkRecord<string>(null),
+            localImages: initArtworkRecord<string[]>([]),
             fuzzyTitle: fuzzyTitle||'',
             extractedTitle: data.success[j].extractedTitle||'',
             finalTitle: undefined,
@@ -536,16 +537,13 @@ export class FileParser {
         let backedupPromises: Promise<void>[] = [];
         if(parsedConfig.drmProtect) {
           for(let j=0; j < parsedConfig.files.length; j++) {
-            const finalTitle = parsedConfig.files[j].finalTitle;
             for(const artworkType of artworkTypes) {
               if(parsedConfig.files[j].onlineImageQueries.length) {
                 backedupPromises.push(SteamGridDbProvider.retrieveIdsFromTitle(parsedConfig.files[j].onlineImageQueries[0]).then((possibleGameIds: number[])=>{
                   if(possibleGameIds.length) {
                       const backupDir = path.join(paths.userDataDir,'artworkBackups', artworkType);
                       return glob(`${possibleGameIds[0]}.*`, {dot: true, cwd: backupDir, absolute: true}).then((localBackups: string[])=>{
-                        for(let localBackup of localBackups) {
-                          parsedConfig.files[j].localImages[artworkType].unshift(url.encodeFile(localBackup))
-                        }
+                        parsedConfig.files[j].backupImage[artworkType] = localBackups.length ? url.encodeFile(localBackups[0]) : undefined
                       });
                     }
                   }))

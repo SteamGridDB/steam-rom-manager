@@ -95,14 +95,18 @@
     </div>
     <div class="inputContainer">
       <div class="inlineGroup">
-        <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.enabledProviders" (ngModelChange)="settings.enabledProviders = $event; onSettingsChange();" multiple="true" allowEmpty="true" [placeholder]="lang.placeholder.noProviders" [values]="availableProviders">
+        <ng-select style="font-size: 0.85em;" class="ngSelect" 
+        [ngModel]="settings.enabledProviders" (ngModelChange)="settings.enabledProviders = $event; onSettingsChange();" 
+        [multiple]="true" [allowEmpty]="true" [placeholder]="lang.placeholder.noProviders" [values]="availableProviders">
         </ng-select>
         <div class=text style="margin-left: 0.25em;">{{lang.text.enabledProviders}}</div>
       </div>
     </div>
     <div class="inputContainer">
       <div class="inlineGroup">
-        <ng-select style="font-size: 0.85em;" class="ngSelect" [ngModel]="settings.batchDownloadSize" (ngModelChange)="settings.batchDownloadSize = $event; onSettingsChange();" allowEmpty="true" placeholder="Auto" [values]="availableBatches">
+        <ng-select style="font-size: 0.85em;" class="ngSelect" 
+        [ngModel]="settings.batchDownloadSize" (ngModelChange)="settings.batchDownloadSize = $event; onSettingsChange();" 
+        [allowEmpty]="true" placeholder="Auto" [values]="availableBatches">
         </ng-select>
         <div class=text style="margin-left: 0.25em;">{{"Batch size for image downloads"}}</div>
       </div>
@@ -212,9 +216,6 @@
   </div>
 </div>
 <div class="menu" drag-scroll>
-  <!-- <ng-container> -->
-  <!--   <div style="margin-right: auto;"></div> -->
-  <!-- </ng-container> -->
   <ng-container>
     <div (click)="configDir()">{{lang.text.configDir}}</div>
   </ng-container>

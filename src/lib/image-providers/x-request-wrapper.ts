@@ -1,11 +1,11 @@
-import { GenericProvider, ProviderProxy } from "./generic-provider";
+import { ProviderProxy, GenericProvider } from "./generic-provider";
 import { xRequestError } from "../../models";
 import { xRequest } from "../x-request";
 
-export class xRequestWrapper extends xRequest {
+export class xRequestWrapper<T extends GenericProvider> extends xRequest {
   private specialErrors: { [statusCode: string]: { retryCount?: number, silent: boolean } } = {};
 
-  constructor(private proxy: ProviderProxy, private handleErrors: boolean, private retryCount: number, timeout: number) {
+  constructor(private proxy: ProviderProxy<T>, private handleErrors: boolean, private retryCount: number, timeout: number) {
     super(timeout);
   }
 

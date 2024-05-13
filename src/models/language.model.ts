@@ -378,6 +378,7 @@ export interface languageStruct {
         fuzzy_filter: string,
         enabledProviders: string,
         selectLanguage: string,
+        selectTheme: string,
         resetFuzzy_desc: string,
         resetFuzzyCache_desc: string,
         resetFuzzy_btn: string,
@@ -448,6 +449,9 @@ export interface languageStruct {
         title: string,
         exclude: string,
         excludeArtwork: string
+      },
+      placeholder: {
+        sortBy: string
       }
     },
     service: {

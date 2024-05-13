@@ -2,7 +2,7 @@ import { VDF_ListData,
   SteamDirectory,
   PreviewData,
   PreviewDataApp,
-  AppImages,
+  OnlineImages,
   VDF_ListItem,
   VDF_ExtraneousItemsData,
   VDF_AddedCategoriesData,
@@ -21,6 +21,7 @@ import * as path from 'path';
 import { merge, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { ArtworkCache } from ".";
+import { imageProviderNames } from "./image-providers/available-providers";
 
 
 export class VDF_Manager {
@@ -190,7 +191,7 @@ export class VDF_Manager {
     }
   }
 
-  mergeData(previewData: PreviewData, images: AppImages, deleteDisabledShortcuts: boolean) {
+  mergeData(previewData: PreviewData, onlineImages: OnlineImages, deleteDisabledShortcuts: boolean) {
     return new Promise<{extraneousAppIds: VDF_ExtraneousItemsData, addedCategories: VDF_AddedCategoriesData}>((resolve, reject) => {
       Promise.resolve().then(()=>{
         let extraneousAppIds: VDF_ExtraneousItemsData = {};
@@ -238,8 +239,8 @@ export class VDF_Manager {
               const artworkOnly = superTypes[ArtworkOnlyType].includes(app.parserType);
               listItem.addedItems.addItem(appId, app.parserId, artworkOnly, app.steamCategories);
               for(const artworkType of artworkTypes) {
-                const currentImage = appImage.getCurrentImage(app.images[artworkType], images[artworkType]);
-                if(currentImage !== undefined && currentImage.imageProvider !== 'Steam') {
+                const currentImage = appImage.getCurrentImage(app.images[artworkType], onlineImages[artworkType]);
+                if(currentImage !== undefined && currentImage.imageProvider !== imageProviderNames.steam) {
                   listItem.screenshots.addItem({
                     appId: steam.shortenAppId(appId).concat(artworkIdDict[artworkType]),
                     title: app.title,
@@ -250,7 +251,7 @@ export class VDF_Manager {
                   });
                 }
                 // artwork Cache is shared across steam users and steam directories
-                if(currentImage !== undefined && currentImage.imageProvider == 'SteamGridDB') {
+                if(currentImage !== undefined && currentImage.imageProvider == imageProviderNames.sgdb) {
                   this.artworkCache.cacheArtwork(currentImage.imageGameId, currentImage.imageArtworkId, appId, artworkType)
                 }
                 // special handling for icon path being added to shortcuts.vdf
@@ -292,9 +293,9 @@ export class VDF_Manager {
               listItem.addedItems.removeItem(appId);
               for(const artworkType of artworkTypes) {
                 listItem.screenshots.removeItem(steam.shortenAppId(appId).concat(artworkIdDict[artworkType]));
+                app.images[artworkType].singleProviders.steam = undefined;
               }
               listItem.screenshots.removeItem(appId);
-              app.images.steam = undefined
             }
           }
         });

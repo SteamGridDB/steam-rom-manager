@@ -18,15 +18,15 @@ import * as fs from 'fs-extra';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoggerComponent {
-  private messages: Observable<LogMessage[]>;
-  private settings: LogSettings = undefined;
-  private explanation: string;
-  private reportID: string = undefined;
-  private deleteKey: string = undefined;
-  private useVDFs: boolean = false;
-  private description: string = "";
-  private discordHandle: string = "";
-  private bugForm: FormGroup;
+  messages: Observable<LogMessage[]>;
+  settings: LogSettings = undefined;
+  explanation: string;
+  reportID: string = undefined;
+  deleteKey: string = undefined;
+  useVDFs: boolean = false;
+  description: string = "";
+  discordHandle: string = "";
+  bugForm: FormGroup;
 
   @ViewChild('messageWindow') private messageWindow: ElementRef;
 

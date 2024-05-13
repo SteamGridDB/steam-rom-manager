@@ -16,8 +16,9 @@
     [ngClass]="{ unsaved: isExceptionsUnsaved }"
     routerLink="/user-exceptions"
     routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true, dummy: dummy }"
+    [routerLinkActiveOptions]="{ exact: true }"
   >
+  <!--got rid of dummy: dummy in routerLinkActiveOptions, maybe try to get rid of dummy variable-->
     <ng-container *ngIf="!isExceptionsUnsaved">
       <img src="/assets/images/danger.png" alt="Icon" height="16" />{{ lang.userExceptions }}
     </ng-container>

@@ -13,7 +13,7 @@ import * as _ from 'lodash';
   encapsulation: ViewEncapsulation.None
 })
 export class NgNestedFormComponent implements OnInit {
-  private currentForm: IndexedFormGroup = new FormGroup({});
+  currentForm: IndexedFormGroup = new FormGroup({});
   private hiddenSections: BehaviorSubject<{[sectionName: string]: boolean}>;
   private sectionMap: {[elementName: string]: string} = {};
   private validityObservables: (()=>Observable<string>)[] = [];
@@ -35,7 +35,7 @@ export class NgNestedFormComponent implements OnInit {
       this.parentFormChange.emit(this.currentForm);
   }
 
-  private toggleHiddenSection(sectionName: string) {
+  toggleHiddenSection(sectionName: string) {
     let hiddenSections = this.hiddenSections.getValue();
     if(hiddenSections[sectionName]) {
       hiddenSections[sectionName] = false;
@@ -45,11 +45,11 @@ export class NgNestedFormComponent implements OnInit {
     this.hiddenSections.next(hiddenSections);
   }
 
-  private isSectionHidden(sectionName: string) {
+  isSectionHidden(sectionName: string) {
     return !!this.hiddenSections.getValue()[sectionName];
   }
 
-  private getHiddenMethod(el: NestedFormElements, elName: string) {
+  getHiddenMethod(el: NestedFormElements, elName: string) {
     if(el instanceof NestedFormElement.Section) {
       if(el['__hidden'] === undefined) {
         if(el.isHidden !== undefined) {
@@ -61,7 +61,7 @@ export class NgNestedFormComponent implements OnInit {
     } else {
       if (el['__hidden'] === undefined) {
         if (el.isHidden !== undefined) {
-          el['__hidden'] = combineLatest(el.isHidden(),this.hiddenSections).pipe(map(([h,hs])=>h||!!hs[this.sectionMap[elName]||""]));
+          el['__hidden'] = combineLatest([el.isHidden(),this.hiddenSections]).pipe(map(([h,hs])=>h||!!hs[this.sectionMap[elName]||""]));
         }
         else {
           el['__hidden'] = this.hiddenSections.pipe(map(hs=>!!hs[this.sectionMap[elName]||""]));
@@ -123,7 +123,6 @@ export class NgNestedFormComponent implements OnInit {
         formGroup.setControl(childKey, formControl);
       }
     }
-
     return formGroup;
   }
 }

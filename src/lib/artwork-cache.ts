@@ -1,8 +1,6 @@
-import { ArtworkCacheData } from "../models";
-import { APP } from '../variables';
+import { ArtworkCacheData, initArtworkRecord, SGDBToArt, ArtworkType } from "../models";
 import * as json from './helpers/json';
 import * as _ from "lodash";
-import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as paths from '../paths';
 
@@ -36,7 +34,7 @@ export class ArtworkCache {
       this.artworkCache = result;
       return this.sgdbToArt;
     }).catch((error) => {
-      this.artworkCache = {version: modifierLatest, sgdbToArt: {}};
+      this.artworkCache = {version: modifierLatest, sgdbToArt: initArtworkRecord<SGDBToArt[ArtworkType]>({}) };
     });
   }
 
@@ -45,11 +43,11 @@ export class ArtworkCache {
   }
 
   async emptyCache() {
-    this.artworkCache.sgdbToArt = {};
+    this.artworkCache.sgdbToArt = initArtworkRecord<SGDBToArt[ArtworkType]>({});
     await this.write();
   }
 
-  cacheArtwork(sgdbId: string, artworkId: string, appId: string, artworkType: string) {
+  cacheArtwork(sgdbId: string, artworkId: string, appId: string, artworkType: ArtworkType) {
     this.artworkCache.sgdbToArt[artworkType] ||= {};
     this.artworkCache.sgdbToArt[artworkType][sgdbId] = {
       artworkId: artworkId,

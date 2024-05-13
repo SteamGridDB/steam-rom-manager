@@ -44,25 +44,17 @@ export class ConfigurationPresetsService {
   get isDownloading() {
     return this.downloadStatus;
   }
-
   async download(force: boolean = false) {
     if(!this.downloadStatus.getValue()) {
       this.downloadStatus.next(true);
       const hashesURL = this.rawURL.concat('files/presetsHashes.json')
       const presetsHashes = await this.xRequest.request(hashesURL, this.requestOpts);
-      const appVersion: string = APP.version || '';
-      let downloadURL: string;
-      // change this to work as a version range
-      if(presetsHashes && presetsHashes[appVersion]) {
-        const commit = presetsHashes[appVersion].commit;
-        downloadURL = this.treesURL.concat(commit).concat('?recursive=1')
-      } else {
-        downloadURL = this.treesURL.concat('master').concat('?recursive=1')
-      }
+      const commit = this.commitLookup(APP.version, presetsHashes)
+      const downloadURL = this.treesURL.concat(commit).concat('?recursive=1')
       const treeData = await this.xRequest.request(downloadURL, this.requestOpts)
       let presetURLs = treeData.tree
-      .filter((entry: any)=>path.dirname(entry.path)=='files/presets')
-      .map((entry: any)=>entry.path)
+      .filter((entry: any) => path.dirname(entry.path)=='files/presets')
+      .map((entry: any) => entry.path)
       let configPresets: any[] = []
       for(let presetURL of presetURLs) {
         const cleanURL = presetURL.split('/').map((x:string)=>encodeURI(x)).join('/');
@@ -72,7 +64,7 @@ export class ConfigurationPresetsService {
       }
       let joinedPresets = Object.assign({},...configPresets)
       const error = this.set(joinedPresets);
-      if (error){
+      if (error) {
         this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: error }));
       } else {
         this.loggerService.info(this.lang.info.downloaded, force ? { invokeAlert: true, alertTimeout: 5000 } : undefined);
@@ -82,26 +74,24 @@ export class ConfigurationPresetsService {
     }
   }
 
-  load() {
-    return this.download().then(() => {
-      return json.read<ConfigPresets>(paths.configPresets)
-    })
-    .then((data) => {
-      const error = this.set(data || {});
-      if (error !== null) {
-        this.savingIsDisabled = true;
-        this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
-        this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
-          file: paths.configPresets,
-          error
-        }));
-      }
-    })
-    .catch((error) => {
+  async load() {
+    try {
+    await this.download();
+    const data = await json.read<ConfigPresets>(paths.configPresets);
+    const error = this.set(data || {});
+    if (error !== null) {
+      this.savingIsDisabled = true;
+      this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
+      this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
+        file: paths.configPresets,
+        error
+      }));
+    }
+    } catch(error) {
       this.savingIsDisabled = true;
       this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
       this.loggerService.error(error);
-    });
+    }
   }
 
   set(data: ConfigPresets) {
@@ -119,6 +109,23 @@ export class ConfigurationPresetsService {
         this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
         this.loggerService.error(error);
       });
+    }
+  }
+  private numericVersion(appVersion: string) {
+    return appVersion.split('.').map((s,i)=>Number(s)*Math.pow(.01,i-1)).reduce((x,y)=>x+y);
+  }
+  private commitLookup(appVersion: string, presetsHashes: {[version: string]: {commit: string}}) {
+    try {
+      const numericAppVersion = this.numericVersion(appVersion);
+      for(const version in presetsHashes){
+        if(numericAppVersion <= this.numericVersion(version)) {
+          this.loggerService.info(`SRM is not up to date, cached config presets downloaded from commit: ${presetsHashes[version].commit}`)
+          return presetsHashes[version].commit;
+        }
+      }
+      return 'master'
+    } catch(e) {
+      return 'master'
     }
   }
 }

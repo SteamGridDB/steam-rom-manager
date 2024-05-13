@@ -12,7 +12,7 @@ import { escape } from 'glob';
                     [attr.data-placeholder]="placeholder"
                     contenteditable="true"
                     spellcheck="false"
-                    (input)="this.writeValue($event.target.textContent, true)"
+                    (input)="this.writeValueFromTarget($event.target)"
                     (keypress)="handleKeypress($event)"
                     (drag)="handleDragAndDrop($event)"
                     (dragover)="handleDragAndDrop($event)"
@@ -31,10 +31,11 @@ import { escape } from 'glob';
   }
 })
 export class NgTextInputComponent implements ControlValueAccessor {
-  private currentValue: string = null;
+  currentValue: string = null;
   @ViewChild("input") private elementRef: ElementRef;
-  @Input() private placeholder: string = null;
+  @Input() placeholder: string = null;
   @Input() private appendGlob: string = null;
+  @Input() private useForwardSlash: string = null;
   @Input() private highlight: (input: string, tag: string) => string = null;
   @Input() private highlightTag: string = null;
   @Input() private multiline: boolean = false;
@@ -42,7 +43,14 @@ export class NgTextInputComponent implements ControlValueAccessor {
   private onChange = (_: any) => { };
   private onTouched = () => { };
 
-  private handlePaste(event: ClipboardEvent) {
+  constructor(private changeRef: ChangeDetectorRef, private renderer: Renderer2) { }
+
+  ngAfterViewInit() {
+    // Had to do this to get the placeholder to appear in certain exceptions/logger
+    this.renderer.setProperty(this.elementRef.nativeElement, 'innerHTML', this.currentValue || null);
+  }
+
+  handlePaste(event: ClipboardEvent) {
     event.preventDefault();
     let data = event.clipboardData.getData('text');
     if (!this.multiline)
@@ -60,14 +68,55 @@ export class NgTextInputComponent implements ControlValueAccessor {
     }
   }
 
-  private handleKeypress(event: KeyboardEvent) {
+  handleKeypress(event: KeyboardEvent) {
     if (!this.multiline && event.key === 'Enter')
       event.preventDefault();
   }
 
-  private handleDragAndDrop(event: Event) {
+  handleDragAndDrop(event: Event) {
     if (!this.dragAndDrop)
       event.preventDefault();
+  }
+  
+  writeValueFromTarget(target: EventTarget) {
+    this.writeValue((target as HTMLTextAreaElement).textContent, true)
+  }
+
+  writeValue(value: string, updateDom: boolean = true, selection?: { start: number, end: number }): void {
+    if (value !== this.currentValue) {
+      if(value && value.split('&:&')[0]=='_browse_'){
+        const selectedPath = value.split('&:&')[1]
+        if(this.appendGlob || this.useForwardSlash) {
+          const t1 = escape(selectedPath.replaceAll('\\','/'));
+          if(this.appendGlob) {
+            const swapString = '$:$:$'
+            const t2 = t1.replaceAll('\\', swapString)
+            const t3 = path.resolve(t2, this.currentValue ? path.basename(this.currentValue) : this.appendGlob)
+            value = t3.replaceAll('\\','/').replaceAll(swapString,'\\');
+          } else {
+            value = t1;
+          }
+        }
+        else {
+          value = selectedPath;
+        }
+      }
+      this.currentValue = value;
+      if (updateDom || this.highlight)
+        this.setInnerHtml(value, selection);
+      this.onChange(this.currentValue);
+      this.changeRef.markForCheck();
+    }
+
+    this.onTouched();
+  }
+
+  registerOnChange(fn: (value: any) => any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => any): void {
+    this.onTouched = fn;
   }
 
   private setInnerHtml(data: string, selection?: { start: number, end: number }) {
@@ -173,45 +222,5 @@ export class NgTextInputComponent implements ControlValueAccessor {
         throw ex;
       }
     }
-  }
-
-  constructor(private changeRef: ChangeDetectorRef, private renderer: Renderer2) { }
-
-  writeValue(value: string, updateDom: boolean = true, selection?: { start: number, end: number }): void {
-    let previousValue = this.currentValue;
-    if (value !== this.currentValue) {
-      if(value && value.split('&:&')[0]=='_browse_'){
-        const selectedPath = value.split('&:&')[1]
-        if(this.appendGlob) {
-          const swapString = '$:$:$'
-          const t1 = escape(selectedPath.replaceAll('\\','/'));
-          const t2 = t1.replaceAll('\\', swapString)
-          const t3 = path.resolve(t2, this.currentValue ? path.basename(this.currentValue) : this.appendGlob)
-          value = t3.replaceAll('\\','/').replaceAll(swapString,'\\');
-        } else {
-          value = selectedPath;
-        }
-      }
-      this.currentValue = value;
-      if (updateDom || this.highlight)
-        this.setInnerHtml(value, selection);
-      this.onChange(this.currentValue);
-      this.changeRef.markForCheck();
-    }
-
-    this.onTouched();
-  }
-
-  registerOnChange(fn: (value: any) => any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => any): void {
-    this.onTouched = fn;
-  }
-
-  ngAfterViewInit() {
-    // Had to do this to get the placeholder to appear in certain exceptions/logger
-    this.renderer.setProperty(this.elementRef.nativeElement, 'innerHTML', this.currentValue || null);
   }
 }

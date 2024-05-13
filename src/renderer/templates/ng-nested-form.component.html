@@ -25,9 +25,11 @@
         <ng-container *ngSwitchDefault>
           <div class="container" [class.nested]="child.constructor.displayName === 'Group'" [hidden]="getHiddenMethod(child, childrenKey) | async">
             <label *ngIf="child.label">
-              <span class="infoButton infoIcon" *ngIf="child.onInfoClick"
-                    (click)="child.onInfoClick(currentForm.controls[childrenKey], currentForm.controls[childrenKey]['__path'])">
-              </span>
+              <ng-container *ngVar="currentForm.controls[childrenKey] | formControl as currentControl">
+                <span class="infoButton infoIcon" *ngIf="child.onInfoClick" 
+                (click)="child.onInfoClick(currentForm.controls[childrenKey], currentControl['__path'])">
+                </span>
+              </ng-container>
               {{child.label}}
               <small *ngIf="child.required" class="reqText">*Required</small>
             </label>
@@ -49,7 +51,10 @@
                   </div>
                 </ng-container>
                 <ng-container *ngIf="!!child.path">
-                  <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight" [appendGlob]="child.path.appendGlob" [class.required]="child.required"></ng-text-input>
+                  <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight" 
+                  [appendGlob]="child.path.appendGlob"
+                  [useForwardSlash]="child.path.useForwardSlash" 
+                  [class.required]="child.required"></ng-text-input>
                   <div class="clickButtons">
                     <ng-path-input class="clickButton" [stateless]="true" [directory]="child.path.directory" (pathChange)="currentForm.controls[childrenKey].setValue($event)">Browse</ng-path-input>
                     <ng-container *ngFor="let button of child.buttons">

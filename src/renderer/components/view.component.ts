@@ -26,18 +26,18 @@ import { ViewService } from '../services/view.service';
 
 export class ViewComponent {
 
-  private currentShortcut: VDF_ShortcutsItem;
-  private currentCats: string;
-  private currentLaunch: string;
-  private currentControllerEnabled: string;
-  private filterValue: string = '';
-  private currentArtwork: {[artworkType: string]: string};
-  private currentControllers:{[controllerType: string]: any} = {}
+  currentShortcut: VDF_ShortcutsItem;
+  currentCats: string;
+  currentLaunch: string;
+  currentControllerEnabled: string;
+  filterValue: string = '';
+  currentArtwork: {[artworkType: string]: string};
+  currentControllers:{[controllerType: string]: any} = {}
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private loggerService: LoggerService,
-    private viewService: ViewService,
+    public viewService: ViewService,
     private renderer: Renderer2,
     private elementRef: ElementRef,
     private changeDetectionRef: ChangeDetectorRef
@@ -68,11 +68,11 @@ export class ViewComponent {
     this.changeDetectionRef.detectChanges();
   }
 
-  private sortedShortcuts(shortcuts: VDF_ShortcutsItem[]) {
+  sortedShortcuts(shortcuts: VDF_ShortcutsItem[]) {
     return (shortcuts || []).sort((a,b)=>a.appname.localeCompare(b.appname));
   }
 
-  private async setCurrentShortcut(steamDir: string, steamUser: string, shortcut: VDF_ShortcutsItem) {
+  async setCurrentShortcut(steamDir: string, steamUser: string, shortcut: VDF_ShortcutsItem) {
     this.currentShortcut = shortcut;
     this.renderer.setStyle(this.elementRef.nativeElement, '--view-details-width', '50%', RendererStyleFlags2.DashCase);
     const gridDir = this.viewService.vdfData[steamDir][steamUser].screenshots.gridDir;
@@ -107,12 +107,12 @@ export class ViewComponent {
     this.changeDetectionRef.detectChanges()
   }
 
-  private toClipboard(field: string) {
+  toClipboard(field: string) {
     clipboard.writeText(field);
     this.loggerService.info("Copied to clipboard", { invokeAlert: true, alertTimeout: 3000 });
   }
 
-  private launchTitle() {
+  launchTitle() {
     exec(this.currentLaunch, {cwd: this.currentShortcut.StartDir})
   }
 }

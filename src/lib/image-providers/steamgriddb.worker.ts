@@ -1,18 +1,19 @@
 import { GenericProvider, GenericProviderManager, ProviderProxy } from "./generic-provider";
 import { xRequestWrapper } from "./x-request-wrapper";
 import SGDB from "steamgriddb";
+import { imageProviderNames } from "./available-providers";
 
 
-const idRegex: RegExp = /^\$\{gameid\:([0-9]*?)\}$/;
+export const idRegex: RegExp = /^\$\{gameid\:([0-9]*?)\}$/;
 
 // TODO make the user input this
-const apiKey = "f80f92019254471cca9d62ff91c21eee";
+export const apiKey = "f80f92019254471cca9d62ff91c21eee";
 
 export class SteamGridDbProvider extends GenericProvider {
-  private xrw: xRequestWrapper;
+  private xrw: xRequestWrapper<SteamGridDbProvider>;
   private client: any;
 
-  constructor(protected proxy: ProviderProxy) {
+  constructor(protected proxy: ProviderProxy<SteamGridDbProvider>) {
     super(proxy);
     this.xrw = new xRequestWrapper(proxy, true, 3, 3000);
     this.client = new SGDB({key: apiKey});
@@ -54,7 +55,7 @@ export class SteamGridDbProvider extends GenericProvider {
       }
       idPromise.then((chosenId: number|undefined)=>{
         if(!chosenId) {
-          if(self.proxy.imageType === 'long') {
+          if(self.proxy.imageType === 'long') { // Don't throw this error 5 times.
             self.xrw.logError(`SGDB found no matching games for title "${self.proxy.title}"`)
           }
           self.proxy.completed();
@@ -65,34 +66,34 @@ export class SteamGridDbProvider extends GenericProvider {
           let params = {
             id: chosenId,
             type: 'game',
-            types: self.proxy.imageProviderAPIs.SteamGridDB.imageMotionTypes,
-            nsfw: self.proxy.imageProviderAPIs.SteamGridDB.nsfw ? "any" : "false",
-            humor: self.proxy.imageProviderAPIs.SteamGridDB.humor ? "any" : "false"
+            types: self.proxy.imageProviderAPIs.imageMotionTypes,
+            nsfw: self.proxy.imageProviderAPIs.nsfw ? "any" : "false",
+            humor: self.proxy.imageProviderAPIs.humor ? "any" : "false"
           };
           const choose = (x: any, fallback: string[]) => x && x.length ? x : fallback;
           if(self.proxy.imageType === 'long') {
             query = self.client.getGrids(Object.assign(params, {
-              dimensions: choose(self.proxy.imageProviderAPIs.SteamGridDB.sizes, ["460x215","920x430"]),
-              styles: self.proxy.imageProviderAPIs.SteamGridDB.styles
+              dimensions: choose(self.proxy.imageProviderAPIs.sizes, ["460x215","920x430"]),
+              styles: self.proxy.imageProviderAPIs.styles
             }))
           } else if (self.proxy.imageType === 'tall') {
             query = self.client.getGrids(Object.assign(params, {
               dimensions: ["600x900"],
-              styles: self.proxy.imageProviderAPIs.SteamGridDB.styles
+              styles: self.proxy.imageProviderAPIs.styles
             }));
           } else if (self.proxy.imageType === 'hero') {
             query = self.client.getHeroes(Object.assign(params, {
-              dimensions: choose(self.proxy.imageProviderAPIs.SteamGridDB.sizesHero, null),
-              styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesHero
+              dimensions: choose(self.proxy.imageProviderAPIs.sizesHero, null),
+              styles: self.proxy.imageProviderAPIs.stylesHero
             }));
           } else if (self.proxy.imageType === 'logo') {
             query = self.client.getLogos(Object.assign(params, {
-              styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesLogo
+              styles: self.proxy.imageProviderAPIs.stylesLogo
             }));
           } else if (self.proxy.imageType === 'icon') {
             query = self.client.getIcons(Object.assign(params, {
-              dimensions: choose(self.proxy.imageProviderAPIs.SteamGridDB.sizesIcon, null),
-              styles: self.proxy.imageProviderAPIs.SteamGridDB.stylesIcon
+              dimensions: choose(self.proxy.imageProviderAPIs.sizesIcon, null),
+              styles: self.proxy.imageProviderAPIs.stylesIcon
             }));
           }
           return query
@@ -102,7 +103,7 @@ export class SteamGridDbProvider extends GenericProvider {
         if(res !== null && res.length>0) {
           for (let i=0; i < res.length; i++) {
             self.proxy.image({
-              imageProvider: 'SteamGridDB',
+              imageProvider: imageProviderNames.sgdb,
               imageUrl: res[i].url,
               imageGameId: imageGameId,
               imageArtworkId: String(res[i].id),
@@ -127,4 +128,4 @@ export class SteamGridDbProvider extends GenericProvider {
   }
 }
 
-new GenericProviderManager(SteamGridDbProvider, 'SteamGridDB');
+new GenericProviderManager<SteamGridDbProvider>(SteamGridDbProvider, 'sgdb');

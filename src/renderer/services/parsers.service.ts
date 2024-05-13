@@ -1,15 +1,13 @@
 import { CustomVariablesService } from './custom-variables.service';
 import { UserExceptionsService } from './user-exceptions.service';
 import { Injectable } from '@angular/core';
-import { UserConfiguration, UserAccountsInfo, ParsedUserConfiguration, AppSettings, EnvironmentVariables, ControllerTemplates, ParserType } from '../../models';
+import { UserConfiguration, UserAccountsInfo, AppSettings, EnvironmentVariables, ControllerTemplates, ParserType } from '../../models';
 import { LoggerService } from './logger.service';
 import { FuzzyService } from './fuzzy.service';
-import { ImageProviderService } from './image-provider.service';
 import { SettingsService } from './settings.service';
 import { FileParser, VariableParser, ControllerManager, CategoryManager } from '../../lib';
 import { BehaviorSubject } from "rxjs";
 import { takeWhile } from "rxjs/operators";
-import { availableProviders } from "../../lib/image-providers/available-providers"
 import { artworkTypes } from '../../lib/artwork-types';
 import { APP } from '../../variables';
 import * as json from "../../lib/helpers/json";
@@ -61,6 +59,13 @@ export class ParsersService {
               get lang() {
                 return APP.lang.parsers.service;
               }
+              get controllerTemplates() {
+                return this.controllerTemps;
+              }
+
+              set controllerTemplates(controllerTemplates: ControllerTemplates) {
+                this.controllerTemps = controllerTemplates;
+              }
 
               onLoad(callback: (userConfigurations: UserConfiguration[]) => void) {
                 this.configurationsLoadedSubject.asObservable().pipe(takeWhile((loaded) => {
@@ -71,13 +76,7 @@ export class ParsersService {
                 })).subscribe();
               }
 
-              get controllerTemplates() {
-                return this.controllerTemps;
-              }
 
-              set controllerTemplates(controllerTemplates: ControllerTemplates) {
-                this.controllerTemps = controllerTemplates;
-              }
 
               getUserConfigurations() {
                 return this.userConfigurations.asObservable();
@@ -543,8 +542,9 @@ export class ParsersService {
                         else
                           reject(error);
                       }
-                      else
+                      else {
                         resolve(JSON.parse(data));
+                      }
                     } catch (error) {
                       reject(error);
                     }

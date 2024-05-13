@@ -1,6 +1,39 @@
-import { ProviderInfo } from '../../models';
+import { ProviderInfo, ImageProviderType, LocalProviderType, OnlineProviderType, SingleLocalProviderType, MultiLocalProviderType, ImageProviderName } from '../../models';
+
+export const singleLocalProviders = [
+  'steam',
+  'artworkBackup'
+] as const
+
+export const multiLocalProviders = [
+  'local',
+  'imported',
+  'manual'
+] as const
+
+export const localProviders: LocalProviderType[] =  [...singleLocalProviders, ...multiLocalProviders]
+
+export const onlineProviders = [
+  'sgdb',
+  'steamCDN'
+] as const;
+
+export const imageProviders: ImageProviderType[] = [...localProviders, ...onlineProviders];
+
+export const imageProviderNames: Record<ImageProviderType, ImageProviderName> = {
+  default: 'Fallback Artwork',
+  steam: 'Current Artwork',
+  artworkBackup: 'Backup Artwork',
+  local: 'Local Artwork',
+  imported: 'Imported Artwork',
+  manual: 'Manually Added',
+  sgdb: 'SteamGridDB',
+  steamCDN: 'Steam CDN'
+}
+
+
 export const providerInfo: ProviderInfo = {
-  SteamGridDB: {
+  sgdb: {
     inputs: {
       nsfw: {
         inputType: 'toggle',
@@ -58,9 +91,14 @@ export const providerInfo: ProviderInfo = {
         allowEmpty: true
       }
     }
+  },
+  steamCDN: {
+    inputs: {
+      
+    }
   }
 };
 
-export const availableProviders = Object.keys(providerInfo);
-
-export const defaultProviders = ['SteamGridDB'];
+export const providersSelect = onlineProviders.map((provider)=>{
+  return {value: provider, displayValue: imageProviderNames[provider]}
+})

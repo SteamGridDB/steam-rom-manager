@@ -1,3 +1,4 @@
+import { ArtworkType, SteamList } from '.';
 import { VDF_ScreenshotsFile, VDF_ShortcutsFile, VDF_AddedItemsFile, VDF_Error } from '../lib';
 
 export interface VDF_ListItem {
@@ -6,16 +7,12 @@ export interface VDF_ListItem {
   addedItems: VDF_AddedItemsFile,
 }
 
-export interface VDF_ListData {
-  [steamDirectory: string]: {
-    [userId: string]: VDF_ListItem
-  }
-}
+export type VDF_ListData = SteamList<VDF_ListItem>;
 
 export interface VDF_ScreenshotItem {
   title: string,
   url: string,
-  artworkType: string,
+  artworkType: ArtworkType,
   sgdbId?: string,
   drmProtect?: boolean
 }
@@ -31,11 +28,7 @@ export interface VDF_ScreenshotsOutcome {
   }
 }
 
-export interface VDF_AllScreenshotsOutcomes {
-  [steamDirectory: string]: {
-    [userId: string]: VDF_ScreenshotsOutcome
-  }
-}
+export type VDF_AllScreenshotsOutcomes = SteamList<VDF_ScreenshotsOutcome>
 
 export interface VDF_ShortcutsItem {
   appid: number,
@@ -58,32 +51,22 @@ export interface VDF_AddedItemsData {
   }
 }
 
-export interface SGDBToArt {
-  [artworkType: string]: {
-    [sgdbId: string]: {
-      artworkId: string,
-      appId: string
-    }
+export type SGDBToArt = Record<ArtworkType, {
+  [sgdbId: string]: {
+    artworkId: string,
+    appId: string
   }
-}
+}>
 
 export interface ArtworkCacheData {
   version?: number,
   sgdbToArt: SGDBToArt
 }
 
-export interface VDF_ExtraneousItemsData {
-  [steamDirectory: string]: {
-    [userId: string]: string[] //list of extraneous (long) appids for userid
-  }
-}
+export type VDF_ExtraneousItemsData = SteamList<string[]>; //list of extraneous (long) appids for userid
 
-export interface VDF_AddedCategoriesData {
-  [steamDirectory: string]: {
-    [userId: string]: {
-      [shortAppId: string]: string[] //list of categories app was added to
-    }
-  }
-}
+export type VDF_AddedCategoriesData = SteamList<{
+  [shortAppId: string]: string[] // list of categories app was added to
+}>
 
 export type SteamDirectory = string;

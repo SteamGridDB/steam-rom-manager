@@ -7,8 +7,8 @@
   <div class="slider">
     <ng-select
     class="selectSort"
-    [(ngModel)]="exceptionsService.sortBy"
-    [placeholder]="lang.sortBy"
+    [(ngModel)]="sortBy"
+    [placeholder]="lang.placeholder.sortBy"
     [values]="sortByOpts"
   >
   </ng-select>
@@ -25,29 +25,29 @@
   </label>
   <div [formGroup]="exceptionsForm">
     <div class="itemsform" formArrayName="items"
-         *ngFor="let item of exceptionsForm.get('items').controls.slice(0).sort(exceptionsSort.bind(this)); let i=index;">
-      <div class="exception-entry" [formGroupName]="i" *ngIf="(item.controls['oldTitle'].value | fuzzyTest: filterValue) ">
+         *ngFor="let item of exceptionsFormItems.controls.slice(0).sort(exceptionsSort.bind(this)); let i=index;">
+      <div class="exception-entry" [formGroupName]="i" *ngIf="((item | formGroup).controls['oldTitle'].value | fuzzyTest: filterValue) ">
         <div class="inputContainer">
           <div class="inlineLeft">
             <div class=text style="margin-right: 0.25em;">Extracted Title: </div>
-            <ng-text-input class="ngTextInput" placeholder="extractedTitle to override" [formControl]="item.controls['oldTitle']"></ng-text-input>
+            <ng-text-input class="ngTextInput" placeholder="extractedTitle to override" [formControl]="(item | formGroup).controls['oldTitle'] | formControl"></ng-text-input>
           </div>
           <div class="inlineLeft">
             <div class=text style="margin-right: 0.25em;">New Display Title: </div>
-            <ng-text-input class="ngTextInput" placeholder="Display title" [formControl]="item.controls['newTitle']"></ng-text-input>
+            <ng-text-input class="ngTextInput" placeholder="Display title" [formControl]="(item | formGroup).controls['newTitle'] | formControl"></ng-text-input>
           </div>
           <div class="inlineLeft">
             <div class=text style="margin-right: 0.25em;">New Search Title: </div>
-            <ng-text-input class="ngTextInput" placeholder="Search title" [formControl]="item.controls['searchTitle']"></ng-text-input>
+            <ng-text-input class="ngTextInput" placeholder="Search title" [formControl]="(item | formGroup).controls['searchTitle'] | formControl"></ng-text-input>
           </div>
           <div class="inlineLeft">
             <div class=text style="margin-right: 0.25em;">New Commandline Args: </div>
-            <ng-text-input class="ngTextInput" placeholder="--custom-args" [formControl]="item.controls['commandLineArguments']"></ng-text-input>
+            <ng-text-input class="ngTextInput" placeholder="--custom-args" [formControl]="(item | formGroup).controls['commandLineArguments'] | formControl"></ng-text-input>
           </div>
           <div class="inlineGroup">
             <div class="inlineGroup">
-              <ng-toggle-button class="ngToggleButton excludeButton" [formControl]="item.controls['exclude']">{{lang.text.exclude}}</ng-toggle-button>
-              <ng-toggle-button class="ngToggleButton" [formControl]="item.controls['excludeArtwork']">{{lang.text.excludeArtwork}}</ng-toggle-button>
+              <ng-toggle-button class="ngToggleButton excludeButton" [formControl]="(item | formGroup).controls['exclude'] | formControl">{{lang.text.exclude}}</ng-toggle-button>
+              <ng-toggle-button class="ngToggleButton" [formControl]="(item | formGroup).controls['excludeArtwork'] | formControl">{{lang.text.excludeArtwork}}</ng-toggle-button>
             </div>
             <div class="deleteItem" (click)="deleteItem(i)">{{lang.buttons.deleteItem}}</div>
           </div>
@@ -61,8 +61,8 @@
   <ng-container>
 
     <div class="dangerousButton" (click)=deleteAll()>{{lang.buttons.deleteAll}}</div>
-    <div (click)=save() *ngIf="exceptionsService.isUnsaved">{{lang.buttons.save}}</div>
-    <div *ngIf="exceptionsService.isUnsaved" (click)="undo()">{{lang.buttons.undoChanges}}</div>
+    <div (click)=save() *ngIf="isUnsaved">{{lang.buttons.save}}</div>
+    <div *ngIf="isUnsaved" (click)="undo()">{{lang.buttons.undoChanges}}</div>
     <div class='addItem' class="only-emudeck" (click)="addItem()">{{lang.buttons.addItem}}</div>
     <nav-link [routerLink]="['/parsers-list']" class="only-emudeck" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
     >Back</nav-link>

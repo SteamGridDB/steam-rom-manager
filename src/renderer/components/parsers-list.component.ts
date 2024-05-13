@@ -12,7 +12,7 @@ import { APP } from "../../variables";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParsersListComponent {
- private get lang(){
+  get lang(){
      return APP.lang.parsersList.component;
  }
 }

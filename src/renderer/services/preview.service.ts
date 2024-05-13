@@ -10,9 +10,8 @@ import {
   PreviewData,
   ImageContent,
   ParsedUserConfiguration,
-  AppImages,
+  OnlineImages,
   PreviewVariables,
-  ImagesStatusAndContent,
   ProviderCallbackEventMap,
   PreviewDataApp,
   AppSettings,
@@ -22,7 +21,14 @@ import {
   VDF_AllScreenshotsOutcomes,
   AppSelection,
   UserConfiguration,
-  SGDBToArt
+  SGDBToArt,
+  OnlineProviderType,
+  PreviewDataAppImage,
+  MultiLocalProviderType,
+  ArtworkType,
+  ArtworkViewType,
+  isArtworkType,
+  initArtworkRecord
 } from '../../models';
 import {
   VDF_Manager,
@@ -45,6 +51,7 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import { OpenDialogReturnValue } from 'electron';
 import { dialog } from '@electron/remote';
+import { onlineProviders, imageProviderNames } from '../../lib/image-providers/available-providers';
 
 @Injectable()
 
@@ -53,8 +60,8 @@ export class PreviewService {
   private previewData: PreviewData;
   private previewVariables: PreviewVariables;
   private previewDataChanged: Subject<void>;
-  private appImages: AppImages;
-  private currentImageType: string;
+  private onlineImages: OnlineImages;
+  private currentViewType: ArtworkViewType;
   private batchProgress: BehaviorSubject<{update: string, batch: number}>;
   private categoryManager: CategoryManager;
   private sgdbToArt: SGDBToArt;
@@ -74,16 +81,16 @@ export class PreviewService {
     this.settingsService.onLoad((appSettings: AppSettings) => {
       this.appSettings = appSettings;
     });
-    this.appImages = {};
+    this.onlineImages = initArtworkRecord<OnlineImages[ArtworkType]>({});
     for(const artworkType of artworkTypes) {
-      this.appImages[artworkType] = {};
+      this.onlineImages[artworkType] = {};
     }
 
-    this.currentImageType = defaultArtworkType;
+    this.currentViewType = defaultArtworkType;
     this.imageProviderService.instance.stopEvent.subscribe(() => {
       for(const artworkType of artworkTypes) {
-        for(const imageKey in this.appImages[artworkType]) {
-          this.appImages[artworkType][imageKey].retrieving = false;
+        for(const imagePool in this.onlineImages[artworkType]) {
+          this.onlineImages[artworkType][imagePool].retrieving = false;
         }
       }
       this.previewVariables.numberOfQueriedImages = 0;
@@ -111,11 +118,11 @@ export class PreviewService {
     return this.previewVariables;
   }
 
-  getImageType() {
-    return this.currentImageType;
+  getCurrentViewType() {
+    return this.currentViewType;
   }
-  setImageType(imageType: string) {
-    this.currentImageType = imageType;
+  setCurrentViewType(viewType: ArtworkViewType) {
+    this.currentViewType = viewType;
   }
 
   onLoadUserConfigurations(callback: (userConfigurations: UserConfiguration[]) => void) {
@@ -139,14 +146,15 @@ export class PreviewService {
     return SteamGridDbProvider.retrievePossibleIds(title)
   }
 
-  updateAppImages(imagePool: string, oldPool: string, artworkType: string) {
-    this.appImages[artworkType][imagePool] = {
-      retrieving: false,
-      searchQueries: [imagePool],
-      imageProviderAPIs: this.appImages[artworkType][oldPool].imageProviderAPIs,
-      defaultImageProviders: this.appImages[artworkType][oldPool].defaultImageProviders,
-      content: []
+  updateAppImages(imageKey: string, oldPool: string, artworkType: ArtworkType) {
+    for(const providerType of onlineProviders) {
+      this.onlineImages[artworkType][imageKey].online[providerType] = {
+        searchQueries: [imageKey],
+        imageProviderAPIs: this.onlineImages[artworkType][oldPool].online[providerType].imageProviderAPIs,
+        content: []
+      }
     }
+
   }
   async removeCategories(steamDir: string, userId: string) {
     try {
@@ -192,7 +200,7 @@ export class PreviewService {
     if(!removeAll) {
       chain = chain.then(() => {
         this.loggerService.info(this.lang.info.mergingVDF_entries, { invokeAlert: true, alertTimeout: 3000 });
-        return vdfManager.mergeData(this.previewData, this.appImages, this.appSettings.previewSettings.deleteDisabledShortcuts)
+        return vdfManager.mergeData(this.previewData, this.onlineImages, this.appSettings.previewSettings.deleteDisabledShortcuts)
       })
     } else {
       chain = chain.then(() => {
@@ -279,17 +287,17 @@ export class PreviewService {
         for(const gridName in outcomes[steamDirectory][userId].successes) {
           const shortId = gridName.match(/^\d+/).toString();
           const longId = steam.lengthenAppId(shortId);
-          const imageType = invertedArtworkIdDict[gridName.replace(/^\d+/,'')];
+          const artworkType = invertedArtworkIdDict[gridName.replace(/^\d+/,'')];
           const steamImageUrl = url.encodeFile(outcomes[steamDirectory][userId].successes[gridName]);
           const app = this.previewData[steamDirectory][userId].apps[longId];
-          if(app && imageType) {
-            this.previewData[steamDirectory][userId].apps[longId].images[imageType].steam = {
-              imageProvider: 'Steam',
+          if(app && artworkType) {
+            this.previewData[steamDirectory][userId].apps[longId].images[artworkType].singleProviders.steam = {
+              imageProvider: imageProviderNames.steam,
               imageUrl: steamImageUrl,
               imageRes: url.imageDimensions(steamImageUrl),
               loadStatus: 'done'
             }
-            this.setImageIndex(app, 0, imageType, true);
+            this.setImageIndex(app, 0, artworkType, true);
           }
         }
       }
@@ -297,12 +305,11 @@ export class PreviewService {
     this.previewDataChanged.next()
   }
 
-  loadImage(app: PreviewDataApp, imageType?: string) {
+  loadImage(app: PreviewDataApp, artworkType?: ArtworkType) {
     if (app) {
       let image: ImageContent;
-      const actualImageType = this.currentImageType === 'games' ? imageType : this.currentImageType;
-      image = appImage.getCurrentImage(app.images[actualImageType], this.appImages[actualImageType]);
-
+      const actualArtworkType = isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
+      image = appImage.getCurrentImage(app.images[actualArtworkType], this.onlineImages[actualArtworkType]);
       if (image !== undefined && (image.loadStatus === 'notStarted' || image.loadStatus === 'failed')) {
         if (image.loadStatus === 'failed') {
           this.loggerService.info(this.lang.info.retryingDownload__i.interpolate({
@@ -357,46 +364,44 @@ export class PreviewService {
 
   preloadImages() {
     for(const artworkType of artworkTypes) {
-      for(const imageKey in this.appImages[artworkType]) {
-        for (let i = 0; i < this.appImages[artworkType][imageKey].content.length; i++) {
-          this.preloadImage(this.appImages[artworkType][imageKey].content[i]);
+      for(const imageKey in this.onlineImages[artworkType]) {
+        for(let provider of onlineProviders) {
+          for (let i = 0; i < this.onlineImages[artworkType][imageKey].online[provider].content.length; i++) {
+            this.preloadImage(this.onlineImages[artworkType][imageKey].online[provider].content[i]);
+          }
         }
       }
     }
   }
 
-  setImageIndex(app: PreviewDataApp, index: number, imageType?: string, ignoreCurrentType: boolean = false) {
+  setImageIndex(app: PreviewDataApp, index: number, artworkType?: ArtworkType, ignoreCurrentType: boolean = false) {
     if (app) {
-      if (!ignoreCurrentType && this.currentImageType!="games"){
-        imageType = this.currentImageType;
-      }
-      appImage.setImageIndex(app.images[imageType],this.appImages[imageType], index)
+      const actualArtworkType = !ignoreCurrentType && isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
+      appImage.setImageIndex(app.images[actualArtworkType],this.onlineImages[actualArtworkType], index)
       this.previewDataChanged.next();
     }
   }
 
-  areImagesAvailable(app: PreviewDataApp, imageType?: string) {
-    return this.getTotalLengthOfImages(app, imageType) > 0;
+  areImagesAvailable(app: PreviewDataApp, artworkType?: ArtworkType) {
+    return this.getTotalLengthOfImages(app, artworkType) > 0;
   }
 
-  getTotalLengthOfImages(app: PreviewDataApp, imageType?: string, ignoreCurrentType: boolean = false) {
+  getTotalLengthOfImages(app: PreviewDataApp, artworkType?: ArtworkType, ignoreCurrentType: boolean = false) {
     if (app) {
-      if (!ignoreCurrentType && this.currentImageType!="games") {
-        imageType = this.currentImageType;
-      }
-      return appImage.getMaxLength(app.images[imageType], this.appImages[imageType]).maxLength;
+      const actualArtworkType = !ignoreCurrentType && isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
+      return appImage.getMaxLength(app.images[actualArtworkType], this.onlineImages[actualArtworkType]).maxLength;
     }
     return 0;
   }
 
-  getCurrentImage(app: PreviewDataApp, imageType?: string) {
-    const actualImageType = this.currentImageType === 'games' ? imageType : this.currentImageType;
-    return appImage.getCurrentImage(app.images[actualImageType], this.appImages[actualImageType])
+  getCurrentImage(app: PreviewDataApp, artworkType?: ArtworkType) {
+    const actualImageType = isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
+    return appImage.getCurrentImage(app.images[actualImageType], this.onlineImages[actualImageType])
   }
 
-  getImages(imageType?: string) {
-    const actualImageType = this.currentImageType === 'games' ? imageType : this.currentImageType;
-    return this.appImages[actualImageType]
+  getImages(artworkType?: ArtworkType) {
+    const actualImageType = isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
+    return this.onlineImages[actualImageType]
   }
 
   clearPreviewData() {
@@ -421,12 +426,14 @@ export class PreviewService {
   // If settingsOnly is true then api filters are not applied
   private clearImageCache(settingsOnly: boolean) {
     for(const artworkType of artworkTypes) {
-      for(const imageKey in this.appImages[artworkType]) {
-        this.appImages[artworkType][imageKey].defaultImageProviders = [];
-        this.appImages[artworkType][imageKey].searchQueries = [];
-        this.appImages[artworkType][imageKey].retrieving = false;
-        if (!settingsOnly) {
-          this.appImages[artworkType][imageKey].content = [];
+      for(const imageKey in this.onlineImages[artworkType]) {
+        for(const provider of onlineProviders) {
+          this.onlineImages[artworkType][imageKey].retrieving = false;
+          this.onlineImages[artworkType][imageKey].online[provider] = {
+            searchQueries: [],
+            content: settingsOnly ? this.onlineImages[artworkType][imageKey].online[provider].content : [],
+            imageProviderAPIs: this.onlineImages[artworkType][imageKey].online[provider].imageProviderAPIs,
+          }
         }
       }
     }
@@ -515,7 +522,8 @@ export class PreviewService {
       else
         treeData = { gridData: steamTreeData, steamTreeData };
 
-      let nonSteamShortcutsData = await steam.getNonSteamShortcutsData(treeData.steamTreeData).then((shortcutData) => { return Object.assign(treeData, { shortcutData }); });
+      let nonSteamShortcutsData = await steam.getNonSteamShortcutsData(treeData.steamTreeData)
+      .then((shortcutData) => { return Object.assign(treeData, { shortcutData }); });
       let shortcutsData = nonSteamShortcutsData.shortcutData.tree;
       let gridData = nonSteamShortcutsData.gridData.tree;
       let numberOfItems: number = 0;
@@ -560,53 +568,72 @@ export class PreviewService {
               }
             }
             for(const artworkType of artworkTypes) {
-              if(this.appImages[artworkType][file.imagePool] === undefined) {
-                this.appImages[artworkType][file.imagePool] = {
+              if(this.onlineImages[artworkType][file.imagePool] === undefined) {
+                this.onlineImages[artworkType][file.imagePool] = {
+                  online: {
+                    sgdb: {
+                      searchQueries: file.onlineImageQueries,
+                      imageProviderAPIs: config.imageProviderAPIs.sgdb,
+                      content: []
+                    }, 
+                    steamCDN: {
+                      searchQueries: file.onlineImageQueries,
+                      imageProviderAPIs: config.imageProviderAPIs.steamCDN||{},
+                      content: []
+                    }
+                  },
+                  offline: {local: [], manual: [], imported: []},
                   retrieving: false,
-                  searchQueries: file.onlineImageQueries,
-                  imageProviderAPIs: config.imageProviderAPIs,
-                  defaultImageProviders: config.imageProviders,
-                  content: []
+                  parserEnabledProviders: config.imageProviders
                 }
               } else {
-                let currentQueries = this.appImages[artworkType][file.imagePool].searchQueries;
-                let currentProviders = this.appImages[artworkType][file.imagePool].defaultImageProviders;
-                this.appImages[artworkType][file.imagePool].imageProviderAPIs = config.imageProviderAPIs;
-                this.appImages[artworkType][file.imagePool].searchQueries = _.union(currentQueries, file.onlineImageQueries);
-                this.appImages[artworkType][file.imagePool].defaultImageProviders = _.union(currentProviders, config.imageProviders);
+                for(const provider of config.imageProviders) {
+                  let currentQueries = this.onlineImages[artworkType][file.imagePool].online[provider].searchQueries;
+                  this.onlineImages[artworkType][file.imagePool].online[provider].imageProviderAPIs = config.imageProviderAPIs[provider];
+                  this.onlineImages[artworkType][file.imagePool].online[provider].searchQueries = _.union(currentQueries, file.onlineImageQueries);
+                }
               }
             }
 
             if (previewData[config.steamDirectory][userAccount.accountID].apps[appID] === undefined) {
-              let images: {[artworkType: string]: any} = {};
+              let images: Record<ArtworkType,PreviewDataAppImage> = initArtworkRecord<PreviewDataAppImage>(null);
               for(const artworkType of artworkTypes) {
                 const steamImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat(artworkIdDict[artworkType])];
                 const steamImageUrl = steamImage ? url.encodeFile(steamImage) : undefined;
                 images[artworkType] = {
-                  steam: steamImage ? {
-                    imageProvider: 'Steam',
-                    imageUrl: steamImageUrl,
-                    imageRes: url.imageDimensions(steamImageUrl),
-                    loadStatus: 'done'
-                  } : undefined,
+                  singleProviders: {
+                    steam: steamImage ? {
+                      imageProvider: imageProviderNames.steam,
+                      imageUrl: steamImageUrl,
+                      imageRes: url.imageDimensions(steamImageUrl),
+                      loadStatus: 'done'
+                    } : undefined,
+                    artworkBackup: file.backupImage[artworkType] ? {
+                      imageProvider: imageProviderNames.artworkBackup,
+                      imageUrl: file.backupImage[artworkType],
+                      imageRes: url.imageDimensions(file.backupImage[artworkType]),
+                      loadStatus: 'done'
+                    } : undefined
+                  },
                   default: file.defaultImage[artworkType] ? {
-                    imageProvider: 'Fallback',
+                    imageProvider: imageProviderNames.default,
                     imageUrl: file.defaultImage[artworkType],
                     imageRes: url.imageDimensions(file.defaultImage[artworkType]),
                     loadStatus: 'done'
                   } : undefined,
-                  local: _.uniq(file.localImages[artworkType]).map((localUrl: string) => {
-                    return {
-                      imageProvider: /\bartworkBackups\b/.test(localUrl) ? 'ArtworkBackup' : 'LocalStorage',
-                      imageUrl: localUrl,
-                      imageRes: url.imageDimensions(localUrl),
-                      loadStatus: 'done'
-                    }
-                  }),
                   imagePool: file.imagePool,
                   imageIndex: 0
                 }
+                for(let localUrl of file.localImages[artworkType]) {
+                  this.addUniqueLocalImage(file.imagePool,{
+                    imageProvider: imageProviderNames.local,
+                    imageUrl: localUrl,
+                    imageRes: url.imageDimensions(localUrl),
+                    loadStatus: 'done'
+                  }, artworkType, 'local')
+                }
               }
+
               previewData[config.steamDirectory][userAccount.accountID].apps[appID] = {
                 entryId: numberOfItems++,
                 status: 'add',
@@ -615,7 +642,7 @@ export class PreviewService {
                 parserType: config.parserType,
                 steamCategories: file.steamCategories,
                 startInDirectory: file.startInDirectory,
-                imageProviders: config.imageProviders,
+                onlineProviders: config.imageProviders,
                 drmProtect: config.drmProtect,
                 argumentString: file.argumentString,
                 title: file.finalTitle,
@@ -636,28 +663,26 @@ export class PreviewService {
       return { numberOfItems: numberOfItems, data: previewData };
   }
 
-  downloadImageUrls(imageType: string, imageKeys?: string[], imageProviders?: string[]) {
+  downloadImageUrls(artworkType: ArtworkType, imKeys?: string[]) {
     if (!this.appSettings.offlineMode) {
       let allImagesRetrieved = true;
       let imageQueue = queue((task, callback) => callback());
-
-      if (imageKeys === undefined || imageKeys.length === 0) {
-        imageKeys = Object.keys(this.appImages[imageType]);
-      }
-
-      for (let i = 0; i < imageKeys.length; i++) {
-        let image: ImagesStatusAndContent = this.appImages[imageType][imageKeys[i]];
-        let imageProvidersForKey: string[] = imageProviders === undefined || imageProviders.length === 0 ? image.defaultImageProviders : imageProviders;
-
-        imageProvidersForKey = _.intersection(this.appSettings.enabledProviders, imageProvidersForKey);
-        if (image !== undefined && !image.retrieving) {
-          let numberOfQueriesForImageKey = image.searchQueries.length * imageProvidersForKey.length;
-          if (numberOfQueriesForImageKey > 0) {
-            image.retrieving = true;
+      const imageKeys = imKeys && imKeys.length ? imKeys : Object.keys(this.onlineImages[artworkType]);
+      for (let imageKey of imageKeys) {
+        const imageByPool = this.onlineImages[artworkType][imageKey]
+        if(imageByPool.retrieving) { continue; }
+        imageByPool.retrieving = true;
+        const imageByProvider = imageByPool.online;
+        const parserEnabledProviders = imageByPool.parserEnabledProviders;
+        const imageProvidersForKey: OnlineProviderType[] = _.intersection(parserEnabledProviders, this.appSettings.enabledProviders);
+        this.previewVariables.numberOfQueriedImages += imageProvidersForKey.map((provider)=> imageByProvider[provider].searchQueries.length).reduce((x,y)=>x+y);
+        let retrievingByProvider = {sgdb: true, steamCDN: true}
+        for(let provider of imageProvidersForKey) {
+          const image = imageByProvider[provider];
+          if (image !== undefined && image.searchQueries.length) {
             allImagesRetrieved = false;
-            this.previewVariables.numberOfQueriedImages += numberOfQueriesForImageKey;
             for (let j = 0; j < image.searchQueries.length; j++) {
-              this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], imageType, image.imageProviderAPIs,  imageProvidersForKey, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
+              this.imageProviderService.instance.retrieveUrls(image.searchQueries[j], artworkType, image.imageProviderAPIs, provider, <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => {
                 switch (event) {
                   case 'error':
                     {
@@ -692,11 +717,16 @@ export class PreviewService {
                   case 'image':
                     imageQueue.push(null, () => {
                     let imageContent = (data as ProviderCallbackEventMap['image']).content;
-                    const imageArtCache = (this.sgdbToArt[imageType]||{})[imageContent.imageGameId]
-                    const preinsertImage = imageArtCache && imageArtCache.artworkId == imageContent.imageArtworkId;
-                    const nintendoSucks = imageContent.imageUrl.slice(-1) == '?';
-                    if(!nintendoSucks) {
-                      let newImage: ImageContent = this.addUniqueImage(imageKeys[i], imageContent, imageType, preinsertImage);
+                    let returnedProvider = (data as ProviderCallbackEventMap['image']).provider;
+                    let skip=false;
+                    let preInsert=false;
+                    if(returnedProvider === 'sgdb') {
+                      const imageArtCache = (this.sgdbToArt[artworkType]||{})[imageContent.imageGameId]
+                      preInsert = imageArtCache && imageArtCache.artworkId == imageContent.imageArtworkId;
+                      skip = imageContent.imageUrl.slice(-1) == '?'; // DMCA filter. Nintendo Sucks.
+                    }
+                    if(!skip) {
+                      let newImage: ImageContent = this.addUniqueImage(imageKey, imageContent, artworkType, returnedProvider, preInsert);
                       if (newImage !== null && this.appSettings.previewSettings.preload) {
                         this.preloadImage(newImage);
                       }
@@ -706,10 +736,10 @@ export class PreviewService {
                   break;
                   case 'completed':
                     {
-                    if (--numberOfQueriesForImageKey === 0) {
-                      image.retrieving = false;
-                    }
+                    retrievingByProvider[provider] = false;
+                    imageByPool.retrieving = Object.values(retrievingByProvider).reduce((x,y)=> x||y)
                     if (--this.previewVariables.numberOfQueriedImages === 0) {
+                      allImagesRetrieved=true;
                       this.loggerService.info(this.lang.info.allImagesRetrieved, { invokeAlert: true, alertTimeout: 3000 });
                     }
                     this.previewDataChanged.next();
@@ -733,27 +763,38 @@ export class PreviewService {
       this.previewDataChanged.next();
   }
 
-  isImageUnique(imageKey: string, imageUrl: string, imageType: string) {
-    return this.appImages[imageType][imageKey].content.findIndex((item) => item.imageUrl === imageUrl) === -1;
+  isImageUnique(imageKey: string, imageUrl: string, artworkType: ArtworkType, provider: OnlineProviderType) {
+    return this.onlineImages[artworkType][imageKey].online[provider].content.findIndex((item) => item.imageUrl === imageUrl) === -1;
   }
 
-  addUniqueImage(imageKey: string, content: ImageContent, imageType: string, preinsert?: boolean) {
-    if (this.isImageUnique(imageKey, content.imageUrl, imageType)) {
+  addUniqueImage(imageKey: string, content: ImageContent, artworkType: ArtworkType, provider: OnlineProviderType, preinsert?: boolean) {
+    if (this.isImageUnique(imageKey, content.imageUrl, artworkType, provider)) {
       if(preinsert) {
-        this.appImages[imageType][imageKey].content.unshift(content);
-        return this.appImages[imageType][imageKey].content[0];
+        this.onlineImages[artworkType][imageKey].online[provider].content.unshift(content);
+        return this.onlineImages[artworkType][imageKey].online[provider].content[0];
       } else {
-        this.appImages[imageType][imageKey].content.push(content);
-        return this.appImages[imageType][imageKey].content[this.appImages[imageType][imageKey].content.length - 1];
+        this.onlineImages[artworkType][imageKey].online[provider].content.push(content);
+        return ((x)=>x[x.length-1])(this.onlineImages[artworkType][imageKey].online[provider].content)
       }
     }
     return null;
   }
 
-  isLocalImageUnique(imageKey: string, imageUrl: string, imageType: string) {
+  isLocalImageUnique(imageKey: string, imageUrl: string, artworkType: ArtworkType, provider: MultiLocalProviderType) {
+    return this.onlineImages[artworkType][imageKey].offline[provider].findIndex((item) => item.imageUrl === imageUrl) === -1;
   }
-  addLocalImage(imageKey: string, content: ImageContent, imageType: string) {
 
+  addUniqueLocalImage(imageKey: string, content: ImageContent, artworkType: ArtworkType, provider: MultiLocalProviderType, preinsert?: boolean) {
+    if (this.isLocalImageUnique(imageKey, content.imageUrl, artworkType, provider)) {
+        if(preinsert) {
+          this.onlineImages[artworkType][imageKey].offline[provider].unshift(content)
+          return this.onlineImages[artworkType][imageKey].offline[provider][0]
+        } else {
+          this.onlineImages[artworkType][imageKey].offline[provider].push(content)
+          return ((x)=>x[x.length-1])(this.onlineImages[artworkType][imageKey].offline[provider]);
+        }
+    }
+    return null;
   }
 
   async exportSelection() {
@@ -803,10 +844,10 @@ export class PreviewService {
               const saveId = app.changedId ? app.changedId : appId;
               let selection: AppSelection = {
                 title: app.extractedTitle,
-                images: {}
+                images: { tall: null, long: null, hero: null, logo: null, icon: null }
               }
               for(const artworkType of artworkTypes) {
-                const currentImage = appImage.getCurrentImage(app.images[artworkType], this.appImages[artworkType]);
+                const currentImage = appImage.getCurrentImage(app.images[artworkType], this.onlineImages[artworkType]);
                 if(currentImage) {
                   const imageUrl = currentImage.imageUrl;
                   const nintendoSucks = imageUrl.slice(-1) == '?';
@@ -865,11 +906,11 @@ export class PreviewService {
         for (const selection of selections) {
           for(const artworkType of artworkTypes) {
             if(selection.images[artworkType]) {
-              this.addUniqueImage(selection.images[artworkType].pool, {
-                imageProvider: 'Imported',
+              this.addUniqueLocalImage(selection.images[artworkType].pool, {
+                imageProvider: imageProviderNames.imported,
                 imageUrl: url.encodeFile(path.join(packagePath, selection.images[artworkType].filename)),
                 loadStatus: 'done'
-              }, artworkType);
+              }, artworkType, 'imported')
             }
           }
           importedApps.push(selection.title);

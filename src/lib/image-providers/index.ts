@@ -1,4 +1,4 @@
 export const imageProviders = {
-  'SteamGridDB': new Worker(new URL('./steamgriddb.worker', import.meta.url)),
-  // 'GoogleImages': new Worker(new URL('./googleimages.worker', import.meta.url))
+  'steamCDN': new Worker(new URL('./steamCDN.worker', import.meta.url), {name: 'steamCDN'}),
+  'sgdb': new Worker(new URL('./steamgriddb.worker', import.meta.url), {name: 'sgdb'}),
 }

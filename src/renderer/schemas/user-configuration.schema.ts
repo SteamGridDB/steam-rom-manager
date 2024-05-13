@@ -1,4 +1,4 @@
-import { availableProviders, defaultProviders, providerInfo } from '../../lib/image-providers/available-providers';
+import { onlineProviders, providerInfo } from '../../lib/image-providers/available-providers';
 import { availableParsers, availableParserInputs } from '../../lib/parsers/available-parsers';
 import { ParserType } from "../../models";
 import { cloneDeep, union } from "lodash";
@@ -53,12 +53,12 @@ const sharedProperties = {
     onlineImageQueries: { type: 'string', default: '${${fuzzyTitle}}' },
     imageProviders: {
       type: 'array',
-      default: defaultProviders,
+      default: onlineProviders,
       items: {
         oneOf: [
           {
             type: 'string',
-            enum: availableProviders
+            enum: onlineProviders
           }
         ]
       }
@@ -67,7 +67,7 @@ const sharedProperties = {
       type: 'object',
       default: {},
       properties: {
-        SteamGridDB: {
+        sgdb: {
           type: 'object',
           default: {},
           properties: {
@@ -78,7 +78,7 @@ const sharedProperties = {
               default: [] as string[],
               items: {
                 oneOf: [
-                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.styles.allowedValues}
+                  {type: 'string', enum: providerInfo.sgdb.inputs.styles.allowedValues}
                 ]
               }
             },
@@ -87,7 +87,7 @@ const sharedProperties = {
               default: [] as string[],
               items: {
                 oneOf: [
-                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.stylesHero.allowedValues}
+                  {type: 'string', enum: providerInfo.sgdb.inputs.stylesHero.allowedValues}
                 ]
               }
             },
@@ -96,7 +96,7 @@ const sharedProperties = {
               default: [] as string[],
               items: {
                 oneOf: [
-                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.stylesLogo.allowedValues}
+                  {type: 'string', enum: providerInfo.sgdb.inputs.stylesLogo.allowedValues}
                 ]
               }
             },
@@ -105,7 +105,7 @@ const sharedProperties = {
               default: [] as string[],
               items: {
                 oneOf: [
-                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.stylesIcon.allowedValues}
+                  {type: 'string', enum: providerInfo.sgdb.inputs.stylesIcon.allowedValues}
                 ]
               }
             },
@@ -114,7 +114,7 @@ const sharedProperties = {
               default: ['static'],
               items: {
                 oneOf: [
-                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.imageMotionTypes.allowedValues}
+                  {type: 'string', enum: providerInfo.sgdb.inputs.imageMotionTypes.allowedValues}
                 ]
               }
             },
@@ -123,7 +123,7 @@ const sharedProperties = {
               default: [] as string[],
               items: {
                 oneOf: [
-                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.sizes.allowedValues}
+                  {type: 'string', enum: providerInfo.sgdb.inputs.sizes.allowedValues}
                 ]
               }
             },
@@ -132,7 +132,7 @@ const sharedProperties = {
               default: [] as string[],
               items: {
                 oneOf: [
-                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.sizesHero.allowedValues}
+                  {type: 'string', enum: providerInfo.sgdb.inputs.sizesHero.allowedValues}
                 ]
               }
             },
@@ -141,7 +141,7 @@ const sharedProperties = {
               default: [] as string[],
               items: {
                 oneOf: [
-                  {type: 'string', enum: providerInfo.SteamGridDB.inputs.sizesIcon.allowedValues}
+                  {type: 'string', enum: providerInfo.sgdb.inputs.sizesIcon.allowedValues}
                 ]
               }
             },

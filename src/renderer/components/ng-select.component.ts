@@ -37,22 +37,21 @@ import {SelectItem} from "../../models";
 })
 
 export class NgSelectComponent implements ControlValueAccessor {
-  private open: boolean = false;
-
-  private optionsList: SelectItem[] = [];
-  private currentDisplay: string = '';
+  open: boolean = false;
+  optionsList: SelectItem[] = [];
+  currentDisplay: string = '';
   private currentValue: any[] = [];
 
   private onChange = (_: any) => { };
   private onTouched = () => { };
 
-  @Input() private placeholder: string = '';
+  @Input() placeholder: string = '';
+  @Input() searchable: boolean = false;
   @Input() private multiple: boolean = false;
   @Input() private allowEmpty: boolean = false;
   @Input() private separator: string = ', ';
   @Input() private sort: boolean = true;
   @Input() private emitOnly: boolean = false;
-  @Input() private searchable: boolean = false;
   @Output() searchText: string='';
   @Output() filtered: number[] = [];
   @Output() selected: number[] = [];
@@ -66,7 +65,7 @@ export class NgSelectComponent implements ControlValueAccessor {
     this.selected = newSelected.map(value=>_.findIndex(this.optionsList,(e)=>_.isEqual(e,value)));
   }
 
-  private toggleOpen() {
+  toggleOpen() {
     this.open = !this.open;
     this.changeRef.detectChanges();
   }
@@ -175,27 +174,30 @@ export class NgSelectComponent implements ControlValueAccessor {
     return this.optionsList;
   }
 
-  writeValue(value: any, suppressChanges: boolean = true): void {
-    let optionIndex = this.getOptionId(value);
-    if (optionIndex !== -1)
-      this.selectOption(optionIndex, false, suppressChanges);
-    else if (value instanceof Array) {
+  writeValue(value: any, suppressChanges: boolean = false): void {
+    if (value instanceof Array) {
+      this.selected = [];
       for (let i = 0; i < value.length; i++) {
         this.writeValue(value[i], suppressChanges);
       }
       if(!value.length) {
         this.clearOptions();
       }
-    }
-    else if (this.values.length==0 && value && value.title) {
-      this.changeOptions([{
-        value: value,
-        displayValue: value.title
-      }]);
-      this.selectOption(0, false);
-    }
-    else {
-      this.clearOptions();
+    } else {
+      let optionIndex = this.getOptionId(value);
+      if (optionIndex !== -1) {
+        this.selectOption(optionIndex, false, suppressChanges);
+      }
+      else if (this.values.length==0 && value && value.title) {
+        this.changeOptions([{
+          value: value,
+          displayValue: value.title
+        }]);
+        this.selectOption(0, false);
+      }
+      else {
+        this.clearOptions();
+      }
     }
   }
 
@@ -213,11 +215,7 @@ export class NgSelectComponent implements ControlValueAccessor {
       this.open = false;
   }
 
-  private getOptionId(value: any) {
-    return _.findIndex(this.optionsList.map(option=>option.value), (e)=>_.isEqual(e,value))
-  }
-
-  private filterOptions(filter: string){
+  filterOptions(filter: string){
     let filteredIds: number[]=[];
     for(let id=0; id < this.optionsList.length; id++) {
       if(!this.optionsList[id].displayValue.toUpperCase().includes(filter.toUpperCase())){
@@ -225,5 +223,9 @@ export class NgSelectComponent implements ControlValueAccessor {
       }
     }
     this.filtered = filteredIds;
+  }
+
+  private getOptionId(value: any) {
+    return _.findIndex(this.optionsList.map(option=>option.value), (e)=>_.isEqual(e,value))
   }
 }

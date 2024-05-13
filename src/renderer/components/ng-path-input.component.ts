@@ -35,7 +35,7 @@ export class NgPathInputComponent implements ControlValueAccessor {
       fileInput.click();
     }
   }
-  private browse() {
+  browse() {
     let title = 'Select a '.concat(this.directory?'folder':'file');
     let buttonLabel = 'Select '.concat(this.directory?'folder':'file');
     let properties = [(this.directory?'openDirectory':'openFile'),'showHiddenFiles'];

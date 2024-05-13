@@ -5,14 +5,20 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Ability to set Proton version per parser [TODO]
 * Ability to prioritize artwork by certain authors [TODO]
+* Steam CDN Provider
+* Browse All Artwork on Preview
+* List View on Preview
 
 ### Changed
 * Allow function variables in environment variable fields. One use case being to set start-in-directory based on the os ([issue 292](https://github.com/SteamGridDB/steam-rom-manager/issues/292)).
 * Added back image provider to apps in EmuDeck theme.
 * View Games and About pages now in EmuDeck theme.
+* Total re-work of images data-structure to allow for flexible adding of multiple providers.
 
 ### Fixed
 * Some graphical issues with loading spinner placements
+* Browse button for Fallback artwork not producing forward slash paths.
+* Bug where multiple selects in parser configuration could influence eachother.
 
 ## 2.4.29
 ### Added

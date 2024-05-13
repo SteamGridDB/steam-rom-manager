@@ -8,7 +8,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',
-  latestVersion: 17,
+  latestVersion: 18,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -243,6 +243,29 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
       'drmProtect': {
         method: (oldValue, oldConfiguration) => { return oldValue || false }
       }
+    },
+    17: {
+      'version': { method: versionUp },
+      'imageProviders': { method: (oldValue) =>{
+        return oldValue.length ? ['sgdb', 'steamCDN'] : []
+      }},
+
+      'imageProviderAPIs': { method: (oldValue) => {
+        return {
+          sgdb: oldValue && oldValue['SteamGridDB'] ? oldValue['SteamGridDB'] : {
+            nsfw: false,
+            humor: false,
+            imageMotionTypes: [
+              "static"
+            ],
+            styles: [],
+            stylesHero: [],
+            stylesLogo: [],
+            stylesIcon: []
+          },
+          steamCDN: {}
+        }
+      }}
     }
   }
 };

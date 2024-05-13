@@ -12,18 +12,15 @@ import { APP } from "../../variables";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavParsersComponent implements OnDestroy {
-  private userConfigurations: {
+  userConfigurations: {
     saved: UserConfiguration;
     current: UserConfiguration;
   }[];
-  private imageMap: {[k: string]: any} = {};
-  private isExceptionsUnsaved: boolean = false;
-  private dummy: boolean = true;
+  isExceptionsUnsaved: boolean = false;
+  navForm: FormGroup;
+  imageMap: {[k: string]: any} = {};
   private subscriptions: Subscription = new Subscription();
   private appSettings: AppSettings;
-  private navForm: FormGroup;
-  private navFormItems: FormArray;
-
 
   constructor(
     private parsersService: ParsersService,
@@ -33,7 +30,10 @@ export class NavParsersComponent implements OnDestroy {
     private changeRef: ChangeDetectorRef,
     private formBuilder: FormBuilder
   ) {}
-
+  
+  get lang() {
+    return APP.lang.nav.component;
+  }
   ngOnInit() {
     this.appSettings = this.settingsService.getSettings();
     this.subscriptions.add(
@@ -80,7 +80,7 @@ export class NavParsersComponent implements OnDestroy {
           }
         });
 
-        this.getParserControls().forEach((control: FormControl) => {
+        this.getParserControls().forEach((control: FormGroup) => {
           control.valueChanges.subscribe((val: { [parserId: string]: boolean }) => {
             this.parsersService.changeEnabledStatus(Object.keys(val)[0], Object.values(val)[0]);
           });
@@ -93,7 +93,6 @@ export class NavParsersComponent implements OnDestroy {
     this.subscriptions.add(
       this.exceptionsService.isUnsavedObservable.subscribe((val: boolean) => {
         this.isExceptionsUnsaved = val;
-        this.refreshActiveRoute();
         this.changeRef.detectChanges();
       })
     );
@@ -103,20 +102,12 @@ export class NavParsersComponent implements OnDestroy {
     });
   }
 
-  private flipAll() {
+  flipAll() {
     this.navForm.get("selectAll").setValue(!this.navForm.get("selectAll").value);
   }
 
-  private refreshActiveRoute() {
-    this.dummy = !this.dummy;
-  }
-
-  private get lang() {
-    return APP.lang.nav.component;
-  }
-
   getParserControls() {
-    return (this.navForm.get("parserStatuses") as FormArray).controls;
+    return (this.navForm.get("parserStatuses") as FormArray).controls as FormGroup[];
   }
 
   emuClick(control: FormControl) {

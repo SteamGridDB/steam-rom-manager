@@ -1,6 +1,7 @@
 import { ImageContent } from "./preview.model";
 import { FuzzyEventMap } from "./fuzzy.model";
 import { ImageProviderAPI } from "./user-configuration.model";
+import { ImageProviderName, OnlineProviderType } from ".";
 
 export interface ProviderInputField {
   [inputKey: string]: {
@@ -13,29 +14,28 @@ export interface ProviderInputField {
   }
 }
 
-export interface ProviderInfo {
-  [providerKey: string]: {
+export type ProviderInfo = Record<OnlineProviderType, {
     info?: string,
     inputs?: ProviderInputField
-  }
-}
+  }>
 
 //Callback
 
 export interface ProviderImageData {
-  content: ImageContent
+  content: ImageContent,
+  provider: OnlineProviderType
 }
 
 export interface ProviderErrorData {
   title: string,
-    provider: ImageContent["imageProvider"],
-    error: number | string,
-    url?: string
+  provider: OnlineProviderType,
+  error: number | string,
+  url?: string
 }
 
 export interface ProviderTimeoutData {
-  provider: ImageContent["imageProvider"],
-    time: number
+  provider: OnlineProviderType,
+  time: number
 }
 
 export interface ProviderCompletedData {
@@ -44,9 +44,9 @@ export interface ProviderCompletedData {
 
 export interface ProviderCallbackEventMap {
   image: ProviderImageData,
-    error: ProviderErrorData,
-    timeout: ProviderTimeoutData,
-    completed: ProviderCompletedData
+  error: ProviderErrorData,
+  timeout: ProviderTimeoutData,
+  completed: ProviderCompletedData
 }
 
 export type ProviderCallback = <K extends keyof ProviderCallbackEventMap>(event: K, data: ProviderCallbackEventMap[K]) => void;
@@ -72,10 +72,10 @@ export interface ProviderFuzzyEventData {
 
 export interface ProviderPostEventMap {
   image: ProviderPostImageData,
-    error: ProviderPostErrorData,
-    timeout: ProviderPostTimeoutData,
-    fuzzyEvent: ProviderFuzzyEventData,
-    completed: ProviderPostCompletedData
+  error: ProviderPostErrorData,
+  timeout: ProviderPostTimeoutData,
+  fuzzyEvent: ProviderFuzzyEventData,
+  completed: ProviderPostCompletedData
 }
 
 export interface ProviderPostObject<K extends keyof ProviderPostEventMap> {
@@ -92,7 +92,7 @@ export interface ProviderFuzzyListData {
 export interface ProviderRetrieveData extends ProviderId {
   title: string,
   imageType: string,
-  imageProviderAPIs: ImageProviderAPI
+  imageProviderAPIs: ImageProviderAPI[OnlineProviderType]
 }
 
 export interface ProviderFilterData {

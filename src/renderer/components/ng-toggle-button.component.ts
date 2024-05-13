@@ -24,9 +24,9 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
     }]
 })
 export class NgToggleButtonComponent implements ControlValueAccessor {
-    @Input('contentOnLeft') private contentOnLeft: boolean;
+    @Input('contentOnLeft') contentOnLeft: boolean;
 
-    private currentValue: boolean = false;
+    currentValue: boolean = false;
     private onChange = (_: any) => { };
     private onTouched = () => { };
 
