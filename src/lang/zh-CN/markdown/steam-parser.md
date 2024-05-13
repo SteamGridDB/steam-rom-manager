@@ -1,6 +1,6 @@
 # Steam 解析器
 
-This parser imports steam games into SRM so you can manage their artwork. It does not add shortcuts, and as such is an `Artwork Only` parser. This parser requires the `User Accounts` field to be set.
+It does not add shortcuts, and as such is an `Artwork Only` parser. This parser requires the `User Accounts` field to be set.
 
 ## 限制
 很遗憾，目前这个解析器只适用于至少属于一个类别的 Steam 游戏。 这是因为如果游戏被分类，Steam 才会在本地存储您的完整游戏列表。 有时候，由于未知原因，游戏会被本地存储并且解析器可以正常工作，但为了安全起见，最简单的方法就是 **创建一个 Steam 游戏分类** 将所有 Steam 游戏放入其中。
