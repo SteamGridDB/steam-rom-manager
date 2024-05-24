@@ -372,6 +372,9 @@
         "title": "Benutzerdefinierte Ausnahmen",
         "exclude": "Titel ausschließen",
         "excludeArtwork": "Nur lokale Artworks"
+      },
+      "placeholder": {
+        "sortBy": "Sort By"
       }
     },
     "service": {
