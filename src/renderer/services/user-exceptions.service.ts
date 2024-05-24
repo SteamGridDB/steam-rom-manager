@@ -13,6 +13,7 @@ import * as _ from "lodash";
 export class UserExceptionsService {
   private variableData: BehaviorSubject<{current: UserExceptions, saved: UserExceptions}>;
   private isUnsavedData: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private static appIdRegex: RegExp = /\$\{id\:([0-9]*?)\}/;
 
   private validator: json.Validator = new json.Validator(schemas.userExceptions, modifiers.userExceptions);
   private savingIsDisabled: boolean = false;
@@ -65,16 +66,34 @@ export class UserExceptionsService {
       });
   }
 
-  addException(extractedTitle: string, newException: UserExceptionData) {
+  addExceptionById(exceptionId: string, extractedTitle: string, newException: UserExceptionData) {
     let newData = this.data.saved;
-    newData.titles[extractedTitle] = newException;
+    const exceptionMatches = Object.keys(newData.titles).filter((exTitle: string) => {
+      if(UserExceptionsService.appIdRegex.test(exTitle)) {
+        return exTitle.match(UserExceptionsService.appIdRegex)[1] == exceptionId;
+      } else {
+        return false
+      }
+    })
+
+    const replaceKey = exceptionMatches.length ? exceptionMatches[0] : `${extractedTitle} \$\{id:${exceptionId}\}`;
+    newData.titles[replaceKey] = newException;
     this.variableData.next({current: newData, saved: this.data.saved})
     this.saveUserExceptions();
+  }
+
+  private duplicateKeys(data: UserExceptions) {
+    const replacedKeys = Object.keys(data.titles).map(exTitle => {
+      return UserExceptionsService.appIdRegex.test(exTitle) ? exTitle.match(UserExceptionsService.appIdRegex)[0] : exTitle
+    })
+    return _.keys(_.pickBy(_.groupBy(replacedKeys), x => x.length > 1))
+    
   }
 
   setSaved(data: UserExceptions) {
     if (this.validator.validate(data).isValid() && data) {
       this.variableData.next({current: null, saved: data});
+      return null;
     } else {
       this.loggerService.error(this.lang.error.writingError, { invokeAlert: true, alertTimeout: 3000 });
       this.loggerService.error(this.validator.errorString);
@@ -83,7 +102,6 @@ export class UserExceptionsService {
   }
 
   setCurrent(data: UserExceptions) {
-    let saved = this.variableData.getValue().saved;
     if (!data || this.validator.validate(data).isValid()) {
       this.variableData.next({current: data, saved: this.variableData.getValue().saved});
       return null;
@@ -102,6 +120,12 @@ export class UserExceptionsService {
   saveUserExceptions() {
     let current = this.variableData.getValue().current;
     if (!this.savingIsDisabled && current) {
+      const duplicates = this.duplicateKeys(current)
+      if(duplicates.length) {
+        this.loggerService.error('Cannot save duplicate exceptions, see log', { invokeAlert: true, alertTimeout: 3000})
+        this.loggerService.error(`Duplicate Exception Keys: ${duplicates.join(', ')}`)
+        return
+      }
       json.write(paths.userExceptions, current)
         .then(()=>{
 

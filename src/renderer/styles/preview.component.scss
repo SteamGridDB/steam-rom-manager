@@ -22,17 +22,19 @@
   --games-icon-width: 600px;
   --games-icon-height: 600px;
   --details-width: 0%;
+  --list-images-width: 0%;
   --filters-width: 0%;
   grid-area: route;
   grid-template-areas:
-    "upperMenu upperMenu upperMenu"
-    "excludes excludes excludes"
-    "detailsUpper detailsUpper detailsUpper"
-    "urls urls urls"
-    "filters entries detailsLower"
-    "lowerMenu lowerMenu lowerMenu";
-  grid-template-rows: auto auto auto auto 1fr auto;
-  grid-template-columns: var(--filters-width) auto var(--details-width);
+    "upperMenu upperMenu upperMenu upperMenu"
+    "excludes excludes excludes excludes"
+    "detailsUpper detailsUpper detailsUpper detailsUpper"
+    "listImagesUpper listImagesUpper listImagesUpper listImagesUpper"
+    "urls urls urls urls"
+    "filters entries detailsLower listImages"
+    "lowerMenu lowerMenu lowerMenu lowerMenu";
+  grid-template-rows: auto auto auto auto auto 1fr auto;
+  grid-template-columns: var(--filters-width) auto var(--details-width) var(--list-images-width);
   .loadingSpinner {
     &:before {
       display: block;
@@ -205,20 +207,27 @@
       }
     }
   }
-  .detailsUpper {
-    grid-area: detailsUpper;
+  .upper {
+    &.detailsUpper {
+      grid-area: detailsUpper;
+
+
+    }
+    &.listImagesUpper {
+      grid-area: listImagesUpper;
+    }
     display: flex;
     padding: 0.2em 0.8em 0.4em;
     justify-content: space-between;
     align-items: center;
     background-color: var(--color-preview-menu-background);
-    > .detailsTitle {
+    > .upperTitle {
       color: var(--color-preview-text);
     }
     > .buttonGroup {
       display: flex;
       justify-content: right;
-      > .detailsButton {
+      > .upperButton {
         @include button();
         @include clickButtonColor(click-button);
         margin-left: 1em;
@@ -227,6 +236,77 @@
         }
       }
     }
+  }
+
+  .listImages {
+    @include webkitScrollbar(preview-scrollbar);
+    grid-area: listImages;
+    overflow-y: scroll;
+    background-color: var(--color-nested-form-background);
+    color: var(--color-settings-text);
+    .listImagesTypeSelect {
+      width: 95%;
+      padding: 1em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .listImagesButton {
+        @include button();
+        @include clickButtonColor(click-button);
+        &.selected {
+          color: var(--color-click-button-text-hover);
+          background-color: var(--color-click-button-background-hover);
+        }
+      }
+    }
+    .imagesSection {
+      padding: 1em;
+      .imagesSectionLabel {
+        width: 100%;
+        border-bottom: solid 2px var(--color-nested-form-label);
+      }
+      .imagesSectionList {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        > .app {
+          flex-shrink: 0;
+          border: solid 2px var(--color-preview-image-border);
+          margin: 0.75em;
+          width: calc(var(--preview-image-size) * var(--games-tall-width) * .5);
+          height: calc(var(--preview-image-size) * var(--games-tall-height) * .5);
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-size: 100%;
+          &.longStyle {
+            width: calc(var(--preview-image-size) * var(--games-long-width) * .5);
+            height: calc(var(--preview-image-size) * var(--games-long-height) * .5);
+          }
+          &.tallStyle {
+            width: calc(var(--preview-image-size) * var(--games-tall-width) * .5);
+            height: calc(var(--preview-image-size) * var(--games-tall-height) * .5);
+          }
+          &.heroStyle {
+            width: calc(var(--preview-image-size) * var(--games-hero-width) * .5);
+            height: calc(var(--preview-image-size) * var(--games-hero-height) * .5);
+          }
+          &.logoStyle {
+            width: calc(var(--preview-image-size) * var(--games-logo-width) * .5);
+            height: calc(var(--preview-image-size) * var(--games-logo-height) * .5);
+          }
+          &.iconStyle {
+            width: calc(var(--preview-image-size) * var(--games-icon-width) * .5);
+            height: calc(var(--preview-image-size) * var(--games-icon-height) * .5);
+          }
+          &.selected, &:hover {
+            border:solid 3px #099;
+          }
+        }
+      }
+    }
+
   }
   .detailsLower {
     @include webkitScrollbar(preview-scrollbar);
@@ -341,7 +421,7 @@
   .entries {
     @include webkitScrollbar(preview-scrollbar);
     overflow-y: auto;
-    &.detailsOpen {
+    &.detailsOpen,&.listImagesOpen {
       ::-webkit-scrollbar {
         width: 0.75em;
       }
@@ -393,6 +473,29 @@
           align-content: space-around;
           justify-content: left;
           margin-left: 1vw;
+          > .listItem {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 50px;
+            width: 100%;
+            height: 100%;
+            color: var(--color-preview-text);
+            border-top: solid 1px var(--color-preview-user-background);      
+            border-bottom: solid 1px var(--color-preview-user-background);
+
+            > .infoField {
+              height: 50px;
+              display: flex;
+              align-items: center;
+              padding-left: 1em;
+              border-left: solid 1px var(--color-preview-user-background);
+              border-right: solid 1px var(--color-preview-user-background);
+            }
+            &:hover:not(.header), &.current {
+              background-color: var(--color-ng-select-option-background-hover);
+              color: var(--color-ng-select-option-text-hover);
+            }
+          }
           > .title {
             padding: 0.5em 0.25em;
             flex-basis: 100%;
@@ -408,11 +511,7 @@
           > .app {
             flex-shrink: 0;
             border: solid 2px var(--color-preview-image-border);
-
             margin: 0.75em;
-
-            //						width: calc(var(--preview-image-size) * #{$image-width-max});
-            //						height: calc(var(--preview-image-size) * #{$image-height-max});
             width: calc(var(--preview-image-size) * var(--image-width-max));
             height: calc(var(--preview-image-size) * var(--image-height-max));
             background-repeat: no-repeat;

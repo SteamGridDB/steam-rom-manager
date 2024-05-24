@@ -28,7 +28,8 @@ import {
   ArtworkType,
   ArtworkViewType,
   isArtworkType,
-  initArtworkRecord
+  initArtworkRecord,
+  initOnlineProviderRecord
 } from '../../models';
 import {
   VDF_Manager,
@@ -147,6 +148,12 @@ export class PreviewService {
   }
 
   updateAppImages(imageKey: string, oldPool: string, artworkType: ArtworkType) {
+    this.onlineImages[artworkType][imageKey] = {
+      retrieving: false,
+      online: initOnlineProviderRecord(null),
+      offline: this.onlineImages[artworkType][oldPool].offline,
+      parserEnabledProviders: this.onlineImages[artworkType][oldPool].parserEnabledProviders
+    }
     for(const providerType of onlineProviders) {
       this.onlineImages[artworkType][imageKey].online[providerType] = {
         searchQueries: [imageKey],
@@ -154,8 +161,9 @@ export class PreviewService {
         content: []
       }
     }
-
   }
+
+  
   async removeCategories(steamDir: string, userId: string) {
     try {
       await this.categoryManager.removeAllCategoriesAndWrite(steamDir, userId);
@@ -305,11 +313,15 @@ export class PreviewService {
     this.previewDataChanged.next()
   }
 
-  loadImage(app: PreviewDataApp, artworkType?: ArtworkType) {
+  loadImage(app: PreviewDataApp, artworkType?: ArtworkType, imageIndex?: number) {
     if (app) {
       let image: ImageContent;
       const actualArtworkType = isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
-      image = appImage.getCurrentImage(app.images[actualArtworkType], this.onlineImages[actualArtworkType]);
+      if(imageIndex) {
+        image = appImage.getImage(app.images[actualArtworkType],this.onlineImages[actualArtworkType], imageIndex)
+      } else {
+        image = appImage.getCurrentImage(app.images[actualArtworkType], this.onlineImages[actualArtworkType]);
+      }
       if (image !== undefined && (image.loadStatus === 'notStarted' || image.loadStatus === 'failed')) {
         if (image.loadStatus === 'failed') {
           this.loggerService.info(this.lang.info.retryingDownload__i.interpolate({
@@ -395,13 +407,21 @@ export class PreviewService {
   }
 
   getCurrentImage(app: PreviewDataApp, artworkType?: ArtworkType) {
-    const actualImageType = isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
-    return appImage.getCurrentImage(app.images[actualImageType], this.onlineImages[actualImageType])
+    const actualArtworkType = isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
+    return appImage.getCurrentImage(app.images[actualArtworkType], this.onlineImages[actualArtworkType])
   }
 
   getImages(artworkType?: ArtworkType) {
-    const actualImageType = isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
-    return this.onlineImages[actualImageType]
+    const actualArtworkType = isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
+    return this.onlineImages[actualArtworkType]
+  }
+  getImage(app: PreviewDataApp, index: number, artworkType?: ArtworkType) {
+    const actualArtworkType = isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
+    return appImage.getImage(app.images[actualArtworkType], this.onlineImages[actualArtworkType], index)
+  }
+  getRanges(app: PreviewDataApp,artworkType?: ArtworkType) {
+    const actualArtworkType = isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;
+    return appImage.getImageRanges(app.images[actualArtworkType], this.onlineImages[actualArtworkType])
   }
 
   clearPreviewData() {

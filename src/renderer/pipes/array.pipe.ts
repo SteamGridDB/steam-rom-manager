@@ -6,3 +6,14 @@ export class ArrayConcatPipe implements PipeTransform {
         return value.concat(newValue);
     }
 }
+
+@Pipe({ name: 'rangeArray' })
+export class RangeArrayPipe implements PipeTransform {
+    transform(value: {start: number, end: number}) {
+        let result = [];
+        for(let i=value.start;i<value.end;i++) {
+            result.push(i)
+        }
+        return result;
+    }
+}

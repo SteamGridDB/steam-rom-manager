@@ -25,7 +25,7 @@
   </label>
   <div [formGroup]="exceptionsForm">
     <div class="itemsform" formArrayName="items"
-         *ngFor="let item of exceptionsFormItems.controls.slice(0).sort(exceptionsSort.bind(this)); let i=index;">
+         *ngFor="let item of exceptionsFormItems.controls.sort(exceptionsSort.bind(this)); let i=index;">
       <div class="exception-entry" [formGroupName]="i" *ngIf="((item | formGroup).controls['oldTitle'].value | fuzzyTest: filterValue) ">
         <div class="inputContainer">
           <div class="inlineLeft">

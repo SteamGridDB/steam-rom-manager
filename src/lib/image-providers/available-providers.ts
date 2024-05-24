@@ -1,4 +1,13 @@
-import { ProviderInfo, ImageProviderType, LocalProviderType, OnlineProviderType, SingleLocalProviderType, MultiLocalProviderType, ImageProviderName } from '../../models';
+import { ProviderInfo, ImageProviderType, LocalProviderType, OnlineProviderType, SingleLocalProviderType, MultiLocalProviderType, ImageProviderName, ProviderCategoryType } from '../../models';
+
+export const providerCategories = [
+  'default',
+  'single',
+  'multi',
+  'online'
+] as const;
+
+export const defaultProviders = ['default'] as const;
 
 export const singleLocalProviders = [
   'steam',
@@ -29,6 +38,14 @@ export const imageProviderNames: Record<ImageProviderType, ImageProviderName> = 
   manual: 'Manually Added',
   sgdb: 'SteamGridDB',
   steamCDN: 'Steam CDN'
+}
+
+export const allProviders: Record<ProviderCategoryType,
+(typeof singleLocalProviders)|(typeof multiLocalProviders)|(typeof onlineProviders)|(typeof defaultProviders)> = {
+  default: defaultProviders,
+  single: singleLocalProviders,
+  multi: multiLocalProviders,
+  online: onlineProviders
 }
 
 

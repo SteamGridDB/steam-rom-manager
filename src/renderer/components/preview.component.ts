@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Rende
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { PreviewService, SettingsService, ImageProviderService, IpcService, UserExceptionsService } from "../services";
-import { PreviewData, PreviewDataApp, PreviewDataApps, PreviewVariables, AppSettings, ImageContent, SelectItem, UserConfiguration, ArtworkViewType, ArtworkType, isArtworkType } from "../../models";
+import { PreviewData, PreviewDataApp, PreviewDataApps, PreviewVariables, AppSettings, ImageContent, SelectItem, UserConfiguration, ArtworkViewType, ArtworkType, isArtworkType, ImageProviderType } from "../../models";
 import { APP } from '../../variables';
 import { FileSelector } from '../../lib';
 import { artworkTypes, artworkViewTypes, artworkViewNames, artworkDimsDict } from '../../lib/artwork-types';
@@ -13,7 +13,7 @@ import * as FileSaver from 'file-saver';
 import * as steam from '../../lib/helpers/steam';
 import * as _ from 'lodash';
 import * as path from 'path';
-import { imageProviderNames } from '../../lib/image-providers/available-providers';
+import { allProviders, imageProviderNames, multiLocalProviders, onlineProviders, providerCategories, singleLocalProviders } from '../../lib/image-providers/available-providers';
 
 @Component({
   selector: 'preview',
@@ -39,7 +39,14 @@ export class PreviewComponent implements OnDestroy {
   scrollingEntries: boolean = false;
   fileSelector: FileSelector = new FileSelector();
   CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
-
+  currentApp: {
+    app: PreviewDataApp,
+    userId: string,
+    steamDirectory: string,
+    appId: string
+  }
+  listImagesArtworkType: ArtworkType = 'tall';
+  showListImages: boolean = false;
   detailsApp: {
     app: PreviewDataApp,
     userId: string,
@@ -103,9 +110,28 @@ export class PreviewComponent implements OnDestroy {
     return artworkTypes;
   }
 
+  get artworkViewNames() {
+    return artworkViewNames;
+  }
+  
+  get providerCategories() {
+    return providerCategories;
+  }
+  get allProviders() {
+    return allProviders;
+  }
+
+  get imageProviderNames() {
+    return imageProviderNames
+  }
+
+  isArtworkType(artworkViewType: ArtworkViewType) {
+    return isArtworkType(artworkViewType)
+  }
 
   generatePreviewData() {
     this.closeDetails();
+    this.closeListImages();
     this.cancelExcludes();
     this.previewService.generatePreviewData();
   }
@@ -113,6 +139,8 @@ export class PreviewComponent implements OnDestroy {
   preloadImages() {
     this.previewService.preloadImages();
   }
+
+
 
   setImageBoxSizes() {
     const currentViewType = this.previewService.getCurrentViewType();
@@ -196,6 +224,7 @@ export class PreviewComponent implements OnDestroy {
   setImageType(artworkViewType: ArtworkViewType) {
     this.previewService.setCurrentViewType(artworkViewType);
     this.setImageBoxSizes();
+    this.closeListImages();
     this.changeDetectionRef.detectChanges();
   }
 
@@ -212,13 +241,16 @@ export class PreviewComponent implements OnDestroy {
   getBackgroundImage(app: PreviewDataApp, artworkType?: ArtworkType) {
     return this.previewService.getCurrentImage(app, artworkType);
   }
+  getBackgroundImageList(app: PreviewDataApp, index: number, artworkType?: ArtworkType){
+    return this.previewService.getImage(app, index, artworkType)
+  }
 
   setDetailsBackgroundImage(sgdbId: string) {
     const posterUrl = this.matchFixDict[sgdbId].posterUrl;
     return posterUrl ? posterUrl : require('../../assets/images/no-images.svg');
   }
 
-  setBackgroundImage(app: PreviewDataApp, image: ImageContent, artworkType?: ArtworkType) {
+  setBackgroundImage(app: PreviewDataApp, image: ImageContent, artworkType?: ArtworkType, imageIndex?: number) {
     const currentViewType = this.previewService.getCurrentViewType();
     if (image == undefined) {
       const actualArtworkType: ArtworkType = isArtworkType(currentViewType) ? currentViewType : artworkType
@@ -233,7 +265,7 @@ export class PreviewComponent implements OnDestroy {
         if(isArtworkType(currentViewType)) {
           this.loadImage(app)
         } else {
-          this.loadImage(app, artworkType);
+          this.loadImage(app, artworkType, imageIndex);
         }
         return require('../../assets/images/downloading-image.svg');
       }
@@ -247,8 +279,8 @@ export class PreviewComponent implements OnDestroy {
     }
   }
 
-  loadImage(app: PreviewDataApp, artworkType?: ArtworkType) {
-    this.previewService.loadImage(app, artworkType);
+  loadImage(app: PreviewDataApp, artworkType?: ArtworkType, imageIndex?: number) {
+    this.previewService.loadImage(app, artworkType, imageIndex);
   }
 
   areImagesAvailable(app: PreviewDataApp, artworkType?: ArtworkType) {
@@ -341,6 +373,7 @@ export class PreviewComponent implements OnDestroy {
     }
   }
   changeAppDetails(app: PreviewDataApp, steamDirectory: string, userId: string, appId: string) {
+    this.closeListImages();
     this.detailsLoading = true;
     this.showDetails= true;
     this.matchFix = '';
@@ -367,6 +400,29 @@ export class PreviewComponent implements OnDestroy {
     this.detailsLoading = false;
   }
 
+  getImageRanges(app: PreviewDataApp, artworkType?: ArtworkType) {
+    return this.previewService.getRanges(app, artworkType);
+  }
+
+  openListImages(app: PreviewDataApp, steamDir: string, userId: string, appId: string) {
+    this.closeDetails();
+    this.showListImages = true;
+    this.renderer.setStyle(this.elementRef.nativeElement, '--list-images-width', '50%', RendererStyleFlags2.DashCase);
+    this.currentApp={
+      app: app,
+      appId: appId,
+      steamDirectory: steamDir,
+      userId: userId
+    };
+    this.changeDetectionRef.detectChanges()
+
+  }
+  closeListImages() {
+    this.currentApp = undefined;
+    this.showListImages = false;
+    this.renderer.setStyle(this.elementRef.nativeElement, '--list-images-width','0%',RendererStyleFlags2.DashCase);
+  }
+
   saveDetails() {
     if(this.detailsApp && this.matchFix) {
       const {steamDirectory, userId, appId, app} = this.detailsApp;
@@ -388,15 +444,14 @@ export class PreviewComponent implements OnDestroy {
       } else {
         exceptionId = steam.generateShortAppId(app.executableLocation, app.extractedTitle)
       }
-      const exceptionKey = `${app.extractedTitle} \$\{id:${exceptionId}\}`;
-      this.userExceptionsService.addException(exceptionKey, {
+      this.userExceptionsService.addExceptionById(exceptionId, app.extractedTitle, {
         newTitle: this.matchFixDict[this.matchFix].name,
         searchTitle: newPool,
         commandLineArguments: '',
         exclude: false,
         excludeArtwork: false
       })
-      if(this.previewService.getCurrentViewType() == 'games') { 
+      if(!isArtworkType(this.previewService.getCurrentViewType())) { 
         for(const artworkType of artworkTypes) {
           this.refreshImages(this.previewData[steamDirectory][userId].apps[appId], artworkType)
         }
@@ -404,6 +459,8 @@ export class PreviewComponent implements OnDestroy {
         this.refreshImages(this.previewData[steamDirectory][userId].apps[appId]);
       }
       this.closeDetails();
+    } else {
+      console.log("Details app", this.detailsApp,this.matchFix )
     }
   }
 
@@ -441,10 +498,11 @@ export class PreviewComponent implements OnDestroy {
     if(!this.missingArtFilter) {
       missingArtFilter = true;
     } else {
-      if(currentViewType == 'games') {
-        missingArtFilter = artworkTypes.map(t => !this.previewService.getCurrentImage(app,t)).reduce((x,y)=>x||y);
-      } else {
+      if(isArtworkType(currentViewType)) {
         missingArtFilter = !this.previewService.getCurrentImage(app)
+      }
+      else {
+        missingArtFilter = artworkTypes.map(t => !this.previewService.getCurrentImage(app,t)).reduce((x,y)=>x||y);
       }
     }
     const excludesArtOnlyFilter = !this.showExcludes || superTypesMap[app.parserType]!=='ArtworkOnly'
@@ -486,7 +544,7 @@ export class PreviewComponent implements OnDestroy {
   }
 
   saveExcludes() {
-    let exceptionKeys: string[] = [];
+    let exceptionKeys: {exceptionId: string, extractedTitle: string}[] = [];
     for(const steamDirectory in this.previewData) {
       if(this.excludedAppIds[steamDirectory]) {
         for(const userId in this.previewData[steamDirectory]) {
@@ -496,7 +554,7 @@ export class PreviewComponent implements OnDestroy {
             }).map((appId: string) =>{
               const app = this.previewData[steamDirectory][userId].apps[appId];
               const exceptionId = steam.generateShortAppId(app.executableLocation, app.extractedTitle)
-              return `${app.extractedTitle} \$\{id:${exceptionId}\}`
+              return {exceptionId: exceptionId, extractedTitle: app.extractedTitle}
             });
             exceptionKeys = exceptionKeys.concat(newKeys)
             this.previewData[steamDirectory][userId].apps = _.pickBy(this.previewData[steamDirectory][userId].apps, (value: PreviewDataApp, key: string) => {
@@ -507,7 +565,7 @@ export class PreviewComponent implements OnDestroy {
       }
     }
     for(const exceptionKey of exceptionKeys) {
-      this.userExceptionsService.addException(exceptionKey, {
+      this.userExceptionsService.addExceptionById(exceptionKey.exceptionId, exceptionKey.extractedTitle, {
         newTitle: '',
         searchTitle: '',
         commandLineArguments: '',
@@ -519,7 +577,7 @@ export class PreviewComponent implements OnDestroy {
   }
 
   refreshImages(app: PreviewDataApp, artworkType?: ArtworkType) {
-    if(this.previewService.getCurrentViewType() == 'games') {
+    if(!isArtworkType(this.previewService.getCurrentViewType())) {
       this.previewService.downloadImageUrls(artworkType, [app.images[artworkType].imagePool]);
     } else {
       //TODO why are we refreshing all artwork types here
@@ -543,6 +601,13 @@ export class PreviewComponent implements OnDestroy {
     const currentViewType = this.previewService.getCurrentViewType();
     const actualArtworkType: ArtworkType = isArtworkType(currentViewType) ? currentViewType : artworkType;
     this.previewService.setImageIndex(app, app.images[actualArtworkType].imageIndex + 1, actualArtworkType);
+  }
+
+  chooseImage(app: PreviewDataApp, imageIndex: number, artworkType?: ArtworkType) {
+    const currentViewType = this.previewService.getCurrentViewType();
+    const actualArtworkType: ArtworkType = isArtworkType(currentViewType) ? currentViewType : artworkType;
+    this.previewService.setImageIndex(app, imageIndex, actualArtworkType);
+
   }
 
   setImageSizeFromInput(target: EventTarget, save: boolean = false) {

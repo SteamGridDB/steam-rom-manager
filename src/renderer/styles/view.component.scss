@@ -146,7 +146,7 @@
   }
 
   .details {
-    padding: 2em;
+    padding: 1em;
     grid-area: details;
     @include webkitScrollbar(nested-form-scrollbar);
     background-color: var(--color-nested-form-background);
@@ -167,14 +167,9 @@
       margin-bottom: 1em;
       border-bottom: 0.1em solid;
       border-bottom-color: var(--color-nested-form-label);
-      .sectionLabel {
-
-      }
     }
     .infos {
       .info {
-        .infoLabel {
-        }
         .infoArea {
           @include ngTextInputColor(input);
           overflow-wrap:break-word;

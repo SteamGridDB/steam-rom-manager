@@ -92,18 +92,75 @@
       </ng-container>
     </ng-container>
   </div>
-  <div class="detailsUpper" *ngIf="showDetails">
-    <div class="detailsTitle">
+  <div class="upper detailsUpper" *ngIf="showDetails">
+    <div class="upperTitle">
       <span>Fix match for: {{ detailsApp ? detailsApp.app.title : "" }}</span>
     </div>
     <div class="buttonGroup">
-      <div class="detailsButton dangerousButton" (click)="closeDetails()">
+      <div class="upperButton dangerousButton" (click)="closeDetails()">
         <span>Cancel</span>
       </div>
-      <div class="detailsButton" (click)="saveDetails()">
+      <div class="upperButton" (click)="saveDetails()">
         <span>Save and close</span>
       </div>
     </div>
+  </div>
+  <div class="upper listImagesUpper" *ngIf="getCurrentViewType()=='list' && currentApp && showListImages">
+    <div class="upperTitle">
+      <span>Choose artwork for {{currentApp.app.title}}</span>
+    </div>
+    <div class="buttonGroup">
+      <div class="upperButton dangerousButton" (click)="closeListImages()">
+        <span>Close</span>
+      </div>
+      <div class="upperButton" (click)="changeAppDetails(currentApp.app,currentApp.steamDirectory,currentApp.userId,currentApp.appId)">
+        <span>Fix Match</span>
+      </div>
+      <div class="upperButton" (click)="addLocalImages(currentApp.app, listImagesArtworkType)">
+        <span>Upload {{artworkViewNames[listImagesArtworkType]}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="listImages" *ngIf="getCurrentViewType()=='list' && currentApp && showListImages">
+    <div class="listImagesTypeSelect">
+      <ng-container *ngFor="let artworkType of artworkTypes">
+        <div class="listImagesButton" 
+        [class.selected]="listImagesArtworkType==artworkType"
+        (click)="listImagesArtworkType=artworkType"
+        >{{artworkViewNames[artworkType]}}</div>
+      </ng-container>
+    </div>
+    <ng-container *ngVar="getImageRanges(currentApp.app, listImagesArtworkType) as imageRanges">
+      <div class="imagesSection">
+      <ng-container *ngFor="let providerCategory of providerCategories">
+          <ng-container *ngFor="let provider of allProviders[providerCategory]">
+            <ng-container *ngIf="imageRanges[provider].start < imageRanges[provider].end">
+              <div class="imagesSectionLabel">
+                <span>{{imageProviderNames[provider]}}</span>
+              </div>
+              <div class="imagesSectionList">
+                <ng-container *ngFor="let imageIndex of (imageRanges[provider] | rangeArray)">
+                  <ng-container *ngVar="getBackgroundImageList(currentApp.app, imageIndex, listImagesArtworkType) as image">
+                    <div class="app"
+                    [style.backgroundImage]="setBackgroundImage(currentApp.app, image, listImagesArtworkType, imageIndex) | cssUrl | safeStyle"
+                    [class.longStyle]="listImagesArtworkType === 'long'"
+                    [class.tallStyle]="listImagesArtworkType === 'tall'"
+                    [class.heroStyle]="listImagesArtworkType === 'hero'"
+                    [class.logoStyle]="listImagesArtworkType === 'logo'"
+                    [class.iconStyle]="listImagesArtworkType === 'icon'"
+                    [class.selected]="currentApp.app.images[listImagesArtworkType].imageIndex == imageIndex"
+                    (click)="chooseImage(currentApp.app,imageIndex,listImagesArtworkType)"
+                    >
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </ng-container>
+          </ng-container>
+      </ng-container>
+    </div>
+      
+    </ng-container>
   </div>
 
   <div class="urls" *ngIf="previewVariables.numberOfQueriedImages">
@@ -151,7 +208,8 @@
   <div
     class="entries"
     *ngVar="{ hoverIndex: undefined, hoverType: undefined } as entries"
-    [class.detailsOpen]="!!this.detailsApp"
+    [class.detailsOpen]="!!this.detailsApp && showDetails"
+    [class.listImagesOpen]="!!currentApp && showListImages"
     (scroll)="onScroll()"
   >
     <ng-container *ngFor="let steamDir of previewData | keys">
@@ -171,10 +229,17 @@
                 titles)</span
               >
             </div>
-            <ng-container *ngIf="getCurrentViewType() == 'games'">
-              <div class="apps">
-                <ng-container *ngFor="let appId of sortedAppIds(previewData[steamDir][steamUser].apps)">
-                  <ng-container *ngVar="previewData[steamDir][steamUser].apps[appId] as app">
+            <div class="apps">
+              <ng-container *ngIf="getCurrentViewType()==='list'">
+              <div class="listItem header">
+                <div class="infoField"><span>Extracted Title</span></div>
+                <div class="infoField"><span>Final Title</span></div>
+                <div class="infoField"><span>Parser</span></div>
+              </div>
+              </ng-container>
+              <ng-container *ngFor="let appId of sortedAppIds(previewData[steamDir][steamUser].apps)">
+                <ng-container *ngVar="previewData[steamDir][steamUser].apps[appId] as app">
+                  <ng-container *ngIf="getCurrentViewType() === 'games'">
                     <div class="title" *ngIf="isAppVisible(app)">
                       <span [attr.title]="app.extractedTitle">{{ app.title }}</span>
                     </div>
@@ -360,13 +425,24 @@
                       </ng-container>
                     </ng-container>
                   </ng-container>
-                </ng-container>
-              </div>
-            </ng-container>
-            <ng-container *ngIf="getCurrentViewType() != 'games'">
-              <div class="apps">
-                <ng-container *ngFor="let appId of sortedAppIds(previewData[steamDir][steamUser].apps)">
-                  <ng-container *ngVar="previewData[steamDir][steamUser].apps[appId] as app">
+                  <ng-container *ngIf="getCurrentViewType()==='list'">
+                    <div class="listItem"
+                    *ngIf="isAppVisible(app)"
+                    [class.current]="currentApp && currentApp.appId==appId"
+                    (click)="openListImages(app, steamDir, steamUser,appId)"
+                    >
+                      <div class="infoField">
+                        <span>{{app.extractedTitle}}</span>
+                      </div>
+                      <div class="infoField">
+                        <span>{{app.title}}</span>
+                      </div>
+                      <div class="infoField">
+                        <span>{{app.configurationTitle}}</span>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="isArtworkType(getCurrentViewType())">
                     <ng-container *ngVar="getBackgroundImage(app) as image">
                       <ng-container *ngVar="getAppImages(app) as appimages">
                         <div
@@ -534,8 +610,8 @@
                     </ng-container>
                   </ng-container>
                 </ng-container>
-              </div>
-            </ng-container>
+              </ng-container>
+            </div>
           </div>
         </ng-container>
       </div>

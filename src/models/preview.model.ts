@@ -1,7 +1,7 @@
 import { ImageProviderAPI } from "./user-configuration.model";
 import { Controllers } from "./controllers.model";
 import { ParserType, SteamInputEnabled } from "./parser.model";
-import { multiLocalProviders, onlineProviders, singleLocalProviders } from "../lib/image-providers/available-providers";
+import { multiLocalProviders, onlineProviders, providerCategories, singleLocalProviders } from "../lib/image-providers/available-providers";
 import { artworkTypes, viewTypes } from "../lib/artwork-types";
 import { SteamList } from "./helpers.model";
 
@@ -15,8 +15,12 @@ export type ArtworkViewType = ArtworkType | ViewType;
 export function isArtworkType(artworkViewType: ArtworkViewType): artworkViewType is ArtworkType {
     return artworkTypes.includes(artworkViewType as ArtworkType)
 }
-export function initArtworkRecord<Y>(defaultValue: Y): Record<ArtworkType,Y>{
+export function initArtworkRecord<Y>(defaultValue: Y): Record<ArtworkType,Y> {
     return Object.assign({},...artworkTypes.map(x=>({[x]:defaultValue})))
+}
+export function initOnlineProviderRecord<Y>(defaultValue: Y): Record<OnlineProviderType,Y> {
+    return Object.assign({},...onlineProviders.map(x=>({[x]:defaultValue})))
+
 }
 
 export interface ImageContent {
@@ -35,6 +39,7 @@ export interface ImagesStatusAndContent {
     imageProviderAPIs: ImageProviderAPI[OnlineProviderType],
     content: ImageContent[]
 }
+export type ProviderCategoryType = typeof providerCategories[number];
 export type OnlineProviderType = typeof onlineProviders[number];
 
 export type OnlineImages = Record<ArtworkType, {

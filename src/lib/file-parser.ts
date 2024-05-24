@@ -168,7 +168,7 @@ export class FileParser {
       }
     });
   }
-
+  //todo make each phase of title modification immutable
   private linuxShortcutsPromise({superType, config, settings, data, filteredAccounts}: {superType: string, config: UserConfiguration, settings: AppSettings, data: ParsedDataWithFuzzy, filteredAccounts: { found: userAccountData[], missing: string[] }}) {
     return new Promise((resolve, reject) => {
       try {

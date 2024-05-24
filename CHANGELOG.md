@@ -5,9 +5,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Ability to set Proton version per parser [TODO]
 * Ability to prioritize artwork by certain authors [TODO]
-* Steam CDN Provider
-* Browse All Artwork on Preview
-* List View on Preview
+* Steam CDN Provider (Done as soon as SGDB API is updated)
+* Browse All Artwork on Preview (Done)
+* List View on Preview (Done)
 * Settings toggle to disable saving steam categories (useful on Deck so steam doesn't have to be closed)
 
 ### Changed
@@ -15,11 +15,13 @@ All notable changes to this project will be documented in this file.
 * Added back image provider to apps in EmuDeck theme.
 * View Games and About pages now in EmuDeck theme.
 * Total re-work of images data-structure to allow for flexible adding of multiple providers.
+* Exceptions Manager now checks for conflicting exceptions on save.
 
 ### Fixed
 * Some graphical issues with loading spinner placements
 * Browse button for Fallback artwork not producing forward slash paths.
 * Bug where multiple selects in parser configuration could influence eachother.
+* Exceptions added from preview now can edit existing exceptions, so as not to create conflicts.
 
 ## 2.4.29
 ### Added

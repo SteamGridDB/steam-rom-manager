@@ -83,6 +83,7 @@ function ngObjectsToArray<T>(importObject: T) {
     Pipes.IntersectionTestPipe,
     Pipes.KeyPipe,
     Pipes.KeysPipe,
+    Pipes.RangeArrayPipe,
     Pipes.SafeHtml,
     Pipes.SafeResourceUrl,
     Pipes.SafeStyle
