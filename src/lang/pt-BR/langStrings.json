@@ -406,7 +406,7 @@
         "nothingWasFound": "Analisador não encontrou nada.",
         "copiedToClipboard": "Configuração copiada para área de transferência",
         "userExclusions": "Usuário excluído:",
-        "excludedFileInfo__i": "[${index}/${total}]: ${filename}",
+        "excludedFileInfo__i": "[${index}/${total}]: ${filename}\n Excluded by \"${exceptionKey}\"",
         "removingControllers__i": "Removendo modelos de controle para analisador: ${configTitle}",
         "fetchingControllerTemplates": "Buscando modelos de controle"
       },
