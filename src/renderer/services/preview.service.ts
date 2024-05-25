@@ -698,7 +698,7 @@ export class PreviewService {
         const parserEnabledProviders = imageByPool.parserEnabledProviders;
         const imageProvidersForKey: OnlineProviderType[] = _.intersection(parserEnabledProviders, this.appSettings.enabledProviders);
         this.previewVariables.numberOfQueriedImages += imageProvidersForKey.map((provider)=> imageByProvider[provider].searchQueries.length).reduce((x,y)=>x+y);
-        let retrievingByProvider = {sgdb: true, steamCDN: true}
+        let retrievingByProvider = {sgdb: imageByPool.parserEnabledProviders.includes('sgdb'), steamCDN: imageByPool.parserEnabledProviders.includes('steamCDN')}
         for(let provider of imageProvidersForKey) {
           const image = imageByProvider[provider];
           if (image !== undefined && image.searchQueries.length) {

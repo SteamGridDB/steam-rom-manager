@@ -1,7 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2.5.0
+## 2.5.3
+### Added
+* Ability to sort by each column in list view
+* Excludes working from list view.
+
+## 2.5.2
+### Fixed
+* Reduce empty list without intializer bug
+
+## 2.5.1
 ### Added
 * Ability to set Proton version per parser [TODO]
 * Ability to prioritize artwork by certain authors [TODO]

@@ -46,6 +46,7 @@ export class PreviewComponent implements OnDestroy {
     appId: string
   }
   listImagesArtworkType: ArtworkType = 'tall';
+  listSortBy: string = 'extractedTitle';
   showListImages: boolean = false;
   detailsApp: {
     app: PreviewDataApp,
@@ -373,6 +374,7 @@ export class PreviewComponent implements OnDestroy {
     }
   }
   changeAppDetails(app: PreviewDataApp, steamDirectory: string, userId: string, appId: string) {
+    this.cancelExcludes();
     this.closeListImages();
     this.detailsLoading = true;
     this.showDetails= true;
@@ -406,6 +408,7 @@ export class PreviewComponent implements OnDestroy {
 
   openListImages(app: PreviewDataApp, steamDir: string, userId: string, appId: string) {
     this.closeDetails();
+    this.cancelExcludes();
     this.showListImages = true;
     this.renderer.setStyle(this.elementRef.nativeElement, '--list-images-width', '50%', RendererStyleFlags2.DashCase);
     this.currentApp={
@@ -534,6 +537,8 @@ export class PreviewComponent implements OnDestroy {
   }
 
   showExclusions() {
+    this.closeDetails();
+    this.closeListImages();
     this.showExcludes = true;
   }
 
@@ -639,7 +644,13 @@ export class PreviewComponent implements OnDestroy {
   }
 
   sortedAppIds(apps: PreviewDataApps) {
-    return Object.keys(apps).sort((a,b)=>apps[a].title.localeCompare(apps[b].title))
+    if(this.listSortBy=='extractedTitle') {
+      return Object.keys(apps).sort((a,b)=>apps[a].extractedTitle.localeCompare(apps[b].title))
+    } else if(this.listSortBy=='finalTitle') {
+      return Object.keys(apps).sort((a,b)=>apps[a].title.localeCompare(apps[b].title))
+    } else if(this.listSortBy=='configurationTitle') {
+      return Object.keys(apps).sort((a,b)=>apps[a].configurationTitle.localeCompare(apps[b].title))
+    }
   }
 
   async exportSelection() {

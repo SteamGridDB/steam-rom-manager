@@ -232,9 +232,9 @@
             <div class="apps">
               <ng-container *ngIf="getCurrentViewType()==='list'">
               <div class="listItem header">
-                <div class="infoField"><span>Extracted Title</span></div>
-                <div class="infoField"><span>Final Title</span></div>
-                <div class="infoField"><span>Parser</span></div>
+                <div class="infoField" (click)="listSortBy='extractedTitle'" [class.sortBy]="listSortBy=='extractedTitle'"><span>Extracted Title</span></div>
+                <div class="infoField" (click)="listSortBy='finalTitle'" [class.sortBy]="listSortBy=='finalTitle'"><span>Final Title</span></div>
+                <div class="infoField" (click)="listSortBy='configurationTitle'" [class.sortBy]="listSortBy=='configurationTitle'"><span>Parser</span></div>
               </div>
               </ng-container>
               <ng-container *ngFor="let appId of sortedAppIds(previewData[steamDir][steamUser].apps)">
@@ -429,7 +429,13 @@
                     <div class="listItem"
                     *ngIf="isAppVisible(app)"
                     [class.current]="currentApp && currentApp.appId==appId"
-                    (click)="openListImages(app, steamDir, steamUser,appId)"
+                    [class.showExcludes]="showExcludes"
+                    [class.isExcluded]="
+                          !!excludedAppIds[steamDir] &&
+                          !!excludedAppIds[steamDir][steamUser] &&
+                          !!excludedAppIds[steamDir][steamUser][appId]
+                    "
+                    (click)="showExcludes ? excludeAppId(steamDir, steamUser, appId) : openListImages(app, steamDir, steamUser,appId)"
                     >
                       <div class="infoField">
                         <span>{{app.extractedTitle}}</span>
@@ -621,13 +627,18 @@
     class="lowerMenu not-emudeck"
     *ngIf="previewVariables.listHasGenerated && previewVariables.numberOfListItems !== 0"
   >
-    <div (click)="generatePreviewData()">{{ lang.generateAppList }}</div>
+
     <ng-container *ngIf="previewVariables.numberOfListItems !== 0">
-      <div (click)="save()">{{ lang.saveAppList }}</div>
-      <div class="dangerousButton" (click)="remove()">{{ lang.removeAppList }}</div>
-      <div (click)="exportSelection()" [attr.title]="'Export image choices'">{{ lang.exportSelections }}</div>
-      <div (click)="importSelection()" [attr.title]="'Import image choices'">{{ lang.importSelections }}</div>
-      <div (click)="showExclusions()" *ngIf="!this.detailsApp">{{ "Exclude" }}</div>
+      <div class="lowerLeft">
+        <div class="button" (click)="generatePreviewData()">{{ lang.generateAppList }}</div>
+        <div class="button" (click)="save()">{{ lang.saveAppList }}</div>
+        <div class="button dangerousButton" (click)="remove()">{{ lang.removeAppList }}</div>
+      </div>
+      <div class="lowerRight">
+        <div class="button" (click)="exportSelection()" [attr.title]="'Export image choices'">{{ lang.exportSelections }}</div>
+        <div class="button" (click)="importSelection()" [attr.title]="'Import image choices'">{{ lang.importSelections }}</div>
+        <div class="button" (click)="showExclusions()">{{ "Exclude Games" }}</div>
+      </div>
     </ng-container>
     <div
       class="only-emudeck"
@@ -649,25 +660,25 @@
   </div>
   <div class="lowerMenu only-emudeck" *ngIf="!showExcludes">
     <ng-container *ngIf="previewVariables.listHasGenerated && previewVariables.numberOfListItems !== 0">
-      <div class="only-emudeck" (click)="generatePreviewData()">Refresh</div>
-      <div (click)="save()">{{ lang.saveAppList }}</div>
-      <div class="dangerousButton" (click)="remove()">{{ lang.removeAppList }}</div>
-      <div class="not-emudeck" (click)="exportSelection()" [attr.title]="'Export image choices'">
-        {{ lang.exportSelections }}
+      <div class="lowerLeft">
+        <div class="button" (click)="generatePreviewData()">{{lang.generateAppList}}</div>
+        <div class="button" (click)="save()">{{ lang.saveAppList }}</div>
+        <div class="button dangerousButton" (click)="remove()">{{ lang.removeAppList }}</div>
       </div>
-      <div class="not-emudeck" (click)="importSelection()" [attr.title]="'Import image choices'">
-        {{ lang.importSelections }}
+      <div class="lowerRight">
+        <div class="button" (click)="showExclusions()">{{ "Exclude Games" }}</div>
+        <div
+        class="button"
+        routerLink="/logger"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        *ngIf="previewVariables.numberOfListItems !== 0"
+      >
+        Log
       </div>
-      <div (click)="showExclusions()" *ngIf="!this.detailsApp">{{ "Exclude Games" }}</div>
+      <div class="button" routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
+      </div>
     </ng-container>
-    <div
-      routerLink="/logger"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      *ngIf="previewVariables.numberOfListItems !== 0"
-    >
-      Log
-    </div>
-    <div routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
+
   </div>
 </ng-container>
