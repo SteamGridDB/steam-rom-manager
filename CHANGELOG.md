@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 * View Games and About pages now in EmuDeck theme.
 * Total re-work of images data-structure to allow for flexible adding of multiple providers.
 * Exceptions Manager now checks for conflicting exceptions on save.
+* Upgrade to Node 22
 
 ### Fixed
 * Some graphical issues with loading spinner placements
