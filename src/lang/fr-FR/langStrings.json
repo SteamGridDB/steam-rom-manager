@@ -406,7 +406,7 @@
         "nothingWasFound": "L'analyseur n'a rien trouvé.",
         "copiedToClipboard": "Configuration copiée dans le presse-papiers",
         "userExclusions": "Utilisateur exclu:",
-        "excludedFileInfo__i": "[${index}/${total}]: ${filename}",
+        "excludedFileInfo__i": "[${index}/${total}]: ${filename}\n Excluded by \"${exceptionKey}\"",
         "removingControllers__i": "Removing controller templates for parser: ${configTitle}",
         "fetchingControllerTemplates": "Fetching controller templates"
       },
