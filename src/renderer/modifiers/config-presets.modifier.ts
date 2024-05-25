@@ -1,5 +1,6 @@
-import { ValidatorModifier, UserConfiguration } from '../../models';
+import { ValidatorModifier, UserConfiguration, ParserType } from '../../models';
 import * as _ from "lodash";
+import { superTypesMap } from '../../lib/parsers/available-parsers';
 
 const controllerTypes = [
   'ps4',
@@ -190,8 +191,12 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
     },
     10: {
       'presetVersion': { method: versionUp },
-      'imageProviders': { method: (oldValue) => {
-        return ['sgdb']
+      'imageProviders': { method: (oldValue, oldConfiguration) => {
+        const superType = superTypesMap[oldConfiguration.parserType as ParserType];
+        if( superType == 'ROM') {
+          return ['sgdb']
+        }
+        return ['sgdb', 'steamCDN']
       }}
     }
   }

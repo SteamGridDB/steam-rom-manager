@@ -12,8 +12,7 @@
 		"fetchControllerTemplatesButton": null,
 		"removeControllersButton": null,
 		"imageProviders": [
-			"sgdb",
-			"steamCDN"
+			"sgdb"
 		],
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
@@ -63,7 +62,7 @@
 			},
 			"steamCDN": {}
 		},
-		"presetVersion": 10,
+		"presetVersion": 11,
 		"defaultImage": {
 			"long": {
 				"tall": "",
@@ -106,8 +105,7 @@
 		"fetchControllerTemplatesButton": null,
 		"removeControllersButton": null,
 		"imageProviders": [
-			"sgdb",
-			"steamCDN"
+			"sgdb"
 		],
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
@@ -157,7 +155,7 @@
 			},
 			"steamCDN": {}
 		},
-		"presetVersion": 10,
+		"presetVersion": 11,
 		"defaultImage": {
 			"long": {
 				"tall": "",

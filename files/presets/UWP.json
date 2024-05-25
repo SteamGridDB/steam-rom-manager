@@ -40,7 +40,7 @@
 			"removeCharacters": true,
 			"removeBrackets": true
 		},
-		"presetVersion": 10,
+		"presetVersion": 11,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,

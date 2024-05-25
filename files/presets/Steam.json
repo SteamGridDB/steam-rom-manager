@@ -38,7 +38,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 10,
+		"presetVersion": 11,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
