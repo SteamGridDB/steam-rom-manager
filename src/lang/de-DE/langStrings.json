@@ -276,7 +276,7 @@
   "configPresets": {
     "service": {
       "error": {
-        "failedToDownload__i": "Fehler beim Download der Konfigurationsvorlagen. Status: ${error}.",
+        "failedToDownload__i": "Failed to download configuration presets file from commit ${commit}. Status: ${error}.",
         "writingError": "Fehler beim Speichern der Konfigurationsvorlagen.",
         "loadingError": "Fehler beim Laden der Konfigurationsvorlagen.",
         "corruptedVariables__i": "Gespeicherte Konfigurationsvorlagen sind ungültig!\nEndgültiges Speichern ist deaktiviert bis das Problem gelöst wurde.\nVersuche das Problem händisch zu beheben (Datei - ${file})\noder lass dir auf GitHub oder unserem offiziellen Discord Channel helfen (Englisch): ${error}"
