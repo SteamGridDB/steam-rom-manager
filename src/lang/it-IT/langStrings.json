@@ -443,8 +443,8 @@
         "imageQueries__i": "[${index}/${total}]:                        ${query}",
         "defaultImage__i": "[${index}/${total}]: Fallback risolto ${artworkType}:\n[${index}/${total}]:                        ${image}",
         "resolvedDefaultImage__i": "[${index}/${total}]: Fallback ${artworkType}:",
-        "localImages__i": "[${index}/${total}]: Risolto ${artworkType}:",
-        "resolvedLocalImages__i": "[${index}/${total}]: ${artworkType} glob:",
+        "localImages__i": "[${index}/${total}]: Resolved local ${artworkType}:",
+        "resolvedLocalImages__i": "[${index}/${total}]: Local ${artworkType} glob:",
         "indexInfo__i": "[${index}/${total}]:                        ${indexed}",
         "removedControllers__i": "Controller rimossi con successo per il parser: ${configTitle}",
         "fetchedTemplates": "Recuperati tutti i template dei controller"
