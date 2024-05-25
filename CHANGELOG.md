@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.4
+### Added
+* Ability to put back in exclusions from the add games page.
+
 ## 2.5.3
 ### Added
 * Ability to sort by each column in list view
