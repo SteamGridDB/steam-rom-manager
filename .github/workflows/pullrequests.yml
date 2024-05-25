@@ -24,12 +24,12 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: 19.8.1
+          node-version: 22.2.0
           check-latest: true
 
       - name: Install dependencies
         run: |
-          npm install -g npm@9.5.1
+          npm install -g npm@10.8.0
           npm ci
 
       - name: Build
