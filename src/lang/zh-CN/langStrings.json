@@ -276,7 +276,7 @@
   "configPresets": {
     "service": {
       "error": {
-        "failedToDownload__i": "无法下载配置预设文件。状态：${error}。",
+        "failedToDownload__i": "Failed to download configuration presets file from commit ${commit}. Status: ${error}.",
         "writingError": "保存配置预设时发生错误。",
         "loadingError": "加载配置预设时发生错误。",
         "corruptedVariables__i": "保存的配置预设无效！\n在解决此问题之前，永久文件保存已被禁用。\n尝试手动修复错误（文件 - ${file}）\n或在我们的官方 Discord 频道或 Github 上寻求帮助：${error}"
