@@ -406,7 +406,7 @@
         "nothingWasFound": "Il parser non ha trovato nulla.",
         "copiedToClipboard": "Configurazione copiata negli appunti",
         "userExclusions": "User excluded:",
-        "excludedFileInfo__i": "[${index}/${total}]: ${filename}",
+        "excludedFileInfo__i": "[${index}/${total}]: ${filename}\n Excluded by \"${exceptionKey}\"",
         "removingControllers__i": "Removing controller templates for parser: ${configTitle}",
         "fetchingControllerTemplates": "Recupero template dei controller"
       },
