@@ -899,7 +899,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                   }));
                 }
               }
-              if (data.files[i].defaultImage[artworkType] !== undefined) {
+              if (data.files[i].defaultImage[artworkType]) {
                 success(this.lang.success.defaultImage__i.interpolate({
                   index: i+1,
                   total: totalLength,
