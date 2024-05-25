@@ -443,8 +443,8 @@
         "imageQueries__i": "[${index}/${total}]:                        ${query}",
         "defaultImage__i": "[${index}/${total}]: Resolved fallback ${artworkType}:\r\n[${index}/${total}]:                        ${image}",
         "resolvedDefaultImage__i": "[${index}/${total}]: Fallback ${artworkType}:",
-        "localImages__i": "[${index}/${total}]: Resolved ${artworkType}:",
-        "resolvedLocalImages__i": "[${index}/${total}]: ${artworkType} glob:",
+        "localImages__i": "[${index}/${total}]: Resolved local ${artworkType}:",
+        "resolvedLocalImages__i": "[${index}/${total}]: Local ${artworkType} glob:",
         "indexInfo__i": "[${index}/${total}]:                        ${indexed}",
         "removedControllers__i": "Controladores do analisador removidos com sucesso: ${configTitle}",
         "fetchedTemplates": "Buscando modelos de controle"
