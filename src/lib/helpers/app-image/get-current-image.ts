@@ -20,9 +20,9 @@ export function getMaxLength(previewAppImage: PreviewDataAppImage, onlineImages:
   
   const defaultLength = previewAppImage.default ? 1 : 0;
 
-  const singleLength = Object.values(singleLocalLengths).reduce((x,y) => x+y);
-  const multiLength = Object.values(multiLocalLengths).reduce((x,y) => x+y)
-  const onlineLength = Object.values(onlineLengths).reduce((x,y)=>x+y)
+  const singleLength = Object.values(singleLocalLengths).reduce((x,y) => x+y, 0);
+  const multiLength = Object.values(multiLocalLengths).reduce((x,y) => x+y, 0)
+  const onlineLength = Object.values(onlineLengths).reduce((x,y) => x+y, 0)
   const maxLength = Math.max(defaultLength, singleLength + multiLength + onlineLength)
   return { singleLocalLengths, multiLocalLengths, onlineLengths, defaultLength, onlineLength, singleLength, multiLength, maxLength }
 }
