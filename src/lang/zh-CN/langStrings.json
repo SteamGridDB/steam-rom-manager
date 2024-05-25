@@ -406,7 +406,7 @@
         "nothingWasFound": "解析器未找到任何内容。",
         "copiedToClipboard": "配置已复制到剪贴板",
         "userExclusions": "用户排除：",
-        "excludedFileInfo__i": "[${index}/${total}]: ${filename}",
+        "excludedFileInfo__i": "[${index}/${total}]: ${filename}\n Excluded by \"${exceptionKey}\"",
         "removingControllers__i": "删除解析器控制器模板：${configTitle}",
         "fetchingControllerTemplates": "获取控制器模板"
       },
