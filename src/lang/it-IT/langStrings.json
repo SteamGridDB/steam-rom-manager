@@ -276,7 +276,7 @@
   "configPresets": {
     "service": {
       "error": {
-        "failedToDownload__i": "Failed to download configuration presets file. Status: ${error}.",
+        "failedToDownload__i": "Failed to download configuration presets file from commit ${commit}. Status: ${error}.",
         "writingError": "Errore durante il salvataggio dei preset di configurazione.",
         "loadingError": "Errore durante il caricamento dei preset di configurazione.",
         "corruptedVariables__i": "Saved configuration presets are invalid!\r\nPermanent file saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
