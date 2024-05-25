@@ -276,7 +276,7 @@
   "configPresets": {
     "service": {
       "error": {
-        "failedToDownload__i": "Falha ao baixar o arquivo de variáveis personalizadas. Status: ${error}.",
+        "failedToDownload__i": "Failed to download configuration presets file from commit ${commit}. Status: ${error}.",
         "writingError": "Erro ao salvar arquivos de configuração.",
         "loadingError": "Ocorreu um erro ao carregar as predefinições de configuração.",
         "corruptedVariables__i": "Variáveis personalizadas salvas são inválidas!\nO salvamento permanente de variáveis está desabilitado até que o problema seja resolvido.\nTente corrigir manualmente os erros (arquivo - ${file})\nou procure ajuda no github ou no nosso canal oficial do discord: ${error}"
