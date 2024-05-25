@@ -22,7 +22,7 @@ export class ConfigurationPresetsService {
   private downloadStatus: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private validator: json.Validator = new json.Validator(schemas.configPresets);
   private savingIsDisabled: boolean = false;
-  private rawURL: string = 'https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/';
+  private rawURL: string = 'https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/';
   private treesURL: string = 'https://api.github.com/repos/SteamGridDB/steam-rom-manager/git/trees/';
 
   constructor(private loggerService: LoggerService) {
@@ -47,7 +47,7 @@ export class ConfigurationPresetsService {
   async download(force: boolean = false) {
     if(!this.downloadStatus.getValue()) {
       this.downloadStatus.next(true);
-      const hashesURL = this.rawURL.concat('files/presetsHashes.json')
+      const hashesURL = this.rawURL.concat('master/files/presetsHashes.json')
       const presetsHashes = await this.xRequest.request(hashesURL, this.requestOpts);
       const commit = this.commitLookup(APP.version, presetsHashes)
       const downloadURL = this.treesURL.concat(commit).concat('?recursive=1')
@@ -58,14 +58,14 @@ export class ConfigurationPresetsService {
       let configPresets: any[] = []
       for(let presetURL of presetURLs) {
         const cleanURL = presetURL.split('/').map((x:string)=>encodeURI(x)).join('/');
-        const fullURL = this.rawURL.concat(cleanURL)
+        const fullURL = this.rawURL.concat(commit).concat('/').concat(cleanURL)
         const configPreset = await this.xRequest.request(fullURL, this.requestOpts);
         configPresets.push(configPreset);
       }
       let joinedPresets = Object.assign({},...configPresets)
       const error = this.set(joinedPresets);
       if (error) {
-        this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: error }));
+        this.loggerService.error(this.lang.error.failedToDownload__i.interpolate({ error: error, commit: commit }));
       } else {
         this.loggerService.info(this.lang.info.downloaded, force ? { invokeAlert: true, alertTimeout: 5000 } : undefined);
         this.save(force);

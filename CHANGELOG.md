@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Ability to set Proton version per parser [TODO]
 * Ability to prioritize artwork by certain authors [TODO]
-* Steam CDN Provider (Done as soon as SGDB API is updated)
+* Steam CDN Provider (Done as soon as SGDB API is updated, for now it always fetches portal artwork)
 * Browse All Artwork on Preview (Done)
 * List View on Preview (Done)
 * Settings toggle to disable saving steam categories (useful on Deck so steam doesn't have to be closed)
@@ -22,6 +22,7 @@ All notable changes to this project will be documented in this file.
 * Browse button for Fallback artwork not producing forward slash paths.
 * Bug where multiple selects in parser configuration could influence eachother.
 * Exceptions added from preview now can edit existing exceptions, so as not to create conflicts.
+* Config presets cacheing was broken.
 
 ## 2.4.29
 ### Added
