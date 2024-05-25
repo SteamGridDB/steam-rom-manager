@@ -42,7 +42,7 @@ export interface ParsedUserConfiguration {
   missingUserAccounts: string[],
   files: ParsedUserConfigurationFile[],
   failed: string[],
-  excluded: string[]
+  excluded: {exceptionKey: string, filePath: string}[]
 }
 
 export interface ParserInputField {

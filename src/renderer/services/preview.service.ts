@@ -564,6 +564,7 @@ export class PreviewService {
           if (previewData[config.steamDirectory][userAccount.accountID] === undefined) {
             previewData[config.steamDirectory][userAccount.accountID] = {
               username: userAccount.name,
+              excluded: config.excluded,
               apps: {}
             };
           }

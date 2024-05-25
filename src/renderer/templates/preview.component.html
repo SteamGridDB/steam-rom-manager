@@ -162,6 +162,23 @@
       
     </ng-container>
   </div>
+  <div class="excludesLower" *ngIf="showExcludes">
+    <div class="title">
+      <span>Put Back Titles</span>
+    </div>
+    <div class="currentExcludes">
+      <ng-container *ngFor="let steamDir of previewData | keys">
+        <ng-container *ngFor="let steamUser of previewData[steamDir] | keys">
+          <ng-container *ngFor="let currentExclude of previewData[steamDir][steamUser].excluded">
+            <div class="currentExclude"
+            (click)="excludePutBacks[currentExclude.exceptionKey]=!excludePutBacks[currentExclude.exceptionKey]"
+            [class.isPutBack]="excludePutBacks[currentExclude.exceptionKey]"
+            >{{currentExclude.filePath}}</div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
 
   <div class="urls" *ngIf="previewVariables.numberOfQueriedImages">
     <div class="stopButton" (click)="stopImageRetrieving()">{{ lang.stopUrlRetrieving }}</div>
@@ -210,6 +227,7 @@
     *ngVar="{ hoverIndex: undefined, hoverType: undefined } as entries"
     [class.detailsOpen]="!!this.detailsApp && showDetails"
     [class.listImagesOpen]="!!currentApp && showListImages"
+    [class.showExcludes]="!!showExcludes"
     (scroll)="onScroll()"
   >
     <ng-container *ngFor="let steamDir of previewData | keys">
@@ -637,7 +655,7 @@
       <div class="lowerRight">
         <div class="button" (click)="exportSelection()" [attr.title]="'Export image choices'">{{ lang.exportSelections }}</div>
         <div class="button" (click)="importSelection()" [attr.title]="'Import image choices'">{{ lang.importSelections }}</div>
-        <div class="button" (click)="showExclusions()">{{ "Exclude Games" }}</div>
+        <div class="button" (click)="showExclusions()" *ngIf="!showExcludes">{{ "Exclude Games" }}</div>
       </div>
     </ng-container>
     <div
@@ -666,7 +684,7 @@
         <div class="button dangerousButton" (click)="remove()">{{ lang.removeAppList }}</div>
       </div>
       <div class="lowerRight">
-        <div class="button" (click)="showExclusions()">{{ "Exclude Games" }}</div>
+        <div class="button" (click)="showExclusions()" *ngIf="!showExcludes">{{ "Exclude Games" }}</div>
         <div
         class="button"
         routerLink="/logger"

@@ -66,6 +66,20 @@ export class UserExceptionsService {
       });
   }
 
+  putBack(exceptionKey: string) {
+    const newData = this.data.saved;
+    const currentEntry = newData.titles[exceptionKey] 
+    if(currentEntry) {
+      if(currentEntry.commandLineArguments||currentEntry.newTitle||currentEntry.searchTitle||currentEntry.excludeArtwork) {
+        newData.titles[exceptionKey].exclude = false;
+      } else {
+        delete newData.titles[exceptionKey]
+      }
+    }
+    this.variableData.next({current: newData, saved: this.data.saved})
+    this.saveUserExceptions();
+  }
+
   addExceptionById(exceptionId: string, extractedTitle: string, newException: UserExceptionData) {
     let newData = this.data.saved;
     const exceptionMatches = Object.keys(newData.titles).filter((exTitle: string) => {

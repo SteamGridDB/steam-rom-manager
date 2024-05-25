@@ -456,12 +456,12 @@ export class FileParser {
             } else {
               return extractedTitle == parsedConfig.files[j].extractedTitle;
             }
-          }).map(x=>x[1]);
+          }).map(x=> {return {exceptionKey: x[0], ...x[1]}});
 
           if(exceptionMatches.length) {
             const exceptions = exceptionMatches[0];
             if(exceptions && exceptions.exclude) {
-              parsedConfig.excluded.push(parsedConfig.files[j].filePath);
+              parsedConfig.excluded.push({exceptionKey: exceptions.exceptionKey, filePath: parsedConfig.files[j].filePath});
               parsedConfig.files[j] = null;
               continue;
             }

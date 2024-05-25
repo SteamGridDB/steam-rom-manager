@@ -90,6 +90,7 @@ export interface PreviewDataApps {
 
 export interface PreviewDataUser {
     username: string,
+    excluded: {exceptionKey: string, filePath: string}[],
     apps: PreviewDataApps
 }
 

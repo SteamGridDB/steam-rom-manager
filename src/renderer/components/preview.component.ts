@@ -69,6 +69,7 @@ export class PreviewComponent implements OnDestroy {
       }
     }
   } = {};
+  excludePutBacks: {[exceptionKey: string]: boolean} = {};
   exclusionCount: number = 0;
 
   constructor(
@@ -539,11 +540,14 @@ export class PreviewComponent implements OnDestroy {
   showExclusions() {
     this.closeDetails();
     this.closeListImages();
+    this.renderer.setStyle(this.elementRef.nativeElement, '--excludes-lower-width', '50%', RendererStyleFlags2.DashCase);
     this.showExcludes = true;
   }
 
   cancelExcludes() {
     this.showExcludes = false;
+    this.renderer.setStyle(this.elementRef.nativeElement, '--excludes-lower-width', '0%', RendererStyleFlags2.DashCase);
+
     this.excludedAppIds = {};
     this.exclusionCount = 0;
   }
@@ -578,7 +582,12 @@ export class PreviewComponent implements OnDestroy {
         excludeArtwork: false
       })
     }
+    const putBackKeys = Object.keys(this.excludePutBacks).filter(putBackKey=>this.excludePutBacks[putBackKey]);
+    for(const putBackKey of putBackKeys) {
+      this.userExceptionsService.putBack(putBackKey);
+    }
     this.cancelExcludes();
+    this.generatePreviewData();
   }
 
   refreshImages(app: PreviewDataApp, artworkType?: ArtworkType) {

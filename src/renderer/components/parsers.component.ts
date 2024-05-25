@@ -956,7 +956,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               this.loggerService.info(this.lang.info.excludedFileInfo__i.interpolate({
                 index: data.files.length+ data.failed.length + i + 1,
                 total: totalLength,
-                filename: data.excluded[i]
+                filename: data.excluded[i].filePath,
+                exceptionKey: data.excluded[i].exceptionKey
               }));
             }
           }

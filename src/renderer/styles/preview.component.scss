@@ -23,18 +23,19 @@
   --games-icon-height: 600px;
   --details-width: 0%;
   --list-images-width: 0%;
+  --excludes-lower-width: 0%;
   --filters-width: 0%;
   grid-area: route;
   grid-template-areas:
-    "upperMenu upperMenu upperMenu upperMenu"
-    "excludes excludes excludes excludes"
-    "detailsUpper detailsUpper detailsUpper detailsUpper"
-    "listImagesUpper listImagesUpper listImagesUpper listImagesUpper"
-    "urls urls urls urls"
-    "filters entries detailsLower listImages"
-    "lowerMenu lowerMenu lowerMenu lowerMenu";
+    "upperMenu upperMenu upperMenu upperMenu upperMenu"
+    "excludes excludes excludes excludes excludes"
+    "detailsUpper detailsUpper detailsUpper detailsUpper detailsUpper"
+    "listImagesUpper listImagesUpper listImagesUpper listImagesUpper listImagesUpper"
+    "urls urls urls urls urls"
+    "filters entries detailsLower listImages excludesLower"
+    "lowerMenu lowerMenu lowerMenu lowerMenu lowerMenu";
   grid-template-rows: auto auto auto auto auto 1fr auto;
-  grid-template-columns: var(--filters-width) auto var(--details-width) var(--list-images-width);
+  grid-template-columns: var(--filters-width) auto var(--details-width) var(--list-images-width) var(--excludes-lower-width);
   .loadingSpinner {
     &:before {
       display: block;
@@ -315,6 +316,27 @@
     }
 
   }
+  .excludesLower {
+    @include webkitScrollbar(preview-scrollbar);
+    overflow-y: auto;
+    grid-area: excludesLower;
+    .title{
+      padding: 1em;
+      background-color: var(--color-preview-user-background);
+      color: var(--color-preview-text);
+      border-bottom: solid 1px var(--color-preview-user-background);
+    }
+    .currentExclude {
+      padding: 1em;
+      color: var(--color-preview-text);
+      border-top: solid 1px var(--color-preview-user-background);      
+      border-bottom: solid 1px var(--color-preview-user-background);
+      &.isPutBack {
+        background-color: var(--color-ng-select-option-background-hover);
+        color: var(--color-ng-select-option-text-hover);
+      }
+    }
+  }
   .detailsLower {
     @include webkitScrollbar(preview-scrollbar);
     grid-area: detailsLower;
@@ -428,7 +450,7 @@
   .entries {
     @include webkitScrollbar(preview-scrollbar);
     overflow-y: auto;
-    &.detailsOpen,&.listImagesOpen {
+    &.detailsOpen,&.listImagesOpen, &.showExcludes {
       ::-webkit-scrollbar {
         width: 0.75em;
       }
