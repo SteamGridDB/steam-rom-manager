@@ -17,7 +17,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const configPreset: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'presetVersion',
-  latestVersion: 10,
+  latestVersion: 11,
   fields: {
     undefined: {
       'presetVersion': { method: ()=>0 },
@@ -186,6 +186,12 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
 			  },
           steamCDN: {}
         }
+      }}
+    },
+    10: {
+      'presetVersion': { method: versionUp },
+      'imageProviders': { method: (oldValue) => {
+        return ['sgdb']
       }}
     }
   }
