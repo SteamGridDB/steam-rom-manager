@@ -69,7 +69,7 @@ export class ViewComponent {
   }
 
   sortedShortcuts(shortcuts: VDF_ShortcutsItem[]) {
-    return (shortcuts || []).sort((a,b)=>a.appname.localeCompare(b.appname));
+    return (shortcuts || []).sort((a,b)=>(a.appname||"").localeCompare(b.appname||""));
   }
 
   async setCurrentShortcut(steamDir: string, steamUser: string, shortcut: VDF_ShortcutsItem) {

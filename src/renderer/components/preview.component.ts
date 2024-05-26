@@ -653,13 +653,7 @@ export class PreviewComponent implements OnDestroy {
   }
 
   sortedAppIds(apps: PreviewDataApps) {
-    if(this.listSortBy=='extractedTitle') {
-      return Object.keys(apps).sort((a,b)=>apps[a].extractedTitle.localeCompare(apps[b].title))
-    } else if(this.listSortBy=='finalTitle') {
-      return Object.keys(apps).sort((a,b)=>apps[a].title.localeCompare(apps[b].title))
-    } else if(this.listSortBy=='configurationTitle') {
-      return Object.keys(apps).sort((a,b)=>apps[a].configurationTitle.localeCompare(apps[b].title))
-    }
+    return Object.keys(apps).sort((a,b)=>(apps[a][this.listSortBy as keyof PreviewDataApp] as string).localeCompare(apps[b][this.listSortBy as keyof PreviewDataApp] as string))
   }
 
   async exportSelection() {

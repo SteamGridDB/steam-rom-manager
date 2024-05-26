@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.5
+### Fixed
+* Bug with sorting in list view
+* [Issue 666](https://github.com/SteamGridDB/steam-rom-manager/issues/666)
+
 ## 2.5.4
 ### Added
 * Ability to put back in exclusions from the add games page.
