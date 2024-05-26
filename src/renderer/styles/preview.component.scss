@@ -119,7 +119,10 @@
         @include button();
         @include clickButtonColor(click-button);
     }
-
+    .title {
+      margin-left: 1em;
+      color: var(--color-preview-text); 
+    }
     .imageCounter {
       color: var(--color-preview-text);
 

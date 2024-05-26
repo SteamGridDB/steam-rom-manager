@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 * Bug with sorting in list view
 * [Issue 666](https://github.com/SteamGridDB/steam-rom-manager/issues/666)
+* Two bugs with exception putback ability
 
 ## 2.5.4
 ### Added

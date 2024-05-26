@@ -564,7 +564,7 @@ export class PreviewService {
           if (previewData[config.steamDirectory][userAccount.accountID] === undefined) {
             previewData[config.steamDirectory][userAccount.accountID] = {
               username: userAccount.name,
-              excluded: config.excluded,
+              excluded: data.map(x=>x.excluded).reduce((x,y)=>x.concat(y),[]),
               apps: {}
             };
           }
@@ -668,6 +668,7 @@ export class PreviewService {
                 onlineProviders: config.imageProviders,
                 drmProtect: config.drmProtect,
                 argumentString: file.argumentString,
+                filePath: file.filePath,
                 title: file.finalTitle,
                 extractedTitle: file.extractedTitle,
                 steamInputEnabled: config.steamInputEnabled,

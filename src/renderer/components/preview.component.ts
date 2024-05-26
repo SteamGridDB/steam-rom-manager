@@ -463,8 +463,6 @@ export class PreviewComponent implements OnDestroy {
         this.refreshImages(this.previewData[steamDirectory][userId].apps[appId]);
       }
       this.closeDetails();
-    } else {
-      console.log("Details app", this.detailsApp,this.matchFix )
     }
   }
 
@@ -585,6 +583,7 @@ export class PreviewComponent implements OnDestroy {
     const putBackKeys = Object.keys(this.excludePutBacks).filter(putBackKey=>this.excludePutBacks[putBackKey]);
     for(const putBackKey of putBackKeys) {
       this.userExceptionsService.putBack(putBackKey);
+      delete this.excludePutBacks[putBackKey];
     }
     this.cancelExcludes();
     this.generatePreviewData();
@@ -654,6 +653,13 @@ export class PreviewComponent implements OnDestroy {
 
   sortedAppIds(apps: PreviewDataApps) {
     return Object.keys(apps).sort((a,b)=>(apps[a][this.listSortBy as keyof PreviewDataApp] as string).localeCompare(apps[b][this.listSortBy as keyof PreviewDataApp] as string))
+  }
+
+  niceAppTitle(app: PreviewDataApp) {
+    if(superTypesMap[app.parserType] == 'ArtworkOnly') {
+      return app.title
+    }
+    return `${app.title} (${app.filePath})`
   }
 
   async exportSelection() {

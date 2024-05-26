@@ -77,6 +77,7 @@ export interface PreviewDataApp {
     onlineProviders: OnlineProviderType[],
     startInDirectory: string,
     executableLocation: string,
+    filePath: string,
     title: string,
     extractedTitle: string,
     argumentString: string,

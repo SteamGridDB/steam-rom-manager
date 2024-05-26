@@ -23,6 +23,15 @@
   </div>
   <div class="upperMenu" *ngIf="previewVariables.numberOfListItems > 0">
     <div class="filtersButton" (click)="toggleFilters()">Filters</div>
+    <div class="title" *ngIf="showDetails">
+      <span>Fix Match</span>
+    </div>
+    <div class="title" *ngIf="showExcludes">
+      <span>Manage Excludes</span>
+    </div>
+    <div class="title" *ngIf="showListImages">
+      <span>Select Artwork</span>
+    </div>
     <div class="slider">
       <input
         type="range"
@@ -94,7 +103,7 @@
   </div>
   <div class="upper detailsUpper" *ngIf="showDetails">
     <div class="upperTitle">
-      <span>Fix match for: {{ detailsApp ? detailsApp.app.title : "" }}</span>
+      <span>{{ detailsApp ? niceAppTitle(detailsApp.app) : "" }}</span>
     </div>
     <div class="buttonGroup">
       <div class="upperButton dangerousButton" (click)="closeDetails()">
@@ -107,7 +116,7 @@
   </div>
   <div class="upper listImagesUpper" *ngIf="getCurrentViewType()=='list' && currentApp && showListImages">
     <div class="upperTitle">
-      <span>Choose artwork for {{currentApp.app.title}}</span>
+      <span>{{currentApp ? niceAppTitle(currentApp.app) : ""}}</span>
     </div>
     <div class="buttonGroup">
       <div class="upperButton dangerousButton" (click)="closeListImages()">
