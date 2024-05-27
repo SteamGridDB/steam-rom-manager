@@ -20,6 +20,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4.1.6
+        with:
+          lfs: true
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.2
