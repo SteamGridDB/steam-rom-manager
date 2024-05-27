@@ -71,3 +71,11 @@ jobs:
           path: |
             release/*.deb
             release/*.AppImage
+      - name: Upload Artifacts Mac
+        uses: actions/upload-artifact@v3
+        if: ${{ matrix.os == 'macOS-latest' }}
+        with:
+          name: srm-build-mac
+          path: |
+            release/*.dmg
+            release/*.zip
