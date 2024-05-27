@@ -31,8 +31,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          # npm install -g npm@10.8.0
-          npm ci
+          npm install -g npm@10.8.0
+          npm install
 
       - name: Build
         run: |
