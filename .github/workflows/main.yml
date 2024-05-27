@@ -59,7 +59,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
       - name: Upload Artifacts Windows
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.3.3
         if: ${{ matrix.os == 'windows-latest' }}
         with:
           name: srm-build-windows
@@ -67,13 +67,13 @@ jobs:
             release/*.exe
             release/*.msi
       - name: Upload Artifacts Mac
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.3.3
         if: ${{ matrix.os == 'macOS-latest' }}
         with:
           name: srm-build-mac
           path: release/*.dmg
       - name: Upload Artifacts Linux
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.3.3
         if: ${{ matrix.os == 'ubuntu-latest' }}
         with:
           name: srm-build-linux
