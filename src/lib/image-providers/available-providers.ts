@@ -119,3 +119,5 @@ export const providerInfo: ProviderInfo = {
 export const providersSelect = onlineProviders.map((provider)=>{
   return {value: provider, displayValue: imageProviderNames[provider]}
 })
+
+export const sgdbIdRegex: RegExp = /^\$\{gameid\:([0-9]*?)\}$/;

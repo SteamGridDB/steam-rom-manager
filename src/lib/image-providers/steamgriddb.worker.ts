@@ -1,10 +1,9 @@
 import { GenericProvider, GenericProviderManager, ProviderProxy } from "./generic-provider";
 import { xRequestWrapper } from "./x-request-wrapper";
 import SGDB from "steamgriddb";
-import { imageProviderNames } from "./available-providers";
+import { imageProviderNames, sgdbIdRegex } from "./available-providers";
 
 
-export const idRegex: RegExp = /^\$\{gameid\:([0-9]*?)\}$/;
 
 // TODO make the user input this
 export const apiKey = "f80f92019254471cca9d62ff91c21eee";
@@ -21,8 +20,8 @@ export class SteamGridDbProvider extends GenericProvider {
 
   static async retrieveIdsFromTitle(title: string): Promise<number[]> {
     const client = new SGDB({key: apiKey});
-    if(idRegex.test(title)) {
-      return [parseInt(title.match(idRegex)[1])];
+    if(sgdbIdRegex.test(title)) {
+      return [parseInt(title.match(sgdbIdRegex)[1])];
     } else {
       const games = await client.searchGame(title);
       return games.map((game: any)=> game.id)
@@ -48,8 +47,8 @@ export class SteamGridDbProvider extends GenericProvider {
     let imageGameId: string;
     this.xrw.promise = new Promise<void>((resolve) => {
       let idPromise: Promise<number> = null;
-      if(idRegex.test(self.proxy.title)) {
-        idPromise = Promise.resolve(parseInt(self.proxy.title.match(idRegex)[1]))
+      if(sgdbIdRegex.test(self.proxy.title)) {
+        idPromise = Promise.resolve(parseInt(self.proxy.title.match(sgdbIdRegex)[1]))
       } else {
         idPromise = self.client.searchGame(self.proxy.title).then((res: any) => (res[0]||{}).id);
       }

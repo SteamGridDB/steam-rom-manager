@@ -71,8 +71,6 @@ import microsoftmsx1 from "./assets/systems/microsoftmsx1.svg";
 import microsoftmsx2 from "./assets/systems/microsoftmsx2.svg";
 import microsoftxbox from "./assets/systems/microsoftxbox.svg";
 import microsoftxbox360 from "./assets/systems/microsoftxbox360.svg";
-import model2 from "./assets/systems/model2.svg";
-import model3 from "./assets/systems/model3.svg";
 import moonlight from "./assets/systems/moonlight.svg";
 import moto from "./assets/systems/moto.svg";
 import msx from "./assets/systems/msx.svg";
@@ -192,8 +190,8 @@ import zmachine from "./assets/systems/zmachine.svg";
 import zx81 from "./assets/systems/zx81.svg";
 import zxspectrum from "./assets/systems/zxspectrum.svg";
 import pegasus from "./assets/systems/pegasus.svg";
-import segamodel3 from "./assets/systems/model3.svg";
-import segamodel2 from "./assets/systems/model2.svg";
+import segamodel3 from "./assets/systems/segamodel3.svg";
+import segamodel2 from "./assets/systems/segamodel2.svg";
 export {
   p3do,
   ags,
@@ -268,8 +266,6 @@ export {
   microsoftmsx2,
   microsoftxbox,
   microsoftxbox360,
-  model2,
-  model3,
   moonlight,
   moto,
   msx,

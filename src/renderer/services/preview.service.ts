@@ -83,10 +83,6 @@ export class PreviewService {
       this.appSettings = appSettings;
     });
     this.onlineImages = initArtworkRecord<OnlineImages[ArtworkType]>({});
-    for(const artworkType of artworkTypes) {
-      this.onlineImages[artworkType] = {};
-    }
-
     this.currentViewType = defaultArtworkType;
     this.imageProviderService.instance.stopEvent.subscribe(() => {
       for(const artworkType of artworkTypes) {

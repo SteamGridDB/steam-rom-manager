@@ -13,7 +13,7 @@ import * as FileSaver from 'file-saver';
 import * as steam from '../../lib/helpers/steam';
 import * as _ from 'lodash';
 import * as path from 'path';
-import { allProviders, imageProviderNames, multiLocalProviders, onlineProviders, providerCategories, singleLocalProviders } from '../../lib/image-providers/available-providers';
+import { allProviders, imageProviderNames, providerCategories, sgdbIdRegex } from '../../lib/image-providers/available-providers';
 
 @Component({
   selector: 'preview',
@@ -27,6 +27,7 @@ export class PreviewComponent implements OnDestroy {
   subscriptions: Subscription = new Subscription();
   previewVariables: PreviewVariables;
   missingArtFilter: boolean = false;
+  exceptionFilter: boolean = false;
   showFilters: boolean = false;
   filterValue: string = '';
   categoryFilter: string[] = [];
@@ -60,6 +61,7 @@ export class PreviewComponent implements OnDestroy {
   detailsLoading: boolean = true;
   showDetails: boolean = false;
   detailsSearchText: string = '';
+  detailsDisplayTitle: string = '';
 
   showExcludes: boolean = false;
   excludedAppIds: {
@@ -361,6 +363,11 @@ export class PreviewComponent implements OnDestroy {
     this.changeDetectionRef.detectChanges();
   }
 
+  setExceptionFilter(exceptionFilter: boolean) {
+    this.exceptionFilter = exceptionFilter;
+    this.changeDetectionRef.detectChanges();
+  }
+
   searchMatches(searchTitle: string) {
     this.previewService.getMatchFixes(searchTitle).then((games: any[])=>{
       this.matchFixDict = Object.fromEntries(games.map((x: any)=>[x.id.toString(), {name: x.name, posterUrl: x.posterUrl}]));
@@ -375,11 +382,11 @@ export class PreviewComponent implements OnDestroy {
     }
   }
   changeAppDetails(app: PreviewDataApp, steamDirectory: string, userId: string, appId: string) {
+    this.clearDetails();
     this.cancelExcludes();
     this.closeListImages();
     this.detailsLoading = true;
     this.showDetails= true;
-    this.matchFix = '';
     this.renderer.setStyle(this.elementRef.nativeElement, '--details-width', '50%', RendererStyleFlags2.DashCase);
     this.changeDetectionRef.detectChanges()
     this.detailsApp = {
@@ -394,13 +401,19 @@ export class PreviewComponent implements OnDestroy {
   fixMatch(sgdbId: string) {
     this.matchFix = sgdbId;
   }
-  closeDetails() {
+
+  clearDetails() {
     this.detailsSearchText = '';
+    this.detailsDisplayTitle = '';
     this.matchFix = '';
     this.detailsApp = undefined;
+  }
+  closeDetails() {
+    this.clearDetails();
     this.showDetails = false;
     this.renderer.setStyle(this.elementRef.nativeElement, '--details-width','0%', RendererStyleFlags2.DashCase);
     this.detailsLoading = false;
+    this.changeDetectionRef.detectChanges();
   }
 
   getImageRanges(app: PreviewDataApp, artworkType?: ArtworkType) {
@@ -427,42 +440,61 @@ export class PreviewComponent implements OnDestroy {
     this.renderer.setStyle(this.elementRef.nativeElement, '--list-images-width','0%',RendererStyleFlags2.DashCase);
   }
 
-  saveDetails() {
-    if(this.detailsApp && this.matchFix) {
+  deleteExceptionDetails() {
+    console.log("deyeeting")
+    if(this.detailsApp) {
+      console.log("crodie")
       const {steamDirectory, userId, appId, app} = this.detailsApp;
-      this.previewData[steamDirectory][userId].apps[appId].title = this.matchFixDict[this.matchFix].name;
-      if(superTypesMap[app.parserType] !== 'ArtworkOnly') {
-        const changedId = steam.generateAppId(app.executableLocation, this.matchFixDict[this.matchFix].name);
-        this.previewData[steamDirectory][userId].apps[appId].changedId = changedId;
+      const exceptionId = this.userExceptionsService.makeExceptionId(app.executableLocation, app.extractedTitle, app.parserType)
+      this.userExceptionsService.deleteExceptionById(exceptionId);
+      this.refreshAfterSavingDetails(steamDirectory,userId,appId);
+      this.closeDetails();
+      this.generatePreviewData();
+
+    }
+  }
+
+  saveDetails() {
+    if(this.detailsApp) {
+      const {steamDirectory, userId, appId, app} = this.detailsApp;
+      const newTitle = this.detailsDisplayTitle || (this.matchFix ? this.matchFixDict[this.matchFix].name : "");
+      if(newTitle) {
+        this.previewData[steamDirectory][userId].apps[appId].title = newTitle;
+        if(superTypesMap[app.parserType] !== 'ArtworkOnly') {
+          const changedId = steam.generateAppId(app.executableLocation, newTitle);
+          this.previewData[steamDirectory][userId].apps[appId].changedId = changedId;
+        }
       }
-      const newPool = `\$\{gameid:${this.matchFix}\}`
-      for(const artworkType of artworkTypes) {
-        const oldPool = this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool;
-        this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool = newPool;
-        this.previewData[steamDirectory][userId].apps[appId].images[artworkType].singleProviders.steam = undefined;
-        this.previewService.updateAppImages(newPool, oldPool, artworkType)
+      const newPool = this.matchFix ? `\$\{gameid:${this.matchFix}\}` : "";
+      if(newPool) {
+        for(const artworkType of artworkTypes) {
+          const oldPool = this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool;
+          this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool = newPool;
+          this.previewData[steamDirectory][userId].apps[appId].images[artworkType].singleProviders.steam = undefined;
+          this.previewService.updateAppImages(newPool, oldPool, artworkType)
+        }
       }
-      let exceptionId;
-      if(superTypes[ArtworkOnlyType].includes(app.parserType)) {
-        exceptionId = app.executableLocation.replace(/\"/g,"");
-      } else {
-        exceptionId = steam.generateShortAppId(app.executableLocation, app.extractedTitle)
-      }
+
+      const exceptionId = this.userExceptionsService.makeExceptionId(app.executableLocation, app.extractedTitle, app.parserType);
       this.userExceptionsService.addExceptionById(exceptionId, app.extractedTitle, {
-        newTitle: this.matchFixDict[this.matchFix].name,
+        newTitle: newTitle,
         searchTitle: newPool,
         commandLineArguments: '',
         exclude: false,
         excludeArtwork: false
       })
-      if(!isArtworkType(this.previewService.getCurrentViewType())) { 
-        for(const artworkType of artworkTypes) {
-          this.refreshImages(this.previewData[steamDirectory][userId].apps[appId], artworkType)
-        }
-      } else {
-        this.refreshImages(this.previewData[steamDirectory][userId].apps[appId]);
-      }
+      this.refreshAfterSavingDetails(steamDirectory,userId,appId);
       this.closeDetails();
+    }
+  }
+
+  private refreshAfterSavingDetails(steamDirectory: string, userId: string, appId: string) {
+    if(!isArtworkType(this.previewService.getCurrentViewType())) { 
+      for(const artworkType of artworkTypes) {
+        this.refreshImages(this.previewData[steamDirectory][userId].apps[appId], artworkType)
+      }
+    } else {
+      this.refreshImages(this.previewData[steamDirectory][userId].apps[appId]);
     }
   }
 
@@ -495,11 +527,9 @@ export class PreviewComponent implements OnDestroy {
     const searchFilter = this.fuzzyTest.transform(app.title, this.filterValue);
     const categoryFilter = this.intersectionTest.transform(app.steamCategories, this.actualCategoryFilter);
     const configFilter = this.intersectionTest.transform([app.configurationTitle], this.actualParserFilter);
-    let missingArtFilter;
-    const currentViewType = this.previewService.getCurrentViewType();
-    if(!this.missingArtFilter) {
-      missingArtFilter = true;
-    } else {
+    let missingArtFilter = true;
+    if(this.missingArtFilter) {
+      const currentViewType = this.previewService.getCurrentViewType();
       if(isArtworkType(currentViewType)) {
         missingArtFilter = !this.previewService.getCurrentImage(app)
       }
@@ -507,8 +537,18 @@ export class PreviewComponent implements OnDestroy {
         missingArtFilter = artworkTypes.map(t => !this.previewService.getCurrentImage(app,t)).reduce((x,y)=>x||y);
       }
     }
+    let exceptionFilter = true;
+    if(this.exceptionFilter) {
+      const exceptionId = this.userExceptionsService.makeExceptionId(app.executableLocation, app.extractedTitle, app.parserType);
+      exceptionFilter = !!this.userExceptionsService.getExceptionById(exceptionId)
+    }
     const excludesArtOnlyFilter = !this.showExcludes || superTypesMap[app.parserType]!=='ArtworkOnly'
-    return searchFilter && categoryFilter && configFilter && missingArtFilter && excludesArtOnlyFilter;
+    return searchFilter 
+    && categoryFilter 
+    && configFilter 
+    && missingArtFilter 
+    && exceptionFilter
+    && excludesArtOnlyFilter;
   }
 
   excludeVisible() {
@@ -564,9 +604,6 @@ export class PreviewComponent implements OnDestroy {
               return {exceptionId: exceptionId, extractedTitle: app.extractedTitle}
             });
             exceptionKeys = exceptionKeys.concat(newKeys)
-            this.previewData[steamDirectory][userId].apps = _.pickBy(this.previewData[steamDirectory][userId].apps, (value: PreviewDataApp, key: string) => {
-              return !this.excludedAppIds[steamDirectory][userId][key]
-            })
           }
         }
       }

@@ -2,8 +2,8 @@ import { VariableParser } from '../../lib';
 import { clipboard } from 'electron';
 import { Component, AfterViewInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
-import { ParsersService, LoggerService, ImageProviderService, SettingsService, ConfigurationPresetsService, ShellScriptsService, IpcService } from '../services';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ParsersService, LoggerService, ImageProviderService, SettingsService, ConfigurationPresetsService, ShellScriptsService, IpcService, UserExceptionsService } from '../services';
 import * as parserInfo from '../../lib/parsers/available-parsers';
 import * as steam from '../../lib/helpers/steam';
 import { controllerTypes, controllerNames } from '../../lib/controller-manager';
@@ -45,6 +45,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private loggerService: LoggerService,
     private settingsService: SettingsService,
     private imageProviderService: ImageProviderService,
+    private userExceptionsService: UserExceptionsService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
@@ -801,16 +802,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             success('');
             const executableLocation = data.files[i].modifiedExecutableLocation;
             const title = data.files[i].finalTitle;
-            let shortAppId; let appId; let exceptionKey;
+            let shortAppId;
             if(parserInfo.superTypesMap[config.parserType] !== parserInfo.ArtworkOnlyType) {
               shortAppId = steam.generateShortAppId(executableLocation, title);
-              appId = steam.lengthenAppId(shortAppId);
-              exceptionKey = steam.generateShortAppId(executableLocation, data.files[i].extractedTitle);
             } else {
               shortAppId = executableLocation.replace(/\"/g,"");
-              appId = steam.lengthenAppId(shortAppId);
-              exceptionKey = shortAppId;
             }
+            const appId = steam.lengthenAppId(shortAppId);
+            const exceptionKey = this.userExceptionsService.makeExceptionId(executableLocation, data.files[i].extractedTitle, config.parserType)
+
             success(this.lang.success.exceptionKey__i.interpolate({
               index: i + 1,
               total: totalLength,

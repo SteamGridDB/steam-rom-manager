@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserExceptions, UserExceptionData } from "../../models";
+import { UserExceptions, UserExceptionData, PreviewDataApp, ParserType } from "../../models";
 import { LoggerService } from './logger.service';
 import { BehaviorSubject } from "rxjs";
 import { APP } from '../../variables';
@@ -8,6 +8,8 @@ import * as paths from "../../paths";
 import * as schemas from '../schemas';
 import * as modifiers from '../modifiers';
 import * as _ from "lodash";
+import { superTypesMap } from '../../lib/parsers/available-parsers';
+import * as steam from '../../lib/helpers/steam';
 
 @Injectable()
 export class UserExceptionsService {
@@ -80,6 +82,30 @@ export class UserExceptionsService {
     this.saveUserExceptions();
   }
 
+  makeExceptionId(executableLocation: string, extractedTitle: string, parserType: ParserType) {
+    if(superTypesMap[parserType]=='ArtworkOnly') {
+      return executableLocation.replace(/\"/g,"");
+    } else {
+      return steam.generateShortAppId(executableLocation, extractedTitle)
+    }
+  }
+
+  deleteExceptionById(exceptionId: string) {
+    let newData = this.data.saved;
+    const exceptionMatches = Object.keys(newData.titles).filter((exTitle: string) => {
+      if(UserExceptionsService.appIdRegex.test(exTitle)) {
+        return exTitle.match(UserExceptionsService.appIdRegex)[1] == exceptionId;
+      } else {
+        return false
+      }
+    })
+    if(exceptionMatches.length) {
+      delete newData.titles[exceptionMatches[0]];
+    }
+    this.variableData.next({current: newData, saved: this.data.saved});
+    this.saveUserExceptions();
+  }
+
   addExceptionById(exceptionId: string, extractedTitle: string, newException: UserExceptionData) {
     let newData = this.data.saved;
     const exceptionMatches = Object.keys(newData.titles).filter((exTitle: string) => {
@@ -94,6 +120,19 @@ export class UserExceptionsService {
     newData.titles[replaceKey] = newException;
     this.variableData.next({current: newData, saved: this.data.saved})
     this.saveUserExceptions();
+  }
+
+  getExceptionById(exceptionId: string) {
+    const exceptionMatches = Object.keys(this.data.saved.titles).filter((exTitle: string) => {
+      if(UserExceptionsService.appIdRegex.test(exTitle)) {
+        return exTitle.match(UserExceptionsService.appIdRegex)[1] == exceptionId;
+      } else {
+        return false
+      }
+    })
+    if(exceptionMatches.length) {
+      return this.data.saved.titles[exceptionMatches[0]]
+    }
   }
 
   private duplicateKeys(data: UserExceptions) {

@@ -1,9 +1,10 @@
 import { GenericProvider, GenericProviderManager, ProviderProxy } from "./generic-provider";
-import {apiKey, idRegex} from "./steamgriddb.worker";
+import {apiKey} from "./steamgriddb.worker";
 import { xRequestWrapper } from "./x-request-wrapper";
 import SGDB from "steamgriddb";
 import { artworkTypes, steamArtworkDict } from '../artwork-types'
-import { imageProviderNames } from "./available-providers";
+import { imageProviderNames, sgdbIdRegex } from "./available-providers";
+
 export class SteamCDNProvider extends GenericProvider {
   private xrw: xRequestWrapper<SteamCDNProvider>;
   private client: any;
@@ -18,8 +19,8 @@ export class SteamCDNProvider extends GenericProvider {
     let self = this;
     this.xrw.promise = new Promise<void>((resolve) => {
       let idPromise: Promise<number> = null;
-      if(idRegex.test(self.proxy.title)) {
-        idPromise = Promise.resolve(parseInt(self.proxy.title.match(idRegex)[1]))
+      if(sgdbIdRegex.test(self.proxy.title)) {
+        idPromise = Promise.resolve(parseInt(self.proxy.title.match(sgdbIdRegex)[1]))
       } else {
         idPromise = self.client.searchGame(self.proxy.title).then((res: any) => (res[0]||{}).id);
       }

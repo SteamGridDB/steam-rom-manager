@@ -356,15 +356,56 @@
     .detailsOptions {
       padding: 1em 1em 0.5em 1em;
       grid-area: detailsOptions;
+      .ngTextInput {
+        @include ngTextInputColor(input);
+        @include ngTextInput();
+        width: 100%;
+      }
+      ng-toggle-button {
+        font-size: 1em;
+        margin: 0.25em 0 0.25em 0;
+        @include ngToggleButtonColor(ng-toggle-button);
+        color: var(--color-preview-text)
+      }
+      .detailsExceptionSection {
+        width: 100%;
+        font-size: 1em;
+        color: var(--color-preview-text);
+        margin-bottom: 1em;
+        border-bottom: solid 2px var(--color-nested-form-label);
+      }
+      .detailsException {
+        width: 100%;
+        display:grid;
+        grid-row: auto;
+        .detailsExceptionField {
+          width: 100%;
+          margin-bottom: 1em;
+          display: grid;
+          grid-template-areas: "detailsExceptionText detailsExceptionButton";
+          grid-template-columns: 1fr auto;
+          .detailsExceptionText {
+            display: flex;
+            grid-area: detailsExceptionText;
+            width: 100%;
+            .ngTextInput {
+              margin: 0em;
+            }
+
+          }
+          .detailsExceptionButton {
+            grid-area: detailsExceptionButton;
+            @include button();
+            @include clickButtonColor(click-button);
+            margin-left: .25em;
+          }
+        }
+      }
       .detailsSearch {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        .ngTextInput {
-          @include ngTextInputColor(input);
-          @include ngTextInput();
-          width: 100%;
-        }
+
         .clickButton2 {
           @include button();
           @include clickButtonColor(click-button);
