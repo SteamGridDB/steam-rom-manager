@@ -476,6 +476,7 @@ export class PreviewComponent implements OnDestroy {
       this.userExceptionsService.addExceptionById(exceptionId, app.extractedTitle, {
         newTitle: newTitle,
         searchTitle: newPool,
+        timeStamp: Date.now(),
         commandLineArguments: '',
         exclude: false,
         excludeArtwork: false
@@ -609,6 +610,7 @@ export class PreviewComponent implements OnDestroy {
       this.userExceptionsService.addExceptionById(exceptionKey.exceptionId, exceptionKey.extractedTitle, {
         newTitle: '',
         searchTitle: '',
+        timeStamp: Date.now(),
         commandLineArguments: '',
         exclude: true,
         excludeArtwork: false

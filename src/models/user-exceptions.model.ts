@@ -1,6 +1,7 @@
 export interface UserExceptionData {
   newTitle: string,
   searchTitle: string,
+  timeStamp: number,
   commandLineArguments: string,
   exclude: boolean,
   excludeArtwork: boolean

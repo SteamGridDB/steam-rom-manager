@@ -44,6 +44,9 @@
             <div class=text style="margin-right: 0.25em;">New Commandline Args: </div>
             <ng-text-input class="ngTextInput" placeholder="--custom-args" [formControl]="(item | formGroup).controls['commandLineArguments'] | formControl"></ng-text-input>
           </div>
+          <div class="inlineLeft">
+            <div class="text" style="margin-right: 0.25em; width: 100%;">Created: {{prettyDate((item | formGroup).controls['timeStamp'].value)}}</div>
+          </div>
           <div class="inlineGroup">
             <div class="inlineGroup">
               <ng-toggle-button class="ngToggleButton excludeButton" [formControl]="(item | formGroup).controls['exclude'] | formControl">{{lang.text.exclude}}</ng-toggle-button>

@@ -11,7 +11,8 @@ export const userExceptions = {
             searchTitle: { type: 'string', default: '' },
             commandLineArguments: { type: 'string', default: ''},
             exclude: { type: 'boolean', default: false },
-            excludeArtwork: { type: 'boolean', default: false }
+            excludeArtwork: { type: 'boolean', default: false },
+            timeStamp: { type: 'number', default: 0}
           }
         }
       }

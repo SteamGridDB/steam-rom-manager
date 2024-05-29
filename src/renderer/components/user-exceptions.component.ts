@@ -21,7 +21,7 @@ export class ExceptionsComponent implements OnDestroy {
   private userExceptions: UserExceptions;
 
   sortByOpts: SelectItem[] = _.flatten([
-    {value: 'dateAdded', displayValue: 'Date Added' },
+    {value: 'timeStamp', displayValue: 'Date Added' },
     {value: 'oldTitle', displayValue: 'Extracted Title'},
     {value: 'newTitle', displayValue: 'New Title'}
   ].map(x=>[
@@ -79,6 +79,7 @@ export class ExceptionsComponent implements OnDestroy {
       newTitle:'',
       searchTitle:'',
       commandLineArguments: '',
+      timeStamp: Date.now(),
       exclude: false,
       excludeArtwork: false
     })
@@ -101,15 +102,20 @@ export class ExceptionsComponent implements OnDestroy {
   }
 
   exceptionsSort(c1: FormGroup, c2: FormGroup) {
-    const sortBy = this.exceptionsService.sortBy.split('|')[0];
-    const asc = this.exceptionsService.sortBy.split('|')[1]==='asc';
+    const sortBy = this.sortBy.split('|')[0];
+    const asc = this.sortBy.split('|')[1]==='asc';
     let result: number;
-    if(!sortBy || sortBy === 'dateAdded') {
-      result = 1;
+    if(!sortBy || sortBy === 'timeStamp') {
+      result = c1.value.timeStamp - c2.value.timeStamp;
     } else {
       result = c1.value[sortBy].localeCompare(c2.value[sortBy])
     }
     return asc ? result : -result;
+  }
+
+  prettyDate(timeStamp: number) {
+    const date = new Date(timeStamp);
+    return date.toLocaleString()
   }
 
   undo() {
