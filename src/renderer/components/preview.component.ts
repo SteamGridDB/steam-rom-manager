@@ -441,16 +441,13 @@ export class PreviewComponent implements OnDestroy {
   }
 
   deleteExceptionDetails() {
-    console.log("deyeeting")
     if(this.detailsApp) {
-      console.log("crodie")
       const {steamDirectory, userId, appId, app} = this.detailsApp;
       const exceptionId = this.userExceptionsService.makeExceptionId(app.executableLocation, app.extractedTitle, app.parserType)
       this.userExceptionsService.deleteExceptionById(exceptionId);
       this.refreshAfterSavingDetails(steamDirectory,userId,appId);
       this.closeDetails();
       this.generatePreviewData();
-
     }
   }
 

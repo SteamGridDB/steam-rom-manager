@@ -15,12 +15,11 @@ export type ArtworkViewType = ArtworkType | ViewType;
 export function isArtworkType(artworkViewType: ArtworkViewType): artworkViewType is ArtworkType {
     return artworkTypes.includes(artworkViewType as ArtworkType)
 }
-export function initArtworkRecord<Y>(defaultValue: Y): Record<ArtworkType,Y> {
-    return Object.assign({},...artworkTypes.map(x=>({[x]:defaultValue})))
+export function initArtworkRecord<Y>(defaultValue: ()=>Y): Record<ArtworkType,Y> {
+    return Object.assign({},...artworkTypes.map(x=>({[x]:defaultValue()})))
 }
-export function initOnlineProviderRecord<Y>(defaultValue: Y): Record<OnlineProviderType,Y> {
-    return Object.assign({},...onlineProviders.map(x=>({[x]:defaultValue})))
-
+export function initOnlineProviderRecord<Y>(defaultValue: ()=>Y): Record<OnlineProviderType,Y> {
+    return Object.assign({},...onlineProviders.map(x=>({[x]:defaultValue()})))
 }
 
 export interface ImageContent {

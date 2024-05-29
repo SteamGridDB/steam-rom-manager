@@ -34,7 +34,7 @@ export class ArtworkCache {
       this.artworkCache = result;
       return this.sgdbToArt;
     }).catch((error) => {
-      this.artworkCache = {version: modifierLatest, sgdbToArt: initArtworkRecord<SGDBToArt[ArtworkType]>({}) };
+      this.artworkCache = {version: modifierLatest, sgdbToArt: initArtworkRecord<SGDBToArt[ArtworkType]>(()=>({})) };
     });
   }
 
@@ -43,7 +43,7 @@ export class ArtworkCache {
   }
 
   async emptyCache() {
-    this.artworkCache.sgdbToArt = initArtworkRecord<SGDBToArt[ArtworkType]>({});
+    this.artworkCache.sgdbToArt = initArtworkRecord<SGDBToArt[ArtworkType]>(()=>({}));
     await this.write();
   }
 

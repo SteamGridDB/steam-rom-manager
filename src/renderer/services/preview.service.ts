@@ -82,7 +82,7 @@ export class PreviewService {
     this.settingsService.onLoad((appSettings: AppSettings) => {
       this.appSettings = appSettings;
     });
-    this.onlineImages = initArtworkRecord<OnlineImages[ArtworkType]>({});
+    this.onlineImages = initArtworkRecord<OnlineImages[ArtworkType]>(()=>({}));
     this.currentViewType = defaultArtworkType;
     this.imageProviderService.instance.stopEvent.subscribe(() => {
       for(const artworkType of artworkTypes) {
@@ -146,7 +146,7 @@ export class PreviewService {
   updateAppImages(imageKey: string, oldPool: string, artworkType: ArtworkType) {
     this.onlineImages[artworkType][imageKey] = {
       retrieving: false,
-      online: initOnlineProviderRecord(null),
+      online: initOnlineProviderRecord(()=>null),
       offline: this.onlineImages[artworkType][oldPool].offline,
       parserEnabledProviders: this.onlineImages[artworkType][oldPool].parserEnabledProviders
     }
@@ -615,7 +615,7 @@ export class PreviewService {
             }
 
             if (previewData[config.steamDirectory][userAccount.accountID].apps[appID] === undefined) {
-              let images: Record<ArtworkType,PreviewDataAppImage> = initArtworkRecord<PreviewDataAppImage>(null);
+              let images: Record<ArtworkType,PreviewDataAppImage> = initArtworkRecord<PreviewDataAppImage>(()=>null);
               for(const artworkType of artworkTypes) {
                 const steamImage = gridData[config.steamDirectory][userAccount.accountID][ids.shortenAppId(appID).concat(artworkIdDict[artworkType])];
                 const steamImageUrl = steamImage ? url.encodeFile(steamImage) : undefined;
@@ -644,7 +644,7 @@ export class PreviewService {
                   imageIndex: 0
                 }
                 for(let localUrl of file.localImages[artworkType]) {
-                  this.addUniqueLocalImage(file.imagePool,{
+                  this.addUniqueLocalImage(file.imagePool, {
                     imageProvider: imageProviderNames.local,
                     imageUrl: localUrl,
                     imageRes: url.imageDimensions(localUrl),
@@ -695,8 +695,8 @@ export class PreviewService {
         const imageByProvider = imageByPool.online;
         const parserEnabledProviders = imageByPool.parserEnabledProviders;
         const imageProvidersForKey: OnlineProviderType[] = _.intersection(parserEnabledProviders, this.appSettings.enabledProviders);
-        this.previewVariables.numberOfQueriedImages += imageProvidersForKey.map((provider)=> imageByProvider[provider].searchQueries.length).reduce((x,y)=>x+y);
-        let retrievingByProvider = {sgdb: imageByPool.parserEnabledProviders.includes('sgdb'), steamCDN: imageByPool.parserEnabledProviders.includes('steamCDN')}
+        this.previewVariables.numberOfQueriedImages += imageProvidersForKey.map((provider) => imageByProvider[provider].searchQueries.length).reduce((x,y)=>x+y, 0);
+        let retrievingByProvider = Object.fromEntries(onlineProviders.map(x=>[x, imageProvidersForKey.includes(x)]))
         for(let provider of imageProvidersForKey) {
           const image = imageByProvider[provider];
           if (image !== undefined && image.searchQueries.length) {
@@ -723,7 +723,6 @@ export class PreviewService {
                       }));
                     }
                   }
-
                   break;
                   case 'timeout':
                     {
