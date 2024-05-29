@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.26
+### Added
+* Ability to filter by "Has Exception" in preview
+* Ability to override display title in fix match
+### Changed
+* New exceptions are now timestamped for sorting (old Exceptions are given todays date)
+### Fixed
+* Exceptions Sorting Bug
+
 ## 2.5.5
 ### Fixed
 * Bug with sorting in list view
