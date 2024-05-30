@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.8
+### Fixed
+* Provider workers not returning images under certain conditions
+* Local Artwork Only causing blue "retrieving" outline
+
 ## 2.5.7
 ### Added
 * `Steam Official` artwork provider now grabs official steam assets when they exist.
