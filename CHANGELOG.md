@@ -1,7 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2.5.26
+## 2.5.7
+### Added
+* `Steam Official` artwork provider now grabs official steam assets when they exist.
+
+## 2.5.6
 ### Added
 * Ability to filter by "Has Exception" in preview
 * Ability to override display title in fix match
