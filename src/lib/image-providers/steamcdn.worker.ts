@@ -14,17 +14,17 @@ export class SteamCDNProvider extends GenericProvider {
     this.xrw = new xRequestWrapper(proxy, true, 3, 3000);
     this.client = new SGDB({key: apiKey});
   }
-
   retrieveUrls() {
     let self = this;
-    this.xrw.promise = new Promise<void>(async (resolve) => {
-      try {
-        let chosenId: number;
-        if(sgdbIdRegex.test(self.proxy.title)) {
-          chosenId = parseInt(self.proxy.title.match(sgdbIdRegex)[1]);
-        } else {
-          chosenId = ((await self.client.searchGame(self.proxy.title))[0]||{}).id;
-        }
+    let imageGameId: string;
+    this.xrw.promise = new Promise<void>((resolve) => {
+      let idPromise: Promise<number> = null;
+      if(sgdbIdRegex.test(self.proxy.title)) {
+        idPromise = Promise.resolve(parseInt(self.proxy.title.match(sgdbIdRegex)[1]))
+      } else {
+        idPromise = self.client.searchGame(self.proxy.title).then((res: any) => (res[0]||{}).id);
+      }
+      idPromise.then((chosenId: number|undefined)=>{
         if(!chosenId) {
           if(self.proxy.imageType === 'long') { // Don't throw this error 5 times.
             self.xrw.logError(`SGDB found no matching games for title "${self.proxy.title}"`)
@@ -32,39 +32,41 @@ export class SteamCDNProvider extends GenericProvider {
           self.proxy.completed();
           resolve();
         } else {
-            // convert sgdbId to steamId
-            const platformData = ((await self.client.getGameById(chosenId, {platformdata: ['steam']}))||{}).external_platform_data;
-            if(platformData && platformData.steam && platformData.steam.length) {
-              const {id, metadata} = platformData.steam[0];
-              // return CDN urls
-              for(let artworkType of artworkTypes) {
-                if(self.proxy.imageType === artworkType && id) {
-                  if(self.proxy.imageType === 'icon' && metadata.clienticon) {
-                    self.proxy.image({
-                      imageProvider: imageProviderNames.steamCDN,
-                      imageUrl: `https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/${id}/${metadata.clienticon}.ico`,
-                      loadStatus: 'notStarted'
-                    })
-                  } else {
-                    self.proxy.image({
-                      imageProvider: imageProviderNames.steamCDN,
-                      imageUrl: `https://cdn.cloudflare.steamstatic.com/steam/apps/${id}/${steamArtworkDict[artworkType]}`,
-                      loadStatus: 'notStarted'
-                    })
-                  }
-                }
+          // convert sgdbId to steamId
+          return self.client.getGameById(chosenId, {platformdata: ['steam']})
+        }
+      }).then((data: any)=> {
+        const platformData = (data||{}).external_platform_data;
+        if(platformData && platformData.steam && platformData.steam.length) {
+          const {id, metadata} = platformData.steam[0];
+          // return CDN urls
+          for(let artworkType of artworkTypes) {
+            if(self.proxy.imageType === artworkType && id) {
+              if(self.proxy.imageType === 'icon' && metadata.clienticon) {
+                self.proxy.image({
+                  imageProvider: imageProviderNames.steamCDN,
+                  imageUrl: `https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/${id}/${metadata.clienticon}.ico`,
+                  loadStatus: 'notStarted'
+                })
+              } else {
+                self.proxy.image({
+                  imageProvider: imageProviderNames.steamCDN,
+                  imageUrl: `https://cdn.cloudflare.steamstatic.com/steam/apps/${id}/${steamArtworkDict[artworkType]}`,
+                  loadStatus: 'notStarted'
+                })
               }
             }
-            self.proxy.completed();
-            resolve();
           }
-        } 
-      catch(error) {
+        }
+        self.proxy.completed();
+        resolve();
+      })
+      .catch((error: string) => {
         self.xrw.logError(error);
         self.proxy.completed();
         resolve();
-      };
-    })
+      });
+    });
   }
 
   stopUrlDownload() {

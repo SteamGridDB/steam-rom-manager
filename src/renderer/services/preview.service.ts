@@ -691,12 +691,12 @@ export class PreviewService {
       for (let imageKey of imageKeys) {
         const imageByPool = this.onlineImages[artworkType][imageKey]
         if(imageByPool.retrieving) { continue; }
-        imageByPool.retrieving = true;
         const imageByProvider = imageByPool.online;
         const parserEnabledProviders = imageByPool.parserEnabledProviders;
         const imageProvidersForKey: OnlineProviderType[] = _.intersection(parserEnabledProviders, this.appSettings.enabledProviders);
         this.previewVariables.numberOfQueriedImages += imageProvidersForKey.map((provider) => imageByProvider[provider].searchQueries.length).reduce((x,y)=>x+y, 0);
-        let retrievingByProvider = Object.fromEntries(onlineProviders.map(x=>[x, imageProvidersForKey.includes(x)]))
+        let retrievingByProvider = Object.fromEntries(onlineProviders.map(x=>[x, imageProvidersForKey.includes(x) && !!imageByProvider[x].searchQueries.length]));
+        imageByPool.retrieving = Object.values(retrievingByProvider).reduce((x,y)=> x||y, false)
         for(let provider of imageProvidersForKey) {
           const image = imageByProvider[provider];
           if (image !== undefined && image.searchQueries.length) {
