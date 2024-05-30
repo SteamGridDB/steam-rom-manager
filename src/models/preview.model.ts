@@ -6,7 +6,7 @@ import { artworkTypes, viewTypes } from "../lib/artwork-types";
 import { SteamList } from "./helpers.model";
 
 export type ImageDownloadStatus = 'notStarted' | 'downloading' | 'done' | 'failed';
-export type ImageProviderName = 'Fallback Artwork' | 'Current Artwork' | 'Backup Artwork' | 'Local Artwork' | 'Manually Added' | 'Imported Artwork' | 'SteamGridDB' | 'Steam CDN'
+export type ImageProviderName = 'Fallback Artwork' | 'Current Artwork' | 'Backup Artwork' | 'Local Artwork' | 'Manually Added' | 'Imported Artwork' | 'SteamGridDB' | 'Steam Official'
 
 export type ArtworkType = typeof artworkTypes[number];
 export type ViewType = typeof viewTypes[number];

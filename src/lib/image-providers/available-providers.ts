@@ -37,7 +37,7 @@ export const imageProviderNames: Record<ImageProviderType, ImageProviderName> = 
   imported: 'Imported Artwork',
   manual: 'Manually Added',
   sgdb: 'SteamGridDB',
-  steamCDN: 'Steam CDN'
+  steamCDN: 'Steam Official'
 }
 
 export const allProviders: Record<ProviderCategoryType,

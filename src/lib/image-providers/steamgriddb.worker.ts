@@ -45,14 +45,14 @@ export class SteamGridDbProvider extends GenericProvider {
   retrieveUrls() {
     let self = this;
     let imageGameId: string;
-    this.xrw.promise = new Promise<void>((resolve) => {
-      let idPromise: Promise<number> = null;
-      if(sgdbIdRegex.test(self.proxy.title)) {
-        idPromise = Promise.resolve(parseInt(self.proxy.title.match(sgdbIdRegex)[1]))
-      } else {
-        idPromise = self.client.searchGame(self.proxy.title).then((res: any) => (res[0]||{}).id);
-      }
-      idPromise.then((chosenId: number|undefined)=>{
+    this.xrw.promise = new Promise<void>(async (resolve) => {
+      try {
+        let chosenId: number;
+        if(sgdbIdRegex.test(self.proxy.title)) {
+          chosenId = parseInt(self.proxy.title.match(sgdbIdRegex)[1]);
+        } else {
+          chosenId = ((await self.client.searchGame(self.proxy.title))[0]||{}).id;
+        }
         if(!chosenId) {
           if(self.proxy.imageType === 'long') { // Don't throw this error 5 times.
             self.xrw.logError(`SGDB found no matching games for title "${self.proxy.title}"`)
@@ -70,55 +70,52 @@ export class SteamGridDbProvider extends GenericProvider {
             humor: self.proxy.imageProviderAPIs.humor ? "any" : "false"
           };
           const choose = (x: any, fallback: string[]) => x && x.length ? x : fallback;
+          let res: any;
           if(self.proxy.imageType === 'long') {
-            query = self.client.getGrids(Object.assign(params, {
+            res = await self.client.getGrids(Object.assign(params, {
               dimensions: choose(self.proxy.imageProviderAPIs.sizes, ["460x215","920x430"]),
               styles: self.proxy.imageProviderAPIs.styles
             }))
           } else if (self.proxy.imageType === 'tall') {
-            query = self.client.getGrids(Object.assign(params, {
+            res = await self.client.getGrids(Object.assign(params, {
               dimensions: ["600x900"],
               styles: self.proxy.imageProviderAPIs.styles
             }));
           } else if (self.proxy.imageType === 'hero') {
-            query = self.client.getHeroes(Object.assign(params, {
+            res = await self.client.getHeroes(Object.assign(params, {
               dimensions: choose(self.proxy.imageProviderAPIs.sizesHero, null),
               styles: self.proxy.imageProviderAPIs.stylesHero
             }));
           } else if (self.proxy.imageType === 'logo') {
-            query = self.client.getLogos(Object.assign(params, {
+            res = await self.client.getLogos(Object.assign(params, {
               styles: self.proxy.imageProviderAPIs.stylesLogo
             }));
           } else if (self.proxy.imageType === 'icon') {
-            query = self.client.getIcons(Object.assign(params, {
+            res = await self.client.getIcons(Object.assign(params, {
               dimensions: choose(self.proxy.imageProviderAPIs.sizesIcon, null),
               styles: self.proxy.imageProviderAPIs.stylesIcon
             }));
           }
-          return query
-        }
-      })
-      .then((res: any)=>{
-        if(res !== null && res.length>0) {
-          for (let i=0; i < res.length; i++) {
-            self.proxy.image({
-              imageProvider: imageProviderNames.sgdb,
-              imageUrl: res[i].url,
-              imageGameId: imageGameId,
-              imageArtworkId: String(res[i].id),
-              imageUploader: res[i].author.name,
-              loadStatus: 'notStarted'
-            });
+          if(res !== null && res.length > 0) {
+            for (let i=0; i < res.length; i++) {
+              self.proxy.image({
+                imageProvider: imageProviderNames.sgdb,
+                imageUrl: res[i].url,
+                imageGameId: imageGameId,
+                imageArtworkId: String(res[i].id),
+                imageUploader: res[i].author.name,
+                loadStatus: 'notStarted'
+              });
+            }
           }
+          self.proxy.completed();
+          resolve();
         }
-        self.proxy.completed();
-        resolve();
-      })
-      .catch((error: string) => {
+      } catch(error) {
         self.xrw.logError(error);
         self.proxy.completed();
         resolve();
-      });
+      }
     });
   }
 
