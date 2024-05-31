@@ -162,7 +162,7 @@ export class BattleNetParser implements GenericParser {
             finalData.success.push({
               extractedTitle: name,
               startInDirectory: bNetDir,
-              launchOptions: `-File "${scriptPath}" -bnet "${bNetExe}" -launchid "${launchId}"`
+              launchOptions: `-ExecutionPolicy Bypass -File "${scriptPath}" -bnet "${bNetExe}" -launchid "${launchId}"`
             })
           }
         }
