@@ -22,7 +22,9 @@ Löscht den Cache der Titel die der Fuzzy Matcher schon gesehen hat (versuche di
 ### Abgerufene Bilder vorladen `[nicht empfohlen]`
 Wenn aktiviert wird SRM alle verfügbaren Artworks für jedes Spiel laden, anstatt jedes Bild einzeln beim Durchblättern der Bilder zu laden. Diese Einstellung sollte nur dann aktiviert werden, wenn triftige Gründe und eine sehr kleine Spielbibliothek existieren, da sonst sehr große und langsame Netzwerkabfragen entstehen könnten.
 ### Aktivierte Anbieter
-Globale Einstellung, um bestimmte Anbieter zu deaktivieren. Derzeit ist der einzige Bildanbieter `SteamGridDB`, da ConsoleGrid und RetroGaming.cloud nicht funktionieren.
+Global setting to enable/disable particular image providers. Current options are `SteamGridDB` and `Steam Official`.
+### DNS manual override
+Set this if you want SRM to do DNS resolution internally, as opposed to relying on your system's default DNS server. This solves many timeout issues on the Steam Deck.
 
 ## Community-Variablen und Vorlagen
 ### Erzwinge das Herunterladen benutzerdefinierter Variablen.
