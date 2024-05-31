@@ -105,6 +105,15 @@
     </div>
     <div class="inputContainer">
       <div class="inlineGroup">
+        <ng-select style="font-size: 0.85em;" class="ngSelect"
+        [ngModel]="settings.dnsServers" (ngModelChange)="settings.dnsServers = $event; onSettingsChange();"
+        [multiple]="true" [allowEmpty]="true" [placeholder]="lang.placeholder.noProviders" [values]="availableDNS">
+        </ng-select>
+        <div class=text style="margin-left: 0.25em;">{{lang.text.dnsServers}}</div>
+      </div>
+    </div>
+    <div class="inputContainer">
+      <div class="inlineGroup">
         <ng-select style="font-size: 0.85em;" class="ngSelect" 
         [ngModel]="settings.batchDownloadSize" (ngModelChange)="settings.batchDownloadSize = $event; onSettingsChange();" 
         [allowEmpty]="true" placeholder="Auto" [values]="availableBatches">

@@ -12,7 +12,7 @@ import { fstat } from 'fs';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as paths from '../../paths';
-import { providersSelect } from '../../lib/image-providers/available-providers';
+import { providersSelect, dnsSelect } from '../../lib/image-providers/available-providers';
 
 @Component({
   selector: 'settings',
@@ -62,7 +62,11 @@ export class SettingsComponent implements OnDestroy {
   }
 
   get availableProviders() {
-    return providersSelect
+    return providersSelect;
+  }
+
+  get availableDNS() {
+    return dnsSelect;
   }
 
   get lang() {

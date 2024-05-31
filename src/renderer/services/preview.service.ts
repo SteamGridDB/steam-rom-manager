@@ -257,7 +257,7 @@ export class PreviewService {
           }
         })
       }
-      return vdfManager.write(batchWrite, this.appSettings.batchDownloadSize);
+      return vdfManager.write(batchWrite, this.appSettings.batchDownloadSize, this.appSettings.dnsServers);
     })
     .then(({nonFatal, outcomes}: {nonFatal: VDF_Error, outcomes: VDF_AllScreenshotsOutcomes})=> {
       if(nonFatal) {
@@ -817,7 +817,7 @@ export class PreviewService {
   }
 
   async exportSelection() {
-    const imageDownloader = new url.ImageDownloader();
+    const imageDownloader = new url.ImageDownloader(this.appSettings.dnsServers);
     async function saveImage(imageUrl: string, temporaryDir: string, append: string) {
       const extension = imageUrl.split(/[#?]/)[0].split('.').pop().trim();
       const filename = `${append}.${extension}`;
@@ -869,13 +869,10 @@ export class PreviewService {
                 const currentImage = appImage.getCurrentImage(app.images[artworkType], this.onlineImages[artworkType]);
                 if(currentImage) {
                   const imageUrl = currentImage.imageUrl;
-                  const nintendoSucks = imageUrl.slice(-1) == '?';
-                  if(!nintendoSucks) {
-                    selection.images[artworkType] = {
-                      pool: app.images[artworkType].imagePool,
-                      filename: await saveImage(imageUrl, packagePath,`${saveId}.${artworkType}`)
-                    };
-                  }
+                  selection.images[artworkType] = {
+                    pool: app.images[artworkType].imagePool,
+                    filename: await saveImage(imageUrl, packagePath,`${saveId}.${artworkType}`)
+                  };
                 }
               }
               apps.push(selection);
@@ -930,18 +927,20 @@ export class PreviewService {
                 imageUrl: url.encodeFile(path.join(packagePath, selection.images[artworkType].filename)),
                 loadStatus: 'done'
               }, artworkType, 'imported')
+              if(!importedApps.includes(selection.images[artworkType].pool)) {
+                importedApps.push(selection.images[artworkType].pool)
+              }
             }
           }
-          importedApps.push(selection.title);
         }
-
         for (const directory in this.previewData) {
           for (const userId in this.previewData[directory]) {
             for (const appId in this.previewData[directory][userId].apps) {
               const app: PreviewDataApp = this.previewData[directory][userId].apps[appId];
-              if (importedApps.includes(app.extractedTitle)) {
-                for(const artworkType of artworkTypes) {
-                  this.setImageIndex(app, this.getTotalLengthOfImages(app, artworkType, true) -1, artworkType, true);
+              for(const artworkType of artworkTypes) {
+                const imageRanges = appImage.getImageRanges(app.images[artworkType], this.onlineImages[artworkType]);
+                if(imageRanges.imported.start < imageRanges.imported.end) {
+                  this.setImageIndex(app, imageRanges.imported.end - 1, artworkType, true);
                 }
               }
             }

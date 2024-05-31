@@ -32,6 +32,7 @@ export interface AppSettings {
   offlineMode: boolean,
   enabledProviders: OnlineProviderType[],
   batchDownloadSize: number,
+  dnsServers: string[],
   previewSettings: PreviewSettings,
   navigationWidth: number,
   clearLogOnTest: boolean

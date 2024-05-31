@@ -377,6 +377,7 @@ export interface languageStruct {
         fuzzy_verbose: string,
         fuzzy_filter: string,
         enabledProviders: string,
+        dnsServers: string,
         selectLanguage: string,
         selectTheme: string,
         resetFuzzy_desc: string,
