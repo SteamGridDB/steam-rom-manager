@@ -304,6 +304,7 @@
         "fuzzy_verbose": "记录匹配结果",
         "fuzzy_filter": "筛选图像",
         "enabledProviders": "启用的图片提供程序",
+        "dnsServers": "DNS manual override",
         "selectLanguage": "选择语言",
         "selectTheme": "选择主题",
         "resetFuzzy_desc": "模糊列表",
