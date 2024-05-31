@@ -22,7 +22,9 @@ Limpa o cache de títulos que coincidem difusas já foram vistos (tente isso se 
 ### Pré-carregamento recuperado imagens `[Recomendado desativado]`
 Quando ativado, a SRM vai puxar todas as artes disponíveis para cada jogo, ao invés de puxar uma peça de arte de cada vez, enquanto o usuário navega pelas imagens. Não ative isso, a menos que você tenha uma boa razão e uma biblioteca muito pequena de jogos, caso contrário, ele pode resultar em solicitações de rede muito grandes (lentas).
 ### Ativar provedor
-Configuração global para desativar certos provedores. Atualmente, o único provedor de imagem é `SteamGridDB` já que ConsoleGrid e RetroGaming.cloud foram fundidos.
+Global setting to enable/disable particular image providers. Current options are `SteamGridDB` and `Steam Official`.
+### DNS manual override
+Set this if you want SRM to do DNS resolution internally, as opposed to relying on your system's default DNS server. This solves many timeout issues on the Steam Deck.
 
 ## Variáveis e Predefinições da Comunidade
 ### Forçar download de variáveis personalizadas.
