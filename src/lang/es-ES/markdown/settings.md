@@ -22,7 +22,9 @@ Clears the cache of titles that fuzzy matching has already seen (try this if cha
 ### Pre-cargar imágenes obtenidas `[Recomendado: deshabilitado]`
 Si está activado, SRM obtendrá todas las imágenes disponibles para cada juego, en lugar de obtener cada imagen según se muestra. No lo actives a no ser qué tengas un muy buen motivo y una biblioteca de juegos muy reducida, de lo contrario, podría llevar a grandes (y lentas) peticiones a internet.
 ### Proveedores habilitados
-Configuración global para desactivar ciertos proveedores. Actualmente el único proveedor de imágenes es `SteamGridDB` ya que ConsoleGrid y RetroGaming.cloud están muertos.
+Global setting to enable/disable particular image providers. Current options are `SteamGridDB` and `Steam Official`.
+### DNS manual override
+Set this if you want SRM to do DNS resolution internally, as opposed to relying on your system's default DNS server. This solves many timeout issues on the Steam Deck.
 
 ## Plantillas y variables de la comunidad
 ### Forzar descargar variables personalizadas.
