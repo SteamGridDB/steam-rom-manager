@@ -304,6 +304,7 @@
         "fuzzy_verbose": "Nenhum resultado correspondente",
         "fuzzy_filter": "Filtrar imagens",
         "enabledProviders": "Enabled image providers",
+        "dnsServers": "DNS manual override",
         "selectLanguage": "Select language",
         "selectTheme": "Select theme",
         "resetFuzzy_desc": "fuzzy list",
