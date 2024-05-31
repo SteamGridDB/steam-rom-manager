@@ -22,7 +22,9 @@ Pulisce la cache dei titoli che il matcher fuzzy ha già visto (prova se le modi
 ### Precarica le immagini recuperate `[Disabilitazione Consigliata]`
 Quando abilitata, SRM otterrà tutti gli artwork disponibili per ogni gioco, piuttosto che scaricare solo un artwork alla volta mentre l'utente scorre tra le immagini. Non abilitare questa opzione a meno che tu non abbia una buona ragione e una piccolissima libreria di giochi, altrimenti potrebbe dar luogo a richieste di rete molto grandi (lente).
 ### Abilita provider
-Impostazione globale per disabilitare alcuni provider. Attualmente l'unico provider di immagini è `SteamGridDB` dal momento che ConsoleGrid e RetroGaming.cloud sono disattivati.
+Global setting to enable/disable particular image providers. Current options are `SteamGridDB` and `Steam Official`.
+### DNS manual override
+Set this if you want SRM to do DNS resolution internally, as opposed to relying on your system's default DNS server. This solves many timeout issues on the Steam Deck.
 
 ## Variabili comunitarie e Preset
 ### Forza il download di variabili personalizzate.
