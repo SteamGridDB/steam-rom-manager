@@ -22,7 +22,9 @@
 ### 预加载检索到的图片`[建议禁用]`
 启用后，SRM 将为每个游戏拉取所有可用的艺术作品，而不是在用户翻阅图像时逐一拉取一件艺术作品。 除非你有充分的理由和非常小的游戏库，否则不要启用此选项，否则可能会导致非常大（缓慢）的网络请求。
 ### 启用的提供程序
-禁用某些提供程序的全局设置。 目前唯一的图像提供程序是 `SteamGridDB`，因为 ConsoleGrid 和 RetroGaming.cloud 已经停止运营。
+Global setting to enable/disable particular image providers. Current options are `SteamGridDB` and `Steam Official`.
+### DNS manual override
+Set this if you want SRM to do DNS resolution internally, as opposed to relying on your system's default DNS server. This solves many timeout issues on the Steam Deck.
 
 ## 社区变量和预设
 ### 强制下载自定义变量。
