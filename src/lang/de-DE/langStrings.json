@@ -304,6 +304,7 @@
         "fuzzy_verbose": "Übereinstimmende Ergebnisse loggen",
         "fuzzy_filter": "Bilder filtern",
         "enabledProviders": "Aktivierte Bildanbieter",
+        "dnsServers": "DNS manual override",
         "selectLanguage": "Sprache auswählen",
         "selectTheme": "Theme auswählen",
         "resetFuzzy_desc": "Fuzzy Liste",
