@@ -1,5 +1,5 @@
-# Parser type
+# Clase de Parser
 
-Select a parser which will be used to do parsing. Once the parser is selected, you'll see more detailed information.
+Seleccione el parser que se usará para realizar el proceso. Una vez que el parser sea seleccionado, se mostrará más información detallada.
 
-**Configurations without parser types will not save, and will not be reloaded if you exit out of SRM.**
+**Las Configurciones sin ninguna clase de parser no serán guardadas, y no volverán a cargar si cierra SRM.**
