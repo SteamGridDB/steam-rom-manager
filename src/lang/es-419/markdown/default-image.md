@@ -1,13 +1,13 @@
-# Default image (optional) `[supports variables]`{.noWrap}
+# Imagen predeterminada (opcional) `[supports variables]`{.noWrap}
 
-Allows one to use an image, stored locally, as a default/fallback image. A [special glob input](#special-glob-input) string is used to retrieve images. Only the first retrieved image is used.
+Permite utilizar una imagen almacenada localmente como imagen predeterminada. Se utiliza una cadena [de entrada glob especial](#special-glob-input) para extraer imágenes. Solo la primera imagen extraída será utilizada.
 
-This image will be shown **only** if there are no other images available. If Steam image is available, you will be able to choose from Steam and this image.
+Se mostrará la primera imagen **únicamente** si no hay disponibles otras imágenes. Si la carátula de Steam está disponible, podrá seleccionar entre la de Steam y esta imagen.
 
-## Allowed image extensions
+## Extensiones de imagen permitidas
 
-Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Even if parser finds files with other extensions, they are not included into the final list.
+Solo las extensiones de archivo `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} y `TGA`{.noWrap} son compatibles. Aunque el parser encuentre archivos con otras extensiones, estas no se incluyen en la lista final.
 
-## Can you move the directory of default image after saving app list?
+## ¿Puede mover el directorio de la imagen predeterminada después de guardar la lista de aplicaciones?
 
-Yes, once the list is saved, default image is copied to a Steam directory where they are renamed to match Steam's APP ID.
+Sí, una vez que la lista sea guardada, la imagen predeterminada será copiada al directorio de Steam donde se renombran para que coincida con el ID DE LA APP de Steam.
