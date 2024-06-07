@@ -19,7 +19,7 @@
       If you don't want to add all games click <strong>Exclude Apps</strong> and then select the ones you don't want and
       hit <strong>Save Excludes</strong>
     </p>
-    <div class="fake-btn" (click)="generatePreviewData()">{{ lang.generateAppList }}</div>
+    <div class="fake-btn" (click)="generatePreviewData()">Parse</div>
   </div>
   <div class="upperMenu" *ngIf="previewVariables.numberOfListItems > 0">
     <div class="filtersButton" (click)="toggleFilters()">Filters</div>
@@ -52,7 +52,7 @@
       >
       </ng-select>
     </div>
-    <ng-text-input class="appFilter" [placeholder]="lang.filter" [(ngModel)]="filterValue"></ng-text-input>
+    <ng-text-input class="appFilter" [placeholder]="lang.filter" [ngModel]="filterValue" (ngModelChange)="setSearchFilter($event)"></ng-text-input>
   </div>
   <div class="excludes" *ngIf="showExcludes">
     <div class="titleGroup">
@@ -157,7 +157,7 @@
       <ng-container *ngFor="let artworkType of artworkTypes">
         <div class="listImagesButton" 
         [class.selected]="listImagesArtworkType==artworkType"
-        (click)="listImagesArtworkType=artworkType"
+        (click)="changeListImagesArtworkType(artworkType)"
         >{{artworkViewNames[artworkType]}}</div>
       </ng-container>
     </div>

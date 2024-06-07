@@ -164,6 +164,11 @@ export class PreviewComponent implements OnDestroy {
     this.actualParserFilter = parsers.map(p=>p.replace(/&nbsp;/g,' '));
   }
 
+  setSearchFilter(searchFilter: string) {
+    this.filterValue = searchFilter;
+    this.changeDetectionRef.detectChanges();
+  }
+
   ngAfterContentInit() {
     this.setImageSize(this.appSettings.previewSettings.imageZoomPercentage);
     this.setImageBoxSizes();
@@ -438,6 +443,10 @@ export class PreviewComponent implements OnDestroy {
     this.currentApp = undefined;
     this.showListImages = false;
     this.renderer.setStyle(this.elementRef.nativeElement, '--list-images-width','0%',RendererStyleFlags2.DashCase);
+  }
+  changeListImagesArtworkType(artworkType: ArtworkType) {
+    this.listImagesArtworkType = artworkType;
+    this.changeDetectionRef.detectChanges();
   }
 
   deleteExceptionDetails() {
