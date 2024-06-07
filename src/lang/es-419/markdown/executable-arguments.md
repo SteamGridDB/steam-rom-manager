@@ -106,7 +106,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 "${filePath}"
 ```
 
-### PPSSPP (Sony Playstation Portable)
+### PPSSPP (Sony Playstation Portátil)
 
 ```
 "${filePath}"
