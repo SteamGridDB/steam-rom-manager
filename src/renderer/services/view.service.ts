@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ParsersService } from '../services';
+import { LoggerService, ParsersService } from '../services';
 import { VDF_ListData, ControllerTemplates, ControllerTemplate, SteamList, VDF_ListItem, SteamDirList } from '../../models';
 import * as _ from "lodash";
 import {
@@ -9,7 +9,7 @@ import {
 } from "../../lib";
 import { controllerTypes } from '../../lib/controller-manager';
 import { BehaviorSubject } from 'rxjs';
-
+import * as steam from '../../lib/helpers/steam';
 
 @Injectable()
 export class ViewService {
@@ -34,7 +34,9 @@ export class ViewService {
     refreshingDetails: new BehaviorSubject(false)
   }
   constructor(
-    private parsersService: ParsersService) {
+    private parsersService: ParsersService,
+    private loggerService: LoggerService
+  ) {
   }
 
   private clearData() {
@@ -56,6 +58,8 @@ export class ViewService {
     await vdfManager.read({ addedItems: false });
     this.vdfData = vdfManager.vdfData;
     this.status.refreshingShortcuts.next(false);
+    const stop = await steam.stopSteam();
+    for(let message of stop.messages) { this.loggerService.info(message) }
     for(const steamDirectory in this.vdfData) {
       this.categoryData[steamDirectory] = {};
       this.controllerData[steamDirectory] = {};
@@ -75,6 +79,12 @@ export class ViewService {
         this.controllerTemplateData[steamDirectory][controllerType] = await ControllerManager.readTemplates(steamDirectory, controllerType)
       }
     }
+    if(stop.acted) {
+      const start= await steam.startSteam();
+      for(let message of start.messages) { this.loggerService.info(message) }
+    }
+
+    await steam.startSteam();
     this.status.refreshingDetails.next(false);
   }
 }

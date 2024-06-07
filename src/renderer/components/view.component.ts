@@ -33,6 +33,7 @@ export class ViewComponent {
   filterValue: string = '';
   currentArtwork: {[artworkType: string]: string};
   currentControllers:{[controllerType: string]: any} = {}
+  refreshingGames: boolean = false;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -60,10 +61,12 @@ export class ViewComponent {
     if(force) {
       this.loggerService.info('Reading Shortcuts, Categories, and Controllers', {invokeAlert: true, alertTimeout: 3000})
     }
-    if(!this.viewService.vdfData || force) {
+    if((!this.viewService.vdfData || force) && !this.refreshingGames) {
+      this.refreshingGames=true;
       this.renderer.setStyle(this.elementRef.nativeElement, '--view-details-width', '0%', RendererStyleFlags2.DashCase);
       this.currentShortcut = null;
       await this.viewService.refreshGames();
+      this.refreshingGames=false;
     }
     this.changeDetectionRef.detectChanges();
   }

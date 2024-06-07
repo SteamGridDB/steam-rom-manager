@@ -6,3 +6,4 @@ export * from './get-multiple-available-logins';
 export * from './get-non-steam-shortcut-data';
 export * from './steam-id-64-to-account-id';
 export * from './image-extensions';
+export * from './stop-start-steam';
