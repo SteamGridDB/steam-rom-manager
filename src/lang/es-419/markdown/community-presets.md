@@ -1,7 +1,7 @@
-# Community Presets
-These are parser configurations that have been created by the SRM community and just need to be altered slightly with a few system specific parameters in order to work (usually just `ROMs Directory` and `Executable` need to be specified).
+# Preajustes de la Comunidad
+Estos son los ajustes del parser que han sido creados por la comunidad de SRM y solo necesita ajustar un poco ciertos parámetros específicos del sistema para que funcionen (usualmente solo `los Directorios a los ROMs` y `el Ejecutable` necesitan ser seleccionados).
 
-## Generic Parser
+## Parser Genérico
 The Generic Parser (search `Generic` in presets) works for a wide variety of emulators that don't need specific commandline arguments in order to work, for example:
 *
 * Citra
