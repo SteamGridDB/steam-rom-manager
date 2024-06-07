@@ -120,4 +120,12 @@ export const providersSelect = onlineProviders.map((provider)=>{
   return {value: provider, displayValue: imageProviderNames[provider]}
 })
 
+export const dnsSelect = [
+  {value: '1.1.1.1', displayValue: 'Cloudflare'},
+  {value: '1.0.0.1', displayValue: 'Cloudflare (Alt)'},
+  {value: '8.8.8.8', displayValue: 'Google'},
+  {value: '8.8.4.4', displayValue: 'Google (Alt)'},
+
+]
+
 export const sgdbIdRegex: RegExp = /^\$\{gameid\:([0-9]*?)\}$/;

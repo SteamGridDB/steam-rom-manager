@@ -60,6 +60,13 @@ export const appSettings = {
       }
     },
     batchDownloadSize: { type: 'number', default: 50 },
+    dnsServers: {
+      type: 'array',
+      default: [] as string[],
+      items: {
+        type: "string"
+      }
+    },
     language: { type: 'string', default: languageManager.getDefaultLanguage(), enum: languageManager.getAvailableLanguages() },
     theme: {type:'string', default: 'Deck', enum: availableThemes},
     emudeckInstall: {type: 'boolean', default: false},

@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.9
+### Added
+* Settings option to manually set DNS Server (fixes many timeout issues on the Steam Deck)
+### Changed
+* Manual Import / Export of Image Choices now matches on image pool.
+
 ## 2.5.8
 ### Fixed
 * Provider workers not returning images under certain conditions

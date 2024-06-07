@@ -128,12 +128,12 @@ export class VDF_ScreenshotsFile {
     return vdfErrors;
   }
 
-  async write(batch: boolean, batchSizeInput?: number) {
+  async write(batch: boolean, batchSizeInput?: number, dnsServers?: string[]) {
     let addErrors: (VDF_Error|void)[] = [];
     let screenshotsData: VDF_ScreenshotsData = this.data;
     const extraneous = [...this.extraneous, ...Object.keys(screenshotsData).filter(appId=> !screenshotsData[appId])];
     const batchSize = batchSizeInput || 50;
-    const imageDownloader: ImageDownloader = new ImageDownloader();
+    const imageDownloader: ImageDownloader = new ImageDownloader(dnsServers);
     const addableAppIds = Object.keys(screenshotsData).filter((appId)=>{
       return screenshotsData[appId] !== undefined && (typeof screenshotsData[appId] !== 'string')
     });
