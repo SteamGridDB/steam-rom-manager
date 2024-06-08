@@ -162,13 +162,8 @@ export class PreviewService {
   
   async removeCategories(steamDir: string, userId: string) {
     try {
-      const stop = await steam.stopSteam();
-      for(let message of stop.messages) { this.loggerService.info(message) }
+      this.loggerService.info(`Removing category information for user ${userId}.`);
       await this.categoryManager.removeAllCategoriesAndWrite(steamDir, userId);
-      if(stop.acted) {
-        const start= await steam.startSteam();
-        for(let message of start.messages) { this.loggerService.info(message) }
-      }
     } catch(error) {
       this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
       this.loggerService.error(this.lang.errors.categorySaveError__i.interpolate({error:error.message}));
@@ -224,14 +219,10 @@ export class PreviewService {
     })
     .then(async () => {
       if(!removeAll && !this.appSettings.previewSettings.disableCategories) {
-        const stop = await steam.stopSteam();
-        for(let message of stop.messages) { this.loggerService.info(message) }
-        this.loggerService.info(this.lang.info.savingCategories)
-        await this.categoryManager.save(this.previewData, exAppIds, addedCats)
-        if(stop.acted) {
-          const start= await steam.startSteam();
-          for(let message of start.messages) { this.loggerService.info(message) }
-        }
+        await steam.performSteamlessTask(this.appSettings, this.loggerService, async () => {
+          this.loggerService.info(this.lang.info.savingCategories);
+          await this.categoryManager.save(this.previewData, exAppIds, addedCats)
+        })
       }
     }).catch((error: Acceptable_Error | Error) => {
       if(error instanceof Acceptable_Error) {
@@ -500,7 +491,7 @@ export class PreviewService {
             this.loggerService.info(this.lang.info.noAccountsWarning, { invokeAlert: true, alertTimeout: 3000 });
           }
           else {
-            if(!this.appSettings.previewSettings.disableCategories){
+            if(!this.appSettings.previewSettings.disableCategories && !this.appSettings.autoKillSteam){
               this.loggerService.info(this.lang.info.shutdownSteam, { invokeAlert: true, alertTimeout: 3000 });
             }
             previewData = await this.createPreviewData(data.parsedData.parsedConfigs);

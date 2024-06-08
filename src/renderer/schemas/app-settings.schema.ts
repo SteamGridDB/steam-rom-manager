@@ -73,6 +73,8 @@ export const appSettings = {
     autoUpdate: {type: 'boolean', default: true},
     offlineMode: { type: 'boolean', default: false },
     navigationWidth: { type: 'number', default: 0 },
-    clearLogOnTest: { type: 'boolean', default: false }
+    clearLogOnTest: { type: 'boolean', default: false },
+    autoKillSteam: { type: 'boolean', default: false },
+    autoRestartSteam: { type: 'boolean', default: false }
   }
 };

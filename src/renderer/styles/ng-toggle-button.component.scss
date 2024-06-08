@@ -32,7 +32,9 @@
         width: calc(var(--ng-toggle-button-height) * var(--ng-toggle-button-width-ratio));
         height: var(--ng-toggle-button-height);
         margin: var(--ng-toggle-middle-button-size-increment);
-
+        & .disabled {
+            opacity: 0.3;
+        }
         .slider {
             position: absolute;
             cursor: pointer;
@@ -83,7 +85,7 @@
                 border-color: var(--ng-toggle-button-color-button-border);
             }
 
-            &:hover{
+            &:hover:not(.disabled) {
                 background-color: var(--ng-toggle-button-color-fill-hover);
                 border-color: var(--ng-toggle-button-color-border-hover);
 

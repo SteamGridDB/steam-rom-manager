@@ -35,5 +35,7 @@ export interface AppSettings {
   dnsServers: string[],
   previewSettings: PreviewSettings,
   navigationWidth: number,
-  clearLogOnTest: boolean
+  clearLogOnTest: boolean,
+  autoKillSteam: boolean,
+  autoRestartSteam: boolean
 }

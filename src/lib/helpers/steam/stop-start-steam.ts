@@ -1,8 +1,10 @@
 import { spawn, execSync } from "child_process";
 import * as os from "os";
+import { AppSettings } from "../../../models";
+import { LoggerService } from "../../../renderer/services";
 
 const checkDelay = 500;
-const timeout = 5000;
+const timeout = 10000;
 
 interface ActAndCheck {
     commands: {
@@ -16,7 +18,8 @@ interface ActAndCheck {
         precheckPassed: string
     },
     checkOutput: string,
-    shell: string
+    shell: string,
+    safetyDelay: number
 }
 
 async function actAndCheck(data: ActAndCheck) {
@@ -38,9 +41,12 @@ async function actAndCheck(data: ActAndCheck) {
                 const interval: NodeJS.Timer = setInterval(() => {
                     const check = execSync(data.commands.check, {shell: data.shell}).toString().trim()
                     if(check == data.checkOutput){
-                        messages.push(data.messages.success.interpolate({elapsed}))
-                        clearTimeout(interval)
-                        resolve({acted: true, messages: messages});
+                        setTimeout(()=> {
+                            clearTimeout(interval)
+                            messages.push(data.messages.success.interpolate({elapsed: elapsed + data.safetyDelay}))
+                            resolve({acted: true, messages: messages});
+
+                        }, data.safetyDelay)
                     }
                     if(elapsed > timeout) {
                         reject(data.messages.failure.interpolate({timeout}))
@@ -64,22 +70,26 @@ export async function stopSteam() {
             precheckPassed: "Steam is not running, no need to kill it."
         },
         checkOutput: 'True',
-        shell: 'powershell'
+        safetyDelay: 2000,
+        shell: null
     }
     if (os.type() == 'Windows_NT') {
         data.commands = {
             action: `wmic process where "name='steam.exe'" delete`,
             check: `(Get-Process steam -ErrorAction SilentlyContinue) -eq $null`
         }
+        data.shell = 'powershell'
     } else if (os.type() == 'Linux') {
         data.commands = {
             action: `killall steam`,
             check: `echo "True"`
         }
+        data.shell = '/bin/sh'
     }
     return await actAndCheck(data);
 }
 
+//try to restart steam
 export async function startSteam() {
     let data: ActAndCheck = {
         commands: null,
@@ -90,18 +100,37 @@ export async function startSteam() {
             precheckPassed: "Steam is already running, no need to start it."
         },
         checkOutput: 'True',
-        shell: 'powershell'
+        safetyDelay: 0,
+        shell: null,
+
     };
     if (os.type() == 'Windows_NT') {
         data.commands = {
             action: "Start-Process -WindowStyle Minimized ${env:PROGRAMFILES(x86)}\\Steam\\steam.exe -ArgumentList \"-silent\"",
             check: `(Get-Process steam -ErrorAction SilentlyContinue) -ne $null`
         }
+        data.shell = 'powershell';
     } else if (os.type() == 'Linux') {
         data.commands = {
             action: `start steam`,
             check: `echo "True"`
         }
+        data.shell = '/bin/sh'
     }
     return await actAndCheck(data)
+}
+
+export async function performSteamlessTask(appSettings: AppSettings, loggerService: LoggerService, task: () => Promise<void>) {
+    let stop: { acted: boolean, messages: string[] };
+    if(appSettings.autoKillSteam) {
+        loggerService.info('Attempting to kill Steam', {invokeAlert: true, alertTimeout: 3000})
+        stop = await stopSteam();
+        for(let message of stop.messages) { loggerService.info(message) }
+    }
+    await task();
+    if(appSettings.autoRestartSteam && stop.acted) {
+        loggerService.info('Attempting to restart Steam', {invokeAlert: true, alertTimeout: 3000})
+        const start = await startSteam();
+        for(let message of start.messages) { loggerService.info(message) }
+    }
 }

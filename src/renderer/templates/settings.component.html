@@ -14,6 +14,11 @@
     </div>
     <div class="inputContainer">
       <ng-toggle-button class="ngToggleButton" [ngModel]="settings.autoUpdate" (ngModelChange)="settings.autoUpdate = $event; onSettingsChange();">{{lang.text.autoUpdate}}</ng-toggle-button>
+      <ng-toggle-button class="ngToggleButton" [ngModel]="settings.autoKillSteam" (ngModelChange)="settings.autoKillSteam = $event; onSettingsChange()">Auto kill Steam</ng-toggle-button>
+      <ng-toggle-button class="ngToggleButton" 
+      [ngModel]="settings.autoRestartSteam" 
+      [disabled]="!settings.autoKillSteam"
+      (ngModelChange)="settings.autoRestartSteam = $event; onSettingsChange()">Auto restart Steam</ng-toggle-button>
       <ng-toggle-button class="ngToggleButton" [ngModel]="settings.offlineMode" (ngModelChange)="settings.offlineMode = $event; onSettingsChange();">{{lang.text.offlineMode}}</ng-toggle-button>
       <ng-toggle-button class="ngToggleButton" [ngModel]="settings.clearLogOnTest" (ngModelChange)="settings.clearLogOnTest = $event; onSettingsChange();">{{lang.text.clearLogOnTest}}</ng-toggle-button>
     </div>

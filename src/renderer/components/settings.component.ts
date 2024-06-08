@@ -167,12 +167,14 @@ export class SettingsComponent implements OnDestroy {
   }
 
   async removeCategoriesOnly() {
-    for(let steamDir of this.knownSteamDirectories) {
-      const accounts = await steam.getAvailableLogins(steamDir);
-      for(let account of accounts) {
-        await this.previewService.removeCategories(steamDir, account.accountID)
+    await steam.performSteamlessTask(this.settingsService.getSettings(), this.loggerService, async () => {
+      for(let steamDir of this.knownSteamDirectories) {
+        const accounts = await steam.getAvailableLogins(steamDir);
+        for(let account of accounts) {
+          await this.previewService.removeCategories(steamDir, account.accountID)
+        }
       }
-    }
+    })
   }
 
   async removeControllersOnly() {
