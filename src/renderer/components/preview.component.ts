@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Rende
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { PreviewService, SettingsService, ImageProviderService, IpcService, UserExceptionsService } from "../services";
-import { PreviewData, PreviewDataApp, PreviewDataApps, PreviewVariables, AppSettings, ImageContent, SelectItem, UserConfiguration, ArtworkViewType, ArtworkType, isArtworkType, ImageProviderType } from "../../models";
+import { PreviewData, PreviewDataApp, PreviewDataApps, PreviewVariables, AppSettings, ImageContent, SelectItem, UserConfiguration, ArtworkViewType, ArtworkType, isArtworkType, ImageProviderType, UserExceptionData } from "../../models";
 import { APP } from '../../variables';
 import { FileSelector } from '../../lib';
 import { artworkTypes, artworkViewTypes, artworkViewNames, artworkDimsDict } from '../../lib/artwork-types';
@@ -61,7 +61,7 @@ export class PreviewComponent implements OnDestroy {
   detailsLoading: boolean = true;
   showDetails: boolean = false;
   detailsSearchText: string = '';
-  detailsDisplayTitle: string = '';
+  detailsException: UserExceptionData;
 
   showExcludes: boolean = false;
   excludedAppIds: {
@@ -394,6 +394,16 @@ export class PreviewComponent implements OnDestroy {
     this.showDetails= true;
     this.renderer.setStyle(this.elementRef.nativeElement, '--details-width', '50%', RendererStyleFlags2.DashCase);
     this.changeDetectionRef.detectChanges()
+    const exceptionId = this.userExceptionsService.makeExceptionId(app.executableLocation, app.extractedTitle, app.parserType)
+    const existingException = this.userExceptionsService.getExceptionById(exceptionId);
+    this.detailsException = existingException ? _.cloneDeep(existingException) : {
+      newTitle: "",
+      searchTitle: "",
+      commandLineArguments: "",
+      excludeArtwork: false,
+      exclude: false,
+      timeStamp: undefined
+    }
     this.detailsApp = {
       appId: appId,
       app: app,
@@ -403,14 +413,24 @@ export class PreviewComponent implements OnDestroy {
     this.searchMatches(this.detailsApp.app.extractedTitle);
   }
 
+  fixMatchSearch(sgdbId: string) {
+    this.detailsException.searchTitle = `\${gameid:${sgdbId}}`;
+  }
+
+  fixMatchTitle(sgdbId: string) {
+    this.detailsException.newTitle = this.matchFixDict[sgdbId].name;
+  }
+
   fixMatch(sgdbId: string) {
     this.matchFix = sgdbId;
+    this.fixMatchSearch(sgdbId);
+    this.fixMatchTitle(sgdbId);
   }
 
   clearDetails() {
     this.detailsSearchText = '';
-    this.detailsDisplayTitle = '';
     this.matchFix = '';
+    this.detailsException = undefined;
     this.detailsApp = undefined;
   }
   closeDetails() {
@@ -463,7 +483,7 @@ export class PreviewComponent implements OnDestroy {
   saveDetails() {
     if(this.detailsApp) {
       const {steamDirectory, userId, appId, app} = this.detailsApp;
-      const newTitle = this.detailsDisplayTitle || (this.matchFix ? this.matchFixDict[this.matchFix].name : "");
+      const {newTitle, searchTitle, commandLineArguments, excludeArtwork} = this.detailsException;
       if(newTitle) {
         this.previewData[steamDirectory][userId].apps[appId].title = newTitle;
         if(superTypesMap[app.parserType] !== 'ArtworkOnly') {
@@ -471,26 +491,29 @@ export class PreviewComponent implements OnDestroy {
           this.previewData[steamDirectory][userId].apps[appId].changedId = changedId;
         }
       }
-      const newPool = this.matchFix ? `\$\{gameid:${this.matchFix}\}` : "";
-      if(newPool) {
+      if(commandLineArguments) {
+        this.previewData[steamDirectory][userId].apps[appId].argumentString = commandLineArguments;
+      }
+      if(searchTitle) {
         for(const artworkType of artworkTypes) {
           const oldPool = this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool;
-          this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool = newPool;
+          this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool = searchTitle;
           this.previewData[steamDirectory][userId].apps[appId].images[artworkType].singleProviders.steam = undefined;
-          this.previewService.updateAppImages(newPool, oldPool, artworkType)
+          this.previewService.updateAppImages(searchTitle, oldPool, artworkType)
         }
       }
-
-      const exceptionId = this.userExceptionsService.makeExceptionId(app.executableLocation, app.extractedTitle, app.parserType);
-      this.userExceptionsService.addExceptionById(exceptionId, app.extractedTitle, {
-        newTitle: newTitle,
-        searchTitle: newPool,
-        timeStamp: Date.now(),
-        commandLineArguments: '',
-        exclude: false,
-        excludeArtwork: false
-      })
-      this.refreshAfterSavingDetails(steamDirectory,userId,appId);
+      if(newTitle||searchTitle||commandLineArguments||excludeArtwork) {
+        const exceptionId = this.userExceptionsService.makeExceptionId(app.executableLocation, app.extractedTitle, app.parserType);
+        this.userExceptionsService.addExceptionById(exceptionId, app.extractedTitle, {
+          newTitle: newTitle,
+          searchTitle: searchTitle,
+          commandLineArguments: commandLineArguments,
+          exclude: false,
+          excludeArtwork: false,
+          timeStamp: Date.now(),
+        })
+        this.refreshAfterSavingDetails(steamDirectory,userId,appId);
+      }
       this.closeDetails();
     }
   }

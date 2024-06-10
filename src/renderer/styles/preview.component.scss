@@ -25,6 +25,7 @@
   --list-images-width: 0%;
   --excludes-lower-width: 0%;
   --filters-width: 0%;
+  --details-options-height: 330px;
   grid-area: route;
   grid-template-areas:
     "upperMenu upperMenu upperMenu upperMenu upperMenu"
@@ -354,6 +355,11 @@
     }
 
     .detailsOptions {
+      position: fixed;
+      width: calc(var(--details-width) - 201px);
+      height: var(--details-options-height);
+      background-color: rgb(29,29,29);
+      opacity: 1;
       padding: 1em 1em 0.5em 1em;
       grid-area: detailsOptions;
       .ngTextInput {
@@ -415,6 +421,7 @@
       }
     }
     .appResults {
+      margin-top: calc(var(--details-options-height) + 2em);
       grid-area: detailsList;
       > .approw {
         display: flex;
@@ -440,6 +447,15 @@
         }
         .apptitle {
           margin-left: 5em;
+        }
+      }
+      .appButtons {
+        margin-top: 1em;
+        margin-bottom: 2.5em;
+        .button {
+          @include button();
+          @include clickButtonColor(click-button);
+          margin-left: 1em;
         }
       }
     }

@@ -80,24 +80,54 @@
         <div class="detailsOptions">
           <div class="detailsException">
             <div class="detailsExceptionSection">
-              <span>Title Override</span>
+              <span>Exceptions</span>
             </div>
             <div class="detailsExceptionField">
               <div class="detailsExceptionText">
                 <ng-text-input
                 class="ngTextInput"
-                placeholder="Override Display Title (Optional)"
-                [(ngModel)]="detailsDisplayTitle"
+                placeholder="New Display Title (Optional)"
+                [(ngModel)]="detailsException.newTitle"
               ></ng-text-input>
               </div>
               <div class="detailsExceptionButton"
-              (click)="detailsDisplayTitle=detailsApp.app.extractedTitle"
+              (click)="detailsException.newTitle=detailsApp.app.extractedTitle"
               >Use Original</div>
             </div>
+            <div class="detailsExceptionField">
+              <div class="detailsExceptionText">
+                <ng-text-input
+                class="ngTextInput"
+                placeholder="New Image Search Title (Optional)"
+                [(ngModel)]="detailsException.searchTitle"
+              ></ng-text-input>
+              </div>
+              <div class="detailsExceptionButton"
+              (click)="detailsException.searchTitle=detailsApp.app.extractedTitle"
+              >Use Original</div>
+            </div>
+            <div class="detailsExceptionField">
+              <div class="detailsExceptionText">
+                <ng-text-input
+                class="ngTextInput"
+                placeholder="New Commandline Arguments (Optional)"
+                [(ngModel)]="detailsException.commandLineArguments"
+              ></ng-text-input>
+              </div>
+            </div>
+            <div class="detailsExceptionField">
+              <div class="detailsExceptionText">
+                <ng-toggle-button
+                class="ngToggleButton"
+                [(ngModel)]="detailsException.excludeArtwork"
+              >Local Artwork Only</ng-toggle-button>
+              </div>
+            </div>
+            <div class="detailsExceptionSection">
+              <span>Search SteamGridDB</span>
+            </div>
           </div>
-          <div class="detailsExceptionSection">
-            <span>Fix Artwork and Title</span>
-          </div>
+
           <div class="detailsSearch">
             <ng-text-input
               class="ngTextInput"
@@ -112,8 +142,12 @@
             <div class="approw" [class.selected]="matchFix == sgdbId" (click)="fixMatch(sgdbId)">
               <div class="app" [style.backgroundImage]="setDetailsBackgroundImage(sgdbId) | cssUrl | safeStyle"></div>
               <div class="apptitle">
-                <span>{{ matchFixDict[sgdbId].name }}</span>
+                <span>{{ matchFixDict[sgdbId].name }} <a class="button" href="https://www.steamgriddb.com/game/{{sgdbId}}">(SGDB)</a></span>
               </div>
+            </div>
+            <div class="appButtons">
+              <div class="button" (click)="fixMatchSearch(sgdbId)">Search Title Only</div>
+              <div class="button" (click)="fixMatchTitle(sgdbId)">Display Title Only</div>
             </div>
           </ng-container>
         </div>
