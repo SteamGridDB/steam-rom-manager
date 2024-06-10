@@ -29,7 +29,6 @@ When enabled more verbose logs appear for the fuzzy title matcher in the `Event 
 Resets the stored list of titles used for fuzzy matching to the list of titles returned by `SteamGridDB` (removes any user added titles). 
 ### Reset fuzzy cache
 Clears the cache of titles that fuzzy matching has already seen (try this if changes you make to fuzzy list are not resulting in changes to titles in SRM).
-
 ## Image provider settings
 ### Preload retrieved images `[Recommend disabled]`
 When enabled, SRM will pull all available artwork for every game, rather than pulling one piece of artwork at a time as the user flips through the images. Don't enable this unless you have a good reason and a very small library of games, otherwise it could result in very large (slow) network requests.

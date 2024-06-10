@@ -312,7 +312,7 @@
             height: calc(var(--preview-image-size) * var(--games-icon-height) * .5);
           }
           &.selected, &:hover {
-            border:solid 3px #099;
+            border:solid 2px #099;
           }
         }
       }
