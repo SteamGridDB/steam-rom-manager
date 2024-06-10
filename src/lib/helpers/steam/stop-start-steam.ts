@@ -4,7 +4,7 @@ import { AppSettings } from "../../../models";
 import { LoggerService } from "../../../renderer/services";
 
 const checkDelay = 500;
-const timeout = 20000;
+const timeout = 40000;
 
 interface ActAndCheck {
     commands: {
@@ -115,7 +115,7 @@ export async function startSteam() {
         data.shell = 'powershell';
     } else if (os.type() == 'Linux') {
         data.commands = {
-            action: `2>/dev/null 1>&2 steam &`,
+            action: `2>/dev/null 1>&2 steam -silent &`,
             check: `pid="$(pidof steam)"; if [ ! -z $pid ]; then echo "True"; else echo "False"; fi;`
         }
         data.shell = '/bin/sh'
