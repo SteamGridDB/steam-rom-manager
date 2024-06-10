@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.10
+### Added
+* Settings option to automatically kill Steam when writing to Steam Categories (Windows & Linux only).
+* Settings option to automatically restart Steam after writing to Steam Categories (Windows & Linux only).
+
 ## 2.5.9
 ### Added
 * Settings option to manually set DNS Server (fixes many timeout issues on the Steam Deck)
