@@ -19,10 +19,15 @@ jobs:
         os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.6
+
+      - name: Setup Python environment
+        uses: actions/setup-python@v5.1.0
+        with:
+          python-version: '3.10'
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4.0.2
         with:
           node-version: 22.2.0
           check-latest: true
@@ -51,7 +56,7 @@ jobs:
         run: npm run build:mac -- --publish=never
 
       - name: Upload Artifacts Windows
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.3.3
         if: ${{ matrix.os == 'windows-latest' }}
         with:
           name: srm-build-windows
@@ -59,10 +64,18 @@ jobs:
             release/*.exe
             release/*.msi
       - name: Upload Artifacts Linux
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.3.3
         if: ${{ matrix.os == 'ubuntu-latest' }}
         with:
           name: srm-build-linux
           path: |
             release/*.deb
             release/*.AppImage
+      - name: Upload Artifacts Mac
+        uses: actions/upload-artifact@v4.3.3
+        if: ${{ matrix.os == 'macOS-latest' }}
+        with:
+          name: srm-build-mac
+          path: |
+            release/*.dmg
+            release/*.zip
