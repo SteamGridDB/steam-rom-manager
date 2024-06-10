@@ -4,7 +4,7 @@ import { AppSettings } from "../../../models";
 import { LoggerService } from "../../../renderer/services";
 
 const checkDelay = 500;
-const timeout = 10000;
+const timeout = 20000;
 
 interface ActAndCheck {
     commands: {
@@ -33,16 +33,17 @@ async function actAndCheck(data: ActAndCheck) {
             proc.stdout.on('data', (procData) => {
                 messages.push(`${data.messages.prefix}: ${procData.toString('utf8')}`)
             })
-            proc.stderr.on('data', (data) => {
-                reject(data.toString('utf8'))
+            proc.stderr.on('data', (procErr) => {
+                messages.push(`${data.messages.prefix} (Error): ${procErr.toString('utf8')}`)
             })
             proc.on('close', () => { 
                 let elapsed = 0;
-                const interval: NodeJS.Timer = setInterval(() => {
+                let interval: NodeJS.Timer = setInterval(() => {
                     const check = execSync(data.commands.check, {shell: data.shell}).toString().trim()
-                    if(check == data.checkOutput){
-                        setTimeout(()=> {
-                            clearTimeout(interval)
+                    if(check == data.checkOutput) {
+                        clearTimeout(interval);
+                        let delay = setTimeout(()=> {
+                            clearTimeout(delay);
                             messages.push(data.messages.success.interpolate({elapsed: elapsed + data.safetyDelay}))
                             resolve({acted: true, messages: messages});
 
@@ -81,10 +82,12 @@ export async function stopSteam() {
         data.shell = 'powershell'
     } else if (os.type() == 'Linux') {
         data.commands = {
-            action: `killall steam`,
-            check: `echo "True"`
+            action: `kill -15 $(pidof steam)`,
+            check: `levelfile=$(ls -t "$HOME/.steam/steam/config/htmlcache/Local Storage/leveldb"/*.ldb | head -1);
+                    pid=$(fuser "$levelfile");
+                    if [ -z $pid ]; then echo "True"; else echo "False"; fi;`
         }
-        data.shell = '/bin/sh'
+        data.shell = '/bin/sh';
     }
     return await actAndCheck(data);
 }
@@ -112,8 +115,8 @@ export async function startSteam() {
         data.shell = 'powershell';
     } else if (os.type() == 'Linux') {
         data.commands = {
-            action: `start steam`,
-            check: `echo "True"`
+            action: `2>/dev/null 1>&2 steam &`,
+            check: `pid="$(pidof steam)"; if [ ! -z $pid ]; then echo "True"; else echo "False"; fi;`
         }
         data.shell = '/bin/sh'
     }
@@ -121,15 +124,19 @@ export async function startSteam() {
 }
 
 export async function performSteamlessTask(appSettings: AppSettings, loggerService: LoggerService, task: () => Promise<void>) {
+    if(os.type() == 'Darwin') {
+        loggerService.info('Not attempting to kill Steam on Mac OS.');
+        await task(); return;
+    }
     let stop: { acted: boolean, messages: string[] };
     if(appSettings.autoKillSteam) {
-        loggerService.info('Attempting to kill Steam', {invokeAlert: true, alertTimeout: 3000})
+        loggerService.info('Attempting to kill Steam.', {invokeAlert: true, alertTimeout: 3000})
         stop = await stopSteam();
         for(let message of stop.messages) { loggerService.info(message) }
     }
     await task();
     if(appSettings.autoRestartSteam && stop.acted) {
-        loggerService.info('Attempting to restart Steam', {invokeAlert: true, alertTimeout: 3000})
+        loggerService.info('Attempting to restart Steam.', {invokeAlert: true, alertTimeout: 3000})
         const start = await startSteam();
         for(let message of start.messages) { loggerService.info(message) }
     }
