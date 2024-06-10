@@ -1,9 +1,9 @@
 ## 常规设置
 ### Check for updates on start `[Recommend enabled]`
 Check if an update for SRM is available and prompt to update each time SRM launches.
-### Auto kill Steam
-SRM will attempt to kill all running instances of Steam whenever it needs to read/write collections information (specifically when saving to steam from `Add Games`, when removing all games from `Settings`, and when refreshing games from `View Games`).
-### Auto restart Steam
+### Auto kill Steam `[Recommend enabled]`
+SRM will attempt to kill all running instances of Steam whenever it needs to read/write collections information (specifically when saving to steam from `Add Games` and when removing all games from `Settings`).
+### Auto restart Steam `[Recommend enabled]`
 SRM will attempt to restart Steam after killing it and completing whatever collections related task required killing Steam in the first place. Requires `Auto kill Steam` to be enabled.
 ### 离线模式 `[建议禁用]`
 启用 SRM 后不会进行任何网络请求，如果您只想使用 SRM 本地图片，则非常有用。
