@@ -62,6 +62,7 @@ export class PreviewComponent implements OnDestroy {
   showDetails: boolean = false;
   detailsSearchText: string = '';
   detailsException: UserExceptionData;
+  detailsOriginalExcludeArt: boolean = false;
 
   showExcludes: boolean = false;
   excludedAppIds: {
@@ -404,6 +405,7 @@ export class PreviewComponent implements OnDestroy {
       exclude: false,
       timeStamp: undefined
     }
+    this.detailsOriginalExcludeArt = existingException ? existingException.excludeArtwork : false;
     this.detailsApp = {
       appId: appId,
       app: app,
@@ -494,7 +496,7 @@ export class PreviewComponent implements OnDestroy {
       if(commandLineArguments) {
         this.previewData[steamDirectory][userId].apps[appId].argumentString = commandLineArguments;
       }
-      if(searchTitle) {
+      if(searchTitle && !excludeArtwork) {
         for(const artworkType of artworkTypes) {
           const oldPool = this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool;
           this.previewData[steamDirectory][userId].apps[appId].images[artworkType].imagePool = searchTitle;
@@ -502,14 +504,19 @@ export class PreviewComponent implements OnDestroy {
           this.previewService.updateAppImages(searchTitle, oldPool, artworkType)
         }
       }
-      if(newTitle||searchTitle||commandLineArguments||excludeArtwork) {
+      if(excludeArtwork != this.detailsOriginalExcludeArt) {
+        for(const artworkType of artworkTypes) {
+          this.previewService.updateLocalArtworkOnly(searchTitle, artworkType, excludeArtwork)
+        }
+      }
+      if(newTitle||searchTitle||commandLineArguments||(excludeArtwork!=this.detailsOriginalExcludeArt)) {
         const exceptionId = this.userExceptionsService.makeExceptionId(app.executableLocation, app.extractedTitle, app.parserType);
         this.userExceptionsService.addExceptionById(exceptionId, app.extractedTitle, {
           newTitle: newTitle,
           searchTitle: searchTitle,
           commandLineArguments: commandLineArguments,
+          excludeArtwork: excludeArtwork,
           exclude: false,
-          excludeArtwork: false,
           timeStamp: Date.now(),
         })
         this.refreshAfterSavingDetails(steamDirectory,userId,appId);

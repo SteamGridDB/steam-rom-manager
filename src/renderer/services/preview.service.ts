@@ -144,17 +144,26 @@ export class PreviewService {
   }
 
   updateAppImages(imageKey: string, oldPool: string, artworkType: ArtworkType) {
-    this.onlineImages[artworkType][imageKey] = {
-      retrieving: false,
-      online: initOnlineProviderRecord(()=>null),
-      offline: this.onlineImages[artworkType][oldPool].offline,
-      parserEnabledProviders: this.onlineImages[artworkType][oldPool].parserEnabledProviders
-    }
-    for(const providerType of onlineProviders) {
-      this.onlineImages[artworkType][imageKey].online[providerType] = {
-        searchQueries: [imageKey],
-        imageProviderAPIs: this.onlineImages[artworkType][oldPool].online[providerType].imageProviderAPIs,
-        content: []
+      if(this.onlineImages[artworkType][oldPool]) {
+        this.onlineImages[artworkType][imageKey] = _.cloneDeep(this.onlineImages[artworkType][oldPool])
+        this.onlineImages[artworkType][imageKey].retrieving = false;
+        for(const providerType of onlineProviders) {
+          this.onlineImages[artworkType][imageKey].online[providerType].searchQueries =  [imageKey];
+          this.onlineImages[artworkType][imageKey].online[providerType].content = [];
+        }
+        if(imageKey != oldPool) {
+          delete this.onlineImages[artworkType][oldPool];
+        }
+      } else {
+        throw 'Tried to call updateAppImages on a missing oldPool';
+      }
+  }
+
+  updateLocalArtworkOnly(imageKey: string, artworkType: ArtworkType, excludeArtwork: boolean) {
+    if(this.onlineImages[artworkType][imageKey]) {
+      for(const providerType of onlineProviders) {
+        this.onlineImages[artworkType][imageKey].online[providerType].searchQueries = excludeArtwork ? [] : [imageKey];
+        this.onlineImages[artworkType][imageKey].online[providerType].content = [];
       }
     }
   }

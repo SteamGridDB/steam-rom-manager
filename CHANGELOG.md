@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.11
+### Added
+* Improved exception management from preview (current exception details now show up under fix match)
+### Changed
+* Steam now auto exits gracefully on Windows.
+* Increased timeout for Steam to exit.
+
 ## 2.5.10
 ### Added
 * Settings option to automatically kill Steam when writing to Steam Categories (Windows & Linux only).

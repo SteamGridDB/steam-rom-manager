@@ -4,7 +4,7 @@ import { AppSettings } from "../../../models";
 import { LoggerService } from "../../../renderer/services";
 
 const checkDelay = 500;
-const timeout = 40000;
+const timeout = 60000;
 
 interface ActAndCheck {
     commands: {
@@ -76,7 +76,7 @@ export async function stopSteam() {
     }
     if (os.type() == 'Windows_NT') {
         data.commands = {
-            action: `wmic process where "name='steam.exe'" delete`,
+            action: "Start-Process \"${env:PROGRAMFILES(X86)}\\Steam\\steam.exe\" \"-shutdown\"",
             check: `(Get-Process steam -ErrorAction SilentlyContinue) -eq $null`
         }
         data.shell = 'powershell'
