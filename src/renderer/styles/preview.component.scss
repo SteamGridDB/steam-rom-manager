@@ -25,7 +25,6 @@
   --list-images-width: 0%;
   --excludes-lower-width: 0%;
   --filters-width: 0%;
-  --details-options-height: 330px;
   grid-area: route;
   grid-template-areas:
     "upperMenu upperMenu upperMenu upperMenu upperMenu"
@@ -351,14 +350,14 @@
     grid-template-rows: auto 1fr;
     overflow-y: auto;
     &>.loadingSpinner {
-      margin-left: calc(var(--details-width) - 2.5em)
+      margin-left: calc(var(--details-width) - 3em)
     }
 
     .detailsOptions {
       position: fixed;
-      width: calc(var(--details-width) - 201px);
-      height: var(--details-options-height);
-      background-color: rgb(29,29,29);
+      width: var(--width-details-options);
+      height: var(--height-details-options);
+      background-color: var(--color-details-options-background);
       opacity: 1;
       padding: 1em 1em 0.5em 1em;
       grid-area: detailsOptions;
@@ -421,7 +420,7 @@
       }
     }
     .appResults {
-      margin-top: calc(var(--details-options-height) + 2em);
+      margin-top: calc(var(--height-details-options) + 2em);
       grid-area: detailsList;
       > .approw {
         display: flex;
@@ -429,7 +428,7 @@
         align-items: center;
         background-color: var(--color-preview-user-background);
         color: var(--color-preview-text);
-        margin-bottom: 1em;
+        margin-bottom: 0em;
         &:hover,
         &.selected {
           background-color: var(--color-ng-select-option-background-hover);
@@ -439,8 +438,8 @@
           flex-shrink: 0;
           border: solid 2px var(--color-preview-image-border);
           margin: 0.75em;
-          width: calc(var(--preview-image-size) * var(--games-tall-width));
-          height: calc(var(--preview-image-size) * var(--games-tall-height));
+          width: calc(0.6 * var(--preview-image-size) * var(--games-tall-width));
+          height: calc(0.6 * var(--preview-image-size) * var(--games-tall-height));
           background-repeat: no-repeat;
           background-position: center center;
           background-size: 100%;
@@ -450,12 +449,15 @@
         }
       }
       .appButtons {
-        margin-top: 1em;
-        margin-bottom: 2.5em;
+        margin-top: 0.5em;
+        margin-bottom: 2em;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
         .button {
           @include button();
           @include clickButtonColor(click-button);
-          margin-left: 1em;
+          margin-right: 1em;
         }
       }
     }

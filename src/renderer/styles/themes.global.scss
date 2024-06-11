@@ -399,8 +399,11 @@
   --color-custom-variables-background: #050505;
   --color-custom-variables-text: #a0a0a0;
   --color-custom-variables-divider: #121212;
+  --color-details-options-background: var(--color-preview-background);
   --width-preview-select-cats: 9em;
   --width-preview-select-type: 8em;
+  --width-details-options: calc(0.5 * (100vw - var(--nav-width)) - 45px);
+  --height-details-options: 280px;
   --position-update-notifier-left: 0;
   --position-update-notifier-right: auto;
   --position-update-notifier-bottom: 0;
@@ -1226,8 +1229,12 @@
   --color-highlight-level-2-hover: rgba(214, 150, 39, 1);
   --color-highlight-level-2-active: rgba(214, 150, 39, 1);
   --color-custom-variables-background: #050505;
+  --color-details-options-background: rgb(0,0,0);
   --color-custom-variables-text: #a0a0a0;
   --color-custom-variables-divider: #121212;
+  --width-details-options: calc(50vw - 44px);
+  --height-details-options: 380px;
+
   --width-preview-select-cats: 12em;
   --width-preview-select-type: 10em;
   --position-update-notifier-left: 0;
@@ -1417,7 +1424,7 @@
   --color-parsers-user-instructions-item-title-text: #c8c8c8;
   --color-parsers-user-instructions-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-parsers-user-instructions-scrollbar-track: rgba(31, 31, 31, 0.45);
-  --color-preview-background: inherit;
+  --color-preview-background: #101424;
   --color-select-arrow-left: #fff;
   --color-select-arrow-left-active: #ffffff;
   --color-select-arrow-left-hover: #cccccc;
@@ -1596,10 +1603,13 @@
   --color-highlight-level-2-hover: rgba(214, 150, 39, 1);
   --color-highlight-level-2-active: rgba(214, 150, 39, 1);
   --color-custom-variables-background: #050505;
+  --color-details-options-background: var(--color-preview-background);
   --color-custom-variables-text: #a0a0a0;
   --color-custom-variables-divider: #121212;
   --width-preview-select-cats: 9em;
   --width-preview-select-type: 10em;
+  --width-details-options: calc(0.5 * (100vw - var(--nav-width)) - 45px);
+  --height-details-options: 330px;
   --position-update-notifier-left: 0;
   --position-update-notifier-right: 0;
   --position-update-notifier-bottom: 0;

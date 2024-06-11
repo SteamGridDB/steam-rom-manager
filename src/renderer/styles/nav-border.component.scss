@@ -1,7 +1,8 @@
+@import "mixins";
 :host{
     position: relative;
     width: 2px;
-    background: var(--color-nav-border);
+    background: var(--color-preview-menu-background);
     cursor: ew-resize;
     display: var(--display-nav-border);
     &.dragging{

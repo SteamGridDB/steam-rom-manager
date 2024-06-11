@@ -80,7 +80,7 @@
         <div class="detailsOptions">
           <div class="detailsException">
             <div class="detailsExceptionSection">
-              <span>Exceptions</span>
+              <span>Per-App-Exceptions</span>
             </div>
             <div class="detailsExceptionField">
               <div class="detailsExceptionText">
@@ -114,6 +114,9 @@
                 [(ngModel)]="detailsException.commandLineArguments"
               ></ng-text-input>
               </div>
+              <div class="detailsExceptionButton"
+              (click)="detailsException.commandLineArguments=''"
+              >Clear</div>
             </div>
             <div class="detailsExceptionField">
               <div class="detailsExceptionText">
@@ -131,7 +134,7 @@
           <div class="detailsSearch">
             <ng-text-input
               class="ngTextInput"
-              placeholder="Search SteamGridDB"
+              placeholder="Game Title"
               [(ngModel)]="detailsSearchText"
             ></ng-text-input>
             <div class="clickButton2" (click)="searchForDetails()">Search</div>
@@ -142,12 +145,13 @@
             <div class="approw" [class.selected]="matchFix == sgdbId" (click)="fixMatch(sgdbId)">
               <div class="app" [style.backgroundImage]="setDetailsBackgroundImage(sgdbId) | cssUrl | safeStyle"></div>
               <div class="apptitle">
-                <span>{{ matchFixDict[sgdbId].name }} <a class="button" href="https://www.steamgriddb.com/game/{{sgdbId}}">(SGDB)</a></span>
+                <span>{{ matchFixDict[sgdbId].name }}</span>
               </div>
             </div>
             <div class="appButtons">
-              <div class="button" (click)="fixMatchSearch(sgdbId)">Search Title Only</div>
-              <div class="button" (click)="fixMatchTitle(sgdbId)">Display Title Only</div>
+              <div class="button" (click)="fixMatchSearch(sgdbId)">Artwork Only</div>
+              <div class="button" (click)="fixMatchTitle(sgdbId)">Title Only</div>
+              <a class="button" href="https://www.steamgriddb.com/game/{{sgdbId}}" style="text-decoration: none;">View on SGDB</a>
             </div>
           </ng-container>
         </div>

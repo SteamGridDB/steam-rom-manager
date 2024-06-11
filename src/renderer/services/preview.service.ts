@@ -305,9 +305,12 @@ export class PreviewService {
           const longId = steam.lengthenAppId(shortId);
           const artworkType = invertedArtworkIdDict[gridName.replace(/^\d+/,'')];
           const steamImageUrl = url.encodeFile(outcomes[steamDirectory][userId].successes[gridName]);
-          const app = this.previewData[steamDirectory][userId].apps[longId];
-          if(app && artworkType) {
-            this.previewData[steamDirectory][userId].apps[longId].images[artworkType].singleProviders.steam = {
+          const matchedApps = Object.entries(this.previewData[steamDirectory][userId].apps).filter(([appId, app]) => {
+            return app.changedId ? app.changedId == longId : appId == longId
+          });
+          if(matchedApps.length && artworkType) {
+            const [appId, app] = matchedApps[0];
+            this.previewData[steamDirectory][userId].apps[appId].images[artworkType].singleProviders.steam = {
               imageProvider: imageProviderNames.steam,
               imageUrl: steamImageUrl,
               imageRes: url.imageDimensions(steamImageUrl),
