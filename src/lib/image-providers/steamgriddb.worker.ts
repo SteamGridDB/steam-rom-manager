@@ -2,11 +2,9 @@ import { GenericProvider, GenericProviderManager, ProviderProxy } from "./generi
 import { xRequestWrapper } from "./x-request-wrapper";
 import SGDB from "steamgriddb";
 import { imageProviderNames, sgdbIdRegex } from "./available-providers";
+import {apiKey} from "./api-key";
 
-
-
-// TODO make the user input this
-export const apiKey = "f80f92019254471cca9d62ff91c21eee";
+//NOTE: Workers must not import from one another.
 
 export class SteamGridDbProvider extends GenericProvider {
   private xrw: xRequestWrapper<SteamGridDbProvider>;

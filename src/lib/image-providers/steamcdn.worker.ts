@@ -1,9 +1,11 @@
 import { GenericProvider, GenericProviderManager, ProviderProxy } from "./generic-provider";
-import {apiKey} from "./steamgriddb.worker";
+import {apiKey} from "./api-key";
 import { xRequestWrapper } from "./x-request-wrapper";
 import SGDB from "steamgriddb";
 import { artworkTypes, steamArtworkDict } from '../artwork-types'
 import { imageProviderNames, sgdbIdRegex } from "./available-providers";
+
+//NOTE: Workers must not import from one another.
 
 export class SteamCDNProvider extends GenericProvider {
   private xrw: xRequestWrapper<SteamCDNProvider>;
@@ -16,7 +18,6 @@ export class SteamCDNProvider extends GenericProvider {
   }
   retrieveUrls() {
     let self = this;
-    let imageGameId: string;
     this.xrw.promise = new Promise<void>((resolve) => {
       let idPromise: Promise<number> = null;
       if(sgdbIdRegex.test(self.proxy.title)) {

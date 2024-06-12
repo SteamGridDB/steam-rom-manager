@@ -1,11 +1,10 @@
-// All in worker process
+// All in worker process(es)
 
 import '../replace-diacritics';
-
 import { FuzzyMatcher } from "../fuzzy-matcher";
 import { FuzzyEventMap, ProviderPostEventMap, ProviderPostObject, ProviderReceiveEventMap, ImageContent, ImageProviderAPI, OnlineProviderType, ImageProviderName } from "../../models";
 
-//declare var self: Worker;
+declare var self: DedicatedWorkerGlobalScope;
 
 export abstract class GenericProvider {
   constructor(protected proxy: ProviderProxy<GenericProvider>) { }
@@ -66,8 +65,8 @@ export class GenericProviderManager<T extends GenericProvider> {
   
   // How worker handles receiving a message from main process
   private onMessage(event: MessageEvent) {
-    //self.name == this.providerName fixes issue where workers were intercepting each other's messages... no idea why.
-    if (event.data && event.data.event && self.name==this.providerName) {
+    //add back self.name == this.providerName to if statement if workers are intercepting each other's messages
+    if (event.data && event.data.event) {
       switch ((event.data.event as keyof ProviderReceiveEventMap)) {
         case 'fuzzyList':
           this._fuzzyMatcher.setFuzzyList((event.data.data as ProviderReceiveEventMap['fuzzyList']).list || null);

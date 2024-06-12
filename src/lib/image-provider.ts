@@ -83,7 +83,6 @@ export class ImageProvider {
   stopUrlDownload() {
     for (let key in this.availableProviders) {
       let provider = this.availableProviders[key];
-
       provider.queue = this.createQueue(key);
       this.postMessage(provider.worker, 'stopDownloads', null);
     }
