@@ -385,18 +385,6 @@ export class PreviewService {
     }
   }
 
-  preloadImages() {
-    for(const artworkType of artworkTypes) {
-      for(const imageKey in this.onlineImages[artworkType]) {
-        for(let provider of onlineProviders) {
-          for (let i = 0; i < this.onlineImages[artworkType][imageKey].online[provider].content.length; i++) {
-            this.preloadImage(this.onlineImages[artworkType][imageKey].online[provider].content[i]);
-          }
-        }
-      }
-    }
-  }
-
   setImageIndex(app: PreviewDataApp, index: number, artworkType?: ArtworkType, ignoreCurrentType: boolean = false) {
     if (app) {
       const actualArtworkType = !ignoreCurrentType && isArtworkType(this.currentViewType) ? this.currentViewType : artworkType;

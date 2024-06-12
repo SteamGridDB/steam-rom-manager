@@ -195,9 +195,6 @@ export class SettingsComponent implements OnDestroy {
   }
 
   preload(value: boolean) {
-    if (this.settings.previewSettings.preload !== value && value)
-      this.previewService.preloadImages();
-
     this.settings.previewSettings.preload = value;
   }
 

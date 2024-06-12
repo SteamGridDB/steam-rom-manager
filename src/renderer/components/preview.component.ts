@@ -141,12 +141,6 @@ export class PreviewComponent implements OnDestroy {
     this.previewService.generatePreviewData();
   }
 
-  preloadImages() {
-    this.previewService.preloadImages();
-  }
-
-
-
   setImageBoxSizes() {
     const currentViewType = this.previewService.getCurrentViewType();
     if(isArtworkType(currentViewType)) {
