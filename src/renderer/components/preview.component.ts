@@ -14,6 +14,7 @@ import * as steam from '../../lib/helpers/steam';
 import * as _ from 'lodash';
 import * as path from 'path';
 import { allProviders, imageProviderNames, providerCategories, sgdbIdRegex } from '../../lib/image-providers/available-providers';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'preview',
@@ -69,6 +70,8 @@ export class PreviewComponent implements OnDestroy {
   excludePutBacks: {[exceptionKey: string]: boolean} = {};
   exclusionCount: number = 0;
 
+  inViewDict: {[appId: string]: boolean} = {};
+
   constructor(
     private previewService: PreviewService,
     private settingsService: SettingsService,
@@ -80,7 +83,8 @@ export class PreviewComponent implements OnDestroy {
     private activatedRoute: ActivatedRoute,
     private fuzzyTest: FuzzyTestPipe,
     private intersectionTest: IntersectionTestPipe,
-    private ipcService: IpcService
+    private ipcService: IpcService,
+    private sanitizer: DomSanitizer
   ) {
     this.previewData = this.previewService.getPreviewData();
     this.previewVariables = this.previewService.getPreviewVariables();
@@ -257,7 +261,12 @@ export class PreviewComponent implements OnDestroy {
     return posterUrl ? posterUrl : require('../../assets/images/no-images.svg');
   }
 
+  onAppInView(inView: boolean, appElement: ElementRef, app: PreviewDataApp) {
+    this.inViewDict[app.extractedTitle]||=inView
+  }
+
   setBackgroundImage(app: PreviewDataApp, image: ImageContent, artworkType?: ArtworkType, imageIndex?: number) {
+    if(!this.inViewDict[app.extractedTitle]) { return null; }
     const currentViewType = this.previewService.getCurrentViewType();
     if (image == undefined) {
       const actualArtworkType: ArtworkType = isArtworkType(currentViewType) ? currentViewType : artworkType

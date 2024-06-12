@@ -341,6 +341,7 @@
                           <div
                             class="app"
                             *ngIf="isAppVisible(app)"
+                            ng-inview [parentSelector]="'.entries'" [margin]="400" (inView)="onAppInView($event.inView, $event.target, app)"
                             [style.backgroundImage]="setBackgroundImage(app, image, artworkType) | cssUrl | safeStyle"
                             [class.retrieving]="getImagePool(appimages.imagePool, artworkType).retrieving"
                             [class.noImages]="
@@ -544,9 +545,10 @@
                     <ng-container *ngVar="getBackgroundImage(app) as image">
                       <ng-container *ngVar="getAppImages(app) as appimages">
                         <div
+                          ng-inview [parentSelector]="'.entries'" [margin]="400" (inView)="onAppInView($event.inView, $event.target, app)"
+                          [style.backgroundImage]="setBackgroundImage(app, image) | cssUrl | safeStyle"
                           class="app"
                           *ngIf="isAppVisible(app)"
-                          [style.backgroundImage]="setBackgroundImage(app, image) | cssUrl | safeStyle"
                           [class.retrieving]="getImagePool(appimages.imagePool).retrieving"
                           [class.noImages]="!getImagePool(appimages.imagePool).retrieving && image == undefined"
                           [class.downloading]="image != undefined && image.loadStatus === 'downloading'"
