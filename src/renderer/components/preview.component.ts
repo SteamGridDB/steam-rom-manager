@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Rende
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { PreviewService, SettingsService, ImageProviderService, IpcService, UserExceptionsService } from "../services";
-import { PreviewData, PreviewDataApp, PreviewDataApps, PreviewVariables, AppSettings, ImageContent, SelectItem, UserConfiguration, ArtworkViewType, ArtworkType, isArtworkType, ImageProviderType, UserExceptionData } from "../../models";
+import { PreviewData, PreviewDataApp, PreviewDataApps, PreviewVariables, AppSettings, ImageContent, SelectItem, UserConfiguration, ArtworkViewType, ArtworkType, isArtworkType, ImageProviderType, UserExceptionData, SteamList } from "../../models";
 import { APP } from '../../variables';
 import { FileSelector } from '../../lib';
 import { artworkTypes, artworkViewTypes, artworkViewNames, artworkDimsDict } from '../../lib/artwork-types';
@@ -65,13 +65,7 @@ export class PreviewComponent implements OnDestroy {
   detailsOriginalExcludeArt: boolean = false;
 
   showExcludes: boolean = false;
-  excludedAppIds: {
-    [steamDirectory: string]: {
-      [userId: string]: {
-        [appId: string]: boolean
-      }
-    }
-  } = {};
+  excludedAppIds: SteamList<{[appId: string]: boolean}> = {};
   excludePutBacks: {[exceptionKey: string]: boolean} = {};
   exclusionCount: number = 0;
 
@@ -134,10 +128,19 @@ export class PreviewComponent implements OnDestroy {
     return isArtworkType(artworkViewType)
   }
 
-  generatePreviewData() {
+  closeAll() {
+    this.closeFilters()
+    this.closeRight();
+  }
+
+  closeRight() {
     this.closeDetails();
     this.closeListImages();
     this.cancelExcludes();
+  }
+
+  generatePreviewData() {
+    this.closeRight();
     this.previewService.generatePreviewData();
   }
 
@@ -342,18 +345,28 @@ export class PreviewComponent implements OnDestroy {
       }
     }
     return this.previewService.saveData({removeAll: false, batchWrite: false}).then((noError: boolean | void) => {
-      if (noError)
+      if (noError) {
+        this.closeAll()
         this.previewService.clearPreviewData();
+      }
     });
+  }
+
+  closeFilters() {
+    this.showFilters = false;
+    this.renderer.setStyle(this.elementRef.nativeElement,'--filters-width','0%',RendererStyleFlags2.DashCase);
+  }
+
+  openFilters() {
+    this.showFilters = true;
+    this.renderer.setStyle(this.elementRef.nativeElement, '--filters-width', '300px', RendererStyleFlags2.DashCase);
   }
 
   toggleFilters() {
     if(this.showFilters) {
-      this.showFilters = false;
-      this.renderer.setStyle(this.elementRef.nativeElement,'--filters-width','0%',RendererStyleFlags2.DashCase);
+      this.closeFilters();
     } else {
-      this.showFilters = true;
-      this.renderer.setStyle(this.elementRef.nativeElement, '--filters-width', '300px', RendererStyleFlags2.DashCase);
+      this.openFilters();
     }
     this.changeDetectionRef.detectChanges();
   }
