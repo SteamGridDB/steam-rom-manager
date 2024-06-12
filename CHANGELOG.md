@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 * Steam now auto exits gracefully on Windows.
 * Increased timeout for Steam to exit.
+### Fixed
+* UI Bug with filters/excludes/list images not closing upon remove from Steam.
 
 ## 2.5.10
 ### Added
