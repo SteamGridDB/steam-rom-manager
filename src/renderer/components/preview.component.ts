@@ -272,15 +272,11 @@ export class PreviewComponent implements OnDestroy {
     return posterUrl ? posterUrl : require('../../assets/images/no-images.svg');
   }
 
-  /*onAppInView(inView: boolean, appElement: ElementRef, app: PreviewDataApp) {
-    this.inViewDict[app.extractedTitle]||=inView
-  }*/
-
   setBackgroundImage(appId: string, app: PreviewDataApp, image: ImageContent, 
     artworkType?: ArtworkType, imageIndex?: number, notLazy?: boolean) {
     const currentViewType = this.previewService.getCurrentViewType();
     const actualArtworkType: ArtworkType = this.getActualArtworkType(artworkType);
-    if(!notLazy && (!this.inViewDict[appId] || !this.inViewDict[appId][actualArtworkType])) { return null; }
+    if(!notLazy && !this.inViewDict[appId + currentViewType]) { return null; }
     if (image == undefined) {
       let imagepool: string = app.images[actualArtworkType].imagePool;
       if (this.previewService.getImages(actualArtworkType)[imagepool].online)
@@ -397,6 +393,10 @@ export class PreviewComponent implements OnDestroy {
 
   setExceptionFilter(exceptionFilter: boolean) {
     this.exceptionFilter = exceptionFilter;
+    this.changeDetectionRef.detectChanges();
+  }
+
+  updateDOM() {
     this.changeDetectionRef.detectChanges();
   }
 
@@ -648,7 +648,6 @@ export class PreviewComponent implements OnDestroy {
   cancelExcludes() {
     this.showExcludes = false;
     this.renderer.setStyle(this.elementRef.nativeElement, '--excludes-lower-width', '0%', RendererStyleFlags2.DashCase);
-
     this.excludedAppIds = {};
     this.exclusionCount = 0;
   }

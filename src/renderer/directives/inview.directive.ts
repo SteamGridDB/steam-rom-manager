@@ -1,62 +1,50 @@
 import { Directive, ElementRef, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { debounce } from "lodash";
-import { ArtworkType, initArtworkRecord } from '../../models';
 
 @Directive({
   selector: '[ng-inview]'
 })
 export class InViewDirective implements OnInit, OnDestroy {
-  @Input() parentSelector: string;
+  @Input() childSelector: string;
   @Input() margin: number;
-  @Input() artworkType: ArtworkType;
-  @Input() inViewDict: {[appId: string]: Record<ArtworkType,boolean>}
-  @Input() appId: string;
-  //@Output() inView = new EventEmitter<{inView: boolean, target: ElementRef}>();
-
-  private parentElement: HTMLElement;
-  private parentRect: DOMRect; 
+  @Input() inViewDict: {[inviewkey: string]: boolean}
+  @Output() updateDOM: EventEmitter<void> = new EventEmitter();
+  private checkInterval: NodeJS.Timer;
   constructor(private el: ElementRef) {}
 
   ngOnInit() {
-    this.parentElement = this.getParentElement();
-    if (this.parentElement && (!this.inViewDict[this.appId]||!this.inViewDict[this.appId][this.artworkType])) {
-      this.parentElement.addEventListener('scroll', this.onParentScroll);
-      this.parentRect = this.parentElement.getBoundingClientRect();
-      this.checkInView();
-    }
+    this.el.nativeElement.addEventListener('scroll', debounce(() => this.checkInView(), 100))
+    this.checkInterval = setInterval(()=>this.checkInView(), 500);
   }
 
   ngOnDestroy() {
-    if (this.parentElement) {
-      this.parentElement.removeEventListener('scroll', this.onParentScroll);
-    }
+    this.el.nativeElement.removeEventListener('scroll', this.checkInView)
+    clearInterval(this.checkInterval);
   }
 
-  private getParentElement(): HTMLElement {
-    if (this.parentSelector) {
-      return document.querySelector(this.parentSelector);
+  private getChildElements() {
+    if(this.childSelector) {
+      return this.el.nativeElement.querySelectorAll(this.childSelector);
     } else {
-      return this.el.nativeElement.parentElement;
+      return new NodeList() as NodeListOf<Element>;
     }
   }
-
-  private onParentScroll = debounce(() => {
-    this.checkInView();
-  }, 200);
 
   private checkInView() {
-    const rect = this.el.nativeElement.getBoundingClientRect();
-    const inView = (
-      rect.top >= this.parentRect.top - this.margin &&
-      rect.bottom <= this.parentRect.bottom + this.margin
-      //&& rect.left >= parentRect.left &&
-      //rect.right <= parentRect.right
-    );
-    //this.inView.emit({inView: inView, target: this.el});
-    if(inView) {
-        if(!this.inViewDict[this.appId]) {this.inViewDict[this.appId]= initArtworkRecord<boolean>(()=>false)}
-        this.inViewDict[this.appId][this.artworkType] = true;
-        this.parentElement.removeEventListener('scroll', this.onParentScroll)
-    }
+    const childElements = this.getChildElements();
+    const scrollRect = this.el.nativeElement.getBoundingClientRect();
+    childElements.forEach((childElement: Element) => {
+      if(!this.inViewDict[childElement.getAttribute("data-inviewkey")]) {
+        const childRect = childElement.getBoundingClientRect();
+        const inView = (
+          childRect.top >= scrollRect.top - this.margin &&
+          childRect.bottom <= scrollRect.bottom + this.margin
+        );
+        if(inView) {
+          this.inViewDict[childElement.getAttribute("data-inviewkey")] = true;
+        }
+      }
+    })
+    this.updateDOM.emit()
   }
 }

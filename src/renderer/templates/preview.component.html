@@ -295,9 +295,10 @@
       </ng-toggle-button>
     </div>
   </div>
-
-  <div
+  <ng-container *ngVar="getCurrentViewType() as currentViewType">
+    <div
     class="entries"
+    ng-inview [childSelector]="'.app:not(.retrieving)'" [margin]="400"  [inViewDict]="inViewDict" (updateDOM)="updateDOM()"
     *ngVar="{ hoverIndex: undefined, hoverType: undefined } as entries"
     [class.detailsOpen]="!!this.detailsApp && showDetails"
     [class.listImagesOpen]="!!currentApp && showListImages"
@@ -322,7 +323,7 @@
               >
             </div>
             <div class="apps">
-              <ng-container *ngIf="getCurrentViewType()==='list'">
+              <ng-container *ngIf="currentViewType==='list'">
               <div class="listItem header">
                 <div class="infoField" (click)="listSortBy='extractedTitle'" [class.sortBy]="listSortBy=='extractedTitle'"><span>Extracted Title</span></div>
                 <div class="infoField" (click)="listSortBy='title'" [class.sortBy]="listSortBy=='title'"><span>Final Title</span></div>
@@ -331,17 +332,16 @@
               </ng-container>
               <ng-container *ngFor="let appId of sortedAppIds(previewData[steamDir][steamUser].apps)">
                 <ng-container *ngVar="previewData[steamDir][steamUser].apps[appId] as app">
-                  <ng-container *ngIf="getCurrentViewType() === 'games'">
+                  <ng-container *ngIf="currentViewType === 'games'">
                     <div class="title" *ngIf="isAppVisible(app)">
                       <span [attr.title]="app.extractedTitle">{{ app.title }}</span>
                     </div>
                     <ng-container *ngFor="let artworkType of artworkTypes">
                       <ng-container *ngVar="getBackgroundImage(app, artworkType) as image">
                         <ng-container *ngVar="getAppImages(app, artworkType) as appimages">
-                            <!-- ng-inview [parentSelector]="'.entries'" [margin]="400" (inView)="onAppInView($event.inView, $event.target, app)" -->
                           <div
-                            ng-inview [parentSelector]="'.entries'" [margin]="400" [appId]="appId" [inViewDict]="inViewDict" [artworkType]="artworkType"
                             class="app"
+                            [attr.data-inviewkey]="appId + currentViewType"
                             *ngIf="isAppVisible(app)"
                             [style.backgroundImage]="setBackgroundImage(appId, app, image, artworkType) | cssUrl | safeStyle"
                             [class.retrieving]="getImagePool(appimages.imagePool, artworkType).retrieving"
@@ -519,7 +519,7 @@
                       </ng-container>
                     </ng-container>
                   </ng-container>
-                  <ng-container *ngIf="getCurrentViewType()==='list'">
+                  <ng-container *ngIf="currentViewType==='list'">
                     <div class="listItem"
                     *ngIf="isAppVisible(app)"
                     [class.current]="currentApp && currentApp.appId==appId"
@@ -542,12 +542,11 @@
                       </div>
                     </div>
                   </ng-container>
-                  <ng-container *ngIf="isArtworkType(getCurrentViewType())">
+                  <ng-container *ngIf="isArtworkType(currentViewType)">
                     <ng-container *ngVar="getBackgroundImage(app) as image">
                       <ng-container *ngVar="getAppImages(app) as appimages">
-                        <!-- ng-inview [parentSelector]="'.entries'" [margin]="400" (inView)="onAppInView($event.inView, $event.target, app)" -->
                         <div
-                          ng-inview [parentSelector]="'.entries'" [margin]="400" [appId]="appId" [inViewDict]="inViewDict" [artworkType]="getActualArtworkType()"
+                          [attr.data-inviewkey]="appId + currentViewType"
                           [style.backgroundImage]="setBackgroundImage(appId, app, image) | cssUrl | safeStyle"
                           class="app"
                           *ngIf="isAppVisible(app)"
@@ -718,7 +717,9 @@
         </ng-container>
       </div>
     </ng-container>
-  </div>
+    </div>
+  </ng-container>
+
   <div
     class="lowerMenu not-emudeck"
     *ngIf="previewVariables.listHasGenerated && previewVariables.numberOfListItems !== 0"
