@@ -70,8 +70,6 @@ export class PreviewComponent implements OnDestroy {
   excludePutBacks: {[exceptionKey: string]: boolean} = {};
   exclusionCount: number = 0;
 
-  inViewDict: {[appId: string]: boolean} = {};
-
   constructor(
     private previewService: PreviewService,
     private settingsService: SettingsService,
@@ -109,6 +107,10 @@ export class PreviewComponent implements OnDestroy {
     return APP.lang.preview.component;
   }
 
+  get inViewDict() {
+    return this.previewService.inViewDict;
+  }
+
   get artworkTypes() {
     return artworkTypes;
   }
@@ -128,8 +130,13 @@ export class PreviewComponent implements OnDestroy {
     return imageProviderNames
   }
 
+
   isArtworkType(artworkViewType: ArtworkViewType) {
     return isArtworkType(artworkViewType)
+  }
+
+  clearInView() {
+    this.previewService.inViewDict = {};
   }
 
   closeAll() {
@@ -144,6 +151,7 @@ export class PreviewComponent implements OnDestroy {
   }
 
   generatePreviewData() {
+    this.clearInView();
     this.closeRight();
     this.previewService.generatePreviewData();
   }
@@ -228,6 +236,10 @@ export class PreviewComponent implements OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  getActualArtworkType(artworkType?: ArtworkType): ArtworkType {
+    const currentViewType = this.previewService.getCurrentViewType();
+    return isArtworkType(currentViewType) ? currentViewType : artworkType;
+  }
   getCurrentViewType() {
     return this.previewService.getCurrentViewType();
   }
@@ -244,8 +256,7 @@ export class PreviewComponent implements OnDestroy {
   }
 
   getAppImages(app: PreviewDataApp, artworkType?: ArtworkType) {
-    const currentViewType = this.previewService.getCurrentViewType();
-    const actualArtworkType: ArtworkType = isArtworkType(currentViewType) ? currentViewType : artworkType
+    const actualArtworkType = this.getActualArtworkType(artworkType);
     return app.images[actualArtworkType];
   }
 
@@ -261,15 +272,16 @@ export class PreviewComponent implements OnDestroy {
     return posterUrl ? posterUrl : require('../../assets/images/no-images.svg');
   }
 
-  onAppInView(inView: boolean, appElement: ElementRef, app: PreviewDataApp) {
+  /*onAppInView(inView: boolean, appElement: ElementRef, app: PreviewDataApp) {
     this.inViewDict[app.extractedTitle]||=inView
-  }
+  }*/
 
-  setBackgroundImage(app: PreviewDataApp, image: ImageContent, artworkType?: ArtworkType, imageIndex?: number) {
-    if(!this.inViewDict[app.extractedTitle]) { return null; }
+  setBackgroundImage(appId: string, app: PreviewDataApp, image: ImageContent, 
+    artworkType?: ArtworkType, imageIndex?: number, notLazy?: boolean) {
     const currentViewType = this.previewService.getCurrentViewType();
+    const actualArtworkType: ArtworkType = this.getActualArtworkType(artworkType);
+    if(!notLazy && (!this.inViewDict[appId] || !this.inViewDict[appId][actualArtworkType])) { return null; }
     if (image == undefined) {
-      const actualArtworkType: ArtworkType = isArtworkType(currentViewType) ? currentViewType : artworkType
       let imagepool: string = app.images[actualArtworkType].imagePool;
       if (this.previewService.getImages(actualArtworkType)[imagepool].online)
         return require('../../assets/images/retrieving-images.svg');
@@ -304,8 +316,7 @@ export class PreviewComponent implements OnDestroy {
   }
 
   currentImageIndex(app: PreviewDataApp, artworkType?: ArtworkType) {
-    const currentViewType = this.previewService.getCurrentViewType();
-    const actualArtworkType: ArtworkType = isArtworkType(currentViewType) ? currentViewType : artworkType
+    const actualArtworkType = this.getActualArtworkType(artworkType);
     return app.images[actualArtworkType].imageIndex + 1;
   }
 
@@ -316,8 +327,7 @@ export class PreviewComponent implements OnDestroy {
   addLocalImages(app: PreviewDataApp, artworkType?: ArtworkType) {
     this.fileSelector.multiple = true;
     this.fileSelector.accept = '.png, .jpeg, .jpg, .tga, .webp';
-    const currentViewType = this.previewService.getCurrentViewType();
-    const actualArtworkType: ArtworkType = isArtworkType(currentViewType) ? currentViewType : artworkType;
+    const actualArtworkType = this.getActualArtworkType(artworkType);
     this.fileSelector.onChange = (target) => {
       if (target.files) {
         let extRegex = /png|tga|jpg|jpeg|webp/i;
@@ -696,20 +706,17 @@ export class PreviewComponent implements OnDestroy {
   }
 
   previousImage(app: PreviewDataApp, artworkType?: ArtworkType) {
-    const currentViewType = this.previewService.getCurrentViewType();
-    const actualArtworkType: ArtworkType = isArtworkType(currentViewType) ? currentViewType : artworkType;
+    const actualArtworkType = this.getActualArtworkType(artworkType);
     this.previewService.setImageIndex(app, app.images[actualArtworkType].imageIndex - 1, actualArtworkType);
   }
 
   nextImage(app: PreviewDataApp, artworkType?: ArtworkType) {
-    const currentViewType = this.previewService.getCurrentViewType();
-    const actualArtworkType: ArtworkType = isArtworkType(currentViewType) ? currentViewType : artworkType;
+    const actualArtworkType = this.getActualArtworkType(artworkType);
     this.previewService.setImageIndex(app, app.images[actualArtworkType].imageIndex + 1, actualArtworkType);
   }
 
   chooseImage(app: PreviewDataApp, imageIndex: number, artworkType?: ArtworkType) {
-    const currentViewType = this.previewService.getCurrentViewType();
-    const actualArtworkType: ArtworkType = isArtworkType(currentViewType) ? currentViewType : artworkType;
+    const actualArtworkType = this.getActualArtworkType(artworkType);
     this.previewService.setImageIndex(app, imageIndex, actualArtworkType);
 
   }

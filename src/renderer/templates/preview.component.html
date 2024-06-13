@@ -211,7 +211,7 @@
                 <ng-container *ngFor="let imageIndex of (imageRanges[provider] | rangeArray)">
                   <ng-container *ngVar="getBackgroundImageList(currentApp.app, imageIndex, listImagesArtworkType) as image">
                     <div class="app"
-                    [style.backgroundImage]="setBackgroundImage(currentApp.app, image, listImagesArtworkType, imageIndex) | cssUrl | safeStyle"
+                    [style.backgroundImage]="setBackgroundImage(currentApp.appId, currentApp.app, image, listImagesArtworkType, imageIndex, true) | cssUrl | safeStyle"
                     [class.longStyle]="listImagesArtworkType === 'long'"
                     [class.tallStyle]="listImagesArtworkType === 'tall'"
                     [class.heroStyle]="listImagesArtworkType === 'hero'"
@@ -338,11 +338,12 @@
                     <ng-container *ngFor="let artworkType of artworkTypes">
                       <ng-container *ngVar="getBackgroundImage(app, artworkType) as image">
                         <ng-container *ngVar="getAppImages(app, artworkType) as appimages">
+                            <!-- ng-inview [parentSelector]="'.entries'" [margin]="400" (inView)="onAppInView($event.inView, $event.target, app)" -->
                           <div
+                            ng-inview [parentSelector]="'.entries'" [margin]="400" [appId]="appId" [inViewDict]="inViewDict" [artworkType]="artworkType"
                             class="app"
                             *ngIf="isAppVisible(app)"
-                            ng-inview [parentSelector]="'.entries'" [margin]="400" (inView)="onAppInView($event.inView, $event.target, app)"
-                            [style.backgroundImage]="setBackgroundImage(app, image, artworkType) | cssUrl | safeStyle"
+                            [style.backgroundImage]="setBackgroundImage(appId, app, image, artworkType) | cssUrl | safeStyle"
                             [class.retrieving]="getImagePool(appimages.imagePool, artworkType).retrieving"
                             [class.noImages]="
                               !getImagePool(appimages.imagePool, artworkType).retrieving && image == undefined
@@ -544,9 +545,10 @@
                   <ng-container *ngIf="isArtworkType(getCurrentViewType())">
                     <ng-container *ngVar="getBackgroundImage(app) as image">
                       <ng-container *ngVar="getAppImages(app) as appimages">
+                        <!-- ng-inview [parentSelector]="'.entries'" [margin]="400" (inView)="onAppInView($event.inView, $event.target, app)" -->
                         <div
-                          ng-inview [parentSelector]="'.entries'" [margin]="400" (inView)="onAppInView($event.inView, $event.target, app)"
-                          [style.backgroundImage]="setBackgroundImage(app, image) | cssUrl | safeStyle"
+                          ng-inview [parentSelector]="'.entries'" [margin]="400" [appId]="appId" [inViewDict]="inViewDict" [artworkType]="getActualArtworkType()"
+                          [style.backgroundImage]="setBackgroundImage(appId, app, image) | cssUrl | safeStyle"
                           class="app"
                           *ngIf="isAppVisible(app)"
                           [class.retrieving]="getImagePool(appimages.imagePool).retrieving"

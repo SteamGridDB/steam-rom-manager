@@ -1,5 +1,6 @@
 import { Directive, ElementRef, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { debounce } from "lodash";
+import { ArtworkType, initArtworkRecord } from '../../models';
 
 @Directive({
   selector: '[ng-inview]'
@@ -7,7 +8,10 @@ import { debounce } from "lodash";
 export class InViewDirective implements OnInit, OnDestroy {
   @Input() parentSelector: string;
   @Input() margin: number;
-  @Output() inView = new EventEmitter<{inView: boolean, target: ElementRef}>();
+  @Input() artworkType: ArtworkType;
+  @Input() inViewDict: {[appId: string]: Record<ArtworkType,boolean>}
+  @Input() appId: string;
+  //@Output() inView = new EventEmitter<{inView: boolean, target: ElementRef}>();
 
   private parentElement: HTMLElement;
   private parentRect: DOMRect; 
@@ -15,10 +19,9 @@ export class InViewDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.parentElement = this.getParentElement();
-    if (this.parentElement) {
+    if (this.parentElement && (!this.inViewDict[this.appId]||!this.inViewDict[this.appId][this.artworkType])) {
       this.parentElement.addEventListener('scroll', this.onParentScroll);
       this.parentRect = this.parentElement.getBoundingClientRect();
-
       this.checkInView();
     }
   }
@@ -39,7 +42,7 @@ export class InViewDirective implements OnInit, OnDestroy {
 
   private onParentScroll = debounce(() => {
     this.checkInView();
-  }, 500);
+  }, 200);
 
   private checkInView() {
     const rect = this.el.nativeElement.getBoundingClientRect();
@@ -49,6 +52,11 @@ export class InViewDirective implements OnInit, OnDestroy {
       //&& rect.left >= parentRect.left &&
       //rect.right <= parentRect.right
     );
-    this.inView.emit({inView: inView, target: this.el});
+    //this.inView.emit({inView: inView, target: this.el});
+    if(inView) {
+        if(!this.inViewDict[this.appId]) {this.inViewDict[this.appId]= initArtworkRecord<boolean>(()=>false)}
+        this.inViewDict[this.appId][this.artworkType] = true;
+        this.parentElement.removeEventListener('scroll', this.onParentScroll)
+    }
   }
 }

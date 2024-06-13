@@ -66,6 +66,8 @@ export class PreviewService {
   private batchProgress: BehaviorSubject<{update: string, batch: number}>;
   private categoryManager: CategoryManager;
   private sgdbToArt: SGDBToArt;
+  inViewDict: {[appId: string]: Record<ArtworkType, boolean>} = {};
+
   constructor(private parsersService: ParsersService, private loggerService: LoggerService, private imageProviderService: ImageProviderService, private settingsService: SettingsService, private http: HttpClient) {
     this.previewData = undefined;
     this.previewVariables = {
