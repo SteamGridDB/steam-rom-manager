@@ -29,10 +29,9 @@ Al estar activado, aparecerán registros más detallados del emparejador en los 
 Restablece la lista de títulos usados para el emparejamiento aproximado a la lista de títulos de `SteamGridDB` (remueve cualquier título agregado por el usuario).
 ### Restablecer caché
 Limpia el caché de títulos que ya se han visto en el emparejamiento aproximado (prueba esto si cambiar la lista de títulos aproximados no resulta en cambios a los títulos en SRM).
-
 ## Ajustes del proveedor de imágenes
-### Precargar imágenes `[Recomendación: desactivado]`
-Al estar activado, SRM cargará todas las imágenes disponibles para cada juego, en lugar de cargar una imagen a la vez a medida que el usuario vaya revisando las imágenes. No actives esto a menos que tengas una buena razón y tu biblioteca de juegos sea pequeña, ya que podría resultar en una gran (y lenta) cantidad de peticiones de red.
+### Artwork loading strategy `[Recommend Load artwork lazily]`
+This is the strategy SRM uses to pull artwork thumbnails for the `Add Games` UI. If you are parsing a lot of games, `Load artwork lazily` is recommended. `Preload first artwork` will try to pull the first piece of artwork for each game in each artwork category, and `Preload all artwork` will try to pull all available artwork for each game in each artwork category. `Preload all artwork` will cause network and performance issues unless the number of games is quite small (less than `30` or so).
 ### Proveedores habilitados
 Global setting to enable/disable particular image providers. Current options are `SteamGridDB` and `Steam Official`.
 ### DNS manual override
