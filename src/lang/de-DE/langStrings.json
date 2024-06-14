@@ -300,7 +300,7 @@
         "offlineMode": "Offline-Modus",
         "removeApps_desc": "all added games and controllers",
         "removeApps_btn": "Entfernen",
-        "preloadImages": "Abgerufene Bilder sofort vorladen",
+        "preloadImages": "Artwork loading strategy",
         "fuzzy_verbose": "Übereinstimmende Ergebnisse loggen",
         "fuzzy_filter": "Bilder filtern",
         "enabledProviders": "Aktivierte Bildanbieter",
