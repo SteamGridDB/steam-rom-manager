@@ -276,7 +276,7 @@ export class PreviewComponent implements OnDestroy {
     artworkType?: ArtworkType, imageIndex?: number, notLazy?: boolean) {
     const currentViewType = this.previewService.getCurrentViewType();
     const actualArtworkType: ArtworkType = this.getActualArtworkType(artworkType);
-    if(!notLazy && !this.inViewDict[appId + currentViewType]) { return null; }
+    if(this.appSettings.previewSettings.imageLoadStrategy=='loadLazy' && !notLazy && !this.inViewDict[appId + currentViewType]) { return null; }
     if (image == undefined) {
       let imagepool: string = app.images[actualArtworkType].imagePool;
       if (this.previewService.getImages(actualArtworkType)[imagepool].online)

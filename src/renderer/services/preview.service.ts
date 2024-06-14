@@ -370,7 +370,6 @@ export class PreviewService {
     if (image && image.loadStatus === 'notStarted' || image.loadStatus === 'failed') {
       image.loadStatus = 'downloading';
       this.previewDataChanged.next();
-
       let imageLoader = new Image();
       imageLoader.onload = () => {
         image.loadStatus = 'done';
@@ -751,7 +750,7 @@ export class PreviewService {
                     }
                     if(!skip) {
                       let newImage: ImageContent = this.addUniqueImage(imageKey, imageContent, artworkType, returnedProvider, preInsert);
-                      if (newImage !== null && this.appSettings.previewSettings.preload) {
+                      if (newImage !== null && this.appSettings.previewSettings.imageLoadStrategy=='loadPre') {
                         this.preloadImage(newImage);
                       }
                     }

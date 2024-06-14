@@ -125,7 +125,18 @@ export const dnsSelect = [
   {value: '1.0.0.1', displayValue: 'Cloudflare (Alt)'},
   {value: '8.8.8.8', displayValue: 'Google'},
   {value: '8.8.4.4', displayValue: 'Google (Alt)'},
-
 ]
 
 export const sgdbIdRegex: RegExp = /^\$\{gameid\:([0-9]*?)\}$/;
+
+export const imageLoadStrategies = [
+  'loadPre',
+  'loadNormal',
+  'loadLazy'
+] as const;
+
+export const loadStrategiesSelect = [
+  {value: 'loadLazy', displayValue: 'Load artwork lazily'},
+  {value: 'loadNormal', displayValue: 'Preload first artwork'},
+  {value: 'loadPre', displayValue: 'Preload all artwork'}
+]

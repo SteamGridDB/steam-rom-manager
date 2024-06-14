@@ -97,7 +97,13 @@
     </label>
     </div>
     <div class="inputContainer">
-      <ng-toggle-button class="ngToggleButton" [ngModel]="settings.previewSettings.preload" (ngModelChange)="preload($event); onSettingsChange();">{{lang.text.preloadImages}}</ng-toggle-button>
+      <div class="inlineGroup">
+        <ng-select style="font-size: 0.85em;" class="ngSelect"
+        [ngModel]="settings.previewSettings.imageLoadStrategy" (ngModelChange)="settings.previewSettings.imageLoadStrategy= $event; onSettingsChange();"
+        [multiple]="false" [allowEmpty]="false" [values]="availableLoadStrategies">
+        </ng-select>
+        <div class=text style="margin-left: 0.25em;">{{lang.text.preloadImages}}</div>
+      </div>
     </div>
     <div class="inputContainer">
       <div class="inlineGroup">

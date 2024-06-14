@@ -5,7 +5,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const appSettings: ValidatorModifier<AppSettings> = {
   controlProperty: 'version',
-  latestVersion: 8,
+  latestVersion: 9,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -94,6 +94,18 @@ export const appSettings: ValidatorModifier<AppSettings> = {
       'version': {method: versionUp},
       'dnsServers': {method: (oldValue) => {
         return [];
+      }}
+    },
+    8: {
+      'version': {method: versionUp},
+      'previewSettings': {method: (oldValue, oldConfiguration) => {
+        const oldPreload = oldConfiguration['preload'];
+        delete oldConfiguration['preload'];
+        if(oldPreload) {
+          return {...oldConfiguration, imageLoadStrategy: 'loadPre'}
+        } else {
+          return {...oldConfiguration, imageLoadStrategy: 'loadLazy'}
+        }
       }}
     }
   }

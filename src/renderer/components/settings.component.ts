@@ -12,7 +12,7 @@ import { fstat } from 'fs';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as paths from '../../paths';
-import { providersSelect, dnsSelect } from '../../lib/image-providers/available-providers';
+import { providersSelect, dnsSelect, loadStrategiesSelect } from '../../lib/image-providers/available-providers';
 
 @Component({
   selector: 'settings',
@@ -67,6 +67,10 @@ export class SettingsComponent implements OnDestroy {
 
   get availableDNS() {
     return dnsSelect;
+  }
+  
+  get availableLoadStrategies() {
+    return loadStrategiesSelect;
   }
 
   get lang() {
@@ -135,7 +139,6 @@ export class SettingsComponent implements OnDestroy {
   onSettingsChange(detectChanges: boolean = true) {
     if (detectChanges)
       this.settingsService.settingsChanged();
-
     this.settingsService.saveAppSettings();
   }
 
@@ -192,10 +195,6 @@ export class SettingsComponent implements OnDestroy {
 
   clearFuzzy(){
     this.fuzzyService.fuzzyLoader.resetCache();
-  }
-
-  preload(value: boolean) {
-    this.settings.previewSettings.preload = value;
   }
 
   loadLanguage(){

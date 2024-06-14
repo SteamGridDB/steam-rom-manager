@@ -1,12 +1,15 @@
 import { OnlineProviderType } from ".";
+import { imageLoadStrategies } from "../lib/image-providers/available-providers";
 import { FuzzyListTimestamps } from "./fuzzy.model";
+
+export type imageLoadStrategy = typeof imageLoadStrategies[number];
 
 export interface PreviewSettings {
     retrieveCurrentSteamImages: boolean,
     disableCategories: boolean,
     deleteDisabledShortcuts: boolean,
     imageZoomPercentage: number,
-    preload: boolean,
+    imageLoadStrategy: imageLoadStrategy,
     imageTypes: string[],
     hideUserAccount: boolean
 }

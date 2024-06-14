@@ -1,5 +1,5 @@
 import { languageManager } from '../../variables';
-import { onlineProviders } from "../../lib/image-providers/available-providers";
+import { onlineProviders, imageLoadStrategies } from "../../lib/image-providers/available-providers";
 import { availableThemes } from "../../lib/themes";
 
 export const appSettings = {
@@ -43,7 +43,11 @@ export const appSettings = {
         disableCategories: {type: 'boolean', default: false},
         deleteDisabledShortcuts: { type: 'boolean', default: false },
         imageZoomPercentage: { type: "number", default: 30, minimum: 10, maximum: 100 },
-        preload: { type: 'boolean', default: false },
+        imageLoadStrategy: {
+          type: 'string',
+          enum: imageLoadStrategies,
+          default: 'loadLazy'
+        },
         hideUserAccount: { type: 'boolean', default: false}
       }
     },
