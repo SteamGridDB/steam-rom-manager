@@ -3,8 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## 2.5.11
 ### Added
-* Improved exception management from preview (current exception details now show up under fix match)
+* Improved exception management from preview (current exception details now show up under fix match).
 * Lazy loading of images in `Add Games` (now the default image loading strategy).
+* Side panel option to change how images are sorted.
 ### Changed
 * Steam now auto exits gracefully on Windows.
 * Increased timeout for Steam to exit.
