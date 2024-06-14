@@ -22,7 +22,7 @@
     <div class="fake-btn" (click)="generatePreviewData()">Parse</div>
   </div>
   <div class="upperMenu" *ngIf="previewVariables.numberOfListItems > 0">
-    <div class="filtersButton" (click)="toggleFilters()">Filters</div>
+    <div class="filtersButton" (click)="toggleFilters()">View Options</div>
     <div class="title" *ngIf="showDetails">
       <span>Fix Match</span>
     </div>
@@ -70,6 +70,22 @@
       </div>
       <div class="excludeButton" (click)="saveExcludes()">
         <span>Save Excludes</span>
+      </div>
+    </div>
+  </div>
+  <div class="upper detailsUpper" *ngIf="showDetails">
+    <div class="upperTitle">
+      <span>{{ detailsApp ? niceAppTitle(detailsApp.app) : "" }}</span>
+    </div>
+    <div class="buttonGroup">
+      <div class="upperButton dangerousButton" (click)="closeDetails()">
+        <span>Cancel</span>
+      </div>
+      <div class="upperButton dangerousButton" (click)="deleteExceptionDetails()">
+        <span>Reset</span>
+      </div>
+      <div class="upperButton" (click)="saveDetails()">
+        <span>Save and close</span>
       </div>
     </div>
   </div>
@@ -158,22 +174,6 @@
       </ng-container>
     </ng-container>
   </div>
-  <div class="upper detailsUpper" *ngIf="showDetails">
-    <div class="upperTitle">
-      <span>{{ detailsApp ? niceAppTitle(detailsApp.app) : "" }}</span>
-    </div>
-    <div class="buttonGroup">
-      <div class="upperButton dangerousButton" (click)="closeDetails()">
-        <span>Cancel</span>
-      </div>
-      <div class="upperButton dangerousButton" (click)="deleteExceptionDetails()">
-        <span>Reset</span>
-      </div>
-      <div class="upperButton" (click)="saveDetails()">
-        <span>Save and close</span>
-      </div>
-    </div>
-  </div>
   <div class="upper listImagesUpper" *ngIf="getCurrentViewType()=='list' && currentApp && showListImages">
     <div class="upperTitle">
       <span>{{currentApp ? niceAppTitle(currentApp.app) : ""}}</span>
@@ -248,12 +248,23 @@
       </ng-container>
     </div>
   </div>
-
   <div class="urls" *ngIf="previewVariables.numberOfQueriedImages">
     <div class="stopButton" (click)="stopImageRetrieving()">{{ lang.stopUrlRetrieving }}</div>
     <div class="imageCounter">{{ lang.remainingImages }} {{ previewVariables.numberOfQueriedImages }}</div>
   </div>
   <div class="filters" *ngIf="showFilters">
+    <div class="filtergroup">
+      <div class="filterLabel">
+        <span>Sort games by</span>
+      </div>
+      <ng-select
+        class="selectSortBy"
+        [(ngModel)]="listSortBy"
+        [multiple]="false"
+        [allowEmpty]="false"
+        [values]="sortBySelectTypes"
+      ></ng-select>
+    </div>
     <div class="filtergroup">
       <div class="filterLabel">
         <span>Filter by Steam category</span>

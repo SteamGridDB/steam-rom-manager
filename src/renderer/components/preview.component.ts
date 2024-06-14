@@ -38,6 +38,7 @@ export class PreviewComponent implements OnDestroy {
   allParsers: string[] = [];
   actualParserFilter: string[] = [];
   artworkSelectTypes: SelectItem[];
+  sortBySelectTypes: SelectItem[];
   scrollingEntries: boolean = false;
   fileSelector: FileSelector = new FileSelector();
   CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
@@ -95,6 +96,11 @@ export class PreviewComponent implements OnDestroy {
     this.artworkSelectTypes = artworkViewTypes.map((artworkViewType: ArtworkViewType) => {
       return {value: artworkViewType, displayValue: artworkViewNames[artworkViewType]}
     });
+    this.sortBySelectTypes = [
+      {value: 'extractedTitle', displayValue: 'Extracted Title'},
+      {value: 'title', displayValue: 'Final Title'},
+      {value: 'configurationTitle', displayValue: 'Parser'}
+    ];
     this.activatedRoute.queryParamMap.subscribe((paramContainer: any)=> {
       let params = ({...paramContainer} as any).params;
       if(params['cliMessage']) {
