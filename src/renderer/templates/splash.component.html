@@ -1,0 +1,23 @@
+Welcome to SRM<
+<ng-container *ngIf="stage=='steamDir'">
+    <div class="descriptor">
+        First, you'll need to choose the location of your Steam Directory. 
+        If you have multiple for some reason, this can be overridden at a per-Parser level.
+    </div>
+    <div class="inputContainer">
+        <div class="inlineLeft">
+        <div class="path text" style="margin-right: 0.25em;">Steam Directory: </div>
+        <div class="directoryInput">
+            <ng-text-input class="ngTextInput" [placeholder]="steamDirectoryPlaceholder" [(ngModel)]='settings.environmentVariables.steamDirectory' (ngModelChange)='settings.environmentVariables.steamDirectory=$event; onSettingsChange()'></ng-text-input>
+            <ng-path-input class="clickButton2" [stateless]="true" [directory]="true" (pathChange)="settings.environmentVariables.steamDirectory=$event">Browse</ng-path-input>
+        </div>
+        </div>
+    </div>
+    <div class="button" [class.disabled]="!appSettings.steamDirectory" (click)="moveToUsers()">Next</div>
+</ng-container>
+<ng-container *ngIf=""stage=='userAccounts'>
+    <div class="descriptor">
+        Now that your Steam Directory is set to `{{appSettings.steamDirectory}}`, you'll need to choose which user accounts
+        SRM should manage. This can be overridden at a per-Parser level.
+    </div>
+</ng-container>

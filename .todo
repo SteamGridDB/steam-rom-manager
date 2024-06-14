@@ -1,16 +1,5 @@
 # Notes
-To update all the config presets at once I use
-1) in WSL:
-find . -type f -exec sed -i 's/\"defaultLogoImage\"\:\ \"\"\,/\"defaultLogoI
-mage"\:\ \"\"\,\n\"defaultIcon\"\:\ \"\"\,/g' {} \;
-2) in VIM:
-:args . | argdo execute "normal gg=G" | update
-
-
-That was the old method!
-
-New method:
-
+To update all the config presets at once:
 
 1) Make a modifier in `src/renderer/modifiers/config-presets.modifier.ts` to make the desired change to the preset files
 2) Add the current app version and current app commit (or any commit before presets change) to `files/presetsHashes.json`
@@ -23,10 +12,10 @@ Steam parser only works for steam apps that are in a category
 
 # Features and Changes
 0) Proton Capability
-1) Filter by author
+1) Filter or prefer certain image creators
 2) Assign an sgdbId to sgdb game much earlier (and have fix match alter it as necessary)
-3) Separate out appImages data structure into all image source types
-4) Add a SteamCDN provider
+3) Make global accounts and steam directory mandatory, rework the UI around accounts.
+4) Rework fileParser to make each stage of the title modification process immutable and trackable.
 
 
 # Parsers (LM - Launcher Mode, EM - Executable Mode)
