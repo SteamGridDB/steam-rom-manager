@@ -300,7 +300,7 @@
         "offlineMode": "离线模式",
         "removeApps_desc": "all added games and controllers",
         "removeApps_btn": "删除",
-        "preloadImages": "立即预加载检索到的图像",
+        "preloadImages": "Artwork loading strategy",
         "fuzzy_verbose": "记录匹配结果",
         "fuzzy_filter": "筛选图像",
         "enabledProviders": "启用的图片提供程序",
