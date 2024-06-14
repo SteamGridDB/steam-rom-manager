@@ -29,10 +29,9 @@ Quando abilitato, appaiono log più verbosi per il matcher del titolo fuzzy nel 
 Reimposta l'elenco memorizzato di titoli usati per la corrispondenza fuzzy alla lista di titoli restituiti da `SteamGridDB` (rimuove qualsiasi titolo aggiunto dall'utente).
 ### Reset cache fuzzy
 Pulisce la cache dei titoli che il matcher fuzzy ha già visto (prova se le modifiche apportate alla lista fuzzy non comportano modifiche ai titoli in SRM).
-
 ## Impostazioni del provider immagini
-### Precarica le immagini recuperate `[Disabilitazione Consigliata]`
-Quando abilitata, SRM otterrà tutti gli artwork disponibili per ogni gioco, piuttosto che scaricare solo un artwork alla volta mentre l'utente scorre tra le immagini. Non abilitare questa opzione a meno che tu non abbia una buona ragione e una piccolissima libreria di giochi, altrimenti potrebbe dar luogo a richieste di rete molto grandi (lente).
+### Artwork loading strategy `[Recommend Load artwork lazily]`
+This is the strategy SRM uses to pull artwork thumbnails for the `Add Games` UI. If you are parsing a lot of games, `Load artwork lazily` is recommended. `Preload first artwork` will try to pull the first piece of artwork for each game in each artwork category, and `Preload all artwork` will try to pull all available artwork for each game in each artwork category. `Preload all artwork` will cause network and performance issues unless the number of games is quite small (less than `30` or so).
 ### Abilita provider
 Global setting to enable/disable particular image providers. Current options are `SteamGridDB` and `Steam Official`.
 ### DNS manual override
