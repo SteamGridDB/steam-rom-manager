@@ -29,10 +29,9 @@ Undo all SRM added controller settings from Steam.
 将用于模糊匹配的标题存储列表重置为由 `SteamGridDB` 返回的标题列表（删除任何用户添加的标题）。
 ### 重置模糊缓存
 清除模糊匹配已经看到的标题缓存（如果您对模糊列表所做的更改没有导致 SRM 中标题的更改，请尝试此操作）。
-
 ## 图像提供程序设置
-### 预加载检索到的图片`[建议禁用]`
-启用后，SRM 将为每个游戏拉取所有可用的艺术作品，而不是在用户翻阅图像时逐一拉取一件艺术作品。 除非你有充分的理由和非常小的游戏库，否则不要启用此选项，否则可能会导致非常大（缓慢）的网络请求。
+### Artwork loading strategy `[Recommend Load artwork lazily]`
+This is the strategy SRM uses to pull artwork thumbnails for the `Add Games` UI. If you are parsing a lot of games, `Load artwork lazily` is recommended. `Preload first artwork` will try to pull the first piece of artwork for each game in each artwork category, and `Preload all artwork` will try to pull all available artwork for each game in each artwork category. `Preload all artwork` will cause network and performance issues unless the number of games is quite small (less than `30` or so).
 ### 启用的提供程序
 Global setting to enable/disable particular image providers. Current options are `SteamGridDB` and `Steam Official`.
 ### DNS manual override
