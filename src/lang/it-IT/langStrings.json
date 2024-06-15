@@ -476,7 +476,7 @@
         "steamCategory": "${cat1}${cat2}",
         "steamDirectory": "${steamdirglobal} o /percorso/a/steam",
         "userAccounts": "${steamuser1}${steamuser2} o ${${accountsglobal}}",
-        "titleFromVariable": "${myvariable}",
+        "titleFromVariable": "${variableGroup1}${variableGroup2}",
         "titleModifier": "${fuzzyTitle} o ${title}",
         "defaultImage__i": "/percorso/a/fallback_${artworkType}.png",
         "localImages__i": "/percorso/a/art/${artworkType}/\\${title}.@(png|jpg)",
@@ -490,7 +490,6 @@
         "multiAPIPlaceholder": "Nessun filtro"
       },
       "text": {
-        "tryToMatchTitle": "Abilita titolo da variabile personalizzata",
         "skipFileIfVariableWasNotFound": "Salta il file se la variabile non è stata trovata",
         "caseInsensitiveVariables": "Variabili case-insensitive",
         "shortcut_passthrough": "Segui .lnk o .desktop alla destinazione (solo Windows e Linux)",
