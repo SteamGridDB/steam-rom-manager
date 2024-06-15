@@ -319,21 +319,30 @@
       },
       "placeholder": {
         "noProviders": "无",
-        "steamDirectoryWin": "通常是 C:\\Program Files (x86)\\Steam。",
-        "steamDirectoryMac": "通常是 ~/Library/Application Support/Steam。",
-        "steamDirectoryLinux": "通常是 /home/user/.steam/steam",
         "userAccounts": "例如 ${steamlogin}",
-        "romsDirectoryWin": "例如 D:\\ROMs",
-        "romsDirectoryMac": "例如 ~/ROMs",
-        "romsDirectoryLinux": "例如 ~/ROMs",
-        "retroarchPathWin": "例如：C:\\Path\\To\\retroarch.exe",
-        "retroarchPathLinux": "例如 /path/to/retroarch",
-        "retroarchPathMac": "例如 /path/to/retroarch",
-        "raCoresDirectoryWin": "通常是 C:\\Users\\ UserName\\AppData\\Roaming\\RetroArch\\cores",
-        "raCoresDirectoryLinux": "通常是 /lib/x86_64-linux-gnu/libretro/cores",
-        "raCoresDirectoryMac": "通常是 /Applications/Retroarch.app/",
-        "localImagesDirectoryWin": "例如：C:\\Path\\To\\LocalArtwork",
-        "localImagesDirectoryUnix": "例如 ~/path/to/localartwork"
+        "bySystem": {
+          "Windows_NT": {
+            "steamDirectory": "Typically C:\\Program Files (x86)\\Steam",
+            "romsDirectory": "For example D:\\ROMs",
+            "retroarchPath": "For example C:\\Path\\To\\retroarch.exe",
+            "raCoresDirectory": "Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
+            "localImagesDirectory": "For example C:\\Path\\To\\LocalArtwork"
+          },
+          "Darwin": {
+            "steamDirectory": "Typically ~/Library/Application Support/Steam",
+            "romsDirectory": "For example ~/ROMs",
+            "retroarchPath": "For example /path/to/retroarch",
+            "raCoresDirectory": "Typically /Applications/Retroarch.app/Contents/Resources/cores",
+            "localImagesDirectory": "For example ~/path/to/localartwork"
+          },
+          "Linux": {
+            "steamDirectory": "Typically /home/user/.steam/steam",
+            "romsDirectory": "For example ~/ROMs",
+            "retroarchPath": "For example /path/to/retroarch",
+            "raCoresDirectory": "Typically /lib/x86_64-linux-gnu/libretro/cores",
+            "localImagesDirectory": "For example ~/path/to/localartwork"
+          }
+        }
       }
     },
     "service": {
