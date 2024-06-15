@@ -21,5 +21,6 @@ export const imageCacheFilename: string = 'artworkCache.json';
 export const fuzzyList: string = path.join(userDataDir, 'fuzzyList.json');
 export const fuzzyCache: string = path.join(userDataDir, 'fuzzyCache.json');
 export const customVariables: string = path.join(userDataDir, 'customVariables.json');
+export const userVariables: string = path.join(userDataDir, 'userVariables.json');
 export const userExceptions: string = path.join(userDataDir, 'userExceptions.json');
 export const configPresets: string = path.join(userDataDir, 'configPresets.json');

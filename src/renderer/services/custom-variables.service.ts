@@ -8,7 +8,8 @@ import * as json from "../../lib/helpers/json";
 import * as paths from "../../paths";
 import * as schemas from '../schemas';
 import * as _ from "lodash";
-import path from 'path/posix';
+import * as path from 'path';
+import * as fs from 'fs-extra';
 
 @Injectable()
 export class CustomVariablesService {
@@ -74,30 +75,33 @@ export class CustomVariablesService {
     }
   }
 
-  load() {
-    return this.download().then(() => {
-      return json.read<CustomVariables>(paths.customVariables)
-    }).then((data) => {
-      if (data === null) {
-        return this.download();
+  async load() {
+    try {
+      await this.download();
+      const srmVariables = await json.read<CustomVariables>(paths.customVariables);
+      if(!fs.existsSync(paths.userVariables)) {
+        await json.write(paths.userVariables, {})
       }
-      else {
-        const error = this.set(data || {});
-        if (error !== null) {
-          this.savingIsDisabled = true;
-          this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
-          this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
-            file: paths.customVariables,
-            error
-          }));
-        }
+      const userVariables = await json.read<CustomVariables>(paths.userVariables);
+      const data = Object.fromEntries(_.uniq([...Object.keys(srmVariables), ...Object.keys(userVariables)])
+      .map((key)=>{return [key, {
+        ...srmVariables[key],
+        ...userVariables[key]
+      }]}));
+      const error = this.set(data || {});
+      if (error !== null) {
+        this.savingIsDisabled = true;
+        this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
+        this.loggerService.error(this.lang.error.corruptedVariables__i.interpolate({
+          file: paths.customVariables,
+          error
+        }));
       }
-    })
-    .catch((error) => {
+    } catch(error) {
       this.savingIsDisabled = true;
       this.loggerService.error(this.lang.error.loadingError, { invokeAlert: true, alertTimeout: 5000, doNotAppendToLog: true });
       this.loggerService.error(error);
-    });
+    }
   }
 
   set(data: CustomVariables) {
@@ -105,8 +109,9 @@ export class CustomVariablesService {
       this.variableData.next(data);
       return null;
     }
-    else
+    else {
       return `\r\n${this.validator.errorString}`;
+    }
   }
 
   save(force: boolean = false) {

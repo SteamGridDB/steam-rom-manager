@@ -31,8 +31,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -40,7 +39,7 @@
 			"removeCharacters": true,
 			"removeBrackets": true
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"controllers": {
 			"ps4": null,
 			"ps5": null,
@@ -80,6 +79,7 @@
 				"stylesIcon": []
 			},
 			"steamCDN": {}
-		}
+		},
+		"version": null
 	}
 }

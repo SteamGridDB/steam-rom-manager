@@ -31,8 +31,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -63,7 +62,7 @@
 			},
 			"steamCDN": {}
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"defaultImage": {
 			"long": {
 				"tall": null,
@@ -89,6 +88,7 @@
 			"hero": "",
 			"logo": "",
 			"icon": ""
-		}
+		},
+		"version": null
 	}
 }

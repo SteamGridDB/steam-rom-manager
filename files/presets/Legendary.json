@@ -31,8 +31,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"use": false,
@@ -40,7 +39,7 @@
 			"removeCharacters": true,
 			"removeBrackets": true
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -80,6 +79,7 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	}
 }

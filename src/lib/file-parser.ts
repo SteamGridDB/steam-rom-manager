@@ -205,7 +205,7 @@ export class FileParser {
       try {
         let vParser = new VariableParser({ left: '${', right: '}' });
         if (superType === parserInfo.ROMType || superType === parserInfo.ManualType) {
-          if(config.titleFromVariable.tryToMatchTitle) {
+          if(config.titleFromVariable.limitToGroups) {
             this.tryToReplaceTitlesWithVariables(data, config, vParser);
           }
           this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(data, config.fuzzyMatch);
@@ -561,14 +561,8 @@ export class FileParser {
   }
 
   private tryToReplaceTitlesWithVariables(data: ParsedDataWithFuzzy, config: UserConfiguration, vParser: VariableParser) {
-    let groups = undefined;
-    if (config.titleFromVariable.limitToGroups.length > 0) {
-      groups = vParser.setInput(config.titleFromVariable.limitToGroups).parse() ? _.uniq(vParser.extractVariables(data => null)) : [];
-      groups = _.intersection(Object.keys(this.customVariableData), groups);
-    }
-    else {
-      groups = Object.keys(this.customVariableData);
-    }
+    let groups = vParser.setInput(config.titleFromVariable.limitToGroups).parse() ? _.uniq(vParser.extractVariables(data => null)) : [];
+    groups = _.intersection(Object.keys(this.customVariableData), groups);
     if (groups.length > 0) {
       for (let i = 0; i < data.success.length; i++) {
         let found = false;

@@ -30,7 +30,6 @@ export interface UserConfiguration {
     limitToGroups: string,
     skipFileIfVariableWasNotFound: boolean,
     caseInsensitiveVariables: boolean,
-    tryToMatchTitle: boolean
   },
   fuzzyMatch: {
     use: boolean,

@@ -8,7 +8,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',
-  latestVersion: 18,
+  latestVersion: 19,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -265,6 +265,13 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
           },
           steamCDN: {}
         }
+      }}
+    },
+    18: {
+      'version': { method: versionUp},
+      'titleFromVariable': { method: (oldValue)=> {
+        delete oldValue.tryToMatchTitle;
+        return oldValue;
       }}
     }
   }

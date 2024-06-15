@@ -30,8 +30,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -62,7 +61,7 @@
 			},
 			"steamCDN": {}
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"defaultImage": {
 			"long": {
 				"tall": "",
@@ -90,7 +89,8 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	},
 	"Nintendo Pokemon Mini - Retroarch - Pokemini": {
 		"parserType": "Glob",
@@ -123,8 +123,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -155,7 +154,7 @@
 			},
 			"steamCDN": {}
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"defaultImage": {
 			"long": {
 				"tall": "",
@@ -183,6 +182,7 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	}
 }

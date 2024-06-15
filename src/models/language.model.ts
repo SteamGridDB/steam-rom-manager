@@ -598,7 +598,6 @@ export interface languageStruct {
         multiAPIPlaceholder: string
       },
       text: {
-        tryToMatchTitle: string,
         skipFileIfVariableWasNotFound: string,
         caseInsensitiveVariables: string,
         fuzzy_use: string,

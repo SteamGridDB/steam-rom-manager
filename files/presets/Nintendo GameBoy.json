@@ -25,8 +25,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -39,7 +38,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -79,7 +78,8 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	},
 	"Nintendo GameBoy - Retroarch - Gambatte": {
 		"parserType": "Glob",
@@ -107,8 +107,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -121,7 +120,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -161,7 +160,8 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - Gambatte": {
 		"parserType": "Glob",
@@ -189,8 +189,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -203,7 +202,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -243,7 +242,8 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	},
 	"Nintendo GameBoy - Retroarch - Gearboy": {
 		"parserType": "Glob",
@@ -271,8 +271,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -285,7 +284,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -325,7 +324,8 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - Gearboy": {
 		"parserType": "Glob",
@@ -353,8 +353,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -367,7 +366,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -407,7 +406,8 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	},
 	"Nintendo GameBoy - Retroarch - Mesen-S": {
 		"parserType": "Glob",
@@ -435,8 +435,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -449,7 +448,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -489,7 +488,8 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - Mesen-S": {
 		"parserType": "Glob",
@@ -517,8 +517,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -531,7 +530,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -571,7 +570,8 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	},
 	"Nintendo GameBoy - Retroarch - mGBA": {
 		"parserType": "Glob",
@@ -599,8 +599,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -613,7 +612,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -653,7 +652,8 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - mGBA": {
 		"parserType": "Glob",
@@ -681,8 +681,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -695,7 +694,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -735,7 +734,8 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	},
 	"Nintendo GameBoy - Retroarch - SameBoy": {
 		"parserType": "Glob",
@@ -763,8 +763,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -777,7 +776,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -817,7 +816,8 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - SameBoy": {
 		"parserType": "Glob",
@@ -845,8 +845,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -859,7 +858,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -899,7 +898,8 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	},
 	"Nintendo GameBoy - Retroarch - TGB Dual": {
 		"parserType": "Glob",
@@ -927,8 +927,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -941,7 +940,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -981,7 +980,8 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - TGB Dual": {
 		"parserType": "Glob",
@@ -1009,8 +1009,7 @@
 		"titleFromVariable": {
 			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"tryToMatchTitle": false
+			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
 			"use": true,
@@ -1023,7 +1022,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 11,
+		"presetVersion": 12,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1063,6 +1062,7 @@
 			"icon": ""
 		},
 		"steamInputEnabled": "1",
-		"drmProtect": false
+		"drmProtect": false,
+		"version": null
 	}
 }
