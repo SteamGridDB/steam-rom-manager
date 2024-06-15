@@ -1,49 +1,37 @@
-# Titel aus benutzerdefinierten Variablen (optional)
+# Title from custom variable (optional)
+Allows one to overwrite the extracted title with a custom variable, pulled from the `json` files described below. This happens right after title extraction, meaning that the new title can be used for fuzzy matching and so on. Gruppen und Variablen beachten Groß- und Kleinschreibung, außer etwas anderes ist aktiviert.
 
-Erlaubt es, den extrahierten Titel mit einer benutzerdefinierten Variable zu überschreiben. Dies passiert direkt nach der Extraktion des Titels, damit dieser nachfolgend mit Hilfe von Fuzzy matching bearbeitet werden kann. Gruppen und Variablen beachten Groß- und Kleinschreibung, außer etwas anderes ist aktiviert.
-
-Titel Matching kann auf einzelne Gruppen von benutzerdefinierten Variablen eingeschränkt werden. Verwende folgenden Syntax um Gruppen zu spezifizieren:
+Title matching is limited to specific groups of custom variables. For example, this is how you specify groups "FBN" and "PSN":
 ```
-${...}
-```
-Zum Beispiel kannst du Gruppen für"RPCS3" and "rpcs3" so definieren:
-```
-${RPCS3}${rpcs3}
+${RPCS3}${PSN}
 ```
 
-Stelle sicher, dass dies aktiviert ist.
+# How it works
+There are two variable files, `customVariables.json` which is maintained by SRM (don't change this one, your changes will be overwritten every time SRM restarts) and `userVariables.json` which is where you should put your own variables. Both files are located in SRM's `Config Directory`.
 
 
-## Groß- und Kleinschreibung ignorieren
 
-Wenn dies aktiviert ist, wird der erste Treffer benutzt.
-
-## Hinweis: Dieses Feature ist **experimentell**
-
-Grundsätzlich könnte sich dies in einer zukünftigen Version ändern (sehr unwahrscheinlich). Außerdem können momentan neue Variablen nur hinzugefügt/editiert werden, indem man `customVariables.json` direkt anpasst.
-
-Die Konfiguration muss in SRM's `userData` Ordner hinterlegt werden.
-
-SRM benötigt die folgende Struktur:
+Both `customVariables.json` and `userVariables.json` have the same JSON structure. SRM benötigt die folgende Struktur:
 
 ```
 {
-    "RPCS3": {
+    "Group1": {
         "NPUB30698": "Catherine",
         "NPUB30024": "1942: Joint Strike",
         ...
     },
-    "Custom Stuff": {
-        "The Legend Of Zelda": "The Legend Of Link"
-    },
-    ...
-}
-    },
-    "Custom Stuff": {
-        "The Legend Of Zelda": "The Legend Of Link"
+    "Group2": {
+        "The Legend Of Zelda": "The Legend Of Link",
+        ...
     },
     ...
 }
 ```
 
-Wenn dein Benutzer-Glob `MyDir/${title}.wad` wäre und du eine `The Legend of Zelda.wad` in `MyDir` hast, würdest du den Titel des benutzerdefinierten Variablenfeldes auf `${Custom Stuff}` setzen, um einen endgültigen Titel von "Die Legende des Links" zu erhalten.
+Then if your user glob were `romsdir/${title}.wad` and you had a `The Legend of Zelda.wad` located in `romsdir`, you would set the title from custom variable field to `${Group2}` to obtain a title of "The Legend of Link".
+
+## Case-insensitive variables
+If enabled, case-insensitive matching will be done and first matched custom variable will be used.
+
+## Skip file if variable not found
+If enabled, titles that don't match a variable will be excluded.
