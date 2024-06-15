@@ -318,9 +318,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             }),
             skipFileIfVariableWasNotFound: new NestedFormElement.Toggle({
               text: this.lang.text.skipFileIfVariableWasNotFound
-            }),
-            tryToMatchTitle: new NestedFormElement.Toggle({
-              text: this.lang.text.tryToMatchTitle
             })
           },
           onInfoClick: (self, path) => {

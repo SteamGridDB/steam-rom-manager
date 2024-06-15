@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.12
+### Added
+* Added a `userVariables.json` file where user's can put their custom variables without fear of them being overwritten by SRM, as well as accompanying documentation.
+### Changed
+* Removed `Enable Title from Custom Variable` setting in parsers. Custom Variables are now enabled if and only if one or more groups are set.
+
 ## 2.5.11
 ### Added
 * Improved exception management from preview (current exception details now show up under fix match).

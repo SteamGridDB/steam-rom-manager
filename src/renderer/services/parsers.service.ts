@@ -204,7 +204,7 @@ export class ParsersService {
                   else
                     userConfigurations[index].current.parserId = userConfigurations[index].saved.parserId;
                   if(parserInfo.superTypesMap[userConfigurations[index].current.parserType]===parserInfo.ArtworkOnlyType) {
-                    userConfigurations[index].current.titleFromVariable.tryToMatchTitle=false;
+                    userConfigurations[index].current.titleFromVariable.limitToGroups="";
                   }
                   userConfigurations[index] = { saved: userConfigurations[index].current, current: null };
                 }
@@ -554,9 +554,9 @@ export class ParsersService {
                   let errorString: string = '';
                   for (let i = 0; i < data.length; i++) {
                     // TODO get rid of this ugly hack for making specified accounts mandatory for steam parser only
-                    data[i].userAccounts.specifiedAccounts = data[i].userAccounts.specifiedAccounts || '';
+                    data[i].userAccounts.specifiedAccounts = data[i].userAccounts.specifiedAccounts || "";
                     if(parserInfo.superTypesMap[data[i].parserType] !== parserInfo.ROMType) {
-                      data[i].titleFromVariable.tryToMatchTitle = false;
+                      data[i].titleFromVariable.limitToGroups = "";
                       data[i].executableModifier = "\"${exePath}\"";
                     }
                     if (this.validator.validate(data[i]).isValid()) {
