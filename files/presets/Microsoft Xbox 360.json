@@ -17,7 +17,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}/@(default.xex|DEFAULT.XEX)"
@@ -38,7 +38,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -79,7 +79,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	},
 	"Microsoft Xbox 360 - Xenia": {
 		"parserType": "Glob",
@@ -99,7 +99,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.iso|.ISO|.zar|.ZAR)"
@@ -120,7 +120,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -161,6 +161,6 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	}
 }

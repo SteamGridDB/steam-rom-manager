@@ -17,7 +17,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.rom|.ROM|.sms|.SMS|.zip|.ZIP)"
@@ -38,7 +38,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -79,7 +79,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	},
 	"Sega Master System - Retroarch(Flatpak) - Gearsystem": {
 		"parserType": "Glob",
@@ -99,7 +99,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.rom|.ROM|.sms|.SMS|.zip|.ZIP)"
@@ -120,7 +120,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -161,7 +161,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	},
 	"Sega Master System - Retroarch - Genesis Plus GX": {
 		"parserType": "Glob",
@@ -181,7 +181,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.sms|.SMS|.zip|.ZIP)"
@@ -202,7 +202,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -243,7 +243,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	},
 	"Sega Master System - Retroarch(Flatpak) - Genesis Plus GX": {
 		"parserType": "Glob",
@@ -263,7 +263,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.sms|.SMS|.zip|.ZIP)"
@@ -284,7 +284,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -325,7 +325,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	},
 	"Sega Master System - Retroarch - PicoDrive": {
 		"parserType": "Glob",
@@ -345,7 +345,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.sms|.SMS|.zip|.ZIP)"
@@ -366,7 +366,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -407,7 +407,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	},
 	"Sega Master System - Retroarch(Flatpak) - PicoDrive": {
 		"parserType": "Glob",
@@ -427,7 +427,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.sms|.SMS|.zip|.ZIP)"
@@ -448,7 +448,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -489,6 +489,6 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	}
 }

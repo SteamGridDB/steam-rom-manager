@@ -17,7 +17,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.2hd|.2HD|.7z|.7Z|.88d|.88D|.cmd|.CMD|.d88|.D88|.dim|.DIM|.dup|.DUP|.hdf|.HDF|.hdm|.HDM|.img|.IMG|.m3u|.M3U|.xdf|.XDF|.zip|.ZIP)"
@@ -38,7 +38,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -79,7 +79,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	},
 	"Sharp X68000 - Retroarch - PX68k(Flatpak)": {
 		"parserType": "Glob",
@@ -99,7 +99,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.2hd|.2HD|.7z|.7Z|.88d|.88D|.cmd|.CMD|.d88|.D88|.dim|.DIM|.dup|.DUP|.hdf|.HDF|.hdm|.HDM|.img|.IMG|.m3u|.M3U|.xdf|.XDF|.zip|.ZIP)"
@@ -120,7 +120,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -161,6 +161,6 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	}
 }

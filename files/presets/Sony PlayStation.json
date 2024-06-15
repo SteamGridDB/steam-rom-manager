@@ -17,7 +17,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.cue|.CUE|.chd|.CHD|.ecm|.ECM|.iso|.ISO|.m3u|.M3U|.mds|.MDS|.pbp|.PBP)"
@@ -38,7 +38,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -79,7 +79,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	},
 	"Sony PlayStation - DuckStation(Flatpak)": {
 		"parserType": "Glob",
@@ -99,7 +99,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.cue|.CUE|.chd|.CHD|.ecm|.ECM|.iso|.ISO|.m3u|.M3U|.mds|.MDS|.pbp|.PBP)"
@@ -120,7 +120,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -161,7 +161,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	},
 	"Sony PlayStation - ePSXe": {
 		"parserType": "Glob",
@@ -181,7 +181,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.ccd|.CCD|.cue|.CUE|.ecm|.ECM|.iso|.ISO|.mds|.MDS|.pbp|.PBP)"
@@ -202,7 +202,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -243,7 +243,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	},
 	"Sony PlayStation - Retroarch - Beetle PSX HW": {
 		"parserType": "Glob",
@@ -263,7 +263,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.ccd|.CCD|.chd|.CHD|.cue|.CUE|.m3u|.M3U|.pbp|.PBP|.toc|.TOC)"
@@ -284,7 +284,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -325,7 +325,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	},
 	"Sony PlayStation - Retroarch(Flatpak) - Beetle PSX HW": {
 		"parserType": "Glob",
@@ -345,7 +345,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.ccd|.CCD|.chd|.CHD|.cue|.CUE|.m3u|.M3U|.pbp|.PBP|.toc|.TOC)"
@@ -366,7 +366,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -407,7 +407,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	},
 	"Sony PlayStation - Retroarch - PCSX ReARMed": {
 		"parserType": "Glob",
@@ -427,7 +427,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.ccd|.CCD|.chd|.CHD|.cue|.CUE|.m3u|.M3U|.pbp|.PBP|.toc|.TOC)"
@@ -448,7 +448,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -489,6 +489,6 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	}
 }

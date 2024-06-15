@@ -17,7 +17,7 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": ""
+			"specifiedAccounts": "${${accountsglobal}}"
 		},
 		"parserInputs": {
 			"glob": "${title}@(.app|.APP|.ipa|.IPA)"
@@ -38,7 +38,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -79,6 +79,6 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": null
+		"version": 1
 	}
 }

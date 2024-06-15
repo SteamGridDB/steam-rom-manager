@@ -18,7 +18,7 @@ let versionUp = (version: number) => { return version + 1 };
 
 export const configPreset: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'presetVersion',
-  latestVersion: 12,
+  latestVersion: 13,
   fields: {
     undefined: {
       'presetVersion': { method: ()=>0 },
@@ -203,6 +203,13 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
       'version': { method: versionUp},
       'titleFromVariable': { method: (oldValue)=> {
         delete oldValue.tryToMatchTitle;
+        return oldValue;
+      }}
+    },
+    12: {
+      'version': { method: versionUp },
+      'userAccounts': { method: (oldValue)=> {
+        oldValue.specifiedAccounts||='${${accountsglobal}}';
         return oldValue;
       }}
     }

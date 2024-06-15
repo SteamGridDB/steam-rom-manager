@@ -62,7 +62,7 @@
 			},
 			"steamCDN": {}
 		},
-		"presetVersion": 12,
+		"presetVersion": 13,
 		"defaultImage": {
 			"long": {
 				"tall": null,
@@ -89,6 +89,6 @@
 			"logo": "",
 			"icon": ""
 		},
-		"version": null
+		"version": 1
 	}
 }
