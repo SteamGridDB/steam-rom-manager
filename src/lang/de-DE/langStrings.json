@@ -476,7 +476,7 @@
         "steamCategory": "${cat1}${cat2}",
         "steamDirectory": "${steamdirglobal} oder /Pfad/zu/Steam",
         "userAccounts": "${steamuser1}${steamuser2} oder ${${accountsglobal}}",
-        "titleFromVariable": "${myvariable}",
+        "titleFromVariable": "${variableGroup1}${variableGroup2}",
         "titleModifier": "${fuzzyTitle} oder ${title}",
         "defaultImage__i": "/Pfad/zu/fallback_${artworkType}.png",
         "localImages__i": "/Pfad/zum/Artwork/${artworkType}/\\${title}.@(png|jpg)",
@@ -490,7 +490,6 @@
         "multiAPIPlaceholder": "Kein Filter"
       },
       "text": {
-        "tryToMatchTitle": "Aktiviere Titel aus benutzerdefinierten Variablen",
         "skipFileIfVariableWasNotFound": "Datei überspringen, falls keine Variable gefunden wurde",
         "caseInsensitiveVariables": "Groß-/Kleinschreibung bei Variablen ignorieren",
         "shortcut_passthrough": "Folge .lnk or .desktop Dateien zum Ziel (nur Windows und Linux)",
