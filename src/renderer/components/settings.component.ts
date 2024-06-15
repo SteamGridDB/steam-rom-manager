@@ -2,13 +2,12 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from
 import { ActivatedRoute } from '@angular/router';
 import { SettingsService, ParsersService, PreviewService, LanguageService, ImageProviderService, FuzzyService, CustomVariablesService, ConfigurationPresetsService, ShellScriptsService, IpcService, LoggerService } from "../services";
 import { APP } from '../../variables';
-import { AppSettings, OnlineProviderType,ImageProviderName, SelectItem, userAccountData } from "../../models";
+import { AppSettings, SelectItem } from "../../models";
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { availableThemes } from "../../lib/themes";
 import * as os from 'os';
 import * as steam from "../../lib/helpers/steam";
 import { ArtworkCache } from '../../lib';
-import { fstat } from 'fs';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as paths from '../../paths';
@@ -27,12 +26,14 @@ export class SettingsComponent implements OnDestroy {
   themes: string[];
   availableLanguages: SelectItem[];
   knownSteamDirectories: string[];
-  retroarchPathPlaceholder: string;
-  steamDirectoryPlaceholder: string;
+  placeholderForOS: {
+    steamDirectory: string,
+    romsDirectory: string,
+    retroarchPath: string,
+    raCoresDirectory: string,
+    localImagesDirectory: string
+  }
   userAccountsPlaceholder: string;
-  romsDirectoryPlaceholder: string;
-  localImagesDirectoryPlaceholder: string;
-  raCoresDirectoryPlaceholder: string;
   chooseUserAccountsVisible: boolean = false;
   showShellScripts: boolean = false;
   private subscriptions: Subscription = new Subscription();
@@ -51,7 +52,6 @@ export class SettingsComponent implements OnDestroy {
     private activatedRoute: ActivatedRoute,
     private ipcService: IpcService
              ) {
-
     this.currentDoc.content = this.lang.docs__md.settings.join('');
     this.activatedRoute.queryParamMap.subscribe((paramContainer: any)=> {
       let params = ({...paramContainer} as any).params;
@@ -95,29 +95,7 @@ export class SettingsComponent implements OnDestroy {
     });
     this.themes = availableThemes;
     this.userAccountsPlaceholder = this.lang.placeholder.userAccounts;
-    if(os.type()=='Windows_NT'){
-      this.showShellScripts = true;
-      this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathWin;
-      this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryWin;
-      this.romsDirectoryPlaceholder = this.lang.placeholder.romsDirectoryWin;
-      this.localImagesDirectoryPlaceholder = this.lang.placeholder.localImagesDirectoryWin;
-      this.raCoresDirectoryPlaceholder = this.lang.placeholder.raCoresDirectoryWin;
-    }
-    else if(os.type()=='Darwin'){
-      this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathMac;
-      this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryMac;
-      this.romsDirectoryPlaceholder = this.lang.placeholder.romsDirectoryMac;
-      this.localImagesDirectoryPlaceholder = this.lang.placeholder.localImagesDirectoryUnix;
-      this.raCoresDirectoryPlaceholder = this.lang.placeholder.raCoresDirectoryMac;
-
-    }
-    else if(os.type()=='Linux'){
-      this.retroarchPathPlaceholder = this.lang.placeholder.retroarchPathLinux;
-      this.steamDirectoryPlaceholder = this.lang.placeholder.steamDirectoryLinux;
-      this.romsDirectoryPlaceholder = this.lang.placeholder.romsDirectoryLinux;
-      this.localImagesDirectoryPlaceholder = this.lang.placeholder.localImagesDirectoryUnix;
-      this.raCoresDirectoryPlaceholder = this.lang.placeholder.raCoresDirectoryLinux;
-    }
+    this.placeholderForOS = this.lang.placeholder.bySystem[os.type()]
   }
 
   ngAfterViewInit() {

@@ -184,7 +184,7 @@
       <div class="inlineLeft">
         <div class="path text" style="margin-right: 0.25em;">Steam Directory: </div>
         <div class="directoryInput">
-          <ng-text-input class="ngTextInput" [placeholder]="steamDirectoryPlaceholder" [(ngModel)]='settings.environmentVariables.steamDirectory' (ngModelChange)='settings.environmentVariables.steamDirectory=$event; onSettingsChange()'></ng-text-input>
+          <ng-text-input class="ngTextInput" [placeholder]="placeholderForOS.steamDirectory" [(ngModel)]='settings.environmentVariables.steamDirectory' (ngModelChange)='settings.environmentVariables.steamDirectory=$event; onSettingsChange()'></ng-text-input>
           <ng-path-input class="clickButton2" [stateless]="true" [directory]="true" (pathChange)="settings.environmentVariables.steamDirectory=$event">Browse</ng-path-input>
         </div>
       </div>
@@ -202,7 +202,7 @@
       <div class="inlineLeft">
         <div class="path text" style="margin-right: 0.25em;">ROMs Directory: </div>
         <div class="directoryInput">
-          <ng-text-input class="ngTextInput" [placeholder]="romsDirectoryPlaceholder" [(ngModel)]='settings.environmentVariables.romsDirectory' (ngModelChange)='settings.environmentVariables.romsDirectory=$event; onSettingsChange()'></ng-text-input>
+          <ng-text-input class="ngTextInput" [placeholder]="placeholderForOS.romsDirectory" [(ngModel)]='settings.environmentVariables.romsDirectory' (ngModelChange)='settings.environmentVariables.romsDirectory=$event; onSettingsChange()'></ng-text-input>
           <ng-path-input class="clickButton2" [stateless]="true" [directory]="true" (pathChange)="settings.environmentVariables.romsDirectory=$event">Browse</ng-path-input>
         </div>
       </div>
@@ -211,7 +211,7 @@
       <div class="inlineLeft">
         <div class="path text" style="margin-right: 0.25em;">Retroarch Path: </div>
         <div class="directoryInput">
-          <ng-text-input class="ngTextInput" [placeholder]="retroarchPathPlaceholder" [(ngModel)]='settings.environmentVariables.retroarchPath' (ngModelChange)='settings.environmentVariables.retroarchPath=$event; onSettingsChange()'></ng-text-input>
+          <ng-text-input class="ngTextInput" [placeholder]="placeholderForOS.retroarchPath" [(ngModel)]='settings.environmentVariables.retroarchPath' (ngModelChange)='settings.environmentVariables.retroarchPath=$event; onSettingsChange()'></ng-text-input>
           <ng-path-input class="clickButton2" [stateless]="true" [directory]="false" (pathChange)="settings.environmentVariables.retroarchPath=$event">Browse</ng-path-input>
         </div>
       </div>
@@ -220,7 +220,7 @@
       <div class="inlineLeft">
         <div class="path text" style="margin-right: 0.25em;">Retroarch Cores Directory: </div>
         <div class="directoryInput">
-          <ng-text-input class="ngTextInput" [placeholder]="raCoresDirectoryPlaceholder" [(ngModel)]='settings.environmentVariables.raCoresDirectory' (ngModelChange)='settings.environmentVariables.raCoresDirectory=$event; onSettingsChange()'></ng-text-input>
+          <ng-text-input class="ngTextInput" [placeholder]="placeholderForOS.raCoresDirectory" [(ngModel)]='settings.environmentVariables.raCoresDirectory' (ngModelChange)='settings.environmentVariables.raCoresDirectory=$event; onSettingsChange()'></ng-text-input>
           <ng-path-input class="clickButton2" [stateless]="true" [directory]="true" (pathChange)="settings.environmentVariables.raCoresDirectory=$event">Browse</ng-path-input>
         </div>
       </div>
@@ -229,7 +229,7 @@
       <div class="inlineLeft">
         <div class="path text" style="margin-right: 0.25em;">Local Images Directory: </div>
         <div class="directoryInput">
-          <ng-text-input class="ngTextInput" [placeholder]="localImagesDirectoryPlaceholder" [(ngModel)]='settings.environmentVariables.localImagesDirectory' (ngModelChange)='settings.environmentVariables.localImagesDirectory=$event; onSettingsChange()'></ng-text-input>
+          <ng-text-input class="ngTextInput" [placeholder]="placeholderForOS.localImagesDirectory" [(ngModel)]='settings.environmentVariables.localImagesDirectory' (ngModelChange)='settings.environmentVariables.localImagesDirectory=$event; onSettingsChange()'></ng-text-input>
           <ng-path-input class="clickButton2" [stateless]="true" [directory]="true" (pathChange)="settings.environmentVariables.localImagesDirectory=$event">Browse</ng-path-input>
         </div>
       </div>

@@ -392,21 +392,16 @@ export interface languageStruct {
       },
       placeholder: {
         noProviders: string,
-        steamDirectoryWin: string,
-        steamDirectoryLinux: string,
-        steamDirectoryMac: string,
         userAccounts: string,
-        romsDirectoryWin: string,
-        romsDirectoryLinux: string,
-        romsDirectoryMac: string,
-        retroarchPathWin: string,
-        retroarchPathMac: string,
-        retroarchPathLinux: string,
-        raCoresDirectoryWin: string,
-        raCoresDirectoryMac: string,
-        raCoresDirectoryLinux: string,
-        localImagesDirectoryWin: string,
-        localImagesDirectoryUnix: string
+        bySystem: {
+          [key: string]: {
+            steamDirectory: string,
+            romsDirectory: string,
+            retroarchPath: string,
+            raCoresDirectory: string,
+            localImagesDirectory: string
+          },
+        }
       }
     },
     service: {

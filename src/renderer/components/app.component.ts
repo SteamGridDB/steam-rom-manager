@@ -9,12 +9,17 @@ import markdownItAttrs from 'markdown-it-attrs';
   selector: 'app',
   template: `
   <ng-container *ngIf="settingsLoaded && languageLoaded; else stillLoading">
-  <titlebar></titlebar>
-  <navarea *ngIf="!shouldHideComponent"></navarea>
-  <nav-border></nav-border>
-  <router-outlet style="display: none;"></router-outlet>
-  <alert></alert>
-  <update-notifier [ipcMessage]=updateMessage></update-notifier>
+    <ng-container *ngIf="!splash">
+      <navarea *ngIf="!shouldHideComponent"></navarea>
+      <nav-border></nav-border>
+      <router-outlet style="display: none;"></router-outlet>
+    </ng-container>
+    <ng-container *ngIf="splash">
+      <splash [stage]="splashStage" (setup)="splash=!$event"></splash>
+    </ng-container>
+    <titlebar></titlebar>
+    <alert></alert>
+    <update-notifier [ipcMessage]=updateMessage></update-notifier>
   </ng-container>
   <ng-template #stillLoading>
   <div class="appLoading"></div>
@@ -29,10 +34,14 @@ export class AppComponent {
   settingsLoaded: boolean = false;
   languageLoaded: boolean = false;
   shouldHideComponent: boolean = false;
+  splash:boolean = false;
+  splashStage: string = 'steamDir';
   private cliMessage: string = '';
   constructor(private settingsService: SettingsService, private languageService: LanguageService, private markdownService: MarkdownService, private router: Router,private ipcService: IpcService, private changeDetectionRef: ChangeDetectorRef, private zone: NgZone) {
 
     this.settingsService.onLoad((appSettings) => {
+      this.splash = !appSettings.environmentVariables.steamDirectory || !appSettings.environmentVariables.userAccounts
+      this.splashStage = appSettings.environmentVariables.steamDirectory ? 'userAccounts': 'steamDir';
       this.settingsLoaded = true;
       document.querySelector('html').className = '';
       document.querySelector('html').classList.add(appSettings.theme)
