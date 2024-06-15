@@ -319,21 +319,30 @@
       },
       "placeholder": {
         "noProviders": "Aucun",
-        "steamDirectoryWin": "Généralement C:\\Program Files (x86)\\Steam",
-        "steamDirectoryMac": "Généralement ~/Library/Application Support/Steam",
-        "steamDirectoryLinux": "Généralement /home/user/.steam/steam",
         "userAccounts": "For example ${steamlogin}",
-        "romsDirectoryWin": "Par exemple D:\\ROMs",
-        "romsDirectoryMac": "Par exemple ~/ROMs",
-        "romsDirectoryLinux": "Par exemple ~/ROMs",
-        "retroarchPathWin": "Par exemple C:\\Chemin\\Vers\\retroarch.exe",
-        "retroarchPathLinux": "Par exemple /chemin/vers/retroarch",
-        "retroarchPathMac": "Par exemple /chemin/vers/retroarch",
-        "raCoresDirectoryWin": "Généralement C:\\Utilisateurs\\NomD'Utilisateurs\\AppData\\Roaming\\RetroArch\\cores",
-        "raCoresDirectoryLinux": "Généralement /lib/x86_64-linux-gnu/libretro/core",
-        "raCoresDirectoryMac": "Généralement /Applications/Retroarch.app/Contents/Resources/cores",
-        "localImagesDirectoryWin": "For example C:\\Path\\To\\LocalArtwork",
-        "localImagesDirectoryUnix": "For example ~/path/to/localartwork"
+        "bySystem": {
+          "Windows_NT": {
+            "steamDirectory": "Typically C:\\Program Files (x86)\\Steam",
+            "romsDirectory": "For example D:\\ROMs",
+            "retroarchPath": "For example C:\\Path\\To\\retroarch.exe",
+            "raCoresDirectory": "Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
+            "localImagesDirectory": "For example C:\\Path\\To\\LocalArtwork"
+          },
+          "Darwin": {
+            "steamDirectory": "Typically ~/Library/Application Support/Steam",
+            "romsDirectory": "For example ~/ROMs",
+            "retroarchPath": "For example /path/to/retroarch",
+            "raCoresDirectory": "Typically /Applications/Retroarch.app/Contents/Resources/cores",
+            "localImagesDirectory": "For example ~/path/to/localartwork"
+          },
+          "Linux": {
+            "steamDirectory": "Typically /home/user/.steam/steam",
+            "romsDirectory": "For example ~/ROMs",
+            "retroarchPath": "For example /path/to/retroarch",
+            "raCoresDirectory": "Typically /lib/x86_64-linux-gnu/libretro/cores",
+            "localImagesDirectory": "For example ~/path/to/localartwork"
+          }
+        }
       }
     },
     "service": {
