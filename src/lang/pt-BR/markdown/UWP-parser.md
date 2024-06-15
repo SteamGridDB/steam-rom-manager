@@ -1,7 +1,7 @@
-# UWP Games Parser
+# Analisador de Jogos UWP
 
-This parser imports `UWP` games in your Windows OS, having a games library path as reference. Useful for PC gamepass!
+Este analisador importa jogos `UWP` no seu sistema operacional Windows, tendo o caminho da biblioteca de jogos como referência. Useful for PC gamepass!
 
-## Compatibility
+## Compatibilidade
 
-This parser should only work on `Windows 10` and `Windows 11`.
+Este analisador só deve funcionar no `Windows 10` e `Windows 11`.
