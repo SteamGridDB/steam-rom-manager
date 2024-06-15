@@ -1,8 +1,8 @@
 {
   "preview": {
     "component": {
-      "filter": "Search for game",
-      "selectType": "Artwork Type",
+      "filter": "Buscar por um jogo",
+      "selectType": "Tipo de Artwork",
       "selectCategories": "Steam Category",
       "selectParsers": "Parser Title",
       "selectTypeOptions": {
@@ -18,15 +18,15 @@
       "saveImage": "Salvar imagem no arquivo",
       "addLocalImages": "Adicionar imagens locais",
       "retryDownload": "Repetir download",
-      "generateAppList": "Refresh",
-      "saveAppList": "Save to Steam",
-      "removeAppList": "Remove from Steam",
-      "remainingImages": "Retrieving urls:",
-      "stopUrlRetrieving": "Stop",
-      "exportSelections": "Export art",
-      "importSelections": "Import art",
-      "backButton": "Back",
-      "logButton": "Log"
+      "generateAppList": "Recarregar",
+      "saveAppList": "Salvar na Steam",
+      "removeAppList": "Remover da Steam",
+      "remainingImages": "Recuperando urls:",
+      "stopUrlRetrieving": "Parar",
+      "exportSelections": "Exportar arte",
+      "importSelections": "Importar arte",
+      "backButton": "Voltar",
+      "logButton": "Registro"
     },
     "service": {
       "info": {
@@ -135,7 +135,7 @@
   },
   "UWPParser": {
     "UWPDirTitle": "XboxGames Directory Override",
-    "UWPDirPlaceholder": "/path/to/XboxGames or /path/to/WindowsApps",
+    "UWPDirPlaceholder": "/path/to/XboxGames ou /path/to/WindowsApps",
     "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper",
     "errors": {
       "fatalError__i": "> UWP parser is not compatible in this platform.",
@@ -193,7 +193,7 @@
   "eaDesktopParser": {
     "eaGamesDirTitle": "EA Games Directory Override",
     "eaGamesDirPlaceholder": "/path/to/EA Games/",
-    "eaLauncherModeTitle": "Launch games via EA Desktop",
+    "eaLauncherModeTitle": "Iniciar jogos via EA Desktop",
     "errors": {
       "fatalError__i": "> EA Desktop parser failed with fatal error:\n ${error}",
       "invalidXML__i": "> Invalid XML file ${dataFile}",
