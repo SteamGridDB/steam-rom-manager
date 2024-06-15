@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2.5.12
 ### Added
-* Added a `userVariables.json` file where user's can put their custom variables without fear of them being overwritten by SRM, as well as accompanying documentation.
+* Added a `userVariables.json` file where user's can put their custom variables without fear of them being overwritten by SRM, as well as accompanying documentation. Resolves [issue 667](https://github.com/SteamGridDB/steam-rom-manager/issues/667)
 ### Changed
 * Removed `Enable Title from Custom Variable` setting in parsers. Custom Variables are now enabled if and only if one or more groups are set.
 
