@@ -354,19 +354,17 @@ export class ParsersService {
               }
 
               private validateVariableParserString(input: string, emptyError?: string) {
-                let canBeEmpty = emptyError == undefined;
+                let canBeEmpty = !emptyError;
                 let preParser = new VariableParser({ left: '${', right: '}' });
                 let envParsed = preParser.setInput(input).parse() ? preParser.replaceVariables((variable) => {
                   return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables,this.appSettings).trim()
-                }) : '';
-                console.log("donkey", envParsed)
-                if (!canBeEmpty)
-                  envParsed = envParsed.trim();
-
-                if (canBeEmpty || (!canBeEmpty && envParsed.length > 0))
+                }).trim() : input.trim();
+                if (canBeEmpty || (!canBeEmpty && envParsed.length > 0)) {
                   return VariableParser.isValidString('${', '}', envParsed) ? null : this.lang.validationErrors.variableString__md;
-                else
+                }
+                else {
                   return emptyError;
+                }
               }
 
 
