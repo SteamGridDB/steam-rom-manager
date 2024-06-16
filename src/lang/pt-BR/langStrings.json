@@ -525,7 +525,7 @@
       },
       "validationErrors": {
         "parserType__md": "Tipo de usuário incorreto!",
-        "configTitle__md": "A configuração não é necessária!",
+        "configTitle__md": "> Configuration title field is required!",
         "parserId__md": "> O Parser Id está faltando, algo está terrivelmente errado.",
         "parserInput": {
           "noInput": "Nenhum nódulo está disponível!",
@@ -533,13 +533,13 @@
           "incorrectParser": "Tipo de usuário incorreto!"
         },
         "romDir__md": "> O diretório ROMs é inválido!",
-        "userAccounts__md": "> Artwork Only parsers require `User Accounts` field",
+        "userAccounts__md": "> User accounts field is required!",
         "steamDir__md": "> diretório Steam inválido!",
         "startInDir__md": "> \"O diretório Roms é inválido!",
         "executable__md": "> O executável é inválido!",
         "imagePool__md": "> O pool de imagens não pode estar em branco!",
         "defaultImage__md": "> A imagem padrão é um caminho inválido!",
-        "titleModifier__md": "> Modificador de título não pode estar vazio!",
+        "titleModifier__md": "> Title modifier field is required!",
         "executableModifier__md": "> Modificador de título não pode estar vazio!",
         "variableString__md": "> Número negro de pares `${` e `}`. Use `\\` para escapar `${` ou `}` se quiser usá-los como caracteres.",
         "imageProviders__md": "> Tipo de provedores de imagem incorretos!",
