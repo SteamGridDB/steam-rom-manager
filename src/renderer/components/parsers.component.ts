@@ -300,6 +300,18 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           label: 'Title Modification Configuration',
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
         }),
+        titleModifier: new NestedFormElement.Input({
+          highlight: this.highlight.bind(this),
+          required: true,
+          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+          placeholder: this.lang.placeholder.titleModifier,
+          label: this.lang.label.titleModifier,
+          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+            onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content = this.lang.docs__md.titleModifier.join('');
+          }
+        }),
         titleFromVariable: new NestedFormElement.Group({
           isHidden: () => this.isHiddenIfNotRomsParser(),
             label: this.lang.label.titleFromVariable,
@@ -323,18 +335,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
             this.currentDoc.content = this.lang.docs__md.titleFromVariable.join('');
-          }
-        }),
-        titleModifier: new NestedFormElement.Input({
-          highlight: this.highlight.bind(this),
-          required: true,
-          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
-          placeholder: this.lang.placeholder.titleModifier,
-          label: this.lang.label.titleModifier,
-          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-            onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.titleModifier.join('');
           }
         }),
         fuzzyMatch: new NestedFormElement.Group({
