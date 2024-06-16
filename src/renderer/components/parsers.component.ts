@@ -116,16 +116,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           ]
         }),
         userAccounts: new NestedFormElement.Group({
-          label: this.lang.label.userAccounts,
           children: {
             specifiedAccounts: new NestedFormElement.Input({
+              label: this.lang.label.userAccounts,
               placeholder: this.lang.placeholder.userAccounts,
               highlight: this.highlight.bind(this),
-              onValidateObservable: () => this.userForm.get('parserType').valueChanges,
-                onValidate: (self, path) => {
-                let serialized: {[k: string]: any} = {}
-                serialized[path[1]] = self.value
-                return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized, {parserType: this.userForm.get('parserType').value});
+              required: true,
+              onValidate: (self, path) => {
+                let serialized: {[k: string]: any} = {};
+                serialized[path[1]] = self.value;
+                return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized);
               },
               buttons: [
                 new NestedFormElement.Button({
@@ -141,24 +141,14 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     control.setValue('${${accountsglobal}}')
                   }
                 })
-              ]
+              ],
+              onInfoClick: (self, path) => {
+                this.currentDoc.activePath = path.join();
+                this.currentDoc.content = this.lang.docs__md.userAccounts.join('');
+              }
             })
           },
-          onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.userAccounts.join('');
-          }
-        }),
-        steamCategory: new NestedFormElement.Input({
-          placeholder: this.lang.placeholder.steamCategory,
-          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
-            label: this.lang.label.steamCategory,
-          highlight: this.highlight.bind(this),
-          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
-            onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.steamCategory.join('');
-          }
+
         }),
         romDirectory: new NestedFormElement.Input({
           path: { directory: true },
@@ -173,6 +163,17 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.romDirectory.join('');
           }
         }),
+        steamCategory: new NestedFormElement.Input({
+          placeholder: this.lang.placeholder.steamCategory,
+          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+            label: this.lang.label.steamCategory,
+          highlight: this.highlight.bind(this),
+          onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
+            onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content = this.lang.docs__md.steamCategory.join('');
+          }
+        }),
         executableSection: new NestedFormElement.Section({
           label: 'Executable Configuration',
           isHidden: () => this.isHiddenIfNotRomsParser()
@@ -184,7 +185,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               path: { directory: false },
               label: this.lang.label.executableLocation,
               placeholder: this.lang.placeholder.executableLocation,
-              required: true,
               highlight: this.highlight.bind(this),
               onValidate: (self, path) => {
                 let serialized: {[k: string]: any} = {};
@@ -327,6 +327,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         titleModifier: new NestedFormElement.Input({
           highlight: this.highlight.bind(this),
+          required: true,
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
           placeholder: this.lang.placeholder.titleModifier,
           label: this.lang.label.titleModifier,

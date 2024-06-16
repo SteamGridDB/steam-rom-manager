@@ -102,6 +102,7 @@ ng-nested-form {
 
     ng-select {
       grid-area: input;
+      border-radius: 0px;
       &.required {
         outline: 1px solid var(--color--required);
         .display{
@@ -112,10 +113,7 @@ ng-nested-form {
 
     ng-toggle-button {
       @include ngToggleButtonColor(ng-toggle-button);
-
       grid-area: input;
-      + ng-toggle-button {
-      }
     }
   }
 

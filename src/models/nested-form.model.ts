@@ -49,7 +49,9 @@ export namespace NestedFormElement {
     required?: boolean
     /** Optional */
     onValidate?: NestedInputValidator;
-    /** Optional */
+    /** Optional 
+     * Used if onValidate function depends on some other field of the form.
+    */
     onValidateObservable?: NestedInputValidatorObservable;
     /** Optional */
     onChange?: NestedInputChange;

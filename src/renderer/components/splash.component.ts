@@ -16,7 +16,7 @@ export class SplashComponent {
     setup = new EventEmitter<boolean>(false);
 
     constructor(
-    settingsService: SettingsService
+    private settingsService: SettingsService
     ) { 
         settingsService.onLoad((appSettings: AppSettings) => {
             this.appSettings = appSettings;
@@ -45,4 +45,11 @@ export class SplashComponent {
             this.setup.emit(true);
         }
     }
+
+    onSettingsChange(detectChanges: boolean = true) {
+        if (detectChanges) {
+            this.settingsService.settingsChanged();
+        }
+        this.settingsService.saveAppSettings();
+      }
 }

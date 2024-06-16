@@ -21,13 +21,13 @@ const sharedProperties = {
     executableArgs: { type: 'string', default: '' },
     executableModifier: { type: 'string', default: '"${exePath}"' },
     romDirectory: { type: 'string', default: '' },
-    steamDirectory: { type: 'string', default: '' },
+    steamDirectory: { type: 'string', default: '${steamdirglobal}' },
     startInDirectory: { type: 'string', default: '' },
     userAccounts: {
       type: 'object',
       default: {},
       properties: {
-        specifiedAccounts: { type: 'string', default: '' },
+        specifiedAccounts: { type: 'string', default: '${${accountsglobal}}' },
       }
     },
     titleFromVariable: {

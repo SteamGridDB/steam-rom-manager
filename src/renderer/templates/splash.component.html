@@ -24,7 +24,7 @@
                 class="clickButton2" 
                 [stateless]="true"
                 [directory]="true" 
-                (pathChange)="appSettings.environmentVariables.steamDirectory=$event">
+                (pathChange)="appSettings.environmentVariables.steamDirectory=$event; onSettingsChange();">
                     Browse
                 </ng-path-input>
         </div>
@@ -46,7 +46,7 @@
                 class="ngTextInput" 
                 placeholder="${acct1}${acct2}" 
                 [(ngModel)]='appSettings.environmentVariables.userAccounts' 
-                (ngModelChange)='appSettings.environmentVariables.userAccounts=$event;'>
+                (ngModelChange)='appSettings.environmentVariables.userAccounts=$event; onSettingsChange();'>
             </ng-text-input>
             <div class="clickButton2" (click)="chooseAccounts()">Choose</div>
           </div>

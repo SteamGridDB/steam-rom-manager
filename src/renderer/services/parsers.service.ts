@@ -295,23 +295,17 @@ export class ParsersService {
                   case 'parserId':
                     return data ? null : this.lang.validationErrors.parserId__md;
                   case 'steamCategory':
-                    return this.validateVariableParserString(data || '');
+                    return this.validateVariableParserString(data||"");
                   case 'executable':
                     return ((data||{}).path == null || data.path.length == 0 || this.validateEnvironmentPath(data.path || '') ) ? null : this.lang.validationErrors.executable__md;
                   case 'romDirectory':
-                    return this.validateEnvironmentPath(data || '', true) ? null : this.lang.validationErrors.romDir__md;
+                    return this.validateEnvironmentPath(data||"", true) ? null : this.lang.validationErrors.romDir__md;
                   case 'steamDirectory':
-                    return this.validateEnvironmentPath(data || '', true) ? null : this.lang.validationErrors.steamDir__md;
+                    return this.validateEnvironmentPath(data||"", true) ? null : this.lang.validationErrors.steamDir__md;
                   case 'startInDirectory':
                     return (data == null || data.length === 0 || this.validateEnvironmentPath(data || '', true)) ? null : this.lang.validationErrors.startInDir__md;
-                  case 'userAccounts':
-                    {
-                    if(options && parserInfo.superTypesMap[options.parserType as ParserType]==parserInfo.ArtworkOnlyType) {
-                      return data && data.specifiedAccounts ? this.validateVariableParserString(data.specifiedAccounts||'') : this.lang.validationErrors.userAccounts__md;
-                    } else{
-                      return this.validateVariableParserString((data||{}).specifiedAccounts || '');
-                    }
-                  }
+                  case 'userAccounts': 
+                    return this.validateVariableParserString(data.specifiedAccounts||"", this.lang.validationErrors.userAccounts__md);
                   case 'parserInputs': {
                     let availableParser = this.getParserInfo(data['parser']);
                     if (availableParser) {
@@ -361,12 +355,16 @@ export class ParsersService {
 
               private validateVariableParserString(input: string, emptyError?: string) {
                 let canBeEmpty = emptyError == undefined;
-
+                let preParser = new VariableParser({ left: '${', right: '}' });
+                let envParsed = preParser.setInput(input).parse() ? preParser.replaceVariables((variable) => {
+                  return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables,this.appSettings).trim()
+                }) : '';
+                console.log("donkey", envParsed)
                 if (!canBeEmpty)
-                  input = input.trim();
+                  envParsed = envParsed.trim();
 
-                if (canBeEmpty || (!canBeEmpty && input.length > 0))
-                  return VariableParser.isValidString('${', '}', input) ? null : this.lang.validationErrors.variableString__md;
+                if (canBeEmpty || (!canBeEmpty && envParsed.length > 0))
+                  return VariableParser.isValidString('${', '}', envParsed) ? null : this.lang.validationErrors.variableString__md;
                 else
                   return emptyError;
               }
@@ -553,8 +551,6 @@ export class ParsersService {
                   let validatedConfigs: { saved: UserConfiguration, current: UserConfiguration }[] = [];
                   let errorString: string = '';
                   for (let i = 0; i < data.length; i++) {
-                    // TODO get rid of this ugly hack for making specified accounts mandatory for steam parser only
-                    data[i].userAccounts.specifiedAccounts = data[i].userAccounts.specifiedAccounts || "";
                     if(parserInfo.superTypesMap[data[i].parserType] !== parserInfo.ROMType) {
                       data[i].titleFromVariable.limitToGroups = "";
                       data[i].executableModifier = "\"${exePath}\"";

@@ -19,7 +19,7 @@ import markdownItAttrs from 'markdown-it-attrs';
     </ng-container>
     <titlebar></titlebar>
     <alert></alert>
-    <update-notifier [ipcMessage]=updateMessage></update-notifier>
+    <update-notifier [ipcMessage]="updateMessage"></update-notifier>
   </ng-container>
   <ng-template #stillLoading>
   <div class="appLoading"></div>
