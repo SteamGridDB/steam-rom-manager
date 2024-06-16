@@ -117,7 +117,35 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         userAccounts: new NestedFormElement.Group({
           children: {
-            specifiedAccounts: new NestedFormElement.Input({
+            specifiedAccounts: new NestedFormElement.Bubble({
+              label: this.lang.label.userAccounts,
+              required: true,
+              onValidate: (self, path) => {
+                let serialized: {[k: string]: any} = {};
+                serialized[path[1]] = self.value;
+                return this.parsersService.validate(path[0] as keyof UserConfiguration, serialized);
+              },
+              buttons: [
+                new NestedFormElement.Button({
+                  buttonLabel: 'Choose',
+                  onClickControlMethod: (control: AbstractControl) => {
+                    this.chooseAccountsControl = control;
+                    this.chooseAccounts()
+                  }
+                }),
+                new NestedFormElement.Button({
+                  buttonLabel: 'Global',
+                  onClickControlMethod: (control: AbstractControl) => {
+                    control.setValue(['Global'])
+                  }
+                })
+              ],
+              onInfoClick: (self, path) => {
+                this.currentDoc.activePath = path.join();
+                this.currentDoc.content = this.lang.docs__md.userAccounts.join('');
+              }
+            })
+            /*specifiedAccounts: new NestedFormElement.Input({
               label: this.lang.label.userAccounts,
               placeholder: this.lang.placeholder.userAccounts,
               highlight: this.highlight.bind(this),
@@ -146,7 +174,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 this.currentDoc.activePath = path.join();
                 this.currentDoc.content = this.lang.docs__md.userAccounts.join('');
               }
-            })
+            })*/
           },
 
         }),
@@ -1013,7 +1041,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  setUserAccounts(accounts: string) {
+  setUserAccounts(accounts: string[]) {
     if(accounts && this.chooseAccountsControl) {
       this.chooseAccountsControl.setValue(accounts)
     }

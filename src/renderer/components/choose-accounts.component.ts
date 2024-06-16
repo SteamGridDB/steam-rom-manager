@@ -22,7 +22,7 @@ export class ChooseAccountsComponent {
   @Output()
   showAccounts = new EventEmitter<boolean>();
   @Output()
-  accountsJoined = new EventEmitter<string>();
+  accountsJoined = new EventEmitter<string[]>();
   constructor(private changeRef: ChangeDetectorRef) {
   }
   @Input()
@@ -46,7 +46,8 @@ export class ChooseAccountsComponent {
   }
 
   saveAccounts() {
-    this.accountsJoined.next(Object.values(this.selectedAccounts).map(item=>`\$\{${item}\}`).join(''));
+    //this.accountsJoined.next(Object.values(this.selectedAccounts).map(item=>`\$\{${item}\}`).join(''));
+    this.accountsJoined.next(Object.values(this.selectedAccounts))
     this.cancelAccounts()
   }
 

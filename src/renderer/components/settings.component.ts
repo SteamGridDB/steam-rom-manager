@@ -194,7 +194,7 @@ export class SettingsComponent implements OnDestroy {
       this.chooseUserAccountsVisible = true;
     }
   }
-  setUserAccounts(accounts: string) {
+  setUserAccounts(accounts: string[]) {
     if(accounts) {
       this.settings.environmentVariables.userAccounts = accounts;
     }

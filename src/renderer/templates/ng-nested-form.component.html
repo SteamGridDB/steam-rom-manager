@@ -41,6 +41,24 @@
               <ng-container *ngSwitchCase="'Button'">
                 <div class="freeButton" (click)="child.onClickMethod()">{{child.buttonLabel}}</div>
               </ng-container>
+              <ng-container *ngSwitchCase="'Bubble'">
+                <ng-container *ngIf="!child.path">
+                  <ng-bubbles [formControlName]="childrenKey" [bubbleItems]="child.bubbleItems"></ng-bubbles>
+                  <div class="clickButtons">
+                    <ng-container *ngFor="let button of child.buttons">
+                      <div class="clickButton" (click)="button.onClickControlMethod(currentForm.controls[childrenKey])">{{button.buttonLabel}}</div>
+                    </ng-container>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="!!child.path">
+                  <ng-bubbles [formControlName]="childrenKey" [bubbleItems]="child.bubbleItems"></ng-bubbles>
+                  <div class="clickButtons">
+                    <ng-container *ngFor="let button of child.buttons">
+                      <div class="clickButton" (click)="button.onClickControlMethod(currentForm.controls[childrenKey])">{{button.buttonLabel}}</div>
+                    </ng-container>
+                  </div>
+                </ng-container>
+              </ng-container>
               <ng-container *ngSwitchCase="'Input'">
                 <ng-container *ngIf="!child.path">
                   <ng-text-input [formControlName]="childrenKey" [placeholder]="child.placeholder || ''" [highlight]="child.highlight" [class.required]="child.required"></ng-text-input>

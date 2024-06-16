@@ -1,0 +1,23 @@
+@import "mixins";
+
+:host {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-height: 20px;
+    .bubblesContainer {
+        display: flex;
+        justify-content: left;
+        overflow-x: wrap;
+        .bubble {
+            display: flex;
+            align-items: center;
+            padding: 6px;
+            justify-content: space-between;
+            background: rgb(141, 26, 135);
+            opacity: 0.8;
+            border-radius: 10px;
+            margin-left:5px;
+        }
+    }
+}

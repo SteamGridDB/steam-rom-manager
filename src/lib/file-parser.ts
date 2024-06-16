@@ -80,12 +80,12 @@ export class FileParser {
         config.steamDirectory = preParser.setInput(config.steamDirectory).parse() ? preParser.replaceVariables((variable) => {
           return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
         }) : null;
-        const doubleVarRegex = /^\$\{\$\{.+\}\}$/;
+        /*const doubleVarRegex = /^\$\{\$\{.+\}\}$/;
         if(doubleVarRegex.test(config.userAccounts.specifiedAccounts)) {
           config.userAccounts.specifiedAccounts = preParser.setInput(config.userAccounts.specifiedAccounts).parse() ? preParser.replaceVariables((variable)=>{
             return this.getEnvironmentVariable(variable as EnvironmentVariables, settings).trim();
           }): null;
-        }
+        }*/
         if(superType === parserInfo.ROMType) {
           config.romDirectory = preParser.setInput(config.romDirectory).parse() ? preParser.replaceVariables((variable) => {
             return this.getEnvironmentVariable(variable as EnvironmentVariables,settings).trim()
@@ -143,7 +143,8 @@ export class FileParser {
         let parser = this.getParserInfo(config.parserType);
         if (parser) {
           let preParser = new VariableParser({ left: '${', right: '}' });
-          let userFilter = preParser.setInput(config.userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
+          //let userFilter = preParser.setInput(config.userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
+          let userFilter = config.userAccounts.specifiedAccounts[0]=='Global' ? settings.environmentVariables.userAccounts : config.userAccounts.specifiedAccounts;
           let filteredAccounts: { found: userAccountData[], missing: string[] } = this.filterUserAccounts(steamDirectory.data, userFilter, config.steamDirectory);
           let directories:string[] = undefined;
           if (superType === parserInfo.ROMType) {
@@ -719,9 +720,9 @@ export class FileParser {
       case 'STEAMDIRGLOBAL':
         output=settings.environmentVariables.steamDirectory;
         break;
-      case 'ACCOUNTSGLOBAL':
+      /*case 'ACCOUNTSGLOBAL':
         output=settings.environmentVariables.userAccounts;
-        break;
+        break;*/
       case 'ROMSDIRGLOBAL':
         output=settings.environmentVariables.romsDirectory;
         break;
@@ -829,7 +830,7 @@ export class FileParser {
       fuzzyTitle: file.fuzzyTitle,
       romDirectory: config.romDirectory,
       steamDirectoryGlobal: settings.environmentVariables.steamDirectory,
-      userAccountsGlobal: settings.environmentVariables.userAccounts,
+      //userAccountsGlobal: settings.environmentVariables.userAccounts,
       romsDirectoryGlobal: settings.environmentVariables.romsDirectory,
       retroarchPath: settings.environmentVariables.retroarchPath,
       raCoresDirectory: settings.environmentVariables.raCoresDirectory,

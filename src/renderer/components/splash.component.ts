@@ -28,7 +28,7 @@ export class SplashComponent {
         }
     }
 
-    setUserAccounts(accounts: string) {
+    setUserAccounts(accounts: string[]) {
         if(accounts) {
           this.appSettings.environmentVariables.userAccounts = accounts;
         }

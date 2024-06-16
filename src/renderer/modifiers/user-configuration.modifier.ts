@@ -5,10 +5,17 @@ import * as _ from "lodash";
 
 let replaceVariables_undefined = (oldValue: any) => typeof oldValue === 'string' ? oldValue.replace(/\${dir}/gi, '${romDir}').replace(/\${file}/gi, '${fileName}').replace(/\${sep}/gi, '${/}') : '';
 let versionUp = (version: number) => { return version + 1 };
+const extractNames = (str: string) => {
+  const regex = /\$\{(.*?)\}/g; const names = []; let match;
+  while ((match = regex.exec(str)) !== null) {
+      names.push(match[1]);
+  }
+  return names;
+}
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',
-  latestVersion: 20,
+  latestVersion: 21,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -278,6 +285,17 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
       'version': { method: versionUp },
       'userAccounts': { method: (oldValue)=> {
         oldValue.specifiedAccounts||='${${accountsglobal}}';
+        return oldValue;
+      }}
+    },
+    20: {
+      'version': { method: versionUp},
+      'userAccounts': { method: (oldValue)=> {
+        if(oldValue.specifiedAccounts=='${${accountsglobal}}') {
+          oldValue.specifiedAccounts = ['Global']
+        } else {
+          oldValue.specifiedAccounts = extractNames(oldValue.specifiedAccounts)
+        }
         return oldValue;
       }}
     }

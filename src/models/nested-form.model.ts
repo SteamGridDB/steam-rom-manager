@@ -57,11 +57,45 @@ export namespace NestedFormElement {
     onChange?: NestedInputChange;
     /** Optional */
     onInfoClick?: NestedInputInfoClick;
-
     constructor(init?: ObjectFields<Select>) {
       Object.assign(this, init);
     }
   };
+  export class Bubble {
+    static displayName = 'Bubble';
+        /** Optional */
+        label?: string;
+        /** Optional */
+        initialValue?: string[];
+        /** Optional */
+        isHidden?: NestedInputHidden;
+        __hidden: NestedInputHiddenValue;
+        /** Optional */
+        disabled?: boolean;
+        /** Optional */
+        required?: boolean
+        onValidate?: NestedInputValidator;
+        /** Optional */
+        onValidateObservable?: NestedInputValidatorObservable;
+        /** Optional */
+        onChange?: NestedInputChange;
+        /** Optional */
+        addable?: boolean
+        /** Optional */
+        onInfoClick?: NestedInputInfoClick;
+        /** Optional */
+        path?: {
+          directory?: boolean,
+          appendGlob?: string,
+          useForwardSlash?: boolean
+        }
+        /** Optional */
+        buttons?: Button[];
+
+        constructor(init?: ObjectFields<Bubble>) {
+          Object.assign(this, init);
+        }
+  }
   export class Input {
     static displayName = 'Input';
     /** Optional */
@@ -172,5 +206,5 @@ export namespace NestedFormElement {
   }
 }
 
-export type NestedFormInputs = NestedFormElement.Input | NestedFormElement.Select | NestedFormElement.Toggle;
+export type NestedFormInputs = NestedFormElement.Input | NestedFormElement.Select | NestedFormElement.Toggle | NestedFormElement.Bubble;
 export type NestedFormElements = NestedFormInputs | NestedFormElement.Group | NestedFormElement.Section | NestedFormElement.Button;

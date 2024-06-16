@@ -7,7 +7,7 @@ export type ImageProviderAPI = Record<OnlineProviderType, {
 }>
 
 export interface UserAccountsInfo {
-  specifiedAccounts: string,
+  specifiedAccounts: string[],
 }
 
 export interface UserConfiguration {

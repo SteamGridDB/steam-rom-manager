@@ -99,6 +99,17 @@ ng-nested-form {
         }
       }
     }
+    ng-bubbles {
+      @include ngTextInput();
+      @include ngTextInputColor(input, true);
+      grid-area: input;
+      &.required {
+        outline: 1px solid var(--color--required);
+        .display{
+          border: 0
+        }
+      }
+    }
 
     ng-select {
       grid-area: input;

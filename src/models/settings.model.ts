@@ -22,7 +22,7 @@ export interface AppSettings {
   },
   environmentVariables: {
     steamDirectory: string,
-    userAccounts: string,
+    userAccounts: string[],
     romsDirectory: string,
     retroarchPath: string,
     localImagesDirectory: string,

@@ -1,5 +1,4 @@
 import { Component, forwardRef, ElementRef, Optional, Host, HostListener, Input,Output, ContentChildren, QueryList, ChangeDetectorRef } from '@angular/core';
-import { NgOptionComponent, NgTextInputComponent } from "../components";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import * as _ from 'lodash';
 import {SelectItem} from "../../models";

@@ -12,6 +12,7 @@ export * from './parsers-list.component';
 export * from './nav-link.component';
 export * from './nav-expand.component';
 export * from './nav-parsers.component';
+export * from './ng-bubbles.component';
 export * from './ng-select.component';
 export * from './ng-option.component';
 export * from './ng-toggle-button.component';

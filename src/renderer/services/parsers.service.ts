@@ -115,11 +115,13 @@ export class ParsersService {
               parseUserAccounts(accountsInfo: UserAccountsInfo, steamDir: string) {
                 return new Promise<string[]>((resolve, reject)=>{
                   let preParser = new VariableParser({ left: '${', right: '}' });
-                  let specifiedAccounts = preParser.setInput(accountsInfo.specifiedAccounts).parse() ? preParser.replaceVariables((variable)=>{
+                  /*let specifiedAccounts = preParser.setInput(accountsInfo.specifiedAccounts).parse() ? preParser.replaceVariables((variable)=>{
                     return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables, this.appSettings).trim();
                   }): null;
                   let accountList = preParser.setInput(specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
-                  steam.getAvailableLogins(steamDir).then((data)=>{
+                  */
+                 let accountList = accountsInfo.specifiedAccounts[0]=='Global' ? this.appSettings.environmentVariables.userAccounts : accountsInfo.specifiedAccounts;
+                 steam.getAvailableLogins(steamDir).then((data)=>{
                     data=data.filter(x=>fs.existsSync(path.join(steamDir,'userdata',x.accountID)));
                     if(accountList.length) {
                       resolve(data.filter(x=> accountList.indexOf(x.name) > -1).map(x => x.accountID));
@@ -305,7 +307,8 @@ export class ParsersService {
                   case 'startInDirectory':
                     return (data == null || data.length === 0 || this.validateEnvironmentPath(data || '', true)) ? null : this.lang.validationErrors.startInDir__md;
                   case 'userAccounts': 
-                    return this.validateVariableParserString(data.specifiedAccounts||"", this.lang.validationErrors.userAccounts__md);
+                    return (data.specifiedAccounts && data.specifiedAccounts.length) ? null : this.lang.validationErrors.userAccounts__md;
+                    //return this.validateVariableParserString(data.specifiedAccounts||"", this.lang.validationErrors.userAccounts__md);
                   case 'parserInputs': {
                     let availableParser = this.getParserInfo(data['parser']);
                     if (availableParser) {
