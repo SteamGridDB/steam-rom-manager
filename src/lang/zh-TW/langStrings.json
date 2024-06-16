@@ -525,7 +525,7 @@
       },
       "validationErrors": {
         "parserType__md": "> Incorrect parser type!",
-        "configTitle__md": "> Configuration title is required!",
+        "configTitle__md": "> Configuration title field is required!",
         "parserId__md": "> Parser Id is missing, something is horribly wrong.",
         "parserInput": {
           "noInput": "No inputs are available!",
@@ -533,13 +533,13 @@
           "incorrectParser": "Incorrect parser!"
         },
         "romDir__md": "> ROMs directory is invalid!",
-        "userAccounts__md": "> Artwork Only parsers require `User Accounts` field",
+        "userAccounts__md": "> User accounts field is required!",
         "steamDir__md": "> Steam directory is invalid!",
         "startInDir__md": "> \"Start In\" directory is invalid!",
         "executable__md": "> Executable is invalid!",
         "imagePool__md": "> Image pool must not be empty!",
         "defaultImage__md": "> Default image is an invalid path!",
-        "titleModifier__md": "> Title modifier must not be empty!",
+        "titleModifier__md": "> Title modifier field is required!",
         "executableModifier__md": "> Executable modifier must not be empty!",
         "variableString__md": "> Uneven number of `${` and `}` pairs. Use `\\` to escape `${` or `}` if you want to use them as characters.",
         "imageProviders__md": "> Incorrect image providers type!",
