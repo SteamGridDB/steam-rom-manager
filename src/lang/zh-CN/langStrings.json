@@ -525,7 +525,7 @@
       },
       "validationErrors": {
         "parserType__md": "> 解析器类型不正确！",
-        "configTitle__md": "> 配置标题是必填项！",
+        "configTitle__md": "> Configuration title field is required!",
         "parserId__md": "> 解析器 ID 丢失，出现了严重的问题。",
         "parserInput": {
           "noInput": "没有可用的输入！",
@@ -533,13 +533,13 @@
           "incorrectParser": "错误的解析器！"
         },
         "romDir__md": "> ROM目录无效！",
-        "userAccounts__md": "> Artwork Only parsers require `User Accounts` field",
+        "userAccounts__md": "> User accounts field is required!",
         "steamDir__md": "> Steam 目录无效！",
         "startInDir__md": "> \"Start In\" 目录无效！",
         "executable__md": "> 可执行文件无效！",
         "imagePool__md": "> 图片池不能为空！",
         "defaultImage__md": "> 默认图像路径无效！",
-        "titleModifier__md": "> 标题修饰符不能为空！",
+        "titleModifier__md": "> Title modifier field is required!",
         "executableModifier__md": "> 可执行文件修饰符不能为空！",
         "variableString__md": "> `${` and `}` 的数量不匹配。如果您想将它们用作字符，请使用 `\\` 转义 `${` or `}`。",
         "imageProviders__md": "> 图像提供者类型不正确！",
