@@ -76,8 +76,6 @@ export class ParsersService {
                 })).subscribe();
               }
 
-
-
               getUserConfigurations() {
                 return this.userConfigurations.asObservable();
               }
@@ -114,23 +112,18 @@ export class ParsersService {
 
               parseUserAccounts(accountsInfo: UserAccountsInfo, steamDir: string) {
                 return new Promise<string[]>((resolve, reject)=>{
-                  let preParser = new VariableParser({ left: '${', right: '}' });
-                  /*let specifiedAccounts = preParser.setInput(accountsInfo.specifiedAccounts).parse() ? preParser.replaceVariables((variable)=>{
-                    return this.fileParser.getEnvironmentVariable(variable as EnvironmentVariables, this.appSettings).trim();
-                  }): null;
-                  let accountList = preParser.setInput(specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
-                  */
-                 let accountList = accountsInfo.specifiedAccounts[0]=='Global' ? this.appSettings.environmentVariables.userAccounts : accountsInfo.specifiedAccounts;
-                 steam.getAvailableLogins(steamDir).then((data)=>{
-                    data=data.filter(x=>fs.existsSync(path.join(steamDir,'userdata',x.accountID)));
-                    if(accountList.length) {
-                      resolve(data.filter(x=> accountList.indexOf(x.name) > -1).map(x => x.accountID));
-                    } else {
-                      resolve(data.map(x=>x.accountID));
-                    }
-                  }).catch((error)=>{
-                    reject(error);
-                  });
+                  const useGlobal = ((x)=> x.length && x[0]=='Global')(accountsInfo.specifiedAccounts);
+                  let accountList = useGlobal ? this.appSettings.environmentVariables.userAccounts : accountsInfo.specifiedAccounts;
+                  steam.getAvailableLogins(steamDir).then((data)=>{
+                      data=data.filter(x=>fs.existsSync(path.join(steamDir,'userdata',x.accountID)));
+                      if(accountList.length) {
+                        resolve(data.filter(x=> accountList.indexOf(x.name) > -1).map(x => x.accountID));
+                      } else {
+                        resolve(data.map(x=>x.accountID));
+                      }
+                    }).catch((error)=>{
+                      reject(error);
+                    });
                 })
               }
 
@@ -308,7 +301,6 @@ export class ParsersService {
                     return (data == null || data.length === 0 || this.validateEnvironmentPath(data || '', true)) ? null : this.lang.validationErrors.startInDir__md;
                   case 'userAccounts': 
                     return (data.specifiedAccounts && data.specifiedAccounts.length) ? null : this.lang.validationErrors.userAccounts__md;
-                    //return this.validateVariableParserString(data.specifiedAccounts||"", this.lang.validationErrors.userAccounts__md);
                   case 'parserInputs': {
                     let availableParser = this.getParserInfo(data['parser']);
                     if (availableParser) {

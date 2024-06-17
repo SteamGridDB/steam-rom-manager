@@ -9,7 +9,7 @@
     <div class="descriptor">
         <p>
             First, you'll need to choose the location of your Steam Directory. This can be changed in <strong>Settings</strong>,
-            and overridden per Parser.
+            and overridden per <strong>Parser</strong>.
         </p>
     </div>
     <div class="inputContainer">
@@ -36,7 +36,7 @@
     <div class="descriptor">
         <p>
             Your Steam Directory is set to <strong>{{appSettings.environmentVariables.steamDirectory}}</strong>. Now you need to choose which user accounts
-            SRM should manage. This can be changed in <strong>Settings</strong>, and overridden per Parser.
+            SRM should manage. This can be changed in <strong>Settings</strong>, and overridden per <strong>Parser</strong>.
         </p>
     </div>
     <div class="inputContainer">
@@ -46,13 +46,6 @@
             [(ngModel)]="appSettings.environmentVariables.userAccounts"
             (ngModelChange)="appSettings.environmentVariables.userAccounts=$event; onSettingsChange();"
             ></ng-bubbles>
-
-            <!-- <ng-text-input 
-                class="ngTextInput" 
-                placeholder="${acct1}${acct2}" 
-                [(ngModel)]='appSettings.environmentVariables.userAccounts' 
-                (ngModelChange)='appSettings.environmentVariables.userAccounts=$event; onSettingsChange();'>
-            </ng-text-input> -->
             <div class="clickButton2" (click)="chooseAccounts()">Choose</div>
           </div>
         </div>

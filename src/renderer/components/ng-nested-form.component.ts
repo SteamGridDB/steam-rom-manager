@@ -1,7 +1,7 @@
 import { Component, Input, Output, ChangeDetectionStrategy, OnInit, EventEmitter, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormControl, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { FormGroup, FormControl, ValidationErrors } from '@angular/forms';
 import { NestedFormElement, NestedFormInputs, NestedFormElements, IndexedFormGroup, IndexedFormControl } from "../../models";
-import { Observable, BehaviorSubject, combineLatest } from "rxjs";
+import { BehaviorSubject, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
 import * as _ from 'lodash';
 
@@ -25,8 +25,8 @@ export class NgNestedFormComponent implements OnInit {
   constructor(private changeRef: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.currentForm = this.buildFromTemplate(this.nestedGroup);
     this.hiddenSections = new BehaviorSubject<{[sectionName: string]: boolean}>({});
+    this.currentForm = this.buildFromTemplate(this.nestedGroup);
     this.buildSectionMap(this.nestedGroup);
     if (this.groupName)
       this.parentForm.setControl(this.groupName, this.currentForm);
@@ -60,7 +60,7 @@ export class NgNestedFormComponent implements OnInit {
     } else {
       if (el['__hidden'] === undefined) {
         if (el.isHidden !== undefined) {
-          el['__hidden'] = combineLatest([el.isHidden(),this.hiddenSections]).pipe(map(([h,hs])=>h||!!hs[this.sectionMap[elName]||""]));
+          el['__hidden'] = combineLatest([el.isHidden(), this.hiddenSections]).pipe(map(([h,hs])=>h||!!hs[this.sectionMap[elName]||""]));
         }
         else {
           el['__hidden'] = this.hiddenSections.pipe(map(hs=>!!hs[this.sectionMap[elName]||""]));
@@ -98,15 +98,18 @@ export class NgNestedFormComponent implements OnInit {
         if (child.onValidate) {
           callbacks.push((c) => {
             let error = child.onValidate(c, c['__path']);
+            setTimeout(()=>this.changeRef.detectChanges(),50) //awful hack, but sometimes the dom just wasn't updating after validation
             return error ? { error } : null;
           });
         }
         if (child.onValidateObservable) {
           child.onValidateObservable().subscribe((val)=>{
-            this.currentForm.controls[childKey].setValue(null)
-            this.currentForm.controls[childKey].markAsTouched();
-            this.currentForm.controls[childKey].markAsDirty();
-            this.currentForm.controls[childKey].updateValueAndValidity();
+            if(this.currentForm.controls[childKey]) {
+              this.currentForm.controls[childKey].updateValueAndValidity();
+              this.currentForm.controls[childKey].markAsTouched();
+              this.currentForm.controls[childKey].markAsDirty();
+              this.changeRef.detectChanges();
+            }
           })
         }
 
@@ -118,7 +121,6 @@ export class NgNestedFormComponent implements OnInit {
         }
 
         formControl.setValidators(callbacks);
-
         formGroup.setControl(childKey, formControl);
       }
     }

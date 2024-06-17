@@ -142,9 +142,8 @@ export class FileParser {
       try {
         let parser = this.getParserInfo(config.parserType);
         if (parser) {
-          let preParser = new VariableParser({ left: '${', right: '}' });
-          //let userFilter = preParser.setInput(config.userAccounts.specifiedAccounts).parse() ? _.uniq(preParser.extractVariables(data => null)) : [];
-          let userFilter = config.userAccounts.specifiedAccounts[0]=='Global' ? settings.environmentVariables.userAccounts : config.userAccounts.specifiedAccounts;
+          const useGlobal = ((x)=> x.length && x[0]=='Global')(config.userAccounts.specifiedAccounts);
+          let userFilter = useGlobal ? settings.environmentVariables.userAccounts : config.userAccounts.specifiedAccounts;
           let filteredAccounts: { found: userAccountData[], missing: string[] } = this.filterUserAccounts(steamDirectory.data, userFilter, config.steamDirectory);
           let directories:string[] = undefined;
           if (superType === parserInfo.ROMType) {
@@ -797,9 +796,6 @@ export class FileParser {
       case 'STEAMDIRGLOBAL':
         output=data.steamDirectoryGlobal;
         break;
-      case 'ACCOUNTSGLOBAL':
-        output=data.userAccountsGlobal;
-        break;
       case 'ROMSDIRGLOBAL':
         output=data.romsDirectoryGlobal;
         break;
@@ -830,7 +826,6 @@ export class FileParser {
       fuzzyTitle: file.fuzzyTitle,
       romDirectory: config.romDirectory,
       steamDirectoryGlobal: settings.environmentVariables.steamDirectory,
-      //userAccountsGlobal: settings.environmentVariables.userAccounts,
       romsDirectoryGlobal: settings.environmentVariables.romsDirectory,
       retroarchPath: settings.environmentVariables.retroarchPath,
       raCoresDirectory: settings.environmentVariables.raCoresDirectory,

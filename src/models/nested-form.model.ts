@@ -9,7 +9,7 @@ export interface IndexedFormControl extends FormControl {
 }
 
 export type NestedInputValidator = (control: AbstractControl, path: string[]) => string;
-export type NestedInputValidatorObservable = ()=>Observable<string>;
+export type NestedInputValidatorObservable = ()=>Observable<any>;
 export type NestedInputInfoClick = (control: AbstractControl, path: string[]) => void;
 export type NestedInputChange = (control: AbstractControl, path: string[]) => void;
 export type NestedInputHiddenValue = Observable<boolean> | Promise<boolean>;
