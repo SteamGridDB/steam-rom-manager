@@ -404,6 +404,7 @@
   --width-preview-select-type: 8em;
   --width-details-options: calc(0.5 * (100vw - var(--nav-width)) - 45px);
   --height-details-options: 280px;
+  --height-ng-buttons: 20px;
   --position-update-notifier-left: 0;
   --position-update-notifier-right: auto;
   --position-update-notifier-bottom: 0;
@@ -1214,6 +1215,7 @@
   --color-nav-background: #32353d; //
   --display-nav-border: none;
   --height-nav-area: 260px;
+  --height-ng-buttons: 50%;
   --color-parser-menu-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-parser-menu-scrollbar-track: rgba(80, 80, 80, 0.3);
   --color-about-background: inherit;
@@ -1588,6 +1590,7 @@
   --color-nav-background: #32353d;
   --display-nav-border: inherit;
   --height-nav-area: 260px;
+  --height-ng-buttons: 20px;
   --color-parser-menu-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-parser-menu-scrollbar-track: rgba(80, 80, 80, 0.3);
   --color-about-background: inherit;

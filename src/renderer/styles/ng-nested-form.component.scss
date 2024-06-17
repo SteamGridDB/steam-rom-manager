@@ -78,11 +78,14 @@ ng-nested-form {
     }
     .clickButtons {
       grid-area: button;
+      align-items: center;
+      display: flex;
       .clickButton {
         @include clickButtonColor(click-button, true);
         @include button();
         margin: 0 0 0 0.25em;
         margin-bottom: var(--margin-input-text);
+        height: var(--height-ng-buttons);
       }
     }
     .reqText {

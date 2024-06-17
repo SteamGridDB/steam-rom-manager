@@ -44,6 +44,7 @@
               <ng-container *ngSwitchCase="'Bubble'">
                 <ng-bubbles [formControlName]="childrenKey" 
                 [class.required]="child.required"
+                [addable]="child.addable"
                 [bubbleItems]="child.bubbleItems"></ng-bubbles>
                 <div class="clickButtons">
                   <ng-container *ngFor="let button of child.buttons">

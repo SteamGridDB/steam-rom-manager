@@ -12,14 +12,17 @@
     .bubblesContainer {
         display: flex;
         justify-content: left;
-        overflow-x: wrap;
+        flex-wrap: wrap;
+        row-gap: 5px;
+        width: 100%;
         .bubble {
             display: flex;
             align-items: center;
             padding: 5px;
             justify-content: space-between;
             align-items: center;
-            background: rgb(141, 26, 135);
+            background: rgb(233, 43, 192);
+            color: white;
             opacity: 0.8;
             border-radius: 10px;
             margin-right:5px;
@@ -28,6 +31,12 @@
             }
             .delete {
                 margin-left: 0.25em;
+            }
+            .editable {
+                display: flex;
+                min-width: 50px;
+                height: 20px;
+                cursor: white;
             }
         }
 

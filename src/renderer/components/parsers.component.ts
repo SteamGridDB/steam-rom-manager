@@ -120,6 +120,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             specifiedAccounts: new NestedFormElement.Bubble({
               label: this.lang.label.userAccounts,
               required: true,
+              addable: true,
               onValidate: (self, path) => {
                 let serialized: {[k: string]: any} = {};
                 serialized[path[1]] = self.value;
