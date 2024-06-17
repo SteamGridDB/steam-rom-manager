@@ -40,7 +40,7 @@ export class AppComponent {
   constructor(private settingsService: SettingsService, private languageService: LanguageService, private markdownService: MarkdownService, private router: Router,private ipcService: IpcService, private changeDetectionRef: ChangeDetectorRef, private zone: NgZone) {
 
     this.settingsService.onLoad((appSettings) => {
-      this.splash = !appSettings.environmentVariables.steamDirectory || !appSettings.environmentVariables.userAccounts
+      this.splash = !appSettings.environmentVariables.steamDirectory || !appSettings.environmentVariables.userAccounts.length
       this.splashStage = appSettings.environmentVariables.steamDirectory ? 'userAccounts': 'steamDir';
       this.settingsLoaded = true;
       document.querySelector('html').className = '';

@@ -1,11 +1,10 @@
 import { ValidatorModifier, AppSettings } from '../../models';
 import * as _ from "lodash";
-
-let versionUp = (version: number) => { return version + 1 };
+import {versionUp, extractNames} from "./modifier-helpers";
 
 export const appSettings: ValidatorModifier<AppSettings> = {
   controlProperty: 'version',
-  latestVersion: 9,
+  latestVersion: 10,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -106,6 +105,13 @@ export const appSettings: ValidatorModifier<AppSettings> = {
         } else {
           return {...oldConfiguration, imageLoadStrategy: 'loadLazy'}
         }
+      }}
+    },
+    9: {
+      'version': {method: versionUp},
+      'environmentVariables': {method: (oldValue) => {
+        oldValue.userAccounts = extractNames(oldValue.userAccounts)
+        return oldValue;
       }}
     }
   }

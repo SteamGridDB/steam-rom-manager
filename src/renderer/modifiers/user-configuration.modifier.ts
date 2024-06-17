@@ -2,16 +2,8 @@ import { ValidatorModifier, UserConfiguration } from '../../models';
 import * as unique_ids from "../../lib/helpers/unique-ids";
 import { controllerTypes } from "../../lib/controller-manager";
 import * as _ from "lodash";
+import {versionUp, replaceVariables_undefined, extractNames} from "./modifier-helpers";
 
-let replaceVariables_undefined = (oldValue: any) => typeof oldValue === 'string' ? oldValue.replace(/\${dir}/gi, '${romDir}').replace(/\${file}/gi, '${fileName}').replace(/\${sep}/gi, '${/}') : '';
-let versionUp = (version: number) => { return version + 1 };
-const extractNames = (str: string) => {
-  const regex = /\$\{(.*?)\}/g; const names = []; let match;
-  while ((match = regex.exec(str)) !== null) {
-      names.push(match[1]);
-  }
-  return names;
-}
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',

@@ -1,8 +1,7 @@
 import { ValidatorModifier, UserExceptions } from '../../models';
-import * as unique_ids from "../../lib/helpers/unique-ids";
 import * as _ from "lodash";
 
-let versionUp = (version: number) => { return version + 1 };
+import {versionUp} from "./modifier-helpers";
 
 
 export const userExceptions: ValidatorModifier<UserExceptions> = {

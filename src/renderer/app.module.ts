@@ -73,6 +73,7 @@ function ngObjectsToArray<T>(importObject: T) {
     SvgComponents.SelectArrowDownComponent,
     SvgComponents.SelectArrowLeftComponent,
     SvgComponents.SelectArrowRightComponent,
+    SvgComponents.XDeleteComponent,
     Directives.DraggableDirective,
     Directives.TextScrollDirective,
     Directives.VarDirective,

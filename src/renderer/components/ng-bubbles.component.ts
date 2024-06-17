@@ -11,7 +11,7 @@ const removeAt = (arr: any[],index: number) => arr.slice(0, index).concat(arr.sl
 <ng-container *ngFor="let item of items; let i=index">
     <div class="bubble">
         <span>{{item}}</span>
-        <div class="delete" (click)="removeItem(i)">X</div>
+        <svg [hover]="true" xdelete class="delete" (click)="removeItem(i)"></svg>
     </div>
 </ng-container>
 </div>
@@ -42,10 +42,15 @@ export class NgBubblesComponent implements ControlValueAccessor {
 
   removeItem(index: number) {
     this.items = removeAt(this.items, index);
+    this.onChange(this.items);
+    this.onTouched();
   }
 
   writeValue(value: string[]) {
     this.items = value;
+    this.onChange(this.items)
+    this.changeRef.detectChanges();
+    this.onTouched();
   }
 
   registerOnChange(fn: (value: any) => any): void {

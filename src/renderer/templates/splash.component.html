@@ -42,12 +42,17 @@
     <div class="inputContainer">
         <div class="inlineLeft">
           <div class="directoryInput">
-            <ng-text-input 
+            <ng-bubbles 
+            [(ngModel)]="appSettings.environmentVariables.userAccounts"
+            (ngModelChange)="appSettings.environmentVariables.userAccounts=$event; onSettingsChange();"
+            ></ng-bubbles>
+
+            <!-- <ng-text-input 
                 class="ngTextInput" 
                 placeholder="${acct1}${acct2}" 
                 [(ngModel)]='appSettings.environmentVariables.userAccounts' 
                 (ngModelChange)='appSettings.environmentVariables.userAccounts=$event; onSettingsChange();'>
-            </ng-text-input>
+            </ng-text-input> -->
             <div class="clickButton2" (click)="chooseAccounts()">Choose</div>
           </div>
         </div>

@@ -7,3 +7,4 @@ export * from './image-alert.component';
 export * from './image-lens.component';
 export * from './add-images.component';
 export * from './copy-icon.component';
+export * from './xdelete.component';

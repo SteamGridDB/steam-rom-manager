@@ -13,12 +13,12 @@ const controllerTypes = [
   'neptune'
 ]
 
-let replaceVariables_undefined = (oldValue: any) => typeof oldValue === 'string' ? oldValue.replace(/\${dir}/gi, '${romDir}').replace(/\${file}/gi, '${fileName}').replace(/\${sep}/gi, '${/}') : '';
-let versionUp = (version: number) => { return version + 1 };
+import {versionUp, extractNames} from "./modifier-helpers";
+
 
 export const configPreset: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'presetVersion',
-  latestVersion: 13,
+  latestVersion: 14,
   fields: {
     undefined: {
       'presetVersion': { method: ()=>0 },
@@ -211,6 +211,17 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
       'userAccounts': { method: (oldValue)=> {
         oldValue.specifiedAccounts||='${${accountsglobal}}';
         return oldValue;
+      }}
+    },
+    13: {
+      'version': { method: versionUp },
+      'userAccounts': { method: (oldValue)=> {
+        if(oldValue.specifiedAccounts=='${${accountsglobal}}') {
+          oldValue.specifiedAccounts = ['Global']
+        } else {
+          oldValue.specifiedAccounts = extractNames(oldValue.specifiedAccounts)
+        }
+        return oldValue;      
       }}
     }
   }

@@ -1,6 +1,10 @@
 @import "mixins";
 
 :host {
+    @include ngTextInput();
+    @include ngTextInputColor(input, true);
+    padding-top: 5px;
+    padding-bottom: 5px;
     position: relative;
     display: flex;
     width: 100%;
@@ -12,12 +16,20 @@
         .bubble {
             display: flex;
             align-items: center;
-            padding: 6px;
+            padding: 5px;
             justify-content: space-between;
+            align-items: center;
             background: rgb(141, 26, 135);
             opacity: 0.8;
             border-radius: 10px;
-            margin-left:5px;
+            margin-right:5px;
+            span {
+                height: 20px;
+            }
+            .delete {
+                margin-left: 0.25em;
+            }
         }
+
     }
 }
