@@ -17,7 +17,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}"
@@ -38,7 +40,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -79,7 +81,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Microsoft DOS - DOSBox(Flatpak) (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
@@ -99,7 +101,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}"
@@ -120,7 +124,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -161,7 +165,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Microsoft DOS - DOSBox Staging(Flatpak) (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
@@ -181,7 +185,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}"
@@ -202,7 +208,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -243,7 +249,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Microsoft DOS - DOSBox-X(Flatpak) (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
@@ -263,7 +269,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}"
@@ -284,7 +292,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -325,7 +333,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Microsoft DOS - GoG": {
 		"parserType": "Glob",
@@ -345,7 +353,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}${/}dosbox${/}dosbox.exe"
@@ -366,7 +376,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -407,7 +417,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Microsoft DOS - Retroarch - DOSBox Core (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
@@ -427,7 +437,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}"
@@ -448,7 +460,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -489,7 +501,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Microsoft DOS - Retroarch(Flatpak) - DOSBox Core (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
@@ -509,7 +521,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}"
@@ -530,7 +544,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -571,7 +585,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Microsoft DOS - Retroarch - DOSBox Pure": {
 		"parserType": "Glob",
@@ -591,7 +605,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.zip|.ZIP)"
@@ -612,7 +628,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -653,7 +669,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Microsoft DOS - Retroarch(Flatpak) - DOSBox Pure": {
 		"parserType": "Glob",
@@ -673,7 +689,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.zip|.ZIP)"
@@ -694,7 +712,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -735,7 +753,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Microsoft DOS - Retroarch - DOSBox SVN (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
@@ -755,7 +773,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}"
@@ -776,7 +796,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -817,7 +837,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Microsoft DOS - Retroarch(Flatpak) - DOSBox SVN (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
@@ -837,7 +857,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}"
@@ -858,7 +880,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -899,6 +921,6 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	}
 }

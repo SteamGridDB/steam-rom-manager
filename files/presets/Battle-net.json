@@ -20,7 +20,9 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"executable": {
 			"path": "",
@@ -62,7 +64,7 @@
 			},
 			"steamCDN": {}
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"defaultImage": {
 			"long": {
 				"tall": null,
@@ -89,6 +91,6 @@
 			"logo": "",
 			"icon": ""
 		},
-		"version": 1
+		"version": 2
 	}
 }

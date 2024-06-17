@@ -17,7 +17,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.gbc|.GBC|.zip|.ZIP)"
@@ -38,7 +40,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -79,7 +81,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo GameBoy Color - Retroarch - Gambatte": {
 		"parserType": "Glob",
@@ -99,7 +101,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
@@ -120,7 +124,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -161,7 +165,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo GameBoy Color - Retroarch(Flatpak) - Gambatte": {
 		"parserType": "Glob",
@@ -181,7 +185,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
@@ -202,7 +208,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -243,7 +249,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo GameBoy Color - Retroarch - Gearboy": {
 		"parserType": "Glob",
@@ -263,7 +269,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.dmg|.DMG|.sgb|.SGB|.zip|.ZIP)"
@@ -284,7 +292,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -325,7 +333,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo GameBoy Color - Retroarch(Flatpak) - Gearboy": {
 		"parserType": "Glob",
@@ -345,7 +353,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.dmg|.DMG|.sgb|.SGB|.zip|.ZIP)"
@@ -366,7 +376,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -407,7 +417,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo GameBoy Color - Retroarch - Mesen-S": {
 		"parserType": "Glob",
@@ -427,7 +437,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
@@ -448,7 +460,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -489,7 +501,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo GameBoy Color - Retroarch(Flatpak) - Mesen-S": {
 		"parserType": "Glob",
@@ -509,7 +521,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
@@ -530,7 +544,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -571,7 +585,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo GameBoy Color - Retroarch - mGBA": {
 		"parserType": "Glob",
@@ -591,7 +605,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
@@ -612,7 +628,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -653,7 +669,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo GameBoy Color - Retroarch(Flatpak) - mGBA": {
 		"parserType": "Glob",
@@ -673,7 +689,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
@@ -694,7 +712,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -735,7 +753,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo GameBoy Color - Retroarch - SameBoy": {
 		"parserType": "Glob",
@@ -755,7 +773,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
@@ -776,7 +796,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -817,7 +837,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo GameBoy Color - Retroarch(Flatpak) - SameBoy": {
 		"parserType": "Glob",
@@ -837,7 +857,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
@@ -858,7 +880,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -899,7 +921,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo GameBoy Color - Retroarch - TGB Dual": {
 		"parserType": "Glob",
@@ -919,7 +941,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.sgb|.SGB|.zip|.ZIP)"
@@ -940,7 +964,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -981,7 +1005,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo GameBoy Color - Retroarch(Flatpak) - TGB Dual": {
 		"parserType": "Glob",
@@ -1001,7 +1025,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.sgb|.SGB|.zip|.ZIP)"
@@ -1022,7 +1048,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1063,6 +1089,6 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	}
 }

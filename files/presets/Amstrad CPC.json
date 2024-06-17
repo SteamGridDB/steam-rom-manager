@@ -17,7 +17,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.cdt|.CDT|.dsk|.DSK|.sna|.SNA|.tap|.TAP|.voc|.VOC|.zip|.ZIP)"
@@ -38,7 +40,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -79,7 +81,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Amstrad CPC - Retroarch(Flatpak) - Caprice32": {
 		"parserType": "Glob",
@@ -99,7 +101,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.cdt|.CDT|.dsk|.DSK|.sna|.SNA|.tap|.TAP|.voc|.VOC|.zip|.ZIP)"
@@ -120,7 +124,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -161,7 +165,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Amstrad CPC - Retroarch - CrocoDS": {
 		"parserType": "Glob",
@@ -181,7 +185,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.dsk|.DSK|.sna|.SNA|.kcr|.KCR|.zip|.ZIP)"
@@ -202,7 +208,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -243,7 +249,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Amstrad CPC - Retroarch(Flatpak) - CrocoDS": {
 		"parserType": "Glob",
@@ -263,7 +269,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.dsk|.DSK|.sna|.SNA|.kcr|.KCR|.zip|.ZIP)"
@@ -284,7 +292,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -325,6 +333,6 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	}
 }

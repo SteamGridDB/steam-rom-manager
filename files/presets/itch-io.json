@@ -23,7 +23,9 @@
 			"appendArgsToExecutable": true
 		},
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"itchIoAppDataOverride": ""
@@ -39,7 +41,7 @@
 			"removeCharacters": true,
 			"removeBrackets": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"controllers": {
 			"ps4": null,
 			"ps5": null,
@@ -80,6 +82,6 @@
 			},
 			"steamCDN": {}
 		},
-		"version": 1
+		"version": 2
 	}
 }

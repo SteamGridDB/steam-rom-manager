@@ -17,7 +17,9 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"executable": {
 			"path": "/usr/bin/flatpak",
@@ -61,7 +63,7 @@
 			},
 			"steamCDN": {}
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"defaultImage": {
 			"long": {
 				"tall": "",
@@ -90,7 +92,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo Pokemon Mini - Retroarch - Pokemini": {
 		"parserType": "Glob",
@@ -110,7 +112,9 @@
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"executable": {
 			"path": "${retroarchpath}",
@@ -154,7 +158,7 @@
 			},
 			"steamCDN": {}
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"defaultImage": {
 			"long": {
 				"tall": "",
@@ -183,6 +187,6 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	}
 }

@@ -17,7 +17,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bs|.BS|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
@@ -38,7 +40,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -79,7 +81,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch - Beetle bsnes": {
 		"parserType": "Glob",
@@ -99,7 +101,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.st|.ST|.zip|.ZIP)"
@@ -120,7 +124,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -161,7 +165,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - Beetle bsnes": {
 		"parserType": "Glob",
@@ -181,7 +185,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.st|.ST|.zip|.ZIP)"
@@ -202,7 +208,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -243,7 +249,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch - Snes9x": {
 		"parserType": "Glob",
@@ -263,7 +269,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.swc|.SWC|.zip|.ZIP)"
@@ -284,7 +292,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -325,7 +333,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - Snes9x": {
 		"parserType": "Glob",
@@ -345,7 +353,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.swc|.SWC|.zip|.ZIP)"
@@ -366,7 +376,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -407,7 +417,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch - bsnes2014 Accuracy": {
 		"parserType": "Glob",
@@ -427,7 +437,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
@@ -448,7 +460,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -489,7 +501,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Accuracy": {
 		"parserType": "Glob",
@@ -509,7 +521,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
@@ -530,7 +544,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -571,7 +585,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch - bsnes2014 Balanced": {
 		"parserType": "Glob",
@@ -591,7 +605,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
@@ -612,7 +628,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -653,7 +669,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Balanced": {
 		"parserType": "Glob",
@@ -673,7 +689,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
@@ -694,7 +712,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -735,7 +753,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch - bsnes2014 Performance": {
 		"parserType": "Glob",
@@ -755,7 +773,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
@@ -776,7 +796,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -817,7 +837,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Performance": {
 		"parserType": "Glob",
@@ -837,7 +857,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
@@ -858,7 +880,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -899,7 +921,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch - bsnes-mercury Accuracy": {
 		"parserType": "Glob",
@@ -919,7 +941,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
@@ -940,7 +964,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -981,7 +1005,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Accuracy": {
 		"parserType": "Glob",
@@ -1001,7 +1025,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
@@ -1022,7 +1048,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1063,7 +1089,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch - bsnes-mercury Balanced": {
 		"parserType": "Glob",
@@ -1083,7 +1109,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
@@ -1104,7 +1132,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1145,7 +1173,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Balanced": {
 		"parserType": "Glob",
@@ -1165,7 +1193,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
@@ -1186,7 +1216,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1227,7 +1257,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch - bsnes-mercury Performance": {
 		"parserType": "Glob",
@@ -1247,7 +1277,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
@@ -1268,7 +1300,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1309,7 +1341,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Performance": {
 		"parserType": "Glob",
@@ -1329,7 +1361,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
@@ -1350,7 +1384,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1391,7 +1425,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch - Mesen-S": {
 		"parserType": "Glob",
@@ -1411,7 +1445,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
@@ -1432,7 +1468,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1473,7 +1509,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - Mesen-S": {
 		"parserType": "Glob",
@@ -1493,7 +1529,9 @@
 		"disabled": false,
 		"advanced": false,
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
@@ -1514,7 +1552,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1555,6 +1593,6 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	}
 }

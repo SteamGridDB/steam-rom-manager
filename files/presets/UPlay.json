@@ -23,7 +23,9 @@
 			"appendArgsToExecutable": true
 		},
 		"userAccounts": {
-			"specifiedAccounts": "${${accountsglobal}}"
+			"specifiedAccounts": [
+				"Global"
+			]
 		},
 		"parserInputs": {
 			"uplayDir": "",
@@ -40,7 +42,7 @@
 			"removeCharacters": true,
 			"removeBrackets": true
 		},
-		"presetVersion": 13,
+		"presetVersion": 14,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -81,6 +83,6 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 1
+		"version": 2
 	}
 }
