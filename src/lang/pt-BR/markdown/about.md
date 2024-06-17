@@ -37,12 +37,12 @@ Se você gosta do Gerente de ROM Steam e quer que ele continue sendo útil, tamb
 * `KenCinder`{.noWrap} - Gerencia e cria predefinições de análise de comunidades e ajuda o usuário a configurar o SRM no [Discord](https://discord.gg/bnSVJrz).
 
 ### Contribuições de recursos
-* `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
-* `alvaromunoz`{.noWrap} - Added Game Pass parser to SRM.
-* `lexarvn`{.noWrap} - Added the Amazon Games parser and the itch.io parser.
-* `CarJem`{.noWrap} - Added the manual parser.
-* `MattMckenzy`{.noWrap} - Added ability to import and export image choices.
-* `Apalatn`{.noWrap} - Added an install drive redirect option to the itch.io parser.
+* `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). Criador e mantenedor atual da [EmuDeck](https://www.emudeck.com/).
+* {.noWrap}
+* `lexarvn`{.noWrap} - Adicionado o analisador Amazon Games e o analisador itch.io.
+* .
+* .
+* `Apalatn`{.noWrap} - Adicionada uma opção de redirecionamento de unidade de instalação ao analisador itch.io.
 * `OneMoreByte` - Made itch.io parser work on linux and mac.
 * `UndarkAido` - Added shortcut passthrough for Linux's .desktop shortcuts.
 
