@@ -12,17 +12,17 @@ Caso você tenha problemas com a SRM, não hesite em visitar o [discord](https:/
 * [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
 * [Grupo da Steam](https://steamcommunity.com/groups/steamrommanager)
 * [Repositório do Github](https://github.com/SteamGridDB/steam-rom-manager)
-* [Projeto de Traduções Crowdin](https://crowdin.com/project/steam-rom-manager)
+* [➡Projeto de Traduções Crowdin](https://crowdin.com/project/steam-rom-manager)
 
-## Suporte
+## Atendimento
 
-Ajude a apoiar o progresso contínuo no Steam ROM Manager em:
+Ajude a apoiar o progresso contínuo no Steam ROM Treinador em:
 
 <a href="https://www.buymeacoffee.com/cbartondock">
   <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="Pagar um café" width="160">
 </a>
 
-Se você gosta do Gerente de ROM Steam e quer que ele continue sendo útil, também considere apoiar o Patreon [SteamGridDB](https://www.steamgriddb.com/). [SteamGridDB](https://www.steamgriddb.com/) hospeda todas as artes que o gerenciador de ROM usa para fazer de sua biblioteca Steam a inveja da cidade, então provavelmente devemos ajudá-los a manter as luzes acesas.
+Se você gosta do Gerente de ROM Steam e quer que ele continue sendo útil, também considere apoiar o Patreon [SteamGridDB](https://www.steamgriddb.com/). [SteamGridDB](https://www.steamgriddb.com/) hospeda todas as obras de arte que o gerenciador de ROM usa para tornar sua biblioteca Steam a inveja da cidade, então devemos provavelmente ajudá-los a manter as luzes acesas.
 
 <a href="https://www.patreon.com/steamgriddb">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
@@ -48,6 +48,6 @@ Se você gosta do Gerente de ROM Steam e quer que ele continue sendo útil, tamb
 
 ### Comunidade
 * `HE Spoke`{.noWrap} - created a community around SRM. `HE Spoke`{.noWrap} - responsável por criar comunidade em torno da SRM. Criador de [grupos Steam](https://steamcommunity.com/groups/steamrommanager) e [Discord](https://discord.gg/bnSVJrz). Creator of [Steam](https://steamcommunity.com/groups/steamrommanager) and [Discord](https://discord.gg/bnSVJrz) groups. Also helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
-* `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). Current maintainer of [EmuDeck](https://www.emudeck.com/).
-* `Choko`{.noWrap} - Helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
-* `Xav83`{.noWrap} - Creator and maintainer of SRM's [Chocolatey package](https://community.chocolatey.org/packages/steam-rom-manager)
+* `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). .
+* .
+*
