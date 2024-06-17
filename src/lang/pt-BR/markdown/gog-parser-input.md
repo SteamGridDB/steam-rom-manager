@@ -1,4 +1,4 @@
-# GOG Galaxy Parser Specific Inputs
+#
 
 ## Sobrescrever caminho da Galáxia
 Por padrão Steam ROM Manager pressupõe que seu Galaxy Client está localizado em `C:\ProgramFiles (x86)\GOG GalaxyClient.exe`. Este campo permite que você substitua esse caminho se sua instalação do Amazon Games estiver em outro lugar.
