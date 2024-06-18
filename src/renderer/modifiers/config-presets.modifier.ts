@@ -200,21 +200,21 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
       }}
     },
     11: {
-      'version': { method: versionUp},
+      'presetVersion': { method: versionUp},
       'titleFromVariable': { method: (oldValue)=> {
         delete oldValue.tryToMatchTitle;
         return oldValue;
       }}
     },
     12: {
-      'version': { method: versionUp },
+      'presetVersion': { method: versionUp },
       'userAccounts': { method: (oldValue)=> {
         oldValue.specifiedAccounts||='${${accountsglobal}}';
         return oldValue;
       }}
     },
     13: {
-      'version': { method: versionUp },
+      'presetVersion': { method: versionUp },
       'userAccounts': { method: (oldValue)=> {
         if(oldValue.specifiedAccounts=='${${accountsglobal}}') {
           oldValue.specifiedAccounts = ['Global']
@@ -225,7 +225,7 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
       }}
     },
     14: {
-      'version': { method: versionUp },
+      'presetVersion': { method: versionUp },
       'steamCategories': {method: (oldValue, oldConfiguration)=> {
         const steamCategory = oldConfiguration.steamCategory;
         delete oldConfiguration.steamCategory;
