@@ -1,19 +1,7 @@
-# Account utente (facoltativo)
+# User accounts (Required)
 
-Questo campo è utilizzato per limitare gli effetti di SRM a specifici account utente, e prende i valori nella forma:
-
-`${XXX}${YYY}`
-
-Questo limiterà gli effetti di SRM agli account `XXX` e `YYY` (è possibile specificare quanti account preferisci). Qui `XXX` e `YYY` stanno per:
-
-* Un `Account ID` (il numero che appare come il nome della cartella del tuo account in `/path/to/steam/userdata/`). Ad esempio, dovresti specificare la cartella dell'account `userdata/56489124` come `${56489124}`.
-
-* Uno `Steam Username` (il nome utente che usi per accedere a Steam). Ad esempio, dovresti specificare gli utenti `Banana` e `Apple` come `${Banana}${Apple}`.
-
-Puoi mescolare e abbinare: `${56489124}${Apple}` va bene.
-
-Puoi anche impostare questo campo utilizzando la variabile di ambiente `Account Globale` trovata nelle impostazioni via `${${accountsglobal}}`.
+This field is used to limit SRM's effects to specific user accounts. It can be set to `Global` or over ridden per parser.
 
 ## Attenzione
 
-Se hai `Non salvare le credenziali dell'account su questo computer` impostato in Steam, non c'è modo per SRM di conoscere il tuo `Steam Username` e **puoi solo usare** `Account IDs`. If you would like to use `Steam Usernames` here, go to `Steam > Settings > Settings` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.
+If you have `Don't save account credentials on this computer` set in Steam, then there is no way for SRM to know your `Steam Username` and `Choose Accounts` will only be able to pull your `Steam IDs`. If you would like to use `Steam Usernames` here, go to `Steam > Settings > Settings` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.
