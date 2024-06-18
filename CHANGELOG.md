@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+
+## 2.5.13
+## Added
+* Back button on User Accounts splash page.
+* System specific placeholders on Steam Directory splash page.
+
 ## 2.5.12
 ### Added
 * Added a `userVariables.json` file where user's can put their custom variables without fear of them being overwritten by SRM, as well as accompanying documentation. Resolves [issue 667](https://github.com/SteamGridDB/steam-rom-manager/issues/667)
