@@ -465,7 +465,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             for (let i=0; i < providerKeys.length; i++) {
               let provider = this.imageProviderService.instance.getProviderInfo(providerKeys[i]);
               let providerL = this.imageProviderService.instance.getProviderInfoLang(providerKeys[i]);
-              if (provider && provider.inputs !== undefined) {
+              if (provider && provider.inputs && Object.keys(provider.inputs).length) {
                 imageProviderAPIInputs[providerKeys[i]] = (()=>{
                   let apiInputs: {[k: string]: any} = {}
                   for (let inputFieldName in provider.inputs) {
