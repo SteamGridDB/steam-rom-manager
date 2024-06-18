@@ -1,16 +1,7 @@
-# Catégorie Steam (facultatif) `[prend en charge les variables]`{.noWrap}
+# Steam category (optional)`{.noWrap}
 
-Aussi connu sous le nom de "tags", peut être utilisé pour regrouper les applications dans Steam. Afin de définir la catégorie Steam, la syntaxe doit être suivante:
-```
-${...}
-```
-Par exemple, c'est ainsi que vous spécifiez les catégories pour "WII" et "GBA" (jumelées avec "ROMS"):
-```
-${WII}
-```
-```
-${GBA}${ROMS}
-```
+Hit the little plus sign to add your first category.
+
 Voici à quoi ressemblera la catégorie "WII" dans Steam:
 
 ![steamCategory](../../../assets/images/category-example.png)
