@@ -31,7 +31,8 @@ export class CategoryManager {
     return list;
   }
 
-  private async doCatTask(steamDirectory: string, userId: string, task: (collections: any, levelCollections: any, cats: any, data?: any) => Promise<void>, data?: any) {
+  private async doCatTask(steamDirectory: string, userId: string, 
+    task: (collections: any, sharedConfigApps: any, levelCollections: any, cats: any, data?: any) => Promise<void>, data?: any) {
     // Setup Task
     let levelDBPath: string;
     if(os.type()=="Windows_NT") {
@@ -42,6 +43,11 @@ export class CategoryManager {
     const cats = new SteamCategories(levelDBPath, userId);
     const localConfigPath = path.join(steamDirectory, 'userdata', userId, 'config', 'localconfig.vdf');
     let localConfig = genericParser.parse(fs.readFileSync(localConfigPath, 'utf-8'));
+    const sharedConfigPath = path.join(steamDirectory, 'userdata',userId, '7', 'remote', 'sharedconfig.vdf');
+    const sharedConfig = genericParser.parse(fs.readFileSync(sharedConfigPath,'utf-8'));
+    let sharedConfigApps = sharedConfig.UserRoamingConfigStore.Software.valve.Steam.apps||{};
+    console.log("localConfig", localConfig)
+    console.log("sharedConfig", sharedConfig)
     let collections: any = {};
     let levelCollections: any = {};
     const lcs = await cats.read();
@@ -56,7 +62,7 @@ export class CategoryManager {
     }
     try {
       // Do Task
-      collections = await task(collections, levelCollections, cats, data);
+      collections = await task(collections, sharedConfigApps, levelCollections, cats, data);
       // Cleanup if task is not readonly
       if(!data || !data.readonly) {
         await cats.save();
@@ -71,7 +77,7 @@ export class CategoryManager {
   }
 
   removeAllCategoriesAndWrite(steamDirectory: string, userId: string) {
-    return this.doCatTask(steamDirectory, userId, (collections, levelCollections, cats) => {
+    return this.doCatTask(steamDirectory, userId, (collections, sharedConfigApps, levelCollections, cats) => {
       return new Promise<any>((resolve, reject)=> {
         // Nuke the local collections
         for(const catKey of Object.keys(collections)) {
@@ -97,7 +103,7 @@ export class CategoryManager {
 
   readCategories(steamDirectory: string, userId: string) {
     let srmCategories: {[catKey: string]: any} = {};
-    return this.doCatTask(steamDirectory, userId, (collections, levelCollections, cats, data) => {
+    return this.doCatTask(steamDirectory, userId, (collections, sharedConfigApps, levelCollections, cats, data) => {
       return new Promise<any>((resolve,reject)=>{
         for(const catKey of Object.keys(collections)) {
           if(catKey.startsWith('srm')) {
@@ -126,7 +132,7 @@ export class CategoryManager {
 
   writeCat(data: { userId: string, steamDirectory: string, userData: PreviewDataUser }, extraneousShortIds: string[], addedCategories: {[shortId: string]: string[]}) {
     const { userId, steamDirectory, userData } = data;
-    return this.doCatTask(steamDirectory, userId, (collections, levelCollections, cats, data) => {
+    return this.doCatTask(steamDirectory, userId, (collections, sharedConfigApps, levelCollections, cats, data) => {
       const {userData, extraneousShortIds, addedCategories} = data;
       return new Promise<any>((resolve, reject) => {
         const appIds = Object.keys(userData.apps).filter(appId => !superTypes[ArtworkOnlyType].includes(userData.apps[appId].parserType));
