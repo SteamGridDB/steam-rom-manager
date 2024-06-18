@@ -1,6 +1,8 @@
 import { Component, ChangeDetectionStrategy, EventEmitter, Output, Input } from '@angular/core';
 import { SettingsService } from '../services';
 import { AppSettings } from '../../models';
+import { APP } from '../../variables';
+import * as os from 'os';
 
 @Component({
   selector: 'splash',
@@ -22,10 +24,20 @@ export class SplashComponent {
             this.appSettings = appSettings;
         })
     }
+
+    get lang() {
+        return APP.lang.settings.component;
+    }
+    get placeholderSteamDir() {
+        return this.lang.placeholder.bySystem[os.type()].steamDirectory;
+    }
     moveToUsers() {
         if(this.appSettings.environmentVariables.steamDirectory){
             this.stage = 'userAccounts'
         }
+    }
+    moveToSteamDir() {
+        this.stage = 'steamDir';
     }
 
     setUserAccounts(accounts: string[]) {

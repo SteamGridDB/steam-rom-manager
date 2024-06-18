@@ -17,7 +17,7 @@
         <div class="directoryInput">
             <ng-text-input 
                 class="ngTextInput" 
-                placeholder="/path/to/steam" 
+                [placeholder]="lang.placeholder.bySystem.Windows_NT.steamDirectory" 
                 [(ngModel)]='appSettings.environmentVariables.steamDirectory'>
             </ng-text-input>
             <ng-path-input 
@@ -50,6 +50,7 @@
           </div>
         </div>
       </div>
+      <div class="clickButton" (click)="moveToSteamDir()">Back</div>
       <div class="clickButton" [class.disabled]="!appSettings.environmentVariables.userAccounts" (click)="finishSetup()">Next</div>
-
+      
 </div>
