@@ -438,8 +438,8 @@
       "success": {
         "foundAccounts__i": "发现 ${count} 个可用的用户账户：",
         "foundAccountInfo__i": "  ${name} (steamID64: ${steamID64}, accountID: ${accountID})",
-        "steamCategory__i": "[${index}/${total}]:     Steam 分类 - ${steamCategory}",
-        "steamCategoryInfo__i": "[${index}/${total}]:                        ${steamCategory}",
+        "steamCategories__i": "[${index}/${total}]:     Steam categories - ${steamCategories}",
+        "steamCategoriesInfo__i": "[${index}/${total}]:                        ${steamCategories}",
         "exceptionKey__i": "[${index}/${total}]:         异常 ID - ${appid}",
         "appId__i": "",
         "shortAppId__i": "",
@@ -462,7 +462,7 @@
       "label": {
         "parserType": "解析器类型",
         "configTitle": "配置标题",
-        "steamCategory": "Steam 类别",
+        "steamCategories": "Steam collections",
         "executableModifier": "可执行修饰符",
         "executableLocation": "可执行文件",
         "romDirectory": "ROM 目录",
@@ -482,7 +482,6 @@
       "placeholder": {
         "parserType": "选择解析器...",
         "configTitle": "",
-        "steamCategory": "${cat1}${cat2}",
         "steamDirectory": "${steamdirglobal} 或 /path/to/steam",
         "userAccounts": "",
         "titleFromVariable": "${variableGroup1}${variableGroup2}",
