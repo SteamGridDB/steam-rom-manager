@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 * Removed `Enable Title from Custom Variable` setting in parsers. Custom Variables are now enabled if and only if one or more groups are set.
 * New Bubble UI for user accounts UI in parsers, settings, and splash pages. No more janky brackets where they don't belong.
 * New Bubble UI for steam categories.
+* Relocate import/export art to options panel in Add Games (as an added bonus one can now import/export art in the emudeck theme).
 ### Fixed
 * Don't show provider filters if section if there aren't any for that provider.
 

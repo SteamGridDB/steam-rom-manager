@@ -22,7 +22,7 @@
     <div class="fake-btn" (click)="generatePreviewData()">Parse</div>
   </div>
   <div class="upperMenu" *ngIf="previewVariables.numberOfListItems > 0">
-    <div class="filtersButton" (click)="toggleFilters()">View Options</div>
+    <div class="filtersButton" (click)="toggleFilters()">Options</div>
     <div class="title" *ngIf="showDetails">
       <span>Fix Match</span>
     </div>
@@ -304,6 +304,11 @@
         (ngModelChange)="setExceptionFilter($event)"
       >Has an exception
       </ng-toggle-button>
+    </div>
+    <div class="filtergroup">
+      <div class="filterLabel"><span>Export/Import</span></div>
+      <div class="button" (click)="exportSelection()" [attr.title]="'Export image choices'">{{ lang.exportSelections }}</div>
+      <div class="button" (click)="importSelection()" [attr.title]="'Import image choices'">{{ lang.importSelections }}</div>
     </div>
   </div>
   <ng-container *ngVar="getCurrentViewType() as currentViewType">
@@ -743,8 +748,6 @@
         <div class="button dangerousButton" (click)="remove()">{{ lang.removeAppList }}</div>
       </div>
       <div class="lowerRight">
-        <div class="button" (click)="exportSelection()" [attr.title]="'Export image choices'">{{ lang.exportSelections }}</div>
-        <div class="button" (click)="importSelection()" [attr.title]="'Import image choices'">{{ lang.importSelections }}</div>
         <div class="button" (click)="showExclusions()" *ngIf="!showExcludes">{{ "Exclude Games" }}</div>
       </div>
     </ng-container>

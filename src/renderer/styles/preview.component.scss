@@ -7,7 +7,6 @@
   overflow-y: auto;
   overflow: hidden;
   background-color: var(--color-preview-background);
-
   --preview-image-size: 0.4;
   --image-width-max: 1196px;
   --image-height-max: 559px;
@@ -505,6 +504,12 @@
         width: 100%;
         font-size: 1em;
         color: var(--color-preview-text);
+      }
+      .button {
+        @include button();
+        @include clickButtonColor(click-button);
+        margin-bottom: 1em;
+        margin-right: 1em;
       }
     }
   }
