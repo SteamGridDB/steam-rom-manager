@@ -7,7 +7,9 @@ All notable changes to this project will be documented in this file.
 * Splash page prompting user to set global Steam Directory and User Accounts if they haven't already.
 ### Changed
 * Removed `Enable Title from Custom Variable` setting in parsers. Custom Variables are now enabled if and only if one or more groups are set.
-* Reworked user accounts UI in parsers, settings, and splash pages. No more typing it in by hand.
+* New Bubble UI for user accounts UI in parsers, settings, and splash pages. No more janky brackets where they don't belong.
+* New Bubble UI for steam categories.
+
 
 ## 2.5.11
 ### Added
