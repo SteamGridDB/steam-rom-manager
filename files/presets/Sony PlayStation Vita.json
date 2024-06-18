@@ -2,7 +2,6 @@
 	"Sony PlayStation Vita - Vita3K (Installed Titles)": {
 		"parserType": "Glob",
 		"configTitle": "Sony PlayStation Vita - Vita3K (Installed Titles)",
-		"steamCategory": "${PS Vita}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-Vita3Kfolder-ux0-app",
 		"steamDirectory": "${steamdirglobal}",
@@ -40,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -81,6 +80,9 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"PS Vita"
+		]
 	}
 }

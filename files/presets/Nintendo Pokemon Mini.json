@@ -3,7 +3,6 @@
 		"parserType": "Glob",
 		"configTitle": "Pokemon Mini - Retroarch(Flatpak) - Pokemini",
 		"steamDirectory": "${steamdirglobal}",
-		"steamCategory": "${Pokemon Mini}",
 		"romDirectory": "path-to-roms",
 		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}pokemini_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"executableModifier": "\"${exePath}\"",
@@ -63,7 +62,7 @@
 			},
 			"steamCDN": {}
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"defaultImage": {
 			"long": {
 				"tall": "",
@@ -92,13 +91,15 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"Pokemon Mini"
+		]
 	},
 	"Nintendo Pokemon Mini - Retroarch - Pokemini": {
 		"parserType": "Glob",
 		"configTitle": "Pokemon Mini - Retroarch - Pokemini",
 		"steamDirectory": "${steamdirglobal}",
-		"steamCategory": "${Pokemon Mini}",
 		"romDirectory": "path-to-roms",
 		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}pokemini_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"executableModifier": "\"${exePath}\"",
@@ -158,7 +159,7 @@
 			},
 			"steamCDN": {}
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"defaultImage": {
 			"long": {
 				"tall": "",
@@ -187,6 +188,9 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"Pokemon Mini"
+		]
 	}
 }

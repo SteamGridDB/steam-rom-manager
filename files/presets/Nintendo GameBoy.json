@@ -2,7 +2,6 @@
 	"Nintendo GameBoy - mGBA(Flatpak)": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo GameBoy - mGBA(Flatpak)",
-		"steamCategory": "${GameBoy}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -40,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -81,12 +80,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"GameBoy"
+		]
 	},
 	"Nintendo GameBoy - Retroarch - Gambatte": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo GameBoy - Retroarch - Gambatte",
-		"steamCategory": "${GameBoy}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -124,7 +125,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -165,12 +166,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"GameBoy"
+		]
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - Gambatte": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - Gambatte",
-		"steamCategory": "${GameBoy}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -208,7 +211,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -249,12 +252,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"GameBoy"
+		]
 	},
 	"Nintendo GameBoy - Retroarch - Gearboy": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo GameBoy - Retroarch - Gearboy",
-		"steamCategory": "${GameBoy}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -292,7 +297,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -333,12 +338,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"GameBoy"
+		]
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - Gearboy": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - Gearboy",
-		"steamCategory": "${GameBoy}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -376,7 +383,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -417,12 +424,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"GameBoy"
+		]
 	},
 	"Nintendo GameBoy - Retroarch - Mesen-S": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo GameBoy - Retroarch - Mesen-S",
-		"steamCategory": "${GameBoy}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -460,7 +469,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -501,12 +510,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"GameBoy"
+		]
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - Mesen-S": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - Mesen-S",
-		"steamCategory": "${GameBoy}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -544,7 +555,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -585,12 +596,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"GameBoy"
+		]
 	},
 	"Nintendo GameBoy - Retroarch - mGBA": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo GameBoy - Retroarch - mGBA",
-		"steamCategory": "${GameBoy}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -628,7 +641,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -669,12 +682,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"GameBoy"
+		]
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - mGBA": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - mGBA",
-		"steamCategory": "${GameBoy}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -712,7 +727,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -753,12 +768,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"GameBoy"
+		]
 	},
 	"Nintendo GameBoy - Retroarch - SameBoy": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo GameBoy - Retroarch - SameBoy",
-		"steamCategory": "${GameBoy}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -796,7 +813,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -837,12 +854,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"GameBoy"
+		]
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - SameBoy": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - SameBoy",
-		"steamCategory": "${GameBoy}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -880,7 +899,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -921,12 +940,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"GameBoy"
+		]
 	},
 	"Nintendo GameBoy - Retroarch - TGB Dual": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo GameBoy - Retroarch - TGB Dual",
-		"steamCategory": "${GameBoy}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -964,7 +985,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1005,12 +1026,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"GameBoy"
+		]
 	},
 	"Nintendo GameBoy - Retroarch(Flatpak) - TGB Dual": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - TGB Dual",
-		"steamCategory": "${GameBoy}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -1048,7 +1071,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1089,6 +1112,9 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"GameBoy"
+		]
 	}
 }

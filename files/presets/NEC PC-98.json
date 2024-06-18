@@ -2,7 +2,6 @@
 	"NEC PC-98 - Retroarch - Neko Project II Kai": {
 		"parserType": "Glob",
 		"configTitle": "NEC PC-98 - Retroarch - Neko Project II Kai",
-		"steamCategory": "${PC-98}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -40,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -81,12 +80,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"PC-98"
+		]
 	},
 	"NEC PC-98 - Retroarch(Flatpak) - Neko Project II Kai": {
 		"parserType": "Glob",
 		"configTitle": "NEC PC-98 - Retroarch(Flatpak) - Neko Project II Kai",
-		"steamCategory": "${PC-98}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -124,7 +125,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -165,6 +166,9 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"PC-98"
+		]
 	}
 }

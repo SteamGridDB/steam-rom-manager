@@ -2,7 +2,6 @@
 	"Atari Jaguar - Retroarch - Virtual Jaguar": {
 		"parserType": "Glob",
 		"configTitle": "Atari Jaguar - Retroarch - Virtual Jaguar",
-		"steamCategory": "${Jaguar}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -40,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -81,12 +80,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"Jaguar"
+		]
 	},
 	"Atari Jaguar - Retroarch(Flatpak) - Virtual Jaguar": {
 		"parserType": "Glob",
 		"configTitle": "Atari Jaguar - Retroarch(Flatpak) - Virtual Jaguar",
-		"steamCategory": "${Jaguar}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -124,7 +125,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -165,6 +166,9 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"Jaguar"
+		]
 	}
 }

@@ -2,7 +2,6 @@
 	"Nintendo NES - Nestopia UE(Flatpak)": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo NES - Nestopia UE(Flatpak)",
-		"steamCategory": "${NES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -40,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -81,12 +80,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"NES"
+		]
 	},
 	"Nintendo NES - Retroarch - FCEUmm": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo NES - Retroarch - FCEUmm",
-		"steamCategory": "${NES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -124,7 +125,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -165,12 +166,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"NES"
+		]
 	},
 	"Nintendo NES - Retroarch(Flatpak) - FCEUmm": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo NES - Retroarch(Flatpak) - FCEUmm",
-		"steamCategory": "${NES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -208,7 +211,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -249,12 +252,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"NES"
+		]
 	},
 	"Nintendo NES - Retroarch - Mesen": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo NES - Retroarch - Mesen",
-		"steamCategory": "${NES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -292,7 +297,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -333,12 +338,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"NES"
+		]
 	},
 	"Nintendo NES - Retroarch(Flatpak) - Mesen": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo NES - Retroarch(Flatpak) - Mesen",
-		"steamCategory": "${NES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -376,7 +383,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -417,12 +424,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"NES"
+		]
 	},
 	"Nintendo NES - Retroarch - Nestopia UE": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo NES - Retroarch - Nestopia UE",
-		"steamCategory": "${NES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -460,7 +469,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -501,12 +510,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"NES"
+		]
 	},
 	"Nintendo NES - Retroarch(Flatpak) - Nestopia UE": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo NES - Retroarch(Flatpak) - Nestopia UE",
-		"steamCategory": "${NES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -544,7 +555,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -585,12 +596,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"NES"
+		]
 	},
 	"Nintendo NES - Retroarch - QuickNES": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo NES - Retroarch - QuickNES",
-		"steamCategory": "${NES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -628,7 +641,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -669,12 +682,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"NES"
+		]
 	},
 	"Nintendo NES - Retroarch(Flatpak) - QuickNES": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo NES - Retroarch(Flatpak) - QuickNES",
-		"steamCategory": "${NES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -712,7 +727,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -753,6 +768,9 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"NES"
+		]
 	}
 }

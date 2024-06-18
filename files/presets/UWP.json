@@ -2,7 +2,6 @@
 	"UWP Directory": {
 		"parserType": "UWP",
 		"configTitle": "UWP",
-		"steamCategory": "UWP",
 		"executableArgs": "",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "",
@@ -41,7 +40,7 @@
 			"removeCharacters": true,
 			"removeBrackets": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -82,6 +81,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": []
 	}
 }

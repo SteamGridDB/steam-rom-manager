@@ -2,7 +2,6 @@
 	"Nintendo DS - Retroarch - DeSmuME": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo DS - Retroarch - DeSmuME",
-		"steamCategory": "${DS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -40,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -81,12 +80,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"DS"
+		]
 	},
 	"Nintendo DS - Retroarch(Flatpak) - DeSmuME": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo DS - Retroarch(Flatpak) - DeSmuME",
-		"steamCategory": "${DS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -124,7 +125,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -165,12 +166,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"DS"
+		]
 	},
 	"Nintendo DS - Retroarch - melonDS": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo DS - Retroarch - melonDS",
-		"steamCategory": "${DS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -208,7 +211,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -249,12 +252,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"DS"
+		]
 	},
 	"Nintendo DS - Retroarch(Flatpak) - melonDS": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo DS - Retroarch(Flatpak) - melonDS",
-		"steamCategory": "${DS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -292,7 +297,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -333,6 +338,9 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"DS"
+		]
 	}
 }

@@ -2,7 +2,6 @@
 	"Microsoft DOS - DOSBox (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
 		"configTitle": "Microsoft DOS - DOSBox",
-		"steamCategory": "${DOS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-dos-games",
 		"steamDirectory": "${steamdirglobal}",
@@ -40,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -81,12 +80,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"DOS"
+		]
 	},
 	"Microsoft DOS - DOSBox(Flatpak) (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
 		"configTitle": "Microsoft DOS - DOSBox(Flatpak)",
-		"steamCategory": "${DOS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-dos-games",
 		"steamDirectory": "${steamdirglobal}",
@@ -124,7 +125,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -165,12 +166,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"DOS"
+		]
 	},
 	"Microsoft DOS - DOSBox Staging(Flatpak) (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
 		"configTitle": "Microsoft DOS - DOSBox Staging(Flatpak)",
-		"steamCategory": "${DOS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-dos-games",
 		"steamDirectory": "${steamdirglobal}",
@@ -208,7 +211,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -249,12 +252,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"DOS"
+		]
 	},
 	"Microsoft DOS - DOSBox-X(Flatpak) (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
 		"configTitle": "Microsoft DOS - DOSBox-X(Flatpak)",
-		"steamCategory": "${DOS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-dos-games",
 		"steamDirectory": "${steamdirglobal}",
@@ -292,7 +297,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -333,12 +338,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"DOS"
+		]
 	},
 	"Microsoft DOS - GoG": {
 		"parserType": "Glob",
 		"configTitle": "Microsoft DOS - GoG",
-		"steamCategory": "${DOS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-gog-games",
 		"steamDirectory": "${steamdirglobal}",
@@ -376,7 +383,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -417,12 +424,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"DOS"
+		]
 	},
 	"Microsoft DOS - Retroarch - DOSBox Core (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
 		"configTitle": "Microsoft DOS - Retroarch - DOSBox Core",
-		"steamCategory": "${DOS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-games",
 		"steamDirectory": "${steamdirglobal}",
@@ -460,7 +469,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -501,12 +510,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"DOS"
+		]
 	},
 	"Microsoft DOS - Retroarch(Flatpak) - DOSBox Core (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
 		"configTitle": "Microsoft DOS - Retroarch(Flatpak) - DOSBox Core",
-		"steamCategory": "${DOS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-games",
 		"steamDirectory": "${steamdirglobal}",
@@ -544,7 +555,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -585,12 +596,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"DOS"
+		]
 	},
 	"Microsoft DOS - Retroarch - DOSBox Pure": {
 		"parserType": "Glob",
 		"configTitle": "Microsoft DOS - Retroarch - DOSBox Pure",
-		"steamCategory": "${DOS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-games",
 		"steamDirectory": "${steamdirglobal}",
@@ -628,7 +641,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -669,12 +682,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"DOS"
+		]
 	},
 	"Microsoft DOS - Retroarch(Flatpak) - DOSBox Pure": {
 		"parserType": "Glob",
 		"configTitle": "Microsoft DOS - Retroarch(Flatpak) - DOSBox Pure",
-		"steamCategory": "${DOS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-games",
 		"steamDirectory": "${steamdirglobal}",
@@ -712,7 +727,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -753,12 +768,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"DOS"
+		]
 	},
 	"Microsoft DOS - Retroarch - DOSBox SVN (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
 		"configTitle": "Microsoft DOS - Retroarch - DOSBox SVN",
-		"steamCategory": "${DOS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-games",
 		"steamDirectory": "${steamdirglobal}",
@@ -796,7 +813,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -837,12 +854,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"DOS"
+		]
 	},
 	"Microsoft DOS - Retroarch(Flatpak) - DOSBox SVN (Requires .conf matching game folder name in with executable)": {
 		"parserType": "Glob",
 		"configTitle": "Microsoft DOS - Retroarch(Flatpak) - DOSBox SVN",
-		"steamCategory": "${DOS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-games",
 		"steamDirectory": "${steamdirglobal}",
@@ -880,7 +899,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -921,6 +940,9 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"DOS"
+		]
 	}
 }

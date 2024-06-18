@@ -2,7 +2,6 @@
 	"itch.io": {
 		"parserType": "itch.io",
 		"configTitle": "itch.io",
-		"steamCategory": "${itch.io}",
 		"executableArgs": "",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "",
@@ -41,7 +40,7 @@
 			"removeCharacters": true,
 			"removeBrackets": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"controllers": {
 			"ps4": null,
 			"ps5": null,
@@ -82,6 +81,9 @@
 			},
 			"steamCDN": {}
 		},
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"itch.io"
+		]
 	}
 }

@@ -2,7 +2,6 @@
 	"Amstrad CPC - Retroarch - Caprice32": {
 		"parserType": "Glob",
 		"configTitle": "Amstrad CPC - Retroarch - Caprice32",
-		"steamCategory": "${CPC}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -40,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -81,12 +80,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"CPC"
+		]
 	},
 	"Amstrad CPC - Retroarch(Flatpak) - Caprice32": {
 		"parserType": "Glob",
 		"configTitle": "Amstrad CPC - Retroarch(Flatpak) - Caprice32",
-		"steamCategory": "${CPC}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -124,7 +125,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -165,12 +166,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"CPC"
+		]
 	},
 	"Amstrad CPC - Retroarch - CrocoDS": {
 		"parserType": "Glob",
 		"configTitle": "Amstrad CPC - Retroarch - CrocoDS",
-		"steamCategory": "${CPC}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -208,7 +211,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -249,12 +252,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"CPC"
+		]
 	},
 	"Amstrad CPC - Retroarch(Flatpak) - CrocoDS": {
 		"parserType": "Glob",
 		"configTitle": "Amstrad CPC - Retroarch(Flatpak) - CrocoDS",
-		"steamCategory": "${CPC}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -292,7 +297,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -333,6 +338,9 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"CPC"
+		]
 	}
 }

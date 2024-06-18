@@ -18,7 +18,7 @@ import {versionUp, extractNames} from "./modifier-helpers";
 
 export const configPreset: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'presetVersion',
-  latestVersion: 14,
+  latestVersion: 15,
   fields: {
     undefined: {
       'presetVersion': { method: ()=>0 },
@@ -222,6 +222,18 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
           oldValue.specifiedAccounts = extractNames(oldValue.specifiedAccounts)
         }
         return oldValue;      
+      }}
+    },
+    14: {
+      'version': { method: versionUp },
+      'steamCategories': {method: (oldValue, oldConfiguration)=> {
+        const steamCategory = oldConfiguration.steamCategory;
+        delete oldConfiguration.steamCategory;
+        if(steamCategory) {
+          return extractNames(steamCategory);
+        } else {
+          return []
+        }
       }}
     }
   }

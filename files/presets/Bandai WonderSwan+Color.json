@@ -2,7 +2,6 @@
 	"Bandai WonderSwan/Color - Retroarch - Beetle Cygne": {
 		"parserType": "Glob",
 		"configTitle": "Bandai WonderSwan/Color - Retroarch - Beetle Cygne",
-		"steamCategory": "${WS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -40,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -81,12 +80,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"WS"
+		]
 	},
 	"Bandai WonderSwan/Color - Retroarch(Flatpak) - Beetle Cygne": {
 		"parserType": "Glob",
 		"configTitle": "Bandai WonderSwan/Color - Retroarch(Flatpak) - Beetle Cygne",
-		"steamCategory": "${WS}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -124,7 +125,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -165,6 +166,9 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"WS"
+		]
 	}
 }

@@ -2,7 +2,6 @@
 	"RPG Maker - Retroarch - EasyRPG": {
 		"parserType": "Glob",
 		"configTitle": "RPG Maker - Retroarch - EasyRPG",
-		"steamCategory": "${RPG Maker}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-shortcuts",
 		"steamDirectory": "${steamdirglobal}",
@@ -40,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -81,12 +80,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"RPG Maker"
+		]
 	},
 	"RPG Maker - Retroarch(Flatpak) - EasyRPG": {
 		"parserType": "Glob",
 		"configTitle": "RPG Maker - Retroarch(Flatpak) - EasyRPG",
-		"steamCategory": "${RPG Maker}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-shortcuts",
 		"steamDirectory": "${steamdirglobal}",
@@ -124,7 +125,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -165,12 +166,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"RPG Maker"
+		]
 	},
 	"Minecraft - MultiMC": {
 		"parserType": "Glob-regex",
 		"configTitle": "Minecraft - MultiMC",
-		"steamCategory": "${Minecraft}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-instances",
 		"steamDirectory": "${steamdirglobal}",
@@ -208,7 +211,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -249,12 +252,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"Minecraft"
+		]
 	},
 	"Shortcuts": {
 		"parserType": "Glob",
 		"configTitle": "Shortcuts",
-		"steamCategory": "",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-shortcuts",
 		"steamDirectory": "${steamdirglobal}",
@@ -292,7 +297,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -333,6 +338,7 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": []
 	}
 }

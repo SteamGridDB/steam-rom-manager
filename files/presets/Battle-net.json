@@ -3,7 +3,6 @@
 		"parserType": "Battle.net",
 		"configTitle": "Battle.net",
 		"steamDirectory": "${steamdirglobal}",
-		"steamCategory": "${Battle.net}",
 		"romDirectory": "",
 		"executableArgs": "",
 		"executableModifier": "\"${exePath}\"",
@@ -64,7 +63,7 @@
 			},
 			"steamCDN": {}
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"defaultImage": {
 			"long": {
 				"tall": null,
@@ -91,6 +90,9 @@
 			"logo": "",
 			"icon": ""
 		},
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"Battle.net"
+		]
 	}
 }

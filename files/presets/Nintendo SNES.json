@@ -2,7 +2,6 @@
 	"Nintendo SNES - bsnes(Flatpak)": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - bsnes(Flatpak)",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -40,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -81,12 +80,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch - Beetle bsnes": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch - Beetle bsnes",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -124,7 +125,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -165,12 +166,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - Beetle bsnes": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - Beetle bsnes",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -208,7 +211,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -249,12 +252,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch - Snes9x": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch - Snes9x",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -292,7 +297,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -333,12 +338,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - Snes9x": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - Snes9x",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -376,7 +383,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -417,12 +424,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch - bsnes2014 Accuracy": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch - bsnes2014 Accuracy",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -460,7 +469,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -501,12 +510,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Accuracy": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Accuracy",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -544,7 +555,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -585,12 +596,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch - bsnes2014 Balanced": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch - bsnes2014 Balanced",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -628,7 +641,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -669,12 +682,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Balanced": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Balanced",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -712,7 +727,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -753,12 +768,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch - bsnes2014 Performance": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch - bsnes2014 Performance",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -796,7 +813,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -837,12 +854,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Performance": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Performance",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -880,7 +899,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -921,12 +940,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch - bsnes-mercury Accuracy": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch - bsnes-mercury Accuracy",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -964,7 +985,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1005,12 +1026,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Accuracy": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Accuracy",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -1048,7 +1071,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1089,12 +1112,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch - bsnes-mercury Balanced": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch - bsnes-mercury Balanced",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -1132,7 +1157,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1173,12 +1198,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Balanced": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Balanced",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -1216,7 +1243,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1257,12 +1284,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch - bsnes-mercury Performance": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch - bsnes-mercury Performance",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -1300,7 +1329,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1341,12 +1370,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Performance": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Performance",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -1384,7 +1415,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1425,12 +1456,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch - Mesen-S": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch - Mesen-S",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -1468,7 +1501,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1509,12 +1542,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	},
 	"Nintendo SNES - Retroarch(Flatpak) - Mesen-S": {
 		"parserType": "Glob",
 		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - Mesen-S",
-		"steamCategory": "${SNES}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -1552,7 +1587,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -1593,6 +1628,9 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"SNES"
+		]
 	}
 }

@@ -2,7 +2,6 @@
 	"NEC PC Engine/TurboGrafx 16 - Retroarch - Beetle PCE": {
 		"parserType": "Glob",
 		"configTitle": "NEC PC Engine/TurboGrafx 16 - Retroarch - Beetle PCE",
-		"steamCategory": "${PCE}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -40,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -81,12 +80,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"PCE"
+		]
 	},
 	"NEC PC Engine/TurboGrafx 16 - Retroarch(Flatpak) - Beetle PCE": {
 		"parserType": "Glob",
 		"configTitle": "NEC PC Engine/TurboGrafx 16 - Retroarch(Flatpak) - Beetle PCE",
-		"steamCategory": "${PCE}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -124,7 +125,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -165,12 +166,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"PCE"
+		]
 	},
 	"NEC PC Engine/TurboGrafx 16 - Retroarch - Beetle PCE FAST": {
 		"parserType": "Glob",
 		"configTitle": "NEC PC Engine/TurboGrafx 16 - Retroarch - Beetle PCE FAST",
-		"steamCategory": "${PCE}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -208,7 +211,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -249,12 +252,14 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"PCE"
+		]
 	},
 	"NEC PC Engine/TurboGrafx 16 - Retroarch(Flatpak) - Beetle PCE FAST": {
 		"parserType": "Glob",
 		"configTitle": "NEC PC Engine/TurboGrafx 16 - Retroarch(Flatpak) - Beetle PCE FAST",
-		"steamCategory": "${PCE}",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -292,7 +297,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 14,
+		"presetVersion": 15,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -333,6 +338,9 @@
 		},
 		"steamInputEnabled": "1",
 		"drmProtect": false,
-		"version": 2
+		"version": 3,
+		"steamCategories": [
+			"PCE"
+		]
 	}
 }
