@@ -4,12 +4,12 @@
   "license": "GPL-3.0",
   "description": "An app for managing ROMs in Steam",
   "author": {
-    "name": "FrogTheFrog",
-    "url": "https://github.com/FrogTheFrog",
-    "email": "warliukz@gmail.com"
+    "name": "cbartondock",
+    "url": "https://github.com/cbartondock",
+    "email": "cbartondock@gmail.com"
   },
   "build": {
-    "appId": "FrogTheFrog.SteamROMManager",
+    "appId": "SteamGridDB.SteamROMManager",
     "productName": "Steam ROM Manager",
     "compression": "normal",
     "directories": {
