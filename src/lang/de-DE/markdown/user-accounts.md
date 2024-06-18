@@ -1,19 +1,7 @@
-# Benutzerkonten (Optional)
+# User accounts (Required)
 
-Mit diesem Feld kannst du SRM auf bestimmte Benutzernkonten einschränken. Möglich sind Werte in Form von:
-
-`${XXX}${YYY}`
-
-Dies schränkt SRM auf die Konten `XXX` und `YYY` ein. Die Anzahl der Konten ist uneingeschränkt. `XXX` und `YYY` stehen hier für:
-
-* Eine `Account ID` (Die Nummer deines Steam Accounts, zu sehen in deinem Verzeichnis `/Pfad/zu/Steam/userdata/`). So kannst du zum Beispiel `userdata/56489124` als `${56489124}` angeben.
-
-* Ein `Steam Benutzername` (Der Name mit dem du dich in Steam einloggst). So kannst du zum Beispiel den Benutzer `Foo` und `Bar` als `${Foo}${Bar}`.
-
-Kombinieren ist ebenfalls möglich: `${56489124}${Apple}`.
-
-Du kannst dieses Feld auch mit der `Accounts Global` Umgebungsvariable aus den Einstellungen mit `${${accountsglobal}}` setzen.
+This field is used to limit SRM's effects to specific user accounts. It can be set to `Global` or over ridden per parser.
 
 ## Achtung
 
-Wenn du `Anmeldedaten auf diesem Computer nicht speichern` in Steam eingestellt hast, kann SRM deinen `Steam Benutzernamen` nicht auslesen und du kannst **nur** ` Account IDs` benutzen. In diesem Fall gehe nach `Steam > Einstellungen > Einstellungen` und deaktiviere `Speichere keine Accountdaten auf diesem Computer`, und starte dann Steam und SRM neu.
+If you have `Don't save account credentials on this computer` set in Steam, then there is no way for SRM to know your `Steam Username` and `Choose Accounts` will only be able to pull your `Steam IDs`. In diesem Fall gehe nach `Steam > Einstellungen > Einstellungen` und deaktiviere `Speichere keine Accountdaten auf diesem Computer`, und starte dann Steam und SRM neu.
