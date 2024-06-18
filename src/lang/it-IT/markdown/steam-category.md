@@ -1,16 +1,7 @@
-# Categoria di Steam (opzionale) `[supporta variabili]`{.noWrap}
+# Steam category (optional)`{.noWrap}
 
-Conosciuti anche come "tags", possono essere usati per raggruppare app in Steam. Per impostare la categoria Steam, è necessario utilizzare la seguente sintassi:
-```
-${...}
-```
-Ad esempio, questo è il modo in cui specificare per le categorie "WII" e "GBA" (abbinate a "ROMS"):
-```
-${WII}
-```
-```
-${GBA}${ROMS}
-```
+Hit the little plus sign to add your first category.
+
 Questo è come la categoria "WII" apparirà come in Steam:
 
 ![steamCategory](../../../assets/images/category-example.png)
