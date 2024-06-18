@@ -1,16 +1,7 @@
-# Ícone padrão (opcional) `[suporta variáveis]`{.noWrap}
+# Steam category (optional)`{.noWrap}
 
-Também conhecido como "tags", pode ser usado para agrupar aplicativos no Steam. Para definir a consulta de imagem, é necessário usar a seguinte sintaxe:
-```
-${...}
-```
-Por exemplo, é assim que você especifica as categorias para a categoria "WII" e "GBA" (emparelhado com "ROMS"):
-```
-${WII}
-```
-```
-${GBA}${ROMS}
-```
+Hit the little plus sign to add your first category.
+
 Assim como será a categoria "WII" no Steam:
 
 ![categoria-steamCategory](../../../assets/images/category-example.png)
