@@ -14,7 +14,7 @@ export interface UserConfiguration {
   parserType: ParserType,
   configTitle: string,
   parserId: string,
-  steamCategory: string,
+  steamCategories: string[],
   executable: {
     path: string,
     shortcutPassthrough: boolean,

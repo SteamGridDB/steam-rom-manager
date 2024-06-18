@@ -478,7 +478,7 @@ export interface languageStruct {
         communityPresets: string[],
         parserType: string[],
         configTitle: string[],
-        steamCategory: string[],
+        steamCategories: string[],
         controllerTemplates: string[],
         executableLocation: string[],
         romDirectory: string[],
@@ -533,8 +533,8 @@ export interface languageStruct {
       success: {
         foundAccounts__i: string, //${count}
         foundAccountInfo__i: string, //${name}, ${steamID64}, ${accountID}
-        steamCategory__i: string, //${index}, ${total}, ${steamCategory}
-        steamCategoryInfo__i: string, //${steamCategory}
+        steamCategories__i: string, //${index}, ${total}, ${steamCategories}
+        steamCategoriesInfo__i: string, //${steamCategories}
         appId__i: string, //${index}, ${total}, ${appid}
         exceptionKey__i: string, //${index}, ${total}, ${appid}
         shortAppId__i: string, //${index}, ${total}, ${appid}
@@ -557,7 +557,7 @@ export interface languageStruct {
       label: {
         parserType: string,
         configTitle: string,
-        steamCategory: string,
+        steamCategories: string,
         executableLocation: string,
         executableModifier: string,
         romDirectory: string,
@@ -577,7 +577,6 @@ export interface languageStruct {
       placeholder: {
         parserType: string,
         configTitle: string,
-        steamCategory: string,
         romDirectory: string,
         steamDirectory: string,
         userAccounts: string,

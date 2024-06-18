@@ -345,9 +345,7 @@ export class FileParser {
           newFile.imagePool = vParser.setInput(config.imagePool).parse() ? vParser.replaceVariables((variable) => {
             return this.getVariable(variable as AllVariables, variableData).trim();
           }) : '';
-          newFile.steamCategories = vParser.setInput(config.steamCategory).parse() ? _.uniq(vParser.extractVariables((variable) => {
-            return this.getVariable(variable as AllVariables, variableData);
-          })) : [];
+          newFile.steamCategories = config.steamCategories;
 
           parsedConfig.files.push(newFile);
         }

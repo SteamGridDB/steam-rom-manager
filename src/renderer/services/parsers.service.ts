@@ -289,8 +289,8 @@ export class ParsersService {
                     return data ? null : this.lang.validationErrors.configTitle__md;
                   case 'parserId':
                     return data ? null : this.lang.validationErrors.parserId__md;
-                  case 'steamCategory':
-                    return this.validateVariableParserString(data||"");
+                  case 'steamCategories':
+                    return null;
                   case 'executable':
                     return ((data||{}).path == null || data.path.length == 0 || this.validateEnvironmentPath(data.path || '') ) ? null : this.lang.validationErrors.executable__md;
                   case 'romDirectory':
@@ -391,7 +391,7 @@ export class ParsersService {
                   simpleValidations = simpleValidations.concat([])
                 } else if(parserInfo.superTypesMap[config['parserType']] === parserInfo.PlatformType) {
                   simpleValidations = simpleValidations.concat([
-                    'steamCategory',
+                    'steamCategories',
                     'onlineImageQueries',
                     'imagePool',
                     'imageProviders'
@@ -399,7 +399,7 @@ export class ParsersService {
                 }
                 else if(parserInfo.superTypesMap[config['parserType']] === parserInfo.ROMType) {
                   simpleValidations = simpleValidations.concat([
-                    'steamCategory',
+                    'steamCategories',
                     'executable',
                     'executableModifier',
                     'romDirectory',
@@ -413,7 +413,7 @@ export class ParsersService {
                 }
                 else if (parserInfo.superTypesMap[config['parserType']] === parserInfo.ManualType) {
                   simpleValidations = simpleValidations.concat([
-                    'steamCategory',
+                    'steamCategories',
                     'onlineImageQueries',
                     'imagePool',
                     'imageProviders'

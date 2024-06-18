@@ -7,7 +7,7 @@ import {versionUp, replaceVariables_undefined, extractNames} from "./modifier-he
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',
-  latestVersion: 21,
+  latestVersion: 22,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -289,6 +289,18 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
           oldValue.specifiedAccounts = extractNames(oldValue.specifiedAccounts)
         }
         return oldValue;
+      }}
+    },
+    21: {
+      'version': { method: versionUp},
+      'steamCategories': {method: (oldValue, oldConfiguration)=> {
+        const steamCategory = oldConfiguration.steamCategory;
+        delete oldConfiguration.steamCategory;
+        if(steamCategory) {
+          return extractNames(steamCategory);
+        } else {
+          return []
+        }
       }}
     }
   }

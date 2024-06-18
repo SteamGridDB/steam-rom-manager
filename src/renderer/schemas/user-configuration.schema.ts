@@ -8,7 +8,7 @@ const sharedProperties = {
     version: { type: 'number' },
     configTitle: { type: 'string', default: '' },
     parserId: { type: 'string', default: '' },
-    steamCategory: { type: 'string', default: '' },
+    steamCategories: { type: 'array', default: [] as string[], items: { type: 'string'} },
     executable: {
       type: 'object',
       default: {},

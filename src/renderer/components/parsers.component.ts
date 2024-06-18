@@ -120,7 +120,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             specifiedAccounts: new NestedFormElement.Bubble({
               label: this.lang.label.userAccounts,
               required: true,
-              addable: true,
               onValidate: (self, path) => {
                 let serialized: {[k: string]: any} = {};
                 serialized[path[1]] = self.value;
@@ -192,15 +191,14 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.romDirectory.join('');
           }
         }),
-        steamCategory: new NestedFormElement.Input({
-          placeholder: this.lang.placeholder.steamCategory,
+        steamCategories: new NestedFormElement.Bubble({
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
-            label: this.lang.label.steamCategory,
-          highlight: this.highlight.bind(this),
+          addable: true,
+          label: this.lang.label.steamCategories,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
             onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.steamCategory.join('');
+            this.currentDoc.content = this.lang.docs__md.steamCategories.join('');
           }
         }),
         executableSection: new NestedFormElement.Section({
@@ -884,16 +882,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               shortcut: `${data.files[i].modifiedExecutableLocation} ${data.files[i].argumentString}`.trim()
             }));
             if (data.files[i].steamCategories.length > 0) {
-              success(this.lang.success.steamCategory__i.interpolate({
+              success(this.lang.success.steamCategories__i.interpolate({
                 index: i + 1,
                 total: totalLength,
-                steamCategory: data.files[i].steamCategories[0]
+                steamCategories: data.files[i].steamCategories
               }));
               for (let j = 1; j < data.files[i].steamCategories.length; j++) {
-                success(this.lang.success.steamCategoryInfo__i.interpolate({
+                success(this.lang.success.steamCategoriesInfo__i.interpolate({
                   index: i + 1,
                   total: totalLength,
-                  steamCategory: data.files[i].steamCategories[j]
+                  steamCategories: data.files[i].steamCategories
                 }));
               }
             }
