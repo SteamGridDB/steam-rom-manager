@@ -81,22 +81,37 @@ export class CategoryManager {
 
   removeAllCategoriesAndWrite(steamDirectory: string, userId: string) {
     return this.doCatTask(steamDirectory, userId, (collections, sharedConfigApps, levelCollections, cats) => {
-      return new Promise<any>((resolve, reject)=> {
-        // Nuke the local collections
-        for(const catKey of Object.keys(collections)) {
+      return new Promise<any>((resolve, reject) => {
+        const localKeys = Object.keys(collections);
+        const levelKeys = Object.keys(levelCollections)
+        const srmKeys = _.union(localKeys, levelKeys).filter(catKey=>catKey.startsWith('srm'))
+        const srmCatNames = levelKeys.map(levelKey=>levelCollections[levelKey].name)
+        // Nuke the local categories
+        for(const catKey of srmKeys) {
           if(catKey.startsWith('srm')) {
+            // local collections (non steam games)
             delete collections[catKey]
+            // level collections (steam games)
             if(levelCollections[catKey] && levelCollections[catKey].added.length == 0) {
               cats.remove(catKey);
             }
           }
         }
-        //Get the ones in levelCollection that we missed
-        for(const catKey of Object.keys(levelCollections)){
-          if(catKey.startsWith('srm') && !collections[catKey]) {
-            if(levelCollections[catKey].added.length == 0) {
-              cats.remove(catKey);
-            }
+        // Nuke the sharedconfig
+        // Currently removes only based on the categories, not the ids
+        // so a non srm id added to an srm category will still have its srm category removed (unlike for local)
+        for(const sharedConfigId in sharedConfigApps) {
+          const sharedConfigCats = Object.values(sharedConfigApps[sharedConfigId].tags||{})
+          const sharedConfigCatsWithoutAdded = sharedConfigCats.filter((scCatName: string)=> {
+            return !(srmCatNames.map((catName: string) => catName.toUpperCase()).includes(scCatName.toUpperCase()))
+          })
+          const formattedAsTags = Object.fromEntries(sharedConfigCatsWithoutAdded.map((catName: string, i: number)=> {
+            return [i.toString(), catName]
+          }))
+          if(sharedConfigCatsWithoutAdded.length) {
+            sharedConfigApps[sharedConfigId].tags = formattedAsTags;
+          } else {
+            delete sharedConfigApps[sharedConfigId];
           }
         }
         resolve([collections, sharedConfigApps]);
@@ -107,6 +122,7 @@ export class CategoryManager {
   readCategories(steamDirectory: string, userId: string) {
     let srmCategories: {[catKey: string]: any} = {};
     return this.doCatTask(steamDirectory, userId, (collections, sharedConfigApps, levelCollections, cats, data) => {
+      //TODO also read out sharedConfigApps based on collections[catKey].catName
       return new Promise<any>((resolve,reject)=>{
         for(const catKey of Object.keys(collections)) {
           if(catKey.startsWith('srm')) {
@@ -149,7 +165,7 @@ export class CategoryManager {
           let toRemoveForCat: string[];
           toRemoveForCat = toRemove.filter((shortId)=>{
             const appCats = addedCategories[shortId];
-            const lcCatName = (levelCollections[catKey] || {}).name || "";
+            const lcCatName = levelCollections[catKey]?.name || "";
             return !!appCats && appCats.map((catName: string) => catName.toUpperCase()).includes(lcCatName.toUpperCase());
           })
           const newAdded = collections[catKey].added.filter((appId: number) => !toRemoveForCat.map((x)=>+x).includes(appId));
