@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 * SRM now manages category info for `sharedconfig.vdf` also, meaning SRM categories will appear over Steam Link.
 ## Fixed
 * Navigation buttons not showing up on EmuDeck theme's `Add Games` page if no apps returned.
-
+* Bug affecting some emudeck parsers.
 ## 2.5.12
 ### Added
 * Added a `userVariables.json` file where user's can put their custom variables without fear of them being overwritten by SRM, as well as accompanying documentation. Resolves [issue 667](https://github.com/SteamGridDB/steam-rom-manager/issues/667)
