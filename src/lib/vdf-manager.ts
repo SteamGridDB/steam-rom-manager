@@ -184,7 +184,7 @@ export class VDF_Manager {
     });
   }
 
-  private forEach(callback: (steamDirectory: string, userId: string, listItem: VDF_ListItem) => void) {
+  forEach(callback: (steamDirectory: string, userId: string, listItem: VDF_ListItem) => void) {
     for (let steamDirectory in this.data) {
       for (let userId in this.data[steamDirectory]) {
         callback(steamDirectory, userId, this.data[steamDirectory][userId]);
