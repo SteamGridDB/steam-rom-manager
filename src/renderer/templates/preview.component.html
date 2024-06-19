@@ -790,6 +790,17 @@
       <div class="button" routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
       </div>
     </ng-container>
-
+    <ng-container *ngIf="!previewVariables.listHasGenerated || previewVariables.numberOfListItems == 0">
+      <div class="lowerRight">
+        <div
+        class="button"
+        routerLink="/logger"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        Log
+        </div>
+        <div class="button" routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
+      </div>
+    </ng-container>
   </div>
 </ng-container>
