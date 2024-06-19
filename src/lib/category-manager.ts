@@ -78,44 +78,69 @@ export class CategoryManager {
       await cats.close();
     }
   }
-
-  removeAllCategoriesAndWrite(steamDirectory: string, userId: string) {
-    return this.doCatTask(steamDirectory, userId, (collections, sharedConfigApps, levelCollections, cats) => {
-      return new Promise<any>((resolve, reject) => {
-        const localKeys = Object.keys(collections);
-        const levelKeys = Object.keys(levelCollections)
-        const srmKeys = _.union(localKeys, levelKeys).filter(catKey=>catKey.startsWith('srm'))
-        const srmCatNames = levelKeys.map(levelKey=>levelCollections[levelKey].name)
-        // Nuke the local categories
-        for(const catKey of srmKeys) {
-          if(catKey.startsWith('srm')) {
-            // local collections (non steam games)
-            delete collections[catKey]
-            // level collections (steam games)
-            if(levelCollections[catKey] && levelCollections[catKey].added.length == 0) {
-              cats.remove(catKey);
-            }
-          }
+  // toRemove is assumed to be a subset of the keys of addedCategories.
+  removeShortsFromCats(toRemove: string[], 
+    collections: any, 
+    levelCollections: any, 
+    cats: any, 
+    sharedConfigApps: any,
+    addedCategories: VDF_AddedCategoriesData[string][string]) {
+    const localKeys = Object.keys(collections);
+    const levelKeys = Object.keys(levelCollections);
+    // Clean out local collections
+    for (const catKey of localKeys) {
+      // only clear out apps that list the category of the collection
+      const toRemoveForCat = toRemove.filter((shortId)=>{
+        const appCats = addedCategories[shortId];
+        const lcCatName = levelCollections[catKey]?.name || "";
+        return appCats.map((catName: string) => catName.toUpperCase()).includes(lcCatName.toUpperCase());
+      });
+      const nonSRMAdded = collections[catKey].added.filter((appId: number) => !toRemoveForCat.map((x)=>+x).includes(appId));
+      collections[catKey].added = nonSRMAdded;
+      if(catKey.startsWith('srm') && nonSRMAdded.length == 0) {
+        delete collections[catKey]
+        // only remove the level collection if newAdded is empty *and* the level collection itself is empty
+        if(levelCollections[catKey] && levelCollections[catKey].added.length==0) {
+          cats.remove(catKey);
         }
-        // Nuke the sharedconfig
-        // Currently removes only based on the categories, not the ids
-        // so a non srm id added to an srm category will still have its srm category removed (unlike for local)
-        for(const sharedConfigId in sharedConfigApps) {
-          const sharedConfigCats = Object.values(sharedConfigApps[sharedConfigId].tags||{})
-          const sharedConfigCatsWithoutAdded = sharedConfigCats.filter((scCatName: string)=> {
-            return !(srmCatNames.map((catName: string) => catName.toUpperCase()).includes(scCatName.toUpperCase()))
-          })
+      }
+    }
+    //Get the ones in levelCollection that we missed
+    for (const catKey of levelKeys) {
+      if(catKey.startsWith('srm') && !collections[catKey] && levelCollections[catKey].added.length == 0) {
+        cats.remove(catKey);
+      }
+    }
+    //Clean out the sharedconfig
+    for(const sharedConfigId in sharedConfigApps) {
+      if(toRemove.includes(sharedConfigId) && sharedConfigApps[sharedConfigId]) {
+        const sharedConfigCats = Object.values(sharedConfigApps[sharedConfigId].tags||{})
+        const appCats = addedCategories[sharedConfigId];
+        const sharedConfigCatsWithoutAdded = appCats ? sharedConfigCats.filter((scCatName: string)=> {
+          return !(appCats.map((catName: string) => catName.toUpperCase()).includes(scCatName.toUpperCase()))
+        }) : sharedConfigCats;
+        if(sharedConfigCatsWithoutAdded.length) {
           const formattedAsTags = Object.fromEntries(sharedConfigCatsWithoutAdded.map((catName: string, i: number)=> {
             return [i.toString(), catName]
           }))
-          if(sharedConfigCatsWithoutAdded.length) {
-            sharedConfigApps[sharedConfigId].tags = formattedAsTags;
-          } else {
-            delete sharedConfigApps[sharedConfigId];
-          }
+          sharedConfigApps[sharedConfigId].tags = formattedAsTags;
+        } else {
+          delete sharedConfigApps[sharedConfigId];
         }
+      }
+    }
+  }
+
+  removeAllCategoriesAndWrite(steamDirectory: string, userId: string, addedCategories: VDF_AddedCategoriesData[string][string]) {
+    return this.doCatTask(steamDirectory, userId, (collections, sharedConfigApps, levelCollections, cats, data) => {
+      const { addedCategories } = data;
+      return new Promise<any>((resolve, reject) => {
+        const toRemove = Object.keys(addedCategories);
+        this.removeShortsFromCats(toRemove, collections, levelCollections, cats, sharedConfigApps, addedCategories);
         resolve([collections, sharedConfigApps]);
       })
+    }, {
+      addedCategories: addedCategories
     })
   }
 
@@ -155,56 +180,10 @@ export class CategoryManager {
       const {userData, extraneousShortIds, addedCategories} = data;
       return new Promise<any>((resolve, reject) => {
         const appIds = Object.keys(userData.apps).filter(appId => !superTypes[ArtworkOnlyType].includes(userData.apps[appId].parserType));
-        const toRemove = _.union(
-          appIds.map((x) => steam.shortenAppId(x)),
-            extraneousShortIds
-        );
-        // Clean out local collections
-        for (const catKey of Object.keys(collections)) {
-          // only clear out apps that list the category of the collection
-          let toRemoveForCat: string[];
-          toRemoveForCat = toRemove.filter((shortId)=>{
-            const appCats = addedCategories[shortId];
-            const lcCatName = levelCollections[catKey]?.name || "";
-            return !!appCats && appCats.map((catName: string) => catName.toUpperCase()).includes(lcCatName.toUpperCase());
-          })
-          const newAdded = collections[catKey].added.filter((appId: number) => !toRemoveForCat.map((x)=>+x).includes(appId));
-          collections[catKey].added = newAdded;
-          if(catKey.startsWith('srm') && newAdded.length == 0) {
-            delete collections[catKey]
-            // only remove the level collection if newAdded is empty *and* the level collection itself is empty
-            if(levelCollections[catKey] && levelCollections[catKey].added.length==0) {
-              cats.remove(catKey);
-            }
-          }
-        }
-        //Get the ones in levelCollection that we missed
-        for (const catKey of Object.keys(levelCollections)) {
-          if(catKey.startsWith('srm') && !collections[catKey]) {
-            if(levelCollections[catKey].added.length == 0) {
-              cats.remove(catKey);
-            }
-          }
-        }
-        //Clean out the sharedconfig
-        for(const sharedConfigId in sharedConfigApps) {
-          if(toRemove.includes(sharedConfigId) && sharedConfigApps[sharedConfigId]) {
-            const sharedConfigCats = Object.values(sharedConfigApps[sharedConfigId].tags||{})
-            const appCats = addedCategories[sharedConfigId];
-            const sharedConfigCatsWithoutAdded = appCats ? sharedConfigCats.filter((scCatName: string)=> {
-              return !(appCats.map((catName: string) => catName.toUpperCase()).includes(scCatName.toUpperCase()))
-            }) : sharedConfigCats;
-            const formattedAsTags = Object.fromEntries(sharedConfigCatsWithoutAdded.map((catName: string, i: number)=> {
-              return [i.toString(), catName]
-            }))
-            if(sharedConfigCatsWithoutAdded.length) {
-              sharedConfigApps[sharedConfigId].tags = formattedAsTags;
-            } else {
-              delete sharedConfigApps[sharedConfigId];
-            }
-          }
-        }
-
+        // Clean out categories
+        const shortIds = appIds.map((x)=> steam.shortenAppId(x));
+        const toRemove = _.intersection(Object.keys(addedCategories), _.union(shortIds, extraneousShortIds));
+        this.removeShortsFromCats(toRemove, collections, levelCollections, cats, sharedConfigApps, addedCategories);
         //Add to local collections
         const addableAppIds = appIds.filter((appId: string) => userData.apps[appId].status=='add');
         for (let appId of addableAppIds) {

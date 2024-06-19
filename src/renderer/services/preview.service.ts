@@ -171,17 +171,17 @@ export class PreviewService {
   }
 
   
-  async removeCategories(steamDir: string, userId: string) {
+  async removeCategories(steamDir: string, userId: string, addedCategories: VDF_AddedCategoriesData[string][string]) {
     try {
       this.loggerService.info(`Removing category information for user ${userId}.`);
-      await this.categoryManager.removeAllCategoriesAndWrite(steamDir, userId);
+      await this.categoryManager.removeAllCategoriesAndWrite(steamDir, userId, addedCategories);
     } catch(error) {
       this.loggerService.error(this.lang.errors.categorySaveError, { invokeAlert: true, alertTimeout: 3000 });
       this.loggerService.error(this.lang.errors.categorySaveError__i.interpolate({error:error.message}));
     }
   }
 
-  saveData({batchWrite, removeAll}: {batchWrite: boolean, removeAll: boolean}): Promise<any> {
+  saveData({batchWrite, removeAll}: {batchWrite: boolean, removeAll: boolean}): Promise<boolean> {
 
     let knownSteamDirectories = this.parsersService.getKnownSteamDirectories();
     if (this.previewVariables.listIsBeingSaved) {
@@ -233,6 +233,17 @@ export class PreviewService {
         await steam.performSteamlessTask(this.appSettings, this.loggerService, async () => {
           this.loggerService.info(this.lang.info.savingCategories);
           await this.categoryManager.save(this.previewData, exAppIds, addedCats)
+        })
+      }
+      if(removeAll && !this.appSettings.previewSettings.disableCategories) {
+        await steam.performSteamlessTask(this.appSettings, this.loggerService, async () => {
+          for(let steamDir of knownSteamDirectories) {
+            const accounts = await steam.getAvailableLogins(steamDir);
+            for(let account of accounts) {
+              console.log("addedCats", account.accountID, addedCats[steamDir][account.accountID])
+              await this.removeCategories(steamDir, account.accountID, addedCats[steamDir][account.accountID])
+            }
+          }
         })
       }
     }).catch((error: Acceptable_Error | Error) => {

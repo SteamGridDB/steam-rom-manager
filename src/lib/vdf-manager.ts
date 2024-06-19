@@ -7,7 +7,8 @@ import { VDF_ListData,
   VDF_ExtraneousItemsData,
   VDF_AddedCategoriesData,
   VDF_ScreenshotsOutcome,
-  VDF_AllScreenshotsOutcomes
+  VDF_AllScreenshotsOutcomes,
+  VDF_AddedItemsData
 } from "../models";
 import { artworkTypes, artworkIdDict } from './artwork-types';
 import { superTypes, ArtworkOnlyType } from './parsers/available-parsers';
@@ -183,7 +184,7 @@ export class VDF_Manager {
     });
   }
 
-  forEach(callback: (steamDirectory: string, userId: string, listItem: VDF_ListItem) => void) {
+  private forEach(callback: (steamDirectory: string, userId: string, listItem: VDF_ListItem) => void) {
     for (let steamDirectory in this.data) {
       for (let userId in this.data[steamDirectory]) {
         callback(steamDirectory, userId, this.data[steamDirectory][userId]);
@@ -219,16 +220,18 @@ export class VDF_Manager {
           if(!deleteDisabledShortcuts) {
             addedAppIds = addedAppIds.filter((appid:string) => enabledParsers.includes(addedApps[appid].parserId));
           }
+          if(!addedCategories[steamDirectory]) {
+            addedCategories[steamDirectory] = {}
+          }
+          addedCategories[steamDirectory][userId] = Object.fromEntries(addedAppIds.map(appId => [steam.shortenAppId(appId), addedApps[appId].categories]))
+          
           if(!extraneousAppIds[steamDirectory]) {
             extraneousAppIds[steamDirectory] = {}
           }
           extraneousAppIds[steamDirectory][userId] = addedAppIds.filter((appid:string) => !currentAppIds.includes(appid));
           listItem.screenshots.extraneous = extraneousAppIds[steamDirectory][userId];
           listItem.shortcuts.extraneous = extraneousAppIds[steamDirectory][userId];
-          if(!addedCategories[steamDirectory]) {
-            addedCategories[steamDirectory] = {}
-          }
-          addedCategories[steamDirectory][userId] = Object.fromEntries(addedAppIds.map(appId => [steam.shortenAppId(appId), addedApps[appId].categories]))
+
           for (let appId in apps) {
             let app = apps[appId];
             if (app.status === 'add') {
@@ -307,11 +310,18 @@ export class VDF_Manager {
   }
 
   removeAllAddedEntries() {
-    return new Promise<{extraneousAppIds: VDF_ExtraneousItemsData,addedCategories: VDF_AddedCategoriesData}>((resolve,reject)=>{
+    return new Promise<{extraneousAppIds: VDF_ExtraneousItemsData, addedCategories: VDF_AddedCategoriesData}>((resolve,reject)=>{
       Promise.resolve().then(()=>{
         let extraneousAppIds: VDF_ExtraneousItemsData = {}
+        let addedCategories: VDF_AddedCategoriesData = {};
         this.forEach((steamDirectory, userId, listItem) => {
           const addedApps = listItem.addedItems.data.addedApps;
+          let addedAppIds = Object.keys(addedApps);
+          if(!addedCategories[steamDirectory]) {
+            addedCategories[steamDirectory] = {}
+          }
+          addedCategories[steamDirectory][userId] = Object.fromEntries(addedAppIds.map(appId => [steam.shortenAppId(appId), addedApps[appId].categories]))
+          console.log("addedCategories", addedCategories)
           if(!extraneousAppIds[steamDirectory]) {
             extraneousAppIds[steamDirectory] = {}
           }
@@ -328,7 +338,7 @@ export class VDF_Manager {
           }
           listItem.addedItems.clear();
         });
-        resolve({extraneousAppIds: extraneousAppIds, addedCategories: undefined});
+        resolve({extraneousAppIds: extraneousAppIds, addedCategories: addedCategories});
       }).catch((error: Error) => {
         reject(new VDF_Error(this.lang.error.couldNotRemoveEntries__i.interpolate({ error })));
       });
