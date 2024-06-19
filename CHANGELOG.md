@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 ## Added
 * Back button on User Accounts splash page.
 * System specific placeholders on Steam Directory splash page.
+* SRM now manages category info for `sharedconfig.vdf` also, meaning SRM categories will appear over Steam Link.
+## Fixed
+* Navigation buttons not showing up on EmuDeck theme's `Add Games` page if no apps returned.
 
 ## 2.5.12
 ### Added
