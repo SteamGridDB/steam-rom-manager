@@ -872,23 +872,6 @@
         font-weight: bold;
         color: #fff;
       }
-
-      > div {
-        &:nth-child(2),
-        &:nth-child(3),
-        &:nth-child(4),
-        &:nth-child(5) {
-          display: none;
-        }
-
-        > div:nth-child(2),
-        > div:nth-child(6),
-        > div:nth-child(7),
-        > div:nth-child(8),
-        > div:nth-child(9) {
-          display: none;
-        }
-      }
     }
     .menu {
       display: none;

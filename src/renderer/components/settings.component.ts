@@ -42,7 +42,6 @@ export class SettingsComponent implements OnDestroy {
     private fuzzyService: FuzzyService,
     private languageService: LanguageService,
     private loggerService: LoggerService,
-    private imageProviderService: ImageProviderService,
     private previewService: PreviewService,
     private parsersService: ParsersService,
     public cpService: ConfigurationPresetsService,
