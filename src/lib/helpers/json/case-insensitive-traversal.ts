@@ -11,7 +11,12 @@ export function caselessSet(o: any, value: any, kseq: string[][]): any {
       return o;
     }
   }
-  throw `Incorrect Key Possibilities: ${kseq[0]}`;
+  if(kseq.length == 1) {
+    o[kseq[0][0]] = value;
+    return o;
+  } else {
+    throw `Incorrect Key Possibilities: ${kseq[0]}`;
+  }
 }
 
 export function caselessGet(o: any, kseq: string[][], graceful?: boolean): any {
@@ -22,10 +27,14 @@ export function caselessGet(o: any, kseq: string[][], graceful?: boolean): any {
       return caselessGet(o[validKeys[0]], kseq.slice(1), graceful);
     }
   }
-  if(graceful) {
-    return "";
+  if(kseq.length == 1) {
+    return null;
   } else {
-    throw `Incorrect Key Possibilities: ${kseq[0]}`;
+    if(graceful) {
+      return "";
+    } else {
+      throw `Incorrect Key Possibilities: ${kseq[0]}`;
+    }
   }
 }
 
