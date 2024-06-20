@@ -6,6 +6,7 @@ import {
 } from "../models";
 import * as genericParser from '@node-steam/vdf';
 import * as steam from './helpers/steam';
+import * as json from './helpers/json';
 import { superTypes, ArtworkOnlyType } from './parsers/available-parsers';
 import * as SteamCategories from 'steam-categories';
 import * as path from 'path';
@@ -44,8 +45,9 @@ export class CategoryManager {
     const localConfigPath = path.join(steamDirectory, 'userdata', userId, 'config', 'localconfig.vdf');
     let localConfig = genericParser.parse(fs.readFileSync(localConfigPath, 'utf-8'));
     const sharedConfigPath = path.join(steamDirectory, 'userdata',userId, '7', 'remote', 'sharedconfig.vdf');
-    const sharedConfig = genericParser.parse(fs.readFileSync(sharedConfigPath,'utf-8'));
-    let sharedConfigApps = sharedConfig.UserRoamingConfigStore.Software.valve.Steam.apps||{};
+    let sharedConfig = genericParser.parse(fs.readFileSync(sharedConfigPath,'utf-8'));
+    const keySeq = [['userroamingconfigstore','userlocalconfigstore'],['software'],['valve'],['steam'],['apps']];
+    let sharedConfigApps = json.caselessGet(sharedConfig, keySeq) || {};
     let collections: any = {};
     let levelCollections: any = {};
     const lcs = await cats.read();
@@ -69,7 +71,7 @@ export class CategoryManager {
         localConfig.UserLocalConfigStore.WebStorage['user-collections'] = JSON.stringify(collections).replace(/"/g, '\\"');
         fs.writeFileSync(localConfigPath, genericParser.stringify(localConfig));
         // Write Shared Category Information
-        sharedConfig.UserRoamingConfigStore.Software.valve.Steam.apps = sharedConfigApps;
+        sharedConfig = json.caselessSet(sharedConfig, sharedConfigApps, keySeq)
         fs.writeFileSync(sharedConfigPath, genericParser.stringify(sharedConfig));
       }
     } catch(e) {
