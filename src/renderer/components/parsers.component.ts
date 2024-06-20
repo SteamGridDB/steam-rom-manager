@@ -1059,10 +1059,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     });
   }
   private isHiddenIfNotRomsParser() {
-    return this.observeField('parserType', (pType: ParserType) => parserInfo.superTypesMap[pType] !== parserInfo.ROMType);
+    return this.observeField('parserType', (pType: ParserType) => !pType || parserInfo.superTypesMap[pType] !== parserInfo.ROMType);
   }
   private isHiddenIfArtworkOnlyParser() {
-    return this.observeField('parserType', (pType: ParserType) => parserInfo.superTypesMap[pType] === parserInfo.ArtworkOnlyType);
+    return this.observeField('parserType', (pType: ParserType) => !pType || parserInfo.superTypesMap[pType] === parserInfo.ArtworkOnlyType);
   }
 
   private isHiddenIfNoParserInputs(){
