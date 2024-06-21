@@ -59,8 +59,8 @@
         "readingSelections": "Importierte Bild-Auswahl wird übernommen."
       },
       "errors": {
-        "fatalError": "In der Vorschau ist ein schwerwiegender Fehler aufgetreten. Details findest du im Ereignisprotokoll.",
-        "fatalError__i": "Schwerwiegender Vorschau-Fehler ${error}",
+        "fatalError": "Fatal error occurred in Add Games. See event log for details.",
+        "fatalError__i": "Fatal Add Games error: ${error}",
         "knownSteamDirListIsEmpty": "Die Liste bekannter Steam-Verzeichnisse ist leer.",
         "steamIsRunning": "Änderungen können nicht vorgenommen werden, während Steam läuft!",
         "categorySaveError": "Fehler beim Aktualisieren der Kategorien. Details findest du im Ereignisprotokoll.",
@@ -423,7 +423,7 @@
       "error": {
         "missingAccounts__i": "Folgende ${count} Benutzerkonto/en wurde(n) nicht gefunden (Nutzer müssen sich mindestens einmal in Steam angemeldet haben):",
         "missingAccountInfo__i": "  ${name}",
-        "noAccountsWarning": "Warnung! Es wurde kein Benutzerkonto gefunden, mögliche Gründe können sein:\n - falsches Steam-Verzeichnis;\n - kein eingeloggter Benutzer;\n - Steam speichert keine Anmeldedaten (\"Show advanced options -> User accounts -> Use account credentials\").\nVorschau wird für diese Konfiguration nicht erstellt.",
+        "noAccountsWarning": "Warning! No user accounts found, it could be due to one of the reasons below:\r\n - incorrect Steam directory;\r\n - no user has ever logged in;\r\n - Steam does not save user credentials.\r\nIf you're seeing this, Add Games will skip this configuration.",
         "cannotParseUserIDs": "Fehler beim parsen der Benutzerkonten:",
         "failedToMatch": "Fehler bei der Übereinstimmung:",
         "failedFileInfo__i": "[${index}/${total}]: ${filename}",
