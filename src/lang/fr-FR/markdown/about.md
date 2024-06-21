@@ -2,7 +2,7 @@
 
 Si vous rencontrez des problèmes avec SRM, n'hésitez pas à visiter le [discord](https://discord.gg/bnSVJrz) ou le [subreddit](https://www.reddit.com/r/SteamRomManager/) Pour demander notre aide. Afin que nous puissions vous aider, nous aimerions que vous nous fournissiez ces informations :
 
-* SRM version: **#{APP[version]}** emudeckText
+* Version SRM : **#{APP[version]}**
 * Système d'exploitation: **#{APP[os]}**
 
 ## Liens utiles
