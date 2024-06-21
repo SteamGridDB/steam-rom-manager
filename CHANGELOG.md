@@ -2,7 +2,6 @@
 All notable changes to this project will be documented in this file.
 
 ## 2.5.14
-
 ### Changed
 * Updated built in guides.
 ### Fixed
