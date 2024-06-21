@@ -12,7 +12,7 @@
 
 因此，您可以选择适用于所有具有相同名称的游戏的异常或仅适用于确切游戏的异常(`异常 ID`是唯一的)。 这是因为主要考虑向后兼容性 -- SRM 以前仅匹配`提取的标题`。
 
-由`预览`生成的异常将始终采用以下形式：`提取标题 ${id:XXXXXX}`。
+Exceptions generated from `Add Games` will always be in the form `Extracted Title ${id:XXXXXX}`.
 
 ## 新的显示标题
 
