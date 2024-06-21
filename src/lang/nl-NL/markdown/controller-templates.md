@@ -17,10 +17,10 @@ In de SRM parser:
 
 Momenteel haalt SRM alle standaard (door Valve gemaakte) sjablonen voor elke controller op, evenals alle door de gebruiker gedefinieerde sjablonen die eindigen op `(SRM)`.
 
-* Kies uw sjablonen en sla de parser op. De configuratiesets van de controller worden toegepast zodra u in het voorbeeld op `App-lijst Opslaan` klikt.
+* Kies uw sjablonen en sla de parser op. The controller configsets will be applied once you hit `Save to Steam` in the Add Games.
 
 * Om controllerconfiguraties ongedaan te maken, kun je ofwel `Alle toegevoegde app-items verwijderen` in de algemene instellingen (hierdoor worden alle door SRM aangebrachte wijzigingen in je Steam-gegevens verwijderd) of op `Alle controllers ongedaan maken` klikken in de parser (dit verwijdert alleen controllerinstellingen voor de steam-directory en de gebruiker die in die parser is opgegeven).
 
-Zodra dit gedaan is, kunt u de preview genereren en opslaan zoals gebruikelijk, en het sjabloon zal worden toegepast op alle titels in de parser.
+Once this is done you can parse and add games to steam as usual, and the templates will be applied to all the titles in the parser.
 
 
