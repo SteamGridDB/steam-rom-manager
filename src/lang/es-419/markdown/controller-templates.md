@@ -17,10 +17,10 @@ En el parser de SRM:
 
 Currently, SRM pulls all of the default (Valve made) templates for each controller as well as all of the user defined templates that end in `(SRM)`.
 
-* Seleccione las plantillas y guarde el parser. Los ajustes del mando se aplicarán una vez que pulse `Guardar Lista de Aplicaciones` en la vista previa.
+* Seleccione las plantillas y guarde el parser. The controller configsets will be applied once you hit `Save to Steam` in the Add Games.
 
 * Para deshacer los ajustes del mando, puede o bien `Elimina Todas Las Aplicaciones Añadidas` desde la configuración global (esto eliminará todos los cambios realizados por SRM en tus datos de steam) o pulse `Desactivar Todos Los Mandos` en el parser (esto solo elimina la configuración de los mandos para el directorio de steam y el usuario especificado en ese parser).
 
-Una vez que finalice, puede generar y guardar la vista previa con normalidad, y la plantilla se aplicará a todos los títulos en el parser.
+Once this is done you can parse and add games to steam as usual, and the templates will be applied to all the titles in the parser.
 
 
