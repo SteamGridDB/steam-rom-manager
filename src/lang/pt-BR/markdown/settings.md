@@ -16,7 +16,7 @@ Quando ativado esta configuração diz SRM para o padrão para qualquer arte que
 Quando ativado desabilitar um analisador e executando SRM removerá todas as entradas adicionadas e artes para o analisador desabilitado. Útil se você quiser que sua biblioteca Steam esteja em correspondência 1-1 com analisadores ativados.
 ### Disable saving of steam categories `[Recommend disabled]`
 SRM will not write any collections information when saving to Steam. This allows SRM to perform its tasks while Steam is still running, at the obvious cost that added games will not be categorized.
-### Hide Steam username from preview
+### Hide Steam username from Add Games
 Steam does not allow user's to alter their Steam usernames. In some cases (childish names, dead names, etc), users may no longer wish to see their Steam usernames. This setting hides it from `Add Games`.
 ### Remove all added games and controllers
 Undo all SRM added changes from Steam.
