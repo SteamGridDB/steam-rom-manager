@@ -16,7 +16,7 @@ SRM will attempt to restart Steam after killing it and completing whatever colle
 启用禁用解析器并运行 SRM 将删除所有已添加的禁用解析器的条目和艺术作品。 如果您希望 Steam 库与启用的解析器一一对应，则此功能非常有用。
 ### Disable saving of steam categories `[Recommend disabled]`
 SRM will not write any collections information when saving to Steam. This allows SRM to perform its tasks while Steam is still running, at the obvious cost that added games will not be categorized.
-### Hide Steam username from preview
+### Hide Steam username from Add Games
 Steam does not allow user's to alter their Steam usernames. In some cases (childish names, dead names, etc), users may no longer wish to see their Steam usernames. This setting hides it from `Add Games`.
 ### Remove all added games and controllers
 Undo all SRM added changes from Steam.
