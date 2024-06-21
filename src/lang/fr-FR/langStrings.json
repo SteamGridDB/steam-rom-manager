@@ -59,8 +59,8 @@
         "readingSelections": "Application des choix d'image importés."
       },
       "errors": {
-        "fatalError": "Une erreur fatale est survenue dans Aperçu. Consultez le journal des événements pour plus de détails.",
-        "fatalError__i": "Erreur fatale d'aperçu ${error}",
+        "fatalError": "Fatal error occurred in Add Games. See event log for details.",
+        "fatalError__i": "Fatal Add Games error: ${error}",
         "knownSteamDirListIsEmpty": "Une liste des répertoires Steam connus est vide.",
         "steamIsRunning": "Impossible de faire des changements lorsque Steam est en cours d'exécution!",
         "categorySaveError": "Erreur lors de la mise à jour des catégories. Consultez le journal des événements pour plus de détails.",
@@ -423,7 +423,7 @@
       "error": {
         "missingAccounts__i": "${count} comptes utilisateurs n'ont pas été trouvés (l'utilisateur doit se connecter à Steam au moins une fois):",
         "missingAccountInfo__i": "  ${name}",
-        "noAccountsWarning": "Attention! Aucun compte utilisateur trouvé, cela pourrait être dû à l'une des raisons ci-dessous:\n - répertoire Steam incorrect;\n - aucun utilisateur n'a jamais été connecté;\n - Steam n'enregistre pas les noms de compte (\"Afficher les options avancées -> Comptes utilisateur -> Utiliser les noms de compte\").\nSi vous voyez cela, l'aperçu ne sera pas généré pour cette configuration.",
+        "noAccountsWarning": "Warning! No user accounts found, it could be due to one of the reasons below:\r\n - incorrect Steam directory;\r\n - no user has ever logged in;\r\n - Steam does not save user credentials.\r\nIf you're seeing this, Add Games will skip this configuration.",
         "cannotParseUserIDs": "Erreur lors de l'analyse des comptes utilisateur:",
         "failedToMatch": "Échec de la correspondance:",
         "failedFileInfo__i": "[${index}/${total}]: ${filename}",
