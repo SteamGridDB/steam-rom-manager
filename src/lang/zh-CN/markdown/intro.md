@@ -8,8 +8,8 @@
 
 保存解析器配置后，标题旁将显示**3**种颜色中的**1**种：
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- 已启用配置。 此配置将在生成**预览**页面中的列表时使用。
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- 已启用配置。 This configuration will be used when generating a list in **Add Games** page.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- 未保存的更改。 该配置不会在生成**预览**页面列表时使用，而是将使用先前的**保存**版本。
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- 未保存的更改。 This configuration will not be used when generating a list in **Add Games** page, however earlier **saved** version will be used instead.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- 已禁用配置。 在生成**预览**页面列表时，不会使用此配置。
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- 已禁用配置。 This configuration will not be used when generating a list in **Add Games** page.
