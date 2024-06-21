@@ -8,8 +8,8 @@
 
 После сохранения настройки парсера, **1** из **3** цветов будут показаны рядом с его названием:
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Настройка включена. Эта настройка будет использована при генерации списка на странице **предпросмотра**.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Настройка включена. This configuration will be used when generating a list in **Add Games** page.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Несохраненные изменения. Эта настройка не будет использоваться при создании списка на странице **предпросмотра**, однако вместо этого будет использоваться более **ранняя** версия настройки.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Несохраненные изменения. This configuration will not be used when generating a list in **Add Games** page, however earlier **saved** version will be used instead.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Настройка отключена. Эта настройка не будет использована при генерации списка на странице **предпросмотра**.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Настройка отключена. This configuration will not be used when generating a list in **Add Games** page.
