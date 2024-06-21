@@ -1,11 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-
 ## 2.5.13
 ## Added
 * Back button on User Accounts splash page.
 * System specific placeholders on Steam Directory splash page.
+## Changed
+* Settings options show up in full on EmuDeck Theme
 ## Fixed
 * Navigation buttons not showing up on EmuDeck theme's `Add Games` page if no apps returned.
 * Bug affecting some emudeck parsers.
