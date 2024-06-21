@@ -8,8 +8,8 @@ Além disso, não se esqueça de verificar as Perguntas Frequentes. Se você ain
 
 Depois de salvar a configuração do analisador, **1** de **3** cores serão mostradas ao lado do seu título:
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Configuração habilitada. Esta configuração será usada quando gerar uma lista na página **pré-visualização**.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Configuração habilitada. This configuration will be used when generating a list in **Add Games** page.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> Alterações não salvas. Esta configuração não será usada quando gerar uma lista na página **preview**, no entanto a versão **salva** anterior será usada.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> Alterações não salvas. This configuration will not be used when generating a list in **Add Games** page, however earlier **saved** version will be used instead.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Configuração habilitada. Esta configuração será usada quando gerar uma lista na página **pré-visualização**.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Configuração habilitada. This configuration will not be used when generating a list in **Add Games** page.
