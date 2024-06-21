@@ -59,8 +59,8 @@
         "readingSelections": "应用导入的图像选项。"
       },
       "errors": {
-        "fatalError": "预览中发生致命错误。请查看事件日志获取详细信息。",
-        "fatalError__i": "致命预览错误 ${error}",
+        "fatalError": "Fatal error occurred in Add Games. See event log for details.",
+        "fatalError__i": "Fatal Add Games error: ${error}",
         "knownSteamDirListIsEmpty": "已知的 Steam 目录列表为空。",
         "steamIsRunning": "无法在 Steam 运行时进行更改！",
         "categorySaveError": "更新类别时出错。请查看事件日志获取详细信息。",
@@ -423,7 +423,7 @@
       "error": {
         "missingAccounts__i": "以下 ${count} 个用户账户未找到（用户必须至少登录一次 Steam）：",
         "missingAccountInfo__i": "  ${name}",
-        "noAccountsWarning": "警告！未找到用户帐户，可能是由于以下原因之一：\n- Steam 目录不正确；\n- 没有任何用户登录过；\n- Steam 没有保存用户凭据（“显示高级选项-> 用户帐户-> 使用帐户凭据”）。\n如果您看到此消息，则无法为此配置生成预览。",
+        "noAccountsWarning": "Warning! No user accounts found, it could be due to one of the reasons below:\r\n - incorrect Steam directory;\r\n - no user has ever logged in;\r\n - Steam does not save user credentials.\r\nIf you're seeing this, Add Games will skip this configuration.",
         "cannotParseUserIDs": "解析用户帐户时出错：",
         "failedToMatch": "匹配失败：",
         "failedFileInfo__i": "[${index}/${total}]: ${filename}",
