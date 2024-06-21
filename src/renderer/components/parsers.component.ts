@@ -684,7 +684,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             if (item instanceof NestedFormElement.Group) {
               iterateGroup(item, itemPath);
             }
-            else if (item instanceof NestedFormElement.Input) {
+            else if (item instanceof NestedFormElement.Input || item instanceof NestedFormElement.Bubble) {
               let title = item.label;
               if (title)
                 text += `# ${title}\r\n`;
