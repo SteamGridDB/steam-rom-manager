@@ -59,8 +59,8 @@
         "readingSelections": "Applicazione delle immagini importate scelte."
       },
       "errors": {
-        "fatalError": "Si è verificato un errore fatale nell'anteprima. Vedere il log eventi per i dettagli.",
-        "fatalError__i": "Errore Fatale di Anteprima ${error}",
+        "fatalError": "Fatal error occurred in Add Games. See event log for details.",
+        "fatalError__i": "Fatal Add Games error: ${error}",
         "knownSteamDirListIsEmpty": "Una lista delle cartelle di Steam conosciute è vuota.",
         "steamIsRunning": "Impossibile apportare modifiche mentre Steam è in esecuzione!",
         "categorySaveError": "Errore nell'aggiornamento delle categorie. Vedi il log eventi per i dettagli.",
@@ -423,7 +423,7 @@
       "error": {
         "missingAccounts__i": "Following ${count} user account(s) were not found (user must to login to Steam at least once):",
         "missingAccountInfo__i": "  ${name}",
-        "noAccountsWarning": "Warning! No user accounts found, it could be due to one of the reasons below:\r\n - incorrect Steam directory;\r\n - no user has ever logged in;\r\n - Steam does not save user credentials (\"Show advanced options -> User accounts -> Use account credentials\").\r\nIf you're seeing this, preview won't be generated for this configuration.",
+        "noAccountsWarning": "Warning! No user accounts found, it could be due to one of the reasons below:\r\n - incorrect Steam directory;\r\n - no user has ever logged in;\r\n - Steam does not save user credentials.\r\nIf you're seeing this, Add Games will skip this configuration.",
         "cannotParseUserIDs": "Errore nell'analisi degli account utente:",
         "failedToMatch": "Corrispondenza fallita:",
         "failedFileInfo__i": "[${index}/${total}]: ${filename}",
