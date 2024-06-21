@@ -12,7 +12,7 @@ Das `Extrahierter Titel` Feld vergleicht auf zwei Wege:
 
 So kannst du entweder eine Ausnahme, die auf alle Spiele mit dem gleichen Namen, oder eine die exakt auf ein Spiel passt, angeben (`Ausnahme ID` sind einzigartig). Der Grund hierfür ist hauptsächlich Abwärtskompatibilität - SRM hat früher nur über den `Extrahierter Titel` verglichen.
 
-Ausnahmen die über `Preview` generiert wurden, werden immer in der Form `Extrahierter Titel ${id:XXXXXX}` sein.
+Exceptions generated from `Add Games` will always be in the form `Extracted Title ${id:XXXXXX}`.
 
 ## Neuer Anzeigetitel
 
