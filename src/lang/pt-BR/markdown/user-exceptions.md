@@ -12,7 +12,7 @@ The `Extracted Title` field matches in two ways:
 
 Thus you can either have an exception that applies to all games with the same name or an exception that applies only to an exact game (`Exception ID`s are unique). The reason for this is primarily backwards compatibility -- SRM formerly matched only on the `Extracted Title`.
 
-Exceptions generated from `Preview` will always be in the form `Extracted Title ${id:XXXXXX}`.
+Exceptions generated from `Add Games` will always be in the form `Extracted Title ${id:XXXXXX}`.
 
 ## Embed Html Callback
 
