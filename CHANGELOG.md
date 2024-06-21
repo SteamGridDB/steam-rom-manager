@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.14
+
+### Changed
+* Updated built in guides.
+### Fixed
+* Some minor graphical annoyances.
+* Undo button not undoing some fields.
+
 ## 2.5.13
 ## Added
 * Back button on User Accounts splash page.
