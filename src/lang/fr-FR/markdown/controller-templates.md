@@ -17,10 +17,10 @@ Dans l'analyseur SRM:
 
 Actuellement SRM tire tous les modèles par défaut (fait par Valve) pour chaque contrôleur ainsi que tous les modèles définis par l'utilisateur qui se terminent par `(SRM)`.
 
-* Sélectionnez vos modèles et enregistrez l'analyseur. Les configurations de contrôleur seront appliquées une fois que vous aurez cliqué sur `Enregistrer les applications sur Steam` dans l'aperçu.
+* Sélectionnez vos modèles et enregistrez l'analyseur. The controller configsets will be applied once you hit `Save to Steam` in the Add Games.
 
 * Pour annuler la configuration du contrôleur, vous pouvez soit `Retirer toutes les entrées d'application et contrôleur ajoutées` dans les paramètres généraux (cela supprime toutes les modifications apportées à vos données Steam) ou appuyer sur `Unset All Controllers` dans l'analyseur (cela supprime uniquement les paramètres du contrôleur pour le répertoire Steam et l'utilisateur spécifié dans cet analyseur).
 
-Une fois cela fait, vous pouvez générer et enregistrer l'aperçu comme d'habitude, et le modèle sera appliqué à tous les titres de l'analyseur.
+Once this is done you can parse and add games to steam as usual, and the templates will be applied to all the titles in the parser.
 
 
