@@ -2,7 +2,7 @@
 
 Diese Optionen werden direkt an die APIs der Bildanbieter weitergereicht, beispielsweise SteamGridDB's [API](https://www.steamgriddb.com/api/v2).
 
-Eine Eigenheit dieser Einstellungen ist, dass das erneute generieren der Preview (`Generiere App Liste`) *nur Artworks hinzufügt*, aber keine entfernt. Wenn du ein anderes Set an Filtern hinzufügen und Artwork entfernen willst, musst du zuerst den `Entferne App Liste` Knopf drücken, bevor du erneut `Generiere App Liste` nutzt,. Der Grund hierfür ist, dass so einfacher *preferierte* Artorks ausgewählt werden können. So kann zum Beispiel zuerst eine Preview erstellt werden bei dem man den "Verschwommen" Filter nutzt und dann erneut ohne Filter eine Preview erstellen um einen *preferierten* Effekt zu erhalten.
+An interesting quirk of these settings is that re-generating the game list in Add Games (hitting the `Refresh` button) *will only add artwork*, not remove it. If one wants to apply a stronger set of filters and remove artwork, one has to hit the `Remove from Steam` button in Add Games before hitting `Refresh`. Der Grund hierfür ist, dass so einfacher *preferierte* Artorks ausgewählt werden können. For example, one might first generate the game list with the blurred grid filter on and then re-generate it with the blurred grid filter off in order to achieve the effect of *preferring* blurred grids, but still allowing non-blurred grids in the case no blurred grid exists.
 
 ## SteamGridDB
 
