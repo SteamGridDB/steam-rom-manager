@@ -2,7 +2,7 @@
 
 这组选项是直接输入到图像提供程序的 API 中，例如 SteamGridDB 的 [API](https://www.steamgriddb.com/api/v2)。
 
-这些设置的一个有趣之处是，重新生成预览（点击 `生成应用列表` 按钮）*只会添加艺术品*，而不会删除它。 如果想要应用更强的过滤器并删除艺术作品，必须在预览中点击 `移除应用列表` 按钮，然后再点击 `生成应用列表`。 这种行为的原因是它允许进行*优先*艺术作品选择。 例如，可以先使用模糊网格过滤器生成预览图像，然后再关闭该过滤器重新生成图像，以实现*优先*模糊网格的效果，在不存在模糊网格的情况下仍允许非模糊网格。
+An interesting quirk of these settings is that re-generating the game list in Add Games (hitting the `Refresh` button) *will only add artwork*, not remove it. If one wants to apply a stronger set of filters and remove artwork, one has to hit the `Remove from Steam` button in Add Games before hitting `Refresh`. 这种行为的原因是它允许进行*优先*艺术作品选择。 For example, one might first generate the game list with the blurred grid filter on and then re-generate it with the blurred grid filter off in order to achieve the effect of *preferring* blurred grids, but still allowing non-blurred grids in the case no blurred grid exists.
 
 ## SteamGridDB
 
