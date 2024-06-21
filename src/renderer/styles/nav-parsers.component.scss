@@ -17,11 +17,10 @@
   @include webkitScrollbar(nav-scrollbar, 0.375em);
   .parsers {
     .parserlink {
-      //width: 64%;
       flex: 1;
     }
     .titlelink {
-      width: 64%;
+      flex: 1;
     }
     .inputContainer {
       display: flex;
@@ -98,7 +97,7 @@
 
   nav-expand {
     nav-link.titlelink {
-      padding: var(--link-vPadding) 2em var(--link-vPadding) 1em;
+      padding: var(--padding-nav-link);
     }
     nav-link:not(.titlelink) {
       padding: var(--padding-nav-link);
