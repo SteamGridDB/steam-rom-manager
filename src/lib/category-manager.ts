@@ -6,7 +6,6 @@ import {
 } from "../models";
 import * as genericParser from '@node-steam/vdf';
 import * as steam from './helpers/steam';
-import * as json from './helpers/json';
 import { superTypes, ArtworkOnlyType } from './parsers/available-parsers';
 import * as SteamCategories from 'steam-categories';
 import * as path from 'path';
@@ -33,7 +32,7 @@ export class CategoryManager {
   }
 
   private async doCatTask(steamDirectory: string, userId: string, 
-    task: (collections: any, sharedConfigApps: any, levelCollections: any, cats: any, data?: any) => Promise<any>, data?: any) {
+    task: (collections: any, levelCollections: any, cats: any, data?: any) => Promise<any>, data?: any) {
     // Setup Task
     let levelDBPath: string;
     if(os.type()=="Windows_NT") {
@@ -44,10 +43,6 @@ export class CategoryManager {
     const cats = new SteamCategories(levelDBPath, userId);
     const localConfigPath = path.join(steamDirectory, 'userdata', userId, 'config', 'localconfig.vdf');
     let localConfig = genericParser.parse(fs.readFileSync(localConfigPath, 'utf-8'));
-    const sharedConfigPath = path.join(steamDirectory, 'userdata',userId, '7', 'remote', 'sharedconfig.vdf');
-    let sharedConfig = genericParser.parse(fs.readFileSync(sharedConfigPath,'utf-8'));
-    const keySeq = [['userroamingconfigstore','userlocalconfigstore'],['software'],['valve'],['steam'],['apps']];
-    let sharedConfigApps = json.caselessGet(sharedConfig, keySeq) || {};
     let collections: any = {};
     let levelCollections: any = {};
     const lcs = await cats.read();
@@ -62,7 +57,7 @@ export class CategoryManager {
     }
     try {
       // Do Task
-      [collections, sharedConfigApps] = await task(collections, sharedConfigApps, levelCollections, cats, data);
+      collections = await task(collections, levelCollections, cats, data);
       // Cleanup if task is not readonly
       if(!data || !data.readonly) {
         // Write to the LevelDB
@@ -70,9 +65,6 @@ export class CategoryManager {
         // Write Local Category Information
         localConfig.UserLocalConfigStore.WebStorage['user-collections'] = JSON.stringify(collections).replace(/"/g, '\\"');
         fs.writeFileSync(localConfigPath, genericParser.stringify(localConfig));
-        // Write Shared Category Information
-        sharedConfig = json.caselessSet(sharedConfig, sharedConfigApps, keySeq)
-        fs.writeFileSync(sharedConfigPath, genericParser.stringify(sharedConfig));
       }
     } catch(e) {
       throw e
@@ -85,7 +77,6 @@ export class CategoryManager {
     collections: any, 
     levelCollections: any, 
     cats: any, 
-    sharedConfigApps: any,
     addedCategories: VDF_AddedCategoriesData[string][string]) {
     const localKeys = Object.keys(collections);
     const levelKeys = Object.keys(levelCollections);
@@ -113,33 +104,15 @@ export class CategoryManager {
         cats.remove(catKey);
       }
     }
-    //Clean out the sharedconfig
-    for(const sharedConfigId in sharedConfigApps) {
-      if(toRemove.includes(sharedConfigId) && sharedConfigApps[sharedConfigId]) {
-        const sharedConfigCats = Object.values(sharedConfigApps[sharedConfigId].tags||{})
-        const appCats = addedCategories[sharedConfigId];
-        const sharedConfigCatsWithoutAdded = appCats ? sharedConfigCats.filter((scCatName: string)=> {
-          return !(appCats.map((catName: string) => catName.toUpperCase()).includes(scCatName.toUpperCase()))
-        }) : sharedConfigCats;
-        if(sharedConfigCatsWithoutAdded.length) {
-          const formattedAsTags = Object.fromEntries(sharedConfigCatsWithoutAdded.map((catName: string, i: number)=> {
-            return [i.toString(), catName]
-          }))
-          sharedConfigApps[sharedConfigId].tags = formattedAsTags;
-        } else {
-          delete sharedConfigApps[sharedConfigId];
-        }
-      }
-    }
   }
 
   removeAllCategoriesAndWrite(steamDirectory: string, userId: string, addedCategories: VDF_AddedCategoriesData[string][string]) {
-    return this.doCatTask(steamDirectory, userId, (collections, sharedConfigApps, levelCollections, cats, data) => {
+    return this.doCatTask(steamDirectory, userId, (collections, levelCollections, cats, data) => {
       const { addedCategories } = data;
       return new Promise<any>((resolve, reject) => {
         const toRemove = Object.keys(addedCategories);
-        this.removeShortsFromCats(toRemove, collections, levelCollections, cats, sharedConfigApps, addedCategories);
-        resolve([collections, sharedConfigApps]);
+        this.removeShortsFromCats(toRemove, collections, levelCollections, cats, addedCategories);
+        resolve(collections);
       })
     }, {
       addedCategories: addedCategories
@@ -148,8 +121,7 @@ export class CategoryManager {
 
   readCategories(steamDirectory: string, userId: string) {
     let srmCategories: {[catKey: string]: any} = {};
-    return this.doCatTask(steamDirectory, userId, (collections, sharedConfigApps, levelCollections, cats, data) => {
-      //TODO also read out sharedConfigApps based on collections[catKey].catName
+    return this.doCatTask(steamDirectory, userId, (collections, levelCollections, cats, data) => {
       return new Promise<any>((resolve,reject)=>{
         for(const catKey of Object.keys(collections)) {
           if(catKey.startsWith('srm')) {
@@ -167,7 +139,7 @@ export class CategoryManager {
             }
           }
         }
-        resolve([collections, sharedConfigApps]);
+        resolve(collections);
       })
     }, {
       readonly: true
@@ -178,14 +150,14 @@ export class CategoryManager {
 
   writeCat(data: { userId: string, steamDirectory: string, userData: PreviewDataUser }, extraneousShortIds: string[], addedCategories: {[shortId: string]: string[]}) {
     const { userId, steamDirectory, userData } = data;
-    return this.doCatTask(steamDirectory, userId, (collections, sharedConfigApps, levelCollections, cats, data) => {
+    return this.doCatTask(steamDirectory, userId, (collections, levelCollections, cats, data) => {
       const {userData, extraneousShortIds, addedCategories} = data;
       return new Promise<any>((resolve, reject) => {
         const appIds = Object.keys(userData.apps).filter(appId => !superTypes[ArtworkOnlyType].includes(userData.apps[appId].parserType));
         // Clean out categories
         const shortIds = appIds.map((x)=> steam.shortenAppId(x));
         const toRemove = _.intersection(Object.keys(addedCategories), _.union(shortIds, extraneousShortIds));
-        this.removeShortsFromCats(toRemove, collections, levelCollections, cats, sharedConfigApps, addedCategories);
+        this.removeShortsFromCats(toRemove, collections, levelCollections, cats, addedCategories);
         //Add to local collections
         const addableAppIds = appIds.filter((appId: string) => userData.apps[appId].status=='add');
         for (let appId of addableAppIds) {
@@ -194,7 +166,6 @@ export class CategoryManager {
             appId = app.changedId;
           }
           const appIdNew = parseInt(steam.shortenAppId(appId), 10);
-          const sharedConfigId = steam.shortenAppId(appId);
           // Loop "steamCategories" for app
           app.steamCategories.forEach((catName: string) => {
             // check the levelDB collections to see if a category already exists
@@ -224,21 +195,10 @@ export class CategoryManager {
             if (!collections[catKey].added.includes(appIdNew)) {
               collections[catKey].added.push(appIdNew);
             }
+            // Add appids to leveldb
           });
-          // Add to sharedconfig.vdf
-          if(sharedConfigApps[sharedConfigId]) {
-            const sharedConfigCats = Object.values(sharedConfigApps[sharedConfigId].tags||{})
-            const sharedConfigCatsWithAdded = _.union(app.steamCategories, sharedConfigCats);
-            const formattedAsTags = Object.fromEntries(sharedConfigCatsWithAdded.map((catName: string, i: number )=> [i.toString(), catName]))
-            sharedConfigApps[sharedConfigId].tags = formattedAsTags;
-          }
-          else {
-            sharedConfigApps[sharedConfigId] = {
-              tags: Object.fromEntries(app.steamCategories.map((catName: string, i: number)=> [i.toString(), catName]))
-            }
-          }
         }
-        resolve([collections, sharedConfigApps]);
+        resolve(collections);
       })
     }, {
       userData: userData,
