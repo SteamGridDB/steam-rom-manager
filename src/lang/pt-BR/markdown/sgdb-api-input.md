@@ -2,7 +2,7 @@
 
 Este conjunto de opções são entradas diretas para as APIs dos provedores de imagem, por exemplo SteamGridDB's [API](https://www.steamgriddb.com/api/v2).
 
-Uma peculiaridade interessante destas configurações é que re-gerar a pré-visualização (apertando o botão `Gerar a Lista de Apps` na *só irá adicionar arte*, não removê-lo. Se você quer aplicar um conjunto mais forte de filtros e remover a arte, uma tem que clicar no botão `Remover a lista de aplicativos` na pré-visualização antes de acertar `Gerar a lista de aplicativos`. A razão para esse comportamento é que ele permite a seleção de arte *preferencial*. Por exemplo, primeiro é possível gerar a pré-visualização com o filtro de grade desfocada e, em seguida, gerá-la novamente com o filtro de grade desfocado a fim de obter o efeito de *preferir* grades desfocadas, mas ainda permitindo redes não borradas no caso de não existir grade borrada.
+An interesting quirk of these settings is that re-generating the game list in Add Games (hitting the `Refresh` button) *will only add artwork*, not remove it. If one wants to apply a stronger set of filters and remove artwork, one has to hit the `Remove from Steam` button in Add Games before hitting `Refresh`. A razão para esse comportamento é que ele permite a seleção de arte *preferencial*. For example, one might first generate the game list with the blurred grid filter on and then re-generate it with the blurred grid filter off in order to achieve the effect of *preferring* blurred grids, but still allowing non-blurred grids in the case no blurred grid exists.
 
 ## SteamGridDB
 
