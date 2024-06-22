@@ -172,3 +172,22 @@ flatpak install org.electronjs.Electron2.BaseApp/x86_64/stable
 ## Updating dependencies
 
 Use `npx ncu` to list available dependency updates, and `npx ncu -u target [target]` to update, where `[target]` is either `patch`, `minor`, `latest`, `greatest`, or `newest`.
+
+# Related Projects
+Some other projects in the emulation front end space we think you might be interested in:
+
+## Front ends
+* [ES-DE](https://gitlab.com/es-de/emulationstation-de) - A top tier emulation front end.
+* [Playnite](https://github.com/JosefNemec/Playnite) - A general purpose front end with lots of importers.
+* [Firelight](https://github.com/firelight-emulator/firelight) - An upcoming front end specifically for emulation with built in achievements.
+## Configurators
+* [EmuDeck](https://github.com/dragoonDorise/EmuDeck) - A collection of scripts for downloading and managing emulators and front ends alike.
+## ROM Managers
+* [Romm](https://github.com/rommapp/romm?tab=readme-ov-file) - A rom manager with a web UI.
+* [Oxyromon](https://github.com/alucryd/oxyromon) - A CLI based rom manager.
+* [JRomManager](https://github.com/optyfr/JRomManager) - A java based rom manager.
+## Steam Artwork Tools
+* [Steam Art Manager](https://github.com/Tormak9970/Steam-Art-Manager) - An artwork manager for Steam games.
+* [SGDBoop](https://github.com/SteamGridDB/SGDBoop) - Tool to enable choosing artwork for in Steam directly from steamgriddb's website.
+## Other Steam Importers
+* [Steam Rom Mate](https://github.com/brenoprata10/steam-deck-romate) - An alternative to SRM.
