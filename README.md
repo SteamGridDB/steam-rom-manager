@@ -174,8 +174,7 @@ flatpak install org.electronjs.Electron2.BaseApp/x86_64/stable
 Use `npx ncu` to list available dependency updates, and `npx ncu -u target [target]` to update, where `[target]` is either `patch`, `minor`, `latest`, `greatest`, or `newest`.
 
 # Related Projects
-Some other projects in the emulation front end space we think you might be interested in:
-
+Some other projects in the emulation-adjacent space we think you might be interested in!
 ## Front ends
 * [ES-DE](https://gitlab.com/es-de/emulationstation-de) - A top tier emulation front end.
 * [Playnite](https://github.com/JosefNemec/Playnite) - A general purpose front end with lots of importers.
