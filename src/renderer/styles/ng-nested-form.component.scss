@@ -42,12 +42,19 @@ ng-nested-form {
       margin-bottom: 1em;
       border-bottom: 0.1em solid;
       border-bottom-color: var(--color-nested-form-label);
+      &.sectionHidden {
+        label {
+          svg {
+            transform: rotate(-90deg);
+          }
+
+        }
+      }
       label {
+        span {
+          margin-left: 0.25em;
+        }
         svg {
-          height: 1.2em;
-          width: 1em;
-          margin-bottom: -4px;
-          margin-left: -5px;
           polyline {
             stroke: var(--color-nested-form-label);
           }

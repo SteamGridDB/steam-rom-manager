@@ -3,22 +3,13 @@
     <ng-container *ngVar="nestedGroup.children[childrenKey] as child">
       <ng-container [ngSwitch]="child.constructor.displayName">
         <ng-container *ngSwitchCase="'Section'">
-          <div class="section container" [hidden]="getHiddenMethod(child,childrenKey) | async" (click)="toggleHiddenSection(childrenKey)">
+          <div class="section container" 
+          [class.sectionHidden]="isSectionHidden(childrenKey)"
+          [hidden]="getHiddenMethod(child,childrenKey) | async" 
+          (click)="toggleHiddenSection(childrenKey)">
             <label>
+              <svg select-arrow-down></svg>
               <span>{{child.label}}</span>
-              <span>&nbsp;&nbsp;</span>
-              <span>
-                <ng-container *ngIf="!isSectionHidden(childrenKey)">
-                  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
-                    <polyline points="30,110 150,210 270,110" style="stroke-width:30;fill:none;" />
-                  </svg>
-                </ng-container>
-                <ng-container *ngIf="isSectionHidden(childrenKey)">
-                  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300">
-                    <polyline points="30,30 130,150 30,270" style="stroke-width:30;fill:none;" />
-                  </svg>
-                </ng-container>
-              </span>
             </label>
           </div>
         </ng-container>
