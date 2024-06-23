@@ -30,11 +30,11 @@ export class SteamGridDbProvider extends GenericProvider {
     const client = new SGDB({key: apiKey});
     const games = await client.searchGame(title);
     for(const game of games) {
-      const grids = await client.getGrids({
+      const grids = (await client.getGrids({
         id: game.id,
         type: 'game',
         dimensions: ["600x900"]
-      })
+      })).filter((grid: any)=>!grid.url.endsWith('?')); // Nintendo Sucks
       game.posterUrl = grids.length ? grids[0].url: '';
     }
     return games;

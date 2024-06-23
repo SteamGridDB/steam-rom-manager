@@ -93,55 +93,58 @@
     <div class="loadingSpinner" *ngIf="detailsLoading"></div>
     <ng-container *ngIf="!detailsLoading">
       <ng-container *ngIf="!!detailsApp">
-        <div class="detailsOptions">
+        <div class="detailsOptions" [class.perAppHidden]="hideDetailsPerApp">
           <div class="detailsException">
-            <div class="detailsExceptionSection">
+            <div class="detailsExceptionSection" (click)="toggleDetailsPerApp();">
+              <svg select-arrow-down></svg>
               <span>Per-App-Exceptions</span>
             </div>
-            <div class="detailsExceptionField">
-              <div class="detailsExceptionText">
-                <ng-text-input
-                class="ngTextInput"
-                placeholder="New Display Title (Optional)"
-                [(ngModel)]="detailsException.newTitle"
-              ></ng-text-input>
+            <ng-container *ngIf="!hideDetailsPerApp">
+              <div class="detailsExceptionField">
+                <div class="detailsExceptionText">
+                  <ng-text-input
+                  class="ngTextInput"
+                  placeholder="New Display Title (Optional)"
+                  [(ngModel)]="detailsException.newTitle"
+                ></ng-text-input>
+                </div>
+                <div class="detailsExceptionButton"
+                (click)="detailsException.newTitle=detailsApp.app.extractedTitle"
+                >Use Original</div>
               </div>
-              <div class="detailsExceptionButton"
-              (click)="detailsException.newTitle=detailsApp.app.extractedTitle"
-              >Use Original</div>
-            </div>
-            <div class="detailsExceptionField">
-              <div class="detailsExceptionText">
-                <ng-text-input
-                class="ngTextInput"
-                placeholder="New Image Search Title (Optional)"
-                [(ngModel)]="detailsException.searchTitle"
-              ></ng-text-input>
+              <div class="detailsExceptionField">
+                <div class="detailsExceptionText">
+                  <ng-text-input
+                  class="ngTextInput"
+                  placeholder="New Image Search Title (Optional)"
+                  [(ngModel)]="detailsException.searchTitle"
+                ></ng-text-input>
+                </div>
+                <div class="detailsExceptionButton"
+                (click)="detailsException.searchTitle=detailsApp.app.extractedTitle"
+                >Use Original</div>
               </div>
-              <div class="detailsExceptionButton"
-              (click)="detailsException.searchTitle=detailsApp.app.extractedTitle"
-              >Use Original</div>
-            </div>
-            <div class="detailsExceptionField">
-              <div class="detailsExceptionText">
-                <ng-text-input
-                class="ngTextInput"
-                placeholder="New Commandline Arguments (Optional)"
-                [(ngModel)]="detailsException.commandLineArguments"
-              ></ng-text-input>
+              <div class="detailsExceptionField">
+                <div class="detailsExceptionText">
+                  <ng-text-input
+                  class="ngTextInput"
+                  placeholder="New Commandline Arguments (Optional)"
+                  [(ngModel)]="detailsException.commandLineArguments"
+                ></ng-text-input>
+                </div>
+                <div class="detailsExceptionButton"
+                (click)="detailsException.commandLineArguments=''"
+                >Clear</div>
               </div>
-              <div class="detailsExceptionButton"
-              (click)="detailsException.commandLineArguments=''"
-              >Clear</div>
-            </div>
-            <div class="detailsExceptionField">
-              <div class="detailsExceptionText">
-                <ng-toggle-button
-                class="ngToggleButton"
-                [(ngModel)]="detailsException.excludeArtwork"
-              >Local Artwork Only</ng-toggle-button>
+              <div class="detailsExceptionField">
+                <div class="detailsExceptionText">
+                  <ng-toggle-button
+                  class="ngToggleButton"
+                  [(ngModel)]="detailsException.excludeArtwork"
+                >Local Artwork Only</ng-toggle-button>
+                </div>
               </div>
-            </div>
+            </ng-container>
             <div class="detailsExceptionSection">
               <span>Search SteamGridDB</span>
             </div>
@@ -156,7 +159,7 @@
             <div class="clickButton2" (click)="searchForDetails()">Search</div>
           </div>
         </div>
-        <div class="appResults">
+        <div class="appResults" [class.perAppHidden]="hideDetailsPerApp">
           <ng-container *ngFor="let sgdbId of matchFixIds">
             <div class="approw" [class.selected]="matchFix == sgdbId" (click)="fixMatch(sgdbId)">
               <div class="app" [style.backgroundImage]="setDetailsBackgroundImage(sgdbId) | cssUrl | safeStyle"></div>

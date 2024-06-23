@@ -65,6 +65,7 @@ export class PreviewComponent implements OnDestroy {
   detailsSearchText: string = '';
   detailsException: UserExceptionData;
   detailsOriginalExcludeArt: boolean = false;
+  hideDetailsPerApp: boolean = false;
 
   showExcludes: boolean = false;
   excludedAppIds: SteamList<{[appId: string]: boolean}> = {};
@@ -381,6 +382,11 @@ export class PreviewComponent implements OnDestroy {
   openFilters() {
     this.showFilters = true;
     this.renderer.setStyle(this.elementRef.nativeElement, '--filters-width', '300px', RendererStyleFlags2.DashCase);
+  }
+
+  toggleDetailsPerApp() {
+    this.hideDetailsPerApp = ! this.hideDetailsPerApp;
+    this.changeDetectionRef.detectChanges();
   }
 
   toggleFilters() {

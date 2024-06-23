@@ -356,6 +356,14 @@
       position: fixed;
       width: var(--width-details-options);
       height: var(--height-details-options);
+      &.perAppHidden {
+        height: calc(0.35 * var(--height-details-options));
+        .detailsExceptionSection {
+          svg {
+            transform: rotate(-90deg);
+          }
+        }
+      }
       background-color: var(--color-details-options-background);
       opacity: 1;
       padding: 1em 1em 0.5em 1em;
@@ -377,6 +385,13 @@
         color: var(--color-preview-text);
         margin-bottom: 1em;
         border-bottom: solid 2px var(--color-nested-form-label);
+        svg {
+          --color-select-arrow-down: var(--color-preview-text);
+          --select-arrow-down-width: 30;
+        }
+        span {
+          margin-left: 0.25em;
+        }
       }
       .detailsException {
         width: 100%;
@@ -420,6 +435,9 @@
     }
     .appResults {
       margin-top: calc(var(--height-details-options) + 2em);
+      &.perAppHidden {
+        margin-top: calc(0.35 * var(--height-details-options) + 2em);
+      }
       grid-area: detailsList;
       > .approw {
         display: flex;

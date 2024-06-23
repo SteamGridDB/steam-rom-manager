@@ -147,8 +147,8 @@ export class VDF_ScreenshotsFile {
       for(let j= b*batchSize; j < Math.min((b+1)*batchSize,addableAppIds.length); j++) {
         const appId = addableAppIds[j];
         const data = screenshotsData[appId] as VDF_ScreenshotItem;
-        const nintendoSucks = data.url.slice(-1) == '?' //DMCA Check
-        if(!nintendoSucks) {
+        const dmcaCheck = data.url.endsWith('?') // Nintendo Sucks
+        if(!dmcaCheck) {
           let ext: string = data.url.split('.').slice(-1)[0].replace(/[^\w\s]*$/gi, "");
           ext = ids.map_ext["" + ext] || ext;
           const gridPath = path.join(this.gridDirectory, `${appId}.${ext}`);
