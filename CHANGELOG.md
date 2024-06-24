@@ -4,9 +4,9 @@ All notable changes to this project will be documented in this file.
 ## 2.5.15
 ### Changed
 * Some small UI tweaks
-
 ### Fixed
-* Show system specific placeholders in splash page
+* Show system specific placeholders in splash page (resolves [issue 682](https://github.com/SteamGridDB/steam-rom-manager/issues/682))
+* Flickering in list view's artwork.
 
 ## 2.5.14
 ### Changed
