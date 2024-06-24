@@ -263,6 +263,8 @@
       .listImagesButton {
         @include button();
         @include clickButtonColor(click-button);
+        padding-left: 1em;
+        padding-right: 1em;
         &.selected {
           color: var(--color-click-button-text-hover);
           background-color: var(--color-click-button-background-hover);
