@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.15
+### Changed
+* Some small UI tweaks
+
+### Fixed
+* Show system specific placeholders in splash page
+
 ## 2.5.14
 ### Changed
 * Updated built in guides.
