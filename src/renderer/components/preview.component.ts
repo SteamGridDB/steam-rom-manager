@@ -328,6 +328,13 @@ export class PreviewComponent implements OnDestroy {
     return this.previewService.getTotalLengthOfImages(app, artworkType);
   }
 
+  updateListImageRanges() {
+    if(this.currentApp) {
+      this.listImagesRanges = this.previewService.getRanges(this.currentApp.app, this.listImagesArtworkType);
+      this.changeDetectionRef.detectChanges()
+    }
+  }
+
   addLocalImages(app: PreviewDataApp, artworkType?: ArtworkType) {
     this.fileSelector.multiple = true;
     this.fileSelector.accept = '.png, .jpeg, .jpg, .tga, .webp';
@@ -344,8 +351,10 @@ export class PreviewComponent implements OnDestroy {
               loadStatus: 'done'
             },actualArtworkType, 'manual');
             this.previewService.setImageIndex(app, this.previewService.getTotalLengthOfImages(app, actualArtworkType, true) -1, actualArtworkType, true);
+            this.updateListImageRanges();
           }
         }
+
       }
     };
     this.fileSelector.trigger();
@@ -493,7 +502,7 @@ export class PreviewComponent implements OnDestroy {
       steamDirectory: steamDir,
       userId: userId
     };
-    this.listImagesRanges = this.previewService.getRanges(app, this.listImagesArtworkType);
+    this.updateListImageRanges()
     this.changeDetectionRef.detectChanges()
 
   }
@@ -501,9 +510,9 @@ export class PreviewComponent implements OnDestroy {
     this.showListImages = false;
     this.renderer.setStyle(this.elementRef.nativeElement, '--list-images-width','0%',RendererStyleFlags2.DashCase);
   }
-  changeListImagesArtworkType(app: PreviewDataApp, artworkType: ArtworkType) {
+  changeListImagesArtworkType(artworkType: ArtworkType) {
     this.listImagesArtworkType = artworkType;
-    this.listImagesRanges = this.previewService.getRanges(app, this.listImagesArtworkType);
+    this.updateListImageRanges()
     this.changeDetectionRef.detectChanges();
   }
 
@@ -775,5 +784,6 @@ export class PreviewComponent implements OnDestroy {
 
   async importSelection() {
     await this.previewService.importSelection();
+    this.updateListImageRanges();
   }
 }

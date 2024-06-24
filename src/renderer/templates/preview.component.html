@@ -198,7 +198,7 @@
       <ng-container *ngFor="let artworkType of artworkTypes">
         <div class="listImagesButton" 
         [class.selected]="listImagesArtworkType==artworkType"
-        (click)="changeListImagesArtworkType(currentApp.app, artworkType)"
+        (click)="changeListImagesArtworkType(artworkType)"
         >{{artworkViewNames[artworkType]}}</div>
       </ng-container>
     </div>
