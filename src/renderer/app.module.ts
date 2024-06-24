@@ -78,6 +78,7 @@ function ngObjectsToArray<T>(importObject: T) {
     Directives.TextScrollDirective,
     Directives.VarDirective,
     Directives.InViewDirective,
+    Directives.HoverClassDirective,
     Pipes.ArrayConcatPipe,
     Pipes.CssUrl,
     Pipes.FileImage,

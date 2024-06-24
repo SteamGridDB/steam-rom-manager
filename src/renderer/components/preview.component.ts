@@ -49,6 +49,7 @@ export class PreviewComponent implements OnDestroy {
     appId: string
   }
   listImagesArtworkType: ArtworkType = 'tall';
+  listImagesRanges: {[k: string]: {start: number, end: number}};
   listSortBy: string = 'extractedTitle';
   showListImages: boolean = false;
   detailsApp: {
@@ -481,10 +482,6 @@ export class PreviewComponent implements OnDestroy {
     this.changeDetectionRef.detectChanges();
   }
 
-  getImageRanges(app: PreviewDataApp, artworkType?: ArtworkType) {
-    return this.previewService.getRanges(app, artworkType);
-  }
-
   openListImages(app: PreviewDataApp, steamDir: string, userId: string, appId: string) {
     this.closeDetails();
     this.cancelExcludes();
@@ -496,16 +493,17 @@ export class PreviewComponent implements OnDestroy {
       steamDirectory: steamDir,
       userId: userId
     };
+    this.listImagesRanges = this.previewService.getRanges(app, this.listImagesArtworkType);
     this.changeDetectionRef.detectChanges()
 
   }
   closeListImages() {
-    this.currentApp = undefined;
     this.showListImages = false;
     this.renderer.setStyle(this.elementRef.nativeElement, '--list-images-width','0%',RendererStyleFlags2.DashCase);
   }
-  changeListImagesArtworkType(artworkType: ArtworkType) {
+  changeListImagesArtworkType(app: PreviewDataApp, artworkType: ArtworkType) {
     this.listImagesArtworkType = artworkType;
+    this.listImagesRanges = this.previewService.getRanges(app, this.listImagesArtworkType);
     this.changeDetectionRef.detectChanges();
   }
 

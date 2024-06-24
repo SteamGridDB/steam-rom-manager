@@ -22,6 +22,7 @@
   --games-icon-height: 600px;
   --details-width: 0%;
   --list-images-width: 0%;
+  --list-images-factor: 0.7;
   --excludes-lower-width: 0%;
   --filters-width: 0%;
   grid-area: route;
@@ -256,6 +257,8 @@
     color: var(--color-settings-text);
     .listImagesTypeSelect {
       width: 95%;
+      max-width: 600px;
+      margin: 0 auto;
       padding: 1em;
       display: flex;
       justify-content: space-between;
@@ -280,41 +283,41 @@
       .imagesSectionList {
         width: 100%;
         display: flex;
-        justify-content: space-between;
+        justify-content: left;
         align-items: center;
         flex-wrap: wrap;
         > .app {
           flex-shrink: 0;
-          border: solid 2px var(--color-preview-image-border);
           margin: 0.75em;
-          width: calc(var(--preview-image-size) * var(--games-tall-width) * .5);
-          height: calc(var(--preview-image-size) * var(--games-tall-height) * .5);
+          width: calc(var(--preview-image-size) * var(--games-tall-width) * var(--list-images-factor));
+          height: calc(var(--preview-image-size) * var(--games-tall-height) * var(--list-images-factor));
           background-repeat: no-repeat;
           background-position: center center;
           background-size: 100%;
           &.longStyle {
-            width: calc(var(--preview-image-size) * var(--games-long-width) * .5);
-            height: calc(var(--preview-image-size) * var(--games-long-height) * .5);
+            width: calc(var(--preview-image-size) * var(--games-long-width) * var(--list-images-factor));
+            height: calc(var(--preview-image-size) * var(--games-long-height) * var(--list-images-factor));
           }
           &.tallStyle {
-            width: calc(var(--preview-image-size) * var(--games-tall-width) * .5);
-            height: calc(var(--preview-image-size) * var(--games-tall-height) * .5);
+            width: calc(var(--preview-image-size) * var(--games-tall-width) * var(--list-images-factor));
+            height: calc(var(--preview-image-size) * var(--games-tall-height) * var(--list-images-factor));
           }
           &.heroStyle {
-            width: calc(var(--preview-image-size) * var(--games-hero-width) * .5);
-            height: calc(var(--preview-image-size) * var(--games-hero-height) * .5);
+            width: calc(var(--preview-image-size) * var(--games-hero-width) * var(--list-images-factor));
+            height: calc(var(--preview-image-size) * var(--games-hero-height) * var(--list-images-factor));
           }
           &.logoStyle {
-            width: calc(var(--preview-image-size) * var(--games-logo-width) * .5);
-            height: calc(var(--preview-image-size) * var(--games-logo-height) * .5);
+            width: calc(var(--preview-image-size) * var(--games-logo-width) * var(--list-images-factor));
+            height: calc(var(--preview-image-size) * var(--games-logo-height) * var(--list-images-factor));
           }
           &.iconStyle {
-            width: calc(var(--preview-image-size) * var(--games-icon-width) * .5);
-            height: calc(var(--preview-image-size) * var(--games-icon-height) * .5);
+            width: calc(var(--preview-image-size) * var(--games-icon-width) * var(--list-images-factor));
+            height: calc(var(--preview-image-size) * var(--games-icon-height) * var(--list-images-factor));
           }
-          &.selected, &:hover {
+         border: solid 2px transparent; // fixes flickering
+         &.selected, &:hover {
             border:solid 2px #099;
-          }
+         }
         }
       }
     }
@@ -610,8 +613,6 @@
               display: flex;
               align-items: center;
               padding-left: 1em;
-              padding-top: 0.25em;
-              padding-bottom: 0.25em;
               border-left: solid 1px var(--color-preview-user-background);
               border-right: solid 1px var(--color-preview-user-background);
               span {

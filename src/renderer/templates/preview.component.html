@@ -198,40 +198,39 @@
       <ng-container *ngFor="let artworkType of artworkTypes">
         <div class="listImagesButton" 
         [class.selected]="listImagesArtworkType==artworkType"
-        (click)="changeListImagesArtworkType(artworkType)"
+        (click)="changeListImagesArtworkType(currentApp.app, artworkType)"
         >{{artworkViewNames[artworkType]}}</div>
       </ng-container>
     </div>
-    <ng-container *ngVar="getImageRanges(currentApp.app, listImagesArtworkType) as imageRanges">
-      <div class="imagesSection">
-      <ng-container *ngFor="let providerCategory of providerCategories">
-          <ng-container *ngFor="let provider of allProviders[providerCategory]">
-            <ng-container *ngIf="imageRanges[provider].start < imageRanges[provider].end">
-              <div class="imagesSectionLabel">
-                <span>{{imageProviderNames[provider]}}</span>
-              </div>
-              <div class="imagesSectionList">
-                <ng-container *ngFor="let imageIndex of (imageRanges[provider] | rangeArray)">
-                  <ng-container *ngVar="getBackgroundImageList(currentApp.app, imageIndex, listImagesArtworkType) as image">
-                    <div class="app"
-                    [style.backgroundImage]="setBackgroundImage(currentApp.appId, currentApp.app, image, listImagesArtworkType, imageIndex, true) | cssUrl | safeStyle"
-                    [class.longStyle]="listImagesArtworkType === 'long'"
-                    [class.tallStyle]="listImagesArtworkType === 'tall'"
-                    [class.heroStyle]="listImagesArtworkType === 'hero'"
-                    [class.logoStyle]="listImagesArtworkType === 'logo'"
-                    [class.iconStyle]="listImagesArtworkType === 'icon'"
-                    [class.selected]="currentApp.app.images[listImagesArtworkType].imageIndex == imageIndex"
-                    (click)="chooseImage(currentApp.app,imageIndex,listImagesArtworkType)"
-                    >
-                    </div>
+      <ng-container *ngVar="listImagesRanges as imageRanges">
+        <div class="imagesSection">
+          <ng-container *ngFor="let providerCategory of providerCategories">
+            <ng-container *ngFor="let provider of allProviders[providerCategory]">
+              <ng-container *ngIf="imageRanges[provider].start < imageRanges[provider].end">
+                <div class="imagesSectionLabel">
+                  <span>{{imageProviderNames[provider]}}</span>
+                </div>
+                <div class="imagesSectionList">
+                  <ng-container *ngFor="let imageIndex of (imageRanges[provider] | rangeArray)">
+                    <ng-container *ngVar="getBackgroundImageList(currentApp.app, imageIndex, listImagesArtworkType) as image">
+                      <div class="app"
+                      [style.backgroundImage]="setBackgroundImage(currentApp.appId, currentApp.app, image, listImagesArtworkType, imageIndex, true) | cssUrl | safeStyle"
+                      [class.longStyle]="listImagesArtworkType === 'long'"
+                      [class.tallStyle]="listImagesArtworkType === 'tall'"
+                      [class.heroStyle]="listImagesArtworkType === 'hero'"
+                      [class.logoStyle]="listImagesArtworkType === 'logo'"
+                      [class.iconStyle]="listImagesArtworkType === 'icon'"
+                      [class.selected]="currentApp.app.images[listImagesArtworkType].imageIndex == imageIndex"
+                      (click)="chooseImage(currentApp.app,imageIndex,listImagesArtworkType)"
+                      >
+                      </div>
+                    </ng-container>
                   </ng-container>
-                </ng-container>
-              </div>
+                </div>
+              </ng-container>
             </ng-container>
           </ng-container>
-      </ng-container>
-    </div>
-      
+        </div>
     </ng-container>
   </div>
   <div class="excludesLower" *ngIf="showExcludes">
