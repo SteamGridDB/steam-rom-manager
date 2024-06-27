@@ -5,6 +5,8 @@ import * as steam from '../helpers/steam'
 const shortcutsParser = require('steam-shortcut-editor');
 
 import * as fs from 'fs';
+import { VDF_Manager } from '../vdf-manager';
+import { VDF_AddedItemsFile } from '../vdf-added-items-file';
 
 export class NonSRMShortcutsParser implements GenericParser {
 
@@ -29,8 +31,10 @@ export class NonSRMShortcutsParser implements GenericParser {
         for(let userdir of directories) {
           const shortcutsPath = path.join(userdir,'config','shortcuts.vdf')
           const addedItemsPath = path.join(userdir,'config','addedItemsV2.json')
-          const addedItems = fs.existsSync(addedItemsPath) ? JSON.parse(fs.readFileSync(addedItemsPath,'utf8')) : {};
-          const addedAppIds = Object.keys(addedItems.addedApps).filter(appId=>!addedItems.addedApps[appId].artworkOnly)
+          const vdfAddedItemsFile = new VDF_AddedItemsFile(addedItemsPath);
+          await vdfAddedItemsFile.read();
+          const { addedApps } = vdfAddedItemsFile.data;
+          const addedAppIds = Object.keys(addedApps).filter(appId=>!addedApps[appId].artworkOnly)
           if(fs.existsSync(shortcutsPath)) {
             const {shortcuts} = shortcutsParser.parseBuffer(fs.readFileSync(shortcutsPath));
             const mappedApps = shortcuts.filter((shortcut: any) => {

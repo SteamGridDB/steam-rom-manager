@@ -128,7 +128,6 @@ export class ParsersService {
               }
 
               getKnownSteamDirectories() {
-                let preParser = new VariableParser({ left: '${', right: '}' });
                 let steamdirs = this.getUserConfigurationsArray().map(config => this.parseSteamDir(config.saved.steamDirectory)).filter(path => path!=="");
                 if(this.appSettings.environmentVariables.steamDirectory) {
                   steamdirs.push(this.appSettings.environmentVariables.steamDirectory)
