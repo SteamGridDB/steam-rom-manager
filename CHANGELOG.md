@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.16
+### Fixed
+* UI Bug with list view + manually added or local artwork.
+* Non SRM Shortcuts parser `Cannot convert to object` bug.
+
 ## 2.5.15
 ### Changed
 * Some small UI tweaks
