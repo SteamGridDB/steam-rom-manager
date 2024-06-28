@@ -6,6 +6,7 @@ import * as path from "path";
 import { glob } from "glob";
 import * as json from "../helpers/json";
 import { XMLParser, XMLValidator} from "fast-xml-parser";
+import languageEncoding from "detect-file-encoding-and-language";
 
 export class EADesktopParser implements GenericParser {
 
@@ -52,11 +53,24 @@ export class EADesktopParser implements GenericParser {
       };
       for(let installDataFile of installDataFiles) {
         let gameDir = path.join(path.dirname(installDataFile),'..')
-        let xmldata = fs.readFileSync(installDataFile, 'utf-8');
-        if(XMLValidator.validate(xmldata)) {
-          let parsedData = xmlParser.parse(xmldata);
+        let xmlBuffer = fs.readFileSync(installDataFile)
+        const fileInfo = await languageEncoding(new Blob([xmlBuffer]));
+        let xmlString;
+        if(fileInfo.encoding == 'UTF-8') {
+          xmlString = xmlBuffer.toString();
+        } else if(fileInfo.encoding == 'UTF-16LE') {
+          xmlString = xmlBuffer.toString('utf16le')
+        } else {
+          return reject(`Unrecognized file encoding for ${installDataFile}.`) 
+        }
+        if(XMLValidator.validate(xmlString, {})) {
+          let parsedData = xmlParser.parse(xmlString);
           let title = ""; let runtimePath=""; let runtime; let contentID; let appID=""; let commandArgs;
-          if(json.caselessHas(parsedData,[["DiPManifest"]])) {
+          if(
+            json.caselessHas(parsedData,[["DiPManifest"],["gameTitles"],["gameTitle"]])
+            && json.caselessHas(parsedData,[["DiPManifest"],["runtime"]])
+            && json.caselessHas(parsedData,[["DiPManifest"],["contentIDs"],["contentID"]])
+          ) {
             let gameTitle = json.caselessGet(parsedData, [["DiPManifest"],["gameTitles"],["gameTitle"]]);
             if(Array.isArray(gameTitle) && gameTitle.length) {
               title = String(gameTitle[0])
@@ -65,7 +79,11 @@ export class EADesktopParser implements GenericParser {
             }
             runtime = json.caselessGet(parsedData, [["DiPManifest"],["runtime"],["launcher"]], true);
             contentID = json.caselessGet(parsedData, [["DiPManifest"],["contentIDs"],["contentID"]])
-          } else if(json.caselessHas(parsedData,[["game"]])) {
+          } else if(
+            json.caselessHas(parsedData,[["game"],["metadata"],["localeInfo"]])
+            && json.caselessHas(parsedData,[["game"],["runtime"]]) 
+            && json.caselessHas(parsedData,[["game"],["contentIDs"],["contentID"]])
+          ) {
             let localeInfo = json.caselessGet(parsedData,[["game"],["metadata"],["localeInfo"]]);
             if(Array.isArray(localeInfo) && localeInfo.length) {
               title = String(localeInfo[0].title);
@@ -74,6 +92,8 @@ export class EADesktopParser implements GenericParser {
             }
             runtime = json.caselessGet(parsedData, [["game"],["runtime"],["launcher"]], true)
             contentID = json.caselessGet(parsedData, [["game"],["contentIDs"],["contentID"]])
+          } else {
+            continue;
           }
           if(runtime && Array.isArray(runtime) && runtime.length) {
             runtimePath = json.caselessGet(runtime[0],[["filePath"]]);

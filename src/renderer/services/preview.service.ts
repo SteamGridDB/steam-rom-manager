@@ -28,8 +28,7 @@ import {
   ArtworkType,
   ArtworkViewType,
   isArtworkType,
-  initArtworkRecord,
-  initOnlineProviderRecord
+  initArtworkRecord
 } from '../../models';
 import {
   VDF_Manager,
@@ -240,7 +239,6 @@ export class PreviewService {
           for(let steamDir of knownSteamDirectories) {
             const accounts = await steam.getAvailableLogins(steamDir);
             for(let account of accounts) {
-              console.log("addedCats", account.accountID, addedCats[steamDir][account.accountID])
               await this.removeCategories(steamDir, account.accountID, addedCats[steamDir][account.accountID])
             }
           }
