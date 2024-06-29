@@ -5,7 +5,7 @@ This parser imports steam games into SRM so you can manage their artwork. It doe
 ## Einschränkungen
 Leider funktioniert dieser Parser vorerst nur für Steam Spiele, die in **mindestens einer Kategorie** sind. Der Grund dafür ist, dass Steam die vollständige Liste deiner Spiele nur lokal speichert, wenn diese kategorisiert sind. Manchmal werden aus unbekannten Gründen Spiele auch ohne Kategorie lokal gespeichert und der Parser funktioniert, aber um sicher zu sein ist es am einfachsten, **eine Steam Kategorie zu erstellen**, die alle deine Steam Spiele enthält.
 
-## User accounts (required)
+## Benutzerkonten (erforderlich)
 
 Used to limit configuration to specific user accounts. Um Benutzerkonten festzulegen, muss folgende Syntax verwendet werden:
 ```
@@ -21,7 +21,7 @@ So kannst du zum Beispiel Konten für "Banana" und "Apple" festlegen:
 ${Banana}${Apple}
 ```
 
-You can also limit accounts by specifying their ids directly. For example:
+You can also limit accounts by specifying their ids directly. Zum Beispiel:
 
 ```
 ${56489124}${21987424}
