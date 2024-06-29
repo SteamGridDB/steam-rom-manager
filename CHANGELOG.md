@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.17
+### Fixed
+* EA Parser not handling utf-16 manifests gracefully ([issue 677](https://github.com/SteamGridDB/steam-rom-manager/issues/677)).
+
 ## 2.5.16
 ### Fixed
 * UI Bug with list view + manually added or local artwork.
