@@ -662,6 +662,13 @@ export class PreviewComponent implements OnDestroy {
     this.closeListImages();
     this.renderer.setStyle(this.elementRef.nativeElement, '--excludes-lower-width', '50%', RendererStyleFlags2.DashCase);
     this.showExcludes = true;
+    for(const steamDir in this.previewData) {
+      for(const steamUser in this.previewData[steamDir]) {
+        for(const exclusion of this.previewData[steamDir][steamUser].excluded) {
+          this.excludePutBacks[exclusion.exceptionKey] = false;
+        }
+      }
+    }
   }
 
   cancelExcludes() {
@@ -706,6 +713,13 @@ export class PreviewComponent implements OnDestroy {
     }
     this.cancelExcludes();
     this.generatePreviewData();
+  }
+
+  putBackSetAll(putBack: boolean) {
+    for(const putBackKey in this.excludePutBacks) {
+      this.excludePutBacks[putBackKey] = putBack;
+    }
+    this.changeDetectionRef.detectChanges();
   }
 
   refreshImages(app: PreviewDataApp, artworkType?: ArtworkType) {

@@ -332,6 +332,11 @@
       background-color: var(--color-preview-user-background);
       color: var(--color-preview-text);
       border-bottom: solid 1px var(--color-preview-user-background);
+      .button {
+        @include button();
+        @include clickButtonColor(click-button);
+        margin-left: 1em;
+      }
     }
     .currentExclude {
       padding: 1em;
