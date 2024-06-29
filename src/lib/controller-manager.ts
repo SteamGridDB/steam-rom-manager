@@ -105,7 +105,7 @@ export class ControllerManager {
         )
         .filter((x: any) => x.controller_mappings.controller_type === 'controller_'+controllerType)
         .map((x: any) => Object.assign({}, {
-          title: json.caselessGet(x,[["controller_mappings"],["localization"],["english"],["title"]]) || json.caselessGet(x,[["controller_mappings"],["title"]]),
+          title: json.caselessGet(x,[["controller_mappings"],["localization"],["english"],["title"]], true) || json.caselessGet(x,[["controller_mappings"],["title"]]),
           mappingId: x.mappingId,
           profileType: "template"
         }));
