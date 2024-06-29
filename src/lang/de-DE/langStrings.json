@@ -48,7 +48,7 @@
         "disabledConfigurations__i": "${count} Benutzerkonfiguration(en) wurden übersprungen (deaktiviert durch Benutzer).",
         "invalidConfigurations__i": "${count} Benutzer-Konfiguration(en) wurde(n) übersprungen (ungültig).",
         "executingParsers": "Führe Parser aus.",
-        "shutdownSteam": "If Steam is running, exit Steam.",
+        "shutdownSteam": "Wenn Steam ausgeführt wird, beende Steam.",
         "noParserConfigurations": "Bitte eerstelle zuerst eine Parser-Konfiguration im \"Parser\" Menü.",
         "parserFoundNoFiles": "Parser fanden keine passenden Dateien.",
         "allImagesRetrieved": "Alle verfügbaren Bild URLs wurden abgerufen.",
