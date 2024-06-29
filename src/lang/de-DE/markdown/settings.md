@@ -1,7 +1,7 @@
 ## Allgemeine Einstellungen
 ### Check for updates on start `[Recommend enabled]`
 Check if an update for SRM is available and prompt to update each time SRM launches.
-### Auto kill Steam `[Recommend enabled]`
+### Steam automatisch beenden `[aktivieren empfohlen]`
 SRM will attempt to kill all running instances of Steam whenever it needs to read/write collections information (specifically when saving to steam from `Add Games` and when removing all games from `Settings`).
 ### Auto restart Steam `[Recommend enabled]`
 SRM will attempt to restart Steam after killing it and completing whatever collections related task required killing Steam in the first place. Requires `Auto kill Steam` to be enabled.
@@ -9,7 +9,7 @@ SRM will attempt to restart Steam after killing it and completing whatever colle
 Wenn aktiviert, sendet SRM keine Netzwerkanfragen mehr. Geeignet, wenn SRM nur für lokale Bilder verwendet werden soll.
 ### Logs automatisch leeren bevor Parser getestet werden `[empfohlen]`
 Wenn aktiviert, wird das Log vor jedem Parsertest geleert.
-## Add Games
+## Spiele hinzufügen
 ### Aktuelle Steam-Bilder standardmäßig anzeigen `[empfohlen]`
 Wenn aktiviert, wird SRM standardmäßig das jeweilige Steam-Artwork für eine gegebene App verwenden. Wenn deaktiviert, werden bei jedem Starten (und Speichern) von SRM alle Artworks zurückgesetzt.
 ### Verknüpfungen für deaktivierte Parser entfernen `[nicht empfohlen]`
@@ -41,7 +41,7 @@ Number of images SRM will attempt to download at once when saving to Steam. May 
 ### Nuke artwork choice cache
 SRM attempts to remember your artwork choices, this button forcibly forgets all of them.
 ### Nuke local artwork backups
-This deletes all artwork backups created for parsers with `Backup artwork locally` enabled.
+Dies löscht alle für Parser erstellten Artwork-Backups mit `Backup artwork locally` aktiviert.
 ## Community-Variablen und Vorlagen
 ### Erzwinge das Herunterladen benutzerdefinierter Variablen.
 Setzt die benutzerdefinierten-Variablen-JSON-Datei zurück auf den SRM Stand in GitHub. Geeignet, falls die JSON-Datei mit benutzerdefinierten Variablen beschädigt wurde.
