@@ -325,20 +325,20 @@
             "steamDirectory": "Typically C:\\Program Files (x86)\\Steam",
             "romsDirectory": "For example D:\\ROMs",
             "retroarchPath": "For example C:\\Path\\To\\retroarch.exe",
-            "raCoresDirectory": "Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
+            "raCoresDirectory": "Normalerweise C:\\Users\\Benutzername\\AppData\\Roaming\\RetroArch\\cores",
             "localImagesDirectory": "For example C:\\Path\\To\\LocalArtwork"
           },
           "Darwin": {
             "steamDirectory": "Typically ~/Library/Application Support/Steam",
-            "romsDirectory": "For example ~/ROMs",
-            "retroarchPath": "For example /path/to/retroarch",
+            "romsDirectory": "Zum Beispiel ~/ROMs",
+            "retroarchPath": "Zum Beispiel /Pfad/zu/retroarch",
             "raCoresDirectory": "Typically /Applications/Retroarch.app/Contents/Resources/cores",
             "localImagesDirectory": "For example ~/path/to/localartwork"
           },
           "Linux": {
             "steamDirectory": "Typically /home/user/.steam/steam",
             "romsDirectory": "For example ~/ROMs",
-            "retroarchPath": "For example /path/to/retroarch",
+            "retroarchPath": "Zum Beispiel /Pfad/zu/retroarch",
             "raCoresDirectory": "Typically /lib/x86_64-linux-gnu/libretro/cores",
             "localImagesDirectory": "For example ~/path/to/localartwork"
           }
@@ -384,7 +384,7 @@
         "excludeArtwork": "Nur lokale Artworks"
       },
       "placeholder": {
-        "sortBy": "Sort By"
+        "sortBy": "Sortieren nach"
       }
     },
     "service": {
