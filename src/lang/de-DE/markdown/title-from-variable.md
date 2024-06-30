@@ -6,7 +6,7 @@ Title matching is limited to specific groups of custom variables. For example, t
 ${RPCS3}${PSN}
 ```
 
-# How it works
+# So funktioniert es
 There are two variable files, `customVariables.json` which is maintained by SRM (don't change this one, your changes will be overwritten every time SRM restarts) and `userVariables.json` which is where you should put your own variables. Both files are located in SRM's `Config Directory`.
 
 
@@ -33,5 +33,5 @@ Then if your user glob were `romsdir/${title}.wad` and you had a `The Legend of 
 ## Case-insensitive variables
 If enabled, case-insensitive matching will be done and first matched custom variable will be used.
 
-## Skip file if variable not found
-If enabled, titles that don't match a variable will be excluded.
+## Datei überspringen, wenn Variable nicht gefunden wurde
+Wenn aktiviert, werden Titel, die nicht mit einer Variable übereinstimmen, ausgeschlossen.
