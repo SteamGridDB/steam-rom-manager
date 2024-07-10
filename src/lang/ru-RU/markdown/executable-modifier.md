@@ -1,26 +1,26 @@
-# Executable modifier `[supports variables]`{.noWrap}
+# Модификатор исполняемого файла `[поддерживает переменные]`{.noWrap}
 
-Default value is `"${exePath}"`{.noWrap}. This setting can be used to prepend or append desired characters to an executable which will be added to Steam (`Target` property). For example, given that `${exePath}`{.noWrap} is `C:\RetroArch\retroarch.exe`, you can add `"cmd" /k start /min` to it by setting value to:
+Значение по умолчанию: `"${exePath}"`{.noWrap}. Этот параметр можно использовать для добавления или добавления нужных символов к исполняемому файлу, который будет добавлен в Steam (свойство `Target`). Например, учитывая, что `${exePath}`{.noWrap} - это `C:\RetroArch\retroarch.exe`, вы можете добавить `"cmd" /k start /min` к нему, задав значение:
 ```
 "cmd" /k start /min "${exePath}"
 ```
-You can use any other variable to construct the final executable.
+Вы можете использовать любую другую переменную для создания конечного исполняемого файла.
 
-This setting influences Steam's APP ID.
+Эта настройка влияет на APP ID Steam.
 
 
-## Shortcut Passthrough
-If you enable "Follow .lnk to destination" and your executable is a ".lnk" file, ie a shortcut, then whatever you put in this field will be overridden with the target of that shortcut. If you would like to add executable arguments either add them to the target of the shortcut or use the "Command Line Arguments" field in the parser.
+## Переход через ярлык
+Если вы включите опцию "Следовать .lnk к месту назначения", а ваш исполняемый файл - это ".lnk", то есть ярлык, то все, что вы введете в это поле, будет заменено на цель этого ярлыка. Если вы хотите добавить исполняемые аргументы, добавьте их в цель ярлыка или используйте поле "Аргументы командной строки" в анализаторе.
 
-## Directory variables
+## Переменные каталога
 
-| Variable (case-insensitive) | Corresponding value                       |
-| ---------------------------:|:----------------------------------------- |
-|                 `${exeDir}` | Executable directory                      |
-|                 `${romDir}` | ROMs directory                            |
-|               `${steamDir}` | Steam directory                           |
-|             `${startInDir}` | "StartIn" directory                       |
-|                `${fileDir}` | Files returned by a parser or a directory |
+| Переменная (без учета регистра) | Соответствующее значение                  |
+| -------------------------------:|:----------------------------------------- |
+|                     `${exeDir}` | Каталог исполняемых файлов                |
+|                     `${romDir}` | Каталог ROMs                              |
+|                   `${steamDir}` | Каталог Steam                             |
+|                 `${startInDir}` | "StartIn" directory                       |
+|                    `${fileDir}` | Files returned by a parser or a directory |
 
 In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
 
