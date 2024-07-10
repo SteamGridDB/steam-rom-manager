@@ -1,12 +1,16 @@
-# Epic Games Parser
+# Анализатор Epic Games
 
-This parser imports games from the [Epic Games Store](https://store.epicgames.com/en-US/) so that artwork can be chosen for them and they can be added into Steam.
+Этот анализатор импортирует игры из [Epic Games Store](https://store.epicgames.com/en-US/), чтобы можно было выбрать для них обложку и добавить в Steam.
 
-If it doesn't work it is because Epic has altered the structure of their game manifests, in this case please let the developers of SRM know and we will resolve the issue.
+Если он не работает, это связано с тем, что Epic изменила структуру своих игровых манифестов, в этом случае сообщите разработчикам SRM, и мы решим эту проблему.
 
-In order for this parser to work with the open source Epic alternative [Legendary](https://github.com/derrod/legendary), [EGL sync must be enabled in Legendary](https://github.com/derrod/legendary/discussions/276#discussioncomment-709748) (this creates the appropriate files for the parser to read, and does not require the `Epic Games Store` to be installed).
+Чтобы этот анализатор работал с альтернативой Epic с открытым исходным кодом [Legendary](https://github.com/derrod/legendary), в Legendary</a> должна быть включена
+EGL-синхронизация (это создает соответствующие файлы для чтения анализатором и не требует установки `Epic Games Store`).</p> 
 
-That said, there is also a `Legendary` parser in SRM which works right out of the box.
+Тем не менее, в SRM также есть анализатор `Legendary`, который работает прямо из коробки.
 
-## Compatibility
-This parser is currently functional on `Windows` and `Mac OS` systems only. On `Mac OS` it is not possible to launch from the Epic Store, so that toggle should remain disabled.
+
+
+## Совместимость
+
+В настоящее время этот анализатор работает только в системах `Windows` и `Mac OS`. На `Mac OS` запуск из Epic Store невозможен, поэтому этот переключатель должен оставаться отключенным.
