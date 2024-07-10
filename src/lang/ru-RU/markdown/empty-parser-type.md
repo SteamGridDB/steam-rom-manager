@@ -1,5 +1,5 @@
-# Parser type
+# Тип анализатора
 
-Select a parser which will be used to do parsing. Once the parser is selected, you'll see more detailed information.
+Выберите анализатор, который будет использоваться для разбора. После выбора анализатора вы увидите более подробную информацию.
 
-**Configurations without parser types will not save, and will not be reloaded if you exit out of SRM.**
+**Конфигурации без типов анализатора не будут сохранены и не будут перезагружены, если вы выйдете из SRM.**
