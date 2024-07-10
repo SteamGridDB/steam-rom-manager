@@ -1,11 +1,11 @@
-# Executable (optional) `[supports environment variables]`
+# Исполняемый (необязательно) `[поддерживает переменные окружения]`
 
-Path to emulator's executable. Can be a file or any valid system path.
+Путь к исполняемому файлу эмулятора. Это может быть файл или любой действительный системный путь.
 
-## Why optional?
+## Почему необязательно?
 
-In some cases you might want to run game from a some kind batch file which will also automatically run the emulator itself. If that is the case, then providing executable is unnecessary.
+В некоторых случаях вы можете запустить игру из какого-нибудь пакетного файла, который также автоматически запустит сам эмулятор. Если это так, то предоставление исполняемого файла не требуется.
 
-### So, how do I add files to Steam without default executable?
+### Итак, как добавить файлы в Steam без исполняемого файла по умолчанию?
 
-All files retrieved by a parser will be treated as executables instead.
+Все файлы, полученные анализатором, будут рассматриваться как исполняемые файлы.
