@@ -34,20 +34,20 @@
 ### Текущие помощники
 * `lontanadascienza`{.noWrap} - Добавил(-а) Обновленный SRM для обработки героев, плакатов, логотипов и иконок. Помимо прочего, добавлен менеджер исключений, управление контроллерами, парсеры платформ (Epic, GOG, Steam и т. д.). Уничтожает ошибки почти так же быстро, как и вводит их.
 * `Zennn`{.noWrap} - Добавил(-а) поддержку категорий, локализация языков, сервер сообщений об ошибках и многое другое. Большой босс в [SteamGridDB](https://www.steamgriddb.com/).
-* `KenCinder`{.noWrap} - Управляет и создает пресеты парсера сообщества и помогает пользователю настроить SRM в [Discord](https://discord.gg/bnSVJrz).
+* `KenCinder`{.noWrap} - Управляет и создает пользовательские пресеты анализатора и помогает пользователю настроить SRM в [Discord](https://discord.gg/bnSVJrz).
 
 ### Функциональный вклад
 * `dragoonDorise`{.noWrap} - Добавил(-а) новые темы в SRM. Создатель и текущий сопровождающий [EmuDeck](https://www.emudeck.com/).
 * `alvaromunoz`{.noWrap} - Добавил(-а) парсер Game Pass в SRM.
 * `lexarvn`{.noWrap} - Добавил(-а) парсер Amazon Games и парсер itch.io.
-* `CarJem`{.noWrap} - Добавил(-а) ручной парсер.
+* `CarJem`{.noWrap} - Добавил(-а) пользовательский анализатор.
 * `MattMckenzy`{.noWrap} - Добавил(-а) возможность импорта и экспорта изображений.
-* `Apalatn`{.noWrap} - Добавил(-а) опцию перенаправления установочного диска в парсер itch.io.
-* `OneMoreByte` - Сделал(-а) так, чтобы парсер itch.io работал на linux и mac.
-* `UndarkAido` - Добавил(-а) отображение ярлыков для ярлыков .desktop в Linux.
+* `Apalatn`{.noWrap} - Добавил(-а) опцию перенаправления установочного диска в анализатор itch.io.
+* `OneMoreByte` - Сделал(-а) так, чтобы анализатор itch.io работал на linux и mac.
+* `UndarkAido` - Добавил(-а) отображение ярлыков для .desktop в Linux.
 
 ### Сообщество
 * `HE Spoke`{.noWrap} - создал сообщество вокруг SRM. Создатель групп [Steam](https://steamcommunity.com/groups/steamrommanager) и [Discord](https://discord.gg/bnSVJrz). Также помогает пользователям настроить SRM в [Discord](https://discord.gg/bnSVJrz).
 * `livedeht`{.noWrap} - Помогает пользователям настроить SRM с [EmuDeck](https://www.emudeck.com/) и без него. Текущий сопровождающий [EmuDeck](https://www.emudeck.com/).
 * `Choko`{.noWrap} - Помогает пользователям настроить SRM в [Discord](https://discord.gg/bnSVJrz).
-* `Xav83`{.noWrap} - создатель и сопровождающий SRM's [Chocolatey package](https://community.chocolatey.org/packages/steam-rom-manager)
+* `Xav83`{.noWrap} - создатель и сопровождающий SRM's [Chocolatey package](https://community.chocolatey.org/packages/steam-rom-manager) (Шоколадной Упаковки)
