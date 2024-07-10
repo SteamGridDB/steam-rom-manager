@@ -1,15 +1,15 @@
 {
   "preview": {
     "component": {
-      "filter": "Search for game",
-      "selectType": "Artwork Type",
+      "filter": "Поиск игры",
+      "selectType": "Тип иллюстрации",
       "selectCategories": "Категории",
       "selectParsers": "Parser Title",
       "selectTypeOptions": {
-        "long": "Banners",
-        "tall": "Posters",
-        "hero": "Heroes",
-        "icon": "Icons",
+        "long": "Баннеры",
+        "tall": "Постеры",
+        "hero": "Герои",
+        "icon": "Иконки",
         "logo": "Logos",
         "games": "All Artwork"
       },
