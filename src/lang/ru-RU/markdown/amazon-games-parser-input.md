@@ -1,4 +1,4 @@
-# Специальные входные данные для парсера Amazon Games
+# Особые входные данные для анализатора Amazon Games
 
 ## Переопределение пути к играм Amazon Games
 По умолчанию Steam ROM Manager предполагает, что ваша установка Amazon Games находится по адресу `C:\Users\&#060;username&#062;\AppData\Local\Amazon Games\App\Amazon Games.exe`. Это поле позволяет вам переопределить этот путь, если ваша система Amazon Games установлена в другом месте.
