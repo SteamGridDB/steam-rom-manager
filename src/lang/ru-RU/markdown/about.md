@@ -22,7 +22,7 @@ Help support continued progress on Steam ROM Manager at:
   <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="Buy Me A Coffee" width="160">
 </a>
 
-[SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork Steam ROM Manager uses to make your Steam library the envy of the town, so we should probably help them keep their lights on. If you enjoy Steam ROM Manager and want it to continue to be useful also consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon.
+Если вам нравится Steam ROM Manager и вы хотите, чтобы он продолжал быть полезным, также рассмотрите возможность поддержки [SteamGridDB](https://www.steamgriddb.com/) на Patreon. If you enjoy Steam ROM Manager and want it to continue to be useful also consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon.
 
 <a href="https://www.patreon.com/steamgriddb">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
