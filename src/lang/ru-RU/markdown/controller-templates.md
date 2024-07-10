@@ -1,26 +1,26 @@
-# Controller Templates
-Controller templates allow you to configure the button layout per controller and per parser.
+# Шаблоны контроллеров
+Шаблоны контроллеров позволяют настраивать расположение кнопок для каждого контроллера и каждого анализатора.
 
-You may want to disable `Cloud Synchronization` in Steam to avoid having your SRM assigned controller configs get overwritten. You may find the setting under `Steam > Settings > Cloud`.
+Вы можете отключить `Синхронизацию облака` в Steam, чтобы избежать перезаписи конфигураций контроллеров, назначенных SRM. Настройки можно найти в разделе `Steam > Настройки [Settings] > Облако [Cloud]`.
 
-To make a custom template:
-* Open Steam.
-* Connect the controller you want to configure a template for.
-* Right click on any game and hit `Manage > Controller Layout`.
-* Configure the buttons as you see fit.
-* Hit `Export Config` then `Save new template binding`.
-* Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template.
-* Repeat for as many different types of controller as you want to configure.
+Чтобы создать собственный шаблон:
+* Открытый Steam.
+* Подключите контроллер, для которого нужно настроить шаблон.
+* Щелкните правой кнопкой мыши на любой игре и нажмите `Управление [Manage] > Расположение контроллера [Controller Layout]`.
+* Настройте кнопки так, как вы считаете нужным.
+* Нажмите `Экспорт конфигурации [Export Config]`, затем `Сохраните привязку к новому шаблону [Save new template binding]`.
+* Назовите шаблон в форме: `Название шаблона (SRM) [Template Title (SRM)]`. Вы должны заканчивать имя на `(SRM)`, иначе SRM не примет шаблон.
+* Повторите процедуру для стольких различных типов контроллеров, сколько вы хотите настроить.
 
-In the SRM parser:
-* Hit `Re-Fetch Controller Templates` to pull templates for all controller types from steam. This will clear your currently selected template if it is not one of the templates available in Steam.
+В анализаторе SRM:
+* Нажмите `Повторно выбрать шаблоны контроллеров [Re-Fetch Controller Templates]`, чтобы получить шаблоны для всех типов контроллеров из steam. Это приведет к удалению выбранного вами в данный момент шаблона, если он не является одним из шаблонов, доступных в Steam.
 
-Currently, SRM pulls all of the default (Valve made) templates for each controller as well as all of the user defined templates that end in `(SRM)`.
+В настоящее время SRM извлекает все шаблоны по умолчанию (созданные Valve) для каждого контроллера, а также все пользовательские шаблоны, которые заканчиваются на `(SRM)`.
 
-* Select your templates and save the parser. The controller configsets will be applied once you hit `Save to Steam` in the Add Games.
+* Выберите свои шаблоны и сохраните анализатор. Настройки контроллера будут применены, как только вы нажмете `Сохранить в Steam [Save to Steam]` в разделе "Добавить игры".
 
-* To unset controller configs, you may either `Remove All Added App Entries` from global settings (this deletes all SRM made changes to your steam data) or hit `Unset All Controllers` in the parser (this only removes controller settings for the steam directory and user specified in that parser).
+* Чтобы отменить настройку контроллеров, вы можете либо ` Удалить все добавленные записи приложений [Remove All Added App Entries]` из глобальных настроек (это приведет к удалению всех изменений, внесенных SRM в ваши данные steam), либо нажать `Отменить настройку всех контроллеров [Unset All Controllers]` в синтаксическом анализаторе (это приведет только к удалению настроек контроллера для каталога steam и пользователь, указанный в этом синтаксическом анализаторе). Сохраните в Steam</0> в разделе "Добавлять игры".
 
-Once this is done you can parse and add games to steam as usual, and the templates will be applied to all the titles in the parser.
+Как только это будет сделано, вы сможете анализировать и добавлять игры в steam в обычном режиме, и шаблоны будут применены ко всем названиям в анализаторе.
 
 
