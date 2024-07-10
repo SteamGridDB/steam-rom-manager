@@ -1,3 +1,3 @@
-# Configuration title
+# Название конфигурации
 
-Title to save user configuration as. Does not have to be unique, but is required.
+Название для сохранения пользовательской конфигурации. Не обязательно уникальный, но обязательный.
