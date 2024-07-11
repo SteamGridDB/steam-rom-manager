@@ -1,21 +1,21 @@
-# Glob Parser Specific Inputs
+# Особые входные данные для анализатора Глоб (он же "Глобальный Анализатор")
 
-## User's glob
+## Пользовательский Глоб
 
-This is where you create your glob for extracting title from file path. Please read all of [special glob characters](#special-glob-characters) if you don't know how to construct a glob.
+Здесь вы создаете свой глобальный объект для извлечения заголовка из пути к файлу. Прочитайте всю статью [специальные символы глоб](#special-glob-characters), если вы не знаете, как построить глоб.
 
-## How does it work?
+## Как это работает?
 
-In addition to special glob characters, glob parser requires you to enter `${title}`{.noWrap} variable. Parser will locate it's position inside your  **glob**, for example:
+Помимо специальных глобальных символов, глобальный анализатор требует ввода переменной `${title}`{.noWrap}. Анализатор определит его положение внутри вашего **глобальной строки**, например:
 
-| User's glob            | Position                    |
-| ---------------------- | --------------------------- |
-| `${title}/*/*.txt`     | First level from the left   |
-| `{*,*/*}/${title}.txt` | First level from the right  |
-| `**/${title}/*.txt`    | Second level from the right |
+| Пользовательский Глоб  | Место                 |
+| ---------------------- | --------------------- |
+| `${title}/*/*.txt`     | Первый уровень слева  |
+| `{*,*/*}/${title}.txt` | Первый уровень справа |
+| `**/${title}/*.txt`    | Второй уровень справа |
 
-After acquiring `${title}`{.noWrap} position, `${title}`{.noWrap} will be replaced with a wildcard `*`.
+После получения позиции `${title}`{.noWrap}, `${title}`{.noWrap} будет заменен на подстановочный знак `*`.
 
-## Limitations
+## Ограничения
 
-Position extraction comes with some limitations -- glob is invalid if position can not be extracted. Most of the time you will be warned about what you can't do, however, if you find a combination that is allowed, but produces incorrect titles please make an issue at [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
+Извлечение позиции имеет некоторые ограничения - глоб считается недействительным, если позиция не может быть извлечена. В большинстве случаев вы будете предупреждены о том, что делать нельзя, однако если вы найдете комбинацию, которая разрешена, но выдает неправильные названия, пожалуйста, оформите проблему на [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
