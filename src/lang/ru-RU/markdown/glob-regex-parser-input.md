@@ -1,48 +1,48 @@
-# Glob-regex Parser Specific Inputs
+# Специфические входы анализатора Glob-regex
 
-## User's glob-regex
+## Пользовательский glob-regex
 
-This is where you create your glob for extracting title from file path. Please read all of [special glob characters](#special-glob-characters) if you don't know how to construct a glob.
+Здесь вы создаете глобус для извлечения заголовка из пути к файлу. Прочитайте всю статью [специальные символы глобуса](#special-glob-characters), если вы не знаете, как построить глобус.
 
-## How does it work?
+## Как это работает?
 
-In addition to special glob characters, glob parser requires you to enter `${/.../}`{.noWrap} variable. Parser will locate it's position inside your glob, for example:
+Помимо специальных символов glob, анализатор glob требует ввода переменной `${/.../}`{.noWrap}. Анализатор определит его местоположение внутри вашего глобуса, например:
 
-| User's glob           | Position                    |
-| --------------------- | --------------------------- |
-| `${/.+/}/*/*.txt`     | First level from the left   |
-| `{*,*/*}/${/.+/}.txt` | First level from the right  |
-| `**/${/.+/}/*.txt`    | Second level from the right |
+| Пользовательский Глоб | Место                 |
+| --------------------- | --------------------- |
+| `${/.+/}/*/*.txt`     | Первый уровень слева  |
+| `{*,*/*}/${/.+/}.txt` | Первый уровень справа |
+| `**/${/.+/}/*.txt`    | Второй уровень справа |
 
-After acquiring `${/.../}`{.noWrap} position, `${/.../}`{.noWrap} will be replaced with a wildcard `*`.
+После получения позиции `${/.../}`{.noWrap}, `${/.../}`{.noWrap} будет заменен на подстановочный знак `*`.
 
-## Regex post-processing
+## Постобработка регексов
 
-After title extraction, title will be processed by a regular expression. There are 3 ways you can write a regular expression.
+После извлечения заголовка он будет обработан регулярным выражением. Существует три способа записи регулярного выражения.
 
-### Regular expression with no capture: `${/.+/}`{.noWrap}
+### Регулярное выражение без захвата: `${/.+/}`{.noWrap}
 
-This is practically identical to "Glob" parser -- every piece of extracted title will be used.
+Это практически идентично анализатору "Glob" - каждый фрагмент извлеченного заголовка будет использован.
 
-### Regular expression with capture brackets: `${/(.+)/}`{.noWrap}
+### Регулярное выражение с захватными скобками: `${/(.+)/}`{.noWrap}
 
-Multiple matches and capture groups are allowed. For example, here we have 2 match groups with multiple capture groups:
+Допускается несколько совпадений и групп захвата. Например, здесь у нас есть 2 группы соответствия с несколькими группами захвата:
 ```
 ${/(.*?)\s*\[USA\]\s*(.+)|(.*)/}
 ```
-First match group (from left to right) with all correct captures will be used. Furthermore, all capture groups will be **joined**.
+Будет использована первая группа матчей (слева направо) со всеми правильными захватами. Кроме того, все группы захвата будут **соединены**.
 
-### Regular expression with capture brackets and replacement text: `${/(.+)/|...}`{.noWrap}
+### Регулярное выражение с захватом скобок и заменой текста: `${/(.+)/|...}`{.noWrap}
 
-Similar to [regular expression with capture brackets](#regular-expression-with-capture-brackets) except for how it handles captured groups. Replacement text can be used to move around captured groups. For example:
+Аналогичен [регулярному выражению с захватом скобок](#regular-expression-with-capture-brackets), за исключением того, как он обрабатывает захваченные группы. Заменяющий текст можно использовать для перемещения по захваченным группам. Например:
 ```
-${/(.*?)\s*\[USA\]\s*(.+)/|Second capture group: "$2" precedes the first one, which is "$1" }
+${/(.*?)\s*\[USA\]\s*(.+)/|Вторая группа захвата: "$2" предшествует первой, которая "$1" }
 ```
-If our first capture group is `Legend of Zelda` and second one is `SUPER EDITION`, then we will get the following (not very useful) title:
+Если наша первая группа захвата - `Legend of Zelda`, а вторая - `SUPER EDITION`, то мы получим следующее (не очень полезное) название:
 
-`Second capture group: "SUPER EDITION" precedes the first one, which is "Legend of Zelda"`
+`Вторая группа захвата: "SUPER EDITION" предшествует первой, которая является "Legend of Zelda"`
 
-Untouched text will remain by default, so if you see some trailing characters be sure to add `.*` at the end or `.*?` at the begging of regular expression.
+По умолчанию текст останется нетронутым, поэтому, если вы видите несколько символов в конце, обязательно добавьте `.*` в конец или `.*?` в начало регулярного выражения.
 
 ### Поддерживаемые флаги
 
@@ -50,4 +50,4 @@ Untouched text will remain by default, so if you see some trailing characters be
 
 ## Ограничения
 
-Position extraction comes with some limitations -- glob is invalid if position can not be extracted. Most of the time you will be warned about what you can't do, however, if you find a combination that is allowed, but produces incorrect titles please make an issue at [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
+Извлечение позиции имеет некоторые ограничения - glob недействителен, если позиция не может быть извлечена. В большинстве случаев вы будете предупреждены о том, что делать нельзя, однако если вы найдете комбинацию, которая разрешена, но выдает неправильные названия, пожалуйста, оформите проблему на [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
