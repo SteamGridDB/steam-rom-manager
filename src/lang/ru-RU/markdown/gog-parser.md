@@ -1,7 +1,7 @@
-# GOG Galaxy Parser
+# Анализатор GOG Galaxy
 
-This parser imports games from `GOG Galaxy` so that artwork can be chosen for them and they can be added into Steam. If it doesn't work it is because GOG Galaxy has altered the structure of their game database, in this case please let the developers of SRM know and we will resolve the issue.
+Этот анализатор импортирует игры из `GOG Galaxy`, чтобы можно было выбрать для них обложку и добавить их в Steam. Если он не работает, это связано с тем, что GOG Galaxy изменил структуру своей базы данных игр, в этом случае, пожалуйста, сообщите разработчикам SRM, и мы решим эту проблему.
 
-## Compatibility
+## Совместимость
 
-This parser is currently functional on `Windows` systems only.
+В настоящее время этот анализатор работает только в системах `Windows`.
