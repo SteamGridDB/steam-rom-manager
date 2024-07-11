@@ -1,6 +1,6 @@
-# Frequently asked questions
+# Часто задаваемые вопросы
 
-Read this if you're still having trouble with configuration. For most examples the following will be used unless specified otherwise:
+Ознакомьтесь с данным разделом, если у вас все еще возникают проблемы с настройкой. For most examples the following will be used unless specified otherwise:
 
 |                    |                                            |
 | ------------------ | ------------------------------------------ |
