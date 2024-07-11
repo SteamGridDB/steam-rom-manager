@@ -1,113 +1,113 @@
 # Часто задаваемые вопросы
 
-Ознакомьтесь с данным разделом, если у вас все еще возникают проблемы с настройкой. For most examples the following will be used unless specified otherwise:
+Ознакомьтесь с данным разделом, если у вас все еще возникают проблемы с настройкой. В большинстве примеров будут использоваться следующие значения, если не установлено иное:
 
-|                    |                                            |
-| ------------------ | ------------------------------------------ |
-| **ROMs directory** | `C:/ROMs`                                  |
-| **File1**          | `C:/ROMs/Kingdom Hearts/game.iso`          |
-| **File2**          | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
-| **File3**          | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
-| **File4**          | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
-| **File5**          | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
-| **File6**          | `C:/ROMs/dir1/dir2/save.sav`               |
+|                  |                                            |
+| ---------------- | ------------------------------------------ |
+| **Каталог ROMs** | `C:/ROMs`                                  |
+| **Файл1**        | `C:/ROMs/Kingdom Hearts/game.iso`          |
+| **Файл2**        | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
+| **Файл3**        | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
+| **Файл4**        | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
+| **Файл5**        | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
+| **Файл6**        | `C:/ROMs/dir1/dir2/save.sav`               |
 
-## So, how do I setup user's glob?
+## Итак, как мне настроить glob пользователя?
 
-First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. Since our **ROMs directory** is `C:/ROMs`, we can just remove it from **File1**'s path.
+Сначала проанализируем **Файл1**. Полный путь к нему - `C:/ROMs/Kingdom Hearts/game.iso`. Поскольку наш каталог **ROMs** - это `C:/ROMs`, мы можем просто удалить его из пути **Файл1**.
 
-We end up with `Kingdom Hearts/game.iso`. It obvious for us that `Kingdom Hearts` is the title, however parser is dumber than you -- you must specify path portion which contains the title by replacing `Kingdom Hearts` with `${title}`.
+В итоге мы получаем `Kingdom Hearts/game.iso`. Для нас очевидно, что `Kingdom Hearts` - это название, однако анализатор глупее вас - вы должны указать часть пути, которая содержит название, заменив `Kingdom Hearts` на `${title}`.
 
-Again, we end up with `${title}/game.iso`, but we also want **File2**, because it is for the same emulator. **File1** is `game.iso` and **File2** is `rom.iso`. What now?
+Опять же, в итоге мы получаем `${title}/game.iso`, но нам также нужен **Файл2**, потому что он предназначен для того же эмулятора. **Файл1** - это `game.iso`, а **Файл2** - это `rom.iso`. Что дальше?
 
-Remember wild cards? They allow us to discard information that does not really matter. In this case we don't care if it is `game` or `rom`, we want both to be matched. That's why we replace them with `*`. This is the final glob for both **File1** and **File2**:
+Помните про "дикие карты"? Они позволяют нам отбрасывать информацию, которая на самом деле не имеет значения. В данном случае нам неважно, будет ли это `game` или `rom`, мы хотим, чтобы оба совпали. Поэтому мы заменяем их на `*`. Это конечный glob для обоих **Файл1** и **Файл2**:
 
 ```
 ${title}/*.iso
 ```
 
-Using similar logic we can produce glob for **File3**:
+Используя аналогичную логику, мы можем создать glob для **Файл3**:
 
 ```
 */*/*/${title}.nes
 ```
 
-## How to deal with multi-leveled directories?
+## Как работать с многоуровневыми каталогами?
 
-This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now?
+На этот раз нам нужны **Файл3** и **Файл5** (оба имеют разные расширения, читайте следующий раздел о том, что с этим делать, а пока мы будем использовать `*`, чтобы игнорировать расширение). Обратите внимание, что **Файл3** имеет `3` подкаталогов, в то время как **Файл5** имеет `2`. Что теперь?
 
-Now we can use a globstar and that's it!
+Теперь мы можем использовать globstar и все!
 ```
 **/${title}.*
 ```
-Is it really that simple? **NO!** Globstar will have some impact in parser's performance if there are many subdirectories with thousands of files each. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere.
+Неужели все так просто? **NO!** Globstar будет оказывать некоторое влияние на производительность анализатора, если в нем много подкаталогов с тысячами файлов в каждом. Globstar позаботится о том, чтобы анализатор проверил все файлы, которые он сможет найти. Пользователь однажды сообщил, что парсинг занял ~10 минут, когда он использовал везде globstars.
 
-A recommended solution is to use braced sets. They can make multiple globs out of `1` glob. If we write a glob like this:
+Рекомендуемое решение - использовать комплекты со скобами. Они могут создавать несколько глобусов из `1` глобуса. Если мы напишем glob следующим образом:
 
 ```
 {*,*/*}/*/${title}.*
 ```
 
-we will get `2` globs:
+мы получим `2` глобусов:
 
 ```
 */*/${title}.*
 */*/*/${title}.*
 ```
 
-These `2` globs both satisfy our files, **File3** and **File5**.
+Эти глобусы `2` оба удовлетворяют нашим файлам, **Файл3** и **Файл5**.
 
-## How to limit file extensions?
+## Как ограничить расширения файлов?
 
-Let's say we use glob from previous example:
+Допустим, мы используем glob из предыдущего примера:
 
 ```
 {*,*/*}/*/${title}.*
 ```
 
-We will end up with 4 files: **File3**, **File4**, **File5** and **File6**. Now, we don't need **File4** and **File6**. Normally we could set glob to:
+В итоге у нас будет 4 файла: **Файл3**, **Файл4**, **Файл5** и **Файл6**. Теперь нам не нужны **Файл4** и **Файл6**. Обычно мы можем установить glob на:
 
 ```
 {*,*/*}/*/${title}.nes
 ```
 
-but then we will end up only with **File3**, because `nes` is not equal to `NES` -- parser is case sensitive. There are two ways to solve this problem using extended glob matcher.
+но тогда в итоге мы получим только **Файл3**, потому что `nes` не равно `NES` - анализатор чувствителен к регистру. Есть два способа решить эту проблему с помощью расширенного glob matcher.
 
-### Exclude `sav` extension
+### Исключить расширение `sav`
 
-Extended glob matcher `!(...)` allows us to exclude stuff. Simply write glob like this:
+Расширенный glob matcher `!(...)` позволяет исключить все, что нужно. Просто напишите glob следующим образом:
 
 ```
 {*,*/*}/*/${title}.!(sav)
 ```
 
-and files with `sav` extension will be excluded.
+и файлы с расширением `sav` будут исключены.
 
-### Check for multiple extensions
+### Проверьте наличие нескольких расширений
 
-Extended glob matcher `@(...)` allows us to match multiple things. Simply write glob like this:
+Расширенный glob matcher `@(...)` позволяет нам сопоставлять несколько вещей. Просто напишите glob следующим образом:
 
 ```
 {*,*/*}/*/${title}.@(nes|NES)
 ```
 
-and only files with `nes` and `NES` will be matched. If you're feeling fancy or if you have files with extensions `nes`, `NES`, `neS`, `nEs`, `Nes` and etc., you need a glob that uses character range:
+и только файлы с `nes` и `NES` будут сопоставлены. Если вы чувствуете себя фантазером или у вас есть файлы с расширениями `nes`, `NES`, `neS`, `nEs`, `Nes` и т. д., вам нужен glob, который использует диапазон символов:
 
 ```
 {*,*/*}/*/${title}.@([nN][eE][sS])
 ```
 
-Now parser can match any combination and is effectively case-insensitive. Technically, the following glob will work too, but the one above looks better.
+Теперь анализатор может соответствовать любой комбинации и фактически не зависит от регистра. Технически, следующий глобус тоже будет работать, но приведенный выше выглядит лучше.
 
 ```
 {*,*/*}/*/${title}.[nN][eE][sS]
 ```
 
-## Troubleshooting
-* Please ensure that steam is actually closed before saving your app list.
+## Устранение неполадок
+* Перед сохранением списка приложений убедитесь, что steam действительно закрыт.
 
-* One common issue Steam ROM Manager runs into is the presence of old steam directories from people who logged into steam in your computer before the New Library Update. This can cause Steam ROM Manager to fail in unpredictable ways, as it tries to access directories whose structure has changed. In order to get around this, use the [User Accounts](#user-accounts) field to specify which accounts you actually want to use Steam ROM Manager with.
+* Одна из распространенных проблем, с которой сталкивается Steam ROM Manager, - наличие старых каталогов steam от людей, которые вошли в steam на вашем компьютере до обновления New Library Update. Это может привести к непредсказуемым сбоям в работе Steam ROM Manager, поскольку он пытается получить доступ к директориям, структура которых изменилась. Чтобы обойти эту проблему, используйте поле [User Accounts](#user-accounts), чтобы указать, с какими учетными записями вы хотите использовать Steam ROM Manager.
 
-## The Discord
+## Discord
 
-For further help, please see our [Discord](https://discord.gg/bnSVJrz).
+Для получения дополнительной помощи обратитесь к нашему [Discord](https://discord.gg/bnSVJrz).
