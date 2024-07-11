@@ -14,77 +14,77 @@
 
 ## Переменные каталога
 
-| Переменная (без учета регистра) | Соответствующее значение                  |
-| -------------------------------:|:----------------------------------------- |
-|                     `${exeDir}` | Каталог исполняемых файлов                |
-|                     `${romDir}` | Каталог ROMs                              |
-|                   `${steamDir}` | Каталог Steam                             |
-|                 `${startInDir}` | "StartIn" directory                       |
-|                    `${fileDir}` | Files returned by a parser or a directory |
+| Переменная (без учета регистра) | Соответствующее значение                       |
+| -------------------------------:|:---------------------------------------------- |
+|                     `${exeDir}` | Каталог исполняемых файлов                     |
+|                     `${romDir}` | Каталог ROMs                                   |
+|                   `${steamDir}` | Каталог Steam                                  |
+|                 `${startInDir}` | Каталог "StartIn"                              |
+|                    `${fileDir}` | Файлы, возвращаемые анализатором или каталогом |
 
-In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
+Если входной каталог исполняемых файлов оставлен **пустым**, `${exeDir}`{.noWrap} будет равен `${fileDir}`{.noWrap}. Более того, если каталог "StartIn" оставить **пустым**, то `${startInDir}`{.noWrap} будет равен `${exeDir}`{.noWrap}.
 
-## Name variables
+## Именные переменные
 
-| Variable (case-insensitive) | Corresponding value                                             |
-| ---------------------------:|:--------------------------------------------------------------- |
-|                `${exeName}` | Name of executable (without extension)                          |
-|               `${fileName}` | Name of file which was returned by a parser (without extension) |
+| Переменная (без учета регистра) | Соответствующее значение                               |
+| -------------------------------:|:------------------------------------------------------ |
+|                    `${exeName}` | Имя исполняемого файла (без расширения)                |
+|                   `${fileName}` | Имя файла, возвращенного анализатором (без расширения) |
 
-In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
+Если входной каталог исполняемых файлов оставлен **пустым**, `${exeName}`{.noWrap} будет равен `${fileName}`{.noWrap}.
 
-## Extension variables
+## Переменные расширения
 
-| Variable (case-insensitive) | Corresponding value                                           |
-| ---------------------------:|:------------------------------------------------------------- |
-|                 `${exeExt}` | Extension of executable (with a dot)                          |
-|                `${fileExt}` | Extension of file which was returned by a parser (with a dot) |
+| Переменная (без учета регистра) | Соответствующее значение                                |
+| -------------------------------:|:------------------------------------------------------- |
+|                     `${exeExt}` | Расширение исполняемого файла (с точкой)                |
+|                    `${fileExt}` | Расширение файла, возвращенного анализатором (с точкой) |
 
-In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
+Если входной каталог исполняемых файлов оставлен **пустым**, `${exeExt}`{.noWrap} будет равен `${fileExt}`{.noWrap}.
 
-## Path variables
+## Переменные пути
 
-| Variable (case-insensitive) | Corresponding value                                |
-| ---------------------------:|:-------------------------------------------------- |
-|                `${exePath}` | Full path to an executable                         |
-|               `${filePath}` | Full path to a file which was returned by a parser |
+| Переменная (без учета регистра) | Соответствующее значение                                |
+| -------------------------------:|:------------------------------------------------------- |
+|                    `${exePath}` | Полный путь к исполняемому файлу                        |
+|                   `${filePath}` | Полный путь к файлу, который был возвращен анализатором |
 
-In case executable directory input is left **empty**, `${exePath}`{.noWrap} is equal to `${filePath}`{.noWrap}.
+Если входной каталог исполняемых файлов оставлен **пустым**, `${exePath}`{.noWrap} будет равен `${filePath}`{.noWrap}.
 
-## Parser variables
+## Переменные анализатора
 
-| Variable (case-insensitive) | Corresponding value                              |
-| ---------------------------:|:------------------------------------------------ |
-|                  `${title}` | Extracted title                                  |
-|             `${fuzzyTitle}` | Fuzzy matched title                              |
-|             `${finalTitle}` | Title which was the end result of title modifier |
+| Переменная (без учета регистра) | Соответствующее значение                                           |
+| -------------------------------:|:------------------------------------------------------------------ |
+|                      `${title}` | Извлеченное название                                               |
+|                 `${fuzzyTitle}` | Нечеткое сопоставление названий                                    |
+|                 `${finalTitle}` | Название, которое стало конечным результатом модификатора названия |
 
-In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
+Если нечеткое согласование **не работает** или **отключено**, `${fuzzyTitle}`{.noWrap} равно `${title}`{.noWrap}.
 
-## Function variables
+## Функциональные переменные
 
-|                                 Variable (case-insensitive) | Corresponding function                                                                                                 |
-| -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
-|                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
-|                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
-|                                             `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                                      |
-|                                       `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
-|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
-| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                           |
+|             Переменная (без учета регистра) | Соответствующая функция                                                                                                                    |
+| -------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------ |
+| `${regex\|input\|substitution(optional)}` | Выполняет regex на вводимых данных. Поддерживает флаги `u`, `g` и `i` (захваченные группы объединяются, если не предусмотрена подстановка) |
+|                             `${uc\|input}` | Переменная в верхнем регистре. Преобразование ввода в верхний регистр                                                                      |
+|                             `${lc\|input}` | Переменная в нижнем регистре. Преобразование ввода в строчные буквы                                                                        |
+|                       `${cv:group\|input}` | Измените ввод с помощью сопоставленной пользовательской переменной (группа необязательна)                                                  |
+|                            `${rdc\|input}` | Замените введенные диакритические символы их латинскими эквивалентами                                                                      |
+|                                          `` | Если ОС совпадает, используется значение `о совпадении` или `без совпадения` в противном случае                                            |
 
-### Function variable example
+### Пример функциональной переменной
 
-Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
+Допустим, переменная `${title}` равна `Pokémon (USA) (Disc 1).iso`. Затем эти переменные:
 ```
-${/.*/|${title}}                           //Matches everything
-${/(.*)/|${title}}                         //Captures everything
-${/(\(.*?\))/|${title}|}                   //Captures all brackets and substitutes with nothing
-${/(\(Disc\s?[0-9]\))/|${title}}           //Captures "Disc..." part
-${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transforms it to uppercase
-${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
-file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
+${/.*/|${title}}                           //Подбирает все
+${/(.*)/|${title}}                         //Захватывает все
+${/(\(.*?\))/|${title}|}                   //Захватывает все скобки и заменяет их ничем
+${/(\(Disc\s?[0-9]\))/|${title}}           //Захватывает часть "Диск..."
+${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Захватывает часть "Диск..." и преобразует ее в верхний регистр
+${rdc|${title}}                            //Замена диакритических знаков (в данном случае: é -> e)
+file${os:linux|.so|${os:win|.dll}}         //Выбирает правильное расширение файла для ОС
 ```
-will be replaced with these:
+будут заменены на эти:
 ```
 Pokémon (USA) (Disc 1).iso
 Pokémon (USA) (Disc 1).iso
