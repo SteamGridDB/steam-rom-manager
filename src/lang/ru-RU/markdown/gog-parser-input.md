@@ -1,14 +1,14 @@
-# GOG Galaxy Parser Specific Inputs
+# Особые входные данные анализатора GOG Galaxy
 
-## Galaxy Path Override
-By default Steam ROM Manager assumes your Galaxy Client is located at `C:\Program Files (x86)\GOG Galaxy\GalaxyClient.exe`. This field allows you to override that path if your GOG Galaxy installation is elsewhere.
+## Переопределение пути GOG Galaxy
+По умолчанию Steam ROM Manager предполагает, что ваш Galaxy Client находится по адресу `C:\Program Files (x86)\GOG Galaxy\GalaxyClient.exe`. Это поле позволяет вам изменить путь, если ваша установка GOG Galaxy находится в другом месте.
 
-This field is actually only necessary if you enable launch via GOG Galaxy (see below), as otherwise SRM has no need of the location of the Galaxy Client.
+Это поле необходимо только в том случае, если вы включили запуск через GOG Galaxy (см. ниже), поскольку в противном случае SRM не нужно указывать местоположение клиента Galaxy.
 
-## Launch Via GOG Galaxy `[Recommend disabled]`
+## Запуск через GOG Galaxy `[Рекомендовать отключено]`
 
-What it sounds like, this toggle let's you set whether games will launch via GOG Galaxy or directly. Note that for some games launching from GOG Galaxy may fail, and the Steam overlay will most likely not work.
+Этот переключатель позволяет установить, будут ли игры запускаться через GOG Galaxy или напрямую. Обратите внимание, что для некоторых игр запуск из GOG Galaxy может оказаться неудачным, а оверлей Steam, скорее всего, не будет работать.
 
-## Parse Linked Executables from GOG Galaxy
+##
 
-If enabled, SRM will pull in not only GOG games aquired from GOG Galaxy's store, but also those you have manually linked executables for in GOG Galaxy. This is desirable if those games are not being parsed into SRM elsewhere. A caveat is that because GOG Galaxy does not store the names of such games, SRM will use the directory name of the executable: `C:\\path\\to\\Hoa\\LaunchHoa.exe` would be assigned the title `Hoa`.
+Если эта опция включена, SRM будет добавлять не только игры GOG, приобретенные в магазине GOG Galaxy, но и те, для которых вы вручную связали исполняемые файлы в GOG Galaxy. Это желательно, если эти игры не разбираются на SRM в других местах. Оговорка: поскольку GOG Galaxy не хранит названия таких игр, SRM будет использовать имя каталога исполняемого файла: `C:\\path\\\to\\\Hoa\\\LaunchHoa.exe` будет присвоено название `Hoa`.
