@@ -1,7 +1,7 @@
-# Legendary Parser Specific Inputs
+# Особые входные данные Legendary анализатора
 
-## Legendary `installed.json` Path Override
+## Легендарный `installed.json` Переопределение пути
 
-Most users shouldn't use this, as they use the standard `Legendary` installation where installed games manifest will be located at `~/.config/legendary/installed.json`.
+Большинству пользователей это не нужно, так как они используют стандартную установку `Legendary`, где манифест установленных игр будет находиться по адресу `~/.config/legendary/installed.json`.
 
-If, however, for some reason your installed games manifest is located in a non-typical location then you can specify the correct manifest path here.
+Если же по какой-то причине манифест установленной игры находится в нетипичном месте, вы можете указать правильный путь к манифесту здесь.
