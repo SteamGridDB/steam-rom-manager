@@ -1,7 +1,7 @@
-# Image providers
+# Провайдеры изображения
 
-Here you can select image providers that are used to retrieve images. This option is for this configuration only.
+Здесь вы можете выбрать поставщиков изображений, которые будут использоваться для получения изображений. Эта опция предназначена только для данной конфигурации.
 
-## Similar option in "Settings" menu
+## Аналогичная опция в меню "Настройки"
 
-Settings menu has "Enabled providers" which enable image providers globally -- if it's not enabled in Settings, it won't work.
+В меню настроек есть пункт "Включенные провайдеры", который включает провайдеров изображений глобально -- если он не включен в настройках, он не будет работать.
