@@ -1,29 +1,28 @@
-# Non-SRM Shortcut Parser
+# Анализатор ярлыков, не относящихся к SRM
 
-This parser imports non SRM steam shortcuts into SRM so their artowrk can be managed. It does not add shortcuts, and as such is an `Artwork Only` parser. This parser requires the `User Accounts` field to be set.
+Этот анализатор импортирует паровые ярлыки, не относящиеся к SRM, в SRM, чтобы можно было управлять их художественным оформлением. Он не добавляет ярлыки, и поэтому является анализатором `Artwork Only (Только художественное оформление)`. Этот анализатор требует, чтобы поле `Учетные записи пользователей` было установлено.
 
-## User accounts (required)
+## Учетные записи пользователей (обязательно)
 
-Used to limit configuration to specific user accounts. In order to set user accounts, the following syntax must be used:
+Используется для ограничения конфигурации для определенных учетных записей пользователей. Чтобы задать учетные записи пользователей, необходимо использовать следующий синтаксис:
 
 ```
-${...}
 ```
 
-You **must** use the username you use to **log in** into Steam **if** [use account credentials](#what-does-use-account-credentials-do) is enabled:
+Вы **должны** использовать имя пользователя, которое вы используете для **входа** в Steam **если** включена опция [use account credentials](#what-does-use-account-credentials-do):
 
-![Account example](../../../assets/images/user-account-example.png) {.fitImage .center}
+![Пример аккаунта](../../../assets/images/user-account-example.png) {.fitImage .center}
 
-For example, this is how you specify account for "Banana" and "Apple":
+Например, так можно указать учетные записи для "Banana" и "Apple":
 
 ```
 ${Banana}${Apple}
 ```
 
-You can also limit accounts by specifying their ids directly. For example:
+Вы также можете ограничить учетные записи, указав их идентификаторы напрямую. Например:
 
 ```
 ${56489124}${21987424}
 ```
 
-Would limit the search to `steam/userdata/56489124` and `steam/userdata/21987424`.
+Ограничивает поиск до `steam/userdata/56489124` и `steam/userdata/21987424`.
