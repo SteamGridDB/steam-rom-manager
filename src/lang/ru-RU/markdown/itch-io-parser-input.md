@@ -1,9 +1,9 @@
-# itch.io Parser Specific Inputs
+# Особые входные данные анализатора itch.io
 
-## itch.io AppData Path Override
-By default Steam ROM Manager assumes your itch.io app data is located at `%APPDATA%\itch` on windows `$HOME/.config/itch` on linux and `$HOME/Library/Application Support/itch` on macos. This field allows you to override that path if your itch.io user data is elsewhere.
+## Переопределение пути AppData с itch.io
+По умолчанию Steam ROM Manager предполагает, что данные вашего приложения itch.io находятся по адресу `%APPDATA%\itch` на windows `$HOME/.config/itch` на linux и `$HOME/Library/Application Support/itch` на macos. Это поле позволяет вам изменить этот путь, если данные пользователя itch.io находятся в другом месте.
 
-## itch.io Windows-on-Linux Install Drive Redirect
-On Linux, Windows app locations are recorded with Windows paths, even if running via Proton/Wine. If set, this field replaces the root of game paths. For example, this would change a `C:\\Path\To\Game.exe` to `<field value>/Path/To/Game.exe`.
+## itch.io Перенаправление установочного диска Windows на Linux
+В Linux местоположение приложений Windows записывается с путями Windows, даже если они запущены через Proton/Wine. Если установлено, это поле заменяет корень игровых путей. Например, это изменит `C:\\Path\To\Game.exe` на `<field value>/Path/To/Game.exe`.
 
-This field only has an effect on Linux systems.
+Это поле имеет значение только для систем Linux.
