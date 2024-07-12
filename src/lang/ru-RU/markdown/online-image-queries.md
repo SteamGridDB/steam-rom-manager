@@ -1,6 +1,6 @@
-# Online image query `[supports variables]`{.noWrap}
+# Онлайн-запрос изображений `[поддерживает переменные]`{.noWrap}
 
-Queries that are used to search for images. In order to set image query, the following syntax must be used:
+Запросы, используемые для поиска изображений. In order to set image query, the following syntax must be used:
 ```
 ${...}
 ```
