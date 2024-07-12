@@ -1,13 +1,13 @@
-# Local images (optional) `[supports variables]`{.noWrap}
+# Локальные изображения (необязательно) `[поддерживает переменные]`{.noWrap}
 
-Allows one to use images stored locally. A [special glob input](#special-glob-input) string is used to retrieve images, so for example you might do `/path/to/heroes/${title}.@(png|jpg)`. Backslashes can be used to escape characters, so that if your images live in `artwork [portraits]` you might do `/path/to/artwork \[portraits\]/${title}.@(png|jpg)`. A good idea is to set your artwork directory globally and then use the `${localimages}` dir environment variable in this field: `${localimagesdir}/emuname/heroes/${title}.@(png|jpg)` for example.
+Позволяет использовать изображения, хранящиеся локально. Для получения изображений используется [специальная строка glob input](#special-glob-input) поэтому например, вы можете сделать `/path/to/heroes/${title}.@(png|jpg)`. Обратные косые черты могут использоваться для экранирования символов, так что если ваши изображения находятся в `artwork [portraits]`, вы можете сделать `/path/to/artwork \[portraits\]/${title}.@(png|jpg)`. .
 
-Any variable you use in this field that contains special glob characters will have those characters escaped.
+Любая переменная, используемая в этом поле и содержащая специальные символы glob, будет экранирована.
 
-## Allowed image extensions
+## Разрешенные расширения изображений
 
-Only `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} and `TGA`{.noWrap} file extensions are supported. Even if parser finds files with other extensions, they are not included into the final list.
+Поддерживаются только расширения файлов `JPEG`{.noWrap}, `JPG`{.noWrap}, `PNG`{.noWrap} и `TGA`{.noWrap}. Даже если анализатор найдет файлы с другими расширениями, они не будут включены в окончательный список.
 
-## Can you move the directory of local images after saving app list?
+## Можете ли вы переместить каталог локальных изображений после сохранения списка приложений?
 
-Yes, once the list is saved, local images are copied to a Steam directory where they are renamed to match Steam's APP ID.
+Да, после сохранения списка локальные изображения копируются в каталог Steam, где они переименовываются в соответствии с APP ID Steam.
