@@ -1,4 +1,4 @@
-# Manual Parser Specific Inputs
+# Особые входные данные пользовательского анализатора
 
 ## Manifests Directory `[Supports Environment Variables]`{.noWrap}
 
