@@ -2,7 +2,7 @@
 
 Path to emulator's executable. Can be a file or any valid system path.
 
-## Why optional?
+## Pourquoi optionnel ?
 
 In some cases you might want to run game from a some kind batch file which will also automatically run the emulator itself. If that is the case, then providing executable is unnecessary.
 
