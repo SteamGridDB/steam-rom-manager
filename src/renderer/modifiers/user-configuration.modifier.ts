@@ -314,7 +314,6 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
           result['onlyInstalled'] = oldConfiguration.parserInputs['onlyInstalled']
           result.appTypes = ['game']
           return result
-          }
         }
       }
     },
