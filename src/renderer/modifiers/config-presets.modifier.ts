@@ -18,7 +18,7 @@ import {versionUp, extractNames} from "./modifier-helpers";
 
 export const configPreset: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'presetVersion',
-  latestVersion: 15,
+  latestVersion: 16,
   fields: {
     undefined: {
       'presetVersion': { method: ()=>0 },
@@ -234,6 +234,13 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
         } else {
           return []
         }
+      }}
+    },
+    15: {
+      'version': { method: versionUp },
+      'fuzzyMatch': {method: (oldValue)=> {
+        delete oldValue.use;
+        return oldValue;
       }}
     }
   }
