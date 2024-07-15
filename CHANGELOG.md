@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.18
+## Added
+* Improved control over exactly what Steam Parser adds (between full games, demos, tools, and source mods).
+## Fixed
+* Steam Parser failing on beta update due to changes in binary format of appinfo.vdf ([issue 688](https://github.com/SteamGridDB/steam-rom-manager/issues/688))
+* Steam Parser no longer requires apps to be in at least one category(incidentally resolves [issue 596](https://github.com/SteamGridDB/steam-rom-manager/issues/596))
+
 ## 2.5.17
 ### Fixed
 * EA Parser not handling utf-16 manifests gracefully ([issue 677](https://github.com/SteamGridDB/steam-rom-manager/issues/677)).
