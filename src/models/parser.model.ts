@@ -1,7 +1,7 @@
 import { userAccountData, StringLiteralArray } from './helpers.model';
 import { Controllers } from './controllers.model';
 import { ImageProviderAPI } from './user-configuration.model';
-import { OnlineProviderType, ArtworkType } from '.';
+import { OnlineProviderType, ArtworkType, SelectItem } from '.';
 
 export interface StringMap {
   [key: string]: any
@@ -49,7 +49,9 @@ export interface ParserInputField {
   [inputKey: string]: {
     label: string,
     placeholder?: string,
-    inputType: 'text' | 'path' | 'dir' | 'toggle',
+    inputType: 'text' | 'path' | 'dir' | 'toggle' | 'multiselect',
+    allowedValues?: SelectItem[],
+    initialValue?: string[],
     required?: boolean,
     info?: string,
     forcedInput?: string,

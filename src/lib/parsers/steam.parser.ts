@@ -18,58 +18,46 @@ export class SteamParser implements GenericParser {
       title: 'Steam',
       info: this.lang.docs__md.self.join(''),
       inputs: {
-        'onlyGames': {
-          label: this.lang.onlyGamesTitle,
-          inputType: 'toggle',
+        'appTypes': {
+          label: 'Application Types',
+          inputType: "multiselect",
+          allowedValues: [
+            {value: 'game', displayValue: 'Full Games'},
+            {value: 'demo', displayValue: 'Demos'},
+            {value: 'application', displayValue: 'Tools (e.g. Wallpaper Engine)'},
+            {value: 'sourcemods', displayValue: 'Source Mods'}
+          ],
+          initialValue: ['game'],
           validationFn: (input: any) => { return null },
-            info: this.lang.docs__md.input.join('')
+          info: this.lang.docs__md.input.join('')
+
         },
         'onlyInstalled': {
           label: this.lang.onlyInstalledTitle,
           inputType: 'toggle',
           validationFn: (input: any) => { return null },
-            info: this.lang.docs__md.input.join('')
-        },
-        'sourceMods': {
-          label: this.lang.sourceModsTitle,
-          inputType: 'toggle',
-          validationFn: (input: any) => { return null },
-            info: this.lang.docs__md.input.join('')
+          info: this.lang.docs__md.input.join('')
         }
       }
     };
   }
 
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
-    return new Promise<ParsedData>((resolve, reject)=>{
+    return new Promise<ParsedData>(async (resolve, reject)=>{
       if(!directories || directories.length==0){
         return reject(this.lang.errors.noSteamAccounts);
       }
       const appinfo_path = path.normalize(path.join(directories[0],'..','..','appcache','appinfo.vdf'));
-      Promise.resolve()
-      .then(()=>{
-        return bvdf.readAppInfo(fs.createReadStream(appinfo_path))
-      })
-      .catch((error: string) => {
-        throw this.lang.errors.steamChanged__i.interpolate({error: error, file: appinfo_path});
-      })
-      .then((appinfo: any)=> {
-        let categorizedAppIds: string[] = [];
-        for(let directory of directories) {
-          const sharedconfig_path = path.join(directory,'7','remote','sharedconfig.vdf');
-          try {
-            const sharedconfig = genericParser.parse(fs.readFileSync(sharedconfig_path,'utf-8'));
-            const keySeq = [['userroamingconfigstore','userlocalconfigstore'],['software'],['valve'],['steam'],['apps']];
-            const sharedConfigApps = json.caselessGet(sharedconfig, keySeq) || {};
-            categorizedAppIds = _.union(categorizedAppIds, Object.keys(sharedConfigApps)).filter(appId => /^[0-9]*$/g.test(appId));
-          } catch (e) {
-            throw this.lang.errors.steamChanged__i.interpolate({error: e, file: sharedconfig_path})
-          }
-        }
-
-        const libraryfolders_path = path.normalize(path.join(directories[0],'..','..','steamapps','libraryfolders.vdf'));
+      let appinfos;
+      try {
+        appinfos = await bvdf.readBinaryVDF(fs.createReadStream(appinfo_path));
+      } catch(error) {
+        throw this.lang.errors.steamChanged__i.interpolate({error, file: appinfo_path});
+      }
+      try {
         let installedIds: string[];
         if(inputs.onlyInstalled) {
+          const libraryfolders_path = path.normalize(path.join(directories[0],'..','..','steamapps','libraryfolders.vdf'));
           try {
             const libraryFolders: any = genericParser.parse(fs.readFileSync(libraryfolders_path,'utf-8'));
             installedIds = _.union(...Object.values(libraryFolders.libraryfolders).map((x: any)=>Object.keys(x.apps)));
@@ -77,62 +65,49 @@ export class SteamParser implements GenericParser {
             throw this.lang.errors.steamChanged__i.interpolate({error: e, file: libraryfolders_path});
           }
         }
-
-        return appinfo.filter((app: any) =>  {
-          return app.id
-          && app.entries
-          && app.entries.appid
-          && app.entries.common
-          && app.entries.common.name !== undefined
-          && categorizedAppIds.includes(app.entries.appid.toString())
-          && (!inputs.onlyGames || app.entries.common.type.toLowerCase()=='game')
-          && (!inputs.onlyInstalled || installedIds.includes(app.entries.appid.toString()))
+        const localConfigPath = path.join(directories[0], 'config', 'localconfig.vdf');
+        const localConfig = genericParser.parse(fs.readFileSync(localConfigPath,'utf-8'))
+        const ticketKeys = Object.keys(localConfig.UserLocalConfigStore.apptickets)
+        const allowedTypes = inputs.appTypes.filter((x: string) => x!=='sourcemods')
+        let filteredApps: {title: string, appid: string}[] =  appinfos.filter((a: any) =>  {
+          return a?.appinfo?.appid
+          && a?.appinfo?.common?.name
+          && allowedTypes.includes(a?.appinfo?.common?.type?.toLowerCase())
+          && ticketKeys.includes(a.appinfo.appid.toString())
+          && (!inputs.onlyInstalled || installedIds.includes(a.appinfo.appid.toString()))
         }).map((app: any) => {
           return {
-            title: app.entries.common.name.toString(),
-            appid: app.entries.appid.toString()
+            title: app.appinfo.common.name.toString(),
+            appid: app.appinfo.appid.toString()
           }
-        })
-      })
-      .then((filteredApps: {title: string, appid: string}[])=>{
-        // source mods
-        return new Promise<{title: string, appid: string}[]>((resolve,reject)=>{
-          let sourceModIds: string[] = [];
-          if(inputs.sourceMods) {
-            const wtfValve: number = 2147483649;
-            const sourcemods_dir = path.normalize(path.join(directories[0],'..','..','steamapps','sourcemods'))
-            glob('*/gameinfo.txt', {dot: true, cwd: sourcemods_dir}).then((files: string[]) => {
-              let sourceMods: {title: string, appid: string}[] = [];
-              files = files.sort();
-              for(let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const fileData = fs.readFileSync(path.join(sourcemods_dir,file),'utf-8');
-                const gameinfo: any = this.gameInfoParser(fileData);
-                sourceMods.push({title: gameinfo.game, appid: (wtfValve + i).toString()})
-              }
-              resolve(filteredApps.concat(sourceMods))
-            })
-          } else {
-            resolve(filteredApps.sort((a,b)=>a.title.localeCompare(b.title)))
+        });
+        if(inputs.appTypes.includes('sourcemods')) {
+          const wtfValve: number = 2147483649;
+          const sourcemods_dir = path.normalize(path.join(directories[0],'..','..','steamapps','sourcemods'))
+          const files = (await glob('*/gameinfo.txt', {dot: true, cwd: sourcemods_dir})).sort();
+          let sourceMods: {title: string, appid: string}[] = [];
+          for(let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const fileData = fs.readFileSync(path.join(sourcemods_dir,file),'utf-8');
+            const gameinfo: any = this.gameInfoParser(fileData);
+            sourceMods.push({title: gameinfo.game, appid: (wtfValve + i).toString()})
           }
-        })
-      })
-      .then((filteredApps: {title: string, appid: string}[]) => {
-        let parsedData: ParsedData = {success: [], failed: []}
-        for(let app of filteredApps){
+          filteredApps = filteredApps.concat(sourceMods)
+        }
+        filteredApps = filteredApps.sort((a,b)=>a.title.localeCompare(b.title));
+        const parsedData: ParsedData = {success: [], failed: []}
+        for(const app of filteredApps){
           parsedData.success.push({
             extractedTitle: app.title,
             extractedAppId: app.appid
           });
         }
         resolve(parsedData);
-      })
-      .catch((err:string)=>{
-        reject(this.lang.errors.fatalError__i.interpolate({error: err}));
-      });
+      } catch (error) {
+        reject(this.lang.errors.fatalError__i.interpolate({error}));
+      }
     })
   }
-
 
   gameInfoParser(fileContents: string) {
     const lines = fileContents.split('\n');

@@ -284,6 +284,23 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                       }));
                     },
                   });
+                } else if(input.inputType == 'multiselect') {
+                  parserInputs[inputFieldName] = new NestedFormElement.Select({
+                    label: input.label,
+                    multiple: true,
+                    allowEmpty: false,
+                    values: input.allowedValues,
+                    initialValue: input.initialValue,
+                    onInfoClick: (self, path) => {
+                      this.currentDoc.activePath = path.join();
+                      this.currentDoc.content = input.info;
+                    },
+                    isHidden: () => {
+                      return concat(of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).pipe(map((pType: string) => {
+                        return pType !== parsers[i];
+                      }));
+                    },
+                  })
                 }
               }
             }

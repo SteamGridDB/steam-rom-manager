@@ -93,7 +93,7 @@
     "async": "^3.2.5",
     "bcp-47": "^2.1.0",
     "better-sqlite3": "^10.0.0",
-    "binary-vdf-2": "^0.1.0",
+    "binary-vdf-2": "^0.2.2",
     "blizzard-product-parser": "https://github.com/cbartondock/blizzard-product-parser.git",
     "cli-color": "^2.0.4",
     "colornames": "^1.1.1",

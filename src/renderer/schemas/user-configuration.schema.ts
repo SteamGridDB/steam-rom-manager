@@ -201,7 +201,12 @@ let options: any[] = availableParsers.map((parserType: ParserType)=>{
           enum: availableParserInputs[parserType]
         },
         patternProperties: {
-          "^.+$": { "type": ["string","boolean", "null"] }
+          "^.+$": {
+            anyOf: [
+              { "type": ["string","boolean","null"] },
+              { "type": "array", default: [] as string[], items: { type: 'string'} },
+            ]
+          }
         }
       }
     });

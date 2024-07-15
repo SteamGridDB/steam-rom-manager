@@ -121,7 +121,7 @@ export class VDF_Manager {
       let skipIndexing = _.get(options, 'shortcuts.skipIndexing', false);
       let readAddedItems = _.get(options, 'addedItems', true);
       let readScreenshots = _.get(options, 'screenshots', true);
-      
+
 
       for (let steamDirectory in this.data) {
         for (let userId in this.data[steamDirectory]) {
@@ -224,7 +224,7 @@ export class VDF_Manager {
             addedCategories[steamDirectory] = {}
           }
           addedCategories[steamDirectory][userId] = Object.fromEntries(addedAppIds.map(appId => [steam.shortenAppId(appId), addedApps[appId].categories]))
-          
+
           if(!extraneousAppIds[steamDirectory]) {
             extraneousAppIds[steamDirectory] = {}
           }
@@ -321,7 +321,6 @@ export class VDF_Manager {
             addedCategories[steamDirectory] = {}
           }
           addedCategories[steamDirectory][userId] = Object.fromEntries(addedAppIds.map(appId => [steam.shortenAppId(appId), addedApps[appId].categories]))
-          console.log("addedCategories", addedCategories)
           if(!extraneousAppIds[steamDirectory]) {
             extraneousAppIds[steamDirectory] = {}
           }
