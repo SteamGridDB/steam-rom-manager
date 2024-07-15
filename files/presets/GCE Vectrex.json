@@ -29,7 +29,6 @@
 			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
-			"use": true,
 			"replaceDiacritics": true,
 			"removeCharacters": true,
 			"removeBrackets": true
@@ -39,7 +38,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 15,
+		"presetVersion": 16,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -114,7 +113,6 @@
 			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
-			"use": true,
 			"replaceDiacritics": true,
 			"removeCharacters": true,
 			"removeBrackets": true
@@ -124,7 +122,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 15,
+		"presetVersion": 16,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,

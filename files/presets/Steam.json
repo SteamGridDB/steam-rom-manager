@@ -28,7 +28,6 @@
 			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
-			"use": false,
 			"replaceDiacritics": true,
 			"removeCharacters": true,
 			"removeBrackets": true
@@ -38,7 +37,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 15,
+		"presetVersion": 16,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,

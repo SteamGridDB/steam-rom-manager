@@ -237,7 +237,7 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
       }}
     },
     15: {
-      'version': { method: versionUp },
+      'presetVersion': { method: versionUp },
       'fuzzyMatch': {method: (oldValue)=> {
         delete oldValue.use;
         return oldValue;

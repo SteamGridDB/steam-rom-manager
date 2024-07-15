@@ -35,12 +35,11 @@
 			"skipFileIfVariableWasNotFound": false
 		},
 		"fuzzyMatch": {
-			"use": true,
 			"replaceDiacritics": true,
 			"removeCharacters": true,
 			"removeBrackets": true
 		},
-		"presetVersion": 15,
+		"presetVersion": 16,
 		"controllers": {
 			"ps4": null,
 			"ps5": null,
