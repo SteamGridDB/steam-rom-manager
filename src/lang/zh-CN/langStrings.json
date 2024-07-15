@@ -83,7 +83,7 @@
     }
   },
   "steamParser": {
-    "onlyGamesTitle": "仅寻找游戏艺术作品(不包括工具)",
+    "onlyGamesTitle": "Find artwork for games only (no tools or demos)",
     "onlyInstalledTitle": "仅查找已安装标题的艺术作品",
     "sourceModsTitle": "寻找非官方源模组的艺术作品",
     "errors": {
