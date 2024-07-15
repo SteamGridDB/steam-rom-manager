@@ -83,7 +83,7 @@
     }
   },
   "steamParser": {
-    "onlyGamesTitle": "Finde Artwork nur für Spiele (keine Tools)",
+    "onlyGamesTitle": "Find artwork for games only (no tools or demos)",
     "onlyInstalledTitle": "Suche nur nach Artworks für installierte Titel",
     "sourceModsTitle": "Finde Artworks für inoffizielle Source Mods",
     "errors": {
