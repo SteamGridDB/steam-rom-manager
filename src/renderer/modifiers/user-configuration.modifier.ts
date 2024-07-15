@@ -7,7 +7,7 @@ import {versionUp, replaceVariables_undefined, extractNames} from "./modifier-he
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: 'version',
-  latestVersion: 22,
+  latestVersion: 23,
   fields: {
     undefined: {
       'version': { method: () => 0 },
@@ -302,6 +302,21 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
           return []
         }
       }}
-    }
+    },
+    22: {
+      'version': { method: versionUp },
+      'parserInputs': {
+        method: (oldValue, oldConfiguration: any) => {
+          if(oldConfiguration.parserType !== 'Steam') {
+            return oldValue
+          }
+          let result: any = {};
+          result['onlyInstalled'] = oldConfiguration.parserInputs['onlyInstalled']
+          result.appTypes = ['game']
+          return result
+          }
+        }
+      }
+    },
   }
 };
