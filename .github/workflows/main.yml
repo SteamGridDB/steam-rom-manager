@@ -44,18 +44,18 @@ jobs:
           SENTRY_AUTH: ${{ secrets.SENTRY_AUTH }}
       - name: Build Linux
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: yarn run build:linux -- --publish=onTagOrDraft
+        run: yarn run build:linux --publish=onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
       - name: Build Windows
         if: ${{ matrix.os == 'windows-latest' }}
-        run: yarn run build:win -- --publish=onTagOrDraft
+        run: yarn run build:win --publish=onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
       - name: Build Mac
         if: ${{ matrix.os == 'macOS-latest' }}
-        run: yarn run build:mac -- --publish=onTagOrDraft
+        run: yarn run build:mac --publish=onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
       - name: Upload Artifacts Windows

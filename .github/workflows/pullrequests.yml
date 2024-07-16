@@ -45,15 +45,15 @@ jobs:
 
       - name: Build Linux
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: yarn run build:linux -- --publish=never
+        run: yarn run build:linux --publish=never
 
       - name: Build Windows
         if: ${{ matrix.os == 'windows-latest' }}
-        run: yarn run build:win -- --publish=never
+        run: yarn run build:win --publish=never
 
       - name: Build Mac
         if: ${{ matrix.os == 'macOS-latest' }}
-        run: yarn run build:mac -- --publish=never
+        run: yarn run build:mac --publish=never
 
       - name: Upload Artifacts Windows
         uses: actions/upload-artifact@v4.3.3
