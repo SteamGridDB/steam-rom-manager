@@ -65,6 +65,7 @@ export class EADesktopParser implements GenericParser {
         }
         if(XMLValidator.validate(xmlString, {})) {
           let parsedData = xmlParser.parse(xmlString);
+          console.log("parsedData", parsedData)
           let title = ""; let runtimePath=""; let runtime; let contentID; let appID=""; let commandArgs;
           if(
             json.caselessHas(parsedData,[["DiPManifest"],["gameTitles"],["gameTitle"]])
@@ -81,18 +82,27 @@ export class EADesktopParser implements GenericParser {
             contentID = json.caselessGet(parsedData, [["DiPManifest"],["contentIDs"],["contentID"]])
           } else if(
             json.caselessHas(parsedData,[["game"],["metadata"],["localeInfo"]])
-            && json.caselessHas(parsedData,[["game"],["runtime"]]) 
             && json.caselessHas(parsedData,[["game"],["contentIDs"],["contentID"]])
           ) {
+            if(json.caselessHas(parsedData,[["game"],["runtime"]])) {
+              runtime = json.caselessGet(parsedData, [["game"],["runtime"],["launcher"]], true)
+            } else if (json.caselessHas(parsedData,[["game"],["installManifest"],["filePath"]])) {
+              const installManifestPath = json.caselessGet(parsedData,[["game"],["installManifest"],["filePath"]]);
+              console.log("install manifest path", installManifestPath)
+              runtime = {filePath: `standin.exe`}
+            } else {
+              console.log("first continue called");
+              continue;
+            }
             let localeInfo = json.caselessGet(parsedData,[["game"],["metadata"],["localeInfo"]]);
             if(Array.isArray(localeInfo) && localeInfo.length) {
               title = String(localeInfo[0].title);
             } else {
               title = String(localeInfo.title);
             }
-            runtime = json.caselessGet(parsedData, [["game"],["runtime"],["launcher"]], true)
             contentID = json.caselessGet(parsedData, [["game"],["contentIDs"],["contentID"]])
           } else {
+            console.log("second continue called")
             continue;
           }
           if(runtime && Array.isArray(runtime) && runtime.length) {

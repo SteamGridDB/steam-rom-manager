@@ -6,7 +6,7 @@ import { LoggerService } from './logger.service';
 import { FuzzyService } from './fuzzy.service';
 import { SettingsService } from './settings.service';
 import { FileParser, VariableParser, ControllerManager, CategoryManager } from '../../lib';
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { takeWhile } from "rxjs/operators";
 import { artworkTypes } from '../../lib/artwork-types';
 import { APP } from '../../variables';
@@ -26,7 +26,7 @@ import * as _ from 'lodash';
 export class ParsersService {
   private appSettings: AppSettings;
   private fileParser: FileParser;
-  private savedControllerTemplates: BehaviorSubject<ControllerTemplates>;
+  private savedControllerTemplates: Subject<ControllerTemplates>;
   private controllerTemps: ControllerTemplates = {};
   private userConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
   private deletedConfigurations: BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>;
@@ -39,7 +39,7 @@ export class ParsersService {
               private exceptionsService: UserExceptionsService, private settingsService: SettingsService) {
                 this.fileParser = new FileParser(this.fuzzyService);
                 this.userConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
-                this.savedControllerTemplates = new BehaviorSubject<ControllerTemplates>({});
+                this.savedControllerTemplates = new Subject<ControllerTemplates>();
                 this.deletedConfigurations = new BehaviorSubject<{ saved: UserConfiguration, current: UserConfiguration }[]>([]);
                 this.readUserConfigurations();
                 this.readSavedControllerTemplates()
@@ -151,11 +151,6 @@ export class ParsersService {
                 userConfigurations = userConfigurations.concat(copy);
                 this.userConfigurations.next(userConfigurations);
                 this.saveUserConfigurations();
-              }
-
-              saveControllerTemplates() {
-                this.savedControllerTemplates.next(this.controllerTemplates);
-                this.saveUserControllerTemplates();
               }
 
               swapIndex(currentIndex: number, newIndex: number) {
@@ -474,9 +469,9 @@ export class ParsersService {
                 });
               }
 
-              private saveUserControllerTemplates() {
+              saveControllerTemplates() {
                 return new Promise<void>((resolve, reject) => {
-                  const stringToSave = JSON.stringify(this.savedControllerTemplates.getValue(), null, 4);
+                  const stringToSave = JSON.stringify(this.controllerTemplates, null, 4);
                   try {
                     fs.outputFileSync(paths.controllerTemplates, stringToSave);
                     resolve();

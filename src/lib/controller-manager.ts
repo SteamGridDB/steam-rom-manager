@@ -82,7 +82,7 @@ export class ControllerManager {
     let templateDirUser = this.templatesUserDir(steamDirectory);
     let filesUser = await glob('*/*', { dot: true, cwd: templateDirUser, absolute: true });
     let parsedTemplatesUser: ControllerTemplate[] = filesUser.filter((f: string) => fs.lstatSync(f).isFile())
-      .map((f: string) => Object.assign({ mappingId: f.split(path.sep).slice(-2)[0] }, genericParser.parse(fs.readFileSync(f, 'utf-8'))))
+      .map(async (f: string) => Object.assign({ mappingId: f.split(path.sep).slice(-2)[0] }, genericParser.parse(await fs.readFile(f, 'utf-8'))))
       .filter((x: any) => !!x['controller_mappings']
         && !!x['controller_mappings']['title']
         && !!x['controller_mappings']['controller_type']

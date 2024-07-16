@@ -572,7 +572,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.currentDoc.content = this.lang.docs__md.intro.join('');
       }
       this.loadConfiguration();
-      this.fetchControllerTemplates(false);
     }));
     this.subscriptions.add(this.cpService.dataObservable.subscribe((data) => {
       this.configPresets = data;
@@ -1162,12 +1161,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           this.parsersService.controllerTemplates[steamDir][controllerType] = await this.parsersService.getControllerTemplates(steamDir, controllerType);
         }
         this.parsersService.saveControllerTemplates();
-      } else {
-        for(let controllerType of Object.keys(this.parsersService.controllerTemplates[steamDir])) {
-          ((this.nestedGroup.children.controllers as NestedFormElement.Group).children[controllerType] as NestedFormElement.Select).values = this.parsersService.controllerTemplates[steamDir][controllerType].map(template => {
-            return { displayValue: template.title, value: template }
-          });
-        }
+      }
+      for(let controllerType of Object.keys(this.parsersService.controllerTemplates[steamDir])) {
+        ((this.nestedGroup.children.controllers as NestedFormElement.Group).children[controllerType] as NestedFormElement.Select).values = this.parsersService.controllerTemplates[steamDir][controllerType].map(template => {
+          return { displayValue: template.title, value: template }
+        });
       }
       if(force) {
         this.loggerService.success(this.lang.success.fetchedTemplates, { invokeAlert: true, alertTimeout: 3000 })
