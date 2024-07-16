@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.20
+## Changed
+* Brought all dependencies to latest version
+* Switched from npm to yarn package manager
+* Reworked when controller templates are fetched, leading to a significant performance increase.
+
+## 2.5.19
+## Fixed
+* Didn't do a modifier on user configurations so 2.5.18 was broken.
+
 ## 2.5.18
 ## Added
 * Improved control over exactly what Steam Parser adds (between full games, demos, tools, and source mods).
