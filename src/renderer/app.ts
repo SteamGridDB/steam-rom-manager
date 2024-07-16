@@ -1,4 +1,4 @@
-import 'zone.js/dist/zone';
+import 'zone.js';
 import 'reflect-metadata';
 import '../lib/string-interpolation';
 import '../lib/replace-diacritics';
