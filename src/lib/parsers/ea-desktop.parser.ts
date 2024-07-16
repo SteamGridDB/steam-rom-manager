@@ -65,7 +65,6 @@ export class EADesktopParser implements GenericParser {
         }
         if(XMLValidator.validate(xmlString, {})) {
           let parsedData = xmlParser.parse(xmlString);
-          console.log("parsedData", parsedData)
           let title = ""; let runtimePath=""; let runtime; let contentID; let appID=""; let commandArgs;
           if(
             json.caselessHas(parsedData,[["DiPManifest"],["gameTitles"],["gameTitle"]])
@@ -84,14 +83,10 @@ export class EADesktopParser implements GenericParser {
             json.caselessHas(parsedData,[["game"],["metadata"],["localeInfo"]])
             && json.caselessHas(parsedData,[["game"],["contentIDs"],["contentID"]])
           ) {
-            if(json.caselessHas(parsedData,[["game"],["runtime"]])) {
+            if(json.caselessHas(parsedData,[["game"],["runtime"],["launcher"]])) {
               runtime = json.caselessGet(parsedData, [["game"],["runtime"],["launcher"]], true)
-            } else if (json.caselessHas(parsedData,[["game"],["installManifest"],["filePath"]])) {
-              const installManifestPath = json.caselessGet(parsedData,[["game"],["installManifest"],["filePath"]]);
-              console.log("install manifest path", installManifestPath)
-              runtime = {filePath: `standin.exe`}
             } else {
-              console.log("first continue called");
+              //TODO handle this case, I think it is some kind of default, e.g. executable has same name as directory
               continue;
             }
             let localeInfo = json.caselessGet(parsedData,[["game"],["metadata"],["localeInfo"]]);
@@ -102,15 +97,14 @@ export class EADesktopParser implements GenericParser {
             }
             contentID = json.caselessGet(parsedData, [["game"],["contentIDs"],["contentID"]])
           } else {
-            console.log("second continue called")
             continue;
           }
           if(runtime && Array.isArray(runtime) && runtime.length) {
-            runtimePath = json.caselessGet(runtime[0],[["filePath"]]);
-            commandArgs = json.caselessGet(runtime[0],[["parameters"]])
-          } else if(json.caselessHas(runtime,[["filePath"]])) {
-            runtimePath = json.caselessGet(runtime,[["filePath"]])
-            commandArgs = json.caselessGet(runtime,[["parameters"]])
+            runtimePath = json.caselessGet(runtime[0], [["filePath"]]);
+            commandArgs = json.caselessGet(runtime[0], [["parameters"]])
+          } else if(json.caselessHas(runtime, [["filePath"]])) {
+            runtimePath = json.caselessGet(runtime, [["filePath"]])
+            commandArgs = json.caselessGet(runtime, [["parameters"]])
           }
           if(Array.isArray(contentID) && contentID.length) {
             appID = String(contentID[0])
