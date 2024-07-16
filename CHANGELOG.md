@@ -3,8 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## 2.5.20
 ## Changed
-* Brought all dependencies to latest version
-* Switched from npm to yarn package manager
+* Brought all dependencies to latest version.
+* Switched from npm to yarn package manager.
 * Reworked when controller templates are fetched, leading to a significant performance increase.
 
 ## 2.5.19
