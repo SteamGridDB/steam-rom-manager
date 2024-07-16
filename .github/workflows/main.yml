@@ -33,7 +33,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm install -g yarn@1.22
-          yarn ci
+          yarn install --frozen-lockfile
 
       - name: Build Distribution
         run: |
