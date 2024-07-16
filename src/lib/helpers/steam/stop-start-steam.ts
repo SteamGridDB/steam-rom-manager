@@ -38,7 +38,7 @@ async function actAndCheck(data: ActAndCheck) {
             })
             proc.on('close', () => { 
                 let elapsed = 0;
-                let interval: NodeJS.Timer = setInterval(() => {
+                let interval: NodeJS.Timeout = setInterval(() => {
                     const check = execSync(data.commands.check, {shell: data.shell}).toString().trim()
                     if(check == data.checkOutput) {
                         clearTimeout(interval);

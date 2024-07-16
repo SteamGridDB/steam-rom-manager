@@ -84,19 +84,19 @@ SRM has a fully featured command line interface, documented in the [wiki](https:
 
 ## Building SRM
 
-To compile this app, you'll need the latest `Node.js` and `npm`. Every script will need to be run from the project directory.
+To compile this app, you'll need the latest `Node.js` and `yarn`. Every script will need to be run from the project directory.
 
 Before running any scripts, dependencies must be installed using:
 
 ```
-npm ci
+yarn install
 ```
 
-Unfortunately, because of an issue with `better-sqlite3` you will most likely also have to run `npm ci` after building for windows if you want `npm run start` to work. Otherwise, you will likely see the runtime error `better-sqlite3 is not a valid win32 application`.
+Unfortunately, because of an issue with `better-sqlite3` you will most likely also have to run `yarn install` after building for windows if you want `yarn run start` to work. Otherwise, you will likely see the runtime error `better-sqlite3 is not a valid win32 application`.
 
 ## Scripts
 
-All script must be run using `npm run` command. For example, `npm run watch:renderer`.
+All script must be run using `yarn run` command. For example, `yarn run watch:renderer`.
 
 |Script|Function|
 |---|---|
@@ -128,8 +128,8 @@ App can be run using `start` script or `npx electron .` (if you want to test the
 Scripts must be run in this order:
 
 ```
-npm run build:dist
-npm run build:win
+yarn run build:dist
+yarn run build:win
 ```
 
 ### For MacOS
@@ -137,8 +137,8 @@ npm run build:win
 Scripts must be run in this order:
 
 ```
-npm run build:dist
-npm run build:mac
+yarn run build:dist
+yarn run build:mac
 ```
 
 ### For linux
@@ -146,21 +146,21 @@ npm run build:mac
 Scripts must be run in this order:
 
 ```
-npm run build:dist
-npm run build:linux
+yarn run build:dist
+yarn run build:linux
 ```
 
 ### For linux flatpak
 
 Unfortunately electron-builder does not yet competently build flatpaks, and the older approach using electron-packager and electron-installer-flatpak can't handle native modules. A work-around is to use electron-builder for the packaging step and electron-installer-flatpak for the actual flatpak creation.
 
-First you need to run `npm install -g @malept/electron-installer-flatpak` (this can't be added as dev-dependency since it is not cross-platform and npm doesn't allow optional dev-dependencies).
+First you need to run `yarn install -g @malept/electron-installer-flatpak` (this can't be added as dev-dependency since it is not cross-platform and yarn doesn't allow optional dev-dependencies).
 
 Then
 ```
-npm run build:dist
-npm run build:linuxdir
-npm run build:flatpak
+yarn run build:dist
+yarn run build:linuxdir
+yarn run build:flatpak
 ```
 In order for this to work you must have already installed `flatpak-builder` using your favorite package manager (e.g. `sudo pamac install flatpak-builder`) and run:
 

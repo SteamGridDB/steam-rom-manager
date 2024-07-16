@@ -34,26 +34,26 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install -g npm@10.8.0
-          npm ci
+          npm install -g yarn@1.22
+          yarn ci
 
       - name: Build
         run: |
           git lfs pull
-          npm run validate-files
-          npm run build:dist
+          yarn run validate-files
+          yarn run build:dist
 
       - name: Build Linux
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: npm run build:linux -- --publish=never
+        run: yarn run build:linux -- --publish=never
 
       - name: Build Windows
         if: ${{ matrix.os == 'windows-latest' }}
-        run: npm run build:win -- --publish=never
+        run: yarn run build:win -- --publish=never
 
       - name: Build Mac
         if: ${{ matrix.os == 'macOS-latest' }}
-        run: npm run build:mac -- --publish=never
+        run: yarn run build:mac -- --publish=never
 
       - name: Upload Artifacts Windows
         uses: actions/upload-artifact@v4.3.3

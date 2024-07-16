@@ -9,7 +9,7 @@ export class InViewDirective implements OnInit, OnDestroy {
   @Input() margin: number;
   @Input() inViewDict: {[inviewkey: string]: boolean}
   @Output() updateDOM: EventEmitter<void> = new EventEmitter();
-  private checkInterval: NodeJS.Timer;
+  private checkInterval: NodeJS.Timeout;
   constructor(private el: ElementRef) {}
 
   ngOnInit() {

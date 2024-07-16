@@ -32,30 +32,30 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install -g npm@10.8.0
-          npm ci
+          npm install -g yarn@1.22
+          yarn ci
 
       - name: Build Distribution
         run: |
           git lfs pull
-          npm run validate-files
-          npm run build:dist
+          yarn run validate-files
+          yarn run build:dist
         env:
           SENTRY_AUTH: ${{ secrets.SENTRY_AUTH }}
       - name: Build Linux
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: npm run build:linux -- --publish=onTagOrDraft
+        run: yarn run build:linux -- --publish=onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
       - name: Build Windows
         if: ${{ matrix.os == 'windows-latest' }}
-        run: npm run build:win -- --publish=onTagOrDraft
+        run: yarn run build:win -- --publish=onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
       - name: Build Mac
         if: ${{ matrix.os == 'macOS-latest' }}
-        run: npm run build:mac -- --publish=onTagOrDraft
+        run: yarn run build:mac -- --publish=onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
       - name: Upload Artifacts Windows
