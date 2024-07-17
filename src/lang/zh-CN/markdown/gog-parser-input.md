@@ -1,14 +1,16 @@
 #
 
 ## Galaxy 路径覆盖
-默认情况下，Steam ROM Manager 假定您的 Galaxy 客户端位于 `C:\Program Files (x86)\GOG Galaxy\GalaxyClient.exe`。 如果你的 GOG Galaxy 安装在其他位置，这个字段允许你覆盖那个路径。
+By default Steam ROM Manager assumes your GOG Galaxy executable is located at `C:\Program Files (x86)\GOG Galaxy\GalaxyClient.exe` on Windows and `/Applications/GOG Galaxy.app/Contents/MacOS/GOG Galaxy` on Mac. This field allows you to override that path if your GOG Galaxy executable is elsewhere.
 
-如果您不启用通过 GOG Galaxy 启动游戏（请参见下文），则 SRM 无需知道 Galaxy 客户端的位置，因此实际上只有在这种情况下才需要填写此字段。
+Specifying the correct location of GOG Galaxy's executable is only necessary if you enable launch via GOG Galaxy (see below), as otherwise SRM has no need of the location of GOG Galaxy's executable.
 
 ## 通过 GOG Galaxy 启动`[推荐禁用]`
 
-What it sounds like, this toggle let's you set whether games will launch via GOG Galaxy or directly. Note that for some games launching from GOG Galaxy may fail, and the Steam overlay will most likely not work. 请注意，对于某些游戏，从 GOG Galaxy 启动可能会失败，并且 Steam 覆盖层很可能无法正常工作。 请注意，对于某些游戏，从 GOG Galaxy 启动可能会失败，并且 Steam 覆盖层很可能无法正常工作。
+What it sounds like, this toggle determines whether games launch via GOG Galaxy or directly. For some games launching from GOG Galaxy may fail, and the Steam overlay will most likely not work.
 
 ##
 
 如果在其他地方不将这些游戏解析成SRM，这样做是可取的。
+
+A caveat is that because GOG Galaxy does not store the names linked executables in its database, SRM will use the directory name of the executable on Windows (e.g. `C:\\path\\to\\Hoa\\LaunchHoa.exe` would be assigned the title `Hoa`) and the executable name on Mac (e.g. `/Applications/Symphonia.app` would be assigned the title `Symphonia`).
