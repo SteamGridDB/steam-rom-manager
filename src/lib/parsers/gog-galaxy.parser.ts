@@ -1,10 +1,11 @@
-import { ParserInfo, GenericParser, ParsedData } from '../../models';
+import { ParserInfo, GenericParser, ParsedData, ParsedSuccess } from '../../models';
 import { APP } from '../../variables';
 import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as path from "path";
 import * as os from "os";
 import { SqliteWrapper } from "../helpers/sqlite";
+import Registry from "winreg";
 
 export class GOGParser implements GenericParser {
 
@@ -45,6 +46,54 @@ export class GOGParser implements GenericParser {
     };
   }
 
+  private processRegKey(regkey: Registry.Registry){
+    return new Promise<ParsedSuccess>((resolve, reject) => {
+      regkey.values((err: Error, values: Registry.RegistryItem[]) => {
+        if (err) {
+          return reject(err);
+        }
+        if (values) {
+          const productID = values.find((entry) => entry.name === 'gameID').value;
+          let entry: ParsedSuccess = {
+            extractedTitle: values.find((entry) => entry.name === 'gameName').value,
+            extractedAppId: productID,
+            launchOptions: `/command=runGame /gameId=${productID}`,
+            filePath: values.find((entry) => entry.name === 'launchCommand').value,
+            fileLaunchOptions: (values.find((entry) => entry.name === 'launchParam') ?? {value: ''}).value,
+            startInDirectory: values.find((entry) => entry.name === 'workingDir').value
+          }
+          return resolve(entry);
+        }
+      });
+    });
+  }
+
+  private getRegInstalled(){
+    return new Promise<ParsedSuccess[]>((resolve, reject) => {
+      const rootkey: string = "\\SOFTWARE\\WOW6432Node\\GOG.com\\Games"
+      const reg = new Registry({
+        hive: Registry.HKLM,
+        key: rootkey,
+      });
+      
+      reg.keys((err: Error, regkeys: Registry.Registry[]) => {
+        if (err) {
+          return reject(err);
+        }
+        if (regkeys) {
+          const promiseArr = regkeys.map((regkey) => this.processRegKey(regkey))
+          Promise.all(promiseArr).then((parsedArray) => {
+            return resolve(parsedArray);
+          }).catch((err) => {
+            return reject(err)
+          });
+        } else {
+          return resolve([]);
+        }
+      });
+    });
+  }
+
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
     return new Promise<ParsedData>(async (resolve,reject)=>{
       let dbPath: string = '';
@@ -55,12 +104,19 @@ export class GOGParser implements GenericParser {
       } else {
         return reject(this.lang.errors.gogNotCompatible);
       }
-      if(!fs.existsSync(dbPath)) {
-        return reject(this.lang.errors.gogNotInstalled);
-      }
       if(inputs.parseRegistryEntries){
-        
+        this.getRegInstalled().then((games) => {
+          let parsedData: ParsedData = { success: [], failed: [] };
+          parsedData.executableLocation = galaxyExePath;
+          parsedData.success = games;
+          resolve(parsedData);
+        }).catch((err)=>{
+          reject(this.lang.errors.fatalError__i.interpolate({error: err}));
+        });
       } else {
+        if(!fs.existsSync(dbPath)) {
+          return reject(this.lang.errors.gogNotInstalled);
+        }
         try {
           const sqliteWrapper = new SqliteWrapper('gog-galaxy', dbPath, {externals: !!inputs.parseLinkedExecs});
           const playtasks = await sqliteWrapper.callWorker() as any[];
