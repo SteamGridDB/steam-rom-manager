@@ -245,6 +245,7 @@ export interface languageStruct {
     galaxyExeOverridePlaceholder: string,
     launcherModeInputTitle: string,
     parseLinkedExecsTitle: string,
+    parseRegistryEntries: string,
     docs__md: {
       self: string[],
       input: string[]

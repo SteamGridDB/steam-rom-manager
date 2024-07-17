@@ -34,6 +34,12 @@ export class GOGParser implements GenericParser {
           inputType: 'toggle',
           validationFn: (input: any) => { return null },
           info: this.lang.docs__md.input.join('')
+        },
+        'parseRegistryEntries': {
+          label: this.lang.parseRegistryEntries,
+          inputType: 'toggle',
+          validationFn: (input: any) => { return null },
+          info: this.lang.docs__md.input.join('')
         }
       }
     };
@@ -52,28 +58,32 @@ export class GOGParser implements GenericParser {
       if(!fs.existsSync(dbPath)) {
         return reject(this.lang.errors.gogNotInstalled);
       }
-      try {
-        const sqliteWrapper = new SqliteWrapper('gog-galaxy', dbPath, {externals: !!inputs.parseLinkedExecs});
-        const playtasks = await sqliteWrapper.callWorker() as any[];
-        let parsedData: ParsedData = {success: [], failed:[]};
-        parsedData.executableLocation = galaxyExePath;
-        for(let task of playtasks) {
-          if(task.params.executablePath) {
-            const productID = task.productId.toString();
-            parsedData.success.push({
-              extractedTitle: task.title || path.dirname(task.params.executablePath).split(path.sep).pop(),
-              extractedAppId: productID,
-              launchOptions: `/command=runGame /gameId=${productID}`,
-              filePath: task.params.executablePath,
-              fileLaunchOptions: task.params.commandLineArgs
-            })
+      if(inputs.parseRegistryEntries){
+        
+      } else {
+        try {
+          const sqliteWrapper = new SqliteWrapper('gog-galaxy', dbPath, {externals: !!inputs.parseLinkedExecs});
+          const playtasks = await sqliteWrapper.callWorker() as any[];
+          let parsedData: ParsedData = {success: [], failed:[]};
+          parsedData.executableLocation = galaxyExePath;
+          for(let task of playtasks) {
+            if(task.params.executablePath) {
+              const productID = task.productId.toString();
+              parsedData.success.push({
+                extractedTitle: task.title || path.dirname(task.params.executablePath).split(path.sep).pop(),
+                extractedAppId: productID,
+                launchOptions: `/command=runGame /gameId=${productID}`,
+                filePath: task.params.executablePath,
+                fileLaunchOptions: task.params.commandLineArgs
+              })
+            }
           }
+          resolve(parsedData);
         }
-        resolve(parsedData);
+        catch(err) {
+          reject(this.lang.errors.fatalError__i.interpolate({error: err}));
+        };
       }
-      catch(err) {
-        reject(this.lang.errors.fatalError__i.interpolate({error: err}));
-      };
     });
   }
 }
