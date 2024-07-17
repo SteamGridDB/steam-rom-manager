@@ -156,7 +156,8 @@
   },
   "gogParser": {
     "galaxyExeOverrideTitle": "Sobrescrever caminho da Galáxia",
-    "galaxyExeOverridePlaceholder": "/path/to/GalaxyClient.exe",
+    "galaxyExeOverridePlaceholderWin": "C:\\path\\to\\GalaxyClient.exe",
+    "galaxyExeOverridePlaceholderMac": "/path/to/GOG Galaxy.app/Contents/MacOS/GOG Galaxy",
     "launcherModeInputTitle": "Inicie jogos via GOG Galaxy",
     "parseLinkedExecsTitle": "Parse linked executables from GOG Galaxy",
     "errors": {
