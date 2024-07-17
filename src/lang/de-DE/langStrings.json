@@ -156,7 +156,8 @@
   },
   "gogParser": {
     "galaxyExeOverrideTitle": "Galaxy Verzeichnis überschreiben",
-    "galaxyExeOverridePlaceholder": "/Pfad/zu/GalaxyClient.exe",
+    "galaxyExeOverridePlaceholderWin": "C:\\path\\to\\GalaxyClient.exe",
+    "galaxyExeOverridePlaceholderMac": "/path/to/GOG Galaxy.app/Contents/MacOS/GOG Galaxy",
     "launcherModeInputTitle": "Spiele mit GOG Galaxy starten",
     "parseLinkedExecsTitle": "Parse linked executables from GOG Galaxy",
     "errors": {
