@@ -242,7 +242,8 @@ export interface languageStruct {
   },
   gogParser: {
     galaxyExeOverrideTitle: string,
-    galaxyExeOverridePlaceholder: string,
+    galaxyExeOverridePlaceholderWin: string,
+    galaxyExeOverridePlaceholderMac: string,
     launcherModeInputTitle: string,
     parseLinkedExecsTitle: string,
     docs__md: {
