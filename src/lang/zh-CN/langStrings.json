@@ -156,7 +156,8 @@
   },
   "gogParser": {
     "galaxyExeOverrideTitle": "Galaxy 路径覆盖",
-    "galaxyExeOverridePlaceholder": "/path/to/GalaxyClient.exe",
+    "galaxyExeOverridePlaceholderWin": "C:\\path\\to\\GalaxyClient.exe",
+    "galaxyExeOverridePlaceholderMac": "/path/to/GOG Galaxy.app/Contents/MacOS/GOG Galaxy",
     "launcherModeInputTitle": "通过 GOG Galaxy 启动游戏",
     "parseLinkedExecsTitle": "",
     "errors": {
