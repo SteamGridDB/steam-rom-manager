@@ -156,7 +156,8 @@
   },
   "gogParser": {
     "galaxyExeOverrideTitle": "Переопределение пути Galaxy",
-    "galaxyExeOverridePlaceholder": "/путь/к/GalaxyClient.exe",
+    "galaxyExeOverridePlaceholderWin": "C:\\path\\to\\GalaxyClient.exe",
+    "galaxyExeOverridePlaceholderMac": "/path/to/GOG Galaxy.app/Contents/MacOS/GOG Galaxy",
     "launcherModeInputTitle": "Запуск игр через GOG Galaxy",
     "parseLinkedExecsTitle": "Анализ связанных исполняемых файлов из GOG Galaxy",
     "errors": {
