@@ -2,11 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 ## 2.5.21
-Some much needed love for the Mac OS version of SRM.
-
+Some much needed love for the Mac OS version of SRM, and a cool pull request!
 ## Added
 * GOG Galaxy parser is fully functional on Mac OS.
 * Auto kill and restart Steam working on Mac OS.
+* Windows-only option in GOG Galaxy parser to parse from Windows Registry instead of GOG Galaxy's database (works even if Galaxy is not installed!). Thanks @HazardousBackup! 
 
 ## 2.5.20
 ## Changed
