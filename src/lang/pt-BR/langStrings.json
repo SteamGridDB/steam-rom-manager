@@ -160,6 +160,7 @@
     "galaxyExeOverridePlaceholderMac": "/path/to/GOG Galaxy.app/Contents/MacOS/GOG Galaxy",
     "launcherModeInputTitle": "Inicie jogos via GOG Galaxy",
     "parseLinkedExecsTitle": "Parse linked executables from GOG Galaxy",
+    "parseRegistryEntries": "Parse using Registry instead of Galaxy DB",
     "errors": {
       "invalidGalaxyExeOverride": "> Substituição do Cliente Galaxy não é um caminho válido.",
       "fatalError__i": "> O analisador da falhou com erro fatal:\n ${error}",
