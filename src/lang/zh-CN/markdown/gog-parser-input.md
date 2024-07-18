@@ -5,7 +5,7 @@ By default Steam ROM Manager assumes your GOG Galaxy executable is located at `C
 
 Specifying the correct location of GOG Galaxy's executable is only necessary if you enable launch via GOG Galaxy (see below), as otherwise SRM has no need of the location of GOG Galaxy's executable.
 
-## 通过 GOG Galaxy 启动`[推荐禁用]`
+## Launch via GOG Galaxy `[Recommend disabled]`
 
 What it sounds like, this toggle determines whether games launch via GOG Galaxy or directly. For some games launching from GOG Galaxy may fail, and the Steam overlay will most likely not work.
 
@@ -14,3 +14,6 @@ What it sounds like, this toggle determines whether games launch via GOG Galaxy 
 如果在其他地方不将这些游戏解析成SRM，这样做是可取的。
 
 A caveat is that because GOG Galaxy does not store the names linked executables in its database, SRM will use the directory name of the executable on Windows (e.g. `C:\\path\\to\\Hoa\\LaunchHoa.exe` would be assigned the title `Hoa`) and the executable name on Mac (e.g. `/Applications/Symphonia.app` would be assigned the title `Symphonia`).
+
+## Parse using Registry instead of Galaxy DB `[Windows only] [Recommend disabled]`
+This option will parse the Windows Registry for installed GOG games instead of GOG Galaxy's SQL database, allowing the parser to work even if GOG Galaxy is not installed. If this is enabled, `Parse Linked Executables` will of have no effect, but `Launch via GOG Galaxy` will work as normal.
