@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.21
+Some much needed love for the Mac OS version of SRM.
+
+## Added
+* GOG Galaxy parser is fully functional on Mac OS.
+* Auto kill and restart Steam working on Mac OS.
+
 ## 2.5.20
 ## Changed
 * Brought all dependencies to latest version.
