@@ -160,6 +160,7 @@
     "galaxyExeOverridePlaceholderMac": "/path/to/GOG Galaxy.app/Contents/MacOS/GOG Galaxy",
     "launcherModeInputTitle": "Запуск игр через GOG Galaxy",
     "parseLinkedExecsTitle": "Анализ связанных исполняемых файлов из GOG Galaxy",
+    "parseRegistryEntries": "Parse using Registry instead of Galaxy DB",
     "errors": {
       "invalidGalaxyExeOverride": "> Путь Galaxy Client Override неправильный.",
       "fatalError__i": "> Сбой анализа GOG Galaxy по причине фатальной ошибки:\n ${error}",
