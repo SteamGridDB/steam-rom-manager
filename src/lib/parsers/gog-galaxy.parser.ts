@@ -19,7 +19,7 @@ export class GOGParser implements GenericParser {
       inputs: {
         'galaxyExeOverride': {
           label: this.lang.galaxyExeOverrideTitle,
-          placeholder: this.lang.galaxyExeOverridePlaceholder,
+          placeholder: os.type()=='Windows_NT' ? this.lang.galaxyExeOverridePlaceholderWin : this.lang.galaxyExeOverridePlaceholderMac,
           inputType: 'path',
           validationFn: null,
           info: this.lang.docs__md.input.join('')
@@ -106,13 +106,18 @@ export class GOGParser implements GenericParser {
 
   execute(directories: string[], inputs: { [key: string]: any }, cache?: { [key: string]: any }) {
     return new Promise<ParsedData>(async (resolve,reject)=>{
-      let dbPath: string = '';
-      let galaxyExePath = inputs.galaxyExeOverride || 'C:\\Program Files (x86)\\GOG Galaxy\\GalaxyClient.exe';
-
+      let dbPath, galaxyExePath: string;
       if(os.type()=='Windows_NT') {
-        dbPath = 'C:\\ProgramData\\GOG.com\\Galaxy\\storage\\galaxy-2.0.db'
+        dbPath = 'C:\\ProgramData\\GOG.com\\Galaxy\\storage\\galaxy-2.0.db';
+        galaxyExePath = 'C:\\Program Files (x86)\\GOG Galaxy\\GalaxyClient.exe';
+      } else if(os.type()=='Darwin') {
+        dbPath = '/Users/Shared/GOG.com/Galaxy/Storage/galaxy-2.0.db';
+        galaxyExePath = '/Applications/GOG Galaxy.app/Contents/MacOS/GOG Galaxy';
       } else {
         return reject(this.lang.errors.gogNotCompatible);
+      }
+      if(inputs.galaxyExeOverride) {
+        galaxyExePath = inputs.galaxyExeOverride
       }
       if(inputs.parseRegistryEntries){
         this.getRegInstalled().then((parsedData) => {
@@ -133,10 +138,17 @@ export class GOGParser implements GenericParser {
           for(let task of playtasks) {
             if(task.params.executablePath) {
               const productID = task.productId.toString();
+              const flag = os.type() == 'Windows_NT' ? '/' : '--';
+              let fallbackTitle;
+              if(os.type() == 'Windows_NT') {
+                fallbackTitle = path.dirname(task.params.executablePath).split(path.sep).pop();
+              } else {
+                fallbackTitle = task.params.executablePath.split(path.sep).pop().slice().replace(/\.[^.]*$/, '');
+              }
               parsedData.success.push({
-                extractedTitle: task.title || path.dirname(task.params.executablePath).split(path.sep).pop(),
+                extractedTitle: task.title || fallbackTitle,
                 extractedAppId: productID,
-                launchOptions: `/command=runGame /gameId=${productID}`,
+                launchOptions: `${flag}command=runGame ${flag}gameId=${productID}`,
                 filePath: task.params.executablePath,
                 fileLaunchOptions: task.params.commandLineArgs
               })
