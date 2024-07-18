@@ -16,8 +16,7 @@ const BNET_GAMES: {[k: string]:
 } = {
   d3: {
     name: 'Diablo III',
-    launchId: 'D3',
-    exes: ['Diablo III', 'Diablo III64']
+    launchId: 'D3'
   },
   dst2: {
     name: 'Destiny 2',
@@ -26,88 +25,75 @@ const BNET_GAMES: {[k: string]:
   },
   hero: {
     name: 'Heroes of the Storm',
-    launchId: 'Hero',
-    exes: ['HeroesSwitcher', 'HeroesSwitcher_x64']
+    launchId: 'Hero'
   },
   odin: {
     name: 'Call of Duty: Modern Warfare',
-    launchId: 'ODIN',
-    exes: ['codmw2019', 'ModernWarfare']
+    launchId: 'ODIN'
     },
   pro: {
     name: 'Overwatch 2',
-    launchId: 'Pro',
-    exes: ['Overwatch']
+    launchId: 'Pro'
   },
   s1: {
     name: 'Starcraft Remastered',
-    launchId: 'S1',
-    exes: ['StarCraft']
+    launchId: 'S1'
   },
   s2: {
     name: 'Starcraft 2',
-    launchId: 'S2',
-    exes: ['SC2Switcher_x64', 'SC2Switcher']
+    launchId: 'S2'
   },
   viper: {
     name: 'Call of Duty: Black Ops 4',
-    launchId: 'VIPR',
-    exes: ['BlackOps4', 'BlackOps4_boot']
+    launchId: 'VIPR'
   },
   w3: {
     name: 'Warcraft 3: Reforged',
-    launchId: 'W3',
-    exes: ['Warcraft III']
+    launchId: 'W3'
   },
   hsb: {
     name: 'Hearthstone',
-    launchId: 'WTCG',
-    exes: ['Hearthstone']
+    launchId: 'WTCG'
   },
   wlby: {
     name: 'Crash Bandicoot 4',
-    launchId: 'WLBY',
-    exes: ['CrashBandicoot4']
+    launchId: 'WLBY'
   },
   wow: {
     name: 'World of Warcraft',
-    launchId: 'WoW',
-    exes: ['Wow']
+    launchId: 'WoW'
   },
   zeus: {
     name: 'Call of Duty: Black Ops Cold War',
-    launchId: 'ZEUS',
-    exes: ['BlackOpsColdWar']
+    launchId: 'ZEUS'
   },
   fenris: {
     name: 'Diablo IV',
-    launchId: 'Fen',
-    exes: ['Diablo IV']
+    launchId: 'Fen'
   },
   anbs: {
     name: 'Diablo Immortal',
-    launchId: 'ANBS',
-    exes: ['DiabloImmortal']
+    launchId: 'ANBS'
   },
   osi: {
     name: 'Diablo II: Resurrected',
-    launchId: 'OSI',
-    exes: ['D2R']
+    launchId: 'OSI'
   },
   rtro: {
     name: 'Blizzard Arcade Collection',
-    launchId: 'RTRO',
-    exes: ['Blizzard Arcade Collection Launcher']
+    launchId: 'RTRO'
   },
   lazr: {
     name: 'Call of Duty: Modern Warfare 2 Campaign Remastered',
-    launchId: 'LAZR',
-    exes: ['MW2CR']
+    launchId: 'LAZR'
   },
   fore: {
     name: 'Call of Duty: Vanguard',
-    launchId: 'FORE',
-    exes: ['Vanguard']
+    launchId: 'FORE'
+  },
+  auks: {
+    name: 'Call of Duty',
+    launchId: 'AUKS'
   },
 };
 
