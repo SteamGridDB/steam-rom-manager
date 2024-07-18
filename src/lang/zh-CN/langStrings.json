@@ -160,6 +160,7 @@
     "galaxyExeOverridePlaceholderMac": "/path/to/GOG Galaxy.app/Contents/MacOS/GOG Galaxy",
     "launcherModeInputTitle": "通过 GOG Galaxy 启动游戏",
     "parseLinkedExecsTitle": "",
+    "parseRegistryEntries": "Parse using Registry instead of Galaxy DB",
     "errors": {
       "invalidGalaxyExeOverride": "> Galaxy 客户端覆盖不是一个有效的路径。",
       "fatalError__i": "> GOG Galaxy 解析器发生致命错误：\n ${error}",
