@@ -88,6 +88,14 @@ export async function stopSteam() {
                     if [ -z $pid ]; then echo "True"; else echo "False"; fi;`
         }
         data.shell = '/bin/sh';
+    } else if(os.type() == 'Darwin') {
+        data.commands = {
+            action: `osascript -e 'quit app "Steam"'`,
+            check: `levelfile=$(ls -t "$HOME/Library/Application Support/Steam/config/htmlcache/Local Storage/leveldb"/*.ldb | head -1);
+                    pid=$(lsof -t "$levelfile");
+                    if [ -z $pid ]; then echo "True"; else echo "False"; fi;`
+        }
+        data.shell = '/bin/sh'
     }
     return await actAndCheck(data);
 }
@@ -119,15 +127,17 @@ export async function startSteam() {
             check: `pid="$(pidof steam)"; if [ ! -z $pid ]; then echo "True"; else echo "False"; fi;`
         }
         data.shell = '/bin/sh'
+    } else if(os.type() == 'Darwin') {
+        data.commands = {
+            action: 'open -g -a Steam',
+            check: 'pid="$(pgrep steam_osx)"; if [ ! -z $pid ]; then echo "True"; else echo "False"; fi;'
+        }
+        data.shell = '/bin/sh'
     }
     return await actAndCheck(data)
 }
 
 export async function performSteamlessTask(appSettings: AppSettings, loggerService: LoggerService, task: () => Promise<void>) {
-    if(os.type() == 'Darwin') {
-        loggerService.info('Not attempting to kill Steam on Mac OS.');
-        await task(); return;
-    }
     let stop: { acted: boolean, messages: string[] };
     if(appSettings.autoKillSteam) {
         loggerService.info('Attempting to kill Steam.', {invokeAlert: true, alertTimeout: 3000})
