@@ -120,7 +120,7 @@ export class GOGParser implements GenericParser {
       if(inputs.galaxyExeOverride) {
         galaxyExePath = inputs.galaxyExeOverride
       }
-      if(inputs.parseRegistryEntries){
+      if(inputs.parseRegistryEntries && os.type()=='Windows_NT'){
         this.getRegInstalled().then((parsedData) => {
           parsedData.executableLocation = galaxyExePath;
           resolve(parsedData);
