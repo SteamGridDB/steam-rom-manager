@@ -43,8 +43,9 @@ Se vi piace Steam ROM Manager e volete che continui a essere utile, considerate 
 * `CarJem`{.noWrap} - Ha aggiunto il parser manuale.
 * `MattMckenzy`{.noWrap} - Ha aggiunto la possibilità di importare ed esportare immagini a scelta.
 * `Apalatn`{.noWrap} - Ha aggiunto un'opzione di reindirizzamento dell'unità di installazione al parser di itch.io.
-* `OneMoreByte` - Ha fatto funzionare il parser di itch.io su Linux e Mac.
-* `UndarkAido` - Aggiunto il passaggio delle scorciatoie per le scorciatoie .desktop di Linux.
+* `OneMoreByte`{.noWrap} - Made itch.io parser work on linux and mac.
+* `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
+* `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
 
 ### Community
 * `HE Spoke`{.noWrap} - ha creato una comunità intorno a SRM. Creatore dei gruppi [Steam](https://steamcommunity.com/groups/steamrommanager) e [Discord](https://discord.gg/bnSVJrz). Aiuta anche gli utenti a configurare SRM su [Discord](https://discord.gg/bnSVJrz).
