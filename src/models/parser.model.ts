@@ -52,6 +52,7 @@ export interface ParserInputField {
     inputType: 'text' | 'path' | 'dir' | 'toggle' | 'multiselect',
     allowedValues?: SelectItem[],
     initialValue?: string[],
+    hidden?: boolean,
     required?: boolean,
     info?: string,
     forcedInput?: string,

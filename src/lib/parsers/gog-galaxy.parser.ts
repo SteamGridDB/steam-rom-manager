@@ -39,6 +39,7 @@ export class GOGParser implements GenericParser {
         'parseRegistryEntries': {
           label: this.lang.parseRegistryEntries,
           inputType: 'toggle',
+          hidden: os.type()!='Windows_NT',
           validationFn: (input: any) => { return null },
           info: this.lang.docs__md.input.join('')
         }

@@ -249,6 +249,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               let inputFieldName: keyof typeof parser.inputs;
               for (inputFieldName in parser.inputs) {
                 let input = parser.inputs[inputFieldName];
+                const isHidden = () => {
+                  return concat(of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).pipe(map((pType: string) => {
+                    return input.hidden || (pType !== parsers[i]);
+                  }));
+                }
+                const onInfoClick = (self: any, path: string[]) => {
+                  this.currentDoc.activePath = path.join();
+                  this.currentDoc.content = input.info;
+                }
                 if(['path','dir','text'].includes(input.inputType)) {
                   parserInputs[inputFieldName] = new NestedFormElement.Input({
                     path: ['path','dir'].includes(input.inputType) ? {
@@ -259,30 +268,19 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     initialValue: input.forcedInput !== undefined ? input.forcedInput : null,
                     highlight: this.highlight.bind(this),
                     label: input.label,
-                    isHidden: () => {
-                      return concat(of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).pipe(map((pType: string) => {
-                        return pType !== parsers[i];
-                      }));
-                    },
+                    isHidden: isHidden,
                     onValidate: (self, path) => {
                       if (parserInfo.superTypesMap[parsers[i]] !== parserInfo.ArtworkOnlyType && this.userForm.get('parserType').value === parsers[i])
                         return this.parsersService.validate(path[0] as keyof UserConfiguration, { parser: parsers[i], input: inputFieldName, inputData: self.value });
                       else
                         return null;
                     },
-                    onInfoClick: (self, path) => {
-                      this.currentDoc.activePath = path.join();
-                      this.currentDoc.content = input.info;
-                    }
+                    onInfoClick: onInfoClick
                   })
                 } else if (input.inputType == 'toggle') {
                   parserInputs[inputFieldName] = new NestedFormElement.Toggle({
                     text: input.label,
-                    isHidden: () => {
-                      return concat(of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).pipe(map((pType: string) => {
-                        return pType !== parsers[i];
-                      }));
-                    },
+                    isHidden: isHidden,
                   });
                 } else if(input.inputType == 'multiselect') {
                   parserInputs[inputFieldName] = new NestedFormElement.Select({
@@ -291,15 +289,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     allowEmpty: false,
                     values: input.allowedValues,
                     initialValue: input.initialValue,
-                    onInfoClick: (self, path) => {
-                      this.currentDoc.activePath = path.join();
-                      this.currentDoc.content = input.info;
-                    },
-                    isHidden: () => {
-                      return concat(of(this.userForm.get('parserType').value), this.userForm.get('parserType').valueChanges).pipe(map((pType: string) => {
-                        return pType !== parsers[i];
-                      }));
-                    },
+                    onInfoClick: onInfoClick,
+                    isHidden: isHidden,
                   })
                 }
               }
