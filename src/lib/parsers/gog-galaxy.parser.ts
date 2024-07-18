@@ -48,34 +48,39 @@ export class GOGParser implements GenericParser {
   }
 
   private processRegKey(regkey: Registry.Registry){
-    return new Promise<ParsedData>((resolve, reject) => {
+    return new Promise<{success: ParsedSuccess, failMessage: string}>((resolve, reject) => {
       regkey.values((err: Error, values: Registry.RegistryItem[]) => {
         if (err) {
           return reject(err);
         }
         if (values) {
-          let keyData: ParsedData;
-          if (values.find((entry) => entry.name === 'dependsOn')){
-            keyData = { success: [], failed: [`${values.find((entry) => entry.name === 'gameName').value} is a DLC`]};
-          } else {
-            const productID = values.find((entry) => entry.name === 'gameID').value;
-            let entry: ParsedSuccess = {
-              extractedTitle: values.find((entry) => entry.name === 'gameName').value,
-              extractedAppId: productID,
-              launchOptions: `/command=runGame /gameId=${productID}`,
-              filePath: values.find((entry) => entry.name === 'launchCommand').value,
-              fileLaunchOptions: (values.find((entry) => entry.name === 'launchParam') ?? {value: ''}).value,
-              startInDirectory: values.find((entry) => entry.name === 'workingDir').value
+          const transformed = Object.fromEntries(values.filter(entry => entry.name && entry.value)
+            .map(entry=>[entry.name, entry.value]));
+          if(transformed.gameName && transformed.gameID && transformed.launchCommand && transformed.workingDir) {
+            if(transformed.dependsOn) { // ignore DLC
+              resolve({success: null, failMessage: `Skipping DLC: ${transformed.gameName}`})
+            } else {
+              if(!fs.existsSync(transformed.launchCommand)) {
+                return resolve({success: null, failMessage: `Skipping Missing Executable: ${transformed.gameName}`})
+              }
+              return resolve({success: {
+                extractedTitle: transformed.gameName,
+                extractedAppId: transformed.gameID,
+                launchOptions: `/command=runGame /gameId=${transformed.gameID}`,
+                filePath: transformed.launchCommand,
+                fileLaunchOptions: transformed.launchParam,
+                startInDirectory: transformed.workingDir
+              }, failMessage: null})
             }
-            keyData = { success: [entry], failed: [] };
+          } else {
+            resolve(null)
           }
-          return resolve(keyData);
         }
       });
     });
   }
 
-  private getRegInstalled(){
+  private getRegInstalled(executableLocation: string){
     return new Promise<ParsedData>((resolve, reject) => {
       const rootkey: string = "\\SOFTWARE\\WOW6432Node\\GOG.com\\Games"
       const reg = new Registry({
@@ -91,8 +96,9 @@ export class GOGParser implements GenericParser {
           const promiseArr = regkeys.map((regkey) => this.processRegKey(regkey))
           Promise.all(promiseArr).then((parsedArray) => {
             let parsedData: ParsedData = {
-              success: parsedArray.flatMap((value: ParsedData) => value.success),
-              failed: parsedArray.flatMap((value: ParsedData) => value.failed)
+              executableLocation: executableLocation,
+              success: parsedArray.filter(x=> x&&!x.failMessage).map(x=>x.success),
+              failed: parsedArray.filter(x=>x&&x.failMessage).map(x=>x.failMessage)
             }
             return resolve(parsedData);
           }).catch((err) => {
@@ -121,7 +127,7 @@ export class GOGParser implements GenericParser {
         galaxyExePath = inputs.galaxyExeOverride
       }
       if(inputs.parseRegistryEntries && os.type()=='Windows_NT'){
-        this.getRegInstalled().then((parsedData) => {
+        this.getRegInstalled(galaxyExePath).then((parsedData) => {
           parsedData.executableLocation = galaxyExePath;
           resolve(parsedData);
         }).catch((err)=>{
