@@ -43,8 +43,9 @@ Wenn dir der Steam ROM Manager gefällt, und du möchtest, dass es weiterhin nü
 * `CarJem`{.noWrap} - Manueller Parser.
 * `MattMckenzy`{.noWrap} - Bildauswahl-Import und -Export.
 * `Apalatn`{.noWrap} - Weiterleitung des Installationslaufwerks zum itch.io-Parser hinzugefügt.
-* `OneMoreByte` - itch.io-Parser auf Mac und Linux.
-* `UndarkAido` - Nachverfolgen von `.desktop`-Dateien unter Linux.
+* `OneMoreByte`{.noWrap} - Made itch.io parser work on linux and mac.
+* `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
+* `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
 
 ### Community
 * `HE Spoke`{.noWrap} - gründete die Community rund um SRM. Ersteller von [Steam](https://steamcommunity.com/groups/steamrommanager)- und [Discord](https://discord.gg/bnSVJrz)-Gruppen. Hilft auch Benutzern im [Discord](https://discord.gg/bnSVJrz) beim Einrichten von SRM.
