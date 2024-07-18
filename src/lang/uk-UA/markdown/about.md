@@ -43,8 +43,9 @@
 * `CarJem`{.noWrap} – додано ручний парсер.
 * `MattMckenzy`{.noWrap} – додано можливість імпортувати та експортувати вибір зображень.
 * `Apalatn`{.noWrap} – додано опцію переспрямування диска встановлення до синтаксичного аналізатора itch.io.
-* `OneMoreByte` – синтаксичний аналізатор itch.io працює на Linux та Mac.
-* `UndarkAido` – додано передачу ярликів для ярликів .desktop у Linux.
+* `OneMoreByte`{.noWrap} - Made itch.io parser work on linux and mac.
+* `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
+* `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
 
 ### Спільнота
 * `HE Spoke`{.noWrap} – створив спільноту навколо SRM. Творець груп [Steam](https://steamcommunity.com/groups/steamrommanager) і [Discord](https://discord.gg/bnSVJrz). Також допомагає користувачам налаштувати SRM у [Discord](https://discord.gg/bnSVJrz).
