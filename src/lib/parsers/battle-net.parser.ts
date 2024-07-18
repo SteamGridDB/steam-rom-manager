@@ -20,8 +20,7 @@ const BNET_GAMES: {[k: string]:
   },
   dst2: {
     name: 'Destiny 2',
-    launchId: 'DST2',
-    exes: ['destiny2']
+    launchId: 'DST2'
   },
   hero: {
     name: 'Heroes of the Storm',
