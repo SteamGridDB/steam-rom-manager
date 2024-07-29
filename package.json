@@ -105,7 +105,7 @@
     "electron-updater": "^6.3.0",
     "electron-window-state": "^5.0.3",
     "fast-memoize": "^2.5.2",
-    "fast-xml-parser": "^4.4.0",
+    "fast-xml-parser": "^4.4.1",
     "file-saver": "^2.0.5",
     "file-uri-to-path": "^2.0.0",
     "fs-extra": "^11.2.0",
