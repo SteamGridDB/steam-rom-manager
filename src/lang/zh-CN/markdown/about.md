@@ -43,7 +43,7 @@
 * `CarJem`{.noWrap} - 添加了手动解析器。
 * `MattMckenzy`{.noWrap} - 增加了导入和导出图像选择的功能。
 * `Apalatn`{.noWrap} - 添加了一个安装驱动器重定向选项到 itch.io 解析器。
-* `OneMoreByte`{.noWrap} - Made itch.io parser work on linux and mac.
+*
 * `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
 * `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
 
