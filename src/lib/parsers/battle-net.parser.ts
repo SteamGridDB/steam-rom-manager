@@ -11,7 +11,6 @@ const BNET_GAMES: {[k: string]:
   {
     name: string,
     launchId: string,
-    exes: string[]
   }
 } = {
   d3: {
