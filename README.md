@@ -58,7 +58,7 @@ In addition to flexible importing of ROMS, SRM now has several *platform parsers
 |[Epic](https://store.epicgames.com/en-US/)|✅|✅|🟦|<ul><li>Launch via Epic</li><li>Launch via executable</li>|
 |[GOG Galaxy](https://www.gog.com/galaxy)|✅|✅|🟦|<ul><li>Launch via GOG Galaxy</li><li>Launch via executable</li>|
 |[Itch.io](https://itch.io/app)|✅|✅|✅|<ul><li>Launch via executable</li></ul>|
-|[Legendary](https://github.com/derrod/legendary)|✅|✅|✅|<ul><li>Launch via executable</li></ul>|
+|[Legendary](https://github.com/derrod/legendary)|✅|✅|✅|<ul><li>Launch via Legendary</li><li>Launch via executable</li></ul>|
 |[Ubisoft Connect](https://ubisoftconnect.com/en-US/)|✅|❌|🟦|<ul><li>Launch via Ubisoft Connect</li><li>Launch via executable</li>|
 |[UWP/XBox](https://www.xbox.com/en-US/xbox-game-pass/pc-game-pass)|✅|🟦|🟦|<ul><li>Launch via UWP</li><li>Launch via executable</li>|
 |[Battle.net](https://battle.net)|✅|❌|🟦|<ul><li>Launch via Battle.net</li></ul>|
