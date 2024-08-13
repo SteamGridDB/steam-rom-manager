@@ -214,8 +214,12 @@ export interface languageStruct {
   },
   legendaryParser: {
     launcherModeInputTitle: string,
+    legendaryExeOverrideTitle: string,
+    legendaryExeOverridePlaceholderWin: string,
+    legendaryExeOverridePlaceholderUnix: string,
     legendaryInstalledFileTitle: string,
-    legendaryInstalledFilePlaceholder: string,
+    legendaryInstalledFilePlaceholderWin: string,
+    legendaryInstalledFilePlaceholderUnix: string
     docs__md: {
       self: string[],
       input: string[]

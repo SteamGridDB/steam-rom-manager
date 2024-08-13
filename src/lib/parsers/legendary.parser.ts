@@ -16,9 +16,16 @@ export class LegendaryParser implements GenericParser {
       title: 'Legendary',
       info: this.lang.docs__md.self.join(''),
       inputs: {
+        'legendaryExeOverride': {
+          label: this.lang.legendaryExeOverrideTitle,
+          placeholder: os.type()=='Windows_NT' ? this.lang.legendaryExeOverridePlaceholderWin : this.lang.legendaryExeOverridePlaceholderUnix,
+          inputType: 'path',
+          validationFn: null,
+          info: this.lang.docs__md.input.join('')
+        },
         'legendaryInstalledFile': {
           label: this.lang.legendaryInstalledFileTitle,
-          placeholder: this.lang.legendaryInstalledFilePlaceholder,
+          placeholder: os.type()=='Windows_NT' ? this.lang.legendaryInstalledFilePlaceholderWin : this.lang.legendaryInstalledFilePlaceholderUnix,
           inputType: 'path',
           validationFn: null,
           info: this.lang.docs__md.input.join('')
@@ -41,8 +48,15 @@ export class LegendaryParser implements GenericParser {
       } else {
         legendaryInstalledFile = path.join(os.homedir(),'.config/legendary/installed.json');
       }
-      let legendaryExePath: string = execSync('which legendary', {encoding: 'utf-8'});
-      console.log("legendary", legendaryExePath)
+      let legendaryExePath: string;
+      if(inputs.legendaryExeOverride) {
+        legendaryExePath = inputs.legendaryExeOverride
+      }
+      else if(os.type()=='Windows_NT') {
+        legendaryExePath = execSync('(Get-Command legendary).Path', {shell: 'pwsh', encoding: 'utf-8'});
+      } else {
+        legendaryExePath = execSync('which legendary', {encoding: 'utf-8'});
+      }
       if(!fs.existsSync(legendaryInstalledFile) || !legendaryExePath) {
         return reject(this.lang.errors.legendaryNotInstalled)
       }
