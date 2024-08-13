@@ -249,6 +249,7 @@ export class FileParser {
         let vParser = new VariableParser({ left: '${', right: '}' });
         let launcherMode = !!(
           config.parserInputs.epicLauncherMode
+          || config.parserInputs.legendaryLauncherMode
           || config.parserInputs.gogLauncherMode
           || config.parserInputs.amazonGamesLauncherMode
           || config.parserInputs.uplayLauncherMode
@@ -285,7 +286,7 @@ export class FileParser {
             } else {
               executableLocation = data.success[j].filePath;
             }
-            startInDir = data.success[j].startInDirectory || path.dirname(data.success[j].filePath);
+            startInDir = data.success[j].startInDirectory || path.dirname(executableLocation);
             appendArgsToExecutable = false;
           }
           else if(superType === parserInfo.ArtworkOnlyType) {

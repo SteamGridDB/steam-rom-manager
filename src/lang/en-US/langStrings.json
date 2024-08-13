@@ -118,6 +118,7 @@
     }
   },
   "legendaryParser": {
+    "launcherModeInputTitle": "Launch games via Legendary for online services",
     "legendaryInstalledFileTitle": "Legendary installed.json Path Override",
     "legendaryInstalledFilePlaceholder": "/path/to/legendary/installed.json",
     "errors": {

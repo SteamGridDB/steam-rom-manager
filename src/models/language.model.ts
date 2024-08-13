@@ -213,6 +213,7 @@ export interface languageStruct {
     }
   },
   legendaryParser: {
+    launcherModeInputTitle: string,
     legendaryInstalledFileTitle: string,
     legendaryInstalledFilePlaceholder: string,
     docs__md: {

@@ -1,27 +1,32 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.5.22
+### Added
+* Legendary Parser now has a launcher mode to launch games with Epic online services (resolves [issue 700](https://github.com/SteamGridDB/steam-rom-manager/issues/700))
+* Added sections to parser type dropdown and community presets dropdown.
+
 ## 2.5.21
 Some much needed love for the Mac OS version of SRM, and a cool pull request!
-## Added
+### Added
 * GOG Galaxy parser is fully functional on Mac OS.
 * Auto kill and restart Steam working on Mac OS.
 * Windows-only option in GOG Galaxy parser to parse from Windows Registry instead of GOG Galaxy's database (works even if Galaxy is not installed!). Thanks @HazardousBackup! 
 
 ## 2.5.20
-## Changed
+### Changed
 * Brought all dependencies to latest version.
 * Switched from npm to yarn package manager.
 * Reworked when controller templates are fetched, leading to a significant performance increase.
 
 ## 2.5.19
-## Fixed
+### Fixed
 * Didn't do a modifier on user configurations so 2.5.18 was broken.
 
 ## 2.5.18
-## Added
+### Added
 * Improved control over exactly what Steam Parser adds (between full games, demos, tools, and source mods).
-## Fixed
+### Fixed
 * Steam Parser failing on beta update due to changes in binary format of appinfo.vdf ([issue 688](https://github.com/SteamGridDB/steam-rom-manager/issues/688))
 * Steam Parser no longer requires apps to be in at least one category(incidentally resolves [issue 596](https://github.com/SteamGridDB/steam-rom-manager/issues/596))
 
