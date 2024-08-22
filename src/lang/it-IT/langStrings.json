@@ -118,8 +118,13 @@
     }
   },
   "legendaryParser": {
+    "launcherModeInputTitle": "Launch games via Legendary for online services",
     "legendaryInstalledFileTitle": "Sovrascrittura del percorso installed.json di Legendary",
-    "legendaryInstalledFilePlaceholder": "/percorso/a/legendary/installed.json",
+    "legendaryInstalledFilePlaceholderUnix": "/path/to/legendary/installed.json",
+    "legendaryInstalledFilePlaceholderWin": "C:\\path\\to\\legendary\\installed.json",
+    "legendaryExeOverrideTitle": "Legendary Path Override",
+    "legendaryExeOverridePlaceholderWin": "C:\\path\\to\\legendary.exe",
+    "legendaryExeOverridePlaceholderUnix": "/path/to/legendary",
     "errors": {
       "legendaryNotInstalled": "> Legendary installed.json non trovato",
       "fatalError__i": "> Legendary parser failed with fatal error:\n ${error}"
