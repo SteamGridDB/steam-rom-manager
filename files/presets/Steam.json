@@ -15,7 +15,6 @@
 			"steamCDN"
 		],
 		"disabled": false,
-		"advanced": false,
 		"userAccounts": {
 			"specifiedAccounts": [
 				"Global"
@@ -37,7 +36,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 16,
+		"presetVersion": 17,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,

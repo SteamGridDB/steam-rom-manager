@@ -247,7 +247,6 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
       'presetVersion': { method: versionUp},
       'advanced': {method: (oldValue, oldConfiguration)=> {
         delete oldConfiguration.advanced;
-        return;
       }}
     }
   }
