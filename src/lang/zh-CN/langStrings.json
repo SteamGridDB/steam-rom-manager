@@ -118,8 +118,13 @@
     }
   },
   "legendaryParser": {
+    "launcherModeInputTitle": "Launch games via Legendary for online services",
     "legendaryInstalledFileTitle": "Legendary installed.json 路径覆盖",
-    "legendaryInstalledFilePlaceholder": "/path/to/legendary/installed.json",
+    "legendaryInstalledFilePlaceholderUnix": "/path/to/legendary/installed.json",
+    "legendaryInstalledFilePlaceholderWin": "C:\\path\\to\\legendary\\installed.json",
+    "legendaryExeOverrideTitle": "Legendary Path Override",
+    "legendaryExeOverridePlaceholderWin": "C:\\path\\to\\legendary.exe",
+    "legendaryExeOverridePlaceholderUnix": "/path/to/legendary",
     "errors": {
       "legendaryNotInstalled": "> 找不到已安装的 Legendary installed.json 文件",
       "fatalError__i": ""
