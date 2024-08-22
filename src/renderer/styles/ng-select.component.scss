@@ -81,5 +81,12 @@
 
       @include webkitScrollbar(ng-select-scrollbar);
     }
+    .sectionTitle {
+      border-bottom: solid 1px;
+      background-color: var(--ng-select-background);
+      padding-left: 1em;
+      padding-top: 0.5em;
+    }
+
   }
 }

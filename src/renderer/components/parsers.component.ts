@@ -8,7 +8,7 @@ import * as parserInfo from '../../lib/parsers/available-parsers';
 import * as steam from '../../lib/helpers/steam';
 import { controllerTypes, controllerNames } from '../../lib/controller-manager';
 import { artworkTypes, artworkViewNames, artworkSingDict } from '../../lib/artwork-types';
-import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets, ControllerTemplates, ParserType, OnlineProviderType } from '../../models';
+import { UserConfiguration, NestedFormElement, AppSettings, ConfigPresets, ControllerTemplates, ParserType, OnlineProviderType, StringDict } from '../../models';
 import { BehaviorSubject, Subscription, of, concat } from "rxjs";
 import { map } from 'rxjs/operators'
 import { APP } from '../../variables';
@@ -27,6 +27,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   configurationIndex: number = -1;
   isUnsaved: boolean = false;
   configPresets: ConfigPresets = {};
+  presetsSections: StringDict = {};
   nestedGroup: NestedFormElement.Group;
   userForm: FormGroup;
   chooseUserAccountsVisible: boolean = false;
@@ -69,6 +70,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         parserType: new NestedFormElement.Select({
           label: this.lang.label.parserType,
           placeholder: this.lang.placeholder.parserType,
+          sectionsMap: parserInfo.superTypesMap,
           required: true,
           values: parserInfo.availableParsers,
           onValidate: (self, path) => this.parsersService.validate(path[0] as keyof UserConfiguration, self.value),
@@ -549,6 +551,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     return APP.lang.parsers.component;
   }
 
+  get parserInfo() {
+    return parserInfo;
+  }
+
   ngAfterViewInit() {
     this.subscriptions.add(this.parsersService.getUserConfigurations().subscribe((data) => {
       this.userConfigurations = data;
@@ -566,6 +572,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     }));
     this.subscriptions.add(this.cpService.dataObservable.subscribe((data) => {
       this.configPresets = data;
+      this.presetsSections = Object.fromEntries(Object.keys(this.configPresets).map(presetName=>[presetName,
+        parserInfo.superTypesMap[this.configPresets[presetName].parserType]
+      ]).sort((a,b)=>a[1].localeCompare(b[1])))
     }));
     this.subscriptions.add(this.parsersService.getSavedControllerTemplates().subscribe((data) => {
       this.parsersService.controllerTemplates = data;

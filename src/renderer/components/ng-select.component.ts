@@ -1,7 +1,7 @@
 import { Component, forwardRef, ElementRef, Optional, Host, HostListener, Input,Output, ContentChildren, QueryList, ChangeDetectorRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import * as _ from 'lodash';
-import {SelectItem} from "../../models";
+import {SelectItem, StringDict} from "../../models";
 
 @Component({
   selector: 'ng-select',
@@ -15,13 +15,29 @@ import {SelectItem} from "../../models";
   <ng-text-input *ngIf="searchable" class="display" [placeholder]="placeholder" (click)="open = !open" [class.open]="open" [(ngModel)]="searchText" (ngModelChange)="searchText=$event;filterOptions($event);" value="searchText;">
   </ng-text-input>
   <div class="options" [class.open]="open">
-  <ng-option text-scroll *ngFor="let option of optionsList; let i = index"
+  <ng-container *ngIf="_sections.length">
+    <ng-container  *ngFor="let option of optionsList; let i=index;">
+      <ng-container *ngIf="_sectionsList[i.toString()] && !searchText.length">
+      <div class="sectionTitle">{{_sectionsList[i.toString()].name}}</div>
+      </ng-container>
+      <ng-option text-scroll
+      [displayValue]="option.displayValue"
+      [isSelected]="selected.indexOf(i)>=0"
+      [isHidden]="searchable&&searchText.length&&filtered.indexOf(i)>=0"
+      (click)="selectOption(i, true)">
+      {{option.displayValue}}
+      </ng-option>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="!_sections.length">
+  <ng-option text-scroll *ngFor="let option of optionsList; let i = index;"
   [displayValue]="option.displayValue"
   [isSelected]="selected.indexOf(i)>=0"
   [isHidden]="searchable&&searchText.length&&filtered.indexOf(i)>=0"
   (click)="selectOption(i, true)">
   {{option.displayValue}}
   </ng-option>
+  </ng-container>
   </div>
   `,
   styleUrls: [
@@ -38,6 +54,14 @@ import {SelectItem} from "../../models";
 export class NgSelectComponent implements ControlValueAccessor {
   open: boolean = false;
   optionsList: SelectItem[] = [];
+  _sectionsMap: StringDict = {};
+  _sections: string[] = [];
+  _sectionsList: {
+    [tally: string]: {
+      name: string,
+      options: SelectItem[]
+    }
+  }={};
   currentDisplay: string = '';
   private currentValue: any[] = [];
 
@@ -51,6 +75,16 @@ export class NgSelectComponent implements ControlValueAccessor {
   @Input() private separator: string = ', ';
   @Input() private sort: boolean = true;
   @Input() private emitOnly: boolean = false;
+  @Input() get sectionsMap() {
+    return this._sectionsMap;
+  }
+  set sectionsMap(sectionsMap: StringDict) {
+    if(sectionsMap) {
+      this._sectionsMap = sectionsMap;
+      this._sections = _.uniq(Object.values(sectionsMap));
+      this.changeOptions(this.optionsList);
+    }
+  }
   @Output() searchText: string='';
   @Output() filtered: number[] = [];
   @Output() selected: number[] = [];
@@ -59,8 +93,15 @@ export class NgSelectComponent implements ControlValueAccessor {
 
   changeOptions(newOptions: SelectItem[]) {
     let currentOptions = this.selected.map(i=>this.optionsList[i]);
-    let newSelected = _.intersectionWith(newOptions, currentOptions, _.isEqual);
-    this.optionsList = newOptions;
+    let newSelected: SelectItem[] = _.intersectionWith(newOptions, currentOptions, _.isEqual);
+   let sortedOptions: SelectItem[];
+   if(this._sections.length) {
+    this._sectionsList = this.getSectionList(newOptions);
+    sortedOptions = _.flatten(Object.values(this._sectionsList).map(sec=>sec.options))
+    } else {
+      sortedOptions = newOptions;
+    }
+    this.optionsList = sortedOptions;
     this.selected = newSelected.map(value=>_.findIndex(this.optionsList,(e)=>_.isEqual(e,value)));
   }
 
@@ -68,6 +109,33 @@ export class NgSelectComponent implements ControlValueAccessor {
     this.open = !this.open;
     this.changeRef.detectChanges();
   }
+
+  getSectionList(optionsList: SelectItem[]) {
+    let running=0;
+    const sections: {[tally: string]: {
+      name: string,
+      options: SelectItem[],
+    }} = {};
+    for(let sec of this._sections) {
+      sections[running.toString()] = {
+        name: sec,
+        options: optionsList
+          .filter(item =>this._sectionsMap[item.value]==sec)
+          .sort((a,b) => a.displayValue.localeCompare(b.displayValue))
+      }
+      running += optionsList.filter(item => this._sectionsMap[item.value]==sec).length;
+    }
+    const unmatched = optionsList.filter(item=>!this._sectionsMap[item.value])
+    if(unmatched.length) {
+      sections[running.toString()] = {
+        name: "Uncategorized",
+        options: optionsList
+          .sort((a,b) => a.displayValue.localeCompare(b.displayValue))
+        }
+    }
+    return sections
+  }
+
   selectOption(id: number, toggle: boolean, suppressChanges: boolean = false) {
     let valueChanged = true;
     let selectedIds =  this.selected;

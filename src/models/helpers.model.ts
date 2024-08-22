@@ -33,3 +33,7 @@ export interface SteamTree<T> {
 
 
 export const StringLiteralArray = <L extends string>(arr: L[])=>arr;
+
+export interface StringDict {
+  [key: string]: string
+}

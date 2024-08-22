@@ -1,5 +1,6 @@
 import { AbstractControl, FormGroup, FormControl } from '@angular/forms';
 import { Observable } from "rxjs";
+import { StringDict } from './helpers.model';
 
 export interface IndexedFormGroup extends FormGroup {
   __path?: string[]
@@ -45,6 +46,8 @@ export namespace NestedFormElement {
     multiple?: boolean
     /** Optional */
     allowEmpty?: boolean
+    /** Optional */
+    sectionsMap?: StringDict
     /** Optional */
     required?: boolean
     /** Optional */

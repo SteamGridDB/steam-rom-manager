@@ -17,6 +17,7 @@
     ngModel
     (ngModelChange)="setPreset($event)"
     [searchable]="true"
+    [sectionsMap]="presetsSections"
     [values]="configPresets | keys"
   >
   </ng-select>

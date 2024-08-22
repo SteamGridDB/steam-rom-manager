@@ -26,7 +26,15 @@
             </label>
             <ng-container [ngSwitch]="child.constructor.displayName">
               <ng-container *ngSwitchCase="'Select'">
-                <ng-select [formControlName]="childrenKey" [placeholder]="child.placeholder" [multiple]="child.multiple" [allowEmpty]="child.allowEmpty" [values]="child.values" [class.required]="child.required">
+                <ng-select 
+                  [formControlName]="childrenKey" 
+                  [placeholder]="child.placeholder" 
+                  [multiple]="child.multiple" 
+                  [allowEmpty]="child.allowEmpty" 
+                  [values]="child.values"
+                  [sectionsMap]="child.sectionsMap"
+                  [class.required]="child.required"
+                  >
                 </ng-select>
               </ng-container>
               <ng-container *ngSwitchCase="'Button'">
