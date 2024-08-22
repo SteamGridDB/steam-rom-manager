@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Legendary Parser now has a launcher mode to launch games with Epic online services (resolves [issue 700](https://github.com/SteamGridDB/steam-rom-manager/issues/700))
 * Added sections to parser type dropdown and community presets dropdown.
+* Added a `Non SRM Shortcuts` preset.
 
 ## 2.5.21
 Some much needed love for the Mac OS version of SRM, and a cool pull request!
