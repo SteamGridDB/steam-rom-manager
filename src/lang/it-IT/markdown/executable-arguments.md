@@ -2,15 +2,15 @@
 
 . .
 
-## Examples By System
+##
 
 ### RetroArch
 
 ```
--L cores${/}YOUR_CORE.dll "${filePath}"
+-L core${/}YOUR_CORE.dll "${filePath}"
 ```
 
-### Cemu (WiiU)
+###
 
 ```
 -f -g "${filePath}"
