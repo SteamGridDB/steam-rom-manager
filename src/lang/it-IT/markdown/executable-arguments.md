@@ -16,64 +16,64 @@
 -f -g "${filePath}"
 ```
 
-### Dolphin Emu (Gamecube and Wii)
+###
 
 ```
---exec="${filePath}" --batch --confirm=false
-```
-
-### Project64 2.3+ (N64)
 
 ```
-"${filePath}"
-```
 
-### Mupen64+ (N64)
+###
 
 ```
---fullscreen "${filePath}"
-```
-
-### DeSmuME (Nintendo DS)
 
 ```
-"${filePath}"
-```
 
-### mGBA (Gameboy, Gameboy Color, and Gameboy Advance)
+###
 
 ```
--f "${filePath}"
-```
-
-### Nestopia (NES/Famicom)
 
 ```
-"${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen on start : yes -view size fullscreen : stretched 
-```
 
-### higan (NES/Famicom, SNES/Famicom, Gameboy, Gameboy Color, Gameboy Advance)
+###
 
 ```
-"${filePath}"
-```
-
-### nullDC (Sega Dreamcast)
 
 ```
--config nullDC_GUI:Fullscreen=1 -config ImageReader:DefaultImage="${filePath}"
-```
 
-### Kega Fusion (Sega Genesis and Sega 32X)
+###
 
 ```
-"${filePath}" -gen -auto -fullscreen
-```
-
-### RPCS3 (Sony Playstation 3)
 
 ```
-"${filePath}"
+
+###
+
+```
+ 
+```
+
+###
+
+```
+
+```
+
+###
+
+```
+
+```
+
+###
+
+```
+
+```
+
+###
+
+```
+
 ```
 
 ###
