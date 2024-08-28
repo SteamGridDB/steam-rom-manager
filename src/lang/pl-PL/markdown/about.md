@@ -1,22 +1,22 @@
 ## Informacje o systemie
 
-In case you're having trouble with SRM, feel free to visit the [discord](https://discord.gg/bnSVJrz) or the [subreddit](https://www.reddit.com/r/SteamRomManager/) and ask for our help. In order for us to help you, we would like you to provide this info:
+Jeśli masz problemy z SRM, możesz odwiedzić [discord](https://discord.gg/bnSVJrz) lub [subreddit](https://www.reddit.com/r/SteamRomManager/) i poprosić o naszą pomoc. Abyśmy mogli Ci pomóc, chcielibyśmy, abyś podał następujące informacje:
 
-* SRM version: **#{APP[version]}** emudeckText
-* Operating System: **#{APP[os]}**
+* Wersja SRM: **#{APP[version]}** emudeckText
+* System operacyjny: **#{APP[os]}**
 
 ## Przydatne odnośniki
 
-* [SRM Releases](https://github.com/SteamGridDB/steam-rom-manager/releases)
-* [Discord Server](https://discord.gg/bnSVJrz)
+* [Wydania SRM](https://github.com/SteamGridDB/steam-rom-manager/releases)
+* [Serwer Discord](https://discord.gg/bnSVJrz)
 * [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
-* [Steam Group](https://steamcommunity.com/groups/steamrommanager)
-* [Github Repo](https://github.com/SteamGridDB/steam-rom-manager)
-* [Crowdin Translation Project](https://crowdin.com/project/steam-rom-manager)
+* [Grupa na Steam](https://steamcommunity.com/groups/steamrommanager)
+* [Repozytorium na GitHub](https://github.com/SteamGridDB/steam-rom-manager)
+* [Projekt Tłumaczeń Crowdin](https://crowdin.com/project/steam-rom-manager)
 
 ## Pomoc techniczna
 
-Help support continued progress on Steam ROM Manager at:
+Wesprzyj ciągłe postępy w Steam ROM Manager na:
 
 <a href="https://www.buymeacoffee.com/cbartondock">
   <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="Kup mi kawę" width="160">
