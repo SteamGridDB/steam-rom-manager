@@ -17,10 +17,10 @@ Nel parser SRM:
 
 Attualmente, SRM estrae tutti i template predefiniti (fatti da Valve) per ogni controller e tutti i template definiti dall'utente che terminano in `(SRM)`.
 
-* Seleziona il tuo template e salva il parser. The controller configsets will be applied once you hit `Save to Steam` in the Add Games.
+* Seleziona il tuo template e salva il parser. .
 
 * Per reimpostare la configurazione del controller, puoi `Rimuovere tutte le Inserzioni aggiunte all'App` dalle impostazioni globali (questo elimina tutti i cambiamenti fatti da SRM dai tuoi dati di steam) o premere `Unset All Controllers` nel parser (questo rimuove solo le impostazioni del controller per la cartella di steam e specificata dall'utente in quel parser).
 
-Once this is done you can parse and add games to steam as usual, and the templates will be applied to all the titles in the parser.
+Una volta che questo è fatto si può analizzare e aggiungere giochi a vapore come al solito e i template saranno applicati a tutti i titoli del parser.
 
 
