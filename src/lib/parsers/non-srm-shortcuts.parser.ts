@@ -7,6 +7,7 @@ const shortcutsParser = require('steam-shortcut-editor');
 import * as fs from 'fs';
 import { VDF_Manager } from '../vdf-manager';
 import { VDF_AddedItemsFile } from '../vdf-added-items-file';
+import * as json from '../helpers/json';
 
 export class NonSRMShortcutsParser implements GenericParser {
 
@@ -40,7 +41,7 @@ export class NonSRMShortcutsParser implements GenericParser {
             const mappedApps = shortcuts.filter((shortcut: any) => {
               return !addedAppIds.includes(steam.appifyShortcutId(shortcut.appid))
             }).map((shortcut: any) => { return {
-              extractedTitle: shortcut.AppName,
+              extractedTitle: json.caselessGet(shortcut, [['AppName']]),
               extractedAppId: steam.shortenAppId(steam.appifyShortcutId(shortcut.appid))
             }})
             parsedData.success=[...parsedData.success, ...mappedApps]
