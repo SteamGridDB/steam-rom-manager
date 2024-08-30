@@ -40,7 +40,7 @@ export class NonSRMShortcutsParser implements GenericParser {
             const mappedApps = shortcuts.filter((shortcut: any) => {
               return !addedAppIds.includes(steam.appifyShortcutId(shortcut.appid))
             }).map((shortcut: any) => { return {
-              extractedTitle: shortcut.appname,
+              extractedTitle: shortcut.AppName,
               extractedAppId: steam.shortenAppId(steam.appifyShortcutId(shortcut.appid))
             }})
             parsedData.success=[...parsedData.success, ...mappedApps]
