@@ -1,8 +1,8 @@
-import { PipeTransform, Pipe } from '@angular/core';
+import { PipeTransform, Pipe } from "@angular/core";
 
-@Pipe({ name: 'cssUrl' })
+@Pipe({ name: "cssUrl" })
 export class CssUrl implements PipeTransform {
-    transform(filePath: string) {
-        return `url("${filePath}")`;
-    }
+  transform(filePath: string) {
+    return `url("${filePath}")`;
+  }
 }

@@ -9,4 +9,5 @@ Pour que cet analyseur fonctionne avec l'alternative Open Source Epic [Legendary
 Ceci dit, il y a aussi un analyseur `Legendary` dans SRM qui est disponible.
 
 ## Compatibilité
+
 Cet analyseur n'est actuellement fonctionnel que sur les systèmes `Windows` et `Mac OS`. Sur `Mac OS` il n'est pas possible de lancer via Epic, donc il doit rester désactivé.

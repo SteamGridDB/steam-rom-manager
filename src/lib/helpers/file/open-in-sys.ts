@@ -1,11 +1,11 @@
-import * as child_process from 'child_process';
+import * as child_process from "child_process";
 export function dirOpen(dirPath: string) {
-  let command = '';
+  let command = "";
   switch (process.platform) {
-    case 'darwin':
+    case "darwin":
       command = `open "${dirPath}"`;
       break;
-    case 'win32':
+    case "win32":
       command = `start "" "${dirPath}"`;
       break;
     default:

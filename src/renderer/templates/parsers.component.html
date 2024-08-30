@@ -2,8 +2,9 @@
 <choose-accounts
   [showChooseAccounts]="chooseUserAccountsVisible"
   [steamDirectory]="steamDirectoryForChooseAccounts"
-  (showAccounts)="chooseUserAccountsVisible=$event"
-  (accountsJoined)="setUserAccounts($event)">
+  (showAccounts)="chooseUserAccountsVisible = $event"
+  (accountsJoined)="setUserAccounts($event)"
+>
 </choose-accounts>
 <div class="nestedForm">
   <label>
@@ -21,12 +22,20 @@
     [values]="configPresets | keys"
   >
   </ng-select>
-  <ng-nested-form (parentFormChange)="userForm = $event" [nestedGroup]="nestedGroup"></ng-nested-form>
+  <ng-nested-form
+    (parentFormChange)="userForm = $event"
+    [nestedGroup]="nestedGroup"
+  ></ng-nested-form>
 </div>
 <div class="menu" drag-scroll>
   <ng-container *ngIf="configurationIndex === -1; else moreOptions">
-    <div (click)="saveForm()" style="margin-right: auto">{{ lang.buttons.save }}</div>
-    <div *ngIf="(getDeletedConfigurations() | async).length !== 0" (click)="restoreForm()">
+    <div (click)="saveForm()" style="margin-right: auto">
+      {{ lang.buttons.save }}
+    </div>
+    <div
+      *ngIf="(getDeletedConfigurations() | async).length !== 0"
+      (click)="restoreForm()"
+    >
       {{ lang.buttons.undoDelete }}
     </div>
     <div (click)="openFAQ()">{{ lang.buttons.faq }}</div>
@@ -35,17 +44,45 @@
     <div (click)="updateForm()">{{ lang.buttons.save }}</div>
     <div (click)="saveForm()">{{ lang.buttons.copy }}</div>
     <div (click)="testForm()">{{ lang.buttons.testParser }}</div>
-    <div class="dangerousButton" (click)="deleteForm()" style="margin-right: auto">{{ lang.buttons.delete }}</div>
-    <div *ngIf="(getDeletedConfigurations() | async).length !== 0" (click)="restoreForm()">
+    <div
+      class="dangerousButton"
+      (click)="deleteForm()"
+      style="margin-right: auto"
+    >
+      {{ lang.buttons.delete }}
+    </div>
+    <div
+      *ngIf="(getDeletedConfigurations() | async).length !== 0"
+      (click)="restoreForm()"
+    >
       {{ lang.buttons.undoDelete }}
     </div>
-    <div *ngIf="isUnsaved" (click)="undoChanges()">{{ lang.buttons.undoChanges }}</div>
-    <div (click)="toClipboard()" [title]="lang.buttons.toClipboard" class="icon_button">
+    <div *ngIf="isUnsaved" (click)="undoChanges()">
+      {{ lang.buttons.undoChanges }}
+    </div>
+    <div
+      (click)="toClipboard()"
+      [title]="lang.buttons.toClipboard"
+      class="icon_button"
+    >
       <svg copy-icon [title]="lang.buttons.toClipboard"></svg>
     </div>
-    <div [class.disabled]="configurationIndex === 0" (click)="moveUp()" [title]="lang.buttons.moveUp">
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300" height="1em">
-        <path d="M150 10 l 140 150 h -80 v 120 h -120 v -120 h -80 z" stroke="black" stroke-width="3" />
+    <div
+      [class.disabled]="configurationIndex === 0"
+      (click)="moveUp()"
+      [title]="lang.buttons.moveUp"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        viewBox="0 0 300 300"
+        height="1em"
+      >
+        <path
+          d="M150 10 l 140 150 h -80 v 120 h -120 v -120 h -80 z"
+          stroke="black"
+          stroke-width="3"
+        />
       </svg>
     </div>
     <div
@@ -54,8 +91,17 @@
       [title]="lang.buttons.moveDown"
       class="icon_button"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 300 300" height="1em">
-        <path d="M150 290 l 140 -150 h -80 v -120 h -120 v 120 h -80 z" stroke="black" stroke-width="3" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        viewBox="0 0 300 300"
+        height="1em"
+      >
+        <path
+          d="M150 290 l 140 -150 h -80 v -120 h -120 v 120 h -80 z"
+          stroke="black"
+          stroke-width="3"
+        />
       </svg>
     </div>
     <div (click)="openFAQ()">{{ lang.buttons.faq }}</div>

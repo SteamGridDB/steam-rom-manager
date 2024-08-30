@@ -1,5 +1,7 @@
 # Entrées uniques pour l'analyseur UPlay
+
 ## Remplacer le répertoire Ubisoft
+
 Par défaut, Steam ROM Manager suppose que votre installation UPlay est située à `C:\Program Files (x86)\Ubisoft`. Ce champ vous permet de remplacer ce chemin si votre installation UPlay est ailleurs.
 
 ## Lancez via UPlay `[Recommander désactivé]`

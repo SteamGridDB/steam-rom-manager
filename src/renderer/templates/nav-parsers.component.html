@@ -7,7 +7,10 @@
             <span>Toggle Parsers</span>
             <span>&nbsp;&nbsp;</span>
           </nav-link>
-          <ng-toggle-button class="ngToggleButton" [formControl]="navForm.get('selectAll') | formControl"></ng-toggle-button>
+          <ng-toggle-button
+            class="ngToggleButton"
+            [formControl]="navForm.get('selectAll') | formControl"
+          ></ng-toggle-button>
         </div>
       </div>
     </div>
@@ -17,17 +20,23 @@
       *ngFor="let item of getParserControls(); let i = index"
       [ngClass]="{
         unsaved: userConfigurations[i].current != null,
-        disabled: userConfigurations[i].saved.disabled
+        disabled: userConfigurations[i].saved.disabled,
       }"
     >
-      <ng-container *ngVar="item.controls[userConfigurations[i].saved.parserId] as toggle">
-        <div class="inputContainer" [formGroupName]="i" (click)="emuClick(toggle)">
+      <ng-container
+        *ngVar="item.controls[userConfigurations[i].saved.parserId] as toggle"
+      >
+        <div
+          class="inputContainer"
+          [formGroupName]="i"
+          (click)="emuClick(toggle)"
+        >
           <div class="inlineGroup">
             <nav-link
               class="parserlink"
               [ngClass]="{
                 unsaved: userConfigurations[i].current != null,
-                disabled: userConfigurations[i].saved.disabled
+                disabled: userConfigurations[i].saved.disabled,
               }"
               [routerLink]="['/parsers', i]"
               routerLinkActive="active"
@@ -38,13 +47,28 @@
               </div>
               <div class="only-emudeck">
                 <p>
-                  <img width="120" src="{{imageMap[userConfigurations[i].saved.parserId].img}}" />
-                  <span *ngIf="imageMap[userConfigurations[i].saved.parserId].alternative">Non-EmuDeck</span>
+                  <img
+                    width="120"
+                    src="{{
+                      imageMap[userConfigurations[i].saved.parserId].img
+                    }}"
+                  />
+                  <span
+                    *ngIf="
+                      imageMap[userConfigurations[i].saved.parserId].alternative
+                    "
+                    >Non-EmuDeck</span
+                  >
                 </p>
-                <small>{{imageMap[userConfigurations[i].saved.parserId].details}}</small>
+                <small>{{
+                  imageMap[userConfigurations[i].saved.parserId].details
+                }}</small>
               </div>
             </nav-link>
-            <ng-toggle-button class="ngToggleButton" [formControl]="toggle"></ng-toggle-button>
+            <ng-toggle-button
+              class="ngToggleButton"
+              [formControl]="toggle"
+            ></ng-toggle-button>
           </div>
         </div>
       </ng-container>

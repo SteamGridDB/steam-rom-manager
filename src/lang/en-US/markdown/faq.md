@@ -2,19 +2,19 @@
 
 Read this if you're still having trouble with configuration. For most examples the following will be used unless specified otherwise:
 
-|||
-|---|---|
-|**ROMs directory**|`C:/ROMs`|
-|**File1**|`C:/ROMs/Kingdom Hearts/game.iso`|
-|**File2**|`C:/ROMs/Kingdom Hearts II/rom.iso`|
-|**File3**|`C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes`|
-|**File4**|`C:/ROMs/dir1/dir2/dir3/save.sav`|
-|**File5**|`C:/ROMs/dir1/dir2/Dragon Quest IV.NES`|
-|**File6**|`C:/ROMs/dir1/dir2/save.sav`|
+|                    |                                            |
+| ------------------ | ------------------------------------------ |
+| **ROMs directory** | `C:/ROMs`                                  |
+| **File1**          | `C:/ROMs/Kingdom Hearts/game.iso`          |
+| **File2**          | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
+| **File3**          | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
+| **File4**          | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
+| **File5**          | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
+| **File6**          | `C:/ROMs/dir1/dir2/save.sav`               |
 
 ## So, how do I setup user's glob?
 
-First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. Since our **ROMs directory** is `C:/ROMs`, we can just remove it from **File1**'s path. 
+First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. Since our **ROMs directory** is `C:/ROMs`, we can just remove it from **File1**'s path.
 
 We end up with `Kingdom Hearts/game.iso`. It obvious for us that `Kingdom Hearts` is the title, however parser is dumber than you -- you must specify path portion which contains the title by replacing `Kingdom Hearts` with `${title}`.
 
@@ -34,12 +34,14 @@ Using similar logic we can produce glob for **File3**:
 
 ## How to deal with multi-leveled directories?
 
-This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now?
+This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while **File5** has `2`. What now?
 
 Now we can use a globstar and that's it!
+
 ```
 **/${title}.*
 ```
+
 Is it really that simple? **NO!** Globstar will have some impact in parser's performance if there are many subdirectories with thousands of files each. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere.
 
 A recommended solution is to use braced sets. They can make multiple globs out of `1` glob. If we write a glob like this:
@@ -104,9 +106,10 @@ Now parser can match any combination and is effectively case-insensitive. Techni
 ```
 
 ## Troubleshooting
-* Please ensure that steam is actually closed before saving your app list.
 
-* One common issue Steam ROM Manager runs into is the presence of old steam directories from people who logged into steam in your computer before the New Library Update. This can cause Steam ROM Manager to fail in unpredictable ways, as it tries to access directories whose structure has changed. In order to get around this, use the [User Accounts](#user-accounts) field to specify which accounts you actually want to use Steam ROM Manager with.  
+- Please ensure that steam is actually closed before saving your app list.
+
+- One common issue Steam ROM Manager runs into is the presence of old steam directories from people who logged into steam in your computer before the New Library Update. This can cause Steam ROM Manager to fail in unpredictable ways, as it tries to access directories whose structure has changed. In order to get around this, use the [User Accounts](#user-accounts) field to specify which accounts you actually want to use Steam ROM Manager with.
 
 ## The Discord
 

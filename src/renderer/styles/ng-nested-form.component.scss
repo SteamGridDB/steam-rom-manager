@@ -47,7 +47,6 @@ ng-nested-form {
           svg {
             transform: rotate(-90deg);
           }
-
         }
       }
       label {
@@ -69,7 +68,9 @@ ng-nested-form {
 
       blockquote {
         border-left-color: var(--color-nested-form-error-border);
-        p{color: var(--color-nested-form-error)}
+        p {
+          color: var(--color-nested-form-error);
+        }
         margin: var(--margin-nested-form-error);
         padding: var(--padding-nested-form-error);
       }
@@ -104,8 +105,8 @@ ng-nested-form {
       grid-area: input;
       &.required {
         outline: 1px solid var(--color--required);
-        .display{
-          border: 0
+        .display {
+          border: 0;
         }
       }
     }
@@ -113,8 +114,8 @@ ng-nested-form {
       grid-area: input;
       &.required {
         outline: 1px solid var(--color--required);
-        .display{
-          border: 0
+        .display {
+          border: 0;
         }
       }
     }
@@ -124,8 +125,8 @@ ng-nested-form {
       border-radius: 0px;
       &.required {
         outline: 1px solid var(--color--required);
-        .display{
-          border: 0
+        .display {
+          border: 0;
         }
       }
     }

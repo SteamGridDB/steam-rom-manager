@@ -1,4 +1,4 @@
-Want to play some old or new emulator games on your couch? Adding them to steam gives you access to the steam overlay, excellent controller management, and even in home and remote streaming. Adding your emulator games manually is a huge pain, but fear not! Introducing **Steam ROM Manager**, the bulk game importer and artwork manager for Steam! 
+Want to play some old or new emulator games on your couch? Adding them to steam gives you access to the steam overlay, excellent controller management, and even in home and remote streaming. Adding your emulator games manually is a huge pain, but fear not! Introducing **Steam ROM Manager**, the bulk game importer and artwork manager for Steam!
 
 # Features
 
@@ -57,12 +57,12 @@ Can't seem to find images for your title, but they are certainly on supported we
 
 ## Other features
 
-* Multiplatform - runs on Windows, Mac, and Linux.
-* Capable of supporting multiple image providers - fully supports image downloads from **SteamGridDB**, but more will be supported as they come online (formerly supported the now defunct **Console Grid** and **Retrogaming.cloud** providers)
-* Local images - you can set parser up to user your own local images.
-* Exception Manager - Want to rename or exclude a handful of your hundreds of parsed games? SRM has you covered.
-* Presets - a comprehensive list of more than 100 parser presets to handle importing practically all commonly used emulators.
-* Steam Artwork Management - a steam parser/preset that allows you to manage the artwork of existing steam games
+- Multiplatform - runs on Windows, Mac, and Linux.
+- Capable of supporting multiple image providers - fully supports image downloads from **SteamGridDB**, but more will be supported as they come online (formerly supported the now defunct **Console Grid** and **Retrogaming.cloud** providers)
+- Local images - you can set parser up to user your own local images.
+- Exception Manager - Want to rename or exclude a handful of your hundreds of parsed games? SRM has you covered.
+- Presets - a comprehensive list of more than 100 parser presets to handle importing practically all commonly used emulators.
+- Steam Artwork Management - a steam parser/preset that allows you to manage the artwork of existing steam games
 
 # Special thanks
 

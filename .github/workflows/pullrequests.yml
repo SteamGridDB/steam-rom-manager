@@ -5,8 +5,8 @@ on:
   # Triggers the workflow on push or pull request events but only for the master branch
   pull_request:
     branches:
-      - 'master'
-      - '!l10n_*' # don't run from a crowdin PR
+      - "master"
+      - "!l10n_*" # don't run from a crowdin PR
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -24,7 +24,7 @@ jobs:
       - name: Setup Python environment
         uses: actions/setup-python@v5.1.0
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.2

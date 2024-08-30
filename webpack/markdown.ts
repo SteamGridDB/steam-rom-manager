@@ -1,4 +1,4 @@
-import { LoaderDefinitionFunction } from 'webpack';
+import { LoaderDefinitionFunction } from "webpack";
 
 /**
  * The `splice()` method changes the contents of a string
@@ -14,7 +14,7 @@ const spliceString = (
   ...items: string[]
 ): string => {
   return (
-    input.slice(0, start) + items.join('') + input.slice(start + deleteCount)
+    input.slice(0, start) + items.join("") + input.slice(start + deleteCount)
   );
 };
 
@@ -27,7 +27,7 @@ const re = /(\[.*?\](?::\s+|\()(?:(?!http|#)))(.+?)(?:\s.*?(?=\))|)(?:\)|\s)/g;
  * add in markdown referenced resources (pictures) to the webpack dependency tree
  */
 const extractResourcesInMarkdown: LoaderDefinitionFunction = async function (
-  source
+  source,
 ) {
   let newSource = source;
   const resolve = this.getResolve();
@@ -37,17 +37,17 @@ const extractResourcesInMarkdown: LoaderDefinitionFunction = async function (
   for (const match of Array.from(matches).reverse()) {
     const { index, 1: preString, 2: originalPath } = match;
     const newPath = await this.importModule(
-      await resolve(this.context, originalPath)
+      await resolve(this.context, originalPath),
     );
     // TS suggests that `newPath` is `any` so make sure we get a string
-    if (typeof newPath !== 'string') {
-      throw new Error('Expected `importModule` to return a string');
+    if (typeof newPath !== "string") {
+      throw new Error("Expected `importModule` to return a string");
     }
     newSource = spliceString(
       newSource,
       index + preString.length,
       originalPath.length,
-      newPath
+      newPath,
     );
   }
 

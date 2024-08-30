@@ -3,6 +3,7 @@
 ## How does it work?
 
 Image paths are resolved in 4 step process:
+
 1. String is evaluated to see if a glob based parser is used. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets.
 1. All provided variables are replaced with their corresponding values.
 1. New string(s) is/are resolved against root directory (root directory is always a configuration's ROMs directory).

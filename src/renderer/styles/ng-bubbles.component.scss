@@ -1,45 +1,44 @@
 @import "mixins";
 
 :host {
-    @include ngTextInput();
-    @include ngTextInputColor(input, true);
-    padding-top: 5px;
-    padding-bottom: 5px;
-    position: relative;
+  @include ngTextInput();
+  @include ngTextInputColor(input, true);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 20px;
+  .bubblesContainer {
     display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+    row-gap: 5px;
     width: 100%;
-    min-height: 20px;
-    .bubblesContainer {
+    .bubble {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(14, 131, 20, 0.4);
+      border: solid 2px rgb(14, 131, 20);
+      color: white;
+      opacity: 0.8;
+      border-radius: 10px;
+      margin-right: 5px;
+      span {
+        height: 20px;
+      }
+      .delete {
+        margin-left: 0.25em;
+      }
+      .editable {
         display: flex;
-        justify-content: left;
-        flex-wrap: wrap;
-        row-gap: 5px;
-        width: 100%;
-        .bubble {
-            display: flex;
-            align-items: center;
-            padding: 5px;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(14, 131, 20, 0.4);
-            border: solid 2px rgb(14, 131, 20);
-            color: white;
-            opacity: 0.8;
-            border-radius: 10px;
-            margin-right:5px;
-            span {
-                height: 20px;
-            }
-            .delete {
-                margin-left: 0.25em;
-            }
-            .editable {
-                display: flex;
-                min-width: 50px;
-                height: 20px;
-                cursor: white;
-            }
-        }
-
+        min-width: 50px;
+        height: 20px;
+        cursor: white;
+      }
     }
+  }
 }

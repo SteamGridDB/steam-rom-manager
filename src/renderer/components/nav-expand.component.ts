@@ -1,14 +1,21 @@
-import { Component, ContentChildren, QueryList, ElementRef, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { NavLinkComponent } from './nav-link.component';
+import {
+  Component,
+  ContentChildren,
+  QueryList,
+  ElementRef,
+  OnDestroy,
+  ViewEncapsulation,
+} from "@angular/core";
+import { NavLinkComponent } from "./nav-link.component";
 
 @Component({
-  selector: 'nav-expand',
+  selector: "nav-expand",
   template: `
-  <ng-content select=".title"></ng-content>
-  <div class="items"><ng-content select=".item"></ng-content></div>
+    <ng-content select=".title"></ng-content>
+    <div class="items"><ng-content select=".item"></ng-content></div>
   `,
-  styleUrls: ['../styles/nav-expand.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ["../styles/nav-expand.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 
 //Redid essentially all of the child element tracking functionality using a simple ngIf

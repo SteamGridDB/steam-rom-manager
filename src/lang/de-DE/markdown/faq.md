@@ -34,12 +34,14 @@ Using similar logic we can produce glob for **File3**:
 
 ## Wie gehe ich mit mehrstufigen Verzeichnissen um?
 
-Diesmal wollen wir **File3** und **File5** (beide haben unterschiedliche Erweiterungen, Lies den nächsten Abschnitt darüber, was zu tun ist, da wir derzeit `*` verwenden, um die Erweiterung zu ignorieren). Beachte, dass **File3** `3` Unterverzeichnisse hat, während  **Datei 5** `2` hat. Was nun?
+Diesmal wollen wir **File3** und **File5** (beide haben unterschiedliche Erweiterungen, Lies den nächsten Abschnitt darüber, was zu tun ist, da wir derzeit `*` verwenden, um die Erweiterung zu ignorieren). Beachte, dass **File3** `3` Unterverzeichnisse hat, während **Datei 5** `2` hat. Was nun?
 
 Jetzt können wir einen Globstar benutzen und das war's!
+
 ```
 **/${title}.*
 ```
+
 Ist es wirklich so einfach? **Nein!** Globstar wird Auswirkungen auf die Leistung des Parsers haben, wenn es viele Unterverzeichnisse mit jeweils Tausenden von Dateien gibt. Globstar wird sicherstellen, dass der Parser jede Datei überprüft, die er finden kann. Ein Benutzer hat einmal gemeldet, dass das Parsen ~10 Minuten dauerte, als er überall Globstars verwendete.
 
 Eine empfohlene Lösung ist die Verwendung von geklammerten Sätzen. Diese können aus `1` Glob mehrere machen. Wenn wir einen Glob wie folgt schreiben:
@@ -104,9 +106,10 @@ Jetzt kann der Parser jeder Kombination entsprechen und ist effektiv unabhängig
 ```
 
 ## Fehlerbehebung
-* Bitte stelle sicher, dass Steam tatsächlich geschlossen ist, bevor du deine App-Liste speicherst.
 
-* Ein häufig auftretendes Problem ist das Vorhandensein alter Steam-Verzeichnisse von Leuten, die sich vor dem Update der neuen Bibliothek in deinem Computer eingeloggt haben. Dies kann dazu führen, dass der Steam ROM Manager auf unvorhersehbare Weise fehlschlägt, da er versucht, auf Verzeichnisse zuzugreifen, deren Struktur sich geändert hat. Um dies zu umgehen, verwende das [Benutzerkonten](#user-accounts) Feld um festzulegen, mit welchen Konten du Steam ROM Manager verwenden möchtest.
+- Bitte stelle sicher, dass Steam tatsächlich geschlossen ist, bevor du deine App-Liste speicherst.
+
+- Ein häufig auftretendes Problem ist das Vorhandensein alter Steam-Verzeichnisse von Leuten, die sich vor dem Update der neuen Bibliothek in deinem Computer eingeloggt haben. Dies kann dazu führen, dass der Steam ROM Manager auf unvorhersehbare Weise fehlschlägt, da er versucht, auf Verzeichnisse zuzugreifen, deren Struktur sich geändert hat. Um dies zu umgehen, verwende das [Benutzerkonten](#user-accounts) Feld um festzulegen, mit welchen Konten du Steam ROM Manager verwenden möchtest.
 
 ## Der Discord
 

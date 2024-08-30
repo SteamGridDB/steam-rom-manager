@@ -5,7 +5,7 @@
 - `*` -- corresponde a **0** ou **mais** caracteres em uma **única** porção de caminho;
 - `?` -- corresponde exatamente a **1** caractere;
 - `[...]`{.noWrap} -- corresponde a uma variedade de caracteres. Se o primeiro caractere entre colchetes é `!` ou `^` então corresponde a qualquer caractere que não esteja no intervalo:
-  - `[abc]`{.noWrap} -- corresponde a `caracteres`, `` ou `c` e;
+  - `[abc]`{.noWrap} -- corresponde a `caracteres`, ``ou`c` e;
   - `[!abc]`{.noWrap} -- corresponde a qualquer caractere exceto por `um`, `b` ou `c`;
   - `[0-9]`{.noWrap} -- corresponde a qualquer caractere entre `0` e `9` caracteres (todos os números);
   - `[a-z]`{.noWrap} -- corresponde a qualquer caractere entre `um` e `z` caracteres (minúsculos em alfabeto).
@@ -35,17 +35,17 @@ Dados esses caminhos de arquivos:
 
 aqui estão alguns exemplos de "glob matchers" extendidos em ação:
 
-| Padrões de flor                      |  Correspondências (números da lista) |
-|:------------------------------------ | ------------------------------------:|
-| `@(dir[12]\|DIR)/**/*.txt`          |     `>`, `<`, `>=`, `=<` |
-| `!(dir[12]\|DIR)/**/*.txt`          |                         `302`, `307` |
-| `*/!(*bb*)/*.txt`                    |     `>`, `<`, `>=`, `=<` |
-| `*/?(bb*)/*.txt`                     |                                  `4` |
-| `*/+(bb*)/*.txt`                     |                         `402`, `307` |
-| `*([a-zA-Z]/*/*.txt`                 |                         `402`, `307` |
-| `*([a-zA-Z])?([0-9])/*/${title}.txt` |     `>`, `<`, `>=`, `=<` |
-| `*([a-zA-Z])?([0-9])/*/${title}.txt` | &gt;, `<`, `>=`, `=<` |
-| `*([a-zA-Z])?([0-9])/*/${title}.txt` |     `>`, `<`, `>=`, `=<` |
+| Padrões de flor                      | Correspondências (números da lista) |
+| :----------------------------------- | ----------------------------------: |
+| `@(dir[12]\|DIR)/**/*.txt`           |                `>`, `<`, `>=`, `=<` |
+| `!(dir[12]\|DIR)/**/*.txt`           |                        `302`, `307` |
+| `*/!(*bb*)/*.txt`                    |                `>`, `<`, `>=`, `=<` |
+| `*/?(bb*)/*.txt`                     |                                 `4` |
+| `*/+(bb*)/*.txt`                     |                        `402`, `307` |
+| `*([a-zA-Z]/*/*.txt`                 |                        `402`, `307` |
+| `*([a-zA-Z])?([0-9])/*/${title}.txt` |                `>`, `<`, `>=`, `=<` |
+| `*([a-zA-Z])?([0-9])/*/${title}.txt` |               &gt;, `<`, `>=`, `=<` |
+| `*([a-zA-Z])?([0-9])/*/${title}.txt` |                `>`, `<`, `>=`, `=<` |
 
 ## Conjunto de chaves: `{...}`{.noWrap}
 

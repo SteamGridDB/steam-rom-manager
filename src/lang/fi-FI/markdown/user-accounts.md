@@ -6,9 +6,9 @@ This field is used to limit SRM's effects to specific user accounts, and takes v
 
 This will limit SRM's effects to accounts `XXX` and `YYY` (you may specify as many accounts as you like). Here `XXX` and `YYY` stand in for either:
 
-* An `Account ID` (the number that appears as the directory name of your account directory in `/path/to/steam/userdata/`). For example, you would specify the account directory `userdata/56489124` like `${56489124}`.
+- An `Account ID` (the number that appears as the directory name of your account directory in `/path/to/steam/userdata/`). For example, you would specify the account directory `userdata/56489124` like `${56489124}`.
 
-* A `Steam Username` (the username you use to actually log in to Steam). For example you would specify the users `Banana` and `Apple` like `${Banana}${Apple}`.
+- A `Steam Username` (the username you use to actually log in to Steam). For example you would specify the users `Banana` and `Apple` like `${Banana}${Apple}`.
 
 You can mix and match: `${56489124}${Apple}` is fine.
 

@@ -1,4 +1,4 @@
-@import 'mixins';
+@import "mixins";
 
 :host {
   display: grid;
@@ -7,8 +7,8 @@
 
   grid-area: route;
   grid-template-areas:
-  'docs settings'
-  'menu menu';
+    "docs settings"
+    "menu menu";
 
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr auto;
@@ -35,7 +35,7 @@
     }
     .section {
       margin-top: 1em;
-      border-bottom: .1em solid;
+      border-bottom: 0.1em solid;
       border-bottom-color: var(--color-nested-form-label);
     }
     .inputContainer {

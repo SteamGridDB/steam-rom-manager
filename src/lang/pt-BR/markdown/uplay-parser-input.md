@@ -1,5 +1,7 @@
 # Entradas únicas para o analisador épico
+
 ## Sobrescrever Diretório Uplay
+
 Por padrão Steam ROM Manager pressupõe que seu Galaxy Client está localizado em `C:\ProgramFiles (x86)\GOG GalaxyClient. exe`. Este campo permite que você substitua esse caminho se sua instalação do Amazon Games estiver em outro lugar.
 
 ## Inicie a Via Epic Games loja `[Recomendado ativado]`

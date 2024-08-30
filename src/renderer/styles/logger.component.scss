@@ -1,45 +1,45 @@
-@import 'mixins';
+@import "mixins";
 
 :host {
-	display: grid;
-	overflow: auto;
+  display: grid;
+  overflow: auto;
 
-	grid-area: route;
+  grid-area: route;
   grid-template-areas:
-  'messages bugreport'
-  'messages bugreportdocs'
-  'menu menu';
-	grid-template-columns: 1.5fr 1fr;
-	grid-template-rows: 1fr 1.3fr auto;
+    "messages bugreport"
+    "messages bugreportdocs"
+    "menu menu";
+  grid-template-columns: 1.5fr 1fr;
+  grid-template-rows: 1fr 1.3fr auto;
 
-	.menu {
-		@include webkitScrollbar(logger-menu-scrollbar, 0.5em);
+  .menu {
+    @include webkitScrollbar(logger-menu-scrollbar, 0.5em);
     grid-area: menu;
-		display: flex;
-		overflow: auto;
+    display: flex;
+    overflow: auto;
 
-		border: solid 0.5em transparent;
+    border: solid 0.5em transparent;
     background-color: var(--color-logger-menu-background);
 
-		align-self: end;
+    align-self: end;
 
-		> div {
-			@include toggleButtonColor(toggle-button);
-			@include button();
+    > div {
+      @include toggleButtonColor(toggle-button);
+      @include button();
 
-			margin: 0 0.25em;
-			&:last-child {
-				margin-right: 0;
-			}
-			&:first-child {
-				margin-left: 0;
-			}
+      margin: 0 0.25em;
+      &:last-child {
+        margin-right: 0;
+      }
+      &:first-child {
+        margin-left: 0;
+      }
 
-			&.clear {
-				@include clickButtonColor(click-button);
-			}
-		}
-	}
+      &.clear {
+        @include clickButtonColor(click-button);
+      }
+    }
+  }
   .bugreport {
     grid-area: bugreport;
     @include webkitScrollbar(logger-messages-scrollbar);
@@ -66,7 +66,7 @@
       }
       .reportID {
         padding: 0.2em 0em;
-        margin-left: .25em;
+        margin-left: 0.25em;
         color: var(--color-logger-reportid);
       }
       .reportIDLabel {
@@ -75,8 +75,8 @@
       }
       .copy {
         @include button();
-				@include clickButtonColor(click-button);
-        margin-left: .25em;
+        @include clickButtonColor(click-button);
+        margin-left: 0.25em;
       }
       .text {
         width: 30%;
@@ -88,16 +88,15 @@
         color: var(--color-settings-text);
       }
 
-
       .ngToggleButton {
         font-size: 1em;
         margin: 0.25em 0 0.5em 0;
         @include ngToggleButtonColor(ng-toggle-button);
       }
-			.submit {
+      .submit {
         @include button();
-				@include clickButtonColor(click-button);
-			}
+        @include clickButtonColor(click-button);
+      }
 
       .ngTextInput {
         @include ngTextInputColor(input);
@@ -119,56 +118,56 @@
     overflow: auto;
     padding: 1em;
   }
-	.messages {
+  .messages {
     grid-area: messages;
-		@include webkitScrollbar(logger-messages-scrollbar);
-		overflow: auto;
+    @include webkitScrollbar(logger-messages-scrollbar);
+    overflow: auto;
 
-		color: var(--color-logger-messages-text);
-		background-color: var(--color-logger-messages-background);
+    color: var(--color-logger-messages-text);
+    background-color: var(--color-logger-messages-background);
 
-		> div {
-			font-family: 'Hack';
-			font-size: 0.7em;
+    > div {
+      font-family: "Hack";
+      font-size: 0.7em;
 
-			display: flex;
-			flex: 1 0;
+      display: flex;
+      flex: 1 0;
 
-			padding-left: 2px;
+      padding-left: 2px;
 
-			cursor: text;
-			user-select: text;
-			white-space: pre;
+      cursor: text;
+      user-select: text;
+      white-space: pre;
 
-			border-left-width: 2px;
-			border-left-style: solid;
+      border-left-width: 2px;
+      border-left-style: solid;
 
-			&.wrap {
-				white-space: pre-wrap;
-			}
+      &.wrap {
+        white-space: pre-wrap;
+      }
 
-			&.error {
-				border-left-color: var(--color-error);
-			}
+      &.error {
+        border-left-color: var(--color-error);
+      }
 
-			&.info {
-				border-left-color: var(--color-info);
-			}
+      &.info {
+        border-left-color: var(--color-info);
+      }
 
-			&.success {
-				border-left-color: var(--color-success);
-			}
+      &.success {
+        border-left-color: var(--color-success);
+      }
 
-			&.fuzzy {
-				border-left-color: var(--color-fuzzy);
-			}
-		}
+      &.fuzzy {
+        border-left-color: var(--color-fuzzy);
+      }
+    }
 
-		&.empty {
-			display: flex;
-			> span {
-				margin: auto;
-			}
-		}
-	}
+    &.empty {
+      display: flex;
+      > span {
+        margin: auto;
+      }
+    }
+  }
 }

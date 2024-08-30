@@ -1,73 +1,151 @@
 <div class="description only-emudeck">
   <h1>Excluded Games & Exceptions</h1>
-  <p>Here you can see the games you've excluded on the Preview page in case you want to add them back</p>
+  <p>
+    Here you can see the games you've excluded on the Preview page in case you
+    want to add them back
+  </p>
 </div>
 
-<div class= "upperMenu">
+<div class="upperMenu">
   <div class="slider">
     <ng-select
-    class="selectSort"
-    [(ngModel)]="sortBy"
-    [placeholder]="lang.placeholder.sortBy"
-    [values]="sortByOpts"
-  >
-  </ng-select>
+      class="selectSort"
+      [(ngModel)]="sortBy"
+      [placeholder]="lang.placeholder.sortBy"
+      [values]="sortByOpts"
+    >
+    </ng-select>
   </div>
 
-    <ng-text-input class="searchExceptions" placeholder="Search Exceptions" [(ngModel)]="filterValue"></ng-text-input>
+  <ng-text-input
+    class="searchExceptions"
+    placeholder="Search Exceptions"
+    [(ngModel)]="filterValue"
+  ></ng-text-input>
 </div>
 <markdown class="docs" [content]="this.currentDoc.content"></markdown>
-<div class = "userExceptions">
+<div class="userExceptions">
   <label>
-    <span class="infoButton infoIcon" (click)="exceptionsInfoClick()">
-    </span>
-    {{lang.text.title}}
+    <span class="infoButton infoIcon" (click)="exceptionsInfoClick()"> </span>
+    {{ lang.text.title }}
   </label>
   <div [formGroup]="exceptionsForm">
-    <div class="itemsform" formArrayName="items"
-         *ngFor="let item of exceptionsFormItems.controls.sort(exceptionsSort.bind(this)); let i=index;">
-      <div class="exception-entry" [formGroupName]="i" *ngIf="((item | formGroup).controls['oldTitle'].value | fuzzyTest: filterValue) ">
+    <div
+      class="itemsform"
+      formArrayName="items"
+      *ngFor="
+        let item of exceptionsFormItems.controls.sort(
+          exceptionsSort.bind(this)
+        );
+        let i = index
+      "
+    >
+      <div
+        class="exception-entry"
+        [formGroupName]="i"
+        *ngIf="
+          (item | formGroup).controls['oldTitle'].value | fuzzyTest: filterValue
+        "
+      >
         <div class="inputContainer">
           <div class="inlineLeft">
-            <div class=text style="margin-right: 0.25em;">Extracted Title: </div>
-            <ng-text-input class="ngTextInput" placeholder="extractedTitle to override" [formControl]="(item | formGroup).controls['oldTitle'] | formControl"></ng-text-input>
+            <div class="text" style="margin-right: 0.25em">
+              Extracted Title:
+            </div>
+            <ng-text-input
+              class="ngTextInput"
+              placeholder="extractedTitle to override"
+              [formControl]="
+                (item | formGroup).controls['oldTitle'] | formControl
+              "
+            ></ng-text-input>
           </div>
           <div class="inlineLeft">
-            <div class=text style="margin-right: 0.25em;">New Display Title: </div>
-            <ng-text-input class="ngTextInput" placeholder="Display title" [formControl]="(item | formGroup).controls['newTitle'] | formControl"></ng-text-input>
+            <div class="text" style="margin-right: 0.25em">
+              New Display Title:
+            </div>
+            <ng-text-input
+              class="ngTextInput"
+              placeholder="Display title"
+              [formControl]="
+                (item | formGroup).controls['newTitle'] | formControl
+              "
+            ></ng-text-input>
           </div>
           <div class="inlineLeft">
-            <div class=text style="margin-right: 0.25em;">New Search Title: </div>
-            <ng-text-input class="ngTextInput" placeholder="Search title" [formControl]="(item | formGroup).controls['searchTitle'] | formControl"></ng-text-input>
+            <div class="text" style="margin-right: 0.25em">
+              New Search Title:
+            </div>
+            <ng-text-input
+              class="ngTextInput"
+              placeholder="Search title"
+              [formControl]="
+                (item | formGroup).controls['searchTitle'] | formControl
+              "
+            ></ng-text-input>
           </div>
           <div class="inlineLeft">
-            <div class=text style="margin-right: 0.25em;">New Commandline Args: </div>
-            <ng-text-input class="ngTextInput" placeholder="--custom-args" [formControl]="(item | formGroup).controls['commandLineArguments'] | formControl"></ng-text-input>
+            <div class="text" style="margin-right: 0.25em">
+              New Commandline Args:
+            </div>
+            <ng-text-input
+              class="ngTextInput"
+              placeholder="--custom-args"
+              [formControl]="
+                (item | formGroup).controls['commandLineArguments']
+                  | formControl
+              "
+            ></ng-text-input>
           </div>
           <div class="inlineLeft">
-            <div class="text" style="margin-right: 0.25em; width: 100%;">Created: {{prettyDate((item | formGroup).controls['timeStamp'].value)}}</div>
+            <div class="text" style="margin-right: 0.25em; width: 100%">
+              Created:
+              {{ prettyDate((item | formGroup).controls["timeStamp"].value) }}
+            </div>
           </div>
           <div class="inlineGroup">
             <div class="inlineGroup">
-              <ng-toggle-button class="ngToggleButton excludeButton" [formControl]="(item | formGroup).controls['exclude'] | formControl">{{lang.text.exclude}}</ng-toggle-button>
-              <ng-toggle-button class="ngToggleButton" [formControl]="(item | formGroup).controls['excludeArtwork'] | formControl">{{lang.text.excludeArtwork}}</ng-toggle-button>
+              <ng-toggle-button
+                class="ngToggleButton excludeButton"
+                [formControl]="
+                  (item | formGroup).controls['exclude'] | formControl
+                "
+                >{{ lang.text.exclude }}</ng-toggle-button
+              >
+              <ng-toggle-button
+                class="ngToggleButton"
+                [formControl]="
+                  (item | formGroup).controls['excludeArtwork'] | formControl
+                "
+                >{{ lang.text.excludeArtwork }}</ng-toggle-button
+              >
             </div>
-            <div class="deleteItem" (click)="deleteItem(i)">{{lang.buttons.deleteItem}}</div>
+            <div class="deleteItem" (click)="deleteItem(i)">
+              {{ lang.buttons.deleteItem }}
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class='addItem' (click)="addItem()">{{lang.buttons.addItem}}</div>
+  <div class="addItem" (click)="addItem()">{{ lang.buttons.addItem }}</div>
 </div>
-<div class = "menu" drag-scroll>
+<div class="menu" drag-scroll>
   <ng-container>
-
-    <div class="dangerousButton" (click)=deleteAll()>{{lang.buttons.deleteAll}}</div>
-    <div (click)=save() *ngIf="isUnsaved">{{lang.buttons.save}}</div>
-    <div *ngIf="isUnsaved" (click)="undo()">{{lang.buttons.undoChanges}}</div>
-    <div class='addItem' class="only-emudeck" (click)="addItem()">{{lang.buttons.addItem}}</div>
-    <nav-link [routerLink]="['/parsers-list']" class="only-emudeck" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-    >Back</nav-link>
+    <div class="dangerousButton" (click)="deleteAll()">
+      {{ lang.buttons.deleteAll }}
+    </div>
+    <div (click)="save()" *ngIf="isUnsaved">{{ lang.buttons.save }}</div>
+    <div *ngIf="isUnsaved" (click)="undo()">{{ lang.buttons.undoChanges }}</div>
+    <div class="addItem" class="only-emudeck" (click)="addItem()">
+      {{ lang.buttons.addItem }}
+    </div>
+    <nav-link
+      [routerLink]="['/parsers-list']"
+      class="only-emudeck"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >Back</nav-link
+    >
   </ng-container>
 </div>

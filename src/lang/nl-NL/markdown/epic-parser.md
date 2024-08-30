@@ -9,4 +9,5 @@ Om deze parser te laten werken met het open source Epic-alternatief [Legendary](
 Dat gezegd hebbende, er is ook een `Legendary` parser in SRM die direct uit de doos werkt.
 
 ## Compatibiliteit
+
 Deze parser werkt momenteel alleen op `Windows`- en `Mac OS`-systemen. Op `Mac OS` is het niet mogelijk om te starten vanuit de Epic Store, dus die schakelaar moet uitgeschakeld blijven.

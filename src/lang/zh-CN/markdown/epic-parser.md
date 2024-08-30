@@ -9,4 +9,5 @@
 话虽如此，SRM 中也有一个 `Legendary` 解析器，可以直接使用。
 
 ## 兼容性
+
 该解析器目前仅在 `Windows` 和 `macOS` 系统上运行。 在 `macOS` 上，无法从 Epic Store 启动，因此切换应保持禁用状态。

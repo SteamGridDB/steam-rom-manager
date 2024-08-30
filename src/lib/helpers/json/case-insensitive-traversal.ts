@@ -1,17 +1,19 @@
 function getKeys(o: any, key: string): string[] {
-  return Object.keys(o).filter(k => k.toLowerCase() == key.toLowerCase())
+  return Object.keys(o).filter((k) => k.toLowerCase() == key.toLowerCase());
 }
 
 export function caselessSet(o: any, value: any, kseq: string[][]): any {
-  if (kseq.length == 0) { return value }
+  if (kseq.length == 0) {
+    return value;
+  }
   for (let i = 0; i < kseq[0].length; i++) {
     let validKeys = getKeys(o, kseq[0][i]);
     if (validKeys.length != 0) {
-      o[validKeys[0]] = caselessSet(o[validKeys[0]], value, kseq.slice(1))
+      o[validKeys[0]] = caselessSet(o[validKeys[0]], value, kseq.slice(1));
       return o;
     }
   }
-  if(kseq.length == 1) {
+  if (kseq.length == 1) {
     o[kseq[0][0]] = value;
     return o;
   } else {
@@ -20,17 +22,19 @@ export function caselessSet(o: any, value: any, kseq: string[][]): any {
 }
 
 export function caselessGet(o: any, kseq: string[][], graceful?: boolean): any {
-  if(kseq.length==0){ return o; }
-  for(let i = 0; i < kseq[0].length; i++) {
+  if (kseq.length == 0) {
+    return o;
+  }
+  for (let i = 0; i < kseq[0].length; i++) {
     let validKeys = getKeys(o, kseq[0][i]);
-    if(validKeys.length!=0) {
+    if (validKeys.length != 0) {
       return caselessGet(o[validKeys[0]], kseq.slice(1), graceful);
     }
   }
-  if(kseq.length == 1) {
+  if (kseq.length == 1) {
     return null;
   } else {
-    if(graceful) {
+    if (graceful) {
       return "";
     } else {
       throw `Incorrect Key Possibilities: ${kseq[0]}`;
@@ -39,15 +43,16 @@ export function caselessGet(o: any, kseq: string[][], graceful?: boolean): any {
 }
 
 export function caselessHas(o: any, kseq: string[][]): boolean {
-  if(kseq.length==0){ return false }
-  for(let i = 0; i < kseq[0].length; i++) {
+  if (kseq.length == 0) {
+    return false;
+  }
+  for (let i = 0; i < kseq[0].length; i++) {
     let validKeys = getKeys(o, kseq[0][i]);
-    if(kseq.length == 1 || !validKeys.length) {
+    if (kseq.length == 1 || !validKeys.length) {
       return !!validKeys.length;
     } else {
-      return caselessHas(o[validKeys[0]],kseq.slice(1))
+      return caselessHas(o[validKeys[0]], kseq.slice(1));
     }
   }
   return false;
 }
-

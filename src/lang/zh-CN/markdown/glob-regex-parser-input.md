@@ -8,8 +8,8 @@
 
 In addition to special glob characters, glob parser requires you to enter `${/.../}`{.noWrap} variable. Parser will locate it's position inside your glob, for example: 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如： 解析器将定位其位置在您的全局变量中，例如：
 
-| 用户的 glob              | 位置         |
-| --------------------- | ---------- |
+| 用户的 glob           | 位置                 |
+| --------------------- | -------------------- |
 | `${/.+/}/*/*.txt`     | 从左边开始的第一层级 |
 | `{*,*/*}/${/.+/}.txt` | 从右边开始的第一层级 |
 | `**/${/.+/}/*.txt`    | 从右边开始的第二层级 |
@@ -27,17 +27,21 @@ After title extraction, title will be processed by a regular expression. 有三�
 ### 带有捕获括号的正则表达式：`${/(.+)/}`{.noWrap}
 
 允许多个匹配和捕获组。 例如，这里有2个匹配组和多个捕获组：
+
 ```
 ${/(.*?)\s*\[USA\]\s*(.+)|(.*)/}
 ```
+
 从左到右，第一个匹配所有正确捕获的分组将被使用。 First match group (from left to right) with all correct captures will be used. 此外，所有捕获组将被**合并**。
 
 ### 带有捕获括号和替换文本的正则表达式：`${/(.+)/|...}`{.noWrap}
 
 Similar to [regular expression with capture brackets](#regular-expression-with-capture-brackets) except for how it handles captured groups. 替换文本可以用于移动捕获的组。 替换文本可以用于移动捕获的组。 例如：
+
 ```
 ${/(.*?)\s*\[USA\]\s*(.+)/|Second capture group: "$2" precedes the first one, which is "$1" }
 ```
+
 如果我们的第一个捕获组是 `Legend of Zelda`，第二个捕获组是 `SUPER EDITION`，那么我们将得到以下（不太有用）的标题：
 
 `第二个捕获组："SUPER EDITION" 在第一个捕获组 "Legend of Zelda" 之前。`

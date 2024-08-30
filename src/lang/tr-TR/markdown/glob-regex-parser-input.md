@@ -27,17 +27,21 @@ This is practically identical to "Glob" parser -- every piece of extracted title
 ### Regular expression with capture brackets: `${/(.+)/}`{.noWrap}
 
 Multiple matches and capture groups are allowed. For example, here we have 2 match groups with multiple capture groups:
+
 ```
 ${/(.*?)\s*\[USA\]\s*(.+)|(.*)/}
 ```
+
 First match group (from left to right) with all correct captures will be used. Furthermore, all capture groups will be **joined**.
 
 ### Regular expression with capture brackets and replacement text: `${/(.+)/|...}`{.noWrap}
 
 Similar to [regular expression with capture brackets](#regular-expression-with-capture-brackets) except for how it handles captured groups. Replacement text can be used to move around captured groups. For example:
+
 ```
 ${/(.*?)\s*\[USA\]\s*(.+)/|Second capture group: "$2" precedes the first one, which is "$1" }
 ```
+
 If our first capture group is `Legend of Zelda` and second one is `SUPER EDITION`, then we will get the following (not very useful) title:
 
 `Second capture group: "SUPER EDITION" precedes the first one, which is "Legend of Zelda"`

@@ -34,12 +34,14 @@ Usando uma lógica similar nós podemos produzir glob para **File3**:
 
 ## Como lidar com directórios de vários níveis?
 
-Desta vez queremos **File3** and **File5** (ambas têm extensões diferentes, ler a próxima seção sobre o que fazer a respeito de agora, usaremos `*` para ignorar a extensão). Observe que **File3** tem `3` subdiretórios enquanto  **File5** tem `2`. E agora?
+Desta vez queremos **File3** and **File5** (ambas têm extensões diferentes, ler a próxima seção sobre o que fazer a respeito de agora, usaremos `*` para ignorar a extensão). Observe que **File3** tem `3` subdiretórios enquanto **File5** tem `2`. E agora?
 
 Agora podemos usar um globstar e é isso!
+
 ```
 **/${title}.*
 ```
+
 É assim tão simples? **NÃO!** A Globstar terá algum impacto no desempenho do analisador se existirem muitos subdiretórios com milhares de arquivos cada. A Globstar se certificará de que o analisador verifique todos os arquivos que pode encontrar. Uma vez o usuário relatou que a análise levou ~10 minutos quando usou estrelas globais em todos os lugares.
 
 Uma solução recomendada é usar conjuntos emparelhados. Eles podem fazer vários globs de `1` glob. Se escrevermos um glob como este:
@@ -104,9 +106,10 @@ Agora, o analisador pode combinar qualquer combinação e é efectivamente insen
 ```
 
 ## Resolução de problemas
-* Por favor, certifique-se de que o Steam está realmente fechado antes de salvar sua lista de aplicativos.
 
-* Uma questão comum que o Steam ROM Manager enfrenta é a presença de antigos diretórios Steam de pessoas que se conectaram ao Steam no seu computador antes da atualização da Nova Biblioteca. Isto pode causar falhas no Gerenciador de ROM Steam de formas imprevisíveis, pois ele tenta acessar diretórios cuja estrutura mudou. Para contornar isso, use o campo [Contas de Usuário](#user-accounts) para especificar com quais contas você realmente quer usar o gerente de ROM Steam com.
+- Por favor, certifique-se de que o Steam está realmente fechado antes de salvar sua lista de aplicativos.
+
+- Uma questão comum que o Steam ROM Manager enfrenta é a presença de antigos diretórios Steam de pessoas que se conectaram ao Steam no seu computador antes da atualização da Nova Biblioteca. Isto pode causar falhas no Gerenciador de ROM Steam de formas imprevisíveis, pois ele tenta acessar diretórios cuja estrutura mudou. Para contornar isso, use o campo [Contas de Usuário](#user-accounts) para especificar com quais contas você realmente quer usar o gerente de ROM Steam com.
 
 ## O Discord
 

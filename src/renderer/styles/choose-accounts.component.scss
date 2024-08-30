@@ -1,4 +1,4 @@
-@import 'mixins';
+@import "mixins";
 
 :host {
   width: 100%;
@@ -26,7 +26,7 @@
     bottom: 0;
     top: 0;
     margin: auto;
-    padding:  var(--padding-update-notifier);
+    padding: var(--padding-update-notifier);
     text-align: center;
     word-wrap: break-word;
     .accounts {
@@ -61,7 +61,6 @@
         display: none;
       }
       margin-left: 1em;
-
     }
     .noButton {
       @include button();

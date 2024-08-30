@@ -1,119 +1,138 @@
 :host {
+  display: inline-flex;
+
+  --ng-toggle-button-color-border: black;
+  --ng-toggle-button-color-border-active: white;
+  --ng-toggle-button-color-border-active-hover: white;
+  --ng-toggle-button-color-border-hover: black;
+  --ng-toggle-button-color-button-border: black;
+  --ng-toggle-button-color-button-border-active: black;
+  --ng-toggle-button-color-button-border-active-hover: black;
+  --ng-toggle-button-color-button-border-hover: black;
+  --ng-toggle-button-color-button-fill: white;
+  --ng-toggle-button-color-button-fill-active: white;
+  --ng-toggle-button-color-button-fill-active-hover: white;
+  --ng-toggle-button-color-button-fill-hover: white;
+  --ng-toggle-button-color-fill: white;
+  --ng-toggle-button-color-fill-hover: white;
+  --ng-toggle-button-color-fill-active: lightblue;
+  --ng-toggle-button-color-fill-active-hover: lightblue;
+  --ng-toggle-button-height: 1em;
+  --ng-toggle-button-width-ratio: 2.25;
+  --ng-toggle-button-border: 1px;
+  --ng-toggle-middle-button-border: 1px;
+  --ng-toggle-middle-button-size-increment: 2px;
+
+  align-items: center;
+  .button {
+    position: relative;
     display: inline-flex;
+    flex-shrink: 0;
 
-    --ng-toggle-button-color-border: black;
-    --ng-toggle-button-color-border-active: white;
-    --ng-toggle-button-color-border-active-hover: white;
-    --ng-toggle-button-color-border-hover: black;
-    --ng-toggle-button-color-button-border: black;
-    --ng-toggle-button-color-button-border-active: black;
-    --ng-toggle-button-color-button-border-active-hover: black;
-    --ng-toggle-button-color-button-border-hover: black;
-    --ng-toggle-button-color-button-fill: white;
-    --ng-toggle-button-color-button-fill-active: white;
-    --ng-toggle-button-color-button-fill-active-hover: white;
-    --ng-toggle-button-color-button-fill-hover: white;
-    --ng-toggle-button-color-fill: white;
-    --ng-toggle-button-color-fill-hover: white;
-    --ng-toggle-button-color-fill-active: lightblue;
-    --ng-toggle-button-color-fill-active-hover: lightblue;
-    --ng-toggle-button-height: 1em;
-    --ng-toggle-button-width-ratio: 2.25;
-    --ng-toggle-button-border: 1px;
-    --ng-toggle-middle-button-border: 1px;
-    --ng-toggle-middle-button-size-increment: 2px;
-
-    align-items: center;
-    .button {
-        position: relative;
-        display: inline-flex;
-        flex-shrink: 0;
-
-        width: calc(var(--ng-toggle-button-height) * var(--ng-toggle-button-width-ratio));
-        height: var(--ng-toggle-button-height);
-        margin: var(--ng-toggle-middle-button-size-increment);
-        & .disabled {
-            opacity: 0.3;
-        }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            transition: 0.3s;
-
-            border: var(--ng-toggle-button-border, 0) solid transparent;
-
-            --ng-toggle-button-height-borderless: calc(var(--ng-toggle-button-height) - (var(--ng-toggle-button-border) * 2));
-
-            &::before {
-                position: absolute;
-                content: "";
-                top: calc(var(--ng-toggle-middle-button-size-increment) * -1);
-                left: calc(var(--ng-toggle-middle-button-size-increment) * -1);
-                height: calc(var(--ng-toggle-button-height-borderless) + (var(--ng-toggle-middle-button-size-increment) * 2));
-                width: calc(var(--ng-toggle-button-height-borderless) + (var(--ng-toggle-middle-button-size-increment) * 2));
-                transition: 0.3s;
-
-                box-sizing: border-box;
-                border: var(--ng-toggle-middle-button-border, 0) solid transparent;
-            }
-
-            &.active{
-                &::before{
-                    transform: translateX(calc(var(--ng-toggle-button-height) * (var(--ng-toggle-button-width-ratio) - 1)));
-                }
-            }
-
-            &.round{
-                border-radius: calc(var(--ng-toggle-button-height) * 0.5);
-
-                &::before{
-                    border-radius: 50%;
-                }
-            }
-
-            /* COLORS */
-
-            background-color: var(--ng-toggle-button-color-fill);
-            border-color: var(--ng-toggle-button-color-border);
-
-            &:before{
-                background-color: var(--ng-toggle-button-color-button-fill);
-                border-color: var(--ng-toggle-button-color-button-border);
-            }
-
-            &:hover:not(.disabled) {
-                background-color: var(--ng-toggle-button-color-fill-hover);
-                border-color: var(--ng-toggle-button-color-border-hover);
-
-                &::before{
-                    background-color: var(--ng-toggle-button-color-button-fill-hover);
-                    border-color: var(--ng-toggle-button-color-button-border-hover);
-                }
-            }
-
-            &.active{
-                background-color: var(--ng-toggle-button-color-fill-active);
-                border-color: var(--ng-toggle-button-color-border-active);
-
-                &::before{
-                    background-color: var(--ng-toggle-button-color-button-fill-active);
-                    border-color: var(--ng-toggle-button-color-button-border-active);
-                }
-
-                &:hover{
-                    background-color: var(--ng-toggle-button-color-fill-active-hover);
-                    border-color: var(--ng-toggle-button-color-border-active-hover);
-
-                    &::before{
-                        background-color: var(--ng-toggle-button-color-button-fill-active-hover);
-                        border-color: var(--ng-toggle-button-color-button-border-active-hover);
-                    }
-                }
-            }
-        }
+    width: calc(
+      var(--ng-toggle-button-height) * var(--ng-toggle-button-width-ratio)
+    );
+    height: var(--ng-toggle-button-height);
+    margin: var(--ng-toggle-middle-button-size-increment);
+    & .disabled {
+      opacity: 0.3;
     }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transition: 0.3s;
+
+      border: var(--ng-toggle-button-border, 0) solid transparent;
+
+      --ng-toggle-button-height-borderless: calc(
+        var(--ng-toggle-button-height) - (var(--ng-toggle-button-border) * 2)
+      );
+
+      &::before {
+        position: absolute;
+        content: "";
+        top: calc(var(--ng-toggle-middle-button-size-increment) * -1);
+        left: calc(var(--ng-toggle-middle-button-size-increment) * -1);
+        height: calc(
+          var(--ng-toggle-button-height-borderless) +
+            (var(--ng-toggle-middle-button-size-increment) * 2)
+        );
+        width: calc(
+          var(--ng-toggle-button-height-borderless) +
+            (var(--ng-toggle-middle-button-size-increment) * 2)
+        );
+        transition: 0.3s;
+
+        box-sizing: border-box;
+        border: var(--ng-toggle-middle-button-border, 0) solid transparent;
+      }
+
+      &.active {
+        &::before {
+          transform: translateX(
+            calc(
+              var(--ng-toggle-button-height) *
+                (var(--ng-toggle-button-width-ratio) - 1)
+            )
+          );
+        }
+      }
+
+      &.round {
+        border-radius: calc(var(--ng-toggle-button-height) * 0.5);
+
+        &::before {
+          border-radius: 50%;
+        }
+      }
+
+      /* COLORS */
+
+      background-color: var(--ng-toggle-button-color-fill);
+      border-color: var(--ng-toggle-button-color-border);
+
+      &:before {
+        background-color: var(--ng-toggle-button-color-button-fill);
+        border-color: var(--ng-toggle-button-color-button-border);
+      }
+
+      &:hover:not(.disabled) {
+        background-color: var(--ng-toggle-button-color-fill-hover);
+        border-color: var(--ng-toggle-button-color-border-hover);
+
+        &::before {
+          background-color: var(--ng-toggle-button-color-button-fill-hover);
+          border-color: var(--ng-toggle-button-color-button-border-hover);
+        }
+      }
+
+      &.active {
+        background-color: var(--ng-toggle-button-color-fill-active);
+        border-color: var(--ng-toggle-button-color-border-active);
+
+        &::before {
+          background-color: var(--ng-toggle-button-color-button-fill-active);
+          border-color: var(--ng-toggle-button-color-button-border-active);
+        }
+
+        &:hover {
+          background-color: var(--ng-toggle-button-color-fill-active-hover);
+          border-color: var(--ng-toggle-button-color-border-active-hover);
+
+          &::before {
+            background-color: var(
+              --ng-toggle-button-color-button-fill-active-hover
+            );
+            border-color: var(
+              --ng-toggle-button-color-button-border-active-hover
+            );
+          }
+        }
+      }
+    }
+  }
 }

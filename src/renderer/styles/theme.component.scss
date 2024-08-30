@@ -1,4 +1,4 @@
-@import 'mixins';
+@import "mixins";
 
 :host {
   visibility: hidden;
@@ -6,7 +6,7 @@
   bottom: 0;
   left: 0;
 
-  >div {
+  > div {
     visibility: visible;
     position: relative;
 
@@ -53,7 +53,7 @@
 
             display: inline-block;
 
-            content: 'No user themes';
+            content: "No user themes";
             transform: translateY(-50%);
             text-align: center;
 
@@ -80,7 +80,7 @@
         padding: 0.25em;
 
         input {
-          font-family: 'Roboto';
+          font-family: "Roboto";
           font-size: 1em;
 
           box-sizing: border-box;
@@ -100,7 +100,7 @@
         flex-wrap: wrap;
 
         .clickButton {
-          font-family: 'Roboto';
+          font-family: "Roboto";
 
           display: inline-block;
 
@@ -121,7 +121,7 @@
     }
 
     .ruleContainer {
-      font-family: 'Hack';
+      font-family: "Hack";
       font-size: 0.75em;
 
       overflow: auto;
@@ -135,7 +135,7 @@
         cursor: pointer;
       }
 
-      >div {
+      > div {
         white-space: nowrap;
 
         color: var(--color-theme-text);
@@ -181,56 +181,56 @@
       .colorPicker {
         position: absolute;
 
-                  * {
-                    cursor: initial;
-                    user-select: initial;
-                  }
-                }
-              }
+        * {
+          cursor: initial;
+          user-select: initial;
+        }
+      }
+    }
 
-              &.loading {
-                &:before {
-                  position: absolute;
-                  z-index: 10000;
-                  top: 0;
-                  right: 0;
-                  bottom: 0;
-                  left: 0;
+    &.loading {
+      &:before {
+        position: absolute;
+        z-index: 10000;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
 
-                  display: block;
+        display: block;
 
-                  content: '';
+        content: "";
 
-                  background-color: var(--color-theme-loading-background);
-                }
-                &:after {
-                  position: absolute;
-                  z-index: 10001;
-                  top: 0;
-                  right: 0;
-                  bottom: 0;
-                  left: 0;
+        background-color: var(--color-theme-loading-background);
+      }
+      &:after {
+        position: absolute;
+        z-index: 10001;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
 
-                  display: block;
+        display: block;
 
-                  width: 150px;
-                  height: 150px;
-                  margin: auto;
+        width: 150px;
+        height: 150px;
+        margin: auto;
 
-                  content: '';
-                  animation: spinner 0.6s linear infinite;
+        content: "";
+        animation: spinner 0.6s linear infinite;
 
-                  border-top: 0.325em solid transparent;
-                  border-top-color: var(--color-theme-loading-spinner);
-                  border-right: 0.325em solid transparent;
-                  border-radius: 50%;
-                }
-              }
+        border-top: 0.325em solid transparent;
+        border-top-color: var(--color-theme-loading-spinner);
+        border-right: 0.325em solid transparent;
+        border-radius: 50%;
+      }
+    }
 
-              @keyframes spinner {
-                to {
-                  transform: rotate(360deg);
-                }
-              }
-            }
-          }
+    @keyframes spinner {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+}

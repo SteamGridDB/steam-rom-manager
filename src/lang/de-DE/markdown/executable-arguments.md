@@ -49,7 +49,7 @@ Arguments which are appended to executable to produce final shortcut. Meistens w
 ### Nestopia (NES/Famicom)
 
 ```
-"${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen on start : yes -view size fullscreen : stretched 
+"${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen on start : yes -view size fullscreen : stretched
 ```
 
 ### higan (NES/Famicom, SNES/Famicom, Gameboy, Gameboy Color, Gameboy Advance)
@@ -127,7 +127,7 @@ Diese Einstellung wird verwendet, um die App-ID von Steam zu beeinflussen.
 ## Verzeichnis-Variablen
 
 | Variable (Groß- und Kleinschreibung unberücksichtigt) | Corresponding value                                  |
-| -----------------------------------------------------:|:---------------------------------------------------- |
+| ----------------------------------------------------: | :--------------------------------------------------- |
 |                                           `${exeDir}` | Executable directory                                 |
 |                                           `${romDir}` | ROM-Verzeichnis                                      |
 |                                         `${steamDir}` | Dampftraktor                                         |
@@ -139,7 +139,7 @@ Falls die ausführbare Verzeichniseingabe **leer gelassen wurde,**, `${exeDir}`{
 ## Namen-Variablen
 
 | Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                                         |
-| -----------------------------------------------------:|:--------------------------------------------------------------------------- |
+| ----------------------------------------------------: | :-------------------------------------------------------------------------- |
 |                                          `${exeName}` | Name der ausführbaren Datei (ohne Erweiterung)                              |
 |                                         `${fileName}` | Name der Datei, die von einem Parser zurückgegeben wurde (ohne Erweiterung) |
 
@@ -148,7 +148,7 @@ Falls die ausführbare Verzeichniseingabe **leer gelassen wurde,**, `${exeName}`
 ## Erweiterungs-Variablen
 
 | Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                                          |
-| -----------------------------------------------------:|:---------------------------------------------------------------------------- |
+| ----------------------------------------------------: | :--------------------------------------------------------------------------- |
 |                                           `${exeExt}` | Erweiterung der ausführbaren Datei (mit einem Punkt)                         |
 |                                          `${fileExt}` | Dateierweiterung, die von einem Parser (mit einem Punkt) zurückgegeben wurde |
 
@@ -157,7 +157,7 @@ Falls die ausführbare Verzeichniseingabe **leer gelassen wurde,**, `${exeExt}`{
 ## Pfad-Variablen
 
 | Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                                         |
-| -----------------------------------------------------:|:--------------------------------------------------------------------------- |
+| ----------------------------------------------------: | :-------------------------------------------------------------------------- |
 |                                          `${exePath}` | Vollständiger Pfad zu einer ausführbaren Datei                              |
 |                                         `${filePath}` | Vollständiger Pfad zu einer Datei, die von einem Parser zurückgegeben wurde |
 
@@ -166,7 +166,7 @@ Falls die ausführbare Verzeichniseingabe **leer gelassen wurde,**, `${exePath}`
 ## Parser-Variablen
 
 | Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechender Wert                                   |
-| -----------------------------------------------------:|:----------------------------------------------------- |
+| ----------------------------------------------------: | :---------------------------------------------------- |
 |                                            `${title}` | Extrahierter Titel                                    |
 |                                       `${fuzzyTitle}` | Fuzzy matched title                                   |
 |                                       `${finalTitle}` | Titel, der das Endergebnis des Titel-Modifikators war |
@@ -175,18 +175,19 @@ In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is
 
 ## Funktions-Variablen
 
-|       Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechende Funktion                                                                                                 |
-| -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
-|                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
-|                                             `${uc\|input}` | Uppercase variable. Wandelt Eingaben in Großbuchstaben um                                                              |
-|                                             `${lc\|input}` | Lowercase variable. Wandelt Eingaben in Kleinbuchstaben um                                                             |
-|                                       `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
-|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
+|   Variable (Groß- und Kleinschreibung unberücksichtigt) | Entsprechende Funktion                                                                                                 |
+| ------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------- |
+|               `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
+|                                          `${uc\|input}` | Uppercase variable. Wandelt Eingaben in Großbuchstaben um                                                              |
+|                                          `${lc\|input}` | Lowercase variable. Wandelt Eingaben in Kleinbuchstaben um                                                             |
+|                                    `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
+|                                         `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
 | `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                           |
 
 ### Beispiel für Funktions-Variablen
 
 Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
+
 ```
 ${/.*/|${title}}                           //Matches everything
 ${/(.*)/|${title}}                         //Captures everything
@@ -196,7 +197,9 @@ ${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transfo
 ${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
 file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
 ```
+
 wird durch folgende ersetzt:
+
 ```
 Poke<unk> mon (USA) (Disc 1).iso
 Poke<unk> mon (USA) (Disc 1).iso

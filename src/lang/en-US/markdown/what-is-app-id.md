@@ -5,7 +5,7 @@ Steam uses APP ID to identify games. For non-Steam games they are generated usin
 - Executable;
 - Final app title.
 
-If you use `RetroArch` or similar emulators to add the same game, but on different consoles, you will encounter a problem where only **one** title is added and others just disappear. This is due to duplicate APP IDs. 
+If you use `RetroArch` or similar emulators to add the same game, but on different consoles, you will encounter a problem where only **one** title is added and others just disappear. This is due to duplicate APP IDs.
 
 ## Adding identical titles from different consoles
 

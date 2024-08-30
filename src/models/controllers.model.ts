@@ -1,15 +1,15 @@
-import { SteamDirList } from "./helpers.model"
+import { SteamDirList } from "./helpers.model";
 
 export interface ControllerTemplate {
-  title: string,
-  mappingId: string,
-  profileType: string
+  title: string;
+  mappingId: string;
+  profileType: string;
 }
 
 export interface Controllers {
-  [controllerType: string]: ControllerTemplate
+  [controllerType: string]: ControllerTemplate;
 }
 
 export type ControllerTemplates = SteamDirList<{
-  [controllerType: string]: ControllerTemplate[]
-}>
+  [controllerType: string]: ControllerTemplate[];
+}>;

@@ -1,5 +1,5 @@
 export interface CustomVariables {
-  [group: string] : {
-    [variable: string]: string
-  }
-};
+  [group: string]: {
+    [variable: string]: string;
+  };
+}

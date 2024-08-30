@@ -1,38 +1,38 @@
 :host {
-	> div {
-		font-size: 1em;
-    z-Index: 4;
-		position: absolute;
-		right: 0;
-		bottom: 0;
+  > div {
+    font-size: 1em;
+    z-index: 4;
+    position: absolute;
+    right: 0;
+    bottom: 0;
 
-		display: inline-block;
+    display: inline-block;
 
-		margin: 0.5em 0.5em;
-		padding: 1em 2em;
+    margin: 0.5em 0.5em;
+    padding: 1em 2em;
 
-		text-align: right;
-		word-wrap: break-word;
+    text-align: right;
+    word-wrap: break-word;
 
-		&.success {
-			color: var(--color-alert-text);
-			border: solid var(--color-success);
-			border-width: var(--border-width-alert);
-			background-color: var(--color-alert-background);
-		}
+    &.success {
+      color: var(--color-alert-text);
+      border: solid var(--color-success);
+      border-width: var(--border-width-alert);
+      background-color: var(--color-alert-background);
+    }
 
-		&.info {
-			color: var(--color-alert-text);
-			border: solid var(--color-info);
-			border-width: var(--border-width-alert);
-			background-color: var(--color-alert-background);
-		}
+    &.info {
+      color: var(--color-alert-text);
+      border: solid var(--color-info);
+      border-width: var(--border-width-alert);
+      background-color: var(--color-alert-background);
+    }
 
-		&.error {
-			color: var(--color-alert-text);
-			border: solid var(--color-error);
-			border-width: var(--border-width-alert);
-			background-color: var(--color-alert-background);
-		}
-	}
+    &.error {
+      color: var(--color-alert-text);
+      border: solid var(--color-error);
+      border-width: var(--border-width-alert);
+      background-color: var(--color-alert-background);
+    }
+  }
 }

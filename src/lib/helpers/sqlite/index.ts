@@ -1,1 +1,1 @@
-export * from './sqlite-wrapper'
+export * from "./sqlite-wrapper";

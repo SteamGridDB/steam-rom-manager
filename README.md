@@ -1,5 +1,4 @@
-Steam ROM Manager
-=================
+# Steam ROM Manager
 
 [![Build Status](https://github.com/SteamGridDB/steam-rom-manager/actions/workflows/main.yml/badge.svg)](https://github.com/SteamGridDB/steam-rom-manager/actions/workflows/main.yml)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/SteamGridDB/steam-rom-manager?logo=github&label=commits)](https://github.com/SteamGridDB/steam-rom-manager/commits/master)
@@ -7,9 +6,11 @@ Steam ROM Manager
 [![Discord](https://badge.cbartondock.mywire.org/badge.php?id=488621078302949377)](https://discord.gg/bnSVJrz)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/steam-rom-manager?color=blue&label=Chocolatey%20package)](https://community.chocolatey.org/packages/steam-rom-manager)
 [![Crowdin](https://badges.crowdin.net/steam-rom-manager/localized.svg)](https://crowdin.com/project/steam-rom-manager)
+
 <!-- Discord Tags are broken by discord rate limiting, see https://github.com/badges/shields/issues/10223
 [![Discord](https://img.shields.io/discord/488621078302949377?color=5865F2&label=SRM&logo=discord&logoColor=white)](https://discord.gg/bnSVJrz)
 A temporary fix is to host the tag service myself-->
+
 # Overview
 
 Steam ROM Manager (SRM) is a super flexible tool for adding non-Steam games to Steam in bulk and managing their artwork assets and controller templates. Added games could be ROMs for emulators, games from other stores such as Epic or GOG, or even not games at all. Have you always wanted your notes from junior year as a category in steam? If so that's pretty weird! But now it's possible.
@@ -21,8 +22,9 @@ Check out the [releases page](https://github.com/SteamGridDB/steam-rom-manager/r
 The Windows version is also available as a [Chocolatey package](https://community.chocolatey.org/packages/steam-rom-manager).
 
 The Linux version is also available as a [Flatpak](https://flatpak.org) at [Flathub/steam-rom-manager](https://flathub.org/apps/details/com.steamgriddb.steam-rom-manager). Linux caveats:
-* On some distributions Flatpak must be [pre-configured manually](https://flatpak.org/setup).
-* The AppImage needs to be [made executable](http://discourse.appimage.org/t/how-to-make-an-appimage-executable/80) after download.
+
+- On some distributions Flatpak must be [pre-configured manually](https://flatpak.org/setup).
+- The AppImage needs to be [made executable](http://discourse.appimage.org/t/how-to-make-an-appimage-executable/80) after download.
 
 If you're on a Steam Deck we recommend setting everything up through [EmuDeck](https://www.emudeck.com/), as it will install and automatically configure Steam ROM Manager and whatever emulators you want.
 
@@ -49,27 +51,28 @@ ROM parsers allow one to import shortcuts using search strings, e.g. `games/${ti
 
 ## Platform Parsers
 
-In addition to flexible importing of ROMS, SRM now has several *platform parsers* for importing from popular game stores:
+In addition to flexible importing of ROMS, SRM now has several _platform parsers_ for importing from popular game stores:
 
-|Parser|Windows|Mac OS|Linux|Launch Modes|
-|---|---|---|---|---|
-|[Amazon Games](https://gaming.amazon.com/amazon-games-app)|✅|🟦|🟦|<ul><li>Launch via Amazon Games</li><li>Launch via executable</li>|
-|[EA Desktop](https://www.ea.com/ea-app)|✅|🟦|🟦|<ul><li>Launch via EA Desktop</li><li>Launch via executable</li>|
-|[Epic](https://store.epicgames.com/en-US/)|✅|✅|🟦|<ul><li>Launch via Epic</li><li>Launch via executable</li>|
-|[GOG Galaxy](https://www.gog.com/galaxy)|✅|✅|🟦|<ul><li>Launch via GOG Galaxy</li><li>Launch via executable</li>|
-|[Itch.io](https://itch.io/app)|✅|✅|✅|<ul><li>Launch via executable</li></ul>|
-|[Legendary](https://github.com/derrod/legendary)|✅|✅|✅|<ul><li>Launch via Legendary</li><li>Launch via executable</li></ul>|
-|[Ubisoft Connect](https://ubisoftconnect.com/en-US/)|✅|❌|🟦|<ul><li>Launch via Ubisoft Connect</li><li>Launch via executable</li>|
-|[UWP/XBox](https://www.xbox.com/en-US/xbox-game-pass/pc-game-pass)|✅|🟦|🟦|<ul><li>Launch via UWP</li><li>Launch via executable</li>|
-|[Battle.net](https://battle.net)|✅|❌|🟦|<ul><li>Launch via Battle.net</li></ul>|
+| Parser                                                             | Windows | Mac OS | Linux | Launch Modes                                                          |
+| ------------------------------------------------------------------ | ------- | ------ | ----- | --------------------------------------------------------------------- |
+| [Amazon Games](https://gaming.amazon.com/amazon-games-app)         | ✅      | 🟦     | 🟦    | <ul><li>Launch via Amazon Games</li><li>Launch via executable</li>    |
+| [EA Desktop](https://www.ea.com/ea-app)                            | ✅      | 🟦     | 🟦    | <ul><li>Launch via EA Desktop</li><li>Launch via executable</li>      |
+| [Epic](https://store.epicgames.com/en-US/)                         | ✅      | ✅     | 🟦    | <ul><li>Launch via Epic</li><li>Launch via executable</li>            |
+| [GOG Galaxy](https://www.gog.com/galaxy)                           | ✅      | ✅     | 🟦    | <ul><li>Launch via GOG Galaxy</li><li>Launch via executable</li>      |
+| [Itch.io](https://itch.io/app)                                     | ✅      | ✅     | ✅    | <ul><li>Launch via executable</li></ul>                               |
+| [Legendary](https://github.com/derrod/legendary)                   | ✅      | ✅     | ✅    | <ul><li>Launch via Legendary</li><li>Launch via executable</li></ul>  |
+| [Ubisoft Connect](https://ubisoftconnect.com/en-US/)               | ✅      | ❌     | 🟦    | <ul><li>Launch via Ubisoft Connect</li><li>Launch via executable</li> |
+| [UWP/XBox](https://www.xbox.com/en-US/xbox-game-pass/pc-game-pass) | ✅      | 🟦     | 🟦    | <ul><li>Launch via UWP</li><li>Launch via executable</li>             |
+| [Battle.net](https://battle.net)                                   | ✅      | ❌     | 🟦    | <ul><li>Launch via Battle.net</li></ul>                               |
 
-✅  Implemented
-❌  Planned
-🟦  Store not present
+✅ Implemented
+❌ Planned
+🟦 Store not present
 
 We are open to suggestions and pull requests if you would like a platform parser added!
 
 ## Artwork Only Parsers
+
 Artwork only parsers allow you to change the artwork for existing non-SRM games. Put it simply they just change artwork, they don't add shortcuts.
 |Parser|Windows|Mac OS|Linux|Description|
 |---|---|---|---|---|
@@ -98,21 +101,21 @@ Unfortunately, because of an issue with `better-sqlite3` you will most likely al
 
 All script must be run using `yarn run` command. For example, `yarn run watch:renderer`.
 
-|Script|Function|
-|---|---|
-|`postinstall`|Recompiles native apps to match Electron's NodeJS version if needed|
-|`start`|Launches compiled app|
-|`watch:main`|Compiles Electron app and watches for changes|
-|`watch:renderer`|Compiles a renderer for an Electron app and watches for changes|
-|`build:main`|Compiles Electron app in production mode|
-|`build:renderer`|Compiles a renderer for an Electron app in production mode|
-|`build:dist`|Runs `build:main` and `build:renderer`|
-|`build:win`|Compiles an executable installer for Windows|
-|`build:linux`|Compiles a `deb` package and `AppImage` for linux|
-|`build:linuxdir`|Builds an unpacked linux x64 version for use with flatpak|
-|`build:flatpak`|Builds a flatpak from the unpacked linux version|
-|`build:docker`|`build:win` and `build:linux` joined together|
-|`build:mac`|Compiles a `dmg` package for MacOS|
+| Script           | Function                                                            |
+| ---------------- | ------------------------------------------------------------------- |
+| `postinstall`    | Recompiles native apps to match Electron's NodeJS version if needed |
+| `start`          | Launches compiled app                                               |
+| `watch:main`     | Compiles Electron app and watches for changes                       |
+| `watch:renderer` | Compiles a renderer for an Electron app and watches for changes     |
+| `build:main`     | Compiles Electron app in production mode                            |
+| `build:renderer` | Compiles a renderer for an Electron app in production mode          |
+| `build:dist`     | Runs `build:main` and `build:renderer`                              |
+| `build:win`      | Compiles an executable installer for Windows                        |
+| `build:linux`    | Compiles a `deb` package and `AppImage` for linux                   |
+| `build:linuxdir` | Builds an unpacked linux x64 version for use with flatpak           |
+| `build:flatpak`  | Builds a flatpak from the unpacked linux version                    |
+| `build:docker`   | `build:win` and `build:linux` joined together                       |
+| `build:mac`      | Compiles a `dmg` package for MacOS                                  |
 
 ## Debugging an app
 
@@ -157,11 +160,13 @@ Unfortunately electron-builder does not yet competently build flatpaks, and the 
 First you need to run `yarn install -g @malept/electron-installer-flatpak` (this can't be added as dev-dependency since it is not cross-platform and yarn doesn't allow optional dev-dependencies).
 
 Then
+
 ```
 yarn run build:dist
 yarn run build:linuxdir
 yarn run build:flatpak
 ```
+
 In order for this to work you must have already installed `flatpak-builder` using your favorite package manager (e.g. `sudo pamac install flatpak-builder`) and run:
 
 ```
@@ -169,24 +174,36 @@ flatpak install flathub org.freedesktop.Platform//19.08;
 flatpak install org.freedesktop.Sdk//19.08;
 flatpak install org.electronjs.Electron2.BaseApp/x86_64/stable
 ```
+
 ## Updating dependencies
 
 Use `npx ncu` to list available dependency updates, and `npx ncu -u target [target]` to update, where `[target]` is either `patch`, `minor`, `latest`, `greatest`, or `newest`.
 
 # Related Projects
+
 Some other projects in the emulation-adjacent space we think you might be interested in!
+
 ## Front ends
-* [ES-DE](https://gitlab.com/es-de/emulationstation-de) - A top tier emulation front end.
-* [Playnite](https://github.com/JosefNemec/Playnite) - A general purpose front end with lots of importers.
-* [Firelight](https://github.com/firelight-emulator/firelight) - An upcoming front end specifically for emulation with built in achievements.
+
+- [ES-DE](https://gitlab.com/es-de/emulationstation-de) - A top tier emulation front end.
+- [Playnite](https://github.com/JosefNemec/Playnite) - A general purpose front end with lots of importers.
+- [Firelight](https://github.com/firelight-emulator/firelight) - An upcoming front end specifically for emulation with built in achievements.
+
 ## Configurators
-* [EmuDeck](https://github.com/dragoonDorise/EmuDeck) - A collection of scripts for downloading and managing emulators and front ends alike.
+
+- [EmuDeck](https://github.com/dragoonDorise/EmuDeck) - A collection of scripts for downloading and managing emulators and front ends alike.
+
 ## ROM Managers
-* [Romm](https://github.com/rommapp/romm?tab=readme-ov-file) - A rom manager with a web UI.
-* [Oxyromon](https://github.com/alucryd/oxyromon) - A CLI based rom manager.
-* [JRomManager](https://github.com/optyfr/JRomManager) - A java based rom manager.
+
+- [Romm](https://github.com/rommapp/romm?tab=readme-ov-file) - A rom manager with a web UI.
+- [Oxyromon](https://github.com/alucryd/oxyromon) - A CLI based rom manager.
+- [JRomManager](https://github.com/optyfr/JRomManager) - A java based rom manager.
+
 ## Steam Artwork Tools
-* [Steam Art Manager](https://github.com/Tormak9970/Steam-Art-Manager) - An artwork manager for Steam games.
-* [SGDBoop](https://github.com/SteamGridDB/SGDBoop) - Tool to enable choosing artwork for in Steam directly from steamgriddb's website.
+
+- [Steam Art Manager](https://github.com/Tormak9970/Steam-Art-Manager) - An artwork manager for Steam games.
+- [SGDBoop](https://github.com/SteamGridDB/SGDBoop) - Tool to enable choosing artwork for in Steam directly from steamgriddb's website.
+
 ## Other Steam Importers
-* [Steam Rom Mate](https://github.com/brenoprata10/steam-deck-romate) - An alternative to SRM.
+
+- [Steam Rom Mate](https://github.com/brenoprata10/steam-deck-romate) - An alternative to SRM.

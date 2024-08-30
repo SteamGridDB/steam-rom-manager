@@ -1,28 +1,28 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule, Title } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DatePipe, PercentPipe, APP_BASE_HREF } from '@angular/common';
-import { ColorPickerModule } from 'ngx-color-picker';
+import { NgModule } from "@angular/core";
+import { BrowserModule, Title } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { HttpClientModule } from "@angular/common/http";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { DatePipe, PercentPipe, APP_BASE_HREF } from "@angular/common";
+import { ColorPickerModule } from "ngx-color-picker";
 
-import * as Components from './components';
-import * as SvgComponents from './svg-components';
-import * as Services from './services';
-import * as Directives from './directives';
-import * as Pipes from './pipes';
-import * as Guards from './guards';
-import { AppRoutes } from './app.routing';
+import * as Components from "./components";
+import * as SvgComponents from "./svg-components";
+import * as Services from "./services";
+import * as Directives from "./directives";
+import * as Pipes from "./pipes";
+import * as Guards from "./guards";
+import { AppRoutes } from "./app.routing";
 
 // Unfortunately not usable for declarations right now, as the strictly typed compiler can't evaluate statically
 // Ideally one would have declarations: [...ngObjectsToArray<Components(Components), etc]
 function ngObjectsToArray<T>(importObject: T) {
-  let objectArray: (T[keyof T])[] = [];
+  let objectArray: T[keyof T][] = [];
   for (let attribute in importObject) {
-    if (typeof importObject[attribute] === 'function')
+    if (typeof importObject[attribute] === "function")
       objectArray.push(importObject[attribute]);
   }
-  return objectArray as (T[keyof T])[];
+  return objectArray as T[keyof T][];
 }
 
 @NgModule({
@@ -33,7 +33,7 @@ function ngObjectsToArray<T>(importObject: T) {
     AppRoutes,
     FormsModule,
     ReactiveFormsModule,
-    ColorPickerModule
+    ColorPickerModule,
   ],
   declarations: [
     Components.AboutComponent,
@@ -91,17 +91,17 @@ function ngObjectsToArray<T>(importObject: T) {
     Pipes.RangeArrayPipe,
     Pipes.SafeHtml,
     Pipes.SafeResourceUrl,
-    Pipes.SafeStyle
+    Pipes.SafeStyle,
   ],
   providers: [].concat(
     ngObjectsToArray(Services),
     ngObjectsToArray(Guards),
     ngObjectsToArray(Pipes),
-    { provide: APP_BASE_HREF, useValue: 'SRM' },
+    { provide: APP_BASE_HREF, useValue: "SRM" },
     DatePipe,
     PercentPipe,
-    Title
+    Title,
   ),
-  bootstrap: [Components.AppComponent]
+  bootstrap: [Components.AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

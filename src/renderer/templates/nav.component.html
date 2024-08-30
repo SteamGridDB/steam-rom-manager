@@ -1,14 +1,38 @@
-<nav-link routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-  <img src="/assets/images/preview.png" alt="Icon" height="16" />{{ lang.preview }}</nav-link
+<nav-link
+  routerLink="/"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
 >
-<nav-link routerLink="/view" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-  <img src="/assets/images/preview.png" alt="Icon" height="16" />{{ lang.view }}</nav-link
+  <img src="/assets/images/preview.png" alt="Icon" height="16" />{{
+    lang.preview
+  }}</nav-link
 >
-<nav-link routerLink="/logger" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-  <img src="/assets/images/time.png" alt="Icon" height="16" />{{ lang.logger }}</nav-link
+<nav-link
+  routerLink="/view"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
 >
-<nav-link routerLink="/settings" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-  <img src="/assets/images/settings.png" alt="Icon" height="16" />{{ lang.settings }}</nav-link
+  <img src="/assets/images/preview.png" alt="Icon" height="16" />{{
+    lang.view
+  }}</nav-link
+>
+<nav-link
+  routerLink="/logger"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+>
+  <img src="/assets/images/time.png" alt="Icon" height="16" />{{
+    lang.logger
+  }}</nav-link
+>
+<nav-link
+  routerLink="/settings"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+>
+  <img src="/assets/images/settings.png" alt="Icon" height="16" />{{
+    lang.settings
+  }}</nav-link
 >
 <nav-expand routerLinkActive="active">
   <nav-link
@@ -18,30 +42,45 @@
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: true }"
   >
-  <!--got rid of dummy: dummy in routerLinkActiveOptions, maybe try to get rid of dummy variable-->
+    <!--got rid of dummy: dummy in routerLinkActiveOptions, maybe try to get rid of dummy variable-->
     <ng-container *ngIf="!isExceptionsUnsaved">
-      <img src="/assets/images/danger.png" alt="Icon" height="16" />{{ lang.userExceptions }}
+      <img src="/assets/images/danger.png" alt="Icon" height="16" />{{
+        lang.userExceptions
+      }}
     </ng-container>
     <ng-container *ngIf="isExceptionsUnsaved">
-      <img src="/assets/images/danger-unsaved.png" alt="Icon" height="16" />{{ lang.userExceptions }}
+      <img src="/assets/images/danger-unsaved.png" alt="Icon" height="16" />{{
+        lang.userExceptions
+      }}
     </ng-container>
   </nav-link>
 </nav-expand>
 
-<nav-link routerLink="/about" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-  ><img src="/assets/images/information.png" alt="Icon" height="16" />{{ lang.about }}</nav-link
+<nav-link
+  routerLink="/about"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+  ><img src="/assets/images/information.png" alt="Icon" height="16" />{{
+    lang.about
+  }}</nav-link
 >
 <nav-link
   class="not-emudeck"
   [routerLink]="['/parsers', -1]"
   routerLinkActive="active"
   [routerLinkActiveOptions]="{ exact: true }"
-  ><img src="/assets/images/clipboard.png" alt="Icon" height="16" />{{ lang.parsers }}</nav-link
+  ><img src="/assets/images/clipboard.png" alt="Icon" height="16" />{{
+    lang.parsers
+  }}</nav-link
 >
 <nav-link
   [routerLink]="['/parsers-list']"
   class="only-emudeck"
   routerLinkActive="active"
   [routerLinkActiveOptions]="{ exact: true }"
-  ><img src="/assets/images/clipboard.png" alt="Icon" height="16" />Parsers</nav-link
+  ><img
+    src="/assets/images/clipboard.png"
+    alt="Icon"
+    height="16"
+  />Parsers</nav-link
 >

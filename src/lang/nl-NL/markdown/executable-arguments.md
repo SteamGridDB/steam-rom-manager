@@ -49,7 +49,7 @@ Argumenten die aan het uitvoerbare bestand worden toegevoegd om de definitieve s
 ### Nestopia (NES/Famicom)
 
 ```
-"${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen fullscreen on start: yes -view size fullscreen : stretched 
+"${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen fullscreen on start: yes -view size fullscreen : stretched
 ```
 
 ### higan (NES/Famicom, SNES/Famicom, Gameboy, Gameboy Color en Gameboy Advance)
@@ -127,7 +127,7 @@ Deze instelling wordt gebruikt om de APP-ID van Steam te beïnvloeden.
 ## Folder variabelen
 
 | Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                        |
-| ------------------------------------:|:--------------------------------------------- |
+| -----------------------------------: | :-------------------------------------------- |
 |                          `${exeDir}` | Uitvoerbaar bestand map                       |
 |                          `${romDir}` | ROMs map                                      |
 |                        `${steamDir}` | Steam map                                     |
@@ -139,7 +139,7 @@ Als uitvoerbare map-invoer **leeg** wordt gelaten, is `${exeDir}`{.noWrap} gelij
 ## Naam variabelen
 
 | Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                                                      |
-| ------------------------------------:|:--------------------------------------------------------------------------- |
+| -----------------------------------: | :-------------------------------------------------------------------------- |
 |                         `${exeName}` | Naam van het uitvoerbaar bestand (zonder extensie)                          |
 |                        `${fileName}` | Naam van het bestand dat is teruggestuurd door een parser (zonder extensie) |
 
@@ -148,7 +148,7 @@ Als uitvoerbare map-invoer **leeg** wordt gelaten, is `${exeName}`{.noWrap} geli
 ## Extensie variabelen
 
 | Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                                                   |
-| ------------------------------------:|:------------------------------------------------------------------------ |
+| -----------------------------------: | :----------------------------------------------------------------------- |
 |                          `${exeExt}` | Uitbreiding van uitvoerbaar bestand (met een punt)                       |
 |                         `${fileExt}` | Extensie van bestand dat teruggestuurd is door een parser (met een punt) |
 
@@ -157,7 +157,7 @@ Als uitvoerbare map-invoer **leeg** wordt gelaten, is `${exeExt}`{.noWrap} gelij
 ## Bestandspadvariabelen
 
 | Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                                             |
-| ------------------------------------:|:------------------------------------------------------------------ |
+| -----------------------------------: | :----------------------------------------------------------------- |
 |                         `${exePath}` | Volledig pad naar een uitvoerbaar bestand                          |
 |                        `${filePath}` | Volledig pad naar een bestand dat teruggestuurd is door een parser |
 
@@ -166,7 +166,7 @@ Als uitvoerbare map-invoer **leeg** wordt gelaten, is `${exePath}`{.noWrap} geli
 ## Parser variabelen
 
 | Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                               |
-| ------------------------------------:|:---------------------------------------------------- |
+| -----------------------------------: | :--------------------------------------------------- |
 |                           `${title}` | Uitgepakte titel                                     |
 |                      `${fuzzyTitle}` | Fuzzy overeenkomende titel                           |
 |                      `${finalTitle}` | Titel die het eindresultaat is van de title modifier |
@@ -175,18 +175,19 @@ Als fuzzy matching **mislukt** of **uitgeschakeld** is, is `${fuzzyTitle}`{.noWr
 
 ## Functie variabele
 
-|                                 Variable (case-insensitive) | Corresponding function                                                                                                 |
-| -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
-|                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
-|                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
-|                                             `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                                      |
-|                                       `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
-|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
+|                             Variable (case-insensitive) | Corresponding function                                                                                                 |
+| ------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------- |
+|               `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
+|                                          `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
+|                                          `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                                      |
+|                                    `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
+|                                         `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
 | `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                           |
 
 ### Function variable example
 
 Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
+
 ```
 ${/.*/|${title}}                           //Matches everything
 ${/(.*)/|${title}}                         //Captures everything
@@ -196,7 +197,9 @@ ${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transfo
 ${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
 file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
 ```
+
 will be replaced with these:
+
 ```
 Pokémon (USA) (Disc 1).iso
 Pokémon (USA) (Disc 1).iso

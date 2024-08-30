@@ -1,5 +1,7 @@
 # Unique inputs for UPlay Parser
+
 ## Ubisoft Directory Override
+
 Standardmäßig nimmt der Steam ROM Manager an, dass sich deine UPlay-Installation in `C:\Program Files (x86)\Ubisoft` befindet. Dieses Feld erlaubt dir, den Pfad zu überschreiben, wenn deine UPlay-Installation woanders gespeichert ist.
 
 ## Über UPlay starten `[Empfohlen deaktiviert]`

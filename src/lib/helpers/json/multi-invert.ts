@@ -13,7 +13,6 @@ import * as _ from "lodash";
 //   return res
 // }
 
-
 // export function multiInvert<K extends keyof any, V>(a: Record<K, V>): Record<V, K[]> {
 //   let pairs = _.flattenDepth(Object.entries(a).map((x: [K, V])=>[].concat(x[1]).map(y=>[y,x[0]])),1);
 //   let res: Record<V, K[]> = {};
@@ -27,8 +26,9 @@ import * as _ from "lodash";
 //   return res;
 // }
 
-
-export function multiInvert<K extends keyof any, V extends keyof any>(record: Record<K, V[]>): Record<V, K> {
+export function multiInvert<K extends keyof any, V extends keyof any>(
+  record: Record<K, V[]>,
+): Record<V, K> {
   const inverted: Record<V, K> = {} as Record<V, K>;
   for (const [key, values] of Object.entries(record)) {
     for (const value of values as V[]) {
@@ -40,8 +40,9 @@ export function multiInvert<K extends keyof any, V extends keyof any>(record: Re
   return inverted;
 }
 
-
-export function multiMultiInvert<K extends keyof any, V extends keyof any>(record: Record<K, V[]>): Record<V, K[]> {
+export function multiMultiInvert<K extends keyof any, V extends keyof any>(
+  record: Record<K, V[]>,
+): Record<V, K[]> {
   const inverted: Record<V, K[]> = {} as Record<V, K[]>;
   for (const [key, values] of Object.entries(record)) {
     for (const value of values as V[]) {

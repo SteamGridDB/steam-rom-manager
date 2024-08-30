@@ -1,50 +1,50 @@
-import { Configuration } from 'webpack';
-import merge from 'webpack-merge';
-import * as helpers from './helpers';
+import { Configuration } from "webpack";
+import merge from "webpack-merge";
+import * as helpers from "./helpers";
 
 let clientConfig: Configuration = {
-  target: 'electron-main',
+  target: "electron-main",
   entry: {
-    main: './main/app.ts'
+    main: "./main/app.ts",
   },
-  context: helpers.root('src'),
+  context: helpers.root("src"),
   output: {
-    filename: '[name].bundle.js',
-    path: helpers.root('dist')
+    filename: "[name].bundle.js",
+    path: helpers.root("dist"),
   },
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: [".ts", ".js"],
   },
   module: {
     rules: [
       {
         test: /\.ts$/i,
-        use: ['ts-loader']
-      }
-    ]
+        use: ["ts-loader"],
+      },
+    ],
   },
-  node: false
+  node: false,
 };
 
 let developmentConfig: Configuration = {
-  mode: 'development',
-  devtool: 'source-map',
+  mode: "development",
+  devtool: "source-map",
   performance: {
-    hints: false
+    hints: false,
   },
   output: {
     devtoolModuleFilenameTemplate(info: any) {
-      return 'file:///' + encodeURI(info.absoluteResourcePath);
-    }
-  }
+      return "file:///" + encodeURI(info.absoluteResourcePath);
+    },
+  },
 };
 
 let productionConfig: Configuration = {
-  mode: 'production',
-  bail: false
+  mode: "production",
+  bail: false,
 };
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
   module.exports = merge(clientConfig, productionConfig);
 } else {
   module.exports = merge(clientConfig, developmentConfig);

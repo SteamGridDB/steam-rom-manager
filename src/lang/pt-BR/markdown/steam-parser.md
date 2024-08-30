@@ -3,14 +3,17 @@
 Esse analisador importa jogos Steam para a SRM. Esse analisador importa jogos Steam para a SRM. Esse analisador importa jogos Steam para a SRM. Ele não adiciona atalhos, mas permite que você defina o trabalho de arte para seus jogos Steam. Por padrão, o analisador obterá os jogos de todas as contas de usuário no diretório Steam especificado &mdash; se você preferir apenas obter os jogos de um subconjunto das contas então especificá-los no campo `Contas de Usuário`.
 
 ## Limitações
+
 Infelizmente, por enquanto, este analisador só funciona para jogos Steam **que estão em pelo menos uma categoria**. A razão para isso é que o Steam só armazena sua lista completa de jogos localmente se eles forem categorizados. Às vezes, por razões desconhecidas, os jogos serão armazenados localmente, independentemente do funcionamento do analisador. mas ser seguro, a coisa mais fácil de se fazer é apenas **criar uma categoria Steam** que tenha todas as suas partidas Steam dentro.
 
 ## Contas de usuário (opcional)
 
 Pode ser usado para limitar a configuração para contas de usuário específicas. Para definir a consulta de imagem, é necessário usar a seguinte sintaxe:
+
 ```
 ${...}
 ```
+
 Você **deve** usar o nome de usuário que você usa para **entrar** no Steam **se** [usar credenciais de conta](#what-does-use-account-credentials-do) estiver ativado:
 
 ![Exemplo de conta](../../../assets/images/user-account-example.png) {.fitImage.center}

@@ -5,27 +5,24 @@
   margin: 0 auto;
   grid-area: route;
   overflow: hidden;
-  nav-parsers{
+  nav-parsers {
     display: block;
     max-width: 100%;
     //overflow: auto;
     height: 100%;
-    .parsers{
+    .parsers {
       height: 100%;
-      nav-expand{
+      nav-expand {
         height: 100%;
-        .items{
+        .items {
           overflow: hidden;
-          height: 100%
+          height: 100%;
         }
       }
     }
-
-
   }
-  markdown{
+  markdown {
     display: block;
-    padding-top:30px;
+    padding-top: 30px;
   }
-
 }
