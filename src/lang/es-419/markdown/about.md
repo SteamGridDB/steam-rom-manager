@@ -43,7 +43,7 @@ Si te gusta Steam ROM Manager y quieres que siga siendo util puedes considerar d
 * `CarJem`{.noWrap} - Añadió el analizador manual.
 * `MattMckenzy`{.noWrap} - Añadió la opción de importar y exportar imagenes.
 * `Apalatn`{.noWrap} - Añadió una opción de redirección de unidad de instalación al analizador itch.io.
-* `OneMoreByte`{.noWrap} - Made itch.io parser work on linux and mac.
+* .
 * `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
 * `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
 
