@@ -44,8 +44,8 @@
 * `MattMckenzy`{.noWrap} - 增加了导入和导出图像选择的功能。
 * `Apalatn`{.noWrap} - 添加了一个安装驱动器重定向选项到 itch.io 解析器。
 *
-* `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
-* `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
+* `UndarkAido`{.noWrap} - 为 Linux 的 .desktop 快捷方式添加了快捷通道。
+* `HazardousBackup` {.noWrap} - 添加了另一种选项，用GOG解析器来解析注册表的选项来代替GOG数据库
 
 ### 社区
 * `HE Spoke`{.noWrap} - 围绕 SRM 创建了一个社区。 [Steam](https://steamcommunity.com/groups/steamrommanager) 和 [Discord](https://discord.gg/bnSVJrz) 群组的创建者。 也帮助用户在 [Discord](https://discord.gg/bnSVJrz) 中设置 SRM。
