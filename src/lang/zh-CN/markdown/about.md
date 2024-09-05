@@ -16,7 +16,7 @@
 
 ## 支持
 
-帮助支持 Steam ROM Manager 的持续进展：
+帮助支持 Steam ROM Manager 的持续进展:
 
 <a href="https://www.buymeacoffee.com/cbartondock">
   <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="请我喝杯咖啡" width="160">
@@ -43,7 +43,7 @@
 * `CarJem`{.noWrap} - 添加了手动解析器。
 * `MattMckenzy`{.noWrap} - 增加了导入和导出图像选择的功能。
 * `Apalatn`{.noWrap} - 添加了一个安装驱动器重定向选项到 itch.io 解析器。
-*
+* `OneMoreByte`{.noWrap} - 使 itch.io 解析器在 Linux 和 Mac 上工作。
 * `UndarkAido`{.noWrap} - 为 Linux 的 .desktop 快捷方式添加了快捷通道。
 * `HazardousBackup` {.noWrap} - 添加了另一种选项，用GOG解析器来解析注册表的选项来代替GOG数据库
 
