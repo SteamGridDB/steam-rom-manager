@@ -1,4 +1,4 @@
-#
+# Glob 解析器特定输入
 
 ## Galaxy 路径覆盖
 
@@ -10,9 +10,9 @@
 
 听起来有什么意思，这个切换决定了游戏是通过 GOG Galaxy 启动还是直接启动。 请注意，对于某些游戏，从 GOG Galaxy 启动可能会失败，并且 Steam 覆盖层很可能无法正常工作。
 
-##
+## 从 GOG Galaxy 解析链接的可执行文件
 
-如果在其他地方不将这些游戏解析成SRM，这样做是可取的。
+如果启用，SRM 将不仅从GOG Galaxy的存储中提取GOG游戏。 也有那些您已经在GOG Galaxy中手动链接了的。 如果在其他地方不将这些游戏解析成SRM，这样做是可取的。
 
 需要注意的是，由于GOGGalaxy不在其数据库中存储名称链接的可执行文件，因此SRM将使用Windows上可执行文件的目录名称(例如 `C:\\path\\to\\Hoa\\LaunchHoa.exe` would be assigned the title `Hoa`)将被分配标题`Hoa`)，而Mac上的可执行文件名称(例如 `/Applications/Symphonia.app` 将被分配标题 <0>Symphonia</0>。
 
