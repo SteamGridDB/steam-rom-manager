@@ -1,4 +1,4 @@
-#
+# Legendary 解析器特定输入
 
 ## Legendary路径覆盖
 
