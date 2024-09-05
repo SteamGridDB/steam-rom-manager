@@ -18,13 +18,13 @@
       "saveImage": "保存图像到文件",
       "addLocalImages": "添加本地图片",
       "retryDownload": "重试下载",
-      "generateAppList": "Refresh",
+      "generateAppList": "刷新",
       "saveAppList": "保存到Steam",
       "removeAppList": "从Steam中移除",
       "remainingImages": "获取网址：",
       "stopUrlRetrieving": "停止",
-      "exportSelections": "Export art",
-      "importSelections": "Import art",
+      "exportSelections": "导出art",
+      "importSelections": "导入art",
       "backButton": "返回",
       "logButton": "日志"
     },
@@ -45,28 +45,28 @@
         "writingVDF_entries__i": "批量编写 VDF 文件并下载 ${batchSize} 个高分辨率图像。",
         "updatingKnownSteamDirList": "更新已知的 Steam 目录列表。",
         "retryingDownload__i": "正在为 \"${appTitle}\" 重试从 \"${imageUrl}\" 下载图片。",
-        "disabledConfigurations__i": "${count} 个用户配置被跳过（由用户禁用）\"。",
-        "invalidConfigurations__i": "${count} 个用户配置被跳过（无效）。",
+        "disabledConfigurations__i": "${count} 个用户配置被跳过(由用户禁用)\"。",
+        "invalidConfigurations__i": "${count} 个用户配置被跳过(无效)。",
         "executingParsers": "执行解析器。",
-        "shutdownSteam": "",
-        "noParserConfigurations": "请先在“解析器”菜单中创建解析器配置。",
-        "parserFoundNoFiles": "解析器未找到与用户配置匹配的文件。",
+        "shutdownSteam": "如果Steam正在运行，请退出Steam",
+        "noParserConfigurations": "请先在“解析器”菜单中创建解析器配置",
+        "parserFoundNoFiles": "解析器未找到与用户配置匹配的文件",
         "allImagesRetrieved": "已检索到所有可用的图像网址。",
-        "providerTimeout__i": "${provider}\" 请求了 ${time} 秒的超时。",
+        "providerTimeout__i": "${provider}\" 请求了 ${time} 秒的超时",
         "noAccountsWarning": "未找到用户账户。Steam 目录不正确？",
         "preparingExport": "准备导出图像选项。",
         "exportProgress__i": "正在保存图像选项 ${progress}。",
         "readingSelections": "应用导入的图像选项。"
       },
       "errors": {
-        "fatalError": "Fatal error occurred in Add Games. See event log for details.",
-        "fatalError__i": "Fatal Add Games error: ${error}",
+        "fatalError": "添加游戏中发生致命错误。请查看事件日志获取详细信息。",
+        "fatalError__i": "添加游戏中发生致命错误:${error}",
         "knownSteamDirListIsEmpty": "已知的 Steam 目录列表为空。",
         "steamIsRunning": "无法在 Steam 运行时进行更改！",
         "categorySaveError": "更新类别时出错。请查看事件日志获取详细信息。",
-        "categorySaveError__i": "类别错误（快捷方式和艺术作品仍将被添加）：${error}",
+        "categorySaveError__i": "类别错误(快捷方式和艺术作品仍将被添加)：${error}",
         "controllerSaveError": "更新控制器模板时出错。请查看事件日志获取详细信息。",
-        "controllerSaveError__i": "控制器错误（快捷方式和艺术作品仍将被添加）：${error}",
+        "controllerSaveError__i": "控制器错误(快捷方式和艺术作品仍将被添加)：${error}",
         "retryingDownload__i": "从 \"${imageUrl}\" 下载图片失败，应用程序名称为 \"${appTitle}\"。",
         "providerError__i": "从\"${provider}\" 接收到的错误，针对 \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
         "unknownProviderError__i": "从 \"${provider}\" 接收到的 \"${title}\" 错误：\n ${error}",
@@ -83,20 +83,20 @@
     }
   },
   "steamParser": {
-    "onlyGamesTitle": "Find artwork for games only (no tools or demos)",
+    "onlyGamesTitle": "只查找游戏的artwork (不包括工具或demo)",
     "onlyInstalledTitle": "仅查找已安装标题的艺术作品",
     "sourceModsTitle": "寻找非官方源模组的艺术作品",
     "errors": {
       "directoryInvalid": "> Steam 目录无效。",
-      "noSteamAccounts": "> 指定的 Steam 目录中没有帐户。",
+      "noSteamAccounts": "> 指定的 Steam 目录中没有账户。",
       "steamChanged__i": "> Steam 更改了内部数据库结构或解析器尝试读取过时的数据库。\n有问题的文件：${file}\n完整错误信息：\n ${error}",
       "fatalError__i": "> Steam 解析器发生致命错误：\n ${error}"
     }
   },
   "nonSRMShortcutsParser": {
     "errors": {
-      "noSteamAccounts": "> Steam directory specified has no accounts.",
-      "fatalError__i": "> Non-SRM Shortcuts parser failed with fatal error:\n ${error}"
+      "noSteamAccounts": "> 指定的 Steam 目录中没有帐户",
+      "fatalError__i": "> 非SRM快捷方式解析器失败，致命错误：\n ${error}"
     }
   },
   "manualParser": {
@@ -118,24 +118,24 @@
     }
   },
   "legendaryParser": {
-    "launcherModeInputTitle": "Launch games via Legendary for online services",
+    "launcherModeInputTitle": "通过 Legendary 启动游戏以使用在线服务。",
     "legendaryInstalledFileTitle": "Legendary installed.json 路径覆盖",
     "legendaryInstalledFilePlaceholderUnix": "/path/to/legendary/installed.json",
     "legendaryInstalledFilePlaceholderWin": "C:\\path\\to\\legendary\\installed.json",
-    "legendaryExeOverrideTitle": "Legendary Path Override",
+    "legendaryExeOverrideTitle": "Legendary 路径覆盖",
     "legendaryExeOverridePlaceholderWin": "C:\\path\\to\\legendary.exe",
     "legendaryExeOverridePlaceholderUnix": "/path/to/legendary",
     "errors": {
       "legendaryNotInstalled": "> 找不到已安装的 Legendary installed.json 文件",
-      "fatalError__i": ""
+      "fatalError__i": "> Legendary 解析器发生致命错误：\n ${error}"
     }
   },
   "battleNetParser": {
-    "battleExeOverrideTitle": "",
-    "battleExeOverridePlaceholder": "",
+    "battleExeOverrideTitle": "Battle.net.exe 路径覆盖",
+    "battleExeOverridePlaceholder": "/path/to/Battle.net/Battle.net.exe",
     "errors": {
-      "battleNotCompatible": "",
-      "fatalError__i": ""
+      "battleNotCompatible": "> Battle.net 解析器仅在Windows上可用。",
+      "fatalError__i": "> Battle.net 解析器发生致命错误：\n ${error}"
     }
   },
   "UWPParser": {
@@ -143,8 +143,8 @@
     "UWPDirPlaceholder": "/path/to/XboxGames 或 /path/to/WindowsApps",
     "UWPLauncherModeTitle": "以 UWP 形式启动游戏，而不是使用启动器助手。",
     "errors": {
-      "fatalError__i": "> UWP 解析器在此平台上不兼容。",
-      "UWPNotCompatible": ""
+      "fatalError__i": ">  解析器发生致命错误：\n ${error}",
+      "UWPNotCompatible": "> UWP 解析器仅在Windows上可用。"
     }
   },
   "uplayParser": {
@@ -164,8 +164,8 @@
     "galaxyExeOverridePlaceholderWin": "C:\\path\\to\\GalaxyClient.exe",
     "galaxyExeOverridePlaceholderMac": "/path/to/GOG Galaxy.app/Contents/MacOS/GOG Galaxy",
     "launcherModeInputTitle": "通过 GOG Galaxy 启动游戏",
-    "parseLinkedExecsTitle": "",
-    "parseRegistryEntries": "Parse using Registry instead of Galaxy DB",
+    "parseLinkedExecsTitle": "从 GOG Galaxy 解析链接的可执行文件",
+    "parseRegistryEntries": "使用注册表而不是Galaxy DB 解析",
     "errors": {
       "invalidGalaxyExeOverride": "> Galaxy 客户端覆盖不是一个有效的路径。",
       "fatalError__i": "> GOG Galaxy 解析器发生致命错误：\n ${error}",
@@ -249,9 +249,9 @@
     "stylesHeroTitle": "允许的主页样式",
     "stylesLogoTitle": "允许的 Logo 样式",
     "stylesIconTitle": "允许的图标样式",
-    "sizesTitle": "",
-    "sizesHeroTitle": "",
-    "sizesIconTitle": ""
+    "sizesTitle": "允许横幅尺寸",
+    "sizesHeroTitle": "允许英雄尺寸",
+    "sizesIconTitle": "允许的图标尺寸"
   },
   "logger": {
     "component": {
@@ -263,7 +263,7 @@
       "textWrap": "文本换行",
       "autoscroll": "自动滚屏",
       "clearLog": "清除日志",
-      "issueDescription": "",
+      "issueDescription": "使用可通过拼写的透彻问题描述",
       "handleExample": "CoolHandle#1234"
     }
   },
@@ -273,45 +273,45 @@
         "failedToDownload__i": "无法下载自定义变量文件。状态：${error}。",
         "writingError": "保存自定义变量时发生错误。",
         "loadingError": "加载自定义变量时发生错误。",
-        "corruptedVariables__i": "保存的自定义变量无效！\n在解决此问题之前，永久变量保存已被禁用。\n您可以尝试手动修复错误（文件 - ${file}）\n或在 GitHub 或我们的官方 Discord 频道上寻求帮助：${error}"
+        "corruptedVariables__i": "保存的自定义变量无效！\n在解决此问题之前，永久变量保存已被禁用。\n您可以尝试手动修复错误(文件 - ${file})\n或在 GitHub 或我们的官方 Discord 频道上寻求帮助：${error}"
       },
       "info": {
-        "downloaded": ""
+        "downloaded": "自定义变量文件已下载。"
       }
     }
   },
   "configPresets": {
     "service": {
       "error": {
-        "failedToDownload__i": "Failed to download configuration presets file from commit ${commit}. Status: ${error}.",
+        "failedToDownload__i": "无法从 ${commit}下载配置预设文件。状态：${error}。",
         "writingError": "保存配置预设时发生错误。",
         "loadingError": "加载配置预设时发生错误。",
-        "corruptedVariables__i": "保存的配置预设无效！\n在解决此问题之前，永久文件保存已被禁用。\n尝试手动修复错误（文件 - ${file}）\n或在我们的官方 Discord 频道或 Github 上寻求帮助：${error}"
+        "corruptedVariables__i": "保存的配置预设无效！\n在解决此问题之前，永久文件保存已被禁用。\n尝试手动修复错误(文件 - ${file})\n或在我们的官方 Discord 频道或 Github 上寻求帮助：${error}"
       },
       "info": {
-        "downloaded": ""
+        "downloaded": "社区预设已更新"
       }
     }
   },
   "settings": {
     "component": {
       "label": {
-        "general": "General",
-        "imageProviders": "Image Providers",
-        "fuzzy": "Fuzzy Matcher",
-        "environmentVariables": "Environment Variables",
-        "communityPresets": "Community Presets and Custom Variables"
+        "general": "常规",
+        "imageProviders": "图像提供",
+        "fuzzy": "模糊匹配",
+        "environmentVariables": "环境变量",
+        "communityPresets": "社区预设和自定义变量"
       },
       "text": {
-        "autoUpdate": "",
+        "autoUpdate": "启动时检查更新",
         "offlineMode": "离线模式",
-        "removeApps_desc": "all added games and controllers",
+        "removeApps_desc": "所有添加的游戏和控制器",
         "removeApps_btn": "删除",
-        "preloadImages": "Artwork loading strategy",
+        "preloadImages": "Artwork加载策略",
         "fuzzy_verbose": "记录匹配结果",
         "fuzzy_filter": "筛选图像",
         "enabledProviders": "启用的图片提供程序",
-        "dnsServers": "DNS manual override",
+        "dnsServers": "DNS手动覆盖",
         "selectLanguage": "选择语言",
         "selectTheme": "选择主题",
         "resetFuzzy_desc": "模糊列表",
@@ -329,25 +329,25 @@
         "userAccounts": "例如 ${steamlogin}",
         "bySystem": {
           "Windows_NT": {
-            "steamDirectory": "Typically C:\\Program Files (x86)\\Steam",
-            "romsDirectory": "For example D:\\ROMs",
-            "retroarchPath": "For example C:\\Path\\To\\retroarch.exe",
-            "raCoresDirectory": "Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
-            "localImagesDirectory": "For example C:\\Path\\To\\LocalArtwork"
+            "steamDirectory": "通常是 C:\\Program Files (x86)\\Steam",
+            "romsDirectory": "例如 D:\\ROMs",
+            "retroarchPath": "例如：C:\\Path\\To\\retroarch.exe",
+            "raCoresDirectory": "通常是 C:\\Users\\ UserName\\AppData\\Roaming\\RetroArch\\cores",
+            "localImagesDirectory": "例如：C:\\Path\\To\\LocalArtwork"
           },
           "Darwin": {
-            "steamDirectory": "Typically ~/Library/Application Support/Steam",
-            "romsDirectory": "For example ~/ROMs",
-            "retroarchPath": "For example /path/to/retroarch",
-            "raCoresDirectory": "Typically /Applications/Retroarch.app/Contents/Resources/cores",
-            "localImagesDirectory": "For example ~/path/to/localartwork"
+            "steamDirectory": "通常是 ~/Library/Application Support/Steam",
+            "romsDirectory": "例如 ~/ROMs",
+            "retroarchPath": "例如 /path/to/retroarch",
+            "raCoresDirectory": "典型的 /Applications/retroarch.app/Contents/Resources/cores",
+            "localImagesDirectory": "例如~/path/to/localartworks"
           },
           "Linux": {
-            "steamDirectory": "Typically /home/user/.steam/steam",
-            "romsDirectory": "For example ~/ROMs",
-            "retroarchPath": "For example /path/to/retroarch",
-            "raCoresDirectory": "Typically /lib/x86_64-linux-gnu/libretro/cores",
-            "localImagesDirectory": "For example ~/path/to/localartwork"
+            "steamDirectory": "通常是 /home/user/.steam/steam",
+            "romsDirectory": "例如 ~/ROMs",
+            "retroarchPath": "例如 /path/to/retroarch",
+            "raCoresDirectory": "通常是 /lib/x86_64-linux-gnu/libretro/cores",
+            "localImagesDirectory": "例如 ~/path/to/localartworks"
           }
         }
       }
@@ -359,7 +359,7 @@
       "error": {
         "writingError": "保存用户设置时发生错误。",
         "readingError": "读取用户设置时发生错误。",
-        "corruptedSettings__i": "保存的应用程序设置无效！\n在解决此问题之前，永久设置保存已禁用。\n尝试手动修复错误（文件 - ${file}）\n或在 GitHub 或我们的官方 Discord 频道上寻求帮助：${error}"
+        "corruptedSettings__i": "保存的应用程序设置无效！\n在解决此问题之前，永久设置保存已禁用。\n尝试手动修复错误(文件 - ${file})\n或在 GitHub 或我们的官方 Discord 频道上寻求帮助：${error}"
       }
     }
   },
@@ -391,13 +391,13 @@
         "excludeArtwork": "仅限本地艺术作品"
       },
       "placeholder": {
-        "sortBy": "Sort By"
+        "sortBy": "排序方式"
       }
     },
     "service": {
       "error": {
         "loadingError": "无法加载用户异常。",
-        "corruptedExceptions__i": "用户异常导致文件损坏（文件 - ${file}）。保存已禁用，完整错误信息为：${error}。",
+        "corruptedExceptions__i": "用户异常导致文件损坏(文件 - ${file})。保存已禁用，完整错误信息为：${error}。",
         "writingError": "保存用户异常时发生错误"
       }
     }
@@ -417,21 +417,21 @@
         "toClipboard": "复制配置到剪贴板"
       },
       "info": {
-        "testStarting__i": "测试 \"${title}\" 解析器（SRM版本 - ${version} ${portable}）。",
+        "testStarting__i": "测试 \"${title}\" 解析器(SRM版本 - ${version} ${portable})。",
         "opSys__i": "操作系统是 ${os}",
         "testCompleted": "解析器测试已完成。",
         "nothingWasFound": "解析器未找到任何内容。",
         "copiedToClipboard": "配置已复制到剪贴板",
         "userExclusions": "用户排除：",
-        "excludedFileInfo__i": "[${index}/${total}]: ${filename}\n Excluded by \"${exceptionKey}\"",
+        "excludedFileInfo__i": "[${index}/${total}]: ${filename}\n 不包括 \"${exceptionKey}\"",
         "removingControllers__i": "删除解析器控制器模板：${configTitle}",
         "fetchingControllerTemplates": "获取控制器模板"
       },
       "error": {
-        "missingAccounts__i": "以下 ${count} 个用户账户未找到（用户必须至少登录一次 Steam）：",
+        "missingAccounts__i": "以下 ${count} 个用户账户未找到(用户必须至少登录一次 Steam)：",
         "missingAccountInfo__i": "  ${name}",
-        "noAccountsWarning": "Warning! No user accounts found, it could be due to one of the reasons below:\r\n - incorrect Steam directory;\r\n - no user has ever logged in;\r\n - Steam does not save user credentials.\r\nIf you're seeing this, Add Games will skip this configuration.",
-        "cannotParseUserIDs": "解析用户帐户时出错：",
+        "noAccountsWarning": "警告！未找到用户帐户，可能是由于以下原因之一：\n- Steam 目录不正确；\n- 没有任何用户登录过；\n- Steam 没有保存用户凭据\n如果您看到此消息，添加游戏将跳过此配置",
+        "cannotParseUserIDs": "解析用户账户时出错：",
         "failedToMatch": "匹配失败：",
         "failedFileInfo__i": "[${index}/${total}]: ${filename}",
         "testFailed": "测试失败",
@@ -443,13 +443,13 @@
         "cannotRemoveControllers": "无法从无效的 Steam 目录中删除控制器！"
       },
       "success": {
-        "foundAccounts__i": "发现 ${count} 个可用的用户账户：",
+        "foundAccounts__i": "发现 ${count} 个可用的用户账户(多个)：",
         "foundAccountInfo__i": "  ${name} (steamID64: ${steamID64}, accountID: ${accountID})",
-        "steamCategories__i": "[${index}/${total}]:     Steam categories - ${steamCategories}",
+        "steamCategories__i": "[${index}/${total}]:     Steam 分类 - ${steamCategories}",
         "steamCategoriesInfo__i": "[${index}/${total}]:                        ${steamCategories}",
         "exceptionKey__i": "[${index}/${total}]:         异常 ID - ${appid}",
-        "appId__i": "",
-        "shortAppId__i": "",
+        "appId__i": "[${index}/${total}]:        Legacy App ID - ${appid}",
+        "shortAppId__i": "[${index}/${total}]:               App ID - ${appid}",
         "extractedTitle__i": "[${index}/${total}]:      提取标题 - ${title}",
         "fuzzyTitle__i": "[${index}/${total}]:          模糊标题 - ${title}",
         "finalTitle__i": "[${index}/${total}]:          最终标题 - ${title}",
@@ -469,13 +469,13 @@
       "label": {
         "parserType": "解析器类型",
         "configTitle": "配置标题",
-        "steamCategories": "Steam collections",
+        "steamCategories": "Steam收藏",
         "executableModifier": "可执行修饰符",
         "executableLocation": "可执行文件",
         "romDirectory": "ROM 目录",
         "steamDirectory": "Steam 目录",
         "startInDirectory": "\"Start In\" 目录",
-        "userAccounts": "用户帐户",
+        "userAccounts": "用户账户",
         "titleFromVariable": "自定义变量的标题",
         "titleModifier": "标题修饰词",
         "fuzzyMatch": "模糊匹配",
@@ -483,14 +483,14 @@
         "onlineImageQueries": "在线图像查询",
         "imagePool": "图像库",
         "imageProviders": "图像提供方",
-        "defaultImage__i": "",
-        "localImages__i": ""
+        "defaultImage__i": "反馈",
+        "localImages__i": "Local ${artworkType} glob"
       },
       "placeholder": {
         "parserType": "选择解析器...",
-        "configTitle": "",
+        "configTitle": "我很棒的解析器",
         "steamDirectory": "${steamdirglobal} 或 /path/to/steam",
-        "userAccounts": "",
+        "userAccounts": "${steamuser1}${steamuser2} 或 ${${accountsglobal}}",
         "titleFromVariable": "${variableGroup1}${variableGroup2}",
         "titleModifier": "${fuzzyTitle} 或 ${title}",
         "defaultImage__i": "/path/to/fallback_${artworkType}.png",
@@ -507,7 +507,7 @@
       "text": {
         "skipFileIfVariableWasNotFound": "如果未找到变量，则跳过文件。",
         "caseInsensitiveVariables": "不区分大小写的变量",
-        "shortcut_passthrough": "跟随 .lnk 或 .desktop 到目标（仅适用于 Windows 和 Linux）",
+        "shortcut_passthrough": "跟随 .lnk 或 .desktop 到目标(仅适用于 Windows 和 Linux)",
         "fuzzy_use": "使用模糊匹配",
         "fuzzy_removeCharacters": "积极匹配",
         "fuzzy_removeBrackets": "删除 (...) 和 [...] 括号",
@@ -526,26 +526,26 @@
         "savingConfiguration": "保存用户配置时遇到错误！",
         "readingConfiguration": "读取用户配置时遇到错误！",
         "parserTypeMissing": "未指定解析器类型，无法保存",
-        "corruptedConfiguration__i": "一个或多个保存的解析器配置无效！\n在此问题得到解决之前，永久配置保存被禁用。\n尝试手动修复错误（文件 - ${file}）\n或在我们的官方 Discord 频道上寻求帮助：${error}。",
+        "corruptedConfiguration__i": "一个或多个保存的解析器配置无效！\n在此问题得到解决之前，永久配置保存被禁用。\n尝试手动修复错误(文件 - ${file})\n或在我们的官方 Discord 频道上寻求帮助：${error}。",
         "fetcingTemplates": "获取控制器模板时遇到错误！"
       },
       "validationErrors": {
         "parserType__md": "> 解析器类型不正确！",
-        "configTitle__md": "> Configuration title field is required!",
-        "parserId__md": "> 解析器 ID 丢失，出现了严重的问题。",
+        "configTitle__md": "> 必须配置标题字段！",
+        "parserId__md": ">解析器 ID 丢失，出现了严重的问题。",
         "parserInput": {
           "noInput": "没有可用的输入！",
           "inputNotAvailable__i": "${name}\" 输入不可用！",
           "incorrectParser": "错误的解析器！"
         },
         "romDir__md": "> ROM目录无效！",
-        "userAccounts__md": "> User accounts field is required!",
+        "userAccounts__md": "> 用户帐户字段是必填的 ！",
         "steamDir__md": "> Steam 目录无效！",
         "startInDir__md": "> \"Start In\" 目录无效！",
         "executable__md": "> 可执行文件无效！",
         "imagePool__md": "> 图片池不能为空！",
         "defaultImage__md": "> 默认图像路径无效！",
-        "titleModifier__md": "> Title modifier field is required!",
+        "titleModifier__md": "> 标题修改器字段是必需的 ！",
         "executableModifier__md": "> 可执行文件修饰符不能为空！",
         "variableString__md": "> `${` and `}` 的数量不匹配。如果您想将它们用作字符，请使用 `\\` 转义 `${` or `}`。",
         "imageProviders__md": "> 图像提供者类型不正确！",
@@ -608,13 +608,13 @@
       "skippingDMCA__i": "跳过 DMCA 受限制的图片 ${title}",
       "corruptedVdf__i": "\"${filePath}\" 已损坏。\n ${error}",
       "creatingBackup__i": "无法为 \"${filePath}\" 创建备份。\n ${error}",
-      "unsupportedMimeType__i": "Mime类型（${type}）不受支持（标题 - \"${title}\"）。",
-      "imageError__i": "在保存/下载 \"${title}\" 的图片时发生错误。URL: ${url}。${error}\n ${error}"
+      "unsupportedMimeType__i": "Mime类型${type}不受支持(标题 - \"${title}\")",
+      "imageError__i": "在保存/下载 \"${title}\" 的图片时发生错误。URL: ${url} \n ${error}"
     }
   },
   "helpers": {
     "error": {
-      "noUserIdsInDir__i": "${steamDirectory}\" 不包含用户 ID。"
+      "noUserIdsInDir__i": "“${steamDirectory}\" 不包含用户 Id。"
     }
   }
 }
