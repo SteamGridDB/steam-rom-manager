@@ -26,4 +26,4 @@ You can also limit accounts by specifying their ids directly. For example:
 ${56489124}${21987424}
 ```
 
-Would limit the search to `steam/userdata/56489124` and `steam/userdata/21987424`.
+搜索将限制为 `steam/userdata/56489124` 和 `steam/userdata/21987424` 。
