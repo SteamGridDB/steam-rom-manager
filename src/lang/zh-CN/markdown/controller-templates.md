@@ -17,7 +17,7 @@
 
 目前，SRM 会拉取每个控制器的所有默认 (由 Valve 制作) 模板以及所有以 `(SRM)` 结尾的用户定义模板。
 
-* 选择您的模板并保存解析器。 The controller configsets will be applied once you hit `Save to Steam` in the Add Games.
+* 选择您的模板并保存解析器。 一旦您在添加游戏中点击 `保存到steam`，控制器配置集将被应用。
 
 * 要取消控制器配置，您可以从全局设置中 `删除所有已添加的应用程序条目` (这将删除 SRM 对您的 Steam 数据所做的所有更改)，或在解析器中点击 `取消所有控制器` (这仅会删除指定用户和 Steam 目录下的控制器设置)。
 
