@@ -7,14 +7,14 @@
 
 `提取的标题`字段有两种匹配方式：
 
-* Based on the `Exception ID` (found by running test parser). Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. 如果`异常 ID`存在，那么放在它前面的标签不重要，但为了可读性和搜索性，在`异常 ID`前面加上游戏的实际名称是很好的。 Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. 如果`异常 ID`存在，那么放在它前面的标签不重要，但为了可读性和搜索性，在`异常 ID`前面加上游戏的实际名称是很好的。 Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. 如果`异常 ID`存在，那么放在它前面的标签不重要，但为了可读性和搜索性，在`异常 ID`前面加上游戏的实际名称是很好的。
-* Based on the `Extracted Title` (found by running test parser). 例如，如果`提取的标题`是 `Portal 2`，您应该输入 `Portal 2`。 例如，如果`提取的标题`是 `Portal 2`，您应该输入 `Portal 2`。
+* 基于 `异常 ID` (通过运行测试解析器找到)。 Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. 如果`异常 ID`存在，那么放在它前面的标签不重要，但为了可读性和搜索性，在`异常 ID`前面加上游戏的实际名称是很好的。 Based on the `Exception ID` (found by running test parser). 例如，如果游戏是 `Portal 1`，它的`异常 ID`是 `12345`，那么您可以输入 `Portal 1 ${id:12345}`. 如果`异常 ID`存在，那么放在它前面的标签不重要，但为了可读性和搜索性，在`异常 ID`前面加上游戏的实际名称是很好的。
+* 基于 `提取的标题` (通过运行测试解析器找到)。 例如，如果`提取的标题`是 `Portal 2`，您应该输入 `Portal 2`。
 
 因此，您可以选择适用于所有具有相同名称的游戏的异常或仅适用于确切游戏的异常(`异常 ID`是唯一的)。 这是因为主要考虑向后兼容性 -- SRM 以前仅匹配`提取的标题`。
 
-Exceptions generated from `Add Games` will always be in the form `Extracted Title ${id:XXXXXX}`.
+由`添加游戏`生成的异常将始终采用以下形式：`提取的标题 ${id:XXXXXX}`。
 
-## 新的显示标题
+## 新显示标题
 
 这是在 Steam 中显示的标题。 它不会被用来搜索图片。
 
@@ -35,7 +35,7 @@ Exceptions generated from `Add Games` will always be in the form `Extracted Titl
 
 ## 仅限本地艺术作品
 
-不要从远程提供程序(例如 [steamgriddb](https://www.steamgriddb.com) )获取艺术作品。 当 SGDB 错误地匹配游戏或您不喜欢可用的任何艺术作品时，此功能非常有用。
+不要从远程提供程序(例如 [steamgriddb](https://www.steamgriddb.com))获取艺术作品。 当 SGDB 错误地匹配游戏或您不喜欢可用的任何艺术作品时，此功能非常有用。
 
 ## 自定义变量
 覆盖特定标题的任务也可以通过手动编辑自定义变量 JSON 文件并在`标题修改器`解析器字段中使用适当的变量来完成。 然而，建议您使用此工具，因为自定义变量 JSON 文件将随时间更新，并且您的编辑可能会被覆盖。
