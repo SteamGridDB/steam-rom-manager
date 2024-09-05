@@ -1,7 +1,7 @@
 # Title from custom variable (optional)
 Allows one to overwrite the extracted title with a custom variable, pulled from the `json` files described below. This happens right after title extraction, meaning that the new title can be used for fuzzy matching and so on. 群组和变量本身是**区分大小写**的，除非启用了不区分大小写的变量选项。
 
-Title matching is limited to specific groups of custom variables. For example, this is how you specify groups "FBN" and "PSN":
+Title matching is limited to specific groups of custom variables. 例如，这是您指定的组 "FBN" 和 "PSN"的方式：
 ```
 ${RPCS3}${PSN}
 ```
