@@ -21,6 +21,4 @@
 
 * 要取消控制器配置，您可以从全局设置中 `删除所有已添加的应用程序条目` (这将删除 SRM 对您的 Steam 数据所做的所有更改)，或在解析器中点击 `取消所有控制器` (这仅会删除指定用户和 Steam 目录下的控制器设置)。
 
-Once this is done you can parse and add games to steam as usual, and the templates will be applied to all the titles in the parser.
-
 
