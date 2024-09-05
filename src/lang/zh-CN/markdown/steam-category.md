@@ -1,6 +1,6 @@
-# Steam category (optional)`{.noWrap}
+# Steam类别(可选){.noWrap}
 
-Hit the little plus sign to add your first category.
+点击小加号来添加您的第一个类别。
 
 这是 “WII” 类别在 Steam 中的样子：
 
