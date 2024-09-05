@@ -1,51 +1,51 @@
 ## 常规设置
-### Check for updates on start `[Recommend enabled]`
-Check if an update for SRM is available and prompt to update each time SRM launches.
-### Auto kill Steam `[Recommend enabled]`
-SRM will attempt to kill all running instances of Steam whenever it needs to read/write collections information (specifically when saving to steam from `Add Games` and when removing all games from `Settings`).
-### Auto restart Steam `[Recommend enabled]`
-SRM will attempt to restart Steam after killing it and completing whatever collections related task required killing Steam in the first place. Requires `Auto kill Steam` to be enabled.
+### 在启动时检查更新 `[推荐启用]`
+检查是否有 SRM 的更新，并提示在每次SRM 启动时更新。
+### 自动杀死Steam `[推荐启用]`
+当Steam需要阅读/写入收藏信息时，SRM会尝试杀死所有运行中的 Steam 实例(特别是当从 `添加游戏` 时，以及当从 `设置` 中移除所有游戏时)。
+### 自动重启Steam `[推荐启用]`
+SRM 将在杀死 Steam 并完成首先需要杀死 Steam 的任何与收藏相关的任务后尝试重新启动 Steam。 需要 `自动杀死Steam` 来启用。
 ### 离线模式 `[建议禁用]`
 启用 SRM 后不会进行任何网络请求，如果您只想使用 SRM 本地图片，则非常有用。
 ### 在测试解析器之前自动清除日志`[建议启用]`
 当启用时，每次测试解析器时日志都会被清除。
-## Add Games
+## 添加游戏
 ### 默认显示当前的 Steam 图片`[建议启用]`
 启用此设置后，SRM 将默认使用 Steam 中当前给定应用程序的艺术作品。 如果禁用了，那么每次运行（和保存）SRM 时所有艺术作品都将被重置。
 ### 删除已禁用的解析器快捷方式`[建议禁用]`
 启用禁用解析器并运行 SRM 将删除所有已添加的禁用解析器的条目和艺术作品。 如果您希望 Steam 库与启用的解析器一一对应，则此功能非常有用。
-### Disable saving of steam categories `[Recommend disabled]`
-SRM will not write any collections information when saving to Steam. This allows SRM to perform its tasks while Steam is still running, at the obvious cost that added games will not be categorized.
-### Hide Steam username from Add Games
-Steam does not allow user's to alter their Steam usernames. In some cases (childish names, dead names, etc), users may no longer wish to see their Steam usernames. This setting hides it from `Add Games`.
-### Remove all added games and controllers
-Undo all SRM added changes from Steam.
-### Remove all controllers only
-Undo all SRM added controller settings from Steam.
+### 禁用Steam类别保存 `[推荐禁用]`
+保存到 Steam 时，SRM 将不会写入任何收藏信息。 这使SRM能够在Steam仍在运行时执行其任务，明显的代价是，添加的游戏不会被分类。
+### 在添加游戏中隐藏Steam用户名
+Steam不允许用户更改Steam用户名。 在某些情况下(儿童的名字、逝者的名字等)，用户可能不希望看到他们的Steam用户名。 此项设置从 `添加游戏`中隐藏它
+### 移除所有已添加的游戏和控制器
+撤销所有从 Steam 添加的更改
+### 仅移除所有控制器
+从Steam中撤销所有添加的控制器设置
 ## 模糊匹配器设置
 ### 日志匹配结果 `[推荐禁用]`
 启用后，模糊标题匹配器在`事件日志`中会显示更详细的日志。 用于调试不正确的模糊匹配。
 ### 重置模糊列表
 将用于模糊匹配的标题存储列表重置为由 `SteamGridDB` 返回的标题列表（删除任何用户添加的标题）。
 ### 重置模糊缓存
-清除模糊匹配已经看到的标题缓存（如果您对模糊列表所做的更改没有导致 SRM 中标题的更改，请尝试此操作）。
+清除模糊匹配已经看到的标题缓存(如果您对模糊列表所做的更改没有导致 SRM 中标题的更改，请尝试此操作)。
 ## 图像提供程序设置
-### Artwork loading strategy `[Recommend Load artwork lazily]`
-This is the strategy SRM uses to pull artwork thumbnails for the `Add Games` UI. If you are parsing a lot of games, `Load artwork lazily` is recommended. `Preload first artwork` will try to pull the first piece of artwork for each game in each artwork category, and `Preload all artwork` will try to pull all available artwork for each game in each artwork category. `Preload all artwork` will cause network and performance issues unless the number of games is quite small (less than `30` or so).
+### Artwork加载战略 `[推荐懒加载Artwork]`
+这是SRM用于拉取 `添加游戏` UI 的艺术创作缩略图的策略。 如果您正在解析大量游戏，建议 `懒加载SRM`。 `预加载第一个Artwork` 会试图在每个Artwork类别中拉取每个游戏的第一个Artwork, `预加载所有Artwork` 会尝试在每个艺术作品类别中为每个游戏拉取所有可用的Artwork `预加载所有Artwork` 将导致网络和性能问题，除非游戏数量相当小(小于 `30` 或以上)。
 ### 启用的提供程序
-Global setting to enable/disable particular image providers. Current options are `SteamGridDB` and `Steam Official`.
-### DNS manual override
-Set this if you want SRM to do DNS resolution internally, as opposed to relying on your system's default DNS server. This solves many timeout issues on the Steam Deck.
-### Batch size for image downloads
-Number of images SRM will attempt to download at once when saving to Steam. May help to lower this if you are receiving timeout errors from SGDB.
-### Nuke artwork choice cache
-SRM attempts to remember your artwork choices, this button forcibly forgets all of them.
-### Nuke local artwork backups
-This deletes all artwork backups created for parsers with `Backup artwork locally` enabled.
+全局设定启用/禁用特定图像提供者 当前设置是`SteamGridDB`和`Steam官方`
+### DNS 手册覆盖
+如果您希望SRM在内部执行DNS解析，而不是依赖您系统的默认DNS服务器，请设置此项。 这解决了Steam Deck上的许多超时问题。
+### 图像下载批量大小
+保存到 Steam 时 SRM 尝试同时下载图像数 如果您正在从 SGDB 接收超时错误，可能会帮助降低这一点。
+### 销毁Artwork选择缓存
+SRM 试图记住您的Artwork选择，这个按钮强行忘记所有的选择。
+### 销毁本地Artwork备份
+此操作将删除为已启用的 `备份本地的Artwork` 解析器创建的所有Artwork备份。
 ## 社区变量和预设
 ### 强制下载自定义变量。
 重置用于某些预设的自定义变量 JSON 文件，使其与 SRM GitHub 上当前状态相同。 如果自定义变量的 JSON 文件已损坏，则此工具非常有用。
 ### 强制下载自定义预设。
 将解析器预设的 JSON 文件重置为 SRM Github 上的内容。 如果您的预设列表没有自动更新或已损坏，则此工具非常有用。
-### Force download shell scripts
-Re fetches the shell scripts SRM uses to perform certain tasks.
+### 强制下载 shell 脚本
+再次获取SRM 用于执行某些任务的 shell 脚本
