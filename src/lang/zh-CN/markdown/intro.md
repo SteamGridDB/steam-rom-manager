@@ -1,6 +1,6 @@
 # 欢迎使用解析器配置！
 
-配置解析器可能一开始看起来很吓人，但其实比你想象的要容易。 如果您迷失了，请单击选项标签附近的<span class="infoIcon" style="top: 0.15em;"></span>，以查看可能对您有用的相关信息。
+配置解析器可能一开始看起来很吓人，但其实比你想象的要容易。 如果您迷失了，请单击选项标签附近的<span class="infoIcon" style="top: 0.15em;"> </span>，以查看可能对您有用的相关信息。
 
 此外，请不要忘记查看常见问题解答。 如果您仍然有关于设置配置的问题，请访问我们在 [Steam](http://steamcommunity.com/groups/steamrommanager) 的官方 SRM 群组或我们的官方 [Discord](https://discord.gg/bnSVJrz) 群组。
 
