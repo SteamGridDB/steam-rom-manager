@@ -44,7 +44,7 @@ Se você gosta do Gerente de ROM Steam e quer que ele continue sendo útil, tamb
 * .
 * `Apalatn`{.noWrap} - Adicionada uma opção de redirecionamento de unidade de instalação ao analisador itch.io.
 * portuguese
-* `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
+*
 * `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
 
 ### Comunidade
