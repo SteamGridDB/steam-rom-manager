@@ -1,7 +1,173 @@
 {
-	"Nintendo GameBoy Color - mGBA(Flatpak)": {
+	"Nintendo Game Boy - ares": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Color - mGBA(Flatpak)",
+		"configTitle": "Nintendo Game Boy - ares",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "--fullscreen --system \"Game Boy\" \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "path-to-ares.exe",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			"Game Boy"
+		]
+	},
+	"Nintendo Game Boy - ares(Flatpak)": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Game Boy - ares(Flatpak)",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "run dev.ares.ares --fullscreen --system \"Game Boy\" \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "/usr/bin/flatpak",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			"Game Boy"
+		]
+	},
+	"Nintendo Game Boy - mGBA(Flatpak)": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Game Boy - mGBA(Flatpak)",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -20,7 +186,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gbc|.GBC|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -79,12 +245,12 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy Color"
+			"Game Boy"
 		]
 	},
-	"Nintendo GameBoy Color - Retroarch - Gambatte": {
+	"Nintendo Game Boy - Retroarch - Gambatte": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Color - Retroarch - Gambatte",
+		"configTitle": "Nintendo Game Boy - Retroarch - Gambatte",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -103,7 +269,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.dmg|.DMG|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -162,12 +328,12 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy Color"
+			"Game Boy"
 		]
 	},
-	"Nintendo GameBoy Color - Retroarch(Flatpak) - Gambatte": {
+	"Nintendo Game Boy - Retroarch(Flatpak) - Gambatte": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Color - Retroarch(Flatpak) - Gambatte",
+		"configTitle": "Nintendo Game Boy - Retroarch(Flatpak) - Gambatte",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -186,7 +352,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.dmg|.DMG|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -245,12 +411,12 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy Color"
+			"Game Boy"
 		]
 	},
-	"Nintendo GameBoy Color - Retroarch - Gearboy": {
+	"Nintendo Game Boy - Retroarch - Gearboy": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Color - Retroarch - Gearboy",
+		"configTitle": "Nintendo Game Boy - Retroarch - Gearboy",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -269,7 +435,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.dmg|.DMG|.sgb|.SGB|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.dmg|.DMG|.sgb|.SGB|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -328,12 +494,12 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy Color"
+			"Game Boy"
 		]
 	},
-	"Nintendo GameBoy Color - Retroarch(Flatpak) - Gearboy": {
+	"Nintendo Game Boy - Retroarch(Flatpak) - Gearboy": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Color - Retroarch(Flatpak) - Gearboy",
+		"configTitle": "Nintendo Game Boy - Retroarch(Flatpak) - Gearboy",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -352,7 +518,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.dmg|.DMG|.sgb|.SGB|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.dmg|.DMG|.sgb|.SGB|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -411,12 +577,12 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy Color"
+			"Game Boy"
 		]
 	},
-	"Nintendo GameBoy Color - Retroarch - Mesen-S": {
+	"Nintendo Game Boy - Retroarch - Mesen-S": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Color - Retroarch - Mesen-S",
+		"configTitle": "Nintendo Game Boy - Retroarch - Mesen-S",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -435,7 +601,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -494,12 +660,12 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy Color"
+			"Game Boy"
 		]
 	},
-	"Nintendo GameBoy Color - Retroarch(Flatpak) - Mesen-S": {
+	"Nintendo Game Boy - Retroarch(Flatpak) - Mesen-S": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Color - Retroarch(Flatpak) - Mesen-S",
+		"configTitle": "Nintendo Game Boy - Retroarch(Flatpak) - Mesen-S",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -518,7 +684,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -577,12 +743,12 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy Color"
+			"Game Boy"
 		]
 	},
-	"Nintendo GameBoy Color - Retroarch - mGBA": {
+	"Nintendo Game Boy - Retroarch - mGBA": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Color - Retroarch - mGBA",
+		"configTitle": "Nintendo Game Boy - Retroarch - mGBA",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -601,7 +767,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -660,12 +826,12 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy Color"
+			"Game Boy"
 		]
 	},
-	"Nintendo GameBoy Color - Retroarch(Flatpak) - mGBA": {
+	"Nintendo Game Boy - Retroarch(Flatpak) - mGBA": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Color - Retroarch(Flatpak) - mGBA",
+		"configTitle": "Nintendo Game Boy - Retroarch(Flatpak) - mGBA",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -684,7 +850,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -743,12 +909,12 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy Color"
+			"Game Boy"
 		]
 	},
-	"Nintendo GameBoy Color - Retroarch - SameBoy": {
+	"Nintendo Game Boy - Retroarch - SameBoy": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Color - Retroarch - SameBoy",
+		"configTitle": "Nintendo Game Boy - Retroarch - SameBoy",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -767,7 +933,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -826,12 +992,12 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy Color"
+			"Game Boy"
 		]
 	},
-	"Nintendo GameBoy Color - Retroarch(Flatpak) - SameBoy": {
+	"Nintendo Game Boy - Retroarch(Flatpak) - SameBoy": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Color - Retroarch(Flatpak) - SameBoy",
+		"configTitle": "Nintendo Game Boy - Retroarch(Flatpak) - SameBoy",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -850,7 +1016,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -909,12 +1075,12 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy Color"
+			"Game Boy"
 		]
 	},
-	"Nintendo GameBoy Color - Retroarch - TGB Dual": {
+	"Nintendo Game Boy - Retroarch - TGB Dual": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Color - Retroarch - TGB Dual",
+		"configTitle": "Nintendo Game Boy - Retroarch - TGB Dual",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -933,7 +1099,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.sgb|.SGB|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.sgb|.SGB|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -992,12 +1158,12 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy Color"
+			"Game Boy"
 		]
 	},
-	"Nintendo GameBoy Color - Retroarch(Flatpak) - TGB Dual": {
+	"Nintendo Game Boy - Retroarch(Flatpak) - TGB Dual": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy Color - Retroarch(Flatpak) - TGB Dual",
+		"configTitle": "Nintendo Game Boy - Retroarch(Flatpak) - TGB Dual",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -1016,7 +1182,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.sgb|.SGB|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gb|.GB|.sgb|.SGB|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -1075,7 +1241,7 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy Color"
+			"Game Boy"
 		]
 	}
 }
