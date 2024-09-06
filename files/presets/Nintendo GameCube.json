@@ -79,7 +79,7 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"Gamecube"
+			"GameCube"
 		]
 	},
 	"Nintendo GameCube - Dolphin(Flatpak)": {
@@ -162,7 +162,7 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"Gamecube"
+			"GameCube"
 		]
 	},
 	"Nintendo GameCube - Retroarch - Dolphin": {
@@ -245,7 +245,7 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"Gamecube"
+			"GameCube"
 		]
 	},
 	"Nintendo GameCube - Retroarch(Flatpak) - Dolphin": {
@@ -328,7 +328,7 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"Gamecube"
+			"GameCube"
 		]
 	}
 }

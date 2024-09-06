@@ -1,7 +1,173 @@
 {
-	"Nintendo GameBoy - mGBA(Flatpak)": {
+	"Nintendo Game Boy Advance - ares": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy - mGBA(Flatpak)",
+		"configTitle": "Nintendo Game Boy Advance - ares",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "--fullscreen --system \"Game Boy Advance\" \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}@(.7z|.7Z|.gba|.GBA|.zip|.ZIP)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "path-to-ares.exe",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			"Game Boy Advance"
+		]
+	},
+	"Nintendo Game Boy Advance - ares(Flatpak)": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Game Boy Advance - ares(Flatpak)",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "run dev.ares.ares --fullscreen --system \"Game Boy Advance\" \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}@(.7z|.7Z|.gba|.GBA|.zip|.ZIP)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "/usr/bin/flatpak",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			"Game Boy Advance"
+		]
+	},
+	"Nintendo Game Boy Advance - mGBA(Flatpak)": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Game Boy Advance - mGBA(Flatpak)",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -20,7 +186,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gba|.GBA|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -79,18 +245,18 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy"
+			"Game Boy Advance"
 		]
 	},
-	"Nintendo GameBoy - Retroarch - Gambatte": {
+	"Nintendo Game Boy Advance - Retroarch - Beetle GBA": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy - Retroarch - Gambatte",
+		"configTitle": "Nintendo Game Boy Advance - Retroarch - Beetle GBA",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}gambatte_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mednafen_gba_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -103,7 +269,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.dmg|.DMG|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.agb|.AGB|.bin|.BIN|.gba|.GBA|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -162,18 +328,18 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy"
+			"Game Boy Advance"
 		]
 	},
-	"Nintendo GameBoy - Retroarch(Flatpak) - Gambatte": {
+	"Nintendo Game Boy Advance - Retroarch(Flatpak) - Beetle GBA": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - Gambatte",
+		"configTitle": "Nintendo Game Boy Advance - Retroarch(Flatpak) - Beetle GBA",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}gambatte_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mednafen_gba_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -186,7 +352,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.dmg|.DMG|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.agb|.AGB|.bin|.BIN|.gba|.GBA|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -245,18 +411,18 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy"
+			"Game Boy Advance"
 		]
 	},
-	"Nintendo GameBoy - Retroarch - Gearboy": {
+	"Nintendo Game Boy Advance - Retroarch - Meteor": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy - Retroarch - Gearboy",
+		"configTitle": "Nintendo Game Boy Advance - Retroarch - Meteor",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}gearboy_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}meteor_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -269,7 +435,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.dmg|.DMG|.sgb|.SGB|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gba|.GBA|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -328,18 +494,18 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy"
+			"Game Boy Advance"
 		]
 	},
-	"Nintendo GameBoy - Retroarch(Flatpak) - Gearboy": {
+	"Nintendo Game Boy Advance - Retroarch(Flatpak) - Meteor": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - Gearboy",
+		"configTitle": "Nintendo Game Boy Advance - Retroarch(Flatpak) - Meteor",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}gearboy_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}meteor_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -352,7 +518,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.dmg|.DMG|.sgb|.SGB|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gba|.GBA|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -411,18 +577,18 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy"
+			"Game Boy Advance"
 		]
 	},
-	"Nintendo GameBoy - Retroarch - Mesen-S": {
+	"Nintendo Game Boy Advance - Retroarch - VBA Next": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy - Retroarch - Mesen-S",
+		"configTitle": "Nintendo Game Boy Advance - Retroarch - VBA Next",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mesen-s_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}vba_next_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -435,7 +601,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gba|.GBA|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -494,18 +660,18 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy"
+			"Game Boy Advance"
 		]
 	},
-	"Nintendo GameBoy - Retroarch(Flatpak) - Mesen-S": {
+	"Nintendo Game Boy Advance - Retroarch(Flatpak) - VBA Next": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - Mesen-S",
+		"configTitle": "Nintendo Game Boy Advance - Retroarch(Flatpak) - VBA Next",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mesen-s_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}vba_next_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
 		"onlineImageQueries": "${${fuzzyTitle}}",
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
@@ -518,7 +684,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gba|.GBA|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -577,12 +743,344 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy"
+			"Game Boy Advance"
 		]
 	},
-	"Nintendo GameBoy - Retroarch - mGBA": {
+	"Nintendo Game Boy Advance - Retroarch - VBA-M": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy - Retroarch - mGBA",
+		"configTitle": "Nintendo Game Boy Advance - Retroarch - VBA-M",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}vbam_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}@(.7z|.7Z|.gba|.GBA|.zip|.ZIP)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "${retroarchpath}",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			"Game Boy Advance"
+		]
+	},
+	"Nintendo Game Boy Advance - Retroarch(Flatpak) - VBA-M": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Game Boy Advance - Retroarch(Flatpak) - VBA-M",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}vbam_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}@(.7z|.7Z|.gba|.GBA|.zip|.ZIP)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "/usr/bin/flatpak",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			"Game Boy Advance"
+		]
+	},
+	"Nintendo Game Boy Advance - Retroarch - gpSP": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Game Boy Advance - Retroarch - gpSP",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}gpsp_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.gba|.GBA|.zip|.ZIP)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "${retroarchpath}",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			"GameB oy Advance"
+		]
+	},
+	"Nintendo Game Boy Advance - Retroarch(Flatpak) - gpSP": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Game Boy Advance - Retroarch(Flatpak) - gpSP",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}gpsp_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+		"onlineImageQueries": "${${fuzzyTitle}}",
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.gba|.GBA|.zip|.ZIP)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "/usr/bin/flatpak",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			"GameBoy Advance"
+		]
+	},
+	"Nintendo Game Boy Advance - Retroarch - mGBA": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Game Boy Advance - Retroarch - mGBA",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -601,7 +1099,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gba|.GBA|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -660,12 +1158,12 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy"
+			"Game Boy Advance"
 		]
 	},
-	"Nintendo GameBoy - Retroarch(Flatpak) - mGBA": {
+	"Nintendo Game Boy Advance - Retroarch(Flatpak) - mGBA": {
 		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - mGBA",
+		"configTitle": "Nintendo Game Boy Advance - Retroarch(Flatpak) - mGBA",
 		"executableModifier": "\"${exePath}\"",
 		"romDirectory": "path-to-roms",
 		"steamDirectory": "${steamdirglobal}",
@@ -684,7 +1182,7 @@
 			]
 		},
 		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
+			"glob": "${title}@(.7z|.7Z|.gba|.GBA|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
 			"limitToGroups": "",
@@ -743,339 +1241,7 @@
 		"steamInputEnabled": "1",
 		"drmProtect": false,
 		"steamCategories": [
-			"GameBoy"
-		]
-	},
-	"Nintendo GameBoy - Retroarch - SameBoy": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy - Retroarch - SameBoy",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}sameboy_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"limitToGroups": "",
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "${retroarchpath}",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 17,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"GameBoy"
-		]
-	},
-	"Nintendo GameBoy - Retroarch(Flatpak) - SameBoy": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - SameBoy",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}sameboy_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"limitToGroups": "",
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 17,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"GameBoy"
-		]
-	},
-	"Nintendo GameBoy - Retroarch - TGB Dual": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy - Retroarch - TGB Dual",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}tgbdual_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.sgb|.SGB|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"limitToGroups": "",
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "${retroarchpath}",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 17,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"GameBoy"
-		]
-	},
-	"Nintendo GameBoy - Retroarch(Flatpak) - TGB Dual": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - TGB Dual",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}tgbdual_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.gb|.GB|.sgb|.SGB|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"limitToGroups": "",
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 17,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"GameBoy"
+			"Game Boy Advance"
 		]
 	}
 }
