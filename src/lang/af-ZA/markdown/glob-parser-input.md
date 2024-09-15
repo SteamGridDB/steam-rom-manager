@@ -1,4 +1,4 @@
-# Glob Parser Specific Inputs
+# Glob Parser specific inputs
 
 ## User's glob
 
