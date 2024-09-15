@@ -1,4 +1,4 @@
-# User accounts (Required)
+# User accounts (Optional)
 
 This field is used to limit SRM's effects to specific user accounts. It can be set to `Global` or over ridden per parser.
 
