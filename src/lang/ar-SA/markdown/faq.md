@@ -34,7 +34,7 @@ Using similar logic we can produce glob for **File3**:
 
 ## How to deal with multi-leveled directories?
 
-This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now?
+This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while **File5** has `2`. What now?
 
 Now we can use a globstar and that's it!
 ```
