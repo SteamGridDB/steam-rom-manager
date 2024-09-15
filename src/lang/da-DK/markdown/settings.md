@@ -14,7 +14,7 @@ When enabled the log is cleared each time a parser is tested.
 When enabled this setting tells SRM to default to whatever artwork is currently in steam for a given app. If it is disabled, then every time SRM is run (and saved) all artwork will be reset.
 ### Remove shortcuts for disabled parsers `[Recommend disabled]`
 When enabled disabling a parser and running SRM will remove all added entries and artwork for the disabled parser. Useful if you want your steam library to be in 1-1 correspondence with enabled parsers.
-### Disable saving of steam categories `[Recommend disabled]`
+### Preload retrieved images `[Recommend disabled]`
 SRM will not write any collections information when saving to Steam. This allows SRM to perform its tasks while Steam is still running, at the obvious cost that added games will not be categorized.
 ### Hide Steam username from Add Games
 Steam does not allow user's to alter their Steam usernames. In some cases (childish names, dead names, etc), users may no longer wish to see their Steam usernames. This setting hides it from `Add Games`.
