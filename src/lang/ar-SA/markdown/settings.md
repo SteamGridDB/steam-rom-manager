@@ -30,10 +30,10 @@ Resets the stored list of titles used for fuzzy matching to the list of titles r
 ### Reset fuzzy cache
 Clears the cache of titles that fuzzy matching has already seen (try this if changes you make to fuzzy list are not resulting in changes to titles in SRM).
 ## Image provider settings
-### Artwork loading strategy `[Recommend Load artwork lazily]`
+### Preload retrieved images `[Recommend disabled]`
 This is the strategy SRM uses to pull artwork thumbnails for the `Add Games` UI. If you are parsing a lot of games, `Load artwork lazily` is recommended. `Preload first artwork` will try to pull the first piece of artwork for each game in each artwork category, and `Preload all artwork` will try to pull all available artwork for each game in each artwork category. `Preload all artwork` will cause network and performance issues unless the number of games is quite small (less than `30` or so).
 ### Enabled providers
-Global setting to enable/disable particular image providers. Current options are `SteamGridDB` and `Steam Official`.
+Global setting to disable certain providers. Currently the only image provider is `SteamGridDB` since ConsoleGrid and RetroGaming.cloud are defunct.
 ### DNS manual override
 Set this if you want SRM to do DNS resolution internally, as opposed to relying on your system's default DNS server. This solves many timeout issues on the Steam Deck.
 ### Batch size for image downloads
