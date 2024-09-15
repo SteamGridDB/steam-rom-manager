@@ -1,4 +1,4 @@
-# Steam Parser Specific Inputs
+# Steam Parser specific inputs
 
 ## Find artwork for games only
 If enabled SRM will filter out any Steam applications that are not full games, such as demos and tools like `3DMark` or `Wallpaper Engine`.
