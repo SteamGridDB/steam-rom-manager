@@ -1,56 +1,80 @@
 <choose-accounts
   [showChooseAccounts]="chooseUserAccountsVisible"
   [steamDirectory]="appSettings.environmentVariables.steamDirectory"
-  (showAccounts)="chooseUserAccountsVisible=$event"
-  (accountsJoined)="setUserAccounts($event)">
+  (showAccounts)="chooseUserAccountsVisible = $event"
+  (accountsJoined)="setUserAccounts($event)"
+>
 </choose-accounts>
 <h1>Welcome to SRM!</h1>
-<div class="stage1" *ngIf="stage=='steamDir'">
-    <div class="descriptor">
-        <p>
-            First, you'll need to choose the location of your Steam Directory. This can be changed in <strong>Settings</strong>,
-            and overridden per <strong>Parser</strong>.
-        </p>
-    </div>
-    <div class="inputContainer">
-        <div class="inlineLeft">
-        <div class="directoryInput">
-            <ng-text-input 
-                class="ngTextInput" 
-                [placeholder]="placeholderSteamDir" 
-                [(ngModel)]='appSettings.environmentVariables.steamDirectory'>
-            </ng-text-input>
-            <ng-path-input 
-                class="clickButton2" 
-                [stateless]="true"
-                [directory]="true" 
-                (pathChange)="appSettings.environmentVariables.steamDirectory=$event; onSettingsChange();">
-                    Browse
-                </ng-path-input>
-        </div>
-        </div>
-    </div>
-    <div class="clickButton" [class.disabled]="!appSettings.environmentVariables.steamDirectory" (click)="moveToUsers()">Next</div>
-</div>
-<div class="stage2" *ngIf="stage=='userAccounts'">
-    <div class="descriptor">
-        <p>
-            Your Steam Directory is set to <strong>{{appSettings.environmentVariables.steamDirectory}}</strong>. Now you need to choose which user accounts
-            SRM should manage. This can be changed in <strong>Settings</strong>, and overridden per <strong>Parser</strong>.
-        </p>
-    </div>
-    <div class="inputContainer">
-        <div class="inlineLeft">
-          <div class="directoryInput">
-            <ng-bubbles 
-            [(ngModel)]="appSettings.environmentVariables.userAccounts"
-            (ngModelChange)="appSettings.environmentVariables.userAccounts=$event; onSettingsChange();"
-            ></ng-bubbles>
-            <div class="clickButton2" (click)="chooseAccounts()">Choose</div>
-          </div>
-        </div>
+<div class="stage1" *ngIf="stage == 'steamDir'">
+  <div class="descriptor">
+    <p>
+      First, you'll need to choose the location of your Steam Directory. This
+      can be changed in <strong>Settings</strong>, and overridden per
+      <strong>Parser</strong>.
+    </p>
+  </div>
+  <div class="inputContainer">
+    <div class="inlineLeft">
+      <div class="directoryInput">
+        <ng-text-input
+          class="ngTextInput"
+          [placeholder]="placeholderSteamDir"
+          [(ngModel)]="appSettings.environmentVariables.steamDirectory"
+        >
+        </ng-text-input>
+        <ng-path-input
+          class="clickButton2"
+          [stateless]="true"
+          [directory]="true"
+          (pathChange)="
+            appSettings.environmentVariables.steamDirectory = $event;
+            onSettingsChange()
+          "
+        >
+          Browse
+        </ng-path-input>
       </div>
-      <div class="clickButton" (click)="moveToSteamDir()">Back</div>
-      <div class="clickButton" [class.disabled]="!appSettings.environmentVariables.userAccounts" (click)="finishSetup()">Next</div>
-      
+    </div>
+  </div>
+  <div
+    class="clickButton"
+    [class.disabled]="!appSettings.environmentVariables.steamDirectory"
+    (click)="moveToUsers()"
+  >
+    Next
+  </div>
+</div>
+<div class="stage2" *ngIf="stage == 'userAccounts'">
+  <div class="descriptor">
+    <p>
+      Your Steam Directory is set to
+      <strong>{{ appSettings.environmentVariables.steamDirectory }}</strong
+      >. Now you need to choose which user accounts SRM should manage. This can
+      be changed in <strong>Settings</strong>, and overridden per
+      <strong>Parser</strong>.
+    </p>
+  </div>
+  <div class="inputContainer">
+    <div class="inlineLeft">
+      <div class="directoryInput">
+        <ng-bubbles
+          [(ngModel)]="appSettings.environmentVariables.userAccounts"
+          (ngModelChange)="
+            appSettings.environmentVariables.userAccounts = $event;
+            onSettingsChange()
+          "
+        ></ng-bubbles>
+        <div class="clickButton2" (click)="chooseAccounts()">Choose</div>
+      </div>
+    </div>
+  </div>
+  <div class="clickButton" (click)="moveToSteamDir()">Back</div>
+  <div
+    class="clickButton"
+    [class.disabled]="!appSettings.environmentVariables.userAccounts"
+    (click)="finishSetup()"
+  >
+    Next
+  </div>
 </div>

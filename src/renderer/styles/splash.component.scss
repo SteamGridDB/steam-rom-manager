@@ -1,98 +1,96 @@
-@import 'mixins';
+@import "mixins";
 
 :host {
-    padding: 30px;
+  padding: 30px;
+  color: var(--color-markdown-h1);
+  strong {
     color: var(--color-markdown-h1);
-    strong {
-        color: var(--color-markdown-h1);
-    }
-    h1 {
-        line-height: 1.25;
-        margin: var(--margin-markdown-hx);
-        padding-bottom: 0.3em;
-        border-bottom: 1px solid var(--color-markdown-underline);
-        font-size: var(--font-markdown-h1);
-        font-family: var(--font-family-markdown-h1);
-        color: var(--color-markdown-h1);
-        margin-top: 0;
-    }
-    p {
-        margin: 0 0 1rem 0;
-        color: var(--color-markdown-text);
-    }
-    .inputContainer {
+  }
+  h1 {
+    line-height: 1.25;
+    margin: var(--margin-markdown-hx);
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--color-markdown-underline);
+    font-size: var(--font-markdown-h1);
+    font-family: var(--font-family-markdown-h1);
+    color: var(--color-markdown-h1);
+    margin-top: 0;
+  }
+  p {
+    margin: 0 0 1rem 0;
+    color: var(--color-markdown-text);
+  }
+  .inputContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 0.25em 0 0.25em 0;
+    .inlineLeft {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0.25em 0em 0.25em 0;
+      .directoryInput {
         display: flex;
-        flex-direction: column;
-        margin: 0.25em 0 0.25em 0;
-        .inlineLeft {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin: 0.25em 0em 0.25em 0;
-          .directoryInput {
-            display: flex;
-            align-items: right;
-            width: 69%;
-          }
-        }
-        .inlineGroup {
-          display: flex;
-          margin: 0.25em 0em 0.25em 0;
-          justify-content: flex-start;
-          align-items: center;
-          .deleteItem {
-            @include button();
-            @include clickButtonColor(dangerous-click-button);
-          }
-        }
-  
-        .text {
-          &.path {
-            width: 30%;
-          }
-          color: var(--color-settings-text);
-        }
-  
-        .ngToggleButton {
-          font-size: 1em;
-  
-          margin: 0.25em 0 0.25em 0;
-  
-          @include ngToggleButtonColor(ng-toggle-button);
-        }
-  
-
-  
-        .dangerousButton {
-          @include clickButtonColor(dangerous-click-button, true);
-        }
-  
-        .ngSelect {
-          width: 15em;
-        }
-        .ngTextInput {
-          @include ngTextInputColor(input);
-          @include ngTextInput();
-  
-          width: 100%;
-          grid-column: 4;
-        }
-        .clickButton2 {
-          @include button();
-          @include clickButtonColor(click-button);
-  
-          margin: 0 0 0 0.25em;
-          margin-bottom: var(--margin-input-text);
-  
-          grid-area: button;
-        }
+        align-items: right;
+        width: 69%;
+      }
     }
-    .clickButton {
+    .inlineGroup {
+      display: flex;
+      margin: 0.25em 0em 0.25em 0;
+      justify-content: flex-start;
+      align-items: center;
+      .deleteItem {
         @include button();
-        @include clickButtonColor(click-button);
-        &.disabled {
-            opacity: 0.3;
-        }
-        margin-right: 0.5em;
+        @include clickButtonColor(dangerous-click-button);
+      }
     }
+
+    .text {
+      &.path {
+        width: 30%;
+      }
+      color: var(--color-settings-text);
+    }
+
+    .ngToggleButton {
+      font-size: 1em;
+
+      margin: 0.25em 0 0.25em 0;
+
+      @include ngToggleButtonColor(ng-toggle-button);
+    }
+
+    .dangerousButton {
+      @include clickButtonColor(dangerous-click-button, true);
+    }
+
+    .ngSelect {
+      width: 15em;
+    }
+    .ngTextInput {
+      @include ngTextInputColor(input);
+      @include ngTextInput();
+
+      width: 100%;
+      grid-column: 4;
+    }
+    .clickButton2 {
+      @include button();
+      @include clickButtonColor(click-button);
+
+      margin: 0 0 0 0.25em;
+      margin-bottom: var(--margin-input-text);
+
+      grid-area: button;
+    }
+  }
+  .clickButton {
+    @include button();
+    @include clickButtonColor(click-button);
+    &.disabled {
+      opacity: 0.3;
+    }
+    margin-right: 0.5em;
+  }
 }

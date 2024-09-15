@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from "@angular/core";
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  OnDestroy,
+} from "@angular/core";
 import { APP } from "../../variables";
 
 @Component({
@@ -8,7 +13,7 @@ import { APP } from "../../variables";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParsersListComponent {
-  get lang(){
-     return APP.lang.parsersList.component;
- }
+  get lang() {
+    return APP.lang.parsersList.component;
+  }
 }

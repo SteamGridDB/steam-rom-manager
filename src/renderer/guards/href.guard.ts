@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { Injectable } from "@angular/core";
+import { CanActivate, ActivatedRouteSnapshot } from "@angular/router";
 
 @Injectable()
 export class HrefGuard implements CanActivate {
-    constructor() { }
+  constructor() {}
 
-    canActivate() {
-        return false;
-    }
+  canActivate() {
+    return false;
+  }
 }

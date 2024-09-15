@@ -24,7 +24,12 @@
   }
 }
 
-@mixin webkitScrollbar($colorProp, $scrollbarSize: 0.75em, $trackBorderRadius: 0, $thumbBorderRadius: 0) {
+@mixin webkitScrollbar(
+  $colorProp,
+  $scrollbarSize: 0.75em,
+  $trackBorderRadius: 0,
+  $thumbBorderRadius: 0
+) {
   &::-webkit-scrollbar {
     width: $scrollbarSize;
     height: $scrollbarSize;
@@ -131,20 +136,42 @@
   color: var(--color-#{$colorProp}-text);
 
   --ng-toggle-button-color-border: var(--color-#{$colorProp}-border);
-  --ng-toggle-button-color-border-active: var(--color-#{$colorProp}-border-active);
-  --ng-toggle-button-color-border-active-hover: var(--color-#{$colorProp}-border-active-hover);
-  --ng-toggle-button-color-border-hover: var(--color-#{$colorProp}-border-hover);
-  --ng-toggle-button-color-button-border: var(--color-#{$colorProp}-button-border);
-  --ng-toggle-button-color-button-border-active: var(--color-#{$colorProp}-button-border-active);
-  --ng-toggle-button-color-button-border-active-hover: var(--color-#{$colorProp}-button-border-active-hover);
-  --ng-toggle-button-color-button-border-hover: var(--color-#{$colorProp}-button-border-hover);
+  --ng-toggle-button-color-border-active: var(
+    --color-#{$colorProp}-border-active
+  );
+  --ng-toggle-button-color-border-active-hover: var(
+    --color-#{$colorProp}-border-active-hover
+  );
+  --ng-toggle-button-color-border-hover: var(
+    --color-#{$colorProp}-border-hover
+  );
+  --ng-toggle-button-color-button-border: var(
+    --color-#{$colorProp}-button-border
+  );
+  --ng-toggle-button-color-button-border-active: var(
+    --color-#{$colorProp}-button-border-active
+  );
+  --ng-toggle-button-color-button-border-active-hover: var(
+    --color-#{$colorProp}-button-border-active-hover
+  );
+  --ng-toggle-button-color-button-border-hover: var(
+    --color-#{$colorProp}-button-border-hover
+  );
   --ng-toggle-button-color-button-fill: var(--color-#{$colorProp}-button-fill);
-  --ng-toggle-button-color-button-fill-active: var(--color-#{$colorProp}-button-fill-active);
-  --ng-toggle-button-color-button-fill-active-hover: var(--color-#{$colorProp}-button-fill-active-hover);
-  --ng-toggle-button-color-button-fill-hover: var(--color-#{$colorProp}-button-fill-hover);
+  --ng-toggle-button-color-button-fill-active: var(
+    --color-#{$colorProp}-button-fill-active
+  );
+  --ng-toggle-button-color-button-fill-active-hover: var(
+    --color-#{$colorProp}-button-fill-active-hover
+  );
+  --ng-toggle-button-color-button-fill-hover: var(
+    --color-#{$colorProp}-button-fill-hover
+  );
   --ng-toggle-button-color-fill: var(--color-#{$colorProp}-fill);
   --ng-toggle-button-color-fill-active: var(--color-#{$colorProp}-fill-active);
-  --ng-toggle-button-color-fill-active-hover: var(--color-#{$colorProp}-fill-active-hover);
+  --ng-toggle-button-color-fill-active-hover: var(
+    --color-#{$colorProp}-fill-active-hover
+  );
   --ng-toggle-button-color-fill-hover: var(--color-#{$colorProp}-fill-hover);
 }
 
@@ -154,7 +181,7 @@
   color: var(--color-ng-select-text);
   margin-bottom: var(--ng-select-margin);
 
-  .inlineGroup &{
+  .inlineGroup & {
     margin-bottom: 0;
   }
 
@@ -275,11 +302,11 @@
 
 @mixin webkitSlider(
   $colorProp,
-  $trackHeight:var(--color-preview-app-zoom-slider-track-height),
-  $trackBorder:var(--color-preview-app-zoom-slider-track-border),
-  $thumbHeight:var(--color-preview-app-zoom-slider-thumb-height),
+  $trackHeight: var(--color-preview-app-zoom-slider-track-height),
+  $trackBorder: var(--color-preview-app-zoom-slider-track-border),
+  $thumbHeight: var(--color-preview-app-zoom-slider-thumb-height),
   $thumbWidth: var(--color-preview-app-zoom-slider-thumb-width),
-  $thumbBorder:var(--color-preview-app-zoom-slider-thumb-border)
+  $thumbBorder: var(--color-preview-app-zoom-slider-thumb-border)
 ) {
   -webkit-appearance: none;
   &::-webkit-slider-runnable-track {
@@ -311,13 +338,17 @@
     &::-webkit-slider-runnable-track {
       background-color: var(--color-#{$colorProp}-track-background-hover);
       @if $trackBorder {
-        border: solid $trackBorder var(--color-#{$colorProp}-track-border-hover);
+        border: solid
+          $trackBorder
+          var(--color-#{$colorProp}-track-border-hover);
       }
     }
     &::-webkit-slider-thumb {
       background-color: var(--color-#{$colorProp}-thumb-background-hover);
       @if $thumbBorder {
-        border: solid $thumbBorder var(--color-#{$colorProp}-thumb-border-hover);
+        border: solid
+          $thumbBorder
+          var(--color-#{$colorProp}-thumb-border-hover);
       }
     }
   }
@@ -326,13 +357,17 @@
     &::-webkit-slider-runnable-track {
       background-color: var(--color-#{$colorProp}-track-background-focus);
       @if $trackBorder {
-        border: solid $trackBorder var(--color-#{$colorProp}-track-border-focus);
+        border: solid
+          $trackBorder
+          var(--color-#{$colorProp}-track-border-focus);
       }
     }
     &::-webkit-slider-thumb {
       background-color: var(--color-#{$colorProp}-thumb-background-focus);
       @if $thumbBorder {
-        border: solid $thumbBorder var(--color-#{$colorProp}-thumb-border-focus);
+        border: solid
+          $thumbBorder
+          var(--color-#{$colorProp}-thumb-border-focus);
       }
     }
   }

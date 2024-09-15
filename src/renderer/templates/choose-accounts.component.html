@@ -1,19 +1,23 @@
 <div class="chooseAccounts">
   <div class="chooseAccountsContent">
     <p>Choose Steam Accounts</p>
-    <p>{{steamDir}}</p>
+    <p>{{ steamDir }}</p>
     <!-- <img src="/assets/images/preview.png"/> -->
     <div class="accounts">
-      <div class="account" *ngFor="let account of availableAccounts"
-           (click)="selectAccount(account)"
-           [class.selected]="!!selectedAccounts[account.accountID]">
-        <img src="{{getAccountImage(steamDir, account.steamID64)}}" alt="Icon"/>
-        <div class="info">
-          {{account.name}} ({{account.accountID}})
-        </div>
+      <div
+        class="account"
+        *ngFor="let account of availableAccounts"
+        (click)="selectAccount(account)"
+        [class.selected]="!!selectedAccounts[account.accountID]"
+      >
+        <img
+          src="{{ getAccountImage(steamDir, account.steamID64) }}"
+          alt="Icon"
+        />
+        <div class="info">{{ account.name }} ({{ account.accountID }})</div>
       </div>
     </div>
-    <div class="noButton" (click)= "cancelAccounts()">Cancel</div>
+    <div class="noButton" (click)="cancelAccounts()">Cancel</div>
     <div class="goButton" (click)="saveAccounts()">Save</div>
   </div>
 </div>

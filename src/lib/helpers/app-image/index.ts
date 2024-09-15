@@ -1,1 +1,1 @@
-export * from './get-current-image';
+export * from "./get-current-image";

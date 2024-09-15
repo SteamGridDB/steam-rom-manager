@@ -6,7 +6,7 @@ Aqui é onde você cria seu glob para extrair o título do caminho do arquivo. L
 
 ## Como funciona?
 
-Além de caracteres glob especiais, o analisador glob requer que você digite a variável `${title}`{.noWrap}. O analisador localizará sua posição dentro do seu  glob, por exemplo:
+Além de caracteres glob especiais, o analisador glob requer que você digite a variável `${title}`{.noWrap}. O analisador localizará sua posição dentro do seu glob, por exemplo:
 
 | Global do usuário     | Posição                    |
 | --------------------- | -------------------------- |
@@ -27,17 +27,21 @@ Isso é praticamente idêntico ao analisador "Glob" -- cada pedaço do título e
 ### Expressão regular sem captura: `${/.+/}`{.noWrap}
 
 Múltiplas correspondências e grupos de captura são permitidos. Por exemplo, aqui temos dois grupos de correspondência com vários grupos de captura:
+
 ```
 ${/(.*?)\s*\[USA\]\s*(.+) thanking (.*)/}
 ```
+
 O grupo de primeira partida (da esquerda para a direita) com todas as capturas corretas serão usadas. Além disso, todos os grupos de captura serão **unidos**.
 
 ### Expressão regular com parênteses de captura e texto de substituição: `${/(.+)/^\\...}`{.noWrap}
 
 Semelhante a [expressão regular com parênteses de captura](#regular-expression-with-capture-brackets) exceto a forma como lida com grupos capturados. O texto de substituição pode ser usado para mover os grupos capturados. Por exemplo:
+
 ```
 ${/(.*?)\s*\[USA\]\s*(.+)/├Segundo grupo de captura: "$2" precede o primeiro, que é "$1" }
 ```
+
 Se nosso primeiro grupo de captura for `Legend of Zelda` e o segundo é `SUPER EDIÇÃO`, então obteremos o seguinte título (não muito útil):
 
 `Segundo grupo de captura: "EDIÇÃO SUPER" precede o primeiro, que é "Legenda de Zelda"`

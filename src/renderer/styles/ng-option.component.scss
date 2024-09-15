@@ -1,5 +1,5 @@
 :host {
-  &:not(.hidden){
+  &:not(.hidden) {
     display: grid;
     grid-auto-flow: column;
     overflow: hidden;
@@ -9,5 +9,4 @@
   &.hidden {
     display: none;
   }
-
 }

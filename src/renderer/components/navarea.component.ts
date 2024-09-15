@@ -1,6 +1,15 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from "@angular/core";
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  OnDestroy,
+} from "@angular/core";
 import { FormBuilder, FormArray, FormGroup, FormControl } from "@angular/forms";
-import { ParsersService, LanguageService, UserExceptionsService } from "../services";
+import {
+  ParsersService,
+  LanguageService,
+  UserExceptionsService,
+} from "../services";
 import { UserConfiguration } from "../../models";
 import { Subscription } from "rxjs";
 import { APP } from "../../variables";
@@ -12,16 +21,9 @@ import { APP } from "../../variables";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavareaComponent implements OnDestroy {
+  constructor() {}
 
-    constructor(
+  ngOnInit() {}
 
-    ) {}
-
-    ngOnInit() {
-
-    }
-
-    ngOnDestroy() {
-
-    }
+  ngOnDestroy() {}
 }

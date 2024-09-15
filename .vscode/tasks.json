@@ -1,39 +1,30 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "taskName": "watch - main",
-            "command": "npm",
-            "type": "shell",
-            "isBackground": true,
-            "suppressTaskName": true,
-            "args": [
-                "run",
-                "watch:main"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "taskName": "watch - renderer",
-            "command": "npm",
-            "type": "shell",
-            "isBackground": true,
-            "suppressTaskName": true,
-            "args": [
-                "run",
-                "watch:renderer"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "taskName": "watch",
-            "dependsOn": [
-                "watch - main",
-                "watch - renderer"
-            ],
-            "problemMatcher": []
-        }
-    ]
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "taskName": "watch - main",
+      "command": "npm",
+      "type": "shell",
+      "isBackground": true,
+      "suppressTaskName": true,
+      "args": ["run", "watch:main"],
+      "problemMatcher": []
+    },
+    {
+      "taskName": "watch - renderer",
+      "command": "npm",
+      "type": "shell",
+      "isBackground": true,
+      "suppressTaskName": true,
+      "args": ["run", "watch:renderer"],
+      "problemMatcher": []
+    },
+    {
+      "taskName": "watch",
+      "dependsOn": ["watch - main", "watch - renderer"],
+      "problemMatcher": []
+    }
+  ]
 }

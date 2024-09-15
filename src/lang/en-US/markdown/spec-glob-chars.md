@@ -35,17 +35,17 @@ Given these files paths:
 
 here are few examples of extended glob matchers in action:
 
-|Glob patterns|Matches (list numbers)|
-|:---|---:|
-|`@(dir[12]\|DIR)/**/*.txt`|`1`, `2`, `4`, `5`|
-|`!(dir[12]\|DIR)/**/*.txt`|`3`, `6`|
-|`*/!(*bb*)/*.txt`|`2`, `3`, `4`, `5`|
-|`*/?(abc)/*.txt`|`4`|
-|`*/+(abc)/*.txt`|`4`, `5`|
-|`*([a-zA-Z])/*/*.txt`|`4`, `5`|
-|`*([a-zA-Z])?([0-9])/*/${title}.txt`|`2`, `3`, `4`, `5`|
-|`*([a-zA-Z])+([0-9])/*/${title}.txt`|`2`, `3`, `6`|
-|`*([a-zA-Z])*([0-9])/*/${title}.txt`|`2`, `3`, `4`, `5`, `6`|
+| Glob patterns                        |  Matches (list numbers) |
+| :----------------------------------- | ----------------------: |
+| `@(dir[12]\|DIR)/**/*.txt`           |      `1`, `2`, `4`, `5` |
+| `!(dir[12]\|DIR)/**/*.txt`           |                `3`, `6` |
+| `*/!(*bb*)/*.txt`                    |      `2`, `3`, `4`, `5` |
+| `*/?(abc)/*.txt`                     |                     `4` |
+| `*/+(abc)/*.txt`                     |                `4`, `5` |
+| `*([a-zA-Z])/*/*.txt`                |                `4`, `5` |
+| `*([a-zA-Z])?([0-9])/*/${title}.txt` |      `2`, `3`, `4`, `5` |
+| `*([a-zA-Z])+([0-9])/*/${title}.txt` |           `2`, `3`, `6` |
+| `*([a-zA-Z])*([0-9])/*/${title}.txt` | `2`, `3`, `4`, `5`, `6` |
 
 ## Braced sets: `{...}`{.noWrap}
 
@@ -54,7 +54,7 @@ It is a way to make more glob pattern sets out of one set. Braced set starts wit
 - `C:/dir1/dir2/file.txt`
 - `C:/dir1/dir3/dir4/file.txt`
 
-Braced sets also have less useful range syntax `{x..x}` where `x` is a single character. For example, `C:/dir1/dir{2..4}/file.txt` will expand to: 
+Braced sets also have less useful range syntax `{x..x}` where `x` is a single character. For example, `C:/dir1/dir{2..4}/file.txt` will expand to:
 
 - `C:/dir1/dir2/file.txt`
 - `C:/dir1/dir3/file.txt`

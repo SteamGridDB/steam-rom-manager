@@ -9,4 +9,5 @@ In order for this parser to work with the open source Epic alternative [Legendar
 That said, there is also a `Legendary` parser in SRM which works right out of the box.
 
 ## Kompabilität
+
 Dieser Parser funktioniert derzeit nur auf `Windows` und `Mac OS` Systemen. Unter `Mac OS` ist es nicht möglich, im Epic Store zu starten, so dass der Schalter deaktiviert bleiben soll.

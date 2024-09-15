@@ -1,34 +1,46 @@
-import { Component, forwardRef, Input, ChangeDetectorRef, Renderer2, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import * as rangy from 'rangy';
-import * as he from 'he';
-import * as path from 'path';
-import { escape } from 'glob';
+import {
+  Component,
+  forwardRef,
+  Input,
+  ChangeDetectorRef,
+  Renderer2,
+  SimpleChanges,
+  ViewChild,
+  ElementRef,
+} from "@angular/core";
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
+import * as rangy from "rangy";
+import * as he from "he";
+import * as path from "path";
+import { escape } from "glob";
 
 @Component({
-  selector: 'ng-text-input',
-  template: `<div class="contents"
-                    #input
-                    [attr.data-placeholder]="placeholder"
-                    contenteditable="true"
-                    spellcheck="false"
-                    (input)="this.writeValueFromTarget($event.target)"
-                    (keypress)="handleKeypress($event)"
-                    (drag)="handleDragAndDrop($event)"
-                    (dragover)="handleDragAndDrop($event)"
-                    (paste)="handlePaste($event)">{{currentValue}}
-                </div>`,
-  styleUrls: [
-    '../styles/ng-text-input.component.scss'
+  selector: "ng-text-input",
+  template: `<div
+    class="contents"
+    #input
+    [attr.data-placeholder]="placeholder"
+    contenteditable="true"
+    spellcheck="false"
+    (input)="this.writeValueFromTarget($event.target)"
+    (keypress)="handleKeypress($event)"
+    (drag)="handleDragAndDrop($event)"
+    (dragover)="handleDragAndDrop($event)"
+    (paste)="handlePaste($event)"
+  >
+    {{ currentValue }}
+  </div>`,
+  styleUrls: ["../styles/ng-text-input.component.scss"],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => NgTextInputComponent),
+      multi: true,
+    },
   ],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => NgTextInputComponent),
-    multi: true
-  }],
   host: {
-    '[class.multiline]': 'multiline'
-  }
+    "[class.multiline]": "multiline",
+  },
 })
 export class NgTextInputComponent implements ControlValueAccessor {
   currentValue: string = null;
@@ -40,70 +52,84 @@ export class NgTextInputComponent implements ControlValueAccessor {
   @Input() private highlightTag: string = null;
   @Input() private multiline: boolean = false;
   @Input() private dragAndDrop: boolean = false;
-  private onChange = (_: any) => { };
-  private onTouched = () => { };
+  private onChange = (_: any) => {};
+  private onTouched = () => {};
 
-  constructor(private changeRef: ChangeDetectorRef, private renderer: Renderer2) { }
+  constructor(
+    private changeRef: ChangeDetectorRef,
+    private renderer: Renderer2,
+  ) {}
 
   ngAfterViewInit() {
     // Had to do this to get the placeholder to appear in certain exceptions/logger
-    this.renderer.setProperty(this.elementRef.nativeElement, 'innerHTML', this.currentValue || null);
+    this.renderer.setProperty(
+      this.elementRef.nativeElement,
+      "innerHTML",
+      this.currentValue || null,
+    );
   }
 
   handlePaste(event: ClipboardEvent) {
     event.preventDefault();
-    let data = event.clipboardData.getData('text');
-    if (!this.multiline)
-      data = data.replace(/\r?\n|\r/g, '');
+    let data = event.clipboardData.getData("text");
+    if (!this.multiline) data = data.replace(/\r?\n|\r/g, "");
 
     if (data) {
       if (this.currentValue && this.currentValue.length > 0) {
         let selection = this.saveSelection(this.elementRef.nativeElement);
         let newSelection = selection.start + data.length;
-        this.writeValue(`${this.currentValue.substring(0, selection.start)}${data}${this.currentValue.substring(selection.end)}`, true, { start: newSelection, end: newSelection });
-      }
-      else {
+        this.writeValue(
+          `${this.currentValue.substring(0, selection.start)}${data}${this.currentValue.substring(selection.end)}`,
+          true,
+          { start: newSelection, end: newSelection },
+        );
+      } else {
         this.writeValue(data, true, { start: data.length, end: data.length });
       }
     }
   }
 
   handleKeypress(event: KeyboardEvent) {
-    if (!this.multiline && event.key === 'Enter')
-      event.preventDefault();
+    if (!this.multiline && event.key === "Enter") event.preventDefault();
   }
 
   handleDragAndDrop(event: Event) {
-    if (!this.dragAndDrop)
-      event.preventDefault();
-  }
-  
-  writeValueFromTarget(target: EventTarget) {
-    this.writeValue((target as HTMLTextAreaElement).textContent, true)
+    if (!this.dragAndDrop) event.preventDefault();
   }
 
-  writeValue(value: string, updateDom: boolean = true, selection?: { start: number, end: number }): void {
+  writeValueFromTarget(target: EventTarget) {
+    this.writeValue((target as HTMLTextAreaElement).textContent, true);
+  }
+
+  writeValue(
+    value: string,
+    updateDom: boolean = true,
+    selection?: { start: number; end: number },
+  ): void {
     if (value !== this.currentValue) {
-      if(value && value.split('&:&')[0]=='_browse_'){
-        const selectedPath = value.split('&:&')[1]
-        if(this.appendGlob || this.useForwardSlash) {
-          const t1 = escape(selectedPath.replaceAll('\\','/'));
-          if(this.appendGlob) {
-            const swapString = '$:$:$'
-            const t2 = t1.replaceAll('\\', swapString)
-            const t3 = path.resolve(t2, this.currentValue ? path.basename(this.currentValue) : this.appendGlob)
-            value = t3.replaceAll('\\','/').replaceAll(swapString,'\\');
+      if (value && value.split("&:&")[0] == "_browse_") {
+        const selectedPath = value.split("&:&")[1];
+        if (this.appendGlob || this.useForwardSlash) {
+          const t1 = escape(selectedPath.replaceAll("\\", "/"));
+          if (this.appendGlob) {
+            const swapString = "$:$:$";
+            const t2 = t1.replaceAll("\\", swapString);
+            const t3 = path.resolve(
+              t2,
+              this.currentValue
+                ? path.basename(this.currentValue)
+                : this.appendGlob,
+            );
+            value = t3.replaceAll("\\", "/").replaceAll(swapString, "\\");
           } else {
             value = t1;
           }
-        }
-        else {
+        } else {
           value = selectedPath;
         }
       }
       this.currentValue = value;
-      if (updateDom || this.highlight)
-        this.setInnerHtml(value, selection);
+      if (updateDom || this.highlight) this.setInnerHtml(value, selection);
       this.onChange(this.currentValue);
       this.changeRef.markForCheck();
     }
@@ -119,29 +145,50 @@ export class NgTextInputComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  private setInnerHtml(data: string, selection?: { start: number, end: number }) {
+  private setInnerHtml(
+    data: string,
+    selection?: { start: number; end: number },
+  ) {
     if (this.elementRef && this.elementRef.nativeElement) {
       if (data && data.length) {
-        selection = selection || (document.activeElement === this.elementRef.nativeElement && data.length > 0 ? this.saveSelection(this.elementRef.nativeElement) : null);
+        selection =
+          selection ||
+          (document.activeElement === this.elementRef.nativeElement &&
+          data.length > 0
+            ? this.saveSelection(this.elementRef.nativeElement)
+            : null);
 
         if (this.highlight) {
-          data = this.highlight(data, this.highlightTag || 'highlight');
+          data = this.highlight(data, this.highlightTag || "highlight");
         }
         data = he.encode(data);
         if (this.highlight) {
-          data = data.replace(new RegExp(`&#x3C;.*?${this.highlightTag || 'highlight'}.*?&#x3E;`, 'g'), (match: string) => {
-            return he.decode(match);
-          });
+          data = data.replace(
+            new RegExp(
+              `&#x3C;.*?${this.highlightTag || "highlight"}.*?&#x3E;`,
+              "g",
+            ),
+            (match: string) => {
+              return he.decode(match);
+            },
+          );
         }
 
-        this.renderer.setProperty(this.elementRef.nativeElement, 'innerHTML', data);
+        this.renderer.setProperty(
+          this.elementRef.nativeElement,
+          "innerHTML",
+          data,
+        );
 
         if (selection) {
           this.restoreSelection(this.elementRef.nativeElement, selection);
         }
-      }
-      else {
-        this.renderer.setProperty(this.elementRef.nativeElement, 'innerHTML', null);
+      } else {
+        this.renderer.setProperty(
+          this.elementRef.nativeElement,
+          "innerHTML",
+          null,
+        );
       }
     }
   }
@@ -171,7 +218,7 @@ export class NgTextInputComponent implements ControlValueAccessor {
           traverseTextNodes(node.childNodes[i], range);
         }
       }
-    }
+    };
 
     if (sel.rangeCount) {
       try {
@@ -186,22 +233,33 @@ export class NgTextInputComponent implements ControlValueAccessor {
     return { start: start, end: end };
   }
 
-  private restoreSelection(containerEl: HTMLElement, savedSel: { start: number, end: number }) {
+  private restoreSelection(
+    containerEl: HTMLElement,
+    savedSel: { start: number; end: number },
+  ) {
     let charIndex = 0;
     let foundStart = false;
     let stop = {};
-    let range = rangy.createRange()
+    let range = rangy.createRange();
 
     range.collapseToPoint(containerEl, 0);
 
     let traverseTextNodes = (node: Node) => {
       if (node.nodeType === Node.TEXT_NODE) {
         var nextCharIndex = charIndex + (node as Text).length;
-        if (!foundStart && savedSel.start >= charIndex && savedSel.start <= nextCharIndex) {
+        if (
+          !foundStart &&
+          savedSel.start >= charIndex &&
+          savedSel.start <= nextCharIndex
+        ) {
           range.setStart(node, savedSel.start - charIndex);
           foundStart = true;
         }
-        if (foundStart && savedSel.end >= charIndex && savedSel.end <= nextCharIndex) {
+        if (
+          foundStart &&
+          savedSel.end >= charIndex &&
+          savedSel.end <= nextCharIndex
+        ) {
           range.setEnd(node, savedSel.end - charIndex);
           throw stop;
         }
@@ -211,7 +269,7 @@ export class NgTextInputComponent implements ControlValueAccessor {
           traverseTextNodes(node.childNodes[i]);
         }
       }
-    }
+    };
 
     try {
       traverseTextNodes(containerEl);

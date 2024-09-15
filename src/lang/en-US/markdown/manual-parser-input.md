@@ -11,17 +11,21 @@ The location of the json files you want to turn into steam shortcuts. `Manifests
 --manifest3.json
 ...
 ```
+
 The names of the files do not matter. What does matter is that each `manifest.json` file is either a single title, like so:
+
 ```json
 {
-    "title": "gameTitle",
-    "target": "game/path/target.sh",
-    "startIn": "game/path",
-    "launchOptions": "--args",
-    "appendArgsToExecutable": false
+  "title": "gameTitle",
+  "target": "game/path/target.sh",
+  "startIn": "game/path",
+  "launchOptions": "--args",
+  "appendArgsToExecutable": false
 }
 ```
+
 Or a list of titles, like so:
+
 ```json
 [
   {

@@ -1,33 +1,32 @@
-@import 'mixins';
+@import "mixins";
 
 :host {
-	> .contents {
-		&:not(.multiline) {
-			white-space: nowrap;
-			text-overflow: clip;
-		}
+  > .contents {
+    &:not(.multiline) {
+      white-space: nowrap;
+      text-overflow: clip;
+    }
 
-		&:empty:before{
-			content: attr(data-placeholder);
-			color: var(--ng-text-placeholder-color, initial);
-		}
-	}
+    &:empty:before {
+      content: attr(data-placeholder);
+      color: var(--ng-text-placeholder-color, initial);
+    }
+  }
 
+  ::ng-deep * {
+    cursor: text;
+  }
 
-	::ng-deep * {
-		cursor: text;
-	}
+  overflow: auto;
 
-	overflow: auto;
+  &:not(.multiline) {
+    > .contents {
+      white-space: nowrap;
+      text-overflow: clip;
+    }
 
-	&:not(.multiline) {
-		> .contents {
-			white-space: nowrap;
-			text-overflow: clip;
-		}
-
-		&::-webkit-scrollbar {
-			display: none;
-		}
-	}
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }

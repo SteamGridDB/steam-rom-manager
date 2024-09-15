@@ -1,5 +1,5 @@
 import { ValidatorModifier } from "../../../models/helpers.model";
-import Ajv, {ValidateFunction, Options} from "ajv";
+import Ajv, { ValidateFunction, Options } from "ajv";
 import * as _ from "lodash";
 
 export class Validator<T = object> {
@@ -7,8 +7,12 @@ export class Validator<T = object> {
   private validationFn: ValidateFunction | null = null;
   private modifier: ValidatorModifier<T> | null = null;
 
-  constructor(schema?: object, modifier?: ValidatorModifier<T>, options: Options = { removeAdditional: "all", useDefaults: true }) {
-    this.ajv = new Ajv(Object.assign(options, {strict: false}));
+  constructor(
+    schema?: object,
+    modifier?: ValidatorModifier<T>,
+    options: Options = { removeAdditional: "all", useDefaults: true },
+  ) {
+    this.ajv = new Ajv(Object.assign(options, { strict: false }));
     if (schema !== undefined) {
       this.setSchema(schema);
     }
@@ -20,8 +24,7 @@ export class Validator<T = object> {
   public setSchema(schema: object) {
     if (schema) {
       this.validationFn = this.ajv.compile(schema);
-    }
-    else {
+    } else {
       this.validationFn = null;
     }
 
@@ -31,8 +34,7 @@ export class Validator<T = object> {
   public setModifier(modifier: ValidatorModifier<T>) {
     if (modifier) {
       this.modifier = modifier;
-    }
-    else {
+    } else {
       this.modifier = null;
     }
 
@@ -41,7 +43,7 @@ export class Validator<T = object> {
 
   public validate(data: object) {
     if (this.modifier) {
-      while (this.modify(data)) { }
+      while (this.modify(data)) {}
       _.set(data, this.modifier.controlProperty, this.modifier.latestVersion);
     }
 
@@ -55,8 +57,7 @@ export class Validator<T = object> {
   get errors() {
     if (this.validationFn) {
       return this.validationFn.errors || null;
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -89,21 +90,31 @@ export class Validator<T = object> {
         const fieldData = modifierFieldSet[key];
         const oldKey = fieldData.oldValuePath ? fieldData.oldValuePath : key;
         if (fieldData.keyMatch && fieldData.method) {
-          const matchedKeys = Object.keys(data).filter(k=>fieldData.keyMatch.test(k));
-          for(const matchedKey of matchedKeys) {
-            _.set(data, matchedKey, fieldData.method(_.get(data,matchedKey,undefined),data));
+          const matchedKeys = Object.keys(data).filter((k) =>
+            fieldData.keyMatch.test(k),
+          );
+          for (const matchedKey of matchedKeys) {
+            _.set(
+              data,
+              matchedKey,
+              fieldData.method(_.get(data, matchedKey, undefined), data),
+            );
           }
-        }
-        else if (fieldData.method) {
-          _.set(data,key,fieldData.method(_.get(data,oldKey,undefined),data));
-        }
-        else {
-          _.set(data, key, _.get(data,oldKey,undefined));
+        } else if (fieldData.method) {
+          _.set(
+            data,
+            key,
+            fieldData.method(_.get(data, oldKey, undefined), data),
+          );
+        } else {
+          _.set(data, key, _.get(data, oldKey, undefined));
         }
       }
-      return !_.isEqual(controlValue, _.get(data, this.modifier!.controlProperty, undefined));
-    }
-    else {
+      return !_.isEqual(
+        controlValue,
+        _.get(data, this.modifier!.controlProperty, undefined),
+      );
+    } else {
       return false;
     }
   }

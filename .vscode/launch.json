@@ -1,54 +1,44 @@
 {
-    // Use IntelliSense to learn about possible Node.js debug attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Debug Main",
-            "type": "node",
-            "request": "launch",
-            "cwd": "${workspaceRoot}/dist",
-            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
-            "windows": {
-                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
-            },
-            "runtimeArgs": [
-                "--remote-debugging-port=9222",
-                "${workspaceRoot}/dist/main.bundle.js"
-            ],
-            "outFiles": [
-                "${workspaceRoot}/dist/**/*.js"
-            ]
-        },
-        {
-            "name": "TS File",
-            "type": "node",
-            "request": "launch",
-            "args": [
-                "${relativeFile}"
-            ],
-            "runtimeArgs": [
-                "-r",
-                "ts-node/register"
-            ],
-            "cwd": "${workspaceFolder}"
-        },
-        {
-            "name": "Debug Renderer",
-            "type": "chrome",
-            "request": "attach",
-            "port": 9222,
-            "webRoot": "${workspaceRoot}/dist/renderer"
-        }
-    ],
-    "compounds": [
-        {
-            "name": "Debug Electron",
-            "configurations": [
-                "Debug Main",
-                "Debug Renderer"
-            ]
-        }
-]
+  // Use IntelliSense to learn about possible Node.js debug attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Main",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceRoot}/dist",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
+      "windows": {
+        "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+      },
+      "runtimeArgs": [
+        "--remote-debugging-port=9222",
+        "${workspaceRoot}/dist/main.bundle.js"
+      ],
+      "outFiles": ["${workspaceRoot}/dist/**/*.js"]
+    },
+    {
+      "name": "TS File",
+      "type": "node",
+      "request": "launch",
+      "args": ["${relativeFile}"],
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug Renderer",
+      "type": "chrome",
+      "request": "attach",
+      "port": 9222,
+      "webRoot": "${workspaceRoot}/dist/renderer"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug Electron",
+      "configurations": ["Debug Main", "Debug Renderer"]
+    }
+  ]
 }

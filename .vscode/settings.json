@@ -1,5 +1,5 @@
 {
-    "vsicons.presets.angular": true,
-    "typescript.enablePromptUseWorkspaceTsdk": true,
-    "typescript.tsdk": "./node_modules/typescript/lib"
+  "vsicons.presets.angular": true,
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.tsdk": "./node_modules/typescript/lib"
 }

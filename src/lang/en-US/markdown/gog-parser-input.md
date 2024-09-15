@@ -17,4 +17,5 @@ If enabled, SRM will pull in not only GOG games aquired from GOG Galaxy's store,
 A caveat is that because GOG Galaxy does not store the names linked executables in its database, SRM will use the directory name of the executable on Windows (e.g. `C:\\path\\to\\Hoa\\LaunchHoa.exe` would be assigned the title `Hoa`) and the executable name on Mac (e.g. `/Applications/Symphonia.app` would be assigned the title `Symphonia`).
 
 ## Parse using Registry instead of Galaxy DB `[Windows only] [Recommend disabled]`
+
 This option will parse the Windows Registry for installed GOG games instead of GOG Galaxy's SQL database, allowing the parser to work even if GOG Galaxy is not installed. If this is enabled, `Parse Linked Executables` will of have no effect, but `Launch via GOG Galaxy` will work as normal.

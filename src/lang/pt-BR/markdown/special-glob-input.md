@@ -3,6 +3,7 @@
 ## Como funciona?
 
 Caminhos de imagem são resolvidos no processo de 4 etapas:
+
 1. A frase é avaliada para ver se um analisador baseado em glob é usado. Dependendo do resultado, a análise futura pode continuar com `2` conjuntos de glob.
 1. Todas as variáveis fornecidas são substituídas por seus valores correspondentes.
 1. Novas string(s) é/são resolvidas contra o diretório raiz (diretório raiz é sempre o diretório ROMs de configuração de configuração).

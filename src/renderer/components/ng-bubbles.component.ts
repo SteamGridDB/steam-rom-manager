@@ -1,97 +1,118 @@
-import { Component, forwardRef, ElementRef, Optional, Host, HostListener, Input,Output, ContentChildren, QueryList, ChangeDetectorRef, ViewChild, Renderer2 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import * as _ from 'lodash';
-import * as rangy from 'rangy';
+import {
+  Component,
+  forwardRef,
+  ElementRef,
+  Optional,
+  Host,
+  HostListener,
+  Input,
+  Output,
+  ContentChildren,
+  QueryList,
+  ChangeDetectorRef,
+  ViewChild,
+  Renderer2,
+} from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import * as _ from "lodash";
+import * as rangy from "rangy";
 
-const removeAt = (arr: any[],index: number) => arr.slice(0, index).concat(arr.slice(index + 1));
+const removeAt = (arr: any[], index: number) =>
+  arr.slice(0, index).concat(arr.slice(index + 1));
 
 @Component({
-  selector: 'ng-bubbles',
+  selector: "ng-bubbles",
   template: `
-<div class="bubblesContainer">
-<ng-container *ngFor="let item of items; let i=index">
-    <div class="bubble">
-        <span>{{item}}</span>
-        <svg [hover]="true" xdelete class="delete" (click)="removeItem(i)"></svg>
+    <div class="bubblesContainer">
+      <ng-container *ngFor="let item of items; let i = index">
+        <div class="bubble">
+          <span>{{ item }}</span>
+          <svg
+            [hover]="true"
+            xdelete
+            class="delete"
+            (click)="removeItem(i)"
+          ></svg>
+        </div>
+      </ng-container>
+      <div *ngIf="addable" class="bubble addable" (click)="makeLiveItem()">
+        <span *ngIf="!typingState">+</span>
+        <div
+          *ngIf="typingState"
+          #inputEl
+          contenteditable="true"
+          spellcheck="false"
+          (input)="handleInput($event.target, inputEl)"
+          (keydown)="handleKeypress($event)"
+          (blur)="handleBlur()"
+          class="editable"
+        ></div>
+      </div>
     </div>
-</ng-container>
-<div *ngIf="addable" class="bubble addable"
-  (click)="makeLiveItem()"
->
-<span *ngIf="!typingState">+</span>
-<div *ngIf="typingState" 
-#inputEl
-contenteditable="true" 
-spellcheck="false"
-(input)="handleInput($event.target, inputEl)"
-(keydown)="handleKeypress($event)"
-(blur)="handleBlur()"
-class="editable"
->
-</div>
-</div>
-</div>
   `,
-  styleUrls: [
-    '../styles/ng-bubbles.component.scss'
+  styleUrls: ["../styles/ng-bubbles.component.scss"],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => NgBubblesComponent),
+      multi: true,
+    },
   ],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => NgBubblesComponent),
-    multi: true
-  }]
 })
-
 export class NgBubblesComponent implements ControlValueAccessor {
-    private onChange = (_: any) => { };
-    private onTouched = () => { };
-    typingState = false;
-    addableValue: string = "";
-    items: string[] = [];
-    @Input() set bubbleItems(value: string[]) {
-        this.writeValue(value);
-    }
-    @Input() addable: boolean;
-    @ViewChild("input") private elementRef: ElementRef;
-  constructor(
-    private element: ElementRef, 
-    private changeRef: ChangeDetectorRef, 
-    private renderer: Renderer2) {
-
+  private onChange = (_: any) => {};
+  private onTouched = () => {};
+  typingState = false;
+  addableValue: string = "";
+  items: string[] = [];
+  @Input() set bubbleItems(value: string[]) {
+    this.writeValue(value);
   }
+  @Input() addable: boolean;
+  @ViewChild("input") private elementRef: ElementRef;
+  constructor(
+    private element: ElementRef,
+    private changeRef: ChangeDetectorRef,
+    private renderer: Renderer2,
+  ) {}
 
   get value() {
     return this.items;
   }
 
   makeLiveItem() {
-    if(!this.typingState) {
+    if (!this.typingState) {
       this.typingState = true;
-      setTimeout(function() {
-        const inputEl = document.querySelector(".editable") as HTMLTextAreaElement;
+      setTimeout(function () {
+        const inputEl = document.querySelector(
+          ".editable",
+        ) as HTMLTextAreaElement;
         inputEl.focus();
-    }, 100);
+      }, 100);
     }
   }
 
   handleInput(target: EventTarget, inputEl: HTMLDivElement) {
     const newValue = (target as HTMLTextAreaElement).textContent;
-    if(this.addableValue != newValue) {
+    if (this.addableValue != newValue) {
       this.addableValue = newValue;
-      this.setInnerHtml(inputEl, newValue)
+      this.setInnerHtml(inputEl, newValue);
       this.changeRef.markForCheck();
     }
   }
 
-  private transferBubble(){
-    if(this.addableValue) {
+  private transferBubble() {
+    if (this.addableValue) {
       this.addItem(this.addableValue);
     }
-    this.addableValue='';
-    this.typingState=false;
+    this.addableValue = "";
+    this.typingState = false;
   }
   handleKeypress(event: KeyboardEvent) {
-    if (event.key === 'Enter' || (event.key === 'Backspace' && this.addableValue=='')) {
+    if (
+      event.key === "Enter" ||
+      (event.key === "Backspace" && this.addableValue == "")
+    ) {
       event.preventDefault();
       this.transferBubble();
     }
@@ -113,7 +134,7 @@ export class NgBubblesComponent implements ControlValueAccessor {
 
   writeValue(value: string[]) {
     this.items = value;
-    this.onChange(this.items)
+    this.onChange(this.items);
     this.changeRef.detectChanges();
     this.onTouched();
   }
@@ -126,18 +147,24 @@ export class NgBubblesComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-
-  private setInnerHtml(element: Element, data: string, selection?: { start: number, end: number }) {
+  private setInnerHtml(
+    element: Element,
+    data: string,
+    selection?: { start: number; end: number },
+  ) {
     if (data && data.length) {
-      selection = selection || (document.activeElement === element && data.length > 0 ? this.saveSelection(element) : null);
-      this.renderer.setProperty(element, 'innerHTML', data);
+      selection =
+        selection ||
+        (document.activeElement === element && data.length > 0
+          ? this.saveSelection(element)
+          : null);
+      this.renderer.setProperty(element, "innerHTML", data);
 
       if (selection) {
         this.restoreSelection(element, selection);
       }
-    }
-    else {
-      this.renderer.setProperty(element, 'innerHTML', null);
+    } else {
+      this.renderer.setProperty(element, "innerHTML", null);
     }
   }
 
@@ -166,7 +193,7 @@ export class NgBubblesComponent implements ControlValueAccessor {
           traverseTextNodes(node.childNodes[i], range);
         }
       }
-    }
+    };
 
     if (sel.rangeCount) {
       try {
@@ -181,22 +208,33 @@ export class NgBubblesComponent implements ControlValueAccessor {
     return { start: start, end: end };
   }
 
-  private restoreSelection(containerEl: Element, savedSel: { start: number, end: number }) {
+  private restoreSelection(
+    containerEl: Element,
+    savedSel: { start: number; end: number },
+  ) {
     let charIndex = 0;
     let foundStart = false;
     let stop = {};
-    let range = rangy.createRange()
+    let range = rangy.createRange();
 
     range.collapseToPoint(containerEl, 0);
 
     let traverseTextNodes = (node: Node) => {
       if (node.nodeType === Node.TEXT_NODE) {
         var nextCharIndex = charIndex + (node as Text).length;
-        if (!foundStart && savedSel.start >= charIndex && savedSel.start <= nextCharIndex) {
+        if (
+          !foundStart &&
+          savedSel.start >= charIndex &&
+          savedSel.start <= nextCharIndex
+        ) {
           range.setStart(node, savedSel.start - charIndex);
           foundStart = true;
         }
-        if (foundStart && savedSel.end >= charIndex && savedSel.end <= nextCharIndex) {
+        if (
+          foundStart &&
+          savedSel.end >= charIndex &&
+          savedSel.end <= nextCharIndex
+        ) {
           range.setEnd(node, savedSel.end - charIndex);
           throw stop;
         }
@@ -206,7 +244,7 @@ export class NgBubblesComponent implements ControlValueAccessor {
           traverseTextNodes(node.childNodes[i]);
         }
       }
-    }
+    };
 
     try {
       traverseTextNodes(containerEl);

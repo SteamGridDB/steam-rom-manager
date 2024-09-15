@@ -1,41 +1,55 @@
-import { ArtworkCacheData, initArtworkRecord, SGDBToArt, ArtworkType } from "../models";
-import * as json from './helpers/json';
+import {
+  ArtworkCacheData,
+  initArtworkRecord,
+  SGDBToArt,
+  ArtworkType,
+} from "../models";
+import * as json from "./helpers/json";
 import * as _ from "lodash";
-import * as path from 'path';
-import * as paths from '../paths';
+import * as path from "path";
+import * as paths from "../paths";
 
 export class ArtworkCache {
   private artworkCache: ArtworkCacheData = undefined;
-  private filePath: string = path.join(paths.userDataDir,'artworkCache.json')
+  private filePath: string = path.join(paths.userDataDir, "artworkCache.json");
 
-  constructor() { }
+  constructor() {}
 
   get sgdbToArt() {
-    return (this.artworkCache||{}).sgdbToArt;
+    return (this.artworkCache || {}).sgdbToArt;
   }
 
   read() {
     const modifierLatest = 0;
-    const modifier: {[controlVersion: string]: { method: (readData: any)=> any}} = {}
-    return json.read<any>(this.filePath, {
+    const modifier: {
+      [controlVersion: string]: { method: (readData: any) => any };
+    } = {};
+    return json
+      .read<any>(this.filePath, {
         version: 0,
-        sgdbToArt: {}
-    }).then((readData) => {
-      let controlVersion;
-      if(!readData.version) {
-        controlVersion = 0;
-      } else {
-        controlVersion = readData.version
-      }
-      let result = _.cloneDeep(readData);
-      for(let j = controlVersion; j < modifierLatest; j++) {
-        result = modifier[j.toString() as keyof typeof modifier].method(result);
-      }
-      this.artworkCache = result;
-      return this.sgdbToArt;
-    }).catch((error) => {
-      this.artworkCache = {version: modifierLatest, sgdbToArt: initArtworkRecord<SGDBToArt[ArtworkType]>(()=>({})) };
-    });
+        sgdbToArt: {},
+      })
+      .then((readData) => {
+        let controlVersion;
+        if (!readData.version) {
+          controlVersion = 0;
+        } else {
+          controlVersion = readData.version;
+        }
+        let result = _.cloneDeep(readData);
+        for (let j = controlVersion; j < modifierLatest; j++) {
+          result =
+            modifier[j.toString() as keyof typeof modifier].method(result);
+        }
+        this.artworkCache = result;
+        return this.sgdbToArt;
+      })
+      .catch((error) => {
+        this.artworkCache = {
+          version: modifierLatest,
+          sgdbToArt: initArtworkRecord<SGDBToArt[ArtworkType]>(() => ({})),
+        };
+      });
   }
 
   write() {
@@ -43,15 +57,22 @@ export class ArtworkCache {
   }
 
   async emptyCache() {
-    this.artworkCache.sgdbToArt = initArtworkRecord<SGDBToArt[ArtworkType]>(()=>({}));
+    this.artworkCache.sgdbToArt = initArtworkRecord<SGDBToArt[ArtworkType]>(
+      () => ({}),
+    );
     await this.write();
   }
 
-  cacheArtwork(sgdbId: string, artworkId: string, appId: string, artworkType: ArtworkType) {
+  cacheArtwork(
+    sgdbId: string,
+    artworkId: string,
+    appId: string,
+    artworkType: ArtworkType,
+  ) {
     this.artworkCache.sgdbToArt[artworkType] ||= {};
     this.artworkCache.sgdbToArt[artworkType][sgdbId] = {
       artworkId: artworkId,
-      appId: appId
+      appId: appId,
     };
   }
 }

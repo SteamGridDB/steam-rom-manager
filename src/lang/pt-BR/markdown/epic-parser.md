@@ -9,4 +9,5 @@ In order for this parser to work with the open source Epic alternative [Legendar
 That said, there is also a `Legendary` parser in SRM which works right out of the box.
 
 ## Compatibilidade
+
 Este analisador está atualmente funcional somente nos sistemas `Windows` e `Mac OS`. No `Mac OS` não é possível iniciar a partir da Epic Store, para que o alternador deva permanecer desativado.

@@ -11,16 +11,20 @@ A localização dos arquivos json que você quer transformar em atalhos Steam. `
 --manifest3.json
 ...
 ```
+
 Os nomes dos ficheiros não importam. O que importa é que cada arquivo de `manifest.json` seja ou um único título, assim:
+
 ```json
 {
-    "title": "gameTitle",
-    "target": "game/path/target.sh",
-    "startIn": "game/path",
-    "launchOptions": "--args"
+  "title": "gameTitle",
+  "target": "game/path/target.sh",
+  "startIn": "game/path",
+  "launchOptions": "--args"
 }
 ```
+
 Ou uma lista de títulos, assim:
+
 ```json
 [
   {

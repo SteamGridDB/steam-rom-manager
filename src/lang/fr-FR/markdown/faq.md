@@ -34,12 +34,14 @@ En utilisant une logique similaire, nous pouvons produire un global pour **Fichi
 
 ## How to deal with multi-leveled directories?
 
-This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. Et maintenant?
+This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while **File5** has `2`. Et maintenant?
 
 Now we can use a globstar and that's it!
+
 ```
 **/${title}.*
 ```
+
 Est-ce vraiment aussi simple? **NO!** Globstar will have some impact in parser's performance if there are many subdirectories with thousands of files each. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere.
 
 A recommended solution is to use braced sets. They can make multiple globs out of `1` glob. If we write a glob like this:
@@ -104,9 +106,10 @@ Now parser can match any combination and is effectively case-insensitive. Techni
 ```
 
 ## Résolution des problèmes
-* Veuillez vous assurer que Steam est belle et bien fermé avant d'enregistrer votre liste d'applications.
 
-* Un problème courant que Steam ROM Manager rencontre est la présence d'anciens répertoires Steam provenant de personnes qui se sont connectées à Steam sur votre ordinateur avant la mise à jour de la nouvelle bibliothèque. Cela peut faire échouer Steam ROM Manager de manière imprévisible, car il essaie d'accéder aux répertoires dont la structure a changé. Pour contourner cela, utilisez le champ [Comptes utilisateur](#user-accounts) pour spécifier les comptes avec lesquels vous souhaitez réellement utiliser Steam ROM Manager.
+- Veuillez vous assurer que Steam est belle et bien fermé avant d'enregistrer votre liste d'applications.
+
+- Un problème courant que Steam ROM Manager rencontre est la présence d'anciens répertoires Steam provenant de personnes qui se sont connectées à Steam sur votre ordinateur avant la mise à jour de la nouvelle bibliothèque. Cela peut faire échouer Steam ROM Manager de manière imprévisible, car il essaie d'accéder aux répertoires dont la structure a changé. Pour contourner cela, utilisez le champ [Comptes utilisateur](#user-accounts) pour spécifier les comptes avec lesquels vous souhaitez réellement utiliser Steam ROM Manager.
 
 ## Le Discord
 

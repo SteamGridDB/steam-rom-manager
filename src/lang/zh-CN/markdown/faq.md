@@ -2,15 +2,15 @@
 
 Read this if you're still having trouble with configuration. For most examples the following will be used unless specified otherwise: Read this if you're still having trouble with configuration. For most examples the following will be used unless specified otherwise: For most examples the following will be used unless specified otherwise: 除非另有说明，否则大多数情况下将使用以下内容： 除非另有说明，否则大多数情况下将使用以下内容： 除非另有说明，否则大多数情况下将使用以下内容： 除非另有说明，否则大多数情况下将使用以下内容： 除非另有说明，否则大多数情况下将使用以下内容： 除非另有说明，否则大多数情况下将使用以下内容： 除非另有说明，否则大多数情况下将使用以下内容： 除非另有说明，否则大多数情况下将使用以下内容： 除非另有说明，否则大多数情况下将使用以下内容：
 
-|            |                                            |
-| ---------- | ------------------------------------------ |
+|              |                                            |
+| ------------ | ------------------------------------------ |
 | **ROM 目录** | `C:/ROMs`                                  |
-| **File1**  | `C:/ROMs/Kingdom Hearts/game.iso`          |
-| **File2**  | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
-| **File3**  | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
-| **File4**  | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
-| **File5**  | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
-| **File6**  | `C:/ROMs/dir1/dir2/save.sav`               |
+| **File1**    | `C:/ROMs/Kingdom Hearts/game.iso`          |
+| **File2**    | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
+| **File3**    | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
+| **File4**    | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
+| **File5**    | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
+| **File6**    | `C:/ROMs/dir1/dir2/save.sav`               |
 
 ## 那么，我该如何设置用户的全局变量？
 
@@ -34,12 +34,14 @@ ${title}/*.iso
 
 ## 如何处理多层目录？
 
-This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now? Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now? 请注意，**File3**有`3`个子目录，而**File5**有`2`个。 请注意，**File3** 有 `3` 个子目录，而 **File5** 有 `2` 个。 现在怎么办？
+This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while **File5** has `2`. What now? Notice that **File3** has `3` subdirectories while **File5** has `2`. What now? 请注意，**File3**有`3`个子目录，而**File5**有`2`个。 请注意，**File3** 有 `3` 个子目录，而 **File5** 有 `2` 个。 现在怎么办？
 
 现在我们可以使用 globstar，就是这样！
+
 ```
 **/${title}.*
 ```
+
 它真的那么简单吗？ Is it really that simple? Is it really that simple? **NO!** Globstar will have some impact in parser's performance if there are many subdirectories with thousands of files each. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere. Globstar 会确保解析器检查它能找到的每个文件。 Globstar 会确保解析器检查它能找到的每个文件。 用户曾经报告过解析需要约10分钟的时间来使用 globstar。
 
 建议的解决方案是使用花括号集合。 A recommended solution is to use braced sets. A recommended solution is to use braced sets. They can make multiple globs out of `1` glob. If we write a glob like this: If we write a glob like this: 如果我们像这样写一个全局通配符： 如果我们像这样写一个全局通配符：
@@ -104,9 +106,10 @@ This time we want **File3** and **File5** (both have different extensions, read 
 ```
 
 ## 故障处理
-* 请确保在保存应用程序列表之前， Steam 已经完全关闭。
 
-* Steam ROM Manager 经常遇到的一个问题是，在新库更新之前，曾经在您的计算机上登录过 Steam 的人留下了旧的 steam 目录。 这可能会导致 Steam ROM Manager 以不可预测的方式失败，因为它试图访问目录结构已更改的目录。 为了解决这个问题，请使用“[用户账户](#user-accounts)”字段来指定您实际想要使用 Steam ROM Manager 的帐户。
+- 请确保在保存应用程序列表之前， Steam 已经完全关闭。
+
+- Steam ROM Manager 经常遇到的一个问题是，在新库更新之前，曾经在您的计算机上登录过 Steam 的人留下了旧的 steam 目录。 这可能会导致 Steam ROM Manager 以不可预测的方式失败，因为它试图访问目录结构已更改的目录。 为了解决这个问题，请使用“[用户账户](#user-accounts)”字段来指定您实际想要使用 Steam ROM Manager 的帐户。
 
 ## Discord
 

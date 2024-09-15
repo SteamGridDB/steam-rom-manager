@@ -34,12 +34,14 @@ Using similar logic we can produce glob for **File3**:
 
 ## How to deal with multi-leveled directories?
 
-This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. Co teraz?
+This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while **File5** has `2`. Co teraz?
 
 Now we can use a globstar and that's it!
+
 ```
 **/${title}.*
 ```
+
 Is it really that simple? **NO!** Globstar will have some impact in parser's performance if there are many subdirectories with thousands of files each. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere.
 
 A recommended solution is to use braced sets. They can make multiple globs out of `1` glob. If we write a glob like this:
@@ -104,9 +106,10 @@ Now parser can match any combination and is effectively case-insensitive. Techni
 ```
 
 ## Troubleshooting
-* Please ensure that steam is actually closed before saving your app list.
 
-* One common issue Steam ROM Manager runs into is the presence of old steam directories from people who logged into steam in your computer before the New Library Update. This can cause Steam ROM Manager to fail in unpredictable ways, as it tries to access directories whose structure has changed. In order to get around this, use the [User Accounts](#user-accounts) field to specify which accounts you actually want to use Steam ROM Manager with.
+- Please ensure that steam is actually closed before saving your app list.
+
+- One common issue Steam ROM Manager runs into is the presence of old steam directories from people who logged into steam in your computer before the New Library Update. This can cause Steam ROM Manager to fail in unpredictable ways, as it tries to access directories whose structure has changed. In order to get around this, use the [User Accounts](#user-accounts) field to specify which accounts you actually want to use Steam ROM Manager with.
 
 ## The Discord
 

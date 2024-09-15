@@ -3,16 +3,18 @@
 Permite substituir o título extraído com uma variável personalizada. Isso é feito logo após a extração do título, o que significa que o título substituído pode ser usado para correspondência incerta e assim por diante. Grupos e variáveis em si são **sensíveis a maiúsculas e minúsculas**, a não ser que uma opção de variável insesitiva esteja habilitada.
 
 Correspondência de título pode ser limitada a grupos específicos de variáveis personalizadas. Para definir a consulta de imagem, é necessário usar a seguinte sintaxe:
+
 ```
 ${...}
 ```
+
 Por exemplo, é assim que você especifica grupos para "RPCS3" e "rpcs3":
+
 ```
 ${RPCS3}${rpcs3}
 ```
 
 Certifique-se de **ativar a opção**.
-
 
 ## Opção insensível
 

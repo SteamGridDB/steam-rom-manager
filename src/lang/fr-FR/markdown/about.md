@@ -2,17 +2,17 @@
 
 Si vous rencontrez des problèmes avec SRM, n'hésitez pas à visiter le [discord](https://discord.gg/bnSVJrz) ou le [subreddit](https://www.reddit.com/r/SteamRomManager/) Pour demander notre aide. Afin que nous puissions vous aider, nous aimerions que vous nous fournissiez ces informations :
 
-* Version SRM: **#{APP[version]}**
-* Système d'exploitation: **#{APP[os]}**
+- Version SRM: **#{APP[version]}**
+- Système d'exploitation: **#{APP[os]}**
 
 ## Liens utiles
 
-* [Sorties SRM](https://github.com/SteamGridDB/steam-rom-manager/releases)
-* [Serveur Discord](https://discord.gg/bnSVJrz)
-* [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
-* [Groupe Steam](https://steamcommunity.com/groups/steamrommanager)
-* [Répertoire GitHub](https://github.com/SteamGridDB/steam-rom-manager)
-* [Projet de traduction Crowdin](https://crowdin.com/project/steam-rom-manager)
+- [Sorties SRM](https://github.com/SteamGridDB/steam-rom-manager/releases)
+- [Serveur Discord](https://discord.gg/bnSVJrz)
+- [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
+- [Groupe Steam](https://steamcommunity.com/groups/steamrommanager)
+- [Répertoire GitHub](https://github.com/SteamGridDB/steam-rom-manager)
+- [Projet de traduction Crowdin](https://crowdin.com/project/steam-rom-manager)
 
 ## Soutien
 
@@ -29,25 +29,29 @@ Si vous appréciez Steam ROM Manager et souhaitez qu'il continue à être utile,
 </a>
 
 ## Contributions
-* `FrogTheFrog`{.noWrap} - Créateur de SRM, n'est plus actif sur SRM mais travaillant actuellement sur le [Plugin MoonDeck](https://github.com/FrogTheFrog/moondeck)
+
+- `FrogTheFrog`{.noWrap} - Créateur de SRM, n'est plus actif sur SRM mais travaillant actuellement sur le [Plugin MoonDeck](https://github.com/FrogTheFrog/moondeck)
 
 ### Mainteneurs actuels
-* `lontanadascienza`{.noWrap} - a mis à jour SRM pour gérer les arrière-plans, les posters, les logos et les icônes. Ajout du gestionnaire d'exception, de la gestion des contrôleurs, des analyseurs de plateformes (Epic, GOG, Steam, etc) et plein d'autres choses. Écrase les bugs presque aussi vite qu'ils viennent.
-* `Zennn`{.noWrap} - Ajout de la prise en charge des catégories, de la localisation, du serveur de rapport de bug et plein d'autres choses. Grand patron de [SteamGridDB](https://www.steamgriddb.com/).
-* `KenCinder`{.noWrap} - Gère et crée les préréglages de communauté de l'analyseur et aide l'utilisateur à configurer SRM dans [Discord](https://discord.gg/bnSVJrz).
+
+- `lontanadascienza`{.noWrap} - a mis à jour SRM pour gérer les arrière-plans, les posters, les logos et les icônes. Ajout du gestionnaire d'exception, de la gestion des contrôleurs, des analyseurs de plateformes (Epic, GOG, Steam, etc) et plein d'autres choses. Écrase les bugs presque aussi vite qu'ils viennent.
+- `Zennn`{.noWrap} - Ajout de la prise en charge des catégories, de la localisation, du serveur de rapport de bug et plein d'autres choses. Grand patron de [SteamGridDB](https://www.steamgriddb.com/).
+- `KenCinder`{.noWrap} - Gère et crée les préréglages de communauté de l'analyseur et aide l'utilisateur à configurer SRM dans [Discord](https://discord.gg/bnSVJrz).
 
 ### Contributions de fonctionnalités
-* `dragoonDorise`{.noWrap} - Ajout de nouveaux thèmes à SRM. Créateur et mainteneur actuel de [EmuDeck](https://www.emudeck.com/).
-* `alvaromunoz`{.noWrap} - Ajout de l'analyseur Game Pass dans SRM.
-* `lexarvn`{.noWrap} - Ajout de l'analyseur Amazon Games et de l'analyseur itch.io.
-* `CarJem`{.noWrap} - Ajout de l'analyseur manuel.
-* `MattMckenzy`{.noWrap} - Ajout de la possibilité d'importer et d'exporter des choix d'image.
-* `Apalatn`{.noWrap} - Ajout d'une option de redirection du lecteur d'installation à l'analyseur itch.io.
-* `OneMoreByte` - a fait fonctionner l'analyseur itch.io sur mac et linux.
-* `UndarkAido` - Ajout d'un passthrough pour les raccourcis .desktop de Linux.
+
+- `dragoonDorise`{.noWrap} - Ajout de nouveaux thèmes à SRM. Créateur et mainteneur actuel de [EmuDeck](https://www.emudeck.com/).
+- `alvaromunoz`{.noWrap} - Ajout de l'analyseur Game Pass dans SRM.
+- `lexarvn`{.noWrap} - Ajout de l'analyseur Amazon Games et de l'analyseur itch.io.
+- `CarJem`{.noWrap} - Ajout de l'analyseur manuel.
+- `MattMckenzy`{.noWrap} - Ajout de la possibilité d'importer et d'exporter des choix d'image.
+- `Apalatn`{.noWrap} - Ajout d'une option de redirection du lecteur d'installation à l'analyseur itch.io.
+- `OneMoreByte` - a fait fonctionner l'analyseur itch.io sur mac et linux.
+- `UndarkAido` - Ajout d'un passthrough pour les raccourcis .desktop de Linux.
 
 ### Communauté
-* `HE Spoke`{.noWrap} - a créé une communauté autour de SRM. Créateur des groupes [Steam](https://steamcommunity.com/groups/steamrommanager) et [Discord](https://discord.gg/bnSVJrz). Aide également les utilisateurs à configurer SRM dans [Discord](https://discord.gg/bnSVJrz).
-* `livedeht`{.noWrap} - Aide les utilisateurs à configurer SRM avec et sans [EmuDeck](https://www.emudeck.com/). Mainteneur actuel de [EmuDeck](https://www.emudeck.com/).
-* `Choko`{.noWrap} - Aide les utilisateurs à configurer SRM dans [Discord](https://discord.gg/bnSVJrz).
-* `Xav83`{.noWrap} - Créateur et mainteneur du SRM [Chocolatey](https://community.chocolatey.org/packages/steam-rom-manager)
+
+- `HE Spoke`{.noWrap} - a créé une communauté autour de SRM. Créateur des groupes [Steam](https://steamcommunity.com/groups/steamrommanager) et [Discord](https://discord.gg/bnSVJrz). Aide également les utilisateurs à configurer SRM dans [Discord](https://discord.gg/bnSVJrz).
+- `livedeht`{.noWrap} - Aide les utilisateurs à configurer SRM avec et sans [EmuDeck](https://www.emudeck.com/). Mainteneur actuel de [EmuDeck](https://www.emudeck.com/).
+- `Choko`{.noWrap} - Aide les utilisateurs à configurer SRM dans [Discord](https://discord.gg/bnSVJrz).
+- `Xav83`{.noWrap} - Créateur et mainteneur du SRM [Chocolatey](https://community.chocolatey.org/packages/steam-rom-manager)

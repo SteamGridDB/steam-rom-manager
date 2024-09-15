@@ -1,28 +1,57 @@
 <div class="upperMenu">
   <div class="search">
-    <ng-text-input class="searchGames" placeholder="Search Games" [(ngModel)]="filterValue"></ng-text-input>
+    <ng-text-input
+      class="searchGames"
+      placeholder="Search Games"
+      [(ngModel)]="filterValue"
+    ></ng-text-input>
   </div>
 </div>
-<div class="loadingSpinner previewSpinner" *ngIf="viewService.status.refreshingShortcuts | async"></div>
-<div class="gamesList" *ngIf="!(this.viewService.status.refreshingShortcuts | async)">
+<div
+  class="loadingSpinner previewSpinner"
+  *ngIf="viewService.status.refreshingShortcuts | async"
+></div>
+<div
+  class="gamesList"
+  *ngIf="!(this.viewService.status.refreshingShortcuts | async)"
+>
   <ng-container *ngFor="let steamDir of viewService.vdfData | keys">
-    <div class="directory" *ngVar="{ isHidden: false } as directory" [class.hidden]="directory.isHidden">
+    <div
+      class="directory"
+      *ngVar="{ isHidden: false } as directory"
+      [class.hidden]="directory.isHidden"
+    >
       <div class="title" (click)="directory.isHidden = !directory.isHidden">
         <svg select-arrow-down></svg>
-        <span>{{steamDir}}</span>
+        <span>{{ steamDir }}</span>
       </div>
-      <ng-container *ngFor="let steamUser of viewService.vdfData[steamDir] | keys">
-        <div class="user" *ngVar="{ isHidden: false } as user" [class.hidden]="user.isHidden">
+      <ng-container
+        *ngFor="let steamUser of viewService.vdfData[steamDir] | keys"
+      >
+        <div
+          class="user"
+          *ngVar="{ isHidden: false } as user"
+          [class.hidden]="user.isHidden"
+        >
           <div class="title" (click)="user.isHidden = !user.isHidden">
             <svg select-arrow-down></svg>
-            <span>{{steamUser}}</span>
+            <span>{{ steamUser }}</span>
           </div>
           <div class="apps">
-            <ng-container *ngFor="let shortcut of sortedShortcuts(viewService.vdfData[steamDir][steamUser].shortcuts.data)">
-              <div class="app" (click)="setCurrentShortcut(steamDir, steamUser, shortcut)" [class.currentShortcut]="shortcut==currentShortcut"
-              *ngIf="(shortcut.appname | fuzzyTest: filterValue)"
+            <ng-container
+              *ngFor="
+                let shortcut of sortedShortcuts(
+                  viewService.vdfData[steamDir][steamUser].shortcuts.data
+                )
+              "
+            >
+              <div
+                class="app"
+                (click)="setCurrentShortcut(steamDir, steamUser, shortcut)"
+                [class.currentShortcut]="shortcut == currentShortcut"
+                *ngIf="shortcut.appname | fuzzyTest: filterValue"
               >
-                <span>{{shortcut.appname}}</span>
+                <span>{{ shortcut.appname }}</span>
               </div>
             </ng-container>
           </div>
@@ -32,10 +61,13 @@
   </ng-container>
 </div>
 <div class="details" *ngIf="!!currentShortcut">
-  <div class="loadingSpinner" *ngIf="(this.viewService.status.refreshingDetails | async)"></div>
+  <div
+    class="loadingSpinner"
+    *ngIf="this.viewService.status.refreshingDetails | async"
+  ></div>
   <ng-container *ngIf="!(viewService.status.refreshingDetails | async)">
     <div class="infos">
-      <div class="launch" (click)=launchTitle()>LAUNCH TITLE</div>
+      <div class="launch" (click)="launchTitle()">LAUNCH TITLE</div>
       <div class="section">
         <span class="sectionLabel">SHORTCUT INFO</span>
       </div>
@@ -43,24 +75,24 @@
         <div class="infoLabel">
           <span>FULL SHORTCUT</span>
         </div>
-        <div class="infoArea" (click)=toClipboard(currentLaunch)>
-          <span>{{currentLaunch}}</span>
+        <div class="infoArea" (click)="toClipboard(currentLaunch)">
+          <span>{{ currentLaunch }}</span>
         </div>
       </div>
       <div class="info">
         <div class="infoLabel">
           <span>START DIRECTORY</span>
         </div>
-        <div class="infoArea" (click)=toClipboard(currentShortcut.StartDir)>
-          <span>{{currentShortcut.StartDir}}</span>
+        <div class="infoArea" (click)="toClipboard(currentShortcut.StartDir)">
+          <span>{{ currentShortcut.StartDir }}</span>
         </div>
       </div>
       <div class="info">
         <div class="infoLabel">
           <span>CATEGORIES</span>
         </div>
-        <div class="infoArea" (click)=toClipboard(currentCats)>
-          <span>{{currentCats}}</span>
+        <div class="infoArea" (click)="toClipboard(currentCats)">
+          <span>{{ currentCats }}</span>
         </div>
       </div>
     </div>
@@ -69,11 +101,11 @@
     </div>
     <div class="artworks">
       <ng-container *ngFor="let artworkType of artworkTypes">
-        <div class= "artworkContainer">
+        <div class="artworkContainer">
           <div class="artworkLabel">
-            <span>{{artworkSingDict[artworkType].toUpperCase()}}</span>
+            <span>{{ artworkSingDict[artworkType].toUpperCase() }}</span>
           </div>
-          <img [src]="currentArtwork[artworkType]" class="artwork"/>
+          <img [src]="currentArtwork[artworkType]" class="artwork" />
         </div>
       </ng-container>
     </div>
@@ -86,18 +118,27 @@
           <span>ENABLE STEAM INPUT</span>
         </div>
         <div class="infoArea">
-          <span>{{currentControllerEnabled}}</span>
+          <span>{{ currentControllerEnabled }}</span>
         </div>
       </div>
-      <div class="info" *ngFor="let controllerType of currentControllers | keys">
+      <div
+        class="info"
+        *ngFor="let controllerType of currentControllers | keys"
+      >
         <div class="infoLabel">
-          <span>{{controllerType.toUpperCase()}}</span>
+          <span>{{ controllerType.toUpperCase() }}</span>
         </div>
-        <div class="infoArea" (click)=toClipboard(currentControllers[controllerType].title)>
-          <span>{{currentControllers[controllerType].title}}</span>
+        <div
+          class="infoArea"
+          (click)="toClipboard(currentControllers[controllerType].title)"
+        >
+          <span>{{ currentControllers[controllerType].title }}</span>
         </div>
-        <div class="infoArea" (click)=toClipboard(currentControllers[controllerType].templatePath)>
-          <span>{{currentControllers[controllerType].templatePath}}</span>
+        <div
+          class="infoArea"
+          (click)="toClipboard(currentControllers[controllerType].templatePath)"
+        >
+          <span>{{ currentControllers[controllerType].templatePath }}</span>
         </div>
       </div>
     </div>
@@ -105,19 +146,21 @@
 </div>
 <div class="menu not-emudeck">
   <div class="buttonGroup">
-    <div class="menuButton" (click)="refreshGames(true)">
-      Refresh Games
-    </div>
+    <div class="menuButton" (click)="refreshGames(true)">Refresh Games</div>
   </div>
 </div>
 <div class="menu only-emudeck">
   <div class="buttonGroup">
-    <div class="menuButton" (click)="refreshGames(true)">
-      Refresh Games
-    </div>
+    <div class="menuButton" (click)="refreshGames(true)">Refresh Games</div>
   </div>
   <div class="buttonGroup">
-    <div class="menuButton" routerLink="/parsers-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Back</div>
+    <div
+      class="menuButton"
+      routerLink="/parsers-list"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      Back
+    </div>
   </div>
 </div>
-

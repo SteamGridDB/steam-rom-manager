@@ -3,9 +3,9 @@ name: Bug report
 about: Create a bug report
 title: "[BUG]"
 labels:
-assignees: ''
-
+assignees: ""
 ---
+
 <!-- Before creating a bug report, make sure you are using the latest version of Steam Rom Manager. -->
 <!-- Nobody wants to try and figure out an issue on an old version where something may have already been fixed, and as such outdated versions are unsupported. -->
 
@@ -15,14 +15,11 @@ assignees: ''
 - **Describe the bug**
 <!-- A clear and concise description of what the bug is. -->
 
-
 - **Steps to reproduce the behavior**
 <!-- A clear and concise set of steps to reproduce the behaviour -->
 
-
 - **Expected behavior**
 <!-- A clear and concise description of what you expected to happen. -->
-
 
 - **Screenshots**
 <!-- If applicable, add screenshots to help explain your problem. -->

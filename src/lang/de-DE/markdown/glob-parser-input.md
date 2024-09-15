@@ -6,7 +6,7 @@ This is where you create your glob for extracting title from file path. Please r
 
 ## Wie funktioniert es?
 
-In addition to special glob characters, glob parser requires you to enter `${title}`{.noWrap} variable. Parser will locate it's position inside your  **glob**, for example:
+In addition to special glob characters, glob parser requires you to enter `${title}`{.noWrap} variable. Parser will locate it's position inside your **glob**, for example:
 
 | Benutzer-Glob          | Position                    |
 | ---------------------- | --------------------------- |

@@ -1,5 +1,7 @@
 # UPlay 解析器的独特输入
+
 ## Ubisoft 目录覆盖
+
 默认情况下，Steam ROM Manager 假定您的 UPlay 安装位于 `C:\Program Files (x86)\Ubisoft`。 如果你的 UPlay 安装在其他位置，这个字段允许你覆盖那个路径。
 
 ## 通过 UPlay 启动`[建议禁用]`

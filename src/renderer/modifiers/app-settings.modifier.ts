@@ -1,118 +1,156 @@
-import { ValidatorModifier, AppSettings } from '../../models';
+import { ValidatorModifier, AppSettings } from "../../models";
 import * as _ from "lodash";
-import {versionUp, extractNames} from "./modifier-helpers";
+import { versionUp, extractNames } from "./modifier-helpers";
 
 export const appSettings: ValidatorModifier<AppSettings> = {
-  controlProperty: 'version',
+  controlProperty: "version",
   latestVersion: 10,
   fields: {
     undefined: {
-      'version': { method: () => 0 },
-        'enabledProviders': {
-        method: (oldValue) => Array.isArray(oldValue) ? oldValue.filter((val) => val !== "ConsoleGrid" && val !== "retrogaming.cloud") : oldValue
+      version: { method: () => 0 },
+      enabledProviders: {
+        method: (oldValue) =>
+          Array.isArray(oldValue)
+            ? oldValue.filter(
+                (val) => val !== "ConsoleGrid" && val !== "retrogaming.cloud",
+              )
+            : oldValue,
       },
-      'environmentVariables': { method: (oldValue) => {
-        let defaultValue = {retroarchPath:'',steamDirectory:'',localImagesDirectory:''}
-        if(oldValue){
-          let newValue=_.cloneDeep(oldValue);
-          Object.keys(defaultValue).forEach((field: string) => {
-            newValue[field] = newValue[field] || '';
-          })
-          return newValue;
-        }
-        return defaultValue;
-      }
-      }
+      environmentVariables: {
+        method: (oldValue) => {
+          let defaultValue = {
+            retroarchPath: "",
+            steamDirectory: "",
+            localImagesDirectory: "",
+          };
+          if (oldValue) {
+            let newValue = _.cloneDeep(oldValue);
+            Object.keys(defaultValue).forEach((field: string) => {
+              newValue[field] = newValue[field] || "";
+            });
+            return newValue;
+          }
+          return defaultValue;
+        },
+      },
     },
     0: {
-      'version': { method: versionUp },
-      'environmentVariables': { method: (oldValue) => {
-        let defaultValue = {retroarchPath:'',raCoresDirectory:'',steamDirectory:'',localImagesDirectory:''}
-        if(oldValue){
-          return Object.assign(oldValue, {raCoresDirectory: ''});
-        }
-        return defaultValue;
-      }
-      }
+      version: { method: versionUp },
+      environmentVariables: {
+        method: (oldValue) => {
+          let defaultValue = {
+            retroarchPath: "",
+            raCoresDirectory: "",
+            steamDirectory: "",
+            localImagesDirectory: "",
+          };
+          if (oldValue) {
+            return Object.assign(oldValue, { raCoresDirectory: "" });
+          }
+          return defaultValue;
+        },
+      },
     },
     1: {
-      'version': {method: versionUp },
-      'knownSteamDirectories': {
-        method: (oldValue, oldConfiguration)=>{
+      version: { method: versionUp },
+      knownSteamDirectories: {
+        method: (oldValue, oldConfiguration) => {
           delete oldConfiguration.knownSteamDirectories;
-        }
-      }
+        },
+      },
     },
     2: {
-      'version': {method: versionUp },
-      'environmentVariables': {method: (oldValue)=>{
-        let defaultValue = {retroarchPath:'',raCoresDirectory:'',steamDirectory:'',romsDirectoryGlobal:'',localImagesDirectory:''}
-        // Fix a past mistake.
-        if(oldValue.steamDirectoryGlobal) {
-          let temp = Object.assign(oldValue,{steamDirectory: oldValue.steamDirectoryGlobal, romsDirectory: ''});
-          delete temp.steamDirectoryGlobal;
-          return temp;
-        }
-        if(oldValue){
-          return Object.assign(oldValue, {romsDirectory: ''});
-        }
-        return defaultValue;
-      }
-      }
+      version: { method: versionUp },
+      environmentVariables: {
+        method: (oldValue) => {
+          let defaultValue = {
+            retroarchPath: "",
+            raCoresDirectory: "",
+            steamDirectory: "",
+            romsDirectoryGlobal: "",
+            localImagesDirectory: "",
+          };
+          // Fix a past mistake.
+          if (oldValue.steamDirectoryGlobal) {
+            let temp = Object.assign(oldValue, {
+              steamDirectory: oldValue.steamDirectoryGlobal,
+              romsDirectory: "",
+            });
+            delete temp.steamDirectoryGlobal;
+            return temp;
+          }
+          if (oldValue) {
+            return Object.assign(oldValue, { romsDirectory: "" });
+          }
+          return defaultValue;
+        },
+      },
     },
     3: {
-      'version': {method: versionUp},
-      'language': {
+      version: { method: versionUp },
+      language: {
         method: (oldValue) => {
-          if(oldValue=='English') {return 'en-US'}
-        }
-      }
+          if (oldValue == "English") {
+            return "en-US";
+          }
+        },
+      },
     },
     4: {
-      'version': {method: versionUp},
-      'theme': {
+      version: { method: versionUp },
+      theme: {
         method: (oldValue) => {
-          return oldValue || 'Deck'
-        }
-      }
+          return oldValue || "Deck";
+        },
+      },
     },
     5: {
-      'version': {method: versionUp},
-      'environmentVariables': {method: (oldValue) => {
-        oldValue['userAccounts'] = '';
-        return oldValue;
-      }}
+      version: { method: versionUp },
+      environmentVariables: {
+        method: (oldValue) => {
+          oldValue["userAccounts"] = "";
+          return oldValue;
+        },
+      },
     },
     6: {
-      'version': {method: versionUp},
-      'enabledProviders': {method: (oldValue) => {
-        return oldValue.length ? ['sgdb', 'steamCDN'] : []
-      }}
+      version: { method: versionUp },
+      enabledProviders: {
+        method: (oldValue) => {
+          return oldValue.length ? ["sgdb", "steamCDN"] : [];
+        },
+      },
     },
     7: {
-      'version': {method: versionUp},
-      'dnsServers': {method: (oldValue) => {
-        return [];
-      }}
+      version: { method: versionUp },
+      dnsServers: {
+        method: (oldValue) => {
+          return [];
+        },
+      },
     },
     8: {
-      'version': {method: versionUp},
-      'previewSettings': {method: (oldValue, oldConfiguration) => {
-        const oldPreload = oldConfiguration['preload'];
-        delete oldConfiguration['preload'];
-        if(oldPreload) {
-          return {...oldConfiguration, imageLoadStrategy: 'loadPre'}
-        } else {
-          return {...oldConfiguration, imageLoadStrategy: 'loadLazy'}
-        }
-      }}
+      version: { method: versionUp },
+      previewSettings: {
+        method: (oldValue, oldConfiguration) => {
+          const oldPreload = oldConfiguration["preload"];
+          delete oldConfiguration["preload"];
+          if (oldPreload) {
+            return { ...oldConfiguration, imageLoadStrategy: "loadPre" };
+          } else {
+            return { ...oldConfiguration, imageLoadStrategy: "loadLazy" };
+          }
+        },
+      },
     },
     9: {
-      'version': {method: versionUp},
-      'environmentVariables': {method: (oldValue) => {
-        oldValue.userAccounts = extractNames(oldValue.userAccounts)
-        return oldValue;
-      }}
-    }
-  }
+      version: { method: versionUp },
+      environmentVariables: {
+        method: (oldValue) => {
+          oldValue.userAccounts = extractNames(oldValue.userAccounts);
+          return oldValue;
+        },
+      },
+    },
+  },
 };

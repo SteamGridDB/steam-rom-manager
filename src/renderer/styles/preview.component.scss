@@ -35,7 +35,9 @@
     "filters entries detailsLower listImages excludesLower"
     "lowerMenu lowerMenu lowerMenu lowerMenu lowerMenu";
   grid-template-rows: auto auto auto auto auto 1fr auto;
-  grid-template-columns: var(--filters-width) auto var(--details-width) var(--list-images-width) var(--excludes-lower-width);
+  grid-template-columns:
+    var(--filters-width) auto var(--details-width) var(--list-images-width)
+    var(--excludes-lower-width);
   .loadingSpinner {
     &:before {
       display: block;
@@ -115,13 +117,13 @@
       margin-bottom: 0;
     }
     .filtersButton {
-        grid-column: 1;
-        @include button();
-        @include clickButtonColor(click-button);
+      grid-column: 1;
+      @include button();
+      @include clickButtonColor(click-button);
     }
     .title {
       margin-left: 1em;
-      color: var(--color-preview-text); 
+      color: var(--color-preview-text);
     }
     .imageCounter {
       color: var(--color-preview-text);
@@ -134,7 +136,6 @@
       font-size: 1em;
       margin-right: 0.75em;
       color: var(--color-preview-text);
-      
     }
 
     .slider {
@@ -221,8 +222,6 @@
   .upper {
     &.detailsUpper {
       grid-area: detailsUpper;
-
-
     }
     &.listImagesUpper {
       grid-area: listImagesUpper;
@@ -289,45 +288,81 @@
         > .app {
           flex-shrink: 0;
           margin: 0.75em;
-          width: calc(var(--preview-image-size) * var(--games-tall-width) * var(--list-images-factor));
-          height: calc(var(--preview-image-size) * var(--games-tall-height) * var(--list-images-factor));
+          width: calc(
+            var(--preview-image-size) * var(--games-tall-width) *
+              var(--list-images-factor)
+          );
+          height: calc(
+            var(--preview-image-size) * var(--games-tall-height) *
+              var(--list-images-factor)
+          );
           background-repeat: no-repeat;
           background-position: center center;
           background-size: 100%;
           &.longStyle {
-            width: calc(var(--preview-image-size) * var(--games-long-width) * var(--list-images-factor));
-            height: calc(var(--preview-image-size) * var(--games-long-height) * var(--list-images-factor));
+            width: calc(
+              var(--preview-image-size) * var(--games-long-width) *
+                var(--list-images-factor)
+            );
+            height: calc(
+              var(--preview-image-size) * var(--games-long-height) *
+                var(--list-images-factor)
+            );
           }
           &.tallStyle {
-            width: calc(var(--preview-image-size) * var(--games-tall-width) * var(--list-images-factor));
-            height: calc(var(--preview-image-size) * var(--games-tall-height) * var(--list-images-factor));
+            width: calc(
+              var(--preview-image-size) * var(--games-tall-width) *
+                var(--list-images-factor)
+            );
+            height: calc(
+              var(--preview-image-size) * var(--games-tall-height) *
+                var(--list-images-factor)
+            );
           }
           &.heroStyle {
-            width: calc(var(--preview-image-size) * var(--games-hero-width) * var(--list-images-factor));
-            height: calc(var(--preview-image-size) * var(--games-hero-height) * var(--list-images-factor));
+            width: calc(
+              var(--preview-image-size) * var(--games-hero-width) *
+                var(--list-images-factor)
+            );
+            height: calc(
+              var(--preview-image-size) * var(--games-hero-height) *
+                var(--list-images-factor)
+            );
           }
           &.logoStyle {
-            width: calc(var(--preview-image-size) * var(--games-logo-width) * var(--list-images-factor));
-            height: calc(var(--preview-image-size) * var(--games-logo-height) * var(--list-images-factor));
+            width: calc(
+              var(--preview-image-size) * var(--games-logo-width) *
+                var(--list-images-factor)
+            );
+            height: calc(
+              var(--preview-image-size) * var(--games-logo-height) *
+                var(--list-images-factor)
+            );
           }
           &.iconStyle {
-            width: calc(var(--preview-image-size) * var(--games-icon-width) * var(--list-images-factor));
-            height: calc(var(--preview-image-size) * var(--games-icon-height) * var(--list-images-factor));
+            width: calc(
+              var(--preview-image-size) * var(--games-icon-width) *
+                var(--list-images-factor)
+            );
+            height: calc(
+              var(--preview-image-size) * var(--games-icon-height) *
+                var(--list-images-factor)
+            );
           }
-         border: solid 2px transparent; // fixes flickering
-         &.selected, &:hover {
-            border:solid 2px #099;
-         }
+          border: solid 2px transparent; // fixes flickering
+          &.selected,
+          &:hover {
+            border: solid 2px #099;
+          }
         }
       }
     }
-
   }
   .excludesLower {
     @include webkitScrollbar(preview-scrollbar);
     overflow-y: auto;
     grid-area: excludesLower;
-    .title{
+    .title {
       padding: 1em;
       background-color: var(--color-preview-user-background);
       color: var(--color-preview-text);
@@ -341,7 +376,7 @@
     .currentExclude {
       padding: 1em;
       color: var(--color-preview-text);
-      border-top: solid 1px var(--color-preview-user-background);      
+      border-top: solid 1px var(--color-preview-user-background);
       border-bottom: solid 1px var(--color-preview-user-background);
       &.isPutBack {
         background-color: var(--color-ng-select-option-background-hover);
@@ -358,8 +393,8 @@
       "detailsList";
     grid-template-rows: auto 1fr;
     overflow-y: auto;
-    &>.loadingSpinner {
-      margin-left: calc(var(--details-width) - 3em)
+    & > .loadingSpinner {
+      margin-left: calc(var(--details-width) - 3em);
     }
 
     .detailsOptions {
@@ -387,7 +422,7 @@
         font-size: 1em;
         margin: 0.25em 0 0.25em 0;
         @include ngToggleButtonColor(ng-toggle-button);
-        color: var(--color-preview-text)
+        color: var(--color-preview-text);
       }
       .detailsExceptionSection {
         width: 100%;
@@ -405,7 +440,7 @@
       }
       .detailsException {
         width: 100%;
-        display:grid;
+        display: grid;
         grid-row: auto;
         .detailsExceptionField {
           width: 100%;
@@ -420,13 +455,12 @@
             .ngTextInput {
               margin: 0em;
             }
-
           }
           .detailsExceptionButton {
             grid-area: detailsExceptionButton;
             @include button();
             @include clickButtonColor(click-button);
-            margin-left: .25em;
+            margin-left: 0.25em;
           }
         }
       }
@@ -465,8 +499,12 @@
           flex-shrink: 0;
           border: solid 2px var(--color-preview-image-border);
           margin: 0.75em;
-          width: calc(0.6 * var(--preview-image-size) * var(--games-tall-width));
-          height: calc(0.6 * var(--preview-image-size) * var(--games-tall-height));
+          width: calc(
+            0.6 * var(--preview-image-size) * var(--games-tall-width)
+          );
+          height: calc(
+            0.6 * var(--preview-image-size) * var(--games-tall-height)
+          );
           background-repeat: no-repeat;
           background-position: center center;
           background-size: 100%;
@@ -519,10 +557,10 @@
         font-size: 1em;
         margin: 0.25em 0 0.25em 0;
         @include ngToggleButtonColor(ng-toggle-button);
-        color: var(--color-preview-text)
+        color: var(--color-preview-text);
       }
       .filterLabel {
-        margin-bottom: .5em;
+        margin-bottom: 0.5em;
         span {
           color: var(--color-preview-text);
         }
@@ -545,7 +583,9 @@
   .entries {
     @include webkitScrollbar(preview-scrollbar);
     overflow-y: auto;
-    &.detailsOpen,&.listImagesOpen, &.showExcludes {
+    &.detailsOpen,
+    &.listImagesOpen,
+    &.showExcludes {
       ::-webkit-scrollbar {
         width: 0.75em;
       }
@@ -604,7 +644,7 @@
             width: 100%;
             height: 100%;
             color: var(--color-preview-text);
-            border-top: solid 1px var(--color-preview-user-background);      
+            border-top: solid 1px var(--color-preview-user-background);
             border-bottom: solid 1px var(--color-preview-user-background);
             &.showExcludes {
               background-color: var(--color-ng-select-option-background-hover);
@@ -633,11 +673,14 @@
                 margin: 0.25em 0 0.25em 0;
               }
               &.sortBy {
-                background-color: var(--color-ng-select-option-background-hover);
+                background-color: var(
+                  --color-ng-select-option-background-hover
+                );
                 color: var(--color-ng-select-option-text-hover);
               }
             }
-            &:hover:not(.header), &.current {
+            &:hover:not(.header),
+            &.current {
               background-color: var(--color-ng-select-option-background-hover);
               color: var(--color-ng-select-option-text-hover);
             }
@@ -672,26 +715,38 @@
             }
             &.longStyle {
               width: calc(var(--preview-image-size) * var(--games-long-width));
-              height: calc(var(--preview-image-size) * var(--games-long-height));
+              height: calc(
+                var(--preview-image-size) * var(--games-long-height)
+              );
             }
             &.tallStyle {
               width: calc(var(--preview-image-size) * var(--games-tall-width));
-              height: calc(var(--preview-image-size) * var(--games-tall-height));
+              height: calc(
+                var(--preview-image-size) * var(--games-tall-height)
+              );
             }
             &.heroStyle {
               width: calc(var(--preview-image-size) * var(--games-hero-width));
-              height: calc(var(--preview-image-size) * var(--games-hero-height));
+              height: calc(
+                var(--preview-image-size) * var(--games-hero-height)
+              );
             }
             &.logoStyle {
               width: calc(var(--preview-image-size) * var(--games-logo-width));
-              height: calc(var(--preview-image-size) * var(--games-logo-height));
+              height: calc(
+                var(--preview-image-size) * var(--games-logo-height)
+              );
             }
             &.iconStyle {
               width: calc(var(--preview-image-size) * var(--games-icon-width));
-              height: calc(var(--preview-image-size) * var(--games-icon-height));
+              height: calc(
+                var(--preview-image-size) * var(--games-icon-height)
+              );
             }
             &.retrieving {
-              background-color: var(--color-preview-image-retrieving-url-background);
+              background-color: var(
+                --color-preview-image-retrieving-url-background
+              );
               border-color: var(--color-preview-image-retrieving-url-border);
             }
 
@@ -701,7 +756,9 @@
             }
 
             &.downloading {
-              background-color: var(--color-preview-image-downloading-background);
+              background-color: var(
+                --color-preview-image-downloading-background
+              );
               border-color: var(--color-preview-image-downloading-border);
             }
 
@@ -839,15 +896,22 @@
                 > .appButtons {
                   grid-area: buttons;
 
-
                   --color-refresh-images: var(--color-preview-app-button);
                   --color-image-alert: var(--color-preview-app-button);
 
-                  --color-refresh-images-hover: var(--color-preview-app-button-hover);
-                  --color-image-alert-hover: var(--color-preview-app-button-hover);
+                  --color-refresh-images-hover: var(
+                    --color-preview-app-button-hover
+                  );
+                  --color-image-alert-hover: var(
+                    --color-preview-app-button-hover
+                  );
 
-                  --color-refresh-images-active: var(--color-preview-app-button-active);
-                  --color-image-alert-active: var(--color-preview-app-button-active);
+                  --color-refresh-images-active: var(
+                    --color-preview-app-button-active
+                  );
+                  --color-image-alert-active: var(
+                    --color-preview-app-button-active
+                  );
                   .deckbuttons {
                     display: flex;
                     width: 100%;

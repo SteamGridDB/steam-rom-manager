@@ -1,1 +1,1 @@
-export * from './available-artwork-types';
+export * from "./available-artwork-types";

@@ -131,7 +131,12 @@ markdown {
   }
 
   pre {
-    @include webkitScrollbar(markdown-code-scrollbar, 0.75em, 0 0 0.188rem 0.188rem, 0 0 0.188rem 0.188rem);
+    @include webkitScrollbar(
+      markdown-code-scrollbar,
+      0.75em,
+      0 0 0.188rem 0.188rem,
+      0 0 0.188rem 0.188rem
+    );
 
     font-family: "Hack";
     font-size: 0.85em;
