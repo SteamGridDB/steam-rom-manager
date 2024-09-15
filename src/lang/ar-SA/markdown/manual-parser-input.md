@@ -1,4 +1,4 @@
-# Manual Parser Specific Inputs
+# Manual Parser specific inputs
 
 ## Manifests Directory `[Supports Environment Variables]`{.noWrap}
 
@@ -14,11 +14,10 @@ The location of the json files you want to turn into steam shortcuts. `Manifests
 The names of the files do not matter. What does matter is that each `manifest.json` file is either a single title, like so:
 ```json
 {
-    "title": "gameTitle",
-    "target": "game/path/target.sh",
-    "startIn": "game/path",
-    "launchOptions": "--args",
-    "appendArgsToExecutable": false
+  "title": "gameTitle",
+  "target": "game/path/target.sh",
+  "startIn": "game/path",
+  "launchOptions": "--args"
 }
 ```
 Or a list of titles, like so:
@@ -28,7 +27,15 @@ Or a list of titles, like so:
     "title": "gameTitle",
     "target": "game/path/target.sh",
     "startIn": "game/path",
-    "launchOptions": "--args".
+    "launchOptions": "--args"
+  },
+  {
+    "title": "gameTitle2",
+    "target": "game2/path/target.sh",
+    "startIn": "game2/path",
+    "launchOptions": "--args2"
+  }
+]
     "appendArgsToExecutable": true
   },
   {
