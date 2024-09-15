@@ -2,7 +2,7 @@
 
 In case you're having trouble with SRM, feel free to visit the [discord](https://discord.gg/bnSVJrz) or the [subreddit](https://www.reddit.com/r/SteamRomManager/) and ask for our help. In order for us to help you, we would like you to provide this info:
 
-* SRM version: **#{APP[version]}** emudeckText
+* SRM version: **#{APP[version]}**
 * Operating System: **#{APP[os]}**
 
 ## Useful links
@@ -43,8 +43,8 @@ Help support continued progress on Steam ROM Manager at:
 * `CarJem`{.noWrap} - Added the manual parser.
 * `MattMckenzy`{.noWrap} - Added ability to import and export image choices.
 * `Apalatn`{.noWrap} - Added an install drive redirect option to the itch.io parser.
-* `OneMoreByte`{.noWrap} - Made itch.io parser work on linux and mac.
-* `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
+* `OneMoreByte` - Made itch.io parser work on linux and mac.
+* `UndarkAido` - Added shortcut passthrough for Linux's .desktop shortcuts.
 * `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
 
 ### Community
