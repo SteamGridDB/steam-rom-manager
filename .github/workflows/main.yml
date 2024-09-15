@@ -38,7 +38,7 @@ jobs:
       - name: Build Distribution
         run: |
           git lfs pull
-          yarn run validate-files
+          yarn run presets:validate
           yarn run build:dist
         env:
           SENTRY_AUTH: ${{ secrets.SENTRY_AUTH }}

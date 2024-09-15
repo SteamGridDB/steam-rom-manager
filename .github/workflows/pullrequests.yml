@@ -40,7 +40,7 @@ jobs:
       - name: Build
         run: |
           git lfs pull
-          yarn run validate-files
+          yarn run presets:validate
           yarn run build:dist
 
       - name: Build Linux
