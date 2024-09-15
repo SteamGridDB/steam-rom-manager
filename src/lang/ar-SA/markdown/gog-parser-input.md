@@ -1,13 +1,14 @@
-# GOG Galaxy Parser Specific Inputs
+# Unique inputs for GOG Galaxy Parser
 
 ## Galaxy Path Override
-By default Steam ROM Manager assumes your GOG Galaxy executable is located at `C:\Program Files (x86)\GOG Galaxy\GalaxyClient.exe` on Windows and `/Applications/GOG Galaxy.app/Contents/MacOS/GOG Galaxy` on Mac. This field allows you to override that path if your GOG Galaxy executable is elsewhere.
 
-Specifying the correct location of GOG Galaxy's executable is only necessary if you enable launch via GOG Galaxy (see below), as otherwise SRM has no need of the location of GOG Galaxy's executable.
+By default Steam ROM Manager assumes your Galaxy Client is located at `C:\Program Files (x86)\GOG Galaxy\GalaxyClient.exe`. This field allows you to override that path if your GOG Galaxy installation is elsewhere.
 
-## Launch via GOG Galaxy `[Recommend disabled]`
+This field is actually only necessary if you enable launch via GOG Galaxy (see below), as otherwise SRM has no need of the location of the Galaxy Client.
 
-What it sounds like, this toggle determines whether games launch via GOG Galaxy or directly. For some games launching from GOG Galaxy may fail, and the Steam overlay will most likely not work.
+## Launch Via GOG Galaxy `[Recommend disabled]`
+
+What it sounds like, this toggle let's you set whether games will launch via GOG Galaxy or directly. Note that for some games launching from GOG Galaxy may fail, and the Steam overlay will most likely not work.
 
 ## Parse Linked Executables from GOG Galaxy
 
