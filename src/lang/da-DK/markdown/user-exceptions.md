@@ -2,7 +2,7 @@
 ## What not to use this for
 This tool can be used to define per app exceptions that over rule the parsers. It should not be used to accomplish bulk tasks. For example, removing the colon character from titles can be accomplished via the title modifier `${/:/|${title}|}` and should not be done here. If a command line argument is common to every parsed app, then use the command line argument field - do not create a bunch of entries here!
 
-## Extracted Title - *Mandatory*
+## Extracted Title - _Mandatory_
 The only mandatory exception field is `Extracted Title`. Once this is specified and the exception is saved, any game that matches will have its fields overridden by any non-blank exception fields (if left blank, the exception fields do nothing).
 
 The `Extracted Title` field matches in two ways:
@@ -12,7 +12,7 @@ The `Extracted Title` field matches in two ways:
 
 Thus you can either have an exception that applies to all games with the same name or an exception that applies only to an exact game (`Exception ID`s are unique). The reason for this is primarily backwards compatibility -- SRM formerly matched only on the `Extracted Title`.
 
-Exceptions generated from `Add Games` will always be in the form `Extracted Title ${id:XXXXXX}`.
+Exceptions generated from `Preview` will always be in the form `Extracted Title ${id:XXXXXX}`.
 
 ## New Display Title
 
