@@ -104,10 +104,9 @@ export class NgNestedFormComponent implements OnInit {
   private buildFromTemplate(group: NestedFormElement.Group) {
     let formGroup: IndexedFormGroup = new FormGroup({});
     formGroup["__path"] = this.groupName
-      ? (this.parentForm
-          ? this.parentForm["__path"]
-          : (null as Array<string>) || []
-        ).concat(this.groupName)
+      ? (this.parentForm ? this.parentForm["__path"] : []).concat(
+          this.groupName,
+        )
       : [];
     for (let childKey in group.children) {
       let notGroup =
