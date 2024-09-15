@@ -185,8 +185,6 @@
   --color-ng-select-scrollbar-thumb: rgb(80, 80, 80);
   --color-ng-select-scrollbar-track: rgb(31, 31, 31);
   --ng-select-padding: 0.2em 0.1em;
-  --ng-select-background: inherit;
-  --ng-select-background-hover: inherit;
   --ng-select-radius: 4px;
   --ng-select-margin: var(--margin-input-text);
   --color-ng-toggle-button-border: #159b44;
@@ -891,7 +889,7 @@
   --color-alert-text: #fff;
   --border-width-alert: 0 0 0 4px;
   --color-app-loading-spinner: var(--color--accent);
-  --color-click-button-background: var(--ng-select-background);
+  --color-click-button-background: var(--color-ng-select-background);
   --color-click-button-background-active: ;
   --color-click-button-background-disabled: #414141;
   --color-click-button-background-hover: var(--color--accent);
@@ -920,10 +918,10 @@
   --color-error: #d81b5e;
   --color-fuzzy: #551a8b;
   --color-info: #1b5ed8;
-  --color-input-background: var(--ng-select-background);
+  --color-input-background: var(--color-ng-select-background);
   --color-input-background-disabled: blue;
   --color-input-background-focus: #fff;
-  --color-input-background-hover: var(--ng-select-background);
+  --color-input-background-hover: var(--color-ng-select-background);
   --color-input-border: transparent;
   --color-input-border-disabled: transparent;
   --color-input-border-focus: transparent;
@@ -977,13 +975,13 @@
   --color-ng-select-arrow: #c8c8c8;
   --color-ng-select-arrow-active: #c8c8c8;
   --color-ng-select-arrow-hover: #c8c8c8;
-  --color-ng-select-background: #1c2025;
-  --color-ng-select-background-active: #c8c8c8;
-  --color-ng-select-background-hover: #c8c8c8;
+  --color-ng-select-background: #33373c;
+  --color-ng-select-background-active: #f5f5f5;
+  --color-ng-select-background-hover: #f5f5f5;
   --color-ng-select-border: transparent;
   --color-ng-select-border-active: transparent;
   --color-ng-select-border-hover: transparent;
-  --color-ng-select-option-background: var(--ng-select-background);
+  --color-ng-select-option-background: var(--color-ng-select-background);
   --color-ng-select-option-background-active: var(--color--accent);
   --color-ng-select-option-background-hover: #fff;
   --color-ng-select-option-border: transparent;
@@ -998,8 +996,6 @@
   --color-ng-select-scrollbar-thumb: rgb(80, 80, 80);
   --color-ng-select-scrollbar-track: rgb(31, 31, 31);
   --ng-select-padding: 10px 20px; //
-  --ng-select-background: #33373c; //
-  --ng-select-background-hover: #f5f5f5; //
   --ng-select-radius: 4px; //
   --ng-select-margin: var(--margin-input-text); //
   --ng-select-border-width: 0px;
@@ -1267,7 +1263,7 @@
   --color-alert-text: #fff;
   --border-width-alert: 0 0 0 4px;
   --color-app-loading-spinner: var(--color--accent);
-  --color-click-button-background: var(--ng-select-background);
+  --color-click-button-background: var(--color-ng-select-background);
   --color-click-button-background-active: ;
   --color-click-button-background-disabled: #414141;
   --color-click-button-background-hover: var(--color--accent);
@@ -1296,10 +1292,10 @@
   --color-error: #d81b5e;
   --color-fuzzy: #551a8b;
   --color-info: #1b5ed8;
-  --color-input-background: var(--ng-select-background);
+  --color-input-background: var(--color-ng-select-background);
   --color-input-background-disabled: blue;
   --color-input-background-focus: #fff;
-  --color-input-background-hover: var(--ng-select-background);
+  --color-input-background-hover: var(--color-ng-select-background);
   --color-input-border: transparent;
   --color-input-border-disabled: transparent;
   --color-input-border-focus: transparent;
@@ -1353,13 +1349,13 @@
   --color-ng-select-arrow: #c8c8c8;
   --color-ng-select-arrow-active: #c8c8c8;
   --color-ng-select-arrow-hover: #c8c8c8;
-  --color-ng-select-background: #1c2025;
-  --color-ng-select-background-active: #c8c8c8;
-  --color-ng-select-background-hover: #c8c8c8;
+  --color-ng-select-background: #33373c;
+  --color-ng-select-background-active: #f5f5f5;
+  --color-ng-select-background-hover: #f5f5f5;
   --color-ng-select-border: transparent;
   --color-ng-select-border-active: transparent;
   --color-ng-select-border-hover: transparent;
-  --color-ng-select-option-background: var(--ng-select-background);
+  --color-ng-select-option-background: var(--color-ng-select-background);
   --color-ng-select-option-background-active: var(--color--accent);
   --color-ng-select-option-background-hover: #fff;
   --color-ng-select-option-border: transparent;
@@ -1374,8 +1370,6 @@
   --color-ng-select-scrollbar-thumb: rgb(80, 80, 80);
   --color-ng-select-scrollbar-track: rgb(31, 31, 31);
   --ng-select-padding: 10px 20px; //
-  --ng-select-background: #33373c; //
-  --ng-select-background-hover: #f5f5f5; //
   --ng-select-radius: 4px; //
   --ng-select-margin: var(--margin-input-text); //
   --ng-select-border-width: 0px;

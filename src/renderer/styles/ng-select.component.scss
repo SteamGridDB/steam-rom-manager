@@ -25,7 +25,7 @@
     border-width: var(--ng-select-border-width, 1px);
     border-style: solid;
     border-color: inherit;
-    background-color: var(--ng-select-background);
+    background-color: var(--color-ng-select-background);
     &::placeholder {
       color: var(--color-ng-select-text);
     }
@@ -37,7 +37,7 @@
     &:active,
     &:focus,
     &.open {
-      background: var(--ng-select-background-hover);
+      background: var(--color-ng-select-background-hover);
     }
     > div {
       overflow: hidden;
@@ -83,9 +83,8 @@
     }
     .sectionTitle {
       border-bottom: solid 1px;
-      background-color: var(--ng-select-background);
-      padding-left: 1em;
-      padding-top: 0.5em;
+      background-color: var(--color-ng-select-background);
+      padding: var(--ng-select-padding, 0);
     }
   }
 }
