@@ -45,7 +45,7 @@ Se você gosta do Gerente de ROM Steam e quer que ele continue sendo útil, tamb
 * `Apalatn`{.noWrap} - Adicionada uma opção de redirecionamento de unidade de instalação ao analisador itch.io.
 * portuguese
 *
-* `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
+* .
 
 ### Comunidade
 * `HE Spoke`{.noWrap} - created a community around SRM. `HE Spoke`{.noWrap} - responsável por criar comunidade em torno da SRM. Criador de [grupos Steam](https://steamcommunity.com/groups/steamrommanager) e [Discord](https://discord.gg/bnSVJrz).  Also helps users setup SRM in [Discord](https://discord.gg/bnSVJrz).
