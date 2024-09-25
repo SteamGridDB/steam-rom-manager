@@ -1,7 +1,7 @@
 # Шаблони контролерів
-Controller templates allow you to configure the button layout per controller and per parser.
+Шаблони контролерів дозволяють налаштувати розташування кнопок для кожного контролера і парсеру.
 
-You may want to disable `Cloud Synchronization` in Steam to avoid having your SRM assigned controller configs get overwritten. You may find the setting under `Steam > Settings > Cloud`.
+Можливо, ви захочете вимкнути `Хмарну синхронізацію` у Steam, щоб уникнути перезапису конфігурацій контролерів, призначених для SRM. Ви можете знайти цей параметр у розділі `Steam > Налаштування > Хмара`.
 
 To make a custom template:
 * Open Steam.
