@@ -2,8 +2,8 @@
 
 .
 
-* SRM version: **#{APP[version]}** emudeckText
-* Operating System: **#{APP[os]}**
+*
+*
 
 ## Useful links
 
