@@ -2,7 +2,7 @@
 
 Якщо у вас виникли проблеми з SRM, відвідайте [discord](https://discord.gg/bnSVJrz) або [subreddit](https://www.reddit.com/r/SteamRomManager/) і попросіть нашої допомоги. Щоб ми могли вам допомогти, ми б хотіли, щоб ви надали таку інформацію:
 
-* SRM version: **#{APP[version]}** emudeckText
+* Версія SRM: **#{APP[version]}** emudeckText
 * Операційна система: **#{APP[os]}**
 
 ## Корисні посилання
@@ -43,9 +43,9 @@
 * `CarJem`{.noWrap} – додано ручний парсер.
 * `MattMckenzy`{.noWrap} – додано можливість імпортувати та експортувати вибір зображень.
 * `Apalatn`{.noWrap} – додано опцію переспрямування диска встановлення до синтаксичного аналізатора itch.io.
-* `OneMoreByte`{.noWrap} - Made itch.io parser work on linux and mac.
-* `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
-* `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
+* `OneMoreByte`{.noWrap} — Змусив парсер itch.io працювати на Linux та Mac.
+* `UndarkAido`{.noWrap} — Додано наскрізний перехід для ярликів .desktop у Linux.
+* `HazardousBackup` {.noWrap} — Додано ще одну опцію для використання парсера GOG для розбору параметра реєстру замість бази даних GOG.
 
 ### Спільнота
 * `HE Spoke`{.noWrap} – створив спільноту навколо SRM. Творець груп [Steam](https://steamcommunity.com/groups/steamrommanager) і [Discord](https://discord.gg/bnSVJrz). Також допомагає користувачам налаштувати SRM у [Discord](https://discord.gg/bnSVJrz).
