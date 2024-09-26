@@ -3,10 +3,10 @@
 
 Можливо, ви захочете вимкнути `Хмарну синхронізацію` у Steam, щоб уникнути перезапису конфігурацій контролерів, призначених для SRM. Ви можете знайти цей параметр у розділі `Steam > Налаштування > Хмара`.
 
-To make a custom template:
-* Open Steam.
-* Connect the controller you want to configure a template for.
-* Right click on any game and hit `Manage > Controller Layout`.
+Щоб створити власний шаблон:
+* Відкрити Steam.
+* Під'єднайте контролер, для якого ви хочете налаштувати шаблон.
+* Клацніть правою кнопкою миші на будь-якій грі та виберіть `Керування > Розташування контролера`.
 * Configure the buttons as you see fit.
 * Hit `Export Config` then `Save new template binding`.
 * Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template.
