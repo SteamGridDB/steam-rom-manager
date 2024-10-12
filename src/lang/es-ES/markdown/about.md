@@ -5,7 +5,7 @@
 *
 *
 
-## Useful links
+##
 
 * [SRM Releases](https://github.com/SteamGridDB/steam-rom-manager/releases)
 * [Discord Server](https://discord.gg/bnSVJrz)
