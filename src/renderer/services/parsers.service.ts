@@ -365,34 +365,6 @@ export class ParsersService {
       });
   }
 
-  validate2(path: string[], value: any, required: boolean): string {
-    // Check that the path is not empty
-    if(!path.length) {return this.lang.validationErrors.unhandledValidationKey__md}
-    const combinedKey = path.join(">");
-
-    // Validate that required fields are not empty
-    if(!value) { return required ? `${combinedKey} cannot be empty` : null }
-
-    // Finish validation for fields that don't require any further checks
-    const noFurtherValidation = [
-      "configTitle",
-      "parserId",
-    ]
-    if(noFurtherValidation.includes(combinedKey)) { return null }
-    const environmentPathValidations = [
-      "executable>path"
-    ]
-    if(environmentPathValidations.includes(combinedKey)) {
-      return this.validateEnvironmentPath(value) ? null : `Invalid path for ${combinedKey}`
-    }
-    // Handle more complex validations
-    console.log("combinedKey", combinedKey, value)
-    switch(combinedKey) {
-      case "parserType":
-        return parserInfo.availableParsers.includes(value) ? null : this.lang.validationErrors.parserType__md;
-    }
-  }
-
   validate(key: string, data: any, options?: any) {
     switch (key) {
       case "parserType": 
