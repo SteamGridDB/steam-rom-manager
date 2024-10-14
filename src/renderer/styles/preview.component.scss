@@ -684,7 +684,9 @@
                 font-size: 1em;
                 margin: 0.25em 0 0.25em 0;
               }
-              &.sortBy {
+            }
+            &.header > .infoField {
+              &:hover,&.sortBy {
                 background-color: var(
                   --color-ng-select-option-background-hover
                 );
