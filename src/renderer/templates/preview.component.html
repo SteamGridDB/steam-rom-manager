@@ -91,6 +91,35 @@
       </div>
     </div>
   </div>
+  <div class="excludesLower" *ngIf="showExcludes">
+    <div class="title">
+      <span>Put Back Titles</span>
+      <div class="button" (click)="putBackSetAll(true)"><span>All</span></div>
+      <div class="button" (click)="putBackSetAll(false)"><span>None</span></div>
+    </div>
+    <div class="currentExcludes">
+      <ng-container *ngFor="let steamDir of previewData | keys">
+        <ng-container *ngFor="let steamUser of previewData[steamDir] | keys">
+          <ng-container
+            *ngFor="
+              let currentExclude of previewData[steamDir][steamUser].excluded
+            "
+          >
+            <div
+              class="currentExclude"
+              (click)="
+                excludePutBacks[currentExclude.exceptionKey] =
+                  !excludePutBacks[currentExclude.exceptionKey]
+              "
+              [class.isPutBack]="excludePutBacks[currentExclude.exceptionKey]"
+            >
+              {{ currentExclude.filePath }}
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
   <div class="upper detailsUpper" *ngIf="showDetails">
     <div class="upperTitle">
       <span>{{ detailsApp ? niceAppTitle(detailsApp.app) : "" }}</span>
@@ -342,35 +371,6 @@
         </ng-container>
       </div>
     </ng-container>
-  </div>
-  <div class="excludesLower" *ngIf="showExcludes">
-    <div class="title">
-      <span>Put Back Titles</span>
-      <div class="button" (click)="putBackSetAll(true)"><span>All</span></div>
-      <div class="button" (click)="putBackSetAll(false)"><span>None</span></div>
-    </div>
-    <div class="currentExcludes">
-      <ng-container *ngFor="let steamDir of previewData | keys">
-        <ng-container *ngFor="let steamUser of previewData[steamDir] | keys">
-          <ng-container
-            *ngFor="
-              let currentExclude of previewData[steamDir][steamUser].excluded
-            "
-          >
-            <div
-              class="currentExclude"
-              (click)="
-                excludePutBacks[currentExclude.exceptionKey] =
-                  !excludePutBacks[currentExclude.exceptionKey]
-              "
-              [class.isPutBack]="excludePutBacks[currentExclude.exceptionKey]"
-            >
-              {{ currentExclude.filePath }}
-            </div>
-          </ng-container>
-        </ng-container>
-      </ng-container>
-    </div>
   </div>
   <div class="urls" *ngIf="previewVariables.numberOfQueriedImages">
     <div class="stopButton" (click)="stopImageRetrieving()">

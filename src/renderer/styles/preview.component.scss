@@ -646,6 +646,12 @@
             color: var(--color-preview-text);
             border-top: solid 1px var(--color-preview-user-background);
             border-bottom: solid 1px var(--color-preview-user-background);
+            &:first-child {
+              border-top: solid 2px var(--color-preview-user-background);
+            }
+            &:last-child {
+              border-bottom: solid 2px var(--color-preview-user-background);
+            }
             &.showExcludes {
               background-color: var(--color-ng-select-option-background-hover);
               color: var(--color-ng-select-option-text-hover);
@@ -660,6 +666,12 @@
               padding-left: 1em;
               border-left: solid 1px var(--color-preview-user-background);
               border-right: solid 1px var(--color-preview-user-background);
+              &:first-child {
+                border-left: solid 2px var(--color-preview-user-background);
+              }
+              &:last-child {
+                border-right: solid 2px var(--color-preview-user-background);
+              }
               span {
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
