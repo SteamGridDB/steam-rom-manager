@@ -41,7 +41,7 @@ export namespace NestedFormElement {
     /** Optional */
     label?: string;
     /** Optional */
-    initialValue?: any;
+    initialValue?: string[];
     /** Optional */
     isHidden?: NestedInputHidden;
     __hidden: NestedInputHiddenValue;

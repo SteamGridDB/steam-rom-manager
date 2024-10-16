@@ -117,7 +117,7 @@ export interface languageStruct {
   };
   battleNetParser: {
     battleExeOverrideTitle: string;
-    battleExeOverridePlaceholder: string;
+    battleExeOverridePlaceholder: {[key: string]: string};
     docs__md: {
       self: string[];
       input: string[];
@@ -129,7 +129,7 @@ export interface languageStruct {
   };
   UWPParser: {
     UWPDirTitle: string;
-    UWPDirPlaceholder: string;
+    UWPDirPlaceholder:  {[key: string]: string};
     UWPLauncherModeTitle: string;
     docs__md: {
       self: string[];
@@ -142,9 +142,9 @@ export interface languageStruct {
   };
   itchIoParser: {
     itchIoAppDataOverrideTitle: string;
-    itchIoAppDataOverridePlaceholder: string;
+    itchIoAppDataOverridePlaceholder:  {[key: string]: string};
     itchIoWindowsOnLinuxInstallDriveRedirectTitle: string;
-    itchIoWindowsOnLinuxInstallDriveRedirectPlaceholder: string;
+    itchIoWindowsOnLinuxInstallDriveRedirectPlaceholder:  string;
     docs__md: {
       self: string[];
       input: string[];
@@ -159,7 +159,7 @@ export interface languageStruct {
   };
   eaDesktopParser: {
     eaGamesDirTitle: string;
-    eaGamesDirPlaceholder: string;
+    eaGamesDirPlaceholder:  {[key: string]: string};
     eaLauncherModeTitle: string;
     docs__md: {
       self: string[];
@@ -173,7 +173,7 @@ export interface languageStruct {
   };
   amazonGamesParser: {
     exeOverrideTitle: string;
-    exeOverridePlaceholder: string;
+    exeOverridePlaceholder:  {[key: string]: string};
     launcherModeInputTitle: string;
     docs__md: {
       self: string[];
@@ -188,7 +188,7 @@ export interface languageStruct {
   };
   manualParser: {
     manifestsInputTitle: string;
-    manifestsInputPlaceholder: string;
+    manifestsInputPlaceholder:  {[key: string]: string};
     docs__md: {
       self: string[];
       input: string[];
@@ -199,7 +199,7 @@ export interface languageStruct {
   };
   epicParser: {
     manifestsInputTitle: string;
-    manifestsInputPlaceholder: string;
+    manifestsInputPlaceholder:  {[key: string]: string};
     launcherModeInputTitle: string;
     docs__md: {
       self: string[];
@@ -215,11 +215,9 @@ export interface languageStruct {
   legendaryParser: {
     launcherModeInputTitle: string;
     legendaryExeOverrideTitle: string;
-    legendaryExeOverridePlaceholderWin: string;
-    legendaryExeOverridePlaceholderUnix: string;
+    legendaryExeOverridePlaceholder:  {[key: string]: string};
     legendaryInstalledFileTitle: string;
-    legendaryInstalledFilePlaceholderWin: string;
-    legendaryInstalledFilePlaceholderUnix: string;
+    legendaryInstalledFilePlaceholder:  {[key: string]: string};
     docs__md: {
       self: string[];
       input: string[];
@@ -231,7 +229,7 @@ export interface languageStruct {
   };
   uplayParser: {
     uplayDirTitle: string;
-    uplayDirPlaceholder: string;
+    uplayDirPlaceholder: {[key: string]: string};
     launcherModeInputTitle: string;
     docs__md: {
       self: string[];
@@ -247,8 +245,7 @@ export interface languageStruct {
   };
   gogParser: {
     galaxyExeOverrideTitle: string;
-    galaxyExeOverridePlaceholderWin: string;
-    galaxyExeOverridePlaceholderMac: string;
+    galaxyExeOverridePlaceholder: {[key: string]: string};
     launcherModeInputTitle: string;
     parseLinkedExecsTitle: string;
     parseRegistryEntries: string;

@@ -17,36 +17,14 @@ export class ItchIoParser implements GenericParser {
       inputs: {
         itchIoAppDataOverride: {
           label: this.lang.itchIoAppDataOverrideTitle,
-          placeholder: this.lang.itchIoAppDataOverridePlaceholder,
+          placeholder: this.lang.itchIoAppDataOverridePlaceholder[os.type()],
           inputType: "dir",
-          validationFn: (input: string) => {
-            if (
-              !input ||
-              (fs.existsSync(input) && !fs.lstatSync(input).isFile())
-            ) {
-              return null;
-            } else {
-              return this.lang.errors.invalidItchIoAppDataOverride;
-            }
-          },
           info: this.lang.docs__md.input.join(""),
         },
         itchIoWindowsOnLinuxInstallDriveRedirect: {
           label: this.lang.itchIoWindowsOnLinuxInstallDriveRedirectTitle,
-          placeholder:
-            this.lang.itchIoWindowsOnLinuxInstallDriveRedirectPlaceholder,
+          placeholder: this.lang.itchIoWindowsOnLinuxInstallDriveRedirectPlaceholder,
           inputType: "dir",
-          validationFn: (input: string) => {
-            if (
-              !input ||
-              (fs.existsSync(input) && fs.lstatSync(input).isDirectory())
-            ) {
-              return null;
-            } else {
-              return this.lang.errors
-                .invalidItchIoWindowsOnLinuxInstallDriveRedirect;
-            }
-          },
           info: this.lang.docs__md.input.join(""),
         },
       },

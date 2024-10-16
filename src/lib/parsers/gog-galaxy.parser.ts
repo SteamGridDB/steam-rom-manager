@@ -23,37 +23,24 @@ export class GOGParser implements GenericParser {
       inputs: {
         galaxyExeOverride: {
           label: this.lang.galaxyExeOverrideTitle,
-          placeholder:
-            os.type() == "Windows_NT"
-              ? this.lang.galaxyExeOverridePlaceholderWin
-              : this.lang.galaxyExeOverridePlaceholderMac,
+          placeholder: this.lang.galaxyExeOverridePlaceholder[os.type()],
           inputType: "path",
-          validationFn: null,
           info: this.lang.docs__md.input.join(""),
         },
         gogLauncherMode: {
           label: this.lang.launcherModeInputTitle,
           inputType: "toggle",
-          validationFn: (input: any) => {
-            return null;
-          },
           info: this.lang.docs__md.input.join(""),
         },
         parseLinkedExecs: {
           label: this.lang.parseLinkedExecsTitle,
           inputType: "toggle",
-          validationFn: (input: any) => {
-            return null;
-          },
           info: this.lang.docs__md.input.join(""),
         },
         parseRegistryEntries: {
           label: this.lang.parseRegistryEntries,
           inputType: "toggle",
           hidden: os.type() != "Windows_NT",
-          validationFn: (input: any) => {
-            return null;
-          },
           info: this.lang.docs__md.input.join(""),
         },
       },

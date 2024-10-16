@@ -2,9 +2,9 @@ import { ParserInfo, GenericParser, ParsedData } from "../../models";
 import { APP } from "../../variables";
 import * as _ from "lodash";
 import * as fs from "fs-extra";
-import * as genericParser from "@node-steam/vdf";
 import * as path from "path";
-import { stat } from "original-fs";
+import * as os from "os";
+
 
 export class ManualParser implements GenericParser {
   private get lang() {
@@ -17,9 +17,8 @@ export class ManualParser implements GenericParser {
       inputs: {
         manualManifests: {
           label: this.lang.manifestsInputTitle,
-          placeholder: this.lang.manifestsInputPlaceholder,
+          placeholder: this.lang.manifestsInputPlaceholder[os.type()],
           inputType: "dir",
-          validationFn: null,
           info: this.lang.docs__md.input.join(""),
         },
       },

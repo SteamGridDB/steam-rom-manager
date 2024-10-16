@@ -8,7 +8,7 @@ To update all the config presets at once:
 4) Commit changes and `git push`
 
 # Fixes
-Steam parser only works for steam apps that are in a category
+Steam parser only works for steam apps that have been installed at least once.
 
 
 # Features and Changes
@@ -17,15 +17,16 @@ Steam parser only works for steam apps that are in a category
 2) Assign an sgdbId to sgdb game much earlier (and have fix match alter it as necessary)
 3) Make global accounts and steam directory mandatory, rework the UI around accounts.
 4) Rework fileParser to make each stage of the title modification process immutable and trackable.
+5) Re work the parser validation code to not suck.
 
 
 # Parsers (LM - Launcher Mode, EM - Executable Mode)
 Amazon Games (LM, EM)
-Battle.net (LM)
+Battle.net (LM - EM not possible)
 EA Desktop (LM, EM)
 Epic (LM, EM)
 GOG Galaxy (LM, EM)
-Legendary (EM)
+Legendary (LM, EM)
 Itch.io (EM - missing fileLaunchOptions)
 UPlay (LM, EM - missing fileLaunchOptions)
 UWP (LM, EM - missing fileLaunchOptions)

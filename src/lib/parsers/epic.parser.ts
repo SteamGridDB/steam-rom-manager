@@ -17,17 +17,13 @@ export class EpicParser implements GenericParser {
       inputs: {
         epicManifests: {
           label: this.lang.manifestsInputTitle,
-          placeholder: this.lang.manifestsInputPlaceholder,
+          placeholder: this.lang.manifestsInputPlaceholder[os.type()],
           inputType: "dir",
-          validationFn: null,
           info: this.lang.docs__md.input.join(""),
         },
         epicLauncherMode: {
           label: this.lang.launcherModeInputTitle,
           inputType: "toggle",
-          validationFn: (input: any) => {
-            return null;
-          },
           info: this.lang.docs__md.input.join(""),
         },
       },

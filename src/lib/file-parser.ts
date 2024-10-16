@@ -125,12 +125,6 @@ export class FileParser {
               ).trim();
             })
           : null;
-        /*const doubleVarRegex = /^\$\{\$\{.+\}\}$/;
-        if(doubleVarRegex.test(config.userAccounts.specifiedAccounts)) {
-          config.userAccounts.specifiedAccounts = preParser.setInput(config.userAccounts.specifiedAccounts).parse() ? preParser.replaceVariables((variable)=>{
-            return this.getEnvironmentVariable(variable as EnvironmentVariables, settings).trim();
-          }): null;
-        }*/
         if (superType === parserInfo.ROMType) {
           config.romDirectory = preParser.setInput(config.romDirectory).parse()
             ? preParser.replaceVariables((variable) => {
@@ -178,12 +172,6 @@ export class FileParser {
                     ).trim();
                   })
                 : null;
-            }
-            if (parser.inputs[inputName].forcedInput) {
-              config.parserInputs[inputName] =
-                parser.inputs[inputName].forcedInput;
-            } else if (config.parserInputs[inputName] === undefined) {
-              config.parserInputs[inputName] = "";
             }
           }
         }

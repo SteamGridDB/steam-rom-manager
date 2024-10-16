@@ -30,17 +30,11 @@ export class SteamParser implements GenericParser {
             { value: "sourcemods", displayValue: "Source Mods" },
           ],
           initialValue: ["game"],
-          validationFn: (input: any) => {
-            return null;
-          },
           info: this.lang.docs__md.input.join(""),
         },
         onlyInstalled: {
           label: this.lang.onlyInstalledTitle,
           inputType: "toggle",
-          validationFn: (input: any) => {
-            return null;
-          },
           info: this.lang.docs__md.input.join(""),
         },
       },

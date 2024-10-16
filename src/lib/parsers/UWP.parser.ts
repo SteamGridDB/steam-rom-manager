@@ -21,17 +21,13 @@ export class UWPParser implements GenericParser {
       inputs: {
         UWPDir: {
           label: this.lang.UWPDirTitle,
-          placeholder: this.lang.UWPDirPlaceholder,
+          placeholder: this.lang.UWPDirPlaceholder[os.type()],
           inputType: "dir",
-          validationFn: null,
           info: this.lang.docs__md.input.join(""),
         },
         UWPLauncherMode: {
           label: this.lang.UWPLauncherModeTitle,
           inputType: "toggle",
-          validationFn: (input: any) => {
-            return null;
-          },
           info: this.lang.docs__md.input.join(""),
         },
       },

@@ -404,23 +404,22 @@ export class ParsersService {
             return this.lang.validationErrors.parserInput.noInput;
           }
           let inputInfo = availableParser.inputs[data["input"]];
-          if (inputInfo === undefined)
+          if (!inputInfo)
             return this.lang.validationErrors.parserInput.inputNotAvailable__i.interpolate(
               { name: data["input"] },
             );
-          else if (inputInfo.forcedInput) {
-            return null;
-          } else if (!inputInfo.validationFn) {
+          else if (!inputInfo.validationFn) {
             if (["dir", "path"].includes(inputInfo.inputType)) {
               if (data["parser"] !== "Manual" && !data["inputData"]) {
                 return null;
               }
+              const isDir = inputInfo.inputType == "dir";
               return this.validateEnvironmentPath(
                 data["inputData"] || "",
-                inputInfo.inputType == "dir",
+                isDir,
               )
                 ? null
-                : this.lang.validationErrors.genericDir__md;
+                : isDir ? this.lang.validationErrors.genericDir__md : this.lang.validationErrors.genericPath__md;
             }
             return null;
           }

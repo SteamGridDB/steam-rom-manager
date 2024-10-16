@@ -332,8 +332,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           for (let i = 0; i < parsers.length; i++) {
             let parser = this.parsersService.getParserInfo(parsers[i]);
             if (parser && parser.inputs !== undefined) {
-              let inputFieldName: keyof typeof parser.inputs;
-              for (inputFieldName in parser.inputs) {
+              for (let inputFieldName in parser.inputs) {
                 let input = parser.inputs[inputFieldName];
                 const isHidden = () => {
                   return concat(
@@ -358,11 +357,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                       : undefined,
                     placeholder: input.placeholder,
                     required: !!input.required,
-                    initialValue:
-                      input.forcedInput !== undefined
-                        ? input.forcedInput
-                        : null,
                     highlight: this.highlight.bind(this),
+                    initialValue: input.initialValue as string,
                     label: input.label,
                     isHidden: isHidden,
                     onValidate: (self, path) => {
@@ -376,7 +372,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                           {
                             parser: parsers[i],
                             input: inputFieldName,
-                            inputData: self.value,
+                            inputData: self.value as string,
                           },
                         );
                       else return null;
@@ -394,7 +390,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     multiple: true,
                     allowEmpty: false,
                     values: input.allowedValues,
-                    initialValue: input.initialValue,
+                    initialValue: input.initialValue as string[],
                     onInfoClick: onInfoClick,
                     isHidden: isHidden,
                   });

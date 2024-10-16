@@ -16,30 +16,19 @@ export class LegendaryParser implements GenericParser {
       inputs: {
         legendaryExeOverride: {
           label: this.lang.legendaryExeOverrideTitle,
-          placeholder:
-            os.type() == "Windows_NT"
-              ? this.lang.legendaryExeOverridePlaceholderWin
-              : this.lang.legendaryExeOverridePlaceholderUnix,
+          placeholder: this.lang.legendaryExeOverridePlaceholder[os.type()],
           inputType: "path",
-          validationFn: null,
           info: this.lang.docs__md.input.join(""),
         },
         legendaryInstalledFile: {
           label: this.lang.legendaryInstalledFileTitle,
-          placeholder:
-            os.type() == "Windows_NT"
-              ? this.lang.legendaryInstalledFilePlaceholderWin
-              : this.lang.legendaryInstalledFilePlaceholderUnix,
+          placeholder: this.lang.legendaryInstalledFilePlaceholder[os.type()],
           inputType: "path",
-          validationFn: null,
           info: this.lang.docs__md.input.join(""),
         },
         legendaryLauncherMode: {
           label: this.lang.launcherModeInputTitle,
           inputType: "toggle",
-          validationFn: (input: any) => {
-            return null;
-          },
           info: this.lang.docs__md.input.join(""),
         },
       },

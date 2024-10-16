@@ -107,9 +107,8 @@ export class BattleNetParser implements GenericParser {
       inputs: {
         battleExeOverride: {
           label: this.lang.battleExeOverrideTitle,
-          placeholder: this.lang.battleExeOverridePlaceholder,
+          placeholder: this.lang.battleExeOverridePlaceholder[os.type()],
           inputType: "path",
-          validationFn: null,
           info: this.lang.docs__md.input.join(""),
         },
       },

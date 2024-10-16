@@ -20,15 +20,13 @@ export class EADesktopParser implements GenericParser {
       inputs: {
         eaGamesDir: {
           label: this.lang.eaGamesDirTitle,
-          placeholder: this.lang.eaGamesDirPlaceholder,
+          placeholder: this.lang.eaGamesDirPlaceholder[os.type()],
           inputType: "dir",
-          validationFn: null,
           info: this.lang.docs__md.input.join(""),
         },
         eaLauncherMode: {
           label: this.lang.eaLauncherModeTitle,
           inputType: "toggle",
-          validationFn: null,
           info: this.lang.docs__md.input.join(""),
         },
       },

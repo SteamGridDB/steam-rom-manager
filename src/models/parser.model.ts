@@ -51,11 +51,10 @@ export interface ParserInputField {
     placeholder?: string;
     inputType: "text" | "path" | "dir" | "toggle" | "multiselect";
     allowedValues?: SelectItem[];
-    initialValue?: string[];
+    initialValue?: string[]|string;
     hidden?: boolean;
     required?: boolean;
     info?: string;
-    forcedInput?: string;
     validationFn?: (inputData: any) => null | string;
   };
 }
