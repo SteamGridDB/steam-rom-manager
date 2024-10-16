@@ -101,14 +101,22 @@
   },
   "manualParser": {
     "manifestsInputTitle": "Manifests Directory",
-    "manifestsInputPlaceholder": "/path/to/your/manifests/",
+    "manifestsInputPlaceholder": {
+      "Windows_NT": "C:\\path\\to\\your\\manifests\\",
+      "Darwin": "/path/to/your/manifests/",
+      "Linux": "/path/to/your/manifests/"
+    },
     "errors": {
       "fatalError__i": "> Manual parser failed with fatal error:\n ${error}"
     }
   },
   "epicParser": {
     "manifestsInputTitle": "Epic Manifests Directory Override",
-    "manifestsInputPlaceholder": "/path/to/Manifests/",
+    "manifestsInputPlaceholder": {
+      "Windows_NT": "C:\\path\\to\\your\\manifests\\",
+      "Darwin": "/path/to/your/manifests/",
+      "Linux": "/path/to/your/manifests/"
+    },
     "launcherModeInputTitle": "Launch games via Epic for online services",
     "errors": {
       "invalidManifestsOverride": "> Manifests Override is not a valid directory.",
@@ -120,11 +128,17 @@
   "legendaryParser": {
     "launcherModeInputTitle": "Launch games via Legendary for online services",
     "legendaryInstalledFileTitle": "Legendary installed.json Path Override",
-    "legendaryInstalledFilePlaceholderUnix": "/path/to/legendary/installed.json",
-    "legendaryInstalledFilePlaceholderWin": "C:\\path\\to\\legendary\\installed.json",
+    "legendaryInstalledFilePlaceholder": {
+      "Windows_NT": "C:\\path\\to\\legendary\\installed.json",
+      "Darwin": "/path/to/legendary/installed.json",
+      "Linux": "/path/to/legendary/installed.json"
+    },
     "legendaryExeOverrideTitle": "Legendary Path Override",
-    "legendaryExeOverridePlaceholderWin": "C:\\path\\to\\legendary.exe",
-    "legendaryExeOverridePlaceholderUnix": "/path/to/legendary",
+    "legendaryExeOverridePlaceholder": {
+      "Windows_NT": "C:\\path\\to\\legendary.exe",
+      "Darwin": "/path/to/legendary",
+      "Linux": "/path/to/legendary"
+    },
     "errors": {
       "legendaryNotInstalled": "> Legendary installed.json not found",
       "fatalError__i": "> Legendary parser failed with fatal error:\n ${error}"
@@ -132,7 +146,11 @@
   },
   "battleNetParser": {
     "battleExeOverrideTitle": "Battle.net.exe Path Override",
-    "battleExeOverridePlaceholder": "/path/to/Battle.net/Battle.net.exe",
+    "battleExeOverridePlaceholder": {
+      "Windows_NT": "C:\\path\\to\\Battle.net\\Battle.net.exe",
+      "Darwin": "/path/to/Battle.net.app/Contents/MacOS/Battle.net",
+      "Linux": "/path/to/Battle.net"
+    },
     "errors": {
       "battleNotCompatible": "> Battle.net parser is only available on Windows.",
       "fatalError__i": "> Battle.net parser failed with fatal error:\n ${error}"
@@ -140,7 +158,11 @@
   },
   "UWPParser": {
     "UWPDirTitle": "XboxGames Directory Override",
-    "UWPDirPlaceholder": "/path/to/XboxGames or /path/to/WindowsApps",
+    "UWPDirPlaceholder": {
+      "Windows_NT": "C:\\path\\to\\XboxGames\\ or C:\\path\\to\\WindowsApps\\",
+      "Darwin": "/path/to/XboxGames/ or /path/to/WindowsApps/",
+      "Linux": "/path/to/XboxGames/ or /path/to/WindowsApps/"
+    },
     "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper",
     "errors": {
       "fatalError__i": "> UWP parser is not compatible in this platform.",
@@ -149,7 +171,11 @@
   },
   "uplayParser": {
     "uplayDirTitle": "Ubisoft Directory Override",
-    "uplayDirPlaceholder": "/path/to/Ubisoft/",
+    "uplayDirPlaceholder": {
+      "Windows_NT": "C:\\path\\to\\Ubisoft\\",
+      "Darwin": "/path/to/Ubisoft/",
+      "Linux": "/path/to/Ubisoft/"
+    },
     "launcherModeInputTitle": "Launch games via UPlay for online services",
     "errors": {
       "invalidManifestsOverride": "> Uplay Directory Override is not a valid directory.",
@@ -161,8 +187,11 @@
   },
   "gogParser": {
     "galaxyExeOverrideTitle": "Galaxy Path Override",
-    "galaxyExeOverridePlaceholderWin": "C:\\path\\to\\GalaxyClient.exe",
-    "galaxyExeOverridePlaceholderMac": "/path/to/GOG Galaxy.app/Contents/MacOS/GOG Galaxy",
+    "galaxyExeOverridePlaceholder": {
+      "Windows_NT": "C:\\path\\to\\GalaxyClient.exe",
+      "Darwin": "/path/to/GOG Galaxy.app/Contents/MacOS/GOG Galaxy",
+      "Linux": "/path/to/GalaxyClient"
+    },
     "launcherModeInputTitle": "Launch games via GOG Galaxy",
     "parseLinkedExecsTitle": "Parse linked executables from GOG Galaxy",
     "parseRegistryEntries": "Parse using Registry instead of Galaxy DB",
@@ -175,7 +204,11 @@
   },
   "amazonGamesParser": {
     "exeOverrideTitle": "Amazon Games Path Override",
-    "exeOverridePlaceholder": "/path/to/Amazon Games.exe",
+    "exeOverridePlaceholder": {
+      "Windows_NT": "C:\\path\\to\\Amazon Games.exe",
+      "Darwin": "/path/to/Amazon Games.app/Contents/MacOS/Amazon Games",
+      "Linux": "/path/to/Amazon Games"
+    },
     "launcherModeInputTitle": "Launch games via Amazon Games",
     "errors": {
       "invalidExeOverride": "> Amazon Games Installation Override is not a valid directory.",
@@ -186,7 +219,11 @@
   },
   "itchIoParser": {
     "itchIoAppDataOverrideTitle": "itch.io AppData Directory Override",
-    "itchIoAppDataOverridePlaceholder": "/path/to/itch",
+    "itchIoAppDataOverridePlaceholder": {
+      "Windows_NT": "C:\\AppData\\itch\\",
+      "Darwin": "~/Library/Application Support/itch/",
+      "Linux": "~/.config/itch/"
+    },
     "itchIoWindowsOnLinuxInstallDriveRedirectTitle": "Windows-on-Linux Install Drive Redirect",
     "itchIoWindowsOnLinuxInstallDriveRedirectPlaceholder": "/mnt/d/",
     "errors": {
@@ -199,7 +236,11 @@
   },
   "eaDesktopParser": {
     "eaGamesDirTitle": "EA Games Directory Override",
-    "eaGamesDirPlaceholder": "/path/to/EA Games/",
+    "eaGamesDirPlaceholder": {
+      "Windows_NT": "C:\\path\\to\\EA Games\\",
+      "Darwin": "/path/to/EA Games/",
+      "Linux": "/path/to/EA Games/"
+    },
     "eaLauncherModeTitle": "Launch games via EA Desktop",
     "errors": {
       "fatalError__i": "> EA Desktop parser failed with fatal error:\n ${error}",
@@ -329,25 +370,25 @@
         "userAccounts": "For example ${steamlogin}",
         "bySystem": {
           "Windows_NT": {
-            "steamDirectory": "Typically C:\\Program Files (x86)\\Steam",
-            "romsDirectory": "For example D:\\ROMs",
-            "retroarchPath": "For example C:\\Path\\To\\retroarch.exe",
-            "raCoresDirectory": "Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores",
-            "localImagesDirectory": "For example C:\\Path\\To\\LocalArtwork"
+            "steamDirectory": "Typically C:\\Program Files (x86)\\Steam\\",
+            "romsDirectory": "For example D:\\ROMs\\",
+            "retroarchPath": "For example C:\\Path\\To\\Retroarch.exe",
+            "raCoresDirectory": "Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores\\",
+            "localImagesDirectory": "For example C:\\Path\\To\\LocalArtwork\\"
           },
           "Darwin": {
-            "steamDirectory": "Typically ~/Library/Application Support/Steam",
-            "romsDirectory": "For example ~/ROMs",
+            "steamDirectory": "Typically ~/Library/Application Support/Steam/",
+            "romsDirectory": "For example ~/ROMs/",
             "retroarchPath": "For example /path/to/retroarch",
-            "raCoresDirectory": "Typically /Applications/Retroarch.app/Contents/Resources/cores",
-            "localImagesDirectory": "For example ~/path/to/localartwork"
+            "raCoresDirectory": "Typically /Applications/Retroarch.app/Contents/Resources/cores/",
+            "localImagesDirectory": "For example ~/path/to/localartwork/"
           },
           "Linux": {
-            "steamDirectory": "Typically /home/user/.steam/steam",
-            "romsDirectory": "For example ~/ROMs",
+            "steamDirectory": "Typically /home/user/.steam/steam/",
+            "romsDirectory": "For example ~/ROMs/",
             "retroarchPath": "For example /path/to/retroarch",
-            "raCoresDirectory": "Typically /lib/x86_64-linux-gnu/libretro/cores",
-            "localImagesDirectory": "For example ~/path/to/localartwork"
+            "raCoresDirectory": "Typically /lib/x86_64-linux-gnu/libretro/cores/",
+            "localImagesDirectory": "For example ~/path/to/localartwork/"
           }
         }
       }
@@ -489,7 +530,7 @@
       "placeholder": {
         "parserType": "Select parser...",
         "configTitle": "My Awesome Parser",
-        "steamDirectory": "${steamdirglobal} or /path/to/steam",
+        "steamDirectory": "${steamdirglobal} or /path/to/steam/",
         "userAccounts": "${steamuser1}${steamuser2} or ${${accountsglobal}}",
         "titleFromVariable": "${variableGroup1}${variableGroup2}",
         "titleModifier": "${fuzzyTitle} or ${title}",
@@ -497,10 +538,10 @@
         "localImages__i": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)",
         "romDirectory": "/path/to/games/",
         "glob": "${title}.@(iso|ISO)",
-        "executableLocation": "Example: /path/to/emulator.exe",
+        "executableLocation": "/path/to/emulator.exe",
         "executableArgs": "--arg1 --arg2",
         "executableModifier": "\"${exePath}\"",
-        "startInDirectory": "/path/to/start/in/dir",
+        "startInDirectory": "/path/to/start/in/dir/",
         "imageProviders": "None",
         "multiAPIPlaceholder": "No Filter"
       },
@@ -547,11 +588,11 @@
         "defaultImage__md": "> Default image is an invalid path!",
         "titleModifier__md": "> Title modifier field is required!",
         "executableModifier__md": "> Executable modifier must not be empty!",
-        "variableString__md": "> Uneven number of `${` and `}` pairs. Use `\\` to escape `${` or `}` if you want to use them as characters.",
+        "variableString__md": "> Uneven number of `${` and `}` pairs! Use `\\` to escape `${` or `}` if you want to use them as characters.",
         "imageProviders__md": "> Incorrect image providers type!",
-        "unhandledValidationKey__md": "> Input's validation is unhandled",
-        "genericDir__md": "> Directory is invalid",
-        "genericPath__md": "> Path is invalid"
+        "unhandledValidationKey__md": "> Input's validation is unhandled!",
+        "genericDir__md": "> Directory is invalid!",
+        "genericPath__md": "> Path is invalid!"
       },
       "text": {
         "noTitle": "No title!"
