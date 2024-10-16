@@ -101,14 +101,22 @@
   },
   "manualParser": {
     "manifestsInputTitle": "列表目录",
-    "manifestsInputPlaceholder": "/path/to/your/manifests/",
+    "manifestsInputPlaceholder": {
+      "Windows_NT": "C:\\path\\to\\your\\manifests\\",
+      "Darwin": "/path/to/your/manifests/",
+      "Linux": "/path/to/your/manifests/"
+    },
     "errors": {
       "fatalError__i": "> 手动解析器失败，致命错误：\n ${error}"
     }
   },
   "epicParser": {
     "manifestsInputTitle": "Epic 列表目录覆盖",
-    "manifestsInputPlaceholder": "/path/to/Manifests/",
+    "manifestsInputPlaceholder": {
+      "Windows_NT": "C:\\path\\to\\your\\manifests\\",
+      "Darwin": "/path/to/your/manifests/",
+      "Linux": "/path/to/your/manifests/"
+    },
     "launcherModeInputTitle": "通过 Epic 启动游戏以使用在线服务。",
     "errors": {
       "invalidManifestsOverride": "> Manifests Override 不是一个有效的目录。",
@@ -120,11 +128,17 @@
   "legendaryParser": {
     "launcherModeInputTitle": "通过 Legendary 启动游戏以使用在线服务。",
     "legendaryInstalledFileTitle": "Legendary installed.json 路径覆盖",
-    "legendaryInstalledFilePlaceholderUnix": "/path/to/legendary/installed.json",
-    "legendaryInstalledFilePlaceholderWin": "C:\\path\\to\\legendary\\installed.json",
+    "legendaryInstalledFilePlaceholder": {
+      "Windows_NT": "C:\\path\\to\\legendary\\installed.json",
+      "Darwin": "/path/to/legendary/installed.json",
+      "Linux": "/path/to/legendary/installed.json"
+    },
     "legendaryExeOverrideTitle": "Legendary 路径覆盖",
-    "legendaryExeOverridePlaceholderWin": "C:\\path\\to\\legendary.exe",
-    "legendaryExeOverridePlaceholderUnix": "/path/to/legendary",
+    "legendaryExeOverridePlaceholder": {
+      "Windows_NT": "C:\\path\\to\\legendary.exe",
+      "Darwin": "/path/to/legendary",
+      "Linux": "/path/to/legendary"
+    },
     "errors": {
       "legendaryNotInstalled": "> 找不到已安装的 Legendary installed.json 文件",
       "fatalError__i": "> Legendary 解析器发生致命错误：\n ${error}"
@@ -132,7 +146,11 @@
   },
   "battleNetParser": {
     "battleExeOverrideTitle": "Battle.net.exe 路径覆盖",
-    "battleExeOverridePlaceholder": "/path/to/Battle.net/Battle.net.exe",
+    "battleExeOverridePlaceholder": {
+      "Windows_NT": "C:\\path\\to\\Battle.net\\Battle.net.exe",
+      "Darwin": "/path/to/Battle.net.app/Contents/MacOS/Battle.net",
+      "Linux": "/path/to/Battle.net"
+    },
     "errors": {
       "battleNotCompatible": "> Battle.net 解析器仅在Windows上可用。",
       "fatalError__i": "> Battle.net 解析器发生致命错误：\n ${error}"
@@ -140,7 +158,11 @@
   },
   "UWPParser": {
     "UWPDirTitle": "Xbox Games 目录覆盖",
-    "UWPDirPlaceholder": "/path/to/XboxGames 或 /path/to/WindowsApps",
+    "UWPDirPlaceholder": {
+      "Windows_NT": "C:\\path\\to\\XboxGames\\ or C:\\path\\to\\WindowsApps\\",
+      "Darwin": "/path/to/XboxGames/ or /path/to/WindowsApps/",
+      "Linux": "/path/to/XboxGames/ or /path/to/WindowsApps/"
+    },
     "UWPLauncherModeTitle": "以 UWP 形式启动游戏，而不是使用启动器助手。",
     "errors": {
       "fatalError__i": ">  解析器发生致命错误：\n ${error}",
@@ -149,7 +171,11 @@
   },
   "uplayParser": {
     "uplayDirTitle": "Ubisoft 目录覆盖",
-    "uplayDirPlaceholder": "/path/to/Ubisoft/",
+    "uplayDirPlaceholder": {
+      "Windows_NT": "C:\\path\\to\\Ubisoft\\",
+      "Darwin": "/path/to/Ubisoft/",
+      "Linux": "/path/to/Ubisoft/"
+    },
     "launcherModeInputTitle": "通过 Uplay 启动游戏以使用在线服务。",
     "errors": {
       "invalidManifestsOverride": "> Uplay 目录覆盖不是有效的目录。",
@@ -161,8 +187,11 @@
   },
   "gogParser": {
     "galaxyExeOverrideTitle": "Galaxy 路径覆盖",
-    "galaxyExeOverridePlaceholderWin": "C:\\path\\to\\GalaxyClient.exe",
-    "galaxyExeOverridePlaceholderMac": "/path/to/GOG Galaxy.app/Contents/MacOS/GOG Galaxy",
+    "galaxyExeOverridePlaceholder": {
+      "Windows_NT": "C:\\path\\to\\GalaxyClient.exe",
+      "Darwin": "/path/to/GOG Galaxy.app/Contents/MacOS/GOG Galaxy",
+      "Linux": "/path/to/GalaxyClient"
+    },
     "launcherModeInputTitle": "通过 GOG Galaxy 启动游戏",
     "parseLinkedExecsTitle": "从 GOG Galaxy 解析链接的可执行文件",
     "parseRegistryEntries": "使用注册表而不是Galaxy DB 解析",
@@ -175,7 +204,11 @@
   },
   "amazonGamesParser": {
     "exeOverrideTitle": "Amazon Games 路径覆盖",
-    "exeOverridePlaceholder": "/path/to/Amazon Games.exe",
+    "exeOverridePlaceholder": {
+      "Windows_NT": "C:\\path\\to\\Amazon Games.exe",
+      "Darwin": "/path/to/Amazon Games.app/Contents/MacOS/Amazon Games",
+      "Linux": "/path/to/Amazon Games"
+    },
     "launcherModeInputTitle": "通过 Amazon Games 启动",
     "errors": {
       "invalidExeOverride": "> Amazon Games Installation Override 不是一个有效的目录。",
@@ -186,7 +219,11 @@
   },
   "itchIoParser": {
     "itchIoAppDataOverrideTitle": "itch.io 应用数据目录覆盖",
-    "itchIoAppDataOverridePlaceholder": "/path/to/itch",
+    "itchIoAppDataOverridePlaceholder": {
+      "Windows_NT": "C:\\AppData\\itch\\",
+      "Darwin": "~/Library/Application Support/itch/",
+      "Linux": "~/.config/itch/"
+    },
     "itchIoWindowsOnLinuxInstallDriveRedirectTitle": "Windows-on-Linux 安装驱动器重定向",
     "itchIoWindowsOnLinuxInstallDriveRedirectPlaceholder": "/mnt/d/",
     "errors": {
@@ -199,7 +236,11 @@
   },
   "eaDesktopParser": {
     "eaGamesDirTitle": "EA Games 目录覆盖",
-    "eaGamesDirPlaceholder": "/path/to/EA Games/",
+    "eaGamesDirPlaceholder": {
+      "Windows_NT": "C:\\path\\to\\EA Games\\",
+      "Darwin": "/path/to/EA Games/",
+      "Linux": "/path/to/EA Games/"
+    },
     "eaLauncherModeTitle": "通过 EA Desktop 启动游戏",
     "errors": {
       "fatalError__i": "> EA Desktop 解析器发生致命错误：\n ${error}",
@@ -329,25 +370,25 @@
         "userAccounts": "例如 ${steamlogin}",
         "bySystem": {
           "Windows_NT": {
-            "steamDirectory": "通常是 C:\\Program Files (x86)\\Steam",
-            "romsDirectory": "例如 D:\\ROMs",
-            "retroarchPath": "例如：C:\\Path\\To\\retroarch.exe",
-            "raCoresDirectory": "通常是 C:\\Users\\ UserName\\AppData\\Roaming\\RetroArch\\cores",
-            "localImagesDirectory": "例如：C:\\Path\\To\\LocalArtwork"
+            "steamDirectory": "Typically C:\\Program Files (x86)\\Steam\\",
+            "romsDirectory": "For example D:\\ROMs\\",
+            "retroarchPath": "For example C:\\Path\\To\\Retroarch.exe",
+            "raCoresDirectory": "Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores\\",
+            "localImagesDirectory": "For example C:\\Path\\To\\LocalArtwork\\"
           },
           "Darwin": {
-            "steamDirectory": "通常是 ~/Library/Application Support/Steam",
-            "romsDirectory": "例如 ~/ROMs",
+            "steamDirectory": "Typically ~/Library/Application Support/Steam/",
+            "romsDirectory": "For example ~/ROMs/",
             "retroarchPath": "例如 /path/to/retroarch",
-            "raCoresDirectory": "典型的 /Applications/retroarch.app/Contents/Resources/cores",
-            "localImagesDirectory": "例如~/path/to/localartworks"
+            "raCoresDirectory": "Typically /Applications/Retroarch.app/Contents/Resources/cores/",
+            "localImagesDirectory": "For example ~/path/to/localartwork/"
           },
           "Linux": {
-            "steamDirectory": "通常是 /home/user/.steam/steam",
-            "romsDirectory": "例如 ~/ROMs",
+            "steamDirectory": "Typically /home/user/.steam/steam/",
+            "romsDirectory": "For example ~/ROMs/",
             "retroarchPath": "例如 /path/to/retroarch",
-            "raCoresDirectory": "通常是 /lib/x86_64-linux-gnu/libretro/cores",
-            "localImagesDirectory": "例如 ~/path/to/localartworks"
+            "raCoresDirectory": "Typically /lib/x86_64-linux-gnu/libretro/cores/",
+            "localImagesDirectory": "For example ~/path/to/localartwork/"
           }
         }
       }
@@ -489,7 +530,7 @@
       "placeholder": {
         "parserType": "选择解析器...",
         "configTitle": "我很棒的解析器",
-        "steamDirectory": "${steamdirglobal} 或 /path/to/steam",
+        "steamDirectory": "${steamdirglobal} or /path/to/steam/",
         "userAccounts": "${steamuser1}${steamuser2} 或 ${${accountsglobal}}",
         "titleFromVariable": "${variableGroup1}${variableGroup2}",
         "titleModifier": "${fuzzyTitle} 或 ${title}",
@@ -497,10 +538,10 @@
         "localImages__i": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)",
         "romDirectory": "/path/to/games/",
         "glob": "${title}.@(iso|ISO)",
-        "executableLocation": "示例: /path/to/emulator.exe",
+        "executableLocation": "/path/to/emulator.exe",
         "executableArgs": "--arg1 --arg2",
         "executableModifier": "\"${exePath}\"",
-        "startInDirectory": "/path/to/start/in/dir",
+        "startInDirectory": "/path/to/start/in/dir/",
         "imageProviders": "无",
         "multiAPIPlaceholder": "无筛选条件"
       },
@@ -547,11 +588,11 @@
         "defaultImage__md": "> 默认图像路径无效！",
         "titleModifier__md": "> 标题修改器字段是必需的 ！",
         "executableModifier__md": "> 可执行文件修饰符不能为空！",
-        "variableString__md": "> `${` and `}` 的数量不匹配。如果您想将它们用作字符，请使用 `\\` 转义 `${` or `}`。",
+        "variableString__md": "> Uneven number of `${` and `}` pairs! Use `\\` to escape `${` or `}` if you want to use them as characters.",
         "imageProviders__md": "> 图像提供者类型不正确！",
-        "unhandledValidationKey__md": "> 输入验证未处理",
-        "genericDir__md": "> 目录无效",
-        "genericPath__md": "> 路径无效"
+        "unhandledValidationKey__md": "> Input's validation is unhandled!",
+        "genericDir__md": "> Directory is invalid!",
+        "genericPath__md": "> Path is invalid!"
       },
       "text": {
         "noTitle": "无标题！"
