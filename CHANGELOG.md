@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.5.23
+
+## Fixed
+* Minor graphical annoyances with List View.
+* Parser specific inputs not being validated.
+
+### Changed
+* Placeholders are now OS specific for parser specific inputs.
+
 ## 2.5.22
 
 ### Added
