@@ -10,15 +10,11 @@ To update all the config presets at once:
 # Fixes
 Steam parser only works for steam apps that have been installed at least once.
 
-
 # Features and Changes
 0) Proton Capability
 1) Filter or prefer certain image creators
 2) Assign an sgdbId to sgdb game much earlier (and have fix match alter it as necessary)
-3) Make global accounts and steam directory mandatory, rework the UI around accounts.
-4) Rework fileParser to make each stage of the title modification process immutable and trackable.
-5) Re work the parser validation code to not suck.
-
+3) Rework fileParser to make each stage of the title modification process immutable and trackable.
 
 # Parsers (LM - Launcher Mode, EM - Executable Mode)
 Amazon Games (LM, EM)

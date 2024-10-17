@@ -10,7 +10,7 @@ import {
   ContentChildren,
   QueryList,
   ChangeDetectorRef,
-  ViewChild,
+  ViewChildren,
   Renderer2,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
@@ -26,7 +26,18 @@ const removeAt = (arr: any[], index: number) =>
     <div class="bubblesContainer">
       <ng-container *ngFor="let item of items; let i = index">
         <div class="bubble">
-          <span>{{ item }}</span>
+          <div (click)="makeLiveItem(i)">
+            <span *ngIf="!editing[i]">{{ item }}</span>
+            <div
+              *ngIf="addable && editing[i]"
+              contenteditable="true"
+              spellcheck="false"
+              (input)="handleChangeInput($event.target, i)"
+              (keydown)="handleChangeKeypress($event, i)"
+              (blur)="handleChangeBlur(i)"
+              class="editable"
+            ></div>
+          </div>
           <svg
             [hover]="true"
             xdelete
@@ -35,17 +46,16 @@ const removeAt = (arr: any[], index: number) =>
           ></svg>
         </div>
       </ng-container>
-      <div *ngIf="addable" class="bubble addable" (click)="makeLiveItem()">
+      <div *ngIf="addable" class="bubble addable" (click)="addLiveItem()">
         <span *ngIf="!typingState">+</span>
         <div
           *ngIf="typingState"
-          #inputEl
           contenteditable="true"
           spellcheck="false"
-          (input)="handleInput($event.target, inputEl)"
+          (input)="handleInput($event.target)"
           (keydown)="handleKeypress($event)"
           (blur)="handleBlur()"
-          class="editable"
+          class="editablePlus"
         ></div>
       </div>
     </div>
@@ -63,13 +73,16 @@ export class NgBubblesComponent implements ControlValueAccessor {
   private onChange = (_: any) => {};
   private onTouched = () => {};
   typingState = false;
+  editing: boolean[] = [];
+  addables: string[] = [];
   addableValue: string = "";
   items: string[] = [];
   @Input() set bubbleItems(value: string[]) {
     this.writeValue(value);
   }
   @Input() addable: boolean;
-  @ViewChild("input") private elementRef: ElementRef;
+  @ViewChildren('bubbleEdit') bubbleEdits: QueryList<ElementRef>;
+
   constructor(
     private element: ElementRef,
     private changeRef: ChangeDetectorRef,
@@ -80,30 +93,70 @@ export class NgBubblesComponent implements ControlValueAccessor {
     return this.items;
   }
 
-  makeLiveItem() {
+  makeLiveItem(index: number) {
+    if (this.addable && !this.editing[index]) {
+      this.editing[index] = true;
+      const addable = this.items[index];
+      this.addables[index] = addable;
+      setTimeout(()=> {
+        const inputEl = document.querySelector(".editable") as HTMLTextAreaElement;
+        inputEl.innerHTML = addable;
+        inputEl.focus();
+      }, 100)
+    }
+  }
+
+  addLiveItem() {
     if (!this.typingState) {
       this.typingState = true;
-      setTimeout(function () {
+      setTimeout(() => {
         const inputEl = document.querySelector(
-          ".editable",
+          ".editablePlus",
         ) as HTMLTextAreaElement;
         inputEl.focus();
       }, 100);
     }
   }
+  handleChangeInput(target: EventTarget, index: number) {
+    const newValue = (target as HTMLTextAreaElement).textContent;
+    if (this.addableValue != newValue) {
+      this.addables[index] = newValue;
+    }
+  }
 
-  handleInput(target: EventTarget, inputEl: HTMLDivElement) {
+  private transferChangeBubble(index: number) {
+    if(this.addables[index]) {
+      this.changeItem(this.addables[index], index)
+    }
+    this.addables[index]="";
+    this.editing[index]=false;
+  }
+
+  handleChangeKeypress(event: KeyboardEvent, index: number) {
+    if (
+      event.key === "Enter" ||
+      (event.key === "Backspace" && this.addables[index] == "")
+    ) {
+      event.preventDefault();
+      this.transferChangeBubble(index);
+    }
+  }
+
+  handleChangeBlur(index: number) {
+    this.transferChangeBubble(index);
+  }
+
+  handleInput(target: EventTarget) {
     const newValue = (target as HTMLTextAreaElement).textContent;
     if (this.addableValue != newValue) {
       this.addableValue = newValue;
-      this.setInnerHtml(inputEl, newValue);
-      this.changeRef.markForCheck();
     }
   }
 
   private transferBubble() {
     if (this.addableValue) {
       this.addItem(this.addableValue);
+      this.changeRef.detectChanges();
     }
     this.addableValue = "";
     this.typingState = false;
@@ -123,17 +176,29 @@ export class NgBubblesComponent implements ControlValueAccessor {
 
   addItem(item: string) {
     this.items.push(item);
+    this.editing.push(false);
+    this.addables.push("")
+    this.onChange(this.items);
+    this.onTouched();
+  }
+  changeItem(item: string, index: number) {
+    this.items[index] = item;
     this.onChange(this.items);
     this.onTouched();
   }
   removeItem(index: number) {
     this.items = removeAt(this.items, index);
+    this.editing = removeAt(this.editing, index);
+    this.addables = removeAt(this.addables, index);
     this.onChange(this.items);
     this.onTouched();
   }
 
   writeValue(value: string[]) {
     this.items = value;
+    const len = value ? value.length : 0;
+    this.editing = Array(len).map(x=>false);
+    this.addables = Array(len).map(x=>"");
     this.onChange(this.items);
     this.changeRef.detectChanges();
     this.onTouched();
