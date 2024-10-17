@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.5.24
+
+### Added
+
+- Ability to edit bubble inputs (currently just steam categories in parsers).
+
+### Changed
+
+- All path/directory fields in create parser now have system specific placeholders.
+
 ## 2.5.23
 
 ## Fixed

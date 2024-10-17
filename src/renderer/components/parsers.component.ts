@@ -32,7 +32,6 @@ import {
   NestedFormElement,
   AppSettings,
   ConfigPresets,
-  ControllerTemplates,
   ParserType,
   OnlineProviderType,
   StringDict,
@@ -41,6 +40,7 @@ import { BehaviorSubject, Subscription, of, concat } from "rxjs";
 import { map } from "rxjs/operators";
 import { APP } from "../../variables";
 import * as _ from "lodash";
+import * as os from "os";
 import {
   imageProviderNames,
   onlineProviders,
@@ -147,7 +147,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         steamDirectory: new NestedFormElement.Input({
           path: { directory: true },
-          placeholder: this.lang.placeholder.steamDirectory,
+          placeholder: this.lang.placeholder.steamDirectory[os.type()],
           required: true,
           label: this.lang.label.steamDirectory,
           highlight: this.highlight.bind(this),
@@ -208,7 +208,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         romDirectory: new NestedFormElement.Input({
           path: { directory: true },
-          placeholder: this.lang.placeholder.romDirectory,
+          placeholder: this.lang.placeholder.romDirectory[os.type()],
           required: true,
           isHidden: () => this.isHiddenIfNotRomsParser(),
           label: this.lang.label.romDirectory,
@@ -248,7 +248,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             path: new NestedFormElement.Input({
               path: { directory: false },
               label: this.lang.label.executableLocation,
-              placeholder: this.lang.placeholder.executableLocation,
+              placeholder: this.lang.placeholder.executableLocation[os.type()],
               highlight: this.highlight.bind(this),
               onValidate: (self, path) => {
                 let serialized: { [k: string]: any } = {};
@@ -307,7 +307,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         startInDirectory: new NestedFormElement.Input({
           path: { directory: true },
-          placeholder: this.lang.placeholder.startInDirectory,
+          placeholder: this.lang.placeholder.startInDirectory[os.type()],
           label: this.lang.label.startInDirectory,
           highlight: this.highlight.bind(this),
           isHidden: () => this.isHiddenIfNotRomsParser(),
@@ -648,7 +648,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           for (const artworkType of artworkTypes) {
             defaultImageInputs[artworkType] = new NestedFormElement.Input({
               path: { directory: false, useForwardSlash: true },
-              placeholder: this.lang.placeholder.defaultImage__i.interpolate({
+              placeholder: this.lang.placeholder.defaultImage__i[
+                os.type()
+              ].interpolate({
                 artworkType: artworkSingDict[artworkType],
               }),
               highlight: this.highlight.bind(this),
@@ -676,7 +678,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 directory: true,
                 appendGlob: "${title}.@(png|PNG|jpg|JPG|webp|WEBP)",
               },
-              placeholder: this.lang.placeholder.localImages__i.interpolate({
+              placeholder: this.lang.placeholder.localImages__i[
+                os.type()
+              ].interpolate({
                 artworkType: artworkViewNames[artworkType].toLowerCase(),
               }),
               highlight: this.highlight.bind(this),

@@ -581,17 +581,16 @@ export interface languageStruct {
       placeholder: {
         parserType: string;
         configTitle: string;
-        romDirectory: string;
-        steamDirectory: string;
-        userAccounts: string;
+        romDirectory: { [key: string]: string };
+        steamDirectory: { [key: string]: string };
         titleFromVariable: string;
         titleModifier: string;
-        executableLocation: string;
+        executableLocation: { [key: string]: string };
         executableArgs: string;
         executableModifier: string;
-        startInDirectory: string;
-        defaultImage__i: string; //${artworkType}
-        localImages__i: string; //${artworkType}
+        startInDirectory: { [key: string]: string };
+        defaultImage__i: { [key: string]: string }; //${artworkType}
+        localImages__i: { [key: string]: string }; //${artworkType}
         imageProviders: string;
         multiAPIPlaceholder: string;
       };
