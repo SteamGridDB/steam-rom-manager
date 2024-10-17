@@ -33,9 +33,10 @@
       .delete {
         margin-left: 0.25em;
       }
-      .editable,.editablePlus {
+      .editable,
+      .editablePlus {
         display: flex;
-        min-width:10px;
+        min-width: 10px;
         height: 20px;
         cursor: white;
       }

@@ -686,7 +686,8 @@
               }
             }
             &.header > .infoField {
-              &:hover,&.sortBy {
+              &:hover,
+              &.sortBy {
                 background-color: var(
                   --color-ng-select-option-background-hover
                 );

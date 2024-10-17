@@ -367,8 +367,10 @@ export class ParsersService {
 
   validate(key: string, data: any, options?: any) {
     switch (key) {
-      case "parserType": 
-        return parserInfo.availableParsers.includes(data) ? null : this.lang.validationErrors.parserType__md;
+      case "parserType":
+        return parserInfo.availableParsers.includes(data)
+          ? null
+          : this.lang.validationErrors.parserType__md;
       case "configTitle":
         return data ? null : this.lang.validationErrors.configTitle__md;
       case "parserId":
@@ -419,7 +421,9 @@ export class ParsersService {
                 isDir,
               )
                 ? null
-                : isDir ? this.lang.validationErrors.genericDir__md : this.lang.validationErrors.genericPath__md;
+                : isDir
+                  ? this.lang.validationErrors.genericDir__md
+                  : this.lang.validationErrors.genericPath__md;
             }
             return null;
           }

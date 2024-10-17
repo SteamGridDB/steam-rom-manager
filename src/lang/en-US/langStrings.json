@@ -101,8 +101,7 @@
   },
   "manualParser": {
     "manifestsInputTitle": "Manifests Directory",
-    "manifestsInputPlaceholder":
-    {
+    "manifestsInputPlaceholder": {
       "Windows_NT": "C:\\path\\to\\your\\manifests\\",
       "Darwin": "/path/to/your/manifests/",
       "Linux": "/path/to/your/manifests/"
@@ -113,8 +112,7 @@
   },
   "epicParser": {
     "manifestsInputTitle": "Epic Manifests Directory Override",
-    "manifestsInputPlaceholder":
-    {
+    "manifestsInputPlaceholder": {
       "Windows_NT": "C:\\path\\to\\your\\manifests\\",
       "Darwin": "/path/to/your/manifests/",
       "Linux": "/path/to/your/manifests/"
@@ -130,8 +128,7 @@
   "legendaryParser": {
     "launcherModeInputTitle": "Launch games via Legendary for online services",
     "legendaryInstalledFileTitle": "Legendary installed.json Path Override",
-    "legendaryInstalledFilePlaceholder":
-    {
+    "legendaryInstalledFilePlaceholder": {
       "Windows_NT": "C:\\path\\to\\legendary\\installed.json",
       "Darwin": "/path/to/legendary/installed.json",
       "Linux": "/path/to/legendary/installed.json"

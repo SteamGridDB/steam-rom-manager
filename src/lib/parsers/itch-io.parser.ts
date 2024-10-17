@@ -23,7 +23,8 @@ export class ItchIoParser implements GenericParser {
         },
         itchIoWindowsOnLinuxInstallDriveRedirect: {
           label: this.lang.itchIoWindowsOnLinuxInstallDriveRedirectTitle,
-          placeholder: this.lang.itchIoWindowsOnLinuxInstallDriveRedirectPlaceholder,
+          placeholder:
+            this.lang.itchIoWindowsOnLinuxInstallDriveRedirectPlaceholder,
           inputType: "dir",
           info: this.lang.docs__md.input.join(""),
         },
