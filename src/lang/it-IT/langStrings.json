@@ -530,18 +530,41 @@
       "placeholder": {
         "parserType": "Seleziona parser...",
         "configTitle": "Il Mio Fantastico Parser",
-        "steamDirectory": "${steamdirglobal} or /path/to/steam/",
-        "userAccounts": "${steamuser1}${steamuser2} o ${${accountsglobal}}",
+        "steamDirectory": {
+          "Windows_NT": "${steamdirglobal} or C:\\path\\to\\Steam\\",
+          "Darwin": "${steamdirglobal} or /path/to/Steam/",
+          "Linux": "${steamdirglobal} or /path/to/Steam/"
+        },
         "titleFromVariable": "${variableGroup1}${variableGroup2}",
         "titleModifier": "${fuzzyTitle} o ${title}",
-        "defaultImage__i": "/percorso/a/fallback_${artworkType}.png",
-        "localImages__i": "/percorso/a/art/${artworkType}/\\${title}.@(png|jpg)",
-        "romDirectory": "/percorso/a/giochi/",
+        "defaultImage__i": {
+          "Windows_NT": "C:\\\\path\\\\to\\\\fallback_${artworkType}.png",
+          "Darwin": "/path/to/fallback_${artworkType}.png",
+          "Linux": "/path/to/fallback_${artworkType}"
+        },
+        "localImages__i": {
+          "Windows_NT": "C:\\\\path\\\\to\\\\art\\\\${artworkType}\\\\\\${title}.@(png|jpg)",
+          "Darwin": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)",
+          "Linux": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)"
+        },
+        "romDirectory": {
+          "Windows_NT": "C:\\path\\to\\games\\",
+          "Darwin": "/path/to/games/",
+          "Linux": "/path/to/games/"
+        },
         "glob": "${title}.@(iso|ISO)",
-        "executableLocation": "/path/to/emulator.exe",
+        "executableLocation": {
+          "Windows_NT": "C:\\path\\to\\emulator.exe",
+          "Darwin": "/path/to/emulator.app",
+          "Linux": "/path/to/emulator"
+        },
         "executableArgs": "--arg1 --arg2",
         "executableModifier": "\"${exePath}\"",
-        "startInDirectory": "/path/to/start/in/dir/",
+        "startInDirectory": {
+          "Windows_NT": "C:\\path\\to\\start-in-dir\\",
+          "Darwin": "/path/to/start-in-dir/",
+          "Linux": "/path/to/start-in-dir/"
+        },
         "imageProviders": "Nessuno",
         "multiAPIPlaceholder": "Nessun filtro"
       },
