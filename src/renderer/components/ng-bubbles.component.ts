@@ -86,11 +86,12 @@ export class NgBubblesComponent implements ControlValueAccessor {
   makeLiveItem(index: number) {
     if (this.addable && !this.editing[index]) {
       this.editing[index] = true;
-      const addable = this.items[index];
-      this.addables[index] = addable;
+      this.addables[index] = this.items[index];
+      const self=this;
       setTimeout(()=> {
         const inputEl = document.querySelector(".editable") as HTMLTextAreaElement;
-        inputEl.innerHTML = addable;
+        const len = self.addables[index].length
+        self.setInnerHtml(inputEl,self.addables[index], {start: len, end: len})
         inputEl.focus();
       }, 100)
     }
