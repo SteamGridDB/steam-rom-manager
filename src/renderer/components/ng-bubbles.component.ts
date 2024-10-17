@@ -1,16 +1,8 @@
 import {
   Component,
   forwardRef,
-  ElementRef,
-  Optional,
-  Host,
-  HostListener,
   Input,
-  Output,
-  ContentChildren,
-  QueryList,
   ChangeDetectorRef,
-  ViewChildren,
   Renderer2,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
@@ -47,9 +39,9 @@ const removeAt = (arr: any[], index: number) =>
         </div>
       </ng-container>
       <div *ngIf="addable" class="bubble addable" (click)="addLiveItem()">
-        <span *ngIf="!typingState">+</span>
+        <span *ngIf="!editingNew">+</span>
         <div
-          *ngIf="typingState"
+          *ngIf="editingNew"
           contenteditable="true"
           spellcheck="false"
           (input)="handleInput($event.target)"
@@ -72,7 +64,7 @@ const removeAt = (arr: any[], index: number) =>
 export class NgBubblesComponent implements ControlValueAccessor {
   private onChange = (_: any) => {};
   private onTouched = () => {};
-  typingState = false;
+  editingNew = false;
   editing: boolean[] = [];
   addables: string[] = [];
   addableValue: string = "";
@@ -81,10 +73,8 @@ export class NgBubblesComponent implements ControlValueAccessor {
     this.writeValue(value);
   }
   @Input() addable: boolean;
-  @ViewChildren('bubbleEdit') bubbleEdits: QueryList<ElementRef>;
 
   constructor(
-    private element: ElementRef,
     private changeRef: ChangeDetectorRef,
     private renderer: Renderer2,
   ) {}
@@ -107,8 +97,8 @@ export class NgBubblesComponent implements ControlValueAccessor {
   }
 
   addLiveItem() {
-    if (!this.typingState) {
-      this.typingState = true;
+    if (!this.editingNew) {
+      this.editingNew = true;
       setTimeout(() => {
         const inputEl = document.querySelector(
           ".editablePlus",
@@ -119,17 +109,20 @@ export class NgBubblesComponent implements ControlValueAccessor {
   }
   handleChangeInput(target: EventTarget, index: number) {
     const newValue = (target as HTMLTextAreaElement).textContent;
-    if (this.addableValue != newValue) {
+    if (this.addables[index] != newValue) {
       this.addables[index] = newValue;
+      this.changeRef.detectChanges();
     }
   }
 
   private transferChangeBubble(index: number) {
     if(this.addables[index]) {
       this.changeItem(this.addables[index], index)
+      this.addables[index]="";
+      this.editing[index]=false;
+    } else {
+      this.removeItem(index);
     }
-    this.addables[index]="";
-    this.editing[index]=false;
   }
 
   handleChangeKeypress(event: KeyboardEvent, index: number) {
@@ -159,7 +152,7 @@ export class NgBubblesComponent implements ControlValueAccessor {
       this.changeRef.detectChanges();
     }
     this.addableValue = "";
-    this.typingState = false;
+    this.editingNew = false;
   }
   handleKeypress(event: KeyboardEvent) {
     if (
