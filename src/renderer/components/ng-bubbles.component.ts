@@ -124,15 +124,23 @@ export class NgBubblesComponent implements ControlValueAccessor {
     } else {
       this.removeItem(index);
     }
+    this.changeRef.detectChanges();
   }
 
   handleChangeKeypress(event: KeyboardEvent, index: number) {
     if (
-      event.key === "Enter" ||
-      (event.key === "Backspace" && this.addables[index] == "")
+      event.key === "Enter"
     ) {
       event.preventDefault();
       this.transferChangeBubble(index);
+      if(index == this.items.length - 1) {
+        this.addLiveItem();
+      }
+    }
+    else if (event.key === "Backspace" && this.addables[index] == "") {
+      event.preventDefault();
+      this.transferChangeBubble(index);
+      this.makeLiveItem(index-1);
     }
   }
 
@@ -150,19 +158,28 @@ export class NgBubblesComponent implements ControlValueAccessor {
   private transferBubble() {
     if (this.addableValue) {
       this.addItem(this.addableValue);
-      this.changeRef.detectChanges();
     }
     this.addableValue = "";
     this.editingNew = false;
+    this.changeRef.detectChanges();
   }
   handleKeypress(event: KeyboardEvent) {
     if (
-      event.key === "Enter" ||
-      (event.key === "Backspace" && this.addableValue == "")
+      event.key === "Enter"
     ) {
       event.preventDefault();
+      const goToNew = !!this.addableValue
       this.transferBubble();
+      if(goToNew) {
+        this.addLiveItem()
+      }
     }
+    else if(event.key === "Backspace" && this.addableValue == "") {
+      event.preventDefault();
+      this.transferBubble();
+      this.makeLiveItem(this.items.length-1);
+    }
+
   }
   handleBlur() {
     this.transferBubble();
