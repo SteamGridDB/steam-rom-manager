@@ -192,6 +192,7 @@ Some other projects in the emulation-adjacent space we think you might be intere
 ## Configurators
 
 - [EmuDeck](https://github.com/dragoonDorise/EmuDeck) - A collection of scripts for downloading and managing emulators and front ends alike.
+- [RetroDeck](https://retrodeck.net/) - Configurator for downloading and managing emulators and front ends alike, focused on the Steam Deck and Linux Desktop.
 
 ## ROM Managers
 
