@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.5.25
+
+### Changed
+
+- Switch to non-deprecated fuzzy-matching library `fuzzysort` (RIP `fuzzaldrin`).
+
+- Improved preset search appearance and performance.
+
 ## 2.5.24
 
 ### Added

@@ -2,10 +2,10 @@ import {
   ParsedDataWithFuzzy,
   FuzzyEventCallback,
   FuzzyMatcherOptions,
-  MatchResult
+  MatchResult,
 } from "../models";
 import { MemoizedFunction } from "./memoized-function";
-import fuzzysort from 'fuzzysort';
+import fuzzysort from "fuzzysort";
 import * as _ from "lodash";
 
 export class FuzzyMatcher {
@@ -126,15 +126,21 @@ export class FuzzyMatcher {
     //"Harold & Maude" => "Harold and Maude"
     //"Harold and Maude" => "Harold & Maude"
     //"Bob" => "Bob"
-    const manualModifications = _.uniq([
-      /,\s*the/i.test(input) ? input.replace(/(.*?),\s*(the)/i, "$2 $1") : null,
-      /,\s*the/i.test(input) ? input.replace(/(.*?),\s*(the.*)/i, "$2 $1") : null,
-      input.replaceAll(/\sand\s/gi, ' & '),
-      input.replaceAll(/\s&\s/g, ' and '),
-      input
-    ].filter(x=>!!x));
+    const manualModifications = _.uniq(
+      [
+        /,\s*the/i.test(input)
+          ? input.replace(/(.*?),\s*(the)/i, "$2 $1")
+          : null,
+        /,\s*the/i.test(input)
+          ? input.replace(/(.*?),\s*(the.*)/i, "$2 $1")
+          : null,
+        input.replaceAll(/\sand\s/gi, " & "),
+        input.replaceAll(/\s&\s/g, " and "),
+        input,
+      ].filter((x) => !!x),
+    );
     let matches;
-    for(const modifiedInput of manualModifications) {
+    for (const modifiedInput of manualModifications) {
       const cleanString = this.modifyString(modifiedInput, options);
       matches = this.performMatching(cleanString, options.replaceDiacritics);
       if (matches.matched) return matches;
@@ -142,13 +148,16 @@ export class FuzzyMatcher {
     return matches;
   }
 
-  private performMatching(input: string, diacriticsRemoved: boolean): MatchResult {
+  private performMatching(
+    input: string,
+    diacriticsRemoved: boolean,
+  ): MatchResult {
     const list = diacriticsRemoved ? this.latinList : this.list.games;
-    const res = fuzzysort.go(input, list, {threshold: 0.5});
-    if(res.length) {
-      return { output: res[0].target, matched: true}
+    const res = fuzzysort.go(input, list, { threshold: 0.5 });
+    if (res.length) {
+      return { output: res[0].target, matched: true };
     } else {
-      return { output: input, matched: false }
+      return { output: input, matched: false };
     }
   }
 

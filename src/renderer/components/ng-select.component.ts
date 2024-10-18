@@ -10,67 +10,58 @@ import {
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 import * as _ from "lodash";
 import { SelectItem, StringDict } from "../../models";
-import fuzzysort from 'fuzzysort';
+import fuzzysort from "fuzzysort";
 import { NgTextInputComponent } from "./ng-text-input.component";
 
 @Component({
   selector: "ng-select",
   template: `
-      <div
-        class="display"
-        *ngIf="!searchable"
-        (click)="toggleOpen()"
-        [class.open]="open"
+    <div
+      class="display"
+      *ngIf="!searchable"
+      (click)="toggleOpen()"
+      [class.open]="open"
+    >
+      <div text-scroll>{{ currentDisplay || placeholder || "null" }}</div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        viewBox="0 0 300 300"
       >
-        <div text-scroll>{{ currentDisplay || placeholder || "null" }}</div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          version="1.1"
-          viewBox="0 0 300 300"
-        >
-          <polyline points="70, 110 150, 200 230, 110" />
-        </svg>
-      </div>
-      <ng-text-input
-        *ngIf="searchable"
-        class="display"
-        [placeholder]="placeholder"
-        (click)="toggleOpen(); searchText=''; allowAutoOpen=true; autoFocus(searchEl)"
-        [class.open]="open"
-        [(ngModel)]="searchText"
-        (ngModelChange)="searchText = $event; filterOptions($event); open=allowAutoOpen?true:open"
-        value="searchText;"
-        autoFocus="false"
-        #searchEl
-      >
-      </ng-text-input>
-      <div class="options" [class.open]="open">
-        <ng-container *ngIf="_sections.length">
-          <ng-container *ngFor="let option of optionsList; let i = index">
-            <ng-container
-              *ngIf="_sectionsList[i.toString()] && !searchText.length"
-            >
-              <div class="sectionTitle">
-                {{ _sectionsList[i.toString()].name }}
-              </div>
-            </ng-container>
-            <ng-option
-              text-scroll
-              [displayValue]="option.displayValue"
-              [isSelected]="selected.indexOf(i) >= 0"
-              [isHidden]="
-                searchable && searchText.length && filtered.indexOf(i) < 0
-              "
-              (click)="selectOption(i, true);"
-            >
-              {{ option.displayValue }}
-            </ng-option>
+        <polyline points="70, 110 150, 200 230, 110" />
+      </svg>
+    </div>
+    <ng-text-input
+      *ngIf="searchable"
+      class="display"
+      [placeholder]="placeholder"
+      (click)="
+        toggleOpen(); searchText = ''; allowAutoOpen = true; autoFocus(searchEl)
+      "
+      [class.open]="open"
+      [(ngModel)]="searchText"
+      (ngModelChange)="
+        searchText = $event;
+        filterOptions($event);
+        open = allowAutoOpen ? true : open
+      "
+      value="searchText;"
+      autoFocus="false"
+      #searchEl
+    >
+    </ng-text-input>
+    <div class="options" [class.open]="open">
+      <ng-container *ngIf="_sections.length">
+        <ng-container *ngFor="let option of optionsList; let i = index">
+          <ng-container
+            *ngIf="_sectionsList[i.toString()] && !searchText.length"
+          >
+            <div class="sectionTitle">
+              {{ _sectionsList[i.toString()].name }}
+            </div>
           </ng-container>
-        </ng-container>
-        <ng-container *ngIf="!_sections.length">
           <ng-option
             text-scroll
-            *ngFor="let option of optionsList; let i = index"
             [displayValue]="option.displayValue"
             [isSelected]="selected.indexOf(i) >= 0"
             [isHidden]="
@@ -81,19 +72,36 @@ import { NgTextInputComponent } from "./ng-text-input.component";
             {{ option.displayValue }}
           </ng-option>
         </ng-container>
-        <div *ngIf="searchable && searchText.length && !filtered.length"
-            text-scroll
-            class="fakeOption"
-          >
-            No results...
-          </div>
-          <div *ngIf="searchable && open && !optionsList.length"
-            text-scroll
-            class="fakeOption"
-          >
-            Options Loading...
-          </div>
+      </ng-container>
+      <ng-container *ngIf="!_sections.length">
+        <ng-option
+          text-scroll
+          *ngFor="let option of optionsList; let i = index"
+          [displayValue]="option.displayValue"
+          [isSelected]="selected.indexOf(i) >= 0"
+          [isHidden]="
+            searchable && searchText.length && filtered.indexOf(i) < 0
+          "
+          (click)="selectOption(i, true)"
+        >
+          {{ option.displayValue }}
+        </ng-option>
+      </ng-container>
+      <div
+        *ngIf="searchable && searchText.length && !filtered.length"
+        text-scroll
+        class="fakeOption"
+      >
+        No results...
       </div>
+      <div
+        *ngIf="searchable && open && !optionsList.length"
+        text-scroll
+        class="fakeOption"
+      >
+        Options Loading...
+      </div>
+    </div>
   `,
   styleUrls: ["../styles/ng-select.component.scss"],
   host: { "[class.open]": "open" },
@@ -252,7 +260,10 @@ export class NgSelectComponent implements ControlValueAccessor {
         } else {
           this.searchText = "";
         }
-        setTimeout(()=>{ this.open = false; this.changeRef.detectChanges(); },10)
+        setTimeout(() => {
+          this.open = false;
+          this.changeRef.detectChanges();
+        }, 10);
       }
 
       if (currentDisplays.length > 0 && this.sort) {
@@ -355,9 +366,15 @@ export class NgSelectComponent implements ControlValueAccessor {
   }
 
   filterOptions(filter: string) {
-    this.filtered = fuzzysort.go(filter,this.optionsList.map((opt,i)=>({...opt, i})), {
-      key: 'displayValue',
-    }).map(res=>res.obj.i);
+    this.filtered = fuzzysort
+      .go(
+        filter,
+        this.optionsList.map((opt, i) => ({ ...opt, i })),
+        {
+          key: "displayValue",
+        },
+      )
+      .map((res) => res.obj.i);
   }
 
   private getOptionId(value: any) {

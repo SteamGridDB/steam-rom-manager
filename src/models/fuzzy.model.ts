@@ -57,6 +57,6 @@ export interface FuzzyMatcherOptions {
 }
 
 export interface MatchResult {
-  output: string,
-  matched: boolean
+  output: string;
+  matched: boolean;
 }
