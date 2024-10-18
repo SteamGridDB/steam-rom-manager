@@ -7,7 +7,7 @@
 
 ##
 
-* [SRM Releases](https://github.com/SteamGridDB/steam-rom-manager/releases)
+* [](https://github.com/SteamGridDB/steam-rom-manager/releases)
 * [Discord Server](https://discord.gg/bnSVJrz)
 * [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
 * [Steam Group](https://steamcommunity.com/groups/steamrommanager)
