@@ -207,7 +207,13 @@ Some other projects in the emulation-adjacent space we think you might be intere
 
 ## Our Competition
 
-[![Star History Chart](https://api.star-history.com/svg?repos=SteamGridDB/steam-rom-manager,scottrice/Ice,PhilipK/BoilR,brenoprata10/steam-deck-romate&type=Date)](https://star-history.com/#SteamGridDB/steam-rom-manager&scottrice/Ice&PhilipK/BoilR&brenoprata10/steam-deck-romate&Date)
+<a href="https://star-history.com/#SteamGridDB/steam-rom-manager&scottrice/Ice&PhilipK/BoilR&brenoprata10/steam-deck-romate&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=SteamGridDB/steam-rom-manager,scottrice/Ice,PhilipK/BoilR,brenoprata10/steam-deck-romate&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=SteamGridDB/steam-rom-manager,scottrice/Ice,PhilipK/BoilR,brenoprata10/steam-deck-romate&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=SteamGridDB/steam-rom-manager,scottrice/Ice,PhilipK/BoilR,brenoprata10/steam-deck-romate&type=Date" />
+ </picture>
+</a>
 
 These tools are the closest to SRM in function, that is importing games/ROMs into Steam.
 
