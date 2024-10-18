@@ -72,6 +72,6 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": [""]
+    "steamCategories": []
   }
 }
