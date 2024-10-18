@@ -86,5 +86,19 @@
       background-color: var(--color-ng-select-background);
       padding: var(--ng-select-padding, 0);
     }
+    .fakeOption {
+      &:not(.hidden) {
+        display: grid;
+        grid-auto-flow: column;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        background-color: var(--color-ng-select-background);
+        padding: var(--ng-select-padding, 0);
+      }
+      &.hidden {
+        display: none;
+      }
+    }
   }
 }

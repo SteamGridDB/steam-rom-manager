@@ -58,26 +58,14 @@
     },
     "presetVersion": 17,
     "defaultImage": {
-      "long": {
-        "tall": null,
-        "long": null,
-        "hero": null,
-        "logo": null,
-        "icon": null
-      },
+      "long": "",
       "tall": "",
       "hero": "",
       "logo": "",
       "icon": ""
     },
     "localImages": {
-      "long": {
-        "tall": null,
-        "long": null,
-        "hero": null,
-        "logo": null,
-        "icon": null
-      },
+      "long": "",
       "tall": "",
       "hero": "",
       "logo": "",

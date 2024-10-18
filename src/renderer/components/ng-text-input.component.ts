@@ -69,6 +69,10 @@ export class NgTextInputComponent implements ControlValueAccessor {
     );
   }
 
+  focus() {
+    this.elementRef.nativeElement.focus();
+  }
+
   handlePaste(event: ClipboardEvent) {
     event.preventDefault();
     let data = event.clipboardData.getData("text");
