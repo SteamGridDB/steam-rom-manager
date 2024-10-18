@@ -1,11 +1,14 @@
 import { Pipe, PipeTransform } from "@angular/core";
-const Fuzzy = require("fuzzaldrin-plus");
+import fuzzysort from 'fuzzysort';
 
 @Pipe({ name: "fuzzyTest" })
 export class FuzzyTestPipe implements PipeTransform {
   transform(inputString: string, query: string) {
-    return query.length > 0
-      ? Fuzzy.score(inputString, query, { usePathScoring: false }) !== 0
-      : true;
+    if(query) {
+      const res = fuzzysort.single(query, inputString);
+      const score = res ? res.score : 0;
+      return score > .5;
+    }
+    return true;
   }
 }
