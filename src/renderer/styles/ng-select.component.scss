@@ -83,7 +83,8 @@
     }
     .sectionTitle {
       border-bottom: solid 1px;
-      background-color: var(--color-ng-select-background);
+      //background-color: var(--color-ng-select-background);
+      background-color: var(--color-ng-select-section-background);
       padding: var(--ng-select-padding, 0);
     }
     .fakeOption {

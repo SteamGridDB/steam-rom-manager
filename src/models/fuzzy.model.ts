@@ -55,3 +55,8 @@ export interface FuzzyMatcherOptions {
   removeBrackets?: boolean;
   replaceDiacritics?: boolean;
 }
+
+export interface MatchResult {
+  output: string,
+  matched: boolean
+}

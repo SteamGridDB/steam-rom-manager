@@ -2,10 +2,11 @@ import {
   ParsedDataWithFuzzy,
   FuzzyEventCallback,
   FuzzyMatcherOptions,
+  MatchResult
 } from "../models";
 import { MemoizedFunction } from "./memoized-function";
-
-const Fuzzy = require("fuzzaldrin-plus");
+import fuzzysort from 'fuzzysort';
+import * as _ from "lodash";
 
 export class FuzzyMatcher {
   private list: { totalGames: number; games: string[] };
@@ -120,49 +121,35 @@ export class FuzzyMatcher {
     if (input.length === 0) {
       return { output: input, matched: false };
     }
-    // Check if title contains ", The..."
-    else if (/,\s*the/i.test(input)) {
-      // Move "The" to the front
-      let modifiedInput = input.replace(/(.*?),\s*(the)/i, "$2 $1");
-      modifiedInput = this.modifyString(modifiedInput, options);
-      let matches = this.performMatching(
-        modifiedInput,
-        options.replaceDiacritics,
-      );
-      if (matches.matched) return matches;
-
-      // Move "The + everything else" to the front
-      modifiedInput = input.replace(/(.*?),\s*(the.*)/i, "$2 $1");
-      modifiedInput = this.modifyString(modifiedInput, options);
-      matches = this.performMatching(modifiedInput, options.replaceDiacritics);
+    //"Return of the King, The" => "The Return of the King"
+    //"The King, The Return of" =>  "The Return of The King"
+    //"Harold & Maude" => "Harold and Maude"
+    //"Harold and Maude" => "Harold & Maude"
+    //"Bob" => "Bob"
+    const manualModifications = _.uniq([
+      /,\s*the/i.test(input) ? input.replace(/(.*?),\s*(the)/i, "$2 $1") : null,
+      /,\s*the/i.test(input) ? input.replace(/(.*?),\s*(the.*)/i, "$2 $1") : null,
+      input.replaceAll(/\sand\s/gi, ' & '),
+      input.replaceAll(/\s&\s/g, ' and '),
+      input
+    ].filter(x=>!!x));
+    let matches;
+    for(const modifiedInput of manualModifications) {
+      const cleanString = this.modifyString(modifiedInput, options);
+      matches = this.performMatching(cleanString, options.replaceDiacritics);
       if (matches.matched) return matches;
     }
-
-    let modifiedInput = this.modifyString(input, options);
-    return this.performMatching(modifiedInput, options.replaceDiacritics);
+    return matches;
   }
 
-  private performMatching(input: string, diacriticsRemoved: boolean) {
+  private performMatching(input: string, diacriticsRemoved: boolean): MatchResult {
     const list = diacriticsRemoved ? this.latinList : this.list.games;
-    const preparedQuery = Fuzzy.prepareQuery(input, { usePathScoring: false });
-    let bestScore = 0;
-    let matches: string[] = [];
-
-    for (let i = 0; i < list.length; i++) {
-      let score = Fuzzy.score(list[i], preparedQuery.query, {
-        preparedQuery,
-        usePathScoring: false,
-      });
-      if (score >= bestScore && score !== 0) {
-        bestScore = score;
-        matches.push(this.list.games[i]);
-      }
+    const res = fuzzysort.go(input, list, {threshold: 0.5});
+    if(res.length) {
+      return { output: res[0].target, matched: true}
+    } else {
+      return { output: input, matched: false }
     }
-    if (matches.length) {
-      const bestMatch = matches[matches.length - 1];
-      return { output: bestMatch, matched: true };
-    }
-    return { output: input, matched: false };
   }
 
   private modifyString(input: string, options: FuzzyMatcherOptions) {
@@ -182,31 +169,5 @@ export class FuzzyMatcher {
     }
 
     return input.trim();
-  }
-
-  private getBestMatch(pattern: string, matches: string[]) {
-    let bestIndex: number = 0;
-    let lengthDiff: number = Infinity;
-    let bestScore: number = 0;
-
-    for (let i = 0; i < matches.length; i++) {
-      let diff = matches[i].length - pattern.length;
-      let absDiff = Math.abs(diff);
-
-      if (absDiff < lengthDiff) {
-        bestIndex = i;
-        bestScore = Fuzzy.score(matches[i], pattern);
-        if (absDiff === 0) break;
-        else lengthDiff = absDiff;
-      } else if (absDiff === lengthDiff && diff < 0) {
-        let currentScore = Fuzzy.score(matches[i], pattern);
-        if (bestScore <= currentScore) {
-          bestIndex = i;
-          bestScore = currentScore;
-        }
-      }
-    }
-
-    return matches[bestIndex];
   }
 }
