@@ -179,32 +179,38 @@ flatpak install org.electronjs.Electron2.BaseApp/x86_64/stable
 
 Use `npx ncu` to list available dependency updates, and `npx ncu -u target [target]` to update, where `[target]` is either `patch`, `minor`, `latest`, `greatest`, or `newest`.
 
-# Related Projects
+## Related Projects
 
 Some other projects in the emulation-adjacent space we think you might be interested in!
 
-## Front ends
+### Front ends
 
 - [ES-DE](https://gitlab.com/es-de/emulationstation-de) - A top tier emulation front end.
 - [Playnite](https://github.com/JosefNemec/Playnite) - A general purpose front end with lots of importers.
 - [Firelight](https://github.com/firelight-emulator/firelight) - An upcoming front end specifically for emulation with built in achievements.
 
-## Configurators
+### Configurators
 
 - [EmuDeck](https://github.com/dragoonDorise/EmuDeck) - A collection of scripts for downloading and managing emulators and front ends alike.
 - [RetroDeck](https://retrodeck.net/) - Configurator for downloading and managing emulators and front ends alike, focused on the Steam Deck and Linux Desktop.
 
-## ROM Managers
+### ROM Managers
 
 - [Romm](https://github.com/rommapp/romm?tab=readme-ov-file) - A rom manager with a web UI.
 - [Oxyromon](https://github.com/alucryd/oxyromon) - A CLI based rom manager.
 - [JRomManager](https://github.com/optyfr/JRomManager) - A java based rom manager.
 
-## Steam Artwork Tools
+### Steam Artwork Tools
 
 - [Steam Art Manager](https://github.com/Tormak9970/Steam-Art-Manager) - An artwork manager for Steam games.
 - [SGDBoop](https://github.com/SteamGridDB/SGDBoop) - Tool to enable choosing artwork for in Steam directly from steamgriddb's website.
 
-## Other Steam Importers
+## Our Competition
 
-- [Steam Rom Mate](https://github.com/brenoprata10/steam-deck-romate) - An alternative to SRM.
+[![Star History Chart](https://api.star-history.com/svg?repos=SteamGridDB/steam-rom-manager,scottrice/Ice,PhilipK/BoilR,brenoprata10/steam-deck-romate&type=Date)](https://star-history.com/#SteamGridDB/steam-rom-manager&scottrice/Ice&PhilipK/BoilR&brenoprata10/steam-deck-romate&Date)
+
+These tools are the closest to SRM in function, that is importing games/ROMs into Steam.
+
+- [Steam Rom Mate](https://github.com/brenoprata10/steam-deck-romate) - An alternative to SRM made with the Steam Deck in mind.
+- [BoilR](https://github.com/PhilipK/BoilR) - An alternative to SRM focused on importing from other game libraries.
+- [Ice](https://github.com/scottrice/Ice) - The steam importer that started it all, now defunct.
