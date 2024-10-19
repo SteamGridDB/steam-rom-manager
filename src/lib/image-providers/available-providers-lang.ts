@@ -41,6 +41,10 @@ export const providerInfoLang: ProviderInfo = {
         label: APP.lang.sgdbProvider.sizesHeroTitle,
         info: APP.lang.sgdbProvider.docs__md.input.join(""),
       },
+      sizesTall: {
+        label: APP.lang.sgdbProvider.sizesTallTitle,
+        info: APP.lang.sgdbProvider.docs__md.input.join(""),
+      },
       sizesIcon: {
         label: APP.lang.sgdbProvider.sizesIconTitle,
         info: APP.lang.sgdbProvider.docs__md.input.join(""),

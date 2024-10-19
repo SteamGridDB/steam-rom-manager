@@ -312,6 +312,7 @@ export interface languageStruct {
     stylesIconTitle: string;
     sizesTitle: string;
     sizesHeroTitle: string;
+    sizesTallTitle: string;
     sizesIconTitle: string;
     docs__md: {
       self: string[];

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.5.26
+
+### Added
+- Ability to search for square 512x512 and 1024x1024 images for capsules and wide capsules (disabled by default). Resolves [issue 703](https://github.com/SteamGridDB/steam-rom-manager/issues/703).
+
 ## 2.5.25
 
 ### Changed

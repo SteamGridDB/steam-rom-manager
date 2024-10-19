@@ -96,7 +96,7 @@ export class SteamGridDbProvider extends GenericProvider {
             } else if (self.proxy.imageType === "tall") {
               query = self.client.getGrids(
                 Object.assign(params, {
-                  dimensions: ["600x900"],
+                  dimensions: choose(self.proxy.imageProviderAPIs.sizesTall, ["600x900"]),
                   styles: self.proxy.imageProviderAPIs.styles,
                 }),
               );
