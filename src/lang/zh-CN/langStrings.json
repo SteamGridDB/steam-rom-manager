@@ -292,6 +292,7 @@
     "stylesIconTitle": "允许的图标样式",
     "sizesTitle": "允许横幅尺寸",
     "sizesHeroTitle": "允许英雄尺寸",
+    "sizesTallTitle": "Allowed portrait dimensions",
     "sizesIconTitle": "允许的图标尺寸"
   },
   "logger": {
