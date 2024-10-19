@@ -292,6 +292,7 @@
     "stylesIconTitle": "Erlaubte Symbol-Stile",
     "sizesTitle": "Allowed banner dimensions",
     "sizesHeroTitle": "Allowed hero dimensions",
+    "sizesTallTitle": "Allowed portrait dimensions",
     "sizesIconTitle": "Allowed icon dimensions"
   },
   "logger": {
