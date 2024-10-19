@@ -292,6 +292,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         executableModifier: new NestedFormElement.Input({
           isHidden: () => this.isHiddenIfNotRomsParser(),
           highlight: this.highlight.bind(this),
+          required: true,
           label: this.lang.label.executableModifier,
           placeholder: this.lang.placeholder.executableModifier,
           onValidate: (self, path) =>
@@ -406,6 +407,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         titleSection: new NestedFormElement.Section({
           label: "Title Modification Configuration",
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+          startMinimized: true,
         }),
         titleModifier: new NestedFormElement.Input({
           highlight: this.highlight.bind(this),
@@ -474,6 +476,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         controllerSection: new NestedFormElement.Section({
           label: "Controller Templates Configuration",
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+          startMinimized: true,
         }),
         fetchControllerTemplatesButton: new NestedFormElement.Button({
           buttonLabel: "Re-fetch Controller Templates",
@@ -523,6 +526,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         onlineImageSection: new NestedFormElement.Section({
           label: "Artwork Provider Configuration",
+          startMinimized: true,
         }),
         imageProviders: new NestedFormElement.Select({
           label: this.lang.label.imageProviders,
@@ -642,6 +646,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         })(),
         localImageSection: new NestedFormElement.Section({
           label: "Local Artwork Configuration",
+          startMinimized: true,
         }),
         defaultImage: (() => {
           let defaultImageInputs: { [k: string]: NestedFormElement.Input } = {};

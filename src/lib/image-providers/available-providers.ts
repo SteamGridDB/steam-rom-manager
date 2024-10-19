@@ -106,7 +106,7 @@ export const providerInfo: ProviderInfo = {
       },
       sizes: {
         inputType: "multiselect",
-        allowedValues: ["460x215", "920x430","512x512","1024x1024"],
+        allowedValues: ["460x215", "920x430", "512x512", "1024x1024"],
         multiple: true,
         allowEmpty: true,
       },
@@ -118,9 +118,9 @@ export const providerInfo: ProviderInfo = {
       },
       sizesTall: {
         inputType: "multiselect",
-        allowedValues: ["600x900","512x512","1024x1024"],
+        allowedValues: ["600x900", "512x512", "1024x1024"],
         multiple: true,
-        allowEmpty: true
+        allowEmpty: true,
       },
       sizesIcon: {
         inputType: "multiselect",

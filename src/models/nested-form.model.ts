@@ -196,6 +196,8 @@ export namespace NestedFormElement {
     /** Optional */
     isHidden?: NestedInputHidden;
     __hidden: NestedInputHiddenValue;
+    /**Optional */
+    startMinimized?: boolean;
 
     constructor(init?: ObjectFields<Section>) {
       Object.assign(this, init);

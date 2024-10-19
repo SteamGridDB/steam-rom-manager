@@ -92,13 +92,18 @@ export class NgNestedFormComponent implements OnInit {
 
   private buildSectionMap(group: NestedFormElement.Group) {
     let currentSection = null;
+    let hiddenSections: { [sectionname: string]: boolean } = {};
     for (let childKey in group.children) {
       if (group.children[childKey] instanceof NestedFormElement.Section) {
         currentSection = childKey;
+        if (group.children[childKey].startMinimized) {
+          hiddenSections[childKey] = true;
+        }
       } else if (currentSection) {
         this.sectionMap[childKey] = currentSection;
       }
     }
+    this.hiddenSections.next(hiddenSections);
   }
 
   private buildFromTemplate(group: NestedFormElement.Group) {
