@@ -17,6 +17,7 @@ export class ManualParser implements GenericParser {
         manualManifests: {
           label: this.lang.manifestsInputTitle,
           placeholder: this.lang.manifestsInputPlaceholder[os.type()],
+          required: true,
           inputType: "dir",
           info: this.lang.docs__md.input.join(""),
         },
