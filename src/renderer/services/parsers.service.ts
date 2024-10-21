@@ -382,7 +382,7 @@ export class ParsersService {
           ? null
           : this.lang.validationErrors.executable__md;
       case "romDirectory":
-        return !data || this.validateEnvironmentPath(data, true)
+        return this.validateEnvironmentPath(data||"", true)
           ? null
           : this.lang.validationErrors.romDir__md;
       case "steamDirectory":
@@ -432,15 +432,9 @@ export class ParsersService {
         return this.lang.validationErrors.parserInput.incorrectParser;
       }
       case "titleModifier":
-        return this.validateVariableParserString(
-          data || "",
-          this.lang.validationErrors.titleModifier__md,
-        );
+        return this.validateVariableParserString(data || "");
       case "executableModifier":
-        return this.validateVariableParserString(
-          data || "",
-          this.lang.validationErrors.executableModifier__md,
-        );
+        return this.validateVariableParserString(data || "");
       case "titleFromVariable":
         return this.validateVariableParserString(
           data ? data.limitToGroups || "" : "",
@@ -448,15 +442,8 @@ export class ParsersService {
       case "onlineImageQueries":
       case "executableArgs":
         return this.validateVariableParserString(data || "");
-      case "imageProviders":
-        return _.isArray(data)
-          ? null
-          : this.lang.validationErrors.imageProviders__md;
       case "imagePool":
-        return this.validateVariableParserString(
-          data || "",
-          this.lang.validationErrors.imagePool__md,
-        );
+        return this.validateVariableParserString(data || "");
       case "defaultImage":
         return !data || this.validateEnvironmentPath(data || "", false)
           ? null
@@ -511,7 +498,6 @@ export class ParsersService {
       "titleModifier",
       "onlineImageQueries",
       "imagePool",
-      "imageProviders",
     ];
 
     if (
@@ -526,7 +512,6 @@ export class ParsersService {
         "steamCategories",
         "onlineImageQueries",
         "imagePool",
-        "imageProviders",
       ]);
     } else if (
       parserInfo.superTypesMap[config["parserType"]] === parserInfo.ROMType
@@ -541,7 +526,6 @@ export class ParsersService {
         "executableArgs",
         "onlineImageQueries",
         "imagePool",
-        "imageProviders",
       ]);
     } else if (
       parserInfo.superTypesMap[config["parserType"]] === parserInfo.ManualType
@@ -550,7 +534,6 @@ export class ParsersService {
         "steamCategories",
         "onlineImageQueries",
         "imagePool",
-        "imageProviders",
       ]);
     }
 

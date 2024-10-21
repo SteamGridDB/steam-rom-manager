@@ -1,174 +1,175 @@
 <ng-container [formGroup]="currentForm">
   <ng-container *ngFor="let childrenKey of nestedGroup.children | keys">
     <ng-container *ngVar="nestedGroup.children[childrenKey] as child">
-      <ng-container [ngSwitch]="child.constructor.displayName">
-        <ng-container *ngSwitchCase="'Section'">
-          <div
-            class="section container"
-            [class.sectionHidden]="isSectionHidden(childrenKey)"
-            [hidden]="getHiddenMethod(child, childrenKey) | async"
-            (click)="toggleHiddenSection(childrenKey)"
-          >
-            <label>
-              <svg select-arrow-down></svg>
-              <span>{{ child.label }}</span>
-            </label>
-          </div>
-        </ng-container>
-        <ng-container *ngSwitchDefault>
-          <div
-            class="container"
-            [class.nested]="child.constructor.displayName === 'Group'"
-            [hidden]="getHiddenMethod(child, childrenKey) | async"
-          >
-            <label *ngIf="child.label">
-              <ng-container
-                *ngVar="
-                  currentForm.controls[childrenKey]
-                    | formControl as currentControl
-                "
-              >
-                <span
-                  class="infoButton infoIcon"
-                  *ngIf="child.onInfoClick"
-                  (click)="
-                    child.onInfoClick(
-                      currentForm.controls[childrenKey],
-                      currentControl['__path']
-                    )
-                  "
-                >
-                </span>
-              </ng-container>
-              {{ child.label }}
-              <small *ngIf="child.required" class="reqText">*Required</small>
-            </label>
-            <ng-container [ngSwitch]="child.constructor.displayName">
-              <ng-container *ngSwitchCase="'Select'">
-                <ng-select
-                  [formControlName]="childrenKey"
-                  [placeholder]="child.placeholder"
-                  [multiple]="child.multiple"
-                  [allowEmpty]="child.allowEmpty"
-                  [values]="child.values"
-                  [sectionsMap]="child.sectionsMap"
-                  [class.required]="child.required"
-                >
-                </ng-select>
-              </ng-container>
-              <ng-container *ngSwitchCase="'Button'">
-                <div class="freeButton" (click)="child.onClickMethod()">
-                  {{ child.buttonLabel }}
-                </div>
-              </ng-container>
-              <ng-container *ngSwitchCase="'Bubble'">
-                <ng-bubbles
-                  [formControlName]="childrenKey"
-                  [class.required]="child.required"
-                  [addable]="child.addable"
-                  [bubbleItems]="child.bubbleItems"
-                ></ng-bubbles>
-                <div class="clickButtons">
-                  <ng-container *ngFor="let button of child.buttons">
-                    <div
-                      class="clickButton"
-                      (click)="
-                        button.onClickControlMethod(
-                          currentForm.controls[childrenKey]
-                        )
-                      "
-                    >
-                      {{ button.buttonLabel }}
+
+        <ng-container [ngSwitch]="child.constructor.displayName">
+          <ng-container *ngSwitchCase="'Section'">
+            <div
+              class="section container"
+              [class.sectionHidden]="isSectionHidden(childrenKey)"
+              [hidden]="getHiddenMethod(child, childrenKey) | async"
+              (click)="toggleHiddenSection(childrenKey)"
+            >
+              <label>
+                <svg select-arrow-down></svg>
+                <span>{{ child.label }}</span>
+              </label>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <div
+              class="container"
+              [class.nested]="child.constructor.displayName === 'Group'"
+              [hidden]="getHiddenMethod(child, childrenKey) | async"
+            >
+            @let dirtyAndInvalid = (currentForm.controls[childrenKey]?.invalid &&
+            currentForm.controls[childrenKey]?.dirty &&
+            currentForm.controls[childrenKey]?.errors?.error);
+            @let fieldValue = (currentForm.controls[childrenKey]||{}).value;
+              <label *ngIf="child.label">
+                @let currentControl = currentForm.controls[childrenKey] | formControlIndexed;
+                  <span
+                    class="infoButton infoIcon"
+                    *ngIf="child.onInfoClick"
+                    (click)="
+                      child.onInfoClick(
+                        currentForm.controls[childrenKey],
+                        currentControl['__path']
+                      )
+                    "
+                  >
+                  </span>
+                {{ child.label }}
+                <small *ngIf="child.required" class="reqText">*Required</small>
+              </label>
+              <ng-container [ngSwitch]="child.constructor.displayName">
+                <ng-container *ngSwitchCase="'Select'">
+                  <ng-select
+                    [formControlName]="childrenKey"
+                    [placeholder]="child.placeholder"
+                    [multiple]="child.multiple"
+                    [allowEmpty]="child.allowEmpty"
+                    [values]="child.values"
+                    [sectionsMap]="child.sectionsMap"
+                    [class.required]="child.required && !fieldValue"
+                    [class.missing]="child.required && dirtyAndInvalid"
+                    [class.filled]="child.required && fieldValue && !dirtyAndInvalid"
+                  >
+                  </ng-select>
+                </ng-container>
+                <ng-container *ngSwitchCase="'Button'">
+                  <div class="freeButton" (click)="child.onClickMethod()">
+                    {{ child.buttonLabel }}
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'Bubble'">
+                  <ng-bubbles
+                    [formControlName]="childrenKey"
+                    [class.required]="child.required && !fieldValue"
+                    [class.missing]="child.required && dirtyAndInvalid"
+                    [class.filled]="child.required && fieldValue && !dirtyAndInvalid"
+                    [addable]="child.addable"
+                    [bubbleItems]="child.bubbleItems"
+                  ></ng-bubbles>
+                  <div class="clickButtons">
+                    <ng-container *ngFor="let button of child.buttons">
+                      <div
+                        class="clickButton"
+                        (click)="
+                          button.onClickControlMethod(
+                            currentForm.controls[childrenKey]
+                          )
+                        "
+                      >
+                        {{ button.buttonLabel }}
+                      </div>
+                    </ng-container>
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'Input'">
+                  <ng-container *ngIf="!child.path">
+                    <ng-text-input
+                      [formControlName]="childrenKey"
+                      [placeholder]="child.placeholder || ''"
+                      [highlight]="child.highlight"
+                      [class.required]="child.required && !fieldValue"
+                      [class.missing]="child.required && dirtyAndInvalid"
+                      [class.filled]="child.required && fieldValue && !dirtyAndInvalid"
+                    ></ng-text-input>
+                    <div class="clickButtons">
+                      <ng-container *ngFor="let button of child.buttons">
+                        <div
+                          class="clickButton"
+                          (click)="
+                            button.onClickControlMethod(
+                              currentForm.controls[childrenKey]
+                            )
+                          "
+                        >
+                          {{ button.buttonLabel }}
+                        </div>
+                      </ng-container>
                     </div>
                   </ng-container>
-                </div>
-              </ng-container>
-              <ng-container *ngSwitchCase="'Input'">
-                <ng-container *ngIf="!child.path">
-                  <ng-text-input
-                    [formControlName]="childrenKey"
-                    [placeholder]="child.placeholder || ''"
-                    [highlight]="child.highlight"
-                    [class.required]="child.required"
-                  ></ng-text-input>
-                  <div class="clickButtons">
-                    <ng-container *ngFor="let button of child.buttons">
-                      <div
+                  <ng-container *ngIf="!!child.path">
+                    <ng-text-input
+                      [formControlName]="childrenKey"
+                      [placeholder]="child.placeholder || ''"
+                      [highlight]="child.highlight"
+                      [appendGlob]="child.path.appendGlob"
+                      [useForwardSlash]="child.path.useForwardSlash"
+                      [class.required]="child.required && !fieldValue"
+                      [class.missing]="child.required && dirtyAndInvalid"
+                      [class.filled]="child.required && fieldValue && !dirtyAndInvalid"
+                    ></ng-text-input>
+                    <div class="clickButtons">
+                      <ng-path-input
                         class="clickButton"
-                        (click)="
-                          button.onClickControlMethod(
-                            currentForm.controls[childrenKey]
-                          )
+                        [stateless]="true"
+                        [directory]="child.path.directory"
+                        (pathChange)="
+                          currentForm.controls[childrenKey].setValue($event)
                         "
+                        >Browse</ng-path-input
                       >
-                        {{ button.buttonLabel }}
-                      </div>
-                    </ng-container>
-                  </div>
+                      <ng-container *ngFor="let button of child.buttons">
+                        <div
+                          class="clickButton"
+                          (click)="
+                            button.onClickControlMethod(
+                              currentForm.controls[childrenKey]
+                            )
+                          "
+                        >
+                          {{ button.buttonLabel }}
+                        </div>
+                      </ng-container>
+                    </div>
+                  </ng-container>
                 </ng-container>
-                <ng-container *ngIf="!!child.path">
-                  <ng-text-input
-                    [formControlName]="childrenKey"
-                    [placeholder]="child.placeholder || ''"
-                    [highlight]="child.highlight"
-                    [appendGlob]="child.path.appendGlob"
-                    [useForwardSlash]="child.path.useForwardSlash"
-                    [class.required]="child.required"
-                  ></ng-text-input>
-                  <div class="clickButtons">
-                    <ng-path-input
-                      class="clickButton"
-                      [stateless]="true"
-                      [directory]="child.path.directory"
-                      (pathChange)="
-                        currentForm.controls[childrenKey].setValue($event)
-                      "
-                      >Browse</ng-path-input
-                    >
-                    <ng-container *ngFor="let button of child.buttons">
-                      <div
-                        class="clickButton"
-                        (click)="
-                          button.onClickControlMethod(
-                            currentForm.controls[childrenKey]
-                          )
-                        "
-                      >
-                        {{ button.buttonLabel }}
-                      </div>
-                    </ng-container>
-                  </div>
+                <ng-container *ngSwitchCase="'Toggle'">
+                  <ng-toggle-button [formControlName]="childrenKey">{{
+                    child.text || ""
+                  }}</ng-toggle-button>
+                </ng-container>
+                <ng-container *ngSwitchCase="'Group'">
+                  <ng-nested-form
+                    class="nested"
+                    [parentForm]="currentForm"
+                    [groupName]="childrenKey"
+                    [nestedGroup]="child"
+                  ></ng-nested-form>
                 </ng-container>
               </ng-container>
-              <ng-container *ngSwitchCase="'Toggle'">
-                <ng-toggle-button [formControlName]="childrenKey">{{
-                  child.text || ""
-                }}</ng-toggle-button>
+              <ng-container *ngIf="dirtyAndInvalid">
+                <markdown
+                  class="errorMessage lastMarginZero"
+                  [content]="currentForm.controls[childrenKey].errors.error"
+                ></markdown>
               </ng-container>
-              <ng-container *ngSwitchCase="'Group'">
-                <ng-nested-form
-                  class="nested"
-                  [parentForm]="currentForm"
-                  [groupName]="childrenKey"
-                  [nestedGroup]="child"
-                ></ng-nested-form>
-              </ng-container>
-            </ng-container>
-            <ng-container
-              *ngIf="
-                currentForm.controls[childrenKey]?.invalid &&
-                currentForm.controls[childrenKey]?.dirty &&
-                currentForm.controls[childrenKey]?.errors?.error
-              "
-            >
-              <markdown
-                class="errorMessage lastMarginZero"
-                [content]="currentForm.controls[childrenKey].errors.error"
-              ></markdown>
-            </ng-container>
-          </div>
+            </div>
+          </ng-container>
         </ng-container>
       </ng-container>
-    </ng-container>
   </ng-container>
 </ng-container>

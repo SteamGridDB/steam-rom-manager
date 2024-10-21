@@ -550,6 +550,7 @@ export interface languageStruct {
         startDir__i: string; //${index}, ${total}, ${filePath}
         completeShortcut__i: string; //${index}, ${total}, ${shortcut}
         firstImageQuery__i: string; //${index}, ${total}, ${query}
+        imagePool__i: string;
         imageQueries__i: string; //${index}, ${total}, ${query}
         defaultImage__i: string; //${index}, ${total}, ${artworkType}, ${image}
         resolvedDefaultImage__i: string; //${index}, ${total}, ${artworkType}
@@ -590,6 +591,8 @@ export interface languageStruct {
         executableArgs: string;
         executableModifier: string;
         startInDirectory: { [key: string]: string };
+        onlineImageQueries: string,
+        imagePool: string,
         defaultImage__i: { [key: string]: string }; //${artworkType}
         localImages__i: { [key: string]: string }; //${artworkType}
         imageProviders: string;
@@ -634,12 +637,8 @@ export interface languageStruct {
         steamDir__md: string;
         startInDir__md: string;
         executable__md: string;
-        imagePool__md: string;
         defaultImage__md: string;
-        titleModifier__md: string;
-        executableModifier__md: string;
         variableString__md: string;
-        imageProviders__md: string;
         unhandledValidationKey__md: string;
         genericDir__md: string;
         genericPath__md: string;

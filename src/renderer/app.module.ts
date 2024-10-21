@@ -83,6 +83,7 @@ function ngObjectsToArray<T>(importObject: T) {
     Pipes.CssUrl,
     Pipes.FileImage,
     Pipes.FormControlPipe,
+    Pipes.IndexedFormControlPipe,
     Pipes.FormGroupPipe,
     Pipes.FuzzyTestPipe,
     Pipes.IntersectionTestPipe,

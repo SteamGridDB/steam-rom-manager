@@ -120,7 +120,7 @@ export class NgNestedFormComponent implements OnInit {
         group.children[childKey] instanceof NestedFormElement.Section === false;
       if (notGroup && notSection) {
         let child = group.children[childKey] as NestedFormInputs;
-        let formControl: IndexedFormControl = new FormControl();
+        let formControl: IndexedFormControl<any> = new FormControl();
 
         formControl["__path"] = formGroup["__path"].concat(childKey);
         formControl.reset(
@@ -131,7 +131,7 @@ export class NgNestedFormComponent implements OnInit {
           { onlySelf: true, emitEvent: false },
         );
 
-        let callbacks: ((c: IndexedFormControl) => ValidationErrors)[] = [];
+        let callbacks: ((c: IndexedFormControl<any>) => ValidationErrors)[] = [];
         if (child.onValidate) {
           callbacks.push((c) => {
             let error = child.onValidate(c, c["__path"]);

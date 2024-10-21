@@ -238,91 +238,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               this.lang.docs__md.steamCategories.join("");
           },
         }),
-        executableSection: new NestedFormElement.Section({
-          label: "Executable Configuration",
-          isHidden: () => this.isHiddenIfNotRomsParser(),
-        }),
-        executable: new NestedFormElement.Group({
-          isHidden: () => this.isHiddenIfNotRomsParser(),
-          children: {
-            path: new NestedFormElement.Input({
-              path: { directory: false },
-              label: this.lang.label.executableLocation,
-              placeholder: this.lang.placeholder.executableLocation[os.type()],
-              highlight: this.highlight.bind(this),
-              onValidate: (self, path) => {
-                let serialized: { [k: string]: any } = {};
-                serialized[path[1]] = self.value;
-                return this.parsersService.validate(
-                  path[0] as keyof UserConfiguration,
-                  serialized,
-                );
-              },
-              onInfoClick: (self, path) => {
-                this.currentDoc.activePath = path.join();
-                this.currentDoc.content =
-                  this.lang.docs__md.executableLocation.join("");
-              },
-            }),
-            shortcutPassthrough: new NestedFormElement.Toggle({
-              text: this.lang.text.shortcut_passthrough,
-            }),
-            appendArgsToExecutable: new NestedFormElement.Toggle({
-              isHidden: () => this.isHiddenIfNotRomsParser(),
-              text: this.lang.text.appendArgsToExecutable,
-            }),
-          },
-        }),
-        executableArgs: new NestedFormElement.Input({
-          placeholder: this.lang.placeholder.executableArgs,
-          isHidden: () => this.isHiddenIfNotRomsParser(),
-          label: this.lang.label.executableArgs,
-          highlight: this.highlight.bind(this),
-          onValidate: (self, path) =>
-            this.parsersService.validate(
-              path[0] as keyof UserConfiguration,
-              self.value,
-            ),
-          onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content =
-              this.lang.docs__md.executableArgs.join("");
-          },
-        }),
-        executableModifier: new NestedFormElement.Input({
-          isHidden: () => this.isHiddenIfNotRomsParser(),
-          highlight: this.highlight.bind(this),
-          required: true,
-          label: this.lang.label.executableModifier,
-          placeholder: this.lang.placeholder.executableModifier,
-          onValidate: (self, path) =>
-            this.parsersService.validate(
-              path[0] as keyof UserConfiguration,
-              self.value,
-            ),
-          onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content =
-              this.lang.docs__md.executableModifier.join("");
-          },
-        }),
-        startInDirectory: new NestedFormElement.Input({
-          path: { directory: true },
-          placeholder: this.lang.placeholder.startInDirectory[os.type()],
-          label: this.lang.label.startInDirectory,
-          highlight: this.highlight.bind(this),
-          isHidden: () => this.isHiddenIfNotRomsParser(),
-          onValidate: (self, path) =>
-            this.parsersService.validate(
-              path[0] as keyof UserConfiguration,
-              self.value,
-            ),
-          onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content =
-              this.lang.docs__md.startInDirectory.join("");
-          },
-        }),
         parserInputsSection: new NestedFormElement.Section({
           label: "Parser Specific Configuration",
           isHidden: () => this.isHiddenIfNoParserInputs(),
@@ -404,6 +319,94 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             children: parserInputs,
           });
         })(),
+        executableSection: new NestedFormElement.Section({
+          label: "Executable Configuration",
+          isHidden: () => this.isHiddenIfNotRomsParser(),
+        }),
+        executable: new NestedFormElement.Group({
+          isHidden: () => this.isHiddenIfNotRomsParser(),
+          children: {
+            path: new NestedFormElement.Input({
+              path: { directory: false },
+              label: this.lang.label.executableLocation,
+              placeholder: this.lang.placeholder.executableLocation[os.type()],
+              highlight: this.highlight.bind(this),
+              onValidate: (self, path) => {
+                let serialized: { [k: string]: any } = {};
+                serialized[path[1]] = self.value;
+                return this.parsersService.validate(
+                  path[0] as keyof UserConfiguration,
+                  serialized,
+                );
+              },
+              onInfoClick: (self, path) => {
+                this.currentDoc.activePath = path.join();
+                this.currentDoc.content =
+                  this.lang.docs__md.executableLocation.join("");
+              },
+            }),
+
+            //TODO Move shortcutPassthrough to glob and glob regex parser inputs
+            //TODO Move appendArgsToExecutable to child of executableArgs group
+            //TODO Make Executable required but have the option to set it to None
+            shortcutPassthrough: new NestedFormElement.Toggle({
+              text: this.lang.text.shortcut_passthrough,
+            }), 
+            appendArgsToExecutable: new NestedFormElement.Toggle({
+              isHidden: () => this.isHiddenIfNotRomsParser(),
+              text: this.lang.text.appendArgsToExecutable,
+            }),
+          },
+        }),
+        executableArgs: new NestedFormElement.Input({
+          placeholder: this.lang.placeholder.executableArgs,
+          isHidden: () => this.isHiddenIfNotRomsParser(),
+          label: this.lang.label.executableArgs,
+          highlight: this.highlight.bind(this),
+          onValidate: (self, path) =>
+            this.parsersService.validate(
+              path[0] as keyof UserConfiguration,
+              self.value,
+            ),
+          onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content =
+              this.lang.docs__md.executableArgs.join("");
+          },
+        }),
+        executableModifier: new NestedFormElement.Input({
+          isHidden: () => this.isHiddenIfNotRomsParser(),
+          highlight: this.highlight.bind(this),
+          label: this.lang.label.executableModifier,
+          placeholder: this.lang.placeholder.executableModifier,
+          onValidate: (self, path) =>
+            this.parsersService.validate(
+              path[0] as keyof UserConfiguration,
+              self.value,
+            ),
+          onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content =
+              this.lang.docs__md.executableModifier.join("");
+          },
+        }),
+        startInDirectory: new NestedFormElement.Input({
+          path: { directory: true },
+          placeholder: this.lang.placeholder.startInDirectory[os.type()],
+          label: this.lang.label.startInDirectory,
+          highlight: this.highlight.bind(this),
+          isHidden: () => this.isHiddenIfNotRomsParser(),
+          onValidate: (self, path) =>
+            this.parsersService.validate(
+              path[0] as keyof UserConfiguration,
+              self.value,
+            ),
+          onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content =
+              this.lang.docs__md.startInDirectory.join("");
+          },
+        }),
         titleSection: new NestedFormElement.Section({
           label: "Title Modification Configuration",
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
@@ -411,7 +414,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         titleModifier: new NestedFormElement.Input({
           highlight: this.highlight.bind(this),
-          required: true,
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
           placeholder: this.lang.placeholder.titleModifier,
           label: this.lang.label.titleModifier,
@@ -534,11 +536,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           multiple: true,
           allowEmpty: true,
           values: providersSelect,
-          onValidate: (self, path) =>
-            this.parsersService.validate(
-              path[0] as keyof UserConfiguration,
-              self.value,
-            ),
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
             this.currentDoc.content =
@@ -547,6 +544,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         onlineImageQueries: new NestedFormElement.Input({
           label: this.lang.label.onlineImageQueries,
+          placeholder: this.lang.placeholder.onlineImageQueries,
           highlight: this.highlight.bind(this),
           onValidate: (self, path) =>
             this.parsersService.validate(
@@ -561,6 +559,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         imagePool: new NestedFormElement.Input({
           label: this.lang.label.imagePool,
+          placeholder: this.lang.placeholder.imagePool,
           highlight: this.highlight.bind(this),
           onValidate: (self, path) =>
             this.parsersService.validate(
@@ -1157,6 +1156,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                   );
                 }
               }
+              success(this.lang.success.imagePool__i.interpolate({
+                index: i+1,
+                total: totalLength,
+                imagePool: data.files[i].imagePool
+              }));
               if (data.files[i].onlineImageQueries.length) {
                 success(
                   this.lang.success.firstImageQuery__i.interpolate({
@@ -1431,6 +1435,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.userConfigurations !== undefined
     ) {
       this.formChanges.unsubscribe();
+      this.userForm.patchValue({parserInputs: null});
       this.userForm.patchValue(this.parsersService.getDefaultValues());
       this.userForm.markAsPristine();
       this.loadedIndex = -1;

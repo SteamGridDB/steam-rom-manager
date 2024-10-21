@@ -56,7 +56,11 @@ function getMarkdown(langPath: string) {
             require(`${langPath}/image-providers.md`),
             require(`${langPath}/sgdb-api-input.md`),
           ],
-          imagePool: [require(`${langPath}/image-pool.md`)],
+          imagePool: [
+            require(`${langPath}/image-pool.md`),
+            require(`${langPath}/parser-variables.md`),
+            require(`${langPath}/parser-env-variables.md`),
+          ],
           defaultImage: [
             require(`${langPath}/default-image.md`),
             require(`${langPath}/parser-env-variables.md`),

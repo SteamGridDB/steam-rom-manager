@@ -5,7 +5,7 @@ import { StringDict } from "./helpers.model";
 export interface IndexedFormGroup extends FormGroup {
   __path?: string[];
 }
-export interface IndexedFormControl extends FormControl {
+export interface IndexedFormControl<T> extends FormControl<T> {
   __path?: string[];
 }
 

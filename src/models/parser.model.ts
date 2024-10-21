@@ -44,12 +44,13 @@ export interface ParsedUserConfiguration {
   failed: string[];
   excluded: { exceptionKey: string; filePath: string }[];
 }
-
+const inputTypes = StringLiteralArray(["text","path","dir","toggle","multiselect"]);
+export type ParserInputType = (typeof inputTypes)[number];
 export interface ParserInputField {
   [inputKey: string]: {
     label: string;
     placeholder?: string;
-    inputType: "text" | "path" | "dir" | "toggle" | "multiselect";
+    inputType: ParserInputType;
     allowedValues?: SelectItem[];
     initialValue?: string[] | string;
     hidden?: boolean;
@@ -76,6 +77,7 @@ export interface ParsedData {
 }
 
 export interface ParserVariableData {
+  configTitle: string,
   executableLocation: string;
   startInDirectory: string;
   steamDirectory: string;
@@ -106,6 +108,7 @@ const parserVariables = StringLiteralArray([
   "TITLE",
   "FUZZYTITLE",
   "FINALTITLE",
+  "PARSERTITLE"
 ]);
 const environmentVariables = StringLiteralArray([
   "/",

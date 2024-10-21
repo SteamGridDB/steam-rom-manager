@@ -465,7 +465,7 @@ export class FileParser {
             data.success[j].fuzzyTitle || data.success[j].extractedTitle;
 
           // Fail empty titles
-          if (fuzzyTitle.length === 0) {
+          if (!fuzzyTitle) {
             parsedConfig.failed.push(data.success[j].filePath);
             continue;
           }
@@ -514,8 +514,8 @@ export class FileParser {
             defaultImage: initArtworkRecord<string>(() => null),
             backupImage: initArtworkRecord<string>(() => null),
             localImages: initArtworkRecord<string[]>(() => []),
-            fuzzyTitle: fuzzyTitle || "",
-            extractedTitle: data.success[j].extractedTitle || "",
+            fuzzyTitle: fuzzyTitle,
+            extractedTitle: data.success[j].extractedTitle,
             finalTitle: undefined,
             filePath: data.success[j].filePath || "",
             imagePool: undefined,
@@ -524,7 +524,8 @@ export class FileParser {
 
           let variableData = this.makeVariableData(config, settings, newFile);
 
-          newFile.finalTitle = vParser.setInput(config.titleModifier).parse()
+          if(config.titleModifier) {
+            newFile.finalTitle = vParser.setInput(config.titleModifier).parse()
             ? vParser.replaceVariables((variable) => {
                 return this.getVariable(
                   variable as AllVariables,
@@ -532,6 +533,10 @@ export class FileParser {
                 ).trim();
               })
             : "";
+          } else {
+            newFile.finalTitle = fuzzyTitle
+          }
+
 
           variableData.finalTitle = newFile.finalTitle;
 
@@ -555,7 +560,8 @@ export class FileParser {
           } else if (superType === parserInfo.ArtworkOnlyType) {
             newFile.argumentString = "";
           }
-          newFile.modifiedExecutableLocation = vParser
+          if(config.executableModifier) {
+            newFile.modifiedExecutableLocation = vParser
             .setInput(config.executableModifier)
             .parse()
             ? vParser.replaceVariables((variable) => {
@@ -565,6 +571,10 @@ export class FileParser {
                 ).trim();
               })
             : "";
+          } else {
+            newFile.modifiedExecutableLocation = newFile.executableLocation ? `"${newFile.executableLocation}"` : "";
+          }
+
           newFile.onlineImageQueries = vParser
             .setInput(config.onlineImageQueries)
             .parse()
@@ -577,7 +587,8 @@ export class FileParser {
                 }),
               )
             : [];
-          newFile.imagePool = vParser.setInput(config.imagePool).parse()
+          if(config.imagePool) {
+            newFile.imagePool = vParser.setInput(config.imagePool).parse()
             ? vParser.replaceVariables((variable) => {
                 return this.getVariable(
                   variable as AllVariables,
@@ -585,6 +596,10 @@ export class FileParser {
                 ).trim();
               })
             : "";
+          } else {
+            newFile.imagePool=fuzzyTitle;
+          }
+
           newFile.steamCategories = config.steamCategories;
 
           parsedConfig.files.push(newFile);
@@ -1291,6 +1306,13 @@ export class FileParser {
       case "FUZZYTITLE":
         output = data.fuzzyTitle != undefined ? data.fuzzyTitle : unavailable;
         break;
+      case "TITLE":
+        output =
+          data.extractedTitle != undefined ? data.extractedTitle : unavailable;
+        break;
+      case "PARSERTITLE":
+        output = data.configTitle != undefined ? data.configTitle : unavailable;
+        break;
       case "ROMDIR":
         output =
           data.romDirectory != undefined ? data.romDirectory : unavailable;
@@ -1305,10 +1327,7 @@ export class FileParser {
         output =
           data.steamDirectory != undefined ? data.steamDirectory : unavailable;
         break;
-      case "TITLE":
-        output =
-          data.extractedTitle != undefined ? data.extractedTitle : unavailable;
-        break;
+
       case "STEAMDIRGLOBAL":
         output = data.steamDirectoryGlobal;
         break;
@@ -1337,6 +1356,7 @@ export class FileParser {
     file: ParsedUserConfigurationFile,
   ) {
     return <ParserVariableData>{
+      configTitle: config.configTitle,
       executableLocation: file.executableLocation,
       startInDirectory: file.startInDirectory,
       extractedTitle: file.extractedTitle,

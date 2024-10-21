@@ -4,12 +4,12 @@ import { ParserType, SuperType } from "../../models";
 // Reason: Hard to fix bug involving schema
 
 export const availableParserInputs: Record<ParserType, string[]> = {
-  Glob: ["glob"],
+  "Glob": ["glob"],
   "Glob-regex": ["glob-regex"],
-  Manual: ["manualManifests"],
+  "Manual": ["manualManifests"],
   "Amazon Games": ["amazonGamesExeOverride", "amazonGamesLauncherMode"],
-  Epic: ["epicManifests", "epicLauncherMode"],
-  Legendary: [
+  "Epic": ["epicManifests", "epicLauncherMode"],
+  "Legendary": [
     "legendaryExeOverride",
     "legendaryInstalledFile",
     "legendaryLauncherMode",
@@ -24,9 +24,9 @@ export const availableParserInputs: Record<ParserType, string[]> = {
     "itchIoAppDataOverride",
     "itchIoWindowsOnLinuxInstallDriveRedirect",
   ],
-  Steam: ["appTypes", "onlyInstalled"],
-  UPlay: ["uplayDir", "uplayLauncherMode"],
-  UWP: ["UWPDir", "UWPLauncherMode"],
+  "Steam": ["appTypes", "onlyInstalled"],
+  "UPlay": ["uplayDir", "uplayLauncherMode"],
+  "UWP": ["UWPDir", "UWPLauncherMode"],
   "EA Desktop": ["eaGamesDir", "eaLauncherMode"],
   "Battle.net": ["battleExeOverride"],
   "Non-SRM Shortcuts": [],

@@ -99,36 +99,30 @@ ng-nested-form {
     .reqText {
       margin-left: 0.25em;
     }
+    ng-text-input, ng-bubbles, ng-select {
+      grid-area: input;
+      &.required,&.missing,&.filled {
+        .display {
+          border: 0;
+        }
+      }
+      &.required {
+        outline: 1px solid var(--color--required);
+      }
+      &.missing {
+        outline: 1px solid var(--color--missing);
+      }
+      &.filled {
+        outline: 1px solid var(--color--filled);
+      }
+    }
     ng-text-input {
       @include ngTextInput();
       @include ngTextInputColor(input, true);
-      grid-area: input;
-      &.required {
-        outline: 1px solid var(--color--required);
-        .display {
-          border: 0;
-        }
-      }
-    }
-    ng-bubbles {
-      grid-area: input;
-      &.required {
-        outline: 1px solid var(--color--required);
-        .display {
-          border: 0;
-        }
-      }
     }
 
     ng-select {
-      grid-area: input;
       border-radius: 0px;
-      &.required {
-        outline: 1px solid var(--color--required);
-        .display {
-          border: 0;
-        }
-      }
     }
 
     ng-toggle-button {

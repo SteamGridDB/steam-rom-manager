@@ -6,8 +6,9 @@ import {
   availableParsers,
   availableParserInputs,
 } from "../../lib/parsers/available-parsers";
-import { ParserType } from "../../models";
+import { ParserInputField, ParserInputType, ParserType } from "../../models";
 import { cloneDeep, union } from "lodash";
+import {parsers} from "../../lib/parsers/";
 
 const sharedProperties = {
   properties: {
@@ -25,11 +26,11 @@ const sharedProperties = {
       properties: {
         path: { type: "string", default: "" },
         shortcutPassthrough: { type: "boolean", default: false },
-        appendArgsToExecutable: { type: "boolean", default: true },
+        appendArgsToExecutable: { type: "boolean", default: false },
       },
     },
     executableArgs: { type: "string", default: "" },
-    executableModifier: { type: "string", default: '"${exePath}"' },
+    executableModifier: { type: "string", default: "" },
     romDirectory: { type: "string", default: "" },
     steamDirectory: { type: "string", default: "${steamdirglobal}" },
     startInDirectory: { type: "string", default: "" },
@@ -189,7 +190,7 @@ const sharedProperties = {
         },
       },
     },
-    titleModifier: { type: "string", default: "${fuzzyTitle}" },
+    titleModifier: { type: "string", default: "" },
     fuzzyMatch: {
       type: "object",
       default: {},
@@ -223,30 +224,30 @@ const sharedProperties = {
     disabled: { type: "boolean", default: false },
   },
 };
-
+let convertToSchema = (inputType: ParserInputType) => {
+  if(["text","path","dir"].includes(inputType)) {
+    return {"type": ["string", "null"], default: ""}
+  }
+  else if(inputType=="toggle"){
+    return {"type": ["boolean", "null"], default: false}
+  }
+  else if(inputType=="multiselect"){
+    return {"type": "array", default: [] as string[]}
+  }
+}
 let options: any[] = availableParsers.map((parserType: ParserType) => {
   let temp = cloneDeep(sharedProperties);
+  let inputInfo = parsers[parserType].getParserInfo().inputs||{};
   if (availableParserInputs[parserType].length) {
     Object.assign(temp.properties, {
       parserType: { type: "string", default: "", enum: [parserType, ""] },
       parserInputs: {
         type: "object",
         default: {},
-        propertyNames: {
-          enum: availableParserInputs[parserType],
-        },
-        patternProperties: {
-          "^.+$": {
-            anyOf: [
-              { type: ["string", "boolean", "null"] },
-              {
-                type: "array",
-                default: [] as string[],
-                items: { type: "string" },
-              },
-            ],
-          },
-        },
+        properties: Object.fromEntries(availableParserInputs[parserType].map(inputName=>{ return [
+          inputName,
+          convertToSchema(inputInfo[inputName].inputType)
+        ]}))
       },
     });
   } else {
@@ -263,10 +264,11 @@ let options: any[] = availableParsers.map((parserType: ParserType) => {
   }
   return temp;
 });
-
 export const userConfiguration = {
   type: "object",
   oneOf: options,
 };
+console.log("userConfiguration Schema", userConfiguration)
+
 
 export const defaultUserConfiguration = options[0];
