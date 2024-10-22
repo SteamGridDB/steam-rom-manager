@@ -14,10 +14,10 @@
         "games": "所有艺术作品"
       },
       "by": "由",
-      "refreshImages": "刷新图像",
-      "saveImage": "保存图像到文件",
-      "addLocalImages": "添加本地图片",
-      "retryDownload": "重试下载",
+      "refreshImages": "Refresh artwork",
+      "saveImage": "Save artwork to file",
+      "addLocalImages": "Add local artwork",
+      "retryDownload": "Retry artwork download",
       "generateAppList": "刷新",
       "saveAppList": "保存到Steam",
       "removeAppList": "从Steam中移除",
@@ -44,19 +44,19 @@
         "removingFromCategories": "删除所有添加的类别信息",
         "writingVDF_entries__i": "批量编写 VDF 文件并下载 ${batchSize} 个高分辨率图像。",
         "updatingKnownSteamDirList": "更新已知的 Steam 目录列表。",
-        "retryingDownload__i": "正在为 \"${appTitle}\" 重试从 \"${imageUrl}\" 下载图片。",
-        "disabledConfigurations__i": "${count} 个用户配置被跳过(由用户禁用)\"。",
-        "invalidConfigurations__i": "${count} 个用户配置被跳过(无效)。",
+        "retryingDownload__i": "Retrying artwork download from \"${imageUrl}\" for \"${appTitle}\".",
+        "disabledConfigurations__i": "${count} user parser(s) was/were skipped (disabled by user).",
+        "invalidConfigurations__i": "${count} user parser(s) was/were skipped (invalid).",
         "executingParsers": "执行解析器。",
         "shutdownSteam": "如果Steam正在运行，请退出Steam",
-        "noParserConfigurations": "请先在“解析器”菜单中创建解析器配置",
+        "noParserConfigurations": "Please create parser in \"Parsers\" menu first.",
         "parserFoundNoFiles": "解析器未找到与用户配置匹配的文件",
-        "allImagesRetrieved": "已检索到所有可用的图像网址。",
+        "allImagesRetrieved": "All available artwork urls retrieved.",
         "providerTimeout__i": "${provider}\" 请求了 ${time} 秒的超时",
         "noAccountsWarning": "未找到用户账户。Steam 目录不正确？",
-        "preparingExport": "准备导出图像选项。",
-        "exportProgress__i": "正在保存图像选项 ${progress}。",
-        "readingSelections": "应用导入的图像选项。"
+        "preparingExport": "Preparing export of artwork choices.",
+        "exportProgress__i": "Saving artwork choices ${progress}.",
+        "readingSelections": "Applying imported artwork choices."
       },
       "errors": {
         "fatalError": "添加游戏中发生致命错误。请查看事件日志获取详细信息。",
@@ -67,18 +67,18 @@
         "categorySaveError__i": "类别错误(快捷方式和艺术作品仍将被添加)：${error}",
         "controllerSaveError": "更新控制器模板时出错。请查看事件日志获取详细信息。",
         "controllerSaveError__i": "控制器错误(快捷方式和艺术作品仍将被添加)：${error}",
-        "retryingDownload__i": "从 \"${imageUrl}\" 下载图片失败，应用程序名称为 \"${appTitle}\"。",
+        "retryingDownload__i": "Artwork download from \"${imageUrl}\" failed for \"${appTitle}\".",
         "providerError__i": "从\"${provider}\" 接收到的错误，针对 \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
         "unknownProviderError__i": "从 \"${provider}\" 接收到的 \"${title}\" 错误：\n ${error}",
         "exportError__i": "无法保存选择的包文件夹：${error}",
         "importJSONFailError__i": "无法导入选择，JSON 格式不正确：${error}",
-        "importFailError__i": "无法导入图像选项：${error}"
+        "importFailError__i": "Could not import artwork choices: ${error}"
       },
       "success": {
         "writingVDF_entries": "添加/删除条目完成。",
         "removingVDF_entries": "条目已被删除。",
-        "exportSuccess__i": "图像选择文件夹已成功保存到 \"${path}\"！",
-        "importSelectionsSuccess__i": "成功导入了 ${count} 个图像选项！"
+        "exportSuccess__i": "Artwork choices folder successfully saved to \"${path}\"!",
+        "importSelectionsSuccess__i": "Successfully imported ${count} artwork choices!"
       }
     }
   },
@@ -249,7 +249,7 @@
     }
   },
   "globParser": {
-    "inputTitle": "用户的全局变量",
+    "inputTitle": "Search glob",
     "inputPlaceholder": "${title}.@(iso|ISO)",
     "errors": {
       "noTitle__md": "> 文件通配符必须包含 `${title}`！",
@@ -339,7 +339,7 @@
     "component": {
       "label": {
         "general": "常规",
-        "imageProviders": "图像提供",
+        "imageProviders": "Artwork Providers",
         "fuzzy": "模糊匹配",
         "environmentVariables": "环境变量",
         "communityPresets": "社区预设和自定义变量"
@@ -351,7 +351,7 @@
         "removeApps_btn": "删除",
         "preloadImages": "Artwork加载策略",
         "fuzzy_verbose": "记录匹配结果",
-        "fuzzy_filter": "筛选图像",
+        "fuzzy_filter": "Filter artwork",
         "enabledProviders": "启用的图片提供程序",
         "dnsServers": "DNS手动覆盖",
         "selectLanguage": "选择语言",
@@ -361,7 +361,7 @@
         "resetFuzzy_btn": "重置",
         "customVariables_desc": "自定义变量",
         "configPresets_desc": "配置预设",
-        "showSteamImages": "默认显示当前的 Steam 图片",
+        "showSteamImages": "Show current Steam artwork by default",
         "deleteDisabledShortcuts": "删除已禁用解析器的快捷方式",
         "clearLogOnTest": "在测试解析器之前自动清除日志",
         "configDir": "打开配置目录"
@@ -463,7 +463,7 @@
         "opSys__i": "操作系统是 ${os}",
         "testCompleted": "解析器测试已完成。",
         "nothingWasFound": "解析器未找到任何内容。",
-        "copiedToClipboard": "配置已复制到剪贴板",
+        "copiedToClipboard": "Parser copied to clipboard",
         "userExclusions": "用户排除：",
         "excludedFileInfo__i": "[${index}/${total}]: ${filename}\n 不包括 \"${exceptionKey}\"",
         "removingControllers__i": "删除解析器控制器模板：${configTitle}",
@@ -498,7 +498,8 @@
         "filePath__i": "[${index}/${total}]:            文件路径 - ${filePath}",
         "startDir__i": "[${index}/${total}]:            开始目录 - ${startDir}",
         "completeShortcut__i": "[${index}/${total}]:    完成快捷方式 - ${shortcut}",
-        "firstImageQuery__i": "[${index}/${total}]:        图像查询 - ${query}",
+        "firstImageQuery__i": "[${index}/${total}]:      Artwork queries - ${query}",
+        "imagePool__i": "[${index}/${total}]:         Artwork pool - ${imagePool}",
         "imageQueries__i": "[${index}/${total}]:                        ${query}",
         "defaultImage__i": "[${index}/${total}]: Resolved fallback ${artworkType}:\n[${index}/${total}]:                        ${image}",
         "resolvedDefaultImage__i": "[${index}/${total}]: Fallback ${artworkType}:",
@@ -510,7 +511,7 @@
       },
       "label": {
         "parserType": "解析器类型",
-        "configTitle": "配置标题",
+        "configTitle": "Parser title",
         "steamCategories": "Steam收藏",
         "executableModifier": "可执行修饰符",
         "executableLocation": "可执行文件",
@@ -522,9 +523,9 @@
         "titleModifier": "标题修饰词",
         "fuzzyMatch": "模糊匹配",
         "executableArgs": "命令行参数",
-        "onlineImageQueries": "在线图像查询",
-        "imagePool": "图像库",
-        "imageProviders": "图像提供方",
+        "onlineImageQueries": "Artwork provider search queries",
+        "imagePool": "Artwork pool",
+        "imageProviders": "Artwork providers",
         "defaultImage__i": "反馈",
         "localImages__i": "Local ${artworkType} glob"
       },
@@ -548,6 +549,8 @@
           "Darwin": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)",
           "Linux": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)"
         },
+        "onlineImageQueries": "${${fuzzyTitle}} or ${${title}}${${fuzzyTitle}}",
+        "imagePool": "${fuzzyTitle}",
         "romDirectory": {
           "Windows_NT": "C:\\path\\to\\games\\",
           "Darwin": "/path/to/games/",
@@ -559,7 +562,7 @@
           "Darwin": "/path/to/emulator.app",
           "Linux": "/path/to/emulator"
         },
-        "executableArgs": "--arg1 --arg2",
+        "executableArgs": "--arg1 --arg2 --launch \"${filePath}\"",
         "executableModifier": "\"${exePath}\"",
         "startInDirectory": {
           "Windows_NT": "C:\\path\\to\\start-in-dir\\",
@@ -585,18 +588,18 @@
     },
     "service": {
       "info": {
-        "updatingConfigurations": "使用新字段更新用户配置"
+        "updatingConfigurations": "Updating user's parsers with new fields"
       },
       "error": {
-        "savingConfiguration": "保存用户配置时遇到错误！",
-        "readingConfiguration": "读取用户配置时遇到错误！",
+        "savingConfiguration": "Error encountered while saving user's parsers!",
+        "readingConfiguration": "Error encountered while loading user's parsers!",
         "parserTypeMissing": "未指定解析器类型，无法保存",
-        "corruptedConfiguration__i": "一个或多个保存的解析器配置无效！\n在此问题得到解决之前，永久配置保存被禁用。\n尝试手动修复错误(文件 - ${file})\n或在我们的官方 Discord 频道上寻求帮助：${error}。",
-        "fetcingTemplates": "获取控制器模板时遇到错误！"
+        "corruptedConfiguration__i": "One or more saved parsers are invalid!\r\nPermanent configuration saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}",
+        "fetchingTemplates": "Error encountered while fetching controllers templates!"
       },
       "validationErrors": {
         "parserType__md": "> 解析器类型不正确！",
-        "configTitle__md": "> 必须配置标题字段！",
+        "configTitle__md": "> Parser title field cannot be blank!",
         "parserId__md": ">解析器 ID 丢失，出现了严重的问题。",
         "parserInput": {
           "noInput": "没有可用的输入！",
@@ -608,12 +611,8 @@
         "steamDir__md": "> Steam 目录无效！",
         "startInDir__md": "> \"Start In\" 目录无效！",
         "executable__md": "> 可执行文件无效！",
-        "imagePool__md": "> 图片池不能为空！",
-        "defaultImage__md": "> 默认图像路径无效！",
-        "titleModifier__md": "> 标题修改器字段是必需的 ！",
-        "executableModifier__md": "> 可执行文件修饰符不能为空！",
+        "defaultImage__md": "> Fallback artwork is an invalid path!",
         "variableString__md": "> Uneven number of `${` and `}` pairs! Use `\\` to escape `${` or `}` if you want to use them as characters.",
-        "imageProviders__md": "> 图像提供者类型不正确！",
         "unhandledValidationKey__md": "> Input's validation is unhandled!",
         "genericDir__md": "> Directory is invalid!",
         "genericPath__md": "> Path is invalid!"
@@ -670,11 +669,11 @@
     "error": {
       "readingVdf__i": "无法从 \"${filePath}\" 读取。\n ${error}",
       "writingVdf__i": "无法写入 \"${filePath}\"。\n ${error}",
-      "skippingDMCA__i": "跳过 DMCA 受限制的图片 ${title}",
+      "skippingDMCA__i": "Skipping DMCA'd artwork for ${title}",
       "corruptedVdf__i": "\"${filePath}\" 已损坏。\n ${error}",
       "creatingBackup__i": "无法为 \"${filePath}\" 创建备份。\n ${error}",
       "unsupportedMimeType__i": "Mime类型${type}不受支持(标题 - \"${title}\")",
-      "imageError__i": "在保存/下载 \"${title}\" 的图片时发生错误。URL: ${url} \n ${error}"
+      "imageError__i": "Error occurred while saving/downloading artwork for \"${title}\". Url: ${url}.\n ${error}"
     }
   },
   "helpers": {
