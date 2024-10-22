@@ -9,11 +9,25 @@ export const versionUp = (version: number) => {
   return version + 1;
 };
 export const extractNames = (str: string) => {
-  const regex = /\$\{(.*?)\}/g;
-  const names = [];
-  let match;
-  while ((match = regex.exec(str)) !== null) {
-    names.push(match[1]);
+  let res: string[] = [];
+  let current = '';
+  let openCount = 0;
+  let prevchar='';
+  for (let char of str) {
+    if (char == '}') {
+      openCount--;
+      if (openCount == 0) {
+        res.push(current);
+        current = '';
+      }
+    }
+    if (openCount > 0) {
+      current += char;
+    }
+    if (char == '{' && prevchar=="$") {
+      openCount++;
+    }
+    prevchar=char;
   }
-  return names;
+  return res;
 };

@@ -1,302 +1,342 @@
 {
-  "Nintendo Switch - Ryujinx": {
-    "parserType": "Glob",
-    "configTitle": "Nintendo Switch - Ryujinx",
-    "executableModifier": "\"${exePath}\"",
-    "romDirectory": "path-to-roms",
-    "steamDirectory": "${steamdirglobal}",
-    "startInDirectory": "",
-    "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "--fullscreen \"${filePath}\"",
-    "onlineImageQueries": "${${fuzzyTitle}}",
-    "imagePool": "${fuzzyTitle}",
-    "imageProviders": ["sgdb"],
-    "disabled": false,
-    "userAccounts": {
-      "specifiedAccounts": ["Global"]
-    },
-    "parserInputs": {
-      "glob": "${title}@(.nca|.NCA|.nro|.NRO|.nso|.NSO|.nsp|.NSP|.xci|.XCI)"
-    },
-    "titleFromVariable": {
-      "limitToGroups": "",
-      "caseInsensitiveVariables": false,
-      "skipFileIfVariableWasNotFound": false
-    },
-    "fuzzyMatch": {
-      "replaceDiacritics": true,
-      "removeCharacters": true,
-      "removeBrackets": true
-    },
-    "executable": {
-      "path": "path-to-ryujinx.exe",
-      "shortcutPassthrough": false,
-      "appendArgsToExecutable": true
-    },
-    "presetVersion": 17,
-    "imageProviderAPIs": {
-      "sgdb": {
-        "nsfw": false,
-        "humor": false,
-        "imageMotionTypes": ["static"],
-        "styles": [],
-        "stylesHero": [],
-        "stylesLogo": [],
-        "stylesIcon": []
-      },
-      "steamCDN": {}
-    },
-    "controllers": {
-      "ps4": null,
-      "ps5": null,
-      "xbox360": null,
-      "xboxone": null,
-      "switch_joycon_left": null,
-      "switch_joycon_right": null,
-      "switch_pro": null,
-      "neptune": null
-    },
-    "defaultImage": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "localImages": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "steamInputEnabled": "1",
-    "drmProtect": false,
-    "steamCategories": [""]
-  },
-  "Nintendo Switch - Ryujinx(Flatpak)": {
-    "parserType": "Glob",
-    "configTitle": "Nintendo Switch - Ryujinx(Flatpak)",
-    "executableModifier": "\"${exePath}\"",
-    "romDirectory": "path-to-roms",
-    "steamDirectory": "${steamdirglobal}",
-    "startInDirectory": "",
-    "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "run org.ryujinx.Ryujinx --fullscreen \"${filePath}\"",
-    "onlineImageQueries": "${${fuzzyTitle}}",
-    "imagePool": "${fuzzyTitle}",
-    "imageProviders": ["sgdb"],
-    "disabled": false,
-    "userAccounts": {
-      "specifiedAccounts": ["Global"]
-    },
-    "parserInputs": {
-      "glob": "${title}@(.nca|.NCA|.nro|.NRO|.nso|.NSO|.nsp|.NSP|.xci|.XCI)"
-    },
-    "titleFromVariable": {
-      "limitToGroups": "",
-      "caseInsensitiveVariables": false,
-      "skipFileIfVariableWasNotFound": false
-    },
-    "fuzzyMatch": {
-      "replaceDiacritics": true,
-      "removeCharacters": true,
-      "removeBrackets": true
-    },
-    "executable": {
-      "path": "/usr/bin/flatpak",
-      "shortcutPassthrough": false,
-      "appendArgsToExecutable": true
-    },
-    "presetVersion": 17,
-    "imageProviderAPIs": {
-      "sgdb": {
-        "nsfw": false,
-        "humor": false,
-        "imageMotionTypes": ["static"],
-        "styles": [],
-        "stylesHero": [],
-        "stylesLogo": [],
-        "stylesIcon": []
-      },
-      "steamCDN": {}
-    },
-    "controllers": {
-      "ps4": null,
-      "ps5": null,
-      "xbox360": null,
-      "xboxone": null,
-      "switch_joycon_left": null,
-      "switch_joycon_right": null,
-      "switch_pro": null,
-      "neptune": null
-    },
-    "defaultImage": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "localImages": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "steamInputEnabled": "1",
-    "drmProtect": false,
-    "steamCategories": [""]
-  },
-  "Nintendo Switch - Yuzu": {
-    "parserType": "Glob",
-    "configTitle": "Nintendo Switch - Yuzu",
-    "executableModifier": "\"${exePath}\"",
-    "romDirectory": "path-to-roms",
-    "steamDirectory": "${steamdirglobal}",
-    "startInDirectory": "",
-    "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "-f -g \"${filePath}\"",
-    "onlineImageQueries": "${${fuzzyTitle}}",
-    "imagePool": "${fuzzyTitle}",
-    "imageProviders": ["sgdb"],
-    "disabled": false,
-    "userAccounts": {
-      "specifiedAccounts": ["Global"]
-    },
-    "parserInputs": {
-      "glob": "${title}@(.kip|.KIP|.nca|.NCA|.nro|.NRO|.nso|.NSO|.nsp|.NSP|.xci|.XCI)"
-    },
-    "titleFromVariable": {
-      "limitToGroups": "",
-      "caseInsensitiveVariables": false,
-      "skipFileIfVariableWasNotFound": false
-    },
-    "fuzzyMatch": {
-      "replaceDiacritics": true,
-      "removeCharacters": true,
-      "removeBrackets": true
-    },
-    "executable": {
-      "path": "path-to-yuzu.exe",
-      "shortcutPassthrough": false,
-      "appendArgsToExecutable": true
-    },
-    "presetVersion": 17,
-    "imageProviderAPIs": {
-      "sgdb": {
-        "nsfw": false,
-        "humor": false,
-        "imageMotionTypes": ["static"],
-        "styles": [],
-        "stylesHero": [],
-        "stylesLogo": [],
-        "stylesIcon": []
-      },
-      "steamCDN": {}
-    },
-    "controllers": {
-      "ps4": null,
-      "ps5": null,
-      "xbox360": null,
-      "xboxone": null,
-      "switch_joycon_left": null,
-      "switch_joycon_right": null,
-      "switch_pro": null,
-      "neptune": null
-    },
-    "defaultImage": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "localImages": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "steamInputEnabled": "1",
-    "drmProtect": false,
-    "steamCategories": [""]
-  },
-  "Nintendo Switch - Yuzu(Flatpak)": {
-    "parserType": "Glob",
-    "configTitle": "Nintendo Switch - Yuzu(Flatpak)",
-    "executableModifier": "\"${exePath}\"",
-    "romDirectory": "path-to-roms",
-    "steamDirectory": "${steamdirglobal}",
-    "startInDirectory": "",
-    "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "run org.yuzu_emu.yuzu -f -g \"${filePath}\"",
-    "onlineImageQueries": "${${fuzzyTitle}}",
-    "imagePool": "${fuzzyTitle}",
-    "imageProviders": ["sgdb"],
-    "disabled": false,
-    "userAccounts": {
-      "specifiedAccounts": ["Global"]
-    },
-    "parserInputs": {
-      "glob": "${title}@(.kip|.KIP|.nca|.NCA|.nro|.NRO|.nso|.NSO|.nsp|.NSP|.xci|.XCI)"
-    },
-    "titleFromVariable": {
-      "limitToGroups": "",
-      "caseInsensitiveVariables": false,
-      "skipFileIfVariableWasNotFound": false
-    },
-    "fuzzyMatch": {
-      "replaceDiacritics": true,
-      "removeCharacters": true,
-      "removeBrackets": true
-    },
-    "executable": {
-      "path": "/usr/bin/flatpak",
-      "shortcutPassthrough": false,
-      "appendArgsToExecutable": true
-    },
-    "presetVersion": 17,
-    "imageProviderAPIs": {
-      "sgdb": {
-        "nsfw": false,
-        "humor": false,
-        "imageMotionTypes": ["static"],
-        "styles": [],
-        "stylesHero": [],
-        "stylesLogo": [],
-        "stylesIcon": []
-      },
-      "steamCDN": {}
-    },
-    "controllers": {
-      "ps4": null,
-      "ps5": null,
-      "xbox360": null,
-      "xboxone": null,
-      "switch_joycon_left": null,
-      "switch_joycon_right": null,
-      "switch_pro": null,
-      "neptune": null
-    },
-    "defaultImage": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "localImages": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "steamInputEnabled": "1",
-    "drmProtect": false,
-    "steamCategories": [""]
-  }
+	"Nintendo Switch - Ryujinx": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Switch - Ryujinx",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "--fullscreen \"${filePath}\"",
+		"onlineImageQueries": [
+			"${fuzzyTitle}"
+		],
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}@(.nca|.NCA|.nro|.NRO|.nso|.NSO|.nsp|.NSP|.xci|.XCI)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "path-to-ryujinx.exe",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			""
+		]
+	},
+	"Nintendo Switch - Ryujinx(Flatpak)": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Switch - Ryujinx(Flatpak)",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "run org.ryujinx.Ryujinx --fullscreen \"${filePath}\"",
+		"onlineImageQueries": [
+			"${fuzzyTitle}"
+		],
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}@(.nca|.NCA|.nro|.NRO|.nso|.NSO|.nsp|.NSP|.xci|.XCI)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "/usr/bin/flatpak",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			""
+		]
+	},
+	"Nintendo Switch - Yuzu": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Switch - Yuzu",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "-f -g \"${filePath}\"",
+		"onlineImageQueries": [
+			"${fuzzyTitle}"
+		],
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}@(.kip|.KIP|.nca|.NCA|.nro|.NRO|.nso|.NSO|.nsp|.NSP|.xci|.XCI)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "path-to-yuzu.exe",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			""
+		]
+	},
+	"Nintendo Switch - Yuzu(Flatpak)": {
+		"parserType": "Glob",
+		"configTitle": "Nintendo Switch - Yuzu(Flatpak)",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "run org.yuzu_emu.yuzu -f -g \"${filePath}\"",
+		"onlineImageQueries": [
+			"${fuzzyTitle}"
+		],
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}@(.kip|.KIP|.nca|.NCA|.nro|.NRO|.nso|.NSO|.nsp|.NSP|.xci|.XCI)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "/usr/bin/flatpak",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			""
+		]
+	}
 }

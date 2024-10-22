@@ -1,302 +1,342 @@
 {
-  "Sony PlayStation 3 - RPCS3 (Extracted ISO)": {
-    "parserType": "Glob",
-    "configTitle": "Sony PlayStation 3 - RPCS3 (Extracted ISO)",
-    "executableModifier": "\"${exePath}\"",
-    "romDirectory": "path-to-roms",
-    "steamDirectory": "${steamdirglobal}",
-    "startInDirectory": "",
-    "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "--no-gui \"${filePath}\"",
-    "onlineImageQueries": "${${fuzzyTitle}}",
-    "imagePool": "${fuzzyTitle}",
-    "imageProviders": ["sgdb"],
-    "disabled": false,
-    "userAccounts": {
-      "specifiedAccounts": ["Global"]
-    },
-    "parserInputs": {
-      "glob": "${title}/PS3_GAME/USRDIR/@(eboot.bin|EBOOT.BIN)"
-    },
-    "titleFromVariable": {
-      "limitToGroups": "${PS3}",
-      "caseInsensitiveVariables": false,
-      "skipFileIfVariableWasNotFound": false
-    },
-    "fuzzyMatch": {
-      "replaceDiacritics": true,
-      "removeCharacters": true,
-      "removeBrackets": true
-    },
-    "executable": {
-      "path": "path-to-rpcs3.exe",
-      "shortcutPassthrough": false,
-      "appendArgsToExecutable": true
-    },
-    "presetVersion": 17,
-    "imageProviderAPIs": {
-      "sgdb": {
-        "nsfw": false,
-        "humor": false,
-        "imageMotionTypes": ["static"],
-        "styles": [],
-        "stylesHero": [],
-        "stylesLogo": [],
-        "stylesIcon": []
-      },
-      "steamCDN": {}
-    },
-    "controllers": {
-      "ps4": null,
-      "ps5": null,
-      "xbox360": null,
-      "xboxone": null,
-      "switch_joycon_left": null,
-      "switch_joycon_right": null,
-      "switch_pro": null,
-      "neptune": null
-    },
-    "defaultImage": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "localImages": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "steamInputEnabled": "1",
-    "drmProtect": false,
-    "steamCategories": ["PS3"]
-  },
-  "Sony PlayStation 3 - RPCS3(Flatpak) (Extracted ISO)": {
-    "parserType": "Glob",
-    "configTitle": "Sony PlayStation 3 - RPCS3(Flatpak) (Extracted ISO)",
-    "executableModifier": "\"${exePath}\"",
-    "romDirectory": "path-to-roms",
-    "steamDirectory": "${steamdirglobal}",
-    "startInDirectory": "",
-    "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "run net.rpcs3.RPCS3 --no-gui \"${filePath}\"",
-    "onlineImageQueries": "${${fuzzyTitle}}",
-    "imagePool": "${fuzzyTitle}",
-    "imageProviders": ["sgdb"],
-    "disabled": false,
-    "userAccounts": {
-      "specifiedAccounts": ["Global"]
-    },
-    "parserInputs": {
-      "glob": "${title}/PS3_GAME/USRDIR/@(eboot.bin|EBOOT.BIN)"
-    },
-    "titleFromVariable": {
-      "limitToGroups": "${PS3}",
-      "caseInsensitiveVariables": false,
-      "skipFileIfVariableWasNotFound": false
-    },
-    "fuzzyMatch": {
-      "replaceDiacritics": true,
-      "removeCharacters": true,
-      "removeBrackets": true
-    },
-    "executable": {
-      "path": "/usr/bin/flatpak",
-      "shortcutPassthrough": false,
-      "appendArgsToExecutable": true
-    },
-    "presetVersion": 17,
-    "imageProviderAPIs": {
-      "sgdb": {
-        "nsfw": false,
-        "humor": false,
-        "imageMotionTypes": ["static"],
-        "styles": [],
-        "stylesHero": [],
-        "stylesLogo": [],
-        "stylesIcon": []
-      },
-      "steamCDN": {}
-    },
-    "controllers": {
-      "ps4": null,
-      "ps5": null,
-      "xbox360": null,
-      "xboxone": null,
-      "switch_joycon_left": null,
-      "switch_joycon_right": null,
-      "switch_pro": null,
-      "neptune": null
-    },
-    "defaultImage": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "localImages": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "steamInputEnabled": "1",
-    "drmProtect": false,
-    "steamCategories": ["PS3"]
-  },
-  "Sony PlayStation 3 - RPCS3 (Installed PKG)": {
-    "parserType": "Glob",
-    "configTitle": "Sony PlayStation 3 - RPCS3 (Installed PKG)",
-    "executableModifier": "\"${exePath}\"",
-    "romDirectory": "path-to-roms",
-    "steamDirectory": "${steamdirglobal}",
-    "startInDirectory": "",
-    "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "--no-gui \"${filePath}\"",
-    "onlineImageQueries": "${${fuzzyTitle}}",
-    "imagePool": "${fuzzyTitle}",
-    "imageProviders": ["sgdb"],
-    "disabled": false,
-    "userAccounts": {
-      "specifiedAccounts": ["Global"]
-    },
-    "parserInputs": {
-      "glob": "${title}/USRDIR/@(eboot.bin|EBOOT.BIN)"
-    },
-    "titleFromVariable": {
-      "limitToGroups": "${PSN}",
-      "caseInsensitiveVariables": false,
-      "skipFileIfVariableWasNotFound": false
-    },
-    "fuzzyMatch": {
-      "replaceDiacritics": true,
-      "removeCharacters": true,
-      "removeBrackets": true
-    },
-    "executable": {
-      "path": "path-to-rpcs3.exe",
-      "shortcutPassthrough": false,
-      "appendArgsToExecutable": true
-    },
-    "presetVersion": 17,
-    "imageProviderAPIs": {
-      "sgdb": {
-        "nsfw": false,
-        "humor": false,
-        "imageMotionTypes": ["static"],
-        "styles": [],
-        "stylesHero": [],
-        "stylesLogo": [],
-        "stylesIcon": []
-      },
-      "steamCDN": {}
-    },
-    "controllers": {
-      "ps4": null,
-      "ps5": null,
-      "xbox360": null,
-      "xboxone": null,
-      "switch_joycon_left": null,
-      "switch_joycon_right": null,
-      "switch_pro": null,
-      "neptune": null
-    },
-    "defaultImage": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "localImages": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "steamInputEnabled": "1",
-    "drmProtect": false,
-    "steamCategories": ["PS3"]
-  },
-  "Sony PlayStation 3 - RPCS3(Flatpak) (Installed PKG)": {
-    "parserType": "Glob",
-    "configTitle": "Sony PlayStation 3 - RPCS3(Flatpak) (Installed PKG)",
-    "executableModifier": "\"${exePath}\"",
-    "romDirectory": "path-to-roms",
-    "steamDirectory": "${steamdirglobal}",
-    "startInDirectory": "",
-    "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "run net.rpcs3.RPCS3 --no-gui \"${filePath}\"",
-    "onlineImageQueries": "${${fuzzyTitle}}",
-    "imagePool": "${fuzzyTitle}",
-    "imageProviders": ["sgdb"],
-    "disabled": false,
-    "userAccounts": {
-      "specifiedAccounts": ["Global"]
-    },
-    "parserInputs": {
-      "glob": "${title}/USRDIR/@(eboot.bin|EBOOT.BIN)"
-    },
-    "titleFromVariable": {
-      "limitToGroups": "${PSN}",
-      "caseInsensitiveVariables": false,
-      "skipFileIfVariableWasNotFound": false
-    },
-    "fuzzyMatch": {
-      "replaceDiacritics": true,
-      "removeCharacters": true,
-      "removeBrackets": true
-    },
-    "executable": {
-      "path": "/usr/bin/flatpak",
-      "shortcutPassthrough": false,
-      "appendArgsToExecutable": true
-    },
-    "presetVersion": 17,
-    "imageProviderAPIs": {
-      "sgdb": {
-        "nsfw": false,
-        "humor": false,
-        "imageMotionTypes": ["static"],
-        "styles": [],
-        "stylesHero": [],
-        "stylesLogo": [],
-        "stylesIcon": []
-      },
-      "steamCDN": {}
-    },
-    "controllers": {
-      "ps4": null,
-      "ps5": null,
-      "xbox360": null,
-      "xboxone": null,
-      "switch_joycon_left": null,
-      "switch_joycon_right": null,
-      "switch_pro": null,
-      "neptune": null
-    },
-    "defaultImage": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "localImages": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "steamInputEnabled": "1",
-    "drmProtect": false,
-    "steamCategories": ["PS3"]
-  }
+	"Sony PlayStation 3 - RPCS3 (Extracted ISO)": {
+		"parserType": "Glob",
+		"configTitle": "Sony PlayStation 3 - RPCS3 (Extracted ISO)",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "--no-gui \"${filePath}\"",
+		"onlineImageQueries": [
+			"${fuzzyTitle}"
+		],
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}/PS3_GAME/USRDIR/@(eboot.bin|EBOOT.BIN)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "${PS3}",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "path-to-rpcs3.exe",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			"PS3"
+		]
+	},
+	"Sony PlayStation 3 - RPCS3(Flatpak) (Extracted ISO)": {
+		"parserType": "Glob",
+		"configTitle": "Sony PlayStation 3 - RPCS3(Flatpak) (Extracted ISO)",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "run net.rpcs3.RPCS3 --no-gui \"${filePath}\"",
+		"onlineImageQueries": [
+			"${fuzzyTitle}"
+		],
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}/PS3_GAME/USRDIR/@(eboot.bin|EBOOT.BIN)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "${PS3}",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "/usr/bin/flatpak",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			"PS3"
+		]
+	},
+	"Sony PlayStation 3 - RPCS3 (Installed PKG)": {
+		"parserType": "Glob",
+		"configTitle": "Sony PlayStation 3 - RPCS3 (Installed PKG)",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "--no-gui \"${filePath}\"",
+		"onlineImageQueries": [
+			"${fuzzyTitle}"
+		],
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}/USRDIR/@(eboot.bin|EBOOT.BIN)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "${PSN}",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "path-to-rpcs3.exe",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			"PS3"
+		]
+	},
+	"Sony PlayStation 3 - RPCS3(Flatpak) (Installed PKG)": {
+		"parserType": "Glob",
+		"configTitle": "Sony PlayStation 3 - RPCS3(Flatpak) (Installed PKG)",
+		"executableModifier": "\"${exePath}\"",
+		"romDirectory": "path-to-roms",
+		"steamDirectory": "${steamdirglobal}",
+		"startInDirectory": "",
+		"titleModifier": "${fuzzyTitle}",
+		"executableArgs": "run net.rpcs3.RPCS3 --no-gui \"${filePath}\"",
+		"onlineImageQueries": [
+			"${fuzzyTitle}"
+		],
+		"imagePool": "${fuzzyTitle}",
+		"imageProviders": [
+			"sgdb"
+		],
+		"disabled": false,
+		"userAccounts": {
+			"specifiedAccounts": [
+				"Global"
+			]
+		},
+		"parserInputs": {
+			"glob": "${title}/USRDIR/@(eboot.bin|EBOOT.BIN)"
+		},
+		"titleFromVariable": {
+			"limitToGroups": "${PSN}",
+			"caseInsensitiveVariables": false,
+			"skipFileIfVariableWasNotFound": false
+		},
+		"fuzzyMatch": {
+			"replaceDiacritics": true,
+			"removeCharacters": true,
+			"removeBrackets": true
+		},
+		"executable": {
+			"path": "/usr/bin/flatpak",
+			"shortcutPassthrough": false,
+			"appendArgsToExecutable": true
+		},
+		"presetVersion": 17,
+		"imageProviderAPIs": {
+			"sgdb": {
+				"nsfw": false,
+				"humor": false,
+				"imageMotionTypes": [
+					"static"
+				],
+				"styles": [],
+				"stylesHero": [],
+				"stylesLogo": [],
+				"stylesIcon": []
+			},
+			"steamCDN": {}
+		},
+		"controllers": {
+			"ps4": null,
+			"ps5": null,
+			"xbox360": null,
+			"xboxone": null,
+			"switch_joycon_left": null,
+			"switch_joycon_right": null,
+			"switch_pro": null,
+			"neptune": null
+		},
+		"defaultImage": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"localImages": {
+			"long": "",
+			"tall": "",
+			"hero": "",
+			"logo": "",
+			"icon": ""
+		},
+		"steamInputEnabled": "1",
+		"drmProtect": false,
+		"steamCategories": [
+			"PS3"
+		]
+	}
 }
