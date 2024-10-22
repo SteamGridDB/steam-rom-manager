@@ -66,7 +66,11 @@ const sharedProperties = {
       type: "object",
       default: {},
     },
-    onlineImageQueries: { type: "string", default: "${${fuzzyTitle}}" },
+    onlineImageQueries: {
+      type: "array",
+      default: ["${fuzzyTitle}"] as string[],
+      items: { type: "string" },
+    },
     imageProviders: {
       type: "array",
       default: onlineProviders,
