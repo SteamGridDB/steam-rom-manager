@@ -1,3 +1,5 @@
-# Imagem padrão (opcional) `[suporta variáveis]`{.noWrap}
+# Artwork pool `[supports variables]`{.noWrap}
 
-O valor padrão é `${fuzzyTitle}`{.noWrap}. Esta configuração é usada para permitir que diferentes aplicativos compartilhem as mesmas imagens -- o mesmo "pool de imagens", ou permitir que um pool de imagens único por aplicativo. Para usar um pool de imagens único por aplicativo basta defini-lo para algo único. Por exemplo, `${fuzzyTitle} SNES`{.noWrap}.
+Defaults to `${fuzzyTitle}`{.noWrap} if field is unset.
+
+This field is used to allow games from different parsers to share the same images (i.e. the same "image pool") if they have the same title. If you want different parsers not to share images for games with the same title, just set this field to something unique, for example `${fuzzyTitle} SNES`{.noWrap} or `${fuzzyTitle} ${parserTitle}`{.noWrap}.
