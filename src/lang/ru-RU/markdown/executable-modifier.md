@@ -1,10 +1,16 @@
 # Модификатор исполняемого файла `[поддерживает переменные]`{.noWrap}
 
-Значение по умолчанию: `"${exePath}"`{.noWrap}. Этот параметр можно использовать для добавления или добавления нужных символов к исполняемому файлу, который будет добавлен в Steam (свойство `Target`). Например, учитывая, что `${exePath}`{.noWrap} - это `C:\RetroArch\retroarch.exe`, вы можете добавить `"cmd" /k start /min` к нему, задав значение:
+Defaults to `"${exePath}"`{.noWrap} if unset. This field can be used to prepend or append desired characters to the executable which will be added to the Steam shortcut's `Target` property. For example, given that `${exePath}`{.noWrap} is `C:\RetroArch\retroarch.exe`, you could start `Retroarch` minimized by setting the `Executable Modifier` "cmd" to:
 
 ```
 "cmd" /k start /min "${exePath}"
 ```
+
+In this case the `Target` property would begin with:
+```
+"cmd" /k start /min "C:\RetroArch\retroarch.exe"
+```
+followed by whatever launch arguments you choose in the `Command Line Arguments` field.
 
 Вы можете использовать любую другую переменную для создания конечного исполняемого файла.
 
@@ -12,4 +18,4 @@
 
 ## Shortcut Passthrough
 
-Если вы включите опцию "Следовать .lnk к месту назначения", а ваш исполняемый файл - это ".lnk", то есть ярлык, то все, что вы введете в это поле, будет заменено на цель этого ярлыка. Если вы хотите добавить исполняемые аргументы, добавьте их в цель ярлыка или используйте поле "Аргументы командной строки" в анализаторе.
+If you enable `Follow .lnk/.desktop to destination` and the glob search finds a `.lnk` or `.desktop` file, ie a shortcut, then the `${filePath}` variable will contain the target of the shortcut rather than the path to the shortcut. If you would like to add executable arguments either add them to the target of the shortcut or use the `Command Line Arguments` field in the parser.
