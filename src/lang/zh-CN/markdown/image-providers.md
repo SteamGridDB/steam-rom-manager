@@ -1,7 +1,7 @@
-# 图像提供程序
+# Artwork providers
 
-在这里，您可以选择用于检索图像的图像提供程序。 此选项仅适用于此配置。
+Here you can select artwork providers (online sources of game art) that are used by SRM to get art for your games.
 
 ## “设置” 菜单中的类似选项
 
-设置菜单中有 “启用提供程序” 选项，可以全局启用图像提供程序 -- 如果在设置中未启用，则无法使用。
+Settings menu has "Enabled providers" which enable artwork providers globally -- if it's not enabled in Settings, it won't work.
