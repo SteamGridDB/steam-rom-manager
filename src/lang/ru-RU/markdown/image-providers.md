@@ -1,7 +1,7 @@
-# Провайдеры изображения
+# Artwork providers
 
-Здесь вы можете выбрать поставщиков изображений, которые будут использоваться для получения изображений. Эта опция предназначена только для данной конфигурации.
+Here you can select artwork providers (online sources of game art) that are used by SRM to get art for your games.
 
 ## Аналогичная опция в меню "Настройки"
 
-В меню настроек есть пункт "Включенные провайдеры", который включает провайдеров изображений глобально -- если он не включен в настройках, он не будет работать.
+Settings menu has "Enabled providers" which enable artwork providers globally -- if it's not enabled in Settings, it won't work.
