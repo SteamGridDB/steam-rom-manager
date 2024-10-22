@@ -124,6 +124,8 @@ export namespace NestedFormElement {
     /** Optional */
     required?: boolean;
     /** Optional */
+    important?: boolean;
+    /** Optional */
     onValidate?: NestedInputValidator;
     /** Optional */
     onValidateObservable?: NestedInputValidatorObservable;

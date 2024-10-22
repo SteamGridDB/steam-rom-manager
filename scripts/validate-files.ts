@@ -11,7 +11,7 @@ let presetFiles: string[] = glob.sync("./files/presets/*.json");
 let presetPromises: Promise<object | void>[] = [];
 for (let i = 0; i < presetFiles.length; i++) {
   presetPromises.push(
-    json.read(presetFiles[i]).then((data: object | void) => {
+    json.read<any>(presetFiles[i]).then((data: any) => {
       if (
         data !== null &&
         !validator
@@ -30,9 +30,9 @@ Promise.all(presetPromises)
     isValid = false;
   })
   .then(() => {
-    return json.read("./files/customVariables.json");
+    return json.read<any>("./files/customVariables.json");
   })
-  .then((data: object) => {
+  .then((data: any) => {
     if (
       data !== null &&
       !validator.setSchema(customVariables).validate(data).isValid()

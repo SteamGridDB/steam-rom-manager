@@ -55,6 +55,7 @@ export interface ParserInputField {
     initialValue?: string[] | string;
     hidden?: boolean;
     required?: boolean;
+    important?: boolean;
     info?: string;
     validationFn?: (inputData: any) => null | string;
   };

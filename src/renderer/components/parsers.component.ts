@@ -331,6 +331,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               label: this.lang.label.executableLocation,
               placeholder: this.lang.placeholder.executableLocation[os.type()],
               highlight: this.highlight.bind(this),
+              important: true,
               onValidate: (self, path) => {
                 let serialized: { [k: string]: any } = {};
                 serialized[path[1]] = self.value;
@@ -363,6 +364,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           isHidden: () => this.isHiddenIfNotRomsParser(),
           label: this.lang.label.executableArgs,
           highlight: this.highlight.bind(this),
+          important: true,
           onValidate: (self, path) =>
             this.parsersService.validate(
               path[0] as keyof UserConfiguration,

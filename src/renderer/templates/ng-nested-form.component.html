@@ -41,6 +41,8 @@
                   </span>
                 {{ child.label }}
                 <small *ngIf="child.required" class="reqText">*Required</small>
+                <small *ngIf="child.important" class="reqText">*Important</small>
+
               </label>
               <ng-container [ngSwitch]="child.constructor.displayName">
                 <ng-container *ngSwitchCase="'Select'">
@@ -93,8 +95,8 @@
                       [placeholder]="child.placeholder || ''"
                       [highlight]="child.highlight"
                       [class.required]="child.required && !fieldValue"
-                      [class.missing]="child.required && dirtyAndInvalid"
-                      [class.filled]="child.required && fieldValue && !dirtyAndInvalid"
+                      [class.missing]="(child.required||child.important) && dirtyAndInvalid"
+                      [class.filled]="(child.required && fieldValue && !dirtyAndInvalid) || (child.important && !dirtyAndInvalid)"
                     ></ng-text-input>
                     <div class="clickButtons">
                       <ng-container *ngFor="let button of child.buttons">
@@ -119,8 +121,8 @@
                       [appendGlob]="child.path.appendGlob"
                       [useForwardSlash]="child.path.useForwardSlash"
                       [class.required]="child.required && !fieldValue"
-                      [class.missing]="child.required && dirtyAndInvalid"
-                      [class.filled]="child.required && fieldValue && !dirtyAndInvalid"
+                      [class.missing]="(child.required||child.important) && dirtyAndInvalid"
+                      [class.filled]="(child.required && fieldValue && !dirtyAndInvalid) || (child.important && !dirtyAndInvalid)"
                     ></ng-text-input>
                     <div class="clickButtons">
                       <ng-path-input

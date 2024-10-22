@@ -445,7 +445,7 @@ export class ParsersService {
       case "imagePool":
         return this.validateVariableParserString(data || "");
       case "defaultImage":
-        return !data || this.validateEnvironmentPath(data || "", false)
+        return !data || this.validateEnvironmentPath(data, false)
           ? null
           : this.lang.validationErrors.defaultImage__md;
       case "localImages": {
@@ -483,7 +483,7 @@ export class ParsersService {
             .trim();
         })
       : "";
-    return file.validatePath(parsedPath, checkForDirectory);
+    return file.validatePath(parsedPath, !!checkForDirectory);
   }
 
   isConfigurationValid(config: UserConfiguration) {
