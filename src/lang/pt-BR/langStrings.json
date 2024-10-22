@@ -266,7 +266,7 @@
     }
   },
   "globRegexParser": {
-    "inputTitle": "Regex do usuário global",
+    "inputTitle": "Search glob-regex",
     "inputPlaceholder": "${/valid regex/}",
     "errors": {
       "noRegex__md": "> Gráfico do arquivo deve conter `${regex}` onde **regex** é sua expressão regular!",
