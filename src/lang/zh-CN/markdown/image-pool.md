@@ -1,3 +1,5 @@
-# 图片池 `[支持变量]`{.noWrap}
+# Artwork pool `[supports variables]`{.noWrap}
 
-默认值为 `${fuzzyTitle}`{.noWrap}。 此设置用于允许不同的应用程序共享相同的图像 - 相同的“图像池”，或者允许每个应用程序使用独特的图像池。 要为每个应用程序使用唯一的图像池，只需将其设置为某些独特的内容。 例如 `${fuzzyTitle} SNES`{.noWrap}。
+Defaults to `${fuzzyTitle}`{.noWrap} if field is unset.
+
+This field is used to allow games from different parsers to share the same images (i.e. the same "image pool") if they have the same title. If you want different parsers not to share images for games with the same title, just set this field to something unique, for example `${fuzzyTitle} SNES`{.noWrap} or `${fuzzyTitle} ${parserTitle}`{.noWrap}.
