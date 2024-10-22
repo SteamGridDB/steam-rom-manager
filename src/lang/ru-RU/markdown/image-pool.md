@@ -1,3 +1,5 @@
-# Пул изображений `[поддерживает переменные]`{.noWrap}
+# Artwork pool `[supports variables]`{.noWrap}
 
-Значение по умолчанию - `${fuzzyTitle}`{.noWrap}. Этот параметр используется для того, чтобы разрешить разным приложениям совместно использовать одни и те же изображения -- один и тот же "пул изображений", или разрешить уникальный пул изображений для каждого приложения. Чтобы использовать уникальный пул изображений для каждого приложения, просто задайте ему уникальное значение. Например `${fuzzyTitle} SNES`{.noWrap}.
+Defaults to `${fuzzyTitle}`{.noWrap} if field is unset.
+
+This field is used to allow games from different parsers to share the same images (i.e. the same "image pool") if they have the same title. If you want different parsers not to share images for games with the same title, just set this field to something unique, for example `${fuzzyTitle} SNES`{.noWrap} or `${fuzzyTitle} ${parserTitle}`{.noWrap}.
