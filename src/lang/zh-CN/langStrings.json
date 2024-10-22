@@ -266,7 +266,7 @@
     }
   },
   "globRegexParser": {
-    "inputTitle": "用户的全局正则表达式",
+    "inputTitle": "Search glob-regex",
     "inputPlaceholder": "${/valid regex/}",
     "errors": {
       "noRegex__md": "> 文件通配符必须包含 `${regex}`，其中 **regex** 是您的正则表达式！",
