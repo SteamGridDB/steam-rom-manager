@@ -547,6 +547,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         onlineImageQueries: new NestedFormElement.Bubble({
           label: this.lang.label.onlineImageQueries,
           highlight: this.highlight.bind(this),
+          addable: true,
           onValidate: (self, path) =>
             this.parsersService.validate(
               path[0] as keyof UserConfiguration,

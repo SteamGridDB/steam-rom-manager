@@ -440,7 +440,13 @@ export class ParsersService {
           data ? data.limitToGroups || "" : "",
         );
       case "onlineImageQueries":
-        return data.map((x: string)=>this.validateVariableParserString(x)==null).reduce((x: boolean,y:boolean)=> x && y) ? null : "one of them bad";
+        if(!data) return null;
+        for(let query of data){
+          let err= this.validateVariableParserString(query)
+          if(!err) {continue}
+          else { return `${err}\\\nBad query: \`${query}\``}
+        }
+        return null
       case "executableArgs":
         return this.validateVariableParserString(data || "");
       case "imagePool":
