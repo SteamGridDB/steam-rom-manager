@@ -6,8 +6,8 @@ import {
   availableParsers,
   availableParserInputs,
 } from "../../lib/parsers/available-parsers";
-import { ParserInputField, ParserInputType, ParserType } from "../../models";
-import { cloneDeep, union } from "lodash";
+import { ParserInputType, ParserType } from "../../models";
+import { cloneDeep } from "lodash";
 import {parsers} from "../../lib/parsers/";
 
 const sharedProperties = {
