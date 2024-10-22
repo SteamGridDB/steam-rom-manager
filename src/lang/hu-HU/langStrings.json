@@ -266,7 +266,7 @@
     }
   },
   "globRegexParser": {
-    "inputTitle": "User's glob-regex",
+    "inputTitle": "Search glob-regex",
     "inputPlaceholder": "${/valid regex/}",
     "errors": {
       "noRegex__md": "> File glob must contain `${regex}` where **regex** is your regular expression!",
