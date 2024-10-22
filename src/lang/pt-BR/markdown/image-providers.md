@@ -1,7 +1,7 @@
-# Provedores de imagem
+# Artwork providers
 
-Aqui você pode selecionar provedores de imagem que são usados para recuperar imagens. Esta opção é apenas para esta configuração.
+Here you can select artwork providers (online sources of game art) that are used by SRM to get art for your games.
 
 ## Opção similar no menu "Configurações"
 
-O menu de configurações tem "Provedores habilitados" que ativam provedores de imagens globalmente -- se não estiver ativado em Configurações, isso não funcionará.
+Settings menu has "Enabled providers" which enable artwork providers globally -- if it's not enabled in Settings, it won't work.
