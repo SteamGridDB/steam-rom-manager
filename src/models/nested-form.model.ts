@@ -96,6 +96,8 @@ export namespace NestedFormElement {
     /** Optional */
     onInfoClick?: NestedInputInfoClick;
     /** Optional */
+    /** Optional */
+    highlight?: (input: string, tag: string) => string;
     path?: {
       directory?: boolean;
       appendGlob?: string;

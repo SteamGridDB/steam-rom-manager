@@ -42,7 +42,7 @@ export interface UserConfiguration {
   };
   controllers: Controllers;
   steamInputEnabled: SteamInputEnabled;
-  onlineImageQueries: string;
+  onlineImageQueries: string[];
   imageProviders: OnlineProviderType[];
   imageProviderAPIs: ImageProviderAPI;
   executableArgs: string;

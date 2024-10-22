@@ -10,7 +10,7 @@ import {
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: "version",
-  latestVersion: 23,
+  latestVersion: 24,
   fields: {
     undefined: {
       version: { method: () => 0 },
@@ -362,5 +362,19 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
+    23: {
+      version: { method: versionUp },
+      onlineImageQueries: {
+        method: (oldValue, oldConfiguration) => {
+          const onlineImageQueries = oldConfiguration.onlineImageQueries
+          delete oldConfiguration.onlineImageQueries;
+          if(onlineImageQueries) {
+            return extractNames(onlineImageQueries)
+          } else {
+            return []
+          }
+        }
+      }
+    }
   },
 };

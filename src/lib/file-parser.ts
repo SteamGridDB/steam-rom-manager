@@ -574,19 +574,11 @@ export class FileParser {
           } else {
             newFile.modifiedExecutableLocation = newFile.executableLocation ? `"${newFile.executableLocation}"` : "";
           }
-
-          newFile.onlineImageQueries = vParser
-            .setInput(config.onlineImageQueries)
-            .parse()
-            ? _.uniq(
-                vParser.extractVariables((variable) => {
-                  return this.getVariable(
-                    variable as AllVariables,
-                    variableData,
-                  );
-                }),
-              )
-            : [];
+          newFile.onlineImageQueries = config.onlineImageQueries.map(query=>{
+            return vParser.setInput(query).parse() ? vParser.replaceVariables((variable)=> {
+              return this.getVariable(variable as AllVariables, variableData)
+            }) : null
+          }).filter(parsed=>!!parsed);
           if(config.imagePool) {
             newFile.imagePool = vParser.setInput(config.imagePool).parse()
             ? vParser.replaceVariables((variable) => {

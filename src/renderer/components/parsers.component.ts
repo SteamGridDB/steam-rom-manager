@@ -544,9 +544,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               this.lang.docs__md.imageProviders.join("");
           },
         }),
-        onlineImageQueries: new NestedFormElement.Input({
+        onlineImageQueries: new NestedFormElement.Bubble({
           label: this.lang.label.onlineImageQueries,
-          placeholder: this.lang.placeholder.onlineImageQueries,
           highlight: this.highlight.bind(this),
           onValidate: (self, path) =>
             this.parsersService.validate(

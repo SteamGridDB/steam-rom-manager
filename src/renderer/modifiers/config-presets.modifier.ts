@@ -272,5 +272,19 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
+    17: {
+      presetVersion: { method: versionUp},
+      onlineImageQueries: {
+        method: (oldValue, oldConfiguration) => {
+          const onlineImageQueries = oldConfiguration.onlineImageQueries;
+          delete oldConfiguration.steamCategory;
+          if (onlineImageQueries) {
+            return extractNames(onlineImageQueries);
+          } else {
+            return [];
+          }
+        },
+      }
+    }
   },
 };

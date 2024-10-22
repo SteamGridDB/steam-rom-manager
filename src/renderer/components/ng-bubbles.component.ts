@@ -73,6 +73,8 @@ export class NgBubblesComponent implements ControlValueAccessor {
     this.writeValue(value);
   }
   @Input() addable: boolean;
+  @Input() private highlight: (input: string, tag: string) => string = null;
+
 
   constructor(
     private changeRef: ChangeDetectorRef,
