@@ -48,6 +48,7 @@ Caso a entrada do diretório executável seja deixada **vazia**, `${exePath}`{.n
 |                         `${title}` | Título extraído                                             |
 |                    `${fuzzyTitle}` | Título difuso correspondente                                |
 |                    `${finalTitle}` | O título que foi o resultado final do modificador do título |
+|                   `${parserTitle}` | The value of the `Parser Title` field                       |
 
 No caso de correspondência difusa **falhar** ou está **desabilitado**, `${fuzzyTitle}`{.noWrap} é igual a `${title}`{.noWrap}.
 
@@ -65,6 +66,7 @@ No caso de correspondência difusa **falhar** ou está **desabilitado**, `${fuzz
 ### Exemplo de variável função
 
 Digamos que a variável `${title}` é igual a `Poke├mon (EUA) (Disc 1).iso`. Então essas variáveis:
+
 ```
 ${/.*/➲${title}} //Corresponde a tudo
 ${/(.)/，${title}} //Captura tudo
@@ -74,7 +76,9 @@ ${uccerteza, ${/(\(Disc\s?[0-9]\))/¡${title}}} //Captures "Disco... peça e tra
 ${rdc├${title}} //Substituir caracteres diacríticos (nesse caso: e├-> e)
 arquivo${os:linuxwill.. oive ${os:win|.dll}} //Selects a extensão de arquivo correta para o SO
 ```
+
 será substituído por estes:
+
 ```
 Pokémon (USA) (Disc 1).iso Pokémon (USA) (Disc 1).iso Pokémon.iso
 (Disc 1)
