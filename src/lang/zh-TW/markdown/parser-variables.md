@@ -48,6 +48,7 @@ In case executable directory input is left **empty**, `${exePath}`{.noWrap} is e
 |                  `${title}` | Extracted title                                  |
 |             `${fuzzyTitle}` | Fuzzy matched title                              |
 |             `${finalTitle}` | Title which was the end result of title modifier |
+|            `${parserTitle}` | The value of the `Parser Title` field            |
 
 In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
 
@@ -65,6 +66,7 @@ In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is
 ### Function variable example
 
 Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables: Then these variables:
+
 ```
 ${/.*/|${title}}                           //Matches everything
 ${/(.*)/|${title}}                         //Captures everything
@@ -74,7 +76,9 @@ ${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transfo
 ${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
 file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
 ```
+
 will be replaced with these:
+
 ```
 Pokémon (USA) (Disc 1).iso
 Pokémon (USA) (Disc 1).iso
