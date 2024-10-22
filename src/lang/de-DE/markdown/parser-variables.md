@@ -48,6 +48,7 @@ Falls die Eingabe für `${exePath}`{.noWrap} **leer ** bleibt, ist es gleich `${
 |                                                `${title}` | Extrahierter Titel                           |
 |                                           `${fuzzyTitle}` | Fuzzy Matched Titel                          |
 |                                           `${finalTitle}` | Titel nachdem "Titel ändern" angewandt wurde |
+|                                          `${parserTitle}` | The value of the `Parser Title` field        |
 
 Falls Fuzzy Matching **fehlschlägt** oder **deaktiviert** ist, ist `${fuzzyTitle}`{.noWrap} gleich `${title}`{.noWrap}.
 
@@ -65,6 +66,7 @@ Falls Fuzzy Matching **fehlschlägt** oder **deaktiviert** ist, ist `${fuzzyTitl
 ### Beispiel für Funktionen
 
 Nehmen wir an, dass die `${title}` Variable mit `Pokémon (USA) (Disc 1).iso` übereinstimmt. Dann werden diese Variablen:
+
 ```
 ${/.*/|${title}}                           //Matched alles
 ${/(.*)/|${title}}                         //Gruppiert alles
@@ -74,7 +76,9 @@ ${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Erfasst den "Disc..." Teil und wand
 ${rdc|${title}}                            //Ersetzt diakritische Zeichen (hier: é -> e)
 file${os:linux|.so|${os:win|.dll}}         //Wählt die korrekte Dateiendung für ein Betriebssystem
 ```
+
 durch diese ersetzt:
+
 ```
 Pokémon (USA) (Disc 1).iso
 Pokémon (USA) (Disc 1).iso
