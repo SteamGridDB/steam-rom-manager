@@ -14,10 +14,10 @@
         "games": "Все работы"
       },
       "by": "от",
-      "refreshImages": "Обновить изображения",
-      "saveImage": "Сохранить изображение в файл",
-      "addLocalImages": "Добавить локальные изображения",
-      "retryDownload": "Повторить загрузку",
+      "refreshImages": "Refresh artwork",
+      "saveImage": "Save artwork to file",
+      "addLocalImages": "Add local artwork",
+      "retryDownload": "Retry artwork download",
       "generateAppList": "Обновить",
       "saveAppList": "Сохранить в Steam",
       "removeAppList": "Удалить из Steam",
@@ -44,19 +44,19 @@
         "removingFromCategories": "Удаление всей добавленной информации о категориях",
         "writingVDF_entries__i": "Writing VDF files and downloading high res images in batches of ${batchSize}.",
         "updatingKnownSteamDirList": "Обновлен список известных каталогов Steam.",
-        "retryingDownload__i": "Повторите попытку загрузки изображения из \"${imageUrl}\" для \"${appTitle}\".",
-        "disabledConfigurations__i": "Конфигурация(и) пользователя ${count} была/были пропущены (отключены пользователем).",
-        "invalidConfigurations__i": "Конфигурация(и) пользователя ${count} была/были пропущены (недействительны).",
+        "retryingDownload__i": "Retrying artwork download from \"${imageUrl}\" for \"${appTitle}\".",
+        "disabledConfigurations__i": "${count} user parser(s) was/were skipped (disabled by user).",
+        "invalidConfigurations__i": "${count} user parser(s) was/were skipped (invalid).",
         "executingParsers": "Выполнение парсеров.",
         "shutdownSteam": "Если Steam запущен, выйдите из него.",
-        "noParserConfigurations": "Сначала создайте конфигурацию парсера в меню \"Парсеры\".",
+        "noParserConfigurations": "Please create parser in \"Parsers\" menu first.",
         "parserFoundNoFiles": "Парсер(ы) не нашел файлов, соответствующих пользовательской конфигурации.",
-        "allImagesRetrieved": "Получены все доступные URL-адреса изображений.",
+        "allImagesRetrieved": "All available artwork urls retrieved.",
         "providerTimeout__i": "Тайм-аут был запрошен \"${provider}\" на ${time} секунду(ы).",
         "noAccountsWarning": "Учетные записи пользователей не найдены. Возможно указана неправильная директория Steam?",
-        "preparingExport": "Подготовка экспорта выбранных изображений.",
-        "exportProgress__i": "Сохранение выбора изображений ${progress}.",
-        "readingSelections": "Применение вариантов импортированных изображений."
+        "preparingExport": "Preparing export of artwork choices.",
+        "exportProgress__i": "Saving artwork choices ${progress}.",
+        "readingSelections": "Applying imported artwork choices."
       },
       "errors": {
         "fatalError": "При добавлении игр произошла фатальная ошибка. Подробности см. в журнале событий.",
@@ -67,18 +67,18 @@
         "categorySaveError__i": "Category error (shortcuts and artwork will still be added): ${error}",
         "controllerSaveError": "Error updating controller templates. See event log for details.",
         "controllerSaveError__i": "Controller error (shortcuts and artwork will still be added): ${error}",
-        "retryingDownload__i": "Image download from \"${imageUrl}\" failed for \"${appTitle}\".",
+        "retryingDownload__i": "Artwork download from \"${imageUrl}\" failed for \"${appTitle}\".",
         "providerError__i": "Error received from \"${provider}\" for \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
         "unknownProviderError__i": "Error received from \"${provider}\" for \"${title}\":\n ${error}",
         "exportError__i": "Could not save selections package folder: ${error}",
         "importJSONFailError__i": "Could not import selections, JSON was malformed: ${error}",
-        "importFailError__i": "Could not import image choices: ${error}"
+        "importFailError__i": "Could not import artwork choices: ${error}"
       },
       "success": {
         "writingVDF_entries": "Done adding/removing entries.",
         "removingVDF_entries": "Entries have been removed.",
-        "exportSuccess__i": "Image choices folder successfully saved to \"${path}\"!",
-        "importSelectionsSuccess__i": "Successfully imported ${count} image choices!"
+        "exportSuccess__i": "Artwork choices folder successfully saved to \"${path}\"!",
+        "importSelectionsSuccess__i": "Successfully imported ${count} artwork choices!"
       }
     }
   },
@@ -249,7 +249,7 @@
     }
   },
   "globParser": {
-    "inputTitle": "User's glob",
+    "inputTitle": "Search glob",
     "inputPlaceholder": "${title}.@(iso|ISO)",
     "errors": {
       "noTitle__md": "> File glob must contain `${title}`!",
@@ -339,7 +339,7 @@
     "component": {
       "label": {
         "general": "General",
-        "imageProviders": "Image Providers",
+        "imageProviders": "Artwork Providers",
         "fuzzy": "Fuzzy Matcher",
         "environmentVariables": "Environment Variables",
         "communityPresets": "Community Presets and Custom Variables"
@@ -351,7 +351,7 @@
         "removeApps_btn": "Remove",
         "preloadImages": "Artwork loading strategy",
         "fuzzy_verbose": "Log matching results",
-        "fuzzy_filter": "Filter images",
+        "fuzzy_filter": "Filter artwork",
         "enabledProviders": "Enabled image providers",
         "dnsServers": "DNS manual override",
         "selectLanguage": "Select language",
@@ -361,7 +361,7 @@
         "resetFuzzy_btn": "Reset",
         "customVariables_desc": "custom variables",
         "configPresets_desc": "config presets",
-        "showSteamImages": "Show current Steam images by default",
+        "showSteamImages": "Show current Steam artwork by default",
         "deleteDisabledShortcuts": "Remove shortcuts for disabled parsers",
         "clearLogOnTest": "Automatically clear log before testing parsers",
         "configDir": "Open Config Directory"
@@ -463,7 +463,7 @@
         "opSys__i": "Operating system is \"${os}\"",
         "testCompleted": "Parser test is completed.",
         "nothingWasFound": "Parser found nothing.",
-        "copiedToClipboard": "Configuration copied to clipboard",
+        "copiedToClipboard": "Parser copied to clipboard",
         "userExclusions": "User excluded:",
         "excludedFileInfo__i": "[${index}/${total}]: ${filename}\n Excluded by \"${exceptionKey}\"",
         "removingControllers__i": "Removing controller templates for parser: ${configTitle}",
@@ -498,7 +498,8 @@
         "filePath__i": "[${index}/${total}]:            File path - ${filePath}",
         "startDir__i": "[${index}/${total}]:            Start dir - ${startDir}",
         "completeShortcut__i": "[${index}/${total}]:    Complete shortcut - ${shortcut}",
-        "firstImageQuery__i": "[${index}/${total}]:        Image queries - ${query}",
+        "firstImageQuery__i": "[${index}/${total}]:      Artwork queries - ${query}",
+        "imagePool__i": "[${index}/${total}]:         Artwork pool - ${imagePool}",
         "imageQueries__i": "[${index}/${total}]:                        ${query}",
         "defaultImage__i": "[${index}/${total}]: Resolved fallback ${artworkType}:\r\n[${index}/${total}]:                        ${image}",
         "resolvedDefaultImage__i": "[${index}/${total}]: Fallback ${artworkType}:",
@@ -510,7 +511,7 @@
       },
       "label": {
         "parserType": "Parser type",
-        "configTitle": "Configuration title",
+        "configTitle": "Parser title",
         "steamCategories": "Steam collections",
         "executableModifier": "Executable modifier",
         "executableLocation": "Executable",
@@ -522,9 +523,9 @@
         "titleModifier": "Title modifier",
         "fuzzyMatch": "Fuzzy matching",
         "executableArgs": "Command line arguments",
-        "onlineImageQueries": "Online image query",
-        "imagePool": "Image pool",
-        "imageProviders": "Image providers",
+        "onlineImageQueries": "Artwork provider search queries",
+        "imagePool": "Artwork pool",
+        "imageProviders": "Artwork providers",
         "defaultImage__i": "Fallback ${artworkType}",
         "localImages__i": "Local ${artworkType} glob"
       },
@@ -548,6 +549,8 @@
           "Darwin": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)",
           "Linux": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)"
         },
+        "onlineImageQueries": "${${fuzzyTitle}} or ${${title}}${${fuzzyTitle}}",
+        "imagePool": "${fuzzyTitle}",
         "romDirectory": {
           "Windows_NT": "C:\\path\\to\\games\\",
           "Darwin": "/path/to/games/",
@@ -559,7 +562,7 @@
           "Darwin": "/path/to/emulator.app",
           "Linux": "/path/to/emulator"
         },
-        "executableArgs": "--arg1 --arg2",
+        "executableArgs": "--arg1 --arg2 --launch \"${filePath}\"",
         "executableModifier": "\"${exePath}\"",
         "startInDirectory": {
           "Windows_NT": "C:\\path\\to\\start-in-dir\\",
@@ -585,18 +588,18 @@
     },
     "service": {
       "info": {
-        "updatingConfigurations": "Updating user configurations with new fields"
+        "updatingConfigurations": "Updating user's parsers with new fields"
       },
       "error": {
-        "savingConfiguration": "Error encountered while saving user configurations!",
-        "readingConfiguration": "Error encountered while reading user configurations!",
+        "savingConfiguration": "Error encountered while saving user's parsers!",
+        "readingConfiguration": "Error encountered while loading user's parsers!",
         "parserTypeMissing": "Cannot save without specifying parser type",
-        "corruptedConfiguration__i": "One or more saved parser configurations are invalid!\r\nPermanent configuration saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}",
-        "fetcingTemplates": "Error encountered while fetching controllers templates!"
+        "corruptedConfiguration__i": "One or more saved parsers are invalid!\r\nPermanent configuration saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}",
+        "fetchingTemplates": "Error encountered while fetching controllers templates!"
       },
       "validationErrors": {
         "parserType__md": "> Incorrect parser type!",
-        "configTitle__md": "> Configuration title field is required!",
+        "configTitle__md": "> Parser title field cannot be blank!",
         "parserId__md": "> Parser Id is missing, something is horribly wrong.",
         "parserInput": {
           "noInput": "No inputs are available!",
@@ -608,12 +611,8 @@
         "steamDir__md": "> Steam directory is invalid!",
         "startInDir__md": "> \"Start In\" directory is invalid!",
         "executable__md": "> Executable is invalid!",
-        "imagePool__md": "> Image pool must not be empty!",
-        "defaultImage__md": "> Default image is an invalid path!",
-        "titleModifier__md": "> Title modifier field is required!",
-        "executableModifier__md": "> Executable modifier must not be empty!",
+        "defaultImage__md": "> Fallback artwork is an invalid path!",
         "variableString__md": "> Uneven number of `${` and `}` pairs! Use `\\` to escape `${` or `}` if you want to use them as characters.",
-        "imageProviders__md": "> Incorrect image providers type!",
         "unhandledValidationKey__md": "> Input's validation is unhandled!",
         "genericDir__md": "> Directory is invalid!",
         "genericPath__md": "> Path is invalid!"
@@ -670,11 +669,11 @@
     "error": {
       "readingVdf__i": "Failed to read from \"${filePath}\".\n ${error}",
       "writingVdf__i": "Failed to write to \"${filePath}\".\n ${error}",
-      "skippingDMCA__i": "Skipping DMCA'd image for ${title}",
+      "skippingDMCA__i": "Skipping DMCA'd artwork for ${title}",
       "corruptedVdf__i": "\"${filePath}\" is corrupted.\n ${error}",
       "creatingBackup__i": "Could not create backup for \"${filePath}\".\n ${error}",
       "unsupportedMimeType__i": "Mime type (${type}) is unsupported (title - \"${title}\").",
-      "imageError__i": "Error occurred while saving/downloading image for \"${title}\". Url: ${url}.\n ${error}"
+      "imageError__i": "Error occurred while saving/downloading artwork for \"${title}\". Url: ${url}.\n ${error}"
     }
   },
   "helpers": {
