@@ -32,9 +32,9 @@
 		},
 		"parserInputs": {},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -65,7 +65,7 @@
 			},
 			"steamCDN": {}
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"defaultImage": {
 			"long": "",
 			"tall": "",

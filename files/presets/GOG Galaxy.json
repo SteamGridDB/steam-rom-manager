@@ -32,16 +32,16 @@
 			"gogLauncherMode": false
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
 			"removeCharacters": true,
 			"removeBrackets": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,

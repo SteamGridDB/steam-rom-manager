@@ -25,9 +25,9 @@
 			"glob": "${title}/@title(.tmd|.TMD)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -39,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -110,9 +110,9 @@
 			"glob": "${title}/@title(.tmd|.TMD)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -124,7 +124,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -195,9 +195,9 @@
 			"glob": "${title}/*/*@(.rpx|.RPX)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -209,7 +209,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -280,9 +280,9 @@
 			"glob": "${title}/*/*@(.rpx|.RPX)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -294,7 +294,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -365,9 +365,11 @@
 			"glob": "${title}/*/*@(.rpx|.RPX)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${WIIU}",
 			"caseInsensitiveVariables": true,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": [
+				"WIIU"
+			]
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -379,7 +381,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -450,9 +452,11 @@
 			"glob": "${title}/*/*@(.rpx|.RPX)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${WIIU}",
 			"caseInsensitiveVariables": true,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": [
+				"WIIU"
+			]
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -464,7 +468,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -535,9 +539,9 @@
 			"glob": "${title}@(.wud|.WUD|.wux|.WUX)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -549,7 +553,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -620,9 +624,9 @@
 			"glob": "${title}@(.wud|.WUD|.wux|.WUX)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -634,7 +638,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,

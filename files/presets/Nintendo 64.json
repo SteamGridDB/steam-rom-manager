@@ -25,9 +25,9 @@
 			"glob": "${title}@(.n64|.N64|.v64|.V64|.z64|.Z64)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -39,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -110,9 +110,9 @@
 			"glob": "${title}@(.n64|.N64|.v64|.V64|.z64|.Z64)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -124,7 +124,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -195,9 +195,9 @@
 			"glob": "${title}@(.7z|.7Z|.n64|.N64|.v64|.V64|.z64|.Z64|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -209,7 +209,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -280,9 +280,9 @@
 			"glob": "${title}@(.7z|.7Z|.n64|.N64|.v64|.V64|.z64|.Z64|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -294,7 +294,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -365,9 +365,9 @@
 			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.n64|.N64|.ndd|.NDD|.u1|.U1|.v64|.V64|.z64|.Z64|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -379,7 +379,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -450,9 +450,9 @@
 			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.n64|.N64|.ndd|.NDD|.u1|.U1|.v64|.V64|.z64|.Z64|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -464,7 +464,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -535,9 +535,9 @@
 			"glob": "${title}@(.7z|.7Z|.n64|.N64|.v64|.V64|.z64|.Z64|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -549,7 +549,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,

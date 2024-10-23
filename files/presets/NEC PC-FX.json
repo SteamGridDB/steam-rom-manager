@@ -25,9 +25,9 @@
 			"glob": "${title}@(.7z|.7Z|.ccd|.CCD|.chd|.CHD|.cue|.CUE|.toc|.TOC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -39,7 +39,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -110,9 +110,9 @@
 			"glob": "${title}@(.7z|.7Z|.ccd|.CCD|.chd|.CHD|.cue|.CUE|.toc|.TOC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -124,7 +124,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,

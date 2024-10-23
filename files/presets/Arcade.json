@@ -25,9 +25,11 @@
 			"glob": "${title}@(.7z|.7Z|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${MAME}",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": [
+				"MAME"
+			]
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -39,7 +41,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -110,9 +112,9 @@
 			"glob": "${title}@(.7z|.7Z|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -124,7 +126,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -195,9 +197,11 @@
 			"glob": "${title}@(7z|7Z|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${FBN}",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": [
+				"FBN"
+			]
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -209,7 +213,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -280,9 +284,11 @@
 			"glob": "${title}@(7z|7Z|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${FBN}",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": [
+				"FBN"
+			]
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -294,7 +300,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -365,9 +371,11 @@
 			"glob": "${title}@(7z|7Z|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${MAME}",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": [
+				"MAME"
+			]
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -379,7 +387,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -450,9 +458,11 @@
 			"glob": "${title}@(7z|7Z|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${MAME}",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": [
+				"MAME"
+			]
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -464,7 +474,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -535,9 +545,11 @@
 			"glob": "${title}@(.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${MAME}",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": [
+				"MAME"
+			]
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -549,7 +561,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -620,9 +632,11 @@
 			"glob": "${title}.xml"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${TeknoParrot}",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": [
+				"TeknoParrot"
+			]
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -634,7 +648,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,

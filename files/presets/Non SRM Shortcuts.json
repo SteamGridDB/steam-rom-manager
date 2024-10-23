@@ -33,9 +33,9 @@
 		},
 		"parserInputs": {},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -86,6 +86,6 @@
 			"icon": null
 		},
 		"disabled": false,
-		"presetVersion": 17
+		"presetVersion": 19
 	}
 }

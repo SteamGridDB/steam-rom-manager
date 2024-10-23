@@ -31,9 +31,9 @@
 			"glob": "${title}@(.7z|.7Z|.min|.MIN|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -64,7 +64,7 @@
 			},
 			"steamCDN": {}
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"defaultImage": {
 			"long": {
 				"tall": "",
@@ -129,9 +129,9 @@
 			"glob": "${title}@(.7z|.7Z|.min|.MIN|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": []
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -162,7 +162,7 @@
 			},
 			"steamCDN": {}
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"defaultImage": {
 			"long": {
 				"tall": "",

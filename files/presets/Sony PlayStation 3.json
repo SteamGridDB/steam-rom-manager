@@ -25,9 +25,11 @@
 			"glob": "${title}/PS3_GAME/USRDIR/@(eboot.bin|EBOOT.BIN)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${PS3}",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": [
+				"PS3"
+			]
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -39,7 +41,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -110,9 +112,11 @@
 			"glob": "${title}/PS3_GAME/USRDIR/@(eboot.bin|EBOOT.BIN)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${PS3}",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": [
+				"PS3"
+			]
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -124,7 +128,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -195,9 +199,11 @@
 			"glob": "${title}/USRDIR/@(eboot.bin|EBOOT.BIN)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${PSN}",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": [
+				"PSN"
+			]
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -209,7 +215,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
@@ -280,9 +286,11 @@
 			"glob": "${title}/USRDIR/@(eboot.bin|EBOOT.BIN)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "${PSN}",
 			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false
+			"skipFileIfVariableWasNotFound": false,
+			"limitToGroups": [
+				"PSN"
+			]
 		},
 		"fuzzyMatch": {
 			"replaceDiacritics": true,
@@ -294,7 +302,7 @@
 			"shortcutPassthrough": false,
 			"appendArgsToExecutable": true
 		},
-		"presetVersion": 17,
+		"presetVersion": 19,
 		"imageProviderAPIs": {
 			"sgdb": {
 				"nsfw": false,
