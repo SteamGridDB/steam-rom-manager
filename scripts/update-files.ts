@@ -1,7 +1,6 @@
 import * as modifiers from "../src/renderer/modifiers/config-presets.modifier";
 import * as json from "../src/lib/helpers/json";
 import * as glob from "glob";
-import { configPresets } from "../src/renderer/schemas/config-presets.schema";
 // Used for updating config presets en masse via new schema
 let isValid = true;
 const validator = new json.Validator(undefined, modifiers.configPreset, {
@@ -11,7 +10,7 @@ let presetFiles: string[] = glob.sync("./files/presets/*.json");
 let presetPromises: Promise<object | void>[] = [];
 for (let i = 0; i < presetFiles.length; i++) {
   presetPromises.push(
-    json.read(presetFiles[i]).then((data: { [key: string]: any } | void) => {
+    json.read<any>(presetFiles[i]).then((data: { [key: string]: any } | void) => {
       if (data) {
         for (let key of Object.keys(data)) {
           if (

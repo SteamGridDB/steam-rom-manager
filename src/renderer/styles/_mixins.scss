@@ -206,7 +206,6 @@
     color: var(--color-#{$colorProp}-text-hover);
     border-color: var(--color-#{$colorProp}-border-hover);
     background-color: var(--color-#{$colorProp}-background-hover);
-
     fill: var(--color-#{$colorProp}-arrow-hover);
   }
 
@@ -323,7 +322,6 @@
     box-sizing: border-box;
     width: $thumbWidth;
     height: $thumbHeight;
-    //margin-top: math.div($trackHeight - $trackBorder - $thumbHeight, 2);
     margin-top: var(--color-preview-app-zoom-slider-thumb-margin-top);
     background-color: var(--color-#{$colorProp}-thumb-background);
 

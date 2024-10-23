@@ -5,10 +5,10 @@ import {
 import {
   availableParsers,
   availableParserInputs,
+  availableParserInputsInfo
 } from "../../lib/parsers/available-parsers";
 import { ParserInputType, ParserType } from "../../models";
 import { cloneDeep } from "lodash";
-import {parsers} from "../../lib/parsers/";
 
 const sharedProperties = {
   properties: {
@@ -228,6 +228,8 @@ const sharedProperties = {
     disabled: { type: "boolean", default: false },
   },
 };
+
+
 let convertToSchema = (inputType: ParserInputType) => {
   if(["text","path","dir"].includes(inputType)) {
     return {"type": ["string", "null"], default: ""}
@@ -241,7 +243,7 @@ let convertToSchema = (inputType: ParserInputType) => {
 }
 let options: any[] = availableParsers.map((parserType: ParserType) => {
   let temp = cloneDeep(sharedProperties);
-  let inputInfo = parsers[parserType].getParserInfo().inputs||{};
+  let inputInfo = availableParserInputsInfo[parserType];
   if (availableParserInputs[parserType].length) {
     Object.assign(temp.properties, {
       parserType: { type: "string", default: "", enum: [parserType, ""] },

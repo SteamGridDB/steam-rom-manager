@@ -5,12 +5,6 @@
 
   display: grid;
 
-  color: black;
-  border-color: deepskyblue;
-  background-color: white;
-
-  fill: black;
-
   @include ngSelect();
   @include ngSelectColor(ng-select);
 
@@ -83,7 +77,6 @@
     }
     .sectionTitle {
       border-bottom: solid 1px;
-      //background-color: var(--color-ng-select-background);
       background-color: var(--color-ng-select-section-background);
       padding: var(--ng-select-padding, 0);
     }

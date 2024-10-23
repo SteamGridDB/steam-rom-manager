@@ -67,9 +67,9 @@
     }
   }
   --color--accent: #fff;
-  --color--required: #31a0f4;;
+  --color--required: #137c38;
   --color--missing: var(--color-error);
-  --color--filled: #59da8f;
+  --color--filled: var(--color--required);
   --grid-app: "titlebar titlebar titlebar" "navarea navborder route";
   --grid-app-rows: auto 1fr;
   --grid-app-columns: auto auto 1fr;
