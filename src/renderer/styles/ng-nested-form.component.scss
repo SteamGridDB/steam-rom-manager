@@ -101,20 +101,6 @@ ng-nested-form {
     }
     ng-text-input, ng-bubbles, ng-select {
       grid-area: input;
-      &.required,&.missing,&.filled {
-        .display {
-          border: 0;
-        }
-      }
-      &.required {
-        border: 1px solid var(--color--required)!important;
-      }
-      &.missing {
-        border: 1px solid var(--color--missing)!important;
-      }
-      &.filled {
-        border: 1px solid var(--color--filled)!important;
-      }
     }
     ng-text-input {
       @include ngTextInput();

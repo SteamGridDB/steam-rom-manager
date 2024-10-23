@@ -66,10 +66,38 @@
       }
     }
   }
+  ng-text-input, ng-bubbles, ng-select {
+    &.required,&.missing,&.filled {
+      .display {
+        border: 0;
+      }
+    }
+    &.required {
+      border: 1px solid var(--color--required)!important;
+      &:hover, &:focus {
+        border: 1px solid var(--color--required-hover)!important;
+      }
+    }
+    &.missing {
+      border: 1px solid var(--color--missing)!important;
+      &:hover, &:focus {
+        border: 1px solid var(--color--missing-hover)!important;
+      }
+    }
+    &.filled {
+      border: 1px solid var(--color--filled)!important;
+      &:hover, &:focus {
+        border: 1px solid var(--color--filled-hover)!important;
+      }
+    }
+  }
   --color--accent: #fff;
   --color--required: #137c38;
+  --color--required-hover: #1bd85e;
   --color--missing: var(--color-error);
+  --color--missing-hover: var(--color-error);
   --color--filled: var(--color--required);
+  --color--filled-hover: var(--color--required-hover);
   --grid-app: "titlebar titlebar titlebar" "navarea navborder route";
   --grid-app-rows: auto 1fr;
   --grid-app-columns: auto auto 1fr;
@@ -518,6 +546,32 @@
     }
   }
 
+  ng-text-input, ng-bubbles, ng-select {
+    &.required,&.missing,&.filled {
+      .display {
+        border: 0;
+      }
+    }
+    &.required {
+      border: 1px solid var(--color--required)!important;
+      &:hover, &:focus {
+        border: 1px solid var(--color--required-hover)!important;
+      }
+    }
+    &.missing {
+      border: 1px solid var(--color--missing)!important;
+      &:hover, &:focus {
+        border: 1px solid var(--color--missing-hover)!important;
+      }
+    }
+    &.filled {
+      border: 1px solid var(--color--filled)!important;
+      &:hover, &:focus {
+        border: 1px solid var(--color--filled-hover)!important;
+      }
+    }
+  }
+
   &.EmuDeck.EmuDeck.EmuDeck.EmuDeck.EmuDeck navarea nav {
     justify-content: end;
     margin: 0 10px;
@@ -885,8 +939,11 @@
   --grid-app-columns: auto;
   --color--accent: #31a0f4;
   --color--required: var(--color--accent);
+  --color--required-hover: var(--color--required);
   --color--missing: var(--color-error);
+  --color--missing-hover: var(--color--missing);
   --color--filled: #59da8f;
+  --color--filled-hover: var(--color--filled);
   --nav-width: 100vw;
   --nav-width-max: 100vw;
   --nav-direction: row;
@@ -1256,6 +1313,22 @@
   }
   .previewSpinner {
     margin-left: calc(0.5 * (100vw - var(--nav-width)) - 2.5em);
+  }
+  ng-text-input, ng-bubbles, ng-select {
+    &.required,&.missing,&.filled {
+      .display {
+        border: 0;
+      }
+    }
+    &.required {
+      border-left: 3px solid var(--color--required)!important;
+    }
+    &.missing {
+      border-left: 3px solid var(--color--missing)!important;
+    }
+    &.filled {
+      border-left: 3px solid var(--color--filled)!important;
+    }
   }
   --grid-app: "titlebar titlebar titlebar" "navarea navborder route";
   --grid-app-rows: auto 1fr;
