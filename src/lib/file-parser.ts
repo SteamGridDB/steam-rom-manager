@@ -368,7 +368,7 @@ export class FileParser {
           superType === parserInfo.ManualType
         ) {
           if (config.titleFromVariable.limitToGroups) {
-            this.tryToReplaceTitlesWithVariables(data, config, vParser);
+            this.tryToReplaceTitlesWithVariables(data, config);
           }
           this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(
             data,
@@ -977,14 +977,9 @@ export class FileParser {
   private tryToReplaceTitlesWithVariables(
     data: ParsedDataWithFuzzy,
     config: UserConfiguration,
-    vParser: VariableParser,
   ) {
-    let groups = vParser
-      .setInput(config.titleFromVariable.limitToGroups)
-      .parse()
-      ? _.uniq(vParser.extractVariables((data) => null))
-      : [];
-    groups = _.intersection(Object.keys(this.customVariableData), groups);
+    const groups = _.intersectionWith(config.titleFromVariable.limitToGroups,
+      Object.keys(this.customVariableData)) || [];
     if (groups.length > 0) {
       for (let i = 0; i < data.success.length; i++) {
         let found = false;

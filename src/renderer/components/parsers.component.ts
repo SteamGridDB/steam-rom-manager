@@ -18,6 +18,7 @@ import {
   ShellScriptsService,
   IpcService,
   UserExceptionsService,
+  CustomVariablesService,
 } from "../services";
 import * as parserInfo from "../../lib/parsers/available-parsers";
 import * as steam from "../../lib/helpers/steam";
@@ -35,6 +36,7 @@ import {
   ParserType,
   OnlineProviderType,
   StringDict,
+  CustomVariables,
 } from "../../models";
 import { BehaviorSubject, Subscription, of, concat } from "rxjs";
 import { map } from "rxjs/operators";
@@ -60,6 +62,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   configurationIndex: number = -1;
   isUnsaved: boolean = false;
   configPresets: ConfigPresets = {};
+  customVariables: CustomVariables = {};
   presetsSections: StringDict = {};
   nestedGroup: NestedFormElement.Group;
   userForm: FormGroup;
@@ -87,6 +90,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
     private cpService: ConfigurationPresetsService,
+    private cvService: CustomVariablesService,
     private ssService: ShellScriptsService,
     private ipcService: IpcService,
   ) {
@@ -433,7 +437,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           isHidden: () => this.isHiddenIfNotRomsParser(),
           label: this.lang.label.titleFromVariable,
           children: {
-            limitToGroups: new NestedFormElement.Input({
+            limitToGroups: new NestedFormElement.Select({
+              multiple: true,
+              allowEmpty: true,
+              values: Object.keys(this.customVariables),
+              placeholder: "Select title variables",
+            }),
+            /*limitToGroups: new NestedFormElement.Input({
               placeholder: this.lang.placeholder.titleFromVariable,
               highlight: this.highlight.bind(this),
               onValidate: (self, path) => {
@@ -444,7 +454,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                   serialized,
                 );
               },
-            }),
+            }),*/
             caseInsensitiveVariables: new NestedFormElement.Toggle({
               text: this.lang.text.caseInsensitiveVariables,
             }),
@@ -753,6 +763,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         );
       }),
     );
+    this.subscriptions.add(
+      this.cvService.dataObservable.subscribe((data)=> {
+        this.customVariables = data;
+        if(this.nestedGroup) {
+          ((this.nestedGroup.children.titleFromVariable as NestedFormElement.Group)
+            .children.limitToGroups as NestedFormElement.Select).values = Object.keys(this.customVariables)
+        }
+      })
+    )
     this.subscriptions.add(
       this.parsersService.getSavedControllerTemplates().subscribe((data) => {
         this.parsersService.controllerTemplates = data;

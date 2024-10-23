@@ -51,7 +51,7 @@ const sharedProperties = {
       type: "object",
       default: {},
       properties: {
-        limitToGroups: { type: "string", default: "" },
+        limitToGroups: { type: "array", default: [] as string[], items: { type: "string"} },
         skipFileIfVariableWasNotFound: { type: "boolean", default: false },
         caseInsensitiveVariables: { type: "boolean", default: false },
       },
@@ -274,7 +274,5 @@ export const userConfiguration = {
   type: "object",
   oneOf: options,
 };
-console.log("userConfiguration Schema", userConfiguration)
-
 
 export const defaultUserConfiguration = options[0];

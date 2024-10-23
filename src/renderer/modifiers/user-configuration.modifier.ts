@@ -10,7 +10,7 @@ import {
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: "version",
-  latestVersion: 24,
+  latestVersion: 25,
   fields: {
     undefined: {
       version: { method: () => 0 },
@@ -372,6 +372,21 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
             return extractNames(onlineImageQueries)
           } else {
             return []
+          }
+        }
+      }
+    },
+    24: {
+      version: { method: versionUp },
+      titleFromVariable: {
+        method: (oldValue, oldConfiguration) => {
+          let titleFromVariable = _.cloneDeep(oldConfiguration.titleFromVariable);
+          const limitToGroups = titleFromVariable.limitToGroups;
+          delete titleFromVariable.limitToGroups;
+          if(limitToGroups) {
+            return {...titleFromVariable, limitToGroups: extractNames(limitToGroups)}
+          } else {
+            return {...titleFromVariable, limitToGroups: []}
           }
         }
       }

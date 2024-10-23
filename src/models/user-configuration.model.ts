@@ -30,7 +30,7 @@ export interface UserConfiguration {
   userAccounts: UserAccountsInfo;
   parserInputs: { [inputKey: string]: string | boolean };
   titleFromVariable: {
-    limitToGroups: string;
+    limitToGroups: string[];
     skipFileIfVariableWasNotFound: boolean;
     caseInsensitiveVariables: boolean;
   };

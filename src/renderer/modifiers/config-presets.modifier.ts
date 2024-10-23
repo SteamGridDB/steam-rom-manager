@@ -17,7 +17,7 @@ import { versionUp, extractNames } from "./modifier-helpers";
 
 export const configPreset: ValidatorModifier<UserConfiguration> = {
   controlProperty: "presetVersion",
-  latestVersion: 17,
+  latestVersion: 19,
   fields: {
     undefined: {
       presetVersion: { method: () => 0 },
@@ -284,6 +284,21 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
             return [];
           }
         },
+      }
+    },
+    18: {
+      presetVersion: { method: versionUp },
+      titleFromVariable: {
+        method: (oldValue, oldConfiguration) => {
+          let titleFromVariable = _.cloneDeep(oldConfiguration.titleFromVariable);
+          const limitToGroups = titleFromVariable.limitToGroups;
+          delete titleFromVariable.limitToGroups;
+          if(limitToGroups) {
+            return {...titleFromVariable, limitToGroups: extractNames(limitToGroups)}
+          } else {
+            return {...titleFromVariable, limitToGroups: []}
+          }
+        }
       }
     }
   },

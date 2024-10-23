@@ -274,7 +274,7 @@ export class ParsersService {
           userConfigurations[index].current.parserType
         ] === parserInfo.ArtworkOnlyType
       ) {
-        userConfigurations[index].current.titleFromVariable.limitToGroups = "";
+        userConfigurations[index].current.titleFromVariable.limitToGroups = [];
       }
       userConfigurations[index] = {
         saved: userConfigurations[index].current,
@@ -435,10 +435,6 @@ export class ParsersService {
         return this.validateVariableParserString(data || "");
       case "executableModifier":
         return this.validateVariableParserString(data || "");
-      case "titleFromVariable":
-        return this.validateVariableParserString(
-          data ? data.limitToGroups || "" : "",
-        );
       case "onlineImageQueries":
         if(!data) return null;
         for(let query of data){
@@ -529,7 +525,6 @@ export class ParsersService {
         "executableModifier",
         "romDirectory",
         "startInDirectory",
-        "titleFromVariable",
         "executableArgs",
         "onlineImageQueries",
         "imagePool",
@@ -710,8 +705,8 @@ export class ParsersService {
           if (
             parserInfo.superTypesMap[data[i].parserType] !== parserInfo.ROMType
           ) {
-            data[i].titleFromVariable.limitToGroups = "";
-            data[i].executableModifier = '"${exePath}"';
+            data[i].titleFromVariable.limitToGroups = [];
+            data[i].executableModifier = "";
           }
           if (this.validator.validate(data[i]).isValid()) {
             validatedConfigs.push({ saved: data[i], current: null });
