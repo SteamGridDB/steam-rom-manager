@@ -56,7 +56,7 @@ const sharedProperties = {
         caseInsensitiveVariables: { type: "boolean", default: false },
       },
     },
-    imagePool: { type: "string", default: "${fuzzyTitle}" },
+    imagePool: { type: "string", default: "" },
     drmProtect: { type: "boolean", default: false },
     defaultImage: {
       type: "object",
