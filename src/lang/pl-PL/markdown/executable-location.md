@@ -1,4 +1,4 @@
-# Executable (optional) `[supports environment variables]`
+# Executable `[supports env variables]`
 
 Path to emulator's executable. Can be a file or any valid system path.
 
