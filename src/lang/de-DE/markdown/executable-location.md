@@ -1,4 +1,4 @@
-# Programmdateien (optional) `[unterstützt Umgebungsvariablen]`
+# Executable `[supports env variables]`
 
 Pfad zur ausführbaren Datei des Emulators. Kann eine Datei oder ein gültiger Systempfad sein.
 
