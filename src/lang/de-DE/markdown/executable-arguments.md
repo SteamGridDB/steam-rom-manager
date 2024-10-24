@@ -1,4 +1,4 @@
-# Befehlszeilenargumente (optional) `[unterstützt Variablen]`{.noWrap}
+# Command line arguments `[supports variables]`{.noWrap}
 
 Argumente die an Programmdateien angehängt werden, um den finalen Shortcut zu erzeugen. Meistens willst du diese mit bereitgestellten Parser-Variablen einstellen.
 
@@ -49,7 +49,7 @@ Argumente die an Programmdateien angehängt werden, um den finalen Shortcut zu e
 ### Nestopia (NES/Famicom)
 
 ```
-"${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen on start : yes -view size fullscreen : stretched 
+"${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen on start : yes -view size fullscreen : stretched
 ```
 
 ### higan (NES/Famicom, SNES/Famicom, Gameboy, Gameboy Color, Gameboy Advance)
@@ -187,6 +187,7 @@ Falls Fuzzy Matching **fehlschlägt** oder **deaktiviert** ist, ist `${fuzzyTitl
 ### Beispiel für Funktions-Variablen
 
 Nehmen wir an `${title}` ist gleich `Pokémon (USA) (Disc 1).iso`. Dann werden diese Variablen:
+
 ```
 ${/.*/|${title}}                           //Entspricht allem
 ${/(.*)/|${title}}                         //Gruppiert alles
@@ -196,7 +197,9 @@ ${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Gruppiert den "Disc..." Teil und tr
 ${rdc|${title}}                            //Ersetzt diakritische Zeichen (In diesem Fall: é -> e)
 file${os:linux|.so|${os:win|.dll}}         //Setzt die richtige Dateiendung nach Betriebssystem
 ```
+
 ersetzt durch:
+
 ```
 Poke<unk> mon (USA) (Disc 1).iso
 Poke<unk> mon (USA) (Disc 1).iso
