@@ -1,4 +1,4 @@
-# Lokale Bilder (optional) `[unterstützt Variablen]`{.noWrap}
+# Local images `[supports variables]`{.noWrap}
 
 Erlaubt es, lokal gespeicherte Bilder zu verwenden. Ein [spezieller Glob Input](#special-glob-input) String wird genutzt, um Bilder abzurufen, so kannst du zum Beispiel: `/Pfad/zu/Heldenbilder/${title}.@(png|jpg)` nutzen. Backslashes können genutzt werden um Zeichen zu escapen. Wenn deine Bilder z. B. in `artwork [portraits]` liegen, kannst du diese mit `/Pfad/zu/artwork \[portraits\]/${title}.@(png|jpg)` angeben. Es wird empfohlen dein Artwork Verzeichnis global zu setzen und es mit der `${localimages}` Umgebungsvariable in diesem Feld: `${localimagesdir}/emuname/heroes/${title}.@(png|jpg)` zu setzen.
 
