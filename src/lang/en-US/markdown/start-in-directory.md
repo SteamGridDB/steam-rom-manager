@@ -1,6 +1,6 @@
-# "Start In" directory (optional) `[supports environment variables]`{.noWrap}
+# "Start In" directory `[supports env variables]`
 
-By default "Start In" directory is set to executable's directory:
+If `"Start In" Directory` is unset it defaults to the executable's directory. If not executable is set, it defaults to the directory of the ${filePath} variable:
 
 ![Default "Start In" directory](../../../assets/images/default-start-in-directory.png) {.fitImage .center}
 

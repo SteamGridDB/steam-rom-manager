@@ -1,4 +1,4 @@
-# Steam category (optional)`{.noWrap}
+# Steam category`{.noWrap}
 
 Hit the little plus sign to add your first category.
 

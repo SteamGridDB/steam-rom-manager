@@ -1,4 +1,4 @@
-# Title from custom variable (optional)
+# Title from custom variable
 
 Allows one to overwrite the extracted title with a custom variable, pulled from the `json` files described below. This happens right after title extraction, meaning that the new title can be used for fuzzy matching and so on. Groups and variables themselves are **case-sensitive**, unless case-insesitive variable option is enabled.
 
