@@ -1,3 +1,5 @@
-# Titre de configuration
+# Parser title
 
-Titre pour enregistrer la configuration de l'utilisateur. Ne doit pas être unique, mais il est nécessaire.
+Title of the parser. Does not have to be unique, but is required.
+
+This field will not affect what is added to `Steam` in any way.
