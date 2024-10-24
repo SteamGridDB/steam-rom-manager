@@ -591,8 +591,8 @@ export interface languageStruct {
         executableArgs: string;
         executableModifier: string;
         startInDirectory: { [key: string]: string };
-        onlineImageQueries: string,
-        imagePool: string,
+        onlineImageQueries: string;
+        imagePool: string;
         defaultImage__i: { [key: string]: string }; //${artworkType}
         localImages__i: { [key: string]: string }; //${artworkType}
         imageProviders: string;

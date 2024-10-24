@@ -1,1617 +1,1427 @@
 {
-	"Nintendo SNES - bsnes(Flatpak)": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - bsnes(Flatpak)",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run dev.bsnes.bsnes --fullscreen \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bs|.BS|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch - Beetle bsnes": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch - Beetle bsnes",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mednafen_snes_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.st|.ST|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "${retroarchpath}",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch(Flatpak) - Beetle bsnes": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - Beetle bsnes",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mednafen_snes_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.st|.ST|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch - Snes9x": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch - Snes9x",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}snes9x_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.swc|.SWC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "${retroarchpath}",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch(Flatpak) - Snes9x": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - Snes9x",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}snes9x_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.swc|.SWC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch - bsnes2014 Accuracy": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch - bsnes2014 Accuracy",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes2014_accuracy_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "${retroarchpath}",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Accuracy": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Accuracy",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes2014_accuracy_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch - bsnes2014 Balanced": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch - bsnes2014 Balanced",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes2014_balanced_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "${retroarchpath}",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Balanced": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Balanced",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes2014_balanced_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch - bsnes2014 Performance": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch - bsnes2014 Performance",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes2014_performance_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "${retroarchpath}",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Performance": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Performance",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes2014_performance_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch - bsnes-mercury Accuracy": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch - bsnes-mercury Accuracy",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes_mercury_accuracy_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "${retroarchpath}",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Accuracy": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Accuracy",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes_mercury_accuracy_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch - bsnes-mercury Balanced": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch - bsnes-mercury Balanced",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes_mercury_balanced_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "${retroarchpath}",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Balanced": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Balanced",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes_mercury_balanced_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch - bsnes-mercury Performance": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch - bsnes-mercury Performance",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes_mercury_performance_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "${retroarchpath}",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Performance": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Performance",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes_mercury_performance_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch - Mesen-S": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch - Mesen-S",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mesen-s_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "${retroarchpath}",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	},
-	"Nintendo SNES - Retroarch(Flatpak) - Mesen-S": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo SNES - Retroarch(Flatpak) - Mesen-S",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mesen-s_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"SNES"
-		]
-	}
+  "Nintendo SNES - bsnes(Flatpak)": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - bsnes(Flatpak)",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "run dev.bsnes.bsnes --fullscreen \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bs|.BS|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "/usr/bin/flatpak",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch - Beetle bsnes": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch - Beetle bsnes",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mednafen_snes_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.st|.ST|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "${retroarchpath}",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch(Flatpak) - Beetle bsnes": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch(Flatpak) - Beetle bsnes",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mednafen_snes_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.st|.ST|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "/usr/bin/flatpak",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch - Snes9x": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch - Snes9x",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}snes9x_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.swc|.SWC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "${retroarchpath}",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch(Flatpak) - Snes9x": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch(Flatpak) - Snes9x",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}snes9x_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bs|.BS|.fig|.FIG|.sfc|.SFC|.smc|.SMC|.swc|.SWC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "/usr/bin/flatpak",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch - bsnes2014 Accuracy": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch - bsnes2014 Accuracy",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes2014_accuracy_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "${retroarchpath}",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Accuracy": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Accuracy",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes2014_accuracy_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "/usr/bin/flatpak",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch - bsnes2014 Balanced": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch - bsnes2014 Balanced",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes2014_balanced_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "${retroarchpath}",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Balanced": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Balanced",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes2014_balanced_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "/usr/bin/flatpak",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch - bsnes2014 Performance": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch - bsnes2014 Performance",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes2014_performance_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "${retroarchpath}",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Performance": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes2014 Performance",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes2014_performance_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "/usr/bin/flatpak",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch - bsnes-mercury Accuracy": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch - bsnes-mercury Accuracy",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes_mercury_accuracy_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "${retroarchpath}",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Accuracy": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Accuracy",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes_mercury_accuracy_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "/usr/bin/flatpak",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch - bsnes-mercury Balanced": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch - bsnes-mercury Balanced",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes_mercury_balanced_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "${retroarchpath}",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Balanced": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Balanced",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes_mercury_balanced_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "/usr/bin/flatpak",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch - bsnes-mercury Performance": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch - bsnes-mercury Performance",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes_mercury_performance_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "${retroarchpath}",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Performance": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch(Flatpak) - bsnes-mercury Performance",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}bsnes_mercury_performance_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "/usr/bin/flatpak",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch - Mesen-S": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch - Mesen-S",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mesen-s_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "${retroarchpath}",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  },
+  "Nintendo SNES - Retroarch(Flatpak) - Mesen-S": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo SNES - Retroarch(Flatpak) - Mesen-S",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "run org.libretro.RetroArch -L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mesen-s_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}} \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.7z|.7Z|.bml|.BML|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "/usr/bin/flatpak",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["SNES"]
+  }
 }

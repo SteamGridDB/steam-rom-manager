@@ -10,24 +10,24 @@ export const versionUp = (version: number) => {
 };
 export const extractNames = (str: string) => {
   let res: string[] = [];
-  let current = '';
+  let current = "";
   let openCount = 0;
-  let prevchar='';
+  let prevchar = "";
   for (let char of str) {
-    if (char == '}') {
+    if (char == "}") {
       openCount--;
       if (openCount == 0) {
         res.push(current);
-        current = '';
+        current = "";
       }
     }
     if (openCount > 0) {
       current += char;
     }
-    if (char == '{' && prevchar=="$") {
+    if (char == "{" && prevchar == "$") {
       openCount++;
     }
-    prevchar=char;
+    prevchar = char;
   }
   return res;
 };

@@ -4,12 +4,12 @@ import { ParserInputType, ParserType, SuperType } from "../../models";
 // Reason: Hard to fix bug involving schema
 
 export const availableParserInputs: Record<ParserType, string[]> = {
-  "Glob": ["glob"],
+  Glob: ["glob"],
   "Glob-regex": ["glob-regex"],
-  "Manual": ["manualManifests"],
+  Manual: ["manualManifests"],
   "Amazon Games": ["amazonGamesExeOverride", "amazonGamesLauncherMode"],
-  "Epic": ["epicManifests", "epicLauncherMode"],
-  "Legendary": [
+  Epic: ["epicManifests", "epicLauncherMode"],
+  Legendary: [
     "legendaryExeOverride",
     "legendaryInstalledFile",
     "legendaryLauncherMode",
@@ -24,39 +24,60 @@ export const availableParserInputs: Record<ParserType, string[]> = {
     "itchIoAppDataOverride",
     "itchIoWindowsOnLinuxInstallDriveRedirect",
   ],
-  "Steam": ["appTypes", "onlyInstalled"],
-  "UPlay": ["uplayDir", "uplayLauncherMode"],
-  "UWP": ["UWPDir", "UWPLauncherMode"],
+  Steam: ["appTypes", "onlyInstalled"],
+  UPlay: ["uplayDir", "uplayLauncherMode"],
+  UWP: ["UWPDir", "UWPLauncherMode"],
   "EA Desktop": ["eaGamesDir", "eaLauncherMode"],
   "Battle.net": ["battleExeOverride"],
   "Non-SRM Shortcuts": [],
 };
-export const availableParserInputsInfo: Record<ParserType, {[inputName: string]: {inputType: ParserInputType}}> = {
-  "Glob": {"glob": {inputType: "text"}},
-  "Glob-regex": {"glob-regex": {inputType: "text"}},
-  "Manual": {"manualManifests": {inputType: "dir"}},
-  "Amazon Games": {"amazonGamesExeOverride": {inputType: "path"}, "amazonGamesLauncherMode": {inputType: "toggle"}},
-  "Epic": {"epicManifests": {inputType: "dir"}, "epicLauncherMode": {inputType: "toggle"}},
-  "Legendary": {
-    "legendaryExeOverride": {inputType: "path"},
-    "legendaryInstalledFile": {inputType: "path"},
-    "legendaryLauncherMode": {inputType: "toggle"},
+export const availableParserInputsInfo: Record<
+  ParserType,
+  { [inputName: string]: { inputType: ParserInputType } }
+> = {
+  Glob: { glob: { inputType: "text" } },
+  "Glob-regex": { "glob-regex": { inputType: "text" } },
+  Manual: { manualManifests: { inputType: "dir" } },
+  "Amazon Games": {
+    amazonGamesExeOverride: { inputType: "path" },
+    amazonGamesLauncherMode: { inputType: "toggle" },
+  },
+  Epic: {
+    epicManifests: { inputType: "dir" },
+    epicLauncherMode: { inputType: "toggle" },
+  },
+  Legendary: {
+    legendaryExeOverride: { inputType: "path" },
+    legendaryInstalledFile: { inputType: "path" },
+    legendaryLauncherMode: { inputType: "toggle" },
   },
   "GOG Galaxy": {
-    "galaxyExeOverride": {inputType: "path"},
-    "gogLauncherMode": {inputType: "toggle"},
-    "parseLinkedExecs": {inputType: "toggle"},
-    "parseRegistryEntries": {inputType: "toggle"},
+    galaxyExeOverride: { inputType: "path" },
+    gogLauncherMode: { inputType: "toggle" },
+    parseLinkedExecs: { inputType: "toggle" },
+    parseRegistryEntries: { inputType: "toggle" },
   },
   "itch.io": {
-    "itchIoAppDataOverride": {inputType: "dir"},
-    "itchIoWindowsOnLinuxInstallDriveRedirect": {inputType: "dir"},
+    itchIoAppDataOverride: { inputType: "dir" },
+    itchIoWindowsOnLinuxInstallDriveRedirect: { inputType: "dir" },
   },
-  "Steam": {"appTypes": {inputType: "multiselect"}, "onlyInstalled": {inputType: "toggle"}},
-  "UPlay": {"uplayDir": {inputType: "dir"}, "uplayLauncherMode": {inputType: "toggle"}},
-  "UWP": {"UWPDir": {inputType: "dir"}, "UWPLauncherMode": {inputType: "toggle"}},
-  "EA Desktop": {"eaGamesDir": {inputType: "dir"}, "eaLauncherMode": {inputType: "toggle"}},
-  "Battle.net": {"battleExeOverride": {inputType: "path"}},
+  Steam: {
+    appTypes: { inputType: "multiselect" },
+    onlyInstalled: { inputType: "toggle" },
+  },
+  UPlay: {
+    uplayDir: { inputType: "dir" },
+    uplayLauncherMode: { inputType: "toggle" },
+  },
+  UWP: {
+    UWPDir: { inputType: "dir" },
+    UWPLauncherMode: { inputType: "toggle" },
+  },
+  "EA Desktop": {
+    eaGamesDir: { inputType: "dir" },
+    eaLauncherMode: { inputType: "toggle" },
+  },
+  "Battle.net": { battleExeOverride: { inputType: "path" } },
   "Non-SRM Shortcuts": {},
 };
 

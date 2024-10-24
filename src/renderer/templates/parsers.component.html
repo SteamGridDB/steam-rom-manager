@@ -41,10 +41,16 @@
     >
       {{ lang.buttons.undoDelete }}
     </div>
-    <div (click)="updateShowMarkdown(true); openFAQ()">{{ lang.buttons.faq }}</div>
-    <div *ngIf="showMarkdown" 
-    class="dangerousButton"
-    (click)="updateShowMarkdown(false)">Close Docs</div>
+    <div (click)="updateShowMarkdown(true); openFAQ()">
+      {{ lang.buttons.faq }}
+    </div>
+    <div
+      *ngIf="showMarkdown"
+      class="dangerousButton"
+      (click)="updateShowMarkdown(false)"
+    >
+      Close Docs
+    </div>
   </ng-container>
   <ng-template #moreOptions>
     <div (click)="updateForm()">{{ lang.buttons.save }}</div>
@@ -110,9 +116,15 @@
         />
       </svg>
     </div>
-    <div (click)="updateShowMarkdown(true); openFAQ()">{{ lang.buttons.faq }}</div>
-    <div *ngIf="showMarkdown" 
-    class="dangerousButton"
-    (click)="updateShowMarkdown(false)">Close Docs</div>
+    <div (click)="updateShowMarkdown(true); openFAQ()">
+      {{ lang.buttons.faq }}
+    </div>
+    <div
+      *ngIf="showMarkdown"
+      class="dangerousButton"
+      (click)="updateShowMarkdown(false)"
+    >
+      Close Docs
+    </div>
   </ng-template>
 </div>

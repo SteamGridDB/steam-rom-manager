@@ -99,7 +99,9 @@ ng-nested-form {
     .reqText {
       margin-left: 0.25em;
     }
-    ng-text-input, ng-bubbles, ng-select {
+    ng-text-input,
+    ng-bubbles,
+    ng-select {
       grid-area: input;
     }
     ng-text-input {

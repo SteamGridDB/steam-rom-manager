@@ -5,7 +5,7 @@ import {
   OnDestroy,
   Renderer2,
   ElementRef,
-  RendererStyleFlags2
+  RendererStyleFlags2,
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Subscription, BehaviorSubject } from "rxjs";

@@ -5,7 +5,7 @@ import {
 import {
   availableParsers,
   availableParserInputs,
-  availableParserInputsInfo
+  availableParserInputsInfo,
 } from "../../lib/parsers/available-parsers";
 import { ParserInputType, ParserType } from "../../models";
 import { cloneDeep } from "lodash";
@@ -51,7 +51,11 @@ const sharedProperties = {
       type: "object",
       default: {},
       properties: {
-        limitToGroups: { type: "array", default: [] as string[], items: { type: "string"} },
+        limitToGroups: {
+          type: "array",
+          default: [] as string[],
+          items: { type: "string" },
+        },
         skipFileIfVariableWasNotFound: { type: "boolean", default: false },
         caseInsensitiveVariables: { type: "boolean", default: false },
       },
@@ -229,18 +233,15 @@ const sharedProperties = {
   },
 };
 
-
 let convertToSchema = (inputType: ParserInputType) => {
-  if(["text","path","dir"].includes(inputType)) {
-    return {"type": ["string", "null"], default: ""}
+  if (["text", "path", "dir"].includes(inputType)) {
+    return { type: ["string", "null"], default: "" };
+  } else if (inputType == "toggle") {
+    return { type: ["boolean", "null"], default: false };
+  } else if (inputType == "multiselect") {
+    return { type: "array", default: [] as string[] };
   }
-  else if(inputType=="toggle"){
-    return {"type": ["boolean", "null"], default: false}
-  }
-  else if(inputType=="multiselect"){
-    return {"type": "array", default: [] as string[]}
-  }
-}
+};
 let options: any[] = availableParsers.map((parserType: ParserType) => {
   let temp = cloneDeep(sharedProperties);
   let inputInfo = availableParserInputsInfo[parserType];
@@ -250,10 +251,11 @@ let options: any[] = availableParsers.map((parserType: ParserType) => {
       parserInputs: {
         type: "object",
         default: {},
-        properties: Object.fromEntries(availableParserInputs[parserType].map(inputName=>{ return [
-          inputName,
-          convertToSchema(inputInfo[inputName].inputType)
-        ]}))
+        properties: Object.fromEntries(
+          availableParserInputs[parserType].map((inputName) => {
+            return [inputName, convertToSchema(inputInfo[inputName].inputType)];
+          }),
+        ),
       },
     });
   } else {

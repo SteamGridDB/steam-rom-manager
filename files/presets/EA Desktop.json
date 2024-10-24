@@ -1,89 +1,78 @@
 {
-	"EA Desktop": {
-		"parserType": "EA Desktop",
-		"configTitle": "EA Desktop",
-		"executableArgs": "",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb",
-			"steamCDN"
-		],
-		"disabled": false,
-		"executable": {
-			"path": "",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"eaGamesDir": "C:\\Program Files\\EA Games",
-			"eaLauncherMode": true
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"EA Desktop"
-		]
-	}
+  "EA Desktop": {
+    "parserType": "EA Desktop",
+    "configTitle": "EA Desktop",
+    "executableArgs": "",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb", "steamCDN"],
+    "disabled": false,
+    "executable": {
+      "path": "",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "eaGamesDir": "C:\\Program Files\\EA Games",
+      "eaLauncherMode": true
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["EA Desktop"]
+  }
 }

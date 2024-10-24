@@ -13,11 +13,12 @@ export class FormControlPipe implements PipeTransform {
   name: "formControlIndexed",
 })
 export class IndexedFormControlPipe implements PipeTransform {
-  transform(value: AbstractControl): IndexedFormControl<(typeof value)["value"]> {
+  transform(
+    value: AbstractControl,
+  ): IndexedFormControl<(typeof value)["value"]> {
     return value as IndexedFormControl<(typeof value)["value"]>;
   }
 }
-
 
 @Pipe({
   name: "formGroup",

@@ -132,7 +132,8 @@ export class NgNestedFormComponent implements OnInit {
           { onlySelf: true, emitEvent: false },
         );
 
-        let callbacks: ((c: IndexedFormControl<any>) => ValidationErrors)[] = [];
+        let callbacks: ((c: IndexedFormControl<any>) => ValidationErrors)[] =
+          [];
         if (child.onValidate) {
           callbacks.push((c) => {
             let error = child.onValidate(c, c["__path"]);

@@ -366,30 +366,35 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
       version: { method: versionUp },
       onlineImageQueries: {
         method: (oldValue, oldConfiguration) => {
-          const onlineImageQueries = oldConfiguration.onlineImageQueries
+          const onlineImageQueries = oldConfiguration.onlineImageQueries;
           delete oldConfiguration.onlineImageQueries;
-          if(onlineImageQueries) {
-            return extractNames(onlineImageQueries)
+          if (onlineImageQueries) {
+            return extractNames(onlineImageQueries);
           } else {
-            return []
+            return [];
           }
-        }
-      }
+        },
+      },
     },
     24: {
       version: { method: versionUp },
       titleFromVariable: {
         method: (oldValue, oldConfiguration) => {
-          let titleFromVariable = _.cloneDeep(oldConfiguration.titleFromVariable);
+          let titleFromVariable = _.cloneDeep(
+            oldConfiguration.titleFromVariable,
+          );
           const limitToGroups = titleFromVariable.limitToGroups;
           delete titleFromVariable.limitToGroups;
-          if(limitToGroups) {
-            return {...titleFromVariable, limitToGroups: extractNames(limitToGroups)}
+          if (limitToGroups) {
+            return {
+              ...titleFromVariable,
+              limitToGroups: extractNames(limitToGroups),
+            };
           } else {
-            return {...titleFromVariable, limitToGroups: []}
+            return { ...titleFromVariable, limitToGroups: [] };
           }
-        }
-      }
-    }
+        },
+      },
+    },
   },
 };

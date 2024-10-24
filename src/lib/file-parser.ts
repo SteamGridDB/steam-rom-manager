@@ -524,19 +524,18 @@ export class FileParser {
 
           let variableData = this.makeVariableData(config, settings, newFile);
 
-          if(config.titleModifier) {
+          if (config.titleModifier) {
             newFile.finalTitle = vParser.setInput(config.titleModifier).parse()
-            ? vParser.replaceVariables((variable) => {
-                return this.getVariable(
-                  variable as AllVariables,
-                  variableData,
-                ).trim();
-              })
-            : "";
+              ? vParser.replaceVariables((variable) => {
+                  return this.getVariable(
+                    variable as AllVariables,
+                    variableData,
+                  ).trim();
+                })
+              : "";
           } else {
-            newFile.finalTitle = fuzzyTitle
+            newFile.finalTitle = fuzzyTitle;
           }
-
 
           variableData.finalTitle = newFile.finalTitle;
 
@@ -560,36 +559,45 @@ export class FileParser {
           } else if (superType === parserInfo.ArtworkOnlyType) {
             newFile.argumentString = "";
           }
-          if(config.executableModifier) {
+          if (config.executableModifier) {
             newFile.modifiedExecutableLocation = vParser
-            .setInput(config.executableModifier)
-            .parse()
-            ? vParser.replaceVariables((variable) => {
-                return this.getVariable(
-                  variable as AllVariables,
-                  variableData,
-                ).trim();
-              })
-            : "";
+              .setInput(config.executableModifier)
+              .parse()
+              ? vParser.replaceVariables((variable) => {
+                  return this.getVariable(
+                    variable as AllVariables,
+                    variableData,
+                  ).trim();
+                })
+              : "";
           } else {
-            newFile.modifiedExecutableLocation = newFile.executableLocation ? `"${newFile.executableLocation}"` : "";
+            newFile.modifiedExecutableLocation = newFile.executableLocation
+              ? `"${newFile.executableLocation}"`
+              : "";
           }
-          newFile.onlineImageQueries = config.onlineImageQueries.map(query=>{
-            return vParser.setInput(query).parse() ? vParser.replaceVariables((variable)=> {
-              return this.getVariable(variable as AllVariables, variableData)
-            }) : null
-          }).filter(parsed=>!!parsed);
-          if(config.imagePool) {
+          newFile.onlineImageQueries = config.onlineImageQueries
+            .map((query) => {
+              return vParser.setInput(query).parse()
+                ? vParser.replaceVariables((variable) => {
+                    return this.getVariable(
+                      variable as AllVariables,
+                      variableData,
+                    );
+                  })
+                : null;
+            })
+            .filter((parsed) => !!parsed);
+          if (config.imagePool) {
             newFile.imagePool = vParser.setInput(config.imagePool).parse()
-            ? vParser.replaceVariables((variable) => {
-                return this.getVariable(
-                  variable as AllVariables,
-                  variableData,
-                ).trim();
-              })
-            : "";
+              ? vParser.replaceVariables((variable) => {
+                  return this.getVariable(
+                    variable as AllVariables,
+                    variableData,
+                  ).trim();
+                })
+              : "";
           } else {
-            newFile.imagePool=fuzzyTitle;
+            newFile.imagePool = fuzzyTitle;
           }
 
           newFile.steamCategories = config.steamCategories;
@@ -978,8 +986,11 @@ export class FileParser {
     data: ParsedDataWithFuzzy,
     config: UserConfiguration,
   ) {
-    const groups = _.intersectionWith(config.titleFromVariable.limitToGroups,
-      Object.keys(this.customVariableData)) || [];
+    const groups =
+      _.intersectionWith(
+        config.titleFromVariable.limitToGroups,
+        Object.keys(this.customVariableData),
+      ) || [];
     if (groups.length > 0) {
       for (let i = 0; i < data.success.length; i++) {
         let found = false;

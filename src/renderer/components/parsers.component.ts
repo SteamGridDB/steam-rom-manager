@@ -364,7 +364,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             //TODO Make Executable required but have the option to set it to None
             shortcutPassthrough: new NestedFormElement.Toggle({
               text: this.lang.text.shortcut_passthrough,
-            }), 
+            }),
             appendArgsToExecutable: new NestedFormElement.Toggle({
               isHidden: () => this.isHiddenIfNotRomsParser(),
               text: this.lang.text.appendArgsToExecutable,
@@ -739,7 +739,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
   updateShowMarkdown(showMarkdown: boolean) {
     this.showMarkdown = showMarkdown;
-    if(this.showMarkdown) {
+    if (this.showMarkdown) {
       this.renderer.setStyle(
         this.elementRef.nativeElement,
         "--markdown-width",
@@ -791,14 +791,18 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       }),
     );
     this.subscriptions.add(
-      this.cvService.dataObservable.subscribe((data)=> {
+      this.cvService.dataObservable.subscribe((data) => {
         this.customVariables = data;
-        if(this.nestedGroup) {
-          ((this.nestedGroup.children.titleFromVariable as NestedFormElement.Group)
-            .children.limitToGroups as NestedFormElement.Select).values = Object.keys(this.customVariables)
+        if (this.nestedGroup) {
+          (
+            (
+              this.nestedGroup.children
+                .titleFromVariable as NestedFormElement.Group
+            ).children.limitToGroups as NestedFormElement.Select
+          ).values = Object.keys(this.customVariables);
         }
-      })
-    )
+      }),
+    );
     this.subscriptions.add(
       this.parsersService.getSavedControllerTemplates().subscribe((data) => {
         this.parsersService.controllerTemplates = data;
@@ -1205,11 +1209,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                   );
                 }
               }
-              success(this.lang.success.imagePool__i.interpolate({
-                index: i+1,
-                total: totalLength,
-                imagePool: data.files[i].imagePool
-              }));
+              success(
+                this.lang.success.imagePool__i.interpolate({
+                  index: i + 1,
+                  total: totalLength,
+                  imagePool: data.files[i].imagePool,
+                }),
+              );
               if (data.files[i].onlineImageQueries.length) {
                 success(
                   this.lang.success.firstImageQuery__i.interpolate({
@@ -1484,7 +1490,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.userConfigurations !== undefined
     ) {
       this.formChanges.unsubscribe();
-      this.userForm.patchValue({parserInputs: null});
+      this.userForm.patchValue({ parserInputs: null });
       this.userForm.patchValue(this.parsersService.getDefaultValues());
       this.userForm.markAsPristine();
       this.loadedIndex = -1;

@@ -273,7 +273,7 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
       },
     },
     17: {
-      presetVersion: { method: versionUp},
+      presetVersion: { method: versionUp },
       onlineImageQueries: {
         method: (oldValue, oldConfiguration) => {
           const onlineImageQueries = oldConfiguration.onlineImageQueries;
@@ -284,22 +284,27 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
             return [];
           }
         },
-      }
+      },
     },
     18: {
       presetVersion: { method: versionUp },
       titleFromVariable: {
         method: (oldValue, oldConfiguration) => {
-          let titleFromVariable = _.cloneDeep(oldConfiguration.titleFromVariable);
+          let titleFromVariable = _.cloneDeep(
+            oldConfiguration.titleFromVariable,
+          );
           const limitToGroups = titleFromVariable.limitToGroups;
           delete titleFromVariable.limitToGroups;
-          if(limitToGroups) {
-            return {...titleFromVariable, limitToGroups: extractNames(limitToGroups)}
+          if (limitToGroups) {
+            return {
+              ...titleFromVariable,
+              limitToGroups: extractNames(limitToGroups),
+            };
           } else {
-            return {...titleFromVariable, limitToGroups: []}
+            return { ...titleFromVariable, limitToGroups: [] };
           }
-        }
-      }
-    }
+        },
+      },
+    },
   },
 };

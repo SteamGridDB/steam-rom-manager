@@ -1,686 +1,602 @@
 {
-	"Nintendo Wii U - Cemu (NUS/WUP)": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo WiiU - Cemu (NUS/WUP)",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-f -g \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}/@title(.tmd|.TMD)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "path-to-cemu.exe",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga"
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"Wii U"
-		]
-	},
-	"Nintendo Wii U - (NUS/WUP) (Flatpak)": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo WiiU - Cemu (NUS/WUP) (Flatpak)",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run info.cemu.Cemu -f -g \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}/@title(.tmd|.TMD)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga"
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"Wii U"
-		]
-	},
-	"Nintendo Wii U - Cemu (RPX)": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo WiiU - Cemu (RPX)",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-f -g \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}/*/*@(.rpx|.RPX)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "path-to-cemu.exe",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga"
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"Wii U"
-		]
-	},
-	"Nintendo Wii U - Cemu (RPX) (Flatpak)": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo WiiU - Cemu (RPX) (Flatpak)",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run info.cemu.Cemu -f -g \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}/*/*@(.rpx|.RPX)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga"
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"Wii U"
-		]
-	},
-	"Nintendo Wii U - Cemu (RPX - Installed)": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo WiiU - Cemu (RPX - Installed)",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-cemu-mlc01-usr-title-00050000",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-f -g \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}/*/*@(.rpx|.RPX)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": true,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": [
-				"WIIU"
-			]
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "path-to-cemu.exe",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga"
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"Wii U"
-		]
-	},
-	"Nintendo Wii U - Cemu (RPX - Installed) (Flatpak)": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo WiiU - Cemu (RPX - Installed) (Flatpak)",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-cemu-mlc01-usr-title-00050000",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run info.cemu.Cemu -f -g \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}/*/*@(.rpx|.RPX)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": true,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": [
-				"WIIU"
-			]
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga"
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"Wii U"
-		]
-	},
-	"Nintendo Wii U - Cemu (WUD/WUX)": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo WiiU - Cemu (WUD/WUX)",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "-f -g \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.wud|.WUD|.wux|.WUX)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "path-to-cemu.exe",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"Wii U"
-		]
-	},
-	"Nintendo Wii U - Cemu (WUD/WUX) (Flatpak)": {
-		"parserType": "Glob",
-		"configTitle": "Nintendo WiiU - Cemu (WUD/WUX) (Flatpak)",
-		"executableModifier": "\"${exePath}\"",
-		"romDirectory": "path-to-roms",
-		"steamDirectory": "${steamdirglobal}",
-		"startInDirectory": "",
-		"titleModifier": "${fuzzyTitle}",
-		"executableArgs": "run info.cemu.Cemu -f -g \"${filePath}\"",
-		"onlineImageQueries": [
-			"${fuzzyTitle}"
-		],
-		"imagePool": "${fuzzyTitle}",
-		"imageProviders": [
-			"sgdb"
-		],
-		"disabled": false,
-		"userAccounts": {
-			"specifiedAccounts": [
-				"Global"
-			]
-		},
-		"parserInputs": {
-			"glob": "${title}@(.wud|.WUD|.wux|.WUX)"
-		},
-		"titleFromVariable": {
-			"caseInsensitiveVariables": false,
-			"skipFileIfVariableWasNotFound": false,
-			"limitToGroups": []
-		},
-		"fuzzyMatch": {
-			"replaceDiacritics": true,
-			"removeCharacters": true,
-			"removeBrackets": true
-		},
-		"executable": {
-			"path": "/usr/bin/flatpak",
-			"shortcutPassthrough": false,
-			"appendArgsToExecutable": true
-		},
-		"presetVersion": 19,
-		"imageProviderAPIs": {
-			"sgdb": {
-				"nsfw": false,
-				"humor": false,
-				"imageMotionTypes": [
-					"static"
-				],
-				"styles": [],
-				"stylesHero": [],
-				"stylesLogo": [],
-				"stylesIcon": []
-			},
-			"steamCDN": {}
-		},
-		"controllers": {
-			"ps4": null,
-			"ps5": null,
-			"xbox360": null,
-			"xboxone": null,
-			"switch_joycon_left": null,
-			"switch_joycon_right": null,
-			"switch_pro": null,
-			"neptune": null
-		},
-		"defaultImage": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"localImages": {
-			"long": "",
-			"tall": "",
-			"hero": "",
-			"logo": "",
-			"icon": ""
-		},
-		"steamInputEnabled": "1",
-		"drmProtect": false,
-		"steamCategories": [
-			"Wii U"
-		]
-	}
+  "Nintendo Wii U - Cemu (NUS/WUP)": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo WiiU - Cemu (NUS/WUP)",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-f -g \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}/@title(.tmd|.TMD)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "path-to-cemu.exe",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga"
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["Wii U"]
+  },
+  "Nintendo Wii U - (NUS/WUP) (Flatpak)": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo WiiU - Cemu (NUS/WUP) (Flatpak)",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "run info.cemu.Cemu -f -g \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}/@title(.tmd|.TMD)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "/usr/bin/flatpak",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga"
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["Wii U"]
+  },
+  "Nintendo Wii U - Cemu (RPX)": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo WiiU - Cemu (RPX)",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-f -g \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}/*/*@(.rpx|.RPX)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "path-to-cemu.exe",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga"
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["Wii U"]
+  },
+  "Nintendo Wii U - Cemu (RPX) (Flatpak)": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo WiiU - Cemu (RPX) (Flatpak)",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "run info.cemu.Cemu -f -g \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}/*/*@(.rpx|.RPX)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "/usr/bin/flatpak",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga"
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["Wii U"]
+  },
+  "Nintendo Wii U - Cemu (RPX - Installed)": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo WiiU - Cemu (RPX - Installed)",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-cemu-mlc01-usr-title-00050000",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-f -g \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}/*/*@(.rpx|.RPX)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": true,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": ["WIIU"]
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "path-to-cemu.exe",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga"
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["Wii U"]
+  },
+  "Nintendo Wii U - Cemu (RPX - Installed) (Flatpak)": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo WiiU - Cemu (RPX - Installed) (Flatpak)",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-cemu-mlc01-usr-title-00050000",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "run info.cemu.Cemu -f -g \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}/*/*@(.rpx|.RPX)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": true,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": ["WIIU"]
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "/usr/bin/flatpak",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": "${dir}/../*${/\\[.*?\\]/g|${title}|}*/meta/iconTex.tga"
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["Wii U"]
+  },
+  "Nintendo Wii U - Cemu (WUD/WUX)": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo WiiU - Cemu (WUD/WUX)",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-f -g \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.wud|.WUD|.wux|.WUX)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "path-to-cemu.exe",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["Wii U"]
+  },
+  "Nintendo Wii U - Cemu (WUD/WUX) (Flatpak)": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo WiiU - Cemu (WUD/WUX) (Flatpak)",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "run info.cemu.Cemu -f -g \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.wud|.WUD|.wux|.WUX)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "/usr/bin/flatpak",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["Wii U"]
+  }
 }

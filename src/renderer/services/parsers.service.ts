@@ -382,7 +382,7 @@ export class ParsersService {
           ? null
           : this.lang.validationErrors.executable__md;
       case "romDirectory":
-        return this.validateEnvironmentPath(data||"", true)
+        return this.validateEnvironmentPath(data || "", true)
           ? null
           : this.lang.validationErrors.romDir__md;
       case "steamDirectory":
@@ -436,13 +436,16 @@ export class ParsersService {
       case "executableModifier":
         return this.validateVariableParserString(data || "");
       case "onlineImageQueries":
-        if(!data) return null;
-        for(let query of data){
-          let err= this.validateVariableParserString(query)
-          if(!err) {continue}
-          else { return `${err}\\\nBad query: \`${query}\``}
+        if (!data) return null;
+        for (let query of data) {
+          let err = this.validateVariableParserString(query);
+          if (!err) {
+            continue;
+          } else {
+            return `${err}\\\nBad query: \`${query}\``;
+          }
         }
-        return null
+        return null;
       case "executableArgs":
         return this.validateVariableParserString(data || "");
       case "imagePool":

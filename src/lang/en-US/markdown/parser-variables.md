@@ -48,7 +48,7 @@ In case executable directory input is left **empty**, `${exePath}`{.noWrap} is e
 |                  `${title}` | Extracted title                                  |
 |             `${fuzzyTitle}` | Fuzzy matched title                              |
 |             `${finalTitle}` | Title which was the end result of title modifier |
-|             `${parserTitle}` | The value of the `Parser Title` field |
+|            `${parserTitle}` | The value of the `Parser Title` field            |
 
 In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
 

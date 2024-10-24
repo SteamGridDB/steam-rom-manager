@@ -66,28 +66,35 @@
       }
     }
   }
-  ng-text-input, ng-bubbles, ng-select {
-    &.required,&.missing,&.filled {
+  ng-text-input,
+  ng-bubbles,
+  ng-select {
+    &.required,
+    &.missing,
+    &.filled {
       .display {
         border: 0;
       }
     }
     &.required {
-      border: 1px solid var(--color--required)!important;
-      &:hover, &:focus {
-        border: 1px solid var(--color--required-hover)!important;
+      border: 1px solid var(--color--required) !important;
+      &:hover,
+      &:focus {
+        border: 1px solid var(--color--required-hover) !important;
       }
     }
     &.missing {
-      border: 1px solid var(--color--missing)!important;
-      &:hover, &:focus {
-        border: 1px solid var(--color--missing-hover)!important;
+      border: 1px solid var(--color--missing) !important;
+      &:hover,
+      &:focus {
+        border: 1px solid var(--color--missing-hover) !important;
       }
     }
     &.filled {
-      border: 1px solid var(--color--filled)!important;
-      &:hover, &:focus {
-        border: 1px solid var(--color--filled-hover)!important;
+      border: 1px solid var(--color--filled) !important;
+      &:hover,
+      &:focus {
+        border: 1px solid var(--color--filled-hover) !important;
       }
     }
   }
@@ -191,8 +198,8 @@
   --color-nav-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-nav-scrollbar-track: rgba(80, 80, 80, 0.3);
   --height-navarea: 250px;
-  --color-ng-bubbles-background: rgba(14,131,20,0.4);
-  --color-ng-bubbles-border: rgb(14,131,20);
+  --color-ng-bubbles-background: rgba(14, 131, 20, 0.4);
+  --color-ng-bubbles-border: rgb(14, 131, 20);
   --color-ng-select-arrow: #c8c8c8;
   --color-ng-select-arrow-active: #c8c8c8;
   --color-ng-select-arrow-hover: #c8c8c8;
@@ -547,28 +554,35 @@
     }
   }
 
-  ng-text-input, ng-bubbles, ng-select {
-    &.required,&.missing,&.filled {
+  ng-text-input,
+  ng-bubbles,
+  ng-select {
+    &.required,
+    &.missing,
+    &.filled {
       .display {
         border: 0;
       }
     }
     &.required {
-      border: 1px solid var(--color--required)!important;
-      &:hover, &:focus {
-        border: 1px solid var(--color--required-hover)!important;
+      border: 1px solid var(--color--required) !important;
+      &:hover,
+      &:focus {
+        border: 1px solid var(--color--required-hover) !important;
       }
     }
     &.missing {
-      border: 1px solid var(--color--missing)!important;
-      &:hover, &:focus {
-        border: 1px solid var(--color--missing-hover)!important;
+      border: 1px solid var(--color--missing) !important;
+      &:hover,
+      &:focus {
+        border: 1px solid var(--color--missing-hover) !important;
       }
     }
     &.filled {
-      border: 1px solid var(--color--filled)!important;
-      &:hover, &:focus {
-        border: 1px solid var(--color--filled-hover)!important;
+      border: 1px solid var(--color--filled) !important;
+      &:hover,
+      &:focus {
+        border: 1px solid var(--color--filled-hover) !important;
       }
     }
   }
@@ -938,7 +952,7 @@
   --grid-app: "titlebar" "route" "navarea";
   --grid-app-rows: auto 1fr auto;
   --grid-app-columns: auto;
-  --color--accent: rgb(49,160,244);
+  --color--accent: rgb(49, 160, 244);
   --color--required: var(--color--accent);
   --color--required-hover: var(--color--required);
   --color--missing: var(--color-error);
@@ -1036,8 +1050,8 @@
   --color-nav-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-nav-scrollbar-track: rgba(80, 80, 80, 0.3);
   --height-navarea: auto;
-  --color-ng-bubbles-background: rgba(49,160,244,0.4);
-  --color-ng-bubbles-border: rgb(49,160,244);
+  --color-ng-bubbles-background: rgba(49, 160, 244, 0.4);
+  --color-ng-bubbles-border: rgb(49, 160, 244);
   --color-ng-select-arrow: #c8c8c8;
   --color-ng-select-arrow-active: #c8c8c8;
   --color-ng-select-arrow-hover: #c8c8c8;
@@ -1317,20 +1331,24 @@
   .previewSpinner {
     margin-left: calc(0.5 * (100vw - var(--nav-width)) - 2.5em);
   }
-  ng-text-input, ng-bubbles, ng-select {
-    &.required,&.missing,&.filled {
+  ng-text-input,
+  ng-bubbles,
+  ng-select {
+    &.required,
+    &.missing,
+    &.filled {
       .display {
         border: 0;
       }
     }
     &.required {
-      border-left: 4px solid var(--color--required)!important;
+      border-left: 4px solid var(--color--required) !important;
     }
     &.missing {
-      border-left: 4px solid var(--color--missing)!important;
+      border-left: 4px solid var(--color--missing) !important;
     }
     &.filled {
-      border-left: 4px solid var(--color--filled)!important;
+      border-left: 4px solid var(--color--filled) !important;
     }
   }
   --grid-app: "titlebar titlebar titlebar" "navarea navborder route";
@@ -1431,8 +1449,8 @@
   --color-nav-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-nav-scrollbar-track: rgba(80, 80, 80, 0.3);
   --height-navarea: 360px;
-  --color-ng-bubbles-background: rgba(49,160,244,0.4);
-  --color-ng-bubbles-border: rgb(49,160,244);
+  --color-ng-bubbles-background: rgba(49, 160, 244, 0.4);
+  --color-ng-bubbles-border: rgb(49, 160, 244);
   --color-ng-select-arrow: #c8c8c8;
   --color-ng-select-arrow-active: #c8c8c8;
   --color-ng-select-arrow-hover: #c8c8c8;

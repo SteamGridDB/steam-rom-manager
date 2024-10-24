@@ -2,15 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2.5.26
+## 2.5.27
 
 ### Added
 
+- Ability to open and close markdown docs in parsers.
+- Emphasis on which fields are required/important in parsers.
 - Ability to search for square 512x512 and 1024x1024 images for capsules and wide capsules (disabled by default). Resolves [issue 703](https://github.com/SteamGridDB/steam-rom-manager/issues/703).
 
 ### Changed
 
 - Simplify "Create Parser" interface by starting with "Title Modifier", "Controllers", "Artwork Providers", and "Local Artwork" sections all minimized.
+- Search queries is now a bubble input rather than a text field.
+- Title from Custom Variable is now a dropdown instead of a text field.
+- Executable Modifier, Artwork Pool, Title Modifier fields no longer mandatory, they just default to sensible values when empty.
 
 ## 2.5.25
 
