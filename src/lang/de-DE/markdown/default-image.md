@@ -1,4 +1,4 @@
-# Standardbild (optional) `[unterstützt Variablen]`{.noWrap}
+# Default image `[supports variables]`{.noWrap}
 
 Ermöglicht es, ein lokal gespeichertes Bild als Standard/Fallback-Bild zu verwenden. Um Bilder abzurufen, wird ein [special Glob input](#special-glob-input) String verwendet. Es wird nur das erste abgerufene Bild verwendet.
 
