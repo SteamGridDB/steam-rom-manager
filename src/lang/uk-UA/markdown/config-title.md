@@ -1,3 +1,5 @@
-# Заголовок конфігурації
+# Parser title
 
-Заголовок для збереження конфігурації користувача. Не має бути унікальним, але обов’язковим.
+Title of the parser. Does not have to be unique, but is required.
+
+This field will not affect what is added to `Steam` in any way.
