@@ -1,3 +1,5 @@
-# 配置标题
+# Parser title
 
-将用户配置保存为的标题。 不必唯一，但是必须存在。
+Title of the parser. Does not have to be unique, but is required.
+
+This field will not affect what is added to `Steam` in any way.
