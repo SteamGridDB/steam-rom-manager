@@ -1,4 +1,4 @@
-# 可执行文件（可选）`[支持环境变量]`
+# Executable `[supports env variables]`
 
 模拟器可执行文件的路径。 可以是文件或任何有效的系统路径。
 
