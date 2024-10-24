@@ -1,4 +1,4 @@
-# Bannière par défaut (facultative) `[prend en charge les variables]`{.noWrap}
+# Default image `[supports variables]`{.noWrap}
 
 Permet d'utiliser une image stockée localement, comme bannière par défaut. Un [glob spéciale](#special-glob-input) est utilisée pour récupérer les images. Seule la première image récupérée est utilisée.
 
