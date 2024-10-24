@@ -1,4 +1,4 @@
-# "Diretório de Manifestos `[Suporta Variáveis de Ambiente]`
+# Executable `[supports env variables]`
 
 Caminho para o executável do emulador. Pode ser um arquivo ou qualquer caminho de sistema válido.
 
