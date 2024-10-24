@@ -16,7 +16,6 @@ import {
   FileParser,
   VariableParser,
   ControllerManager,
-  CategoryManager,
 } from "../../lib";
 import { BehaviorSubject, Subject } from "rxjs";
 import { takeWhile } from "rxjs/operators";
@@ -33,6 +32,7 @@ import * as schemas from "../schemas";
 import * as modifiers from "../modifiers";
 import * as fs from "fs-extra";
 import * as _ from "lodash";
+import * as os from "os";
 
 @Injectable()
 export class ParsersService {
@@ -378,7 +378,8 @@ export class ParsersService {
       case "steamCategories":
         return null;
       case "executable":
-        return !(data || {}).path || this.validateEnvironmentPath(data.path)
+        const isDir = os.type() == 'Darwin' ? undefined : false;
+        return !(data || {}).path || this.validateEnvironmentPath(data.path, isDir)
           ? null
           : this.lang.validationErrors.executable__md;
       case "romDirectory":
@@ -415,7 +416,12 @@ export class ParsersService {
               if (data["parser"] !== "Manual" && !data["inputData"]) {
                 return null;
               }
-              const isDir = inputInfo.inputType == "dir";
+              let isDir: boolean;
+              if(os.type()=='Darwin') {
+                isDir = inputInfo.inputType == "dir" ? true : undefined;
+              } else {
+                isDir = inputInfo.inputType == "dir" ? true : false;
+              }
               return this.validateEnvironmentPath(
                 data["inputData"] || "",
                 isDir,
@@ -476,7 +482,7 @@ export class ParsersService {
 
   private validateEnvironmentPath(
     pathwithvar: string,
-    checkForDirectory?: boolean,
+    checkForDirectory: boolean,
   ) {
     let preParser = new VariableParser({ left: "${", right: "}" });
     let parsedPath = preParser.setInput(pathwithvar).parse()
@@ -489,7 +495,7 @@ export class ParsersService {
             .trim();
         })
       : "";
-    return file.validatePath(parsedPath, !!checkForDirectory);
+    return file.validatePath(parsedPath, checkForDirectory);
   }
 
   isConfigurationValid(config: UserConfiguration) {
