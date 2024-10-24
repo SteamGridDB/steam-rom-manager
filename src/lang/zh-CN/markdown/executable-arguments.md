@@ -1,4 +1,4 @@
-# 命令行参数（可选）`[支持变量]`{.noWrap}
+# Command line arguments `[supports variables]`{.noWrap}
 
 附加到可执行文件以生成最终快捷方式的参数。 大多数情况下，您将希望使用提供的解析器变量进行设置。
 
@@ -49,7 +49,7 @@
 ### Nestopia (NES/Famicom)
 
 ```
-"${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen on start : yes -view size fullscreen : stretched 
+"${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen on start : yes -view size fullscreen : stretched
 ```
 
 ### higan (NES/Famicom, SNES/Famicom, Gameboy, Gameboy Color, Gameboy Advance)
@@ -187,6 +187,7 @@
 ### 函数变量示例
 
 Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables: Then these variables: 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量： 然后这些变量：
+
 ```
 ${/.*/|${title}}                           //匹配所有内容
 ${/(.*)/|${title}}                         //捕获所有内容
@@ -196,7 +197,9 @@ ${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //捕获“Disc…”部分并将其�
 ${rdc|${title}}                            //替换变音符号（在本例中：é -> e）
 file${os:linux|.so|${os:win|.dll}}          //选择适用于操作系统的正确文件扩展名
 ```
+
 将被替换为以下内容：
+
 ```
 Pokémon (USA) (Disc 1).iso
 Pokémon (USA) (Disc 1).iso
