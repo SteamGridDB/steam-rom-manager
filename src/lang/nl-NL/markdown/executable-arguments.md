@@ -1,4 +1,4 @@
-# Opdrachtregelargumenten (optioneel) `[ondersteunt variabelen]`{.noWrap}
+# Command line arguments `[supports variables]`{.noWrap}
 
 Argumenten die aan het uitvoerbare bestand worden toegevoegd om de definitieve snelkoppeling te produceren. Meestal wilt u dit instellen met behulp van de meegeleverde parservariabelen.
 
@@ -49,7 +49,7 @@ Argumenten die aan het uitvoerbare bestand worden toegevoegd om de definitieve s
 ### Nestopia (NES/Famicom)
 
 ```
-"${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen fullscreen on start: yes -view size fullscreen : stretched 
+"${filePath}" -video fullscreen bpp : 16 -video fullscreen width : 1024 -video fullscreen height : 768 -preferences fullscreen fullscreen on start: yes -view size fullscreen : stretched
 ```
 
 ### higan (NES/Famicom, SNES/Famicom, Gameboy, Gameboy Color en Gameboy Advance)
@@ -187,6 +187,7 @@ Als fuzzy matching **mislukt** of **uitgeschakeld** is, is `${fuzzyTitle}`{.noWr
 ### Function variable example
 
 Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
+
 ```
 ${/.*/|${title}}                           //Matches everything
 ${/(.*)/|${title}}                         //Captures everything
@@ -196,7 +197,9 @@ ${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transfo
 ${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
 file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
 ```
+
 will be replaced with these:
+
 ```
 Pokémon (USA) (Disc 1).iso
 Pokémon (USA) (Disc 1).iso
