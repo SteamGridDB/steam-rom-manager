@@ -1,4 +1,4 @@
-# Imagem padrão (opcional) `[suporta variáveis]`{.noWrap}
+# Default image `[supports variables]`{.noWrap}
 
 Permite que uma pessoa use uma imagem armazenada localmente, como uma imagem padrão/fallback. Uma entrada glob [especial](#special-glob-input) string é usada para recuperar imagens. Apenas a primeira imagem recuperada é usada.
 
