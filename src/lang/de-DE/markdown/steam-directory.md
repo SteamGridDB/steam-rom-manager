@@ -1,4 +1,4 @@
-# Steam-Verzeichnis `[unterstützt Umgebungsvariablen]`{.noWrap}
+# Steam directory `[supports env variables]`
 
 Muss ein gültiges Steam-Verzeichnis sein, das die Programmdatei für Steam enthält. Damit das Steam-Konto erkannt werden kann, muss sich ein Benutzer mindestens einmal eingeloggt haben.
 
