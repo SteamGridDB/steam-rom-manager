@@ -1,4 +1,4 @@
-# Immagine predefinita (opzionale) `[supporta variabili]`{.noWrap}
+# Default image `[supports variables]`{.noWrap}
 
 Consente di utilizzare un'immagine memorizzata localmente, come immagine predefinita/di fallback. Una stringa [speciale di input glob](#special-glob-input) viene utilizzata per recuperare le immagini. Viene utilizzata solo la prima immagine recuperata.
 
