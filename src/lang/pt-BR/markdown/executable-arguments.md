@@ -1,4 +1,4 @@
-# Imagem de logotipo padrão (opcional) `[suporta variáveis]`{.noWrap}
+# Command line arguments `[supports variables]`{.noWrap}
 
 Argumentos que são anexados ao executável para produzir o atalho final. Na maioria das vezes você vai querer configurá-lo usando as variáveis de análise fornecidas.
 
@@ -49,7 +49,7 @@ Argumentos que são anexados ao executável para produzir o atalho final. Na mai
 ### Nestopia (NES/Família)
 
 ```
-"${filePath}" -video fullscreen bpp : 16 -video fullscreen largura em tela cheia: 1024 -video fullscreen altura : 768 -preferences fullscreen no inicio : yes -view size fullscreen : esticado 
+"${filePath}" -video fullscreen bpp : 16 -video fullscreen largura em tela cheia: 1024 -video fullscreen altura : 768 -preferences fullscreen no inicio : yes -view size fullscreen : esticado
 ```
 
 ### higan (NES/Famicom, SNES/Famicom, Gameboy, Cor do Gameboy, Advance)
@@ -187,6 +187,7 @@ No caso de correspondência difusa **falhar** ou está **desabilitado**, `${fuzz
 ### Exemplo de variável função
 
 Digamos que a variável `${title}` é igual a `Poke├mon (EUA) (Disc 1).iso`. Então essas variáveis:
+
 ```
 ${/.*/➲${title}} //Corresponde a tudo
 ${/(.)/，${title}} //Captura tudo
@@ -196,7 +197,9 @@ ${uccerteza, ${/(\(Disc\s?[0-9]\))/¡${title}}} //Captures "Disco... peça e tra
 ${rdc├${title}} //Substituir caracteres diacríticos (nesse caso: e├-> e)
 arquivo${os:linuxwill.. oive ${os:win|.dll}} //Selects a extensão de arquivo correta para o SO
 ```
+
 será substituído por estes:
+
 ```
 Pokémon (USA) (Disc 1).iso Pokémon (USA) (Disc 1).iso Pokémon.iso
 (Disc 1)
