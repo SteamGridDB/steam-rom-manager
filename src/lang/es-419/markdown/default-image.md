@@ -1,4 +1,4 @@
-# Imagen predeterminada (opcional) `[supports variables]`{.noWrap}
+# Default image `[supports variables]`{.noWrap}
 
 Permite utilizar una imagen almacenada localmente como imagen predeterminada. Se utiliza una cadena [de entrada glob especial](#special-glob-input) para extraer imágenes. Solo la primera imagen extraída será utilizada.
 
