@@ -1,4 +1,6 @@
-<markdown class="docs" [content]="this.currentDoc.content"></markdown>
+@if (showMarkdown) {
+  <markdown class="docs" [content]="this.currentDoc.content"></markdown>
+}
 <choose-accounts
   [showChooseAccounts]="chooseUserAccountsVisible"
   [steamDirectory]="steamDirectoryForChooseAccounts"
@@ -24,6 +26,7 @@
   </ng-select>
   <ng-nested-form
     (parentFormChange)="userForm = $event"
+    (showMarkdown)="updateShowMarkdown($event)"
     [nestedGroup]="nestedGroup"
   ></ng-nested-form>
 </div>
@@ -38,7 +41,10 @@
     >
       {{ lang.buttons.undoDelete }}
     </div>
-    <div (click)="openFAQ()">{{ lang.buttons.faq }}</div>
+    <div (click)="updateShowMarkdown(true); openFAQ()">{{ lang.buttons.faq }}</div>
+    <div *ngIf="showMarkdown" 
+    class="dangerousButton"
+    (click)="updateShowMarkdown(false)">Close Docs</div>
   </ng-container>
   <ng-template #moreOptions>
     <div (click)="updateForm()">{{ lang.buttons.save }}</div>
@@ -104,6 +110,9 @@
         />
       </svg>
     </div>
-    <div (click)="openFAQ()">{{ lang.buttons.faq }}</div>
+    <div (click)="updateShowMarkdown(true); openFAQ()">{{ lang.buttons.faq }}</div>
+    <div *ngIf="showMarkdown" 
+    class="dangerousButton"
+    (click)="updateShowMarkdown(false)">Close Docs</div>
   </ng-template>
 </div>

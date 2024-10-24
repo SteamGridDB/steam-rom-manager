@@ -1,6 +1,8 @@
 @import "mixins";
 
 :host {
+  --markdown-width: 0fr;
+
   display: grid;
   //display: none;
   overflow: auto;
@@ -10,7 +12,7 @@
     "docs nestedForm"
     "menu menu";
 
-  grid-template-columns: 0.7fr 1fr;
+  grid-template-columns: var(--markdown-width) 1fr;
   grid-template-rows: 1fr auto;
 
   .docs {

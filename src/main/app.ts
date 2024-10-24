@@ -169,17 +169,17 @@ function createWindow(show: boolean) {
     maximize: false,
     path: paths.userDataDir,
   });
-
+  let minWidth = 800;
   mainWindow = new BrowserWindow({
     x: show ? mainWindowState.x : undefined,
     y: show ? mainWindowState.y : undefined,
     width: show
-      ? mainWindowState.width < 1024
-        ? 1024
+      ? mainWindowState.width < minWidth
+        ? minWidth
         : mainWindowState.width
       : 0,
     height: show ? mainWindowState.height : 0,
-    minWidth: show ? 1024 : undefined,
+    minWidth: show ? minWidth : undefined,
     minHeight: show ? 600 : undefined,
     frame: false,
     show: show,

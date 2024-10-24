@@ -32,6 +32,7 @@
                     class="infoButton infoIcon"
                     *ngIf="child.onInfoClick"
                     (click)="
+                      showMarkdown.next(true);
                       child.onInfoClick(
                         currentForm.controls[childrenKey],
                         currentControl['__path']
@@ -42,7 +43,6 @@
                 {{ child.label }}
                 <small *ngIf="child.required" class="reqText">*Required</small>
                 <small *ngIf="child.important" class="reqText">*Important</small>
-
               </label>
               <ng-container [ngSwitch]="child.constructor.displayName">
                 <ng-container *ngSwitchCase="'Select'">

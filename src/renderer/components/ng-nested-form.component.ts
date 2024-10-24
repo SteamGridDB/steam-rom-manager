@@ -36,6 +36,7 @@ export class NgNestedFormComponent implements OnInit {
   @Input() public nestedGroup: NestedFormElement.Group;
 
   @Output() private parentFormChange = new EventEmitter();
+  @Output() showMarkdown: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private changeRef: ChangeDetectorRef) {}
 

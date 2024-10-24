@@ -86,6 +86,7 @@ export namespace NestedFormElement {
     disabled?: boolean;
     /** Optional */
     required?: boolean;
+    /** Optional */
     onValidate?: NestedInputValidator;
     /** Optional */
     onValidateObservable?: NestedInputValidatorObservable;
@@ -95,7 +96,6 @@ export namespace NestedFormElement {
     addable?: boolean;
     /** Optional */
     onInfoClick?: NestedInputInfoClick;
-    /** Optional */
     /** Optional */
     highlight?: (input: string, tag: string) => string;
     path?: {

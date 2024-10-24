@@ -6,6 +6,9 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Renderer2,
+  ElementRef,
+  RendererStyleFlags2,
 } from "@angular/core";
 import { FormGroup, AbstractControl } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -59,6 +62,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     activePath: "",
     content: "",
   };
+  showMarkdown: boolean = false;
   configurationIndex: number = -1;
   isUnsaved: boolean = false;
   configPresets: ConfigPresets = {};
@@ -86,6 +90,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private settingsService: SettingsService,
     private imageProviderService: ImageProviderService,
     private userExceptionsService: UserExceptionsService,
+    private renderer: Renderer2,
+    private elementRef: ElementRef,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
@@ -203,6 +209,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }),
               ],
               onInfoClick: (self, path) => {
+                this.updateShowMarkdown(true);
                 this.currentDoc.activePath = path.join();
                 this.currentDoc.content =
                   this.lang.docs__md.userAccounts.join("");
@@ -267,6 +274,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 const onInfoClick = (self: any, path: string[]) => {
                   this.currentDoc.activePath = path.join();
                   this.currentDoc.content = input.info;
+                  this.updateShowMarkdown(true);
                 };
                 if (["path", "dir", "text"].includes(input.inputType)) {
                   parserInputs[inputFieldName] = new NestedFormElement.Input({
@@ -729,6 +737,25 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     return parserInfo;
   }
 
+  updateShowMarkdown(showMarkdown: boolean) {
+    this.showMarkdown = showMarkdown;
+    if(this.showMarkdown) {
+      this.renderer.setStyle(
+        this.elementRef.nativeElement,
+        "--markdown-width",
+        "0.7fr",
+        RendererStyleFlags2.DashCase,
+      );
+    } else {
+      this.renderer.setStyle(
+        this.elementRef.nativeElement,
+        "--markdown-width",
+        "0fr",
+        RendererStyleFlags2.DashCase,
+      );
+    }
+  }
+
   ngAfterViewInit() {
     this.subscriptions.add(
       this.parsersService.getUserConfigurations().subscribe((data) => {
@@ -875,6 +902,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   }
 
   presetsInfoClick() {
+    this.updateShowMarkdown(true);
     this.currentDoc.activePath = "";
     this.currentDoc.content = this.lang.docs__md.communityPresets.join("");
   }

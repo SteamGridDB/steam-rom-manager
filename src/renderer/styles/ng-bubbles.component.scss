@@ -21,8 +21,8 @@
       padding: 5px;
       justify-content: space-between;
       align-items: center;
-      background: rgba(14, 131, 20, 0.4);
-      border: solid 2px rgb(14, 131, 20);
+      background: var(--color-ng-bubbles-background);
+      border: solid 2px var(--color-ng-bubbles-border);
       color: white;
       opacity: 0.8;
       border-radius: 10px;

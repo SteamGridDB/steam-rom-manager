@@ -191,6 +191,8 @@
   --color-nav-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-nav-scrollbar-track: rgba(80, 80, 80, 0.3);
   --height-navarea: 250px;
+  --color-ng-bubbles-background: rgba(14,131,20,0.4);
+  --color-ng-bubbles-border: rgb(14,131,20);
   --color-ng-select-arrow: #c8c8c8;
   --color-ng-select-arrow-active: #c8c8c8;
   --color-ng-select-arrow-hover: #c8c8c8;
@@ -198,7 +200,6 @@
   --color-ng-select-background-active: #101010;
   --color-ng-select-background-hover: #121212;
   --color-ng-select-section-background: #101010;
-
   --color-ng-select-border: #0d7e35;
   --color-ng-select-border-active: rgb(12, 83, 47);
   --color-ng-select-border-hover: #1bd85e;
@@ -937,7 +938,7 @@
   --grid-app: "titlebar" "route" "navarea";
   --grid-app-rows: auto 1fr auto;
   --grid-app-columns: auto;
-  --color--accent: #31a0f4;
+  --color--accent: rgb(49,160,244);
   --color--required: var(--color--accent);
   --color--required-hover: var(--color--required);
   --color--missing: var(--color-error);
@@ -1035,6 +1036,8 @@
   --color-nav-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-nav-scrollbar-track: rgba(80, 80, 80, 0.3);
   --height-navarea: auto;
+  --color-ng-bubbles-background: rgba(49,160,244,0.4);
+  --color-ng-bubbles-border: rgb(49,160,244);
   --color-ng-select-arrow: #c8c8c8;
   --color-ng-select-arrow-active: #c8c8c8;
   --color-ng-select-arrow-hover: #c8c8c8;
@@ -1321,13 +1324,13 @@
       }
     }
     &.required {
-      border-left: 3px solid var(--color--required)!important;
+      border-left: 4px solid var(--color--required)!important;
     }
     &.missing {
-      border-left: 3px solid var(--color--missing)!important;
+      border-left: 4px solid var(--color--missing)!important;
     }
     &.filled {
-      border-left: 3px solid var(--color--filled)!important;
+      border-left: 4px solid var(--color--filled)!important;
     }
   }
   --grid-app: "titlebar titlebar titlebar" "navarea navborder route";
@@ -1428,6 +1431,8 @@
   --color-nav-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-nav-scrollbar-track: rgba(80, 80, 80, 0.3);
   --height-navarea: 360px;
+  --color-ng-bubbles-background: rgba(49,160,244,0.4);
+  --color-ng-bubbles-border: rgb(49,160,244);
   --color-ng-select-arrow: #c8c8c8;
   --color-ng-select-arrow-active: #c8c8c8;
   --color-ng-select-arrow-hover: #c8c8c8;
@@ -1532,7 +1537,7 @@
   --color-preview-app-button-active: #ffffff;
   --color-preview-app-button-hover: #cccccc;
   --color-nested-form-background: rgba(29, 29, 29, 0.7);
-  --color-nested-form-error-border: #560909;
+  --color-nested-form-error-border: #fbfd81;
   --color-nested-form-error: inherit;
   --color-nested-form-error-background: inherit;
   --margin-nested-form-error: 0 0 0 0;
