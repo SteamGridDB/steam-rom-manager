@@ -1,4 +1,4 @@
-# Eseguibile (opzionale) `[supporta le variabili d'ambiente]`
+# Executable `[supports env variables]`
 
 Percorso all'eseguibile dell'emulatore. Può essere un file o qualsiasi percorso di sistema valido.
 
