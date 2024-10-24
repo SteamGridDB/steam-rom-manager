@@ -1,3 +1,5 @@
-# Название конфигурации
+# Parser title
 
-Название для сохранения пользовательской конфигурации. Не обязательно уникальный, но обязательный.
+Title of the parser. Does not have to be unique, but is required.
+
+This field will not affect what is added to `Steam` in any way.
