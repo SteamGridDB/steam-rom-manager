@@ -1,6 +1,7 @@
 @import "mixins";
 
 :host {
+  --markdown-width: 0fr;
   display: grid;
   overflow: auto;
   background-color: var(--color-settings-background);
@@ -10,7 +11,7 @@
     "docs settings"
     "menu menu";
 
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: var(--markdown-width) 1fr;
   grid-template-rows: 1fr auto;
 
   .docs {

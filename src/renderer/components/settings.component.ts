@@ -3,6 +3,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   OnDestroy,
+  Renderer2,
+  RendererStyleFlags2,
+  ElementRef
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import {
@@ -60,6 +63,7 @@ export class SettingsComponent implements OnDestroy {
   userAccountsPlaceholder: string;
   chooseUserAccountsVisible: boolean = false;
   showShellScripts: boolean = false;
+  showMarkdown: boolean = false;
   private subscriptions: Subscription = new Subscription();
   private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
   constructor(
@@ -75,6 +79,8 @@ export class SettingsComponent implements OnDestroy {
     private changeDetectionRef: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute,
     private ipcService: IpcService,
+    private renderer: Renderer2,
+    private elementRef: ElementRef
   ) {
     this.currentDoc.content = this.lang.docs__md.settings.join("");
     this.activatedRoute.queryParamMap.subscribe((paramContainer: any) => {
@@ -236,5 +242,23 @@ export class SettingsComponent implements OnDestroy {
   }
   exitChooseAccounts() {
     this.chooseUserAccountsVisible = false;
+  }
+  openDocs() {
+    this.showMarkdown = true;
+    this.renderer.setStyle(
+      this.elementRef.nativeElement,
+      "--markdown-width",
+      "0.7fr",
+      RendererStyleFlags2.DashCase,
+    );
+  }
+  closeDocs() {
+    this.showMarkdown = false;
+    this.renderer.setStyle(
+      this.elementRef.nativeElement,
+      "--markdown-width",
+      "0fr",
+      RendererStyleFlags2.DashCase,
+    );
   }
 }

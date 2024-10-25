@@ -1,4 +1,6 @@
-<markdown class="docs" [content]="this.currentDoc.content"></markdown>
+@if(showMarkdown) {
+  <markdown class="docs" [content]="this.currentDoc.content"></markdown>
+}
 <choose-accounts
   [showChooseAccounts]="chooseUserAccountsVisible"
   [steamDirectory]="settings.environmentVariables.steamDirectory"
@@ -521,4 +523,10 @@
     <div (click)="steamDir()"> Open Steam Directory</div>
   }
   <div (click)="configDir()">{{ lang.text.configDir }}</div>
+  @if(showMarkdown) {
+    <div (click)="closeDocs()" class="dangerousButton">Close Docs</div>
+  }
+  @else {
+    <div (click)="openDocs()">Open Docs</div>
+  }
 </div>
