@@ -448,8 +448,8 @@
     "component": {
       "buttons": {
         "save": "保存",
-        "copy": "复制",
-        "testParser": "测试解析器",
+        "copy": "Clone",
+        "testParser": "Test",
         "delete": "删除",
         "moveUp": "向上移",
         "moveDown": "向下移",
