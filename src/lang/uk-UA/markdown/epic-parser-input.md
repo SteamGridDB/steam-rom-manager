@@ -1,6 +1,6 @@
-# Epic Games Store Specific Inputs
+# Специфічні вхідні дані Epic Games Store
 
-## Manifests Directory Override
+## Маніфести перевизначення каталогів
 
 Most users shouldn't use this, as they use the standard `Epic Games Store` installation where the game manifests will be located in, for example on Windows, `C:\ProgramData\Epic\EpicGamesLauncher\Data\Manifests`.
 
