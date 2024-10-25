@@ -1,5 +1,5 @@
-# Parser title
+# Заголовок аналізатора
 
-Title of the parser. Does not have to be unique, but is required.
+Назва аналізатора. Не обов'язково має бути унікальним, але обов'язково.
 
-This field will not affect what is added to `Steam` in any way.
+Це поле не впливає на те, що буде додано до `Steam`.
