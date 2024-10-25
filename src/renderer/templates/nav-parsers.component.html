@@ -14,56 +14,68 @@
         </div>
       </div>
     </div>
-    <div
+    @let parserControls = getParserControls();
+    @for(userConfiguration of userConfigurations; track userConfiguration.saved.parserId; let i=$index) {
+      @let parserId = userConfiguration.saved.parserId;
+      @let toggle = parserControls[parserId];
+      <div
       class="item"
-      formArrayName="parserStatuses"
-      *ngFor="let item of getParserControls(); let i = index"
       [ngClass]="{
-        unsaved: userConfigurations[i].current != null,
-        disabled: userConfigurations[i].saved.disabled,
-      }"
-    >
-      <ng-container
-        *ngVar="item.controls[userConfigurations[i].saved.parserId] as toggle"
-      >
+        unsaved: userConfiguration.current != null,
+        disabled: userConfiguration.saved.disabled,
+      }">
+      @if(appSettings.theme=="EmuDeck") {
         <div
-          class="inputContainer"
-          [formGroupName]="i"
-          (click)="emuClick(toggle)"
-        >
+        class="inputContainer"
+        (click)="emuClick(toggle)">
           <div class="inlineGroup">
             <nav-link
               class="parserlink"
               [ngClass]="{
-                unsaved: userConfigurations[i].current != null,
-                disabled: userConfigurations[i].saved.disabled,
+                unsaved: userConfiguration.current != null,
+                disabled: userConfiguration.saved.disabled,
               }"
               [routerLink]="['/parsers', i]"
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
             >
-              <div class="not-emudeck">
-                {{ userConfigurations[i].saved.configTitle || lang.noTitle }}
-              </div>
-              <div class="only-emudeck">
+              <div>
                 <p>
-                  <img
-                    width="120"
-                    src="{{
-                      imageMap[userConfigurations[i].saved.parserId].img
-                    }}"
-                  />
-                  <span
-                    *ngIf="
-                      imageMap[userConfigurations[i].saved.parserId].alternative
-                    "
-                    >Non-EmuDeck</span
-                  >
+                  <img width="120" src="{{imageMap[parserId].img}}"/>
+                  <span *ngIf="imageMap[parserId].alternative">Non-EmuDeck</span>
                 </p>
-                <small>{{
-                  imageMap[userConfigurations[i].saved.parserId].details
-                }}</small>
+                <small>{{imageMap[parserId].details}}</small>
               </div>
+            </nav-link>
+          </div>
+        </div>
+      }
+      @else {
+        <div 
+        mwlDroppable (drop)="handleDrop($event.dropData.fromIndex, i)"
+        dragOverClass="drop-over-active"
+        class="reorderer">
+        <div
+        class="inputContainer"
+        [class.active]="currentId == parserId"
+        mwlDraggable
+        dragActiveClass="drag-active"
+        showOriginalElementWhileDragging="true"
+        (dragStart)="dragStart($event)"
+
+        [dropData]="{fromIndex: i}"
+        >
+          <div class="inlineGroup">
+            <nav-link
+              class="parserlink"
+              [ngClass]="{
+                unsaved: userConfiguration.current != null,
+                disabled: userConfiguration.saved.disabled,
+                active: currentId == parserId
+              }"
+              (click)="onClick(i, parserId)"
+            >
+              <div>{{ userConfiguration.saved.configTitle || lang.noTitle }}</div>
             </nav-link>
             <ng-toggle-button
               class="ngToggleButton"
@@ -71,7 +83,11 @@
             ></ng-toggle-button>
           </div>
         </div>
-      </ng-container>
-    </div>
+        </div>
+      }
+      </div>
+    }
+
+
   </nav-expand>
 </div>

@@ -11,7 +11,7 @@
 
   white-space: nowrap;
 
-  --link-height: 1.2em;
+  --link-height: var(--height-nav-link);
   --link-vPadding: 0.5em;
   grid-area: nav-parsers;
   @include webkitScrollbar(nav-scrollbar, 0.375em);
@@ -22,12 +22,31 @@
     .titlelink {
       flex: 1;
     }
+
+    .item {
+      .reorderer {
+        &.drop-over-active {
+          border-left: solid 2px var(--color--filled);
+        }
+      }
+      .inputContainer {
+        &.drag-active {
+          background-color: var(--color-nav-background);
+          z-index: 3;
+          opacity: 0.5;
+        }
+        &.active {
+          background-color: var(--color-nav-link-background-active)
+        }
+      }
+    }
     .inputContainer {
       display: flex;
       flex-direction: column;
 
       margin: 0.1em 0 0.1em 0;
       padding-left: 0em;
+      height: 100%;
 
       .inlineGroup {
         display: flex;
@@ -86,7 +105,6 @@
     &.active {
       color: var(--color-nav-link-text-active);
       border-color: var(--color-nav-link-border-active);
-
       svg {
         & polyline {
           stroke: var(--color-nav-link-text-active);
@@ -99,85 +117,87 @@
     nav-link.titlelink {
       padding: var(--padding-nav-link);
     }
-    nav-link:not(.titlelink) {
-      padding: var(--padding-nav-link);
-
-      position: relative;
-
-      &::before {
-        top: 50%;
-        position: absolute;
-        content: "";
-        width: 0.5em;
-        height: 0.5em;
-        background-color: var(--color-nav-link-enabled);
-        border-radius: 50%;
-        margin: 0 0 0 0em;
-        transform: translateY(-50%);
-      }
-
-      &:hover {
+    .item {
+      nav-link:not(.titlelink) {
+        padding: var(--padding-nav-link);
+  
+        position: relative;
+  
         &::before {
-          background-color: var(--color-nav-link-enabled-hover);
+          top: 50%;
+          position: absolute;
+          content: "";
+          width: 0.5em;
+          height: 0.5em;
+          background-color: var(--color-nav-link-enabled);
+          border-radius: 50%;
+          margin: 0 0 0 0em;
+          transform: translateY(-50%);
         }
-
+  
+        &:hover {
+          &::before {
+            background-color: var(--color-nav-link-enabled-hover);
+          }
+  
+          &.active {
+            &::before {
+              background-color: var(--color-nav-link-enabled-active);
+            }
+          }
+        }
+  
         &.active {
           &::before {
             background-color: var(--color-nav-link-enabled-active);
           }
         }
-      }
-
-      &.active {
-        &::before {
-          background-color: var(--color-nav-link-enabled-active);
-        }
-      }
-
-      &.disabled {
-        &::before {
-          background-color: var(--color-nav-link-disabled);
-        }
-
-        &:hover {
+  
+        &.disabled {
           &::before {
-            background-color: var(--color-nav-link-disabled-hover);
+            background-color: var(--color-nav-link-disabled);
           }
-
+  
+          &:hover {
+            &::before {
+              background-color: var(--color-nav-link-disabled-hover);
+            }
+  
+            &.active {
+              &::before {
+                background-color: var(--color-nav-link-disabled-active);
+              }
+            }
+          }
+  
           &.active {
             &::before {
               background-color: var(--color-nav-link-disabled-active);
             }
           }
         }
-
-        &.active {
+  
+        &.unsaved {
           &::before {
-            background-color: var(--color-nav-link-disabled-active);
+            background-color: var(--color-nav-link-unsaved);
           }
-        }
-      }
-
-      &.unsaved {
-        &::before {
-          background-color: var(--color-nav-link-unsaved);
-        }
-
-        &:hover {
-          &::before {
-            background-color: var(--color-nav-link-unsaved-hover);
+  
+          &:hover {
+            &::before {
+              background-color: var(--color-nav-link-unsaved-hover);
+            }
+  
+            &.active {
+              &::before {
+                background-color: var(--color-nav-link-unsaved-active);
+              }
+            }
           }
-
+  
           &.active {
             &::before {
               background-color: var(--color-nav-link-unsaved-active);
             }
-          }
-        }
-
-        &.active {
-          &::before {
-            background-color: var(--color-nav-link-unsaved-active);
           }
         }
       }

@@ -228,14 +228,31 @@ export class ParsersService {
     this.saveUserConfigurations();
   }
 
-  swapIndex(currentIndex: number, newIndex: number) {
-    let userConfigurations = this.userConfigurations.getValue();
-
-    let temp = userConfigurations[currentIndex];
-    userConfigurations[currentIndex] = userConfigurations[newIndex];
-    userConfigurations[newIndex] = temp;
-    this.userConfigurations.next(userConfigurations);
+  swapIndex(fromIndex: number, toIndex: number) {
+    if(fromIndex == toIndex){return;}
+    const configs = this.userConfigurations.getValue();
+    if (fromIndex >= configs.length || toIndex >= configs.length) {
+      throw 'Index out of bounds';
+    }
+    const from = configs[fromIndex];
+    configs[fromIndex] = configs[toIndex];
+    configs[toIndex] = from;
+    this.userConfigurations.next(configs);
     this.saveUserConfigurations();
+  }
+
+  injectIndex(fromIndex: number, toIndex: number) {
+    if (fromIndex == toIndex) {return;}
+    const configs = this.userConfigurations.getValue();
+    if (fromIndex >= configs.length || toIndex >= configs.length) {
+      throw 'Index out of bounds';
+    }
+    const from = configs[fromIndex];
+    const withoutFrom = configs.filter((_,i) => i!==fromIndex);
+    const newConfigs = withoutFrom.slice(0,toIndex).concat(from).concat(withoutFrom.slice(toIndex))
+    this.userConfigurations.next(newConfigs);
+    this.saveUserConfigurations();
+    
   }
 
   changeEnabledStatus(parserId: string, enabled: boolean): Promise<void> {

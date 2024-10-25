@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.5.28
+
+### Added
+
+- Ability to drag/drop to re-arrange parsers in Classic and Deck themes.
+
+### Fixed
+
+- Executables on Mac OS should be allowed to be directories (.app folders).
+
 ## 2.5.27
 
 ### Added

@@ -79,43 +79,6 @@
     >
       <svg copy-icon [title]="lang.buttons.toClipboard"></svg>
     </div>
-    <div
-      [class.disabled]="configurationIndex === 0"
-      (click)="moveUp()"
-      [title]="lang.buttons.moveUp"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        viewBox="0 0 300 300"
-        height="1em"
-      >
-        <path
-          d="M150 10 l 140 150 h -80 v 120 h -120 v -120 h -80 z"
-          stroke="black"
-          stroke-width="3"
-        />
-      </svg>
-    </div>
-    <div
-      [class.disabled]="configurationIndex + 1 === userConfigurations.length"
-      (click)="moveDown()"
-      [title]="lang.buttons.moveDown"
-      class="icon_button"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        viewBox="0 0 300 300"
-        height="1em"
-      >
-        <path
-          d="M150 290 l 140 -150 h -80 v -120 h -120 v 120 h -80 z"
-          stroke="black"
-          stroke-width="3"
-        />
-      </svg>
-    </div>
     <div (click)="updateShowMarkdown(true); openFAQ()">
       {{ lang.buttons.faq }}
     </div>

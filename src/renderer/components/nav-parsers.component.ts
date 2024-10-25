@@ -14,6 +14,7 @@ import {
 import { UserConfiguration, AppSettings } from "../../models";
 import { Subscription } from "rxjs";
 import { APP } from "../../variables";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "nav-parsers",
@@ -30,12 +31,15 @@ export class NavParsersComponent implements OnDestroy {
   navForm: FormGroup;
   imageMap: { [k: string]: any } = {};
   private subscriptions: Subscription = new Subscription();
-  private appSettings: AppSettings;
+  appSettings: AppSettings;
+  dragStartIndex: number = -1;
+  currentId: string = "";
 
   constructor(
     private parsersService: ParsersService,
     private languageService: LanguageService,
     private exceptionsService: UserExceptionsService,
+    private router: Router,
     private settingsService: SettingsService,
     private changeRef: ChangeDetectorRef,
     private formBuilder: FormBuilder,
@@ -50,7 +54,96 @@ export class NavParsersComponent implements OnDestroy {
       this.parsersService
         .getUserConfigurations()
         .subscribe((userConfigurations) => {
-          for (let userConfiguration of userConfigurations) {
+          if(this.appSettings.theme == "EmuDeck") {
+            this.initializeImageMap(userConfigurations)
+          }
+          this.userConfigurations = userConfigurations;
+
+          let someOn: boolean = userConfigurations.length
+            ? userConfigurations
+                .map((config) => !config.saved.disabled)
+                .reduce((x, y) => x || y)
+            : false;
+          this.navForm = this.formBuilder.group({
+            selectAll: someOn,
+            parserStatuses: this.formBuilder.group(
+              Object.fromEntries(this.userConfigurations.map((config: {saved: UserConfiguration, current: UserConfiguration}) => {
+                return [config.saved.parserId, !config.saved.disabled]
+              }))
+            )
+          });
+          this.navForm
+            .get("selectAll")
+            .valueChanges.subscribe((val: boolean) => {
+              if (
+                !val ||
+                this.userConfigurations
+                  .map((config) => config.saved.disabled)
+                  .reduce((x, y) => x && y)
+              ) {
+                this.parsersService.changeEnabledStatusAll(val);
+              }
+            });
+          const parserControls = this.getParserControls();
+          for(let userConfiguration of this.userConfigurations) {
+            let parserId = userConfiguration.saved.parserId;
+            parserControls[parserId].valueChanges.subscribe((val: boolean)=>{
+              this.parsersService.changeEnabledStatus(parserId, val);
+            })
+          }
+
+          this.changeRef.detectChanges();
+        }),
+    );
+
+    this.subscriptions.add(
+      this.exceptionsService.isUnsavedObservable.subscribe((val: boolean) => {
+        this.isExceptionsUnsaved = val;
+        this.changeRef.detectChanges();
+      }),
+    );
+
+    this.languageService.observeChanges().subscribe((lang) => {
+      this.changeRef.detectChanges();
+    });
+  }
+
+  flipAll() {
+    this.navForm
+      .get("selectAll")
+      .setValue(!this.navForm.get("selectAll").value);
+  }
+
+  getParserControls() {
+    return (this.navForm.get("parserStatuses") as FormGroup).controls;
+  }
+
+  emuClick(control: FormControl) {
+    control.setValue(!control.value);
+  }
+
+  onClick(index: number, parserId: string) {
+    this.router.navigate(["/parsers", index]);
+    this.currentId = parserId;
+  }
+
+  dragStart(event: Event) {
+    this.dragStartIndex = parseInt(this.router.url.split("/")[2]);
+  }
+
+  handleDrop(fromIndex: number, toIndex:number) {
+    this.parsersService.injectIndex(fromIndex, toIndex);
+    if(fromIndex < this.dragStartIndex && this.dragStartIndex <= toIndex) {
+      this.router.navigate(["/parsers", this.dragStartIndex - 1])
+    } else if(toIndex <= this.dragStartIndex && this.dragStartIndex < fromIndex) {
+      this.router.navigate(["/parsers", this.dragStartIndex + 1])
+    } else if(this.dragStartIndex==fromIndex) {
+      this.router.navigate(["/parsers", toIndex])
+    }
+  }
+
+  initializeImageMap(userConfigurations: {current: UserConfiguration, saved: UserConfiguration}[]) {
+              for (let userConfiguration of userConfigurations) {
             let separatedValues: string[] =
               userConfiguration.saved.configTitle.split(" - ");
             let separatedValuesImg = separatedValues.length
@@ -80,84 +173,6 @@ export class NavParsersComponent implements OnDestroy {
               img: imgValue,
             };
           }
-          this.userConfigurations = userConfigurations;
-
-          let someOn: boolean = userConfigurations.length
-            ? userConfigurations
-                .map((config) => !config.saved.disabled)
-                .reduce((x, y) => x || y)
-            : false;
-          this.navForm = this.formBuilder.group({
-            selectAll: someOn,
-            parserStatuses: this.formBuilder.array(
-              this.userConfigurations.map(
-                (config: {
-                  saved: UserConfiguration;
-                  current: UserConfiguration;
-                }) => {
-                  let singleton: { [k: string]: boolean } = {};
-                  singleton[config.saved.parserId] = !config.saved.disabled;
-                  return this.formBuilder.group(singleton);
-                },
-              ),
-            ),
-          });
-
-          this.navForm
-            .get("selectAll")
-            .valueChanges.subscribe((val: boolean) => {
-              if (
-                !val ||
-                this.userConfigurations
-                  .map((config) => config.saved.disabled)
-                  .reduce((x, y) => x && y)
-              ) {
-                this.parsersService.changeEnabledStatusAll(val);
-              }
-            });
-
-          this.getParserControls().forEach((control: FormGroup) => {
-            control.valueChanges.subscribe(
-              (val: { [parserId: string]: boolean }) => {
-                this.parsersService.changeEnabledStatus(
-                  Object.keys(val)[0],
-                  Object.values(val)[0],
-                );
-              },
-            );
-          });
-
-          this.changeRef.detectChanges();
-        }),
-    );
-
-    this.subscriptions.add(
-      this.exceptionsService.isUnsavedObservable.subscribe((val: boolean) => {
-        this.isExceptionsUnsaved = val;
-        this.changeRef.detectChanges();
-      }),
-    );
-
-    this.languageService.observeChanges().subscribe((lang) => {
-      this.changeRef.detectChanges();
-    });
-  }
-
-  flipAll() {
-    this.navForm
-      .get("selectAll")
-      .setValue(!this.navForm.get("selectAll").value);
-  }
-
-  getParserControls() {
-    return (this.navForm.get("parserStatuses") as FormArray)
-      .controls as FormGroup[];
-  }
-
-  emuClick(control: FormControl) {
-    if (this.appSettings.theme == "EmuDeck") {
-      control.setValue(!control.value);
-    }
   }
 
   ngOnDestroy() {

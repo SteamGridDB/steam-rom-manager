@@ -177,6 +177,7 @@
   --color-nav-background: #121212;
   --color-nav-link-border: rgba(0, 0, 0, 0);
   --color-nav-link-border-active: #1ed660;
+  --color-nav-link-background-active: var(--ng-select-background);
   --color-nav-link-border-hover: rgba(0, 0, 0, 0);
   --color-nav-link-text: #a0a0a0;
   --color-nav-link-text-active: #f0fff0;
@@ -1028,6 +1029,7 @@
   --color-nav-background: #121212;
   --color-nav-link-border: rgba(0, 0, 0, 0);
   --color-nav-link-border-active: transparent;
+  --color-nav-link-background-active: var(--ng-select-background);
   --color-nav-link-border-hover: rgba(0, 0, 0, 0);
   --color-nav-link-text: #fff;
   --color-nav-link-text-active: #fff;
@@ -1045,7 +1047,7 @@
   --color-nav-link-bg-hover: var(--color-nav-link-background-active);
   --padding-nav-link: 0;
   --padding-nav-link-expand: 0px;
-  --height-nav-link: auto;
+  --height-nav-link: 100%;
   --img-nav-link-display: inline-block;
   --color-nav-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-nav-scrollbar-track: rgba(80, 80, 80, 0.3);
@@ -1428,6 +1430,7 @@
   --color-nav-link-border: rgba(0, 0, 0, 0);
   --color-nav-link-border-active: transparent;
   --color-nav-link-border-hover: rgba(0, 0, 0, 0);
+  --color-nav-link-background-active: var(--ng-select-background);
   --color-nav-link-text: #cccfd4;
   --color-nav-link-text-active: #f0fff0;
   --color-nav-link-text-hover: #f0fff0;
@@ -1444,7 +1447,7 @@
   --color-nav-link-bg-hover: var(--color-nav-link-background-active);
   --padding-nav-link: 16px;
   --padding-nav-link-expand: 0px;
-  --height-nav-link: auto;
+  --height-nav-link: 1.2em;
   --img-nav-link-display: inline-block;
   --color-nav-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-nav-scrollbar-track: rgba(80, 80, 80, 0.3);

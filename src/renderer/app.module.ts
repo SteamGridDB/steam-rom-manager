@@ -13,6 +13,7 @@ import * as Directives from "./directives";
 import * as Pipes from "./pipes";
 import * as Guards from "./guards";
 import { AppRoutes } from "./app.routing";
+import { DragAndDropModule } from "angular-draggable-droppable";
 
 // Unfortunately not usable for declarations right now, as the strictly typed compiler can't evaluate statically
 // Ideally one would have declarations: [...ngObjectsToArray<Components(Components), etc]
@@ -34,6 +35,7 @@ function ngObjectsToArray<T>(importObject: T) {
     FormsModule,
     ReactiveFormsModule,
     ColorPickerModule,
+    DragAndDropModule
   ],
   declarations: [
     Components.AboutComponent,

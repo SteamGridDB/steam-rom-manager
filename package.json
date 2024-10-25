@@ -92,6 +92,7 @@
     "@electron/remote": "^2.1.2",
     "@node-steam/vdf": "^2.2.0",
     "ajv": "^8.17.1",
+    "angular-draggable-droppable": "^8.0.0",
     "async": "^3.2.6",
     "bcp-47": "^2.1.0",
     "better-sqlite3": "^11.3.0",
