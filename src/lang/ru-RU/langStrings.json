@@ -448,8 +448,8 @@
     "component": {
       "buttons": {
         "save": "Сохранить",
-        "copy": "Копировать",
-        "testParser": "Test parser",
+        "copy": "Clone",
+        "testParser": "Test",
         "delete": "Удалить",
         "moveUp": "Move up",
         "moveDown": "Move down",
