@@ -1,8 +1,8 @@
-# Command line arguments `[supports variables]`{.noWrap}
+# Аргументи командного рядка `[підтримує змінні]`{.noWrap}
 
-Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
+Аргументи, які додаються до виконуваного файлу для створення кінцевого ярлика. Здебільшого ви захочете задати його за допомогою наданих змінних синтаксичного аналізатора.
 
-## Examples By System
+## Приклади по системі
 
 ### RetroArch
 
@@ -100,7 +100,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 -IMAGE "${filePath}" -RUN1 -FULL
 ```
 
-### Mednafen (Sony Playstation 1, NES/Famicom, SNES/Super Famicom, etc.)
+### Mednafen (Sony Playstation 1, NES/Famicom, SNES/Super Famicom тощо.)
 
 ```
 "${filePath}"
@@ -112,9 +112,9 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 "${filePath}"
 ```
 
-## What does "Append arguments to executable" do?
+## Що робить «Додати аргументи до виконуваного файлу»?
 
-Instead of adding arguments to Steam's launch options:
+Замість того, щоб додавати аргументи до параметрів запуску Steam:
 
 ![Not appended arguments](../../../assets/images/cmd-not-appended.png) {.fitImage.center}
 
