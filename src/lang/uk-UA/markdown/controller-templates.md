@@ -7,13 +7,13 @@
 * Відкрити Steam.
 * Під'єднайте контролер, для якого ви хочете налаштувати шаблон.
 * Клацніть правою кнопкою миші на будь-якій грі та виберіть `Керування > Розташування контролера`.
-* Configure the buttons as you see fit.
-* Hit `Export Config` then `Save new template binding`.
-* Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template.
-* Repeat for as many different types of controller as you want to configure.
+* Налаштуйте кнопки на свій розсуд.
+* Натисніть `Експортувати конфігурацію`, потім `Зберегти нову прив'язку шаблону`.
+* Вкажіть назву шаблону у формі: `Назва шаблону (SRM)`. Ви повинні закінчити назву словами `(SRM)` або SRM не підхопить шаблон.
+* Повторіть цю процедуру для всіх типів контролерів, які ви хочете налаштувати.
 
-In the SRM parser:
-* Hit `Re-Fetch Controller Templates` to pull templates for all controller types from steam. This will clear your currently selected template if it is not one of the templates available in Steam.
+В аналізаторі SRM:
+* Натисніть `Повторно вибрати шаблони контролерів`, щоби витягнути шаблони для всіх типів контролерів зі Steam. This will clear your currently selected template if it is not one of the templates available in Steam.
 
 Currently, SRM pulls all of the default (Valve made) templates for each controller as well as all of the user defined templates that end in `(SRM)`.
 
