@@ -92,6 +92,9 @@ export class SettingsService {
   configDir() {
     file.dirOpen(paths.userDataDir);
   }
+  steamDir() {
+    file.dirOpen(this.appSettings.environmentVariables.steamDirectory);
+  }
 
   onLoad(callback: (appSettings: AppSettings) => void) {
     this.settingsLoadedSubject

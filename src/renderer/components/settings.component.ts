@@ -220,6 +220,9 @@ export class SettingsComponent implements OnDestroy {
   configDir() {
     this.settingsService.configDir();
   }
+  steamDir() {
+    this.settingsService.steamDir();
+  }
 
   chooseAccounts() {
     if (this.settings.environmentVariables.steamDirectory) {

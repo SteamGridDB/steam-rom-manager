@@ -517,7 +517,8 @@
   </div>
 </div>
 <div class="menu" drag-scroll>
-  <ng-container>
-    <div (click)="configDir()">{{ lang.text.configDir }}</div>
-  </ng-container>
+  @if(settings.environmentVariables.steamDirectory) {
+    <div (click)="steamDir()"> Open Steam Directory</div>
+  }
+  <div (click)="configDir()">{{ lang.text.configDir }}</div>
 </div>
