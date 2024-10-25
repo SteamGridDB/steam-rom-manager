@@ -448,8 +448,8 @@
     "component": {
       "buttons": {
         "save": "Speichern",
-        "copy": "Kopieren",
-        "testParser": "Parser testen",
+        "copy": "Clone",
+        "testParser": "Test",
         "delete": "Löschen",
         "moveUp": "Aufwärts bewegen",
         "moveDown": "Abwärts bewegen",
