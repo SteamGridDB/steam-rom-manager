@@ -3,6 +3,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   OnDestroy,
+  Input,
+  EventEmitter,
 } from "@angular/core";
 import { FormBuilder, FormArray, FormGroup, FormControl } from "@angular/forms";
 import {
@@ -34,7 +36,7 @@ export class NavParsersComponent implements OnDestroy {
   appSettings: AppSettings;
   dragStartIndex: number = -1;
   currentId: string = "";
-
+  @Input() navClick: EventEmitter<any>;
   constructor(
     private parsersService: ParsersService,
     private languageService: LanguageService,
@@ -103,6 +105,13 @@ export class NavParsersComponent implements OnDestroy {
       }),
     );
 
+    this.subscriptions.add(
+      this.navClick.subscribe(()=>{
+        this.currentId="";
+        this.changeRef.detectChanges();
+      })
+    )
+
     this.languageService.observeChanges().subscribe((lang) => {
       this.changeRef.detectChanges();
     });
@@ -127,8 +136,12 @@ export class NavParsersComponent implements OnDestroy {
     this.currentId = parserId;
   }
 
+  getRouteIndex(route: string) {
+    return parseInt(route.split("/")[2])
+  }
+
   dragStart(event: Event) {
-    this.dragStartIndex = parseInt(this.router.url.split("/")[2]);
+    this.dragStartIndex = this.getRouteIndex(this.router.url);
   }
 
   handleDrop(fromIndex: number, toIndex:number) {

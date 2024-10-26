@@ -1,19 +1,22 @@
 <div class="parsers" [formGroup]="navForm" *ngIf="!!navForm">
   <nav-expand routerLinkActive="active">
-    <div class="title">
-      <div class="inputContainer">
-        <div class="inlineGroup">
-          <nav-link class="titlelink" (click)="flipAll()">
-            <span>Toggle Parsers</span>
-            <span>&nbsp;&nbsp;</span>
-          </nav-link>
-          <ng-toggle-button
-            class="ngToggleButton"
-            [formControl]="navForm.get('selectAll') | formControl"
-          ></ng-toggle-button>
+    @if(userConfigurations.length) {
+      <div class="title">
+        <div class="inputContainer">
+          <div class="inlineGroup">
+            <nav-link class="titlelink" (click)="flipAll()">
+              <span>Toggle Parsers</span>
+              <span>&nbsp;&nbsp;</span>
+            </nav-link>
+            <ng-toggle-button
+              class="ngToggleButton"
+              [formControl]="navForm.get('selectAll') | formControl"
+            ></ng-toggle-button>
+          </div>
         </div>
       </div>
-    </div>
+    }
+
     @let parserControls = getParserControls();
     @for(userConfiguration of userConfigurations; track userConfiguration.saved.parserId; let i=$index) {
       @let parserId = userConfiguration.saved.parserId;

@@ -116,10 +116,12 @@
   nav-expand {
     nav-link.titlelink {
       padding: var(--padding-nav-link);
+      padding-left: calc(var(--padding-nav-link) + 14px);
     }
     .item {
       nav-link:not(.titlelink) {
         padding: var(--padding-nav-link);
+        padding-left: calc(var(--padding-nav-link) + 14px);
   
         position: relative;
   
@@ -131,7 +133,7 @@
           height: 0.5em;
           background-color: var(--color-nav-link-enabled);
           border-radius: 50%;
-          margin: 0 0 0 0em;
+          margin: 0 0 0 -10px;
           transform: translateY(-50%);
         }
   

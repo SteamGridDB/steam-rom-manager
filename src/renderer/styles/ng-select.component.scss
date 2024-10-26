@@ -32,6 +32,7 @@
     &:focus,
     &.open {
       background: var(--color-ng-select-background-hover);
+      color: var(--color-ng-select-text-active);
     }
     > div {
       overflow: hidden;
@@ -78,6 +79,7 @@
     .sectionTitle {
       border-bottom: solid 1px;
       background-color: var(--color-ng-select-section-background);
+      color: var(--color-ng-select-text);
       padding: var(--ng-select-padding, 0);
     }
     .fakeOption {

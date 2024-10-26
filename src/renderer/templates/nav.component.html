@@ -2,6 +2,7 @@
   routerLink="/"
   routerLinkActive="active"
   [routerLinkActiveOptions]="{ exact: true }"
+  (click)="navClick.emit()"
 >
   <img src="/assets/images/preview.png" alt="Icon" height="16" />{{
     lang.preview
@@ -11,6 +12,7 @@
   routerLink="/view"
   routerLinkActive="active"
   [routerLinkActiveOptions]="{ exact: true }"
+  (click)="navClick.emit()"
 >
   <img src="/assets/images/preview.png" alt="Icon" height="16" />{{
     lang.view
@@ -20,6 +22,7 @@
   routerLink="/logger"
   routerLinkActive="active"
   [routerLinkActiveOptions]="{ exact: true }"
+  (click)="navClick.emit()"
 >
   <img src="/assets/images/time.png" alt="Icon" height="16" />{{
     lang.logger
@@ -29,6 +32,7 @@
   routerLink="/settings"
   routerLinkActive="active"
   [routerLinkActiveOptions]="{ exact: true }"
+  (click)="navClick.emit()"
 >
   <img src="/assets/images/settings.png" alt="Icon" height="16" />{{
     lang.settings
@@ -41,6 +45,7 @@
     routerLink="/user-exceptions"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: true }"
+    (click)="navClick.emit()"
   >
     <!--got rid of dummy: dummy in routerLinkActiveOptions, maybe try to get rid of dummy variable-->
     <ng-container *ngIf="!isExceptionsUnsaved">
@@ -60,6 +65,7 @@
   routerLink="/about"
   routerLinkActive="active"
   [routerLinkActiveOptions]="{ exact: true }"
+  (click)="navClick.emit()"
   ><img src="/assets/images/information.png" alt="Icon" height="16" />{{
     lang.about
   }}</nav-link
@@ -69,6 +75,7 @@
   [routerLink]="['/parsers', -1]"
   routerLinkActive="active"
   [routerLinkActiveOptions]="{ exact: true }"
+  (click)="navClick.emit()"
   ><img src="/assets/images/clipboard.png" alt="Icon" height="16" />{{
     lang.parsers
   }}</nav-link

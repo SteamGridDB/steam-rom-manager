@@ -3,6 +3,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   OnDestroy,
+  Output,
+  Input,
 } from "@angular/core";
 import { FormBuilder, FormArray, FormGroup, FormControl } from "@angular/forms";
 import {
@@ -13,6 +15,7 @@ import {
 import { UserConfiguration } from "../../models";
 import { Subscription } from "rxjs";
 import { APP } from "../../variables";
+import { EventEmitter } from "@angular/core";
 
 @Component({
   selector: "nav",
@@ -31,6 +34,9 @@ export class NavComponent implements OnDestroy {
   private subscriptions: Subscription = new Subscription();
 
   private navForm: FormGroup;
+
+  @Input() navClick: EventEmitter<any>;
+
 
   constructor(
     private parsersService: ParsersService,

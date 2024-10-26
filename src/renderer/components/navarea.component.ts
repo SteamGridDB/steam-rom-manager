@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   OnDestroy,
+  EventEmitter,
 } from "@angular/core";
 import { FormBuilder, FormArray, FormGroup, FormControl } from "@angular/forms";
 import {
@@ -21,6 +22,7 @@ import { APP } from "../../variables";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavareaComponent implements OnDestroy {
+  navClick: EventEmitter<any> = new EventEmitter();
   constructor() {}
 
   ngOnInit() {}
