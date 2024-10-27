@@ -13,6 +13,7 @@
 ></div>
 <div
   class="gamesList"
+  [class.showDetails]="!!currentShortcut"
   *ngIf="!(this.viewService.status.refreshingShortcuts | async)"
 >
   <ng-container *ngFor="let steamDir of viewService.vdfData | keys">

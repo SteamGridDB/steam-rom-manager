@@ -3,6 +3,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   OnDestroy,
+  Renderer2,
+  ElementRef,
+  RendererStyleFlags2
 } from "@angular/core";
 import { ActivatedRoute, Router, RouterLinkActive } from "@angular/router";
 import { FormBuilder, FormArray, FormGroup, FormControl } from "@angular/forms";
@@ -27,6 +30,7 @@ export class ExceptionsComponent implements OnDestroy {
   filterValue = "";
   private subscriptions: Subscription = new Subscription();
   private userExceptions: UserExceptions;
+  showMarkdown: boolean = false;
 
   sortByOpts: SelectItem[] = _.flatten(
     [
@@ -46,6 +50,8 @@ export class ExceptionsComponent implements OnDestroy {
     private loggerService: LoggerService,
     private formBuilder: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,
+    private renderer:  Renderer2,
+    private elementRef: ElementRef
   ) {
     this.currentDoc.content = this.lang.docs__md.userExceptions.join("");
   }
@@ -145,6 +151,25 @@ export class ExceptionsComponent implements OnDestroy {
   }
   deleteItem(index: number) {
     this.exceptionsFormItems.removeAt(index);
+  }
+
+  openDocs() {
+    this.showMarkdown = true;
+    this.renderer.setStyle(
+      this.elementRef.nativeElement,
+      "--markdown-width",
+      "0.7fr",
+      RendererStyleFlags2.DashCase,
+    );
+  }
+  closeDocs() {
+    this.showMarkdown = false;
+    this.renderer.setStyle(
+      this.elementRef.nativeElement,
+      "--markdown-width",
+      "0fr",
+      RendererStyleFlags2.DashCase,
+    );
   }
 
   ngOnInit() {

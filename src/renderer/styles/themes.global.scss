@@ -1417,7 +1417,7 @@
   --padding-input-text: var(--ng-select-padding);
   --margin-input-text: 16px;
   --color-logger-menu-background: #050505;
-  --color-logger-messages-background: var(--color-markdown-background);
+  --color-logger-messages-background: var(--color-nested-form-background);
   --color-logger-messages-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-logger-messages-scrollbar-track: rgba(80, 80, 80, 0.3);
   --color-logger-menu-scrollbar-thumb: rgba(80, 80, 80, 0.5);
@@ -1512,7 +1512,7 @@
   --color-parsers-user-instructions-item-title-text: #c8c8c8;
   --color-parsers-user-instructions-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-parsers-user-instructions-scrollbar-track: rgba(31, 31, 31, 0.45);
-  --color-preview-background: #101424;
+  --color-preview-background: var(--color-nested-form-background);
   --color-select-arrow-left: #fff;
   --color-select-arrow-left-active: #ffffff;
   --color-select-arrow-left-hover: #cccccc;
@@ -1557,7 +1557,7 @@
   --color-preview-app-button: #8d8d8d;
   --color-preview-app-button-active: #ffffff;
   --color-preview-app-button-hover: #cccccc;
-  --color-nested-form-background: rgba(29, 29, 29, 0.7);
+  --color-nested-form-background: rgba(29, 29, 29, 1);
   --color-nested-form-error-border: #fbfd81;
   --color-nested-form-error: inherit;
   --color-nested-form-error-background: inherit;
@@ -1679,7 +1679,7 @@
   --height-ng-buttons: 20px;
   --color-parser-menu-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-parser-menu-scrollbar-track: rgba(80, 80, 80, 0.3);
-  --color-about-background: inherit;
+  --color-about-background: var(--color-nested-form-background);
   --color-about-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-about-scrollbar-track: rgba(80, 80, 80, 0.3);
   --color-highlight-level-0: #256e81;

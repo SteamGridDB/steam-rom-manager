@@ -2,6 +2,7 @@
 
 :host {
   --view-details-width: 0%;
+  background: var(--color-nested-form-background);
 
   display: grid;
   overflow: auto;
@@ -56,6 +57,12 @@
     grid-area: gamesList;
     @include webkitScrollbar(nested-form-scrollbar);
     overflow-y: auto;
+    &.showDetails {
+      ::-webkit-scrollbar {
+        width: 0.75em;
+      }
+      overflow-y: scroll;
+    }
     > .directory {
       > .title {
         padding: 0.5em 0.25em;

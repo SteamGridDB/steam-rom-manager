@@ -5,6 +5,8 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Renderer2,
+  RendererStyleFlags2
 } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { LoggerService } from "../services";
@@ -32,6 +34,7 @@ export class LoggerComponent {
   description: string = "";
   discordHandle: string = "";
   bugForm: FormGroup;
+  showReporter:boolean = false;
 
   @ViewChild("messageWindow") private messageWindow: ElementRef;
 
@@ -39,6 +42,8 @@ export class LoggerComponent {
     private loggerService: LoggerService,
     private changeDetectionRef: ChangeDetectorRef,
     private formBuilder: FormBuilder,
+    private renderer: Renderer2,
+    private elementRef: ElementRef
   ) {
     this.settings = this.loggerService.getLogSettings();
     this.messages = this.loggerService.getLogMessages();
@@ -129,5 +134,24 @@ export class LoggerComponent {
 
   clearLog() {
     this.loggerService.clearLog();
+  }
+
+  openReporter() {
+    this.showReporter = true;
+    this.renderer.setStyle(
+      this.elementRef.nativeElement,
+      "--reporter-width",
+      "1fr",
+      RendererStyleFlags2.DashCase,
+    );
+  }
+  closeReporter() {
+    this.showReporter = false;
+    this.renderer.setStyle(
+      this.elementRef.nativeElement,
+      "--reporter-width",
+      "0fr",
+      RendererStyleFlags2.DashCase,
+    );
   }
 }

@@ -23,12 +23,10 @@
     [(ngModel)]="filterValue"
   ></ng-text-input>
 </div>
-<markdown class="docs" [content]="this.currentDoc.content"></markdown>
+@if(showMarkdown) {
+  <markdown class="docs" [content]="this.currentDoc.content"></markdown>
+}
 <div class="userExceptions">
-  <label>
-    <span class="infoButton infoIcon" (click)="exceptionsInfoClick()"> </span>
-    {{ lang.text.title }}
-  </label>
   <div [formGroup]="exceptionsForm">
     <div
       class="itemsform"
@@ -140,6 +138,12 @@
     <div class="addItem" class="only-emudeck" (click)="addItem()">
       {{ lang.buttons.addItem }}
     </div>
+    @if(showMarkdown) {
+      <div (click)="closeDocs()" class="dangerousButton">Close Docs</div>
+    }
+    @else {
+      <div (click)="openDocs()">Open Docs</div>
+    }
     <nav-link
       [routerLink]="['/parsers-list']"
       class="only-emudeck"

@@ -1,6 +1,7 @@
 @import "mixins";
 
 :host {
+  --markdown-width: 0fr;
   display: grid;
   overflow: auto;
 
@@ -10,7 +11,7 @@
     "docs exceptions"
     "menu menu";
 
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: var(--markdown-width) 1fr;
   grid-template-rows: auto 1fr auto;
 
   .upperMenu {

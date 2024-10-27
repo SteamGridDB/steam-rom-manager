@@ -632,7 +632,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                       values: input.allowedValues.map((option: string) => {
                         return {
                           value: option,
-                          displayValue: _.startCase(option.replace(/_/g, " ")),
+                          displayValue: option.replace(/_/g, " ").startCase(),
                         };
                       }),
                       onValidate: (self, path) => {

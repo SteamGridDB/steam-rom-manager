@@ -1,6 +1,7 @@
 @import "mixins";
 
 :host {
+  --reporter-width: 0fr;
   display: grid;
   overflow: auto;
 
@@ -9,11 +10,12 @@
     "messages bugreport"
     "messages bugreportdocs"
     "menu menu";
-  grid-template-columns: 1.5fr 1fr;
+  grid-template-columns: 1.5fr var(--reporter-width);
   grid-template-rows: 1fr 1.3fr auto;
 
   .menu {
     @include webkitScrollbar(logger-menu-scrollbar, 0.5em);
+
     grid-area: menu;
     display: flex;
     overflow: auto;
@@ -121,6 +123,12 @@
   .messages {
     grid-area: messages;
     @include webkitScrollbar(logger-messages-scrollbar);
+    &.showReporter {
+      ::-webkit-scrollbar {
+        width: 0.75em;
+      }
+      overflow-y: scroll;
+    }
     overflow: auto;
 
     color: var(--color-logger-messages-text);

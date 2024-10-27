@@ -1,6 +1,6 @@
 <ng-container *ngIf="messages | async as currentMessages; else emptyWindow">
   <ng-container *ngIf="currentMessages.length > 0; else emptyWindow">
-    <div #messageWindow class="messages">
+    <div #messageWindow class="messages" [class.showReporter]="showReporter">
       <ng-container *ngFor="let message of currentMessages">
         <div
           *ngIf="canShow(message.type)"
@@ -18,115 +18,129 @@
     <span>No messages are available</span>
   </div>
 </ng-template>
-<div class="bugreport">
-  <div [formGroup]="bugForm">
-    <div class="inputContainer">
-      <div class="longtext">Describe your issue:</div>
-      <div class="inlineLeft">
-        <ng-text-input
-          class="ngTextInput"
-          [multiline]="true"
-          [formControl]="bugForm.controls['description'] | formControl"
-          [placeholder]="lang.issueDescription"
-        ></ng-text-input>
-      </div>
-      <div class="inlineLeft">
-        <div class="text" style="margin-right: 0.25em">
-          Discord handle (optional):
+@if(showReporter) {
+  <div class="bugreport">
+    <div [formGroup]="bugForm">
+      <div class="inputContainer">
+        <div class="longtext">Describe your issue:</div>
+        <div class="inlineLeft">
+          <ng-text-input
+            class="ngTextInput"
+            [multiline]="true"
+            [formControl]="bugForm.controls['description'] | formControl"
+            [placeholder]="lang.issueDescription"
+          ></ng-text-input>
         </div>
-        <ng-text-input
-          class="ngTextInput"
-          [formControl]="bugForm.controls['discordHandle'] | formControl"
-          [placeholder]="lang.handleExample"
-        ></ng-text-input>
-      </div>
-      <div class="inlineLeft">
-        <ng-toggle-button
-          class="ngToggleButton"
-          [formControl]="bugForm.controls['useVDFs'] | formControl"
+        <div class="inlineLeft">
+          <div class="text" style="margin-right: 0.25em">
+            Discord handle (optional):
+          </div>
+          <ng-text-input
+            class="ngTextInput"
+            [formControl]="bugForm.controls['discordHandle'] | formControl"
+            [placeholder]="lang.handleExample"
+          ></ng-text-input>
+        </div>
+        <div class="inlineLeft">
+          <ng-toggle-button
+            class="ngToggleButton"
+            [formControl]="bugForm.controls['useVDFs'] | formControl"
+          >
+            Include VDFs (may contain personally identifying
+            info)</ng-toggle-button
+          >
+        </div>
+        <div
+          class="inlineLeft"
+          [class.hidden]="!bugForm.controls['useVDFs'].value"
         >
-          Include VDFs (may contain personally identifying
-          info)</ng-toggle-button
-        >
-      </div>
-      <div
-        class="inlineLeft"
-        [class.hidden]="!bugForm.controls['useVDFs'].value"
-      >
-        <div class="text" style="margin-right: 0.25em">Steam Directory:</div>
-        <ng-text-input
-          class="ngTextInput"
-          [formControl]="bugForm.controls['steamDirectory'] | formControl"
-          placeholder="C:\Program Files (x86)\Steam or ~/.steam/steam"
-        ></ng-text-input>
-      </div>
-      <div class="inlineLeft">
-        <div class="submit" (click)="submitReport()">Submit Report</div>
-      </div>
-      <div class="inlineLeft" [class.hidden]="this.reportID == undefined">
-        <div class="reportIDLabel" style="margin-right: 0.25em">Report ID:</div>
-        <div class="reportID">{{ this.reportID }}</div>
-        <div class="copy" (click)="copyReportID()">
-          <svg copy-icon title="Copy Report ID to clipboard"></svg>
+          <div class="text" style="margin-right: 0.25em">Steam Directory:</div>
+          <ng-text-input
+            class="ngTextInput"
+            [formControl]="bugForm.controls['steamDirectory'] | formControl"
+            placeholder="C:\Program Files (x86)\Steam or ~/.steam/steam"
+          ></ng-text-input>
         </div>
-      </div>
-      <div class="inlineLeft" [class.hidden]="this.reportID == undefined">
-        <div class="reportIDLabel" style="margin-right: 0.25em">
-          Delete Key:
+        <div class="inlineLeft">
+          <div class="submit" (click)="submitReport()">Submit Report</div>
         </div>
-        <div class="reportID">{{ this.deleteKey }}</div>
-        <div class="copy" (click)="copyDeleteKey()">
-          <svg copy-icon title="Copy Delete Key to clipboard"></svg>
+        <div class="inlineLeft" [class.hidden]="this.reportID == undefined">
+          <div class="reportIDLabel" style="margin-right: 0.25em">Report ID:</div>
+          <div class="reportID">{{ this.reportID }}</div>
+          <div class="copy" (click)="copyReportID()">
+            <svg copy-icon title="Copy Report ID to clipboard"></svg>
+          </div>
+        </div>
+        <div class="inlineLeft" [class.hidden]="this.reportID == undefined">
+          <div class="reportIDLabel" style="margin-right: 0.25em">
+            Delete Key:
+          </div>
+          <div class="reportID">{{ this.deleteKey }}</div>
+          <div class="copy" (click)="copyDeleteKey()">
+            <svg copy-icon title="Copy Delete Key to clipboard"></svg>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<markdown class="bugreportdocs" [content]="this.explanation"></markdown>
-<div class="menu">
-  <div
+  <markdown class="bugreportdocs" [content]="this.explanation"></markdown>
+}
+@if(showOptions) {
+  <div class="options" >
+    <div
     class="error"
     [class.active]="settings.showErrors"
     (click)="settings.showErrors = !settings.showErrors"
   >
     {{ lang.error }}
+    </div>
+    <div
+      class="info"
+      [class.active]="settings.showInfo"
+      (click)="settings.showInfo = !settings.showInfo"
+    >
+      {{ lang.info }}
+    </div>
+    <div
+      class="success"
+      [class.active]="settings.showSuccesses"
+      (click)="settings.showSuccesses = !settings.showSuccesses"
+    >
+      {{ lang.success }}
+    </div>
+    <div
+      class="fuzzy"
+      [class.active]="settings.showFuzzy"
+      (click)="settings.showFuzzy = !settings.showFuzzy"
+    >
+      {{ lang.fuzzy }}
+    </div>
+    <div
+      class="textWrap"
+      [class.active]="settings.textWrap"
+      (click)="settings.textWrap = !settings.textWrap"
+    >
+      {{ lang.textWrap }}
+    </div>
+    <div
+      class="autoscroll"
+      [class.active]="settings.autoscroll"
+      (click)="settings.autoscroll = !settings.autoscroll"
+    >
+      {{ lang.autoscroll }}
+    </div>
   </div>
-  <div
-    class="info"
-    [class.active]="settings.showInfo"
-    (click)="settings.showInfo = !settings.showInfo"
-  >
-    {{ lang.info }}
-  </div>
-  <div
-    class="success"
-    [class.active]="settings.showSuccesses"
-    (click)="settings.showSuccesses = !settings.showSuccesses"
-  >
-    {{ lang.success }}
-  </div>
-  <div
-    class="fuzzy"
-    [class.active]="settings.showFuzzy"
-    (click)="settings.showFuzzy = !settings.showFuzzy"
-  >
-    {{ lang.fuzzy }}
-  </div>
-  <div
-    class="textWrap"
-    [class.active]="settings.textWrap"
-    (click)="settings.textWrap = !settings.textWrap"
-  >
-    {{ lang.textWrap }}
-  </div>
-  <div
-    class="autoscroll"
-    [class.active]="settings.autoscroll"
-    (click)="settings.autoscroll = !settings.autoscroll"
-  >
-    {{ lang.autoscroll }}
-  </div>
+}
+
+<div class="menu">
+
   <div class="clear" (click)="clearLog()">{{ lang.clearLog }}</div>
+  @if(showReporter) {
+    <div class="clear dangerousButton" (click)="closeReporter()">Close Reporter</div>
+  }
+  @else {
+    <div class="clear" (click)="openReporter()">Report Bug</div>
+  }
   <div
     class="clear only-emudeck"
     routerLink="/parsers-list"
