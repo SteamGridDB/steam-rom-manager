@@ -195,6 +195,7 @@
   --height-nav-link: 20px;
   --padding-nav-link: 8px 16px;
   --padding-nav-link-expand: 0px 16px;
+  --nav-link-before-margin-left: 0px;
   --img-nav-link-display: none;
   --color-nav-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-nav-scrollbar-track: rgba(80, 80, 80, 0.3);
@@ -1047,6 +1048,7 @@
   --color-nav-link-bg-hover: var(--color-nav-link-background-active);
   --padding-nav-link: 0;
   --padding-nav-link-expand: 0px;
+  --nav-link-before-margin-left: 0px;
   --height-nav-link: 100%;
   --img-nav-link-display: inline-block;
   --color-nav-scrollbar-thumb: rgba(80, 80, 80, 0.5);
@@ -1447,6 +1449,7 @@
   --color-nav-link-bg-hover: transparent;
   --padding-nav-link: 16px;
   --padding-nav-link-expand: 0px;
+  --nav-link-before-margin-left: -10px;
   --height-nav-link: 1.2em;
   --img-nav-link-display: inline-block;
   --color-nav-scrollbar-thumb: rgba(80, 80, 80, 0.5);

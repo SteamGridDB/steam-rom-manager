@@ -103,6 +103,9 @@
 
       position: relative;
 
+      &.hasSaveIndicator {
+        padding-left: 0px;
+      }
       &::before {
         top: 50%;
         position: absolute;
