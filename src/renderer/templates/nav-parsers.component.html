@@ -44,7 +44,9 @@
             >
               <div>
                 <p>
-                  <img width="120" src="{{imageMap[parserId].img}}"/>
+                  @if(imageMap[parserId]) {
+                    <img width="120" src="{{imageMap[parserId].img}}"/>
+                  }
                   <span *ngIf="imageMap[parserId].alternative">Non-EmuDeck</span>
                 </p>
                 <small>{{imageMap[parserId].details}}</small>

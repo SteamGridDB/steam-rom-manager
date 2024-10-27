@@ -867,9 +867,9 @@
 
   &.EmuDeck.EmuDeck log {
     grid-template-areas:
-      "messages bugreport"
-      "messages bugreport"
-      "menu menu";
+      "options messages bugreport"
+      "options messages bugreport"
+      "menu menu menu";
     .menu {
       margin: 0;
       padding: 28px;
@@ -1155,7 +1155,7 @@
   --color-preview-separator: transparent;
   --padding-preview-separator: 18px;
   --color-preview-text: var(--color-nav-link-text-active);
-  --color-preview-user-background: var(--color-nav-link-background-active);
+  --color-preview-user-background: rgb(128, 193, 243);
   --color-preview-app-button: #8d8d8d;
   --color-preview-app-button-active: #ffffff;
   --color-preview-app-button-hover: #cccccc;

@@ -104,13 +104,14 @@ export class NavParsersComponent implements OnDestroy {
         this.changeRef.detectChanges();
       }),
     );
-
-    this.subscriptions.add(
-      this.navClick.subscribe(()=>{
-        this.currentId="";
-        this.changeRef.detectChanges();
-      })
-    )
+    if(this.appSettings.theme == 'Deck') {
+      this.subscriptions.add(
+        this.navClick.subscribe(()=>{
+          this.currentId="";
+          this.changeRef.detectChanges();
+        })
+      )
+    }
 
     this.languageService.observeChanges().subscribe((lang) => {
       this.changeRef.detectChanges();
