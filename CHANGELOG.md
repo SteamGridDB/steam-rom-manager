@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.5.29
+
+### Fixed
+
+- Ability to add local images in preview broke in a past Electron update.
+
 ## 2.5.28
 
 ### Added
