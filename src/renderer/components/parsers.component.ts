@@ -801,6 +801,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             ).children.limitToGroups as NestedFormElement.Select
           ).values = Object.keys(this.customVariables);
         }
+        this.changeRef.detectChanges();
       }),
     );
     this.subscriptions.add(

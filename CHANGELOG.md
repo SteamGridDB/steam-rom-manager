@@ -7,10 +7,13 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Ability to drag/drop to re-arrange parsers in Classic and Deck themes.
+- Several UI standardizations: Unified color scheme for Deck theme, moved 
+logger options to an options panel, minimized all docs by default, minimized error reporter by default.
 
 ### Fixed
 
 - Executables on Mac OS should be allowed to be directories (.app folders).
+- User Variables not populating in title variables dropdown under Title Modification section of create parser.
 
 ## 2.5.27
 
