@@ -9,8 +9,8 @@ import {
   RendererStyleFlags2
 } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
-import { LoggerService } from "../services";
-import { LogMessage, LogSettings } from "../../models";
+import { LoggerService, SettingsService } from "../services";
+import { AppSettings, LogMessage, LogSettings } from "../../models";
 import { Observable } from "rxjs";
 import { APP } from "../../variables";
 import { clipboard } from "electron";
@@ -26,10 +26,12 @@ import * as fs from "fs-extra";
 })
 export class LoggerComponent {
   messages: Observable<LogMessage[]>;
-  settings: LogSettings = undefined;
+  settings: LogSettings;
+  appSettings: AppSettings;
   explanation: string;
-  reportID: string = undefined;
-  deleteKey: string = undefined;
+  showOptions: boolean = false;
+  reportID: string;
+  deleteKey: string;
   useVDFs: boolean = false;
   description: string = "";
   discordHandle: string = "";
@@ -43,9 +45,11 @@ export class LoggerComponent {
     private changeDetectionRef: ChangeDetectorRef,
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private settingsService: SettingsService
   ) {
     this.settings = this.loggerService.getLogSettings();
+    this.appSettings = this.settingsService.getSettings();
     this.messages = this.loggerService.getLogMessages();
     this.explanation = this.lang.docs__md.self.join(" ");
 
@@ -134,6 +138,35 @@ export class LoggerComponent {
 
   clearLog() {
     this.loggerService.clearLog();
+  }
+  
+  closeOptions() {
+    this.showOptions = false;
+    this.renderer.setStyle(
+      this.elementRef.nativeElement,
+      "--options-width",
+      "0%",
+      RendererStyleFlags2.DashCase,
+    );
+  }
+
+  openOptions() {
+    this.showOptions = true;
+    this.renderer.setStyle(
+      this.elementRef.nativeElement,
+      "--options-width",
+      "300px",
+      RendererStyleFlags2.DashCase,
+    );
+  }
+  
+  toggleOptions() {
+    if (this.showOptions) {
+      this.closeOptions();
+    } else {
+      this.openOptions();
+    }
+    this.changeDetectionRef.detectChanges();
   }
 
   openReporter() {

@@ -743,7 +743,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.renderer.setStyle(
         this.elementRef.nativeElement,
         "--markdown-width",
-        "0.7fr",
+        "1fr",
         RendererStyleFlags2.DashCase,
       );
     } else {

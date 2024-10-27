@@ -144,18 +144,24 @@
   .menu {
     @include webkitScrollbar(parser-menu-scrollbar, 0.5em);
 
-    display: flex;
+    display: grid;
+    grid-area: menu;
+    grid-template-areas: "lowerLeft . lowerRight";
+    grid-template-columns: auto 1fr auto;
+    .lowerLeft {
+      grid-area: lowerLeft;
+    }
+    .lowerRight {
+      grid-area: lowerRight;
+    }
     overflow: auto;
 
     border: 0.5em solid transparent;
     background-color: var(--color-parsers-menu-background);
 
-    grid-area: menu;
-
-    > div {
+    .lowerLeft>div,.lowerRight>div {
       @include clickButtonColor(click-button, true);
       @include button();
-
       margin: 0 0.25em;
       &:last-child {
         margin-right: 0;

@@ -9,8 +9,8 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, Router, RouterLinkActive } from "@angular/router";
 import { FormBuilder, FormArray, FormGroup, FormControl } from "@angular/forms";
-import { UserExceptions, SelectItem } from "../../models";
-import { UserExceptionsService, LoggerService } from "../services";
+import { UserExceptions, SelectItem, AppSettings } from "../../models";
+import { UserExceptionsService, LoggerService, SettingsService } from "../services";
 import { Subscription } from "rxjs";
 import { APP } from "../../variables";
 import * as _ from "lodash";
@@ -26,6 +26,7 @@ export class ExceptionsComponent implements OnDestroy {
     activePath: "",
     content: "",
   };
+  appSettings: AppSettings;
   exceptionsForm: FormGroup;
   filterValue = "";
   private subscriptions: Subscription = new Subscription();
@@ -51,8 +52,10 @@ export class ExceptionsComponent implements OnDestroy {
     private formBuilder: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,
     private renderer:  Renderer2,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private settingsService: SettingsService
   ) {
+    this.appSettings = this.settingsService.getSettings();
     this.currentDoc.content = this.lang.docs__md.userExceptions.join("");
   }
 
@@ -158,7 +161,7 @@ export class ExceptionsComponent implements OnDestroy {
     this.renderer.setStyle(
       this.elementRef.nativeElement,
       "--markdown-width",
-      "0.7fr",
+      "1fr",
       RendererStyleFlags2.DashCase,
     );
   }

@@ -519,14 +519,18 @@
   </div>
 </div>
 <div class="menu" drag-scroll>
-  @if(settings.environmentVariables.steamDirectory) {
-    <div (click)="steamDir()"> Open Steam Directory</div>
-  }
-  <div (click)="configDir()">{{ lang.text.configDir }}</div>
-  @if(showMarkdown) {
-    <div (click)="closeDocs()" class="dangerousButton">Close Docs</div>
-  }
-  @else {
-    <div (click)="openDocs()">Open Docs</div>
-  }
+  <div class="lowerLeft">
+    @if(settings.environmentVariables.steamDirectory) {
+      <div (click)="steamDir()">{{ lang.text.steamDir }}</div>
+    }
+    <div (click)="configDir()">{{ lang.text.configDir }}</div>
+  </div>
+  <div class="lowerRight">
+    @if(showMarkdown) {
+      <div (click)="closeDocs()" class="dangerousButton">Close Docs</div>
+    }
+    @else {
+      <div (click)="openDocs()">Open Docs</div>
+    }
+  </div>
 </div>

@@ -2,45 +2,44 @@
 
 :host {
   --reporter-width: 0fr;
+  --options-width: 0fr;
+
   display: grid;
   overflow: auto;
 
   grid-area: route;
   grid-template-areas:
-    "messages bugreport"
-    "messages bugreportdocs"
-    "menu menu";
-  grid-template-columns: 1.5fr var(--reporter-width);
+    "options messages bugreport"
+    "options messages bugreportdocs"
+    "menu menu menu";
+  grid-template-columns: var(--options-width) 1.5fr var(--reporter-width);
   grid-template-rows: 1fr 1.3fr auto;
 
-  .menu {
-    @include webkitScrollbar(logger-menu-scrollbar, 0.5em);
-
-    grid-area: menu;
-    display: flex;
-    overflow: auto;
-
-    border: solid 0.5em transparent;
-    background-color: var(--color-logger-menu-background);
-
-    align-self: end;
-
-    > div {
-      @include toggleButtonColor(toggle-button);
-      @include button();
-
-      margin: 0 0.25em;
-      &:last-child {
-        margin-right: 0;
+  .options {
+    grid-area: options;
+    background-color: var(--color-preview-user-background);
+    @include webkitScrollbar(preview-scrollbar);
+    overflow-y: scroll;
+    .optionsGroup {
+      padding-left: 1em;
+      padding-right: 1em;
+      padding-top: 1em;
+      .optionsLabel {
+        margin-bottom: 0.5em;
+        span {
+          color: var(--color-preview-text);
+        }
       }
-      &:first-child {
-        margin-left: 0;
-      }
-
-      &.clear {
-        @include clickButtonColor(click-button);
+      .optionsButton {
+        @include button();
+        @include toggleButtonColor(toggle-button);
+        margin-bottom: 1em;
+        margin-right: 1em;
       }
     }
+
+
+
   }
   .bugreport {
     grid-area: bugreport;
@@ -175,6 +174,40 @@
       display: flex;
       > span {
         margin: auto;
+      }
+    }
+  }
+  .menu {
+    @include webkitScrollbar(logger-menu-scrollbar, 0.5em);
+
+    display: grid;
+    grid-area: menu;
+    grid-template-areas: "lowerLeft . lowerRight";
+    grid-template-columns: auto 1fr auto;
+    .lowerLeft {
+      grid-area: lowerLeft;
+    }
+    .lowerRight {
+      grid-area: lowerRight;
+    }
+    overflow: auto;
+
+    border: solid 0.5em transparent;
+    background-color: var(--color-logger-menu-background);
+
+    .lowerLeft>div,.lowerRight>div {
+      @include toggleButtonColor(click-button);
+      @include button();
+
+      margin: 0 0.25em;
+      &:last-child {
+        margin-right: 0;
+      }
+      &:first-child {
+        margin-left: 0;
+      }
+      &.dangerousButton {
+        @include clickButtonColor(dangerous-click-button);
       }
     }
   }

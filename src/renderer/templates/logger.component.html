@@ -87,66 +87,83 @@
 }
 @if(showOptions) {
   <div class="options" >
-    <div
-    class="error"
-    [class.active]="settings.showErrors"
-    (click)="settings.showErrors = !settings.showErrors"
-  >
-    {{ lang.error }}
+    <div class="optionsGroup">
+      <div class="optionsLabel">
+        <span>Log Filters</span>
+      </div>
+      <div
+        class="optionsButton"
+        [class.active]="settings.showErrors"
+        (click)="settings.showErrors = !settings.showErrors"
+      >
+      {{ lang.error }}
+      </div>
+      <div
+        class="optionsButton"
+        [class.active]="settings.showInfo"
+        (click)="settings.showInfo = !settings.showInfo"
+      >
+        {{ lang.info }}
+      </div>
+      <div
+        class="optionsButton"
+        [class.active]="settings.showSuccesses"
+        (click)="settings.showSuccesses = !settings.showSuccesses"
+      >
+        {{ lang.success }}
+      </div>
+      <div
+        class="optionsButton"
+        [class.active]="settings.showFuzzy"
+        (click)="settings.showFuzzy = !settings.showFuzzy"
+      >
+        {{ lang.fuzzy }}
+      </div>
     </div>
-    <div
-      class="info"
-      [class.active]="settings.showInfo"
-      (click)="settings.showInfo = !settings.showInfo"
-    >
-      {{ lang.info }}
-    </div>
-    <div
-      class="success"
-      [class.active]="settings.showSuccesses"
-      (click)="settings.showSuccesses = !settings.showSuccesses"
-    >
-      {{ lang.success }}
-    </div>
-    <div
-      class="fuzzy"
-      [class.active]="settings.showFuzzy"
-      (click)="settings.showFuzzy = !settings.showFuzzy"
-    >
-      {{ lang.fuzzy }}
-    </div>
-    <div
-      class="textWrap"
+    <div class="optionsGroup">
+      <div class="optionsLabel">
+        <span>Log Settings</span>
+      </div>
+      <div
+      class="optionsButton"
       [class.active]="settings.textWrap"
       (click)="settings.textWrap = !settings.textWrap"
     >
       {{ lang.textWrap }}
     </div>
     <div
-      class="autoscroll"
+      class="optionsButton"
       [class.active]="settings.autoscroll"
       (click)="settings.autoscroll = !settings.autoscroll"
     >
       {{ lang.autoscroll }}
     </div>
+    </div>
+
   </div>
 }
 
 <div class="menu">
-
-  <div class="clear" (click)="clearLog()">{{ lang.clearLog }}</div>
-  @if(showReporter) {
-    <div class="clear dangerousButton" (click)="closeReporter()">Close Reporter</div>
-  }
-  @else {
-    <div class="clear" (click)="openReporter()">Report Bug</div>
-  }
-  <div
-    class="clear only-emudeck"
-    routerLink="/parsers-list"
-    routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true }"
-  >
-    Back
+  <div class="lowerLeft">
+    <div class="dangerousButton" (click)="clearLog()">{{ lang.clearLog }}</div>
+    <div (click)="toggleOptions()">Options</div>
   </div>
+  <div class="lowerRight">
+    @if(showReporter) {
+      <div class="dangerousButton" (click)="closeReporter()">Close Reporter</div>
+    }
+    @else {
+      <div (click)="openReporter()">Report Bug</div>
+    }
+    @if(appSettings.theme=='EmuDeck') {
+      <div
+      routerLink="/parsers-list"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      Back
+    </div>
+    }
+  </div>
+
 </div>

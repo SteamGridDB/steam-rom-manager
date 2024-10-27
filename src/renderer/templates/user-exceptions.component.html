@@ -129,7 +129,7 @@
   <div class="addItem" (click)="addItem()">{{ lang.buttons.addItem }}</div>
 </div>
 <div class="menu" drag-scroll>
-  <ng-container>
+  <div class="lowerLeft">
     <div class="dangerousButton" (click)="deleteAll()">
       {{ lang.buttons.deleteAll }}
     </div>
@@ -138,18 +138,23 @@
     <div class="addItem" class="only-emudeck" (click)="addItem()">
       {{ lang.buttons.addItem }}
     </div>
-    @if(showMarkdown) {
-      <div (click)="closeDocs()" class="dangerousButton">Close Docs</div>
-    }
-    @else {
-      <div (click)="openDocs()">Open Docs</div>
-    }
-    <nav-link
+  </div>
+  <div class="lowerRight">
+    @if(appSettings.theme=='EmuDeck'){
+      <nav-link
       [routerLink]="['/parsers-list']"
-      class="only-emudeck"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
-      >Back</nav-link
-    >
-  </ng-container>
+      >Back</nav-link>
+    }
+    @else {
+      @if(showMarkdown) {
+        <div (click)="closeDocs()" class="dangerousButton">Close Docs</div>
+      }
+      @else {
+        <div (click)="openDocs()">Open Docs</div>
+      }
+    }
+  </div>
+
 </div>

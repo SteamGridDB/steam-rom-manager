@@ -395,6 +395,7 @@ export interface languageStruct {
         deleteDisabledShortcuts: string;
         clearLogOnTest: string;
         configDir: string;
+        steamDir: string;
       };
       placeholder: {
         noProviders: string;

@@ -248,7 +248,7 @@ export class SettingsComponent implements OnDestroy {
     this.renderer.setStyle(
       this.elementRef.nativeElement,
       "--markdown-width",
-      "0.7fr",
+      "1fr",
       RendererStyleFlags2.DashCase,
     );
   }

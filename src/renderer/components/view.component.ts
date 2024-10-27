@@ -9,7 +9,7 @@ import {
 } from "@angular/core";
 import { clipboard } from "electron";
 import { ActivatedRoute, Router } from "@angular/router";
-import { LoggerService } from "../services";
+import { LoggerService, SettingsService } from "../services";
 import { ControllerManager } from "../../lib";
 import {
   controllerTypes,
@@ -24,6 +24,7 @@ import {
   VDF_ShortcutsItem,
   SteamInputEnabled,
   ControllerTemplate,
+  AppSettings,
 } from "../../models";
 import { generateShortAppId } from "../../lib/helpers/steam";
 import path from "path";
@@ -40,6 +41,7 @@ import { ViewService } from "../services/view.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ViewComponent {
+  appSettings: AppSettings;
   currentShortcut: VDF_ShortcutsItem;
   currentCats: string;
   currentLaunch: string;
@@ -52,11 +54,14 @@ export class ViewComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private loggerService: LoggerService,
+    private settingsService: SettingsService,
     public viewService: ViewService,
     private renderer: Renderer2,
     private elementRef: ElementRef,
     private changeDetectionRef: ChangeDetectorRef,
-  ) {}
+  ) {
+    this.appSettings = this.settingsService.getSettings();
+  }
 
   get artworkSingDict() {
     return artworkSingDict;

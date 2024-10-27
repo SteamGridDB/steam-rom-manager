@@ -68,7 +68,6 @@
   ></div>
   <ng-container *ngIf="!(viewService.status.refreshingDetails | async)">
     <div class="infos">
-      <div class="launch" (click)="launchTitle()">LAUNCH TITLE</div>
       <div class="section">
         <span class="sectionLabel">SHORTCUT INFO</span>
       </div>
@@ -145,17 +144,16 @@
     </div>
   </ng-container>
 </div>
-<div class="menu not-emudeck">
-  <div class="buttonGroup">
-    <div class="menuButton" (click)="refreshGames(true)">Refresh Games</div>
+<div class="menu">
+  <div class="lowerLeft">
+    <div (click)="refreshGames(true)">Refresh Games</div>
   </div>
-</div>
-<div class="menu only-emudeck">
-  <div class="buttonGroup">
-    <div class="menuButton" (click)="refreshGames(true)">Refresh Games</div>
-  </div>
-  <div class="buttonGroup">
-    <div
+  <div class="lowerRight">
+    @if(!!currentShortcut) {
+      <div class="launch" (click)="launchTitle()">Launch Title</div>
+    }
+    @if(appSettings.theme == 'EmuDeck') {
+      <div
       class="menuButton"
       routerLink="/parsers-list"
       routerLinkActive="active"
@@ -163,5 +161,6 @@
     >
       Back
     </div>
+    }
   </div>
 </div>

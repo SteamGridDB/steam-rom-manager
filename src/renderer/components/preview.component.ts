@@ -513,18 +513,18 @@ export class PreviewComponent implements OnDestroy {
       RendererStyleFlags2.DashCase,
     );
   }
-
-  toggleDetailsPerApp() {
-    this.hideDetailsPerApp = !this.hideDetailsPerApp;
-    this.changeDetectionRef.detectChanges();
-  }
-
+  
   toggleFilters() {
     if (this.showFilters) {
       this.closeFilters();
     } else {
       this.openFilters();
     }
+    this.changeDetectionRef.detectChanges();
+  }
+
+  toggleDetailsPerApp() {
+    this.hideDetailsPerApp = !this.hideDetailsPerApp;
     this.changeDetectionRef.detectChanges();
   }
 
