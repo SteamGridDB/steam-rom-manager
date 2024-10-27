@@ -33,7 +33,6 @@ import {
   SteamList,
 } from "../../models";
 import { APP } from "../../variables";
-import { FileSelector } from "../../lib";
 import {
   artworkTypes,
   artworkViewTypes,
@@ -58,7 +57,8 @@ import {
   sgdbIdRegex,
 } from "../../lib/image-providers/available-providers";
 import { DomSanitizer } from "@angular/platform-browser";
-
+import { OpenDialogReturnValue } from "electron";
+import { dialog } from "@electron/remote";
 @Component({
   selector: "preview",
   templateUrl: "../templates/preview.component.html",
@@ -83,7 +83,6 @@ export class PreviewComponent implements OnDestroy {
   artworkSelectTypes: SelectItem[];
   sortBySelectTypes: SelectItem[];
   scrollingEntries: boolean = false;
-  fileSelector: FileSelector = new FileSelector();
   CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
   currentApp: {
     app: PreviewDataApp;
@@ -420,52 +419,45 @@ export class PreviewComponent implements OnDestroy {
     return this.previewService.getTotalLengthOfImages(app, artworkType);
   }
 
-  updateListImageRanges() {
-    if (this.currentApp) {
+  updateListImageRanges(app?: PreviewDataApp) {
+    if (this.currentApp || app) {
+      const rangesApp = app ? app : this.currentApp.app;
       this.listImagesRanges = this.previewService.getRanges(
-        this.currentApp.app,
+        rangesApp,
         this.listImagesArtworkType,
       );
       this.changeDetectionRef.detectChanges();
     }
   }
 
-  addLocalImages(app: PreviewDataApp, artworkType?: ArtworkType) {
-    this.fileSelector.multiple = true;
-    this.fileSelector.accept = ".png, .jpeg, .jpg, .tga, .webp";
+  async addLocalImages(app: PreviewDataApp, artworkType?: ArtworkType) {
+    const options: Electron.OpenDialogSyncOptions = {
+      properties: ["multiSelections","openFile"],
+      title: "Choose selections folder location.",
+      filters: [{name: "Images", extensions: ["png","tga","jpg","jpeg","webp"]}]
+    };
     const actualArtworkType = this.getActualArtworkType(artworkType);
-    this.fileSelector.onChange = (target) => {
-      if (target.files) {
-        let extRegex = /png|tga|jpg|jpeg|webp/i;
-        for (let i = 0; i < target.files.length; i++) {
-          if (extRegex.test(path.extname(target.files[i].path))) {
-            let imageUrl = url.encodeFile(target.files[i].path);
-            this.previewService.addUniqueLocalImage(
-              app.images[actualArtworkType].imagePool,
-              {
-                imageProvider: imageProviderNames.manual,
-                imageUrl: imageUrl,
-                loadStatus: "done",
-              },
-              actualArtworkType,
-              "manual",
-            );
-            this.previewService.setImageIndex(
-              app,
-              this.previewService.getTotalLengthOfImages(
-                app,
-                actualArtworkType,
-                true,
-              ) - 1,
-              actualArtworkType,
-              true,
-            );
-            this.updateListImageRanges();
-          }
+    const {filePaths}: OpenDialogReturnValue = await dialog.showOpenDialog(options);
+    if(filePaths!==undefined) {
+      let extRegex = /png|tga|jpg|jpeg|webp/i;
+      for (let i = 0; i < filePaths.length; i++) {
+        if (extRegex.test(path.extname(filePaths[i]))) {
+          let imageUrl = url.encodeFile(filePaths[i]);
+          this.previewService.addUniqueLocalImage(
+            app.images[actualArtworkType].imagePool,
+            {
+              imageProvider: imageProviderNames.manual,
+              imageUrl: imageUrl,
+              loadStatus: "done",
+            },
+            actualArtworkType,
+            "manual",
+          );
+          this.updateListImageRanges(app);
+          this.previewService.setImageIndex(app, this.listImagesRanges["manual"].end - 1,actualArtworkType,true)
         }
       }
-    };
-    this.fileSelector.trigger();
+    }
   }
 
   stopImageRetrieving() {

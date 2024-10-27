@@ -13,6 +13,5 @@ export * from "./vdf-added-items-file";
 export * from "./artwork-cache";
 export * from "./vdf-error";
 export * from "./acceptable-error";
-export * from "./file-selector";
 export * from "./category-manager";
 export * from "./controller-manager";
