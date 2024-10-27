@@ -298,13 +298,13 @@
   "logger": {
     "component": {
       "noMessages": "没有可用的消息",
-      "error": "错误",
-      "info": "信息",
-      "success": "成功！",
-      "fuzzy": "模糊",
-      "textWrap": "文本换行",
-      "autoscroll": "自动滚屏",
-      "clearLog": "清除日志",
+      "error": "Error messages",
+      "info": "Info messages",
+      "success": "Success messages",
+      "fuzzy": "Fuzzy messages",
+      "textWrap": "Wrap text",
+      "autoscroll": "Autoscroll",
+      "clearLog": "Clear",
       "issueDescription": "使用可通过拼写的透彻问题描述",
       "handleExample": "CoolHandle#1234"
     }
@@ -364,7 +364,8 @@
         "showSteamImages": "Show current Steam artwork by default",
         "deleteDisabledShortcuts": "删除已禁用解析器的快捷方式",
         "clearLogOnTest": "在测试解析器之前自动清除日志",
-        "configDir": "打开配置目录"
+        "configDir": "Config Directory",
+        "steamDir": "Steam Directory"
       },
       "placeholder": {
         "noProviders": "无",
