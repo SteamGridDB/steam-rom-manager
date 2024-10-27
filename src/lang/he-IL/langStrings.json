@@ -298,13 +298,13 @@
   "logger": {
     "component": {
       "noMessages": "No messages are available",
-      "error": "ERROR",
-      "info": "INFO",
-      "success": "SUCCESS",
-      "fuzzy": "FUZZY",
-      "textWrap": "TEXT-WRAP",
-      "autoscroll": "AUTOSCROLL",
-      "clearLog": "Clear log",
+      "error": "Error messages",
+      "info": "Info messages",
+      "success": "Success messages",
+      "fuzzy": "Fuzzy messages",
+      "textWrap": "Wrap text",
+      "autoscroll": "Autoscroll",
+      "clearLog": "Clear",
       "issueDescription": "Thorough issue description with passable spelling.",
       "handleExample": "CoolHandle#1234"
     }
@@ -364,7 +364,8 @@
         "showSteamImages": "Show current Steam artwork by default",
         "deleteDisabledShortcuts": "Remove shortcuts for disabled parsers",
         "clearLogOnTest": "Automatically clear log before testing parsers",
-        "configDir": "Open Config Directory"
+        "configDir": "Config Directory",
+        "steamDir": "Steam Directory"
       },
       "placeholder": {
         "noProviders": "None",
