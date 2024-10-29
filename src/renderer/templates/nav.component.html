@@ -47,17 +47,11 @@
     [routerLinkActiveOptions]="{ exact: true }"
     (click)="navClick.emit()"
   >
-    <!--got rid of dummy: dummy in routerLinkActiveOptions, maybe try to get rid of dummy variable-->
-    <ng-container *ngIf="!isExceptionsUnsaved">
-      <img src="/assets/images/danger.png" alt="Icon" height="16" />{{
-        lang.userExceptions
-      }}
-    </ng-container>
-    <ng-container *ngIf="isExceptionsUnsaved">
-      <img src="/assets/images/danger-unsaved.png" alt="Icon" height="16" />{{
-        lang.userExceptions
-      }}
-    </ng-container>
+  <ng-container>
+    <img src="/assets/images/danger.png" alt="Icon" height="16"/>{{
+      lang.userExceptions
+    }}
+  </ng-container>
   </nav-link>
 </nav-expand>
 

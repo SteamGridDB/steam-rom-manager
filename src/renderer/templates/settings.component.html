@@ -55,9 +55,7 @@
           style="font-size: 0.85em"
           class="ngSelect"
           [ngModel]="settings.theme"
-          (ngModelChange)="
-            settings.theme = $event; loadTheme(); onSettingsChange()
-          "
+          (ngModelChange)="changeTheme($event);"
           [values]="themes"
         >
         </ng-select>
@@ -178,8 +176,6 @@
         "
         >{{ lang.text.fuzzy_verbose }}</ng-toggle-button
       >
-      <!-- Currently no filtering is done since only SGDB is still a viable provider and it doesn't need filtering. I am keeping the underlying code in place in case it is needed in the future -->
-      <!-- <ng-toggle-button class="ngToggleButton" [ngModel]="settings.fuzzyMatcher.filterProviders" (ngModelChange)="settings.fuzzyMatcher.filterProviders = $event; onSettingsChange();">{{lang.text.fuzzy_filter}}</ng-toggle-button> -->
       <div class="inlineGroup">
         <div
           class="clickButton dangerousButton"
@@ -206,6 +202,8 @@
       </div>
     </div>
   </div>
+
+
   <div>
     <div class="section">
       <label>

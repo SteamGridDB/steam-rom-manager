@@ -25,7 +25,6 @@ import { EventEmitter } from "@angular/core";
 })
 export class NavComponent implements OnDestroy {
   isExceptionsUnsaved: boolean = false;
-  dummy: boolean = true;
   private userConfigurations: {
     saved: UserConfiguration;
     current: UserConfiguration;
@@ -106,17 +105,12 @@ export class NavComponent implements OnDestroy {
     this.subscriptions.add(
       this.exceptionsService.isUnsavedObservable.subscribe((val: boolean) => {
         this.isExceptionsUnsaved = val;
-        this.refreshActiveRoute();
         this.changeRef.detectChanges();
       }),
     );
     this.languageService.observeChanges().subscribe((lang) => {
       this.changeRef.detectChanges();
     });
-  }
-
-  private refreshActiveRoute() {
-    this.dummy = !this.dummy;
   }
 
   getParserControls() {

@@ -1275,7 +1275,7 @@
   --font-markdown-h6: 0.85em;
   --margin-markdown-hx: 3rem 0 1rem 0;
   --color-nav-border: rgba(0, 0, 0, 0);
-  --color-nav-border-drag: #249a3b;
+  --color-nav-border-drag: black;
   --color-nav-background: #32353d; //
   --display-nav-border: none;
   --height-nav-area: 260px;
@@ -1436,15 +1436,15 @@
   --color-nav-link-text: #cccfd4;
   --color-nav-link-text-active: #f0fff0;
   --color-nav-link-text-hover: #f0fff0;
-  --color-nav-link-enabled: #258045;
-  --color-nav-link-enabled-active: #22c65d;
-  --color-nav-link-enabled-hover: #22c65d;
-  --color-nav-link-disabled: #991d47;
-  --color-nav-link-disabled-active: #c22359;
-  --color-nav-link-disabled-hover: #c22359;
-  --color-nav-link-unsaved: #b8ba00;
-  --color-nav-link-unsaved-active: #b8ba00;
-  --color-nav-link-unsaved-hover: #d9dc00;
+  --color-nav-link-enabled: var(--color--filled);
+  --color-nav-link-enabled-active: var(--color--filled);
+  --color-nav-link-enabled-hover: var(--color--filled);
+  --color-nav-link-disabled: var(--color--missing);
+  --color-nav-link-disabled-active: var(--color--missing);
+  --color-nav-link-disabled-hover:var(--color--missing);
+  --color-nav-link-unsaved: var(--color-nested-form-error-border);
+  --color-nav-link-unsaved-active: var(--color-nested-form-error-border);
+  --color-nav-link-unsaved-hover: var(--color-nested-form-error-border);
   --color-nav-link-background-active: #4f596b;
   --color-nav-link-bg-hover: transparent;
   --padding-nav-link: 16px;
@@ -1675,7 +1675,7 @@
   --font-markdown-h6: 0.85em;
   --margin-markdown-hx: 3rem 0 1rem 0;
   --color-nav-border: rgba(0, 0, 0, 0);
-  --color-nav-border-drag: #249a3b;
+  --color-nav-border-drag: var(--color--filled);
   --color-nav-background: #32353d;
   --display-nav-border: inherit;
   --height-nav-area: 260px;

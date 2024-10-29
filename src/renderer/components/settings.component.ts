@@ -216,6 +216,13 @@ export class SettingsComponent implements OnDestroy {
   loadLanguage() {
     this.languageService.loadLanguage(this.settings.language);
   }
+  changeTheme(newTheme: string) {
+    if(this.settings.theme!==newTheme){
+      this.settings.theme = newTheme;
+      this.loadTheme();
+      this.onSettingsChange();
+    }
+  }
 
   loadTheme() {
     document.querySelector("html").className = "";
