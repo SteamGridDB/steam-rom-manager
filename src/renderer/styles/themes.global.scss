@@ -199,7 +199,7 @@
   --img-nav-link-display: none;
   --color-nav-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-nav-scrollbar-track: rgba(80, 80, 80, 0.3);
-  --height-navarea: 250px;
+  --height-navarea: 210px;
   --color-ng-bubbles-background: rgba(14, 131, 20, 0.4);
   --color-ng-bubbles-border: rgb(14, 131, 20);
   --color-ng-select-arrow: #c8c8c8;
@@ -208,7 +208,7 @@
   --color-ng-select-background: #101010;
   --color-ng-select-background-active: #101010;
   --color-ng-select-background-hover: #121212;
-  --color-ng-select-section-background: #101010;
+  --color-ng-select-section-background: rgba(29, 29, 29, 1);
   --color-ng-select-border: #0d7e35;
   --color-ng-select-border-active: rgb(12, 83, 47);
   --color-ng-select-border-hover: #1bd85e;
@@ -1454,7 +1454,7 @@
   --img-nav-link-display: inline-block;
   --color-nav-scrollbar-thumb: rgba(80, 80, 80, 0.5);
   --color-nav-scrollbar-track: rgba(80, 80, 80, 0.3);
-  --height-navarea: 360px;
+  --height-navarea: 300px;
   --color-ng-bubbles-background: rgba(49, 160, 244, 0.4);
   --color-ng-bubbles-border: rgb(49, 160, 244);
   --color-ng-select-arrow: #c8c8c8;
@@ -1638,7 +1638,7 @@
   --color-info-button-background-hover: var(--color--accent);
   --margin-info-button: 0 0 0 10px;
   --order-info-button: 2;
-  --color-markdown-background: transparent;
+  --color-markdown-background: var(--color-nested-form-background);
   --color-markdown-blockquote-border: #0f243b;
   --color-markdown-blockquote-text: #959595;
   --color-markdown-code: #dcdcdc;

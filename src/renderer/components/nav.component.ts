@@ -11,8 +11,9 @@ import {
   ParsersService,
   LanguageService,
   UserExceptionsService,
+  SettingsService,
 } from "../services";
-import { UserConfiguration } from "../../models";
+import { AppSettings, UserConfiguration } from "../../models";
 import { Subscription } from "rxjs";
 import { APP } from "../../variables";
 import { EventEmitter } from "@angular/core";
@@ -34,6 +35,8 @@ export class NavComponent implements OnDestroy {
 
   private navForm: FormGroup;
 
+  appSettings: AppSettings;
+
   @Input() navClick: EventEmitter<any>;
 
 
@@ -41,6 +44,7 @@ export class NavComponent implements OnDestroy {
     private parsersService: ParsersService,
     private languageService: LanguageService,
     private exceptionsService: UserExceptionsService,
+    private settingsService: SettingsService,
     private changeRef: ChangeDetectorRef,
     private formBuilder: FormBuilder,
   ) {}
@@ -50,6 +54,7 @@ export class NavComponent implements OnDestroy {
   }
 
   ngOnInit() {
+    this.appSettings = this.settingsService.getSettings();
     this.subscriptions.add(
       this.parsersService
         .getUserConfigurations()

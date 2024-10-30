@@ -28,16 +28,6 @@
     lang.logger
   }}</nav-link
 >
-<nav-link
-  routerLink="/settings"
-  routerLinkActive="active"
-  [routerLinkActiveOptions]="{ exact: true }"
-  (click)="navClick.emit()"
->
-  <img src="/assets/images/settings.png" alt="Icon" height="16" />{{
-    lang.settings
-  }}</nav-link
->
 <nav-expand routerLinkActive="active">
   <nav-link
     class="item hasSaveIndicator"
@@ -54,14 +44,14 @@
   </ng-container>
   </nav-link>
 </nav-expand>
-
 <nav-link
-  routerLink="/about"
+  routerLink="/settings"
   routerLinkActive="active"
   [routerLinkActiveOptions]="{ exact: true }"
   (click)="navClick.emit()"
-  ><img src="/assets/images/information.png" alt="Icon" height="16" />{{
-    lang.about
+>
+  <img src="/assets/images/settings.png" alt="Icon" height="16" />{{
+    lang.settings
   }}</nav-link
 >
 <nav-link

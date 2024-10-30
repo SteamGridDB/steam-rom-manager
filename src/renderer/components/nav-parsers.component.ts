@@ -17,6 +17,8 @@ import { UserConfiguration, AppSettings } from "../../models";
 import { Subscription } from "rxjs";
 import { APP } from "../../variables";
 import { Router } from "@angular/router";
+import { ParserFoldersService } from "../services/parser-folders.service";
+import { ParserFolders, ParserFoldersMap } from "../../models/parser-folders.model";
 
 @Component({
   selector: "nav-parsers",
@@ -34,6 +36,7 @@ export class NavParsersComponent implements OnDestroy {
   imageMap: { [k: string]: any } = {};
   private subscriptions: Subscription = new Subscription();
   appSettings: AppSettings;
+  parserFolders: ParserFolders;
   dragStartIndex: number = -1;
   currentId: string = "";
   @Input() navClick: EventEmitter<any>;
@@ -43,8 +46,10 @@ export class NavParsersComponent implements OnDestroy {
     private exceptionsService: UserExceptionsService,
     private router: Router,
     private settingsService: SettingsService,
+    private parserFoldersService: ParserFoldersService,
     private changeRef: ChangeDetectorRef,
     private formBuilder: FormBuilder,
+
   ) {}
 
   get lang() {
@@ -52,6 +57,8 @@ export class NavParsersComponent implements OnDestroy {
   }
   ngOnInit() {
     this.appSettings = this.settingsService.getSettings();
+    this.parserFolders = this.parserFoldersService.folders;
+    console.log("parserFolders", this.parserFolders)
     this.subscriptions.add(
       this.parsersService
         .getUserConfigurations()
@@ -187,6 +194,11 @@ export class NavParsersComponent implements OnDestroy {
               img: imgValue,
             };
           }
+  }
+
+  createFolder(folderName?: string) {
+    let r= (Math.random() + 1).toString(36).substring(5);
+    this.parserFolders.folders.push(r)
   }
 
   ngOnDestroy() {

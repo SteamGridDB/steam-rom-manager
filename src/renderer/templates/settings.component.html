@@ -1,5 +1,8 @@
-@if(showMarkdown) {
+@if (showMarkdown) {
   <markdown class="docs" [content]="this.currentDoc.content"></markdown>
+}
+@if (showAbout) {
+  <about class="docs"></about>
 }
 <choose-accounts
   [showChooseAccounts]="chooseUserAccountsVisible"
@@ -524,11 +527,15 @@
     <div (click)="configDir()">{{ lang.text.configDir }}</div>
   </div>
   <div class="lowerRight">
-    @if(showMarkdown) {
+    @if (showMarkdown) {
       <div (click)="closeDocs()" class="dangerousButton">Close Docs</div>
+    }
+    @else if (showAbout) {
+      <div (click)="closeDocs()" class="dangerousButton">Close About</div>
     }
     @else {
       <div (click)="openDocs()">Open Docs</div>
+      <div (click)="openAbout()">About Us</div>
     }
   </div>
 </div>

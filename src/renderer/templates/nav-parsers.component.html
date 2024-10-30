@@ -1,4 +1,17 @@
 <div class="parsers" [formGroup]="navForm" *ngIf="!!navForm">
+  <div class="navFolders">
+    @for(folder of parserFolders.folders; track $index) {
+      <div class="folder">
+        <img src="/assets/images/time.png" alt="Icon" height="12" />
+        <span>{{folder}}</span>
+      </div>
+    }
+    <div class="newFolder" (click)="createFolder()">
+      <img src="/assets/images/danger.png" alt="icon" height="12"/> 
+      <span>New Folder</span>
+    </div>
+  </div>
+  
   <nav-expand routerLinkActive="active">
     @if(userConfigurations.length) {
       <div class="title">

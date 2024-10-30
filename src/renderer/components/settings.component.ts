@@ -64,6 +64,7 @@ export class SettingsComponent implements OnDestroy {
   chooseUserAccountsVisible: boolean = false;
   showShellScripts: boolean = false;
   showMarkdown: boolean = false;
+  showAbout: boolean = false;
   private subscriptions: Subscription = new Subscription();
   private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
   constructor(
@@ -250,22 +251,28 @@ export class SettingsComponent implements OnDestroy {
   exitChooseAccounts() {
     this.chooseUserAccountsVisible = false;
   }
-  openDocs() {
-    this.showMarkdown = true;
+
+  adjustStyle(variable: string, value: string) {
     this.renderer.setStyle(
       this.elementRef.nativeElement,
-      "--markdown-width",
-      "1fr",
+      variable,
+      value,
       RendererStyleFlags2.DashCase,
     );
   }
+
+  openAbout() {
+    this.showAbout = true;
+    this.adjustStyle("--markdown-width", "1fr");
+  }
+
+  openDocs() {
+    this.showMarkdown = true;
+    this.adjustStyle("--markdown-width", "1fr");
+  }
   closeDocs() {
     this.showMarkdown = false;
-    this.renderer.setStyle(
-      this.elementRef.nativeElement,
-      "--markdown-width",
-      "0fr",
-      RendererStyleFlags2.DashCase,
-    );
+    this.showAbout = false;
+    this.adjustStyle("--markdown-width", "0fr");
   }
 }
