@@ -3,10 +3,10 @@ Les modèles de contrôleur vous permettent de configurer la mise en page des bo
 
 Vous pouvez désactiver la `Synchronisation Cloud` dans Steam pour éviter que vos configurations de contrôleur SRM soient écrasées. Vous pouvez trouver ce réglage dans `Steam > Paramètres > Cloud`.
 
-Pour créer un modèle personnalisé:
+:
 * Ouvrir Steam.
 * Connectez le contrôleur pour lequel vous voulez configurer un modèle.
-* Faites un clic droit sur n'importe quel jeu et cliquez sur `Gérer > Configuration du contrôleur`.
+* .
 * Configurez les boutons comme bon vous semble.
 * Appuyez sur `Options de configuration` puis `Exporter la configuration`.
 * Nommez le modèle dans la forme: `Titre du modèle (SRM)`. Vous devez terminer le nom par `(SRM)` ou SRM ignorera le modèle.
@@ -21,6 +21,6 @@ Actuellement SRM tire tous les modèles par défaut (fait par Valve) pour chaque
 
 * Pour annuler la configuration du contrôleur, vous pouvez soit `Retirer toutes les entrées d'application et contrôleur ajoutées` dans les paramètres généraux (cela supprime toutes les modifications apportées à vos données Steam) ou appuyer sur `Unset All Controllers` dans l'analyseur (cela supprime uniquement les paramètres du contrôleur pour le répertoire Steam et l'utilisateur spécifié dans cet analyseur).
 
-Once this is done you can parse and add games to steam as usual, and the templates will be applied to all the titles in the parser.
+Appuyer sur <0>Re-Fetch Controller Templates</0> pour extraire des modèles pour tous les types de contrôleur à partir de Steam.
 
 
