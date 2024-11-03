@@ -1,4 +1,4 @@
-## Informations du système
+## System info
 
 Si vous rencontrez des problèmes avec SRM, n'hésitez pas à visiter le [discord](https://discord.gg/bnSVJrz) ou le [subreddit](https://www.reddit.com/r/SteamRomManager/) Pour demander notre aide. Afin que nous puissions vous aider, nous aimerions que vous nous fournissiez ces informations :
 
@@ -43,7 +43,7 @@ Si vous appréciez Steam ROM Manager et souhaitez qu'il continue à être utile,
 * `CarJem`{.noWrap} - Ajout de l'analyseur manuel.
 * `MattMckenzy`{.noWrap} - Ajout de la possibilité d'importer et d'exporter des choix d'image.
 * `Apalatn`{.noWrap} - Ajout d'une option de redirection du lecteur d'installation à l'analyseur itch.io.
-* `OneMoreByte`{.noWrap} - Made itch.io parser work on linux and mac.
+* .
 * `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
 * `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
 
