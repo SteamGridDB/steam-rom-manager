@@ -9,10 +9,10 @@ Si vous rencontrez des problèmes avec SRM, n'hésitez pas à visiter le [discor
 
 * [Sorties SRM](https://github.com/SteamGridDB/steam-rom-manager/releases)
 * [Serveur Discord](https://discord.gg/bnSVJrz)
-* [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
-* [Groupe Steam](https://steamcommunity.com/groups/steamrommanager)
-* [Répertoire GitHub](https://github.com/SteamGridDB/steam-rom-manager)
-* [Projet de traduction Crowdin](https://crowdin.com/project/steam-rom-manager)
+* [r/Steam Rom Manager](https://www.reddit.com/r/SteamRomManager/)
+* [Groupe Steam Groupe Steam](https://steamcommunity.com/groups/steamrommanager)
+* [Répertoires GitHub](https://github.com/SteamGridDB/steam-rom-manager)
+* [Projet de traduction de Crowdin](https://crowdin.com/project/steam-rom-manager)
 
 ## Soutien
 
