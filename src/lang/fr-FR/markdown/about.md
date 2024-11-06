@@ -44,7 +44,7 @@ Si vous appréciez Steam ROM Manager et souhaitez qu'il continue à être utile,
 * `MattMckenzy`{.noWrap} - Ajout de la possibilité d'importer et d'exporter des choix d'image.
 * `Apalatn`{.noWrap} - Ajout d'une option de redirection du lecteur d'installation à l'analyseur itch.io.
 * .
-* `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
+* .
 * `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
 
 ### Communauté
