@@ -45,7 +45,7 @@ Si te gusta Steam ROM Manager y quieres que siga siendo util puedes considerar d
 * `Apalatn`{.noWrap} - Añadió una opción de redirección de unidad de instalación al analizador itch.io.
 * .
 *
-* `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
+* .......
 
 ### Comunidad
 * `HE Spoke`{.noWrap} - Creó una comunidad sobre SRM. Creador del grupo de [Steam](https://steamcommunity.com/groups/steamrommanager) y servidor de [Discord](https://discord.gg/bnSVJrz). Tambien ayuda a los usarios a configurar SRM en [Discord](https://discord.gg/bnSVJrz).
