@@ -43,7 +43,7 @@
 * `CarJem`{.noWrap} - Добавил(-а) пользовательский анализатор.
 * `MattMckenzy`{.noWrap} - Добавил(-а) возможность импорта и экспорта изображений.
 * `Apalatn`{.noWrap} - Добавил(-а) опцию перенаправления установочного диска в анализатор itch.io.
-* `OneMoreByte`{.noWrap} - Made itch.io parser work on linux and mac.
+*
 * `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
 * `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
 
