@@ -1,12 +1,10 @@
-# Executable `[supports env variables]`
+#
 
 模拟器可执行文件的路径。 可以是文件或任何有效的系统路径。
 
 ## 为什么是可选的？
 
 在某些情况下，您可能希望从某种批处理文件中运行游戏，该文件还将自动运行模拟器本身。 如果是这样的话，那么提供可执行文件就没有必要了。
-
-The final shortcut will just be `"${filePath}" --command-line-args`.
 
 ### 那么，如果没有默认可执行文件，我该如何将文件添加到 Steam？
 
