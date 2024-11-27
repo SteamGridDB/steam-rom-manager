@@ -1,4 +1,4 @@
-# Command line arguments `[supports variables]`{.noWrap}
+#
 
 附加到可执行文件以生成最终快捷方式的参数。 大多数情况下，您将希望使用提供的解析器变量进行设置。
 
