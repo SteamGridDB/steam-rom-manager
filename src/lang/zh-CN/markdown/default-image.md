@@ -1,4 +1,4 @@
-# Default image `[supports variables]`{.noWrap}
+#
 
 允许使用本地存储的图像作为默认/备用图像。 使用一个 [特殊的全局输入](#special-glob-input) 字符串来检索图像。 仅使用第一个检索到的图像。
 
