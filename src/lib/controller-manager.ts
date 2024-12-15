@@ -98,14 +98,18 @@ export class ControllerManager {
       cwd: templateDirUser,
       absolute: true,
     });
-    let parsedTemplatesUser: ControllerTemplate[] = filesUser
-      .filter((f: string) => fs.lstatSync(f).isFile())
-      .map(async (f: string) =>
-        Object.assign(
-          { mappingId: f.split(path.sep).slice(-2)[0] },
-          genericParser.parse(await fs.readFile(f, "utf-8")),
-        ),
+    let parsedTemplatesUser: ControllerTemplate[] = (
+      await Promise.all(
+        filesUser
+          .filter((f: string) => fs.lstatSync(f).isFile())
+          .map(async (f: string) =>
+            Object.assign(
+              { mappingId: f.split(path.sep).slice(-2)[0] },
+              genericParser.parse(await fs.readFile(f, "utf-8")),
+            ),
+          ),
       )
+    )
       .filter(
         (x: any) =>
           !!x["controller_mappings"] &&
