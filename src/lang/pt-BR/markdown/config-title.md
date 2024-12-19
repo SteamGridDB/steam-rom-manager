@@ -1,4 +1,4 @@
-# Parser title
+#
 
 Title of the parser. Does not have to be unique, but is required.
 
