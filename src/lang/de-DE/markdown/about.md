@@ -43,7 +43,7 @@ Wenn dir der Steam ROM Manager gefällt, und du möchtest, dass es weiterhin nü
 * `CarJem`{.noWrap} - Manueller Parser.
 * `MattMckenzy`{.noWrap} - Bildauswahl-Import und -Export.
 * `Apalatn`{.noWrap} - Weiterleitung des Installationslaufwerks zum itch.io-Parser hinzugefügt.
-* `OneMoreByte`{.noWrap} - Made itch.io parser work on linux and mac.
+* .
 * `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
 * `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
 
