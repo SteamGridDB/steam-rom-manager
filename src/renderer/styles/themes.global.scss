@@ -105,7 +105,7 @@
   --color--missing-hover: var(--color-error);
   --color--filled: var(--color--required);
   --color--filled-hover: var(--color--required-hover);
-  --grid-app: "titlebar titlebar titlebar" "navarea navborder route";
+  --grid-app: "titlebar titlebar titlebar" "nav navborder route";
   --grid-app-rows: auto 1fr;
   --grid-app-columns: auto auto 1fr;
   --nav-width: 20vw;
@@ -951,7 +951,7 @@
     }
   }
 
-  --grid-app: "titlebar" "route" "navarea";
+  --grid-app: "titlebar" "route" "nav";
   --grid-app-rows: auto 1fr auto;
   --grid-app-columns: auto;
   --color--accent: rgb(49, 160, 244);
@@ -1355,7 +1355,7 @@
       border-left: 4px solid var(--color--filled) !important;
     }
   }
-  --grid-app: "titlebar titlebar titlebar" "navarea navborder route";
+  --grid-app: "titlebar titlebar titlebar" "nav navborder route";
   --grid-app-rows: auto 1fr;
   --grid-app-columns: auto auto 1fr;
   --color--accent: #31a0f4;

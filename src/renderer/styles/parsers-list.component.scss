@@ -1,25 +1,12 @@
 @import "mixins";
 
 :host {
-  max-width: 94vw;
   margin: 0 auto;
   grid-area: route;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
   nav-parsers {
-    display: block;
-    max-width: 100%;
-    //overflow: auto;
-    height: 100%;
-    .parsers {
-      height: 100%;
-      nav-expand {
-        height: 100%;
-        .items {
-          overflow: hidden;
-          height: 100%;
-        }
-      }
-    }
+    width: 100%;
   }
   markdown {
     display: block;

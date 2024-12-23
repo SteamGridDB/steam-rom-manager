@@ -55,6 +55,16 @@
   }}</nav-link
 >
 <nav-link
+  [routerLink]="['/parsers-list']"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+  ><img
+    src="/assets/images/clipboard.png"
+    alt="Icon"
+    height="16"
+  />Parsers</nav-link
+>
+<nav-link
   class="not-emudeck"
   [routerLink]="['/parsers', -1]"
   routerLinkActive="active"
@@ -63,15 +73,4 @@
   ><img src="/assets/images/clipboard.png" alt="Icon" height="16" />{{
     lang.parsers
   }}</nav-link
->
-<nav-link
-  [routerLink]="['/parsers-list']"
-  class="only-emudeck"
-  routerLinkActive="active"
-  [routerLinkActiveOptions]="{ exact: true }"
-  ><img
-    src="/assets/images/clipboard.png"
-    alt="Icon"
-    height="16"
-  />Parsers</nav-link
 >

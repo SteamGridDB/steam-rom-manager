@@ -1,34 +1,88 @@
-<div class="parsers" [formGroup]="navForm" *ngIf="!!navForm">
-  <div class="navFolders">
-    @for(folder of parserFolders.folders; track $index) {
-      <div class="folder">
-        <img src="/assets/images/time.png" alt="Icon" height="12" />
-        <span>{{folder}}</span>
-      </div>
-    }
-    <div class="newFolder" (click)="createFolder()">
-      <img src="/assets/images/danger.png" alt="icon" height="12"/> 
-      <span>New Folder</span>
+<div class="folders">
+  @for(folder of parserFolders.folders; track $index) {
+    <div class="folder">
+      <img src="/assets/images/time.png" alt="Icon" height="12" />
+      <span>{{folder}}</span>
     </div>
+  }
+  <div class="newFolder" (click)="createFolder()">
+    <img src="/assets/images/danger.png" alt="icon" height="12"/> 
+    <span>New Folder</span>
   </div>
-  
-  <nav-expand routerLinkActive="active">
-    @if(userConfigurations.length) {
-      <div class="title">
-        <div class="inputContainer">
-          <div class="inlineGroup">
-            <nav-link class="titlelink" (click)="flipAll()">
-              <span>Toggle Parsers</span>
-              <span>&nbsp;&nbsp;</span>
-            </nav-link>
-            <ng-toggle-button
-              class="ngToggleButton"
-              [formControl]="navForm.get('selectAll') | formControl"
-            ></ng-toggle-button>
-          </div>
+</div>
+<div class="individuals" [formGroup]="navForm" *ngIf="!!navForm">
+  @if(userConfigurations.length) {
+    <div class="title individual">
+      <div class="label">
+        <span>Toggle All</span>
+      </div>
+      <div class="toggle">
+        <ng-toggle-button
+        class="ngToggleButton"
+        [formControl]="navForm.get('selectAll') | formControl"
+      ></ng-toggle-button>
+      </div>
+    </div>
+  }
+  @let parserControls = getParserControls();
+  @for(userConfiguration of userConfigurations; track userConfiguration.saved.parserId; let i=$index) {
+    @let parserId = userConfiguration.saved.parserId;
+    @let toggle = parserControls[parserId];
+    <div
+    class="individual"
+    [ngClass]="{
+      unsaved: userConfiguration.current != null,
+      disabled: userConfiguration.saved.disabled,
+    }">
+
+      <div 
+      mwlDroppable (drop)="handleDrop($event.dropData.fromIndex, i)"
+      dragOverClass="drop-over-active"
+      class="reorderer">
+      <div
+      class="inputContainer"
+      [class.active]="currentId == parserId"
+      mwlDraggable
+      dragActiveClass="drag-active"
+      showOriginalElementWhileDragging="true"
+      (dragStart)="dragStart($event)"
+
+      [dropData]="{fromIndex: i}"
+      >
+        <div class="inlineGroup">
+          <nav-link
+            class="parserlink"
+            [ngClass]="{
+              unsaved: userConfiguration.current != null,
+              disabled: userConfiguration.saved.disabled,
+              active: currentId == parserId
+            }"
+            (click)="onClick(i, parserId)"
+          >
+            <div>{{ userConfiguration.saved.configTitle || lang.noTitle }}</div>
+          </nav-link>
+          <ng-toggle-button
+            class="ngToggleButton"
+            [formControl]="toggle"
+          ></ng-toggle-button>
         </div>
       </div>
-    }
+      </div>
+    </div>
+  }
+</div>
+<div class="parsers">
+
+</div>
+<div class="menu">
+  
+</div>
+
+<!-- <div class="parsers" [formGroup]="navForm" *ngIf="!!navForm">
+
+  
+  <nav-expand routerLinkActive="active">
+
 
     @let parserControls = getParserControls();
     @for(userConfiguration of userConfigurations; track userConfiguration.saved.parserId; let i=$index) {
@@ -108,4 +162,4 @@
 
 
   </nav-expand>
-</div>
+</div> -->

@@ -21,7 +21,7 @@ import markdownItAttrs from "markdown-it-attrs";
   template: `
     <ng-container *ngIf="settingsLoaded && languageLoaded; else stillLoading">
       <ng-container *ngIf="!splash">
-        <navarea *ngIf="!shouldHideComponent"></navarea>
+        <nav *ngIf="!shouldHideComponent"></nav>
         <nav-border></nav-border>
         <router-outlet style="display: none;"></router-outlet>
       </ng-container>

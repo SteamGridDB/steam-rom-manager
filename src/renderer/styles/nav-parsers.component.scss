@@ -1,208 +1,56 @@
 @import "mixins";
-
 :host {
-  display: var(--nav-parsers-display);
-  overflow-y: auto;
-  flex-direction: column;
-
-  min-width: 7em;
-  width: var(--nav-width);
-  max-width: var(--nav-width-max);
-
-  white-space: nowrap;
-
-  --link-height: var(--height-nav-link);
-  --link-vPadding: 0.5em;
-  grid-area: nav-parsers;
-  @include webkitScrollbar(nav-scrollbar, 0.375em);
-  .parsers {
-    .parserlink {
-      flex: 1;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  --item-height: 50px;
+  --item-padding: 16px;
+  grid-template-areas: 
+    "folders individuals parser"
+    "menu menu menu";
+  grid-template-columns: 180px 180px 1fr;
+  grid-template-rows: 1fr auto;
+  color: #fff;
+  .folders {
+    grid-area: folders;
+    background-color: seagreen;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    @include webkitScrollbar(nested-form-scrollbar);
+    .folder {
+      height: var(--item-height);
+      padding: var(--item-padding);
     }
-    .titlelink {
-      flex: 1;
-    }
-
-    .item {
-      .reorderer {
-        &.drop-over-active {
-          border-left: solid 2px var(--color--filled);
-        }
+  }
+  .individuals {
+    grid-area: individuals;
+    background-color: darkslateblue;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    @include webkitScrollbar(nested-form-scrollbar);
+    .individual {
+      height: var(--item-height);
+      padding: var(--item-padding);
+      display: grid;
+      grid-template-areas: "label toggle";
+      grid-template-columns: 80% 20%;
+      .label {
+        grid-area: label;
       }
-      .inputContainer {
-        &.drag-active {
-          background-color: var(--color-nav-background);
-          z-index: 3;
-          opacity: 0.5;
-        }
-        &.active {
-          background-color: var(--color-nav-link-background-active)
-        }
-      }
-    }
-    .inputContainer {
-      display: flex;
-      flex-direction: column;
-
-      margin: 0.1em 0 0.1em 0;
-      padding-left: 0em;
-      height: 100%;
-
-      .inlineGroup {
-        display: flex;
-        margin: 0.1em 0.1em 0.1em 0;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .ngToggleButton {
-        font-size: 1em;
-
-        margin: 0.1em 0 0.1em 0;
-
-        @include ngToggleButtonColor(ng-toggle-button);
+      .toggle {
+        grid-area: toggle;
       }
     }
   }
-  nav-link {
-    height: var(--link-height);
-    padding: var(--link-vPadding) 1em;
-
-    color: var(--color-nav-link-text);
-    border-left: solid 2px var(--color-nav-link-border);
-
-    svg {
-      height: var(--link-height);
-      width: 1em;
-      margin-bottom: -4px;
-      margin-left: -5px;
-      polyline {
-        stroke: var(--color-nav-link-text);
-      }
-    }
-
-    &:hover {
-      color: var(--color-nav-link-text-hover);
-      border-color: var(--color-nav-link-border-hover);
-
-      svg {
-        polyline {
-          stroke: var(--color-nav-link-text-hover);
-        }
-      }
-
-      &.active {
-        color: var(--color-nav-link-text-active);
-        border-color: var(--color-nav-link-border-active);
-
-        & svg {
-          & polyline {
-            stroke: var(--color-nav-link-text-active);
-          }
-        }
-      }
-    }
-
-    &.active {
-      color: var(--color-nav-link-text-active);
-      border-color: var(--color-nav-link-border-active);
-      svg {
-        & polyline {
-          stroke: var(--color-nav-link-text-active);
-        }
-      }
-    }
+  .parser {
+    grid-area: parser;
+    background: darkturquoise;
   }
 
-  nav-expand {
-    nav-link.titlelink {
-      padding: var(--padding-nav-link);
-      padding-left: calc(var(--padding-nav-link) + 14px);
-    }
-    .item {
-      nav-link:not(.titlelink) {
-        padding: var(--padding-nav-link);
-        padding-left: calc(var(--padding-nav-link) + 14px);
-  
-        position: relative;
-  
-        &::before {
-          top: 50%;
-          position: absolute;
-          content: "";
-          width: 0.5em;
-          height: 0.5em;
-          background-color: var(--color-nav-link-enabled);
-          border-radius: 50%;
-          margin-left: var(--nav-link-before-margin-left);
-          transform: translateY(-50%);
-        }
-  
-        &:hover {
-          &::before {
-            background-color: var(--color-nav-link-enabled-hover);
-          }
-  
-          &.active {
-            &::before {
-              background-color: var(--color-nav-link-enabled-active);
-            }
-          }
-        }
-  
-        &.active {
-          &::before {
-            background-color: var(--color-nav-link-enabled-active);
-          }
-        }
-  
-        &.disabled {
-          &::before {
-            background-color: var(--color-nav-link-disabled);
-          }
-  
-          &:hover {
-            &::before {
-              background-color: var(--color-nav-link-disabled-hover);
-            }
-  
-            &.active {
-              &::before {
-                background-color: var(--color-nav-link-disabled-active);
-              }
-            }
-          }
-  
-          &.active {
-            &::before {
-              background-color: var(--color-nav-link-disabled-active);
-            }
-          }
-        }
-  
-        &.unsaved {
-          &::before {
-            background-color: var(--color-nav-link-unsaved);
-          }
-  
-          &:hover {
-            &::before {
-              background-color: var(--color-nav-link-unsaved-hover);
-            }
-  
-            &.active {
-              &::before {
-                background-color: var(--color-nav-link-unsaved-active);
-              }
-            }
-          }
-  
-          &.active {
-            &::before {
-              background-color: var(--color-nav-link-unsaved-active);
-            }
-          }
-        }
-      }
-    }
+  .menu {
+    grid-area: menu;
+    background: black;
   }
 }
