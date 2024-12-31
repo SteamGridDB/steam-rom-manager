@@ -45,7 +45,7 @@
 * `Apalatn`{.noWrap} - Добавил(-а) опцию перенаправления установочного диска в анализатор itch.io.
 *
 * `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
-* `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
+* .
 
 ### Сообщество
 * `HE Spoke`{.noWrap} - создал сообщество вокруг SRM. Создатель групп [Steam](https://steamcommunity.com/groups/steamrommanager) и [Discord](https://discord.gg/bnSVJrz). Также помогает пользователям настроить SRM в [Discord](https://discord.gg/bnSVJrz).
