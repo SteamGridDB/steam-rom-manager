@@ -9,11 +9,11 @@ Para crear una plantilla personalizada:
 * Click derecho sobre cualquier juego y presiona `Administrar > Distribución del mando`.
 * Configure los botones según considere adecuado.
 * Presione `Exportar Configuración` y después `Guuardar la nueva asignación de botones`.
-* Name the template in the form: `Template Title (SRM)`. Debes agregar `(SRM)` al final del nombre, de otra manera SRM no seleccionará la plantilla.
+* . Debes agregar `(SRM)` al final del nombre, de otra manera SRM no seleccionará la plantilla.
 * Repítalo por cada uno de los mandos que quiera configurar.
 
 En el parser de SRM:
-* Hit `Re-Fetch Controller Templates` to pull templates for all controller types from steam. This will clear your currently selected template if it is not one of the templates available in Steam.
+* . This will clear your currently selected template if it is not one of the templates available in Steam.
 
 Currently, SRM pulls all of the default (Valve made) templates for each controller as well as all of the user defined templates that end in `(SRM)`.
 
