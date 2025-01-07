@@ -7,4 +7,4 @@ L'analyseur générique (rechercher `Generic` dans les préréglages) fonctionne
 * C'ira
 *
 
-. !
+. Si cela fonctionne, dits le et nous allons ajouter un préréglage pour celui-ci !
