@@ -44,8 +44,8 @@ Si vous appréciez Steam ROM Manager et souhaitez qu'il continue à être utile,
 * `MattMckenzy`{.noWrap} - Ajout de la possibilité d'importer et d'exporter des choix d'image.
 * `Apalatn`{.noWrap} - Ajout d'une option de redirection du lecteur d'installation à l'analyseur itch.io.
 * .
-* .
-* `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
+* `UndarkAido`{.noWrap} - Ajout du passage direct pour les raccourcis .desktop de Linux.
+* `HazardousBackup`{.noWrap} - Ajout de l'option au parseur GOG pour analyser le registre au lieu de la base de données GOG.
 
 ### Communauté
 * `HE Spoke`{.noWrap} - a créé une communauté autour de SRM. Créateur des groupes [Steam](https://steamcommunity.com/groups/steamrommanager) et [Discord](https://discord.gg/bnSVJrz). Aide également les utilisateurs à configurer SRM dans [Discord](https://discord.gg/bnSVJrz).
