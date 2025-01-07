@@ -1,4 +1,4 @@
-# Battle.net Parser
+# Analyseur Battle.net
 
 This parser imports games from the `Battle.net` app, so that artwork can be chosen for them and they can be added into Steam. If it doesn't work it is because Blizzard has altered the structure of their database files, in which case please let the developers of SRM know and we will resolve the issue.
 
