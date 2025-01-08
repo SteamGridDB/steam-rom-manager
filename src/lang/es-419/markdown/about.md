@@ -2,7 +2,7 @@
 
 En caso de tener problemas con SRM, siéntete libre de visitar el servidor de [Discord](https://discord.gg/bnSVJrz) o el [subreddit](https://www.reddit.com/r/SteamRomManager/) y pedir ayuda. Para que podamos ayudarte, nos gustaría que nos proporciones esta información:
 
-*
+* Versión SRM: **#{APP[version]}** emudeckText
 * Sistema operativo: **#{APP[os]}**
 
 ## Enlaces útiles
@@ -43,9 +43,9 @@ Si te gusta Steam ROM Manager y quieres que siga siendo util puedes considerar d
 * `CarJem`{.noWrap} - Añadió el analizador manual.
 * `MattMckenzy`{.noWrap} - Añadió la opción de importar y exportar imagenes.
 * `Apalatn`{.noWrap} - Añadió una opción de redirección de unidad de instalación al analizador itch.io.
-* .
-*
-* .......
+* `OneMoreByte`{.noWrap} - Hizo que el analizador de itch.io funcione en Linux y Mac.
+* `UndarkAido`{.noWrap} - Añadió un paso de acceso directo para los accesos directos .desktop de Linux.
+* <0>HazardousBackup</0>{.noWrap} - Añadió una opción al analizador de GOG para analizar el Registro en lugar de la BD de GOG.
 
 ### Comunidad
 * `HE Spoke`{.noWrap} - Creó una comunidad sobre SRM. Creador del grupo de [Steam](https://steamcommunity.com/groups/steamrommanager) y servidor de [Discord](https://discord.gg/bnSVJrz). Tambien ayuda a los usarios a configurar SRM en [Discord](https://discord.gg/bnSVJrz).
