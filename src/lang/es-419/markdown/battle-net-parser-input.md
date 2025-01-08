@@ -1,5 +1,5 @@
-# Battle.net Parser Specific Inputs
+# Entradas específicas del analizador Battle.net
 
-## Battle.net.exe Path Override
+## Sobrescribir ruta de Battle.net.exe
 
-By default Steam ROM Manager assumes your `Battle.net` executable is located at `C:\Program Files (x86)\Battle.net\Battle.net.exe`. This field allows you to override that if your `Battle.net` is installed elsewhere.
+Por defecto Steam ROM Manager asume que la instalación de `Battle.net` se encuentra en `C:\Program Files (x86)\Battle.net\Battle.net.exe`. Este campo permite sobreescribir esa ruta si tu instalación de `Battle.net` está en otro lugar.
