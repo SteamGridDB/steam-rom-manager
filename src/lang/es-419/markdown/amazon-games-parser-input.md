@@ -5,4 +5,4 @@ Por defecto Steam ROM Manager asume que la instalación de Amazon Games se encue
 
 ## Ejecutar Mediante Amazon Games
 
-Justo como suena, esta opción te deja escoger si los juegos se ejecutarán mediante Amazon Games o directamente.
+Justo como suena, esta opción te deja escoger si los juegos se ejecutarán con Amazon Games o directamente.
