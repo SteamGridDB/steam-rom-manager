@@ -4,7 +4,7 @@
 
 La mayoría de los usuarios no deberían usar esto, dado que usan la instalación estándar de `Epic Games Store`, que es donde se localizan las configuraciones del juego, por ejemplo, en Windows, `C:\ProgramData\Epic\EpicGamesLauncher\Data\Manifests`.
 
-If, however, for some reason your manifests directory is located in a non-typical location then you can specify the correct manifests directory here.
+.
 
 ## Launch Via Epic Games Store `[Recommend enabled]`
 
