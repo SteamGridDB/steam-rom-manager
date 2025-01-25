@@ -1,6 +1,6 @@
 # 可执行文件修饰符`[支持变量]`{.noWrap}
 
-This field can be used to prepend or append desired characters to the executable which will be added to the Steam shortcut's `Target` property. For example, given that `${exePath}`{.noWrap} is `C:\RetroArch\retroarch.exe`, you could start `Retroarch` minimized by setting the `Executable Modifier` "cmd" to:
+This field can be used to prepend or append desired characters to the executable which will be added to the Steam shortcut's `Target` property.
 
 ```
 "cmd" /k start /min "${exePath}"
