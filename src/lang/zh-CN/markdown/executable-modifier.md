@@ -9,7 +9,7 @@ This field can be used to prepend or append desired characters to the executable
 ：
 
 ```
-"cmd" /k start /min "C:\RetroArch\retroarch.exe"
+
 ```
 
 followed by whatever launch arguments you choose in the `Command Line Arguments` field.
