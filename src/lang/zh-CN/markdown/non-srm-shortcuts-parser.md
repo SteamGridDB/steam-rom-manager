@@ -1,6 +1,6 @@
 # 非SRM快捷方式解析器
 
-这个解析器会将非SRMsteam快捷方式导入到 SRM 中，以便他们的artwork能够被管理。 它没有添加快捷方式，因此是一个 仅限artwork 解析器。 这个解析器需要用户账号字段被设置。
+This parser imports non SRM steam shortcuts into SRM so their artowrk can be managed. 它没有添加快捷方式，因此是一个 仅限artwork 解析器。 这个解析器需要用户账号字段被设置。
 
 ## User accounts
 
