@@ -3,10 +3,10 @@
 This field can be used to prepend or append desired characters to the executable which will be added to the Steam shortcut's `Target` property.
 
 ```
-"cmd" /k start /min "${exePath}"
+
 ```
 
-In this case the `Target` property would begin with:
+：
 
 ```
 "cmd" /k start /min "C:\RetroArch\retroarch.exe"
