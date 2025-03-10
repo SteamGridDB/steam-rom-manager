@@ -5,7 +5,7 @@ You may want to disable `Cloud Synchronization` in Steam to avoid having your SR
 
 To make a custom template:
 * Open Steam.
-* Connect the controller you want to configure a template for.
+* Spanglish
 * Right click on any game and hit `Manage > Controller Layout`.
 * Configure the buttons as you see fit.
 * Hit `Export Config` then `Save new template binding`.
