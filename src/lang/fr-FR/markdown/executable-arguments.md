@@ -126,13 +126,13 @@ Ce paramètre est utilisé pour influer sur l'APP ID de Steam.
 
 ## Variables de répertoire
 
-| Variable (insensible à la casse) | Valeur correspondante                     |
-| --------------------------------:|:----------------------------------------- |
-|                      `${exeDir}` | Répertoire exécutable                     |
-|                      `${romDir}` | Répertoire des ROMs                       |
-|                    `${steamDir}` | Répertoire Steam                          |
-|                  `${startInDir}` | Répertoire "Démarrer"                     |
-|                     `${fileDir}` | Files returned by a parser or a directory |
+| Variable (insensible à la casse) | Valeur correspondante                           |
+| --------------------------------:|:----------------------------------------------- |
+|                      `${exeDir}` | Répertoire exécutable                           |
+|                      `${romDir}` | Répertoire des ROMs                             |
+|                    `${steamDir}` | Répertoire Steam                                |
+|                  `${startInDir}` | Répertoire "Démarrer"                           |
+|                     `${fileDir}` | Fichiers retournés par un parseur ou un dossier |
 
 Dans le cas où l'entrée du répertoire exécutable est laissée **vide**, `${exeDir}`{.noWrap} est égal à `${fileDir}`{.noWrap}. De plus, si le répertoire "Démarrer" est laissé **vide**, `${startInDir}`{.noWrap} est égal à `${exeDir}`{.noWrap}.
 
@@ -167,15 +167,15 @@ Dans le cas où l'entrée chemin complet vers un exécutable est laissée **vide
 
 | Variable (insensible à la casse) | Valeur correspondante                            |
 | --------------------------------:|:------------------------------------------------ |
-|                       `${title}` | Extracted title                                  |
+|                       `${title}` | Titre extrait                                    |
 |                  `${fuzzyTitle}` | Fuzzy matched title                              |
 |                  `${finalTitle}` | Title which was the end result of title modifier |
 
 In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
 
-## Function variables
+## Variables de Fonction
 
-|                            Variable (insensible à la casse) | Corresponding function                                                                                      |
+|                            Variable (insensible à la casse) | Fonction correspondante                                                                                     |
 | -----------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------- |
 |                                                          `` | Executes regex on input. `<code></td>
 </tr>
@@ -186,7 +186,7 @@ In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is
 |                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                              |
 | `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                |
 
-### Function variable example
+### Exemple de varable de fonction
 
 Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
 
@@ -200,7 +200,7 @@ ${rdc|${title}}                            //Replace diacritic characters (in th
 file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
 ```
 
-will be replaced with these:
+sera remplacé par:
 
 ```
 Pokémon (USA) (Disc 1).iso
