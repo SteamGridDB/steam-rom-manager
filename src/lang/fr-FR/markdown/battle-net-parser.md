@@ -1,5 +1,5 @@
 # Analyseur Battle.net
 
-This parser imports games from the `Battle.net` app, so that artwork can be chosen for them and they can be added into Steam. If it doesn't work it is because Blizzard has altered the structure of their database files, in which case please let the developers of SRM know and we will resolve the issue.
+Cet analyseur importe des jeux depuis `Battle.net` afin que les artwork puissent être choisies pour eux et puissent être ajoutées à Steam. Si cela ne fonctionne pas, c'est parce que Blizzard EA a modifié la structure de leur basse de donnée xml, dans ce cas, veuillez informer les développeurs de SRM et nous résoudrons le problème.
 
-The `Battle.net` parser is somewhat special in that it uses a shell script at `${srmDir}/scripts/bnet.ps1` in order to launch `Battle.net`, wait an appropriate amount of time, and only then launch the actual title.
+L'analyseur `Battle.net` est quelque peu spécial en ce sens qu'il utilise un script shell à `${srmDir}/scripts/bnet. s1` afin de lancer `Battle.net`, attendez un temps approprié, puis lancez le titre réel.
