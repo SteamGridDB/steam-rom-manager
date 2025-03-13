@@ -1,5 +1,5 @@
-#
+# Titre du parseur
 
-. Does not have to be unique, but is required.
+. N'a pas à être unique mais est requis.
 
-This field will not affect what is added to `Steam` in any way.
+Ce champ n'affectera d'aucune manière ce qui est ajouté à `Steam`.
