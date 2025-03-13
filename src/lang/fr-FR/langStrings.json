@@ -60,32 +60,32 @@
       },
       "errors": {
         "fatalError": "Une erreur fatale est survenue dans Aperçu. Consultez le journal des événements pour plus de détails.",
-        "fatalError__i": "Fatal Add Games error: ${error}",
+        "fatalError__i": "Erreur fatale Ajout de jeux: ${error}",
         "knownSteamDirListIsEmpty": "Une liste des répertoires Steam connus est vide.",
         "steamIsRunning": "Impossible de faire des changements lorsque Steam est en cours d'exécution!",
         "categorySaveError": "Erreur lors de la mise à jour des catégories. Consultez le journal des événements pour plus de détails.",
         "categorySaveError__i": "Erreur de catégorie (les raccourcis et les images seront ajoutés): ${error}",
         "controllerSaveError": "Erreur lors de la mise à jour des modèles de contrôleur. Consultez le journal des événements pour plus de détails.",
         "controllerSaveError__i": "Erreur de contrôleur (les raccourcis et les images seront ajoutés): ${error}",
-        "retryingDownload__i": "Artwork download from \"${imageUrl}\" failed for \"${appTitle}\".",
+        "retryingDownload__i": "Téléchargement de l'illustration depuis \"${imageUrl}\" échoué pour \"${appTitle}\".",
         "providerError__i": "Erreur réception de \"${provider}\" pour \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
         "unknownProviderError__i": "Erreur réception de \"${provider}\" pour \"${title}\":\n ${error}",
         "exportError__i": "Impossible d'enregistrer le dossier de paquets sélectionné: ${error}",
         "importJSONFailError__i": "Impossible d'importer les sélections, JSON a été malformé: ${error}",
-        "importFailError__i": "Could not import artwork choices: ${error}"
+        "importFailError__i": "Impossible d'importer les choix d'illustration: ${error}"
       },
       "success": {
-        "writingVDF_entries": "Done adding/removing entries.",
-        "removingVDF_entries": "Entries have been removed.",
-        "exportSuccess__i": "Artwork choices folder successfully saved to \"${path}\"!",
-        "importSelectionsSuccess__i": "Successfully imported ${count} artwork choices!"
+        "writingVDF_entries": "Ajouter/supprimer des entrées terminé.",
+        "removingVDF_entries": "Les entrées ont été supprimées.",
+        "exportSuccess__i": "Répertoire de choix d'images enregistré avec succès dans \"${path}\"!",
+        "importSelectionsSuccess__i": "${count} choix d'image importés avec succès !"
       }
     }
   },
   "steamParser": {
-    "onlyGamesTitle": "Find artwork for games only (no tools or demos)",
-    "onlyInstalledTitle": "Find artwork for installed titles only",
-    "sourceModsTitle": "Find artwork for unofficial source mods",
+    "onlyGamesTitle": "Trouver uniquement des illustrations pour les jeux (aucun outil ou démo)",
+    "onlyInstalledTitle": "Trouver uniquement les illustrations pour les titres installés",
+    "sourceModsTitle": "Trouver une illustration pour les mods de source non officielles",
     "errors": {
       "directoryInvalid": "> Répertoire Steam invalide.",
       "noSteamAccounts": "> Le répertoire Steam spécifié n'a aucun compte.",
@@ -95,16 +95,16 @@
   },
   "nonSRMShortcutsParser": {
     "errors": {
-      "noSteamAccounts": "> Steam directory specified has no accounts.",
+      "noSteamAccounts": "> Le dossier Steam spécifié n'a aucun compte.",
       "fatalError__i": "> Non-SRM Shortcuts parser failed with fatal error:\n ${error}"
     }
   },
   "manualParser": {
-    "manifestsInputTitle": "Manifests Directory",
+    "manifestsInputTitle": "Répertoire des Manifestes",
     "manifestsInputPlaceholder": {
       "Windows_NT": "C:\\path\\to\\your\\manifests\\",
       "Darwin": "/path/to/your/manifests/",
-      "Linux": "/path/to/your/manifests/"
+      "Linux": "/fr/path/to/votre/manifests/"
     },
     "errors": {
       "fatalError__i": "> Manual parser failed with fatal error:\n ${error}"
@@ -285,26 +285,26 @@
   "sgdbProvider": {
     "nsfwInputTitle": "Autoriser les images NSFW",
     "humorInputTitle": "Autoriser les images de blagues",
-    "imageMotionTypesTitle": "Allowed animation types",
-    "stylesTitle": "Allowed grid styles",
-    "stylesHeroTitle": "Allowed hero styles",
+    "imageMotionTypesTitle": "Types d'animation autorisés",
+    "stylesTitle": "Styles de grille autorisés",
+    "stylesHeroTitle": "Styles de héros autorisés",
     "stylesLogoTitle": "Styles de logo autorisés",
-    "stylesIconTitle": "Allowed icon styles",
-    "sizesTitle": "Allowed banner dimensions",
-    "sizesHeroTitle": "Allowed hero dimensions",
+    "stylesIconTitle": "Styles d'icônes autorisés",
+    "sizesTitle": "Dimensions autorisées des bannières",
+    "sizesHeroTitle": "Dimensions de héros autorisées",
     "sizesTallTitle": "Allowed portrait dimensions",
     "sizesIconTitle": "Allowed icon dimensions"
   },
   "logger": {
     "component": {
       "noMessages": "Aucun message disponible",
-      "error": "Error messages",
-      "info": "Info messages",
-      "success": "Success messages",
+      "error": "Messages d'erreur",
+      "info": "Messages d'info",
+      "success": "Messages de succès",
       "fuzzy": "Fuzzy messages",
       "textWrap": "Wrap text",
-      "autoscroll": "Autoscroll",
-      "clearLog": "Clear",
+      "autoscroll": "Défilement automatique",
+      "clearLog": "Effacer",
       "issueDescription": "Thorough issue description with passable spelling.",
       "handleExample": "CoolHandle#1234"
     }
@@ -331,7 +331,7 @@
         "corruptedVariables__i": "Saved configuration presets are invalid!\r\nPermanent file saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}"
       },
       "info": {
-        "downloaded": "Community presets have been updated."
+        "downloaded": "Les préréglages de la communauté ont été mis à jour."
       }
     }
   },
@@ -364,33 +364,33 @@
         "showSteamImages": "Show current Steam artwork by default",
         "deleteDisabledShortcuts": "Retirer les raccourcis pour les analyseurs désactivés",
         "clearLogOnTest": "Effacer automatiquement les logs avant de tester les analyseurs",
-        "configDir": "Config Directory",
-        "steamDir": "Steam Directory"
+        "configDir": "Dossier de Configuration",
+        "steamDir": "Dossier Steam"
       },
       "placeholder": {
         "noProviders": "Aucun",
-        "userAccounts": "For example ${steamlogin}",
+        "userAccounts": "Par exemple ${steamlogin}",
         "bySystem": {
           "Windows_NT": {
             "steamDirectory": "Typically C:\\Program Files (x86)\\Steam\\",
             "romsDirectory": "For example D:\\ROMs\\",
             "retroarchPath": "For example C:\\Path\\To\\Retroarch.exe",
             "raCoresDirectory": "Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores\\",
-            "localImagesDirectory": "For example C:\\Path\\To\\LocalArtwork\\"
+            "localImagesDirectory": "Par exemple C:\\Path\\To\\LocalArtwork\\"
           },
           "Darwin": {
             "steamDirectory": "Typically ~/Library/Application Support/Steam/",
-            "romsDirectory": "For example ~/ROMs/",
-            "retroarchPath": "For example /path/to/retroarch",
+            "romsDirectory": "Par exemple ~/ROMs/",
+            "retroarchPath": "Par exemple /chemin/vers/retroarch",
             "raCoresDirectory": "Typically /Applications/Retroarch.app/Contents/Resources/cores/",
-            "localImagesDirectory": "For example ~/path/to/localartwork/"
+            "localImagesDirectory": "Par exemple ~/chemin/vers/localartwork/"
           },
           "Linux": {
             "steamDirectory": "Typically /home/user/.steam/steam/",
             "romsDirectory": "For example ~/ROMs/",
-            "retroarchPath": "For example /path/to/retroarch",
+            "retroarchPath": "Par exemple /chemin/vers/retroarch",
             "raCoresDirectory": "Typically /lib/x86_64-linux-gnu/libretro/cores/",
-            "localImagesDirectory": "For example ~/path/to/localartwork/"
+            "localImagesDirectory": "Par exemple ~/chemin/vers/localartwork/"
           }
         }
       }
@@ -410,7 +410,7 @@
     "component": {
       "about": "À propos",
       "preview": "Aperçu",
-      "view": "View Games",
+      "view": "Voir les jeux",
       "logger": "Journal des Événements",
       "settings": "Paramètres",
       "parsers": "Analyseur",
@@ -430,11 +430,11 @@
       },
       "text": {
         "title": "User Exceptions",
-        "exclude": "Exclude Title",
-        "excludeArtwork": "Local Artwork Only"
+        "exclude": "Exclure le titre",
+        "excludeArtwork": "Illustration locale uniquement"
       },
       "placeholder": {
-        "sortBy": "Sort By"
+        "sortBy": "Trier par"
       }
     },
     "service": {
@@ -449,7 +449,7 @@
     "component": {
       "buttons": {
         "save": "Enregistrer",
-        "copy": "Clone",
+        "copy": "Dupliquer",
         "testParser": "Test",
         "delete": "Supprimer",
         "moveUp": "Monter",
@@ -466,9 +466,9 @@
         "nothingWasFound": "L'analyseur n'a rien trouvé.",
         "copiedToClipboard": "Parser copied to clipboard",
         "userExclusions": "Utilisateur exclu:",
-        "excludedFileInfo__i": "[${index}/${total}]: ${filename}\n Excluded by \"${exceptionKey}\"",
+        "excludedFileInfo__i": "[${index}/${total}] : ${filename}\n Exclu par \"${exceptionKey}\"",
         "removingControllers__i": "Removing controller templates for parser: ${configTitle}",
-        "fetchingControllerTemplates": "Fetching controller templates"
+        "fetchingControllerTemplates": "Récupération des modèles de contrôleur"
       },
       "error": {
         "missingAccounts__i": "${count} comptes utilisateurs n'ont pas été trouvés (l'utilisateur doit se connecter à Steam au moins une fois):",
