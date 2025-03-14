@@ -17,7 +17,7 @@ No analisador SRM:
 
 Atualmente, A SRM puxa todos os modelos padrão (Valve fabricado) para cada controlador, bem como todos os templates definidos pelo usuário que terminam em `(SRM)`.
 
-* Selecione os seus modelos e salve o analisador. The controller configsets will be applied once you hit `Save to Steam` in the Add Games.
+* Selecione os seus modelos e salve o analisador.
 
 * Para desconfigurar as configurações do controlador, você pode `Remover todas as entradas de aplicativos adicionados` das configurações globais (isso exclui todas as alterações SRM feitas em seus dados steam) ou apertar `Desajustar todos os controladores` no analisador (isso só remove as configurações do controlador para o diretório Steam e o usuário especificados nesse analisador).
 
