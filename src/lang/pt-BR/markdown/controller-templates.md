@@ -21,6 +21,6 @@ Atualmente, A SRM puxa todos os modelos padrão (Valve fabricado) para cada cont
 
 * Para desconfigurar as configurações do controlador, você pode `Remover todas as entradas de aplicativos adicionados` das configurações globais (isso exclui todas as alterações SRM feitas em seus dados steam) ou apertar `Desajustar todos os controladores` no analisador (isso só remove as configurações do controlador para o diretório Steam e o usuário especificados nesse analisador).
 
-Once this is done you can parse and add games to steam as usual, and the templates will be applied to all the titles in the parser.
+.
 
 
