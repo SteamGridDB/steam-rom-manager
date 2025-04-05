@@ -12,8 +12,6 @@ This field can be used to prepend or append desired characters to the executable
 
 ```
 
-followed by whatever launch arguments you choose in the `Command Line Arguments` field.
-
 你可以使用任何其他变量来构建最终的可执行文件。
 
 这个设置会影响 Steam 的应用 APP ID。
