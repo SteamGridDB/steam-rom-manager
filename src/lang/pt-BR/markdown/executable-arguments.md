@@ -1,4 +1,4 @@
-# Command line arguments `[supports variables]`{.noWrap}
+#
 
 Argumentos que são anexados ao executável para produzir o atalho final. Na maioria das vezes você vai querer configurá-lo usando as variáveis de análise fornecidas.
 
