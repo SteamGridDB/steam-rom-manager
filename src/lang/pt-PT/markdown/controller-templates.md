@@ -6,7 +6,7 @@ You may want to disable `Cloud Synchronization` in Steam to avoid having your SR
 To make a custom template:
 * Open Steam.
 * Connect the controller you want to configure a template for.
-* Right click on any game and hit `Manage > Controller Layout`.
+*
 * Configure the buttons as you see fit.
 * Hit `Export Config` then `Save new template binding`.
 * Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template.
