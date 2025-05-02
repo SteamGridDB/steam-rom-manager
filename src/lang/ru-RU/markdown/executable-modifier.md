@@ -1,15 +1,17 @@
 # Модификатор исполняемого файла `[поддерживает переменные]`{.noWrap}
 
-Defaults to `"${exePath}"`{.noWrap} if unset. This field can be used to prepend or append desired characters to the executable which will be added to the Steam shortcut's `Target` property. For example, given that `${exePath}`{.noWrap} is `C:\RetroArch\retroarch.exe`, you could start `Retroarch` minimized by setting the `Executable Modifier` "cmd" to:
+. . :
 
 ```
 "cmd" /k start /min "${exePath}"
 ```
 
 In this case the `Target` property would begin with:
+
 ```
 "cmd" /k start /min "C:\RetroArch\retroarch.exe"
 ```
+
 followed by whatever launch arguments you choose in the `Command Line Arguments` field.
 
 Вы можете использовать любую другую переменную для создания конечного исполняемого файла.
