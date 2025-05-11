@@ -49,7 +49,7 @@
         "invalidConfigurations__i": "${count} user parser(s) was/were skipped (invalid).",
         "executingParsers": "Выполнение парсеров.",
         "shutdownSteam": "Если Steam запущен, выйдите из него.",
-        "noParserConfigurations": "Please create parser in \"Parsers\" menu first.",
+        "noParserConfigurations": "Сначала создайте конфигурацию парсера в меню \"Парсеры\".",
         "parserFoundNoFiles": "Парсер(ы) не нашел файлов, соответствующих пользовательской конфигурации.",
         "allImagesRetrieved": "All available artwork urls retrieved.",
         "providerTimeout__i": "Тайм-аут был запрошен \"${provider}\" на ${time} секунду(ы).",
