@@ -6,7 +6,7 @@
 "cmd" /k start /min "${exePath}"
 ```
 
-In this case the `Target` property would begin with:
+В этом случае свойство `Target` начнётся с:
 
 ```
 "cmd" /k start /min "C:\RetroArch\retroarch.exe"
