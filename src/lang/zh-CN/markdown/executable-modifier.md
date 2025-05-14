@@ -18,4 +18,4 @@ This field can be used to prepend or append desired characters to the executable
 
 ## 快捷方式直通
 
-。。。。。。。。。。。。 If you would like to add executable arguments either add them to the target of the shortcut or use the `Command Line Arguments` field in the parser.
+。。。。。。。。。。。。
