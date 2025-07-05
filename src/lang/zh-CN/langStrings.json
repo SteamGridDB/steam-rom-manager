@@ -14,10 +14,10 @@
         "games": "所有艺术作品"
       },
       "by": "由",
-      "refreshImages": "刷新封面",
-      "saveImage": "Save artwork to file",
-      "addLocalImages": "Add local artwork",
-      "retryDownload": "Retry artwork download",
+      "refreshImages": "刷新艺术作品",
+      "saveImage": "保存艺术作品到文件",
+      "addLocalImages": "添加本地艺术作品",
+      "retryDownload": "重试艺术作品下载",
       "generateAppList": "刷新",
       "saveAppList": "保存到Steam",
       "removeAppList": "从Steam中移除",
@@ -44,19 +44,19 @@
         "removingFromCategories": "删除所有添加的类别信息",
         "writingVDF_entries__i": "批量编写 VDF 文件并下载 ${batchSize} 个高分辨率图像。",
         "updatingKnownSteamDirList": "更新已知的 Steam 目录列表。",
-        "retryingDownload__i": "Retrying artwork download from \"${imageUrl}\" for \"${appTitle}\".",
-        "disabledConfigurations__i": "${count} user parser(s) was/were skipped (disabled by user).",
-        "invalidConfigurations__i": "${count} user parser(s) was/were skipped (invalid).",
+        "retryingDownload__i": "正在重试从“${imageUrl}”为“${appTitle}”下载艺术作品。",
+        "disabledConfigurations__i": "${count} 个用户解析器被跳过(由用户禁用)\"。",
+        "invalidConfigurations__i": "${count} 个用户解析器被跳过(无效)\"。",
         "executingParsers": "执行解析器。",
         "shutdownSteam": "如果Steam正在运行，请退出Steam",
-        "noParserConfigurations": "Please create parser in \"Parsers\" menu first.",
+        "noParserConfigurations": "请先在“解析器”菜单中创建解析器。",
         "parserFoundNoFiles": "解析器未找到与用户配置匹配的文件",
-        "allImagesRetrieved": "All available artwork urls retrieved.",
+        "allImagesRetrieved": "已检索到所有可用的艺术作品地址。",
         "providerTimeout__i": "${provider}\" 请求了 ${time} 秒的超时",
         "noAccountsWarning": "未找到用户账户。Steam 目录不正确？",
-        "preparingExport": "Preparing export of artwork choices.",
-        "exportProgress__i": "Saving artwork choices ${progress}.",
-        "readingSelections": "Applying imported artwork choices."
+        "preparingExport": "准备导出艺术作品选项。",
+        "exportProgress__i": "正在保存艺术作品选项 ${progress}。",
+        "readingSelections": "应用导入的艺术作品选项。"
       },
       "errors": {
         "fatalError": "添加游戏中发生致命错误。请查看事件日志获取详细信息。",
@@ -67,18 +67,18 @@
         "categorySaveError__i": "类别错误(快捷方式和艺术作品仍将被添加)：${error}",
         "controllerSaveError": "更新控制器模板时出错。请查看事件日志获取详细信息。",
         "controllerSaveError__i": "控制器错误(快捷方式和艺术作品仍将被添加)：${error}",
-        "retryingDownload__i": "Artwork download from \"${imageUrl}\" failed for \"${appTitle}\".",
+        "retryingDownload__i": "从“${imageUrl}”为“${appTitle}”下载艺术作品失败。",
         "providerError__i": "从\"${provider}\" 接收到的错误，针对 \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
         "unknownProviderError__i": "从 \"${provider}\" 接收到的 \"${title}\" 错误：\n ${error}",
         "exportError__i": "无法保存选择的包文件夹：${error}",
         "importJSONFailError__i": "无法导入选择，JSON 格式不正确：${error}",
-        "importFailError__i": "Could not import artwork choices: ${error}"
+        "importFailError__i": "无法导入艺术作品选项：${error}"
       },
       "success": {
         "writingVDF_entries": "添加/删除条目完成。",
         "removingVDF_entries": "条目已被删除。",
-        "exportSuccess__i": "Artwork choices folder successfully saved to \"${path}\"!",
-        "importSelectionsSuccess__i": "Successfully imported ${count} artwork choices!"
+        "exportSuccess__i": "艺术作品选择文件夹已成功保存到 \"${path}\"！",
+        "importSelectionsSuccess__i": "成功导入了 ${count} 个艺术作品选项！"
       }
     }
   },
