@@ -1,7 +1,7 @@
-# Artwork providers
+# 艺术作品提供商
 
-Here you can select artwork providers (online sources of game art) that are used by SRM to get art for your games.
+这里您可以选择艺术作品提供商(在线游戏艺术来源)，这些艺术作品被SRM用于为您的游戏获取艺术。
 
 ## “设置” 菜单中的类似选项
 
-Settings menu has "Enabled providers" which enable artwork providers globally -- if it's not enabled in Settings, it won't work.
+设置菜单中有 “启用提供程序” 选项，可以全局启用图像提供程序 -- 如果在设置中未启用，则无法使用。
