@@ -1,7 +1,7 @@
-# Artwork providers
+# Провайдеры графических материалов
 
-Here you can select artwork providers (online sources of game art) that are used by SRM to get art for your games.
+Здесь вы можете выбрать поставщиков графических материалов (онлайн-источники обложек игры), которые используются SRM для получения артов для игр.
 
-## Аналогичная опция в меню "Настройки"
+## Аналогичная опция в меню «Настройки»
 
-Settings menu has "Enabled providers" which enable artwork providers globally -- if it's not enabled in Settings, it won't work.
+В меню настроек есть пункт «Включенные провайдеры», который включает провайдеров изображений глобально – если он не включен в настройках, он не будет работать.
