@@ -14,10 +14,10 @@
         "games": "Toda a arte"
       },
       "by": "por",
-      "refreshImages": "Refresh artwork",
-      "saveImage": "Save artwork to file",
-      "addLocalImages": "Add local artwork",
-      "retryDownload": "Retry artwork download",
+      "refreshImages": "Atualizar a arte",
+      "saveImage": "Salvar a arte como arquivo",
+      "addLocalImages": "Adicionar uma arte local",
+      "retryDownload": "Repetir o download da arte",
       "generateAppList": "Recarregar",
       "saveAppList": "Salvar na Steam",
       "removeAppList": "Remover da Steam",
@@ -39,19 +39,19 @@
         "readingVDF_Files": "Lendo arquivos VDF.",
         "mergingVDF_entries": "Mesclando entradas VDF.",
         "removingVDF_entries": "Removendo referências e arquivos de imagem do VDF.",
-        "savingCategories": "Saving category information to localconfig.vdf.",
-        "savingControllers": "Saving controller information.",
+        "savingCategories": "Salvando informações de categoria em localconfig.vdf.",
+        "savingControllers": "Salvando informações do controle.",
         "removingFromCategories": "Removendo todas as informações da categoria adicionada",
         "writingVDF_entries__i": "Writing VDF files and downloading high res images in batches of ${batchSize}.",
         "updatingKnownSteamDirList": "Atualizando uma lista dos diretórios Steam conhecidos.",
-        "retryingDownload__i": "Retrying artwork download from \"${imageUrl}\" for \"${appTitle}\".",
-        "disabledConfigurations__i": "${count} user parser(s) was/were skipped (disabled by user).",
-        "invalidConfigurations__i": "${count} user parser(s) was/were skipped (invalid).",
+        "retryingDownload__i": "Retentando o download da arte de \"${imageUrl}\" para \"${appTitle}\".",
+        "disabledConfigurations__i": "${count} configuração(ões) de usuário foi/foram ignoradas (desabilitadas pelo usuário).",
+        "invalidConfigurations__i": "${count} configuração(ões) de usuário foi/foram ignoradas (inválidas).",
         "executingParsers": "Executando analisadores.",
-        "shutdownSteam": "If Steam is running, exit Steam.",
-        "noParserConfigurations": "Please create parser in \"Parsers\" menu first.",
+        "shutdownSteam": "Se a Steam estiver rodando, saia da Steam.",
+        "noParserConfigurations": "Por favor, crie a configuração do analisador no menu \"Analisadores\" primeiro.",
         "parserFoundNoFiles": "Analisador(es) não foram encontrados arquivos correspondentes à configuração do usuário.",
-        "allImagesRetrieved": "All available artwork urls retrieved.",
+        "allImagesRetrieved": "Todas as urls das artes disponíveis recuperadas.",
         "providerTimeout__i": "Tempo limite foi solicitado por \"${provider}\" por ${time} segundo(s).",
         "noAccountsWarning": "Contas de usuário não encontradas. Diretório Steam incorreto?",
         "preparingExport": "Preparing export of artwork choices.",
@@ -59,8 +59,8 @@
         "readingSelections": "Applying imported artwork choices."
       },
       "errors": {
-        "fatalError": "Fatal error occurred in Add Games. See event log for details.",
-        "fatalError__i": "Fatal Add Games error: ${error}",
+        "fatalError": "Ocorreu um erro fatal ao Adicionar os Jogos. Consulte o log de eventos para obter detalhes.",
+        "fatalError__i": "Erro fatal ao adicionar jogos: ${error}",
         "knownSteamDirListIsEmpty": "Uma lista dos diretórios conhecidos da Steam está vazia.",
         "steamIsRunning": "Não é possível fazer alterações enquanto o Steam está sendo executado!",
         "categorySaveError": "Erro ao atualizar categorias. Consulte o log de eventos para obter detalhes.",
@@ -77,14 +77,14 @@
       "success": {
         "writingVDF_entries": "Adicionar/remover registros completos.",
         "removingVDF_entries": "Todos os itens foram removidos.",
-        "exportSuccess__i": "Artwork choices folder successfully saved to \"${path}\"!",
-        "importSelectionsSuccess__i": "Successfully imported ${count} artwork choices!"
+        "exportSuccess__i": "Pasta escolhida para as imagens salva com sucesso em \"${path}\"!",
+        "importSelectionsSuccess__i": "${count} opções de imagem importadas com sucesso!"
       }
     }
   },
   "steamParser": {
     "onlyGamesTitle": "Find artwork for games only (no tools or demos)",
-    "onlyInstalledTitle": "Find artwork for installed titles only",
+    "onlyInstalledTitle": "Localizar arte para apenas títulos instalados",
     "sourceModsTitle": "Find artwork for unofficial source mods",
     "errors": {
       "directoryInvalid": "> diretório Steam inválido.",
@@ -95,7 +95,7 @@
   },
   "nonSRMShortcutsParser": {
     "errors": {
-      "noSteamAccounts": "> Steam directory specified has no accounts.",
+      "noSteamAccounts": "> O diretório Steam especificado não possui contas.",
       "fatalError__i": "> Non-SRM Shortcuts parser failed with fatal error:\n ${error}"
     }
   },
@@ -145,11 +145,11 @@
     }
   },
   "battleNetParser": {
-    "battleExeOverrideTitle": "Battle.net.exe Path Override",
+    "battleExeOverrideTitle": "Substituição do Caminho Battle.net.exe",
     "battleExeOverridePlaceholder": {
       "Windows_NT": "C:\\path\\to\\Battle.net\\Battle.net.exe",
       "Darwin": "/path/to/Battle.net.app/Contents/MacOS/Battle.net",
-      "Linux": "/path/to/Battle.net"
+      "Linux": "/path/to/Battle.net/Battle"
     },
     "errors": {
       "battleNotCompatible": "> Battle.net parser is only available on Windows.",
