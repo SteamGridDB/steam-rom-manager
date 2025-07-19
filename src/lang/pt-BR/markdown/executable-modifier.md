@@ -1,6 +1,7 @@
 # Imagem padrão (opcional) `[suporta variáveis]`{.noWrap}
 
-. . For example, given that `${exePath}`{.noWrap} is `C:\RetroArch\retroarch.exe`, you could start `Retroarch` minimized by setting the `Executable Modifier` "cmd" to:
+. . ::::::
+:::
 
 ```
 "cmd" /k start /min "${exePath}"
