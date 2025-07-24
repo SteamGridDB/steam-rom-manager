@@ -9,7 +9,7 @@
 В этом случае свойство `Target` начнётся с:
 
 ```
-"cmd" /k start /min "C:\RetroArch\retroarch.exe"
+
 ```
 
 followed by whatever launch arguments you choose in the `Command Line Arguments` field.
