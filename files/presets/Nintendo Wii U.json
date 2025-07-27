@@ -449,9 +449,9 @@
     "drmProtect": false,
     "steamCategories": ["Wii U"]
   },
-  "Nintendo Wii U - Cemu (WUD/WUX)": {
+  "Nintendo Wii U - Cemu (Image)": {
     "parserType": "Glob",
-    "configTitle": "Nintendo WiiU - Cemu (WUD/WUX)",
+    "configTitle": "Nintendo WiiU - Cemu (Image)",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -466,7 +466,7 @@
       "specifiedAccounts": ["Global"]
     },
     "parserInputs": {
-      "glob": "${title}@(.wud|.WUD|.wux|.WUX)"
+      "glob": "${title}@(.iso|.ISO|.wad|.WAD|.wua|.WUA|.wud|.WUD|.wux|.WUX)"
     },
     "titleFromVariable": {
       "caseInsensitiveVariables": false,
@@ -524,9 +524,9 @@
     "drmProtect": false,
     "steamCategories": ["Wii U"]
   },
-  "Nintendo Wii U - Cemu (WUD/WUX) (Flatpak)": {
+  "Nintendo Wii U - Cemu (Image) (Flatpak)": {
     "parserType": "Glob",
-    "configTitle": "Nintendo WiiU - Cemu (WUD/WUX) (Flatpak)",
+    "configTitle": "Nintendo WiiU - Cemu (Image) (Flatpak)",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -541,7 +541,7 @@
       "specifiedAccounts": ["Global"]
     },
     "parserInputs": {
-      "glob": "${title}@(.wud|.WUD|.wux|.WUX)"
+      "glob": "${title}@(.iso|.ISO|.wad|.WAD|.wua|.WUA|.wud|.WUD|.wux|.WUX)"
     },
     "titleFromVariable": {
       "caseInsensitiveVariables": false,
