@@ -2,7 +2,7 @@
 
 ## Manifests Directory Override
 
-Most users shouldn't use this, as they use the standard `Epic Games Store` installation where the game manifests will be located in, for example on Windows, `C:\ProgramData\Epic\EpicGamesLauncher\Data\Manifests`.
+Většina uživatelů by tohle neměla používát, protože většinou používají `Epic Games Store` instalační složku kde se hra oběví. Například na Windows, `C:\ProgramData\Epic\EpicGamesLauncher\Data\Manifests`.
 
 If, however, for some reason your manifests directory is located in a non-typical location then you can specify the correct manifests directory here.
 
