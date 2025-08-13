@@ -1,6 +1,6 @@
 # Executable `[supports env variables]`
 
-Path to emulator's executable. Can be a file or any valid system path.
+Chemin vers l'exécutable de l'émulateur. Can be a file or any valid system path.
 
 ## Pourquoi optionnel ?
 
