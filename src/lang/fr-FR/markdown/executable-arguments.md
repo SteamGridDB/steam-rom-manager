@@ -1,6 +1,6 @@
 #
 
-Arguments qui sont ajoutés à l'exécutable pour générer le raccourci final. Most of the time you will want to set it using provided parser variables.
+Arguments qui sont ajoutés à l'exécutable pour générer le raccourci final. La plupart du temps, vous le définirez en utilisant des variables de parseur fournies.
 
 ## Exemples par Système
 
@@ -180,9 +180,9 @@ In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is
 |                                                          `` | Executes regex on input. `<code></td>
 </tr>
 <tr>
-  <td align="right"><code>${uc\|input}` | Uppercase variable. Transforms input to uppercase |
-|                                             `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                           |
-|                                       `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                               |
+  <td align="right"><code>${uc\|input}` | Variable majuscule. Met le champ input en majuscule |
+|                                             `${lc\|input}` | Variable minuscule. Met le champ input en minuscule                                                         |
+|                                       `${cv:group\|input}` | Change le champ input avec une variable personnalisée correspondante (le champ group est facultatif)        |
 |                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                              |
 | `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                |
 
