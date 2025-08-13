@@ -1,6 +1,6 @@
 #
 
-Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
+Arguments qui sont ajoutés à l'exécutable pour générer le raccourci final. Most of the time you will want to set it using provided parser variables.
 
 ## Exemples par Système
 
