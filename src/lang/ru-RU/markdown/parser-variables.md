@@ -68,29 +68,29 @@ In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is
 Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
 
 ```
-${/.*/|${title}}                           //Matches everything
-${/(.*)/|${title}}                         //Captures everything
-${/(\(.*?\))/|${title}|}                   //Captures all brackets and substitutes with nothing
-${/(\(Disc\s?[0-9]\))/|${title}}           //Captures "Disc..." part
-${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transforms it to uppercase
-${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
-file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
+${/.*/|${title}}                           //Подходит ко всему
+${/(.*)/|${title}}                         //Захватывает все
+${/(\(.*?\))/|${title}|}                   //Захватывает все скобки и заменяет их ничем
+${/(\(Disc\s?[0-9]\))/|${title}}           //Захватывает часть "Диск...".
+${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Захватывает часть "Диск..." и преобразует ее в верхний регистр
+${rdc|${title}}                            //Замените диакритические знаки (в данном случае: é -> e)
+file${os:linux|.so|${os:win|.dll}}         //Выбор правильного расширения файла для ОС
 ```
 
-will be replaced with these:
+будут заменены на эти:
 
 ```
-Pokémon (USA) (Disc 1).iso
-Pokémon (USA) (Disc 1).iso
+Pokémon (США) (Disc 1).iso
+Pokémon (США) (Disc 1).iso
 Pokémon.iso
-(Disc 1)
-(DISC 1)
+(Диск 1)
+(ДИСК 1)
 Pokemon (USA) (Disc 1).iso
 
---On linux:
+-- На linux:
 file.so
---On Windows:
+-- На Windows:
 file.dll
---On Mac OS:
+-- На Mac OS:
 file
 ```
