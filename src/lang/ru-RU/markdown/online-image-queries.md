@@ -1,18 +1,18 @@
-# Онлайн-запрос изображений `[поддерживает переменные]`{.noWrap}
+# Онлайн запрос изображений `[поддерживает переменные]`{.noWrap}
 
-Запросы, используемые для поиска изображений. In order to set image query, the following syntax must be used:
+Запросы, используемые для поиска изображений. Чтобы задать запрос изображения, необходимо использовать следующий синтаксис:
 ```
 ${...}
 ```
-For example, images for "Legend of Zelda" and "The Legend of Zelda: A Link to the Past" can be queried like this:
+Например, изображения "Legend of Zelda" и "The Legend of Zelda: A Link to the Past" можно запросить следующим образом:
 ```
 ${The Legend of Zelda}${The Legend of Zelda: A Link to the Past}
 ```
-You will most likely want to use parser variables for queries. Which will look like this (also the **default** value):
+Скорее всего, вы захотите использовать переменные парсера для запросов. Это будет выглядеть следующим образом (также значение **default**):
 ```
 ${${fuzzyTitle}}
 ```
-The legacy **greedy** mode can be enabled by setting query to:
+Устаревший режим **greedy** можно включить, задав параметру query значение:
 ```
 ${${fuzzyTitle}}${${title}}
 ```
