@@ -1,10 +1,10 @@
 # Особые входные данные Legendary анализатора
 
-## Legendary Path Override
+## Переопределение легендарного пути
 
-By default Steam ROM Manager uses `(Get-Command legendary).Path` on Windows and `which legendary` on Linux and Mac to determine the location of your Legendary executable. This field allows you to override that path.
+По умолчанию Steam ROM Manager использует `(Get-Command legendary). Путь` в Windows и `which legendary` в Linux и Mac для определения местоположения вашего исполняемого файла Legendary. Это поле позволяет вам отменить этот путь.
 
-Specifying the correct location of the Legendary executable is only necessary if you enable launch via Legendary (see below), as otherwise SRM has no need of the location of Legendary's executable.
+Указание правильного расположения исполняемого файла Legendary необходимо только в том случае, если вы включили запуск через Legendary (см. ниже), поскольку в противном случае SRM не нужно знать расположение исполняемого файла Legendary.
 
 ## Легендарный `installed.json` Переопределение пути
 
@@ -12,6 +12,6 @@ Specifying the correct location of the Legendary executable is only necessary if
 
 Если же по какой-то причине манифест установленной игры находится в нетипичном месте, вы можете указать правильный путь к манифесту здесь.
 
-## Launch via Legendary `[Recommend enabled]`
+## Запуск через Legendary `[Рекомендуется включить]`
 
-What it sounds like, this toggle determines whether games launch via Legendary or directly. Launching via Legendary provides access to Epic's online services.
+Судя по всему, этот переключатель определяет, будут ли игры запускаться через Legendary или напрямую. Запуск через Legendary дает доступ к онлайн-сервисам Epic.
