@@ -12,12 +12,12 @@
 
 ```
 
-followed by whatever launch arguments you choose in the `Command Line Arguments` field.
+после чего в поле `Аргументы командной строки` указываются аргументы запуска.
 
 Вы можете использовать любую другую переменную для создания конечного исполняемого файла.
 
 Эта настройка влияет на APP ID Steam.
 
-## Shortcut Passthrough
+## Проход через ярлык
 
-If you enable `Follow .lnk/.desktop to destination` and the glob search finds a `.lnk` or `.desktop` file, ie a shortcut, then the `${filePath}` variable will contain the target of the shortcut rather than the path to the shortcut. If you would like to add executable arguments either add them to the target of the shortcut or use the `Command Line Arguments` field in the parser.
+Если вы включите `Переместить .lnk/.desktop к месту назначения` и глобальный поиск найдет файл `.lnk` или `.desktop`, то есть ярлык, то переменная `${filePath}` будет содержать цель ярлыка, а не путь к ярлыку. Если вы хотите добавить исполняемые аргументы, добавьте их в цель ярлыка или используйте поле `Аргументы командной строки` в парсере.
