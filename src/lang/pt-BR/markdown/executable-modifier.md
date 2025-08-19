@@ -4,7 +4,7 @@
 :::
 
 ```
-"cmd" /k start /min "${exePath}"
+
 ```
 
 In this case the `Target` property would begin with:
