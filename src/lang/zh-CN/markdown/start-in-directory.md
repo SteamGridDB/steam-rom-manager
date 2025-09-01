@@ -1,6 +1,6 @@
 #
 
-If `"Start In" Directory` is unset it defaults to the executable's directory. If not executable is set, it defaults to the directory of the ${filePath} variable:
+。 If not executable is set, it defaults to the directory of the ${filePath} variable:
 
 ![默认的 "Start In" 目录](../../../assets/images/default-start-in-directory.png) {.fitImage.center}
 
