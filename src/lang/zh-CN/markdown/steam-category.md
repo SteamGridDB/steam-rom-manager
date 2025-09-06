@@ -1,4 +1,4 @@
-# Steam category`{.noWrap}
+#
 
 点击小加号来添加您的第一个类别。
 
