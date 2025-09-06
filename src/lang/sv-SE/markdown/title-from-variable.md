@@ -8,7 +8,7 @@ Title matching is limited to specific groups of custom variables. For example, t
 ${RPCS3}${PSN}
 ```
 
-# How it works
+# Hur det fungerar
 
 There are two variable files, `customVariables.json` which is maintained by SRM (don't change this one, your changes will be overwritten every time SRM restarts) and `userVariables.json` which is where you should put your own variables. Both files are located in SRM's `Config Directory`.
 
