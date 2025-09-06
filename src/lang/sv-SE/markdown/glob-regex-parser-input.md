@@ -4,7 +4,7 @@
 
 This is where you create your glob for extracting title from file path. Please read all of [special glob characters](#special-glob-characters) if you don't know how to construct a glob.
 
-## How does it work?
+## Hur funkar det?
 
 In addition to special glob characters, glob parser requires you to enter `${/.../}`{.noWrap} variable. Parser will locate it's position inside your glob, for example:
 
@@ -34,7 +34,7 @@ First match group (from left to right) with all correct captures will be used. F
 
 ### Regular expression with capture brackets and replacement text: `${/(.+)/|...}`{.noWrap}
 
-Similar to [regular expression with capture brackets](#regular-expression-with-capture-brackets) except for how it handles captured groups. Replacement text can be used to move around captured groups. For example:
+Similar to [regular expression with capture brackets](#regular-expression-with-capture-brackets) except for how it handles captured groups. Replacement text can be used to move around captured groups. Till exempel:
 ```
 ${/(.*?)\s*\[USA\]\s*(.+)/|Second capture group: "$2" precedes the first one, which is "$1" }
 ```
@@ -48,6 +48,6 @@ Untouched text will remain by default, so if you see some trailing characters be
 
 Allowed flags are `i`, `g` and `u`.
 
-## Limitations
+## Begränsningar
 
 Position extraction comes with some limitations -- glob is invalid if position can not be extracted. Most of the time you will be warned about what you can't do, however, if you find a combination that is allowed, but produces incorrect titles please make an issue at [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
