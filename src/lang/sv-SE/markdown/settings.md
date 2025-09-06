@@ -1,4 +1,4 @@
-## General Settings
+## Allmänna inställningar
 ### Check for updates on start `[Recommend enabled]`
 Check if an update for SRM is available and prompt to update each time SRM launches.
 ### Auto kill Steam `[Recommend enabled]`
@@ -9,7 +9,7 @@ SRM will attempt to restart Steam after killing it and completing whatever colle
 When enabled SRM makes no network requests, useful if you only want to use SRM for local images.
 ### Automatically clear log before testing parsers `[Recommend enabled]`
 When enabled the log is cleared each time a parser is tested.
-## Add Games
+## Lägg till spel
 ### Show current steam images by default `[Recommend enabled]`
 When enabled this setting tells SRM to default to whatever artwork is currently in steam for a given app. If it is disabled, then every time SRM is run (and saved) all artwork will be reset.
 ### Remove shortcuts for disabled parsers `[Recommend disabled]`
