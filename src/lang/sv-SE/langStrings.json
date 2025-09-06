@@ -1,19 +1,19 @@
 {
   "preview": {
     "component": {
-      "filter": "Search for game",
+      "filter": "Sök efter spel",
       "selectType": "Artwork Type",
       "selectCategories": "Steam Category",
       "selectParsers": "Parser Title",
       "selectTypeOptions": {
         "long": "Banners",
         "tall": "Posters",
-        "hero": "Heroes",
-        "icon": "Icons",
-        "logo": "Logos",
+        "hero": "Hjältar",
+        "icon": "Ikoner",
+        "logo": "Logotyper",
         "games": "All Artwork"
       },
-      "by": "by",
+      "by": "av",
       "refreshImages": "Refresh artwork",
       "saveImage": "Save artwork to file",
       "addLocalImages": "Add local artwork",
@@ -25,15 +25,15 @@
       "stopUrlRetrieving": "Stop",
       "exportSelections": "Export art",
       "importSelections": "Import art",
-      "backButton": "Back",
-      "logButton": "Log"
+      "backButton": "Tillbaka",
+      "logButton": "Logg"
     },
     "service": {
       "info": {
         "listIsBeingGenerated": "List is being generated. Please wait.",
         "listIsBeingSaved": "List is being saved. Please wait.",
         "listIsBeingRemoved": "List is being removed. Please wait.",
-        "listIsEmpty": "List is empty.",
+        "listIsEmpty": "Listan är tom.",
         "populatingVDF_List": "Populating VDF list.",
         "creatingBackups": "Creating backups.",
         "readingVDF_Files": "Reading VDF files.",
@@ -160,8 +160,8 @@
     "UWPDirTitle": "XboxGames Directory Override",
     "UWPDirPlaceholder": {
       "Windows_NT": "C:\\path\\to\\XboxGames\\ or C:\\path\\to\\WindowsApps\\",
-      "Darwin": "/path/to/XboxGames/ or /path/to/WindowsApps/",
-      "Linux": "/path/to/XboxGames/ or /path/to/WindowsApps/"
+      "Darwin": "/path/to/XboxGames/ eller /path/to/WindowsApps/",
+      "Linux": "/path/to/XboxGames/ eller /path/to/WindowsApps/"
     },
     "UWPLauncherModeTitle": "Launch game as UWP instead of launcher helper",
     "errors": {
@@ -298,13 +298,13 @@
   "logger": {
     "component": {
       "noMessages": "No messages are available",
-      "error": "Error messages",
+      "error": "Felmeddelanden",
       "info": "Info messages",
       "success": "Success messages",
       "fuzzy": "Fuzzy messages",
       "textWrap": "Wrap text",
       "autoscroll": "Autoscroll",
-      "clearLog": "Clear",
+      "clearLog": "Rensa",
       "issueDescription": "Thorough issue description with passable spelling.",
       "handleExample": "CoolHandle#1234"
     }
@@ -338,7 +338,7 @@
   "settings": {
     "component": {
       "label": {
-        "general": "General",
+        "general": "Allmänt",
         "imageProviders": "Artwork Providers",
         "fuzzy": "Fuzzy Matcher",
         "environmentVariables": "Environment Variables",
@@ -346,20 +346,20 @@
       },
       "text": {
         "autoUpdate": "Check for updates on start",
-        "offlineMode": "Offline mode",
+        "offlineMode": "Offline-läge",
         "removeApps_desc": "all added games and controllers",
-        "removeApps_btn": "Remove",
+        "removeApps_btn": "Ta bort",
         "preloadImages": "Artwork loading strategy",
         "fuzzy_verbose": "Log matching results",
         "fuzzy_filter": "Filter artwork",
         "enabledProviders": "Enabled image providers",
         "dnsServers": "DNS manual override",
-        "selectLanguage": "Select language",
-        "selectTheme": "Select theme",
+        "selectLanguage": "Välj språk",
+        "selectTheme": "Välj tema",
         "resetFuzzy_desc": "fuzzy list",
         "resetFuzzyCache_desc": "fuzzy cache",
-        "resetFuzzy_btn": "Reset",
-        "customVariables_desc": "custom variables",
+        "resetFuzzy_btn": "Återställ",
+        "customVariables_desc": "anpassade variabler",
         "configPresets_desc": "config presets",
         "showSteamImages": "Show current Steam artwork by default",
         "deleteDisabledShortcuts": "Remove shortcuts for disabled parsers",
@@ -368,7 +368,7 @@
         "steamDir": "Steam Directory"
       },
       "placeholder": {
-        "noProviders": "None",
+        "noProviders": "Ingen",
         "userAccounts": "For example ${steamlogin}",
         "bySystem": {
           "Windows_NT": {
@@ -408,29 +408,29 @@
   },
   "nav": {
     "component": {
-      "about": "About",
+      "about": "Om",
       "preview": "Preview",
-      "view": "View Games",
-      "logger": "Log",
-      "settings": "Settings",
+      "view": "Visa spel",
+      "logger": "Logg",
+      "settings": "Inställningar",
       "parsers": "Create Parser",
-      "customVariables": "Variables",
-      "userExceptions": "Exceptions",
-      "noTitle": "No title!"
+      "customVariables": "Variabler",
+      "userExceptions": "Undantag",
+      "noTitle": "Ingen titel!"
     }
   },
   "userExceptions": {
     "component": {
       "buttons": {
-        "save": "Save",
-        "deleteAll": "Clear",
-        "undoChanges": "Undo changes",
-        "addItem": "Add exception",
+        "save": "Spara",
+        "deleteAll": "Rensa",
+        "undoChanges": "Ångra ändringar",
+        "addItem": "Lägg till undantag",
         "deleteItem": "Remove exception"
       },
       "text": {
         "title": "User Exceptions",
-        "exclude": "Exclude Title",
+        "exclude": "Exkludera titel",
         "excludeArtwork": "Local Artwork Only"
       },
       "placeholder": {
@@ -448,15 +448,15 @@
   "parsers": {
     "component": {
       "buttons": {
-        "save": "Save",
-        "copy": "Clone",
+        "save": "Spara",
+        "copy": "Klona",
         "testParser": "Test",
-        "delete": "Delete",
-        "moveUp": "Move up",
-        "moveDown": "Move down",
+        "delete": "Radera",
+        "moveUp": "Flytta upp",
+        "moveDown": "Flytta ner",
         "faq": "FAQ",
-        "undoChanges": "Undo changes",
-        "undoDelete": "Undo delete",
+        "undoChanges": "Ångra ändringar",
+        "undoDelete": "Ångra borttagning",
         "toClipboard": "Copy configuration to clipboard"
       },
       "info": {
@@ -519,7 +519,7 @@
         "romDirectory": "ROMs directory",
         "steamDirectory": "Steam directory",
         "startInDirectory": "\"Start In\" directory",
-        "userAccounts": "User accounts",
+        "userAccounts": "Användarkonton",
         "titleFromVariable": "Title from custom variable",
         "titleModifier": "Title modifier",
         "fuzzyMatch": "Fuzzy matching",
@@ -535,8 +535,8 @@
         "configTitle": "My Awesome Parser",
         "steamDirectory": {
           "Windows_NT": "${steamdirglobal} or C:\\path\\to\\Steam\\",
-          "Darwin": "${steamdirglobal} or /path/to/Steam/",
-          "Linux": "${steamdirglobal} or /path/to/Steam/"
+          "Darwin": "${steamdirglobal} eller /path/to/Steam/",
+          "Linux": "${steamdirglobal} eller /path/to/Steam/"
         },
         "titleFromVariable": "${variableGroup1}${variableGroup2}",
         "titleModifier": "${fuzzyTitle} or ${title}",
@@ -570,8 +570,8 @@
           "Darwin": "/path/to/start-in-dir/",
           "Linux": "/path/to/start-in-dir/"
         },
-        "imageProviders": "None",
-        "multiAPIPlaceholder": "No Filter"
+        "imageProviders": "Ingen",
+        "multiAPIPlaceholder": "Inget filter"
       },
       "text": {
         "skipFileIfVariableWasNotFound": "Skip file if variable was not found",
@@ -584,7 +584,7 @@
         "appendArgsToExecutable": "Append arguments to executable",
         "disabled": "Disable current parser",
         "advanced": "Show advanced options",
-        "noTitle": "No title!"
+        "noTitle": "Ingen titel!"
       }
     },
     "service": {
@@ -619,7 +619,7 @@
         "genericPath__md": "> Path is invalid!"
       },
       "text": {
-        "noTitle": "No title!"
+        "noTitle": "Ingen titel!"
       }
     }
   },
