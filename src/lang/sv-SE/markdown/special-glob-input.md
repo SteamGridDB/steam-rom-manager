@@ -1,6 +1,6 @@
 # Special glob input
 
-## How does it work?
+## Hur funkar det?
 
 Image paths are resolved in 4 step process:
 1. String is evaluated to see if a glob based parser is used. Depending on the result, further parsing may continue with `2` glob sets.
@@ -10,7 +10,7 @@ Image paths are resolved in 4 step process:
 
 ## Usage example
 
-### Absolute paths
+### Absoluta sökvägar
 
 Let's say that the extracted title is `Metroid Fusion [USA]` and fuzzy title is `Metroid Fusion`. You can then construct an image path like this:
 
@@ -22,7 +22,7 @@ which will be resolved to this:
 - `C:/path/to/images/Metroid Fusion [USA].png`
 - `C:/path/to/images/Metroid Fusion.jpg`
 
-### Relative paths
+### Relativa sökvägar
 
 For this example, let's say that ROMs directory is `C:/ROMS/GBA` and rom itself is `C:/ROMS/GBA/Metroid Fusion [USA].gba`. Set up a relative path, using `${filePath}`{.noWrap} or `${dir}`{.noWrap} variables, for example:
 
