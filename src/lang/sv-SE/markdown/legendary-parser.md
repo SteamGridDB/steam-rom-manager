@@ -4,5 +4,5 @@ This parser imports games from [Legendary](https://github.com/derrod/legendary),
 
 If it doesn't work it is because has altered the structure of their game manifests, in this case please let the developers of SRM know and we will resolve the issue.
 
-## Compatibility
+## Kompatibilitet
 This parser works on `Windows`, `Linux`, and `Mac OS`. It would probably run just fine on your toaster if your toaster has an `installed.json` file somewhere.
