@@ -5,12 +5,12 @@ Read this if you're still having trouble with configuration. For most examples t
 |                    |                                            |
 | ------------------ | ------------------------------------------ |
 | **ROMs directory** | `C:/ROMs`                                  |
-| **File1**          | `C:/ROMs/Kingdom Hearts/game.iso`          |
-| **File2**          | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
-| **File3**          | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
-| **File4**          | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
-| **File5**          | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
-| **File6**          | `C:/ROMs/dir1/dir2/save.sav`               |
+| **Fil1**           | `C:/ROMs/Kingdom Hearts/game.iso`          |
+| **Fil2**           | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
+| **Fil3**           | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
+| **Fil4**           | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
+| **Fil5**           | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
+| **Fil6**           | `C:/ROMs/dir1/dir2/save.sav`               |
 
 ## So, how do I setup user's glob?
 
@@ -18,7 +18,7 @@ First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.is
 
 We end up with `Kingdom Hearts/game.iso`. It obvious for us that `Kingdom Hearts` is the title, however parser is dumber than you -- you must specify path portion which contains the title by replacing `Kingdom Hearts` with `${title}`.
 
-Again, we end up with `${title}/game.iso`, but we also want **File2**, because it is for the same emulator. **File1** is `game.iso` and **File2** is `rom.iso`. What now?
+Again, we end up with `${title}/game.iso`, but we also want **File2**, because it is for the same emulator. **File1** is `game.iso` and **File2** is `rom.iso`. Vad händer nu?
 
 Remember wild cards? They allow us to discard information that does not really matter. In this case we don't care if it is `game` or `rom`, we want both to be matched. That's why we replace them with `*`. This is the final glob for both **File1** and **File2**:
 
@@ -34,7 +34,7 @@ Using similar logic we can produce glob for **File3**:
 
 ## How to deal with multi-leveled directories?
 
-This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. What now?
+This time we want **File3** and **File5** (both have different extensions, read next section on what to do about it as for now we will use `*` to ignore extension). Notice that **File3** has `3` subdirectories while  **File5** has `2`. Vad händer nu?
 
 Now we can use a globstar and that's it!
 ```
@@ -103,7 +103,7 @@ Now parser can match any combination and is effectively case-insensitive. Techni
 {*,*/*}/*/${title}.[nN][eE][sS]
 ```
 
-## Troubleshooting
+## Felsökning
 * Please ensure that steam is actually closed before saving your app list.
 
 * One common issue Steam ROM Manager runs into is the presence of old steam directories from people who logged into steam in your computer before the New Library Update. This can cause Steam ROM Manager to fail in unpredictable ways, as it tries to access directories whose structure has changed. In order to get around this, use the [User Accounts](#user-accounts) field to specify which accounts you actually want to use Steam ROM Manager with.
