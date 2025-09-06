@@ -173,7 +173,7 @@ In case executable directory input is left **empty**, `${exePath}`{.noWrap} is e
 
 In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
 
-## Function variables
+## Funktionsvariabler
 
 |                                 Variable (case-insensitive) | Corresponding function                                                                                                 |
 | -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
