@@ -55,8 +55,8 @@
         "providerTimeout__i": "Tempo limite foi solicitado por \"${provider}\" por ${time} segundo(s).",
         "noAccountsWarning": "Contas de usuário não encontradas. Diretório Steam incorreto?",
         "preparingExport": "Preparing export of artwork choices.",
-        "exportProgress__i": "Saving artwork choices ${progress}.",
-        "readingSelections": "Applying imported artwork choices."
+        "exportProgress__i": "",
+        "readingSelections": ""
       },
       "errors": {
         "fatalError": "Ocorreu um erro fatal ao Adicionar os Jogos. Consulte o log de eventos para obter detalhes.",
@@ -67,12 +67,12 @@
         "categorySaveError__i": "Erro de categoria (atalhos e arte ainda serão adicionados): ${error}",
         "controllerSaveError": "Erro ao atualizar categorias. Consulte o log de eventos para obter detalhes.",
         "controllerSaveError__i": "Erro de categoria (atalhos e arte ainda serão adicionados): ${error}",
-        "retryingDownload__i": "Artwork download from \"${imageUrl}\" failed for \"${appTitle}\".",
+        "retryingDownload__i": "",
         "providerError__i": "Erro recebido do \"${provider}\" para \"${title}\":\n (${url ? `${code}: ${url}` : código}).",
         "unknownProviderError__i": "Erro recebido de \"${provider}\" para \"${title}\":\n ${error}",
         "exportError__i": "Não foi possível salvar a pasta do pacote de seleções: ${error}",
         "importJSONFailError__i": "Não foi possível importar as seleções, o JSON estava malformado: ${error}",
-        "importFailError__i": "Could not import artwork choices: ${error}"
+        "importFailError__i": ""
       },
       "success": {
         "writingVDF_entries": "Adicionar/remover registros completos.",
@@ -83,9 +83,9 @@
     }
   },
   "steamParser": {
-    "onlyGamesTitle": "Find artwork for games only (no tools or demos)",
+    "onlyGamesTitle": "",
     "onlyInstalledTitle": "Localizar arte para apenas títulos instalados",
-    "sourceModsTitle": "Find artwork for unofficial source mods",
+    "sourceModsTitle": "",
     "errors": {
       "directoryInvalid": "> diretório Steam inválido.",
       "noSteamAccounts": "> O diretório Steam especificado não possui contas.",
@@ -96,24 +96,24 @@
   "nonSRMShortcutsParser": {
     "errors": {
       "noSteamAccounts": "> O diretório Steam especificado não possui contas.",
-      "fatalError__i": "> Non-SRM Shortcuts parser failed with fatal error:\n ${error}"
+      "fatalError__i": ""
     }
   },
   "manualParser": {
     "manifestsInputTitle": "Diretório de Manifests",
     "manifestsInputPlaceholder": {
-      "Windows_NT": "C:\\path\\to\\your\\manifests\\",
-      "Darwin": "/path/to/your/manifests/",
-      "Linux": "/path/to/your/manifests/"
+      "Windows_NT": "",
+      "Darwin": "",
+      "Linux": ""
     },
     "errors": {
       "fatalError__i": "> O analisador da falhou com erro fatal:\n ${error}"
     }
   },
   "epicParser": {
-    "manifestsInputTitle": "Epic Manifests Directory Override",
+    "manifestsInputTitle": "",
     "manifestsInputPlaceholder": {
-      "Windows_NT": "C:\\path\\to\\your\\manifests\\",
+      "Windows_NT": "",
       "Darwin": "/path/to/your/manifests/",
       "Linux": ""
     },
@@ -141,14 +141,14 @@
     },
     "errors": {
       "legendaryNotInstalled": "",
-      "fatalError__i": "> Legendary parser failed with fatal error:\n ${error}"
+      "fatalError__i": ""
     }
   },
   "battleNetParser": {
     "battleExeOverrideTitle": "Substituição do Caminho Battle.net.exe",
     "battleExeOverridePlaceholder": {
-      "Windows_NT": "C:\\path\\to\\Battle.net\\Battle.net.exe",
-      "Darwin": "/path/to/Battle.net.app/Contents/MacOS/Battle.net",
+      "Windows_NT": "",
+      "Darwin": "",
       "Linux": "/path/to/Battle.net/Battle"
     },
     "errors": {
