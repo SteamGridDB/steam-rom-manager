@@ -4,13 +4,13 @@ Aqui estão as tabelas de variáveis que podem ser usadas com opções que têm 
 
 ## Variáveis de diretório
 
-| Variável (maiúsculas e minúsculas) | Sobreposição correspondente               |
-| ----------------------------------:|:----------------------------------------- |
-|                        `${exeDir}` | Diretório executável                      |
-|                        `${romDir}` | Diretório ROMs                            |
-|                      `${steamDir}` | Diretório Steam                           |
-|                    `${startInDir}` | Diretório inicial                         |
-|                       `${fileDir}` | Files returned by a parser or a directory |
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente |
+| ----------------------------------:|:--------------------------- |
+|                        `${exeDir}` | Diretório executável        |
+|                        `${romDir}` | Diretório ROMs              |
+|                      `${steamDir}` | Diretório Steam             |
+|                    `${startInDir}` | Diretório inicial           |
+|                       `${fileDir}` |                             |
 
 Caso a entrada do diretório executável seja deixada **vazia**, `${exeDir}`{.noWrap} é igual a `${fileDir}`{.noWrap}. Além disso, se o diretório "StartIn" for deixado **vazio**, `${startInDir}`{.noWrap} é igual a `${exeDir}`{.noWrap}.
 
@@ -48,7 +48,7 @@ Caso a entrada do diretório executável seja deixada **vazia**, `${exePath}`{.n
 |                         `${title}` | Título extraído                                             |
 |                    `${fuzzyTitle}` | Título difuso correspondente                                |
 |                    `${finalTitle}` | O título que foi o resultado final do modificador do título |
-|                   `${parserTitle}` | The value of the `Parser Title` field                       |
+|                                 `` |                                                             |
 
 No caso de correspondência difusa **falhar** ou está **desabilitado**, `${fuzzyTitle}`{.noWrap} é igual a `${title}`{.noWrap}.
 
