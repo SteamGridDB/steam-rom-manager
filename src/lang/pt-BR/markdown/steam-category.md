@@ -1,6 +1,4 @@
-# Steam category`{.noWrap}
-
-Hit the little plus sign to add your first category.
+#
 
 Assim como será a categoria "WII" no Steam:
 
