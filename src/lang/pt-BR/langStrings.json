@@ -115,7 +115,7 @@
     "manifestsInputPlaceholder": {
       "Windows_NT": "C:\\path\\to\\your\\manifests\\",
       "Darwin": "/path/to/your/manifests/",
-      "Linux": "/path/to/your/manifests/"
+      "Linux": ""
     },
     "launcherModeInputTitle": "Inicie jogos via Epic para serviços online",
     "errors": {
@@ -126,21 +126,21 @@
     }
   },
   "legendaryParser": {
-    "launcherModeInputTitle": "Launch games via Legendary for online services",
-    "legendaryInstalledFileTitle": "Legendary installed.json Path Override",
+    "launcherModeInputTitle": "",
+    "legendaryInstalledFileTitle": "",
     "legendaryInstalledFilePlaceholder": {
-      "Windows_NT": "C:\\path\\to\\legendary\\installed.json",
-      "Darwin": "/path/to/legendary/installed.json",
-      "Linux": "/path/to/legendary/installed.json"
+      "Windows_NT": "",
+      "Darwin": "",
+      "Linux": ""
     },
-    "legendaryExeOverrideTitle": "Legendary Path Override",
+    "legendaryExeOverrideTitle": "",
     "legendaryExeOverridePlaceholder": {
-      "Windows_NT": "C:\\path\\to\\legendary.exe",
-      "Darwin": "/path/to/legendary",
-      "Linux": "/path/to/legendary"
+      "Windows_NT": "",
+      "Darwin": "",
+      "Linux": ""
     },
     "errors": {
-      "legendaryNotInstalled": "> Legendary installed.json not found",
+      "legendaryNotInstalled": "",
       "fatalError__i": "> Legendary parser failed with fatal error:\n ${error}"
     }
   },
