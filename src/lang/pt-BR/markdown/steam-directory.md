@@ -1,4 +1,4 @@
-# Steam directory `[supports env variables]`
+#
 
 Deve ser um diretório Steam válido que contenha o executável Steam. Para que a conta Steam seja detectada, o usuário deve ter logado pelo menos uma vez.
 
