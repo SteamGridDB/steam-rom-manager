@@ -1,4 +1,4 @@
-# Artwork pool `[supports variables]`{.noWrap}
+#
 
 Defaults to `${fuzzyTitle}`{.noWrap} if field is unset.
 
