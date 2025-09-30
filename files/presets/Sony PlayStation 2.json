@@ -29,7 +29,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-pcsx2.exe",
+      "path": "path-to-pcsx2",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
