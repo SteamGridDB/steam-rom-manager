@@ -29,7 +29,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-1964.exe",
+      "path": "path-to-1964",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -104,7 +104,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-mupen64plus.exe",
+      "path": "path-to-mupen64plus",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -254,7 +254,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-project64.exe",
+      "path": "path-to-project64",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
