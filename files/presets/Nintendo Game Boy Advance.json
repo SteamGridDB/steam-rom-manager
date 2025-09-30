@@ -1,7 +1,7 @@
 {
-  "Nintendo GameBoy Advance - mGBA(Flatpak)": {
+  "Nintendo Game Boy Advance - mGBA(Flatpak)": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy Advance - mGBA(Flatpak)",
+    "configTitle": "Nintendo Game Boy Advance - mGBA(Flatpak)",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -72,11 +72,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy"]
+    "steamCategories": ["Game Boy"]
   },
-  "Nintendo GameBoy Advance - Retroarch - Beetle GBA": {
+  "Nintendo Game Boy Advance - Retroarch - Beetle GBA": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy Advance - Retroarch - Beetle GBA",
+    "configTitle": "Nintendo Game Boy Advance - Retroarch - Beetle GBA",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -147,11 +147,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy Advance"]
+    "steamCategories": ["Game Boy Advance"]
   },
-  "Nintendo GameBoy Advance - Retroarch(Flatpak) - Beetle GBA": {
+  "Nintendo Game Boy Advance - Retroarch(Flatpak) - Beetle GBA": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy Advance - Retroarch(Flatpak) - Beetle GBA",
+    "configTitle": "Nintendo Game Boy Advance - Retroarch(Flatpak) - Beetle GBA",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -222,11 +222,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy Advance"]
+    "steamCategories": ["Game Boy Advance"]
   },
-  "Nintendo GameBoy Advance - Retroarch - Meteor": {
+  "Nintendo Game Boy Advance - Retroarch - Meteor": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy Advance - Retroarch - Meteor",
+    "configTitle": "Nintendo Game Boy Advance - Retroarch - Meteor",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -297,11 +297,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy Advance"]
+    "steamCategories": ["Game Boy Advance"]
   },
-  "Nintendo GameBoy Advance - Retroarch(Flatpak) - Meteor": {
+  "Nintendo Game Boy Advance - Retroarch(Flatpak) - Meteor": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy Advance - Retroarch(Flatpak) - Meteor",
+    "configTitle": "Nintendo Game Boy Advance - Retroarch(Flatpak) - Meteor",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -372,11 +372,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy Advance"]
+    "steamCategories": ["Game Boy Advance"]
   },
-  "Nintendo GameBoy Advance - Retroarch - VBA Next": {
+  "Nintendo Game Boy Advance - Retroarch - VBA Next": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy Advance - Retroarch - VBA Next",
+    "configTitle": "Nintendo Game Boy Advance - Retroarch - VBA Next",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -447,11 +447,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy Advance"]
+    "steamCategories": ["Game Boy Advance"]
   },
-  "Nintendo GameBoy Advance - Retroarch(Flatpak) - VBA Next": {
+  "Nintendo Game Boy Advance - Retroarch(Flatpak) - VBA Next": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy Advance - Retroarch(Flatpak) - VBA Next",
+    "configTitle": "Nintendo Game Boy Advance - Retroarch(Flatpak) - VBA Next",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -522,11 +522,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy Advance"]
+    "steamCategories": ["Game Boy Advance"]
   },
-  "Nintendo GameBoy Advance - Retroarch - VBA-M": {
+  "Nintendo Game Boy Advance - Retroarch - VBA-M": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy Advance - Retroarch - VBA-M",
+    "configTitle": "Nintendo Game Boy Advance - Retroarch - VBA-M",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -597,11 +597,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy Advance"]
+    "steamCategories": ["Game Boy Advance"]
   },
-  "Nintendo GameBoy Advance - Retroarch(Flatpak) - VBA-M": {
+  "Nintendo Game Boy Advance - Retroarch(Flatpak) - VBA-M": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy Advance - Retroarch(Flatpak) - VBA-M",
+    "configTitle": "Nintendo Game Boy Advance - Retroarch(Flatpak) - VBA-M",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -672,11 +672,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy Advance"]
+    "steamCategories": ["Game Boy Advance"]
   },
-  "Nintendo GameBoy Advance - Retroarch - gpSP": {
+  "Nintendo Game Boy Advance - Retroarch - gpSP": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy Advance - Retroarch - gpSP",
+    "configTitle": "Nintendo Game Boy Advance - Retroarch - gpSP",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -747,11 +747,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy Advance"]
+    "steamCategories": ["Game Boy Advance"]
   },
-  "Nintendo GameBoy Advance - Retroarch(Flatpak) - gpSP": {
+  "Nintendo Game Boy Advance - Retroarch(Flatpak) - gpSP": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy Advance - Retroarch(Flatpak) - gpSP",
+    "configTitle": "Nintendo Game Boy Advance - Retroarch(Flatpak) - gpSP",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -822,11 +822,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy Advance"]
+    "steamCategories": ["Game Boy Advance"]
   },
-  "Nintendo GameBoy Advance - Retroarch - mGBA": {
+  "Nintendo Game Boy Advance - Retroarch - mGBA": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy Advance - Retroarch - mGBA",
+    "configTitle": "Nintendo Game Boy Advance - Retroarch - mGBA",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -897,11 +897,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy Advance"]
+    "steamCategories": ["Game Boy Advance"]
   },
-  "Nintendo GameBoy Advance - Retroarch(Flatpak) - mGBA": {
+  "Nintendo Game Boy Advance - Retroarch(Flatpak) - mGBA": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy Advance - Retroarch(Flatpak) - mGBA",
+    "configTitle": "Nintendo Game Boy Advance - Retroarch(Flatpak) - mGBA",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -972,6 +972,6 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy Advance"]
+    "steamCategories": ["Game Boy Advance"]
   }
 }
