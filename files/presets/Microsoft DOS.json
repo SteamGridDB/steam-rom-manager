@@ -29,7 +29,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-dosbox.exe",
+      "path": "path-to-dosbox",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -316,7 +316,7 @@
       "specifiedAccounts": ["Global"]
     },
     "parserInputs": {
-      "glob": "${title}${/}dosbox${/}dosbox.exe"
+      "glob": "${title}${/}dosbox${/}dosbox"
     },
     "titleFromVariable": {
       "caseInsensitiveVariables": false,
