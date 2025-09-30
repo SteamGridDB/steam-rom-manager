@@ -29,7 +29,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-rpcs3.exe",
+      "path": "path-to-rpcs3",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -179,7 +179,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-rpcs3.exe",
+      "path": "path-to-rpcs3",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
