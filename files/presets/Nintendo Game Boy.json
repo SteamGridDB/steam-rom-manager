@@ -1,7 +1,7 @@
 {
-  "Nintendo GameBoy - mGBA(Flatpak)": {
+  "Nintendo Game Boy - mGBA(Flatpak)": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy - mGBA(Flatpak)",
+    "configTitle": "Nintendo Game Boy - mGBA(Flatpak)",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -72,11 +72,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy"]
+    "steamCategories": ["Game Boy"]
   },
-  "Nintendo GameBoy - Retroarch - Gambatte": {
+  "Nintendo Game Boy - Retroarch - Gambatte": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy - Retroarch - Gambatte",
+    "configTitle": "Nintendo Game Boy - Retroarch - Gambatte",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -147,11 +147,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy"]
+    "steamCategories": ["Game Boy"]
   },
-  "Nintendo GameBoy - Retroarch(Flatpak) - Gambatte": {
+  "Nintendo Game Boy - Retroarch(Flatpak) - Gambatte": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - Gambatte",
+    "configTitle": "Nintendo Game Boy - Retroarch(Flatpak) - Gambatte",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -222,11 +222,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy"]
+    "steamCategories": ["Game Boy"]
   },
-  "Nintendo GameBoy - Retroarch - Gearboy": {
+  "Nintendo Game Boy - Retroarch - Gearboy": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy - Retroarch - Gearboy",
+    "configTitle": "Nintendo Game Boy - Retroarch - Gearboy",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -297,11 +297,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy"]
+    "steamCategories": ["Game Boy"]
   },
-  "Nintendo GameBoy - Retroarch(Flatpak) - Gearboy": {
+  "Nintendo Game Boy - Retroarch(Flatpak) - Gearboy": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - Gearboy",
+    "configTitle": "Nintendo Game Boy - Retroarch(Flatpak) - Gearboy",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -372,11 +372,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy"]
+    "steamCategories": ["Game Boy"]
   },
-  "Nintendo GameBoy - Retroarch - Mesen-S": {
+  "Nintendo Game Boy - Retroarch - Mesen-S": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy - Retroarch - Mesen-S",
+    "configTitle": "Nintendo Game Boy - Retroarch - Mesen-S",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -447,11 +447,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy"]
+    "steamCategories": ["Game Boy"]
   },
-  "Nintendo GameBoy - Retroarch(Flatpak) - Mesen-S": {
+  "Nintendo Game Boy - Retroarch(Flatpak) - Mesen-S": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - Mesen-S",
+    "configTitle": "Nintendo Game Boy - Retroarch(Flatpak) - Mesen-S",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -522,11 +522,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy"]
+    "steamCategories": ["Game Boy"]
   },
-  "Nintendo GameBoy - Retroarch - mGBA": {
+  "Nintendo Game Boy - Retroarch - mGBA": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy - Retroarch - mGBA",
+    "configTitle": "Nintendo Game Boy - Retroarch - mGBA",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -597,11 +597,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy"]
+    "steamCategories": ["Game Boy"]
   },
-  "Nintendo GameBoy - Retroarch(Flatpak) - mGBA": {
+  "Nintendo Game Boy - Retroarch(Flatpak) - mGBA": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - mGBA",
+    "configTitle": "Nintendo Game Boy - Retroarch(Flatpak) - mGBA",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -672,11 +672,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy"]
+    "steamCategories": ["Game Boy"]
   },
-  "Nintendo GameBoy - Retroarch - SameBoy": {
+  "Nintendo Game Boy - Retroarch - SameBoy": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy - Retroarch - SameBoy",
+    "configTitle": "Nintendo Game Boy - Retroarch - SameBoy",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -747,11 +747,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy"]
+    "steamCategories": ["Game Boy"]
   },
-  "Nintendo GameBoy - Retroarch(Flatpak) - SameBoy": {
+  "Nintendo Game Boy - Retroarch(Flatpak) - SameBoy": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - SameBoy",
+    "configTitle": "Nintendo Game Boy - Retroarch(Flatpak) - SameBoy",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -822,11 +822,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy"]
+    "steamCategories": ["Game Boy"]
   },
-  "Nintendo GameBoy - Retroarch - TGB Dual": {
+  "Nintendo Game Boy - Retroarch - TGB Dual": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy - Retroarch - TGB Dual",
+    "configTitle": "Nintendo Game Boy - Retroarch - TGB Dual",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -897,11 +897,11 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy"]
+    "steamCategories": ["Game Boy"]
   },
-  "Nintendo GameBoy - Retroarch(Flatpak) - TGB Dual": {
+  "Nintendo Game Boy - Retroarch(Flatpak) - TGB Dual": {
     "parserType": "Glob",
-    "configTitle": "Nintendo GameBoy - Retroarch(Flatpak) - TGB Dual",
+    "configTitle": "Nintendo Game Boy - Retroarch(Flatpak) - TGB Dual",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -972,6 +972,6 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["GameBoy"]
+    "steamCategories": ["Game Boy"]
   }
 }
