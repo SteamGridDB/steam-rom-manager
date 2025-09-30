@@ -29,7 +29,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-ryujinx.exe",
+      "path": "path-to-ryujinx",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -179,7 +179,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-yuzu.exe",
+      "path": "path-to-yuzu",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
