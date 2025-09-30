@@ -29,7 +29,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-4DO.exe",
+      "path": "path-to-4DO",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
