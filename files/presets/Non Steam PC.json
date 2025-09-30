@@ -179,7 +179,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-MultiMC.exe",
+      "path": "path-to-MultiMC",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
