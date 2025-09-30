@@ -104,7 +104,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-redream.exe",
+      "path": "path-to-redream",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },

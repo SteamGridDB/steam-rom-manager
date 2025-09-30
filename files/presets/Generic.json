@@ -29,7 +29,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-emulator.exe",
+      "path": "path-to-emulator",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },

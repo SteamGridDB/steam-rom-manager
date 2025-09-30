@@ -29,7 +29,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-ppsspp.exe",
+      "path": "path-to-ppsspp",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },

@@ -29,7 +29,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-dolphin.exe",
+      "path": "path-to-dolphin",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
