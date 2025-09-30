@@ -29,7 +29,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-mame.exe",
+      "path": "path-to-mame",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -479,7 +479,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-model-2-emulator.exe",
+      "path": "path-to-model-2-emulator",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -554,7 +554,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-TeknoParrotUi.exe",
+      "path": "path-to-TeknoParrotUi",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
