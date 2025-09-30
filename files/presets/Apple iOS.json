@@ -29,7 +29,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-touchhle.exe",
+      "path": "path-to-touchhle",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
