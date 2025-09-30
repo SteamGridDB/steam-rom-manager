@@ -29,7 +29,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-Vita3K.exe",
+      "path": "path-to-Vita3K",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
