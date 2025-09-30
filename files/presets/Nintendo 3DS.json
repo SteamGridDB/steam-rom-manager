@@ -29,7 +29,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-citra.exe",
+      "path": "path-to-citra",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
