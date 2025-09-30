@@ -29,7 +29,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-cemu.exe",
+      "path": "path-to-cemu",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -179,7 +179,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-cemu.exe",
+      "path": "path-to-cemu",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -329,7 +329,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-cemu.exe",
+      "path": "path-to-cemu",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -479,7 +479,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "path-to-cemu.exe",
+      "path": "path-to-cemu",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
