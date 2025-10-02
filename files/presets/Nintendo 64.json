@@ -458,7 +458,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --nogui --quit-after-emulation \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -541,7 +541,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run com.github.Rosalie241.RMG --fullscreen --nogui --quit-after-emulation \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
