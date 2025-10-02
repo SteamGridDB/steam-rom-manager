@@ -23,7 +23,7 @@
 			"glob": "${title}@(.a26|.A26|.bin|.BIN|.rom|.ROM|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -106,7 +106,7 @@
 			"glob": "${title}@(.a26|.A26|.bin|.BIN|.rom|.ROM|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -189,7 +189,7 @@
 			"glob": "**/${title}@(.pc2|.PC2|.ws|.WS|.wsc|.WSC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -272,7 +272,7 @@
 			"glob": "**/${title}@(.pc2|.PC2|.ws|.WS|.wsc|.WSC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -355,7 +355,7 @@
 			"glob": "**/${title}@(.pc2|.PC2|.ws|.WS|.wsc|.WSC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -438,7 +438,7 @@
 			"glob": "**/${title}@(.pc2|.PC2|.ws|.WS|.wsc|.WSC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -521,7 +521,7 @@
 			"glob": "**/${title}@(.pc2|.PC2|.ws|.WS|.wsc|.WSC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -604,7 +604,7 @@
 			"glob": "**/${title}@(.pc2|.PC2|.ws|.WS|.wsc|.WSC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -687,7 +687,7 @@
 			"glob": "${title}@(.7z|.7Z|.col|.COL|.ri|.RI|.rom|.ROM|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -770,7 +770,7 @@
 			"glob": "${title}@(.7z|.7Z|.col|.COL|.ri|.RI|.rom|.ROM|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -853,7 +853,7 @@
 			"glob": "${title}@(.7z|.7Z|.cas|.CAS|.dsk|.DSK|.m3u|.M3U|.mx1|.MX1|.mx2|.MX2|.ri|.RI|.rom|.ROM|.sc|.SC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -936,7 +936,7 @@
 			"glob": "${title}@(.7z|.7Z|.cas|.CAS|.dsk|.DSK|.m3u|.M3U|.mx1|.MX1|.mx2|.MX2|.ri|.RI|.rom|.ROM|.sc|.SC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -1019,7 +1019,7 @@
 			"glob": "${title}@(.7z|.7Z|.cas|.CAS|.dsk|.DSK|.m3u|.M3U|.mx1|.MX1|.mx2|.MX2|.ri|.RI|.rom|.ROM|.sc|.SC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -1102,7 +1102,7 @@
 			"glob": "${title}@(.7z|.7Z|.cas|.CAS|.dsk|.DSK|.m3u|.M3U|.mx1|.MX1|.mx2|.MX2|.ri|.RI|.rom|.ROM|.sc|.SC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -1185,7 +1185,7 @@
 			"glob": "${title}@(.7z|.7Z|.ccd|.CCD|.chd|.CHD|.cue|.CUE|.iso|.ISO|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -1268,7 +1268,7 @@
 			"glob": "${title}@(.7z|.7Z|.ccd|.CCD|.chd|.CHD|.cue|.CUE|.iso|.ISO|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -1351,7 +1351,7 @@
 			"glob": "${title}@(.7z|.7Z|.ccd|.CCD|.chd|.CHD|.cue|.CUE|.iso|.ISO|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -1434,7 +1434,7 @@
 			"glob": "${title}@(.7z|.7Z|.ccd|.CCD|.chd|.CHD|.cue|.CUE|.iso|.ISO|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -1517,7 +1517,7 @@
 			"glob": "${title}@(.7z|.7Z|.ccd|.CCD|.chd|.CHD|.cue|.CUE|.iso|.ISO|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -1600,7 +1600,7 @@
 			"glob": "${title}@(.7z|.7Z|.ccd|.CCD|.chd|.CHD|.cue|.CUE|.iso|.ISO|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -1683,7 +1683,7 @@
 			"glob": "${title}@(.n64|.N64|.v64|.V64|.z64|.Z64)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -1766,7 +1766,7 @@
 			"glob": "${title}@(.n64|.N64|.v64|.V64|.z64|.Z64)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -1849,7 +1849,7 @@
 			"glob": "${title}@(.n64|.N64|.v64|.V64|.z64|.Z64)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -1932,7 +1932,7 @@
 			"glob": "${title}@(.n64|.N64|.v64|.V64|.z64|.Z64)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -2015,7 +2015,7 @@
 			"glob": "${title}@(.7z|.7Z|.bz2|.BZ2|.gz|.GZ|.nes|.NES|.fds|.FDS|.unf|.UNF|.xz|.XZ|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -2098,7 +2098,7 @@
 			"glob": "${title}@(.7z|.7Z|.bz2|.BZ2|.gz|.GZ|.nes|.NES|.fds|.FDS|.unf|.UNF|.xz|.XZ|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -2181,7 +2181,7 @@
 			"glob": "${title}@(.7z|.7Z|.gba|.GBA|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -2264,7 +2264,7 @@
 			"glob": "${title}@(.7z|.7Z|.gba|.GBA|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -2347,7 +2347,7 @@
 			"glob": "${title}@(.7z|.7Z|.gbc|.GBC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -2430,7 +2430,7 @@
 			"glob": "${title}@(.7z|.7Z|.gbc|.GBC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -2513,7 +2513,7 @@
 			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -2596,7 +2596,7 @@
 			"glob": "${title}@(.7z|.7Z|.gb|.GB|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -2679,7 +2679,7 @@
 			"glob": "${title}@(.7z|.7Z|.bz2|.BZ2|.gz|.GZ|.nes|.NES|.fds|.FDS|.unf|.UNF|.xz|.XZ|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -2762,7 +2762,7 @@
 			"glob": "${title}@(.7z|.7Z|.bz2|.BZ2|.gz|.GZ|.nes|.NES|.fds|.FDS|.unf|.UNF|.xz|.XZ|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -2845,7 +2845,7 @@
 			"glob": "${title}@(.7z|.7Z|.bs|.BS|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -2928,7 +2928,7 @@
 			"glob": "${title}@(.7z|.7Z|.bs|.BS|.sfc|.SFC|.smc|.SMC|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -3011,7 +3011,7 @@
 			"glob": "${title}@(.7z|.7Z|.32x|.32X|.bin|.BIN|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -3094,7 +3094,7 @@
 			"glob": "${title}@(.7z|.7Z|.32x|.32X|.bin|.BIN|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -3177,7 +3177,7 @@
 			"glob": "${title}@(.7z|.7Z|.iso|.ISO|.cue|.CUE|.chd|.CHD|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -3260,7 +3260,7 @@
 			"glob": "${title}@(.7z|.7Z|.iso|.ISO|.cue|.CUE|.chd|.CHD|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -3343,7 +3343,7 @@
 			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.gg|.GG|.rom|.ROM|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -3426,7 +3426,7 @@
 			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.gg|.GG|.rom|.ROM|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -3509,7 +3509,7 @@
 			"glob": "${title}@(.7z|.7Z|.gen|.GEN|.md|.MD|.smd|.SMD|.zip|.ZIP|.bin|.BIN)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -3592,7 +3592,7 @@
 			"glob": "${title}@(.7z|.7Z|.gen|.GEN|.md|.MD|.smd|.SMD|.zip|.ZIP|.bin|.BIN)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -3675,7 +3675,7 @@
 			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.rom|.ROM|.sms|.SMS|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -3758,7 +3758,7 @@
 			"glob": "${title}@(.7z|.7Z|.bin|.BIN|.rom|.ROM|.sms|.SMS|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -3841,7 +3841,7 @@
 			"glob": "${title}@(.7z|.7Z|.ri|.RI|.rom|.ROM|.sg|.SG|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -3924,7 +3924,7 @@
 			"glob": "${title}@(.7z|.7Z|.ri|.RI|.rom|.ROM|.sg|.SG|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -4007,7 +4007,7 @@
 			"glob": "${title}@(.dsk|.DSK|.gz|.GZ|.img|.IMG|.mgt|.MGT|.rzx|.RZX|.scl|.SCL|.sh|.SH|.sna|.SNA|.szx|.SZX|.tap|.TAP|.trd|.TRD|.tzx|.TZX|.udi|.UDI|.z80|.Z80|.7z|.7Z|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -4090,7 +4090,7 @@
 			"glob": "${title}@(.dsk|.DSK|.gz|.GZ|.img|.IMG|.mgt|.MGT|.rzx|.RZX|.scl|.SCL|.sh|.SH|.sna|.SNA|.szx|.SZX|.tap|.TAP|.trd|.TRD|.tzx|.TZX|.udi|.UDI|.z80|.Z80|.7z|.7Z|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
