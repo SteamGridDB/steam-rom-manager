@@ -8,7 +8,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"Atari 2600\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -91,7 +91,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"Atari 2600\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -174,7 +174,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"WonderSwan Color\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -257,7 +257,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"WonderSwan Color\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -340,7 +340,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"WonderSwan\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -423,7 +423,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"WonderSwan\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -506,7 +506,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"Pocket Challenge V2\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -589,7 +589,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"Pocket Challenge V2\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -672,7 +672,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"ColecoVision\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -755,7 +755,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"ColecoVision\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -838,7 +838,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"MSX2\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -921,7 +921,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"MSX2\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -1004,7 +1004,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"MSX\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -1087,7 +1087,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"MSX\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -1170,7 +1170,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"PC Engine CD\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -1253,7 +1253,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"PC Engine CD\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -1336,7 +1336,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"SuperGrafx\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -1419,7 +1419,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"SuperGrafx\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -1502,7 +1502,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"PC Engine\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -1585,7 +1585,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"PC Engine\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -1668,7 +1668,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"Nintendo 64\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -1751,7 +1751,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"Nintendo 64\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -1834,7 +1834,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"Nintendo 64DD\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -1917,7 +1917,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"Nintendo 64DD\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -2000,7 +2000,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"Famicom Disk System\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -2083,7 +2083,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"Famicom Disk System\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -2166,7 +2166,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"Game Boy Advance\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -2249,7 +2249,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"Game Boy Advance\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -2332,7 +2332,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"Game Boy Color\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -2415,7 +2415,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"Game Boy Color\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -2498,7 +2498,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"Game Boy\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -2581,7 +2581,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"Game Boy\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -2664,7 +2664,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"Famicom\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -2747,7 +2747,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"Famicom\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -2830,7 +2830,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"Super Famicom\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -2913,7 +2913,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"Super Famicom\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -2996,7 +2996,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"Mega 32X\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -3079,7 +3079,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"Mega 32X\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -3162,7 +3162,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"Mega CD\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -3245,7 +3245,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"Mega CD\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -3328,7 +3328,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"Game Gear\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -3411,7 +3411,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"Game Gear\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -3494,7 +3494,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"Mega Drive\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -3577,7 +3577,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"Mega Drive\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -3660,7 +3660,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"Master System\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -3743,7 +3743,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"Master System\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -3826,7 +3826,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"SG-1000\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -3909,7 +3909,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"SG-1000\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -3992,7 +3992,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "--fullscreen --system \"ZX Spectrum\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
@@ -4075,7 +4075,7 @@
 		"startInDirectory": "",
 		"titleModifier": "${fuzzyTitle}",
 		"executableArgs": "run dev.ares.ares --fullscreen --system \"ZX Spectrum\" \"${filePath}\"",
-		"onlineImageQueries": "${${fuzzyTitle}}",
+		"onlineImageQueries": ["${fuzzyTitle}"],
 		"imagePool": "${fuzzyTitle}",
 		"imageProviders": [
 			"sgdb"
