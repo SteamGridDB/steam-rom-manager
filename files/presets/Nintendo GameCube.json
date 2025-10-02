@@ -72,7 +72,7 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["Gamecube"]
+    "steamCategories": ["GameCube"]
   },
   "Nintendo GameCube - Dolphin(Flatpak)": {
     "parserType": "Glob",
@@ -147,7 +147,7 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["Gamecube"]
+    "steamCategories": ["GameCube"]
   },
   "Nintendo GameCube - Retroarch - Dolphin": {
     "parserType": "Glob",
@@ -222,7 +222,7 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["Gamecube"]
+    "steamCategories": ["GameCube"]
   },
   "Nintendo GameCube - Retroarch(Flatpak) - Dolphin": {
     "parserType": "Glob",
@@ -297,6 +297,6 @@
     },
     "steamInputEnabled": "1",
     "drmProtect": false,
-    "steamCategories": ["Gamecube"]
+    "steamCategories": ["GameCube"]
   }
 }
