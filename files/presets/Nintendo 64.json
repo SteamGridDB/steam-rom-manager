@@ -473,7 +473,7 @@
 			"glob": "${title}@(.7z|.7Z|.n64|.N64|.v64|.V64|.z64|.Z64|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
@@ -556,7 +556,7 @@
 			"glob": "${title}@(.7z|.7Z|.n64|.N64|.v64|.V64|.z64|.Z64|.zip|.ZIP)"
 		},
 		"titleFromVariable": {
-			"limitToGroups": "",
+			"limitToGroups": [],
 			"caseInsensitiveVariables": false,
 			"skipFileIfVariableWasNotFound": false
 		},
