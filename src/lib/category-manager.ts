@@ -4,12 +4,10 @@ import {
   VDF_ExtraneousItemsData,
   VDF_AddedCategoriesData,
 } from "../models";
-import * as genericParser from "@node-steam/vdf";
 import * as steam from "./helpers/steam";
 import { superTypes, ArtworkOnlyType } from "./parsers/available-parsers";
 import * as path from "path";
 import * as fs from "fs-extra";
-import * as os from "os";
 import * as _ from "lodash";
 import { Acceptable_Error } from "./acceptable-error";
 
