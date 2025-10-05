@@ -600,12 +600,7 @@ export class FileParser {
             newFile.imagePool = fuzzyTitle;
           }
 
-          // Use Steam Category field if provided, otherwise fall back to parser config title
-          // Filter out empty strings and trim whitespace
-          const categories = config.steamCategories
-            .map(cat => cat.trim())
-            .filter(cat => cat.length > 0);
-          newFile.steamCategories = categories.length > 0 ? categories : [config.configTitle];
+          newFile.steamCategories = config.steamCategories;
 
           parsedConfig.files.push(newFile);
         }
