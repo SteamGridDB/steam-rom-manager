@@ -74,6 +74,82 @@
     "drmProtect": false,
     "steamCategories": ["3DS"]
   },
+
+  "Nintendo 3DS - Azahar": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo 3DS - Azahar",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "-f \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.3ds|.3DS|.3dsx|.3DSX|.app|.APP|.axf|.AXF|.cci|.CCI|.cxi|.CXI|.elf|.ELF)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "path-to-azahar",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["3DS"]
+  },
   "Nintendo 3DS - Citra(Flatpak)": {
     "parserType": "Glob",
     "configTitle": "Nintendo 3DS - Citra(Flatpak)",
@@ -149,6 +225,82 @@
     "drmProtect": false,
     "steamCategories": ["3DS"]
   },
+  "Nintendo 3DS - Citra(Flatpak)": {
+    "parserType": "Glob",
+    "configTitle": "Nintendo 3DS - Citra(Flatpak)",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "path-to-roms",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "run org.citra_emu.citra \"${filePath}\"",
+    "onlineImageQueries": ["${fuzzyTitle}"],
+    "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["sgdb"],
+    "disabled": false,
+    "userAccounts": {
+      "specifiedAccounts": ["Global"]
+    },
+    "parserInputs": {
+      "glob": "${title}@(.3ds|.3DS|.3dsx|.3DSX|.app|.APP|.axf|.AXF|.cci|.CCI|.cxi|.CXI|.elf|.ELF)"
+    },
+    "titleFromVariable": {
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "limitToGroups": []
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "executable": {
+      "path": "/usr/bin/flatpak",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "presetVersion": 19,
+    "imageProviderAPIs": {
+      "sgdb": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      },
+      "steamCDN": {}
+    },
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "defaultImage": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "localImages": {
+      "long": "",
+      "tall": "",
+      "hero": "",
+      "logo": "",
+      "icon": ""
+    },
+    "steamInputEnabled": "1",
+    "drmProtect": false,
+    "steamCategories": ["3DS"]
+  },
+
   "Nintendo 3DS - Retroarch - Citra": {
     "parserType": "Glob",
     "configTitle": "Nintendo 3DS - Retroarch - Citra",
