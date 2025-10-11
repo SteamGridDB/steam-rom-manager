@@ -47,8 +47,7 @@ export class ManualParser implements GenericParser {
                   filePath: jsonObjs[j].target,
                   startInDirectory: jsonObjs[j].startIn,
                   launchOptions: jsonObjs[j].launchOptions,
-                  appendArgsToExecutable:
-                    !!jsonObjs[j].appendArgsToExecutable,
+                  appendArgsToExecutable: !!jsonObjs[j].appendArgsToExecutable,
                 });
               }
             } catch (err) {

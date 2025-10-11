@@ -1,4 +1,4 @@
-@if(showMarkdown) {
+@if (showMarkdown) {
   <markdown class="docs" [content]="this.currentDoc.content"></markdown>
 }
 <choose-accounts
@@ -55,7 +55,7 @@
           style="font-size: 0.85em"
           class="ngSelect"
           [ngModel]="settings.theme"
-          (ngModelChange)="changeTheme($event);"
+          (ngModelChange)="changeTheme($event)"
           [values]="themes"
         >
         </ng-select>
@@ -202,7 +202,6 @@
       </div>
     </div>
   </div>
-
 
   <div>
     <div class="section">
@@ -518,16 +517,15 @@
 </div>
 <div class="menu" drag-scroll>
   <div class="lowerLeft">
-    @if(settings.environmentVariables.steamDirectory) {
+    @if (settings.environmentVariables.steamDirectory) {
       <div (click)="steamDir()">{{ lang.text.steamDir }}</div>
     }
     <div (click)="configDir()">{{ lang.text.configDir }}</div>
   </div>
   <div class="lowerRight">
-    @if(showMarkdown) {
+    @if (showMarkdown) {
       <div (click)="closeDocs()" class="dangerousButton">Close Docs</div>
-    }
-    @else {
+    } @else {
       <div (click)="openDocs()">Open Docs</div>
     }
   </div>

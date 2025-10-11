@@ -5,7 +5,7 @@ import {
   OnDestroy,
   Renderer2,
   RendererStyleFlags2,
-  ElementRef
+  ElementRef,
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import {
@@ -80,7 +80,7 @@ export class SettingsComponent implements OnDestroy {
     private activatedRoute: ActivatedRoute,
     private ipcService: IpcService,
     private renderer: Renderer2,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
   ) {
     this.currentDoc.content = this.lang.docs__md.settings.join("");
     this.activatedRoute.queryParamMap.subscribe((paramContainer: any) => {
@@ -217,7 +217,7 @@ export class SettingsComponent implements OnDestroy {
     this.languageService.loadLanguage(this.settings.language);
   }
   changeTheme(newTheme: string) {
-    if(this.settings.theme!==newTheme){
+    if (this.settings.theme !== newTheme) {
       this.settings.theme = newTheme;
       this.loadTheme();
       this.onSettingsChange();

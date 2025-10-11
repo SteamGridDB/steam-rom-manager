@@ -36,7 +36,6 @@ export class NavComponent implements OnDestroy {
 
   @Input() navClick: EventEmitter<any>;
 
-
   constructor(
     private parsersService: ParsersService,
     private languageService: LanguageService,

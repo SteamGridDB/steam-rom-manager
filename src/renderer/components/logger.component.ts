@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Renderer2,
-  RendererStyleFlags2
+  RendererStyleFlags2,
 } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { LoggerService, SettingsService } from "../services";
@@ -36,7 +36,7 @@ export class LoggerComponent {
   description: string = "";
   discordHandle: string = "";
   bugForm: FormGroup;
-  showReporter:boolean = false;
+  showReporter: boolean = false;
 
   @ViewChild("messageWindow") private messageWindow: ElementRef;
 
@@ -46,7 +46,7 @@ export class LoggerComponent {
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
     private elementRef: ElementRef,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) {
     this.settings = this.loggerService.getLogSettings();
     this.appSettings = this.settingsService.getSettings();
@@ -139,7 +139,7 @@ export class LoggerComponent {
   clearLog() {
     this.loggerService.clearLog();
   }
-  
+
   closeOptions() {
     this.showOptions = false;
     this.renderer.setStyle(
@@ -159,7 +159,7 @@ export class LoggerComponent {
       RendererStyleFlags2.DashCase,
     );
   }
-  
+
   toggleOptions() {
     if (this.showOptions) {
       this.closeOptions();

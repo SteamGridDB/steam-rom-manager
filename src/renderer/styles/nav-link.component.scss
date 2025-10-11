@@ -28,7 +28,8 @@ nav-link {
     img {
       // calculated using https://isotropic.co/tool/hex-color-to-css-filter/
       // target was #fbfd81
-      filter: sepia(20%) saturate(7471%) hue-rotate(315deg) brightness(124%) contrast(98%);
+      filter: sepia(20%) saturate(7471%) hue-rotate(315deg) brightness(124%)
+        contrast(98%);
     }
   }
 }
