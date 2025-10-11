@@ -56,8 +56,8 @@ export class NavParsersComponent implements OnDestroy {
       this.parsersService
         .getUserConfigurations()
         .subscribe((userConfigurations) => {
-          if(this.appSettings.theme == "EmuDeck") {
-            this.initializeImageMap(userConfigurations)
+          if (this.appSettings.theme == "EmuDeck") {
+            this.initializeImageMap(userConfigurations);
           }
           this.userConfigurations = userConfigurations;
 
@@ -69,10 +69,17 @@ export class NavParsersComponent implements OnDestroy {
           this.navForm = this.formBuilder.group({
             selectAll: someOn,
             parserStatuses: this.formBuilder.group(
-              Object.fromEntries(this.userConfigurations.map((config: {saved: UserConfiguration, current: UserConfiguration}) => {
-                return [config.saved.parserId, !config.saved.disabled]
-              }))
-            )
+              Object.fromEntries(
+                this.userConfigurations.map(
+                  (config: {
+                    saved: UserConfiguration;
+                    current: UserConfiguration;
+                  }) => {
+                    return [config.saved.parserId, !config.saved.disabled];
+                  },
+                ),
+              ),
+            ),
           });
           this.navForm
             .get("selectAll")
@@ -87,11 +94,11 @@ export class NavParsersComponent implements OnDestroy {
               }
             });
           const parserControls = this.getParserControls();
-          for(let userConfiguration of this.userConfigurations) {
+          for (let userConfiguration of this.userConfigurations) {
             let parserId = userConfiguration.saved.parserId;
-            parserControls[parserId].valueChanges.subscribe((val: boolean)=>{
+            parserControls[parserId].valueChanges.subscribe((val: boolean) => {
               this.parsersService.changeEnabledStatus(parserId, val);
-            })
+            });
           }
 
           this.changeRef.detectChanges();
@@ -104,13 +111,13 @@ export class NavParsersComponent implements OnDestroy {
         this.changeRef.detectChanges();
       }),
     );
-    if(this.appSettings.theme == 'Deck') {
+    if (this.appSettings.theme == "Deck") {
       this.subscriptions.add(
-        this.navClick.subscribe(()=>{
-          this.currentId="";
+        this.navClick.subscribe(() => {
+          this.currentId = "";
           this.changeRef.detectChanges();
-        })
-      )
+        }),
+      );
     }
 
     this.languageService.observeChanges().subscribe((lang) => {
@@ -138,55 +145,61 @@ export class NavParsersComponent implements OnDestroy {
   }
 
   getRouteIndex(route: string) {
-    return parseInt(route.split("/")[2])
+    return parseInt(route.split("/")[2]);
   }
 
   dragStart(event: Event) {
     this.dragStartIndex = this.getRouteIndex(this.router.url);
   }
 
-  handleDrop(fromIndex: number, toIndex:number) {
+  handleDrop(fromIndex: number, toIndex: number) {
     this.parsersService.injectIndex(fromIndex, toIndex);
-    if(fromIndex < this.dragStartIndex && this.dragStartIndex <= toIndex) {
-      this.router.navigate(["/parsers", this.dragStartIndex - 1])
-    } else if(toIndex <= this.dragStartIndex && this.dragStartIndex < fromIndex) {
-      this.router.navigate(["/parsers", this.dragStartIndex + 1])
-    } else if(this.dragStartIndex==fromIndex) {
-      this.router.navigate(["/parsers", toIndex])
+    if (fromIndex < this.dragStartIndex && this.dragStartIndex <= toIndex) {
+      this.router.navigate(["/parsers", this.dragStartIndex - 1]);
+    } else if (
+      toIndex <= this.dragStartIndex &&
+      this.dragStartIndex < fromIndex
+    ) {
+      this.router.navigate(["/parsers", this.dragStartIndex + 1]);
+    } else if (this.dragStartIndex == fromIndex) {
+      this.router.navigate(["/parsers", toIndex]);
     }
   }
 
-  initializeImageMap(userConfigurations: {current: UserConfiguration, saved: UserConfiguration}[]) {
-              for (let userConfiguration of userConfigurations) {
-            let separatedValues: string[] =
-              userConfiguration.saved.configTitle.split(" - ");
-            let separatedValuesImg = separatedValues.length
-              ? separatedValues[0].replaceAll(/[\/\-\(\)\.\s]/g, "")
-              : "";
-            separatedValuesImg = separatedValuesImg
-              .replaceAll("3do", "p3do")
-              .toLowerCase();
-            let imgValue = "";
-            let alternativeValue = false;
-            let detailsValue = "";
-            try {
-              imgValue = require(
-                `../../assets/systems/${separatedValuesImg}.svg`,
-              );
-              detailsValue = userConfiguration.saved.configTitle
-                .split(" - ")
-                .slice(1)
-                .join(" - ");
-            } catch (e) {
-              alternativeValue = true;
-              detailsValue = userConfiguration.saved.configTitle;
-            }
-            this.imageMap[userConfiguration.saved.parserId] = {
-              alternative: alternativeValue,
-              details: detailsValue,
-              img: imgValue,
-            };
-          }
+  initializeImageMap(
+    userConfigurations: {
+      current: UserConfiguration;
+      saved: UserConfiguration;
+    }[],
+  ) {
+    for (let userConfiguration of userConfigurations) {
+      let separatedValues: string[] =
+        userConfiguration.saved.configTitle.split(" - ");
+      let separatedValuesImg = separatedValues.length
+        ? separatedValues[0].replaceAll(/[\/\-\(\)\.\s]/g, "")
+        : "";
+      separatedValuesImg = separatedValuesImg
+        .replaceAll("3do", "p3do")
+        .toLowerCase();
+      let imgValue = "";
+      let alternativeValue = false;
+      let detailsValue = "";
+      try {
+        imgValue = require(`../../assets/systems/${separatedValuesImg}.svg`);
+        detailsValue = userConfiguration.saved.configTitle
+          .split(" - ")
+          .slice(1)
+          .join(" - ");
+      } catch (e) {
+        alternativeValue = true;
+        detailsValue = userConfiguration.saved.configTitle;
+      }
+      this.imageMap[userConfiguration.saved.parserId] = {
+        alternative: alternativeValue,
+        details: detailsValue,
+        img: imgValue,
+      };
+    }
   }
 
   ngOnDestroy() {

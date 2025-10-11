@@ -35,7 +35,7 @@ function ngObjectsToArray<T>(importObject: T) {
     FormsModule,
     ReactiveFormsModule,
     ColorPickerModule,
-    DragAndDropModule
+    DragAndDropModule,
   ],
   declarations: [
     Components.AboutComponent,

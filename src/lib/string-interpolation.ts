@@ -13,7 +13,8 @@ String.prototype.interpolate = function (params: any) {
   return new Function(...names, `return \`${this}\`;`)(...vals);
 };
 
-
-String.prototype.startCase = function() {
-  return this.split(/\s/g).map((w: string)=>_.capitalize(w)).join(" ");
-} 
+String.prototype.startCase = function () {
+  return this.split(/\s/g)
+    .map((w: string) => _.capitalize(w))
+    .join(" ");
+};

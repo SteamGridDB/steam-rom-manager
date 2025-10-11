@@ -23,7 +23,7 @@
     [(ngModel)]="filterValue"
   ></ng-text-input>
 </div>
-@if(showMarkdown) {
+@if (showMarkdown) {
   <markdown class="docs" [content]="this.currentDoc.content"></markdown>
 }
 <div class="userExceptions">
@@ -140,21 +140,19 @@
     </div>
   </div>
   <div class="lowerRight">
-    @if(appSettings.theme=='EmuDeck'){
+    @if (appSettings.theme == "EmuDeck") {
       <nav-link
-      [routerLink]="['/parsers-list']"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      >Back</nav-link>
-    }
-    @else {
-      @if(showMarkdown) {
+        [routerLink]="['/parsers-list']"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Back</nav-link
+      >
+    } @else {
+      @if (showMarkdown) {
         <div (click)="closeDocs()" class="dangerousButton">Close Docs</div>
-      }
-      @else {
+      } @else {
         <div (click)="openDocs()">Open Docs</div>
       }
     }
   </div>
-
 </div>

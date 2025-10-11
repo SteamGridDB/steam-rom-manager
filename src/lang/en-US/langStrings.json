@@ -39,7 +39,7 @@
         "readingVDF_Files": "Reading VDF files.",
         "mergingVDF_entries": "Merging VDF entries.",
         "removingVDF_entries": "Removing VDF entries and image files.",
-        "savingCategories": "Saving category information to localconfig.vdf.",
+        "savingCategories": "Saving category information to Steam (trying cloud storage, then localconfig.vdf, then leveldb).",
         "savingControllers": "Saving controller information.",
         "removingFromCategories": "Removing all added category information",
         "writingVDF_entries__i": "Writing VDF files. Doing artwork in batches of ${batchSize}.",

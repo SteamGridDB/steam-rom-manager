@@ -432,13 +432,16 @@ export class PreviewComponent implements OnDestroy {
 
   async addLocalImages(app: PreviewDataApp, artworkType?: ArtworkType) {
     const options: Electron.OpenDialogSyncOptions = {
-      properties: ["multiSelections","openFile"],
+      properties: ["multiSelections", "openFile"],
       title: "Choose selections folder location.",
-      filters: [{name: "Images", extensions: ["png","tga","jpg","jpeg","webp"]}]
+      filters: [
+        { name: "Images", extensions: ["png", "tga", "jpg", "jpeg", "webp"] },
+      ],
     };
     const actualArtworkType = this.getActualArtworkType(artworkType);
-    const {filePaths}: OpenDialogReturnValue = await dialog.showOpenDialog(options);
-    if(filePaths!==undefined) {
+    const { filePaths }: OpenDialogReturnValue =
+      await dialog.showOpenDialog(options);
+    if (filePaths !== undefined) {
       let extRegex = /png|tga|jpg|jpeg|webp/i;
       for (let i = 0; i < filePaths.length; i++) {
         if (extRegex.test(path.extname(filePaths[i]))) {
@@ -454,7 +457,12 @@ export class PreviewComponent implements OnDestroy {
             "manual",
           );
           this.updateListImageRanges(app);
-          this.previewService.setImageIndex(app, this.listImagesRanges["manual"].end - 1,actualArtworkType,true)
+          this.previewService.setImageIndex(
+            app,
+            this.listImagesRanges["manual"].end - 1,
+            actualArtworkType,
+            true,
+          );
         }
       }
     }
@@ -505,7 +513,7 @@ export class PreviewComponent implements OnDestroy {
       RendererStyleFlags2.DashCase,
     );
   }
-  
+
   toggleFilters() {
     if (this.showFilters) {
       this.closeFilters();

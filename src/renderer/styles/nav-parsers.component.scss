@@ -36,7 +36,7 @@
           opacity: 0.5;
         }
         &.active {
-          background-color: var(--color-nav-link-background-active)
+          background-color: var(--color-nav-link-background-active);
         }
       }
     }
@@ -122,9 +122,9 @@
       nav-link:not(.titlelink) {
         padding: var(--padding-nav-link);
         padding-left: calc(var(--padding-nav-link) + 14px);
-  
+
         position: relative;
-  
+
         &::before {
           top: 50%;
           position: absolute;
@@ -136,66 +136,66 @@
           margin-left: var(--nav-link-before-margin-left);
           transform: translateY(-50%);
         }
-  
+
         &:hover {
           &::before {
             background-color: var(--color-nav-link-enabled-hover);
           }
-  
+
           &.active {
             &::before {
               background-color: var(--color-nav-link-enabled-active);
             }
           }
         }
-  
+
         &.active {
           &::before {
             background-color: var(--color-nav-link-enabled-active);
           }
         }
-  
+
         &.disabled {
           &::before {
             background-color: var(--color-nav-link-disabled);
           }
-  
+
           &:hover {
             &::before {
               background-color: var(--color-nav-link-disabled-hover);
             }
-  
+
             &.active {
               &::before {
                 background-color: var(--color-nav-link-disabled-active);
               }
             }
           }
-  
+
           &.active {
             &::before {
               background-color: var(--color-nav-link-disabled-active);
             }
           }
         }
-  
+
         &.unsaved {
           &::before {
             background-color: var(--color-nav-link-unsaved);
           }
-  
+
           &:hover {
             &::before {
               background-color: var(--color-nav-link-unsaved-hover);
             }
-  
+
             &.active {
               &::before {
                 background-color: var(--color-nav-link-unsaved-active);
               }
             }
           }
-  
+
           &.active {
             &::before {
               background-color: var(--color-nav-link-unsaved-active);

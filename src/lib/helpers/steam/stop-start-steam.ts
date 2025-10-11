@@ -6,6 +6,15 @@ import { LoggerService } from "../../../renderer/services";
 const checkDelay = 500;
 const timeout = 60000;
 
+// Track if Steam was killed so we can restart it on app exit
+let steamWasKilled = false;
+export function wasSteamKilled(): boolean {
+  return steamWasKilled;
+}
+export function resetSteamKilledFlag(): void {
+  steamWasKilled = false;
+}
+
 interface ActAndCheck {
   commands: {
     action: string;
@@ -96,18 +105,14 @@ export async function stopSteam() {
     data.shell = "powershell";
   } else if (os.type() == "Linux") {
     data.commands = {
-      action: `kill -15 $(pidof steam)`,
-      check: `levelfile=$(ls -t "$HOME/.steam/steam/config/htmlcache/Local Storage/leveldb"/*.ldb | head -1);
-                    pid=$(fuser "$levelfile");
-                    if [ -z $pid ]; then echo "True"; else echo "False"; fi;`,
+      action: `kill -15 $(pidof -x steam) 2>/dev/null || true`,
+      check: `steam_pid=$(pgrep -x '^steam$' 2>/dev/null); if [ -z "$steam_pid" ]; then echo "True"; else echo "False"; fi`,
     };
     data.shell = "/bin/sh";
   } else if (os.type() == "Darwin") {
     data.commands = {
       action: `osascript -e 'quit app "Steam"'`,
-      check: `levelfile=$(ls -t "$HOME/Library/Application Support/Steam/config/htmlcache/Local Storage/leveldb"/*.ldb | head -1);
-                    pid=$(lsof -t "$levelfile");
-                    if [ -z $pid ]; then echo "True"; else echo "False"; fi;`,
+      check: `pid="$(pgrep steam_osx)"; if [ -z $pid ]; then echo "True"; else echo "False"; fi;`,
     };
     data.shell = "/bin/sh";
   }
@@ -156,27 +161,80 @@ export async function performSteamlessTask(
   appSettings: AppSettings,
   loggerService: LoggerService,
   task: () => Promise<void>,
+  successMessage?: string,
 ) {
-  let stop: { acted: boolean; messages: string[] };
+  let stop: { acted: boolean; messages: string[] } = { acted: false, messages: [] };
+
+  // Kill Steam if auto-kill is enabled
   if (appSettings.autoKillSteam) {
     loggerService.info("Attempting to kill Steam.", {
       invokeAlert: true,
       alertTimeout: 3000,
     });
-    stop = await stopSteam();
-    for (let message of stop.messages) {
-      loggerService.info(message);
+    try {
+      stop = await stopSteam();
+      for (let message of stop.messages) {
+        loggerService.info(message);
+      }
+
+      // Track that Steam was killed (so we can restart on app exit if needed)
+      if (stop.acted) {
+        steamWasKilled = true;
+      }
+    } catch (error) {
+      loggerService.error(`Failed to stop Steam: ${error}`, {
+        invokeAlert: true,
+        alertTimeout: 5000,
+      });
+      throw error; // Re-throw so the category write doesn't proceed
     }
   }
-  await task();
+
+  // Perform the task (VDF writes + category writes)
+  loggerService.info("Writing shortcuts, artwork, and categories to Steam...");
+  try {
+    await task();
+    loggerService.info("Finished writing all data to Steam.");
+  } catch (error) {
+    loggerService.error(`Failed to write data to Steam: ${error.message}`);
+    throw error;
+  }
+
+  // Restart Steam if auto-restart is enabled AND we actually killed it
   if (appSettings.autoRestartSteam && stop.acted) {
-    loggerService.info("Attempting to restart Steam.", {
+    loggerService.info("Attempting to restart Steam...", {
       invokeAlert: true,
       alertTimeout: 3000,
     });
-    const start = await startSteam();
-    for (let message of start.messages) {
-      loggerService.info(message);
+    try {
+      const start = await startSteam();
+      for (let message of start.messages) {
+        loggerService.info(message);
+      }
+      // Show success notification after Steam actually starts
+      if (start.acted) {
+        loggerService.info("Restarted Steam successfully.", {
+          invokeAlert: true,
+          alertTimeout: 3000,
+          doNotAppendToLog: true,
+        });
+        steamWasKilled = false;
+      }
+    } catch (error) {
+      loggerService.error(`Failed to restart Steam: ${error}`, {
+        invokeAlert: true,
+        alertTimeout: 5000,
+      });
+      // Don't re-throw - we want the category save to have succeeded even if restart fails
     }
+  }
+
+  // Display final success message after Steam restart completes (or immediately if no restart)
+  if (successMessage) {
+    loggerService.success(successMessage, {
+      invokeAlert: true,
+      alertTimeout: 3000,
+      doNotAppendToLog: true,
+    });
   }
 }

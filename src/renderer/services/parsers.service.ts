@@ -12,11 +12,7 @@ import {
 import { LoggerService } from "./logger.service";
 import { FuzzyService } from "./fuzzy.service";
 import { SettingsService } from "./settings.service";
-import {
-  FileParser,
-  VariableParser,
-  ControllerManager,
-} from "../../lib";
+import { FileParser, VariableParser, ControllerManager } from "../../lib";
 import { BehaviorSubject, Subject } from "rxjs";
 import { takeWhile } from "rxjs/operators";
 import { artworkTypes } from "../../lib/artwork-types";
@@ -229,10 +225,12 @@ export class ParsersService {
   }
 
   swapIndex(fromIndex: number, toIndex: number) {
-    if(fromIndex == toIndex){return;}
+    if (fromIndex == toIndex) {
+      return;
+    }
     const configs = this.userConfigurations.getValue();
     if (fromIndex >= configs.length || toIndex >= configs.length) {
-      throw 'Index out of bounds';
+      throw "Index out of bounds";
     }
     const from = configs[fromIndex];
     configs[fromIndex] = configs[toIndex];
@@ -242,17 +240,21 @@ export class ParsersService {
   }
 
   injectIndex(fromIndex: number, toIndex: number) {
-    if (fromIndex == toIndex) {return;}
+    if (fromIndex == toIndex) {
+      return;
+    }
     const configs = this.userConfigurations.getValue();
     if (fromIndex >= configs.length || toIndex >= configs.length) {
-      throw 'Index out of bounds';
+      throw "Index out of bounds";
     }
     const from = configs[fromIndex];
-    const withoutFrom = configs.filter((_,i) => i!==fromIndex);
-    const newConfigs = withoutFrom.slice(0,toIndex).concat(from).concat(withoutFrom.slice(toIndex))
+    const withoutFrom = configs.filter((_, i) => i !== fromIndex);
+    const newConfigs = withoutFrom
+      .slice(0, toIndex)
+      .concat(from)
+      .concat(withoutFrom.slice(toIndex));
     this.userConfigurations.next(newConfigs);
     this.saveUserConfigurations();
-    
   }
 
   changeEnabledStatus(parserId: string, enabled: boolean): Promise<void> {
@@ -395,8 +397,9 @@ export class ParsersService {
       case "steamCategories":
         return null;
       case "executable":
-        const isDir = os.type() == 'Darwin' ? undefined : false;
-        return !(data || {}).path || this.validateEnvironmentPath(data.path, isDir)
+        const isDir = os.type() == "Darwin" ? undefined : false;
+        return !(data || {}).path ||
+          this.validateEnvironmentPath(data.path, isDir)
           ? null
           : this.lang.validationErrors.executable__md;
       case "romDirectory":
@@ -434,7 +437,7 @@ export class ParsersService {
                 return null;
               }
               let isDir: boolean;
-              if(os.type()=='Darwin') {
+              if (os.type() == "Darwin") {
                 isDir = inputInfo.inputType == "dir" ? true : undefined;
               } else {
                 isDir = inputInfo.inputType == "dir" ? true : false;

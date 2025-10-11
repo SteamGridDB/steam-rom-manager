@@ -37,9 +37,6 @@
         margin-right: 1em;
       }
     }
-
-
-
   }
   .bugreport {
     grid-area: bugreport;
@@ -195,7 +192,8 @@
     border: solid 0.5em transparent;
     background-color: var(--color-logger-menu-background);
 
-    .lowerLeft>div,.lowerRight>div {
+    .lowerLeft > div,
+    .lowerRight > div {
       @include toggleButtonColor(click-button);
       @include button();
 

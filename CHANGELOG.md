@@ -13,8 +13,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Ability to drag/drop to re-arrange parsers in Classic and Deck themes.
-- Several UI standardizations: Unified color scheme for Deck theme, moved 
-logger options to an options panel, minimized all docs by default, minimized error reporter by default.
+- Several UI standardizations: Unified color scheme for Deck theme, moved
+  logger options to an options panel, minimized all docs by default, minimized error reporter by default.
 
 ### Fixed
 

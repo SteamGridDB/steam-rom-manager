@@ -341,55 +341,6 @@ export class PreviewService {
           addedCats = addedCategories; //Added categories for all app ids
         },
       )
-      .then(async () => {
-        if (!removeAll && !this.appSettings.previewSettings.disableCategories) {
-          await steam.performSteamlessTask(
-            this.appSettings,
-            this.loggerService,
-            async () => {
-              this.loggerService.info(this.lang.info.savingCategories);
-              await this.categoryManager.save(
-                this.previewData,
-                exAppIds,
-                addedCats,
-              );
-            },
-          );
-        }
-        if (removeAll && !this.appSettings.previewSettings.disableCategories) {
-          await steam.performSteamlessTask(
-            this.appSettings,
-            this.loggerService,
-            async () => {
-              for (let steamDir of knownSteamDirectories) {
-                const accounts = await steam.getAvailableLogins(steamDir);
-                for (let account of accounts) {
-                  await this.removeCategories(
-                    steamDir,
-                    account.accountID,
-                    addedCats[steamDir][account.accountID],
-                  );
-                }
-              }
-            },
-          );
-        }
-      })
-      .catch((error: Acceptable_Error | Error) => {
-        if (error instanceof Acceptable_Error) {
-          this.loggerService.error(this.lang.errors.categorySaveError, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-          this.loggerService.error(
-            this.lang.errors.categorySaveError__i.interpolate({
-              error: error.message,
-            }),
-          );
-        } else {
-          throw error;
-        }
-      })
       .then(() => {
         if (!removeAll) {
           this.loggerService.info(this.lang.info.savingControllers);
@@ -412,67 +363,113 @@ export class PreviewService {
           throw error;
         }
       })
-      .then(() => {
-        if (removeAll) {
-          this.loggerService.info(this.lang.info.removingVDF_entries);
-        } else {
-          this.loggerService.info(
-            this.lang.info.writingVDF_entries__i.interpolate({
-              batchSize: this.appSettings.batchDownloadSize,
-            }),
-            { invokeAlert: true, alertTimeout: 3000 },
-          );
-        }
-        if (batchWrite) {
-          vdfManager
-            .getBatchProgress()
-            .subscribe(
-              ({ update, batch }: { update: string; batch: number }) => {
-                if (batch > -1) {
-                  this.loggerService.info(update, {
-                    invokeAlert: true,
-                    alertTimeout: 3000,
-                  });
-                  this.batchProgress.next({ update: update, batch: batch });
-                }
-              },
+      .then(async () => {
+        // Determine success message before the operation
+        const successMessage = removeAll
+          ? this.lang.success.removingVDF_entries
+          : this.lang.success.writingVDF_entries;
+
+        // Wrap both VDF writes and category writes in a single performSteamlessTask
+        await steam.performSteamlessTask(
+          this.appSettings,
+          this.loggerService,
+          async () => {
+            // First: Write VDF files (shortcuts and artwork)
+            if (removeAll) {
+              this.loggerService.info(this.lang.info.removingVDF_entries);
+            } else {
+              this.loggerService.info(
+                this.lang.info.writingVDF_entries__i.interpolate({
+                  batchSize: this.appSettings.batchDownloadSize,
+                }),
+                { invokeAlert: true, alertTimeout: 8000, doNotAppendToLog: true },
+              );
+            }
+            let batchSubscription: any;
+            if (batchWrite) {
+              batchSubscription = vdfManager
+                .getBatchProgress()
+                .subscribe(
+                  ({ update, batch }: { update: string; batch: number }) => {
+                    if (batch > -1) {
+                      this.loggerService.info(update, {
+                        invokeAlert: true,
+                        alertTimeout: 8000,
+                        doNotAppendToLog: true,
+                      });
+                      this.batchProgress.next({ update: update, batch: batch });
+                    }
+                  },
+                );
+            }
+            const vdfResult = await vdfManager.write(
+              batchWrite,
+              this.appSettings.batchDownloadSize,
+              this.appSettings.dnsServers,
             );
-        }
-        return vdfManager.write(
-          batchWrite,
-          this.appSettings.batchDownloadSize,
-          this.appSettings.dnsServers,
+
+            // Unsubscribe from batch progress after VDF write completes
+            if (batchSubscription) {
+              batchSubscription.unsubscribe();
+            }
+
+            // Store VDF write results for later processing
+            if (vdfResult.nonFatal) {
+              this.loggerService.error(vdfResult.nonFatal);
+            }
+            if (batchWrite) {
+              this.updatePreviewDataUrls(vdfResult.outcomes);
+            }
+
+            // Second: Write categories (after VDF writes complete)
+            if (!removeAll && !this.appSettings.previewSettings.disableCategories) {
+              this.loggerService.info(this.lang.info.savingCategories, {
+                invokeAlert: true,
+                alertTimeout: 8000,
+                doNotAppendToLog: true,
+              });
+              await this.categoryManager.save(
+                this.previewData,
+                exAppIds,
+                addedCats,
+              );
+            } else if (removeAll && !this.appSettings.previewSettings.disableCategories) {
+              for (let steamDir of knownSteamDirectories) {
+                const accounts = await steam.getAvailableLogins(steamDir);
+                for (let account of accounts) {
+                  await this.removeCategories(
+                    steamDir,
+                    account.accountID,
+                    addedCats[steamDir][account.accountID],
+                  );
+                }
+              }
+            }
+          },
+          successMessage,
         );
       })
-      .then(
-        ({
-          nonFatal,
-          outcomes,
-        }: {
-          nonFatal: VDF_Error;
-          outcomes: VDF_AllScreenshotsOutcomes;
-        }) => {
-          if (nonFatal) {
-            this.loggerService.error(nonFatal);
-          }
-          if (batchWrite) {
-            this.updatePreviewDataUrls(outcomes);
-          }
-        },
-      )
+      .catch((error: Acceptable_Error | Error) => {
+        if (error instanceof Acceptable_Error) {
+          this.loggerService.error(this.lang.errors.categorySaveError, {
+            invokeAlert: true,
+            alertTimeout: 3000,
+          });
+          this.loggerService.error(
+            this.lang.errors.categorySaveError__i.interpolate({
+              error: error.message,
+            }),
+          );
+        } else {
+          throw error;
+        }
+      })
       .then(() => {
+        // VDF result processing and category writes already happened inside performSteamlessTask
+        // Success notification is now shown by performSteamlessTask after Steam restart
         this.previewVariables.listIsBeingSaved = false;
         if (removeAll) {
-          this.loggerService.success(this.lang.success.removingVDF_entries, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
           this.clearPreviewData();
-        } else {
-          this.loggerService.success(this.lang.success.writingVDF_entries, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
         }
         return true;
       })

@@ -283,8 +283,16 @@ app.on("ready", () => {
         app.quit();
       },
     );
-    ipcMain.on("all_done", (event: IpcMainEvent) => {
+    ipcMain.on("all_done", async (event: IpcMainEvent) => {
       console.log("\nAll Done");
+
+      // Restart Steam if it was killed and not already restarted
+      const { wasSteamKilled, startSteam } = await import("../lib/helpers/steam/stop-start-steam");
+      if (wasSteamKilled()) {
+        console.log("Restarting Steam before app exit...");
+        await startSteam();
+      }
+
       app.quit();
     });
     ipcMain.on("log", (event: IpcMainEvent, loggable: any) => {
@@ -319,7 +327,14 @@ app.on("ready", () => {
   }
 });
 
-app.on("window-all-closed", () => {
+app.on("window-all-closed", async () => {
+  // Restart Steam if it was killed and not already restarted
+  const { wasSteamKilled, startSteam } = await import("../lib/helpers/steam/stop-start-steam");
+  if (wasSteamKilled()) {
+    console.log("Restarting Steam before app exit...");
+    await startSteam();
+  }
+
   if (process.platform !== "darwin") {
     app.quit();
   }

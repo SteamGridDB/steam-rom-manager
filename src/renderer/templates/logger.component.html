@@ -18,7 +18,7 @@
     <span>No messages are available</span>
   </div>
 </ng-template>
-@if(showReporter) {
+@if (showReporter) {
   <div class="bugreport">
     <div [formGroup]="bugForm">
       <div class="inputContainer">
@@ -65,7 +65,9 @@
           <div class="submit" (click)="submitReport()">Submit Report</div>
         </div>
         <div class="inlineLeft" [class.hidden]="this.reportID == undefined">
-          <div class="reportIDLabel" style="margin-right: 0.25em">Report ID:</div>
+          <div class="reportIDLabel" style="margin-right: 0.25em">
+            Report ID:
+          </div>
           <div class="reportID">{{ this.reportID }}</div>
           <div class="copy" (click)="copyReportID()">
             <svg copy-icon title="Copy Report ID to clipboard"></svg>
@@ -85,8 +87,8 @@
   </div>
   <markdown class="bugreportdocs" [content]="this.explanation"></markdown>
 }
-@if(showOptions) {
-  <div class="options" >
+@if (showOptions) {
+  <div class="options">
     <div class="optionsGroup">
       <div class="optionsLabel">
         <span>Log Filters</span>
@@ -96,7 +98,7 @@
         [class.active]="settings.showErrors"
         (click)="settings.showErrors = !settings.showErrors"
       >
-      {{ lang.error }}
+        {{ lang.error }}
       </div>
       <div
         class="optionsButton"
@@ -125,21 +127,20 @@
         <span>Log Settings</span>
       </div>
       <div
-      class="optionsButton"
-      [class.active]="settings.textWrap"
-      (click)="settings.textWrap = !settings.textWrap"
-    >
-      {{ lang.textWrap }}
+        class="optionsButton"
+        [class.active]="settings.textWrap"
+        (click)="settings.textWrap = !settings.textWrap"
+      >
+        {{ lang.textWrap }}
+      </div>
+      <div
+        class="optionsButton"
+        [class.active]="settings.autoscroll"
+        (click)="settings.autoscroll = !settings.autoscroll"
+      >
+        {{ lang.autoscroll }}
+      </div>
     </div>
-    <div
-      class="optionsButton"
-      [class.active]="settings.autoscroll"
-      (click)="settings.autoscroll = !settings.autoscroll"
-    >
-      {{ lang.autoscroll }}
-    </div>
-    </div>
-
   </div>
 }
 
@@ -149,21 +150,21 @@
     <div (click)="toggleOptions()">Options</div>
   </div>
   <div class="lowerRight">
-    @if(showReporter) {
-      <div class="dangerousButton" (click)="closeReporter()">Close Reporter</div>
-    }
-    @else {
+    @if (showReporter) {
+      <div class="dangerousButton" (click)="closeReporter()">
+        Close Reporter
+      </div>
+    } @else {
       <div (click)="openReporter()">Report Bug</div>
     }
-    @if(appSettings.theme=='EmuDeck') {
+    @if (appSettings.theme == "EmuDeck") {
       <div
-      routerLink="/parsers-list"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >
-      Back
-    </div>
+        routerLink="/parsers-list"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Back
+      </div>
     }
   </div>
-
 </div>
