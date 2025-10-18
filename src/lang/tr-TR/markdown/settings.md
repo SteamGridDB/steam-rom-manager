@@ -1,7 +1,7 @@
-## General Settings
-### Check for updates on start `[Recommend enabled]`
-Check if an update for SRM is available and prompt to update each time SRM launches.
-### Auto kill Steam `[Recommend enabled]`
+## Genel Ayarlar
+### Başlangıçta güncellemeleri kontrol et `[Açılması önerilir]`
+SRM için güncelleme olup olmadığını kontrol edin ve SRM her başlatıldığında güncelleme yapmayı talep edin.
+### Otomatik olarak Steam'i kapat `[Açılması önerilir]`
 SRM will attempt to kill all running instances of Steam whenever it needs to read/write collections information (specifically when saving to steam from `Add Games` and when removing all games from `Settings`).
 ### Auto restart Steam `[Recommend enabled]`
 SRM will attempt to restart Steam after killing it and completing whatever collections related task required killing Steam in the first place. Requires `Auto kill Steam` to be enabled.
