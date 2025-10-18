@@ -2,7 +2,7 @@
 
 ## Legendary Path Override
 
-By default Steam ROM Manager uses `(Get-Command legendary).Path` on Windows and `which legendary` on Linux and Mac to determine the location of your Legendary executable. This field allows you to override that path.
+....... This field allows you to override that path.
 
 Specifying the correct location of the Legendary executable is only necessary if you enable launch via Legendary (see below), as otherwise SRM has no need of the location of Legendary's executable.
 
