@@ -1,9 +1,9 @@
 # EA Desktop Parser Specific Inputs
 
-## EA Games Directory Override
-By default Steam ROM Manager assumes your `EA Desktop` games are installed at ``C:\Program Files\EA Games\`. This field allows you to change that to wherever your games are installed, e.g.``D:\Games\EA Games`.
+## Sobreescribir el Directorio de EA Games
+Por defecto, Steam ROM Manager asume que sus juegos `EA Desktop` están instalados en ``C:\Program Files\EA Games\`. Este campo le permite cambiar a donde estén instalados tus juegos, por ejemplo,``D:\Games\EA Games`.
 
-## Launch Games Via EA Desktop
-If enabled SRM will add a shortcut to `origin2://game/launch/?offerIds=${gameid}` instead of just the game's executable. This ensures the game launches via EA and will have access to online services.
+## Ejecutar juegos vía EA Desktop
+Si está habilitado, SRM añadirá un acceso directo a `origin2://game/launch/?offerIds=${gameid}` en lugar de solo el ejecutable del juego. Esto asegura que el juego se lance a través de EA y tenga acceso a servicios en línea.
 
-`This is required to add EA Play games. EA Play games will not be detected if this is not toggled on.`
+`Esto es necesario para añadir juegos de EA Play. Los juegos de EA Play no se detectarán si no se activa esta opción.`
