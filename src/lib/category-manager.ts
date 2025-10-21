@@ -69,9 +69,11 @@ export class CategoryManager {
           'steam rom manager',
           'steamos-',           // SteamOS system services (steamos-manager, steamos_log_submitter, etc.)
           'steamgriddb',        // Decky plugin
+          'steamdeck-input-disabler', // decky plugin
           'sddm',               // Display manager
           '/usr/lib/steamos',   // SteamOS system paths
           '/usr/bin/python',    // Python scripts (steamos_log_submitter)
+
         ];
 
         return !excludePatterns.some(pattern => lower.includes(pattern));
