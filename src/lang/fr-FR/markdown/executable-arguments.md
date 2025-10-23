@@ -168,7 +168,7 @@ Dans le cas où l'entrée chemin complet vers un exécutable est laissée **vide
 | Variable (insensible à la casse) | Valeur correspondante                            |
 | --------------------------------:|:------------------------------------------------ |
 |                       `${title}` | Titre extrait                                    |
-|                  `${fuzzyTitle}` | Fuzzy matched title                              |
+|                  `${fuzzyTitle}` |                                                  |
 |                  `${finalTitle}` | Title which was the end result of title modifier |
 
 In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
