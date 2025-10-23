@@ -7,9 +7,11 @@ Defaults to `"${exePath}"`{.noWrap} if unset. This field can be used to prepend 
 ```
 
 In this case the `Target` property would begin with:
+
 ```
 "cmd" /k start /min "C:\RetroArch\retroarch.exe"
 ```
+
 followed by whatever launch arguments you choose in the `Command Line Arguments` field.
 
 Du kannst jede andere Variable verwenden, um die endgültige ausführbare Datei zu erstellen.
