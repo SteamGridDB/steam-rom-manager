@@ -165,11 +165,11 @@ Dans le cas où l'entrée chemin complet vers un exécutable est laissée **vide
 
 ## Variables d'analyseur
 
-| Variable (insensible à la casse) | Valeur correspondante                            |
-| --------------------------------:|:------------------------------------------------ |
-|                       `${title}` | Titre extrait                                    |
-|                  `${fuzzyTitle}` |                                                  |
-|                  `${finalTitle}` | Title which was the end result of title modifier |
+| Variable (insensible à la casse) | Valeur correspondante |
+| --------------------------------:|:--------------------- |
+|                       `${title}` | Titre extrait         |
+|                  `${fuzzyTitle}` |                       |
+|                  `${finalTitle}` |                       |
 
 In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
 
