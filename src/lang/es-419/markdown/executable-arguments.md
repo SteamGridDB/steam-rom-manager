@@ -2,12 +2,12 @@
 
 Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
 
-## Examples By System
+## Ejemplos por Sistema
 
 ### RetroArch
 
 ```
--L cores${/}YOUR_CORE.dll "${filePath}"
+-L cores${/}TU_CORE.dll "${filePath}"
 ```
 
 ### Cemu (WiiU)
@@ -16,7 +16,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 -f -g "${filePath}"
 ```
 
-### Dolphin Emu (Gamecube and Wii)
+### Dolphin Emu (Gamecube y Wii)
 
 ```
 --exec="${filePath}" --batch --confirm=false
@@ -40,7 +40,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 "${filePath}"
 ```
 
-### mGBA (Gameboy, Gameboy Color, and Gameboy Advance)
+### mGBA (Gameboy, Gameboy Color, y Gameboy Advance)
 
 ```
 -f "${filePath}"
@@ -64,7 +64,7 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 -config nullDC_GUI:Fullscreen=1 -config ImageReader: DefaultImage="${filePath}"
 ```
 
-### Kega Fusion (Sega Genesis and Sega 32X)
+### Kega Fusion (Sega Genesis y Sega 32X)
 
 ```
 "${filePath}" -gen -auto -fullscreen
@@ -106,21 +106,21 @@ Arguments which are appended to executable to produce final shortcut. Most of th
 "${filePath}"
 ```
 
-### PPSSPP (Sony Playstation Portátil)
+### PPSSPP (Sony Playstation Portable)
 
 ```
 "${filePath}"
 ```
 
-## What does "Append arguments to executable" do?
+## ¿Qué hace "Añadir argumentos al ejecutable"?
 
-Instead of adding arguments to Steam's launch options:
+En lugar de añadir argumentos a las opciones de lanzamiento de Steam:
 
-![Not appended arguments](../../../assets/images/cmd-not-appended.png) {.fitImage.center}
+![Argumentos no añadidos](../../../assets/images/cmd-not-appended.png) {.fitImage.center}
 
-arguments are appended to target as shown below:
+argumentos se añaden al objetivo como se muestra a continuación:
 
-![Appended arguments](../../../assets/images/cmd-appended.png) {.fitImage.center}
+![Argumentos añadidos](../../../assets/images/cmd-appended.png) {.fitImage.center}
 
 This setting is used to influence Steam's APP ID.
 
@@ -136,44 +136,44 @@ This setting is used to influence Steam's APP ID.
 
 In case executable directory input is left **empty**, `${exeDir}`{.noWrap} is equal to `${fileDir}`{.noWrap}. Moreover, if "StartIn" directory is left **empty**, `${startInDir}`{.noWrap} is equal to `${exeDir}`{.noWrap}.
 
-## Name variables
+## Variables de nombres
 
-| Variable (case-insensitive) | Corresponding value                                             |
-| ---------------------------:|:--------------------------------------------------------------- |
-|                `${exeName}` | Name of executable (without extension)                          |
-|               `${fileName}` | Name of file which was returned by a parser (without extension) |
+| Variable (case-insensitive) | Valor correspondiente                                         |
+| ---------------------------:|:------------------------------------------------------------- |
+|                `${exeName}` | Nombre del ejecutable (sin extensión)                         |
+|               `${fileName}` | Nombre del archivo devuelto por un analizador (sin extensión) |
 
 In case executable directory input is left **empty**, `${exeName}`{.noWrap} is equal to `${fileName}`{.noWrap}.
 
-## Extension variables
+## Variables de extensión
 
-| Variable (case-insensitive) | Corresponding value                                           |
-| ---------------------------:|:------------------------------------------------------------- |
-|                 `${exeExt}` | Extension of executable (with a dot)                          |
-|                `${fileExt}` | Extension of file which was returned by a parser (with a dot) |
+| Variable (case-insensitive) | Valor correspondiente                                           |
+| ---------------------------:|:--------------------------------------------------------------- |
+|                 `${exeExt}` | Extensión del ejecutable (con punto)                            |
+|                `${fileExt}` | Extensión del archivo devuelto por un analizador (con un punto) |
 
 In case executable directory input is left **empty**, `${exeExt}`{.noWrap} is equal to `${fileExt}`{.noWrap}.
 
 ## Path variables
 
-| Variable (case-insensitive) | Corresponding value                                |
-| ---------------------------:|:-------------------------------------------------- |
-|                `${exePath}` | Full path to an executable                         |
-|               `${filePath}` | Full path to a file which was returned by a parser |
+| Variable (case-insensitive) | Corresponding value                                   |
+| ---------------------------:|:----------------------------------------------------- |
+|                `${exePath}` | Ruta completa a un ejecutable                         |
+|               `${filePath}` | Ruta completa a un archivo devuelto por un analizador |
 
 In case executable directory input is left **empty**, `${exePath}`{.noWrap} is equal to `${filePath}`{.noWrap}.
 
-## Parser variables
+## Variables del analizador
 
-| Variable (case-insensitive) | Corresponding value                              |
+| Variable (case-insensitive) | Valor correspondiente                            |
 | ---------------------------:|:------------------------------------------------ |
-|                  `${title}` | Extracted title                                  |
+|                  `${title}` | Título extraído                                  |
 |             `${fuzzyTitle}` | Fuzzy matched title                              |
 |             `${finalTitle}` | Title which was the end result of title modifier |
 
 In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
 
-## Function variables
+## Variables de función
 
 |                                 Variable (case-insensitive) | Corresponding function                                                                                                 |
 | -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
@@ -186,19 +186,19 @@ In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is
 
 ### Function variable example
 
-Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
+Digamos que la variable `${title}` es igual a `Pokémon (USA) (Disc 1).ISO`. Entonces estas variables:
 
 ```
-${/.*/|${title}}                           //Matches everything
-${/(.*)/|${title}}                         //Captures everything
-${/(\(.*?\))/|${title}|}                   //Captures all brackets and substitutes with nothing
-${/(\(Disc\s?[0-9]\))/|${title}}           //Captures "Disc..." part
-${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transforms it to uppercase
-${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
-file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
+${/.*/|${title}}                           //Coincide con todo
+${/(.*)/|${title}}                         //Captura todo
+${/(\(.*?\))/|${title}|}                   //Captura todos los corchetes y sustitutos sin nada
+${/(\(Disc\s?[0-9]\))/|${title}}           //Captura la parte de  "Disc..."
+${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captura la parte de "Disc..." y lo transforma a mayúscula
+${rdc|${title}}                            //Reemplaza caracteres diacríticos (en este caso: é -> e)
+file${os:linux|.so|${os:win|.dll}}         //Selecciona la extensión correcta para el OS
 ```
 
-will be replaced with these:
+se reemplazan con estos:
 
 ```
 Pokémon (USA) (Disc 1).iso
@@ -208,10 +208,10 @@ Pokémon.iso
 (DISC 1)
 Pokemon (USA) (Disc 1).iso
 
---On linux:
+--En linux:
 file.so
---On Windows:
+--En Windows:
 file.dll
---On Mac OS:
+--En Mac OS:
 file
 ```
