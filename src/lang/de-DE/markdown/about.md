@@ -45,7 +45,7 @@ Wenn dir der Steam ROM Manager gefällt, und du möchtest, dass es weiterhin nü
 * `Apalatn`{.noWrap} - Weiterleitung des Installationslaufwerks zum itch.io-Parser hinzugefügt.
 * .
 * .
-* `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
+*
 
 ### Community
 * `HE Spoke`{.noWrap} - gründete die Community rund um SRM. Ersteller von [Steam](https://steamcommunity.com/groups/steamrommanager)- und [Discord](https://discord.gg/bnSVJrz)-Gruppen. Hilft auch Benutzern im [Discord](https://discord.gg/bnSVJrz) beim Einrichten von SRM.
