@@ -67,6 +67,8 @@ export class CategoryManager {
           'avahi-daemon',
           'steam-rom-manager',
           'steam rom manager',
+          'steamrommanager', // EmuDeck Linux launcher
+          'srm', // EmuDeck Windows launcher
           'steamos-',           // SteamOS system services (steamos-manager, steamos_log_submitter, etc.)
           'steamgriddb',        // Decky plugin
           'sddm',               // Display manager
