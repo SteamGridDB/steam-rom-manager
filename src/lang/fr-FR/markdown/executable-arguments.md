@@ -171,7 +171,7 @@ Dans le cas où l'entrée chemin complet vers un exécutable est laissée **vide
 |                  `${fuzzyTitle}` |                       |
 |                  `${finalTitle}` |                       |
 
-In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
+.
 
 ## Variables de Fonction
 
