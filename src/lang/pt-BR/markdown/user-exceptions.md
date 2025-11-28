@@ -16,18 +16,18 @@ Exceptions generated from `Add Games` will always be in the form `Extracted Titl
 
 ## Embed Html Callback
 
-This is the title that will display in Steam. It will not be used to search for images.
+Este é o título que será exibido na Steam. Não será usado para procurar imagens.
 
 ## Novo título de pesquisa
 
-This is the title that will be used to search for images on [SteamGridDB](https://www.steamgriddb.com). There are two options for overriding it:
+This is the title that will be used to search for images on [SteamGridDB](https://www.steamgriddb.com). Há duas opções para substituí-lo:
 
-* Specify the new search title as whatever text you want.
+* Especifique o novo título de pesquisa como o texto que você quiser.
 * Especifique o Id exato do jogo para puxar imagens. Por exemplo, para obter imagens para o jogo [Flow](https://www.steamgriddb.com/game/5254019) que tem a url SteamGridDB `https://www. teamgriddb.com/game/5254019` você colocaria `${gameid:5254019}`.
 
 ## Novo Artigos de linha de comando
 
-Argumentos personalizados de linha de comando como `--fullscreen`, etc, que podem ser aplicados a um título específico. These only override the arguments field of the Steam shortcut and are never appended to the executable.
+Argumentos personalizados de linha de comando como `--fullscreen`, etc, que podem ser aplicados a um título específico. Estas substituem apenas o campo de argumentos do atalho Steam e nunca são anexados ao executável.
 
 ## Excluir Título
 
