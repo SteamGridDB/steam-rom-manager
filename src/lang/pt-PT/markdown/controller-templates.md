@@ -7,7 +7,7 @@ To make a custom template:
 * Open Steam.
 * Connect the controller you want to configure a template for.
 *
-* Configure the buttons as you see fit.
+* Configure os botões como você vê mais adequado.
 * Hit `Export Config` then `Save new template binding`.
 * Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template.
 * Repeat for as many different types of controller as you want to configure.
