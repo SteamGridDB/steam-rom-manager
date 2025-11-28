@@ -7,19 +7,19 @@
 
 ##
 
-* [SRM Releases](https://github.com/SteamGridDB/steam-rom-manager/releases)
-* [Discord Server](https://discord.gg/bnSVJrz)
+* [Versões SRM](https://github.com/SteamGridDB/steam-rom-manager/releases)
+* [Servidor do Discord](https://discord.gg/bnSVJrz)
 * [](https://www.reddit.com/r/SteamRomManager/)
-* [Steam Group](https://steamcommunity.com/groups/steamrommanager)
-* [Github Repo](https://github.com/SteamGridDB/steam-rom-manager)
+* [Grupo Steam](https://steamcommunity.com/groups/steamrommanager)
+* [Repositório no GitHub](https://github.com/SteamGridDB/steam-rom-manager)
 * [](https://crowdin.com/project/steam-rom-manager)
 
-## Support
+## Suporte
 
-Help support continued progress on Steam ROM Manager at:
+Ajude a apoiar o progresso contínuo no Steam ROM Manager em:
 
 <a href="https://www.buymeacoffee.com/cbartondock">
-  <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="Buy Me A Coffee" width="160">
+  <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="Compre-me Um Café" width="160">
 </a>
 
 [SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork Steam ROM Manager uses to make your Steam library the envy of the town, so we should probably help them keep their lights on. If you enjoy Steam ROM Manager and want it to continue to be useful also consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon.
@@ -28,12 +28,12 @@ Help support continued progress on Steam ROM Manager at:
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
-## Contributions
-* `FrogTheFrog`{.noWrap} - Creator of SRM, no longer active on SRM but currently working on the [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
+## Contribuições
+* `FrogTheFrog`{.noWrap} - Criador de SRM, não mais ativo no SRM, mas funcionando atualmente no Plugin [MoonDeck](https://github.com/FrogTheFrog/moondeck)
 
-### Current Maintainers
-* `lontanadascienza`{.noWrap} - Updated SRM to handle heroes, posters, logos, and icons.  Squashes bugs almost as fast as he introduces them.
-* `Zennn`{.noWrap} - Added category support, langauge localization, and the bug report server among many other things. Big boss over at [SteamGridDB](https://www.steamgriddb.com/).
+### Mantedores atuais
+* `lontanadascienza`{.noWrap} - SRM atualizado para lidar com heróis, pósteres, logótipos e ícones.  Esmaga bugs quase tão rápido quanto ele os apresenta.
+* `Zennn`{.noWrap} — Suporte a categoria adicionado, localização de linguagem e o servidor de relatório de bug entre muitas outras coisas. Grande chefe no [SteamGridDB](https://www.steamgriddb.com/).
 * `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz).
 
 ### Feature Contributions
