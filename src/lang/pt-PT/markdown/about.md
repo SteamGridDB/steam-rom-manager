@@ -34,16 +34,16 @@ Ajude a apoiar o progresso contínuo no Steam ROM Manager em:
 ### Mantedores atuais
 * `lontanadascienza`{.noWrap} - SRM atualizado para lidar com heróis, pósteres, logótipos e ícones.  Esmaga bugs quase tão rápido quanto ele os apresenta.
 * `Zennn`{.noWrap} — Suporte a categoria adicionado, localização de linguagem e o servidor de relatório de bug entre muitas outras coisas. Grande chefe no [SteamGridDB](https://www.steamgriddb.com/).
-* `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz).
+* `KenCinder`{.noWrap} - Gere e cria predefinições de análise de comunidades e ajuda a configuração SRM do utilizador em [Discord](https://discord.gg/bnSVJrz).
 
-### Feature Contributions
+### Contribuições de Recursos
 * `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
-* `alvaromunoz`{.noWrap} - Added Game Pass parser to SRM.
-* `lexarvn`{.noWrap} - Added the Amazon Games parser and the itch.io parser.
-* `CarJem`{.noWrap} - Added the manual parser.
+* `alvaromunoz`{.noWrap} - Parser de Passe de Jogo adicionado à SRM.
+* `lexarvn`{.noWrap} - Adicionado o parser Amazon Games e o analisador itch.io.
+* `CarJem`{.noWrap} - Adicionado o analisador manual.
 *
-* `Apalatn`{.noWrap} - Added an install drive redirect option to the itch.io parser.
-* `OneMoreByte`{.noWrap} - Made itch.io parser work on linux and mac.
+* `Apalatn`{.noWrap} - Adicionada uma opção de redirecionamento de unidade de instalação ao parser itch.io.
+* `OneMoreByte`{.noWrap} - Feito parser da itch.io em Linux e Mac.
 * `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
 * `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
 
