@@ -175,16 +175,16 @@ Dans le cas où l'entrée chemin complet vers un exécutable est laissée **vide
 
 ## Variables de Fonction
 
-|                            Variable (insensible à la casse) | Fonction correspondante                                                                                     |
-| -----------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------- |
-|                                                          `` | Executes regex on input. `<code></td>
+|                            Variable (insensible à la casse) | Fonction correspondante                                                                              |
+| -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------- |
+|                                                          `` | . `<code></td>
 </tr>
 <tr>
-  <td align="right"><code>${uc\|input}` | Variable majuscule. Met le champ input en majuscule |
-|                                             `${lc\|input}` | Variable minuscule. Met le champ input en minuscule                                                         |
-|                                       `${cv:group\|input}` | Change le champ input avec une variable personnalisée correspondante (le champ group est facultatif)        |
-|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                              |
-| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                |
+  <td align="right"><code>${uc\|input}`                 | Variable majuscule. Met le champ input en majuscule |
+|                                             `${lc\|input}` | Variable minuscule. Met le champ input en minuscule                                                  |
+|                                       `${cv:group\|input}` | Change le champ input avec une variable personnalisée correspondante (le champ group est facultatif) |
+|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                       |
+| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                         |
 
 ### Exemple de varable de fonction
 
