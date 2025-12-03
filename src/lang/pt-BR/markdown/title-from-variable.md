@@ -23,7 +23,7 @@
 
 .
 
-## Case-insensitive variables
+## Variáveis insensíveis
 
 If enabled, case-insensitive matching will be done and first matched custom variable will be used.
 
