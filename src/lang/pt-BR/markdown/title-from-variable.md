@@ -25,8 +25,8 @@
 
 ## Variáveis insensíveis
 
-If enabled, case-insensitive matching will be done and first matched custom variable will be used.
+Se esta opção estiver habilitada, a correspondência insensível a maiúsculas e minúsculas será feita e a primeira variável personalizada correspondente será usada.
 
-## Skip file if variable not found
+## Ignorar o arquivo se a variável não foi encontrada
 
-If enabled, titles that don't match a variable will be excluded.
+Se ativado, títulos que não correspondem a uma variável serão excluídos.
