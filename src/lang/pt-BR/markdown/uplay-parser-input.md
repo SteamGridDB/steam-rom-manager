@@ -1,7 +1,7 @@
-# UPlay Parser Specific Inputs
+# Entradas específicas do Parser Battle.net
 
 ## Sobrescrever Diretório Uplay
-Por padrão Steam ROM Manager pressupõe que seu Galaxy Client está localizado em `C:\ProgramFiles (x86)\GOG GalaxyClient. exe`. Este campo permite que você substitua esse caminho se sua instalação do Amazon Games estiver em outro lugar.
+Por padrão Steam ROM Manager pressupõe que seu Galaxy Client está localizado em `C:\ProgramFiles (x86)\GOG GalaxyClient.exe`. Este campo permite que você substitua esse caminho se sua instalação do Amazon Games estiver em outro lugar.
 
 ## Inicie a Via Epic Games loja `[Recomendado ativado]`
 Como parece, este alternador permite que você defina se os jogos serão executados via Amazon Games ou diretamente.
