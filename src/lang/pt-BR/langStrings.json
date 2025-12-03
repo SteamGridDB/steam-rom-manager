@@ -54,7 +54,7 @@
         "allImagesRetrieved": "Todas as urls das artes disponíveis recuperadas.",
         "providerTimeout__i": "Tempo limite foi solicitado por \"${provider}\" por ${time} segundo(s).",
         "noAccountsWarning": "Contas de usuário não encontradas. Diretório Steam incorreto?",
-        "preparingExport": "Preparing export of artwork choices.",
+        "preparingExport": "Preparando exportação de opções de imagem.",
         "exportProgress__i": "",
         "readingSelections": ""
       },
@@ -152,8 +152,8 @@
       "Linux": "/path/to/Battle.net/Battle"
     },
     "errors": {
-      "battleNotCompatible": "> Battle.net parser is only available on Windows.",
-      "fatalError__i": "> Battle.net parser failed with fatal error:\n ${error}"
+      "battleNotCompatible": "> O analisador Battle.net está disponível apenas no Windows.",
+      "fatalError__i": "> O analisador Battle.net falhou com erro fatal:\n ${error}"
     }
   },
   "UWPParser": {
