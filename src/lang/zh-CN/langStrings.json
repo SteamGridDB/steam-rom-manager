@@ -114,8 +114,8 @@
     "manifestsInputTitle": "Epic 列表目录覆盖",
     "manifestsInputPlaceholder": {
       "Windows_NT": "C:\\path\\to\\your\\manifests\\",
-      "Darwin": "/path/to/your/manifests/",
-      "Linux": "/path/to/your/manifests/"
+      "Darwin": "",
+      "Linux": ""
     },
     "launcherModeInputTitle": "通过 Epic 启动游戏以使用在线服务。",
     "errors": {
