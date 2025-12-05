@@ -33,8 +33,6 @@ export class CategoryManager {
     userId: string,
     task: (
       collections: any,
-      levelCollections: any,
-      cats: any,
       data?: any,
     ) => Promise<any>,
     data?: any,
@@ -52,49 +50,6 @@ export class CategoryManager {
       throw new Error(`localconfig.vdf not found at: ${localConfigPath}`);
     }
 
-    // Check if Steam is running - we cannot safely modify the file if it is
-    const { execSync } = require('child_process');
-    try {
-      const processes = execSync('ps aux', { encoding: 'utf-8' });
-      const steamProcesses = processes.split('\n').filter((line: string) => {
-        const lower = line.toLowerCase();
-        // Must contain 'steam'
-        if (!lower.includes('steam')) return false;
-
-        // Exclude: grep, SRM itself, SteamOS system services, other tools
-        const excludePatterns = [
-          'grep',
-          'avahi-daemon',
-          'steam-rom-manager',
-          'steam rom manager',
-          'steamos-',           // SteamOS system services (steamos-manager, steamos_log_submitter, etc.)
-          'steamgriddb',        // Decky plugin
-          'sddm',               // Display manager
-          '/usr/lib/steamos',   // SteamOS system paths
-          '/usr/bin/python',    // Python scripts (steamos_log_submitter)
-        ];
-
-        return !excludePatterns.some(pattern => lower.includes(pattern));
-      });
-
-      if (steamProcesses.length > 0) {
-        throw new Error(
-          'Steam is currently running. Please close Steam completely before using Steam ROM Manager to modify collections.\n\n' +
-          'To close Steam:\n' +
-          '- Linux: Run "pkill -9 steam" in terminal\n' +
-          '- Windows: Close Steam from system tray\n' +
-          '- Mac: Quit Steam from menu bar\n\n' +
-          'Running processes found:\n' + steamProcesses.slice(0, 5).join('\n')
-        );
-      }
-    } catch (error) {
-      if (error.message.includes('Steam is currently running')) {
-        throw error;
-      }
-      // If ps command fails (e.g., on Windows), log but continue
-      console.log('Could not check for Steam processes:', error.message);
-    }
-
     // Read existing collections from CLOUD STORAGE (the authoritative source)
     // NOT from localconfig.vdf (which is just Steam's local cache)
     let collections: any = {};
@@ -106,6 +61,7 @@ export class CategoryManager {
       "config",
       "cloudstorage"
     );
+
     const namespacesPath = path.join(cloudStorageDir, "cloud-storage-namespaces.json");
 
     let activeNamespace = 1; // Default to namespace 1
@@ -149,8 +105,7 @@ export class CategoryManager {
     }
 
     try {
-      // Do Task - LevelDB no longer used, passing empty objects for compatibility
-      collections = await task(collections, {}, { remove: () => {}, close: async () => {} }, data);
+      collections = await task(collections, data);
 
       // Write collections to cloud storage (Steam will sync localconfig.vdf automatically)
       if (!data || !data.readonly) {
@@ -261,34 +216,23 @@ export class CategoryManager {
     } catch (e) {
       throw e;
     }
-    // LevelDB is no longer used - no need to close
-    // finally {
-    //   try {
-    //     await cats.close();
-    //   } catch (closeError) {
-    //     // Ignore close errors for mock object
-    //   }
-    // }
   }
   // toRemove is assumed to be a subset of the keys of addedCategories.
   removeShortsFromCats(
     toRemove: string[],
     collections: any,
-    levelCollections: any,
-    cats: any,
     addedCategories: VDF_AddedCategoriesData[string][string],
   ) {
     const localKeys = Object.keys(collections);
-    const levelKeys = Object.keys(levelCollections);
     // Clean out local collections
     for (const catKey of localKeys) {
       // only clear out apps that list the category of the collection
       const toRemoveForCat = toRemove.filter((shortId) => {
         const appCats = addedCategories[shortId];
-        const lcCatName = levelCollections[catKey]?.name || "";
+        const collectionsCatName = collections[catKey]?.name || "";
         return appCats
           .map((catName: string) => catName.toUpperCase())
-          .includes(lcCatName.toUpperCase());
+          .includes(collectionsCatName.toUpperCase());
       });
       const nonSRMAdded = collections[catKey].added.filter(
         (appId: number) => !toRemoveForCat.map((x) => +x).includes(appId),
@@ -296,35 +240,8 @@ export class CategoryManager {
       collections[catKey].added = nonSRMAdded;
       if (catKey.startsWith("srm") && nonSRMAdded.length == 0) {
         delete collections[catKey];
-        // only remove the level collection if newAdded is empty *and* the level collection itself is empty
-        // LevelDB is no longer used for collections in modern Steam
-        // if (
-        //   levelCollections[catKey] &&
-        //   levelCollections[catKey].added.length == 0
-        // ) {
-        //   try {
-        //     cats.remove(catKey);
-        //   } catch (e) {
-        //     console.warn('Could not remove from LevelDB:', catKey, e.message);
-        //   }
-        // }
       }
     }
-    // LevelDB is no longer used for collections in modern Steam
-    // //Get the ones in levelCollection that we missed
-    // for (const catKey of levelKeys) {
-    //   if (
-    //     catKey.startsWith("srm") &&
-    //     !collections[catKey] &&
-    //     levelCollections[catKey].added.length == 0
-    //   ) {
-    //     try {
-    //       cats.remove(catKey);
-    //     } catch (e) {
-    //       console.warn('Could not remove from LevelDB:', catKey, e.message);
-    //     }
-    //   }
-    // }
   }
 
   removeAllCategoriesAndWrite(
@@ -335,15 +252,13 @@ export class CategoryManager {
     return this.doCatTask(
       steamDirectory,
       userId,
-      (collections, levelCollections, cats, data) => {
+      (collections, data) => {
         const { addedCategories } = data;
         return new Promise<any>((resolve, reject) => {
           const toRemove = Object.keys(addedCategories);
           this.removeShortsFromCats(
             toRemove,
             collections,
-            levelCollections,
-            cats,
             addedCategories,
           );
           resolve(collections);
@@ -360,21 +275,12 @@ export class CategoryManager {
     return this.doCatTask(
       steamDirectory,
       userId,
-      (collections, levelCollections, cats, data) => {
+      (collections, data) => {
         return new Promise<any>((resolve, reject) => {
           for (const catKey of Object.keys(collections)) {
             if (catKey.startsWith("srm")) {
               srmCategories[catKey] = {
                 collections: collections[catKey],
-                levelCollections: levelCollections[catKey],
-              };
-            }
-          }
-          for (const catKey of Object.keys(levelCollections)) {
-            if (catKey.startsWith("srm") && !collections[catKey]) {
-              srmCategories[catKey] = {
-                collections: null,
-                levelCollections: levelCollections[catKey],
               };
             }
           }
@@ -398,7 +304,7 @@ export class CategoryManager {
     return this.doCatTask(
       steamDirectory,
       userId,
-      (collections, levelCollections, cats, data) => {
+      (collections, data) => {
         const { userData, extraneousShortIds, addedCategories } = data;
         return new Promise<any>((resolve, reject) => {
           const appIds = Object.keys(userData.apps).filter(
@@ -416,8 +322,6 @@ export class CategoryManager {
           this.removeShortsFromCats(
             toRemove,
             collections,
-            levelCollections,
-            cats,
             addedCategories,
           );
           //Add to local collections
