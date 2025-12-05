@@ -97,17 +97,13 @@ export async function stopSteam() {
   } else if (os.type() == "Linux") {
     data.commands = {
       action: `kill -15 $(pidof steam)`,
-      check: `levelfile=$(ls -t "$HOME/.steam/steam/config/htmlcache/Local Storage/leveldb"/*.ldb | head -1);
-                    pid=$(fuser "$levelfile");
-                    if [ -z $pid ]; then echo "True"; else echo "False"; fi;`,
+      check: `if pgrep -x "steam" > /dev/null; then echo "True"; else echo "False"; fi;`,
     };
     data.shell = "/bin/sh";
   } else if (os.type() == "Darwin") {
     data.commands = {
       action: `osascript -e 'quit app "Steam"'`,
-      check: `levelfile=$(ls -t "$HOME/Library/Application Support/Steam/config/htmlcache/Local Storage/leveldb"/*.ldb | head -1);
-                    pid=$(lsof -t "$levelfile");
-                    if [ -z $pid ]; then echo "True"; else echo "False"; fi;`,
+      check: `osascript -e 'application "Steam" is running' | sed 's/true/False/; s/false/True/'`,
     };
     data.shell = "/bin/sh";
   }
