@@ -3,7 +3,7 @@
 [![Build Status](https://github.com/SteamGridDB/steam-rom-manager/actions/workflows/main.yml/badge.svg)](https://github.com/SteamGridDB/steam-rom-manager/actions/workflows/main.yml)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/SteamGridDB/steam-rom-manager?logo=github&label=commits)](https://github.com/SteamGridDB/steam-rom-manager/commits/master)
 [![GitHub all releases](https://img.shields.io/github/downloads/SteamGridDB/steam-rom-manager/total?logo=github)](https://github.com/SteamGridDB/steam-rom-manager/releases)
-[![Discord](https://badge.cbartondock.mywire.org/badge.php?id=488621078302949377)](https://discord.gg/bnSVJrz)
+[![demo](https://img.shields.io/discord/488621078302949377?logo=discord)](https://discord.gg/bnSVJrz)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/steam-rom-manager?color=blue&label=Chocolatey%20package)](https://community.chocolatey.org/packages/steam-rom-manager)
 [![Crowdin](https://badges.crowdin.net/steam-rom-manager/localized.svg)](https://crowdin.com/project/steam-rom-manager)
 
