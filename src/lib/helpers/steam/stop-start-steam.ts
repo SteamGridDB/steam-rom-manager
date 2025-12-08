@@ -97,7 +97,7 @@ export async function stopSteam() {
   } else if (os.type() == "Linux") {
     data.commands = {
       action: `kill -15 $(pidof steam)`,
-      check: `if pgrep -x "steam" > /dev/null; then echo "True"; else echo "False"; fi;`,
+      check: `pid="$(pidof steam)"; if [ ! -z $pid ]; then echo "False"; else echo "True"; fi;`,
     };
     data.shell = "/bin/sh";
   } else if (os.type() == "Darwin") {
@@ -133,15 +133,20 @@ export async function startSteam() {
     data.shell = "powershell";
   } else if (os.type() == "Linux") {
     data.commands = {
-      action: `2>/dev/null 1>&2 steam -silent &`,
+      action: `
+      if [[ $(command -v flatpak) ]]; then
+        flatpak list --app | grep -q "com.valvesoftware.Steam" && (2>/dev/null 1>&2 flatpak run com.valvesoftware.Steam &)
+      elif [[ $(command -v steam) ]]; then
+        2>/dev/null 1>&2 steam -silent &
+      fi;
+      `, // Handles both flatpak and direct install cases, preferring flatpak
       check: `pid="$(pidof steam)"; if [ ! -z $pid ]; then echo "True"; else echo "False"; fi;`,
     };
     data.shell = "/bin/sh";
   } else if (os.type() == "Darwin") {
     data.commands = {
-      action: "open -g -a Steam",
-      check:
-        'pid="$(pgrep steam_osx)"; if [ ! -z $pid ]; then echo "True"; else echo "False"; fi;',
+      action: `osascript -e 'tell application "Steam" to activate'`,
+      check: `osascript -e 'application "Steam" is running' | sed 's/true/True/; s/false/False/'`,
     };
     data.shell = "/bin/sh";
   }
