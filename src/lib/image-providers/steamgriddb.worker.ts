@@ -25,14 +25,18 @@ export class SteamGridDbProvider extends GenericProvider {
     if (sgdbIdRegex.test(title)) {
       return [parseInt(title.match(sgdbIdRegex)[1])];
     } else {
-      const games = await client.searchGame(title);
+      // URL encode plus signs to fix search issues with titles ending in "+"
+      const encodedTitle = title.replace(/\+/g, '%2B');
+      const games = await client.searchGame(encodedTitle);
       return games.map((game: any) => game.id);
     }
   }
 
   static async retrievePossibleIds(title: string) {
     const client = new SGDB({ key: apiKey });
-    const games = await client.searchGame(title);
+    // URL encode plus signs to fix search issues with titles ending in "+"
+    const encodedTitle = title.replace(/\+/g, '%2B');
+    const games = await client.searchGame(encodedTitle);
     for (const game of games) {
       const grids = (
         await client.getGrids({
@@ -56,8 +60,10 @@ export class SteamGridDbProvider extends GenericProvider {
           parseInt(self.proxy.title.match(sgdbIdRegex)[1]),
         );
       } else {
+        // URL encode plus signs to fix search issues with titles ending in "+"
+        const encodedTitle = self.proxy.title.replace(/\+/g, '%2B');
         idPromise = self.client
-          .searchGame(self.proxy.title)
+          .searchGame(encodedTitle)
           .then((res: any) => (res[0] || {}).id);
       }
       idPromise

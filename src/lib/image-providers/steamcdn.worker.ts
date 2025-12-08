@@ -29,8 +29,10 @@ export class SteamCDNProvider extends GenericProvider {
           parseInt(self.proxy.title.match(sgdbIdRegex)[1]),
         );
       } else {
+        // URL encode plus signs to fix search issues with titles ending in "+"
+        const encodedTitle = self.proxy.title.replace(/\+/g, '%2B');
         idPromise = self.client
-          .searchGame(self.proxy.title)
+          .searchGame(encodedTitle)
           .then((res: any) => (res[0] || {}).id);
       }
       idPromise
