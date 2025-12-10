@@ -134,8 +134,8 @@ export async function startSteam() {
   } else if (os.type() == "Linux") {
     data.commands = {
       action: `
-      if [[ $(command -v flatpak) ]]; then
-        flatpak list --app | grep -q "com.valvesoftware.Steam" && (2>/dev/null 1>&2 flatpak run com.valvesoftware.Steam &)
+      if [[ $(command -v flatpak) && $(flatpak list --app | grep -q "com.valvesoftware.Steam") ]]; then
+        2>/dev/null 1>&2 flatpak run com.valvesoftware.Steam &
       elif [[ $(command -v steam) ]]; then
         2>/dev/null 1>&2 steam -silent &
       fi;
