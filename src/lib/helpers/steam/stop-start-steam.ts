@@ -134,12 +134,19 @@ export async function startSteam() {
   } else if (os.type() == "Linux") {
     data.commands = {
       action: `
-      if [[ $(command -v flatpak && flatpak list --app | grep -q "com.valvesoftware.Steam") ]]; then
+      if command -v flatpak >/dev/null && flatpak info com.valvesoftware.Steam >/dev/null 2>&1; then
         2>/dev/null 1>&2 flatpak run com.valvesoftware.Steam &
-      elif [[ $(command -v steam) ]]; then
+      elif command -v steam >/dev/null; then
         2>/dev/null 1>&2 steam -silent &
-      fi;
-      `, // Handles both flatpak and direct install cases, preferring flatpak
+      fi
+      `,
+      // action: `
+      // if [[ $(command -v flatpak && flatpak list --app | grep -q "com.valvesoftware.Steam") ]]; then
+      //   2>/dev/null 1>&2 flatpak run com.valvesoftware.Steam &
+      // elif [[ $(command -v steam) ]]; then
+      //   2>/dev/null 1>&2 steam -silent &
+      // fi;
+      // `, // Handles both flatpak and direct install cases, preferring flatpak
       check: `pid="$(pidof steam)"; if [ ! -z $pid ]; then echo "True"; else echo "False"; fi;`,
     };
     data.shell = "/bin/sh";
