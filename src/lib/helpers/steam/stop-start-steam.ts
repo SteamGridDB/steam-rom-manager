@@ -139,14 +139,7 @@ export async function startSteam() {
       elif command -v steam >/dev/null; then
         2>/dev/null 1>&2 steam -silent &
       fi
-      `,
-      // action: `
-      // if [[ $(command -v flatpak && flatpak list --app | grep -q "com.valvesoftware.Steam") ]]; then
-      //   2>/dev/null 1>&2 flatpak run com.valvesoftware.Steam &
-      // elif [[ $(command -v steam) ]]; then
-      //   2>/dev/null 1>&2 steam -silent &
-      // fi;
-      // `, // Handles both flatpak and direct install cases, preferring flatpak
+      `, // Handles both flatpak steam and appimage steam, preferring flatpak
       check: `pid="$(pidof steam)"; if [ ! -z $pid ]; then echo "True"; else echo "False"; fi;`,
     };
     data.shell = "/bin/sh";
