@@ -1,23 +1,23 @@
 ##
 
-* SRM version: **#{APP[version]}** emudeckText
+*
 * Operating System: **#{APP[os]}**
 
-## Useful links
+##
 
-* [SRM Releases](https://github.com/SteamGridDB/steam-rom-manager/releases)
-* [Discord Server](https://discord.gg/bnSVJrz)
-* [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
-* [Steam Group](https://steamcommunity.com/groups/steamrommanager)
-* [Github Repo](https://github.com/SteamGridDB/steam-rom-manager)
-* [Crowdin Translation Project](https://crowdin.com/project/steam-rom-manager)
+* [SRMリリース](https://github.com/SteamGridDB/steam-rom-manager/releases)
+* [](https://discord.gg/bnSVJrz)
+* [r/SteamRomManage](https://www.reddit.com/r/SteamRomManager/)
+* [Steam グループ](https://steamcommunity.com/groups/steamrommanager)
+* [GitHub リポジトリ](https://github.com/SteamGridDB/steam-rom-manager)
+* [クラウディン翻訳プロジェクト](https://crowdin.com/project/steam-rom-manager)
 
 ## Support
 
-Help support continued progress on Steam ROM Manager at:
+Steam マネージャーの継続的な進行状況のサポートを支援してください：
 
 <a href="https://www.buymeacoffee.com/cbartondock">
-  <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="Buy Me A Coffee" width="160">
+  <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="コーヒーを買って" width="160">
 </a>
 
 [SteamGridDB](https://www.steamgriddb.com/) hosts all of the artwork Steam ROM Manager uses to make your Steam library the envy of the town, so we should probably help them keep their lights on. If you enjoy Steam ROM Manager and want it to continue to be useful also consider supporting [SteamGridDB](https://www.steamgriddb.com/)'s Patreon.
@@ -26,21 +26,21 @@ Help support continued progress on Steam ROM Manager at:
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
-## Contributions
-* `FrogTheFrog`{.noWrap} - Creator of SRM, no longer active on SRM but currently working on the [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck)
+## 貢献
+* `FrogTheFrog`{.noWrap} - SRMのクリエイターは、SRMでは活動しなくなりましたが、現在 [MoonDeck Plugin](https://github.com/FrogTheFrog/moondeck) に取り組んでいます。
 
-### Current Maintainers
-* `lontanadascienza`{.noWrap} - Updated SRM to handle heroes, posters, logos, and icons. Added the exception manager, controller management, platform parsers (Epic, GOG, Steam, etc), among many other things. Squashes bugs almost as fast as he introduces them.
-* `Zennn`{.noWrap} - Added category support, langauge localization, and the bug report server among many other things. Big boss over at [SteamGridDB](https://www.steamgriddb.com/).
-* `KenCinder`{.noWrap} - Manages and creates community parser presets and helps user setup SRM in [Discord](https://discord.gg/bnSVJrz).
+### 現在のメンテナー
+* `lontanadascienza`{.noWrap} - ヒーロー、ポスター、ロゴ、アイコンを扱うようにSRMを更新しました。 例外マネージャー、コントローラ管理、プラットフォームパーサ(Epic、GOG、Steamなど)を追加しました。 彼がそれらを紹介するとほぼ同じ速度でバグをスクワッシュします。
+* `Zennn`{.noWrap} - カテゴリサポート、langaugeローカライゼーション、バグ報告サーバーなどを追加。 `SteamGridDB` でビッグボス。
+* `KenCinder`{.noWrap} - コミュニティパーサプリセットを管理し、ユーザーが [Discord](https://discord.gg/bnSVJrz) にSRMをセットアップするのに役立ちます。
 
-### Feature Contributions
-* `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
-* `alvaromunoz`{.noWrap} - Added Game Pass parser to SRM.
-* `lexarvn`{.noWrap} - Added the Amazon Games parser and the itch.io parser.
-* `CarJem`{.noWrap} - Added the manual parser.
-* `MattMckenzy`{.noWrap} - Added ability to import and export image choices.
-* `Apalatn`{.noWrap} - Added an install drive redirect option to the itch.io parser.
+### 機能の貢献
+* `dragoonDorise`{.noWrap} - SRMに新しいテーマを追加。 。
+* `alvaromunoz`{.noWrap} - SRMにゲームパスパーサを追加。
+* `lexarvn`{.noWrap} - Amazon Games parser と itch.io parser を追加。
+* `CarJem`{.noWrap} - マニュアルパーサーを追加。
+* `MattMckenzy`{.noWrap} - 画像の選択肢をインポートおよびエクスポートする機能を追加。
+* `Apalatn`{.noWrap} - itch.ioパーサーにインストールドライブのリダイレクトオプションを追加。
 * `OneMoreByte`{.noWrap} - Made itch.io parser work on linux and mac.
 * `UndarkAido`{.noWrap} - Added shortcut passthrough for Linux's .desktop shortcuts.
 * `HazardousBackup`{.noWrap} - Added option to GOG parser to parse Registry instead of GOG's DB.
