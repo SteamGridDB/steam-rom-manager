@@ -1,6 +1,6 @@
 #
 
-. Most of the time you will want to set it using provided parser variables.
+. .
 
 ## Ejemplos por Sistema
 
