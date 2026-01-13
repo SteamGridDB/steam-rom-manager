@@ -16,7 +16,7 @@ followed by whatever launch arguments you choose in the `Command Line Arguments`
 
 You can use any other variable to construct the final executable.
 
-This setting influences Steam's APP ID.
+Ce paramètre influence l'ID APP de Steam.
 
 ## Shortcut Passthrough
 
