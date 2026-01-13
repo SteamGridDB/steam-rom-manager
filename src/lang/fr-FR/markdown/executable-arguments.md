@@ -2,7 +2,7 @@
 
 Arguments qui sont ajoutés à l'exécutable pour générer le raccourci final. La plupart du temps, vous le définirez en utilisant des variables de parseur fournies.
 
-## Exemples par Système
+## Exemples par système
 
 ### RetroArch
 
@@ -184,7 +184,7 @@ Dans le cas où l'entrée chemin complet vers un exécutable est laissée **vide
 |                                             `${lc\|input}` | Variable minuscule. Met le champ input en minuscule                                                  |
 |                                       `${cv:group\|input}` | Change le champ input avec une variable personnalisée correspondante (le champ group est facultatif) |
 |                                            `${rdc\|input}` |                                                                                                      |
-| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                         |
+| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | Si le système d'exploitation correspond, la valeur sera `on match`, sinon `no match`                 |
 
 ### Exemple de varable de fonction
 
