@@ -1,13 +1,13 @@
-# Executable `[supports env variables]`
+# Exécutable `[supporte les variables d'environnement]`
 
-Chemin vers l'exécutable de l'émulateur. Can be a file or any valid system path.
+Chemin vers l'exécutable de l'émulateur. Peut être un fichier ou n'importe quel chemin valide.
 
 ## Pourquoi optionnel ?
 
-In some cases you might want to run game from a some kind batch file which will also automatically run the emulator itself. If that is the case, then providing executable is unnecessary.
+Dans certains cas, il peut être souhaitable de lancer le jeu depuis un script batch qui lancera également l'émulateur lui-même. Si tel est le cas, alors il n'est pas nécessaire de renseigner l'exécutable.
 
-The final shortcut will just be `"${filePath}" --command-line-args`.
+Le dernier raccourci sera simplement `"${filePath}" --command-line-args`.
 
-### So, how do I add files to Steam without default executable?
+### Alors, comment ajouter des fichiers à Steam sans exécutable par défaut ?
 
-All files retrieved by a parser will be treated as executables instead.
+Tous les fichiers récupérés par un analyseur seront traités comme des exécutables.
