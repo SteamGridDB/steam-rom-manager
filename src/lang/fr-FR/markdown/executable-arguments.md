@@ -188,7 +188,7 @@ Dans le cas où l'entrée chemin complet vers un exécutable est laissée **vide
 
 ### Exemple de varable de fonction
 
-Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
+. Then these variables:
 
 ```
 ${/.*/|${title}}                           //Matches everything
