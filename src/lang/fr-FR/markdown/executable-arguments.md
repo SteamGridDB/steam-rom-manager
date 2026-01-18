@@ -188,7 +188,7 @@ Dans le cas où l'entrée chemin complet vers un exécutable est laissée **vide
 
 ### Exemple de varable de fonction
 
-. Then these variables:
+. :
 
 ```
 ${/.*/|${title}}                           //Matches everything
