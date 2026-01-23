@@ -2,7 +2,7 @@
 
 This parser imports non SRM steam shortcuts into SRM so their artowrk can be managed. 它没有添加快捷方式，因此是一个 仅限artwork 解析器。 这个解析器需要用户账号字段被设置。
 
-## User accounts
+## 用户账户
 
 可以用于将配置限制为特定的用户帐户。 为了设置用户帐户，必须使用以下语法：
 
