@@ -386,7 +386,7 @@
             "localImagesDirectory": "For example ~/path/to/localartwork/"
           },
           "Linux": {
-            "steamDirectory": "Typically /home/user/.steam/steam/",
+            "steamDirectory": "通常是 /home/user/.steam/steam/",
             "romsDirectory": "For example ~/ROMs/",
             "retroarchPath": "例如 /path/to/retroarch",
             "raCoresDirectory": "Typically /lib/x86_64-linux-gnu/libretro/cores/",
