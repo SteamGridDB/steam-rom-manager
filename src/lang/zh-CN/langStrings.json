@@ -292,19 +292,19 @@
     "stylesIconTitle": "允许的图标样式",
     "sizesTitle": "允许横幅尺寸",
     "sizesHeroTitle": "允许英雄尺寸",
-    "sizesTallTitle": "Allowed portrait dimensions",
+    "sizesTallTitle": "允许的纵向尺寸",
     "sizesIconTitle": "允许的图标尺寸"
   },
   "logger": {
     "component": {
       "noMessages": "没有可用的消息",
-      "error": "Error messages",
-      "info": "Info messages",
-      "success": "Success messages",
-      "fuzzy": "Fuzzy messages",
-      "textWrap": "Wrap text",
-      "autoscroll": "Autoscroll",
-      "clearLog": "Clear",
+      "error": "错误信息",
+      "info": "提示信息",
+      "success": "成功信息",
+      "fuzzy": "模糊信息",
+      "textWrap": "文字换行",
+      "autoscroll": "自动滚动",
+      "clearLog": "清除",
       "issueDescription": "使用可通过拼写的透彻问题描述",
       "handleExample": "CoolHandle#1234"
     }
@@ -339,7 +339,7 @@
     "component": {
       "label": {
         "general": "常规",
-        "imageProviders": "Artwork Providers",
+        "imageProviders": "艺术图源",
         "fuzzy": "模糊匹配",
         "environmentVariables": "环境变量",
         "communityPresets": "社区预设和自定义变量"
@@ -351,7 +351,7 @@
         "removeApps_btn": "删除",
         "preloadImages": "Artwork加载策略",
         "fuzzy_verbose": "记录匹配结果",
-        "fuzzy_filter": "Filter artwork",
+        "fuzzy_filter": "筛选艺术图",
         "enabledProviders": "启用的图片提供程序",
         "dnsServers": "DNS手动覆盖",
         "selectLanguage": "选择语言",
@@ -361,36 +361,36 @@
         "resetFuzzy_btn": "重置",
         "customVariables_desc": "自定义变量",
         "configPresets_desc": "配置预设",
-        "showSteamImages": "Show current Steam artwork by default",
+        "showSteamImages": "默认显示当前的Steam艺术图",
         "deleteDisabledShortcuts": "删除已禁用解析器的快捷方式",
         "clearLogOnTest": "在测试解析器之前自动清除日志",
-        "configDir": "Config Directory",
-        "steamDir": "Steam Directory"
+        "configDir": "配置目录",
+        "steamDir": "Steam 目录"
       },
       "placeholder": {
         "noProviders": "无",
         "userAccounts": "例如 ${steamlogin}",
         "bySystem": {
           "Windows_NT": {
-            "steamDirectory": "Typically C:\\Program Files (x86)\\Steam\\",
-            "romsDirectory": "For example D:\\ROMs\\",
-            "retroarchPath": "For example C:\\Path\\To\\Retroarch.exe",
-            "raCoresDirectory": "Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores\\",
-            "localImagesDirectory": "For example C:\\Path\\To\\LocalArtwork\\"
+            "steamDirectory": "通常是 C:\\Program Files (x86)\\Steam\\",
+            "romsDirectory": "例如 D:\\ROMs\\",
+            "retroarchPath": "例如：C:\\Path\\To\\retroarch.exe",
+            "raCoresDirectory": "通常是 C:\\Users\\ UserName\\AppData\\Roaming\\RetroArch\\cores\\",
+            "localImagesDirectory": "例如：C:\\Path\\To\\LocalArtwork\\"
           },
           "Darwin": {
-            "steamDirectory": "Typically ~/Library/Application Support/Steam/",
-            "romsDirectory": "For example ~/ROMs/",
+            "steamDirectory": "通常是 ~/Library/Application Support/Steam/",
+            "romsDirectory": "例如 ~/ROMs/",
             "retroarchPath": "例如 /path/to/retroarch",
-            "raCoresDirectory": "Typically /Applications/Retroarch.app/Contents/Resources/cores/",
-            "localImagesDirectory": "For example ~/path/to/localartwork/"
+            "raCoresDirectory": "通常是 /Applications/Retroarch.app/",
+            "localImagesDirectory": "例如~/path/to/localartworks/"
           },
           "Linux": {
             "steamDirectory": "通常是 /home/user/.steam/steam/",
-            "romsDirectory": "For example ~/ROMs/",
+            "romsDirectory": "例如 ~/ROMs/",
             "retroarchPath": "例如 /path/to/retroarch",
-            "raCoresDirectory": "Typically /lib/x86_64-linux-gnu/libretro/cores/",
-            "localImagesDirectory": "For example ~/path/to/localartwork/"
+            "raCoresDirectory": "通常是 /lib/x86_64-linux-gnu/libretro/cores/",
+            "localImagesDirectory": "例如~/path/to/localartworks/"
           }
         }
       }
@@ -449,8 +449,8 @@
     "component": {
       "buttons": {
         "save": "保存",
-        "copy": "Clone",
-        "testParser": "Test",
+        "copy": "复制",
+        "testParser": "测试",
         "delete": "删除",
         "moveUp": "向上移",
         "moveDown": "向下移",
@@ -464,7 +464,7 @@
         "opSys__i": "操作系统是 ${os}",
         "testCompleted": "解析器测试已完成。",
         "nothingWasFound": "解析器未找到任何内容。",
-        "copiedToClipboard": "Parser copied to clipboard",
+        "copiedToClipboard": "解析器已复制到剪贴板",
         "userExclusions": "用户排除：",
         "excludedFileInfo__i": "[${index}/${total}]: ${filename}\n 不包括 \"${exceptionKey}\"",
         "removingControllers__i": "删除解析器控制器模板：${configTitle}",
@@ -499,8 +499,8 @@
         "filePath__i": "[${index}/${total}]:            文件路径 - ${filePath}",
         "startDir__i": "[${index}/${total}]:            开始目录 - ${startDir}",
         "completeShortcut__i": "[${index}/${total}]:    完成快捷方式 - ${shortcut}",
-        "firstImageQuery__i": "[${index}/${total}]:      Artwork queries - ${query}",
-        "imagePool__i": "[${index}/${total}]:         Artwork pool - ${imagePool}",
+        "firstImageQuery__i": "[${index}/${total}]:        艺术图查询 - ${query}",
+        "imagePool__i": "[${index}/${total}]:         艺术图库 - ${imagePool}",
         "imageQueries__i": "[${index}/${total}]:                        ${query}",
         "defaultImage__i": "[${index}/${total}]: Resolved fallback ${artworkType}:\n[${index}/${total}]:                        ${image}",
         "resolvedDefaultImage__i": "[${index}/${total}]: Fallback ${artworkType}:",
@@ -512,7 +512,7 @@
       },
       "label": {
         "parserType": "解析器类型",
-        "configTitle": "Parser title",
+        "configTitle": "解析器标题",
         "steamCategories": "Steam收藏",
         "executableModifier": "可执行修饰符",
         "executableLocation": "可执行文件",
@@ -524,9 +524,9 @@
         "titleModifier": "标题修饰词",
         "fuzzyMatch": "模糊匹配",
         "executableArgs": "命令行参数",
-        "onlineImageQueries": "Artwork provider search queries",
-        "imagePool": "Artwork pool",
-        "imageProviders": "Artwork providers",
+        "onlineImageQueries": "艺术图源搜索查询",
+        "imagePool": "艺术图库",
+        "imageProviders": "艺术图源",
         "defaultImage__i": "反馈",
         "localImages__i": "Local ${artworkType} glob"
       },
@@ -534,9 +534,9 @@
         "parserType": "选择解析器...",
         "configTitle": "我很棒的解析器",
         "steamDirectory": {
-          "Windows_NT": "${steamdirglobal} or C:\\path\\to\\Steam\\",
-          "Darwin": "${steamdirglobal} or /path/to/Steam/",
-          "Linux": "${steamdirglobal} or /path/to/Steam/"
+          "Windows_NT": "${steamdirglobal} 或 /path/to/steam\\",
+          "Darwin": "${steamdirglobal} 或 /path/to/steam/",
+          "Linux": "${steamdirglobal} 或 /path/to/steam/"
         },
         "titleFromVariable": "${variableGroup1}${variableGroup2}",
         "titleModifier": "${fuzzyTitle} 或 ${title}",
@@ -546,7 +546,7 @@
           "Linux": "/path/to/fallback_${artworkType}"
         },
         "localImages__i": {
-          "Windows_NT": "C:\\\\path\\\\to\\\\art\\\\${artworkType}\\\\\\${title}.@(png|jpg)",
+          "Windows_NT": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)",
           "Darwin": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)",
           "Linux": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)"
         },
@@ -589,18 +589,18 @@
     },
     "service": {
       "info": {
-        "updatingConfigurations": "Updating user's parsers with new fields"
+        "updatingConfigurations": "正在更新用户的解析器"
       },
       "error": {
-        "savingConfiguration": "Error encountered while saving user's parsers!",
-        "readingConfiguration": "Error encountered while loading user's parsers!",
+        "savingConfiguration": "保存用户解析器时发生错误！",
+        "readingConfiguration": "加载用户解析器时发生错误！",
         "parserTypeMissing": "未指定解析器类型，无法保存",
-        "corruptedConfiguration__i": "One or more saved parsers are invalid!\r\nPermanent configuration saving is disabled until this issue is resolved.\r\nTry to manually fix errors yourself (file - ${file})\r\nor seek help on github or our official discord channel: ${error}",
-        "fetchingTemplates": "Error encountered while fetching controllers templates!"
+        "corruptedConfiguration__i": "一个或多个保存的解析器配置无效！\n在此问题得到解决之前，永久配置保存被禁用。\n尝试手动修复错误(文件 - ${file})\n或在我们的官方 Discord 频道上寻求帮助：${error}。",
+        "fetchingTemplates": "获取控制器模板时发生错误！"
       },
       "validationErrors": {
         "parserType__md": "> 解析器类型不正确！",
-        "configTitle__md": "> Parser title field cannot be blank!",
+        "configTitle__md": "> 解析器标题不能为空！",
         "parserId__md": ">解析器 ID 丢失，出现了严重的问题。",
         "parserInput": {
           "noInput": "没有可用的输入！",
@@ -612,11 +612,11 @@
         "steamDir__md": "> Steam 目录无效！",
         "startInDir__md": "> \"Start In\" 目录无效！",
         "executable__md": "> 可执行文件无效！",
-        "defaultImage__md": "> Fallback artwork is an invalid path!",
-        "variableString__md": "> Uneven number of `${` and `}` pairs! Use `\\` to escape `${` or `}` if you want to use them as characters.",
-        "unhandledValidationKey__md": "> Input's validation is unhandled!",
-        "genericDir__md": "> Directory is invalid!",
-        "genericPath__md": "> Path is invalid!"
+        "defaultImage__md": "> 备选艺术图路径无效！",
+        "variableString__md": "`${` 和 `}` 的配对数量不一致！如果你是想把 `${` 或 `}` 当作普通字符使用，请使用 `\\` 进行转义。",
+        "unhandledValidationKey__md": "> 输入校验未处理！",
+        "genericDir__md": "> 目录无效!",
+        "genericPath__md": "> 路径无效!"
       },
       "text": {
         "noTitle": "无标题！"
@@ -670,11 +670,11 @@
     "error": {
       "readingVdf__i": "无法从 \"${filePath}\" 读取。\n ${error}",
       "writingVdf__i": "无法写入 \"${filePath}\"。\n ${error}",
-      "skippingDMCA__i": "Skipping DMCA'd artwork for ${title}",
+      "skippingDMCA__i": "跳过 DMCA 受限制的图片 ${title}",
       "corruptedVdf__i": "\"${filePath}\" 已损坏。\n ${error}",
       "creatingBackup__i": "无法为 \"${filePath}\" 创建备份。\n ${error}",
       "unsupportedMimeType__i": "Mime类型${type}不受支持(标题 - \"${title}\")",
-      "imageError__i": "Error occurred while saving/downloading artwork for \"${title}\". Url: ${url}.\n ${error}"
+      "imageError__i": "在保存/下载 \"${title}\" 图片时发生错误。URL: ${url} \n ${error}"
     }
   },
   "helpers": {
