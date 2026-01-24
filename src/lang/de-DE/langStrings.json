@@ -59,8 +59,8 @@
         "readingSelections": "Applying imported artwork choices."
       },
       "errors": {
-        "fatalError": "Fatal error occurred in Add Games. See event log for details.",
-        "fatalError__i": "Fatal Add Games error: ${error}",
+        "fatalError": "Fataler Fehler ist in \"Spiele hinzufügen\" aufgetreten. Details im Ereignisprotokoll.",
+        "fatalError__i": "Schwerer Fehler beim Hinzufügen von Spielen: ${error}",
         "knownSteamDirListIsEmpty": "Die Liste bekannter Steam-Verzeichnisse ist leer.",
         "steamIsRunning": "Änderungen können nicht vorgenommen werden, während Steam läuft!",
         "categorySaveError": "Fehler beim Aktualisieren der Kategorien. Details findest du im Ereignisprotokoll.",
@@ -152,7 +152,7 @@
       "Linux": "/path/to/Battle.net"
     },
     "errors": {
-      "battleNotCompatible": "> Battle.net parser is only available on Windows.",
+      "battleNotCompatible": "> Battle.net-Parser ist nur unter Windows verfügbar.",
       "fatalError__i": "> Battle.net parser failed with fatal error:\n ${error}"
     }
   },
@@ -290,21 +290,21 @@
     "stylesHeroTitle": "Erlaubte Heldenbild-Stile",
     "stylesLogoTitle": "Erlaubte Logo-Stile",
     "stylesIconTitle": "Erlaubte Symbol-Stile",
-    "sizesTitle": "Allowed banner dimensions",
-    "sizesHeroTitle": "Allowed hero dimensions",
-    "sizesTallTitle": "Allowed portrait dimensions",
-    "sizesIconTitle": "Allowed icon dimensions"
+    "sizesTitle": "Erlaubte Banner-Dimensionen",
+    "sizesHeroTitle": "Erlaubte Helden-Dimensionen",
+    "sizesTallTitle": "Erlaubte Porträt-Dimensionen",
+    "sizesIconTitle": "Erlaubte Icon-Dimensionen"
   },
   "logger": {
     "component": {
       "noMessages": "Keine Nachrichten vorhanden",
-      "error": "Error messages",
-      "info": "Info messages",
-      "success": "Success messages",
+      "error": "Fehlermeldungen",
+      "info": "Infomeldungen",
+      "success": "Erfolgsmeldungen",
       "fuzzy": "Fuzzy messages",
-      "textWrap": "Wrap text",
-      "autoscroll": "Autoscroll",
-      "clearLog": "Clear",
+      "textWrap": "Text umbrechen",
+      "autoscroll": "Auto-Scrollen",
+      "clearLog": "Leeren",
       "issueDescription": "Ausführliche Fehlerbeschreibung mit passabler Rechtschreibung.",
       "handleExample": "CoolHandle#1234"
     }
@@ -338,22 +338,22 @@
   "settings": {
     "component": {
       "label": {
-        "general": "General",
-        "imageProviders": "Artwork Providers",
+        "general": "Allgemein",
+        "imageProviders": "Artwork-Anbieter",
         "fuzzy": "Fuzzy Matcher",
-        "environmentVariables": "Environment Variables",
-        "communityPresets": "Community Presets and Custom Variables"
+        "environmentVariables": "Umgebungsvariablen",
+        "communityPresets": "Community-Vorlagen und benutzerdefinierte Variablen"
       },
       "text": {
-        "autoUpdate": "Check for updates on start",
+        "autoUpdate": "Beim Starten nach Aktualisierungen suchen",
         "offlineMode": "Offline-Modus",
-        "removeApps_desc": "all added games and controllers",
+        "removeApps_desc": "alle hinzugefügten Spiele und Controller",
         "removeApps_btn": "Entfernen",
-        "preloadImages": "Artwork loading strategy",
+        "preloadImages": "Artwork-Ladestrategie",
         "fuzzy_verbose": "Übereinstimmende Ergebnisse loggen",
-        "fuzzy_filter": "Filter artwork",
+        "fuzzy_filter": "Artwork filtern",
         "enabledProviders": "Aktivierte Bildanbieter",
-        "dnsServers": "DNS manual override",
+        "dnsServers": "Manuelles DNS",
         "selectLanguage": "Sprache auswählen",
         "selectTheme": "Theme auswählen",
         "resetFuzzy_desc": "Fuzzy Liste",
@@ -361,26 +361,26 @@
         "resetFuzzy_btn": "Zurücksetzen",
         "customVariables_desc": "Benutzerdefinierte Variablen",
         "configPresets_desc": "Konfigurationsvorlagen",
-        "showSteamImages": "Show current Steam artwork by default",
+        "showSteamImages": "Zeige aktuelles Steam-Artwork standardmäßig",
         "deleteDisabledShortcuts": "Entferne Shortcuts für deaktivierte Parser",
         "clearLogOnTest": "Logs automatisch vor dem Parster-Test leeren",
         "configDir": "Config Directory",
-        "steamDir": "Steam Directory"
+        "steamDir": "Steam-Verzeichnis"
       },
       "placeholder": {
         "noProviders": "Keine",
         "userAccounts": "Zum Beispiel ${steamlogin}",
         "bySystem": {
           "Windows_NT": {
-            "steamDirectory": "Typically C:\\Program Files (x86)\\Steam\\",
-            "romsDirectory": "For example D:\\ROMs\\",
-            "retroarchPath": "For example C:\\Path\\To\\Retroarch.exe",
-            "raCoresDirectory": "Typically C:\\Users\\UserName\\AppData\\Roaming\\RetroArch\\cores\\",
-            "localImagesDirectory": "For example C:\\Path\\To\\LocalArtwork\\"
+            "steamDirectory": "Normalerweise C:\\Program Files (x86)\\Steam\\",
+            "romsDirectory": "Zum Beispiel D:\\ROMs\\",
+            "retroarchPath": "Zum Beispiel C:\\Pfad\\zu\\retroarch.exe",
+            "raCoresDirectory": "Normalerweise C:\\Users\\Benutzername\\AppData\\Roaming\\RetroArch\\cores\\",
+            "localImagesDirectory": "Zum Beispiel C:\\Pfad\\zu\\lokalemArtwork\\"
           },
           "Darwin": {
-            "steamDirectory": "Typically ~/Library/Application Support/Steam/",
-            "romsDirectory": "For example ~/ROMs/",
+            "steamDirectory": "Normalerweise ~/Library/Application Support/Steam/",
+            "romsDirectory": "Zum Beispiel ~/ROMs/",
             "retroarchPath": "Zum Beispiel /Pfad/zu/retroarch",
             "raCoresDirectory": "Typically /Applications/Retroarch.app/Contents/Resources/cores/",
             "localImagesDirectory": "For example ~/path/to/localartwork/"
@@ -449,7 +449,7 @@
     "component": {
       "buttons": {
         "save": "Speichern",
-        "copy": "Clone",
+        "copy": "Klonen",
         "testParser": "Test",
         "delete": "Löschen",
         "moveUp": "Aufwärts bewegen",
@@ -464,7 +464,7 @@
         "opSys__i": "Betriebssystem ist \"${os}\"",
         "testCompleted": "Parser-Test ist abgeschlossen.",
         "nothingWasFound": "Parser hat nichts gefunden.",
-        "copiedToClipboard": "Parser copied to clipboard",
+        "copiedToClipboard": "Parser in Zwischenablage kopiert",
         "userExclusions": "Ausgeschlossene Benutzer:",
         "excludedFileInfo__i": "[${index}/${total}]: ${filename}\n Excluded by \"${exceptionKey}\"",
         "removingControllers__i": "Entferne Controller-Templates für Parser: ${configTitle}",
@@ -615,8 +615,8 @@
         "defaultImage__md": "> Fallback artwork is an invalid path!",
         "variableString__md": "> Uneven number of `${` and `}` pairs! Use `\\` to escape `${` or `}` if you want to use them as characters.",
         "unhandledValidationKey__md": "> Input's validation is unhandled!",
-        "genericDir__md": "> Directory is invalid!",
-        "genericPath__md": "> Path is invalid!"
+        "genericDir__md": "> Verzeichnis ist ungültig!",
+        "genericPath__md": "> Pfad ist ungültig!"
       },
       "text": {
         "noTitle": "Kein Titel!"
@@ -670,7 +670,7 @@
     "error": {
       "readingVdf__i": "Fehler beim Lesen von \"${filePath}\".\n ${error}",
       "writingVdf__i": "Fehler beim Schreiben nach \"${filePath}\".\n${error}",
-      "skippingDMCA__i": "Skipping DMCA'd artwork for ${title}",
+      "skippingDMCA__i": "Artwork für ${title} aufgrund eines DMCA Verstoß übersprungen",
       "corruptedVdf__i": "\"${filePath}\" ist beschädigt.\n${error}",
       "creatingBackup__i": "Backup für \"${filePath}\" konnte nicht erstellt werden.\n${error}",
       "unsupportedMimeType__i": "MIME-Typ (${type}) wird nicht unterstützt (Titel - \"${title}\").",
