@@ -1,5 +1,5 @@
-# Parser title
+# Parser-Titel
 
-Title of the parser. Does not have to be unique, but is required.
+Titel des Parsers. Muss nicht einzigartig sein, ist aber erforderlich.
 
-This field will not affect what is added to `Steam` in any way.
+Dieses Feld hat keinen Einfluss auf das, was zu `Steam` hinzugefügt wird.
