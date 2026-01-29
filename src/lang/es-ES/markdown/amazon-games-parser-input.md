@@ -1,7 +1,7 @@
 #
 
 ## Sobrescribir ruta de Amazon Games
-This field allows you to override that path if your Amazon Games installation is elsewhere.
+.
 
 ## Launch Via Amazon Games
 
