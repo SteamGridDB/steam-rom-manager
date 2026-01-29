@@ -1,5 +1,5 @@
 ## Allgemeine Einstellungen
-### Check for updates on start `[Recommend enabled]`
+### Suche nach Updates beim Start `[Empfohlen aktiviert]`
 Check if an update for SRM is available and prompt to update each time SRM launches.
 ### Steam automatisch beenden `[aktivieren empfohlen]`
 SRM will attempt to kill all running instances of Steam whenever it needs to read/write collections information (specifically when saving to steam from `Add Games` and when removing all games from `Settings`).
