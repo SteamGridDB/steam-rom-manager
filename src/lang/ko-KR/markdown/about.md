@@ -1,6 +1,6 @@
 ##
 
-. In order for us to help you, we would like you to provide this info:
+. :
 
 * SRM version: **#{APP[version]}** emudeckText
 * Operating System: **#{APP[os]}**
