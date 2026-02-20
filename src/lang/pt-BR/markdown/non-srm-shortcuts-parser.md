@@ -1,29 +1,29 @@
-# Non-SRM Shortcut Parser
+# Analisador de atalho não SRM
 
-This parser imports non SRM steam shortcuts into SRM so their artowrk can be managed. It does not add shortcuts, and as such is an `Artwork Only` parser. This parser requires the `User Accounts` field to be set.
+Este analisador importa atalhos Steam não SRM para o SRM para que sua arte possa ser gerenciada. Ele não adiciona atalhos e, como tal, é um analisador `Somente Arte'. Este analisador requer que o campo `Contas de usuário\` seja definido.
 
-## User accounts
+## Contas de usuário
 
-Used to limit configuration to specific user accounts. In order to set user accounts, the following syntax must be used:
+Usado para limitar a configuração a contas de usuário específicas. Para definir contas de usuário, a seguinte sintaxe deve ser usada:
 
 ```
 ${...}
 ```
 
-You **must** use the username you use to **log in** into Steam **if** [use account credentials](#what-does-use-account-credentials-do) is enabled:
+Você **deve** usar o nome de usuário usado para **fazer login** no Steam **se** [usar credenciais da conta](#what-does-use-account-credentials-do) estiver ativado:
 
-![Account example](../../../assets/images/user-account-example.png) {.fitImage .center}
+![Exemplo de conta](../../../assets/images/user-account-example.png) {.fitImage .center}
 
-For example, this is how you specify account for "Banana" and "Apple":
+Por exemplo, é assim que você especifica a conta para "Banana" e "Apple":
 
 ```
 ${Banana}${Apple}
 ```
 
-You can also limit accounts by specifying their ids directly. For example:
+Você também pode limitar contas especificando seus ids diretamente. Por Exemplo:
 
 ```
 ${56489124}${21987424}
 ```
 
-Would limit the search to `steam/userdata/56489124` and `steam/userdata/21987424`.
+Limitaria a pesquisa a `steam/userdata/56489124` e `steam/userdata/21987424`.
