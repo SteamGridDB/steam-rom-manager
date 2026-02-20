@@ -1,17 +1,17 @@
-# Legendary Parser Specific Inputs
+# Entradas específicas do analisador Legendary
 
-## Legendary Path Override
+## Substituição do caminho Legendary
 
-....... This field allows you to override that path.
+Por padrão, o Steam ROM Manager usa `(Get-Command legendary).Path` no Windows e `which legendary` no Linux e Mac para determinar a localização do seu executável Legendary. Este campo permite substituir esse caminho.
 
-Specifying the correct location of the Legendary executable is only necessary if you enable launch via Legendary (see below), as otherwise SRM has no need of the location of Legendary's executable.
+Especificar a localização correta do executável Legendary só é necessário se você ativar a inicialização via Legendary (veja abaixo), caso contrário, o SRM não precisará da localização do executável Legendary.
 
-## Legendary `installed.json` Path Override
+## Substituição do caminho `installed.json` Legendary
 
-Most users shouldn't use this, as they use the standard `Legendary` installation where installed games manifest will be located at `~/.config/legendary/installed.json`.
+A maioria dos usuários não deveria usar isso, pois usam a instalação padrão do `Legendary`, onde o manifesto dos jogos instalados estará localizado em `~/.config/legendary/installed.json`.
 
-If, however, for some reason your installed games manifest is located in a non-typical location then you can specify the correct manifest path here.
+Se, no entanto, por algum motivo o manifesto dos jogos instalados estiver localizado em um local atípico, você poderá especificar o caminho correto do manifesto aqui.
 
-## Launch via Legendary `[Recommend enabled]`
+## Inicia via Legendary `[Recomendado ativado]`
 
-What it sounds like, this toggle determines whether games launch via Legendary or directly. Launching via Legendary provides access to Epic's online services.
+Ao que parece, essa alternância determina se os jogos serão iniciados via Legendary ou diretamente. A inicialização via Legendary fornece acesso aos serviços online da Epic.
