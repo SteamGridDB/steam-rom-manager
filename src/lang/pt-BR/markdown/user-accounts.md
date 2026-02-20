@@ -1,7 +1,7 @@
-# User accounts
+# Contas de usuário
 
-This field is used to limit SRM's effects to specific user accounts. It can be set to `Global` or over ridden per parser.
+Esse campo é utilizado para limitar os efeitos do SRM em contas de usuários específicos. Ele pode ser definido como `Global` ou substituído pelo analisador.
 
 ## Aviso
 
-If you have `Don't save account credentials on this computer` set in Steam, then there is no way for SRM to know your `Steam Username` and `Choose Accounts` will only be able to pull your `Steam IDs`. If you would like to use `Steam Usernames` here, go to `Steam > Settings > Settings` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.
+Se você tiver definido `Não salvar credenciais de conta neste computador` no Steam, então o SRM não terá como saber seu `Nome de usuário do Steam` e `Escolher contas` só poderá obter seus `IDs do Steam`. If you would like to use `Steam Usernames` here, go to `Steam > Settings > Settings` and disable `Don't save account credentials on this computer`, then restart both Steam and SRM.
