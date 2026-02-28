@@ -38,7 +38,7 @@ If you enjoy Steam ROM Manager and want it to continue to be useful also conside
 
 ### Feature Contributions
 * `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). `dragoonDorise`{.noWrap} - Added new themes to SRM. Creator and current maintainer of [EmuDeck](https://www.emudeck.com/). Creator and current maintainer of [EmuDeck](https://www.emudeck.com/).
-* `alvaromunoz`{.noWrap} - Added Game Pass parser to SRM.
+* `alvaromunoz`{.noWrap} - 增加了 Game Pass 解析器至SRM。
 * `lexarvn`{.noWrap} - Added the Amazon Games parser and the itch.io parser.
 * `CarJem`{.noWrap} - Added the manual parser.
 * `MattMckenzy`{.noWrap} - Added ability to import and export image choices.
