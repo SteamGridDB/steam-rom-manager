@@ -130,7 +130,7 @@
     "legendaryInstalledFileTitle": "Legendary installed.json 路径覆盖",
     "legendaryInstalledFilePlaceholder": {
       "Windows_NT": "C:\\path\\to\\legendary\\installed.json",
-      "Darwin": "",
+      "Darwin": "/path/to/legendary/installed.json",
       "Linux": "/path/to/legendary/installed.json"
     },
     "legendaryExeOverrideTitle": "Legendary 路径覆盖",
