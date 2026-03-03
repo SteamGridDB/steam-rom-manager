@@ -3,7 +3,7 @@
 في حالة وجود مشكلة مع SRM، لا تتردد في زيارة [Discord](https://discord.gg/bnSVJrz) أو [subreddit](https://www.reddit.com/r/SteamRomManager/) وطلب مساعدتنا. In order for us to help you, we would like you to provide this info:
 
 * SRM version: **#{APP[version]}**
-* Operating System: **#{APP[os]}**
+*
 
 ## Useful links
 
