@@ -85,7 +85,7 @@ export class CategoryManager {
         cloudData.forEach((item: any) => {
           if (item && item[0] && item[0].startsWith('user-collections.')) {
             const collectionId = item[0].replace('user-collections.', '');
-            if (!item[1].is_deleted && item[1].value) {
+            if (!item[1].is_deleted && JSON.parse(item[1].value).added) {
               try {
                 collections[collectionId] = JSON.parse(item[1].value);
                 if (collectionId.startsWith('srm-')) {
