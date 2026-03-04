@@ -125,7 +125,7 @@
     "markdown-it-attrs": "^4.2.0",
     "markdown-it-toc-done-right": "^4.2.0",
     "mime-types": "^2.1.35",
-    "minimatch": "^10.0.1",
+    "minimatch": "^10.2.3",
     "ngx-color-picker": "^17.0.0",
     "node-fetch": "^3.3.2",
     "os-name": "^6.0.0",
