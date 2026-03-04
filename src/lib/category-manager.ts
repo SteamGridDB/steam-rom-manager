@@ -41,7 +41,6 @@ export class CategoryManager {
     // Read existing collections from CLOUD STORAGE (the authoritative source)
     // And (separately) from localconfig.vdf (which is just Steam's local cache)
     let collections: any = {};
-    let localCollections: any = {};
 
     const cloudStorageDir = path.join(
       steamDirectory,
@@ -88,11 +87,15 @@ export class CategoryManager {
             if (!item[1].is_deleted && item[1].value) {
               try {
                 collections[collectionId] = JSON.parse(item[1].value);
+                // Ensure the added/removed arrays exist (sometimes they don't for certain collections)
+                collections[collectionId].added ||= [];
+                collections[collectionId].removed ||= [];
                 if (collectionId.startsWith('srm-')) {
                   srmCollectionCount++;
                 } else {
                   nonSrmCollectionCount++;
                 }
+
               } catch (e) {
                 console.warn(`[doCatTask] Failed to parse collection ${collectionId}:`, e.message);
               }
@@ -375,13 +378,9 @@ export class CategoryManager {
               // Ensure the collection has the correct name (in case it was updated)
               collections[catKey].name = safeCatName;
 
-              // Ensure arrays exist
-              if (!collections[catKey].added) {
-                collections[catKey].added = [];
-              }
-              if (!collections[catKey].removed) {
-                collections[catKey].removed = [];
-              }
+              // Ensure added/remove arrays exist
+              collections[catKey].added ||= [];
+              collections[catKey].removed ||= [];
 
               // Add app to collection if not already present
               if (!collections[catKey].added.includes(appIdNew)) {
