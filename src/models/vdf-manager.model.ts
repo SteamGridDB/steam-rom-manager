@@ -43,6 +43,7 @@ export interface VDF_ShortcutsItem {
   LaunchOptions: string;
   icon: string;
   tags: string[];
+  sortas?: string;
 }
 
 export interface VDF_AddedItemsData {

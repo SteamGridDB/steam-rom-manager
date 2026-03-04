@@ -495,6 +495,22 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.fuzzyMatch.join("");
           },
         }),
+        sortAsFromVariable: new NestedFormElement.Group({
+          isHidden: () => this.isHiddenIfNotRomsParser(),
+          label: "Sort names from custom variable",
+          children: {
+            limitToGroups: new NestedFormElement.Select({
+              multiple: true,
+              allowEmpty: true,
+              values: Object.keys(this.customVariables),
+              placeholder: "Select sort-name variables",
+            }),
+          },
+          onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content = this.lang.docs__md.sortAsFromVariable.join("");
+          },
+        }),
         controllerSection: new NestedFormElement.Section({
           label: "Controller Templates Configuration",
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
@@ -798,6 +814,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             (
               this.nestedGroup.children
                 .titleFromVariable as NestedFormElement.Group
+            ).children.limitToGroups as NestedFormElement.Select
+          ).values = Object.keys(this.customVariables);
+          (
+            (
+              this.nestedGroup.children
+                .sortAsFromVariable as NestedFormElement.Group
             ).children.limitToGroups as NestedFormElement.Select
           ).values = Object.keys(this.customVariables);
         }
@@ -1168,6 +1190,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                   index: i + 1,
                   total: totalLength,
                   title: data.files[i].finalTitle,
+                }),
+              );
+              success(
+                this.lang.success.sortAsTitle__i.interpolate({
+                  index: i + 1,
+                  total: totalLength,
+                  title: data.files[i].sortAsTitle,
                 }),
               );
               success(
