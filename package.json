@@ -89,7 +89,7 @@
     "@angular/platform-browser-dynamic": "^18.2.4",
     "@angular/router": "^18.2.4",
     "@electron/remote": "^2.1.2",
-    "@node-steam/vdf": "^2.2.0",
+    "@node-steam/vdf": "https://github.com/cbartondock/vdf",
     "ajv": "^8.17.1",
     "angular-draggable-droppable": "^8.0.0",
     "async": "^3.2.6",
