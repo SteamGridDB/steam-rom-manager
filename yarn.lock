@@ -299,9 +299,9 @@
   resolved "https://registry.yarnpkg.com/@mattlewis92/dom-autoscroller/-/dom-autoscroller-2.4.2.tgz#ccb753fbcf6b3672b0273e0c3bda7924fe238013"
   integrity sha512-YbrUWREPGEjE/FU6foXcAT1YbVwqD/jkYnY1dFb0o4AxtP3s4xKBthlELjndZih8uwsDWgQZx1eNskRNe2BgZQ==
 
-"@node-steam/vdf@https://github.com/cbartondock/vdf":
+"@node-steam/vdf@https://github.com/cbartondock/vdf.git":
   version "2.2.0"
-  resolved "https://github.com/cbartondock/vdf#f04ccef390c2614d5559f088d25c009462d4f808"
+  resolved "https://github.com/cbartondock/vdf.git#f04ccef390c2614d5559f088d25c009462d4f808"
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
