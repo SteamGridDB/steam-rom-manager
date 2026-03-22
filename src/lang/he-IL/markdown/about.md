@@ -1,22 +1,22 @@
 ## מידע מערכת
 
-In case you're having trouble with SRM, feel free to visit the [discord](https://discord.gg/bnSVJrz) or the [subreddit](https://www.reddit.com/r/SteamRomManager/) and ask for our help. In order for us to help you, we would like you to provide this info:
+במקרה שאתם מתקשים עם SRM, אתם מוזמנים לבקר ב-[דיסקורד](https://discord.gg/bnSVJrz) או ב-[סוברדדיט](https://www.reddit.com/r/SteamRomManager/) ולבקש את עזרתנו. כדי שנוכל לעזור לך, נשמח שתספק לנו את המידע הבא:
 
-* SRM version: **#{APP[version]}** emudeckText
-* Operating System: **#{APP[os]}**
+* גרסת SRM: **#{APP[גרסה]}** emudeckText
+* מערכת הפעלה: **#{APP[os]}**
 
 ## קישורים שימושיים
 
-* [SRM Releases](https://github.com/SteamGridDB/steam-rom-manager/releases)
+* [שחרורי SRM](https://github.com/SteamGridDB/steam-rom-manager/releases)
 * [שרת הדיסקורד](https://discord.gg/bnSVJrz)
 * [r/SteamRomManager](https://www.reddit.com/r/SteamRomManager/)
-* [Steam Group](https://steamcommunity.com/groups/steamrommanager)
+* [קבוצת סטים](https://steamcommunity.com/groups/steamrommanager)
 * [מאגר גיטהאב](https://github.com/SteamGridDB/steam-rom-manager)
-* [➡Crowdin Translations Project](https://crowdin.com/project/steam-rom-manager)
+* [➡פרויקט התרגומים של Crowdin](https://crowdin.com/project/steam-rom-manager)
 
 ## תמיכה
 
-Help support continued progress on Steam ROM Manager at:
+עזרו לתמוך בהתקדמות מתמשכת ב-Steam ROM Manager בכתובת:
 
 <a href="https://www.buymeacoffee.com/cbartondock">
   <img src="https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/master/src/assets/images/buy-me-a-coffee.png" alt="קנה לי קפה" width="160">
