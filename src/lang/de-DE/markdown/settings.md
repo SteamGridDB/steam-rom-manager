@@ -1,9 +1,9 @@
 ## Allgemeine Einstellungen
 ### Suche nach Updates beim Start `[Empfohlen aktiviert]`
-Check if an update for SRM is available and prompt to update each time SRM launches.
+Prüft, ob ein Update für SRM verfügbar ist und fragt bei jedem Start, ob das Update installiert werden soll.
 ### Steam automatisch beenden `[aktivieren empfohlen]`
 SRM will attempt to kill all running instances of Steam whenever it needs to read/write collections information (specifically when saving to steam from `Add Games` and when removing all games from `Settings`).
-### Auto restart Steam `[Recommend enabled]`
+### Steam automatisch neu starten `[aktivieren empfohlen]`
 SRM will attempt to restart Steam after killing it and completing whatever collections related task required killing Steam in the first place. Requires `Auto kill Steam` to be enabled.
 ### Offlinemodus `[nicht empfohlen]`
 Wenn aktiviert, sendet SRM keine Netzwerkanfragen mehr. Geeignet, wenn SRM nur für lokale Bilder verwendet werden soll.
