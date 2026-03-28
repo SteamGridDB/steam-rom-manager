@@ -40,6 +40,9 @@ export interface UserConfiguration {
     removeBrackets: boolean;
     replaceDiacritics: boolean;
   };
+  sortAsFromVariable: {
+    limitToGroups: string[];
+  };
   controllers: Controllers;
   steamInputEnabled: SteamInputEnabled;
   onlineImageQueries: string[];

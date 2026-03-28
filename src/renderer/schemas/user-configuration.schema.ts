@@ -60,6 +60,17 @@ const sharedProperties = {
         caseInsensitiveVariables: { type: "boolean", default: false },
       },
     },
+    sortAsFromVariable: {
+      type: "object",
+      default: {},
+      properties: {
+        limitToGroups: {
+          type: "array",
+          default: [] as string[],
+          items: { type: "string" },
+        },
+      },
+    },
     imagePool: { type: "string", default: "" },
     drmProtect: { type: "boolean", default: false },
     defaultImage: {

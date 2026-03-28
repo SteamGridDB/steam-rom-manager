@@ -413,6 +413,7 @@
         "extractedTitle__i": "[${index}/${total}]: Título extraído - ${title}",
         "fuzzyTitle__i": "[${index}/${total}]: AppID - ${title}",
         "finalTitle__i": "[${index}/${total}]: Título extraído - ${title}",
+        "sortAsTitle__i": "[${index}/${total}]:        Sort as title - ${title}",
         "filePath__i": "[${index}/${total}]: AppID - ${filePath}",
         "startDir__i": "[${index}/${total}]: AppID - ${startDir}",
         "completeShortcut__i": "[${index}/${total}]: Atalho completo - ${shortcut}",

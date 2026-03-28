@@ -117,6 +117,7 @@ export interface PreviewDataApp {
   extractedTitle: string;
   argumentString: string;
   drmProtect: boolean;
+  sortAsTitle?: string;
   images: Record<ArtworkType, PreviewDataAppImage>;
 }
 
