@@ -1,4 +1,4 @@
-## Informações do Sistema
+## System info
 
 Caso você tenha problemas com a SRM, não hesite em visitar o [discord](https://discord.gg/bnSVJrz) ou o [subreddit](https://www.reddit.com/r/SteamRomManager/) e pedir a nossa ajuda. Para que possamos ajudá-lo, gostaríamos que você fornecesse estas informações:
 
