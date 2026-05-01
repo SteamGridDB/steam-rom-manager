@@ -1,8 +1,8 @@
 #
 
 ## Sobrescribir ruta de Amazon Games
-.
+Por defecto Steam ROM Manager asume que tu instalación de amazon Games se en cuentra en `C:\Users\&#060;username&#062;\AppData\Local\Amazon Games\App\Amazon Games.exe`. .
 
-## Launch Via Amazon Games
+## Lanzar vía Amazon Games
 
-What it sounds like, this toggle let's you set whether games will launch via Amazon Games or directly.
+Como se escucha, este botón te permite establecer cuándo quieres lanzar vía Amazon Games o directamente.
