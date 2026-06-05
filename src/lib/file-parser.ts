@@ -517,6 +517,7 @@ export class FileParser {
             fuzzyTitle: fuzzyTitle,
             extractedTitle: data.success[j].extractedTitle,
             finalTitle: undefined,
+            sortAsTitle: data.success[j].sortAsTitle || "",
             filePath: data.success[j].filePath || "",
             imagePool: undefined,
             onlineImageQueries: undefined,
@@ -538,6 +539,10 @@ export class FileParser {
           }
 
           variableData.finalTitle = newFile.finalTitle;
+
+          if (config.sortAsFromVariable?.limitToGroups) {
+            this.tryToPopulateSortAsTitles(newFile, config);
+          }
 
           if (superType === parserInfo.ManualType) {
             newFile.argumentString = data.success[j].launchOptions || "";
@@ -1034,6 +1039,27 @@ export class FileParser {
       }
     }
   }
+
+  private tryToPopulateSortAsTitles(
+    newFile: ParsedUserConfigurationFile,
+    config: UserConfiguration,
+  ) {
+    const groups =
+      _.intersectionWith(
+        config.sortAsFromVariable.limitToGroups,
+        Object.keys(this.customVariableData),
+      ) || [];
+    if (groups.length > 0) {
+      for (let j = 0; j < groups.length; j++) {
+        if (
+          this.customVariableData[groups[j]][newFile.extractedTitle] !== undefined
+          ) {
+            newFile.sortAsTitle = this.customVariableData[groups[j]][newFile.extractedTitle];
+            break;
+          }
+        }
+      }
+    }
 
   private filterUserAccounts(
     accountData: userAccountData[],

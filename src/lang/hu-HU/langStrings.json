@@ -413,6 +413,7 @@
         "extractedTitle__i": "[${index}/${total}]:      Extracted title - ${title}",
         "fuzzyTitle__i": "[${index}/${total}]:          Fuzzy title - ${title}",
         "finalTitle__i": "[${index}/${total}]:          Final title - ${title}",
+        "sortAsTitle__i": "[${index}/${total}]:        Sort as title - ${title}",
         "filePath__i": "[${index}/${total}]:            File path - ${filePath}",
         "startDir__i": "[${index}/${total}]:            Start dir - ${startDir}",
         "completeShortcut__i": "[${index}/${total}]:    Complete shortcut - ${shortcut}",

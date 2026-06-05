@@ -413,6 +413,7 @@
         "extractedTitle__i": "[${index}/${total}]:        Titre extrait - ${title}",
         "fuzzyTitle__i": "[${index}/${total}]:   Titre approximatif - ${title}",
         "finalTitle__i": "[${index}/${total}]:          Titre final - ${title}",
+        "sortAsTitle__i": "[${index}/${total}]:        Sort as title - ${title}",
         "filePath__i": "[${index}/${total}]:    Chemin du fichier - ${filePath}",
         "startDir__i": "[${index}/${total}]: Répertoire de départ - ${startDir}",
         "completeShortcut__i": "[${index}/${total}]:    Raccourci complet - ${shortcut}",

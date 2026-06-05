@@ -60,6 +60,7 @@ import {
   onlineProviders,
   imageProviderNames,
 } from "../../lib/image-providers/available-providers";
+// import { CustomVariablesService } from "./custom-variables.service";
 
 @Injectable()
 export class PreviewService {
@@ -79,6 +80,7 @@ export class PreviewService {
     private loggerService: LoggerService,
     private imageProviderService: ImageProviderService,
     private settingsService: SettingsService,
+    // private cVariableService: CustomVariablesService,
     private http: HttpClient,
   ) {
     this.previewData = undefined;
@@ -313,7 +315,7 @@ export class PreviewService {
           invokeAlert: true,
           alertTimeout: 3000,
         });
-        return vdfManager.mergeData(
+       return vdfManager.mergeData(
           this.previewData,
           this.onlineImages,
           this.appSettings.previewSettings.deleteDisabledShortcuts,
@@ -1055,6 +1057,7 @@ export class PreviewService {
               filePath: file.filePath,
               title: file.finalTitle,
               extractedTitle: file.extractedTitle,
+              sortAsTitle: file.sortAsTitle,
               steamInputEnabled: config.steamInputEnabled,
               controllers: config.controllers,
               images: images,

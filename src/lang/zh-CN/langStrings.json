@@ -413,6 +413,7 @@
         "extractedTitle__i": "[${index}/${total}]:      提取标题 - ${title}",
         "fuzzyTitle__i": "[${index}/${total}]:          模糊标题 - ${title}",
         "finalTitle__i": "[${index}/${total}]:          最终标题 - ${title}",
+        "sortAsTitle__i": "[${index}/${total}]:        Sort as title - ${title}",
         "filePath__i": "[${index}/${total}]:            文件路径 - ${filePath}",
         "startDir__i": "[${index}/${total}]:            开始目录 - ${startDir}",
         "completeShortcut__i": "[${index}/${total}]:    完成快捷方式 - ${shortcut}",

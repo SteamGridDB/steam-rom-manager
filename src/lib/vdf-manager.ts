@@ -403,6 +403,9 @@ export class VDF_Manager {
                       item.LaunchOptions = app.argumentString;
                       item.icon = icon_path;
                       item.tags = _.union(app.steamCategories, item.tags);
+                      if (app.sortAsTitle) {
+                        item.sortas = app.sortAsTitle;
+                      }
                     } else if (!artworkOnly) {
                       listItem.shortcuts.addItem(appId, {
                         appid: steam.generateShortcutId(
@@ -415,6 +418,7 @@ export class VDF_Manager {
                         LaunchOptions: app.argumentString,
                         icon: icon_path,
                         tags: app.steamCategories,
+                        ...(app.sortAsTitle && { sortas: app.sortAsTitle }),
                       });
                     }
                   }

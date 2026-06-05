@@ -149,6 +149,7 @@ export class PreviewComponent implements OnDestroy {
       { value: "extractedTitle", displayValue: "Extracted Title" },
       { value: "title", displayValue: "Final Title" },
       { value: "configurationTitle", displayValue: "Parser" },
+      { value: "sortAsTitle", displayValue: "Sort As Title" },
     ];
     this.activatedRoute.queryParamMap.subscribe((paramContainer: any) => {
       let params = ({ ...paramContainer } as any).params;
@@ -1058,13 +1059,18 @@ export class PreviewComponent implements OnDestroy {
   }
 
   sortedAppIds(apps: PreviewDataApps) {
-    return Object.keys(apps).sort((a, b) =>
-      (
-        apps[a][this.listSortBy as keyof PreviewDataApp] as string
-      ).localeCompare(
-        apps[b][this.listSortBy as keyof PreviewDataApp] as string,
-      ),
-    );
+    return Object.keys(apps).sort((a, b) => {
+      let aValue = apps[a][this.listSortBy as keyof PreviewDataApp] as string;
+      let bValue = apps[b][this.listSortBy as keyof PreviewDataApp] as string;
+
+      // fall back to title to avoid sorting by "" when sorting by sortAsTitle
+      if (this.listSortBy == "sortAsTitle") {
+        if (!aValue) aValue = apps[a].title;
+        if (!bValue) bValue = apps[b].title;
+      }
+
+      return aValue.localeCompare(bValue);
+    });
   }
 
   niceAppTitle(app: PreviewDataApp) {

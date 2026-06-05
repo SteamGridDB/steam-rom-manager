@@ -15,6 +15,7 @@ export interface ParsedUserConfigurationFile extends StringMap {
   extractedTitle: string;
   fuzzyTitle: string;
   finalTitle: string;
+  sortAsTitle: string;
   argumentString: string;
   appendArgsToExecutable: boolean;
   onlineImageQueries: string[];
@@ -76,6 +77,7 @@ export interface ParsedSuccess {
   fileLaunchOptions?: string; // Used by platform parsers executable mode
   startInDirectory?: string; //Used by manual parsers and parsers whose apps start in a different directory than the executable,
   appendArgsToExecutable?: boolean; //Used by manual parsers
+  sortAsTitle?: string;
 }
 export interface ParsedData {
   executableLocation?: string; // Used by platform parsers in launcher mode
