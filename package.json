@@ -118,7 +118,7 @@
     "is-color": "^1.0.2",
     "js-yaml": "^4.1.0",
     "loader-utils": "^3.3.1",
-    "lodash": "^4.17.21",
+    "lodash": "^4.18.1",
     "long": "^5.2.3",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^9.2.0",
