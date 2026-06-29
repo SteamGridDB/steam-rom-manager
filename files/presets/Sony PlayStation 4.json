@@ -1,0 +1,97 @@
+[
+    {
+        "parserType": "Glob",
+        "configTitle": "Sony PlayStation 4 - shadPS4",
+        "steamDirectory": "${steamdirglobal}",
+        "romDirectory": "[path-to-roms]",
+        "steamCategories": [
+            "PS4"
+        ],
+        "executableArgs": "-g \"${filePath}\" -f true",
+        "executableModifier": "\"${exePath}\"",
+        "startInDirectory": "",
+        "titleModifier": "${fuzzyTitle}",
+        "fetchControllerTemplatesButton": null,
+        "removeControllersButton": null,
+        "steamInputEnabled": "2",
+        "imageProviders": [
+            "sgdb"
+        ],
+        "onlineImageQueries": [
+            "${fuzzyTitle}"
+        ],
+        "imagePool": "${fuzzyTitle}",
+        "drmProtect": false,
+        "userAccounts": {
+            "specifiedAccounts": [
+                "Global"
+            ]
+        },
+        "parserInputs": {
+            "glob": "${title}/@(eboot.bin|EBOOT.BIN)"
+        },
+        "executable": {
+            "path": "path-to-emu",
+            "shortcutPassthrough": false,
+            "appendArgsToExecutable": true
+        },
+        "titleFromVariable": {
+            "limitToGroups": [
+                "PS4"
+            ],
+            "caseInsensitiveVariables": false,
+            "skipFileIfVariableWasNotFound": false
+        },
+        "fuzzyMatch": {
+            "replaceDiacritics": true,
+            "removeCharacters": true,
+            "removeBrackets": true
+        },
+        "controllers": {
+            "ps4": null,
+            "ps5": null,
+            "ps5_edge": null,
+            "xbox360": null,
+            "xboxone": null,
+            "xboxelite": null,
+            "switch_joycon_left": null,
+            "switch_joycon_right": null,
+            "switch_pro": null,
+            "neptune": null,
+            "steamcontroller_gordon": null
+        },
+        "imageProviderAPIs": {
+            "sgdb": {
+                "nsfw": true,
+                "humor": false,
+                "styles": [],
+                "stylesHero": [],
+                "stylesLogo": [],
+                "stylesIcon": [],
+                "imageMotionTypes": [
+                    "static"
+                ],
+                "sizes": [],
+                "sizesHero": [],
+                "sizesTall": null,
+                "sizesIcon": []
+            }
+        },
+        "defaultImage": {
+            "tall": null,
+            "long": null,
+            "hero": null,
+            "logo": null,
+            "icon": null
+        },
+        "localImages": {
+            "tall": null,
+            "long": null,
+            "hero": null,
+            "logo": null,
+            "icon": null
+        },
+        "parserId": "178272980487670731",
+        "version": 25
+    }
+]
