@@ -1260,7 +1260,10 @@ export class PreviewService {
     provider: OnlineProviderType,
     preinsert?: boolean,
   ) {
-    if (this.isImageUnique(imageKey, content.imageUrl, artworkType, provider)) {
+    if (
+      this.onlineImages[artworkType][imageKey] &&
+      this.isImageUnique(imageKey, content.imageUrl, artworkType, provider)
+    ) {
       if (preinsert) {
         this.onlineImages[artworkType][imageKey].online[
           provider
@@ -1300,6 +1303,7 @@ export class PreviewService {
     preinsert?: boolean,
   ) {
     if (
+      this.onlineImages[artworkType][imageKey] &&
       this.isLocalImageUnique(imageKey, content.imageUrl, artworkType, provider)
     ) {
       if (preinsert) {

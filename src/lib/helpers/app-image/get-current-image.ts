@@ -29,12 +29,11 @@ export function getMaxLength(
       ];
     }),
   );
+  const pool = onlineImages[previewAppImage.imagePool];
+
   const multiLocalLengths = Object.fromEntries(
     multiLocalProviders.map((providerType: MultiLocalProviderType) => {
-      return [
-        providerType,
-        orlen(onlineImages[previewAppImage.imagePool].offline[providerType]),
-      ];
+      return [providerType, pool ? orlen(pool.offline[providerType]) : 0];
     }),
   );
 
@@ -42,9 +41,7 @@ export function getMaxLength(
     onlineProviders.map((providerType: OnlineProviderType) => {
       return [
         providerType,
-        orlen(
-          onlineImages[previewAppImage.imagePool].online[providerType].content,
-        ),
+        pool ? orlen(pool.online[providerType].content) : 0,
       ];
     }),
   );
@@ -142,22 +139,19 @@ export function getImage(
         return previewAppImage.singleProviders[singleLocalProviders[n]];
       }
     }
+    const pool = onlineImages[previewAppImage.imagePool];
     let offset = integrated;
     for (let n = 0; n < multiLocalProviders.length; n++) {
       integrated += lens.multiLocalLengths[multiLocalProviders[n]];
       if (imageIndex < integrated) {
-        return onlineImages[previewAppImage.imagePool].offline[
-          multiLocalProviders[n]
-        ][imageIndex - offset];
+        return pool?.offline[multiLocalProviders[n]][imageIndex - offset];
       }
       offset = integrated;
     }
     for (let n = 0; n < onlineProviders.length; n++) {
       integrated += lens.onlineLengths[onlineProviders[n]];
       if (imageIndex < integrated) {
-        return onlineImages[previewAppImage.imagePool].online[
-          onlineProviders[n]
-        ].content[imageIndex - offset];
+        return pool?.online[onlineProviders[n]].content[imageIndex - offset];
       }
       offset = integrated;
     }
