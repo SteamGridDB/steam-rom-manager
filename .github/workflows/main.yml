@@ -60,7 +60,7 @@ jobs:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
       - name: Upload Artifacts Windows
         uses: actions/upload-artifact@v4.3.3
-        if: ${{ matrix.os == 'windows-latest' }}
+        if: ${{ matrix.os == 'windows-2022' }}
         with:
           name: srm-build-windows
           path: |
