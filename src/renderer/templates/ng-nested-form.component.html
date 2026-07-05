@@ -175,6 +175,7 @@
                   [parentForm]="currentForm"
                   [groupName]="childrenKey"
                   [nestedGroup]="child"
+                  (showMarkdown)="showMarkdown.emit($event)"
                 ></ng-nested-form>
               </ng-container>
             </ng-container>
