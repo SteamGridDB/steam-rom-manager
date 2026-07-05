@@ -26,7 +26,11 @@ export function getAvailableLogins(steamDirectory: string) {
                     accountData.push({
                       steamID64: steamID64,
                       accountID: steamID_64_ToAccountID(steamID64),
-                      name: parsedData.users[steamID64].AccountName,
+                      // @node-steam/vdf coerces all-digit values to numbers, so
+                      // an all-numeric AccountName (e.g. "5678") comes back as a
+                      // number. Force it to a string so it validates and matches
+                      // the string account names stored in configs (issue #739).
+                      name: parsedData.users[steamID64].AccountName?.toString(),
                     });
                   }
                 }
