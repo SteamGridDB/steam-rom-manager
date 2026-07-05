@@ -1,98 +1,284 @@
 <div class="parsers" [formGroup]="navForm" *ngIf="!!navForm">
-  <nav-expand routerLinkActive="active">
-    @if(userConfigurations.length) {
-      <div class="title">
-        <div class="inputContainer">
-          <div class="inlineGroup">
-            <nav-link class="titlelink" (click)="flipAll()">
-              <span>Toggle Parsers</span>
-              <span>&nbsp;&nbsp;</span>
-            </nav-link>
-            <ng-toggle-button
-              class="ngToggleButton"
-              [formControl]="navForm.get('selectAll') | formControl"
-            ></ng-toggle-button>
-          </div>
-        </div>
-      </div>
-    }
-
-    @let parserControls = getParserControls();
-    @for(userConfiguration of userConfigurations; track userConfiguration.saved.parserId; let i=$index) {
-      @let parserId = userConfiguration.saved.parserId;
-      @let toggle = parserControls[parserId];
-      <div
-      class="item"
-      [ngClass]="{
-        unsaved: userConfiguration.current != null,
-        disabled: userConfiguration.saved.disabled,
-      }">
-      @if(appSettings.theme=="EmuDeck") {
-        <div
-        class="inputContainer"
-        (click)="emuClick(toggle)">
-          <div class="inlineGroup">
-            <nav-link
-              class="parserlink"
-              [ngClass]="{
-                unsaved: userConfiguration.current != null,
-                disabled: userConfiguration.saved.disabled,
-              }"
-              [routerLink]="['/parsers', i]"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-            >
-              <div>
-                <p>
-                  @if(imageMap[parserId]) {
-                    <img width="120" src="{{imageMap[parserId].img}}"/>
-                  }
-                  <span *ngIf="imageMap[parserId].alternative">Non-EmuDeck</span>
-                </p>
-                <small>{{imageMap[parserId].details}}</small>
-              </div>
-            </nav-link>
+  @if (isEmuDeck) {
+    <nav-expand routerLinkActive="active">
+      @if (userConfigurations.length) {
+        <div class="title">
+          <div class="inputContainer">
+            <div class="inlineGroup">
+              <nav-link class="titlelink" (click)="flipAll()">
+                <img
+                  src="/assets/images/clipboard.png"
+                  alt="Icon"
+                  height="16"
+                />
+                <span>Toggle Parsers</span>
+                <span>&nbsp;&nbsp;</span>
+              </nav-link>
+              <ng-toggle-button
+                class="ngToggleButton"
+                [formControl]="navForm.get('selectAll') | formControl"
+              ></ng-toggle-button>
+            </div>
           </div>
         </div>
       }
-      @else {
-        <div 
-        mwlDroppable (drop)="handleDrop($event.dropData.fromIndex, i)"
-        dragOverClass="drop-over-active"
-        class="reorderer">
-        <div
-        class="inputContainer"
-        [class.active]="currentId == parserId"
-        mwlDraggable
-        dragActiveClass="drag-active"
-        showOriginalElementWhileDragging="true"
-        (dragStart)="dragStart($event)"
 
-        [dropData]="{fromIndex: i}"
+      @let parserControls = getParserControls();
+      @for (
+        userConfiguration of userConfigurations;
+        track userConfiguration.saved.parserId;
+        let i = $index
+      ) {
+        @let parserId = userConfiguration.saved.parserId;
+        @let toggle = parserControls[parserId];
+        <div
+          class="item"
+          [ngClass]="{
+            unsaved: userConfiguration.current != null,
+            disabled: userConfiguration.saved.disabled,
+          }"
         >
-          <div class="inlineGroup">
-            <nav-link
-              class="parserlink"
-              [ngClass]="{
-                unsaved: userConfiguration.current != null,
-                disabled: userConfiguration.saved.disabled,
-                active: currentId == parserId
-              }"
-              (click)="onClick(i, parserId)"
-            >
-              <div>{{ userConfiguration.saved.configTitle || lang.noTitle }}</div>
-            </nav-link>
-            <ng-toggle-button
-              class="ngToggleButton"
-              [formControl]="toggle"
-            ></ng-toggle-button>
+          <div class="inputContainer" (click)="emuClick(toggle)">
+            <div class="inlineGroup">
+              <nav-link
+                class="parserlink"
+                [ngClass]="{
+                  unsaved: userConfiguration.current != null,
+                  disabled: userConfiguration.saved.disabled,
+                }"
+                [routerLink]="['/parsers', i]"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <div>
+                  <p>
+                    @if (imageMap[parserId]) {
+                      <img width="120" src="{{ imageMap[parserId].img }}" />
+                    }
+                    <span *ngIf="imageMap[parserId].alternative"
+                      >Non-EmuDeck</span
+                    >
+                  </p>
+                  <small>{{ imageMap[parserId].details }}</small>
+                </div>
+              </nav-link>
+            </div>
           </div>
         </div>
+      }
+    </nav-expand>
+  } @else {
+    <nav-expand routerLinkActive="active">
+      @if (userConfigurations.length) {
+        <div class="title masterTitle">
+          <div class="inputContainer">
+            <div class="inlineGroup">
+              <nav-link class="titlelink" (click)="flipAll()">
+                <img
+                  src="/assets/images/clipboard.png"
+                  alt="Icon"
+                  height="16"
+                />
+                <span>Toggle Parsers</span>
+                <span>&nbsp;&nbsp;</span>
+              </nav-link>
+              <ng-toggle-button
+                class="ngToggleButton"
+                [formControl]="navForm.get('selectAll') | formControl"
+              ></ng-toggle-button>
+            </div>
+          </div>
         </div>
       }
+
+      <div class="title searchBar">
+        <div class="searchRow">
+          <input
+            #searchInput
+            type="text"
+            class="searchInput"
+            [value]="searchTerm"
+            placeholder="Search parsers…"
+            (input)="onSearch(searchInput.value)"
+          />
+          @if (searching) {
+            <span
+              class="searchClear"
+              title="Clear search"
+              (click)="clearSearch()"
+              >✕</span
+            >
+          }
+        </div>
+        <div class="groupActionsRow">
+          @if (addingGroup) {
+            <input
+              #addGroupInput
+              type="text"
+              class="groupNameInput"
+              placeholder="New group name…"
+              (keydown.enter)="confirmAddGroup(addGroupInput.value)"
+              (keydown.escape)="cancelAddGroup()"
+              (blur)="confirmAddGroup(addGroupInput.value)"
+            />
+          } @else {
+            <span class="newGroupButton" (click)="startAddGroup()"
+              >＋ New group</span
+            >
+          }
+        </div>
       </div>
-    }
 
+      @let parserControls = getParserControls();
+      @let groupControls = getGroupControls();
+      @for (group of groups; track group.name) {
+        @let groupToggle = groupControls[groupControlKey(group)];
+        <div
+          class="item group"
+          [class.collapsed]="group.collapsed"
+          [class.ungrouped]="group.isUngrouped"
+        >
+          @if (!group.isUngrouped || showUngroupedHeader) {
+            <div
+              class="groupHeader"
+              mwlDroppable
+              dragOverClass="group-drop-over"
+              (drop)="onGroupZoneDrop($event.dropData, group)"
+            >
+              <div
+                class="groupHeaderMain"
+                [class.draggableGroup]="!group.isUngrouped"
+                mwlDraggable
+                [dragAxis]="
+                  group.isUngrouped
+                    ? { x: false, y: false }
+                    : { x: true, y: true }
+                "
+                dragActiveClass="group-drag-active"
+                showOriginalElementWhileDragging="true"
+                [dropData]="{
+                  type: 'group',
+                  fromGroupIndex: group.registryIndex,
+                }"
+                (dragStart)="groupDragStart(group)"
+                (click)="toggleCollapse(group)"
+              >
+                <span class="chevron" [class.open]="!group.collapsed">▸</span>
+                @if (renamingGroup === group.name && !group.isUngrouped) {
+                  <input
+                    #renameInput
+                    type="text"
+                    class="groupNameInput"
+                    [value]="group.name"
+                    (click)="$event.stopPropagation()"
+                    (keydown.enter)="confirmRename(group, renameInput.value)"
+                    (keydown.escape)="cancelRename()"
+                    (blur)="confirmRename(group, renameInput.value)"
+                  />
+                } @else {
+                  <span
+                    class="groupName"
+                    (dblclick)="startRename(group, $event)"
+                    >{{ group.label }}</span
+                  >
+                }
+                <span class="groupCount"
+                  >{{ group.enabledCount }}/{{ group.total }}</span
+                >
+              </div>
+              <div class="groupHeaderActions">
+                @if (!group.isUngrouped) {
+                  <span
+                    class="groupAction rename"
+                    title="Rename group"
+                    (click)="startRename(group, $event)"
+                    >✎</span
+                  >
+                  <span
+                    class="groupAction delete"
+                    title="Ungroup / delete group"
+                    (click)="deleteGroup(group, $event)"
+                    >✕</span
+                  >
+                }
+                <ng-toggle-button
+                  class="ngToggleButton"
+                  [formControl]="groupToggle | formControl"
+                ></ng-toggle-button>
+              </div>
+            </div>
+          }
 
-  </nav-expand>
+          @if (!group.collapsed) {
+            <div class="groupItems">
+              @for (entry of group.entries; track entry.saved.parserId) {
+                @let parserId = entry.saved.parserId;
+                @let toggle = parserControls[parserId];
+                <div
+                  class="entry"
+                  [ngClass]="{
+                    unsaved: entry.current != null,
+                    disabled: entry.saved.disabled,
+                  }"
+                >
+                  <div
+                    mwlDroppable
+                    (drop)="onEntryZoneDrop($event.dropData, entry, group)"
+                    dragOverClass="drop-over-active"
+                    class="reorderer"
+                  >
+                    <div
+                      class="inputContainer"
+                      [class.active]="currentId == parserId"
+                      mwlDraggable
+                      dragActiveClass="drag-active"
+                      showOriginalElementWhileDragging="true"
+                      (dragStart)="dragStart(entry)"
+                      [dropData]="{
+                        type: 'entry',
+                        fromIndex: entry.globalIndex,
+                      }"
+                    >
+                      <div class="inlineGroup">
+                        <nav-link
+                          class="parserlink"
+                          [ngClass]="{
+                            unsaved: entry.current != null,
+                            disabled: entry.saved.disabled,
+                            active: currentId == parserId,
+                          }"
+                          (click)="onClick(entry.globalIndex, parserId)"
+                        >
+                          <div
+                            [innerHTML]="
+                              entry.saved.configTitle || lang.noTitle
+                                | highlight: searchTerm
+                            "
+                          ></div>
+                        </nav-link>
+                        <ng-toggle-button
+                          class="ngToggleButton"
+                          [formControl]="toggle | formControl"
+                        ></ng-toggle-button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+              @if (!group.entries.length && !searching) {
+                <div
+                  class="emptyGroupDrop"
+                  mwlDroppable
+                  dragOverClass="drop-over-active"
+                  (drop)="onGroupZoneDrop($event.dropData, group)"
+                >
+                  Drop parsers here
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </nav-expand>
+  }
 </div>

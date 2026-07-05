@@ -41,4 +41,10 @@ export interface AppSettings {
   clearLogOnTest: boolean;
   autoKillSteam: boolean;
   autoRestartSteam: boolean;
+  parserGroups: ParserGroup[];
+}
+
+export interface ParserGroup {
+  name: string;
+  collapsed: boolean;
 }

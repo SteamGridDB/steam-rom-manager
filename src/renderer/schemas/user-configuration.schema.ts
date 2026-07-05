@@ -230,6 +230,7 @@ const sharedProperties = {
       },
     },
     disabled: { type: "boolean", default: false },
+    group: { type: "string", default: "" },
   },
 };
 

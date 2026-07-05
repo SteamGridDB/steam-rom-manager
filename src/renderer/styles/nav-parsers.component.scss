@@ -16,6 +16,16 @@
   grid-area: nav-parsers;
   @include webkitScrollbar(nav-scrollbar, 0.375em);
   .parsers {
+    // Allow this flex item to shrink to the (resizable) sidebar width instead
+    // of expanding to its content's intrinsic width, which would let full-width
+    // children like the search input overflow past the sidebar's right edge.
+    min-width: 0;
+    max-width: 100%;
+
+    // Shared horizontal inset: left edge of section rows (search / + New group /
+    // group chevrons) and the right edge every toggle lines up on.
+    --np-inset-x: 0.7em;
+
     .parserlink {
       flex: 1;
     }
@@ -36,7 +46,7 @@
           opacity: 0.5;
         }
         &.active {
-          background-color: var(--color-nav-link-background-active)
+          background-color: var(--color-nav-link-background-active);
         }
       }
     }
@@ -61,6 +71,210 @@
 
         @include ngToggleButtonColor(ng-toggle-button);
       }
+    }
+
+    // ---- Search bar + new group -----------------------------------------
+    .searchBar {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4em;
+      // Projected as nav-expand's `.title` (width: 100%); border-box keeps the
+      // padding inside that width so the input can't overflow the sidebar.
+      box-sizing: border-box;
+      padding: 0.5em var(--np-inset-x);
+      color: var(--color-nav-link-text);
+    }
+    .searchRow {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .searchInput,
+    .groupNameInput {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+      color: inherit;
+      background: var(--color-nav-background, rgba(0, 0, 0, 0.2));
+      border: 1px solid var(--color-nav-link-border, rgba(255, 255, 255, 0.15));
+      border-radius: 4px;
+      outline: none;
+      font-size: 0.9em;
+      padding: 0.4em 0.6em;
+    }
+    .searchInput {
+      padding-right: 1.6em;
+    }
+    .searchInput:focus,
+    .groupNameInput:focus {
+      border-color: var(--color--filled);
+    }
+    .groupNameInput {
+      font-size: 0.85em;
+      border-color: var(--color--filled);
+    }
+    .searchClear {
+      position: absolute;
+      right: 0.5em;
+      cursor: pointer;
+      opacity: 0.7;
+      font-size: 0.85em;
+    }
+    .searchClear:hover {
+      opacity: 1;
+    }
+    .groupActionsRow {
+      display: flex;
+    }
+    // No left padding so the "+" lines up with the group chevrons below.
+    .newGroupButton {
+      cursor: pointer;
+      user-select: none;
+      font-size: 0.85em;
+      opacity: 0.8;
+      padding: 0.15em 0;
+    }
+    .newGroupButton:hover {
+      opacity: 1;
+      color: var(--color-nav-link-text-hover);
+    }
+
+    // Right-align the master "Toggle Parsers" toggle with group/entry toggles.
+    .masterTitle {
+      box-sizing: border-box;
+      padding-right: var(--np-inset-x);
+
+      .inlineGroup {
+        margin-right: 0;
+      }
+    }
+
+    // ---- Group sections --------------------------------------------------
+    .group {
+      display: block;
+      margin-top: 0.35em;
+    }
+    .groupHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4em;
+      box-sizing: border-box;
+      padding: 0.35em var(--np-inset-x);
+      border-left: 2px solid transparent;
+      user-select: none;
+      color: var(--color-nav-link-text);
+
+      &.group-drop-over {
+        border-left-color: var(--color--filled);
+        background: var(
+          --color-nav-link-background-active,
+          rgba(255, 255, 255, 0.06)
+        );
+      }
+    }
+    .groupHeaderMain {
+      display: flex;
+      align-items: center;
+      gap: 0.4em;
+      flex: 1;
+      min-width: 0;
+      cursor: pointer;
+
+      &.draggableGroup {
+        cursor: grab;
+      }
+      &.group-drag-active {
+        opacity: 0.5;
+      }
+    }
+    .chevron {
+      display: inline-block;
+      width: 0.8em;
+      text-align: center;
+      font-size: 0.8em;
+      opacity: 0.8;
+      transition: transform 0.15s ease;
+
+      &.open {
+        transform: rotate(90deg);
+      }
+    }
+    .groupName {
+      font-weight: 600;
+      font-size: 0.8em;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .groupCount {
+      font-size: 0.72em;
+      opacity: 0.55;
+    }
+    .groupHeaderActions {
+      display: flex;
+      align-items: center;
+      gap: 0.4em;
+
+      .ngToggleButton {
+        font-size: 1em;
+        @include ngToggleButtonColor(ng-toggle-button);
+      }
+    }
+    .groupAction {
+      cursor: pointer;
+      opacity: 0.55;
+      font-size: 0.85em;
+      line-height: 1;
+
+      &:hover {
+        opacity: 1;
+      }
+      &.delete:hover {
+        color: var(--color--warn, #e06c75);
+      }
+    }
+    // Compact, evenly-spaced entry rows; toggles align on --np-inset-x.
+    .groupItems {
+      padding-right: var(--np-inset-x);
+
+      .inputContainer {
+        margin: 0;
+      }
+      .inlineGroup {
+        margin: 0;
+      }
+      nav-link:not(.titlelink) {
+        padding-top: 0.3em;
+        padding-bottom: 0.3em;
+      }
+    }
+    .emptyGroupDrop {
+      margin: 0.25em var(--np-inset-x);
+      padding: 0.5em;
+      text-align: center;
+      font-size: 0.78em;
+      color: var(--color-nav-link-text);
+      opacity: 0.5;
+      border: 1px dashed var(--color-nav-link-border, rgba(255, 255, 255, 0.2));
+      border-radius: 4px;
+
+      &.drop-over-active {
+        border-color: var(--color--filled);
+        opacity: 0.9;
+      }
+    }
+    mark {
+      background: rgba(255, 213, 79, 0.35);
+      color: inherit;
+      border-radius: 2px;
+      padding: 0 1px;
     }
   }
   nav-link {
@@ -116,15 +330,17 @@
   nav-expand {
     nav-link.titlelink {
       padding: var(--padding-nav-link);
-      padding-left: calc(var(--padding-nav-link) + 14px);
+      // Align the "Toggle Parsers" icon/text with the top-level nav sections
+      // (About / Create Parser), which have no extra left inset.
+      padding-left: 0;
     }
     .item {
       nav-link:not(.titlelink) {
         padding: var(--padding-nav-link);
         padding-left: calc(var(--padding-nav-link) + 14px);
-  
+
         position: relative;
-  
+
         &::before {
           top: 50%;
           position: absolute;
@@ -136,66 +352,66 @@
           margin-left: var(--nav-link-before-margin-left);
           transform: translateY(-50%);
         }
-  
+
         &:hover {
           &::before {
             background-color: var(--color-nav-link-enabled-hover);
           }
-  
+
           &.active {
             &::before {
               background-color: var(--color-nav-link-enabled-active);
             }
           }
         }
-  
+
         &.active {
           &::before {
             background-color: var(--color-nav-link-enabled-active);
           }
         }
-  
+
         &.disabled {
           &::before {
             background-color: var(--color-nav-link-disabled);
           }
-  
+
           &:hover {
             &::before {
               background-color: var(--color-nav-link-disabled-hover);
             }
-  
+
             &.active {
               &::before {
                 background-color: var(--color-nav-link-disabled-active);
               }
             }
           }
-  
+
           &.active {
             &::before {
               background-color: var(--color-nav-link-disabled-active);
             }
           }
         }
-  
+
         &.unsaved {
           &::before {
             background-color: var(--color-nav-link-unsaved);
           }
-  
+
           &:hover {
             &::before {
               background-color: var(--color-nav-link-unsaved-hover);
             }
-  
+
             &.active {
               &::before {
                 background-color: var(--color-nav-link-unsaved-active);
               }
             }
           }
-  
+
           &.active {
             &::before {
               background-color: var(--color-nav-link-unsaved-active);

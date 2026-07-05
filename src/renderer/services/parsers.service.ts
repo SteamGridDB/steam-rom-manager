@@ -8,15 +8,12 @@ import {
   EnvironmentVariables,
   ControllerTemplates,
   ParserType,
+  ParserGroup,
 } from "../../models";
 import { LoggerService } from "./logger.service";
 import { FuzzyService } from "./fuzzy.service";
 import { SettingsService } from "./settings.service";
-import {
-  FileParser,
-  VariableParser,
-  ControllerManager,
-} from "../../lib";
+import { FileParser, VariableParser, ControllerManager } from "../../lib";
 import { BehaviorSubject, Subject } from "rxjs";
 import { takeWhile } from "rxjs/operators";
 import { artworkTypes } from "../../lib/artwork-types";
@@ -223,16 +220,22 @@ export class ParsersService {
       _.cloneDeep(config);
     copy.saved.parserId = unique_ids.newParserId();
     copy.saved.disabled = false;
+    copy.saved.group = (copy.saved.group || "").trim();
     userConfigurations = userConfigurations.concat(copy);
     this.userConfigurations.next(userConfigurations);
+    if (copy.saved.group) {
+      this.addGroup(copy.saved.group);
+    }
     this.saveUserConfigurations();
   }
 
   swapIndex(fromIndex: number, toIndex: number) {
-    if(fromIndex == toIndex){return;}
+    if (fromIndex == toIndex) {
+      return;
+    }
     const configs = this.userConfigurations.getValue();
     if (fromIndex >= configs.length || toIndex >= configs.length) {
-      throw 'Index out of bounds';
+      throw "Index out of bounds";
     }
     const from = configs[fromIndex];
     configs[fromIndex] = configs[toIndex];
@@ -242,17 +245,166 @@ export class ParsersService {
   }
 
   injectIndex(fromIndex: number, toIndex: number) {
-    if (fromIndex == toIndex) {return;}
+    if (fromIndex == toIndex) {
+      return;
+    }
     const configs = this.userConfigurations.getValue();
     if (fromIndex >= configs.length || toIndex >= configs.length) {
-      throw 'Index out of bounds';
+      throw "Index out of bounds";
     }
     const from = configs[fromIndex];
-    const withoutFrom = configs.filter((_,i) => i!==fromIndex);
-    const newConfigs = withoutFrom.slice(0,toIndex).concat(from).concat(withoutFrom.slice(toIndex))
+    const withoutFrom = configs.filter((_, i) => i !== fromIndex);
+    const newConfigs = withoutFrom
+      .slice(0, toIndex)
+      .concat(from)
+      .concat(withoutFrom.slice(toIndex));
     this.userConfigurations.next(newConfigs);
     this.saveUserConfigurations();
-    
+  }
+
+  // Moves a parser to a new position in the flat array, optionally reassigning
+  // its group. Covers within-group reorder AND cross-group drags. toIndex is
+  // interpreted as the target index within the array after the parser is
+  // removed (same slice semantics as injectIndex).
+  moveParser(fromIndex: number, toIndex: number, newGroup?: string) {
+    const configs = this.userConfigurations.getValue();
+    if (fromIndex < 0 || fromIndex >= configs.length) {
+      throw "Index out of bounds";
+    }
+    const from = configs[fromIndex];
+    const groupChanged =
+      newGroup !== undefined && from.saved.group !== newGroup;
+    if (fromIndex === toIndex && !groupChanged) {
+      return;
+    }
+    if (newGroup !== undefined) {
+      from.saved.group = newGroup;
+      if (from.current) {
+        from.current.group = newGroup;
+      }
+    }
+    const withoutFrom = configs.filter((_, i) => i !== fromIndex);
+    const clampedTo = Math.max(0, Math.min(toIndex, withoutFrom.length));
+    const newConfigs = withoutFrom
+      .slice(0, clampedTo)
+      .concat(from)
+      .concat(withoutFrom.slice(clampedTo));
+    this.userConfigurations.next(newConfigs);
+    this.saveUserConfigurations();
+  }
+
+  getParserGroups(): ParserGroup[] {
+    const settings = this.settingsService.getSettings();
+    if (!settings.parserGroups) {
+      settings.parserGroups = [];
+    }
+    return settings.parserGroups;
+  }
+
+  private commitGroups() {
+    this.settingsService.saveAppSettings();
+    this.settingsService.settingsChanged();
+  }
+
+  addGroup(name: string) {
+    name = (name || "").trim();
+    if (!name) {
+      return;
+    }
+    const groups = this.getParserGroups();
+    if (!groups.some((g) => g.name === name)) {
+      groups.push({ name, collapsed: false });
+      this.commitGroups();
+    }
+  }
+
+  renameGroup(oldName: string, newName: string) {
+    newName = (newName || "").trim();
+    if (!newName || oldName === newName) {
+      return;
+    }
+    const groups = this.getParserGroups();
+    const oldIndex = groups.findIndex((g) => g.name === oldName);
+    if (oldIndex === -1) {
+      return;
+    }
+    const existingIndex = groups.findIndex((g) => g.name === newName);
+    if (existingIndex !== -1) {
+      // Merge into the existing group by dropping the old registry entry.
+      groups.splice(oldIndex, 1);
+    } else {
+      groups[oldIndex].name = newName;
+    }
+    const configs = this.userConfigurations.getValue();
+    for (const c of configs) {
+      if (c.saved.group === oldName) {
+        c.saved.group = newName;
+      }
+      if (c.current && c.current.group === oldName) {
+        c.current.group = newName;
+      }
+    }
+    this.userConfigurations.next(configs);
+    this.saveUserConfigurations();
+    this.commitGroups();
+  }
+
+  removeGroup(name: string) {
+    const groups = this.getParserGroups();
+    const index = groups.findIndex((g) => g.name === name);
+    if (index !== -1) {
+      groups.splice(index, 1);
+    }
+    const configs = this.userConfigurations.getValue();
+    for (const c of configs) {
+      if (c.saved.group === name) {
+        c.saved.group = "";
+      }
+      if (c.current && c.current.group === name) {
+        c.current.group = "";
+      }
+    }
+    this.userConfigurations.next(configs);
+    this.saveUserConfigurations();
+    this.commitGroups();
+  }
+
+  reorderGroups(fromIndex: number, toIndex: number) {
+    if (fromIndex === toIndex) {
+      return;
+    }
+    const groups = this.getParserGroups();
+    if (
+      fromIndex < 0 ||
+      fromIndex >= groups.length ||
+      toIndex < 0 ||
+      toIndex >= groups.length
+    ) {
+      return;
+    }
+    const [moved] = groups.splice(fromIndex, 1);
+    groups.splice(toIndex, 0, moved);
+    this.commitGroups();
+  }
+
+  setGroupCollapsed(name: string, collapsed: boolean) {
+    const groups = this.getParserGroups();
+    const group = groups.find((g) => g.name === name);
+    if (group) {
+      group.collapsed = collapsed;
+      this.commitGroups();
+    }
+  }
+
+  changeGroupEnabledStatus(groupName: string, enabled: boolean): Promise<void> {
+    const configs = this.userConfigurations.getValue();
+    for (const c of configs) {
+      if (c.saved.group === groupName) {
+        c.saved.disabled = !enabled;
+      }
+    }
+    this.userConfigurations.next(configs);
+    return this.saveUserConfigurations();
   }
 
   changeEnabledStatus(parserId: string, enabled: boolean): Promise<void> {
@@ -302,7 +454,13 @@ export class ParsersService {
       userConfigurations[index] = { saved: config, current: null };
     }
 
+    const savedGroup = (userConfigurations[index].saved.group || "").trim();
+    userConfigurations[index].saved.group = savedGroup;
+
     this.userConfigurations.next(userConfigurations);
+    if (savedGroup) {
+      this.addGroup(savedGroup);
+    }
     this.saveUserConfigurations();
   }
 
@@ -395,8 +553,9 @@ export class ParsersService {
       case "steamCategories":
         return null;
       case "executable":
-        const isDir = os.type() == 'Darwin' ? undefined : false;
-        return !(data || {}).path || this.validateEnvironmentPath(data.path, isDir)
+        const isDir = os.type() == "Darwin" ? undefined : false;
+        return !(data || {}).path ||
+          this.validateEnvironmentPath(data.path, isDir)
           ? null
           : this.lang.validationErrors.executable__md;
       case "romDirectory":
@@ -434,7 +593,7 @@ export class ParsersService {
                 return null;
               }
               let isDir: boolean;
-              if(os.type()=='Darwin') {
+              if (os.type() == "Darwin") {
                 isDir = inputInfo.inputType == "dir" ? true : undefined;
               } else {
                 isDir = inputInfo.inputType == "dir" ? true : false;

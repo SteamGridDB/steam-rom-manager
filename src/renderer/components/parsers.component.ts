@@ -155,6 +155,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.configTitle.join("");
           },
         }),
+        group: new NestedFormElement.Input({
+          placeholder:
+            "Group this parser belongs to (leave blank for ungrouped)",
+          label: "Group",
+        }),
         steamDirectory: new NestedFormElement.Input({
           path: { directory: true },
           placeholder: this.lang.placeholder.steamDirectory[os.type()],

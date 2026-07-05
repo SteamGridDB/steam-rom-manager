@@ -52,4 +52,5 @@ export interface UserConfiguration {
   localImages: Record<ArtworkType, string>;
   titleModifier: string;
   disabled: boolean;
+  group: string;
 }

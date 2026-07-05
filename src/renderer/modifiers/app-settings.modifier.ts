@@ -4,7 +4,7 @@ import { versionUp, extractNames } from "./modifier-helpers";
 
 export const appSettings: ValidatorModifier<AppSettings> = {
   controlProperty: "version",
-  latestVersion: 10,
+  latestVersion: 11,
   fields: {
     undefined: {
       version: { method: () => 0 },
@@ -150,6 +150,12 @@ export const appSettings: ValidatorModifier<AppSettings> = {
           oldValue.userAccounts = extractNames(oldValue.userAccounts);
           return oldValue;
         },
+      },
+    },
+    10: {
+      version: { method: versionUp },
+      parserGroups: {
+        method: (oldValue) => (Array.isArray(oldValue) ? oldValue : []),
       },
     },
   },

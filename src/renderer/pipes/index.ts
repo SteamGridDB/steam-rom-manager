@@ -6,3 +6,4 @@ export * from "./form-control.pipe";
 export * from "./file-image.pipe";
 export * from "./css-url.pipe";
 export * from "./intersection.pipe";
+export * from "./highlight.pipe";

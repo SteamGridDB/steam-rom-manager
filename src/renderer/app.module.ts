@@ -35,7 +35,7 @@ function ngObjectsToArray<T>(importObject: T) {
     FormsModule,
     ReactiveFormsModule,
     ColorPickerModule,
-    DragAndDropModule
+    DragAndDropModule,
   ],
   declarations: [
     Components.AboutComponent,
@@ -87,6 +87,7 @@ function ngObjectsToArray<T>(importObject: T) {
     Pipes.IndexedFormControlPipe,
     Pipes.FormGroupPipe,
     Pipes.FuzzyTestPipe,
+    Pipes.HighlightPipe,
     Pipes.IntersectionTestPipe,
     Pipes.KeyPipe,
     Pipes.KeysPipe,

@@ -98,5 +98,16 @@ export const appSettings = {
     clearLogOnTest: { type: "boolean", default: false },
     autoKillSteam: { type: "boolean", default: false },
     autoRestartSteam: { type: "boolean", default: false },
+    parserGroups: {
+      type: "array",
+      default: [] as { name: string; collapsed: boolean }[],
+      items: {
+        type: "object",
+        properties: {
+          name: { type: "string", default: "" },
+          collapsed: { type: "boolean", default: false },
+        },
+      },
+    },
   },
 };
