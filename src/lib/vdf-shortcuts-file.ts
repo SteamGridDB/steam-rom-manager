@@ -2,7 +2,6 @@ import { VDF_ShortcutsItem } from "../models";
 import { VDF_Error } from "./vdf-error";
 import { APP } from "../variables";
 import * as steam from "./helpers/steam";
-import * as json from "./helpers/json";
 import * as file from "./helpers/file";
 import * as _ from "lodash";
 import * as fs from "fs-extra";
@@ -48,6 +47,38 @@ export class VDF_ShortcutsFile {
     return !this.invalid;
   }
 
+  // The canonical key casing SRM uses for shortcut entries (matches
+  // VDF_ShortcutsItem). Steam may store these with different casing.
+  private static readonly canonicalKeys = [
+    "appid",
+    "appname",
+    "exe",
+    "StartDir",
+    "LaunchOptions",
+    "icon",
+    "tags",
+  ];
+
+  // Rename any case-variant of a canonical key to its canonical form, leaving
+  // all other keys (IsHidden, AllowOverlay, LastPlayTime, etc.) untouched.
+  private normalizeShortcutKeys(shortcut: any) {
+    if (!shortcut || typeof shortcut !== "object") {
+      return shortcut;
+    }
+    for (const canonical of VDF_ShortcutsFile.canonicalKeys) {
+      const lower = canonical.toLowerCase();
+      for (const key of Object.keys(shortcut)) {
+        if (key !== canonical && key.toLowerCase() === lower) {
+          if (!(canonical in shortcut)) {
+            shortcut[canonical] = shortcut[key];
+          }
+          delete shortcut[key];
+        }
+      }
+    }
+    return shortcut;
+  }
+
   read(skipIndexing: boolean = false) {
     return fs
       .readFile(this.filepath)
@@ -68,14 +99,22 @@ export class VDF_ShortcutsFile {
         }
 
         let shortcutsData = this.data;
+        // Steam writes shortcuts.vdf keys with inconsistent casing (e.g.
+        // "AppName"/"Exe" when a game is added through Steam itself), while the
+        // rest of SRM reads fixed lower/mixed-case keys. Normalize every entry
+        // to SRM's canonical casing so consumers (View Games, merging, writing)
+        // don't get blank fields (issue #715). Non-canonical keys are preserved.
+        for (let i = 0; i < shortcutsData.length; i++) {
+          shortcutsData[i] = this.normalizeShortcutKeys(shortcutsData[i]);
+        }
+
         this.indexMap = {};
 
         if (!skipIndexing) {
           for (let i = 0; i < shortcutsData.length; i++) {
             let shortcut = shortcutsData[i];
-            let exe = json.caselessGet(shortcut, [["exe"]]);
-            let appname = json.caselessGet(shortcut, [["appname"]]);
-            this.indexMap[steam.generateAppId(exe, appname)] = i;
+            this.indexMap[steam.generateAppId(shortcut.exe, shortcut.appname)] =
+              i;
           }
         }
 
