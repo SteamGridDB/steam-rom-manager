@@ -8,6 +8,7 @@ function getMarkdown(langPath: string) {
           communityPresets: [require(`${langPath}/community-presets.md`)],
           parserType: [require(`${langPath}/empty-parser-type.md`)],
           configTitle: [require(`${langPath}/config-title.md`)],
+          group: [require(`${langPath}/group.md`)],
           steamCategories: [require(`${langPath}/steam-category.md`)],
           controllerTemplates: [require(`${langPath}/controller-templates.md`)],
           executableLocation: [

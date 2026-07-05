@@ -484,6 +484,7 @@ export interface languageStruct {
         communityPresets: string[];
         parserType: string[];
         configTitle: string[];
+        group: string[];
         steamCategories: string[];
         controllerTemplates: string[];
         executableLocation: string[];

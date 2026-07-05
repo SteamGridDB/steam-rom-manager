@@ -600,12 +600,13 @@ export class FileParser {
             newFile.imagePool = fuzzyTitle;
           }
 
-          // Use Steam Category field if provided, otherwise fall back to parser config title
-          // Filter out empty strings and trim whitespace
-          const categories = config.steamCategories
-            .map(cat => cat.trim())
-            .filter(cat => cat.length > 0);
-          newFile.steamCategories = categories.length > 0 ? categories : [config.configTitle];
+          // Use the Steam Category field as-is (trimmed, with blanks removed).
+          // If no categories are set, leave it empty so no Steam collection is
+          // created for these games (see issue #819) — do NOT fall back to the
+          // parser's config title.
+          newFile.steamCategories = config.steamCategories
+            .map((cat) => cat.trim())
+            .filter((cat) => cat.length > 0);
 
           parsedConfig.files.push(newFile);
         }
