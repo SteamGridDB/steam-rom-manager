@@ -90,6 +90,8 @@
       "directoryInvalid": "> Cartella di Steam non valida.",
       "noSteamAccounts": "> La cartella di Steam specificata non ha account.",
       "steamChanged__i": "> Steam ha cambiato la struttura interna del database o il parser ha provato a leggere un database obsoleto.\nFile problematico: ${file}\nErrore completo:\n ${error}",
+      "noApiKey": "> The 'All owned games (Steam Web API)' strategy is selected but no Steam Web API key was provided. Enter a key (https://steamcommunity.com/dev/apikey) or switch the game fetch strategy to 'Installed at least once'.",
+      "webApiError__i": "> Failed to fetch owned games from the Steam Web API. This strategy needs an internet connection and a valid API key.\nFull error:\n ${error}",
       "fatalError__i": "> Il parser di Steam ha fallito con errore fatale:\n ${error}"
     }
   },
