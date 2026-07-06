@@ -4,6 +4,8 @@
 
 Which kinds of Steam applications to include: full games, demos, tools (e.g. `Wallpaper Engine`, `3DMark`), and/or source mods. Deselect a type to exclude it.
 
+Note: this filter (and the "Installed titles only" toggle) is read from Steam's local files, so it only applies to the **Installed at least once (offline)** strategy and is hidden when the **Steam Web API** strategy is selected — that strategy returns every owned title.
+
 ## Suche nur nach Artworks für installierte Titel
 
 If enabled SRM will filter out any Steam applications that are not currently installed locally. Wenn du Spiele de-/installierst musst du Steam neustarten bevor die Liste der Spiele für SRM verfügbar ist.
