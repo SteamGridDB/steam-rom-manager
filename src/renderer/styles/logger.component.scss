@@ -224,10 +224,6 @@
       &.fuzzy {
         border-left-color: var(--color-fuzzy);
       }
-
-      &.activeLogMatch {
-        background-color: rgba(255, 179, 0, 0.14);
-      }
     }
 
     .lineText {
@@ -237,10 +233,12 @@
       background: rgba(255, 213, 79, 0.35);
       color: inherit;
       border-radius: 2px;
-    }
-    .activeLogMatch mark {
-      background: #ffb300;
-      color: #000;
+
+      // The currently-focused occurrence during find navigation.
+      &.activeFindMark {
+        background: #ffb300;
+        color: #000;
+      }
     }
 
     &.empty {

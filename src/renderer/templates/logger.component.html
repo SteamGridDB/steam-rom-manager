@@ -15,9 +15,7 @@
             (keydown.escape)="closeFind()"
           />
           <span class="findCount"
-            >{{ matchIndices.length ? activeMatchIndex + 1 : 0 }}/{{
-              matchIndices.length
-            }}</span
+            >{{ matchCount ? activeMatch + 1 : 0 }}/{{ matchCount }}</span
           >
           <span
             class="findBtn"
@@ -37,15 +35,11 @@
         </div>
       }
       <div #messageWindow class="messages" [class.showReporter]="showReporter">
-        <ng-container *ngFor="let message of currentMessages; let i = index">
+        <ng-container *ngFor="let message of currentMessages">
           <div
             *ngIf="canShow(message.type)"
             [ngClass]="message.type"
             [class.wrap]="settings.textWrap"
-            [id]="'logmsg-' + i"
-            [class.activeLogMatch]="
-              findOpen && matchIndices[activeMatchIndex] === i
-            "
           >
             <span
               class="lineText"

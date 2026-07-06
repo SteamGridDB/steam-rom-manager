@@ -61,6 +61,9 @@ export interface ParserInputField {
     allowedValues?: SelectItem[];
     initialValue?: string[] | string;
     hidden?: boolean;
+    // Only show this input when another parser input equals a given value
+    // (e.g. show the Steam API key only when the fetch strategy is "webapi").
+    hiddenUnless?: { field: string; value: string };
     required?: boolean;
     important?: boolean;
     info?: string;

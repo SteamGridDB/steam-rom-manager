@@ -39,12 +39,14 @@ export class LoggerComponent {
   bugForm: FormGroup;
   showReporter: boolean = false;
 
-  // Find-in-output (Cmd/Ctrl+F) state.
+  // Find-in-output (Cmd/Ctrl+F) state. Navigation is over the actual <mark>
+  // elements the highlight pipe produces, so a single multi-line log message
+  // (like the whole test output) can contain many individually-navigable hits.
   findOpen: boolean = false;
   findTerm: string = "";
-  matchIndices: number[] = [];
-  activeMatchIndex: number = 0;
-  private cachedMessages: LogMessage[] = [];
+  matchCount: number = 0;
+  activeMatch: number = 0;
+  private markEls: HTMLElement[] = [];
 
   @ViewChild("messageWindow") private messageWindow: ElementRef;
   @ViewChild("findInput") private findInput: ElementRef;
@@ -76,11 +78,11 @@ export class LoggerComponent {
 
   ngAfterViewInit() {
     this.messages.subscribe((logMessages: LogMessage[]) => {
-      this.cachedMessages = logMessages || [];
-      if (this.findOpen) {
-        this.recomputeMatches(false);
-      }
       this.changeDetectionRef.detectChanges();
+      if (this.findOpen) {
+        // New log lines may add/remove matches; re-collect the marks.
+        this.collectMarks(false);
+      }
     });
     if (this.settings.currentScrollValue && this.messageWindow)
       this.messageWindow.nativeElement.scrollTop =
@@ -110,7 +112,6 @@ export class LoggerComponent {
 
   openFind() {
     this.findOpen = true;
-    this.recomputeMatches(true);
     this.changeDetectionRef.detectChanges();
     setTimeout(() => {
       if (this.findInput) {
@@ -118,79 +119,68 @@ export class LoggerComponent {
         this.findInput.nativeElement.select();
       }
     });
+    this.collectMarks(true);
   }
 
   closeFind() {
     this.findOpen = false;
+    this.markEls.forEach((el) => el.classList.remove("activeFindMark"));
+    this.markEls = [];
+    this.matchCount = 0;
     this.changeDetectionRef.detectChanges();
   }
 
   onFind(term: string) {
     this.findTerm = term || "";
-    this.recomputeMatches(true);
+    this.changeDetectionRef.detectChanges();
+    this.collectMarks(true);
   }
 
-  private recomputeMatches(resetActive: boolean) {
-    const term = this.findTerm.trim().toLowerCase();
-    this.matchIndices = [];
-    if (term) {
-      this.cachedMessages.forEach((message, index) => {
-        if (
-          this.canShow(message.type) &&
-          (message.text || "").toLowerCase().includes(term)
-        ) {
-          this.matchIndices.push(index);
-        }
-      });
-    }
-    if (resetActive) {
-      this.activeMatchIndex = 0;
-    } else {
-      this.activeMatchIndex = Math.min(
-        this.activeMatchIndex,
-        Math.max(0, this.matchIndices.length - 1),
-      );
-    }
-    this.changeDetectionRef.detectChanges();
-    if (this.matchIndices.length) {
-      this.scrollToActiveMatch();
+  // Re-scan the rendered output for the <mark> elements produced by the
+  // highlight pipe and set up navigation over each individual occurrence.
+  private collectMarks(resetActive: boolean) {
+    setTimeout(() => {
+      const container = this.messageWindow
+        ? this.messageWindow.nativeElement
+        : undefined;
+      this.markEls = container
+        ? (Array.from(container.querySelectorAll("mark")) as HTMLElement[])
+        : [];
+      this.matchCount = this.markEls.length;
+      if (resetActive || this.activeMatch >= this.matchCount) {
+        this.activeMatch = 0;
+      }
+      this.applyActiveMark(true);
+      this.changeDetectionRef.detectChanges();
+    });
+  }
+
+  private applyActiveMark(scroll: boolean) {
+    this.markEls.forEach((el, i) =>
+      el.classList.toggle("activeFindMark", i === this.activeMatch),
+    );
+    if (scroll && this.markEls[this.activeMatch]) {
+      this.markEls[this.activeMatch].scrollIntoView({ block: "center" });
     }
   }
 
   nextMatch() {
-    if (!this.matchIndices.length) {
+    if (!this.matchCount) {
       return;
     }
-    this.activeMatchIndex =
-      (this.activeMatchIndex + 1) % this.matchIndices.length;
+    this.activeMatch = (this.activeMatch + 1) % this.matchCount;
+    this.applyActiveMark(true);
     this.changeDetectionRef.detectChanges();
-    this.scrollToActiveMatch();
   }
 
   prevMatch() {
-    if (!this.matchIndices.length) {
+    if (!this.matchCount) {
       return;
     }
-    this.activeMatchIndex =
-      (this.activeMatchIndex - 1 + this.matchIndices.length) %
-      this.matchIndices.length;
+    this.activeMatch =
+      (this.activeMatch - 1 + this.matchCount) % this.matchCount;
+    this.applyActiveMark(true);
     this.changeDetectionRef.detectChanges();
-    this.scrollToActiveMatch();
-  }
-
-  private scrollToActiveMatch() {
-    const messageIndex = this.matchIndices[this.activeMatchIndex];
-    if (messageIndex === undefined || !this.messageWindow) {
-      return;
-    }
-    setTimeout(() => {
-      const el = this.messageWindow.nativeElement.querySelector(
-        `#logmsg-${messageIndex}`,
-      );
-      if (el) {
-        el.scrollIntoView({ block: "center" });
-      }
-    });
   }
 
   canShow(type: string) {

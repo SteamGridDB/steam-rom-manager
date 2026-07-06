@@ -18,26 +18,6 @@ export class SteamParser implements GenericParser {
       title: "Steam",
       info: this.lang.docs__md.self.join(""),
       inputs: {
-        appTypes: {
-          label: "Application Types",
-          inputType: "multiselect",
-          allowedValues: [
-            { value: "game", displayValue: "Full Games" },
-            { value: "demo", displayValue: "Demos" },
-            {
-              value: "application",
-              displayValue: "Tools (e.g. Wallpaper Engine)",
-            },
-            { value: "sourcemods", displayValue: "Source Mods" },
-          ],
-          initialValue: ["game"],
-          info: this.lang.docs__md.input.join(""),
-        },
-        onlyInstalled: {
-          label: this.lang.onlyInstalledTitle,
-          inputType: "toggle",
-          info: this.lang.docs__md.input.join(""),
-        },
         parseStrategy: {
           label: "Game fetch strategy",
           inputType: "select",
@@ -59,6 +39,32 @@ export class SteamParser implements GenericParser {
           label: "Steam Web API key",
           inputType: "text",
           placeholder: "Only used by the Steam Web API strategy",
+          // Only relevant to the Web API strategy.
+          hiddenUnless: { field: "parseStrategy", value: "webapi" },
+          info: this.lang.docs__md.input.join(""),
+        },
+        appTypes: {
+          label: "Application Types",
+          inputType: "multiselect",
+          allowedValues: [
+            { value: "game", displayValue: "Full Games" },
+            { value: "demo", displayValue: "Demos" },
+            {
+              value: "application",
+              displayValue: "Tools (e.g. Wallpaper Engine)",
+            },
+            { value: "sourcemods", displayValue: "Source Mods" },
+          ],
+          initialValue: ["game"],
+          // Type filtering relies on the local appinfo cache; only meaningful
+          // for the offline strategy.
+          hiddenUnless: { field: "parseStrategy", value: "installed" },
+          info: this.lang.docs__md.input.join(""),
+        },
+        onlyInstalled: {
+          label: this.lang.onlyInstalledTitle,
+          inputType: "toggle",
+          hiddenUnless: { field: "parseStrategy", value: "installed" },
           info: this.lang.docs__md.input.join(""),
         },
       },
@@ -74,36 +80,11 @@ export class SteamParser implements GenericParser {
       if (!directories || directories.length == 0) {
         return reject(this.lang.errors.noSteamAccounts);
       }
-      const appinfo_path = path.normalize(
-        path.join(directories[0], "..", "..", "appcache", "appinfo.vdf"),
-      );
-      let appinfos;
       try {
-        appinfos = await bvdf.readBinaryVDF(fs.createReadStream(appinfo_path));
-      } catch (error) {
-        throw this.lang.errors.steamChanged__i.interpolate({
-          error,
-          file: appinfo_path,
-        });
-      }
-      try {
+        const strategy = inputs.parseStrategy || "installed";
         const allowedTypes = (inputs.appTypes || []).filter(
           (x: string) => x !== "sourcemods",
         );
-        // Map appid -> { name, type } from the (global) appinfo cache. Used as
-        // the base list for the offline strategy and to enrich/type-filter the
-        // Web API strategy.
-        const appinfoMap: {
-          [appid: string]: { name: string; type: string };
-        } = {};
-        for (const a of appinfos) {
-          if (a?.appinfo?.appid && a?.appinfo?.common?.name) {
-            appinfoMap[a.appinfo.appid.toString()] = {
-              name: a.appinfo.common.name.toString(),
-              type: (a.appinfo.common.type || "").toLowerCase(),
-            };
-          }
-        }
 
         let installedIds: string[];
         if (inputs.onlyInstalled) {
@@ -134,12 +115,15 @@ export class SteamParser implements GenericParser {
         }
 
         let filteredApps: { title: string; appid: string }[] = [];
-        const strategy = inputs.parseStrategy || "installed";
 
         if (strategy === "webapi") {
-          // Complete ownership list from the Steam Web API (requires a key and
-          // an internet connection). Ownership comes from the API; type
-          // filtering is best-effort via the local appinfo cache.
+          // Complete ownership list straight from the Steam Web API. This path
+          // intentionally does NOT read appinfo.vdf: GetOwnedGames already
+          // returns names + appids, and owned-but-never-installed games are
+          // frequently absent from the local appinfo cache entirely (e.g.
+          // Cyberpunk 2077, Octopath Traveler). The game/demo/tool "Application
+          // Types" filter therefore does not apply in this mode — every owned
+          // title is returned.
           const apiKey = (inputs.steamApiKey || "").trim();
           if (!apiKey) {
             return reject(this.lang.errors.noApiKey);
@@ -176,23 +160,25 @@ export class SteamParser implements GenericParser {
             if (inputs.onlyInstalled && !installedIds.includes(appid)) {
               continue;
             }
-            const info = appinfoMap[appid];
-            if (info && info.type) {
-              if (!allowedTypes.includes(info.type)) {
-                continue;
-              }
-            } else if (!allowedTypes.includes("game")) {
-              // No cached type info; treat as a game.
-              continue;
-            }
-            filteredApps.push({
-              title: info?.name || (g.name || "").toString(),
-              appid,
-            });
+            filteredApps.push({ title: (g.name || "").toString(), appid });
           }
         } else {
-          // Offline: ownership approximated by "installed at least once", i.e.
-          // apps that have an entry in localconfig.vdf's apptickets.
+          // Offline: filter the local appinfo cache down to owned titles using
+          // apptickets (installed at least once), honoring Application Types.
+          const appinfo_path = path.normalize(
+            path.join(directories[0], "..", "..", "appcache", "appinfo.vdf"),
+          );
+          let appinfos;
+          try {
+            appinfos = await bvdf.readBinaryVDF(
+              fs.createReadStream(appinfo_path),
+            );
+          } catch (error) {
+            throw this.lang.errors.steamChanged__i.interpolate({
+              error,
+              file: appinfo_path,
+            });
+          }
           const localConfigPath = path.join(
             directories[0],
             "config",

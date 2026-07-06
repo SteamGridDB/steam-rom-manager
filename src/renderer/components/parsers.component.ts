@@ -41,7 +41,7 @@ import {
   StringDict,
   CustomVariables,
 } from "../../models";
-import { BehaviorSubject, Subscription, of, concat } from "rxjs";
+import { BehaviorSubject, Subscription, of, concat, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
 import { APP } from "../../variables";
 import * as _ from "lodash";
@@ -271,13 +271,35 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               for (let inputFieldName in parser.inputs) {
                 let input = parser.inputs[inputFieldName];
                 const isHidden = () => {
-                  return concat(
-                    of(this.userForm.get("parserType").value),
-                    this.userForm.get("parserType").valueChanges,
-                  ).pipe(
-                    map((pType: string) => {
-                      return input.hidden || pType !== parsers[i];
-                    }),
+                  const parserTypeCtrl = this.userForm.get("parserType");
+                  const parserType$ = concat(
+                    of(parserTypeCtrl.value),
+                    parserTypeCtrl.valueChanges,
+                  );
+                  const dep = input.hiddenUnless;
+                  if (!dep) {
+                    return parserType$.pipe(
+                      map(
+                        (pType: string) => input.hidden || pType !== parsers[i],
+                      ),
+                    );
+                  }
+                  // Also react to the value of the input this one depends on
+                  // (e.g. hide the API key unless the fetch strategy is webapi).
+                  const depCtrl = this.userForm.get([
+                    "parserInputs",
+                    dep.field,
+                  ]);
+                  const dep$ = depCtrl
+                    ? concat(of(depCtrl.value), depCtrl.valueChanges)
+                    : of(undefined);
+                  return combineLatest([parserType$, dep$]).pipe(
+                    map(
+                      ([pType, depVal]: [string, any]) =>
+                        input.hidden ||
+                        pType !== parsers[i] ||
+                        depVal !== dep.value,
+                    ),
                   );
                 };
                 const onInfoClick = (self: any, path: string[]) => {

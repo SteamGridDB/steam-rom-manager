@@ -1,9 +1,9 @@
 import { PipeTransform, Pipe } from "@angular/core";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
-// Wraps the first case-insensitive occurrence of `term` within `text` in a
-// <mark> tag so it can be rendered via [innerHTML]. The input text is escaped
-// first so parser titles are always treated as plain text.
+// Wraps every case-insensitive occurrence of `term` within `text` in a <mark>
+// tag so it can be rendered via [innerHTML]. The input text is escaped first so
+// values are always treated as plain text.
 @Pipe({ name: "highlight" })
 export class HighlightPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {}
@@ -18,21 +18,26 @@ export class HighlightPipe implements PipeTransform {
   }
 
   transform(text: string, term: string): SafeHtml {
-    const safeText = this.escape(text);
+    const source = text || "";
     const needle = (term || "").trim();
     if (!needle) {
-      return this.sanitizer.bypassSecurityTrustHtml(safeText);
+      return this.sanitizer.bypassSecurityTrustHtml(this.escape(source));
     }
-    const lowerText = (text || "").toLowerCase();
-    const index = lowerText.indexOf(needle.toLowerCase());
-    if (index === -1) {
-      return this.sanitizer.bypassSecurityTrustHtml(safeText);
+    const lowerText = source.toLowerCase();
+    const lowerNeedle = needle.toLowerCase();
+    let result = "";
+    let cursor = 0;
+    let index = lowerText.indexOf(lowerNeedle, cursor);
+    while (index !== -1) {
+      result +=
+        this.escape(source.slice(cursor, index)) +
+        "<mark>" +
+        this.escape(source.slice(index, index + needle.length)) +
+        "</mark>";
+      cursor = index + needle.length;
+      index = lowerText.indexOf(lowerNeedle, cursor);
     }
-    const before = this.escape((text || "").slice(0, index));
-    const match = this.escape((text || "").slice(index, index + needle.length));
-    const after = this.escape((text || "").slice(index + needle.length));
-    return this.sanitizer.bypassSecurityTrustHtml(
-      `${before}<mark>${match}</mark>${after}`,
-    );
+    result += this.escape(source.slice(cursor));
+    return this.sanitizer.bypassSecurityTrustHtml(result);
   }
 }
