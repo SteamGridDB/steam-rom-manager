@@ -90,6 +90,8 @@
       "directoryInvalid": "> Steam directory invalid.",
       "noSteamAccounts": "> Steam directory specified has no accounts.",
       "steamChanged__i": "> Steam changed internal database structure or parser tried to read an outdated database.\nProblematic file: ${file}\nFull error:\n ${error}",
+      "noApiKey": "> The 'All owned games (Steam Web API)' strategy is selected but no Steam Web API key was provided. Enter a key (https://steamcommunity.com/dev/apikey) or switch the game fetch strategy to 'Installed at least once'.",
+      "webApiError__i": "> Failed to fetch owned games from the Steam Web API. This strategy needs an internet connection and a valid API key.\nFull error:\n ${error}",
       "fatalError__i": "> Steam parser failed with fatal error:\n ${error}"
     }
   },
