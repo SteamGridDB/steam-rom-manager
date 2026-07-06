@@ -1,15 +1,62 @@
 <ng-container *ngIf="messages | async as currentMessages; else emptyWindow">
   <ng-container *ngIf="currentMessages.length > 0; else emptyWindow">
-    <div #messageWindow class="messages" [class.showReporter]="showReporter">
-      <ng-container *ngFor="let message of currentMessages">
-        <div
-          *ngIf="canShow(message.type)"
-          [ngClass]="message.type"
-          [class.wrap]="settings.textWrap"
-        >
-          {{ message.text || "&nbsp;" }}
+    <div class="messagesArea">
+      @if (findOpen) {
+        <div class="findBar">
+          <input
+            #findInput
+            type="text"
+            class="findInput"
+            [value]="findTerm"
+            placeholder="Find in output…"
+            (input)="onFind(findInput.value)"
+            (keydown.enter)="nextMatch()"
+            (keydown.shift.enter)="prevMatch()"
+            (keydown.escape)="closeFind()"
+          />
+          <span class="findCount"
+            >{{ matchIndices.length ? activeMatchIndex + 1 : 0 }}/{{
+              matchIndices.length
+            }}</span
+          >
+          <span
+            class="findBtn"
+            title="Previous (Shift+Enter)"
+            (click)="prevMatch()"
+            >▲</span
+          >
+          <span class="findBtn" title="Next (Enter)" (click)="nextMatch()"
+            >▼</span
+          >
+          <span
+            class="findBtn findClose"
+            title="Close (Esc)"
+            (click)="closeFind()"
+            >✕</span
+          >
         </div>
-      </ng-container>
+      }
+      <div #messageWindow class="messages" [class.showReporter]="showReporter">
+        <ng-container *ngFor="let message of currentMessages; let i = index">
+          <div
+            *ngIf="canShow(message.type)"
+            [ngClass]="message.type"
+            [class.wrap]="settings.textWrap"
+            [id]="'logmsg-' + i"
+            [class.activeLogMatch]="
+              findOpen && matchIndices[activeMatchIndex] === i
+            "
+          >
+            <span
+              class="lineText"
+              [innerHTML]="
+                (message.text && message.text.length ? message.text : ' ')
+                  | highlight: (findOpen ? findTerm : '')
+              "
+            ></span>
+          </div>
+        </ng-container>
+      </div>
     </div>
   </ng-container>
 </ng-container>
@@ -18,7 +65,7 @@
     <span>No messages are available</span>
   </div>
 </ng-template>
-@if(showReporter) {
+@if (showReporter) {
   <div class="bugreport">
     <div [formGroup]="bugForm">
       <div class="inputContainer">
@@ -65,7 +112,9 @@
           <div class="submit" (click)="submitReport()">Submit Report</div>
         </div>
         <div class="inlineLeft" [class.hidden]="this.reportID == undefined">
-          <div class="reportIDLabel" style="margin-right: 0.25em">Report ID:</div>
+          <div class="reportIDLabel" style="margin-right: 0.25em">
+            Report ID:
+          </div>
           <div class="reportID">{{ this.reportID }}</div>
           <div class="copy" (click)="copyReportID()">
             <svg copy-icon title="Copy Report ID to clipboard"></svg>
@@ -85,8 +134,8 @@
   </div>
   <markdown class="bugreportdocs" [content]="this.explanation"></markdown>
 }
-@if(showOptions) {
-  <div class="options" >
+@if (showOptions) {
+  <div class="options">
     <div class="optionsGroup">
       <div class="optionsLabel">
         <span>Log Filters</span>
@@ -96,7 +145,7 @@
         [class.active]="settings.showErrors"
         (click)="settings.showErrors = !settings.showErrors"
       >
-      {{ lang.error }}
+        {{ lang.error }}
       </div>
       <div
         class="optionsButton"
@@ -125,21 +174,20 @@
         <span>Log Settings</span>
       </div>
       <div
-      class="optionsButton"
-      [class.active]="settings.textWrap"
-      (click)="settings.textWrap = !settings.textWrap"
-    >
-      {{ lang.textWrap }}
+        class="optionsButton"
+        [class.active]="settings.textWrap"
+        (click)="settings.textWrap = !settings.textWrap"
+      >
+        {{ lang.textWrap }}
+      </div>
+      <div
+        class="optionsButton"
+        [class.active]="settings.autoscroll"
+        (click)="settings.autoscroll = !settings.autoscroll"
+      >
+        {{ lang.autoscroll }}
+      </div>
     </div>
-    <div
-      class="optionsButton"
-      [class.active]="settings.autoscroll"
-      (click)="settings.autoscroll = !settings.autoscroll"
-    >
-      {{ lang.autoscroll }}
-    </div>
-    </div>
-
   </div>
 }
 
@@ -149,21 +197,21 @@
     <div (click)="toggleOptions()">Options</div>
   </div>
   <div class="lowerRight">
-    @if(showReporter) {
-      <div class="dangerousButton" (click)="closeReporter()">Close Reporter</div>
-    }
-    @else {
+    @if (showReporter) {
+      <div class="dangerousButton" (click)="closeReporter()">
+        Close Reporter
+      </div>
+    } @else {
       <div (click)="openReporter()">Report Bug</div>
     }
-    @if(appSettings.theme=='EmuDeck') {
+    @if (appSettings.theme == "EmuDeck") {
       <div
-      routerLink="/parsers-list"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >
-      Back
-    </div>
+        routerLink="/parsers-list"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Back
+      </div>
     }
   </div>
-
 </div>

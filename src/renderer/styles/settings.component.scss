@@ -52,8 +52,17 @@
         margin: 0.25em 0em 0.25em 0;
         .directoryInput {
           display: flex;
-          align-items: right;
+          align-items: center;
           width: 69%;
+
+          // The shared input mixin (and the browse button) carry a bottom
+          // margin; it makes the flex row's margin box taller than the field,
+          // which pushes the field up and leaves the label looking off-center.
+          // Drop it here so the field/button stay centered on the label.
+          .ngTextInput,
+          .clickButton2 {
+            margin-bottom: 0;
+          }
         }
       }
       .inlineGroup {
@@ -130,7 +139,8 @@
     border: 0.5em solid transparent;
     background-color: var(--color-parsers-menu-background);
 
-    .lowerLeft>div,.lowerRight>div {
+    .lowerLeft > div,
+    .lowerRight > div {
       @include clickButtonColor(click-button, true);
       @include button();
       margin: 0 0.25em;

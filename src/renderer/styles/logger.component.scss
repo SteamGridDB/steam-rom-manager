@@ -37,9 +37,6 @@
         margin-right: 1em;
       }
     }
-
-
-
   }
   .bugreport {
     grid-area: bugreport;
@@ -119,8 +116,67 @@
     overflow: auto;
     padding: 1em;
   }
+  .messagesArea {
+    grid-area: messages;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    min-width: 0;
+  }
+  .findBar {
+    position: absolute;
+    top: 0.4em;
+    right: 0.9em;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 0.35em;
+    padding: 0.3em 0.4em;
+    border-radius: 4px;
+    background: var(--color-logger-menu-background, rgba(0, 0, 0, 0.7));
+    border: 1px solid var(--color-nav-link-border, rgba(255, 255, 255, 0.2));
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+
+    .findInput {
+      box-sizing: border-box;
+      width: 12em;
+      padding: 0.25em 0.4em;
+      font-size: 0.85em;
+      color: var(--color-logger-messages-text);
+      background: var(--color-nav-background, rgba(0, 0, 0, 0.3));
+      border: 1px solid var(--color-nav-link-border, rgba(255, 255, 255, 0.2));
+      border-radius: 3px;
+      outline: none;
+
+      &:focus {
+        border-color: var(--color--filled);
+      }
+    }
+    .findCount {
+      min-width: 3.2em;
+      text-align: center;
+      font-size: 0.75em;
+      opacity: 0.7;
+      color: var(--color-logger-messages-text);
+    }
+    .findBtn {
+      cursor: pointer;
+      user-select: none;
+      opacity: 0.7;
+      font-size: 0.8em;
+      padding: 0 0.15em;
+      color: var(--color-logger-messages-text);
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
   .messages {
     grid-area: messages;
+    flex: 1;
+    min-height: 0;
     @include webkitScrollbar(logger-messages-scrollbar);
     &.showReporter {
       ::-webkit-scrollbar {
@@ -168,6 +224,23 @@
       &.fuzzy {
         border-left-color: var(--color-fuzzy);
       }
+
+      &.activeLogMatch {
+        background-color: rgba(255, 179, 0, 0.14);
+      }
+    }
+
+    .lineText {
+      white-space: inherit;
+    }
+    mark {
+      background: rgba(255, 213, 79, 0.35);
+      color: inherit;
+      border-radius: 2px;
+    }
+    .activeLogMatch mark {
+      background: #ffb300;
+      color: #000;
     }
 
     &.empty {
@@ -195,7 +268,8 @@
     border: solid 0.5em transparent;
     background-color: var(--color-logger-menu-background);
 
-    .lowerLeft>div,.lowerRight>div {
+    .lowerLeft > div,
+    .lowerRight > div {
       @include toggleButtonColor(click-button);
       @include button();
 
