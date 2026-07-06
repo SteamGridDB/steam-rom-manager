@@ -40,8 +40,8 @@ export namespace NestedFormElement {
     static displayName = "Select";
     /** Optional */
     label?: string;
-    /** Optional */
-    initialValue?: string[];
+    /** Optional. string for single-select, string[] for multi-select. */
+    initialValue?: string | string[];
     /** Optional */
     isHidden?: NestedInputHidden;
     __hidden: NestedInputHiddenValue;

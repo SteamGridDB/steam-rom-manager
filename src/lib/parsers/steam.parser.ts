@@ -6,7 +6,8 @@ import * as genericParser from "@node-steam/vdf";
 import * as path from "path";
 import * as bvdf from "binary-vdf-2";
 import { glob } from "glob";
-import * as json from "../helpers/json";
+import * as steam from "../helpers/steam";
+import { ipcRenderer } from "electron";
 
 export class SteamParser implements GenericParser {
   private get lang() {
@@ -37,6 +38,29 @@ export class SteamParser implements GenericParser {
           inputType: "toggle",
           info: this.lang.docs__md.input.join(""),
         },
+        parseStrategy: {
+          label: "Game fetch strategy",
+          inputType: "select",
+          allowedValues: [
+            {
+              value: "installed",
+              displayValue: "Installed at least once (offline)",
+            },
+            {
+              value: "webapi",
+              displayValue:
+                "All owned games (Steam Web API — online, needs key)",
+            },
+          ],
+          initialValue: "installed",
+          info: this.lang.docs__md.input.join(""),
+        },
+        steamApiKey: {
+          label: "Steam Web API key",
+          inputType: "text",
+          placeholder: "Only used by the Steam Web API strategy",
+          info: this.lang.docs__md.input.join(""),
+        },
       },
     };
   }
@@ -63,6 +87,24 @@ export class SteamParser implements GenericParser {
         });
       }
       try {
+        const allowedTypes = (inputs.appTypes || []).filter(
+          (x: string) => x !== "sourcemods",
+        );
+        // Map appid -> { name, type } from the (global) appinfo cache. Used as
+        // the base list for the offline strategy and to enrich/type-filter the
+        // Web API strategy.
+        const appinfoMap: {
+          [appid: string]: { name: string; type: string };
+        } = {};
+        for (const a of appinfos) {
+          if (a?.appinfo?.appid && a?.appinfo?.common?.name) {
+            appinfoMap[a.appinfo.appid.toString()] = {
+              name: a.appinfo.common.name.toString(),
+              type: (a.appinfo.common.type || "").toLowerCase(),
+            };
+          }
+        }
+
         let installedIds: string[];
         if (inputs.onlyInstalled) {
           const libraryfolders_path = path.normalize(
@@ -90,38 +132,99 @@ export class SteamParser implements GenericParser {
             });
           }
         }
-        const localConfigPath = path.join(
-          directories[0],
-          "config",
-          "localconfig.vdf",
-        );
-        const localConfig = genericParser.parse(
-          fs.readFileSync(localConfigPath, "utf-8"),
-        );
-        const ticketKeys = Object.keys(
-          localConfig.UserLocalConfigStore.apptickets,
-        );
-        const allowedTypes = inputs.appTypes.filter(
-          (x: string) => x !== "sourcemods",
-        );
-        let filteredApps: { title: string; appid: string }[] = appinfos
-          .filter((a: any) => {
-            return (
-              a?.appinfo?.appid &&
-              a?.appinfo?.common?.name &&
-              allowedTypes.includes(a?.appinfo?.common?.type?.toLowerCase()) &&
-              ticketKeys.includes(a.appinfo.appid.toString()) &&
-              (!inputs.onlyInstalled ||
-                installedIds.includes(a.appinfo.appid.toString()))
+
+        let filteredApps: { title: string; appid: string }[] = [];
+        const strategy = inputs.parseStrategy || "installed";
+
+        if (strategy === "webapi") {
+          // Complete ownership list from the Steam Web API (requires a key and
+          // an internet connection). Ownership comes from the API; type
+          // filtering is best-effort via the local appinfo cache.
+          const apiKey = (inputs.steamApiKey || "").trim();
+          if (!apiKey) {
+            return reject(this.lang.errors.noApiKey);
+          }
+          const accountID = path.basename(
+            directories[0].replace(/[\\/]+$/, ""),
+          );
+          const steamID64 = steam.accountID_ToSteamID64(accountID);
+          let games: any[];
+          try {
+            // Performed in the main process (Electron net) so it uses the
+            // system certificate store and proxy — see the "steam-owned-games"
+            // handler in src/main/app.ts.
+            const data: any = await ipcRenderer.invoke("steam-owned-games", {
+              apiKey,
+              steamId: steamID64,
+            });
+            if (!data || !data.response || data.response.games === undefined) {
+              throw "No games were returned. Check that the API key is correct and that the account's game details are not set to private.";
+            }
+            games = data.response.games;
+          } catch (e) {
+            return reject(
+              this.lang.errors.webApiError__i.interpolate({
+                error: e instanceof Error ? e.message : e,
+              }),
             );
-          })
-          .map((app: any) => {
-            return {
-              title: app.appinfo.common.name.toString(),
-              appid: app.appinfo.appid.toString(),
-            };
-          });
-        if (inputs.appTypes.includes("sourcemods")) {
+          }
+          for (const g of games) {
+            const appid = (g.appid ?? "").toString();
+            if (!appid) {
+              continue;
+            }
+            if (inputs.onlyInstalled && !installedIds.includes(appid)) {
+              continue;
+            }
+            const info = appinfoMap[appid];
+            if (info && info.type) {
+              if (!allowedTypes.includes(info.type)) {
+                continue;
+              }
+            } else if (!allowedTypes.includes("game")) {
+              // No cached type info; treat as a game.
+              continue;
+            }
+            filteredApps.push({
+              title: info?.name || (g.name || "").toString(),
+              appid,
+            });
+          }
+        } else {
+          // Offline: ownership approximated by "installed at least once", i.e.
+          // apps that have an entry in localconfig.vdf's apptickets.
+          const localConfigPath = path.join(
+            directories[0],
+            "config",
+            "localconfig.vdf",
+          );
+          const localConfig = genericParser.parse(
+            fs.readFileSync(localConfigPath, "utf-8"),
+          );
+          const ticketKeys = Object.keys(
+            localConfig.UserLocalConfigStore.apptickets,
+          );
+          filteredApps = appinfos
+            .filter((a: any) => {
+              return (
+                a?.appinfo?.appid &&
+                a?.appinfo?.common?.name &&
+                allowedTypes.includes(
+                  a?.appinfo?.common?.type?.toLowerCase(),
+                ) &&
+                ticketKeys.includes(a.appinfo.appid.toString()) &&
+                (!inputs.onlyInstalled ||
+                  installedIds.includes(a.appinfo.appid.toString()))
+              );
+            })
+            .map((app: any) => {
+              return {
+                title: app.appinfo.common.name.toString(),
+                appid: app.appinfo.appid.toString(),
+              };
+            });
+        }
+        if ((inputs.appTypes || []).includes("sourcemods")) {
           const wtfValve: number = 2147483649;
           const sourcemods_dir = path.normalize(
             path.join(directories[0], "..", "..", "steamapps", "sourcemods"),

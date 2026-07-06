@@ -102,6 +102,8 @@ export interface languageStruct {
       directoryInvalid: string;
       noSteamAccounts: string;
       steamChanged__i: string;
+      noApiKey: string;
+      webApiError__i: string;
       fatalError__i: string;
     };
   };

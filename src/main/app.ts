@@ -5,6 +5,7 @@ import {
   ipcMain,
   IpcMainEvent,
   crashReporter,
+  net,
 } from "electron";
 import * as log from "electron-log";
 import * as remoteMain from "@electron/remote/main";
@@ -245,6 +246,28 @@ autoUpdater.on("update-downloaded", (info) => {
 
 // Main Listeners
 app.on("ready", () => {
+  // Registered for both CLI and GUI modes. Fetches a Steam account's owned
+  // games via the Steam Web API in the main process using Electron's net
+  // module, so it uses Chromium's network stack (system certificate store +
+  // system proxy). This avoids the "unable to get local issuer certificate"
+  // errors that node-fetch hits against api.steampowered.com.
+  ipcMain.handle(
+    "steam-owned-games",
+    async (event, args: { apiKey: string; steamId: string }) => {
+      const requestUrl =
+        `https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/` +
+        `?key=${encodeURIComponent(args.apiKey)}` +
+        `&steamid=${encodeURIComponent(args.steamId)}` +
+        `&include_appinfo=1&include_played_free_games=1&format=json`;
+      const res = await net.fetch(requestUrl, {
+        signal: AbortSignal.timeout(30000),
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status} ${res.statusText}`);
+      }
+      return await res.json();
+    },
+  );
   if (commandCLI) {
     console.log("\n");
     createWindow(false);

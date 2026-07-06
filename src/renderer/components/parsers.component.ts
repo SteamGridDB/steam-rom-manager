@@ -331,6 +331,17 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     onInfoClick: onInfoClick,
                     isHidden: isHidden,
                   });
+                } else if (input.inputType == "select") {
+                  parserInputs[inputFieldName] = new NestedFormElement.Select({
+                    label: input.label,
+                    placeholder: input.placeholder,
+                    multiple: false,
+                    allowEmpty: false,
+                    values: input.allowedValues,
+                    initialValue: input.initialValue as string,
+                    onInfoClick: onInfoClick,
+                    isHidden: isHidden,
+                  });
                 }
               }
             }

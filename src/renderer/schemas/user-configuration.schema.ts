@@ -235,7 +235,7 @@ const sharedProperties = {
 };
 
 let convertToSchema = (inputType: ParserInputType) => {
-  if (["text", "path", "dir"].includes(inputType)) {
+  if (["text", "path", "dir", "select"].includes(inputType)) {
     return { type: ["string", "null"], default: "" };
   } else if (inputType == "toggle") {
     return { type: ["boolean", "null"], default: false };

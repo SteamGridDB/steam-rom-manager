@@ -10,7 +10,7 @@ import {
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: "version",
-  latestVersion: 26,
+  latestVersion: 27,
   fields: {
     undefined: {
       version: { method: () => 0 },
@@ -400,6 +400,23 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
       version: { method: versionUp },
       group: {
         method: (oldValue) => (typeof oldValue === "string" ? oldValue : ""),
+      },
+    },
+    26: {
+      version: { method: versionUp },
+      parserInputs: {
+        method: (oldValue, oldConfiguration: any) => {
+          // Existing Steam parsers predate the game-fetch-strategy input;
+          // default them to the previous behavior ("installed at least once").
+          if (oldConfiguration.parserType !== "Steam") {
+            return oldValue;
+          }
+          const newValue = _.cloneDeep(oldValue) || {};
+          if (!newValue.parseStrategy) {
+            newValue.parseStrategy = "installed";
+          }
+          return newValue;
+        },
       },
     },
   },

@@ -5,5 +5,6 @@ export * from "./get-grid-image-for-tree";
 export * from "./get-multiple-available-logins";
 export * from "./get-non-steam-shortcut-data";
 export * from "./steam-id-64-to-account-id";
+export * from "./account-id-to-steam-id-64";
 export * from "./image-extensions";
 export * from "./stop-start-steam";

@@ -49,6 +49,7 @@ const inputTypes = StringLiteralArray([
   "path",
   "dir",
   "toggle",
+  "select",
   "multiselect",
 ]);
 export type ParserInputType = (typeof inputTypes)[number];
