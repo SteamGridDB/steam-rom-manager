@@ -90,6 +90,8 @@
       "directoryInvalid": "> Steam 目录无效。",
       "noSteamAccounts": "> 指定的 Steam 目录中没有账户。",
       "steamChanged__i": "> Steam 更改了内部数据库结构或解析器尝试读取过时的数据库。\n有问题的文件：${file}\n完整错误信息：\n ${error}",
+      "noApiKey": "> The 'All owned games (Steam Web API)' strategy is selected but no Steam Web API key was provided. Enter a key (https://steamcommunity.com/dev/apikey) or switch the game fetch strategy to 'Installed at least once'.",
+      "webApiError__i": "> Failed to fetch owned games from the Steam Web API. This strategy needs an internet connection and a valid API key.\nFull error:\n ${error}",
       "fatalError__i": "> Steam 解析器发生致命错误：\n ${error}"
     }
   },
