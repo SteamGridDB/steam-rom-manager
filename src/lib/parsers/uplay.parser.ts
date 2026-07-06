@@ -122,17 +122,26 @@ export class UPlayParser implements GenericParser {
         //   resolve({});
         // })
       }
-      if (!fs.existsSync(ubisoftDir)) {
-        return reject(this.lang.errors.uplayDirNotFound);
-      }
-      let configPath = path.join(
-        ubisoftDir,
-        "Ubisoft Game Launcher",
-        "cache",
-        "configuration",
-        "configurations",
-      );
-      if (!fs.existsSync(configPath)) {
+      const localAppData =
+        process.env.LOCALAPPDATA || path.join(os.homedir(), "AppData", "Local");
+      const candidateConfigPaths = [
+        path.join(
+          localAppData,
+          "Ubisoft Game Launcher",
+          "cache",
+          "configuration",
+          "configurations",
+        ),
+        path.join(
+          ubisoftDir,
+          "Ubisoft Game Launcher",
+          "cache",
+          "configuration",
+          "configurations",
+        ),
+      ];
+      const configPath = candidateConfigPaths.find((p) => fs.existsSync(p));
+      if (!configPath) {
         return reject(this.lang.errors.uplayNotInstalled);
       }
 
