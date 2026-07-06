@@ -90,6 +90,8 @@
       "directoryInvalid": "> diretório Steam inválido.",
       "noSteamAccounts": "> O diretório Steam especificado não possui contas.",
       "steamChanged__i": "> Steam mudou a estrutura interna do banco de dados ou o analisador tentou ler um banco de dados desatualizado.\nArquivo de problemas: ${file}\nErro completo:\n ${error}",
+      "noApiKey": "> The 'All owned games (Steam Web API)' strategy is selected but no Steam Web API key was provided. Enter a key (https://steamcommunity.com/dev/apikey) or switch the game fetch strategy to 'Installed at least once'.",
+      "webApiError__i": "> Failed to fetch owned games from the Steam Web API. This strategy needs an internet connection and a valid API key.\nFull error:\n ${error}",
       "fatalError__i": "> O analisador da falhou com erro fatal:\n ${error}"
     }
   },
