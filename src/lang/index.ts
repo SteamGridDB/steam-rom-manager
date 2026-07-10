@@ -134,6 +134,15 @@ function getMarkdown(langPath: string) {
         input: [require(`${langPath}/manual-parser-input.md`)],
       },
     },
+    githubLauncherParser: {
+      docs__md: {
+        self: [
+          require(`${langPath}/github-launcher-parser.md`),
+          require(`${langPath}/github-launcher-parser-input.md`)
+        ],
+        input: [require(`${langPath}/github-launcher-parser-input.md`)]
+      }
+    },
     epicParser: {
       docs__md: {
         self: [

@@ -32,8 +32,8 @@ export class ManualParser implements GenericParser {
   ) {
     let directory = directories[0];
     let parsedData: ParsedData = { success: [], failed: [] };
-    return Promise.resolve()
-      .then(() => {
+    return new Promise<ParsedData>(async (resolve, reject) => {
+      try {
         let files = fs.readdirSync(directory);
         for (let i = 0; i < files.length; i++) {
           if (path.extname(files[i]).toLowerCase() === ".json") {
@@ -56,10 +56,10 @@ export class ManualParser implements GenericParser {
             }
           }
         }
-        return parsedData;
-      })
-      .catch((err) => {
-        return undefined;
-      });
+        resolve(parsedData);
+      } catch(err) {
+        reject(this.lang.errors.fatalError__i.interpolate({ error: err }));
+      }
+    })
   }
 }

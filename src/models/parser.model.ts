@@ -156,7 +156,8 @@ export type ParserType =
   | "UPlay"
   | "UWP"
   | "EA Desktop"
-  | "Battle.net";
+  | "Battle.net"
+  | "GitHub Launcher";
 export type SuperType = "Manual" | "ArtworkOnly" | "ROM" | "Platform";
 
 export interface ParserInfo {

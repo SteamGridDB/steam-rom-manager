@@ -1,7 +1,11 @@
 import * as json from "../helpers/json";
 import { ParserInputType, ParserType, SuperType } from "../../models";
-// Two parser inputs can't have the same names!
-// Reason: Hard to fix bug involving schema
+
+/*
+WARNING
+Two parser inputs *cannot* have the same names!
+The reason is a rather painful-to-fix schema bug.
+*/
 
 export const availableParserInputs: Record<ParserType, string[]> = {
   Glob: ["glob"],
@@ -30,6 +34,7 @@ export const availableParserInputs: Record<ParserType, string[]> = {
   "EA Desktop": ["eaGamesDir", "eaLauncherMode"],
   "Battle.net": ["battleExeOverride"],
   "Non-SRM Shortcuts": [],
+  "GitHub Launcher": ["githubLauncherDir"]
 };
 export const availableParserInputsInfo: Record<
   ParserType,
@@ -81,6 +86,7 @@ export const availableParserInputsInfo: Record<
   },
   "Battle.net": { battleExeOverride: { inputType: "path" } },
   "Non-SRM Shortcuts": {},
+  "GitHub Launcher": { githubLauncherDir: { inputType: "dir"} }
 };
 
 export const availableParsers: ParserType[] = Object.keys(
@@ -101,6 +107,7 @@ export const superTypes: Record<SuperType, ParserType[]> = {
     "UWP",
     "EA Desktop",
     "Battle.net",
+    "GitHub Launcher"
   ],
 };
 

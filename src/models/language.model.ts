@@ -199,6 +199,20 @@ export interface languageStruct {
       fatalError__i: string;
     };
   };
+  githubLauncherParser: {
+    dirInputTitle: string;
+    dirInputPlaceholder: { [key: string]: string };
+    docs__md: {
+      self: string[];
+      input: string[];
+    };
+    errors: {
+      fatalError__i: string;
+      githubLauncherNotCompatible: string;
+      githubLauncherDirRequired: string;
+      githubLauncherNotInstalled: string;
+    }
+  };
   epicParser: {
     manifestsInputTitle: string;
     manifestsInputPlaceholder: { [key: string]: string };
