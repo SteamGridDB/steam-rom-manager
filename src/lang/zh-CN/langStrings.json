@@ -112,6 +112,20 @@
       "fatalError__i": "> 手动解析器失败，致命错误：\n ${error}"
     }
   },
+  "githubLauncherParser": {
+    "dirInputTitle": "GitHub Launcher Install Directory",
+    "dirInputPlaceholder": {
+      "Windows_NT": "C:\\path\\to\\GitHubLauncher\\",
+      "Darwin": "/path/to/GitHubLauncher/",
+      "Linux": "/path/to/GitHubLauncher/"
+    },
+    "errors": {
+      "fatalError__i": "> GitHub Launcher parser failed with fatal error:\n ${error}",
+      "githubLauncherNotCompatible": "> GitHub Launcher Parser is only available on Windows.",
+      "githubLauncherDirRequired": "> GitHub Launcher Install Directory cannot be empty.",
+      "githubLauncherNotInstalled": "> It would appear that GitHub Launcher is not installed at the provided location."
+    }
+  },
   "epicParser": {
     "manifestsInputTitle": "Epic 列表目录覆盖",
     "manifestsInputPlaceholder": {
