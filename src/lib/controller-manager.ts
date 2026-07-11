@@ -20,6 +20,7 @@ import { Acceptable_Error } from "./acceptable-error";
 // Sadly all sources seem to be partial, but some good ones are:
 // https://partner.steamgames.com/doc/features/steam_controller/action_manifest_file
 // https://www.scribd.com/document/505055463/Tenfoot-Czech#content=query:controller_gamecube,pageNum:194,indexOnPage:0,bestMatch:false
+// https://www.steaminputdb.com/config/search
 
 export const controllerTypes = [
   "gamecube",
@@ -39,7 +40,10 @@ export const controllerTypes = [
   "neptune",
   "triton",
   "steamcontroller_gordon",
-  "generic"
+  "generic",
+  "8bitdo",
+  "rog_ally",
+  "legion_go_s"
 ];
 export const controllerNames = {
   gamecube: "Gamecube Controller",
@@ -59,7 +63,10 @@ export const controllerNames = {
   neptune: "Steam Deck",
   triton: "Steam Controller (Triton 2026)",
   steamcontroller_gordon: "Steam Controller (Gordon 2015)",
-  generic: "Generic Controller"
+  generic: "Generic Controller",
+  "8bitdo": "8bitdo Controller",
+  rog_ally: "ASUS ROG Ally",
+  legion_go_s: "Lenovo Legion Go S"
 };
 
 export const enableDisplayNames: Record<SteamInputEnabled, string> = {
