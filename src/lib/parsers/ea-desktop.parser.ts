@@ -57,10 +57,7 @@ export class EADesktopParser implements GenericParser {
         };
         for (let installDataFile of installDataFiles) {
           let gameDir = path.join(path.dirname(installDataFile), "..");
-          console.log("Reading xml file", installDataFile)
           let xmlBuffer = fs.readFileSync(installDataFile);
-          console.log("Successfully read to buffer", xmlBuffer)
-          //const fileInfo = await languageEncoding(new Blob([xmlBuffer]));
           
           const arrayBuffer = xmlBuffer.buffer.slice(
             xmlBuffer.byteOffset,
@@ -68,8 +65,6 @@ export class EADesktopParser implements GenericParser {
           ) as ArrayBuffer
 
           const fileInfo = await languageEncoding(new Blob([arrayBuffer]));
-
-          console.log("fileinfo", fileInfo)
 
           let xmlString;
           if (fileInfo.encoding == "UTF-8") {
@@ -79,8 +74,6 @@ export class EADesktopParser implements GenericParser {
           } else {
             return reject(`Unrecognized file encoding for ${installDataFile}.`);
           }
-
-          console.log("Got XML String", xmlString)
 
           if (XMLValidator.validate(xmlString, {})) {
             let parsedData = xmlParser.parse(xmlString);
@@ -108,7 +101,7 @@ export class EADesktopParser implements GenericParser {
                 ["gameTitles"],
                 ["gameTitle"],
               ]);
-              console.log("gameTitle", gameTitle)
+
               if (Array.isArray(gameTitle) && gameTitle.length) {
                 title = String(gameTitle[0]);
               } else {
@@ -120,13 +113,13 @@ export class EADesktopParser implements GenericParser {
                 true,
               );
 
-              console.log("runtime1", runtime)
+
               contentID = json.caselessGet(parsedData, [
                 ["DiPManifest"],
                 ["contentIDs"],
                 ["contentID"],
               ]);
-              console.log("contentID", contentID)
+
             } else if (
               json.caselessHas(parsedData, [
                 ["game"],
@@ -155,7 +148,7 @@ export class EADesktopParser implements GenericParser {
                 //TODO handle this case, I think it is some kind of default, e.g. executable has same name as directory
                 continue;
               }
-              console.log("runtime2", runtime)
+
               let localeInfo = json.caselessGet(parsedData, [
                 ["game"],
                 ["metadata"],
@@ -174,8 +167,6 @@ export class EADesktopParser implements GenericParser {
             } else {
               continue;
             }
-            console.log("title", title)
-            console.log("runtime3", runtime)
 
             if(!runtime) {
               finalData.failed.push(`Game ${title} failed because it's installerdata.xml had no runtime`);
@@ -194,9 +185,7 @@ export class EADesktopParser implements GenericParser {
             } else {
               appID = String(contentID);
             }
-            console.log("appID", appID)
             if (title && appID && runtimePath) {
-              console.log("Parsing successful for", title, runtimePath)
               finalData.success.push({
                 extractedTitle: title,
                 extractedAppId: appID,
