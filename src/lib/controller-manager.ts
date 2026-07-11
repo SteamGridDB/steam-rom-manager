@@ -17,7 +17,14 @@ import {
 } from "../models";
 import { Acceptable_Error } from "./acceptable-error";
 
+// Sadly all sources seem to be partial, but some good ones are:
+// https://partner.steamgames.com/doc/features/steam_controller/action_manifest_file
+// https://www.scribd.com/document/505055463/Tenfoot-Czech#content=query:controller_gamecube,pageNum:194,indexOnPage:0,bestMatch:false
+
 export const controllerTypes = [
+  "gamecube",
+  "wii",
+  "ps3",
   "ps4",
   "ps5",
   "ps5_edge",
@@ -26,22 +33,33 @@ export const controllerTypes = [
   "xboxelite",
   "switch_joycon_left",
   "switch_joycon_right",
+  "switch_joycon_pair",
   "switch_pro",
+  "switch2_pro",
   "neptune",
+  "triton",
   "steamcontroller_gordon",
+  "generic"
 ];
 export const controllerNames = {
-  ps4: "PS4",
-  ps5: "PS5",
-  ps5_edge: "PS5 Dualsense Edge",
-  xbox360: "Xbox 360",
-  xboxone: "Xbox One",
-  xboxelite: "Xbox One Elite",
+  gamecube: "Gamecube Controller",
+  wii: "Wii Remote",
+  ps3: "PS3 Controller",
+  ps4: "PS4 Controller",
+  ps5: "PS5 Controller",
+  ps5_edge: "PS5 Dualsense Edge Controller",
+  xbox360: "Xbox 360 Controller",
+  xboxone: "Xbox One Controller",
+  xboxelite: "Xbox One Elite Controller",
   switch_joycon_left: "Switch Joy-Con (Left)",
   switch_joycon_right: "Switch Joy-Con (Right)",
-  switch_pro: "Switch Pro",
+  switch_joycon_pair: "Switch Joy-Con (Pair)",
+  switch_pro: "Switch Pro Controller",
+  switch2_pro: "Switch 2 Pro Controller",
   neptune: "Steam Deck",
-  steamcontroller_gordon: "Steam Controller",
+  triton: "Steam Controller (Triton 2026)",
+  steamcontroller_gordon: "Steam Controller (Gordon 2015)",
+  generic: "Generic Controller"
 };
 
 export const enableDisplayNames: Record<SteamInputEnabled, string> = {
