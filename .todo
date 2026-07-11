@@ -7,9 +7,6 @@ To update all the config presets at once:
 3) Run `npm run update-files` and ensure the new presets validate (validation comes from the user-configuration schema), if not `git stash; git stash drop;`.
 4) Commit changes and `git push`
 
-# Fixes
-Steam parser only works for steam apps that have been installed at least once.
-
 # Features and Changes
 0) Proton Capability
 1) Filter or prefer certain image creators
@@ -26,3 +23,4 @@ Legendary (LM, EM)
 Itch.io (EM - missing fileLaunchOptions)
 UPlay (LM, EM - missing fileLaunchOptions)
 UWP (LM, EM - missing fileLaunchOptions)
+GitHub Launcher (EM)
