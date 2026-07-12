@@ -4,6 +4,7 @@
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/SteamGridDB/steam-rom-manager?logo=github&label=commits)](https://github.com/SteamGridDB/steam-rom-manager/commits/master)
 [![GitHub all releases](https://img.shields.io/github/downloads/SteamGridDB/steam-rom-manager/total?logo=github)](https://github.com/SteamGridDB/steam-rom-manager/releases)
 [![demo](https://img.shields.io/discord/488621078302949377?logo=discord)](https://discord.gg/bnSVJrz)
+![Stars](https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/star-tracker-data/stars-badge.svg)
 [![Chocolatey](https://img.shields.io/chocolatey/dt/steam-rom-manager?color=blue&label=Chocolatey%20package)](https://community.chocolatey.org/packages/steam-rom-manager)
 [![Crowdin](https://badges.crowdin.net/steam-rom-manager/localized.svg)](https://crowdin.com/project/steam-rom-manager)
 
@@ -208,7 +209,7 @@ Some other projects in the emulation-adjacent space we think you might be intere
 
 ## Our Competition
 
-[![Star History Chart](https://api.star-history.com/svg?repos=SteamGridDB/steam-rom-manager,scottrice/Ice,PhilipK/BoilR,brenoprata10/steam-deck-romate&type=Date)](https://star-history.com/#SteamGridDB/steam-rom-manager&scottrice/Ice&PhilipK/BoilR&brenoprata10/steam-deck-romate&Date)
+![Star History](https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/star-tracker-data/charts/star-history.svg)
 
 These tools are the closest to SRM in function, that is importing games/ROMs into Steam.
 
