@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <style>
+    @keyframes drawLine {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes fadeInPoint {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .data-line-0 {
+      stroke-dasharray: 1065;
+      stroke-dashoffset: 1065;
+      animation: drawLine 2s ease-out forwards;
+    }
+    .data-line-1 {
+      stroke-dasharray: 1065;
+      stroke-dashoffset: 1065;
+      animation: drawLine 2s ease-out forwards;
+    }
+    .data-line-2 {
+      stroke-dasharray: 1065;
+      stroke-dashoffset: 1065;
+      animation: drawLine 2s ease-out forwards;
+    }
+    .data-line-3 {
+      stroke-dasharray: 1065;
+      stroke-dashoffset: 1065;
+      animation: drawLine 2s ease-out forwards;
+    }
+    .data-line-4 {
+      stroke-dasharray: 1065;
+      stroke-dashoffset: 1065;
+      animation: drawLine 2s ease-out forwards;
+    }
+    .data-line-5 {
+      stroke-dasharray: 1065;
+      stroke-dashoffset: 1065;
+      animation: drawLine 2s ease-out forwards;
+    }
+    .data-line-6 {
+      stroke-dasharray: 1065;
+      stroke-dashoffset: 1065;
+      animation: drawLine 2s ease-out forwards;
+    }
+    .data-line-7 {
+      stroke-dasharray: 1065;
+      stroke-dashoffset: 1065;
+      animation: drawLine 2s ease-out forwards;
+    }
+    .data-line-8 {
+      stroke-dasharray: 1065;
+      stroke-dashoffset: 1065;
+      animation: drawLine 2s ease-out forwards;
+    }
+    .data-line-9 {
+      stroke-dasharray: 1065;
+      stroke-dashoffset: 1065;
+      animation: drawLine 2s ease-out forwards;
+    }
+    .data-point {
+      opacity: 0;
+      animation: fadeInPoint 0.5s ease-out forwards;
+    }
+    .chart-bg { fill: #fff; }
+    .chart-text { fill: #24292e; }
+    .chart-muted { fill: #6a737d; }
+    .chart-grid { stroke: #eee; }
+    .chart-axis { stroke: #6a737d; }
+    @media (prefers-color-scheme: dark) {
+      .chart-bg { fill: #0d1117; }
+      .chart-text { fill: #e6edf3; }
+      .chart-muted { fill: #8b949e; }
+      .chart-grid { stroke: #21262d; }
+      .chart-axis { stroke: #8b949e; }
+    }
+  </style>
+  <rect width="800" height="400" class="chart-bg" />
+  <text x="400" y="14" text-anchor="middle" class="chart-text" font-size="16" font-weight="bold" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Top Repositories</text>
+  <g class="legend">
+    <rect x="-200" y="31" width="12" height="3" fill="#dfb317" />
+    <line x1="-200" y1="32.5" x2="-188" y2="32.5" stroke="#dfb317" stroke-width="2" />
+    <text x="-184" y="36" class="chart-text" font-size="10" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">SteamGridDB/steam-rom-manager</text>
+    <rect x="-80" y="31" width="12" height="3" fill="#28a745" />
+    <line x1="-80" y1="32.5" x2="-68" y2="32.5" stroke="#28a745" stroke-width="2" />
+    <text x="-64" y="36" class="chart-text" font-size="10" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">cbartondock/node-binary-vdf</text>
+    <rect x="40" y="31" width="12" height="3" fill="#e74c3c" />
+    <line x1="40" y1="32.5" x2="52" y2="32.5" stroke="#e74c3c" stroke-width="2" />
+    <text x="56" y="36" class="chart-text" font-size="10" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">cbartondock/PortableEnv</text>
+    <rect x="160" y="31" width="12" height="3" fill="#3498db" />
+    <line x1="160" y1="32.5" x2="172" y2="32.5" stroke="#3498db" stroke-width="2" />
+    <text x="176" y="36" class="chart-text" font-size="10" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">cbartondock/Windwaker</text>
+    <rect x="280" y="31" width="12" height="3" fill="#9b59b6" />
+    <line x1="280" y1="32.5" x2="292" y2="32.5" stroke="#9b59b6" stroke-width="2" />
+    <text x="296" y="36" class="chart-text" font-size="10" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">cbartondock/chaos</text>
+    <rect x="400" y="31" width="12" height="3" fill="#e67e22" />
+    <line x1="400" y1="32.5" x2="412" y2="32.5" stroke="#e67e22" stroke-width="2" />
+    <text x="416" y="36" class="chart-text" font-size="10" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">cbartondock/riemann-sphere</text>
+    <rect x="520" y="31" width="12" height="3" fill="#1abc9c" />
+    <line x1="520" y1="32.5" x2="532" y2="32.5" stroke="#1abc9c" stroke-width="2" />
+    <text x="536" y="36" class="chart-text" font-size="10" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">cbartondock/tak-concept-art</text>
+    <rect x="640" y="31" width="12" height="3" fill="#e84393" />
+    <line x1="640" y1="32.5" x2="652" y2="32.5" stroke="#e84393" stroke-width="2" />
+    <text x="656" y="36" class="chart-text" font-size="10" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">stephan-x-liu/sublimechat</text>
+    <rect x="760" y="31" width="12" height="3" fill="#795548" />
+    <line x1="760" y1="32.5" x2="772" y2="32.5" stroke="#795548" stroke-width="2" />
+    <text x="776" y="36" class="chart-text" font-size="10" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">cbartondock/academicpages.github.io</text>
+    <rect x="880" y="31" width="12" height="3" fill="#00bcd4" />
+    <line x1="880" y1="32.5" x2="892" y2="32.5" stroke="#00bcd4" stroke-width="2" />
+    <text x="896" y="36" class="chart-text" font-size="10" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">cbartondock/discordBadge</text>
+  </g>
+  <g class="grid">
+    <line x1="60" y1="350" x2="770" y2="350" class="chart-grid" stroke-opacity="0.3" />
+    <text x="52" y="354" text-anchor="end" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">0</text>
+    <line x1="60" y1="294.9743213499633" x2="770" y2="294.9743213499633" class="chart-grid" stroke-opacity="0.3" />
+    <text x="52" y="298.9743213499633" text-anchor="end" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">500</text>
+    <line x1="60" y1="239.9486426999266" x2="770" y2="239.9486426999266" class="chart-grid" stroke-opacity="0.3" />
+    <text x="52" y="243.9486426999266" text-anchor="end" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">1K</text>
+    <line x1="60" y1="184.92296404988997" x2="770" y2="184.92296404988997" class="chart-grid" stroke-opacity="0.3" />
+    <text x="52" y="188.92296404988997" text-anchor="end" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">1.5K</text>
+    <line x1="60" y1="129.89728539985325" x2="770" y2="129.89728539985325" class="chart-grid" stroke-opacity="0.3" />
+    <text x="52" y="133.89728539985325" text-anchor="end" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">2K</text>
+    <line x1="60" y1="74.87160674981658" x2="770" y2="74.87160674981658" class="chart-grid" stroke-opacity="0.3" />
+    <text x="52" y="78.87160674981658" text-anchor="end" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">2.5K</text>
+  </g>
+  <g class="milestones">
+    
+  </g>
+  <g class="x-axis">
+    <text x="60" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Jul 12</text>
+    <text x="770" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Jul 12</text>
+  </g>
+  <line x1="60" y1="50" x2="60" y2="350" class="chart-axis" stroke-width="1" />
+  <line x1="60" y1="350" x2="770" y2="350" class="chart-axis" stroke-width="1" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <path d="M60,77.29273661041822 C296.66666666666663,77.29273661041822 533.3333333333334,77.29273661041822 770,77.29273661041822" fill="none" stroke="#dfb317" stroke-width="2.5" class="data-line-0" />
+  <path d="M60,349.6698459280998 C296.66666666666663,349.6698459280998 533.3333333333334,349.6698459280998 770,349.6698459280998" fill="none" stroke="#28a745" stroke-width="2.5" class="data-line-1" />
+  <path d="M60,349.77989728539984 C296.66666666666663,349.77989728539984 533.3333333333334,349.77989728539984 770,349.77989728539984" fill="none" stroke="#e74c3c" stroke-width="2.5" class="data-line-2" />
+  <path d="M60,349.77989728539984 C296.66666666666663,349.77989728539984 533.3333333333334,349.77989728539984 770,349.77989728539984" fill="none" stroke="#3498db" stroke-width="2.5" class="data-line-3" />
+  <path d="M60,349.88994864269995 C296.66666666666663,349.88994864269995 533.3333333333334,349.88994864269995 770,349.88994864269995" fill="none" stroke="#9b59b6" stroke-width="2.5" class="data-line-4" />
+  <path d="M60,349.88994864269995 C296.66666666666663,349.88994864269995 533.3333333333334,349.88994864269995 770,349.88994864269995" fill="none" stroke="#e67e22" stroke-width="2.5" class="data-line-5" />
+  <path d="M60,349.88994864269995 C296.66666666666663,349.88994864269995 533.3333333333334,349.88994864269995 770,349.88994864269995" fill="none" stroke="#1abc9c" stroke-width="2.5" class="data-line-6" />
+  <path d="M60,349.88994864269995 C296.66666666666663,349.88994864269995 533.3333333333334,349.88994864269995 770,349.88994864269995" fill="none" stroke="#e84393" stroke-width="2.5" class="data-line-7" />
+  <path d="M60,350 C296.66666666666663,350 533.3333333333334,350 770,350" fill="none" stroke="#795548" stroke-width="2.5" class="data-line-8" />
+  <path d="M60,350 C296.66666666666663,350 533.3333333333334,350 770,350" fill="none" stroke="#00bcd4" stroke-width="2.5" class="data-line-9" />
+  <g class="points">
+    
+    <circle cx="60" cy="77.29273661041822" r="4" fill="#dfb317" class="data-point" style="animation-delay: 1.50s" />
+    <circle cx="770" cy="77.29273661041822" r="4" fill="#dfb317" class="data-point" style="animation-delay: 1.55s" />
+    
+    <circle cx="60" cy="349.6698459280998" r="4" fill="#28a745" class="data-point" style="animation-delay: 1.50s" />
+    <circle cx="770" cy="349.6698459280998" r="4" fill="#28a745" class="data-point" style="animation-delay: 1.55s" />
+    
+    <circle cx="60" cy="349.77989728539984" r="4" fill="#e74c3c" class="data-point" style="animation-delay: 1.50s" />
+    <circle cx="770" cy="349.77989728539984" r="4" fill="#e74c3c" class="data-point" style="animation-delay: 1.55s" />
+    
+    <circle cx="60" cy="349.77989728539984" r="4" fill="#3498db" class="data-point" style="animation-delay: 1.50s" />
+    <circle cx="770" cy="349.77989728539984" r="4" fill="#3498db" class="data-point" style="animation-delay: 1.55s" />
+    
+    <circle cx="60" cy="349.88994864269995" r="4" fill="#9b59b6" class="data-point" style="animation-delay: 1.50s" />
+    <circle cx="770" cy="349.88994864269995" r="4" fill="#9b59b6" class="data-point" style="animation-delay: 1.55s" />
+    
+    <circle cx="60" cy="349.88994864269995" r="4" fill="#e67e22" class="data-point" style="animation-delay: 1.50s" />
+    <circle cx="770" cy="349.88994864269995" r="4" fill="#e67e22" class="data-point" style="animation-delay: 1.55s" />
+    
+    <circle cx="60" cy="349.88994864269995" r="4" fill="#1abc9c" class="data-point" style="animation-delay: 1.50s" />
+    <circle cx="770" cy="349.88994864269995" r="4" fill="#1abc9c" class="data-point" style="animation-delay: 1.55s" />
+    
+    <circle cx="60" cy="349.88994864269995" r="4" fill="#e84393" class="data-point" style="animation-delay: 1.50s" />
+    <circle cx="770" cy="349.88994864269995" r="4" fill="#e84393" class="data-point" style="animation-delay: 1.55s" />
+    
+    <circle cx="60" cy="350" r="4" fill="#795548" class="data-point" style="animation-delay: 1.50s" />
+    <circle cx="770" cy="350" r="4" fill="#795548" class="data-point" style="animation-delay: 1.55s" />
+    
+    <circle cx="60" cy="350" r="4" fill="#00bcd4" class="data-point" style="animation-delay: 1.50s" />
+    <circle cx="770" cy="350" r="4" fill="#00bcd4" class="data-point" style="animation-delay: 1.55s" />
+  </g>
+</svg>
