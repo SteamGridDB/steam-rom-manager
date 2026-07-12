@@ -619,9 +619,10 @@
         "configTitle__md": "> Parser title field cannot be blank!",
         "parserId__md": "> Parser Id is missing, something is horribly wrong.",
         "parserInput": {
-          "noInput": "No inputs are available!",
-          "inputNotAvailable__i": "\"${name}\" input is not available!",
-          "incorrectParser": "Incorrect parser!"
+          "fieldRequired__i": "> ${inputName} is required!",
+          "noInput": "> No inputs are available!",
+          "inputNotAvailable__i": "> \"${name}\" input is not available!",
+          "incorrectParser": "> Incorrect parser!"
         },
         "romDir__md": "> ROMs directory is invalid!",
         "userAccounts__md": "> User accounts field is required!",
