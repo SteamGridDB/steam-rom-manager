@@ -56,7 +56,6 @@ export class EADesktopParser implements GenericParser {
           failed: [],
         };
 
-        console.log("installDataFiles", installDataFiles)
         for (let installDataFile of installDataFiles) {
           let gameDir = path.join(path.dirname(installDataFile), "..");
           let xmlBuffer = fs.readFileSync(installDataFile);
@@ -177,7 +176,7 @@ export class EADesktopParser implements GenericParser {
                 path.join(gameDir, 'Binaries', executable),
                 path.join(gameDir, executable)
               ]
-              console.log("executablePaths", executablePaths)
+
               let foundRuntime = false
               for(let executablePath of executablePaths) {
                 if (fs.existsSync(executablePath)) {
