@@ -55,6 +55,8 @@ export class EADesktopParser implements GenericParser {
           success: [],
           failed: [],
         };
+
+        console.log("installDataFiles", installDataFiles)
         for (let installDataFile of installDataFiles) {
           let gameDir = path.join(path.dirname(installDataFile), "..");
           let xmlBuffer = fs.readFileSync(installDataFile);
@@ -144,9 +146,6 @@ export class EADesktopParser implements GenericParser {
                   [["game"], ["runtime"], ["launcher"]],
                   true,
                 );
-              } else {
-                //TODO handle this case, I think it is some kind of default, e.g. executable has same name as directory
-                continue;
               }
 
               let localeInfo = json.caselessGet(parsedData, [
@@ -165,12 +164,35 @@ export class EADesktopParser implements GenericParser {
                 ["contentID"],
               ]);
             } else {
+              finalData.failed.push(`Game in ${gameDir}, ${title}, failed because it's installer_data.xml was in an unrecognizable format`)
               continue;
             }
 
             if(!runtime) {
-              finalData.failed.push(`Game ${title} failed because it's installerdata.xml had no runtime`);
-              continue;
+              //finalData.failed.push(`Game in ${gameDir}, ${title}, failed because it's installerdata.xml had no runtime`);
+              //default, executable has same name as directory but stripped of whitespace, and lives in Binaries.
+
+              const executable = `${gameDir.split("\\").pop().replaceAll(/\s/g,'')}.exe`
+              const executablePaths = [
+                path.join(gameDir, 'Binaries', executable),
+                path.join(gameDir, executable)
+              ]
+              console.log("executablePaths", executablePaths)
+              let foundRuntime = false
+              for(let executablePath of executablePaths) {
+                if (fs.existsSync(executablePath)) {
+                  foundRuntime = true
+                  runtime = {
+                    "filePath": executablePath,
+                    "parameters": ""
+                  }
+                  break;
+                }
+              }
+              if(!foundRuntime) {
+                finalData.failed.push(`Game ${title} failed because its installerdata.xml contained no runtime and the default runtime paths ${executablePaths} does not exist`)
+                continue
+              }
             }
 
             if (runtime && Array.isArray(runtime) && runtime.length) {
@@ -196,6 +218,8 @@ export class EADesktopParser implements GenericParser {
                 ),
                 fileLaunchOptions: commandArgs,
               });
+            } else {
+              finalData.failed.push(`Game with title ${title} failed. AppID: ${appID}, runtimePath: ${runtimePath}`)
             }
           }
         }
