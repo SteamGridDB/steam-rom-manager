@@ -17,3 +17,4 @@ jobs:
         with:
           github-token: ${{ secrets.STAR_TRACKER_TOKEN }}
           include-charts: true
+          track-stargazers: true
