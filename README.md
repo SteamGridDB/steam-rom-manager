@@ -207,9 +207,11 @@ Some other projects in the emulation-adjacent space we think you might be intere
 - [Steam Art Manager](https://github.com/Tormak9970/Steam-Art-Manager) - An artwork manager for Steam games.
 - [SGDBoop](https://github.com/SteamGridDB/SGDBoop) - Tool to enable choosing artwork for in Steam directly from steamgriddb's website.
 
-## Our Competition
+## Star History
 
 ![Star History](https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/star-tracker-data/charts/star-history.svg)
+
+## Our Competition
 
 These tools are the closest to SRM in function, that is importing games/ROMs into Steam.
 
