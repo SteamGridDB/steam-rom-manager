@@ -619,9 +619,10 @@
         "configTitle__md": "> Parser title field cannot be blank!",
         "parserId__md": "> Parser Id is missing, something is horribly wrong.",
         "parserInput": {
-          "noInput": "Nessun input disponibile!",
-          "inputNotAvailable__i": "\"${name}\" input non è disponibile!",
-          "incorrectParser": "Parser non corretto!"
+          "fieldRequired__i": "> ${inputName} is required!",
+          "noInput": "> No inputs are available!",
+          "inputNotAvailable__i": "> \"${name}\" input is not available!",
+          "incorrectParser": "> Incorrect parser!"
         },
         "romDir__md": "> La cartella delle ROM non è valida!",
         "userAccounts__md": "> User accounts field is required!",
