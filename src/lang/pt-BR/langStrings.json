@@ -619,9 +619,10 @@
         "configTitle__md": "> O campo de título do analisador não pode ficar em branco!",
         "parserId__md": "> O Parser Id está faltando, algo está terrivelmente errado.",
         "parserInput": {
-          "noInput": "Nenhum nódulo está disponível!",
-          "inputNotAvailable__i": "\"${name}\" entrada não está disponível!",
-          "incorrectParser": "Tipo de usuário incorreto!"
+          "fieldRequired__i": "> ${inputName} is required!",
+          "noInput": "> No inputs are available!",
+          "inputNotAvailable__i": "> \"${name}\" input is not available!",
+          "incorrectParser": "> Incorrect parser!"
         },
         "romDir__md": "> O diretório ROMs é inválido!",
         "userAccounts__md": "> O campo Contas de usuário é obrigatório!",
