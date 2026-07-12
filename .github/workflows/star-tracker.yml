@@ -16,3 +16,4 @@ jobs:
       - uses: fbuireu/github-star-tracker@v1
         with:
           github-token: ${{ secrets.STAR_TRACKER_TOKEN }}
+          include-charts: true
