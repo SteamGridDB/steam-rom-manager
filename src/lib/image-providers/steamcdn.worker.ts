@@ -9,8 +9,21 @@ import SGDB from "steamgriddb";
 import { artworkTypes, steamArtworkDict } from "../artwork-types";
 import { imageProviderNames, sgdbIdRegex } from "./available-providers";
 
-//NOTE: Workers must not import from one another.
 
+async function firstValidArtworkUrl(id: number, candidates: string[]): Promise<string | undefined> {
+  for (const file of candidates) {
+    const url = `https://cdn.cloudflare.steamstatic.com/steam/apps/${id}/${file}`;
+    try {
+      const res = await fetch(url, { method: "HEAD" });
+      if (res.ok) return url;
+    } catch {
+      // network error, try next candidate
+    }
+  }
+  return undefined;
+}
+
+//NOTE: Workers must not import from one another.
 export class SteamCDNProvider extends GenericProvider {
   private xrw: xRequestWrapper<SteamCDNProvider>;
   private client: any;
@@ -53,7 +66,7 @@ export class SteamCDNProvider extends GenericProvider {
             });
           }
         })
-        .then((data: any) => {
+        .then(async (data: any) => {
           const platformData = (data || {}).external_platform_data;
           if (platformData && platformData.steam && platformData.steam.length) {
             const { id, metadata } = platformData.steam[0];
@@ -67,12 +80,15 @@ export class SteamCDNProvider extends GenericProvider {
                     loadStatus: "notStarted",
                   });
                 } else {
-                  for (let artworkFile of steamArtworkDict[artworkType]) {
+                  const url = await firstValidArtworkUrl(id, steamArtworkDict[artworkType]);
+                  if (url) {
                     self.proxy.image({
                       imageProvider: imageProviderNames.steamCDN,
-                      imageUrl: `https://cdn.cloudflare.steamstatic.com/steam/apps/${id}/${artworkFile}`,
+                      imageUrl: url,
                       loadStatus: "notStarted",
                     });
+                  } else {
+                    self.xrw.logError(`No valid CDN artwork found for type "${artworkType}"`);
                   }
                 }
               }
