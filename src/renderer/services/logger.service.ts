@@ -43,7 +43,12 @@ export class LoggerService {
   }
 
   error(message: string | Error, settings?: MessageSettings) {
-    this.postMessage("error", message, settings);
+    console.warn(message)
+    if(message instanceof Error) {
+      this.postMessage("error", message.message, settings)
+    } else {
+      this.postMessage("error", message, settings);
+    }
   }
 
   fuzzy(message: string, settings?: MessageSettings) {
@@ -55,7 +60,6 @@ export class LoggerService {
     message: any,
     settings?: MessageSettings,
   ) {
-    let keepAfterNavigationChange: boolean = false;
     let invokeAlert: boolean = false;
     let doNotAppendToLog: boolean = false;
     let alertTimeout: number = 0;
@@ -93,6 +97,10 @@ export class LoggerService {
     this.logMessages.next([]);
   }
 
+  _read_to_blob(path: string) {
+    return new Blob([new Uint8Array(fs.readFileSync(path))])
+  } 
+
   submitReport(
     description: string,
     useVDFs: boolean,
@@ -118,19 +126,15 @@ export class LoggerService {
           "log.txt",
         );
         if (fs.existsSync(paths.userSettings)) {
-          let userSettings = new Blob([fs.readFileSync(paths.userSettings)]);
+          let userSettings = this._read_to_blob(paths.userSettings);
           body.append("files[]", userSettings, "userSettings.json");
         }
         if (fs.existsSync(paths.userConfigurations)) {
-          let userConfigurations = new Blob([
-            fs.readFileSync(paths.userConfigurations),
-          ]);
+          let userConfigurations = this._read_to_blob(paths.userConfigurations);
           body.append("files[]", userConfigurations, "userConfigurations.json");
         }
         if (fs.existsSync(paths.userExceptions)) {
-          let userExceptions = new Blob([
-            fs.readFileSync(paths.userExceptions),
-          ]);
+          let userExceptions = this._read_to_blob(paths.userExceptions)
           body.append("files[]", userExceptions, "userExceptions.json");
         }
         if (useVDFs) {
@@ -149,7 +153,7 @@ export class LoggerService {
               "shortcuts.vdf",
             );
             if (fs.existsSync(shortcutsVDFPath)) {
-              let shortcutsVDF = new Blob([fs.readFileSync(shortcutsVDFPath)]);
+              let shortcutsVDF = this._read_to_blob(shortcutsVDFPath)
               body.append("files[]", shortcutsVDF, `shortcuts_${userDir}.vdf`);
             }
             let screenshotsVDFPath = path.join(
@@ -160,9 +164,7 @@ export class LoggerService {
               "screenshots.vdf",
             );
             if (fs.existsSync(screenshotsVDFPath)) {
-              let screenshotsVDF = new Blob([
-                fs.readFileSync(screenshotsVDFPath),
-              ]);
+              let screenshotsVDF = this._read_to_blob(screenshotsVDFPath);
               body.append(
                 "files[]",
                 screenshotsVDF,

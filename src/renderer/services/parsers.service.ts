@@ -583,11 +583,17 @@ export class ParsersService {
             return this.lang.validationErrors.parserInput.noInput;
           }
           let inputInfo = availableParser.inputs[data["input"]];
-          if (!inputInfo)
+          if (!inputInfo) {
             return this.lang.validationErrors.parserInput.inputNotAvailable__i.interpolate(
               { name: data["input"] },
             );
-          else if (!inputInfo.validationFn) {
+          }
+
+          if(inputInfo.required && !data["inputData"]) {
+            return this.lang.validationErrors.parserInput.fieldRequired__i.interpolate({ inputName: inputInfo.label})
+          }
+          
+          if (!inputInfo.validationFn) {
             if (["dir", "path"].includes(inputInfo.inputType)) {
               if (data["parser"] !== "Manual" && !data["inputData"]) {
                 return null;
@@ -609,6 +615,9 @@ export class ParsersService {
             }
             return null;
           }
+          
+
+
           return inputInfo.validationFn(data["inputData"]);
         }
         return this.lang.validationErrors.parserInput.incorrectParser;

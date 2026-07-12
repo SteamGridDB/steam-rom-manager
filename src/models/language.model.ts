@@ -646,6 +646,7 @@ export interface languageStruct {
         configTitle__md: string;
         parserId__md: string;
         parserInput: {
+          fieldRequired__i: string; // ${inputName}
           noInput: string;
           inputNotAvailable__i: string; //${name}
           incorrectParser: string;
