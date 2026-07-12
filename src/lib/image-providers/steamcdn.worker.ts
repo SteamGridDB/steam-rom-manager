@@ -30,7 +30,7 @@ export class SteamCDNProvider extends GenericProvider {
         );
       } else {
         // URL encode plus signs to fix search issues with titles ending in "+"
-        const encodedTitle = self.proxy.title.replace(/\+/g, '%2B');
+        const encodedTitle = self.proxy.title.replace(/\+/g, "%2B");
         idPromise = self.client
           .searchGame(encodedTitle)
           .then((res: any) => (res[0] || {}).id);
@@ -67,11 +67,13 @@ export class SteamCDNProvider extends GenericProvider {
                     loadStatus: "notStarted",
                   });
                 } else {
-                  self.proxy.image({
-                    imageProvider: imageProviderNames.steamCDN,
-                    imageUrl: `https://cdn.cloudflare.steamstatic.com/steam/apps/${id}/${steamArtworkDict[artworkType]}`,
-                    loadStatus: "notStarted",
-                  });
+                  for (let artworkFile of steamArtworkDict[artworkType]) {
+                    self.proxy.image({
+                      imageProvider: imageProviderNames.steamCDN,
+                      imageUrl: `https://cdn.cloudflare.steamstatic.com/steam/apps/${id}/${artworkFile}`,
+                      loadStatus: "notStarted",
+                    });
+                  }
                 }
               }
             }
