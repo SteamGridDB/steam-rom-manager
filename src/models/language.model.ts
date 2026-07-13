@@ -512,6 +512,7 @@ export interface languageStruct {
         executableModifier: string[];
         titleFromVariable: string[];
         fuzzyMatch: string[];
+        sortAsFromVariable: string[];
         executableArgs: string[];
         onlineImageQueries: string[];
         imageProviders: string[];
@@ -564,6 +565,7 @@ export interface languageStruct {
         extractedTitle__i: string; //${index}, ${total}, ${title}
         fuzzyTitle__i: string; //${index}, ${total}, ${title}
         finalTitle__i: string; //${index}, ${total}, ${title}
+        sortAsTitle__i: string;
         filePath__i: string; //${index}, ${total}, ${filePath}
         startDir__i: string; //${index}, ${total}, ${filePath}
         completeShortcut__i: string; //${index}, ${total}, ${shortcut}
