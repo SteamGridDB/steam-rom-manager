@@ -53,4 +53,9 @@ export interface UserConfiguration {
   titleModifier: string;
   disabled: boolean;
   group: string;
+  // Steam Play compatibility tool to force on this parser's shortcuts.
+  // "" = don't force one. The reserved value "__custom__" means "use the
+  // free-text name typed into compatToolNameCustom" instead.
+  compatToolName: string;
+  compatToolNameCustom: string;
 }

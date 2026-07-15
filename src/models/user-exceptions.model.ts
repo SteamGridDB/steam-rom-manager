@@ -5,6 +5,10 @@ export interface UserExceptionData {
   commandLineArguments: string;
   exclude: boolean;
   excludeArtwork: boolean;
+  // Per-game override of the parser's forced Steam Play compat tool.
+  // undefined = inherit the parser default; "__none__" = opt this game out
+  // (force no tool); any other string = force that specific tool name.
+  compatToolName?: string;
 }
 
 export interface UserExceptionsTitles {

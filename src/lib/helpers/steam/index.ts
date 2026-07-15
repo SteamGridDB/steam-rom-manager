@@ -8,3 +8,4 @@ export * from "./steam-id-64-to-account-id";
 export * from "./account-id-to-steam-id-64";
 export * from "./image-extensions";
 export * from "./stop-start-steam";
+export * from "./list-compat-tools";

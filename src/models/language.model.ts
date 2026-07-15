@@ -49,6 +49,7 @@ export interface languageStruct {
         removingVDF_entries: string;
         savingCategories: string;
         savingControllers: string;
+        savingCompatTools: string;
         removingFromCategories: string;
         writingVDF_entries__i: string; // ${batchSize},
         updatingKnownSteamDirList: string;
@@ -75,6 +76,8 @@ export interface languageStruct {
         categorySaveError__i: string; //${error}
         controllerSaveError: string;
         controllerSaveError__i: string; //${error}
+        compatToolSaveError: string;
+        compatToolSaveError__i: string; //${error}
         retryingDownload__i: string; //${imageUrl}, ${appTitle},
         providerError__i: string; //${provider}, ${code}, ${title}, ${url}
         unknownProviderError__i: string; //${provider}, ${title}, ${error}

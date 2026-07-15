@@ -15,3 +15,4 @@ export * from "./vdf-error";
 export * from "./acceptable-error";
 export * from "./category-manager";
 export * from "./controller-manager";
+export * from "./compat-tool-manager";

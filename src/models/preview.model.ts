@@ -117,6 +117,8 @@ export interface PreviewDataApp {
   extractedTitle: string;
   argumentString: string;
   drmProtect: boolean;
+  // Resolved Steam Play compat tool for this app ("" = none, "__none__" = opt out).
+  compatToolName: string;
   images: Record<ArtworkType, PreviewDataAppImage>;
 }
 

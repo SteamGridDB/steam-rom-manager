@@ -16,6 +16,10 @@ export interface ParsedUserConfigurationFile extends StringMap {
   fuzzyTitle: string;
   finalTitle: string;
   argumentString: string;
+  // Resolved Steam Play compat tool for this specific file. Seeded from the
+  // parser config, then possibly overridden per-game by a user exception.
+  // "" = don't force one; "__none__" = force no tool (opt this game out).
+  compatToolName: string;
   appendArgsToExecutable: boolean;
   onlineImageQueries: string[];
   steamCategories: string[];
