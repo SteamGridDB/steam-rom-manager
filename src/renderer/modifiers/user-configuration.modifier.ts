@@ -10,7 +10,7 @@ import {
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: "version",
-  latestVersion: 27,
+  latestVersion: 28,
   fields: {
     undefined: {
       version: { method: () => 0 },
@@ -417,6 +417,15 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
           }
           return newValue;
         },
+      },
+    },
+    27: {
+      version: { method: versionUp },
+      compatToolName: {
+        method: (oldValue) => (typeof oldValue === "string" ? oldValue : ""),
+      },
+      compatToolNameCustom: {
+        method: (oldValue) => (typeof oldValue === "string" ? oldValue : ""),
       },
     },
   },

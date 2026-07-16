@@ -209,6 +209,8 @@ const sharedProperties = {
       },
     },
     steamInputEnabled: { type: "string", default: "1", enum: ["0", "1", "2"] },
+    compatToolName: { type: "string", default: "" },
+    compatToolNameCustom: { type: "string", default: "" },
     controllers: {
       type: "object",
       default: {},
