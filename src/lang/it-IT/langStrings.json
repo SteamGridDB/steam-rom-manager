@@ -512,6 +512,7 @@
         "extractedTitle__i": "[${index}/${total}]:      Titolo Estratto - ${title}",
         "fuzzyTitle__i": "[${index}/${total}]:          Titolo fuzzy - ${title}",
         "finalTitle__i": "[${index}/${total}]:          Titolo finale - ${title}",
+        "sortAsTitle__i": "[${index}/${total}]:        Sort as title - ${title}",
         "filePath__i": "[${index}/${total}]:            Percorso del file - ${filePath}",
         "startDir__i": "[${index}/${total}]:            Cartella di partenza - ${startDir}",
         "completeShortcut__i": "[${index}/${total}]:    Collegamento completo - ${shortcut}",
