@@ -368,7 +368,10 @@ export class FileParser {
           superType === parserInfo.ManualType
         ) {
           if (config.titleFromVariable.limitToGroups) {
-            this.tryToReplaceTitlesWithVariables(data, config);
+            this.tryToReplaceTitlesWithVariables(data, config, "titleFromVariable");
+          }
+          if (config.sortAsFromVariable.limitToGroups) {
+            this.tryToReplaceTitlesWithVariables(data, config, "sortAsFromVariable");
           }
           this.fuzzyService.fuzzyMatcher.fuzzyMatchParsedData(
             data,
@@ -517,6 +520,7 @@ export class FileParser {
             fuzzyTitle: fuzzyTitle,
             extractedTitle: data.success[j].extractedTitle,
             finalTitle: undefined,
+            sortAsTitle: data.success[j].sortAsTitle || "",
             filePath: data.success[j].filePath || "",
             imagePool: undefined,
             onlineImageQueries: undefined,
@@ -991,50 +995,50 @@ export class FileParser {
   private tryToReplaceTitlesWithVariables(
     data: ParsedDataWithFuzzy,
     config: UserConfiguration,
+    fieldGroup: "titleFromVariable" | "sortAsFromVariable",
   ) {
+    const variableConfig = config[fieldGroup];
     const groups =
       _.intersectionWith(
-        config.titleFromVariable.limitToGroups,
+        variableConfig?.limitToGroups || [],
         Object.keys(this.customVariableData),
       ) || [];
-    if (groups.length > 0) {
-      for (let i = 0; i < data.success.length; i++) {
-        let found = false;
-        for (let j = 0; j < groups.length; j++) {
-          if (config.titleFromVariable.caseInsensitiveVariables) {
-            for (let key in this.customVariableData[groups[j]]) {
-              if (
-                data.success[i].extractedTitle.toLowerCase() ===
-                key.toLowerCase()
-              ) {
-                data.success[i].extractedTitle =
-                  this.customVariableData[groups[j]][key];
-                found = true;
-                break;
-              }
+
+    const targetKeys = {
+      titleFromVariable: "extractedTitle",
+      sortAsFromVariable: "sortAsTitle",
+    };
+    const useCaseInsensitive = "caseInsensitiveVariables" in variableConfig && 
+      variableConfig.caseInsensitiveVariables;
+    const skipMissing = "skipFileIfVariableWasNotFound" in variableConfig &&
+      variableConfig.skipFileIfVariableWasNotFound;
+    const targetKey = targetKeys[fieldGroup];
+    for (let i = 0; i < data.success.length; i++) {
+      const item = data.success[i];
+      const currentTitle = item.extractedTitle;
+      let found = false;
+      for (let j = 0; j < groups.length; j++) {
+        const groupData = this.customVariableData[groups[j]];
+        if (useCaseInsensitive) {
+          for (const key in groupData) {
+            if (currentTitle.toLowerCase() === key.toLowerCase()) {
+              (item as any)[targetKey] = groupData[key];
+              found = true;
+              break;
             }
-          } else if (
-            this.customVariableData[groups[j]][
-              data.success[i].extractedTitle
-            ] !== undefined
-          ) {
-            data.success[i].extractedTitle =
-              this.customVariableData[groups[j]][
-                data.success[i].extractedTitle
-              ];
-            found = true;
           }
-          if (found) break;
+        } else if (groupData[currentTitle] !== undefined) {
+          (item as any)[targetKey] = groupData[currentTitle];
+          found = true;
         }
-        if (config.titleFromVariable.skipFileIfVariableWasNotFound && !found)
-          data.success[i].extractedTitle = "";
+        if (found) break;
       }
-    } else if (config.titleFromVariable.skipFileIfVariableWasNotFound) {
-      for (let i = 0; i < data.success.length; i++) {
-        data.success[i].extractedTitle = "";
+      if (skipMissing && !found) {
+        (item as any)[targetKey] = "";
       }
     }
   }
+    
 
   private filterUserAccounts(
     accountData: userAccountData[],
