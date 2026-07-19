@@ -1151,6 +1151,150 @@
           "stars": 1
         }
       ]
+    },
+    {
+      "timestamp": "2026-07-19T02:30:28.528Z",
+      "totalStars": 2492,
+      "repos": [
+        {
+          "fullName": "cbartondock/academicpages.github.io",
+          "name": "academicpages.github.io",
+          "owner": "cbartondock",
+          "stars": 0
+        },
+        {
+          "fullName": "cbartondock/chaos",
+          "name": "chaos",
+          "owner": "cbartondock",
+          "stars": 1
+        },
+        {
+          "fullName": "cbartondock/discordBadge",
+          "name": "discordBadge",
+          "owner": "cbartondock",
+          "stars": 0
+        },
+        {
+          "fullName": "cbartondock/enes106_diagrams",
+          "name": "enes106_diagrams",
+          "owner": "cbartondock",
+          "stars": 0
+        },
+        {
+          "fullName": "cbartondock/flu_trends",
+          "name": "flu_trends",
+          "owner": "cbartondock",
+          "stars": 0
+        },
+        {
+          "fullName": "cbartondock/image-size",
+          "name": "image-size",
+          "owner": "cbartondock",
+          "stars": 0
+        },
+        {
+          "fullName": "cbartondock/learning",
+          "name": "learning",
+          "owner": "cbartondock",
+          "stars": 0
+        },
+        {
+          "fullName": "cbartondock/LipschitzAnalysisofGenPR",
+          "name": "LipschitzAnalysisofGenPR",
+          "owner": "cbartondock",
+          "stars": 0
+        },
+        {
+          "fullName": "cbartondock/node-binary-vdf",
+          "name": "node-binary-vdf",
+          "owner": "cbartondock",
+          "stars": 3
+        },
+        {
+          "fullName": "cbartondock/PortableEnv",
+          "name": "PortableEnv",
+          "owner": "cbartondock",
+          "stars": 2
+        },
+        {
+          "fullName": "cbartondock/prevbaseautomation",
+          "name": "prevbaseautomation",
+          "owner": "cbartondock",
+          "stars": 0
+        },
+        {
+          "fullName": "cbartondock/Python-Server-Stuff",
+          "name": "Python-Server-Stuff",
+          "owner": "cbartondock",
+          "stars": 0
+        },
+        {
+          "fullName": "cbartondock/QualityCheckFork",
+          "name": "QualityCheckFork",
+          "owner": "cbartondock",
+          "stars": 0
+        },
+        {
+          "fullName": "cbartondock/Raspberry-Pi-Project",
+          "name": "Raspberry-Pi-Project",
+          "owner": "cbartondock",
+          "stars": 0
+        },
+        {
+          "fullName": "cbartondock/riemann-sphere",
+          "name": "riemann-sphere",
+          "owner": "cbartondock",
+          "stars": 1
+        },
+        {
+          "fullName": "cbartondock/rubyapp",
+          "name": "rubyapp",
+          "owner": "cbartondock",
+          "stars": 0
+        },
+        {
+          "fullName": "cbartondock/sample_app",
+          "name": "sample_app",
+          "owner": "cbartondock",
+          "stars": 0
+        },
+        {
+          "fullName": "cbartondock/skew_stuff",
+          "name": "skew_stuff",
+          "owner": "cbartondock",
+          "stars": 0
+        },
+        {
+          "fullName": "cbartondock/tak-concept-art",
+          "name": "tak-concept-art",
+          "owner": "cbartondock",
+          "stars": 1
+        },
+        {
+          "fullName": "cbartondock/Windwaker",
+          "name": "Windwaker",
+          "owner": "cbartondock",
+          "stars": 2
+        },
+        {
+          "fullName": "EmADgine/quomp",
+          "name": "quomp",
+          "owner": "EmADgine",
+          "stars": 0
+        },
+        {
+          "fullName": "SteamGridDB/steam-rom-manager",
+          "name": "steam-rom-manager",
+          "owner": "SteamGridDB",
+          "stars": 2481
+        },
+        {
+          "fullName": "stephan-x-liu/sublimechat",
+          "name": "sublimechat",
+          "owner": "stephan-x-liu",
+          "stars": 1
+        }
+      ]
     }
   ],
   "starsAtLastNotification": 2492
