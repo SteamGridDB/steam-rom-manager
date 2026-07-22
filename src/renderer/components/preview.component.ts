@@ -419,13 +419,11 @@ export class PreviewComponent implements OnDestroy {
         );
         const scaledOverlayWidth = overlayImage.width * overlayScale;
         const scaledOverlayHeight = overlayImage.height * overlayScale;
-        const offsetX = (scaledOverlayWidth - canvas.width) / 2;
-        const offsetY = (scaledOverlayHeight - canvas.height) / 2;
 
         context.drawImage(
           overlayImage,
-          -offsetX,
-          -offsetY,
+          0,
+          0,
           scaledOverlayWidth,
           scaledOverlayHeight,
         );
