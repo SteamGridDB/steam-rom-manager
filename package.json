@@ -57,7 +57,7 @@
     "type": "git",
     "url": "https://github.com/SteamGridDB/steam-rom-manager"
   },
-  "cpu": ["!arm", "!mips"],
+  "cpu": ["x64", "ia32", "arm64"],
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "presets:validate": "ts-node ./scripts/validate-files.ts",
