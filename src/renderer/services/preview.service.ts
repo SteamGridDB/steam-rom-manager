@@ -1061,6 +1061,7 @@ export class PreviewService {
               steamInputEnabled: config.steamInputEnabled,
               controllers: config.controllers,
               images: images,
+              overlayImages: config.overlayImages,
               executableLocation,
             };
           } else {

@@ -53,6 +53,7 @@ export interface UserConfiguration {
   drmProtect: boolean;
   defaultImage: Record<ArtworkType, string>;
   localImages: Record<ArtworkType, string>;
+  overlayImages?: Record<ArtworkType, string>;
   titleModifier: string;
   disabled: boolean;
   group: string;

@@ -7,6 +7,7 @@ import {
   availableParserInputs,
   availableParserInputsInfo,
 } from "../../lib/parsers/available-parsers";
+import { artworkTypes } from "../../lib/artwork-types";
 import { ParserInputType, ParserType } from "../../models";
 import { cloneDeep } from "lodash";
 
@@ -85,6 +86,13 @@ const sharedProperties = {
       type: "array",
       default: ["${fuzzyTitle}"] as string[],
       items: { type: "string" },
+    },
+    overlayImages: {
+      type: "object",
+      default: {},
+      properties: Object.fromEntries(
+        artworkTypes.map((artworkType) => [artworkType, { type: "string", default: "" }]),
+      ),
     },
     imageProviders: {
       type: "array",
