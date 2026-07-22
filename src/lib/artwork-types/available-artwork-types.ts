@@ -42,7 +42,7 @@ export const artworkSingDict: Record<ArtworkType, string> = {
 
 export const steamArtworkDict: Record<ArtworkType, string[]> = {
   tall: ["library_600x900_2x.jpg", "library_600x900.jpg"],
-  long: ["capsule_616x353.jpg", "header.jpg", "capsule_231x87.jpg"],
+  long: ["header_2x.jpg", "header.jpg", "capsule_616x353.jpg", "capsule_231x87.jpg"],
   hero: [
     "library_hero_2x.jpg",
     "library_hero.jpg",
