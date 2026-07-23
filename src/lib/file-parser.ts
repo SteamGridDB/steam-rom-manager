@@ -415,6 +415,7 @@ export class FileParser {
           imageProviderAPIs: config.imageProviderAPIs,
           steamInputEnabled: config.steamInputEnabled,
           controllers: config.controllers,
+          overlayImages: config.overlayImages,
           foundUserAccounts: filteredAccounts.found,
           missingUserAccounts: filteredAccounts.missing,
           steamDirectory: config.steamDirectory,
@@ -1008,7 +1009,7 @@ export class FileParser {
       titleFromVariable: "extractedTitle",
       sortAsFromVariable: "sortAsTitle",
     };
-    const useCaseInsensitive = "caseInsensitiveVariables" in variableConfig && 
+    const useCaseInsensitive = "caseInsensitiveVariables" in variableConfig &&
       variableConfig.caseInsensitiveVariables;
     const skipMissing = "skipFileIfVariableWasNotFound" in variableConfig &&
       variableConfig.skipFileIfVariableWasNotFound;
@@ -1038,7 +1039,7 @@ export class FileParser {
       }
     }
   }
-    
+
 
   private filterUserAccounts(
     accountData: userAccountData[],

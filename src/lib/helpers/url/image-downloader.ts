@@ -1,6 +1,7 @@
 import * as fs from "fs-extra";
 import fetch, { AbortError } from "node-fetch";
 import { Resolver } from "dns";
+import sharp from "sharp";
 import { decodeFile } from "./encode-file";
 
 export class ImageDownloader {
@@ -22,9 +23,34 @@ export class ImageDownloader {
     retryCount?: number,
     secondaryPath?: string,
     externalDNS?: string[],
+    overlayPath?: string,
   ): Promise<void> {
+    const writeBuffer = async (buffer: Buffer) => {
+      if (overlayPath) {
+        const overlayFilePath = overlayPath.startsWith("file://")
+          ? decodeFile(overlayPath)
+          : overlayPath;
+        const overlayBuffer = await fs.readFile(overlayFilePath);
+        const bufferMetadata = await sharp(buffer).metadata();
+        const overlayBufferResized = await sharp(overlayBuffer)
+          .resize(bufferMetadata.width, bufferMetadata.height, {
+            fit: "cover", position: "left top",
+          })
+          .toBuffer();
+        buffer = await sharp(buffer)
+          .composite([{ input: overlayBufferResized, blend: "over", gravity: "northeast" }])
+          .toBuffer();
+      }
+      await fs.outputFile(filePath, buffer);
+      if (secondaryPath) {
+        await fs.outputFile(secondaryPath, buffer);
+      }
+    };
+
     if (imageUrl.startsWith("file://")) {
-      await fs.copyFile(decodeFile(imageUrl), filePath);
+      const localPath = decodeFile(imageUrl);
+      const buffer = await fs.readFile(localPath);
+      return writeBuffer(buffer);
     } else {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), this.timeout);
@@ -47,10 +73,7 @@ export class ImageDownloader {
         }
 
         const arrayBuff = Buffer.from(await res.arrayBuffer());
-        await fs.outputFile(filePath, arrayBuff);
-        if (secondaryPath) {
-          await fs.outputFile(secondaryPath, arrayBuff);
-        }
+        return writeBuffer(arrayBuff);
       } catch (error) {
         if (error instanceof AbortError) {
           if (retryCount && retryCount > 0) {
@@ -58,6 +81,9 @@ export class ImageDownloader {
               imageUrl,
               filePath,
               retryCount - 1,
+              secondaryPath,
+              externalDNS,
+              overlayPath,
             );
           } else {
             throw `Request timed out after ${this.timeout} milliseconds. URL: ${imageUrl}`;

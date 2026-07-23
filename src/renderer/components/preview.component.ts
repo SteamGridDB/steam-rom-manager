@@ -46,6 +46,7 @@ import {
 } from "../../lib/parsers/available-parsers";
 import { FuzzyTestPipe, IntersectionTestPipe } from "../pipes";
 import * as url from "../../lib/helpers/url";
+import { encodeFile } from "../../lib/helpers/url/encode-file";
 import * as FileSaver from "file-saver";
 import * as steam from "../../lib/helpers/steam";
 import * as _ from "lodash";
@@ -92,6 +93,7 @@ export class PreviewComponent implements OnDestroy {
   };
   listImagesArtworkType: ArtworkType = "tall";
   listImagesRanges: { [k: string]: { start: number; end: number } };
+  private composedBackgroundCache: { [key: string]: string } = {};
   listSortBy: string = "extractedTitle";
   showListImages: boolean = false;
   detailsApp: {
@@ -361,6 +363,96 @@ export class PreviewComponent implements OnDestroy {
     return posterUrl ? posterUrl : require("../../assets/images/no-images.svg");
   }
 
+  private normalizeImageUrl(filePath: string) {
+    if (!filePath) {
+      return "";
+    }
+    if (filePath.startsWith("file://")) {
+      return filePath;
+    }
+    if (/^(https?:)?\/\//i.test(filePath)) {
+      return filePath;
+    }
+    return encodeFile(filePath);
+  }
+
+  private wrapBackgroundImage(filePath: string) {
+    const normalizedPath = this.normalizeImageUrl(filePath);
+    return normalizedPath ? `url("${normalizedPath}")` : "";
+  }
+
+  private composeBackgroundImage(
+    baseUrl: string,
+    overlayUrl: string,
+    cacheKey: string,
+  ) {
+    if (this.composedBackgroundCache[cacheKey]) {
+      return;
+    }
+
+    const baseImage = new Image();
+    const overlayImage = new Image();
+    const normalizedBaseUrl = this.normalizeImageUrl(baseUrl);
+    const normalizedOverlayUrl = this.normalizeImageUrl(overlayUrl);
+    let baseLoaded = false;
+    let overlayLoaded = false;
+
+    const finalize = () => {
+      if (!baseLoaded || !overlayLoaded) {
+        return;
+      }
+
+      try {
+        const canvas = document.createElement("canvas");
+        canvas.width = baseImage.width;
+        canvas.height = baseImage.height;
+        const context = canvas.getContext("2d");
+        if (!context) {
+          return;
+        }
+
+        context.drawImage(baseImage, 0, 0);
+
+        const overlayScale = Math.max(
+          canvas.width / overlayImage.width,
+          canvas.height / overlayImage.height,
+        );
+        const scaledOverlayWidth = overlayImage.width * overlayScale;
+        const scaledOverlayHeight = overlayImage.height * overlayScale;
+
+        context.drawImage(
+          overlayImage,
+          0,
+          0,
+          scaledOverlayWidth,
+          scaledOverlayHeight,
+        );
+
+        this.composedBackgroundCache[cacheKey] = `url("${canvas.toDataURL("image/png")}")`;
+        this.changeDetectionRef.detectChanges();
+      } catch (error) {
+        this.composedBackgroundCache[cacheKey] = this.wrapBackgroundImage(baseUrl);
+      }
+    };
+
+    const onBaseLoad = () => {
+      baseLoaded = true;
+      finalize();
+    };
+    const onOverlayLoad = () => {
+      overlayLoaded = true;
+      finalize();
+    };
+
+    baseImage.onload = onBaseLoad;
+    baseImage.onerror = onBaseLoad;
+    overlayImage.onload = onOverlayLoad;
+    overlayImage.onerror = onOverlayLoad;
+
+    baseImage.src = normalizedBaseUrl;
+    overlayImage.src = normalizedOverlayUrl;
+  }
+
   setBackgroundImage(
     appId: string,
     app: PreviewDataApp,
@@ -379,11 +471,30 @@ export class PreviewComponent implements OnDestroy {
     ) {
       return null;
     }
+
+    const overlayPath = app.overlayImages?.[actualArtworkType];
+    const overlayBackground = overlayPath
+      ? this.wrapBackgroundImage(overlayPath)
+      : null;
+
+    if (image?.imageProvider !== "Current Artwork" && overlayPath && image?.loadStatus === "done") {
+      const cacheKey = `${appId}-${actualArtworkType}-${image.imageUrl}-${overlayPath}`;
+      if (!this.composedBackgroundCache[cacheKey]) {
+        this.composeBackgroundImage(image.imageUrl, overlayPath, cacheKey);
+      }
+      return this.composedBackgroundCache[cacheKey] || this.wrapBackgroundImage(image.imageUrl);
+    }
+
     if (image == undefined) {
       let imagepool: string = app.images[actualArtworkType].imagePool;
-      if (this.previewService.getImages(actualArtworkType)[imagepool].online)
-        return require("../../assets/images/retrieving-images.svg");
-      else return require("../../assets/images/no-images.svg");
+      const fallbackImage = this.previewService.getImages(actualArtworkType)[
+        imagepool
+      ].online
+        ? require("../../assets/images/retrieving-images.svg")
+        : require("../../assets/images/no-images.svg");
+      return overlayBackground
+        ? `${this.wrapBackgroundImage(fallbackImage)}, ${overlayBackground}`
+        : this.wrapBackgroundImage(fallbackImage);
     } else {
       if (image.loadStatus === "notStarted") {
         if (isArtworkType(currentViewType)) {
@@ -391,11 +502,24 @@ export class PreviewComponent implements OnDestroy {
         } else {
           this.loadImage(app, artworkType, imageIndex);
         }
-        return require("../../assets/images/downloading-image.svg");
+        const downloadingImage = require("../../assets/images/downloading-image.svg");
+        return overlayBackground
+          ? `${this.wrapBackgroundImage(downloadingImage)}, ${overlayBackground}`
+          : this.wrapBackgroundImage(downloadingImage);
       } else if (image.loadStatus === "downloading") {
-        return require("../../assets/images/downloading-image.svg");
-      } else if (image.loadStatus === "done") return image.imageUrl;
-      else return require("../../assets/images/failed-image-download.svg");
+        const downloadingImage = require("../../assets/images/downloading-image.svg");
+        return overlayBackground
+          ? `${this.wrapBackgroundImage(downloadingImage)}, ${overlayBackground}`
+          : this.wrapBackgroundImage(downloadingImage);
+      } else if (image.loadStatus === "done") {
+        const baseImage = this.wrapBackgroundImage(image.imageUrl);
+        return overlayBackground ? `${baseImage}, ${overlayBackground}` : baseImage;
+      } else {
+        const failedImage = require("../../assets/images/failed-image-download.svg");
+        return overlayBackground
+          ? `${this.wrapBackgroundImage(failedImage)}, ${overlayBackground}`
+          : this.wrapBackgroundImage(failedImage);
+      }
     }
   }
 
@@ -506,7 +630,7 @@ export class PreviewComponent implements OnDestroy {
       RendererStyleFlags2.DashCase,
     );
   }
-  
+
   toggleFilters() {
     if (this.showFilters) {
       this.closeFilters();

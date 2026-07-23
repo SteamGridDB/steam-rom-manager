@@ -62,6 +62,10 @@ function getMarkdown(langPath: string) {
             require(`${langPath}/parser-variables.md`),
             require(`${langPath}/parser-env-variables.md`),
           ],
+          overlayImages: [
+            require(`${langPath}/overlay-images.md`),
+            require(`${langPath}/parser-env-variables.md`),
+          ],
           defaultImage: [
             require(`${langPath}/default-image.md`),
             require(`${langPath}/parser-env-variables.md`),

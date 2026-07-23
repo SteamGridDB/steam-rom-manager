@@ -721,6 +721,36 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             children: imageProviderAPIInputs,
           });
         })(),
+        overlayImageSection: new NestedFormElement.Section({
+          label: "Overlay Artwork Configuration",
+          startMinimized: true,
+        }),
+        overlayImages: (() => {
+          let overlayInputs: { [k: string]: NestedFormElement.Input } = {};
+          for (const artworkType of artworkTypes) {
+            overlayInputs[artworkType] = new NestedFormElement.Input({
+              path: { directory: false, useForwardSlash: true },
+              placeholder: this.lang.placeholder.overlayImages__i[
+                os.type()
+              ].interpolate({
+                artworkType: artworkViewNames[artworkType].toLowerCase(),
+              }),
+              highlight: this.highlight.bind(this),
+              label: this.lang.label.overlayImages__i.interpolate({
+                artworkType: artworkViewNames[artworkType].toLowerCase(),
+              }),
+              onValidate: () => null,
+              onInfoClick: (self, path) => {
+                this.currentDoc.activePath = path.join();
+                this.currentDoc.content =
+                  this.lang.docs__md.overlayImages.join("");
+              },
+            });
+          }
+          return new NestedFormElement.Group({
+            children: overlayInputs,
+          });
+        })(),
         localImageSection: new NestedFormElement.Section({
           label: "Local Artwork Configuration",
           startMinimized: true,
