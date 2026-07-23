@@ -477,7 +477,7 @@ export class PreviewComponent implements OnDestroy {
       ? this.wrapBackgroundImage(overlayPath)
       : null;
 
-    if (overlayPath && image?.loadStatus === "done") {
+    if (image?.imageProvider !== "Current Artwork" && overlayPath && image?.loadStatus === "done") {
       const cacheKey = `${appId}-${actualArtworkType}-${image.imageUrl}-${overlayPath}`;
       if (!this.composedBackgroundCache[cacheKey]) {
         this.composeBackgroundImage(image.imageUrl, overlayPath, cacheKey);
