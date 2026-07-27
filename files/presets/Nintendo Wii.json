@@ -16,7 +16,7 @@
       "specifiedAccounts": ["Global"]
     },
     "parserInputs": {
-      "glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcz|.GCZ|.iso|.ISO|.rvz|.RVZ|.wad|.WAD|.wbfs|.WBFS|.wia|.WIA)"
+      "glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcz|.GCZ|.iso|.ISO|.json|.JSON|.rvz|.RVZ|.wad|.WAD|.wbfs|.WBFS|.wia|.WIA)"
     },
     "titleFromVariable": {
       "caseInsensitiveVariables": false,
@@ -91,7 +91,7 @@
       "specifiedAccounts": ["Global"]
     },
     "parserInputs": {
-      "glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcz|.GCZ|.iso|.ISO|.rvz|.RVZ|.wad|.WAD|.wbfs|.WBFS|.wia|.WIA)"
+      "glob": "${title}@(.ciso|.CISO|.dol|.DOL|.elf|.ELF|.gcz|.GCZ|.iso|.ISO|.json|.JSON|.rvz|.RVZ|.wad|.WAD|.wbfs|.WBFS|.wia|.WIA)"
     },
     "titleFromVariable": {
       "caseInsensitiveVariables": false,
