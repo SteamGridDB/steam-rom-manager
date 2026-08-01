@@ -103,22 +103,22 @@ Unfortunately, because of an issue with `better-sqlite3` you will most likely al
 
 All script must be run using `yarn run` command. For example, `yarn run watch:renderer`.
 
-| Script           | Function                                                            |
-| ---------------- | ------------------------------------------------------------------- |
-| `postinstall`    | Recompiles native apps to match Electron's NodeJS version if needed |
-| `start`          | Launches compiled app                                               |
-| `watch:main`     | Compiles Electron app and watches for changes                       |
-| `watch:renderer` | Compiles a renderer for an Electron app and watches for changes     |
-| `build:main`     | Compiles Electron app in production mode                            |
-| `build:renderer` | Compiles a renderer for an Electron app in production mode          |
-| `build:dist`     | Runs `build:main` and `build:renderer`                              |
-| `build:win`      | Compiles an executable installer for Windows                        |
-| `build:linux`    | Compiles a `deb` package and `AppImage` for linux                   |
-| `build:armada`   | Compiles experimental ARM64 AppImage and tarball for ArmadaOS       |
-| `build:linuxdir` | Builds an unpacked linux x64 version for use with flatpak           |
-| `build:flatpak`  | Builds a flatpak from the unpacked linux version                    |
-| `build:docker`   | `build:win` and `build:linux` joined together                       |
-| `build:mac`      | Compiles a `dmg` package for MacOS                                  |
+| Script              | Function                                                            |
+| ------------------- | ------------------------------------------------------------------- |
+| `postinstall`       | Recompiles native apps to match Electron's NodeJS version if needed |
+| `start`             | Launches compiled app                                               |
+| `watch:main`        | Compiles Electron app and watches for changes                       |
+| `watch:renderer`    | Compiles a renderer for an Electron app and watches for changes     |
+| `build:main`        | Compiles Electron app in production mode                            |
+| `build:renderer`    | Compiles a renderer for an Electron app in production mode          |
+| `build:dist`        | Runs `build:main` and `build:renderer`                              |
+| `build:win`         | Compiles an executable installer for Windows                        |
+| `build:linux`       | Compiles a `deb` package and `AppImage` for linux                   |
+| `build:linux-arm64` | Compiles an experimental AppImage and tarball for ARM64 Linux       |
+| `build:linuxdir`    | Builds an unpacked linux x64 version for use with flatpak           |
+| `build:flatpak`     | Builds a flatpak from the unpacked linux version                    |
+| `build:docker`      | `build:win` and `build:linux` joined together                       |
+| `build:mac`         | Compiles a `dmg` package for MacOS                                  |
 
 ## Debugging an app
 
@@ -156,10 +156,10 @@ yarn run build:dist
 yarn run build:linux
 ```
 
-### For ArmadaOS (experimental ARM64 Linux)
+### For ARM64 Linux (experimental)
 
 Build on an ARM64 Linux host and follow the instructions in
-[`docs/armadaos.md`](docs/armadaos.md).
+[`docs/linux-arm64.md`](docs/linux-arm64.md).
 
 ### For linux flatpak
 

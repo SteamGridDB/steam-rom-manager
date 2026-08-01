@@ -8,7 +8,7 @@ directories:
 linux:
   category: Utility
   icon: ./src/assets/icons
-  artifactName: Steam-ROM-Manager-ArmadaOS-${version}-arm64.${ext}
+  artifactName: Steam-ROM-Manager-${version}-linux-arm64.${ext}
   target:
     - target: AppImage
       arch:

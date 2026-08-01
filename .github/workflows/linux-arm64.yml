@@ -1,17 +1,17 @@
-name: Experimental ArmadaOS release
+name: Experimental Linux ARM64 release
 
 on:
   workflow_dispatch:
   push:
     tags:
-      - "v*-armada*"
+      - "v*-linux-arm64*"
 
 permissions:
   contents: write
 
 jobs:
-  build-armada:
-    name: Build ArmadaOS ARM64 artifacts
+  build-linux-arm64:
+    name: Build Linux ARM64 artifacts
     runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
@@ -39,23 +39,23 @@ jobs:
           git lfs pull
           yarn run presets:validate
           yarn run build:dist
-          yarn run build:armada
+          yarn run build:linux-arm64
         env:
           SENTRY_AUTH: ${{ secrets.SENTRY_AUTH }}
 
       - name: Verify ARM64 artifacts
         run: |
-          file release/Steam-ROM-Manager-ArmadaOS-*-arm64.AppImage
-          file release/Steam-ROM-Manager-ArmadaOS-*-arm64.tar.gz
+          file release/Steam-ROM-Manager-*-linux-arm64.AppImage
+          file release/Steam-ROM-Manager-*-linux-arm64.tar.gz
           file release/linux-arm64-unpacked/steam-rom-manager
 
       - name: Upload workflow artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: steam-rom-manager-armadaos-arm64
+          name: steam-rom-manager-linux-arm64
           path: |
-            release/Steam-ROM-Manager-ArmadaOS-*-arm64.AppImage
-            release/Steam-ROM-Manager-ArmadaOS-*-arm64.tar.gz
+            release/Steam-ROM-Manager-*-linux-arm64.AppImage
+            release/Steam-ROM-Manager-*-linux-arm64.tar.gz
 
       - name: Attach artifacts to tagged release
         if: startsWith(github.ref, 'refs/tags/')
@@ -64,5 +64,5 @@ jobs:
           prerelease: true
           generate_release_notes: true
           files: |
-            release/Steam-ROM-Manager-ArmadaOS-*-arm64.AppImage
-            release/Steam-ROM-Manager-ArmadaOS-*-arm64.tar.gz
+            release/Steam-ROM-Manager-*-linux-arm64.AppImage
+            release/Steam-ROM-Manager-*-linux-arm64.tar.gz
