@@ -114,6 +114,7 @@ All script must be run using `yarn run` command. For example, `yarn run watch:re
 | `build:dist`     | Runs `build:main` and `build:renderer`                              |
 | `build:win`      | Compiles an executable installer for Windows                        |
 | `build:linux`    | Compiles a `deb` package and `AppImage` for linux                   |
+| `build:armada`   | Compiles experimental ARM64 AppImage and tarball for ArmadaOS       |
 | `build:linuxdir` | Builds an unpacked linux x64 version for use with flatpak           |
 | `build:flatpak`  | Builds a flatpak from the unpacked linux version                    |
 | `build:docker`   | `build:win` and `build:linux` joined together                       |
@@ -154,6 +155,11 @@ Scripts must be run in this order:
 yarn run build:dist
 yarn run build:linux
 ```
+
+### For ArmadaOS (experimental ARM64 Linux)
+
+Build on an ARM64 Linux host and follow the instructions in
+[`docs/armadaos.md`](docs/armadaos.md).
 
 ### For linux flatpak
 

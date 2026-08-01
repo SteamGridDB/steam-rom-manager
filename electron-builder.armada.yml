@@ -1,0 +1,25 @@
+appId: SteamGridDB.SteamROMManager
+productName: Steam ROM Manager
+compression: normal
+
+directories:
+  output: release
+
+linux:
+  category: Utility
+  icon: ./src/assets/icons
+  artifactName: Steam-ROM-Manager-ArmadaOS-${version}-arm64.${ext}
+  target:
+    - target: AppImage
+      arch:
+        - arm64
+    - target: tar.gz
+      arch:
+        - arm64
+
+files:
+  - dist/**/*
+  - workers/*
+  - package.json
+
+publish: null
