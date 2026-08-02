@@ -1,7 +1,7 @@
 {
   "Generic": {
     "parserType": "Glob",
-    "configTitle": "Generic",
+    "configTitle": "Generic (Emulators with no unique args)",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
