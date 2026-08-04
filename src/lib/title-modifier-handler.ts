@@ -57,7 +57,7 @@ export class TitleModifierHandler {
             if(newTitle) {
                 this._titleModifiers[i][TITLE_MODIFIER_KEYS[newIndex]] = newTitle;
             } else {
-                this._titleModifiers[i][TITLE_MODIFIER_KEYS[newIndex]] = this._titleModifiers[i][TITLE_MODIFIER_KEYS[currentIndex]]
+                this._titleModifiers[i][TITLE_MODIFIER_KEYS[newIndex]] = this._titleModifiers[i][TITLE_MODIFIER_KEYS[currentIndex - 1]]
             }
             this.latestTitle[i] = this._titleModifiers[i][TITLE_MODIFIER_KEYS[newIndex]];
             

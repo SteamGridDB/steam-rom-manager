@@ -457,11 +457,12 @@ export class FileParser {
           superType === parserInfo.ROMType ||
           superType === parserInfo.ManualType
         ) {
+          const extractedTitles = parsedData.success.map(ps=>ps.extractedTitle);
           if (config.titleFromVariable.limitToGroups) {
 
             const titlesFromVariables = this.getTitlesFromVariables(
               config.titleFromVariable,
-              titleModifierHandler.latestTitle
+              extractedTitles
             )
 
             for(let i=0; i < parsedData.success.length; i++) {
@@ -481,7 +482,7 @@ export class FileParser {
           if (config.sortAsFromVariable.limitToGroups) {
             sortTitlesFromVariables = this.getSortTitlesFromVariables(
               config["sortAsFromVariable"],
-              titleModifierHandler.latestTitle
+              extractedTitles
             )
           }
           const fuzzyTitles = this.fuzzyService.fuzzyMatcher.fuzzyMatch(
@@ -1103,14 +1104,14 @@ export class FileParser {
 
   private getTitlesFromVariables(
     variableConfig: UserConfiguration["titleFromVariable"],
-    latestTitle: string[]
+    extractedTitles: string[]
   ) {
-    const titles = Array(latestTitle.length).fill(null);
+    const titles = Array(extractedTitles.length).fill(null);
     const groups = this._groupsHelper(variableConfig)
     const useCaseInsensitive = variableConfig.caseInsensitiveVariables
 
-    for (let i = 0; i < latestTitle.length; i++) {
-      const currentTitle = latestTitle[i]
+    for (let i = 0; i < extractedTitles.length; i++) {
+      const currentTitle = extractedTitles[i]
       let match = null;
       for (let j = 0; j < groups.length; j++) {
         const groupData = this.customVariableData[groups[j]];
