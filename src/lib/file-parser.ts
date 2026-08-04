@@ -626,7 +626,7 @@ export class FileParser {
           )
           // explicitly make postTitleModifier title available as a variable 
           // so the rest of the modifiers can use it.
-          variableData.titleModifiers = titleModifierHandler.getTitleModifiers(i)
+          variableData.titles = titleModifierHandler.getTitleModifiers(i)
 
           if (superType === parserInfo.ManualType) {
             newFile.argumentString = parsedData.success[i].launchOptions || "";
@@ -1433,18 +1433,18 @@ export class FileParser {
         output = variableData.filePath != undefined ? variableData.filePath : unavailable;
         break;
       case "TITLE":
-        output = variableData.titleModifiers["extracted"];
+        output = variableData.titles["extracted"];
         break;
       case "SHORTCUTTITLE":
-        output = variableData.titleModifiers["postShortcutPassthrough"];
+        output = variableData.titles["postShortcutPassthrough"];
         break;
       case "CUSTOMVARIABLETITLE":
-        output = variableData.titleModifiers["postCustomVariables"]
+        output = variableData.titles["postCustomVariables"]
       case "FUZZYTITLE":
-        output = variableData.titleModifiers["postFuzzy"] || variableData.titleModifiers["extracted"];
+        output = variableData.titles["postFuzzy"] || variableData.titles["extracted"];
         break;
       case "FINALTITLE":
-        output = variableData.titleModifiers["postTitleModifier"];
+        output = variableData.titles["postTitleModifier"];
         break;
       case "PARSERTITLE":
         output = variableData.configTitle != undefined ? variableData.configTitle : unavailable;
@@ -1490,7 +1490,7 @@ export class FileParser {
     config: UserConfiguration,
     settings: AppSettings,
     file: ParsedUserConfigurationFile,
-    titleModifiers: TitleModifiers,
+    titles: TitleModifiers,
   ): ParserVariableData {
     return <ParserVariableData>{
       configTitle: config.configTitle,
@@ -1498,7 +1498,7 @@ export class FileParser {
       startInDirectory: file.startInDirectory,
       steamDirectory: config.steamDirectory,
       filePath: file.filePath,
-      titleModifiers: titleModifiers,
+      titles: titles,
       romDirectory: config.romDirectory,
       steamDirectoryGlobal: settings.environmentVariables.steamDirectory,
       romsDirectoryGlobal: settings.environmentVariables.romsDirectory,

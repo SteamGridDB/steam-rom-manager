@@ -115,7 +115,7 @@ export interface ParserVariableData {
   startInDirectory: string;
   steamDirectory: string;
   romDirectory: string;
-  titleModifiers: TitleModifiers,
+  titles: TitleModifiers,
   filePath: string;
   steamDirectoryGlobal: string;
   romsDirectoryGlobal: string;
