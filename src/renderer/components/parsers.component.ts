@@ -40,6 +40,7 @@ import {
   OnlineProviderType,
   StringDict,
   CustomVariables,
+  TitleModifiers,
 } from "../../models";
 import { BehaviorSubject, Subscription, of, concat, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
@@ -1166,13 +1167,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             success("");
             success("Number of Titles: ".concat(data.files.length.toString()));
             data.files = data.files.sort((a, b) =>
-              a.extractedTitle.localeCompare(b.extractedTitle),
+              a.titles.extracted.localeCompare(b.titles.extracted),
             );
             for (let i = 0; i < data.files.length; i++) {
               success("");
               const executableLocation =
                 data.files[i].modifiedExecutableLocation;
-              const title = data.files[i].finalTitle;
+              const title = data.files[i].titles.final;
               let shortAppId;
               if (
                 parserInfo.superTypesMap[config.parserType] !==
@@ -1188,7 +1189,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               const appId = steam.lengthenAppId(shortAppId);
               const exceptionKey = this.userExceptionsService.makeExceptionId(
                 executableLocation,
-                data.files[i].extractedTitle,
+                data.files[i].titles.extracted,
                 config.parserType,
               );
 
@@ -1214,25 +1215,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }),
               );
               success(
-                this.lang.success.extractedTitle__i.interpolate({
-                  index: i + 1,
-                  total: totalLength,
-                  title: data.files[i].extractedTitle,
-                }),
-              );
-              success(
-                this.lang.success.fuzzyTitle__i.interpolate({
-                  index: i + 1,
-                  total: totalLength,
-                  title: data.files[i].fuzzyTitle,
-                }),
-              );
-              success(
-                this.lang.success.finalTitle__i.interpolate({
-                  index: i + 1,
-                  total: totalLength,
-                  title: data.files[i].finalTitle,
-                }),
+                ((titles: TitleModifiers, index: number, total: number): string => {
+                  const base = `[${index}/${total}]`;
+                  return `${base}: Title Waterfall:\n`.concat(
+                    Object.entries(titles).map(([titleKey, title], titleIndex) => {
+                      let space = " ".repeat(Math.max(30-titleKey.length,1))
+                      return `${base}: (${titleIndex})${space}${titleKey} is "${title}"`
+                    }).join('\n')
+                  )
+                })(data.files[i].titles, i + 1, totalLength)
               );
               success(
                 this.lang.success.sortAsTitle__i.interpolate({
