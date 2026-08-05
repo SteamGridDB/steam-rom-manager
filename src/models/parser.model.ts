@@ -29,7 +29,7 @@ export type TitleModifierKey = typeof TITLE_MODIFIER_KEYS[number];
 export type TitleModifiers = Record<TitleModifierKey, string | null>;
 
 
-export interface ParsedUserConfigurationFile extends StringMap {
+export interface ParsedUserConfigurationFile {
   executableLocation: string;
   modifiedExecutableLocation: string;
   startInDirectory: string;

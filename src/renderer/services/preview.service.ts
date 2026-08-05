@@ -906,7 +906,7 @@ export class PreviewService {
         for (let k = 0; k < data[i].files.length; k++) {
           let file = config.files[k];
           let executableLocation = file.modifiedExecutableLocation;
-          let title = file.finalTitle;
+          let title = file.titles.final;
           let appID: string = "";
           if (superTypesMap[config.parserType] !== "ArtworkOnly") {
             appID = steam.generateAppId(executableLocation, title);
