@@ -10,7 +10,7 @@ import {
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: "version",
-  latestVersion: 28,
+  latestVersion: 29,
   fields: {
     undefined: {
       version: { method: () => 0 },
@@ -26,7 +26,6 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
       },
       executableArgs: { method: replaceVariables_undefined },
       onlineImageQueries: { method: replaceVariables_undefined },
-      overlayImages: { method: replaceVariables_undefined },
       localImages: { method: replaceVariables_undefined },
       localTallImages: { method: replaceVariables_undefined },
       localHeroImages: { method: replaceVariables_undefined },
@@ -431,5 +430,9 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         }
       }
     },
+    28: {
+      version: { method: versionUp },
+      overlayImages: { method: replaceVariables_undefined },
+    }
   },
 };

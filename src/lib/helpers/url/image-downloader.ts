@@ -1,7 +1,7 @@
 import * as fs from "fs-extra";
 import fetch, { AbortError } from "node-fetch";
 import { Resolver } from "dns";
-import sharp from "sharp";
+import { Jimp } from "jimp";
 import { decodeFile } from "./encode-file";
 
 export class ImageDownloader {
@@ -31,15 +31,18 @@ export class ImageDownloader {
           ? decodeFile(overlayPath)
           : overlayPath;
         const overlayBuffer = await fs.readFile(overlayFilePath);
-        const bufferMetadata = await sharp(buffer).metadata();
-        const overlayBufferResized = await sharp(overlayBuffer)
-          .resize(bufferMetadata.width, bufferMetadata.height, {
-            fit: "cover", position: "left top",
-          })
-          .toBuffer();
-        buffer = await sharp(buffer)
-          .composite([{ input: overlayBufferResized, blend: "over", gravity: "northeast" }])
-          .toBuffer();
+
+        const baseImage = await Jimp.fromBuffer(buffer);
+        const overlayImage = await Jimp.fromBuffer(overlayBuffer);
+
+        overlayImage.cover({ w: baseImage.bitmap.width, h: baseImage.bitmap.height });
+
+        // "northeast" gravity = anchor to top-right
+        const x = baseImage.bitmap.width - overlayImage.bitmap.width;
+        const y = 0;
+        baseImage.composite(overlayImage, x, y);
+
+        buffer = await baseImage.getBuffer("image/png");
       }
       await fs.outputFile(filePath, buffer);
       if (secondaryPath) {
