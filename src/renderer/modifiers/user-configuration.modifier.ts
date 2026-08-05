@@ -26,6 +26,7 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
       },
       executableArgs: { method: replaceVariables_undefined },
       onlineImageQueries: { method: replaceVariables_undefined },
+      overlayImages: { method: replaceVariables_undefined },
       localImages: { method: replaceVariables_undefined },
       localTallImages: { method: replaceVariables_undefined },
       localHeroImages: { method: replaceVariables_undefined },

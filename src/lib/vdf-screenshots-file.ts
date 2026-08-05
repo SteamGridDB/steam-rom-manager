@@ -199,7 +199,14 @@ export class VDF_ScreenshotsFile {
           }
           batchAddPromises.push(
             imageDownloader
-              .downloadAndSaveImage(data.url, gridPath, 4, secondaryPath)
+              .downloadAndSaveImage(
+                data.url,
+                gridPath,
+                4,
+                secondaryPath,
+                undefined,
+                data.overlayImage,
+              )
               .then(async () => {
                 if (/^\d+$/.test(appId)) {
                   const symPath = path.join(
@@ -357,6 +364,7 @@ export class VDF_ScreenshotsFile {
         artworkType: data.artworkType,
         sgdbId: data.sgdbId,
         drmProtect: data.drmProtect,
+        overlayImage: data.overlayImage,
       };
     }
   }

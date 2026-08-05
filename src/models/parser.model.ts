@@ -59,6 +59,7 @@ export interface ParsedUserConfiguration {
   steamInputEnabled: SteamInputEnabled;
   steamDirectory: string;
   shortcutPassthrough: boolean;
+  overlayImages?: Record<ArtworkType, string>;
   foundUserAccounts: userAccountData[];
   missingUserAccounts: string[];
   files: ParsedUserConfigurationFile[];
