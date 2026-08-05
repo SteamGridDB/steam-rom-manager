@@ -46,7 +46,9 @@ Falls die Eingabe für `${exePath}`{.noWrap} **leer ** bleibt, ist es gleich `${
 | Variable (Groß- und Kleinschreibung nicht berücksichtigt) | Wert                                         |
 | ---------------------------------------------------------:|:-------------------------------------------- |
 |                                                `${title}` | Extrahierter Titel                           |
-|                                           `${fuzzyTitle}` | Fuzzy Matched Titel                          |
+|                                        `${shortcutTitle}` | Title after shortcut passthrough             |
+|                                  `${customVariableTitle}` | Title after custom variable application      |
+|                                           `${fuzzyTitle}` | Title after fuzzy matching                   |
 |                                           `${finalTitle}` | Titel nachdem "Titel ändern" angewandt wurde |
 |                                          `${parserTitle}` | The value of the `Parser Title` field        |
 
