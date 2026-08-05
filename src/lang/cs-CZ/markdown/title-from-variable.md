@@ -10,7 +10,7 @@ ${...}
 
 # How it works
 
-There are two variable files, `customVariables.json` which is maintained by SRM (don't change this one, your changes will be overwritten every time SRM restarts) and `userVariables.json` which is where you should put your own variables. Both files are located in SRM's `Config Directory`.
+There are two variable files, `customVariables.json` which is maintained by SRM (don't change this one, your changes will be overwritten every time SRM restarts) and `userVariables.json` which is where you should put your own variables. Both files are located in SRM's `Config Directory`. Your handcrafted variables will take preference over SRMs defaults.
 
 Both `customVariables.json` and `userVariables.json` have the same JSON structure. SRM will throw an error unless the following JSON structure is used:
 
@@ -29,7 +29,31 @@ Both `customVariables.json` and `userVariables.json` have the same JSON structur
 }
 ```
 
-If this option is enabled, case-insensitive matching will be done and first matched custom variable will be used.
+Then if your glob were `romsdir/${title}.wad` and you had a `The Legend of Zelda.wad` located in `romsdir`, you would set the title from custom variable field to `${Group2}` to obtain a title of "The Legend of Link".
+
+## Separating sort-as-title from display-title
+If you'd like a separate sorting title in steam, you can replace
+
+```
+    "Group1": {
+        "NPUB30698": "Catherine",
+        ...
+    }, ...
+```
+by
+
+```
+    "Group1": {
+        "NPUB30698": {
+            "DisplayTitle": "Catherine",
+            "SortAsTitle": "Catherine the Great"
+        },
+        ...
+    }, ...
+```
+
+Note that you also have to configure the `Sort Names From Custom Variable` field in the parser; in this case you would set it to `${Group1}`.
+
 
 ## Case-insensitive option
 
