@@ -41,6 +41,7 @@ function getMarkdown(langPath: string) {
             require(`${langPath}/parser-env-variables.md`),
           ],
           titleFromVariable: [require(`${langPath}/title-from-variable.md`)],
+          sortAsFromVariable: [require(`${langPath}/title-from-variable.md`)],
           fuzzyMatch: [require(`${langPath}/fuzzy-matching.md`)],
           executableArgs: [
             require(`${langPath}/executable-arguments.md`),

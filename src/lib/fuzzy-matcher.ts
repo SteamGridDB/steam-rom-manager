@@ -1,11 +1,11 @@
 import {
-  ParsedDataWithFuzzy,
   FuzzyEventCallback,
   FuzzyMatcherOptions,
   MatchResult,
 } from "../models";
 import { MemoizedFunction } from "./memoized-function";
 import fuzzysort from "fuzzysort";
+import { TitleModifierHandler } from "./title-modifier-handler";
 import * as _ from "lodash";
 
 export class FuzzyMatcher {
@@ -43,29 +43,33 @@ export class FuzzyMatcher {
     }
   }
 
-  fuzzyMatchParsedData(
-    data: ParsedDataWithFuzzy,
+  fuzzyMatch(
     options: FuzzyMatcherOptions,
+    titleModifierHandler: TitleModifierHandler,
     verbose: boolean = true,
-  ) {
+  ): (string | null)[] {
+    
+    const fuzzyTitles = (new Array(titleModifierHandler.latestTitle.length)).fill(null);
+
     if (this.isLoaded()) {
-      for (let i = 0; i < data.success.length; i++) {
+      for (let i = 0; i < titleModifierHandler.latestTitle.length; i++) {
         let matchedData = this.memFn.fn(
-          data.success[i].extractedTitle,
+          titleModifierHandler.latestTitle[i],
           options,
         );
         if (matchedData.matched) {
-          data.success[i].fuzzyTitle = matchedData.output;
+          fuzzyTitles[i] = matchedData.output;
+
           if (verbose)
             this.eventCallback("info", {
               info: "match",
-              stringA: data.success[i].fuzzyTitle,
-              stringB: data.success[i].extractedTitle,
+              stringA: fuzzyTitles[i],
+              stringB: titleModifierHandler.latestTitle[i],
             });
         }
       }
     }
-    return data;
+    return fuzzyTitles;
   }
 
   fuzzyMatchString(
