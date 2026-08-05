@@ -1,7 +1,7 @@
 {
-  "Microsoft Xbox 360 - Xenia (Extracted ISO/GoD/XBLA)": {
+  "Microsoft Xbox 360 - Xenia": {
     "parserType": "Glob",
-    "configTitle": "Microsoft Xbox 360 - Xenia (Extracted ISO/GoD/XBLA)",
+    "configTitle": "Microsoft Xbox 360 - Xenia",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -16,7 +16,7 @@
       "specifiedAccounts": ["Global"]
     },
     "parserInputs": {
-      "glob": "${title}/@(default.xex|DEFAULT.XEX)"
+      "glob": "${title}@(.iso|.ISO|.zar|.ZAR)"
     },
     "titleFromVariable": {
       "caseInsensitiveVariables": false,
@@ -74,9 +74,9 @@
     "drmProtect": false,
     "steamCategories": ["Xbox 360"]
   },
-  "Microsoft Xbox 360 - Xenia": {
+  "Microsoft Xbox 360 - Xenia (Extracted ISO/GoD/XBLA)": {
     "parserType": "Glob",
-    "configTitle": "Microsoft Xbox 360 - Xenia",
+    "configTitle": "Microsoft Xbox 360 - Xenia (Extracted ISO/GoD/XBLA)",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -91,7 +91,7 @@
       "specifiedAccounts": ["Global"]
     },
     "parserInputs": {
-      "glob": "${title}@(.iso|.ISO|.zar|.ZAR)"
+      "glob": "${title}/@(default.xex|DEFAULT.XEX)"
     },
     "titleFromVariable": {
       "caseInsensitiveVariables": false,

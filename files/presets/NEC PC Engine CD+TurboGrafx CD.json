@@ -1,7 +1,7 @@
 {
-  "NEC PC Engine CD/TurboGrafx CD - Retroarch - Beetle PCE": {
+  "NEC PC Engine CD-ROM²/TurboGrafx CD - Retroarch - Beetle PCE": {
     "parserType": "Glob",
-    "configTitle": "NEC PC Engine/TurboGrafx 16 - Retroarch - Beetle PCE",
+    "configTitle": "NEC PC Engine CD-ROM²/TurboGrafx CD - Retroarch - Beetle PCE",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -76,7 +76,7 @@
   },
   "NEC PC Engine CD/TurboGrafx CD - Retroarch(Flatpak) - Beetle PCE": {
     "parserType": "Glob",
-    "configTitle": "NEC PC Engine/TurboGrafx 16 - Retroarch(Flatpak) - Beetle PCE",
+    "configTitle": "NEC PC Engine CD-ROM²/TurboGrafx CD - Retroarch(Flatpak) - Beetle PCE",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -149,9 +149,9 @@
     "drmProtect": false,
     "steamCategories": ["PCECD"]
   },
-  "NEC PC Engine CD/TurboGrafx CD - Retroarch - Beetle PCE FAST": {
+  "NEC PC Engine CD-ROM²/TurboGrafx CD - Retroarch - Beetle PCE FAST": {
     "parserType": "Glob",
-    "configTitle": "NEC PC Engine/TurboGrafx 16 - Retroarch - Beetle PCE FAST",
+    "configTitle": "NEC PC Engine CD-ROM²/TurboGrafx CD - Retroarch - Beetle PCE FAST",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -224,9 +224,9 @@
     "drmProtect": false,
     "steamCategories": ["PCECD"]
   },
-  "NEC PC Engine CD/TurboGrafx CD - Retroarch(Flatpak) - Beetle PCE FAST": {
+  "NEC PC Engine CD-ROM²/TurboGrafx CD - Retroarch(Flatpak) - Beetle PCE FAST": {
     "parserType": "Glob",
-    "configTitle": "NEC PC Engine/TurboGrafx 16 - Retroarch(Flatpak) - Beetle PCE FAST",
+    "configTitle": "NEC PC Engine CD-ROM²/TurboGrafx CD - Retroarch(Flatpak) - Beetle PCE FAST",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",

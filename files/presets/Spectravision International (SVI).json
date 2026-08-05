@@ -1,7 +1,7 @@
 {
-  "Spectravision International (SVI) - Retroarch - BlueMSX": {
+  " Spectravideo (SV-318 & SV-328) - Retroarch - BlueMSX": {
     "parserType": "Glob",
-    "configTitle": "SpectraVision SVI - Retroarch - BlueMSX",
+    "configTitle": "Spectravideo (SV-318 & SV-328) - Retroarch - BlueMSX",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
@@ -74,9 +74,9 @@
     "drmProtect": false,
     "steamCategories": ["SVI"]
   },
-  "Spectravision International (SVI) - Retroarch(Flatpak) - BlueMSX": {
+  "Spectravideo (SV-318 & SV-328) - Retroarch(Flatpak) - BlueMSX": {
     "parserType": "Glob",
-    "configTitle": "SpectraVision SVI - Retroarch(Flatpak) - BlueMSX",
+    "configTitle": "Spectravideo (SV-318 & SV-328) - Retroarch(Flatpak) - BlueMSX",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",

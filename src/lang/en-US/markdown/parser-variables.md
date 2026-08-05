@@ -46,7 +46,9 @@ In case executable directory input is left **empty**, `${exePath}`{.noWrap} is e
 | Variable (case-insensitive) | Corresponding value                              |
 | --------------------------: | :----------------------------------------------- |
 |                  `${title}` | Extracted title                                  |
-|             `${fuzzyTitle}` | Fuzzy matched title                              |
+|          `${shortcutTitle}` | Title after shortcut passthrough                 |
+|    `${customVariableTitle}` | Title after custom variable application          |
+|             `${fuzzyTitle}` | Title after fuzzy matching                       |
 |             `${finalTitle}` | Title which was the end result of title modifier |
 |            `${parserTitle}` | The value of the `Parser Title` field            |
 

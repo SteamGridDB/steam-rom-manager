@@ -5,7 +5,18 @@ export const customVariables = {
       type: "object",
       patternProperties: {
         "^.+$": {
-          type: "string",
+          oneOf: [
+            { type: "string" },
+            {
+              type: "object",
+              properties: {
+                DisplayTitle: { type: "string" },
+                SortAsTitle: { type: "string" },
+              },
+              required: ["DisplayTitle", "SortAsTitle"],
+              additionalProperties: false,
+            },
+          ],
         },
       },
     },
