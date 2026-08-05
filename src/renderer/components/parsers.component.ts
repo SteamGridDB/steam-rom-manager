@@ -494,18 +494,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               values: Object.keys(this.customVariables),
               placeholder: "Select title variables",
             }),
-            /*limitToGroups: new NestedFormElement.Input({
-              placeholder: this.lang.placeholder.titleFromVariable,
-              highlight: this.highlight.bind(this),
-              onValidate: (self, path) => {
-                let serialized: { [k: string]: any } = {};
-                serialized[path[1]] = self.value;
-                return this.parsersService.validate(
-                  path[0] as keyof UserConfiguration,
-                  serialized,
-                );
-              },
-            }),*/
             caseInsensitiveVariables: new NestedFormElement.Toggle({
               text: this.lang.text.caseInsensitiveVariables,
             }),
@@ -517,6 +505,22 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.activePath = path.join();
             this.currentDoc.content =
               this.lang.docs__md.titleFromVariable.join("");
+          },
+        }),
+        sortAsFromVariable: new NestedFormElement.Group({
+          isHidden: () => this.isHiddenIfNotRomsParser(),
+          label: "Sort-title from custom variable",
+          children: {
+            limitToGroups: new NestedFormElement.Select({
+              multiple: true,
+              allowEmpty: true,
+              values: Object.keys(this.customVariables),
+              placeholder: "Select sort-title variables",
+            }),
+          },
+          onInfoClick: (self, path) => {
+            this.currentDoc.activePath = path.join();
+            this.currentDoc.content = this.lang.docs__md.sortAsFromVariable.join("");
           },
         }),
         fuzzyMatch: new NestedFormElement.Group({
@@ -536,22 +540,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           onInfoClick: (control, path) => {
             this.currentDoc.activePath = path.join();
             this.currentDoc.content = this.lang.docs__md.fuzzyMatch.join("");
-          },
-        }),
-        sortAsFromVariable: new NestedFormElement.Group({
-          isHidden: () => this.isHiddenIfNotRomsParser(),
-          label: "Sort names from custom variable",
-          children: {
-            limitToGroups: new NestedFormElement.Select({
-              multiple: true,
-              allowEmpty: true,
-              values: Object.keys(this.customVariables),
-              placeholder: "Select sort-name variables",
-            }),
-          },
-          onInfoClick: (self, path) => {
-            this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.sortAsFromVariable.join("");
           },
         }),
         controllerSection: new NestedFormElement.Section({
