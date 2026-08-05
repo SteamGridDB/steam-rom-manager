@@ -450,14 +450,14 @@
     "steamCategories": ["Arcade"]
   },
   "Arcade - Sega Lindbergh - Lindbergh Loader": {
-    "parserType": "Glob",
+    "parserType": "Glob-regex",
     "configTitle": "Arcade - Sega Lindbergh - Lindbergh Loader",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
     "startInDirectory": "",
     "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "\"${fileName}\"",
+    "executableArgs": "--gamepath \"${filePath}\"",
     "onlineImageQueries": ["${fuzzyTitle}"],
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["sgdb"],
@@ -466,7 +466,7 @@
       "specifiedAccounts": ["Global"]
     },
     "parserInputs": {
-      "glob": "**/${title}@(.elf|.ELF|.exe|.EXE)"
+      "glob-regex": "**/${/(\\w+?)(?:\\.(?:elf|exe))?$/ig|$1}"
     },
     "titleFromVariable": {
       "caseInsensitiveVariables": true,
@@ -525,14 +525,14 @@
     "steamCategories": ["Arcade"]
   },
   "Arcade - Sega Lindbergh - Lindbergh Loader (Flatpak)": {
-    "parserType": "Glob",
+    "parserType": "Glob-regex",
     "configTitle": "Arcade - Sega Lindbergh - Lindbergh Loader (Flatpak)",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "path-to-roms",
     "steamDirectory": "${steamdirglobal}",
     "startInDirectory": "",
     "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "run com.github.lindberghloader \"${fileName}\"",
+    "executableArgs": "run com.github.lindberghloader --gamepath \"${filePath}\"",
     "onlineImageQueries": ["${fuzzyTitle}"],
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["sgdb"],
@@ -541,7 +541,7 @@
       "specifiedAccounts": ["Global"]
     },
     "parserInputs": {
-      "glob": "**/${title}@(.elf|.ELF|.exe|.EXE)"
+      "glob-regex": "**/${/(\\w+?)(?:\\.(?:elf|exe))?$/ig|$1}"
     },
     "titleFromVariable": {
       "caseInsensitiveVariables": true,
@@ -555,156 +555,6 @@
     },
     "executable": {
       "path": "/usr/bin/flatpak",
-      "shortcutPassthrough": false,
-      "appendArgsToExecutable": true
-    },
-    "presetVersion": 19,
-    "imageProviderAPIs": {
-      "sgdb": {
-        "nsfw": false,
-        "humor": false,
-        "imageMotionTypes": ["static"],
-        "styles": [],
-        "stylesHero": [],
-        "stylesLogo": [],
-        "stylesIcon": []
-      },
-      "steamCDN": {}
-    },
-    "controllers": {
-      "ps4": null,
-      "ps5": null,
-      "xbox360": null,
-      "xboxone": null,
-      "switch_joycon_left": null,
-      "switch_joycon_right": null,
-      "switch_pro": null,
-      "neptune": null
-    },
-    "defaultImage": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "localImages": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "steamInputEnabled": "1",
-    "drmProtect": false,
-    "steamCategories": ["Arcade"]
-  },
-  "Arcade - Sega Lindbergh - Lindbergh Loader (Flatpak) - Depth 3 No Extension": {
-    "parserType": "Glob",
-    "configTitle": "Arcade - Sega Lindbergh - Lindbergh Loader (Flatpak) - Depth 3 No Extension",
-    "executableModifier": "\"${exePath}\"",
-    "romDirectory": "path-to-roms",
-    "steamDirectory": "${steamdirglobal}",
-    "startInDirectory": "",
-    "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "run com.github.lindberghloader \"${fileName}\"",
-    "onlineImageQueries": ["${fuzzyTitle}"],
-    "imagePool": "${fuzzyTitle}",
-    "imageProviders": ["sgdb"],
-    "disabled": false,
-    "userAccounts": {
-      "specifiedAccounts": ["Global"]
-    },
-    "parserInputs": {
-      "glob": "**/disk0/*/${title}@(.elf|.ELF|.exe|.EXE)"
-    },
-    "titleFromVariable": {
-      "caseInsensitiveVariables": true,
-      "skipFileIfVariableWasNotFound": true,
-      "limitToGroups": ["Lindbergh"]
-    },
-    "fuzzyMatch": {
-      "replaceDiacritics": true,
-      "removeCharacters": true,
-      "removeBrackets": true
-    },
-    "executable": {
-      "path": "/usr/bin/flatpak",
-      "shortcutPassthrough": false,
-      "appendArgsToExecutable": true
-    },
-    "presetVersion": 19,
-    "imageProviderAPIs": {
-      "sgdb": {
-        "nsfw": false,
-        "humor": false,
-        "imageMotionTypes": ["static"],
-        "styles": [],
-        "stylesHero": [],
-        "stylesLogo": [],
-        "stylesIcon": []
-      },
-      "steamCDN": {}
-    },
-    "controllers": {
-      "ps4": null,
-      "ps5": null,
-      "xbox360": null,
-      "xboxone": null,
-      "switch_joycon_left": null,
-      "switch_joycon_right": null,
-      "switch_pro": null,
-      "neptune": null
-    },
-    "defaultImage": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "localImages": {
-      "long": "",
-      "tall": "",
-      "hero": "",
-      "logo": "",
-      "icon": ""
-    },
-    "steamInputEnabled": "1",
-    "drmProtect": false,
-    "steamCategories": ["Arcade"]
-  },
-  "Arcade - Sega Lindbergh - Lindbergh Loader - Depth 3 No Extension": {
-    "parserType": "Glob",
-    "configTitle": "Arcade - Sega Lindbergh - Lindbergh Loader - Depth 3 No Extension",
-    "executableModifier": "\"${exePath}\"",
-    "romDirectory": "path-to-roms",
-    "steamDirectory": "${steamdirglobal}",
-    "startInDirectory": "",
-    "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "\"${fileName}\"",
-    "onlineImageQueries": ["${fuzzyTitle}"],
-    "imagePool": "${fuzzyTitle}",
-    "imageProviders": ["sgdb"],
-    "disabled": false,
-    "userAccounts": {
-      "specifiedAccounts": ["Global"]
-    },
-    "parserInputs": {
-      "glob": "**/disk0/*/${title}@(.elf|.ELF|.exe|.EXE)"
-    },
-    "titleFromVariable": {
-      "caseInsensitiveVariables": true,
-      "skipFileIfVariableWasNotFound": true,
-      "limitToGroups": ["Lindbergh"]
-    },
-    "fuzzyMatch": {
-      "replaceDiacritics": true,
-      "removeCharacters": true,
-      "removeBrackets": true
-    },
-    "executable": {
-      "path": "path-to-lindberghloader",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
