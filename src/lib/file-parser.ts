@@ -1440,7 +1440,8 @@ export class FileParser {
         output = variableData.titles["postShortcutPassthrough"];
         break;
       case "CUSTOMVARIABLETITLE":
-        output = variableData.titles["postCustomVariables"]
+        output = variableData.titles["postCustomVariables"];
+        break;
       case "FUZZYTITLE":
         output = variableData.titles["postFuzzy"] || variableData.titles["extracted"];
         break;
