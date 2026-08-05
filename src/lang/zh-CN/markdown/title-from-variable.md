@@ -10,7 +10,7 @@ ${RPCS3}${PSN}
 
 # 工作原理
 
-有两个变量文件， `customVariables.json` 由 SRM 维护(不要更改此项，每次SRM 重启时您的更改都会被覆盖) 和 `userVariables.json` 您应该在哪里设置自己的变量。 这两个文件都位于SRM的 `配置目录` 中。
+有两个变量文件， `customVariables.json` 由 SRM 维护(不要更改此项，每次SRM 重启时您的更改都会被覆盖) 和 `userVariables.json` 您应该在哪里设置自己的变量。 这两个文件都位于SRM的 `配置目录` 中。 Your handcrafted variables will take preference over SRMs defaults.
 
 `customVariables.json.json` 和 `userVariables.json` 都有相同的 JSON 结构。 除非使用以下 JSON 结构，否则 SRM 将会抛出错误：
 
@@ -29,7 +29,31 @@ ${RPCS3}${PSN}
 }
 ```
 
-如果您的用户全局变量是 `MyDir/${title}.wad`，并且您在 `MyDir` 中有一个名为 `The Legend of Zelda.wad` 的文件，则可以将标题从自定义变量字段设置为 `$${Group2}` 以获得最终标题 “The Legend of Link”。
+Then if your glob were `romsdir/${title}.wad` and you had a `The Legend of Zelda.wad` located in `romsdir`, you would set the title from custom variable field to `${Group2}` to obtain a title of "The Legend of Link".
+
+## Separating sort-as-title from display-title
+If you'd like a separate sorting title in steam, you can replace
+
+```
+    "Group1": {
+        "NPUB30698": "Catherine",
+        ...
+    }, ...
+```
+by
+
+```
+    "Group1": {
+        "NPUB30698": {
+            "DisplayTitle": "Catherine",
+            "SortAsTitle": "Catherine the Great"
+        },
+        ...
+    }, ...
+```
+
+Note that you also have to configure the `Sort Names From Custom Variable` field in the parser; in this case you would set it to `${Group1}`.
+
 
 ## 不区分大小写的变量
 
