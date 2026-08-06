@@ -365,6 +365,7 @@ export class VDF_Manager {
                       artworkType: artworkType,
                       sgdbId: currentImage.imageGameId,
                       drmProtect: app.drmProtect,
+                      overlayImage: app.overlayImages?.[artworkType],
                     });
                   }
                   // artwork Cache is shared across steam users and steam directories

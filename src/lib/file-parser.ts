@@ -341,6 +341,7 @@ export class FileParser {
           imageProviderAPIs: config.imageProviderAPIs,
           steamInputEnabled: config.steamInputEnabled,
           controllers: config.controllers,
+          overlayImages: config.overlayImages,
           foundUserAccounts: filteredAccounts.found,
           missingUserAccounts: filteredAccounts.missing,
           steamDirectory: config.steamDirectory,

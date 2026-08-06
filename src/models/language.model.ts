@@ -516,6 +516,7 @@ export interface languageStruct {
         executableArgs: string[];
         onlineImageQueries: string[];
         imageProviders: string[];
+        overlayImages: string[];
         imagePool: string[];
         defaultImage: string[];
         defaultTallImage: string[];
@@ -598,6 +599,7 @@ export interface languageStruct {
         imageProviders: string;
         imagePool: string;
         defaultImage__i: string; //${artworkType}
+        overlayImages__i: string; //${artworkType}
         localImages__i: string; //${artworkType}
       };
       placeholder: {
@@ -614,6 +616,7 @@ export interface languageStruct {
         onlineImageQueries: string;
         imagePool: string;
         defaultImage__i: { [key: string]: string }; //${artworkType}
+        overlayImages__i: { [key: string]: string }; //${artworkType}
         localImages__i: { [key: string]: string }; //${artworkType}
         imageProviders: string;
         multiAPIPlaceholder: string;

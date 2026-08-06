@@ -7,10 +7,11 @@ import {
   replaceVariables_undefined,
   extractNames,
 } from "./modifier-helpers";
+import { artworkTypes } from "../../lib/artwork-types";
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: "version",
-  latestVersion: 28,
+  latestVersion: 29,
   fields: {
     undefined: {
       version: { method: () => 0 },
@@ -430,5 +431,11 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         }
       }
     },
+    28: {
+      version: { method: versionUp },
+      overlayImages: { method: (oldValue) => {
+        return oldValue || Object.fromEntries(artworkTypes.map(at=>{return [at, null]}))
+      } },
+    }
   },
 };
