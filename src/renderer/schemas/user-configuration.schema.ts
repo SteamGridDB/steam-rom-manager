@@ -83,11 +83,12 @@ const sharedProperties = {
     defaultImage: {
       type: "object",
       default: {},
-      //properties: _artworkRecordProps({ type: ["string", "null"], default: null }),
+      properties: _artworkRecordProps({ type: ["string", "null"], default: null }),
     },
     localImages: {
       type: "object",
-      default: _artworkRecordProps({ type: ["string", "null"], default: null }),
+      default: {},
+      properties: _artworkRecordProps({ type: ["string", "null"], default: null })
     },
     onlineImageQueries: {
       type: "array",
