@@ -878,6 +878,7 @@ export class FileParser {
     return new Promise((resolve, reject) => {
       try {
         const appIdRegex: RegExp = /\$\{id\:([0-9]*?)\}/;
+        const excludeIndices: Set<number> = new Set();
         for (let i = 0; i < parsedConfig.files.length; i++) {
           // This little bit of magic means that we can also match on Exception ID
           let shortAppId: string;
@@ -914,6 +915,7 @@ export class FileParser {
                 filePath: parsedConfig.files[i].filePath,
               });
               parsedConfig.files[i] = null;
+              excludeIndices.add(i);
               continue;
             }
             if (exceptions && exceptions.newTitle) {
@@ -942,7 +944,10 @@ export class FileParser {
             }
           }
         }
+        titleModifierHandler.applyExclusions(excludeIndices)
         parsedConfig.files = parsedConfig.files.filter((x) => !!x);
+
+
         resolve({
           superType: superType,
           config: config,
@@ -1038,8 +1043,8 @@ export class FileParser {
     return new Promise((resolve, reject) => {
       try {
         for(let i = 0; i < parsedConfig.files.length; i++) {
-          parsedConfig.files[i].titles = titleModifierHandler.getTitleModifiers(i)
           titleModifierHandler.lockModifier(i);
+          parsedConfig.files[i].titles = titleModifierHandler.getTitleModifiers(i)
         }
         resolve(parsedConfig)
       } catch (e){

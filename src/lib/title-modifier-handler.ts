@@ -31,6 +31,18 @@ export class TitleModifierHandler {
         )
         
     }
+
+    applyExclusions(excludeIndices: Set<number>) {
+        this._titleModifiers = this._titleModifiers.filter((_, i) => {
+            return !excludeIndices.has(i)
+        })
+        this._currentModifier = this._currentModifier.filter((_, i) => {
+            return !excludeIndices.has(i)
+        })
+        this.latestTitle = this.latestTitle.filter((_, i) => {
+            return !excludeIndices.has(i)
+        })
+    }
     
     getTitleModifiers(i: number) {
         return this._titleModifiers[i];

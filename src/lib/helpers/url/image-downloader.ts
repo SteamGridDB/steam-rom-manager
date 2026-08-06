@@ -1,7 +1,19 @@
 import * as fs from "fs-extra";
 import fetch, { AbortError } from "node-fetch";
 import { Resolver } from "dns";
-const { Jimp } = require('jimp');
+
+const { Jimp } = require("jimp")
+
+// To Do - get webpack working via
+// Currently having trouble importing @jimp/wasm-webp
+// import { createJimp } from "@jimp/core";
+// import { defaultFormats, defaultPlugins } from "jimp";
+// import webp from "@jimp/wasm-webp"; 
+
+// const Jimp = createJimp({
+//   formats: [...defaultFormats, webp],
+//   plugins: defaultPlugins,
+// });
 
 import { decodeFile } from "./encode-file";
 
