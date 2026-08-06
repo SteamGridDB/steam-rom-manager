@@ -1,7 +1,8 @@
 import * as fs from "fs-extra";
 import fetch, { AbortError } from "node-fetch";
 import { Resolver } from "dns";
-import { Jimp } from "jimp";
+const { Jimp } = require('jimp');
+
 import { decodeFile } from "./encode-file";
 
 export class ImageDownloader {
@@ -31,8 +32,9 @@ export class ImageDownloader {
           ? decodeFile(overlayPath)
           : overlayPath;
         const overlayBuffer = await fs.readFile(overlayFilePath);
-
-        const baseImage = await Jimp.fromBuffer(buffer);
+        //@ts-ignore
+        const baseImage = await Jimp.fromBuffer(buffer); 
+        //@ts-ignore
         const overlayImage = await Jimp.fromBuffer(overlayBuffer);
 
         overlayImage.cover({ w: baseImage.bitmap.width, h: baseImage.bitmap.height });
