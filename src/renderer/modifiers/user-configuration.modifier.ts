@@ -434,7 +434,7 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
     28: {
       version: { method: versionUp },
       overlayImages: { method: (oldValue) => {
-        return oldValue || Object.fromEntries(artworkTypes.map(at=>{return [at, null]}))
+        return oldValue || Object.fromEntries(artworkTypes.map(at=>[at, null]))
       } },
     }
   },
