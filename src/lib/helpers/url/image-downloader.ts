@@ -39,28 +39,28 @@ export class ImageDownloader {
     overlayPath?: string
   ): Promise<void> {
     const writeBuffer = async (buffer: Buffer) => {
-      const imageExtension = (imageUrl||"").split(".")
-            .slice(-1)[0]
-            .replace(/[^\w\s]*$/gi, "")
-            .toLowerCase();
       // until we can figure out how to include custom jimp plugins
       // animated images can't be overlaid
-      if (overlayPath && !["webp","apng"].includes(imageExtension)) {
-        const overlayFilePath = overlayPath.startsWith("file://")
-          ? decodeFile(overlayPath)
-          : overlayPath;
-        const overlayBuffer = await fs.readFile(overlayFilePath);
-        const baseImage = await Jimp.fromBuffer(buffer); 
-        const overlayImage = await Jimp.fromBuffer(overlayBuffer);
+      if (overlayPath) {
+        try {
+          const overlayFilePath = overlayPath.startsWith("file://")
+            ? decodeFile(overlayPath)
+            : overlayPath;
+          const overlayBuffer = await fs.readFile(overlayFilePath);
+          const baseImage = await Jimp.fromBuffer(buffer); 
+          const overlayImage = await Jimp.fromBuffer(overlayBuffer);
 
-        overlayImage.cover({ w: baseImage.bitmap.width, h: baseImage.bitmap.height });
+          overlayImage.cover({ w: baseImage.bitmap.width, h: baseImage.bitmap.height });
 
-        // "northeast" gravity = anchor to top-right
-        const x = baseImage.bitmap.width - overlayImage.bitmap.width;
-        const y = 0;
-        baseImage.composite(overlayImage, x, y);
+          // "northeast" gravity = anchor to top-right
+          const x = baseImage.bitmap.width - overlayImage.bitmap.width;
+          const y = 0;
+          baseImage.composite(overlayImage, x, y);
+          buffer = await baseImage.getBuffer("image/png");
+        } catch(e) {
+          console.warn(`Overlay failed for image ${imageUrl}:\n ${e}`)
+        }
 
-        buffer = await baseImage.getBuffer("image/png");
       }
       await fs.outputFile(filePath, buffer);
       if (secondaryPath) {
