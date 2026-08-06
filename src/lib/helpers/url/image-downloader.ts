@@ -36,10 +36,16 @@ export class ImageDownloader {
     retryCount?: number,
     secondaryPath?: string,
     externalDNS?: string[],
-    overlayPath?: string,
+    overlayPath?: string
   ): Promise<void> {
     const writeBuffer = async (buffer: Buffer) => {
-      if (overlayPath) {
+      const imageExtension = (imageUrl||"").split(".")
+            .slice(-1)[0]
+            .replace(/[^\w\s]*$/gi, "")
+            .toLowerCase();
+      // until we can figure out how to include custom jimp plugins
+      // animated images can't be overlaid
+      if (overlayPath && !["webp","apng"].includes(imageExtension)) {
         const overlayFilePath = overlayPath.startsWith("file://")
           ? decodeFile(overlayPath)
           : overlayPath;

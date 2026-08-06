@@ -10,5 +10,6 @@ map_ext["tga"] = "tga";
 map_ext["tga"] = "tga";
 map_ext["ico"] = "ico";
 map_ext["ICO"] = "ico";
+// apparently there is a good reason for this:
 map_ext["webp"] = "png";
 map_ext["WEBP"] = "png";

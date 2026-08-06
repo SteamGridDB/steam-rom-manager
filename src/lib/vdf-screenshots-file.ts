@@ -205,7 +205,7 @@ export class VDF_ScreenshotsFile {
                 4,
                 secondaryPath,
                 undefined,
-                data.overlayImage,
+                data.overlayImage
               )
               .then(async () => {
                 if (/^\d+$/.test(appId)) {
