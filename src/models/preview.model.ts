@@ -119,7 +119,7 @@ export interface PreviewDataApp {
   drmProtect: boolean;
   sortAsTitle?: string;
   images: Record<ArtworkType, PreviewDataAppImage>;
-  overlayImages?: Record<ArtworkType, string>;
+  overlayImages: Record<ArtworkType, string>;
 }
 
 export interface PreviewDataApps {

@@ -32,9 +32,7 @@ export class ImageDownloader {
           ? decodeFile(overlayPath)
           : overlayPath;
         const overlayBuffer = await fs.readFile(overlayFilePath);
-        //@ts-ignore
         const baseImage = await Jimp.fromBuffer(buffer); 
-        //@ts-ignore
         const overlayImage = await Jimp.fromBuffer(overlayBuffer);
 
         overlayImage.cover({ w: baseImage.bitmap.width, h: baseImage.bitmap.height });
