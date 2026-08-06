@@ -10,16 +10,25 @@ import { artworkTypes, steamArtworkDict } from "../artwork-types";
 import { imageProviderNames, sgdbIdRegex } from "./available-providers";
 
 
-async function firstValidArtworkUrl(id: number, candidates: string[]): Promise<string | undefined> {
-  for (const file of candidates) {
-    const url = `https://cdn.cloudflare.steamstatic.com/steam/apps/${id}/${file}`;
-    try {
-      const res = await fetch(url, { method: "HEAD" });
-      if (res.ok) return url;
-    } catch {
-      // network error, try next candidate
-    }
+async function firstValidArtworkUrl(id: number, metadata: Record<string, any>, artworkType: keyof typeof steamArtworkDict): Promise<string | undefined> {
+
+  let file: string;
+
+  if (artworkType === "long") {
+    file = metadata["header_image_full"]["english"];
+  } else {
+    file = metadata[steamArtworkDict[artworkType]]["image2x"] ? metadata[steamArtworkDict[artworkType]]["image2x"]["english"] : metadata[steamArtworkDict[artworkType]]["image"]["english"];
   }
+
+  const url = `https://shared.steamstatic.com/store_item_assets/steam/apps/${id}/${file}`;
+
+  try {
+    const res = await fetch(url, { method: "HEAD" });
+    if (res.ok) return url;
+  } catch {
+  // network error, try next candidate
+  }
+
   return undefined;
 }
 
@@ -80,7 +89,7 @@ export class SteamCDNProvider extends GenericProvider {
                     loadStatus: "notStarted",
                   });
                 } else {
-                  const url = await firstValidArtworkUrl(id, steamArtworkDict[artworkType]);
+                  const url = await firstValidArtworkUrl(id, metadata, artworkType as keyof typeof steamArtworkDict);
                   if (url) {
                     self.proxy.image({
                       imageProvider: imageProviderNames.steamCDN,
