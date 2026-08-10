@@ -590,10 +590,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         compatSection: new NestedFormElement.Section({
           label: "Steam Play Compatibility",
-          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+          isHidden: () => this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
         }),
         compatToolName: new NestedFormElement.Select({
-          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+          isHidden: () => this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
           label: "Force compatibility tool",
           placeholder: "Don't force a tool",
           multiple: false,
@@ -603,12 +603,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         compatToolNameCustom: new NestedFormElement.Input({
           // Only shown when "Custom…" is picked; the select itself is already
-          // hidden (and stays "") for artwork-only parsers.
+          // hidden (and stays "") for artwork-only parsers or non-Linux OSes.
           isHidden: () =>
-            this.observeField(
-              "compatToolName",
-              (value: string) => value !== steam.COMPAT_CUSTOM,
-            ),
+            combineLatest([
+              this.observeField(
+                "compatToolName",
+                (value: string) => value !== steam.COMPAT_CUSTOM,
+              ),
+              this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
+            ]).pipe(map(([notCustom, hidden]) => notCustom || hidden)),
           label: "Custom compatibility tool name",
           placeholder: "e.g. GE-Proton9-20",
         }),
@@ -1518,6 +1521,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         !pType ||
         parserInfo.superTypesMap[pType] === parserInfo.ArtworkOnlyType,
     );
+  }
+  private isHiddenIfArtworkOnlyOrNotLinuxParser() {
+    return combineLatest([
+      this.isHiddenIfArtworkOnlyParser(),
+      of(os.type() !== "Linux"),
+    ]).pipe(map(([artworkOnly, notLinux]) => artworkOnly || notLinux));
   }
 
   private isHiddenIfNoParserInputs() {
