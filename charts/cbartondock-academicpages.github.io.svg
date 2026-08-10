@@ -47,12 +47,12 @@
     <text x="206.89655172413794" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Jul 17</text>
     <text x="280.34482758620686" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Jul 20</text>
     <text x="353.7931034482759" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Jul 23</text>
-    <text x="427.2413793103448" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Jul 26</text>
-    <text x="500.6896551724138" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Jul 29</text>
-    <text x="574.1379310344828" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Aug 1</text>
-    <text x="647.5862068965517" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Aug 4</text>
-    <text x="721.0344827586207" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Aug 7</text>
-    <text x="770" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Aug 9</text>
+    <text x="427.2413793103448" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Jul 27</text>
+    <text x="500.6896551724138" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Jul 30</text>
+    <text x="574.1379310344828" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Aug 2</text>
+    <text x="647.5862068965517" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Aug 5</text>
+    <text x="721.0344827586207" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Aug 8</text>
+    <text x="770" y="370" text-anchor="middle" class="chart-muted" font-size="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">Aug 10</text>
   </g>
   <line x1="60" y1="50" x2="60" y2="350" class="chart-axis" stroke-width="1" />
   <line x1="60" y1="350" x2="770" y2="350" class="chart-axis" stroke-width="1" />
