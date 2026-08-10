@@ -1,6 +1,20 @@
 import * as fs from "fs-extra";
 import fetch, { AbortError } from "node-fetch";
 import { Resolver } from "dns";
+
+const { Jimp } = require("jimp")
+
+// To Do - get webpack working via
+// Currently having trouble importing @jimp/wasm-webp
+// import { createJimp } from "@jimp/core";
+// import { defaultFormats, defaultPlugins } from "jimp";
+// import webp from "@jimp/wasm-webp"; 
+
+// const Jimp = createJimp({
+//   formats: [...defaultFormats, webp],
+//   plugins: defaultPlugins,
+// });
+
 import { decodeFile } from "./encode-file";
 
 export class ImageDownloader {
@@ -22,9 +36,42 @@ export class ImageDownloader {
     retryCount?: number,
     secondaryPath?: string,
     externalDNS?: string[],
+    overlayPath?: string
   ): Promise<void> {
+    const writeBuffer = async (buffer: Buffer) => {
+      // until we can figure out how to include custom jimp plugins
+      // animated images can't be overlaid
+      if (overlayPath) {
+        try {
+          const overlayFilePath = overlayPath.startsWith("file://")
+            ? decodeFile(overlayPath)
+            : overlayPath;
+          const overlayBuffer = await fs.readFile(overlayFilePath);
+          const baseImage = await Jimp.fromBuffer(buffer); 
+          const overlayImage = await Jimp.fromBuffer(overlayBuffer);
+
+          overlayImage.cover({ w: baseImage.bitmap.width, h: baseImage.bitmap.height });
+
+          // "northeast" gravity = anchor to top-right
+          const x = baseImage.bitmap.width - overlayImage.bitmap.width;
+          const y = 0;
+          baseImage.composite(overlayImage, x, y);
+          buffer = await baseImage.getBuffer("image/png");
+        } catch(e) {
+          console.warn(`Overlay failed for image ${imageUrl}:\n ${e}`)
+        }
+
+      }
+      await fs.outputFile(filePath, buffer);
+      if (secondaryPath) {
+        await fs.outputFile(secondaryPath, buffer);
+      }
+    };
+
     if (imageUrl.startsWith("file://")) {
-      await fs.copyFile(decodeFile(imageUrl), filePath);
+      const localPath = decodeFile(imageUrl);
+      const buffer = await fs.readFile(localPath);
+      return writeBuffer(buffer);
     } else {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), this.timeout);
@@ -47,10 +94,7 @@ export class ImageDownloader {
         }
 
         const arrayBuff = Buffer.from(await res.arrayBuffer());
-        await fs.outputFile(filePath, arrayBuff);
-        if (secondaryPath) {
-          await fs.outputFile(secondaryPath, arrayBuff);
-        }
+        return writeBuffer(arrayBuff);
       } catch (error) {
         if (error instanceof AbortError) {
           if (retryCount && retryCount > 0) {
@@ -58,6 +102,9 @@ export class ImageDownloader {
               imageUrl,
               filePath,
               retryCount - 1,
+              secondaryPath,
+              externalDNS,
+              overlayPath,
             );
           } else {
             throw `Request timed out after ${this.timeout} milliseconds. URL: ${imageUrl}`;

@@ -40,16 +40,11 @@ export const artworkSingDict: Record<ArtworkType, string> = {
   icon: "icon",
 };
 
-export const steamArtworkDict: Record<ArtworkType, string[]> = {
-  tall: ["library_600x900.jpg", "library_600x900_2x.jpg"],
-  long: ["header.jpg", "capsule_616x353.jpg", "capsule_231x87.jpg"],
-  hero: [
-    "library_hero.jpg",
-    "library_hero_2x.jpg",
-    "page_bg_generated_v6b.jpg",
-  ],
-  logo: ["logo.png", "logo_2x.png"],
-  icon: [],
+export const steamArtworkDict: Record<Exclude<ArtworkType, "icon">, string> = {
+  tall: "library_capsule_full",
+  long: "header_image_full",
+  hero: "library_hero_full",
+  logo: "library_logo_full",
 };
 
 export const artworkIdDict: Record<ArtworkType, string> = {

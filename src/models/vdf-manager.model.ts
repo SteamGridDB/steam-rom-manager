@@ -20,6 +20,7 @@ export interface VDF_ScreenshotItem {
   artworkType: ArtworkType;
   sgdbId?: string;
   drmProtect?: boolean;
+  overlayImage?: string;
 }
 
 export interface VDF_ScreenshotsData {
@@ -43,6 +44,7 @@ export interface VDF_ShortcutsItem {
   LaunchOptions: string;
   icon: string;
   tags: string[];
+  sortas?: string;
 }
 
 export interface VDF_AddedItemsData {

@@ -12,12 +12,14 @@ const controllerTypes = [
   "switch_pro",
   "neptune",
 ];
+import { artworkTypes } from "../../lib/artwork-types";
+
 
 import { versionUp, extractNames } from "./modifier-helpers";
 
 export const configPreset: ValidatorModifier<UserConfiguration> = {
   controlProperty: "presetVersion",
-  latestVersion: 19,
+  latestVersion: 20,
   fields: {
     undefined: {
       presetVersion: { method: () => 0 },
@@ -306,5 +308,11 @@ export const configPreset: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
-  },
+    19:{
+      presetVersion: { method: versionUp },
+      overlayImages: { method: (oldValue) => {
+        return oldValue || Object.fromEntries(artworkTypes.map(at=>[at, ""]))
+      } },
+    }
+  }
 };

@@ -176,6 +176,10 @@ export class VDF_ScreenshotsFile {
       ) {
         const appId = addableAppIds[j];
         const data = screenshotsData[appId] as VDF_ScreenshotItem;
+        if (typeof data.url !== "string" || data.url.length === 0) {
+          screenshotsData[appId] = data.title;
+          continue;
+        }
         const dmcaCheck = data.url.endsWith("?"); // Nintendo Sucks
         if (!dmcaCheck) {
           let ext: string = data.url
@@ -195,7 +199,14 @@ export class VDF_ScreenshotsFile {
           }
           batchAddPromises.push(
             imageDownloader
-              .downloadAndSaveImage(data.url, gridPath, 4, secondaryPath)
+              .downloadAndSaveImage(
+                data.url,
+                gridPath,
+                4,
+                secondaryPath,
+                undefined,
+                data.overlayImage
+              )
               .then(async () => {
                 if (/^\d+$/.test(appId)) {
                   const symPath = path.join(
@@ -353,6 +364,7 @@ export class VDF_ScreenshotsFile {
         artworkType: data.artworkType,
         sgdbId: data.sgdbId,
         drmProtect: data.drmProtect,
+        overlayImage: data.overlayImage,
       };
     }
   }

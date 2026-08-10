@@ -566,9 +566,7 @@
                                   app,
                                   image,
                                   artworkType
-                                )
-                                  | cssUrl
-                                  | safeStyle
+                                ) | safeStyle
                               "
                               [class.retrieving]="
                                 getImagePool(appimages.imagePool, artworkType)
@@ -880,9 +878,7 @@
                           <div
                             [attr.data-inviewkey]="appId + currentViewType"
                             [style.backgroundImage]="
-                              setBackgroundImage(appId, app, image)
-                                | cssUrl
-                                | safeStyle
+                              setBackgroundImage(appId, app, image) | safeStyle
                             "
                             class="app"
                             *ngIf="isAppVisible(app)"

@@ -61,6 +61,7 @@ import {
   onlineProviders,
   imageProviderNames,
 } from "../../lib/image-providers/available-providers";
+// import { CustomVariablesService } from "./custom-variables.service";
 
 @Injectable()
 export class PreviewService {
@@ -80,6 +81,7 @@ export class PreviewService {
     private loggerService: LoggerService,
     private imageProviderService: ImageProviderService,
     private settingsService: SettingsService,
+    // private cVariableService: CustomVariablesService,
     private http: HttpClient,
   ) {
     this.previewData = undefined;
@@ -314,7 +316,7 @@ export class PreviewService {
           invokeAlert: true,
           alertTimeout: 3000,
         });
-        return vdfManager.mergeData(
+       return vdfManager.mergeData(
           this.previewData,
           this.onlineImages,
           this.appSettings.previewSettings.deleteDisabledShortcuts,
@@ -937,7 +939,7 @@ export class PreviewService {
         for (let k = 0; k < data[i].files.length; k++) {
           let file = config.files[k];
           let executableLocation = file.modifiedExecutableLocation;
-          let title = file.finalTitle;
+          let title = file.titles.final;
           let appID: string = "";
           if (superTypesMap[config.parserType] !== "ArtworkOnly") {
             appID = steam.generateAppId(executableLocation, title);
@@ -1086,12 +1088,14 @@ export class PreviewService {
               drmProtect: config.drmProtect,
               argumentString: file.argumentString,
               filePath: file.filePath,
-              title: file.finalTitle,
-              extractedTitle: file.extractedTitle,
+              title: file.titles.final,
+              extractedTitle: file.titles.extracted,
+              sortAsTitle: file.sortAsTitle,
               steamInputEnabled: config.steamInputEnabled,
               controllers: config.controllers,
               compatToolName: file.compatToolName,
               images: images,
+              overlayImages: config.overlayImages,
               executableLocation,
             };
           } else {
@@ -1387,7 +1391,7 @@ export class PreviewService {
       try {
         const packagePath = path.join(result.filePaths[0], "srm-image-choices");
         if (fs.existsSync(packagePath)) {
-          fs.rmdirSync(packagePath, { recursive: true });
+          fs.rmSync(packagePath, {recursive: true, force: true})
         }
         fs.mkdirSync(packagePath);
         const apps: any[] = [];

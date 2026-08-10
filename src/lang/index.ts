@@ -41,6 +41,7 @@ function getMarkdown(langPath: string) {
             require(`${langPath}/parser-env-variables.md`),
           ],
           titleFromVariable: [require(`${langPath}/title-from-variable.md`)],
+          sortAsFromVariable: [require(`${langPath}/title-from-variable.md`)],
           fuzzyMatch: [require(`${langPath}/fuzzy-matching.md`)],
           executableArgs: [
             require(`${langPath}/executable-arguments.md`),
@@ -60,6 +61,10 @@ function getMarkdown(langPath: string) {
           imagePool: [
             require(`${langPath}/image-pool.md`),
             require(`${langPath}/parser-variables.md`),
+            require(`${langPath}/parser-env-variables.md`),
+          ],
+          overlayImages: [
+            require(`${langPath}/overlay-images.md`),
             require(`${langPath}/parser-env-variables.md`),
           ],
           defaultImage: [

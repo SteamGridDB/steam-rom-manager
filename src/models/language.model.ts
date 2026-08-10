@@ -515,9 +515,11 @@ export interface languageStruct {
         executableModifier: string[];
         titleFromVariable: string[];
         fuzzyMatch: string[];
+        sortAsFromVariable: string[];
         executableArgs: string[];
         onlineImageQueries: string[];
         imageProviders: string[];
+        overlayImages: string[];
         imagePool: string[];
         defaultImage: string[];
         defaultTallImage: string[];
@@ -567,6 +569,7 @@ export interface languageStruct {
         extractedTitle__i: string; //${index}, ${total}, ${title}
         fuzzyTitle__i: string; //${index}, ${total}, ${title}
         finalTitle__i: string; //${index}, ${total}, ${title}
+        sortAsTitle__i: string;
         filePath__i: string; //${index}, ${total}, ${filePath}
         startDir__i: string; //${index}, ${total}, ${filePath}
         completeShortcut__i: string; //${index}, ${total}, ${shortcut}
@@ -599,6 +602,7 @@ export interface languageStruct {
         imageProviders: string;
         imagePool: string;
         defaultImage__i: string; //${artworkType}
+        overlayImages__i: string; //${artworkType}
         localImages__i: string; //${artworkType}
       };
       placeholder: {
@@ -615,6 +619,7 @@ export interface languageStruct {
         onlineImageQueries: string;
         imagePool: string;
         defaultImage__i: { [key: string]: string }; //${artworkType}
+        overlayImages__i: { [key: string]: string }; //${artworkType}
         localImages__i: { [key: string]: string }; //${artworkType}
         imageProviders: string;
         multiAPIPlaceholder: string;

@@ -515,6 +515,7 @@
         "extractedTitle__i": "[${index}/${total}]:      Extracted title - ${title}",
         "fuzzyTitle__i": "[${index}/${total}]:          Fuzzy title - ${title}",
         "finalTitle__i": "[${index}/${total}]:          Final title - ${title}",
+        "sortAsTitle__i": "[${index}/${total}]:        Sort as title - ${title}",
         "filePath__i": "[${index}/${total}]:            File path - ${filePath}",
         "startDir__i": "[${index}/${total}]:            Start dir - ${startDir}",
         "completeShortcut__i": "[${index}/${total}]:    Complete shortcut - ${shortcut}",
@@ -547,6 +548,7 @@
         "imagePool": "Artwork pool",
         "imageProviders": "Artwork providers",
         "defaultImage__i": "Fallback ${artworkType}",
+        "overlayImages__i": "Overlay ${artworkType}",
         "localImages__i": "Local ${artworkType} glob"
       },
       "placeholder": {
@@ -570,6 +572,11 @@
           "Linux": "/path/to/art/${artworkType}/\\${title}.@(png|jpg)"
         },
         "onlineImageQueries": "${${fuzzyTitle}} or ${${title}}${${fuzzyTitle}}",
+        "overlayImages__i": {
+          "Windows_NT": "C:\\\\path\\\\to\\\\overlay_${artworkType}.png",
+          "Darwin": "/path/to/overlay_${artworkType}.png",
+          "Linux": "/path/to/overlay_${artworkType}"
+        },
         "imagePool": "${fuzzyTitle}",
         "romDirectory": {
           "Windows_NT": "C:\\path\\to\\games\\",

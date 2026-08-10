@@ -40,6 +40,9 @@ export interface UserConfiguration {
     removeBrackets: boolean;
     replaceDiacritics: boolean;
   };
+  sortAsFromVariable: {
+    limitToGroups: string[];
+  };
   controllers: Controllers;
   steamInputEnabled: SteamInputEnabled;
   onlineImageQueries: string[];
@@ -50,6 +53,7 @@ export interface UserConfiguration {
   drmProtect: boolean;
   defaultImage: Record<ArtworkType, string>;
   localImages: Record<ArtworkType, string>;
+  overlayImages: Record<ArtworkType, string>;
   titleModifier: string;
   disabled: boolean;
   group: string;

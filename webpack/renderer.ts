@@ -5,8 +5,15 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import { merge } from "webpack-merge";
 import { Configuration } from "webpack";
-
+import * as path from "path";
 import * as helpers from "./helpers";
+
+const jimpCommonjsEntry = path.join(
+  path.dirname(require.resolve("jimp/package.json")),
+  "dist",
+  "commonjs",
+  "index.js",
+);
 
 let clientConfig: Configuration = {
   target: "electron-renderer",
@@ -22,6 +29,9 @@ let clientConfig: Configuration = {
   },
   resolve: {
     extensions: [".ts", ".js"],
+    alias: {
+      jimp$: jimpCommonjsEntry,
+    },
   },
   module: {
     rules: [
