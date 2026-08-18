@@ -46,7 +46,7 @@ Caso a entrada do diretório executável seja deixada **vazia**, `${exePath}`{.n
 | Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                 |
 | ----------------------------------:|:----------------------------------------------------------- |
 |                         `${title}` | Título extraído                                             |
-|                 `${shortcutTitle}` | Title after shortcut passthrough                            |
+|                                 `` | Title after shortcut passthrough                            |
 |           `${customVariableTitle}` | Title after custom variable application                     |
 |                    `${fuzzyTitle}` | Title after fuzzy matching                                  |
 |                    `${finalTitle}` | O título que foi o resultado final do modificador do título |
