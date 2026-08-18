@@ -937,7 +937,7 @@ export class FileParser {
             // default already seeded above; COMPAT_NONE opts this game out;
             // any other string forces that specific tool.
             if (exceptions && exceptions.compatToolName !== undefined) {
-              parsedConfig.files[j].compatToolName = exceptions.compatToolName;
+              parsedConfig.files[i].compatToolName = exceptions.compatToolName;
             }
             if (
               exceptions &&
