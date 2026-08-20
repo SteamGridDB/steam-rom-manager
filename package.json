@@ -62,6 +62,7 @@
     "presets:validate": "ts-node ./scripts/validate-files.ts",
     "presets:modify": "ts-node ./scripts/update-files.ts",
     "presets:version": "node ./scripts/version-files.js",
+    "test:github-launcher-parser": "ts-node ./scripts/github-launcher-parser.test.ts",
     "update:deps": "npm-check-updates --interactive --format group",
     "pretty:check": "yarn prettier . --check",
     "pretty:write": "yarn prettier . --write",
