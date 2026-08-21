@@ -191,29 +191,11 @@ Dans le cas où l'entrée chemin complet vers un exécutable est laissée **vide
 . :
 
 ```
-${/.*/|${title}}                           //Matches everything
-${/(.*)/|${title}}                         //Captures everything
-${/(\(.*?\))/|${title}|}                   //Captures all brackets and substitutes with nothing
-${/(\(Disc\s?[0-9]\))/|${title}}           //Captures "Disc..." part
-${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transforms it to uppercase
-${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
-file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
+
 ```
 
 sera remplacé par:
 
 ```
-Pokémon (USA) (Disc 1).iso
-Pokémon (USA) (Disc 1).iso
-Pokémon.iso
-(Disc 1)
-(DISC 1)
-Pokemon (USA) (Disc 1).iso
 
---On linux:
-file.so
---On Windows:
-file.dll
---On Mac OS:
-file
 ```
