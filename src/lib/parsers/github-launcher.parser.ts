@@ -6,6 +6,25 @@ import * as os from "os";
 import * as path from "path";
 import { glob } from "glob";
 
+export function resolveGithubLauncherGameDir(
+  githubLauncherDir: string,
+  appsPath: string | undefined,
+  folderName: string | undefined,
+  installPath?: string,
+): string | undefined {
+  if (installPath?.trim()) {
+    return installPath;
+  }
+  if (!folderName) {
+    return undefined;
+  }
+
+  const gamesDir = appsPath?.trim()
+    ? appsPath
+    : path.join(githubLauncherDir, "Apps");
+  return path.join(gamesDir, folderName);
+}
+
 export class GithubLauncherParser implements GenericParser {
   private get lang() {
     return APP.lang.githubLauncherParser;
@@ -52,11 +71,19 @@ export class GithubLauncherParser implements GenericParser {
         let settings = fs.readJsonSync(settingsConfigPath);
         let apps = fs.readJsonSync(appsConfigPath);
         let gamesDir = settings?.AppsPath;
-        if(!gamesDir || !fs.existsSync(gamesDir)) { throw `Invalid games directory ${gamesDir}` }
         let gamesList: any[] = apps.apps;
         for(let game of gamesList) {
-          let gameDir = path.join(gamesDir, game.folderName)
-          if(game.name && game.folderName && fs.existsSync(gameDir)) {
+          let gameDir = resolveGithubLauncherGameDir(
+            inputs.githubLauncherDir,
+            gamesDir,
+            game.folderName,
+            game.installPath,
+          );
+          if (
+            game.name &&
+            gameDir &&
+            fs.existsSync(gameDir)
+          ) {
             const exeFileNames = await glob("*.exe", { dot: true, cwd: gameDir, nocase: true })
             if(!exeFileNames.length) {
               parsedData.failed.push(`Game folder ${gameDir} has no executable file`)
