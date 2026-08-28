@@ -35,6 +35,7 @@ import {
   VDF_Error,
   CategoryManager,
   ControllerManager,
+  CompatToolManager,
   Acceptable_Error,
   ArtworkCache,
 } from "../../lib";
@@ -407,6 +408,38 @@ export class PreviewService {
           });
           this.loggerService.error(
             this.lang.errors.controllerSaveError__i.interpolate({
+              error: error.message,
+            }),
+          );
+        } else {
+          throw error;
+        }
+      })
+      .then(async () => {
+        // config.vdf is per-install and Steam rewrites it on exit, so patch it
+        // with Steam closed (same steamless window the categories step uses).
+        if (!removeAll) {
+          await steam.performSteamlessTask(
+            this.appSettings,
+            this.loggerService,
+            async () => {
+              this.loggerService.info(this.lang.info.savingCompatTools);
+              const compatToolManager = new CompatToolManager(
+                this.loggerService,
+              );
+              await compatToolManager.save(this.previewData, exAppIds);
+            },
+          );
+        }
+      })
+      .catch((error: Acceptable_Error | Error) => {
+        if (error instanceof Acceptable_Error) {
+          this.loggerService.error(this.lang.errors.compatToolSaveError, {
+            invokeAlert: true,
+            alertTimeout: 3000,
+          });
+          this.loggerService.error(
+            this.lang.errors.compatToolSaveError__i.interpolate({
               error: error.message,
             }),
           );
@@ -1060,6 +1093,7 @@ export class PreviewService {
               sortAsTitle: file.sortAsTitle,
               steamInputEnabled: config.steamInputEnabled,
               controllers: config.controllers,
+              compatToolName: file.compatToolName,
               images: images,
               overlayImages: config.overlayImages,
               executableLocation,

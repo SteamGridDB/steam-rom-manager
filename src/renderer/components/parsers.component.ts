@@ -593,6 +593,33 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             return children;
           })(),
         }),
+        compatSection: new NestedFormElement.Section({
+          label: "Steam Play Compatibility",
+          isHidden: () => this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
+        }),
+        compatToolName: new NestedFormElement.Select({
+          isHidden: () => this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
+          label: "Force compatibility tool",
+          placeholder: "Don't force a tool",
+          multiple: false,
+          allowEmpty: true,
+          // Populated at runtime by fetchCompatTools().
+          values: [],
+        }),
+        compatToolNameCustom: new NestedFormElement.Input({
+          // Only shown when "Custom…" is picked; the select itself is already
+          // hidden (and stays "") for artwork-only parsers or non-Linux OSes.
+          isHidden: () =>
+            combineLatest([
+              this.observeField(
+                "compatToolName",
+                (value: string) => value !== steam.COMPAT_CUSTOM,
+              ),
+              this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
+            ]).pipe(map(([notCustom, hidden]) => notCustom || hidden)),
+          label: "Custom compatibility tool name",
+          placeholder: "e.g. GE-Proton9-20",
+        }),
         onlineImageSection: new NestedFormElement.Section({
           label: "Artwork Provider Configuration",
           startMinimized: true,
@@ -1533,6 +1560,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         parserInfo.superTypesMap[pType] === parserInfo.ArtworkOnlyType,
     );
   }
+  private isHiddenIfArtworkOnlyOrNotLinuxParser() {
+    return combineLatest([
+      this.isHiddenIfArtworkOnlyParser(),
+      of(os.type() !== "Linux"),
+    ]).pipe(map(([artworkOnly, notLinux]) => artworkOnly || notLinux));
+  }
 
   private isHiddenIfNoParserInputs() {
     return this.observeField("parserType", (pType: ParserType) => {
@@ -1697,5 +1730,23 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         alertTimeout: 3000,
       });
     }
+    await this.fetchCompatTools();
+  }
+
+  // Populate the "Force compatibility tool" dropdown from the tools installed on
+  // disk (per this parser's Steam install plus system roots), followed by a
+  // "Custom…" entry that reveals the free-text field.
+  private async fetchCompatTools() {
+    const steamDirInput = this.userForm?.get("steamDirectory")?.value || "";
+    const steamDir = this.parsersService.parseSteamDir(steamDirInput);
+    const dirs = steamDir ? [steamDir] : [];
+    const tools = await steam.listAvailableCompatTools(dirs);
+    (
+      this.nestedGroup.children.compatToolName as NestedFormElement.Select
+    ).values = [
+      ...tools.map((t) => ({ displayValue: t.displayName, value: t.name })),
+      { displayValue: "Custom…", value: steam.COMPAT_CUSTOM },
+    ];
+    this.changeRef.detectChanges();
   }
 }

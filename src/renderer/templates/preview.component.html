@@ -210,6 +210,18 @@
                   >
                 </div>
               </div>
+              <div class="detailsExceptionField">
+                <div class="detailsExceptionText">
+                  <ng-select
+                    class="ngSelect"
+                    placeholder="Force compatibility tool"
+                    [(ngModel)]="detailsException.compatToolName"
+                    [values]="compatToolOptions"
+                    [sort]="false"
+                  >
+                  </ng-select>
+                </div>
+              </div>
             </ng-container>
             <div class="detailsExceptionSection">
               <span>Search SteamGridDB</span>
