@@ -187,6 +187,9 @@ export class VDF_ScreenshotsFile {
             .slice(-1)[0]
             .replace(/[^\w\s]*$/gi, "");
           ext = ids.map_ext["" + ext] || ext;
+          if (ext.toLowerCase() === "ico") {
+            ext = "png";
+          }
           const gridPath = path.join(this.gridDirectory, `${appId}.${ext}`);
           let secondaryPath: string;
           if (data.sgdbId && data.drmProtect) {
