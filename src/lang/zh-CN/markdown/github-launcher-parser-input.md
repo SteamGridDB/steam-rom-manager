@@ -1,5 +1,5 @@
-# GitHub Launcher Parser Specific Inputs
+# GitHub Launcher 解析器专用输入项
 
-## GitHub Launcher Install Directory
+## GitHub Launcher 安装目录
 
-As [GitHub Launcher](https://github.com/SirDiabo/GithubLauncher/) is a portable application, you have to provide us with its install directory before we can do any parsing!
+由于 [GitHub Launcher](https://github.com/SirDiabo/GithubLauncher/) 是便携式应用程序，因此在进行解析之前，你需要提供它的安装目录！
