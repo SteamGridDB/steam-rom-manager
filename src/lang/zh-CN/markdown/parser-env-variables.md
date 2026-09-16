@@ -5,7 +5,7 @@
 |              `${/}` | 系统特定的目录分隔符：`\` 或 `/`         |
 |         `${srmdir}` | 便携式 SRM 可执行文件目录               |
 | `${steamdirglobal}` | 全局 Steam 目录，指定在 `设置` 中。       |
-| `${accountsglobal}` |                               |
+| `${accountsglobal}` | 在 `设置` 中指定的全局用户账户             |
 |  `${romsdirglobal}` | 全局 ROMs 目录，位于 `设置` 中指定。       |
 |  `${retroarchpath}` | Retroarch 可执行文件的路径，在 `设置` 中指定 |
 |        `${racores}` | RetroArch cores 目录，指定在 `设置` 中 |
