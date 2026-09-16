@@ -1,7 +1,7 @@
-# Group
+# 分组
 
-Optional group this parser belongs to. Parsers that share a group are shown together under a collapsible section in the parser list on the left, which makes long lists easier to organize and manage.
+此解析器所属的可选分组。 属于同一分组的解析器会集中显示在左侧解析器列表中的可折叠区域内，便于整理和管理较长的解析器列表。
 
-Leave this blank to keep the parser ungrouped. Typing a new name here creates the group; you can also create groups and drag parsers between them directly in the parser list.
+留空则不对该解析器进行分组。 在此输入新的名称即可创建分组；你也可以直接在解析器列表中创建分组，并在不同分组之间拖动解析器。
 
-**This field is purely organizational and does not affect what is added to `Steam` in any way.**
+**此字段仅用于整理，不会以任何方式影响添加到 `Steam` 中的内容。**
