@@ -90,8 +90,8 @@
       "directoryInvalid": "> Steam 目录无效。",
       "noSteamAccounts": "> 指定的 Steam 目录中没有账户。",
       "steamChanged__i": "> Steam 更改了内部数据库结构或解析器尝试读取过时的数据库。\n有问题的文件：${file}\n完整错误信息：\n ${error}",
-      "noApiKey": "> The 'All owned games (Steam Web API)' strategy is selected but no Steam Web API key was provided. Enter a key (https://steamcommunity.com/dev/apikey) or switch the game fetch strategy to 'Installed at least once'.",
-      "webApiError__i": "> Failed to fetch owned games from the Steam Web API. This strategy needs an internet connection and a valid API key.\nFull error:\n ${error}",
+      "noApiKey": "> 已选择“所有已拥有的游戏（Steam Web API）”策略，但尚未提供 Steam Web API 密钥。请输入密钥（https://steamcommunity.com/dev/apikey），或将游戏获取策略切换为“至少安装过一次”。",
+      "webApiError__i": "> 无法通过 Steam Web API 获取已拥有的游戏。此策略需要互联网连接和有效的 API 密钥。\n完整错误信息：\n${error}",
       "fatalError__i": "> Steam 解析器发生致命错误：\n ${error}"
     }
   },
@@ -113,17 +113,17 @@
     }
   },
   "githubLauncherParser": {
-    "dirInputTitle": "GitHub Launcher Install Directory",
+    "dirInputTitle": "GitHub Launcher 安装目录",
     "dirInputPlaceholder": {
       "Windows_NT": "C:\\path\\to\\GitHubLauncher\\",
       "Darwin": "/path/to/GitHubLauncher/",
       "Linux": "/path/to/GitHubLauncher/"
     },
     "errors": {
-      "fatalError__i": "> GitHub Launcher parser failed with fatal error:\n ${error}",
-      "githubLauncherNotCompatible": "> GitHub Launcher Parser is only available on Windows.",
-      "githubLauncherDirRequired": "> GitHub Launcher Install Directory cannot be empty.",
-      "githubLauncherNotInstalled": "> It would appear that GitHub Launcher is not installed at the provided location."
+      "fatalError__i": "> GitHub Launcher 解析器发生致命错误：\n${error}",
+      "githubLauncherNotCompatible": "> GitHub Launcher 解析器仅支持 Windows。",
+      "githubLauncherDirRequired": "> GitHub Launcher 安装目录不能为空。",
+      "githubLauncherNotInstalled": "> 指定位置中似乎未安装 GitHub Launcher。"
     }
   },
   "epicParser": {
@@ -265,7 +265,7 @@
     }
   },
   "globParser": {
-    "inputTitle": "Search glob",
+    "inputTitle": "搜索匹配模式",
     "inputPlaceholder": "${title}.@(iso|ISO)",
     "errors": {
       "noTitle__md": "> 文件通配符必须包含 `${title}`！",
@@ -282,7 +282,7 @@
     }
   },
   "globRegexParser": {
-    "inputTitle": "Search glob-regex",
+    "inputTitle": "搜索正则表达式",
     "inputPlaceholder": "${/valid regex/}",
     "errors": {
       "noRegex__md": "> 文件通配符必须包含 `${regex}`，其中 **regex** 是您的正则表达式！",
@@ -512,7 +512,7 @@
         "extractedTitle__i": "[${index}/${total}]:      提取标题 - ${title}",
         "fuzzyTitle__i": "[${index}/${total}]:          模糊标题 - ${title}",
         "finalTitle__i": "[${index}/${total}]:          最终标题 - ${title}",
-        "sortAsTitle__i": "[${index}/${total}]:        Sort as title - ${title}",
+        "sortAsTitle__i": "[${index}/${total}]：排序标题 - ${title}",
         "filePath__i": "[${index}/${total}]:            文件路径 - ${filePath}",
         "startDir__i": "[${index}/${total}]:            开始目录 - ${startDir}",
         "completeShortcut__i": "[${index}/${total}]:    完成快捷方式 - ${shortcut}",
@@ -545,7 +545,7 @@
         "imagePool": "艺术图库",
         "imageProviders": "艺术图源",
         "defaultImage__i": "反馈",
-        "overlayImages__i": "Overlay ${artworkType}",
+        "overlayImages__i": "叠加 ${artworkType}",
         "localImages__i": "Local ${artworkType} glob"
       },
       "placeholder": {
@@ -626,10 +626,10 @@
         "configTitle__md": "> 解析器标题不能为空！",
         "parserId__md": ">解析器 ID 丢失，出现了严重的问题。",
         "parserInput": {
-          "fieldRequired__i": "> ${inputName} is required!",
-          "noInput": "> No inputs are available!",
-          "inputNotAvailable__i": "> \"${name}\" input is not available!",
-          "incorrectParser": "> Incorrect parser!"
+          "fieldRequired__i": "> ${inputName} 为必填项！",
+          "noInput": "> 没有可用的输入项！",
+          "inputNotAvailable__i": "> 输入项“${name}”不可用！",
+          "incorrectParser": "> 解析器不正确！"
         },
         "romDir__md": "> ROM目录无效！",
         "userAccounts__md": "> 用户帐户字段是必填的 ！",
@@ -639,8 +639,8 @@
         "defaultImage__md": "> 备选艺术图路径无效！",
         "variableString__md": "`${` 和 `}` 的配对数量不一致！如果你是想把 `${` 或 `}` 当作普通字符使用，请使用 `\\` 进行转义。",
         "unhandledValidationKey__md": "> 输入校验未处理！",
-        "genericDir__md": "> 目录无效!",
-        "genericPath__md": "> 路径无效!"
+        "genericDir__md": "> 目录无效！",
+        "genericPath__md": "> 路径无效！"
       },
       "text": {
         "noTitle": "无标题！"
