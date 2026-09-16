@@ -40,9 +40,9 @@ This time we want **File3** and **File5** (both have different extensions, read 
 ```
 **/${title}.*
 ```
-它真的那么简单吗？ Is it really that simple? Is it really that simple? **NO!** Globstar will have some impact in parser's performance if there are many subdirectories with thousands of files each. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere. Globstar will make sure that parser check every file it can find. User once reported that parsing took ~10 minutes when he used globstars everywhere. Globstar 会确保解析器检查它能找到的每个文件。 Globstar 会确保解析器检查它能找到的每个文件。 用户曾经报告过解析需要约10分钟的时间来使用 globstar。
+它真的那么简单吗？ **不！** 如果存在大量子目录，且每个子目录中都有数千个文件，Globstar 会在一定程度上影响解析器的性能。 Globstar 会确保解析器检查它能找到的每个文件。 用户曾经报告过解析需要约10分钟的时间来使用 globstar。
 
-建议的解决方案是使用花括号集合。 A recommended solution is to use braced sets. A recommended solution is to use braced sets. They can make multiple globs out of `1` glob. If we write a glob like this: If we write a glob like this: 如果我们像这样写一个全局通配符： 如果我们像这样写一个全局通配符：
+建议的解决方案是使用花括号集合。 它们可以将 `1` 个搜索匹配模式展开为多个搜索匹配模式。 如果我们像这样写一个全局通配符：
 
 ```
 {*,*/*}/*/${title}.*
