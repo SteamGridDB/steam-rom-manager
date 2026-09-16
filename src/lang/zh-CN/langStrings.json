@@ -130,8 +130,8 @@
     "manifestsInputTitle": "Epic 列表目录覆盖",
     "manifestsInputPlaceholder": {
       "Windows_NT": "C:\\path\\to\\your\\manifests\\",
-      "Darwin": "",
-      "Linux": ""
+      "Darwin": "/path/to/your/manifests/",
+      "Linux": "/path/to/your/manifests/"
     },
     "launcherModeInputTitle": "通过 Epic 启动游戏以使用在线服务。",
     "errors": {
@@ -618,7 +618,7 @@
         "savingConfiguration": "保存用户解析器时发生错误！",
         "readingConfiguration": "加载用户解析器时发生错误！",
         "parserTypeMissing": "未指定解析器类型，无法保存",
-        "corruptedConfiguration__i": "一个或多个保存的解析器配置无效！\n在此问题得到解决之前，永久配置保存被禁用。\n尝试手动修复错误(文件 - ${file})\n或在我们的官方 Discord 频道上寻求帮助：${error}。",
+        "corruptedConfiguration__i": "一个或多个保存的解析器配置无效！\n在此问题得到解决之前，永久配置保存被禁用。\n尝试手动修复错误(文件 - ${file})\n或在我们的官方 Discord 频道上寻求帮助：${error}",
         "fetchingTemplates": "获取控制器模板时发生错误！"
       },
       "validationErrors": {
