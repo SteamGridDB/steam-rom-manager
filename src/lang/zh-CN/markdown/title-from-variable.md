@@ -1,4 +1,4 @@
-#
+# 从自定义变量获取标题
 
 允许从下面描述的 `json` 文件中用自定义变量覆盖已提取的标题 这是在提取标题之后立即完成的，这意味着替换后的标题可以用于模糊匹配等操作 群组和变量本身是**区分大小写**的，除非启用了不区分大小写的变量选项。
 
@@ -10,7 +10,7 @@ ${RPCS3}${PSN}
 
 # 工作原理
 
-有两个变量文件， `customVariables.json` 由 SRM 维护(不要更改此项，每次SRM 重启时您的更改都会被覆盖) 和 `userVariables.json` 您应该在哪里设置自己的变量。 这两个文件都位于SRM的 `配置目录` 中。 Your handcrafted variables will take preference over SRMs defaults.
+有两个变量文件， `customVariables.json` 由 SRM 维护(不要更改此项，每次SRM 重启时您的更改都会被覆盖) 和 `userVariables.json` 您应该在哪里设置自己的变量。 这两个文件都位于SRM的 `配置目录` 中。 你手动定义的变量将优先于 SRM 的默认值。
 
 `customVariables.json.json` 和 `userVariables.json` 都有相同的 JSON 结构。 除非使用以下 JSON 结构，否则 SRM 将会抛出错误：
 
@@ -29,10 +29,10 @@ ${RPCS3}${PSN}
 }
 ```
 
-Then if your glob were `romsdir/${title}.wad` and you had a `The Legend of Zelda.wad` located in `romsdir`, you would set the title from custom variable field to `${Group2}` to obtain a title of "The Legend of Link".
+假设你的 Glob 为 `romsdir/${title}.wad`，并且 `romsdir` 中存在一个名为 `The Legend of Zelda.wad` 的文件，则可以将“从自定义变量获取标题”字段设置为 `${Group2}`，从而得到标题“The Legend of link”。
 
-## Separating sort-as-title from display-title
-If you'd like a separate sorting title in steam, you can replace
+## 将排序标题与显示标题分开
+如果你希望在 Steam 中使用单独的排序标题，可以将 下面这段 JSON 不要翻译内容，原样保留：
 
 ```
     "Group1": {
@@ -40,7 +40,7 @@ If you'd like a separate sorting title in steam, you can replace
         ...
     }, ...
 ```
-by
+替换为
 
 ```
     "Group1": {
@@ -52,7 +52,7 @@ by
     }, ...
 ```
 
-Note that you also have to configure the `Sort Names From Custom Variable` field in the parser; in this case you would set it to `${Group1}`.
+请注意，你还需要在解析器中配置 `从自定义变量获取排序名称` 字段；在此示例中，应将其设置为 `${Group1}`。
 
 
 ## 不区分大小写的变量
