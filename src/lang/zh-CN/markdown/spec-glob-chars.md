@@ -33,9 +33,9 @@
 1. `DIR/abcabc/file.txt`;
 1. `123/aabbcc/file.txt`;
 
-这里有一些扩展的全局匹配器示例：
+下面是几个扩展 Glob 匹配模式的使用示例：
 
-| 全局模式                                 |               匹配 (列表编号) |
+| Glob 匹配模式                            |               匹配 (列表编号) |
 |:------------------------------------ | -----------------------:|
 | `@(dir[12]\|DIR)/**/*.txt`          |      `1`, `2`, `4`, `5` |
 | `!(dir[12]\|DIR)/**/*.txt`          |                `3`, `6` |
@@ -49,7 +49,7 @@
 
 ## 花括号集合：`{...}`{.noWrap}
 
-这是一种将一个集合拆分成更多全局模式集的方法。 大括号集合以`{`开头，以`}`结尾，在其中可以有任意数量的逗号分隔的部分（允许嵌套大括号集合） 例如，`C:/dir1/{dir2,dir3/dir4}/file.txt` 将会扩展为： 例如，`C:/dir1/{dir2,dir3/dir4}/file.txt` 将会扩展为：
+这是一种将一组 Glob 匹配模式展开为多组匹配模式的方法。 大括号集合以`{`开头，以`}`结尾，在其中可以有任意数量的逗号分隔的部分（允许嵌套大括号集合） 例如，`C:/dir1/{dir2,dir3/dir4}/file.txt` 将会扩展为： 例如，`C:/dir1/{dir2,dir3/dir4}/file.txt` 将会扩展为：
 
 - `C:/dir1/dir2/file.txt`
 - `C:/dir1/dir3/dir4/file.txt`
@@ -60,7 +60,7 @@ Braced sets also have less useful range syntax `{x..x}` where `x` is a single ch
 - `C:/dir1/dir3/file.txt`
 - `C:/dir1/dir4/file.txt`
 
-Braced set is expanded **before** actual parsing, therefore can be useful to generate different subdirectories or even [extended glob matchers](#extended-glob-matchers). For example, `C:/+(a|{b),c)}/file.txt` would expand to: 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为： 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为： 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为： 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为： 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为： 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为： 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为： 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为： 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为： 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为： 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为： 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为： 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为： 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为： 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为：
+花括号集合会在实际解析**之前**展开，因此可用于生成不同的子目录，甚至生成[扩展 Glob 匹配模式](#extended-glob-matchers)。 例如，`C:/+(a|{b),c)}/file.txt` 将扩展为：
 
 - `C:/+(a|b)/file.txt`
 - `C:/+(a|c)/file.txt`
