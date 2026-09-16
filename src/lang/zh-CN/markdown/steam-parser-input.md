@@ -1,35 +1,35 @@
-#
+# Steam 解析器专用输入项
 
-## Application Types
+## 应用程序类型
 
-Which kinds of Steam applications to include: full games, demos, tools (e.g. `Wallpaper Engine`, `3DMark`), and/or source mods. Deselect a type to exclude it.
+选择要包含的 Steam 应用程序类型：完整游戏、试玩版、工具（例如 `Wallpaper Engine`、`3DMark`）和/或 Source 模组。 取消选择某一类型即可将其排除。
 
-Note: this filter (and the "Installed titles only" toggle) is read from Steam's local files, so it only applies to the **Installed at least once (offline)** strategy and is hidden when the **Steam Web API** strategy is selected — that strategy returns every owned title.
+注意：此筛选器（以及“仅限已安装标题”开关）读取自 Steam 的本地文件，因此仅适用于**至少安装过一次（离线）**策略。选择 **Steam Web API 策略**时，此选项将被隐藏，因为该策略会返回账户拥有的所有标题。
 
 ## 仅查找已安装标题的艺术作品
 
-If enabled SRM will filter out any Steam applications that are not currently installed locally. 如果您安装或卸载游戏，需要在 SRM 可用更新的安装列表之前重新启动 Steam。
+启用后，SRM 将过滤掉当前未在本地安装的所有 Steam 应用程序。 如果安装或卸载了游戏，需要重新启动 Steam，SRM 才能获取更新后的安装列表。
 
-## Game fetch strategy
+## 游戏获取策略
 
-Controls how SRM figures out which games belong to the selected Steam account. Steam does not keep a single, complete list of owned games in a readable local file, so you can choose the trade-off that fits you:
+控制 SRM 如何确定哪些游戏属于所选的 Steam 账户。 Steam 并不会在可读取的本地文件中保存一份完整的已拥有游戏列表，因此你可以根据需要选择合适的获取方式：
 
-- **Installed at least once (offline)** — Default. Reads the account's local Steam files, so it works completely offline and needs no setup. Limitation: it only finds games that have been **installed at least once** on this machine; games you own but have never installed will not appear.
+- **至少安装过一次（离线）** — 默认选项。 读取该账户的 Steam 本地文件，因此可以完全离线工作，也无需进行任何设置。 限制：只能找到曾经在此设备上**至少安装过一次**的游戏；已拥有但从未安装过的游戏不会显示。
 
-- **All owned games (Steam Web API)** — Fetches your full library (owned games, installed or not) from Valve's servers. This option **only works online and requires a Steam Web API key** (see below). It ignores the "installed only" limitation above.
+- **所有已拥有的游戏（Steam Web API）** — 从 Valve 的服务器获取完整游戏库（包括所有已拥有的游戏，无论是否已安装）。 此选项**只能联网使用，并且需要 Steam Web API 密钥**（见下文）。 它不受上述“仅限已安装标题”的限制。
 
-## Steam Web API key
+## Steam Web API 密钥
 
-Only used by the **All owned games (Steam Web API)** strategy; leave it blank for the offline strategy.
+仅供**所有已拥有的游戏（Steam Web API）**策略使用；使用离线策略时请将其留空。
 
-To get a key:
+获取密钥：
 
-1. Go to <https://steamcommunity.com/dev/apikey> and sign in with the Steam account you want to parse.
-2. Enter any domain name in the "Domain Name" field (e.g. `localhost` — it is not validated for personal use) and agree to the terms.
-3. Copy the generated key and paste it here.
+1. 前往 <https://steamcommunity.com/dev/apikey>，并登录你希望解析的 Steam 账户。
+2. 在“域名（Domain Name）”字段中输入任意域名（例如 `localhost`；个人使用时不会验证该域名），然后同意相关条款。
+3. 复制生成的密钥并粘贴到此处。
 
-Notes:
+注意事项：
 
-- The key is tied to your account; keep it private (it is stored in your parser configuration).
-- The account's game details do **not** need to be public — the key works for its own account regardless of privacy settings.
-- If you are offline or the key is missing/invalid, this strategy will error; switch back to "Installed at least once" to parse offline.
+- 密钥与你的账户绑定，请妥善保管，不要泄露（密钥会保存在解析器配置中）。
+- 账户的游戏详情**无需设为公开**——无论隐私设置如何，该密钥都可以获取其所属账户的信息。
+- 如果当前处于离线状态，或者密钥缺失或无效，此策略将发生错误；请切换回“至少安装过一次”以进行离线解析。
