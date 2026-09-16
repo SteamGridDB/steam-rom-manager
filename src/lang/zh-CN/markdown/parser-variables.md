@@ -43,14 +43,14 @@
 
 ## 解析器变量
 
-|              变量 (大小写不敏感) | 对应的值                                    |
-| ------------------------:|:--------------------------------------- |
-|               `${title}` | 提取的标题                                   |
-|       `${shortcutTitle}` | Title after shortcut passthrough        |
-| `${customVariableTitle}` | Title after custom variable application |
-|          `${fuzzyTitle}` | Title after fuzzy matching              |
-|          `${finalTitle}` | 标题是标题修改器的最终结果                           |
-|         `${parserTitle}` | `解析器标题` 字段的值                            |
+|              变量 (大小写不敏感) | 对应的值          |
+| ------------------------:|:------------- |
+|               `${title}` | 提取的标题         |
+|       `${shortcutTitle}` | 解析快捷方式后的标题    |
+| `${customVariableTitle}` | 应用自定义变量后的标题   |
+|          `${fuzzyTitle}` | 模糊匹配后的标题      |
+|          `${finalTitle}` | 标题是标题修改器的最终结果 |
+|         `${parserTitle}` | `解析器标题` 字段的值  |
 
 如果模糊匹配**失败**或被**禁用**，则 `${fuzzyTitle}`{.noWrap}等于`${title}`{.noWrap}。
 
