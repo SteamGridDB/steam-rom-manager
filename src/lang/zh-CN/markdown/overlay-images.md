@@ -1,5 +1,5 @@
-# Overlay image `[supports variables]`{.noWrap}
+# 叠加图像 [支持变量]{.noWrap}
 
-Choose a local transparent image to composite over the artwork downloaded from providers.
+选择一张本地透明图像，将其叠加到下载的艺术作品上。
 
-The selected file will be applied to the exported artwork for the chosen artwork type.
+所选文件将应用于所选艺术作品类型的导出结果。
