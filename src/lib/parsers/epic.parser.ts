@@ -79,15 +79,18 @@ export class EpicParser implements GenericParser {
               fs.existsSync(launchPath) &&
               !appTitles.includes(item.DisplayName)
             ) {
-              const processName = item.LaunchExecutable.replace(/\.exe$/i, "");
+              const processName = path.parse(item.LaunchExecutable).name;
+              const launchOptions = os.type() == "Windows_NT"
+                ? `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -File .\\EpicGamesLauncher.ps1 -gameURI "com.epicgames.launcher://apps/${item.AppName}?action=launch&silent=true" -gameProcessName "${processName}"`
+                : `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \\"com.epicgames.launcher://apps/${item.AppName}?action=launch&silent=true\\""`;
               appTitles.push(item.DisplayName);
               parsedData.success.push({
                 extractedTitle: item.DisplayName,
                 extractedAppId: item.AppName,
-                startInDirectory: scriptsPath,
-                launchOptions: `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -File .\\EpicGamesLauncher.ps1 -gameURI "com.epicgames.launcher://apps/${item.AppName}?action=launch&silent=true" -gameProcessName "${processName}"`,
+                launchOptions,
                 filePath: launchPath,
                 fileLaunchOptions: item.LaunchCommand,
+                ...(os.type() == "Windows_NT" ? { startInDirectory: scriptsPath } : undefined),
               });
             }
           }
