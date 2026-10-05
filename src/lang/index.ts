@@ -148,6 +148,15 @@ function getMarkdown(langPath: string) {
         input: [require(`${langPath}/github-launcher-parser-input.md`)]
       }
     },
+    quiverLauncherParser: {
+      docs__md: {
+        self: [
+          require(`${langPath}/quiver-launcher-parser.md`),
+          require(`${langPath}/quiver-launcher-parser-input.md`),
+        ],
+        input: [require(`${langPath}/quiver-launcher-parser-input.md`)],
+      },
+    },
     epicParser: {
       docs__md: {
         self: [

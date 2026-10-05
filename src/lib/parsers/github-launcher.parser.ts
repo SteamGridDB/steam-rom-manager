@@ -6,25 +6,6 @@ import * as os from "os";
 import * as path from "path";
 import { glob } from "glob";
 
-export function resolveGithubLauncherGameDir(
-  githubLauncherDir: string,
-  appsPath: string | undefined,
-  folderName: string | undefined,
-  installPath?: string,
-): string | undefined {
-  if (installPath?.trim()) {
-    return installPath;
-  }
-  if (!folderName) {
-    return undefined;
-  }
-
-  const gamesDir = appsPath?.trim()
-    ? appsPath
-    : path.join(githubLauncherDir, "Apps");
-  return path.join(gamesDir, folderName);
-}
-
 export class GithubLauncherParser implements GenericParser {
   private get lang() {
     return APP.lang.githubLauncherParser;
@@ -120,4 +101,23 @@ export class GithubLauncherParser implements GenericParser {
       }
     })
   }
+}
+
+function resolveGithubLauncherGameDir(
+  githubLauncherDir: string,
+  appsPath: string | undefined,
+  folderName: string | undefined,
+  installPath?: string,
+): string | undefined {
+  if (installPath?.trim()) {
+    return installPath;
+  }
+  if (!folderName) {
+    return undefined;
+  }
+
+  const gamesDir = appsPath?.trim()
+  ? appsPath
+  : path.join(githubLauncherDir, "Apps");
+  return path.join(gamesDir, folderName);
 }

@@ -126,6 +126,20 @@
       "githubLauncherNotInstalled": "> It would appear that GitHub Launcher is not installed at the provided location."
     }
   },
+  "quiverLauncherParser": {
+    "dirInputTitle": "Quiver Launcher Directory",
+    "dirInputPlaceholder": {
+      "Windows_NT": "C:\\path\\to\\QuiverLauncher\\",
+      "Darwin": "/path/to/QuiverLauncher/",
+      "Linux": "/path/to/QuiverLauncher/"
+    },
+    "errors": {
+      "fatalError__i": "> Quiver Launcher parser failed with fatal error:\n ${error}",
+      "quiverLauncherNotCompatible": "> Quiver Launcher parser is only available on Windows.",
+      "quiverLauncherDirRequired": "> Quiver Launcher Directory cannot be empty.",
+      "quiverLauncherAppsJsonNotFound": "> Could not find apps.json in the provided directory. Select the Quiver Launcher folder that contains apps.json (not its \"current\" subfolder)."
+    }
+  },
   "epicParser": {
     "manifestsInputTitle": "Epic Manifests Directory Override",
     "manifestsInputPlaceholder": {
