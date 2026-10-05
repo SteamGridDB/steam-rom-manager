@@ -66,6 +66,7 @@ In addition to flexible importing of ROMS, SRM now has several _platform parsers
 | [UWP/XBox](https://www.xbox.com/en-US/xbox-game-pass/pc-game-pass) | ✅      | 🟦     | 🟦    | <ul><li>Launch via UWP</li><li>Launch via executable</li>             |
 | [Battle.net](https://battle.net)                                   | ✅      | ❌     | 🟦    | <ul><li>Launch via Battle.net</li></ul>                               |
 | [GitHub Launcher](https://github.com/SirDiabo/GithubLauncher)      | ✅      | ❌     | ❌    | <ul><li>Launch via executable</li></ul>                               |
+| [Quiver Launcher](https://github.com/tgeorgiadis/quiver-launcher)  | ✅      | ❌     | ❌    | <ul><li>Launch via executable</li></ul>                               |
 
 ✅ Implemented
 ❌ Planned
