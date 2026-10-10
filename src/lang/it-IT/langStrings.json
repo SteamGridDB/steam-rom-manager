@@ -41,6 +41,7 @@
         "removingVDF_entries": "Rimozione di entries VDF e file di immagine.",
         "savingCategories": "Salvataggio delle informazioni di categoria in localconfig.vdf.",
         "savingControllers": "Salvataggio informazioni del controller.",
+        "savingCompatTools": "Saving Steam Play compatibility tool assignments to config.vdf.",
         "removingFromCategories": "Rimozione di tutte le informazioni aggiunte alle categorie",
         "writingVDF_entries__i": "Writing VDF files and downloading high res images in batches of ${batchSize}.",
         "updatingKnownSteamDirList": "Aggiornamento dell'elenco di directory di Steam note in corso.",
@@ -67,6 +68,8 @@
         "categorySaveError__i": "Errore nella categoria (verranno comunque aggiunte scorciatoie e artwork): ${error}",
         "controllerSaveError": "Errore nell'aggiornamento dei template dei controller. Vedi il log eventi per i dettagli.",
         "controllerSaveError__i": "Errore Controller (verranno comunque aggiunte scorciatoie e artwork): ${error}",
+        "compatToolSaveError": "Error assigning compatibility tools. See event log for details.",
+        "compatToolSaveError__i": "Compatibility tool error (shortcuts and artwork will still be added): ${error}",
         "retryingDownload__i": "Artwork download from \"${imageUrl}\" failed for \"${appTitle}\".",
         "providerError__i": "Errore ricevuto da \"${provider}\" per \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
         "unknownProviderError__i": "Errore ricevuto da \"${provider}\" per \"${title}\":\n ${error}",
@@ -124,6 +127,20 @@
       "githubLauncherNotCompatible": "> GitHub Launcher Parser is only available on Windows.",
       "githubLauncherDirRequired": "> GitHub Launcher Install Directory cannot be empty.",
       "githubLauncherNotInstalled": "> It would appear that GitHub Launcher is not installed at the provided location."
+    }
+  },
+  "quiverLauncherParser": {
+    "dirInputTitle": "Quiver Launcher Directory",
+    "dirInputPlaceholder": {
+      "Windows_NT": "C:\\path\\to\\QuiverLauncher\\",
+      "Darwin": "/path/to/QuiverLauncher/",
+      "Linux": "/path/to/QuiverLauncher/"
+    },
+    "errors": {
+      "fatalError__i": "> Quiver Launcher parser failed with fatal error:\n ${error}",
+      "quiverLauncherNotCompatible": "> Quiver Launcher parser is only available on Windows.",
+      "quiverLauncherDirRequired": "> Quiver Launcher Directory cannot be empty.",
+      "quiverLauncherAppsJsonNotFound": "> Could not find apps.json in the provided directory. Select the Quiver Launcher folder that contains apps.json (not its \"current\" subfolder)."
     }
   },
   "epicParser": {
