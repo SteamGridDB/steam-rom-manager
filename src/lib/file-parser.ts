@@ -588,6 +588,10 @@ export class FileParser {
             modifiedExecutableLocation: undefined,
             startInDirectory: startInDir || "",
             argumentString: undefined,
+            compatToolName:
+              config.compatToolName === steam.COMPAT_CUSTOM
+                ? config.compatToolNameCustom || ""
+                : config.compatToolName || "",
             appendArgsToExecutable: appendArgsToExecutable,
             resolvedLocalImages: initArtworkRecord<string[]>(() => []),
             resolvedDefaultImages: initArtworkRecord<string[]>(() => []),
@@ -928,6 +932,12 @@ export class FileParser {
             if (exceptions && exceptions.commandLineArguments) {
               parsedConfig.files[i].argumentString =
                 exceptions.commandLineArguments;
+            }
+            // Per-game compat-tool override: undefined = inherit the parser
+            // default already seeded above; COMPAT_NONE opts this game out;
+            // any other string forces that specific tool.
+            if (exceptions && exceptions.compatToolName !== undefined) {
+              parsedConfig.files[i].compatToolName = exceptions.compatToolName;
             }
             if (
               exceptions &&

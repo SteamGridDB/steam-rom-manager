@@ -11,7 +11,7 @@ import { artworkTypes } from "../../lib/artwork-types";
 
 export const userConfiguration: ValidatorModifier<UserConfiguration> = {
   controlProperty: "version",
-  latestVersion: 29,
+  latestVersion: 30,
   fields: {
     undefined: {
       version: { method: () => 0 },
@@ -436,6 +436,15 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
       overlayImages: { method: (oldValue) => {
         return oldValue || Object.fromEntries(artworkTypes.map(at=>[at, null]))
       } },
-    }
+    },
+    29: {
+      version: { method: versionUp },
+      compatToolName: {
+        method: (oldValue) => (typeof oldValue === "string" ? oldValue : ""),
+      },
+      compatToolNameCustom: {
+        method: (oldValue) => (typeof oldValue === "string" ? oldValue : ""),
+      },
+    },
   },
 };

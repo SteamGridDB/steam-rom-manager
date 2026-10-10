@@ -37,6 +37,10 @@ export interface ParsedUserConfigurationFile {
   titles: TitleModifiers
   sortAsTitle: string; // not actually part of the title waterfall
   argumentString: string;
+  // Resolved Steam Play compat tool for this specific file. Seeded from the
+  // parser config, then possibly overridden per-game by a user exception.
+  // "" = don't force one; "__none__" = force no tool (opt this game out).
+  compatToolName: string;
   appendArgsToExecutable: boolean;
   onlineImageQueries: string[];
   steamCategories: string[];

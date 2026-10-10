@@ -110,6 +110,10 @@ export class PreviewComponent implements OnDestroy {
   detailsSearchText: string = "";
   detailsException: UserExceptionData;
   detailsOriginalExcludeArt: boolean = false;
+  detailsOriginalCompatTool: string = "";
+  // Options for the per-game "Force compatibility tool" override in the details
+  // panel. "" = inherit the parser default; COMPAT_NONE = opt this game out.
+  compatToolOptions: { displayValue: string; value: string }[] = [];
   hideDetailsPerApp: boolean = false;
 
   showExcludes: boolean = false;
@@ -715,6 +719,20 @@ export class PreviewComponent implements OnDestroy {
     this.detailsOriginalExcludeArt = existingException
       ? existingException.excludeArtwork
       : false;
+    // "" (inherit) is the select's neutral value; coerce a legacy/undefined
+    // override to it so the dropdown has a matching option.
+    if (this.detailsException.compatToolName === undefined) {
+      this.detailsException.compatToolName = "";
+    }
+    this.detailsOriginalCompatTool = this.detailsException.compatToolName;
+    steam.listAvailableCompatTools([steamDirectory]).then((tools) => {
+      this.compatToolOptions = [
+        { displayValue: "Inherit from parser", value: "" },
+        { displayValue: "None (Steam default)", value: steam.COMPAT_NONE },
+        ...tools.map((t) => ({ displayValue: t.displayName, value: t.name })),
+      ];
+      this.changeDetectionRef.detectChanges();
+    });
     this.detailsApp = {
       appId: appId,
       app: app,
@@ -814,8 +832,13 @@ export class PreviewComponent implements OnDestroy {
   saveDetails() {
     if (this.detailsApp) {
       const { steamDirectory, userId, appId, app } = this.detailsApp;
-      const { newTitle, searchTitle, commandLineArguments, excludeArtwork } =
-        this.detailsException;
+      const {
+        newTitle,
+        searchTitle,
+        commandLineArguments,
+        excludeArtwork,
+        compatToolName,
+      } = this.detailsException;
       if (newTitle) {
         this.previewData[steamDirectory][userId].apps[appId].title = newTitle;
         if (superTypesMap[app.parserType] !== "ArtworkOnly") {
@@ -830,6 +853,11 @@ export class PreviewComponent implements OnDestroy {
       if (commandLineArguments) {
         this.previewData[steamDirectory][userId].apps[appId].argumentString =
           commandLineArguments;
+      }
+      // Live-apply a chosen override ("" = inherit, left to the next generation).
+      if (compatToolName !== "") {
+        this.previewData[steamDirectory][userId].apps[appId].compatToolName =
+          compatToolName;
       }
       if (searchTitle && !excludeArtwork) {
         for (const artworkType of artworkTypes) {
@@ -863,7 +891,8 @@ export class PreviewComponent implements OnDestroy {
         newTitle ||
         searchTitle ||
         commandLineArguments ||
-        excludeArtwork != this.detailsOriginalExcludeArt
+        excludeArtwork != this.detailsOriginalExcludeArt ||
+        compatToolName != this.detailsOriginalCompatTool
       ) {
         const exceptionId = this.userExceptionsService.makeExceptionId(
           app.executableLocation,
@@ -879,6 +908,8 @@ export class PreviewComponent implements OnDestroy {
             commandLineArguments: commandLineArguments,
             excludeArtwork: excludeArtwork,
             exclude: false,
+            // "" (inherit) persists as undefined so it does not override.
+            compatToolName: compatToolName !== "" ? compatToolName : undefined,
             timeStamp: Date.now(),
           },
         );
