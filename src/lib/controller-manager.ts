@@ -476,7 +476,16 @@ export class ControllerManager {
       if (app.changedId) {
         appId = app.changedId;
       }
-      const shiftId = steam.shortcutifyAppId(appId);
+      const shiftId = steam.shortenAppId(appId);
+      const legacyShiftId = steam.shortcutifyAppId(appId);
+      if (
+        legacyShiftId !== shiftId &&
+        ((x) => x && x[srmParserKey])(
+          localConfig[localTopKey].apps[legacyShiftId],
+        )
+      ) {
+        delete localConfig[localTopKey].apps[legacyShiftId];
+      }
       if (app.steamInputEnabled == "1") {
         // Use Default Settings
         if (
