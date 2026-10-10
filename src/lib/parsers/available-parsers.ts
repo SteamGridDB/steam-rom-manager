@@ -34,7 +34,8 @@ export const availableParserInputs: Record<ParserType, string[]> = {
   "EA Desktop": ["eaGamesDir", "eaLauncherMode"],
   "Battle.net": ["battleExeOverride"],
   "Non-SRM Shortcuts": [],
-  "GitHub Launcher": ["githubLauncherDir"]
+  "GitHub Launcher": ["githubLauncherDir"],
+  "Quiver Launcher": ["quiverLauncherDir"],
 };
 export const availableParserInputsInfo: Record<
   ParserType,
@@ -86,7 +87,8 @@ export const availableParserInputsInfo: Record<
   },
   "Battle.net": { battleExeOverride: { inputType: "path" } },
   "Non-SRM Shortcuts": {},
-  "GitHub Launcher": { githubLauncherDir: { inputType: "dir"} }
+  "GitHub Launcher": { githubLauncherDir: { inputType: "dir"} },
+  "Quiver Launcher": { quiverLauncherDir: { inputType: "dir" } },
 };
 
 export const availableParsers: ParserType[] = Object.keys(
@@ -107,7 +109,8 @@ export const superTypes: Record<SuperType, ParserType[]> = {
     "UWP",
     "EA Desktop",
     "Battle.net",
-    "GitHub Launcher"
+    "GitHub Launcher",
+    "Quiver Launcher",
   ],
 };
 

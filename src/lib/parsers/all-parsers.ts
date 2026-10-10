@@ -14,3 +14,4 @@ export * from "./legendary.parser";
 export * from "./ea-desktop.parser";
 export * from "./battle-net.parser";
 export * from "./github-launcher.parser";
+export * from "./quiver-launcher.parser";

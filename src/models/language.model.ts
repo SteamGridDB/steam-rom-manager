@@ -213,6 +213,20 @@ export interface languageStruct {
       githubLauncherNotInstalled: string;
     }
   };
+  quiverLauncherParser: {
+    dirInputTitle: string;
+    dirInputPlaceholder: { [key: string]: string };
+    docs__md: {
+      self: string[];
+      input: string[];
+    };
+    errors: {
+      fatalError__i: string;
+      quiverLauncherNotCompatible: string;
+      quiverLauncherDirRequired: string;
+      quiverLauncherAppsJsonNotFound: string;
+    };
+  };
   epicParser: {
     manifestsInputTitle: string;
     manifestsInputPlaceholder: { [key: string]: string };
