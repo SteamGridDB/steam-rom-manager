@@ -1,0 +1,127 @@
+@import "mixins";
+
+:host {
+  position: relative;
+
+  display: grid;
+
+  @include ngSelect();
+  @include ngSelectColor(ng-select);
+
+  .display {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+
+    padding: var(--ng-select-padding, 0);
+
+    color: var(--color-ng-select-text);
+    border-width: var(--ng-select-border-width, 1px);
+    border-style: solid;
+    border-color: inherit;
+    background-color: var(--color-ng-select-background);
+    fill: inherit;
+
+    &:focus-within,
+    &.open {
+      background: var(--color-ng-select-background-hover);
+      color: var(--color-ng-select-text-active);
+    }
+
+    > input {
+      min-width: 0;
+      padding: 0;
+      margin: 0;
+
+      font: inherit;
+      color: inherit;
+      border: none;
+      outline: none;
+      background: transparent;
+
+      &::placeholder {
+        color: var(--ng-text-placeholder-color, var(--color-ng-select-text));
+        opacity: 0.6;
+      }
+    }
+
+    > .clear {
+      padding: 0 0.3em;
+
+      cursor: pointer;
+      opacity: 0.6;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    > svg {
+      height: 1.2em;
+
+      cursor: pointer;
+
+      fill: inherit;
+      polyline {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .options {
+    position: absolute;
+    z-index: 3;
+    top: 100%;
+    left: 0;
+
+    display: none;
+
+    &.open {
+      display: grid;
+
+      overflow-y: auto;
+
+      min-width: calc(100% - (var(--ng-select-border-width, 1px) * 2));
+      max-height: 300px;
+
+      border-width: var(--ng-select-border-width, 1px);
+      border-style: solid;
+      border-color: inherit;
+
+      @include webkitScrollbar(ng-select-scrollbar);
+    }
+
+    ng-option.highlighted,
+    .fakeOption.highlighted {
+      color: var(--color-ng-select-option-text-hover);
+      border-color: var(--color-ng-select-option-border-hover);
+      background-color: var(--color-ng-select-option-background-hover);
+    }
+
+    .fakeOption {
+      display: grid;
+      grid-auto-flow: column;
+      overflow: hidden;
+
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      padding: var(--ng-select-padding, 0);
+
+      color: var(--color-ng-select-option-text);
+      border: solid 1px transparent;
+      background-color: var(--color-ng-select-background);
+
+      &.create {
+        cursor: pointer;
+        font-style: italic;
+
+        &:hover {
+          border-color: var(--color-ng-select-option-border-hover);
+          background-color: var(--color-ng-select-option-background-hover);
+        }
+      }
+    }
+  }
+}

@@ -52,6 +52,7 @@ function ngObjectsToArray<T>(importObject: T) {
     Components.NavParsersComponent,
     Components.NavareaComponent,
     Components.NgBubblesComponent,
+    Components.NgComboBoxComponent,
     Components.NgNestedFormComponent,
     Components.NgOptionComponent,
     Components.NgPathInputComponent,

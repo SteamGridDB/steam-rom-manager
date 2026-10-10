@@ -156,9 +156,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             this.currentDoc.content = this.lang.docs__md.configTitle.join("");
           },
         }),
-        group: new NestedFormElement.Input({
-          placeholder:
-            "Group this parser belongs to (leave blank for ungrouped)",
+        group: new NestedFormElement.ComboBox({
+          values: this.parsersService.getParserGroups().map((g) => g.name),
+          placeholder: "Select or type a new group (leave blank for ungrouped)",
+          createLabel: "New group",
           label: "Group",
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
@@ -892,6 +893,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             ])
             .sort((a, b) => a[1].localeCompare(b[1])),
         );
+      }),
+    );
+    this.subscriptions.add(
+      this.settingsService.getChangeObservable().subscribe(() => {
+        if (this.nestedGroup) {
+          (
+            this.nestedGroup.children.group as NestedFormElement.ComboBox
+          ).values = this.parsersService.getParserGroups().map((g) => g.name);
+          this.changeRef.detectChanges();
+        }
       }),
     );
     this.subscriptions.add(

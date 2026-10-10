@@ -73,6 +73,38 @@ export namespace NestedFormElement {
       Object.assign(this, init);
     }
   }
+  /** Pick an existing value from a dropdown, or type a new one. */
+  export class ComboBox {
+    static displayName = "ComboBox";
+    /** Optional */
+    label?: string;
+    /** Optional */
+    initialValue?: string;
+    /** Optional */
+    isHidden?: NestedInputHidden;
+    __hidden: NestedInputHiddenValue;
+    /** Optional */
+    disabled?: boolean;
+    /** Required */
+    values: string[];
+    /** Optional */
+    placeholder?: string;
+    /** Optional. Label for the "create new value" option. */
+    createLabel?: string;
+    /** Optional */
+    required?: boolean;
+    /** Optional */
+    onValidate?: NestedInputValidator;
+    /** Optional */
+    onValidateObservable?: NestedInputValidatorObservable;
+    /** Optional */
+    onChange?: NestedInputChange;
+    /** Optional */
+    onInfoClick?: NestedInputInfoClick;
+    constructor(init?: ObjectFields<ComboBox>) {
+      Object.assign(this, init);
+    }
+  }
   export class Bubble {
     static displayName = "Bubble";
     /** Optional */
@@ -227,6 +259,7 @@ export namespace NestedFormElement {
 export type NestedFormInputs =
   | NestedFormElement.Input
   | NestedFormElement.Select
+  | NestedFormElement.ComboBox
   | NestedFormElement.Toggle
   | NestedFormElement.Bubble;
 export type NestedFormElements =

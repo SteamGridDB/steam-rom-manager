@@ -14,6 +14,7 @@ export * from "./nav-expand.component";
 export * from "./nav-parsers.component";
 export * from "./ng-bubbles.component";
 export * from "./ng-select.component";
+export * from "./ng-combo-box.component";
 export * from "./ng-option.component";
 export * from "./ng-toggle-button.component";
 export * from "./ng-path-input.component";

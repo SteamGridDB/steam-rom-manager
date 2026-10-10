@@ -62,6 +62,20 @@
                 >
                 </ng-select>
               </ng-container>
+              <ng-container *ngSwitchCase="'ComboBox'">
+                <ng-combo-box
+                  [formControlName]="childrenKey"
+                  [placeholder]="child.placeholder || ''"
+                  [values]="child.values"
+                  [createLabel]="child.createLabel || 'Create'"
+                  [class.required]="child.required && !fieldValue"
+                  [class.missing]="child.required && dirtyAndInvalid"
+                  [class.filled]="
+                    child.required && fieldValue && !dirtyAndInvalid
+                  "
+                >
+                </ng-combo-box>
+              </ng-container>
               <ng-container *ngSwitchCase="'Button'">
                 <div class="freeButton" (click)="child.onClickMethod()">
                   {{ child.buttonLabel }}
