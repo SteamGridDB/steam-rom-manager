@@ -1,0 +1,44 @@
+name: Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "master"
+      - "modernization/**"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    steps:
+      - uses: actions/checkout@v4.1.6
+
+      - name: Setup Python environment
+        uses: actions/setup-python@v5.1.0
+        with:
+          python-version: "3.10"
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 24
+          check-latest: true
+
+      - name: Install dependencies
+        run: |
+          npm install -g yarn@1.22
+          yarn install --frozen-lockfile
+
+      - name: Typecheck
+        run: yarn run typecheck
+
+      - name: Unit and characterization tests
+        run: yarn run test
+
+      - name: Validate presets
+        run: yarn run presets:validate
