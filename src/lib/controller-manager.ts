@@ -477,7 +477,7 @@ export class ControllerManager {
         appId = app.changedId;
       }
       const shiftId = steam.shortenAppId(appId);
-      const legacyShiftId = steam.shortcutifyAppId(appId);
+      const legacyShiftId = String(steam.shortcutifyAppId(appId));
       if (
         legacyShiftId !== shiftId &&
         ((x) => x && x[srmParserKey])(
