@@ -71,10 +71,19 @@ export class QuiverLauncherParser implements GenericParser {
             );
           } else {
             const executables = await this.findExecutables(appDir);
-            if (executables.length === 1) {
+            const chosen =
+              executables.length === 1
+                ? executables[0]
+                : this.guessExecutable(executables, [
+                    app.folderName,
+                    app.project,
+                    app.repository?.split("/").pop(),
+                    app.name,
+                  ]);
+            if (chosen) {
               parsedData.success.push({
                 extractedTitle: app.name,
-                filePath: executables[0],
+                filePath: chosen,
               });
             } else if (executables.length === 0) {
               parsedData.failed.push(
@@ -94,8 +103,44 @@ export class QuiverLauncherParser implements GenericParser {
     });
   }
 
+  // Quiver asks the user when there are several candidates and no saved
+  // choice. Rather than skip the app, drop obvious helpers/installers and pick
+  // the candidate named after the app (e.g. dusklight.exe over
+  // crashpad_handler.exe). Returns undefined when there is no confident pick.
+  private guessExecutable(
+    executables: string[],
+    identities: (string | undefined)[],
+  ): string | undefined {
+    const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+    const stem = (file: string) =>
+      normalize(path.basename(file, path.extname(file)));
+    const helper =
+      /crash|unins|setup|install|redist|elevate|update|settings|config|extract|helper/;
+    const candidates = executables.filter(
+      (file) => !helper.test(path.basename(file).toLowerCase()),
+    );
+    if (candidates.length === 1) {
+      return candidates[0];
+    }
+    const ids = identities
+      .filter((id) => !!id)
+      .map(normalize)
+      .filter((id) => id.length >= 3);
+    const matches = candidates.filter((file) => {
+      const name = stem(file);
+      return (
+        name.length >= 3 &&
+        ids.some((id) => id.includes(name) || name.includes(id))
+      );
+    });
+    // Prefer real executables over .bat/.cmd scripts, keeping Quiver's order.
+    return (
+      matches.find((file) => path.extname(file).toLowerCase() === ".exe") ??
+      matches[0]
+    );
+  }
+
   // Same lookup order as Quiver: saved choice, then top-level, then recursive.
-  // Like Quiver, several candidates without a saved choice are not guessed.
   private async findExecutables(appDir: string): Promise<string[]> {
     const selectedFile = path.join(appDir, "selected_executable.txt");
     if (fs.existsSync(selectedFile)) {
