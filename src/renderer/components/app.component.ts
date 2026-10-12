@@ -11,7 +11,7 @@ import {
   MarkdownService,
   IpcService,
 } from "../services";
-import { MarkdownVariable } from "../../lib";
+import { MarkdownVariable } from "../../lib/markdown-variable";
 import { Router } from "@angular/router";
 import hljs from "highlight.js";
 import markdownItAnchor from "markdown-it-anchor";

@@ -1,18 +1,24 @@
-const app =
-  process.type === "browser"
-    ? require("electron").app
-    : require("@electron/remote").app;
 import * as path from "path";
 
-let _userDataDir: string;
-
-if (process.env.PORTABLE_EXECUTABLE_DIR) {
-  _userDataDir = path.join(process.env.PORTABLE_EXECUTABLE_DIR, "userData");
-} else {
-  _userDataDir = path.join(app.getPath("userData"), "userData");
+// Where SRM keeps its data. The main process resolves it once at startup and
+// exports it as SRM_USER_DATA_DIR (inherited by renderer windows), so this
+// module never needs Electron; plain Node callers (CLI, tests) set it too.
+// Asking Electron directly is only a fallback.
+function resolveUserDataDir() {
+  if (process.env.PORTABLE_EXECUTABLE_DIR) {
+    return path.join(process.env.PORTABLE_EXECUTABLE_DIR, "userData");
+  }
+  if (process.env.SRM_USER_DATA_DIR) {
+    return process.env.SRM_USER_DATA_DIR;
+  }
+  const app =
+    process.type === "browser"
+      ? require("electron").app
+      : require("@electron/remote").app;
+  return path.join(app.getPath("userData"), "userData");
 }
 
-export const userDataDir: string = _userDataDir;
+export const userDataDir: string = resolveUserDataDir();
 export const userSettings: string = path.join(userDataDir, "userSettings.json");
 export const userThemesDir: string = path.join(userDataDir, "User themes");
 export const userConfigurations: string = path.join(

@@ -3,7 +3,7 @@ import { FuzzyService } from "./fuzzy.service";
 import { LoggerService } from "./logger.service";
 import { SettingsService } from "./settings.service";
 import { AppSettings } from "../../models";
-import { ImageProvider } from "../../lib";
+import { ImageProvider } from "../../lib/image-provider";
 @Injectable()
 export class ImageProviderService {
   private imageProvider: ImageProvider;

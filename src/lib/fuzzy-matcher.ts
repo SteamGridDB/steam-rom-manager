@@ -4,6 +4,7 @@ import {
   MatchResult,
 } from "../models";
 import { MemoizedFunction } from "./memoized-function";
+import "./replace-diacritics"; // String.prototype.replaceDiacritics
 import fuzzysort from "fuzzysort";
 import { TitleModifierHandler } from "./title-modifier-handler";
 import * as _ from "lodash";

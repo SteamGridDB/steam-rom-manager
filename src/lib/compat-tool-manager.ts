@@ -3,7 +3,7 @@ import * as steam from "./helpers/steam";
 import * as path from "path";
 import * as fs from "fs-extra";
 import { PreviewData, VDF_ExtraneousItemsData } from "../models";
-import { LoggerService } from "../renderer/services";
+import { Logger } from "../models";
 import { Acceptable_Error } from "./acceptable-error";
 
 // config.vdf nesting that holds the per-app compat-tool assignments. Steam
@@ -34,7 +34,7 @@ function getOrCreateChild(obj: any, canonicalKey: string): any {
 }
 
 export class CompatToolManager {
-  constructor(private loggerService: LoggerService) {}
+  constructor(private loggerService: Logger) {}
 
   // Patch each Steam install's config.vdf so SRM-managed shortcuts get their
   // forced Steam Play compatibility tool. config.vdf is per-install (not

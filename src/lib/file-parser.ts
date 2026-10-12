@@ -19,8 +19,9 @@ import {
   initArtworkRecord,
   TitleModifiers
 } from "../models";
-import { FuzzyService } from "../renderer/services";
+import { FuzzyMatcher } from "./fuzzy-matcher";
 import { VariableParser } from "./variable-parser";
+import "./replace-diacritics"; // String.prototype.replaceDiacritics
 import { APP } from "../variables";
 import { parsers } from "./parsers";
 import * as parserInfo from "./parsers/available-parsers";
@@ -36,7 +37,7 @@ import * as os from "os";
 import { glob, escape } from "glob";
 import { getPath, getArgs, getStartDir } from "windows-shortcuts-ps";
 import * as xdgparse from "xdg-parse";
-import { SteamGridDbProvider } from "./image-providers/steamgriddb.worker";
+import * as sgdbSearch from "./image-providers/sgdb-search";
 import { TitleModifierHandler } from "./title-modifier-handler";
 
 
@@ -81,7 +82,8 @@ export class FileParser {
   private customVariableData: CustomVariables = {};
   private userExceptions: UserExceptionsTitles = {};
 
-  constructor(private fuzzyService: FuzzyService) {}
+  // Only the matcher is needed; FuzzyService (renderer) satisfies this.
+  constructor(private fuzzyService: { fuzzyMatcher: FuzzyMatcher }) {}
 
   private get lang() {
     return APP.lang.fileParser;
@@ -1075,7 +1077,7 @@ export class FileParser {
             // One SteamGridDB lookup per file, shared by all artwork types.
             // A failed lookup (e.g. offline) just means no backups are found.
             backedupPromises.push(
-              SteamGridDbProvider.retrieveIdsFromTitle(
+              sgdbSearch.retrieveIdsFromTitle(
                 parsedConfig.files[j].onlineImageQueries[0],
               )
                 .catch((): number[] => [])

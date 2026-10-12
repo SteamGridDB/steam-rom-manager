@@ -1,5 +1,7 @@
 import { vi } from "vitest";
 import * as fs from "fs";
+import * as os from "os";
+import * as path from "path";
 
 // webpack loads src/lang/**/*.md as raw strings (webpack/markdown.ts); teach
 // Node's require the same so the real language data loads in tests.
@@ -7,16 +9,11 @@ require.extensions[".md"] = (module: any, filename: string) => {
   module.exports = fs.readFileSync(filename, "utf8");
 };
 
-// The app installs these String.prototype helpers via side-effect imports in
-// the renderer entry point (src/renderer/app.ts); lib code assumes they exist.
-import "../src/lib/string-interpolation";
-import "../src/lib/replace-diacritics";
-
-// src/variables and src/paths resolve Electron's `app` at import time, which
-// can't run in plain Node. Swap in equivalents backed by the real language
-// data and a throwaway userData directory.
-vi.mock("../src/variables", () => import("./stubs/variables"));
-vi.mock("../src/paths", () => import("./stubs/paths"));
+// src/paths reads SRM's data directory from here (as the CLI does); a fresh
+// temp dir per test file means tests never touch a real SRM install.
+process.env.SRM_USER_DATA_DIR = fs.mkdtempSync(
+  path.join(os.tmpdir(), "srm-test-userData-"),
+);
 
 // @electron/remote throws outside Electron. Renderer services import it for
 // dialogs/window controls only, which tests don't exercise.
@@ -28,17 +25,8 @@ vi.mock(
   () => import("./stubs/stop-start-steam"),
 );
 
-// The image-provider modules spin up DOM Workers / worker listeners on import
-// and query SteamGridDB; replace them with recording, offline stubs.
+// SteamGridDB lookups go over the network; use a recording, offline stub.
 vi.mock(
-  "../src/lib/image-providers/index",
-  () => import("./stubs/image-providers"),
-);
-vi.mock(
-  "../src/lib/image-providers/steamgriddb.worker",
-  () => import("./stubs/image-providers"),
-);
-vi.mock(
-  "../src/lib/image-providers/steamcdn.worker",
-  () => import("./stubs/image-providers"),
+  "../src/lib/image-providers/sgdb-search",
+  () => import("./stubs/sgdb-search"),
 );

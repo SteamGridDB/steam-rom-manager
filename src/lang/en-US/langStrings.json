@@ -71,7 +71,7 @@
         "compatToolSaveError": "Error assigning compatibility tools. See event log for details.",
         "compatToolSaveError__i": "Compatibility tool error (shortcuts and artwork will still be added): ${error}",
         "retryingDownload__i": "Artwork download from \"${imageUrl}\" failed for \"${appTitle}\".",
-        "providerError__i": "Error received from \"${provider}\" for \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
+        "providerError__i": "Error received from \"${provider}\" for \"${title}\":\n (${details}).",
         "unknownProviderError__i": "Error received from \"${provider}\" for \"${title}\":\n ${error}",
         "exportError__i": "Could not save selections package folder: ${error}",
         "importJSONFailError__i": "Could not import selections, JSON was malformed: ${error}",

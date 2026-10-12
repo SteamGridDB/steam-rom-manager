@@ -18,6 +18,9 @@ import yargs, { Argv } from "yargs";
 import { hideBin } from "yargs/helpers";
 import { UserConfiguration } from "../models";
 
+// Renderer windows inherit this, so they resolve paths without Electron.
+process.env.SRM_USER_DATA_DIR = paths.userDataDir;
+
 // Crash Reporting
 crashReporter.start({
   productName: "steam-rom-manager",
