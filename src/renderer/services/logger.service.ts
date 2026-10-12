@@ -43,9 +43,9 @@ export class LoggerService {
   }
 
   error(message: string | Error, settings?: MessageSettings) {
-    console.warn(message)
-    if(message instanceof Error) {
-      this.postMessage("error", message.message, settings)
+    console.warn(message);
+    if (message instanceof Error) {
+      this.postMessage("error", message.message, settings);
     } else {
       this.postMessage("error", message, settings);
     }
@@ -98,8 +98,8 @@ export class LoggerService {
   }
 
   _read_to_blob(path: string) {
-    return new Blob([new Uint8Array(fs.readFileSync(path))])
-  } 
+    return new Blob([new Uint8Array(fs.readFileSync(path))]);
+  }
 
   submitReport(
     description: string,
@@ -134,7 +134,7 @@ export class LoggerService {
           body.append("files[]", userConfigurations, "userConfigurations.json");
         }
         if (fs.existsSync(paths.userExceptions)) {
-          let userExceptions = this._read_to_blob(paths.userExceptions)
+          let userExceptions = this._read_to_blob(paths.userExceptions);
           body.append("files[]", userExceptions, "userExceptions.json");
         }
         if (useVDFs) {
@@ -153,7 +153,7 @@ export class LoggerService {
               "shortcuts.vdf",
             );
             if (fs.existsSync(shortcutsVDFPath)) {
-              let shortcutsVDF = this._read_to_blob(shortcutsVDFPath)
+              let shortcutsVDF = this._read_to_blob(shortcutsVDFPath);
               body.append("files[]", shortcutsVDF, `shortcuts_${userDir}.vdf`);
             }
             let screenshotsVDFPath = path.join(

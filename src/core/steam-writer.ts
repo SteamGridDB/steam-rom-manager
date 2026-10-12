@@ -462,9 +462,7 @@ export class SteamWriter {
 
   // Reads an exported srm-image-choices folder: the images to import, as
   // file URLs per pool and artwork type.
-  async readSelection(
-    packagePath: string,
-  ): Promise<
+  async readSelection(packagePath: string): Promise<
     | {
         ok: true;
         items: { pool: string; artworkType: ArtworkType; imageUrl: string }[];

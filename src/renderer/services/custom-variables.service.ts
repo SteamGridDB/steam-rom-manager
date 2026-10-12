@@ -1,25 +1,27 @@
 import { Injectable } from "@angular/core";
 import { CustomVariables } from "../../models";
-import { LoggerService } from "./logger.service";
 import { BehaviorSubject } from "rxjs";
-import { CustomVariablesStore } from "../../core/custom-variables-store";
-import { Fetch } from "../../core/http";
+import { CoreClientService } from "./core-client.service";
 
-// Angular facade over the core CustomVariablesStore.
+// Custom variables, owned by the CustomVariablesStore in the main process.
 @Injectable()
 export class CustomVariablesService {
-  readonly store: CustomVariablesStore;
   private variableData = new BehaviorSubject<CustomVariables>({});
   private downloadStatus = new BehaviorSubject<boolean>(false);
 
-  constructor(private loggerService: LoggerService) {
-    this.store = new CustomVariablesStore(
-      this.loggerService,
-      globalThis.fetch.bind(globalThis) as Fetch,
+  constructor(private coreClient: CoreClientService) {
+    const client = this.coreClient.client;
+    client.on("customVariables:changed", (data) =>
+      this.variableData.next(data),
     );
-    this.store.onChange((data) => this.variableData.next(data));
-    this.store.onDownloadingChange((d) => this.downloadStatus.next(d));
-    this.store.load();
+    client.on("customVariables:downloading", (d) =>
+      this.downloadStatus.next(d),
+    );
+    client
+      .whenLoaded("customVariables")
+      .then(() =>
+        this.variableData.next(client.callSync("customVariables", "get")),
+      );
   }
 
   get data() {
@@ -34,7 +36,7 @@ export class CustomVariablesService {
     return this.downloadStatus;
   }
 
-  download(force: boolean = false) {
-    return this.store.download(force);
+  download(force: boolean = false): Promise<void> {
+    return this.coreClient.client.call("customVariables", "download", force);
   }
 }

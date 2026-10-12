@@ -8,6 +8,8 @@ import { PresetsStore } from "./presets-store";
 import { FuzzyStore } from "./fuzzy-store";
 import { ArtworkProviders } from "./artwork-providers";
 import { PreviewEngine } from "./preview-engine";
+import { PreviewBuilder } from "./preview-builder";
+import { SteamWriter } from "./steam-writer";
 
 export interface CoreOptions {
   logger: Logger;
@@ -25,6 +27,8 @@ export class Core {
   readonly presets: PresetsStore;
   readonly fuzzy: FuzzyStore;
   readonly providers: ArtworkProviders;
+  readonly builder: PreviewBuilder;
+  readonly writer: SteamWriter;
   readonly preview: PreviewEngine;
 
   constructor({ logger, fetch = getDefaultFetch(), onNewImage }: CoreOptions) {
@@ -35,12 +39,16 @@ export class Core {
     this.fuzzy = new FuzzyStore(logger, this.settings, fetch);
     this.parsers = new ParsersStore(logger, this.settings, this.fuzzy);
     this.providers = new ArtworkProviders(fetch);
+    this.builder = new PreviewBuilder(logger, this.parsers, this.settings);
+    this.writer = new SteamWriter(logger, this.parsers, this.settings);
     this.preview = new PreviewEngine({
       logger,
       parsers: this.parsers,
       providers: this.providers,
       settings: this.settings,
       onNewImage,
+      builder: this.builder,
+      writer: this.writer,
     });
     this.exceptions.onChange((saved) => this.parsers.setUserExceptions(saved));
     this.customVariables.onChange((variables) =>

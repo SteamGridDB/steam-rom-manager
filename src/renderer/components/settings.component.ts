@@ -162,7 +162,7 @@ export class SettingsComponent implements OnDestroy {
   }
 
   removeControllersOnly() {
-    return this.parsersService.store.removeAllControllers();
+    return this.parsersService.removeAllControllers();
   }
 
   resetFuzzy() {

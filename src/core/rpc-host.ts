@@ -11,12 +11,18 @@ import {
 // How the host talks to its UI; the main process implements this with
 // ipcMain/webContents, tests with an in-memory pair.
 export interface HostTransport {
-  handleAsync(channel: string, handler: (req: RpcRequest) => Promise<any>): void;
+  handleAsync(
+    channel: string,
+    handler: (req: RpcRequest) => Promise<any>,
+  ): void;
   handleSync(channel: string, handler: (req: RpcRequest) => any): void;
   send(channel: string, payload: any): void;
 }
 
-type Emit = <K extends keyof RpcEventMap>(name: K, payload: RpcEventMap[K]) => void;
+type Emit = <K extends keyof RpcEventMap>(
+  name: K,
+  payload: RpcEventMap[K],
+) => void;
 
 const text = (message: any) =>
   message instanceof Error ? message.message : String(message);
@@ -54,6 +60,9 @@ export function hostCore(
   transport: HostTransport,
   forwardingLogger?: ReturnType<typeof createForwardingLogger>,
 ) {
+  const loaded = new Set<string>();
+  const emit: Emit = (name, payload) =>
+    transport.send(rpcChannels.event, { name, payload });
   const targets: Record<string, any> = {
     settings: core.settings,
     parsers: core.parsers,
@@ -61,8 +70,35 @@ export function hostCore(
     customVariables: core.customVariables,
     presets: core.presets,
     fuzzy: core.fuzzy,
+    builder: core.builder,
+    writer: {
+      save: (previewData: any, onlineImages: any, options: any) =>
+        core.writer.save(previewData, onlineImages, options, (progress) =>
+          emit("writer:progress", progress),
+        ),
+      exportSelection: (...args: any[]) =>
+        (core.writer.exportSelection as any)(...args),
+      readSelection: (path: string) => core.writer.readSelection(path),
+    },
+    providers: {
+      // The UI picks the id; every event for this lookup carries it.
+      retrieve: async (
+        id: string,
+        title: string,
+        imageType: string,
+        apis: any,
+        provider: any,
+      ) =>
+        core.providers.retrieveUrls(
+          title,
+          imageType,
+          apis,
+          provider,
+          (event, data) => emit("providers:event", { id, event, data }),
+        ),
+      stopUrlDownload: async () => core.providers.stopUrlDownload(),
+    },
   };
-  const loaded = new Set<string>();
 
   transport.handleAsync(rpcChannels.call, async ({ target, method, args }) => {
     if (!isAllowed(target, method, "async")) {
@@ -94,8 +130,6 @@ export function hostCore(
     },
   );
 
-  const emit: Emit = (name, payload) =>
-    transport.send(rpcChannels.event, { name, payload });
   forwardingLogger?.attach(emit);
 
   core.settings.onChange((settings) => emit("settings:changed", settings));
@@ -106,7 +140,9 @@ export function hostCore(
     }),
   );
   core.exceptions.onChange((saved) => emit("exceptions:changed", saved));
-  core.customVariables.onChange((data) => emit("customVariables:changed", data));
+  core.customVariables.onChange((data) =>
+    emit("customVariables:changed", data),
+  );
   core.customVariables.onDownloadingChange((d) =>
     emit("customVariables:downloading", d),
   );
@@ -115,6 +151,7 @@ export function hostCore(
   core.fuzzy.loader
     .observeList()
     .subscribe((list) => emit("fuzzy:list", { totalGames: list.totalGames }));
+  core.providers.stopEvent.subscribe(() => emit("providers:stopped", null));
 
   for (const [name, promise] of Object.entries(core.ready ?? {})) {
     promise.then(() => {
