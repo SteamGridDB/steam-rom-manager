@@ -25,4 +25,6 @@ export interface Logger {
   info(message: any, settings?: MessageSettings): void;
   success(message: any, settings?: MessageSettings): void;
   error(message: any, settings?: MessageSettings): void;
+  // Fuzzy-matcher chatter, shown separately in the log; info if absent.
+  fuzzy?(message: any, settings?: MessageSettings): void;
 }
