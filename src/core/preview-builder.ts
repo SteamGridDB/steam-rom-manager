@@ -52,10 +52,17 @@ export class PreviewBuilder {
   }
 
   // Throws if the parsers fail; logs (as the UI did) what was skipped.
-  async build(): Promise<BuildResult> {
+  // `parserIds`: run just these parsers, enabled or not.
+  async build({
+    parserIds,
+  }: { parserIds?: string[] } = {}): Promise<BuildResult> {
     const pools = emptyPools();
     let previewData;
-    let data = await this.parsers.executeFileParser();
+    let data = await this.parsers.executeFileParser(
+      ...(parserIds
+        ? this.parsers.getAll().filter((c) => parserIds.includes(c.parserId))
+        : []),
+    );
     if (data.skipped.length > 0) {
       this.loggerService.info(
         this.lang.info.disabledConfigurations__i.interpolate({

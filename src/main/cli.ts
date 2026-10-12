@@ -2,24 +2,14 @@ import * as clc from "cli-color";
 import { Logger } from "../models";
 import { Core } from "../core/core";
 import * as commands from "../core/cli-commands";
-
-export type CliCommand =
-  | "list"
-  | "enable"
-  | "disable"
-  | "add"
-  | "remove"
-  | "nuke";
+import { CliRequest } from "./cli-args";
 
 const text = (message: any) =>
   message instanceof Error ? message.message : String(message);
 
 // Runs a CLI command headless, in this (main) process. Returns the exit code.
-export async function runCli(
-  command: CliCommand,
-  args: string[],
-  flags: { [k: string]: boolean },
-): Promise<number> {
+export async function runCli(request: CliRequest): Promise<number> {
+  const { command } = request;
   const out: commands.CliOutput = {
     log: (line) => process.stdout.write(`${line}\n`),
     inline: (line) => {
@@ -71,17 +61,13 @@ export async function runCli(
       return 0;
     case "enable":
     case "disable":
-      await commands.setEnabled(core, out, command === "enable", {
-        all: !!flags.all,
-        names: !!flags.names,
-        parsers: args,
-      });
+      await commands.setEnabled(core, out, command === "enable", request);
       break;
     case "add":
-      ok = await commands.add(core, out);
+      ok = await commands.add(core, out, onlyOption(request));
       break;
     case "remove":
-      ok = await commands.remove(core, out);
+      ok = await commands.remove(core, out, onlyOption(request));
       break;
     case "nuke":
       ok = await commands.nuke(core, out);
@@ -89,6 +75,12 @@ export async function runCli(
   }
   core.fuzzy.stopAutoSave();
   await core.fuzzy.saveCacheIfNeeded();
-  out.log("\nAll Done");
+  if (ok) {
+    out.log("\nAll Done");
+  }
   return ok ? 0 : 1;
+}
+
+function onlyOption({ only, parsers, names }: CliRequest) {
+  return only ? { only: { parsers, names } } : {};
 }

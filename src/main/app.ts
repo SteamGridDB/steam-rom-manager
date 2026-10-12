@@ -12,13 +12,12 @@ import { autoUpdater, CancellationToken } from "electron-updater";
 import * as paths from "../paths";
 import * as path from "path";
 import * as url from "url";
-import * as clc from "cli-color";
-import yargs, { Argv } from "yargs";
 import { hideBin } from "yargs/helpers";
 import { setDefaultFetch } from "../core/http";
 import { envInfo } from "../env-info";
 import { envChannel } from "../bridge";
-import { runCli, CliCommand } from "./cli";
+import { runCli } from "./cli";
+import { parseCliArgs } from "./cli-args";
 import { startCoreForWindow } from "./core-host";
 
 // Crash Reporting
@@ -30,118 +29,11 @@ crashReporter.start({
   uploadToServer: true,
 });
 
-// CLI Setup
-let commandCLI: string = "";
-let argsCLI: string[];
-let flagsCLI: { [k: string]: boolean } = {};
-
-yargs(hideBin(process.argv))
-  .usage(
-    clc.green(`Make sure Steam is fully exited before using add/remove/nuke.`),
-  )
-  .usage(
-    clc.green(
-      `If Steam is running apps will be added/removed, but categories won\'t.`,
-    ),
-  )
-  .command(
-    "list",
-    clc.blue("List all parsers and their enabled status.\nUsage: list"),
-    (yargs: typeof Argv) => {
-      commandCLI = "list";
-      console.log("Fetching parsers...\n");
-    },
-  )
-  .example(`srm enable --names "name1" "name2"`)
-  .example(`srm disable --all; srm enable "id1" "id2"; srm remove;`)
-  .example("srm enable --all; srm add;")
-  .command(
-    "enable",
-    clc.blue("Enable parsers by name or id.\nUsage: enable [p1] [p2]"),
-    (yargs: typeof Argv) => {
-      return yargs
-        .positional("parsers", {
-          describe: clc.blue("List of parsers to enable (names or ids)"),
-          type: "string",
-        })
-        .option("all", {
-          describe: clc.blue(
-            "Command enables all parsers if this flag is set.",
-          ),
-          type: "boolean",
-        })
-        .option("names", {
-          describe: clc.blue(
-            "Flag tells SRM to enable by (emoji-stripped) name instead of id",
-          ),
-          type: "boolean",
-        });
-    },
-    (argv: any) => {
-      commandCLI = "enable";
-      argsCLI = argv._.slice(1);
-      flagsCLI["all"] = !!argv.all;
-      flagsCLI["names"] = !!argv.names;
-    },
-  )
-  .command(
-    "disable",
-    clc.blue("Disable parsers by name or id.\nUsage: disable [p1] [p2]"),
-    (yargs: typeof Argv) => {
-      return yargs
-        .positional("parsers", {
-          describe: clc.blue("List of parsers to disable (names or ids)"),
-          type: "string",
-        })
-        .option("all", {
-          describe: clc.blue(
-            "Command disables all parsers if this flag is set.",
-          ),
-          type: "boolean",
-        })
-        .option("names", {
-          describe: clc.blue(
-            "Flag tells SRM to disable by (emoji-stripped) name instead of id",
-          ),
-          type: "boolean",
-        });
-    },
-    (argv: any) => {
-      commandCLI = "disable";
-      argsCLI = argv._.slice(1);
-      flagsCLI["all"] = !!argv.all;
-      flagsCLI["names"] = !!argv.names;
-    },
-  )
-  .command(
-    "add",
-    clc.blue("Run all enabled parsers and save apps to steam.\nUsage: add"),
-    (yargs: typeof Argv) => {
-      commandCLI = "add";
-    },
-  )
-  .command(
-    "remove",
-    clc.blue(
-      "Run all enabled parsers and remove apps from steam.\nUsage: remove",
-    ),
-    (yargs: typeof Argv) => {
-      commandCLI = "remove";
-    },
-  )
-  .command(
-    "nuke",
-    clc.blue(
-      "Removes all SRM added changes to your steam library.\nUsage: nuke",
-    ),
-    (yargs: typeof Argv) => {
-      commandCLI = "nuke";
-    },
-  )
-  .parse();
+// Command line: a command runs headless; without one the window opens.
+const cliRequest = parseCliArgs(hideBin(process.argv));
 
 // Logging setup
-if (commandCLI) {
+if (cliRequest) {
   delete process.env.ELECTRON_ENABLE_SECURITY_WARNINGS;
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "true";
   process.emitWarning = (warning, ...args) => {};
@@ -264,11 +156,11 @@ app.on("ready", async () => {
   // Electron's network stack: system certificate store and proxy, which
   // Node's TLS (e.g. node-fetch) doesn't honour on some systems.
   setDefaultFetch((url, init) => net.fetch(url, init as RequestInit) as any);
-  if (commandCLI) {
+  if (cliRequest) {
     // Headless: the CLI runs the core directly in this process.
     let code = 1;
     try {
-      code = await runCli(commandCLI as CliCommand, argsCLI, flagsCLI);
+      code = await runCli(cliRequest);
     } catch (error) {
       process.stderr.write(`${error?.stack ?? error}\n`);
     }
@@ -323,6 +215,6 @@ app.on("window-all-closed", () => {
 
 app.on("activate", () => {
   if (mainWindow === null) {
-    createWindow(!commandCLI);
+    createWindow(!cliRequest);
   }
 });

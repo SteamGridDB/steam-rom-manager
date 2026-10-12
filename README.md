@@ -125,7 +125,7 @@ All script must be run using `yarn run` command. For example, `yarn run watch:re
 Run `watch:main` (usually once since one rarely changes anything in the main Electron process) and `watch:renderer`.
 Each command creates separate `webpack` instance which will watch referenced files for changes and will recompile app.
 
-App can be run using `start` script or `npx electron .` (if you want to test the CLI use `npx electron . [command] [flags]`). After every recompile by `watch:renderer`, app can be refreshed using `Ctrl + R`, however `watch:main` requires need a restart.
+App can be run using the `start` script; to test the CLI use `npx electron ./dist/main.bundle.js [command] [flags]` (`--help` lists the commands). Both use the data folder `%APPDATA%\Electron\userData` (`~/.config/Electron/userData` on Linux). `npx electron .` works too, but it uses the installed SRM's data folder. Set `SRM_USER_DATA_DIR` to use any other folder. After every recompile by `watch:renderer`, app can be refreshed using `Ctrl + R`, however `watch:main` requires a restart (as do both watchers when the webpack configs change).
 
 `Ctrl + Shift + I` can be used to launch Chrome inspector once the app is running. This works even in the release version.
 

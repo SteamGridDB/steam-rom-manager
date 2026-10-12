@@ -80,6 +80,8 @@ export class PreviewEngine {
   private onlineImages: OnlineImages;
   private batchProgress: BehaviorSubject<{ update: string; batch: number }>;
   private sgdbToArt: SGDBToArt;
+  // The list came from a chosen set of parsers (see generatePreviewData).
+  private onlySomeParsers = false;
 
   private loggerService: Logger;
   private parsers: PreviewEngineOptions["parsers"];
@@ -156,7 +158,11 @@ export class PreviewEngine {
 
   // Generates the preview from the enabled parsers. Resolves once the list
   // is built; online artwork keeps arriving afterwards (see waitForImages).
-  async generatePreviewData(): Promise<void> {
+  // `parserIds`: run just these parsers, enabled or not (default: every
+  // enabled one). Saving such a list leaves other parsers' games in Steam.
+  async generatePreviewData(
+    options: { parserIds?: string[] } = {},
+  ): Promise<void> {
     if (this.previewVariables.listIsBeingGenerated)
       return this.loggerService.info(this.lang.info.listIsBeingGenerated, {
         invokeAlert: true,
@@ -175,7 +181,7 @@ export class PreviewEngine {
 
     this.previewVariables.listIsBeingGenerated = true;
     this.providers.stopUrlDownload();
-    await this.generatePreviewDataCallback();
+    await this.generatePreviewDataCallback(options.parserIds);
   }
 
   // Resolves once no online artwork lookups are pending.
@@ -266,7 +272,7 @@ export class PreviewEngine {
       const { ok, outcomes, imageRes } = await this.writer.save(
         options.removeAll ? undefined : this.previewData,
         this.onlineImages,
-        options,
+        { ...options, keepOtherParsers: this.onlySomeParsers },
         (progress) => this.batchProgress.next(progress),
       );
       if (ok && outcomes) {
@@ -472,7 +478,7 @@ export class PreviewEngine {
     }
   }
 
-  private async generatePreviewDataCallback() {
+  private async generatePreviewDataCallback(parserIds?: string[]) {
     // Let any pending artwork lookups wind down first.
     while (this.previewVariables.numberOfQueriedImages !== 0) {
       await sleep(100);
@@ -483,7 +489,8 @@ export class PreviewEngine {
         invokeAlert: true,
       });
       try {
-        const result = await this.builder.build();
+        const result = await this.builder.build({ parserIds });
+        this.onlySomeParsers = !!parserIds;
         for (const artworkType of artworkTypes) {
           this.onlineImages[artworkType] = result.onlineImages[artworkType];
         }

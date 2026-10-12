@@ -26,6 +26,9 @@ let clientConfig: Configuration = {
     extensions: [".ts", ".js"],
     alias: {
       jimp$: jimpCommonjsEntry,
+      // yargs' help layout: cliui's ES module build wraps text by cutting it
+      // every N characters, mid-word; its CommonJS build wraps at words.
+      cliui$: require.resolve("cliui"),
     },
   },
   module: {

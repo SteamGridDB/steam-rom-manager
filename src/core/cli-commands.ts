@@ -39,11 +39,52 @@ export async function setEnabled(
   }
 }
 
+// add/remove: run just these parsers (ids, or names), enabled or not.
+export interface RunOptions {
+  only?: { parsers: string[]; names: boolean };
+}
+
+// The parser ids for --only; undefined (after reporting) if any is unknown.
+function onlyParserIds(
+  core: Core,
+  out: CliOutput,
+  { only }: RunOptions,
+): string[] | undefined | null {
+  if (!only) {
+    return null; // every enabled parser
+  }
+  const resolved = core.parsers.resolveParserIds(only.parsers, only.names);
+  const configs = core.parsers.getAll();
+  const known = (id: string) => configs.some((c) => c.parserId === id);
+  const missing = [
+    ...resolved.missing,
+    ...resolved.ids.filter((id) => !known(id)),
+  ];
+  for (const name of missing) {
+    out.log(`Could not find parser ${name}`);
+  }
+  const ids = resolved.ids.filter(known);
+  if (missing.length || !ids.length) {
+    return undefined;
+  }
+  out.log(
+    `Running only: ${configs
+      .filter((c) => ids.includes(c.parserId))
+      .map((c) => c.configTitle)
+      .join(", ")}`,
+  );
+  return ids;
+}
+
 // Generates the app list and waits for its artwork, reporting progress.
 // Returns the number of apps.
-async function generate(core: Core, out: CliOutput): Promise<number> {
+async function generate(
+  core: Core,
+  out: CliOutput,
+  parserIds: string[] | null,
+): Promise<number> {
   out.log("Generating app list");
-  await core.preview.generatePreviewData();
+  await core.preview.generatePreviewData(parserIds ? { parserIds } : undefined);
   const vars = core.preview.getPreviewVariables();
   if (vars.numberOfListItems === 0) {
     out.log("No apps found");
@@ -66,8 +107,16 @@ async function generate(core: Core, out: CliOutput): Promise<number> {
   return vars.numberOfListItems;
 }
 
-export async function add(core: Core, out: CliOutput): Promise<boolean> {
-  if ((await generate(core, out)) === 0) {
+export async function add(
+  core: Core,
+  out: CliOutput,
+  options: RunOptions = {},
+): Promise<boolean> {
+  const parserIds = onlyParserIds(core, out, options);
+  if (parserIds === undefined) {
+    return false;
+  }
+  if ((await generate(core, out, parserIds)) === 0) {
     return true;
   }
   out.log("Adding app list to steam");
@@ -81,8 +130,16 @@ export async function add(core: Core, out: CliOutput): Promise<boolean> {
   }
 }
 
-export async function remove(core: Core, out: CliOutput): Promise<boolean> {
-  if ((await generate(core, out)) === 0) {
+export async function remove(
+  core: Core,
+  out: CliOutput,
+  options: RunOptions = {},
+): Promise<boolean> {
+  const parserIds = onlyParserIds(core, out, options);
+  if (parserIds === undefined) {
+    return false;
+  }
+  if ((await generate(core, out, parserIds)) === 0) {
     return true;
   }
   out.log("Removing app list from steam");
