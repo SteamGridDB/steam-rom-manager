@@ -441,13 +441,16 @@ export class ParsersStore {
     if (!byName) {
       return { ids: args, missing: [] };
     }
-    const plain = (title: string) => title.replace(/[^\x20-\x7E]+/g, "");
+    // Emoji left out; also the space before them ("Snes9x (SNES) 📺").
+    const plain = (title: string) => title.replace(/[^\x20-\x7E]+/g, "").trim();
+    const names = args.map((name) => name.trim());
     return {
       ids: this.configs
-        .filter((config) => args.includes(plain(config.configTitle)))
+        .filter((config) => names.includes(plain(config.configTitle)))
         .map((config) => config.parserId),
       missing: args.filter(
-        (name) => !this.configs.some((c) => plain(c.configTitle) === name),
+        (name) =>
+          !this.configs.some((c) => plain(c.configTitle) === name.trim()),
       ),
     };
   }

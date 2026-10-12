@@ -87,10 +87,16 @@ export class SteamWriter {
 
   // Saves `previewData` to Steam, or with removeAll removes everything SRM
   // ever added from every known Steam install (previewData is then unused).
+  // keepOtherParsers: the list came from only some parsers; never remove the
+  // games of parsers that weren't run (as deleteDisabledShortcuts would).
   async save(
     previewData: PreviewData,
     onlineImages: OnlineImages,
-    { batchWrite, removeAll }: { batchWrite: boolean; removeAll: boolean },
+    {
+      batchWrite,
+      removeAll,
+      keepOtherParsers = false,
+    }: { batchWrite: boolean; removeAll: boolean; keepOtherParsers?: boolean },
     onBatchProgress: (progress: BatchProgress) => void = () => {},
   ): Promise<SaveResult> {
     const knownSteamDirectories = this.parsers.getKnownSteamDirectories();
@@ -138,7 +144,8 @@ export class SteamWriter {
         return vdfManager.mergeData(
           previewData,
           onlineImages,
-          this.appSettings.previewSettings.deleteDisabledShortcuts,
+          this.appSettings.previewSettings.deleteDisabledShortcuts &&
+            !keepOtherParsers,
         );
       });
     } else {

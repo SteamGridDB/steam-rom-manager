@@ -218,6 +218,97 @@ describe("CLI commands (headless Core)", () => {
     expect(log.some((l) => l.level === "error")).toBe(true);
   });
 
+  describe("--only", () => {
+    // "Other" (disabled) finds a GBA game; settings delete the games of
+    // parsers that aren't run, which --only must not do.
+    beforeEach(() => {
+      writeFiles(root, ["roms/Metroid Fusion (USA).gba"]);
+      const configs = JSON.parse(
+        fs.readFileSync(paths.userConfigurations, "utf8"),
+      );
+      configs[1].parserInputs.glob = "${title}.gba";
+      configs[1].steamCategories = ["GBA"];
+      fs.writeFileSync(paths.userConfigurations, JSON.stringify(configs));
+      fs.writeFileSync(
+        paths.userSettings,
+        JSON.stringify(
+          makeSettings({
+            environmentVariables: {
+              steamDirectory: steamDir,
+              userAccounts: ["alice"],
+            },
+            previewSettings: { deleteDisabledShortcuts: true },
+          }),
+        ),
+      );
+    });
+    const appnames = () =>
+      state()
+        .shortcuts.map((s: any) => s.appname)
+        .sort();
+    const enabledOnDisk = () =>
+      JSON.parse(fs.readFileSync(paths.userConfigurations, "utf8")).map(
+        (c: any) => !c.disabled,
+      );
+
+    it("adds and removes just the given parsers, enabled or not, leaving the rest", async () => {
+      expect(await cli.add((await loadCore()).core, output)).toBe(true);
+      expect(appnames()).toEqual([
+        "Chrono Trigger",
+        "My Manual Shortcut",
+        "Super Mario World",
+      ]);
+
+      // a disabled parser, by id: its game is added, SNES games stay
+      out.lines.length = 0;
+      expect(
+        await cli.add((await loadCore()).core, output, {
+          only: { parsers: ["other"], names: false },
+        }),
+      ).toBe(true);
+      expect(out.lines[0]).toBe("Running only: Other");
+      expect(appnames()).toEqual([
+        "Chrono Trigger",
+        "Metroid Fusion (USA)",
+        "My Manual Shortcut",
+        "Super Mario World",
+      ]);
+      expect(enabledOnDisk()).toEqual([true, false]);
+
+      // by (emoji-stripped) name: removes only that parser's games
+      expect(
+        await cli.remove((await loadCore()).core, output, {
+          only: { parsers: ["Snes9x (SNES)"], names: true },
+        }),
+      ).toBe(true);
+      expect(appnames()).toEqual([
+        "Metroid Fusion (USA)",
+        "My Manual Shortcut",
+      ]);
+      expect(enabledOnDisk()).toEqual([true, false]);
+    });
+
+    it("is what keeps other parsers' games: a plain add deletes them (deleteDisabledShortcuts)", async () => {
+      await cli.add((await loadCore()).core, output, {
+        only: { parsers: ["other"], names: false },
+      });
+      expect(appnames()).toContain("Metroid Fusion (USA)");
+      await cli.add((await loadCore()).core, output);
+      expect(appnames()).not.toContain("Metroid Fusion (USA)");
+    });
+
+    it("refuses unknown parsers without touching Steam", async () => {
+      const before = state();
+      expect(
+        await cli.add((await loadCore()).core, output, {
+          only: { parsers: ["other", "nope"], names: false },
+        }),
+      ).toBe(false);
+      expect(out.lines).toEqual(["Could not find parser nope"]);
+      expect(state()).toEqual(before);
+    });
+  });
+
   it("add with nothing to add says so", async () => {
     fs.rmSync(path.join(root, "roms"), { recursive: true });
     fs.mkdirSync(path.join(root, "roms"));
