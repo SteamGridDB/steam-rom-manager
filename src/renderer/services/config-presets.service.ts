@@ -1,25 +1,21 @@
 import { Injectable } from "@angular/core";
 import { ConfigPresets } from "../../models";
-import { LoggerService } from "./logger.service";
 import { BehaviorSubject } from "rxjs";
-import { PresetsStore } from "../../core/presets-store";
-import { Fetch } from "../../core/http";
+import { CoreClientService } from "./core-client.service";
 
-// Angular facade over the core PresetsStore.
+// Parser presets, owned by the PresetsStore in the main process.
 @Injectable()
 export class ConfigurationPresetsService {
-  readonly store: PresetsStore;
   private variableData = new BehaviorSubject<ConfigPresets>({});
   private downloadStatus = new BehaviorSubject<boolean>(false);
 
-  constructor(private loggerService: LoggerService) {
-    this.store = new PresetsStore(
-      this.loggerService,
-      globalThis.fetch.bind(globalThis) as Fetch,
-    );
-    this.store.onChange((data) => this.variableData.next(data));
-    this.store.onDownloadingChange((d) => this.downloadStatus.next(d));
-    this.store.load();
+  constructor(private coreClient: CoreClientService) {
+    const client = this.coreClient.client;
+    client.on("presets:changed", (data) => this.variableData.next(data));
+    client.on("presets:downloading", (d) => this.downloadStatus.next(d));
+    client
+      .whenLoaded("presets")
+      .then(() => this.variableData.next(client.callSync("presets", "get")));
   }
 
   get data() {
@@ -34,7 +30,7 @@ export class ConfigurationPresetsService {
     return this.downloadStatus;
   }
 
-  download(force: boolean = false) {
-    return this.store.download(force);
+  download(force: boolean = false): Promise<void> {
+    return this.coreClient.client.call("presets", "download", force);
   }
 }

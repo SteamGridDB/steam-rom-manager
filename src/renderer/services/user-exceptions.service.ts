@@ -1,14 +1,13 @@
 import { Injectable } from "@angular/core";
 import { UserExceptions, UserExceptionData, ParserType } from "../../models";
-import { LoggerService } from "./logger.service";
 import { BehaviorSubject } from "rxjs";
-import { ExceptionsStore } from "../../core/exceptions-store";
+import { CoreClientService } from "./core-client.service";
 
-// Angular facade over the core ExceptionsStore, adding the exceptions
-// editor's unsaved copy (`current`) and its unsaved flag.
+// User exceptions, owned by the ExceptionsStore in the main process; this
+// mirrors the saved exceptions and adds the exceptions editor's unsaved copy
+// (`current`) and its unsaved flag.
 @Injectable()
 export class UserExceptionsService {
-  readonly store: ExceptionsStore;
   private variableData = new BehaviorSubject<{
     current: UserExceptions;
     saved: UserExceptions;
@@ -16,12 +15,28 @@ export class UserExceptionsService {
   private isUnsavedData: BehaviorSubject<boolean> = new BehaviorSubject(false);
   sortBy: string = "timeStamp|desc";
 
-  constructor(private loggerService: LoggerService) {
-    this.store = new ExceptionsStore(this.loggerService);
-    this.store.onChange((saved) =>
+  constructor(private coreClient: CoreClientService) {
+    const client = this.coreClient.client;
+    client.on("exceptions:changed", (saved) =>
       this.variableData.next({ current: null, saved }),
     );
-    this.load();
+    client.whenLoaded("exceptions").then(() => this.refresh());
+  }
+
+  private callSync(method: string, ...args: any[]) {
+    return this.coreClient.client.callSync("exceptions", method, ...args);
+  }
+
+  private refresh() {
+    this.variableData.next({ current: null, saved: this.callSync("get") });
+  }
+
+  // Runs an edit in the main process; on success the saved data changed.
+  private edit(method: string, ...args: any[]) {
+    if (this.callSync(method, ...args)) {
+      this.setIsUnsaved(false);
+      this.refresh();
+    }
   }
 
   get data(): { current: UserExceptions; saved: UserExceptions } {
@@ -40,26 +55,17 @@ export class UserExceptionsService {
     return this.isUnsavedData.asObservable();
   }
 
-  load() {
-    return this.store.load();
-  }
-
-  private afterSave(saved: boolean) {
-    if (saved) {
-      this.setIsUnsaved(false);
-    }
-  }
-
   putBack(exceptionKey: string) {
-    this.afterSave(this.store.putBack(exceptionKey));
+    this.edit("putBack", exceptionKey);
   }
 
   makeExceptionId(
     executableLocation: string,
     extractedTitle: string,
     parserType: ParserType,
-  ) {
-    return this.store.makeExceptionId(
+  ): string {
+    return this.callSync(
+      "makeExceptionId",
       executableLocation,
       extractedTitle,
       parserType,
@@ -67,7 +73,7 @@ export class UserExceptionsService {
   }
 
   deleteExceptionById(exceptionId: string) {
-    this.afterSave(this.store.deleteById(exceptionId));
+    this.edit("deleteById", exceptionId);
   }
 
   addExceptionById(
@@ -75,21 +81,27 @@ export class UserExceptionsService {
     extractedTitle: string,
     newException: UserExceptionData,
   ) {
-    this.afterSave(
-      this.store.addById(exceptionId, extractedTitle, newException),
-    );
+    this.edit("addById", exceptionId, extractedTitle, newException);
   }
 
-  getExceptionById(exceptionId: string) {
-    return this.store.getById(exceptionId);
+  getExceptionById(exceptionId: string): UserExceptionData | undefined {
+    const match = Object.keys(this.data.saved.titles).find((key) => {
+      const m = key.match(/\$\{id\:([0-9]*?)\}/);
+      return m && m[1] == exceptionId;
+    });
+    return match ? this.data.saved.titles[match] : undefined;
   }
 
   setSaved(data: UserExceptions) {
-    return this.store.setSaved(data);
+    const error = this.callSync("setSaved", data);
+    if (!error) {
+      this.refresh();
+    }
+    return error;
   }
 
   setCurrent(data: UserExceptions) {
-    const error = data ? this.store.validate(data) : null;
+    const error = data ? this.callSync("validate", data) : null;
     if (!error) {
       this.variableData.next({ current: data, saved: this.data.saved });
     }
@@ -101,6 +113,6 @@ export class UserExceptionsService {
   }
 
   saveUserExceptions() {
-    this.afterSave(this.store.save(this.data.current));
+    this.edit("save", this.data.current);
   }
 }

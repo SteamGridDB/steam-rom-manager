@@ -19,6 +19,7 @@ import { hideBin } from "yargs/helpers";
 import { setDefaultFetch } from "../core/http";
 import { fetchOwnedGamesDirect } from "../lib/helpers/steam/owned-games";
 import { runCli, CliCommand } from "./cli";
+import { startCoreForWindow } from "./core-host";
 
 // Renderer windows inherit this, so they resolve paths without Electron.
 process.env.SRM_USER_DATA_DIR = paths.userDataDir;
@@ -271,6 +272,11 @@ app.on("ready", async () => {
     }
     app.exit(code);
   } else {
+    // The GUI's business logic runs here; the window is its UI.
+    const core = startCoreForWindow(() => mainWindow);
+    app.on("before-quit", () => {
+      core.fuzzy.saveCacheIfNeeded();
+    });
     createWindow(true);
     mainWindow.webContents.on("dom-ready", () => {
       autoUpdater.checkForUpdatesAndNotify();

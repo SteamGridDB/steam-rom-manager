@@ -8,6 +8,8 @@ import { PresetsStore } from "./presets-store";
 import { FuzzyStore } from "./fuzzy-store";
 import { ArtworkProviders } from "./artwork-providers";
 import { PreviewEngine } from "./preview-engine";
+import { PreviewBuilder } from "./preview-builder";
+import { SteamWriter } from "./steam-writer";
 
 export interface CoreOptions {
   logger: Logger;
@@ -25,6 +27,8 @@ export class Core {
   readonly presets: PresetsStore;
   readonly fuzzy: FuzzyStore;
   readonly providers: ArtworkProviders;
+  readonly builder: PreviewBuilder;
+  readonly writer: SteamWriter;
   readonly preview: PreviewEngine;
 
   constructor({ logger, fetch = getDefaultFetch(), onNewImage }: CoreOptions) {
@@ -35,30 +39,56 @@ export class Core {
     this.fuzzy = new FuzzyStore(logger, this.settings, fetch);
     this.parsers = new ParsersStore(logger, this.settings, this.fuzzy);
     this.providers = new ArtworkProviders(fetch);
-    this.preview = new PreviewEngine(
+    this.builder = new PreviewBuilder(logger, this.parsers, this.settings);
+    this.writer = new SteamWriter(logger, this.parsers, this.settings);
+    this.preview = new PreviewEngine({
       logger,
-      this.parsers,
-      this.providers,
-      this.settings,
+      parsers: this.parsers,
+      providers: this.providers,
+      settings: this.settings,
       onNewImage,
-    );
+      builder: this.builder,
+      writer: this.writer,
+    });
     this.exceptions.onChange((saved) => this.parsers.setUserExceptions(saved));
     this.customVariables.onChange((variables) =>
       this.parsers.setCustomVariables(variables),
     );
   }
 
-  // Loads all user data (settings first; everything else depends on them).
-  // Parser presets are only needed by the parser editor.
-  async load({ presets = true }: { presets?: boolean } = {}) {
-    await this.settings.load();
-    await Promise.all([
-      this.exceptions.load(),
-      this.customVariables.load(),
-      this.fuzzy.load(),
-      this.parsers.readControllerTemplates(),
-      presets ? this.presets.load() : undefined,
-    ]);
-    await this.parsers.load();
+  // Per-store readiness, set by start(): lets a UI show what's loaded while
+  // downloads (presets, custom variables, fuzzy list) are still running.
+  ready: {
+    settings: Promise<unknown>;
+    parsers: Promise<unknown>;
+    controllerTemplates: Promise<unknown>;
+    exceptions: Promise<unknown>;
+    customVariables: Promise<unknown>;
+    presets: Promise<unknown>;
+    fuzzy: Promise<unknown>;
+  };
+
+  // Starts loading all user data. Settings come first for the stores that
+  // depend on them. Parser presets are only needed by the parser editor.
+  start({ presets = true }: { presets?: boolean } = {}) {
+    if (this.ready) {
+      return this.ready;
+    }
+    const settings = this.settings.load();
+    this.ready = {
+      settings,
+      parsers: settings.then(() => this.parsers.load()),
+      controllerTemplates: this.parsers.readControllerTemplates(),
+      exceptions: this.exceptions.load(),
+      customVariables: this.customVariables.load(),
+      presets: presets ? this.presets.load() : Promise.resolve(),
+      fuzzy: settings.then(() => this.fuzzy.load()),
+    };
+    return this.ready;
+  }
+
+  // Loads everything and waits for it (what the CLI needs before a run).
+  async load(options: { presets?: boolean } = {}) {
+    await Promise.all(Object.values(this.start(options)));
   }
 }

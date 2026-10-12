@@ -22,15 +22,7 @@ import {
   initArtworkRecord,
   Logger,
 } from "../models";
-import {
-  VDF_Manager,
-  VDF_Error,
-  CategoryManager,
-  ControllerManager,
-  CompatToolManager,
-  Acceptable_Error,
-  ArtworkCache,
-} from "../lib";
+import { ArtworkCache } from "../lib";
 import { APP } from "../variables";
 import { queue } from "async";
 import * as steam from "../lib/helpers/steam";
@@ -53,8 +45,34 @@ import {
 import { ParsersStore } from "./parsers-store";
 import { SettingsStore } from "./settings-store";
 import { ArtworkProviders } from "./artwork-providers";
+import { SteamWriter } from "./steam-writer";
+import { PreviewBuilder } from "./preview-builder";
+import { addUniqueLocalImage, emptyPools } from "./image-pools";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+export interface PreviewEngineOptions {
+  logger: Logger;
+  parsers: Pick<
+    ParsersStore,
+    | "getKnownSteamDirectories"
+    | "executeFileParser"
+    | "getAll"
+    | "removeAllControllers"
+  >;
+  providers: Pick<
+    ArtworkProviders,
+    "retrieveUrls" | "stopUrlDownload" | "stopEvent"
+  >;
+  settings: Pick<SettingsStore, "get">;
+  // Called for each new online image when images should be loaded ahead of
+  // time (a UI measures them); nothing to do without a UI.
+  onNewImage?: (image: ImageContent) => void;
+  // Building the list and writing to Steam need the file system. A UI in
+  // another process passes proxies to the main process's builder/writer.
+  builder?: Pick<PreviewBuilder, "build">;
+  writer?: Pick<SteamWriter, "save" | "exportSelection" | "readSelection">;
+}
 
 // The list of apps SRM is about to add to Steam ("preview"): generated from
 // the parsers, with artwork pools filled from local files and online
@@ -65,18 +83,31 @@ export class PreviewEngine {
   private previewDataChanged: Subject<void>;
   private onlineImages: OnlineImages;
   private batchProgress: BehaviorSubject<{ update: string; batch: number }>;
-  private categoryManager: CategoryManager;
   private sgdbToArt: SGDBToArt;
 
-  constructor(
-    private loggerService: Logger,
-    private parsers: ParsersStore,
-    private providers: ArtworkProviders,
-    private settings: SettingsStore,
-    // Called for each new online image when images should be loaded ahead
-    // of time (the UI measures them); nothing to do without a UI.
-    private onNewImage: (image: ImageContent) => void = () => {},
-  ) {
+  private loggerService: Logger;
+  private parsers: PreviewEngineOptions["parsers"];
+  private providers: PreviewEngineOptions["providers"];
+  private settings: PreviewEngineOptions["settings"];
+  private onNewImage: (image: ImageContent) => void;
+  private writer: Pick<
+    SteamWriter,
+    "save" | "exportSelection" | "readSelection"
+  >;
+  private builder: Pick<PreviewBuilder, "build">;
+
+  constructor(options: PreviewEngineOptions) {
+    this.loggerService = options.logger;
+    this.parsers = options.parsers;
+    this.providers = options.providers;
+    this.settings = options.settings;
+    this.onNewImage = options.onNewImage ?? (() => {});
+    this.writer =
+      options.writer ??
+      new SteamWriter(options.logger, options.parsers, options.settings);
+    this.builder =
+      options.builder ??
+      new PreviewBuilder(options.logger, options.parsers, options.settings);
     this.previewData = undefined;
     this.previewVariables = {
       listIsBeingSaved: false,
@@ -86,12 +117,9 @@ export class PreviewEngine {
       numberOfQueriedImages: 0,
       numberOfListItems: 0,
     };
-    this.categoryManager = new CategoryManager();
     this.previewDataChanged = new Subject<void>();
     this.batchProgress = new BehaviorSubject({ update: "", batch: -1 });
-    this.onlineImages = initArtworkRecord<OnlineImages[ArtworkType]>(
-      () => ({}),
-    );
+    this.onlineImages = emptyPools();
     this.providers.stopEvent.subscribe(() => {
       for (const artworkType of artworkTypes) {
         for (const imagePool in this.onlineImages[artworkType]) {
@@ -206,33 +234,6 @@ export class PreviewEngine {
     }
   }
 
-  async removeCategories(
-    steamDir: string,
-    userId: string,
-    addedCategories: VDF_AddedCategoriesData[string][string],
-  ) {
-    try {
-      this.loggerService.info(
-        `Removing category information for user ${userId}.`,
-      );
-      await this.categoryManager.removeAllCategoriesAndWrite(
-        steamDir,
-        userId,
-        addedCategories,
-      );
-    } catch (error) {
-      this.loggerService.error(this.lang.errors.categorySaveError, {
-        invokeAlert: true,
-        alertTimeout: 3000,
-      });
-      this.loggerService.error(
-        this.lang.errors.categorySaveError__i.interpolate({
-          error: error.message,
-        }),
-      );
-    }
-  }
-
   saveData({
     batchWrite,
     removeAll,
@@ -240,7 +241,6 @@ export class PreviewEngine {
     batchWrite: boolean;
     removeAll: boolean;
   }): Promise<boolean> {
-    let knownSteamDirectories = this.parsers.getKnownSteamDirectories();
     if (this.previewVariables.listIsBeingSaved) {
       return Promise.resolve().then(() => {
         this.loggerService.info(this.lang.info.listIsBeingSaved, {
@@ -265,259 +265,32 @@ export class PreviewEngine {
         });
         return false;
       });
-    } else if (removeAll && knownSteamDirectories.length === 0) {
-      return Promise.resolve().then(() => {
-        this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        return false;
-      });
     }
+    return this.runSave({ batchWrite, removeAll });
+  }
 
-    let vdfManager = new VDF_Manager();
+  private async runSave(options: {
+    batchWrite: boolean;
+    removeAll: boolean;
+  }): Promise<boolean> {
     this.previewVariables.listIsBeingSaved = true;
-    let exAppIds: VDF_ExtraneousItemsData = undefined;
-    let addedCats: VDF_AddedCategoriesData = undefined;
-    let chain: Promise<any> = Promise.resolve()
-      .then(() => {
-        this.loggerService.info(this.lang.info.populatingVDF_List, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        return vdfManager.prepare(
-          removeAll ? knownSteamDirectories : this.previewData,
-        );
-      })
-      .then(() => {
-        this.loggerService.info(this.lang.info.creatingBackups, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        return vdfManager.backup();
-      })
-      .then(() => {
-        this.loggerService.info(this.lang.info.readingVDF_Files, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        return vdfManager.read();
-      });
-    if (!removeAll) {
-      chain = chain.then(() => {
-        this.loggerService.info(this.lang.info.mergingVDF_entries, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        return vdfManager.mergeData(
-          this.previewData,
-          this.onlineImages,
-          this.appSettings.previewSettings.deleteDisabledShortcuts,
-        );
-      });
-    } else {
-      chain = chain.then(() => {
-        this.loggerService.info(this.lang.info.removingVDF_entries, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        return vdfManager.removeAllAddedEntries();
-      });
+    try {
+      const { ok, outcomes } = await this.writer.save(
+        options.removeAll ? undefined : this.previewData,
+        this.onlineImages,
+        options,
+        (progress) => this.batchProgress.next(progress),
+      );
+      if (ok && outcomes) {
+        this.updatePreviewDataUrls(outcomes);
+      }
+      if (ok && options.removeAll) {
+        this.clearPreviewData();
+      }
+      return ok;
+    } finally {
+      this.previewVariables.listIsBeingSaved = false;
     }
-    chain = chain
-      .then(
-        ({
-          extraneousAppIds,
-          addedCategories,
-        }: {
-          extraneousAppIds: VDF_ExtraneousItemsData;
-          addedCategories: VDF_AddedCategoriesData;
-        }) => {
-          exAppIds = extraneousAppIds; //Non artwork-only extraneous app ids
-          addedCats = addedCategories; //Added categories for all app ids
-        },
-      )
-      .then(async () => {
-        if (!removeAll && !this.appSettings.previewSettings.disableCategories) {
-          await steam.performSteamlessTask(
-            this.appSettings,
-            this.loggerService,
-            async () => {
-              this.loggerService.info(this.lang.info.savingCategories);
-              await this.categoryManager.save(
-                this.previewData,
-                exAppIds,
-                addedCats,
-              );
-            },
-          );
-        }
-        if (removeAll && !this.appSettings.previewSettings.disableCategories) {
-          await steam.performSteamlessTask(
-            this.appSettings,
-            this.loggerService,
-            async () => {
-              for (let steamDir of knownSteamDirectories) {
-                const accounts = await steam.getAvailableLogins(steamDir);
-                for (let account of accounts) {
-                  await this.removeCategories(
-                    steamDir,
-                    account.accountID,
-                    addedCats[steamDir][account.accountID],
-                  );
-                }
-              }
-            },
-          );
-        }
-      })
-      .catch((error: Acceptable_Error | Error) => {
-        if (error instanceof Acceptable_Error) {
-          this.loggerService.error(this.lang.errors.categorySaveError, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-          this.loggerService.error(
-            this.lang.errors.categorySaveError__i.interpolate({
-              error: error.message,
-            }),
-          );
-        } else {
-          throw error;
-        }
-      })
-      .then(() => {
-        if (!removeAll) {
-          this.loggerService.info(this.lang.info.savingControllers);
-          const controllerManager = new ControllerManager();
-          return controllerManager.save(this.previewData, exAppIds);
-        }
-      })
-      .catch((error: Acceptable_Error | Error) => {
-        if (error instanceof Acceptable_Error) {
-          this.loggerService.error(this.lang.errors.controllerSaveError, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-          this.loggerService.error(
-            this.lang.errors.controllerSaveError__i.interpolate({
-              error: error.message,
-            }),
-          );
-        } else {
-          throw error;
-        }
-      })
-      .then(async () => {
-        // config.vdf is per-install and Steam rewrites it on exit, so patch it
-        // with Steam closed (same steamless window the categories step uses).
-        await steam.performSteamlessTask(
-          this.appSettings,
-          this.loggerService,
-          async () => {
-            this.loggerService.info(this.lang.info.savingCompatTools);
-            const compatToolManager = new CompatToolManager(this.loggerService);
-            if (removeAll) {
-              // exAppIds holds only SRM-owned (non artwork-only) shortcuts.
-              await compatToolManager.removeAll(
-                knownSteamDirectories,
-                exAppIds,
-              );
-            } else {
-              await compatToolManager.save(this.previewData, exAppIds);
-            }
-          },
-        );
-      })
-      .catch((error: Acceptable_Error | Error) => {
-        if (error instanceof Acceptable_Error) {
-          this.loggerService.error(this.lang.errors.compatToolSaveError, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-          this.loggerService.error(
-            this.lang.errors.compatToolSaveError__i.interpolate({
-              error: error.message,
-            }),
-          );
-        } else {
-          throw error;
-        }
-      })
-      .then(() => {
-        if (removeAll) {
-          this.loggerService.info(this.lang.info.removingVDF_entries);
-        } else {
-          this.loggerService.info(
-            this.lang.info.writingVDF_entries__i.interpolate({
-              batchSize: this.appSettings.batchDownloadSize,
-            }),
-            { invokeAlert: true, alertTimeout: 3000 },
-          );
-        }
-        if (batchWrite) {
-          vdfManager
-            .getBatchProgress()
-            .subscribe(
-              ({ update, batch }: { update: string; batch: number }) => {
-                if (batch > -1) {
-                  this.loggerService.info(update, {
-                    invokeAlert: true,
-                    alertTimeout: 3000,
-                  });
-                  this.batchProgress.next({ update: update, batch: batch });
-                }
-              },
-            );
-        }
-        return vdfManager.write(
-          batchWrite,
-          this.appSettings.batchDownloadSize,
-          this.appSettings.dnsServers,
-        );
-      })
-      .then(
-        ({
-          nonFatal,
-          outcomes,
-        }: {
-          nonFatal: VDF_Error;
-          outcomes: VDF_AllScreenshotsOutcomes;
-        }) => {
-          if (nonFatal) {
-            this.loggerService.error(nonFatal);
-          }
-          if (batchWrite) {
-            this.updatePreviewDataUrls(outcomes);
-          }
-        },
-      )
-      .then(() => {
-        this.previewVariables.listIsBeingSaved = false;
-        if (removeAll) {
-          this.loggerService.success(this.lang.success.removingVDF_entries, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-          this.clearPreviewData();
-        } else {
-          this.loggerService.success(this.lang.success.writingVDF_entries, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-        }
-        return true;
-      })
-      .catch((failureError: Error) => {
-        this.previewVariables.listIsBeingSaved = false;
-        this.loggerService.error(this.lang.errors.fatalError, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        this.loggerService.error(failureError);
-        return false;
-      });
-    return chain;
   }
 
   private updatePreviewDataUrls(outcomes: VDF_AllScreenshotsOutcomes) {
@@ -714,72 +487,18 @@ export class PreviewEngine {
     }
     {
       this.previewData = undefined;
-      let previewData;
       this.loggerService.info(this.lang.info.executingParsers, {
         invokeAlert: true,
       });
       try {
-        let data = await this.parsers.executeFileParser();
-        if (data.skipped.length > 0) {
-          this.loggerService.info(
-            this.lang.info.disabledConfigurations__i.interpolate({
-              count: data.skipped.length,
-            }),
-            { invokeAlert: true, alertTimeout: 3000 },
-          );
-          for (let i = 0; i < data.skipped.length; i++) {
-            this.loggerService.info(data.skipped[i]);
-          }
+        const result = await this.builder.build();
+        for (const artworkType of artworkTypes) {
+          this.onlineImages[artworkType] = result.onlineImages[artworkType];
         }
-
-        if (data.invalid.length > 0) {
-          this.loggerService.info(
-            this.lang.info.invalidConfigurations__i.interpolate({
-              count: data.invalid.length,
-            }),
-            { invokeAlert: true, alertTimeout: 3000 },
-          );
-          for (let i = 0; i < data.invalid.length; i++) {
-            this.loggerService.info(data.invalid[i]);
-          }
-        }
-
-        if (data.parsedData.parsedConfigs.length > 0) {
-          if (data.parsedData.noUserAccounts) {
-            this.loggerService.info(this.lang.info.noAccountsWarning, {
-              invokeAlert: true,
-              alertTimeout: 3000,
-            });
-          } else {
-            if (
-              !this.appSettings.previewSettings.disableCategories &&
-              !this.appSettings.autoKillSteam
-            ) {
-              this.loggerService.info(this.lang.info.shutdownSteam, {
-                invokeAlert: true,
-                alertTimeout: 3000,
-              });
-            }
-            previewData = await this.createPreviewData(
-              data.parsedData.parsedConfigs,
-            );
-          }
-        } else if (data.invalid.length === 0 && data.skipped.length === 0) {
-          if (this.parsers.getAll().length === 0)
-            this.loggerService.info(this.lang.info.noParserConfigurations, {
-              invokeAlert: true,
-              alertTimeout: 3000,
-            });
-          else
-            this.loggerService.info(this.lang.info.parserFoundNoFiles, {
-              invokeAlert: true,
-              alertTimeout: 3000,
-            });
-        }
-        if (previewData && previewData.numberOfItems > 0) {
-          this.previewData = previewData.data;
-          this.previewVariables.numberOfListItems = previewData.numberOfItems;
-          await this.readArtworkCache();
+        if (result.previewData) {
+          this.previewData = result.previewData;
+          this.previewVariables.numberOfListItems = result.numberOfItems;
+          this.sgdbToArt = result.sgdbToArt;
           for (const artworkType of artworkTypes) {
             this.downloadImageUrls(artworkType);
           }
@@ -805,242 +524,6 @@ export class PreviewEngine {
         this.previewDataChanged.next();
       }
     }
-  }
-
-  private async readArtworkCache() {
-    const artworkCache = new ArtworkCache();
-    await artworkCache.read();
-    this.sgdbToArt = artworkCache.sgdbToArt;
-  }
-
-  private async createPreviewData(data: ParsedUserConfiguration[]) {
-    let steamTreeData = steam.generateTreeFromParsedConfig(data);
-    let treeData: { gridData: SteamTree<any>; steamTreeData: SteamTree<any> };
-    if (this.appSettings.previewSettings.retrieveCurrentSteamImages)
-      treeData = await steam
-        .getGridImagesForTree(steamTreeData)
-        .then((gridData) => {
-          return { gridData, steamTreeData };
-        });
-    else treeData = { gridData: steamTreeData, steamTreeData };
-
-    let nonSteamShortcutsData = await steam
-      .getNonSteamShortcutsData(treeData.steamTreeData)
-      .then((shortcutData) => {
-        return Object.assign(treeData, { shortcutData });
-      });
-    let shortcutsData = nonSteamShortcutsData.shortcutData.tree;
-    let gridData = nonSteamShortcutsData.gridData.tree;
-    let numberOfItems: number = 0;
-    let previewData: PreviewData = {};
-
-    this.clearImageCache(false);
-
-    for (let i = 0; i < data.length; i++) {
-      let config = data[i];
-      if (previewData[config.steamDirectory] === undefined)
-        previewData[config.steamDirectory] = {};
-
-      for (let j = 0; j < config.foundUserAccounts.length; j++) {
-        let userAccount = config.foundUserAccounts[j];
-
-        if (
-          previewData[config.steamDirectory][userAccount.accountID] ===
-          undefined
-        ) {
-          previewData[config.steamDirectory][userAccount.accountID] = {
-            username: userAccount.name,
-            excluded: data
-              .map((x) => x.excluded)
-              .reduce((x, y) => x.concat(y), []),
-            apps: {},
-          };
-        } else if (
-          previewData[config.steamDirectory][userAccount.accountID].username !==
-          userAccount.name
-        ) {
-          previewData[config.steamDirectory][userAccount.accountID].username =
-            `${previewData[config.steamDirectory][userAccount.accountID].username} | ${userAccount.name}`;
-        }
-
-        for (let k = 0; k < data[i].files.length; k++) {
-          let file = config.files[k];
-          let executableLocation = file.modifiedExecutableLocation;
-          let title = file.titles.final;
-          let appID: string = "";
-          if (superTypesMap[config.parserType] !== "ArtworkOnly") {
-            appID = steam.generateAppId(executableLocation, title);
-          } else {
-            appID = steam.lengthenAppId(executableLocation.replace(/\"/g, ""));
-          }
-
-          if (
-            shortcutsData[config.steamDirectory][userAccount.accountID][
-              appID
-            ] !== undefined
-          ) {
-            if (
-              shortcutsData[config.steamDirectory][userAccount.accountID][
-                appID
-              ]["icon"] !== undefined
-            ) {
-              if (
-                file.localImages["icon"].indexOf(
-                  shortcutsData[config.steamDirectory][userAccount.accountID][
-                    appID
-                  ]["icon"],
-                ) === -1
-              ) {
-                file.localImages["icon"].unshift(
-                  shortcutsData[config.steamDirectory][userAccount.accountID][
-                    appID
-                  ]["icon"],
-                );
-              }
-            }
-          }
-          for (const artworkType of artworkTypes) {
-            if (this.onlineImages[artworkType][file.imagePool] === undefined) {
-              this.onlineImages[artworkType][file.imagePool] = {
-                online: {
-                  sgdb: {
-                    searchQueries: file.onlineImageQueries,
-                    imageProviderAPIs: config.imageProviderAPIs.sgdb,
-                    content: [],
-                  },
-                  steamCDN: {
-                    searchQueries: file.onlineImageQueries,
-                    imageProviderAPIs: config.imageProviderAPIs.steamCDN || {},
-                    content: [],
-                  },
-                },
-                offline: { local: [], manual: [], imported: [] },
-                retrieving: false,
-                parserEnabledProviders: config.imageProviders,
-              };
-            } else {
-              for (const provider of config.imageProviders) {
-                let currentQueries =
-                  this.onlineImages[artworkType][file.imagePool].online[
-                    provider
-                  ].searchQueries;
-                this.onlineImages[artworkType][file.imagePool].online[
-                  provider
-                ].imageProviderAPIs = config.imageProviderAPIs[provider];
-                this.onlineImages[artworkType][file.imagePool].online[
-                  provider
-                ].searchQueries = _.union(
-                  currentQueries,
-                  file.onlineImageQueries,
-                );
-              }
-            }
-          }
-
-          if (
-            previewData[config.steamDirectory][userAccount.accountID].apps[
-              appID
-            ] === undefined
-          ) {
-            let images: Record<ArtworkType, PreviewDataAppImage> =
-              initArtworkRecord<PreviewDataAppImage>(() => null);
-            for (const artworkType of artworkTypes) {
-              const steamImage =
-                gridData[config.steamDirectory][userAccount.accountID][
-                  ids.shortenAppId(appID).concat(artworkIdDict[artworkType])
-                ];
-              const steamImageUrl = steamImage
-                ? url.encodeFile(steamImage)
-                : undefined;
-              images[artworkType] = {
-                singleProviders: {
-                  steam: steamImage
-                    ? {
-                        imageProvider: imageProviderNames.steam,
-                        imageUrl: steamImageUrl,
-                        imageRes: url.imageDimensions(steamImageUrl),
-                        loadStatus: "done",
-                      }
-                    : undefined,
-                  artworkBackup: file.backupImage[artworkType]
-                    ? {
-                        imageProvider: imageProviderNames.artworkBackup,
-                        imageUrl: file.backupImage[artworkType],
-                        imageRes: url.imageDimensions(
-                          file.backupImage[artworkType],
-                        ),
-                        loadStatus: "done",
-                      }
-                    : undefined,
-                },
-                default: file.defaultImage[artworkType]
-                  ? {
-                      imageProvider: imageProviderNames.default,
-                      imageUrl: file.defaultImage[artworkType],
-                      imageRes: url.imageDimensions(
-                        file.defaultImage[artworkType],
-                      ),
-                      loadStatus: "done",
-                    }
-                  : undefined,
-                imagePool: file.imagePool,
-                imageIndex: 0,
-              };
-              for (let localUrl of file.localImages[artworkType]) {
-                this.addUniqueLocalImage(
-                  file.imagePool,
-                  {
-                    imageProvider: imageProviderNames.local,
-                    imageUrl: localUrl,
-                    imageRes: url.imageDimensions(localUrl),
-                    loadStatus: "done",
-                  },
-                  artworkType,
-                  "local",
-                );
-              }
-            }
-
-            previewData[config.steamDirectory][userAccount.accountID].apps[
-              appID
-            ] = {
-              entryId: numberOfItems++,
-              status: "add",
-              configurationTitle: config.configurationTitle,
-              parserId: config.parserId,
-              parserType: config.parserType,
-              steamCategories: file.steamCategories,
-              startInDirectory: file.startInDirectory,
-              onlineProviders: config.imageProviders,
-              drmProtect: config.drmProtect,
-              argumentString: file.argumentString,
-              filePath: file.filePath,
-              title: file.titles.final,
-              extractedTitle: file.titles.extracted,
-              sortAsTitle: file.sortAsTitle,
-              steamInputEnabled: config.steamInputEnabled,
-              controllers: config.controllers,
-              compatToolName: file.compatToolName,
-              images: images,
-              overlayImages: config.overlayImages,
-              executableLocation,
-            };
-          } else {
-            let currentCategories =
-              previewData[config.steamDirectory][userAccount.accountID].apps[
-                appID
-              ].steamCategories;
-            previewData[config.steamDirectory][userAccount.accountID].apps[
-              appID
-            ].steamCategories = _.union(
-              currentCategories,
-              file.steamCategories,
-            );
-          }
-        }
-      }
-    }
-    return { numberOfItems: numberOfItems, data: previewData };
   }
 
   downloadImageUrls(artworkType: ArtworkType, imKeys?: string[]) {
@@ -1248,19 +731,6 @@ export class PreviewEngine {
     return null;
   }
 
-  isLocalImageUnique(
-    imageKey: string,
-    imageUrl: string,
-    artworkType: ArtworkType,
-    provider: MultiLocalProviderType,
-  ) {
-    return (
-      this.onlineImages[artworkType][imageKey].offline[provider].findIndex(
-        (item) => item.imageUrl === imageUrl,
-      ) === -1
-    );
-  }
-
   addUniqueLocalImage(
     imageKey: string,
     content: ImageContent,
@@ -1268,146 +738,25 @@ export class PreviewEngine {
     provider: MultiLocalProviderType,
     preinsert?: boolean,
   ) {
-    if (
-      this.onlineImages[artworkType][imageKey] &&
-      this.isLocalImageUnique(imageKey, content.imageUrl, artworkType, provider)
-    ) {
-      if (preinsert) {
-        this.onlineImages[artworkType][imageKey].offline[provider].unshift(
-          content,
-        );
-        return this.onlineImages[artworkType][imageKey].offline[provider][0];
-      } else {
-        this.onlineImages[artworkType][imageKey].offline[provider].push(
-          content,
-        );
-        return ((x) => x[x.length - 1])(
-          this.onlineImages[artworkType][imageKey].offline[provider],
-        );
-      }
-    }
-    return null;
+    return addUniqueLocalImage(
+      this.onlineImages,
+      imageKey,
+      content,
+      artworkType,
+      provider,
+      preinsert,
+    );
   }
 
   // Saves the chosen artwork of every app into <folder>/srm-image-choices.
-  async exportSelection(folder: string) {
-    const imageDownloader = new url.ImageDownloader(
-      this.appSettings.dnsServers,
+  exportSelection(folder: string) {
+    return this.writer.exportSelection(
+      this.previewData,
+      this.onlineImages,
+      folder,
     );
-    async function saveImage(
-      imageUrl: string,
-      temporaryDir: string,
-      append: string,
-    ) {
-      const extension = imageUrl.split(/[#?]/)[0].split(".").pop().trim();
-      const filename = `${append}.${extension}`;
-      await imageDownloader.downloadAndSaveImage(
-        imageUrl,
-        path.join(temporaryDir, filename),
-      );
-      return filename;
-    }
-
-    {
-      let timeout: any;
-      try {
-        const packagePath = path.join(folder, "srm-image-choices");
-        if (fs.existsSync(packagePath)) {
-          fs.rmSync(packagePath, { recursive: true, force: true });
-        }
-        fs.mkdirSync(packagePath);
-        const apps: any[] = [];
-        let appsCount: number = 0;
-
-        this.loggerService.info(this.lang.info.preparingExport, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-
-        for (const directory in this.previewData) {
-          for (const userId in this.previewData[directory]) {
-            appsCount += Object.keys(
-              this.previewData[directory][userId].apps,
-            ).length;
-          }
-        }
-
-        timeout = setInterval(() => {
-          this.loggerService.info(
-            this.lang.info.exportProgress__i.interpolate({
-              progress: `${apps.length}/${appsCount}`,
-            }),
-            { invokeAlert: true, alertTimeout: 3000, doNotAppendToLog: true },
-          );
-        }, 1500);
-        for (const directory in this.previewData) {
-          for (const userId in this.previewData[directory]) {
-            for (const appId in this.previewData[directory][userId].apps) {
-              const app: PreviewDataApp =
-                this.previewData[directory][userId].apps[appId];
-              const saveId = app.changedId ? app.changedId : appId;
-              let selection: AppSelection = {
-                title: app.extractedTitle,
-                images: {
-                  tall: null,
-                  long: null,
-                  hero: null,
-                  logo: null,
-                  icon: null,
-                },
-              };
-              for (const artworkType of artworkTypes) {
-                const currentImage = appImage.getCurrentImage(
-                  app.images[artworkType],
-                  this.onlineImages[artworkType],
-                );
-                if (currentImage) {
-                  const imageUrl = currentImage.imageUrl;
-                  selection.images[artworkType] = {
-                    pool: app.images[artworkType].imagePool,
-                    filename: await saveImage(
-                      imageUrl,
-                      packagePath,
-                      `${saveId}.${artworkType}`,
-                    ),
-                  };
-                }
-              }
-              apps.push(selection);
-            }
-          }
-        }
-
-        if (timeout !== undefined) {
-          clearInterval(timeout);
-        }
-        fs.writeFileSync(
-          path.join(packagePath, "_selections.json"),
-          JSON.stringify(apps, null, 2),
-        );
-
-        this.loggerService.success(
-          this.lang.success.exportSuccess__i.interpolate({
-            path: packagePath,
-          }),
-          { invokeAlert: true, alertTimeout: 3000 },
-        );
-      } catch (e) {
-        if (timeout !== undefined) {
-          clearInterval(timeout);
-        }
-        this.loggerService.error(
-          this.lang.errors.exportError__i.interpolate({
-            error: e.message,
-          }),
-          { invokeAlert: true, alertTimeout: 3000 },
-        );
-      }
-    }
   }
 
-  // Adds the artwork exported to `packagePath` (an srm-image-choices folder)
-  // as "imported" images and selects them.
   async importSelection(packagePath: string) {
     {
       try {
@@ -1416,33 +765,31 @@ export class PreviewEngine {
           alertTimeout: 3000,
         });
 
-        let selections: AppSelection[] = JSON.parse(
-          fs.readFileSync(path.join(packagePath, "_selections.json"), "utf8"),
-        );
+        const read = await this.writer.readSelection(packagePath);
+        if (read.ok === false) {
+          this.loggerService.error(
+            (read.invalidJson
+              ? this.lang.errors.importJSONFailError__i
+              : this.lang.errors.importFailError__i
+            ).interpolate({ error: read.error }),
+            { invokeAlert: true, alertTimeout: 3000 },
+          );
+          return;
+        }
         let importedApps: string[] = [];
-
-        for (const selection of selections) {
-          for (const artworkType of artworkTypes) {
-            if (selection.images[artworkType]) {
-              this.addUniqueLocalImage(
-                selection.images[artworkType].pool,
-                {
-                  imageProvider: imageProviderNames.imported,
-                  imageUrl: url.encodeFile(
-                    path.join(
-                      packagePath,
-                      selection.images[artworkType].filename,
-                    ),
-                  ),
-                  loadStatus: "done",
-                },
-                artworkType,
-                "imported",
-              );
-              if (!importedApps.includes(selection.images[artworkType].pool)) {
-                importedApps.push(selection.images[artworkType].pool);
-              }
-            }
+        for (const item of read.items) {
+          this.addUniqueLocalImage(
+            item.pool,
+            {
+              imageProvider: imageProviderNames.imported,
+              imageUrl: item.imageUrl,
+              loadStatus: "done",
+            },
+            item.artworkType,
+            "imported",
+          );
+          if (!importedApps.includes(item.pool)) {
+            importedApps.push(item.pool);
           }
         }
         for (const directory in this.previewData) {

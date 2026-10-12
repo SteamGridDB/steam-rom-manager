@@ -5,6 +5,12 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import * as fs from "fs";
 import * as path from "path";
 import { ParsersService } from "../../src/renderer/services/parsers.service";
+import { SettingsService } from "../../src/renderer/services/settings.service";
+import { Core } from "../../src/core/core";
+import { hostCore } from "../../src/core/rpc-host";
+import { CoreClient } from "../../src/renderer/core-client";
+import { makeRpcPair } from "../helpers/rpc-pair";
+import { makeFakeNetwork } from "../helpers/fake-network";
 import * as paths from "../../src/paths";
 import * as modifiers from "../../src/core/modifiers";
 import { AppSettings } from "../../src/models";
@@ -15,13 +21,7 @@ import {
   tempDir,
   writeFiles,
 } from "../helpers/fixtures";
-import {
-  loaded,
-  makeDataService,
-  makeFuzzyService,
-  makeLogger,
-  makeSettingsService,
-} from "../helpers/services-harness";
+import { loaded, makeLogger } from "../helpers/services-harness";
 
 describe("ParsersService (characterization)", () => {
   let root: string;
@@ -57,18 +57,22 @@ describe("ParsersService (characterization)", () => {
   const savedConfigs = () =>
     JSON.parse(fs.readFileSync(paths.userConfigurations, "utf8"));
 
+  // The real chain the app uses: facades -> IPC (simulated, with structured
+  // cloning) -> Core in the "main process", on this test's userData.
   function makeService() {
+    fs.writeFileSync(paths.userSettings, JSON.stringify(settings));
     const logger = makeLogger();
-    const settingsService = makeSettingsService(settings);
-    const service = new ParsersService(
-      makeFuzzyService() as any,
-      logger.service as any,
-      makeDataService({}) as any,
-      makeDataService({ saved: { titles: {} } }) as any,
-      settingsService.service as any,
-    );
-    return { service, log: logger.log, settingsCalls: settingsService.calls };
+    const core = new Core({ logger: logger.service, fetch: makeFakeNetwork() });
+    core.start({ presets: false });
+    const { host, client } = makeRpcPair();
+    hostCore(core, host);
+    const coreClient = { client: new CoreClient(client) } as any;
+    const settingsService = new SettingsService(coreClient);
+    const service = new ParsersService(coreClient, settingsService);
+    return { service, log: logger.log, settingsService };
   }
+  const savedSettings = () =>
+    JSON.parse(fs.readFileSync(paths.userSettings, "utf8"));
   const titles = (s: ParsersService) =>
     s.getUserConfigurationsArray().map((c) => c.saved.configTitle);
 
@@ -121,7 +125,7 @@ describe("ParsersService (characterization)", () => {
 
   describe("editing", () => {
     it("saveConfiguration assigns a new id, enables it, and registers its group", async () => {
-      const { service, settingsCalls } = makeService();
+      const { service, settingsService } = makeService();
       await loaded(service);
       service.saveConfiguration({
         saved: config("New", { disabled: true, group: "  Retro  " }),
@@ -132,10 +136,12 @@ describe("ParsersService (characterization)", () => {
       expect(saved.saved.parserId).toMatch(/^\d+$/);
       expect(saved.saved.disabled).toBe(false);
       expect(saved.saved.group).toBe("Retro");
-      expect(settings.parserGroups).toEqual([
+      expect(settingsService.getSettings().parserGroups).toEqual([
         { name: "Retro", collapsed: false },
       ]);
-      expect(settingsCalls.saves).toBe(1);
+      expect(savedSettings().parserGroups).toEqual([
+        { name: "Retro", collapsed: false },
+      ]);
       expect(savedConfigs().map((c: any) => c.configTitle)).toEqual(["New"]);
     });
 
@@ -187,18 +193,20 @@ describe("ParsersService (characterization)", () => {
         config("A", { group: "One" }),
         config("B", { group: "Two" }),
       ]);
-      const { service } = makeService();
+      const { service, settingsService } = makeService();
+      const groups = () => settingsService.getSettings().parserGroups;
       await loaded(service);
       service.renameGroup("One", "Uno");
-      expect(settings.parserGroups.map((g) => g.name)).toEqual(["Uno", "Two"]);
+      expect(groups().map((g) => g.name)).toEqual(["Uno", "Two"]);
       service.renameGroup("Uno", "Two");
-      expect(settings.parserGroups).toEqual([{ name: "Two", collapsed: true }]);
+      expect(groups()).toEqual([{ name: "Two", collapsed: true }]);
       expect(
         service.getUserConfigurationsArray().map((c) => c.saved.group),
       ).toEqual(["Two", "Two"]);
       service.removeGroup("Two");
-      expect(settings.parserGroups).toEqual([]);
+      expect(groups()).toEqual([]);
       expect(savedConfigs().map((c: any) => c.group)).toEqual(["", ""]);
+      expect(savedSettings().parserGroups).toEqual([]);
     });
 
     it("enables/disables a whole group", async () => {

@@ -1,5 +1,3 @@
-import { CustomVariablesService } from "./custom-variables.service";
-import { UserExceptionsService } from "./user-exceptions.service";
 import { Injectable } from "@angular/core";
 import {
   UserConfiguration,
@@ -7,82 +5,96 @@ import {
   ControllerTemplates,
   ParserType,
   ParserGroup,
+  ParserInfo,
 } from "../../models";
-import { LoggerService } from "./logger.service";
-import { FuzzyService } from "./fuzzy.service";
 import { SettingsService } from "./settings.service";
 import { BehaviorSubject, Subject } from "rxjs";
 import { takeWhile } from "rxjs/operators";
 import * as parserInfo from "../../lib/parsers/available-parsers";
-import { ParsersStore } from "../../core/parsers-store";
 import * as _ from "lodash";
+import { CoreClientService } from "./core-client.service";
+import type { ParsersStore } from "../../core/parsers-store";
 
 type ConfigEntry = { saved: UserConfiguration; current: UserConfiguration };
 
-// Angular facade over the core ParsersStore. The store holds the saved
-// parsers; this adds the UI's unsaved edits (`current`) for each of them,
-// matched to the store's configs by object identity so they survive
-// reordering.
+// The user's parsers, owned by the ParsersStore in the main process. This
+// keeps a mirror of the saved parsers plus the UI's unsaved edits
+// (`current`) per parser. Edits are synchronous calls, after which the
+// mirror is refreshed, so the UI sees the result immediately.
 @Injectable()
 export class ParsersService {
-  readonly store: ParsersStore;
-  private entries = new Map<UserConfiguration, ConfigEntry>();
+  private entries = new Map<string, ConfigEntry>(); // by parser id
   private savedControllerTemplates = new Subject<ControllerTemplates>();
   private userConfigurations = new BehaviorSubject<ConfigEntry[]>([]);
   private deletedConfigurations = new BehaviorSubject<ConfigEntry[]>([]);
   private configurationsLoadedSubject = new BehaviorSubject<boolean>(false);
+  private parserInfoCache = new Map<string, ParserInfo>();
+  private templates: ControllerTemplates = {};
 
   constructor(
-    private fuzzyService: FuzzyService,
-    private loggerService: LoggerService,
-    private cVariableService: CustomVariablesService,
-    private exceptionsService: UserExceptionsService,
+    private coreClient: CoreClientService,
     private settingsService: SettingsService,
   ) {
-    this.store = new ParsersStore(
-      this.loggerService,
-      this.settingsService.store,
-      this.fuzzyService,
+    const client = this.coreClient.client;
+    client.on("parsers:changed", ({ configs, deleted }) =>
+      this.publish(configs, deleted),
     );
-    this.store.onChange(() => this.publish());
-    this.store
-      .load()
-      .then(() => this.configurationsLoadedSubject.next(true));
-    this.store
-      .readControllerTemplates()
-      .then((templates) => this.savedControllerTemplates.next(templates));
-    this.cVariableService.dataObservable.subscribe((variables) => {
-      this.store.setCustomVariables(variables);
+    client.whenLoaded("parsers").then(() => {
+      this.refresh();
+      this.configurationsLoadedSubject.next(true);
     });
-    this.exceptionsService.dataObservable.subscribe((data) => {
-      this.store.setUserExceptions(data.saved || { titles: {} });
+    client.whenLoaded("controllerTemplates").then(() => {
+      this.templates = client.callSync(
+        "parsers",
+        "getControllerTemplatesCache",
+      );
+      this.savedControllerTemplates.next(this.templates);
     });
   }
 
+  private callSync(method: string, ...args: any[]) {
+    return this.coreClient.client.callSync("parsers", method, ...args);
+  }
+
+  private call(method: string, ...args: any[]) {
+    return this.coreClient.client.call("parsers", method, ...args);
+  }
+
   private entryFor(config: UserConfiguration): ConfigEntry {
-    let entry = this.entries.get(config);
+    let entry = this.entries.get(config.parserId);
     if (!entry) {
       entry = { saved: config, current: null };
-      this.entries.set(config, entry);
+      this.entries.set(config.parserId, entry);
+    } else {
+      entry.saved = config;
     }
     return entry;
   }
 
-  private publish() {
-    this.userConfigurations.next(
-      this.store.getAll().map((c) => this.entryFor(c)),
-    );
-    this.deletedConfigurations.next(
-      this.store.getDeleted().map((c) => this.entryFor(c)),
-    );
+  private publish(configs: UserConfiguration[], deleted: UserConfiguration[]) {
+    this.userConfigurations.next(configs.map((c) => this.entryFor(c)));
+    this.deletedConfigurations.next(deleted.map((c) => this.entryFor(c)));
+  }
+
+  // Re-reads the parsers (and settings, which hold the groups) after an
+  // edit in the main process.
+  private refresh() {
+    this.publish(this.callSync("getAll"), this.callSync("getDeleted"));
+    this.settingsService.refresh();
+  }
+
+  private edit(method: string, ...args: any[]) {
+    const result = this.callSync(method, ...args);
+    this.refresh();
+    return result;
   }
 
   get controllerTemplates() {
-    return this.store.controllerTemplates;
+    return this.templates;
   }
 
   set controllerTemplates(controllerTemplates: ControllerTemplates) {
-    this.store.controllerTemplates = controllerTemplates;
+    this.templates = controllerTemplates;
   }
 
   onLoad(callback: (userConfigurations: UserConfiguration[]) => void) {
@@ -91,7 +103,11 @@ export class ParsersService {
       .pipe(
         takeWhile((loaded) => {
           if (loaded) {
-            callback(this.store.getAll().map((c) => _.cloneDeep(c)));
+            callback(
+              this.getUserConfigurationsArray().map((e) =>
+                _.cloneDeep(e.saved),
+              ),
+            );
           }
           return !loaded;
         }),
@@ -112,43 +128,50 @@ export class ParsersService {
   }
 
   getControllerTemplates(steamDir: string, controllerType: string) {
-    return this.store.getControllerTemplates(steamDir, controllerType);
+    return this.call("getControllerTemplates", steamDir, controllerType);
   }
 
   removeControllers(steamDir: string, userId: string, parserId?: string) {
-    this.store.removeControllers(steamDir, userId, parserId);
+    return this.call("removeControllers", steamDir, userId, parserId);
   }
 
-  parseSteamDir(steamDirInput: string) {
-    return this.store.parseSteamDir(steamDirInput);
+  removeAllControllers() {
+    return this.call("removeAllControllers");
   }
 
-  parseUserAccounts(accountsInfo: UserAccountsInfo, steamDir: string) {
-    return this.store.parseUserAccounts(accountsInfo, steamDir);
+  parseSteamDir(steamDirInput: string): string {
+    return this.callSync("parseSteamDir", steamDirInput);
   }
 
-  getKnownSteamDirectories() {
-    return this.store.getKnownSteamDirectories();
+  parseUserAccounts(
+    accountsInfo: UserAccountsInfo,
+    steamDir: string,
+  ): Promise<string[]> {
+    return this.call("parseUserAccounts", accountsInfo, steamDir);
+  }
+
+  getKnownSteamDirectories(): string[] {
+    return this.callSync("getKnownSteamDirectories");
   }
 
   getDeletedConfigurations() {
     return this.deletedConfigurations.asObservable();
   }
 
-  getDefaultValues() {
-    return this.store.getDefaultValues();
+  getDefaultValues(): UserConfiguration {
+    return this.callSync("getDefaultValues");
   }
 
   saveConfiguration(config: ConfigEntry) {
-    this.store.add(config.saved);
+    this.edit("add", config.saved);
   }
 
   swapIndex(fromIndex: number, toIndex: number) {
-    this.store.swapIndex(fromIndex, toIndex);
+    this.edit("swapIndex", fromIndex, toIndex);
   }
 
   injectIndex(fromIndex: number, toIndex: number) {
-    this.store.injectIndex(fromIndex, toIndex);
+    this.edit("injectIndex", fromIndex, toIndex);
   }
 
   moveParser(fromIndex: number, toIndex: number, newGroup?: string) {
@@ -156,15 +179,19 @@ export class ParsersService {
     if (entry?.current && newGroup !== undefined) {
       entry.current.group = newGroup;
     }
-    this.store.moveParser(fromIndex, toIndex, newGroup);
+    this.edit("moveParser", fromIndex, toIndex, newGroup);
   }
 
   getParserGroups(): ParserGroup[] {
-    return this.store.getParserGroups();
+    const settings = this.settingsService.getSettings();
+    if (!settings.parserGroups) {
+      settings.parserGroups = [];
+    }
+    return settings.parserGroups;
   }
 
   addGroup(name: string) {
-    this.store.addGroup(name);
+    this.edit("addGroup", name);
   }
 
   // Unsaved edits follow a group rename/removal too.
@@ -185,32 +212,44 @@ export class ParsersService {
     ) {
       this.regroupDrafts(oldName, trimmed);
     }
-    this.store.renameGroup(oldName, newName);
+    this.edit("renameGroup", oldName, newName);
   }
 
   removeGroup(name: string) {
     this.regroupDrafts(name, "");
-    this.store.removeGroup(name);
+    this.edit("removeGroup", name);
   }
 
   reorderGroups(fromIndex: number, toIndex: number) {
-    this.store.reorderGroups(fromIndex, toIndex);
+    this.edit("reorderGroups", fromIndex, toIndex);
   }
 
   setGroupCollapsed(name: string, collapsed: boolean) {
-    this.store.setGroupCollapsed(name, collapsed);
+    this.edit("setGroupCollapsed", name, collapsed);
   }
 
-  changeGroupEnabledStatus(groupName: string, enabled: boolean): Promise<void> {
-    return this.store.setGroupEnabled(groupName, enabled);
+  async changeGroupEnabledStatus(groupName: string, enabled: boolean) {
+    await this.call("setGroupEnabled", groupName, enabled);
+    this.refresh();
   }
 
+  // Throws (synchronously) for an unknown id, like the store.
   changeEnabledStatus(parserId: string, enabled: boolean): Promise<void> {
-    return this.store.setEnabled(parserId, enabled);
+    if (
+      !this.getUserConfigurationsArray().some(
+        (e) => e.saved.parserId === parserId,
+      )
+    ) {
+      throw `Could not ${enabled ? "enable" : "disable"} ${parserId}. No such parser exists.`;
+    }
+    return this.call("setEnabled", parserId, enabled).then(() =>
+      this.refresh(),
+    );
   }
 
-  changeEnabledStatusAll(enabled: boolean): Promise<void> {
-    return this.store.setAllEnabled(enabled);
+  async changeEnabledStatusAll(enabled: boolean) {
+    await this.call("setAllEnabled", enabled);
+    this.refresh();
   }
 
   // Saves the unsaved edits of parser `index` (or replaces it with `config`).
@@ -218,7 +257,7 @@ export class ParsersService {
     const entry = this.getUserConfigurationsArray()[index];
     if (config === undefined) {
       if (entry.current == null) return;
-      config = entry.current;
+      config = _.cloneDeep(entry.current);
       if (
         parserInfo.superTypesMap[config.parserType] ===
         parserInfo.ArtworkOnlyType
@@ -226,43 +265,55 @@ export class ParsersService {
         config.titleFromVariable.limitToGroups = [];
       }
     }
-    this.store.update(index, config);
+    entry.current = null;
+    this.edit("update", index, config);
   }
 
   setCurrentConfiguration(index: number, config: UserConfiguration) {
     this.getUserConfigurationsArray()[index].current = config;
-    this.publish();
+    this.userConfigurations.next([...this.getUserConfigurationsArray()]);
   }
 
   deleteConfiguration(index: number) {
-    this.store.delete(index);
+    this.edit("delete", index);
   }
 
   restoreConfiguration(index?: number) {
-    this.store.restore(index);
+    this.edit("restore", index);
   }
 
-  getParserInfo(parserType: ParserType) {
-    return this.store.getParserInfo(parserType);
+  // Parser labels/inputs/docs (static; cached).
+  getParserInfo(parserType: ParserType): ParserInfo {
+    if (!this.parserInfoCache.has(parserType)) {
+      this.parserInfoCache.set(
+        parserType,
+        this.callSync("getParserInfoForUi", parserType),
+      );
+    }
+    return this.parserInfoCache.get(parserType);
   }
 
-  executeFileParser(...configs: UserConfiguration[]) {
-    return this.store.executeFileParser(...configs);
+  executeFileParser(
+    ...configs: UserConfiguration[]
+  ): ReturnType<ParsersStore["executeFileParser"]> {
+    this.settingsService.push();
+    return this.call("executeFileParser", ...configs);
   }
 
-  validate(key: string, data: any, options?: any) {
-    return this.store.validate(key, data, options);
+  validate(key: string, data: any, options?: any): string | null {
+    return this.callSync("validate", key, data, options);
   }
 
-  isConfigurationValid(config: UserConfiguration) {
-    return this.store.isConfigurationValid(config);
+  isConfigurationValid(config: UserConfiguration): boolean {
+    return this.callSync("isConfigurationValid", config);
   }
 
   getParserId(configurationIndex: number) {
-    return this.store.getParserId(configurationIndex);
+    return this.getUserConfigurationsArray()[configurationIndex].saved.parserId;
   }
 
-  saveControllerTemplates() {
-    return this.store.saveControllerTemplates();
+  async saveControllerTemplates() {
+    this.callSync("setControllerTemplatesCache", this.templates);
+    await this.call("saveControllerTemplates");
   }
 }

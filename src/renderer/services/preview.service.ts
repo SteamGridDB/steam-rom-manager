@@ -17,10 +17,13 @@ import { APP } from "../../variables";
 import { defaultArtworkType } from "../../lib/artwork-types";
 import { dialog } from "@electron/remote";
 import { PreviewEngine } from "../../core/preview-engine";
+import { CoreClientService } from "./core-client.service";
 
-// Angular facade over the core PreviewEngine. Adds what only the UI has:
-// which artwork type is being viewed, which entries are on screen, loading
-// images into <img> to measure them, and folder pickers.
+// The preview list. Its state (apps, artwork pools, selection) lives here in
+// the UI, in a PreviewEngine; building the list, artwork lookups and writing
+// to Steam run in the main process. Adds what only the UI has: which artwork
+// type is being viewed, which entries are on screen, loading images into
+// <img> to measure them, and folder pickers.
 @Injectable()
 export class PreviewService {
   readonly engine: PreviewEngine;
@@ -32,21 +35,62 @@ export class PreviewService {
     private loggerService: LoggerService,
     private imageProviderService: ImageProviderService,
     private settingsService: SettingsService,
+    private coreClient: CoreClientService,
   ) {
-    this.engine = new PreviewEngine(
-      this.loggerService,
-      this.parsersService.store,
-      this.imageProviderService.instance,
-      this.settingsService.store,
-      (image) => {
-        if (
-          this.settingsService.getSettings().previewSettings
-            .imageLoadStrategy == "loadPre"
-        ) {
-          this.preloadImage(image);
-        }
+    const client = this.coreClient.client;
+    // The main process uses the settings as shown here, saved or not.
+    const withSettings = <T>(f: () => Promise<T>) => {
+      this.settingsService.push();
+      return f();
+    };
+    this.engine = new PreviewEngine({
+      logger: this.loggerService,
+      parsers: {
+        getAll: () =>
+          this.parsersService.getUserConfigurationsArray().map((e) => e.saved),
+        getKnownSteamDirectories: () =>
+          this.parsersService.getKnownSteamDirectories(),
+        executeFileParser: (...configs) =>
+          this.parsersService.executeFileParser(...configs),
+        removeAllControllers: () => this.parsersService.removeAllControllers(),
       },
-    );
+      providers: this.imageProviderService.instance,
+      settings: { get: () => this.settingsService.getSettings() },
+      // The engine only calls this with the "load in advance" strategy.
+      onNewImage: (image) => this.preloadImage(image),
+      builder: {
+        build: () => withSettings(() => client.call("builder", "build")),
+      },
+      writer: {
+        save: (previewData, onlineImages, options, onProgress) =>
+          withSettings(async () => {
+            const off = client.on("writer:progress", onProgress);
+            try {
+              return await client.call(
+                "writer",
+                "save",
+                previewData,
+                onlineImages,
+                options,
+              );
+            } finally {
+              off();
+            }
+          }),
+        exportSelection: (previewData, onlineImages, folder) =>
+          withSettings(() =>
+            client.call(
+              "writer",
+              "exportSelection",
+              previewData,
+              onlineImages,
+              folder,
+            ),
+          ),
+        readSelection: (folder) =>
+          client.call("writer", "readSelection", folder),
+      },
+    });
   }
 
   get lang() {
