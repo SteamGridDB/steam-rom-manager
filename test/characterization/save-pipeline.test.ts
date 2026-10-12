@@ -145,24 +145,49 @@ describe("save pipeline (characterization)", () => {
     const { ok, log } = await addAll([snesConfig(), gcConfig()]);
     expect(errors(log)).toEqual([]);
     expect(ok).toBe(true);
-    // Known quirk (CategoryManager.doCatTask): every save re-appends non-SRM
-    // collections to cloud storage instead of updating them in place, so the
-    // user's collection entry is duplicated once per save. Steam collapses
-    // duplicate keys when it rewrites the file (a real install shows none).
-    // Compare collections by key; everything else must be identical.
-    const byKey = (s: any) => ({
-      ...s,
-      collections: _.sortBy(
-        _.uniqBy([...s.collections].reverse(), "key"),
-        "key",
-      ),
-    });
-    expect(byKey(state())).toEqual(byKey(first));
+    expect(state()).toEqual(first);
+  });
+
+  it("collections are updated in place; untouched user collections aren't rewritten", async () => {
+    const cloudFile = path.join(
+      steamDir,
+      "userdata",
+      ACCOUNT,
+      "config",
+      "cloudstorage",
+      "cloud-storage-namespace-1.json",
+    );
+    const entry = (key: string) =>
+      JSON.parse(fs.readFileSync(cloudFile, "utf8")).filter(
+        (item: any) => item[0] === key,
+      );
+    const original = entry("user-collections.uc-mine");
+
+    // Unrelated categories: the user's collection entry is left exactly as is.
+    await addAll([snesConfig(), gcConfig()]);
+    expect(entry("user-collections.uc-mine")).toEqual(original);
+
+    // A category matching the user's collection (case-insensitively) adds
+    // SRM's games into it, updating that one entry in place.
+    await addAll([snesConfig({ steamCategories: ["my collection"] })]);
+    const [updated] = entry("user-collections.uc-mine");
+    expect(entry("user-collections.uc-mine")).toHaveLength(1);
+    const snesIds = state()
+      .shortcuts.filter((s: any) => s.exe === '"/emu/snes9x"')
+      .map((s: any) => s.appid >>> 0);
+    expect(JSON.parse(updated[1].value).added.sort()).toEqual(
+      [440, ...snesIds].sort(),
+    );
+
+    // Removing them takes them back out, still in place.
+    const h = harness([snesConfig({ steamCategories: ["my collection"] })]);
+    await h.generate();
+    h.markAllForRemoval();
+    await h.service.saveData({ batchWrite: false, removeAll: false });
+    expect(entry("user-collections.uc-mine")).toHaveLength(1);
     expect(
-      state().collections.filter(
-        (c: any) => c.key === "user-collections.uc-mine",
-      ),
-    ).toHaveLength(3);
+      JSON.parse(entry("user-collections.uc-mine")[0][1].value).added,
+    ).toEqual([440]);
   });
 
   it("a changed title replaces the old shortcut instead of duplicating it", async () => {

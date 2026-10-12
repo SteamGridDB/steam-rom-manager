@@ -41,6 +41,7 @@ export class CategoryManager {
     // Read existing collections from CLOUD STORAGE (the authoritative source)
     // And (separately) from localconfig.vdf (which is just Steam's local cache)
     let collections: any = {};
+    let originalCollections: any = {};
 
     const cloudStorageDir = path.join(
       steamDirectory,
@@ -90,6 +91,10 @@ export class CategoryManager {
                 // Ensure the added/removed arrays exist (sometimes they don't for certain collections)
                 collections[collectionId].added ||= [];
                 collections[collectionId].removed ||= [];
+                // Remember how it looked so unchanged ones aren't rewritten
+                originalCollections[collectionId] = _.cloneDeep(
+                  collections[collectionId],
+                );
                 if (collectionId.startsWith('srm-')) {
                   srmCollectionCount++;
                 } else {
@@ -134,27 +139,35 @@ export class CategoryManager {
 
               // MERGE LOGIC: Only modify SRM collections, preserve all other data
 
-              // Step 1: Build map of existing SRM collections in cloud storage
+              // Step 1: Index every existing collection entry, so collections
+              // are updated in place rather than appended as duplicates.
+              const existingCollections = new Map<string, number>();
               const existingSRMCollections = new Map<string, number>();
-              const existingNonSRMCollections: string[] = [];
               cloudData.forEach((item: any, index: number) => {
                 if (item && item[0] && item[0].startsWith('user-collections.')) {
+                  existingCollections.set(item[0], index);
                   if (item[0].startsWith('user-collections.srm-')) {
                     existingSRMCollections.set(item[0], index);
-                  } else {
-                    existingNonSRMCollections.push(item[0]);
                   }
                 }
               });
-              
-              console.log(`[doCatTask] Found ${existingSRMCollections.size} existing SRM collections in cloud storage`);
-              console.log(`[doCatTask] Found ${existingNonSRMCollections.length} existing non-SRM collections in cloud storage:`, existingNonSRMCollections);
 
-              // Step 2: Update or add SRM collections from our current set
+              console.log(`[doCatTask] Found ${existingSRMCollections.size} existing SRM collections and ${existingCollections.size - existingSRMCollections.size} non-SRM collections in cloud storage`);
+
+              // Step 2: Update or add collections from our current set. SRM's
+              // own collections are always written; the user's collections
+              // only when SRM changed them (added/removed its games), so their
+              // timestamps aren't bumped for nothing.
               console.log(`[doCatTask] Processing ${Object.keys(collections).length} collections to write to cloud storage`);
               for (const [collectionId, collectionData] of Object.entries(collections)) {
                 const key = `user-collections.${collectionId}`;
-                const existingIndex = existingSRMCollections.get(key);
+                if (
+                  !collectionId.startsWith('srm-') &&
+                  _.isEqual(collectionData, originalCollections[collectionId])
+                ) {
+                  continue;
+                }
+                const existingIndex = existingCollections.get(key);
 
                 const cloudEntry = [key, {
                   key: key,
@@ -166,13 +179,11 @@ export class CategoryManager {
                 }];
 
                 if (existingIndex !== undefined) {
-                  // Update existing SRM collection
-                  console.log(`[doCatTask] Updating existing SRM collection: ${collectionId}`);
+                  console.log(`[doCatTask] Updating existing collection: ${collectionId}`);
                   cloudData[existingIndex] = cloudEntry;
                   existingSRMCollections.delete(key); // Mark as processed
                 } else {
-                  // Add new SRM collection
-                  console.log(`[doCatTask] Adding new SRM collection: ${collectionId}`);
+                  console.log(`[doCatTask] Adding new collection: ${collectionId}`);
                   cloudData.push(cloudEntry);
                 }
               }

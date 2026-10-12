@@ -59,17 +59,6 @@ exports[`save pipeline (characterization) > a changed title replaces the old sho
       },
     },
     {
-      "key": "user-collections.uc-mine",
-      "value": {
-        "added": [
-          440,
-        ],
-        "id": "uc-mine",
-        "name": "My Collection",
-        "removed": [],
-      },
-    },
-    {
       "key": "user-collections.srm-U05FUw==",
       "value": {
         "added": [
@@ -101,17 +90,6 @@ exports[`save pipeline (characterization) > a changed title replaces the old sho
         ],
         "id": "srm-R2FtZUN1YmU=",
         "name": "GameCube",
-        "removed": [],
-      },
-    },
-    {
-      "key": "user-collections.uc-mine",
-      "value": {
-        "added": [
-          440,
-        ],
-        "id": "uc-mine",
-        "name": "My Collection",
         "removed": [],
       },
     },
@@ -249,17 +227,6 @@ exports[`save pipeline (characterization) > add: writes shortcuts, artwork, coll
     "version": 2,
   },
   "collections": [
-    {
-      "key": "user-collections.uc-mine",
-      "value": {
-        "added": [
-          440,
-        ],
-        "id": "uc-mine",
-        "name": "My Collection",
-        "removed": [],
-      },
-    },
     {
       "key": "user-collections.uc-mine",
       "value": {
@@ -430,17 +397,6 @@ exports[`save pipeline (characterization) > disabled parser: shortcuts removed w
       },
     },
     {
-      "key": "user-collections.uc-mine",
-      "value": {
-        "added": [
-          440,
-        ],
-        "id": "uc-mine",
-        "name": "My Collection",
-        "removed": [],
-      },
-    },
-    {
       "key": "user-collections.srm-U05FUw==",
       "value": {
         "added": [
@@ -473,17 +429,6 @@ exports[`save pipeline (characterization) > disabled parser: shortcuts removed w
         ],
         "id": "srm-R2FtZUN1YmU=",
         "name": "GameCube",
-        "removed": [],
-      },
-    },
-    {
-      "key": "user-collections.uc-mine",
-      "value": {
-        "added": [
-          440,
-        ],
-        "id": "uc-mine",
-        "name": "My Collection",
         "removed": [],
       },
     },
@@ -576,17 +521,6 @@ exports[`save pipeline (characterization) > nuke: removes everything SRM added, 
       },
     },
     {
-      "key": "user-collections.uc-mine",
-      "value": {
-        "added": [
-          440,
-        ],
-        "id": "uc-mine",
-        "name": "My Collection",
-        "removed": [],
-      },
-    },
-    {
       "is_deleted": true,
       "key": "user-collections.srm-U05FUw==",
       "value": {
@@ -621,17 +555,6 @@ exports[`save pipeline (characterization) > nuke: removes everything SRM added, 
         ],
         "id": "srm-R2FtZUN1YmU=",
         "name": "GameCube",
-        "removed": [],
-      },
-    },
-    {
-      "key": "user-collections.uc-mine",
-      "value": {
-        "added": [
-          440,
-        ],
-        "id": "uc-mine",
-        "name": "My Collection",
         "removed": [],
       },
     },
@@ -677,17 +600,6 @@ exports[`save pipeline (characterization) > remove: drops SRM's entries and keep
       },
     },
     {
-      "key": "user-collections.uc-mine",
-      "value": {
-        "added": [
-          440,
-        ],
-        "id": "uc-mine",
-        "name": "My Collection",
-        "removed": [],
-      },
-    },
-    {
       "is_deleted": true,
       "key": "user-collections.srm-U05FUw==",
       "value": {
@@ -722,17 +634,6 @@ exports[`save pipeline (characterization) > remove: drops SRM's entries and keep
         ],
         "id": "srm-R2FtZUN1YmU=",
         "name": "GameCube",
-        "removed": [],
-      },
-    },
-    {
-      "key": "user-collections.uc-mine",
-      "value": {
-        "added": [
-          440,
-        ],
-        "id": "uc-mine",
-        "name": "My Collection",
         "removed": [],
       },
     },
