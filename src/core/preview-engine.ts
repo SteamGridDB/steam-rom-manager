@@ -1,0 +1,1494 @@
+import { BehaviorSubject, Subject } from "rxjs";
+import * as sgdbSearch from "../lib/image-providers/sgdb-search";
+import {
+  PreviewData,
+  ImageContent,
+  ParsedUserConfiguration,
+  OnlineImages,
+  PreviewVariables,
+  ProviderCallbackEventMap,
+  PreviewDataApp,
+  AppSettings,
+  SteamTree,
+  VDF_ExtraneousItemsData,
+  VDF_AddedCategoriesData,
+  VDF_AllScreenshotsOutcomes,
+  AppSelection,
+  SGDBToArt,
+  OnlineProviderType,
+  PreviewDataAppImage,
+  MultiLocalProviderType,
+  ArtworkType,
+  initArtworkRecord,
+  Logger,
+} from "../models";
+import {
+  VDF_Manager,
+  VDF_Error,
+  CategoryManager,
+  ControllerManager,
+  CompatToolManager,
+  Acceptable_Error,
+  ArtworkCache,
+} from "../lib";
+import { APP } from "../variables";
+import { queue } from "async";
+import * as steam from "../lib/helpers/steam";
+import * as url from "../lib/helpers/url";
+import * as appImage from "../lib/helpers/app-image";
+import * as ids from "../lib/helpers/steam";
+import {
+  artworkTypes,
+  artworkIdDict,
+  invertedArtworkIdDict,
+} from "../lib/artwork-types";
+import { superTypesMap } from "../lib/parsers/available-parsers";
+import * as _ from "lodash";
+import * as fs from "fs-extra";
+import * as path from "path";
+import {
+  onlineProviders,
+  imageProviderNames,
+} from "../lib/image-providers/available-providers";
+import { ParsersStore } from "./parsers-store";
+import { SettingsStore } from "./settings-store";
+import { ArtworkProviders } from "./artwork-providers";
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+// The list of apps SRM is about to add to Steam ("preview"): generated from
+// the parsers, with artwork pools filled from local files and online
+// providers; plus saving that list to Steam, removing it, and "remove all".
+export class PreviewEngine {
+  private previewData: PreviewData;
+  private previewVariables: PreviewVariables;
+  private previewDataChanged: Subject<void>;
+  private onlineImages: OnlineImages;
+  private batchProgress: BehaviorSubject<{ update: string; batch: number }>;
+  private categoryManager: CategoryManager;
+  private sgdbToArt: SGDBToArt;
+
+  constructor(
+    private loggerService: Logger,
+    private parsers: ParsersStore,
+    private providers: ArtworkProviders,
+    private settings: SettingsStore,
+    // Called for each new online image when images should be loaded ahead
+    // of time (the UI measures them); nothing to do without a UI.
+    private onNewImage: (image: ImageContent) => void = () => {},
+  ) {
+    this.previewData = undefined;
+    this.previewVariables = {
+      listIsBeingSaved: false,
+      listIsBeingGenerated: false,
+      listIsBeingRemoved: false,
+      listHasGenerated: false,
+      numberOfQueriedImages: 0,
+      numberOfListItems: 0,
+    };
+    this.categoryManager = new CategoryManager();
+    this.previewDataChanged = new Subject<void>();
+    this.batchProgress = new BehaviorSubject({ update: "", batch: -1 });
+    this.onlineImages = initArtworkRecord<OnlineImages[ArtworkType]>(
+      () => ({}),
+    );
+    this.providers.stopEvent.subscribe(() => {
+      for (const artworkType of artworkTypes) {
+        for (const imagePool in this.onlineImages[artworkType]) {
+          this.onlineImages[artworkType][imagePool].retrieving = false;
+        }
+      }
+      this.previewVariables.numberOfQueriedImages = 0;
+      this.loggerService.info(this.lang.info.allImagesRetrieved, {
+        invokeAlert: true,
+        alertTimeout: 3000,
+      });
+      this.previewDataChanged.next();
+    });
+  }
+
+  private get appSettings(): AppSettings {
+    return this.settings.get();
+  }
+
+  get lang() {
+    return APP.lang.preview.service;
+  }
+
+  getPreviewData() {
+    return this.previewData;
+  }
+
+  getPreviewDataChange() {
+    return this.previewDataChanged;
+  }
+  getBatchProgress() {
+    return this.batchProgress.asObservable();
+  }
+
+  getPreviewVariables() {
+    return this.previewVariables;
+  }
+
+  getOnlineImages() {
+    return this.onlineImages;
+  }
+
+  // Generates the preview from the enabled parsers. Resolves once the list
+  // is built; online artwork keeps arriving afterwards (see waitForImages).
+  async generatePreviewData(): Promise<void> {
+    if (this.previewVariables.listIsBeingGenerated)
+      return this.loggerService.info(this.lang.info.listIsBeingGenerated, {
+        invokeAlert: true,
+        alertTimeout: 3000,
+      });
+    else if (this.previewVariables.listIsBeingSaved)
+      return this.loggerService.info(this.lang.info.listIsBeingSaved, {
+        invokeAlert: true,
+        alertTimeout: 3000,
+      });
+    else if (this.previewVariables.listIsBeingRemoved)
+      return this.loggerService.info(this.lang.info.listIsBeingRemoved, {
+        invokeAlert: true,
+        alertTimeout: 3000,
+      });
+
+    this.previewVariables.listIsBeingGenerated = true;
+    this.providers.stopUrlDownload();
+    await this.generatePreviewDataCallback();
+  }
+
+  // Resolves once no online artwork lookups are pending.
+  async waitForImages(): Promise<void> {
+    while (this.previewVariables.numberOfQueriedImages !== 0) {
+      await sleep(50);
+    }
+  }
+
+  getMatchFixes(title: string) {
+    return sgdbSearch.retrievePossibleIds(title);
+  }
+
+  updateAppImages(imageKey: string, oldPool: string, artworkType: ArtworkType) {
+    if (this.onlineImages[artworkType][oldPool]) {
+      this.onlineImages[artworkType][imageKey] = _.cloneDeep(
+        this.onlineImages[artworkType][oldPool],
+      );
+      this.onlineImages[artworkType][imageKey].retrieving = false;
+      for (const providerType of onlineProviders) {
+        this.onlineImages[artworkType][imageKey].online[
+          providerType
+        ].searchQueries = [imageKey];
+        this.onlineImages[artworkType][imageKey].online[providerType].content =
+          [];
+      }
+      if (imageKey != oldPool) {
+        delete this.onlineImages[artworkType][oldPool];
+      }
+    } else {
+      throw "Tried to call updateAppImages on a missing oldPool";
+    }
+  }
+
+  updateLocalArtworkOnly(
+    imageKey: string,
+    artworkType: ArtworkType,
+    excludeArtwork: boolean,
+  ) {
+    if (this.onlineImages[artworkType][imageKey]) {
+      for (const providerType of onlineProviders) {
+        this.onlineImages[artworkType][imageKey].online[
+          providerType
+        ].searchQueries = excludeArtwork ? [] : [imageKey];
+        this.onlineImages[artworkType][imageKey].online[providerType].content =
+          [];
+      }
+    }
+  }
+
+  async removeCategories(
+    steamDir: string,
+    userId: string,
+    addedCategories: VDF_AddedCategoriesData[string][string],
+  ) {
+    try {
+      this.loggerService.info(
+        `Removing category information for user ${userId}.`,
+      );
+      await this.categoryManager.removeAllCategoriesAndWrite(
+        steamDir,
+        userId,
+        addedCategories,
+      );
+    } catch (error) {
+      this.loggerService.error(this.lang.errors.categorySaveError, {
+        invokeAlert: true,
+        alertTimeout: 3000,
+      });
+      this.loggerService.error(
+        this.lang.errors.categorySaveError__i.interpolate({
+          error: error.message,
+        }),
+      );
+    }
+  }
+
+  saveData({
+    batchWrite,
+    removeAll,
+  }: {
+    batchWrite: boolean;
+    removeAll: boolean;
+  }): Promise<boolean> {
+    let knownSteamDirectories = this.parsers.getKnownSteamDirectories();
+    if (this.previewVariables.listIsBeingSaved) {
+      return Promise.resolve().then(() => {
+        this.loggerService.info(this.lang.info.listIsBeingSaved, {
+          invokeAlert: true,
+          alertTimeout: 3000,
+        });
+        return false;
+      });
+    } else if (!removeAll && this.previewVariables.numberOfListItems === 0) {
+      return Promise.resolve().then(() => {
+        this.loggerService.info(this.lang.info.listIsEmpty, {
+          invokeAlert: true,
+          alertTimeout: 3000,
+        });
+        return false;
+      });
+    } else if (this.previewVariables.listIsBeingRemoved) {
+      return Promise.resolve().then(() => {
+        this.loggerService.info(this.lang.info.listIsBeingRemoved, {
+          invokeAlert: true,
+          alertTimeout: 3000,
+        });
+        return false;
+      });
+    } else if (removeAll && knownSteamDirectories.length === 0) {
+      return Promise.resolve().then(() => {
+        this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, {
+          invokeAlert: true,
+          alertTimeout: 3000,
+        });
+        return false;
+      });
+    }
+
+    let vdfManager = new VDF_Manager();
+    this.previewVariables.listIsBeingSaved = true;
+    let exAppIds: VDF_ExtraneousItemsData = undefined;
+    let addedCats: VDF_AddedCategoriesData = undefined;
+    let chain: Promise<any> = Promise.resolve()
+      .then(() => {
+        this.loggerService.info(this.lang.info.populatingVDF_List, {
+          invokeAlert: true,
+          alertTimeout: 3000,
+        });
+        return vdfManager.prepare(
+          removeAll ? knownSteamDirectories : this.previewData,
+        );
+      })
+      .then(() => {
+        this.loggerService.info(this.lang.info.creatingBackups, {
+          invokeAlert: true,
+          alertTimeout: 3000,
+        });
+        return vdfManager.backup();
+      })
+      .then(() => {
+        this.loggerService.info(this.lang.info.readingVDF_Files, {
+          invokeAlert: true,
+          alertTimeout: 3000,
+        });
+        return vdfManager.read();
+      });
+    if (!removeAll) {
+      chain = chain.then(() => {
+        this.loggerService.info(this.lang.info.mergingVDF_entries, {
+          invokeAlert: true,
+          alertTimeout: 3000,
+        });
+        return vdfManager.mergeData(
+          this.previewData,
+          this.onlineImages,
+          this.appSettings.previewSettings.deleteDisabledShortcuts,
+        );
+      });
+    } else {
+      chain = chain.then(() => {
+        this.loggerService.info(this.lang.info.removingVDF_entries, {
+          invokeAlert: true,
+          alertTimeout: 3000,
+        });
+        return vdfManager.removeAllAddedEntries();
+      });
+    }
+    chain = chain
+      .then(
+        ({
+          extraneousAppIds,
+          addedCategories,
+        }: {
+          extraneousAppIds: VDF_ExtraneousItemsData;
+          addedCategories: VDF_AddedCategoriesData;
+        }) => {
+          exAppIds = extraneousAppIds; //Non artwork-only extraneous app ids
+          addedCats = addedCategories; //Added categories for all app ids
+        },
+      )
+      .then(async () => {
+        if (!removeAll && !this.appSettings.previewSettings.disableCategories) {
+          await steam.performSteamlessTask(
+            this.appSettings,
+            this.loggerService,
+            async () => {
+              this.loggerService.info(this.lang.info.savingCategories);
+              await this.categoryManager.save(
+                this.previewData,
+                exAppIds,
+                addedCats,
+              );
+            },
+          );
+        }
+        if (removeAll && !this.appSettings.previewSettings.disableCategories) {
+          await steam.performSteamlessTask(
+            this.appSettings,
+            this.loggerService,
+            async () => {
+              for (let steamDir of knownSteamDirectories) {
+                const accounts = await steam.getAvailableLogins(steamDir);
+                for (let account of accounts) {
+                  await this.removeCategories(
+                    steamDir,
+                    account.accountID,
+                    addedCats[steamDir][account.accountID],
+                  );
+                }
+              }
+            },
+          );
+        }
+      })
+      .catch((error: Acceptable_Error | Error) => {
+        if (error instanceof Acceptable_Error) {
+          this.loggerService.error(this.lang.errors.categorySaveError, {
+            invokeAlert: true,
+            alertTimeout: 3000,
+          });
+          this.loggerService.error(
+            this.lang.errors.categorySaveError__i.interpolate({
+              error: error.message,
+            }),
+          );
+        } else {
+          throw error;
+        }
+      })
+      .then(() => {
+        if (!removeAll) {
+          this.loggerService.info(this.lang.info.savingControllers);
+          const controllerManager = new ControllerManager();
+          return controllerManager.save(this.previewData, exAppIds);
+        }
+      })
+      .catch((error: Acceptable_Error | Error) => {
+        if (error instanceof Acceptable_Error) {
+          this.loggerService.error(this.lang.errors.controllerSaveError, {
+            invokeAlert: true,
+            alertTimeout: 3000,
+          });
+          this.loggerService.error(
+            this.lang.errors.controllerSaveError__i.interpolate({
+              error: error.message,
+            }),
+          );
+        } else {
+          throw error;
+        }
+      })
+      .then(async () => {
+        // config.vdf is per-install and Steam rewrites it on exit, so patch it
+        // with Steam closed (same steamless window the categories step uses).
+        await steam.performSteamlessTask(
+          this.appSettings,
+          this.loggerService,
+          async () => {
+            this.loggerService.info(this.lang.info.savingCompatTools);
+            const compatToolManager = new CompatToolManager(this.loggerService);
+            if (removeAll) {
+              // exAppIds holds only SRM-owned (non artwork-only) shortcuts.
+              await compatToolManager.removeAll(
+                knownSteamDirectories,
+                exAppIds,
+              );
+            } else {
+              await compatToolManager.save(this.previewData, exAppIds);
+            }
+          },
+        );
+      })
+      .catch((error: Acceptable_Error | Error) => {
+        if (error instanceof Acceptable_Error) {
+          this.loggerService.error(this.lang.errors.compatToolSaveError, {
+            invokeAlert: true,
+            alertTimeout: 3000,
+          });
+          this.loggerService.error(
+            this.lang.errors.compatToolSaveError__i.interpolate({
+              error: error.message,
+            }),
+          );
+        } else {
+          throw error;
+        }
+      })
+      .then(() => {
+        if (removeAll) {
+          this.loggerService.info(this.lang.info.removingVDF_entries);
+        } else {
+          this.loggerService.info(
+            this.lang.info.writingVDF_entries__i.interpolate({
+              batchSize: this.appSettings.batchDownloadSize,
+            }),
+            { invokeAlert: true, alertTimeout: 3000 },
+          );
+        }
+        if (batchWrite) {
+          vdfManager
+            .getBatchProgress()
+            .subscribe(
+              ({ update, batch }: { update: string; batch: number }) => {
+                if (batch > -1) {
+                  this.loggerService.info(update, {
+                    invokeAlert: true,
+                    alertTimeout: 3000,
+                  });
+                  this.batchProgress.next({ update: update, batch: batch });
+                }
+              },
+            );
+        }
+        return vdfManager.write(
+          batchWrite,
+          this.appSettings.batchDownloadSize,
+          this.appSettings.dnsServers,
+        );
+      })
+      .then(
+        ({
+          nonFatal,
+          outcomes,
+        }: {
+          nonFatal: VDF_Error;
+          outcomes: VDF_AllScreenshotsOutcomes;
+        }) => {
+          if (nonFatal) {
+            this.loggerService.error(nonFatal);
+          }
+          if (batchWrite) {
+            this.updatePreviewDataUrls(outcomes);
+          }
+        },
+      )
+      .then(() => {
+        this.previewVariables.listIsBeingSaved = false;
+        if (removeAll) {
+          this.loggerService.success(this.lang.success.removingVDF_entries, {
+            invokeAlert: true,
+            alertTimeout: 3000,
+          });
+          this.clearPreviewData();
+        } else {
+          this.loggerService.success(this.lang.success.writingVDF_entries, {
+            invokeAlert: true,
+            alertTimeout: 3000,
+          });
+        }
+        return true;
+      })
+      .catch((failureError: Error) => {
+        this.previewVariables.listIsBeingSaved = false;
+        this.loggerService.error(this.lang.errors.fatalError, {
+          invokeAlert: true,
+          alertTimeout: 3000,
+        });
+        this.loggerService.error(failureError);
+        return false;
+      });
+    return chain;
+  }
+
+  private updatePreviewDataUrls(outcomes: VDF_AllScreenshotsOutcomes) {
+    for (const steamDirectory in outcomes) {
+      for (const userId in outcomes[steamDirectory]) {
+        for (const gridName in outcomes[steamDirectory][userId].successes) {
+          const shortId = gridName.match(/^\d+/).toString();
+          const longId = steam.lengthenAppId(shortId);
+          const artworkType =
+            invertedArtworkIdDict[gridName.replace(/^\d+/, "")];
+          const steamImageUrl = url.encodeFile(
+            outcomes[steamDirectory][userId].successes[gridName],
+          );
+          const matchedApps = Object.entries(
+            this.previewData[steamDirectory][userId].apps,
+          ).filter(([appId, app]) => {
+            return app.changedId ? app.changedId == longId : appId == longId;
+          });
+          if (matchedApps.length && artworkType) {
+            const [appId, app] = matchedApps[0];
+            this.previewData[steamDirectory][userId].apps[appId].images[
+              artworkType
+            ].singleProviders.steam = {
+              imageProvider: imageProviderNames.steam,
+              imageUrl: steamImageUrl,
+              imageRes: url.imageDimensions(steamImageUrl),
+              loadStatus: "done",
+            };
+            this.setImageIndex(app, 0, artworkType);
+          }
+        }
+      }
+    }
+    this.previewDataChanged.next();
+  }
+
+  // Image selection, per artwork type. (The UI resolves which type it is
+  // showing; measuring/loading images for display happens in the UI.)
+  setImageIndex(app: PreviewDataApp, index: number, artworkType: ArtworkType) {
+    if (app) {
+      appImage.setImageIndex(
+        app.images[artworkType],
+        this.onlineImages[artworkType],
+        index,
+      );
+      this.previewDataChanged.next();
+    }
+  }
+
+  getTotalLengthOfImages(app: PreviewDataApp, artworkType: ArtworkType) {
+    if (app) {
+      return appImage.getMaxLength(
+        app.images[artworkType],
+        this.onlineImages[artworkType],
+      ).maxLength;
+    }
+    return 0;
+  }
+
+  getCurrentImage(app: PreviewDataApp, artworkType: ArtworkType) {
+    return appImage.getCurrentImage(
+      app.images[artworkType],
+      this.onlineImages[artworkType],
+    );
+  }
+
+  getImages(artworkType: ArtworkType) {
+    return this.onlineImages[artworkType];
+  }
+
+  getImage(app: PreviewDataApp, index: number, artworkType: ArtworkType) {
+    return appImage.getImage(
+      app.images[artworkType],
+      this.onlineImages[artworkType],
+      index,
+    );
+  }
+
+  getRanges(app: PreviewDataApp, artworkType: ArtworkType) {
+    return appImage.getImageRanges(
+      app.images[artworkType],
+      this.onlineImages[artworkType],
+    );
+  }
+
+  // Notify listeners after changing preview data in place.
+  changed() {
+    this.previewDataChanged.next();
+  }
+
+  // Removes every app in the current preview from Steam ("Remove from
+  // Steam"); clears the preview if that worked.
+  async removeAllInPreview(): Promise<boolean> {
+    for (const directory in this.previewData) {
+      for (const userId in this.previewData[directory]) {
+        for (const appId in this.previewData[directory][userId].apps) {
+          this.previewData[directory][userId].apps[appId].status = "remove";
+        }
+      }
+    }
+    const ok = await this.saveData({ removeAll: false, batchWrite: false });
+    if (ok) {
+      this.clearPreviewData();
+    }
+    return ok;
+  }
+
+  // Removes everything SRM ever added (shortcuts, artwork, categories,
+  // compat tools, controller templates) from every known Steam install.
+  async removeAllAdded(): Promise<boolean> {
+    const steamDirectories = this.parsers.getKnownSteamDirectories();
+    if (steamDirectories.length === 0) {
+      this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, {
+        invokeAlert: true,
+        alertTimeout: 3000,
+      });
+      return false;
+    }
+    const ok = await this.saveData({ removeAll: true, batchWrite: false });
+    if (ok) {
+      await this.parsers.removeAllControllers();
+    }
+    return ok;
+  }
+
+  clearPreviewData() {
+    this.previewData = undefined;
+    this.clearImageCache(false);
+    this.previewVariables.numberOfListItems = 0;
+    this.previewDataChanged.next();
+  }
+
+  private union(x: string[], y: string[]) {
+    return _.union(x, y);
+  }
+
+  getAllCategories() {
+    return this.previewData
+      ? Object.entries(this.previewData)
+          .map((dir) =>
+            Object.entries(dir[1])
+              .map((user) =>
+                Object.entries(user[1].apps)
+                  .map((app) => app[1].steamCategories)
+                  .reduce(this.union, []),
+              )
+              .reduce(this.union, []),
+          )
+          .reduce(this.union, [])
+      : [];
+  }
+
+  getAllParsers() {
+    return this.previewData
+      ? Object.entries(this.previewData)
+          .map((dir) =>
+            Object.entries(dir[1])
+              .map((user) =>
+                Object.entries(user[1].apps).map(
+                  (app) => app[1].configurationTitle,
+                ),
+              )
+              .reduce(this.union, []),
+          )
+          .reduce(this.union, [])
+      : [];
+  }
+
+  // If settingsOnly is true then api filters are not applied
+  private clearImageCache(settingsOnly: boolean) {
+    for (const artworkType of artworkTypes) {
+      for (const imageKey in this.onlineImages[artworkType]) {
+        for (const provider of onlineProviders) {
+          this.onlineImages[artworkType][imageKey].retrieving = false;
+          this.onlineImages[artworkType][imageKey].online[provider] = {
+            searchQueries: [],
+            content: settingsOnly
+              ? this.onlineImages[artworkType][imageKey].online[provider]
+                  .content
+              : [],
+            imageProviderAPIs:
+              this.onlineImages[artworkType][imageKey].online[provider]
+                .imageProviderAPIs,
+          };
+        }
+      }
+    }
+  }
+
+  private async generatePreviewDataCallback() {
+    // Let any pending artwork lookups wind down first.
+    while (this.previewVariables.numberOfQueriedImages !== 0) {
+      await sleep(100);
+    }
+    {
+      this.previewData = undefined;
+      let previewData;
+      this.loggerService.info(this.lang.info.executingParsers, {
+        invokeAlert: true,
+      });
+      try {
+        let data = await this.parsers.executeFileParser();
+        if (data.skipped.length > 0) {
+          this.loggerService.info(
+            this.lang.info.disabledConfigurations__i.interpolate({
+              count: data.skipped.length,
+            }),
+            { invokeAlert: true, alertTimeout: 3000 },
+          );
+          for (let i = 0; i < data.skipped.length; i++) {
+            this.loggerService.info(data.skipped[i]);
+          }
+        }
+
+        if (data.invalid.length > 0) {
+          this.loggerService.info(
+            this.lang.info.invalidConfigurations__i.interpolate({
+              count: data.invalid.length,
+            }),
+            { invokeAlert: true, alertTimeout: 3000 },
+          );
+          for (let i = 0; i < data.invalid.length; i++) {
+            this.loggerService.info(data.invalid[i]);
+          }
+        }
+
+        if (data.parsedData.parsedConfigs.length > 0) {
+          if (data.parsedData.noUserAccounts) {
+            this.loggerService.info(this.lang.info.noAccountsWarning, {
+              invokeAlert: true,
+              alertTimeout: 3000,
+            });
+          } else {
+            if (
+              !this.appSettings.previewSettings.disableCategories &&
+              !this.appSettings.autoKillSteam
+            ) {
+              this.loggerService.info(this.lang.info.shutdownSteam, {
+                invokeAlert: true,
+                alertTimeout: 3000,
+              });
+            }
+            previewData = await this.createPreviewData(
+              data.parsedData.parsedConfigs,
+            );
+          }
+        } else if (data.invalid.length === 0 && data.skipped.length === 0) {
+          if (this.parsers.getAll().length === 0)
+            this.loggerService.info(this.lang.info.noParserConfigurations, {
+              invokeAlert: true,
+              alertTimeout: 3000,
+            });
+          else
+            this.loggerService.info(this.lang.info.parserFoundNoFiles, {
+              invokeAlert: true,
+              alertTimeout: 3000,
+            });
+        }
+        if (previewData && previewData.numberOfItems > 0) {
+          this.previewData = previewData.data;
+          this.previewVariables.numberOfListItems = previewData.numberOfItems;
+          await this.readArtworkCache();
+          for (const artworkType of artworkTypes) {
+            this.downloadImageUrls(artworkType);
+          }
+        } else {
+          this.previewVariables.numberOfListItems = 0;
+          this.loggerService.info("Enabled parsers returned no apps", {
+            invokeAlert: true,
+            alertTimeout: 3000,
+          });
+        }
+
+        this.previewVariables.listIsBeingGenerated = false;
+        this.previewVariables.listHasGenerated = true;
+        this.previewDataChanged.next();
+      } catch (error) {
+        this.loggerService.error(this.lang.errors.fatalError, {
+          invokeAlert: true,
+          alertTimeout: 3000,
+        });
+        this.loggerService.error(error);
+        this.previewVariables.listIsBeingGenerated = false;
+        this.previewVariables.listHasGenerated = true;
+        this.previewDataChanged.next();
+      }
+    }
+  }
+
+  private async readArtworkCache() {
+    const artworkCache = new ArtworkCache();
+    await artworkCache.read();
+    this.sgdbToArt = artworkCache.sgdbToArt;
+  }
+
+  private async createPreviewData(data: ParsedUserConfiguration[]) {
+    let steamTreeData = steam.generateTreeFromParsedConfig(data);
+    let treeData: { gridData: SteamTree<any>; steamTreeData: SteamTree<any> };
+    if (this.appSettings.previewSettings.retrieveCurrentSteamImages)
+      treeData = await steam
+        .getGridImagesForTree(steamTreeData)
+        .then((gridData) => {
+          return { gridData, steamTreeData };
+        });
+    else treeData = { gridData: steamTreeData, steamTreeData };
+
+    let nonSteamShortcutsData = await steam
+      .getNonSteamShortcutsData(treeData.steamTreeData)
+      .then((shortcutData) => {
+        return Object.assign(treeData, { shortcutData });
+      });
+    let shortcutsData = nonSteamShortcutsData.shortcutData.tree;
+    let gridData = nonSteamShortcutsData.gridData.tree;
+    let numberOfItems: number = 0;
+    let previewData: PreviewData = {};
+
+    this.clearImageCache(false);
+
+    for (let i = 0; i < data.length; i++) {
+      let config = data[i];
+      if (previewData[config.steamDirectory] === undefined)
+        previewData[config.steamDirectory] = {};
+
+      for (let j = 0; j < config.foundUserAccounts.length; j++) {
+        let userAccount = config.foundUserAccounts[j];
+
+        if (
+          previewData[config.steamDirectory][userAccount.accountID] ===
+          undefined
+        ) {
+          previewData[config.steamDirectory][userAccount.accountID] = {
+            username: userAccount.name,
+            excluded: data
+              .map((x) => x.excluded)
+              .reduce((x, y) => x.concat(y), []),
+            apps: {},
+          };
+        } else if (
+          previewData[config.steamDirectory][userAccount.accountID].username !==
+          userAccount.name
+        ) {
+          previewData[config.steamDirectory][userAccount.accountID].username =
+            `${previewData[config.steamDirectory][userAccount.accountID].username} | ${userAccount.name}`;
+        }
+
+        for (let k = 0; k < data[i].files.length; k++) {
+          let file = config.files[k];
+          let executableLocation = file.modifiedExecutableLocation;
+          let title = file.titles.final;
+          let appID: string = "";
+          if (superTypesMap[config.parserType] !== "ArtworkOnly") {
+            appID = steam.generateAppId(executableLocation, title);
+          } else {
+            appID = steam.lengthenAppId(executableLocation.replace(/\"/g, ""));
+          }
+
+          if (
+            shortcutsData[config.steamDirectory][userAccount.accountID][
+              appID
+            ] !== undefined
+          ) {
+            if (
+              shortcutsData[config.steamDirectory][userAccount.accountID][
+                appID
+              ]["icon"] !== undefined
+            ) {
+              if (
+                file.localImages["icon"].indexOf(
+                  shortcutsData[config.steamDirectory][userAccount.accountID][
+                    appID
+                  ]["icon"],
+                ) === -1
+              ) {
+                file.localImages["icon"].unshift(
+                  shortcutsData[config.steamDirectory][userAccount.accountID][
+                    appID
+                  ]["icon"],
+                );
+              }
+            }
+          }
+          for (const artworkType of artworkTypes) {
+            if (this.onlineImages[artworkType][file.imagePool] === undefined) {
+              this.onlineImages[artworkType][file.imagePool] = {
+                online: {
+                  sgdb: {
+                    searchQueries: file.onlineImageQueries,
+                    imageProviderAPIs: config.imageProviderAPIs.sgdb,
+                    content: [],
+                  },
+                  steamCDN: {
+                    searchQueries: file.onlineImageQueries,
+                    imageProviderAPIs: config.imageProviderAPIs.steamCDN || {},
+                    content: [],
+                  },
+                },
+                offline: { local: [], manual: [], imported: [] },
+                retrieving: false,
+                parserEnabledProviders: config.imageProviders,
+              };
+            } else {
+              for (const provider of config.imageProviders) {
+                let currentQueries =
+                  this.onlineImages[artworkType][file.imagePool].online[
+                    provider
+                  ].searchQueries;
+                this.onlineImages[artworkType][file.imagePool].online[
+                  provider
+                ].imageProviderAPIs = config.imageProviderAPIs[provider];
+                this.onlineImages[artworkType][file.imagePool].online[
+                  provider
+                ].searchQueries = _.union(
+                  currentQueries,
+                  file.onlineImageQueries,
+                );
+              }
+            }
+          }
+
+          if (
+            previewData[config.steamDirectory][userAccount.accountID].apps[
+              appID
+            ] === undefined
+          ) {
+            let images: Record<ArtworkType, PreviewDataAppImage> =
+              initArtworkRecord<PreviewDataAppImage>(() => null);
+            for (const artworkType of artworkTypes) {
+              const steamImage =
+                gridData[config.steamDirectory][userAccount.accountID][
+                  ids.shortenAppId(appID).concat(artworkIdDict[artworkType])
+                ];
+              const steamImageUrl = steamImage
+                ? url.encodeFile(steamImage)
+                : undefined;
+              images[artworkType] = {
+                singleProviders: {
+                  steam: steamImage
+                    ? {
+                        imageProvider: imageProviderNames.steam,
+                        imageUrl: steamImageUrl,
+                        imageRes: url.imageDimensions(steamImageUrl),
+                        loadStatus: "done",
+                      }
+                    : undefined,
+                  artworkBackup: file.backupImage[artworkType]
+                    ? {
+                        imageProvider: imageProviderNames.artworkBackup,
+                        imageUrl: file.backupImage[artworkType],
+                        imageRes: url.imageDimensions(
+                          file.backupImage[artworkType],
+                        ),
+                        loadStatus: "done",
+                      }
+                    : undefined,
+                },
+                default: file.defaultImage[artworkType]
+                  ? {
+                      imageProvider: imageProviderNames.default,
+                      imageUrl: file.defaultImage[artworkType],
+                      imageRes: url.imageDimensions(
+                        file.defaultImage[artworkType],
+                      ),
+                      loadStatus: "done",
+                    }
+                  : undefined,
+                imagePool: file.imagePool,
+                imageIndex: 0,
+              };
+              for (let localUrl of file.localImages[artworkType]) {
+                this.addUniqueLocalImage(
+                  file.imagePool,
+                  {
+                    imageProvider: imageProviderNames.local,
+                    imageUrl: localUrl,
+                    imageRes: url.imageDimensions(localUrl),
+                    loadStatus: "done",
+                  },
+                  artworkType,
+                  "local",
+                );
+              }
+            }
+
+            previewData[config.steamDirectory][userAccount.accountID].apps[
+              appID
+            ] = {
+              entryId: numberOfItems++,
+              status: "add",
+              configurationTitle: config.configurationTitle,
+              parserId: config.parserId,
+              parserType: config.parserType,
+              steamCategories: file.steamCategories,
+              startInDirectory: file.startInDirectory,
+              onlineProviders: config.imageProviders,
+              drmProtect: config.drmProtect,
+              argumentString: file.argumentString,
+              filePath: file.filePath,
+              title: file.titles.final,
+              extractedTitle: file.titles.extracted,
+              sortAsTitle: file.sortAsTitle,
+              steamInputEnabled: config.steamInputEnabled,
+              controllers: config.controllers,
+              compatToolName: file.compatToolName,
+              images: images,
+              overlayImages: config.overlayImages,
+              executableLocation,
+            };
+          } else {
+            let currentCategories =
+              previewData[config.steamDirectory][userAccount.accountID].apps[
+                appID
+              ].steamCategories;
+            previewData[config.steamDirectory][userAccount.accountID].apps[
+              appID
+            ].steamCategories = _.union(
+              currentCategories,
+              file.steamCategories,
+            );
+          }
+        }
+      }
+    }
+    return { numberOfItems: numberOfItems, data: previewData };
+  }
+
+  downloadImageUrls(artworkType: ArtworkType, imKeys?: string[]) {
+    if (!this.appSettings.offlineMode) {
+      let allImagesRetrieved = true;
+      let imageQueue = queue((task, callback) => callback());
+      const imageKeys =
+        imKeys && imKeys.length
+          ? imKeys
+          : Object.keys(this.onlineImages[artworkType]);
+      for (let imageKey of imageKeys) {
+        const imageByPool = this.onlineImages[artworkType][imageKey];
+        if (imageByPool.retrieving) {
+          continue;
+        }
+        const imageByProvider = imageByPool.online;
+        const parserEnabledProviders = imageByPool.parserEnabledProviders;
+        const imageProvidersForKey: OnlineProviderType[] = _.intersection(
+          parserEnabledProviders,
+          this.appSettings.enabledProviders,
+        );
+        this.previewVariables.numberOfQueriedImages += imageProvidersForKey
+          .map((provider) => imageByProvider[provider].searchQueries.length)
+          .reduce((x, y) => x + y, 0);
+        let retrievingByProvider = Object.fromEntries(
+          onlineProviders.map((x) => [
+            x,
+            imageProvidersForKey.includes(x) &&
+              !!imageByProvider[x].searchQueries.length,
+          ]),
+        );
+        imageByPool.retrieving = Object.values(retrievingByProvider).reduce(
+          (x, y) => x || y,
+          false,
+        );
+        for (let provider of imageProvidersForKey) {
+          const image = imageByProvider[provider];
+          if (image !== undefined && image.searchQueries.length) {
+            allImagesRetrieved = false;
+            for (let j = 0; j < image.searchQueries.length; j++) {
+              this.providers.retrieveUrls(
+                image.searchQueries[j],
+                artworkType,
+                image.imageProviderAPIs,
+                provider,
+                <K extends keyof ProviderCallbackEventMap>(
+                  event: K,
+                  data: ProviderCallbackEventMap[K],
+                ) => {
+                  switch (event) {
+                    case "error":
+                      {
+                        let errorData =
+                          data as ProviderCallbackEventMap["error"];
+                        if (typeof errorData.error === "number") {
+                          this.loggerService.error(
+                            this.lang.errors.providerError__i.interpolate({
+                              provider: errorData.provider,
+                              title: errorData.title,
+                              details: errorData.url
+                                ? `${errorData.error}: ${errorData.url}`
+                                : errorData.error,
+                            }),
+                          );
+                        } else {
+                          this.loggerService.error(
+                            this.lang.errors.unknownProviderError__i.interpolate(
+                              {
+                                provider: errorData.provider,
+                                title: errorData.title,
+                                error: errorData.error,
+                              },
+                            ),
+                          );
+                        }
+                      }
+                      break;
+                    case "timeout":
+                      {
+                        let timeoutData =
+                          data as ProviderCallbackEventMap["timeout"];
+                        this.loggerService.info(
+                          this.lang.info.providerTimeout__i.interpolate({
+                            time: timeoutData.time,
+                            provider: timeoutData.provider,
+                          }),
+                          { invokeAlert: true, alertTimeout: 3000 },
+                        );
+                      }
+                      break;
+                    case "image":
+                      imageQueue.push(null, () => {
+                        let imageContent = (
+                          data as ProviderCallbackEventMap["image"]
+                        ).content;
+                        let returnedProvider = (
+                          data as ProviderCallbackEventMap["image"]
+                        ).provider;
+                        let skip = false;
+                        let preInsert = false;
+                        if (returnedProvider === "sgdb") {
+                          const imageArtCache = (this.sgdbToArt[artworkType] ||
+                            {})[imageContent.imageGameId];
+                          preInsert =
+                            imageArtCache &&
+                            imageArtCache.artworkId ==
+                              imageContent.imageArtworkId;
+                          skip = imageContent.imageUrl.slice(-1) == "?"; // DMCA filter. Nintendo Sucks.
+                        }
+                        if (!skip) {
+                          let newImage: ImageContent = this.addUniqueImage(
+                            imageKey,
+                            imageContent,
+                            artworkType,
+                            returnedProvider,
+                            preInsert,
+                          );
+                          if (
+                            newImage !== null &&
+                            this.appSettings.previewSettings
+                              .imageLoadStrategy == "loadPre"
+                          ) {
+                            this.onNewImage(newImage);
+                          }
+                        }
+                        this.previewDataChanged.next();
+                      });
+                      break;
+                    case "completed":
+                      {
+                        retrievingByProvider[provider] = false;
+                        imageByPool.retrieving = Object.values(
+                          retrievingByProvider,
+                        ).reduce((x, y) => x || y);
+                        if (
+                          --this.previewVariables.numberOfQueriedImages === 0
+                        ) {
+                          allImagesRetrieved = true;
+                          this.loggerService.info(
+                            this.lang.info.allImagesRetrieved,
+                            { invokeAlert: true, alertTimeout: 3000 },
+                          );
+                        }
+                        this.previewDataChanged.next();
+                      }
+                      break;
+                    default:
+                      break;
+                  }
+                },
+              );
+            }
+          }
+        }
+      }
+      this.previewDataChanged.next();
+      if (allImagesRetrieved) {
+        this.loggerService.info(this.lang.info.allImagesRetrieved, {
+          invokeAlert: true,
+          alertTimeout: 3000,
+        });
+      }
+    } else this.previewDataChanged.next();
+  }
+
+  isImageUnique(
+    imageKey: string,
+    imageUrl: string,
+    artworkType: ArtworkType,
+    provider: OnlineProviderType,
+  ) {
+    return (
+      this.onlineImages[artworkType][imageKey].online[
+        provider
+      ].content.findIndex((item) => item.imageUrl === imageUrl) === -1
+    );
+  }
+
+  addUniqueImage(
+    imageKey: string,
+    content: ImageContent,
+    artworkType: ArtworkType,
+    provider: OnlineProviderType,
+    preinsert?: boolean,
+  ) {
+    if (
+      this.onlineImages[artworkType][imageKey] &&
+      this.isImageUnique(imageKey, content.imageUrl, artworkType, provider)
+    ) {
+      if (preinsert) {
+        this.onlineImages[artworkType][imageKey].online[
+          provider
+        ].content.unshift(content);
+        return this.onlineImages[artworkType][imageKey].online[provider]
+          .content[0];
+      } else {
+        this.onlineImages[artworkType][imageKey].online[provider].content.push(
+          content,
+        );
+        return ((x) => x[x.length - 1])(
+          this.onlineImages[artworkType][imageKey].online[provider].content,
+        );
+      }
+    }
+    return null;
+  }
+
+  isLocalImageUnique(
+    imageKey: string,
+    imageUrl: string,
+    artworkType: ArtworkType,
+    provider: MultiLocalProviderType,
+  ) {
+    return (
+      this.onlineImages[artworkType][imageKey].offline[provider].findIndex(
+        (item) => item.imageUrl === imageUrl,
+      ) === -1
+    );
+  }
+
+  addUniqueLocalImage(
+    imageKey: string,
+    content: ImageContent,
+    artworkType: ArtworkType,
+    provider: MultiLocalProviderType,
+    preinsert?: boolean,
+  ) {
+    if (
+      this.onlineImages[artworkType][imageKey] &&
+      this.isLocalImageUnique(imageKey, content.imageUrl, artworkType, provider)
+    ) {
+      if (preinsert) {
+        this.onlineImages[artworkType][imageKey].offline[provider].unshift(
+          content,
+        );
+        return this.onlineImages[artworkType][imageKey].offline[provider][0];
+      } else {
+        this.onlineImages[artworkType][imageKey].offline[provider].push(
+          content,
+        );
+        return ((x) => x[x.length - 1])(
+          this.onlineImages[artworkType][imageKey].offline[provider],
+        );
+      }
+    }
+    return null;
+  }
+
+  // Saves the chosen artwork of every app into <folder>/srm-image-choices.
+  async exportSelection(folder: string) {
+    const imageDownloader = new url.ImageDownloader(
+      this.appSettings.dnsServers,
+    );
+    async function saveImage(
+      imageUrl: string,
+      temporaryDir: string,
+      append: string,
+    ) {
+      const extension = imageUrl.split(/[#?]/)[0].split(".").pop().trim();
+      const filename = `${append}.${extension}`;
+      await imageDownloader.downloadAndSaveImage(
+        imageUrl,
+        path.join(temporaryDir, filename),
+      );
+      return filename;
+    }
+
+    {
+      let timeout: any;
+      try {
+        const packagePath = path.join(folder, "srm-image-choices");
+        if (fs.existsSync(packagePath)) {
+          fs.rmSync(packagePath, { recursive: true, force: true });
+        }
+        fs.mkdirSync(packagePath);
+        const apps: any[] = [];
+        let appsCount: number = 0;
+
+        this.loggerService.info(this.lang.info.preparingExport, {
+          invokeAlert: true,
+          alertTimeout: 3000,
+        });
+
+        for (const directory in this.previewData) {
+          for (const userId in this.previewData[directory]) {
+            appsCount += Object.keys(
+              this.previewData[directory][userId].apps,
+            ).length;
+          }
+        }
+
+        timeout = setInterval(() => {
+          this.loggerService.info(
+            this.lang.info.exportProgress__i.interpolate({
+              progress: `${apps.length}/${appsCount}`,
+            }),
+            { invokeAlert: true, alertTimeout: 3000, doNotAppendToLog: true },
+          );
+        }, 1500);
+        for (const directory in this.previewData) {
+          for (const userId in this.previewData[directory]) {
+            for (const appId in this.previewData[directory][userId].apps) {
+              const app: PreviewDataApp =
+                this.previewData[directory][userId].apps[appId];
+              const saveId = app.changedId ? app.changedId : appId;
+              let selection: AppSelection = {
+                title: app.extractedTitle,
+                images: {
+                  tall: null,
+                  long: null,
+                  hero: null,
+                  logo: null,
+                  icon: null,
+                },
+              };
+              for (const artworkType of artworkTypes) {
+                const currentImage = appImage.getCurrentImage(
+                  app.images[artworkType],
+                  this.onlineImages[artworkType],
+                );
+                if (currentImage) {
+                  const imageUrl = currentImage.imageUrl;
+                  selection.images[artworkType] = {
+                    pool: app.images[artworkType].imagePool,
+                    filename: await saveImage(
+                      imageUrl,
+                      packagePath,
+                      `${saveId}.${artworkType}`,
+                    ),
+                  };
+                }
+              }
+              apps.push(selection);
+            }
+          }
+        }
+
+        if (timeout !== undefined) {
+          clearInterval(timeout);
+        }
+        fs.writeFileSync(
+          path.join(packagePath, "_selections.json"),
+          JSON.stringify(apps, null, 2),
+        );
+
+        this.loggerService.success(
+          this.lang.success.exportSuccess__i.interpolate({
+            path: packagePath,
+          }),
+          { invokeAlert: true, alertTimeout: 3000 },
+        );
+      } catch (e) {
+        if (timeout !== undefined) {
+          clearInterval(timeout);
+        }
+        this.loggerService.error(
+          this.lang.errors.exportError__i.interpolate({
+            error: e.message,
+          }),
+          { invokeAlert: true, alertTimeout: 3000 },
+        );
+      }
+    }
+  }
+
+  // Adds the artwork exported to `packagePath` (an srm-image-choices folder)
+  // as "imported" images and selects them.
+  async importSelection(packagePath: string) {
+    {
+      try {
+        this.loggerService.info(this.lang.info.readingSelections, {
+          invokeAlert: true,
+          alertTimeout: 3000,
+        });
+
+        let selections: AppSelection[] = JSON.parse(
+          fs.readFileSync(path.join(packagePath, "_selections.json"), "utf8"),
+        );
+        let importedApps: string[] = [];
+
+        for (const selection of selections) {
+          for (const artworkType of artworkTypes) {
+            if (selection.images[artworkType]) {
+              this.addUniqueLocalImage(
+                selection.images[artworkType].pool,
+                {
+                  imageProvider: imageProviderNames.imported,
+                  imageUrl: url.encodeFile(
+                    path.join(
+                      packagePath,
+                      selection.images[artworkType].filename,
+                    ),
+                  ),
+                  loadStatus: "done",
+                },
+                artworkType,
+                "imported",
+              );
+              if (!importedApps.includes(selection.images[artworkType].pool)) {
+                importedApps.push(selection.images[artworkType].pool);
+              }
+            }
+          }
+        }
+        for (const directory in this.previewData) {
+          for (const userId in this.previewData[directory]) {
+            for (const appId in this.previewData[directory][userId].apps) {
+              const app: PreviewDataApp =
+                this.previewData[directory][userId].apps[appId];
+              for (const artworkType of artworkTypes) {
+                const imageRanges = appImage.getImageRanges(
+                  app.images[artworkType],
+                  this.onlineImages[artworkType],
+                );
+                if (imageRanges.imported.start < imageRanges.imported.end) {
+                  this.setImageIndex(
+                    app,
+                    imageRanges.imported.end - 1,
+                    artworkType,
+                  );
+                }
+              }
+            }
+          }
+        }
+        this.loggerService.success(
+          this.lang.success.importSelectionsSuccess__i.interpolate({
+            count: importedApps.length,
+          }),
+          { invokeAlert: true, alertTimeout: 3000 },
+        );
+      } catch (e) {
+        if (e instanceof SyntaxError) {
+          this.loggerService.error(
+            this.lang.errors.importJSONFailError__i.interpolate({
+              error: e.message,
+            }),
+            { invokeAlert: true, alertTimeout: 3000 },
+          );
+        } else {
+          this.loggerService.error(
+            this.lang.errors.importFailError__i.interpolate({
+              error: e.message,
+            }),
+            { invokeAlert: true, alertTimeout: 3000 },
+          );
+        }
+      }
+    }
+  }
+}

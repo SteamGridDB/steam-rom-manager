@@ -1,54 +1,31 @@
 import { Injectable } from "@angular/core";
-import {
-  UserExceptions,
-  UserExceptionData,
-  PreviewDataApp,
-  ParserType,
-} from "../../models";
+import { UserExceptions, UserExceptionData, ParserType } from "../../models";
 import { LoggerService } from "./logger.service";
 import { BehaviorSubject } from "rxjs";
-import { APP } from "../../variables";
-import * as json from "../../lib/helpers/json";
-import * as paths from "../../paths";
-import * as schemas from "../schemas";
-import * as modifiers from "../modifiers";
-import * as _ from "lodash";
-import { superTypesMap } from "../../lib/parsers/available-parsers";
-import * as steam from "../../lib/helpers/steam";
+import { ExceptionsStore } from "../../core/exceptions-store";
 
+// Angular facade over the core ExceptionsStore, adding the exceptions
+// editor's unsaved copy (`current`) and its unsaved flag.
 @Injectable()
 export class UserExceptionsService {
-  private variableData: BehaviorSubject<{
+  readonly store: ExceptionsStore;
+  private variableData = new BehaviorSubject<{
     current: UserExceptions;
     saved: UserExceptions;
-  }>;
+  }>({ current: null, saved: { titles: {} } });
   private isUnsavedData: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  private static appIdRegex: RegExp = /\$\{id\:([0-9]*?)\}/;
-
-  private validator: json.Validator = new json.Validator(
-    schemas.userExceptions,
-    modifiers.userExceptions,
-  );
-  private savingIsDisabled: boolean = false;
   sortBy: string = "timeStamp|desc";
 
   constructor(private loggerService: LoggerService) {
-    this.variableData = new BehaviorSubject({
-      current: null,
-      saved: { titles: {} },
-    });
+    this.store = new ExceptionsStore(this.loggerService);
+    this.store.onChange((saved) =>
+      this.variableData.next({ current: null, saved }),
+    );
     this.load();
   }
 
-  private get lang() {
-    return APP.lang.userExceptions.service;
-  }
-
   get data(): { current: UserExceptions; saved: UserExceptions } {
-    return this.variableData.getValue() as {
-      current: UserExceptions;
-      saved: UserExceptions;
-    };
+    return this.variableData.getValue();
   }
 
   get dataObservable() {
@@ -64,55 +41,17 @@ export class UserExceptionsService {
   }
 
   load() {
-    json
-      .read<UserExceptions>(paths.userExceptions)
-      .then((data) => {
-        if (data !== null) {
-          const error = this.setSaved(data);
-          if (error) {
-            this.savingIsDisabled = true;
-            this.loggerService.error(this.lang.error.loadingError, {
-              invokeAlert: true,
-              alertTimeout: 5000,
-              doNotAppendToLog: true,
-            });
-            this.loggerService.error(
-              this.lang.error.corruptedExceptions__i.interpolate({
-                file: paths.userExceptions,
-                error,
-              }),
-            );
-          }
-        }
-      })
-      .catch((error) => {
-        this.savingIsDisabled = true;
-        this.loggerService.error(this.lang.error.loadingError, {
-          invokeAlert: true,
-          alertTimeout: 5000,
-          doNotAppendToLog: true,
-        });
-        this.loggerService.error(error);
-      });
+    return this.store.load();
+  }
+
+  private afterSave(saved: boolean) {
+    if (saved) {
+      this.setIsUnsaved(false);
+    }
   }
 
   putBack(exceptionKey: string) {
-    const newData = this.data.saved;
-    const currentEntry = newData.titles[exceptionKey];
-    if (currentEntry) {
-      if (
-        currentEntry.commandLineArguments ||
-        currentEntry.newTitle ||
-        currentEntry.searchTitle ||
-        currentEntry.excludeArtwork
-      ) {
-        newData.titles[exceptionKey].exclude = false;
-      } else {
-        delete newData.titles[exceptionKey];
-      }
-    }
-    this.variableData.next({ current: newData, saved: this.data.saved });
-    this.saveUserExceptions();
+    this.afterSave(this.store.putBack(exceptionKey));
   }
 
   makeExceptionId(
@@ -120,31 +59,15 @@ export class UserExceptionsService {
     extractedTitle: string,
     parserType: ParserType,
   ) {
-    if (superTypesMap[parserType] == "ArtworkOnly") {
-      return executableLocation.replace(/\"/g, "");
-    } else {
-      return steam.generateShortAppId(executableLocation, extractedTitle);
-    }
+    return this.store.makeExceptionId(
+      executableLocation,
+      extractedTitle,
+      parserType,
+    );
   }
 
   deleteExceptionById(exceptionId: string) {
-    let newData = this.data.saved;
-    const exceptionMatches = Object.keys(newData.titles).filter(
-      (exTitle: string) => {
-        if (UserExceptionsService.appIdRegex.test(exTitle)) {
-          return (
-            exTitle.match(UserExceptionsService.appIdRegex)[1] == exceptionId
-          );
-        } else {
-          return false;
-        }
-      },
-    );
-    if (exceptionMatches.length) {
-      delete newData.titles[exceptionMatches[0]];
-    }
-    this.variableData.next({ current: newData, saved: this.data.saved });
-    this.saveUserExceptions();
+    this.afterSave(this.store.deleteById(exceptionId));
   }
 
   addExceptionById(
@@ -152,82 +75,25 @@ export class UserExceptionsService {
     extractedTitle: string,
     newException: UserExceptionData,
   ) {
-    let newData = this.data.saved;
-    const exceptionMatches = Object.keys(newData.titles).filter(
-      (exTitle: string) => {
-        if (UserExceptionsService.appIdRegex.test(exTitle)) {
-          return (
-            exTitle.match(UserExceptionsService.appIdRegex)[1] == exceptionId
-          );
-        } else {
-          return false;
-        }
-      },
+    this.afterSave(
+      this.store.addById(exceptionId, extractedTitle, newException),
     );
-
-    const replaceKey = exceptionMatches.length
-      ? exceptionMatches[0]
-      : `${extractedTitle} \$\{id:${exceptionId}\}`;
-    newData.titles[replaceKey] = newException;
-    this.variableData.next({ current: newData, saved: this.data.saved });
-    this.saveUserExceptions();
   }
 
   getExceptionById(exceptionId: string) {
-    const exceptionMatches = Object.keys(this.data.saved.titles).filter(
-      (exTitle: string) => {
-        if (UserExceptionsService.appIdRegex.test(exTitle)) {
-          return (
-            exTitle.match(UserExceptionsService.appIdRegex)[1] == exceptionId
-          );
-        } else {
-          return false;
-        }
-      },
-    );
-    if (exceptionMatches.length) {
-      return this.data.saved.titles[exceptionMatches[0]];
-    }
-  }
-
-  private duplicateKeys(data: UserExceptions) {
-    const replacedKeys = Object.keys(data.titles).map((exTitle) => {
-      return UserExceptionsService.appIdRegex.test(exTitle)
-        ? exTitle.match(UserExceptionsService.appIdRegex)[0]
-        : exTitle;
-    });
-    return _.keys(_.pickBy(_.groupBy(replacedKeys), (x) => x.length > 1));
+    return this.store.getById(exceptionId);
   }
 
   setSaved(data: UserExceptions) {
-    if (this.validator.validate(data).isValid() && data) {
-      this.variableData.next({ current: null, saved: data });
-      return null;
-    } else {
-      this.loggerService.error(this.lang.error.writingError, {
-        invokeAlert: true,
-        alertTimeout: 3000,
-      });
-      this.loggerService.error(this.validator.errorString);
-      return `\r\n${this.validator.errorString}`;
-    }
+    return this.store.setSaved(data);
   }
 
   setCurrent(data: UserExceptions) {
-    if (!data || this.validator.validate(data).isValid()) {
-      this.variableData.next({
-        current: data,
-        saved: this.variableData.getValue().saved,
-      });
-      return null;
-    } else {
-      this.loggerService.error(this.lang.error.writingError, {
-        invokeAlert: true,
-        alertTimeout: 3000,
-      });
-      this.loggerService.error(this.validator.errorString);
-      return `\r\n${this.validator.errorString}`;
+    const error = data ? this.store.validate(data) : null;
+    if (!error) {
+      this.variableData.next({ current: data, saved: this.data.saved });
     }
+    return error;
   }
 
   setIsUnsaved(isUnsaved: boolean) {
@@ -235,31 +101,6 @@ export class UserExceptionsService {
   }
 
   saveUserExceptions() {
-    let current = this.variableData.getValue().current;
-    if (!this.savingIsDisabled && current) {
-      const duplicates = this.duplicateKeys(current);
-      if (duplicates.length) {
-        this.loggerService.error("Cannot save duplicate exceptions, see log", {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        this.loggerService.error(
-          `Duplicate Exception Keys: ${duplicates.join(", ")}`,
-        );
-        return;
-      }
-      json
-        .write(paths.userExceptions, current)
-        .then(() => {})
-        .catch((error) => {
-          this.loggerService.error(this.lang.error.writingError, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-          this.loggerService.error(error);
-        });
-      this.setIsUnsaved(false);
-      this.variableData.next({ current: null, saved: current });
-    }
+    this.afterSave(this.store.save(this.data.current));
   }
 }

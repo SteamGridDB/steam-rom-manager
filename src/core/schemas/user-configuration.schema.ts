@@ -14,8 +14,8 @@ import { cloneDeep } from "lodash";
 const _artworkRecordProps = (props: object): Record<ArtworkType, object> => {
   return Object.fromEntries(
     artworkTypes.map((artworkType) => [artworkType, props]),
-  ) as Record<ArtworkType, object>
-}
+  ) as Record<ArtworkType, object>;
+};
 
 const sharedProperties = {
   properties: {
@@ -83,12 +83,18 @@ const sharedProperties = {
     defaultImage: {
       type: "object",
       default: {},
-      properties: _artworkRecordProps({ type: ["string", "null"], default: null }),
+      properties: _artworkRecordProps({
+        type: ["string", "null"],
+        default: null,
+      }),
     },
     localImages: {
       type: "object",
       default: {},
-      properties: _artworkRecordProps({ type: ["string", "null"], default: null })
+      properties: _artworkRecordProps({
+        type: ["string", "null"],
+        default: null,
+      }),
     },
     onlineImageQueries: {
       type: "array",
@@ -98,7 +104,10 @@ const sharedProperties = {
     overlayImages: {
       type: "object",
       default: {},
-      properties: _artworkRecordProps({ type: ["string", "null"], default: null }),
+      properties: _artworkRecordProps({
+        type: ["string", "null"],
+        default: null,
+      }),
     },
     imageProviders: {
       type: "array",

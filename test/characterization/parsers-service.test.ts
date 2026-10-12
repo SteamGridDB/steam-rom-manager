@@ -6,7 +6,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { ParsersService } from "../../src/renderer/services/parsers.service";
 import * as paths from "../../src/paths";
-import * as modifiers from "../../src/renderer/modifiers";
+import * as modifiers from "../../src/core/modifiers";
 import { AppSettings } from "../../src/models";
 import {
   makeConfig,
@@ -106,15 +106,17 @@ describe("ParsersService (characterization)", () => {
       expect(fs.readFileSync(paths.userConfigurations, "utf8")).toBe(before);
     });
 
-    it.fails(
-      "BUG: an unreadable userConfigurations.json still finishes loading",
-      async () => {
-        fs.writeFileSync(paths.userConfigurations, "{ not json");
-        const { service, log } = makeService();
-        await loaded(service, 500);
-        expect(log.some((l) => l.level === "error")).toBe(true);
-      },
-    );
+    it("an unreadable userConfigurations.json still finishes loading (was: hung forever)", async () => {
+      fs.writeFileSync(paths.userConfigurations, "{ not json");
+      const { service, log } = makeService();
+      expect(await loaded(service, 500)).toEqual([]);
+      expect(log.some((l) => l.level === "error")).toBe(true);
+      // and the user's file is never overwritten with an empty list
+      await service.changeEnabledStatusAll(true);
+      expect(fs.readFileSync(paths.userConfigurations, "utf8")).toBe(
+        "{ not json",
+      );
+    });
   });
 
   describe("editing", () => {

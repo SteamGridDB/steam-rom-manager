@@ -18,8 +18,8 @@ import {
 } from "../../src/lib/helpers/steam/generate-app-id";
 import { getAvailableLogins } from "../../src/lib/helpers/steam/get-available-logins";
 import { Validator } from "../../src/lib/helpers/json/validator";
-import * as schemas from "../../src/renderer/schemas";
-import * as modifiers from "../../src/renderer/modifiers";
+import * as schemas from "../../src/core/schemas";
+import * as modifiers from "../../src/core/modifiers";
 import { tempDir } from "../helpers/fixtures";
 
 const steamDir = process.env.SRM_LIVE_STEAM_DIR;

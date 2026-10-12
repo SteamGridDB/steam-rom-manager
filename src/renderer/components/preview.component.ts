@@ -597,22 +597,10 @@ export class PreviewComponent implements OnDestroy {
     return this.previewService.saveData({ removeAll: false, batchWrite: true });
   }
 
-  remove() {
-    for (const directory in this.previewData) {
-      for (const userId in this.previewData[directory]) {
-        for (const appId in this.previewData[directory][userId].apps) {
-          this.previewData[directory][userId].apps[appId].status = "remove";
-        }
-      }
+  async remove() {
+    if (await this.previewService.removeAllInPreview()) {
+      this.closeAll();
     }
-    return this.previewService
-      .saveData({ removeAll: false, batchWrite: false })
-      .then((noError: boolean | void) => {
-        if (noError) {
-          this.closeAll();
-          this.previewService.clearPreviewData();
-        }
-      });
   }
 
   closeFilters() {

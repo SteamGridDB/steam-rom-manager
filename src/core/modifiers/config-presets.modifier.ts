@@ -1,100 +1,27 @@
-import { ValidatorModifier, UserConfiguration } from "../../models";
-import * as unique_ids from "../../lib/helpers/unique-ids";
-import { controllerTypes } from "../../lib/controller-manager";
+import { ValidatorModifier, UserConfiguration, ParserType } from "../../models";
 import * as _ from "lodash";
-import {
-  versionUp,
-  replaceVariables_undefined,
-  extractNames,
-} from "./modifier-helpers";
+import { superTypesMap } from "../../lib/parsers/available-parsers";
+
+const controllerTypes = [
+  "ps4",
+  "ps5",
+  "xbox360",
+  "xboxone",
+  "switch_joycon_left",
+  "switch_joycon_right",
+  "switch_pro",
+  "neptune",
+];
 import { artworkTypes } from "../../lib/artwork-types";
 
-export const userConfiguration: ValidatorModifier<UserConfiguration> = {
-  controlProperty: "version",
-  latestVersion: 30,
+import { versionUp, extractNames } from "./modifier-helpers";
+
+export const configPreset: ValidatorModifier<UserConfiguration> = {
+  controlProperty: "presetVersion",
+  latestVersion: 20,
   fields: {
     undefined: {
-      version: { method: () => 0 },
-      disabled: {
-        method: (oldValue) => (oldValue === undefined ? false : !!!oldValue),
-        oldValuePath: "enabled",
-      },
-      parserType: {
-        method: (oldValue) =>
-          typeof oldValue === "string" && /glob-regex/i.test(oldValue)
-            ? "Glob-regex"
-            : oldValue,
-      },
-      executableArgs: { method: replaceVariables_undefined },
-      onlineImageQueries: { method: replaceVariables_undefined },
-      localImages: { method: replaceVariables_undefined },
-      localTallImages: { method: replaceVariables_undefined },
-      localHeroImages: { method: replaceVariables_undefined },
-      localLogoImages: { method: replaceVariables_undefined },
-      localIcons: { method: replaceVariables_undefined },
-    },
-    0: {
-      version: { method: versionUp },
-      titleModifier: {
-        method: (oldValue) =>
-          typeof oldValue === "string"
-            ? oldValue.replace(/\${title}/gi, "${fuzzyTitle}")
-            : "${fuzzyTitle}",
-      },
-    },
-    1: {
-      version: { method: versionUp },
-      imageProviders: {
-        method: (oldValue) =>
-          Array.isArray(oldValue)
-            ? oldValue.filter((val) => val !== "ConsoleGrid")
-            : oldValue,
-      },
-    },
-    2: {
-      version: { method: versionUp },
-      imageProviders: {
-        method: (oldValue) =>
-          Array.isArray(oldValue)
-            ? oldValue.filter(
-                (val) => ["SteamGridDB", "GoogleImages"].indexOf(val) >= 0,
-              )
-            : oldValue,
-      },
-      parserId: {
-        method: (oldValue) => oldValue || unique_ids.newParserId(),
-      },
-      parserInputs: {
-        method: (oldValue) => {
-          let newValue = _.cloneDeep(oldValue);
-          delete newValue["steam"];
-          return newValue;
-        },
-      },
-      executable: {
-        method: (oldValue, oldConfiguration: any) => {
-          if (!oldValue) {
-            let result = {
-              path: oldConfiguration.executableLocation,
-              appendArgsToExecutable: oldConfiguration.appendArgsToExecutable,
-              shortcutsPassthrough:
-                oldConfiguration.titleFromVariable.shortcutsPassthrough,
-            };
-            delete oldConfiguration.executableLocation;
-            delete oldConfiguration.appendArgsToExecutable;
-            delete oldConfiguration.titleFromVariable.shortcutsPassthrough;
-            return result;
-          }
-        },
-      },
-    },
-    3: {
-      version: { method: versionUp },
-      localIcons: { method: replaceVariables_undefined },
-    },
-    4: {
-      version: { method: versionUp },
-      parserType: { method: (pType) => pType || "Glob" },
+      presetVersion: { method: () => 0 },
       parserInputs: {
         method: (oldValue, oldConfiguration: any) => {
           let result: any = {};
@@ -109,19 +36,8 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
-    5: {
-      version: { method: versionUp },
-      fuzzyMatch: {
-        method: (oldValue, oldConfiguration: any) => {
-          delete oldConfiguration.advanced;
-          let newValue = _.cloneDeep(oldValue);
-          delete newValue.use;
-          return newValue;
-        },
-      },
-    },
-    6: {
-      version: { method: versionUp },
+    0: {
+      presetVersion: { method: versionUp },
       parserInputs: {
         method: (oldValue, oldConfiguration: any) => {
           let newValue = _.cloneDeep(oldValue);
@@ -136,9 +52,6 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
           return newValue;
         },
       },
-    },
-    7: {
-      version: { method: versionUp },
       imageProviderAPIs: {
         method: (oldValue, oldConfiguration: any) => {
           return {
@@ -151,8 +64,8 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
-    8: {
-      version: { method: versionUp },
+    1: {
+      presetVersion: { method: versionUp },
       imageProviderAPIs: {
         method: (oldValue, oldConfiguration: any) => {
           let newValue = _.cloneDeep(oldValue);
@@ -161,8 +74,8 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
-    9: {
-      version: { method: versionUp },
+    2: {
+      presetVersion: { method: versionUp },
       imageProviderAPIs: {
         method: (oldValue, oldConfiguration: any) => {
           let newValue = _.cloneDeep(oldValue);
@@ -173,16 +86,16 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
-    10: {
-      version: { method: versionUp },
+    3: {
+      presetVersion: { method: versionUp },
       controllers: {
         method: () => {
           return {};
         },
       },
     },
-    11: {
-      version: { method: versionUp },
+    4: {
+      presetVersion: { method: versionUp },
       controllers: {
         method: (oldValue, oldConfiguration: any) => {
           let newValue = _.cloneDeep(oldValue);
@@ -193,25 +106,8 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
-    12: {
-      version: { method: versionUp },
-      controllers: {
-        method: (oldValue, oldConfiguration: any) => {
-          let newValue = _.cloneDeep(oldValue);
-          for (let controllerType of controllerTypes) {
-            if (
-              newValue[controllerType] &&
-              !newValue[controllerType].profileType
-            ) {
-              newValue[controllerType].profileType = "workshop";
-            }
-          }
-          return newValue;
-        },
-      },
-    },
-    13: {
-      version: { method: versionUp },
+    5: {
+      presetVersion: { method: versionUp },
       defaultImage: {
         method: (oldValue, oldConfiguration) => {
           let newValue = {
@@ -247,8 +143,8 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
-    14: {
-      version: { method: versionUp },
+    6: {
+      presetVersion: { method: versionUp },
       userAccounts: {
         method: (oldValue, oldConfiguration) => {
           delete oldValue.skipWithMissingDataDir;
@@ -257,30 +153,29 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
-    15: {
-      version: { method: versionUp },
+    7: {
+      presetVersion: { method: versionUp },
       steamInputEnabled: {
-        method: () => {
-          return "1";
+        method: (oldValue, oldConfiguration) => {
+          return oldValue || "1";
         },
       },
     },
-    16: {
-      version: { method: versionUp },
+    8: {
+      presetVersion: { method: versionUp },
       drmProtect: {
         method: (oldValue, oldConfiguration) => {
           return oldValue || false;
         },
       },
     },
-    17: {
-      version: { method: versionUp },
+    9: {
+      presetVersion: { method: versionUp },
       imageProviders: {
         method: (oldValue) => {
           return oldValue.length ? ["sgdb", "steamCDN"] : [];
         },
       },
-
       imageProviderAPIs: {
         method: (oldValue) => {
           return {
@@ -301,8 +196,21 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
-    18: {
-      version: { method: versionUp },
+    10: {
+      presetVersion: { method: versionUp },
+      imageProviders: {
+        method: (oldValue, oldConfiguration) => {
+          const superType =
+            superTypesMap[oldConfiguration.parserType as ParserType];
+          if (superType == "ROM") {
+            return ["sgdb"];
+          }
+          return ["sgdb", "steamCDN"];
+        },
+      },
+    },
+    11: {
+      presetVersion: { method: versionUp },
       titleFromVariable: {
         method: (oldValue) => {
           delete oldValue.tryToMatchTitle;
@@ -310,8 +218,8 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
-    19: {
-      version: { method: versionUp },
+    12: {
+      presetVersion: { method: versionUp },
       userAccounts: {
         method: (oldValue) => {
           oldValue.specifiedAccounts ||= "${${accountsglobal}}";
@@ -319,8 +227,8 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
-    20: {
-      version: { method: versionUp },
+    13: {
+      presetVersion: { method: versionUp },
       userAccounts: {
         method: (oldValue) => {
           if (oldValue.specifiedAccounts == "${${accountsglobal}}") {
@@ -334,8 +242,8 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
-    21: {
-      version: { method: versionUp },
+    14: {
+      presetVersion: { method: versionUp },
       steamCategories: {
         method: (oldValue, oldConfiguration) => {
           const steamCategory = oldConfiguration.steamCategory;
@@ -348,27 +256,29 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
-    22: {
-      version: { method: versionUp },
-      parserInputs: {
-        method: (oldValue, oldConfiguration: any) => {
-          if (oldConfiguration.parserType !== "Steam") {
-            return oldValue;
-          }
-          let result: any = {};
-          result["onlyInstalled"] =
-            oldConfiguration.parserInputs["onlyInstalled"];
-          result.appTypes = ["game"];
-          return result;
+    15: {
+      presetVersion: { method: versionUp },
+      fuzzyMatch: {
+        method: (oldValue) => {
+          delete oldValue.use;
+          return oldValue;
         },
       },
     },
-    23: {
-      version: { method: versionUp },
+    16: {
+      presetVersion: { method: versionUp },
+      advanced: {
+        method: (oldValue, oldConfiguration) => {
+          delete oldConfiguration.advanced;
+        },
+      },
+    },
+    17: {
+      presetVersion: { method: versionUp },
       onlineImageQueries: {
         method: (oldValue, oldConfiguration) => {
           const onlineImageQueries = oldConfiguration.onlineImageQueries;
-          delete oldConfiguration.onlineImageQueries;
+          delete oldConfiguration.steamCategory;
           if (onlineImageQueries) {
             return extractNames(onlineImageQueries);
           } else {
@@ -377,8 +287,8 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
-    24: {
-      version: { method: versionUp },
+    18: {
+      presetVersion: { method: versionUp },
       titleFromVariable: {
         method: (oldValue, oldConfiguration) => {
           let titleFromVariable = _.cloneDeep(
@@ -397,53 +307,14 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         },
       },
     },
-    25: {
-      version: { method: versionUp },
-      group: {
-        method: (oldValue) => (typeof oldValue === "string" ? oldValue : ""),
-      },
-    },
-    26: {
-      version: { method: versionUp },
-      parserInputs: {
-        method: (oldValue, oldConfiguration: any) => {
-          // Existing Steam parsers predate the game-fetch-strategy input;
-          // default them to the previous behavior ("installed at least once").
-          if (oldConfiguration.parserType !== "Steam") {
-            return oldValue;
-          }
-          const newValue = _.cloneDeep(oldValue) || {};
-          if (!newValue.parseStrategy) {
-            newValue.parseStrategy = "installed";
-          }
-          return newValue;
-        },
-      },
-    },
-    27: {
-      version: { method: versionUp },
-      sortAsFromVariable: {
+    19: {
+      presetVersion: { method: versionUp },
+      overlayImages: {
         method: (oldValue) => {
-          return oldValue || { limitedToGroups: [],
-            skipFileIfVariableWasNotFound: false,
-            caseInsensitiveVariables: false,
-          };
-        }
-      }
-    },
-    28: {
-      version: { method: versionUp },
-      overlayImages: { method: (oldValue) => {
-        return oldValue || Object.fromEntries(artworkTypes.map(at=>[at, null]))
-      } },
-    },
-    29: {
-      version: { method: versionUp },
-      compatToolName: {
-        method: (oldValue) => (typeof oldValue === "string" ? oldValue : ""),
-      },
-      compatToolNameCustom: {
-        method: (oldValue) => (typeof oldValue === "string" ? oldValue : ""),
+          return (
+            oldValue || Object.fromEntries(artworkTypes.map((at) => [at, ""]))
+          );
+        },
       },
     },
   },
