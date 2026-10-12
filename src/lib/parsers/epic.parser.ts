@@ -1,10 +1,11 @@
-import { ParserInfo, GenericParser, ParsedData } from "../../models";
+import { ParserInfo, GenericParser, ParsedData, EpicGameManifest } from "../../models";
 import { APP } from "../../variables";
 import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as os from "os";
 import * as path from "path";
 import { glob } from "glob";
+import * as paths from "../../paths";
 
 export class EpicParser implements GenericParser {
   private get lang() {
@@ -65,9 +66,10 @@ export class EpicParser implements GenericParser {
         const files: string[] = await glob(
           [epicManifestsDir.replace(/\\/g, "/"), "*.item"].join("/"),
         );
+        const scriptsPath = path.join(paths.userDataDir, "scripts");
         for (let file of files) {
           if (fs.existsSync(file) && fs.lstatSync(file).isFile()) {
-            let item = JSON.parse(fs.readFileSync(file).toString());
+            let item: EpicGameManifest = JSON.parse(fs.readFileSync(file).toString());
             let launchPath = path.join(
               item.InstallLocation,
               item.LaunchExecutable,
@@ -77,13 +79,18 @@ export class EpicParser implements GenericParser {
               fs.existsSync(launchPath) &&
               !appTitles.includes(item.DisplayName)
             ) {
+              const processName = path.parse(item.LaunchExecutable).name;
+              const launchOptions = os.type() == "Windows_NT"
+                ? `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -File .\\EpicGamesLauncher.ps1 -gameURI "com.epicgames.launcher://apps/${item.AppName}?action=launch&silent=true" -gameProcessName "${processName}"`
+                : `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \\"com.epicgames.launcher://apps/${item.AppName}?action=launch&silent=true\\""`;
               appTitles.push(item.DisplayName);
               parsedData.success.push({
                 extractedTitle: item.DisplayName,
                 extractedAppId: item.AppName,
-                launchOptions: `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \\"com.epicgames.launcher://apps/${item.AppName}?action=launch&silent=true\\""`,
+                launchOptions,
                 filePath: launchPath,
                 fileLaunchOptions: item.LaunchCommand,
+                ...(os.type() == "Windows_NT" ? { startInDirectory: scriptsPath } : undefined),
               });
             }
           }
