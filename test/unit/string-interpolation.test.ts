@@ -5,9 +5,9 @@ import "../../src/lib/string-interpolation";
 
 describe("String.prototype.interpolate", () => {
   it("substitutes ${name} placeholders", () => {
-    expect("Killed Steam after ${elapsed}ms.".interpolate({ elapsed: 42 })).toBe(
-      "Killed Steam after 42ms.",
-    );
+    expect(
+      "Killed Steam after ${elapsed}ms.".interpolate({ elapsed: 42 }),
+    ).toBe("Killed Steam after 42ms.");
     expect("${a}${a} ${b}".interpolate({ a: "x", b: null })).toBe("xx null");
   });
 

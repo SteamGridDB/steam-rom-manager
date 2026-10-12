@@ -3,8 +3,8 @@ import * as os from "os";
 import * as path from "path";
 import * as _ from "lodash";
 import { Validator } from "../../src/lib/helpers/json/validator";
-import * as schemas from "../../src/renderer/schemas";
-import * as modifiers from "../../src/renderer/modifiers";
+import * as schemas from "../../src/core/schemas";
+import * as modifiers from "../../src/core/modifiers";
 import { AppSettings, ParserType, UserConfiguration } from "../../src/models";
 import { availableParserInputs } from "../../src/lib/parsers/available-parsers";
 

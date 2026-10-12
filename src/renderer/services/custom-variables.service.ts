@@ -6,7 +6,7 @@ import { APP } from "../../variables";
 import { xRequest } from "../../lib/x-request";
 import * as json from "../../lib/helpers/json";
 import * as paths from "../../paths";
-import * as schemas from "../schemas";
+import * as schemas from "../../core/schemas";
 import * as _ from "lodash";
 import * as path from "path";
 import * as fs from "fs-extra";

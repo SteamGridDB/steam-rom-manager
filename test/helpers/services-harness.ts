@@ -26,19 +26,31 @@ export function makeLogger() {
   };
 }
 
+// A settings store (and its SettingsService facade) over an in-memory
+// settings object; records saves instead of writing userSettings.json.
 export function makeSettingsService(settings: AppSettings) {
   const calls = { saves: 0, changes: 0 };
+  const store = {
+    get: () => settings,
+    load: async () => settings,
+    save: async () => {
+      calls.saves++;
+    },
+    changed: () => {
+      calls.changes++;
+    },
+    onChange: () => () => {},
+    savingIsDisabled: false,
+  };
   return {
     calls,
+    store,
     service: {
+      store,
       onLoad: (cb: (s: AppSettings) => void) => cb(settings),
       getSettings: () => settings,
-      saveAppSettings: () => {
-        calls.saves++;
-      },
-      settingsChanged: () => {
-        calls.changes++;
-      },
+      saveAppSettings: () => store.save(),
+      settingsChanged: () => store.changed(),
     },
   };
 }
