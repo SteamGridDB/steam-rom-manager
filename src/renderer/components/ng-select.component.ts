@@ -66,7 +66,7 @@ import { APP } from "../../variables";
             [displayValue]="option.displayValue"
             [isSelected]="selected.indexOf(i) >= 0"
             [isHidden]="
-              searchable && searchText.length && filtered.indexOf(i) < 0
+              searchable && searchText.length > 0 && filtered.indexOf(i) < 0
             "
             (click)="selectOption(i, true)"
           >
@@ -81,7 +81,7 @@ import { APP } from "../../variables";
           [displayValue]="option.displayValue"
           [isSelected]="selected.indexOf(i) >= 0"
           [isHidden]="
-            searchable && searchText.length && filtered.indexOf(i) < 0
+            searchable && searchText.length > 0 && filtered.indexOf(i) < 0
           "
           (click)="selectOption(i, true)"
         >

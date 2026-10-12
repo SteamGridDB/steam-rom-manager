@@ -53,8 +53,9 @@ function englishHistory(): EnglishHistory | undefined {
   const history: EnglishHistory = { strings: new Map(), docLines: new Set() };
   const flatten = (value: any, prefix: string) => {
     if (typeof value === "string" || Array.isArray(value)) {
-      if (!history.strings.has(prefix)) history.strings.set(prefix, new Set());
-      history.strings.get(prefix).add(JSON.stringify(value));
+      let values = history.strings.get(prefix);
+      if (!values) history.strings.set(prefix, (values = new Set()));
+      values.add(JSON.stringify(value));
     } else if (value && typeof value === "object") {
       for (const [k, v] of Object.entries(value)) {
         flatten(v, prefix ? `${prefix}.${k}` : k);
