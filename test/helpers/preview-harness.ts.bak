@@ -7,7 +7,7 @@ import * as http from "http";
 import * as path from "path";
 import { AddressInfo } from "net";
 import { Subject } from "rxjs";
-import { PreviewService } from "../../src/renderer/services/preview.service";
+import { PreviewEngine } from "../../src/core/preview-engine";
 import { FileParser } from "../../src/lib/file-parser";
 import { FuzzyMatcher } from "../../src/lib/fuzzy-matcher";
 import { AppSettings, UserConfiguration } from "../../src/models";
@@ -95,40 +95,38 @@ export function makePreviewService(opts: {
 
   // Emits provider events asynchronously, like the real providers.
   const providers = {
-    {
-      stopEvent: new Subject<void>(),
-      stopUrlDownload: () => {},
-      retrieveUrls: (
-        title: string,
-        artworkType: string,
-        _apis: unknown,
-        provider: string,
-        callback: (event: string, data: any) => void,
-      ) => {
-        setImmediate(() => {
-          const match = opts.artwork?.[title];
-          if (provider === "sgdb" && match) {
-            callback("image", {
-              provider,
-              content: {
-                imageProvider: "SteamGridDB",
-                imageUrl: `${opts.imageBase}/${artworkType}/${match.gameId}.png`,
-                imageGameId: match.gameId,
-                imageArtworkId: `${match.gameId}-${artworkType}`,
-                loadStatus: "notStarted",
-              },
-            });
-          }
-          callback("completed", { provider });
-        });
-      },
+    stopEvent: new Subject<void>(),
+    stopUrlDownload: () => {},
+    retrieveUrls: (
+      title: string,
+      artworkType: string,
+      _apis: unknown,
+      provider: string,
+      callback: (event: string, data: any) => void,
+    ) => {
+      setImmediate(() => {
+        const match = opts.artwork?.[title];
+        if (provider === "sgdb" && match) {
+          callback("image", {
+            provider,
+            content: {
+              imageProvider: "SteamGridDB",
+              imageUrl: `${opts.imageBase}/${artworkType}/${match.gameId}.png`,
+              imageGameId: match.gameId,
+              imageArtworkId: `${match.gameId}-${artworkType}`,
+              loadStatus: "notStarted",
+            },
+          });
+        }
+        callback("completed", { provider });
+      });
     },
   };
 
   const service = new PreviewEngine(
     loggerService as any,
     parsers as any,
-    providers.instance as any,
+    providers as any,
     settings as any,
   );
 

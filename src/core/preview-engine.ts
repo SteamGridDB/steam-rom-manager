@@ -71,7 +71,7 @@ export interface PreviewEngineOptions {
   // Building the list and writing to Steam need the file system. A UI in
   // another process passes proxies to the main process's builder/writer.
   builder?: Pick<PreviewBuilder, "build">;
-  writer?: Pick<SteamWriter, "save">;
+  writer?: Pick<SteamWriter, "save" | "exportSelection" | "readSelection">;
 }
 
 // The list of apps SRM is about to add to Steam ("preview"): generated from
@@ -90,7 +90,10 @@ export class PreviewEngine {
   private providers: PreviewEngineOptions["providers"];
   private settings: PreviewEngineOptions["settings"];
   private onNewImage: (image: ImageContent) => void;
-  private writer: Pick<SteamWriter, "save">;
+  private writer: Pick<
+    SteamWriter,
+    "save" | "exportSelection" | "readSelection"
+  >;
   private builder: Pick<PreviewBuilder, "build">;
 
   constructor(options: PreviewEngineOptions) {
@@ -746,124 +749,14 @@ export class PreviewEngine {
   }
 
   // Saves the chosen artwork of every app into <folder>/srm-image-choices.
-  async exportSelection(folder: string) {
-    const imageDownloader = new url.ImageDownloader(
-      this.appSettings.dnsServers,
+  exportSelection(folder: string) {
+    return this.writer.exportSelection(
+      this.previewData,
+      this.onlineImages,
+      folder,
     );
-    async function saveImage(
-      imageUrl: string,
-      temporaryDir: string,
-      append: string,
-    ) {
-      const extension = imageUrl.split(/[#?]/)[0].split(".").pop().trim();
-      const filename = `${append}.${extension}`;
-      await imageDownloader.downloadAndSaveImage(
-        imageUrl,
-        path.join(temporaryDir, filename),
-      );
-      return filename;
-    }
-
-    {
-      let timeout: any;
-      try {
-        const packagePath = path.join(folder, "srm-image-choices");
-        if (fs.existsSync(packagePath)) {
-          fs.rmSync(packagePath, { recursive: true, force: true });
-        }
-        fs.mkdirSync(packagePath);
-        const apps: any[] = [];
-        let appsCount: number = 0;
-
-        this.loggerService.info(this.lang.info.preparingExport, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-
-        for (const directory in this.previewData) {
-          for (const userId in this.previewData[directory]) {
-            appsCount += Object.keys(
-              this.previewData[directory][userId].apps,
-            ).length;
-          }
-        }
-
-        timeout = setInterval(() => {
-          this.loggerService.info(
-            this.lang.info.exportProgress__i.interpolate({
-              progress: `${apps.length}/${appsCount}`,
-            }),
-            { invokeAlert: true, alertTimeout: 3000, doNotAppendToLog: true },
-          );
-        }, 1500);
-        for (const directory in this.previewData) {
-          for (const userId in this.previewData[directory]) {
-            for (const appId in this.previewData[directory][userId].apps) {
-              const app: PreviewDataApp =
-                this.previewData[directory][userId].apps[appId];
-              const saveId = app.changedId ? app.changedId : appId;
-              let selection: AppSelection = {
-                title: app.extractedTitle,
-                images: {
-                  tall: null,
-                  long: null,
-                  hero: null,
-                  logo: null,
-                  icon: null,
-                },
-              };
-              for (const artworkType of artworkTypes) {
-                const currentImage = appImage.getCurrentImage(
-                  app.images[artworkType],
-                  this.onlineImages[artworkType],
-                );
-                if (currentImage) {
-                  const imageUrl = currentImage.imageUrl;
-                  selection.images[artworkType] = {
-                    pool: app.images[artworkType].imagePool,
-                    filename: await saveImage(
-                      imageUrl,
-                      packagePath,
-                      `${saveId}.${artworkType}`,
-                    ),
-                  };
-                }
-              }
-              apps.push(selection);
-            }
-          }
-        }
-
-        if (timeout !== undefined) {
-          clearInterval(timeout);
-        }
-        fs.writeFileSync(
-          path.join(packagePath, "_selections.json"),
-          JSON.stringify(apps, null, 2),
-        );
-
-        this.loggerService.success(
-          this.lang.success.exportSuccess__i.interpolate({
-            path: packagePath,
-          }),
-          { invokeAlert: true, alertTimeout: 3000 },
-        );
-      } catch (e) {
-        if (timeout !== undefined) {
-          clearInterval(timeout);
-        }
-        this.loggerService.error(
-          this.lang.errors.exportError__i.interpolate({
-            error: e.message,
-          }),
-          { invokeAlert: true, alertTimeout: 3000 },
-        );
-      }
-    }
   }
 
-  // Adds the artwork exported to `packagePath` (an srm-image-choices folder)
-  // as "imported" images and selects them.
   async importSelection(packagePath: string) {
     {
       try {
@@ -872,33 +765,31 @@ export class PreviewEngine {
           alertTimeout: 3000,
         });
 
-        let selections: AppSelection[] = JSON.parse(
-          fs.readFileSync(path.join(packagePath, "_selections.json"), "utf8"),
-        );
+        const read = await this.writer.readSelection(packagePath);
+        if (read.ok === false) {
+          this.loggerService.error(
+            (read.invalidJson
+              ? this.lang.errors.importJSONFailError__i
+              : this.lang.errors.importFailError__i
+            ).interpolate({ error: read.error }),
+            { invokeAlert: true, alertTimeout: 3000 },
+          );
+          return;
+        }
         let importedApps: string[] = [];
-
-        for (const selection of selections) {
-          for (const artworkType of artworkTypes) {
-            if (selection.images[artworkType]) {
-              this.addUniqueLocalImage(
-                selection.images[artworkType].pool,
-                {
-                  imageProvider: imageProviderNames.imported,
-                  imageUrl: url.encodeFile(
-                    path.join(
-                      packagePath,
-                      selection.images[artworkType].filename,
-                    ),
-                  ),
-                  loadStatus: "done",
-                },
-                artworkType,
-                "imported",
-              );
-              if (!importedApps.includes(selection.images[artworkType].pool)) {
-                importedApps.push(selection.images[artworkType].pool);
-              }
-            }
+        for (const item of read.items) {
+          this.addUniqueLocalImage(
+            item.pool,
+            {
+              imageProvider: imageProviderNames.imported,
+              imageUrl: item.imageUrl,
+              loadStatus: "done",
+            },
+            item.artworkType,
+            "imported",
+          );
+          if (!importedApps.includes(item.pool)) {
+            importedApps.push(item.pool);
           }
         }
         for (const directory in this.previewData) {
