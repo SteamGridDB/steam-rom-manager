@@ -311,7 +311,6 @@
       "view": "Spiele anzeigen",
       "logger": "Logs",
       "settings": "Einstellungen",
-      "parsers": "Parser erstellen",
       "customVariables": "Variablen",
       "userExceptions": "Ausnahmen",
       "noTitle": "Kein Titel!"

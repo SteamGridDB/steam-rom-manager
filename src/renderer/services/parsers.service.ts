@@ -314,6 +314,13 @@ export class ParsersService {
     return this.getUserConfigurationsArray()[configurationIndex].saved.parserId;
   }
 
+  // Where parser `parserId` is in the list (-1: no such parser).
+  indexOfParser(parserId: string) {
+    return this.getUserConfigurationsArray().findIndex(
+      (entry) => entry.saved.parserId === parserId,
+    );
+  }
+
   async saveControllerTemplates() {
     this.callSync("setControllerTemplatesCache", this.templates);
     await this.call("saveControllerTemplates");

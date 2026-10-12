@@ -7,16 +7,21 @@
   //display: none;
   overflow: auto;
 
-  grid-area: route;
+  min-height: 0;
+  height: 100%;
+  // The Parsers tab's last two columns: the form, and (when an info button
+  // is clicked) the docs on the right.
   grid-template-areas:
-    "docs nestedForm"
+    "nestedForm docs"
     "menu menu";
 
-  grid-template-columns: var(--markdown-width) 1fr;
+  grid-template-columns: 1fr var(--markdown-width);
   grid-template-rows: 1fr auto;
 
   .docs {
     padding: 1em;
+    overflow: auto;
+    border-left: 1px solid var(--color-parsers-menu-background);
 
     grid-area: docs;
   }

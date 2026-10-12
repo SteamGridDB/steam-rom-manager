@@ -601,7 +601,6 @@
       "view": "View Games",
       "logger": "Log",
       "settings": "Settings",
-      "parsers": "Create Parser",
       "customVariables": "Variables",
       "userExceptions": "Exceptions",
       "noTitle": "No title!",
@@ -706,7 +705,8 @@
         "global": "Global",
         "choose": "Choose",
         "refetchControllerTemplates": "Re-fetch Controller Templates",
-        "unsetControllers": "Unset Controllers for Parser"
+        "unsetControllers": "Unset Controllers for Parser",
+        "createParser": "＋ Create parser"
       },
       "info": {
         "testStarting__i": "Testing \"${title}\" parser (SRM version - ${version} ${portable}).",
@@ -864,7 +864,8 @@
         "drmProtect": "Local backups (DRM takedown protection)",
         "compatCustom": "Custom…",
         "portable": "Portable",
-        "nonPortable": "Non-Portable"
+        "nonPortable": "Non-Portable",
+        "chooseParser": "Choose a parser on the left to edit it, or create a new one."
       },
       "section": {
         "basic": "Basic Configuration",

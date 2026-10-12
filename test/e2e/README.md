@@ -33,6 +33,10 @@ Step files:
 - `gui-pages.json`: Settings (artwork cache/backups, shell scripts), the
   parser editor (compat tools), the log page, closing from the title bar.
   Run it last: it closes the app.
+- `gui-exceptions.json`: exceptions page (tabs, how rules match, adding by
+  title) and Add Games (exclusions, a game's changes, exclusions keeping them).
+- `gui-parsers.json`: the Parsers tab: one editor per parser (nothing from
+  one parser's form carries into another's), create, move, undo.
 
 The fake Steam install ends up in `/tmp/srm-e2e/steam`; inspect
 `userdata/11111111/config` (shortcuts.vdf, grid/, cloudstorage/) after each

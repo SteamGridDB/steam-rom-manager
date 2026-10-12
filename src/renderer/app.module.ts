@@ -61,6 +61,7 @@ function ngObjectsToArray<T>(importObject: T) {
     Components.NgToggleButtonComponent,
     Components.ParsersComponent,
     Components.ParsersListComponent,
+    Components.ParsersPageComponent,
     Components.PreviewComponent,
     Components.SettingsComponent,
     Components.SplashComponent,

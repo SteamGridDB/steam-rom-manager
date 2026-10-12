@@ -46,7 +46,7 @@
                   unsaved: userConfiguration.current != null,
                   disabled: userConfiguration.saved.disabled,
                 }"
-                [routerLink]="['/parsers', i]"
+                [routerLink]="['/parsers', parserId]"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
               >
@@ -247,7 +247,7 @@
                             disabled: entry.saved.disabled,
                             active: currentId == parserId,
                           }"
-                          (click)="onClick(entry.globalIndex, parserId)"
+                          (click)="onClick(parserId)"
                         >
                           <div
                             [innerHTML]="
