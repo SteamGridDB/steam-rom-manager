@@ -7,7 +7,6 @@ import {
   RendererStyleFlags2,
   ElementRef
 } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import {
   SettingsService,
   ParsersService,
@@ -18,12 +17,11 @@ import {
   CustomVariablesService,
   ConfigurationPresetsService,
   ShellScriptsService,
-  IpcService,
   LoggerService,
 } from "../services";
 import { APP } from "../../variables";
 import { AppSettings, SelectItem } from "../../models";
-import { Subscription, BehaviorSubject } from "rxjs";
+import { Subscription } from "rxjs";
 import { availableThemes } from "../../lib/themes";
 import * as os from "os";
 import { ArtworkCache } from "../../lib";
@@ -64,7 +62,6 @@ export class SettingsComponent implements OnDestroy {
   showShellScripts: boolean = false;
   showMarkdown: boolean = false;
   private subscriptions: Subscription = new Subscription();
-  private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
   constructor(
     private settingsService: SettingsService,
     private fuzzyService: FuzzyService,
@@ -76,18 +73,10 @@ export class SettingsComponent implements OnDestroy {
     public cvService: CustomVariablesService,
     public ssService: ShellScriptsService,
     private changeDetectionRef: ChangeDetectorRef,
-    private activatedRoute: ActivatedRoute,
-    private ipcService: IpcService,
     private renderer: Renderer2,
     private elementRef: ElementRef
   ) {
     this.currentDoc.content = this.lang.docs__md.settings.join("");
-    this.activatedRoute.queryParamMap.subscribe((paramContainer: any) => {
-      let params = ({ ...paramContainer } as any).params;
-      if (params["cliMessage"]) {
-        this.CLI_MESSAGE.next(params["cliMessage"]);
-      }
-    });
   }
 
   get availableProviders() {
@@ -136,20 +125,6 @@ export class SettingsComponent implements OnDestroy {
     this.themes = availableThemes;
     this.userAccountsPlaceholder = this.lang.placeholder.userAccounts;
     this.placeholderForOS = this.lang.placeholder.bySystem[os.type()];
-  }
-
-  ngAfterViewInit() {
-    this.subscriptions.add(
-      this.CLI_MESSAGE.asObservable().subscribe((cliMessage: string) => {
-        const parsedCLI = cliMessage ? JSON.parse(cliMessage) || {} : {};
-        if (["nuke"].includes(parsedCLI.command)) {
-          this.ipcService.send("log", "Nuking steam library");
-          this.removeApps().then(() => {
-            this.ipcService.send("all_done");
-          });
-        }
-      }),
-    );
   }
 
   ngOnDestroy() {

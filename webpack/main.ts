@@ -1,7 +1,17 @@
 import { Configuration } from "webpack";
 import merge from "webpack-merge";
+import * as path from "path";
 import * as helpers from "./helpers";
 
+const jimpCommonjsEntry = path.join(
+  path.dirname(require.resolve("jimp/package.json")),
+  "dist",
+  "commonjs",
+  "index.js",
+);
+
+// The main process also hosts the core (headless CLI), so it bundles the
+// same lib code as the renderer: language markdown, jimp, native sqlite.
 let clientConfig: Configuration = {
   target: "electron-main",
   entry: {
@@ -14,6 +24,9 @@ let clientConfig: Configuration = {
   },
   resolve: {
     extensions: [".ts", ".js"],
+    alias: {
+      jimp$: jimpCommonjsEntry,
+    },
   },
   module: {
     rules: [
@@ -21,9 +34,25 @@ let clientConfig: Configuration = {
         test: /\.ts$/i,
         use: ["ts-loader"],
       },
+      {
+        test: /\.md$/i,
+        use: [helpers.root("webpack", "markdown.js")],
+        type: "asset/source",
+      },
+      {
+        // images referenced from the markdown docs
+        test: /\.(gif|png|jpe?g|svg)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "renderer/images/[name][ext]",
+        },
+      },
     ],
   },
   node: false,
+  externals: {
+    "better-sqlite3": "commonjs better-sqlite3",
+  },
 };
 
 let developmentConfig: Configuration = {

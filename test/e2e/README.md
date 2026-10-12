@@ -1,0 +1,26 @@
+# End-to-end smoke tests (manual)
+
+These run the built app (`yarn build:dist`) in real Electron against an
+isolated environment: a fake Steam install and a copy of your SRM userData,
+so your real Steam library and settings are never touched. They need a
+display and network access (SteamGridDB, GitHub), so they are not part of CI.
+
+```sh
+# 1. Isolated environment: copies <your userData>, enables only the parser
+#    whose title starts with "Snes9x" (pick another with the 3rd argument),
+#    points it at fake ROMs, a fake RetroArch and a fake Steam (user "alice").
+node test/e2e/setup.js "$APPDATA/steam-rom-manager/userData" /tmp/srm-e2e Snes9x
+
+# 2a. CLI (headless)
+SRM_USER_DATA_DIR=/tmp/srm-e2e/userData npx electron ./dist/main.bundle.js add
+SRM_USER_DATA_DIR=/tmp/srm-e2e/userData npx electron ./dist/main.bundle.js remove
+
+# 2b. GUI, driven over the DevTools protocol
+SRM_USER_DATA_DIR=/tmp/srm-e2e/userData npx electron ./dist/main.bundle.js --remote-debugging-port=9333 &
+node test/e2e/gui-driver.js 9333 test/e2e/gui-add-remove.json
+```
+
+The fake Steam install ends up in `/tmp/srm-e2e/steam`; inspect
+`userdata/11111111/config` (shortcuts.vdf, grid/, cloudstorage/) after each
+step. If Electron behaves like plain Node, unset `ELECTRON_RUN_AS_NODE`
+(VS Code's terminal sets it).

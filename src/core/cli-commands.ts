@@ -49,10 +49,14 @@ async function generate(core: Core, out: CliOutput): Promise<number> {
     out.log("No apps found");
     return 0;
   }
-  const progress = () =>
-    out.inline(
-      `Apps: ${vars.numberOfListItems}. Remaining images: ${vars.numberOfQueriedImages}`,
-    );
+  let last = "";
+  const progress = () => {
+    const line = `Apps: ${vars.numberOfListItems}. Remaining images: ${vars.numberOfQueriedImages}`;
+    if (line !== last) {
+      last = line;
+      out.inline(line);
+    }
+  };
   const subscription = core.preview.getPreviewDataChange().subscribe(progress);
   progress();
   await core.preview.waitForImages();

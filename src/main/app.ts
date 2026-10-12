@@ -16,7 +16,9 @@ import * as url from "url";
 import * as clc from "cli-color";
 import yargs, { Argv } from "yargs";
 import { hideBin } from "yargs/helpers";
-import { UserConfiguration } from "../models";
+import { setDefaultFetch } from "../core/http";
+import { fetchOwnedGamesDirect } from "../lib/helpers/steam/owned-games";
+import { runCli, CliCommand } from "./cli";
 
 // Renderer windows inherit this, so they resolve paths without Electron.
 process.env.SRM_USER_DATA_DIR = paths.userDataDir;
@@ -144,10 +146,11 @@ yargs(hideBin(process.argv))
 if (commandCLI) {
   delete process.env.ELECTRON_ENABLE_SECURITY_WARNINGS;
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "true";
-  process.env.ELECTRON_ENABLE_LOGGING = "true";
   process.emitWarning = (warning, ...args) => {};
   log.transports.file.level = "error";
   log.transports.console.level = "error";
+  // The CLI runs headless; no window, no GPU.
+  app.disableHardwareAcceleration();
 } else {
   log.transports.file.level = "info";
   log.transports.console.level = "info";
@@ -248,86 +251,25 @@ autoUpdater.on("update-downloaded", (info) => {
 });
 
 // Main Listeners
-app.on("ready", () => {
-  // Registered for both CLI and GUI modes. Fetches a Steam account's owned
-  // games via the Steam Web API in the main process using Electron's net
-  // module, so it uses Chromium's network stack (system certificate store +
-  // system proxy). This avoids the "unable to get local issuer certificate"
-  // errors that node-fetch hits against api.steampowered.com.
+app.on("ready", async () => {
+  // Network I/O in the core (SteamGridDB, GitHub, Steam Web API) uses
+  // Electron's network stack: system certificate store and proxy, which
+  // Node's TLS (e.g. node-fetch) doesn't honour on some systems.
+  setDefaultFetch((url, init) => net.fetch(url, init as RequestInit) as any);
   ipcMain.handle(
     "steam-owned-games",
-    async (event, args: { apiKey: string; steamId: string }) => {
-      const requestUrl =
-        `https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/` +
-        `?key=${encodeURIComponent(args.apiKey)}` +
-        `&steamid=${encodeURIComponent(args.steamId)}` +
-        `&include_appinfo=1&include_played_free_games=1&format=json`;
-      const res = await net.fetch(requestUrl, {
-        signal: AbortSignal.timeout(30000),
-      });
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status} ${res.statusText}`);
-      }
-      return await res.json();
-    },
+    (event, args: { apiKey: string; steamId: string }) =>
+      fetchOwnedGamesDirect(args.apiKey, args.steamId),
   );
   if (commandCLI) {
-    console.log("\n");
-    createWindow(false);
-    remoteMain.enable(mainWindow.webContents);
-
-    mainWindow.loadURL(
-      url.format({
-        pathname: path.join(__dirname, "renderer", "index.html"),
-        protocol: "file:",
-        slashes: true,
-      }),
-    );
-
-    ipcMain.on(
-      "parsers_list",
-      (event: IpcMainEvent, plist: UserConfiguration[]) => {
-        process.stdout.write(
-          clc.columns(
-            [
-              [
-                clc.blue("Parser Title (w/o emoji)"),
-                clc.blue("Parser ID"),
-                clc.blue("Status"),
-              ],
-            ].concat(
-              plist.map((parser) => [
-                parser.configTitle.replace(/[^\x20-\x7E]+/g, ""),
-                parser.parserId,
-                parser.disabled
-                  ? clc.xterm(203)("Disabled")
-                  : clc.xterm(48)("Enabled"),
-              ]),
-            ),
-          ),
-        );
-        app.quit();
-      },
-    );
-    ipcMain.on("all_done", (event: IpcMainEvent) => {
-      console.log("\nAll Done");
-      app.quit();
-    });
-    ipcMain.on("log", (event: IpcMainEvent, loggable: any) => {
-      console.log(loggable);
-    });
-    ipcMain.on("inline-log", (event: IpcMainEvent, loggable: any) => {
-      process.stdout.write(clc.erase.line);
-      process.stdout.write(clc.move.lineBegin);
-      process.stdout.write(loggable);
-    });
-    mainWindow.webContents.on("did-finish-load", () => {
-      mainWindow.webContents.send("cli_message", {
-        command: commandCLI,
-        args: argsCLI,
-        flags: flagsCLI,
-      });
-    });
+    // Headless: the CLI runs the core directly in this process.
+    let code = 1;
+    try {
+      code = await runCli(commandCLI as CliCommand, argsCLI, flagsCLI);
+    } catch (error) {
+      process.stderr.write(`${error?.stack ?? error}\n`);
+    }
+    app.exit(code);
   } else {
     createWindow(true);
     mainWindow.webContents.on("dom-ready", () => {
