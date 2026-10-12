@@ -33,20 +33,14 @@ export class PreviewService {
     private imageProviderService: ImageProviderService,
     private settingsService: SettingsService,
   ) {
-    this.engine = new PreviewEngine(
-      this.loggerService,
-      this.parsersService.store,
-      this.imageProviderService.instance,
-      this.settingsService.store,
-      (image) => {
-        if (
-          this.settingsService.getSettings().previewSettings
-            .imageLoadStrategy == "loadPre"
-        ) {
-          this.preloadImage(image);
-        }
-      },
-    );
+    this.engine = new PreviewEngine({
+      logger: this.loggerService,
+      parsers: this.parsersService.store,
+      providers: this.imageProviderService.instance,
+      settings: this.settingsService.store,
+      // The engine only calls this with the "load in advance" strategy.
+      onNewImage: (image) => this.preloadImage(image),
+    });
   }
 
   get lang() {

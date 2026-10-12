@@ -35,13 +35,13 @@ export class Core {
     this.fuzzy = new FuzzyStore(logger, this.settings, fetch);
     this.parsers = new ParsersStore(logger, this.settings, this.fuzzy);
     this.providers = new ArtworkProviders(fetch);
-    this.preview = new PreviewEngine(
+    this.preview = new PreviewEngine({
       logger,
-      this.parsers,
-      this.providers,
-      this.settings,
+      parsers: this.parsers,
+      providers: this.providers,
+      settings: this.settings,
       onNewImage,
-    );
+    });
     this.exceptions.onChange((saved) => this.parsers.setUserExceptions(saved));
     this.customVariables.onChange((variables) =>
       this.parsers.setCustomVariables(variables),

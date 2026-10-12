@@ -123,12 +123,12 @@ export function makePreviewService(opts: {
     },
   };
 
-  const service = new PreviewEngine(
-    loggerService as any,
-    parsers as any,
-    providers as any,
-    settings as any,
-  );
+  const service = new PreviewEngine({
+    logger: loggerService as any,
+    parsers: parsers as any,
+    providers: providers as any,
+    settings: settings as any,
+  });
 
   // Same completion condition the CLI uses (preview.component.ts).
   async function generate() {
