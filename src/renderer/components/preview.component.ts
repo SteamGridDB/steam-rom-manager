@@ -27,7 +27,7 @@ import {
   isArtworkType,
   ImageProviderType,
   ProviderCategoryType,
-  UserExceptionData,
+  GameException,
   SteamList,
 } from "../../models";
 import { APP } from "../../variables";
@@ -57,6 +57,8 @@ import {
 } from "../../lib/image-providers/available-providers";
 import { DomSanitizer } from "@angular/platform-browser";
 import { CoreClientService } from "../services/core-client.service";
+import { searchQuery } from "../../core/exceptions-format";
+import type { ExceptionChanges } from "../../core/exceptions-store";
 @Component({
   selector: "preview",
   templateUrl: "../templates/preview.component.html",
@@ -104,7 +106,9 @@ export class PreviewComponent implements OnDestroy {
   detailsLoading: boolean = true;
   showDetails: boolean = false;
   detailsSearchText: string = "";
-  detailsException: UserExceptionData;
+  // The details pane's working copy of the game's exception.
+  detailsException: ExceptionChanges;
+  private detailsOriginal = "";
   detailsOriginalExcludeArt: boolean = false;
   detailsOriginalCompatTool: string = "";
   // Options for the per-game "Force compatibility tool" override in the details
@@ -661,18 +665,18 @@ export class PreviewComponent implements OnDestroy {
       app.extractedTitle,
       app.parserType,
     );
-    const existingException =
-      this.userExceptionsService.getExceptionById(exceptionId);
-    this.detailsException = existingException
-      ? _.cloneDeep(existingException)
-      : {
-          newTitle: "",
-          searchTitle: "",
-          commandLineArguments: "",
-          excludeArtwork: false,
-          exclude: false,
-          timeStamp: undefined,
-        };
+    const existingException = this.userExceptionsService.exceptionFor(
+      exceptionId,
+      app.extractedTitle,
+    );
+    this.detailsException = {
+      newTitle: existingException?.newTitle ?? "",
+      searchTitle: existingException?.searchTitle ?? "",
+      sgdbId: existingException?.sgdbId ?? "",
+      commandLineArguments: existingException?.commandLineArguments ?? "",
+      excludeArtwork: existingException?.excludeArtwork ?? false,
+      compatToolName: existingException?.compatToolName,
+    };
     this.detailsOriginalExcludeArt = existingException
       ? existingException.excludeArtwork
       : false;
@@ -682,6 +686,7 @@ export class PreviewComponent implements OnDestroy {
       this.detailsException.compatToolName = "";
     }
     this.detailsOriginalCompatTool = this.detailsException.compatToolName;
+    this.detailsOriginal = JSON.stringify(this.detailsException);
     this.coreClient.client
       .call("support", "compatTools", [steamDirectory])
       .then((tools: CompatToolInfo[]) => {
@@ -702,7 +707,7 @@ export class PreviewComponent implements OnDestroy {
   }
 
   fixMatchSearch(sgdbId: string) {
-    this.detailsException.searchTitle = `\${gameid:${sgdbId}}`;
+    this.detailsException.sgdbId = sgdbId;
   }
 
   fixMatchTitle(sgdbId: string) {
@@ -781,7 +786,7 @@ export class PreviewComponent implements OnDestroy {
         app.extractedTitle,
         app.parserType,
       );
-      this.userExceptionsService.deleteExceptionById(exceptionId);
+      this.userExceptionsService.deleteGameException(exceptionId);
       this.refreshAfterSavingDetails(steamDirectory, userId, appId);
       this.closeDetails();
       this.generatePreviewData();
@@ -791,13 +796,10 @@ export class PreviewComponent implements OnDestroy {
   saveDetails() {
     if (this.detailsApp) {
       const { steamDirectory, userId, appId, app } = this.detailsApp;
-      const {
-        newTitle,
-        searchTitle,
-        commandLineArguments,
-        excludeArtwork,
-        compatToolName,
-      } = this.detailsException;
+      const { newTitle, commandLineArguments, excludeArtwork, compatToolName } =
+        this.detailsException;
+      // What the artwork providers search for (a Fix Match pick first).
+      const searchTitle = searchQuery(this.detailsException as GameException);
       if (newTitle) {
         this.previewData[steamDirectory][userId].apps[appId].title = newTitle;
         if (superTypesMap[app.parserType] !== "ArtworkOnly") {
@@ -846,30 +848,21 @@ export class PreviewComponent implements OnDestroy {
           );
         }
       }
-      if (
-        newTitle ||
-        searchTitle ||
-        commandLineArguments ||
-        excludeArtwork != this.detailsOriginalExcludeArt ||
-        compatToolName != this.detailsOriginalCompatTool
-      ) {
+      // Saved for this game (by app id) whenever anything changed; with no
+      // changes left, its exception is removed.
+      if (JSON.stringify(this.detailsException) !== this.detailsOriginal) {
         const exceptionId = this.userExceptionsService.makeExceptionId(
           app.executableLocation,
           app.extractedTitle,
           app.parserType,
         );
-        this.userExceptionsService.addExceptionById(
+        this.userExceptionsService.setGameException(
           exceptionId,
           app.extractedTitle,
           {
-            newTitle: newTitle,
-            searchTitle: searchTitle,
-            commandLineArguments: commandLineArguments,
-            excludeArtwork: excludeArtwork,
-            exclude: false,
+            ...this.detailsException,
             // "" (inherit) persists as undefined so it does not override.
             compatToolName: compatToolName !== "" ? compatToolName : undefined,
-            timeStamp: Date.now(),
           },
         );
         this.refreshAfterSavingDetails(steamDirectory, userId, appId);
@@ -953,8 +946,10 @@ export class PreviewComponent implements OnDestroy {
         app.extractedTitle,
         app.parserType,
       );
-      exceptionFilter =
-        !!this.userExceptionsService.getExceptionById(exceptionId);
+      exceptionFilter = !!this.userExceptionsService.exceptionFor(
+        exceptionId,
+        app.extractedTitle,
+      );
     }
     const excludesArtOnlyFilter =
       !this.showExcludes || superTypesMap[app.parserType] !== "ArtworkOnly";
@@ -1014,7 +1009,7 @@ export class PreviewComponent implements OnDestroy {
       for (const steamUser in this.previewData[steamDir]) {
         for (const exclusion of this.previewData[steamDir][steamUser]
           .excluded) {
-          this.excludePutBacks[exclusion.exceptionKey] = false;
+          this.excludePutBacks[exclusion.exclusionId] = false;
         }
       }
     }
@@ -1032,56 +1027,39 @@ export class PreviewComponent implements OnDestroy {
     this.exclusionCount = 0;
   }
 
+  // Excludes the marked games (by app id; any changes saved for them stay,
+  // for when they're put back) and puts back the marked exclusions.
   saveExcludes() {
-    let exceptionKeys: { exceptionId: string; extractedTitle: string }[] = [];
-    for (const steamDirectory in this.previewData) {
-      if (this.excludedAppIds[steamDirectory]) {
-        for (const userId in this.previewData[steamDirectory]) {
-          if (this.excludedAppIds[steamDirectory][userId]) {
-            let newKeys = Object.keys(
-              this.excludedAppIds[steamDirectory][userId],
-            )
-              .filter((appId: string) => {
-                return !!this.excludedAppIds[steamDirectory][userId][appId];
-              })
-              .map((appId: string) => {
-                const app =
-                  this.previewData[steamDirectory][userId].apps[appId];
-                const exceptionId = steam.generateShortAppId(
-                  app.executableLocation,
-                  app.extractedTitle,
-                );
-                return {
-                  exceptionId: exceptionId,
-                  extractedTitle: app.extractedTitle,
-                };
-              });
-            exceptionKeys = exceptionKeys.concat(newKeys);
+    const games: { appId: string; appTitle: string }[] = [];
+    for (const steamDirectory in this.excludedAppIds) {
+      for (const userId in this.excludedAppIds[steamDirectory]) {
+        for (const [appId, excluded] of Object.entries(
+          this.excludedAppIds[steamDirectory][userId],
+        )) {
+          const app = this.previewData[steamDirectory]?.[userId]?.apps[appId];
+          if (excluded && app) {
+            games.push({
+              appId: this.userExceptionsService.makeExceptionId(
+                app.executableLocation,
+                app.extractedTitle,
+                app.parserType,
+              ),
+              appTitle: app.extractedTitle,
+            });
           }
         }
       }
     }
-    for (const exceptionKey of exceptionKeys) {
-      this.userExceptionsService.addExceptionById(
-        exceptionKey.exceptionId,
-        exceptionKey.extractedTitle,
-        {
-          newTitle: "",
-          searchTitle: "",
-          timeStamp: Date.now(),
-          commandLineArguments: "",
-          exclude: true,
-          excludeArtwork: false,
-        },
-      );
+    if (games.length) {
+      this.userExceptionsService.exclude(games);
     }
-    const putBackKeys = Object.keys(this.excludePutBacks).filter(
-      (putBackKey) => this.excludePutBacks[putBackKey],
+    const putBacks = Object.keys(this.excludePutBacks).filter(
+      (id) => this.excludePutBacks[id],
     );
-    for (const putBackKey of putBackKeys) {
-      this.userExceptionsService.putBack(putBackKey);
-      delete this.excludePutBacks[putBackKey];
+    if (putBacks.length) {
+      this.userExceptionsService.removeExclusions(putBacks);
     }
+    this.excludePutBacks = {};
     this.cancelExcludes();
     this.generatePreviewData();
   }

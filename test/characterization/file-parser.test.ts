@@ -17,6 +17,8 @@ import {
   writeFiles,
 } from "../helpers/fixtures";
 import { sgdbCalls, sgdbFailures, sgdbIds } from "../stubs/sgdb-search";
+import { fromLegacy } from "../../src/core/exceptions-format";
+import { generateShortAppId } from "../../src/lib/helpers/steam/generate-app-id";
 
 const fuzzyList = [
   "Super Mario World",
@@ -33,7 +35,8 @@ function makeFileParser(customVariables = {}, exceptions = {}) {
   });
   const parser = new FileParser({ fuzzyMatcher } as any);
   parser.setCustomVariables(customVariables);
-  parser.setUserExceptions({ titles: exceptions });
+  // written in the pre-version-3 form; migrated like a user's file is
+  parser.setUserExceptions(fromLegacy(exceptions));
   return parser;
 }
 
@@ -45,7 +48,8 @@ function summarize(result: any) {
     foundUserAccounts: pc.foundUserAccounts,
     missingUserAccounts: pc.missingUserAccounts,
     failed: pc.failed,
-    excluded: pc.excluded,
+    // (exclusion ids are random)
+    excluded: pc.excluded.map(({ exclusionId, ...rest }: any) => rest),
     // glob result order is filesystem-dependent; sort for stable snapshots
     files: _.sortBy(pc.files, "filePath").map((f: any) => ({
       filePath: f.filePath,
@@ -140,6 +144,81 @@ describe("FileParser (characterization)", () => {
       makeSettings(),
     );
     expect(normalize(summarize(result), roots)).toMatchSnapshot();
+  });
+
+  it("rules made on Add Games match one game by app id (not its title)", async () => {
+    const config = makeConfig({
+      parserType: "Glob",
+      configTitle: "SNES",
+      parserId: "snes-ids",
+      romDirectory: path.join(roms, "snes"),
+      steamDirectory: steamDir,
+      executable: { path: path.join(root, "emu", "snes9x.exe") },
+      parserInputs: { glob: "${title}.@(sfc|SFC)" },
+      userAccounts: { specifiedAccounts: ["alice"] },
+    });
+    const first = await makeFileParser().executeFileParser(
+      [config],
+      makeSettings(),
+    );
+    const files = first.parsedConfigs[0].files;
+    const idOf = (title: string) => {
+      const f = files.find((x: any) => x.titles.extracted.startsWith(title));
+      return generateShortAppId(
+        f.modifiedExecutableLocation,
+        f.titles.extracted,
+      );
+    };
+    const parser = makeFileParser();
+    parser.setUserExceptions({
+      exceptions: [
+        {
+          id: "e1",
+          matchAppId: idOf("Chrono"),
+          appTitle: "Chrono Trigger (USA) [!]",
+          timeStamp: 1,
+          newTitle: "",
+          searchTitle: "",
+          sgdbId: "42", // picked with Fix match
+          commandLineArguments: "",
+          excludeArtwork: false,
+        },
+        // a title rule for the same game: the app id rule wins
+        {
+          id: "e2",
+          matchTitle: "Chrono Trigger (USA) [!]",
+          timeStamp: 1,
+          newTitle: "Not This",
+          searchTitle: "",
+          sgdbId: "",
+          commandLineArguments: "",
+          excludeArtwork: false,
+        },
+      ],
+      exclusions: [
+        {
+          id: "x1",
+          matchAppId: idOf("Zelda"),
+          appTitle: "Zelda",
+          timeStamp: 1,
+        },
+      ],
+    });
+    const result = await parser.executeFileParser([config], makeSettings());
+    const parsed = result.parsedConfigs[0];
+    const chrono = parsed.files.find((f: any) =>
+      f.titles.extracted.startsWith("Chrono"),
+    );
+    expect(chrono.onlineImageQueries).toEqual(["${gameid:42}"]);
+    expect(chrono.imagePool).toBe("${gameid:42}");
+    expect(chrono.titles.final ?? chrono.titles.extracted).not.toBe("Not This");
+    expect(parsed.excluded).toEqual([
+      expect.objectContaining({ exclusionId: "x1", title: "Zelda" }),
+    ]);
+    expect(parsed.files.map((f: any) => f.titles.extracted).sort()).toEqual([
+      "Chrono Trigger (USA) [!]",
+      "Super Mario World (USA)",
+    ]);
   });
 
   it("custom variables, user exceptions and missing accounts", async () => {

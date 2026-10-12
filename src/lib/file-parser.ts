@@ -12,8 +12,6 @@ import {
   isEnvironmentVariable,
   CustomVariables,
   UserExceptions,
-  UserExceptionData,
-  UserExceptionsTitles,
   AppSettings,
   ParserType,
   initArtworkRecord,
@@ -39,6 +37,7 @@ import { getPath, getArgs, getStartDir } from "windows-shortcuts-ps";
 import * as xdgparse from "xdg-parse";
 import * as sgdbSearch from "./image-providers/sgdb-search";
 import { TitleModifierHandler } from "./title-modifier-handler";
+import { ruleFor, ruleTitle, searchQuery } from "../core/exceptions-format";
 
 
 interface PreParserResult {
@@ -80,7 +79,7 @@ interface ImagesResults {
 export class FileParser {
   private availableParsers = parsers;
   private customVariableData: CustomVariables = {};
-  private userExceptions: UserExceptionsTitles = {};
+  private userExceptions: UserExceptions = { exceptions: [], exclusions: [] };
 
   // Only the matcher is needed; FuzzyService (renderer) satisfies this.
   constructor(private fuzzyService: { fuzzyMatcher: FuzzyMatcher }) {}
@@ -94,7 +93,7 @@ export class FileParser {
   }
 
   setUserExceptions(data: UserExceptions) {
-    this.userExceptions = data.titles;
+    this.userExceptions = data;
   }
 
   getParserInfo(key: ParserType) {
@@ -883,10 +882,10 @@ export class FileParser {
   }: ParsedConfigFilesResults): Promise<ParsedConfigFilesResults> {
     return new Promise((resolve, reject) => {
       try {
-        const appIdRegex: RegExp = /\$\{id\:([0-9]*?)\}/;
         const excludeIndices: Set<number> = new Set();
         for (let i = 0; i < parsedConfig.files.length; i++) {
-          // This little bit of magic means that we can also match on Exception ID
+          // Rules made on the Add Games page match a game by its app id
+          // (artwork-only parsers: the Steam app id), others by its title.
           let shortAppId: string;
           if (superType === parserInfo.ArtworkOnlyType) {
             shortAppId = parsedConfig.files[i].modifiedExecutableLocation.replace(/\"/g, "");
@@ -896,34 +895,28 @@ export class FileParser {
               parsedConfig.files[i].titles.extracted,
             );
           }
-          const exceptionMatches = Object.entries(this.userExceptions)
-            .filter(
-              ([extractedTitle, exception]: [
-                extractedTitle: string,
-                exception: UserExceptionData,
-              ]) => {
-                if (appIdRegex.test(extractedTitle)) {
-                  return extractedTitle.match(appIdRegex)[1] == shortAppId;
-                } else {
-                  return extractedTitle == parsedConfig.files[i].titles.extracted;
-                }
-              },
-            )
-            .map((x) => {
-              return { exceptionKey: x[0], ...x[1] };
+          const extractedTitle = parsedConfig.files[i].titles.extracted;
+          const exclusion = ruleFor(
+            this.userExceptions.exclusions,
+            shortAppId,
+            extractedTitle,
+          );
+          if (exclusion) {
+            parsedConfig.excluded.push({
+              exclusionId: exclusion.id,
+              title: ruleTitle(exclusion) || extractedTitle,
+              filePath: parsedConfig.files[i].filePath,
             });
-
-          if (exceptionMatches.length) {
-            const exceptions = exceptionMatches[0];
-            if (exceptions && exceptions.exclude) {
-              parsedConfig.excluded.push({
-                exceptionKey: exceptions.exceptionKey,
-                filePath: parsedConfig.files[i].filePath,
-              });
-              parsedConfig.files[i] = null;
-              excludeIndices.add(i);
-              continue;
-            }
+            parsedConfig.files[i] = null;
+            excludeIndices.add(i);
+            continue;
+          }
+          const exceptions = ruleFor(
+            this.userExceptions.exceptions,
+            shortAppId,
+            extractedTitle,
+          );
+          if (exceptions) {
             if (exceptions && exceptions.newTitle) {
               titleModifierHandler.advanceModifier(
                 i,
@@ -941,15 +934,10 @@ export class FileParser {
             if (exceptions && exceptions.compatToolName !== undefined) {
               parsedConfig.files[i].compatToolName = exceptions.compatToolName;
             }
-            if (
-              exceptions &&
-              !exceptions.excludeArtwork &&
-              exceptions.searchTitle
-            ) {
-              parsedConfig.files[i].onlineImageQueries = [
-                exceptions.searchTitle,
-              ];
-              parsedConfig.files[i].imagePool = exceptions.searchTitle;
+            const query = searchQuery(exceptions);
+            if (exceptions && !exceptions.excludeArtwork && query) {
+              parsedConfig.files[i].onlineImageQueries = [query];
+              parsedConfig.files[i].imagePool = query;
             }
             if (exceptions && exceptions.excludeArtwork) {
               parsedConfig.files[i].onlineImageQueries = [];

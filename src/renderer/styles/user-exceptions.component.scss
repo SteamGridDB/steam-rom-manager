@@ -22,6 +22,19 @@
     grid-template-rows: auto;
     align-items: center;
 
+    .tabs {
+      display: flex;
+      gap: 0.25em;
+      margin: 0.5em;
+      .tab {
+        @include button();
+        @include clickButtonColor(click-button);
+        &.active {
+          border-color: var(--color-click-button-text);
+          font-weight: bold;
+        }
+      }
+    }
     .searchExceptions {
       grid-column: 3;
       @include ngTextInputColor(input);
@@ -51,94 +64,107 @@
     @include webkitScrollbar(nested-form-scrollbar);
     background-color: var(--color-nested-form-background);
     overflow: auto;
-    label {
-      display: flex;
+    color: var(--color-settings-text);
 
-      margin: 0 0 0.35em 0;
-
-      color: var(--color-nested-form-label);
-
-      align-items: center;
-      grid-area: label;
-      .infoButton {
-        margin: 0 0.25em 0 0;
-      }
-    }
-    .addItem {
-      @include button();
-      @include clickButtonColor(click-button);
-
-      margin: 0 0 0 0.25em;
+    .tabDescription,
+    .empty {
+      margin: 0 0 1em 0;
+      opacity: 0.8;
     }
 
-    .inputContainer {
-      display: flex;
-      flex-direction: column;
+    .rule {
+      margin: 0 0 1em 0;
+      padding: 0.5em 0.75em;
+      border: 1px solid var(--color-click-button-border);
+      border-radius: 0.3em;
 
-      margin: 0.25em 0 1em 0;
-      padding-left: 0em;
-      .inlineLeft {
+      .ruleHeader {
         display: flex;
         align-items: center;
-        margin: 0.25em 0em 0.25em 0;
-      }
-      .inlineGroup {
-        display: flex;
-        margin: 0.25em 0em 0.25em 0;
-        justify-content: space-between;
-        align-items: center;
-        .deleteItem {
+        gap: 0.75em;
+
+        .matchBadge {
+          flex: none;
+          padding: 0.1em 0.5em;
+          border-radius: 1em;
+          font-size: 0.8em;
+          border: 1px solid var(--color-click-button-border);
+          background: var(--color-click-button-background);
+          color: var(--color-click-button-text);
+          cursor: help;
+          &.fromPreview {
+            font-weight: bold;
+          }
+        }
+        .ruleTitle {
+          flex: 1;
+          font-weight: bold;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .matchTitle {
+          flex: 1;
+          @include ngTextInputColor(input);
+          @include ngTextInput();
+        }
+        .created {
+          flex: none;
+          font-size: 0.8em;
+          opacity: 0.7;
+        }
+        .removeRule {
+          flex: none;
           @include button();
           @include clickButtonColor(dangerous-click-button);
         }
       }
 
-      .text {
-        width: 30%;
-        color: var(--color-settings-text);
-      }
+      .fields {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 0.35em 1em;
+        align-items: center;
+        margin: 0.75em 0 0.25em 0;
 
-      .ngToggleButton {
-        font-size: 1em;
-
-        margin: 0.25em 1em 0.5em 0;
-
-        @include ngToggleButtonColor(ng-toggle-button);
-      }
-
-      .clickButton {
-        @include button();
-      }
-
-      .dangerousButton {
-        @include clickButtonColor(dangerous-click-button, true);
-      }
-
-      .ngSelect {
-        width: 15em;
-
-        @include ngSelectColor(ng-select);
-        @include ngSelect();
-      }
-      .ngTextInput {
-        &.middle {
-          margin: 0 0.25em 0 0.25em;
+        .field {
+          display: contents;
+          .text {
+            color: var(--color-nested-form-label);
+          }
+          .sgdbMatch {
+            display: flex;
+            align-items: center;
+          }
+          .smallButton {
+            grid-column: 2;
+            justify-self: start;
+            @include button();
+            @include clickButtonColor(click-button);
+            font-size: 0.85em;
+          }
+          .ngTextInput {
+            @include ngTextInputColor(input);
+            @include ngTextInput();
+          }
+          .ngSelect {
+            width: 20em;
+            @include ngSelectColor(ng-select);
+            @include ngSelect();
+          }
+          .ngToggleButton {
+            grid-column: 1 / span 2;
+            font-size: 1em;
+            @include ngToggleButtonColor(ng-toggle-button);
+          }
         }
-        @include ngTextInputColor(input);
-        @include ngTextInput();
-
-        width: 70%;
-
-        grid-column: 4;
       }
-      .clickButton2 {
-        @include button();
-        @include clickButtonColor(click-button);
+    }
 
-        margin: 0 0 0 0.25em;
-
-        grid-area: button;
-      }
+    .addItem {
+      display: inline-block;
+      @include button();
+      @include clickButtonColor(click-button);
     }
   }
   .menu {
@@ -159,7 +185,8 @@
     border: 0.5em solid transparent;
     background-color: var(--color-parsers-menu-background);
 
-    .lowerLeft>div,.lowerRight>div {
+    .lowerLeft > div,
+    .lowerRight > div {
       @include clickButtonColor(click-button, true);
       @include button();
       margin: 0 0.25em;

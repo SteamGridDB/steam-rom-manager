@@ -68,7 +68,8 @@ export interface ParsedUserConfiguration {
   missingUserAccounts: string[];
   files: ParsedUserConfigurationFile[];
   failed: string[];
-  excluded: { exceptionKey: string; filePath: string }[];
+  // Games left out by an exclusion (see models/user-exceptions.model.ts).
+  excluded: { exclusionId: string; title: string; filePath: string }[];
 }
 const inputTypes = StringLiteralArray([
   "text",

@@ -399,14 +399,10 @@
     "component": {
       "buttons": {
         "save": "Salvar",
-        "deleteAll": "Limpar",
         "undoChanges": "Desfazer alterações",
-        "addItem": "Adicionar exceção",
         "deleteItem": "Remover exceção"
       },
       "text": {
-        "title": "Exceções do Usuário",
-        "exclude": "Excluir Título",
         "excludeArtwork": "Apenas Arte Local"
       },
       "placeholder": {

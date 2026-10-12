@@ -79,7 +79,8 @@
         "search": "Search",
         "artworkOnly": "Artwork Only",
         "titleOnly": "Title Only",
-        "viewOnSGDB": "View on SGDB"
+        "viewOnSGDB": "View on SGDB",
+        "sgdbMatch__i": "SteamGridDB game ${id} (Fix match)"
       },
       "listImages": {
         "close": "Close",
@@ -622,25 +623,36 @@
     "component": {
       "buttons": {
         "save": "Save",
-        "deleteAll": "Clear",
         "undoChanges": "Undo changes",
-        "addItem": "Add exception",
         "deleteItem": "Remove exception",
         "back": "Back",
         "openDocs": "Open Docs",
-        "closeDocs": "Close Docs"
+        "closeDocs": "Close Docs",
+        "putBack": "Put back",
+        "putBackAll": "Put back all",
+        "deleteAllExceptions": "Delete all changes",
+        "clearSgdbMatch": "Clear match",
+        "addExceptionByTitle": "Add a change by title",
+        "addExclusionByTitle": "Exclude a title"
       },
       "text": {
-        "title": "User Exceptions",
-        "exclude": "Exclude Title",
         "excludeArtwork": "Local Artwork Only",
         "emudeckTitle": "Excluded Games & Exceptions",
         "emudeckDescription": "Here you can see the games you've excluded on the Preview page in case you want to add them back",
-        "extractedTitle": "Extracted Title:",
         "newDisplayTitle": "New Display Title:",
         "newSearchTitle": "New Search Title:",
         "newCommandLineArgs": "New Commandline Args:",
-        "created": "Created:"
+        "exceptionsDescription": "Per-game changes: a different title in Steam, artwork search or match, launch arguments, compatibility tool. Changes made on the Add Games page apply to that one game; changes added here apply to every game with the given title.",
+        "exclusionsDescription": "Games that are never added to Steam. Exclusions made on the Add Games page apply to that one game; exclusions added here apply to every game with the given title. Putting a game back keeps any changes saved for it.",
+        "byAppId": "Added on Add Games",
+        "byAppIdHelp": "Applies to this one game (by SRM's app id); made on the Add Games page.",
+        "byTitle": "By title",
+        "byTitleHelp": "Applies to every game whose extracted title is exactly this.",
+        "createdOn__i": "Added ${date}",
+        "sgdbMatch__i": "SteamGridDB game ${id} (Fix match)",
+        "compatTool": "Compatibility tool",
+        "noExceptions": "No changes yet. Make them on the Add Games page (a game's details), or add one by title below.",
+        "noExclusions": "No excluded games. Exclude games on the Add Games page (Manage Excludes), or add one by title below."
       },
       "placeholder": {
         "sortBy": "Sort By",
@@ -652,16 +664,28 @@
       "sortBy": {
         "dateAdded": "Date Added",
         "extractedTitle": "Extracted Title",
-        "newTitle": "New Title",
         "asc__i": "${field} (asc)",
         "desc__i": "${field} (desc)"
+      },
+      "tabs": {
+        "exceptions__i": "Changes (${count})",
+        "exclusions__i": "Excluded games (${count})"
+      },
+      "compatTool": {
+        "inherit": "Parser default",
+        "none": "None (Steam default)"
+      },
+      "error": {
+        "cannotSave__i": "Could not save: ${error}"
       }
     },
     "service": {
       "error": {
         "loadingError": "Could not load user exceptions",
         "corruptedExceptions__i": "User exceptions corrupt (file - ${file}). Saving is disabled, full error is: ${error}",
-        "writingError": "Error occurred saving user exceptions"
+        "writingError": "Error occurred saving user exceptions",
+        "duplicates": "Cannot save: a game has more than one rule of the same kind (see log)",
+        "duplicates__i": "More than one rule for: ${rules}"
       }
     }
   },

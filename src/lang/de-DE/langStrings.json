@@ -321,14 +321,10 @@
     "component": {
       "buttons": {
         "save": "Speichern",
-        "deleteAll": "Leeren",
         "undoChanges": "Änderungen rückgängig machen",
-        "addItem": "Ausnahme hinzufügen",
         "deleteItem": "Ausnahme entfernen"
       },
       "text": {
-        "title": "Benutzerdefinierte Ausnahmen",
-        "exclude": "Titel ausschließen",
         "excludeArtwork": "Nur lokale Artworks"
       },
       "placeholder": {

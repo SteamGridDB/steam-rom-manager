@@ -121,13 +121,14 @@
           >
             <div
               class="currentExclude"
+              [title]="currentExclude.filePath"
               (click)="
-                excludePutBacks[currentExclude.exceptionKey] =
-                  !excludePutBacks[currentExclude.exceptionKey]
+                excludePutBacks[currentExclude.exclusionId] =
+                  !excludePutBacks[currentExclude.exclusionId]
               "
-              [class.isPutBack]="excludePutBacks[currentExclude.exceptionKey]"
+              [class.isPutBack]="excludePutBacks[currentExclude.exclusionId]"
             >
-              {{ currentExclude.filePath }}
+              {{ currentExclude.title }}
             </div>
           </ng-container>
         </ng-container>
@@ -201,6 +202,23 @@
                   {{ lang.details.useOriginal }}
                 </div>
               </div>
+              @if (detailsException.sgdbId) {
+                <div class="detailsExceptionField">
+                  <div class="detailsExceptionText">
+                    {{
+                      lang.details.sgdbMatch__i.interpolate({
+                        id: detailsException.sgdbId,
+                      })
+                    }}
+                  </div>
+                  <div
+                    class="detailsExceptionButton"
+                    (click)="detailsException.sgdbId = ''; matchFix = ''"
+                  >
+                    {{ lang.details.clear }}
+                  </div>
+                </div>
+              }
               <div class="detailsExceptionField">
                 <div class="detailsExceptionText">
                   <ng-text-input

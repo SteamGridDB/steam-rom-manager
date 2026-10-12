@@ -253,14 +253,10 @@
     "component": {
       "buttons": {
         "save": "Salva",
-        "deleteAll": "Pulisci",
         "undoChanges": "Annulla modifiche",
-        "addItem": "Aggiungi eccezione",
         "deleteItem": "Rimuovi eccezione"
       },
       "text": {
-        "title": "Eccezioni utente",
-        "exclude": "Escludi Titolo",
         "excludeArtwork": "Solo Artwork Locale"
       }
     },

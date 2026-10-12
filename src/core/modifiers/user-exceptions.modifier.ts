@@ -2,10 +2,11 @@ import { ValidatorModifier, UserExceptions } from "../../models";
 import * as _ from "lodash";
 
 import { versionUp } from "./modifier-helpers";
+import { fromLegacy } from "../exceptions-format";
 
 export const userExceptions: ValidatorModifier<UserExceptions> = {
   controlProperty: "exceptionsVersion",
-  latestVersion: 2,
+  latestVersion: 3,
   fields: {
     undefined: {
       exceptionsVersion: { method: () => 0 },
@@ -46,6 +47,19 @@ export const userExceptions: ValidatorModifier<UserExceptions> = {
           }
           return result;
         },
+      },
+    },
+    // Keys like "<title> ${id:<appId>}" become separate exclusion and
+    // exception lists with explicit matchAppId / matchTitle. (An older SRM
+    // that saved over a version 3 file reset it to 2 and kept only titles,
+    // so this also picks up its changes.)
+    2: {
+      exceptionsVersion: { method: versionUp },
+      exceptions: {
+        method: (_old: any, data: any) => fromLegacy(data.titles).exceptions,
+      },
+      exclusions: {
+        method: (_old: any, data: any) => fromLegacy(data.titles).exclusions,
       },
     },
   },

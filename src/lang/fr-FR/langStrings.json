@@ -215,13 +215,10 @@
     "component": {
       "buttons": {
         "save": "Enregistrer",
-        "deleteAll": "Effacer",
         "undoChanges": "Annuler les changements",
-        "addItem": "Ajouter une exception",
         "deleteItem": "Supprimer l'exception"
       },
       "text": {
-        "exclude": "Exclure le titre",
         "excludeArtwork": "Illustration locale uniquement"
       },
       "placeholder": {

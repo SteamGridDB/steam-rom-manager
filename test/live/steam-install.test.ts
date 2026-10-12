@@ -21,6 +21,7 @@ import { Validator } from "../../src/lib/helpers/json/validator";
 import * as schemas from "../../src/core/schemas";
 import * as modifiers from "../../src/core/modifiers";
 import { tempDir } from "../helpers/fixtures";
+import { toLegacy } from "../../src/core/exceptions-format";
 
 const steamDir = process.env.SRM_LIVE_STEAM_DIR;
 const accountId = process.env.SRM_LIVE_ACCOUNT_ID;
@@ -161,13 +162,41 @@ describe.skipIf(!srmUserData)("live SRM userData", () => {
     expect(errors).toEqual([]);
   });
 
-  it("userExceptions.json validates", () => {
+  it("userExceptions.json validates (migrated in memory to the current format)", () => {
     const validator = new Validator(
       schemas.userExceptions,
       modifiers.userExceptions,
     );
-    expect(validator.validate(read("userExceptions.json")).errorString).toBe(
-      "",
+    const data: any = read("userExceptions.json");
+    expect(validator.validate(data).errorString).toBe("");
+    expect(
+      Array.isArray(data.exceptions) && Array.isArray(data.exclusions),
+    ).toBe(true);
+  });
+
+  it("userExceptions.json: every rule survives migration, as an older SRM would read it back", () => {
+    const original: any = read("userExceptions.json");
+    if (original.exceptionsVersion >= 3) return; // already migrated
+    const data = structuredClone(original);
+    new Validator(schemas.userExceptions, modifiers.userExceptions).validate(
+      data,
     );
+    const back = toLegacy(data);
+    const effect = (v: any) =>
+      JSON.stringify({
+        newTitle: v.newTitle || "",
+        searchTitle: v.searchTitle || "",
+        commandLineArguments: v.commandLineArguments || "",
+        exclude: !!v.exclude,
+        excludeArtwork: !!v.excludeArtwork,
+        compatToolName: v.compatToolName,
+      });
+    const changed = Object.entries(original.titles ?? {})
+      .filter(
+        ([key, v]: [string, any]) => effect(back[key] ?? {}) !== effect(v),
+      )
+      .filter(([, v]: [string, any]) => effect(v) !== effect({}))
+      .map(([key]) => key);
+    expect(changed).toEqual([]);
   });
 });

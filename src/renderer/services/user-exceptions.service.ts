@@ -1,25 +1,21 @@
 import { Injectable } from "@angular/core";
-import { UserExceptions, UserExceptionData, ParserType } from "../../models";
+import { GameException, ParserType, UserExceptions } from "../../models";
 import { BehaviorSubject } from "rxjs";
 import { CoreClientService } from "./core-client.service";
+import { emptyExceptions, ruleFor } from "../../core/exceptions-format";
+import type { ExceptionChanges } from "../../core/exceptions-store";
 
-// User exceptions, owned by the ExceptionsStore in the main process; this
-// mirrors the saved exceptions and adds the exceptions editor's unsaved copy
-// (`current`) and its unsaved flag.
+// User exceptions and exclusions, owned by the ExceptionsStore in the main
+// process: a mirror of the saved rules, plus whether the exceptions page has
+// unsaved edits (shown in the navigation).
 @Injectable()
 export class UserExceptionsService {
-  private variableData = new BehaviorSubject<{
-    current: UserExceptions;
-    saved: UserExceptions;
-  }>({ current: null, saved: { titles: {} } });
-  private isUnsavedData: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  sortBy: string = "timeStamp|desc";
+  private saved = new BehaviorSubject<UserExceptions>(emptyExceptions());
+  private isUnsavedData = new BehaviorSubject<boolean>(false);
 
   constructor(private coreClient: CoreClientService) {
     const client = this.coreClient.client;
-    client.on("exceptions:changed", (saved) =>
-      this.variableData.next({ current: null, saved }),
-    );
+    client.on("exceptions:changed", (saved) => this.saved.next(saved));
     client.whenLoaded("exceptions").then(() => this.refresh());
   }
 
@@ -28,24 +24,23 @@ export class UserExceptionsService {
   }
 
   private refresh() {
-    this.variableData.next({ current: null, saved: this.callSync("get") });
+    this.saved.next(this.callSync("get"));
     this.coreClient.client.markFresh("exceptions:changed");
   }
 
-  // Runs an edit in the main process; on success the saved data changed.
-  private edit(method: string, ...args: any[]) {
-    if (this.callSync(method, ...args)) {
-      this.setIsUnsaved(false);
-      this.refresh();
-    }
+  // Runs an edit in the main process; returns whether it was saved.
+  private edit(method: string, ...args: any[]): boolean {
+    const ok = !!this.callSync(method, ...args);
+    if (ok) this.refresh();
+    return ok;
   }
 
-  get data(): { current: UserExceptions; saved: UserExceptions } {
-    return this.variableData.getValue();
+  get data(): UserExceptions {
+    return this.saved.getValue();
   }
 
   get dataObservable() {
-    return this.variableData.asObservable();
+    return this.saved.asObservable();
   }
 
   get isUnsaved() {
@@ -56,10 +51,11 @@ export class UserExceptionsService {
     return this.isUnsavedData.asObservable();
   }
 
-  putBack(exceptionKey: string) {
-    this.edit("putBack", exceptionKey);
+  setIsUnsaved(isUnsaved: boolean) {
+    this.isUnsavedData.next(isUnsaved);
   }
 
+  // The id rules made on the Add Games page match a game by.
   makeExceptionId(
     executableLocation: string,
     extractedTitle: string,
@@ -73,47 +69,35 @@ export class UserExceptionsService {
     );
   }
 
-  deleteExceptionById(exceptionId: string) {
-    this.edit("deleteById", exceptionId);
+  // The exception that applies to a game (by app id, else by title).
+  exceptionFor(appId: string, extractedTitle: string): GameException {
+    return ruleFor(this.data.exceptions, appId, extractedTitle);
   }
 
-  addExceptionById(
-    exceptionId: string,
-    extractedTitle: string,
-    newException: UserExceptionData,
-  ) {
-    this.edit("addById", exceptionId, extractedTitle, newException);
+  // Sets (or with no changes, removes) a game's exception from Add Games.
+  setGameException(appId: string, appTitle: string, changes: ExceptionChanges) {
+    return this.edit("setGameException", appId, appTitle, changes);
   }
 
-  getExceptionById(exceptionId: string): UserExceptionData | undefined {
-    const match = Object.keys(this.data.saved.titles).find((key) => {
-      const m = key.match(/\$\{id\:([0-9]*?)\}/);
-      return m && m[1] == exceptionId;
-    });
-    return match ? this.data.saved.titles[match] : undefined;
+  deleteGameException(appId: string) {
+    return this.edit("deleteGameException", appId);
   }
 
-  setSaved(data: UserExceptions) {
-    const error = this.callSync("setSaved", data);
-    if (!error) {
-      this.refresh();
-    }
-    return error;
+  exclude(games: { appId: string; appTitle: string }[]) {
+    return this.edit("exclude", games);
   }
 
-  setCurrent(data: UserExceptions) {
-    const error = data ? this.callSync("validate", data) : null;
-    if (!error) {
-      this.variableData.next({ current: data, saved: this.data.saved });
-    }
-    return error;
+  removeExclusions(ids: string[]) {
+    return this.edit("removeExclusions", ids);
   }
 
-  setIsUnsaved(isUnsaved: boolean) {
-    this.isUnsavedData.next(isUnsaved);
+  // Validates rules edited on the exceptions page: null, or the problem.
+  validate(data: UserExceptions): string | null {
+    return this.callSync("validate", structuredClone(data));
   }
 
-  saveUserExceptions() {
-    this.edit("save", this.data.current);
+  // Saves the exceptions page's rules.
+  save(data: UserExceptions) {
+    return this.edit("save", data);
   }
 }

@@ -10,12 +10,11 @@ import { makeLogger, settleCoresAfterEach } from "../helpers/services-harness";
 import { makeRpcPair } from "../helpers/rpc-pair";
 import { makeFakeNetwork } from "../helpers/fake-network";
 
-const exception = (extra: object = {}) => ({
+const changes = (extra: object = {}) => ({
   newTitle: "",
   searchTitle: "",
-  timeStamp: 1,
+  sgdbId: "",
   commandLineArguments: "",
-  exclude: false,
   excludeArtwork: false,
   ...extra,
 });
@@ -41,25 +40,54 @@ describe("exceptions over IPC", () => {
     return service;
   }
 
-  it("edits by id are saved in main and visible immediately", async () => {
+  it("a game's exception is saved in main and visible immediately", async () => {
     const service = await makeService();
     const id = service.makeExceptionId('"/emu/a"', "Game A", "Glob");
-    service.addExceptionById(id, "Game A", exception({ newTitle: "Renamed" }));
-    expect(service.getExceptionById(id).newTitle).toBe("Renamed");
+    service.setGameException(id, "Game A", changes({ newTitle: "Renamed" }));
+    expect(service.exceptionFor(id, "Game A").newTitle).toBe("Renamed");
     expect(
-      JSON.parse(fs.readFileSync(paths.userExceptions, "utf8")).titles,
-    ).toHaveProperty([`Game A \${id:${id}}`]);
-    service.deleteExceptionById(id);
-    expect(service.getExceptionById(id)).toBeUndefined();
+      JSON.parse(fs.readFileSync(paths.userExceptions, "utf8")).exceptions,
+    ).toEqual([
+      expect.objectContaining({ matchAppId: id, newTitle: "Renamed" }),
+    ]);
+    service.deleteGameException(id);
+    expect(service.exceptionFor(id, "Game A")).toBeUndefined();
   });
 
-  it("the editor's unsaved copy is saved on request", async () => {
+  it("exclusions: add from Add Games, put back", async () => {
     const service = await makeService();
-    service.setIsUnsaved(true);
-    expect(service.setCurrent({ titles: { X: exception() } })).toBeNull();
-    service.saveUserExceptions();
-    expect(service.isUnsaved).toBe(false);
-    expect(service.data.saved.titles).toHaveProperty("X");
-    expect(service.data.current).toBeNull();
+    service.exclude([{ appId: "1", appTitle: "Game" }]);
+    expect(service.data.exclusions).toEqual([
+      expect.objectContaining({ matchAppId: "1", appTitle: "Game" }),
+    ]);
+    service.removeExclusions([service.data.exclusions[0].id]);
+    expect(service.data.exclusions).toEqual([]);
+  });
+
+  it("the exceptions page's rules: validated, then saved", async () => {
+    const service = await makeService();
+    const data = {
+      exceptions: [
+        {
+          id: "a",
+          matchTitle: "X",
+          timeStamp: 1,
+          ...changes({ newTitle: "Y" }),
+        },
+      ],
+      exclusions: [{ id: "b", matchTitle: "Z", timeStamp: 1 }],
+    };
+    expect(service.validate(data)).toBeNull();
+    expect(service.save(data)).toBe(true);
+    expect(service.exceptionFor("?", "X").newTitle).toBe("Y");
+    expect(
+      service.validate({
+        ...data,
+        exclusions: [
+          ...data.exclusions,
+          { id: "c", matchTitle: "Z", timeStamp: 2 },
+        ],
+      }),
+    ).toMatch(/title:Z/);
   });
 });

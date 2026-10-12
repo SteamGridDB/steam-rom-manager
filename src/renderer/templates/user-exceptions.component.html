@@ -6,6 +6,26 @@
 </div>
 
 <div class="upperMenu">
+  <div class="tabs">
+    <div
+      class="tab"
+      [class.active]="tab === 'exceptions'"
+      (click)="setTab('exceptions')"
+    >
+      {{
+        lang.tabs.exceptions__i.interpolate({ count: draft.exceptions.length })
+      }}
+    </div>
+    <div
+      class="tab"
+      [class.active]="tab === 'exclusions'"
+      (click)="setTab('exclusions')"
+    >
+      {{
+        lang.tabs.exclusions__i.interpolate({ count: draft.exclusions.length })
+      }}
+    </div>
+  </div>
   <div class="slider">
     <ng-select
       class="selectSort"
@@ -15,147 +35,166 @@
     >
     </ng-select>
   </div>
-
   <ng-text-input
     class="searchExceptions"
     [placeholder]="lang.placeholder.search"
     [(ngModel)]="filterValue"
   ></ng-text-input>
 </div>
-@if(showMarkdown) {
+@if (showMarkdown) {
   <markdown class="docs" [content]="this.currentDoc.content"></markdown>
 }
 <div class="userExceptions">
-  <div [formGroup]="exceptionsForm">
-    <div
-      class="itemsform"
-      formArrayName="items"
-      *ngFor="
-        let item of exceptionsFormItems.controls.sort(
-          exceptionsSort.bind(this)
-        );
-        let i = index
-      "
-    >
-      <div
-        class="exception-entry"
-        [formGroupName]="i"
-        *ngIf="
-          (item | formGroup).controls['oldTitle'].value | fuzzyTest: filterValue
-        "
-      >
-        <div class="inputContainer">
-          <div class="inlineLeft">
-            <div class="text" style="margin-right: 0.25em">
-              {{ lang.text.extractedTitle }}
-            </div>
-            <ng-text-input
-              class="ngTextInput"
-              [placeholder]="lang.placeholder.extractedTitle"
-              [formControl]="
-                (item | formGroup).controls['oldTitle'] | formControl
-              "
-            ></ng-text-input>
-          </div>
-          <div class="inlineLeft">
-            <div class="text" style="margin-right: 0.25em">
-              {{ lang.text.newDisplayTitle }}
-            </div>
+  <p class="tabDescription">
+    {{
+      tab === "exceptions"
+        ? lang.text.exceptionsDescription
+        : lang.text.exclusionsDescription
+    }}
+  </p>
+  @for (rule of visible(); track rule.id) {
+    <div class="rule">
+      <div class="ruleHeader">
+        @if (rule.matchAppId !== undefined) {
+          <span class="matchBadge fromPreview" [title]="lang.text.byAppIdHelp">
+            {{ lang.text.byAppId }}
+          </span>
+          <span class="ruleTitle" [title]="'App ID ' + rule.matchAppId">
+            {{ rule.appTitle }}
+          </span>
+        } @else {
+          <span class="matchBadge byTitle" [title]="lang.text.byTitleHelp">
+            {{ lang.text.byTitle }}
+          </span>
+          <ng-text-input
+            class="ngTextInput matchTitle"
+            [placeholder]="lang.placeholder.extractedTitle"
+            [(ngModel)]="rule.matchTitle"
+            (ngModelChange)="changed()"
+          ></ng-text-input>
+        }
+        <span class="created">{{
+          lang.text.createdOn__i.interpolate({
+            date: prettyDate(rule.timeStamp),
+          })
+        }}</span>
+        <div class="removeRule" (click)="remove(rule)">
+          {{
+            tab === "exceptions"
+              ? lang.buttons.deleteItem
+              : lang.buttons.putBack
+          }}
+        </div>
+      </div>
+      @if (tab === "exceptions") {
+        @let exception = asException(rule);
+        <div class="fields">
+          <div class="field">
+            <div class="text">{{ lang.text.newDisplayTitle }}</div>
             <ng-text-input
               class="ngTextInput"
               [placeholder]="lang.placeholder.displayTitle"
-              [formControl]="
-                (item | formGroup).controls['newTitle'] | formControl
-              "
+              [(ngModel)]="exception.newTitle"
+              (ngModelChange)="changed()"
             ></ng-text-input>
           </div>
-          <div class="inlineLeft">
-            <div class="text" style="margin-right: 0.25em">
-              {{ lang.text.newSearchTitle }}
-            </div>
-            <ng-text-input
-              class="ngTextInput"
-              [placeholder]="lang.placeholder.searchTitle"
-              [formControl]="
-                (item | formGroup).controls['searchTitle'] | formControl
-              "
-            ></ng-text-input>
+          <div class="field">
+            <div class="text">{{ lang.text.newSearchTitle }}</div>
+            @if (exception.sgdbId) {
+              <div class="sgdbMatch">
+                {{
+                  lang.text.sgdbMatch__i.interpolate({ id: exception.sgdbId })
+                }}
+              </div>
+              <div
+                class="smallButton"
+                (click)="exception.sgdbId = ''; changed()"
+              >
+                {{ lang.buttons.clearSgdbMatch }}
+              </div>
+            } @else {
+              <ng-text-input
+                class="ngTextInput"
+                [placeholder]="lang.placeholder.searchTitle"
+                [(ngModel)]="exception.searchTitle"
+                (ngModelChange)="changed()"
+              ></ng-text-input>
+            }
           </div>
-          <div class="inlineLeft">
-            <div class="text" style="margin-right: 0.25em">
-              {{ lang.text.newCommandLineArgs }}
-            </div>
+          <div class="field">
+            <div class="text">{{ lang.text.newCommandLineArgs }}</div>
             <ng-text-input
               class="ngTextInput"
               placeholder="--custom-args"
-              [formControl]="
-                (item | formGroup).controls['commandLineArguments']
-                  | formControl
-              "
+              [(ngModel)]="exception.commandLineArguments"
+              (ngModelChange)="changed()"
             ></ng-text-input>
           </div>
-          <div class="inlineLeft">
-            <div class="text" style="margin-right: 0.25em; width: 100%">
-              {{ lang.text.created }}
-              {{ prettyDate((item | formGroup).controls["timeStamp"].value) }}
-            </div>
+          <div class="field">
+            <div class="text">{{ lang.text.compatTool }}</div>
+            <ng-select
+              class="ngSelect"
+              [placeholder]="lang.compatTool.inherit"
+              [ngModel]="compatTool(exception)"
+              (ngModelChange)="setCompatTool(exception, $event)"
+              [values]="compatToolOptions"
+              [sort]="false"
+            ></ng-select>
           </div>
-          <div class="inlineGroup">
-            <div class="inlineGroup">
-              <ng-toggle-button
-                class="ngToggleButton excludeButton"
-                [formControl]="
-                  (item | formGroup).controls['exclude'] | formControl
-                "
-                >{{ lang.text.exclude }}</ng-toggle-button
-              >
-              <ng-toggle-button
-                class="ngToggleButton"
-                [formControl]="
-                  (item | formGroup).controls['excludeArtwork'] | formControl
-                "
-                >{{ lang.text.excludeArtwork }}</ng-toggle-button
-              >
-            </div>
-            <div class="deleteItem" (click)="deleteItem(i)">
-              {{ lang.buttons.deleteItem }}
-            </div>
+          <div class="field">
+            <ng-toggle-button
+              class="ngToggleButton"
+              [(ngModel)]="exception.excludeArtwork"
+              (ngModelChange)="changed()"
+              >{{ lang.text.excludeArtwork }}</ng-toggle-button
+            >
           </div>
         </div>
-      </div>
+      }
     </div>
+  } @empty {
+    <p class="empty">
+      {{
+        tab === "exceptions" ? lang.text.noExceptions : lang.text.noExclusions
+      }}
+    </p>
+  }
+  <div class="addItem" (click)="addByTitle()">
+    {{
+      tab === "exceptions"
+        ? lang.buttons.addExceptionByTitle
+        : lang.buttons.addExclusionByTitle
+    }}
   </div>
-  <div class="addItem" (click)="addItem()">{{ lang.buttons.addItem }}</div>
 </div>
 <div class="menu" drag-scroll>
   <div class="lowerLeft">
-    <div class="dangerousButton" (click)="deleteAll()">
-      {{ lang.buttons.deleteAll }}
+    <div class="dangerousButton" (click)="removeAllInTab()">
+      {{
+        tab === "exceptions"
+          ? lang.buttons.deleteAllExceptions
+          : lang.buttons.putBackAll
+      }}
     </div>
     <div (click)="save()" *ngIf="isUnsaved">{{ lang.buttons.save }}</div>
     <div *ngIf="isUnsaved" (click)="undo()">{{ lang.buttons.undoChanges }}</div>
-    <div class="addItem" class="only-emudeck" (click)="addItem()">
-      {{ lang.buttons.addItem }}
-    </div>
   </div>
   <div class="lowerRight">
-    @if(appSettings.theme=='EmuDeck'){
+    @if (appSettings.theme == "EmuDeck") {
       <nav-link
-      [routerLink]="['/parsers-list']"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      >{{ lang.buttons.back }}</nav-link>
-    }
-    @else {
-      @if(showMarkdown) {
+        [routerLink]="['/parsers-list']"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >{{ lang.buttons.back }}</nav-link
+      >
+    } @else {
+      @if (showMarkdown) {
         <div (click)="closeDocs()" class="dangerousButton">
           {{ lang.buttons.closeDocs }}
         </div>
-      }
-      @else {
+      } @else {
         <div (click)="openDocs()">{{ lang.buttons.openDocs }}</div>
       }
     }
   </div>
-
 </div>

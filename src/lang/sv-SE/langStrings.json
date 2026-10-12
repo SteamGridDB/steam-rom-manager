@@ -62,12 +62,7 @@
     "component": {
       "buttons": {
         "save": "Spara",
-        "deleteAll": "Rensa",
-        "undoChanges": "Ångra ändringar",
-        "addItem": "Lägg till undantag"
-      },
-      "text": {
-        "exclude": "Exkludera titel"
+        "undoChanges": "Ångra ändringar"
       }
     }
   },
