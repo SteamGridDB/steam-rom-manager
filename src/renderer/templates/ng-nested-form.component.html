@@ -1,6 +1,6 @@
 <ng-container [formGroup]="currentForm">
   <ng-container *ngFor="let childrenKey of nestedGroup.children | keys">
-    <ng-container *ngVar="nestedGroup.children[childrenKey] as child">
+    <ng-container *ngVar="nestedGroup.children![childrenKey] as child">
       <ng-container [ngSwitch]="child.constructor.displayName">
         <ng-container *ngSwitchCase="'Section'">
           <div
@@ -196,7 +196,7 @@
             <ng-container *ngIf="dirtyAndInvalid">
               <markdown
                 class="errorMessage lastMarginZero"
-                [content]="currentForm.controls[childrenKey].errors.error"
+                [content]="currentForm.controls[childrenKey].errors?.error"
               ></markdown>
             </ng-container>
           </div>

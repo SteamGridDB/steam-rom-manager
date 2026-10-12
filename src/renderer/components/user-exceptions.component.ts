@@ -5,12 +5,22 @@ import {
   OnDestroy,
   Renderer2,
   ElementRef,
-  RendererStyleFlags2
+  RendererStyleFlags2,
 } from "@angular/core";
 import { ActivatedRoute, Router, RouterLinkActive } from "@angular/router";
-import { FormBuilder, FormArray, FormGroup, FormControl } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormArray,
+  FormGroup,
+  FormControl,
+} from "@angular/forms";
 import { UserExceptions, SelectItem, AppSettings } from "../../models";
-import { UserExceptionsService, LoggerService, SettingsService } from "../services";
+import {
+  UserExceptionsService,
+  LoggerService,
+  SettingsService,
+} from "../services";
 import { Subscription } from "rxjs";
 import { APP } from "../../variables";
 import * as _ from "lodash";
@@ -51,9 +61,9 @@ export class ExceptionsComponent implements OnDestroy {
     private loggerService: LoggerService,
     private formBuilder: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,
-    private renderer:  Renderer2,
+    private renderer: Renderer2,
     private elementRef: ElementRef,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
   ) {
     this.appSettings = this.settingsService.getSettings();
     this.currentDoc.content = this.lang.docs__md.userExceptions.join("");
@@ -127,7 +137,7 @@ export class ExceptionsComponent implements OnDestroy {
     });
   }
 
-  exceptionsSort(c1: FormGroup, c2: FormGroup) {
+  exceptionsSort(c1: AbstractControl, c2: AbstractControl) {
     const sortBy = this.sortBy.split("|")[0];
     const asc = this.sortBy.split("|")[1] === "asc";
     let result: number;

@@ -26,6 +26,7 @@ import {
   ArtworkType,
   isArtworkType,
   ImageProviderType,
+  ProviderCategoryType,
   UserExceptionData,
   SteamList,
 } from "../../models";
@@ -172,7 +173,11 @@ export class PreviewComponent implements OnDestroy {
   get providerCategories() {
     return providerCategories;
   }
-  get allProviders() {
+  // Widened from a union of tuple types, which *ngFor can't iterate.
+  get allProviders(): Record<
+    ProviderCategoryType,
+    readonly ImageProviderType[]
+  > {
     return allProviders;
   }
 
@@ -1125,7 +1130,8 @@ export class PreviewComponent implements OnDestroy {
     this.previewService.setImageIndex(app, imageIndex, actualArtworkType);
   }
 
-  setImageSizeFromInput(target: EventTarget, save: boolean = false) {
+  setImageSizeFromInput(target: EventTarget | null, save: boolean = false) {
+    if (!target) return;
     this.setImageSize(Number((target as HTMLInputElement).value), save);
   }
 

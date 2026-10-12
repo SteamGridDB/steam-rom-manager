@@ -4,7 +4,6 @@ import {
   Input,
   ChangeDetectorRef,
   Renderer2,
-  SimpleChanges,
   ViewChild,
   ElementRef,
 } from "@angular/core";
@@ -21,7 +20,7 @@ import { CoreClientService } from "../services/core-client.service";
     [attr.data-placeholder]="placeholder"
     contenteditable="true"
     spellcheck="false"
-    (input)="this.writeValueFromTarget($event.target)"
+    (input)="writeValueFromTarget($event.target)"
     (keypress)="handleKeypress($event)"
     (drag)="handleDragAndDrop($event)"
     (dragover)="handleDragAndDrop($event)"
@@ -101,8 +100,9 @@ export class NgTextInputComponent implements ControlValueAccessor {
     if (!this.dragAndDrop) event.preventDefault();
   }
 
-  writeValueFromTarget(target: EventTarget) {
-    this.writeValue((target as HTMLTextAreaElement).textContent, true);
+  writeValueFromTarget(target: EventTarget | null) {
+    if (!target) return;
+    this.writeValue((target as HTMLElement).textContent ?? "", true);
   }
 
   writeValue(

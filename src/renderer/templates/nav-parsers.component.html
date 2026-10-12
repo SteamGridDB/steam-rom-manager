@@ -29,8 +29,6 @@
         track userConfiguration.saved.parserId;
         let i = $index
       ) {
-        @let parserId = userConfiguration.saved.parserId;
-        @let toggle = parserControls[parserId];
         <div
           class="item"
           [ngClass]="{
@@ -38,6 +36,8 @@
             disabled: userConfiguration.saved.disabled,
           }"
         >
+          @let parserId = userConfiguration.saved.parserId;
+          @let toggle = parserControls[parserId];
           <div class="inputContainer" (click)="emuClick(toggle)">
             <div class="inlineGroup">
               <nav-link
@@ -132,12 +132,12 @@
       @let parserControls = getParserControls();
       @let groupControls = getGroupControls();
       @for (group of groups; track group.name) {
-        @let groupToggle = groupControls[groupControlKey(group)];
         <div
           class="item group"
           [class.collapsed]="group.collapsed"
           [class.ungrouped]="group.isUngrouped"
         >
+          @let groupToggle = groupControls[groupControlKey(group)];
           @if (!group.isUngrouped || showUngroupedHeader) {
             <div
               class="groupHeader"
@@ -155,7 +155,7 @@
                     : { x: true, y: true }
                 "
                 dragActiveClass="group-drag-active"
-                showOriginalElementWhileDragging="true"
+                [showOriginalElementWhileDragging]="true"
                 [dropData]="{
                   type: 'group',
                   fromGroupIndex: group.registryIndex,
@@ -232,7 +232,7 @@
                       [class.active]="currentId == parserId"
                       mwlDraggable
                       dragActiveClass="drag-active"
-                      showOriginalElementWhileDragging="true"
+                      [showOriginalElementWhileDragging]="true"
                       (dragStart)="dragStart(entry)"
                       [dropData]="{
                         type: 'entry',

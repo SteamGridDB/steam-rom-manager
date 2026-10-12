@@ -6,7 +6,12 @@ import {
   Input,
   EventEmitter,
 } from "@angular/core";
-import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+} from "@angular/forms";
 import {
   ParsersService,
   LanguageService,
@@ -295,7 +300,7 @@ export class NavParsersComponent implements OnDestroy {
       .setValue(!this.navForm.get("selectAll").value);
   }
 
-  emuClick(control: FormControl) {
+  emuClick(control: AbstractControl) {
     control.setValue(!control.value);
   }
 

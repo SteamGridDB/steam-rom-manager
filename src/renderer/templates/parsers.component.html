@@ -36,7 +36,7 @@
       {{ lang.buttons.save }}
     </div>
     <div
-      *ngIf="(getDeletedConfigurations() | async).length !== 0"
+      *ngIf="((getDeletedConfigurations() | async)?.length ?? 0) !== 0"
       (click)="restoreForm()"
     >
       {{ lang.buttons.undoDelete }}
@@ -64,7 +64,7 @@
       {{ lang.buttons.delete }}
     </div>
     <div
-      *ngIf="(getDeletedConfigurations() | async).length !== 0"
+      *ngIf="((getDeletedConfigurations() | async)?.length ?? 0) !== 0"
       (click)="restoreForm()"
     >
       {{ lang.buttons.undoDelete }}
