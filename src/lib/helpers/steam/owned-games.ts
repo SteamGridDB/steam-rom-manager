@@ -4,9 +4,8 @@ import { Fetch, getDefaultFetch } from "../../../core/http";
 //
 // Must not go through Node's TLS stack (node-fetch fails with "unable to get
 // local issuer certificate" on some systems), so in the main process it uses
-// the default fetch, which is Electron's net.fetch there; a renderer swaps in
-// a call to the main process (see setOwnedGamesFetcher).
-export async function fetchOwnedGamesDirect(
+// the default fetch, which is Electron's net.fetch in the main process.
+export async function fetchOwnedGames(
   apiKey: string,
   steamId: string,
   fetch: Fetch = getDefaultFetch(),
@@ -21,16 +20,4 @@ export async function fetchOwnedGamesDirect(
     throw new Error(`HTTP ${res.status} ${res.statusText}`);
   }
   return res.json();
-}
-
-type OwnedGamesFetcher = (apiKey: string, steamId: string) => Promise<any>;
-let fetcher: OwnedGamesFetcher = (apiKey, steamId) =>
-  fetchOwnedGamesDirect(apiKey, steamId);
-
-export function setOwnedGamesFetcher(f: OwnedGamesFetcher) {
-  fetcher = f;
-}
-
-export function fetchOwnedGames(apiKey: string, steamId: string) {
-  return fetcher(apiKey, steamId);
 }

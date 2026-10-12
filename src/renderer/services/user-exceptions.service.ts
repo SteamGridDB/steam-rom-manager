@@ -29,6 +29,7 @@ export class UserExceptionsService {
 
   private refresh() {
     this.variableData.next({ current: null, saved: this.callSync("get") });
+    this.coreClient.client.markFresh("exceptions:changed");
   }
 
   // Runs an edit in the main process; on success the saved data changed.

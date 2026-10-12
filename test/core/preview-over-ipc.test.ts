@@ -28,7 +28,11 @@ import {
   tempDir,
   writeFiles,
 } from "../helpers/fixtures";
-import { loaded, makeLogger } from "../helpers/services-harness";
+import {
+  loaded,
+  makeLogger,
+  settleCoresAfterEach,
+} from "../helpers/services-harness";
 import { makeRpcPair } from "../helpers/rpc-pair";
 import { makeFakeNetwork } from "../helpers/fake-network";
 import {
@@ -99,13 +103,15 @@ describe("preview over IPC (GUI path)", () => {
     fs.rmSync(root, { recursive: true, force: true });
   });
 
+  const settled = settleCoresAfterEach(afterEach);
+
   function makeUi() {
     const mainLog = makeLogger();
     const core = new Core({
       logger: mainLog.service,
       fetch: makeFakeNetwork(imageServer.base),
     });
-    core.start({ presets: false });
+    settled(core).start({ presets: false });
     const { host, client } = makeRpcPair();
     hostCore(core, host);
     const coreClient = { client: new CoreClient(client) } as any;

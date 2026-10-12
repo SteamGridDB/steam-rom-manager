@@ -8,7 +8,6 @@ import {
   net,
 } from "electron";
 import * as log from "electron-log";
-import * as remoteMain from "@electron/remote/main";
 import { autoUpdater, CancellationToken } from "electron-updater";
 import * as paths from "../paths";
 import * as path from "path";
@@ -17,12 +16,10 @@ import * as clc from "cli-color";
 import yargs, { Argv } from "yargs";
 import { hideBin } from "yargs/helpers";
 import { setDefaultFetch } from "../core/http";
-import { fetchOwnedGamesDirect } from "../lib/helpers/steam/owned-games";
+import { envInfo } from "../env-info";
+import { envChannel } from "../bridge";
 import { runCli, CliCommand } from "./cli";
 import { startCoreForWindow } from "./core-host";
-
-// Renderer windows inherit this, so they resolve paths without Electron.
-process.env.SRM_USER_DATA_DIR = paths.userDataDir;
 
 // Crash Reporting
 crashReporter.start({
@@ -158,9 +155,6 @@ if (commandCLI) {
   console.log("App starting...");
 }
 
-//Enable remote
-remoteMain.initialize();
-
 // Auto updater setup
 autoUpdater.logger = log;
 autoUpdater.autoDownload = false;
@@ -192,14 +186,16 @@ function createWindow(show: boolean) {
     frame: false,
     show: show,
     backgroundColor: "#121212",
+    // The UI has no Node or Electron access: it reaches the main process
+    // only through the preload's window.srm (see src/bridge.ts).
     webPreferences: {
       devTools: true,
-      nodeIntegration: true,
-      nodeIntegrationInWorker: true,
-      contextIsolation: false,
+      preload: path.join(__dirname, "preload.bundle.js"),
+      contextIsolation: true,
+      nodeIntegration: false,
+      sandbox: true,
     },
   });
-  require("@electron/remote/main").enable(mainWindow.webContents);
 
   mainWindowState.manage(mainWindow);
 
@@ -214,12 +210,23 @@ function createWindow(show: boolean) {
     mainWindow = null;
   });
 
+  // Links open in the user's browser, never inside SRM.
   mainWindow.webContents.on("will-navigate", (event, url) => {
     event.preventDefault();
-    shell.openExternal(url);
+    openExternal(url);
+  });
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    openExternal(url);
+    return { action: "deny" };
   });
   if (show) {
     mainWindow.show();
+  }
+}
+
+function openExternal(url: string) {
+  if (/^(https?|mailto):/i.test(url)) {
+    shell.openExternal(url);
   }
 }
 
@@ -257,11 +264,6 @@ app.on("ready", async () => {
   // Electron's network stack: system certificate store and proxy, which
   // Node's TLS (e.g. node-fetch) doesn't honour on some systems.
   setDefaultFetch((url, init) => net.fetch(url, init as RequestInit) as any);
-  ipcMain.handle(
-    "steam-owned-games",
-    (event, args: { apiKey: string; steamId: string }) =>
-      fetchOwnedGamesDirect(args.apiKey, args.steamId),
-  );
   if (commandCLI) {
     // Headless: the CLI runs the core directly in this process.
     let code = 1;
@@ -273,11 +275,31 @@ app.on("ready", async () => {
     app.exit(code);
   } else {
     // The GUI's business logic runs here; the window is its UI.
+    const env = envInfo();
+    ipcMain.on(envChannel, (event) => {
+      event.returnValue = env;
+    });
     const core = startCoreForWindow(() => mainWindow);
+    if (process.platform === "win32") {
+      core.shellScripts.download();
+    }
     app.on("before-quit", () => {
       core.fuzzy.saveCacheIfNeeded();
     });
     createWindow(true);
+    // Let the fuzzy matcher's cache reach the disk before the window goes.
+    let cacheSaved = false;
+    mainWindow.on("close", (event) => {
+      if (cacheSaved) return;
+      event.preventDefault();
+      core.fuzzy
+        .saveCacheIfNeeded()
+        .catch((e: unknown) => log.error(e))
+        .finally(() => {
+          cacheSaved = true;
+          mainWindow?.close();
+        });
+    });
     mainWindow.webContents.on("dom-ready", () => {
       autoUpdater.checkForUpdatesAndNotify();
     });

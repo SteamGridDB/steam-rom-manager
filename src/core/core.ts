@@ -10,6 +10,9 @@ import { ArtworkProviders } from "./artwork-providers";
 import { PreviewEngine } from "./preview-engine";
 import { PreviewBuilder } from "./preview-builder";
 import { SteamWriter } from "./steam-writer";
+import { LibraryReader } from "./library-reader";
+import { ShellScripts } from "./shell-scripts";
+import { UiSupport } from "./ui-support";
 
 export interface CoreOptions {
   logger: Logger;
@@ -30,6 +33,9 @@ export class Core {
   readonly builder: PreviewBuilder;
   readonly writer: SteamWriter;
   readonly preview: PreviewEngine;
+  readonly library: LibraryReader;
+  readonly shellScripts: ShellScripts;
+  readonly support: UiSupport;
 
   constructor({ logger, fetch = getDefaultFetch(), onNewImage }: CoreOptions) {
     this.settings = new SettingsStore(logger);
@@ -41,6 +47,9 @@ export class Core {
     this.providers = new ArtworkProviders(fetch);
     this.builder = new PreviewBuilder(logger, this.parsers, this.settings);
     this.writer = new SteamWriter(logger, this.parsers, this.settings);
+    this.library = new LibraryReader(logger, this.parsers);
+    this.shellScripts = new ShellScripts(logger, fetch);
+    this.support = new UiSupport(fetch);
     this.preview = new PreviewEngine({
       logger,
       parsers: this.parsers,

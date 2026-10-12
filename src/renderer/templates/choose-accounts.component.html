@@ -10,10 +10,7 @@
         (click)="selectAccount(account)"
         [class.selected]="!!selectedAccounts[account.accountID]"
       >
-        <img
-          src="{{ getAccountImage(steamDir, account.steamID64) }}"
-          alt="Icon"
-        />
+        <img src="{{ getAccountImage(account) }}" alt="Icon" />
         <div class="info">{{ account.name }} ({{ account.accountID }})</div>
       </div>
     </div>

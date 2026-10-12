@@ -20,11 +20,18 @@ type Listener<K extends keyof RpcEventMap> = (payload: RpcEventMap[K]) => void;
 export class CoreClient {
   private listeners = new Map<string, Set<(payload: any) => void>>();
   private loaded = new Set<string>();
+  // Number of the last event sent before the latest sync reply.
+  private replySeq = 0;
+  // Per state event: state up to this event number has already been read.
+  private freshUpTo = new Map<string, number>();
 
   constructor(private transport: ClientTransport) {
     transport.on(rpcChannels.event, (event: RpcEvent) => {
       if (event.name === "ready") {
         this.loaded.add(event.payload as string);
+      }
+      if (event.seq <= (this.freshUpTo.get(event.name) ?? 0)) {
+        return; // older than state the UI already read synchronously
       }
       for (const listener of this.listeners.get(event.name) ?? []) {
         listener(event.payload);
@@ -45,6 +52,7 @@ export class CoreClient {
       method,
       args,
     });
+    this.replySeq = Math.max(this.replySeq, reply.seq);
     if ("error" in reply) {
       throw reply.error;
     }
@@ -54,6 +62,14 @@ export class CoreClient {
   // Throws (the error message string) like the store method would.
   callSync(target: RpcTarget, method: string, ...args: any[]): any {
     return this.callSyncRaw(target, method, ...args);
+  }
+
+  // Call after reading a store's state synchronously: pending `events` sent
+  // before that read are stale and get dropped.
+  markFresh(...events: (keyof RpcEventMap)[]) {
+    for (const name of events) {
+      this.freshUpTo.set(name, this.replySeq);
+    }
   }
 
   on<K extends keyof RpcEventMap>(name: K, listener: Listener<K>): () => void {

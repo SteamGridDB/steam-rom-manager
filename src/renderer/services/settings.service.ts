@@ -3,8 +3,6 @@ import { AppSettings } from "../../models";
 import { Subject, BehaviorSubject } from "rxjs";
 import { takeWhile } from "rxjs/operators";
 import * as _ from "lodash";
-import * as file from "../../lib/helpers/file";
-import * as paths from "../../paths";
 import { CoreClientService } from "./core-client.service";
 import { syncInPlace } from "../core-client";
 
@@ -41,6 +39,7 @@ export class SettingsService {
   // changed them.
   refresh() {
     this.applyFromMain(this.coreClient.client.callSync("settings", "get"));
+    this.coreClient.client.markFresh("settings:changed");
   }
 
   // Sends in-place edits to the main process without saving them.
@@ -70,10 +69,15 @@ export class SettingsService {
   }
 
   configDir() {
-    file.dirOpen(paths.userDataDir);
+    return this.openFolder();
   }
   steamDir() {
-    file.dirOpen(this.settings.environmentVariables.steamDirectory);
+    return this.openFolder(this.settings.environmentVariables.steamDirectory);
+  }
+  private openFolder(dir?: string) {
+    return this.coreClient.client
+      .call("app", "openFolder", dir)
+      .catch((e: any) => this.coreClient.logError(e));
   }
 
   onLoad(callback: (appSettings: AppSettings) => void) {

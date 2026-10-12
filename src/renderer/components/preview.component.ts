@@ -42,12 +42,12 @@ import {
   superTypesMap,
 } from "../../lib/parsers/available-parsers";
 import { FuzzyTestPipe, IntersectionTestPipe } from "../pipes";
-import * as url from "../../lib/helpers/url";
-import { encodeFile } from "../../lib/helpers/url/encode-file";
+import { encodeFile } from "../../lib/helpers/url/file-url";
 import * as FileSaver from "file-saver";
-import * as steam from "../../lib/helpers/steam";
+import * as steam from "../../lib/helpers/steam/generate-app-id";
+import { COMPAT_NONE } from "../../lib/helpers/steam/compat-constants";
+import type { CompatToolInfo } from "../../lib/helpers/steam/compat-constants";
 import * as _ from "lodash";
-import * as path from "path";
 import {
   allProviders,
   imageProviderNames,
@@ -55,8 +55,7 @@ import {
   sgdbIdRegex,
 } from "../../lib/image-providers/available-providers";
 import { DomSanitizer } from "@angular/platform-browser";
-import { OpenDialogReturnValue } from "electron";
-import { dialog } from "@electron/remote";
+import { CoreClientService } from "../services/core-client.service";
 @Component({
   selector: "preview",
   templateUrl: "../templates/preview.component.html",
@@ -128,6 +127,7 @@ export class PreviewComponent implements OnDestroy {
     private fuzzyTest: FuzzyTestPipe,
     private intersectionTest: IntersectionTestPipe,
     private sanitizer: DomSanitizer,
+    private coreClient: CoreClientService,
   ) {
     this.previewData = this.previewService.getPreviewData();
     this.previewVariables = this.previewService.getPreviewVariables();
@@ -367,10 +367,12 @@ export class PreviewComponent implements OnDestroy {
           scaledOverlayHeight,
         );
 
-        this.composedBackgroundCache[cacheKey] = `url("${canvas.toDataURL("image/png")}")`;
+        this.composedBackgroundCache[cacheKey] =
+          `url("${canvas.toDataURL("image/png")}")`;
         this.changeDetectionRef.detectChanges();
       } catch (error) {
-        this.composedBackgroundCache[cacheKey] = this.wrapBackgroundImage(baseUrl);
+        this.composedBackgroundCache[cacheKey] =
+          this.wrapBackgroundImage(baseUrl);
       }
     };
 
@@ -416,12 +418,19 @@ export class PreviewComponent implements OnDestroy {
       ? this.wrapBackgroundImage(overlayPath)
       : null;
 
-    if (image?.imageProvider !== "Current Artwork" && overlayPath && image?.loadStatus === "done") {
+    if (
+      image?.imageProvider !== "Current Artwork" &&
+      overlayPath &&
+      image?.loadStatus === "done"
+    ) {
       const cacheKey = `${appId}-${actualArtworkType}-${image.imageUrl}-${overlayPath}`;
       if (!this.composedBackgroundCache[cacheKey]) {
         this.composeBackgroundImage(image.imageUrl, overlayPath, cacheKey);
       }
-      return this.composedBackgroundCache[cacheKey] || this.wrapBackgroundImage(image.imageUrl);
+      return (
+        this.composedBackgroundCache[cacheKey] ||
+        this.wrapBackgroundImage(image.imageUrl)
+      );
     }
 
     if (image == undefined) {
@@ -452,7 +461,9 @@ export class PreviewComponent implements OnDestroy {
           : this.wrapBackgroundImage(downloadingImage);
       } else if (image.loadStatus === "done") {
         const baseImage = this.wrapBackgroundImage(image.imageUrl);
-        return overlayBackground ? `${baseImage}, ${overlayBackground}` : baseImage;
+        return overlayBackground
+          ? `${baseImage}, ${overlayBackground}`
+          : baseImage;
       } else {
         const failedImage = require("../../assets/images/failed-image-download.svg");
         return overlayBackground
@@ -495,18 +506,22 @@ export class PreviewComponent implements OnDestroy {
   }
 
   async addLocalImages(app: PreviewDataApp, artworkType?: ArtworkType) {
-    const options: Electron.OpenDialogSyncOptions = {
-      properties: ["multiSelections","openFile"],
+    const options = {
+      properties: ["multiSelections", "openFile"],
       title: "Choose selections folder location.",
-      filters: [{name: "Images", extensions: ["png","tga","jpg","jpeg","webp"]}]
+      filters: [
+        { name: "Images", extensions: ["png", "tga", "jpg", "jpeg", "webp"] },
+      ],
     };
     const actualArtworkType = this.getActualArtworkType(artworkType);
-    const {filePaths}: OpenDialogReturnValue = await dialog.showOpenDialog(options);
-    if(filePaths!==undefined) {
+    const { filePaths }: { filePaths: string[] } =
+      await this.coreClient.client.call("app", "openDialog", options);
+    if (filePaths !== undefined) {
       let extRegex = /png|tga|jpg|jpeg|webp/i;
       for (let i = 0; i < filePaths.length; i++) {
-        if (extRegex.test(path.extname(filePaths[i]))) {
-          let imageUrl = url.encodeFile(filePaths[i]);
+        const extension = filePaths[i].match(/\.[^.\\/]*$/)?.[0] ?? "";
+        if (extRegex.test(extension)) {
+          let imageUrl = encodeFile(filePaths[i]);
           this.previewService.addUniqueLocalImage(
             app.images[actualArtworkType].imagePool,
             {
@@ -518,7 +533,12 @@ export class PreviewComponent implements OnDestroy {
             "manual",
           );
           this.updateListImageRanges(app);
-          this.previewService.setImageIndex(app, this.listImagesRanges["manual"].end - 1,actualArtworkType,true)
+          this.previewService.setImageIndex(
+            app,
+            this.listImagesRanges["manual"].end - 1,
+            actualArtworkType,
+            true,
+          );
         }
       }
     }
@@ -648,14 +668,16 @@ export class PreviewComponent implements OnDestroy {
       this.detailsException.compatToolName = "";
     }
     this.detailsOriginalCompatTool = this.detailsException.compatToolName;
-    steam.listAvailableCompatTools([steamDirectory]).then((tools) => {
-      this.compatToolOptions = [
-        { displayValue: "Inherit from parser", value: "" },
-        { displayValue: "None (Steam default)", value: steam.COMPAT_NONE },
-        ...tools.map((t) => ({ displayValue: t.displayName, value: t.name })),
-      ];
-      this.changeDetectionRef.detectChanges();
-    });
+    this.coreClient.client
+      .call("support", "compatTools", [steamDirectory])
+      .then((tools: CompatToolInfo[]) => {
+        this.compatToolOptions = [
+          { displayValue: "Inherit from parser", value: "" },
+          { displayValue: "None (Steam default)", value: COMPAT_NONE },
+          ...tools.map((t) => ({ displayValue: t.displayName, value: t.name })),
+        ];
+        this.changeDetectionRef.detectChanges();
+      });
     this.detailsApp = {
       appId: appId,
       app: app,

@@ -73,8 +73,29 @@ let productionConfig: Configuration = {
   bail: false,
 };
 
-if (process.env.NODE_ENV === "production") {
-  module.exports = merge(clientConfig, productionConfig);
-} else {
-  module.exports = merge(clientConfig, developmentConfig);
-}
+// Runs in the sandboxed window before the UI; may only require "electron".
+let preloadConfig: Configuration = {
+  target: "electron-preload",
+  entry: {
+    preload: "./main/preload.ts",
+  },
+  context: helpers.root("src"),
+  output: {
+    filename: "[name].bundle.js",
+    path: helpers.root("dist"),
+  },
+  resolve: {
+    extensions: [".ts", ".js"],
+  },
+  module: {
+    rules: [{ test: /\.ts$/i, use: ["ts-loader"] }],
+  },
+  node: false,
+};
+
+const modeConfig =
+  process.env.NODE_ENV === "production" ? productionConfig : developmentConfig;
+module.exports = [
+  merge(clientConfig, modeConfig),
+  merge(preloadConfig, modeConfig),
+];

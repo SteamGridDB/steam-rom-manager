@@ -1,5 +1,4 @@
 import languages from "../lang";
-import * as log from "electron-log";
 import * as _ from "lodash";
 import { languageContainer, languageStruct } from "../models";
 

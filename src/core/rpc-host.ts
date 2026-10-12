@@ -1,5 +1,6 @@
 import { Logger, MessageSettings } from "../models";
 import { Core } from "./core";
+import * as sgdbSearch from "../lib/image-providers/sgdb-search";
 import {
   RpcEventMap,
   RpcRequest,
@@ -59,10 +60,13 @@ export function hostCore(
   core: Core,
   transport: HostTransport,
   forwardingLogger?: ReturnType<typeof createForwardingLogger>,
+  // Targets the host process adds (e.g. "app" in Electron's main process).
+  extraTargets: Record<string, any> = {},
 ) {
   const loaded = new Set<string>();
+  let seq = 0;
   const emit: Emit = (name, payload) =>
-    transport.send(rpcChannels.event, { name, payload });
+    transport.send(rpcChannels.event, { name, payload, seq: ++seq });
   const targets: Record<string, any> = {
     settings: core.settings,
     parsers: core.parsers,
@@ -71,6 +75,9 @@ export function hostCore(
     presets: core.presets,
     fuzzy: core.fuzzy,
     builder: core.builder,
+    library: core.library,
+    shellScripts: core.shellScripts,
+    support: core.support,
     writer: {
       save: (previewData: any, onlineImages: any, options: any) =>
         core.writer.save(previewData, onlineImages, options, (progress) =>
@@ -97,7 +104,10 @@ export function hostCore(
           (event, data) => emit("providers:event", { id, event, data }),
         ),
       stopUrlDownload: async () => core.providers.stopUrlDownload(),
+      // SteamGridDB games matching a title ("fix match").
+      possibleIds: (title: string) => sgdbSearch.retrievePossibleIds(title),
     },
+    ...extraTargets,
   };
 
   transport.handleAsync(rpcChannels.call, async ({ target, method, args }) => {
@@ -107,27 +117,32 @@ export function hostCore(
     return targets[target][method](...args);
   });
 
+  const callSync = ({
+    target,
+    method,
+    args,
+  }: RpcRequest): { result: any } | { error: string } => {
+    if (target === "core" && method === "loaded") {
+      return { result: [...loaded] };
+    }
+    if (!isAllowed(target, method, "sync")) {
+      return { error: `Not allowed: ${target}.${method}` };
+    }
+    try {
+      const result = targets[target][method](...args);
+      if (result instanceof Promise) {
+        // e.g. a save kicked off by an edit: don't block the UI on it.
+        result.catch((e) => forwardingLogger?.logger.error(e));
+        return { result: undefined };
+      }
+      return { result };
+    } catch (e) {
+      return { error: text(e) };
+    }
+  };
   transport.handleSync(
     rpcChannels.callSync,
-    ({ target, method, args }): RpcSyncReply => {
-      if (target === "core" && method === "loaded") {
-        return { result: [...loaded] };
-      }
-      if (!isAllowed(target, method, "sync")) {
-        return { error: `Not allowed: ${target}.${method}` };
-      }
-      try {
-        const result = targets[target][method](...args);
-        if (result instanceof Promise) {
-          // e.g. a save kicked off by an edit: don't block the UI on it.
-          result.catch((e) => forwardingLogger?.logger.error(e));
-          return { result: undefined };
-        }
-        return { result };
-      } catch (e) {
-        return { error: text(e) };
-      }
-    },
+    (req): RpcSyncReply => ({ ...callSync(req), seq }),
   );
 
   forwardingLogger?.attach(emit);
@@ -152,6 +167,9 @@ export function hostCore(
     .observeList()
     .subscribe((list) => emit("fuzzy:list", { totalGames: list.totalGames }));
   core.providers.stopEvent.subscribe(() => emit("providers:stopped", null));
+  core.shellScripts.onDownloadingChange((d) =>
+    emit("shellScripts:downloading", d),
+  );
 
   for (const [name, promise] of Object.entries(core.ready ?? {})) {
     promise.then(() => {

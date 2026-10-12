@@ -42,9 +42,15 @@ export function makeFakeGithub() {
     );
     if (raw) {
       const file = path.join(repoRoot, decodeURI(raw[1]));
-      return fs.existsSync(file)
-        ? respond(JSON.parse(fs.readFileSync(file, "utf8")))
-        : respond(null, 404);
+      if (!fs.existsSync(file)) {
+        return respond(null, 404);
+      }
+      const text = fs.readFileSync(file, "utf8");
+      return {
+        ...respond(null),
+        json: async () => JSON.parse(text),
+        text: async () => text,
+      };
     }
     return respond(null, 404);
   };

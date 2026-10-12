@@ -5,7 +5,7 @@ import {
   OnDestroy,
   Renderer2,
   RendererStyleFlags2,
-  ElementRef
+  ElementRef,
 } from "@angular/core";
 import {
   SettingsService,
@@ -23,11 +23,7 @@ import { APP } from "../../variables";
 import { AppSettings, SelectItem } from "../../models";
 import { Subscription } from "rxjs";
 import { availableThemes } from "../../lib/themes";
-import * as os from "os";
-import { ArtworkCache } from "../../lib";
-import * as fs from "fs";
-import * as path from "path";
-import * as paths from "../../paths";
+import { CoreClientService } from "../services/core-client.service";
 import {
   providersSelect,
   dnsSelect,
@@ -74,7 +70,8 @@ export class SettingsComponent implements OnDestroy {
     public ssService: ShellScriptsService,
     private changeDetectionRef: ChangeDetectorRef,
     private renderer: Renderer2,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private coreClient: CoreClientService,
   ) {
     this.currentDoc.content = this.lang.docs__md.settings.join("");
   }
@@ -124,7 +121,7 @@ export class SettingsComponent implements OnDestroy {
       });
     this.themes = availableThemes;
     this.userAccountsPlaceholder = this.lang.placeholder.userAccounts;
-    this.placeholderForOS = this.lang.placeholder.bySystem[os.type()];
+    this.placeholderForOS = this.lang.placeholder.bySystem[APP.osType];
   }
 
   ngOnDestroy() {
@@ -137,24 +134,27 @@ export class SettingsComponent implements OnDestroy {
   }
 
   async nukeArtworkChoices() {
-    const artworkCache = new ArtworkCache();
-    await artworkCache.read();
-    await artworkCache.emptyCache();
-    this.loggerService.info("Emptied artwork cache.", {
-      invokeAlert: true,
-      alertTimeout: 3000,
-    });
+    try {
+      await this.coreClient.client.call("support", "clearArtworkCache");
+      this.loggerService.info("Emptied artwork cache.", {
+        invokeAlert: true,
+        alertTimeout: 3000,
+      });
+    } catch (e) {
+      this.coreClient.logError(e);
+    }
   }
 
-  nukeArtworkBackups() {
-    const backupsDir = path.join(paths.userDataDir, "artworkBackups");
-    if (fs.existsSync(backupsDir)) {
-      fs.rmSync(backupsDir, { recursive: true, force: true });
+  async nukeArtworkBackups() {
+    try {
+      await this.coreClient.client.call("support", "clearArtworkBackups");
+      this.loggerService.info("Nuked artwork backups.", {
+        invokeAlert: true,
+        alertTimeout: 3000,
+      });
+    } catch (e) {
+      this.coreClient.logError(e);
     }
-    this.loggerService.info("Nuked artwork backups.", {
-      invokeAlert: true,
-      alertTimeout: 3000,
-    });
   }
 
   removeApps() {
@@ -177,7 +177,7 @@ export class SettingsComponent implements OnDestroy {
     this.languageService.loadLanguage(this.settings.language);
   }
   changeTheme(newTheme: string) {
-    if(this.settings.theme!==newTheme){
+    if (this.settings.theme !== newTheme) {
       this.settings.theme = newTheme;
       this.loadTheme();
       this.onSettingsChange();

@@ -1,5 +1,4 @@
 import { BehaviorSubject, Subject } from "rxjs";
-import * as sgdbSearch from "../lib/image-providers/sgdb-search";
 import {
   PreviewData,
   ImageContent,
@@ -22,13 +21,11 @@ import {
   initArtworkRecord,
   Logger,
 } from "../models";
-import { ArtworkCache } from "../lib";
 import { APP } from "../variables";
 import { queue } from "async";
-import * as steam from "../lib/helpers/steam";
-import * as url from "../lib/helpers/url";
+import { lengthenAppId } from "../lib/helpers/steam/generate-app-id";
+import { encodeFile } from "../lib/helpers/url/file-url";
 import * as appImage from "../lib/helpers/app-image";
-import * as ids from "../lib/helpers/steam";
 import {
   artworkTypes,
   artworkIdDict,
@@ -36,17 +33,16 @@ import {
 } from "../lib/artwork-types";
 import { superTypesMap } from "../lib/parsers/available-parsers";
 import * as _ from "lodash";
-import * as fs from "fs-extra";
-import * as path from "path";
 import {
   onlineProviders,
   imageProviderNames,
 } from "../lib/image-providers/available-providers";
-import { ParsersStore } from "./parsers-store";
-import { SettingsStore } from "./settings-store";
-import { ArtworkProviders } from "./artwork-providers";
-import { SteamWriter } from "./steam-writer";
-import { PreviewBuilder } from "./preview-builder";
+// Types only: this module also runs in the UI, which has no file system.
+import type { ParsersStore } from "./parsers-store";
+import type { SettingsStore } from "./settings-store";
+import type { ArtworkProviders } from "./artwork-providers";
+import type { SteamWriter } from "./steam-writer";
+import type { PreviewBuilder } from "./preview-builder";
 import { addUniqueLocalImage, emptyPools } from "./image-pools";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -68,10 +64,10 @@ export interface PreviewEngineOptions {
   // Called for each new online image when images should be loaded ahead of
   // time (a UI measures them); nothing to do without a UI.
   onNewImage?: (image: ImageContent) => void;
-  // Building the list and writing to Steam need the file system. A UI in
-  // another process passes proxies to the main process's builder/writer.
-  builder?: Pick<PreviewBuilder, "build">;
-  writer?: Pick<SteamWriter, "save" | "exportSelection" | "readSelection">;
+  // Building the list and writing to Steam need the file system: the Core
+  // passes its own, a UI proxies to the main process's.
+  builder: Pick<PreviewBuilder, "build">;
+  writer: Pick<SteamWriter, "save" | "exportSelection" | "readSelection">;
 }
 
 // The list of apps SRM is about to add to Steam ("preview"): generated from
@@ -102,12 +98,8 @@ export class PreviewEngine {
     this.providers = options.providers;
     this.settings = options.settings;
     this.onNewImage = options.onNewImage ?? (() => {});
-    this.writer =
-      options.writer ??
-      new SteamWriter(options.logger, options.parsers, options.settings);
-    this.builder =
-      options.builder ??
-      new PreviewBuilder(options.logger, options.parsers, options.settings);
+    this.writer = options.writer;
+    this.builder = options.builder;
     this.previewData = undefined;
     this.previewVariables = {
       listIsBeingSaved: false,
@@ -193,10 +185,6 @@ export class PreviewEngine {
     }
   }
 
-  getMatchFixes(title: string) {
-    return sgdbSearch.retrievePossibleIds(title);
-  }
-
   updateAppImages(imageKey: string, oldPool: string, artworkType: ArtworkType) {
     if (this.onlineImages[artworkType][oldPool]) {
       this.onlineImages[artworkType][imageKey] = _.cloneDeep(
@@ -275,14 +263,14 @@ export class PreviewEngine {
   }): Promise<boolean> {
     this.previewVariables.listIsBeingSaved = true;
     try {
-      const { ok, outcomes } = await this.writer.save(
+      const { ok, outcomes, imageRes } = await this.writer.save(
         options.removeAll ? undefined : this.previewData,
         this.onlineImages,
         options,
         (progress) => this.batchProgress.next(progress),
       );
       if (ok && outcomes) {
-        this.updatePreviewDataUrls(outcomes);
+        this.updatePreviewDataUrls(outcomes, imageRes);
       }
       if (ok && options.removeAll) {
         this.clearPreviewData();
@@ -293,17 +281,21 @@ export class PreviewEngine {
     }
   }
 
-  private updatePreviewDataUrls(outcomes: VDF_AllScreenshotsOutcomes) {
+  // After a save: show the artwork now in Steam as each app's "current".
+  // `imageRes` holds the saved files' sizes (measured by the writer).
+  private updatePreviewDataUrls(
+    outcomes: VDF_AllScreenshotsOutcomes,
+    imageRes: Record<string, string> = {},
+  ) {
     for (const steamDirectory in outcomes) {
       for (const userId in outcomes[steamDirectory]) {
         for (const gridName in outcomes[steamDirectory][userId].successes) {
           const shortId = gridName.match(/^\d+/).toString();
-          const longId = steam.lengthenAppId(shortId);
+          const longId = lengthenAppId(shortId);
           const artworkType =
             invertedArtworkIdDict[gridName.replace(/^\d+/, "")];
-          const steamImageUrl = url.encodeFile(
-            outcomes[steamDirectory][userId].successes[gridName],
-          );
+          const filePath = outcomes[steamDirectory][userId].successes[gridName];
+          const steamImageUrl = encodeFile(filePath);
           const matchedApps = Object.entries(
             this.previewData[steamDirectory][userId].apps,
           ).filter(([appId, app]) => {
@@ -316,7 +308,7 @@ export class PreviewEngine {
             ].singleProviders.steam = {
               imageProvider: imageProviderNames.steam,
               imageUrl: steamImageUrl,
-              imageRes: url.imageDimensions(steamImageUrl),
+              imageRes: imageRes[filePath],
               loadStatus: "done",
             };
             this.setImageIndex(app, 0, artworkType);

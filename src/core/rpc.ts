@@ -93,7 +93,31 @@ export const rpcApi = {
   // Online artwork lookups; results arrive as "providers:event" events.
   providers: {
     sync: [],
-    async: ["retrieve", "stopUrlDownload"],
+    async: ["retrieve", "stopUrlDownload", "possibleIds"],
+  },
+  // "View Games": what is in Steam now.
+  library: {
+    sync: [],
+    async: ["read", "details", "launch"],
+  },
+  shellScripts: {
+    sync: ["getDownloading"],
+    async: ["download"],
+  },
+  support: {
+    sync: ["browsedValue"],
+    async: [
+      "steamLogins",
+      "compatTools",
+      "clearArtworkCache",
+      "clearArtworkBackups",
+      "submitBugReport",
+    ],
+  },
+  // Window and OS integration; only the Electron main process provides it.
+  app: {
+    sync: ["windowInfo"],
+    async: ["openDialog", "openFolder", "minimize", "toggleMaximize", "close"],
   },
 } as const;
 
@@ -115,7 +139,10 @@ export interface RpcRequest {
 }
 
 // Sync calls can't reject; errors come back in the reply.
-export type RpcSyncReply = { result: any } | { error: string };
+// `seq`: the number of the last event sent before this reply (see RpcEvent).
+export type RpcSyncReply = ({ result: any } | { error: string }) & {
+  seq: number;
+};
 
 // Events main pushes to the renderer.
 export interface RpcEventMap {
@@ -136,10 +163,15 @@ export interface RpcEventMap {
   "writer:progress": { update: string; batch: number };
   "providers:event": { id: string; event: string; data: any };
   "providers:stopped": null;
+  "shellScripts:downloading": boolean;
   ready: string; // a store name, once it has loaded
 }
 
+// Events are numbered. A sync reply carries the latest number, so the UI can
+// tell an event that arrives after it has already read newer state (sync
+// calls return immediately, events are delivered asynchronously).
 export interface RpcEvent<K extends keyof RpcEventMap = keyof RpcEventMap> {
   name: K;
   payload: RpcEventMap[K];
+  seq: number;
 }

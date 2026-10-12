@@ -1,9 +1,9 @@
 import { PipeTransform, Pipe } from "@angular/core";
-import * as url from "../../lib/helpers/url";
+import { encodeFile } from "../../lib/helpers/url/file-url";
 
 @Pipe({ name: "fileImage" })
 export class FileImage implements PipeTransform {
   transform(filePath: string) {
-    return url.encodeFile(filePath);
+    return encodeFile(filePath);
   }
 }

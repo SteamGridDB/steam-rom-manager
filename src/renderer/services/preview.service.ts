@@ -15,7 +15,6 @@ import {
 } from "../../models";
 import { APP } from "../../variables";
 import { defaultArtworkType } from "../../lib/artwork-types";
-import { dialog } from "@electron/remote";
 import { PreviewEngine } from "../../core/preview-engine";
 import { CoreClientService } from "./core-client.service";
 
@@ -143,7 +142,7 @@ export class PreviewService {
   }
 
   getMatchFixes(title: string) {
-    return this.engine.getMatchFixes(title);
+    return this.coreClient.client.call("providers", "possibleIds", title);
   }
 
   updateAppImages(imageKey: string, oldPool: string, artworkType: ArtworkType) {
@@ -329,7 +328,7 @@ export class PreviewService {
   }
 
   private async chooseFolder(title: string): Promise<string | undefined> {
-    const result = await dialog.showOpenDialog({
+    const result = await this.coreClient.client.call("app", "openDialog", {
       properties: ["openDirectory", "createDirectory"],
       title,
     });

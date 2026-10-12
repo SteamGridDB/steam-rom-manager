@@ -32,6 +32,8 @@ export interface SaveResult {
   ok: boolean;
   // Artwork written to each user's grid folder (batch writes only).
   outcomes?: VDF_AllScreenshotsOutcomes;
+  // Width x height of each written artwork file, by path.
+  imageRes?: Record<string, string>;
 }
 
 export type BatchProgress = { update: string; batch: number };
@@ -333,7 +335,18 @@ export class SteamWriter {
         return false;
       });
     const ok: boolean = await chain;
-    return { ok, outcomes: batchWrite ? savedOutcomes : undefined };
+    if (!batchWrite || !savedOutcomes) {
+      return { ok };
+    }
+    const imageRes: Record<string, string> = {};
+    for (const users of Object.values(savedOutcomes)) {
+      for (const outcome of Object.values(users)) {
+        for (const file of Object.values(outcome.successes)) {
+          imageRes[file] = url.imageDimensions(url.encodeFile(file));
+        }
+      }
+    }
+    return { ok, outcomes: savedOutcomes, imageRes };
   }
 
   // Saves the chosen artwork of every app into <folder>/srm-image-choices.
