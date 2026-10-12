@@ -8,10 +8,10 @@
               <nav-link class="titlelink" (click)="flipAll()">
                 <img
                   src="/assets/images/clipboard.png"
-                  alt="Icon"
+                  [alt]="lang.iconAlt"
                   height="16"
                 />
-                <span>Toggle Parsers</span>
+                <span>{{ lang.toggleParsers }}</span>
                 <span>&nbsp;&nbsp;</span>
               </nav-link>
               <ng-toggle-button
@@ -56,7 +56,7 @@
                       <img width="120" src="{{ imageMap[parserId].img }}" />
                     }
                     <span *ngIf="imageMap[parserId].alternative"
-                      >Non-EmuDeck</span
+                      >{{ lang.nonEmuDeck }}</span
                     >
                   </p>
                   <small>{{ imageMap[parserId].details }}</small>
@@ -76,10 +76,10 @@
               <nav-link class="titlelink" (click)="flipAll()">
                 <img
                   src="/assets/images/clipboard.png"
-                  alt="Icon"
+                  [alt]="lang.iconAlt"
                   height="16"
                 />
-                <span>Toggle Parsers</span>
+                <span>{{ lang.toggleParsers }}</span>
                 <span>&nbsp;&nbsp;</span>
               </nav-link>
               <ng-toggle-button
@@ -98,13 +98,13 @@
             type="text"
             class="searchInput"
             [value]="searchTerm"
-            placeholder="Search parsers…"
+            [placeholder]="lang.searchParsers"
             (input)="onSearch(searchInput.value)"
           />
           @if (searching) {
             <span
               class="searchClear"
-              title="Clear search"
+              [title]="lang.clearSearch"
               (click)="clearSearch()"
               >✕</span
             >
@@ -116,14 +116,14 @@
               #addGroupInput
               type="text"
               class="groupNameInput"
-              placeholder="New group name…"
+              [placeholder]="lang.newGroupName"
               (keydown.enter)="confirmAddGroup(addGroupInput.value)"
               (keydown.escape)="cancelAddGroup()"
               (blur)="confirmAddGroup(addGroupInput.value)"
             />
           } @else {
             <span class="newGroupButton" (click)="startAddGroup()"
-              >＋ New group</span
+              >{{ lang.newGroup }}</span
             >
           }
         </div>
@@ -190,13 +190,13 @@
                 @if (!group.isUngrouped) {
                   <span
                     class="groupAction rename"
-                    title="Rename group"
+                    [title]="lang.renameGroup"
                     (click)="startRename(group, $event)"
                     >✎</span
                   >
                   <span
                     class="groupAction delete"
-                    title="Ungroup / delete group"
+                    [title]="lang.deleteGroup"
                     (click)="deleteGroup(group, $event)"
                     >✕</span
                   >
@@ -272,7 +272,7 @@
                   dragOverClass="drop-over-active"
                   (drop)="onGroupZoneDrop($event.dropData, group)"
                 >
-                  Drop parsers here
+                  {{ lang.dropParsersHere }}
                 </div>
               }
             </div>

@@ -26,14 +26,14 @@
         class="ngToggleButton"
         [ngModel]="settings.autoKillSteam"
         (ngModelChange)="settings.autoKillSteam = $event; onSettingsChange()"
-        >Auto kill Steam</ng-toggle-button
+        >{{ lang.text.autoKillSteam }}</ng-toggle-button
       >
       <ng-toggle-button
         class="ngToggleButton"
         [ngModel]="settings.autoRestartSteam"
         [disabled]="!settings.autoKillSteam"
         (ngModelChange)="settings.autoRestartSteam = $event; onSettingsChange()"
-        >Auto restart Steam</ng-toggle-button
+        >{{ lang.text.autoRestartSteam }}</ng-toggle-button
       >
       <ng-toggle-button
         class="ngToggleButton"
@@ -93,7 +93,7 @@
   </div>
   <div>
     <div class="section">
-      <label> Add Games </label>
+      <label> {{ lang.label.addGames }} </label>
     </div>
     <div class="inputContainer">
       <ng-toggle-button
@@ -121,7 +121,7 @@
           settings.previewSettings.disableCategories = $event;
           onSettingsChange()
         "
-        >Disable saving of steam categories</ng-toggle-button
+        >{{ lang.text.disableCategories }}</ng-toggle-button
       >
       <ng-toggle-button
         class="ngToggleButton"
@@ -129,7 +129,7 @@
         (ngModelChange)="
           settings.previewSettings.hideUserAccount = $event; onSettingsChange()
         "
-        >Hide Steam username from preview</ng-toggle-button
+        >{{ lang.text.hideUserAccount }}</ng-toggle-button
       >
     </div>
     <div class="inputContainer">
@@ -159,7 +159,9 @@
           {{ lang.text.removeApps_btn }}
         </div>
 
-        <div class="text" style="margin-left: 0.25em">all controllers only</div>
+        <div class="text" style="margin-left: 0.25em">
+          {{ lang.text.removeControllers_desc }}
+        </div>
       </div>
     </div>
     <div class="section">
@@ -278,12 +280,12 @@
             settings.batchDownloadSize = $event; onSettingsChange()
           "
           [allowEmpty]="true"
-          placeholder="Auto"
+          [placeholder]="lang.placeholder.autoBatchSize"
           [values]="availableBatches"
         >
         </ng-select>
         <div class="text" style="margin-left: 0.25em">
-          {{ "Batch size for image downloads" }}
+          {{ lang.text.batchDownloadSize }}
         </div>
       </div>
     </div>
@@ -294,9 +296,11 @@
           style="font-size: 0.85em"
           (click)="nukeArtworkChoices()"
         >
-          Nuke
+          {{ lang.text.nuke_btn }}
         </div>
-        <div class="text" style="margin-left: 0.25em">artwork choice cache</div>
+        <div class="text" style="margin-left: 0.25em">
+          {{ lang.text.nukeArtworkChoices_desc }}
+        </div>
       </div>
       <div class="inlineGroup" style="margin-top: 0.25em">
         <div
@@ -304,10 +308,10 @@
           style="font-size: 0.85em"
           (click)="nukeArtworkBackups()"
         >
-          Nuke
+          {{ lang.text.nuke_btn }}
         </div>
         <div class="text" style="margin-left: 0.25em">
-          local artwork backups
+          {{ lang.text.nukeArtworkBackups_desc }}
         </div>
       </div>
     </div>
@@ -326,7 +330,7 @@
           style="font-size: 0.85em"
           (click)="cvService.download(true)"
         >
-          Force download
+          {{ lang.text.forceDownload_btn }}
         </div>
         <div class="text" style="margin-left: 0.25em">
           {{ lang.text.customVariables_desc }}
@@ -341,7 +345,7 @@
           style="font-size: 0.85em"
           (click)="cpService.download(true)"
         >
-          Force download
+          {{ lang.text.forceDownload_btn }}
         </div>
         <div class="text" style="margin-left: 0.25em">
           {{ lang.text.configPresets_desc }}
@@ -356,9 +360,11 @@
           style="font-size: 0.85em"
           (click)="ssService.download(true)"
         >
-          Force download
+          {{ lang.text.forceDownload_btn }}
         </div>
-        <div class="text" style="margin-left: 0.25em">shell scripts</div>
+        <div class="text" style="margin-left: 0.25em">
+          {{ lang.text.shellScripts_desc }}
+        </div>
       </div>
     </div>
   </div>
@@ -371,7 +377,7 @@
     <div class="inputContainer">
       <div class="inlineLeft">
         <div class="path text" style="margin-right: 0.25em">
-          Steam Directory:
+          {{ lang.environmentVariable.steamDirectory }}
         </div>
         <div class="directoryInput">
           <ng-text-input
@@ -388,14 +394,16 @@
             [stateless]="true"
             [directory]="true"
             (pathChange)="settings.environmentVariables.steamDirectory = $event"
-            >Browse</ng-path-input
+            >{{ lang.text.browse_btn }}</ng-path-input
           >
         </div>
       </div>
     </div>
     <div class="inputContainer">
       <div class="inlineLeft">
-        <div class="path text" style="margin-right: 0.25em">User Accounts:</div>
+        <div class="path text" style="margin-right: 0.25em">
+          {{ lang.environmentVariable.userAccounts }}
+        </div>
         <div class="directoryInput">
           <ng-bubbles
             [(ngModel)]="settings.environmentVariables.userAccounts"
@@ -406,14 +414,14 @@
             [bubbleItems]="settings.environmentVariables.userAccounts"
           ></ng-bubbles>
           <!-- <ng-text-input class="ngTextInput" [placeholder]="userAccountsPlaceholder" [(ngModel)]='settings.environmentVariables.userAccounts' (ngModelChange)='settings.environmentVariables.userAccounts=$event; onSettingsChange()'></ng-text-input> -->
-          <div class="clickButton2" (click)="chooseAccounts()">Choose</div>
+          <div class="clickButton2" (click)="chooseAccounts()">{{ lang.text.choose_btn }}</div>
         </div>
       </div>
     </div>
     <div class="inputContainer">
       <div class="inlineLeft">
         <div class="path text" style="margin-right: 0.25em">
-          ROMs Directory:
+          {{ lang.environmentVariable.romsDirectory }}
         </div>
         <div class="directoryInput">
           <ng-text-input
@@ -430,7 +438,7 @@
             [stateless]="true"
             [directory]="true"
             (pathChange)="settings.environmentVariables.romsDirectory = $event"
-            >Browse</ng-path-input
+            >{{ lang.text.browse_btn }}</ng-path-input
           >
         </div>
       </div>
@@ -438,7 +446,7 @@
     <div class="inputContainer">
       <div class="inlineLeft">
         <div class="path text" style="margin-right: 0.25em">
-          Retroarch Path:
+          {{ lang.environmentVariable.retroarchPath }}
         </div>
         <div class="directoryInput">
           <ng-text-input
@@ -455,7 +463,7 @@
             [stateless]="true"
             [directory]="false"
             (pathChange)="settings.environmentVariables.retroarchPath = $event"
-            >Browse</ng-path-input
+            >{{ lang.text.browse_btn }}</ng-path-input
           >
         </div>
       </div>
@@ -463,7 +471,7 @@
     <div class="inputContainer">
       <div class="inlineLeft">
         <div class="path text" style="margin-right: 0.25em">
-          Retroarch Cores Directory:
+          {{ lang.environmentVariable.raCoresDirectory }}
         </div>
         <div class="directoryInput">
           <ng-text-input
@@ -482,7 +490,7 @@
             (pathChange)="
               settings.environmentVariables.raCoresDirectory = $event
             "
-            >Browse</ng-path-input
+            >{{ lang.text.browse_btn }}</ng-path-input
           >
         </div>
       </div>
@@ -490,7 +498,7 @@
     <div class="inputContainer">
       <div class="inlineLeft">
         <div class="path text" style="margin-right: 0.25em">
-          Local Images Directory:
+          {{ lang.environmentVariable.localImagesDirectory }}
         </div>
         <div class="directoryInput">
           <ng-text-input
@@ -509,7 +517,7 @@
             (pathChange)="
               settings.environmentVariables.localImagesDirectory = $event
             "
-            >Browse</ng-path-input
+            >{{ lang.text.browse_btn }}</ng-path-input
           >
         </div>
       </div>
@@ -525,10 +533,10 @@
   </div>
   <div class="lowerRight">
     @if(showMarkdown) {
-      <div (click)="closeDocs()" class="dangerousButton">Close Docs</div>
+      <div (click)="closeDocs()" class="dangerousButton">{{ lang.text.closeDocs }}</div>
     }
     @else {
-      <div (click)="openDocs()">Open Docs</div>
+      <div (click)="openDocs()">{{ lang.text.openDocs }}</div>
     }
   </div>
 </div>

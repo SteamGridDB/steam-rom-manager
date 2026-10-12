@@ -4,7 +4,7 @@
   [routerLinkActiveOptions]="{ exact: true }"
   (click)="navClick.emit()"
 >
-  <img src="/assets/images/preview.png" alt="Icon" height="16" />{{
+  <img src="/assets/images/preview.png" [alt]="lang.iconAlt" height="16" />{{
     lang.preview
   }}</nav-link
 >
@@ -14,7 +14,7 @@
   [routerLinkActiveOptions]="{ exact: true }"
   (click)="navClick.emit()"
 >
-  <img src="/assets/images/preview.png" alt="Icon" height="16" />{{
+  <img src="/assets/images/preview.png" [alt]="lang.iconAlt" height="16" />{{
     lang.view
   }}</nav-link
 >
@@ -24,7 +24,7 @@
   [routerLinkActiveOptions]="{ exact: true }"
   (click)="navClick.emit()"
 >
-  <img src="/assets/images/time.png" alt="Icon" height="16" />{{
+  <img src="/assets/images/time.png" [alt]="lang.iconAlt" height="16" />{{
     lang.logger
   }}</nav-link
 >
@@ -34,7 +34,7 @@
   [routerLinkActiveOptions]="{ exact: true }"
   (click)="navClick.emit()"
 >
-  <img src="/assets/images/settings.png" alt="Icon" height="16" />{{
+  <img src="/assets/images/settings.png" [alt]="lang.iconAlt" height="16" />{{
     lang.settings
   }}</nav-link
 >
@@ -48,7 +48,7 @@
     (click)="navClick.emit()"
   >
   <ng-container>
-    <img src="/assets/images/danger.png" alt="Icon" height="16"/>{{
+    <img src="/assets/images/danger.png" [alt]="lang.iconAlt" height="16"/>{{
       lang.userExceptions
     }}
   </ng-container>
@@ -60,7 +60,7 @@
   routerLinkActive="active"
   [routerLinkActiveOptions]="{ exact: true }"
   (click)="navClick.emit()"
-  ><img src="/assets/images/information.png" alt="Icon" height="16" />{{
+  ><img src="/assets/images/information.png" [alt]="lang.iconAlt" height="16" />{{
     lang.about
   }}</nav-link
 >
@@ -70,7 +70,7 @@
   routerLinkActive="active"
   [routerLinkActiveOptions]="{ exact: true }"
   (click)="navClick.emit()"
-  ><img src="/assets/images/clipboard.png" alt="Icon" height="16" />{{
+  ><img src="/assets/images/clipboard.png" [alt]="lang.iconAlt" height="16" />{{
     lang.parsers
   }}</nav-link
 >
@@ -81,7 +81,7 @@
   [routerLinkActiveOptions]="{ exact: true }"
   ><img
     src="/assets/images/clipboard.png"
-    alt="Icon"
+    [alt]="lang.iconAlt"
     height="16"
-  />Parsers</nav-link
+  />{{ lang.parsersList }}</nav-link
 >

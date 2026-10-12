@@ -45,12 +45,22 @@ export class ExceptionsComponent implements OnDestroy {
 
   sortByOpts: SelectItem[] = _.flatten(
     [
-      { value: "timeStamp", displayValue: "Date Added" },
-      { value: "oldTitle", displayValue: "Extracted Title" },
-      { value: "newTitle", displayValue: "New Title" },
+      { value: "timeStamp", displayValue: this.lang.sortBy.dateAdded },
+      { value: "oldTitle", displayValue: this.lang.sortBy.extractedTitle },
+      { value: "newTitle", displayValue: this.lang.sortBy.newTitle },
     ].map((x) => [
-      { value: x.value + "|asc", displayValue: x.displayValue + " (asc)" },
-      { value: x.value + "|desc", displayValue: x.displayValue + " (desc)" },
+      {
+        value: x.value + "|asc",
+        displayValue: this.lang.sortBy.asc__i.interpolate({
+          field: x.displayValue,
+        }),
+      },
+      {
+        value: x.value + "|desc",
+        displayValue: this.lang.sortBy.desc__i.interpolate({
+          field: x.displayValue,
+        }),
+      },
     ]),
   );
 

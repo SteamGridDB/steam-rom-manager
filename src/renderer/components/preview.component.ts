@@ -147,10 +147,16 @@ export class PreviewComponent implements OnDestroy {
       },
     );
     this.sortBySelectTypes = [
-      { value: "extractedTitle", displayValue: "Extracted Title" },
-      { value: "title", displayValue: "Final Title" },
-      { value: "configurationTitle", displayValue: "Parser" },
-      { value: "sortAsTitle", displayValue: "Sort As Title" },
+      {
+        value: "extractedTitle",
+        displayValue: this.lang.sortBy.extractedTitle,
+      },
+      { value: "title", displayValue: this.lang.sortBy.title },
+      {
+        value: "configurationTitle",
+        displayValue: this.lang.sortBy.configurationTitle,
+      },
+      { value: "sortAsTitle", displayValue: this.lang.sortBy.sortAsTitle },
     ];
   }
 
@@ -513,9 +519,12 @@ export class PreviewComponent implements OnDestroy {
   async addLocalImages(app: PreviewDataApp, artworkType?: ArtworkType) {
     const options = {
       properties: ["multiSelections", "openFile"],
-      title: "Choose selections folder location.",
+      title: this.lang.addLocalImagesDialog.title,
       filters: [
-        { name: "Images", extensions: ["png", "tga", "jpg", "jpeg", "webp"] },
+        {
+          name: this.lang.addLocalImagesDialog.imagesFilter,
+          extensions: ["png", "tga", "jpg", "jpeg", "webp"],
+        },
       ],
     };
     const actualArtworkType = this.getActualArtworkType(artworkType);
@@ -677,8 +686,8 @@ export class PreviewComponent implements OnDestroy {
       .call("support", "compatTools", [steamDirectory])
       .then((tools: CompatToolInfo[]) => {
         this.compatToolOptions = [
-          { displayValue: "Inherit from parser", value: "" },
-          { displayValue: "None (Steam default)", value: COMPAT_NONE },
+          { displayValue: this.lang.details.compatInherit, value: "" },
+          { displayValue: this.lang.details.compatNone, value: COMPAT_NONE },
           ...tools.map((t) => ({ displayValue: t.displayName, value: t.name })),
         ];
         this.changeDetectionRef.detectChanges();

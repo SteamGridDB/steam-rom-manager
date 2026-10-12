@@ -204,9 +204,7 @@ export class LoggerComponent {
     let useVDFs = this.bugForm.controls.useVDFs.value;
     let steamDirectory = this.bugForm.controls.steamDirectory.value;
     if (!description) {
-      this.loggerService.error(
-        `Description cannot be blank. Please describe your issue.`,
-      );
+      this.loggerService.error(this.lang.bugReport.descriptionBlank);
       return;
     }
     const report: BugReport = {
@@ -226,12 +224,16 @@ export class LoggerComponent {
           this.loggerService.error(result.error);
         } else {
           this.loggerService.error(
-            `Could not upload bug report:\n ${result.error}`,
+            this.lang.bugReport.uploadError__i.interpolate({
+              error: result.error,
+            }),
           );
         }
       })
       .catch((err) => {
-        this.loggerService.error(`Could not upload bug report:\n ${err}`);
+        this.loggerService.error(
+          this.lang.bugReport.uploadError__i.interpolate({ error: err }),
+        );
       });
   }
 

@@ -136,7 +136,7 @@ export class SettingsComponent implements OnDestroy {
   async nukeArtworkChoices() {
     try {
       await this.coreClient.client.call("support", "clearArtworkCache");
-      this.loggerService.info("Emptied artwork cache.", {
+      this.loggerService.info(this.lang.info.emptiedArtworkCache, {
         invokeAlert: true,
         alertTimeout: 3000,
       });
@@ -148,7 +148,7 @@ export class SettingsComponent implements OnDestroy {
   async nukeArtworkBackups() {
     try {
       await this.coreClient.client.call("support", "clearArtworkBackups");
-      this.loggerService.info("Nuked artwork backups.", {
+      this.loggerService.info(this.lang.info.nukedArtworkBackups, {
         invokeAlert: true,
         alertTimeout: 3000,
       });

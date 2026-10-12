@@ -19,6 +19,7 @@ import {
 import { BehaviorSubject, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
 import * as _ from "lodash";
+import { APP } from "../../variables";
 
 @Component({
   selector: "ng-nested-form",
@@ -37,6 +38,10 @@ export class NgNestedFormComponent implements OnInit {
 
   @Output() private parentFormChange = new EventEmitter();
   @Output() showMarkdown: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  get lang() {
+    return APP.lang.forms.component;
+  }
 
   constructor(private changeRef: ChangeDetectorRef) {}
 
