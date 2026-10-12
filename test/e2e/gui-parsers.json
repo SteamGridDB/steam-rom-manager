@@ -1,0 +1,34 @@
+[
+  {
+    "name": "pick two parsers of different types",
+    "js": "location.hash = '#SRM/parsers'; await new Promise(r => setTimeout(r, 2000)); const list = ng.getComponent(document.querySelector('nav-parsers')).userConfigurations.map(c => c.saved); const a = list.find(c => c.parserType === 'Glob'); const b = list.find(c => c.parserType !== 'Glob' && c.parserType !== a.parserType); window.__ab = { a: a.parserId, b: b.parserId }; return { a: a.configTitle + ' (' + a.parserType + ')', b: b.configTitle + ' (' + b.parserType + ')' }"
+  },
+  {
+    "name": "B opened directly: its form",
+    "js": "location.hash = '#SRM/parsers/' + window.__ab.b; await new Promise(r => setTimeout(r, 2000)); window.__bFresh = JSON.stringify(ng.getComponent(document.querySelector('parser-editor')).userForm.getRawValue()); return window.__bFresh.length"
+  },
+  {
+    "name": "open A, edit it",
+    "js": "location.hash = '#SRM/parsers/' + window.__ab.a; await new Promise(r => setTimeout(r, 2000)); const ed = ng.getComponent(document.querySelector('parser-editor')); ed.userForm.get('parserInputs.glob').setValue('${title}.LEAKED'); ed.userForm.get('executableArgs').setValue('--leaked'); await new Promise(r => setTimeout(r, 300)); return { a: ed.parserId, glob: ed.userForm.get('parserInputs.glob').value, unsaved: ed.isUnsaved }"
+  },
+  {
+    "name": "open B again: exactly as when opened directly (nothing from A)",
+    "js": "location.hash = '#SRM/parsers/' + window.__ab.b; await new Promise(r => setTimeout(r, 2000)); const ed = ng.getComponent(document.querySelector('parser-editor')); const now = JSON.stringify(ed.userForm.getRawValue()); const svc = ed.parsersService; const entryB = svc.getUserConfigurationsArray()[svc.indexOfParser(window.__ab.b)]; return { sameAsFresh: now === window.__bFresh, leakedText: now.includes('LEAKED') || now.includes('--leaked'), bHasUnsavedEdits: entryB.current != null, editorFor: ed.parserId }"
+  },
+  {
+    "name": "A kept its own unsaved edit; undo it",
+    "js": "location.hash = '#SRM/parsers/' + window.__ab.a; await new Promise(r => setTimeout(r, 2000)); const ed = ng.getComponent(document.querySelector('parser-editor')); const glob = ed.userForm.get('parserInputs.glob').value; ed.undoChanges(); await new Promise(r => setTimeout(r, 500)); return { globWhileUnsaved: glob, afterUndo: ed.userForm.get('parserInputs.glob').value, unsaved: ed.isUnsaved }"
+  },
+  {
+    "name": "create parser: an empty form, not the last parser's",
+    "js": "location.hash = '#SRM/parsers/new'; await new Promise(r => setTimeout(r, 2000)); const ed = ng.getComponent(document.querySelector('parser-editor')); const v = ed.userForm.getRawValue(); return { parserId: ed.parserId, title: v.configTitle, type: v.parserType, glob: v.parserInputs?.glob ?? null }"
+  },
+  {
+    "name": "moving a parser keeps it open",
+    "js": "location.hash = '#SRM/parsers/' + window.__ab.a; await new Promise(r => setTimeout(r, 2000)); const ed = ng.getComponent(document.querySelector('parser-editor')); const before = ed.configurationIndex; ed.moveDown(); await new Promise(r => setTimeout(r, 500)); const after = ng.getComponent(document.querySelector('parser-editor')); const res = { hash: location.hash.endsWith(window.__ab.a), indexBefore: before, indexAfter: after.configurationIndex, title: after.userForm.value.configTitle }; after.moveUp(); return res"
+  },
+  {
+    "name": "sidebar has no parser list; the nav links to the Parsers tab",
+    "js": "return { navParsersInSidebar: !!document.querySelector('navarea nav-parsers'), navLink: [...document.querySelectorAll('navarea nav-link')].map(n => n.innerText.trim()).filter(t => /parser/i.test(t)) }"
+  }
+]

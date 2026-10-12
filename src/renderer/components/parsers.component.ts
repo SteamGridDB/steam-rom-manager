@@ -8,6 +8,7 @@ import {
   Renderer2,
   ElementRef,
   RendererStyleFlags2,
+  Input,
 } from "@angular/core";
 import { FormGroup, AbstractControl } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -52,7 +53,7 @@ import {
   providersSelect,
 } from "../../lib/image-providers/available-providers";
 @Component({
-  selector: "parsers",
+  selector: "parser-editor",
   templateUrl: "../templates/parsers.component.html",
   styleUrls: ["../styles/parsers.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -63,7 +64,18 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     content: "",
   };
   showMarkdown: boolean = false;
-  configurationIndex: number = -1;
+  // The parser this editor edits ("new": one being created). The parsers
+  // page makes a new editor for each parser, so no state carries over.
+  @Input() parserId: string = "new";
+  // Its position in the list (-1 for a new parser).
+  get configurationIndex(): number {
+    return this.parserId === "new"
+      ? -1
+      : this.parsersService.indexOfParser(this.parserId);
+  }
+  // The form's value as last written to the parser's unsaved edits: not
+  // reloaded when it comes back from the service.
+  private lastWritten: UserConfiguration = null;
   isUnsaved: boolean = false;
   configPresets: ConfigPresets = {};
   customVariables: CustomVariables = {};
@@ -865,18 +877,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.loadConfiguration();
       }),
     );
-    this.subscriptions.add(
-      this.activatedRoute.params.subscribe((params: any) => {
-        this.configurationIndex = parseInt(params["index"]);
-        if (this.configurationIndex !== -1) {
-          this.currentDoc.activePath = "parserType";
-        } else {
-          this.currentDoc.activePath = "";
-          this.currentDoc.content = this.lang.docs__md.intro.join("");
-        }
-        this.loadConfiguration();
-      }),
-    );
+    if (this.parserId !== "new") {
+      this.currentDoc.activePath = "parserType";
+    } else {
+      this.currentDoc.activePath = "";
+      this.currentDoc.content = this.lang.docs__md.intro.join("");
+    }
+    this.loadConfiguration();
     this.subscriptions.add(
       this.cpService.dataObservable.subscribe((data) => {
         this.configPresets = data;
@@ -974,8 +981,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.parsersService.saveConfiguration(
         this.userConfigurations[this.configurationIndex],
       );
-
-    this.router.navigate(["/parsers", this.userConfigurations.length - 1]);
+    // the new parser (or copy) is the last one
+    const added = this.parsersService.getUserConfigurationsArray().at(-1);
+    if (added) this.router.navigate(["/parsers", added.saved.parserId]);
   }
 
   updateForm() {
@@ -984,8 +992,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
   deleteForm() {
     this.parsersService.deleteConfiguration(this.configurationIndex);
-    if (this.configurationIndex >= this.userConfigurations.length)
-      this.router.navigate(["/parsers", this.userConfigurations.length - 1]);
+    this.router.navigate(["/parsers"]);
   }
 
   restoreForm() {
@@ -1460,7 +1467,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.configurationIndex,
         this.configurationIndex - 1,
       );
-      this.router.navigate(["/parsers", this.configurationIndex - 1]);
     }
   }
 
@@ -1470,7 +1476,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.configurationIndex,
         this.configurationIndex + 1,
       );
-      this.router.navigate(["/parsers", this.configurationIndex + 1]);
     }
   }
 
@@ -1539,43 +1544,57 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  // Sets every field of the form: the parser's defaults overlaid with its
+  // unsaved edits or saved config. (patchValue would leave fields the config
+  // lacks holding whatever was there before.)
+  private resetForm(config: UserConfiguration) {
+    this.userForm.reset(
+      _.mergeWith(
+        {},
+        this.parsersService.getDefaultValues(),
+        _.cloneDeep(config),
+        (_default: unknown, value: unknown) =>
+          Array.isArray(value) ? value : undefined,
+      ),
+    );
+  }
+
   private loadConfiguration() {
-    if (
-      this.configurationIndex !== -1 &&
-      this.userConfigurations.length > this.configurationIndex
-    ) {
-      let config = this.userConfigurations[this.configurationIndex];
-
-      this.formChanges.unsubscribe();
-      this.userForm.patchValue(
-        _.cloneDeep(config.current ? config.current : config.saved),
-      );
-      this.markAsDirtyDeep(this.userForm);
-
+    const index = this.configurationIndex;
+    if (!this.userForm || this.userConfigurations === undefined) {
+      this.loadedIndex = null;
+    } else if (index !== -1) {
+      const config = this.userConfigurations[index];
+      const source = config.current ? config.current : config.saved;
+      if (source !== this.lastWritten) {
+        this.formChanges.unsubscribe();
+        this.resetForm(source);
+        this.markAsDirtyDeep(this.userForm);
+        this.formChanges = this.userForm.valueChanges.subscribe(
+          (data: UserConfiguration) => {
+            this.lastWritten = data;
+            const entry =
+              this.userConfigurations[this.configurationIndex] ?? config;
+            if (entry.current == null)
+              this.parsersService.setCurrentConfiguration(
+                this.configurationIndex,
+                data,
+              );
+            else entry.current = data;
+          },
+        );
+      }
       this.isUnsaved = config.current != null;
-
-      this.formChanges = this.userForm.valueChanges.subscribe(
-        (data: UserConfiguration) => {
-          if (config.current == null)
-            this.parsersService.setCurrentConfiguration(
-              this.configurationIndex,
-              data,
-            );
-          else config.current = data;
-        },
-      );
-      this.loadedIndex = this.configurationIndex;
-    } else if (
-      this.configurationIndex === -1 &&
-      this.userConfigurations !== undefined
-    ) {
-      this.formChanges.unsubscribe();
-      this.userForm.patchValue({ parserInputs: null });
-      this.userForm.patchValue(this.parsersService.getDefaultValues());
-      this.userForm.markAsPristine();
+      this.loadedIndex = index;
+    } else if (this.parserId === "new") {
+      if (this.loadedIndex !== -1) {
+        this.formChanges.unsubscribe();
+        this.resetForm(this.parsersService.getDefaultValues());
+        this.userForm.markAsPristine();
+      }
       this.loadedIndex = -1;
     } else {
-      this.loadedIndex = null;
+      this.loadedIndex = null; // the parser is gone (deleted)
     }
 
     this.changeRef.detectChanges();

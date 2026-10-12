@@ -84,7 +84,7 @@ export class AppComponent {
         document.querySelector("html").removeAttribute("style");
         this.router.navigate(["/parsers-list"]);
       } else {
-        this.router.navigate(["/parsers", -1]);
+        this.router.navigate(["/parsers"]);
       }
       this.changeDetectionRef.detectChanges();
     });

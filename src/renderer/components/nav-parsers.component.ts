@@ -21,7 +21,7 @@ import {
 import { UserConfiguration, AppSettings } from "../../models";
 import { Subscription } from "rxjs";
 import { APP } from "../../variables";
-import { Router } from "@angular/router";
+import { NavigationEnd, Router } from "@angular/router";
 
 interface NavEntry {
   saved: UserConfiguration;
@@ -117,14 +117,17 @@ export class NavParsersComponent implements OnDestroy {
         this.changeRef.detectChanges();
       }),
     );
-    if (this.navClick) {
-      this.subscriptions.add(
-        this.navClick.subscribe(() => {
-          this.currentId = "";
-          this.changeRef.detectChanges();
-        }),
-      );
-    }
+    // The open parser: /parsers/<parserId>.
+    const openParser = (url: string) => {
+      this.currentId = url.match(/^\/parsers\/([^/?#]+)/)?.[1] ?? "";
+      this.changeRef.detectChanges();
+    };
+    openParser(this.router.url);
+    this.subscriptions.add(
+      this.router.events.subscribe((event) => {
+        if (event instanceof NavigationEnd) openParser(event.urlAfterRedirects);
+      }),
+    );
 
     this.subscriptions.add(
       this.languageService.observeChanges().subscribe(() => {
@@ -304,9 +307,8 @@ export class NavParsersComponent implements OnDestroy {
     control.setValue(!control.value);
   }
 
-  onClick(index: number, parserId: string) {
-    this.router.navigate(["/parsers", index]);
-    this.currentId = parserId;
+  onClick(parserId: string) {
+    this.router.navigate(["/parsers", parserId]);
   }
 
   // ---- Search -------------------------------------------------------------
@@ -416,21 +418,8 @@ export class NavParsersComponent implements OnDestroy {
     toIndex: number,
     targetGroup: string,
   ) {
+    // (The open parser's route is its id, so it stays open wherever it goes.)
     this.parsersService.moveParser(fromIndex, toIndex, targetGroup);
-    // Keep the currently open parser's route pointing at the same parser.
-    if (fromIndex < this.dragStartIndex && this.dragStartIndex <= toIndex) {
-      this.router.navigate(["/parsers", this.dragStartIndex - 1]);
-    } else if (
-      toIndex <= this.dragStartIndex &&
-      this.dragStartIndex < fromIndex
-    ) {
-      this.router.navigate(["/parsers", this.dragStartIndex + 1]);
-    } else if (this.dragStartIndex == fromIndex) {
-      this.router.navigate([
-        "/parsers",
-        Math.min(toIndex, this.userConfigurations.length - 1),
-      ]);
-    }
   }
 
   groupDragStart(group: NavGroup) {

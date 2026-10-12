@@ -9,7 +9,7 @@
   },
   {
     "name": "parser editor: placeholders, compat tools, controller templates",
-    "js": "location.hash = '#SRM/parsers/0'; await new Promise(r => setTimeout(r, 4000)); const p = ng.getComponent(document.querySelector('parsers')); const compat = p.nestedGroup.children.compatToolName.values; return { osType: window.srm.env.osType, compat: compat.map(x => x.value).slice(-3), text: document.querySelector('parsers').innerText.length > 100 }"
+    "js": "location.hash = '#SRM/parsers/new'; await new Promise(r => setTimeout(r, 4000)); const p = ng.getComponent(document.querySelector('parser-editor')); const compat = p.nestedGroup.children.compatToolName.values; return { osType: window.srm.env.osType, compat: compat.map(x => x.value).slice(-3), text: document.querySelector('parser-editor').innerText.length > 100 }"
   },
   {
     "name": "logger page renders",

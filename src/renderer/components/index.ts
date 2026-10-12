@@ -9,6 +9,7 @@ export * from "./navarea.component";
 export * from "./nav-border.component";
 export * from "./parsers.component";
 export * from "./parsers-list.component";
+export * from "./parsers-page.component";
 export * from "./nav-link.component";
 export * from "./nav-expand.component";
 export * from "./nav-parsers.component";
