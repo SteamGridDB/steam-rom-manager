@@ -47,8 +47,8 @@ exports[`FileParser (characterization) > custom variables, user exceptions and m
     "configurationTitle": "SNES excluded",
     "excluded": [
       {
-        "exceptionKey": "Super Mario World (USA)",
         "filePath": "<ROOT>/roms/snes/Super Mario World (USA).sfc",
+        "title": "Super Mario World (USA)",
       },
     ],
     "failed": [],

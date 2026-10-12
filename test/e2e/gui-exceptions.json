@@ -1,0 +1,34 @@
+[
+  {
+    "name": "your exceptions migrate: two tabs with counts",
+    "js": "location.hash = '#SRM/user-exceptions'; await new Promise(r => setTimeout(r, 2000)); const c = ng.getComponent(document.querySelector('user-exceptions')); return { tabs: [...document.querySelectorAll('user-exceptions .tab')].map(t => t.innerText.trim()), firstCards: [...document.querySelectorAll('user-exceptions .rule .ruleHeader')].slice(0, 3).map(h => h.innerText.replace(/\\s+/g, ' ').trim()), unsaved: c.isUnsaved }"
+  },
+  {
+    "name": "rules made on Add Games: title is read-only; by-title rules are editable",
+    "js": "const el = document.querySelector('user-exceptions'); const rules = [...el.querySelectorAll('.rule')]; const fromPreview = rules.filter(r => r.querySelector('.fromPreview')); const byTitle = rules.filter(r => r.querySelector('.byTitle')); return { fromPreview: fromPreview.length, byTitle: byTitle.length, previewHasTitleInput: fromPreview.some(r => r.querySelector('.ruleHeader ng-text-input')), byTitleHasInput: byTitle.every(r => r.querySelector('.ruleHeader ng-text-input')), sgdbShown: el.querySelectorAll('.sgdbMatch').length }"
+  },
+  {
+    "name": "exclusions tab",
+    "js": "const c = ng.getComponent(document.querySelector('user-exceptions')); c.setTab('exclusions'); await new Promise(r => setTimeout(r, 300)); return { cards: document.querySelectorAll('user-exceptions .rule').length, buttons: [...document.querySelectorAll('user-exceptions .removeRule')].slice(0, 1).map(b => b.innerText.trim()) }"
+  },
+  {
+    "name": "exclude a title by hand, save",
+    "js": "const c = ng.getComponent(document.querySelector('user-exceptions')); const before = c.draft.exclusions.length; c.addByTitle(); c.draft.exclusions[0].matchTitle = 'Chrono Trigger (USA)'; c.changed(); c.save(); await new Promise(r => setTimeout(r, 500)); return { before, after: c.exceptionsService.data.exclusions.length, unsaved: c.isUnsaved }"
+  },
+  {
+    "name": "Add Games: the excluded title is left out",
+    "js": "location.hash = '#SRM/preview'; await new Promise(r => setTimeout(r, 2000)); const p = ng.getComponent(document.querySelector('preview')); p.generatePreviewData(); const v = p.previewService.getPreviewVariables(); const t = Date.now(); while ((!v.listHasGenerated || v.listIsBeingGenerated || v.numberOfQueriedImages) && Date.now() - t < 60000) await new Promise(r => setTimeout(r, 200)); const pd = p.previewService.getPreviewData(); const dir = Object.keys(pd)[0]; const user = Object.keys(pd[dir])[0]; window.__d = { dir, user }; return { apps: Object.values(pd[dir][user].apps).map(a => a.title), excluded: pd[dir][user].excluded.map(x => x.title) }"
+  },
+  {
+    "name": "a game's details: rename + Fix match pick, saved by app id",
+    "js": "const p = ng.getComponent(document.querySelector('preview')); const { dir, user } = window.__d; const [appId, app] = Object.entries(p.previewService.getPreviewData()[dir][user].apps)[0]; p.changeAppDetails(app, dir, user, appId); await new Promise(r => setTimeout(r, 1500)); p.detailsException.newTitle = 'Renamed Game'; p.fixMatchSearch('4242'); p.saveDetails(); await new Promise(r => setTimeout(r, 500)); const rule = p.userExceptionsService.data.exceptions.find(e => e.newTitle === 'Renamed Game'); return rule ? { matchAppId: !!rule.matchAppId, appTitle: rule.appTitle, sgdbId: rule.sgdbId, matchTitle: rule.matchTitle ?? null } : 'NOT SAVED'"
+  },
+  {
+    "name": "exclude that game from Add Games: its changes stay",
+    "js": "const p = ng.getComponent(document.querySelector('preview')); const { dir, user } = window.__d; const appId = Object.keys(p.previewService.getPreviewData()[dir][user].apps)[0]; p.showExclusions(); p.excludeAppId(dir, user, appId, true); p.saveExcludes(); await new Promise(r => setTimeout(r, 500)); const s = p.userExceptionsService.data; return { exclusionsByAppId: s.exclusions.filter(x => x.matchAppId !== undefined).length, renamedStillThere: s.exceptions.some(e => e.newTitle === 'Renamed Game') }"
+  },
+  {
+    "name": "file on disk keeps the old format alongside (for older SRM)",
+    "js": "const s = ng.getComponent(document.querySelector('preview')).userExceptionsService.data; return { version: s.exceptionsVersion, hasLegacyInMirror: 'titles' in s }"
+  }
+]

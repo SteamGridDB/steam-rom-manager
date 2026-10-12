@@ -374,14 +374,10 @@
     "component": {
       "buttons": {
         "save": "保存",
-        "deleteAll": "清除",
         "undoChanges": "撤销更改",
-        "addItem": "添加异常",
         "deleteItem": "删除异常"
       },
       "text": {
-        "title": "用户异常",
-        "exclude": "排除标题",
         "excludeArtwork": "仅限本地艺术作品"
       },
       "placeholder": {
