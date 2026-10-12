@@ -1,19 +1,19 @@
-# Fuzzy matching
+# Нечеткое соответствие
 
-Fuzzy (natural) matching will be done against the tittle list provided by [SteamGridDB](http://www.steamgriddb.com/). It will try to fill in missing characters for titles which will increase probability for finding images.
+Нечеткое (естественное) сопоставление будет производиться по списку титлов, предоставленному [SteamGridDB](http://www.steamgriddb.com/). Он попытается заполнить недостающие символы в названиях, что повысит вероятность поиска изображений.
 
-Fuzzy titles are available as title modifiers via `${fuzzyTitle}`. Currently fuzzy matching is only enabled for `ROM Parsers` and `Manual Parsers`.
+Нечеткие заголовки доступны в качестве модификаторов заголовков через `${fuzzyTitle}`. В настоящее время нечеткое соответствие включено только для `ROM-анализаторов` и `ручных анализаторов`.
 
-It is possible, that `false` matching might occur for titles that are not in the list. If you encounter missing titles, feel free to post an issue on [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
+Возможно, что для названий, которых нет в списке, может возникнуть соответствие `false`. Если вы обнаружили отсутствие названий, не стесняйтесь опубликовать проблему на [github](https://github.com/FrogTheFrog/steam-rom-manager/issues).
 
-## Replace diacritic characters
+## Замена диакритических знаков
 
-Replaces diacritic characters to their latin equivalent: `Ą` -> `A`, `Ę` -> `E`, `Ė` -> `E`, etc. Might improve the matching ability of fuzzy matcher.
+Заменяет диакритические знаки на их латинские эквиваленты: `Ą` -> `A`, `Ę` -> `E`, `Ė` -> `E`, и т. д. Может улучшить способность нечеткого анализатора к согласованию.
 
-## Aggressive matching
+## Агрессивное соответствие
 
-When enabled, fuzzy matcher will remove all characters except for `a-zA-Z0-9 ()[]` and will replace `_` with space. This should improve the matching ability of fuzzy matcher.
+Если эта функция включена, то при нечетком сопоставлении будут удалены все символы, кроме `a-zA-Z0-9 ()[]`, а `_` будет заменен на пробел. Это должно улучшить способность нечеткого анализатора к согласованию.
 
-## Remove (...) and [...] brackets
+## Уберите скобки (...) и [...]
 
-When enabled, fuzzy matcher will remove all `(...)`{.noWrap} and `[...]`{.noWrap} together with their content. Useful for titles with `[USA]`{.noWrap}, `[JPN]`{.noWrap} and etc., as they prevent from matching titles correctly.
+Если эта опция включена, то fuzzy matcher удалит все `(...)`{.noWrap} и `[...]`{.noWrap} вместе с их содержимым. Полезно для названий с `[USA]`{.noWrap}, `[JPN]`{.noWrap} и т. д., так как они мешают корректному сопоставлению названий.

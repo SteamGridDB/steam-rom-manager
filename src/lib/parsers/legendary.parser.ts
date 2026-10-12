@@ -16,13 +16,13 @@ export class LegendaryParser implements GenericParser {
       inputs: {
         legendaryExeOverride: {
           label: this.lang.legendaryExeOverrideTitle,
-          placeholder: this.lang.legendaryExeOverridePlaceholder[os.type()],
+          placeholder: this.lang.legendaryExeOverridePlaceholder[APP.osType],
           inputType: "path",
           info: this.lang.docs__md.input.join(""),
         },
         legendaryInstalledFile: {
           label: this.lang.legendaryInstalledFileTitle,
-          placeholder: this.lang.legendaryInstalledFilePlaceholder[os.type()],
+          placeholder: this.lang.legendaryInstalledFilePlaceholder[APP.osType],
           inputType: "path",
           info: this.lang.docs__md.input.join(""),
         },

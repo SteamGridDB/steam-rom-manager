@@ -1,4 +1,4 @@
-# Imagem de logotipo padrão (opcional) `[suporta variáveis]`{.noWrap}
+#
 
 Argumentos que são anexados ao executável para produzir o atalho final. Na maioria das vezes você vai querer configurá-lo usando as variáveis de análise fornecidas.
 
@@ -126,20 +126,20 @@ Esta configuração é usada para influenciar o ID APP do Steam.
 
 ## Variáveis de diretório
 
-| Variável (maiúsculas e minúsculas) | Sobreposição correspondente                  |
-| ---------------------------------: | :------------------------------------------- |
-|                        `${exeDir}` | Diretório executável                         |
-|                        `${romDir}` | Diretório ROMs                               |
-|                      `${steamDir}` | Diretório Steam                              |
-|                    `${startInDir}` | Diretório inicial                            |
-|                       `${fileDir}` | Arquivo retornado pelo analisador, diretório |
+| Variável (maiúsculas e minúsculas) | Sobreposição correspondente |
+| ----------------------------------:|:--------------------------- |
+|                        `${exeDir}` | Diretório executável        |
+|                        `${romDir}` | Diretório ROMs              |
+|                      `${steamDir}` | Diretório Steam             |
+|                    `${startInDir}` | Diretório inicial           |
+|                       `${fileDir}` |                             |
 
 Caso a entrada do diretório executável seja deixada **vazia**, `${exeDir}`{.noWrap} é igual a `${fileDir}`{.noWrap}. Além disso, se o diretório "StartIn" for deixado **vazio**, `${startInDir}`{.noWrap} é igual a `${exeDir}`{.noWrap}.
 
 ## Variáveis de nome
 
 | Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                        |
-| ---------------------------------: | :----------------------------------------------------------------- |
+| ----------------------------------:|:------------------------------------------------------------------ |
 |                       `${exeName}` | Nome do executável (sem extensão)                                  |
 |                      `${fileName}` | Nome do arquivo que foi retornado por um analisador (sem extensão) |
 
@@ -148,7 +148,7 @@ Caso a entrada do diretório executável seja deixada **vazia**, `${exeName}`{.n
 ## Variáveis de extensão
 
 | Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                            |
-| ---------------------------------: | :--------------------------------------------------------------------- |
+| ----------------------------------:|:---------------------------------------------------------------------- |
 |                        `${exeExt}` | Extensão do executável (com um ponto)                                  |
 |                       `${fileExt}` | Extensão do arquivo que foi retornado por um analisador (com um ponto) |
 
@@ -157,7 +157,7 @@ Caso a entrada do diretório executável seja deixada **vazia**, `${exeExt}`{.no
 ## Variáveis de nome
 
 | Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                          |
-| ---------------------------------: | :------------------------------------------------------------------- |
+| ----------------------------------:|:-------------------------------------------------------------------- |
 |                       `${exePath}` | Caminho completo para um executável                                  |
 |                      `${filePath}` | Caminho completo para um arquivo que foi retornado por um analisador |
 
@@ -166,7 +166,7 @@ Caso a entrada do diretório executável seja deixada **vazia**, `${exePath}`{.n
 ## Variáveis de nome
 
 | Variável (maiúsculas e minúsculas) | Sobreposição correspondente                                 |
-| ---------------------------------: | :---------------------------------------------------------- |
+| ----------------------------------:|:----------------------------------------------------------- |
 |                         `${title}` | Título extraído                                             |
 |                    `${fuzzyTitle}` | Título difuso correspondente                                |
 |                    `${finalTitle}` | O título que foi o resultado final do modificador do título |
@@ -175,13 +175,13 @@ No caso de correspondência difusa **falhar** ou está **desabilitado**, `${fuzz
 
 ## Custom variables
 
-|                           Variável (maiúsculas e minúsculas) | Função correspondente                                                                                                                           |
-| -----------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------- |
-|                    `${regex\├input\├substitution(opcional)}` | Executa a expressão regex na entrada. Suporta `u`, `g` e `i` bandeiras (grupos capturados se juntam, a menos que a substituição seja fornecida) |
-|                                               `${uc\├input}` | Variável maiúscula. Transformar em maiúsculas                                                                                                   |
-|                                               `${uc\├input}` | Variável maiúscula. Transformar em maiúsculas                                                                                                   |
-|                                         `${cv:group\├input}` | Alterar entrada com variável personalizada correspondente (grupo é opcional)                                                                    |
-|                                               `${uc\├input}` | Substituir caracteres diacríticos de entrada com seu equivalente latino                                                                         |
+|                               Variável (maiúsculas e minúsculas) | Função correspondente                                                                                                                           |
+| ----------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------- |
+|                      `${regex\├input\├substitution(opcional)}` | Executa a expressão regex na entrada. Suporta `u`, `g` e `i` bandeiras (grupos capturados se juntam, a menos que a substituição seja fornecida) |
+|                                                  `${uc\├input}` | Variável maiúscula. Transformar em maiúsculas                                                                                                   |
+|                                                  `${uc\├input}` | Variável maiúscula. Transformar em maiúsculas                                                                                                   |
+|                                            `${cv:group\├input}` | Alterar entrada com variável personalizada correspondente (grupo é opcional)                                                                    |
+|                                                  `${uc\├input}` | Substituir caracteres diacríticos de entrada com seu equivalente latino                                                                         |
 | `${os:[win\├mac\├linux]\├na ocorrência\├no match(opcional)}` | Se o SO corresponder, usa `na correspondência valor` ou `não corresponde` caso contrário                                                        |
 
 ### Exemplo de variável função

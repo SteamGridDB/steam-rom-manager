@@ -1,4 +1,4 @@
-# Steam 目录 `[支持环境变量]`{.noWrap}
+# Steam directory `[supports env variables]`
 
 必须是包含 Steam 可执行文件的有效 Steam 目录。 为了检测到 Steam 账户，用户必须至少登录一次。
 

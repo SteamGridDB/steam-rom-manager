@@ -23,7 +23,7 @@ export class GOGParser implements GenericParser {
       inputs: {
         galaxyExeOverride: {
           label: this.lang.galaxyExeOverrideTitle,
-          placeholder: this.lang.galaxyExeOverridePlaceholder[os.type()],
+          placeholder: this.lang.galaxyExeOverridePlaceholder[APP.osType],
           inputType: "path",
           info: this.lang.docs__md.input.join(""),
         },

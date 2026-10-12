@@ -1,8 +1,8 @@
-# Arguments de commande (facultative) `[prend en charge les variables]`{.noWrap}
+#
 
-Arguments which are appended to executable to produce final shortcut. Most of the time you will want to set it using provided parser variables.
+Arguments qui sont ajoutés à l'exécutable pour générer le raccourci final. La plupart du temps, vous le définirez en utilisant des variables de parseur fournies.
 
-## Exemples par Système
+## Exemples par système
 
 ### RetroArch
 
@@ -127,19 +127,19 @@ Ce paramètre est utilisé pour influer sur l'APP ID de Steam.
 ## Variables de répertoire
 
 | Variable (insensible à la casse) | Valeur correspondante                           |
-| -------------------------------: | :---------------------------------------------- |
+| --------------------------------:|:----------------------------------------------- |
 |                      `${exeDir}` | Répertoire exécutable                           |
 |                      `${romDir}` | Répertoire des ROMs                             |
 |                    `${steamDir}` | Répertoire Steam                                |
 |                  `${startInDir}` | Répertoire "Démarrer"                           |
-|                     `${fileDir}` | Fichiers retournés par un analyseur, répertoire |
+|                     `${fileDir}` | Fichiers retournés par un parseur ou un dossier |
 
 Dans le cas où l'entrée du répertoire exécutable est laissée **vide**, `${exeDir}`{.noWrap} est égal à `${fileDir}`{.noWrap}. De plus, si le répertoire "Démarrer" est laissé **vide**, `${startInDir}`{.noWrap} est égal à `${exeDir}`{.noWrap}.
 
 ## Nom des variables
 
 | Variable (insensible à la casse) | Valeur correspondante                                               |
-| -------------------------------: | :------------------------------------------------------------------ |
+| --------------------------------:|:------------------------------------------------------------------- |
 |                     `${exeName}` | Nom de l'exécutable (sans extension)                                |
 |                    `${fileName}` | Nom du fichier qui a été retourné par un analyseur (sans extension) |
 
@@ -148,7 +148,7 @@ Dans le cas où l'entrée nom de l'exécutable est laissée **vide**, `${exeName
 ## Variables d'extension
 
 | Variable (insensible à la casse) | Valeur correspondante                                                     |
-| -------------------------------: | :------------------------------------------------------------------------ |
+| --------------------------------:|:------------------------------------------------------------------------- |
 |                      `${exeExt}` | Extension de l'exécutable (avec un point)                                 |
 |                     `${fileExt}` | Extension de fichier qui a été retournée par un analyseur (avec un point) |
 
@@ -157,7 +157,7 @@ Dans le cas où l'entrée extension de l'exécutable est laissée **vide**, `${e
 ## Variables de chemin
 
 | Variable (insensible à la casse) | Valeur correspondante                                              |
-| -------------------------------: | :----------------------------------------------------------------- |
+| --------------------------------:|:------------------------------------------------------------------ |
 |                     `${exePath}` | Chemin complet vers un exécutable                                  |
 |                    `${filePath}` | Chemin complet vers un fichier qui a été retourné par un analyseur |
 
@@ -165,53 +165,37 @@ Dans le cas où l'entrée chemin complet vers un exécutable est laissée **vide
 
 ## Variables d'analyseur
 
-| Variable (insensible à la casse) | Valeur correspondante                            |
-| -------------------------------: | :----------------------------------------------- |
-|                       `${title}` | Extracted title                                  |
-|                  `${fuzzyTitle}` | Fuzzy matched title                              |
-|                  `${finalTitle}` | Title which was the end result of title modifier |
+| Variable (insensible à la casse) | Valeur correspondante |
+| --------------------------------:|:--------------------- |
+|                       `${title}` | Titre extrait         |
+|                  `${fuzzyTitle}` |                       |
+|                  `${finalTitle}` |                       |
 
-In case fuzzy matching **fails** or is **disabled**, `${fuzzyTitle}`{.noWrap} is equal to `${title}`{.noWrap}.
+.
 
-## Function variables
+## Variables de Fonction
 
-|                        Variable (insensible à la casse) | Corresponding function                                                                                                 |
-| ------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------- |
-|               `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
-|                                          `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
-|                                          `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                                      |
-|                                    `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
-|                                         `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
-| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                           |
+|                            Variable (insensible à la casse) | Fonction correspondante                                                                              |
+| -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------- |
+|                                                          `` | . `<code></td>
+</tr>
+<tr>
+  <td align="right"><code>${uc\|input}`                 | Variable majuscule. Met le champ input en majuscule |
+|                                             `${lc\|input}` | Variable minuscule. Met le champ input en minuscule                                                  |
+|                                       `${cv:group\|input}` | Change le champ input avec une variable personnalisée correspondante (le champ group est facultatif) |
+|                                            `${rdc\|input}` |                                                                                                      |
+| `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | Si le système d'exploitation correspond, la valeur sera `on match`, sinon `no match`                 |
 
-### Function variable example
+### Exemple de varable de fonction
 
-Let's say that `${title}` variable equals to `Pokémon (USA) (Disc 1).iso`. Then these variables:
-
-```
-${/.*/|${title}}                           //Matches everything
-${/(.*)/|${title}}                         //Captures everything
-${/(\(.*?\))/|${title}|}                   //Captures all brackets and substitutes with nothing
-${/(\(Disc\s?[0-9]\))/|${title}}           //Captures "Disc..." part
-${uc|${/(\(Disc\s?[0-9]\))/|${title}}}     //Captures "Disc..." part and transforms it to uppercase
-${rdc|${title}}                            //Replace diacritic characters (in this case: é -> e)
-file${os:linux|.so|${os:win|.dll}}         //Selects correct file extension for OS
-```
-
-will be replaced with these:
+. :
 
 ```
-Pokémon (USA) (Disc 1).iso
-Pokémon (USA) (Disc 1).iso
-Pokémon.iso
-(Disc 1)
-(DISC 1)
-Pokemon (USA) (Disc 1).iso
 
---On linux:
-file.so
---On Windows:
-file.dll
---On Mac OS:
-file
+```
+
+sera remplacé par:
+
+```
+
 ```
