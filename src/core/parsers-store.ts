@@ -101,6 +101,21 @@ export class ParsersStore {
     return this.fileParser.getParserInfo(parserType);
   }
 
+  // Parser info as plain data for a UI in another process (labels, inputs,
+  // docs); validation functions are left out (use validate()).
+  getParserInfoForUi(parserType: ParserType) {
+    const info = this.getParserInfo(parserType);
+    return info ? JSON.parse(JSON.stringify(info)) : undefined;
+  }
+
+  getControllerTemplatesCache(): ControllerTemplates {
+    return this.controllerTemplates;
+  }
+
+  setControllerTemplatesCache(templates: ControllerTemplates) {
+    this.controllerTemplates = templates;
+  }
+
   getParserId(index: number) {
     return this.configs[index].parserId;
   }

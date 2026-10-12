@@ -81,6 +81,24 @@ export class SettingsStore {
     }
   }
 
+  // Replaces the settings with `data` (e.g. edited in a UI), keeping the
+  // same object so other stores' references stay valid.
+  async replace(
+    data: AppSettings,
+    { save = true, notify = false }: { save?: boolean; notify?: boolean } = {},
+  ) {
+    for (const key of Object.keys(this.settings)) {
+      delete (this.settings as any)[key];
+    }
+    Object.assign(this.settings, data);
+    if (notify) {
+      this.changed();
+    }
+    if (save) {
+      await this.save();
+    }
+  }
+
   // Tell listeners the settings object changed (after in-place edits).
   changed() {
     for (const listener of this.listeners) {

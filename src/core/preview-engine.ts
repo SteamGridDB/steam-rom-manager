@@ -22,15 +22,7 @@ import {
   initArtworkRecord,
   Logger,
 } from "../models";
-import {
-  VDF_Manager,
-  VDF_Error,
-  CategoryManager,
-  ControllerManager,
-  CompatToolManager,
-  Acceptable_Error,
-  ArtworkCache,
-} from "../lib";
+import { ArtworkCache } from "../lib";
 import { APP } from "../variables";
 import { queue } from "async";
 import * as steam from "../lib/helpers/steam";
@@ -53,6 +45,7 @@ import {
 import { ParsersStore } from "./parsers-store";
 import { SettingsStore } from "./settings-store";
 import { ArtworkProviders } from "./artwork-providers";
+import { SteamWriter } from "./steam-writer";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -65,7 +58,6 @@ export class PreviewEngine {
   private previewDataChanged: Subject<void>;
   private onlineImages: OnlineImages;
   private batchProgress: BehaviorSubject<{ update: string; batch: number }>;
-  private categoryManager: CategoryManager;
   private sgdbToArt: SGDBToArt;
 
   constructor(
@@ -76,6 +68,13 @@ export class PreviewEngine {
     // Called for each new online image when images should be loaded ahead
     // of time (the UI measures them); nothing to do without a UI.
     private onNewImage: (image: ImageContent) => void = () => {},
+    // Writes to Steam. A UI in another process passes a proxy to the main
+    // process's writer.
+    private writer: Pick<SteamWriter, "save"> = new SteamWriter(
+      loggerService,
+      parsers,
+      settings,
+    ),
   ) {
     this.previewData = undefined;
     this.previewVariables = {
@@ -86,7 +85,6 @@ export class PreviewEngine {
       numberOfQueriedImages: 0,
       numberOfListItems: 0,
     };
-    this.categoryManager = new CategoryManager();
     this.previewDataChanged = new Subject<void>();
     this.batchProgress = new BehaviorSubject({ update: "", batch: -1 });
     this.onlineImages = initArtworkRecord<OnlineImages[ArtworkType]>(
@@ -206,33 +204,6 @@ export class PreviewEngine {
     }
   }
 
-  async removeCategories(
-    steamDir: string,
-    userId: string,
-    addedCategories: VDF_AddedCategoriesData[string][string],
-  ) {
-    try {
-      this.loggerService.info(
-        `Removing category information for user ${userId}.`,
-      );
-      await this.categoryManager.removeAllCategoriesAndWrite(
-        steamDir,
-        userId,
-        addedCategories,
-      );
-    } catch (error) {
-      this.loggerService.error(this.lang.errors.categorySaveError, {
-        invokeAlert: true,
-        alertTimeout: 3000,
-      });
-      this.loggerService.error(
-        this.lang.errors.categorySaveError__i.interpolate({
-          error: error.message,
-        }),
-      );
-    }
-  }
-
   saveData({
     batchWrite,
     removeAll,
@@ -240,7 +211,6 @@ export class PreviewEngine {
     batchWrite: boolean;
     removeAll: boolean;
   }): Promise<boolean> {
-    let knownSteamDirectories = this.parsers.getKnownSteamDirectories();
     if (this.previewVariables.listIsBeingSaved) {
       return Promise.resolve().then(() => {
         this.loggerService.info(this.lang.info.listIsBeingSaved, {
@@ -265,259 +235,32 @@ export class PreviewEngine {
         });
         return false;
       });
-    } else if (removeAll && knownSteamDirectories.length === 0) {
-      return Promise.resolve().then(() => {
-        this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        return false;
-      });
     }
+    return this.runSave({ batchWrite, removeAll });
+  }
 
-    let vdfManager = new VDF_Manager();
+  private async runSave(options: {
+    batchWrite: boolean;
+    removeAll: boolean;
+  }): Promise<boolean> {
     this.previewVariables.listIsBeingSaved = true;
-    let exAppIds: VDF_ExtraneousItemsData = undefined;
-    let addedCats: VDF_AddedCategoriesData = undefined;
-    let chain: Promise<any> = Promise.resolve()
-      .then(() => {
-        this.loggerService.info(this.lang.info.populatingVDF_List, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        return vdfManager.prepare(
-          removeAll ? knownSteamDirectories : this.previewData,
-        );
-      })
-      .then(() => {
-        this.loggerService.info(this.lang.info.creatingBackups, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        return vdfManager.backup();
-      })
-      .then(() => {
-        this.loggerService.info(this.lang.info.readingVDF_Files, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        return vdfManager.read();
-      });
-    if (!removeAll) {
-      chain = chain.then(() => {
-        this.loggerService.info(this.lang.info.mergingVDF_entries, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        return vdfManager.mergeData(
-          this.previewData,
-          this.onlineImages,
-          this.appSettings.previewSettings.deleteDisabledShortcuts,
-        );
-      });
-    } else {
-      chain = chain.then(() => {
-        this.loggerService.info(this.lang.info.removingVDF_entries, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        return vdfManager.removeAllAddedEntries();
-      });
+    try {
+      const { ok, outcomes } = await this.writer.save(
+        options.removeAll ? undefined : this.previewData,
+        this.onlineImages,
+        options,
+        (progress) => this.batchProgress.next(progress),
+      );
+      if (ok && outcomes) {
+        this.updatePreviewDataUrls(outcomes);
+      }
+      if (ok && options.removeAll) {
+        this.clearPreviewData();
+      }
+      return ok;
+    } finally {
+      this.previewVariables.listIsBeingSaved = false;
     }
-    chain = chain
-      .then(
-        ({
-          extraneousAppIds,
-          addedCategories,
-        }: {
-          extraneousAppIds: VDF_ExtraneousItemsData;
-          addedCategories: VDF_AddedCategoriesData;
-        }) => {
-          exAppIds = extraneousAppIds; //Non artwork-only extraneous app ids
-          addedCats = addedCategories; //Added categories for all app ids
-        },
-      )
-      .then(async () => {
-        if (!removeAll && !this.appSettings.previewSettings.disableCategories) {
-          await steam.performSteamlessTask(
-            this.appSettings,
-            this.loggerService,
-            async () => {
-              this.loggerService.info(this.lang.info.savingCategories);
-              await this.categoryManager.save(
-                this.previewData,
-                exAppIds,
-                addedCats,
-              );
-            },
-          );
-        }
-        if (removeAll && !this.appSettings.previewSettings.disableCategories) {
-          await steam.performSteamlessTask(
-            this.appSettings,
-            this.loggerService,
-            async () => {
-              for (let steamDir of knownSteamDirectories) {
-                const accounts = await steam.getAvailableLogins(steamDir);
-                for (let account of accounts) {
-                  await this.removeCategories(
-                    steamDir,
-                    account.accountID,
-                    addedCats[steamDir][account.accountID],
-                  );
-                }
-              }
-            },
-          );
-        }
-      })
-      .catch((error: Acceptable_Error | Error) => {
-        if (error instanceof Acceptable_Error) {
-          this.loggerService.error(this.lang.errors.categorySaveError, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-          this.loggerService.error(
-            this.lang.errors.categorySaveError__i.interpolate({
-              error: error.message,
-            }),
-          );
-        } else {
-          throw error;
-        }
-      })
-      .then(() => {
-        if (!removeAll) {
-          this.loggerService.info(this.lang.info.savingControllers);
-          const controllerManager = new ControllerManager();
-          return controllerManager.save(this.previewData, exAppIds);
-        }
-      })
-      .catch((error: Acceptable_Error | Error) => {
-        if (error instanceof Acceptable_Error) {
-          this.loggerService.error(this.lang.errors.controllerSaveError, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-          this.loggerService.error(
-            this.lang.errors.controllerSaveError__i.interpolate({
-              error: error.message,
-            }),
-          );
-        } else {
-          throw error;
-        }
-      })
-      .then(async () => {
-        // config.vdf is per-install and Steam rewrites it on exit, so patch it
-        // with Steam closed (same steamless window the categories step uses).
-        await steam.performSteamlessTask(
-          this.appSettings,
-          this.loggerService,
-          async () => {
-            this.loggerService.info(this.lang.info.savingCompatTools);
-            const compatToolManager = new CompatToolManager(this.loggerService);
-            if (removeAll) {
-              // exAppIds holds only SRM-owned (non artwork-only) shortcuts.
-              await compatToolManager.removeAll(
-                knownSteamDirectories,
-                exAppIds,
-              );
-            } else {
-              await compatToolManager.save(this.previewData, exAppIds);
-            }
-          },
-        );
-      })
-      .catch((error: Acceptable_Error | Error) => {
-        if (error instanceof Acceptable_Error) {
-          this.loggerService.error(this.lang.errors.compatToolSaveError, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-          this.loggerService.error(
-            this.lang.errors.compatToolSaveError__i.interpolate({
-              error: error.message,
-            }),
-          );
-        } else {
-          throw error;
-        }
-      })
-      .then(() => {
-        if (removeAll) {
-          this.loggerService.info(this.lang.info.removingVDF_entries);
-        } else {
-          this.loggerService.info(
-            this.lang.info.writingVDF_entries__i.interpolate({
-              batchSize: this.appSettings.batchDownloadSize,
-            }),
-            { invokeAlert: true, alertTimeout: 3000 },
-          );
-        }
-        if (batchWrite) {
-          vdfManager
-            .getBatchProgress()
-            .subscribe(
-              ({ update, batch }: { update: string; batch: number }) => {
-                if (batch > -1) {
-                  this.loggerService.info(update, {
-                    invokeAlert: true,
-                    alertTimeout: 3000,
-                  });
-                  this.batchProgress.next({ update: update, batch: batch });
-                }
-              },
-            );
-        }
-        return vdfManager.write(
-          batchWrite,
-          this.appSettings.batchDownloadSize,
-          this.appSettings.dnsServers,
-        );
-      })
-      .then(
-        ({
-          nonFatal,
-          outcomes,
-        }: {
-          nonFatal: VDF_Error;
-          outcomes: VDF_AllScreenshotsOutcomes;
-        }) => {
-          if (nonFatal) {
-            this.loggerService.error(nonFatal);
-          }
-          if (batchWrite) {
-            this.updatePreviewDataUrls(outcomes);
-          }
-        },
-      )
-      .then(() => {
-        this.previewVariables.listIsBeingSaved = false;
-        if (removeAll) {
-          this.loggerService.success(this.lang.success.removingVDF_entries, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-          this.clearPreviewData();
-        } else {
-          this.loggerService.success(this.lang.success.writingVDF_entries, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-        }
-        return true;
-      })
-      .catch((failureError: Error) => {
-        this.previewVariables.listIsBeingSaved = false;
-        this.loggerService.error(this.lang.errors.fatalError, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        this.loggerService.error(failureError);
-        return false;
-      });
-    return chain;
   }
 
   private updatePreviewDataUrls(outcomes: VDF_AllScreenshotsOutcomes) {

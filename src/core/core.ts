@@ -48,17 +48,39 @@ export class Core {
     );
   }
 
-  // Loads all user data (settings first; everything else depends on them).
-  // Parser presets are only needed by the parser editor.
-  async load({ presets = true }: { presets?: boolean } = {}) {
-    await this.settings.load();
-    await Promise.all([
-      this.exceptions.load(),
-      this.customVariables.load(),
-      this.fuzzy.load(),
-      this.parsers.readControllerTemplates(),
-      presets ? this.presets.load() : undefined,
-    ]);
-    await this.parsers.load();
+  // Per-store readiness, set by start(): lets a UI show what's loaded while
+  // downloads (presets, custom variables, fuzzy list) are still running.
+  ready: {
+    settings: Promise<unknown>;
+    parsers: Promise<unknown>;
+    controllerTemplates: Promise<unknown>;
+    exceptions: Promise<unknown>;
+    customVariables: Promise<unknown>;
+    presets: Promise<unknown>;
+    fuzzy: Promise<unknown>;
+  };
+
+  // Starts loading all user data. Settings come first for the stores that
+  // depend on them. Parser presets are only needed by the parser editor.
+  start({ presets = true }: { presets?: boolean } = {}) {
+    if (this.ready) {
+      return this.ready;
+    }
+    const settings = this.settings.load();
+    this.ready = {
+      settings,
+      parsers: settings.then(() => this.parsers.load()),
+      controllerTemplates: this.parsers.readControllerTemplates(),
+      exceptions: this.exceptions.load(),
+      customVariables: this.customVariables.load(),
+      presets: presets ? this.presets.load() : Promise.resolve(),
+      fuzzy: settings.then(() => this.fuzzy.load()),
+    };
+    return this.ready;
+  }
+
+  // Loads everything and waits for it (what the CLI needs before a run).
+  async load(options: { presets?: boolean } = {}) {
+    await Promise.all(Object.values(this.start(options)));
   }
 }

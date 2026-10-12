@@ -61,6 +61,18 @@ export class FuzzyStore {
     clearInterval(this.autoSaveTimer);
   }
 
+  getListInfo() {
+    return { totalGames: this.loader.getList().totalGames };
+  }
+
+  resetList() {
+    return this.loader.resetList();
+  }
+
+  resetCache() {
+    return this.loader.resetCache();
+  }
+
   async saveCacheIfNeeded() {
     const cacheEntries = Object.keys(this.loader.getCache()).length;
     if (
