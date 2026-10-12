@@ -59,6 +59,9 @@
   },
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit -p .",
     "presets:validate": "ts-node ./scripts/validate-files.ts",
     "presets:modify": "ts-node ./scripts/update-files.ts",
     "presets:version": "node ./scripts/version-files.js",
@@ -180,6 +183,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2",
     "upath": "^2.0.1",
+    "vitest": "3.2.4",
     "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4",
     "webpack-merge": "^6.0.1"

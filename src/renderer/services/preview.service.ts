@@ -418,19 +418,25 @@ export class PreviewService {
       .then(async () => {
         // config.vdf is per-install and Steam rewrites it on exit, so patch it
         // with Steam closed (same steamless window the categories step uses).
-        if (!removeAll) {
-          await steam.performSteamlessTask(
-            this.appSettings,
-            this.loggerService,
-            async () => {
-              this.loggerService.info(this.lang.info.savingCompatTools);
-              const compatToolManager = new CompatToolManager(
-                this.loggerService,
+        await steam.performSteamlessTask(
+          this.appSettings,
+          this.loggerService,
+          async () => {
+            this.loggerService.info(this.lang.info.savingCompatTools);
+            const compatToolManager = new CompatToolManager(
+              this.loggerService,
+            );
+            if (removeAll) {
+              // exAppIds holds only SRM-owned (non artwork-only) shortcuts.
+              await compatToolManager.removeAll(
+                knownSteamDirectories,
+                exAppIds,
               );
+            } else {
               await compatToolManager.save(this.previewData, exAppIds);
-            },
-          );
-        }
+            }
+          },
+        );
       })
       .catch((error: Acceptable_Error | Error) => {
         if (error instanceof Acceptable_Error) {

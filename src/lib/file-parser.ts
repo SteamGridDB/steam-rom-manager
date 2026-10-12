@@ -1069,38 +1069,51 @@ export class FileParser {
         let backedupPromises: Promise<void>[] = [];
         if (parsedConfig.drmProtect) {
           for (let j = 0; j < parsedConfig.files.length; j++) {
-            for (const artworkType of artworkTypes) {
-              if (parsedConfig.files[j].onlineImageQueries.length) {
-                backedupPromises.push(
-                  SteamGridDbProvider.retrieveIdsFromTitle(
-                    parsedConfig.files[j].onlineImageQueries[0],
-                  ).then((possibleGameIds: number[]) => {
-                    if (possibleGameIds.length) {
-                      const backupDir = path.join(
-                        paths.userDataDir,
-                        "artworkBackups",
-                        artworkType,
-                      );
-                      return glob(`${possibleGameIds[0]}.*`, {
+            if (!parsedConfig.files[j].onlineImageQueries.length) {
+              continue;
+            }
+            // One SteamGridDB lookup per file, shared by all artwork types.
+            // A failed lookup (e.g. offline) just means no backups are found.
+            backedupPromises.push(
+              SteamGridDbProvider.retrieveIdsFromTitle(
+                parsedConfig.files[j].onlineImageQueries[0],
+              )
+                .catch((): number[] => [])
+                .then((possibleGameIds: number[]) => {
+                  if (!possibleGameIds.length) {
+                    return;
+                  }
+                  return Promise.all(
+                    artworkTypes.map((artworkType) =>
+                      glob(`${possibleGameIds[0]}.*`, {
                         dot: true,
-                        cwd: backupDir,
+                        cwd: path.join(
+                          paths.userDataDir,
+                          "artworkBackups",
+                          artworkType,
+                        ),
                         absolute: true,
                       }).then((localBackups: string[]) => {
                         parsedConfig.files[j].backupImage[artworkType] =
                           localBackups.length
                             ? url.encodeFile(localBackups[0])
                             : undefined;
-                      });
-                    }
-                  }),
-                );
-              }
-            }
+                      }),
+                    ),
+                  ).then(() => {});
+                }),
+            );
           }
         }
-        Promise.all(backedupPromises).then(() => {
-          resolve(parsedConfig);
-        });
+        Promise.all(backedupPromises)
+          .then(() => {
+            resolve(parsedConfig);
+          })
+          .catch((e) => {
+            reject(
+              `Backed up images step for "${parsedConfig.configurationTitle}":\n ${e}`,
+            );
+          });
       } catch (e) {
         reject(
           `Backed up images step for "${parsedConfig.configurationTitle}":\n ${e}`,

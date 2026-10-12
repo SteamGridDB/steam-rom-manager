@@ -1,7 +1,7 @@
 import * as os from "os";
 import * as fs from "fs-extra";
 import * as probe from "probe-image-size";
-import * as uri2path from "file-uri-to-path";
+import uri2path from "file-uri-to-path";
 
 export function decodeFile(file_uri: string) {
   if (os.type() == "Windows_NT") {

@@ -1,0 +1,343 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FileParser (characterization) > custom variables, user exceptions and missing accounts 1`] = `
+[
+  {
+    "configurationTitle": "GameCube",
+    "excluded": [],
+    "failed": [],
+    "files": [
+      {
+        "appendArgsToExecutable": false,
+        "argumentString": "-b -e "<ROOT>/roms/gc/Metroid Prime (USA) (Rev 2).iso"",
+        "backupImage": {},
+        "compatToolName": "",
+        "executableLocation": "<ROOT>/emu/dolphin.exe",
+        "filePath": "<ROOT>/roms/gc/Metroid Prime (USA) (Rev 2).iso",
+        "imagePool": "Metroid Prime",
+        "modifiedExecutableLocation": ""<ROOT>/emu/dolphin.exe"",
+        "onlineImageQueries": [
+          "Metroid Prime",
+        ],
+        "sortAsTitle": "",
+        "startInDirectory": "<ROOT>/emu",
+        "steamCategories": [],
+        "titles": {
+          "extracted": "Metroid Prime (USA) (Rev 2)",
+          "final": "Metroid Prime",
+          "postCustomVariables": "Metroid Prime (GC)",
+          "postFuzzy": "Metroid Prime",
+          "postShortcutPassthrough": "Metroid Prime (USA) (Rev 2)",
+          "postTitleModifier": "Metroid Prime",
+        },
+      },
+    ],
+    "foundUserAccounts": [
+      {
+        "accountID": "11111111",
+        "name": "alice",
+        "steamID64": "76561197971376839",
+      },
+    ],
+    "missingUserAccounts": [
+      "carol",
+    ],
+  },
+  {
+    "configurationTitle": "SNES excluded",
+    "excluded": [
+      {
+        "exceptionKey": "Super Mario World (USA)",
+        "filePath": "<ROOT>/roms/snes/Super Mario World (USA).sfc",
+      },
+    ],
+    "failed": [],
+    "files": [
+      {
+        "appendArgsToExecutable": false,
+        "argumentString": "--custom",
+        "backupImage": {},
+        "compatToolName": "proton_9",
+        "executableLocation": "<ROOT>/emu/snes9x.exe",
+        "filePath": "<ROOT>/roms/snes/Chrono Trigger (USA) [!].sfc",
+        "imagePool": "Chrono Trigger",
+        "modifiedExecutableLocation": ""<ROOT>/emu/snes9x.exe"",
+        "onlineImageQueries": [
+          "Chrono Trigger",
+        ],
+        "sortAsTitle": "",
+        "startInDirectory": "<ROOT>/emu",
+        "steamCategories": [],
+        "titles": {
+          "extracted": "Chrono Trigger (USA) [!]",
+          "final": "Chrono Trigger (Renamed)",
+          "postCustomVariables": "Chrono Trigger (USA) [!]",
+          "postFuzzy": "Chrono Trigger",
+          "postShortcutPassthrough": "Chrono Trigger (USA) [!]",
+          "postTitleModifier": "Chrono Trigger",
+        },
+      },
+      {
+        "appendArgsToExecutable": false,
+        "argumentString": "",
+        "backupImage": {},
+        "compatToolName": "",
+        "executableLocation": "<ROOT>/emu/snes9x.exe",
+        "filePath": "<ROOT>/roms/snes/Zelda - A Link to the Past (USA).SFC",
+        "imagePool": "The Legend of Zelda: A Link to the Past",
+        "modifiedExecutableLocation": ""<ROOT>/emu/snes9x.exe"",
+        "onlineImageQueries": [
+          "The Legend of Zelda: A Link to the Past",
+        ],
+        "sortAsTitle": "",
+        "startInDirectory": "<ROOT>/emu",
+        "steamCategories": [],
+        "titles": {
+          "extracted": "Zelda - A Link to the Past (USA)",
+          "final": "The Legend of Zelda: A Link to the Past",
+          "postCustomVariables": "Zelda - A Link to the Past (USA)",
+          "postFuzzy": "The Legend of Zelda: A Link to the Past",
+          "postShortcutPassthrough": "Zelda - A Link to the Past (USA)",
+          "postTitleModifier": "The Legend of Zelda: A Link to the Past",
+        },
+      },
+    ],
+    "foundUserAccounts": [
+      {
+        "accountID": "22222222",
+        "name": "bob",
+        "steamID64": "76561197982487950",
+      },
+    ],
+    "missingUserAccounts": [],
+  },
+]
+`;
+
+exports[`FileParser (characterization) > drmProtect: resolves local artwork backups via SteamGridDB ids 1`] = `
+[
+  {
+    "configurationTitle": "One game",
+    "excluded": [],
+    "failed": [],
+    "files": [
+      {
+        "appendArgsToExecutable": false,
+        "argumentString": "",
+        "backupImage": {
+          "hero": "file:///<USERDATA>/artworkBackups/hero/4242.webp",
+          "tall": "file:///<USERDATA>/artworkBackups/tall/4242.png",
+        },
+        "compatToolName": "",
+        "executableLocation": "<ROOT>/emu/dolphin.exe",
+        "filePath": "<ROOT>/roms/gc/Metroid Prime (USA) (Rev 2).iso",
+        "imagePool": "Metroid Prime",
+        "modifiedExecutableLocation": ""<ROOT>/emu/dolphin.exe"",
+        "onlineImageQueries": [
+          "Metroid Prime (USA) (Rev 2)",
+        ],
+        "sortAsTitle": "",
+        "startInDirectory": "<ROOT>/emu",
+        "steamCategories": [],
+        "titles": {
+          "extracted": "Metroid Prime (USA) (Rev 2)",
+          "final": "Metroid Prime",
+          "postCustomVariables": "Metroid Prime (USA) (Rev 2)",
+          "postFuzzy": "Metroid Prime",
+          "postShortcutPassthrough": "Metroid Prime (USA) (Rev 2)",
+          "postTitleModifier": "Metroid Prime",
+        },
+      },
+    ],
+    "foundUserAccounts": [
+      {
+        "accountID": "11111111",
+        "name": "alice",
+        "steamID64": "76561197971376839",
+      },
+      {
+        "accountID": "22222222",
+        "name": "bob",
+        "steamID64": "76561197982487950",
+      },
+    ],
+    "missingUserAccounts": [],
+  },
+]
+`;
+
+exports[`FileParser (characterization) > glob parser: title extraction, fuzzy matching, args, categories 1`] = `
+[
+  {
+    "configurationTitle": "SNES 🎮",
+    "excluded": [],
+    "failed": [],
+    "files": [
+      {
+        "appendArgsToExecutable": false,
+        "argumentString": "-fullscreen "<ROOT>/roms/snes/Chrono Trigger (USA) [!].sfc"",
+        "backupImage": {},
+        "compatToolName": "",
+        "executableLocation": "<ROOT>/emu/snes9x.exe",
+        "filePath": "<ROOT>/roms/snes/Chrono Trigger (USA) [!].sfc",
+        "imagePool": "Chrono Trigger",
+        "modifiedExecutableLocation": ""<ROOT>/emu/snes9x.exe"",
+        "onlineImageQueries": [
+          "Chrono Trigger",
+        ],
+        "sortAsTitle": "",
+        "startInDirectory": "<ROOT>/emu-data",
+        "steamCategories": [
+          "SNES",
+          "Retro",
+        ],
+        "titles": {
+          "extracted": "Chrono Trigger (USA) [!]",
+          "final": "Chrono Trigger",
+          "postCustomVariables": "Chrono Trigger (USA) [!]",
+          "postFuzzy": "Chrono Trigger",
+          "postShortcutPassthrough": "Chrono Trigger (USA) [!]",
+          "postTitleModifier": "Chrono Trigger",
+        },
+      },
+      {
+        "appendArgsToExecutable": false,
+        "argumentString": "-fullscreen "<ROOT>/roms/snes/Super Mario World (USA).sfc"",
+        "backupImage": {},
+        "compatToolName": "",
+        "executableLocation": "<ROOT>/emu/snes9x.exe",
+        "filePath": "<ROOT>/roms/snes/Super Mario World (USA).sfc",
+        "imagePool": "Super Mario World",
+        "modifiedExecutableLocation": ""<ROOT>/emu/snes9x.exe"",
+        "onlineImageQueries": [
+          "Super Mario World",
+        ],
+        "sortAsTitle": "",
+        "startInDirectory": "<ROOT>/emu-data",
+        "steamCategories": [
+          "SNES",
+          "Retro",
+        ],
+        "titles": {
+          "extracted": "Super Mario World (USA)",
+          "final": "Super Mario World",
+          "postCustomVariables": "Super Mario World (USA)",
+          "postFuzzy": "Super Mario World",
+          "postShortcutPassthrough": "Super Mario World (USA)",
+          "postTitleModifier": "Super Mario World",
+        },
+      },
+      {
+        "appendArgsToExecutable": false,
+        "argumentString": "-fullscreen "<ROOT>/roms/snes/Zelda - A Link to the Past (USA).SFC"",
+        "backupImage": {},
+        "compatToolName": "",
+        "executableLocation": "<ROOT>/emu/snes9x.exe",
+        "filePath": "<ROOT>/roms/snes/Zelda - A Link to the Past (USA).SFC",
+        "imagePool": "The Legend of Zelda: A Link to the Past",
+        "modifiedExecutableLocation": ""<ROOT>/emu/snes9x.exe"",
+        "onlineImageQueries": [
+          "The Legend of Zelda: A Link to the Past",
+        ],
+        "sortAsTitle": "",
+        "startInDirectory": "<ROOT>/emu-data",
+        "steamCategories": [
+          "SNES",
+          "Retro",
+        ],
+        "titles": {
+          "extracted": "Zelda - A Link to the Past (USA)",
+          "final": "The Legend of Zelda: A Link to the Past",
+          "postCustomVariables": "Zelda - A Link to the Past (USA)",
+          "postFuzzy": "The Legend of Zelda: A Link to the Past",
+          "postShortcutPassthrough": "Zelda - A Link to the Past (USA)",
+          "postTitleModifier": "The Legend of Zelda: A Link to the Past",
+        },
+      },
+    ],
+    "foundUserAccounts": [
+      {
+        "accountID": "11111111",
+        "name": "alice",
+        "steamID64": "76561197971376839",
+      },
+    ],
+    "missingUserAccounts": [],
+  },
+]
+`;
+
+exports[`FileParser (characterization) > glob-regex parser: regex title, title modifier, appended args, all accounts 1`] = `
+[
+  {
+    "configurationTitle": "GBA",
+    "excluded": [],
+    "failed": [],
+    "files": [
+      {
+        "appendArgsToExecutable": true,
+        "argumentString": "",
+        "backupImage": {},
+        "compatToolName": "",
+        "executableLocation": "<ROOT>/emu/mgba",
+        "filePath": "<ROOT>/roms/gba/Homebrew Thing.gba",
+        "imagePool": "HOMEBREW THING [GBA]",
+        "modifiedExecutableLocation": ""<ROOT>/emu/mgba" "<ROOT>/roms/gba/Homebrew Thing.gba"",
+        "onlineImageQueries": [
+          "Homebrew Thing",
+          "Homebrew Thing",
+        ],
+        "sortAsTitle": "",
+        "startInDirectory": "<ROOT>/emu",
+        "steamCategories": [],
+        "titles": {
+          "extracted": "Homebrew Thing",
+          "final": "HOMEBREW THING [GBA]",
+          "postCustomVariables": "Homebrew Thing",
+          "postFuzzy": "Homebrew Thing",
+          "postShortcutPassthrough": "Homebrew Thing",
+          "postTitleModifier": "HOMEBREW THING [GBA]",
+        },
+      },
+      {
+        "appendArgsToExecutable": true,
+        "argumentString": "",
+        "backupImage": {},
+        "compatToolName": "",
+        "executableLocation": "<ROOT>/emu/mgba",
+        "filePath": "<ROOT>/roms/gba/Pokemon - Emerald Version (USA, Europe).gba",
+        "imagePool": "POKEMON - EMERALD VERSION [GBA]",
+        "modifiedExecutableLocation": ""<ROOT>/emu/mgba" "<ROOT>/roms/gba/Pokemon - Emerald Version (USA, Europe).gba"",
+        "onlineImageQueries": [
+          "Pokemon - Emerald Version",
+          "Pokemon - Emerald Version",
+        ],
+        "sortAsTitle": "",
+        "startInDirectory": "<ROOT>/emu",
+        "steamCategories": [],
+        "titles": {
+          "extracted": "Pokemon - Emerald Version",
+          "final": "POKEMON - EMERALD VERSION [GBA]",
+          "postCustomVariables": "Pokemon - Emerald Version",
+          "postFuzzy": "Pokemon - Emerald Version",
+          "postShortcutPassthrough": "Pokemon - Emerald Version",
+          "postTitleModifier": "POKEMON - EMERALD VERSION [GBA]",
+        },
+      },
+    ],
+    "foundUserAccounts": [
+      {
+        "accountID": "11111111",
+        "name": "alice",
+        "steamID64": "76561197971376839",
+      },
+      {
+        "accountID": "22222222",
+        "name": "bob",
+        "steamID64": "76561197982487950",
+      },
+    ],
+    "missingUserAccounts": [],
+  },
+]
+`;
