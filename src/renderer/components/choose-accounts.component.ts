@@ -6,10 +6,9 @@ import {
   Output,
   EventEmitter,
 } from "@angular/core";
-import * as steam from "../../lib/helpers/steam";
 import { userAccountData } from "../../models";
-import * as fs from "fs-extra";
-import * as path from "path";
+import type { SteamLogin } from "../../core/ui-support";
+import { CoreClientService } from "../services/core-client.service";
 
 @Component({
   selector: "choose-accounts",
@@ -24,19 +23,22 @@ export class ChooseAccountsComponent {
   steamDir: string = "";
   show: boolean = false;
   selectedAccounts: { [accountID: string]: string } = {};
-  availableAccounts: userAccountData[] = [];
+  availableAccounts: SteamLogin[] = [];
   @Output()
   showAccounts = new EventEmitter<boolean>();
   @Output()
   accountsJoined = new EventEmitter<string[]>();
-  constructor(private changeRef: ChangeDetectorRef) {}
+  constructor(
+    private changeRef: ChangeDetectorRef,
+    private coreClient: CoreClientService,
+  ) {}
   @Input()
   public set steamDirectory(steamDirectory: string) {
     this.steamDir = steamDirectory;
-    if (this.steamDir && fs.existsSync(this.steamDir)) {
-      steam
-        .getAvailableLogins(this.steamDir)
-        .then((userAccounts: userAccountData[]) => {
+    if (this.steamDir) {
+      this.coreClient.client
+        .call("support", "steamLogins", this.steamDir)
+        .then((userAccounts: SteamLogin[]) => {
           this.availableAccounts = userAccounts;
           this.changeRef.detectChanges();
         });
@@ -66,17 +68,7 @@ export class ChooseAccountsComponent {
     }
   }
 
-  getAccountImage(steamDirectory: string, steamID64: string) {
-    const imagePath = path.join(
-      steamDirectory,
-      "config",
-      "avatarcache",
-      `${steamID64}.png`,
-    );
-    if (fs.existsSync(imagePath)) {
-      return imagePath;
-    } else {
-      return require("../../assets/images/unknown-account.png");
-    }
+  getAccountImage(account: SteamLogin) {
+    return account.avatar || require("../../assets/images/unknown-account.png");
   }
 }

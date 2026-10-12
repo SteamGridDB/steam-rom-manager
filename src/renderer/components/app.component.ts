@@ -112,7 +112,7 @@ export class AppComponent {
         .use(markdownItAnchor),
     );
 
-    ipcService.on("updater_message", (event, message) => {
+    ipcService.on("updater_message", (message) => {
       this.updateMessage = message;
     });
   }

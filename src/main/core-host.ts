@@ -6,6 +6,7 @@ import {
   hostCore,
 } from "../core/rpc-host";
 import { rpcChannels } from "../core/rpc";
+import { appTarget } from "./app-target";
 
 // Creates the GUI's Core in this (main) process and serves it to the
 // window over IPC. Events are queued until the window's UI connects.
@@ -41,7 +42,7 @@ export function startCoreForWindow(getWindow: () => BrowserWindow | null) {
       window.webContents.send(channel, payload);
     }
   };
-  hostCore(core, transport, forwarding);
+  hostCore(core, transport, forwarding, { app: appTarget(getWindow) });
   return core;
 }
 

@@ -8,7 +8,7 @@ import {
   ParserInfo,
 } from "../../models";
 import { SettingsService } from "./settings.service";
-import { BehaviorSubject, Subject } from "rxjs";
+import { BehaviorSubject, ReplaySubject, Subject } from "rxjs";
 import { takeWhile } from "rxjs/operators";
 import * as parserInfo from "../../lib/parsers/available-parsers";
 import * as _ from "lodash";
@@ -24,7 +24,8 @@ type ConfigEntry = { saved: UserConfiguration; current: UserConfiguration };
 @Injectable()
 export class ParsersService {
   private entries = new Map<string, ConfigEntry>(); // by parser id
-  private savedControllerTemplates = new Subject<ControllerTemplates>();
+  // Replayed: the parser editor usually opens after these have loaded.
+  private savedControllerTemplates = new ReplaySubject<ControllerTemplates>(1);
   private userConfigurations = new BehaviorSubject<ConfigEntry[]>([]);
   private deletedConfigurations = new BehaviorSubject<ConfigEntry[]>([]);
   private configurationsLoadedSubject = new BehaviorSubject<boolean>(false);

@@ -2,7 +2,6 @@ export * from "./file-parser";
 export * from "./fuzzy-matcher";
 export * from "./vdf-manager";
 export * from "./variable-parser";
-export * from "./x-request";
 export * from "./language-manager";
 export * from "./vdf-shortcuts-file";
 export * from "./vdf-screenshots-file";

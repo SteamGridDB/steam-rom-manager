@@ -20,6 +20,20 @@ SRM_USER_DATA_DIR=/tmp/srm-e2e/userData npx electron ./dist/main.bundle.js --rem
 node test/e2e/gui-driver.js 9333 test/e2e/gui-add-remove.json
 ```
 
+The GUI steps use Angular's `ng` debugging global, which only exists in a
+development build of the renderer: after `yarn build:dist`, rebuild it with
+`npx webpack --config ./webpack/renderer.js`.
+
+Step files:
+
+- `gui-add-remove.json`: generate, save to Steam, remove.
+- `gui-isolation.json`: the window is sandboxed (no `require`/`process`,
+  only `window.srm`, other IPC channels refused); add/remove; View Games
+  (shortcuts, details, artwork); Steam logins, compat tools, browsed paths.
+- `gui-pages.json`: Settings (artwork cache/backups, shell scripts), the
+  parser editor (compat tools), the log page, closing from the title bar.
+  Run it last: it closes the app.
+
 The fake Steam install ends up in `/tmp/srm-e2e/steam`; inspect
 `userdata/11111111/config` (shortcuts.vdf, grid/, cloudstorage/) after each
 step. If Electron behaves like plain Node, unset `ELECTRON_RUN_AS_NODE`

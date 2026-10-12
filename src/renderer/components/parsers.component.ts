@@ -1,5 +1,4 @@
-import { VariableParser } from "../../lib";
-import { clipboard } from "electron";
+import { VariableParser } from "../../lib/variable-parser";
 import {
   Component,
   AfterViewInit,
@@ -18,13 +17,15 @@ import {
   ImageProviderService,
   SettingsService,
   ConfigurationPresetsService,
-  ShellScriptsService,
   UserExceptionsService,
   CustomVariablesService,
 } from "../services";
 import * as parserInfo from "../../lib/parsers/available-parsers";
-import * as steam from "../../lib/helpers/steam";
-import { controllerTypes, controllerNames } from "../../lib/controller-manager";
+import * as steam from "../../lib/helpers/steam/generate-app-id";
+import { COMPAT_CUSTOM } from "../../lib/helpers/steam/compat-constants";
+import type { CompatToolInfo } from "../../lib/helpers/steam/compat-constants";
+import { controllerTypes, controllerNames } from "../../lib/controller-types";
+import { CoreClientService } from "../services/core-client.service";
 import {
   artworkTypes,
   artworkViewNames,
@@ -45,7 +46,6 @@ import { Subscription, of, concat, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
 import { APP } from "../../variables";
 import * as _ from "lodash";
-import * as os from "os";
 import {
   imageProviderNames,
   onlineProviders,
@@ -96,7 +96,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private changeRef: ChangeDetectorRef,
     private cpService: ConfigurationPresetsService,
     private cvService: CustomVariablesService,
-    private ssService: ShellScriptsService,
+    private coreClient: CoreClientService,
   ) {
     this.appSettings = this.settingsService.getSettings();
     this.currentDoc.content = this.lang.docs__md.intro.join("");
@@ -159,7 +159,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         steamDirectory: new NestedFormElement.Input({
           path: { directory: true },
-          placeholder: this.lang.placeholder.steamDirectory[os.type()],
+          placeholder: this.lang.placeholder.steamDirectory[APP.osType],
           required: true,
           label: this.lang.label.steamDirectory,
           highlight: this.highlight.bind(this),
@@ -221,7 +221,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         romDirectory: new NestedFormElement.Input({
           path: { directory: true },
-          placeholder: this.lang.placeholder.romDirectory[os.type()],
+          placeholder: this.lang.placeholder.romDirectory[APP.osType],
           required: true,
           isHidden: () => this.isHiddenIfNotRomsParser(),
           label: this.lang.label.romDirectory,
@@ -376,7 +376,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             path: new NestedFormElement.Input({
               path: { directory: false },
               label: this.lang.label.executableLocation,
-              placeholder: this.lang.placeholder.executableLocation[os.type()],
+              placeholder: this.lang.placeholder.executableLocation[APP.osType],
               highlight: this.highlight.bind(this),
               important: true,
               onValidate: (self, path) => {
@@ -441,7 +441,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         startInDirectory: new NestedFormElement.Input({
           path: { directory: true },
-          placeholder: this.lang.placeholder.startInDirectory[os.type()],
+          placeholder: this.lang.placeholder.startInDirectory[APP.osType],
           label: this.lang.label.startInDirectory,
           highlight: this.highlight.bind(this),
           isHidden: () => this.isHiddenIfNotRomsParser(),
@@ -512,7 +512,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.sortAsFromVariable.join("");
+            this.currentDoc.content =
+              this.lang.docs__md.sortAsFromVariable.join("");
           },
         }),
         fuzzyMatch: new NestedFormElement.Group({
@@ -605,7 +606,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             combineLatest([
               this.observeField(
                 "compatToolName",
-                (value: string) => value !== steam.COMPAT_CUSTOM,
+                (value: string) => value !== COMPAT_CUSTOM,
               ),
               this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
             ]).pipe(map(([notCustom, hidden]) => notCustom || hidden)),
@@ -739,7 +740,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             overlayInputs[artworkType] = new NestedFormElement.Input({
               path: { directory: false, useForwardSlash: true },
               placeholder: this.lang.placeholder.overlayImages__i[
-                os.type()
+                APP.osType
               ].interpolate({
                 artworkType: artworkViewNames[artworkType].toLowerCase(),
               }),
@@ -769,7 +770,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             defaultImageInputs[artworkType] = new NestedFormElement.Input({
               path: { directory: false, useForwardSlash: true },
               placeholder: this.lang.placeholder.defaultImage__i[
-                os.type()
+                APP.osType
               ].interpolate({
                 artworkType: artworkSingDict[artworkType],
               }),
@@ -799,7 +800,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 appendGlob: "${title}.@(png|PNG|jpg|JPG|webp|WEBP)",
               },
               placeholder: this.lang.placeholder.localImages__i[
-                os.type()
+                APP.osType
               ].interpolate({
                 artworkType: artworkViewNames[artworkType].toLowerCase(),
               }),
@@ -1031,7 +1032,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
         iterateGroup(this.nestedGroup, "");
 
-        clipboard.writeText(`\`\`\`\r\n${text}\`\`\``);
+        navigator.clipboard.writeText(`\`\`\`\r\n${text}\`\`\``);
         this.loggerService.info(this.lang.info.copiedToClipboard, {
           invokeAlert: true,
           alertTimeout: 3000,
@@ -1191,15 +1192,23 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }),
               );
               success(
-                ((titles: TitleModifiers, index: number, total: number): string => {
+                ((
+                  titles: TitleModifiers,
+                  index: number,
+                  total: number,
+                ): string => {
                   const base = `[${index}/${total}]`;
                   return `${base}: Title Waterfall:\n`.concat(
-                    Object.entries(titles).map(([titleKey, title], titleIndex) => {
-                      let space = " ".repeat(Math.max(30-titleKey.length,1))
-                      return `${base}: (${titleIndex})${space}${titleKey} is "${title}"`
-                    }).join('\n')
-                  )
-                })(data.files[i].titles, i + 1, totalLength)
+                    Object.entries(titles)
+                      .map(([titleKey, title], titleIndex) => {
+                        let space = " ".repeat(
+                          Math.max(30 - titleKey.length, 1),
+                        );
+                        return `${base}: (${titleIndex})${space}${titleKey} is "${title}"`;
+                      })
+                      .join("\n"),
+                  );
+                })(data.files[i].titles, i + 1, totalLength),
               );
               success(
                 this.lang.success.sortAsTitle__i.interpolate({
@@ -1494,7 +1503,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private isHiddenIfArtworkOnlyOrNotLinuxParser() {
     return combineLatest([
       this.isHiddenIfArtworkOnlyParser(),
-      of(os.type() !== "Linux"),
+      of(APP.osType !== "Linux"),
     ]).pipe(map(([artworkOnly, notLinux]) => artworkOnly || notLinux));
   }
 
@@ -1671,12 +1680,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     const steamDirInput = this.userForm?.get("steamDirectory")?.value || "";
     const steamDir = this.parsersService.parseSteamDir(steamDirInput);
     const dirs = steamDir ? [steamDir] : [];
-    const tools = await steam.listAvailableCompatTools(dirs);
+    const tools: CompatToolInfo[] = await this.coreClient.client.call(
+      "support",
+      "compatTools",
+      dirs,
+    );
     (
       this.nestedGroup.children.compatToolName as NestedFormElement.Select
     ).values = [
       ...tools.map((t) => ({ displayValue: t.displayName, value: t.name })),
-      { displayValue: "Custom…", value: steam.COMPAT_CUSTOM },
+      { displayValue: "Custom…", value: COMPAT_CUSTOM },
     ];
     this.changeRef.detectChanges();
   }

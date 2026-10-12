@@ -15,6 +15,7 @@ export type Fetch = (
   init?: {
     method?: string;
     headers?: Record<string, string>;
+    body?: any; // e.g. FormData
     signal?: AbortSignal;
   },
 ) => Promise<FetchResponse>;

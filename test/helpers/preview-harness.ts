@@ -8,6 +8,8 @@ import * as path from "path";
 import { AddressInfo } from "net";
 import { Subject } from "rxjs";
 import { PreviewEngine } from "../../src/core/preview-engine";
+import { PreviewBuilder } from "../../src/core/preview-builder";
+import { SteamWriter } from "../../src/core/steam-writer";
 import { FileParser } from "../../src/lib/file-parser";
 import { FuzzyMatcher } from "../../src/lib/fuzzy-matcher";
 import { AppSettings, UserConfiguration } from "../../src/models";
@@ -128,6 +130,16 @@ export function makePreviewService(opts: {
     parsers: parsers as any,
     providers: providers as any,
     settings: settings as any,
+    builder: new PreviewBuilder(
+      loggerService as any,
+      parsers as any,
+      settings as any,
+    ),
+    writer: new SteamWriter(
+      loggerService as any,
+      parsers as any,
+      settings as any,
+    ),
   });
 
   // Same completion condition the CLI uses (preview.component.ts).

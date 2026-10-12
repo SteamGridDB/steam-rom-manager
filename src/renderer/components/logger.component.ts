@@ -14,9 +14,8 @@ import { LoggerService, SettingsService } from "../services";
 import { AppSettings, LogMessage, LogSettings } from "../../models";
 import { Observable } from "rxjs";
 import { APP } from "../../variables";
-import { clipboard } from "electron";
-
-import * as fs from "fs-extra";
+import type { BugReport, BugReportResult } from "../../core/bug-report";
+import { CoreClientService } from "../services/core-client.service";
 
 @Component({
   selector: "log",
@@ -58,6 +57,7 @@ export class LoggerComponent {
     private renderer: Renderer2,
     private elementRef: ElementRef,
     private settingsService: SettingsService,
+    private coreClient: CoreClientService,
   ) {
     this.settings = this.loggerService.getLogSettings();
     this.appSettings = this.settingsService.getSettings();
@@ -209,18 +209,26 @@ export class LoggerComponent {
       );
       return;
     }
-    if (useVDFs && (!steamDirectory || !fs.existsSync(steamDirectory))) {
-      this.loggerService.error(
-        `Valid steam directory is required to upload VDFs`,
-      );
-      return;
-    }
-    this.loggerService
-      .submitReport(description, useVDFs, discordHandle, steamDirectory)
-      .then(({ key, deleteKey }: { key: string; deleteKey: string }) => {
-        this.reportID = key;
-        this.deleteKey = deleteKey;
-        this.changeDetectionRef.detectChanges();
+    const report: BugReport = {
+      description,
+      discordUser: discordHandle,
+      logText: this.loggerService.logText(),
+      vdfsFrom: useVDFs ? steamDirectory || "" : undefined,
+    };
+    this.coreClient.client
+      .call("support", "submitBugReport", report)
+      .then((result: BugReportResult) => {
+        if (result.ok) {
+          this.reportID = result.key;
+          this.deleteKey = result.deleteKey;
+          this.changeDetectionRef.detectChanges();
+        } else if (result.invalid) {
+          this.loggerService.error(result.error);
+        } else {
+          this.loggerService.error(
+            `Could not upload bug report:\n ${result.error}`,
+          );
+        }
       })
       .catch((err) => {
         this.loggerService.error(`Could not upload bug report:\n ${err}`);
@@ -228,11 +236,11 @@ export class LoggerComponent {
   }
 
   copyReportID() {
-    clipboard.writeText(this.reportID);
+    navigator.clipboard.writeText(this.reportID);
   }
 
   copyDeleteKey() {
-    clipboard.writeText(this.deleteKey);
+    navigator.clipboard.writeText(this.deleteKey);
   }
 
   clearLog() {

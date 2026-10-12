@@ -95,6 +95,30 @@ export const rpcApi = {
     sync: [],
     async: ["retrieve", "stopUrlDownload", "possibleIds"],
   },
+  // "View Games": what is in Steam now.
+  library: {
+    sync: [],
+    async: ["read", "details", "launch"],
+  },
+  shellScripts: {
+    sync: ["getDownloading"],
+    async: ["download"],
+  },
+  support: {
+    sync: ["browsedValue"],
+    async: [
+      "steamLogins",
+      "compatTools",
+      "clearArtworkCache",
+      "clearArtworkBackups",
+      "submitBugReport",
+    ],
+  },
+  // Window and OS integration; only the Electron main process provides it.
+  app: {
+    sync: ["windowInfo"],
+    async: ["openDialog", "openFolder", "minimize", "toggleMaximize", "close"],
+  },
 } as const;
 
 export type RpcTarget = keyof typeof rpcApi;
@@ -139,6 +163,7 @@ export interface RpcEventMap {
   "writer:progress": { update: string; batch: number };
   "providers:event": { id: string; event: string; data: any };
   "providers:stopped": null;
+  "shellScripts:downloading": boolean;
   ready: string; // a store name, once it has loaded
 }
 

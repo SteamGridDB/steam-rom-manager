@@ -37,11 +37,12 @@ import {
   onlineProviders,
   imageProviderNames,
 } from "../lib/image-providers/available-providers";
-import { ParsersStore } from "./parsers-store";
-import { SettingsStore } from "./settings-store";
-import { ArtworkProviders } from "./artwork-providers";
-import { SteamWriter } from "./steam-writer";
-import { PreviewBuilder } from "./preview-builder";
+// Types only: this module also runs in the UI, which has no file system.
+import type { ParsersStore } from "./parsers-store";
+import type { SettingsStore } from "./settings-store";
+import type { ArtworkProviders } from "./artwork-providers";
+import type { SteamWriter } from "./steam-writer";
+import type { PreviewBuilder } from "./preview-builder";
 import { addUniqueLocalImage, emptyPools } from "./image-pools";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -63,10 +64,10 @@ export interface PreviewEngineOptions {
   // Called for each new online image when images should be loaded ahead of
   // time (a UI measures them); nothing to do without a UI.
   onNewImage?: (image: ImageContent) => void;
-  // Building the list and writing to Steam need the file system. A UI in
-  // another process passes proxies to the main process's builder/writer.
-  builder?: Pick<PreviewBuilder, "build">;
-  writer?: Pick<SteamWriter, "save" | "exportSelection" | "readSelection">;
+  // Building the list and writing to Steam need the file system: the Core
+  // passes its own, a UI proxies to the main process's.
+  builder: Pick<PreviewBuilder, "build">;
+  writer: Pick<SteamWriter, "save" | "exportSelection" | "readSelection">;
 }
 
 // The list of apps SRM is about to add to Steam ("preview"): generated from
@@ -97,12 +98,8 @@ export class PreviewEngine {
     this.providers = options.providers;
     this.settings = options.settings;
     this.onNewImage = options.onNewImage ?? (() => {});
-    this.writer =
-      options.writer ??
-      new SteamWriter(options.logger, options.parsers, options.settings);
-    this.builder =
-      options.builder ??
-      new PreviewBuilder(options.logger, options.parsers, options.settings);
+    this.writer = options.writer;
+    this.builder = options.builder;
     this.previewData = undefined;
     this.previewVariables = {
       listIsBeingSaved: false,

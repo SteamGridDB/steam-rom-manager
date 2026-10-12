@@ -185,11 +185,6 @@
     tar "^6.0.5"
     yargs "^17.0.1"
 
-"@electron/remote@^2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@electron/remote/-/remote-2.1.2.tgz#52a97c8faa5b769155b649ef262f2f8c851776e6"
-  integrity sha512-EPwNx+nhdrTBxyCqXt/pftoQg/ybtWDW3DUWHafejvnB1ZGGfMpv6e15D8KeempocjXe78T7WreyGGb3mlZxdA==
-
 "@electron/universal@2.0.3":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@electron/universal/-/universal-2.0.3.tgz#1680df6ced8f128ca0ff24e29c2165d41d78b3ce"

@@ -8,24 +8,35 @@ const treesURL =
 const rawURL =
   "https://raw.githubusercontent.com/SteamGridDB/steam-rom-manager/";
 
+// Raw-content URLs of the files directly inside `dir` of the SRM repository
+// at `ref` (a branch or commit), by repository path.
+export async function listRepoDir(
+  fetch: Fetch,
+  ref: string,
+  dir: string,
+): Promise<{ path: string; url: string }[]> {
+  const tree = await getJson(fetch, `${treesURL}${ref}?recursive=1`);
+  return tree.tree
+    .filter((entry: any) => path.posix.dirname(entry.path) == dir)
+    .map((entry: any) => ({
+      path: entry.path,
+      url: `${rawURL}${ref}/${entry.path
+        .split("/")
+        .map((x: string) => encodeURI(x))
+        .join("/")}`,
+    }));
+}
+
 // Fetches every JSON file directly inside `dir` of the SRM repository at
-// `ref` (a branch or commit) and merges them into one object.
+// `ref` and merges them into one object.
 export async function downloadRepoDir(
   fetch: Fetch,
   ref: string,
   dir: string,
 ): Promise<object> {
-  const tree = await getJson(fetch, `${treesURL}${ref}?recursive=1`);
-  const files: string[] = tree.tree
-    .filter((entry: any) => path.posix.dirname(entry.path) == dir)
-    .map((entry: any) => entry.path);
   const parts: object[] = [];
-  for (const file of files) {
-    const cleanPath = file
-      .split("/")
-      .map((x: string) => encodeURI(x))
-      .join("/");
-    parts.push(await getJson(fetch, `${rawURL}${ref}/${cleanPath}`));
+  for (const file of await listRepoDir(fetch, ref, dir)) {
+    parts.push(await getJson(fetch, file.url));
   }
   return Object.assign({}, ...parts);
 }

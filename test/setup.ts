@@ -15,10 +15,6 @@ process.env.SRM_USER_DATA_DIR = fs.mkdtempSync(
   path.join(os.tmpdir(), "srm-test-userData-"),
 );
 
-// @electron/remote throws outside Electron. Renderer services import it for
-// dialogs/window controls only, which tests don't exercise.
-vi.mock("@electron/remote", () => ({ app: {}, dialog: {}, shell: {} }));
-
 // Never let a test kill or relaunch the Steam client on the host machine.
 vi.mock(
   "../src/lib/helpers/steam/stop-start-steam",

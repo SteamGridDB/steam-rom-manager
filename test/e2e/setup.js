@@ -62,7 +62,12 @@ for (const f of fs.readdirSync(realUserData))
 const configs = JSON.parse(
   fs.readFileSync(path.join(ud, "userConfigurations.json"), "utf8"),
 );
-for (const c of configs) c.disabled = !c.configTitle.startsWith(parserPrefix);
+for (const c of configs) {
+  c.disabled = !c.configTitle.startsWith(parserPrefix);
+  // Disabled parsers count too (e.g. "remove all", View Games): never let
+  // one point at the real Steam install.
+  if (c.steamDirectory !== "${steamdirglobal}") c.steamDirectory = p("steam");
+}
 fs.writeFileSync(
   path.join(ud, "userConfigurations.json"),
   JSON.stringify(configs, null, 4),

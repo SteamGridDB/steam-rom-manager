@@ -60,6 +60,8 @@ export function hostCore(
   core: Core,
   transport: HostTransport,
   forwardingLogger?: ReturnType<typeof createForwardingLogger>,
+  // Targets the host process adds (e.g. "app" in Electron's main process).
+  extraTargets: Record<string, any> = {},
 ) {
   const loaded = new Set<string>();
   let seq = 0;
@@ -73,6 +75,9 @@ export function hostCore(
     presets: core.presets,
     fuzzy: core.fuzzy,
     builder: core.builder,
+    library: core.library,
+    shellScripts: core.shellScripts,
+    support: core.support,
     writer: {
       save: (previewData: any, onlineImages: any, options: any) =>
         core.writer.save(previewData, onlineImages, options, (progress) =>
@@ -102,6 +107,7 @@ export function hostCore(
       // SteamGridDB games matching a title ("fix match").
       possibleIds: (title: string) => sgdbSearch.retrievePossibleIds(title),
     },
+    ...extraTargets,
   };
 
   transport.handleAsync(rpcChannels.call, async ({ target, method, args }) => {
@@ -161,6 +167,9 @@ export function hostCore(
     .observeList()
     .subscribe((list) => emit("fuzzy:list", { totalGames: list.totalGames }));
   core.providers.stopEvent.subscribe(() => emit("providers:stopped", null));
+  core.shellScripts.onDownloadingChange((d) =>
+    emit("shellScripts:downloading", d),
+  );
 
   for (const [name, promise] of Object.entries(core.ready ?? {})) {
     promise.then(() => {
