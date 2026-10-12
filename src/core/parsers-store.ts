@@ -417,6 +417,26 @@ export class ParsersStore {
     return this.save();
   }
 
+  // Maps CLI parser arguments to parser ids: ids as given, or titles with
+  // emoji/non-ASCII stripped when `byName`. Unknown names are returned.
+  resolveParserIds(
+    args: string[],
+    byName: boolean,
+  ): { ids: string[]; missing: string[] } {
+    if (!byName) {
+      return { ids: args, missing: [] };
+    }
+    const plain = (title: string) => title.replace(/[^\x20-\x7E]+/g, "");
+    return {
+      ids: this.configs
+        .filter((config) => args.includes(plain(config.configTitle)))
+        .map((config) => config.parserId),
+      missing: args.filter(
+        (name) => !this.configs.some((c) => plain(c.configTitle) === name),
+      ),
+    };
+  }
+
   setAllEnabled(enabled: boolean): Promise<void> {
     for (const config of this.configs) {
       config.disabled = !enabled;
@@ -542,6 +562,16 @@ export class ParsersStore {
       userId,
       parserId,
     );
+  }
+
+  // Removes SRM's controller templates for every account of every known
+  // Steam install.
+  async removeAllControllers() {
+    for (const steamDir of this.getKnownSteamDirectories()) {
+      for (const account of await steam.getAvailableLogins(steamDir)) {
+        this.removeControllers(steamDir, account.accountID);
+      }
+    }
   }
 
   // ---- validation ----

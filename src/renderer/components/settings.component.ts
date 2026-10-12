@@ -26,7 +26,6 @@ import { AppSettings, SelectItem } from "../../models";
 import { Subscription, BehaviorSubject } from "rxjs";
 import { availableThemes } from "../../lib/themes";
 import * as os from "os";
-import * as steam from "../../lib/helpers/steam";
 import { ArtworkCache } from "../../lib";
 import * as fs from "fs";
 import * as path from "path";
@@ -184,25 +183,11 @@ export class SettingsComponent implements OnDestroy {
   }
 
   removeApps() {
-    if (this.knownSteamDirectories.length > 0) {
-      return this.previewService
-        .saveData({ removeAll: true, batchWrite: false })
-        .then(async () => {
-          await this.removeControllersOnly();
-        });
-    }
+    return this.previewService.removeAllAdded();
   }
 
-  async removeControllersOnly() {
-    for (let steamDir of this.knownSteamDirectories) {
-      const accounts = await steam.getAvailableLogins(steamDir);
-      for (let account of accounts) {
-        await this.parsersService.removeControllers(
-          steamDir,
-          account.accountID,
-        );
-      }
-    }
+  removeControllersOnly() {
+    return this.parsersService.store.removeAllControllers();
   }
 
   resetFuzzy() {

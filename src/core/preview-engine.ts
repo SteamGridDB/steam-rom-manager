@@ -608,6 +608,41 @@ export class PreviewEngine {
     this.previewDataChanged.next();
   }
 
+  // Removes every app in the current preview from Steam ("Remove from
+  // Steam"); clears the preview if that worked.
+  async removeAllInPreview(): Promise<boolean> {
+    for (const directory in this.previewData) {
+      for (const userId in this.previewData[directory]) {
+        for (const appId in this.previewData[directory][userId].apps) {
+          this.previewData[directory][userId].apps[appId].status = "remove";
+        }
+      }
+    }
+    const ok = await this.saveData({ removeAll: false, batchWrite: false });
+    if (ok) {
+      this.clearPreviewData();
+    }
+    return ok;
+  }
+
+  // Removes everything SRM ever added (shortcuts, artwork, categories,
+  // compat tools, controller templates) from every known Steam install.
+  async removeAllAdded(): Promise<boolean> {
+    const steamDirectories = this.parsers.getKnownSteamDirectories();
+    if (steamDirectories.length === 0) {
+      this.loggerService.error(this.lang.errors.knownSteamDirListIsEmpty, {
+        invokeAlert: true,
+        alertTimeout: 3000,
+      });
+      return false;
+    }
+    const ok = await this.saveData({ removeAll: true, batchWrite: false });
+    if (ok) {
+      await this.parsers.removeAllControllers();
+    }
+    return ok;
+  }
+
   clearPreviewData() {
     this.previewData = undefined;
     this.clearImageCache(false);

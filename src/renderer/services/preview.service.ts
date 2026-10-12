@@ -122,6 +122,14 @@ export class PreviewService {
     return this.engine.saveData(options);
   }
 
+  removeAllInPreview() {
+    return this.engine.removeAllInPreview();
+  }
+
+  removeAllAdded() {
+    return this.engine.removeAllAdded();
+  }
+
   setImageIndex(
     app: PreviewDataApp,
     index: number,
