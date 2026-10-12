@@ -1,0 +1,770 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`save pipeline (characterization) > a changed title replaces the old shortcut instead of duplicating it 1`] = `
+{
+  "addedItems": {
+    "addedApps": {
+      "16080819802112786432": {
+        "artworkOnly": false,
+        "categories": [
+          "SNES",
+          "Retro",
+        ],
+        "parserId": "snes-parser",
+      },
+      "16884579462195183616": {
+        "artworkOnly": false,
+        "categories": [
+          "SNES",
+          "Retro",
+        ],
+        "parserId": "snes-parser",
+      },
+      "17825484510439931904": {
+        "artworkOnly": false,
+        "categories": [
+          "SNES",
+          "Retro",
+        ],
+        "parserId": "snes-parser",
+      },
+      "9463525043049857024": {
+        "artworkOnly": false,
+        "categories": [
+          "SNES",
+          "Retro",
+        ],
+        "parserId": "snes-parser",
+      },
+      "9558911838582734848": {
+        "artworkOnly": false,
+        "categories": [
+          "GameCube",
+        ],
+        "parserId": "gc-parser",
+      },
+    },
+    "version": 2,
+  },
+  "collections": [
+    {
+      "key": "user-collections.uc-mine",
+      "value": {
+        "added": [
+          440,
+        ],
+        "id": "uc-mine",
+        "name": "My Collection",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.uc-mine",
+      "value": {
+        "added": [
+          440,
+        ],
+        "id": "uc-mine",
+        "name": "My Collection",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.srm-U05FUw==",
+      "value": {
+        "added": [
+          3931247504,
+          4150319032,
+        ],
+        "id": "srm-U05FUw==",
+        "name": "SNES",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.srm-UmV0cm8=",
+      "value": {
+        "added": [
+          3931247504,
+          4150319032,
+        ],
+        "id": "srm-UmV0cm8=",
+        "name": "Retro",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.srm-R2FtZUN1YmU=",
+      "value": {
+        "added": [
+          2225607596,
+        ],
+        "id": "srm-R2FtZUN1YmU=",
+        "name": "GameCube",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.uc-mine",
+      "value": {
+        "added": [
+          440,
+        ],
+        "id": "uc-mine",
+        "name": "My Collection",
+        "removed": [],
+      },
+    },
+  ],
+  "compatToolMapping": {
+    "3931247504": {
+      "config": "",
+      "name": "proton_9",
+      "priority": 250,
+    },
+    "4150319032": {
+      "config": "",
+      "name": "proton_9",
+      "priority": 250,
+    },
+    "440": {
+      "config": "",
+      "name": "proton_8",
+      "priority": 250,
+    },
+  },
+  "grid": [
+    "16884579462195183616.png (symlink)",
+    "17825484510439931904.png (symlink)",
+    "3931247504.png",
+    "3931247504_hero.png",
+    "3931247504_icon.png",
+    "3931247504_logo.png",
+    "3931247504p.png",
+    "4150319032.png",
+    "4150319032_hero.png",
+    "4150319032_icon.png",
+    "4150319032_logo.png",
+    "4150319032p.png",
+  ],
+  "shortcuts": [
+    {
+      "StartDir": ""C:/Tools/"",
+      "appid": -1000000001,
+      "appname": "My Manual Shortcut",
+      "exe": ""C:/Tools/manual.exe"",
+      "tags": [
+        "Favorites",
+      ],
+    },
+    {
+      "LaunchOptions": "-b -e "<ROOT>/roms/gc/Metroid Prime (USA).iso"",
+      "StartDir": "/emu",
+      "appid": -2069359700,
+      "appname": "Metroid Prime",
+      "exe": ""/emu/dolphin"",
+      "icon": "",
+      "tags": [
+        "GameCube",
+      ],
+    },
+    {
+      "LaunchOptions": ""<ROOT>/roms/snes/Super Mario World (USA).sfc"",
+      "StartDir": "/emu",
+      "appid": -363719792,
+      "appname": "Super Mario World (SNES)",
+      "exe": ""/emu/snes9x"",
+      "icon": "<ROOT>/steam/userdata/11111111/config/grid/3931247504_icon.png",
+      "tags": [
+        "SNES",
+        "Retro",
+      ],
+    },
+    {
+      "LaunchOptions": ""<ROOT>/roms/snes/Chrono Trigger (USA).sfc"",
+      "StartDir": "/emu",
+      "appid": -144648264,
+      "appname": "Chrono Trigger (SNES)",
+      "exe": ""/emu/snes9x"",
+      "icon": "<ROOT>/steam/userdata/11111111/config/grid/4150319032_icon.png",
+      "tags": [
+        "SNES",
+        "Retro",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`save pipeline (characterization) > add: writes shortcuts, artwork, collections and compat tools > artwork requests 1`] = `
+[
+  "/hero/1001.png",
+  "/hero/1002.png",
+  "/icon/1001.png",
+  "/icon/1002.png",
+  "/logo/1001.png",
+  "/logo/1002.png",
+  "/long/1001.png",
+  "/long/1002.png",
+  "/tall/1001.png",
+  "/tall/1002.png",
+]
+`;
+
+exports[`save pipeline (characterization) > add: writes shortcuts, artwork, collections and compat tools > steam control 1`] = `
+[
+  "steamless-task",
+  "steamless-task",
+]
+`;
+
+exports[`save pipeline (characterization) > add: writes shortcuts, artwork, collections and compat tools 1`] = `
+{
+  "addedItems": {
+    "addedApps": {
+      "16080819802112786432": {
+        "artworkOnly": false,
+        "categories": [
+          "SNES",
+          "Retro",
+        ],
+        "parserId": "snes-parser",
+      },
+      "9463525043049857024": {
+        "artworkOnly": false,
+        "categories": [
+          "SNES",
+          "Retro",
+        ],
+        "parserId": "snes-parser",
+      },
+      "9558911838582734848": {
+        "artworkOnly": false,
+        "categories": [
+          "GameCube",
+        ],
+        "parserId": "gc-parser",
+      },
+    },
+    "version": 2,
+  },
+  "collections": [
+    {
+      "key": "user-collections.uc-mine",
+      "value": {
+        "added": [
+          440,
+        ],
+        "id": "uc-mine",
+        "name": "My Collection",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.uc-mine",
+      "value": {
+        "added": [
+          440,
+        ],
+        "id": "uc-mine",
+        "name": "My Collection",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.srm-U05FUw==",
+      "value": {
+        "added": [
+          2203398627,
+          3744107625,
+        ],
+        "id": "srm-U05FUw==",
+        "name": "SNES",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.srm-UmV0cm8=",
+      "value": {
+        "added": [
+          2203398627,
+          3744107625,
+        ],
+        "id": "srm-UmV0cm8=",
+        "name": "Retro",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.srm-R2FtZUN1YmU=",
+      "value": {
+        "added": [
+          2225607596,
+        ],
+        "id": "srm-R2FtZUN1YmU=",
+        "name": "GameCube",
+        "removed": [],
+      },
+    },
+  ],
+  "compatToolMapping": {
+    "2203398627": {
+      "config": "",
+      "name": "proton_9",
+      "priority": 250,
+    },
+    "3744107625": {
+      "config": "",
+      "name": "proton_9",
+      "priority": 250,
+    },
+    "440": {
+      "config": "",
+      "name": "proton_8",
+      "priority": 250,
+    },
+  },
+  "grid": [
+    "16080819802112786432.png (symlink)",
+    "2203398627.png",
+    "2203398627_hero.png",
+    "2203398627_icon.png",
+    "2203398627_logo.png",
+    "2203398627p.png",
+    "3744107625.png",
+    "3744107625_hero.png",
+    "3744107625_icon.png",
+    "3744107625_logo.png",
+    "3744107625p.png",
+    "9463525043049857024.png (symlink)",
+  ],
+  "shortcuts": [
+    {
+      "StartDir": ""C:/Tools/"",
+      "appid": -1000000001,
+      "appname": "My Manual Shortcut",
+      "exe": ""C:/Tools/manual.exe"",
+      "tags": [
+        "Favorites",
+      ],
+    },
+    {
+      "LaunchOptions": ""<ROOT>/roms/snes/Super Mario World (USA).sfc"",
+      "StartDir": "/emu",
+      "appid": -2091568669,
+      "appname": "Super Mario World",
+      "exe": ""/emu/snes9x"",
+      "icon": "<ROOT>/steam/userdata/11111111/config/grid/2203398627_icon.png",
+      "tags": [
+        "SNES",
+        "Retro",
+      ],
+    },
+    {
+      "LaunchOptions": ""<ROOT>/roms/snes/Chrono Trigger (USA).sfc"",
+      "StartDir": "/emu",
+      "appid": -550859671,
+      "appname": "Chrono Trigger",
+      "exe": ""/emu/snes9x"",
+      "icon": "<ROOT>/steam/userdata/11111111/config/grid/3744107625_icon.png",
+      "tags": [
+        "SNES",
+        "Retro",
+      ],
+    },
+    {
+      "LaunchOptions": "-b -e "<ROOT>/roms/gc/Metroid Prime (USA).iso"",
+      "StartDir": "/emu",
+      "appid": -2069359700,
+      "appname": "Metroid Prime",
+      "exe": ""/emu/dolphin"",
+      "icon": "",
+      "tags": [
+        "GameCube",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`save pipeline (characterization) > disabled parser: shortcuts removed with deleteDisabledShortcuts 1`] = `
+{
+  "addedItems": {
+    "addedApps": {
+      "16080819802112786432": {
+        "artworkOnly": false,
+        "categories": [
+          "SNES",
+          "Retro",
+        ],
+        "parserId": "snes-parser",
+      },
+      "9463525043049857024": {
+        "artworkOnly": false,
+        "categories": [
+          "SNES",
+          "Retro",
+        ],
+        "parserId": "snes-parser",
+      },
+      "9558911838582734848": {
+        "artworkOnly": false,
+        "categories": [
+          "GameCube",
+        ],
+        "parserId": "gc-parser",
+      },
+    },
+    "version": 2,
+  },
+  "collections": [
+    {
+      "key": "user-collections.uc-mine",
+      "value": {
+        "added": [
+          440,
+        ],
+        "id": "uc-mine",
+        "name": "My Collection",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.uc-mine",
+      "value": {
+        "added": [
+          440,
+        ],
+        "id": "uc-mine",
+        "name": "My Collection",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.srm-U05FUw==",
+      "value": {
+        "added": [
+          2203398627,
+          3744107625,
+        ],
+        "id": "srm-U05FUw==",
+        "name": "SNES",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.srm-UmV0cm8=",
+      "value": {
+        "added": [
+          2203398627,
+          3744107625,
+        ],
+        "id": "srm-UmV0cm8=",
+        "name": "Retro",
+        "removed": [],
+      },
+    },
+    {
+      "is_deleted": true,
+      "key": "user-collections.srm-R2FtZUN1YmU=",
+      "value": {
+        "added": [
+          2225607596,
+        ],
+        "id": "srm-R2FtZUN1YmU=",
+        "name": "GameCube",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.uc-mine",
+      "value": {
+        "added": [
+          440,
+        ],
+        "id": "uc-mine",
+        "name": "My Collection",
+        "removed": [],
+      },
+    },
+  ],
+  "compatToolMapping": {
+    "2203398627": {
+      "config": "",
+      "name": "proton_9",
+      "priority": 250,
+    },
+    "3744107625": {
+      "config": "",
+      "name": "proton_9",
+      "priority": 250,
+    },
+    "440": {
+      "config": "",
+      "name": "proton_8",
+      "priority": 250,
+    },
+  },
+  "grid": [
+    "16080819802112786432.png (symlink)",
+    "2203398627.png",
+    "2203398627_hero.png",
+    "2203398627_icon.png",
+    "2203398627_logo.png",
+    "2203398627p.png",
+    "3744107625.png",
+    "3744107625_hero.png",
+    "3744107625_icon.png",
+    "3744107625_logo.png",
+    "3744107625p.png",
+    "9463525043049857024.png (symlink)",
+  ],
+  "shortcuts": [
+    {
+      "StartDir": ""C:/Tools/"",
+      "appid": -1000000001,
+      "appname": "My Manual Shortcut",
+      "exe": ""C:/Tools/manual.exe"",
+      "tags": [
+        "Favorites",
+      ],
+    },
+    {
+      "LaunchOptions": ""<ROOT>/roms/snes/Super Mario World (USA).sfc"",
+      "StartDir": "/emu",
+      "appid": -2091568669,
+      "appname": "Super Mario World",
+      "exe": ""/emu/snes9x"",
+      "icon": "<ROOT>/steam/userdata/11111111/config/grid/2203398627_icon.png",
+      "tags": [
+        "SNES",
+        "Retro",
+      ],
+    },
+    {
+      "LaunchOptions": ""<ROOT>/roms/snes/Chrono Trigger (USA).sfc"",
+      "StartDir": "/emu",
+      "appid": -550859671,
+      "appname": "Chrono Trigger",
+      "exe": ""/emu/snes9x"",
+      "icon": "<ROOT>/steam/userdata/11111111/config/grid/3744107625_icon.png",
+      "tags": [
+        "SNES",
+        "Retro",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`save pipeline (characterization) > nuke: removes everything SRM added, keeps the user's 1`] = `
+{
+  "addedItems": {
+    "addedApps": {},
+    "version": 2,
+  },
+  "collections": [
+    {
+      "key": "user-collections.uc-mine",
+      "value": {
+        "added": [
+          440,
+        ],
+        "id": "uc-mine",
+        "name": "My Collection",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.uc-mine",
+      "value": {
+        "added": [
+          440,
+        ],
+        "id": "uc-mine",
+        "name": "My Collection",
+        "removed": [],
+      },
+    },
+    {
+      "is_deleted": true,
+      "key": "user-collections.srm-U05FUw==",
+      "value": {
+        "added": [
+          2203398627,
+          3744107625,
+        ],
+        "id": "srm-U05FUw==",
+        "name": "SNES",
+        "removed": [],
+      },
+    },
+    {
+      "is_deleted": true,
+      "key": "user-collections.srm-UmV0cm8=",
+      "value": {
+        "added": [
+          2203398627,
+          3744107625,
+        ],
+        "id": "srm-UmV0cm8=",
+        "name": "Retro",
+        "removed": [],
+      },
+    },
+    {
+      "is_deleted": true,
+      "key": "user-collections.srm-R2FtZUN1YmU=",
+      "value": {
+        "added": [
+          2225607596,
+        ],
+        "id": "srm-R2FtZUN1YmU=",
+        "name": "GameCube",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.uc-mine",
+      "value": {
+        "added": [
+          440,
+        ],
+        "id": "uc-mine",
+        "name": "My Collection",
+        "removed": [],
+      },
+    },
+  ],
+  "compatToolMapping": {
+    "2203398627": {
+      "config": "",
+      "name": "proton_9",
+      "priority": 250,
+    },
+    "3744107625": {
+      "config": "",
+      "name": "proton_9",
+      "priority": 250,
+    },
+    "440": {
+      "config": "",
+      "name": "proton_8",
+      "priority": 250,
+    },
+  },
+  "grid": [],
+  "shortcuts": [
+    {
+      "StartDir": ""C:/Tools/"",
+      "appid": -1000000001,
+      "appname": "My Manual Shortcut",
+      "exe": ""C:/Tools/manual.exe"",
+      "tags": [
+        "Favorites",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`save pipeline (characterization) > remove: drops SRM's entries and keeps the user's 1`] = `
+{
+  "addedItems": {
+    "addedApps": {},
+    "version": 2,
+  },
+  "collections": [
+    {
+      "key": "user-collections.uc-mine",
+      "value": {
+        "added": [
+          440,
+        ],
+        "id": "uc-mine",
+        "name": "My Collection",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.uc-mine",
+      "value": {
+        "added": [
+          440,
+        ],
+        "id": "uc-mine",
+        "name": "My Collection",
+        "removed": [],
+      },
+    },
+    {
+      "is_deleted": true,
+      "key": "user-collections.srm-U05FUw==",
+      "value": {
+        "added": [
+          2203398627,
+          3744107625,
+        ],
+        "id": "srm-U05FUw==",
+        "name": "SNES",
+        "removed": [],
+      },
+    },
+    {
+      "is_deleted": true,
+      "key": "user-collections.srm-UmV0cm8=",
+      "value": {
+        "added": [
+          2203398627,
+          3744107625,
+        ],
+        "id": "srm-UmV0cm8=",
+        "name": "Retro",
+        "removed": [],
+      },
+    },
+    {
+      "is_deleted": true,
+      "key": "user-collections.srm-R2FtZUN1YmU=",
+      "value": {
+        "added": [
+          2225607596,
+        ],
+        "id": "srm-R2FtZUN1YmU=",
+        "name": "GameCube",
+        "removed": [],
+      },
+    },
+    {
+      "key": "user-collections.uc-mine",
+      "value": {
+        "added": [
+          440,
+        ],
+        "id": "uc-mine",
+        "name": "My Collection",
+        "removed": [],
+      },
+    },
+  ],
+  "compatToolMapping": {
+    "440": {
+      "config": "",
+      "name": "proton_8",
+      "priority": 250,
+    },
+  },
+  "grid": [],
+  "shortcuts": [
+    {
+      "StartDir": ""C:/Tools/"",
+      "appid": -1000000001,
+      "appname": "My Manual Shortcut",
+      "exe": ""C:/Tools/manual.exe"",
+      "tags": [
+        "Favorites",
+      ],
+    },
+  ],
+}
+`;

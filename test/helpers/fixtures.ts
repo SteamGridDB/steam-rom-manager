@@ -7,6 +7,8 @@ import * as schemas from "../../src/renderer/schemas";
 import * as modifiers from "../../src/renderer/modifiers";
 import { AppSettings, ParserType, UserConfiguration } from "../../src/models";
 import { availableParserInputs } from "../../src/lib/parsers/available-parsers";
+
+const shortcutsParser = require("steam-shortcut-editor");
 import { accountID_ToSteamID64 } from "../../src/lib/helpers/steam/account-id-to-steam-id-64";
 
 export function tempDir(prefix: string) {
@@ -22,11 +24,17 @@ export function writeFiles(root: string, files: string[]) {
 }
 
 // Minimal Steam install: config/loginusers.vdf plus userdata/<id>/config.
-// Only what SRM reads to discover accounts; real-format coverage of Steam's
-// own files comes from the live tests against an actual install.
+// Only what SRM reads/writes; real-format coverage of Steam's own files comes
+// from the live tests against an actual install.
+//
+// With `userContent`, each account also starts with things SRM does NOT own
+// and must preserve: a manually added shortcut, a user collection, and a
+// manual compat-tool mapping (plus the cloud-storage/config.vdf files SRM's
+// category and compat-tool writers need to exist).
 export function makeFakeSteam(
   root: string,
   accounts: { accountID: string; name: string }[],
+  opts: { userContent?: boolean } = {},
 ) {
   const users = accounts
     .map(
@@ -40,9 +48,83 @@ export function makeFakeSteam(
     `"users"\n{\n${users}}\n`,
   );
   for (const { accountID } of accounts) {
-    fs.mkdirSync(path.join(root, "userdata", accountID, "config"), {
-      recursive: true,
-    });
+    const config = path.join(root, "userdata", accountID, "config");
+    fs.mkdirSync(config, { recursive: true });
+    if (opts.userContent) {
+      fs.writeFileSync(
+        path.join(config, "shortcuts.vdf"),
+        shortcutsParser.writeBuffer({
+          shortcuts: [
+            {
+              appid: -1000000001,
+              AppName: "My Manual Shortcut",
+              Exe: '"C:\\Tools\\manual.exe"',
+              StartDir: '"C:\\Tools\\"',
+              tags: ["Favorites"],
+            },
+          ],
+        }),
+      );
+      fs.writeFileSync(
+        path.join(config, "localconfig.vdf"),
+        '"UserLocalConfigStore"\n{\n\t"apps"\n\t{\n\t\t"440"\n\t\t{\n\t\t\t"UseSteamControllerConfig"\t\t"2"\n\t\t}\n\t}\n}\n',
+      );
+      const cloud = path.join(config, "cloudstorage");
+      fs.mkdirSync(cloud, { recursive: true });
+      fs.writeFileSync(
+        path.join(cloud, "cloud-storage-namespaces.json"),
+        JSON.stringify([[1, "1"]]),
+      );
+      const userCollection = {
+        id: "uc-mine",
+        name: "My Collection",
+        added: [440],
+        removed: [] as number[],
+      };
+      fs.writeFileSync(
+        path.join(cloud, "cloud-storage-namespace-1.json"),
+        JSON.stringify([
+          [
+            "user-collections.uc-mine",
+            {
+              key: "user-collections.uc-mine",
+              timestamp: 1700000000,
+              value: JSON.stringify(userCollection),
+              version: "1",
+            },
+          ],
+        ]),
+      );
+    }
+  }
+  if (opts.userContent) {
+    fs.writeFileSync(
+      path.join(root, "config", "config.vdf"),
+      [
+        '"InstallConfigStore"',
+        "{",
+        '\t"Software"',
+        "\t{",
+        '\t\t"Valve"',
+        "\t\t{",
+        '\t\t\t"Steam"',
+        "\t\t\t{",
+        '\t\t\t\t"CompatToolMapping"',
+        "\t\t\t\t{",
+        '\t\t\t\t\t"440"',
+        "\t\t\t\t\t{",
+        '\t\t\t\t\t\t"name"\t\t"proton_8"',
+        '\t\t\t\t\t\t"config"\t\t""',
+        '\t\t\t\t\t\t"priority"\t\t"250"',
+        "\t\t\t\t\t}",
+        "\t\t\t\t}",
+        "\t\t\t}",
+        "\t\t}",
+        "\t}",
+        "}",
+        "",
+      ].join("\n"),
+    );
   }
   return root;
 }

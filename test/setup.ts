@@ -18,6 +18,16 @@ import "../src/lib/replace-diacritics";
 vi.mock("../src/variables", () => import("./stubs/variables"));
 vi.mock("../src/paths", () => import("./stubs/paths"));
 
+// @electron/remote throws outside Electron. Renderer services import it for
+// dialogs/window controls only, which tests don't exercise.
+vi.mock("@electron/remote", () => ({ app: {}, dialog: {}, shell: {} }));
+
+// Never let a test kill or relaunch the Steam client on the host machine.
+vi.mock(
+  "../src/lib/helpers/steam/stop-start-steam",
+  () => import("./stubs/stop-start-steam"),
+);
+
 // The image-provider modules spin up DOM Workers / worker listeners on import
 // and query SteamGridDB; replace them with recording, offline stubs.
 vi.mock(
