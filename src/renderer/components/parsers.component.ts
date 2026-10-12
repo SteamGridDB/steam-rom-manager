@@ -19,7 +19,6 @@ import {
   SettingsService,
   ConfigurationPresetsService,
   ShellScriptsService,
-  IpcService,
   UserExceptionsService,
   CustomVariablesService,
 } from "../services";
@@ -42,7 +41,7 @@ import {
   CustomVariables,
   TitleModifiers,
 } from "../../models";
-import { BehaviorSubject, Subscription, of, concat, combineLatest } from "rxjs";
+import { Subscription, of, concat, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
 import { APP } from "../../variables";
 import * as _ from "lodash";
@@ -83,7 +82,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private appSettings: AppSettings;
   private formChanges: Subscription = new Subscription();
   private chooseAccountsControl: AbstractControl;
-  private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
 
   constructor(
     private parsersService: ParsersService,
@@ -99,16 +97,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private cpService: ConfigurationPresetsService,
     private cvService: CustomVariablesService,
     private ssService: ShellScriptsService,
-    private ipcService: IpcService,
   ) {
     this.appSettings = this.settingsService.getSettings();
     this.currentDoc.content = this.lang.docs__md.intro.join("");
-    this.activatedRoute.queryParamMap.subscribe((paramContainer: any) => {
-      let params = ({ ...paramContainer } as any).params;
-      if (params["cliMessage"]) {
-        this.CLI_MESSAGE.next(params["cliMessage"]);
-      }
-    });
     this.nestedGroup = new NestedFormElement.Group({
       children: {
         basicSection: new NestedFormElement.Section({
@@ -929,77 +920,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.parsersService.getSavedControllerTemplates().subscribe((data) => {
         this.parsersService.controllerTemplates = data;
         this.fetchControllerTemplates(false);
-      }),
-    );
-    this.subscriptions.add(
-      this.CLI_MESSAGE.asObservable().subscribe((cliMessage: string) => {
-        const parsedCLI = cliMessage ? JSON.parse(cliMessage) || {} : {};
-        this.parsersService.onLoad(
-          (userConfigurations: UserConfiguration[]) => {
-            if (parsedCLI.command == "list") {
-              this.ipcService.send("parsers_list", userConfigurations);
-            } else if (["enable", "disable"].includes(parsedCLI.command)) {
-              let newStatus: boolean = parsedCLI.command == "enable";
-              if (parsedCLI.flags["all"]) {
-                this.parsersService
-                  .changeEnabledStatusAll(newStatus)
-                  .then(() => {
-                    this.ipcService.send("all_done");
-                  });
-              } else {
-                let promises: Promise<void>[] = [];
-                let parserIds: string[];
-                if (parsedCLI.flags["names"]) {
-                  parserIds = userConfigurations
-                    .filter(
-                      (config) =>
-                        parsedCLI.args.indexOf(
-                          config.configTitle.replace(/[^\x20-\x7E]+/g, ""),
-                        ) != -1,
-                    )
-                    .map((config) => config.parserId);
-                  for (let configTitle of parsedCLI.args) {
-                    if (
-                      userConfigurations
-                        .map((config) =>
-                          config.configTitle.replace(/[^\x20-\x7E]+/g, ""),
-                        )
-                        .indexOf(configTitle) == -1
-                    ) {
-                      this.ipcService.send(
-                        "log",
-                        `Could not find parser ${configTitle}`,
-                      );
-                    }
-                  }
-                } else {
-                  parserIds = parsedCLI.args;
-                }
-                for (let parserId of parserIds) {
-                  try {
-                    promises.push(
-                      this.parsersService
-                        .changeEnabledStatus(parserId, newStatus)
-                        .then(() => {
-                          this.ipcService.send(
-                            "log",
-                            newStatus
-                              ? `Enabled parser ${parserId}`
-                              : `Disabled parser ${parserId}`,
-                          );
-                        }),
-                    );
-                  } catch (e) {
-                    this.ipcService.send("log", e);
-                  }
-                }
-                Promise.all(promises).then(() => {
-                  this.ipcService.send("all_done");
-                });
-              }
-            }
-          },
-        );
       }),
     );
   }

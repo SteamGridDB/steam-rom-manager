@@ -7,13 +7,11 @@ import {
   ElementRef,
   RendererStyleFlags2,
 } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Subscription, BehaviorSubject } from "rxjs";
+import { Subscription } from "rxjs";
 import {
   PreviewService,
   SettingsService,
   ImageProviderService,
-  IpcService,
   UserExceptionsService,
 } from "../services";
 import {
@@ -24,7 +22,6 @@ import {
   AppSettings,
   ImageContent,
   SelectItem,
-  UserConfiguration,
   ArtworkViewType,
   ArtworkType,
   isArtworkType,
@@ -84,7 +81,6 @@ export class PreviewComponent implements OnDestroy {
   artworkSelectTypes: SelectItem[];
   sortBySelectTypes: SelectItem[];
   scrollingEntries: boolean = false;
-  CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
   currentApp: {
     app: PreviewDataApp;
     userId: string;
@@ -129,10 +125,8 @@ export class PreviewComponent implements OnDestroy {
     private changeDetectionRef: ChangeDetectorRef,
     private renderer: Renderer2,
     private elementRef: ElementRef,
-    private activatedRoute: ActivatedRoute,
     private fuzzyTest: FuzzyTestPipe,
     private intersectionTest: IntersectionTestPipe,
-    private ipcService: IpcService,
     private sanitizer: DomSanitizer,
   ) {
     this.previewData = this.previewService.getPreviewData();
@@ -157,12 +151,6 @@ export class PreviewComponent implements OnDestroy {
       { value: "configurationTitle", displayValue: "Parser" },
       { value: "sortAsTitle", displayValue: "Sort As Title" },
     ];
-    this.activatedRoute.queryParamMap.subscribe((paramContainer: any) => {
-      let params = ({ ...paramContainer } as any).params;
-      if (params["cliMessage"]) {
-        this.CLI_MESSAGE.next(params["cliMessage"]);
-      }
-    });
   }
 
   get lang() {
@@ -267,59 +255,6 @@ export class PreviewComponent implements OnDestroy {
           this.changeDetectionRef.detectChanges();
         }, 50),
       ),
-    );
-    this.subscriptions.add(
-      this.CLI_MESSAGE.asObservable().subscribe((cliMessage: string) => {
-        const parsedCLI = cliMessage ? JSON.parse(cliMessage) || {} : {};
-        let hasrun = false;
-        if (["add", "remove"].includes(parsedCLI.command)) {
-          this.previewService.onLoadUserConfigurations(
-            (userConfigurations: UserConfiguration[]) => {
-              this.ipcService.send("log", "Generating app list");
-              this.generatePreviewData();
-            },
-          );
-          this.previewService.getPreviewDataChange().subscribe(() => {
-            let previewVariables = this.previewService.getPreviewVariables();
-            if (
-              this.previewVariables.listHasGenerated &&
-              this.previewVariables.numberOfListItems > 0
-            ) {
-              this.ipcService.send(
-                "inline-log",
-                `Apps: ${this.previewVariables.numberOfListItems}. Remaining images: ${this.previewVariables.numberOfQueriedImages}`,
-              );
-              if (this.previewVariables.numberOfQueriedImages == 0 && !hasrun) {
-                hasrun = true;
-                this.ipcService.send("log", "");
-                if (parsedCLI.command == "add") {
-                  this.ipcService.send("log", "Adding app list to steam");
-                  this.save().then(() => {
-                    this.ipcService.send("all_done");
-                  });
-                } else {
-                  this.ipcService.send("log", "Removing app list from steam");
-                  this.remove().then(() => {
-                    this.ipcService.send("all_done");
-                  });
-                }
-              }
-            } else if (this.previewVariables.listHasGenerated) {
-              this.ipcService.send("log", "No apps found");
-              this.ipcService.send("all_done");
-            }
-          });
-          this.previewService
-            .getBatchProgress()
-            .subscribe(
-              ({ update, batch }: { update: string; batch: number }) => {
-                if (batch > -1) {
-                  this.ipcService.send("inline-log", update);
-                }
-              },
-            );
-        }
-      }),
     );
   }
 

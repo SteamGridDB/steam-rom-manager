@@ -46,7 +46,6 @@ export class AppComponent {
   shouldHideComponent: boolean = false;
   splash: boolean = false;
   splashStage: string = "steamDir";
-  private cliMessage: string = "";
   constructor(
     private settingsService: SettingsService,
     private languageService: LanguageService,
@@ -115,35 +114,6 @@ export class AppComponent {
 
     ipcService.on("updater_message", (event, message) => {
       this.updateMessage = message;
-    });
-    ipcService.on("cli_message", (event, message) => {
-      this.settingsService.onLoad((appSettings) => {
-        if (["list", "enable", "disable"].includes(message.command)) {
-          this.zone.run(() => {
-            this.router.navigate(["/parsers", -1], {
-              queryParams: {
-                cliMessage: JSON.stringify(message),
-              },
-            });
-          });
-        } else if (["add", "remove"].includes(message.command)) {
-          this.zone.run(() => {
-            this.router.navigate(["/"], {
-              queryParams: {
-                cliMessage: JSON.stringify(message),
-              },
-            });
-          });
-        } else if (["nuke"].includes(message.command)) {
-          this.zone.run(() => {
-            this.router.navigate(["/settings"], {
-              queryParams: {
-                cliMessage: JSON.stringify(message),
-              },
-            });
-          });
-        }
-      });
     });
   }
 }

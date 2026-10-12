@@ -33,7 +33,8 @@ export async function runCli(
     info: () => {},
     success: () => {},
     fuzzy: () => {},
-    error: (message) => process.stderr.write(`${clc.xterm(203)(text(message))}\n`),
+    error: (message) =>
+      process.stderr.write(`${clc.xterm(203)(text(message))}\n`),
   };
   // Some lib code logs debugging output with console.log; keep it out of the
   // command's output.
@@ -55,13 +56,15 @@ export async function runCli(
               clc.blue("Status"),
             ],
           ].concat(
-            commands.list(core).map((parser) => [
-              parser.configTitle.replace(/[^\x20-\x7E]+/g, ""),
-              parser.parserId,
-              parser.disabled
-                ? clc.xterm(203)("Disabled")
-                : clc.xterm(48)("Enabled"),
-            ]),
+            commands
+              .list(core)
+              .map((parser) => [
+                parser.configTitle.replace(/[^\x20-\x7E]+/g, ""),
+                parser.parserId,
+                parser.disabled
+                  ? clc.xterm(203)("Disabled")
+                  : clc.xterm(48)("Enabled"),
+              ]),
           ),
         ),
       );
