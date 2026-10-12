@@ -78,9 +78,10 @@ describe.skipIf(!steamDir || !accountId)("live Steam install", () => {
       .map(([id]) => id);
     expect(srmIds.length).toBeGreaterThan(0);
 
-    // addedItemsV2 also keeps entries whose shortcuts are gone (e.g. from
-    // disabled/deleted parsers) - SRM never prunes it when removing
-    // extraneous shortcuts. Report those, but only assert on live entries.
+    // addedItemsV2 intentionally keeps entries whose shortcuts are gone (e.g.
+    // from disabled/deleted parsers): a stale entry is harmless, while
+    // wrongly forgetting an SRM-owned shortcut leads to duplicates. So only
+    // assert on entries that still have a shortcut.
     const present = srmIds.filter((id) => byLongId.has(id));
     const stale = srmIds.length - present.length;
     if (stale) {
