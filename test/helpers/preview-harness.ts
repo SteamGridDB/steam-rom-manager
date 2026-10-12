@@ -7,7 +7,7 @@ import * as http from "http";
 import * as path from "path";
 import { AddressInfo } from "net";
 import { Subject } from "rxjs";
-import { PreviewService } from "../../src/renderer/services/preview.service";
+import { PreviewEngine } from "../../src/core/preview-engine";
 import { FileParser } from "../../src/lib/file-parser";
 import { FuzzyMatcher } from "../../src/lib/fuzzy-matcher";
 import { AppSettings, UserConfiguration } from "../../src/models";
@@ -77,9 +77,9 @@ export function makePreviewService(opts: {
     }),
   } as any);
 
-  const parsersService = {
-    onLoad: (cb: (c: UserConfiguration[]) => void) => cb(opts.configs),
-    getUserConfigurationsArray: () => opts.configs,
+  // The parts of ParsersStore the engine uses.
+  const parsers = {
+    getAll: () => opts.configs,
     getKnownSteamDirectories: () => opts.knownSteamDirectories,
     executeFileParser: async () => ({
       parsedData: await fileParser.executeFileParser(
@@ -91,49 +91,43 @@ export function makePreviewService(opts: {
     }),
   };
 
-  const settingsService = {
-    onLoad: (cb: (s: AppSettings) => void) => cb(opts.settings),
-    getSettings: () => opts.settings,
-  };
+  const settings = { get: () => opts.settings };
 
-  // Emits provider events asynchronously, like the worker-backed provider.
-  const imageProviderService = {
-    instance: {
-      stopEvent: new Subject<void>(),
-      stopUrlDownload: () => {},
-      retrieveUrls: (
-        title: string,
-        artworkType: string,
-        _apis: unknown,
-        provider: string,
-        callback: (event: string, data: any) => void,
-      ) => {
-        setImmediate(() => {
-          const match = opts.artwork?.[title];
-          if (provider === "sgdb" && match) {
-            callback("image", {
-              provider,
-              content: {
-                imageProvider: "SteamGridDB",
-                imageUrl: `${opts.imageBase}/${artworkType}/${match.gameId}.png`,
-                imageGameId: match.gameId,
-                imageArtworkId: `${match.gameId}-${artworkType}`,
-                loadStatus: "notStarted",
-              },
-            });
-          }
-          callback("completed", { provider });
-        });
-      },
+  // Emits provider events asynchronously, like the real providers.
+  const providers = {
+    stopEvent: new Subject<void>(),
+    stopUrlDownload: () => {},
+    retrieveUrls: (
+      title: string,
+      artworkType: string,
+      _apis: unknown,
+      provider: string,
+      callback: (event: string, data: any) => void,
+    ) => {
+      setImmediate(() => {
+        const match = opts.artwork?.[title];
+        if (provider === "sgdb" && match) {
+          callback("image", {
+            provider,
+            content: {
+              imageProvider: "SteamGridDB",
+              imageUrl: `${opts.imageBase}/${artworkType}/${match.gameId}.png`,
+              imageGameId: match.gameId,
+              imageArtworkId: `${match.gameId}-${artworkType}`,
+              loadStatus: "notStarted",
+            },
+          });
+        }
+        callback("completed", { provider });
+      });
     },
   };
 
-  const service = new PreviewService(
-    parsersService as any,
+  const service = new PreviewEngine(
     loggerService as any,
-    imageProviderService as any,
-    settingsService as any,
-    null as any,
+    parsers as any,
+    providers as any,
+    settings as any,
   );
 
   // Same completion condition the CLI uses (preview.component.ts).
