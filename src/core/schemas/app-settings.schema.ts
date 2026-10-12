@@ -22,7 +22,6 @@ export const appSettings = {
           },
         },
         verbose: { type: "boolean", default: false },
-        filterProviders: { type: "boolean", default: true },
       },
     },
     environmentVariables: {
