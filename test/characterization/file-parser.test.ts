@@ -16,7 +16,7 @@ import {
   tempDir,
   writeFiles,
 } from "../helpers/fixtures";
-import { sgdbCalls, sgdbFailures, sgdbIds } from "../stubs/image-providers";
+import { sgdbCalls, sgdbFailures, sgdbIds } from "../stubs/sgdb-search";
 
 const fuzzyList = [
   "Super Mario World",

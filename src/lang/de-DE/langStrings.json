@@ -68,7 +68,7 @@
         "controllerSaveError": "Fehler beim Aktualisieren der Controller-Vorlagen. Details findest du im Ereignisprotokoll.",
         "controllerSaveError__i": "Controller-Fehler (Verknüpfungen und Grafiken werden weiterhin hinzugefügt): ${error}",
         "retryingDownload__i": "Bild-Download von \"${imageUrl}\" für \"${appTitle}\" fehlgeschlagen.",
-        "providerError__i": "Error received from \"${provider}\" for \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
+        "providerError__i": "Error received from \"${provider}\" for \"${title}\":\n (${details}).",
         "unknownProviderError__i": "Error received from \"${provider}\" for \"${title}\":\n ${error}",
         "exportError__i": "Could not save selections package folder: ${error}",
         "importJSONFailError__i": "Could not import selections, JSON was malformed: ${error}",

@@ -20,35 +20,6 @@ export class SteamGridDbProvider extends GenericProvider {
     this.client = new SGDB({ key: apiKey });
   }
 
-  static async retrieveIdsFromTitle(title: string): Promise<number[]> {
-    const client = new SGDB({ key: apiKey });
-    if (sgdbIdRegex.test(title)) {
-      return [parseInt(title.match(sgdbIdRegex)[1])];
-    } else {
-      // URL encode plus signs to fix search issues with titles ending in "+"
-      const encodedTitle = title.replace(/\+/g, '%2B');
-      const games = await client.searchGame(encodedTitle);
-      return games.map((game: any) => game.id);
-    }
-  }
-
-  static async retrievePossibleIds(title: string) {
-    const client = new SGDB({ key: apiKey });
-    // URL encode plus signs to fix search issues with titles ending in "+"
-    const encodedTitle = title.replace(/\+/g, '%2B');
-    const games = await client.searchGame(encodedTitle);
-    for (const game of games) {
-      const grids = (
-        await client.getGrids({
-          id: game.id,
-          type: "game",
-          dimensions: ["600x900"],
-        })
-      ).filter((grid: any) => !grid.url.endsWith("?")); // Nintendo Sucks
-      game.posterUrl = grids.length ? grids[0].url : "";
-    }
-    return games;
-  }
 
   retrieveUrls() {
     let self = this;

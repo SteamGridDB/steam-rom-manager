@@ -68,7 +68,7 @@
         "controllerSaveError": "更新控制器模板时出错。请查看事件日志获取详细信息。",
         "controllerSaveError__i": "控制器错误（快捷方式和艺术作品仍将被添加）：${error}",
         "retryingDownload__i": "从 \"${imageUrl}\" 下载图片失败，应用程序名称为 \"${appTitle}\"。",
-        "providerError__i": "从\"${provider}\" 接收到的错误，针对 \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
+        "providerError__i": "从\"${provider}\" 接收到的错误，针对 \"${title}\":\n (${details}).",
         "unknownProviderError__i": "从 \"${provider}\" 接收到的 \"${title}\" 错误：\n ${error}",
         "exportError__i": "无法保存选择的包文件夹：${error}",
         "importJSONFailError__i": "无法导入选择，JSON 格式不正确：${error}",

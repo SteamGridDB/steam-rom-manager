@@ -68,7 +68,7 @@
         "controllerSaveError": "Erreur lors de la mise à jour des modèles de contrôleur. Consultez le journal des événements pour plus de détails.",
         "controllerSaveError__i": "Erreur de contrôleur (les raccourcis et les images seront ajoutés): ${error}",
         "retryingDownload__i": "Le téléchargement de l'image depuis \"${imageUrl}\" a échoué pour \"${appTitle}\".",
-        "providerError__i": "Erreur réception de \"${provider}\" pour \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
+        "providerError__i": "Erreur réception de \"${provider}\" pour \"${title}\":\n (${details}).",
         "unknownProviderError__i": "Erreur réception de \"${provider}\" pour \"${title}\":\n ${error}",
         "exportError__i": "Impossible d'enregistrer le dossier de paquets sélectionné: ${error}",
         "importJSONFailError__i": "Impossible d'importer les sélections, JSON a été malformé: ${error}",

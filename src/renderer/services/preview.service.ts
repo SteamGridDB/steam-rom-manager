@@ -5,7 +5,7 @@ import { ParsersService } from "./parsers.service";
 import { LoggerService } from "./logger.service";
 import { SettingsService } from "./settings.service";
 import { ImageProviderService } from "./image-provider.service";
-import { SteamGridDbProvider } from "../../lib/image-providers/steamgriddb.worker";
+import * as sgdbSearch from "../../lib/image-providers/sgdb-search";
 import {
   PreviewData,
   ImageContent,
@@ -173,7 +173,7 @@ export class PreviewService {
   }
 
   getMatchFixes(title: string) {
-    return SteamGridDbProvider.retrievePossibleIds(title);
+    return sgdbSearch.retrievePossibleIds(title);
   }
 
   updateAppImages(imageKey: string, oldPool: string, artworkType: ArtworkType) {
@@ -1178,9 +1178,10 @@ export class PreviewService {
                           this.loggerService.error(
                             this.lang.errors.providerError__i.interpolate({
                               provider: errorData.provider,
-                              code: errorData.error,
                               title: errorData.title,
-                              url: errorData.url,
+                              details: errorData.url
+                                ? `${errorData.error}: ${errorData.url}`
+                                : errorData.error,
                             }),
                           );
                         } else {

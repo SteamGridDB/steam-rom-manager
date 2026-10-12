@@ -68,7 +68,7 @@
         "controllerSaveError": "Erro ao atualizar categorias. Consulte o log de eventos para obter detalhes.",
         "controllerSaveError__i": "Erro de categoria (atalhos e arte ainda serão adicionados): ${error}",
         "retryingDownload__i": "Tentando baixar a imagem de \"${imageUrl}\" para \"${appTitle}\".",
-        "providerError__i": "Erro recebido do \"${provider}\" para \"${title}\":\n (${url ? `${code}: ${url}` : código}).",
+        "providerError__i": "Erro recebido do \"${provider}\" para \"${title}\":\n (${details}).",
         "unknownProviderError__i": "Erro recebido de \"${provider}\" para \"${title}\":\n ${error}",
         "exportError__i": "Não foi possível salvar a pasta do pacote de seleções: ${error}",
         "importJSONFailError__i": "Não foi possível importar as seleções, o JSON estava malformado: ${error}",

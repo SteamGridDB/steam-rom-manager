@@ -3,7 +3,8 @@ import { LoggerService } from "./logger.service";
 import { SettingsService } from "./settings.service";
 import { FuzzyEventMap, AppSettings, FuzzyEventCallback } from "../../models";
 import { APP } from "../../variables";
-import { FuzzyListLoader, FuzzyMatcher } from "../../lib";
+import { FuzzyMatcher } from "../../lib";
+import { FuzzyListLoader } from "../../lib/fuzzy-list-loader";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable()

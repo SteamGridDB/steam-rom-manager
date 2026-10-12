@@ -79,7 +79,7 @@ export interface languageStruct {
         compatToolSaveError: string;
         compatToolSaveError__i: string; //${error}
         retryingDownload__i: string; //${imageUrl}, ${appTitle},
-        providerError__i: string; //${provider}, ${code}, ${title}, ${url}
+        providerError__i: string; //${provider}, ${title}, ${details}
         unknownProviderError__i: string; //${provider}, ${title}, ${error}
         exportError__i: string; //${error}
         importJSONFailError__i: string; //${error}
