@@ -637,16 +637,6 @@ exports[`save pipeline (characterization) > nuke: removes everything SRM added, 
     },
   ],
   "compatToolMapping": {
-    "2203398627": {
-      "config": "",
-      "name": "proton_9",
-      "priority": 250,
-    },
-    "3744107625": {
-      "config": "",
-      "name": "proton_9",
-      "priority": 250,
-    },
     "440": {
       "config": "",
       "name": "proton_8",

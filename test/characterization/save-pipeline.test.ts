@@ -201,7 +201,10 @@ describe("save pipeline (characterization)", () => {
     const ok = await h.service.saveData({ batchWrite: false, removeAll: true });
     expect(errors(h.log)).toEqual([]);
     expect(ok).toBe(true);
-    expect(state()).toMatchSnapshot();
+    const after = state();
+    // SRM's forced Proton mappings go; the user's own mapping (440) stays.
+    expect(Object.keys(after.compatToolMapping)).toEqual(["440"]);
+    expect(after).toMatchSnapshot();
   });
 
   it("disabled parser: shortcuts kept by default", async () => {

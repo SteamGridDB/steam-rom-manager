@@ -45,9 +45,8 @@ export class CompatToolManager {
   ): Promise<void> {
     try {
       const steamDirectories = Object.keys(previewData);
-      const availableTools = await steam.listAvailableCompatTools(
-        steamDirectories,
-      );
+      const availableTools =
+        await steam.listAvailableCompatTools(steamDirectories);
       const knownToolNames = new Set(availableTools.map((t) => t.name));
 
       for (const steamDirectory of steamDirectories) {
@@ -134,6 +133,59 @@ export class CompatToolManager {
       }
     }
 
+    fs.writeFileSync(configPath, genericParser.stringify(config));
+  }
+
+  // Remove SRM's compat-tool mappings (used by "remove all"/nuke). Only the
+  // mappings of the given SRM-owned shortcuts are touched; mappings for any
+  // other app (e.g. a user's own Proton choice for a Steam game) are kept.
+  // `appIds` must exclude artwork-only entries, which are real Steam games.
+  async removeAll(
+    steamDirectories: string[],
+    appIds: VDF_ExtraneousItemsData,
+  ): Promise<void> {
+    try {
+      for (const steamDirectory of steamDirectories) {
+        this.removeForDirectory(
+          steamDirectory,
+          Object.values(appIds[steamDirectory] ?? {}).flat(),
+        );
+      }
+    } catch (error) {
+      throw new Acceptable_Error(error);
+    }
+  }
+
+  private removeForDirectory(steamDirectory: string, appIds: string[]) {
+    const configPath = path.join(steamDirectory, "config", "config.vdf");
+    if (!appIds.length || !fs.existsSync(configPath)) {
+      return;
+    }
+    const config =
+      genericParser.parse(fs.readFileSync(configPath, "utf-8")) || {};
+
+    // Walk to CompatToolMapping without creating anything along the way.
+    let mapping: any = config;
+    for (const key of CONFIG_PATH) {
+      const existing = Object.keys(mapping ?? {}).find(
+        (k) => k.toLowerCase() === key.toLowerCase(),
+      );
+      mapping = existing === undefined ? undefined : mapping[existing];
+      if (mapping === undefined || mapping === null) {
+        return;
+      }
+    }
+
+    const toRemove = appIds
+      .map((appId) => steam.shortenAppId(appId))
+      .filter((shortId) => mapping[shortId] !== undefined);
+    if (!toRemove.length) {
+      return;
+    }
+    this.backup(configPath);
+    for (const shortId of toRemove) {
+      delete mapping[shortId];
+    }
     fs.writeFileSync(configPath, genericParser.stringify(config));
   }
 
