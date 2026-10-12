@@ -16,7 +16,7 @@ import {
   tempDir,
   writeFiles,
 } from "../helpers/fixtures";
-import { sgdbCalls, sgdbIds } from "../stubs/image-providers";
+import { sgdbCalls, sgdbFailures, sgdbIds } from "../stubs/image-providers";
 
 const fuzzyList = [
   "Super Mario World",
@@ -92,6 +92,7 @@ describe("FileParser (characterization)", () => {
   afterAll(() => fs.rmSync(root, { recursive: true, force: true }));
   beforeEach(() => {
     sgdbCalls.length = 0;
+    sgdbFailures.clear();
     for (const key of Object.keys(sgdbIds)) delete sgdbIds[key];
   });
 
@@ -214,8 +215,33 @@ describe("FileParser (characterization)", () => {
       makeSettings(),
     );
     expect(normalize(summarize(result), roots)).toMatchSnapshot();
-    // Pins current behaviour (a known inefficiency, see modernization plan):
-    // the same search runs once for every artwork type.
-    expect(sgdbCalls).toMatchSnapshot();
+    // One lookup per file, shared by every artwork type.
+    expect(sgdbCalls).toEqual([
+      {
+        method: "retrieveIdsFromTitle",
+        title: "Metroid Prime (USA) (Rev 2)",
+      },
+    ]);
+  });
+
+  it("drmProtect: an unreachable SteamGridDB means no backups, not a hang", async () => {
+    sgdbFailures.add("Metroid Prime (USA) (Rev 2)");
+    const config = makeConfig({
+      parserType: "Glob",
+      configTitle: "Offline",
+      romDirectory: path.join(roms, "gc"),
+      steamDirectory: steamDir,
+      executable: { path: path.join(root, "emu", "dolphin.exe") },
+      parserInputs: { glob: "${title}.iso" },
+      onlineImageQueries: ["${title}"],
+      drmProtect: true,
+    });
+    const result = await makeFileParser().executeFileParser(
+      [config],
+      makeSettings(),
+    );
+    const [file] = result.parsedConfigs[0].files;
+    expect(file.titles.final).toBe("Metroid Prime");
+    expect(_.pickBy(file.backupImage)).toEqual({});
   });
 });

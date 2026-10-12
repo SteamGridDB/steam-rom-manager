@@ -166,31 +166,6 @@ exports[`FileParser (characterization) > drmProtect: resolves local artwork back
 ]
 `;
 
-exports[`FileParser (characterization) > drmProtect: resolves local artwork backups via SteamGridDB ids 2`] = `
-[
-  {
-    "method": "retrieveIdsFromTitle",
-    "title": "Metroid Prime (USA) (Rev 2)",
-  },
-  {
-    "method": "retrieveIdsFromTitle",
-    "title": "Metroid Prime (USA) (Rev 2)",
-  },
-  {
-    "method": "retrieveIdsFromTitle",
-    "title": "Metroid Prime (USA) (Rev 2)",
-  },
-  {
-    "method": "retrieveIdsFromTitle",
-    "title": "Metroid Prime (USA) (Rev 2)",
-  },
-  {
-    "method": "retrieveIdsFromTitle",
-    "title": "Metroid Prime (USA) (Rev 2)",
-  },
-]
-`;
-
 exports[`FileParser (characterization) > glob parser: title extraction, fuzzy matching, args, categories 1`] = `
 [
   {

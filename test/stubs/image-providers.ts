@@ -4,10 +4,15 @@
 // on (and pin) how often lib code queries SteamGridDB.
 export const sgdbCalls: { method: string; title: string }[] = [];
 export const sgdbIds: { [title: string]: number[] } = {};
+// Titles whose lookups reject, simulating SteamGridDB being unreachable.
+export const sgdbFailures = new Set<string>();
 
 export class SteamGridDbProvider {
   static async retrieveIdsFromTitle(title: string): Promise<number[]> {
     sgdbCalls.push({ method: "retrieveIdsFromTitle", title });
+    if (sgdbFailures.has(title)) {
+      throw new Error("getaddrinfo ENOTFOUND www.steamgriddb.com");
+    }
     return sgdbIds[title] ?? [];
   }
 
