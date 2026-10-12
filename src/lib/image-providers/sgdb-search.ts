@@ -1,15 +1,14 @@
-// SteamGridDB game lookups used outside the image-provider workers (file
-// parser, "fix match" in the preview). Kept out of steamgriddb.worker.ts so
-// importing them doesn't load a module that registers worker listeners.
-import SGDB from "steamgriddb";
+// SteamGridDB game lookups used outside the artwork providers (file parser,
+// "fix match" in the preview).
 import { sgdbIdRegex } from "./available-providers";
-import { apiKey } from "./api-key";
+import { SgdbClient } from "../../core/sgdb-client";
+import { getDefaultFetch } from "../../core/http";
 
 export async function retrieveIdsFromTitle(title: string): Promise<number[]> {
   if (sgdbIdRegex.test(title)) {
     return [parseInt(title.match(sgdbIdRegex)[1])];
   }
-  const client = new SGDB({ key: apiKey });
+  const client = new SgdbClient(getDefaultFetch());
   // URL encode plus signs to fix search issues with titles ending in "+"
   const encodedTitle = title.replace(/\+/g, "%2B");
   const games = await client.searchGame(encodedTitle);
@@ -17,7 +16,7 @@ export async function retrieveIdsFromTitle(title: string): Promise<number[]> {
 }
 
 export async function retrievePossibleIds(title: string) {
-  const client = new SGDB({ key: apiKey });
+  const client = new SgdbClient(getDefaultFetch());
   // URL encode plus signs to fix search issues with titles ending in "+"
   const encodedTitle = title.replace(/\+/g, "%2B");
   const games = await client.searchGame(encodedTitle);

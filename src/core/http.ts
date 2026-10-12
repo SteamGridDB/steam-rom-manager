@@ -19,6 +19,19 @@ export type Fetch = (
   },
 ) => Promise<FetchResponse>;
 
+// The fetch used by lib code that isn't handed one explicitly (e.g. the
+// SteamGridDB lookups inside the file parser). Hosts replace it at startup:
+// the main process with Electron's net.fetch.
+let defaultFetch: Fetch = (url, init) => (globalThis.fetch as any)(url, init);
+
+export function setDefaultFetch(fetch: Fetch) {
+  defaultFetch = fetch;
+}
+
+export function getDefaultFetch(): Fetch {
+  return defaultFetch;
+}
+
 export class HttpError extends Error {
   constructor(
     readonly url: string,
