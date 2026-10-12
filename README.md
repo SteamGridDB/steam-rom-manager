@@ -120,6 +120,12 @@ All script must be run using `yarn run` command. For example, `yarn run watch:re
 | `build:docker`   | `build:win` and `build:linux` joined together                       |
 | `build:mac`      | Compiles a `dmg` package for MacOS                                  |
 
+## Text and translations
+
+All UI text lives in `src/lang/en-US`: `langStrings.json`, plus the docs in `markdown/` (listed in `src/lang/index.ts`). Never hard-code English in components or templates: add a key to `en-US/langStrings.json` and use it (`{{ lang.yourKey }}`, or `lang.yourKey__i.interpolate({ ... })` for strings with `${variables}`). The types come from en-US, so TypeScript catches a mistyped or missing key.
+
+Translations are done on [Crowdin](https://crowdin.com/project/steam-rom-manager), which exports them to the `l10n_master` branch. Every other language is laid over en-US, so whatever a language lacks or has out of date (a new key, a reshaped one, changed `${variables}`) shows in English instead of breaking anything. After merging translations or reshaping en-US keys, run `yarn lang:sync`: it brings each language folder into en-US's layout, keeping only real translations, and prints how complete each language is. `yarn lang:check` (and the tests) fail when a folder is out of sync.
+
 ## Debugging an app
 
 Run `watch:main` (usually once since one rarely changes anything in the main Electron process) and `watch:renderer`.
