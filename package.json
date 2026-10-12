@@ -63,6 +63,8 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit -p .",
     "presets:validate": "ts-node ./scripts/validate-files.ts",
+    "lang:sync": "ts-node ./scripts/lang-sync.ts",
+    "lang:check": "ts-node ./scripts/lang-sync.ts --check",
     "presets:modify": "ts-node ./scripts/update-files.ts",
     "presets:version": "node ./scripts/version-files.js",
     "update:deps": "npm-check-updates --interactive --format group",

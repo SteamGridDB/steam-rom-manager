@@ -1,5 +1,5 @@
 # Glob Parser
 
-A glob based path parser used to extract title from a file path.
+Un analizzatore di percorsi basato su glob è usato per estrarre il titolo da un percorso di file.
 
-If your ROMs Directory (eg. `D:\ROMS`) contains `Donkey Kong.gba`,`Super Mario.gba`, and `Sonic.gba` then the glob `${title}.gba` will find titles `Donkey Kong`, `Super Mario`, and `Sonic`.
+Se la tua cartella ROM (ad esempio `D:\ROMS`) contiene `Donkey Kong.gba`,`Super Mario.gba` e `Sonic.gba` allora il glob `${title}.gba` troverà i titoli `Donkey Kong`, `Super Mario` e `Sonic`.

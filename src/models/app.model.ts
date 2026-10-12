@@ -1,11 +1,11 @@
 import { languageStruct } from "./language.model";
+import type { OsType } from "../bridge";
 
 export interface GlobalContainer {
   lang: languageStruct;
   version: string;
   os: string;
-  // os.type(): "Windows_NT", "Linux", "Darwin"
-  osType: string;
+  osType: OsType;
   arch: string;
   srmdir: string;
 }

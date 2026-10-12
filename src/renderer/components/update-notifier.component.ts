@@ -8,6 +8,7 @@ import {
 } from "@angular/core";
 import { AppSettings } from "../../models";
 import { IpcService, SettingsService } from "../services";
+import { APP } from "../../variables";
 
 @Component({
   selector: "update-notifier",
@@ -21,7 +22,7 @@ import { IpcService, SettingsService } from "../services";
           (click)="showUpdater = false"
           [class.hidden]="initiatedDownload"
         >
-          {{ isPortableUpdate ? "Close" : "No" }}
+          {{ isPortableUpdate ? lang.buttons.close : lang.buttons.no }}
         </div>
         <div
           id="yes-button"
@@ -29,7 +30,7 @@ import { IpcService, SettingsService } from "../services";
           (click)="downloadUpdate()"
           [class.hidden]="initiatedDownload || isPortableUpdate"
         >
-          Yes
+          {{ lang.buttons.yes }}
         </div>
         <div
           id="cancel-button"
@@ -37,7 +38,7 @@ import { IpcService, SettingsService } from "../services";
           (click)="cancelUpdate()"
           [class.hidden]="!initiatedDownload"
         >
-          Cancel
+          {{ lang.buttons.cancel }}
         </div>
         <div
           id="restart-button"
@@ -45,7 +46,7 @@ import { IpcService, SettingsService } from "../services";
           (click)="restartApp()"
           [class.hidden]="!downloadComplete"
         >
-          Restart
+          {{ lang.buttons.restart }}
         </div>
       </div>
     </div>
@@ -69,6 +70,10 @@ export class UpdateNotifierComponent {
     private changeRef: ChangeDetectorRef,
   ) {
     this.appSettings = this.settingsService.getSettings();
+  }
+
+  get lang() {
+    return APP.lang.updateNotifier.component;
   }
 
   @Input()
@@ -96,20 +101,19 @@ export class UpdateNotifierComponent {
       message == "update_portable"
     ) {
       this.showUpdater = true;
-      this.messageText = "An update is available, please update via EmuDeck.";
+      this.messageText = this.lang.messages.updateViaEmuDeck;
       this.isPortableUpdate = true;
     } else {
       if (typeof message == "string" && message == "update_available") {
         this.showUpdater = true;
-        this.messageText = "An update is available. Download it now?";
+        this.messageText = this.lang.messages.updateAvailable;
       } else if (typeof message == "string" && message == "update_portable") {
         this.showUpdater = true;
         this.isPortableUpdate = true;
-        this.messageText =
-          'An update is available. <a href="https://github.com/SteamGridDB/steam-rom-manager/releases/latest">Download it now?</a>';
+        this.messageText = this.lang.messages.updatePortable;
       } else if (typeof message == "string" && message == "update_downloaded") {
         this.downloadComplete = true;
-        this.messageText = "Update downloaded. Restart now?";
+        this.messageText = this.lang.messages.updateDownloaded;
       } else {
         if (message["progress"]) {
           this.messageText = message["progress"];

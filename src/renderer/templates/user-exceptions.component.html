@@ -1,8 +1,7 @@
 <div class="description only-emudeck">
-  <h1>Excluded Games & Exceptions</h1>
+  <h1>{{ lang.text.emudeckTitle }}</h1>
   <p>
-    Here you can see the games you've excluded on the Preview page in case you
-    want to add them back
+    {{ lang.text.emudeckDescription }}
   </p>
 </div>
 
@@ -19,7 +18,7 @@
 
   <ng-text-input
     class="searchExceptions"
-    placeholder="Search Exceptions"
+    [placeholder]="lang.placeholder.search"
     [(ngModel)]="filterValue"
   ></ng-text-input>
 </div>
@@ -48,11 +47,11 @@
         <div class="inputContainer">
           <div class="inlineLeft">
             <div class="text" style="margin-right: 0.25em">
-              Extracted Title:
+              {{ lang.text.extractedTitle }}
             </div>
             <ng-text-input
               class="ngTextInput"
-              placeholder="extractedTitle to override"
+              [placeholder]="lang.placeholder.extractedTitle"
               [formControl]="
                 (item | formGroup).controls['oldTitle'] | formControl
               "
@@ -60,11 +59,11 @@
           </div>
           <div class="inlineLeft">
             <div class="text" style="margin-right: 0.25em">
-              New Display Title:
+              {{ lang.text.newDisplayTitle }}
             </div>
             <ng-text-input
               class="ngTextInput"
-              placeholder="Display title"
+              [placeholder]="lang.placeholder.displayTitle"
               [formControl]="
                 (item | formGroup).controls['newTitle'] | formControl
               "
@@ -72,11 +71,11 @@
           </div>
           <div class="inlineLeft">
             <div class="text" style="margin-right: 0.25em">
-              New Search Title:
+              {{ lang.text.newSearchTitle }}
             </div>
             <ng-text-input
               class="ngTextInput"
-              placeholder="Search title"
+              [placeholder]="lang.placeholder.searchTitle"
               [formControl]="
                 (item | formGroup).controls['searchTitle'] | formControl
               "
@@ -84,7 +83,7 @@
           </div>
           <div class="inlineLeft">
             <div class="text" style="margin-right: 0.25em">
-              New Commandline Args:
+              {{ lang.text.newCommandLineArgs }}
             </div>
             <ng-text-input
               class="ngTextInput"
@@ -97,7 +96,7 @@
           </div>
           <div class="inlineLeft">
             <div class="text" style="margin-right: 0.25em; width: 100%">
-              Created:
+              {{ lang.text.created }}
               {{ prettyDate((item | formGroup).controls["timeStamp"].value) }}
             </div>
           </div>
@@ -145,14 +144,16 @@
       [routerLink]="['/parsers-list']"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
-      >Back</nav-link>
+      >{{ lang.buttons.back }}</nav-link>
     }
     @else {
       @if(showMarkdown) {
-        <div (click)="closeDocs()" class="dangerousButton">Close Docs</div>
+        <div (click)="closeDocs()" class="dangerousButton">
+          {{ lang.buttons.closeDocs }}
+        </div>
       }
       @else {
-        <div (click)="openDocs()">Open Docs</div>
+        <div (click)="openDocs()">{{ lang.buttons.openDocs }}</div>
       }
     }
   </div>

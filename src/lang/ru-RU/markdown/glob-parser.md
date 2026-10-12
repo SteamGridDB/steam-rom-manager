@@ -1,5 +1,5 @@
-# Glob Parser
+# Глобальный анализатор
 
-A glob based path parser used to extract title from a file path.
+Анализатор путей на основе glob, используемый для извлечения заголовка из пути к файлу.
 
-If your ROMs Directory (eg. `D:\ROMS`) contains `Donkey Kong.gba`,`Super Mario.gba`, and `Sonic.gba` then the glob `${title}.gba` will find titles `Donkey Kong`, `Super Mario`, and `Sonic`.
+Если в каталоге ROMs (например, `D:\ROMS`) содержатся `Donkey Kong.gba`, `Super Mario.gba` и `Sonic.gba`, то по глобусу `${title}.gba` будут найдены названия `Donkey Kong`, `Super Mario` и `Sonic`.

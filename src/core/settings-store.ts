@@ -1,5 +1,5 @@
 import { AppSettings, Logger } from "../models";
-import { APP } from "../variables";
+import { APP, languageManager } from "../variables";
 import * as json from "../lib/helpers/json";
 import * as paths from "../paths";
 import * as schemas from "./schemas";
@@ -49,6 +49,7 @@ export class SettingsStore {
         );
       } else {
         this.settings = settings;
+        this.applyLanguage();
       }
     } catch (error) {
       // Unreadable (e.g. not JSON): keep defaults but don't save over it.
@@ -91,6 +92,7 @@ export class SettingsStore {
       delete (this.settings as any)[key];
     }
     Object.assign(this.settings, data);
+    this.applyLanguage();
     if (notify) {
       this.changed();
     }
@@ -98,6 +100,17 @@ export class SettingsStore {
       await this.save();
     }
   }
+
+  // Messages this process produces (e.g. the core's log) use the language
+  // the user picked.
+  private applyLanguage() {
+    const language = this.settings.language;
+    if (language && language !== this.appliedLanguage) {
+      this.appliedLanguage = language;
+      APP.lang = languageManager.getLanguage(language);
+    }
+  }
+  private appliedLanguage: string;
 
   // Tell listeners the settings object changed (after in-place edits).
   changed() {

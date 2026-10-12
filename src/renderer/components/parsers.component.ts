@@ -103,7 +103,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     this.nestedGroup = new NestedFormElement.Group({
       children: {
         basicSection: new NestedFormElement.Section({
-          label: "Basic Configuration",
+          label: this.lang.section.basic,
         }),
         parserType: new NestedFormElement.Select({
           label: this.lang.label.parserType,
@@ -149,9 +149,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         group: new NestedFormElement.ComboBox({
           values: this.parsersService.getParserGroups().map((g) => g.name),
-          placeholder: "Select or type a new group (leave blank for ungrouped)",
-          createLabel: "New group",
-          label: "Group",
+          placeholder: this.lang.placeholder.group,
+          createLabel: this.lang.text.newGroup,
+          label: this.lang.label.group,
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
             this.currentDoc.content = this.lang.docs__md.group.join("");
@@ -175,7 +175,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
           buttons: [
             new NestedFormElement.Button({
-              buttonLabel: "Global",
+              buttonLabel: this.lang.buttons.global,
               onClickControlMethod: (control: AbstractControl) => {
                 control.setValue("${steamdirglobal}");
               },
@@ -197,14 +197,14 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               },
               buttons: [
                 new NestedFormElement.Button({
-                  buttonLabel: "Choose",
+                  buttonLabel: this.lang.buttons.choose,
                   onClickControlMethod: (control: AbstractControl) => {
                     this.chooseAccountsControl = control;
                     this.chooseAccounts();
                   },
                 }),
                 new NestedFormElement.Button({
-                  buttonLabel: "Global",
+                  buttonLabel: this.lang.buttons.global,
                   onClickControlMethod: (control: AbstractControl) => {
                     control.setValue(["Global"]);
                   },
@@ -252,7 +252,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         parserInputsSection: new NestedFormElement.Section({
-          label: "Parser Specific Configuration",
+          label: this.lang.section.parserSpecific,
           isHidden: () => this.isHiddenIfNoParserInputs(),
         }),
         parserInputs: (() => {
@@ -367,7 +367,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           });
         })(),
         executableSection: new NestedFormElement.Section({
-          label: "Executable Configuration",
+          label: this.lang.section.executable,
           isHidden: () => this.isHiddenIfNotRomsParser(),
         }),
         executable: new NestedFormElement.Group({
@@ -457,7 +457,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         titleSection: new NestedFormElement.Section({
-          label: "Title Modification Configuration",
+          label: this.lang.section.titleModification,
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
           startMinimized: true,
         }),
@@ -484,7 +484,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               multiple: true,
               allowEmpty: true,
               values: Object.keys(this.customVariables),
-              placeholder: "Select title variables",
+              placeholder: this.lang.placeholder.titleVariables,
             }),
             caseInsensitiveVariables: new NestedFormElement.Toggle({
               text: this.lang.text.caseInsensitiveVariables,
@@ -501,13 +501,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         sortAsFromVariable: new NestedFormElement.Group({
           isHidden: () => this.isHiddenIfNotRomsParser(),
-          label: "Sort-title from custom variable",
+          label: this.lang.label.sortAsFromVariable,
           children: {
             limitToGroups: new NestedFormElement.Select({
               multiple: true,
               allowEmpty: true,
               values: Object.keys(this.customVariables),
-              placeholder: "Select sort-title variables",
+              placeholder: this.lang.placeholder.sortAsVariables,
             }),
           },
           onInfoClick: (self, path) => {
@@ -536,28 +536,31 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         controllerSection: new NestedFormElement.Section({
-          label: "Controller Templates Configuration",
+          label: this.lang.section.controllerTemplates,
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
           startMinimized: true,
         }),
         fetchControllerTemplatesButton: new NestedFormElement.Button({
-          buttonLabel: "Re-fetch Controller Templates",
+          buttonLabel: this.lang.buttons.refetchControllerTemplates,
           onClickMethod: this.fetchControllerTemplates.bind(this),
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
         }),
         removeControllersButton: new NestedFormElement.Button({
-          buttonLabel: "Unset Controllers for Parser",
+          buttonLabel: this.lang.buttons.unsetControllers,
           onClickMethod: this.removeControllers.bind(this),
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
         }),
         steamInputEnabled: new NestedFormElement.Select({
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
-          label: "Enable Steam Input",
-          placeholder: "Use default settings",
+          label: this.lang.label.steamInputEnabled,
+          placeholder: this.lang.placeholder.steamInputEnabled,
           values: [
-            { value: "0", displayValue: "Disabled" },
-            { value: "1", displayValue: "Use default settings" },
-            { value: "2", displayValue: "Enabled" },
+            { value: "0", displayValue: this.lang.steamInputOptions.disabled },
+            {
+              value: "1",
+              displayValue: this.lang.steamInputOptions.useDefault,
+            },
+            { value: "2", displayValue: this.lang.steamInputOptions.enabled },
           ],
         }),
         controllers: new NestedFormElement.Group({
@@ -566,13 +569,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             for (let controllerType of controllerTypes) {
               children[controllerType] = new NestedFormElement.Select({
                 isHidden: () => this.isHiddenIfArtworkOnlyParser(),
-                label:
-                  controllerNames[
-                    controllerType as keyof typeof controllerNames
-                  ] +
-                  " " +
-                  "Template",
-                placeholder: "Select a Template",
+                label: this.lang.label.controllerTemplate__i.interpolate({
+                  controller:
+                    controllerNames[
+                      controllerType as keyof typeof controllerNames
+                    ],
+                }),
+                placeholder: this.lang.placeholder.controllerTemplate,
                 multiple: false,
                 allowEmpty: true,
                 values: [],
@@ -587,13 +590,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           })(),
         }),
         compatSection: new NestedFormElement.Section({
-          label: "Steam Play Compatibility",
+          label: this.lang.section.steamPlayCompat,
           isHidden: () => this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
         }),
         compatToolName: new NestedFormElement.Select({
           isHidden: () => this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
-          label: "Force compatibility tool",
-          placeholder: "Don't force a tool",
+          label: this.lang.label.compatToolName,
+          placeholder: this.lang.placeholder.compatToolName,
           multiple: false,
           allowEmpty: true,
           // Populated at runtime by fetchCompatTools().
@@ -610,11 +613,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               ),
               this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
             ]).pipe(map(([notCustom, hidden]) => notCustom || hidden)),
-          label: "Custom compatibility tool name",
-          placeholder: "e.g. GE-Proton9-20",
+          label: this.lang.label.compatToolNameCustom,
+          placeholder: this.lang.placeholder.compatToolNameCustom,
         }),
         onlineImageSection: new NestedFormElement.Section({
-          label: "Artwork Provider Configuration",
+          label: this.lang.section.artworkProvider,
           startMinimized: true,
         }),
         imageProviders: new NestedFormElement.Select({
@@ -659,7 +662,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         drmProtect: new NestedFormElement.Toggle({
-          text: "Local backups (DRM takedown protection)",
+          text: this.lang.text.drmProtect,
         }),
         imageProviderAPIs: (() => {
           let imageProviderAPIInputs: { [k: string]: NestedFormElement.Group } =
@@ -716,7 +719,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 return new NestedFormElement.Group({
                   children: {
                     section: new NestedFormElement.Section({
-                      label: `Filters for ${imageProviderNames[providerKeys[i]]}`,
+                      label: this.lang.section.filtersFor__i.interpolate({
+                        provider: imageProviderNames[providerKeys[i]],
+                      }),
                       isHidden: () =>
                         this.isHiddenIfNoProvider(providerKeys[i]),
                     }),
@@ -731,7 +736,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           });
         })(),
         overlayImageSection: new NestedFormElement.Section({
-          label: "Overlay Artwork Configuration",
+          label: this.lang.section.overlayArtwork,
           startMinimized: true,
         }),
         overlayImages: (() => {
@@ -761,7 +766,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           });
         })(),
         localImageSection: new NestedFormElement.Section({
-          label: "Local Artwork Configuration",
+          label: this.lang.section.localArtwork,
           startMinimized: true,
         }),
         defaultImage: (() => {
@@ -1088,7 +1093,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       if (this.appSettings.clearLogOnTest) {
         this.loggerService.clearLog();
       }
-      success("Parser ID: ".concat(config.parserId));
+      success(
+        this.lang.success.parserId__i.interpolate({
+          parserId: config.parserId,
+        }),
+      );
       success("");
       this.parsersService
         .executeFileParser(config)
@@ -1142,7 +1151,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             logError();
             this.loggerService.info("");
             success("");
-            success("Number of Titles: ".concat(data.files.length.toString()));
+            success(
+              this.lang.success.numberOfTitles__i.interpolate({
+                count: data.files.length,
+              }),
+            );
             data.files = data.files.sort((a, b) =>
               a.titles.extracted.localeCompare(b.titles.extracted),
             );
@@ -1197,17 +1210,28 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                   index: number,
                   total: number,
                 ): string => {
-                  const base = `[${index}/${total}]`;
-                  return `${base}: Title Waterfall:\n`.concat(
-                    Object.entries(titles)
-                      .map(([titleKey, title], titleIndex) => {
-                        let space = " ".repeat(
-                          Math.max(30 - titleKey.length, 1),
-                        );
-                        return `${base}: (${titleIndex})${space}${titleKey} is "${title}"`;
-                      })
-                      .join("\n"),
-                  );
+                  return this.lang.success.titleWaterfall__i
+                    .interpolate({ index, total })
+                    .concat("\n")
+                    .concat(
+                      Object.entries(titles)
+                        .map(([titleKey, title], titleIndex) => {
+                          let space = " ".repeat(
+                            Math.max(30 - titleKey.length, 1),
+                          );
+                          return this.lang.success.titleWaterfallEntry__i.interpolate(
+                            {
+                              index,
+                              total,
+                              titleIndex,
+                              space,
+                              titleKey,
+                              title,
+                            },
+                          );
+                        })
+                        .join("\n"),
+                    );
                 })(data.files[i].titles, i + 1, totalLength),
               );
               success(
@@ -1411,7 +1435,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.lang.info.testStarting__i.interpolate({
           title: config.configTitle || this.lang.text.noTitle,
           version: APP.version,
-          portable: APP.srmdir ? "Portable" : "Non-Portable",
+          portable: APP.srmdir
+            ? this.lang.text.portable
+            : this.lang.text.nonPortable,
         }),
       );
       this.loggerService.info(
@@ -1689,7 +1715,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.nestedGroup.children.compatToolName as NestedFormElement.Select
     ).values = [
       ...tools.map((t) => ({ displayValue: t.displayName, value: t.name })),
-      { displayValue: "Custom…", value: COMPAT_CUSTOM },
+      { displayValue: this.lang.text.compatCustom, value: COMPAT_CUSTOM },
     ];
     this.changeRef.detectChanges();
   }

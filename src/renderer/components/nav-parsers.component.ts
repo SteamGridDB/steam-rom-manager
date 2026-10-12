@@ -183,7 +183,7 @@ export class NavParsersComponent implements OnDestroy {
           : !!(registry[registryIndex] && registry[registryIndex].collapsed);
       return {
         name,
-        label: isUngrouped ? "Ungrouped" : name,
+        label: isUngrouped ? this.lang.ungrouped : name,
         registryIndex,
         isUngrouped,
         collapsed,

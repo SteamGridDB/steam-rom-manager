@@ -2,8 +2,11 @@
 // script exposes `window.srm`, which can only use these IPC channels.
 import { rpcChannels } from "./core/rpc";
 
+// os.type() of the OSes SRM supports (BSDs etc. count as Linux).
+export type OsType = "Windows_NT" | "Darwin" | "Linux";
+
 export interface EnvInfo {
-  osType: string; // os.type(): "Windows_NT", "Linux", "Darwin"
+  osType: OsType;
   osName: string; // e.g. "Windows 11"
   arch: string;
   // Set when running the portable build (its folder).

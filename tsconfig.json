@@ -15,6 +15,7 @@
     "noImplicitAny": true,
     "moduleResolution": "Node",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true
   },
   "angularCompilerOptions": {

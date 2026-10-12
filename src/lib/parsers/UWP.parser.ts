@@ -21,7 +21,7 @@ export class UWPParser implements GenericParser {
       inputs: {
         UWPDir: {
           label: this.lang.UWPDirTitle,
-          placeholder: this.lang.UWPDirPlaceholder[os.type()],
+          placeholder: this.lang.UWPDirPlaceholder[APP.osType],
           inputType: "dir",
           info: this.lang.docs__md.input.join(""),
         },

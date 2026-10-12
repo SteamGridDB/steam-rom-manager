@@ -13,6 +13,7 @@ import { enableDisplayNames } from "../../lib/controller-types";
 import { artworkTypes, artworkSingDict } from "../../lib/artwork-types";
 import { VDF_ShortcutsItem, AppSettings } from "../../models";
 import { ViewService } from "../services/view.service";
+import { APP } from "../../variables";
 
 @Component({
   selector: "view",
@@ -44,6 +45,10 @@ export class ViewComponent {
     this.appSettings = this.settingsService.getSettings();
   }
 
+  get lang() {
+    return APP.lang.view.component;
+  }
+
   get artworkSingDict() {
     return artworkSingDict;
   }
@@ -57,10 +62,10 @@ export class ViewComponent {
 
   async refreshGames(force?: boolean) {
     if (force) {
-      this.loggerService.info(
-        "Reading Shortcuts, Categories, and Controllers",
-        { invokeAlert: true, alertTimeout: 3000 },
-      );
+      this.loggerService.info(this.lang.readingShortcuts, {
+        invokeAlert: true,
+        alertTimeout: 3000,
+      });
     }
     if ((!this.viewService.shortcuts || force) && !this.refreshingGames) {
       this.refreshingGames = true;
@@ -132,7 +137,7 @@ export class ViewComponent {
 
   toClipboard(field: string) {
     navigator.clipboard.writeText(field);
-    this.loggerService.info("Copied to clipboard", {
+    this.loggerService.info(this.lang.copiedToClipboard, {
       invokeAlert: true,
       alertTimeout: 3000,
     });

@@ -20,7 +20,7 @@ export class EADesktopParser implements GenericParser {
       inputs: {
         eaGamesDir: {
           label: this.lang.eaGamesDirTitle,
-          placeholder: this.lang.eaGamesDirPlaceholder[os.type()],
+          placeholder: this.lang.eaGamesDirPlaceholder[APP.osType],
           inputType: "dir",
           info: this.lang.docs__md.input.join(""),
         },

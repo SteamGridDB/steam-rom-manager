@@ -9,6 +9,7 @@ import {
 import { userAccountData } from "../../models";
 import type { SteamLogin } from "../../core/ui-support";
 import { CoreClientService } from "../services/core-client.service";
+import { APP } from "../../variables";
 
 @Component({
   selector: "choose-accounts",
@@ -32,6 +33,11 @@ export class ChooseAccountsComponent {
     private changeRef: ChangeDetectorRef,
     private coreClient: CoreClientService,
   ) {}
+
+  get lang() {
+    return APP.lang.chooseAccounts.component;
+  }
+
   @Input()
   public set steamDirectory(steamDirectory: string) {
     this.steamDir = steamDirectory;

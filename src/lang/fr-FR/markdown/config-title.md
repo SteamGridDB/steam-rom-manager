@@ -1,3 +1,5 @@
-# Titre de configuration
+# Titre du parseur
 
-Titre pour enregistrer la configuration de l'utilisateur. Ne doit pas être unique, mais il est nécessaire.
+. N'a pas à être unique mais est requis.
+
+Ce champ n'affectera d'aucune manière ce qui est ajouté à `Steam`.

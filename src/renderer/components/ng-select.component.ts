@@ -12,6 +12,7 @@ import * as _ from "lodash";
 import { SelectItem, StringDict } from "../../models";
 import fuzzysort from "fuzzysort";
 import { NgTextInputComponent } from "./ng-text-input.component";
+import { APP } from "../../variables";
 
 @Component({
   selector: "ng-select",
@@ -92,14 +93,14 @@ import { NgTextInputComponent } from "./ng-text-input.component";
         text-scroll
         class="fakeOption"
       >
-        No results...
+        {{ lang.noResults }}
       </div>
       <div
         *ngIf="searchable && open && !optionsList.length"
         text-scroll
         class="fakeOption"
       >
-        Options Loading...
+        {{ lang.optionsLoading }}
       </div>
     </div>
   `,
@@ -156,6 +157,10 @@ export class NgSelectComponent implements ControlValueAccessor {
     private changeRef: ChangeDetectorRef,
   ) {}
 
+  get lang() {
+    return APP.lang.forms.component;
+  }
+
   changeOptions(newOptions: SelectItem[]) {
     let currentOptions = this.selected.map((i) => this.optionsList[i]);
     let newSelected: SelectItem[] = _.intersectionWith(
@@ -211,7 +216,7 @@ export class NgSelectComponent implements ControlValueAccessor {
     );
     if (unmatched.length) {
       sections[running.toString()] = {
-        name: "Uncategorized",
+        name: this.lang.uncategorized,
         options: optionsList.sort((a, b) =>
           a.displayValue.localeCompare(b.displayValue),
         ),
