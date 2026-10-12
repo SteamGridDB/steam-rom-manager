@@ -80,6 +80,7 @@ export class ParsersService {
   // edit in the main process.
   private refresh() {
     this.publish(this.callSync("getAll"), this.callSync("getDeleted"));
+    this.coreClient.client.markFresh("parsers:changed");
     this.settingsService.refresh();
   }
 

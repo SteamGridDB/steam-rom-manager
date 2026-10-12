@@ -85,3 +85,21 @@ export function loaded<T>(
     });
   });
 }
+
+// Cores keep loading (and saving, e.g. fuzzy list timestamps into
+// userSettings.json) in the background. Tests sharing a userData folder must
+// let one finish before the next test writes its files.
+export function settleCoresAfterEach(
+  afterEach: (fn: () => Promise<void>) => void,
+) {
+  const cores: { ready: Record<string, Promise<unknown>> }[] = [];
+  afterEach(async () => {
+    await Promise.all(
+      cores.splice(0).map((core) => Promise.all(Object.values(core.ready))),
+    );
+  });
+  return <T extends { ready: Record<string, Promise<unknown>> }>(core: T) => {
+    cores.push(core);
+    return core;
+  };
+}

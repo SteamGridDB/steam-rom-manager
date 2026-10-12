@@ -1,5 +1,4 @@
 import { BehaviorSubject, Subject } from "rxjs";
-import * as sgdbSearch from "../lib/image-providers/sgdb-search";
 import {
   PreviewData,
   ImageContent,
@@ -22,13 +21,11 @@ import {
   initArtworkRecord,
   Logger,
 } from "../models";
-import { ArtworkCache } from "../lib";
 import { APP } from "../variables";
 import { queue } from "async";
-import * as steam from "../lib/helpers/steam";
-import * as url from "../lib/helpers/url";
+import { lengthenAppId } from "../lib/helpers/steam/generate-app-id";
+import { encodeFile } from "../lib/helpers/url/file-url";
 import * as appImage from "../lib/helpers/app-image";
-import * as ids from "../lib/helpers/steam";
 import {
   artworkTypes,
   artworkIdDict,
@@ -36,8 +33,6 @@ import {
 } from "../lib/artwork-types";
 import { superTypesMap } from "../lib/parsers/available-parsers";
 import * as _ from "lodash";
-import * as fs from "fs-extra";
-import * as path from "path";
 import {
   onlineProviders,
   imageProviderNames,
@@ -46,8 +41,33 @@ import { ParsersStore } from "./parsers-store";
 import { SettingsStore } from "./settings-store";
 import { ArtworkProviders } from "./artwork-providers";
 import { SteamWriter } from "./steam-writer";
+import { PreviewBuilder } from "./preview-builder";
+import { addUniqueLocalImage, emptyPools } from "./image-pools";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+export interface PreviewEngineOptions {
+  logger: Logger;
+  parsers: Pick<
+    ParsersStore,
+    | "getKnownSteamDirectories"
+    | "executeFileParser"
+    | "getAll"
+    | "removeAllControllers"
+  >;
+  providers: Pick<
+    ArtworkProviders,
+    "retrieveUrls" | "stopUrlDownload" | "stopEvent"
+  >;
+  settings: Pick<SettingsStore, "get">;
+  // Called for each new online image when images should be loaded ahead of
+  // time (a UI measures them); nothing to do without a UI.
+  onNewImage?: (image: ImageContent) => void;
+  // Building the list and writing to Steam need the file system. A UI in
+  // another process passes proxies to the main process's builder/writer.
+  builder?: Pick<PreviewBuilder, "build">;
+  writer?: Pick<SteamWriter, "save" | "exportSelection" | "readSelection">;
+}
 
 // The list of apps SRM is about to add to Steam ("preview"): generated from
 // the parsers, with artwork pools filled from local files and online
@@ -65,7 +85,10 @@ export class PreviewEngine {
   private providers: PreviewEngineOptions["providers"];
   private settings: PreviewEngineOptions["settings"];
   private onNewImage: (image: ImageContent) => void;
-  private writer: Pick<SteamWriter, "save">;
+  private writer: Pick<
+    SteamWriter,
+    "save" | "exportSelection" | "readSelection"
+  >;
   private builder: Pick<PreviewBuilder, "build">;
 
   constructor(options: PreviewEngineOptions) {
@@ -91,9 +114,7 @@ export class PreviewEngine {
     };
     this.previewDataChanged = new Subject<void>();
     this.batchProgress = new BehaviorSubject({ update: "", batch: -1 });
-    this.onlineImages = initArtworkRecord<OnlineImages[ArtworkType]>(
-      () => ({}),
-    );
+    this.onlineImages = emptyPools();
     this.providers.stopEvent.subscribe(() => {
       for (const artworkType of artworkTypes) {
         for (const imagePool in this.onlineImages[artworkType]) {
@@ -249,14 +270,14 @@ export class PreviewEngine {
   }): Promise<boolean> {
     this.previewVariables.listIsBeingSaved = true;
     try {
-      const { ok, outcomes } = await this.writer.save(
+      const { ok, outcomes, imageRes } = await this.writer.save(
         options.removeAll ? undefined : this.previewData,
         this.onlineImages,
         options,
         (progress) => this.batchProgress.next(progress),
       );
       if (ok && outcomes) {
-        this.updatePreviewDataUrls(outcomes);
+        this.updatePreviewDataUrls(outcomes, imageRes);
       }
       if (ok && options.removeAll) {
         this.clearPreviewData();
@@ -267,17 +288,21 @@ export class PreviewEngine {
     }
   }
 
-  private updatePreviewDataUrls(outcomes: VDF_AllScreenshotsOutcomes) {
+  // After a save: show the artwork now in Steam as each app's "current".
+  // `imageRes` holds the saved files' sizes (measured by the writer).
+  private updatePreviewDataUrls(
+    outcomes: VDF_AllScreenshotsOutcomes,
+    imageRes: Record<string, string> = {},
+  ) {
     for (const steamDirectory in outcomes) {
       for (const userId in outcomes[steamDirectory]) {
         for (const gridName in outcomes[steamDirectory][userId].successes) {
           const shortId = gridName.match(/^\d+/).toString();
-          const longId = steam.lengthenAppId(shortId);
+          const longId = lengthenAppId(shortId);
           const artworkType =
             invertedArtworkIdDict[gridName.replace(/^\d+/, "")];
-          const steamImageUrl = url.encodeFile(
-            outcomes[steamDirectory][userId].successes[gridName],
-          );
+          const filePath = outcomes[steamDirectory][userId].successes[gridName];
+          const steamImageUrl = encodeFile(filePath);
           const matchedApps = Object.entries(
             this.previewData[steamDirectory][userId].apps,
           ).filter(([appId, app]) => {
@@ -290,7 +315,7 @@ export class PreviewEngine {
             ].singleProviders.steam = {
               imageProvider: imageProviderNames.steam,
               imageUrl: steamImageUrl,
-              imageRes: url.imageDimensions(steamImageUrl),
+              imageRes: imageRes[filePath],
               loadStatus: "done",
             };
             this.setImageIndex(app, 0, artworkType);
@@ -705,19 +730,6 @@ export class PreviewEngine {
     return null;
   }
 
-  isLocalImageUnique(
-    imageKey: string,
-    imageUrl: string,
-    artworkType: ArtworkType,
-    provider: MultiLocalProviderType,
-  ) {
-    return (
-      this.onlineImages[artworkType][imageKey].offline[provider].findIndex(
-        (item) => item.imageUrl === imageUrl,
-      ) === -1
-    );
-  }
-
   addUniqueLocalImage(
     imageKey: string,
     content: ImageContent,
@@ -725,146 +737,25 @@ export class PreviewEngine {
     provider: MultiLocalProviderType,
     preinsert?: boolean,
   ) {
-    if (
-      this.onlineImages[artworkType][imageKey] &&
-      this.isLocalImageUnique(imageKey, content.imageUrl, artworkType, provider)
-    ) {
-      if (preinsert) {
-        this.onlineImages[artworkType][imageKey].offline[provider].unshift(
-          content,
-        );
-        return this.onlineImages[artworkType][imageKey].offline[provider][0];
-      } else {
-        this.onlineImages[artworkType][imageKey].offline[provider].push(
-          content,
-        );
-        return ((x) => x[x.length - 1])(
-          this.onlineImages[artworkType][imageKey].offline[provider],
-        );
-      }
-    }
-    return null;
+    return addUniqueLocalImage(
+      this.onlineImages,
+      imageKey,
+      content,
+      artworkType,
+      provider,
+      preinsert,
+    );
   }
 
   // Saves the chosen artwork of every app into <folder>/srm-image-choices.
-  async exportSelection(folder: string) {
-    const imageDownloader = new url.ImageDownloader(
-      this.appSettings.dnsServers,
+  exportSelection(folder: string) {
+    return this.writer.exportSelection(
+      this.previewData,
+      this.onlineImages,
+      folder,
     );
-    async function saveImage(
-      imageUrl: string,
-      temporaryDir: string,
-      append: string,
-    ) {
-      const extension = imageUrl.split(/[#?]/)[0].split(".").pop().trim();
-      const filename = `${append}.${extension}`;
-      await imageDownloader.downloadAndSaveImage(
-        imageUrl,
-        path.join(temporaryDir, filename),
-      );
-      return filename;
-    }
-
-    {
-      let timeout: any;
-      try {
-        const packagePath = path.join(folder, "srm-image-choices");
-        if (fs.existsSync(packagePath)) {
-          fs.rmSync(packagePath, { recursive: true, force: true });
-        }
-        fs.mkdirSync(packagePath);
-        const apps: any[] = [];
-        let appsCount: number = 0;
-
-        this.loggerService.info(this.lang.info.preparingExport, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-
-        for (const directory in this.previewData) {
-          for (const userId in this.previewData[directory]) {
-            appsCount += Object.keys(
-              this.previewData[directory][userId].apps,
-            ).length;
-          }
-        }
-
-        timeout = setInterval(() => {
-          this.loggerService.info(
-            this.lang.info.exportProgress__i.interpolate({
-              progress: `${apps.length}/${appsCount}`,
-            }),
-            { invokeAlert: true, alertTimeout: 3000, doNotAppendToLog: true },
-          );
-        }, 1500);
-        for (const directory in this.previewData) {
-          for (const userId in this.previewData[directory]) {
-            for (const appId in this.previewData[directory][userId].apps) {
-              const app: PreviewDataApp =
-                this.previewData[directory][userId].apps[appId];
-              const saveId = app.changedId ? app.changedId : appId;
-              let selection: AppSelection = {
-                title: app.extractedTitle,
-                images: {
-                  tall: null,
-                  long: null,
-                  hero: null,
-                  logo: null,
-                  icon: null,
-                },
-              };
-              for (const artworkType of artworkTypes) {
-                const currentImage = appImage.getCurrentImage(
-                  app.images[artworkType],
-                  this.onlineImages[artworkType],
-                );
-                if (currentImage) {
-                  const imageUrl = currentImage.imageUrl;
-                  selection.images[artworkType] = {
-                    pool: app.images[artworkType].imagePool,
-                    filename: await saveImage(
-                      imageUrl,
-                      packagePath,
-                      `${saveId}.${artworkType}`,
-                    ),
-                  };
-                }
-              }
-              apps.push(selection);
-            }
-          }
-        }
-
-        if (timeout !== undefined) {
-          clearInterval(timeout);
-        }
-        fs.writeFileSync(
-          path.join(packagePath, "_selections.json"),
-          JSON.stringify(apps, null, 2),
-        );
-
-        this.loggerService.success(
-          this.lang.success.exportSuccess__i.interpolate({
-            path: packagePath,
-          }),
-          { invokeAlert: true, alertTimeout: 3000 },
-        );
-      } catch (e) {
-        if (timeout !== undefined) {
-          clearInterval(timeout);
-        }
-        this.loggerService.error(
-          this.lang.errors.exportError__i.interpolate({
-            error: e.message,
-          }),
-          { invokeAlert: true, alertTimeout: 3000 },
-        );
-      }
-    }
   }
 
-  // Adds the artwork exported to `packagePath` (an srm-image-choices folder)
-  // as "imported" images and selects them.
   async importSelection(packagePath: string) {
     {
       try {
@@ -873,33 +764,31 @@ export class PreviewEngine {
           alertTimeout: 3000,
         });
 
-        let selections: AppSelection[] = JSON.parse(
-          fs.readFileSync(path.join(packagePath, "_selections.json"), "utf8"),
-        );
+        const read = await this.writer.readSelection(packagePath);
+        if (read.ok === false) {
+          this.loggerService.error(
+            (read.invalidJson
+              ? this.lang.errors.importJSONFailError__i
+              : this.lang.errors.importFailError__i
+            ).interpolate({ error: read.error }),
+            { invokeAlert: true, alertTimeout: 3000 },
+          );
+          return;
+        }
         let importedApps: string[] = [];
-
-        for (const selection of selections) {
-          for (const artworkType of artworkTypes) {
-            if (selection.images[artworkType]) {
-              this.addUniqueLocalImage(
-                selection.images[artworkType].pool,
-                {
-                  imageProvider: imageProviderNames.imported,
-                  imageUrl: url.encodeFile(
-                    path.join(
-                      packagePath,
-                      selection.images[artworkType].filename,
-                    ),
-                  ),
-                  loadStatus: "done",
-                },
-                artworkType,
-                "imported",
-              );
-              if (!importedApps.includes(selection.images[artworkType].pool)) {
-                importedApps.push(selection.images[artworkType].pool);
-              }
-            }
+        for (const item of read.items) {
+          this.addUniqueLocalImage(
+            item.pool,
+            {
+              imageProvider: imageProviderNames.imported,
+              imageUrl: item.imageUrl,
+              loadStatus: "done",
+            },
+            item.artworkType,
+            "imported",
+          );
+          if (!importedApps.includes(item.pool)) {
+            importedApps.push(item.pool);
           }
         }
         for (const directory in this.previewData) {

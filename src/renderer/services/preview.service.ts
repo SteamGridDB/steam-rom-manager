@@ -143,7 +143,7 @@ export class PreviewService {
   }
 
   getMatchFixes(title: string) {
-    return this.engine.getMatchFixes(title);
+    return this.coreClient.client.call("providers", "possibleIds", title);
   }
 
   updateAppImages(imageKey: string, oldPool: string, artworkType: ArtworkType) {

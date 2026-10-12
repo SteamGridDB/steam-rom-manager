@@ -1,5 +1,6 @@
 import { Logger, MessageSettings } from "../models";
 import { Core } from "./core";
+import * as sgdbSearch from "../lib/image-providers/sgdb-search";
 import {
   RpcEventMap,
   RpcRequest,
@@ -61,8 +62,9 @@ export function hostCore(
   forwardingLogger?: ReturnType<typeof createForwardingLogger>,
 ) {
   const loaded = new Set<string>();
+  let seq = 0;
   const emit: Emit = (name, payload) =>
-    transport.send(rpcChannels.event, { name, payload });
+    transport.send(rpcChannels.event, { name, payload, seq: ++seq });
   const targets: Record<string, any> = {
     settings: core.settings,
     parsers: core.parsers,
@@ -97,6 +99,8 @@ export function hostCore(
           (event, data) => emit("providers:event", { id, event, data }),
         ),
       stopUrlDownload: async () => core.providers.stopUrlDownload(),
+      // SteamGridDB games matching a title ("fix match").
+      possibleIds: (title: string) => sgdbSearch.retrievePossibleIds(title),
     },
   };
 
@@ -107,27 +111,32 @@ export function hostCore(
     return targets[target][method](...args);
   });
 
+  const callSync = ({
+    target,
+    method,
+    args,
+  }: RpcRequest): { result: any } | { error: string } => {
+    if (target === "core" && method === "loaded") {
+      return { result: [...loaded] };
+    }
+    if (!isAllowed(target, method, "sync")) {
+      return { error: `Not allowed: ${target}.${method}` };
+    }
+    try {
+      const result = targets[target][method](...args);
+      if (result instanceof Promise) {
+        // e.g. a save kicked off by an edit: don't block the UI on it.
+        result.catch((e) => forwardingLogger?.logger.error(e));
+        return { result: undefined };
+      }
+      return { result };
+    } catch (e) {
+      return { error: text(e) };
+    }
+  };
   transport.handleSync(
     rpcChannels.callSync,
-    ({ target, method, args }): RpcSyncReply => {
-      if (target === "core" && method === "loaded") {
-        return { result: [...loaded] };
-      }
-      if (!isAllowed(target, method, "sync")) {
-        return { error: `Not allowed: ${target}.${method}` };
-      }
-      try {
-        const result = targets[target][method](...args);
-        if (result instanceof Promise) {
-          // e.g. a save kicked off by an edit: don't block the UI on it.
-          result.catch((e) => forwardingLogger?.logger.error(e));
-          return { result: undefined };
-        }
-        return { result };
-      } catch (e) {
-        return { error: text(e) };
-      }
-    },
+    (req): RpcSyncReply => ({ ...callSync(req), seq }),
   );
 
   forwardingLogger?.attach(emit);

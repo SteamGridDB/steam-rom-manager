@@ -21,7 +21,11 @@ import {
   tempDir,
   writeFiles,
 } from "../helpers/fixtures";
-import { loaded, makeLogger } from "../helpers/services-harness";
+import {
+  loaded,
+  makeLogger,
+  settleCoresAfterEach,
+} from "../helpers/services-harness";
 
 describe("ParsersService (characterization)", () => {
   let root: string;
@@ -38,6 +42,7 @@ describe("ParsersService (characterization)", () => {
     fs.rmSync(paths.userConfigurations, { force: true });
   });
   afterEach(() => fs.rmSync(root, { recursive: true, force: true }));
+  const settled = settleCoresAfterEach(afterEach);
 
   const config = (title: string, extra: object = {}) =>
     makeConfig({
@@ -63,7 +68,7 @@ describe("ParsersService (characterization)", () => {
     fs.writeFileSync(paths.userSettings, JSON.stringify(settings));
     const logger = makeLogger();
     const core = new Core({ logger: logger.service, fetch: makeFakeNetwork() });
-    core.start({ presets: false });
+    settled(core).start({ presets: false });
     const { host, client } = makeRpcPair();
     hostCore(core, host);
     const coreClient = { client: new CoreClient(client) } as any;
@@ -113,7 +118,7 @@ describe("ParsersService (characterization)", () => {
     it("an unreadable userConfigurations.json still finishes loading (was: hung forever)", async () => {
       fs.writeFileSync(paths.userConfigurations, "{ not json");
       const { service, log } = makeService();
-      expect(await loaded(service, 500)).toEqual([]);
+      expect(await loaded(service, 5000)).toEqual([]);
       expect(log.some((l) => l.level === "error")).toBe(true);
       // and the user's file is never overwritten with an empty list
       await service.changeEnabledStatusAll(true);

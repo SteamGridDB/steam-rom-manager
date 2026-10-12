@@ -1,12 +1,12 @@
 // UserExceptionsService (renderer) over IPC to the ExceptionsStore in main.
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import * as fs from "fs";
 import * as paths from "../../src/paths";
 import { Core } from "../../src/core/core";
 import { hostCore } from "../../src/core/rpc-host";
 import { CoreClient } from "../../src/renderer/core-client";
 import { UserExceptionsService } from "../../src/renderer/services/user-exceptions.service";
-import { makeLogger } from "../helpers/services-harness";
+import { makeLogger, settleCoresAfterEach } from "../helpers/services-harness";
 import { makeRpcPair } from "../helpers/rpc-pair";
 import { makeFakeNetwork } from "../helpers/fake-network";
 
@@ -23,12 +23,14 @@ const exception = (extra: object = {}) => ({
 describe("exceptions over IPC", () => {
   beforeEach(() => fs.rmSync(paths.userExceptions, { force: true }));
 
+  const settled = settleCoresAfterEach(afterEach);
+
   async function makeService() {
     const core = new Core({
       logger: makeLogger().service,
       fetch: makeFakeNetwork(),
     });
-    core.start({ presets: false });
+    settled(core).start({ presets: false });
     const { host, client } = makeRpcPair();
     hostCore(core, host);
     const service = new UserExceptionsService({

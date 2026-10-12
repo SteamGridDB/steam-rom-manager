@@ -41,6 +41,7 @@ export class SettingsService {
   // changed them.
   refresh() {
     this.applyFromMain(this.coreClient.client.callSync("settings", "get"));
+    this.coreClient.client.markFresh("settings:changed");
   }
 
   // Sends in-place edits to the main process without saving them.
