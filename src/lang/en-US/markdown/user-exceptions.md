@@ -26,7 +26,7 @@ The title shown in Steam. It isn't used to search for artwork.
 
 ## Artwork search
 
-What to search [SteamGridDB](https://www.steamgriddb.com) for instead of the game's title. When a game was matched with `Fix match` on the Add Games page, the chosen SteamGridDB game is shown here instead (`Clear match` removes it). To pick a SteamGridDB game by hand, enter its id as `${gameid:5254019}` (the number from its URL, e.g. `https://www.steamgriddb.com/game/5254019`).
+What to search [SteamGridDB](https://www.steamgriddb.com) for instead of the game's title. To pick the exact SteamGridDB game, use `Fix match` on the Add Games page; the chosen game is then shown here instead (`Clear match` removes it).
 
 ## Launch arguments
 
