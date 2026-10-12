@@ -7,7 +7,7 @@ import * as path from "path";
 import * as bvdf from "binary-vdf-2";
 import { glob } from "glob";
 import * as steam from "../helpers/steam";
-import { ipcRenderer } from "electron";
+import { fetchOwnedGames } from "../helpers/steam/owned-games";
 
 export class SteamParser implements GenericParser {
   private get lang() {
@@ -134,13 +134,9 @@ export class SteamParser implements GenericParser {
           const steamID64 = steam.accountID_ToSteamID64(accountID);
           let games: any[];
           try {
-            // Performed in the main process (Electron net) so it uses the
-            // system certificate store and proxy — see the "steam-owned-games"
-            // handler in src/main/app.ts.
-            const data: any = await ipcRenderer.invoke("steam-owned-games", {
-              apiKey,
-              steamId: steamID64,
-            });
+            // Uses Electron's network stack (system certificates and proxy);
+            // see helpers/steam/owned-games.ts.
+            const data: any = await fetchOwnedGames(apiKey, steamID64);
             if (!data || !data.response || data.response.games === undefined) {
               throw "No games were returned. Check that the API key is correct and that the account's game details are not set to private.";
             }
