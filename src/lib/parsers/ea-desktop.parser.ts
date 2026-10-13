@@ -59,13 +59,9 @@ export class EADesktopParser implements GenericParser {
         for (let installDataFile of installDataFiles) {
           let gameDir = path.join(path.dirname(installDataFile), "..");
           let xmlBuffer = fs.readFileSync(installDataFile);
-          
-          const arrayBuffer = xmlBuffer.buffer.slice(
-            xmlBuffer.byteOffset,
-            xmlBuffer.byteOffset + xmlBuffer.byteLength
-          ) as ArrayBuffer
-
-          const fileInfo = await languageEncoding(new Blob([arrayBuffer]));
+          // Parsers run in the main process: the library's Node build takes
+          // a Buffer (or path); its browser build took a Blob.
+          const fileInfo = await languageEncoding(xmlBuffer);
 
           let xmlString;
           if (fileInfo.encoding == "UTF-8") {
