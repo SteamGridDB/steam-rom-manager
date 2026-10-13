@@ -14,6 +14,7 @@ import {
 import { artworkTypes, artworkIdDict } from "./artwork-types";
 import { superTypes, ArtworkOnlyType } from "./parsers/available-parsers";
 import { VDF_Error } from "./vdf-error";
+import { ensureDefaultLogoPosition } from "./vdf-screenshots-file";
 import { APP } from "../variables";
 import * as vdf from "./helpers/vdf";
 import * as appImage from "./helpers/app-image";
@@ -367,6 +368,16 @@ export class VDF_Manager {
                       drmProtect: app.drmProtect,
                       overlayImage: app.overlayImages?.[artworkType],
                     });
+                  } else if (
+                    artworkType === "logo" &&
+                    currentImage !== undefined &&
+                    currentImage.imageProvider === imageProviderNames.steam
+                  ) {
+                    // This branch skips addItem, so screenshots.write never sees the logo.
+                    ensureDefaultLogoPosition(
+                      listItem.screenshots.gridDir,
+                      steam.shortenAppId(appId),
+                    );
                   }
                   // artwork Cache is shared across steam users and steam directories
                   if (

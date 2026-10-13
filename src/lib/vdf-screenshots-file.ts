@@ -14,6 +14,27 @@ import { BehaviorSubject } from "rxjs";
 import { glob } from "glob";
 import * as paths from "../paths";
 
+// Current Steam clients leave a non-Steam library logo blank until this file exists.
+const defaultLogoPosition = {
+  nVersion: 1,
+  logoPosition: {
+    pinnedPosition: "BottomLeft",
+    nWidthPct: 50,
+    nHeightPct: 50,
+    nVersion: 1,
+  },
+};
+
+export function ensureDefaultLogoPosition(
+  gridDirectory: string,
+  shortAppId: string,
+) {
+  const logoPositionPath = path.join(gridDirectory, `${shortAppId}.json`);
+  if (!fs.existsSync(logoPositionPath)) {
+    fs.outputJsonSync(logoPositionPath, defaultLogoPosition, { spaces: "\t" });
+  }
+}
+
 export class VDF_ScreenshotsFile {
   private fileData: any = undefined;
   private topKey: string = undefined;
@@ -208,6 +229,13 @@ export class VDF_ScreenshotsFile {
                 data.overlayImage
               )
               .then(async () => {
+                const logoSuffix = artworkIdDict.logo;
+                if (appId.endsWith(logoSuffix)) {
+                  ensureDefaultLogoPosition(
+                    this.gridDirectory,
+                    appId.slice(0, -logoSuffix.length),
+                  );
+                }
                 if (/^\d+$/.test(appId)) {
                   const symPath = path.join(
                     this.gridDirectory,
