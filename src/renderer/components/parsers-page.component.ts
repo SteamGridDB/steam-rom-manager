@@ -9,8 +9,8 @@ import { Subscription } from "rxjs";
 import { APP } from "../../variables";
 import { ParsersService } from "../services";
 
-// The Parsers tab: the list of parsers (enable/disable, groups, create) and,
-// once one is opened (/parsers/<parserId>, or /parsers/new), its editor.
+// A parser's editor: /parsers/<parserId>, or /parsers/new (the parser list is
+// in the sidebar).
 // Each parser gets a fresh editor, so nothing from one parser's form can
 // carry over to another's.
 @Component({
@@ -37,10 +37,6 @@ export class ParsersPageComponent implements OnDestroy {
 
   get intro() {
     return this.lang.docs__md.intro.join("");
-  }
-
-  createParser() {
-    this.router.navigate(["/parsers", "new"]);
   }
 
   ngOnInit() {

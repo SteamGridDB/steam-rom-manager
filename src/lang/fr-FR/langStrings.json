@@ -207,6 +207,7 @@
       "view": "Voir les jeux",
       "logger": "Journal des Événements",
       "settings": "Paramètres",
+      "parsers": "Analyseur",
       "noTitle": "Aucun titre!"
     }
   },

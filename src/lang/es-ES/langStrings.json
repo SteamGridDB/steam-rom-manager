@@ -37,6 +37,11 @@
       }
     }
   },
+  "nav": {
+    "component": {
+      "parsers": "Crear Analizador"
+    }
+  },
   "parsers": {
     "component": {
       "label": {

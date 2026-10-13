@@ -601,6 +601,7 @@
       "view": "View Games",
       "logger": "Log",
       "settings": "Settings",
+      "parsers": "Create Parser",
       "customVariables": "Variables",
       "userExceptions": "Exceptions",
       "noTitle": "No title!",
@@ -705,8 +706,7 @@
         "global": "Global",
         "choose": "Choose",
         "refetchControllerTemplates": "Re-fetch Controller Templates",
-        "unsetControllers": "Unset Controllers for Parser",
-        "createParser": "＋ Create parser"
+        "unsetControllers": "Unset Controllers for Parser"
       },
       "info": {
         "testStarting__i": "Testing \"${title}\" parser (SRM version - ${version} ${portable}).",

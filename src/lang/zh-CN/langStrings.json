@@ -364,6 +364,7 @@
       "view": "查看游戏",
       "logger": "日志",
       "settings": "设置",
+      "parsers": "创建解析器",
       "customVariables": "变量",
       "userExceptions": "异常",
       "noTitle": "无标题！"
