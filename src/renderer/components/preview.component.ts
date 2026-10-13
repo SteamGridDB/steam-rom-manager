@@ -292,8 +292,14 @@ export class PreviewComponent implements OnDestroy {
     this.changeDetectionRef.detectChanges();
   }
 
+  // Whether a pool is still loading. A pool can be missing for a moment (a
+  // Fix Match pick, or the list regenerating): that counts as loading, and
+  // must not throw mid change detection.
   getImagePool(poolKey: string, artworkType?: ArtworkType) {
-    return this.previewService.getImages(artworkType)[poolKey];
+    return {
+      retrieving:
+        this.previewService.getImages(artworkType)[poolKey]?.retrieving ?? true,
+    };
   }
 
   getAppImages(app: PreviewDataApp, artworkType?: ArtworkType) {
@@ -450,9 +456,10 @@ export class PreviewComponent implements OnDestroy {
 
     if (image == undefined) {
       let imagepool: string = app.images[actualArtworkType].imagePool;
+      // (the pool can be missing for a moment while the list regenerates)
       const fallbackImage = this.previewService.getImages(actualArtworkType)[
         imagepool
-      ].online
+      ]?.online
         ? require("../../assets/images/retrieving-images.svg")
         : require("../../assets/images/no-images.svg");
       return overlayBackground
@@ -796,6 +803,9 @@ export class PreviewComponent implements OnDestroy {
   saveDetails() {
     if (this.detailsApp) {
       const { steamDirectory, userId, appId, app } = this.detailsApp;
+      // The compat tool select resets "" (inherit) to null when its options
+      // arrive; null would fail validation and lose the whole edit.
+      this.detailsException.compatToolName ||= "";
       const { newTitle, commandLineArguments, excludeArtwork, compatToolName } =
         this.detailsException;
       // What the artwork providers search for (a Fix Match pick first).

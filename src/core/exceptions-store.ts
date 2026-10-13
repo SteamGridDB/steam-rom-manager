@@ -205,7 +205,7 @@ export class ExceptionsStore {
       appTitle,
       timeStamp: Date.now(),
     };
-    if (exception.compatToolName === undefined) {
+    if (!exception.compatToolName) {
       delete exception.compatToolName;
     }
     if (existing >= 0) data.exceptions.splice(existing, 1);

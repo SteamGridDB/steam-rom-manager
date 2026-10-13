@@ -22,7 +22,7 @@ import {
 import { APP } from "../../variables";
 import { AppSettings, SelectItem } from "../../models";
 import { Subscription } from "rxjs";
-import { availableThemes } from "../../lib/themes";
+import { ThemeService } from "../theme/theme.service";
 import { CoreClientService } from "../services/core-client.service";
 import {
   providersSelect,
@@ -72,6 +72,7 @@ export class SettingsComponent implements OnDestroy {
     private renderer: Renderer2,
     private elementRef: ElementRef,
     private coreClient: CoreClientService,
+    private themeService: ThemeService,
   ) {
     this.currentDoc.content = this.lang.docs__md.settings.join("");
   }
@@ -119,7 +120,12 @@ export class SettingsComponent implements OnDestroy {
           displayValue: this.languageService.getReadableName(lang),
         };
       });
-    this.themes = availableThemes;
+    this.themes = this.themeService.themeNames;
+    // pick up user themes added since start-up
+    this.themeService.loadUserThemes().then(() => {
+      this.themes = this.themeService.themeNames;
+      this.changeDetectionRef.markForCheck();
+    });
     this.userAccountsPlaceholder = this.lang.placeholder.userAccounts;
     this.placeholderForOS = this.lang.placeholder.bySystem[APP.osType];
   }
@@ -185,9 +191,9 @@ export class SettingsComponent implements OnDestroy {
   }
 
   loadTheme() {
-    document.querySelector("html").className = "";
-    document.querySelector("html").classList.add(this.settings.theme);
-    document.querySelector("html").removeAttribute("style");
+    // (the sidebar width set by dragging starts over with a new theme)
+    document.documentElement.style.removeProperty("--nav-width");
+    this.themeService.apply(this.settings.theme);
   }
 
   configDir() {
