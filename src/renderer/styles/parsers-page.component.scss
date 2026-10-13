@@ -1,40 +1,12 @@
 @import "mixins";
 
-// [ parser list | parser editor (form | docs, see parsers.component.scss) ]
+// The open parser's editor (the parser list is in the sidebar).
 :host {
   grid-area: route;
   display: grid;
-  grid-template-columns: minmax(14em, 22em) 1fr;
+  grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   overflow: hidden;
-
-  .parserList {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background-color: var(--color-nav-background);
-    border-right: 1px solid var(--color-parsers-menu-background);
-    // The list was made for the sidebar; here it fills its column.
-    --nav-parsers-display: flex;
-    --nav-width: 100%;
-    --nav-width-max: 100%;
-
-    .listHeader {
-      padding: 0.5em;
-      .createParser {
-        @include button();
-        @include clickButtonColor(click-button);
-        text-align: center;
-        &.active {
-          font-weight: bold;
-        }
-      }
-    }
-    nav-parsers {
-      flex: 1;
-      min-height: 0;
-    }
-  }
 
   parser-editor {
     min-width: 0;

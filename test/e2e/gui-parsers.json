@@ -28,7 +28,7 @@
     "js": "location.hash = '#SRM/parsers/' + window.__ab.a; await new Promise(r => setTimeout(r, 2000)); const ed = ng.getComponent(document.querySelector('parser-editor')); const before = ed.configurationIndex; ed.moveDown(); await new Promise(r => setTimeout(r, 500)); const after = ng.getComponent(document.querySelector('parser-editor')); const res = { hash: location.hash.endsWith(window.__ab.a), indexBefore: before, indexAfter: after.configurationIndex, title: after.userForm.value.configTitle }; after.moveUp(); return res"
   },
   {
-    "name": "sidebar has no parser list; the nav links to the Parsers tab",
+    "name": "the sidebar lists the parsers; the nav has Create Parser",
     "js": "return { navParsersInSidebar: !!document.querySelector('navarea nav-parsers'), navLink: [...document.querySelectorAll('navarea nav-link')].map(n => n.innerText.trim()).filter(t => /parser/i.test(t)) }"
   }
 ]

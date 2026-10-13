@@ -389,6 +389,7 @@
       "view": "Mostrar Jogos",
       "logger": "Registro",
       "settings": "Confirgurações",
+      "parsers": "Criar Analisador",
       "customVariables": "Variáveis",
       "userExceptions": "Exceções",
       "noTitle": "Sem título!"

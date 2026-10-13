@@ -1,17 +1,5 @@
-<div class="parserList">
-  <div class="listHeader">
-    <div
-      class="createParser"
-      [class.active]="parserId === 'new'"
-      (click)="createParser()"
-    >
-      {{ lang.buttons.createParser }}
-    </div>
-  </div>
-  <nav-parsers mwlDraggableScrollContainer></nav-parsers>
-</div>
 @if (parserId) {
-  <!-- one editor per parser: switching parsers creates a new one -->
+  <!-- one editor per parser: opening another parser creates a new one -->
   @for (id of [parserId]; track id) {
     <parser-editor [parserId]="id"></parser-editor>
   }

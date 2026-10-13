@@ -66,11 +66,12 @@
 >
 <nav-link
   class="not-emudeck"
-  routerLink="/parsers"
+  [routerLink]="['/parsers', 'new']"
   routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
   (click)="navClick.emit()"
   ><img src="/assets/images/clipboard.png" [alt]="lang.iconAlt" height="16" />{{
-    lang.parsersList
+    lang.parsers
   }}</nav-link
 >
 <nav-link
