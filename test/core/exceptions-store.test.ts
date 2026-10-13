@@ -84,6 +84,20 @@ describe("ExceptionsStore", () => {
     expect(reloaded.exceptionFor("1", "Game").compatToolName).toBe("proton_9");
   });
 
+  it("saves a game's changes when the compat tool select left null (was: the edit was rejected)", async () => {
+    const { store } = await loadStore();
+    expect(
+      store.setGameException(
+        "1",
+        "Game",
+        changes({ newTitle: "Renamed", compatToolName: null }),
+      ),
+    ).toBe(true);
+    const saved = store.exceptionFor("1", "Game");
+    expect(saved.newTitle).toBe("Renamed");
+    expect("compatToolName" in saved).toBe(false);
+  });
+
   it("also writes the old format, and picks up an older SRM's edits to it", async () => {
     const { store } = await loadStore();
     store.setGameException("123", "Game A", changes({ sgdbId: "42" }));
