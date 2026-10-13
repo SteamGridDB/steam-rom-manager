@@ -118,7 +118,7 @@ export class PreviewComponent implements OnDestroy {
 
   showExcludes: boolean = false;
   excludedAppIds: SteamList<{ [appId: string]: boolean }> = {};
-  excludePutBacks: { [exceptionKey: string]: boolean } = {};
+  excludePutBacks: { [exclusionId: string]: boolean } = {};
   exclusionCount: number = 0;
 
   constructor(
