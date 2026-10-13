@@ -3,7 +3,6 @@ import {
   onlineProviders,
   imageLoadStrategies,
 } from "../../lib/image-providers/available-providers";
-import { availableThemes } from "../../lib/themes";
 
 export const appSettings = {
   type: "object",
@@ -89,7 +88,8 @@ export const appSettings = {
       default: languageManager.getDefaultLanguage(),
       enum: languageManager.getAvailableLanguages(),
     },
-    theme: { type: "string", default: "Deck", enum: availableThemes },
+    // Any name: user themes too; an unknown one shows the default theme.
+    theme: { type: "string", default: "Deck" },
     emudeckInstall: { type: "boolean", default: false },
     autoUpdate: { type: "boolean", default: true },
     offlineMode: { type: "boolean", default: false },

@@ -58,6 +58,32 @@ export class UiSupport {
     await fs.remove(path.join(paths.userDataDir, "artworkBackups"));
   }
 
+  // The JSON files in userData/User themes (validated by the UI, which
+  // knows the theme tokens). Unreadable files come back with an error.
+  async userThemes(): Promise<
+    { file: string; data?: unknown; error?: string }[]
+  > {
+    if (!(await fs.pathExists(paths.userThemesDir))) {
+      return [];
+    }
+    const files = (await fs.readdir(paths.userThemesDir))
+      .filter((f) => f.toLowerCase().endsWith(".json"))
+      .sort();
+    return Promise.all(
+      files.map(async (file) => {
+        try {
+          const text = await fs.readFile(
+            path.join(paths.userThemesDir, file),
+            "utf8",
+          );
+          return { file, data: JSON.parse(text) };
+        } catch (e) {
+          return { file, error: String(e?.message ?? e) };
+        }
+      }),
+    );
+  }
+
   submitBugReport(report: BugReport): Promise<BugReportResult> {
     return submitBugReport(this.fetch, report);
   }

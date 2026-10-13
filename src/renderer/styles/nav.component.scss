@@ -12,6 +12,10 @@
   white-space: nowrap;
 
   grid-area: nav;
+  // A long parser list scrolls; it must not squeeze the links.
+  > * {
+    flex-shrink: 0;
+  }
   @include webkitScrollbar(nav-scrollbar, 0.375em);
   .parsers {
     .parserlink {

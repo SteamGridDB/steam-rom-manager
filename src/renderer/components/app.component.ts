@@ -13,6 +13,7 @@ import {
 } from "../services";
 import { MarkdownVariable } from "../../lib/markdown-variable";
 import { Router } from "@angular/router";
+import { ThemeService } from "../theme/theme.service";
 import hljs from "highlight.js";
 import markdownItAnchor from "markdown-it-anchor";
 import markdownItAttrs from "markdown-it-attrs";
@@ -54,6 +55,7 @@ export class AppComponent {
     private ipcService: IpcService,
     private changeDetectionRef: ChangeDetectorRef,
     private zone: NgZone,
+    private themeService: ThemeService,
   ) {
     this.settingsService.onLoad((appSettings) => {
       this.splash =
@@ -63,8 +65,9 @@ export class AppComponent {
         ? "userAccounts"
         : "steamDir";
       this.settingsLoaded = true;
-      document.querySelector("html").className = "";
-      document.querySelector("html").classList.add(appSettings.theme);
+      this.themeService
+        .loadUserThemes()
+        .finally(() => this.themeService.apply(appSettings.theme));
 
       // EmuDeck special navigation
       this.router.events.subscribe((val) => {
@@ -81,7 +84,8 @@ export class AppComponent {
       });
 
       if (appSettings.theme === "EmuDeck") {
-        document.querySelector("html").removeAttribute("style");
+        // (no resizable sidebar: drop a width set in another theme)
+        document.documentElement.style.removeProperty("--nav-width");
         this.router.navigate(["/parsers-list"]);
       } else {
         this.router.navigate(["/parsers", "new"]);

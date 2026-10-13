@@ -7,6 +7,7 @@ import { DatePipe, PercentPipe, APP_BASE_HREF } from "@angular/common";
 import { ColorPickerModule } from "ngx-color-picker";
 
 import * as Components from "./components";
+import { ThemeService } from "./theme/theme.service";
 import * as SvgComponents from "./svg-components";
 import * as Services from "./services";
 import * as Directives from "./directives";
@@ -102,6 +103,7 @@ function ngObjectsToArray<T>(importObject: T) {
     ngObjectsToArray(Services),
     ngObjectsToArray(Guards),
     ngObjectsToArray(Pipes),
+    ThemeService,
     { provide: APP_BASE_HREF, useValue: "SRM" },
     DatePipe,
     PercentPipe,

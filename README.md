@@ -126,6 +126,25 @@ All UI text lives in `src/lang/en-US`: `langStrings.json`, plus the docs in `mar
 
 Translations are done on [Crowdin](https://crowdin.com/project/steam-rom-manager), which exports them to the `l10n_master` branch. Every other language is laid over en-US, so whatever a language lacks or has out of date (a new key, a reshaped one, changed `${variables}`) shows in English instead of breaking anything. After merging translations or reshaping en-US keys, run `yarn lang:sync`: it brings each language folder into en-US's layout, keeping only real translations, and prints how complete each language is. `yarn lang:check` (and the tests) fail when a folder is out of sync.
 
+## Themes
+
+Every color, font, radius, shadow and timing in the UI is a design token, listed with what it's for in `src/renderer/theme/tokens.ts` and set as a CSS variable (`var(--srm-accent)`). Stylesheets use tokens, never colors of their own (the tests check this). The base theme in `src/renderer/theme/themes.ts` sets every token; the built-in themes (Deck, Classic, EmuDeck) only set what they change.
+
+Users can add their own themes: a JSON file in the `User themes` folder of SRM's data folder shows up in Settings. Any token left out comes from the base theme; unknown tokens and invalid values are skipped and reported in the log.
+
+```json
+{
+  "name": "Sunset",
+  "colorScheme": "dark",
+  "tokens": {
+    "accent": "#ff7a00",
+    "accent-hover": "#ff9433",
+    "accent-gradient": "linear-gradient(135deg, #ff7a00 0%, #ff3d6e 100%)",
+    "radius-art": "16px"
+  }
+}
+```
+
 ## Debugging an app
 
 Run `watch:main` (usually once since one rarely changes anything in the main Electron process) and `watch:renderer`.
