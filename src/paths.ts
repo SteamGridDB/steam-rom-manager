@@ -14,7 +14,11 @@ function resolveUserDataDir() {
 
 export const userDataDir: string = resolveUserDataDir();
 export const userSettings: string = path.join(userDataDir, "userSettings.json");
-export const userThemesDir: string = path.join(userDataDir, "User themes");
+// Themes: copies of the app's own (rewritten at start-up, for reference) and
+// the user's.
+export const themesDir: string = path.join(userDataDir, "themes");
+export const defaultThemesDir: string = path.join(themesDir, "default");
+export const userThemesDir: string = path.join(themesDir, "user");
 export const userConfigurations: string = path.join(
   userDataDir,
   "userConfigurations.json",

@@ -66,7 +66,7 @@
         "saveAndClose": "Save and close",
         "perAppExceptions": "Per-App-Exceptions",
         "newTitlePlaceholder": "New Display Title (Optional)",
-        "newSearchTitlePlaceholder": "New Image Search Title (Optional)",
+        "newSearchTitlePlaceholder": "New Artwork Search (Optional)",
         "newCommandLineArgumentsPlaceholder": "New Commandline Arguments (Optional)",
         "useOriginal": "Use Original",
         "clear": "Clear",
@@ -80,7 +80,8 @@
         "artworkOnly": "Artwork Only",
         "titleOnly": "Title Only",
         "viewOnSGDB": "View on SGDB",
-        "sgdbMatch__i": "SteamGridDB game ${id} (Fix match)"
+        "sgdbMatch__i": "Artwork matched to SteamGridDB game ${id}",
+        "clearMatch": "Clear match"
       },
       "listImages": {
         "close": "Close",
@@ -504,6 +505,8 @@
         "dnsServers": "DNS manual override",
         "selectLanguage": "Select language",
         "selectTheme": "Select theme",
+        "appThemes": "App themes",
+        "userThemes": "Your themes",
         "resetFuzzy_desc": "fuzzy list",
         "resetFuzzyCache_desc": "fuzzy cache",
         "resetFuzzy_btn": "Reset",
@@ -640,7 +643,7 @@
         "emudeckTitle": "Excluded Games & Exceptions",
         "emudeckDescription": "Here you can see the games you've excluded on the Preview page in case you want to add them back",
         "newDisplayTitle": "New Display Title:",
-        "newSearchTitle": "New Search Title:",
+        "newSearchTitle": "New Artwork Search:",
         "newCommandLineArgs": "New Commandline Args:",
         "exceptionsDescription": "Per-game changes: a different title in Steam, artwork search or match, launch arguments, compatibility tool. Changes made on the Add Games page apply to that one game; changes added here apply to every game with the given title.",
         "exclusionsDescription": "Games that are never added to Steam. Exclusions made on the Add Games page apply to that one game; exclusions added here apply to every game with the given title. Putting a game back keeps any changes saved for it.",
@@ -649,7 +652,7 @@
         "byTitle": "By title",
         "byTitleHelp": "Applies to every game whose extracted title is exactly this.",
         "createdOn__i": "Added ${date}",
-        "sgdbMatch__i": "SteamGridDB game ${id} (Fix match)",
+        "sgdbMatch__i": "Artwork from SGDB ${id} (Fix match)",
         "compatTool": "Compatibility tool",
         "noExceptions": "No changes yet. Make them on the Add Games page (a game's details), or add one by title below.",
         "noExclusions": "No excluded games. Exclude games on the Add Games page (Manage Excludes), or add one by title below."

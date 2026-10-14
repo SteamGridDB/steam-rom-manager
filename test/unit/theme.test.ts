@@ -2,8 +2,12 @@ import { describe, expect, it } from "vitest";
 import * as fs from "fs";
 import * as path from "path";
 import { tokenNames, tokens } from "../../src/renderer/theme/tokens";
-import { baseTokens, builtInThemes } from "../../src/renderer/theme/themes";
-import { ThemeService } from "../../src/renderer/theme/theme.service";
+import {
+  appThemes,
+  baseTokens,
+  parseTheme,
+} from "../../src/renderer/theme/themes";
+import { defaultThemeFiles } from "../../src/themes";
 
 const stylesDir = path.join(__dirname, "../../src/renderer/styles");
 const sheets = fs
@@ -13,22 +17,35 @@ const sheets = fs
     file: f,
     text: fs.readFileSync(path.join(stylesDir, f), "utf8"),
   }));
+const rendererDir = path.join(__dirname, "../../src/renderer");
+const componentSources = fs
+  .readdirSync(rendererDir, { recursive: true, encoding: "utf8" })
+  .filter((f) => /\.(ts|html)$/.test(f))
+  .map((f) => ({
+    file: f,
+    text: fs.readFileSync(path.join(rendererDir, f), "utf8"),
+  }));
 // (comments don't count)
 const code = (text: string) =>
   text.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
 
 describe("design tokens", () => {
-  it("the base theme sets every token; built-in themes only known ones", () => {
+  it("the base theme sets every token", () => {
     expect(Object.keys(baseTokens).sort()).toEqual([...tokenNames].sort());
-    for (const theme of builtInThemes) {
-      for (const key of Object.keys(theme.tokens)) {
-        expect(tokenNames, `${theme.name}: ${key}`).toContain(key);
-      }
+  });
+
+  it("the app themes (src/themes/default) load without problems", () => {
+    for (const [file, data] of Object.entries(defaultThemeFiles)) {
+      expect(parseTheme(data, file).problems, file).toEqual([]);
     }
-    expect(builtInThemes.map((t) => t.name)).toEqual([
+    // Deck is the default; EmuDeck's name is relied on by its layout rules
+    expect(appThemes.map((t) => t.name)).toEqual([
       "Deck",
       "Classic",
       "EmuDeck",
+      "Sunset",
+      "Solarized Dark",
+      "Solarized Light",
     ]);
   });
 
@@ -42,13 +59,15 @@ describe("design tokens", () => {
     expect(unknown).toEqual([]);
   });
 
-  it("every other CSS variable a stylesheet uses is defined somewhere", () => {
-    const all = sheets.map((s) => code(s.text)).join("\n");
+  // (components' inline styles and templates use variables too)
+  it("every other CSS variable the UI uses without a fallback is defined", () => {
+    const sources = [...sheets, ...componentSources];
+    const all = sources.map((s) => code(s.text)).join("\n");
     const defined = new Set(
       [...all.matchAll(/(--[\w-]+)\s*:/g)].map((m) => m[1]),
     );
-    const undefinedVars = sheets.flatMap(({ file, text }) =>
-      [...code(text).matchAll(/var\((--[\w-]+)\)?/g)]
+    const undefinedVars = sources.flatMap(({ file, text }) =>
+      [...code(text).matchAll(/var\(\s*(--[\w-]+)\s*\)/g)]
         .map((m) => m[1])
         // tokens are set at runtime; mixins build names from arguments
         .filter(
@@ -65,7 +84,6 @@ describe("design tokens", () => {
     "logger.component.scss": 8,
     "markdown.component.scss": 15,
     "nav-link.component.scss": 1,
-    "nav-parsers.component.scss": 6,
     "preview.component.scss": 2,
     "themes.global.scss": 18,
   };
@@ -89,7 +107,7 @@ describe("design tokens", () => {
 
 describe("user themes", () => {
   it("keeps known tokens with safe values; reports the rest", () => {
-    const { theme, problems } = ThemeService.parse(
+    const { theme, problems } = parseTheme(
       {
         name: "Sunset",
         colorScheme: "light",
@@ -107,6 +125,7 @@ describe("user themes", () => {
     expect(theme).toEqual({
       name: "Sunset",
       colorScheme: "light",
+      layout: "Deck",
       tokens: { accent: "#ff7a00", "radius-lg": "20px" },
     });
     expect(problems).toEqual([
@@ -117,11 +136,25 @@ describe("user themes", () => {
     ]);
   });
 
-  it("is named after its file when it has no name; non-objects are refused", () => {
-    expect(ThemeService.parse({ tokens: {} }, "Mine.json").theme.name).toBe(
-      "Mine",
+  it("picks a layout (default Deck); an unknown one is reported", () => {
+    expect(parseTheme({ layout: "Classic" }, "a.json").theme.layout).toBe(
+      "Classic",
     );
-    expect(ThemeService.parse("nope", "x.json")).toEqual({
+    const { theme, problems } = parseTheme({ layout: "Fancy" }, "b.json");
+    expect(theme.layout).toBe("Deck");
+    expect(problems).toEqual([
+      'unknown layout "Fancy" (one of Deck, Classic, EmuDeck)',
+    ]);
+    // every app theme's layout is one themes.global.scss styles
+    const scss = sheets.find((s) => s.file === "themes.global.scss").text;
+    for (const theme of appThemes) {
+      expect(scss, theme.name).toContain(`.${theme.layout} {`);
+    }
+  });
+
+  it("is named after its file when it has no name; non-objects are refused", () => {
+    expect(parseTheme({ tokens: {} }, "Mine.json").theme.name).toBe("Mine");
+    expect(parseTheme("nope", "x.json")).toEqual({
       theme: null,
       problems: ["not a JSON object"],
     });

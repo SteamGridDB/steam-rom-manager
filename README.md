@@ -128,22 +128,29 @@ Translations are done on [Crowdin](https://crowdin.com/project/steam-rom-manager
 
 ## Themes
 
-Every color, font, radius, shadow and timing in the UI is a design token, listed with what it's for in `src/renderer/theme/tokens.ts` and set as a CSS variable (`var(--srm-accent)`). Stylesheets use tokens, never colors of their own (the tests check this). The base theme in `src/renderer/theme/themes.ts` sets every token; the built-in themes (Deck, Classic, EmuDeck) only set what they change.
+Every color, font, radius, shadow and timing in the UI is a design token, listed with what it's for in `src/renderer/theme/tokens.ts` and set as a CSS variable (`var(--srm-accent)`). Stylesheets use tokens, never colors of their own (the tests check this). The base theme in `src/renderer/theme/themes.ts` sets every token; a theme only sets what it changes.
 
-Users can add their own themes: a JSON file in the `User themes` folder of SRM's data folder shows up in Settings. Any token left out comes from the base theme; unknown tokens and invalid values are skipped and reported in the log.
+Themes are JSON files, in two places:
+
+- **App themes** (`src/themes/default/`): Deck, Classic, EmuDeck, Sunset, Solarized Dark and Solarized Light. They're built into SRM, so they're always there, and SRM writes copies of them to `themes/default` in its data folder as examples.
+- **User themes** (`themes/user` in SRM's data folder): any JSON file there shows up in Settings under "Your themes". Unknown tokens and invalid values are skipped and reported in the log.
 
 ```json
 {
   "name": "Sunset",
   "colorScheme": "dark",
+  "layout": "Deck",
   "tokens": {
     "accent": "#ff7a00",
     "accent-hover": "#ff9433",
     "accent-gradient": "linear-gradient(135deg, #ff7a00 0%, #ff3d6e 100%)",
+    "icon-filter": "none",
     "radius-art": "16px"
   }
 }
 ```
+
+`colorScheme` (`dark` or `light`) sets the colors of the browser's own controls. `layout` (`Deck`, the default, `Classic` or `EmuDeck`) picks how the screens are arranged, independently of colors. `icon-filter` adjusts SRM's white icons; light themes darken them, e.g. `brightness(0.38)`.
 
 ## Debugging an app
 

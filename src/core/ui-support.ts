@@ -10,6 +10,7 @@ import { CompatToolInfo } from "../lib/helpers/steam/compat-constants";
 import { encodeFile } from "../lib/helpers/url/file-url";
 import { Fetch } from "./http";
 import { BugReport, BugReportResult, submitBugReport } from "./bug-report";
+import { defaultThemeFiles } from "../themes";
 
 export type SteamLogin = userAccountData & {
   // file:// URL of Steam's cached avatar, if there is one.
@@ -58,13 +59,22 @@ export class UiSupport {
     await fs.remove(path.join(paths.userDataDir, "artworkBackups"));
   }
 
-  // The JSON files in userData/User themes (validated by the UI, which
+  // The JSON files in userData/themes/user (validated by the UI, which
   // knows the theme tokens). Unreadable files come back with an error.
+  // Also makes sure both theme folders exist, and refreshes the copies of
+  // the app's themes in themes/default (examples to start a theme from).
   async userThemes(): Promise<
     { file: string; data?: unknown; error?: string }[]
   > {
-    if (!(await fs.pathExists(paths.userThemesDir))) {
-      return [];
+    await fs.ensureDir(paths.userThemesDir);
+    await fs.ensureDir(paths.defaultThemesDir);
+    for (const [file, data] of Object.entries(defaultThemeFiles)) {
+      await fs
+        .writeFile(
+          path.join(paths.defaultThemesDir, file),
+          JSON.stringify(data, null, 2) + "\n",
+        )
+        .catch(() => {}); // (read-only data folder: themes still work)
     }
     const files = (await fs.readdir(paths.userThemesDir))
       .filter((f) => f.toLowerCase().endsWith(".json"))

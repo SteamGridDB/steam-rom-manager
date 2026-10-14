@@ -44,6 +44,7 @@ export class SettingsComponent implements OnDestroy {
   settings: AppSettings;
   availableBatches: { displayValue: string; value: number }[];
   themes: string[];
+  themeSections: Record<string, string> = {};
   availableLanguages: SelectItem[];
   knownSteamDirectories: string[];
   placeholderForOS: {
@@ -120,14 +121,24 @@ export class SettingsComponent implements OnDestroy {
           displayValue: this.languageService.getReadableName(lang),
         };
       });
-    this.themes = this.themeService.themeNames;
+    this.listThemes();
     // pick up user themes added since start-up
     this.themeService.loadUserThemes().then(() => {
-      this.themes = this.themeService.themeNames;
+      this.listThemes();
       this.changeDetectionRef.markForCheck();
     });
     this.userAccountsPlaceholder = this.lang.placeholder.userAccounts;
     this.placeholderForOS = this.lang.placeholder.bySystem[APP.osType];
+  }
+
+  // App themes, then the user's (userData/themes/user), in sections.
+  private listThemes() {
+    const { appThemeNames, userThemeNames } = this.themeService;
+    this.themes = [...appThemeNames, ...userThemeNames];
+    this.themeSections = Object.fromEntries([
+      ...appThemeNames.map((name) => [name, this.lang.text.appThemes]),
+      ...userThemeNames.map((name) => [name, this.lang.text.userThemes]),
+    ]);
   }
 
   ngOnDestroy() {

@@ -56,7 +56,9 @@
           class="ngSelect"
           [ngModel]="settings.theme"
           (ngModelChange)="changeTheme($event);"
+          [sectionsMap]="themeSections"
           [values]="themes"
+          [sort]="false"
         >
         </ng-select>
         <div class="text" style="margin-left: 0.25em">

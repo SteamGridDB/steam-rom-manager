@@ -26,6 +26,12 @@ body {
   background: var(--srm-accent-soft);
 }
 
+// The app's icons are white images; themes adapt them (e.g. darker on light).
+nav img,
+nav-parsers img {
+  filter: var(--srm-icon-filter);
+}
+
 * {
   cursor: default;
   user-select: none;

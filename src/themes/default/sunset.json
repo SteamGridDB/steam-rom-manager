@@ -1,0 +1,25 @@
+{
+  "name": "Sunset",
+  "colorScheme": "dark",
+  "tokens": {
+    "bg": "#120c10",
+    "bg-art": "radial-gradient(1200px 600px at 85% -10%, rgba(255, 122, 0, 0.12), transparent 60%), radial-gradient(900px 500px at -10% 110%, rgba(255, 61, 110, 0.10), transparent 60%)",
+    "surface": "#1a1216",
+    "surface-raised": "#24191e",
+    "surface-hover": "#2f2128",
+    "surface-sunken": "#0f0a0d",
+    "glass": "rgba(36, 25, 30, 0.72)",
+    "text": "#f7ece6",
+    "text-muted": "#c4aaa0",
+    "text-subtle": "#8a7068",
+    "link": "#ffae6b",
+    "focus-ring": "rgba(255, 122, 0, 0.6)",
+    "accent": "#ff7a00",
+    "accent-hover": "#ff9433",
+    "accent-soft": "rgba(255, 122, 0, 0.16)",
+    "accent-gradient": "linear-gradient(135deg, #ff7a00 0%, #ff3d6e 100%)",
+    "info": "#ff6fa8",
+    "glow": "0 0 0 2px rgba(255, 122, 0, 0.85), 0 8px 30px rgba(255, 61, 110, 0.35)",
+    "radius-art": "16px"
+  }
+}

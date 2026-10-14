@@ -72,19 +72,31 @@
       opacity: 0.8;
     }
 
+    // Each rule is a card (inputs inside stay on the raised surface).
     .rule {
-      margin: 0 0 1em 0;
-      padding: 0.5em 0.75em;
-      border: 1px solid var(--color-click-button-border);
-      border-radius: 0.3em;
+      margin: 0 0 0.85em 0;
+      padding: 0.75em 1em;
+      background-color: var(--srm-surface);
+      border: 1px solid var(--srm-border-strong);
+      border-radius: var(--srm-radius-lg);
+      box-shadow: var(--srm-shadow-sm);
+      transition: border-color var(--srm-duration-fast) var(--srm-ease);
+      &:hover {
+        border-color: var(--srm-focus-ring);
+      }
 
       .ruleHeader {
         display: flex;
         align-items: center;
         gap: 0.75em;
 
+        // One width for every badge, so the titles after them line up.
         .matchBadge {
           flex: none;
+          box-sizing: border-box;
+          min-width: 11em;
+          text-align: center;
+          white-space: nowrap;
           padding: 0.1em 0.5em;
           border-radius: 1em;
           font-size: 0.8em;
@@ -96,8 +108,13 @@
             font-weight: bold;
           }
         }
+        // Boxed like the title input (invisibly), so the text lines up with
+        // typed titles in every layout.
         .ruleTitle {
           flex: 1;
+          @include ngTextInput();
+          cursor: default;
+          border: 1px solid transparent;
           font-weight: bold;
           overflow: hidden;
           text-overflow: ellipsis;
