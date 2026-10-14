@@ -398,11 +398,12 @@
     }
 
     .detailsOptions {
-      position: fixed;
-      width: var(--width-details-options);
-      height: var(--height-details-options);
+      // Stays at the top while the results scroll underneath; as tall as
+      // its fields (a fixed height let new fields hang off its background).
+      position: sticky;
+      top: 0;
+      z-index: 2;
       &.perAppHidden {
-        height: calc(0.35 * var(--height-details-options));
         .detailsExceptionSection {
           svg {
             transform: rotate(-90deg);
@@ -478,10 +479,7 @@
       }
     }
     .appResults {
-      margin-top: calc(var(--height-details-options) + 2em);
-      &.perAppHidden {
-        margin-top: calc(0.35 * var(--height-details-options) + 2em);
-      }
+      margin-top: 1em;
       grid-area: detailsList;
       > .approw {
         display: flex;

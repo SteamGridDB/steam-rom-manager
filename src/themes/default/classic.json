@@ -1,0 +1,26 @@
+{
+  "name": "Classic",
+  "colorScheme": "dark",
+  "layout": "Classic",
+  "tokens": {
+    "bg": "#080808",
+    "bg-art": "none",
+    "surface": "#101010",
+    "surface-raised": "#171717",
+    "surface-hover": "#202020",
+    "surface-sunken": "#0a0a0a",
+    "glass": "rgba(16, 16, 16, 0.85)",
+    "art-overlay": "rgba(0, 0, 0, 0.8)",
+    "text-muted": "#a0a0a0",
+    "accent": "#1db954",
+    "accent-hover": "#1ed760",
+    "accent-soft": "rgba(29, 185, 84, 0.16)",
+    "accent-gradient": "linear-gradient(135deg, #1db954 0%, #17a34a 100%)",
+    "focus-ring": "rgba(29, 185, 84, 0.6)",
+    "link": "#1ed760",
+    "glow": "0 0 0 2px rgba(29, 185, 84, 0.85), 0 8px 30px rgba(29, 185, 84, 0.3)",
+    "radius-md": "6px",
+    "radius-lg": "8px",
+    "radius-art": "4px"
+  }
+}

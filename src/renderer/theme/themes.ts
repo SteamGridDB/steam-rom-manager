@@ -1,4 +1,13 @@
-import { ThemeDefinition, ThemeTokens } from "./tokens";
+import {
+  ThemeDefinition,
+  ThemeLayout,
+  ThemeTokens,
+  TokenKind,
+  TokenName,
+  themeLayouts,
+  tokens,
+} from "./tokens";
+import { defaultThemeFiles } from "../../themes";
 
 // The base theme: every token. Other themes (built-in and user themes) only
 // set what they change; the rest comes from here.
@@ -20,6 +29,7 @@ export const baseTokens: Required<ThemeTokens> = {
   "text-subtle": "#6c7586",
   "text-on-accent": "#ffffff",
   link: "#6cbcff",
+  "icon-filter": "none",
 
   border: "rgba(255, 255, 255, 0.06)",
   "border-strong": "rgba(255, 255, 255, 0.12)",
@@ -66,49 +76,90 @@ export const baseTokens: Required<ThemeTokens> = {
   "ease-spring": "cubic-bezier(0.34, 1.56, 0.64, 1)",
 };
 
-// Built-in themes: variants of the same design.
-export const builtInThemes: ThemeDefinition[] = [
-  {
-    // The default: deep blue-black, Steam-blue accent.
-    name: "Deck",
-    colorScheme: "dark",
-    tokens: {},
-  },
-  {
-    // SRM's original look: near-black, green accent, flatter.
-    name: "Classic",
-    colorScheme: "dark",
-    tokens: {
-      bg: "#080808",
-      "bg-art": "none",
-      surface: "#101010",
-      "surface-raised": "#171717",
-      "surface-hover": "#202020",
-      "surface-sunken": "#0a0a0a",
-      glass: "rgba(16, 16, 16, 0.85)",
-      "art-overlay": "rgba(0, 0, 0, 0.8)",
-      "text-muted": "#a0a0a0",
-      accent: "#1db954",
-      "accent-hover": "#1ed760",
-      "accent-soft": "rgba(29, 185, 84, 0.16)",
-      "accent-gradient": "linear-gradient(135deg, #1db954 0%, #17a34a 100%)",
-      "focus-ring": "rgba(29, 185, 84, 0.6)",
-      link: "#1ed760",
-      glow: "0 0 0 2px rgba(29, 185, 84, 0.85), 0 8px 30px rgba(29, 185, 84, 0.3)",
-      "radius-md": "6px",
-      "radius-lg": "8px",
-      "radius-art": "4px",
+// The property a value of each kind must be valid for (checked with
+// CSS.supports, so anything the browser wouldn't accept is ignored).
+const propertyFor: Record<TokenKind, string> = {
+  color: "color",
+  paint: "background-image",
+  shadow: "box-shadow",
+  length: "width",
+  number: "line-height",
+  font: "font-family",
+  time: "transition-duration",
+  easing: "transition-timing-function",
+  filter: "filter",
+};
+
+// Themes may not load anything: no urls, imports or rule breakers.
+const unsafe = /url\(|@import|expression\(|[;{}<>\\]/i;
+
+export function isValidTokenValue(token: TokenName, value: string) {
+  if (unsafe.test(value)) return false;
+  const property = propertyFor[tokens[token].kind];
+  return (
+    value === "none" ||
+    typeof CSS === "undefined" || // (tests)
+    CSS.supports(property, value)
+  );
+}
+
+// A theme from its JSON (app and user themes alike): unknown tokens and
+// invalid values are left out (reported in `problems`); the base theme
+// fills in the rest.
+export function parseTheme(
+  data: unknown,
+  file: string,
+): { theme: ThemeDefinition | null; problems: string[] } {
+  const problems: string[] = [];
+  const raw = data as {
+    name?: unknown;
+    colorScheme?: unknown;
+    layout?: unknown;
+    tokens?: unknown;
+  };
+  if (!raw || typeof raw !== "object") {
+    return { theme: null, problems: ["not a JSON object"] };
+  }
+  let layout: ThemeLayout = "Deck";
+  if (themeLayouts.includes(raw.layout as ThemeLayout)) {
+    layout = raw.layout as ThemeLayout;
+  } else if (raw.layout !== undefined) {
+    problems.push(
+      `unknown layout ${JSON.stringify(raw.layout)} (one of ${themeLayouts.join(", ")})`,
+    );
+  }
+  const name =
+    typeof raw.name === "string" && raw.name.trim()
+      ? raw.name.trim()
+      : file.replace(/\.json$/i, "");
+  const values: ThemeTokens = {};
+  const given =
+    raw.tokens && typeof raw.tokens === "object"
+      ? (raw.tokens as Record<string, unknown>)
+      : {};
+  for (const [key, value] of Object.entries(given)) {
+    const token = key.replace(/^--srm-/, "") as TokenName;
+    if (!(token in tokens)) {
+      problems.push(`unknown token "${key}"`);
+    } else if (typeof value !== "string" || !isValidTokenValue(token, value)) {
+      problems.push(`invalid value for "${key}": ${JSON.stringify(value)}`);
+    } else {
+      values[token] = value;
+    }
+  }
+  return {
+    theme: {
+      name,
+      colorScheme: raw.colorScheme === "light" ? "light" : "dark",
+      layout,
+      tokens: values,
     },
-  },
-  {
-    // For EmuDeck installs: sits on EmuDeck's own backdrop, so the app
-    // background stays transparent.
-    name: "EmuDeck",
-    colorScheme: "dark",
-    tokens: {
-      bg: "transparent",
-      "bg-art": "none",
-      surface: "rgba(18, 21, 28, 0.82)",
-    },
-  },
-];
+    problems,
+  };
+}
+
+// The app's themes (src/themes/default), always available; the first is
+// the default.
+export const appThemes: ThemeDefinition[] = Object.entries(
+  defaultThemeFiles,
+).map(([file, data]) => parseTheme(data, file).theme);

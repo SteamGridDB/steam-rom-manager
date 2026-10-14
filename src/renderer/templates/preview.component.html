@@ -108,8 +108,12 @@
   <div class="excludesLower" *ngIf="showExcludes">
     <div class="title">
       <span>{{ lang.exclude.putBackTitles }}</span>
-      <div class="button" (click)="putBackSetAll(true)"><span>{{ lang.exclude.all }}</span></div>
-      <div class="button" (click)="putBackSetAll(false)"><span>{{ lang.exclude.none }}</span></div>
+      <div class="button" (click)="putBackSetAll(true)">
+        <span>{{ lang.exclude.all }}</span>
+      </div>
+      <div class="button" (click)="putBackSetAll(false)">
+        <span>{{ lang.exclude.none }}</span>
+      </div>
     </div>
     <div class="currentExcludes">
       <ng-container *ngFor="let steamDir of previewData | keys">
@@ -185,26 +189,11 @@
                   {{ lang.details.useOriginal }}
                 </div>
               </div>
-              <div class="detailsExceptionField">
-                <div class="detailsExceptionText">
-                  <ng-text-input
-                    class="ngTextInput"
-                    [placeholder]="lang.details.newSearchTitlePlaceholder"
-                    [(ngModel)]="detailsException.searchTitle"
-                  ></ng-text-input>
-                </div>
-                <div
-                  class="detailsExceptionButton"
-                  (click)="
-                    detailsException.searchTitle = detailsApp.app.extractedTitle
-                  "
-                >
-                  {{ lang.details.useOriginal }}
-                </div>
-              </div>
+              <!-- A Fix Match pick decides the artwork search; the search
+                   title comes back once the match is cleared. -->
               @if (detailsException.sgdbId) {
                 <div class="detailsExceptionField">
-                  <div class="detailsExceptionText">
+                  <div class="detailsExceptionText sgdbMatch">
                     {{
                       lang.details.sgdbMatch__i.interpolate({
                         id: detailsException.sgdbId,
@@ -215,7 +204,26 @@
                     class="detailsExceptionButton"
                     (click)="detailsException.sgdbId = ''; matchFix = ''"
                   >
-                    {{ lang.details.clear }}
+                    {{ lang.details.clearMatch }}
+                  </div>
+                </div>
+              } @else {
+                <div class="detailsExceptionField">
+                  <div class="detailsExceptionText">
+                    <ng-text-input
+                      class="ngTextInput"
+                      [placeholder]="lang.details.newSearchTitlePlaceholder"
+                      [(ngModel)]="detailsException.searchTitle"
+                    ></ng-text-input>
+                  </div>
+                  <div
+                    class="detailsExceptionButton"
+                    (click)="
+                      detailsException.searchTitle =
+                        detailsApp.app.extractedTitle
+                    "
+                  >
+                    {{ lang.details.useOriginal }}
                   </div>
                 </div>
               }
@@ -223,7 +231,9 @@
                 <div class="detailsExceptionText">
                   <ng-text-input
                     class="ngTextInput"
-                    [placeholder]="lang.details.newCommandLineArgumentsPlaceholder"
+                    [placeholder]="
+                      lang.details.newCommandLineArgumentsPlaceholder
+                    "
                     [(ngModel)]="detailsException.commandLineArguments"
                   ></ng-text-input>
                 </div>
@@ -470,7 +480,9 @@
       ></ng-select>
     </div>
     <div class="filtergroup">
-      <div class="filterLabel"><span>{{ lang.filters.other }}</span></div>
+      <div class="filterLabel">
+        <span>{{ lang.filters.other }}</span>
+      </div>
       <ng-toggle-button
         [ngModel]="missingArtFilter"
         (ngModelChange)="setArtFilter($event)"
@@ -483,7 +495,9 @@
       </ng-toggle-button>
     </div>
     <div class="filtergroup">
-      <div class="filterLabel"><span>{{ lang.filters.exportImport }}</span></div>
+      <div class="filterLabel">
+        <span>{{ lang.filters.exportImport }}</span>
+      </div>
       <div
         class="button"
         (click)="exportSelection()"

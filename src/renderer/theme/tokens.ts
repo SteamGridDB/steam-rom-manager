@@ -15,7 +15,8 @@ export type TokenKind =
   | "number" // unitless, e.g. 1.15
   | "font" // a font-family list
   | "time" // e.g. 180ms
-  | "easing"; // e.g. cubic-bezier(...)
+  | "easing" // e.g. cubic-bezier(...)
+  | "filter"; // e.g. invert(1)
 
 export const tokens = {
   // Surfaces, from the deepest back to the most raised.
@@ -54,6 +55,11 @@ export const tokens = {
     about: "Text on accent-colored backgrounds",
   },
   link: { kind: "color", about: "Links in docs and messages" },
+  "icon-filter": {
+    kind: "filter",
+    about:
+      "Applied to the app's white icons (e.g. brightness(0.35) on light themes)",
+  },
 
   // Lines.
   border: { kind: "color", about: "Hairlines between areas" },
@@ -132,12 +138,18 @@ export const tokenNames = Object.keys(tokens) as TokenName[];
 // names, so a typo can't silently do nothing).
 export type ThemeTokens = Partial<Record<TokenName, string>>;
 
+// Layouts: arrangements of the screens, independent of colors. The CSS class
+// on <html> (themes.global.scss hangs each layout's rules off it).
+export const themeLayouts = ["Deck", "Classic", "EmuDeck"] as const;
+export type ThemeLayout = (typeof themeLayouts)[number];
+
 export interface ThemeDefinition {
-  // Shown in Settings; also the CSS class on <html> (layout rules, e.g. the
-  // EmuDeck theme's simplified screens, hang off it).
+  // Shown in Settings.
   name: string;
   // Light or dark: picks the browser's built-in control colors.
   colorScheme: "dark" | "light";
+  // Optional in theme files (default: Deck).
+  layout: ThemeLayout;
   tokens: ThemeTokens;
 }
 

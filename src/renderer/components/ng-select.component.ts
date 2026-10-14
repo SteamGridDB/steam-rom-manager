@@ -217,7 +217,7 @@ export class NgSelectComponent implements ControlValueAccessor {
     if (unmatched.length) {
       sections[running.toString()] = {
         name: this.lang.uncategorized,
-        options: optionsList.sort((a, b) =>
+        options: unmatched.sort((a, b) =>
           a.displayValue.localeCompare(b.displayValue),
         ),
       };

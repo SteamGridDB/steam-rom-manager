@@ -60,7 +60,7 @@
   --color-dangerous-click-button-text-active: var(--srm-text-on-accent);
   --color-dangerous-click-button-text-disabled: var(--srm-text-subtle);
   --color-dangerous-click-button-text-hover: var(--srm-text-on-accent);
-  --color-details-options-background: transparent;
+  --color-details-options-background: var(--srm-surface);
   --color-error: var(--srm-danger);
   --color-fuzzy: var(--srm-info);
   --color-info: var(--srm-info);
@@ -154,6 +154,18 @@
   --color-nested-form-scrollbar-track: transparent;
   --color-ng-bubbles-background: var(--srm-accent-soft);
   --color-ng-bubbles-border: var(--srm-accent);
+  --color-select-arrow-left: var(--srm-text);
+  --color-select-arrow-left-active: var(--srm-text);
+  --color-select-arrow-left-hover: var(--srm-text-muted);
+  --color-select-arrow-right: var(--srm-text);
+  --color-select-arrow-right-active: var(--srm-text);
+  --color-select-arrow-right-hover: var(--srm-text-muted);
+  --color-select-arrow-down-active: var(--srm-text);
+  --color-select-arrow-down-hover: var(--srm-text-muted);
+  --color-preview-app-button-active: var(--srm-text);
+  --color-preview-app-button-hover: var(--srm-text-muted);
+  --color-preview-image-downloading-background: var(--srm-surface-sunken);
+  --color-preview-image-retrieving-url-background: var(--srm-surface-sunken);
   --color-ng-select-arrow: var(--srm-text-muted);
   --color-ng-select-arrow-active: var(--srm-text-muted);
   --color-ng-select-arrow-hover: var(--srm-text-muted);
@@ -291,7 +303,6 @@
   --grid-app: "titlebar titlebar titlebar" "navarea navborder route";
   --grid-app-columns: auto auto 1fr;
   --grid-app-rows: auto 1fr;
-  --height-details-options: 330px;
   --height-nav-link: 1.2em;
   --height-ng-buttons: 20px;
   --height-update-notifier: auto;
@@ -325,7 +336,6 @@
   --position-update-notifier-right: 0;
   --position-update-notifier-top: 0;
   --radius-click-button: 4px;
-  --width-details-options: calc(0.5 * (100vw - var(--nav-width)) - 45px);
   --width-preview-select-type: 10em;
   --width-update-notifier: auto;
   --width-update-notifier-backdrop: 100vw;
@@ -366,7 +376,6 @@
   --font-markdown-h3: 1.25em;
   --margin-markdown-hx: 1.5rem 0 1rem 0;
   --width-preview-select-type: 8em;
-  --height-details-options: 280px;
   --position-update-notifier-right: auto;
   --position-update-notifier-top: auto;
   --width-update-notifier: 20vw;
@@ -500,8 +509,6 @@
   --font-markdown-h1: 50px;
   --display-nav-border: none;
   --height-ng-buttons: 50%;
-  --width-details-options: calc(50vw - 44px);
-  --height-details-options: 380px;
 
   .not-emudeck {
     display: none !important;
