@@ -176,7 +176,7 @@ export class GOGParser implements GenericParser {
           const sqliteWrapper = new SqliteWrapper("gog-galaxy", dbPath, {
             externals: !!inputs.parseLinkedExecs,
           });
-          const playtasks = (await sqliteWrapper.callWorker()) as any[];
+          const playtasks = (await sqliteWrapper.read()) as any[];
           let parsedData: ParsedData = { success: [], failed: [] };
           parsedData.executableLocation = galaxyExePath;
           for (let task of playtasks) {

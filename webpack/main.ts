@@ -11,7 +11,7 @@ const jimpCommonjsEntry = path.join(
 );
 
 // The main process also hosts the core (headless CLI), so it bundles the
-// same lib code as the renderer: language markdown, jimp, native sqlite.
+// same lib code as the renderer: language markdown, jimp.
 let clientConfig: Configuration = {
   target: "electron-main",
   entry: {
@@ -54,7 +54,8 @@ let clientConfig: Configuration = {
   },
   node: false,
   externals: {
-    "better-sqlite3": "commonjs better-sqlite3",
+    // Node's own SQLite (some parsers read their launcher's database)
+    "node:sqlite": "commonjs node:sqlite",
   },
 };
 

@@ -61,7 +61,7 @@ export class ItchIoParser implements GenericParser {
         }
         const sqliteWrapper = new SqliteWrapper("itch.io", dbPath);
         sqliteWrapper
-          .callWorker()
+          .read()
           .then((games: { [k: string]: any }[]) => {
             const success = games
               .map(({ title, verdict }: { [key: string]: string }) => {
