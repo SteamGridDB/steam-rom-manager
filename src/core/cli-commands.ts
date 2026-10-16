@@ -1,5 +1,6 @@
 import { UserConfiguration } from "../models";
 import { Core } from "./core";
+import { findParsers } from "./parser-commands";
 
 // What the CLI commands print to; the main process maps this to stdout.
 export interface CliOutput {
@@ -12,36 +13,35 @@ export function list(core: Core): UserConfiguration[] {
   return core.parsers.getAll();
 }
 
+// Enables/disables parsers (ids or names), or all of them. Returns whether
+// it did: an unknown parser changes nothing.
 export async function setEnabled(
   core: Core,
   out: CliOutput,
   enabled: boolean,
-  options: { all: boolean; names: boolean; parsers: string[] },
-) {
+  options: { all: boolean; parsers: string[] },
+): Promise<boolean> {
   if (options.all) {
     await core.parsers.setAllEnabled(enabled);
-    return;
+    return true;
   }
-  const { ids, missing } = core.parsers.resolveParserIds(
-    options.parsers,
-    options.names,
-  );
-  for (const name of missing) {
-    out.log(`Could not find parser ${name}`);
+  const found = findParsers(core, options.parsers);
+  if (!found.ok) {
+    for (const error of found.errors) out.log(error);
+    return false;
   }
-  for (const id of ids) {
-    try {
-      await core.parsers.setEnabled(id, enabled);
-      out.log(enabled ? `Enabled parser ${id}` : `Disabled parser ${id}`);
-    } catch (e) {
-      out.log(String(e));
-    }
+  for (const config of found.value) {
+    await core.parsers.setEnabled(config.parserId, enabled);
+    out.log(
+      `${enabled ? "Enabled" : "Disabled"} parser "${config.configTitle}" (id ${config.parserId})`,
+    );
   }
+  return true;
 }
 
-// add/remove: run just these parsers (ids, or names), enabled or not.
+// add/remove: run just these parsers (ids or names), enabled or not.
 export interface RunOptions {
-  only?: { parsers: string[]; names: boolean };
+  only?: string[];
 }
 
 // The parser ids for --only; undefined (after reporting) if any is unknown.
@@ -53,27 +53,13 @@ function onlyParserIds(
   if (!only) {
     return null; // every enabled parser
   }
-  const resolved = core.parsers.resolveParserIds(only.parsers, only.names);
-  const configs = core.parsers.getAll();
-  const known = (id: string) => configs.some((c) => c.parserId === id);
-  const missing = [
-    ...resolved.missing,
-    ...resolved.ids.filter((id) => !known(id)),
-  ];
-  for (const name of missing) {
-    out.log(`Could not find parser ${name}`);
-  }
-  const ids = resolved.ids.filter(known);
-  if (missing.length || !ids.length) {
+  const found = findParsers(core, only);
+  if (!found.ok) {
+    for (const error of found.errors) out.log(error);
     return undefined;
   }
-  out.log(
-    `Running only: ${configs
-      .filter((c) => ids.includes(c.parserId))
-      .map((c) => c.configTitle)
-      .join(", ")}`,
-  );
-  return ids;
+  out.log(`Running only: ${found.value.map((c) => c.configTitle).join(", ")}`);
+  return found.value.map((c) => c.parserId);
 }
 
 // Generates the app list and waits for its artwork, reporting progress.

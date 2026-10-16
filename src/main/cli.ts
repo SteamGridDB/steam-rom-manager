@@ -62,7 +62,7 @@ export async function runCli(request: CliRequest): Promise<number> {
       return 0;
     case "enable":
     case "disable":
-      await commands.setEnabled(core, out, command === "enable", request);
+      ok = await commands.setEnabled(core, out, command === "enable", request);
       break;
     case "add":
       ok = await commands.add(core, out, onlyOption(request));
@@ -76,7 +76,7 @@ export async function runCli(request: CliRequest): Promise<number> {
     case "create-parser":
     case "edit-parser":
     case "delete-parser":
-    case "show-parser":
+    case "view-parser":
       return parserCommand(core, request, out);
   }
   core.fuzzy.stopAutoSave();
@@ -133,10 +133,17 @@ async function parserCommand(
       }
       return 0;
     }
-    case "show-parser": {
-      const result = parsers.describeParser(core, request.parser);
+    case "view-parser": {
+      const result = parsers.viewParser(core, request.parser, request.show);
       if (!result.ok) return fail(result.errors);
       const { config, rows } = result.value;
+      // One setting: just its value, for scripts.
+      if (request.show?.length === 1) {
+        const [row] = rows;
+        if (row.unused) return fail([row.unused]);
+        if (row.raw) out.log(row.raw);
+        return 0;
+      }
       out.log(`${titled(config)}, a ${config.parserType} parser`);
       out.log(
         clc.columns(
@@ -144,18 +151,18 @@ async function parserCommand(
             rows.map((row) => [
               row.required ? `${row.flag} *` : row.flag,
               row.label,
-              row.value,
+              row.unused ? clc.blackBright(`(${row.unused})`) : row.value,
             ]),
           ),
         ),
       );
-      out.log("* required");
+      if (rows.some((row) => row.required)) out.log("* required");
       return 0;
     }
   }
   return 1;
 }
 
-function onlyOption({ only, parsers, names }: CliRequest) {
-  return only ? { only: { parsers, names } } : {};
+function onlyOption({ only, parsers }: CliRequest) {
+  return only ? { only: parsers } : {};
 }

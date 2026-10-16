@@ -492,53 +492,92 @@ export async function editParser(
   };
 }
 
-export function deleteParsers(
+// Finds parsers by id or name; all or nothing (a typo is reported rather
+// than silently acting on the rest).
+export function findParsers(
   core: Core,
   refs: string[],
 ): Result<UserConfiguration[]> {
   const errors: string[] = [];
-  const ids: string[] = [];
+  const found: UserConfiguration[] = [];
   for (const ref of refs) {
-    const found = findParser(core, ref);
-    if (found.ok) ids.push(found.value.config.parserId);
-    else errors.push(...found.errors);
+    const result = findParser(core, ref);
+    if (result.ok) found.push(result.value.config);
+    else errors.push(...result.errors);
   }
-  // All or nothing: a typo shouldn't leave half the list deleted.
   if (errors.length) return { ok: false, errors };
-  const deleted: UserConfiguration[] = [];
-  for (const id of _.uniq(ids)) {
-    const index = core.parsers.getAll().findIndex((c) => c.parserId === id);
-    deleted.push(core.parsers.getAll()[index]);
-    core.parsers.delete(index);
-  }
-  return { ok: true, value: deleted };
+  return { ok: true, value: _.uniqBy(found, (c) => c.parserId) };
 }
 
-// A parser's settings that apply to it, as the options that set them.
-export function describeParser(
+export function deleteParsers(
+  core: Core,
+  refs: string[],
+): Result<UserConfiguration[]> {
+  const found = findParsers(core, refs);
+  if (!found.ok) return found;
+  for (const config of found.value) {
+    core.parsers.delete(
+      core.parsers.getAll().findIndex((c) => c.parserId === config.parserId),
+    );
+  }
+  return found;
+}
+
+export interface ViewRow {
+  flag: string;
+  label: string;
+  // As written on the command line (e.g. "Puzzle" "Fun").
+  value: string;
+  // The value itself, unquoted (lists: one per line).
+  raw: string;
+  required: boolean;
+  // Set when the setting isn't used by this parser.
+  unused?: string;
+}
+
+// A parser's settings, as the options that set them: the given ones (in
+// that order), or every one that applies to it.
+export function viewParser(
   core: Core,
   ref: string,
-): Result<{
-  config: UserConfiguration;
-  rows: { flag: string; label: string; value: string; required: boolean }[];
-}> {
+  flags: string[] = [],
+): Result<{ config: UserConfiguration; rows: ViewRow[] }> {
   const found = findParser(core, ref);
   if (!found.ok) return { ok: false, errors: found.errors };
   const { config } = found.value;
-  const rows = allFields()
-    .filter((field) => field.appliesTo(config))
-    .map((field) => ({
+  const fields = allFields();
+  const unknown = flags.filter((flag) => !fields.some((f) => f.flag === flag));
+  if (unknown.length) {
+    return {
+      ok: false,
+      errors: unknown.map((flag) => `Unknown option --${flag}`),
+    };
+  }
+  const chosen = flags.length
+    ? flags.map((flag) => {
+        const candidates = fields.filter((f) => f.flag === flag);
+        return (
+          candidates.find((f) => f.parserType === config.parserType) ??
+          candidates[0]
+        );
+      })
+    : fields.filter((field) => field.appliesTo(config));
+  const rows = chosen.map((field): ViewRow => {
+    const value = getFieldValue(config, field);
+    const list = Array.isArray(value);
+    const none =
+      isEmpty(value) && !["text", "path", "dir"].includes(field.kind);
+    return {
       flag: `--${field.flag}`,
       label: field.label,
-      value:
-        isEmpty(getFieldValue(config, field)) &&
-        field.kind !== "text" &&
-        field.kind !== "path" &&
-        field.kind !== "dir"
-          ? "(none)"
-          : show(getFieldValue(config, field)),
+      value: none ? "(none)" : show(value),
+      raw: list ? value.join("\n") : value == null ? "" : String(value),
       required: field.required,
-    }));
+      unused: field.appliesTo(config)
+        ? undefined
+        : notApplicable(field, config),
+    };
+  });
   return { ok: true, value: { config, rows } };
 }
 

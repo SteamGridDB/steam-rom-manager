@@ -12,20 +12,21 @@ export type CliCommand =
   | "create-parser"
   | "edit-parser"
   | "delete-parser"
-  | "show-parser";
+  | "view-parser";
 
 export interface CliRequest {
   command: CliCommand;
-  // Parser ids, or names with `names` (delete-parser: ids or names).
+  // Parsers, by id or name.
   parsers: string[];
   all: boolean;
-  names: boolean;
   // add/remove: run just `parsers`, enabled or not.
   only: boolean;
-  // edit-parser/show-parser: the parser, by id or name.
+  // edit-parser/view-parser: the parser, by id or name.
   parser?: string;
   // create-parser/edit-parser: the settings given, by option name.
   fields?: FieldInput;
+  // view-parser: the settings to show (option names; none: all).
+  show?: string[];
 }
 
 export interface ParseOptions {
@@ -50,14 +51,12 @@ export function parseCliArgs(
   const parsersOption = (verb: string) => (y: any) =>
     y
       .positional("parsers", {
-        describe: `Parsers to ${verb}: ids (see "list"), or names with --names`,
+        describe: `Parsers to ${verb}: ids or names (see "list")`,
         type: "string",
         array: true,
       })
-      .option("names", {
-        describe: "Match parsers by name (emoji left out) instead of id",
-        type: "boolean",
-      });
+      // Older scripts pass --names; ids and names both work now.
+      .option("names", { type: "boolean", hidden: true });
   const set =
     (command: CliCommand) =>
     (argv: any): void => {
@@ -65,12 +64,16 @@ export function parseCliArgs(
         command,
         parsers: (argv.parsers ?? []).map(String),
         all: !!argv.all,
-        names: !!argv.names,
         only: !!argv.only,
       };
       if (argv.parser !== undefined) request.parser = String(argv.parser);
       if (command === "create-parser" || command === "edit-parser") {
         request.fields = fieldOptions.given(argv);
+      }
+      if (command === "view-parser") {
+        request.show = Object.entries(fieldOptions.given(argv))
+          .filter(([, on]) => on === true)
+          .map(([flag]) => flag);
       }
     };
   // Parser settings as options (help and checks come from the shared field
@@ -167,31 +170,32 @@ export function parseCliArgs(
       set("delete-parser"),
     )
     .command(
-      ["show-parser <parser>", "show <parser>"],
-      "Show a parser's settings, as the options that change them",
+      ["view-parser <parser>", "view <parser>", "show <parser>"],
+      "Show a parser's settings: the ones named (e.g. view <parser> --type --name), or all that apply to it",
       (y: any) =>
-        y.positional("parser", {
-          describe: 'The parser: its id or its name (see "list")',
-          type: "string",
-        }),
-      set("show-parser"),
+        fieldOptions.declare(
+          y.positional("parser", {
+            describe: 'The parser: its id or its name (see "list")',
+            type: "string",
+          }),
+          "view",
+        ),
+      set("view-parser"),
     )
     .example("$0 list", "")
     .example(
       "$0 add --only 1234567890 2345678901",
       "Add games from two parsers",
     )
-    .example(
-      '$0 remove --only --names "Snes9x (SNES)"',
-      "Remove one parser's games",
-    )
-    .example('$0 enable --names "Snes9x (SNES)" "Dolphin (GameCube)"', "")
+    .example('$0 remove --only "Snes9x (SNES)"', "Remove one parser's games")
+    .example('$0 enable "Snes9x (SNES)" "Dolphin (GameCube)"', "")
     .example("$0 disable --all", "")
     .example(
       '$0 create --type Glob --name "My SNES" --rom-directory D:/ROMs/SNES --glob "${title}.sfc"',
       "",
     )
     .example('$0 edit "My SNES" --steam-categories "Puzzle" "Fun"', "")
+    .example('$0 view "My SNES" --type --rom-directory', "")
     .epilogue(steamNote)
     .wrap(Math.min(100, process.stdout.columns || 100))
     .exitProcess(exitProcess);

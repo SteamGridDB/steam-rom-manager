@@ -432,29 +432,6 @@ export class ParsersStore {
     return this.save();
   }
 
-  // Maps CLI parser arguments to parser ids: ids as given, or titles with
-  // emoji/non-ASCII stripped when `byName`. Unknown names are returned.
-  resolveParserIds(
-    args: string[],
-    byName: boolean,
-  ): { ids: string[]; missing: string[] } {
-    if (!byName) {
-      return { ids: args, missing: [] };
-    }
-    // Emoji left out; also the space before them ("Snes9x (SNES) 📺").
-    const plain = (title: string) => title.replace(/[^\x20-\x7E]+/g, "").trim();
-    const names = args.map((name) => name.trim());
-    return {
-      ids: this.configs
-        .filter((config) => names.includes(plain(config.configTitle)))
-        .map((config) => config.parserId),
-      missing: args.filter(
-        (name) =>
-          !this.configs.some((c) => plain(c.configTitle) === name.trim()),
-      ),
-    };
-  }
-
   setAllEnabled(enabled: boolean): Promise<void> {
     for (const config of this.configs) {
       config.disabled = !enabled;

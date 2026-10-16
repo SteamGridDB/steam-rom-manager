@@ -26,7 +26,6 @@ export const rpcApi = {
       "getKnownSteamDirectories",
       "validate",
       "isConfigurationValid",
-      "resolveParserIds",
       "getControllerTemplatesCache",
       "setControllerTemplatesCache",
       "add",

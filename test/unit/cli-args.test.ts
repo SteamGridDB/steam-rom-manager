@@ -29,7 +29,6 @@ describe("parseCliArgs", () => {
       command: "add",
       parsers: [],
       all: false,
-      names: false,
       only: false,
     });
     expect(parse("disable", "--all").request).toMatchObject({
@@ -37,11 +36,15 @@ describe("parseCliArgs", () => {
       all: true,
     });
     expect(
-      parse("enable", "--names", "Snes9x (SNES)", "Dolphin (GameCube)").request,
+      parse("enable", "Snes9x (SNES)", "Dolphin (GameCube)").request,
     ).toMatchObject({
       command: "enable",
-      names: true,
       parsers: ["Snes9x (SNES)", "Dolphin (GameCube)"],
+    });
+    // older scripts' --names still works (ids and names both do now)
+    expect(parse("disable", "--names", "Snes9x (SNES)").request).toMatchObject({
+      command: "disable",
+      parsers: ["Snes9x (SNES)"],
     });
   });
 
@@ -53,12 +56,9 @@ describe("parseCliArgs", () => {
       only: true,
       parsers: ["167883018714467028", "16801455676611057"],
     });
-    expect(
-      parse("remove", "--only", "--names", "Snes9x (SNES)").request,
-    ).toMatchObject({
+    expect(parse("remove", "--only", "Snes9x (SNES)").request).toMatchObject({
       command: "remove",
       only: true,
-      names: true,
       parsers: ["Snes9x (SNES)"],
     });
   });
@@ -88,7 +88,7 @@ describe("parseCliArgs", () => {
     expect(printed).not.toMatch(/\n\s+(age|sage|ge):/);
     const addHelp = parse("add", "--help").printed;
     expect(addHelp).toContain("--only");
-    expect(addHelp).toContain("--names");
+    expect(addHelp).not.toContain("--names");
   });
 
   it("create/edit: parser settings as options (lists, switches, any spelling of names)", () => {
@@ -125,10 +125,20 @@ describe("parseCliArgs", () => {
       command: "delete-parser",
       parsers: ["a", "My Parser"],
     });
-    expect(parse("show", "a").request).toMatchObject({
-      command: "show-parser",
+    expect(parse("view", "a", "--type", "--name").request).toMatchObject({
+      command: "view-parser",
       parser: "a",
+      show: ["type", "name"],
     });
+    // everything when nothing is named; "show" is another name for it
+    expect(parse("show", "a").request).toMatchObject({
+      command: "view-parser",
+      parser: "a",
+      show: [],
+    });
+    expect(parse("view", "a", "--romdir").error?.message).toBe(
+      "Unknown option --romdir (did you mean --rom-directory?)",
+    );
   });
 
   it("create/edit: unknown options are refused, with a suggestion", () => {

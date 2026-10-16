@@ -254,13 +254,37 @@ describe("parser commands (headless Core)", () => {
     ]);
   });
 
+  it("view: the named settings in order, or all that apply", async () => {
+    const core = await loadCore();
+    const { rows } = commands.viewParser(core, "Snes9x (SNES)", [
+      "type",
+      "name",
+      "steam-categories",
+    ]).value;
+    expect(rows.map((r) => [r.flag, r.raw, r.value])).toEqual([
+      ["--type", "Glob", '"Glob"'],
+      ["--name", "Snes9x (SNES) 📺", '"Snes9x (SNES) 📺"'],
+      ["--steam-categories", "", "(none)"],
+    ]);
+    // a setting this parser doesn't use says so
+    expect(
+      commands.viewParser(core, "steam", ["rom-directory"]).value.rows[0]
+        .unused,
+    ).toBe(
+      "--rom-directory doesn't apply here (ROM parsers only: Glob, Glob-regex)",
+    );
+    expect(commands.viewParser(core, "steam", ["nope"]).errors).toEqual([
+      "Unknown option --nope",
+    ]);
+  });
+
   it("delete: all or nothing; show: the settings that apply", async () => {
     const core = await loadCore();
     expect(commands.deleteParsers(core, ["snes", "nope"]).errors).toEqual([
       'No parser with id or name "nope" (see "srm list")',
     ]);
     expect(onDisk()).toHaveLength(2);
-    const shown = commands.describeParser(core, "steam").value.rows;
+    const shown = commands.viewParser(core, "steam").value.rows;
     expect(shown.map((r) => r.flag)).toContain("--parse-strategy");
     expect(shown.map((r) => r.flag)).not.toContain("--rom-directory");
     expect(commands.deleteParsers(core, ["steam"]).value).toHaveLength(1);
