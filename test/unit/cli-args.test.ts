@@ -141,6 +141,22 @@ describe("parseCliArgs", () => {
     );
   });
 
+  it("--parser-type is --type (the app reruns --type commands with it: Chromium reserves --type)", () => {
+    for (const args of [
+      ["create", "--parser-type", "glob", "--name", "x"],
+      ["create", "--parser-type=glob", "--name", "x"],
+    ]) {
+      expect(parse(...args).request.fields).toEqual({
+        type: "glob",
+        name: "x",
+      });
+    }
+    expect(parse("view", "a", "--parser-type").request.show).toEqual(["type"]);
+    expect(
+      parse("create", "--parser-type", "Steam", "--help").printed,
+    ).not.toContain("--rom-directory");
+  });
+
   it("create/edit: unknown options are refused, with a suggestion", () => {
     expect(
       parse("create", "--type", "glob", "--rom-dir", "x").error?.message,
@@ -173,6 +189,7 @@ describe("parseCliArgs", () => {
     );
     expect(required.match(/--[a-z-]+/g)).toEqual([
       "--type",
+      "--parser-type", // (shown as its other name)
       "--name",
       "--rom-directory",
       "--glob",

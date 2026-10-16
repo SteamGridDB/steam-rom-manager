@@ -13,6 +13,10 @@ import { ParserField, emptyValue, getFieldValue } from "../core/parser-fields";
 
 type Mode = "create" | "edit" | "view";
 
+// Another name for --type: Chromium reserves --type, so the app reruns a
+// command given --type with this instead (src/main/app.ts).
+const typeAlias = "parser-type";
+
 const loose = (text: string) => text.toLowerCase().replace(/[^a-z0-9]/g, "");
 const camel = (flag: string) =>
   flag.replace(/-([a-z0-9])/g, (_m, c: string) => c.toUpperCase());
@@ -22,8 +26,10 @@ const camel = (flag: string) =>
 function typeFromArgs(args: string[]): ParserType | undefined {
   let given: string | undefined;
   args.forEach((arg, i) => {
-    if (arg === "--type") given = args[i + 1];
-    else if (arg.startsWith("--type=")) given = arg.slice("--type=".length);
+    for (const flag of ["--type", `--${typeAlias}`]) {
+      if (arg === flag) given = args[i + 1];
+      else if (arg.startsWith(`${flag}=`)) given = arg.slice(flag.length + 1);
+    }
   });
   return given === undefined
     ? undefined
@@ -118,6 +124,7 @@ export function parserFieldOptions(args: string[]) {
       for (const field of fields) {
         const hidden = !!helpType && !showsFor(field, helpType);
         y.option(field.flag, {
+          alias: field.id === "parserType" ? typeAlias : undefined,
           describe: describe(field, mode),
           type:
             mode === "view" || field.kind === "toggle" ? "boolean" : "string",
@@ -152,6 +159,8 @@ export function parserFieldOptions(args: string[]) {
         "version",
         // (older scripts; ids and names both work now)
         "names",
+        typeAlias,
+        camel(typeAlias),
       ]);
       for (const field of fields) {
         known.add(field.flag);
