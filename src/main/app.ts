@@ -19,6 +19,21 @@ import { envChannel } from "../bridge";
 import { runCli } from "./cli";
 import { parseCliArgs } from "./cli-args";
 import { startCoreForWindow } from "./core-host";
+import { spawnSync } from "child_process";
+
+// Chromium reserves --type for its own processes (--type=renderer, ...):
+// given the CLI's --type, this main process takes itself for one of them.
+// Rerun the same command with --type spelled --parser-type (an alias).
+const reserved = (arg: string) => arg === "--type" || arg.startsWith("--type=");
+if (hideBin(process.argv).some(reserved)) {
+  const args = process.argv
+    .slice(1)
+    .map((arg) =>
+      reserved(arg) ? arg.replace("--type", "--parser-type") : arg,
+    );
+  const rerun = spawnSync(process.execPath, args, { stdio: "inherit" });
+  process.exit(rerun.status ?? 1);
+}
 
 // Crash Reporting
 crashReporter.start({
@@ -41,6 +56,12 @@ if (cliRequest) {
   log.transports.console.level = "error";
   // The CLI runs headless; no window, no GPU.
   app.disableHardwareAcceleration();
+  // Chromium's own data (caches, cookies; not SRM's data) apart from the
+  // window's: sharing it with an open SRM window logs cache errors.
+  app.setPath(
+    "sessionData",
+    path.join(app.getPath("temp"), "steam-rom-manager-cli"),
+  );
 } else {
   log.transports.file.level = "info";
   log.transports.console.level = "info";
