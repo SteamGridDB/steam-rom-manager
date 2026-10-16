@@ -11,6 +11,8 @@ import {
 } from "../core/parser-commands";
 import { ParserField, emptyValue, getFieldValue } from "../core/parser-fields";
 
+type Mode = "create" | "edit" | "view";
+
 const loose = (text: string) => text.toLowerCase().replace(/[^a-z0-9]/g, "");
 const camel = (flag: string) =>
   flag.replace(/-([a-z0-9])/g, (_m, c: string) => c.toUpperCase());
@@ -66,7 +68,9 @@ export function parserFieldOptions(args: string[]) {
     return `Default: ${Array.isArray(value) ? value.map(shown).join(" ") : shown(value)}`;
   };
 
-  const describe = (field: ParserField, mode: "create" | "edit") => {
+  const describe = (field: ParserField, mode: Mode) => {
+    // view: the option just names the setting
+    if (mode === "view") return field.label.replace(/[:.]\s*$/, "");
     const parts: string[] = [field.label.replace(/[:.]\s*$/, "")];
     if (field.required) {
       const note = helpType || field.parserType ? "" : appliesNote(field);
@@ -104,8 +108,9 @@ export function parserFieldOptions(args: string[]) {
   };
 
   return {
-    // Adds the options, help groups and checks to a create/edit command.
-    declare(y: any, mode: "create" | "edit") {
+    // Adds the options, help groups and checks to a create/edit/view
+    // command (view: every option is a switch naming a setting to show).
+    declare(y: any, mode: Mode) {
       // (required first)
       const groups = new Map<string, string[]>([["Required:", []]]);
       const addTo = (group: string, flag: string) =>
@@ -114,8 +119,11 @@ export function parserFieldOptions(args: string[]) {
         const hidden = !!helpType && !showsFor(field, helpType);
         y.option(field.flag, {
           describe: describe(field, mode),
-          type: field.kind === "toggle" ? "boolean" : "string",
-          array: field.kind === "list" || field.kind === "multiselect",
+          type:
+            mode === "view" || field.kind === "toggle" ? "boolean" : "string",
+          array:
+            mode !== "view" &&
+            (field.kind === "list" || field.kind === "multiselect"),
           hidden,
         });
         if (hidden) continue;
@@ -136,7 +144,15 @@ export function parserFieldOptions(args: string[]) {
       for (const [name, flags] of groups)
         if (flags.length) y.group(flags, name);
 
-      const known = new Set<string>(["_", "$0", "parser", "help", "version"]);
+      const known = new Set<string>([
+        "_",
+        "$0",
+        "parser",
+        "help",
+        "version",
+        // (older scripts; ids and names both work now)
+        "names",
+      ]);
       for (const field of fields) {
         known.add(field.flag);
         known.add(camel(field.flag));
@@ -161,6 +177,15 @@ export function parserFieldOptions(args: string[]) {
         }
         return true;
       });
+      if (mode === "view") {
+        y.epilogue(
+          [
+            "Name the settings to show, e.g. --type --name; with none, every setting that applies to the parser is shown.",
+            "With one setting, just its value is printed (lists: one per line), for scripts.",
+          ].join("\n"),
+        );
+        return y;
+      }
       y.epilogue(
         [
           `Parser types: ${availableParsers.join(", ")}.`,
@@ -192,11 +217,15 @@ export function parserFieldOptions(args: string[]) {
 function closest(typo: string, options: string[]): string | undefined {
   let best: string | undefined;
   let bestScore = Infinity;
+  // (hyphens ignored: --romdir is --rom-directory)
+  const bare = (s: string) => s.replace(/-/g, "").toLowerCase();
+  const t = bare(typo);
   for (const option of options) {
+    const o = bare(option);
     const score =
-      option.startsWith(typo) || typo.startsWith(option)
-        ? Math.abs(option.length - typo.length) / 4
-        : distance(typo, option);
+      o.startsWith(t) || t.startsWith(o)
+        ? Math.abs(o.length - t.length) / 4
+        : distance(t, o);
     if (score < bestScore) {
       bestScore = score;
       best = option;

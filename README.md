@@ -88,7 +88,7 @@ Artwork only parsers allow you to change the artwork for existing non-SRM games.
 
 SRM has a fully featured command line interface, documented in the [wiki](https://github.com/SteamGridDB/steam-rom-manager/wiki/Command-Line-Interface). `srm --help` lists the commands.
 
-Parsers can be created, changed, deleted and shown from it (`create`, `edit`, `delete`, `show`). Every setting the parser editor has is an option, with the same required settings and the same checks: both read the field catalog in `src/core/parser-fields.ts`, and its tests keep "required" in step with validation. `srm create --type <type> --help` lists that type's settings, required ones first.
+Parsers can be created, changed, viewed and deleted from it (`create`, `edit`, `view`, `delete`), and every command that takes parsers accepts their ids or names. Every setting the parser editor has is an option, with the same required settings and the same checks: both read the field catalog in `src/core/parser-fields.ts`, and its tests keep "required" in step with validation. `srm create --type <type> --help` lists that type's settings, required ones first.
 
 ## Building SRM
 

@@ -127,33 +127,44 @@ describe("CLI commands (headless Core)", () => {
   const state = () =>
     normalize(readSteamUserState(steamDir, ACCOUNT), { ROOT: root });
 
-  it("list and enable/disable by id, emoji-stripped name, or all", async () => {
+  it("list and enable/disable by id or (emoji-stripped) name, or all", async () => {
     const { core } = await loadCore();
     expect(cli.list(core).map((c) => [c.configTitle, c.disabled])).toEqual([
       ["Snes9x (SNES) 📺", false],
       ["Other", true],
     ]);
-    await cli.setEnabled(core, output, false, {
-      all: false,
-      names: true,
-      parsers: ["Snes9x (SNES) ", "Nope"],
-    });
-    await cli.setEnabled(core, output, true, {
-      all: false,
-      names: false,
-      parsers: ["other", "missing-id"],
-    });
+    const onDisk = () =>
+      JSON.parse(fs.readFileSync(paths.userConfigurations, "utf8")).map(
+        (c: any) => c.disabled,
+      );
+    // all or nothing: an unknown parser changes nothing
+    expect(
+      await cli.setEnabled(core, output, false, {
+        all: false,
+        parsers: ["Snes9x (SNES) ", "Nope"],
+      }),
+    ).toBe(false);
+    expect(onDisk()).toEqual([false, true]);
+    expect(
+      await cli.setEnabled(core, output, false, {
+        all: false,
+        parsers: ["snes9x (snes)"],
+      }),
+    ).toBe(true);
+    expect(
+      await cli.setEnabled(core, output, true, {
+        all: false,
+        parsers: ["other"],
+      }),
+    ).toBe(true);
     expect(out.lines).toEqual([
-      "Could not find parser Nope",
-      "Disabled parser snes",
-      "Enabled parser other",
-      "Could not enable missing-id. No such parser exists.",
+      'No parser with id or name "Nope" (see "srm list")',
+      'Disabled parser "Snes9x (SNES) 📺" (id snes)',
+      'Enabled parser "Other" (id other)',
     ]);
-    const saved = JSON.parse(fs.readFileSync(paths.userConfigurations, "utf8"));
-    expect(saved.map((c: any) => c.disabled)).toEqual([true, false]);
+    expect(onDisk()).toEqual([true, false]);
     await cli.setEnabled(core, output, true, {
       all: true,
-      names: false,
       parsers: [],
     });
     expect(cli.list(core).every((c) => !c.disabled)).toBe(true);
@@ -263,7 +274,7 @@ describe("CLI commands (headless Core)", () => {
       out.lines.length = 0;
       expect(
         await cli.add((await loadCore()).core, output, {
-          only: { parsers: ["other"], names: false },
+          only: ["other"],
         }),
       ).toBe(true);
       expect(out.lines[0]).toBe("Running only: Other");
@@ -278,7 +289,7 @@ describe("CLI commands (headless Core)", () => {
       // by (emoji-stripped) name: removes only that parser's games
       expect(
         await cli.remove((await loadCore()).core, output, {
-          only: { parsers: ["Snes9x (SNES)"], names: true },
+          only: ["Snes9x (SNES)"],
         }),
       ).toBe(true);
       expect(appnames()).toEqual([
@@ -290,7 +301,7 @@ describe("CLI commands (headless Core)", () => {
 
     it("is what keeps other parsers' games: a plain add deletes them (deleteDisabledShortcuts)", async () => {
       await cli.add((await loadCore()).core, output, {
-        only: { parsers: ["other"], names: false },
+        only: ["other"],
       });
       expect(appnames()).toContain("Metroid Fusion (USA)");
       await cli.add((await loadCore()).core, output);
@@ -301,10 +312,12 @@ describe("CLI commands (headless Core)", () => {
       const before = state();
       expect(
         await cli.add((await loadCore()).core, output, {
-          only: { parsers: ["other", "nope"], names: false },
+          only: ["other", "nope"],
         }),
       ).toBe(false);
-      expect(out.lines).toEqual(["Could not find parser nope"]);
+      expect(out.lines).toEqual([
+        'No parser with id or name "nope" (see "srm list")',
+      ]);
       expect(state()).toEqual(before);
     });
   });
