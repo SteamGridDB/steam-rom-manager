@@ -574,6 +574,12 @@
         @include clickButtonColor(click-button);
         margin-bottom: 1em;
         margin-right: 1em;
+        // The panel is the buttons' own surface: step them up and outline
+        // them so they read as buttons.
+        &:not(:hover):not(:active) {
+          background-color: var(--srm-surface-hover);
+          border-color: var(--srm-border-strong);
+        }
       }
     }
   }

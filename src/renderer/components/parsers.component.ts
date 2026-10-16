@@ -44,7 +44,8 @@ import {
   TitleModifiers,
 } from "../../models";
 import { Subscription, of, concat, combineLatest } from "rxjs";
-import { map } from "rxjs/operators";
+import { distinctUntilChanged, map } from "rxjs/operators";
+import { commonField } from "../../core/parser-fields";
 import { APP } from "../../variables";
 import * as _ from "lodash";
 import {
@@ -121,7 +122,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           label: this.lang.label.parserType,
           placeholder: this.lang.placeholder.parserType,
           sectionsMap: parserInfo.superTypesMap,
-          required: true,
+          required: commonField("parserType").required,
           values: parserInfo.availableParsers,
           onValidate: (self, path) =>
             this.parsersService.validate(
@@ -147,7 +148,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         configTitle: new NestedFormElement.Input({
           placeholder: this.lang.placeholder.configTitle,
-          required: true,
+          required: commonField("configTitle").required,
           label: this.lang.label.configTitle,
           onValidate: (self, path) =>
             this.parsersService.validate(
@@ -172,7 +173,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         steamDirectory: new NestedFormElement.Input({
           path: { directory: true },
           placeholder: this.lang.placeholder.steamDirectory[APP.osType],
-          required: true,
+          required: commonField("steamDirectory").required,
           label: this.lang.label.steamDirectory,
           highlight: this.highlight.bind(this),
           onValidate: (self, path) =>
@@ -198,7 +199,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           children: {
             specifiedAccounts: new NestedFormElement.Bubble({
               label: this.lang.label.userAccounts,
-              required: true,
+              required: commonField("userAccounts.specifiedAccounts").required,
               onValidate: (self, path) => {
                 let serialized: { [k: string]: any } = {};
                 serialized[path[1]] = self.value;
@@ -234,8 +235,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         romDirectory: new NestedFormElement.Input({
           path: { directory: true },
           placeholder: this.lang.placeholder.romDirectory[APP.osType],
-          required: true,
-          isHidden: () => this.isHiddenIfNotRomsParser(),
+          required: commonField("romDirectory").required,
+          isHidden: () => this.hiddenUnlessApplies("romDirectory"),
           label: this.lang.label.romDirectory,
           highlight: this.highlight.bind(this),
           onValidate: (self, path) =>
@@ -249,7 +250,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         steamCategories: new NestedFormElement.Bubble({
-          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+          isHidden: () => this.hiddenUnlessApplies("steamCategories"),
           addable: true,
           label: this.lang.label.steamCategories,
           onValidate: (self, path) =>
@@ -383,7 +384,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           isHidden: () => this.isHiddenIfNotRomsParser(),
         }),
         executable: new NestedFormElement.Group({
-          isHidden: () => this.isHiddenIfNotRomsParser(),
+          isHidden: () => this.hiddenUnlessApplies("executable.path"),
           children: {
             path: new NestedFormElement.Input({
               path: { directory: false },
@@ -413,14 +414,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               text: this.lang.text.shortcut_passthrough,
             }),
             appendArgsToExecutable: new NestedFormElement.Toggle({
-              isHidden: () => this.isHiddenIfNotRomsParser(),
+              isHidden: () =>
+                this.hiddenUnlessApplies("executable.appendArgsToExecutable"),
               text: this.lang.text.appendArgsToExecutable,
             }),
           },
         }),
         executableArgs: new NestedFormElement.Input({
           placeholder: this.lang.placeholder.executableArgs,
-          isHidden: () => this.isHiddenIfNotRomsParser(),
+          isHidden: () => this.hiddenUnlessApplies("executableArgs"),
           label: this.lang.label.executableArgs,
           highlight: this.highlight.bind(this),
           important: true,
@@ -436,7 +438,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         executableModifier: new NestedFormElement.Input({
-          isHidden: () => this.isHiddenIfNotRomsParser(),
+          isHidden: () => this.hiddenUnlessApplies("executableModifier"),
           highlight: this.highlight.bind(this),
           label: this.lang.label.executableModifier,
           placeholder: this.lang.placeholder.executableModifier,
@@ -456,7 +458,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           placeholder: this.lang.placeholder.startInDirectory[APP.osType],
           label: this.lang.label.startInDirectory,
           highlight: this.highlight.bind(this),
-          isHidden: () => this.isHiddenIfNotRomsParser(),
+          isHidden: () => this.hiddenUnlessApplies("startInDirectory"),
           onValidate: (self, path) =>
             this.parsersService.validate(
               path[0] as keyof UserConfiguration,
@@ -475,7 +477,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         titleModifier: new NestedFormElement.Input({
           highlight: this.highlight.bind(this),
-          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+          isHidden: () => this.hiddenUnlessApplies("titleModifier"),
           placeholder: this.lang.placeholder.titleModifier,
           label: this.lang.label.titleModifier,
           onValidate: (self, path) =>
@@ -489,7 +491,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         titleFromVariable: new NestedFormElement.Group({
-          isHidden: () => this.isHiddenIfNotRomsParser(),
+          isHidden: () =>
+            this.hiddenUnlessApplies("titleFromVariable.limitToGroups"),
           label: this.lang.label.titleFromVariable,
           children: {
             limitToGroups: new NestedFormElement.Select({
@@ -512,7 +515,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         sortAsFromVariable: new NestedFormElement.Group({
-          isHidden: () => this.isHiddenIfNotRomsParser(),
+          isHidden: () =>
+            this.hiddenUnlessApplies("sortAsFromVariable.limitToGroups"),
           label: this.lang.label.sortAsFromVariable,
           children: {
             limitToGroups: new NestedFormElement.Select({
@@ -530,7 +534,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         fuzzyMatch: new NestedFormElement.Group({
           label: this.lang.label.fuzzyMatch,
-          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+          isHidden: () => this.hiddenUnlessApplies("fuzzyMatch.removeBrackets"),
           children: {
             replaceDiacritics: new NestedFormElement.Toggle({
               text: this.lang.text.fuzzy_replaceDiacritic,
@@ -563,7 +567,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
         }),
         steamInputEnabled: new NestedFormElement.Select({
-          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+          isHidden: () => this.hiddenUnlessApplies("steamInputEnabled"),
           label: this.lang.label.steamInputEnabled,
           placeholder: this.lang.placeholder.steamInputEnabled,
           values: [
@@ -606,7 +610,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           isHidden: () => this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
         }),
         compatToolName: new NestedFormElement.Select({
-          isHidden: () => this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
+          isHidden: () => this.hiddenUnlessApplies("compatToolName"),
           label: this.lang.label.compatToolName,
           placeholder: this.lang.placeholder.compatToolName,
           multiple: false,
@@ -617,14 +621,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         compatToolNameCustom: new NestedFormElement.Input({
           // Only shown when "Custom…" is picked; the select itself is already
           // hidden (and stays "") for artwork-only parsers or non-Linux OSes.
-          isHidden: () =>
-            combineLatest([
-              this.observeField(
-                "compatToolName",
-                (value: string) => value !== COMPAT_CUSTOM,
-              ),
-              this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
-            ]).pipe(map(([notCustom, hidden]) => notCustom || hidden)),
+          isHidden: () => this.hiddenUnlessApplies("compatToolNameCustom"),
           label: this.lang.label.compatToolNameCustom,
           placeholder: this.lang.placeholder.compatToolNameCustom,
         }),
@@ -1507,6 +1504,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       of(this.userForm.get(path).value),
       this.userForm.get(path).valueChanges,
     ).pipe(map(decider));
+  }
+  // Hidden unless the field applies to the parser as it stands (the rules
+  // are shared with the command line: core/parser-fields.ts).
+  private hiddenUnlessApplies(id: string) {
+    const field = commonField(id);
+    return concat(of(null), this.userForm.valueChanges).pipe(
+      map(() => !field.appliesTo(this.userForm.getRawValue())),
+      distinctUntilChanged(),
+    );
   }
   private isHiddenIfNoProvider(providerKey: OnlineProviderType) {
     return this.observeField(
