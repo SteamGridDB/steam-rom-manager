@@ -9,6 +9,7 @@
     "email": "cbartondock@gmail.com"
   },
   "build": {
+    "npmRebuild": false,
     "appId": "SteamGridDB.SteamROMManager",
     "productName": "Steam ROM Manager",
     "compression": "normal",
@@ -44,7 +45,6 @@
     },
     "files": [
       "dist/**/*",
-      "workers/*",
       "package.json"
     ],
     "publish": {
@@ -58,7 +58,6 @@
     "url": "https://github.com/SteamGridDB/steam-rom-manager"
   },
   "scripts": {
-    "postinstall": "electron-builder install-app-deps",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit -p .",
@@ -82,7 +81,10 @@
     "build:linux": "electron-builder --linux --x64 --arm64",
     "build:mac": "electron-builder --mac --x64 --arm64",
     "build:linuxdir": "electron-builder --linux --x64 --dir && echo '24.1.3' > release/linux-unpacked/version && cp LICENSE release/linux-unpacked/",
-    "build:flatpak": "electron-installer-flatpak --src release/linux-unpacked --dest release/ --arch x64 --config flatconf.json"
+    "build:flatpak": "electron-installer-flatpak --src release/linux-unpacked --dest release/ --arch x64 --config flatconf.json",
+    "prebuild:cli-bundle": "yarn run prepare:build",
+    "build:cli-bundle": "cross-env NODE_ENV=production webpack --config ./webpack/cli.js",
+    "build:cli": "yarn run build:cli-bundle && ts-node ./scripts/build-cli.ts"
   },
   "dependencies": {
     "@angular/animations": "^18.2.4",
@@ -99,7 +101,6 @@
     "angular-draggable-droppable": "^8.0.0",
     "async": "^3.2.6",
     "bcp-47": "^2.1.0",
-    "better-sqlite3": "^11.3.0",
     "binary-vdf-2": "^0.2.2",
     "blizzard-product-parser": "https://github.com/cbartondock/blizzard-product-parser.git",
     "chai": "^5.1.1",
@@ -166,7 +167,7 @@
     "autoprefixer": "^10.4.20",
     "cross-env": "^7.0.3",
     "css-loader": "^7.1.2",
-    "electron": "^32.1.0",
+    "electron": "44.7.2",
     "electron-builder": "^26.3.5",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.0",
@@ -175,6 +176,7 @@
     "npm-check-updates": "^17.1.1",
     "postcss": "^8.5.10",
     "postcss-loader": "^8.1.1",
+    "postject": "1.0.0-alpha.6",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
     "sass": "^1.78.0",

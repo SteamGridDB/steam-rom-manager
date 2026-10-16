@@ -90,6 +90,8 @@ SRM has a fully featured command line interface, documented in the [wiki](https:
 
 Parsers can be created, changed, viewed and deleted from it (`create`, `edit`, `view`, `delete`), and every command that takes parsers accepts their ids or names. Every setting the parser editor has is an option, with the same required settings and the same checks: both read the field catalog in `src/core/parser-fields.ts`, and its tests keep "required" in step with validation. `srm create --type <type> --help` lists that type's settings, required ones first.
 
+The command line also comes on its own, without the app: `srm-cli-<version>-<os>-<arch>` in each release (Windows `.exe`; Linux and macOS `.tar.gz` holding `srm`), for x64 and arm64. It's a single executable (Node's [single executable applications](https://nodejs.org/api/single-executable-applications.html)) with the same commands, and it uses the installed app's data (`steam-rom-manager/userData` in the system's app data folder), or a `userData` folder next to it if there is one (portable). `SRM_USER_DATA_DIR` overrides both. Build it with `yarn build:cli` (this OS, both architectures); `scripts/build-cli.ts` has the details.
+
 ## Building SRM
 
 To compile this app, you'll need the latest `Node.js` and `yarn`. Every script will need to be run from the project directory.
@@ -100,27 +102,27 @@ Before running any scripts, dependencies must be installed using:
 yarn install
 ```
 
-Unfortunately, because of an issue with `better-sqlite3` you will most likely also have to run `yarn install` after building for windows if you want `yarn run start` to work. Otherwise, you will likely see the runtime error `better-sqlite3 is not a valid win32 application`.
-
 ## Scripts
 
 All script must be run using `yarn run` command. For example, `yarn run watch:renderer`.
 
-| Script           | Function                                                            |
-| ---------------- | ------------------------------------------------------------------- |
-| `postinstall`    | Recompiles native apps to match Electron's NodeJS version if needed |
-| `start`          | Launches compiled app                                               |
-| `watch:main`     | Compiles Electron app and watches for changes                       |
-| `watch:renderer` | Compiles a renderer for an Electron app and watches for changes     |
-| `build:main`     | Compiles Electron app in production mode                            |
-| `build:renderer` | Compiles a renderer for an Electron app in production mode          |
-| `build:dist`     | Runs `build:main` and `build:renderer`                              |
-| `build:win`      | Compiles an executable installer for Windows                        |
-| `build:linux`    | Compiles a `deb` package and `AppImage` for linux                   |
-| `build:linuxdir` | Builds an unpacked linux x64 version for use with flatpak           |
-| `build:flatpak`  | Builds a flatpak from the unpacked linux version                    |
-| `build:docker`   | `build:win` and `build:linux` joined together                       |
-| `build:mac`      | Compiles a `dmg` package for MacOS                                  |
+| Script             | Function                                                            |
+| ------------------ | ------------------------------------------------------------------- |
+| `postinstall`      | Recompiles native apps to match Electron's NodeJS version if needed |
+| `start`            | Launches compiled app                                               |
+| `watch:main`       | Compiles Electron app and watches for changes                       |
+| `watch:renderer`   | Compiles a renderer for an Electron app and watches for changes     |
+| `build:main`       | Compiles Electron app in production mode                            |
+| `build:renderer`   | Compiles a renderer for an Electron app in production mode          |
+| `build:dist`       | Runs `build:main` and `build:renderer`                              |
+| `build:win`        | Compiles an executable installer for Windows                        |
+| `build:linux`      | Compiles a `deb` package and `AppImage` for linux                   |
+| `build:linuxdir`   | Builds an unpacked linux x64 version for use with flatpak           |
+| `build:flatpak`    | Builds a flatpak from the unpacked linux version                    |
+| `build:docker`     | `build:win` and `build:linux` joined together                       |
+| `build:mac`        | Compiles a `dmg` package for MacOS                                  |
+| `build:cli-bundle` | Compiles the standalone command line to `dist-cli/srm.js`           |
+| `build:cli`        | Builds the standalone command line's executables into `release/cli` |
 
 ## Text and translations
 

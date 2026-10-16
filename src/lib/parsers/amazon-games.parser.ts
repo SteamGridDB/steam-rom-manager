@@ -57,7 +57,7 @@ export class AmazonGamesParser implements GenericParser {
         }
         const sqliteWrapper = new SqliteWrapper("amazon-games", dbPath);
         sqliteWrapper
-          .callWorker()
+          .read()
           .then((games: { [k: string]: any }[]) => {
             const success = games
               .filter(

@@ -1,49 +1,74 @@
-import { fork } from "child_process";
-import * as fs from "fs-extra";
-import * as path from "path";
+// Reads a parser's SQLite database (GOG Galaxy, Amazon Games, itch.io)
+// with Node's own node:sqlite: no native module to build, in the app or the
+// standalone command line.
+export type SqliteTask = "gog-galaxy" | "amazon-games" | "itch.io";
 
 export class SqliteWrapper {
-  private dbPath;
-  private task;
-  private options;
+  constructor(
+    private task: SqliteTask,
+    private dbPath: string,
+    private options: { [k: string]: any } = {},
+  ) {}
 
-  constructor(task: string, dbPath: string, options?: { [k: string]: any }) {
-    this.dbPath = dbPath;
-    this.task = task;
-    this.options = options;
+  // (async for the parsers, which used to wait on a worker process)
+  async read(): Promise<any[]> {
+    const { DatabaseSync } = require("node:sqlite");
+    // read-only: the launchers may have their databases open
+    const db = new DatabaseSync(this.dbPath, { readOnly: true });
+    try {
+      return runTask(db, this.task, this.options);
+    } finally {
+      db.close();
+    }
   }
+}
 
-  // Work-around for calling fork inside a packed application
-  // https://github.com/electron/electron/issues/2708#issuecomment-137764698
-  callWorker() {
-    return new Promise((resolve, reject) => {
-      let cwd = path.join(__dirname, "../../..");
-      let workerPath;
-      if (fs.existsSync(path.join(cwd, "app.asar"))) {
-        workerPath = "app.asar/workers/sqlite-worker.js";
-      } else {
-        workerPath = "workers/sqlite-worker.js";
-        cwd = null;
-      }
-      try {
-        const sqliteWorker = fork(workerPath, [], {
-          cwd: cwd,
-        });
-        sqliteWorker.on("message", (data: { [k: string]: any }) => {
-          if (data.type === "error") {
-            reject(data.error);
-          } else if (data.type === "result") {
-            resolve(data.result);
+interface Db {
+  prepare(sql: string): { all(): any[] };
+}
+
+function runTask(db: Db, task: SqliteTask, options: { [k: string]: any }) {
+  switch (task) {
+    case "gog-galaxy": {
+      const details = db.prepare("select * from LimitedDetails").all();
+      const playtaskparams = db
+        .prepare("select * from PlayTaskLaunchParameters")
+        .all();
+      return db
+        .prepare("select * from PlayTasks")
+        .all()
+        .map((x) =>
+          Object.assign(x, {
+            productId: parseInt(x.gameReleaseKey.split("_").pop()),
+            productType: x.gameReleaseKey.split("_")[0],
+          }),
+        )
+        .filter(
+          (x) =>
+            x.productType == "gog" ||
+            (options.externals && x.productType == "generic"),
+        )
+        .filter((x) => x.isPrimary)
+        .map((x) => {
+          x.params = playtaskparams.filter((y) => y.playTaskId == x.id)[0];
+          const xdetails = details.filter((y) => y.productId == x.productId);
+          if (xdetails.length && xdetails[0]) {
+            x.title = xdetails[0].title;
           }
+          return x;
         });
-        sqliteWorker.send({
-          task: this.task,
-          dbPath: this.dbPath,
-          options: this.options,
-        });
-      } catch (error) {
-        reject(error);
-      }
-    });
+    }
+    case "amazon-games":
+      return db
+        .prepare(
+          "select ProductTitle, InstallDirectory, Installed, Id from DbSet",
+        )
+        .all();
+    case "itch.io":
+      return db
+        .prepare(
+          "select title, verdict from caves as c join games as g on c.game_id = g.id",
+        )
+        .all();
   }
 }

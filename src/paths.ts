@@ -1,7 +1,10 @@
+import * as fs from "fs";
+import * as os from "os";
 import * as path from "path";
 
 // Where SRM keeps its data (main process only; the UI has no file access).
-// Tests and scripts set SRM_USER_DATA_DIR; otherwise Electron knows.
+// Tests and scripts set SRM_USER_DATA_DIR; otherwise Electron knows, or (the
+// standalone command line) see standaloneUserDataDir().
 function resolveUserDataDir() {
   if (process.env.PORTABLE_EXECUTABLE_DIR) {
     return path.join(process.env.PORTABLE_EXECUTABLE_DIR, "userData");
@@ -9,7 +12,29 @@ function resolveUserDataDir() {
   if (process.env.SRM_USER_DATA_DIR) {
     return process.env.SRM_USER_DATA_DIR;
   }
-  return path.join(require("electron").app.getPath("userData"), "userData");
+  if (process.versions.electron) {
+    return path.join(require("electron").app.getPath("userData"), "userData");
+  }
+  return standaloneUserDataDir();
+}
+
+// The standalone command line (plain Node): a userData folder next to the
+// executable (portable), else the installed app's own data, so both see the
+// same parsers and settings.
+function standaloneUserDataDir() {
+  const portable = path.join(path.dirname(process.execPath), "userData");
+  if (fs.existsSync(portable)) {
+    return portable;
+  }
+  const home = os.homedir();
+  const appData =
+    process.platform === "win32"
+      ? process.env.APPDATA || path.join(home, "AppData", "Roaming")
+      : process.platform === "darwin"
+        ? path.join(home, "Library", "Application Support")
+        : process.env.XDG_CONFIG_HOME || path.join(home, ".config");
+  // (Electron's userData folder: the app's package name)
+  return path.join(appData, "steam-rom-manager", "userData");
 }
 
 export const userDataDir: string = resolveUserDataDir();
