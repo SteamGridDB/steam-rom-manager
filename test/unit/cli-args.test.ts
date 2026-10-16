@@ -90,4 +90,90 @@ describe("parseCliArgs", () => {
     expect(addHelp).toContain("--only");
     expect(addHelp).toContain("--names");
   });
+
+  it("create/edit: parser settings as options (lists, switches, any spelling of names)", () => {
+    expect(
+      parse(
+        "create",
+        "--type",
+        "glob",
+        "--name",
+        "My Fancy Parser",
+        "--steam-categories",
+        "Puzzle",
+        "Fun",
+        "--no-drm-protect",
+      ).request,
+    ).toMatchObject({
+      command: "create-parser",
+      fields: {
+        type: "glob",
+        name: "My Fancy Parser",
+        "steam-categories": ["Puzzle", "Fun"],
+        "drm-protect": false,
+      },
+    });
+    const edit = parse("edit-parser", "1234", "--rom-directory", "D:/roms");
+    expect(edit.request).toMatchObject({
+      command: "edit-parser",
+      parser: "1234",
+      fields: { "rom-directory": "D:/roms" },
+    });
+    // only what was given
+    expect(Object.keys(edit.request.fields)).toEqual(["rom-directory"]);
+    expect(parse("delete", "a", "My Parser").request).toMatchObject({
+      command: "delete-parser",
+      parsers: ["a", "My Parser"],
+    });
+    expect(parse("show", "a").request).toMatchObject({
+      command: "show-parser",
+      parser: "a",
+    });
+  });
+
+  it("create/edit: unknown options are refused, with a suggestion", () => {
+    expect(
+      parse("create", "--type", "glob", "--rom-dir", "x").error?.message,
+    ).toBe("Unknown option --rom-dir (did you mean --rom-directory?)");
+    expect(parse("edit", "a", "--zzz", "x").error?.message).toBe(
+      "Unknown option --zzz",
+    );
+  });
+
+  it("create help: every setting; with --type, that type's, required first", () => {
+    const all = parse("create", "--help").printed;
+    for (const flag of [
+      "--type",
+      "--rom-directory",
+      "--glob",
+      "--parse-strategy",
+      "--sgdb-styles",
+      "--default-image-tall",
+    ]) {
+      expect(all).toContain(flag);
+    }
+    expect(all).toMatch(
+      /--rom-directory\s+ROMs directory\. REQUIRED \(ROM parsers only/,
+    );
+
+    const glob = parse("create", "--type", "glob", "--help").printed;
+    const required = glob.slice(
+      glob.indexOf("Required:"),
+      glob.indexOf("\n\n", glob.indexOf("Required:")),
+    );
+    expect(required.match(/--[a-z-]+/g)).toEqual([
+      "--type",
+      "--name",
+      "--rom-directory",
+      "--glob",
+    ]);
+    expect(glob.indexOf("Required:")).toBeLessThan(
+      glob.indexOf("Basic Configuration:"),
+    );
+    // other types' settings and ROM-less settings aren't listed
+    expect(glob).not.toContain("--parse-strategy");
+    expect(parse("create", "--type", "Steam", "--help").printed).not.toContain(
+      "--rom-directory",
+    );
+  });
 });

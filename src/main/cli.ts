@@ -1,7 +1,8 @@
 import * as clc from "cli-color";
-import { Logger } from "../models";
+import { Logger, UserConfiguration } from "../models";
 import { Core } from "../core/core";
 import * as commands from "../core/cli-commands";
+import * as parsers from "../core/parser-commands";
 import { CliRequest } from "./cli-args";
 
 const text = (message: any) =>
@@ -72,6 +73,11 @@ export async function runCli(request: CliRequest): Promise<number> {
     case "nuke":
       ok = await commands.nuke(core, out);
       break;
+    case "create-parser":
+    case "edit-parser":
+    case "delete-parser":
+    case "show-parser":
+      return parserCommand(core, request, out);
   }
   core.fuzzy.stopAutoSave();
   await core.fuzzy.saveCacheIfNeeded();
@@ -79,6 +85,75 @@ export async function runCli(request: CliRequest): Promise<number> {
     out.log("\nAll Done");
   }
   return ok ? 0 : 1;
+}
+
+const red = (line: string) => clc.xterm(203)(line);
+const green = (line: string) => clc.xterm(48)(line);
+const yellow = (line: string) => clc.xterm(221)(line);
+const titled = (config: UserConfiguration) =>
+  `"${config.configTitle}" (id ${config.parserId})`;
+
+// create/edit/delete/show a parser. Returns the exit code.
+async function parserCommand(
+  core: Core,
+  request: CliRequest,
+  out: commands.CliOutput,
+): Promise<number> {
+  const fail = (errors: string[]) => {
+    for (const error of errors) process.stderr.write(`${red(error)}\n`);
+    return 1;
+  };
+  switch (request.command) {
+    case "create-parser": {
+      const result = await parsers.createParser(core, request.fields ?? {});
+      if (!result.ok) return fail(result.errors);
+      out.log(green(`Created parser ${titled(result.value)}`));
+      return 0;
+    }
+    case "edit-parser": {
+      const result = await parsers.editParser(
+        core,
+        request.parser,
+        request.fields ?? {},
+      );
+      if (!result.ok) return fail(result.errors);
+      const { config, changed, problems } = result.value;
+      out.log(green(`Updated ${titled(config)}: ${changed.join(", ")}`));
+      if (problems.length) {
+        out.log(yellow("This parser still has problems (not changed here):"));
+        for (const problem of problems) out.log(yellow(`  ${problem}`));
+      }
+      return 0;
+    }
+    case "delete-parser": {
+      const result = parsers.deleteParsers(core, request.parsers);
+      if (!result.ok) return fail(result.errors);
+      for (const config of result.value) {
+        out.log(`Deleted parser ${titled(config)}`);
+      }
+      return 0;
+    }
+    case "show-parser": {
+      const result = parsers.describeParser(core, request.parser);
+      if (!result.ok) return fail(result.errors);
+      const { config, rows } = result.value;
+      out.log(`${titled(config)}, a ${config.parserType} parser`);
+      out.log(
+        clc.columns(
+          [[clc.blue("Option"), clc.blue("Setting"), clc.blue("Value")]].concat(
+            rows.map((row) => [
+              row.required ? `${row.flag} *` : row.flag,
+              row.label,
+              row.value,
+            ]),
+          ),
+        ),
+      );
+      out.log("* required");
+      return 0;
+    }
+  }
+  return 1;
 }
 
 function onlyOption({ only, parsers, names }: CliRequest) {

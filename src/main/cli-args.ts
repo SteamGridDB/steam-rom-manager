@@ -1,4 +1,6 @@
 import yargs from "yargs";
+import type { FieldInput } from "../core/parser-commands";
+import { parserFieldOptions } from "./cli-parser-options";
 
 export type CliCommand =
   | "list"
@@ -6,16 +8,24 @@ export type CliCommand =
   | "disable"
   | "add"
   | "remove"
-  | "nuke";
+  | "nuke"
+  | "create-parser"
+  | "edit-parser"
+  | "delete-parser"
+  | "show-parser";
 
 export interface CliRequest {
   command: CliCommand;
-  // Parser ids, or names with `names`.
+  // Parser ids, or names with `names` (delete-parser: ids or names).
   parsers: string[];
   all: boolean;
   names: boolean;
   // add/remove: run just `parsers`, enabled or not.
   only: boolean;
+  // edit-parser/show-parser: the parser, by id or name.
+  parser?: string;
+  // create-parser/edit-parser: the settings given, by option name.
+  fields?: FieldInput;
 }
 
 export interface ParseOptions {
@@ -58,7 +68,14 @@ export function parseCliArgs(
         names: !!argv.names,
         only: !!argv.only,
       };
+      if (argv.parser !== undefined) request.parser = String(argv.parser);
+      if (command === "create-parser" || command === "edit-parser") {
+        request.fields = fieldOptions.given(argv);
+      }
     };
+  // Parser settings as options (help and checks come from the shared field
+  // catalog, so they match the parser editor).
+  const fieldOptions = parserFieldOptions(args);
 
   const parser = yargs(args)
     .scriptName("srm")
@@ -119,6 +136,46 @@ export function parseCliArgs(
       {},
       set("nuke"),
     )
+    .command(
+      ["create-parser", "create"],
+      "Create a parser. Every setting the parser editor has is an option; see create --help (add --type <type> for just that type's)",
+      (y: any) => fieldOptions.declare(y, "create"),
+      set("create-parser"),
+    )
+    .command(
+      ["edit-parser <parser>", "edit <parser>"],
+      "Change a parser's settings: only the options given, and only to valid values",
+      (y: any) =>
+        fieldOptions.declare(
+          y.positional("parser", {
+            describe: 'The parser: its id or its name (see "list")',
+            type: "string",
+          }),
+          "edit",
+        ),
+      set("edit-parser"),
+    )
+    .command(
+      ["delete-parser <parsers..>", "delete <parsers..>"],
+      "Delete parsers (all or none: nothing is deleted if one isn't found)",
+      (y: any) =>
+        y.positional("parsers", {
+          describe: 'Parsers to delete: ids or names (see "list")',
+          type: "string",
+          array: true,
+        }),
+      set("delete-parser"),
+    )
+    .command(
+      ["show-parser <parser>", "show <parser>"],
+      "Show a parser's settings, as the options that change them",
+      (y: any) =>
+        y.positional("parser", {
+          describe: 'The parser: its id or its name (see "list")',
+          type: "string",
+        }),
+      set("show-parser"),
+    )
     .example("$0 list", "")
     .example(
       "$0 add --only 1234567890 2345678901",
@@ -130,6 +187,11 @@ export function parseCliArgs(
     )
     .example('$0 enable --names "Snes9x (SNES)" "Dolphin (GameCube)"', "")
     .example("$0 disable --all", "")
+    .example(
+      '$0 create --type Glob --name "My SNES" --rom-directory D:/ROMs/SNES --glob "${title}.sfc"',
+      "",
+    )
+    .example('$0 edit "My SNES" --steam-categories "Puzzle" "Fun"', "")
     .epilogue(steamNote)
     .wrap(Math.min(100, process.stdout.columns || 100))
     .exitProcess(exitProcess);
