@@ -13,20 +13,19 @@ import { ParserField, emptyValue, getFieldValue } from "../core/parser-fields";
 
 type Mode = "create" | "edit" | "view";
 
-// Another name for --type: Chromium reserves --type, so the app reruns a
-// command given --type with this instead (src/main/app.ts).
+// Another name for --ptype (the parser type).
 const typeAlias = "parser-type";
 
 const loose = (text: string) => text.toLowerCase().replace(/[^a-z0-9]/g, "");
 const camel = (flag: string) =>
   flag.replace(/-([a-z0-9])/g, (_m, c: string) => c.toUpperCase());
 
-// The parser type named by --type on the command line, if it's a real one
+// The parser type named by --ptype on the command line, if it's a real one
 // (help then shows just that type's settings).
 function typeFromArgs(args: string[]): ParserType | undefined {
   let given: string | undefined;
   args.forEach((arg, i) => {
-    for (const flag of ["--type", `--${typeAlias}`]) {
+    for (const flag of ["--ptype", `--${typeAlias}`]) {
       if (arg === flag) given = args[i + 1];
       else if (arg.startsWith(`${flag}=`)) given = arg.slice(flag.length + 1);
     }
@@ -135,7 +134,7 @@ export function parserFieldOptions(args: string[]) {
         });
         if (hidden) continue;
         // Required settings without a default come first when creating.
-        // (without --type: just what every parser needs)
+        // (without --ptype: just what every parser needs)
         const mustGive =
           mode === "create" &&
           field.required &&
@@ -189,7 +188,7 @@ export function parserFieldOptions(args: string[]) {
       if (mode === "view") {
         y.epilogue(
           [
-            "Name the settings to show, e.g. --type --name; with none, every setting that applies to the parser is shown.",
+            "Name the settings to show, e.g. --ptype --name; with none, every setting that applies to the parser is shown.",
             "With one setting, just its value is printed (lists: one per line), for scripts.",
           ].join("\n"),
         );
@@ -200,10 +199,10 @@ export function parserFieldOptions(args: string[]) {
           `Parser types: ${availableParsers.join(", ")}.`,
           helpType
             ? `Showing ${helpType} settings. Required ones are checked like in the parser editor.`
-            : "Add --type <type> to --help to see just that type's settings, with what's required.",
+            : "Add --ptype <type> to --help to see just that type's settings, with what's required.",
           'Lists take several values: --steam-categories "Puzzle" "Fun". Switches: --drm-protect, or --no-drm-protect to turn off.',
           mode === "edit"
-            ? "Only the options given change, and only to valid values; a new --type is checked as a whole."
+            ? "Only the options given change, and only to valid values; a new --ptype is checked as a whole."
             : "Settings left out get the parser editor's defaults; the parser is only created if it's valid.",
         ].join("\n"),
       );

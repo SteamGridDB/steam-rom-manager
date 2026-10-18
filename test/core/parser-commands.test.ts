@@ -112,21 +112,22 @@ describe("parser commands (headless Core)", () => {
       ok: false,
       errors: [
         expect.stringMatching(
-          /^Missing --type \(Parser type\)\. One of: Glob, Glob-regex, /,
+          /^Missing --ptype \(Parser type\)\. One of: Glob, Glob-regex, /,
         ),
       ],
     });
     expect(
-      (await commands.createParser(core, { type: "globbb", name: "x" })).errors,
+      (await commands.createParser(core, { ptype: "globbb", name: "x" }))
+        .errors,
     ).toEqual([
       expect.stringMatching(
-        /^--type must be one of: Glob, .* \(got "globbb"\)$/,
+        /^--ptype must be one of: Glob, .* \(got "globbb"\)$/,
       ),
     ]);
     expect(
       (
         await commands.createParser(core, {
-          type: "glob",
+          ptype: "glob",
           name: "My Fancy Parser",
         })
       ).errors,
@@ -136,7 +137,7 @@ describe("parser commands (headless Core)", () => {
     ]);
 
     const created = await commands.createParser(core, {
-      type: "glob",
+      ptype: "glob",
       name: "My Fancy Parser",
       "rom-directory": path.join(root, "roms"),
       glob: "${title}.sfc",
@@ -170,7 +171,7 @@ describe("parser commands (headless Core)", () => {
   it("create: bad values, settings that don't apply, unknown options", async () => {
     const core = await loadCore();
     const { errors } = await commands.createParser(core, {
-      type: "Steam",
+      ptype: "Steam",
       name: "Mine",
       "rom-directory": path.join(root, "roms"),
       glob: "x",
@@ -195,7 +196,7 @@ describe("parser commands (headless Core)", () => {
     ]);
     // a path that isn't there
     const bad = await commands.createParser(core, {
-      type: "Manual",
+      ptype: "Manual",
       name: "Manual",
       "manual-manifests": path.join(root, "nowhere"),
     });
@@ -247,7 +248,7 @@ describe("parser commands (headless Core)", () => {
     ).toEqual(['No parser with id or name "nope" (see "srm list")']);
     // changing the type checks the whole parser against the new type
     expect(
-      (await commands.editParser(core, "steam", { type: "Glob" })).errors,
+      (await commands.editParser(core, "steam", { ptype: "Glob" })).errors,
     ).toEqual([
       "Missing --rom-directory (ROMs directory)",
       expect.stringMatching(/^Missing --glob /),
@@ -257,12 +258,12 @@ describe("parser commands (headless Core)", () => {
   it("view: the named settings in order, or all that apply", async () => {
     const core = await loadCore();
     const { rows } = commands.viewParser(core, "Snes9x (SNES)", [
-      "type",
+      "ptype",
       "name",
       "steam-categories",
     ]).value;
     expect(rows.map((r) => [r.flag, r.raw, r.value])).toEqual([
-      ["--type", "Glob", '"Glob"'],
+      ["--ptype", "Glob", '"Glob"'],
       ["--name", "Snes9x (SNES) 📺", '"Snes9x (SNES) 📺"'],
       ["--steam-categories", "", "(none)"],
     ]);
