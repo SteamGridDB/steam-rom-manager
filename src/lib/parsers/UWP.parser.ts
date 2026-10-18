@@ -61,7 +61,7 @@ export class UWPParser implements GenericParser {
           const file = path.join(UWPDir, prefile);
           if (fs.existsSync(file) && fs.lstatSync(file).isFile()) {
             const xmldata = fs.readFileSync(file, "utf-8");
-            if (XMLValidator.validate(xmldata)) {
+            if (XMLValidator.validate(xmldata) === true) {
               const parsedData: any = xmlParser.parse(xmldata);
               if (
                 !json.caselessHas(parsedData, [
@@ -262,7 +262,7 @@ const getUWPAppDetail = async (
     let apxApp: string;
     let appId: string;
     let name: string;
-    if (XMLValidator.validate(xml)) {
+    if (XMLValidator.validate(xml) === true) {
       let parsedData: any = xmlParser.parse(xml);
       apxApp = json.caselessGet(parsedData, [
         ["Package"],

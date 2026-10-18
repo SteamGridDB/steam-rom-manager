@@ -192,7 +192,6 @@ exports[`save pipeline (characterization) > add: writes shortcuts, artwork, coll
 exports[`save pipeline (characterization) > add: writes shortcuts, artwork, collections and compat tools > steam control 1`] = `
 [
   "steamless-task",
-  "steamless-task",
 ]
 `;
 

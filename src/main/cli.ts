@@ -35,6 +35,22 @@ export async function runCli(request: CliRequest): Promise<number> {
   const core = new Core({ logger });
   await core.load({ presets: false });
 
+  // A parsers file with problems isn't saved over (its error was printed
+  // above): commands that change parsers would only seem to work.
+  const changesParsers = [
+    "enable",
+    "disable",
+    "create-parser",
+    "edit-parser",
+    "delete-parser",
+  ].includes(command);
+  if (changesParsers && core.parsers.savingIsDisabled) {
+    process.stderr.write(
+      `${clc.xterm(203)("Parsers can't be changed until the problems in userConfigurations.json are fixed (see above).")}\n`,
+    );
+    return 1;
+  }
+
   let ok = true;
   switch (command) {
     case "list":

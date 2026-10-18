@@ -179,7 +179,10 @@ app.on("ready", async () => {
     });
     const core = startCoreForWindow(() => mainWindow);
     if (process.platform === "win32") {
-      core.shellScripts.download();
+      // (not in offline mode)
+      core.ready.settings.then(() => {
+        if (!core.settings.get().offlineMode) core.shellScripts.download();
+      });
     }
     app.on("before-quit", () => {
       core.fuzzy.saveCacheIfNeeded();

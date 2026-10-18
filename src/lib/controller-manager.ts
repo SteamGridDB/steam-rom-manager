@@ -17,13 +17,16 @@ import {
 } from "../models";
 import { Acceptable_Error } from "./acceptable-error";
 import { controllerTypes } from "./controller-types";
-export { controllerTypes, controllerNames, enableDisplayNames } from "./controller-types";
+export {
+  controllerTypes,
+  controllerNames,
+  enableDisplayNames,
+} from "./controller-types";
 
 // Sadly all sources seem to be partial, but some good ones are:
 // https://partner.steamgames.com/doc/features/steam_controller/action_manifest_file
 // https://www.scribd.com/document/505055463/Tenfoot-Czech#content=query:controller_gamecube,pageNum:194,indexOnPage:0,bestMatch:false
 // https://www.steaminputdb.com/config/search
-
 
 const match = "(SRM)";
 const topKey = "controller_config";
@@ -253,9 +256,10 @@ export class ControllerManager {
 
   private backupControllers(configsetDir: string) {
     for (const controllerType of controllerTypes) {
+      // (the files read and written: configset_controller_<type>.vdf)
       let configsetPath = path.join(
         configsetDir,
-        `configset_${controllerType}.vdf`,
+        `configset_controller_${controllerType}.vdf`,
       );
       let bkPath = configsetPath + ".backup";
       if (fs.existsSync(configsetPath)) {
@@ -392,8 +396,10 @@ export class ControllerManager {
     }
   }
   readLocalConfig(localConfigPath: string): any {
-    let localConfig =
-      genericParser.parse(fs.readFileSync(localConfigPath, "utf-8")) || {};
+    // (an account without one yet: start empty, don't fail every user)
+    let localConfig = fs.existsSync(localConfigPath)
+      ? genericParser.parse(fs.readFileSync(localConfigPath, "utf-8")) || {}
+      : {};
     if (!localConfig[localTopKey]) {
       localConfig[localTopKey] = { apps: [] };
     } else if (!localConfig[localTopKey].apps) {
@@ -412,11 +418,14 @@ export class ControllerManager {
     this.backupLocalConfig(localConfigPath);
     let localConfig = this.readLocalConfig(localConfigPath);
     for (const appId of extraneousAppIds) {
-      const shiftId = steam.shortcutifyAppId(appId);
-      if (
-        ((x) => x && x[srmParserKey])(localConfig[localTopKey].apps[shiftId])
-      ) {
-        delete localConfig[localTopKey].apps[shiftId];
+      // (written under the short id now; older SRM used the signed one)
+      for (const key of [
+        steam.shortenAppId(appId),
+        String(steam.shortcutifyAppId(appId)),
+      ]) {
+        if (((x) => x && x[srmParserKey])(localConfig[localTopKey].apps[key])) {
+          delete localConfig[localTopKey].apps[key];
+        }
       }
     }
     for (let appId of Object.keys(user.userData.apps).filter(

@@ -37,20 +37,29 @@ export class FuzzyMatcher {
     this.list = list;
     if (this.isLoaded()) {
       this.latinList = new Array(list.games.length);
+      this.fromLatin = new Map();
 
       for (let i = 0; i < list.games.length; i++) {
         this.latinList[i] = list.games[i].replaceDiacritics();
+        if (!this.fromLatin.has(this.latinList[i])) {
+          this.fromLatin.set(this.latinList[i], list.games[i]);
+        }
       }
     }
   }
+
+  // A title without diacritics -> the list's own title ("Pokemon" ->
+  // "Pokémon"): matching ignores accents, the result keeps them.
+  private fromLatin = new Map<string, string>();
 
   fuzzyMatch(
     options: FuzzyMatcherOptions,
     titleModifierHandler: TitleModifierHandler,
     verbose: boolean = true,
   ): (string | null)[] {
-    
-    const fuzzyTitles = (new Array(titleModifierHandler.latestTitle.length)).fill(null);
+    const fuzzyTitles = new Array(titleModifierHandler.latestTitle.length).fill(
+      null,
+    );
 
     if (this.isLoaded()) {
       for (let i = 0; i < titleModifierHandler.latestTitle.length; i++) {
@@ -160,7 +169,13 @@ export class FuzzyMatcher {
     const list = diacriticsRemoved ? this.latinList : this.list.games;
     const res = fuzzysort.go(input, list, { threshold: 0.5 });
     if (res.length) {
-      return { output: res[0].target, matched: true };
+      const target = res[0].target;
+      return {
+        output: diacriticsRemoved
+          ? (this.fromLatin.get(target) ?? target)
+          : target,
+        matched: true,
+      };
     } else {
       return { output: input, matched: false };
     }

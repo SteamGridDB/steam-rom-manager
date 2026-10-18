@@ -216,7 +216,7 @@ export const userConfiguration: ValidatorModifier<UserConfiguration> = {
         method: (oldValue, oldConfiguration) => {
           let newValue = {
             long: oldConfiguration.defaultImage || "",
-            tall: oldConfiguration.defaulTallImage || "",
+            tall: oldConfiguration.defaultTallImage || "",
             hero: oldConfiguration.defaultHeroImage || "",
             logo: oldConfiguration.defaultLogoImage || "",
             icon: oldConfiguration.defaultIcon || "",

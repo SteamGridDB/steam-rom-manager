@@ -62,8 +62,13 @@ export class VDF_AddedItemsFile {
       },
     };
     return json
-      .read<any>(this.filePath, {})
+      .read<any>(this.filePath, null)
       .then((readData) => {
+        // No file yet: nothing added so far.
+        if (readData === null) {
+          this.fileData = { version: modifierLatest, addedApps: {} };
+          return this.data;
+        }
         let controlVersion;
         if (Array.isArray(readData) || !readData.version) {
           controlVersion = 0;
@@ -79,7 +84,15 @@ export class VDF_AddedItemsFile {
         return this.data;
       })
       .catch((error) => {
-        this.fileData = { version: modifierLatest, addedApps: {} };
+        // (a missing file reads as {}, above). A corrupt one stops the save,
+        // like a corrupt shortcuts.vdf: writing a fresh list over it would
+        // lose the entries kept to prevent duplicates.
+        throw new VDF_Error(
+          APP.lang.vdfFile.error.readingVdf__i.interpolate({
+            filePath: this.filePath,
+            error: error,
+          }),
+        );
       });
   }
 

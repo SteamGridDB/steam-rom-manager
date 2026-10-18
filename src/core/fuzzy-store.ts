@@ -152,6 +152,9 @@ export class FuzzyStore {
         this.settings.get().fuzzyMatcher.timestamps =
           data as FuzzyEventMap["newTimestamps"];
         this.settings.save();
+        // (the window saves its whole copy of the settings: without this,
+        // its next save puts the old timestamps back)
+        this.settings.changed();
         break;
     }
   }

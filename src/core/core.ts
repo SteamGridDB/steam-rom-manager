@@ -84,13 +84,19 @@ export class Core {
       return this.ready;
     }
     const settings = this.settings.load();
+    // Offline mode: no downloads (the cached copies are used).
+    const download = () => ({ download: !this.settings.get().offlineMode });
     this.ready = {
       settings,
       parsers: settings.then(() => this.parsers.load()),
       controllerTemplates: this.parsers.readControllerTemplates(),
       exceptions: this.exceptions.load(),
-      customVariables: this.customVariables.load(),
-      presets: presets ? this.presets.load() : Promise.resolve(),
+      customVariables: settings.then(() =>
+        this.customVariables.load(download()),
+      ),
+      presets: presets
+        ? settings.then(() => this.presets.load(download()))
+        : Promise.resolve(),
       fuzzy: settings.then(() => this.fuzzy.load()),
     };
     return this.ready;

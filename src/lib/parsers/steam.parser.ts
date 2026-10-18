@@ -183,9 +183,10 @@ export class SteamParser implements GenericParser {
           const localConfig = genericParser.parse(
             fs.readFileSync(localConfigPath, "utf-8"),
           );
-          const ticketKeys = Object.keys(
-            localConfig.UserLocalConfigStore.apptickets,
+          const ticketKeys = new Set(
+            Object.keys(localConfig.UserLocalConfigStore.apptickets),
           );
+          const installed = new Set(installedIds ?? []);
           filteredApps = appinfos
             .filter((a: any) => {
               return (
@@ -194,9 +195,9 @@ export class SteamParser implements GenericParser {
                 allowedTypes.includes(
                   a?.appinfo?.common?.type?.toLowerCase(),
                 ) &&
-                ticketKeys.includes(a.appinfo.appid.toString()) &&
+                ticketKeys.has(a.appinfo.appid.toString()) &&
                 (!inputs.onlyInstalled ||
-                  installedIds.includes(a.appinfo.appid.toString()))
+                  installed.has(a.appinfo.appid.toString()))
               );
             })
             .map((app: any) => {
@@ -248,16 +249,14 @@ export class SteamParser implements GenericParser {
 
   gameInfoParser(fileContents: string) {
     const lines = fileContents.split("\n");
-    const sep = "\t";
     const uncommentedLines = lines
-      .map((line) =>
-        line
-          .replace(/\/\/.*/g, "")
-          .trim()
-          .replace(/[\s,\t]+/g, sep),
-      )
+      // (a comment starts a line or follows whitespace: not "http://...")
+      .map((line) => line.replace(/(^|\s)\/\/.*/, "").trim())
       .filter((line) => line.length > 0)
       .slice(1);
+    // key value, each quoted or not: game "Black Mesa"
+    const keyValue = /^("[^"]*"|\S+)\s+("[^"]*"|\S.*)$/;
+    const unquote = (s: string) => s.trim().replace(/^"(.*)"$/, "$1");
     // Parse uncommented lines into JSON object
 
     let currentObject: any = {};
@@ -273,12 +272,9 @@ export class SteamParser implements GenericParser {
         if (currentObject.parent) {
           currentObject = currentObject.parent;
         }
-      } else if (line.includes(sep)) {
-        // If we encounter a line with a tab character, split it into a key-value pair and add it to the current object
-        const [key, value] = line
-          .split(sep)
-          .map((s) => s.trim().replace(/\"/g, ""));
-        currentObject[key] = value;
+      } else if (keyValue.test(line)) {
+        const [, key, value] = line.match(keyValue);
+        currentObject[unquote(key)] = unquote(value);
       } else {
         // If we encounter a regular line, set it as the key of the current object and create a new object for its value
         const newObject: any = {};
