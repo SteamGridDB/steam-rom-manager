@@ -1,4 +1,4 @@
-import { Configuration, optimize } from "webpack";
+import { Configuration, RuleSetRule, optimize } from "webpack";
 import * as helpers from "./helpers";
 
 // The standalone command line: the main process' code for plain Node (no
@@ -14,6 +14,16 @@ const cliConfig: Configuration = {
     ...mainConfig.output,
     filename: "[name].js",
     path: helpers.root("dist-cli"),
+  },
+  module: {
+    ...mainConfig.module,
+    // The language docs' images: the window shows them, the command line
+    // doesn't (the references still resolve; the files aren't written).
+    rules: (mainConfig.module.rules as RuleSetRule[]).map((rule) =>
+      rule.type === "asset/resource"
+        ? { ...rule, generator: { ...rule.generator, emit: false } }
+        : rule,
+    ),
   },
   externals: {
     ...(mainConfig.externals as object),
