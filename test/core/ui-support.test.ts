@@ -37,6 +37,38 @@ describe("UiSupport", () => {
     expect(after[1].avatar).toBeNull();
   });
 
+  it("themes: copies of the app's, the user's listed; saved and deleted only in themes/user", async () => {
+    fs.rmSync(paths.themesDir, { recursive: true, force: true });
+    const support = new UiSupport(noFetch);
+    expect(await support.userThemes()).toEqual([]);
+    expect(fs.readdirSync(paths.defaultThemesDir)).toContain("deck.json");
+
+    const theme = { name: "Mint", tokens: { accent: "#3ddc97" } };
+    expect(await support.saveUserTheme("mint.json", theme)).toBe("mint.json");
+    expect(await support.userThemes()).toEqual([
+      { file: "mint.json", data: theme },
+    ]);
+    for (const bad of [
+      "../escape.json",
+      "sub/x.json",
+      "x.txt",
+      ".json",
+      "C:x.json",
+    ]) {
+      await expect(support.saveUserTheme(bad, theme)).rejects.toThrow(
+        /Not a theme file name/,
+      );
+      await expect(support.deleteUserTheme(bad)).rejects.toThrow(
+        /Not a theme file name/,
+      );
+    }
+    expect(fs.existsSync(path.join(paths.themesDir, "escape.json"))).toBe(
+      false,
+    );
+    await support.deleteUserTheme("mint.json");
+    expect(await support.userThemes()).toEqual([]);
+  });
+
   it("has no logins for a missing Steam directory", async () => {
     const support = new UiSupport(noFetch);
     expect(await support.steamLogins("")).toEqual([]);

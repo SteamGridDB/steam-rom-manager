@@ -58,6 +58,7 @@ export class SettingsComponent implements OnDestroy {
   chooseUserAccountsVisible: boolean = false;
   showShellScripts: boolean = false;
   showMarkdown: boolean = false;
+  tab: "settings" | "themeEditor" = "settings";
   private subscriptions: Subscription = new Subscription();
   constructor(
     private settingsService: SettingsService,
@@ -131,8 +132,13 @@ export class SettingsComponent implements OnDestroy {
     this.placeholderForOS = this.lang.placeholder.bySystem[APP.osType];
   }
 
+  setTab(tab: "settings" | "themeEditor") {
+    this.tab = tab;
+    if (tab === "themeEditor") this.closeDocs();
+  }
+
   // App themes, then the user's (userData/themes/user), in sections.
-  private listThemes() {
+  listThemes() {
     const { appThemeNames, userThemeNames } = this.themeService;
     this.themes = [...appThemeNames, ...userThemeNames];
     this.themeSections = Object.fromEntries([
@@ -194,6 +200,7 @@ export class SettingsComponent implements OnDestroy {
     this.languageService.loadLanguage(this.settings.language);
   }
   changeTheme(newTheme: string) {
+    this.listThemes();
     if (this.settings.theme !== newTheme) {
       this.settings.theme = newTheme;
       this.loadTheme();

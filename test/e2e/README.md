@@ -35,6 +35,8 @@ Step files:
   Run it last: it closes the app.
 - `gui-exceptions.json`: exceptions page (tabs, how rules match, adding by
   title) and Add Games (exclusions, a game's changes, exclusions keeping them).
+- `gui-theme-editor.json`: Settings > Theme editor: duplicate, edit with
+  live preview, save, use, rename, delete (back to Deck).
 - `gui-parsers.json`: the parser editor: one editor per parser (nothing from
   one parser's form carries into another's), create, move, undo.
 
