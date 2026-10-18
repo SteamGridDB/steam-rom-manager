@@ -2,13 +2,13 @@ import * as fs from "fs-extra";
 import fetch, { AbortError } from "node-fetch";
 import { Resolver } from "dns";
 
-const { Jimp } = require("jimp")
+const { Jimp } = require("jimp");
 
 // To Do - get webpack working via
 // Currently having trouble importing @jimp/wasm-webp
 // import { createJimp } from "@jimp/core";
 // import { defaultFormats, defaultPlugins } from "jimp";
-// import webp from "@jimp/wasm-webp"; 
+// import webp from "@jimp/wasm-webp";
 
 // const Jimp = createJimp({
 //   formats: [...defaultFormats, webp],
@@ -36,7 +36,7 @@ export class ImageDownloader {
     retryCount?: number,
     secondaryPath?: string,
     externalDNS?: string[],
-    overlayPath?: string
+    overlayPath?: string,
   ): Promise<void> {
     const writeBuffer = async (buffer: Buffer) => {
       // until we can figure out how to include custom jimp plugins
@@ -47,20 +47,22 @@ export class ImageDownloader {
             ? decodeFile(overlayPath)
             : overlayPath;
           const overlayBuffer = await fs.readFile(overlayFilePath);
-          const baseImage = await Jimp.fromBuffer(buffer); 
+          const baseImage = await Jimp.fromBuffer(buffer);
           const overlayImage = await Jimp.fromBuffer(overlayBuffer);
 
-          overlayImage.cover({ w: baseImage.bitmap.width, h: baseImage.bitmap.height });
+          overlayImage.cover({
+            w: baseImage.bitmap.width,
+            h: baseImage.bitmap.height,
+          });
 
           // "northeast" gravity = anchor to top-right
           const x = baseImage.bitmap.width - overlayImage.bitmap.width;
           const y = 0;
           baseImage.composite(overlayImage, x, y);
           buffer = await baseImage.getBuffer("image/png");
-        } catch(e) {
-          console.warn(`Overlay failed for image ${imageUrl}:\n ${e}`)
+        } catch (e) {
+          console.warn(`Overlay failed for image ${imageUrl}:\n ${e}`);
         }
-
       }
       await fs.outputFile(filePath, buffer);
       if (secondaryPath) {
@@ -93,6 +95,10 @@ export class ImageDownloader {
           });
         }
 
+        // (an error page is not artwork)
+        if (!res.ok) {
+          throw `HTTP ${res.status} ${res.statusText}: ${imageUrl}`;
+        }
         const arrayBuff = Buffer.from(await res.arrayBuffer());
         return writeBuffer(arrayBuff);
       } catch (error) {
@@ -112,6 +118,9 @@ export class ImageDownloader {
         } else {
           throw error;
         }
+      } finally {
+        // (or the timer keeps a command line run alive for its full length)
+        clearTimeout(timeoutId);
       }
     }
   }

@@ -170,7 +170,8 @@ export async function performSteamlessTask(
     }
   }
   await task();
-  if (appSettings.autoRestartSteam && stop.acted) {
+  // (only restart what we stopped: "restart" can stay on with "kill" off)
+  if (appSettings.autoRestartSteam && stop?.acted) {
     loggerService.info("Attempting to restart Steam.", {
       invokeAlert: true,
       alertTimeout: 3000,

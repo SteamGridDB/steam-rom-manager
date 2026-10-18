@@ -132,14 +132,14 @@ export const appSettings: ValidatorModifier<AppSettings> = {
     8: {
       version: { method: versionUp },
       previewSettings: {
-        method: (oldValue, oldConfiguration) => {
-          const oldPreload = oldConfiguration["preload"];
-          delete oldConfiguration["preload"];
-          if (oldPreload) {
-            return { ...oldConfiguration, imageLoadStrategy: "loadPre" };
-          } else {
-            return { ...oldConfiguration, imageLoadStrategy: "loadLazy" };
-          }
+        // previewSettings.preload -> previewSettings.imageLoadStrategy (the
+        // rest of previewSettings kept)
+        method: (oldValue) => {
+          const { preload, ...rest } = oldValue ?? {};
+          return {
+            ...rest,
+            imageLoadStrategy: preload ? "loadPre" : "loadLazy",
+          };
         },
       },
     },

@@ -205,7 +205,7 @@ export class VDF_ScreenshotsFile {
                 4,
                 secondaryPath,
                 undefined,
-                data.overlayImage
+                data.overlayImage,
               )
               .then(async () => {
                 if (/^\d+$/.test(appId)) {
@@ -213,10 +213,15 @@ export class VDF_ScreenshotsFile {
                     this.gridDirectory,
                     `${ids.lengthenAppId(appId)}.${ext}`,
                   );
-                  if (await fs.exists(symPath)) {
-                    await fs.unlink(symPath);
+                  // (whatever is there, a dangling old link included)
+                  await fs.remove(symPath);
+                  try {
+                    await fs.symlink(gridPath, symPath);
+                  } catch {
+                    // Windows only allows symlinks to admins or in
+                    // Developer Mode: a copy works the same for Steam.
+                    await fs.copyFile(gridPath, symPath);
                   }
-                  await fs.symlink(gridPath, symPath);
                 }
                 return gridPath;
               })

@@ -171,107 +171,71 @@ export class SteamWriter {
         },
       )
       .then(async () => {
-        if (!removeAll && !this.appSettings.previewSettings.disableCategories) {
-          await steam.performSteamlessTask(
-            this.appSettings,
-            this.loggerService,
-            async () => {
-              this.loggerService.info(this.lang.info.savingCategories);
-              await this.categoryManager.save(previewData, exAppIds, addedCats);
-            },
-          );
-        }
-        if (removeAll && !this.appSettings.previewSettings.disableCategories) {
-          await steam.performSteamlessTask(
-            this.appSettings,
-            this.loggerService,
-            async () => {
-              for (let steamDir of knownSteamDirectories) {
-                const accounts = await steam.getAvailableLogins(steamDir);
-                for (let account of accounts) {
-                  await this.removeCategories(
-                    steamDir,
-                    account.accountID,
-                    addedCats[steamDir][account.accountID],
-                  );
-                }
-              }
-            },
-          );
-        }
-      })
-      .catch((error: Acceptable_Error | Error) => {
-        if (error instanceof Acceptable_Error) {
-          this.loggerService.error(this.lang.errors.categorySaveError, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-          this.loggerService.error(
-            this.lang.errors.categorySaveError__i.interpolate({
-              error: error.message,
-            }),
-          );
-        } else {
-          throw error;
-        }
-      })
-      .then(() => {
-        if (!removeAll) {
-          this.loggerService.info(this.lang.info.savingControllers);
-          const controllerManager = new ControllerManager();
-          return controllerManager.save(previewData, exAppIds);
-        }
-      })
-      .catch((error: Acceptable_Error | Error) => {
-        if (error instanceof Acceptable_Error) {
-          this.loggerService.error(this.lang.errors.controllerSaveError, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-          this.loggerService.error(
-            this.lang.errors.controllerSaveError__i.interpolate({
-              error: error.message,
-            }),
-          );
-        } else {
-          throw error;
-        }
-      })
-      .then(async () => {
-        // config.vdf is per-install and Steam rewrites it on exit, so patch it
-        // with Steam closed (same steamless window the categories step uses).
+        // Steam rewrites these files when it exits (collections, controller
+        // settings in localconfig.vdf, compat tools in config.vdf): change
+        // them in one Steam-closed window, not one per step.
         await steam.performSteamlessTask(
           this.appSettings,
           this.loggerService,
           async () => {
-            this.loggerService.info(this.lang.info.savingCompatTools);
-            const compatToolManager = new CompatToolManager(this.loggerService);
-            if (removeAll) {
-              // exAppIds holds only SRM-owned (non artwork-only) shortcuts.
-              await compatToolManager.removeAll(
-                knownSteamDirectories,
-                exAppIds,
+            if (!this.appSettings.previewSettings.disableCategories) {
+              await this.step(
+                this.lang.errors.categorySaveError,
+                this.lang.errors.categorySaveError__i,
+                async () => {
+                  if (!removeAll) {
+                    this.loggerService.info(this.lang.info.savingCategories);
+                    await this.categoryManager.save(
+                      previewData,
+                      exAppIds,
+                      addedCats,
+                    );
+                  } else {
+                    for (let steamDir of knownSteamDirectories) {
+                      const accounts = await steam.getAvailableLogins(steamDir);
+                      for (let account of accounts) {
+                        await this.removeCategories(
+                          steamDir,
+                          account.accountID,
+                          addedCats[steamDir][account.accountID],
+                        );
+                      }
+                    }
+                  }
+                },
               );
-            } else {
-              await compatToolManager.save(previewData, exAppIds);
             }
+            if (!removeAll) {
+              await this.step(
+                this.lang.errors.controllerSaveError,
+                this.lang.errors.controllerSaveError__i,
+                async () => {
+                  this.loggerService.info(this.lang.info.savingControllers);
+                  await new ControllerManager().save(previewData, exAppIds);
+                },
+              );
+            }
+            await this.step(
+              this.lang.errors.compatToolSaveError,
+              this.lang.errors.compatToolSaveError__i,
+              async () => {
+                this.loggerService.info(this.lang.info.savingCompatTools);
+                const compatToolManager = new CompatToolManager(
+                  this.loggerService,
+                );
+                if (removeAll) {
+                  // exAppIds holds only SRM-owned (non artwork-only) shortcuts.
+                  await compatToolManager.removeAll(
+                    knownSteamDirectories,
+                    exAppIds,
+                  );
+                } else {
+                  await compatToolManager.save(previewData, exAppIds);
+                }
+              },
+            );
           },
         );
-      })
-      .catch((error: Acceptable_Error | Error) => {
-        if (error instanceof Acceptable_Error) {
-          this.loggerService.error(this.lang.errors.compatToolSaveError, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-          this.loggerService.error(
-            this.lang.errors.compatToolSaveError__i.interpolate({
-              error: error.message,
-            }),
-          );
-        } else {
-          throw error;
-        }
       })
       .then(() => {
         if (removeAll) {
@@ -513,6 +477,24 @@ export class SteamWriter {
         invalidJson: e instanceof SyntaxError,
         error: e.message,
       };
+    }
+  }
+  // A save step whose expected failures (Acceptable_Error) are reported and
+  // don't stop the rest of the save; anything else does.
+  private async step(
+    alert: string,
+    detail__i: string,
+    task: () => Promise<void>,
+  ) {
+    try {
+      await task();
+    } catch (error) {
+      if (!(error instanceof Acceptable_Error)) throw error;
+      this.loggerService.error(alert, {
+        invokeAlert: true,
+        alertTimeout: 3000,
+      });
+      this.loggerService.error(detail__i.interpolate({ error: error.message }));
     }
   }
 }

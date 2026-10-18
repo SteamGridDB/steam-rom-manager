@@ -240,6 +240,12 @@ export class PreviewBuilder {
                 parserEnabledProviders: config.imageProviders,
               };
             } else {
+              // (another parser's game with this pool: its providers too)
+              pools[artworkType][file.imagePool].parserEnabledProviders =
+                _.union(
+                  pools[artworkType][file.imagePool].parserEnabledProviders,
+                  config.imageProviders,
+                );
               for (const provider of config.imageProviders) {
                 let currentQueries =
                   pools[artworkType][file.imagePool].online[provider]

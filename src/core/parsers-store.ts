@@ -201,7 +201,7 @@ export class ParsersStore {
         }
         return config;
       });
-      fs.outputFileSync(
+      json.writeFileAtomicSync(
         paths.userConfigurations,
         JSON.stringify(toSave, null, 4),
       );
@@ -524,7 +524,7 @@ export class ParsersStore {
 
   async saveControllerTemplates(): Promise<void> {
     try {
-      fs.outputFileSync(
+      json.writeFileAtomicSync(
         paths.controllerTemplates,
         JSON.stringify(this.controllerTemplates, null, 4),
       );

@@ -120,11 +120,15 @@ export class PreviewEngine {
           this.onlineImages[artworkType][imagePool].retrieving = false;
         }
       }
+      // (every new list stops lookups first: only say so if any were cut
+      // short)
+      if (this.previewVariables.numberOfQueriedImages > 0) {
+        this.loggerService.info(this.lang.info.allImagesRetrieved, {
+          invokeAlert: true,
+          alertTimeout: 3000,
+        });
+      }
       this.previewVariables.numberOfQueriedImages = 0;
-      this.loggerService.info(this.lang.info.allImagesRetrieved, {
-        invokeAlert: true,
-        alertTimeout: 3000,
-      });
       this.previewDataChanged.next();
     });
   }
@@ -295,30 +299,32 @@ export class PreviewEngine {
   ) {
     for (const steamDirectory in outcomes) {
       for (const userId in outcomes[steamDirectory]) {
+        // Each app by the id its artwork is saved under (once, not per file).
+        const apps = this.previewData[steamDirectory][userId].apps;
+        const byLongId = new Map<string, PreviewDataApp>();
+        for (const [appId, app] of Object.entries(apps)) {
+          const longId = app.changedId || appId;
+          if (!byLongId.has(longId)) byLongId.set(longId, app);
+        }
         for (const gridName in outcomes[steamDirectory][userId].successes) {
           const shortId = gridName.match(/^\d+/).toString();
-          const longId = lengthenAppId(shortId);
+          const app = byLongId.get(lengthenAppId(shortId));
           const artworkType =
             invertedArtworkIdDict[gridName.replace(/^\d+/, "")];
+          if (!app || !artworkType) continue;
           const filePath = outcomes[steamDirectory][userId].successes[gridName];
-          const steamImageUrl = encodeFile(filePath);
-          const matchedApps = Object.entries(
-            this.previewData[steamDirectory][userId].apps,
-          ).filter(([appId, app]) => {
-            return app.changedId ? app.changedId == longId : appId == longId;
-          });
-          if (matchedApps.length && artworkType) {
-            const [appId, app] = matchedApps[0];
-            this.previewData[steamDirectory][userId].apps[appId].images[
-              artworkType
-            ].singleProviders.steam = {
-              imageProvider: imageProviderNames.steam,
-              imageUrl: steamImageUrl,
-              imageRes: imageRes[filePath],
-              loadStatus: "done",
-            };
-            this.setImageIndex(app, 0, artworkType);
-          }
+          app.images[artworkType].singleProviders.steam = {
+            imageProvider: imageProviderNames.steam,
+            imageUrl: encodeFile(filePath),
+            imageRes: imageRes[filePath],
+            loadStatus: "done",
+          };
+          // (one change event at the end, not one per image)
+          appImage.setImageIndex(
+            app.images[artworkType],
+            this.onlineImages[artworkType],
+            0,
+          );
         }
       }
     }
@@ -547,17 +553,19 @@ export class PreviewEngine {
         this.previewVariables.numberOfQueriedImages += imageProvidersForKey
           .map((provider) => imageByProvider[provider].searchQueries.length)
           .reduce((x, y) => x + y, 0);
-        let retrievingByProvider = Object.fromEntries(
+        // Lookups still running, per provider (one per search query): the
+        // pool is retrieving until all are done.
+        const pendingByProvider = Object.fromEntries(
           onlineProviders.map((x) => [
             x,
-            imageProvidersForKey.includes(x) &&
-              !!imageByProvider[x].searchQueries.length,
+            imageProvidersForKey.includes(x)
+              ? imageByProvider[x].searchQueries.length
+              : 0,
           ]),
         );
-        imageByPool.retrieving = Object.values(retrievingByProvider).reduce(
-          (x, y) => x || y,
-          false,
-        );
+        const stillRetrieving = () =>
+          Object.values(pendingByProvider).some((n) => n > 0);
+        imageByPool.retrieving = stillRetrieving();
         for (let provider of imageProvidersForKey) {
           const image = imageByProvider[provider];
           if (image !== undefined && image.searchQueries.length) {
@@ -653,10 +661,8 @@ export class PreviewEngine {
                       break;
                     case "completed":
                       {
-                        retrievingByProvider[provider] = false;
-                        imageByPool.retrieving = Object.values(
-                          retrievingByProvider,
-                        ).reduce((x, y) => x || y);
+                        pendingByProvider[provider]--;
+                        imageByPool.retrieving = stillRetrieving();
                         if (
                           --this.previewVariables.numberOfQueriedImages === 0
                         ) {

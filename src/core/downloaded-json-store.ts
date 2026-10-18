@@ -143,7 +143,10 @@ export abstract class DownloadedJsonStore<T extends object> {
           this.lang.info.downloaded,
           force ? { invokeAlert: true, alertTimeout: 5000 } : undefined,
         );
+        // The cache keeps just the download; what's in use is it with the
+        // user's own data (e.g. their custom variables), as load() gives.
         await this.save(force);
+        this.set(await this.fromCache(downloaded));
       }
     } catch (error) {
       this.logger.error(
@@ -158,9 +161,12 @@ export abstract class DownloadedJsonStore<T extends object> {
     }
   }
 
-  // Refreshes from GitHub if possible, then loads from the local cache.
-  async load(): Promise<T> {
-    await this.download();
+  // Refreshes from GitHub if possible (not when `download` is false, e.g.
+  // offline mode), then loads from the local cache.
+  async load({ download = true }: { download?: boolean } = {}): Promise<T> {
+    if (download) {
+      await this.download();
+    }
     try {
       const cached = await json.read<T>(this.localFile);
       const error = this.set(await this.fromCache(cached));

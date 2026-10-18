@@ -141,9 +141,15 @@ export class LibraryReader {
         };
       }
     }
+    // shortcuts.vdf holds the id signed; SRM keys localconfig by the
+    // unsigned short id (older SRM: the signed one).
+    const localApps = user.localConfig?.UserLocalConfigStore?.apps;
     const steamInputEnabled: SteamInputEnabled =
-      (user.localConfig?.UserLocalConfigStore?.apps?.[shortcut.appid] || {})
-        .UseSteamControllerConfig || "1";
+      (
+        localApps?.[String(shortcut.appid >>> 0)] ||
+        localApps?.[shortcut.appid] ||
+        {}
+      ).UseSteamControllerConfig || "1";
     return { artwork, controllers, steamInputEnabled };
   }
 

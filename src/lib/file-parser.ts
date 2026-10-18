@@ -15,7 +15,7 @@ import {
   AppSettings,
   ParserType,
   initArtworkRecord,
-  TitleModifiers
+  TitleModifiers,
 } from "../models";
 import { FuzzyMatcher } from "./fuzzy-matcher";
 import { VariableParser } from "./variable-parser";
@@ -39,41 +39,64 @@ import * as sgdbSearch from "./image-providers/sgdb-search";
 import { TitleModifierHandler } from "./title-modifier-handler";
 import { ruleFor, ruleTitle, searchQuery } from "../core/exceptions-format";
 
-
 interface PreParserResult {
   superType: string;
   config: UserConfiguration;
   settings: AppSettings;
 }
 
-interface SteamDirectoriesResult  extends PreParserResult{
-  steamDirectory: { directory: string; data: userAccountData[] }
+interface SteamDirectoriesResult extends PreParserResult {
+  steamDirectory: { directory: string; data: userAccountData[] };
 }
 
 interface ParserResult extends PreParserResult {
   parsedData: ParsedData;
-  filteredAccounts: { found: userAccountData[]; missing: string[]; }
+  filteredAccounts: { found: userAccountData[]; missing: string[] };
 }
 
-interface EmptyParsedConfigsResults extends PreParserResult{
+interface EmptyParsedConfigsResults extends PreParserResult {
   parsedData: ParsedData;
   parsedConfig: ParsedUserConfiguration;
   titleModifierHandler: TitleModifierHandler;
 }
 
 interface FuzzyMatchResults extends EmptyParsedConfigsResults {
-  sortTitlesFromVariables: string[]
-  variableFailures: boolean[]
+  sortTitlesFromVariables: string[];
+  variableFailures: boolean[];
 }
 
 interface ParsedConfigFilesResults extends PreParserResult {
-  titleModifierHandler: TitleModifierHandler,
-  parsedConfig: ParsedUserConfiguration
+  titleModifierHandler: TitleModifierHandler;
+  parsedConfig: ParsedUserConfiguration;
 }
 
 interface ImagesResults {
-  parsedConfig: ParsedUserConfiguration,
-  titleModifierHandler: TitleModifierHandler
+  parsedConfig: ParsedUserConfiguration;
+  titleModifierHandler: TitleModifierHandler;
+}
+
+// Runs the tasks given to it at most `max` at a time.
+function concurrencyLimit(max: number) {
+  let active = 0;
+  const waiting: (() => void)[] = [];
+  const next = () => {
+    if (active < max && waiting.length) {
+      active++;
+      waiting.shift()();
+    }
+  };
+  return <T>(task: () => Promise<T>) =>
+    new Promise<T>((resolve, reject) => {
+      waiting.push(() =>
+        task()
+          .then(resolve, reject)
+          .finally(() => {
+            active--;
+            next();
+          }),
+      );
+      next();
+    });
 }
 
 export class FileParser {
@@ -112,28 +135,26 @@ export class FileParser {
           config: configs[i],
           settings: settings,
         })
-        // pull in the data we will need to parse
-        .then(this.preParserPromise.bind(this))
-        .then(this.steamDirectoriesPromise.bind(this))
-        .then(this.parserPromise.bind(this))
+          // pull in the data we will need to parse
+          .then(this.preParserPromise.bind(this))
+          .then(this.steamDirectoriesPromise.bind(this))
+          .then(this.parserPromise.bind(this))
 
-        .then(this.buildEmptyParsedConfigsPromise.bind(this))
+          .then(this.buildEmptyParsedConfigsPromise.bind(this))
 
-        // in here is the title waterfall that we need to re-work
-        .then(this.shortcutTitlesPromise.bind(this))
-        .then(this.fuzzyMatchPromise.bind(this))
-        .then(this.parsedConfigFilesPromise.bind(this))
-        .then(this.shortcutsPromise.bind(this))
-        .then(this.appendArgsPromise.bind(this))
+          // in here is the title waterfall that we need to re-work
+          .then(this.shortcutTitlesPromise.bind(this))
+          .then(this.fuzzyMatchPromise.bind(this))
+          .then(this.parsedConfigFilesPromise.bind(this))
+          .then(this.shortcutsPromise.bind(this))
+          .then(this.appendArgsPromise.bind(this))
 
-        // exceptions are always last; they overwrite all other changes
-        .then(this.userExceptionsPromise.bind(this))
-        
-        
-        
-        .then(this.imagesPromise.bind(this))
-        .then(this.titleLockPromise.bind(this))
-        .then(this.backedUpLocalImagesPromise.bind(this))
+          // exceptions are always last; they overwrite all other changes
+          .then(this.userExceptionsPromise.bind(this))
+
+          .then(this.imagesPromise.bind(this))
+          .then(this.titleLockPromise.bind(this))
+          .then(this.backedUpLocalImagesPromise.bind(this)),
       );
     }
     return Promise.all(configPromises)
@@ -149,8 +170,6 @@ export class FileParser {
         throw new Error(`File Parser Execution:\n ${err}`);
       });
   }
-
-
 
   private preParserPromise({
     superType,
@@ -356,7 +375,7 @@ export class FileParser {
           settings: settings,
           parsedData: parsedData,
           parsedConfig: parsedConfig,
-          titleModifierHandler: new TitleModifierHandler(parsedData)
+          titleModifierHandler: new TitleModifierHandler(parsedData),
         });
       } catch (e) {
         reject(
@@ -375,16 +394,15 @@ export class FileParser {
     settings,
     parsedData,
     parsedConfig,
-    titleModifierHandler
+    titleModifierHandler,
   }: EmptyParsedConfigsResults): Promise<EmptyParsedConfigsResults> {
     return new Promise<EmptyParsedConfigsResults>((resolve, reject) => {
       try {
         let shortcutPromises: Promise<void>[] = [];
-        let usePassthrough = (superType === parserInfo.ROMType) && (config.executable.shortcutPassthrough)
-        if (
-          usePassthrough &&
-          os.type() == "Linux"
-        ) {
+        let usePassthrough =
+          superType === parserInfo.ROMType &&
+          config.executable.shortcutPassthrough;
+        if (usePassthrough && os.type() == "Linux") {
           for (let i = 0; i < parsedData.success.length; i++) {
             if (
               path.extname(parsedData.success[i].filePath).toLowerCase() ===
@@ -400,24 +418,20 @@ export class FileParser {
                   titleModifierHandler.advanceModifier(
                     i,
                     "postShortcutPassthrough",
-                    entry["Name"]
-                  )
+                    entry["Name"],
+                  );
                 });
               shortcutPromises.push(shortcutPromise);
             }
           }
-        }
-        else if(
-          usePassthrough &&
-          os.type() == "Windows_NT"
-        ) {
+        } else if (usePassthrough && os.type() == "Windows_NT") {
           // For now explicitly do nothing; Windows .lnk files do not carry metadata that could reasonably be pulled out as the title.
-          for(let i=0; i < parsedData.success.length; i++) {
+          for (let i = 0; i < parsedData.success.length; i++) {
             titleModifierHandler.advanceModifier(
               i,
               "postShortcutPassthrough",
-              titleModifierHandler.latestTitle[i]
-            )
+              titleModifierHandler.latestTitle[i],
+            );
           }
         }
 
@@ -429,7 +443,7 @@ export class FileParser {
               settings: settings,
               parsedData: parsedData,
               parsedConfig: parsedConfig,
-              titleModifierHandler: titleModifierHandler
+              titleModifierHandler: titleModifierHandler,
             });
           })
           .catch((error) => {
@@ -449,58 +463,60 @@ export class FileParser {
     settings,
     parsedData,
     parsedConfig,
-    titleModifierHandler
+    titleModifierHandler,
   }: EmptyParsedConfigsResults): Promise<FuzzyMatchResults> {
     return new Promise((resolve, reject) => {
       try {
         let sortTitlesFromVariables: string[] = null;
-        let variableFailures: boolean[] = Array(parsedData.success.length).fill(false);
+        let variableFailures: boolean[] = Array(parsedData.success.length).fill(
+          false,
+        );
         if (
           superType === parserInfo.ROMType ||
           superType === parserInfo.ManualType
         ) {
-          const extractedTitles = parsedData.success.map(ps=>ps.extractedTitle);
+          const extractedTitles = parsedData.success.map(
+            (ps) => ps.extractedTitle,
+          );
           if (config.titleFromVariable.limitToGroups) {
-
             const titlesFromVariables = this.getTitlesFromVariables(
               config.titleFromVariable,
-              extractedTitles
-            )
+              extractedTitles,
+            );
 
-            for(let i=0; i < parsedData.success.length; i++) {
-              if(titlesFromVariables[i] !== null) {
+            for (let i = 0; i < parsedData.success.length; i++) {
+              if (titlesFromVariables[i] !== null) {
                 titleModifierHandler.advanceModifier(
                   i,
                   "postCustomVariables",
-                  titlesFromVariables[i]
-                )
-              } 
-              else if(config.titleFromVariable.skipFileIfVariableWasNotFound){
+                  titlesFromVariables[i],
+                );
+              } else if (
+                config.titleFromVariable.skipFileIfVariableWasNotFound
+              ) {
                 variableFailures[i] = true;
               }
             }
-
           }
           if (config.sortAsFromVariable.limitToGroups) {
             sortTitlesFromVariables = this.getSortTitlesFromVariables(
               config["sortAsFromVariable"],
-              extractedTitles
-            )
+              extractedTitles,
+            );
           }
           const fuzzyTitles = this.fuzzyService.fuzzyMatcher.fuzzyMatch(
             config.fuzzyMatch,
-            titleModifierHandler
+            titleModifierHandler,
           );
-          for(let i = 0; i < parsedData.success.length; i++) {
-            if(fuzzyTitles[i] !== null) {
+          for (let i = 0; i < parsedData.success.length; i++) {
+            if (fuzzyTitles[i] !== null) {
               titleModifierHandler.advanceModifier(
                 i,
                 "postFuzzy",
-                fuzzyTitles[i]
-              )
+                fuzzyTitles[i],
+              );
             }
           }
-
         }
         resolve({
           superType: superType,
@@ -510,14 +526,13 @@ export class FileParser {
           parsedConfig: parsedConfig,
           titleModifierHandler: titleModifierHandler,
           sortTitlesFromVariables: sortTitlesFromVariables,
-          variableFailures: variableFailures
+          variableFailures: variableFailures,
         });
       } catch (e) {
         reject(`Fuzzy matching step for "${config.configTitle}":\n ${e}`);
       }
     });
   }
-
 
   private parsedConfigFilesPromise({
     superType,
@@ -527,7 +542,7 @@ export class FileParser {
     parsedConfig,
     titleModifierHandler,
     sortTitlesFromVariables,
-    variableFailures
+    variableFailures,
   }: FuzzyMatchResults): Promise<ParsedConfigFilesResults> {
     return new Promise((resolve, reject) => {
       try {
@@ -545,7 +560,8 @@ export class FileParser {
         for (let i = 0; i < parsedData.success.length; i++) {
           if (variableFailures[i]) {
             parsedConfig.failed.push(
-              `Failing ${parsedData.success[i].filePath}\n User selected skip if variable not found and no variable matched ${parsedData.success[i].extractedTitle}`);
+              `Failing ${parsedData.success[i].filePath}\n User selected skip if variable not found and no variable matched ${parsedData.success[i].extractedTitle}`,
+            );
             continue;
           }
 
@@ -558,7 +574,8 @@ export class FileParser {
             startInDir =
               parsedData.success[i].startInDirectory ||
               path.dirname(executableLocation);
-            appendArgsToExecutable = parsedData.success[i].appendArgsToExecutable;
+            appendArgsToExecutable =
+              parsedData.success[i].appendArgsToExecutable;
           } else if (superType === parserInfo.ROMType) {
             executableLocation =
               config.executable.path || parsedData.success[i].filePath;
@@ -581,8 +598,6 @@ export class FileParser {
             appendArgsToExecutable = false;
           }
 
-
-
           let newFile: ParsedUserConfigurationFile = {
             steamCategories: undefined,
             executableLocation: executableLocation || "",
@@ -600,40 +615,41 @@ export class FileParser {
             backupImage: initArtworkRecord<string>(() => null),
             localImages: initArtworkRecord<string[]>(() => []),
             titles: titleModifierHandler.getTitleModifiers(i), // at this point includes up to and incl. postFuzzy
-            sortAsTitle: sortTitlesFromVariables ? sortTitlesFromVariables[i] || "" : "",
+            sortAsTitle: sortTitlesFromVariables
+              ? sortTitlesFromVariables[i] || ""
+              : "",
             filePath: parsedData.success[i].filePath || "",
             imagePool: undefined,
             onlineImageQueries: undefined,
           };
 
-
           // In setting the modified title any of the previous titles can be used (extracted, postshortcut, postcv, postfuzzy)
           let variableData = this.makeVariableData(
-            config, 
-            settings, 
-            newFile, 
-            titleModifierHandler.getTitleModifiers(i)
+            config,
+            settings,
+            newFile,
+            titleModifierHandler.getTitleModifiers(i),
           );
-          
-          let modifiedTitle = ""
+
+          let modifiedTitle = "";
           if (config.titleModifier) {
             modifiedTitle = vParser.setInput(config.titleModifier).parse()
-            ? vParser.replaceVariables((variable) => {
-                return this.getVariable(
-                  variable as AllVariables,
-                  variableData,
-                ).trim();
-              })
-            : "";
-          }            
+              ? vParser.replaceVariables((variable) => {
+                  return this.getVariable(
+                    variable as AllVariables,
+                    variableData,
+                  ).trim();
+                })
+              : "";
+          }
           titleModifierHandler.advanceModifier(
             i,
             "postTitleModifier",
-            modifiedTitle
-          )
-          // explicitly make postTitleModifier title available as a variable 
+            modifiedTitle,
+          );
+          // explicitly make postTitleModifier title available as a variable
           // so the rest of the modifiers can use it.
-          variableData.titles = titleModifierHandler.getTitleModifiers(i)
+          variableData.titles = titleModifierHandler.getTitleModifiers(i);
 
           if (superType === parserInfo.ManualType) {
             newFile.argumentString = parsedData.success[i].launchOptions || "";
@@ -706,6 +722,15 @@ export class FileParser {
 
           parsedConfig.files.push(newFile);
         }
+        // From here on titles are looked up by position in `files`: drop
+        // the skipped ones' so later files keep their own titles.
+        titleModifierHandler.applyExclusions(
+          new Set(
+            parsedData.success
+              .map((_file, i) => i)
+              .filter((i) => variableFailures[i]),
+          ),
+        );
         resolve({
           superType: superType,
           config: config,
@@ -798,10 +823,7 @@ export class FileParser {
               ".desktop"
             ) {
               let shortcutPromise: Promise<void> = fs.promises
-                .open(parsedConfig.files[j].filePath, "r")
-                .then((filehandle) => {
-                  return filehandle.readFile("utf8");
-                })
+                .readFile(parsedConfig.files[j].filePath, "utf8")
                 .then((data) => {
                   let entry = xdgparse.parse(data)["Desktop Entry"];
                   let splitExec = String(entry["Exec"]).match(
@@ -812,8 +834,12 @@ export class FileParser {
                     modifiedExecutableLocation;
                   parsedConfig.files[j].startInDirectory =
                     (entry["Path"] && String(entry["Path"])) ||
-                    path.dirname(modifiedExecutableLocation);
-                  parsedConfig.files[j].argumentString = splitExec.join(" ");
+                    path.dirname(modifiedExecutableLocation.replace(/"/g, ""));
+                  // Field codes (%U, %f, ...) are for the desktop's launcher
+                  // to fill in; Steam would pass them on as they are.
+                  parsedConfig.files[j].argumentString = splitExec
+                    .filter((arg) => !/^%[fFuUdDnNickvm]$/.test(arg))
+                    .join(" ");
                 });
               shortcutPromises.push(shortcutPromise);
             }
@@ -826,7 +852,7 @@ export class FileParser {
               config: config,
               settings: settings,
               parsedConfig: parsedConfig,
-              titleModifierHandler: titleModifierHandler
+              titleModifierHandler: titleModifierHandler,
             });
           })
           .catch((error) => {
@@ -845,7 +871,7 @@ export class FileParser {
     config,
     settings,
     parsedConfig,
-    titleModifierHandler
+    titleModifierHandler,
   }: ParsedConfigFilesResults): Promise<ParsedConfigFilesResults> {
     return new Promise((resolve, reject) => {
       try {
@@ -863,7 +889,7 @@ export class FileParser {
           config: config,
           settings: settings,
           parsedConfig: parsedConfig,
-          titleModifierHandler
+          titleModifierHandler,
         });
       } catch (e) {
         reject(
@@ -878,7 +904,7 @@ export class FileParser {
     config,
     settings,
     parsedConfig,
-    titleModifierHandler
+    titleModifierHandler,
   }: ParsedConfigFilesResults): Promise<ParsedConfigFilesResults> {
     return new Promise((resolve, reject) => {
       try {
@@ -888,7 +914,9 @@ export class FileParser {
           // (artwork-only parsers: the Steam app id), others by its title.
           let shortAppId: string;
           if (superType === parserInfo.ArtworkOnlyType) {
-            shortAppId = parsedConfig.files[i].modifiedExecutableLocation.replace(/\"/g, "");
+            shortAppId = parsedConfig.files[
+              i
+            ].modifiedExecutableLocation.replace(/\"/g, "");
           } else {
             shortAppId = steam.generateShortAppId(
               parsedConfig.files[i].modifiedExecutableLocation,
@@ -921,8 +949,8 @@ export class FileParser {
               titleModifierHandler.advanceModifier(
                 i,
                 "final",
-                exceptions.newTitle
-              )
+                exceptions.newTitle,
+              );
             }
             if (exceptions && exceptions.commandLineArguments) {
               parsedConfig.files[i].argumentString =
@@ -944,16 +972,15 @@ export class FileParser {
             }
           }
         }
-        titleModifierHandler.applyExclusions(excludeIndices)
+        titleModifierHandler.applyExclusions(excludeIndices);
         parsedConfig.files = parsedConfig.files.filter((x) => !!x);
-
 
         resolve({
           superType: superType,
           config: config,
           settings: settings,
           parsedConfig: parsedConfig,
-          titleModifierHandler: titleModifierHandler
+          titleModifierHandler: titleModifierHandler,
         });
       } catch (e) {
         reject(`Apply user exceptions step for ${config.configTitle}:\n ${e}`);
@@ -966,7 +993,7 @@ export class FileParser {
     config,
     settings,
     parsedConfig,
-    titleModifierHandler
+    titleModifierHandler,
   }: ParsedConfigFilesResults): Promise<ImagesResults> {
     return new Promise((resolve, reject) => {
       try {
@@ -982,7 +1009,7 @@ export class FileParser {
               settings,
               parsedConfig,
               vParser,
-              titleModifierHandler
+              titleModifierHandler,
             ).then((fieldData) => {
               for (let j = 0; j < fieldData.parsedConfig.files.length; j++) {
                 parsedConfig.files[j].resolvedDefaultImages[artworkType] =
@@ -1005,7 +1032,7 @@ export class FileParser {
               settings,
               parsedConfig,
               vParser,
-              titleModifierHandler
+              titleModifierHandler,
             ).then((fieldData) => {
               for (let j = 0; j < fieldData.parsedConfig.files.length; j++) {
                 parsedConfig.files[j].resolvedLocalImages[artworkType] =
@@ -1022,54 +1049,77 @@ export class FileParser {
             }),
           );
         }
-        Promise.all(localPromises)
-          .then(() => Promise.all(defaultPromises))
+        // (a failed glob fails the step, rather than leaving it pending)
+        Promise.all([...localPromises, ...defaultPromises])
           .then(() => {
             resolve({
               parsedConfig,
-              titleModifierHandler
-          });
-          });
+              titleModifierHandler,
+            });
+          })
+          .catch((e) =>
+            reject(
+              `Resolve images step for "${parsedConfig.configurationTitle}":\n ${e}`,
+            ),
+          );
       } catch (e) {
-        reject(`Resolve images step for "${parsedConfig.configurationTitle}":\n ${e}`);
+        reject(
+          `Resolve images step for "${parsedConfig.configurationTitle}":\n ${e}`,
+        );
       }
     });
   }
 
   private titleLockPromise({
     parsedConfig,
-    titleModifierHandler
+    titleModifierHandler,
   }: ImagesResults): Promise<ParsedUserConfiguration> {
     return new Promise((resolve, reject) => {
       try {
-        for(let i = 0; i < parsedConfig.files.length; i++) {
+        for (let i = 0; i < parsedConfig.files.length; i++) {
           titleModifierHandler.lockModifier(i);
-          parsedConfig.files[i].titles = titleModifierHandler.getTitleModifiers(i)
+          parsedConfig.files[i].titles =
+            titleModifierHandler.getTitleModifiers(i);
         }
-        resolve(parsedConfig)
-      } catch (e){
-        reject(`Title lock failed for "${parsedConfig.configurationTitle}":\n ${e}`)
+        resolve(parsedConfig);
+      } catch (e) {
+        reject(
+          `Title lock failed for "${parsedConfig.configurationTitle}":\n ${e}`,
+        );
       }
-    })
+    });
   }
 
-  private backedUpLocalImagesPromise(parsedConfig: ParsedUserConfiguration): Promise<ParsedUserConfiguration> {
+  private backedUpLocalImagesPromise(
+    parsedConfig: ParsedUserConfiguration,
+  ): Promise<ParsedUserConfiguration> {
     return new Promise((resolve, reject) => {
       try {
         let backedupPromises: Promise<void>[] = [];
         if (parsedConfig.drmProtect) {
+          // One SteamGridDB lookup per query (files can share one), a few at
+          // a time: thousands at once get rate-limited, and a failed lookup
+          // (e.g. offline) just means no backups are found.
+          const limit = concurrencyLimit(8);
+          const lookups = new Map<string, Promise<number[]>>();
+          const lookup = (query: string) => {
+            if (!lookups.has(query)) {
+              lookups.set(
+                query,
+                limit(() => sgdbSearch.retrieveIdsFromTitle(query)).catch(
+                  (): number[] => [],
+                ),
+              );
+            }
+            return lookups.get(query);
+          };
           for (let j = 0; j < parsedConfig.files.length; j++) {
             if (!parsedConfig.files[j].onlineImageQueries.length) {
               continue;
             }
-            // One SteamGridDB lookup per file, shared by all artwork types.
-            // A failed lookup (e.g. offline) just means no backups are found.
             backedupPromises.push(
-              sgdbSearch.retrieveIdsFromTitle(
-                parsedConfig.files[j].onlineImageQueries[0],
-              )
-                .catch((): number[] => [])
-                .then((possibleGameIds: number[]) => {
+              lookup(parsedConfig.files[j].onlineImageQueries[0]).then(
+                (possibleGameIds: number[]) => {
                   if (!possibleGameIds.length) {
                     return;
                   }
@@ -1091,7 +1141,8 @@ export class FileParser {
                       }),
                     ),
                   ).then(() => {});
-                }),
+                },
+              ),
             );
           }
         }
@@ -1113,48 +1164,61 @@ export class FileParser {
   }
 
   private _groupsHelper(
-    variableConfig: UserConfiguration["titleFromVariable" | "sortAsFromVariable"],
+    variableConfig: UserConfiguration[
+      | "titleFromVariable"
+      | "sortAsFromVariable"],
   ) {
-    return _.intersectionWith(
+    return (
+      _.intersectionWith(
         variableConfig.limitToGroups,
         Object.keys(this.customVariableData),
-      ) || [];
+      ) || []
+    );
   }
 
   private getTitlesFromVariables(
     variableConfig: UserConfiguration["titleFromVariable"],
-    extractedTitles: string[]
+    extractedTitles: string[],
   ) {
     const titles = Array(extractedTitles.length).fill(null);
-    const groups = this._groupsHelper(variableConfig)
-    const useCaseInsensitive = variableConfig.caseInsensitiveVariables
+    const groups = this._groupsHelper(variableConfig);
+    const useCaseInsensitive = variableConfig.caseInsensitiveVariables;
+    // Case-insensitive: each group's keys by their lowercase, built once
+    // (not a scan of every key for every title; mapping files can be huge).
+    const lowercaseKeys = useCaseInsensitive
+      ? groups.map((group) => {
+          const keys = new Map<string, string>();
+          for (const key in this.customVariableData[group]) {
+            const lower = key.toLowerCase();
+            if (!keys.has(lower)) keys.set(lower, key);
+          }
+          return keys;
+        })
+      : [];
 
     for (let i = 0; i < extractedTitles.length; i++) {
-      const currentTitle = extractedTitles[i]
-      let match = null;
+      const currentTitle = extractedTitles[i];
       for (let j = 0; j < groups.length; j++) {
         const groupData = this.customVariableData[groups[j]];
-        
+        let match = null;
+
         // Compute the matching key
         if (useCaseInsensitive) {
-          for (const key in groupData) {
-            if (currentTitle.toLowerCase() === key.toLowerCase()) {
-              match = key
-              break;
-            }
-          }
-        } else if (groupData[currentTitle] !== undefined){
-          match = currentTitle
+          match = lowercaseKeys[j].get(currentTitle.toLowerCase()) ?? null;
+        } else if (groupData[currentTitle] !== undefined) {
+          match = currentTitle;
         }
 
-        if(match) {
-          let titleMappingValue = groupData[match]
+        if (match) {
+          let titleMappingValue = groupData[match];
           if (typeof titleMappingValue === "string") {
-            titles[i] = titleMappingValue
+            titles[i] = titleMappingValue;
             break;
-          }
-          else if (typeof titleMappingValue === "object" && "DisplayTitle" in titleMappingValue) {
-            titles[i] = titleMappingValue["DisplayTitle"]
+          } else if (
+            typeof titleMappingValue === "object" &&
+            "DisplayTitle" in titleMappingValue
+          ) {
+            titles[i] = titleMappingValue["DisplayTitle"];
             break;
           }
         }
@@ -1163,27 +1227,30 @@ export class FileParser {
     return titles;
   }
 
-  private getSortTitlesFromVariables (
+  private getSortTitlesFromVariables(
     variableConfig: UserConfiguration["sortAsFromVariable"],
-    latestTitle: string[]
+    latestTitle: string[],
   ): string[] {
     const sortAsTitles = Array(latestTitle.length).fill(null);
-    const groups = this._groupsHelper(variableConfig)
+    const groups = this._groupsHelper(variableConfig);
     for (let i = 0; i < latestTitle.length; i++) {
       for (let j = 0; j < groups.length; j++) {
         const groupData = this.customVariableData[groups[j]];
         // Compute the matching key
-        if (groupData[latestTitle[i]]){
-          let titleMappingValue = groupData[latestTitle[i]]
-          if (typeof titleMappingValue === "object" && "SortAsTitle" in titleMappingValue) {
-            sortAsTitles[i] = titleMappingValue["SortAsTitle"]
+        if (groupData[latestTitle[i]]) {
+          let titleMappingValue = groupData[latestTitle[i]];
+          if (
+            typeof titleMappingValue === "object" &&
+            "SortAsTitle" in titleMappingValue
+          ) {
+            sortAsTitles[i] = titleMappingValue["SortAsTitle"];
             break;
           }
         }
       }
     }
-    return sortAsTitles
-  }    
+    return sortAsTitles;
+  }
 
   private filterUserAccounts(
     accountData: userAccountData[],
@@ -1230,7 +1297,7 @@ export class FileParser {
     settings: AppSettings,
     parsedConfig: ParsedUserConfiguration,
     vParser: VariableParser,
-    titleModifierHandler: TitleModifierHandler
+    titleModifierHandler: TitleModifierHandler,
   ) {
     let promises: Promise<void>[] = [];
     let resolvedGlobs: string[][] = [];
@@ -1245,7 +1312,7 @@ export class FileParser {
           config,
           settings,
           parsedConfig.files[i],
-          titleModifierHandler.getTitleModifiers(i)
+          titleModifierHandler.getTitleModifiers(i),
         );
         const cwd = config.romDirectory;
         // this is hacky af, figure out a better way to do escaping for glob
@@ -1325,14 +1392,20 @@ export class FileParser {
       return match[1].replaceDiacritics();
     }
 
+    // ${cv:group1,group2|input}: input's value in those custom variable
+    // groups (any group if none are named).
     match = /^cv:?(.*)\|(.+)$/i.exec(output);
     if (match) {
       let groups = match[1]
-        ? _.intersection(Object.keys(this.customVariableData), match[1])
+        ? _.intersection(
+            Object.keys(this.customVariableData),
+            match[1].split(",").map((group) => group.trim()),
+          )
         : Object.keys(this.customVariableData);
       for (let i = 0; i < groups.length; i++) {
-        if (this.customVariableData[groups[i]][match[2]] !== undefined) {
-          return match[2];
+        const value = this.customVariableData[groups[i]][match[2]];
+        if (value !== undefined) {
+          return typeof value === "object" ? value.DisplayTitle : value;
         }
       }
       return "undefined";
@@ -1394,7 +1467,10 @@ export class FileParser {
     return output || "";
   }
 
-  private getVariable(variable: AllVariables, variableData: ParserVariableData) {
+  private getVariable(
+    variable: AllVariables,
+    variableData: ParserVariableData,
+  ) {
     const unavailable = "undefined";
     let output = variable as string;
     switch (<AllVariables>variable.toUpperCase()) {
@@ -1446,11 +1522,17 @@ export class FileParser {
       case "FILENAME":
         output =
           variableData.filePath != undefined
-            ? path.basename(variableData.filePath, path.extname(variableData.filePath))
+            ? path.basename(
+                variableData.filePath,
+                path.extname(variableData.filePath),
+              )
             : unavailable;
         break;
       case "FILEPATH":
-        output = variableData.filePath != undefined ? variableData.filePath : unavailable;
+        output =
+          variableData.filePath != undefined
+            ? variableData.filePath
+            : unavailable;
         break;
       case "TITLE":
         output = variableData.titles["extracted"];
@@ -1462,17 +1544,23 @@ export class FileParser {
         output = variableData.titles["postCustomVariables"];
         break;
       case "FUZZYTITLE":
-        output = variableData.titles["postFuzzy"] || variableData.titles["extracted"];
+        output =
+          variableData.titles["postFuzzy"] || variableData.titles["extracted"];
         break;
       case "FINALTITLE":
         output = variableData.titles["postTitleModifier"];
         break;
       case "PARSERTITLE":
-        output = variableData.configTitle != undefined ? variableData.configTitle : unavailable;
+        output =
+          variableData.configTitle != undefined
+            ? variableData.configTitle
+            : unavailable;
         break;
       case "ROMDIR":
         output =
-          variableData.romDirectory != undefined ? variableData.romDirectory : unavailable;
+          variableData.romDirectory != undefined
+            ? variableData.romDirectory
+            : unavailable;
         break;
       case "STARTINDIR":
         output =
@@ -1482,7 +1570,9 @@ export class FileParser {
         break;
       case "STEAMDIR":
         output =
-          variableData.steamDirectory != undefined ? variableData.steamDirectory : unavailable;
+          variableData.steamDirectory != undefined
+            ? variableData.steamDirectory
+            : unavailable;
         break;
 
       case "STEAMDIRGLOBAL":

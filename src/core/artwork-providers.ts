@@ -62,14 +62,47 @@ function reportError(
   });
 }
 
-// The SteamGridDB game id for a title (or an explicit ${gameid:N}).
-async function sgdbGameId(client: SgdbClient, title: string) {
-  if (sgdbIdRegex.test(title)) {
-    return parseInt(title.match(sgdbIdRegex)[1]);
+// SteamGridDB lookups shared by every artwork type and provider of a run:
+// one search per title and one game per id, not one per (type, provider).
+// Cleared when lookups stop (each new list starts fresh).
+class SgdbLookups {
+  private ids = new Map<string, Promise<number | undefined>>();
+  private games = new Map<number, Promise<any>>();
+
+  constructor(readonly client: SgdbClient) {}
+
+  // The game id for a title (or an explicit ${gameid:N}).
+  gameId(title: string) {
+    if (!this.ids.has(title)) {
+      this.ids.set(title, this.search(title));
+    }
+    return this.ids.get(title);
   }
-  // URL encode plus signs to fix search issues with titles ending in "+"
-  const results = await client.searchGame(title.replace(/\+/g, "%2B"));
-  return (results[0] || {}).id as number | undefined;
+
+  private async search(title: string) {
+    if (sgdbIdRegex.test(title)) {
+      return parseInt(title.match(sgdbIdRegex)[1]);
+    }
+    // URL encode plus signs to fix search issues with titles ending in "+"
+    const results = await this.client.searchGame(title.replace(/\+/g, "%2B"));
+    return (results[0] || {}).id as number | undefined;
+  }
+
+  // The game with its Steam platform data.
+  steamGame(id: number) {
+    if (!this.games.has(id)) {
+      this.games.set(
+        id,
+        this.client.getGameById(id, { platformdata: ["steam"] }),
+      );
+    }
+    return this.games.get(id);
+  }
+
+  clear() {
+    this.ids.clear();
+    this.games.clear();
+  }
 }
 
 function noMatch(task: ProviderTask, provider: OnlineProviderType) {
@@ -83,9 +116,10 @@ function noMatch(task: ProviderTask, provider: OnlineProviderType) {
   }
 }
 
-function sgdbProvider(client: SgdbClient): Provider {
+function sgdbProvider(lookups: SgdbLookups): Provider {
+  const { client } = lookups;
   return async (task) => {
-    const id = await sgdbGameId(client, task.title);
+    const id = await lookups.gameId(task.title);
     if (!id) {
       return noMatch(task, "sgdb");
     }
@@ -178,13 +212,13 @@ async function steamCdnUrl(
   return undefined;
 }
 
-function steamCdnProvider(client: SgdbClient, fetch: Fetch): Provider {
+function steamCdnProvider(lookups: SgdbLookups, fetch: Fetch): Provider {
   return async (task) => {
-    const id = await sgdbGameId(client, task.title);
+    const id = await lookups.gameId(task.title);
     if (!id) {
       return noMatch(task, "steamCDN");
     }
-    const game = await client.getGameById(id, { platformdata: ["steam"] });
+    const game = await lookups.steamGame(id);
     const steam = game?.external_platform_data?.steam;
     if (!steam?.length) {
       return;
@@ -240,12 +274,13 @@ export class ArtworkProviders {
   // Bumped by stopUrlDownload(); results from older lookups are dropped.
   private generation = 0;
   private stopped = new Subject<void>();
+  private lookups: SgdbLookups;
 
   constructor(fetch: Fetch) {
-    const client = new SgdbClient(fetch);
+    this.lookups = new SgdbLookups(new SgdbClient(fetch));
     this.providers = {
-      sgdb: sgdbProvider(client),
-      steamCDN: steamCdnProvider(client, fetch),
+      sgdb: sgdbProvider(this.lookups),
+      steamCDN: steamCdnProvider(this.lookups, fetch),
     };
     for (const name of onlineProviders) {
       this.queues[name] = this.createQueue(name);
@@ -302,6 +337,7 @@ export class ArtworkProviders {
   // Abandons all pending and in-flight lookups.
   stopUrlDownload() {
     this.generation++;
+    this.lookups.clear();
     for (const name of onlineProviders) {
       this.queues[name].kill();
       this.queues[name] = this.createQueue(name);
