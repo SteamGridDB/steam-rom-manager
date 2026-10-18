@@ -1,0 +1,218 @@
+<div class="editor">
+  <aside class="list">
+    <div class="listTitle">{{ lang.userThemes }}</div>
+    @for (user of themeService.userThemeList; track user.file) {
+      <button
+        class="item"
+        [class.selected]="isSelected({ kind: 'user', file: user.file })"
+        (click)="open({ kind: 'user', file: user.file })"
+      >
+        <span class="itemName">{{ user.theme.name }}</span>
+        @if (user.theme.name === activeTheme) {
+          <span class="badge">{{ lang.inUse }}</span>
+        }
+      </button>
+    }
+    @if (selection.kind === "new") {
+      <button class="item selected">
+        <span class="itemName">{{ draft.name }}</span>
+        <span class="dot" [title]="lang.unsaved"></span>
+      </button>
+    }
+    <button class="newTheme" (click)="newTheme()">+ {{ lang.newTheme }}</button>
+
+    <div class="listTitle">{{ lang.appThemes }}</div>
+    @for (theme of appThemes; track theme.name) {
+      <button
+        class="item"
+        [class.selected]="isSelected({ kind: 'app', name: theme.name })"
+        (click)="open({ kind: 'app', name: theme.name })"
+      >
+        <span class="itemName">{{ theme.name }}</span>
+        @if (theme.name === activeTheme) {
+          <span class="badge">{{ lang.inUse }}</span>
+        }
+      </button>
+    }
+    <p class="note">{{ lang.folderNote }}</p>
+  </aside>
+
+  <section class="main">
+    <header class="head">
+      @if (editable) {
+        <input
+          class="nameInput"
+          [class.invalid]="nameProblem"
+          [value]="draft.name"
+          (input)="setName($any($event.target).value)"
+          [attr.aria-label]="lang.name"
+          [placeholder]="lang.name"
+        />
+      } @else {
+        <h2 class="title">{{ draft.name }}</h2>
+      }
+      @if (dirty) {
+        <span class="badge unsaved">{{ lang.unsaved }}</span>
+      }
+      <div class="actions">
+        @if (editable) {
+          <button
+            class="action primary"
+            [disabled]="!canSave || busy"
+            (click)="save()"
+          >
+            {{ lang.save }}
+          </button>
+          <button class="action" [disabled]="!dirty" (click)="revert()">
+            {{ lang.revert }}
+          </button>
+        }
+        <button class="action" (click)="duplicate()">
+          {{ lang.duplicate }}
+        </button>
+        @if (inUse) {
+          <span class="badge">{{ lang.inUse }}</span>
+        } @else {
+          <button class="action" [disabled]="!canUse" (click)="use()">
+            {{ lang.use }}
+          </button>
+        }
+        @if (selection.kind === "user") {
+          <button class="action danger" [disabled]="busy" (click)="delete()">
+            {{ lang.delete }}
+          </button>
+        }
+      </div>
+    </header>
+
+    @if (!editable) {
+      <p class="note">
+        {{ lang.appThemeNote__i.interpolate({ name: draft.name }) }}
+      </p>
+    }
+    @if (editable && nameProblem) {
+      <p class="problem">{{ nameProblem }}</p>
+    }
+    @if (editable && invalidCount) {
+      <p class="problem">
+        {{ lang.errors.invalidTokens__i.interpolate({ count: invalidCount }) }}
+      </p>
+    }
+
+    <div class="basics">
+      <div class="field">
+        <span class="fieldLabel">{{ lang.colorScheme }}</span>
+        <div class="segmented">
+          <button
+            [class.on]="draft.colorScheme === 'dark'"
+            [disabled]="!editable"
+            (click)="setColorScheme('dark')"
+          >
+            {{ lang.dark }}
+          </button>
+          <button
+            [class.on]="draft.colorScheme === 'light'"
+            [disabled]="!editable"
+            (click)="setColorScheme('light')"
+          >
+            {{ lang.light }}
+          </button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="fieldLabel">{{ lang.layout }}</span>
+        <div class="segmented">
+          @for (layout of layouts; track layout) {
+            <button
+              [class.on]="draft.layout === layout"
+              [disabled]="!editable"
+              (click)="setLayout(layout)"
+            >
+              {{ layout }}
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input
+        class="search"
+        type="search"
+        [value]="search"
+        (input)="search = $any($event.target).value"
+        [placeholder]="lang.search"
+      />
+      <label class="check">
+        <input
+          type="checkbox"
+          [checked]="changedOnly"
+          (change)="changedOnly = $any($event.target).checked"
+        />
+        {{ lang.changedOnly }}
+      </label>
+      <label class="check">
+        <input type="checkbox" [checked]="preview" (change)="togglePreview()" />
+        {{ lang.preview }}
+      </label>
+    </div>
+
+    <div class="tokens">
+      @for (group of groups; track group) {
+        @if (tokensIn(group).length) {
+          <h3 class="groupTitle">{{ lang.groups[group] }}</h3>
+          @for (token of tokensIn(group); track token) {
+            <div
+              class="token"
+              [class.changed]="draft.tokens[token] !== undefined"
+              [class.invalid]="isInvalid(token)"
+            >
+              @if (hasSwatch(token)) {
+                <button
+                  class="swatch"
+                  [style.background]="effective(token)"
+                  [disabled]="!editable || !isColor(token)"
+                  [title]="lang.pickColor"
+                  [colorPicker]="effective(token)"
+                  [cpDisabled]="!editable || !isColor(token)"
+                  [cpAlphaChannel]="'enabled'"
+                  [cpOutputFormat]="'auto'"
+                  [cpPosition]="'bottom-right'"
+                  (colorPickerChange)="setToken(token, $event)"
+                ></button>
+              } @else {
+                <span class="swatch none"></span>
+              }
+              <div class="tokenText">
+                <code class="tokenName">{{ token }}</code>
+                <span class="tokenAbout">{{ describe(token) }}</span>
+              </div>
+              <input
+                class="tokenValue"
+                [value]="value(token)"
+                [placeholder]="
+                  lang.inherited__i.interpolate({ value: base(token) })
+                "
+                [disabled]="!editable"
+                [title]="isInvalid(token) ? lang.invalid : ''"
+                (input)="setToken(token, $any($event.target).value)"
+              />
+              @if (editable && draft.tokens[token] !== undefined) {
+                <button
+                  class="clear"
+                  [title]="lang.clear"
+                  [attr.aria-label]="lang.clear"
+                  (click)="setToken(token, '')"
+                >
+                  ×
+                </button>
+              } @else {
+                <span class="clear none"></span>
+              }
+            </div>
+          }
+        }
+      }
+    </div>
+  </section>
+</div>

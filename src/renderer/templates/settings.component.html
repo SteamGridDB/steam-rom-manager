@@ -8,7 +8,31 @@
   (accountsJoined)="setUserAccounts($event)"
 >
 </choose-accounts>
-<div class="settings">
+<div class="settings" [class.editorOpen]="tab === 'themeEditor'">
+  <div class="tabs">
+    <button
+      class="tab"
+      [class.active]="tab === 'settings'"
+      (click)="setTab('settings')"
+    >
+      {{ lang.tabs.settings }}
+    </button>
+    <button
+      class="tab"
+      [class.active]="tab === 'themeEditor'"
+      (click)="setTab('themeEditor')"
+    >
+      {{ lang.tabs.themeEditor }}
+    </button>
+  </div>
+  @if (tab === "themeEditor") {
+    <theme-editor
+      class="themeEditor"
+      [activeTheme]="settings.theme"
+      (useTheme)="changeTheme($event)"
+      (themesChanged)="listThemes()"
+    ></theme-editor>
+  } @else {
   <div>
     <div class="section">
       <label>
@@ -525,6 +549,7 @@
       </div>
     </div>
   </div>
+  }
 </div>
 <div class="menu" drag-scroll>
   <div class="lowerLeft">

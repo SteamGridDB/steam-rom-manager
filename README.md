@@ -132,12 +132,12 @@ Translations are done on [Crowdin](https://crowdin.com/project/steam-rom-manager
 
 ## Themes
 
-Every color, font, radius, shadow and timing in the UI is a design token, listed with what it's for in `src/renderer/theme/tokens.ts` and set as a CSS variable (`var(--srm-accent)`). Stylesheets use tokens, never colors of their own (the tests check this). The base theme in `src/renderer/theme/themes.ts` sets every token; a theme only sets what it changes.
+Every color, font, radius, shadow and timing in the UI is a design token, listed in `src/renderer/theme/tokens.ts` (what each is for is in the language files: `settings.component.themeEditor.tokens`) and set as a CSS variable (`var(--srm-accent)`). Stylesheets use tokens, never colors of their own (the tests check this). The base theme in `src/renderer/theme/themes.ts` sets every token; a theme only sets what it changes.
 
 Themes are JSON files, in two places:
 
 - **App themes** (`src/themes/default/`): Deck, Classic, EmuDeck, Sunset, Solarized Dark and Solarized Light. They're built into SRM, so they're always there, and SRM writes copies of them to `themes/default` in its data folder as examples.
-- **User themes** (`themes/user` in SRM's data folder): any JSON file there shows up in Settings under "Your themes". Unknown tokens and invalid values are skipped and reported in the log.
+- **User themes** (`themes/user` in SRM's data folder): any JSON file there shows up in Settings under "Your themes". Settings > Theme editor creates, edits (with a live preview on the whole app), saves and deletes them; app themes can be duplicated there. Unknown tokens and invalid values are skipped and reported in the log.
 
 ```json
 {

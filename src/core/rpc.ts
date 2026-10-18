@@ -113,6 +113,8 @@ export const rpcApi = {
       "clearArtworkCache",
       "clearArtworkBackups",
       "userThemes",
+      "saveUserTheme",
+      "deleteUserTheme",
       "submitBugReport",
     ],
   },

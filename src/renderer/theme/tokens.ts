@@ -18,118 +18,85 @@ export type TokenKind =
   | "easing" // e.g. cubic-bezier(...)
   | "filter"; // e.g. invert(1)
 
+// Sections of the theme editor, in order.
+export const tokenGroups = [
+  "surfaces",
+  "text",
+  "lines",
+  "accent",
+  "scrollbars",
+  "depth",
+  "type",
+  "shape",
+  "motion",
+] as const;
+export type TokenGroup = (typeof tokenGroups)[number];
+
+// What each token is for (shown in the theme editor) is in the language
+// files: settings.component.themeEditor.tokens.
 export const tokens = {
-  // Surfaces, from the deepest back to the most raised.
-  bg: { kind: "color", about: "App background behind everything" },
-  "bg-art": {
-    kind: "paint",
-    about: "Ambient backdrop over the background (e.g. a soft gradient)",
-  },
-  surface: { kind: "color", about: "Panels: navigation, side panels, menus" },
-  "surface-raised": { kind: "color", about: "Cards, inputs, list rows" },
-  "surface-hover": {
-    kind: "color",
-    about: "A raised surface under the pointer",
-  },
-  "surface-sunken": {
-    kind: "color",
-    about: "Wells: code blocks, empty areas, tracks",
-  },
-  glass: {
-    kind: "color",
-    about: "Translucent panels over artwork (used with blur)",
-  },
-  "glass-border": { kind: "color", about: "Edge of glass panels" },
-  scrim: { kind: "color", about: "Dimming behind dialogs and overlays" },
-  "art-overlay": {
-    kind: "color",
-    about: "Over artwork while its controls show (keep it translucent)",
-  },
+  bg: { kind: "color", group: "surfaces" },
+  "bg-art": { kind: "paint", group: "surfaces" },
+  surface: { kind: "color", group: "surfaces" },
+  "surface-raised": { kind: "color", group: "surfaces" },
+  "surface-hover": { kind: "color", group: "surfaces" },
+  "surface-sunken": { kind: "color", group: "surfaces" },
+  glass: { kind: "color", group: "surfaces" },
+  "glass-border": { kind: "color", group: "surfaces" },
+  scrim: { kind: "color", group: "surfaces" },
+  "art-overlay": { kind: "color", group: "surfaces" },
 
-  // Text.
-  text: { kind: "color", about: "Primary text" },
-  "text-muted": { kind: "color", about: "Secondary text, labels" },
-  "text-subtle": { kind: "color", about: "Hints, placeholders, disabled text" },
-  "text-on-accent": {
-    kind: "color",
-    about: "Text on accent-colored backgrounds",
-  },
-  link: { kind: "color", about: "Links in docs and messages" },
-  "icon-filter": {
-    kind: "filter",
-    about:
-      "Applied to the app's white icons (e.g. brightness(0.35) on light themes)",
-  },
+  text: { kind: "color", group: "text" },
+  "text-muted": { kind: "color", group: "text" },
+  "text-subtle": { kind: "color", group: "text" },
+  "text-on-accent": { kind: "color", group: "text" },
+  link: { kind: "color", group: "text" },
+  "icon-filter": { kind: "filter", group: "text" },
 
-  // Lines.
-  border: { kind: "color", about: "Hairlines between areas" },
-  "border-strong": { kind: "color", about: "Input and card outlines" },
-  "focus-ring": { kind: "color", about: "Keyboard focus outline" },
+  border: { kind: "color", group: "lines" },
+  "border-strong": { kind: "color", group: "lines" },
+  "focus-ring": { kind: "color", group: "lines" },
 
-  // Accent and states.
-  accent: {
-    kind: "color",
-    about: "Brand color: primary buttons, active items, toggles",
-  },
-  "accent-hover": { kind: "color", about: "Accent under the pointer" },
-  "accent-soft": {
-    kind: "color",
-    about: "Translucent accent: selected rows, badges",
-  },
-  "accent-gradient": { kind: "paint", about: "Primary call-to-action fill" },
-  success: { kind: "color", about: "Done, valid, enabled" },
-  "success-soft": { kind: "color", about: "Translucent success" },
-  warning: { kind: "color", about: "Unsaved, needs attention" },
-  "warning-soft": { kind: "color", about: "Translucent warning" },
-  danger: {
-    kind: "color",
-    about: "Destructive actions, errors, invalid input",
-  },
-  "danger-soft": { kind: "color", about: "Translucent danger" },
-  info: { kind: "color", about: "Informational highlights" },
+  accent: { kind: "color", group: "accent" },
+  "accent-hover": { kind: "color", group: "accent" },
+  "accent-soft": { kind: "color", group: "accent" },
+  "accent-gradient": { kind: "paint", group: "accent" },
+  success: { kind: "color", group: "accent" },
+  "success-soft": { kind: "color", group: "accent" },
+  warning: { kind: "color", group: "accent" },
+  "warning-soft": { kind: "color", group: "accent" },
+  danger: { kind: "color", group: "accent" },
+  "danger-soft": { kind: "color", group: "accent" },
+  info: { kind: "color", group: "accent" },
 
-  // Scrollbars.
-  scrollbar: { kind: "color", about: "Scrollbar thumb" },
-  "scrollbar-hover": {
-    kind: "color",
-    about: "Scrollbar thumb under the pointer",
-  },
+  scrollbar: { kind: "color", group: "scrollbars" },
+  "scrollbar-hover": { kind: "color", group: "scrollbars" },
 
-  // Depth.
-  "shadow-sm": { kind: "shadow", about: "Small lift (buttons, chips)" },
-  "shadow-md": { kind: "shadow", about: "Cards, menus" },
-  "shadow-lg": { kind: "shadow", about: "Dialogs, hovered artwork" },
-  glow: { kind: "shadow", about: "Accent glow (focused/selected artwork)" },
-  blur: { kind: "length", about: "Backdrop blur of glass panels" },
+  "shadow-sm": { kind: "shadow", group: "depth" },
+  "shadow-md": { kind: "shadow", group: "depth" },
+  "shadow-lg": { kind: "shadow", group: "depth" },
+  glow: { kind: "shadow", group: "depth" },
+  blur: { kind: "length", group: "depth" },
 
-  // Type.
-  font: { kind: "font", about: "Interface text" },
-  "font-display": { kind: "font", about: "Headings and titles" },
-  "font-mono": { kind: "font", about: "Code, paths, ids" },
-  "font-size": { kind: "length", about: "Base text size" },
-  "line-height": { kind: "number", about: "Base line height" },
+  font: { kind: "font", group: "type" },
+  "font-display": { kind: "font", group: "type" },
+  "font-mono": { kind: "font", group: "type" },
+  "font-size": { kind: "length", group: "type" },
+  "line-height": { kind: "number", group: "type" },
 
-  // Shape and space.
-  "radius-sm": { kind: "length", about: "Chips, small controls" },
-  "radius-md": { kind: "length", about: "Buttons, inputs" },
-  "radius-lg": { kind: "length", about: "Cards, panels" },
-  "radius-art": { kind: "length", about: "Artwork corners" },
-  space: {
-    kind: "length",
-    about: "Base spacing unit (paddings and gaps are multiples)",
-  },
-  "nav-width": {
-    kind: "length",
-    about: "Default width of the navigation sidebar",
-  },
+  "radius-sm": { kind: "length", group: "shape" },
+  "radius-md": { kind: "length", group: "shape" },
+  "radius-lg": { kind: "length", group: "shape" },
+  "radius-art": { kind: "length", group: "shape" },
+  space: { kind: "length", group: "shape" },
+  "nav-width": { kind: "length", group: "shape" },
 
-  // Motion.
-  "duration-fast": { kind: "time", about: "Hovers, presses" },
-  duration: { kind: "time", about: "Panels opening, crossfades" },
-  "duration-slow": { kind: "time", about: "Page transitions" },
-  ease: { kind: "easing", about: "Default easing" },
-  "ease-spring": { kind: "easing", about: "Playful overshoot (hover lifts)" },
-} as const satisfies Record<string, { kind: TokenKind; about: string }>;
+  "duration-fast": { kind: "time", group: "motion" },
+  duration: { kind: "time", group: "motion" },
+  "duration-slow": { kind: "time", group: "motion" },
+  ease: { kind: "easing", group: "motion" },
+  "ease-spring": { kind: "easing", group: "motion" },
+} as const satisfies Record<string, { kind: TokenKind; group: TokenGroup }>;
 
 export type TokenName = keyof typeof tokens;
 export const tokenNames = Object.keys(tokens) as TokenName[];

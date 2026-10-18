@@ -17,6 +17,18 @@ export type SteamLogin = userAccountData & {
   avatar: string | null;
 };
 
+// A user theme's file name, checked: "<name>.json", no folders.
+function userThemeFile(file: string) {
+  if (
+    typeof file !== "string" ||
+    !/^[^\\/:*?"<>|]+\.json$/i.test(file) ||
+    file.startsWith(".")
+  ) {
+    throw new Error(`Not a theme file name: ${JSON.stringify(file)}`);
+  }
+  return file;
+}
+
 // Small file-system jobs the UI asks for (it has no file system access).
 export class UiSupport {
   constructor(private fetch: Fetch) {}
@@ -92,6 +104,22 @@ export class UiSupport {
         }
       }),
     );
+  }
+
+  // Writes a user theme (from the theme editor) to themes/user/<file>.
+  // `file` is a bare "<name>.json": nothing outside that folder.
+  async saveUserTheme(file: string, data: object): Promise<string> {
+    const name = userThemeFile(file);
+    await fs.ensureDir(paths.userThemesDir);
+    await fs.writeFile(
+      path.join(paths.userThemesDir, name),
+      JSON.stringify(data, null, 2) + "\n",
+    );
+    return name;
+  }
+
+  async deleteUserTheme(file: string): Promise<void> {
+    await fs.remove(path.join(paths.userThemesDir, userThemeFile(file)));
   }
 
   submitBugReport(report: BugReport): Promise<BugReportResult> {
