@@ -131,7 +131,8 @@ export function commonFields(): ParserField[] {
     label: imageProviderNames[p],
   }));
   return [
-    field("parserType", "type", "select", l.label.parserType, s.basic, {
+    // (not --type: Chromium reserves that, and the CLI also runs in Electron)
+    field("parserType", "ptype", "select", l.label.parserType, s.basic, {
       required: true,
       values: parserInfo.availableParsers.map((p) => ({ value: p, label: p })),
       ...validated("parserType"),

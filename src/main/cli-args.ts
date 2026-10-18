@@ -141,7 +141,7 @@ export function parseCliArgs(
     )
     .command(
       ["create-parser", "create"],
-      "Create a parser. Every setting the parser editor has is an option; see create --help (add --type <type> for just that type's)",
+      "Create a parser. Every setting the parser editor has is an option; see create --help (add --ptype <type> for just that type's)",
       (y: any) => fieldOptions.declare(y, "create"),
       set("create-parser"),
     )
@@ -171,7 +171,7 @@ export function parseCliArgs(
     )
     .command(
       ["view-parser <parser>", "view <parser>", "show <parser>"],
-      "Show a parser's settings: the ones named (e.g. view <parser> --type --name), or all that apply to it",
+      "Show a parser's settings: the ones named (e.g. view <parser> --ptype --name), or all that apply to it",
       (y: any) =>
         fieldOptions.declare(
           y.positional("parser", {
@@ -191,11 +191,11 @@ export function parseCliArgs(
     .example('$0 enable "Snes9x (SNES)" "Dolphin (GameCube)"', "")
     .example("$0 disable --all", "")
     .example(
-      '$0 create --type Glob --name "My SNES" --rom-directory D:/ROMs/SNES --glob "${title}.sfc"',
+      '$0 create --ptype Glob --name "My SNES" --rom-directory D:/ROMs/SNES --glob "${title}.sfc"',
       "",
     )
     .example('$0 edit "My SNES" --steam-categories "Puzzle" "Fun"', "")
-    .example('$0 view "My SNES" --type --rom-directory', "")
+    .example('$0 view "My SNES" --ptype --rom-directory', "")
     .epilogue(steamNote)
     .wrap(Math.min(100, process.stdout.columns || 100))
     .exitProcess(exitProcess);

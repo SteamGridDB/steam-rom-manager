@@ -95,7 +95,7 @@ describe("parseCliArgs", () => {
     expect(
       parse(
         "create",
-        "--type",
+        "--ptype",
         "glob",
         "--name",
         "My Fancy Parser",
@@ -107,7 +107,7 @@ describe("parseCliArgs", () => {
     ).toMatchObject({
       command: "create-parser",
       fields: {
-        type: "glob",
+        ptype: "glob",
         name: "My Fancy Parser",
         "steam-categories": ["Puzzle", "Fun"],
         "drm-protect": false,
@@ -125,10 +125,10 @@ describe("parseCliArgs", () => {
       command: "delete-parser",
       parsers: ["a", "My Parser"],
     });
-    expect(parse("view", "a", "--type", "--name").request).toMatchObject({
+    expect(parse("view", "a", "--ptype", "--name").request).toMatchObject({
       command: "view-parser",
       parser: "a",
-      show: ["type", "name"],
+      show: ["ptype", "name"],
     });
     // everything when nothing is named; "show" is another name for it
     expect(parse("show", "a").request).toMatchObject({
@@ -141,17 +141,22 @@ describe("parseCliArgs", () => {
     );
   });
 
-  it("--parser-type is --type (the app reruns --type commands with it: Chromium reserves --type)", () => {
+  it("the parser type is --ptype, or --parser-type (Chromium reserves --type)", () => {
+    expect(parse("create", "--type", "glob").error?.message).toBe(
+      "Unknown option --type (did you mean --ptype?)",
+    );
     for (const args of [
+      ["create", "--ptype", "glob", "--name", "x"],
+      ["create", "--ptype=glob", "--name", "x"],
       ["create", "--parser-type", "glob", "--name", "x"],
       ["create", "--parser-type=glob", "--name", "x"],
     ]) {
       expect(parse(...args).request.fields).toEqual({
-        type: "glob",
+        ptype: "glob",
         name: "x",
       });
     }
-    expect(parse("view", "a", "--parser-type").request.show).toEqual(["type"]);
+    expect(parse("view", "a", "--parser-type").request.show).toEqual(["ptype"]);
     expect(
       parse("create", "--parser-type", "Steam", "--help").printed,
     ).not.toContain("--rom-directory");
@@ -159,17 +164,17 @@ describe("parseCliArgs", () => {
 
   it("create/edit: unknown options are refused, with a suggestion", () => {
     expect(
-      parse("create", "--type", "glob", "--rom-dir", "x").error?.message,
+      parse("create", "--ptype", "glob", "--rom-dir", "x").error?.message,
     ).toBe("Unknown option --rom-dir (did you mean --rom-directory?)");
     expect(parse("edit", "a", "--zzz", "x").error?.message).toBe(
       "Unknown option --zzz",
     );
   });
 
-  it("create help: every setting; with --type, that type's, required first", () => {
+  it("create help: every setting; with --ptype, that type's, required first", () => {
     const all = parse("create", "--help").printed;
     for (const flag of [
-      "--type",
+      "--ptype",
       "--rom-directory",
       "--glob",
       "--parse-strategy",
@@ -182,13 +187,13 @@ describe("parseCliArgs", () => {
       /--rom-directory\s+ROMs directory\. REQUIRED \(ROM parsers only/,
     );
 
-    const glob = parse("create", "--type", "glob", "--help").printed;
+    const glob = parse("create", "--ptype", "glob", "--help").printed;
     const required = glob.slice(
       glob.indexOf("Required:"),
       glob.indexOf("\n\n", glob.indexOf("Required:")),
     );
     expect(required.match(/--[a-z-]+/g)).toEqual([
-      "--type",
+      "--ptype",
       "--parser-type", // (shown as its other name)
       "--name",
       "--rom-directory",
@@ -199,7 +204,7 @@ describe("parseCliArgs", () => {
     );
     // other types' settings and ROM-less settings aren't listed
     expect(glob).not.toContain("--parse-strategy");
-    expect(parse("create", "--type", "Steam", "--help").printed).not.toContain(
+    expect(parse("create", "--ptype", "Steam", "--help").printed).not.toContain(
       "--rom-directory",
     );
   });
