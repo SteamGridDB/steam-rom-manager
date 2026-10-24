@@ -300,19 +300,23 @@ export class CategoryManager {
     collections: any,
     addedCategories: VDF_AddedCategoriesData[string][string],
   ) {
-    const localKeys = Object.keys(collections);
-    // Clean out local collections
-    for (const catKey of localKeys) {
-      // only clear out apps that list the category of the collection
-      const toRemoveForCat = toRemove.filter((shortId) => {
-        const appCats = addedCategories[shortId];
-        const collectionsCatName = collections[catKey]?.name || "";
-        return appCats
-          .map((catName: string) => catName.toUpperCase())
-          .includes(collectionsCatName.toUpperCase());
-      });
+    // The shortcuts to take out of each collection, by its (uppercase)
+    // name: those whose categories include it. (Built once, not per
+    // collection: thousands of shortcuts x collections.)
+    const removeByName = new Map<string, Set<number>>();
+    for (const shortId of toRemove) {
+      for (const catName of addedCategories[shortId] ?? []) {
+        const name = catName.toUpperCase();
+        if (!removeByName.has(name)) removeByName.set(name, new Set());
+        removeByName.get(name).add(+shortId);
+      }
+    }
+    for (const catKey of Object.keys(collections)) {
+      const remove = removeByName.get(
+        (collections[catKey]?.name || "").toUpperCase(),
+      );
       const nonSRMAdded = collections[catKey].added.filter(
-        (appId: number) => !toRemoveForCat.map((x) => +x).includes(appId),
+        (appId: number) => !remove?.has(appId),
       );
       collections[catKey].added = nonSRMAdded;
       if (catKey.startsWith("srm") && nonSRMAdded.length == 0) {
@@ -410,53 +414,44 @@ export class CategoryManager {
           console.log(
             `[writeCat] Adding ${addableAppIds.length} apps to categories`,
           );
+          // Collection keys by (uppercase) name, the first one found as
+          // before; members of each collection (instead of searching
+          // arrays for every app and category).
+          const keyByName = new Map<string, string>();
+          for (const key of Object.keys(collections)) {
+            const name = collections[key]?.name;
+            if (name && !keyByName.has(name.toUpperCase())) {
+              keyByName.set(name.toUpperCase(), key);
+            }
+          }
+          const members = new Map<string, Set<number>>();
+          const membersOf = (catKey: string) => {
+            if (!members.has(catKey)) {
+              members.set(catKey, new Set(collections[catKey].added));
+            }
+            return members.get(catKey);
+          };
           for (let appId of addableAppIds) {
             const app = userData.apps[appId];
             if (app.changedId) {
               appId = app.changedId;
             }
             const appIdNew = parseInt(steam.shortenAppId(appId), 10);
-            // Loop "steamCategories" for app
-            app.steamCategories.forEach((catName: string) => {
+            for (const catName of app.steamCategories) {
               if (!catName || catName.trim() === "") {
-                console.warn("[writeCat] Skipping empty category name");
-                return;
+                continue;
               }
-
-              // Create a consistent, safe collection key
               const safeCatName = catName.trim();
-              let catKey: string;
-              console.log(
-                `[writeCat] Processing category "${safeCatName}" for app ${appId}`,
-              );
-
-              // Check if collection already exists (case-insensitive search)
-              const existingKey = Object.keys(collections).find((key) => {
-                if (collections[key] && collections[key].name) {
-                  return (
-                    collections[key].name.toUpperCase() ===
-                    safeCatName.toUpperCase()
-                  );
-                }
-                return false;
-              });
-
-              if (existingKey) {
-                catKey = existingKey;
-                console.log(
-                  `[writeCat] Using existing collection key "${catKey}" for category "${safeCatName}"`,
-                );
-              } else {
-                // Generate a new collection key using base64 encoding for safety
+              let catKey = keyByName.get(safeCatName.toUpperCase());
+              if (!catKey) {
+                // A new collection key, base64 for safety
                 const base64Name = Buffer.from(safeCatName, "utf8")
                   .toString("base64")
                   .replace(/[+/=]/g, (match) => {
                     return { "+": "-", "/": "_", "=": "" }[match] || match;
                   });
                 catKey = `srm-${base64Name}`;
-                console.log(
-                  `[writeCat] Created new collection key "${catKey}" for category "${safeCatName}"`,
-                );
+                keyByName.set(safeCatName.toUpperCase(), catKey);
               }
 
               // Ensure collection exists in localconfig.vdf with proper structure
@@ -477,15 +472,10 @@ export class CategoryManager {
               collections[catKey].removed ||= [];
 
               // Add app to collection if not already present
-              if (!collections[catKey].added.includes(appIdNew)) {
+              const inCollection = membersOf(catKey);
+              if (!inCollection.has(appIdNew)) {
+                inCollection.add(appIdNew);
                 collections[catKey].added.push(appIdNew);
-                console.log(
-                  `[writeCat] Added app ${appIdNew} to collection "${catKey}"`,
-                );
-              } else {
-                console.log(
-                  `[writeCat] App ${appIdNew} already in collection "${catKey}"`,
-                );
               }
 
               // Remove from removed list if present
@@ -493,11 +483,8 @@ export class CategoryManager {
                 collections[catKey].removed.indexOf(appIdNew);
               if (removedIndex > -1) {
                 collections[catKey].removed.splice(removedIndex, 1);
-                console.log(
-                  `[writeCat] Removed app ${appIdNew} from removed list of collection "${catKey}"`,
-                );
               }
-            });
+            }
           }
           console.log(
             `[writeCat] Completed processing, final collections:`,
