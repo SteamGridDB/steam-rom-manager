@@ -1,4 +1,5 @@
 import * as path from "path";
+import * as fs from "fs-extra";
 import { Logger } from "../models";
 import * as json from "../lib/helpers/json";
 import { Fetch, getJson } from "./http";
@@ -162,9 +163,15 @@ export abstract class DownloadedJsonStore<T extends object> {
   }
 
   // Refreshes from GitHub if possible (not when `download` is false, e.g.
-  // offline mode), then loads from the local cache.
-  async load({ download = true }: { download?: boolean } = {}): Promise<T> {
-    if (download) {
+  // offline mode; with "if-missing", only when there's no cache yet, e.g.
+  // the CLI), then loads from the local cache.
+  async load({
+    download = true,
+  }: { download?: boolean | "if-missing" } = {}): Promise<T> {
+    if (
+      download === true ||
+      (download === "if-missing" && !(await fs.pathExists(this.localFile)))
+    ) {
       await this.download();
     }
     try {

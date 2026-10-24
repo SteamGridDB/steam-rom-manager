@@ -33,7 +33,8 @@ export async function runCli(request: CliRequest): Promise<number> {
   console.warn = () => {};
 
   const core = new Core({ logger });
-  await core.load({ presets: false });
+  // (from the caches: a command needs no network, nor waits on it)
+  await core.load({ presets: false, refresh: false });
 
   // A parsers file with problems isn't saved over (its error was printed
   // above): commands that change parsers would only seem to work.

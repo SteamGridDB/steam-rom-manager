@@ -48,6 +48,7 @@ export const rpcApi = {
       "executeFileParser",
       "parseUserAccounts",
       "getControllerTemplates",
+      "getAllControllerTemplates",
       "saveControllerTemplates",
       "removeControllers",
       "removeAllControllers",

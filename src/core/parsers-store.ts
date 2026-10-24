@@ -538,8 +538,13 @@ export class ParsersStore {
   }
 
   async getControllerTemplates(steamDir: string, controllerType: string) {
+    return (await this.getAllControllerTemplates(steamDir))?.[controllerType];
+  }
+
+  // Every controller type's templates (one pass over the files).
+  async getAllControllerTemplates(steamDir: string) {
     try {
-      return await ControllerManager.readTemplates(steamDir, controllerType);
+      return await ControllerManager.readAllTemplates(steamDir);
     } catch (error) {
       this.logger.error(this.lang.error.fetchingTemplates, {
         invokeAlert: true,

@@ -79,13 +79,22 @@ export class Core {
 
   // Starts loading all user data. Settings come first for the stores that
   // depend on them. Parser presets are only needed by the parser editor.
-  start({ presets = true }: { presets?: boolean } = {}) {
+  // Without `refresh` (the CLI), the cached downloads are used as they are:
+  // the network is only needed when there's no cache yet.
+  start({
+    presets = true,
+    refresh = true,
+  }: { presets?: boolean; refresh?: boolean } = {}) {
     if (this.ready) {
       return this.ready;
     }
     const settings = this.settings.load();
     // Offline mode: no downloads (the cached copies are used).
-    const download = () => ({ download: !this.settings.get().offlineMode });
+    const download = () => ({
+      download: this.settings.get().offlineMode
+        ? false
+        : refresh || ("if-missing" as const),
+    });
     this.ready = {
       settings,
       parsers: settings.then(() => this.parsers.load()),
@@ -97,13 +106,15 @@ export class Core {
       presets: presets
         ? settings.then(() => this.presets.load(download()))
         : Promise.resolve(),
-      fuzzy: settings.then(() => this.fuzzy.load()),
+      fuzzy: settings.then(() =>
+        this.fuzzy.load({ refresh: download().download }),
+      ),
     };
     return this.ready;
   }
 
   // Loads everything and waits for it (what the CLI needs before a run).
-  async load(options: { presets?: boolean } = {}) {
+  async load(options: { presets?: boolean; refresh?: boolean } = {}) {
     await Promise.all(Object.values(this.start(options)));
   }
 }
