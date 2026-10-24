@@ -1687,14 +1687,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     let steamDir = this.parsersService.parseSteamDir(steamDirInput);
     if (this.parsersService.validate("steamDirectory", steamDir) == null) {
       if (force || !this.parsersService.controllerTemplates[steamDir]) {
-        this.parsersService.controllerTemplates[steamDir] = {};
-        for (let controllerType of controllerTypes) {
-          this.parsersService.controllerTemplates[steamDir][controllerType] =
-            await this.parsersService.getControllerTemplates(
-              steamDir,
-              controllerType,
-            );
-        }
+        this.parsersService.controllerTemplates[steamDir] =
+          (await this.parsersService.getAllControllerTemplates(steamDir)) ?? {};
         this.parsersService.saveControllerTemplates();
       }
       for (let controllerType of Object.keys(

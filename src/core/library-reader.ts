@@ -82,11 +82,8 @@ export class LibraryReader {
           localConfig,
         };
       }
-      this.templates[steamDir] = {};
-      for (const controllerType of controllerTypes) {
-        this.templates[steamDir][controllerType] =
-          await ControllerManager.readTemplates(steamDir, controllerType);
-      }
+      this.templates[steamDir] =
+        await ControllerManager.readAllTemplates(steamDir);
     }
     return result;
   }

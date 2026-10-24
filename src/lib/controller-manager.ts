@@ -69,99 +69,102 @@ export class ControllerManager {
     return path.join(steamDirectory, "controller_base", "templates");
   }
   // Manage Templates
-  static async readTemplates(steamDirectory: string, controllerType: string) {
-    let templateDirUser = this.templatesUserDir(steamDirectory);
-    let filesUser = await glob("*/*", {
-      dot: true,
-      cwd: templateDirUser,
-      absolute: true,
-    });
-    let parsedTemplatesUser: ControllerTemplate[] = (
-      await Promise.all(
-        filesUser
-          .filter((f: string) => fs.lstatSync(f).isFile())
-          .map(async (f: string) =>
-            Object.assign(
-              { mappingId: f.split(path.sep).slice(-2)[0] },
-              genericParser.parse(await fs.readFile(f, "utf-8")),
-            ),
-          ),
-      )
-    )
-      .filter(
-        (x: any) =>
-          !!x["controller_mappings"] &&
-          !!x["controller_mappings"]["title"] &&
-          !!x["controller_mappings"]["controller_type"],
-      )
-      .filter(
-        (x: any) =>
-          x.controller_mappings.controller_type ===
-          "controller_" + controllerType,
-      )
-      .filter(
-        (x: any) =>
-          String(x.controller_mappings.title).slice(-match.length) === match,
-      )
-      .map((x: any) =>
-        Object.assign(
-          {},
-          {
-            title: x.controller_mappings.title,
-            mappingId: x.mappingId,
-            profileType: "workshop",
-          },
-        ),
-      );
-    parsedTemplatesUser.sort((a, b) => a.title.localeCompare(b.title));
 
-    let templateDirValve = this.templatesValveDir(steamDirectory);
-    let filesValve = await glob("*.vdf", {
+  // Every controller type's templates, from one pass over the template
+  // files (each was parsed once per controller type before): the user's
+  // own SRM workshop templates (titled "... (SRM)"), then Valve's.
+  static async readAllTemplates(
+    steamDirectory: string,
+  ): Promise<Record<string, ControllerTemplate[]>> {
+    const parse = async (file: string, mappingId: string) => {
+      try {
+        return Object.assign(
+          { mappingId },
+          genericParser.parse(await fs.readFile(file, "utf-8")),
+        );
+      } catch {
+        return undefined; // (not a template)
+      }
+    };
+    const typeOf = (x: any): string | undefined => {
+      const mappings = x?.controller_mappings;
+      if (!mappings?.title || !mappings?.controller_type) return undefined;
+      return String(mappings.controller_type).replace(/^controller_/, "");
+    };
+    const byType: Record<string, ControllerTemplate[]> = Object.fromEntries(
+      controllerTypes.map((type) => [type, []]),
+    );
+
+    const userFiles = (
+      await glob("*/*", {
+        dot: true,
+        cwd: this.templatesUserDir(steamDirectory),
+        withFileTypes: true,
+      })
+    )
+      .filter((f) => f.isFile())
+      .map((f) => f.fullpath());
+    const userTemplates = await Promise.all(
+      userFiles.map((f) => parse(f, f.split(path.sep).slice(-2)[0])),
+    );
+    for (const x of userTemplates) {
+      const type = typeOf(x);
+      if (
+        type &&
+        byType[type] &&
+        String(x.controller_mappings.title).slice(-match.length) === match
+      ) {
+        byType[type].push({
+          title: x.controller_mappings.title,
+          mappingId: x.mappingId,
+          profileType: "workshop",
+        });
+      }
+    }
+
+    const valveFiles = await glob("*.vdf", {
       dot: true,
-      cwd: templateDirValve,
+      cwd: this.templatesValveDir(steamDirectory),
       absolute: true,
     });
-    let parsedTemplatesValve: ControllerTemplate[] = filesValve
-      .map((f: string) =>
-        Object.assign(
-          { mappingId: path.basename(f) },
-          genericParser.parse(fs.readFileSync(f, "utf-8")),
-        ),
-      )
-      .filter(
-        (x: any) =>
-          !!x["controller_mappings"] &&
-          !!x["controller_mappings"]["title"] &&
-          !!x["controller_mappings"]["controller_type"],
-      )
-      .filter(
-        (x: any) =>
-          x.controller_mappings.controller_type ===
-          "controller_" + controllerType,
-      )
-      .map((x: any) =>
-        Object.assign(
-          {},
-          {
-            title:
-              json.caselessGet(
-                x,
-                [
-                  ["controller_mappings"],
-                  ["localization"],
-                  ["english"],
-                  ["title"],
-                ],
-                true,
-              ) || json.caselessGet(x, [["controller_mappings"], ["title"]]),
-            mappingId: x.mappingId,
-            profileType: "template",
-          },
-        ),
-      );
-    parsedTemplatesValve = _.uniqBy(parsedTemplatesValve, "title");
-    parsedTemplatesValve.sort((a, b) => a.title.localeCompare(b.title));
-    return parsedTemplatesUser.concat(parsedTemplatesValve);
+    const valveTemplates = await Promise.all(
+      valveFiles.map((f) => parse(f, path.basename(f))),
+    );
+    const valveByType: Record<string, ControllerTemplate[]> = {};
+    for (const x of valveTemplates) {
+      const type = typeOf(x);
+      if (type && byType[type]) {
+        (valveByType[type] ??= []).push({
+          title:
+            json.caselessGet(
+              x,
+              [
+                ["controller_mappings"],
+                ["localization"],
+                ["english"],
+                ["title"],
+              ],
+              true,
+            ) || json.caselessGet(x, [["controller_mappings"], ["title"]]),
+          mappingId: x.mappingId,
+          profileType: "template",
+        });
+      }
+    }
+
+    const byTitle = (a: ControllerTemplate, b: ControllerTemplate) =>
+      a.title.localeCompare(b.title);
+    for (const type of Object.keys(byType)) {
+      byType[type].sort(byTitle);
+      const valve = _.uniqBy(valveByType[type] ?? [], "title").sort(byTitle);
+      byType[type] = byType[type].concat(valve);
+    }
+    return byType;
+  }
+
+  // One controller type's templates.
+  static async readTemplates(steamDirectory: string, controllerType: string) {
+    return (await this.readAllTemplates(steamDirectory))[controllerType] ?? [];
   }
 
   // Manage Controllers

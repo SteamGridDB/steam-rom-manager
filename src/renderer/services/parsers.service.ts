@@ -133,6 +133,11 @@ export class ParsersService {
     return this.call("getControllerTemplates", steamDir, controllerType);
   }
 
+  // Every controller type's templates in one go.
+  getAllControllerTemplates(steamDir: string) {
+    return this.call("getAllControllerTemplates", steamDir);
+  }
+
   removeControllers(steamDir: string, userId: string, parserId?: string) {
     return this.call("removeControllers", steamDir, userId, parserId);
   }
