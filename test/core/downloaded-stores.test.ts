@@ -104,4 +104,22 @@ describe("CustomVariablesStore", () => {
     const store = new CustomVariablesStore(makeLogger().service, github.fetch);
     expect(Object.keys(await store.load()).length).toBeGreaterThan(0);
   });
+
+  it('"if-missing" (the CLI): downloads only when there is no cache', async () => {
+    const github = makeFakeGithub();
+    const first = new CustomVariablesStore(makeLogger().service, github.fetch);
+    expect(
+      Object.keys(await first.load({ download: "if-missing" })).length,
+    ).toBeGreaterThan(0);
+    const downloads = github.requests.length;
+    expect(downloads).toBeGreaterThan(0);
+
+    const { service: logger, log } = makeLogger();
+    const store = new CustomVariablesStore(logger, github.fetch);
+    expect(
+      Object.keys(await store.load({ download: "if-missing" })).length,
+    ).toBeGreaterThan(0);
+    expect(github.requests.length).toBe(downloads);
+    expect(log.filter((l) => l.level === "error")).toHaveLength(0);
+  });
 });

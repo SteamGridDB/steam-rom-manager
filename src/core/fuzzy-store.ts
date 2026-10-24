@@ -39,12 +39,20 @@ export class FuzzyStore {
     return APP.lang.fuzzyMatcher;
   }
 
-  // Loads the cache and list (refreshing the list if due). Call once the
-  // settings are loaded.
-  async load() {
+  // Loads the cache and list (refreshing the list if due; with "if-missing",
+  // only when there's no list yet, e.g. the CLI). Call once the settings
+  // are loaded.
+  async load({ refresh = true }: { refresh?: boolean | "if-missing" } = {}) {
     this.loader.setTimestamps(this.settings.get().fuzzyMatcher.timestamps);
     await this.loader.loadCache();
-    await this.loader.loadList();
+    if (refresh === true) {
+      await this.loader.loadList();
+    } else {
+      await this.loader.loadList(true);
+      if (refresh === "if-missing" && !this.loader.isLoaded()) {
+        await this.loader.loadList();
+      }
+    }
   }
 
   // Periodically persists new cache entries; doesn't keep a process alive.
