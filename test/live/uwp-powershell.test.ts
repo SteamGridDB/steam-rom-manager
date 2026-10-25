@@ -3,7 +3,8 @@
 import { describe, expect, it } from "vitest";
 import * as os from "os";
 import { XMLParser } from "fast-xml-parser";
-import { getUWPAppDetails } from "../../src/lib/parsers/UWP.parser";
+import * as fs from "fs";
+import { getUWPAppDetails, UWPParser } from "../../src/lib/parsers/UWP.parser";
 
 describe.runIf(os.type() === "Windows_NT")("UWP parser (PowerShell)", () => {
   it("finds installed packages and resolves ms-resource names in one run each", async () => {
@@ -42,6 +43,18 @@ describe.runIf(os.type() === "Windows_NT")("UWP parser (PowerShell)", () => {
     expect(calculator.path).toMatch(/CalculatorApp\.exe$/);
     console.log(`2 games in ${Date.now() - started} ms:`, calculator);
   }, 60000);
+
+  it("each installed app once, at the installed version's executable", async () => {
+    // (an updated app's old version folders stay in WindowsApps: each one
+    // used to add the app again, with that version's executable)
+    const { success } = await new UWPParser().execute([], {
+      UWPDir: "C:\\Program Files\\WindowsApps",
+      UWPLauncherMode: true,
+    });
+    const launches = success.map((s) => s.launchOptions);
+    expect(new Set(launches).size).toBe(launches.length);
+    for (const s of success) expect(fs.existsSync(s.filePath), s.filePath).toBe(true);
+  }, 120000);
 
   it("no games: no PowerShell", async () => {
     expect(await getUWPAppDetails([], new XMLParser())).toEqual([]);

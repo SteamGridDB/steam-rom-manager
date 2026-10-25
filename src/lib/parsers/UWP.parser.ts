@@ -58,6 +58,7 @@ export class UWPParser implements GenericParser {
           failed: [],
         };
         const manifests: SimpleManifest[] = [];
+        const identities = new Set<string>();
         for (let prefile of files) {
           const file = path.join(UWPDir, prefile);
           if (fs.existsSync(file) && fs.lstatSync(file).isFile()) {
@@ -109,11 +110,16 @@ export class UWPParser implements GenericParser {
                     ]),
                     appExecutable: json.caselessGet(app, [["@_Executable"]]),
                   } as SimpleManifest;
+                  // (once per package: an updated app's old version folders
+                  // stay behind, all for the same installed package)
+                  const identity = `${gameManifest.idName}|${gameManifest.idPublisher}`;
                   if (
                     gameManifest.idName &&
                     gameManifest.idPublisher &&
-                    gameManifest.appExecutable
+                    gameManifest.appExecutable &&
+                    !identities.has(identity)
                   ) {
+                    identities.add(identity);
                     manifests.push(gameManifest);
                   }
                 }
@@ -297,6 +303,7 @@ export const getUWPAppDetails = async (
     manifest: SimpleManifest;
     pkg: FoundPackage;
     appId: string;
+    executable: string;
     name: string;
     fallbackName: string;
   }[] = [];
@@ -332,6 +339,10 @@ export const getUWPAppDetails = async (
         manifest: manifests[pkg.key],
         pkg,
         appId: json.caselessGet(apxApp, [["@_Id"]]),
+        // (the installed version's: the manifest found may be an old one's)
+        executable:
+          json.caselessGet(apxApp, [["@_Executable"]]) ||
+          manifests[pkg.key].appExecutable,
         name: String(
           json.caselessGet(parsedData, [
             ["Package"],
@@ -372,7 +383,7 @@ export const getUWPAppDetails = async (
     }
   }
 
-  return found.map(({ manifest, pkg, appId, name, fallbackName }) => {
+  return found.map(({ pkg, appId, executable, name, fallbackName }) => {
     if (name.startsWith("ms-resource")) {
       const tries = candidates.get(name + "|" + pkg.FullName);
       name = tries.map((source) => resolved[source]).find((x) => !!x) || "";
@@ -381,7 +392,7 @@ export const getUWPAppDetails = async (
     return {
       name,
       workdir: pkg.InstalledPath,
-      path: path.join(pkg.InstalledPath, manifest.appExecutable).toString(),
+      path: path.join(pkg.InstalledPath, executable).toString(),
       arguments: `shell:AppsFolder\\${pkg.FamilyName}!${appId}`,
       appId: pkg.FamilyName,
     } as SimpleUWPApp;
