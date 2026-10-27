@@ -25,14 +25,17 @@ describe("SqliteWrapper", () => {
   }
 
   it("GOG Galaxy: primary play tasks with their titles and launch parameters", async () => {
+    // (Galaxy's columns; a GOG user id doesn't fit in a JS number)
     const dbPath = makeDb(
       "galaxy-2.0.db",
-      `create table LimitedDetails (productId integer, title text);
-       create table PlayTasks (id integer, gameReleaseKey text, isPrimary integer);
-       create table PlayTaskLaunchParameters (playTaskId integer, executablePath text);
-       insert into LimitedDetails values (1, 'Witcher'), (2, 'Other');
-       insert into PlayTasks values (10, 'gog_1', 1), (11, 'gog_1', 0), (12, 'generic_2', 1);
-       insert into PlayTaskLaunchParameters values (10, 'C:/witcher.exe'), (12, 'C:/other.exe');`,
+      `create table LimitedDetails (id integer, productId integer, languageId integer, is_production integer, stored_at text, title text, links text, images text);
+       create table PlayTasks (id integer, gameReleaseKey text, userId integer, "order" integer, typeId integer, isPrimary integer);
+       create table PlayTaskLaunchParameters (playTaskId integer, executablePath text, commandLineArgs text, label text);
+       insert into LimitedDetails (productId, title) values (1, 'Witcher'), (51141384418629514, 'Other');
+       insert into PlayTasks (id, gameReleaseKey, userId, isPrimary) values
+         (10, 'gog_1', 51418510460311286, 1), (11, 'gog_1', 51418510460311286, 0), (12, 'generic_51141384418629514', 51418510460311286, 1);
+       insert into PlayTaskLaunchParameters (playTaskId, executablePath, commandLineArgs) values
+         (10, 'C:/witcher.exe', '-fast'), (12, 'C:/other.exe', null);`,
     );
     const rows = (await new SqliteWrapper("gog-galaxy", dbPath, {
       externals: false,
@@ -42,16 +45,22 @@ describe("SqliteWrapper", () => {
         id: 10,
         gameReleaseKey: "gog_1",
         isPrimary: 1,
-        productId: 1,
+        productId: "1",
         productType: "gog",
         title: "Witcher",
-        params: { playTaskId: 10, executablePath: "C:/witcher.exe" },
+        params: {
+          playTaskId: 10,
+          executablePath: "C:/witcher.exe",
+          commandLineArgs: "-fast",
+        },
       },
     ]);
     const withExternals = (await new SqliteWrapper("gog-galaxy", dbPath, {
       externals: true,
     }).read()) as any[];
     expect(withExternals.map((r) => r.title)).toEqual(["Witcher", "Other"]);
+    // (a linked game's id, exactly: it goes into the launch options)
+    expect(withExternals[1].productId).toBe("51141384418629514");
   });
 
   it("Amazon Games and itch.io", async () => {

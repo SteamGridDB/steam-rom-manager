@@ -30,16 +30,25 @@ interface Db {
 function runTask(db: Db, task: SqliteTask, options: { [k: string]: any }) {
   switch (task) {
     case "gog-galaxy": {
-      const details = db.prepare("select * from LimitedDetails").all();
+      // (only the columns used, and ids as text: GOG user ids and linked
+      // games' product ids are integers too big for a JS number, which
+      // node:sqlite refuses to read and parseInt rounds)
+      const details = db
+        .prepare(
+          "select cast(productId as text) as productId, title from LimitedDetails",
+        )
+        .all();
       const playtaskparams = db
-        .prepare("select * from PlayTaskLaunchParameters")
+        .prepare(
+          "select playTaskId, executablePath, commandLineArgs from PlayTaskLaunchParameters",
+        )
         .all();
       return db
-        .prepare("select * from PlayTasks")
+        .prepare("select id, gameReleaseKey, isPrimary from PlayTasks")
         .all()
         .map((x) =>
           Object.assign(x, {
-            productId: parseInt(x.gameReleaseKey.split("_").pop()),
+            productId: x.gameReleaseKey.split("_").pop(),
             productType: x.gameReleaseKey.split("_")[0],
           }),
         )
@@ -51,7 +60,7 @@ function runTask(db: Db, task: SqliteTask, options: { [k: string]: any }) {
         .filter((x) => x.isPrimary)
         .map((x) => {
           x.params = playtaskparams.filter((y) => y.playTaskId == x.id)[0];
-          const xdetails = details.filter((y) => y.productId == x.productId);
+          const xdetails = details.filter((y) => y.productId === x.productId);
           if (xdetails.length && xdetails[0]) {
             x.title = xdetails[0].title;
           }
