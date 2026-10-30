@@ -63,14 +63,21 @@ export class EpicParser implements GenericParser {
       if (!fs.existsSync(epicManifestsDir)) {
         return reject(this.lang.errors.epicNotInstalled);
       }
-      const waitForExit = !!inputs.epicWaitForExit && os.type() == "Windows_NT";
+      const waitForExit =
+        !!inputs.epicLauncherMode &&
+        !!inputs.epicWaitForExit &&
+        os.type() == "Windows_NT";
       const scriptPath = path.join(paths.userDataDir, "scripts", "epic.ps1");
       if (waitForExit && !fs.existsSync(scriptPath)) {
         return reject(`epic.ps1 script is missing (expected at ${scriptPath})`);
       }
-      const scriptArgs = inputs.epicManifests
-        ? ` -manifestsDir "${epicManifestsDir.replace(/[\\/]+$/, "")}"`
-        : "";
+      const manifestsOverride = epicManifestsDir.replace(/[\\/]+$/, "");
+      const scriptArgs =
+        inputs.epicManifests &&
+        manifestsOverride.toLowerCase() !=
+          "c:\\programdata\\epic\\epicgameslauncher\\data\\manifests"
+          ? ` -manifestsDir "${manifestsOverride}"`
+          : "";
       try {
         let parsedData: ParsedData = {
           executableLocation: waitForExit
@@ -99,7 +106,7 @@ export class EpicParser implements GenericParser {
                 extractedTitle: item.DisplayName,
                 extractedAppId: item.AppName,
                 launchOptions: waitForExit
-                  ? `--headless powershell.exe -NoProfile -ExecutionPolicy Bypass -File "${scriptPath}" -appName "${item.AppName}"${scriptArgs}`
+                  ? `--headless powershell.exe -NoP -EP Bypass -File "${scriptPath}" -appName "${item.AppName}"${scriptArgs}`
                   : `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \\"com.epicgames.launcher://apps/${item.AppName}?action=launch&silent=true\\""`,
                 filePath: launchPath,
                 fileLaunchOptions: item.LaunchCommand,

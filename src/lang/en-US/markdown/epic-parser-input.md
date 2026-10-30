@@ -16,4 +16,4 @@ Only applies when launching via the Epic Games Store. Without it, Steam loses tr
 
 With this enabled, the shortcut runs a shell script at `${srmDir}/scripts/epic.ps1`, which restarts the Epic Games Store, starts the game through it and waits until the game has closed, so Steam's "Playing" status, play time, Remote Play and the overlay work. It runs through `conhost.exe --headless`, so no console window appears.
 
-Note that the script closes the Epic Games Store before launching the game and again after the game exits, which interrupts any downloads in progress.
+Note that the script closes the Epic Games Store before launching the game and again after the game exits, which interrupts any downloads in progress and any other Epic game that is running at the time.

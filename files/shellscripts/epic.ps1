@@ -4,8 +4,9 @@ param (
     [string]$manifestsDir = "C:\ProgramData\Epic\EpicGamesLauncher\Data\Manifests"
 )
 
+# Manifests are UTF-8 without a BOM, and a half-written one shouldn't break the lookup
 $manifest = Get-ChildItem -Path $manifestsDir -Filter "*.item" |
-    ForEach-Object { Get-Content $_.FullName -Raw | ConvertFrom-Json } |
+    ForEach-Object { Try { Get-Content $_.FullName -Raw -Encoding UTF8 | ConvertFrom-Json } Catch {} } |
     Where-Object { $_.AppName -eq $appName } |
     Select-Object -First 1
 If (!$manifest) {
@@ -23,26 +24,34 @@ function Get-GameProcesses {
     })
 }
 
-# Bootstrappers hand off to the real game right after starting, so wait until the set of
-# game processes stops changing (or 30 seconds pass) before watching it
+# Bootstrappers hand off to the real game right after starting, sometimes via a third-party
+# launcher outside the install folder, so wait until the set of game processes is non-empty and
+# stops changing (or 2 minutes pass) before watching it
 function Wait-GameSettled {
-    $timeout = (Get-Date).AddSeconds(30)
+    $timeout = (Get-Date).AddMinutes(2)
     Do {
         $before = (Get-GameProcesses).Id -join ','
         Start-Sleep -Seconds 3
         $after = (Get-GameProcesses).Id -join ','
-    } Until ($before -eq $after -or (Get-Date) -gt $timeout)
+    } Until (($after -and $before -eq $after) -or (Get-Date) -gt $timeout)
 }
 
 # Wait on the game processes directly so their exit is noticed right away. Elevated processes
-# can't always be waited on, in which case this falls back to polling. The short sleep before
-# checking again catches a game that restarts itself, e.g. after changing settings.
+# can't always be waited on, in which case this falls back to polling. Once none are left, keep
+# checking for a few seconds to catch a game that restarts itself, e.g. after changing settings.
 function Wait-GameExit {
-    While ($processes = Get-GameProcesses) {
-        ForEach ($process in $processes) {
-            Try { $process.WaitForExit() } Catch { Start-Sleep -Seconds 2 }
+    $goneSince = $null
+    While (!$goneSince -or ((Get-Date) - $goneSince).TotalSeconds -lt 5) {
+        $processes = Get-GameProcesses
+        If ($processes) {
+            $goneSince = $null
+            ForEach ($process in $processes) {
+                Try { $process.WaitForExit() } Catch { Start-Sleep -Seconds 2 }
+            }
+        } ElseIf (!$goneSince) {
+            $goneSince = Get-Date
         }
-        Start-Sleep -Seconds 2
+        Start-Sleep -Seconds 1
     }
 }
 
@@ -72,8 +81,9 @@ function Wait-CloudSync([int]$skipLines) {
     $timeout = (Get-Date).AddMinutes(1)
     While ((Get-Date) -lt $timeout) {
         $lines = @(Get-EpicLogLines | Select-Object -Skip $skipLines)
-        $started = @($lines | Select-String "Sync Started for \S*$appName").Count
-        $finished = @($lines | Select-String "Exiting Cloud Sync - \w+ - AppName: \S*$appName").Count
+        $app = "(\S*:)?$([regex]::Escape($appName))\s*$"
+        $started = @($lines | Select-String "Sync Started for $app").Count
+        $finished = @($lines | Select-String "Exiting Cloud Sync - \w+ - AppName: $app").Count
         If ($started -and $finished -ge $started) { Return }
         If (!$started -and (Get-Date) -gt $noSyncTimeout) { Return }
         Start-Sleep -Milliseconds 500
@@ -88,12 +98,12 @@ Stop-EpicLauncher
 Write-Host "Starting $($manifest.DisplayName) via Epic"
 Start-Process "com.epicgames.launcher://apps/$($appName)?action=launch&silent=true"
 
-# Wait up to 3 minutes for the game to start (cold launcher start, updates, cloud sync)
+# Wait up to 3 minutes for the game to start (cold launcher start, updates, cloud sync). If it
+# doesn't, leave Epic running, since it may be in the middle of an update or a login prompt.
 $timeout = (Get-Date).AddMinutes(3)
 While (!(Get-GameProcesses)) {
     If ((Get-Date) -gt $timeout) {
         Write-Host 'Game did not start'
-        Stop-EpicLauncher
         exit 2
     }
     Start-Sleep -Seconds 1
