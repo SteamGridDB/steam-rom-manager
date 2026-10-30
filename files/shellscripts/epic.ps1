@@ -51,6 +51,35 @@ function Stop-EpicLauncher {
     Wait-Process "EpicGamesLauncher" -Timeout 15 -ErrorAction SilentlyContinue
 }
 
+# Epic keeps its log open, so read it with shared access
+function Get-EpicLogLines {
+    Try {
+        $stream = [IO.File]::Open("$env:LOCALAPPDATA\EpicGamesLauncher\Saved\Logs\EpicGamesLauncher.log", 'Open', 'Read', 'ReadWrite')
+        $reader = New-Object IO.StreamReader($stream)
+        $reader.ReadToEnd() -split "`r?`n" | Where-Object { $_ }
+        $reader.Close()
+    } Catch {
+        @()
+    }
+}
+
+# Epic syncs cloud saves right after the game exits, so wait until it logs that the sync for this
+# game has finished. Games without cloud saves never start a sync, so stop waiting after 10 seconds
+# if none has started (Epic can take a few seconds to notice the game exited), and never wait more
+# than a minute in case the log format changes.
+function Wait-CloudSync([int]$skipLines) {
+    $noSyncTimeout = (Get-Date).AddSeconds(10)
+    $timeout = (Get-Date).AddMinutes(1)
+    While ((Get-Date) -lt $timeout) {
+        $lines = @(Get-EpicLogLines | Select-Object -Skip $skipLines)
+        $started = @($lines | Select-String "Sync Started for \S*$appName").Count
+        $finished = @($lines | Select-String "Exiting Cloud Sync - \w+ - AppName: \S*$appName").Count
+        If ($started -and $finished -ge $started) { Return }
+        If (!$started -and (Get-Date) -gt $noSyncTimeout) { Return }
+        Start-Sleep -Milliseconds 500
+    }
+}
+
 # The game has to be started by a launcher that this script started, so that it is part of the
 # process tree Steam tracks. Otherwise Remote Play and the overlay don't pick up the game.
 Write-Host 'Stopping Epic Games Launcher'
@@ -71,9 +100,12 @@ While (!(Get-GameProcesses)) {
 }
 
 Wait-GameSettled
+# Epic also syncs before launching the game, so only look at what it logs from here on
+$logLinesAtStart = @(Get-EpicLogLines).Count
 Wait-GameExit
 
-# Give Epic time to sync cloud saves, then stop it, since Steam tracks it until it exits
-Write-Host 'Game exited, stopping Epic Games Launcher'
-Start-Sleep -Seconds 10
+# Stop Epic once it has synced cloud saves, since Steam tracks it until it exits
+Write-Host 'Game exited, waiting for cloud saves to sync'
+Wait-CloudSync $logLinesAtStart
+Write-Host 'Stopping Epic Games Launcher'
 Stop-EpicLauncher
