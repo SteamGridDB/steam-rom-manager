@@ -100,7 +100,7 @@ export class EpicParser implements GenericParser {
                 extractedAppId: item.AppName,
                 launchOptions: waitForExit
                   ? `--headless powershell.exe -NoProfile -ExecutionPolicy Bypass -File "${scriptPath}" -appName "${item.AppName}"${scriptArgs}`
-                  :`-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \\"com.epicgames.launcher://apps/${item.AppName}?action=launch&silent=true\\""`,
+                  : `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \\"com.epicgames.launcher://apps/${item.AppName}?action=launch&silent=true\\""`,
                 filePath: launchPath,
                 fileLaunchOptions: item.LaunchCommand,
               });
