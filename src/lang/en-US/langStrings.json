@@ -151,6 +151,7 @@
       "Linux": "/path/to/your/manifests/"
     },
     "launcherModeInputTitle": "Launch games via Epic for online services",
+    "waitForExitInputTitle": "Keep shortcut running until the game exits",
     "errors": {
       "invalidManifestsOverride": "> Manifests Override is not a valid directory.",
       "epicNotCompatible": "> Epic Games Store not available on Linux.\n If you are using the Legendary store on Linux you need to set Manifests Override.",

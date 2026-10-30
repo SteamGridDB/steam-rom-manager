@@ -4,6 +4,7 @@ import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as os from "os";
 import * as path from "path";
+import * as paths from "../../paths";
 import { glob } from "glob";
 
 export class EpicParser implements GenericParser {
@@ -24,6 +25,12 @@ export class EpicParser implements GenericParser {
         epicLauncherMode: {
           label: this.lang.launcherModeInputTitle,
           inputType: "toggle",
+          info: this.lang.docs__md.input.join(""),
+        },
+        epicWaitForExit: {
+          label: this.lang.waitForExitInputTitle,
+          inputType: "toggle",
+          hidden: os.type() != "Windows_NT",
           info: this.lang.docs__md.input.join(""),
         },
       },
@@ -56,9 +63,19 @@ export class EpicParser implements GenericParser {
       if (!fs.existsSync(epicManifestsDir)) {
         return reject(this.lang.errors.epicNotInstalled);
       }
+      const waitForExit = !!inputs.epicWaitForExit && os.type() == "Windows_NT";
+      const scriptPath = path.join(paths.userDataDir, "scripts", "epic.ps1");
+      if (waitForExit && !fs.existsSync(scriptPath)) {
+        return reject(`epic.ps1 script is missing (expected at ${scriptPath})`);
+      }
+      const scriptArgs = inputs.epicManifests
+        ? ` -manifestsDir "${epicManifestsDir.replace(/[\\/]+$/, "")}"`
+        : "";
       try {
         let parsedData: ParsedData = {
-          executableLocation: `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`,
+          executableLocation: waitForExit
+            ? `C:\\Windows\\System32\\conhost.exe`
+            : `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`,
           success: [],
           failed: [],
         };
@@ -81,7 +98,9 @@ export class EpicParser implements GenericParser {
               parsedData.success.push({
                 extractedTitle: item.DisplayName,
                 extractedAppId: item.AppName,
-                launchOptions: `-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \\"com.epicgames.launcher://apps/${item.AppName}?action=launch&silent=true\\""`,
+                launchOptions: waitForExit
+                  ? `--headless powershell.exe -NoProfile -ExecutionPolicy Bypass -File "${scriptPath}" -appName "${item.AppName}"${scriptArgs}`
+                  :`-windowStyle hidden -NoProfile -ExecutionPolicy Bypass -Command "&Start-Process \\"com.epicgames.launcher://apps/${item.AppName}?action=launch&silent=true\\""`,
                 filePath: launchPath,
                 fileLaunchOptions: item.LaunchCommand,
               });
