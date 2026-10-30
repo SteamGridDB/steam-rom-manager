@@ -234,6 +234,7 @@ export interface languageStruct {
     manifestsInputTitle: string;
     manifestsInputPlaceholder: { [key: string]: string };
     launcherModeInputTitle: string;
+    waitForExitInputTitle: string;
     docs__md: {
       self: string[];
       input: string[];
