@@ -34,6 +34,9 @@ export const baseTokens: Required<ThemeTokens> = {
   border: "rgba(255, 255, 255, 0.06)",
   "border-strong": "rgba(255, 255, 255, 0.12)",
   "focus-ring": "rgba(49, 160, 244, 0.65)",
+  // (none: the bar keeps its surface color; a gradient paints over it)
+  "nav-edge": "none",
+  "nav-edge-width": "2px",
 
   accent: "#31a0f4",
   "accent-hover": "#56b3f7",

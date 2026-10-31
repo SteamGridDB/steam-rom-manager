@@ -13,6 +13,12 @@ import { LoggerService } from "../services";
 import { ThemeService } from "../theme/theme.service";
 import { baseTokens, isValidTokenValue } from "../theme/themes";
 import {
+  Gradient,
+  flagPresets,
+  formatGradient,
+  parseGradient,
+} from "../theme/gradient";
+import {
   ThemeDefinition,
   ThemeLayout,
   TokenGroup,
@@ -205,6 +211,86 @@ export class ThemeEditorComponent implements OnInit, OnDestroy {
     if (value.trim()) this.draft.tokens[token] = value;
     else delete this.draft.tokens[token];
     this.refreshPreview();
+    // (typed by hand: the builder shows what was typed, if it can)
+    if (this.gradientToken === token && !this.writingGradient) {
+      this.gradient = parseGradient(value) ?? this.gradient;
+    }
+  }
+
+  // ---- gradient builder (paint tokens) ----
+
+  readonly flags = Object.keys(flagPresets);
+  // The paint token whose builder is open, and what it's building.
+  gradientToken: TokenName | null = null;
+  gradient: Gradient | null = null;
+  // The token's value isn't a gradient the builder can edit (e.g. radial):
+  // building one replaces it.
+  gradientReplaces = false;
+  private writingGradient = false;
+
+  get gradientValue() {
+    return this.gradient ? formatGradient(this.gradient) : "";
+  }
+
+  toggleGradient(token: TokenName) {
+    if (this.gradientToken === token) {
+      this.gradientToken = null;
+      return;
+    }
+    const parsed = parseGradient(this.effective(token));
+    this.gradientToken = token;
+    this.gradientReplaces = !parsed && this.effective(token) !== "none";
+    this.gradient = parsed ?? {
+      angle: 180,
+      colors: [this.effective("accent"), this.effective("info")],
+      stripes: false,
+    };
+  }
+
+  private writeGradient() {
+    this.writingGradient = true;
+    this.setToken(this.gradientToken, formatGradient(this.gradient));
+    this.writingGradient = false;
+    this.gradientReplaces = false;
+  }
+
+  setGradientAngle(angle: string) {
+    const value = parseFloat(angle);
+    if (isNaN(value)) return;
+    this.gradient = { ...this.gradient, angle: value };
+    this.writeGradient();
+  }
+
+  setGradientStripes(stripes: boolean) {
+    this.gradient = { ...this.gradient, stripes };
+    this.writeGradient();
+  }
+
+  setGradientColor(index: number, color: string) {
+    const colors = [...this.gradient.colors];
+    colors[index] = color;
+    this.gradient = { ...this.gradient, colors };
+    this.writeGradient();
+  }
+
+  addGradientColor() {
+    const colors = this.gradient.colors;
+    this.gradient = { ...this.gradient, colors: [...colors, colors[colors.length - 1]] };
+    this.writeGradient();
+  }
+
+  removeGradientColor(index: number) {
+    this.gradient = {
+      ...this.gradient,
+      colors: this.gradient.colors.filter((_, i) => i !== index),
+    };
+    this.writeGradient();
+  }
+
+  applyFlag(flag: string) {
+    if (!flagPresets[flag]) return;
+    this.gradient = { ...this.gradient, colors: [...flagPresets[flag]], stripes: true };
+    this.writeGradient();
   }
 
   value(token: TokenName) {

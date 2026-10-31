@@ -170,9 +170,11 @@
               @if (hasSwatch(token)) {
                 <button
                   class="swatch"
+                  [class.open]="gradientToken === token"
                   [style.background]="effective(token)"
-                  [disabled]="!editable || !isColor(token)"
-                  [title]="lang.pickColor"
+                  [disabled]="!editable"
+                  [title]="isColor(token) ? lang.pickColor : lang.gradient.open"
+                  (click)="!isColor(token) && toggleGradient(token)"
                   [colorPicker]="effective(token)"
                   [cpDisabled]="!editable || !isColor(token)"
                   [cpAlphaChannel]="'enabled'"
@@ -210,6 +212,71 @@
                 <span class="clear none"></span>
               }
             </div>
+            @if (gradientToken === token && gradient) {
+              <div class="gradientBuilder">
+                @if (gradientReplaces) {
+                  <p class="gradientNote">{{ lang.gradient.replaces }}</p>
+                }
+                <div class="gradientBar" [style.background]="gradientValue"></div>
+                <div class="gradientRow">
+                  <label class="gradientField">
+                    <span>{{ lang.gradient.angle }}</span>
+                    <input
+                      type="number"
+                      step="15"
+                      [value]="gradient.angle"
+                      (input)="setGradientAngle($any($event.target).value)"
+                    />
+                  </label>
+                  <label class="gradientField">
+                    <input
+                      type="checkbox"
+                      [checked]="gradient.stripes"
+                      (change)="setGradientStripes($any($event.target).checked)"
+                    />
+                    <span>{{ lang.gradient.stripes }}</span>
+                  </label>
+                  <label class="gradientField">
+                    <span>{{ lang.gradient.flags }}</span>
+                    <select (change)="applyFlag($any($event.target).value); $any($event.target).value = ''">
+                      <option value="">…</option>
+                      @for (flag of flags; track flag) {
+                        <option [value]="flag">{{ lang.gradient.flagNames[flag] }}</option>
+                      }
+                    </select>
+                  </label>
+                </div>
+                <div class="gradientColors">
+                  @for (color of gradient.colors; track $index; let i = $index) {
+                    <div class="gradientColor">
+                      <button
+                        class="swatch"
+                        [style.background]="color"
+                        [title]="lang.pickColor"
+                        [colorPicker]="color"
+                        [cpAlphaChannel]="'enabled'"
+                        [cpOutputFormat]="'auto'"
+                        [cpPosition]="'bottom-right'"
+                        (colorPickerChange)="setGradientColor(i, $event)"
+                      ></button>
+                      @if (gradient.colors.length > 2) {
+                        <button
+                          class="clear"
+                          [title]="lang.gradient.removeColor"
+                          [attr.aria-label]="lang.gradient.removeColor"
+                          (click)="removeGradientColor(i)"
+                        >
+                          ×
+                        </button>
+                      }
+                    </div>
+                  }
+                  <button class="gradientAdd" (click)="addGradientColor()">
+                    + {{ lang.gradient.addColor }}
+                  </button>
+                </div>
+              </div>
+            }
           }
         }
       }
