@@ -765,7 +765,8 @@
         "deleteAllExceptions": "Delete all changes",
         "clearSgdbMatch": "Clear match",
         "addExceptionByTitle": "Add a change by title",
-        "addExclusionByTitle": "Exclude a title"
+        "addExclusionByTitle": "Exclude a title",
+        "cancelNew": "Cancel: don't add this"
       },
       "text": {
         "excludeArtwork": "Local Artwork Only",

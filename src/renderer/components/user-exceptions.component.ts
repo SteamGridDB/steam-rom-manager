@@ -96,12 +96,18 @@ export class ExceptionsComponent implements OnDestroy {
 
   ruleTitle = ruleTitle;
 
-  // The shown rules of the current tab: filtered and sorted.
+  // The shown rules of the current tab: rules added here since the last
+  // save first (newest first, never filtered out), then the rest filtered
+  // and sorted.
   visible(): (GameException | GameExclusion)[] {
     const [field, direction] = this.sortBy.split("|");
     const rules: (GameException | GameExclusion)[] =
       this.tab === "exceptions" ? this.draft.exceptions : this.draft.exclusions;
-    return rules
+    const added = rules
+      .filter((rule) => this.isNew(rule))
+      .sort((a, b) => b.timeStamp - a.timeStamp);
+    const rest = rules
+      .filter((rule) => !this.isNew(rule))
       .filter((rule) =>
         this.fuzzyTest.transform(ruleTitle(rule), this.filterValue),
       )
@@ -112,6 +118,13 @@ export class ExceptionsComponent implements OnDestroy {
             : a.timeStamp - b.timeStamp;
         return direction === "asc" ? result : -result;
       });
+    return [...added, ...rest];
+  }
+
+  // Rules added on this page and not saved yet (they can be cancelled).
+  private newIds = new Set<string>();
+  isNew(rule: { id: string }) {
+    return this.newIds.has(rule.id);
   }
 
   trackRule(_index: number, rule: { id: string }) {
@@ -147,11 +160,22 @@ export class ExceptionsComponent implements OnDestroy {
     } else {
       this.draft.exclusions.unshift(base);
     }
-    this.sortBy = "timeStamp|desc";
+    this.newIds.add(base.id);
     this.changed();
+    // Show it (first in the list, under the add button) and type its title.
+    this.changeDetectorRef.detectChanges();
+    const list: HTMLElement = this.elementRef.nativeElement.querySelector(
+      ".userExceptions",
+    );
+    list
+      ?.querySelector<HTMLElement>(".rule.isNew .matchTitle [contenteditable]")
+      ?.focus({ preventScroll: true });
+    // (instantly: a smooth scroll gets cancelled by the re-render)
+    if (list) list.scrollTop = 0;
   }
 
   remove(rule: { id: string }) {
+    this.newIds.delete(rule.id);
     if (this.tab === "exceptions") {
       this.draft.exceptions = this.draft.exceptions.filter((r) => r !== rule);
     } else {
@@ -161,6 +185,9 @@ export class ExceptionsComponent implements OnDestroy {
   }
 
   removeAllInTab() {
+    const rules =
+      this.tab === "exceptions" ? this.draft.exceptions : this.draft.exclusions;
+    for (const rule of rules) this.newIds.delete(rule.id);
     if (this.tab === "exceptions") this.draft.exceptions = [];
     else this.draft.exclusions = [];
     this.changed();
@@ -233,6 +260,7 @@ export class ExceptionsComponent implements OnDestroy {
   private load(saved: UserExceptions) {
     this.draft = structuredClone(saved);
     delete this.draft.titles;
+    this.newIds.clear();
     this.saved = JSON.stringify(this.draft);
     this.changed();
     this.changeDetectorRef.markForCheck();

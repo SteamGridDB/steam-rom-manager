@@ -44,7 +44,7 @@
 @if (showMarkdown) {
   <markdown class="docs" [content]="this.currentDoc.content"></markdown>
 }
-<div class="userExceptions">
+<div class="userExceptions" #list>
   <p class="tabDescription">
     {{
       tab === "exceptions"
@@ -52,8 +52,18 @@
         : lang.text.exclusionsDescription
     }}
   </p>
+  <!-- (stays in view while the list scrolls; new rules appear right under it) -->
+  <div class="addBar">
+    <div class="addItem" (click)="addByTitle()">
+      {{
+        tab === "exceptions"
+          ? lang.buttons.addExceptionByTitle
+          : lang.buttons.addExclusionByTitle
+      }}
+    </div>
+  </div>
   @for (rule of visible(); track rule.id) {
-    <div class="rule">
+    <div class="rule" [class.isNew]="isNew(rule)">
       <div class="ruleHeader">
         @if (rule.matchAppId !== undefined) {
           <span class="matchBadge fromPreview" [title]="lang.text.byAppIdHelp">
@@ -78,13 +88,24 @@
             date: prettyDate(rule.timeStamp),
           })
         }}</span>
-        <div class="removeRule" (click)="remove(rule)">
-          {{
-            tab === "exceptions"
-              ? lang.buttons.deleteItem
-              : lang.buttons.putBack
-          }}
-        </div>
+        @if (isNew(rule)) {
+          <button
+            class="cancelRule"
+            [title]="lang.buttons.cancelNew"
+            [attr.aria-label]="lang.buttons.cancelNew"
+            (click)="remove(rule)"
+          >
+            ×
+          </button>
+        } @else {
+          <div class="removeRule" (click)="remove(rule)">
+            {{
+              tab === "exceptions"
+                ? lang.buttons.deleteItem
+                : lang.buttons.putBack
+            }}
+          </div>
+        }
       </div>
       @if (tab === "exceptions") {
         @let exception = asException(rule);
@@ -159,13 +180,6 @@
       }}
     </p>
   }
-  <div class="addItem" (click)="addByTitle()">
-    {{
-      tab === "exceptions"
-        ? lang.buttons.addExceptionByTitle
-        : lang.buttons.addExclusionByTitle
-    }}
-  </div>
 </div>
 <div class="menu" drag-scroll>
   <div class="lowerLeft">
