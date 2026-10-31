@@ -23,7 +23,7 @@ export class GOGParser implements GenericParser {
       inputs: {
         galaxyExeOverride: {
           label: this.lang.galaxyExeOverrideTitle,
-          placeholder: this.lang.galaxyExeOverridePlaceholder[os.type()],
+          placeholder: this.lang.galaxyExeOverridePlaceholder[APP.osType],
           inputType: "path",
           info: this.lang.docs__md.input.join(""),
         },
@@ -176,7 +176,7 @@ export class GOGParser implements GenericParser {
           const sqliteWrapper = new SqliteWrapper("gog-galaxy", dbPath, {
             externals: !!inputs.parseLinkedExecs,
           });
-          const playtasks = (await sqliteWrapper.callWorker()) as any[];
+          const playtasks = (await sqliteWrapper.read()) as any[];
           let parsedData: ParsedData = { success: [], failed: [] };
           parsedData.executableLocation = galaxyExePath;
           for (let task of playtasks) {

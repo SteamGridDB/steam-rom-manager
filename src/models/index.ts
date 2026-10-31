@@ -14,7 +14,6 @@ export * from "./variable-parser.model";
 export * from "./nested-form.model";
 export * from "./app.model";
 export * from "./fuzzy.model";
-export * from "./x-request.model";
 export * from "./custom-variables.model";
 export * from "./user-exceptions.model";
 export * from "./config-presets.model";

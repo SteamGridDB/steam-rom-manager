@@ -36,7 +36,7 @@
     .item {
       .reorderer {
         &.drop-over-active {
-          border-left: solid 2px var(--color--filled);
+          border-left: solid 2px var(--srm-accent);
         }
       }
       .inputContainer {
@@ -99,8 +99,8 @@
       max-width: 100%;
       box-sizing: border-box;
       color: inherit;
-      background: var(--color-nav-background, rgba(0, 0, 0, 0.2));
-      border: 1px solid var(--color-nav-link-border, rgba(255, 255, 255, 0.15));
+      background: var(--srm-surface-sunken);
+      border: 1px solid var(--srm-border-strong);
       border-radius: 4px;
       outline: none;
       font-size: 0.9em;
@@ -111,11 +111,11 @@
     }
     .searchInput:focus,
     .groupNameInput:focus {
-      border-color: var(--color--filled);
+      border-color: var(--srm-accent);
     }
     .groupNameInput {
       font-size: 0.85em;
-      border-color: var(--color--filled);
+      border-color: var(--srm-accent);
     }
     .searchClear {
       position: absolute;
@@ -170,11 +170,8 @@
       color: var(--color-nav-link-text);
 
       &.group-drop-over {
-        border-left-color: var(--color--filled);
-        background: var(
-          --color-nav-link-background-active,
-          rgba(255, 255, 255, 0.06)
-        );
+        border-left-color: var(--srm-accent);
+        background: var(--srm-accent-soft);
       }
     }
     .groupHeaderMain {
@@ -237,7 +234,7 @@
         opacity: 1;
       }
       &.delete:hover {
-        color: var(--color--warn, #e06c75);
+        color: var(--srm-danger);
       }
     }
     // Compact, evenly-spaced entry rows; toggles align on --np-inset-x.
@@ -262,16 +259,16 @@
       font-size: 0.78em;
       color: var(--color-nav-link-text);
       opacity: 0.5;
-      border: 1px dashed var(--color-nav-link-border, rgba(255, 255, 255, 0.2));
+      border: 1px dashed var(--srm-border-strong);
       border-radius: 4px;
 
       &.drop-over-active {
-        border-color: var(--color--filled);
+        border-color: var(--srm-accent);
         opacity: 0.9;
       }
     }
     mark {
-      background: rgba(255, 213, 79, 0.35);
+      background: var(--srm-warning-soft);
       color: inherit;
       border-radius: 2px;
       padding: 0 1px;

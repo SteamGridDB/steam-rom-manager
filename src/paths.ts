@@ -1,20 +1,49 @@
-const app =
-  process.type === "browser"
-    ? require("electron").app
-    : require("@electron/remote").app;
+import * as fs from "fs";
+import * as os from "os";
 import * as path from "path";
 
-let _userDataDir: string;
-
-if (process.env.PORTABLE_EXECUTABLE_DIR) {
-  _userDataDir = path.join(process.env.PORTABLE_EXECUTABLE_DIR, "userData");
-} else {
-  _userDataDir = path.join(app.getPath("userData"), "userData");
+// Where SRM keeps its data (main process only; the UI has no file access).
+// Tests and scripts set SRM_USER_DATA_DIR; otherwise Electron knows, or (the
+// standalone command line) see standaloneUserDataDir().
+function resolveUserDataDir() {
+  if (process.env.PORTABLE_EXECUTABLE_DIR) {
+    return path.join(process.env.PORTABLE_EXECUTABLE_DIR, "userData");
+  }
+  if (process.env.SRM_USER_DATA_DIR) {
+    return process.env.SRM_USER_DATA_DIR;
+  }
+  if (process.versions.electron) {
+    return path.join(require("electron").app.getPath("userData"), "userData");
+  }
+  return standaloneUserDataDir();
 }
 
-export const userDataDir: string = _userDataDir;
+// The standalone command line (plain Node): a userData folder next to the
+// executable (portable), else the installed app's own data, so both see the
+// same parsers and settings.
+function standaloneUserDataDir() {
+  const portable = path.join(path.dirname(process.execPath), "userData");
+  if (fs.existsSync(portable)) {
+    return portable;
+  }
+  const home = os.homedir();
+  const appData =
+    process.platform === "win32"
+      ? process.env.APPDATA || path.join(home, "AppData", "Roaming")
+      : process.platform === "darwin"
+        ? path.join(home, "Library", "Application Support")
+        : process.env.XDG_CONFIG_HOME || path.join(home, ".config");
+  // (Electron's userData folder: the app's package name)
+  return path.join(appData, "steam-rom-manager", "userData");
+}
+
+export const userDataDir: string = resolveUserDataDir();
 export const userSettings: string = path.join(userDataDir, "userSettings.json");
-export const userThemesDir: string = path.join(userDataDir, "User themes");
+// Themes: copies of the app's own (rewritten at start-up, for reference) and
+// the user's.
+export const themesDir: string = path.join(userDataDir, "themes");
+export const defaultThemesDir: string = path.join(themesDir, "default");
+export const userThemesDir: string = path.join(themesDir, "user");
 export const userConfigurations: string = path.join(
   userDataDir,
   "userConfigurations.json",

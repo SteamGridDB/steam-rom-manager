@@ -1,3 +1,3 @@
-# Répertoire ROMs `[prend en charge les variables d'environnement]`
+# ROMs directory `[supports env variables]`
 
 Répertoire de départ des jeux ou fichiers d'applications.

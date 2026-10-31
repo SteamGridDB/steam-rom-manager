@@ -1,15 +1,15 @@
-# Welcome to parser configuration!
+# Добро пожаловать в конфигурацию анализатора!
 
-Configuring a parser might look overwhelming at first, but it is easier than you think. If you are lost, click on <span class="infoIcon" style="top: 0.15em;"></span> near option label to see related information which might be useful for you.
+Поначалу настройка анализатора может показаться непосильной задачей, но это проще, чем вы думаете. Если вы заблудились, нажмите на <span class="infoIcon" style="top: 0.15em;"></span> рядом с ярлыком опции, чтобы увидеть связанную информацию, которая может быть вам полезна.
 
-Also, don't forget to check FAQ. If you still got questions about setting up configuration, visit our official SRM group at [Steam](http://steamcommunity.com/groups/steamrommanager) or our official [Discord](https://discord.gg/bnSVJrz) group.
+Также, не забудьте посмотреть наш FAQ. Если у вас остались вопросы по настройкам, посетите нашу официальную группу SRM в [Steam](http://steamcommunity.com/groups/steamrommanager) или в официальный сервер [Discord](https://discord.gg/bnSVJrz).
 
-## Configuration color code
+## Коды цветов настройки
 
-After saving parser configuration, **1** of **3** colors will be shown next to its title:
+После сохранения конфигурации анализатора рядом с его названием будет показан **1** из **3** цветов:
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Enabled configuration. This configuration will be used when generating a list in **preview** page.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-enabled)"></span> -- Включена конфигурация. Эта конфигурация будет использоваться при создании списка на странице **Добавить игры**.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Unsaved changes. This configuration will not be used when generating a list in **preview** page, however earlier **saved** version will be used instead.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-unsaved)"></span> -- Несохраненные изменения. Эта конфигурация не будет использоваться при создании списка на странице **Добавить игры**, вместо нее будет использоваться более ранняя версия **сохраненная**.
 
-<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Disabled configuration. This configuration will not be used when generating a list in **preview** page.
+<span style="margin-bottom: 0.05em;display: inline-block;border-radius: 50%;width: 0.5em;height: 0.5em;background-color: var(--color-nav-link-disabled)"></span> -- Отключена конфигурация. Эта конфигурация не будет использоваться при создании списка на странице **Добавить игры**.

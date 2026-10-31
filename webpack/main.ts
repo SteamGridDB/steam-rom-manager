@@ -1,7 +1,17 @@
 import { Configuration } from "webpack";
 import merge from "webpack-merge";
+import * as path from "path";
 import * as helpers from "./helpers";
 
+const jimpCommonjsEntry = path.join(
+  path.dirname(require.resolve("jimp/package.json")),
+  "dist",
+  "commonjs",
+  "index.js",
+);
+
+// The main process also hosts the core (headless CLI), so it bundles the
+// same lib code as the renderer: language markdown, jimp.
 let clientConfig: Configuration = {
   target: "electron-main",
   entry: {
@@ -14,6 +24,12 @@ let clientConfig: Configuration = {
   },
   resolve: {
     extensions: [".ts", ".js"],
+    alias: {
+      jimp$: jimpCommonjsEntry,
+      // yargs' help layout: cliui's ES module build wraps text by cutting it
+      // every N characters, mid-word; its CommonJS build wraps at words.
+      cliui$: require.resolve("cliui"),
+    },
   },
   module: {
     rules: [
@@ -21,9 +37,26 @@ let clientConfig: Configuration = {
         test: /\.ts$/i,
         use: ["ts-loader"],
       },
+      {
+        test: /\.md$/i,
+        use: [helpers.root("webpack", "markdown.js")],
+        type: "asset/source",
+      },
+      {
+        // images referenced from the markdown docs
+        test: /\.(gif|png|jpe?g|svg)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "renderer/images/[name][ext]",
+        },
+      },
     ],
   },
   node: false,
+  externals: {
+    // Node's own SQLite (some parsers read their launcher's database)
+    "node:sqlite": "commonjs node:sqlite",
+  },
 };
 
 let developmentConfig: Configuration = {
@@ -44,8 +77,29 @@ let productionConfig: Configuration = {
   bail: false,
 };
 
-if (process.env.NODE_ENV === "production") {
-  module.exports = merge(clientConfig, productionConfig);
-} else {
-  module.exports = merge(clientConfig, developmentConfig);
-}
+// Runs in the sandboxed window before the UI; may only require "electron".
+let preloadConfig: Configuration = {
+  target: "electron-preload",
+  entry: {
+    preload: "./main/preload.ts",
+  },
+  context: helpers.root("src"),
+  output: {
+    filename: "[name].bundle.js",
+    path: helpers.root("dist"),
+  },
+  resolve: {
+    extensions: [".ts", ".js"],
+  },
+  module: {
+    rules: [{ test: /\.ts$/i, use: ["ts-loader"] }],
+  },
+  node: false,
+};
+
+const modeConfig =
+  process.env.NODE_ENV === "production" ? productionConfig : developmentConfig;
+module.exports = [
+  merge(clientConfig, modeConfig),
+  merge(preloadConfig, modeConfig),
+];

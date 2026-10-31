@@ -1,6 +1,6 @@
 # Imagem padrão (opcional) `[suporta variáveis]`{.noWrap}
 
-O valor padrão é `${fuzzyTitle}`{.noWrap}. Esta configuração pode ser usada para antecipar ou anexar caracteres desejados a um executável que será adicionado à propriedade Steam (Target. Por exemplo, dado que `${fuzzyTitle}`{.noWrap} é `Zelda 2`, você pode adicionar `(1..5)` definindo o valor para:
+O padrão é `${fuzzyTitle}`{.noWrap} se o campo não estiver definido. Esta configuração pode ser usada para adicionar ou acrescentar caracteres desejados ao `Título` de um atalho do Steam. Por exemplo, dado que `${fuzzyTitle}`{.noWrap} é `Zelda 2`, você pode adicionar `(1..5)` definindo o valor para:
 
 ```
 ${fuzzyTitle} (1.7.5)

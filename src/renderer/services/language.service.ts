@@ -24,15 +24,23 @@ export class LanguageService {
     return languageManager.getAvailableLanguages();
   }
 
+  // The language's name in itself, e.g. "Deutsch (Deutschland)".
   getReadableName(languageKey: string) {
-    const schema = parse(languageKey);
-    const lang = new Intl.DisplayNames([schema.language], {
-      type: "language",
-    }).of(schema.language);
-    const region = new Intl.DisplayNames([schema.language], {
-      type: "region",
-    }).of(schema.region);
-    return `${lang} (${region})`;
+    // Crowdin's code for Serbian (Cyrillic) uses "SP" for Serbia (RS).
+    const code = languageKey === "sr-SP" ? "sr-RS" : languageKey;
+    const schema = parse(code);
+    try {
+      // Names in the full locale: zh-TW reads 台灣, not zh's 台湾.
+      const lang = new Intl.DisplayNames([code], { type: "language" }).of(
+        schema.language,
+      );
+      const region = schema.region
+        ? new Intl.DisplayNames([code], { type: "region" }).of(schema.region)
+        : undefined;
+      return region ? `${lang} (${region})` : lang;
+    } catch (e) {
+      return languageKey;
+    }
   }
 
   loadLanguage(languageKey: string) {

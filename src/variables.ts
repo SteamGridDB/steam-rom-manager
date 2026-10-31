@@ -1,23 +1,21 @@
 import { GlobalContainer } from "./models";
 import { LanguageManager } from "./lib/language-manager";
-import * as os from "os";
-import * as process from "process";
-import osName from "os-name";
-import { app } from "@electron/remote";
+// Language strings are filled in with String.prototype.interpolate.
+import "./lib/string-interpolation";
+import { envInfo } from "./env-info";
+
+// Same value app.getVersion() reports, without needing Electron.
+const { version } = require("../package.json");
 
 export const languageManager = new LanguageManager();
 
-let opsysName: string;
-try {
-  opsysName = osName(os.platform(), os.release());
-} catch (e) {
-  opsysName = `${os.platform()} (${os.release()})`;
-}
+const env = envInfo();
 
 export const APP: GlobalContainer = {
   lang: languageManager.getLanguage("en-US"),
-  os: opsysName,
-  version: app.getVersion(),
-  arch: os.arch(),
-  srmdir: process.env.PORTABLE_EXECUTABLE_DIR || "",
+  os: env.osName,
+  osType: env.osType,
+  version,
+  arch: env.arch,
+  srmdir: env.portableDir,
 };

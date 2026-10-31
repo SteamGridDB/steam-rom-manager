@@ -130,7 +130,8 @@ export interface PreviewDataApps {
 
 export interface PreviewDataUser {
   username: string;
-  excluded: { exceptionKey: string; filePath: string }[];
+  // Games left out by an exclusion (see models/user-exceptions.model.ts).
+  excluded: { exclusionId: string; title: string; filePath: string }[];
   apps: PreviewDataApps;
 }
 

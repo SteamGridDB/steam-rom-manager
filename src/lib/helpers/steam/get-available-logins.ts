@@ -19,7 +19,13 @@ export function getAvailableLogins(steamDirectory: string) {
               resolve([]);
             } else {
               if (data) {
-                let parsedData = genericParser.parse(data) as any;
+                // (a throw in this callback would escape the promise)
+                let parsedData: any;
+                try {
+                  parsedData = genericParser.parse(data);
+                } catch {
+                  return resolve([]);
+                }
                 let accountData: userAccountData[] = [];
                 if (parsedData.users) {
                   for (let steamID64 in parsedData.users) {

@@ -1,6 +1,6 @@
 <ng-container [formGroup]="currentForm">
   <ng-container *ngFor="let childrenKey of nestedGroup.children | keys">
-    <ng-container *ngVar="nestedGroup.children[childrenKey] as child">
+    <ng-container *ngVar="nestedGroup.children![childrenKey] as child">
       <ng-container [ngSwitch]="child.constructor.displayName">
         <ng-container *ngSwitchCase="'Section'">
           <div
@@ -42,8 +42,12 @@
               >
               </span>
               {{ child.label }}
-              <small *ngIf="child.required" class="reqText">*Required</small>
-              <small *ngIf="child.important" class="reqText">*Important</small>
+              <small *ngIf="child.required" class="reqText">{{
+                lang.required
+              }}</small>
+              <small *ngIf="child.important" class="reqText">{{
+                lang.important
+              }}</small>
             </label>
             <ng-container [ngSwitch]="child.constructor.displayName">
               <ng-container *ngSwitchCase="'Select'">
@@ -67,7 +71,7 @@
                   [formControlName]="childrenKey"
                   [placeholder]="child.placeholder || ''"
                   [values]="child.values"
-                  [createLabel]="child.createLabel || 'Create'"
+                  [createLabel]="child.createLabel || lang.create"
                   [class.required]="child.required && !fieldValue"
                   [class.missing]="child.required && dirtyAndInvalid"
                   [class.filled]="
@@ -161,7 +165,7 @@
                       (pathChange)="
                         currentForm.controls[childrenKey].setValue($event)
                       "
-                      >Browse</ng-path-input
+                      >{{ lang.browse }}</ng-path-input
                     >
                     <ng-container *ngFor="let button of child.buttons">
                       <div
@@ -196,7 +200,7 @@
             <ng-container *ngIf="dirtyAndInvalid">
               <markdown
                 class="errorMessage lastMarginZero"
-                [content]="currentForm.controls[childrenKey].errors.error"
+                [content]="currentForm.controls[childrenKey].errors?.error"
               ></markdown>
             </ng-container>
           </div>

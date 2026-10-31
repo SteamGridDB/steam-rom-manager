@@ -281,33 +281,21 @@ export class VDF_Manager {
             )
               return;
             let apps = previewData[steamDirectory][userId].apps;
-            let currentAppIds = Object.entries(
-              previewData[steamDirectory][userId].apps,
-            ).map(([appId, app]: [appId: string, app: PreviewDataApp]) => {
-              if (app.changedId) {
-                return app.changedId;
-              } else {
-                return appId;
-              }
-            });
-            let enabledParsers = Array.from(
-              new Set(
-                currentAppIds.map((appid: string) => {
-                  if (apps[appid]) {
-                    return apps[appid].parserId;
-                  } else {
-                    return Object.values(apps).filter(
-                      (app: PreviewDataApp) => app.changedId == appid,
-                    )[0].parserId;
-                  }
-                }),
-              ),
+            const appEntries = Object.entries(apps) as [
+              string,
+              PreviewDataApp,
+            ][];
+            const currentAppIds = new Set(
+              appEntries.map(([appId, app]) => app.changedId || appId),
+            );
+            const enabledParsers = new Set(
+              appEntries.map(([, app]) => app.parserId),
             );
             const addedApps = listItem.addedItems.data.addedApps;
             let addedAppIds = Object.keys(addedApps);
             if (!deleteDisabledShortcuts) {
               addedAppIds = addedAppIds.filter((appid: string) =>
-                enabledParsers.includes(addedApps[appid].parserId),
+                enabledParsers.has(addedApps[appid].parserId),
               );
             }
             if (!addedCategories[steamDirectory]) {
@@ -323,11 +311,16 @@ export class VDF_Manager {
             if (!extraneousAppIds[steamDirectory]) {
               extraneousAppIds[steamDirectory] = {};
             }
-            extraneousAppIds[steamDirectory][userId] = addedAppIds.filter(
-              (appid: string) => !currentAppIds.includes(appid),
+            // Added before, not in this list: their artwork goes. Steam's own
+            // games (artwork-only parsers) keep the rest (compat tool,
+            // controllers, collections): those are the user's settings.
+            const stale = addedAppIds.filter(
+              (appid: string) => !currentAppIds.has(appid),
             );
-            listItem.screenshots.extraneous =
-              extraneousAppIds[steamDirectory][userId];
+            extraneousAppIds[steamDirectory][userId] = stale.filter(
+              (appid) => !addedApps[appid].artworkOnly,
+            );
+            listItem.screenshots.extraneous = stale;
             listItem.shortcuts.extraneous =
               extraneousAppIds[steamDirectory][userId];
 
@@ -427,6 +420,7 @@ export class VDF_Manager {
               } else if (app.status === "remove") {
                 if (!addedApps[appId] || !addedApps[appId].artworkOnly) {
                   extraneousAppIds[steamDirectory][userId].push(appId);
+                  stale.push(appId);
                 }
                 listItem.shortcuts.removeItem(appId);
                 listItem.addedItems.removeItem(appId);

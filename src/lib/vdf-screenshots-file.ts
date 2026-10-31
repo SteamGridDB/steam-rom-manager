@@ -11,8 +11,47 @@ import * as _ from "lodash";
 import * as fs from "fs-extra";
 import * as path from "path";
 import { BehaviorSubject } from "rxjs";
-import { glob } from "glob";
 import * as paths from "../paths";
+
+// A folder's files by id (the name before its first "."), read once per save
+// and kept up to date as files are written and removed: the grid folder can
+// hold tens of thousands of files, too many to list again for each image.
+class FolderIndex {
+  private byId = new Map<string, Set<string>>();
+
+  static async read(dir: string) {
+    const index = new FolderIndex();
+    let names: string[] = [];
+    try {
+      names = await fs.readdir(dir);
+    } catch (error) {
+      if (error.code !== "ENOENT") throw error;
+    }
+    for (const name of names) index.add(name);
+    return index;
+  }
+
+  private static id(name: string) {
+    const dot = name.indexOf(".");
+    return dot < 0 ? null : name.slice(0, dot);
+  }
+
+  add(name: string) {
+    const id = FolderIndex.id(name);
+    if (id === null) return;
+    if (!this.byId.has(id)) this.byId.set(id, new Set());
+    this.byId.get(id).add(name);
+  }
+
+  delete(name: string) {
+    this.byId.get(FolderIndex.id(name))?.delete(name);
+  }
+
+  // The files named "<id>.<anything>".
+  files(id: string): string[] {
+    return [...(this.byId.get(id) ?? [])];
+  }
+}
 
 export class VDF_ScreenshotsFile {
   private fileData: any = undefined;
@@ -123,26 +162,29 @@ export class VDF_ScreenshotsFile {
       });
   }
 
-  async removeExtraneous(exAppIds: string[]): Promise<VDF_Error[]> {
-    let vdfErrors: VDF_Error[] = [];
-    for (let exAppId of exAppIds) {
-      let errors: Error[] = [];
-      const files = await glob(`${exAppId}.*`, {
-        cwd: this.gridDirectory,
-        absolute: true,
-      });
-      for (let i = 0; i < files.length; i++) {
-        try {
-          await fs.remove(files[i]);
-        } catch (error) {
-          errors.push(error);
-        }
-      }
-      if (errors.length) {
-        vdfErrors.push(new VDF_Error(errors));
-      }
-    }
-    return vdfErrors;
+  // Removes every "<id>.*" grid file of these ids.
+  async removeExtraneous(
+    exAppIds: string[],
+    grid?: FolderIndex,
+  ): Promise<VDF_Error[]> {
+    grid ??= await FolderIndex.read(this.gridDirectory);
+    const results = await Promise.all(
+      exAppIds.map(async (exAppId) => {
+        const errors: Error[] = [];
+        await Promise.all(
+          grid.files(exAppId).map(async (name) => {
+            try {
+              await fs.remove(path.join(this.gridDirectory, name));
+              grid.delete(name);
+            } catch (error) {
+              errors.push(error);
+            }
+          }),
+        );
+        return errors.length ? new VDF_Error(errors) : undefined;
+      }),
+    );
+    return results.filter((error) => !!error);
   }
 
   async write(batch: boolean, batchSizeInput?: number, dnsServers?: string[]) {
@@ -163,6 +205,17 @@ export class VDF_ScreenshotsFile {
       );
     });
     let successes: { [appId: string]: string } = {};
+    const grid = await FolderIndex.read(this.gridDirectory);
+    // artworkBackups/<type>, read when first needed
+    const backups = new Map<string, Promise<FolderIndex>>();
+    const backupDir = (artworkType: string) =>
+      path.join(paths.userDataDir, "artworkBackups", artworkType);
+    const backupIndex = (artworkType: string) => {
+      if (!backups.has(artworkType)) {
+        backups.set(artworkType, FolderIndex.read(backupDir(artworkType)));
+      }
+      return backups.get(artworkType);
+    };
     const nbatches: number = Math.ceil(addableAppIds.length / batchSize);
     for (let b = 0; b < nbatches; b++) {
       if (batch) {
@@ -205,7 +258,7 @@ export class VDF_ScreenshotsFile {
                 4,
                 secondaryPath,
                 undefined,
-                data.overlayImage
+                data.overlayImage,
               )
               .then(async () => {
                 if (/^\d+$/.test(appId)) {
@@ -213,47 +266,47 @@ export class VDF_ScreenshotsFile {
                     this.gridDirectory,
                     `${ids.lengthenAppId(appId)}.${ext}`,
                   );
-                  if (await fs.exists(symPath)) {
-                    await fs.unlink(symPath);
+                  // (whatever is there, a dangling old link included)
+                  await fs.remove(symPath);
+                  try {
+                    await fs.symlink(gridPath, symPath);
+                  } catch {
+                    // Windows only allows symlinks to admins or in
+                    // Developer Mode: a copy works the same for Steam.
+                    await fs.copyFile(gridPath, symPath);
                   }
-                  await fs.symlink(gridPath, symPath);
+                  grid.add(path.basename(symPath));
                 }
                 return gridPath;
               })
               .then((gridPath: string) => {
                 successes[appId] = gridPath;
               })
-              .then(() => {
-                return glob(`${appId}.!(json)`, {
-                  dot: true,
-                  cwd: this.gridDirectory,
-                  absolute: true,
-                });
-              })
-              .then(async (files: string[]) => {
-                for (let i = 0; i < files.length; i++) {
-                  if (_.last(files[i].split(".")) !== ext) {
-                    await fs.remove(files[i]);
+              .then(async () => {
+                // The same artwork under another extension goes (not
+                // "<id>.json", Steam's own settings for it).
+                const written = path.basename(gridPath);
+                grid.add(written);
+                for (const name of grid.files(appId)) {
+                  const rest = name.slice(appId.length + 1);
+                  if (rest !== "json" && _.last(name.split(".")) !== ext) {
+                    await fs.remove(path.join(this.gridDirectory, name));
+                    grid.delete(name);
                   }
                 }
               })
-              .then(() => {
+              .then(async () => {
                 if (secondaryPath) {
-                  return glob(`${data.sgdbId}.*`, {
-                    dot: true,
-                    cwd: path.join(
-                      paths.userDataDir,
-                      "artworkBackups",
-                      data.artworkType,
-                    ),
-                    absolute: true,
-                  }).then(async (files: string[]) => {
-                    for (let i = 0; i < files.length; i++) {
-                      if (_.last(files[i].split(".")) !== ext) {
-                        await fs.remove(files[i]);
-                      }
+                  const backupsOfType = await backupIndex(data.artworkType);
+                  backupsOfType.add(path.basename(secondaryPath));
+                  for (const name of backupsOfType.files(String(data.sgdbId))) {
+                    if (_.last(name.split(".")) !== ext) {
+                      await fs.remove(
+                        path.join(backupDir(data.artworkType), name),
+                      );
+                      backupsOfType.delete(name);
                     }
-                  });
+                  }
                 }
               })
               .catch((error) => {
@@ -273,7 +326,7 @@ export class VDF_ScreenshotsFile {
       addErrors = [...addErrors, ...batchErrors];
     }
 
-    return this.removeExtraneous(extraneous)
+    return this.removeExtraneous(extraneous, grid)
       .then((extraneousErrors) => {
         return {
           extraneousErrors: extraneousErrors.filter((e) => e && e.message),

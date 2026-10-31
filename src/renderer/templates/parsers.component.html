@@ -11,10 +11,10 @@
 <div class="nestedForm">
   <label>
     <span class="infoButton infoIcon" (click)="presetsInfoClick()"> </span>
-    Community Presets
+    {{ lang.label.communityPresets }}
   </label>
   <ng-select
-    placeholder="Search for preset"
+    [placeholder]="lang.placeholder.communityPresets"
     [allowEmpty]="true"
     [emitOnly]="false"
     ngModel
@@ -36,7 +36,7 @@
       {{ lang.buttons.save }}
     </div>
     <div
-      *ngIf="(getDeletedConfigurations() | async).length !== 0"
+      *ngIf="((getDeletedConfigurations() | async)?.length ?? 0) !== 0"
       (click)="restoreForm()"
     >
       {{ lang.buttons.undoDelete }}
@@ -49,7 +49,7 @@
       class="dangerousButton"
       (click)="updateShowMarkdown(false)"
     >
-      Close Docs
+      {{ lang.buttons.closeDocs }}
     </div>
   </ng-container>
   <ng-template #moreOptions>
@@ -64,7 +64,7 @@
       {{ lang.buttons.delete }}
     </div>
     <div
-      *ngIf="(getDeletedConfigurations() | async).length !== 0"
+      *ngIf="((getDeletedConfigurations() | async)?.length ?? 0) !== 0"
       (click)="restoreForm()"
     >
       {{ lang.buttons.undoDelete }}
@@ -87,7 +87,7 @@
       class="dangerousButton"
       (click)="updateShowMarkdown(false)"
     >
-      Close Docs
+      {{ lang.buttons.closeDocs }}
     </div>
   </ng-template>
 </div>

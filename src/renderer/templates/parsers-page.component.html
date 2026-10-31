@@ -1,0 +1,11 @@
+@if (parserId) {
+  <!-- one editor per parser: opening another parser creates a new one -->
+  @for (id of [parserId]; track id) {
+    <parser-editor [parserId]="id"></parser-editor>
+  }
+} @else {
+  <div class="noParser">
+    <p class="hint">{{ lang.text.chooseParser }}</p>
+    <markdown [content]="intro"></markdown>
+  </div>
+}

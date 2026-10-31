@@ -1,0 +1,10 @@
+{
+  "name": "EmuDeck",
+  "colorScheme": "dark",
+  "layout": "EmuDeck",
+  "tokens": {
+    "bg": "transparent",
+    "bg-art": "none",
+    "surface": "rgba(18, 21, 28, 0.82)"
+  }
+}

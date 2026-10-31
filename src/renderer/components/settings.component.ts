@@ -5,9 +5,8 @@ import {
   OnDestroy,
   Renderer2,
   RendererStyleFlags2,
-  ElementRef
+  ElementRef,
 } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import {
   SettingsService,
   ParsersService,
@@ -18,19 +17,13 @@ import {
   CustomVariablesService,
   ConfigurationPresetsService,
   ShellScriptsService,
-  IpcService,
   LoggerService,
 } from "../services";
 import { APP } from "../../variables";
 import { AppSettings, SelectItem } from "../../models";
-import { Subscription, BehaviorSubject } from "rxjs";
-import { availableThemes } from "../../lib/themes";
-import * as os from "os";
-import * as steam from "../../lib/helpers/steam";
-import { ArtworkCache } from "../../lib";
-import * as fs from "fs";
-import * as path from "path";
-import * as paths from "../../paths";
+import { Subscription } from "rxjs";
+import { ThemeService } from "../theme/theme.service";
+import { CoreClientService } from "../services/core-client.service";
 import {
   providersSelect,
   dnsSelect,
@@ -51,6 +44,7 @@ export class SettingsComponent implements OnDestroy {
   settings: AppSettings;
   availableBatches: { displayValue: string; value: number }[];
   themes: string[];
+  themeSections: Record<string, string> = {};
   availableLanguages: SelectItem[];
   knownSteamDirectories: string[];
   placeholderForOS: {
@@ -64,8 +58,8 @@ export class SettingsComponent implements OnDestroy {
   chooseUserAccountsVisible: boolean = false;
   showShellScripts: boolean = false;
   showMarkdown: boolean = false;
+  tab: "settings" | "themeEditor" = "settings";
   private subscriptions: Subscription = new Subscription();
-  private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
   constructor(
     private settingsService: SettingsService,
     private fuzzyService: FuzzyService,
@@ -77,18 +71,12 @@ export class SettingsComponent implements OnDestroy {
     public cvService: CustomVariablesService,
     public ssService: ShellScriptsService,
     private changeDetectionRef: ChangeDetectorRef,
-    private activatedRoute: ActivatedRoute,
-    private ipcService: IpcService,
     private renderer: Renderer2,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private coreClient: CoreClientService,
+    private themeService: ThemeService,
   ) {
     this.currentDoc.content = this.lang.docs__md.settings.join("");
-    this.activatedRoute.queryParamMap.subscribe((paramContainer: any) => {
-      let params = ({ ...paramContainer } as any).params;
-      if (params["cliMessage"]) {
-        this.CLI_MESSAGE.next(params["cliMessage"]);
-      }
-    });
   }
 
   get availableProviders() {
@@ -134,23 +122,29 @@ export class SettingsComponent implements OnDestroy {
           displayValue: this.languageService.getReadableName(lang),
         };
       });
-    this.themes = availableThemes;
+    this.listThemes();
+    // pick up user themes added since start-up
+    this.themeService.loadUserThemes().then(() => {
+      this.listThemes();
+      this.changeDetectionRef.markForCheck();
+    });
     this.userAccountsPlaceholder = this.lang.placeholder.userAccounts;
-    this.placeholderForOS = this.lang.placeholder.bySystem[os.type()];
+    this.placeholderForOS = this.lang.placeholder.bySystem[APP.osType];
   }
 
-  ngAfterViewInit() {
-    this.subscriptions.add(
-      this.CLI_MESSAGE.asObservable().subscribe((cliMessage: string) => {
-        const parsedCLI = cliMessage ? JSON.parse(cliMessage) || {} : {};
-        if (["nuke"].includes(parsedCLI.command)) {
-          this.ipcService.send("log", "Nuking steam library");
-          this.removeApps().then(() => {
-            this.ipcService.send("all_done");
-          });
-        }
-      }),
-    );
+  setTab(tab: "settings" | "themeEditor") {
+    this.tab = tab;
+    if (tab === "themeEditor") this.closeDocs();
+  }
+
+  // App themes, then the user's (userData/themes/user), in sections.
+  listThemes() {
+    const { appThemeNames, userThemeNames } = this.themeService;
+    this.themes = [...appThemeNames, ...userThemeNames];
+    this.themeSections = Object.fromEntries([
+      ...appThemeNames.map((name) => [name, this.lang.text.appThemes]),
+      ...userThemeNames.map((name) => [name, this.lang.text.userThemes]),
+    ]);
   }
 
   ngOnDestroy() {
@@ -163,46 +157,35 @@ export class SettingsComponent implements OnDestroy {
   }
 
   async nukeArtworkChoices() {
-    const artworkCache = new ArtworkCache();
-    await artworkCache.read();
-    await artworkCache.emptyCache();
-    this.loggerService.info("Emptied artwork cache.", {
-      invokeAlert: true,
-      alertTimeout: 3000,
-    });
+    try {
+      await this.coreClient.client.call("support", "clearArtworkCache");
+      this.loggerService.info(this.lang.info.emptiedArtworkCache, {
+        invokeAlert: true,
+        alertTimeout: 3000,
+      });
+    } catch (e) {
+      this.coreClient.logError(e);
+    }
   }
 
-  nukeArtworkBackups() {
-    const backupsDir = path.join(paths.userDataDir, "artworkBackups");
-    if (fs.existsSync(backupsDir)) {
-      fs.rmSync(backupsDir, { recursive: true, force: true });
+  async nukeArtworkBackups() {
+    try {
+      await this.coreClient.client.call("support", "clearArtworkBackups");
+      this.loggerService.info(this.lang.info.nukedArtworkBackups, {
+        invokeAlert: true,
+        alertTimeout: 3000,
+      });
+    } catch (e) {
+      this.coreClient.logError(e);
     }
-    this.loggerService.info("Nuked artwork backups.", {
-      invokeAlert: true,
-      alertTimeout: 3000,
-    });
   }
 
   removeApps() {
-    if (this.knownSteamDirectories.length > 0) {
-      return this.previewService
-        .saveData({ removeAll: true, batchWrite: false })
-        .then(async () => {
-          await this.removeControllersOnly();
-        });
-    }
+    return this.previewService.removeAllAdded();
   }
 
-  async removeControllersOnly() {
-    for (let steamDir of this.knownSteamDirectories) {
-      const accounts = await steam.getAvailableLogins(steamDir);
-      for (let account of accounts) {
-        await this.parsersService.removeControllers(
-          steamDir,
-          account.accountID,
-        );
-      }
-    }
+  removeControllersOnly() {
+    return this.parsersService.removeAllControllers();
   }
 
   resetFuzzy() {
@@ -217,7 +200,8 @@ export class SettingsComponent implements OnDestroy {
     this.languageService.loadLanguage(this.settings.language);
   }
   changeTheme(newTheme: string) {
-    if(this.settings.theme!==newTheme){
+    this.listThemes();
+    if (this.settings.theme !== newTheme) {
       this.settings.theme = newTheme;
       this.loadTheme();
       this.onSettingsChange();
@@ -225,9 +209,9 @@ export class SettingsComponent implements OnDestroy {
   }
 
   loadTheme() {
-    document.querySelector("html").className = "";
-    document.querySelector("html").classList.add(this.settings.theme);
-    document.querySelector("html").removeAttribute("style");
+    // (the sidebar width set by dragging starts over with a new theme)
+    document.documentElement.style.removeProperty("--nav-width");
+    this.themeService.apply(this.settings.theme);
   }
 
   configDir() {

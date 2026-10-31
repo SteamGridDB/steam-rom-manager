@@ -17,7 +17,7 @@ export class GithubLauncherParser implements GenericParser {
       inputs: {
         githubLauncherDir: {
           label: this.lang.dirInputTitle,
-          placeholder: this.lang.dirInputPlaceholder[os.type()],
+          placeholder: this.lang.dirInputPlaceholder[APP.osType],
           inputType: "dir",
           info: this.lang.docs__md.input.join(""),
           required: true

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "settings page: clear artwork cache and backups",
+    "js": "location.hash = '#SRM/settings'; await new Promise(r => setTimeout(r, 1500)); const s = ng.getComponent(document.querySelector('settings')); await s.nukeArtworkChoices(); await s.nukeArtworkBackups(); return { placeholder: !!s.placeholderForOS, scriptsDownloading: s.ssService.isDownloading.getValue() }"
+  },
+  {
+    "name": "settings page: update shell scripts button",
+    "js": "const s = ng.getComponent(document.querySelector('settings')); const seen = []; const sub = s.ssService.isDownloading.subscribe(v => seen.push(v)); await s.ssService.download(true); await new Promise(r => setTimeout(r, 300)); sub.unsubscribe(); return { downloadingStates: seen }"
+  },
+  {
+    "name": "parser editor: placeholders, compat tools, controller templates",
+    "js": "location.hash = '#SRM/parsers/new'; await new Promise(r => setTimeout(r, 4000)); const p = ng.getComponent(document.querySelector('parser-editor')); const compat = p.nestedGroup.children.compatToolName.values; return { osType: window.srm.env.osType, compat: compat.map(x => x.value).slice(-3), text: document.querySelector('parser-editor').innerText.length > 100 }"
+  },
+  {
+    "name": "logger page renders",
+    "js": "location.hash = '#SRM/logger'; await new Promise(r => setTimeout(r, 1000)); const l = ng.getComponent(document.querySelector('log')); return { hasForm: !!l.bugForm, errors: l.loggerService.logText().split('\\n').filter(x => x.startsWith('[error]')).slice(0, 10) }"
+  },
+  {
+    "name": "close from the titlebar (main saves the fuzzy cache first)",
+    "js": "const t = ng.getComponent(document.querySelector('titlebar')); t.closeEvent(); return 'requested'"
+  }
+]

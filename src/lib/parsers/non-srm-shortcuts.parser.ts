@@ -47,8 +47,10 @@ export class NonSRMShortcutsParser implements GenericParser {
           const vdfAddedItemsFile = new VDF_AddedItemsFile(addedItemsPath);
           await vdfAddedItemsFile.read();
           const { addedApps } = vdfAddedItemsFile.data;
-          const addedAppIds = Object.keys(addedApps).filter(
-            (appId) => !addedApps[appId].artworkOnly,
+          const addedAppIds = new Set(
+            Object.keys(addedApps).filter(
+              (appId) => !addedApps[appId].artworkOnly,
+            ),
           );
           if (fs.existsSync(shortcutsPath)) {
             const { shortcuts } = shortcutsParser.parseBuffer(
@@ -56,9 +58,7 @@ export class NonSRMShortcutsParser implements GenericParser {
             );
             const mappedApps = shortcuts
               .filter((shortcut: any) => {
-                return !addedAppIds.includes(
-                  steam.appifyShortcutId(shortcut.appid),
-                );
+                return !addedAppIds.has(steam.appifyShortcutId(shortcut.appid));
               })
               .map((shortcut: any) => {
                 return {

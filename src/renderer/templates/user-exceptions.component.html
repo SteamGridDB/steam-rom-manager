@@ -1,12 +1,31 @@
 <div class="description only-emudeck">
-  <h1>Excluded Games & Exceptions</h1>
+  <h1>{{ lang.text.emudeckTitle }}</h1>
   <p>
-    Here you can see the games you've excluded on the Preview page in case you
-    want to add them back
+    {{ lang.text.emudeckDescription }}
   </p>
 </div>
 
 <div class="upperMenu">
+  <div class="tabs">
+    <div
+      class="tab"
+      [class.active]="tab === 'exceptions'"
+      (click)="setTab('exceptions')"
+    >
+      {{
+        lang.tabs.exceptions__i.interpolate({ count: draft.exceptions.length })
+      }}
+    </div>
+    <div
+      class="tab"
+      [class.active]="tab === 'exclusions'"
+      (click)="setTab('exclusions')"
+    >
+      {{
+        lang.tabs.exclusions__i.interpolate({ count: draft.exclusions.length })
+      }}
+    </div>
+  </div>
   <div class="slider">
     <ng-select
       class="selectSort"
@@ -16,145 +35,180 @@
     >
     </ng-select>
   </div>
-
   <ng-text-input
     class="searchExceptions"
-    placeholder="Search Exceptions"
+    [placeholder]="lang.placeholder.search"
     [(ngModel)]="filterValue"
   ></ng-text-input>
 </div>
-@if(showMarkdown) {
+@if (showMarkdown) {
   <markdown class="docs" [content]="this.currentDoc.content"></markdown>
 }
-<div class="userExceptions">
-  <div [formGroup]="exceptionsForm">
-    <div
-      class="itemsform"
-      formArrayName="items"
-      *ngFor="
-        let item of exceptionsFormItems.controls.sort(
-          exceptionsSort.bind(this)
-        );
-        let i = index
-      "
-    >
-      <div
-        class="exception-entry"
-        [formGroupName]="i"
-        *ngIf="
-          (item | formGroup).controls['oldTitle'].value | fuzzyTest: filterValue
-        "
-      >
-        <div class="inputContainer">
-          <div class="inlineLeft">
-            <div class="text" style="margin-right: 0.25em">
-              Extracted Title:
-            </div>
+<div class="userExceptions" #list>
+  <p class="tabDescription">
+    {{
+      tab === "exceptions"
+        ? lang.text.exceptionsDescription
+        : lang.text.exclusionsDescription
+    }}
+  </p>
+  <!-- (stays in view while the list scrolls; new rules appear right under it) -->
+  <div class="addBar">
+    <div class="addItem" (click)="addByTitle()">
+      {{
+        tab === "exceptions"
+          ? lang.buttons.addExceptionByTitle
+          : lang.buttons.addExclusionByTitle
+      }}
+    </div>
+  </div>
+  @for (rule of visible(); track rule.id) {
+    <div class="rule" [class.isNew]="isNew(rule)">
+      <div class="ruleHeader">
+        @if (rule.matchAppId !== undefined) {
+          <span class="matchBadge fromPreview" [title]="lang.text.byAppIdHelp">
+            {{ lang.text.byAppId }}
+          </span>
+          <span class="ruleTitle" [title]="'App ID ' + rule.matchAppId">
+            {{ rule.appTitle }}
+          </span>
+        } @else {
+          <span class="matchBadge byTitle" [title]="lang.text.byTitleHelp">
+            {{ lang.text.byTitle }}
+          </span>
+          <ng-text-input
+            class="ngTextInput matchTitle"
+            [placeholder]="lang.placeholder.extractedTitle"
+            [(ngModel)]="rule.matchTitle"
+            (ngModelChange)="changed()"
+          ></ng-text-input>
+        }
+        <span class="created">{{
+          lang.text.createdOn__i.interpolate({
+            date: prettyDate(rule.timeStamp),
+          })
+        }}</span>
+        @if (isNew(rule)) {
+          <button
+            class="cancelRule"
+            [title]="lang.buttons.cancelNew"
+            [attr.aria-label]="lang.buttons.cancelNew"
+            (click)="remove(rule)"
+          >
+            ×
+          </button>
+        } @else {
+          <div class="removeRule" (click)="remove(rule)">
+            {{
+              tab === "exceptions"
+                ? lang.buttons.deleteItem
+                : lang.buttons.putBack
+            }}
+          </div>
+        }
+      </div>
+      @if (tab === "exceptions") {
+        @let exception = asException(rule);
+        <div class="fields">
+          <div class="field">
+            <div class="text">{{ lang.text.newDisplayTitle }}</div>
             <ng-text-input
               class="ngTextInput"
-              placeholder="extractedTitle to override"
-              [formControl]="
-                (item | formGroup).controls['oldTitle'] | formControl
-              "
+              [placeholder]="lang.placeholder.displayTitle"
+              [(ngModel)]="exception.newTitle"
+              (ngModelChange)="changed()"
             ></ng-text-input>
           </div>
-          <div class="inlineLeft">
-            <div class="text" style="margin-right: 0.25em">
-              New Display Title:
-            </div>
-            <ng-text-input
-              class="ngTextInput"
-              placeholder="Display title"
-              [formControl]="
-                (item | formGroup).controls['newTitle'] | formControl
-              "
-            ></ng-text-input>
+          <div class="field">
+            <div class="text">{{ lang.text.newSearchTitle }}</div>
+            @if (exception.sgdbId) {
+              <div class="sgdbMatch">
+                {{
+                  lang.text.sgdbMatch__i.interpolate({ id: exception.sgdbId })
+                }}
+              </div>
+              <div
+                class="smallButton"
+                (click)="exception.sgdbId = ''; changed()"
+              >
+                {{ lang.buttons.clearSgdbMatch }}
+              </div>
+            } @else {
+              <ng-text-input
+                class="ngTextInput"
+                [placeholder]="lang.placeholder.searchTitle"
+                [(ngModel)]="exception.searchTitle"
+                (ngModelChange)="changed()"
+              ></ng-text-input>
+            }
           </div>
-          <div class="inlineLeft">
-            <div class="text" style="margin-right: 0.25em">
-              New Search Title:
-            </div>
-            <ng-text-input
-              class="ngTextInput"
-              placeholder="Search title"
-              [formControl]="
-                (item | formGroup).controls['searchTitle'] | formControl
-              "
-            ></ng-text-input>
-          </div>
-          <div class="inlineLeft">
-            <div class="text" style="margin-right: 0.25em">
-              New Commandline Args:
-            </div>
+          <div class="field">
+            <div class="text">{{ lang.text.newCommandLineArgs }}</div>
             <ng-text-input
               class="ngTextInput"
               placeholder="--custom-args"
-              [formControl]="
-                (item | formGroup).controls['commandLineArguments']
-                  | formControl
-              "
+              [(ngModel)]="exception.commandLineArguments"
+              (ngModelChange)="changed()"
             ></ng-text-input>
           </div>
-          <div class="inlineLeft">
-            <div class="text" style="margin-right: 0.25em; width: 100%">
-              Created:
-              {{ prettyDate((item | formGroup).controls["timeStamp"].value) }}
-            </div>
+          <div class="field">
+            <div class="text">{{ lang.text.compatTool }}</div>
+            <ng-select
+              class="ngSelect"
+              [placeholder]="lang.compatTool.inherit"
+              [ngModel]="compatTool(exception)"
+              (ngModelChange)="setCompatTool(exception, $event)"
+              [values]="compatToolOptions"
+              [sort]="false"
+            ></ng-select>
           </div>
-          <div class="inlineGroup">
-            <div class="inlineGroup">
-              <ng-toggle-button
-                class="ngToggleButton excludeButton"
-                [formControl]="
-                  (item | formGroup).controls['exclude'] | formControl
-                "
-                >{{ lang.text.exclude }}</ng-toggle-button
-              >
-              <ng-toggle-button
-                class="ngToggleButton"
-                [formControl]="
-                  (item | formGroup).controls['excludeArtwork'] | formControl
-                "
-                >{{ lang.text.excludeArtwork }}</ng-toggle-button
-              >
-            </div>
-            <div class="deleteItem" (click)="deleteItem(i)">
-              {{ lang.buttons.deleteItem }}
-            </div>
+          <div class="field">
+            <ng-toggle-button
+              class="ngToggleButton"
+              [(ngModel)]="exception.excludeArtwork"
+              (ngModelChange)="changed()"
+              >{{ lang.text.excludeArtwork }}</ng-toggle-button
+            >
           </div>
         </div>
-      </div>
+      }
     </div>
-  </div>
-  <div class="addItem" (click)="addItem()">{{ lang.buttons.addItem }}</div>
+  } @empty {
+    <p class="empty">
+      {{
+        tab === "exceptions" ? lang.text.noExceptions : lang.text.noExclusions
+      }}
+    </p>
+  }
 </div>
 <div class="menu" drag-scroll>
   <div class="lowerLeft">
-    <div class="dangerousButton" (click)="deleteAll()">
-      {{ lang.buttons.deleteAll }}
+    <div class="dangerousButton" (click)="removeAllInTab()">
+      {{
+        tab === "exceptions"
+          ? lang.buttons.deleteAllExceptions
+          : lang.buttons.putBackAll
+      }}
     </div>
     <div (click)="save()" *ngIf="isUnsaved">{{ lang.buttons.save }}</div>
     <div *ngIf="isUnsaved" (click)="undo()">{{ lang.buttons.undoChanges }}</div>
-    <div class="addItem" class="only-emudeck" (click)="addItem()">
-      {{ lang.buttons.addItem }}
-    </div>
   </div>
   <div class="lowerRight">
-    @if(appSettings.theme=='EmuDeck'){
+    @if (appSettings.theme == "EmuDeck") {
       <nav-link
-      [routerLink]="['/parsers-list']"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      >Back</nav-link>
-    }
-    @else {
-      @if(showMarkdown) {
-        <div (click)="closeDocs()" class="dangerousButton">Close Docs</div>
-      }
-      @else {
-        <div (click)="openDocs()">Open Docs</div>
+        [routerLink]="['/parsers-list']"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >{{ lang.buttons.back }}</nav-link
+      >
+    } @else {
+      @if (showMarkdown) {
+        <div (click)="closeDocs()" class="dangerousButton">
+          {{ lang.buttons.closeDocs }}
+        </div>
+      } @else {
+        <div (click)="openDocs()">{{ lang.buttons.openDocs }}</div>
       }
     }
   </div>
-
 </div>

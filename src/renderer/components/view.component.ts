@@ -7,32 +7,13 @@ import {
   Renderer2,
   RendererStyleFlags2,
 } from "@angular/core";
-import { clipboard } from "electron";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LoggerService, SettingsService } from "../services";
-import { ControllerManager } from "../../lib";
-import {
-  controllerTypes,
-  enableDisplayNames,
-} from "../../lib/controller-manager";
-import {
-  artworkTypes,
-  artworkIdDict,
-  artworkSingDict,
-} from "../../lib/artwork-types";
-import {
-  VDF_ShortcutsItem,
-  SteamInputEnabled,
-  ControllerTemplate,
-  AppSettings,
-} from "../../models";
-import { generateShortAppId } from "../../lib/helpers/steam";
-import path from "path";
-import _ from "lodash";
-import * as url from "../../lib/helpers/url";
-import { glob } from "glob";
-import { exec } from "child_process";
+import { enableDisplayNames } from "../../lib/controller-types";
+import { artworkTypes, artworkSingDict } from "../../lib/artwork-types";
+import { VDF_ShortcutsItem, AppSettings } from "../../models";
 import { ViewService } from "../services/view.service";
+import { APP } from "../../variables";
 
 @Component({
   selector: "view",
@@ -45,6 +26,7 @@ export class ViewComponent {
   currentShortcut: VDF_ShortcutsItem;
   currentCats: string;
   currentLaunch: string;
+  private current: { steamDir: string; steamUser: string };
   currentControllerEnabled: string;
   filterValue: string = "";
   currentArtwork: { [artworkType: string]: string };
@@ -63,6 +45,10 @@ export class ViewComponent {
     this.appSettings = this.settingsService.getSettings();
   }
 
+  get lang() {
+    return APP.lang.view.component;
+  }
+
   get artworkSingDict() {
     return artworkSingDict;
   }
@@ -76,12 +62,12 @@ export class ViewComponent {
 
   async refreshGames(force?: boolean) {
     if (force) {
-      this.loggerService.info(
-        "Reading Shortcuts, Categories, and Controllers",
-        { invokeAlert: true, alertTimeout: 3000 },
-      );
+      this.loggerService.info(this.lang.readingShortcuts, {
+        invokeAlert: true,
+        alertTimeout: 3000,
+      });
     }
-    if ((!this.viewService.vdfData || force) && !this.refreshingGames) {
+    if ((!this.viewService.shortcuts || force) && !this.refreshingGames) {
       this.refreshingGames = true;
       this.renderer.setStyle(
         this.elementRef.nativeElement,
@@ -90,7 +76,11 @@ export class ViewComponent {
         RendererStyleFlags2.DashCase,
       );
       this.currentShortcut = null;
-      await this.viewService.refreshGames();
+      try {
+        await this.viewService.refreshGames();
+      } catch (e) {
+        this.loggerService.error(e);
+      }
       this.refreshingGames = false;
     }
     this.changeDetectionRef.detectChanges();
@@ -114,81 +104,52 @@ export class ViewComponent {
       "50%",
       RendererStyleFlags2.DashCase,
     );
-    const gridDir =
-      this.viewService.vdfData[steamDir][steamUser].screenshots.gridDir;
-    const shortAppId = generateShortAppId(shortcut.exe, shortcut.appname);
+    this.current = { steamDir, steamUser };
+    this.currentCats = shortcut.tags.join(" ");
+    this.currentLaunch = shortcut.LaunchOptions
+      ? `${shortcut.exe} ${shortcut.LaunchOptions}`
+      : shortcut.exe;
     this.currentArtwork = {};
-    for (let artworkType of artworkTypes) {
-      const files = await glob(`${shortAppId}${artworkIdDict[artworkType]}.*`, {
-        dot: true,
-        cwd: gridDir,
-        absolute: true,
-      });
-      this.currentArtwork[artworkType] = files.length
-        ? url.encodeFile(files[0])
-        : require("../../assets/images/no-images.svg");
-    }
-    this.currentCats = this.currentShortcut.tags.join(" ");
-    this.currentLaunch = this.currentShortcut.LaunchOptions
-      ? `${this.currentShortcut.exe} ${this.currentShortcut.LaunchOptions}`
-      : this.currentShortcut.exe;
     this.currentControllers = {};
-    for (let controllerType of controllerTypes) {
-      const configset =
-        this.viewService.controllerData[steamDir][steamUser].configsets[
-          controllerType
-        ];
-      if (configset) {
-        const appController =
-          configset.controller_config[
-            ControllerManager.transformTitle(this.currentShortcut.appname)
-          ];
-        if (
-          appController &&
-          (appController.template || appController.workshop)
-        ) {
-          const templates: ControllerTemplate[] =
-            this.viewService.controllerTemplateData[steamDir][controllerType] ||
-            [];
-          const mappingId = appController.template || appController.workshop;
-          const appTemplates = templates.filter(
-            (x) => x.mappingId == mappingId,
-          );
-          if (appTemplates.length && appTemplates[0].title) {
-            this.currentControllers[controllerType] = {
-              title: appTemplates[0].title,
-              templatePath: appController.template
-                ? path.join(
-                    ControllerManager.templatesValveDir(steamDir),
-                    mappingId,
-                  )
-                : path.join(
-                    ControllerManager.templatesUserDir(steamDir),
-                    mappingId,
-                  ),
-            };
-          }
-        }
+    this.currentControllerEnabled = undefined;
+    try {
+      const details = await this.viewService.details(
+        steamDir,
+        steamUser,
+        shortcut.appid,
+      );
+      if (this.currentShortcut !== shortcut) {
+        return; // another shortcut was picked meanwhile
       }
+      for (const artworkType of artworkTypes) {
+        this.currentArtwork[artworkType] =
+          details.artwork[artworkType] ??
+          require("../../assets/images/no-images.svg");
+      }
+      this.currentControllers = details.controllers;
+      this.currentControllerEnabled =
+        enableDisplayNames[details.steamInputEnabled];
+    } catch (e) {
+      this.loggerService.error(e);
     }
-    let enabled: SteamInputEnabled =
-      (
-        this.viewService.controllerData[steamDir][steamUser].localConfig
-          .UserLocalConfigStore.apps[this.currentShortcut.appid] || {}
-      ).UseSteamControllerConfig || "1";
-    this.currentControllerEnabled = enableDisplayNames[enabled];
     this.changeDetectionRef.detectChanges();
   }
 
   toClipboard(field: string) {
-    clipboard.writeText(field);
-    this.loggerService.info("Copied to clipboard", {
+    navigator.clipboard.writeText(field);
+    this.loggerService.info(this.lang.copiedToClipboard, {
       invokeAlert: true,
       alertTimeout: 3000,
     });
   }
 
   launchTitle() {
-    exec(this.currentLaunch, { cwd: this.currentShortcut.StartDir });
+    this.viewService
+      .launch(
+        this.current.steamDir,
+        this.current.steamUser,
+        this.currentShortcut.appid,
+      )
+      .catch((e) => this.loggerService.error(e));
   }
 }

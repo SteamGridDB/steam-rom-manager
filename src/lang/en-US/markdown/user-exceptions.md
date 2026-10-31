@@ -1,45 +1,45 @@
-# User Exceptions
+# Exceptions
+
+Per-game rules that overrule the parsers. There are two kinds, on two tabs:
+
+- **Changes**: a different title in Steam, a different artwork search or SteamGridDB match, launch arguments, a compatibility tool, or local artwork only.
+- **Excluded games**: games that are never added to Steam. This lets you keep games you don't want in Steam in the same folder as the rest.
+
+The two are independent: excluding a game keeps the changes saved for it, and putting it back (the `Put back` button) brings them back into effect.
 
 ## What not to use this for
 
-This tool can be used to define per app exceptions that over rule the parsers. It should not be used to accomplish bulk tasks. For example, removing the colon character from titles can be accomplished via the title modifier `${/:/|${title}|}` and should not be done here. If a command line argument is common to every parsed app, then use the command line argument field - do not create a bunch of entries here!
+Rules are for individual games, not bulk tasks. For example, removing the colon character from every title is a job for the parser's title modifier (`${/:/|${title}|}`), and arguments common to every game belong in the parser's command line arguments field. Don't create a rule per game for those.
 
-## Extracted Title - _Mandatory_
+## Which games a rule applies to
 
-The only mandatory exception field is `Extracted Title`. Once this is specified and the exception is saved, any game that matches will have its fields overridden by any non-blank exception fields (if left blank, the exception fields do nothing).
+Every rule says how it matches:
 
-The `Extracted Title` field matches in two ways:
+- **Added on Add Games**: rules made on the Add Games page (a game's details, or `Manage Excludes`) apply to that one game. SRM recognizes it by its app id, so a rule keeps working even after the game is renamed in Steam. Its title is shown for reference and can't be edited.
+- **By title**: rules added on this page apply to every game whose _extracted title_ (the title before any changes; see the parser's `Test Parser` output) is exactly the one you enter. Use these for a title that several parsers or folders produce.
 
-- Based on the `Exception ID` (found by running test parser). For example if the game were `Portal 1` and its `Exception ID` was `12345` then you might put `Portal 1 ${id:12345}`. If the `Exception ID` is present then it doesn't matter what label you put in front of it, but for readability and searchability it's nice to put the game's actual name in front of the `Exception ID`.
-- Based on the `Extracted Title` (found by running test parser). For example if the `Extracted Title` were `Portal 2` you would put `Portal 2`.
+If a game has both, the one made for it on Add Games wins.
 
-Thus you can either have an exception that applies to all games with the same name or an exception that applies only to an exact game (`Exception ID`s are unique). The reason for this is primarily backwards compatibility -- SRM formerly matched only on the `Extracted Title`.
+## New title
 
-Exceptions generated from `Add Games` will always be in the form `Extracted Title ${id:XXXXXX}`.
+The title shown in Steam. It isn't used to search for artwork.
 
-## New Display Title
+## Artwork search
 
-This is the title that will display in Steam. It will not be used to search for images.
+What to search [SteamGridDB](https://www.steamgriddb.com) for instead of the game's title. To pick the exact SteamGridDB game, use `Fix match` on the Add Games page; the chosen game is then shown here instead (`Clear match` removes it).
 
-## New Search Title
+## Launch arguments
 
-This is the title that will be used to search for images on [SteamGridDB](https://www.steamgriddb.com). There are two options for overriding it:
+Command line arguments like `--fullscreen` for this game. They replace the arguments field of the Steam shortcut; they're never appended to the executable.
 
-- Specify the new search title as whatever text you want.
-- Specify the exact game id to pull images from. For example to get images for the game [Flow](https://www.steamgriddb.com/game/5254019) which has SteamGridDB url `https://www.steamgriddb.com/game/5254019` you would put `${gameid:5254019}`.
+## Compatibility tool
 
-## New Commandline Args
+Forces a Steam Play compatibility tool (e.g. a Proton version) for this game, or none, instead of the parser's choice.
 
-Custom commandline arguments like `--fullscreen`, etc, that can be applied to a specific title. These only override the arguments field of the Steam shortcut and are never appended to the executable.
+## Local artwork only
 
-## Exclude Title
+Don't fetch artwork from online providers (e.g. [SteamGridDB](https://www.steamgriddb.com)): useful when the online match is wrong, or you don't like any of the artwork available.
 
-The ability to exclude individual titles from being added to Steam. This allows you to keep titles that you don't want in Steam in the same folder as the rest of your games.
+## Custom variables
 
-## Local Artwork Only
-
-Don't fetch artwork from remote providers (e.g. [steamgriddb](https://www.steamgriddb.com)). Useful when SGDB is incorrectly matching the game or you just don't like any of the artwork available for it.
-
-## Custom Variables
-
-The task of overriding specific titles can also be accomplished by manually editing the custom variables JSON file and using appropriate variables in the `Title Modifier` parser field. It is recommended, however, that you use this tool instead since the custom variables JSON file will be updated over time and your edits may be overwritten.
+Overriding specific titles can also be done by editing the custom variables JSON file and using its variables in the parser's title modifier. Rules here are recommended instead: the custom variables file is updated over time and your edits there may be overwritten.

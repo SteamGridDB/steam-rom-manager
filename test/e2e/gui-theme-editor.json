@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Settings > Theme editor opens on the theme in use (EmuDeck left out)",
+    "js": "window.confirm = () => true; location.hash = '#SRM/settings'; await new Promise(r => setTimeout(r, 1500)); [...document.querySelectorAll('settings .tab')][1].click(); await new Promise(r => setTimeout(r, 1500)); const el = document.querySelector('theme-editor'); const e = ng.getComponent(el); return { open: e.draft.name, editable: e.editable, themes: [...el.querySelectorAll('.item')].map(x => x.innerText.replace(/\\s+/g, ' ').trim()), layouts: e.layouts }"
+  },
+  {
+    "name": "duplicate, change the accent; an invalid value blocks saving and stays out of the preview",
+    "js": "const el = document.querySelector('theme-editor'); const e = ng.getComponent(el); e.duplicate(); e.setName('E2E Mint'); e.setToken('accent', '#3ddc97'); e.setToken('radius-lg', 'banana'); ng.applyChanges(el); return { invalid: e.invalidCount, canSave: e.canSave, previewAccent: getComputedStyle(document.documentElement).getPropertyValue('--srm-accent').trim(), previewRadius: getComputedStyle(document.documentElement).getPropertyValue('--srm-radius-lg').trim() }"
+  },
+  {
+    "name": "save: a file in themes/user, listed under Your themes",
+    "js": "const el = document.querySelector('theme-editor'); const e = ng.getComponent(el); e.setToken('radius-lg', ''); await e.save(); ng.applyChanges(el); return { file: e.selection.file, dirty: e.dirty, yours: [...el.querySelectorAll('.item')].map(x => x.innerText.trim())[0] }"
+  },
+  {
+    "name": "use it; rename it (same file, still in use); a taken name is refused",
+    "js": "const el = document.querySelector('theme-editor'); const e = ng.getComponent(el); const s = ng.getComponent(document.querySelector('settings')); e.use(); await new Promise(r => setTimeout(r, 300)); const used = s.settings.theme; e.setName('E2E Mint 2'); await e.save(); await new Promise(r => setTimeout(r, 300)); const renamed = { theme: s.settings.theme, file: e.selection.file }; e.setName('Deck'); const taken = { problem: e.nameProblem, canSave: e.canSave }; e.revert(); return { used, renamed, taken }"
+  },
+  {
+    "name": "delete it: Settings falls back to Deck",
+    "js": "const el = document.querySelector('theme-editor'); const e = ng.getComponent(el); const s = ng.getComponent(document.querySelector('settings')); await e.delete(); await new Promise(r => setTimeout(r, 300)); ng.applyChanges(el); return { theme: s.settings.theme, open: e.draft.name, yours: e.themeService.userThemeNames }"
+  }
+]

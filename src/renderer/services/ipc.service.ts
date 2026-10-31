@@ -1,30 +1,16 @@
-import { Injectable } from "@angular/core";
-import { IpcRenderer, IpcRendererEvent } from "electron";
+import { Injectable, NgZone } from "@angular/core";
+import { bridge } from "../bridge";
 
+// Messages to and from the main process outside the Core (app updates).
 @Injectable()
 export class IpcService {
-  private _ipc: IpcRenderer | undefined = void 0;
+  constructor(private zone: NgZone) {}
 
-  constructor() {
-    this._ipc = require("electron").ipcRenderer;
-  }
-
-  public on(
-    channel: string,
-    listener: (event: IpcRendererEvent, ...args: any[]) => void,
-  ): void {
-    if (this._ipc) {
-      this._ipc.on(channel, listener);
-    }
+  public on(channel: string, listener: (payload: any) => void): void {
+    bridge.on(channel, (payload) => this.zone.run(() => listener(payload)));
   }
 
   public send(channel: string, ...args: any): void {
-    if (this._ipc) {
-      this._ipc.send(channel, ...args);
-    }
-  }
-
-  public removeListeners(channel: string) {
-    this._ipc.removeAllListeners(channel);
+    bridge.send(channel, ...args);
   }
 }

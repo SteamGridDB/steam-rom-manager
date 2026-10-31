@@ -5,16 +5,37 @@ import {
   OnDestroy,
   Renderer2,
   ElementRef,
-  RendererStyleFlags2
+  RendererStyleFlags2,
 } from "@angular/core";
-import { ActivatedRoute, Router, RouterLinkActive } from "@angular/router";
-import { FormBuilder, FormArray, FormGroup, FormControl } from "@angular/forms";
-import { UserExceptions, SelectItem, AppSettings } from "../../models";
-import { UserExceptionsService, LoggerService, SettingsService } from "../services";
+import {
+  AppSettings,
+  GameException,
+  GameExclusion,
+  SelectItem,
+  UserExceptions,
+} from "../../models";
+import {
+  UserExceptionsService,
+  LoggerService,
+  SettingsService,
+} from "../services";
+import { CoreClientService } from "../services/core-client.service";
 import { Subscription } from "rxjs";
 import { APP } from "../../variables";
-import * as _ from "lodash";
+import {
+  emptyExceptions,
+  newRuleId,
+  ruleTitle,
+} from "../../core/exceptions-format";
+import { COMPAT_NONE } from "../../lib/helpers/steam/compat-constants";
+import type { CompatToolInfo } from "../../lib/helpers/steam/compat-constants";
+import { FuzzyTestPipe } from "../pipes";
 
+type Tab = "exceptions" | "exclusions";
+
+// Exceptions page: edits a copy of the saved rules (draft); saving replaces
+// them. Rules made on the Add Games page match a game by app id and can't be
+// re-targeted; rules added here match by title, which stays editable.
 @Component({
   selector: "user-exceptions",
   templateUrl: "../templates/user-exceptions.component.html",
@@ -22,38 +43,44 @@ import * as _ from "lodash";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExceptionsComponent implements OnDestroy {
-  currentDoc: { activePath: string; content: string } = {
-    activePath: "",
-    content: "",
-  };
+  currentDoc = { activePath: "", content: "" };
   appSettings: AppSettings;
-  exceptionsForm: FormGroup;
+  draft: UserExceptions = emptyExceptions();
+  private saved = "";
+  tab: Tab = "exceptions";
   filterValue = "";
-  private subscriptions: Subscription = new Subscription();
-  private userExceptions: UserExceptions;
-  showMarkdown: boolean = false;
+  sortBy = "timeStamp|desc";
+  showMarkdown = false;
+  compatToolOptions: SelectItem[] = [];
+  private subscriptions = new Subscription();
 
-  sortByOpts: SelectItem[] = _.flatten(
-    [
-      { value: "timeStamp", displayValue: "Date Added" },
-      { value: "oldTitle", displayValue: "Extracted Title" },
-      { value: "newTitle", displayValue: "New Title" },
-    ].map((x) => [
-      { value: x.value + "|asc", displayValue: x.displayValue + " (asc)" },
-      { value: x.value + "|desc", displayValue: x.displayValue + " (desc)" },
-    ]),
-  );
+  sortByOpts: SelectItem[] = [
+    { value: "timeStamp", displayValue: this.lang.sortBy.dateAdded },
+    { value: "title", displayValue: this.lang.sortBy.extractedTitle },
+  ].flatMap((x) => [
+    {
+      value: x.value + "|asc",
+      displayValue: this.lang.sortBy.asc__i.interpolate({
+        field: x.displayValue,
+      }),
+    },
+    {
+      value: x.value + "|desc",
+      displayValue: this.lang.sortBy.desc__i.interpolate({
+        field: x.displayValue,
+      }),
+    },
+  ]);
 
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
     private exceptionsService: UserExceptionsService,
     private loggerService: LoggerService,
-    private formBuilder: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,
-    private renderer:  Renderer2,
+    private renderer: Renderer2,
     private elementRef: ElementRef,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private coreClient: CoreClientService,
+    private fuzzyTest: FuzzyTestPipe,
   ) {
     this.appSettings = this.settingsService.getSettings();
     this.currentDoc.content = this.lang.docs__md.userExceptions.join("");
@@ -64,96 +91,151 @@ export class ExceptionsComponent implements OnDestroy {
   }
 
   get isUnsaved() {
-    return this.exceptionsService.isUnsaved;
+    return JSON.stringify(this.draft) !== this.saved;
   }
 
-  get sortBy() {
-    return this.exceptionsService.sortBy;
+  ruleTitle = ruleTitle;
+
+  // The shown rules of the current tab: rules added here since the last
+  // save first (newest first, never filtered out), then the rest filtered
+  // and sorted.
+  visible(): (GameException | GameExclusion)[] {
+    const [field, direction] = this.sortBy.split("|");
+    const rules: (GameException | GameExclusion)[] =
+      this.tab === "exceptions" ? this.draft.exceptions : this.draft.exclusions;
+    const added = rules
+      .filter((rule) => this.isNew(rule))
+      .sort((a, b) => b.timeStamp - a.timeStamp);
+    const rest = rules
+      .filter((rule) => !this.isNew(rule))
+      .filter((rule) =>
+        this.fuzzyTest.transform(ruleTitle(rule), this.filterValue),
+      )
+      .sort((a, b) => {
+        const result =
+          field === "title"
+            ? ruleTitle(a).localeCompare(ruleTitle(b))
+            : a.timeStamp - b.timeStamp;
+        return direction === "asc" ? result : -result;
+      });
+    return [...added, ...rest];
   }
 
-  set sortBy(sortBy: string) {
-    this.exceptionsService.sortBy = sortBy;
+  // Rules added on this page and not saved yet (they can be cancelled).
+  private newIds = new Set<string>();
+  isNew(rule: { id: string }) {
+    return this.newIds.has(rule.id);
   }
 
-  get exceptionsFormItems() {
-    return this.exceptionsForm.get("items") as FormArray;
+  trackRule(_index: number, rule: { id: string }) {
+    return rule.id;
   }
 
-  exceptionsInfoClick() {
-    this.currentDoc.content = this.lang.docs__md.userExceptions.join("");
+  asException(rule: GameException | GameExclusion) {
+    return rule as GameException;
+  }
+
+  // Any edit: tell the navigation whether there's something to save.
+  changed() {
+    this.exceptionsService.setIsUnsaved(this.isUnsaved);
+  }
+
+  setTab(tab: Tab) {
+    this.tab = tab;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  // A rule for a title, added by hand.
+  addByTitle() {
+    const base = { id: newRuleId(), matchTitle: "", timeStamp: Date.now() };
+    if (this.tab === "exceptions") {
+      this.draft.exceptions.unshift({
+        ...base,
+        newTitle: "",
+        searchTitle: "",
+        sgdbId: "",
+        commandLineArguments: "",
+        excludeArtwork: false,
+      });
+    } else {
+      this.draft.exclusions.unshift(base);
+    }
+    this.newIds.add(base.id);
+    this.changed();
+    // Show it (first in the list, under the add button) and type its title.
+    this.changeDetectorRef.detectChanges();
+    const list: HTMLElement = this.elementRef.nativeElement.querySelector(
+      ".userExceptions",
+    );
+    list
+      ?.querySelector<HTMLElement>(".rule.isNew .matchTitle [contenteditable]")
+      ?.focus({ preventScroll: true });
+    // (instantly: a smooth scroll gets cancelled by the re-render)
+    if (list) list.scrollTop = 0;
+  }
+
+  remove(rule: { id: string }) {
+    this.newIds.delete(rule.id);
+    if (this.tab === "exceptions") {
+      this.draft.exceptions = this.draft.exceptions.filter((r) => r !== rule);
+    } else {
+      this.draft.exclusions = this.draft.exclusions.filter((r) => r !== rule);
+    }
+    this.changed();
+  }
+
+  removeAllInTab() {
+    const rules =
+      this.tab === "exceptions" ? this.draft.exceptions : this.draft.exclusions;
+    for (const rule of rules) this.newIds.delete(rule.id);
+    if (this.tab === "exceptions") this.draft.exceptions = [];
+    else this.draft.exclusions = [];
+    this.changed();
+  }
+
+  // "" (inherit) in the select is stored as no override.
+  compatTool(rule: GameException) {
+    return rule.compatToolName ?? "";
+  }
+  setCompatTool(rule: GameException, value: string) {
+    if (value === "" || value === undefined) delete rule.compatToolName;
+    else rule.compatToolName = value;
+    this.changed();
   }
 
   save() {
-    this.exceptionsService.saveUserExceptions();
-  }
-
-  deleteAll() {
-    while (this.exceptionsFormItems.length > 0) {
-      this.exceptionsFormItems.removeAt(0);
-    }
-  }
-
-  createItem(): FormGroup {
-    return this.formBuilder.group({
-      oldTitle: "",
-      newTitle: "",
-      searchTitle: "",
-      commandLineArguments: "",
-      timeStamp: Date.now(),
-      exclude: false,
-      excludeArtwork: false,
-    });
-  }
-
-  setForm() {
-    this.exceptionsForm = this.formBuilder.group({
-      items: this.formBuilder.array(
-        Object.entries(this.userExceptions.titles).map((e) =>
-          this.formBuilder.group(Object.assign({ oldTitle: e[0] }, e[1])),
-        ),
+    // Rules added by hand without a title match nothing: drop them.
+    const data: UserExceptions = {
+      exceptionsVersion: this.draft.exceptionsVersion,
+      exceptions: this.draft.exceptions.filter(
+        (r) => r.matchAppId !== undefined || r.matchTitle?.trim(),
       ),
-    });
-    this.exceptionsForm.valueChanges.subscribe((val: any) => {
-      this.exceptionsService.setIsUnsaved(true);
-      let error = this.exceptionsService.setCurrent({
-        exceptionsVersion: this.userExceptions.exceptionsVersion,
-        titles:
-          Object.fromEntries(
-            val.items
-              .filter((item: any) => item.oldTitle)
-              .map((item: any) => [item.oldTitle, _.omit(item, "oldTitle")]),
-          ) || {},
-      });
-    });
-  }
-
-  exceptionsSort(c1: FormGroup, c2: FormGroup) {
-    const sortBy = this.sortBy.split("|")[0];
-    const asc = this.sortBy.split("|")[1] === "asc";
-    let result: number;
-    if (!sortBy || sortBy === "timeStamp") {
-      result = c1.value.timeStamp - c2.value.timeStamp;
-    } else {
-      result = c1.value[sortBy].localeCompare(c2.value[sortBy]);
+      exclusions: this.draft.exclusions.filter(
+        (r) => r.matchAppId !== undefined || r.matchTitle?.trim(),
+      ),
+    };
+    const error = this.exceptionsService.validate(data);
+    if (error) {
+      this.loggerService.error(
+        this.lang.error.cannotSave__i.interpolate({ error }),
+        {
+          invokeAlert: true,
+          alertTimeout: 5000,
+        },
+      );
+      return;
     }
-    return asc ? result : -result;
-  }
-
-  prettyDate(timeStamp: number) {
-    const date = new Date(timeStamp);
-    return date.toLocaleString();
+    if (this.exceptionsService.save(data)) {
+      this.load(this.exceptionsService.data);
+    }
   }
 
   undo() {
-    this.exceptionsService.setIsUnsaved(false);
-    this.exceptionsService.setCurrent(null);
+    this.load(this.exceptionsService.data);
   }
 
-  addItem() {
-    this.exceptionsFormItems.push(this.createItem());
-  }
-  deleteItem(index: number) {
-    this.exceptionsFormItems.removeAt(index);
+  prettyDate(timeStamp: number) {
+    return new Date(timeStamp).toLocaleString();
   }
 
   openDocs() {
@@ -175,21 +257,47 @@ export class ExceptionsComponent implements OnDestroy {
     );
   }
 
-  ngOnInit() {
-    this.exceptionsService.setIsUnsaved(false);
-    this.subscriptions.add(
-      this.exceptionsService.dataObservable.subscribe((data) => {
-        this.userExceptions = data.current ? data.current : data.saved;
-        if (!this.exceptionsService.isUnsaved) {
-          this.setForm();
+  private load(saved: UserExceptions) {
+    this.draft = structuredClone(saved);
+    delete this.draft.titles;
+    this.newIds.clear();
+    this.saved = JSON.stringify(this.draft);
+    this.changed();
+    this.changeDetectorRef.markForCheck();
+  }
+
+  private loadCompatTools() {
+    const steamDir = this.appSettings.environmentVariables.steamDirectory;
+    this.coreClient.client
+      .call("support", "compatTools", steamDir ? [steamDir] : [])
+      .then((tools: CompatToolInfo[]) => {
+        this.compatToolOptions = [
+          { displayValue: this.lang.compatTool.inherit, value: "" },
+          { displayValue: this.lang.compatTool.none, value: COMPAT_NONE },
+          ...tools.map((t) => ({ displayValue: t.displayName, value: t.name })),
+        ];
+        // keep tools the rules use that aren't installed here
+        for (const rule of this.draft.exceptions) {
+          const name = rule.compatToolName;
+          if (name && !this.compatToolOptions.some((o) => o.value === name)) {
+            this.compatToolOptions.push({ displayValue: name, value: name });
+          }
         }
-        if (data.current) {
-          this.exceptionsService.setIsUnsaved(true);
-        } else {
-          this.exceptionsService.setIsUnsaved(false);
+        this.changeDetectorRef.markForCheck();
+      });
+  }
+
+  ngOnInit() {
+    this.subscriptions.add(
+      this.exceptionsService.dataObservable.subscribe((saved) => {
+        // Saved rules changed (here, or from Add Games): take them, unless
+        // there are edits here to keep.
+        if (!this.isUnsaved || !this.saved) {
+          this.load(saved);
         }
       }),
     );
+    this.loadCompatTools();
   }
 
   ngOnDestroy() {

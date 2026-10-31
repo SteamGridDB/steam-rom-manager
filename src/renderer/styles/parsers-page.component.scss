@@ -1,0 +1,26 @@
+@import "mixins";
+
+// The open parser's editor (the parser list is in the sidebar).
+:host {
+  grid-area: route;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  overflow: hidden;
+
+  parser-editor {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .noParser {
+    padding: 1em 2em;
+    overflow: auto;
+    @include webkitScrollbar(nested-form-scrollbar);
+    background-color: var(--color-nested-form-background);
+    .hint {
+      color: var(--color-settings-text);
+      font-weight: bold;
+    }
+  }
+}

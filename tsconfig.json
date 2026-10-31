@@ -15,11 +15,12 @@
     "noImplicitAny": true,
     "moduleResolution": "Node",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": false,
     "strictTemplates": true
   },
-  "include": ["./*.ts", "./src/**/*.ts"]
+  "include": ["./*.ts", "./src/**/*.ts", "./test/**/*.ts"]
 }

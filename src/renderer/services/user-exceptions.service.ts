@@ -1,58 +1,46 @@
 import { Injectable } from "@angular/core";
-import {
-  UserExceptions,
-  UserExceptionData,
-  PreviewDataApp,
-  ParserType,
-} from "../../models";
-import { LoggerService } from "./logger.service";
+import { GameException, ParserType, UserExceptions } from "../../models";
 import { BehaviorSubject } from "rxjs";
-import { APP } from "../../variables";
-import * as json from "../../lib/helpers/json";
-import * as paths from "../../paths";
-import * as schemas from "../schemas";
-import * as modifiers from "../modifiers";
-import * as _ from "lodash";
-import { superTypesMap } from "../../lib/parsers/available-parsers";
-import * as steam from "../../lib/helpers/steam";
+import { CoreClientService } from "./core-client.service";
+import { emptyExceptions, ruleFor } from "../../core/exceptions-format";
+import type { ExceptionChanges } from "../../core/exceptions-store";
 
+// User exceptions and exclusions, owned by the ExceptionsStore in the main
+// process: a mirror of the saved rules, plus whether the exceptions page has
+// unsaved edits (shown in the navigation).
 @Injectable()
 export class UserExceptionsService {
-  private variableData: BehaviorSubject<{
-    current: UserExceptions;
-    saved: UserExceptions;
-  }>;
-  private isUnsavedData: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  private static appIdRegex: RegExp = /\$\{id\:([0-9]*?)\}/;
+  private saved = new BehaviorSubject<UserExceptions>(emptyExceptions());
+  private isUnsavedData = new BehaviorSubject<boolean>(false);
 
-  private validator: json.Validator = new json.Validator(
-    schemas.userExceptions,
-    modifiers.userExceptions,
-  );
-  private savingIsDisabled: boolean = false;
-  sortBy: string = "timeStamp|desc";
-
-  constructor(private loggerService: LoggerService) {
-    this.variableData = new BehaviorSubject({
-      current: null,
-      saved: { titles: {} },
-    });
-    this.load();
+  constructor(private coreClient: CoreClientService) {
+    const client = this.coreClient.client;
+    client.on("exceptions:changed", (saved) => this.saved.next(saved));
+    client.whenLoaded("exceptions").then(() => this.refresh());
   }
 
-  private get lang() {
-    return APP.lang.userExceptions.service;
+  private callSync(method: string, ...args: any[]) {
+    return this.coreClient.client.callSync("exceptions", method, ...args);
   }
 
-  get data(): { current: UserExceptions; saved: UserExceptions } {
-    return this.variableData.getValue() as {
-      current: UserExceptions;
-      saved: UserExceptions;
-    };
+  private refresh() {
+    this.saved.next(this.callSync("get"));
+    this.coreClient.client.markFresh("exceptions:changed");
+  }
+
+  // Runs an edit in the main process; returns whether it was saved.
+  private edit(method: string, ...args: any[]): boolean {
+    const ok = !!this.callSync(method, ...args);
+    if (ok) this.refresh();
+    return ok;
+  }
+
+  get data(): UserExceptions {
+    return this.saved.getValue();
   }
 
   get dataObservable() {
-    return this.variableData.asObservable();
+    return this.saved.asObservable();
   }
 
   get isUnsaved() {
@@ -63,203 +51,53 @@ export class UserExceptionsService {
     return this.isUnsavedData.asObservable();
   }
 
-  load() {
-    json
-      .read<UserExceptions>(paths.userExceptions)
-      .then((data) => {
-        if (data !== null) {
-          const error = this.setSaved(data);
-          if (error) {
-            this.savingIsDisabled = true;
-            this.loggerService.error(this.lang.error.loadingError, {
-              invokeAlert: true,
-              alertTimeout: 5000,
-              doNotAppendToLog: true,
-            });
-            this.loggerService.error(
-              this.lang.error.corruptedExceptions__i.interpolate({
-                file: paths.userExceptions,
-                error,
-              }),
-            );
-          }
-        }
-      })
-      .catch((error) => {
-        this.savingIsDisabled = true;
-        this.loggerService.error(this.lang.error.loadingError, {
-          invokeAlert: true,
-          alertTimeout: 5000,
-          doNotAppendToLog: true,
-        });
-        this.loggerService.error(error);
-      });
-  }
-
-  putBack(exceptionKey: string) {
-    const newData = this.data.saved;
-    const currentEntry = newData.titles[exceptionKey];
-    if (currentEntry) {
-      if (
-        currentEntry.commandLineArguments ||
-        currentEntry.newTitle ||
-        currentEntry.searchTitle ||
-        currentEntry.excludeArtwork
-      ) {
-        newData.titles[exceptionKey].exclude = false;
-      } else {
-        delete newData.titles[exceptionKey];
-      }
-    }
-    this.variableData.next({ current: newData, saved: this.data.saved });
-    this.saveUserExceptions();
-  }
-
-  makeExceptionId(
-    executableLocation: string,
-    extractedTitle: string,
-    parserType: ParserType,
-  ) {
-    if (superTypesMap[parserType] == "ArtworkOnly") {
-      return executableLocation.replace(/\"/g, "");
-    } else {
-      return steam.generateShortAppId(executableLocation, extractedTitle);
-    }
-  }
-
-  deleteExceptionById(exceptionId: string) {
-    let newData = this.data.saved;
-    const exceptionMatches = Object.keys(newData.titles).filter(
-      (exTitle: string) => {
-        if (UserExceptionsService.appIdRegex.test(exTitle)) {
-          return (
-            exTitle.match(UserExceptionsService.appIdRegex)[1] == exceptionId
-          );
-        } else {
-          return false;
-        }
-      },
-    );
-    if (exceptionMatches.length) {
-      delete newData.titles[exceptionMatches[0]];
-    }
-    this.variableData.next({ current: newData, saved: this.data.saved });
-    this.saveUserExceptions();
-  }
-
-  addExceptionById(
-    exceptionId: string,
-    extractedTitle: string,
-    newException: UserExceptionData,
-  ) {
-    let newData = this.data.saved;
-    const exceptionMatches = Object.keys(newData.titles).filter(
-      (exTitle: string) => {
-        if (UserExceptionsService.appIdRegex.test(exTitle)) {
-          return (
-            exTitle.match(UserExceptionsService.appIdRegex)[1] == exceptionId
-          );
-        } else {
-          return false;
-        }
-      },
-    );
-
-    const replaceKey = exceptionMatches.length
-      ? exceptionMatches[0]
-      : `${extractedTitle} \$\{id:${exceptionId}\}`;
-    newData.titles[replaceKey] = newException;
-    this.variableData.next({ current: newData, saved: this.data.saved });
-    this.saveUserExceptions();
-  }
-
-  getExceptionById(exceptionId: string) {
-    const exceptionMatches = Object.keys(this.data.saved.titles).filter(
-      (exTitle: string) => {
-        if (UserExceptionsService.appIdRegex.test(exTitle)) {
-          return (
-            exTitle.match(UserExceptionsService.appIdRegex)[1] == exceptionId
-          );
-        } else {
-          return false;
-        }
-      },
-    );
-    if (exceptionMatches.length) {
-      return this.data.saved.titles[exceptionMatches[0]];
-    }
-  }
-
-  private duplicateKeys(data: UserExceptions) {
-    const replacedKeys = Object.keys(data.titles).map((exTitle) => {
-      return UserExceptionsService.appIdRegex.test(exTitle)
-        ? exTitle.match(UserExceptionsService.appIdRegex)[0]
-        : exTitle;
-    });
-    return _.keys(_.pickBy(_.groupBy(replacedKeys), (x) => x.length > 1));
-  }
-
-  setSaved(data: UserExceptions) {
-    if (this.validator.validate(data).isValid() && data) {
-      this.variableData.next({ current: null, saved: data });
-      return null;
-    } else {
-      this.loggerService.error(this.lang.error.writingError, {
-        invokeAlert: true,
-        alertTimeout: 3000,
-      });
-      this.loggerService.error(this.validator.errorString);
-      return `\r\n${this.validator.errorString}`;
-    }
-  }
-
-  setCurrent(data: UserExceptions) {
-    if (!data || this.validator.validate(data).isValid()) {
-      this.variableData.next({
-        current: data,
-        saved: this.variableData.getValue().saved,
-      });
-      return null;
-    } else {
-      this.loggerService.error(this.lang.error.writingError, {
-        invokeAlert: true,
-        alertTimeout: 3000,
-      });
-      this.loggerService.error(this.validator.errorString);
-      return `\r\n${this.validator.errorString}`;
-    }
-  }
-
   setIsUnsaved(isUnsaved: boolean) {
     this.isUnsavedData.next(isUnsaved);
   }
 
-  saveUserExceptions() {
-    let current = this.variableData.getValue().current;
-    if (!this.savingIsDisabled && current) {
-      const duplicates = this.duplicateKeys(current);
-      if (duplicates.length) {
-        this.loggerService.error("Cannot save duplicate exceptions, see log", {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        this.loggerService.error(
-          `Duplicate Exception Keys: ${duplicates.join(", ")}`,
-        );
-        return;
-      }
-      json
-        .write(paths.userExceptions, current)
-        .then(() => {})
-        .catch((error) => {
-          this.loggerService.error(this.lang.error.writingError, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-          this.loggerService.error(error);
-        });
-      this.setIsUnsaved(false);
-      this.variableData.next({ current: null, saved: current });
-    }
+  // The id rules made on the Add Games page match a game by.
+  makeExceptionId(
+    executableLocation: string,
+    extractedTitle: string,
+    parserType: ParserType,
+  ): string {
+    return this.callSync(
+      "makeExceptionId",
+      executableLocation,
+      extractedTitle,
+      parserType,
+    );
+  }
+
+  // The exception that applies to a game (by app id, else by title).
+  exceptionFor(appId: string, extractedTitle: string): GameException {
+    return ruleFor(this.data.exceptions, appId, extractedTitle);
+  }
+
+  // Sets (or with no changes, removes) a game's exception from Add Games.
+  setGameException(appId: string, appTitle: string, changes: ExceptionChanges) {
+    return this.edit("setGameException", appId, appTitle, changes);
+  }
+
+  deleteGameException(appId: string) {
+    return this.edit("deleteGameException", appId);
+  }
+
+  exclude(games: { appId: string; appTitle: string }[]) {
+    return this.edit("exclude", games);
+  }
+
+  removeExclusions(ids: string[]) {
+    return this.edit("removeExclusions", ids);
+  }
+
+  // Validates rules edited on the exceptions page: null, or the problem.
+  validate(data: UserExceptions): string | null {
+    return this.callSync("validate", structuredClone(data));
+  }
+
+  // Saves the exceptions page's rules.
+  save(data: UserExceptions) {
+    return this.edit("save", data);
   }
 }

@@ -1,3 +1,3 @@
-# Parsers
+# Analisadores
 
-In this page you can chose what systems you want to add to your Steam Library. Simply toggle them on or off, after that click on **Add Games**
+Nesta página você pode escolher quais sistemas deseja adicionar à sua Biblioteca Steam. Basta ativá-los ou desativá-los e clicar em **Adicionar Jogos**

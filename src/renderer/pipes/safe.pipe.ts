@@ -1,12 +1,14 @@
 import { PipeTransform, Pipe } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 
+// null passes through (e.g. no background image yet: leaves the style unset).
+
 @Pipe({ name: "safeHtml" })
 export class SafeHtml implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {}
 
-  transform(html: string) {
-    return this.sanitizer.bypassSecurityTrustHtml(html);
+  transform(html: string | null) {
+    return html == null ? null : this.sanitizer.bypassSecurityTrustHtml(html);
   }
 }
 
@@ -14,8 +16,10 @@ export class SafeHtml implements PipeTransform {
 export class SafeStyle implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {}
 
-  transform(style: string) {
-    return this.sanitizer.bypassSecurityTrustStyle(style);
+  transform(style: string | null) {
+    return style == null
+      ? null
+      : this.sanitizer.bypassSecurityTrustStyle(style);
   }
 }
 
@@ -23,7 +27,9 @@ export class SafeStyle implements PipeTransform {
 export class SafeResourceUrl implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {}
 
-  transform(resourceUrl: string) {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(resourceUrl);
+  transform(resourceUrl: string | null) {
+    return resourceUrl == null
+      ? null
+      : this.sanitizer.bypassSecurityTrustResourceUrl(resourceUrl);
   }
 }

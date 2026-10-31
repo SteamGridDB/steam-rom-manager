@@ -1,73 +1,61 @@
 import { Injectable } from "@angular/core";
 import { AppSettings } from "../../models";
-import { LoggerService } from "./logger.service";
 import { Subject, BehaviorSubject } from "rxjs";
 import { takeWhile } from "rxjs/operators";
-import { APP } from "../../variables";
-import * as json from "../../lib/helpers/json";
-import * as file from "../../lib/helpers/file";
-import * as paths from "../../paths";
-import * as schemas from "../schemas";
-import * as modifiers from "../modifiers";
 import * as _ from "lodash";
+import { CoreClientService } from "./core-client.service";
+import { syncInPlace } from "../core-client";
 
+// The app settings, owned by the Core in the main process. Components get
+// one settings object (a mirror) for the app's lifetime, edit it in place
+// and call saveAppSettings()/settingsChanged() to hand the edits over.
 @Injectable()
 export class SettingsService {
   private changeSubject: Subject<AppSettings> = new Subject();
-  private settingsLoadedSubject: BehaviorSubject<boolean> = new BehaviorSubject(
-    false,
-  );
-  private validator: json.Validator = new json.Validator(
-    schemas.appSettings,
-    modifiers.appSettings,
-  );
-  private savingIsDisabled: boolean = false;
-  private appSettings: AppSettings;
+  private settingsLoadedSubject = new BehaviorSubject<boolean>(false);
+  private settings: AppSettings;
 
-  constructor(private loggerService: LoggerService) {
-    this.appSettings = <AppSettings>this.validator.getDefaultValues();
-    json
-      .read<AppSettings>(paths.userSettings, this.appSettings)
-      .then((settings) => {
-        if (!this.validator.validate(settings).isValid()) {
-          this.savingIsDisabled = true;
-          this.loggerService.error(this.lang.error.readingError, {
-            invokeAlert: true,
-            alertTimeout: 5000,
-            doNotAppendToLog: true,
-          });
-          this.loggerService.error(
-            this.lang.error.corruptedSettings__i.interpolate({
-              file: paths.userSettings,
-              error: `\r\n${this.validator.errorString}`,
-            }),
-          );
-        } else {
-          this.appSettings = settings;
-        }
-      })
-      .catch((error) => {
-        this.loggerService.error(this.lang.error.readingError, {
-          invokeAlert: true,
-          alertTimeout: 3000,
-        });
-        this.loggerService.error(error);
-      })
-      .then(() => {
-        this.settingsLoadedSubject.next(true);
-      });
+  constructor(private coreClient: CoreClientService) {
+    const client = this.coreClient.client;
+    // Defaults until the user's settings have loaded.
+    this.settings = client.callSync("settings", "get");
+    client.on("settings:changed", (settings) => this.applyFromMain(settings));
+    client.whenLoaded("settings").then(() => {
+      syncInPlace(this.settings, client.callSync("settings", "get"));
+      this.settingsLoadedSubject.next(true);
+    });
   }
 
-  private get lang() {
-    return APP.lang.settings.service;
+  // Settings changed in the main process (e.g. parser groups, fuzzy list
+  // timestamps).
+  private applyFromMain(settings: AppSettings) {
+    if (!_.isEqual(settings, this.settings)) {
+      syncInPlace(this.settings, settings);
+      this.changeSubject.next(this.settings);
+    }
+  }
+
+  // Re-reads the settings from the main process, e.g. after an action there
+  // changed them.
+  refresh() {
+    this.applyFromMain(this.coreClient.client.callSync("settings", "get"));
+    this.coreClient.client.markFresh("settings:changed");
+  }
+
+  // Sends in-place edits to the main process without saving them.
+  push() {
+    this.coreClient.client.callSync("settings", "replace", this.settings, {
+      save: false,
+    });
   }
 
   getSettings() {
-    return this.appSettings;
+    return this.settings;
   }
 
   settingsChanged() {
-    this.changeSubject.next(this.appSettings);
+    this.push();
+    this.changeSubject.next(this.settings);
   }
 
   getChangeObservable() {
@@ -75,25 +63,21 @@ export class SettingsService {
   }
 
   saveAppSettings() {
-    if (!this.savingIsDisabled) {
-      json
-        .write(paths.userSettings, this.appSettings)
-        .then()
-        .catch((error) => {
-          this.loggerService.error(this.lang.error.writingError, {
-            invokeAlert: true,
-            alertTimeout: 3000,
-          });
-          this.loggerService.error(error);
-        });
-    }
+    this.coreClient.client.callSync("settings", "replace", this.settings, {
+      save: true,
+    });
   }
 
   configDir() {
-    file.dirOpen(paths.userDataDir);
+    return this.openFolder();
   }
   steamDir() {
-    file.dirOpen(this.appSettings.environmentVariables.steamDirectory);
+    return this.openFolder(this.settings.environmentVariables.steamDirectory);
+  }
+  private openFolder(dir?: string) {
+    return this.coreClient.client
+      .call("app", "openFolder", dir)
+      .catch((e: any) => this.coreClient.logError(e));
   }
 
   onLoad(callback: (appSettings: AppSettings) => void) {
@@ -101,7 +85,7 @@ export class SettingsService {
       .asObservable()
       .pipe(
         takeWhile((loaded: boolean) => {
-          if (loaded) callback(this.appSettings);
+          if (loaded) callback(this.settings);
           return !loaded;
         }),
       )

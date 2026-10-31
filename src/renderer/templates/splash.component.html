@@ -5,13 +5,14 @@
   (accountsJoined)="setUserAccounts($event)"
 >
 </choose-accounts>
-<h1>Welcome to SRM!</h1>
+<h1>{{ lang.splash.welcome }}</h1>
 <div class="stage1" *ngIf="stage == 'steamDir'">
   <div class="descriptor">
     <p>
-      First, you'll need to choose the location of your Steam Directory. This
-      can be changed in <strong>Settings</strong>, and overridden per
-      <strong>Parser</strong>.
+      {{ lang.splash.chooseSteamDirectory }}
+      {{ lang.splash.changeableIn }} <strong>{{ lang.splash.settings }}</strong
+      >{{ lang.splash.overriddenPer }}
+      <strong>{{ lang.splash.parser }}</strong>.
     </p>
   </div>
   <div class="inputContainer">
@@ -32,7 +33,7 @@
             onSettingsChange()
           "
         >
-          Browse
+          {{ lang.text.browse_btn }}
         </ng-path-input>
       </div>
     </div>
@@ -42,17 +43,18 @@
     [class.disabled]="!appSettings.environmentVariables.steamDirectory"
     (click)="moveToUsers()"
   >
-    Next
+    {{ lang.splash.next_btn }}
   </div>
 </div>
 <div class="stage2" *ngIf="stage == 'userAccounts'">
   <div class="descriptor">
     <p>
-      Your Steam Directory is set to
+      {{ lang.splash.steamDirectorySetTo }}
       <strong>{{ appSettings.environmentVariables.steamDirectory }}</strong
-      >. Now you need to choose which user accounts SRM should manage. This can
-      be changed in <strong>Settings</strong>, and overridden per
-      <strong>Parser</strong>.
+      >. {{ lang.splash.chooseUserAccounts }}
+      {{ lang.splash.changeableIn }} <strong>{{ lang.splash.settings }}</strong
+      >{{ lang.splash.overriddenPer }}
+      <strong>{{ lang.splash.parser }}</strong>.
     </p>
   </div>
   <div class="inputContainer">
@@ -65,16 +67,16 @@
             onSettingsChange()
           "
         ></ng-bubbles>
-        <div class="clickButton2" (click)="chooseAccounts()">Choose</div>
+        <div class="clickButton2" (click)="chooseAccounts()">{{ lang.text.choose_btn }}</div>
       </div>
     </div>
   </div>
-  <div class="clickButton" (click)="moveToSteamDir()">Back</div>
+  <div class="clickButton" (click)="moveToSteamDir()">{{ lang.splash.back_btn }}</div>
   <div
     class="clickButton"
     [class.disabled]="!appSettings.environmentVariables.userAccounts"
     (click)="finishSetup()"
   >
-    Next
+    {{ lang.splash.next_btn }}
   </div>
 </div>

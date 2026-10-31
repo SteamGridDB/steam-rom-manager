@@ -89,7 +89,7 @@ export class UPlayParser implements GenericParser {
       inputs: {
         uplayDir: {
           label: this.lang.uplayDirTitle,
-          placeholder: this.lang.uplayDirPlaceholder[os.type()],
+          placeholder: this.lang.uplayDirPlaceholder[APP.osType],
           inputType: "dir",
           info: this.lang.docs__md.input.join(""),
         },

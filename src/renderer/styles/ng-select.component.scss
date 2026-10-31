@@ -73,6 +73,8 @@
       border-color: inherit;
 
       max-height: 300px;
+      // Solid, so translucent row highlights don't show what's underneath.
+      background-color: var(--color-ng-select-background);
 
       @include webkitScrollbar(ng-select-scrollbar);
     }

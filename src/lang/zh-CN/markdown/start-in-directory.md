@@ -1,6 +1,6 @@
-# "Start In” 目录（可选）`[支持环境变量]`{.noWrap}
+#
 
-默认情况下，“Start In” 设置为可执行文件所在的目录：
+。
 
 ![默认的 "Start In" 目录](../../../assets/images/default-start-in-directory.png) {.fitImage.center}
 

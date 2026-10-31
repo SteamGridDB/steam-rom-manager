@@ -9,8 +9,7 @@ import {
   EventEmitter,
 } from "@angular/core";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
-const { dialog } = require("@electron/remote");
-const { BrowserWindow } = require("@electron/remote");
+import { CoreClientService } from "../services/core-client.service";
 
 @Component({
   selector: "ng-path-input",
@@ -37,7 +36,7 @@ export class NgPathInputComponent implements ControlValueAccessor {
   @Input() private stateless: boolean = false;
   @Output() private pathChange: EventEmitter<string> = new EventEmitter();
 
-  constructor() {}
+  constructor(private coreClient: CoreClientService) {}
 
   @HostListener("click")
   onClick() {
@@ -53,12 +52,12 @@ export class NgPathInputComponent implements ControlValueAccessor {
       this.directory ? "openDirectory" : "openFile",
       "showHiddenFiles",
     ];
-    dialog
-      .showOpenDialog(BrowserWindow.getFocusedWindow(), {
+    this.coreClient.client
+      .call("app", "openDialog", {
         title: title,
         properties: properties,
         buttonLabel: buttonLabel,
-      } as Electron.OpenDialogOptions)
+      })
       .then((result: any) => {
         if (
           result &&

@@ -11,8 +11,9 @@ import {
   MarkdownService,
   IpcService,
 } from "../services";
-import { MarkdownVariable } from "../../lib";
+import { MarkdownVariable } from "../../lib/markdown-variable";
 import { Router } from "@angular/router";
+import { ThemeService } from "../theme/theme.service";
 import hljs from "highlight.js";
 import markdownItAnchor from "markdown-it-anchor";
 import markdownItAttrs from "markdown-it-attrs";
@@ -46,7 +47,6 @@ export class AppComponent {
   shouldHideComponent: boolean = false;
   splash: boolean = false;
   splashStage: string = "steamDir";
-  private cliMessage: string = "";
   constructor(
     private settingsService: SettingsService,
     private languageService: LanguageService,
@@ -55,6 +55,7 @@ export class AppComponent {
     private ipcService: IpcService,
     private changeDetectionRef: ChangeDetectorRef,
     private zone: NgZone,
+    private themeService: ThemeService,
   ) {
     this.settingsService.onLoad((appSettings) => {
       this.splash =
@@ -64,8 +65,9 @@ export class AppComponent {
         ? "userAccounts"
         : "steamDir";
       this.settingsLoaded = true;
-      document.querySelector("html").className = "";
-      document.querySelector("html").classList.add(appSettings.theme);
+      this.themeService
+        .loadUserThemes()
+        .finally(() => this.themeService.apply(appSettings.theme));
 
       // EmuDeck special navigation
       this.router.events.subscribe((val) => {
@@ -82,10 +84,11 @@ export class AppComponent {
       });
 
       if (appSettings.theme === "EmuDeck") {
-        document.querySelector("html").removeAttribute("style");
+        // (no resizable sidebar: drop a width set in another theme)
+        document.documentElement.style.removeProperty("--nav-width");
         this.router.navigate(["/parsers-list"]);
       } else {
-        this.router.navigate(["/parsers", -1]);
+        this.router.navigate(["/parsers", "new"]);
       }
       this.changeDetectionRef.detectChanges();
     });
@@ -113,37 +116,8 @@ export class AppComponent {
         .use(markdownItAnchor),
     );
 
-    ipcService.on("updater_message", (event, message) => {
+    ipcService.on("updater_message", (message) => {
       this.updateMessage = message;
-    });
-    ipcService.on("cli_message", (event, message) => {
-      this.settingsService.onLoad((appSettings) => {
-        if (["list", "enable", "disable"].includes(message.command)) {
-          this.zone.run(() => {
-            this.router.navigate(["/parsers", -1], {
-              queryParams: {
-                cliMessage: JSON.stringify(message),
-              },
-            });
-          });
-        } else if (["add", "remove"].includes(message.command)) {
-          this.zone.run(() => {
-            this.router.navigate(["/"], {
-              queryParams: {
-                cliMessage: JSON.stringify(message),
-              },
-            });
-          });
-        } else if (["nuke"].includes(message.command)) {
-          this.zone.run(() => {
-            this.router.navigate(["/settings"], {
-              queryParams: {
-                cliMessage: JSON.stringify(message),
-              },
-            });
-          });
-        }
-      });
     });
   }
 }

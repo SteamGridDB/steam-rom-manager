@@ -4,15 +4,13 @@ import {
   Input,
   ChangeDetectorRef,
   Renderer2,
-  SimpleChanges,
   ViewChild,
   ElementRef,
 } from "@angular/core";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 import * as rangy from "rangy";
 import * as he from "he";
-import * as path from "path";
-import { escape } from "glob";
+import { CoreClientService } from "../services/core-client.service";
 
 @Component({
   selector: "ng-text-input",
@@ -22,7 +20,7 @@ import { escape } from "glob";
     [attr.data-placeholder]="placeholder"
     contenteditable="true"
     spellcheck="false"
-    (input)="this.writeValueFromTarget($event.target)"
+    (input)="writeValueFromTarget($event.target)"
     (keypress)="handleKeypress($event)"
     (drag)="handleDragAndDrop($event)"
     (dragover)="handleDragAndDrop($event)"
@@ -58,6 +56,7 @@ export class NgTextInputComponent implements ControlValueAccessor {
   constructor(
     private changeRef: ChangeDetectorRef,
     private renderer: Renderer2,
+    private coreClient: CoreClientService,
   ) {}
 
   ngAfterViewInit() {
@@ -101,8 +100,9 @@ export class NgTextInputComponent implements ControlValueAccessor {
     if (!this.dragAndDrop) event.preventDefault();
   }
 
-  writeValueFromTarget(target: EventTarget) {
-    this.writeValue((target as HTMLTextAreaElement).textContent, true);
+  writeValueFromTarget(target: EventTarget | null) {
+    if (!target) return;
+    this.writeValue((target as HTMLElement).textContent ?? "", true);
   }
 
   writeValue(
@@ -112,25 +112,16 @@ export class NgTextInputComponent implements ControlValueAccessor {
   ): void {
     if (value !== this.currentValue) {
       if (value && value.split("&:&")[0] == "_browse_") {
-        const selectedPath = value.split("&:&")[1];
-        if (this.appendGlob || this.useForwardSlash) {
-          const t1 = escape(selectedPath.replaceAll("\\", "/"));
-          if (this.appendGlob) {
-            const swapString = "$:$:$";
-            const t2 = t1.replaceAll("\\", swapString);
-            const t3 = path.resolve(
-              t2,
-              this.currentValue
-                ? path.basename(this.currentValue)
-                : this.appendGlob,
-            );
-            value = t3.replaceAll("\\", "/").replaceAll(swapString, "\\");
-          } else {
-            value = t1;
-          }
-        } else {
-          value = selectedPath;
-        }
+        value = this.coreClient.client.callSync(
+          "support",
+          "browsedValue",
+          value.split("&:&")[1],
+          this.currentValue,
+          {
+            appendGlob: this.appendGlob,
+            useForwardSlash: !!this.useForwardSlash,
+          },
+        );
       }
       this.currentValue = value;
       if (updateDom || this.highlight) this.setInnerHtml(value, selection);

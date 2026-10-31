@@ -20,7 +20,7 @@ export class EADesktopParser implements GenericParser {
       inputs: {
         eaGamesDir: {
           label: this.lang.eaGamesDirTitle,
-          placeholder: this.lang.eaGamesDirPlaceholder[os.type()],
+          placeholder: this.lang.eaGamesDirPlaceholder[APP.osType],
           inputType: "dir",
           info: this.lang.docs__md.input.join(""),
         },
@@ -59,13 +59,9 @@ export class EADesktopParser implements GenericParser {
         for (let installDataFile of installDataFiles) {
           let gameDir = path.join(path.dirname(installDataFile), "..");
           let xmlBuffer = fs.readFileSync(installDataFile);
-          
-          const arrayBuffer = xmlBuffer.buffer.slice(
-            xmlBuffer.byteOffset,
-            xmlBuffer.byteOffset + xmlBuffer.byteLength
-          ) as ArrayBuffer
-
-          const fileInfo = await languageEncoding(new Blob([arrayBuffer]));
+          // Parsers run in the main process: the library's Node build takes
+          // a Buffer (or path); its browser build took a Blob.
+          const fileInfo = await languageEncoding(xmlBuffer);
 
           let xmlString;
           if (fileInfo.encoding == "UTF-8") {
@@ -73,10 +69,15 @@ export class EADesktopParser implements GenericParser {
           } else if (fileInfo.encoding == "UTF-16LE") {
             xmlString = xmlBuffer.toString("utf16le");
           } else {
-            return reject(`Unrecognized file encoding for ${installDataFile}.`);
+            // (one odd file: that game fails, not the whole parser)
+            finalData.failed.push(
+              `Unrecognized file encoding for ${installDataFile}.`,
+            );
+            continue;
           }
 
-          if (XMLValidator.validate(xmlString, {})) {
+          // (validate() returns true, or an error object, which is truthy too)
+          if (XMLValidator.validate(xmlString, {}) === true) {
             let parsedData = xmlParser.parse(xmlString);
             let title = "";
             let runtimePath = "";
@@ -114,13 +115,11 @@ export class EADesktopParser implements GenericParser {
                 true,
               );
 
-
               contentID = json.caselessGet(parsedData, [
                 ["DiPManifest"],
                 ["contentIDs"],
                 ["contentID"],
               ]);
-
             } else if (
               json.caselessHas(parsedData, [
                 ["game"],
@@ -163,34 +162,38 @@ export class EADesktopParser implements GenericParser {
                 ["contentID"],
               ]);
             } else {
-              finalData.failed.push(`Game in ${gameDir}, ${title}, failed because it's installer_data.xml was in an unrecognizable format`)
+              finalData.failed.push(
+                `Game in ${gameDir}, ${title}, failed because it's installer_data.xml was in an unrecognizable format`,
+              );
               continue;
             }
 
-            if(!runtime) {
+            if (!runtime) {
               //finalData.failed.push(`Game in ${gameDir}, ${title}, failed because it's installerdata.xml had no runtime`);
               //default, executable has same name as directory but stripped of whitespace, and lives in Binaries.
 
-              const executable = `${gameDir.split("\\").pop().replaceAll(/\s/g,'')}.exe`
+              const executable = `${gameDir.split("\\").pop().replaceAll(/\s/g, "")}.exe`;
               const executablePaths = [
-                path.join(gameDir, 'Binaries', executable),
-                path.join(gameDir, executable)
-              ]
+                path.join(gameDir, "Binaries", executable),
+                path.join(gameDir, executable),
+              ];
 
-              let foundRuntime = false
-              for(let executablePath of executablePaths) {
+              let foundRuntime = false;
+              for (let executablePath of executablePaths) {
                 if (fs.existsSync(executablePath)) {
-                  foundRuntime = true
+                  foundRuntime = true;
                   runtime = {
-                    "filePath": executablePath,
-                    "parameters": ""
-                  }
+                    filePath: executablePath,
+                    parameters: "",
+                  };
                   break;
                 }
               }
-              if(!foundRuntime) {
-                finalData.failed.push(`Game ${title} failed because its installerdata.xml contained no runtime and the default runtime paths ${executablePaths} does not exist`)
-                continue
+              if (!foundRuntime) {
+                finalData.failed.push(
+                  `Game ${title} failed because its installerdata.xml contained no runtime and the default runtime paths ${executablePaths} does not exist`,
+                );
+                continue;
               }
             }
 
@@ -218,7 +221,9 @@ export class EADesktopParser implements GenericParser {
                 fileLaunchOptions: commandArgs,
               });
             } else {
-              finalData.failed.push(`Game with title ${title} failed. AppID: ${appID}, runtimePath: ${runtimePath}`)
+              finalData.failed.push(
+                `Game with title ${title} failed. AppID: ${appID}, runtimePath: ${runtimePath}`,
+              );
             }
           }
         }
