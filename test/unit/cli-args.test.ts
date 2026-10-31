@@ -171,6 +171,12 @@ describe("parseCliArgs", () => {
     );
   });
 
+  it("edit help: nothing is required (only what changes is given)", () => {
+    const edit = parse("edit", "--help").printed;
+    expect(edit).not.toContain("REQUIRED");
+    expect(edit).toMatch(/--name\s+Parser title\. Can't be left empty/);
+  });
+
   it("create help: every setting; with --ptype, that type's, required first", () => {
     const all = parse("create", "--help").printed;
     for (const flag of [

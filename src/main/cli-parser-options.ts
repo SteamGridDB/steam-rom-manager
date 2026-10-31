@@ -77,7 +77,11 @@ export function parserFieldOptions(args: string[]) {
     // view: the option just names the setting
     if (mode === "view") return field.label.replace(/[:.]\s*$/, "");
     const parts: string[] = [field.label.replace(/[:.]\s*$/, "")];
-    if (field.required) {
+    if (field.required && mode === "edit") {
+      // (an edit gives only what changes: a required setting just can't
+      // be emptied)
+      parts.push("Can't be left empty");
+    } else if (field.required) {
       const note = helpType || field.parserType ? "" : appliesNote(field);
       parts.push(
         note && note !== "all parsers" ? `REQUIRED (${note})` : "REQUIRED",
@@ -199,7 +203,9 @@ export function parserFieldOptions(args: string[]) {
           `Parser types: ${availableParsers.join(", ")}.`,
           helpType
             ? `Showing ${helpType} settings. Required ones are checked like in the parser editor.`
-            : "Add --ptype <type> to --help to see just that type's settings, with what's required.",
+            : mode === "edit"
+              ? "Add --ptype <type> to --help to see just that type's settings."
+              : "Add --ptype <type> to --help to see just that type's settings, with what's required.",
           'Lists take several values: --steam-categories "Puzzle" "Fun". Switches: --drm-protect, or --no-drm-protect to turn off.',
           mode === "edit"
             ? "Only the options given change, and only to valid values; a new --ptype is checked as a whole."
