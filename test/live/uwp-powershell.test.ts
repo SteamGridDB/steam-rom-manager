@@ -1,12 +1,18 @@
 // The UWP parser's PowerShell batches, against apps installed on this
-// (Windows) machine. Read-only.
+// Windows machine (Calculator, and whatever is in WindowsApps). Read-only.
+// Opt-in, like the other live tests (CI's Windows Server has no Calculator):
+//   SRM_LIVE_UWP=1
 import { describe, expect, it } from "vitest";
 import * as os from "os";
 import { XMLParser } from "fast-xml-parser";
 import * as fs from "fs";
 import { getUWPAppDetails, UWPParser } from "../../src/lib/parsers/UWP.parser";
 
-describe.runIf(os.type() === "Windows_NT")("UWP parser (PowerShell)", () => {
+it("UWP parser: no games, no PowerShell", async () => {
+  expect(await getUWPAppDetails([], new XMLParser())).toEqual([]);
+});
+
+describe.runIf(os.type() === "Windows_NT" && !!process.env.SRM_LIVE_UWP)("UWP parser (PowerShell)", () => {
   it("finds installed packages and resolves ms-resource names in one run each", async () => {
     const xmlParser = new XMLParser({
       ignoreAttributes: false,
@@ -55,8 +61,4 @@ describe.runIf(os.type() === "Windows_NT")("UWP parser (PowerShell)", () => {
     expect(new Set(launches).size).toBe(launches.length);
     for (const s of success) expect(fs.existsSync(s.filePath), s.filePath).toBe(true);
   }, 120000);
-
-  it("no games: no PowerShell", async () => {
-    expect(await getUWPAppDetails([], new XMLParser())).toEqual([]);
-  });
 });
