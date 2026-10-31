@@ -64,6 +64,9 @@
     @include webkitScrollbar(nested-form-scrollbar);
     background-color: var(--color-nested-form-background);
     overflow: auto;
+    // (a new rule is shown by scrolling to the top: don't let the browser
+    // shift the list as the rules' fields finish loading)
+    overflow-anchor: none;
     color: var(--color-settings-text);
 
     .tabDescription,
@@ -178,10 +181,50 @@
       }
     }
 
+    // Pinned to the top of the list while it scrolls (top: the list's
+    // padding, so it sits at the visible edge); rules scroll under it.
+    .addBar {
+      position: sticky;
+      top: -1em;
+      z-index: 1;
+      margin: 0 -1em 0.85em;
+      padding: 0.6em 1em;
+      // (the list's color, made opaque: rules scroll under it, unseen)
+      background:
+        linear-gradient(
+          var(--color-nested-form-background),
+          var(--color-nested-form-background)
+        ),
+        var(--srm-bg);
+      border-bottom: 1px solid var(--srm-border);
+      box-shadow: var(--srm-shadow-sm);
+    }
     .addItem {
       display: inline-block;
       @include button();
       @include clickButtonColor(click-button);
+    }
+
+    .rule.isNew {
+      border-color: var(--srm-accent);
+      box-shadow: 0 0 0 1px var(--srm-accent-soft), var(--srm-shadow-sm);
+    }
+    .cancelRule {
+      flex: none;
+      width: 1.9em;
+      height: 1.9em;
+      padding: 0;
+      font-size: 1.1em;
+      line-height: 1;
+      color: var(--srm-text-muted);
+      background: transparent;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      &:hover {
+        color: var(--srm-text);
+        background: var(--srm-surface-hover);
+      }
     }
   }
   .menu {
