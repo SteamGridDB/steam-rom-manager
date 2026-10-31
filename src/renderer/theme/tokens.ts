@@ -56,6 +56,8 @@ export const tokens = {
   border: { kind: "color", group: "lines" },
   "border-strong": { kind: "color", group: "lines" },
   "focus-ring": { kind: "color", group: "lines" },
+  "nav-edge": { kind: "paint", group: "lines" },
+  "nav-edge-width": { kind: "length", group: "lines" },
 
   accent: { kind: "color", group: "accent" },
   "accent-hover": { kind: "color", group: "accent" },

@@ -350,3 +350,81 @@ input {
     }
   }
 }
+
+// The gradient builder, under a paint token's row.
+.token .swatch.open {
+  outline: 2px solid var(--srm-focus-ring);
+  outline-offset: 2px;
+}
+.gradientBuilder {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--srm-space) * 1.25);
+  margin: 0 0.6em 0.75em calc(2.25em + 1.35em);
+  padding: calc(var(--srm-space) * 1.5);
+  background: var(--srm-surface-sunken);
+  border: 1px solid var(--srm-border);
+  border-radius: var(--srm-radius-md);
+  .gradientNote {
+    margin: 0;
+    font-size: 0.85em;
+    color: var(--srm-warning);
+  }
+  .gradientBar {
+    height: 2.5em;
+    border: 1px solid var(--srm-border-strong);
+    border-radius: var(--srm-radius-sm);
+  }
+  .gradientRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: calc(var(--srm-space) * 2);
+  }
+  .gradientField {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.9em;
+    color: var(--srm-text-muted);
+    input[type="number"] {
+      width: 5em;
+    }
+  }
+  .gradientColors {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: calc(var(--srm-space) * 1);
+  }
+  .gradientColor {
+    display: flex;
+    align-items: center;
+    gap: 0.15em;
+    .swatch {
+      width: 2em;
+      height: 2em;
+      padding: 0;
+      border: 1px solid var(--srm-border-strong);
+      border-radius: var(--srm-radius-sm);
+      box-shadow: var(--srm-shadow-sm);
+    }
+    .clear {
+      width: 1.5em;
+      height: 1.5em;
+      padding: 0;
+      line-height: 1;
+      color: var(--srm-text-muted);
+      background: transparent;
+      border: none;
+      border-radius: 50%;
+      &:hover {
+        color: var(--srm-text);
+        background: var(--srm-surface-hover);
+      }
+    }
+  }
+  .gradientAdd {
+    font-size: 0.85em;
+  }
+}

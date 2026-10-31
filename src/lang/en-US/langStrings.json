@@ -608,6 +608,24 @@
         "inherited__i": "Base theme: ${value}",
         "clear": "Use the base theme's value",
         "pickColor": "Pick a color",
+        "gradient": {
+          "open": "Build a gradient",
+          "replaces": "This value isn't a simple linear gradient: building one here replaces it.",
+          "angle": "Angle (degrees)",
+          "stripes": "Hard-edged stripes, like a flag",
+          "flags": "Start from a flag",
+          "addColor": "Add a color",
+          "removeColor": "Remove this color",
+          "flagNames": {
+            "rainbow": "Rainbow",
+            "trans": "Transgender",
+            "bisexual": "Bisexual",
+            "lesbian": "Lesbian",
+            "nonbinary": "Nonbinary",
+            "pansexual": "Pansexual",
+            "asexual": "Asexual"
+          }
+        },
         "invalid": "Not a valid value for this token",
         "duplicate": "Duplicate",
         "save": "Save",
@@ -658,6 +676,8 @@
           "border": "Hairlines between areas",
           "border-strong": "Input and card outlines",
           "focus-ring": "Keyboard focus outline",
+          "nav-edge": "Bar between the navigation and the page (a color or gradient; none keeps it plain)",
+          "nav-edge-width": "Width of that bar (it's also the handle for resizing the navigation)",
           "accent": "Brand color: primary buttons, active items, toggles",
           "accent-hover": "Accent under the pointer",
           "accent-soft": "Translucent accent: selected rows, badges",
