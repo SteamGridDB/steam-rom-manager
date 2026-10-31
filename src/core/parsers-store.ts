@@ -127,21 +127,19 @@ export class ParsersStore {
   async load(): Promise<UserConfiguration[]> {
     let data: UserConfiguration[];
     try {
-      data = await fs.readJson(paths.userConfigurations);
+      // (missing or empty: no parsers yet)
+      data =
+        (await json.read<UserConfiguration[]>(paths.userConfigurations)) ?? [];
     } catch (error) {
-      if (error.code === "ENOENT") {
-        data = [];
-      } else {
-        this.savingIsDisabled = true;
-        this.logger.error(this.lang.error.readingConfiguration, {
-          invokeAlert: true,
-          alertTimeout: 5000,
-        });
-        this.logger.error(error);
-        this.configs = [];
-        this.changed();
-        return this.configs;
-      }
+      this.savingIsDisabled = true;
+      this.logger.error(this.lang.error.readingConfiguration, {
+        invokeAlert: true,
+        alertTimeout: 5000,
+      });
+      this.logger.error(error);
+      this.configs = [];
+      this.changed();
+      return this.configs;
     }
 
     const validated: UserConfiguration[] = [];
