@@ -950,9 +950,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.userForm.patchValue(config);
         this.changeRef.detectChanges();
       } else
+        // (a copy: the parser's edits, e.g. moving it to a group, mustn't
+        // change the preset itself)
         this.parsersService.setCurrentConfiguration(
           this.configurationIndex,
-          config,
+          _.cloneDeep(config),
         );
     }
   }
