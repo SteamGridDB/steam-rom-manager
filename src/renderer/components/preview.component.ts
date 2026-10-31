@@ -214,6 +214,14 @@ export class PreviewComponent implements OnDestroy {
     this.cancelExcludes();
   }
 
+  // The Parse buttons: a new list, so the category/parser filters start over
+  // (they may name categories and parsers the new list doesn't have).
+  parse() {
+    this.setCategoryFilter([]);
+    this.setParserFilter([]);
+    this.generatePreviewData();
+  }
+
   generatePreviewData() {
     this.clearInView();
     this.closeRight();
@@ -267,6 +275,14 @@ export class PreviewComponent implements OnDestroy {
           this.allCategories = this.previewService.getAllCategories();
           this.allParsers = this.previewService.getAllParsers();
           this.previewData = this.previewService.getPreviewData();
+          // (filters naming categories/parsers no longer in the list would
+          // hide everything)
+          this.setCategoryFilter(
+            this.categoryFilter.filter((c) => this.allCategories.includes(c)),
+          );
+          this.setParserFilter(
+            this.parserFilter.filter((p) => this.allParsers.includes(p)),
+          );
           this.changeDetectionRef.detectChanges();
         }, 50),
       ),
