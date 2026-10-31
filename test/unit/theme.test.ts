@@ -46,6 +46,9 @@ describe("design tokens", () => {
       "Sunset",
       "Solarized Dark",
       "Solarized Light",
+      "Mint",
+      "Pride",
+      "Cyberpunk",
     ]);
   });
 

@@ -1,0 +1,32 @@
+{
+  "name": "Pride",
+  "colorScheme": "dark",
+  "tokens": {
+    "bg": "#100e16",
+    "bg-art": "radial-gradient(800px 480px at -5% -10%, rgba(232, 80, 91, 0.08), transparent 60%), radial-gradient(800px 420px at 45% -15%, rgba(243, 156, 74, 0.06), transparent 60%), radial-gradient(800px 480px at 105% 0%, rgba(245, 214, 91, 0.05), transparent 60%), radial-gradient(900px 560px at 105% 105%, rgba(76, 183, 130, 0.06), transparent 60%), radial-gradient(900px 560px at 45% 115%, rgba(74, 143, 224, 0.07), transparent 60%), radial-gradient(900px 560px at -10% 95%, rgba(155, 111, 208, 0.09), transparent 60%)",
+    "surface": "#16131d",
+    "surface-raised": "#1e1a27",
+    "surface-hover": "#282233",
+    "surface-sunken": "#0d0b12",
+    "glass": "rgba(30, 26, 39, 0.72)",
+    "glass-border": "rgba(230, 210, 255, 0.08)",
+    "text": "#f3eef8",
+    "text-muted": "#b8adc7",
+    "text-subtle": "#7c7190",
+    "link": "#cfb0ff",
+    "border": "rgba(230, 210, 255, 0.07)",
+    "border-strong": "rgba(230, 210, 255, 0.14)",
+    "focus-ring": "rgba(197, 150, 255, 0.6)",
+    "nav-edge": "linear-gradient(180deg, #e8505b 0% 16.67%, #f39c4a 16.67% 33.33%, #f5d65b 33.33% 50%, #4cb782 50% 66.67%, #4a8fe0 66.67% 83.33%, #9b6fd0 83.33% 100%)",
+    "nav-edge-width": "4px",
+    "accent": "#b98cf5",
+    "accent-hover": "#caa6f8",
+    "accent-soft": "rgba(185, 140, 245, 0.16)",
+    "accent-gradient": "linear-gradient(90deg, #e8505b 0%, #f39c4a 20%, #f5d65b 40%, #4cb782 60%, #4a8fe0 80%, #9b6fd0 100%)",
+    "info": "#4a8fe0",
+    "scrollbar": "rgba(230, 210, 255, 0.12)",
+    "scrollbar-hover": "rgba(230, 210, 255, 0.24)",
+    "glow": "0 0 0 2px rgba(185, 140, 245, 0.85), 0 8px 30px rgba(74, 143, 224, 0.28)",
+    "radius-art": "14px"
+  }
+}
