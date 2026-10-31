@@ -38,7 +38,7 @@
       {{ lang.onboarding.excludeMiddle }}
       <strong>{{ lang.exclude.save }}</strong>
     </p>
-    <div class="fake-btn" (click)="generatePreviewData()">
+    <div class="fake-btn" (click)="parse()">
       {{ lang.onboarding.parse }}
     </div>
   </div>
@@ -1186,7 +1186,7 @@
   >
     <ng-container *ngIf="previewVariables.numberOfListItems !== 0">
       <div class="lowerLeft">
-        <div class="button" (click)="generatePreviewData()">
+        <div class="button" (click)="parse()">
           {{ lang.generateAppList }}
         </div>
         <div class="button" (click)="save()">{{ lang.saveAppList }}</div>
@@ -1226,7 +1226,7 @@
       "
     >
       <div class="lowerLeft">
-        <div class="button" (click)="generatePreviewData()">
+        <div class="button" (click)="parse()">
           {{ lang.generateAppList }}
         </div>
         <div class="button" (click)="save()">{{ lang.saveAppList }}</div>
