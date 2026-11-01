@@ -193,12 +193,13 @@ export class ExceptionsComponent implements OnDestroy {
     this.changed();
   }
 
-  // "" (inherit) in the select is stored as no override.
+  // "" (inherit) in the select is stored as no override. The select emits
+  // it as null, sometimes on its own (when a row re-renders).
   compatTool(rule: GameException) {
     return rule.compatToolName ?? "";
   }
-  setCompatTool(rule: GameException, value: string) {
-    if (value === "" || value === undefined) delete rule.compatToolName;
+  setCompatTool(rule: GameException, value: string | null) {
+    if (!value) delete rule.compatToolName;
     else rule.compatToolName = value;
     this.changed();
   }
