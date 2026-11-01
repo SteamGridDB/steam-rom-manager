@@ -39,7 +39,10 @@ export interface BuildResult {
 export class PreviewBuilder {
   constructor(
     private loggerService: Logger,
-    private parsers: Pick<ParsersStore, "executeFileParser" | "getAll">,
+    private parsers: Pick<
+      ParsersStore,
+      "executeFileParser" | "executeFileParserReusing" | "getAll"
+    >,
     private settings: Pick<SettingsStore, "get">,
   ) {}
 
@@ -53,16 +56,30 @@ export class PreviewBuilder {
 
   // Throws if the parsers fail; logs (as the UI did) what was skipped.
   // `parserIds`: run just these parsers, enabled or not.
+  // `reuse` (Add Games' refresh): parsers that haven't changed since the
+  // last build aren't parsed again (see ParseCache).
   async build({
     parserIds,
-  }: { parserIds?: string[] } = {}): Promise<BuildResult> {
+    reuse = false,
+  }: { parserIds?: string[]; reuse?: boolean } = {}): Promise<BuildResult> {
     const pools = emptyPools();
     let previewData;
-    let data = await this.parsers.executeFileParser(
-      ...(parserIds
-        ? this.parsers.getAll().filter((c) => parserIds.includes(c.parserId))
-        : []),
-    );
+    const chosen = parserIds
+      ? this.parsers.getAll().filter((c) => parserIds.includes(c.parserId))
+      : [];
+    let data =
+      reuse && !parserIds
+        ? await this.parsers.executeFileParserReusing(...chosen)
+        : await this.parsers.executeFileParser(...chosen);
+    const ran = data.parsedData.parsedConfigs.length;
+    if (reuse && data.reparsed < ran) {
+      this.loggerService.info(
+        this.lang.info.reusedParsers__i.interpolate({
+          parsed: data.reparsed,
+          total: ran,
+        }),
+      );
+    }
     if (data.skipped.length > 0) {
       this.loggerService.info(
         this.lang.info.disabledConfigurations__i.interpolate({

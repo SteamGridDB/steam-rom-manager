@@ -58,7 +58,11 @@ export class PreviewService {
       // The engine only calls this with the "load in advance" strategy.
       onNewImage: (image) => this.preloadImage(image),
       builder: {
-        build: () => withSettings(() => client.call("builder", "build")),
+        // (a refresh only parses parsers that changed: see ParseCache)
+        build: (options) =>
+          withSettings(() =>
+            client.call("builder", "build", { ...options, reuse: true }),
+          ),
       },
       writer: {
         save: (previewData, onlineImages, options, onProgress) =>
