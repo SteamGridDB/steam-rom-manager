@@ -4,6 +4,7 @@ import {
   MatchResult,
 } from "../models";
 import { MemoizedFunction } from "./memoized-function";
+import "./replace-diacritics"; // String.prototype.replaceDiacritics
 import fuzzysort from "fuzzysort";
 import { TitleModifierHandler } from "./title-modifier-handler";
 import * as _ from "lodash";
@@ -48,8 +49,9 @@ export class FuzzyMatcher {
     titleModifierHandler: TitleModifierHandler,
     verbose: boolean = true,
   ): (string | null)[] {
-    
-    const fuzzyTitles = (new Array(titleModifierHandler.latestTitle.length)).fill(null);
+    const fuzzyTitles = new Array(titleModifierHandler.latestTitle.length).fill(
+      null,
+    );
 
     if (this.isLoaded()) {
       for (let i = 0; i < titleModifierHandler.latestTitle.length; i++) {
@@ -159,6 +161,8 @@ export class FuzzyMatcher {
     const list = diacriticsRemoved ? this.latinList : this.list.games;
     const res = fuzzysort.go(input, list, { threshold: 0.5 });
     if (res.length) {
+      // (with "replace diacritics", the result has none either: titles,
+      // and so app ids, stay as they always were)
       return { output: res[0].target, matched: true };
     } else {
       return { output: input, matched: false };

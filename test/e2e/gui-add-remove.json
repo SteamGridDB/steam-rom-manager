@@ -1,0 +1,22 @@
+[
+  {
+    "name": "open Add Games",
+    "js": "location.hash = '#SRM/preview'; await new Promise(r => setTimeout(r, 2000)); return location.hash"
+  },
+  {
+    "name": "generate",
+    "js": "const c = ng.getComponent(document.querySelector('preview')); c.generatePreviewData(); const v = c.previewService.getPreviewVariables(); const t = Date.now(); while ((!v.listHasGenerated || v.listIsBeingGenerated || v.numberOfQueriedImages) && Date.now() - t < 90000) await new Promise(r => setTimeout(r, 200)); return { items: v.numberOfListItems, pending: v.numberOfQueriedImages, titles: Object.values(Object.values(Object.values(c.previewService.getPreviewData())[0])[0].apps).map(a => a.title) }"
+  },
+  {
+    "name": "shown in UI",
+    "js": "await new Promise(r => setTimeout(r, 1500)); return document.querySelector('preview').innerText.match(/Super Mario World|Chrono Trigger/g)"
+  },
+  {
+    "name": "save to Steam",
+    "js": "const c = ng.getComponent(document.querySelector('preview')); return await c.save()"
+  },
+  {
+    "name": "remove from Steam",
+    "js": "const c = ng.getComponent(document.querySelector('preview')); await c.remove(); return c.previewService.getPreviewData() === undefined"
+  }
+]

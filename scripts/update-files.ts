@@ -1,4 +1,4 @@
-import * as modifiers from "../src/renderer/modifiers/config-presets.modifier";
+import * as modifiers from "../src/core/modifiers/config-presets.modifier";
 import * as json from "../src/lib/helpers/json";
 import * as glob from "glob";
 // Used for updating config presets en masse via new schema

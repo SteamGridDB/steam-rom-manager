@@ -42,6 +42,12 @@ jobs:
           yarn run build:dist
         env:
           SENTRY_AUTH: ${{ secrets.SENTRY_AUTH }}
+
+      # The command line on its own (no Electron): one executable per
+      # architecture for this OS, in release/cli (see scripts/build-cli.ts).
+      - name: Build CLI
+        run: yarn run build:cli
+
       - name: Build Linux
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: yarn run build:linux --publish=onTagOrDraft
@@ -58,6 +64,27 @@ jobs:
         run: yarn run build:mac --publish=onTagOrDraft
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+
+      # Like electron-builder's --publish=onTagOrDraft: attach the CLI to the
+      # draft release for this version, if there is one.
+      - name: Publish CLI
+        shell: bash
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if [ "$(gh release view "v$VERSION" --json isDraft -q .isDraft 2>/dev/null)" = "true" ]; then
+            gh release upload "v$VERSION" release/cli/srm-cli-* --clobber
+          else
+            echo "No draft release v$VERSION; the CLI isn't published (it's in the artifacts)."
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+
+      - name: Upload Artifacts CLI
+        uses: actions/upload-artifact@v4.3.3
+        with:
+          name: srm-cli-${{ runner.os }}
+          path: release/cli/srm-cli-*
+
       - name: Upload Artifacts Windows
         uses: actions/upload-artifact@v4.3.3
         if: ${{ matrix.os == 'windows-2022' }}

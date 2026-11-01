@@ -1,97 +1,102 @@
-import { CustomVariablesService } from "./custom-variables.service";
-import { UserExceptionsService } from "./user-exceptions.service";
 import { Injectable } from "@angular/core";
 import {
   UserConfiguration,
   UserAccountsInfo,
-  AppSettings,
-  EnvironmentVariables,
   ControllerTemplates,
   ParserType,
   ParserGroup,
+  ParserInfo,
 } from "../../models";
-import { LoggerService } from "./logger.service";
-import { FuzzyService } from "./fuzzy.service";
 import { SettingsService } from "./settings.service";
-import { FileParser, VariableParser, ControllerManager } from "../../lib";
-import { BehaviorSubject, Subject } from "rxjs";
+import { BehaviorSubject, ReplaySubject, Subject } from "rxjs";
 import { takeWhile } from "rxjs/operators";
-import { artworkTypes } from "../../lib/artwork-types";
-import { APP } from "../../variables";
-import * as json from "../../lib/helpers/json";
-import * as file from "../../lib/helpers/file";
 import * as parserInfo from "../../lib/parsers/available-parsers";
-import * as unique_ids from "../../lib/helpers/unique-ids";
-import * as steam from "../../lib/helpers/steam";
-import * as paths from "../../paths";
-import * as path from "path";
-import * as schemas from "../schemas";
-import * as modifiers from "../modifiers";
-import * as fs from "fs-extra";
 import * as _ from "lodash";
-import * as os from "os";
+import { CoreClientService } from "./core-client.service";
+import type { ParsersStore } from "../../core/parsers-store";
 
+type ConfigEntry = { saved: UserConfiguration; current: UserConfiguration };
+
+// The user's parsers, owned by the ParsersStore in the main process. This
+// keeps a mirror of the saved parsers plus the UI's unsaved edits
+// (`current`) per parser. Edits are synchronous calls, after which the
+// mirror is refreshed, so the UI sees the result immediately.
 @Injectable()
 export class ParsersService {
-  private appSettings: AppSettings;
-  private fileParser: FileParser;
-  private savedControllerTemplates: Subject<ControllerTemplates>;
-  private controllerTemps: ControllerTemplates = {};
-  private userConfigurations: BehaviorSubject<
-    { saved: UserConfiguration; current: UserConfiguration }[]
-  >;
-  private deletedConfigurations: BehaviorSubject<
-    { saved: UserConfiguration; current: UserConfiguration }[]
-  >;
-  private validator: json.Validator = new json.Validator(
-    schemas.userConfiguration,
-    modifiers.userConfiguration,
-  );
-  private defaultValidator: json.Validator = new json.Validator(
-    schemas.defaultUserConfiguration,
-    modifiers.userConfiguration,
-  );
-  private savingIsDisabled: boolean = false;
-  private configurationsLoadedSubject: BehaviorSubject<boolean> =
-    new BehaviorSubject(false);
+  private entries = new Map<string, ConfigEntry>(); // by parser id
+  // Replayed: the parser editor usually opens after these have loaded.
+  private savedControllerTemplates = new ReplaySubject<ControllerTemplates>(1);
+  private userConfigurations = new BehaviorSubject<ConfigEntry[]>([]);
+  private deletedConfigurations = new BehaviorSubject<ConfigEntry[]>([]);
+  private configurationsLoadedSubject = new BehaviorSubject<boolean>(false);
+  private parserInfoCache = new Map<string, ParserInfo>();
+  private templates: ControllerTemplates = {};
 
   constructor(
-    private fuzzyService: FuzzyService,
-    private loggerService: LoggerService,
-    private cVariableService: CustomVariablesService,
-    private exceptionsService: UserExceptionsService,
+    private coreClient: CoreClientService,
     private settingsService: SettingsService,
   ) {
-    this.fileParser = new FileParser(this.fuzzyService);
-    this.userConfigurations = new BehaviorSubject<
-      { saved: UserConfiguration; current: UserConfiguration }[]
-    >([]);
-    this.savedControllerTemplates = new Subject<ControllerTemplates>();
-    this.deletedConfigurations = new BehaviorSubject<
-      { saved: UserConfiguration; current: UserConfiguration }[]
-    >([]);
-    this.readUserConfigurations();
-    this.readSavedControllerTemplates();
-    this.cVariableService.dataObservable.subscribe((variables) => {
-      this.fileParser.setCustomVariables(variables);
+    const client = this.coreClient.client;
+    client.on("parsers:changed", ({ configs, deleted }) =>
+      this.publish(configs, deleted),
+    );
+    client.whenLoaded("parsers").then(() => {
+      this.refresh();
+      this.configurationsLoadedSubject.next(true);
     });
-    this.exceptionsService.dataObservable.subscribe((data) => {
-      this.fileParser.setUserExceptions(data.saved || { titles: {} });
-    });
-    this.settingsService.onLoad((appSettings: AppSettings) => {
-      this.appSettings = appSettings;
+    client.whenLoaded("controllerTemplates").then(() => {
+      this.templates = client.callSync(
+        "parsers",
+        "getControllerTemplatesCache",
+      );
+      this.savedControllerTemplates.next(this.templates);
     });
   }
 
-  get lang() {
-    return APP.lang.parsers.service;
+  private callSync(method: string, ...args: any[]) {
+    return this.coreClient.client.callSync("parsers", method, ...args);
   }
+
+  private call(method: string, ...args: any[]) {
+    return this.coreClient.client.call("parsers", method, ...args);
+  }
+
+  private entryFor(config: UserConfiguration): ConfigEntry {
+    let entry = this.entries.get(config.parserId);
+    if (!entry) {
+      entry = { saved: config, current: null };
+      this.entries.set(config.parserId, entry);
+    } else {
+      entry.saved = config;
+    }
+    return entry;
+  }
+
+  private publish(configs: UserConfiguration[], deleted: UserConfiguration[]) {
+    this.userConfigurations.next(configs.map((c) => this.entryFor(c)));
+    this.deletedConfigurations.next(deleted.map((c) => this.entryFor(c)));
+  }
+
+  // Re-reads the parsers (and settings, which hold the groups) after an
+  // edit in the main process.
+  private refresh() {
+    this.publish(this.callSync("getAll"), this.callSync("getDeleted"));
+    this.coreClient.client.markFresh("parsers:changed");
+    this.settingsService.refresh();
+  }
+
+  private edit(method: string, ...args: any[]) {
+    const result = this.callSync(method, ...args);
+    this.refresh();
+    return result;
+  }
+
   get controllerTemplates() {
-    return this.controllerTemps;
+    return this.templates;
   }
 
   set controllerTemplates(controllerTemplates: ControllerTemplates) {
-    this.controllerTemps = controllerTemplates;
+    this.templates = controllerTemplates;
   }
 
   onLoad(callback: (userConfigurations: UserConfiguration[]) => void) {
@@ -101,9 +106,9 @@ export class ParsersService {
         takeWhile((loaded) => {
           if (loaded) {
             callback(
-              this.userConfigurations
-                .getValue()
-                .map((item) => _.cloneDeep(item.saved)),
+              this.getUserConfigurationsArray().map((e) =>
+                _.cloneDeep(e.saved),
+              ),
             );
           }
           return !loaded;
@@ -124,173 +129,64 @@ export class ParsersService {
     return this.savedControllerTemplates.asObservable();
   }
 
-  async getControllerTemplates(
-    steamDir: string,
-    controllerType: string,
-  ): Promise<any[]> {
-    try {
-      return await ControllerManager.readTemplates(steamDir, controllerType);
-    } catch (error) {
-      this.loggerService.error(this.lang.error.fetchingTemplates, {
-        invokeAlert: true,
-        alertTimeout: 3000,
-      });
-      this.loggerService.error(error);
-    }
+  getControllerTemplates(steamDir: string, controllerType: string) {
+    return this.call("getControllerTemplates", steamDir, controllerType);
+  }
+
+  // Every controller type's templates in one go.
+  getAllControllerTemplates(steamDir: string) {
+    return this.call("getAllControllerTemplates", steamDir);
   }
 
   removeControllers(steamDir: string, userId: string, parserId?: string) {
-    const controllerManager: ControllerManager = new ControllerManager();
-    controllerManager.removeAllControllersAndWrite(steamDir, userId, parserId);
-    controllerManager.removeAllControllersEnabledAndWrite(
-      steamDir,
-      userId,
-      parserId,
-    );
+    return this.call("removeControllers", steamDir, userId, parserId);
   }
 
-  parseSteamDir(steamDirInput: string) {
-    let preParser = new VariableParser({ left: "${", right: "}" });
-    return preParser.setInput(steamDirInput).parse()
-      ? preParser.replaceVariables((variable) => {
-          return this.fileParser
-            .getEnvironmentVariable(
-              variable as EnvironmentVariables,
-              this.appSettings,
-            )
-            .trim();
-        })
-      : "";
+  removeAllControllers() {
+    return this.call("removeAllControllers");
   }
 
-  parseUserAccounts(accountsInfo: UserAccountsInfo, steamDir: string) {
-    return new Promise<string[]>((resolve, reject) => {
-      const useGlobal = ((x) => x.length && x[0] == "Global")(
-        accountsInfo.specifiedAccounts,
-      );
-      let accountList = useGlobal
-        ? this.appSettings.environmentVariables.userAccounts
-        : accountsInfo.specifiedAccounts;
-      steam
-        .getAvailableLogins(steamDir)
-        .then((data) => {
-          data = data.filter((x) =>
-            fs.existsSync(path.join(steamDir, "userdata", x.accountID)),
-          );
-          if (accountList.length) {
-            resolve(
-              data
-                .filter((x) => accountList.indexOf(x.name) > -1)
-                .map((x) => x.accountID),
-            );
-          } else {
-            resolve(data.map((x) => x.accountID));
-          }
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
+  parseSteamDir(steamDirInput: string): string {
+    return this.callSync("parseSteamDir", steamDirInput);
   }
 
-  getKnownSteamDirectories() {
-    let steamdirs = this.getUserConfigurationsArray()
-      .map((config) => this.parseSteamDir(config.saved.steamDirectory))
-      .filter((path) => path !== "");
-    if (this.appSettings.environmentVariables.steamDirectory) {
-      steamdirs.push(this.appSettings.environmentVariables.steamDirectory);
-    }
-    return _.uniq(steamdirs);
+  parseUserAccounts(
+    accountsInfo: UserAccountsInfo,
+    steamDir: string,
+  ): Promise<string[]> {
+    return this.call("parseUserAccounts", accountsInfo, steamDir);
+  }
+
+  getKnownSteamDirectories(): string[] {
+    return this.callSync("getKnownSteamDirectories");
   }
 
   getDeletedConfigurations() {
     return this.deletedConfigurations.asObservable();
   }
 
-  getDefaultValues() {
-    return this.defaultValidator.getDefaultValues() as UserConfiguration;
+  getDefaultValues(): UserConfiguration {
+    return this.callSync("getDefaultValues");
   }
 
-  saveConfiguration(config: {
-    saved: UserConfiguration;
-    current: UserConfiguration;
-  }) {
-    let userConfigurations = this.userConfigurations.getValue();
-    let copy: { saved: UserConfiguration; current: UserConfiguration } =
-      _.cloneDeep(config);
-    copy.saved.parserId = unique_ids.newParserId();
-    copy.saved.disabled = false;
-    copy.saved.group = (copy.saved.group || "").trim();
-    userConfigurations = userConfigurations.concat(copy);
-    this.userConfigurations.next(userConfigurations);
-    if (copy.saved.group) {
-      this.addGroup(copy.saved.group);
-    }
-    this.saveUserConfigurations();
+  saveConfiguration(config: ConfigEntry) {
+    this.edit("add", config.saved);
   }
 
   swapIndex(fromIndex: number, toIndex: number) {
-    if (fromIndex == toIndex) {
-      return;
-    }
-    const configs = this.userConfigurations.getValue();
-    if (fromIndex >= configs.length || toIndex >= configs.length) {
-      throw "Index out of bounds";
-    }
-    const from = configs[fromIndex];
-    configs[fromIndex] = configs[toIndex];
-    configs[toIndex] = from;
-    this.userConfigurations.next(configs);
-    this.saveUserConfigurations();
+    this.edit("swapIndex", fromIndex, toIndex);
   }
 
   injectIndex(fromIndex: number, toIndex: number) {
-    if (fromIndex == toIndex) {
-      return;
-    }
-    const configs = this.userConfigurations.getValue();
-    if (fromIndex >= configs.length || toIndex >= configs.length) {
-      throw "Index out of bounds";
-    }
-    const from = configs[fromIndex];
-    const withoutFrom = configs.filter((_, i) => i !== fromIndex);
-    const newConfigs = withoutFrom
-      .slice(0, toIndex)
-      .concat(from)
-      .concat(withoutFrom.slice(toIndex));
-    this.userConfigurations.next(newConfigs);
-    this.saveUserConfigurations();
+    this.edit("injectIndex", fromIndex, toIndex);
   }
 
-  // Moves a parser to a new position in the flat array, optionally reassigning
-  // its group. Covers within-group reorder AND cross-group drags. toIndex is
-  // interpreted as the target index within the array after the parser is
-  // removed (same slice semantics as injectIndex).
   moveParser(fromIndex: number, toIndex: number, newGroup?: string) {
-    const configs = this.userConfigurations.getValue();
-    if (fromIndex < 0 || fromIndex >= configs.length) {
-      throw "Index out of bounds";
+    const entry = this.getUserConfigurationsArray()[fromIndex];
+    if (entry?.current && newGroup !== undefined) {
+      entry.current.group = newGroup;
     }
-    const from = configs[fromIndex];
-    const groupChanged =
-      newGroup !== undefined && from.saved.group !== newGroup;
-    if (fromIndex === toIndex && !groupChanged) {
-      return;
-    }
-    if (newGroup !== undefined) {
-      from.saved.group = newGroup;
-      if (from.current) {
-        from.current.group = newGroup;
-      }
-    }
-    const withoutFrom = configs.filter((_, i) => i !== fromIndex);
-    const clampedTo = Math.max(0, Math.min(toIndex, withoutFrom.length));
-    const newConfigs = withoutFrom
-      .slice(0, clampedTo)
-      .concat(from)
-      .concat(withoutFrom.slice(clampedTo));
-    this.userConfigurations.next(newConfigs);
-    this.saveUserConfigurations();
+    this.edit("moveParser", fromIndex, toIndex, newGroup);
   }
 
   getParserGroups(): ParserGroup[] {
@@ -301,641 +197,137 @@ export class ParsersService {
     return settings.parserGroups;
   }
 
-  private commitGroups() {
-    this.settingsService.saveAppSettings();
-    this.settingsService.settingsChanged();
+  addGroup(name: string) {
+    this.edit("addGroup", name);
   }
 
-  addGroup(name: string) {
-    name = (name || "").trim();
-    if (!name) {
-      return;
-    }
-    const groups = this.getParserGroups();
-    if (!groups.some((g) => g.name === name)) {
-      groups.push({ name, collapsed: false });
-      this.commitGroups();
+  // Unsaved edits follow a group rename/removal too.
+  private regroupDrafts(oldName: string, newName: string) {
+    for (const entry of this.getUserConfigurationsArray()) {
+      if (entry.current && entry.current.group === oldName) {
+        entry.current.group = newName;
+      }
     }
   }
 
   renameGroup(oldName: string, newName: string) {
-    newName = (newName || "").trim();
-    if (!newName || oldName === newName) {
-      return;
+    const trimmed = (newName || "").trim();
+    if (
+      trimmed &&
+      oldName !== trimmed &&
+      this.getParserGroups().some((g) => g.name === oldName)
+    ) {
+      this.regroupDrafts(oldName, trimmed);
     }
-    const groups = this.getParserGroups();
-    const oldIndex = groups.findIndex((g) => g.name === oldName);
-    if (oldIndex === -1) {
-      return;
-    }
-    const existingIndex = groups.findIndex((g) => g.name === newName);
-    if (existingIndex !== -1) {
-      // Merge into the existing group by dropping the old registry entry.
-      groups.splice(oldIndex, 1);
-    } else {
-      groups[oldIndex].name = newName;
-    }
-    const configs = this.userConfigurations.getValue();
-    for (const c of configs) {
-      if (c.saved.group === oldName) {
-        c.saved.group = newName;
-      }
-      if (c.current && c.current.group === oldName) {
-        c.current.group = newName;
-      }
-    }
-    this.userConfigurations.next(configs);
-    this.saveUserConfigurations();
-    this.commitGroups();
+    this.edit("renameGroup", oldName, newName);
   }
 
   removeGroup(name: string) {
-    const groups = this.getParserGroups();
-    const index = groups.findIndex((g) => g.name === name);
-    if (index !== -1) {
-      groups.splice(index, 1);
-    }
-    const configs = this.userConfigurations.getValue();
-    for (const c of configs) {
-      if (c.saved.group === name) {
-        c.saved.group = "";
-      }
-      if (c.current && c.current.group === name) {
-        c.current.group = "";
-      }
-    }
-    this.userConfigurations.next(configs);
-    this.saveUserConfigurations();
-    this.commitGroups();
+    this.regroupDrafts(name, "");
+    this.edit("removeGroup", name);
   }
 
   reorderGroups(fromIndex: number, toIndex: number) {
-    if (fromIndex === toIndex) {
-      return;
-    }
-    const groups = this.getParserGroups();
-    if (
-      fromIndex < 0 ||
-      fromIndex >= groups.length ||
-      toIndex < 0 ||
-      toIndex >= groups.length
-    ) {
-      return;
-    }
-    const [moved] = groups.splice(fromIndex, 1);
-    groups.splice(toIndex, 0, moved);
-    this.commitGroups();
+    this.edit("reorderGroups", fromIndex, toIndex);
   }
 
   setGroupCollapsed(name: string, collapsed: boolean) {
-    const groups = this.getParserGroups();
-    const group = groups.find((g) => g.name === name);
-    if (group) {
-      group.collapsed = collapsed;
-      this.commitGroups();
-    }
+    this.edit("setGroupCollapsed", name, collapsed);
   }
 
-  changeGroupEnabledStatus(groupName: string, enabled: boolean): Promise<void> {
-    const configs = this.userConfigurations.getValue();
-    for (const c of configs) {
-      if (c.saved.group === groupName) {
-        c.saved.disabled = !enabled;
-      }
-    }
-    this.userConfigurations.next(configs);
-    return this.saveUserConfigurations();
+  async changeGroupEnabledStatus(groupName: string, enabled: boolean) {
+    await this.call("setGroupEnabled", groupName, enabled);
+    this.refresh();
   }
 
+  // Throws (synchronously) for an unknown id, like the store.
   changeEnabledStatus(parserId: string, enabled: boolean): Promise<void> {
-    let userConfigurations = this.userConfigurations.getValue();
-    let updateIndex = userConfigurations
-      .map((e) => e.saved.parserId)
-      .indexOf(parserId);
-    if (updateIndex != -1) {
-      userConfigurations[updateIndex].saved.disabled = !enabled;
-      this.userConfigurations.next(userConfigurations);
-      return this.saveUserConfigurations();
-    } else {
+    if (
+      !this.getUserConfigurationsArray().some(
+        (e) => e.saved.parserId === parserId,
+      )
+    ) {
       throw `Could not ${enabled ? "enable" : "disable"} ${parserId}. No such parser exists.`;
     }
+    return this.call("setEnabled", parserId, enabled).then(() =>
+      this.refresh(),
+    );
   }
 
-  changeEnabledStatusAll(enabled: boolean): Promise<void> {
-    let userConfigurations = this.userConfigurations.getValue();
-    for (let i = 0; i < userConfigurations.length; i++) {
-      userConfigurations[i].saved.disabled = !enabled;
-    }
-    this.userConfigurations.next(userConfigurations);
-    return this.saveUserConfigurations();
+  async changeEnabledStatusAll(enabled: boolean) {
+    await this.call("setAllEnabled", enabled);
+    this.refresh();
   }
 
+  // Saves the unsaved edits of parser `index` (or replaces it with `config`).
   updateConfiguration(index: number, config?: UserConfiguration) {
-    let userConfigurations = this.userConfigurations.getValue();
-
+    const entry = this.getUserConfigurationsArray()[index];
     if (config === undefined) {
-      if (userConfigurations[index].current == null) return;
-      else
-        userConfigurations[index].current.parserId =
-          userConfigurations[index].saved.parserId;
+      if (entry.current == null) return;
+      config = _.cloneDeep(entry.current);
       if (
-        parserInfo.superTypesMap[
-          userConfigurations[index].current.parserType
-        ] === parserInfo.ArtworkOnlyType
+        parserInfo.superTypesMap[config.parserType] ===
+        parserInfo.ArtworkOnlyType
       ) {
-        userConfigurations[index].current.titleFromVariable.limitToGroups = [];
+        config.titleFromVariable.limitToGroups = [];
       }
-      userConfigurations[index] = {
-        saved: userConfigurations[index].current,
-        current: null,
-      };
-    } else {
-      config.parserId = userConfigurations[index].saved.parserId;
-      userConfigurations[index] = { saved: config, current: null };
     }
-
-    const savedGroup = (userConfigurations[index].saved.group || "").trim();
-    userConfigurations[index].saved.group = savedGroup;
-
-    this.userConfigurations.next(userConfigurations);
-    if (savedGroup) {
-      this.addGroup(savedGroup);
-    }
-    this.saveUserConfigurations();
+    entry.current = null;
+    this.edit("update", index, config);
   }
 
   setCurrentConfiguration(index: number, config: UserConfiguration) {
-    let userConfigurations = this.userConfigurations.getValue();
-    userConfigurations[index].current = config;
-    this.userConfigurations.next(userConfigurations);
+    this.getUserConfigurationsArray()[index].current = config;
+    this.userConfigurations.next([...this.getUserConfigurationsArray()]);
   }
 
   deleteConfiguration(index: number) {
-    let userConfigurations = this.userConfigurations.getValue();
-
-    if (userConfigurations.length > index && index >= 0) {
-      let deletedConfigurations = this.deletedConfigurations.getValue();
-
-      deletedConfigurations = deletedConfigurations.concat(
-        userConfigurations.splice(index, 1),
-      );
-
-      this.deletedConfigurations.next(deletedConfigurations);
-      this.userConfigurations.next(userConfigurations);
-      this.saveUserConfigurations();
-    }
+    this.edit("delete", index);
   }
 
   restoreConfiguration(index?: number) {
-    let deletedConfigurations = this.deletedConfigurations.getValue();
-    if (index == undefined) index = 0;
+    this.edit("restore", index);
+  }
 
-    if (deletedConfigurations.length > index && index >= 0) {
-      let userConfigurations = this.userConfigurations.getValue();
-
-      userConfigurations = userConfigurations.concat(
-        deletedConfigurations.splice(index, 1),
+  // Parser labels/inputs/docs (static; cached).
+  getParserInfo(parserType: ParserType): ParserInfo {
+    if (!this.parserInfoCache.has(parserType)) {
+      this.parserInfoCache.set(
+        parserType,
+        this.callSync("getParserInfoForUi", parserType),
       );
-
-      this.deletedConfigurations.next(deletedConfigurations);
-      this.userConfigurations.next(userConfigurations);
-      this.saveUserConfigurations();
     }
+    return this.parserInfoCache.get(parserType);
   }
 
-  getParserInfo(parserType: ParserType) {
-    return this.fileParser.getParserInfo(parserType);
+  executeFileParser(
+    ...configs: UserConfiguration[]
+  ): ReturnType<ParsersStore["executeFileParser"]> {
+    this.settingsService.push();
+    return this.call("executeFileParser", ...configs);
   }
 
-  executeFileParser(...configs: UserConfiguration[]) {
-    let invalidConfigTitles: string[] = [];
-    let skipped: string[] = [];
-    let validConfigs: UserConfiguration[] = [];
-    if (configs.length === 0) {
-      let configArray = this.getUserConfigurationsArray();
-      for (let i = 0; i < configArray.length; i++) {
-        if (configArray[i].saved.disabled)
-          skipped.push(configArray[i].saved.configTitle);
-        else configs.push(configArray[i].saved);
-      }
-    }
-
-    configs = _.cloneDeep(configs);
-
-    for (let i = 0; i < configs.length; i++) {
-      if (this.isConfigurationValid(configs[i])) validConfigs.push(configs[i]);
-      else
-        invalidConfigTitles.push(
-          configs[i].configTitle || this.lang.text.noTitle,
-        );
-    }
-    return this.fileParser
-      .executeFileParser(validConfigs, this.appSettings)
-      .then((parsedData) => {
-        return {
-          parsedData: parsedData,
-          invalid: invalidConfigTitles,
-          skipped: skipped,
-        };
-      });
+  validate(key: string, data: any, options?: any): string | null {
+    return this.callSync("validate", key, data, options);
   }
 
-  validate(key: string, data: any, options?: any) {
-    switch (key) {
-      case "parserType":
-        return parserInfo.availableParsers.includes(data)
-          ? null
-          : this.lang.validationErrors.parserType__md;
-      case "configTitle":
-        return data ? null : this.lang.validationErrors.configTitle__md;
-      case "parserId":
-        return data ? null : this.lang.validationErrors.parserId__md;
-      case "steamCategories":
-        return null;
-      case "executable":
-        const isDir = os.type() == "Darwin" ? undefined : false;
-        return !(data || {}).path ||
-          this.validateEnvironmentPath(data.path, isDir)
-          ? null
-          : this.lang.validationErrors.executable__md;
-      case "romDirectory":
-        return this.validateEnvironmentPath(data || "", true)
-          ? null
-          : this.lang.validationErrors.romDir__md;
-      case "steamDirectory":
-        return this.validateEnvironmentPath(data || "", true)
-          ? null
-          : this.lang.validationErrors.steamDir__md;
-      case "startInDirectory":
-        return data == null ||
-          data.length === 0 ||
-          this.validateEnvironmentPath(data || "", true)
-          ? null
-          : this.lang.validationErrors.startInDir__md;
-      case "userAccounts":
-        return data.specifiedAccounts && data.specifiedAccounts.length
-          ? null
-          : this.lang.validationErrors.userAccounts__md;
-      case "parserInputs": {
-        let availableParser = this.getParserInfo(data["parser"]);
-        if (availableParser) {
-          if (availableParser.inputs === undefined) {
-            return this.lang.validationErrors.parserInput.noInput;
-          }
-          let inputInfo = availableParser.inputs[data["input"]];
-          if (!inputInfo) {
-            return this.lang.validationErrors.parserInput.inputNotAvailable__i.interpolate(
-              { name: data["input"] },
-            );
-          }
-
-          if(inputInfo.required && !data["inputData"]) {
-            return this.lang.validationErrors.parserInput.fieldRequired__i.interpolate({ inputName: inputInfo.label})
-          }
-          
-          if (!inputInfo.validationFn) {
-            if (["dir", "path"].includes(inputInfo.inputType)) {
-              if (data["parser"] !== "Manual" && !data["inputData"]) {
-                return null;
-              }
-              let isDir: boolean;
-              if (os.type() == "Darwin") {
-                isDir = inputInfo.inputType == "dir" ? true : undefined;
-              } else {
-                isDir = inputInfo.inputType == "dir" ? true : false;
-              }
-              return this.validateEnvironmentPath(
-                data["inputData"] || "",
-                isDir,
-              )
-                ? null
-                : isDir
-                  ? this.lang.validationErrors.genericDir__md
-                  : this.lang.validationErrors.genericPath__md;
-            }
-            return null;
-          }
-          
-
-
-          return inputInfo.validationFn(data["inputData"]);
-        }
-        return this.lang.validationErrors.parserInput.incorrectParser;
-      }
-      case "titleModifier":
-        return this.validateVariableParserString(data || "");
-      case "executableModifier":
-        return this.validateVariableParserString(data || "");
-      case "onlineImageQueries":
-        if (!data) return null;
-        for (let query of data) {
-          let err = this.validateVariableParserString(query);
-          if (!err) {
-            continue;
-          } else {
-            return `${err}\\\nBad query: \`${query}\``;
-          }
-        }
-        return null;
-      case "executableArgs":
-        return this.validateVariableParserString(data || "");
-      case "imagePool":
-        return this.validateVariableParserString(data || "");
-      case "defaultImage":
-        return !data || this.validateEnvironmentPath(data, false)
-          ? null
-          : this.lang.validationErrors.defaultImage__md;
-      case "localImages": {
-        return this.fileParser.validateFieldGlob(data || "");
-      }
-      default:
-        return this.lang.validationErrors.unhandledValidationKey__md;
-    }
+  isConfigurationValid(config: UserConfiguration): boolean {
+    return this.callSync("isConfigurationValid", config);
   }
 
-  private validateVariableParserString(input: string, emptyError?: string) {
-    let canBeEmpty = !emptyError;
-    const trimmed = input.trim();
-    if (canBeEmpty || (!canBeEmpty && trimmed.length > 0)) {
-      return VariableParser.isValidString("${", "}", trimmed)
-        ? null
-        : this.lang.validationErrors.variableString__md;
-    } else {
-      return emptyError;
-    }
-  }
-
-  private validateEnvironmentPath(
-    pathwithvar: string,
-    checkForDirectory: boolean,
-  ) {
-    let preParser = new VariableParser({ left: "${", right: "}" });
-    let parsedPath = preParser.setInput(pathwithvar).parse()
-      ? preParser.replaceVariables((variable) => {
-          return this.fileParser
-            .getEnvironmentVariable(
-              variable as EnvironmentVariables,
-              this.appSettings,
-            )
-            .trim();
-        })
-      : "";
-    return file.validatePath(parsedPath, checkForDirectory);
-  }
-
-  isConfigurationValid(config: UserConfiguration) {
-    if (this.validate("parserType", config["parserType"]) !== null) {
-      return false;
-    }
-
-    let simpleValidations: string[] = [
-      "configTitle",
-      "parserId",
-      "steamDirectory",
-      "titleModifier",
-      "onlineImageQueries",
-      "imagePool",
-    ];
-
-    if (
-      parserInfo.superTypesMap[config["parserType"]] ===
-      parserInfo.ArtworkOnlyType
-    ) {
-      simpleValidations = simpleValidations.concat([]);
-    } else if (
-      parserInfo.superTypesMap[config["parserType"]] === parserInfo.PlatformType
-    ) {
-      simpleValidations = simpleValidations.concat([
-        "steamCategories",
-        "onlineImageQueries",
-        "imagePool",
-      ]);
-    } else if (
-      parserInfo.superTypesMap[config["parserType"]] === parserInfo.ROMType
-    ) {
-      simpleValidations = simpleValidations.concat([
-        "steamCategories",
-        "executable",
-        "executableModifier",
-        "romDirectory",
-        "startInDirectory",
-        "executableArgs",
-        "onlineImageQueries",
-        "imagePool",
-      ]);
-    } else if (
-      parserInfo.superTypesMap[config["parserType"]] === parserInfo.ManualType
-    ) {
-      simpleValidations = simpleValidations.concat([
-        "steamCategories",
-        "onlineImageQueries",
-        "imagePool",
-      ]);
-    }
-
-    if (
-      this.validate("userAccounts", config["userAccounts"], {
-        parserType: config["parserType"],
-      }) !== null
-    ) {
-      return false;
-    }
-
-    for (let i = 0; i < simpleValidations.length; i++) {
-      if (
-        this.validate(
-          simpleValidations[i],
-          config[simpleValidations[i] as keyof UserConfiguration],
-        ) !== null
-      ) {
-        return false;
-      }
-    }
-
-    let availableParser = this.getParserInfo(config.parserType);
-    if (availableParser.inputs !== undefined) {
-      let parserInputs = config.parserInputs;
-      for (let inputName in availableParser.inputs) {
-        if (
-          this.validate("parserInputs", {
-            parser: config.parserType,
-            input: inputName,
-            inputData: parserInputs[inputName],
-          }) !== null
-        )
-          return false;
-      }
-    }
-
-    for (const artworkType of artworkTypes) {
-      if (
-        this.validate("defaultImage", config.defaultImage[artworkType]) !== null
-      ) {
-        return false;
-      }
-      if (
-        this.validate("localImages", config.localImages[artworkType]) !== null
-      ) {
-        return false;
-      }
-    }
-
-    return true;
-  }
   getParserId(configurationIndex: number) {
-    return this.userConfigurations.getValue()[configurationIndex].saved
-      .parserId;
+    return this.getUserConfigurationsArray()[configurationIndex].saved.parserId;
   }
 
-  private readSavedControllerTemplates() {
-    return new Promise<ControllerTemplates>((resolve, reject) => {
-      fs.readFile(paths.controllerTemplates, "utf8", (error, data) => {
-        try {
-          if (error) {
-            if (error.code === "ENOENT") resolve({});
-            else reject(error);
-          } else resolve(JSON.parse(data));
-        } catch (error) {
-          reject(error);
-        }
-      });
-    })
-      .then((data) => {
-        this.savedControllerTemplates.next(data);
-      })
-      .catch((error) => {
-        this.loggerService.error(this.lang.error.readingConfiguration, {
-          invokeAlert: true,
-          alertTimeout: 5000,
-        });
-        this.loggerService.error(error);
-      });
+  // Where parser `parserId` is in the list (-1: no such parser).
+  indexOfParser(parserId: string) {
+    return this.getUserConfigurationsArray().findIndex(
+      (entry) => entry.saved.parserId === parserId,
+    );
   }
 
-  saveControllerTemplates() {
-    return new Promise<void>((resolve, reject) => {
-      const stringToSave = JSON.stringify(this.controllerTemplates, null, 4);
-      try {
-        fs.outputFileSync(paths.controllerTemplates, stringToSave);
-        resolve();
-      } catch (e) {
-        reject(e);
-      }
-    }).catch((error) => {
-      this.loggerService.error(this.lang.error.savingConfiguration, {
-        invokeAlert: true,
-        alertTimeout: 5000,
-      });
-      this.loggerService.error(error);
-    });
-  }
-
-  private saveUserConfigurations() {
-    return new Promise<void>((resolve, reject) => {
-      if (!this.savingIsDisabled) {
-        const stringToSave = JSON.stringify(
-          this.userConfigurations
-            .getValue()
-            .map((item: { saved: any; current: UserConfiguration }) => {
-              item.saved[modifiers.userConfiguration.controlProperty] =
-                modifiers.userConfiguration.latestVersion;
-              if (!item.saved.parserType) {
-                throw new Error(this.lang.error.parserTypeMissing);
-              }
-              for (let key of Object.keys(item.saved.parserInputs)) {
-                if (
-                  !parserInfo.availableParserInputs[
-                    item.saved.parserType as ParserType
-                  ].includes(key)
-                ) {
-                  delete item.saved.parserInputs[key];
-                }
-              }
-              return item.saved;
-            }),
-          null,
-          4,
-        );
-        try {
-          fs.outputFileSync(paths.userConfigurations, stringToSave);
-          resolve();
-        } catch (e) {
-          reject(e);
-        }
-      } else resolve();
-    })
-      .then()
-      .catch((error) => {
-        this.loggerService.error(this.lang.error.savingConfiguration, {
-          invokeAlert: true,
-          alertTimeout: 5000,
-        });
-        this.loggerService.error(error);
-      });
-  }
-
-  private readUserConfigurations() {
-    return new Promise<UserConfiguration[]>((resolve, reject) => {
-      fs.readFile(paths.userConfigurations, "utf8", (error, data) => {
-        try {
-          if (error) {
-            if (error.code === "ENOENT") resolve([]);
-            else reject(error);
-          } else {
-            resolve(JSON.parse(data));
-          }
-        } catch (error) {
-          reject(error);
-        }
-      });
-    })
-      .then((data) => {
-        let validatedConfigs: {
-          saved: UserConfiguration;
-          current: UserConfiguration;
-        }[] = [];
-        let errorString: string = "";
-        for (let i = 0; i < data.length; i++) {
-          if (
-            parserInfo.superTypesMap[data[i].parserType] !== parserInfo.ROMType
-          ) {
-            data[i].titleFromVariable.limitToGroups = [];
-            data[i].executableModifier = "";
-          }
-          if (this.validator.validate(data[i]).isValid()) {
-            validatedConfigs.push({ saved: data[i], current: null });
-          } else {
-            errorString += `\r\n[Config ${i} with title ${data[i].configTitle || ""}]:\r\n    ${this.validator.errorString.replace(/\n/g, "\n    ")}`;
-          }
-        }
-        if (errorString.length > 0) {
-          this.savingIsDisabled = true;
-          this.loggerService.error(this.lang.error.readingConfiguration, {
-            invokeAlert: true,
-            alertTimeout: 5000,
-            doNotAppendToLog: true,
-          });
-          this.loggerService.error(
-            this.lang.error.corruptedConfiguration__i.interpolate({
-              file: paths.userConfigurations,
-              error: errorString,
-            }),
-          );
-        }
-        this.userConfigurations.next(validatedConfigs);
-        if (data.length) {
-          this.saveUserConfigurations();
-        }
-      })
-      .then(() => {
-        this.configurationsLoadedSubject.next(true);
-      })
-      .catch((error) => {
-        this.loggerService.error(this.lang.error.readingConfiguration, {
-          invokeAlert: true,
-          alertTimeout: 5000,
-        });
-        this.loggerService.error(error);
-      });
+  async saveControllerTemplates() {
+    this.callSync("setControllerTemplatesCache", this.templates);
+    await this.call("saveControllerTemplates");
   }
 }

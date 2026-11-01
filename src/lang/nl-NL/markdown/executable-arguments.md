@@ -1,4 +1,4 @@
-# Opdrachtregelargumenten (optioneel) `[ondersteunt variabelen]`{.noWrap}
+# Command line arguments `[supports variables]`{.noWrap}
 
 Argumenten die aan het uitvoerbare bestand worden toegevoegd om de definitieve snelkoppeling te produceren. Meestal wilt u dit instellen met behulp van de meegeleverde parservariabelen.
 
@@ -126,20 +126,20 @@ Deze instelling wordt gebruikt om de APP-ID van Steam te beïnvloeden.
 
 ## Folder variabelen
 
-| Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                        |
-| -----------------------------------: | :-------------------------------------------- |
-|                          `${exeDir}` | Uitvoerbaar bestand map                       |
-|                          `${romDir}` | ROMs map                                      |
-|                        `${steamDir}` | Steam map                                     |
-|                      `${startInDir}` | "StartIn" map                                 |
-|                         `${fileDir}` | Bestanden, teruggestuurd door een parser, map |
+| Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                    |
+| ------------------------------------:|:----------------------------------------- |
+|                          `${exeDir}` | Uitvoerbaar bestand map                   |
+|                          `${romDir}` | ROMs map                                  |
+|                        `${steamDir}` | Steam map                                 |
+|                      `${startInDir}` | "StartIn" map                             |
+|                         `${fileDir}` | Files returned by a parser or a directory |
 
 Als uitvoerbare map-invoer **leeg** wordt gelaten, is `${exeDir}`{.noWrap} gelijk aan `${fileDir}`{.noWrap}. Bovendien, als de map "StartIn" **leeg** wordt gelaten, is `${startInDir}`{.noWrap} gelijk aan `${exeDir}`{.noWrap}.
 
 ## Naam variabelen
 
 | Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                                                      |
-| -----------------------------------: | :-------------------------------------------------------------------------- |
+| ------------------------------------:|:--------------------------------------------------------------------------- |
 |                         `${exeName}` | Naam van het uitvoerbaar bestand (zonder extensie)                          |
 |                        `${fileName}` | Naam van het bestand dat is teruggestuurd door een parser (zonder extensie) |
 
@@ -148,7 +148,7 @@ Als uitvoerbare map-invoer **leeg** wordt gelaten, is `${exeName}`{.noWrap} geli
 ## Extensie variabelen
 
 | Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                                                   |
-| -----------------------------------: | :----------------------------------------------------------------------- |
+| ------------------------------------:|:------------------------------------------------------------------------ |
 |                          `${exeExt}` | Uitbreiding van uitvoerbaar bestand (met een punt)                       |
 |                         `${fileExt}` | Extensie van bestand dat teruggestuurd is door een parser (met een punt) |
 
@@ -157,7 +157,7 @@ Als uitvoerbare map-invoer **leeg** wordt gelaten, is `${exeExt}`{.noWrap} gelij
 ## Bestandspadvariabelen
 
 | Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                                             |
-| -----------------------------------: | :----------------------------------------------------------------- |
+| ------------------------------------:|:------------------------------------------------------------------ |
 |                         `${exePath}` | Volledig pad naar een uitvoerbaar bestand                          |
 |                        `${filePath}` | Volledig pad naar een bestand dat teruggestuurd is door een parser |
 
@@ -166,7 +166,7 @@ Als uitvoerbare map-invoer **leeg** wordt gelaten, is `${exePath}`{.noWrap} geli
 ## Parser variabelen
 
 | Variabele (niet hoofdlettergevoelig) | Overeenkomstige waarde                               |
-| -----------------------------------: | :--------------------------------------------------- |
+| ------------------------------------:|:---------------------------------------------------- |
 |                           `${title}` | Uitgepakte titel                                     |
 |                      `${fuzzyTitle}` | Fuzzy overeenkomende titel                           |
 |                      `${finalTitle}` | Titel die het eindresultaat is van de title modifier |
@@ -175,13 +175,13 @@ Als fuzzy matching **mislukt** of **uitgeschakeld** is, is `${fuzzyTitle}`{.noWr
 
 ## Functie variabele
 
-|                             Variable (case-insensitive) | Corresponding function                                                                                                 |
-| ------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------- |
-|               `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
-|                                          `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
-|                                          `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                                      |
-|                                    `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
-|                                         `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
+|                                 Variable (case-insensitive) | Corresponding function                                                                                                 |
+| -----------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------- |
+|                 `${regex\|input\|substitution(optional)}` | Executes regex on input. Supports `u`, `g` and `i` flags (captured groups are joined, unless substitution is provided) |
+|                                             `${uc\|input}` | Uppercase variable. Transforms input to uppercase                                                                      |
+|                                             `${lc\|input}` | Lowercase variable. Transforms input to lowercase                                                                      |
+|                                       `${cv:group\|input}` | Change input with matched custom variable (group is optional)                                                          |
+|                                            `${rdc\|input}` | Replace diacritic input characters with their latin equivalent                                                         |
 | `${os:[win\|mac\|linux]\|on match\|no match(optional)}` | If OS matches, uses `on match` value or `no match` otherwise                                                           |
 
 ### Function variable example

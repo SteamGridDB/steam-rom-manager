@@ -1,3 +1,5 @@
-# Name der Einstellungen
+# Parser-Titel
 
-Titel, unter dem die Benutzereinstellung gespeichert wird. Muss nicht einzigartig sein, aber ist erforderlich.
+Titel des Parsers. Muss nicht einzigartig sein, ist aber erforderlich.
+
+Dieses Feld hat keinen Einfluss auf das, was zu `Steam` hinzugefügt wird.

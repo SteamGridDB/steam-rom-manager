@@ -7,13 +7,11 @@ import {
   ElementRef,
   RendererStyleFlags2,
 } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Subscription, BehaviorSubject } from "rxjs";
+import { Subscription } from "rxjs";
 import {
   PreviewService,
   SettingsService,
   ImageProviderService,
-  IpcService,
   UserExceptionsService,
 } from "../services";
 import {
@@ -24,12 +22,12 @@ import {
   AppSettings,
   ImageContent,
   SelectItem,
-  UserConfiguration,
   ArtworkViewType,
   ArtworkType,
   isArtworkType,
   ImageProviderType,
-  UserExceptionData,
+  ProviderCategoryType,
+  GameException,
   SteamList,
 } from "../../models";
 import { APP } from "../../variables";
@@ -45,12 +43,12 @@ import {
   superTypesMap,
 } from "../../lib/parsers/available-parsers";
 import { FuzzyTestPipe, IntersectionTestPipe } from "../pipes";
-import * as url from "../../lib/helpers/url";
-import { encodeFile } from "../../lib/helpers/url/encode-file";
+import { encodeFile } from "../../lib/helpers/url/file-url";
 import * as FileSaver from "file-saver";
-import * as steam from "../../lib/helpers/steam";
+import * as steam from "../../lib/helpers/steam/generate-app-id";
+import { COMPAT_NONE } from "../../lib/helpers/steam/compat-constants";
+import type { CompatToolInfo } from "../../lib/helpers/steam/compat-constants";
 import * as _ from "lodash";
-import * as path from "path";
 import {
   allProviders,
   imageProviderNames,
@@ -58,8 +56,9 @@ import {
   sgdbIdRegex,
 } from "../../lib/image-providers/available-providers";
 import { DomSanitizer } from "@angular/platform-browser";
-import { OpenDialogReturnValue } from "electron";
-import { dialog } from "@electron/remote";
+import { CoreClientService } from "../services/core-client.service";
+import { searchQuery } from "../../core/exceptions-format";
+import type { ExceptionChanges } from "../../core/exceptions-store";
 @Component({
   selector: "preview",
   templateUrl: "../templates/preview.component.html",
@@ -84,7 +83,6 @@ export class PreviewComponent implements OnDestroy {
   artworkSelectTypes: SelectItem[];
   sortBySelectTypes: SelectItem[];
   scrollingEntries: boolean = false;
-  CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
   currentApp: {
     app: PreviewDataApp;
     userId: string;
@@ -108,7 +106,9 @@ export class PreviewComponent implements OnDestroy {
   detailsLoading: boolean = true;
   showDetails: boolean = false;
   detailsSearchText: string = "";
-  detailsException: UserExceptionData;
+  // The details pane's working copy of the game's exception.
+  detailsException: ExceptionChanges;
+  private detailsOriginal = "";
   detailsOriginalExcludeArt: boolean = false;
   detailsOriginalCompatTool: string = "";
   // Options for the per-game "Force compatibility tool" override in the details
@@ -118,7 +118,7 @@ export class PreviewComponent implements OnDestroy {
 
   showExcludes: boolean = false;
   excludedAppIds: SteamList<{ [appId: string]: boolean }> = {};
-  excludePutBacks: { [exceptionKey: string]: boolean } = {};
+  excludePutBacks: { [exclusionId: string]: boolean } = {};
   exclusionCount: number = 0;
 
   constructor(
@@ -129,11 +129,10 @@ export class PreviewComponent implements OnDestroy {
     private changeDetectionRef: ChangeDetectorRef,
     private renderer: Renderer2,
     private elementRef: ElementRef,
-    private activatedRoute: ActivatedRoute,
     private fuzzyTest: FuzzyTestPipe,
     private intersectionTest: IntersectionTestPipe,
-    private ipcService: IpcService,
     private sanitizer: DomSanitizer,
+    private coreClient: CoreClientService,
   ) {
     this.previewData = this.previewService.getPreviewData();
     this.previewVariables = this.previewService.getPreviewVariables();
@@ -152,17 +151,17 @@ export class PreviewComponent implements OnDestroy {
       },
     );
     this.sortBySelectTypes = [
-      { value: "extractedTitle", displayValue: "Extracted Title" },
-      { value: "title", displayValue: "Final Title" },
-      { value: "configurationTitle", displayValue: "Parser" },
-      { value: "sortAsTitle", displayValue: "Sort As Title" },
+      {
+        value: "extractedTitle",
+        displayValue: this.lang.sortBy.extractedTitle,
+      },
+      { value: "title", displayValue: this.lang.sortBy.title },
+      {
+        value: "configurationTitle",
+        displayValue: this.lang.sortBy.configurationTitle,
+      },
+      { value: "sortAsTitle", displayValue: this.lang.sortBy.sortAsTitle },
     ];
-    this.activatedRoute.queryParamMap.subscribe((paramContainer: any) => {
-      let params = ({ ...paramContainer } as any).params;
-      if (params["cliMessage"]) {
-        this.CLI_MESSAGE.next(params["cliMessage"]);
-      }
-    });
   }
 
   get lang() {
@@ -184,7 +183,11 @@ export class PreviewComponent implements OnDestroy {
   get providerCategories() {
     return providerCategories;
   }
-  get allProviders() {
+  // Widened from a union of tuple types, which *ngFor can't iterate.
+  get allProviders(): Record<
+    ProviderCategoryType,
+    readonly ImageProviderType[]
+  > {
     return allProviders;
   }
 
@@ -209,6 +212,14 @@ export class PreviewComponent implements OnDestroy {
     this.closeDetails();
     this.closeListImages();
     this.cancelExcludes();
+  }
+
+  // The Parse buttons: a new list, so the category/parser filters start over
+  // (they may name categories and parsers the new list doesn't have).
+  parse() {
+    this.setCategoryFilter([]);
+    this.setParserFilter([]);
+    this.generatePreviewData();
   }
 
   generatePreviewData() {
@@ -264,62 +275,17 @@ export class PreviewComponent implements OnDestroy {
           this.allCategories = this.previewService.getAllCategories();
           this.allParsers = this.previewService.getAllParsers();
           this.previewData = this.previewService.getPreviewData();
+          // (filters naming categories/parsers no longer in the list would
+          // hide everything)
+          this.setCategoryFilter(
+            this.categoryFilter.filter((c) => this.allCategories.includes(c)),
+          );
+          this.setParserFilter(
+            this.parserFilter.filter((p) => this.allParsers.includes(p)),
+          );
           this.changeDetectionRef.detectChanges();
         }, 50),
       ),
-    );
-    this.subscriptions.add(
-      this.CLI_MESSAGE.asObservable().subscribe((cliMessage: string) => {
-        const parsedCLI = cliMessage ? JSON.parse(cliMessage) || {} : {};
-        let hasrun = false;
-        if (["add", "remove"].includes(parsedCLI.command)) {
-          this.previewService.onLoadUserConfigurations(
-            (userConfigurations: UserConfiguration[]) => {
-              this.ipcService.send("log", "Generating app list");
-              this.generatePreviewData();
-            },
-          );
-          this.previewService.getPreviewDataChange().subscribe(() => {
-            let previewVariables = this.previewService.getPreviewVariables();
-            if (
-              this.previewVariables.listHasGenerated &&
-              this.previewVariables.numberOfListItems > 0
-            ) {
-              this.ipcService.send(
-                "inline-log",
-                `Apps: ${this.previewVariables.numberOfListItems}. Remaining images: ${this.previewVariables.numberOfQueriedImages}`,
-              );
-              if (this.previewVariables.numberOfQueriedImages == 0 && !hasrun) {
-                hasrun = true;
-                this.ipcService.send("log", "");
-                if (parsedCLI.command == "add") {
-                  this.ipcService.send("log", "Adding app list to steam");
-                  this.save().then(() => {
-                    this.ipcService.send("all_done");
-                  });
-                } else {
-                  this.ipcService.send("log", "Removing app list from steam");
-                  this.remove().then(() => {
-                    this.ipcService.send("all_done");
-                  });
-                }
-              }
-            } else if (this.previewVariables.listHasGenerated) {
-              this.ipcService.send("log", "No apps found");
-              this.ipcService.send("all_done");
-            }
-          });
-          this.previewService
-            .getBatchProgress()
-            .subscribe(
-              ({ update, batch }: { update: string; batch: number }) => {
-                if (batch > -1) {
-                  this.ipcService.send("inline-log", update);
-                }
-              },
-            );
-        }
-      }),
     );
   }
 
@@ -342,8 +308,14 @@ export class PreviewComponent implements OnDestroy {
     this.changeDetectionRef.detectChanges();
   }
 
+  // Whether a pool is still loading. A pool can be missing for a moment (a
+  // Fix Match pick, or the list regenerating): that counts as loading, and
+  // must not throw mid change detection.
   getImagePool(poolKey: string, artworkType?: ArtworkType) {
-    return this.previewService.getImages(artworkType)[poolKey];
+    return {
+      retrieving:
+        this.previewService.getImages(artworkType)[poolKey]?.retrieving ?? true,
+    };
   }
 
   getAppImages(app: PreviewDataApp, artworkType?: ArtworkType) {
@@ -432,10 +404,12 @@ export class PreviewComponent implements OnDestroy {
           scaledOverlayHeight,
         );
 
-        this.composedBackgroundCache[cacheKey] = `url("${canvas.toDataURL("image/png")}")`;
+        this.composedBackgroundCache[cacheKey] =
+          `url("${canvas.toDataURL("image/png")}")`;
         this.changeDetectionRef.detectChanges();
       } catch (error) {
-        this.composedBackgroundCache[cacheKey] = this.wrapBackgroundImage(baseUrl);
+        this.composedBackgroundCache[cacheKey] =
+          this.wrapBackgroundImage(baseUrl);
       }
     };
 
@@ -481,19 +455,27 @@ export class PreviewComponent implements OnDestroy {
       ? this.wrapBackgroundImage(overlayPath)
       : null;
 
-    if (image?.imageProvider !== "Current Artwork" && overlayPath && image?.loadStatus === "done") {
+    if (
+      image?.imageProvider !== "Current Artwork" &&
+      overlayPath &&
+      image?.loadStatus === "done"
+    ) {
       const cacheKey = `${appId}-${actualArtworkType}-${image.imageUrl}-${overlayPath}`;
       if (!this.composedBackgroundCache[cacheKey]) {
         this.composeBackgroundImage(image.imageUrl, overlayPath, cacheKey);
       }
-      return this.composedBackgroundCache[cacheKey] || this.wrapBackgroundImage(image.imageUrl);
+      return (
+        this.composedBackgroundCache[cacheKey] ||
+        this.wrapBackgroundImage(image.imageUrl)
+      );
     }
 
     if (image == undefined) {
       let imagepool: string = app.images[actualArtworkType].imagePool;
+      // (the pool can be missing for a moment while the list regenerates)
       const fallbackImage = this.previewService.getImages(actualArtworkType)[
         imagepool
-      ].online
+      ]?.online
         ? require("../../assets/images/retrieving-images.svg")
         : require("../../assets/images/no-images.svg");
       return overlayBackground
@@ -517,7 +499,9 @@ export class PreviewComponent implements OnDestroy {
           : this.wrapBackgroundImage(downloadingImage);
       } else if (image.loadStatus === "done") {
         const baseImage = this.wrapBackgroundImage(image.imageUrl);
-        return overlayBackground ? `${baseImage}, ${overlayBackground}` : baseImage;
+        return overlayBackground
+          ? `${baseImage}, ${overlayBackground}`
+          : baseImage;
       } else {
         const failedImage = require("../../assets/images/failed-image-download.svg");
         return overlayBackground
@@ -560,18 +544,25 @@ export class PreviewComponent implements OnDestroy {
   }
 
   async addLocalImages(app: PreviewDataApp, artworkType?: ArtworkType) {
-    const options: Electron.OpenDialogSyncOptions = {
-      properties: ["multiSelections","openFile"],
-      title: "Choose selections folder location.",
-      filters: [{name: "Images", extensions: ["png","tga","jpg","jpeg","webp"]}]
+    const options = {
+      properties: ["multiSelections", "openFile"],
+      title: this.lang.addLocalImagesDialog.title,
+      filters: [
+        {
+          name: this.lang.addLocalImagesDialog.imagesFilter,
+          extensions: ["png", "tga", "jpg", "jpeg", "webp"],
+        },
+      ],
     };
     const actualArtworkType = this.getActualArtworkType(artworkType);
-    const {filePaths}: OpenDialogReturnValue = await dialog.showOpenDialog(options);
-    if(filePaths!==undefined) {
+    const { filePaths }: { filePaths: string[] } =
+      await this.coreClient.client.call("app", "openDialog", options);
+    if (filePaths !== undefined) {
       let extRegex = /png|tga|jpg|jpeg|webp/i;
       for (let i = 0; i < filePaths.length; i++) {
-        if (extRegex.test(path.extname(filePaths[i]))) {
-          let imageUrl = url.encodeFile(filePaths[i]);
+        const extension = filePaths[i].match(/\.[^.\\/]*$/)?.[0] ?? "";
+        if (extRegex.test(extension)) {
+          let imageUrl = encodeFile(filePaths[i]);
           this.previewService.addUniqueLocalImage(
             app.images[actualArtworkType].imagePool,
             {
@@ -583,7 +574,12 @@ export class PreviewComponent implements OnDestroy {
             "manual",
           );
           this.updateListImageRanges(app);
-          this.previewService.setImageIndex(app, this.listImagesRanges["manual"].end - 1,actualArtworkType,true)
+          this.previewService.setImageIndex(
+            app,
+            this.listImagesRanges["manual"].end - 1,
+            actualArtworkType,
+            true,
+          );
         }
       }
     }
@@ -597,22 +593,10 @@ export class PreviewComponent implements OnDestroy {
     return this.previewService.saveData({ removeAll: false, batchWrite: true });
   }
 
-  remove() {
-    for (const directory in this.previewData) {
-      for (const userId in this.previewData[directory]) {
-        for (const appId in this.previewData[directory][userId].apps) {
-          this.previewData[directory][userId].apps[appId].status = "remove";
-        }
-      }
+  async remove() {
+    if (await this.previewService.removeAllInPreview()) {
+      this.closeAll();
     }
-    return this.previewService
-      .saveData({ removeAll: false, batchWrite: false })
-      .then((noError: boolean | void) => {
-        if (noError) {
-          this.closeAll();
-          this.previewService.clearPreviewData();
-        }
-      });
   }
 
   closeFilters() {
@@ -704,18 +688,18 @@ export class PreviewComponent implements OnDestroy {
       app.extractedTitle,
       app.parserType,
     );
-    const existingException =
-      this.userExceptionsService.getExceptionById(exceptionId);
-    this.detailsException = existingException
-      ? _.cloneDeep(existingException)
-      : {
-          newTitle: "",
-          searchTitle: "",
-          commandLineArguments: "",
-          excludeArtwork: false,
-          exclude: false,
-          timeStamp: undefined,
-        };
+    const existingException = this.userExceptionsService.exceptionFor(
+      exceptionId,
+      app.extractedTitle,
+    );
+    this.detailsException = {
+      newTitle: existingException?.newTitle ?? "",
+      searchTitle: existingException?.searchTitle ?? "",
+      sgdbId: existingException?.sgdbId ?? "",
+      commandLineArguments: existingException?.commandLineArguments ?? "",
+      excludeArtwork: existingException?.excludeArtwork ?? false,
+      compatToolName: existingException?.compatToolName,
+    };
     this.detailsOriginalExcludeArt = existingException
       ? existingException.excludeArtwork
       : false;
@@ -725,14 +709,17 @@ export class PreviewComponent implements OnDestroy {
       this.detailsException.compatToolName = "";
     }
     this.detailsOriginalCompatTool = this.detailsException.compatToolName;
-    steam.listAvailableCompatTools([steamDirectory]).then((tools) => {
-      this.compatToolOptions = [
-        { displayValue: "Inherit from parser", value: "" },
-        { displayValue: "None (Steam default)", value: steam.COMPAT_NONE },
-        ...tools.map((t) => ({ displayValue: t.displayName, value: t.name })),
-      ];
-      this.changeDetectionRef.detectChanges();
-    });
+    this.detailsOriginal = JSON.stringify(this.detailsException);
+    this.coreClient.client
+      .call("support", "compatTools", [steamDirectory])
+      .then((tools: CompatToolInfo[]) => {
+        this.compatToolOptions = [
+          { displayValue: this.lang.details.compatInherit, value: "" },
+          { displayValue: this.lang.details.compatNone, value: COMPAT_NONE },
+          ...tools.map((t) => ({ displayValue: t.displayName, value: t.name })),
+        ];
+        this.changeDetectionRef.detectChanges();
+      });
     this.detailsApp = {
       appId: appId,
       app: app,
@@ -743,7 +730,7 @@ export class PreviewComponent implements OnDestroy {
   }
 
   fixMatchSearch(sgdbId: string) {
-    this.detailsException.searchTitle = `\${gameid:${sgdbId}}`;
+    this.detailsException.sgdbId = sgdbId;
   }
 
   fixMatchTitle(sgdbId: string) {
@@ -822,7 +809,7 @@ export class PreviewComponent implements OnDestroy {
         app.extractedTitle,
         app.parserType,
       );
-      this.userExceptionsService.deleteExceptionById(exceptionId);
+      this.userExceptionsService.deleteGameException(exceptionId);
       this.refreshAfterSavingDetails(steamDirectory, userId, appId);
       this.closeDetails();
       this.generatePreviewData();
@@ -832,13 +819,13 @@ export class PreviewComponent implements OnDestroy {
   saveDetails() {
     if (this.detailsApp) {
       const { steamDirectory, userId, appId, app } = this.detailsApp;
-      const {
-        newTitle,
-        searchTitle,
-        commandLineArguments,
-        excludeArtwork,
-        compatToolName,
-      } = this.detailsException;
+      // The compat tool select resets "" (inherit) to null when its options
+      // arrive; null would fail validation and lose the whole edit.
+      this.detailsException.compatToolName ||= "";
+      const { newTitle, commandLineArguments, excludeArtwork, compatToolName } =
+        this.detailsException;
+      // What the artwork providers search for (a Fix Match pick first).
+      const searchTitle = searchQuery(this.detailsException as GameException);
       if (newTitle) {
         this.previewData[steamDirectory][userId].apps[appId].title = newTitle;
         if (superTypesMap[app.parserType] !== "ArtworkOnly") {
@@ -887,30 +874,21 @@ export class PreviewComponent implements OnDestroy {
           );
         }
       }
-      if (
-        newTitle ||
-        searchTitle ||
-        commandLineArguments ||
-        excludeArtwork != this.detailsOriginalExcludeArt ||
-        compatToolName != this.detailsOriginalCompatTool
-      ) {
+      // Saved for this game (by app id) whenever anything changed; with no
+      // changes left, its exception is removed.
+      if (JSON.stringify(this.detailsException) !== this.detailsOriginal) {
         const exceptionId = this.userExceptionsService.makeExceptionId(
           app.executableLocation,
           app.extractedTitle,
           app.parserType,
         );
-        this.userExceptionsService.addExceptionById(
+        this.userExceptionsService.setGameException(
           exceptionId,
           app.extractedTitle,
           {
-            newTitle: newTitle,
-            searchTitle: searchTitle,
-            commandLineArguments: commandLineArguments,
-            excludeArtwork: excludeArtwork,
-            exclude: false,
+            ...this.detailsException,
             // "" (inherit) persists as undefined so it does not override.
             compatToolName: compatToolName !== "" ? compatToolName : undefined,
-            timeStamp: Date.now(),
           },
         );
         this.refreshAfterSavingDetails(steamDirectory, userId, appId);
@@ -994,8 +972,10 @@ export class PreviewComponent implements OnDestroy {
         app.extractedTitle,
         app.parserType,
       );
-      exceptionFilter =
-        !!this.userExceptionsService.getExceptionById(exceptionId);
+      exceptionFilter = !!this.userExceptionsService.exceptionFor(
+        exceptionId,
+        app.extractedTitle,
+      );
     }
     const excludesArtOnlyFilter =
       !this.showExcludes || superTypesMap[app.parserType] !== "ArtworkOnly";
@@ -1055,7 +1035,7 @@ export class PreviewComponent implements OnDestroy {
       for (const steamUser in this.previewData[steamDir]) {
         for (const exclusion of this.previewData[steamDir][steamUser]
           .excluded) {
-          this.excludePutBacks[exclusion.exceptionKey] = false;
+          this.excludePutBacks[exclusion.exclusionId] = false;
         }
       }
     }
@@ -1073,56 +1053,39 @@ export class PreviewComponent implements OnDestroy {
     this.exclusionCount = 0;
   }
 
+  // Excludes the marked games (by app id; any changes saved for them stay,
+  // for when they're put back) and puts back the marked exclusions.
   saveExcludes() {
-    let exceptionKeys: { exceptionId: string; extractedTitle: string }[] = [];
-    for (const steamDirectory in this.previewData) {
-      if (this.excludedAppIds[steamDirectory]) {
-        for (const userId in this.previewData[steamDirectory]) {
-          if (this.excludedAppIds[steamDirectory][userId]) {
-            let newKeys = Object.keys(
-              this.excludedAppIds[steamDirectory][userId],
-            )
-              .filter((appId: string) => {
-                return !!this.excludedAppIds[steamDirectory][userId][appId];
-              })
-              .map((appId: string) => {
-                const app =
-                  this.previewData[steamDirectory][userId].apps[appId];
-                const exceptionId = steam.generateShortAppId(
-                  app.executableLocation,
-                  app.extractedTitle,
-                );
-                return {
-                  exceptionId: exceptionId,
-                  extractedTitle: app.extractedTitle,
-                };
-              });
-            exceptionKeys = exceptionKeys.concat(newKeys);
+    const games: { appId: string; appTitle: string }[] = [];
+    for (const steamDirectory in this.excludedAppIds) {
+      for (const userId in this.excludedAppIds[steamDirectory]) {
+        for (const [appId, excluded] of Object.entries(
+          this.excludedAppIds[steamDirectory][userId],
+        )) {
+          const app = this.previewData[steamDirectory]?.[userId]?.apps[appId];
+          if (excluded && app) {
+            games.push({
+              appId: this.userExceptionsService.makeExceptionId(
+                app.executableLocation,
+                app.extractedTitle,
+                app.parserType,
+              ),
+              appTitle: app.extractedTitle,
+            });
           }
         }
       }
     }
-    for (const exceptionKey of exceptionKeys) {
-      this.userExceptionsService.addExceptionById(
-        exceptionKey.exceptionId,
-        exceptionKey.extractedTitle,
-        {
-          newTitle: "",
-          searchTitle: "",
-          timeStamp: Date.now(),
-          commandLineArguments: "",
-          exclude: true,
-          excludeArtwork: false,
-        },
-      );
+    if (games.length) {
+      this.userExceptionsService.exclude(games);
     }
-    const putBackKeys = Object.keys(this.excludePutBacks).filter(
-      (putBackKey) => this.excludePutBacks[putBackKey],
+    const putBacks = Object.keys(this.excludePutBacks).filter(
+      (id) => this.excludePutBacks[id],
     );
-    for (const putBackKey of putBackKeys) {
-      this.userExceptionsService.putBack(putBackKey);
-      delete this.excludePutBacks[putBackKey];
+    if (putBacks.length) {
+      this.userExceptionsService.removeExclusions(putBacks);
     }
+    this.excludePutBacks = {};
     this.cancelExcludes();
     this.generatePreviewData();
   }
@@ -1180,7 +1143,8 @@ export class PreviewComponent implements OnDestroy {
     this.previewService.setImageIndex(app, imageIndex, actualArtworkType);
   }
 
-  setImageSizeFromInput(target: EventTarget, save: boolean = false) {
+  setImageSizeFromInput(target: EventTarget | null, save: boolean = false) {
+    if (!target) return;
     this.setImageSize(Number((target as HTMLInputElement).value), save);
   }
 

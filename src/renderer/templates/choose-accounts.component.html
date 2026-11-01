@@ -1,6 +1,6 @@
 <div class="chooseAccounts">
   <div class="chooseAccountsContent">
-    <p>Choose Steam Accounts</p>
+    <p>{{ lang.title }}</p>
     <p>{{ steamDir }}</p>
     <!-- <img src="/assets/images/preview.png"/> -->
     <div class="accounts">
@@ -10,14 +10,11 @@
         (click)="selectAccount(account)"
         [class.selected]="!!selectedAccounts[account.accountID]"
       >
-        <img
-          src="{{ getAccountImage(steamDir, account.steamID64) }}"
-          alt="Icon"
-        />
+        <img src="{{ getAccountImage(account) }}" [alt]="lang.iconAlt" />
         <div class="info">{{ account.name }} ({{ account.accountID }})</div>
       </div>
     </div>
-    <div class="noButton" (click)="cancelAccounts()">Cancel</div>
-    <div class="goButton" (click)="saveAccounts()">Save</div>
+    <div class="noButton" (click)="cancelAccounts()">{{ lang.cancel }}</div>
+    <div class="goButton" (click)="saveAccounts()">{{ lang.save }}</div>
   </div>
 </div>

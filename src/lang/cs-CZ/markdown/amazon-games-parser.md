@@ -1,3 +1,3 @@
-# Amazon Games Parser
+# Parser pro Amazon Games
 
-This parser imports games from `Amazon Games` so that artwork can be chosen for them and they can be added into Steam. If it doesn't work it is because Amazon Games has altered the structure of their game database or their fuel.json, in this case please let the developers of SRM know and we will resolve the issue.
+Tento parser importuje hry přímo z `Amazon Games` což umožňuje vybrat všechny vizuály a také je nahrát přímo na Steam. Pokud to nefunguje, nejspíš už Amazon Games pozměnilo strukturu jejich herní databáze nebo souboru fuel.json, v tom případě prosím dejte vědět vývojářům SRM a ti se pokusí tento problém vyřešit.

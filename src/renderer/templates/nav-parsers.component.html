@@ -8,10 +8,10 @@
               <nav-link class="titlelink" (click)="flipAll()">
                 <img
                   src="/assets/images/clipboard.png"
-                  alt="Icon"
+                  [alt]="lang.iconAlt"
                   height="16"
                 />
-                <span>Toggle Parsers</span>
+                <span>{{ lang.toggleParsers }}</span>
                 <span>&nbsp;&nbsp;</span>
               </nav-link>
               <ng-toggle-button
@@ -29,8 +29,6 @@
         track userConfiguration.saved.parserId;
         let i = $index
       ) {
-        @let parserId = userConfiguration.saved.parserId;
-        @let toggle = parserControls[parserId];
         <div
           class="item"
           [ngClass]="{
@@ -38,6 +36,8 @@
             disabled: userConfiguration.saved.disabled,
           }"
         >
+          @let parserId = userConfiguration.saved.parserId;
+          @let toggle = parserControls[parserId];
           <div class="inputContainer" (click)="emuClick(toggle)">
             <div class="inlineGroup">
               <nav-link
@@ -46,7 +46,7 @@
                   unsaved: userConfiguration.current != null,
                   disabled: userConfiguration.saved.disabled,
                 }"
-                [routerLink]="['/parsers', i]"
+                [routerLink]="['/parsers', parserId]"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
               >
@@ -56,7 +56,7 @@
                       <img width="120" src="{{ imageMap[parserId].img }}" />
                     }
                     <span *ngIf="imageMap[parserId].alternative"
-                      >Non-EmuDeck</span
+                      >{{ lang.nonEmuDeck }}</span
                     >
                   </p>
                   <small>{{ imageMap[parserId].details }}</small>
@@ -76,10 +76,10 @@
               <nav-link class="titlelink" (click)="flipAll()">
                 <img
                   src="/assets/images/clipboard.png"
-                  alt="Icon"
+                  [alt]="lang.iconAlt"
                   height="16"
                 />
-                <span>Toggle Parsers</span>
+                <span>{{ lang.toggleParsers }}</span>
                 <span>&nbsp;&nbsp;</span>
               </nav-link>
               <ng-toggle-button
@@ -98,13 +98,13 @@
             type="text"
             class="searchInput"
             [value]="searchTerm"
-            placeholder="Search parsers…"
+            [placeholder]="lang.searchParsers"
             (input)="onSearch(searchInput.value)"
           />
           @if (searching) {
             <span
               class="searchClear"
-              title="Clear search"
+              [title]="lang.clearSearch"
               (click)="clearSearch()"
               >✕</span
             >
@@ -116,14 +116,14 @@
               #addGroupInput
               type="text"
               class="groupNameInput"
-              placeholder="New group name…"
+              [placeholder]="lang.newGroupName"
               (keydown.enter)="confirmAddGroup(addGroupInput.value)"
               (keydown.escape)="cancelAddGroup()"
               (blur)="confirmAddGroup(addGroupInput.value)"
             />
           } @else {
             <span class="newGroupButton" (click)="startAddGroup()"
-              >＋ New group</span
+              >{{ lang.newGroup }}</span
             >
           }
         </div>
@@ -132,12 +132,12 @@
       @let parserControls = getParserControls();
       @let groupControls = getGroupControls();
       @for (group of groups; track group.name) {
-        @let groupToggle = groupControls[groupControlKey(group)];
         <div
           class="item group"
           [class.collapsed]="group.collapsed"
           [class.ungrouped]="group.isUngrouped"
         >
+          @let groupToggle = groupControls[groupControlKey(group)];
           @if (!group.isUngrouped || showUngroupedHeader) {
             <div
               class="groupHeader"
@@ -155,7 +155,7 @@
                     : { x: true, y: true }
                 "
                 dragActiveClass="group-drag-active"
-                showOriginalElementWhileDragging="true"
+                [showOriginalElementWhileDragging]="true"
                 [dropData]="{
                   type: 'group',
                   fromGroupIndex: group.registryIndex,
@@ -190,13 +190,13 @@
                 @if (!group.isUngrouped) {
                   <span
                     class="groupAction rename"
-                    title="Rename group"
+                    [title]="lang.renameGroup"
                     (click)="startRename(group, $event)"
                     >✎</span
                   >
                   <span
                     class="groupAction delete"
-                    title="Ungroup / delete group"
+                    [title]="lang.deleteGroup"
                     (click)="deleteGroup(group, $event)"
                     >✕</span
                   >
@@ -232,7 +232,7 @@
                       [class.active]="currentId == parserId"
                       mwlDraggable
                       dragActiveClass="drag-active"
-                      showOriginalElementWhileDragging="true"
+                      [showOriginalElementWhileDragging]="true"
                       (dragStart)="dragStart(entry)"
                       [dropData]="{
                         type: 'entry',
@@ -247,7 +247,7 @@
                             disabled: entry.saved.disabled,
                             active: currentId == parserId,
                           }"
-                          (click)="onClick(entry.globalIndex, parserId)"
+                          (click)="onClick(parserId)"
                         >
                           <div
                             [innerHTML]="
@@ -272,7 +272,7 @@
                   dragOverClass="drop-over-active"
                   (drop)="onGroupZoneDrop($event.dropData, group)"
                 >
-                  Drop parsers here
+                  {{ lang.dropParsersHere }}
                 </div>
               }
             </div>

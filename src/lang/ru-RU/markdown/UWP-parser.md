@@ -4,4 +4,4 @@ This parser imports `UWP` games in your Windows OS, having a games library path 
 
 ## Compatibility
 
-This parser should only work on `Windows 10` and `Windows 11`.
+Совместимость Этот синтаксический анализатор должен работать только в Windows 10 и Windows 11.

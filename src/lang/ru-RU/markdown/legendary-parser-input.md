@@ -1,7 +1,17 @@
-# Legendary Parser specific inputs
+# Особые входные данные Legendary анализатора
 
-## Legendary `installed.json` Path Override
+## Переопределение легендарного пути
 
-Most users shouldn't use this, as they use the standard `Legendary` installation where installed games manifest will be located at `~/.config/legendary/installed.json`.
+По умолчанию Steam ROM Manager использует `(Get-Command legendary). Путь` в Windows и `which legendary` в Linux и Mac для определения местоположения вашего исполняемого файла Legendary. Это поле позволяет вам отменить этот путь.
 
-If, however, for some reason your installed games manifest is located in a non-typical location then you can specify the correct manifest path here.
+Указание правильного расположения исполняемого файла Legendary необходимо только в том случае, если вы включили запуск через Legendary (см. ниже), поскольку в противном случае SRM не нужно знать расположение исполняемого файла Legendary.
+
+## Легендарный `installed.json` Переопределение пути
+
+Большинству пользователей это не нужно, так как они используют стандартную установку `Legendary`, где манифест установленных игр будет находиться по адресу `~/.config/legendary/installed.json`.
+
+Если же по какой-то причине манифест установленной игры находится в нетипичном месте, вы можете указать правильный путь к манифесту здесь.
+
+## Запуск через Legendary `[Рекомендуется включить]`
+
+Судя по всему, этот переключатель определяет, будут ли игры запускаться через Legendary или напрямую. Запуск через Legendary дает доступ к онлайн-сервисам Epic.

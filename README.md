@@ -86,7 +86,11 @@ Artwork only parsers allow you to change the artwork for existing non-SRM games.
 
 ## Command Line Interface
 
-SRM has a fully featured command line interface, documented in the [wiki](https://github.com/SteamGridDB/steam-rom-manager/wiki/Command-Line-Interface).
+SRM has a fully featured command line interface, documented in the [wiki](https://github.com/SteamGridDB/steam-rom-manager/wiki/Command-Line-Interface). `srm --help` lists the commands.
+
+Parsers can be created, changed, viewed and deleted from it (`create`, `edit`, `view`, `delete`), and every command that takes parsers accepts their ids or names. Every setting the parser editor has is an option, with the same required settings and the same checks: both read the field catalog in `src/core/parser-fields.ts`, and its tests keep "required" in step with validation. `srm create --ptype <type> --help` lists that type's settings, required ones first.
+
+The command line also comes on its own, without the app: `srm-cli-<version>-<os>-<arch>` in each release (Windows `.exe`; Linux and macOS `.tar.gz` holding `srm`), for x64 and arm64. It's a single executable (Node's [single executable applications](https://nodejs.org/api/single-executable-applications.html)) with the same commands, and it uses the installed app's data (`steam-rom-manager/userData` in the system's app data folder), or a `userData` folder next to it if there is one (portable). `SRM_USER_DATA_DIR` overrides both. Build it with `yarn build:cli` (this OS, both architectures); `scripts/build-cli.ts` has the details.
 
 ## Building SRM
 
@@ -98,34 +102,66 @@ Before running any scripts, dependencies must be installed using:
 yarn install
 ```
 
-Unfortunately, because of an issue with `better-sqlite3` you will most likely also have to run `yarn install` after building for windows if you want `yarn run start` to work. Otherwise, you will likely see the runtime error `better-sqlite3 is not a valid win32 application`.
-
 ## Scripts
 
 All script must be run using `yarn run` command. For example, `yarn run watch:renderer`.
 
-| Script           | Function                                                            |
-| ---------------- | ------------------------------------------------------------------- |
-| `postinstall`    | Recompiles native apps to match Electron's NodeJS version if needed |
-| `start`          | Launches compiled app                                               |
-| `watch:main`     | Compiles Electron app and watches for changes                       |
-| `watch:renderer` | Compiles a renderer for an Electron app and watches for changes     |
-| `build:main`     | Compiles Electron app in production mode                            |
-| `build:renderer` | Compiles a renderer for an Electron app in production mode          |
-| `build:dist`     | Runs `build:main` and `build:renderer`                              |
-| `build:win`      | Compiles an executable installer for Windows                        |
-| `build:linux`    | Compiles a `deb` package and `AppImage` for linux                   |
-| `build:linuxdir` | Builds an unpacked linux x64 version for use with flatpak           |
-| `build:flatpak`  | Builds a flatpak from the unpacked linux version                    |
-| `build:docker`   | `build:win` and `build:linux` joined together                       |
-| `build:mac`      | Compiles a `dmg` package for MacOS                                  |
+| Script             | Function                                                            |
+| ------------------ | ------------------------------------------------------------------- |
+| `postinstall`      | Recompiles native apps to match Electron's NodeJS version if needed |
+| `start`            | Launches compiled app                                               |
+| `watch:main`       | Compiles Electron app and watches for changes                       |
+| `watch:renderer`   | Compiles a renderer for an Electron app and watches for changes     |
+| `build:main`       | Compiles Electron app in production mode                            |
+| `build:renderer`   | Compiles a renderer for an Electron app in production mode          |
+| `build:dist`       | Runs `build:main` and `build:renderer`                              |
+| `build:win`        | Compiles an executable installer for Windows                        |
+| `build:linux`      | Compiles a `deb` package and `AppImage` for linux                   |
+| `build:linuxdir`   | Builds an unpacked linux x64 version for use with flatpak           |
+| `build:flatpak`    | Builds a flatpak from the unpacked linux version                    |
+| `build:docker`     | `build:win` and `build:linux` joined together                       |
+| `build:mac`        | Compiles a `dmg` package for MacOS                                  |
+| `build:cli-bundle` | Compiles the standalone command line to `dist-cli/srm.js`           |
+| `build:cli`        | Builds the standalone command line's executables into `release/cli` |
+
+## Text and translations
+
+All UI text lives in `src/lang/en-US`: `langStrings.json`, plus the docs in `markdown/` (listed in `src/lang/index.ts`). Never hard-code English in components or templates: add a key to `en-US/langStrings.json` and use it (`{{ lang.yourKey }}`, or `lang.yourKey__i.interpolate({ ... })` for strings with `${variables}`). The types come from en-US, so TypeScript catches a mistyped or missing key.
+
+Translations are done on [Crowdin](https://crowdin.com/project/steam-rom-manager), which exports them to the `l10n_master` branch. Every other language is laid over en-US, so whatever a language lacks or has out of date (a new key, a reshaped one, changed `${variables}`) shows in English instead of breaking anything. After merging translations or reshaping en-US keys, run `yarn lang:sync`: it brings each language folder into en-US's layout, keeping only real translations, and prints how complete each language is. `yarn lang:check` (and the tests) fail when a folder is out of sync.
+
+## Themes
+
+Every color, font, radius, shadow and timing in the UI is a design token, listed in `src/renderer/theme/tokens.ts` (what each is for is in the language files: `settings.component.themeEditor.tokens`) and set as a CSS variable (`var(--srm-accent)`). Stylesheets use tokens, never colors of their own (the tests check this). The base theme in `src/renderer/theme/themes.ts` sets every token; a theme only sets what it changes.
+
+Themes are JSON files, in two places:
+
+- **App themes** (`src/themes/default/`): Deck, Classic, EmuDeck, Sunset, Solarized Dark and Solarized Light. They're built into SRM, so they're always there, and SRM writes copies of them to `themes/default` in its data folder as examples.
+- **User themes** (`themes/user` in SRM's data folder): any JSON file there shows up in Settings under "Your themes". Settings > Theme editor creates, edits (with a live preview on the whole app), saves and deletes them; app themes can be duplicated there. Unknown tokens and invalid values are skipped and reported in the log.
+
+```json
+{
+  "name": "Sunset",
+  "colorScheme": "dark",
+  "layout": "Deck",
+  "tokens": {
+    "accent": "#ff7a00",
+    "accent-hover": "#ff9433",
+    "accent-gradient": "linear-gradient(135deg, #ff7a00 0%, #ff3d6e 100%)",
+    "icon-filter": "none",
+    "radius-art": "16px"
+  }
+}
+```
+
+`colorScheme` (`dark` or `light`) sets the colors of the browser's own controls. `layout` (`Deck`, the default, `Classic` or `EmuDeck`) picks how the screens are arranged, independently of colors. `icon-filter` adjusts SRM's white icons; light themes darken them, e.g. `brightness(0.38)`.
 
 ## Debugging an app
 
 Run `watch:main` (usually once since one rarely changes anything in the main Electron process) and `watch:renderer`.
 Each command creates separate `webpack` instance which will watch referenced files for changes and will recompile app.
 
-App can be run using `start` script or `npx electron .` (if you want to test the CLI use `npx electron . [command] [flags]`). After every recompile by `watch:renderer`, app can be refreshed using `Ctrl + R`, however `watch:main` requires need a restart.
+App can be run using the `start` script; to test the CLI use `npx electron ./dist/main.bundle.js [command] [flags]` (`--help` lists the commands). Both use the data folder `%APPDATA%\Electron\userData` (`~/.config/Electron/userData` on Linux). `npx electron .` works too, but it uses the installed SRM's data folder. Set `SRM_USER_DATA_DIR` to use any other folder. After every recompile by `watch:renderer`, app can be refreshed using `Ctrl + R`, however `watch:main` requires a restart (as do both watchers when the webpack configs change).
 
 `Ctrl + Shift + I` can be used to launch Chrome inspector once the app is running. This works even in the release version.
 

@@ -2,31 +2,31 @@
 
 Lies dies, wenn du immer noch Probleme mit der Konfiguration hast. Für die meisten Beispiele wird Folgendes verwendet, sofern nicht anders angegeben:
 
-|                    |                                            |
-| ------------------ | ------------------------------------------ |
-| **ROMs directory** | `C:/ROMs`                                  |
-| **Datei 1**        | `C:/ROMs/Kingdom Hearts/game.iso`          |
-| **Datei 2**        | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
-| **Datei 3**        | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
-| **Datei 4**        | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
-| **Datei 5**        | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
-| **Datei 6**        | `C:/ROMs/dir1/dir2/save.sav`               |
+|                     |                                            |
+| ------------------- | ------------------------------------------ |
+| **ROM Verzeichnis** | `C:/ROMs`                                  |
+| **Datei 1**         | `C:/ROMs/Kingdom Hearts/game.iso`          |
+| **Datei 2**         | `C:/ROMs/Kingdom Hearts II/rom.iso`        |
+| **Datei 3**         | `C:/ROMs/dir1/dir2/dir3/Metroid [USA].nes` |
+| **Datei 4**         | `C:/ROMs/dir1/dir2/dir3/save.sav`          |
+| **Datei 5**         | `C:/ROMs/dir1/dir2/Dragon Quest IV.NES`    |
+| **Datei 6**         | `C:/ROMs/dir1/dir2/save.sav`               |
 
-## Wie konfiguriere ich Benutzer-Glob?
+## Wie konfiguriere ich Benutzer-Globs?
 
-First, let's analyze **File1**. Its full path is `C:/ROMs/Kingdom Hearts/game.iso`. Since our **ROMs directory** is `C:/ROMs`, we can just remove it from **File1**'s path.
+Analysieren wir zuerst **File1**. Der absolute Pfad sei `C:/ROMs/Kingdom Hearts/game.iso`. Da unser **ROMs Verzeichnis** `C:/ROMs` ist, können wir es aus dem Pfad von **File1** entfernen.
 
-We end up with `Kingdom Hearts/game.iso`. It obvious for us that `Kingdom Hearts` is the title, however parser is dumber than you -- you must specify path portion which contains the title by replacing `Kingdom Hearts` with `${title}`.
+Dann erhalten wir `Kingdom Hearts/game.iso`. Für uns ist es offensichtlich, das `Kingdom Hearts` der Titel ist, für den Parser leider nicht - -so müssen wir den Teil des Pfades `Kingdom Hearts` mit`${title}` ersetzen.
 
-Again, we end up with `${title}/game.iso`, but we also want **File2**, because it is for the same emulator. **File1** is `game.iso` and **File2** is `rom.iso`. Was nun?
+So enden wir mit `${title}/game.iso`, aber wir wollen auch **File2**, denn diese Datei ist für den gleichen Emulator. **File1** ist `game.iso` und **File2** ist `rom.iso`. Was nun?
 
-Remember wild cards? They allow us to discard information that does not really matter. In this case we don't care if it is `game` or `rom`, we want both to be matched. That's why we replace them with `*`. Dies ist der abschließende Glob für **File1** und **File2**:
+Erinnerst du dich an Wildcards? Diese erlauben uns Informationen wegzuwerfen, die uns nicht interessieren. In diesem Fall ist es uns egal, ob es `game` oder `rom` ist, wir wollen beide erfassen. Deswegen ersetzen wir sie mit `*`. Dies ist der abschließende Glob für **File1** und **File2**:
 
 ```
 ${title}/*.iso
 ```
 
-Using similar logic we can produce glob for **File3**:
+Mit ähnlicher Logik können wir Globs für **File3** erstellen:
 
 ```
 */*/*/${title}.nes
@@ -34,14 +34,12 @@ Using similar logic we can produce glob for **File3**:
 
 ## Wie gehe ich mit mehrstufigen Verzeichnissen um?
 
-Diesmal wollen wir **File3** und **File5** (beide haben unterschiedliche Erweiterungen, Lies den nächsten Abschnitt darüber, was zu tun ist, da wir derzeit `*` verwenden, um die Erweiterung zu ignorieren). Beachte, dass **File3** `3` Unterverzeichnisse hat, während **Datei 5** `2` hat. Was nun?
+Diesmal wollen wir **File3** und **File5** (beide haben unterschiedliche Erweiterungen, Lies den nächsten Abschnitt darüber, was zu tun ist, da wir derzeit `*` verwenden, um die Erweiterung zu ignorieren). Beachte, dass **File3** `3` Unterverzeichnisse hat, während  **Datei 5** `2` hat. Was nun?
 
 Jetzt können wir einen Globstar benutzen und das war's!
-
 ```
 **/${title}.*
 ```
-
 Ist es wirklich so einfach? **Nein!** Globstar wird Auswirkungen auf die Leistung des Parsers haben, wenn es viele Unterverzeichnisse mit jeweils Tausenden von Dateien gibt. Globstar wird sicherstellen, dass der Parser jede Datei überprüft, die er finden kann. Ein Benutzer hat einmal gemeldet, dass das Parsen ~10 Minuten dauerte, als er überall Globstars verwendete.
 
 Eine empfohlene Lösung ist die Verwendung von geklammerten Sätzen. Diese können aus `1` Glob mehrere machen. Wenn wir einen Glob wie folgt schreiben:
@@ -50,16 +48,16 @@ Eine empfohlene Lösung ist die Verwendung von geklammerten Sätzen. Diese könn
 {*,*/*}/*/${title}.*
 ```
 
-we will get `2` globs:
+erhalten wir `2` globs:
 
 ```
 */*/${title}.*
 */*/*/${title}.*
 ```
 
-These `2` globs both satisfy our files, **File3** and **File5**.
+Diese `2` globs enthält unsere Dateien, **File3** und **File5**.
 
-## Wie kann ich Dateierweiterungen begrenzen?
+## Wie kann ich Dateiendungen begrenzen?
 
 Nehmen wir einmal an, wir verwenden den Glob vom vorherigen Beispiel:
 
@@ -75,9 +73,9 @@ Wir werden vier Dateien erhalten: **Datei3**, **Datei4**, **Datei5** und **Datei
 
 aber dann werden wir nur mit **File3** enden, denn `nes` ist nicht gleich `NES` -- der Parser berücksichtigt die Groß-/Kleinschreibung. Es gibt zwei Möglichkeiten, dieses Problem mithilfe des erweiterten Glob-Matchers zu lösen.
 
-### `sav` Erweiterung ausschließen
+### `sav` Dateiendungen ausschließen
 
-Extended glob matcher `!(...)` allows us to exclude stuff. Simply write glob like this:
+Erweitern des Glob Matcher `!(...)` erlaubt es uns Sachen zu exkludieren. Schreibe deinen Glob so:
 
 ```
 {*,*/*}/*/${title}.!(sav)
@@ -87,13 +85,13 @@ und Dateien mit `sav` Erweiterung werden ausgeschlossen.
 
 ### Auf mehrere Erweiterungen prüfen
 
-Extended glob matcher `@(...)` allows us to match multiple things. Simply write glob like this:
+Erweitern des Glob Matcher `@(...)` erlaubt es uns mehrere Dinge zu erfassen. Schreibe deinen Glob so:
 
 ```
 {*,*/*}/*/${title}.@(nes|NES)
 ```
 
-und nur Dateien mit `nes` und `NES` werden abgeglichen. If you're feeling fancy or if you have files with extensions `nes`, `NES`, `neS`, `nEs`, `Nes` and etc., you need a glob that uses character range:
+und nur Dateien mit `nes` und `NES` werden abgeglichen. Wenn du Dateien mit Endungen wie `nes`, `NES`, `neS`, `nEs`, `Nes` usw. hast, brauchst du einen Glob der eine Reihenfolge erfasst:
 
 ```
 {*,*/*}/*/${title}.@([nN][eE][sS])
@@ -106,10 +104,9 @@ Jetzt kann der Parser jeder Kombination entsprechen und ist effektiv unabhängig
 ```
 
 ## Fehlerbehebung
+* Bitte stelle sicher, dass Steam tatsächlich geschlossen ist, bevor du deine App-Liste speicherst.
 
-- Bitte stelle sicher, dass Steam tatsächlich geschlossen ist, bevor du deine App-Liste speicherst.
-
-- Ein häufig auftretendes Problem ist das Vorhandensein alter Steam-Verzeichnisse von Leuten, die sich vor dem Update der neuen Bibliothek in deinem Computer eingeloggt haben. Dies kann dazu führen, dass der Steam ROM Manager auf unvorhersehbare Weise fehlschlägt, da er versucht, auf Verzeichnisse zuzugreifen, deren Struktur sich geändert hat. Um dies zu umgehen, verwende das [Benutzerkonten](#user-accounts) Feld um festzulegen, mit welchen Konten du Steam ROM Manager verwenden möchtest.
+* Ein häufig auftretendes Problem ist das Vorhandensein alter Steam-Verzeichnisse von Leuten, die sich vor dem Update der neuen Bibliothek in deinem Computer eingeloggt haben. Dies kann dazu führen, dass der Steam ROM Manager auf unvorhersehbare Weise fehlschlägt, da er versucht, auf Verzeichnisse zuzugreifen, deren Struktur sich geändert hat. Um dies zu umgehen, verwende das [Benutzerkonten](#user-accounts) Feld um festzulegen, mit welchen Konten du Steam ROM Manager verwenden möchtest.
 
 ## Der Discord
 

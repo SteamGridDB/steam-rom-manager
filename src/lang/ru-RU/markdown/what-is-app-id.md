@@ -15,4 +15,4 @@ Steam APP ID must not be identical. This can be achieved by changing **Title mod
 - Final app title;
 - Command line arguments.
 
-Most of the time command line will contain unique game path which should allow to generate unique APP IDs.
+Большинство командной строки будет содержать уникальный путь игры, который позволит генерировать уникальные APP ID.

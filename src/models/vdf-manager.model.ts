@@ -1,5 +1,5 @@
 import { ArtworkType, SteamList } from ".";
-import {
+import type {
   VDF_ScreenshotsFile,
   VDF_ShortcutsFile,
   VDF_AddedItemsFile,

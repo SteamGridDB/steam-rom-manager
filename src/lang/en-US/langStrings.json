@@ -26,7 +26,96 @@
       "exportSelections": "Export art",
       "importSelections": "Import art",
       "backButton": "Back",
-      "logButton": "Log"
+      "logButton": "Log",
+      "onboarding": {
+        "heading": "Add your games to Steam",
+        "intro": "Follow these steps to add games to your Steam Library",
+        "step1Before": "Click on the",
+        "step1Strong": "Parse button",
+        "step1After": "to scan your games",
+        "step2": "Wait until all the images are downloaded",
+        "step3Before": "Click on",
+        "step3After": "and wait for the message \"Done adding/removing entries\"",
+        "fixBefore": "If a game has the wrong art hit",
+        "fixMiddle": "and select the correct game, then hit",
+        "excludeBefore": "If you don't want to add all games click",
+        "excludeStrong": "Exclude Apps",
+        "excludeMiddle": "and then select the ones you don't want and hit",
+        "parse": "Parse"
+      },
+      "options": "Options",
+      "titles": {
+        "fixMatch": "Fix Match",
+        "manageExcludes": "Manage Excludes",
+        "selectArtwork": "Select Artwork"
+      },
+      "exclude": {
+        "numberExcluded__i": "Number Excluded: ${count}",
+        "excludeVisible": "Exclude Visible",
+        "includeVisible": "Include Visible",
+        "cancel": "Cancel",
+        "save": "Save Excludes",
+        "putBackTitles": "Put Back Titles",
+        "all": "All",
+        "none": "None",
+        "excludeGames": "Exclude Games"
+      },
+      "details": {
+        "cancel": "Cancel",
+        "reset": "Reset",
+        "saveAndClose": "Save and close",
+        "perAppExceptions": "Per-App-Exceptions",
+        "newTitlePlaceholder": "New Display Title (Optional)",
+        "newSearchTitlePlaceholder": "New Artwork Search (Optional)",
+        "newCommandLineArgumentsPlaceholder": "New Commandline Arguments (Optional)",
+        "useOriginal": "Use Original",
+        "clear": "Clear",
+        "localArtworkOnly": "Local Artwork Only",
+        "forceCompatToolPlaceholder": "Force compatibility tool",
+        "compatInherit": "Inherit from parser",
+        "compatNone": "None (Steam default)",
+        "searchSteamGridDB": "Search SteamGridDB",
+        "gameTitlePlaceholder": "Game Title",
+        "search": "Search",
+        "artworkOnly": "Artwork Only",
+        "titleOnly": "Title Only",
+        "viewOnSGDB": "View on SGDB",
+        "sgdbMatch__i": "Artwork matched to SteamGridDB game ${id}",
+        "clearMatch": "Clear match"
+      },
+      "listImages": {
+        "close": "Close",
+        "upload__i": "Upload ${artworkType}"
+      },
+      "filters": {
+        "sortBy": "Sort games by",
+        "byCategory": "Filter by Steam category",
+        "byParser": "Filter by parser",
+        "other": "Other Filters",
+        "missingArtwork": "Missing artwork",
+        "hasException": "Has an exception",
+        "exportImport": "Export/Import",
+        "exportTitle": "Export image choices",
+        "importTitle": "Import image choices"
+      },
+      "userTitles__i": "${user} (${count} titles)",
+      "sortBy": {
+        "extractedTitle": "Extracted Title",
+        "title": "Final Title",
+        "configurationTitle": "Parser",
+        "sortAsTitle": "Sort As Title"
+      },
+      "appButtons": {
+        "fixMatch": "Fix match",
+        "fix": "Fix",
+        "upload": "Upload",
+        "retry": "Retry",
+        "save": "Save"
+      },
+      "addLocalImagesDialog": {
+        "title": "Choose selections folder location.",
+        "imagesFilter": "Images"
+      }
     },
     "service": {
       "info": {
@@ -71,7 +160,7 @@
         "compatToolSaveError": "Error assigning compatibility tools. See event log for details.",
         "compatToolSaveError__i": "Compatibility tool error (shortcuts and artwork will still be added): ${error}",
         "retryingDownload__i": "Artwork download from \"${imageUrl}\" failed for \"${appTitle}\".",
-        "providerError__i": "Error received from \"${provider}\" for \"${title}\":\n (${url ? `${code}: ${url}` : code}).",
+        "providerError__i": "Error received from \"${provider}\" for \"${title}\":\n (${details}).",
         "unknownProviderError__i": "Error received from \"${provider}\" for \"${title}\":\n ${error}",
         "exportError__i": "Could not save selections package folder: ${error}",
         "importJSONFailError__i": "Could not import selections, JSON was malformed: ${error}",
@@ -339,7 +428,33 @@
       "autoscroll": "Autoscroll",
       "clearLog": "Clear",
       "issueDescription": "Thorough issue description with passable spelling.",
-      "handleExample": "CoolHandle#1234"
+      "handleExample": "CoolHandle#1234",
+      "find": {
+        "placeholder": "Find in output…",
+        "previous": "Previous (Shift+Enter)",
+        "next": "Next (Enter)",
+        "close": "Close (Esc)"
+      },
+      "bugReport": {
+        "describeIssue": "Describe your issue:",
+        "discordHandle": "Discord handle (optional):",
+        "includeVDFs": "Include VDFs (may contain personally identifying info)",
+        "steamDirectory": "Steam Directory:",
+        "steamDirectoryPlaceholder": "C:\\Program Files (x86)\\Steam or ~/.steam/steam",
+        "submit": "Submit Report",
+        "reportId": "Report ID:",
+        "copyReportId": "Copy Report ID to clipboard",
+        "deleteKey": "Delete Key:",
+        "copyDeleteKey": "Copy Delete Key to clipboard",
+        "descriptionBlank": "Description cannot be blank. Please describe your issue.",
+        "uploadError__i": "Could not upload bug report:\n ${error}"
+      },
+      "logFilters": "Log Filters",
+      "logSettings": "Log Settings",
+      "options": "Options",
+      "closeReporter": "Close Reporter",
+      "reportBug": "Report Bug",
+      "back": "Back"
     }
   },
   "customVariables": {
@@ -375,7 +490,8 @@
         "imageProviders": "Artwork Providers",
         "fuzzy": "Fuzzy Matcher",
         "environmentVariables": "Environment Variables",
-        "communityPresets": "Community Presets and Custom Variables"
+        "communityPresets": "Community Presets and Custom Variables",
+        "addGames": "Add Games"
       },
       "text": {
         "autoUpdate": "Check for updates on start",
@@ -389,6 +505,8 @@
         "dnsServers": "DNS manual override",
         "selectLanguage": "Select language",
         "selectTheme": "Select theme",
+        "appThemes": "App themes",
+        "userThemes": "Your themes",
         "resetFuzzy_desc": "fuzzy list",
         "resetFuzzyCache_desc": "fuzzy cache",
         "resetFuzzy_btn": "Reset",
@@ -398,7 +516,22 @@
         "deleteDisabledShortcuts": "Remove shortcuts for disabled parsers",
         "clearLogOnTest": "Automatically clear log before testing parsers",
         "configDir": "Config Directory",
-        "steamDir": "Steam Directory"
+        "steamDir": "Steam Directory",
+        "autoKillSteam": "Auto kill Steam",
+        "autoRestartSteam": "Auto restart Steam",
+        "disableCategories": "Disable saving of steam categories",
+        "hideUserAccount": "Hide Steam username from preview",
+        "removeControllers_desc": "all controllers only",
+        "batchDownloadSize": "Batch size for image downloads",
+        "nuke_btn": "Nuke",
+        "nukeArtworkChoices_desc": "artwork choice cache",
+        "nukeArtworkBackups_desc": "local artwork backups",
+        "forceDownload_btn": "Force download",
+        "shellScripts_desc": "shell scripts",
+        "browse_btn": "Browse",
+        "choose_btn": "Choose",
+        "closeDocs": "Close Docs",
+        "openDocs": "Open Docs"
       },
       "placeholder": {
         "noProviders": "None",
@@ -425,6 +558,160 @@
             "raCoresDirectory": "Typically /lib/x86_64-linux-gnu/libretro/cores/",
             "localImagesDirectory": "For example ~/path/to/localartwork/"
           }
+        },
+        "autoBatchSize": "Auto"
+      },
+      "environmentVariable": {
+        "steamDirectory": "Steam Directory:",
+        "userAccounts": "User Accounts:",
+        "romsDirectory": "ROMs Directory:",
+        "retroarchPath": "Retroarch Path:",
+        "raCoresDirectory": "Retroarch Cores Directory:",
+        "localImagesDirectory": "Local Images Directory:"
+      },
+      "info": {
+        "emptiedArtworkCache": "Emptied artwork cache.",
+        "nukedArtworkBackups": "Nuked artwork backups."
+      },
+      "splash": {
+        "welcome": "Welcome to SRM!",
+        "chooseSteamDirectory": "First, you'll need to choose the location of your Steam Directory.",
+        "steamDirectorySetTo": "Your Steam Directory is set to",
+        "chooseUserAccounts": "Now you need to choose which user accounts SRM should manage.",
+        "changeableIn": "This can be changed in",
+        "settings": "Settings",
+        "overriddenPer": ", and overridden per",
+        "parser": "Parser",
+        "next_btn": "Next",
+        "back_btn": "Back"
+      },
+      "tabs": {
+        "settings": "Settings",
+        "themeEditor": "Theme editor"
+      },
+      "themeEditor": {
+        "appThemes": "App themes",
+        "userThemes": "Your themes",
+        "newTheme": "New theme",
+        "untitled": "My theme",
+        "copyName__i": "${name} (copy)",
+        "appThemeNote__i": "${name} is one of SRM's own themes. Duplicate it to make a version of your own.",
+        "folderNote": "Your themes are saved as files in the themes/user folder of SRM's data folder.",
+        "name": "Name",
+        "colorScheme": "Light or dark",
+        "dark": "Dark",
+        "light": "Light",
+        "layout": "Layout",
+        "preview": "Preview on the app",
+        "search": "Search tokens…",
+        "changedOnly": "Changed only",
+        "inherited__i": "Base theme: ${value}",
+        "clear": "Use the base theme's value",
+        "pickColor": "Pick a color",
+        "gradient": {
+          "open": "Build a gradient",
+          "replaces": "This value isn't a simple linear gradient: building one here replaces it.",
+          "angle": "Angle (degrees)",
+          "stripes": "Hard-edged stripes, like a flag",
+          "flags": "Start from a flag",
+          "addColor": "Add a color",
+          "removeColor": "Remove this color",
+          "flagNames": {
+            "rainbow": "Rainbow",
+            "trans": "Transgender",
+            "bisexual": "Bisexual",
+            "lesbian": "Lesbian",
+            "nonbinary": "Nonbinary",
+            "pansexual": "Pansexual",
+            "asexual": "Asexual"
+          }
+        },
+        "invalid": "Not a valid value for this token",
+        "duplicate": "Duplicate",
+        "save": "Save",
+        "revert": "Revert",
+        "delete": "Delete",
+        "use": "Use this theme",
+        "inUse": "In use",
+        "unsaved": "Unsaved changes",
+        "confirmDelete__i": "Delete the theme \"${name}\"? This can't be undone.",
+        "confirmDiscard": "Discard your unsaved changes?",
+        "saved__i": "Saved the theme \"${name}\"",
+        "deleted__i": "Deleted the theme \"${name}\"",
+        "errors": {
+          "noName": "Give the theme a name",
+          "nameTaken__i": "There is already a theme called \"${name}\"",
+          "invalidTokens__i": "${count} value(s) aren't valid: fix or clear them first",
+          "saving__i": "Could not save the theme: ${error}",
+          "deleting__i": "Could not delete the theme: ${error}"
+        },
+        "groups": {
+          "surfaces": "Surfaces",
+          "text": "Text and icons",
+          "lines": "Lines",
+          "accent": "Accent and states",
+          "scrollbars": "Scrollbars",
+          "depth": "Depth",
+          "type": "Type",
+          "shape": "Shape and space",
+          "motion": "Motion"
+        },
+        "tokens": {
+          "bg": "App background behind everything",
+          "bg-art": "Ambient backdrop over the background (e.g. a soft gradient)",
+          "surface": "Panels: navigation, side panels, menus",
+          "surface-raised": "Cards, inputs, list rows",
+          "surface-hover": "A raised surface under the pointer",
+          "surface-sunken": "Wells: code blocks, empty areas, tracks",
+          "glass": "Translucent panels over artwork (used with blur)",
+          "glass-border": "Edge of glass panels",
+          "scrim": "Dimming behind dialogs and overlays",
+          "art-overlay": "Over artwork while its controls show (keep it translucent)",
+          "text": "Primary text",
+          "text-muted": "Secondary text, labels",
+          "text-subtle": "Hints, placeholders, disabled text",
+          "text-on-accent": "Text on accent-colored backgrounds",
+          "link": "Links in docs and messages",
+          "icon-filter": "Applied to the app's white icons (e.g. brightness(0.35) on light themes)",
+          "border": "Hairlines between areas",
+          "border-strong": "Input and card outlines",
+          "focus-ring": "Keyboard focus outline",
+          "nav-edge": "Bar between the navigation and the page (a color or gradient; none keeps it plain)",
+          "nav-edge-width": "Width of that bar (it's also the handle for resizing the navigation)",
+          "accent": "Brand color: primary buttons, active items, toggles",
+          "accent-hover": "Accent under the pointer",
+          "accent-soft": "Translucent accent: selected rows, badges",
+          "accent-gradient": "Primary call-to-action fill",
+          "success": "Done, valid, enabled",
+          "success-soft": "Translucent success",
+          "warning": "Unsaved, needs attention",
+          "warning-soft": "Translucent warning",
+          "danger": "Destructive actions, errors, invalid input",
+          "danger-soft": "Translucent danger",
+          "info": "Informational highlights",
+          "scrollbar": "Scrollbar thumb",
+          "scrollbar-hover": "Scrollbar thumb under the pointer",
+          "shadow-sm": "Small lift (buttons, chips)",
+          "shadow-md": "Cards, menus",
+          "shadow-lg": "Dialogs, hovered artwork",
+          "glow": "Accent glow (focused/selected artwork)",
+          "blur": "Backdrop blur of glass panels",
+          "font": "Interface text",
+          "font-display": "Headings and titles",
+          "font-mono": "Code, paths, ids",
+          "font-size": "Base text size",
+          "line-height": "Base line height",
+          "radius-sm": "Chips, small controls",
+          "radius-md": "Buttons, inputs",
+          "radius-lg": "Cards, panels",
+          "radius-art": "Artwork corners",
+          "space": "Base spacing unit (paddings and gaps are multiples)",
+          "nav-width": "Default width of the navigation sidebar",
+          "duration-fast": "Hovers, presses",
+          "duration": "Panels opening, crossfades",
+          "duration-slow": "Page transitions",
+          "ease": "Default easing",
+          "ease-spring": "Playful overshoot (hover lifts)"
         }
       }
     },
@@ -449,32 +736,89 @@
       "parsers": "Create Parser",
       "customVariables": "Variables",
       "userExceptions": "Exceptions",
-      "noTitle": "No title!"
+      "noTitle": "No title!",
+      "iconAlt": "Icon",
+      "parsersList": "Parsers",
+      "toggleParsers": "Toggle Parsers",
+      "nonEmuDeck": "Non-EmuDeck",
+      "searchParsers": "Search parsers…",
+      "clearSearch": "Clear search",
+      "newGroupName": "New group name…",
+      "newGroup": "＋ New group",
+      "renameGroup": "Rename group",
+      "deleteGroup": "Ungroup / delete group",
+      "dropParsersHere": "Drop parsers here",
+      "ungrouped": "Ungrouped"
     }
   },
   "userExceptions": {
     "component": {
       "buttons": {
         "save": "Save",
-        "deleteAll": "Clear",
         "undoChanges": "Undo changes",
-        "addItem": "Add exception",
-        "deleteItem": "Remove exception"
+        "deleteItem": "Remove exception",
+        "back": "Back",
+        "openDocs": "Open Docs",
+        "closeDocs": "Close Docs",
+        "putBack": "Put back",
+        "putBackAll": "Put back all",
+        "deleteAllExceptions": "Delete all changes",
+        "clearSgdbMatch": "Clear match",
+        "addExceptionByTitle": "Add a change by title",
+        "addExclusionByTitle": "Exclude a title",
+        "cancelNew": "Cancel: don't add this"
       },
       "text": {
-        "title": "User Exceptions",
-        "exclude": "Exclude Title",
-        "excludeArtwork": "Local Artwork Only"
+        "excludeArtwork": "Local Artwork Only",
+        "emudeckTitle": "Excluded Games & Exceptions",
+        "emudeckDescription": "Here you can see the games you've excluded on the Preview page in case you want to add them back",
+        "newDisplayTitle": "New Display Title:",
+        "newSearchTitle": "New Artwork Search:",
+        "newCommandLineArgs": "New Commandline Args:",
+        "exceptionsDescription": "Per-game changes: a different title in Steam, artwork search or match, launch arguments, compatibility tool. Changes made on the Add Games page apply to that one game; changes added here apply to every game with the given title.",
+        "exclusionsDescription": "Games that are never added to Steam. Exclusions made on the Add Games page apply to that one game; exclusions added here apply to every game with the given title. Putting a game back keeps any changes saved for it.",
+        "byAppId": "Added on Add Games",
+        "byAppIdHelp": "Applies to this one game (by SRM's app id); made on the Add Games page.",
+        "byTitle": "By title",
+        "byTitleHelp": "Applies to every game whose extracted title is exactly this.",
+        "createdOn__i": "Added ${date}",
+        "sgdbMatch__i": "Artwork from SGDB ${id} (Fix match)",
+        "compatTool": "Compatibility tool",
+        "noExceptions": "No changes yet. Make them on the Add Games page (a game's details), or add one by title below.",
+        "noExclusions": "No excluded games. Exclude games on the Add Games page (Manage Excludes), or add one by title below."
       },
       "placeholder": {
-        "sortBy": "Sort By"
+        "sortBy": "Sort By",
+        "search": "Search Exceptions",
+        "extractedTitle": "extractedTitle to override",
+        "displayTitle": "Display title",
+        "searchTitle": "Search title"
+      },
+      "sortBy": {
+        "dateAdded": "Date Added",
+        "extractedTitle": "Extracted Title",
+        "asc__i": "${field} (asc)",
+        "desc__i": "${field} (desc)"
+      },
+      "tabs": {
+        "exceptions__i": "Changes (${count})",
+        "exclusions__i": "Excluded games (${count})"
+      },
+      "compatTool": {
+        "inherit": "Parser default",
+        "none": "None (Steam default)"
+      },
+      "error": {
+        "cannotSave__i": "Could not save: ${error}"
       }
     },
     "service": {
       "error": {
         "loadingError": "Could not load user exceptions",
         "corruptedExceptions__i": "User exceptions corrupt (file - ${file}). Saving is disabled, full error is: ${error}",
-        "writingError": "Error occurred saving user exceptions"
+        "writingError": "Error occurred saving user exceptions",
+        "duplicates": "Cannot save: a game has more than one rule of the same kind (see log)",
+        "duplicates__i": "More than one rule for: ${rules}"
       }
     }
   },
@@ -490,7 +834,12 @@
         "faq": "FAQ",
         "undoChanges": "Undo changes",
         "undoDelete": "Undo delete",
-        "toClipboard": "Copy configuration to clipboard"
+        "toClipboard": "Copy configuration to clipboard",
+        "closeDocs": "Close Docs",
+        "global": "Global",
+        "choose": "Choose",
+        "refetchControllerTemplates": "Re-fetch Controller Templates",
+        "unsetControllers": "Unset Controllers for Parser"
       },
       "info": {
         "testStarting__i": "Testing \"${title}\" parser (SRM version - ${version} ${portable}).",
@@ -542,7 +891,11 @@
         "resolvedLocalImages__i": "[${index}/${total}]: Local ${artworkType} glob:",
         "indexInfo__i": "[${index}/${total}]:                        ${indexed}",
         "removedControllers__i": "Succesfully removed controllers for parser: ${configTitle}",
-        "fetchedTemplates": "Fetched all controller templates"
+        "fetchedTemplates": "Fetched all controller templates",
+        "parserId__i": "Parser ID: ${parserId}",
+        "numberOfTitles__i": "Number of Titles: ${count}",
+        "titleWaterfall__i": "[${index}/${total}]: Title Waterfall:",
+        "titleWaterfallEntry__i": "[${index}/${total}]: (${titleIndex})${space}${titleKey} is \"${title}\""
       },
       "label": {
         "parserType": "Parser type",
@@ -563,7 +916,14 @@
         "imageProviders": "Artwork providers",
         "defaultImage__i": "Fallback ${artworkType}",
         "overlayImages__i": "Overlay ${artworkType}",
-        "localImages__i": "Local ${artworkType} glob"
+        "localImages__i": "Local ${artworkType} glob",
+        "communityPresets": "Community Presets",
+        "group": "Group",
+        "sortAsFromVariable": "Sort-title from custom variable",
+        "steamInputEnabled": "Enable Steam Input",
+        "controllerTemplate__i": "${controller} Template",
+        "compatToolName": "Force compatibility tool",
+        "compatToolNameCustom": "Custom compatibility tool name"
       },
       "placeholder": {
         "parserType": "Select parser...",
@@ -611,7 +971,15 @@
           "Linux": "/path/to/start-in-dir/"
         },
         "imageProviders": "None",
-        "multiAPIPlaceholder": "No Filter"
+        "multiAPIPlaceholder": "No Filter",
+        "communityPresets": "Search for preset",
+        "group": "Select or type a new group (leave blank for ungrouped)",
+        "titleVariables": "Select title variables",
+        "sortAsVariables": "Select sort-title variables",
+        "steamInputEnabled": "Use default settings",
+        "controllerTemplate": "Select a Template",
+        "compatToolName": "Don't force a tool",
+        "compatToolNameCustom": "e.g. GE-Proton9-20"
       },
       "text": {
         "skipFileIfVariableWasNotFound": "Skip file if variable was not found",
@@ -624,7 +992,30 @@
         "appendArgsToExecutable": "Append arguments to executable",
         "disabled": "Disable current parser",
         "advanced": "Show advanced options",
-        "noTitle": "No title!"
+        "noTitle": "No title!",
+        "newGroup": "New group",
+        "drmProtect": "Local backups (DRM takedown protection)",
+        "compatCustom": "Custom…",
+        "portable": "Portable",
+        "nonPortable": "Non-Portable",
+        "chooseParser": "Choose a parser on the left to edit it, or create a new one."
+      },
+      "section": {
+        "basic": "Basic Configuration",
+        "parserSpecific": "Parser Specific Configuration",
+        "executable": "Executable Configuration",
+        "titleModification": "Title Modification Configuration",
+        "controllerTemplates": "Controller Templates Configuration",
+        "steamPlayCompat": "Steam Play Compatibility",
+        "artworkProvider": "Artwork Provider Configuration",
+        "filtersFor__i": "Filters for ${provider}",
+        "overlayArtwork": "Overlay Artwork Configuration",
+        "localArtwork": "Local Artwork Configuration"
+      },
+      "steamInputOptions": {
+        "disabled": "Disabled",
+        "useDefault": "Use default settings",
+        "enabled": "Enabled"
       }
     },
     "service": {
@@ -721,6 +1112,59 @@
   "helpers": {
     "error": {
       "noUserIdsInDir__i": "\"${steamDirectory}\" contains no user ids."
+    }
+  },
+  "view": {
+    "component": {
+      "searchGames": "Search Games",
+      "shortcutInfo": "SHORTCUT INFO",
+      "fullShortcut": "FULL SHORTCUT",
+      "startDirectory": "START DIRECTORY",
+      "categories": "CATEGORIES",
+      "artwork": "ARTWORK",
+      "controllers": "CONTROLLERS",
+      "enableSteamInput": "ENABLE STEAM INPUT",
+      "refreshGames": "Refresh Games",
+      "launchTitle": "Launch Title",
+      "back": "Back",
+      "readingShortcuts": "Reading Shortcuts, Categories, and Controllers",
+      "copiedToClipboard": "Copied to clipboard"
+    }
+  },
+  "chooseAccounts": {
+    "component": {
+      "title": "Choose Steam Accounts",
+      "iconAlt": "Icon",
+      "cancel": "Cancel",
+      "save": "Save"
+    }
+  },
+  "updateNotifier": {
+    "component": {
+      "buttons": {
+        "close": "Close",
+        "no": "No",
+        "yes": "Yes",
+        "cancel": "Cancel",
+        "restart": "Restart"
+      },
+      "messages": {
+        "updateViaEmuDeck": "An update is available, please update via EmuDeck.",
+        "updateAvailable": "An update is available. Download it now?",
+        "updatePortable": "An update is available. <a href=\"https://github.com/SteamGridDB/steam-rom-manager/releases/latest\">Download it now?</a>",
+        "updateDownloaded": "Update downloaded. Restart now?"
+      }
+    }
+  },
+  "forms": {
+    "component": {
+      "required": "*Required",
+      "important": "*Important",
+      "create": "Create",
+      "browse": "Browse",
+      "noResults": "No results...",
+      "optionsLoading": "Options Loading...",
+      "uncategorized": "Uncategorized"
     }
   }
 }

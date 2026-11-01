@@ -16,64 +16,17 @@ import {
   SteamInputEnabled,
 } from "../models";
 import { Acceptable_Error } from "./acceptable-error";
+import { controllerTypes } from "./controller-types";
+export {
+  controllerTypes,
+  controllerNames,
+  enableDisplayNames,
+} from "./controller-types";
 
 // Sadly all sources seem to be partial, but some good ones are:
 // https://partner.steamgames.com/doc/features/steam_controller/action_manifest_file
 // https://www.scribd.com/document/505055463/Tenfoot-Czech#content=query:controller_gamecube,pageNum:194,indexOnPage:0,bestMatch:false
 // https://www.steaminputdb.com/config/search
-
-export const controllerTypes = [
-  "gamecube",
-  "wii",
-  "ps3",
-  "ps4",
-  "ps5",
-  "ps5_edge",
-  "xbox360",
-  "xboxone",
-  "xboxelite",
-  "switch_joycon_left",
-  "switch_joycon_right",
-  "switch_joycon_pair",
-  "switch_pro",
-  "switch2_pro",
-  "neptune",
-  "triton",
-  "steamcontroller_gordon",
-  "generic",
-  "8bitdo",
-  "rog_ally",
-  "legion_go_s"
-];
-export const controllerNames = {
-  gamecube: "Gamecube Controller",
-  wii: "Wii Remote",
-  ps3: "PS3 Controller",
-  ps4: "PS4 Controller",
-  ps5: "PS5 Controller",
-  ps5_edge: "PS5 Dualsense Edge Controller",
-  xbox360: "Xbox 360 Controller",
-  xboxone: "Xbox One Controller",
-  xboxelite: "Xbox One Elite Controller",
-  switch_joycon_left: "Switch Joy-Con (Left)",
-  switch_joycon_right: "Switch Joy-Con (Right)",
-  switch_joycon_pair: "Switch Joy-Con (Pair)",
-  switch_pro: "Switch Pro Controller",
-  switch2_pro: "Switch 2 Pro Controller",
-  neptune: "Steam Deck",
-  triton: "Steam Controller (Triton 2026)",
-  steamcontroller_gordon: "Steam Controller (Gordon 2015)",
-  generic: "Generic Controller",
-  "8bitdo": "8bitdo Controller",
-  rog_ally: "ASUS ROG Ally",
-  legion_go_s: "Lenovo Legion Go S"
-};
-
-export const enableDisplayNames: Record<SteamInputEnabled, string> = {
-  ["0"]: "Disabled",
-  ["1"]: "Use default settings",
-  ["2"]: "Enabled",
-};
 
 const match = "(SRM)";
 const topKey = "controller_config";
@@ -116,99 +69,102 @@ export class ControllerManager {
     return path.join(steamDirectory, "controller_base", "templates");
   }
   // Manage Templates
-  static async readTemplates(steamDirectory: string, controllerType: string) {
-    let templateDirUser = this.templatesUserDir(steamDirectory);
-    let filesUser = await glob("*/*", {
-      dot: true,
-      cwd: templateDirUser,
-      absolute: true,
-    });
-    let parsedTemplatesUser: ControllerTemplate[] = (
-      await Promise.all(
-        filesUser
-          .filter((f: string) => fs.lstatSync(f).isFile())
-          .map(async (f: string) =>
-            Object.assign(
-              { mappingId: f.split(path.sep).slice(-2)[0] },
-              genericParser.parse(await fs.readFile(f, "utf-8")),
-            ),
-          ),
-      )
-    )
-      .filter(
-        (x: any) =>
-          !!x["controller_mappings"] &&
-          !!x["controller_mappings"]["title"] &&
-          !!x["controller_mappings"]["controller_type"],
-      )
-      .filter(
-        (x: any) =>
-          x.controller_mappings.controller_type ===
-          "controller_" + controllerType,
-      )
-      .filter(
-        (x: any) =>
-          String(x.controller_mappings.title).slice(-match.length) === match,
-      )
-      .map((x: any) =>
-        Object.assign(
-          {},
-          {
-            title: x.controller_mappings.title,
-            mappingId: x.mappingId,
-            profileType: "workshop",
-          },
-        ),
-      );
-    parsedTemplatesUser.sort((a, b) => a.title.localeCompare(b.title));
 
-    let templateDirValve = this.templatesValveDir(steamDirectory);
-    let filesValve = await glob("*.vdf", {
+  // Every controller type's templates, from one pass over the template
+  // files (each was parsed once per controller type before): the user's
+  // own SRM workshop templates (titled "... (SRM)"), then Valve's.
+  static async readAllTemplates(
+    steamDirectory: string,
+  ): Promise<Record<string, ControllerTemplate[]>> {
+    const parse = async (file: string, mappingId: string) => {
+      try {
+        return Object.assign(
+          { mappingId },
+          genericParser.parse(await fs.readFile(file, "utf-8")),
+        );
+      } catch {
+        return undefined; // (not a template)
+      }
+    };
+    const typeOf = (x: any): string | undefined => {
+      const mappings = x?.controller_mappings;
+      if (!mappings?.title || !mappings?.controller_type) return undefined;
+      return String(mappings.controller_type).replace(/^controller_/, "");
+    };
+    const byType: Record<string, ControllerTemplate[]> = Object.fromEntries(
+      controllerTypes.map((type) => [type, []]),
+    );
+
+    const userFiles = (
+      await glob("*/*", {
+        dot: true,
+        cwd: this.templatesUserDir(steamDirectory),
+        withFileTypes: true,
+      })
+    )
+      .filter((f) => f.isFile())
+      .map((f) => f.fullpath());
+    const userTemplates = await Promise.all(
+      userFiles.map((f) => parse(f, f.split(path.sep).slice(-2)[0])),
+    );
+    for (const x of userTemplates) {
+      const type = typeOf(x);
+      if (
+        type &&
+        byType[type] &&
+        String(x.controller_mappings.title).slice(-match.length) === match
+      ) {
+        byType[type].push({
+          title: x.controller_mappings.title,
+          mappingId: x.mappingId,
+          profileType: "workshop",
+        });
+      }
+    }
+
+    const valveFiles = await glob("*.vdf", {
       dot: true,
-      cwd: templateDirValve,
+      cwd: this.templatesValveDir(steamDirectory),
       absolute: true,
     });
-    let parsedTemplatesValve: ControllerTemplate[] = filesValve
-      .map((f: string) =>
-        Object.assign(
-          { mappingId: path.basename(f) },
-          genericParser.parse(fs.readFileSync(f, "utf-8")),
-        ),
-      )
-      .filter(
-        (x: any) =>
-          !!x["controller_mappings"] &&
-          !!x["controller_mappings"]["title"] &&
-          !!x["controller_mappings"]["controller_type"],
-      )
-      .filter(
-        (x: any) =>
-          x.controller_mappings.controller_type ===
-          "controller_" + controllerType,
-      )
-      .map((x: any) =>
-        Object.assign(
-          {},
-          {
-            title:
-              json.caselessGet(
-                x,
-                [
-                  ["controller_mappings"],
-                  ["localization"],
-                  ["english"],
-                  ["title"],
-                ],
-                true,
-              ) || json.caselessGet(x, [["controller_mappings"], ["title"]]),
-            mappingId: x.mappingId,
-            profileType: "template",
-          },
-        ),
-      );
-    parsedTemplatesValve = _.uniqBy(parsedTemplatesValve, "title");
-    parsedTemplatesValve.sort((a, b) => a.title.localeCompare(b.title));
-    return parsedTemplatesUser.concat(parsedTemplatesValve);
+    const valveTemplates = await Promise.all(
+      valveFiles.map((f) => parse(f, path.basename(f))),
+    );
+    const valveByType: Record<string, ControllerTemplate[]> = {};
+    for (const x of valveTemplates) {
+      const type = typeOf(x);
+      if (type && byType[type]) {
+        (valveByType[type] ??= []).push({
+          title:
+            json.caselessGet(
+              x,
+              [
+                ["controller_mappings"],
+                ["localization"],
+                ["english"],
+                ["title"],
+              ],
+              true,
+            ) || json.caselessGet(x, [["controller_mappings"], ["title"]]),
+          mappingId: x.mappingId,
+          profileType: "template",
+        });
+      }
+    }
+
+    const byTitle = (a: ControllerTemplate, b: ControllerTemplate) =>
+      a.title.localeCompare(b.title);
+    for (const type of Object.keys(byType)) {
+      byType[type].sort(byTitle);
+      const valve = _.uniqBy(valveByType[type] ?? [], "title").sort(byTitle);
+      byType[type] = byType[type].concat(valve);
+    }
+    return byType;
+  }
+
+  // One controller type's templates.
+  static async readTemplates(steamDirectory: string, controllerType: string) {
+    return (await this.readAllTemplates(steamDirectory))[controllerType] ?? [];
   }
 
   // Manage Controllers
@@ -303,9 +259,10 @@ export class ControllerManager {
 
   private backupControllers(configsetDir: string) {
     for (const controllerType of controllerTypes) {
+      // (the files read and written: configset_controller_<type>.vdf)
       let configsetPath = path.join(
         configsetDir,
-        `configset_${controllerType}.vdf`,
+        `configset_controller_${controllerType}.vdf`,
       );
       let bkPath = configsetPath + ".backup";
       if (fs.existsSync(configsetPath)) {
@@ -442,8 +399,10 @@ export class ControllerManager {
     }
   }
   readLocalConfig(localConfigPath: string): any {
-    let localConfig =
-      genericParser.parse(fs.readFileSync(localConfigPath, "utf-8")) || {};
+    // (an account without one yet: start empty, don't fail every user)
+    let localConfig = fs.existsSync(localConfigPath)
+      ? genericParser.parse(fs.readFileSync(localConfigPath, "utf-8")) || {}
+      : {};
     if (!localConfig[localTopKey]) {
       localConfig[localTopKey] = { apps: [] };
     } else if (!localConfig[localTopKey].apps) {
@@ -462,11 +421,14 @@ export class ControllerManager {
     this.backupLocalConfig(localConfigPath);
     let localConfig = this.readLocalConfig(localConfigPath);
     for (const appId of extraneousAppIds) {
-      const shiftId = steam.shortcutifyAppId(appId);
-      if (
-        ((x) => x && x[srmParserKey])(localConfig[localTopKey].apps[shiftId])
-      ) {
-        delete localConfig[localTopKey].apps[shiftId];
+      // (written under the short id now; older SRM used the signed one)
+      for (const key of [
+        steam.shortenAppId(appId),
+        String(steam.shortcutifyAppId(appId)),
+      ]) {
+        if (((x) => x && x[srmParserKey])(localConfig[localTopKey].apps[key])) {
+          delete localConfig[localTopKey].apps[key];
+        }
       }
     }
     for (let appId of Object.keys(user.userData.apps).filter(

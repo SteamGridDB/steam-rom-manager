@@ -1,4 +1,4 @@
-# Standaardafbeelding (optioneel) `[ondersteunt variabelen]`{.noWrap}
+# Default image `[supports variables]`{.noWrap}
 
 Hiermee kan een lokaal opgeslagen afbeelding worden gebruikt als standaard-/terugvalafbeelding. Een [special glob input](#special-glob-input) string wordt gebruikt om afbeeldingen op te halen. Alleen de eerste opgehaalde afbeelding wordt gebruikt.
 

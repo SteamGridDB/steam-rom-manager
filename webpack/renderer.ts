@@ -4,7 +4,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import { merge } from "webpack-merge";
-import { Configuration } from "webpack";
+import { Configuration, NormalModuleReplacementPlugin } from "webpack";
 import * as path from "path";
 import * as helpers from "./helpers";
 
@@ -15,8 +15,9 @@ const jimpCommonjsEntry = path.join(
   "index.js",
 );
 
+// The UI is a plain web page: no Node or Electron (see src/bridge.ts).
 let clientConfig: Configuration = {
-  target: "electron-renderer",
+  target: "web",
   entry: {
     renderer: "./renderer/app.ts",
   },
@@ -91,6 +92,11 @@ let clientConfig: Configuration = {
     ],
   },
   plugins: [
+    // OS facts come from the main process (src/env-info.ts uses Node).
+    new NormalModuleReplacementPlugin(
+      /^\.\.?\/(.*\/)?env-info$/,
+      helpers.root("src", "renderer", "shims", "env-info.ts"),
+    ),
     new MiniCssExtractPlugin({
       filename: "styles/globalStyles.css",
     }),
@@ -100,9 +106,6 @@ let clientConfig: Configuration = {
     }),
   ],
   node: false,
-  externals: {
-    "better-sqlite3": "commonjs better-sqlite3",
-  },
 };
 
 let developmentConfig: Configuration = {

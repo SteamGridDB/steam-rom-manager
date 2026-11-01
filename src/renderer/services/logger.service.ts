@@ -7,13 +7,8 @@ import {
   MessageSettings,
   LogSettings,
 } from "../../models";
-import { xRequest } from "../../lib/x-request";
-import * as paths from "../../paths";
-import * as fs from "fs-extra";
-import * as path from "path";
 @Injectable()
 export class LoggerService {
-  private static xRequest = new xRequest();
   private alertMessage: BehaviorSubject<AlertMessage> =
     new BehaviorSubject<AlertMessage>(undefined);
   private logMessages: BehaviorSubject<LogMessage[]> = new BehaviorSubject<
@@ -43,9 +38,9 @@ export class LoggerService {
   }
 
   error(message: string | Error, settings?: MessageSettings) {
-    console.warn(message)
-    if(message instanceof Error) {
-      this.postMessage("error", message.message, settings)
+    console.warn(message);
+    if (message instanceof Error) {
+      this.postMessage("error", message.message, settings);
     } else {
       this.postMessage("error", message, settings);
     }
@@ -97,101 +92,12 @@ export class LoggerService {
     this.logMessages.next([]);
   }
 
-  _read_to_blob(path: string) {
-    return new Blob([new Uint8Array(fs.readFileSync(path))])
-  } 
-
-  submitReport(
-    description: string,
-    useVDFs: boolean,
-    discordUser?: string,
-    steamDirectory?: string,
-  ) {
-    return new Promise<{ key: string; deleteKey: string }>(
-      (resolve, reject) => {
-        let body = new FormData();
-        body.append(
-          "description",
-          new Blob([
-            `Description: ${description}\n\n Discord User: ${discordUser}`,
-          ]),
-          "description.txt",
-        );
-        let logMessages = this.logMessages
-          .getValue()
-          .map((item: any) => `[${item.type}] ${item.text}`);
-        body.append(
-          "logMessages",
-          new Blob([logMessages.join("\n")]),
-          "log.txt",
-        );
-        if (fs.existsSync(paths.userSettings)) {
-          let userSettings = this._read_to_blob(paths.userSettings);
-          body.append("files[]", userSettings, "userSettings.json");
-        }
-        if (fs.existsSync(paths.userConfigurations)) {
-          let userConfigurations = this._read_to_blob(paths.userConfigurations);
-          body.append("files[]", userConfigurations, "userConfigurations.json");
-        }
-        if (fs.existsSync(paths.userExceptions)) {
-          let userExceptions = this._read_to_blob(paths.userExceptions)
-          body.append("files[]", userExceptions, "userExceptions.json");
-        }
-        if (useVDFs) {
-          let userData = path.join(steamDirectory, "userdata");
-          let dirx = new RegExp("^[0-9]*$");
-          let userDirs = fs
-            .readdirSync(userData, { withFileTypes: true })
-            .filter((dirent) => dirent.isDirectory() && dirx.test(dirent.name))
-            .map((dirent) => dirent.name);
-          for (let userDir of userDirs) {
-            let shortcutsVDFPath = path.join(
-              steamDirectory,
-              "userdata",
-              userDir,
-              "config",
-              "shortcuts.vdf",
-            );
-            if (fs.existsSync(shortcutsVDFPath)) {
-              let shortcutsVDF = this._read_to_blob(shortcutsVDFPath)
-              body.append("files[]", shortcutsVDF, `shortcuts_${userDir}.vdf`);
-            }
-            let screenshotsVDFPath = path.join(
-              steamDirectory,
-              "userdata",
-              userDir,
-              "760",
-              "screenshots.vdf",
-            );
-            if (fs.existsSync(screenshotsVDFPath)) {
-              let screenshotsVDF = this._read_to_blob(screenshotsVDFPath);
-              body.append(
-                "files[]",
-                screenshotsVDF,
-                `screenshots_${userDir}.vdf`,
-              );
-            }
-          }
-        }
-        return LoggerService.xRequest
-          .request("https://logs.jozen.blue/logs", {
-            responseType: "json",
-            method: "POST",
-            body: body,
-            timeout: 10000,
-          })
-          .then((data: any) => {
-            if (data && data.key && data.delete_key) {
-              resolve({ key: data.key, deleteKey: data.delete_key });
-            } else {
-              reject(`Bug report server returned no data.`);
-            }
-          })
-          .catch((err) => {
-            reject(`Bug report server error: ${JSON.stringify(err)}`);
-          });
-      },
-    );
+  // The log as plain text (for bug reports).
+  logText() {
+    return this.logMessages
+      .getValue()
+      .map((item: any) => `[${item.type}] ${item.text}`)
+      .join("\n");
   }
 
   getAlertMessage() {

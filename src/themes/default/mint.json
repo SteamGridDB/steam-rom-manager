@@ -1,0 +1,33 @@
+{
+  "name": "Mint",
+  "colorScheme": "dark",
+  "tokens": {
+    "bg": "#0a1210",
+    "bg-art": "radial-gradient(1100px 600px at 90% -10%, rgba(61, 220, 151, 0.11), transparent 60%), radial-gradient(900px 500px at -10% 110%, rgba(43, 184, 196, 0.09), transparent 60%)",
+    "surface": "#0f1a17",
+    "surface-raised": "#15231f",
+    "surface-hover": "#1c2e29",
+    "surface-sunken": "#08100e",
+    "glass": "rgba(17, 30, 26, 0.72)",
+    "glass-border": "rgba(160, 255, 215, 0.08)",
+    "text": "#e7f6f0",
+    "text-muted": "#9cc1b3",
+    "text-subtle": "#63857a",
+    "text-on-accent": "#04241a",
+    "link": "#7ff0c4",
+    "border": "rgba(160, 255, 215, 0.07)",
+    "border-strong": "rgba(160, 255, 215, 0.14)",
+    "focus-ring": "rgba(61, 220, 151, 0.6)",
+    "accent": "#3ddc97",
+    "accent-hover": "#66e6ad",
+    "accent-soft": "rgba(61, 220, 151, 0.16)",
+    "accent-gradient": "linear-gradient(135deg, #3ddc97 0%, #2bb8c4 100%)",
+    "success": "#9be38a",
+    "success-soft": "rgba(155, 227, 138, 0.15)",
+    "info": "#5ec8e0",
+    "scrollbar": "rgba(160, 255, 215, 0.12)",
+    "scrollbar-hover": "rgba(160, 255, 215, 0.24)",
+    "glow": "0 0 0 2px rgba(61, 220, 151, 0.85), 0 8px 30px rgba(43, 184, 196, 0.32)",
+    "radius-art": "14px"
+  }
+}

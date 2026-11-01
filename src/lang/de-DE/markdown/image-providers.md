@@ -1,7 +1,7 @@
-# Bildanbieter
+# Artwork providers
 
-Hier kannst du Bildanbieter auswählen, die zum Abrufen von Bildern zur Verfügung stehen. Diese Einstellung ist nur für diese Konfiguration.
+Here you can select artwork providers (online sources of game art) that are used by SRM to get art for your games.
 
 ## Ähnliche Option im Menü "Einstellungen"
 
-Im Einstellungsmenü gibt es auch die Option "Aktivierte Anbieter", die Bildanbieter global aktiviert - wenn dies in den Einstellungen nicht aktiviert ist, wird es nicht funktionieren.
+Settings menu has "Enabled providers" which enable artwork providers globally -- if it's not enabled in Settings, it won't work.

@@ -1,8 +1,7 @@
-import { HttpClient } from "@angular/common/http";
 import { FuzzyListTimestamps, FuzzyEventCallback, FuzzyError } from "../models";
 import { FuzzyMatcher } from "./fuzzy-matcher";
 import { BehaviorSubject } from "rxjs";
-import { timeout } from "rxjs/operators";
+import { Fetch, getJson } from "../core/http";
 import * as paths from "../paths";
 import * as json from "./helpers/json";
 
@@ -17,7 +16,7 @@ export class FuzzyListLoader {
   private timeout: number = 120000; //timeout
 
   constructor(
-    private http: HttpClient,
+    private fetch: Fetch,
     private eventCallback: FuzzyEventCallback,
     private isOfflineMode?: () => boolean,
     private timestamps?: FuzzyListTimestamps,
@@ -166,54 +165,29 @@ export class FuzzyListLoader {
     return this.saveCache();
   }
 
-  private getTotalCount() {
-    return new Promise<number>((resolve, reject) => {
-      this.http
-        .get("https://steamgriddb.com/api/games/?total")
-        .pipe(timeout(this.timeout))
-        .subscribe(
-          (response: { [k: string]: any; totalGames: string }) => {
-            try {
-              if (response["totalGames"] !== undefined)
-                resolve(parseInt(response["totalGames"]));
-              else reject("totalGamesIsUndefined");
-            } catch (error) {
-              reject(error);
-            }
-          },
-          (error: string) => {
-            reject(error);
-          },
-        );
-    });
+  private async getTotalCount(): Promise<number> {
+    const response = await getJson(
+      this.fetch,
+      "https://steamgriddb.com/api/games/?total",
+      this.timeout,
+    );
+    if (response["totalGames"] === undefined) {
+      throw "totalGamesIsUndefined";
+    }
+    return parseInt(response["totalGames"]);
   }
 
-  private downloadList() {
-    return new Promise<{
-      totalGames: number;
-      games: string[];
-      cache: { [key: string]: any };
-    }>((resolve, reject) => {
-      this.http
-        .get("https://steamgriddb.com/api/games/")
-        .pipe(timeout(this.timeout))
-        .subscribe(
-          (response: {
-            [k: string]: any;
-            totalGames: number;
-            games: string[];
-          }) => {
-            try {
-              resolve(Object.assign(response, { cache: {} }));
-            } catch (error) {
-              reject(error);
-            }
-          },
-          (error: string) => {
-            reject(error);
-          },
-        );
-    });
+  private async downloadList(): Promise<{
+    totalGames: number;
+    games: string[];
+    cache: { [key: string]: any };
+  }> {
+    const response = await getJson(
+      this.fetch,
+      "https://steamgriddb.com/api/games/",
+      this.timeout,
+    );
+    return Object.assign(response, { cache: {} });
   }
 
   private readList() {

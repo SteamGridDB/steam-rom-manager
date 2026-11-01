@@ -1,13 +1,10 @@
-# Community Presets
+# Preajustes de la Comunidad
+Estos son los ajustes del parser que han sido creados por la comunidad de SRM y solo necesita ajustar un poco ciertos parámetros específicos del sistema para que funcionen (usualmente solo `los Directorios a los ROMs` y el `Ejecutable` necesitan ser seleccionados).
 
-These are parser configurations that have been created by the SRM community and just need to be altered slightly with a few system specific parameters in order to work (usually just `ROMs Directory` and `Executable` need to be specified).
+## Analizador Genérico
+El Analizador Genérico (busca `Genérico` en predefinidos) funciona para una amplia variedad de emuladores que no necesitan argumentos específicos de línea de comandos para funcionar, por ejemplo:
+* Yuzu
+* Citra
+* Xenia (añade `--fullscreen` en los `Argumentos de Línea de Comandos` si lo deseas)
 
-## Generic Parser
-
-The Generic Parser (search `Generic` in presets) works for a wide variety of emulators that don't need specific commandline arguments in order to work, for example:
-
-- Yuzu
-- Citra
-- Xenia (add `--fullscreen` in `Command Line Arguments` if desired)
-
-If you have an emulator that isn't in the list of community presets, it is probably worth a shot to try the generic parser. If it works let us know and we will add a preset for it!
+Si tienes un emulador que no está en la lista de presets de la comunidad, probablemente vale la pena probar el analizador genérico. ¡Si funciona, háganoslo saber y vamos a añadir un ajuste predefinido para este!

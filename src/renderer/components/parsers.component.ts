@@ -1,5 +1,4 @@
-import { VariableParser } from "../../lib";
-import { clipboard } from "electron";
+import { VariableParser } from "../../lib/variable-parser";
 import {
   Component,
   AfterViewInit,
@@ -9,6 +8,7 @@ import {
   Renderer2,
   ElementRef,
   RendererStyleFlags2,
+  Input,
 } from "@angular/core";
 import { FormGroup, AbstractControl } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -18,14 +18,15 @@ import {
   ImageProviderService,
   SettingsService,
   ConfigurationPresetsService,
-  ShellScriptsService,
-  IpcService,
   UserExceptionsService,
   CustomVariablesService,
 } from "../services";
 import * as parserInfo from "../../lib/parsers/available-parsers";
-import * as steam from "../../lib/helpers/steam";
-import { controllerTypes, controllerNames } from "../../lib/controller-manager";
+import * as steam from "../../lib/helpers/steam/generate-app-id";
+import { COMPAT_CUSTOM } from "../../lib/helpers/steam/compat-constants";
+import type { CompatToolInfo } from "../../lib/helpers/steam/compat-constants";
+import { controllerTypes, controllerNames } from "../../lib/controller-types";
+import { CoreClientService } from "../services/core-client.service";
 import {
   artworkTypes,
   artworkViewNames,
@@ -42,18 +43,18 @@ import {
   CustomVariables,
   TitleModifiers,
 } from "../../models";
-import { BehaviorSubject, Subscription, of, concat, combineLatest } from "rxjs";
-import { map } from "rxjs/operators";
+import { Subscription, of, concat, combineLatest } from "rxjs";
+import { distinctUntilChanged, map } from "rxjs/operators";
+import { commonField } from "../../core/parser-fields";
 import { APP } from "../../variables";
 import * as _ from "lodash";
-import * as os from "os";
 import {
   imageProviderNames,
   onlineProviders,
   providersSelect,
 } from "../../lib/image-providers/available-providers";
 @Component({
-  selector: "parsers",
+  selector: "parser-editor",
   templateUrl: "../templates/parsers.component.html",
   styleUrls: ["../styles/parsers.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -64,7 +65,18 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     content: "",
   };
   showMarkdown: boolean = false;
-  configurationIndex: number = -1;
+  // The parser this editor edits ("new": one being created). The parsers
+  // page makes a new editor for each parser, so no state carries over.
+  @Input() parserId: string = "new";
+  // Its position in the list (-1 for a new parser).
+  get configurationIndex(): number {
+    return this.parserId === "new"
+      ? -1
+      : this.parsersService.indexOfParser(this.parserId);
+  }
+  // The form's value as last written to the parser's unsaved edits: not
+  // reloaded when it comes back from the service.
+  private lastWritten: UserConfiguration = null;
   isUnsaved: boolean = false;
   configPresets: ConfigPresets = {};
   customVariables: CustomVariables = {};
@@ -83,7 +95,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private appSettings: AppSettings;
   private formChanges: Subscription = new Subscription();
   private chooseAccountsControl: AbstractControl;
-  private CLI_MESSAGE: BehaviorSubject<string> = new BehaviorSubject("");
 
   constructor(
     private parsersService: ParsersService,
@@ -98,27 +109,20 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     private changeRef: ChangeDetectorRef,
     private cpService: ConfigurationPresetsService,
     private cvService: CustomVariablesService,
-    private ssService: ShellScriptsService,
-    private ipcService: IpcService,
+    private coreClient: CoreClientService,
   ) {
     this.appSettings = this.settingsService.getSettings();
     this.currentDoc.content = this.lang.docs__md.intro.join("");
-    this.activatedRoute.queryParamMap.subscribe((paramContainer: any) => {
-      let params = ({ ...paramContainer } as any).params;
-      if (params["cliMessage"]) {
-        this.CLI_MESSAGE.next(params["cliMessage"]);
-      }
-    });
     this.nestedGroup = new NestedFormElement.Group({
       children: {
         basicSection: new NestedFormElement.Section({
-          label: "Basic Configuration",
+          label: this.lang.section.basic,
         }),
         parserType: new NestedFormElement.Select({
           label: this.lang.label.parserType,
           placeholder: this.lang.placeholder.parserType,
           sectionsMap: parserInfo.superTypesMap,
-          required: true,
+          required: commonField("parserType").required,
           values: parserInfo.availableParsers,
           onValidate: (self, path) =>
             this.parsersService.validate(
@@ -144,7 +148,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         configTitle: new NestedFormElement.Input({
           placeholder: this.lang.placeholder.configTitle,
-          required: true,
+          required: commonField("configTitle").required,
           label: this.lang.label.configTitle,
           onValidate: (self, path) =>
             this.parsersService.validate(
@@ -158,9 +162,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         group: new NestedFormElement.ComboBox({
           values: this.parsersService.getParserGroups().map((g) => g.name),
-          placeholder: "Select or type a new group (leave blank for ungrouped)",
-          createLabel: "New group",
-          label: "Group",
+          placeholder: this.lang.placeholder.group,
+          createLabel: this.lang.text.newGroup,
+          label: this.lang.label.group,
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
             this.currentDoc.content = this.lang.docs__md.group.join("");
@@ -168,8 +172,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         steamDirectory: new NestedFormElement.Input({
           path: { directory: true },
-          placeholder: this.lang.placeholder.steamDirectory[os.type()],
-          required: true,
+          placeholder: this.lang.placeholder.steamDirectory[APP.osType],
+          required: commonField("steamDirectory").required,
           label: this.lang.label.steamDirectory,
           highlight: this.highlight.bind(this),
           onValidate: (self, path) =>
@@ -184,7 +188,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
           buttons: [
             new NestedFormElement.Button({
-              buttonLabel: "Global",
+              buttonLabel: this.lang.buttons.global,
               onClickControlMethod: (control: AbstractControl) => {
                 control.setValue("${steamdirglobal}");
               },
@@ -195,7 +199,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           children: {
             specifiedAccounts: new NestedFormElement.Bubble({
               label: this.lang.label.userAccounts,
-              required: true,
+              required: commonField("userAccounts.specifiedAccounts").required,
               onValidate: (self, path) => {
                 let serialized: { [k: string]: any } = {};
                 serialized[path[1]] = self.value;
@@ -206,14 +210,14 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               },
               buttons: [
                 new NestedFormElement.Button({
-                  buttonLabel: "Choose",
+                  buttonLabel: this.lang.buttons.choose,
                   onClickControlMethod: (control: AbstractControl) => {
                     this.chooseAccountsControl = control;
                     this.chooseAccounts();
                   },
                 }),
                 new NestedFormElement.Button({
-                  buttonLabel: "Global",
+                  buttonLabel: this.lang.buttons.global,
                   onClickControlMethod: (control: AbstractControl) => {
                     control.setValue(["Global"]);
                   },
@@ -230,9 +234,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         romDirectory: new NestedFormElement.Input({
           path: { directory: true },
-          placeholder: this.lang.placeholder.romDirectory[os.type()],
-          required: true,
-          isHidden: () => this.isHiddenIfNotRomsParser(),
+          placeholder: this.lang.placeholder.romDirectory[APP.osType],
+          required: commonField("romDirectory").required,
+          isHidden: () => this.hiddenUnlessApplies("romDirectory"),
           label: this.lang.label.romDirectory,
           highlight: this.highlight.bind(this),
           onValidate: (self, path) =>
@@ -246,7 +250,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         steamCategories: new NestedFormElement.Bubble({
-          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+          isHidden: () => this.hiddenUnlessApplies("steamCategories"),
           addable: true,
           label: this.lang.label.steamCategories,
           onValidate: (self, path) =>
@@ -261,7 +265,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         parserInputsSection: new NestedFormElement.Section({
-          label: "Parser Specific Configuration",
+          label: this.lang.section.parserSpecific,
           isHidden: () => this.isHiddenIfNoParserInputs(),
         }),
         parserInputs: (() => {
@@ -376,16 +380,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           });
         })(),
         executableSection: new NestedFormElement.Section({
-          label: "Executable Configuration",
+          label: this.lang.section.executable,
           isHidden: () => this.isHiddenIfNotRomsParser(),
         }),
         executable: new NestedFormElement.Group({
-          isHidden: () => this.isHiddenIfNotRomsParser(),
+          isHidden: () => this.hiddenUnlessApplies("executable.path"),
           children: {
             path: new NestedFormElement.Input({
               path: { directory: false },
               label: this.lang.label.executableLocation,
-              placeholder: this.lang.placeholder.executableLocation[os.type()],
+              placeholder: this.lang.placeholder.executableLocation[APP.osType],
               highlight: this.highlight.bind(this),
               important: true,
               onValidate: (self, path) => {
@@ -410,14 +414,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
               text: this.lang.text.shortcut_passthrough,
             }),
             appendArgsToExecutable: new NestedFormElement.Toggle({
-              isHidden: () => this.isHiddenIfNotRomsParser(),
+              isHidden: () =>
+                this.hiddenUnlessApplies("executable.appendArgsToExecutable"),
               text: this.lang.text.appendArgsToExecutable,
             }),
           },
         }),
         executableArgs: new NestedFormElement.Input({
           placeholder: this.lang.placeholder.executableArgs,
-          isHidden: () => this.isHiddenIfNotRomsParser(),
+          isHidden: () => this.hiddenUnlessApplies("executableArgs"),
           label: this.lang.label.executableArgs,
           highlight: this.highlight.bind(this),
           important: true,
@@ -433,7 +438,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         executableModifier: new NestedFormElement.Input({
-          isHidden: () => this.isHiddenIfNotRomsParser(),
+          isHidden: () => this.hiddenUnlessApplies("executableModifier"),
           highlight: this.highlight.bind(this),
           label: this.lang.label.executableModifier,
           placeholder: this.lang.placeholder.executableModifier,
@@ -450,10 +455,10 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         }),
         startInDirectory: new NestedFormElement.Input({
           path: { directory: true },
-          placeholder: this.lang.placeholder.startInDirectory[os.type()],
+          placeholder: this.lang.placeholder.startInDirectory[APP.osType],
           label: this.lang.label.startInDirectory,
           highlight: this.highlight.bind(this),
-          isHidden: () => this.isHiddenIfNotRomsParser(),
+          isHidden: () => this.hiddenUnlessApplies("startInDirectory"),
           onValidate: (self, path) =>
             this.parsersService.validate(
               path[0] as keyof UserConfiguration,
@@ -466,13 +471,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         titleSection: new NestedFormElement.Section({
-          label: "Title Modification Configuration",
+          label: this.lang.section.titleModification,
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
           startMinimized: true,
         }),
         titleModifier: new NestedFormElement.Input({
           highlight: this.highlight.bind(this),
-          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+          isHidden: () => this.hiddenUnlessApplies("titleModifier"),
           placeholder: this.lang.placeholder.titleModifier,
           label: this.lang.label.titleModifier,
           onValidate: (self, path) =>
@@ -486,14 +491,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         titleFromVariable: new NestedFormElement.Group({
-          isHidden: () => this.isHiddenIfNotRomsParser(),
+          isHidden: () =>
+            this.hiddenUnlessApplies("titleFromVariable.limitToGroups"),
           label: this.lang.label.titleFromVariable,
           children: {
             limitToGroups: new NestedFormElement.Select({
               multiple: true,
               allowEmpty: true,
               values: Object.keys(this.customVariables),
-              placeholder: "Select title variables",
+              placeholder: this.lang.placeholder.titleVariables,
             }),
             caseInsensitiveVariables: new NestedFormElement.Toggle({
               text: this.lang.text.caseInsensitiveVariables,
@@ -509,24 +515,26 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         sortAsFromVariable: new NestedFormElement.Group({
-          isHidden: () => this.isHiddenIfNotRomsParser(),
-          label: "Sort-title from custom variable",
+          isHidden: () =>
+            this.hiddenUnlessApplies("sortAsFromVariable.limitToGroups"),
+          label: this.lang.label.sortAsFromVariable,
           children: {
             limitToGroups: new NestedFormElement.Select({
               multiple: true,
               allowEmpty: true,
               values: Object.keys(this.customVariables),
-              placeholder: "Select sort-title variables",
+              placeholder: this.lang.placeholder.sortAsVariables,
             }),
           },
           onInfoClick: (self, path) => {
             this.currentDoc.activePath = path.join();
-            this.currentDoc.content = this.lang.docs__md.sortAsFromVariable.join("");
+            this.currentDoc.content =
+              this.lang.docs__md.sortAsFromVariable.join("");
           },
         }),
         fuzzyMatch: new NestedFormElement.Group({
           label: this.lang.label.fuzzyMatch,
-          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
+          isHidden: () => this.hiddenUnlessApplies("fuzzyMatch.removeBrackets"),
           children: {
             replaceDiacritics: new NestedFormElement.Toggle({
               text: this.lang.text.fuzzy_replaceDiacritic,
@@ -544,28 +552,31 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         controllerSection: new NestedFormElement.Section({
-          label: "Controller Templates Configuration",
+          label: this.lang.section.controllerTemplates,
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
           startMinimized: true,
         }),
         fetchControllerTemplatesButton: new NestedFormElement.Button({
-          buttonLabel: "Re-fetch Controller Templates",
+          buttonLabel: this.lang.buttons.refetchControllerTemplates,
           onClickMethod: this.fetchControllerTemplates.bind(this),
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
         }),
         removeControllersButton: new NestedFormElement.Button({
-          buttonLabel: "Unset Controllers for Parser",
+          buttonLabel: this.lang.buttons.unsetControllers,
           onClickMethod: this.removeControllers.bind(this),
           isHidden: () => this.isHiddenIfArtworkOnlyParser(),
         }),
         steamInputEnabled: new NestedFormElement.Select({
-          isHidden: () => this.isHiddenIfArtworkOnlyParser(),
-          label: "Enable Steam Input",
-          placeholder: "Use default settings",
+          isHidden: () => this.hiddenUnlessApplies("steamInputEnabled"),
+          label: this.lang.label.steamInputEnabled,
+          placeholder: this.lang.placeholder.steamInputEnabled,
           values: [
-            { value: "0", displayValue: "Disabled" },
-            { value: "1", displayValue: "Use default settings" },
-            { value: "2", displayValue: "Enabled" },
+            { value: "0", displayValue: this.lang.steamInputOptions.disabled },
+            {
+              value: "1",
+              displayValue: this.lang.steamInputOptions.useDefault,
+            },
+            { value: "2", displayValue: this.lang.steamInputOptions.enabled },
           ],
         }),
         controllers: new NestedFormElement.Group({
@@ -574,13 +585,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             for (let controllerType of controllerTypes) {
               children[controllerType] = new NestedFormElement.Select({
                 isHidden: () => this.isHiddenIfArtworkOnlyParser(),
-                label:
-                  controllerNames[
-                    controllerType as keyof typeof controllerNames
-                  ] +
-                  " " +
-                  "Template",
-                placeholder: "Select a Template",
+                label: this.lang.label.controllerTemplate__i.interpolate({
+                  controller:
+                    controllerNames[
+                      controllerType as keyof typeof controllerNames
+                    ],
+                }),
+                placeholder: this.lang.placeholder.controllerTemplate,
                 multiple: false,
                 allowEmpty: true,
                 values: [],
@@ -595,13 +606,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           })(),
         }),
         compatSection: new NestedFormElement.Section({
-          label: "Steam Play Compatibility",
+          label: this.lang.section.steamPlayCompat,
           isHidden: () => this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
         }),
         compatToolName: new NestedFormElement.Select({
-          isHidden: () => this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
-          label: "Force compatibility tool",
-          placeholder: "Don't force a tool",
+          isHidden: () => this.hiddenUnlessApplies("compatToolName"),
+          label: this.lang.label.compatToolName,
+          placeholder: this.lang.placeholder.compatToolName,
           multiple: false,
           allowEmpty: true,
           // Populated at runtime by fetchCompatTools().
@@ -610,19 +621,12 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         compatToolNameCustom: new NestedFormElement.Input({
           // Only shown when "Custom…" is picked; the select itself is already
           // hidden (and stays "") for artwork-only parsers or non-Linux OSes.
-          isHidden: () =>
-            combineLatest([
-              this.observeField(
-                "compatToolName",
-                (value: string) => value !== steam.COMPAT_CUSTOM,
-              ),
-              this.isHiddenIfArtworkOnlyOrNotLinuxParser(),
-            ]).pipe(map(([notCustom, hidden]) => notCustom || hidden)),
-          label: "Custom compatibility tool name",
-          placeholder: "e.g. GE-Proton9-20",
+          isHidden: () => this.hiddenUnlessApplies("compatToolNameCustom"),
+          label: this.lang.label.compatToolNameCustom,
+          placeholder: this.lang.placeholder.compatToolNameCustom,
         }),
         onlineImageSection: new NestedFormElement.Section({
-          label: "Artwork Provider Configuration",
+          label: this.lang.section.artworkProvider,
           startMinimized: true,
         }),
         imageProviders: new NestedFormElement.Select({
@@ -667,7 +671,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           },
         }),
         drmProtect: new NestedFormElement.Toggle({
-          text: "Local backups (DRM takedown protection)",
+          text: this.lang.text.drmProtect,
         }),
         imageProviderAPIs: (() => {
           let imageProviderAPIInputs: { [k: string]: NestedFormElement.Group } =
@@ -724,7 +728,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 return new NestedFormElement.Group({
                   children: {
                     section: new NestedFormElement.Section({
-                      label: `Filters for ${imageProviderNames[providerKeys[i]]}`,
+                      label: this.lang.section.filtersFor__i.interpolate({
+                        provider: imageProviderNames[providerKeys[i]],
+                      }),
                       isHidden: () =>
                         this.isHiddenIfNoProvider(providerKeys[i]),
                     }),
@@ -739,7 +745,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           });
         })(),
         overlayImageSection: new NestedFormElement.Section({
-          label: "Overlay Artwork Configuration",
+          label: this.lang.section.overlayArtwork,
           startMinimized: true,
         }),
         overlayImages: (() => {
@@ -748,7 +754,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             overlayInputs[artworkType] = new NestedFormElement.Input({
               path: { directory: false, useForwardSlash: true },
               placeholder: this.lang.placeholder.overlayImages__i[
-                os.type()
+                APP.osType
               ].interpolate({
                 artworkType: artworkViewNames[artworkType].toLowerCase(),
               }),
@@ -769,7 +775,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
           });
         })(),
         localImageSection: new NestedFormElement.Section({
-          label: "Local Artwork Configuration",
+          label: this.lang.section.localArtwork,
           startMinimized: true,
         }),
         defaultImage: (() => {
@@ -778,7 +784,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             defaultImageInputs[artworkType] = new NestedFormElement.Input({
               path: { directory: false, useForwardSlash: true },
               placeholder: this.lang.placeholder.defaultImage__i[
-                os.type()
+                APP.osType
               ].interpolate({
                 artworkType: artworkSingDict[artworkType],
               }),
@@ -808,7 +814,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 appendGlob: "${title}.@(png|PNG|jpg|JPG|webp|WEBP)",
               },
               placeholder: this.lang.placeholder.localImages__i[
-                os.type()
+                APP.osType
               ].interpolate({
                 artworkType: artworkViewNames[artworkType].toLowerCase(),
               }),
@@ -868,18 +874,13 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.loadConfiguration();
       }),
     );
-    this.subscriptions.add(
-      this.activatedRoute.params.subscribe((params: any) => {
-        this.configurationIndex = parseInt(params["index"]);
-        if (this.configurationIndex !== -1) {
-          this.currentDoc.activePath = "parserType";
-        } else {
-          this.currentDoc.activePath = "";
-          this.currentDoc.content = this.lang.docs__md.intro.join("");
-        }
-        this.loadConfiguration();
-      }),
-    );
+    if (this.parserId !== "new") {
+      this.currentDoc.activePath = "parserType";
+    } else {
+      this.currentDoc.activePath = "";
+      this.currentDoc.content = this.lang.docs__md.intro.join("");
+    }
+    this.loadConfiguration();
     this.subscriptions.add(
       this.cpService.dataObservable.subscribe((data) => {
         this.configPresets = data;
@@ -931,77 +932,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.fetchControllerTemplates(false);
       }),
     );
-    this.subscriptions.add(
-      this.CLI_MESSAGE.asObservable().subscribe((cliMessage: string) => {
-        const parsedCLI = cliMessage ? JSON.parse(cliMessage) || {} : {};
-        this.parsersService.onLoad(
-          (userConfigurations: UserConfiguration[]) => {
-            if (parsedCLI.command == "list") {
-              this.ipcService.send("parsers_list", userConfigurations);
-            } else if (["enable", "disable"].includes(parsedCLI.command)) {
-              let newStatus: boolean = parsedCLI.command == "enable";
-              if (parsedCLI.flags["all"]) {
-                this.parsersService
-                  .changeEnabledStatusAll(newStatus)
-                  .then(() => {
-                    this.ipcService.send("all_done");
-                  });
-              } else {
-                let promises: Promise<void>[] = [];
-                let parserIds: string[];
-                if (parsedCLI.flags["names"]) {
-                  parserIds = userConfigurations
-                    .filter(
-                      (config) =>
-                        parsedCLI.args.indexOf(
-                          config.configTitle.replace(/[^\x20-\x7E]+/g, ""),
-                        ) != -1,
-                    )
-                    .map((config) => config.parserId);
-                  for (let configTitle of parsedCLI.args) {
-                    if (
-                      userConfigurations
-                        .map((config) =>
-                          config.configTitle.replace(/[^\x20-\x7E]+/g, ""),
-                        )
-                        .indexOf(configTitle) == -1
-                    ) {
-                      this.ipcService.send(
-                        "log",
-                        `Could not find parser ${configTitle}`,
-                      );
-                    }
-                  }
-                } else {
-                  parserIds = parsedCLI.args;
-                }
-                for (let parserId of parserIds) {
-                  try {
-                    promises.push(
-                      this.parsersService
-                        .changeEnabledStatus(parserId, newStatus)
-                        .then(() => {
-                          this.ipcService.send(
-                            "log",
-                            newStatus
-                              ? `Enabled parser ${parserId}`
-                              : `Disabled parser ${parserId}`,
-                          );
-                        }),
-                    );
-                  } catch (e) {
-                    this.ipcService.send("log", e);
-                  }
-                }
-                Promise.all(promises).then(() => {
-                  this.ipcService.send("all_done");
-                });
-              }
-            }
-          },
-        );
-      }),
-    );
   }
 
   ngOnDestroy() {
@@ -1020,9 +950,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.userForm.patchValue(config);
         this.changeRef.detectChanges();
       } else
+        // (a copy: the parser's edits, e.g. moving it to a group, mustn't
+        // change the preset itself)
         this.parsersService.setCurrentConfiguration(
           this.configurationIndex,
-          config,
+          _.cloneDeep(config),
         );
     }
   }
@@ -1048,8 +980,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.parsersService.saveConfiguration(
         this.userConfigurations[this.configurationIndex],
       );
-
-    this.router.navigate(["/parsers", this.userConfigurations.length - 1]);
+    // the new parser (or copy) is the last one
+    const added = this.parsersService.getUserConfigurationsArray().at(-1);
+    if (added) this.router.navigate(["/parsers", added.saved.parserId]);
   }
 
   updateForm() {
@@ -1058,8 +991,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
   deleteForm() {
     this.parsersService.deleteConfiguration(this.configurationIndex);
-    if (this.configurationIndex >= this.userConfigurations.length)
-      this.router.navigate(["/parsers", this.userConfigurations.length - 1]);
+    this.router.navigate(["/parsers"]);
   }
 
   restoreForm() {
@@ -1111,7 +1043,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
 
         iterateGroup(this.nestedGroup, "");
 
-        clipboard.writeText(`\`\`\`\r\n${text}\`\`\``);
+        navigator.clipboard.writeText(`\`\`\`\r\n${text}\`\`\``);
         this.loggerService.info(this.lang.info.copiedToClipboard, {
           invokeAlert: true,
           alertTimeout: 3000,
@@ -1167,7 +1099,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       if (this.appSettings.clearLogOnTest) {
         this.loggerService.clearLog();
       }
-      success("Parser ID: ".concat(config.parserId));
+      success(
+        this.lang.success.parserId__i.interpolate({
+          parserId: config.parserId,
+        }),
+      );
       success("");
       this.parsersService
         .executeFileParser(config)
@@ -1221,7 +1157,11 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
             logError();
             this.loggerService.info("");
             success("");
-            success("Number of Titles: ".concat(data.files.length.toString()));
+            success(
+              this.lang.success.numberOfTitles__i.interpolate({
+                count: data.files.length,
+              }),
+            );
             data.files = data.files.sort((a, b) =>
               a.titles.extracted.localeCompare(b.titles.extracted),
             );
@@ -1271,15 +1211,34 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                 }),
               );
               success(
-                ((titles: TitleModifiers, index: number, total: number): string => {
-                  const base = `[${index}/${total}]`;
-                  return `${base}: Title Waterfall:\n`.concat(
-                    Object.entries(titles).map(([titleKey, title], titleIndex) => {
-                      let space = " ".repeat(Math.max(30-titleKey.length,1))
-                      return `${base}: (${titleIndex})${space}${titleKey} is "${title}"`
-                    }).join('\n')
-                  )
-                })(data.files[i].titles, i + 1, totalLength)
+                ((
+                  titles: TitleModifiers,
+                  index: number,
+                  total: number,
+                ): string => {
+                  return this.lang.success.titleWaterfall__i
+                    .interpolate({ index, total })
+                    .concat("\n")
+                    .concat(
+                      Object.entries(titles)
+                        .map(([titleKey, title], titleIndex) => {
+                          let space = " ".repeat(
+                            Math.max(30 - titleKey.length, 1),
+                          );
+                          return this.lang.success.titleWaterfallEntry__i.interpolate(
+                            {
+                              index,
+                              total,
+                              titleIndex,
+                              space,
+                              titleKey,
+                              title,
+                            },
+                          );
+                        })
+                        .join("\n"),
+                    );
+                })(data.files[i].titles, i + 1, totalLength),
               );
               success(
                 this.lang.success.sortAsTitle__i.interpolate({
@@ -1461,7 +1420,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
                     index: data.files.length + data.failed.length + i + 1,
                     total: totalLength,
                     filename: data.excluded[i].filePath,
-                    exceptionKey: data.excluded[i].exceptionKey,
+                    exceptionKey: data.excluded[i].title,
                   }),
                 );
               }
@@ -1482,7 +1441,9 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.lang.info.testStarting__i.interpolate({
           title: config.configTitle || this.lang.text.noTitle,
           version: APP.version,
-          portable: APP.srmdir ? "Portable" : "Non-Portable",
+          portable: APP.srmdir
+            ? this.lang.text.portable
+            : this.lang.text.nonPortable,
         }),
       );
       this.loggerService.info(
@@ -1505,7 +1466,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.configurationIndex,
         this.configurationIndex - 1,
       );
-      this.router.navigate(["/parsers", this.configurationIndex - 1]);
     }
   }
 
@@ -1515,7 +1475,6 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
         this.configurationIndex,
         this.configurationIndex + 1,
       );
-      this.router.navigate(["/parsers", this.configurationIndex + 1]);
     }
   }
 
@@ -1548,6 +1507,15 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
       this.userForm.get(path).valueChanges,
     ).pipe(map(decider));
   }
+  // Hidden unless the field applies to the parser as it stands (the rules
+  // are shared with the command line: core/parser-fields.ts).
+  private hiddenUnlessApplies(id: string) {
+    const field = commonField(id);
+    return concat(of(null), this.userForm.valueChanges).pipe(
+      map(() => !field.appliesTo(this.userForm.getRawValue())),
+      distinctUntilChanged(),
+    );
+  }
   private isHiddenIfNoProvider(providerKey: OnlineProviderType) {
     return this.observeField(
       "imageProviders",
@@ -1574,7 +1542,7 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
   private isHiddenIfArtworkOnlyOrNotLinuxParser() {
     return combineLatest([
       this.isHiddenIfArtworkOnlyParser(),
-      of(os.type() !== "Linux"),
+      of(APP.osType !== "Linux"),
     ]).pipe(map(([artworkOnly, notLinux]) => artworkOnly || notLinux));
   }
 
@@ -1584,43 +1552,57 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  // Sets every field of the form: the parser's defaults overlaid with its
+  // unsaved edits or saved config. (patchValue would leave fields the config
+  // lacks holding whatever was there before.)
+  private resetForm(config: UserConfiguration) {
+    this.userForm.reset(
+      _.mergeWith(
+        {},
+        this.parsersService.getDefaultValues(),
+        _.cloneDeep(config),
+        (_default: unknown, value: unknown) =>
+          Array.isArray(value) ? value : undefined,
+      ),
+    );
+  }
+
   private loadConfiguration() {
-    if (
-      this.configurationIndex !== -1 &&
-      this.userConfigurations.length > this.configurationIndex
-    ) {
-      let config = this.userConfigurations[this.configurationIndex];
-
-      this.formChanges.unsubscribe();
-      this.userForm.patchValue(
-        _.cloneDeep(config.current ? config.current : config.saved),
-      );
-      this.markAsDirtyDeep(this.userForm);
-
+    const index = this.configurationIndex;
+    if (!this.userForm || this.userConfigurations === undefined) {
+      this.loadedIndex = null;
+    } else if (index !== -1) {
+      const config = this.userConfigurations[index];
+      const source = config.current ? config.current : config.saved;
+      if (source !== this.lastWritten) {
+        this.formChanges.unsubscribe();
+        this.resetForm(source);
+        this.markAsDirtyDeep(this.userForm);
+        this.formChanges = this.userForm.valueChanges.subscribe(
+          (data: UserConfiguration) => {
+            this.lastWritten = data;
+            const entry =
+              this.userConfigurations[this.configurationIndex] ?? config;
+            if (entry.current == null)
+              this.parsersService.setCurrentConfiguration(
+                this.configurationIndex,
+                data,
+              );
+            else entry.current = data;
+          },
+        );
+      }
       this.isUnsaved = config.current != null;
-
-      this.formChanges = this.userForm.valueChanges.subscribe(
-        (data: UserConfiguration) => {
-          if (config.current == null)
-            this.parsersService.setCurrentConfiguration(
-              this.configurationIndex,
-              data,
-            );
-          else config.current = data;
-        },
-      );
-      this.loadedIndex = this.configurationIndex;
-    } else if (
-      this.configurationIndex === -1 &&
-      this.userConfigurations !== undefined
-    ) {
-      this.formChanges.unsubscribe();
-      this.userForm.patchValue({ parserInputs: null });
-      this.userForm.patchValue(this.parsersService.getDefaultValues());
-      this.userForm.markAsPristine();
+      this.loadedIndex = index;
+    } else if (this.parserId === "new") {
+      if (this.loadedIndex !== -1) {
+        this.formChanges.unsubscribe();
+        this.resetForm(this.parsersService.getDefaultValues());
+        this.userForm.markAsPristine();
+      }
       this.loadedIndex = -1;
     } else {
-      this.loadedIndex = null;
+      this.loadedIndex = null; // the parser is gone (deleted)
     }
 
     this.changeRef.detectChanges();
@@ -1707,14 +1689,8 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     let steamDir = this.parsersService.parseSteamDir(steamDirInput);
     if (this.parsersService.validate("steamDirectory", steamDir) == null) {
       if (force || !this.parsersService.controllerTemplates[steamDir]) {
-        this.parsersService.controllerTemplates[steamDir] = {};
-        for (let controllerType of controllerTypes) {
-          this.parsersService.controllerTemplates[steamDir][controllerType] =
-            await this.parsersService.getControllerTemplates(
-              steamDir,
-              controllerType,
-            );
-        }
+        this.parsersService.controllerTemplates[steamDir] =
+          (await this.parsersService.getAllControllerTemplates(steamDir)) ?? {};
         this.parsersService.saveControllerTemplates();
       }
       for (let controllerType of Object.keys(
@@ -1751,12 +1727,16 @@ export class ParsersComponent implements AfterViewInit, OnDestroy {
     const steamDirInput = this.userForm?.get("steamDirectory")?.value || "";
     const steamDir = this.parsersService.parseSteamDir(steamDirInput);
     const dirs = steamDir ? [steamDir] : [];
-    const tools = await steam.listAvailableCompatTools(dirs);
+    const tools: CompatToolInfo[] = await this.coreClient.client.call(
+      "support",
+      "compatTools",
+      dirs,
+    );
     (
       this.nestedGroup.children.compatToolName as NestedFormElement.Select
     ).values = [
       ...tools.map((t) => ({ displayValue: t.displayName, value: t.name })),
-      { displayValue: "Custom…", value: steam.COMPAT_CUSTOM },
+      { displayValue: this.lang.text.compatCustom, value: COMPAT_CUSTOM },
     ];
     this.changeRef.detectChanges();
   }

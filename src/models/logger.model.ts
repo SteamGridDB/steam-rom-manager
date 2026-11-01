@@ -18,3 +18,13 @@ export interface MessageSettings {
   alertTimeout?: number;
   doNotAppendToLog?: boolean;
 }
+
+// What non-UI code needs from a logger. LoggerService implements it in the
+// renderer; the core supplies its own (e.g. forwarding to the UI or stdout).
+export interface Logger {
+  info(message: any, settings?: MessageSettings): void;
+  success(message: any, settings?: MessageSettings): void;
+  error(message: any, settings?: MessageSettings): void;
+  // Fuzzy-matcher chatter, shown separately in the log; info if absent.
+  fuzzy?(message: any, settings?: MessageSettings): void;
+}

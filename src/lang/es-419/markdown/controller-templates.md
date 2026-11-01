@@ -1,27 +1,26 @@
-# Controller Templates
+# Plantillas de Control
+Las plantillas de control le permiten configurar el diseño de botones por control y por analizador.
 
-Controller templates allow you to configure the button layout per controller and per parser.
+Es posible que quieras desactivar `Sincronizacion en la Nube` en Steam para evitar que se sobrescriban las configuraciones de tu control asignado por SRM. Puedes encontrar los ajustes en `Steam > Ajustes > Nube`.
 
-You may want to disable `Cloud Synchronization` in Steam to avoid having your SRM assigned controller configs get overwritten. You may find the setting under `Steam > Settings > Cloud`.
+Para crear una plantilla personalizada:
+* Abrir Steam.
+* Conecta el control con el que quieras configurar la plantilla.
+* Click derecho sobre cualquier juego y presiona `Administrar > Distribución del mando`.
+* Configure los botones según considere adecuado.
+* Presione `Exportar Configuración` y después `Guuardar la nueva asignación de botones`.
+* Nombre de la plantilla en el formulario: `Título de plantilla (SRM)`. Debes agregar `(SRM)` al final del nombre, de otra manera SRM no seleccionará la plantilla.
+* Repítalo por cada uno de los mandos que quiera configurar.
 
-To make a custom template:
+En el analizador de SRM:
+* Presiona `Recoger plantillas de control` para poner plantillas para todos los tipos de control en Steam. Esto borrará la plantilla seleccionada si no es una de las plantillas disponibles en Steam.
 
-- Open Steam.
-- Connect the controller you want to configure a template for.
-- Right click on any game and hit `Manage > Controller Layout`.
-- Configure the buttons as you see fit.
-- Hit `Export Config` then `Save new template binding`.
-- Name the template in the form: `Template Title (SRM)`. You must end the name with `(SRM)` or SRM will not pick up the template.
-- Repeat for as many different types of controller as you want to configure.
+Actualmente, SRM pone todas las plantillas predeterminadas (Hechas por Valve) para cada control, así como todas las plantillas definidas por el usuario que terminan en `(SRM)`.
 
-In the SRM parser:
+* Seleccione las plantillas y guarde el Analizador. Los ajustes del mando se aplicarán una vez que pulse `Guardar en Steam` en la vista previa al añadir juegos.
 
-- Hit `Re-Fetch Controller Templates` to pull templates for all controller types from steam. This will clear your currently selected template if it is not one of the templates available in Steam.
+* Para deshacer los ajustes del mando, puedes o bien `Eliminar Todas Las Aplicaciones Añadidas` desde la configuración global (esto eliminará todos los cambios realizados por SRM en tus datos de steam) o pulsar `Desactivar Todos Los Mandos` en el analizador (esto solo elimina la configuración de los mandos para el directorio de steam y el usuario especificado en ese analizador).
 
-Currently, SRM pulls all of the default (Valve made) templates for each controller as well as all of the user defined templates that end in `(SRM)`.
+Una vez hecho esto, puedes analizar y añadir juegos a Steam como de costumbre, y las plantillas se aplicarán a todos los títulos del analizador.
 
-- Select your templates and save the parser. The controller configsets will be applied once you hit `Save App List` in the preview.
 
-- To unset controller configs, you may either `Remove All Added App Entries` from global settings (this deletes all SRM made changes to your steam data) or hit `Unset All Controllers` in the parser (this only removes controller settings for the steam directory and user specified in that parser).
-
-Once this is done you can generate and save the preview as usual, and the template will be applied to all the titles in the parser.

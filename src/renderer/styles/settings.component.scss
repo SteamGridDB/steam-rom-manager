@@ -21,6 +21,29 @@
   .settings {
     padding: 1em;
     grid-area: settings;
+    .tabs {
+      display: flex;
+      gap: 0.25em;
+      margin-bottom: 1em;
+      .tab {
+        @include button();
+        @include clickButtonColor(click-button);
+        &.active {
+          border-color: var(--color-click-button-text);
+          font-weight: bold;
+        }
+      }
+    }
+    // The theme editor scrolls its own columns.
+    &.editorOpen {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      .themeEditor {
+        flex: 1;
+        min-height: 0;
+      }
+    }
     @include webkitScrollbar(nested-form-scrollbar);
     background-color: var(--color-nested-form-background);
     overflow: auto;

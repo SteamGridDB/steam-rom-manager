@@ -8,15 +8,17 @@ import {
   net,
 } from "electron";
 import * as log from "electron-log";
-import * as remoteMain from "@electron/remote/main";
 import { autoUpdater, CancellationToken } from "electron-updater";
 import * as paths from "../paths";
 import * as path from "path";
 import * as url from "url";
-import * as clc from "cli-color";
-import yargs, { Argv } from "yargs";
 import { hideBin } from "yargs/helpers";
-import { UserConfiguration } from "../models";
+import { setDefaultFetch } from "../core/http";
+import { envInfo } from "../env-info";
+import { envChannel } from "../bridge";
+import { runCli } from "./cli";
+import { parseCliArgs } from "./cli-args";
+import { startCoreForWindow } from "./core-host";
 
 // Crash Reporting
 crashReporter.start({
@@ -27,132 +29,29 @@ crashReporter.start({
   uploadToServer: true,
 });
 
-// CLI Setup
-let commandCLI: string = "";
-let argsCLI: string[];
-let flagsCLI: { [k: string]: boolean } = {};
-
-yargs(hideBin(process.argv))
-  .usage(
-    clc.green(`Make sure Steam is fully exited before using add/remove/nuke.`),
-  )
-  .usage(
-    clc.green(
-      `If Steam is running apps will be added/removed, but categories won\'t.`,
-    ),
-  )
-  .command(
-    "list",
-    clc.blue("List all parsers and their enabled status.\nUsage: list"),
-    (yargs: typeof Argv) => {
-      commandCLI = "list";
-      console.log("Fetching parsers...\n");
-    },
-  )
-  .example(`srm enable --names "name1" "name2"`)
-  .example(`srm disable --all; srm enable "id1" "id2"; srm remove;`)
-  .example("srm enable --all; srm add;")
-  .command(
-    "enable",
-    clc.blue("Enable parsers by name or id.\nUsage: enable [p1] [p2]"),
-    (yargs: typeof Argv) => {
-      return yargs
-        .positional("parsers", {
-          describe: clc.blue("List of parsers to enable (names or ids)"),
-          type: "string",
-        })
-        .option("all", {
-          describe: clc.blue(
-            "Command enables all parsers if this flag is set.",
-          ),
-          type: "boolean",
-        })
-        .option("names", {
-          describe: clc.blue(
-            "Flag tells SRM to enable by (emoji-stripped) name instead of id",
-          ),
-          type: "boolean",
-        });
-    },
-    (argv: any) => {
-      commandCLI = "enable";
-      argsCLI = argv._.slice(1);
-      flagsCLI["all"] = !!argv.all;
-      flagsCLI["names"] = !!argv.names;
-    },
-  )
-  .command(
-    "disable",
-    clc.blue("Disable parsers by name or id.\nUsage: disable [p1] [p2]"),
-    (yargs: typeof Argv) => {
-      return yargs
-        .positional("parsers", {
-          describe: clc.blue("List of parsers to disable (names or ids)"),
-          type: "string",
-        })
-        .option("all", {
-          describe: clc.blue(
-            "Command disables all parsers if this flag is set.",
-          ),
-          type: "boolean",
-        })
-        .option("names", {
-          describe: clc.blue(
-            "Flag tells SRM to disable by (emoji-stripped) name instead of id",
-          ),
-          type: "boolean",
-        });
-    },
-    (argv: any) => {
-      commandCLI = "disable";
-      argsCLI = argv._.slice(1);
-      flagsCLI["all"] = !!argv.all;
-      flagsCLI["names"] = !!argv.names;
-    },
-  )
-  .command(
-    "add",
-    clc.blue("Run all enabled parsers and save apps to steam.\nUsage: add"),
-    (yargs: typeof Argv) => {
-      commandCLI = "add";
-    },
-  )
-  .command(
-    "remove",
-    clc.blue(
-      "Run all enabled parsers and remove apps from steam.\nUsage: remove",
-    ),
-    (yargs: typeof Argv) => {
-      commandCLI = "remove";
-    },
-  )
-  .command(
-    "nuke",
-    clc.blue(
-      "Removes all SRM added changes to your steam library.\nUsage: nuke",
-    ),
-    (yargs: typeof Argv) => {
-      commandCLI = "nuke";
-    },
-  )
-  .parse();
+// Command line: a command runs headless; without one the window opens.
+const cliRequest = parseCliArgs(hideBin(process.argv));
 
 // Logging setup
-if (commandCLI) {
+if (cliRequest) {
   delete process.env.ELECTRON_ENABLE_SECURITY_WARNINGS;
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "true";
-  process.env.ELECTRON_ENABLE_LOGGING = "true";
   process.emitWarning = (warning, ...args) => {};
   log.transports.file.level = "error";
   log.transports.console.level = "error";
+  // The CLI runs headless; no window, no GPU.
+  app.disableHardwareAcceleration();
+  // Chromium's own data (caches, cookies; not SRM's data) apart from the
+  // window's: sharing it with an open SRM window logs cache errors.
+  app.setPath(
+    "sessionData",
+    path.join(app.getPath("temp"), "steam-rom-manager-cli"),
+  );
 } else {
   log.transports.file.level = "info";
   log.transports.console.level = "info";
   console.log("App starting...");
 }
-
-//Enable remote
-remoteMain.initialize();
 
 // Auto updater setup
 autoUpdater.logger = log;
@@ -185,14 +84,16 @@ function createWindow(show: boolean) {
     frame: false,
     show: show,
     backgroundColor: "#121212",
+    // The UI has no Node or Electron access: it reaches the main process
+    // only through the preload's window.srm (see src/bridge.ts).
     webPreferences: {
       devTools: true,
-      nodeIntegration: true,
-      nodeIntegrationInWorker: true,
-      contextIsolation: false,
+      preload: path.join(__dirname, "preload.bundle.js"),
+      contextIsolation: true,
+      nodeIntegration: false,
+      sandbox: true,
     },
   });
-  require("@electron/remote/main").enable(mainWindow.webContents);
 
   mainWindowState.manage(mainWindow);
 
@@ -207,12 +108,23 @@ function createWindow(show: boolean) {
     mainWindow = null;
   });
 
+  // Links open in the user's browser, never inside SRM.
   mainWindow.webContents.on("will-navigate", (event, url) => {
     event.preventDefault();
-    shell.openExternal(url);
+    openExternal(url);
+  });
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    openExternal(url);
+    return { action: "deny" };
   });
   if (show) {
     mainWindow.show();
+  }
+}
+
+function openExternal(url: string) {
+  if (/^(https?|mailto):/i.test(url)) {
+    shell.openExternal(url);
   }
 }
 
@@ -245,88 +157,50 @@ autoUpdater.on("update-downloaded", (info) => {
 });
 
 // Main Listeners
-app.on("ready", () => {
-  // Registered for both CLI and GUI modes. Fetches a Steam account's owned
-  // games via the Steam Web API in the main process using Electron's net
-  // module, so it uses Chromium's network stack (system certificate store +
-  // system proxy). This avoids the "unable to get local issuer certificate"
-  // errors that node-fetch hits against api.steampowered.com.
-  ipcMain.handle(
-    "steam-owned-games",
-    async (event, args: { apiKey: string; steamId: string }) => {
-      const requestUrl =
-        `https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/` +
-        `?key=${encodeURIComponent(args.apiKey)}` +
-        `&steamid=${encodeURIComponent(args.steamId)}` +
-        `&include_appinfo=1&include_played_free_games=1&format=json`;
-      const res = await net.fetch(requestUrl, {
-        signal: AbortSignal.timeout(30000),
-      });
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status} ${res.statusText}`);
-      }
-      return await res.json();
-    },
-  );
-  if (commandCLI) {
-    console.log("\n");
-    createWindow(false);
-    remoteMain.enable(mainWindow.webContents);
-
-    mainWindow.loadURL(
-      url.format({
-        pathname: path.join(__dirname, "renderer", "index.html"),
-        protocol: "file:",
-        slashes: true,
-      }),
-    );
-
-    ipcMain.on(
-      "parsers_list",
-      (event: IpcMainEvent, plist: UserConfiguration[]) => {
-        process.stdout.write(
-          clc.columns(
-            [
-              [
-                clc.blue("Parser Title (w/o emoji)"),
-                clc.blue("Parser ID"),
-                clc.blue("Status"),
-              ],
-            ].concat(
-              plist.map((parser) => [
-                parser.configTitle.replace(/[^\x20-\x7E]+/g, ""),
-                parser.parserId,
-                parser.disabled
-                  ? clc.xterm(203)("Disabled")
-                  : clc.xterm(48)("Enabled"),
-              ]),
-            ),
-          ),
-        );
-        app.quit();
-      },
-    );
-    ipcMain.on("all_done", (event: IpcMainEvent) => {
-      console.log("\nAll Done");
-      app.quit();
-    });
-    ipcMain.on("log", (event: IpcMainEvent, loggable: any) => {
-      console.log(loggable);
-    });
-    ipcMain.on("inline-log", (event: IpcMainEvent, loggable: any) => {
-      process.stdout.write(clc.erase.line);
-      process.stdout.write(clc.move.lineBegin);
-      process.stdout.write(loggable);
-    });
-    mainWindow.webContents.on("did-finish-load", () => {
-      mainWindow.webContents.send("cli_message", {
-        command: commandCLI,
-        args: argsCLI,
-        flags: flagsCLI,
-      });
-    });
+app.on("ready", async () => {
+  // Network I/O in the core (SteamGridDB, GitHub, Steam Web API) uses
+  // Electron's network stack: system certificate store and proxy, which
+  // Node's TLS (e.g. node-fetch) doesn't honour on some systems.
+  setDefaultFetch((url, init) => net.fetch(url, init as RequestInit) as any);
+  if (cliRequest) {
+    // Headless: the CLI runs the core directly in this process.
+    let code = 1;
+    try {
+      code = await runCli(cliRequest);
+    } catch (error) {
+      process.stderr.write(`${error?.stack ?? error}\n`);
+    }
+    app.exit(code);
   } else {
+    // The GUI's business logic runs here; the window is its UI.
+    const env = envInfo();
+    ipcMain.on(envChannel, (event) => {
+      event.returnValue = env;
+    });
+    const core = startCoreForWindow(() => mainWindow);
+    if (process.platform === "win32") {
+      // (not in offline mode)
+      core.ready.settings.then(() => {
+        if (!core.settings.get().offlineMode) core.shellScripts.download();
+      });
+    }
+    app.on("before-quit", () => {
+      core.fuzzy.saveCacheIfNeeded();
+    });
     createWindow(true);
+    // Let the fuzzy matcher's cache reach the disk before the window goes.
+    let cacheSaved = false;
+    mainWindow.on("close", (event) => {
+      if (cacheSaved) return;
+      event.preventDefault();
+      core.fuzzy
+        .saveCacheIfNeeded()
+        .catch((e: unknown) => log.error(e))
+        .finally(() => {
+          cacheSaved = true;
+          mainWindow?.close();
+        });
+    });
     mainWindow.webContents.on("dom-ready", () => {
       autoUpdater.checkForUpdatesAndNotify();
     });
@@ -350,6 +224,6 @@ app.on("window-all-closed", () => {
 
 app.on("activate", () => {
   if (mainWindow === null) {
-    createWindow(!commandCLI);
+    createWindow(!cliRequest);
   }
 });

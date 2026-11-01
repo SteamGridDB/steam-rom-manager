@@ -1,11 +1,20 @@
-# Unique inputs for GOG Galaxy Parser
+# Особые входные данные анализатора GOG Galaxy
 
-## Galaxy Path Override
+## Переопределение пути GOG Galaxy
 
-By default Steam ROM Manager assumes your Galaxy Client is located at `C:\Program Files (x86)\GOG Galaxy\GalaxyClient.exe`. This field allows you to override that path if your GOG Galaxy installation is elsewhere.
+По умолчанию Steam ROM Manager предполагает, что исполняемый файл GOG Galaxy находится по адресу `C:\Program Files (x86)\GOG Galaxy\GalaxyClient.exe` на Windows и `/Applications/GOG Galaxy.app/Contents/MacOS/GOG Galaxy` на Mac. Это поле позволяет вам изменить этот путь, если исполняемый файл GOG Galaxy находится в другом месте.
 
-This field is actually only necessary if you enable launch via GOG Galaxy (see below), as otherwise SRM has no need of the location of the Galaxy Client.
+Указание правильного расположения исполняемого файла GOG Galaxy необходимо только в том случае, если вы включили запуск через GOG Galaxy (см. ниже), поскольку в противном случае SRM не нуждается в расположении исполняемого файла GOG Galaxy.
 
-## Launch Via GOG Galaxy `[Recommend disabled]`
+## Запуск через GOG Galaxy `[Рекомендуется отключить]`
 
-What it sounds like, this toggle let's you set whether games will launch via GOG Galaxy or directly. Note that for some games launching from GOG Galaxy may fail, and the Steam overlay will most likely not work.
+Судя по всему, этот переключатель определяет, будут ли игры запускаться через GOG Galaxy или напрямую. Для некоторых игр запуск из GOG Galaxy может оказаться неудачным, а оверлей Steam, скорее всего, не будет работать.
+
+## Разбор связанных исполняемых файлов из GOG Galaxy
+
+Если эта опция включена, SRM будет добавлять не только игры GOG, приобретенные в магазине GOG Galaxy, но и те, для которых вы вручную связали исполняемые файлы в GOG Galaxy. Это желательно, если эти игры не разбираются на SRM в других местах.
+
+Но, поскольку GOG Galaxy не хранит в своей базе данных названия исполняемых файлов, SRM будет использовать имя директории исполняемого файла в Windows (например, `C:\\path\\to\\\Hoa\\\LaunchHoa.exe` будет присвоено название `Hoa`) и имя исполняемого файла на Mac (например, `/Applications/Symphonia.app` будет присвоено название `Symphonia`).
+
+## Разбор с использованием реестра вместо БД Galaxy `[Только для Windows] [Рекомендуется отключить]`
+Эта опция будет анализировать реестр Windows на предмет установленных игр GOG вместо SQL-базы данных GOG Galaxy, что позволит парсеру работать, даже если GOG Galaxy не установлен. Если эта опция включена, то `Разбор связанных исполняемых файлов` не будет иметь никакого эффекта, но `Запуск через GOG Galaxy` будет работать как обычно.

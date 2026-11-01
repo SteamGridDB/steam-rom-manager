@@ -1,5 +1,5 @@
-import { configPresets } from "../src/renderer/schemas/config-presets.schema";
-import { customVariables } from "../src/renderer/schemas/custom-variables.schema";
+import { configPresets } from "../src/core/schemas/config-presets.schema";
+import { customVariables } from "../src/core/schemas/custom-variables.schema";
 import * as json from "../src/lib/helpers/json";
 import * as glob from "glob";
 

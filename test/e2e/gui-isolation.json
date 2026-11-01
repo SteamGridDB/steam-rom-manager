@@ -1,0 +1,54 @@
+[
+  {
+    "name": "sandboxed: no Node in the page, window.srm present",
+    "js": "return { require: typeof require, process: typeof process, module: typeof module, srm: Object.keys(window.srm || {}), env: window.srm.env }"
+  },
+  {
+    "name": "preload refuses other IPC channels",
+    "js": "try { window.srm.sendSync('steam-owned-games'); return 'NOT refused'; } catch (e) { return 'refused: ' + e.message }"
+  },
+  {
+    "name": "titlebar window info (app.windowInfo)",
+    "js": "const t = ng.getComponent(document.querySelector('titlebar')); return { minimizable: t.minimizable, maximizable: t.maximizable }"
+  },
+  {
+    "name": "open Add Games",
+    "js": "location.hash = '#SRM/preview'; await new Promise(r => setTimeout(r, 2000)); return location.hash"
+  },
+  {
+    "name": "generate",
+    "js": "const c = ng.getComponent(document.querySelector('preview')); c.generatePreviewData(); const v = c.previewService.getPreviewVariables(); const t = Date.now(); while ((!v.listHasGenerated || v.listIsBeingGenerated || v.numberOfQueriedImages) && Date.now() - t < 90000) await new Promise(r => setTimeout(r, 200)); const pd = c.previewService.getPreviewData(); window.__steamDir = Object.keys(pd)[0]; return { items: v.numberOfListItems, steamDir: window.__steamDir, titles: Object.values(Object.values(pd)[0])[0] && Object.values(Object.values(Object.values(pd)[0])[0].apps).map(a => a.title) }"
+  },
+  {
+    "name": "save to Steam",
+    "js": "const c = ng.getComponent(document.querySelector('preview')); return await c.save()"
+  },
+  {
+    "name": "View Games lists the saved shortcuts (library.read)",
+    "js": "location.hash = '#SRM/view'; await new Promise(r => setTimeout(r, 1500)); const v = ng.getComponent(document.querySelector('view')); const t0 = Date.now(); while ((v.refreshingGames || !v.viewService.shortcuts) && Date.now() - t0 < 30000) await new Promise(r => setTimeout(r, 200)); const s = v.viewService.shortcuts; const users = s[window.__steamDir]; return { dirs: Object.keys(s), users: users && Object.keys(users), apps: users && Object.values(users)[0].map(x => x.appname) }"
+  },
+  {
+    "name": "shortcut details (library.details)",
+    "js": "const v = ng.getComponent(document.querySelector('view')); const s = v.viewService.shortcuts[window.__steamDir]; const user = Object.keys(s)[0]; const sc = s[user].find(x => /Super Mario World/.test(x.appname)) || s[user][0]; await v.setCurrentShortcut(window.__steamDir, user, sc); await new Promise(r => setTimeout(r, 300)); return { launch: v.currentLaunch, cats: v.currentCats, enabled: v.currentControllerEnabled, artwork: Object.fromEntries(Object.entries(v.currentArtwork).map(([k, u]) => [k, String(u).slice(0, 12) + '...' + String(u).slice(-24)])), imgs: [...document.querySelectorAll('view img.artwork')].map(i => i.complete && i.naturalWidth > 0) }"
+  },
+  {
+    "name": "steam logins with avatars (support.steamLogins)",
+    "js": "const t = ng.getComponent(document.querySelector('titlebar')); return await t.coreClient.client.call('support', 'steamLogins', window.__steamDir)"
+  },
+  {
+    "name": "compat tools (support.compatTools)",
+    "js": "const t = ng.getComponent(document.querySelector('titlebar')); return (await t.coreClient.client.call('support', 'compatTools', [window.__steamDir])).length"
+  },
+  {
+    "name": "browsed path (support.browsedValue)",
+    "js": "const t = ng.getComponent(document.querySelector('titlebar')); const c = t.coreClient.client; return [c.callSync('support', 'browsedValue', 'C:\\\\Games\\\\SNES [USA]', null, {}), c.callSync('support', 'browsedValue', 'C:\\\\Games\\\\SNES [USA]', null, { useForwardSlash: true }), c.callSync('support', 'browsedValue', 'C:\\\\Games\\\\SNES [USA]', null, { appendGlob: '${title}.@(sfc|smc)' }), c.callSync('support', 'browsedValue', 'C:\\\\Games\\\\SNES', 'D:/old/**/${title}.sfc', { appendGlob: '${title}.@(sfc|smc)' })]"
+  },
+  {
+    "name": "remove from Steam",
+    "js": "location.hash = '#SRM/preview'; await new Promise(r => setTimeout(r, 2000)); const c = ng.getComponent(document.querySelector('preview')); c.generatePreviewData(); const v = c.previewService.getPreviewVariables(); const t = Date.now(); while ((!v.listHasGenerated || v.listIsBeingGenerated || v.numberOfQueriedImages) && Date.now() - t < 90000) await new Promise(r => setTimeout(r, 200)); await c.remove(); return c.previewService.getPreviewData() === undefined"
+  },
+  {
+    "name": "log: errors and shell scripts",
+    "js": "location.hash = '#SRM/logger'; await new Promise(r => setTimeout(r, 1000)); const text = ng.getComponent(document.querySelector('log')).loggerService.logText(); return text.split('\\n').filter(l => /^\\[error\\]|shell scripts/i.test(l)).slice(0, 15)"
+  }
+]

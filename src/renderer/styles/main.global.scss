@@ -2,24 +2,34 @@ html,
 body {
   margin: 0;
   padding: 0;
-
-  background-color: var(--color-main-background);
 }
 
+// Colors, fonts and the ambient backdrop come from the theme's tokens.
 html {
   font-size: 16px;
-
   height: 100%;
-
-  background-color: var(--color-main-background);
+  background-color: var(--srm-bg);
+  color: var(--srm-text);
 }
 
 body {
-  font-family: "Roboto";
-
+  font-family: var(--srm-font);
+  line-height: var(--srm-line-height);
   overflow: hidden;
-
   height: 100%;
+  background: var(--srm-bg-art), var(--srm-bg);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--srm-accent-soft);
+}
+
+// The app's icons are white images; themes adapt them (e.g. darker on light).
+nav img,
+nav-parsers img {
+  filter: var(--srm-icon-filter);
 }
 
 * {
@@ -67,7 +77,7 @@ body {
   height: 1em;
 
   border-radius: 50%;
-  font-family: "Roboto";
+  font-family: var(--srm-font);
 
   line-height: initial;
 

@@ -2,7 +2,7 @@
   <div class="search">
     <ng-text-input
       class="searchGames"
-      placeholder="Search Games"
+      [placeholder]="lang.searchGames"
       [(ngModel)]="filterValue"
     ></ng-text-input>
   </div>
@@ -16,7 +16,7 @@
   [class.showDetails]="!!currentShortcut"
   *ngIf="!(this.viewService.status.refreshingShortcuts | async)"
 >
-  <ng-container *ngFor="let steamDir of viewService.vdfData | keys">
+  <ng-container *ngFor="let steamDir of viewService.shortcuts | keys">
     <div
       class="directory"
       *ngVar="{ isHidden: false } as directory"
@@ -27,7 +27,7 @@
         <span>{{ steamDir }}</span>
       </div>
       <ng-container
-        *ngFor="let steamUser of viewService.vdfData[steamDir] | keys"
+        *ngFor="let steamUser of viewService.shortcuts[steamDir] | keys"
       >
         <div
           class="user"
@@ -42,7 +42,7 @@
             <ng-container
               *ngFor="
                 let shortcut of sortedShortcuts(
-                  viewService.vdfData[steamDir][steamUser].shortcuts.data
+                  viewService.shortcuts[steamDir][steamUser]
                 )
               "
             >
@@ -69,11 +69,11 @@
   <ng-container *ngIf="!(viewService.status.refreshingDetails | async)">
     <div class="infos">
       <div class="section">
-        <span class="sectionLabel">SHORTCUT INFO</span>
+        <span class="sectionLabel">{{ lang.shortcutInfo }}</span>
       </div>
       <div class="info">
         <div class="infoLabel">
-          <span>FULL SHORTCUT</span>
+          <span>{{ lang.fullShortcut }}</span>
         </div>
         <div class="infoArea" (click)="toClipboard(currentLaunch)">
           <span>{{ currentLaunch }}</span>
@@ -81,7 +81,7 @@
       </div>
       <div class="info">
         <div class="infoLabel">
-          <span>START DIRECTORY</span>
+          <span>{{ lang.startDirectory }}</span>
         </div>
         <div class="infoArea" (click)="toClipboard(currentShortcut.StartDir)">
           <span>{{ currentShortcut.StartDir }}</span>
@@ -89,7 +89,7 @@
       </div>
       <div class="info">
         <div class="infoLabel">
-          <span>CATEGORIES</span>
+          <span>{{ lang.categories }}</span>
         </div>
         <div class="infoArea" (click)="toClipboard(currentCats)">
           <span>{{ currentCats }}</span>
@@ -97,7 +97,7 @@
       </div>
     </div>
     <div class="section">
-      <span class="sectionLabel">ARTWORK</span>
+      <span class="sectionLabel">{{ lang.artwork }}</span>
     </div>
     <div class="artworks">
       <ng-container *ngFor="let artworkType of artworkTypes">
@@ -110,12 +110,12 @@
       </ng-container>
     </div>
     <div class="section">
-      <span class="sectionLabel">CONTROLLERS</span>
+      <span class="sectionLabel">{{ lang.controllers }}</span>
     </div>
     <div class="infos">
       <div class="info">
         <div class="infoLabel">
-          <span>ENABLE STEAM INPUT</span>
+          <span>{{ lang.enableSteamInput }}</span>
         </div>
         <div class="infoArea">
           <span>{{ currentControllerEnabled }}</span>
@@ -146,21 +146,23 @@
 </div>
 <div class="menu">
   <div class="lowerLeft">
-    <div (click)="refreshGames(true)">Refresh Games</div>
+    <div (click)="refreshGames(true)">{{ lang.refreshGames }}</div>
   </div>
   <div class="lowerRight">
-    @if(!!currentShortcut) {
-      <div class="launch" (click)="launchTitle()">Launch Title</div>
+    @if (!!currentShortcut) {
+      <div class="launch" (click)="launchTitle()">
+        {{ lang.launchTitle }}
+      </div>
     }
-    @if(appSettings.theme == 'EmuDeck') {
+    @if (appSettings.theme == "EmuDeck") {
       <div
-      class="menuButton"
-      routerLink="/parsers-list"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >
-      Back
-    </div>
+        class="menuButton"
+        routerLink="/parsers-list"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        {{ lang.back }}
+      </div>
     }
   </div>
 </div>

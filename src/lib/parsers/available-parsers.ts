@@ -1,4 +1,4 @@
-import * as json from "../helpers/json";
+import { multiInvert } from "../helpers/json/multi-invert";
 import { ParserInputType, ParserType, SuperType } from "../../models";
 
 /*
@@ -87,7 +87,7 @@ export const availableParserInputsInfo: Record<
   },
   "Battle.net": { battleExeOverride: { inputType: "path" } },
   "Non-SRM Shortcuts": {},
-  "GitHub Launcher": { githubLauncherDir: { inputType: "dir"} },
+  "GitHub Launcher": { githubLauncherDir: { inputType: "dir" } },
   "Quiver Launcher": { quiverLauncherDir: { inputType: "dir" } },
 };
 
@@ -114,7 +114,7 @@ export const superTypes: Record<SuperType, ParserType[]> = {
   ],
 };
 
-export const superTypesMap: Record<ParserType, SuperType> = json.multiInvert<
+export const superTypesMap: Record<ParserType, SuperType> = multiInvert<
   SuperType,
   ParserType
 >(superTypes);

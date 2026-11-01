@@ -1,0 +1,10 @@
+[
+  {
+    "name": "renders, sandboxed",
+    "js": "return { srm: !!window.srm, require: typeof require, text: document.querySelector('app').innerText.slice(0, 80) }"
+  },
+  {
+    "name": "every page renders",
+    "js": "const out = {}; for (const page of ['parsers-list', 'parsers/new', 'preview', 'view', 'logger', 'user-exceptions', 'settings', 'about']) { location.hash = '#SRM/' + page; await new Promise(r => setTimeout(r, 1500)); out[page] = document.querySelector('router-outlet + *')?.innerText.length ?? document.querySelector('app').innerText.length; } return out"
+  }
+]

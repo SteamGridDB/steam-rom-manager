@@ -15,6 +15,7 @@ export function generateListFromDirectoryList(steamDirectories: string[]) {
         users: { id: string; paths: { [k: string]: string } }[];
       };
       error: string;
+      noUsers?: boolean;
     }>[] = [];
     for (let steamDirectory of steamDirectories) {
       promises.push(
@@ -24,6 +25,7 @@ export function generateListFromDirectoryList(steamDirectories: string[]) {
             users: { id: string; paths: { [k: string]: string } }[];
           };
           error: string;
+          noUsers?: boolean;
         }>((resolve, reject) => {
           getAvailableLogins(steamDirectory)
             .then((userAccounts: userAccountData[]) => {
@@ -33,6 +35,7 @@ export function generateListFromDirectoryList(steamDirectories: string[]) {
                   error: APP.lang.helpers.error.noUserIdsInDir__i.interpolate({
                     steamDirectory: steamDirectory,
                   }),
+                  noUsers: true,
                 });
               } else {
                 let users: { id: string; paths: { [k: string]: string } }[] =
@@ -84,8 +87,12 @@ export function generateListFromDirectoryList(steamDirectories: string[]) {
     let vdfData: VDF_ListData = {};
     let numberOfGeneratedEntries: number = 0;
     let errors: string[] = [];
+    // Directories without users (an old install, a removed SD card) are
+    // only an error when no directory has any.
+    const noUsers: string[] = [];
     for (let i = 0; i < data.length; i++) {
-      if (data[i].error) errors.push(data[i].error);
+      if (data[i].noUsers) noUsers.push(data[i].error);
+      else if (data[i].error) errors.push(data[i].error);
       else {
         let directory = data[i].data.directory;
         let users = data[i].data.users;
@@ -110,6 +117,7 @@ export function generateListFromDirectoryList(steamDirectories: string[]) {
       }
     }
 
+    if (numberOfGeneratedEntries === 0) errors.push(...noUsers);
     return { data: vdfData, numberOfGeneratedEntries, errors };
   });
 }

@@ -1,6 +1,4 @@
-# "Diretório de Manifestos `[Suporta Variáveis de Ambiente]`{.noWrap}
-
-Por padrão o diretório "Start In" está definido para o diretório do executável:
+#
 
 ![Padrão "Iniciar em" diretório](../../../assets/images/default-start-in-directory.png) {.fitImage.center}
 

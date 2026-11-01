@@ -10,37 +10,50 @@
       previewVariables.numberOfListItems == 0
     "
   >
-    <h1>Add your games to Steam</h1>
-    <p>Follow these steps to add games to your Steam Library</p>
+    <h1>{{ lang.onboarding.heading }}</h1>
+    <p>{{ lang.onboarding.intro }}</p>
     <ol>
-      <li>Click on the <strong>Parse button</strong> to scan your games</li>
-      <li>Wait until all the images are downloaded</li>
       <li>
-        Click on <strong>Save to Steam</strong> and wait for the message "Done
-        adding/removing entries"
+        {{ lang.onboarding.step1Before }}
+        <strong>{{ lang.onboarding.step1Strong }}</strong>
+        {{ lang.onboarding.step1After }}
+      </li>
+      <li>{{ lang.onboarding.step2 }}</li>
+      <li>
+        {{ lang.onboarding.step3Before }}
+        <strong>{{ lang.saveAppList }}</strong>
+        {{ lang.onboarding.step3After }}
       </li>
     </ol>
 
     <p>
-      If a game has the wrong art hit <strong>Fix</strong> and select the correct game,
-      then hit <strong>Save and close</strong>
+      {{ lang.onboarding.fixBefore }}
+      <strong>{{ lang.appButtons.fix }}</strong>
+      {{ lang.onboarding.fixMiddle }}
+      <strong>{{ lang.details.saveAndClose }}</strong>
     </p>
     <p>
-      If you don't want to add all games click <strong>Exclude Apps</strong> and
-      then select the ones you don't want and hit <strong>Save Excludes</strong>
+      {{ lang.onboarding.excludeBefore }}
+      <strong>{{ lang.onboarding.excludeStrong }}</strong>
+      {{ lang.onboarding.excludeMiddle }}
+      <strong>{{ lang.exclude.save }}</strong>
     </p>
-    <div class="fake-btn" (click)="generatePreviewData()">Parse</div>
+    <div class="fake-btn" (click)="parse()">
+      {{ lang.onboarding.parse }}
+    </div>
   </div>
   <div class="upperMenu" *ngIf="previewVariables.numberOfListItems > 0">
-    <div class="filtersButton" (click)="toggleFilters()">Options</div>
+    <div class="filtersButton" (click)="toggleFilters()">
+      {{ lang.options }}
+    </div>
     <div class="title" *ngIf="showDetails">
-      <span>Fix Match</span>
+      <span>{{ lang.titles.fixMatch }}</span>
     </div>
     <div class="title" *ngIf="showExcludes">
-      <span>Manage Excludes</span>
+      <span>{{ lang.titles.manageExcludes }}</span>
     </div>
     <div class="title" *ngIf="showListImages">
-      <span>Select Artwork</span>
+      <span>{{ lang.titles.selectArtwork }}</span>
     </div>
     <div class="slider">
       <input
@@ -73,28 +86,34 @@
   </div>
   <div class="excludes" *ngIf="showExcludes">
     <div class="titleGroup">
-      <span>Number Excluded: {{ exclusionCount }}</span>
+      <span>{{
+        lang.exclude.numberExcluded__i.interpolate({ count: exclusionCount })
+      }}</span>
     </div>
     <div class="buttonGroup">
       <div class="excludeButton" (click)="excludeVisible()">
-        <span>Exclude Visible</span>
+        <span>{{ lang.exclude.excludeVisible }}</span>
       </div>
       <div class="excludeButton" (click)="includeVisible()">
-        <span>Include Visible</span>
+        <span>{{ lang.exclude.includeVisible }}</span>
       </div>
       <div class="excludeButton dangerousButton" (click)="cancelExcludes()">
-        <span>Cancel</span>
+        <span>{{ lang.exclude.cancel }}</span>
       </div>
       <div class="excludeButton" (click)="saveExcludes()">
-        <span>Save Excludes</span>
+        <span>{{ lang.exclude.save }}</span>
       </div>
     </div>
   </div>
   <div class="excludesLower" *ngIf="showExcludes">
     <div class="title">
-      <span>Put Back Titles</span>
-      <div class="button" (click)="putBackSetAll(true)"><span>All</span></div>
-      <div class="button" (click)="putBackSetAll(false)"><span>None</span></div>
+      <span>{{ lang.exclude.putBackTitles }}</span>
+      <div class="button" (click)="putBackSetAll(true)">
+        <span>{{ lang.exclude.all }}</span>
+      </div>
+      <div class="button" (click)="putBackSetAll(false)">
+        <span>{{ lang.exclude.none }}</span>
+      </div>
     </div>
     <div class="currentExcludes">
       <ng-container *ngFor="let steamDir of previewData | keys">
@@ -106,13 +125,14 @@
           >
             <div
               class="currentExclude"
+              [title]="currentExclude.filePath"
               (click)="
-                excludePutBacks[currentExclude.exceptionKey] =
-                  !excludePutBacks[currentExclude.exceptionKey]
+                excludePutBacks[currentExclude.exclusionId] =
+                  !excludePutBacks[currentExclude.exclusionId]
               "
-              [class.isPutBack]="excludePutBacks[currentExclude.exceptionKey]"
+              [class.isPutBack]="excludePutBacks[currentExclude.exclusionId]"
             >
-              {{ currentExclude.filePath }}
+              {{ currentExclude.title }}
             </div>
           </ng-container>
         </ng-container>
@@ -125,16 +145,16 @@
     </div>
     <div class="buttonGroup">
       <div class="upperButton dangerousButton" (click)="closeDetails()">
-        <span>Cancel</span>
+        <span>{{ lang.details.cancel }}</span>
       </div>
       <div
         class="upperButton dangerousButton"
         (click)="deleteExceptionDetails()"
       >
-        <span>Reset</span>
+        <span>{{ lang.details.reset }}</span>
       </div>
       <div class="upperButton" (click)="saveDetails()">
-        <span>Save and close</span>
+        <span>{{ lang.details.saveAndClose }}</span>
       </div>
     </div>
   </div>
@@ -149,14 +169,14 @@
               (click)="toggleDetailsPerApp()"
             >
               <svg select-arrow-down></svg>
-              <span>Per-App-Exceptions</span>
+              <span>{{ lang.details.perAppExceptions }}</span>
             </div>
             <ng-container *ngIf="!hideDetailsPerApp">
               <div class="detailsExceptionField">
                 <div class="detailsExceptionText">
                   <ng-text-input
                     class="ngTextInput"
-                    placeholder="New Display Title (Optional)"
+                    [placeholder]="lang.details.newTitlePlaceholder"
                     [(ngModel)]="detailsException.newTitle"
                   ></ng-text-input>
                 </div>
@@ -166,31 +186,54 @@
                     detailsException.newTitle = detailsApp.app.extractedTitle
                   "
                 >
-                  Use Original
+                  {{ lang.details.useOriginal }}
                 </div>
               </div>
+              <!-- A Fix Match pick decides the artwork search; the search
+                   title comes back once the match is cleared. -->
+              @if (detailsException.sgdbId) {
+                <div class="detailsExceptionField">
+                  <div class="detailsExceptionText sgdbMatch">
+                    {{
+                      lang.details.sgdbMatch__i.interpolate({
+                        id: detailsException.sgdbId,
+                      })
+                    }}
+                  </div>
+                  <div
+                    class="detailsExceptionButton"
+                    (click)="detailsException.sgdbId = ''; matchFix = ''"
+                  >
+                    {{ lang.details.clearMatch }}
+                  </div>
+                </div>
+              } @else {
+                <div class="detailsExceptionField">
+                  <div class="detailsExceptionText">
+                    <ng-text-input
+                      class="ngTextInput"
+                      [placeholder]="lang.details.newSearchTitlePlaceholder"
+                      [(ngModel)]="detailsException.searchTitle"
+                    ></ng-text-input>
+                  </div>
+                  <div
+                    class="detailsExceptionButton"
+                    (click)="
+                      detailsException.searchTitle =
+                        detailsApp.app.extractedTitle
+                    "
+                  >
+                    {{ lang.details.useOriginal }}
+                  </div>
+                </div>
+              }
               <div class="detailsExceptionField">
                 <div class="detailsExceptionText">
                   <ng-text-input
                     class="ngTextInput"
-                    placeholder="New Image Search Title (Optional)"
-                    [(ngModel)]="detailsException.searchTitle"
-                  ></ng-text-input>
-                </div>
-                <div
-                  class="detailsExceptionButton"
-                  (click)="
-                    detailsException.searchTitle = detailsApp.app.extractedTitle
-                  "
-                >
-                  Use Original
-                </div>
-              </div>
-              <div class="detailsExceptionField">
-                <div class="detailsExceptionText">
-                  <ng-text-input
-                    class="ngTextInput"
-                    placeholder="New Commandline Arguments (Optional)"
+                    [placeholder]="
+                      lang.details.newCommandLineArgumentsPlaceholder
+                    "
                     [(ngModel)]="detailsException.commandLineArguments"
                   ></ng-text-input>
                 </div>
@@ -198,7 +241,7 @@
                   class="detailsExceptionButton"
                   (click)="detailsException.commandLineArguments = ''"
                 >
-                  Clear
+                  {{ lang.details.clear }}
                 </div>
               </div>
               <div class="detailsExceptionField">
@@ -206,7 +249,7 @@
                   <ng-toggle-button
                     class="ngToggleButton"
                     [(ngModel)]="detailsException.excludeArtwork"
-                    >Local Artwork Only</ng-toggle-button
+                    >{{ lang.details.localArtworkOnly }}</ng-toggle-button
                   >
                 </div>
               </div>
@@ -214,7 +257,7 @@
                 <div class="detailsExceptionText">
                   <ng-select
                     class="ngSelect"
-                    placeholder="Force compatibility tool"
+                    [placeholder]="lang.details.forceCompatToolPlaceholder"
                     [(ngModel)]="detailsException.compatToolName"
                     [values]="compatToolOptions"
                     [sort]="false"
@@ -224,17 +267,19 @@
               </div>
             </ng-container>
             <div class="detailsExceptionSection">
-              <span>Search SteamGridDB</span>
+              <span>{{ lang.details.searchSteamGridDB }}</span>
             </div>
           </div>
 
           <div class="detailsSearch">
             <ng-text-input
               class="ngTextInput"
-              placeholder="Game Title"
+              [placeholder]="lang.details.gameTitlePlaceholder"
               [(ngModel)]="detailsSearchText"
             ></ng-text-input>
-            <div class="clickButton2" (click)="searchForDetails()">Search</div>
+            <div class="clickButton2" (click)="searchForDetails()">
+              {{ lang.details.search }}
+            </div>
           </div>
         </div>
         <div class="appResults" [class.perAppHidden]="hideDetailsPerApp">
@@ -256,16 +301,16 @@
             </div>
             <div class="appButtons">
               <div class="button" (click)="fixMatchSearch(sgdbId)">
-                Artwork Only
+                {{ lang.details.artworkOnly }}
               </div>
               <div class="button" (click)="fixMatchTitle(sgdbId)">
-                Title Only
+                {{ lang.details.titleOnly }}
               </div>
               <a
                 class="button"
                 href="https://www.steamgriddb.com/game/{{ sgdbId }}"
                 style="text-decoration: none"
-                >View on SGDB</a
+                >{{ lang.details.viewOnSGDB }}</a
               >
             </div>
           </ng-container>
@@ -282,7 +327,7 @@
     </div>
     <div class="buttonGroup">
       <div class="upperButton dangerousButton" (click)="closeListImages()">
-        <span>Close</span>
+        <span>{{ lang.listImages.close }}</span>
       </div>
       <div
         class="upperButton"
@@ -295,13 +340,17 @@
           )
         "
       >
-        <span>Fix Match</span>
+        <span>{{ lang.titles.fixMatch }}</span>
       </div>
       <div
         class="upperButton"
         (click)="addLocalImages(currentApp.app, listImagesArtworkType)"
       >
-        <span>Upload {{ artworkViewNames[listImagesArtworkType] }}</span>
+        <span>{{
+          lang.listImages.upload__i.interpolate({
+            artworkType: artworkViewNames[listImagesArtworkType],
+          })
+        }}</span>
       </div>
     </div>
   </div>
@@ -392,7 +441,7 @@
   <div class="filters" *ngIf="showFilters">
     <div class="filtergroup">
       <div class="filterLabel">
-        <span>Sort games by</span>
+        <span>{{ lang.filters.sortBy }}</span>
       </div>
       <ng-select
         class="selectSortBy"
@@ -404,7 +453,7 @@
     </div>
     <div class="filtergroup">
       <div class="filterLabel">
-        <span>Filter by Steam category</span>
+        <span>{{ lang.filters.byCategory }}</span>
       </div>
       <ng-select
         class="selectCategories"
@@ -418,7 +467,7 @@
     </div>
     <div class="filtergroup">
       <div class="filterLabel">
-        <span>Filter by parser</span>
+        <span>{{ lang.filters.byParser }}</span>
       </div>
       <ng-select
         class="selectParsers"
@@ -431,31 +480,35 @@
       ></ng-select>
     </div>
     <div class="filtergroup">
-      <div class="filterLabel"><span>Other Filters</span></div>
+      <div class="filterLabel">
+        <span>{{ lang.filters.other }}</span>
+      </div>
       <ng-toggle-button
         [ngModel]="missingArtFilter"
         (ngModelChange)="setArtFilter($event)"
-        >Missing artwork</ng-toggle-button
+        >{{ lang.filters.missingArtwork }}</ng-toggle-button
       >
       <ng-toggle-button
         [ngModel]="exceptionFilter"
         (ngModelChange)="setExceptionFilter($event)"
-        >Has an exception
+        >{{ lang.filters.hasException }}
       </ng-toggle-button>
     </div>
     <div class="filtergroup">
-      <div class="filterLabel"><span>Export/Import</span></div>
+      <div class="filterLabel">
+        <span>{{ lang.filters.exportImport }}</span>
+      </div>
       <div
         class="button"
         (click)="exportSelection()"
-        [attr.title]="'Export image choices'"
+        [attr.title]="lang.filters.exportTitle"
       >
         {{ lang.exportSelections }}
       </div>
       <div
         class="button"
         (click)="importSelection()"
-        [attr.title]="'Import image choices'"
+        [attr.title]="lang.filters.importTitle"
       >
         {{ lang.importSelections }}
       </div>
@@ -493,17 +546,15 @@
             >
               <div class="title" (click)="user.isHidden = !user.isHidden">
                 <svg select-arrow-down></svg>
-                <span
-                  >{{
-                    appSettings.previewSettings.hideUserAccount
+                <span>{{
+                  lang.userTitles__i.interpolate({
+                    user: appSettings.previewSettings.hideUserAccount
                       ? steamUser
-                      : previewData[steamDir][steamUser].username
-                  }}
-                  ({{
-                    (previewData[steamDir][steamUser].apps | keys).length
-                  }}
-                  titles)</span
-                >
+                      : previewData[steamDir][steamUser].username,
+                    count: (previewData[steamDir][steamUser].apps | keys)
+                      .length,
+                  })
+                }}</span>
               </div>
               <div class="apps">
                 <ng-container *ngIf="currentViewType === 'list'">
@@ -513,21 +564,21 @@
                       (click)="listSortBy = 'extractedTitle'"
                       [class.sortBy]="listSortBy == 'extractedTitle'"
                     >
-                      <span>Extracted Title</span>
+                      <span>{{ lang.sortBy.extractedTitle }}</span>
                     </div>
                     <div
                       class="infoField"
                       (click)="listSortBy = 'title'"
                       [class.sortBy]="listSortBy == 'title'"
                     >
-                      <span>Final Title</span>
+                      <span>{{ lang.sortBy.title }}</span>
                     </div>
                     <div
                       class="infoField"
                       (click)="listSortBy = 'configurationTitle'"
                       [class.sortBy]="listSortBy == 'configurationTitle'"
                     >
-                      <span>Parser</span>
+                      <span>{{ lang.sortBy.configurationTitle }}</span>
                     </div>
                   </div>
                 </ng-container>
@@ -687,7 +738,7 @@
                                     <div class="deckbuttons">
                                       <div
                                         class="btn only-emudeck only-deck"
-                                        title="Fix match"
+                                        [title]="lang.appButtons.fixMatch"
                                         image-lens
                                         hover="true"
                                         active="true"
@@ -705,7 +756,7 @@
                                           )
                                         "
                                       >
-                                        Fix
+                                        {{ lang.appButtons.fix }}
                                       </div>
                                       <div
                                         class="btn only-emudeck only-deck"
@@ -717,7 +768,7 @@
                                           addLocalImages(app, artworkType)
                                         "
                                       >
-                                        Upload
+                                        {{ lang.appButtons.upload }}
                                       </div>
                                       <div
                                         class="btn only-emudeck only-deck"
@@ -732,7 +783,7 @@
                                         "
                                         [title]="lang.refreshImages"
                                       >
-                                        Refresh
+                                        {{ lang.generateAppList }}
                                       </div>
                                       <div
                                         class="btn only-emudeck only-deck"
@@ -743,7 +794,7 @@
                                         (click)="loadImage(app, artworkType)"
                                         [title]="lang.retryDownload"
                                       >
-                                        Retry
+                                        {{ lang.appButtons.retry }}
                                       </div>
                                       <div
                                         class="btn only-emudeck only-deck"
@@ -754,7 +805,7 @@
                                         (click)="saveImage(image, app.title)"
                                         [title]="lang.saveImage"
                                       >
-                                        Save
+                                        {{ lang.appButtons.save }}
                                       </div>
                                     </div>
                                     <div
@@ -762,7 +813,7 @@
                                     >
                                       <svg
                                         class="button"
-                                        title="Fix match"
+                                        [title]="lang.appButtons.fixMatch"
                                         image-lens
                                         [hover]="true"
                                         [active]="true"
@@ -978,7 +1029,7 @@
                                   <div class="deckbuttons">
                                     <div
                                       class="btn only-emudeck only-deck"
-                                      title="Fix match"
+                                      [title]="lang.appButtons.fixMatch"
                                       image-lens
                                       hover="true"
                                       active="true"
@@ -995,7 +1046,7 @@
                                         )
                                       "
                                     >
-                                      Fix
+                                      {{ lang.appButtons.fix }}
                                     </div>
                                     <div
                                       class="btn only-emudeck only-deck"
@@ -1005,7 +1056,7 @@
                                       active="true"
                                       (click)="addLocalImages(app)"
                                     >
-                                      Upload
+                                      {{ lang.appButtons.upload }}
                                     </div>
                                     <div
                                       class="btn only-emudeck only-deck"
@@ -1016,7 +1067,7 @@
                                       (click)="loadImage(app)"
                                       [title]="lang.retryDownload"
                                     >
-                                      Retry
+                                      {{ lang.appButtons.retry }}
                                     </div>
                                     <div
                                       class="btn only-emudeck only-deck"
@@ -1027,7 +1078,7 @@
                                       (click)="refreshImages(app)"
                                       [title]="lang.refreshImages"
                                     >
-                                      Refresh
+                                      {{ lang.generateAppList }}
                                     </div>
                                     <div
                                       class="btn only-emudeck only-deck"
@@ -1038,7 +1089,7 @@
                                       (click)="saveImage(image, app.title)"
                                       [title]="lang.saveImage"
                                     >
-                                      Save
+                                      {{ lang.appButtons.save }}
                                     </div>
                                   </div>
                                   <div
@@ -1046,7 +1097,7 @@
                                   >
                                     <svg
                                       class="button not-emudeck not-deck"
-                                      title="Fix match"
+                                      [title]="lang.appButtons.fixMatch"
                                       image-lens
                                       [hover]="true"
                                       [active]="true"
@@ -1135,7 +1186,7 @@
   >
     <ng-container *ngIf="previewVariables.numberOfListItems !== 0">
       <div class="lowerLeft">
-        <div class="button" (click)="generatePreviewData()">
+        <div class="button" (click)="parse()">
           {{ lang.generateAppList }}
         </div>
         <div class="button" (click)="save()">{{ lang.saveAppList }}</div>
@@ -1145,7 +1196,7 @@
       </div>
       <div class="lowerRight">
         <div class="button" (click)="showExclusions()" *ngIf="!showExcludes">
-          {{ "Exclude Games" }}
+          {{ lang.exclude.excludeGames }}
         </div>
       </div>
     </ng-container>
@@ -1156,7 +1207,7 @@
       [routerLinkActiveOptions]="{ exact: true }"
       *ngIf="previewVariables.numberOfListItems !== 0"
     >
-      Log
+      {{ lang.logButton }}
     </div>
     <div
       class="only-emudeck"
@@ -1164,7 +1215,7 @@
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
     >
-      Back
+      {{ lang.backButton }}
     </div>
   </div>
   <div class="lowerMenu only-emudeck" *ngIf="!showExcludes">
@@ -1175,7 +1226,7 @@
       "
     >
       <div class="lowerLeft">
-        <div class="button" (click)="generatePreviewData()">
+        <div class="button" (click)="parse()">
           {{ lang.generateAppList }}
         </div>
         <div class="button" (click)="save()">{{ lang.saveAppList }}</div>
@@ -1185,7 +1236,7 @@
       </div>
       <div class="lowerRight">
         <div class="button" (click)="showExclusions()" *ngIf="!showExcludes">
-          {{ "Exclude Games" }}
+          {{ lang.exclude.excludeGames }}
         </div>
         <div
           class="button"
@@ -1194,7 +1245,7 @@
           [routerLinkActiveOptions]="{ exact: true }"
           *ngIf="previewVariables.numberOfListItems !== 0"
         >
-          Log
+          {{ lang.logButton }}
         </div>
         <div
           class="button"
@@ -1202,7 +1253,7 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          Back
+          {{ lang.backButton }}
         </div>
       </div>
     </ng-container>
@@ -1219,7 +1270,7 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          Log
+          {{ lang.logButton }}
         </div>
         <div
           class="button"
@@ -1227,7 +1278,7 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          Back
+          {{ lang.backButton }}
         </div>
       </div>
     </ng-container>

@@ -8,7 +8,6 @@ import {
 import { SettingsService } from "../services";
 import { AppSettings } from "../../models";
 import { APP } from "../../variables";
-import * as os from "os";
 
 @Component({
   selector: "splash",
@@ -33,7 +32,7 @@ export class SplashComponent {
     return APP.lang.settings.component;
   }
   get placeholderSteamDir() {
-    return this.lang.placeholder.bySystem[os.type()].steamDirectory;
+    return this.lang.placeholder.bySystem[APP.osType].steamDirectory;
   }
   moveToUsers() {
     if (this.appSettings.environmentVariables.steamDirectory) {

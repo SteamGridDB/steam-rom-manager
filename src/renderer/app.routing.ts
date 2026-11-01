@@ -5,7 +5,7 @@ import {
   AppComponent,
   PreviewComponent,
   LoggerComponent,
-  ParsersComponent,
+  ParsersPageComponent,
   SettingsComponent,
   AboutComponent,
   ExceptionsComponent,
@@ -39,9 +39,15 @@ const AppRouter: Routes = [
     path: "settings",
     component: SettingsComponent,
   },
+  // The Parsers tab; /parsers/<parserId> opens a parser, /parsers/new a
+  // new one.
   {
-    path: "parsers/:index",
-    component: ParsersComponent,
+    path: "parsers",
+    component: ParsersPageComponent,
+  },
+  {
+    path: "parsers/:parserId",
+    component: ParsersPageComponent,
   },
   {
     path: "parsers-list",

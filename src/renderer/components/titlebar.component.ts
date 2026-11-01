@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 import { Title } from "@angular/platform-browser";
-import * as remote from "@electron/remote";
-import { FuzzyService } from "../services";
+import { CoreClientService } from "../services/core-client.service";
 
 @Component({
   selector: "titlebar",
@@ -49,45 +48,34 @@ import { FuzzyService } from "../services";
 export class TitleComponent {
   minimizable: boolean;
   maximizable: boolean;
-  private mainWindow: Electron.BrowserWindow;
 
   constructor(
     private title: Title,
-    private fuzzyService: FuzzyService,
+    private coreClient: CoreClientService,
   ) {
-    this.mainWindow = remote.getCurrentWindow();
-    this.minimizable = this.mainWindow.minimizable;
-    this.maximizable = this.mainWindow.maximizable;
-    this.mainWindow.once("close", this.onClose.bind(this));
+    const info = this.coreClient.client.callSync("app", "windowInfo");
+    this.minimizable = info.minimizable;
+    this.maximizable = info.maximizable;
   }
 
   minimizeEvent() {
     if (this.minimizable) {
-      if (this.mainWindow.isMinimized()) this.mainWindow.restore();
-      else this.mainWindow.minimize();
+      this.coreClient.client.call("app", "minimize");
     }
   }
 
   maximizeEvent() {
     if (this.maximizable) {
-      if (this.mainWindow.isMaximized()) this.mainWindow.unmaximize();
-      else this.mainWindow.maximize();
+      this.coreClient.client.call("app", "toggleMaximize");
     }
   }
 
+  // (The main process saves the fuzzy matcher's cache before closing.)
   closeEvent() {
-    this.onClose(null);
+    this.coreClient.client.call("app", "close");
   }
 
   getTitle() {
     return this.title.getTitle();
-  }
-
-  private onClose(event: Electron.Event) {
-    if (event) event.preventDefault();
-
-    this.fuzzyService.saveCacheIfNeeded().then(() => {
-      this.mainWindow.close();
-    });
   }
 }

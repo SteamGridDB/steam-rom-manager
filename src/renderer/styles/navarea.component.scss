@@ -1,7 +1,7 @@
 :host {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: var(--height-navarea) auto;
+  grid-template-rows: auto minmax(0, 1fr);
   gap: 0px 0px;
   grid-template-areas: "nav" "nav-parsers";
   grid-area: navarea;

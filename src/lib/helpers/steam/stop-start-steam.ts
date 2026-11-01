@@ -1,7 +1,7 @@
 import { spawn, execSync } from "child_process";
 import * as os from "os";
-import { AppSettings } from "../../../models";
-import { LoggerService } from "../../../renderer/services";
+import { AppSettings, Logger } from "../../../models";
+import "../../string-interpolation"; // String.prototype.interpolate
 
 const checkDelay = 500;
 const timeout = 60000;
@@ -155,7 +155,7 @@ export async function startSteam() {
 
 export async function performSteamlessTask(
   appSettings: AppSettings,
-  loggerService: LoggerService,
+  loggerService: Logger,
   task: () => Promise<void>,
 ) {
   let stop: { acted: boolean; messages: string[] };
@@ -170,7 +170,8 @@ export async function performSteamlessTask(
     }
   }
   await task();
-  if (appSettings.autoRestartSteam && stop.acted) {
+  // (only restart what we stopped: "restart" can stay on with "kill" off)
+  if (appSettings.autoRestartSteam && stop?.acted) {
     loggerService.info("Attempting to restart Steam.", {
       invokeAlert: true,
       alertTimeout: 3000,

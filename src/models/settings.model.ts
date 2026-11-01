@@ -18,7 +18,6 @@ export interface AppSettings {
   fuzzyMatcher: {
     timestamps: FuzzyListTimestamps;
     verbose: boolean;
-    filterProviders: boolean;
   };
   environmentVariables: {
     steamDirectory: string;

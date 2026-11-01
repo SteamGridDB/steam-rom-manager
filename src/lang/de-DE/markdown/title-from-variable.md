@@ -1,99 +1,64 @@
-# Titel der benutzerdefinierten Variable (optional)
+# Title from custom variable
 
-Erlaubt es, den entpackten Titel mit einer benutzerdefinierten Variable zu überschreiben. This is done right after title extraction, meaning that the replaced title can be used for fuzzy matching and so on. Groups and variables themselves are **case-sensitive**, unless case-insesitive variable option is enabled.
+Allows one to overwrite the extracted title with a custom variable, pulled from the `json` files described below. This happens right after title extraction, meaning that the new title can be used for fuzzy matching and so on. Gruppen und Variablen beachten Groß- und Kleinschreibung, außer etwas anderes ist aktiviert.
 
-Title matching can be limited to specific groups of custom variables. In order to specify groups, the following syntax must be used:
-
-```
-${...}
-```
-
-For example, this is how you specify groups for "RPCS3" and "rpcs3":
+Title matching is limited to specific groups of custom variables. For example, this is how you specify groups "FBN" and "PSN":
 
 ```
-${RPCS3}${rpcs3}
+${RPCS3}${PSN}
 ```
 
-Make sure you **toggle enable to on**.
+# So funktioniert es
 
-## Case-insensitive option
+There are two variable files, `customVariables.json` which is maintained by SRM (don't change this one, your changes will be overwritten every time SRM restarts) and `userVariables.json` which is where you should put your own variables. Both files are located in SRM's `Config Directory`. Your handcrafted variables will take preference over SRMs defaults.
 
-If this option is enabled, case-insensitive matching will be done and first matched custom variable will be used.
-
-## Note. Diese Funktion ist **experimentell**
-
-Grundsätzlich könnte sich dies in einer zukünftigen Version ändern (sehr unwahrscheinlich). Furthermore, currently the only way to add variables is to create/edit `customVariables.json` used by SRM directly.
-
-Diese Datei ist/sollte sich im Verzeichnis `userData` von SRM befinden.
-
-SRM wird Fehler ausgeben, wenn nicht die folgende JSON-Struktur verwendet wird:
+Both `customVariables.json` and `userVariables.json` have the same JSON structure. SRM benötigt die folgende Struktur:
 
 ```
 {
-    "RPCS3": {
+    "Group1": {
         "NPUB30698": "Catherine",
         "NPUB30024": "1942: Joint Strike",
         ...
     },
-    "Custom Stuff": {
-        "The Legend Of Zelda": "The Legend Of Link"
-    },
-    ...
-}
-    {
-    "RPCS3": {
-        "NPUB30698": "Catherine",
-        "NPUB30024": "1942: Joint Strike",
+    "Group2": {
+        "The Legend Of Zelda": "The Legend Of Link",
         ...
     },
-    "Custom Stuff": {
-        "The Legend Of Zelda": "The Legend Of Link"
-    },
     ...
-}
-    {
-    "RPCS3": {
-        "NPUB30698": "Catherine",
-        "NPUB30024": "1942: Joint Strike",
-        ...
-    },
-    "Custom Stuff": {
-        "The Legend Of Zelda": "The Legend Of Link"
-    },
-    ...
-}
-    {
-    "RPCS3": {
-        "NPUB30698": "Catherine",
-        "NPUB30024": "1942: Joint Strike",
-        ...
-    },
-    "Custom Stuff": {
-        "The Legend Of Zelda": "The Legend Of Link"
-    },
-    ...
-}
-    {
-    "RPCS3": {
-        "NPUB30698": "Catherine",
-        "NPUB30024": "1942: Joint Strike",
-        ...
-    },
-    "Custom Stuff": {
-        "The Legend Of Zelda": "The Legend Of Link"
-    },
-    ...
-}
-    },
-    "Custom Stuff": {
-        "The Legend Of Zelda": "The Legend Of Link"
-    },
-    ...
-}
-}
-}
-}
 }
 ```
 
-Wenn dein Benutzer-Glob `MyDir/${title}.wad` wäre und du eine `The Legend of Zelda.wad` in `MyDir` hast, würdest du den Titel des benutzerdefinierten Variablenfeldes auf `${Custom Stuff}` setzen, um einen endgültigen Titel von "Die Legende des Links" zu erhalten.
+Then if your glob were `romsdir/${title}.wad` and you had a `The Legend of Zelda.wad` located in `romsdir`, you would set the title from custom variable field to `${Group2}` to obtain a title of "The Legend of Link".
+
+## Separating sort-as-title from display-title
+If you'd like a separate sorting title in steam, you can replace
+
+```
+    "Group1": {
+        "NPUB30698": "Catherine",
+        ...
+    }, ...
+```
+by
+
+```
+    "Group1": {
+        "NPUB30698": {
+            "DisplayTitle": "Catherine",
+            "SortAsTitle": "Catherine the Great"
+        },
+        ...
+    }, ...
+```
+
+Note that you also have to configure the `Sort Names From Custom Variable` field in the parser; in this case you would set it to `${Group1}`.
+
+
+## Case-insensitive variables
+
+If enabled, case-insensitive matching will be done and first matched custom variable will be used.
+
+## Datei überspringen, wenn Variable nicht gefunden wurde
+
+Wenn aktiviert, werden Titel, die nicht mit einer Variable übereinstimmen, ausgeschlossen.
