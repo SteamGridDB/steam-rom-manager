@@ -494,6 +494,7 @@ export class ParsersStore {
     const plan = this.parseCache.plan(
       valid.map((c) => ({ parserId: c.parserId, key: keys.get(c.parserId) })),
       exceptions,
+      configs.map((c) => JSON.stringify(c) + global),
     );
     const toParse = valid.filter((c) => plan.parse.includes(c.parserId));
     const fresh = toParse.length

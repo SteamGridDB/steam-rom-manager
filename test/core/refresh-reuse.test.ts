@@ -153,6 +153,25 @@ describe("refresh reuses unchanged parsers", () => {
     expect(r.ran).toEqual([]);
     expect(r.apps).toHaveLength(4);
 
+    // disable a parser that finds nothing (here: an invalid one): still a
+    // change, so nothing is parsed (not "nothing changed, parse it all")
+    core.parsers.add(
+      makeConfig({
+        parserType: "Glob",
+        configTitle: "Broken",
+        romDirectory: path.join(root, "does-not-exist"),
+        steamDirectory: "${steamdirglobal}",
+        parserInputs: { glob: "${title}.x" },
+      }),
+    );
+    r = await refresh();
+    expect(r.ran).toEqual([]);
+    const broken = core.parsers.getAll().find((c) => c.configTitle === "Broken");
+    await core.parsers.setEnabled(broken.parserId, false);
+    r = await refresh();
+    expect(r.ran).toEqual([]);
+    expect(r.apps).toHaveLength(4);
+
     // edit one parser: just that one
     const snes = core.parsers.getAll()[index("snes")];
     core.parsers.update(index("snes"), { ...snes, steamCategories: ["Nintendo"] });

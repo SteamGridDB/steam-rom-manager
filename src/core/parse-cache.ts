@@ -62,11 +62,14 @@ export class ParseCache {
 
   // Which parsers need parsing; the others' results, ready to use (copies,
   // with the current exclusions applied).
+  // `chosen`: every parser asked for, parsable or not (enabling or
+  // disabling one that finds nothing is still a change).
   plan(
     configs: { parserId: string; key: string }[],
     exceptions: UserExceptions,
+    chosen: string[] = configs.map((c) => c.key),
   ): { parse: string[]; reuse: Map<string, ParsedUserConfiguration> } {
-    const run = JSON.stringify([configs, exceptions]);
+    const run = JSON.stringify([chosen, exceptions]);
     const nothingChanged = run === this.lastRun;
     this.lastRun = run;
     const parse: string[] = [];
