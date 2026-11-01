@@ -13,6 +13,27 @@ import * as path from "path";
 import { BehaviorSubject } from "rxjs";
 import * as paths from "../paths";
 
+// Current Steam clients leave a non-Steam library logo blank until this file exists.
+const defaultLogoPosition = {
+  nVersion: 1,
+  logoPosition: {
+    pinnedPosition: "BottomLeft",
+    nWidthPct: 50,
+    nHeightPct: 50,
+    nVersion: 1,
+  },
+};
+
+export function ensureDefaultLogoPosition(
+  gridDirectory: string,
+  shortAppId: string,
+) {
+  const logoPositionPath = path.join(gridDirectory, `${shortAppId}.json`);
+  if (!fs.existsSync(logoPositionPath)) {
+    fs.outputJsonSync(logoPositionPath, defaultLogoPosition, { spaces: "\t" });
+  }
+}
+
 // A folder's files by id (the name before its first "."), read once per save
 // and kept up to date as files are written and removed: the grid folder can
 // hold tens of thousands of files, too many to list again for each image.
@@ -261,6 +282,13 @@ export class VDF_ScreenshotsFile {
                 data.overlayImage,
               )
               .then(async () => {
+                const logoSuffix = artworkIdDict.logo;
+                if (appId.endsWith(logoSuffix)) {
+                  ensureDefaultLogoPosition(
+                    this.gridDirectory,
+                    appId.slice(0, -logoSuffix.length),
+                  );
+                }
                 if (/^\d+$/.test(appId)) {
                   const symPath = path.join(
                     this.gridDirectory,
