@@ -19,10 +19,15 @@ import { decodeFile } from "./encode-file";
 
 export class ImageDownloader {
   private dnsResolver;
-  private timeout: number = 10000;
   private dnsCache: { [host: string]: string };
 
-  constructor(dnsServers: string[]) {
+  // `timeout`: how long a download may go without receiving anything (a
+  // slow download still arriving isn't cut off: many at once share the
+  // bandwidth, and large artwork can take longer than this in all).
+  constructor(
+    dnsServers: string[],
+    private timeout: number = 10000,
+  ) {
     if (dnsServers && dnsServers.length) {
       this.dnsResolver = new Resolver();
       this.dnsResolver.setServers(dnsServers);
@@ -76,7 +81,13 @@ export class ImageDownloader {
       return writeBuffer(buffer);
     } else {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), this.timeout);
+      let timeoutId: ReturnType<typeof setTimeout>;
+      // (restarted whenever data arrives: only a stalled download times out)
+      const stillWaiting = () => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => controller.abort(), this.timeout);
+      };
+      stillWaiting();
       try {
         let res;
         if (this.dnsResolver) {
@@ -99,8 +110,13 @@ export class ImageDownloader {
         if (!res.ok) {
           throw `HTTP ${res.status} ${res.statusText}: ${imageUrl}`;
         }
-        const arrayBuff = Buffer.from(await res.arrayBuffer());
-        return writeBuffer(arrayBuff);
+        const chunks: Buffer[] = [];
+        for await (const chunk of res.body) {
+          stillWaiting();
+          chunks.push(Buffer.from(chunk as Buffer));
+        }
+        clearTimeout(timeoutId);
+        return writeBuffer(Buffer.concat(chunks));
       } catch (error) {
         if (error instanceof AbortError) {
           if (retryCount && retryCount > 0) {
@@ -113,7 +129,7 @@ export class ImageDownloader {
               overlayPath,
             );
           } else {
-            throw `Request timed out after ${this.timeout} milliseconds. URL: ${imageUrl}`;
+            throw `Download stalled (nothing received for ${this.timeout} milliseconds). URL: ${imageUrl}`;
           }
         } else {
           throw error;
