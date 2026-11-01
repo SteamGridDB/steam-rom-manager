@@ -14,7 +14,6 @@ import {
 import { artworkTypes, artworkIdDict } from "./artwork-types";
 import { superTypes, ArtworkOnlyType } from "./parsers/available-parsers";
 import { VDF_Error } from "./vdf-error";
-import { ensureDefaultLogoPosition } from "./vdf-screenshots-file";
 import { APP } from "../variables";
 import * as vdf from "./helpers/vdf";
 import * as appImage from "./helpers/app-image";
@@ -322,6 +321,9 @@ export class VDF_Manager {
               (appid) => !addedApps[appid].artworkOnly,
             );
             listItem.screenshots.extraneous = stale;
+            listItem.screenshots.steamGames = Object.keys(addedApps).filter(
+              (appid) => addedApps[appid].artworkOnly,
+            );
             listItem.shortcuts.extraneous =
               extraneousAppIds[steamDirectory][userId];
 
@@ -360,15 +362,16 @@ export class VDF_Manager {
                       sgdbId: currentImage.imageGameId,
                       drmProtect: app.drmProtect,
                       overlayImage: app.overlayImages?.[artworkType],
+                      logoPosition: !artworkOnly,
                     });
                   } else if (
                     artworkType === "logo" &&
-                    currentImage !== undefined &&
-                    currentImage.imageProvider === imageProviderNames.steam
+                    !artworkOnly &&
+                    currentImage !== undefined
                   ) {
-                    // This branch skips addItem, so screenshots.write never sees the logo.
-                    ensureDefaultLogoPosition(
-                      listItem.screenshots.gridDir,
+                    // The logo already in the grid folder (not written
+                    // again): its position too, for shortcuts added before.
+                    listItem.screenshots.addLogoPosition(
                       steam.shortenAppId(appId),
                     );
                   }
@@ -489,6 +492,9 @@ export class VDF_Manager {
             extraneousAppIds[steamDirectory][userId] = Object.keys(
               addedApps,
             ).filter((appId) => !addedApps[appId].artworkOnly);
+            listItem.screenshots.steamGames = Object.keys(addedApps).filter(
+              (appId) => addedApps[appId].artworkOnly,
+            );
             if (
               listItem.shortcuts.invalid ||
               listItem.addedItems.invalid ||

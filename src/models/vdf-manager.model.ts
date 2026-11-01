@@ -21,6 +21,9 @@ export interface VDF_ScreenshotItem {
   sgdbId?: string;
   drmProtect?: boolean;
   overlayImage?: string;
+  // A non-Steam shortcut's logo: also write Steam's default logo position
+  // if it has none (Steam doesn't show the logo without one).
+  logoPosition?: boolean;
 }
 
 export interface VDF_ScreenshotsData {

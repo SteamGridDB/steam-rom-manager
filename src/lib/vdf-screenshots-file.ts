@@ -13,7 +13,11 @@ import * as path from "path";
 import { BehaviorSubject } from "rxjs";
 import * as paths from "../paths";
 
-// Current Steam clients leave a non-Steam library logo blank until this file exists.
+// "<shortAppId>.json" in the grid folder: Steam's settings for an app's
+// artwork (where its logo goes). Current Steam clients leave a non-Steam
+// shortcut's library logo blank until it exists, so SRM writes Steam's
+// default for shortcuts that have none. Never for Steam's own games: those
+// have their own logo position, and a file there is the user's.
 const defaultLogoPosition = {
   nVersion: 1,
   logoPosition: {
@@ -24,14 +28,15 @@ const defaultLogoPosition = {
   },
 };
 
-export function ensureDefaultLogoPosition(
+// Whether it wrote one (there was none).
+export async function ensureDefaultLogoPosition(
   gridDirectory: string,
   shortAppId: string,
 ) {
   const logoPositionPath = path.join(gridDirectory, `${shortAppId}.json`);
-  if (!fs.existsSync(logoPositionPath)) {
-    fs.outputJsonSync(logoPositionPath, defaultLogoPosition, { spaces: "\t" });
-  }
+  if (await fs.pathExists(logoPositionPath)) return false;
+  await fs.outputJson(logoPositionPath, defaultLogoPosition, { spaces: "\t" });
+  return true;
 }
 
 // A folder's files by id (the name before its first "."), read once per save
@@ -78,6 +83,9 @@ export class VDF_ScreenshotsFile {
   private fileData: any = undefined;
   private topKey: string = undefined;
   private extraneousAppIds: string[] = [];
+  private steamGameIds = new Set<string>();
+  // Shortcuts keeping the logo they have: their logo position on write.
+  private logoPositionIds = new Set<string>();
   private batchProgress: BehaviorSubject<{ batch: number; total: number }>;
 
   constructor(
@@ -126,6 +134,19 @@ export class VDF_ScreenshotsFile {
 
   get extraneous() {
     return this.extraneousAppIds;
+  }
+
+  // Steam's own games (artwork-only parsers): removing their artwork keeps
+  // "<id>.json", the user's Steam settings for them.
+  set steamGames(appIds: string[]) {
+    this.steamGameIds = new Set(appIds.map((id) => ids.shortenAppId(id)));
+  }
+
+  // A shortcut whose logo stays as it is (not written again): the default
+  // logo position is written for it too, if it has none (shortcuts added
+  // by an older SRM).
+  addLogoPosition(shortAppId: string) {
+    this.logoPositionIds.add(shortAppId);
   }
 
   get invalid() {
@@ -183,7 +204,8 @@ export class VDF_ScreenshotsFile {
       });
   }
 
-  // Removes every "<id>.*" grid file of these ids.
+  // Removes every "<id>.*" grid file of these ids (but a Steam game's
+  // "<id>.json").
   async removeExtraneous(
     exAppIds: string[],
     grid?: FolderIndex,
@@ -192,15 +214,19 @@ export class VDF_ScreenshotsFile {
     const results = await Promise.all(
       exAppIds.map(async (exAppId) => {
         const errors: Error[] = [];
+        const kept = this.steamGameIds.has(exAppId) ? `${exAppId}.json` : null;
         await Promise.all(
-          grid.files(exAppId).map(async (name) => {
-            try {
-              await fs.remove(path.join(this.gridDirectory, name));
-              grid.delete(name);
-            } catch (error) {
-              errors.push(error);
-            }
-          }),
+          grid
+            .files(exAppId)
+            .filter((name) => name !== kept)
+            .map(async (name) => {
+              try {
+                await fs.remove(path.join(this.gridDirectory, name));
+                grid.delete(name);
+              } catch (error) {
+                errors.push(error);
+              }
+            }),
         );
         return errors.length ? new VDF_Error(errors) : undefined;
       }),
@@ -282,12 +308,15 @@ export class VDF_ScreenshotsFile {
                 data.overlayImage,
               )
               .then(async () => {
-                const logoSuffix = artworkIdDict.logo;
-                if (appId.endsWith(logoSuffix)) {
-                  ensureDefaultLogoPosition(
-                    this.gridDirectory,
-                    appId.slice(0, -logoSuffix.length),
-                  );
+                if (data.logoPosition && data.artworkType === "logo") {
+                  const shortAppId = appId.slice(0, -artworkIdDict.logo.length);
+                  if (
+                    await ensureDefaultLogoPosition(
+                      this.gridDirectory,
+                      shortAppId,
+                    )
+                  )
+                    grid.add(`${shortAppId}.json`);
                 }
                 if (/^\d+$/.test(appId)) {
                   const symPath = path.join(
@@ -352,6 +381,14 @@ export class VDF_ScreenshotsFile {
       }
       const batchErrors = await Promise.all(batchAddPromises);
       addErrors = [...addErrors, ...batchErrors];
+    }
+    for (const shortAppId of this.logoPositionIds) {
+      try {
+        if (await ensureDefaultLogoPosition(this.gridDirectory, shortAppId))
+          grid.add(`${shortAppId}.json`);
+      } catch (error) {
+        addErrors.push(new VDF_Error(error));
+      }
     }
 
     return this.removeExtraneous(extraneous, grid)
@@ -446,6 +483,7 @@ export class VDF_ScreenshotsFile {
         sgdbId: data.sgdbId,
         drmProtect: data.drmProtect,
         overlayImage: data.overlayImage,
+        logoPosition: data.logoPosition,
       };
     }
   }
