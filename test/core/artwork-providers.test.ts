@@ -58,6 +58,8 @@ function fakeApi(opts: { failGrids?: number } = {}) {
                   clienticon: "abc",
                   header_image_full: { english: "header.jpg" },
                   library_hero_full: { image: { english: "missing.jpg" } },
+                  // (Steam has no logo for it: its entry is null)
+                  library_logo_full: null,
                 },
               },
             ],
@@ -167,6 +169,16 @@ describe("ArtworkProviders", () => {
     );
     const hero = await lookup(providers, "Some Game", "hero", "steamCDN");
     expect(hero.map((e) => e.event)).toEqual(["error", "completed"]);
+  });
+
+  it("Steam CDN: artwork Steam doesn't have (null or absent) is quietly none, not an error", async () => {
+    // (was: "Cannot read properties of null (reading 'image2x')")
+    const api = fakeApi();
+    const providers = new ArtworkProviders(api.fetch);
+    for (const type of ["logo", "tall"]) {
+      const events = await lookup(providers, "Some Game", type, "steamCDN");
+      expect(events.map((e) => e.event), type).toEqual(["completed"]);
+    }
   });
 
   it("stopUrlDownload drops results of lookups already started", async () => {

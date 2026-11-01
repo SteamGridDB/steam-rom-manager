@@ -183,22 +183,23 @@ function sgdbProvider(lookups: SgdbLookups): Provider {
   };
 }
 
-// The first CDN url for this artwork type that actually exists.
+// The CDN url for this artwork type, if it actually exists; null when Steam
+// lists no such artwork for the game (its metadata entry is missing or
+// null: nothing to look for, not an error).
 async function steamCdnUrl(
   fetch: Fetch,
   steamId: number,
   metadata: Record<string, any>,
   artworkType: keyof typeof steamArtworkDict,
-): Promise<string | undefined> {
-  let file: string;
+): Promise<string | null | undefined> {
+  let file: string | undefined;
   if (artworkType === "long") {
-    file = metadata["header_image_full"]["english"];
+    file = metadata?.header_image_full?.english;
   } else {
-    const entry = metadata[steamArtworkDict[artworkType]];
-    file = entry["image2x"]
-      ? entry["image2x"]["english"]
-      : entry["image"]["english"];
+    const entry = metadata?.[steamArtworkDict[artworkType]];
+    file = entry?.image2x?.english ?? entry?.image?.english;
   }
+  if (!file) return null;
   const url = `https://shared.steamstatic.com/store_item_assets/steam/apps/${steamId}/${file}`;
   try {
     const res = await fetch(url, {
@@ -227,7 +228,7 @@ function steamCdnProvider(lookups: SgdbLookups, fetch: Fetch): Provider {
     if (!steamId) {
       return;
     }
-    if (task.imageType === "icon" && metadata.clienticon) {
+    if (task.imageType === "icon" && metadata?.clienticon) {
       task.emit("image", {
         provider: "steamCDN",
         content: {
@@ -247,6 +248,9 @@ function steamCdnProvider(lookups: SgdbLookups, fetch: Fetch): Provider {
       metadata,
       task.imageType as keyof typeof steamArtworkDict,
     );
+    if (url === null) {
+      return;
+    }
     if (url) {
       task.emit("image", {
         provider: "steamCDN",
