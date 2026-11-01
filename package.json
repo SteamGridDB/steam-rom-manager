@@ -1,7 +1,7 @@
 {
   "name": "steam-rom-manager",
   "version": "2.6.1",
-  "license": "GPL-3.0",
+  "license": "GPL-3.0-or-later",
   "description": "An app for managing ROMs in Steam",
   "author": {
     "name": "cbartondock",
