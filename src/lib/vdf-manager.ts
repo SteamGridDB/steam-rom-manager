@@ -321,6 +321,9 @@ export class VDF_Manager {
               (appid) => !addedApps[appid].artworkOnly,
             );
             listItem.screenshots.extraneous = stale;
+            listItem.screenshots.steamGames = Object.keys(addedApps).filter(
+              (appid) => addedApps[appid].artworkOnly,
+            );
             listItem.shortcuts.extraneous =
               extraneousAppIds[steamDirectory][userId];
 
@@ -359,7 +362,18 @@ export class VDF_Manager {
                       sgdbId: currentImage.imageGameId,
                       drmProtect: app.drmProtect,
                       overlayImage: app.overlayImages?.[artworkType],
+                      logoPosition: !artworkOnly,
                     });
+                  } else if (
+                    artworkType === "logo" &&
+                    !artworkOnly &&
+                    currentImage !== undefined
+                  ) {
+                    // The logo already in the grid folder (not written
+                    // again): its position too, for shortcuts added before.
+                    listItem.screenshots.addLogoPosition(
+                      steam.shortenAppId(appId),
+                    );
                   }
                   // artwork Cache is shared across steam users and steam directories
                   if (
@@ -478,6 +492,9 @@ export class VDF_Manager {
             extraneousAppIds[steamDirectory][userId] = Object.keys(
               addedApps,
             ).filter((appId) => !addedApps[appId].artworkOnly);
+            listItem.screenshots.steamGames = Object.keys(addedApps).filter(
+              (appId) => addedApps[appId].artworkOnly,
+            );
             if (
               listItem.shortcuts.invalid ||
               listItem.addedItems.invalid ||

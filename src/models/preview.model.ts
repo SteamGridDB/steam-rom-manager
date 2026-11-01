@@ -75,6 +75,8 @@ export type OnlineImages = Record<
   {
     [imagePool: string]: {
       retrieving: boolean;
+      // Every lookup finished (none cut short): a refresh can keep it.
+      retrieved?: boolean;
       online: Record<OnlineProviderType, ImagesStatusAndContent>;
       offline: Record<MultiLocalProviderType, ImageContent[]>;
       parserEnabledProviders: OnlineProviderType[];

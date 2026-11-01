@@ -148,6 +148,34 @@ describe("save pipeline (characterization)", () => {
     expect(state()).toEqual(first);
   });
 
+  it("each shortcut with a logo gets a logo position once; one the user set is kept", async () => {
+    await addAll([snesConfig(), gcConfig()]);
+    const grid = path.join(steamDir, "userdata", ACCOUNT, "config", "grid");
+    const positions = () =>
+      fs
+        .readdirSync(grid)
+        .filter((name) => name.endsWith(".json"))
+        .sort();
+    const logos = fs
+      .readdirSync(grid)
+      .filter((name) => name.includes("_logo."))
+      .map((name) => `${name.split("_")[0]}.json`)
+      .sort();
+    expect(logos.length).toBeGreaterThan(0);
+    expect(positions()).toEqual(logos);
+
+    // the user moved one logo in Steam; another's file is gone (added by
+    // an older SRM): re-saving keeps the first and writes the second
+    const [moved, missing] = logos;
+    fs.writeFileSync(path.join(grid, moved), "mine");
+    fs.rmSync(path.join(grid, missing));
+    const { ok, log } = await addAll([snesConfig(), gcConfig()]);
+    expect(errors(log)).toEqual([]);
+    expect(ok).toBe(true);
+    expect(positions()).toEqual(logos);
+    expect(fs.readFileSync(path.join(grid, moved), "utf8")).toBe("mine");
+  });
+
   it("collections are updated in place; untouched user collections aren't rewritten", async () => {
     const cloudFile = path.join(
       steamDir,

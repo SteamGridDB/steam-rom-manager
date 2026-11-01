@@ -43,7 +43,7 @@ import type { SettingsStore } from "./settings-store";
 import type { ArtworkProviders } from "./artwork-providers";
 import type { SteamWriter } from "./steam-writer";
 import type { PreviewBuilder } from "./preview-builder";
-import { addUniqueLocalImage, emptyPools } from "./image-pools";
+import { addUniqueLocalImage, emptyPools, keepArtworkPicks, keepRetrievedPools } from "./image-pools";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -490,6 +490,10 @@ export class PreviewEngine {
       await sleep(100);
     }
     {
+      const previous = {
+        previewData: this.previewData,
+        onlineImages: this.onlineImages,
+      };
       this.previewData = undefined;
       this.loggerService.info(this.lang.info.executingParsers, {
         invokeAlert: true,
@@ -497,15 +501,25 @@ export class PreviewEngine {
       try {
         const result = await this.builder.build({ parserIds });
         this.onlySomeParsers = !!parserIds;
+        // Artwork already found for a pool searched the same way is kept,
+        // and so is the artwork picked for games still in the list: a
+        // refresh only looks up what's new.
+        const toLookUp = keepRetrievedPools(
+          previous.onlineImages,
+          result.onlineImages,
+        );
         for (const artworkType of artworkTypes) {
           this.onlineImages[artworkType] = result.onlineImages[artworkType];
         }
         if (result.previewData) {
+          keepArtworkPicks(previous.previewData, result.previewData);
           this.previewData = result.previewData;
           this.previewVariables.numberOfListItems = result.numberOfItems;
           this.sgdbToArt = result.sgdbToArt;
           for (const artworkType of artworkTypes) {
-            this.downloadImageUrls(artworkType);
+            if (toLookUp[artworkType].length) {
+              this.downloadImageUrls(artworkType, toLookUp[artworkType]);
+            }
           }
         } else {
           this.previewVariables.numberOfListItems = 0;
@@ -663,6 +677,9 @@ export class PreviewEngine {
                       {
                         pendingByProvider[provider]--;
                         imageByPool.retrieving = stillRetrieving();
+                        if (!imageByPool.retrieving) {
+                          imageByPool.retrieved = true;
+                        }
                         if (
                           --this.previewVariables.numberOfQueriedImages === 0
                         ) {

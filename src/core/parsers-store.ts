@@ -10,6 +10,7 @@ import {
   UserExceptions,
 } from "../models";
 import { FileParser } from "../lib/file-parser";
+import { ParseCache } from "./parse-cache";
 import { FuzzyMatcher } from "../lib/fuzzy-matcher";
 import { VariableParser } from "../lib/variable-parser";
 import { ControllerManager } from "../lib/controller-manager";
@@ -87,11 +88,18 @@ export class ParsersStore {
 
   setCustomVariables(variables: CustomVariables) {
     this.fileParser.setCustomVariables(variables);
+    this.variablesVersion++;
   }
 
   setUserExceptions(exceptions: UserExceptions) {
     this.fileParser.setUserExceptions(exceptions);
+    this.exceptions = exceptions;
   }
+
+  // What parse results depend on besides the parsers (see ParseCache).
+  private exceptions: UserExceptions = { exceptions: [], exclusions: [] };
+  private variablesVersion = 0;
+  private parseCache = new ParseCache();
 
   getDefaultValues() {
     return this.defaultValidator.getDefaultValues() as UserConfiguration;
@@ -442,6 +450,17 @@ export class ParsersStore {
 
   // Runs the given configs (default: all enabled ones) through the parsers.
   executeFileParser(...configs: UserConfiguration[]) {
+    return this.runParsers(configs, false);
+  }
+
+  // The same, reusing the results of parsers that haven't changed since
+  // the last time (Add Games' refresh; see ParseCache). `reparsed`: how many
+  // parsers actually ran.
+  executeFileParserReusing(...configs: UserConfiguration[]) {
+    return this.runParsers(configs, true);
+  }
+
+  private async runParsers(configs: UserConfiguration[], reuse: boolean) {
     const invalid: string[] = [];
     const skipped: string[] = [];
     const valid: UserConfiguration[] = [];
@@ -455,9 +474,49 @@ export class ParsersStore {
       if (this.isConfigurationValid(config)) valid.push(config);
       else invalid.push(config.configTitle || this.lang.text.noTitle);
     }
-    return this.fileParser
-      .executeFileParser(valid, this.settings.get())
-      .then((parsedData) => ({ parsedData, invalid, skipped }));
+    const settings = this.settings.get();
+    if (!reuse) {
+      const parsedData = await this.fileParser.executeFileParser(
+        valid,
+        settings,
+      );
+      return { parsedData, invalid, skipped, reparsed: valid.length };
+    }
+    // (keys before parsing: the file parser fills in the configs it's given)
+    const global = JSON.stringify([
+      settings.environmentVariables,
+      this.variablesVersion,
+    ]);
+    const keys = new Map(
+      valid.map((c) => [c.parserId, JSON.stringify(c) + global]),
+    );
+    const exceptions = this.exceptions;
+    const plan = this.parseCache.plan(
+      valid.map((c) => ({ parserId: c.parserId, key: keys.get(c.parserId) })),
+      exceptions,
+      configs.map((c) => JSON.stringify(c) + global),
+    );
+    const toParse = valid.filter((c) => plan.parse.includes(c.parserId));
+    const fresh = toParse.length
+      ? (await this.fileParser.executeFileParser(toParse, settings))
+          .parsedConfigs
+      : [];
+    toParse.forEach((c, i) =>
+      this.parseCache.store(c.parserId, keys.get(c.parserId), fresh[i], exceptions),
+    );
+    const parsedConfigs = valid.map(
+      (c) => plan.reuse.get(c.parserId) ?? fresh[toParse.indexOf(c)],
+    );
+    // (as FileParser.executeFileParser says it)
+    const maxAccounts = Math.max(
+      ...parsedConfigs.map((x) => x.foundUserAccounts.length),
+    );
+    return {
+      parsedData: { parsedConfigs, noUserAccounts: maxAccounts === 0 },
+      invalid,
+      skipped,
+      reparsed: toParse.length,
+    };
   }
 
   parseSteamDir(steamDirInput: string) {
