@@ -255,3 +255,7 @@ These tools are the closest to SRM in function, that is importing games/ROMs int
 - [Steam Rom Mate](https://github.com/brenoprata10/steam-deck-romate) - An alternative to SRM made with the Steam Deck in mind.
 - [BoilR](https://github.com/PhilipK/BoilR) - An alternative to SRM focused on importing from other game libraries.
 - [Ice](https://github.com/scottrice/Ice) - The steam importer that started it all, now defunct.
+
+## License
+
+Steam ROM Manager is free software: you can redistribute it and/or modify it under the terms of the [GNU General Public License](LICENSE) as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
