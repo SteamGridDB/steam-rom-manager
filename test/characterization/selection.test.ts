@@ -100,6 +100,38 @@ describe("artwork selection export/import", () => {
     expect(second.log.filter((l) => l.level === "error")).toEqual([]);
   });
 
+  it("skips (and names) games no longer in the list; the count is of the rest", async () => {
+    const first = harness(true);
+    await first.generate();
+    const out = path.join(root, "export");
+    fs.mkdirSync(out);
+    await first.service.exportSelection(out);
+    const pkg = path.join(out, "srm-image-choices");
+    const file = path.join(pkg, "_selections.json");
+    const selections = JSON.parse(fs.readFileSync(file, "utf8"));
+    // a game uninstalled since the export
+    const gone = structuredClone(selections[0]);
+    gone.title = "Chrono Trigger";
+    for (const image of Object.values(gone.images) as any[]) {
+      if (image) image.pool = "Chrono Trigger";
+    }
+    fs.writeFileSync(file, JSON.stringify([...selections, gone]));
+
+    const second = harness(false);
+    await second.generate();
+    await second.service.importSelection(pkg);
+    const app = onlyApp(second.service.getPreviewData());
+    expect(second.service.getCurrentImage(app, "tall").imageProvider).toBe(
+      "Imported Artwork",
+    );
+    expect(second.log.filter((l) => l.level === "error")).toEqual([]);
+    const messages = second.log.map((l) => l.message);
+    expect(messages).toContain("Successfully imported 1 artwork choices!");
+    expect(messages).toContain(
+      "Skipped the artwork choices of 1 game(s) not in the list: Chrono Trigger",
+    );
+  });
+
   it("reports an unreadable selections file", async () => {
     const h = harness(false);
     await h.generate();

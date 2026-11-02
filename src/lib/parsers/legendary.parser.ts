@@ -50,17 +50,8 @@ export class LegendaryParser implements GenericParser {
           ".config/legendary/installed.json",
         );
       }
-      let legendaryExePath: string;
-      if (inputs.legendaryExeOverride) {
-        legendaryExePath = inputs.legendaryExeOverride;
-      } else if (os.type() == "Windows_NT") {
-        legendaryExePath = execSync("(Get-Command legendary).Path", {
-          shell: "pwsh",
-          encoding: "utf-8",
-        });
-      } else {
-        legendaryExePath = execSync("which legendary", { encoding: "utf-8" });
-      }
+      const legendaryExePath: string | undefined =
+        inputs.legendaryExeOverride || findOnPath("legendary");
       if (!fs.existsSync(legendaryInstalledFile) || !legendaryExePath) {
         return reject(this.lang.errors.legendaryNotInstalled);
       }
@@ -92,5 +83,25 @@ export class LegendaryParser implements GenericParser {
       }
       resolve(parsedData);
     });
+  }
+}
+
+// A program's full path from PATH, or undefined. (where/which print a line
+// break after it, and where prints every match.)
+function findOnPath(program: string): string | undefined {
+  const command =
+    os.type() == "Windows_NT" ? `where.exe ${program}` : `which ${program}`;
+  try {
+    return (
+      execSync(command, {
+        encoding: "utf-8",
+        stdio: ["ignore", "pipe", "ignore"],
+      })
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .find((line) => line) || undefined
+    );
+  } catch {
+    return undefined; // not found
   }
 }
