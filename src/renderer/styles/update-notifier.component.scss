@@ -14,6 +14,34 @@
     }
   }
 
+  .progress {
+    height: 0.5em;
+    // (the notifier is as wide as its text: "Downloading update…" is short)
+    min-width: 20em;
+    margin: 0 0 0.5em;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--srm-surface-sunken);
+    border: 1px solid var(--srm-border-strong);
+
+    .progressFill {
+      height: 100%;
+      border-radius: inherit;
+      background: var(--srm-accent);
+      transition: width 0.3s ease-out;
+    }
+  }
+
+  .progressDetail {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    margin-bottom: 1em;
+    font-size: 0.85em;
+    font-variant-numeric: tabular-nums;
+    color: var(--srm-text-muted);
+  }
+
   &.hidden {
     display: none;
   }

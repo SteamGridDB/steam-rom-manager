@@ -1153,7 +1153,10 @@
         "updateViaEmuDeck": "An update is available, please update via EmuDeck.",
         "updateAvailable": "An update is available. Download it now?",
         "updatePortable": "An update is available. <a href=\"https://github.com/SteamGridDB/steam-rom-manager/releases/latest\">Download it now?</a>",
-        "updateDownloaded": "Update downloaded. Restart now?"
+        "updateDownloaded": "Update downloaded. Restart now?",
+        "downloading": "Downloading update…",
+        "downloadFailed": "The update couldn't be downloaded. Try again later, or <a href=\"https://github.com/SteamGridDB/steam-rom-manager/releases/latest\">download it from GitHub</a>.",
+        "progress__i": "${transferred} of ${total} · ${speed}/s"
       }
     }
   },
