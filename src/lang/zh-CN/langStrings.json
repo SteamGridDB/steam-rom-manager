@@ -147,7 +147,8 @@
         "noAccountsWarning": "未找到用户账户。Steam 目录不正确？",
         "preparingExport": "准备导出艺术作品选项。",
         "exportProgress__i": "正在保存艺术作品选项 ${progress}。",
-        "readingSelections": "应用导入的艺术作品选项。"
+        "readingSelections": "应用导入的艺术作品选项。",
+        "importSelectionsNotInList__i": "Skipped the artwork choices of ${count} game(s) not in the list: ${titles}"
       },
       "errors": {
         "fatalError": "添加游戏中发生致命错误。请查看事件日志获取详细信息。",
@@ -1153,7 +1154,10 @@
         "updateViaEmuDeck": "An update is available, please update via EmuDeck.",
         "updateAvailable": "An update is available. Download it now?",
         "updatePortable": "An update is available. <a href=\"https://github.com/SteamGridDB/steam-rom-manager/releases/latest\">Download it now?</a>",
-        "updateDownloaded": "Update downloaded. Restart now?"
+        "updateDownloaded": "Update downloaded. Restart now?",
+        "downloading": "Downloading update…",
+        "downloadFailed": "The update couldn't be downloaded. Try again later, or <a href=\"https://github.com/SteamGridDB/steam-rom-manager/releases/latest\">download it from GitHub</a>.",
+        "progress__i": "${transferred} of ${total} · ${speed}/s"
       }
     }
   },
